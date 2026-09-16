@@ -79,10 +79,6 @@ const MythrillWindow = forwardRef((props, ref) => {
         height: defaultSize.height
     });
 
-    // Maximize (full view) state — saves prior size/position for restore
-    const [isMaximized, setIsMaximized] = useState(false);
-    const preMaximizeRef = useRef({ size: null, pos: null });
-
     // Listen for window scale changes - DraggableWindow now handles scaling properly
     useEffect(() => {
         const handleWindowScaleChange = () => {
@@ -134,7 +130,6 @@ const MythrillWindow = forwardRef((props, ref) => {
     useEffect(() => {
         if (centered) {
             const handleResize = () => {
-                if (isMaximized) return;
                 if (draggableRef.current) {
                     draggableRef.current.centerWindow();
                 }
@@ -143,7 +138,7 @@ const MythrillWindow = forwardRef((props, ref) => {
             window.addEventListener('resize', handleResize);
             return () => window.removeEventListener('resize', handleResize);
         }
-    }, [centered, isMaximized]);
+    }, [centered]);
 
     // Track if window is being dragged or resized to prevent conflicts
     const [isDragging, setIsDragging] = useState(false);
@@ -315,53 +310,6 @@ const MythrillWindow = forwardRef((props, ref) => {
         }
     }, [onDrag]);
 
-    // ===== Maximize (full view) =====
-    // The window body keeps a 38px top strip for its protruding tabs; that
-    // offset is scaled with the window, so subtract the *visual* offset.
-    const applyMaximizedSize = useCallback(() => {
-        const scale = windowScale || 1;
-        setWindowSize({
-            width: Math.round(window.innerWidth / scale),
-            height: Math.round((window.innerHeight - 38 * scale) / scale)
-        });
-    }, [windowScale]);
-
-    const handleMaximizeToggle = useCallback(() => {
-        if (!draggableRef.current) return;
-        const newZIndex = bringToFront(windowId);
-        if (newZIndex) {
-            setZIndex(newZIndex);
-        }
-        if (!isMaximized) {
-            const pos = draggableRef.current.getPosition ? draggableRef.current.getPosition() : null;
-            preMaximizeRef.current = { size: { ...windowSize }, pos: pos ? { ...pos } : null };
-            applyMaximizedSize();
-            draggableRef.current.setPosition({ x: 0, y: 0 });
-            setIsMaximized(true);
-        } else {
-            const saved = preMaximizeRef.current;
-            if (saved.size) {
-                setWindowSize(saved.size);
-            }
-            if (saved.pos && draggableRef.current.setPosition) {
-                draggableRef.current.setPosition(saved.pos);
-            }
-            setIsMaximized(false);
-        }
-    }, [isMaximized, windowSize, windowId, bringToFront, applyMaximizedSize]);
-
-    // Keep maximized windows covering the viewport on browser resize / scale change
-    useEffect(() => {
-        if (!isMaximized) return undefined;
-        const handleViewportChange = () => applyMaximizedSize();
-        window.addEventListener('resize', handleViewportChange);
-        window.addEventListener('windowScaleChanged', handleViewportChange);
-        return () => {
-            window.removeEventListener('resize', handleViewportChange);
-            window.removeEventListener('windowScaleChanged', handleViewportChange);
-        };
-    }, [isMaximized, applyMaximizedSize]);
-
     useEffect(() => {
         if (!modal || !isOpen) return;
         const dialog = windowElementRef.current;
@@ -455,7 +403,6 @@ const MythrillWindow = forwardRef((props, ref) => {
             onDragStop={handleDragStop}
             className={isResizing ? 'resizing' : ''}
             resetSignal={layoutVersion}
-            disableDragging={isMaximized}
         >
             <Resizable
                 width={windowSize.width}
@@ -465,11 +412,11 @@ const MythrillWindow = forwardRef((props, ref) => {
                 onResizeStart={handleResizeStart}
                 onResize={handleResize}
                 onResizeStop={handleResizeStop}
-                resizeHandles={resizable && !isMaximized ? ['se'] : []}
+                resizeHandles={resizable ? ['se'] : []}
                 transformScale={windowScale}
             >
                 <div
-                    className={`wow-window ${isMaximized ? 'wow-window-maximized' : ''} ${className}`}
+                    className={`wow-window ${className}`}
                     style={{
                         width: windowSize.width,
                         height: windowSize.height
@@ -564,18 +511,6 @@ const MythrillWindow = forwardRef((props, ref) => {
                         </div>
                     ) : null}
                     <div className={`window-content${disableContentDrag ? '' : ' window-content-draggable'}`} tabIndex={-1}>
-                        {/* Maximize / restore button — positioned inside the content area */}
-                        <button
-                            className="window-close wow-window-maximize-btn"
-                            aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
-                            title={isMaximized ? 'Restore window' : 'Full view'}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleMaximizeToggle();
-                            }}
-                        >
-                            <i className={`fas ${isMaximized ? 'fa-compress' : 'fa-expand'}`}></i>
-                        </button>
                         {/* Close button — positioned inside the content area */}
                         <button
                             className="window-close wow-window-close-btn"

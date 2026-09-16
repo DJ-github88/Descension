@@ -25,7 +25,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Sphere Purity",
     icon: "Fire/Crimson Orb",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Sphere Purity",
@@ -39,7 +39,7 @@ export const ARCANONEER_PRISM_MAGE = [
     },
     rankUpgrades: [
       { description: "Pure element combinations deal 2d6 additional damage. Rolling 3+ of one element grants 2 temporary mana.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "Pure element combinations deal 3d6 additional damage. Rolling 3+ of one element grants 3 temporary mana and briefly reduces that element's cooldowns by 2 seconds.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "Pure element combinations deal 3d6 additional damage. Rolling 3+ of one element grants 3 temporary mana and briefly reduces that element's cooldowns by 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
   {
@@ -47,7 +47,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Elemental Commitment",
     icon: "Arcane/Conjure Elements",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Elemental Commitment",
@@ -68,7 +68,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Reroll Mastery",
     icon: "Social/Dice Roll",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Reroll Mastery",
@@ -89,7 +89,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Crystal Focus",
     icon: "Frost/Ice Crystal Rune",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "pm_t1_sphere_purity",
     spell: {
       name: "Crystal Focus",
@@ -99,7 +99,7 @@ export const ARCANONEER_PRISM_MAGE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 2 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -107,7 +107,7 @@ export const ARCANONEER_PRISM_MAGE = [
       buffs: ["crystal-focus"], visualTheme: "arcane", tags: ["empower", "focus", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Declare Focused Element and spend 2 mana: this turn, Focused Element spells deal 3d6 additional damage and crit on 16+. Cooldown drops to 6 seconds.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, cooldownValue: 6 },
+      { description: "Declare Focused Element and spend 2 mana: this turn, Focused Element spells deal 3d6 additional damage and crit on 16+. Cooldown drops to 1 round.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, cooldownValue: 1 },
       { description: "Declare Focused Element for free: this turn, Focused Element spells deal 4d6 additional damage, crit on 15+, and pierce resistance by 15 points.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, resourceCosts: { mana: { baseAmount: 0 } } }
     ]
   },
@@ -116,7 +116,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Sphere Hunting",
     icon: "Arcane/Star Trail Path",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "pm_t1_reroll_mastery",
     spell: {
       name: "Sphere Hunting",
@@ -138,7 +138,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Resonance Chord",
     icon: "Psychic/Mind Growth",
     maxRanks: 3,
-    position: { x: 0, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "pm_t2_crystal_focus",
     spell: {
       name: "Resonance Chord",
@@ -148,7 +148,7 @@ export const ARCANONEER_PRISM_MAGE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { spheres: { baseAmount: 1 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -166,7 +166,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Prismatic Burst",
     icon: "Force/Starburst Splash",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "pm_t2_sphere_hunting",
     spell: {
       name: "Prismatic Burst",
@@ -176,7 +176,7 @@ export const ARCANONEER_PRISM_MAGE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 30, aoeShape: "cone", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 }, spheres: { baseAmount: 2 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -196,7 +196,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Elemental Dominion",
     icon: "Force/Radiating Barrier",
     maxRanks: 3,
-    position: { x: 0.5, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "pm_t3_resonance_chord",
     spell: {
       name: "Elemental Dominion",
@@ -217,7 +217,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Refraction Strike",
     icon: "Force/Diagonal Energy Ray",
     maxRanks: 3,
-    position: { x: 3.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "pm_t3_prismatic_burst",
     spell: {
       name: "Refraction Strike",
@@ -227,7 +227,7 @@ export const ARCANONEER_PRISM_MAGE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "line", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 5 }, spheres: { baseAmount: 1 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -246,7 +246,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Perfect Clarity",
     icon: "Psychic/Focused Mind",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "pm_t4_elemental_dominion",
     spell: {
       name: "Perfect Clarity",
@@ -256,7 +256,7 @@ export const ARCANONEER_PRISM_MAGE = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 0 } },
       visualTheme: "arcane", tags: ["reroll", "control", "arcanoneer"]
@@ -271,7 +271,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Crystal Armor",
     icon: "Utility/Melting Crystal Shard",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1.5, y: 4 },
     requires: "pm_t4_refraction_strike",
     spell: {
       name: "Crystal Armor",
@@ -294,7 +294,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Sphere Perfection",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "pm_t5_perfect_clarity",
     spell: {
       name: "Sphere Perfection",
@@ -331,7 +331,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Resonant Feedback",
     icon: "Lightning/Thunder Resonance",
     maxRanks: 3,
-    position: { x: 4, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "pm_t5_perfect_clarity",
     spell: {
       name: "Resonant Feedback",
@@ -353,7 +353,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Prismatic Cataclysm",
     icon: "Force/Starburst Explosion",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "pm_t6_sphere_perfection",
     spell: {
       name: "Prismatic Cataclysm",
@@ -363,7 +363,7 @@ export const ARCANONEER_PRISM_MAGE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 20 }, spheres: { baseAmount: 4 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -377,7 +377,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Pure Doctrine",
     icon: "Arcane/Angular Rune",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "pm_t6_resonant_feedback",
     spell: {
       name: "Pure Doctrine",
@@ -400,7 +400,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Dominant Clause",
     icon: "Arcane/Revealing Steps",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "pm_t6_prism_battery",
     spell: {
       name: "Dominant Clause",
@@ -420,7 +420,7 @@ export const ARCANONEER_PRISM_MAGE = [
     name: "Fexric Resonator",
     icon: "Utility/Utility Gear",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "pm_t6_prism_battery",
     spell: {
       name: "Fexric Resonator",
@@ -431,8 +431,8 @@ export const ARCANONEER_PRISM_MAGE = [
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "mana", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Pure Focused Element spells restore 4 mana. Crystal Focus also reduces Refraction Strike's cooldown by 4 seconds." },
-      { description: "Pure Focused Element spells restore 6 mana. Crystal Focus also reduces Refraction Strike's cooldown by 8 seconds and Perfect Clarity charges recharge 60 seconds faster." }
+      { description: "Pure Focused Element spells restore 4 mana. Crystal Focus also reduces Refraction Strike's cooldown by 1 round." },
+      { description: "Pure Focused Element spells restore 6 mana. Crystal Focus also reduces Refraction Strike's cooldown by 1 round and Perfect Clarity charges recharge 10 rounds faster." }
     ]
   }
 ];

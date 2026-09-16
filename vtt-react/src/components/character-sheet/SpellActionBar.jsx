@@ -8,6 +8,7 @@ import { getCustomIconUrl, getIconUrl, getAbilityIconUrl } from '../../utils/ass
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
+import { resolveClassResourceEngineId, SPELL_RESOURCE_KEY_TO_ENGINE_ID } from '../../data/classResourceAliases';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/cardSystem';
@@ -35,6 +36,10 @@ export const toCanonicalSphere = (rawKey) => {
   const clean = rawKey.trim().toLowerCase();
   // Filter out non-sphere resource names explicitly
   if (['mana', 'health', 'hp', 'mp', 'ap', 'actionpoints', 'action_points', 'time_shards', 'time_shard', 'timeshards', 'devotion', 'inferno', 'cooldown'].includes(clean)) {
+    return null;
+  }
+  // Any known class-resource key (rage, marks, toll, flux, …) is never a sphere.
+  if (SPELL_RESOURCE_KEY_TO_ENGINE_ID[clean]) {
     return null;
   }
   if (CANONICAL_SPHERE_SET.has(clean)) return clean;
@@ -1098,8 +1103,9 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     // Chronarch Time Shards keep their dedicated time_shard_* handling below.
     const genericCr = spellData.resourceCost?.classResource || {};
     const genericCrType = genericCr.type;
+    const genericCrEngineId = resolveClassResourceEngineId(genericCrType);
     const genericCrCost = Number(genericCr.cost || 0);
-    const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+    const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrEngineId !== 'timeShardsStrain';
     const genericCrLabel = genericCrType
       ? genericCrType.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
       : 'Class Resource';

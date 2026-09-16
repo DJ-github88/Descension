@@ -10,7 +10,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Arcane Strike",
     icon: "Arcane/Enchanted Blade",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Arcane Strike",
@@ -20,7 +20,7 @@ export const SPELLGUARD_MANA_REAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 5 } },
       damageTypes: ["arcane"],
@@ -37,7 +37,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Mana Vampirism",
     icon: "Utility/Vampiric Bite",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Mana Vampirism",
@@ -57,7 +57,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Reaver's Edge",
     icon: "Utility/Vital Target",
     maxRanks: 2,
-    position: { x: 3, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Reaver's Edge",
@@ -77,7 +77,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Empowered Strike",
     icon: "Slashing/Energized Slash",
     maxRanks: 3,
-    position: { x: 1.5, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "mr_t1_arcane_strike",
     spell: {
       name: "Empowered Strike",
@@ -87,7 +87,7 @@ export const SPELLGUARD_MANA_REAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
       damageTypes: ["arcane"],
@@ -104,7 +104,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Siphoned Fury",
     icon: "Slashing/Energy Weapon Discharge",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "mr_t1_mana_vampirism",
     spell: {
       name: "Siphoned Fury",
@@ -127,7 +127,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Overcharge",
     icon: "Lightning/Electric Current",
     maxRanks: 3,
-    position: { x: 1.5, y: 2 },
+    position: { x: 0, y: 2 },
     requires: "mr_t2_empowered_strike",
     spell: {
       name: "Overcharge",
@@ -147,7 +147,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Wicked Draft",
     icon: "Arcane/Ebon Blaze",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "mr_t2_burst_damage",
     spell: {
       name: "Wicked Draft",
@@ -168,7 +168,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Energy Surge",
     icon: "Force/Diagonal Energy",
     maxRanks: 2,
-    position: { x: 2, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "mr_t3_overcharge",
     spell: {
       name: "Energy Surge",
@@ -178,7 +178,7 @@ export const SPELLGUARD_MANA_REAVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 15 } },
       visualTheme: "arcane", tags: ["resource", "mana", "spellguard"]
@@ -192,7 +192,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Arcane Combustion",
     icon: "Force/Explosion Burst",
     maxRanks: 3,
-    position: { x: 2.5, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "mr_t3_mana_burn",
     spell: {
       name: "Arcane Combustion",
@@ -215,7 +215,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Spell Theft",
     icon: "Utility/Steal",
     maxRanks: 2,
-    position: { x: 2, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "mr_t3_mana_burn",
     spell: {
       name: "Spell Theft",
@@ -225,10 +225,10 @@ export const SPELLGUARD_MANA_REAVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 20 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       visualTheme: "arcane", tags: ["theft", "utility", "spellguard"]
     },
     rankUpgrades: [
@@ -240,7 +240,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Vampiric Empowerment",
     icon: "Utility/Empowered Warrior",
     maxRanks: 3,
-    position: { x: 2.5, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "mr_t4_energy_surge",
     spell: {
       name: "Vampiric Empowerment",
@@ -261,7 +261,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Mana Rend",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 1,
-    position: { x: 1.5, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "mr_t5_vampiric_empowerment",
     spell: {
       name: "Mana Rend",
@@ -271,10 +271,10 @@ export const SPELLGUARD_MANA_REAVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 20, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { aep: { baseAmount: 25 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["silence"], visualTheme: "arcane", tags: ["drain", "silence", "spellguard"]
     }
   },
@@ -283,24 +283,24 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Leech Ward",
     icon: "Force/Energy Coil",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "mr_t5_spell_theft",
     spell: {
       name: "Leech Ward",
-      description: "Sheathe yourself in stolen current for 30 seconds: 25 points of the mana you drain is also converted into an arcane shield absorbing up to 10 damage.",
+      description: "Sheathe yourself in stolen current for 3 rounds: 25 points of the mana you drain is also converted into an arcane shield absorbing up to 10 damage.",
       flavorText: "The levy flows both ways.",
       source: "talent", class: "Spellguard", treeId: "mana_reaver",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["shield", "leech"], visualTheme: "arcane", tags: ["drain", "shield", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Sheathe yourself in stolen current for 30 seconds: 40 points of the mana you drain is also converted into an arcane shield absorbing up to 25 damage." }
+      { description: "Sheathe yourself in stolen current for 3 rounds: 40 points of the mana you drain is also converted into an arcane shield absorbing up to 25 damage." }
     ]
   },
   {
@@ -328,7 +328,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Aether Reaper",
     icon: "Force/Energy Whirlwind",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "mr_t6_mana_rend",
     spell: {
       name: "Aether Reaper",
@@ -338,10 +338,10 @@ export const SPELLGUARD_MANA_REAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { aep: { baseAmount: 30 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "3d6", flat: 0, procChance: 100 },
       buffs: ["harvest"], visualTheme: "arcane", tags: ["ultimate", "capstone", "drain", "aoe", "spellguard"]
@@ -374,7 +374,7 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Arcane Hunger",
     icon: "Utility/Glowing Orb",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "mr_t6_leech_ward",
     spell: {
       name: "Arcane Hunger",
@@ -394,19 +394,19 @@ export const SPELLGUARD_MANA_REAVER = [
     name: "Reaver's Momentum",
     icon: "Arcane/Quick Step",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "mr_t6_hungering_blade",
     spell: {
       name: "Reaver's Momentum",
-      description: "Drinking puts speed in the blood: after you drain mana, you gain +15 points movement speed for 5 seconds.",
+      description: "Drinking puts speed in the blood: after you drain mana, you gain +15 points movement speed for 1 round.",
       flavorText: "Somewhere to be, someone to empty.",
       source: "talent", class: "Spellguard", treeId: "mana_reaver",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "mobility", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25 points movement speed for 5 seconds." },
-      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25 points movement speed and +2 Durability Steps to equipped durability for 5 seconds." }
+      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25 points movement speed for 1 round." },
+      { description: "Drinking puts speed in the blood: after you drain mana, you gain +25 points movement speed and +2 Durability Steps to equipped durability for 1 round." }
     ]
   },
   {

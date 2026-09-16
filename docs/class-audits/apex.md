@@ -72,3 +72,48 @@
 ## 6. Mind memory
 
 - `apex-pilot-deep-dive-2026-09-13`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 33 flagged / 13 errors. After: 0 errors / 25 warnings**
+(all 25 are descriptions >200 chars — deferred).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `silent_footsteps` | `buff` with no config | added party +5 Stealth buffConfig |
+| `companion_strike` | `buff` with no config | added Quarry-edge buffConfig (advantage + companion +1d4 primal) |
+| `fog_veil` | `buff` with no config | added untrackable/advantage Stealth buffConfig |
+| `hunting_blind` | `buff` with no config | added Ambush Ready buffConfig (first strike advantage +1d6) |
+| `mist_ambush` | `buff` with no config | added invisibility buffConfig |
+| `pack_flank_displace` | `buff`+`utility` with no configs | added flanking-advantage buff + reposition utility |
+| `pack_camouflage` | buff only-duration → "No stats configured yet" | invisibility effects[] + companion utility effects |
+| `predators_celerity` | buff only-duration | movement statModifier + effects, +1 reaction, no OAs |
+| `shadow_pounce` | legacy dice shape, `MELEE_ATTACK`, thin control | `3d8 + agility` slicing, `DICE`, prone effects[] + Agility save |
+| `glaive_ricochet` | legacy dice shape, `RANGED_ATTACK`, thin control | `3d10 + agility` slicing, `DICE`, slow effects[] |
+| `crippling_latch` | legacy dice shape, `MELEE_ATTACK`, thin control | `3d8 + strength` stabbing, `DICE`, latch/restraint effects[] |
+| `huntmasters_cull` | legacy dice shape, `MELEE_ATTACK` | `5d10 + agility` slicing, `DICE` |
+| `snare_trap` | `SAVING_THROW`, thin control/utility | `AUTOMATIC`, rooted effects[], concealed-trap utility effects |
+| `primal_communion_transcendence` | `buff` no config, empty transformation | buffConfig (1rd invuln, shared damage, 2 Marks) + full primal transformation with 3 granted abilities |
+| `eternal_hunt`, `perfect_hunt` | `components: ["ritual"]` on PASSIVE | removed non-canonical ritual component |
+
+### Flavor / class-fit notes (proposals — Daniel decides)
+
+- `apex_moonlit_strike` deals **ember** ("lunar energy") — likely the same artifact family as
+  Lunarch's ember/sacred issue; consider rime/sacred if the lunar theme is intended as cold light.
+- Companion identity is well expressed across `companion_strike`, `pack_assault`, `feral_bond`,
+  `primal_fusion`, `predators_celerity`, `primal_communion_transcendence` — no retheme needed.
+- Marks economy appears consistently as `classResource:{type:"marks"}` with gains in pools; the
+  new configs keep Mark generation visible in the effect text.
+- Remaining warnings: 25 over-200-char descriptions (deferred verbosity backlog).
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Apex`: 0 errors / 25 warnings (long descriptions)
+- `audit:classes --class Apex`: 0 integrity / 0 floor gaps / 0 warnings; `validate:classes` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+25 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

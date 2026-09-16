@@ -643,6 +643,17 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       typeConfig: { school: "storm", icon: "Bludgeoning/Hammer", tags: ["utility", "social", "interrogation", "inquisitor"], castTime: 1, castTimeType: "MINUTES" },
       targetingConfig: { targetingType: "single", rangeType: "touch", targetRestrictions: ["creature"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 } },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "perception",
+        selectedEffects: [
+          { id: "cold_iron_interrogation_brand", name: "Cold-Iron Brand", description: "The cold metal burns when falsehoods are spoken, guaranteeing lie detection during interrogation.", mechanicsText: "Lie detection while branded; out of combat." }
+        ],
+        duration: 1,
+        durationUnit: "hours",
+        concentration: false,
+        power: "minor"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility", "social", "interrogation", "inquisitor"]
     },
@@ -653,12 +664,20 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       level: 2,
       spellType: "REACTION",
       icon: "Lightning/Lightning Bolt",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "storm", icon: "Lightning/Lightning Bolt", tags: ["reaction", "counter", "silence", "inquisitor"], castTime: 0, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 0, resourceTypes: ["mana"], resourceValues: { mana: 5 }, classResource: { type: "authority", gain: 1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "2d8 + spirit", damageTypes: ["storm"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "silenced",
+        duration: 0,
+        durationUnit: "instant",
+        effects: [
+          { id: "iron_adjudication_counter", name: "Counter-Cast", description: "Cold-iron feedback disrupts the enemy's spell or supernatural ability, forcing a concentration check.", config: { saveType: "spirit" } }
+        ]
+      },
       tags: ["reaction", "counter", "silence", "inquisitor"]
     },
   
@@ -670,9 +689,21 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       level: 1,
       spellType: "ACTION",
       icon: "Utility/All Seeing Eye",
+      effectTypes: ["utility"],
       typeConfig: { school: "smashing", icon: "Utility/All Seeing Eye", tags: ["utility", "detect_magic", "inquisitor"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 40 },
       resourceCost: { actionPoints: 1, mana: 0 },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "perception",
+        selectedEffects: [
+          { id: "detect_corruption_chime", name: "Cold-Iron Chime", description: "Reveals invisible Wyrd horrors, hidden illusion doors, and tainted objects within 40ft.", mechanicsText: "Reveal Wyrd horrors, illusions, and tainted objects within 40ft." }
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "minor"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility", "detect", "inquisitor"]
     },
@@ -682,9 +713,20 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       level: 4,
       spellType: "ACTION",
       icon: "Radiant/Divine Downward Sword",
+      effectTypes: ["control"],
       typeConfig: { school: "sacred", icon: "Radiant/Divine Downward Sword", tags: ["utility", "banish", "inquisitor"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 2, mana: 6 },
+      resolution: "SAVE",
+      controlConfig: {
+        controlType: "restraint",
+        duration: 10,
+        durationUnit: "rounds",
+        effects: [
+          { id: "wyrd_banish_cage", name: "Void-Cage", description: "The Wyrd-spawn is dragged into a void-cage and held for 1 minute.", config: { restraintType: "magical", condition: "banished", duration: 10, durationUnit: "rounds" } }
+        ],
+        savingThrow: { ability: "spirit", saveOutcome: "negates" }
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["utility", "banish", "inquisitor"]
     },
@@ -735,8 +777,8 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
               "Advantage on attack rolls against marked target. Sense direction and distance within 10 miles.",
             statModifier: {
               stat: "attack",
-              magnitude: "advantage",
-              magnitudeType: "special",
+              magnitude: 99,
+              magnitudeType: "advantage",
             },
           },
           { id : "mark_radiant_bonus",
@@ -753,7 +795,8 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         maxStacks: 1,
       },
       tags: ["tracking", "marking", "utility"],
-    },
+    
+          cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
     { id : "inq_null_salts_strike",
       name: "Null-Salts Strike",
@@ -816,12 +859,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         },
       },
       tags: ["damage", "weapon", "authority generation"],
-    },
+    
+          cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
     { id : "inq_purge_the_defiled",
       name: "Purge the Defiled",
       description:
-        "Press raw rock salt into your ally's flesh to violently rip foreign magic from their nervous system. Removes all curses, possessions, and mental crowd control. Deals 1d8 smashing damage to the ally. Gains 1 Authority if the affliction was supernatural.",
+        "Press rock salt into an ally to rip foreign magic from their nerves: removes curses, possessions, and mental crowd control; deals 1d8 smashing to the ally; gains 1 Authority if supernatural.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -927,7 +971,8 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         },
       },
       tags: ["weapon", "anti magic", "resistance piercing"],
-    },
+    
+          cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
     // ===== LEVEL 2 SPELLS =====
     { id : "inq_ash_step",
@@ -994,12 +1039,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         maxStacks: 1,
       },
       tags: ["mobility", "speed", "utility"],
-    },
+    
+          cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
     { id : "inq_sigil_of_rotting_mana",
       name: "Sigil of Rotting Mana",
       description:
-        "Afflict a target with a sigil unraveling their magic for 1 minute. Spell attacks suffer -2 penalty and spell save DC drops by 1. Supernatural casters have disadvantage on concentration checks when taking damage.",
+        "Afflict a target with a sigil unraveling their magic for 1 minute: spell attacks -2, spell save DC -1, and supernatural casters have disadvantage on concentration when damaged.",
       level: 2,
       spellType: "ACTION",
       effectTypes: ["debuff"],
@@ -1064,7 +1110,8 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         },
       },
       tags: ["debuff", "curse", "anti magic"],
-    },
+    
+          cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
     { id : "inq_scourge_of_submission",
       name: "Scourge of Submission",
@@ -1090,7 +1137,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       resourceCost: {
         actionPoints: 1,
         mana: 3,
-        resourceTypes: ["mana", "health"],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 3, hp: "1d4" },
         dominanceDiceGain: 1,
       },
@@ -1303,7 +1350,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_silver_hex",
       name: "Silver Hex",
       description:
-        "Brand a creature with a silver sigil that makes them vulnerable to ember damage. All ember damage from all sources is doubled. Supernatural targets also suffer disadvantage on concentration checks when taking damage.",
+        "Brand a creature with a silver sigil, making it vulnerable to ember damage: all ember damage against it is doubled, and supernatural targets also have disadvantage on concentration when damaged.",
       level: 4,
       spellType: "ACTION",
       effectTypes: ["debuff"],
@@ -1402,7 +1449,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       resourceCost: {
         actionPoints: 1,
         mana: 5,
-        resourceTypes: ["mana", "health"],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 5, hp: "1d6" },
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -1436,7 +1483,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_spirit_shackle",
       name: "Spirit Shackle",
       description:
-        "Pin a target's shadow to the ground with anti-magic chains. Requires 3+ Authority. The target is restrained for 1 minute (Spirit save DC 15 at end of each turn ends the effect). Attacks against the restrained target have advantage. Supernatural targets are also silenced.",
+        "Pin a shadow with anti-magic chains (3+ Authority): restrained 1 minute (Spirit DC 15 at turn end ends it); attacks on them have advantage; supernatural targets are silenced too.",
       level: 4,
       spellType: "ACTION",
       effectTypes: ["control"],
@@ -1501,7 +1548,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_inquisitors_judgment",
       name: "Inquisitor's Judgment",
       description:
-        "Channel Authority into a devastating melee strike. Deals 6d10 ember damage to any target. Against supernatural targets at 25 HP or lower, the target is instantly killed (Con save DC 16 negates). On kill, gain 2 Authority.",
+        "Channel Authority into a melee strike for 6d10 ember. Against supernatural targets at 25 HP or lower, instantly kill them (Con DC 16 negates). On kill, gain 2 Authority.",
       level: 5,
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
@@ -1640,7 +1687,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_inquisitors_storm",
       name: "Inquisitor's Storm",
       description:
-        "Unleash a devastating shockwave of shadow and light in a 25-foot radius. Deals 8d6 blight damage (Con save DC 17 halves) and stuns targets for 1 round. Supernatural targets also have all enchantments dispelled.",
+        "Unleash a 25ft shockwave of shadow and light: 8d6 blight (Con DC 17 halves), stun 1 round, and supernatural targets have all enchantments dispelled.",
       level: 6,
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
@@ -1717,7 +1764,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_righteous_storm",
       name: "Righteous Storm",
       description:
-        "Summon a persistent anti-magic storm in a 30-foot radius for 1 minute. Deals 3d8 ember damage per round, imposes disadvantage on spellcasting, and prevents mana recovery. Bound demons inside gain +1d6 ember damage on attacks.",
+        "Summon a 30ft anti-magic storm for 1 minute: 3d8 ember per round, disadvantage on spellcasting, no mana recovery. Bound demons inside gain +1d6 ember on attacks.",
       level: 7,
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
@@ -1799,13 +1846,13 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_judgment_day",
       name: "Judgment Day",
       description:
-        "Call down pillars of sacred fire in a 40-foot radius. Deals 10d10 ember damage (spirit save DC 19 halves) against supernatural creatures.",
+        "Call down pillars of sacred fire in a 40-foot radius. Deals 10d10 sacred damage (spirit save DC 19 halves) against supernatural creatures.",
       level: 8,
       spellType: "ACTION",
       effectTypes: ["damage"],
       icon: "Radiant/Divine Blessing",
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Radiant/Divine Blessing",
         castTime: 1,
         castTimeType: "ACTION",
@@ -1839,8 +1886,8 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
         formula: "10d10",
-        elementType: "ember",
-        damageTypes: ["ember"],
+        elementType: "sacred",
+        damageTypes: ["sacred"],
         canCrit: false,
         resolution: "DICE",
       },
@@ -1869,7 +1916,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_hexbreaker_armageddon",
       name: "Armageddon Edict",
       description:
-        "Erase all magic in a 100ft radius permanently. Deals 18d6 blight damage (spirit save DC 20 negates), all spells and enchantments destroyed, and supernatural casters who fail lose spellcasting permanently. All bound entities are simultaneously set to maximum Dominance Die for 3 rounds.",
+        "Erase all magic in 100ft: 18d6 blight (Spirit DC 20 negates); spells and enchantments destroyed; failing supernatural casters lose spellcasting forever. Bound entities max Dominance 3 rounds.",
       level: 10,
       spellType: "ACTION",
       effectTypes: ["damage", "utility"],
@@ -1937,7 +1984,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_witch_sight",
       name: "Witch-Sight",
       description:
-        "Open your cold-iron eyes and see the supernatural for what it is. For the duration you perceive active magic, recent spellcasting residue, hidden wards and glyphs, possession, corruption, and the Wyrd-touched as clearly as torchlight  -  including the faint ash-trail of a spell cast within the last hour. Iron and salt read as bright lines. Out of combat.",
+        "Open your cold-iron eyes: perceive active magic, wards, glyphs, possession, corruption, and the Wyrd-touched as clearly as torchlight, including ash-trails from the last hour. Out of combat.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["utility"],
@@ -1954,7 +2001,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_null_salt_ward",
       name: "Null-Salt Ward",
       description:
-        "Lay an unbroken line of null-salt across a threshold, around a camp, or in a circle. Minor spirits, summoned creatures, and incorporeal undead cannot cross it; spells cast across the line are diminished, and scrying/divination through it fails. Lasts until the salt is physically broken. Out of combat.",
+        "Lay null-salt across a threshold, camp, or circle: minor spirits, summoned creatures, and incorporeal undead cannot cross; spells crossing weaken; scrying fails. Lasts until broken. Out of combat.",
       level: 1,
       spellType: "ACTION",
       effectTypes: ["utility"],
@@ -1971,7 +2018,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_bind_interrogate",
       name: "Bind and Interrogate",
       description:
-        "Pin a bound or captive spirit, ghost, demon, or summoned entity in a circle of cold iron and compel it by the Barbed Vow to answer your questions. It cannot lie to the Vow, though it may omit or speak in riddles, and a stronger-willed entity resists partway. Lasts until you release it or it breaks free. Out of combat.",
+        "Pin a spirit, ghost, demon, or summon in a cold-iron circle and compel it by the Barbed Vow: it cannot lie, though it may omit or riddle; strong wills resist. Lasts until released. Out of combat.",
       level: 2,
       spellType: "ACTION",
       effectTypes: ["utility"],
@@ -1988,7 +2035,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_exorcise_place",
       name: "Exorcise",
       description:
-        "Drive out the supernatural from a place or object  -  lift a haunting, break a curse on a room or item, cleanse corruption sunk into a floor or a blade. The bound or Wyrd-touched thing is expelled (not destroyed) and flees the warded space. Heavier infestations demand ritual time and Authority. Out of combat.",
+        "Drive the supernatural from a place or object: lift a haunting, break a curse, cleanse corruption. The thing is expelled, not destroyed. Heavier infestations need ritual time and Authority.",
       level: 2,
       spellType: "ACTION",
       effectTypes: ["utility"],
@@ -2005,7 +2052,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     { id : "inq_barbed_interdict",
       name: "Barbed Interdict",
       description:
-        "Invoke the secular authority of the Barbed Vow. Once per long rest, you may lawfully demand entry, seizure of cursed objects, custody of the possessed, or answers from a religious or civil institution regarding a supernatural matter  -  and they recognize your standing. Gain advantage on Intimidation and Persuasion with authorities for one hour. Out of combat.",
+        "Invoke the Barbed Vow's authority (1/long rest): demand entry, seizure, custody, or answers on supernatural matters. Advantage on Intimidation/Persuasion with authorities, 1 hour. Out of combat.",
       level: 3,
       spellType: "ACTION",
       effectTypes: ["utility", "buff"],
@@ -2016,6 +2063,15 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       resourceCost: { resourceTypes: ["mana", "authority"], resourceValues: { mana: 6, authority: 1 }, actionPoints: 1, components: ["verbal"], verbalText: "By the authority of the Barbed Vow, I interdict" },
       resolution: "NONE",
       utilityConfig: { utilityType: "social", selectedEffects: [ { id: "barbed_interdict_authority", name: "Vested Authority", description: "For 1 hour, recognized institutions (temples, courts, garrisons) treat your supernatural demands as lawful, and you gain advantage on Intimidation and Persuasion with authority figures. Fails if you invoke it fraudulently  -  the Vow knows.", mechanicsText: "Lawful standing + advantage with authorities re supernatural matters, 1 hour." } ], duration: 1, durationUnit: "hours", power: "major" },
+      buffConfig: {
+        buffType: "combatAdvantage",
+        effects: [
+          { id: "barbed_interdict_standing", name: "Vested Authority", description: "Recognized institutions treat your supernatural demands as lawful; advantage on Intimidation and Persuasion with authorities for 1 hour.", mechanicsText: "Lawful standing + advantage with authorities, 1 hour." }
+        ],
+        durationType: "hours",
+        durationValue: 1,
+        durationUnit: "hours"
+      },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["utility", "social", "authority", "anti magic"],
     },
@@ -2023,7 +2079,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_severing_shackles",
       name: "Severing Cold-Iron Shackles",
-      description: "Summon barbed cold-iron manacles around an enemy spellcaster's wrists for 3 rounds. If the target attempts to cast a spell, they suffer a severe mana burn and must pass a DC 16 Spirit save or the spell fizzles and they are silenced for 1 round.",
+      description: "Summon barbed cold-iron manacles on a spellcaster's wrists for 3 rounds. Attempting to cast causes severe mana burn and a DC 16 Spirit save or the spell fizzles and they are silenced 1 round.",
       level: 5,
       spellType: "ACTION",
       icon: "Arcane/Angular Rune",
@@ -2074,6 +2130,20 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         durationValue: 3,
         durationUnit: "rounds"
       },
+      debuffConfig: {
+        debuffType: "abilityDisable",
+        effects: [
+          {
+            id: "severing_shackles_mana_burn",
+            name: "Cold-Iron Mana Burn",
+            description: "Attempting to cast inflicts severe mana burn and risks silence.",
+            mechanicsText: "Casting triggers mana burn; DC 16 Spirit save or the spell fizzles and the target is silenced for 1 round."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["control", "debuff", "anti magic", "shackles", "inquisitor"]
     },
@@ -2102,7 +2172,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       durationConfig: {
         durationType: "instant",
         durationValue: 0,
-        durationUnit: "rounds"
+        durationUnit: "instant"
       },
       resourceCost: {
         actionPoints: 1,
@@ -2137,7 +2207,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         ],
         durationType: "instant",
         durationValue: 0,
-        durationUnit: "rounds"
+        durationUnit: "instant"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["damage", "debuff", "dispel", "inquisitor"]
@@ -2147,7 +2217,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_ward_of_cold_iron",
       name: "Ward of the Cold-Iron Aegis",
-      description: "Project a shimmering 20ft perimeter of ground cold-iron filings and sacred salt for 3 rounds. Allies inside gain +4 DR against supernatural and magical damage, and hostile casters targeting an ally within the ward suffer disadvantage on attack rolls.",
+      description: "Project a 20ft perimeter of cold-iron filings and sacred salt for 3 rounds: allies inside gain +4 DR against supernatural and magical damage; hostile casters targeting them suffer disadvantage.",
       level: 6,
       spellType: "ACTION",
       icon: "Healing/Heart Shield",
@@ -2167,14 +2237,14 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         targetRestrictions: ["allies"]
       },
       durationConfig: {
-        durationType: "rounds",
-        durationValue: 3,
-        durationUnit: "rounds"
+        durationType: "instant",
+        durationValue: 0,
+        durationUnit: "instant"
       },
       resourceCost: {
         actionPoints: 1,
         resourceTypes: ["mana", "authority"],
-        resourceValues: { mana: 12, authority: 2 },
+        resourceValues: { mana: 14, authority: 2 },
         classResource: { type: "authority", cost: 2 },
         components: ["somatic"],
         somaticText: "Scatter consecrated salt and cold iron in a wide arc"
@@ -2200,7 +2270,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_null_zone_anchor",
       name: "Null-Zone Anchor",
-      description: "Drive a heavy cold-iron stake into the ground up to 45ft away, generating a 15ft localized dead-magic field for 3 rounds. Within this zone, magical teleportation and summons are suppressed, spellcasters have their movement halved, and mana regeneration is disabled.",
+      description: "Drive a cold-iron stake up to 45ft away, creating a 15ft dead-magic field for 3 rounds: teleportation and summons suppressed, spellcaster movement halved, mana regeneration disabled.",
       level: 6,
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
@@ -2246,13 +2316,28 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         durationValue: 3,
         durationUnit: "rounds"
       },
+      utilityConfig: {
+        utilityType: "environment",
+        selectedEffects: [
+          {
+            id: "null_zone_anchor_field",
+            name: "Dead-Magic Field",
+            description: "A 15ft dead-magic field: magical teleportation and summons are suppressed, spellcasters move at half speed, and mana regeneration is disabled.",
+            mechanicsText: "15ft anti-magic zone for 3 rounds."
+          }
+        ],
+        duration: 3,
+        durationUnit: "rounds",
+        concentration: false,
+        power: "major"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       tags: ["control", "utility", "anti magic", "zone", "inquisitor"]
     },
     {
       id: "inq_heretic_brand",
       name: "Heretic's Scourge",
-      description: "Pronounce formal ecclesiastical condemnation upon an enemy, dealing 6d8 sacred damage (Spirit DC 16 for half). If the target fails the save, their next offensive action must target the Inquisitor (compelled duel) or be forfeited entirely.",
+      description: "Pronounce ecclesiastical condemnation for 6d8 sacred (Spirit DC 16 half). If the target fails, their next offensive action must target the Inquisitor (compelled duel) or be forfeited entirely.",
       level: 6,
       spellType: "ACTION",
       icon: "Radiant/Divine Radiance",
@@ -2323,7 +2408,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_aura_of_the_iron_vow",
       name: "Aura of the Iron Vow",
-      description: "Emanate an aura of absolute inquisitorial resolve across a 30ft radius for 3 rounds. Allies within are immune to charm, fear, possession, and madness effects, and whenever an ally takes supernatural damage, the attacker suffers 10 sacred recoil damage.",
+      description: "Emanate inquisitorial resolve across 30ft for 3 rounds: allies are immune to charm, fear, possession, and madness, and whenever an ally takes supernatural damage the attacker suffers 10 sacred recoil.",
       level: 7,
       spellType: "ACTION",
       icon: "Radiant/Radiant Aura",
@@ -2377,7 +2462,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_barbed_excommunication",
       name: "Barbed Excommunication",
-      description: "Pronounce lawful excommunication upon an extraplanar, undead, or possessed entity within 40ft. Target is phased out of reality into a void of binding iron for 1 round (incapacitated and untargetable). When they return, all their temporary buffs and summoned minions are banished permanently.",
+      description: "Pronounce excommunication on an extraplanar, undead, or possessed entity within 40ft: phased out 1 round (incapacitated, untargetable). On return, temporary buffs and minions are banished permanently.",
       level: 7,
       spellType: "ACTION",
       icon: "Arcane/Ebon Blaze",
@@ -2428,6 +2513,21 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         },
         durationValue: 1,
         durationUnit: "rounds"
+      },
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "excommunication_void",
+            name: "Void of Binding Iron",
+            description: "Target is phased out of reality for 1 round; on return, all temporary buffs and summoned minions are permanently banished.",
+            mechanicsText: "Phase out 1 round; purges buffs and minions on return."
+          }
+        ],
+        duration: 1,
+        durationUnit: "rounds",
+        concentration: false,
+        power: "major"
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
       tags: ["control", "utility", "banish", "inquisitor"]
@@ -2502,7 +2602,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_anathema_seal",
       name: "Seal of Absolute Anathema",
-      description: "Brand a target with the supreme Anathema Seal for 3 rounds. While sealed, target cannot cast spells, cannot activate supernatural or monstrous traits, and all their damage resistances are halved (Spirit DC 18 negates).",
+      description: "Brand a target with the Anathema Seal for 3 rounds: cannot cast spells or activate supernatural traits, and all damage resistances are halved (Spirit DC 18 negates).",
       level: 8,
       spellType: "ACTION",
       icon: "Arcane/Abstract Rune",
@@ -2574,7 +2674,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_immutable_bastion",
       name: "Immutable Bastion of Truth",
-      description: "Erect a sacred bastion of pure truth and null-salt across a 25ft radius around yourself for 3 rounds. Allies within gain DR 8 against all damage, advantage on all saving throws, and are immune to forced movement and involuntary teleportation.",
+      description: "Erect a 25ft sacred bastion of truth and null-salt for 3 rounds: allies within gain DR 8 against all damage, advantage on all saves, and immunity to forced movement and involuntary teleportation.",
       level: 8,
       spellType: "ACTION",
       icon: "Radiant/Divine Illumination",
@@ -2627,7 +2727,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_cold_iron_crucible",
       name: "Cold-Iron Crucible",
-      description: "Rain thousands of jagged cold-iron flechettes into a 20ft radius up to 50ft away. Deals 8d10 smashing damage to hostile targets (Agility DC 18 for half). The area becomes a razor-sharp field of barbed iron that deals 2d8 damage per 5ft moved and grounds flying creatures.",
+      description: "Rain cold-iron flechettes into a 20ft radius up to 50ft away: 8d10 smashing to hostiles (Agility DC 18 half). The area becomes a razor field dealing 2d8 per 5ft moved and grounding flyers.",
       level: 8,
       spellType: "ACTION",
       icon: "Piercing/Dagger Whirl",
@@ -2694,7 +2794,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_absolute_severance",
       name: "Absolute Supernatural Severance",
-      description: "Sever every metaphysical lifeline, covenant, and magical conduit connecting an enemy to reality for 2 rounds. Target enters complete supernatural paralysis: cannot cast spells, cannot be healed by magic, cannot benefit from buffs, and cannot take actions (Spirit DC 19 negates).",
+      description: "Sever every metaphysical lifeline, covenant, and conduit connecting an enemy to reality for 2 rounds: cannot cast, be magically healed, benefit from buffs, or act (Spirit DC 19 negates).",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Spellcasting Aura",
@@ -2746,13 +2846,27 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         durationValue: 2,
         durationUnit: "rounds"
       },
+      debuffConfig: {
+        debuffType: "abilityDisable",
+        effects: [
+          {
+            id: "severance_magic_denial",
+            name: "Severed From Magic",
+            description: "Cannot be healed by magic and cannot benefit from buffs while severed.",
+            mechanicsText: "Magical healing and buffs denied for 2 rounds."
+          }
+        ],
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["control", "debuff", "paralysis", "anti magic", "inquisitor"]
     },
     {
       id: "inq_avatar_of_inquisition",
       name: "Avatar of the Barbed Edict",
-      description: "Channel the full sovereign majesty of the Barbed Vow for 5 rounds. Gain 50 Temporary HP, DR 10 against all damage, complete immunity to all status conditions, and all melee attacks deal +3d8 sacred damage and dispel 1 active buff on hit.",
+      description: "Channel the Barbed Vow's sovereign majesty for 5 rounds: 50 Temporary HP, DR 10, immunity to all status conditions, and melee attacks deal +3d8 sacred and dispel 1 buff on hit.",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Golden Knight",
@@ -2803,7 +2917,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_final_confession",
       name: "The Final Confession",
-      description: "Compel an enemy's soul to confess its deepest metaphysical vulnerabilities. For 3 rounds, target suffers disadvantage on all attack rolls and saving throws, and all allies targeting the creature have their critical threat range expanded by 3 (Spirit DC 19 halves duration).",
+      description: "Compel an enemy's soul to confess: for 3 rounds they have disadvantage on attacks and saves, and allies' critical threat range against them expands by 3 (Spirit DC 19 halves duration).",
       level: 9,
       spellType: "ACTION",
       icon: "Psychic/Focused Mind",
@@ -2836,6 +2950,24 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         verbalText: "Confiteor! Speak your undoing!"
       },
       effectTypes: ["control", "debuff"],
+      controlConfig: {
+        controlType: "mind_control",
+        duration: 3,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "final_confession_compulsion",
+            name: "Compelled Confession",
+            description: "The target is compelled to confess its deepest weaknesses: disadvantage on attacks and saves, and allies crit on 17-20 against it.",
+            config: { confusionType: "compelled_speech", saveType: "spirit", saveDC: 19, duration: 3, durationUnit: "rounds" }
+          }
+        ],
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 19,
+          saveOutcome: "reduced_duration"
+        }
+      },
       debuffConfig: {
         debuffType: "vulnerability",
         effects: [
@@ -2861,7 +2993,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_apocalypse_of_salt",
       name: "Apocalypse of Salt",
-      description: "Transmute the air in a 30ft radius into a blinding vortex of swirling sacred salt and white-hot cold-iron embers. Deals 12d8 sacred damage to hostile creatures (Spirit DC 19 for half), permanently destroys all magical hazards in the area, and blinds supernatural creatures for 2 rounds.",
+      description: "Transmute a 30ft radius into a blinding salt-and-cold-iron vortex: 12d8 sacred to hostiles (Spirit DC 19 half), destroys magical hazards permanently, blinds supernatural creatures 2 rounds.",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Bright Explosion",
@@ -2928,7 +3060,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_the_grand_interdict",
       name: "The Grand Interdict",
-      description: "Issue the supreme ecclesiastical interdict across a 50ft radius for 1 minute (10 rounds). Within this zone, all spellcasting is strictly prohibited, all magic items become inert, summoned entities dissolve instantly, and attempting to cast causes 4d10 backlash damage and stuns the caster for 1 round.",
+      description: "Issue the supreme interdict across 50ft for 10 rounds: spellcasting prohibited, magic items inert, summons dissolve instantly; attempting to cast deals 4d10 backlash and stuns the caster 1 round.",
       level: 10,
       spellType: "ACTION",
       icon: "Radiant/Holy Cross",
@@ -2975,13 +3107,28 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
         durationValue: 10,
         durationUnit: "rounds"
       },
+      utilityConfig: {
+        utilityType: "environment",
+        selectedEffects: [
+          {
+            id: "grand_interdict_zone",
+            name: "Supreme Interdict",
+            description: "Across 50ft: all spellcasting is prohibited, magic items become inert, summons dissolve instantly; casting attempts take 4d10 backlash and stun for 1 round.",
+            mechanicsText: "50ft anti-magic zone for 10 rounds; casting triggers 4d10 backlash + 1 round stun."
+          }
+        ],
+        duration: 10,
+        durationUnit: "rounds",
+        concentration: false,
+        power: "major"
+      },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["control", "utility", "ultimate", "anti magic", "inquisitor"]
     },
     {
       id: "inq_eternal_cold_iron",
       name: "Eternity of Cold Iron",
-      description: "Coat all party members within 30ft in unyielding metaphysical cold-iron armor for 5 rounds. Affected creatures gain DR 15 against all damage, complete immunity to death effects, critical hits, and conditions, and cannot have their abilities or stats drained by any means.",
+      description: "Coat party members within 30ft in metaphysical cold-iron armor for 5 rounds: DR 15 against all damage, immunity to death effects, crits, and conditions, and no ability or stat can be drained.",
       level: 10,
       spellType: "ACTION",
       icon: "Utility/Empowered Warrior",
@@ -3035,7 +3182,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_wrath_of_the_seven_vows",
       name: "Wrath of the Seven Vows",
-      description: "Ignite the fury of seven centuries of unbending cold iron across a 35ft radius. Seven towering pillars of sacred cold-iron flame erupt, dealing 14d10 ember damage to hostile creatures (Spirit DC 20 for half). Creatures reduced to 0 HP are obliterated into white salt.",
+      description: "Ignite seven centuries of cold iron across a 35ft radius: seven pillars erupt for 14d10 ember to hostiles (Spirit DC 20 half). Creatures reduced to 0 HP are obliterated into white salt.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fireball",
@@ -3058,7 +3205,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
       durationConfig: {
         durationType: "instant",
         durationValue: 0,
-        durationUnit: "rounds"
+        durationUnit: "instant"
       },
       resourceCost: {
         actionPoints: 2,

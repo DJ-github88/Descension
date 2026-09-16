@@ -11,7 +11,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Cosmic Channel",
     icon: "Radiant/Radiant Hand Cast",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Cosmic Channel",
@@ -41,7 +41,7 @@ export const AUGUR_HIEROPHANT = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { benediction: { baseAmount: 1 } },
       healing: { dice: "1d8", flat: 0 },
@@ -57,7 +57,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Radiant Purpose",
     icon: "Radiant/Divine Illumination",
     maxRanks: 2,
-    position: { x: 2.5, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Radiant Purpose",
@@ -77,7 +77,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Ward of Light",
     icon: "Radiant/Radiant Golden Shield",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "hi_t1_cosmic_channel",
     spell: {
       name: "Ward of Light",
@@ -87,10 +87,10 @@ export const AUGUR_HIEROPHANT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { benediction: { baseAmount: 2 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["ward"], visualTheme: "sacred", tags: ["buff", "durability", "ally", "augur"]
     },
     rankUpgrades: [
@@ -103,7 +103,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Blessed Terrain",
     icon: "Healing/Renewal",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 3, y: 1 },
     requires: "hi_t1_sign_of_vigor",
     spell: {
       name: "Blessed Terrain",
@@ -124,7 +124,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Sacred Ground",
     icon: "Radiant/Divine Blessing",
     maxRanks: 3,
-    position: { x: 0, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "hi_t2_ward_of_light",
     spell: {
       name: "Sacred Ground",
@@ -134,10 +134,10 @@ export const AUGUR_HIEROPHANT = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 15,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { benediction: { baseAmount: 4 } },
-      durationRounds: 4, durationRealTime: 24, durationUnit: "seconds",
+      durationRounds: 4, durationUnit: "rounds",
       healing: { dice: "1d4", flat: 0, isHoT: true, hotDuration: 4, hotTick: "1d4" },
       buffs: ["sacred-ground"], visualTheme: "sacred", tags: ["zone", "healing", "ally", "augur"]
     },
@@ -151,7 +151,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Radiant Resonance",
     icon: "Radiant/Radiant Radiance 3",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "hi_t2_blessed_terrain",
     spell: {
       name: "Radiant Resonance",
@@ -172,7 +172,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Sanctuary",
     icon: "Radiant/Golden Embrace",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 2.5, y: 3 },
     requires: "hi_t3_sacred_ground",
     spell: {
       name: "Sanctuary",
@@ -182,10 +182,10 @@ export const AUGUR_HIEROPHANT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { benediction: { baseAmount: 3 } },
-      durationRounds: 1, durationRealTime: 6, durationUnit: "seconds",
+      durationRounds: 1, durationUnit: "rounds",
       buffs: ["sanctuary"], visualTheme: "sacred", tags: ["immunity", "ally", "augur"]
     },
     rankUpgrades: [
@@ -220,7 +220,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Omen of Protection",
     icon: "Radiant/Divine Halo",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 2.5, y: 4 },
     requires: "hi_t4_sanctuary",
     spell: {
       name: "Omen of Protection",
@@ -240,7 +240,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Radiant Conduit",
     icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 2,
-    position: { x: 4, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "hi_t4_benediction_overflow",
     spell: {
       name: "Radiant Conduit",
@@ -260,7 +260,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Cosmic Ward",
     icon: "Radiant/Winged Angel",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "hi_t5_omen_of_protection",
     spell: {
       name: "Cosmic Ward",
@@ -270,10 +270,10 @@ export const AUGUR_HIEROPHANT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { benediction: { baseAmount: 8 } },
-      durationRounds: 5, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 5, durationUnit: "rounds",
       buffs: ["cosmic-ward"], visualTheme: "sacred", tags: ["defense", "aoe", "ally", "augur"]
     }
   },
@@ -301,7 +301,7 @@ export const AUGUR_HIEROPHANT = [
     name: "Shared Radiance",
     icon: "Radiant/Divine Radiance",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 4, y: 5 },
     requires: "hi_t5_omen_of_protection",
     spell: {
       name: "Shared Radiance",
@@ -331,10 +331,10 @@ export const AUGUR_HIEROPHANT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { benediction: { baseAmount: 15 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       healing: { dice: "2d8", flat: 0, isHoT: true, hotDuration: 6, hotTick: "2d8" },
       buffs: ["supreme-sanctity"], visualTheme: "sacred", tags: ["ultimate", "capstone", "zone", "healing", "augur"]
     }

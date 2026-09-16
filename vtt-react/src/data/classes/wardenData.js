@@ -628,9 +628,20 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Metal Chain",
+      effectTypes: ["control"],
       typeConfig: { school: "smashing", icon: "Utility/Metal Chain", tags: ["utility", "control", "hold_person", "warden"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0 },
+      resolution: "SAVE",
+      controlConfig: {
+        controlType: "restraint",
+        duration: 10,
+        durationUnit: "rounds",
+        effects: [
+          { id: "chain_tether_pin", name: "Chained In Place", description: "Pinned in place for 1 minute.", config: { restraintType: "physical", condition: "restrained", duration: 10, durationUnit: "rounds" } }
+        ],
+        savingThrow: { ability: "spirit", saveOutcome: "negates" }
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       tags: ["utility", "control", "warden"]
     },
@@ -640,9 +651,19 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       level: 1,
       spellType: "ACTION",
       icon: "Utility/Chained",
+      effectTypes: ["control"],
       typeConfig: { school: "smashing", icon: "Utility/Chained", tags: ["utility", "pull", "chain", "warden"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, mana: 0 },
+      resolution: "AUTOMATIC",
+      controlConfig: {
+        controlType: "forcedMovement",
+        duration: 0,
+        durationUnit: "instant",
+        effects: [
+          { id: "chain_drag_pull", name: "Yanked Forward", description: "The target is dragged 20 ft toward you, interrupting their action.", config: { movementType: "pull", distance: 20 } }
+        ]
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility", "pull", "warden"]
     },
@@ -691,7 +712,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     },
     { id : "warden_glaive_mastery",
       name: "Chain Graft",
-      description: "Your arms are grafted to heavy iron chains. Your melee reach is permanently increased to 15 feet and your chain attacks have +1 to hit. However, you are strictly forbidden from wielding or using ranged weapons.",
+      description: "Your arms are grafted to heavy iron chains: melee reach is permanently 15ft and chain attacks have +1 to hit, but you are strictly forbidden from wielding ranged weapons.",
       spellType: "PASSIVE",
       icon: "Slashing/Curved Blade",
       level: 1,
@@ -794,7 +815,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
 },
     { id : "warden_relentless_pursuit",
       name: "Cruel Drag",
-      description: "Manually lock your gears and reel in. Dash directly to your tethered target, slamming into them with a colossal shield/body check. If they are lighter than you, they are dragged 10 feet toward you instead.",
+      description: "Lock your gears and reel in: dash to your tethered target with a colossal shield/body check, or drag them 10ft toward you instead if they are lighter than you.",
       spellType: "ACTION",
       icon: "Nature/Sense",
       level: 2,
@@ -909,7 +930,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
 },
     { id : "warden_hunters_resolve",
       name: "Penitent Resolve",
-      description: "Dig the grafted spine hooks deeper, welcoming the pain to brace your plating. Gain 50% damage resistance and DR. The benefits are doubled if the tethered target is within 15 feet, anchoring you completely.",
+      description: "Dig the grafted spine hooks deeper: gain 50% damage resistance and DR. The benefits double if the tethered target is within 15ft, anchoring you completely.",
       spellType: "ACTION",
       icon: "Utility/Deflecting Shield",
       level: 2,
@@ -968,7 +989,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     // ==========================================
     { id : "warden_cage_of_vengeance",
       name: "Iron Gaol",
-      description: "Spend Tension to erupt spectral iron bars around your target, trapping them in a brutal cage. They physically cannot move out of the cage or benefit from teleportation. Caged targets take additional damage.",
+      description: "Spend Tension to erupt spectral iron bars around your target: they cannot move out or teleport, and caged targets take additional damage.",
       spellType: "ACTION",
       icon: "Necrotic/Crossed Bones",
       level: 3,
@@ -1447,7 +1468,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
 },
     { id : "warden_avatar_of_vengeance",
       name: "Iron Ascendancy",
-      description: "Unleash all tension to fuse your presence with your rusted iron grafts. Your chains burst outward, forming a defensive cage of spikes around your forearms and torso. For 6 rounds, gain +4 DR, add +2d6 smashing damage to every strike, and reel in all tethered targets helplessly.",
+      description: "Unleash all Tension: chains burst into a spiked cage around your forearms and torso. For 6 rounds, +4 DR, +2d6 smashing on every strike, and all tethered targets are reeled in helplessly.",
       spellType: "ACTION",
       icon: "General/Fiery Rage",
       level: 5,
@@ -2358,7 +2379,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   // ===== NON-COMBAT / CHAIN & JAILER UTILITY (the Penitent Jailer, out of combat) =====
   { id: "warden_iron_tow",
     name: "Iron Tow",
-    description: "Pay out your grafted chains and use them as a living winch. Tow or haul a heavy load, drag a collapsed beam or boulder aside, haul an ally up a cliff face, or lower and raise goods/personnel on the chain. Your bones take the anchor-strain  -  1 blight per 100 lb hauled. Out of combat.",
+    description: "Use grafted chains as a living winch: tow heavy loads, drag a beam or boulder aside, haul an ally up a cliff, or lower goods. Your bones take anchor-strain (1 blight per 100 lb). Out of combat.",
     level: 1, spellType: "ACTION", icon: "Utility/Bound Wrists",
     typeConfig: { school: "smashing", icon: "Utility/Bound Wrists", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30 },
@@ -2372,7 +2393,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   },
   { id: "warden_barbed_bind",
     name: "Barbed Bind",
-    description: "Bind a captive with your chains in a hold no mundane slip or lockpick defeats  -  the barbed links seat against flesh and bone, tightening on any struggle. Secure a prisoner for transport, chain a door's handle to a wall, or hogtie a catch. A bound creature of vastly greater strength may still tear free. Out of combat.",
+    description: "Bind a captive in a hold no mundane slip or lockpick defeats: barbed links seat against flesh and bone, tightening on struggle. A vastly stronger creature may still tear free. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Utility/Bound Warrior",
     typeConfig: { school: "smashing", icon: "Utility/Bound Warrior", castTime: 1, castTimeType: "MINUTES", tags: ["utility","social","investigation","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2386,7 +2407,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   },
   { id: "warden_chain_ward",
     name: "Chain-Ward",
-    description: "Chain a door, portcullis, gate, or hatch shut from the inside with your iron  -  barring it physically beyond any mundane lock, and anchoring the links to your own grafted flesh so the bar cannot be thrown without waking you. Alternately, anchor yourself to a spot to hold a line or doorway immovable. Out of combat.",
+    description: "Chain a door, gate, or hatch shut from inside, anchored to your grafted flesh so it cannot be thrown without waking you. You can also anchor yourself to hold a line immovable. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Bound Shield",
     typeConfig: { school: "smashing", icon: "Utility/Bound Shield", castTime: 1, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2400,7 +2421,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   },
   { id: "warden_scar_map_reading",
     name: "Scar-Map Reading",
-    description: "Read the pattern of bolt-scars on a Warden's skin (your own or another's), or the wound-marks on a mauled corpse, and identify what left them  -  the species and rough strength of every creature that was anchored or that did the mauling. The scar-map is a record written in flesh. Out of combat.",
+    description: "Read bolt-scars on a Warden's skin or wound-marks on a mauled corpse and identify what left them: the species and rough strength of every anchored or mauling creature. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Psychic/Focused Mind",
     typeConfig: { school: "smashing", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","warden"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2414,7 +2435,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   },
   { id: "warden_penitents_vigil",
     name: "Penitent's Vigil",
-    description: "Drive a hook into the earth and stand vigil. For the duration you cannot be moved (you are the anchor) and you need no sleep, food, or rest, guarding a prisoner, a place, or a post through the night. You act slowly while vigiling and feel every ache when it ends, but nothing short of overwhelming force breaks the watch. Out of combat.",
+    description: "Drive a hook into the earth and stand vigil: you cannot be moved and need no sleep, food, or rest while guarding through the night. Only overwhelming force breaks the watch. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
     typeConfig: { school: "smashing", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "MINUTES", tags: ["utility","rest","exploration","social","warden"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -2429,7 +2450,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   {
     "id": "warden_iron_bastion",
     "name": "Iron Bastion",
-    "description": "Anchor your flesh-grafted chains into the bedrock to erect a barricade of taught, rusted iron links. Grants yourself and all allies within 10ft +3 Durability, and makes you completely immune to forced movement, knockback, and prone for 2 rounds.",
+    "description": "Anchor grafted chains into the bedrock: you and allies within 10ft gain +3 Durability, and you are immune to forced movement, knockback, and prone for 2 rounds.",
     "level": 4,
     "spellType": "ACTION",
     "icon": "Defense/Shield Wall",
@@ -2479,9 +2500,20 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       "buff"
     ],
     "buffConfig": {
-      "buffType": "durability_and_immovable",
-      "bonusDurability": 3,
+      "buffType": "damageMitigation",
+      "effects": [
+        {
+          "id": "iron_bastion_barricade",
+          "name": "Iron Barricade",
+          "description": "Grants you and allies within 10ft +3 Durability, and makes you immune to forced movement, knockback, and prone for 2 rounds.",
+          "mechanicsText": "+3 Durability to allies within 10ft; immovable for 2 rounds."
+        }
+      ],
+      "statModifiers": [
+        { "stat": "durability", "magnitude": 3, "magnitudeType": "flat" }
+      ],
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2539,20 +2571,28 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       ],
       "somaticText": "Whip the barbed meat-hook from your forearm"
     },
-    "resolution": "RANGED_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "stabbing",
-      "diceCount": 3,
-      "diceSides": 8,
-      "statModifier": "strength"
+      "formula": "3d8 + strength",
+      "damageTypes": ["stabbing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "pull",
-      "distance": 15
+      "controlType": "forcedMovement",
+      "duration": 1,
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "hook_and_rend_drag",
+          "name": "Hooked and Dragged",
+          "description": "The target is dragged 15ft toward you and their movement speed is reduced by 10ft for 1 round.",
+          "config": { "movementType": "pull", "distance": 15, "penaltyMovement": 10, "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -2568,7 +2608,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   {
     "id": "warden_chain_cleave",
     "name": "Chain Cleave",
-    "description": "Swing your heavy iron chains in a devastating 180-degree forward arc. Deals 4d8 + Str smashing damage to all enemies in a 15ft cone and knocks all struck creatures prone unless they succeed on a Strength saving throw.",
+    "description": "A 180-degree chain sweep: 4d8 + Str smashing to all enemies in a 15ft cone and knocks struck creatures prone unless they pass a Strength save.",
     "level": 5,
     "spellType": "ACTION",
     "icon": "Combat/Sweeping Chain",
@@ -2615,21 +2655,29 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       "verbalText": "Reap the yard!",
       "somaticText": "Heave the main tow-chain across both shoulders"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 4,
-      "diceSides": 8,
-      "statModifier": "strength"
+      "formula": "4d8 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "prone",
+      "controlType": "knockdown",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "chain_cleave_prone",
+          "name": "Knocked Prone",
+          "description": "All struck creatures are knocked prone unless they succeed on a Strength saving throw.",
+          "config": { "saveType": "strength", "duration": 1, "durationUnit": "rounds" }
+        }
+      ],
+      "savingThrow": { "ability": "strength", "saveOutcome": "negates" }
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -2692,12 +2740,22 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     "resolution": "NONE",
     "effectTypes": [
       "defense",
-      "support"
+      "support",
+      "buff"
     ],
     "buffConfig": {
       "buffType": "damage_intercept",
+      "effects": [
+        {
+          "id": "sanctuary_chains_intercept",
+          "name": "Tether-Link Interception",
+          "description": "You intercept 50% of all damage dealt to tethered allies; whenever an ally is hit, you generate 2 Tension.",
+          "mechanicsText": "Intercept 50% of ally damage; +2 Tension when an ally is hit, 2 rounds."
+        }
+      ],
       "interceptPercent": 50,
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2758,14 +2816,35 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       "verbalText": "Your sentence is containment",
       "somaticText": "Drive cold iron spikes into target's shadow"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "SAVE",
     "effectTypes": [
       "control",
       "debuff"
     ],
     "controlConfig": {
-      "controlType": "rooted_and_silenced",
+      "controlType": "restraint",
       "duration": 2,
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "judges_binding_stakes",
+          "name": "Shadow-Staked",
+          "description": "Rooted in place for 2 rounds; teleporting and planar shifting are prevented.",
+          "config": { "restraintType": "physical", "condition": "rooted", "duration": 2, "durationUnit": "rounds" }
+        }
+      ]
+    },
+    "debuffConfig": {
+      "debuffType": "abilityDisable",
+      "effects": [
+        {
+          "id": "judges_binding_somatic_lock",
+          "name": "Somatic Lock",
+          "description": "Cannot cast spells with somatic components while staked.",
+          "mechanicsText": "Somatic spells disabled for 2 rounds."
+        }
+      ],
+      "durationValue": 2,
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2782,7 +2861,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   {
     "id": "warden_penitents_fortress",
     "name": "Penitent's Fortress",
-    "description": "Draw upon the deep spiritual resilience of your penitent vows. Instantly cleanse all ongoing conditions and debuffs, gain temporary HP equal to 30% of your maximum HP, and force all enemies within 30ft to target you on their next turn.",
+    "description": "Draw on your penitent vows: cleanse all conditions and debuffs, gain temporary HP equal to 30% of max HP, and force all enemies within 30ft to target you next turn.",
     "level": 7,
     "spellType": "ACTION",
     "icon": "Defense/Unyielding Will",
@@ -2825,11 +2904,21 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
     "resolution": "NONE",
     "effectTypes": [
       "defense",
-      "cleanse"
+      "cleanse",
+      "buff"
     ],
     "buffConfig": {
-      "buffType": "temp_hp_and_taunt",
+      "buffType": "temporaryHP",
+      "effects": [
+        {
+          "id": "penitents_fortress_taunt",
+          "name": "Penitent's Bulwark",
+          "description": "Gain temporary HP equal to 30% of your maximum HP, and all enemies within 30ft must target you on their next turn.",
+          "mechanicsText": "Temp HP = 30% max HP; forced taunt within 30ft, 2 rounds."
+        }
+      ],
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2846,7 +2935,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   {
     "id": "warden_iron_cyclone",
     "name": "Iron Cyclone",
-    "description": "Spin your entire length of grafted chains into a roaring mechanical maelstrom across a 20ft radius. Deals 5d10 + Str slicing damage to all enemies inside, pulling every struck foe directly adjacent to you and knocking them prone.",
+    "description": "Spin your chains into a 20ft maelstrom: 5d10 + Str slicing to all enemies inside, pulling every struck foe adjacent to you and knocking them prone.",
     "level": 8,
     "spellType": "ACTION",
     "icon": "Combat/Chain Maelstrom",
@@ -2894,22 +2983,28 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       "verbalText": "None shall flee the cell!",
       "somaticText": "Unspool main chain harness into 360-degree rotation"
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "slicing",
-      "diceCount": 5,
-      "diceSides": 10,
-      "statModifier": "strength"
+      "formula": "5d10 + strength",
+      "damageTypes": ["slicing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "pull_and_prone",
-      "distance": 15,
+      "controlType": "forcedMovement",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "iron_cyclone_pull_prone",
+          "name": "Maelstrom Drag",
+          "description": "Every struck foe is pulled directly adjacent to you and knocked prone.",
+          "config": { "movementType": "pull", "distance": 15, "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -2926,7 +3021,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   {
     "id": "warden_shackles_of_the_condemned",
     "name": "Shackles of the Condemned",
-    "description": "Call down celestial cold-iron anchor chains that crash onto up to 3 enemies within 60ft. Deals 6d8 smashing damage and impales each target to the earth, leaving them paralyzed and incapacitated for 1 round.",
+    "description": "Call celestial cold-iron anchor chains onto up to 3 enemies within 60ft: 6d8 smashing, impaling each to the earth and leaving them paralyzed and incapacitated 1 round.",
     "level": 9,
     "spellType": "ACTION",
     "icon": "Combat/Divine Chains",
@@ -2971,21 +3066,29 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       "verbalText": "By ancient decree: hold!",
       "somaticText": "Thrust two heavy iron links toward the sky"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "SAVE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 6,
-      "diceSides": 8,
-      "statModifier": "strength"
+      "formula": "6d8 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "paralyzed",
+      "controlType": "incapacitation",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "shackles_impaled",
+          "name": "Impaled to Earth",
+          "description": "The target is impaled to the ground, paralyzed and incapacitated for 1 round.",
+          "config": { "duration": 1, "durationUnit": "rounds" }
+        }
+      ],
+      "savingThrow": { "ability": "spirit", "saveOutcome": "negates" }
     },
     "cooldownConfig": {
       "cooldownType": "encounter",
@@ -3001,7 +3104,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
   {
     "id": "warden_grand_inquisition_iron_maiden",
     "name": "Grand Inquisition: Iron Maiden",
-    "description": "Conjure a monumental, inescapable sarcophagus of rusted iron around a primary target within 30ft. Deals 8d10 + Str stabbing damage. If the target dies inside, all allies gain total damage immunity for 1 round from the spiritual backlash of containment.",
+    "description": "Conjure an inescapable rusted-iron sarcophagus around a target within 30ft: 8d10 + Str stabbing. If it dies inside, allies gain total damage immunity for 1 round.",
     "level": 10,
     "spellType": "ACTION",
     "icon": "Combat/Iron Maiden",
@@ -3046,21 +3149,28 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
       "verbalText": "The cell is sealed forever!",
       "somaticText": "Slam fists together as the iron doors snap shut"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "stabbing",
-      "diceCount": 8,
-      "diceSides": 10,
-      "statModifier": "strength"
+      "formula": "8d10 + strength",
+      "damageTypes": ["stabbing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "containment",
+      "controlType": "restraint",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "iron_maiden_containment",
+          "name": "Sealed In Iron",
+          "description": "The target is sealed inside the sarcophagus; if they die inside, allies gain total damage immunity for 1 round.",
+          "config": { "restraintType": "physical", "condition": "contained", "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "long_rest",

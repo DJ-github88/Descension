@@ -26,7 +26,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Cultivate Rot",
     icon: "Necrotic/Necrotic Rot 2",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Cultivate Rot",
@@ -36,7 +36,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["blight"],
@@ -54,7 +54,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Infinite Rooting",
     icon: "Nature/Root Network",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Infinite Rooting",
@@ -74,7 +74,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Dark Rejuvenation",
     icon: "Necrotic/Drain Soul",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Dark Rejuvenation",
@@ -97,7 +97,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Withering Siphon",
     icon: "Necrotic/Necrotic Wither 2",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "dh_t1_cultivate_rot",
     spell: {
       name: "Withering Siphon",
@@ -107,7 +107,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "channeled", castTimeValue: 3,
-      cooldownCategory: "short", cooldownValue: 12, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { virulence: { baseAmount: 2 } },
       damageTypes: ["blight"],
@@ -124,7 +124,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Necrotic Cyst",
     icon: "Necrotic/Necrotic Death 7",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "dh_t1_infinite_growth",
     spell: {
       name: "Necrotic Cyst",
@@ -148,7 +148,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Rupture Cyst",
     icon: "Poison/Poison Blight 3",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 4.5, y: 2 },
     requires: "dh_t2_withering_siphon",
     spell: {
       name: "Rupture Cyst",
@@ -158,7 +158,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 3 } },
       damageTypes: ["blight"],
@@ -175,7 +175,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Withering Atmosphere",
     icon: "Poison/Poison Plague",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "dh_t2_necrotic_burst",
     spell: {
       name: "Withering Atmosphere",
@@ -198,7 +198,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Organ Collapse",
     icon: "Necrotic/Necrotic Necrosis 3",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "dh_t3_rupture_cyst",
     spell: {
       name: "Organ Collapse",
@@ -208,7 +208,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 4 } },
       debuffs: ["crippled"], damageTypes: ["blight"],
@@ -224,7 +224,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Symbiotic Rot",
     icon: "Necrotic/Necrotic Decay 2",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "dh_t3_withering_aura",
     spell: {
       name: "Symbiotic Rot",
@@ -245,7 +245,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Miasmic Shroud",
     icon: "Necrotic/Empowering Aura",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "dh_t4_organ_collapse",
     spell: {
       name: "Miasmic Shroud",
@@ -255,14 +255,14 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 3 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["miasmic-shroud"], visualTheme: "poison", tags: ["defense", "retaliation", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Gain +4 Durability Steps to equipped durability, 6 Damage Reduction, and attackers in melee gain 3 Decay Stacks and take 2d8 blight damage.", cooldownValue: 24 }
+      { description: "Gain +4 Durability Steps to equipped durability, 6 Damage Reduction, and attackers in melee gain 3 Decay Stacks and take 2d8 blight damage.", cooldownValue: 4 }
     ]
   },
   {
@@ -270,7 +270,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Corpse Bloom",
     icon: "Necrotic/Necrotic Death 5",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1.5, y: 4 },
     requires: "dh_t4_vampiric_decay",
     spell: {
       name: "Corpse Bloom",
@@ -294,7 +294,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Apocalyptic Decay",
     icon: "Necrotic/Necrotic Decay 10",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "dh_t5_miasmic_shroud",
     spell: {
       name: "Apocalyptic Decay",
@@ -304,10 +304,10 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 5 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["apocalyptic-decay"], visualTheme: "poison", tags: ["empower", "aoe-stacks", "plaguebringer"]
     },
     rankUpgrades: []
@@ -338,7 +338,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Rot Memory",
     icon: "Necrotic/Death Mark",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 1, y: 5 },
     requires: "dh_t5_total_collapse",
     spell: {
       name: "Rot Memory",
@@ -359,7 +359,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "The Deep Garden",
     icon: "Necrotic/Necrotic Death 6",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "dh_t6_apocalyptic_decay",
     spell: {
       name: "The Deep Garden",
@@ -369,10 +369,10 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "2d10", flat: 0, procChance: 100 },
       debuffs: ["heartwood"], visualTheme: "poison", tags: ["ultimate", "capstone", "nuke", "plaguebringer"]
@@ -384,7 +384,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Peat-Heart Doctrine",
     icon: "Necrotic/Necrotic Wither",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "dh_t6_apocalyptic_decay",
     spell: {
       name: "Peat-Heart Doctrine",
@@ -427,7 +427,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Compost Engine",
     icon: "Utility/Three Explosive Holes",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "dh_t6_deep_rooted",
     spell: {
       name: "Compost Engine",
@@ -440,7 +440,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
       visualTheme: "poison", tags: ["passive", "capstone", "engine", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Stacked kills grant 6 Virulence, heal 4d8 health, and reduce Organ Collapse cooldown by 10s.", healing: { dice: "4d8", flat: 0 } },
+      { description: "Stacked kills grant 6 Virulence, heal 4d8 health, and reduce Organ Collapse cooldown by 2 rounds.", healing: { dice: "4d8", flat: 0 } },
       { description: "Stacked kills grant maximum Virulence, heal 6d8 health, and reset ALL decay ability cooldowns.", healing: { dice: "6d8", flat: 0 } }
     ]
   },
@@ -449,7 +449,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     name: "Eternal Gardener",
     icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "dh_t6_rot_memory",
     spell: {
       name: "Eternal Gardener",

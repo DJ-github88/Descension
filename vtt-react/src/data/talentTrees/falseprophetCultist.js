@@ -11,7 +11,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Profane Communion",
     icon: "Necrotic/Blood Book",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Profane Communion",
@@ -21,7 +21,7 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { health: { baseAmount: 5, costType: "flat" } },
       visualTheme: "shadow", tags: ["sacrifice", "madness", "falseprophet"]
@@ -46,10 +46,10 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       isDot: true, dotDuration: 6, dotTick: "1d6",
       debuffs: ["cursed"], visualTheme: "shadow", tags: ["curse", "dot", "falseprophet"]
@@ -64,7 +64,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Summon Silence Acolyte",
     icon: "Utility/Utility Gear",
     maxRanks: 2,
-    position: { x: 2.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Summon Silence Acolyte",
@@ -74,10 +74,10 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       visualTheme: "shadow", tags: ["summon", "acolyte", "falseprophet"]
     },
     rankUpgrades: [
@@ -90,7 +90,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Blood Offering",
     icon: "Healing/Prayer",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "cu_t1_profane_communion",
     spell: {
       name: "Blood Offering",
@@ -100,7 +100,7 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { health: { baseAmount: 7, costType: "dice" } },
       healing: { dice: "3d6", flat: 0 },
@@ -116,7 +116,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Pact of the Silence",
     icon: "Necrotic/Demonic Empowerment",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "cu_t1_summon_acolyte",
     spell: {
       name: "Pact of the Silence",
@@ -137,7 +137,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Ritual Empowerment",
     icon: "Necrotic/Empowering Aura",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "cu_t2_blood_offering",
     spell: {
       name: "Ritual Empowerment",
@@ -159,7 +159,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Congregation of the Silence",
     icon: "Utility/Utility Item",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "cu_t2_pact_of_the_silence",
     spell: {
       name: "Congregation of the Silence",
@@ -169,7 +169,7 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 20 }, madness: { baseAmount: 3 } },
       visualTheme: "shadow", tags: ["summon", "mass", "madness", "falseprophet"]
@@ -185,7 +185,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Shepherd of the Silence",
     icon: "General/Guard",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "cu_t3_ritual_empowerment",
     spell: {
       name: "Shepherd of the Silence",
@@ -205,7 +205,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Silence Priest",
     icon: "Utility/Utility Power",
     maxRanks: 2,
-    position: { x: 4, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "cu_t3_congregation_of_the_silence",
     spell: {
       name: "Silence Priest",
@@ -215,10 +215,10 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 25 }, madness: { baseAmount: 4 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       visualTheme: "shadow", tags: ["summon", "priest", "madness", "falseprophet"]
     },
     rankUpgrades: [
@@ -231,7 +231,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Channel the Silence God",
     icon: "Void/Hooded Red Energy Channeler",
     maxRanks: 3,
-    position: { x: 0, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "cu_t4_shepherd_of_the_silence",
     spell: {
       name: "Channel the Silence God",
@@ -251,7 +251,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Forbidden Scripture",
     icon: "Necrotic/Skull Tome Of Corruption",
     maxRanks: 2,
-    position: { x: 4, y: 4 },
+    position: { x: 2.5, y: 4 },
     requires: "cu_t4_silence_priest",
     spell: {
       name: "Forbidden Scripture",
@@ -271,7 +271,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Unholy Bloom",
     icon: "Necrotic/Skull Explosion",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "cu_t5_channel_the_silence_god",
     spell: {
       name: "Unholy Bloom",
@@ -289,7 +289,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Tithe Collector",
     icon: "Necrotic/Necrotic Wither",
     maxRanks: 2,
-    position: { x: 2, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "cu_t5_channel_the_silence_god",
     spell: {
       name: "Tithe Collector",
@@ -310,7 +310,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Dark Benediction",
     icon: "Necrotic/Necrotic Wither 10",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 2.5, y: 5 },
     requires: "cu_t5_forbidden_scripture",
     spell: {
       name: "Dark Benediction",
@@ -332,7 +332,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Invocation of the Silence God",
     icon: "Utility/Utility Effect",
     maxRanks: 1,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "cu_t6_unholy_bloom",
     spell: {
       name: "Invocation of the Silence God",
@@ -342,10 +342,10 @@ export const FALSE_PROPHET_CULTIST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 35 }, madness: { baseAmount: 4 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
       isDot: true, dotDuration: 3, dotTick: "4d6",
@@ -357,7 +357,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Liturgy of Depletion",
     icon: "Necrotic/Broken Skull Shackle",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 3.75, y: 6 },
     requires: "cu_t6_tithe_collector",
     spell: {
       name: "Liturgy of Depletion",
@@ -380,7 +380,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Eternal Torment",
     icon: "Necrotic/Haunting Skull",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "cu_t6_tithe_collector",
     spell: {
       name: "Eternal Torment",
@@ -401,7 +401,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Flock Eternal",
     icon: "Utility/Utility Tool",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "cu_t6_dark_benediction",
     spell: {
       name: "Flock Eternal",
@@ -421,7 +421,7 @@ export const FALSE_PROPHET_CULTIST = [
     name: "Mad Communion",
     icon: "Necrotic/Ritual of Blood",
     maxRanks: 3,
-    position: { x: 4, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "cu_t6_dark_benediction",
     spell: {
       name: "Mad Communion",

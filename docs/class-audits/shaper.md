@@ -76,3 +76,40 @@
 ## 6. Mind memory
 
 - `shaper-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 19 flagged / 10 errors. After: 0 errors / 0 non-verbosity
+warnings.**
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `shaper_anatomical_mimicry` | `utility` with no config | added biological-disguise utilityConfig |
+| `shaper_kinetic_glide` | `utility` with no config | added fall/glide movement utilityConfig |
+| `shaper_reactive_parry` | `buff` with no stats | added +4 Active Soak parry buffConfig |
+| `shaper_wall_claws` | no `effectTypes` | added `utility` + wall-climb utilityConfig |
+| `shaper_water_stride` | no `effectTypes` | added `utility` + liquid-stride utilityConfig |
+| `shaper_arterial_siphon` | `utility` with no config | added Body-Toll siphon utilityConfig |
+| `shaper_ataxic_maelstrom` | `utility` with no config | added dash-strike utilityConfig |
+| `shaper_convergence_avatar` | `buff` with no stats, thin transformation | added Titan Morphology buffConfig + `formName`/target on transformationConfig |
+| `shaper_primordial_cocoon` | buffConfig not gated | added `buff` to effectTypes |
+
+### Flavor / class-fit notes
+
+- Flux/Body-Toll economy reads consistently (`classResource:{type:"flux"}` + `bodyTollCost`);
+  form-requirement keys (`formRequirement`) present on the stance-gated spells. No rethemes
+  proposed.
+- `shaper_structural_fragility` is a fatal-flaw passive in the L1 pool — already tracked in the
+  class audit's pick-pool policy item.
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Shaper`: 0 errors
+- `audit:classes --class Shaper`: 0 integrity / 0 floor gaps / 0 warnings; `spell-qa` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+12 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

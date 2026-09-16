@@ -530,7 +530,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_lucky_strike",
       name: "Lucky Strike",
-      description: "Roll 4d12 bone dice before striking. Matching values dictate your strike's devastating power: 4 matching dice deal 4x damage, 3 matching deal 3x, and 2 matching deal 2x. All unique dice deal normal damage. Matches siphon 1, 2, or 3 Fortune, but your body pays the toll: suffer 1 immediate HP damage per Fortune gained.",
+      description: "Roll 4d12 bone dice before striking: 4 matches deal 4x damage, 3 deal 3x, 2 deal 2x, all unique normal. Matches siphon 1-3 Fortune; suffer 1 HP per Fortune gained.",
       level: 1,
       spellType: "ACTION",
       icon: "Slashing/Quick Slash",
@@ -589,7 +589,7 @@ You manipulate probability through a dual currency:
     },
     { id: "gambler_cut_the_deck",
       name: "Cut the Deck",
-      description: "Spend 2 Fortune to force an abrupt cut in probability: target enemy within 40ft must succeed on an Agility save (DC 14) or lose 1 Action Point on their next turn and suffer disadvantage on their next attack; allies within 15ft gain +10ft movement speed for 1 round.",
+      description: "Spend 2 Fortune: one enemy within 40ft makes an Agility save (DC 14) or loses 1 AP next turn and attacks at disadvantage; allies within 15ft gain +10ft speed for 1 round.",
       level: 3,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -660,7 +660,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_lucky_toss",
       name: "Lucky Toss",
-      description: "Flick a weighted steel coin. Heads: target takes 1d10 + spirit storm damage. Tails: the coin floats, granting the target a shimmering barrier absorbing 10 damage for 1 round. Generates 1 Fortune, inflicting 1 immediate HP damage as your body channels the debt.",
+      description: "Flick a weighted steel coin. Heads: 1d10 + spirit storm damage. Tails: a shimmering barrier absorbs 10 damage for 1 round. Generates 1 Fortune; you take 1 HP damage.",
       level: 1,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -853,7 +853,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_calculated_risk",
       name: "Calculated Risk",
-      description: "Every twist of probability has a price. When you spend Fortune to modify an active d20 roll, intense mental feedback tears through your concentration. You suffer 1d4 wyrd damage per Fortune spent. This damage cannot be reduced or prevented. Manipulating fate demands exertion.",
+      description: "Every probability twist has a price: when you spend Fortune to modify a d20 roll, suffer 1d4 wyrd damage per Fortune spent. This damage cannot be reduced or prevented.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Slashing/Viking Axes",
@@ -890,7 +890,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_house_edge",
       name: "House Edge",
-      description: "The cosmic house always wins in the long run. When you roll a natural 1 on any gambling-based roll (dice rolls, coin flips, card draws used for spell effects), the collector immediately seizes your assets. You lose all unspent Fortune and cannot generate new points until the start of your next turn.",
+      description: "Rolling a natural 1 on any gambling-based spell roll lets the collector seize your assets: lose all unspent Fortune and generate none until the start of your next turn.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Utility/Target Crosshair",
@@ -930,7 +930,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_coin_toss",
       name: "Coin Toss",
-      description: "Flip a heavy iron coin wreathed in probability energy. Heads: gain a +2 bonus to all attack rolls and saving throws for 1 hour. Tails: suffer a -2 penalty to all attack rolls and saving throws for 1 hour. Generates 1 Fortune. You can spend 1 Fortune (taking 1d4 wyrd damage) to force the coin to flip its result.",
+      description: "Flip a heavy iron coin. Heads: +2 to all attack rolls and saving throws for 1 hour. Tails: -2 for 1 hour. Generates 1 Fortune. Spend 1 Fortune (1d4 wyrd) to force a flip.",
       level: 2,
       spellType: "ACTION",
       icon: "Social/Golden Crown",
@@ -1013,7 +1013,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_insight",
       name: "Gambler's Insight",
-      description: "Your heightened, probability-tuned senses lock onto a target. Read their microscopically subtle tells, siphoning their luck. You gain advantage on all Insight and Perception checks against them for 10 minutes. Generates 1 Fortune.",
+      description: "Your probability-tuned senses lock onto a target, reading their tells: advantage on Insight and Perception checks against them for 10 minutes. Generates 1 Fortune.",
       level: 2,
       spellType: "ACTION",
       icon: "Psychic/Focused Mind",
@@ -1069,7 +1069,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_fools_gold",
       name: "Fool's Gold",
-      description: "Reach into the empty silence of your pockets and pull out a shimmering pile of coins, jewels, or cards (up to 100gp in value). The wealth is a temporary mathematical illusion; it dissolves into cold, grey ash in 1 hour or instantly if touched by Wyrd-warded steel. Siphons 1 Fortune.",
+      description: "Pull a shimmering pile of coins, jewels, or cards (up to 100gp) from empty pockets. It is a mathematical illusion, dissolving to grey ash in 1 hour or on Wyrd-warded steel. Siphons 1 Fortune.",
       level: 2,
       spellType: "ACTION",
       icon: "Utility/Alchemical Symbol",
@@ -1182,7 +1182,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_busted",
       name: "Busted",
-      description: "When you have 0 Fortune, you enter severe probability withdrawal. Your senses dim and your reflexes slow under the collector's gaze. You have disadvantage on all gambling-based resolution rolls (dice rolls, coin flips, card draws used for spell effects) until you bank at least 1 Fortune.",
+      description: "At 0 Fortune you enter probability withdrawal: disadvantage on all gambling-based resolution rolls (dice, coins, cards used for spell effects) until you bank at least 1 Fortune.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Exhausted",
@@ -1222,7 +1222,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_double_or_nothing",
       name: "Double or Nothing",
-      description: "Make an all-or-nothing gamble on your physical limits. Make a Unified Strike roll against an enemy. On a hit: it becomes an automatic critical hit dealing double damage (4d10 + spirit force). On a miss: you suffer the kinetic recoil yourself, taking the damage instead. If this reduces you to 0 HP, you immediately plunge into Cosmic Bankruptcy. Spend Fortune to nudge the strike roll (1d4 wyrd damage per point spent).",
+      description: "All-or-nothing strike: a hit is an automatic critical for double damage (4d10 + spirit); a miss deals that damage to you. Hitting 0 HP is Cosmic Bankruptcy. Spend Fortune (1d4 wyrd each) to nudge.",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Empowered Warrior",
@@ -1289,7 +1289,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_hot_streak",
       name: "Hot Streak",
-      description: "Let the probability fever take hold. Spend 4 Fortune (taking 4d4 wyrd damage) to accelerate your stolen probability. For 1 round, each successful attack or spell cast grants a stacking +1d6 storm damage to your next strike, up to a maximum of 4 stacks. Each stack siphoned generates 1 FP.",
+      description: "Spend 4 Fortune (4d4 wyrd) to accelerate probability: for 1 round, each hit or cast stacks +1d6 storm on your next strike, max 4. Each stack siphoned generates 1 FP.",
       level: 5,
       spellType: "ACTION",
       icon: "Fire/Enveloping Fire",
@@ -1339,7 +1339,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_mirage_flip",
       name: "Mirage Flip",
-      description: "As a reaction when an attack lands on a target within 30ft, flip a probability-charged coin. Heads: double the damage dealt to the target. Tails: nullify the damage entirely, but suffer 2d6 wyrd damage as the probability shockwave rebounds through your concentration. Spend 1 FP (1d4 wyrd damage) to force heads.",
+      description: "Reaction when a hit lands within 30ft: flip a coin. Heads: double the damage. Tails: nullify it but take 2d6 wyrd. Spend 1 FP (1d4 wyrd) to force heads.",
       level: 5,
       spellType: "REACTION",
       icon: "Social/Camouflaged Creature Eyes",
@@ -1409,7 +1409,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_fate_reroll",
       name: "Fate Reroll",
-      description: "Pull the threads of probability with maximum exertion. Spend 4 Fortune (4d4 wyrd damage) to force all your d20 rolls this turn to be rolled with advantage. Taking this loan of luck leaves your nerves rattled; you have disadvantage on all saving throws until the start of your next turn.",
+      description: "Spend 4 Fortune (4d4 wyrd) to roll all your d20s this turn with advantage. The borrowed luck leaves you rattled: disadvantage on all saves until your next turn.",
       level: 5,
       spellType: "ACTION",
       icon: "Necrotic/Blood Book",
@@ -1475,7 +1475,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_house_advantage",
       name: "House Advantage",
-      description: "The cosmic house always wins. Siphon the luck of all nearby enemies. All enemies in a 20ft radius make a Spirit save (DC 16). On a fail, their probability is drained, giving them disadvantage on all attack rolls and saving throws for 3 rounds. Meanwhile, you gain advantage on all rolls for 3 rounds. Costs 5 Fortune (5d4 wyrd damage) to activate.",
+      description: "Siphon nearby luck: enemies within 20ft make a Spirit save (DC 16) or have disadvantage on attacks and saves for 3 rounds; you gain advantage on all rolls for 3 rounds. Costs 5 Fortune (5d4 wyrd).",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mind Roar",
@@ -1551,7 +1551,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_card_shark",
       name: "Card Shark",
-      description: "Draw a card from a deck of alchemically treated cards. Resolve based on the suit: Spades (deal 6d8 storm damage), Hearts (heal 5d8 HP), Diamonds (gain 30 damage shield for 1 minute), Clubs (target stunned for 2 rounds, Spirit DC 15 negates). Generates 1 Fortune.",
+      description: "Draw an alchemically treated card by suit: Spades 6d8 storm, Hearts heal 5d8, Diamonds 30 damage shield (1 min), Clubs stun 2 rounds (Spirit DC 15 negates). Generates 1 Fortune.",
       level: 6,
       spellType: "ACTION",
       icon: "Psychic/Mental Chaos",
@@ -1679,7 +1679,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_death_roll",
       name: "Death Roll",
-      description: "Force an enemy into a competitive match of Death Roll. Unwilling targets make a Spirit save (DC 15) to resist. You both take turns rolling a d20. The lower roll becomes the new ceiling. The first to roll over the current ceiling loses, taking 1-10d10 wyrd damage (winner's choice) and becoming stunned for 1 round. You may spend Fortune mid-game to stay under the ceiling (1d4 wyrd damage per FP spent).",
+      description: "Force a Death Roll: Spirit save (DC 15) resists. Alternate d20s; the lower roll sets the new ceiling. Rolling over it loses: 1-10d10 wyrd (winner picks) + stun 1 round. Spend Fortune to stay under.",
       level: 7,
       spellType: "ACTION",
       icon: "Necrotic/Demonic Empowerment",
@@ -1752,7 +1752,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_all_or_nothing",
       name: "All or Nothing",
-      description: "Flip a high-stakes coin wreathed in searing cosmic force. Heads: deal 12d6 storm damage to all enemies in a 30ft radius, and stun them for 1 round (Spirit DC 16 save negates). Tails: the spell backfires, dealing 6d6 storm damage to you. You may spend 1 Fortune (1d4 wyrd damage) to flip the result. Generates 3 FP on heads (inflicting 3 HP damage).",
+      description: "Flip a high-stakes coin. Heads: 12d6 storm to all enemies in 30ft, stun 1 round (Spirit DC 16 negates). Tails: 6d6 storm to you. Spend 1 Fortune (1d4 wyrd) to flip. Heads: 3 FP, 3 HP.",
       level: 7,
       spellType: "ACTION",
       icon: "Social/Careful Blunder",
@@ -1843,7 +1843,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_jackpot",
       name: "Jackpot",
-      description: "Roll 3d20 bone dice. The sum of the roll determines your tier of fortune: 3 (Catastrophic: take 5d10 blight damage, go Bust), 4-12 (Bad Luck: take 2d6 storm damage, gain 1 FP), 13-25 (Small Win: deal 2d10 storm damage, gain 1 FP), 26-38 (Moderate Win: deal 4d10 storm damage and stun for 1 round, gain 1 FP), 39-48 (Big Win: deal 6d10 storm damage and stun for 2 rounds, gain 2 FP), 49-55 (Massive Win: deal 8d10 ember damage AoE, gain 2 FP), 56-59 (Near Jackpot: deal 10d10 ember damage AoE, heal 30 HP, gain 3 FP), 60 (Perfect Jackpot: deal 10d10 ember damage AoE, max damage on all attacks for 1 hour, gain 5 FP). Spend FP to adjust individual dice by Â±1 per point (1d4 wyrd damage per FP spent).",
+      description: "Roll 3d20: 3 = 5d10 blight + Bust; 4-25 = 2-3d10 storm, 1 FP; 26-48 = 4-6d10 + stun, 1-2 FP; 49-59 = 8-10d10 ember AoE, 2-3 FP; 60 = max damage 1h + 5 FP. Spend FP to shift a die ±1 (1d4 wyrd each).",
       level: 8,
       spellType: "ACTION",
       icon: "Bludgeoning/Bonk",
@@ -1911,7 +1911,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_weighted_dice",
       name: "Weighted Dice",
-      description: "Cheat the cosmos entirely. Deal 14d6 storm damage to a target. For each Fortune spent (up to 7), you may treat one d6 as an automatic 6. Spend 7 FP and half your dice are guaranteed maximum. This is pure, unmitigated theft of chance, because the best gamblers know when to cheat. Spend triggers Calculated Risk (1d4 wyrd damage per point spent).",
+      description: "Cheat the cosmos: deal 14d6 storm damage. For each Fortune spent (up to 7), treat one d6 as an automatic 6. Spend triggers Calculated Risk (1d4 wyrd per point).",
       level: 8,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -1958,7 +1958,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_high_roller",
       name: "High Roller",
-      description: "Wager everything on a single throw. Roll a d20. On a 15+, deal 18d6 + spirit storm damage to a single enemy. On a 6-14, deal half damage. On a 1-5, the probability violently backfires, dealing the full 18d6 + spirit storm damage to yourself. Spend Fortune to adjust the roll (1d4 wyrd damage per point spent).",
+      description: "Wager everything on one throw. d20: 15+ deals 18d6 + spirit storm; 6-14 half; 1-5 the full damage backfires on you. Spend Fortune (1d4 wyrd each) to adjust the roll.",
       level: 9,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -2028,7 +2028,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_jackpot_surge",
       name: "Jackpot Surge",
-      description: "Pull the lever of probability. Roll 3d6. Deal 16d6 + spirit storm damage to all enemies in a 25ft radius (Agility DC 19 save for half). If you roll a pair of matching numbers, the damage is doubled. If you roll three-of-a-kind, it is quadrupled. Generates 5 FP on a triple, 3 FP on a pair, and 1 FP on no match .",
+      description: "Pull probability's lever: roll 3d6 and deal 16d6 + spirit storm to all in 25ft (Agility DC 19 half). A pair doubles the damage, three-of-a-kind quadruples it. FP: triple 5, pair 3, none 1.",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Radiant Glow",
@@ -2089,7 +2089,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_fortune_reversal",
       name: "Fortune Reversal",
-      description: "A terrifying swap of probability and vitality. Flip a coin. Heads: swap your current HP percentage with a target enemy's HP percentage. Tails: the swap fails, but you learn their current and max HP and gain advantage on your next attack against them. You can spend 1 Fortune (1d4 wyrd damage) to force the coin to flip its result.",
+      description: "Flip a coin. Heads: swap your HP percentage with a target enemy's. Tails: learn their current/max HP and gain advantage on your next attack. Spend 1 Fortune (1d4 wyrd) to force a flip.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -2146,7 +2146,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "gambler_all_in",
       name: "All-In",
-      description: "Wager your entire physical existence on a single d100 roll. Each Fortune spent (up to 10) shrinks the death window by 1%. At 0 FP spent: 1-50 (double your current HP), 51-90 (heal to full HP), 91-100 (drop to 0 HP and immediately plunge into Cosmic Bankruptcy). At 10 FP spent, the death window is eliminated entirely. Suffer Calculated Risk wyrd damage for each FP spent.",
+      description: "Wager existence on a d100. Fortune spent (max 10) shrinks the death window 1% each: 1-50 double HP, 51-90 full heal, 91-100 drop to 0 + Cosmic Bankruptcy; 10 FP removes it. Calc Risk applies.",
       level: 10,
       spellType: "ACTION",
       icon: "Social/Dice Roll",
@@ -2204,7 +2204,7 @@ You manipulate probability through a dual currency:
 
     { id: "gambler_divine_jackpot",
       name: "Fated Jackpot",
-      description: "Flip a coin wreathed in searing cosmic energy. Heads: deal 20d6 storm damage to all enemies in a 60ft radius. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Tails: your systems overload and you take 20d6 storm damage, but you survive at 1 HP with advantage on all rolls for 1 round. You may spend 1 Fortune (1d4 wyrd damage) to flip the coin result.",
+      description: "Flip a cosmic coin. Heads: 20d6 storm in 60ft; foes under 50% HP make Spirit DC 20 or stun 2 rounds. Tails: take 20d6, survive at 1 HP, advantage 1 round. Spend 1 Fortune to flip.",
       level: 10,
       spellType: "ACTION",
       icon: "Radiant/Divine Blessing",
@@ -2348,7 +2348,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "hand-of-fate",
       name: "Arcane Dirge",
-      description: "Draw 5 cards to form a poker hand. You may discard and redraw up to twice. Hand strength determines damage dealt, but the intense warping of probability inflicts escalating Karmic Debt. You may spend 2 debt to call a specific card from your deck (once per turn).",
+      description: "Draw 5 cards into a poker hand; discard and redraw up to twice. Hand strength sets damage; warping probability adds Karmic Debt. Spend 2 debt to call a specific card (once per turn).",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Skull",
@@ -2413,7 +2413,7 @@ You manipulate probability through a dual currency:
 
     { id: "war-of-wills",
       name: "Duel of Wills",
-      description: "Draw 1 card and force your target to draw 1 as well. If your card's value is higher, you inflict wyrd overload on their nervous system. If your card's value is lower, you absorb the wyrd feedback, taking damage and gaining 1 Karmic Debt.",
+      description: "Draw 1 card and force your target to draw 1. A higher card overloads their nervous system with wyrd; a lower card feeds back into you as damage and 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Psychic/Brain Psionics",
@@ -2463,7 +2463,7 @@ You manipulate probability through a dual currency:
 
     { id: "echoes-of-the-past",
       name: "Echo of the Loom",
-      description: "Draw the residual memory of a severed timeline from your deck. You gain temporary proficiency in one skill or tool of your choice for 10 minutes. Bending timeline constraints to absorb these residual echoes inflicts 1 Karmic Debt.",
+      description: "Draw the residual memory of a severed timeline: temporary proficiency in one skill or tool for 10 minutes. Absorbing the echo inflicts 1 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Blood Scroll",
@@ -2513,7 +2513,7 @@ You manipulate probability through a dual currency:
 
     { id: "marked-card",
       name: "Fate Reserve",
-      description: "Focus your will and channel probability energy into your cards. Peek at the top 3 cards of your deck. You may 'bank' one card into your Fate Reserve (max 4 capacity) and draw the other two. Each override reaction expends a card from this reserve. Reshaping the deck's probability generates 2 Karmic Debt.",
+      description: "Channel probability into your deck: peek at the top 3 cards. Bank one card into your Fate Reserve (max 4) and draw the other two. Reserve cards fuel override reactions. Generates 2 Karmic Debt.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Blood Scroll",
@@ -2610,7 +2610,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_twist_probability",
       name: "Karmic Severance",
-      description: "As a reaction to a creature within 30 feet rolling a saving throw, you snap your fingers and sever their probability thread. Expend a banked card from your Fate Reserve to override their result. Face cards force an absolute failure on the target's save; numbered cards force a standard roll with a -5 penalty. Inflicts 1 Karmic Debt.",
+      description: "Reaction when a creature within 30ft rolls a save: expend a banked card to override it. Face cards force absolute failure; numbered cards force a -5 penalty to a standard roll. Inflicts 1 Karmic Debt.",
       level: 1,
       spellType: "REACTION",
       icon: "Necrotic/Severed Skeletal Hand",
@@ -2662,7 +2662,7 @@ You manipulate probability through a dual currency:
 
     { id: "tapestry-shred",
       name: "Wyrd Shred",
-      description: "Sever the threads of time in response to an action. Consume an active card from your Fate Reserve to force an immediate d20 roll override on any creature within 60 feet. The target's active d20 roll is replaced by the banked card's hard-coded value: Aces count as 18, Kings as 17, Queens as 16, Jacks as 15, and numbered cards map to their exact face value. Inflicts 2 Karmic Debt as the timeline violently shifts.",
+      description: "Reaction: consume a Fate Reserve card to force a d20 override on any creature within 60ft. Aces count 18, Kings 17, Queens 16, Jacks 15, numbered cards their face value. Inflicts 2 Karmic Debt.",
       level: 1,
       spellType: "REACTION",
       icon: "Utility/Rewind Time",
@@ -2760,7 +2760,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_fortune_favor",
       name: "Fortune's Favor",
-      description: "Draw 1 card to grant an ally a protective ward. The suit of the drawn card dictates the blessing: Hearts grants 2d8 temporary HP, Diamonds grants +3 to all saving throws, Spades grants +15 ft movement speed, and Clubs grants +2 to physical attack rolls. Duration is 3 rounds. Inflicts 1 Karmic Debt.",
+      description: "Draw 1 card to ward an ally by suit: Hearts 2d8 temp HP, Diamonds +3 saves, Spades +15ft speed, Clubs +2 physical attack rolls. Lasts 3 rounds. Inflicts 1 Karmic Debt.",
       level: 2,
       spellType: "ACTION",
       icon: "Radiant/Radiant Golden Shield",
@@ -2815,7 +2815,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "draw-of-the-damned",
       name: "Arcane Blackjack",
-      description: "Force an enemy into a contest of probability. Draw cards trying to get as close to 21 as possible. Each drawn card deals 1d10 blight damage to the target. You may 'hit' up to 4 times. If your total exceeds 21, you bust: the target takes no further damage, you take 4d10 blight damage yourself, and you gain 3 Karmic Debt.",
+      description: "Force a game of 21: each drawn card deals 1d10 blight to the target (hit up to 4 times). Busting over 21 stops the damage, deals 4d10 blight to you, and adds 3 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
       icon: "Bludgeoning/Cranium Crush",
@@ -2868,7 +2868,7 @@ You manipulate probability through a dual currency:
 
     { id: "echo-of-fate",
       name: "Sympathetic Link",
-      description: "Sever two probability threads and weave them together. Choose two creatures within 30 feet of each other. For the next 3 rounds, whenever the primary target takes damage, the bound target takes 50% of that damage as untreatable blight damage. Generating this link generates 2 Karmic Debt.",
+      description: "Sever and weave two probability threads: for 3 rounds, whenever the primary within 30ft takes damage, the bound target takes 50% as untreatable blight. Generates 2 Karmic Debt.",
       level: 3,
       spellType: "ACTION",
       icon: "Utility/Chained",
@@ -2924,7 +2924,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "solitaires-shield",
       name: "Solitaire Ward",
-      description: "Draw 4 cards and lay them in a defensive matrix around yourself. You gain temporary shield points equal to the total face value of the drawn cards (Kings/Queens/Jacks count as 10, Aces as 15, numbered as face value). If any card drawn is a Club, your DR is increased by 2 for the duration. Lasts 3 rounds. Generates 1 Karmic Debt.",
+      description: "Draw 4 cards into a defensive matrix: shield points equal to their total face value (K/Q/J = 10, Aces 15). A Club drawn also grants +2 DR. Lasts 3 rounds. Generates 1 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Bound Shield",
@@ -2974,7 +2974,7 @@ You manipulate probability through a dual currency:
 
     { id: "fates-exchange",
       name: "Karmic Displacement",
-      description: "Target two creatures within 60 feet. They must make a Spirit saving throw against your spell DC. On a failure, their physical positions are instantly swapped in space as you violently cross their probability threads. Succeeding targets are unaffected. This reality warping generates 2 Karmic Debt.",
+      description: "Target two creatures within 60ft: each makes a Spirit save against your spell DC. On a failure their positions instantly swap as you cross their probability threads. Generates 2 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
       icon: "Arcane/Open Portal",
@@ -3023,7 +3023,7 @@ You manipulate probability through a dual currency:
 
     { id: "destiny-bond",
       name: "Fate Binding",
-      description: "Project a strand of condensed probability energy to bind an enemy within 30 feet. For the next 3 rounds, 50% of all damage you receive is redirected to the bound enemy as blight damage. If you take damage, they must make a Spirit save or be pulled 10 feet closer to you. Weaving this bond generates 2 Karmic Debt.",
+      description: "Bind an enemy within 30ft for 3 rounds: 50% of damage you take redirects to them as blight; when you are hit they save (Spirit) or are pulled 10ft closer. Generates 2 Karmic Debt.",
       level: 4,
       spellType: "ACTION",
       icon: "Utility/Chained",
@@ -3080,7 +3080,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "fate_weaver_stacked_deck",
       name: "Stacked Deck",
-      description: "Focus your mind and rearrange the top 5 cards of your deck in any order you choose. This absolute manipulation allows you to predict your next outcomes perfectly. You may also exchange 1 card from your Fate Reserve with a card from these 5. Manipulating the future order generates 2 Karmic Debt.",
+      description: "Rearrange the top 5 cards of your deck in any order, predicting your next outcomes. You may exchange 1 Fate Reserve card with one of the 5. Generates 2 Karmic Debt.",
       level: 5,
       spellType: "ACTION",
       icon: "Psychic/Focused Mind",
@@ -3128,7 +3128,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_twist_fate",
       name: "Twisted Strands",
-      description: "As a reaction to a creature within 60 feet succeeding on an attack roll or saving throw, you violently twist their probability thread. Force them to reroll their action and take the worse result. This direct twisting generates 2 Karmic Debt as their success is torn from them.",
+      description: "Reaction when a creature within 60ft succeeds on an attack or save: twist their probability thread and force a reroll taking the worse result. Generates 2 Karmic Debt.",
       level: 5,
       spellType: "REACTION",
       icon: "Psychic/Puppet Control",
@@ -3345,7 +3345,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "fate_weaver_house_rules",
       name: "Sovereign Decrees",
-      description: "You stand as the House, dictating the physical laws of the battlefield. For 1 round, all d20 rolls made by allies within 30 feet of you automatically succeed if your banked card is higher than a 10. All d20 rolls made by enemies within 30 feet automatically fail if your banked card is lower than a 10. Imposing your absolute decrees generates 3 Karmic Debt.",
+      description: "For 1 round you are the House: allies within 30ft auto-succeed d20 rolls if your banked card is above 10, and enemies within 30ft auto-fail if it is below 10. Generates 3 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
       icon: "Utility/Overlords Command",
@@ -3466,7 +3466,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_destiny_rewritten",
       name: "Destiny Rewritten",
-      description: "Target an active status effect on a creature. Choose one active buff or debuff on any target within 60 feet. Draw 1 card. If the card is a face card or Ace, you double the remaining duration of that effect. If it is a numbered card, you immediately end the effect. Rewriting a status duration generates 2 Karmic Debt.",
+      description: "Choose one active buff or debuff within 60ft and draw 1 card: a face card or Ace doubles the remaining duration, a numbered card ends the effect. Generates 2 Karmic Debt.",
       level: 7,
       spellType: "ACTION",
       icon: "Arcane/Sands of Time",
@@ -3566,7 +3566,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_fate_sealed",
       name: "Fate Sealed",
-      description: "Seal the target's probability anchor. Choose an enemy within 60 feet. They must make a Spirit saving throw against your spell DC. On a failure, they are marked for immediate execution: for the next 3 rounds, any attack roll made against them is a guaranteed critical hit. The strain of sealing this absolute doom generates 4 Karmic Debt.",
+      description: "Seal an enemy within 60ft: Spirit save against your spell DC or they are marked for execution, every attack against them a guaranteed critical for 3 rounds. Generates 4 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Grim Reaper",
@@ -3620,7 +3620,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_fates_wager",
       name: "Karmic Wager",
-      description: "Wager your own stability for amplification. Draw 1 card. If it is a face card or Ace, your next spell within 1 round deals triple damage and costs 0 AP. If it is a numbered card, your next spell deals double damage, but you take the exact same damage yourself. Drawing this wager generates 2 Karmic Debt.",
+      description: "Draw 1 card to amplify: a face card or Ace makes your next spell within 1 round deal triple damage at 0 AP; a numbered card doubles it but deals the same damage to you. Generates 2 Karmic Debt.",
       level: 8,
       spellType: "ACTION",
       icon: "Necrotic/Ritual",
@@ -3675,7 +3675,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "fate_weaver_grand_gambit",
       name: "Grand Gambit",
-      description: "Initiate a competitive card draw with every enemy within 40 feet. Draw 1 card for each enemy, and 1 for yourself. If your card is higher than the enemy's, they are instantly reduced to 1 HP. If your card is lower, they are fully healed and gain +2 DR for 1 minute. Ties inflict no effect but generate 1 debt. Generates 3 baseline debt.",
+      description: "Card duel every enemy within 40ft: draw 1 for each and 1 for you. A higher card reduces them to 1 HP; lower fully heals them and grants +2 DR for 1 minute. Ties do nothing. Generates 3 Karmic Debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Necrotic/Skull Explosion",
@@ -3736,7 +3736,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_master_of_destiny",
       name: "Sovereign of Fate",
-      description: "Draw 13 cards into your Fate Reserve as an absolute Throne. For 1 minute, you may spend 1 Karmic Debt to override any creature's die roll with a card from this Throne: Face cards convert to 20, Aces to 1 or 20, and numbered cards to their exact face value. Generates 3 Karmic Debt baseline.",
+      description: "Draw 13 cards into an absolute Throne (1 minute). Spend 1 Karmic Debt to override any die roll with a card: faces = 20, Aces = 1 or 20, numbers = face value. Generates 3 Karmic Debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Divine Illumination",
@@ -3789,7 +3789,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_jackpot_supreme",
       name: "Karmic Rupture",
-      description: "Draw 3 cards and shatter them. Ranks dictate blight damage in a 30-foot circle: One Pair multiplies a 10d10 base damage by 3. Three of a kind multiplies damage by 7 and targets suffer 'Temporal Overload' (incapacitated and take 4d10 blight damage at start of turn for 1 round). No matches deal 10d10 base and inflict 3 debt.",
+      description: "Draw 3 and shatter them: a pair triples a 10d10 blight burst; three-of-a-kind multiplies by 7 and inflicts Temporal Overload (incapacitated, 4d10 blight/turn for 1 round). No match: 10d10 + 3 debt.",
       level: 9,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
@@ -3860,7 +3860,7 @@ You manipulate probability through a dual currency:
     // ========================================
     { id: "fate_weaver_rewrite_destiny",
       name: "Epitaph of Fate",
-      description: "Draw 13 cards and rearrange them to rewrite reality. All Face: target ally is immune to all damage and automatically succeeds on all rolls for 1 minute. Same Suit: target enemy is reduced to 1 HP and suffers Temporal Collapse (incapacitated and takes 5d10 blight damage each turn for 1 minute). Failure to form a pattern inflicts 5 Karmic Debt.",
+      description: "Draw 13 to rewrite reality. All Faces: an ally is damage-immune and auto-succeeds rolls for 1 minute. Same Suit: an enemy drops to 1 HP with Temporal Collapse (5d10 blight/turn). No pattern: 5 debt.",
       level: 10,
       spellType: "ACTION",
       icon: "Arcane/Rewind Time",
@@ -3932,7 +3932,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_deck_of_many_things",
       name: "Grim Deck of Fates",
-      description: "Summon a legendary deck of probability and draw 1-3 cards. Each card yields either a miraculous blessing or a catastrophic curse. Catastrophic cards immediately generate 3 Karmic Debt. You may spend 5 debt to redraw a curse.",
+      description: "Summon a legendary deck and draw 1-3 cards, each a miraculous blessing or catastrophic curse. Curses immediately generate 3 Karmic Debt; spend 5 debt to redraw one.",
       level: 10,
       spellType: "ACTION",
       icon: "Necrotic/Skull Tome Of Corruption",
@@ -3989,7 +3989,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_casino_royale",
       name: "The Grand Theater",
-      description: "Transform the battlefield into a probability theater in a 100-foot radius. Draw a card for every creature within: their suit determines their forced game: Hearts (Aether Wager), Spades (Duel of Wills), Diamonds (Blackjack), Clubs (Solitaire). You are the House, generating 2 Karmic Debt at the start of each of your turns.",
+      description: "Transform a 100ft radius into a probability theater: each creature draws a suit (Hearts Aether Wager, Spades Duel of Wills, Diamonds Blackjack, Clubs Solitaire). As the House, gain 2 debt each turn.",
       level: 10,
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Death",
@@ -4097,7 +4097,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_fates_wrath",
       name: "Karmic Strain",
-      description: "Every time you override a natural roll, force a destiny, or use the 'Call Card' ability, you accumulate 1 stack of Karmic Debt (max 13). Each stack of debt imposes +5% vulnerability to all damage types and deals 1d4 wyrd strain at the end of each round (untreatable by normal magic). Reaching 13 debt triggers immediate Wyrd Collapse, dealing 6d10 wyrd damage and incapacitating you for 1 round.",
+      description: "Overrides, forced destinies, and Call Card add 1 Karmic Debt (max 13). Each stack: +5% vulnerability and 1d4 wyrd strain per round. At 13, Wyrd Collapse deals 6d10 wyrd and incapacitates you 1 round.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -4135,7 +4135,7 @@ You manipulate probability through a dual currency:
 
     { id: "fate_weaver_empty_hand",
       name: "Unmoored Silence",
-      description: "When your Fate Reserve is empty and you have 0 Karmic Debt, your temporal anchor is dangerously unmoored. You have disadvantage on all saving throws and Dodge checks until you draw a card or gain 1 debt.",
+      description: "With an empty Fate Reserve and 0 Karmic Debt your temporal anchor is unmoored: disadvantage on all saving throws and Dodge checks until you draw a card or gain 1 debt.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Utility/Shattered Shield",
@@ -4170,7 +4170,7 @@ You manipulate probability through a dual currency:
       {
         "id": "fate-reading_loom",
         "name": "Reading of the Loom",
-        "description": "Weave thin, glowing ethereal threads between the fingers of two observed creatures. By observing the tension, colors, and vibrations of the threads, gain a deep insight into their relationship or trust.",
+        "description": "Weave glowing ethereal threads between the fingers of two observed creatures; reading their tension, colors, and vibration grants deep insight into their relationship or trust.",
         "level": 1,
         "spellType": "ACTION",
         "icon": "Arcane/Tangled Threads",
@@ -4239,7 +4239,7 @@ You manipulate probability through a dual currency:
       {
         "id": "gambler_odds_read",
         "name": "Odds-Read",
-        "description": "Read the probability landscape around a single planned action and see how the odds lay  —  if we go through that door, attack now, take this deal, lie to this guard. You receive a blunt likelihood for the most probable outcome: certain, likely, even-money, unlikely, or doomed. The threads will not tell you what to do, only where the weight of chance currently rests. Out of combat.",
+        "description": "Read the probability around one planned action (open that door, attack now, take the deal, lie to the guard). Learn a blunt likelihood: certain, likely, even-money, unlikely, or doomed. Out of combat.",
         "level": 2,
         "spellType": "ACTION",
         "icon": "Utility/All Seeing Eye",

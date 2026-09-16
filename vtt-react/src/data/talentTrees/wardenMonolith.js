@@ -22,7 +22,7 @@ export const WARDEN_MONOLITH = [
     name: "Ossified Anchor",
     icon: "Necrotic/Skeletal Bone Armor",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Ossified Anchor",
@@ -42,7 +42,7 @@ export const WARDEN_MONOLITH = [
     name: "Deep Roots",
     icon: "Nature/Gnarled Roots",
     maxRanks: 2,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Deep Roots",
@@ -61,7 +61,7 @@ export const WARDEN_MONOLITH = [
     name: "Chain Weight",
     icon: "Bludgeoning/Swinging Hammer",
     maxRanks: 3,
-    position: { x: 3, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Chain Weight",
@@ -72,7 +72,7 @@ export const WARDEN_MONOLITH = [
       actionPoints: 1,
       targetingMode: "single", rangeType: "melee", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 1 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
@@ -90,7 +90,7 @@ export const WARDEN_MONOLITH = [
     name: "Iron Brace",
     icon: "General/Defend",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "wm_t1_ossified_anchor",
     spell: {
       name: "Iron Brace",
@@ -102,7 +102,7 @@ export const WARDEN_MONOLITH = [
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "reaction", castTimeValue: 1,
       reactionTrigger: "When targeted by an attack",
-      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 1 } },
       visualTheme: "iron", tags: ["reaction", "defense", "dr", "vp-gain", "warden"]
     },
@@ -116,7 +116,7 @@ export const WARDEN_MONOLITH = [
     name: "Sweeping Chains",
     icon: "Force/Wave Sweep",
     maxRanks: 3,
-    position: { x: 2, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "wm_t1_weight_of_iron",
     spell: {
       name: "Sweeping Chains",
@@ -127,7 +127,7 @@ export const WARDEN_MONOLITH = [
       actionPoints: 2,
       targetingMode: "cone", rangeType: "cone", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 2 } },
       saveType: "reflex",
       damageTypes: ["smashing"],
@@ -146,7 +146,7 @@ export const WARDEN_MONOLITH = [
     name: "Gravitational Lock",
     icon: "Force/Force Field",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "wm_t2_iron_brace",
     spell: {
       name: "Gravitational Lock",
@@ -166,7 +166,7 @@ export const WARDEN_MONOLITH = [
     name: "Penitent Resolve",
     icon: "General/Bolster",
     maxRanks: 2,
-    position: { x: 2, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "wm_t2_sweeping_chains",
     spell: {
       name: "Penitent Resolve",
@@ -177,13 +177,13 @@ export const WARDEN_MONOLITH = [
       actionPoints: 1,
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "round",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 2 } },
-      durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "round" },
+      durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "rounds" },
       visualTheme: "iron", tags: ["stance", "defense", "vp-cost", "penitent", "warden"]
     },
     rankUpgrades: [
-      { description: "Duration increases to 2 rounds.", durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "round" } }
+      { description: "Duration increases to 2 rounds.", durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "rounds" } }
     ]
   },
 
@@ -193,7 +193,7 @@ export const WARDEN_MONOLITH = [
     name: "Cruel Drag",
     icon: "Bludgeoning/Comet Strike",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "wm_t3_gravitational_lock",
     spell: {
       name: "Cruel Drag",
@@ -204,7 +204,7 @@ export const WARDEN_MONOLITH = [
       actionPoints: 2,
       targetingMode: "single", rangeType: "ranged", range: 60, targetRestrictions: ["tethered-enemy"],
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "round",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 3 } },
       saveType: "fortitude",
       damageTypes: ["smashing"],
@@ -221,7 +221,7 @@ export const WARDEN_MONOLITH = [
     name: "Enduring Bulwark",
     icon: "General/Guard",
     maxRanks: 2,
-    position: { x: 2, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "wm_t3_penitent_resolve",
     spell: {
       name: "Enduring Bulwark",
@@ -232,9 +232,9 @@ export const WARDEN_MONOLITH = [
       actionPoints: 1,
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 1 } },
-      durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "round" },
+      durationConfig: { durationType: "rounds", durationValue: 1, durationUnit: "rounds" },
       visualTheme: "iron", tags: ["defense", "resistance", "smashing", "plant", "warden"]
     },
     rankUpgrades: [
@@ -248,7 +248,7 @@ export const WARDEN_MONOLITH = [
     name: "Entangling Field",
     icon: "Nature/Webbed Slow",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "wm_t4_enduring_bulwark",
     spell: {
       name: "Entangling Field",
@@ -269,7 +269,7 @@ export const WARDEN_MONOLITH = [
     name: "Iron Gaol",
     icon: "Force/Force Tied",
     maxRanks: 3,
-    position: { x: 2, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "wm_t4_cruel_drag",
     spell: {
       name: "Iron Gaol",
@@ -280,14 +280,14 @@ export const WARDEN_MONOLITH = [
       actionPoints: 3,
       targetingMode: "single", rangeType: "ranged", range: 30, targetRestrictions: ["enemy"],
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "round",
+      cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 6 } },
-      durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "round" },
+      durationConfig: { durationType: "rounds", durationValue: 2, durationUnit: "rounds" },
       saveType: "spirit",
       visualTheme: "iron", tags: ["control", "cage", "teleport-block", "vp-cost", "signature", "warden"]
     },
     rankUpgrades: [
-      { description: "Cage duration increases to 3 rounds.", durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "round" } },
+      { description: "Cage duration increases to 3 rounds.", durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "rounds" } },
       { description: "Bonus damage against caged creatures increases to +2d6 and caged creatures cannot take reactions." }
     ]
   },
@@ -298,7 +298,7 @@ export const WARDEN_MONOLITH = [
     name: "Unbreakable Mass",
     icon: "Necrotic/Petrify Entity",
     maxRanks: 3,
-    position: { x: 1, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "wm_t5_entangling_field",
     spell: {
       name: "Unbreakable Mass",
@@ -318,7 +318,7 @@ export const WARDEN_MONOLITH = [
     name: "Chokepoint Doctrine",
     icon: "General/Cover",
     maxRanks: 2,
-    position: { x: 2, y: 5 },
+    position: { x: 2.5, y: 5 },
     requires: "wm_t5_entangling_field",
     spell: {
       name: "Chokepoint Doctrine",
@@ -338,7 +338,7 @@ export const WARDEN_MONOLITH = [
     name: "Colossal Slam",
     icon: "Bludgeoning/Stomp",
     maxRanks: 3,
-    position: { x: 3, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "wm_t5_iron_gaol",
     spell: {
       name: "Colossal Slam",
@@ -349,7 +349,7 @@ export const WARDEN_MONOLITH = [
       actionPoints: 3,
       targetingMode: "aoe", rangeType: "self-centered", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 4, cooldownUnit: "round",
+      cooldownCategory: "long", cooldownValue: 4, cooldownUnit: "rounds",
       resourceCosts: { vengeance: { baseAmount: 4 } },
       saveType: "reflex",
       damageTypes: ["smashing"],
@@ -368,7 +368,7 @@ export const WARDEN_MONOLITH = [
     name: "Avatar of the Monolith",
     icon: "Necrotic/Enlargen",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "wm_t6_unbreakable_mass",
     spell: {
       name: "Avatar of the Monolith",
@@ -381,7 +381,7 @@ export const WARDEN_MONOLITH = [
       castTimeType: "instant", castTimeValue: 0,
       cooldownCategory: "once_per_combat", cooldownValue: 1, cooldownUnit: "combat",
       resourceCosts: { vengeance: { baseAmount: 8 } },
-      durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "round" },
+      durationConfig: { durationType: "rounds", durationValue: 3, durationUnit: "rounds" },
       visualTheme: "iron", tags: ["capstone", "transformation", "immunity", "interception", "vp-cost", "signature", "warden"]
     },
     rankUpgrades: []
@@ -391,7 +391,7 @@ export const WARDEN_MONOLITH = [
     name: "Monolith Doctrine",
     icon: "General/Order",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.75, y: 6 },
     requires: "wm_t6_chokepoint_doctrine",
     spell: {
       name: "Monolith Doctrine",
@@ -432,7 +432,7 @@ export const WARDEN_MONOLITH = [
     name: "Judgment of Stillness",
     icon: "General/Command",
     maxRanks: 2,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "wm_t6_chokepoint_doctrine",
     spell: {
       name: "Judgment of Stillness",
@@ -454,7 +454,7 @@ export const WARDEN_MONOLITH = [
     name: "Immovable Soul",
     icon: "General/Inspiration",
     maxRanks: 2,
-    position: { x: 4.25, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "wm_t6_unbreakable_mass",
     spell: {
       name: "Immovable Soul",

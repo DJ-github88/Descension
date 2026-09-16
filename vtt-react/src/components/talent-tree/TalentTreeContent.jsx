@@ -131,6 +131,13 @@ const MAX_BOARD_WIDTH = 1000;   // desktop cap so the board does not stretch end
 const MIN_NODE_SIZE = 42;       // smallest tappable/legible node before we scroll instead
 const NODE_GAP = 10;            // minimum empty space between two neighbouring nodes
 
+// Cooldown unit label — the talent system is round-based; pluralize properly.
+const formatCooldownUnit = (value, unit) => {
+    const u = unit || 'rounds';
+    if (u === 'round' || u === 'rounds') return Number(value) === 1 ? 'round' : 'rounds';
+    return u;
+};
+
 // Format spell meta chips (AP, Resource, Range, CD, Reaction, Trigger)
 const renderSpellMetaChips = (spell) => {
     if (!spell) return null;
@@ -193,7 +200,7 @@ const renderSpellMetaChips = (spell) => {
             {!isPassive && spell.cooldownValue && (
                 <span className="talent-meta-chip chip-cd">
                     <i className="fas fa-clock"></i>
-                    <span>{spell.cooldownValue} {spell.cooldownUnit || 'Rds'} CD</span>
+                    <span>{spell.cooldownValue} {formatCooldownUnit(spell.cooldownValue, spell.cooldownUnit)} CD</span>
                 </span>
             )}
 
@@ -276,7 +283,71 @@ const getDynamicDescription = (talent, currentRank, readOnly = false) => {
     return <div className="talent-desc-container">{parts}</div>;
 };
 
+// Plain-text spell chip summary used by the copy/print build sheet
+const formatSpellChipsText = (spell) => {
+    if (!spell) return '';
+    const isReaction = spell.spellType === 'REACTION' || spell.actionType === 'reaction';
+    const isPassive = !isReaction && (spell.spellType === 'PASSIVE' || spell.actionType === 'passive');
+    const parts = [isReaction ? 'Reaction' : isPassive ? 'Passive' : 'Action'];
 
+    if (!isPassive) {
+        if (spell.actionPoints != null) parts.push(`${spell.actionPoints} AP`);
+        if (spell.resourceCosts) {
+            Object.entries(spell.resourceCosts).forEach(([key, val]) => {
+                if (val && val.baseAmount > 0) {
+                    parts.push(`${val.baseAmount} ${key.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+                }
+            });
+        }
+        if (spell.range) parts.push(spell.rangeType === 'melee' ? 'Melee (5 ft)' : `${spell.range} ft`);
+        if (spell.cooldownValue) parts.push(`${spell.cooldownValue} ${formatCooldownUnit(spell.cooldownValue, spell.cooldownUnit)} CD`);
+    }
+
+    return parts.join(' · ');
+};
+
+const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+/**
+ * Plain-text "at the table" summary of a character's learned talents.
+ * Used by Copy Build Text and the printable build sheet.
+ */
+export const buildBuildText = ({ trees = [], talents = {}, characterClass = '', level = 1, primarySpecialization = '' }) => {
+    const spent = trees.reduce(
+        (total, tree) => total + (tree.talents || []).reduce((sum, t) => sum + (talents[t.id] || 0), 0),
+        0
+    );
+    const available = Math.min((level || 1) * 5, 50);
+    const lines = [
+        `MYTHRILL BUILD — ${characterClass || 'Character'} (Level ${level || 1})`,
+        `Talent Points: ${spent}/${available}`
+    ];
+
+    const primary = trees.find((tree) => tree.id === primarySpecialization);
+    if (primary) lines.push(`Primary Specialization: ${primary.name}`);
+    lines.push('');
+
+    trees.forEach((tree) => {
+        const learned = (tree.talents || []).filter((t) => (talents[t.id] || 0) > 0);
+        if (learned.length === 0) return;
+        const treePoints = learned.reduce((sum, t) => sum + (talents[t.id] || 0), 0);
+        lines.push(`[${tree.name}] — ${treePoints} pts`);
+        learned.forEach((talent) => {
+            const rank = talents[talent.id] || 0;
+            const spell = resolveTalentSpell(talent, rank);
+            const chips = formatSpellChipsText(spell);
+            lines.push(`• ${talent.name} — Rank ${rank}/${talent.maxRanks || 1}${chips ? ` (${chips})` : ''}`);
+            if (spell?.description) lines.push(`  ${spell.description}`);
+        });
+        lines.push('');
+    });
+
+    return lines.join('\n').trim();
+};
 
 export const TalentTreeContent = ({
     customClass = null,
@@ -298,8 +369,38 @@ export const TalentTreeContent = ({
     const [hoveredTalentId, setHoveredTalentId] = useState(null);
     const [selectedTalentId, setSelectedTalentId] = useState(null);
     const [gridDims, setGridDims] = useState({ width: 440, height: 540 });
+    const [isTouchLayout, setIsTouchLayout] = useState(false);
+    const [helpOpen, setHelpOpen] = useState(() => {
+        try {
+            const stored = window.localStorage.getItem('mythrill:talentHelpOpen');
+            return stored === null ? true : stored === '1';
+        } catch {
+            return true;
+        }
+    });
+    const [copyState, setCopyState] = useState(null);
 
     const boardRef = useRef(null);
+
+    // Touch/narrow layouts inspect first and allocate from the sticky action bar;
+    // desktop keeps click-to-learn + right-click-refund.
+    useEffect(() => {
+        const mediaQuery = typeof window.matchMedia === 'function' ? window.matchMedia('(pointer: coarse)') : null;
+        const update = () => {
+            const coarse = mediaQuery ? mediaQuery.matches : false;
+            const narrow = typeof window.innerWidth === 'number' && window.innerWidth <= 768;
+            setIsTouchLayout(coarse || narrow);
+        };
+        update();
+        window.addEventListener('resize', update);
+        if (mediaQuery?.addEventListener) mediaQuery.addEventListener('change', update);
+        else if (mediaQuery?.addListener) mediaQuery.addListener(update);
+        return () => {
+            window.removeEventListener('resize', update);
+            if (mediaQuery?.removeEventListener) mediaQuery.removeEventListener('change', update);
+            else if (mediaQuery?.removeListener) mediaQuery.removeListener(update);
+        };
+    }, []);
 
     const activeTree = selectedTreeIndex !== null ? selectedTreeIndex : internalTree;
 
@@ -410,6 +511,17 @@ export const TalentTreeContent = ({
         saveLibraryToStorage(currentLib);
     };
 
+    // Prerequisite check shared by allocation and locked-node styling
+    const arePrerequisitesMet = (talent) => {
+        if (!talent.requires) return true;
+        const reqIds = Array.isArray(talent.requires) ? talent.requires : [talent.requires];
+        const isReqMet = (reqId) => {
+            const prereq = currentTree?.talents?.find(t => t.id === reqId);
+            return prereq && (talents[reqId] || 0) >= (prereq.maxRanks || 1);
+        };
+        return talent.requiresAll ? reqIds.every(isReqMet) : reqIds.some(isReqMet);
+    };
+
     // Validation to learn
     const canLearnTalent = (talent) => {
         if (pointsSpent >= availablePoints) return false;
@@ -419,20 +531,16 @@ export const TalentTreeContent = ({
         const requiredInTree = getRequiredPointsForTier(nodeTier);
         if (treePointsSpent < requiredInTree) return false;
 
-        if (!talent.requires) return true;
+        return arePrerequisitesMet(talent);
+    };
 
-        const reqIds = Array.isArray(talent.requires) ? talent.requires : [talent.requires];
-        if (talent.requiresAll) {
-            return reqIds.every(reqId => {
-                const prereq = currentTree?.talents?.find(t => t.id === reqId);
-                return prereq && (talents[reqId] || 0) >= (prereq.maxRanks || 1);
-            });
-        } else {
-            return reqIds.some(reqId => {
-                const prereq = currentTree?.talents?.find(t => t.id === reqId);
-                return prereq && (talents[reqId] || 0) >= (prereq.maxRanks || 1);
-            });
-        }
+    // A node is visually "locked" when it has no ranks and the tier gate or a
+    // prerequisite blocks it (distinct from simply being out of points).
+    const isNodeLocked = (talent) => {
+        if ((talents[talent.id] || 0) > 0) return false;
+        const nodeTier = getNodeTier(talent);
+        if (treePointsSpent < getRequiredPointsForTier(nodeTier)) return true;
+        return !arePrerequisitesMet(talent);
     };
 
     // Validation to unlearn
@@ -571,6 +679,110 @@ export const TalentTreeContent = ({
         useCharacterStore.getState().setPrimarySpecialization?.('');
     };
 
+    const toggleHelp = () => {
+        setHelpOpen((prev) => {
+            const next = !prev;
+            try {
+                window.localStorage.setItem('mythrill:talentHelpOpen', next ? '1' : '0');
+            } catch {
+                // Storage unavailable (private mode) — keep the in-memory state.
+            }
+            return next;
+        });
+    };
+
+    const buildSummaryText = () => buildBuildText({
+        trees,
+        talents,
+        characterClass,
+        level,
+        primarySpecialization
+    });
+
+    const handleCopyBuild = async () => {
+        const text = buildSummaryText();
+        try {
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const area = document.createElement('textarea');
+                area.value = text;
+                area.setAttribute('readonly', '');
+                area.style.position = 'fixed';
+                area.style.opacity = '0';
+                document.body.appendChild(area);
+                area.select();
+                document.execCommand('copy');
+                document.body.removeChild(area);
+            }
+            setCopyState('copied');
+        } catch {
+            setCopyState('error');
+        }
+        setTimeout(() => setCopyState(null), 2200);
+    };
+
+    const handlePrintBuild = () => {
+        const printWindow = window.open('', '_blank', 'width=820,height=920');
+        if (!printWindow) {
+            setCopyState('error');
+            setTimeout(() => setCopyState(null), 2200);
+            return;
+        }
+
+        const available = Math.min((level || 1) * 5, 50);
+        const spent = trees.reduce(
+            (total, tree) => total + (tree.talents || []).reduce((sum, t) => sum + (talents[t.id] || 0), 0),
+            0
+        );
+        const primary = trees.find((tree) => tree.id === primarySpecialization);
+
+        const treeSections = trees.map((tree) => {
+            const learned = (tree.talents || []).filter((t) => (talents[t.id] || 0) > 0);
+            if (learned.length === 0) return '';
+            const treePoints = learned.reduce((sum, t) => sum + (talents[t.id] || 0), 0);
+            const rows = learned.map((talent) => {
+                const rank = talents[talent.id] || 0;
+                const spell = resolveTalentSpell(talent, rank);
+                const chips = formatSpellChipsText(spell);
+                return `<div class="talent">
+                    <div class="talent-head"><span class="talent-name">${escapeHtml(talent.name)}</span>
+                    <span class="talent-rank">Rank ${rank}/${talent.maxRanks || 1}</span>
+                    ${chips ? `<span class="talent-chips">${escapeHtml(chips)}</span>` : ''}</div>
+                    ${spell?.description ? `<div class="talent-desc">${escapeHtml(spell.description)}</div>` : ''}
+                </div>`;
+            }).join('');
+            return `<section><h2>${escapeHtml(tree.name)} <span class="pts">${treePoints} pts</span></h2>${rows}</section>`;
+        }).join('');
+
+        const html = `<!doctype html><html><head><meta charset="utf-8" />
+<title>${escapeHtml(characterClass)} — Talent Build</title>
+<style>
+    body { font-family: Georgia, 'Times New Roman', serif; color: #111; margin: 26px; line-height: 1.45; }
+    h1 { font-size: 21px; margin: 0 0 2px; }
+    .meta { color: #444; font-size: 13px; margin-bottom: 14px; }
+    h2 { font-size: 15px; margin: 18px 0 8px; border-bottom: 1.5px solid #888; padding-bottom: 3px; }
+    h2 .pts { font-size: 12px; color: #666; font-weight: normal; }
+    .talent { margin: 0 0 10px; page-break-inside: avoid; }
+    .talent-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+    .talent-name { font-weight: bold; }
+    .talent-rank { font-size: 12px; color: #555; }
+    .talent-chips { font-size: 12px; color: #444; font-style: italic; }
+    .talent-desc { font-size: 13px; margin-top: 2px; }
+    .foot { margin-top: 18px; font-size: 11px; color: #777; border-top: 1px solid #ccc; padding-top: 6px; }
+</style></head><body>
+    <h1>${escapeHtml(characterClass)} — Talent Build</h1>
+    <div class="meta">Level ${level || 1} · Talent Points ${spent}/${available}${primary ? ` · Primary Specialization: ${escapeHtml(primary.name)}` : ''}</div>
+    ${treeSections}
+    <div class="foot">Mythrill VTT · generated build sheet</div>
+</body></html>`;
+
+        printWindow.document.write(html);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+    };
+
     const handleMouseEnter = (talent) => {
         setHoveredTalentId(talent.id);
     };
@@ -665,6 +877,9 @@ export const TalentTreeContent = ({
     // Determine inspector talent
     const inspectedTalent = currentTree?.talents?.find(t => t.id === (selectedTalentId || hoveredTalentId))
         || currentTree?.talents?.[0];
+    const selectedTalent = selectedTalentId
+        ? currentTree?.talents?.find(t => t.id === selectedTalentId) || null
+        : null;
     const inspectedRanks = inspectedTalent ? (talents[inspectedTalent.id] || 0) : 0;
     const inspectedMaxed = inspectedTalent ? (inspectedRanks >= (inspectedTalent.maxRanks || 1)) : false;
     const inspectedCanLearn = inspectedTalent ? canLearnTalent(inspectedTalent) : false;
@@ -754,6 +969,40 @@ export const TalentTreeContent = ({
                                 </button>
                             </>
                         )}
+                        <button
+                            type="button"
+                            className={`talent-help-btn${helpOpen ? ' active' : ''}`}
+                            onClick={toggleHelp}
+                            aria-expanded={helpOpen}
+                            aria-label="How talents work"
+                            title="How talents work"
+                        >
+                            <i className="fas fa-question"></i>
+                            <span>How Talents Work</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {helpOpen && (
+                <div className="talent-help-panel" role="note">
+                    <div className="talent-help-row">
+                        <span className="talent-help-chip"><i className="fas fa-star"></i> 5 points per level · 50 total</span>
+                        <span className="talent-help-chip"><i className="fas fa-sitemap"></i> Max one tree, or split across trees (capstones need 30 in-tree)</span>
+                        <span className="talent-help-chip"><i className="fas fa-lock"></i> Tier T# unlocks after 5 × (T# − 1) points in that tree</span>
+                    </div>
+                    <div className="talent-help-row talent-help-legend">
+                        <span className="talent-help-legend-item"><i className="talent-help-swatch swatch-available"></i> Available</span>
+                        <span className="talent-help-legend-item"><i className="talent-help-swatch swatch-learned"></i> Learned</span>
+                        <span className="talent-help-legend-item"><i className="talent-help-swatch swatch-maxed"></i> Maxed</span>
+                        <span className="talent-help-legend-item"><i className="talent-help-swatch swatch-locked"></i> Locked</span>
+                        <span className="talent-help-legend-item"><i className="fas fa-arrow-right"></i> Prerequisite</span>
+                        {!readOnly && (
+                            <span className="talent-help-legend-item">
+                                <i className={isTouchLayout ? 'fas fa-hand-pointer' : 'fas fa-mouse-pointer'}></i>
+                                {isTouchLayout ? 'Tap a node to inspect, then Learn / Refund below' : 'Click to learn · Right-click to refund'}
+                            </span>
+                        )}
                     </div>
                 </div>
             )}
@@ -765,6 +1014,18 @@ export const TalentTreeContent = ({
                             <i className="fas fa-scroll"></i>
                             <h3>Chronicled Talents & Masteries</h3>
                             <p>{readOnly ? 'Complete reference of abilities and innate passive traits across all specializations.' : 'Herein lies the complete record of abilities and innate specialization passives unlocked through your progression.'}</p>
+                            {!readOnly && (
+                                <div className="talent-summary-actions">
+                                    <button type="button" className="talent-table-btn" onClick={handleCopyBuild}>
+                                        <i className="fas fa-copy"></i>
+                                        <span>{copyState === 'copied' ? 'Copied!' : 'Copy Build Text'}</span>
+                                    </button>
+                                    <button type="button" className="talent-table-btn" onClick={handlePrintBuild}>
+                                        <i className="fas fa-print"></i>
+                                        <span>Print Build Sheet</span>
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         {trees.map((tree, tIdx) => {
@@ -937,7 +1198,14 @@ export const TalentTreeContent = ({
                                     const isMaxed = curRanks >= (talent.maxRanks || 1);
                                     const canLearn = canLearnTalent(talent);
                                     const isLearnable = canLearn && !isMaxed;
+                                    const isLocked = isNodeLocked(talent);
                                     const isSelected = inspectedTalent?.id === talent.id;
+
+                                    const nodeTier = getNodeTier(talent);
+                                    const tierReqPoints = getRequiredPointsForTier(nodeTier);
+                                    const lockedTitle = treePointsSpent < tierReqPoints
+                                        ? `${talent.name} — locked: requires ${tierReqPoints} points spent in ${currentTree?.name || 'this tree'}`
+                                        : `${talent.name} — locked: complete its prerequisites first`;
 
                                     const { posX, posY } = getNodePos(talent.position?.x ?? 0, talent.position?.y ?? 0);
 
@@ -955,10 +1223,11 @@ export const TalentTreeContent = ({
                                         >
                                             <button
                                                 type="button"
-                                                className={`talent-node-btn talent-node-button ${curRanks > 0 ? 'learned' : ''} ${isMaxed ? 'maxed' : ''} ${isLearnable ? 'learnable' : ''} ${isSelected ? 'selected' : ''}`}
+                                                className={`talent-node-btn talent-node-button ${curRanks > 0 ? 'learned' : ''} ${isMaxed ? 'maxed' : ''} ${isLearnable ? 'learnable' : ''} ${isLocked ? 'locked' : ''} ${isSelected ? 'selected' : ''}`}
+                                                title={isLocked ? lockedTitle : `${talent.name} (${curRanks}/${talent.maxRanks || 1})`}
                                                 onClick={() => {
                                                     setSelectedTalentId(talent.id);
-                                                    if (!readOnly) {
+                                                    if (!readOnly && !isTouchLayout) {
                                                         handleTalentClick(talent.id, talent);
                                                     }
                                                 }}
@@ -970,15 +1239,17 @@ export const TalentTreeContent = ({
                                                 onMouseEnter={() => setHoveredTalentId(talent.id)}
                                                 onMouseLeave={() => setHoveredTalentId(null)}
                                             >
-                                                <img
-                                                    src={getIconUrl(talent.icon, 'abilities')}
-                                                    alt={talent.name}
-                                                    className="talent-node-icon"
-                                                    onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
-                                                />
+                                                <span className="talent-node-icon-box">
+                                                    <img
+                                                        src={getIconUrl(talent.icon, 'abilities')}
+                                                        alt={talent.name}
+                                                        className="talent-node-img"
+                                                        onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                                                    />
+                                                </span>
 
                                                 <span className={`talent-node-rank-badge ${isMaxed ? 'maxed' : curRanks > 0 ? 'learned' : ''}`}>
-                                                    {curRanks}/{talent.maxRanks || 1}
+                                                    {readOnly ? (talent.maxRanks || 1) : `${curRanks}/${talent.maxRanks || 1}`}
                                                 </span>
                                             </button>
                                         </div>
@@ -986,13 +1257,6 @@ export const TalentTreeContent = ({
                                 })}
                             </div>
                         </div>
-                    </div>
-
-                    {/* Split Book Spine */}
-                    <div className="talent-split-spine">
-                        <div className="talent-spine-stitch"></div>
-                        <div className="talent-spine-stitch"></div>
-                        <div className="talent-spine-stitch"></div>
                     </div>
 
                     <div className="talent-inspector-page">
@@ -1129,6 +1393,66 @@ export const TalentTreeContent = ({
                     </div>
                 </div>
             )}
+
+            {/* Touch allocation bar: inspect first, then allocate deliberately */}
+            {!readOnly && isTouchLayout && activeTree !== trees.length && selectedTalent && (() => {
+                const rank = talents[selectedTalent.id] || 0;
+                const maxRank = selectedTalent.maxRanks || 1;
+                const maxed = rank >= maxRank;
+                const canLearn = canLearnTalent(selectedTalent);
+                const unlearnCheck = canUnlearnTalent(selectedTalent.id);
+                const status = maxed ? 'Maxed' : canLearn ? 'Learnable' : isNodeLocked(selectedTalent) ? 'Locked' : '';
+
+                return (
+                    <div className="talent-touch-bar" role="toolbar" aria-label="Selected talent actions">
+                        <button
+                            type="button"
+                            className="talent-touch-bar__info"
+                            onClick={() => {
+                                const inspector = document.querySelector('.talent-inspector-page');
+                                inspector?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }}
+                            title="View full details"
+                        >
+                            <img
+                                src={getIconUrl(selectedTalent.icon, 'abilities')}
+                                alt=""
+                                className="talent-touch-bar__thumb"
+                                onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
+                            />
+                            <span className="talent-touch-bar__text">
+                                <span className="talent-touch-bar__name">{selectedTalent.name}</span>
+                                <span className="talent-touch-bar__sub">
+                                    Rank {rank} of {maxRank} · Tier {getNodeTier(selectedTalent)}
+                                    {status ? ` · ${status}` : ''}
+                                </span>
+                            </span>
+                        </button>
+                        <div className="talent-touch-bar__actions">
+                            <button
+                                type="button"
+                                className="talent-action-btn refund-btn"
+                                disabled={rank <= 0 || !unlearnCheck.canUnlearn}
+                                onClick={(e) => handleTalentRightClick(e, selectedTalent.id, selectedTalent)}
+                                title="Refund one rank"
+                            >
+                                <i className="fas fa-rotate-left"></i>
+                                <span>−1</span>
+                            </button>
+                            <button
+                                type="button"
+                                className="talent-action-btn learn-btn"
+                                disabled={maxed || !canLearn}
+                                onClick={() => handleTalentClick(selectedTalent.id, selectedTalent)}
+                                title="Learn one rank"
+                            >
+                                <i className="fas fa-plus-circle"></i>
+                                <span>+1</span>
+                            </button>
+                        </div>
+                    </div>
+                );
+            })()}
 
             {/* Error Popup */}
             {unlearnError && (

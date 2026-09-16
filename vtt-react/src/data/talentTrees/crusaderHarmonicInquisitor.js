@@ -13,7 +13,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Discordant Reprimand",
     icon: "Lightning/Lightning Strike",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Discordant Reprimand",
@@ -34,7 +34,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Chakram of Aex",
     icon: "Radiant/Chakra Circle",
     maxRanks: 3,
-    position: { x: 1.5, y: 0.5 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Chakram of Aex",
@@ -45,7 +45,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       actionPoints: 2, targetingMode: "line", rangeType: "ranged", range: 30,
       aoeShape: "line", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 4, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 5 } },
       damageTypes: ["sacred", "storm"],
@@ -63,7 +63,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Starlight Tuning",
     icon: "Lightning/Thunder Resonance",
     maxRanks: 2,
-    position: { x: 2.5, y: 0.5 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Starlight Tuning",
@@ -85,7 +85,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Starlight Bolt Reprimand",
     icon: "Lightning/Vertical Lightning",
     maxRanks: 3,
-    position: { x: 0.75, y: 2 },
+    position: { x: 1, y: 1 },
     requires: "chi_t1_discordant_strike",
     spell: {
       name: "Starlight Bolt Reprimand",
@@ -96,7 +96,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "reaction", castTimeValue: 1,
       reactionTrigger: "When an enemy within 30 ft begins casting a spell",
-      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 6 } },
       damageTypes: ["sacred", "storm"],
@@ -114,7 +114,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Refracting Chakram",
     icon: "Radiant/Multi Shot",
     maxRanks: 3,
-    position: { x: 3.25, y: 2 },
+    position: { x: 4, y: 1 },
     requires: "chi_t1_chakram_throw",
     spell: {
       name: "Refracting Chakram",
@@ -137,7 +137,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Null-Frequency Shroud",
     icon: "Force/Force Field",
     maxRanks: 3,
-    position: { x: 0.5, y: 3.5 },
+    position: { x: 1.5, y: 2 },
     requires: "chi_t2_spell_reprimand",
     spell: {
       name: "Null-Frequency Shroud",
@@ -158,7 +158,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Acoustic Severing",
     icon: "Force/Sonic Boom",
     maxRanks: 3,
-    position: { x: 3.5, y: 3.5 },
+    position: { x: 3.5, y: 2 },
     requires: "chi_t2_ricochet_blade",
     spell: {
       name: "Acoustic Severing",
@@ -181,7 +181,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Pillars of the Harmonic Vigil",
     icon: "Radiant/Divine Trio",
     maxRanks: 3,
-    position: { x: 0.75, y: 5 },
+    position: { x: 1.5, y: 3 },
     requires: "chi_t3_null_warding",
     spell: {
       name: "Pillars of the Harmonic Vigil",
@@ -192,7 +192,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       actionPoints: 2, targetingMode: "aoe", rangeType: "ranged", range: 45,
       aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 } },
       damageTypes: ["sacred", "storm"],
@@ -210,7 +210,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Reflective Resonance",
     icon: "Force/Absorb Energy",
     maxRanks: 2,
-    position: { x: 3.25, y: 5 },
+    position: { x: 4, y: 3 },
     requires: "chi_t3_acoustic_sever",
     spell: {
       name: "Reflective Resonance",
@@ -233,7 +233,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Supernova Surge",
     icon: "Force/Explosion Burst",
     maxRanks: 3,
-    position: { x: 1.25, y: 6.5 },
+    position: { x: 0.5, y: 4 },
     requires: "chi_t4_pillars_of_judgment",
     spell: {
       name: "Supernova Surge",
@@ -244,7 +244,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 7, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 9 } },
       damageTypes: ["sacred", "storm"],
@@ -262,7 +262,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Starlight Translocation",
     icon: "Lightning/Lightning Dash",
     maxRanks: 2,
-    position: { x: 2.75, y: 6.5 },
+    position: { x: 2, y: 4 },
     requires: "chi_t4_rebound_resonance",
     spell: {
       name: "Starlight Translocation",
@@ -272,7 +272,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       spellType: "ACTIVE", category: "utility",
       actionPoints: 1, targetingMode: "position", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       visualTheme: "holy", tags: ["mobility", "teleport", "tactical", "crusader"]
@@ -288,7 +288,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Total Mana Shatter",
     icon: "Lightning/Shock",
     maxRanks: 1,
-    position: { x: 1, y: 7 },
+    position: { x: 0, y: 5 },
     requires: "chi_t5_supernova_purge",
     spell: {
       name: "Total Mana Shatter",
@@ -298,7 +298,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 10 } },
       damageTypes: ["sacred", "storm"],
@@ -313,7 +313,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Harmonic Synchronicity",
     icon: "Lightning/Thunder",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 1, y: 5 },
     requires: ["chi_t5_supernova_purge", "chi_t5_inquisitor_mobility"],
     spell: {
       name: "Harmonic Synchronicity",
@@ -333,7 +333,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Grand Inquisitor's Verdict",
     icon: "Radiant/Enlightened Vision",
     maxRanks: 2,
-    position: { x: 3, y: 7 },
+    position: { x: 2, y: 5 },
     requires: "chi_t5_inquisitor_mobility",
     spell: {
       name: "Grand Inquisitor's Verdict",
@@ -356,7 +356,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Avatar of the Grand Inquisitor",
     icon: "Radiant/Divine Entity",
     maxRanks: 1,
-    position: { x: 2, y: 8 },
+    position: { x: 0.75, y: 6 },
     requires: "chi_t6_total_negation",
     spell: {
       name: "Avatar of the Grand Inquisitor",
@@ -379,7 +379,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Inquisitor Doctrine",
     icon: "Radiant/Meditating Enlightened",
     maxRanks: 5,
-    position: { x: 1, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "chi_t6_total_negation",
     spell: {
       name: "Inquisitor Doctrine",
@@ -403,7 +403,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Resonance Reservoir",
     icon: "Lightning/Lightning Sphere",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "chi_t6_harmonic_mastery",
     spell: {
       name: "Resonance Reservoir",
@@ -424,7 +424,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Chord of Final Resolution",
     icon: "Radiant/Golden Bell",
     maxRanks: 3,
-    position: { x: 3.5, y: 8 },
+    position: { x: 3.25, y: 6 },
     requires: "chi_t6_grand_verdict",
     spell: {
       name: "Chord of Final Resolution",
@@ -445,7 +445,7 @@ export const CRUSADER_HARMONIC_INQUISITOR = [
     name: "Unending Silence",
     icon: "General/Order",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "chi_t6_grand_verdict",
     spell: {
       name: "Unending Silence",

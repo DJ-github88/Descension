@@ -452,6 +452,18 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
       typeConfig: { school: "primal", icon: "General/Commune", tags: ["utility", "divination", "speak_with_dead", "animist"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5 },
       resourceCost: { actionPoints: 1, mana: 3 },
+      resolution: "NONE",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "divination",
+        selectedEffects: [
+          { id: "spirit_voice_commune", name: "Commune With The Dead", description: "Ask the spirits of ancestors or a corpse 3 questions about their death or local threats.", mechanicsText: "3 questions to spirits/corpse." }
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "minor"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility", "divination", "animist"]
     },
@@ -462,9 +474,21 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
       level: 2,
       spellType: "ACTION",
       icon: "Nature/Beast Mark",
+      effectTypes: ["utility"],
       typeConfig: { school: "primal", icon: "Nature/Beast Mark", tags: ["utility", "scout", "beast_sense", "animist"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, mana: 4 },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "perception",
+        selectedEffects: [
+          { id: "spirit_hawk_sight", name: "Ancestral Falcon", description: "Project your sight into an ancestral falcon or raven up to 1 mile away and scout through it.", mechanicsText: "Remote sight via spirit bird, 1 mile, 10 minutes." }
+        ],
+        duration: 10,
+        durationUnit: "minutes",
+        concentration: true,
+        power: "moderate"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility", "scout", "animist"]
     },
@@ -1086,7 +1110,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_ancestral_whisper",
       name: "Ancestral Whisper",
-      description: "Kneel beside a corpse, a bone, or a lingering shade and breathe a thread of the ancestor-tongue into it. The dead answer three questions about their life, their death, or what they last witnessed. Out of combat. Generates 1 Resonance.",
+      description: "Kneel beside a corpse, bone, or lingering shade and breathe the ancestor-tongue into it: the dead answer three questions about their life, death, or last witnessed. Generates 1 Resonance.",
       level: 1,
       spellType: "ACTION",
       icon: "Psychic/Psychic Telepathy",
@@ -1105,7 +1129,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_bone_reading",
       name: "Bone-Reading",
-      description: "Press bone to stone and read the ancestral memory printed on a place or held object � a flash of the last creature to die there, a spoken word, or a violent echo. Reveals the recent history of a touched location. Out of combat. Generates 1 Resonance.",
+      description: "Press bone to stone and read the ancestral memory on a place or object: a flash of the last death there, a spoken word, or a violent echo, revealing recent history. Generates 1 Resonance.",
       level: 1,
       spellType: "ACTION",
       icon: "Nature/Nature Natural 11",
@@ -1124,7 +1148,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_spirit_walk",
       name: "Spirit-Walk",
-      description: "Dislodge your spirit (or lend it to a summoned specter) and send it roaming as an invisible scout. You see and hear through it for the duration while your body stands blind and defenseless. Spends 2 Resonance.",
+      description: "Dislodge your spirit (or lend it to a summoned specter) and send it roaming as an invisible scout. You see and hear through it while your body stands blind and defenseless. Spends 2 Resonance.",
       level: 2,
       spellType: "ACTION",
       icon: "Psychic/Psychic Telepathy",
@@ -1143,7 +1167,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_scribes_insight",
       name: "Scribe's Insight",
-      description: "Inscribe a translating rune over any text. For one hour you read any written language, decipher codes, and surface hidden or illusion-veiled script. The rune can be shared with one ally. Generates 1 Resonance.",
+      description: "Inscribe a translating rune over text: for one hour read any written language, decipher codes, and surface hidden or illusion-veiled script. Shareable with one ally. Generates 1 Resonance.",
       level: 2,
       spellType: "ACTION",
       icon: "Arcane/Ebon Blaze",
@@ -1162,7 +1186,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_threshold_ward",
       name: "Threshold Ward Totem",
-      description: "Erupt a small bone totem at a doorway or camp perimeter. It sounds a spirit-knell in your mind when any creature or restless shade crosses uninvited, and allies resting within its radius recover with advantage. Generates 2 Resonance.",
+      description: "Erupt a bone totem at a doorway or camp perimeter: a spirit-knell warns you when any creature or restless shade crosses uninvited; resting allies recover with advantage. Generates 2 Resonance.",
       level: 2,
       spellType: "ACTION",
       icon: "Nature/Nature Natural 11",
@@ -1172,6 +1196,15 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 4, classResource: { type: "resonance", cost: -2 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       utilityConfig: { utilityType: "ward", selectedEffects: [ { id : "animist_threshold_ward_alert", name: "Threshold Knell", description: "Alerts you (no perceptible sound) to any creature crossing the warded boundary. Spirits and incorporeal undead are barred unless invited.", mechanicsText: "Silent intrusion alarm; bars uninvited spirits." }, { id : "animist_threshold_ward_rest", name: "Ancestral Vigil", description: "Allies who complete a rest inside the ward recover HP and resources with advantage.", mechanicsText: "Advantage on rest recovery within the ward." } ], duration: 8, durationUnit: "hours" },
+      buffConfig: {
+        buffType: "auraEffect",
+        effects: [
+          { id: "threshold_ward_rest_buff", name: "Ancestral Vigil", description: "Allies resting within the ward recover HP and resources with advantage.", mechanicsText: "Advantage on rest recovery, 8 hours." }
+        ],
+        durationType: "hours",
+        durationValue: 8,
+        durationUnit: "hours"
+      },
       resolution: "NONE",
       tags: ["utility","totem","exploration","rest","primal"]
     ,
@@ -1181,7 +1214,7 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
 },
     { id : "animist_mourners_pact",
       name: "Mourner's Pact",
-      description: "Offer a drop of blood and a true name to soothe hostile spirits, ghosts, or the freshly bereaved. Restless dead grow calm enough to parley; the grieving instinctively trust you. Grants advantage on social checks with the spirit-touched or the mourning. Generates 1 Resonance.",
+      description: "Offer blood and a true name to soothe hostile spirits or the bereaved: the dead calm enough to parley; advantage on social checks with the spirit-touched or mourning. Generates 1 Resonance.",
       level: 3,
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
@@ -1191,6 +1224,15 @@ Resonance (0–20) represents the spiritual signal strength between you and the 
       resourceCost: { components: ['verbal', 'somatic'], actionPoints: 1, mana: 5, classResource: { type: "resonance", cost: -1 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       utilityConfig: { utilityType: "social", selectedEffects: [ { id : "animist_mourners_pact_calm", name: "Mourner's Pact", description: "Calm hostile ghosts/spirits to neutral and open to dialogue, and grant yourself advantage on social checks with the spirit-touched, the bereaved, or the dead for 10 minutes.", mechanicsText: "Calm spirits; advantage on social checks with the mourning/spirit-touched." } ], duration: 10, durationUnit: "minutes" },
+      buffConfig: {
+        buffType: "combatAdvantage",
+        effects: [
+          { id: "mourners_pact_trust", name: "Kin-Trust", description: "The grieving instinctively trust you: advantage on social checks with the spirit-touched or the mourning.", mechanicsText: "Advantage on social checks with the grieving/spirit-touched, 10 minutes." }
+        ],
+        durationType: "minutes",
+        durationValue: 10,
+        durationUnit: "minutes"
+      },
       resolution: "NONE",
       tags: ["utility","social","spirit","exploration"]
     ,

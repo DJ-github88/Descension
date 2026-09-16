@@ -11,7 +11,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Covenant of Iron",
     icon: "Force/Force Tied",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Covenant of Iron",
@@ -54,7 +54,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Iron Grip",
     icon: "Force/Grasping Appendages",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Iron Grip",
@@ -64,7 +64,7 @@ export const INQUISITOR_IRON_VERDICT = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { authority: { baseAmount: 2 } },
       visualTheme: "shadow", tags: ["dd", "restore", "bond", "inquisitor"]
@@ -79,7 +79,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Mana Vortex",
     icon: "Arcane/Spiral Vortex",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "iv_t1_spell_intercept",
     spell: {
       name: "Mana Vortex",
@@ -100,7 +100,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Empowered Strikes",
     icon: "Force/Energy Impact",
     maxRanks: 3,
-    position: { x: 4, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "iv_t1_iron_grip",
     spell: {
       name: "Empowered Strikes",
@@ -123,7 +123,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Spell Nullification",
     icon: "Radiant/Sacred Symbol",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "iv_t2_mana_vortex",
     spell: {
       name: "Spell Nullification",
@@ -144,7 +144,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Dominant Wrath",
     icon: "General/Rage",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "iv_t2_empowered_strikes",
     spell: {
       name: "Dominant Wrath",
@@ -167,7 +167,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Hound's Verdict",
     icon: "Slashing/Execution",
     maxRanks: 3,
-    position: { x: 0.5, y: 3 },
+    position: { x: 0, y: 3 },
     requires: "iv_t3_spell_nullification",
     spell: {
       name: "Hound's Verdict",
@@ -177,16 +177,16 @@ export const INQUISITOR_IRON_VERDICT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { authority: { baseAmount: 3 } },
-      durationRounds: 1, durationRealTime: 6, durationUnit: "seconds",
+      durationRounds: 1, durationUnit: "rounds",
       damageTypes: ["sacred"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       debuffs: ["pinned"], visualTheme: "shadow", tags: ["control", "anti-caster", "inquisitor"]
     },
     rankUpgrades: [
-      { description: "The hound pins a spellcaster 2 rounds: restrained, silenced, taking 5d8 sacred damage.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, durationRounds: 2, durationRealTime: 12 },
+      { description: "The hound pins a spellcaster 2 rounds: restrained, silenced, taking 5d8 sacred damage.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, durationRounds: 2 },
       { description: "The hound pins 2 rounds: restrained, silenced, 6d8 sacred damage, and the pin's discharge drains 2d6 mana from the victim.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 } }
     ]
   },
@@ -195,7 +195,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Dispel Field",
     icon: "Radiant/Holy Cross",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 2.5, y: 3 },
     requires: "iv_t3_dominant_wrath",
     spell: {
       name: "Dispel Field",
@@ -205,10 +205,10 @@ export const INQUISITOR_IRON_VERDICT = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 15,
       castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "long", cooldownValue: 45, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 8, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { authority: { baseAmount: 4 }, mana: { baseAmount: 12 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "3d6", flat: 0, procChance: 100 },
       isDot: true, dotDuration: 6, dotTick: "3d6",
@@ -224,7 +224,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Arcane Dominator",
     icon: "Force/Energy Nexus",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "iv_t4_hounds_verdict",
     spell: {
       name: "Arcane Dominator",
@@ -244,7 +244,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "Counter's Doctrine",
     icon: "Arcane/Magical Staff",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "iv_t4_dispel_field",
     spell: {
       name: "Counter's Doctrine",
@@ -267,7 +267,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "The Bench",
     icon: "Force/Radiating Barrier",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "iv_t5_arcane_dominator",
     spell: {
       name: "The Bench",
@@ -277,10 +277,10 @@ export const INQUISITOR_IRON_VERDICT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 40,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 150, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 25, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { authority: { baseAmount: 6 }, mana: { baseAmount: 20 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       isDot: true, dotDuration: 3, dotTick: "4d8",
@@ -342,10 +342,10 @@ export const INQUISITOR_IRON_VERDICT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 90,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { authority: { baseAmount: 7 }, mana: { baseAmount: 25 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["sacred"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       debuffs: ["nullified"], visualTheme: "shadow", tags: ["ultimate", "capstone", "anti-magic", "inquisitor"]
@@ -420,7 +420,7 @@ export const INQUISITOR_IRON_VERDICT = [
     name: "The Stand",
     icon: "Force/Force Wave",
     maxRanks: 3,
-    position: { x: 4, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "iv_t6_verdant_null",
     spell: {
       name: "The Stand",

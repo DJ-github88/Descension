@@ -31,7 +31,7 @@ export const AUGUR_AUSPICE = [
     name: "Omen Synthesis",
     icon: "Force/Absorb Energy",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Omen Synthesis",
@@ -41,7 +41,7 @@ export const AUGUR_AUSPICE = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 0 } },
       visualTheme: "arcane", tags: ["resource", "conversion", "augur"]
@@ -56,7 +56,7 @@ export const AUGUR_AUSPICE = [
     name: "Balanced Step",
     icon: "General/Defend",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Balanced Step",
@@ -76,7 +76,7 @@ export const AUGUR_AUSPICE = [
     name: "Dual Reading",
     icon: "Psychic/Mind Read",
     maxRanks: 3,
-    position: { x: 0, y: 1 },
+    position: { x: 4.5, y: 1 },
     requires: "aus_t1_harmonic_sight",
     spell: {
       name: "Dual Reading",
@@ -96,7 +96,7 @@ export const AUGUR_AUSPICE = [
     name: "Harmonic Bolt",
     icon: "Radiant/Radiant Bolt",
     maxRanks: 3,
-    position: { x: 4, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "aus_t1_omen_synthesis",
     spell: {
       name: "Harmonic Bolt",
@@ -106,7 +106,7 @@ export const AUGUR_AUSPICE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { benediction: { baseAmount: 1 }, malediction: { baseAmount: 1 } },
       damageTypes: ["sacred", "wyrd"],
@@ -124,7 +124,7 @@ export const AUGUR_AUSPICE = [
     name: "Zone of Balance",
     icon: "Radiant/Chakra Circle",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "aus_t2_dual_reading",
     spell: {
       name: "Zone of Balance",
@@ -134,10 +134,10 @@ export const AUGUR_AUSPICE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 15,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { benediction: { baseAmount: 2 }, malediction: { baseAmount: 2 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["zone"], visualTheme: "arcane", tags: ["zone", "control", "augur"]
     },
     rankUpgrades: [
@@ -150,7 +150,7 @@ export const AUGUR_AUSPICE = [
     name: "Resource Flow",
     icon: "Force/Energy Streak",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "aus_t2_harmonic_bolt",
     spell: {
       name: "Resource Flow",
@@ -171,7 +171,7 @@ export const AUGUR_AUSPICE = [
     name: "Twin Blessing",
     icon: "Radiant/Radiant Blessing 1",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "aus_t3_zone_of_balance",
     spell: {
       name: "Twin Blessing",
@@ -181,10 +181,10 @@ export const AUGUR_AUSPICE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { benediction: { baseAmount: 3 }, malediction: { baseAmount: 3 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["twin-blessing"], visualTheme: "sacred", tags: ["buff", "ally", "augur"]
     },
     rankUpgrades: [
@@ -197,7 +197,7 @@ export const AUGUR_AUSPICE = [
     name: "Sign of Equilibrium",
     icon: "Radiant/Sacred Symbol",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 1.5, y: 3 },
     requires: "aus_t3_resource_flow",
     spell: {
       name: "Sign of Equilibrium",
@@ -217,7 +217,7 @@ export const AUGUR_AUSPICE = [
     name: "Perfect Balance",
     icon: "General/Order",
     maxRanks: 3,
-    position: { x: 1.5, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "aus_t4_twin_blessing",
     spell: {
       name: "Perfect Balance",
@@ -237,7 +237,7 @@ export const AUGUR_AUSPICE = [
     name: "Quick Interpret",
     icon: "Psychic/Read Mind",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "aus_t4_sign_of_equilibrium",
     spell: {
       name: "Quick Interpret",
@@ -257,7 +257,7 @@ export const AUGUR_AUSPICE = [
     name: "Omen Mastery",
     icon: "Psychic/Hypnotic Eye",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4, y: 5 },
     requires: "aus_t5_perfect_balance",
     spell: {
       name: "Omen Mastery",
@@ -273,7 +273,7 @@ export const AUGUR_AUSPICE = [
     name: "Cosmic Echo",
     icon: "Arcane/Rewind Time",
     maxRanks: 2,
-    position: { x: 2, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "aus_t5_quick_interpret",
     spell: {
       name: "Cosmic Echo",
@@ -292,7 +292,7 @@ export const AUGUR_AUSPICE = [
     name: "Auspice Aura",
     icon: "Radiant/Radiant Aura",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "aus_t5_perfect_balance",
     spell: {
       name: "Auspice Aura",
@@ -312,7 +312,7 @@ export const AUGUR_AUSPICE = [
     name: "Auspice Supreme",
     icon: "Arcane/Conjure Wound",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "aus_t6_omen_mastery",
     spell: {
       name: "Auspice Supreme",
@@ -322,7 +322,7 @@ export const AUGUR_AUSPICE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { benediction: { baseAmount: 8 }, malediction: { baseAmount: 8 } },
       debuffs: ["fate-rewind"], visualTheme: "arcane", tags: ["ultimate", "capstone", "reroll", "augur"]
@@ -333,7 +333,7 @@ export const AUGUR_AUSPICE = [
     name: "Equilibrium Mastery",
     icon: "Force/Energy Core",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "aus_t6_cosmic_echo",
     spell: {
       name: "Equilibrium Mastery",
@@ -355,7 +355,7 @@ export const AUGUR_AUSPICE = [
     name: "Harmonic Overload",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "aus_t6_cosmic_echo",
     spell: {
       name: "Harmonic Overload",
@@ -368,7 +368,7 @@ export const AUGUR_AUSPICE = [
     },
     rankUpgrades: [
       { description: "The bolt learns to carry more of both arguments. Harmonic Bolt deals an additional 2d6 sacred and 2d6 wyrd damage." },
-      { description: "The bolt learns to carry more of both arguments. Harmonic Bolt deals an additional 3d6 sacred and 3d6 wyrd damage, and its cooldown is reduced by 2 seconds." }
+      { description: "The bolt learns to carry more of both arguments. Harmonic Bolt deals an additional 3d6 sacred and 3d6 wyrd damage, and its cooldown is reduced by 1 round." }
     ]
   },
   {
@@ -376,7 +376,7 @@ export const AUGUR_AUSPICE = [
     name: "Balanced Vitality",
     icon: "Healing/Heart Shield",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "aus_t6_auspice_aura",
     spell: {
       name: "Balanced Vitality",
@@ -396,7 +396,7 @@ export const AUGUR_AUSPICE = [
     name: "Duality Ward",
     icon: "Force/Force Field",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "aus_t6_auspice_aura",
     spell: {
       name: "Duality Ward",

@@ -559,9 +559,21 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    level: 1,
    spellType: "REACTION",
    icon: "Utility/Speed Dash",
+   effectTypes: ["utility"],
    typeConfig: { school: "storm", icon: "Utility/Speed Dash", tags: ["utility", "reaction", "temporal", "chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["ally", "self"] },
    resourceCost: { actionPoints: 1, mana: 0 },
+   resolution: "AUTOMATIC",
+   utilityConfig: {
+     utilityType: "movement",
+     selectedEffects: [
+       { id: "slow_fall_float", name: "Temporal Feather-Fall", description: "Target floats down gently at 10 ft/sec, taking 0 fall damage regardless of drop height.", mechanicsText: "No fall damage; 10 ft/sec descent." }
+     ],
+     duration: 0,
+     durationUnit: "instant",
+     concentration: false,
+     power: "minor"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 }
   },
   { id: "chrono_time_blink",
@@ -570,9 +582,21 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    level: 2,
    spellType: "ACTION",
    icon: "Utility/Speed Dash",
+   effectTypes: ["utility"],
    typeConfig: { school: "storm", icon: "Utility/Speed Dash", tags: ["utility", "teleport", "blink", "chronarch"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 30 },
    resourceCost: { actionPoints: 1, mana: 0 },
+   resolution: "AUTOMATIC",
+   utilityConfig: {
+     utilityType: "teleportation",
+     selectedEffects: [
+       { id: "time_blink_step", name: "Micro-Second Gap", description: "Instantly teleport 30ft to an unoccupied sightline space, cleansing all non-magical roots and grapples.", mechanicsText: "Teleport 30ft; cleanses roots/grapples." }
+     ],
+     duration: 0,
+     durationUnit: "instant",
+     concentration: false,
+     power: "moderate"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }
   },
  { id: "chrono_bolt",
@@ -636,7 +660,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationUnit: "rounds"
   },
   tags: ["ranged", "damage", "slow", "stasis", "starter", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_mend",
   name: "Temporal Mend",
@@ -677,7 +702,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   healingType: "direct"
   },
   tags: ["heal", "rewinding", "support", "starter", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_step",
   name: "Temporal Step",
@@ -697,7 +723,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   rangeType: "self"
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana"],
   resourceValues: {
    mana: 8,
    time_shard_generate: 1,
@@ -724,7 +750,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   ]
   },
   tags: ["utility", "mobility", "displacement", "starter", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "chrono_frailty",
   name: "Temporal Inversion & Fragility",
@@ -1008,7 +1035,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   ]
   },
   tags: ["utility", "mobility", "displacement", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  // ========================================
  // LEVEL 3 SPELLS - Dilation, Crystals, Foresight
@@ -1035,7 +1063,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: []
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 8,
    time_shard_cost: 2,
@@ -1084,7 +1112,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationType: "rounds"
   },
   tags: ["flux", "dilation", "displacement", "support", "slow", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "time_crystal",
   name: "Time Crystal",
@@ -1137,7 +1166,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationType: "rounds"
   },
   tags: ["stasis", "shield", "support", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "temporal_foresight",
   name: "Temporal Foresight",
@@ -1190,7 +1220,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationType: "rounds"
   },
   tags: ["buff", "rewinding", "support", "chronarch"]
- },
+ ,
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "paradox_accumulation",
   name: "Paradox Accumulation",
@@ -1291,7 +1322,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   }
   },
   tags: ["stasis", "damage", "aoe", "pull", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_flux_rewind",
   name: "Temporal Flux: Rewind",
@@ -1313,7 +1345,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["ally"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 12,
    time_shard_cost: 4,
@@ -1349,7 +1381,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   description: "Temporal Strain builds as cellular stability fractures."
   },
   tags: ["flux", "heal", "cleanse", "rewinding", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_paradox",
   name: "Temporal Paradox",
@@ -1395,11 +1428,12 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   ]
   },
   tags: ["displacement", "trap", "control", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "chrono_stasis_wall",
   name: "Stasis Barrier",
-  description: "Erect a 20ft long barrier of decelerated causality for 2 rounds. Ranged attacks passing through deal half damage; enemies that enter or cross have their speed halved and lose 1 Action Point on their next turn (DC 14 Constitution save negates AP loss).",
+  description: "Erect a 20ft barrier of decelerated causality for 2 rounds: ranged attacks through it deal half damage; enemies entering have speed halved and lose 1 AP next turn (DC 14 Con negates AP loss).",
   level: 4,
   spellType: "ACTION",
   icon: "Force/Radiating Barrier",
@@ -1519,7 +1553,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   ]
   },
   tags: ["displacement", "teleport", "utility", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_thorns",
   name: "Temporal Thorns",
@@ -1577,7 +1612,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   }
   },
   tags: ["stasis", "protection", "support", "debuff", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_flux_shield",
   name: "Temporal Flux: Shield",
@@ -1599,7 +1635,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: []
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 12,
    time_shard_cost: 4,
@@ -1647,7 +1683,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "shield", "support", "stasis", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "temporal_flux_speed",
   name: "Temporal Flux: Speed",
@@ -1669,7 +1706,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["ally"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 12,
    time_shard_cost: 4,
@@ -1718,7 +1755,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "haste", "support", "displacement", "chronarch"]
-  },
+  ,
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   // ========================================
   // LEVEL 6 SPELLS - Fracture, Echoes, Flux: Loop
@@ -1781,7 +1819,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationType: "rounds"
   },
   tags: ["stasis", "damage", "debuff", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_echoes",
   name: "Temporal Echoes",
@@ -1835,7 +1874,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   durationType: "rounds"
   },
   tags: ["displacement", "buff", "support", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_loop",
   name: "Temporal Flux: Loop",
@@ -1857,7 +1897,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 15,
    time_shard_cost: 5,
@@ -1910,11 +1950,12 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "control", "stasis", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "chrono_causality_reweave",
    name: "Causality Reweave",
-   description: "Heavy Flux. Reweave an ally's timeline within 30 feet: cleanse all debuffs, damage-over-time, and impaired conditions acquired within the last round, and grant them +10 ft speed and +1 Action Point for 1 round.",
+   description: "Heavy Flux. Reweave an ally's timeline within 30ft: cleanse debuffs, damage-over-time, and impaired conditions from the last round, and grant +10ft speed and +1 AP for 1 round.",
    level: 6,
    spellType: "ACTION",
    icon: "Arcane/Star Trail Path",
@@ -1932,7 +1973,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     targetRestrictions: ["ally"]
    },
    resourceCost: {
-    resourceTypes: ["mana", "time_shards", "temporal_strain"],
+    resourceTypes: ["mana", "time_shards"],
     resourceValues: {
      mana: 14,
      time_shard_cost: 3,
@@ -2009,7 +2050,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 22,
    time_shard_cost: 6,
@@ -2072,7 +2113,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "damage", "aoe", "stasis", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "chronal_reversal",
   name: "Chronal Reversal",
@@ -2123,7 +2165,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   ]
   },
   tags: ["rewinding", "heal", "cleanse", "chronarch"]
- },
+ ,
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "temporal_echo_chamber",
   name: "Temporal Echo Chamber",
@@ -2147,7 +2190,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: []
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 24,
    time_shard_cost: 6,
@@ -2188,11 +2231,12 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "control", "aoe", "displacement", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
    { id: "chrono_anchorfield",
     name: "Chronal Anchorfield",
-    description: "Heavy Flux. Pin a 20ft radius zone in absolute localized stillness for 1 round. Enemies caught cannot move, take actions, or take reactions (DC 16 Constitution save reduces to Slowed with -2 AP). Allies inside gain +4 Damage Reduction against attacks from outside the field.",
+    description: "Heavy Flux. Pin a 20ft zone in stillness for 1 round: enemies cannot move, act, or react (DC 16 Con reduces to Slowed, -2 AP); allies inside gain +4 DR against attacks from outside.",
     level: 7,
     spellType: "ACTION",
     icon: "Force/Energy Core",
@@ -2212,7 +2256,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
      targetRestrictions: []
     },
     resourceCost: {
-     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceTypes: ["mana", "time_shards"],
      resourceValues: {
       mana: 20,
       time_shard_cost: 5,
@@ -2296,7 +2340,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 24,
    time_shard_cost: 8,
@@ -2349,7 +2393,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "control", "charm", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "temporal_flux_resurrection",
   name: "Temporal Flux: Resurrection",
@@ -2371,7 +2416,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["ally"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 28,
    time_shard_cost: 8,
@@ -2407,7 +2452,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   description: "Temporal Strain builds as you drag a soul out of timeline decay."
   },
   tags: ["flux", "heal", "revive", "rewinding", "chronarch"]
- },
+ ,
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "fate_manipulation",
   name: "Temporal Flux: Fate Manipulation",
@@ -2429,7 +2475,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: []
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 20,
    time_shard_cost: 6,
@@ -2477,7 +2523,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "luck", "support", "rewinding", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "chrono_timeline_purge",
     name: "Timeline Purge",
@@ -2497,7 +2544,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
      rangeType: "self"
     },
     resourceCost: {
-     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceTypes: ["mana", "time_shards"],
      resourceValues: {
       mana: 22,
       time_shard_generate: 2,
@@ -2568,7 +2615,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 28,
    time_shard_cost: 8,
@@ -2631,7 +2678,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "damage", "aoe", "stasis", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "reality_fracture",
   name: "Reality Fracture",
@@ -2655,7 +2703,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 25,
    time_shard_cost: 7,
@@ -2695,7 +2743,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "damage", "aoe", "blight", "chronarch"]
-  },
+  ,
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
   { id: "chronal_paradox",
   name: "Chronal Paradox",
@@ -2717,7 +2766,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 24,
    time_shard_cost: 7,
@@ -2780,11 +2829,12 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
     tags: ["flux", "damage", "control", "stasis", "chronarch"]
-   },
+   ,
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
    { id: "chrono_timeless_sanctuary",
     name: "Sanctuary of the Timeless",
-    description: "Heavy Flux. Envelop yourself and up to 3 allies within 30 feet in an extradimensional pocket outside the flow of time until the start of your next turn. While inside, targets cannot be targeted, damaged, or affected by environmental hazards. Upon returning, each target heals 4d10 + Spirit and gains +1 Action Point.",
+    description: "Heavy Flux. Envelop yourself and up to 3 allies within 30ft in a pocket outside time until your next turn: untargetable and unaffected by hazards. Each returns healed 4d10 + Spirit and +1 AP.",
     level: 9,
     spellType: "ACTION",
     icon: "Arcane/Open Portal",
@@ -2803,7 +2853,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
      targetRestrictions: ["ally", "self"]
     },
     resourceCost: {
-     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceTypes: ["mana", "time_shards"],
      resourceValues: {
       mana: 28,
       time_shard_cost: 8,
@@ -2891,7 +2941,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["ally"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 30,
    time_shard_cost: 10,
@@ -2927,7 +2977,8 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   description: "Severe Temporal Strain builds as the universe extracts a violent cellular tax."
   },
   tags: ["flux", "heal", "cleanse", "rewinding", "chronarch"]
- },
+ ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
  { id: "chronal_vortex",
   name: "Chronal Vortex",
@@ -2950,7 +3001,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   targetRestrictions: ["enemy"]
   },
   resourceCost: {
-  resourceTypes: ["mana", "time_shards", "temporal_strain"],
+  resourceTypes: ["mana", "time_shards"],
   resourceValues: {
    mana: 35,
    time_shard_cost: 10,
@@ -3003,11 +3054,12 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    ]
    },
    tags: ["flux", "damage", "control", "aoe", "stasis", "chronarch"]
-  },
+  ,
+    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
    { id: "chrono_epoch_shatter",
     name: "Epoch Shatter",
-    description: "Absolute Flux. Fracture the local continuum across a 40ft radius. Enemies take 12d8 + INT storm damage and their timeline vectors splinter: each enemy is displaced 20ft away and silenced for 2 rounds (DC 19 Constitution save halves damage and negates silence).",
+    description: "Absolute Flux. Fracture the continuum across 40ft: 12d8 + Int storm, each enemy displaced 20ft and silenced 2 rounds (DC 19 Con halves damage, negates silence).",
     level: 10,
     spellType: "ACTION",
     icon: "Force/Radial Burst",
@@ -3027,7 +3079,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
      targetRestrictions: ["enemy"]
     },
     resourceCost: {
-     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceTypes: ["mana", "time_shards"],
      resourceValues: {
       mana: 34,
       time_shard_cost: 10,
@@ -3103,7 +3155,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
 
    { id: "chrono_paradox_transcendence",
     name: "Paradox Transcendence",
-    description: "Absolute Flux. Harmonize your consciousness across all concurrent timelines for 3 rounds. Gain +2 Action Points per round, double movement speed, immunity to all crowd control and forced movement, and whenever you cast a basic chronal spell, it echoes automatically. When transcendence ends, take 2d6 blight recoil.",
+    description: "Absolute Flux. Harmonize across timelines for 3 rounds: +2 AP per round, double speed, immunity to crowd control and forced movement, and basic chronal spells echo. On end: 2d6 blight recoil.",
     level: 10,
     spellType: "ACTION",
     icon: "Arcane/Zen",
@@ -3119,7 +3171,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
      rangeType: "self"
     },
     resourceCost: {
-     resourceTypes: ["mana", "time_shards", "temporal_strain"],
+     resourceTypes: ["mana", "time_shards"],
      resourceValues: {
       mana: 30,
       time_shard_cost: 10,
@@ -3177,7 +3229,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    {
    "id": "chrono_temporal_rewind",
   "name": "Temporal Rewind",
-  "description": "Focus your temporal anchor to reverse the immediate past for a tiny, unattended object. A spilled goblet of wine flows back upward to fill its cup, a shattered porcelain vase fuses back into pristine form, or a burned letter stitches itself back into unread ink.",
+  "description": "Reverse the immediate past for a tiny unattended object: spilled wine flows back into its cup, a shattered vase fuses pristine, or a burned letter stitches back into unread ink.",
   "level": 1,
   "spellType": "ACTION",
   "icon": "Arcane/Time Warp",
@@ -3243,7 +3295,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   // ===== NON-COMBAT / TEMPORAL UTILITY (the time-mage out of combat) =====
   { id: "temporal_deja_vu",
    name: "Deja Vu",
-   description: "Touch a surface and relive the last minute that played out in this spot as a ghostly accelerated echo  —  words spoken, who stood where, blows struck, which way they left. You see it; you cannot change it. Older echoes are fainter. Out of combat.",
+   description: "Touch a surface and relive the last minute here as a ghostly echo: words spoken, who stood where, blows struck, which way they left. You see it; cannot change it. Older echoes fade. Out of combat.",
    level: 1,
    spellType: "ACTION",
    icon: "Arcane/Sands of Time",
@@ -3261,7 +3313,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   { id: "temporal_compression",
    name: "Temporal Compression",
-   description: "Wrap a small object or process in a bubble of accelerated time. Brew a potion in seconds, cure leather, dry soaked gear, age wine, grow a seedling, rust a mundane lock, or spoil food. Living creatures and magical items resist. Out of combat.",
+   description: "Wrap a small object or process in accelerated time: brew a potion, cure leather, dry gear, age wine, grow a seedling, rust a lock, or spoil food. Living and magical things resist. Out of combat.",
    level: 2,
    spellType: "ACTION",
    icon: "Arcane/Sands of Time",
@@ -3279,7 +3331,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   { id: "temporal_slow_descent",
    name: "Slow Descent",
-   description: "Bend local time around a fall. You, a willing ally, or an object fall at a crawl  —  drifting safely to the ground, and you can slow a falling ally or object within range to catch or save them. No damage on landing. Out of combat or combat.",
+   description: "Bend time around a fall: you, an ally, or an object descends at a crawl and lands safely, and you can slow a falling ally within range to catch them. No damage on landing. Out of combat or combat.",
    level: 1,
    spellType: "REACTION",
    icon: "Arcane/Quick Step",
@@ -3297,7 +3349,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   { id: "temporal_foreknowledge",
    name: "Foreknowledge",
-   description: "You have already lived the next few seconds of this exchange. Glimpse what a creature within sight is about to say or do, and whether they intend harm in the next minute. Grants advantage on your next social check against them and warns of an imminent attack. Out of combat.",
+   description: "You have already lived the next few seconds: glimpse what a creature within sight is about to say or do, whether they intend harm within the minute, and advantage on your next social check.",
    level: 2,
    spellType: "ACTION",
    icon: "Arcane/Sands of Time",
@@ -3307,6 +3359,15 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
    resourceCost: { components: ["verbal","somatic"], actionPoints: 1, mana: 6, classResource: { type: "time_shards", cost: 1 } },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    utilityConfig: { utilityType: "social", selectedEffects: [ { id : "foreknowledge_read", name: "Already-Lived", description: "For 1 minute you know what one creature is about to say/do next, sense if they intend harm, and gain advantage on social checks against them. Shows the immediate next action only, not long intent.", mechanicsText: "Preview one creature's next action + intent; advantage socially." } ], duration: 1, durationUnit: "minutes", power: "moderate" },
+   buffConfig: {
+     buffType: "combatAdvantage",
+     effects: [
+       { id: "foreknowledge_buff", name: "Already-Lived", description: "Advantage on your next social check against the target and warning of an imminent attack.", mechanicsText: "Advantage on social check; imminent-attack warning." }
+     ],
+     durationType: "minutes",
+     durationValue: 1,
+     durationUnit: "minutes"
+   },
    resolution: "NONE",
    tags: ["utility","divination","social","chronarch"],
 
@@ -3315,7 +3376,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
   },
   { id: "temporal_rewind_blunder",
    name: "Rewind Blunder",
-   description: "Unsay it. Undo it. Rewind the last six seconds of your own action and try again  —  re-roll a single failed out-of-combat ability check, or take back a social blunder, a botched pickpocket, or a broken object. The timeline bruises for it: you take 1 Temporal Strain and forget which version was real. Out of combat.",
+   description: "Unsay it, undo it: rewind your last six seconds to re-roll a failed out-of-combat check or take back a blunder, botched pickpocket, or broken object. You take 1 Temporal Strain. Out of combat.",
    level: 3,
    spellType: "REACTION",
    icon: "Arcane/Spiral Vortex",

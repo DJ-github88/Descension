@@ -11,7 +11,7 @@ export const WARDEN_JAILER = [
     name: "Cage of Vengeance",
     icon: "Necrotic/Broken Skull Shackle",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Cage of Vengeance",
@@ -21,16 +21,16 @@ export const WARDEN_JAILER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { vengeance: { baseAmount: 6 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       debuffs: ["caged"], visualTheme: "shadow", tags: ["cage", "control", "warden"]
     },
     rankUpgrades: [
-      { description: "Conjure a spectral prison around an enemy within 60 feet for 3 rounds: restrained, +2d6 damage from all sources, disadvantage on escapes. Costs 6 VP.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, durationRounds: 3, durationRealTime: 18 },
+      { description: "Conjure a spectral prison around an enemy within 60 feet for 3 rounds: restrained, +2d6 damage from all sources, disadvantage on escapes. Costs 6 VP.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, durationRounds: 3 },
       { description: "Conjure a spectral prison around an enemy within 90 feet for 3 rounds: restrained, +3d6 damage from all sources, disadvantage on escapes, no teleportation. Costs 5 VP.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, resourceCosts: { vengeance: { baseAmount: 5 } } }
     ]
   },
@@ -39,7 +39,7 @@ export const WARDEN_JAILER = [
     name: "Spectral Warden",
     icon: "Necrotic/Crossed Bones 1",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Spectral Warden",
@@ -59,7 +59,7 @@ export const WARDEN_JAILER = [
     name: "Mass Confinement",
     icon: "Force/Grasping Appendages",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Mass Confinement",
@@ -69,14 +69,14 @@ export const WARDEN_JAILER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 20,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 7, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { vengeance: { baseAmount: 8 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       debuffs: ["caged"], visualTheme: "shadow", tags: ["cage", "aoe", "control", "warden"]
     },
     rankUpgrades: [
-      { description: "Spend 8 VP: cage all enemies in a 30-foot radius within 60 feet for 3 rounds — full-strength cages (restrained, +1d6 damage taken).", durationRounds: 3, durationRealTime: 18 }
+      { description: "Spend 8 VP: cage all enemies in a 30-foot radius within 60 feet for 3 rounds — full-strength cages (restrained, +1d6 damage taken).", durationRounds: 3 }
     ]
   },
 
@@ -85,7 +85,7 @@ export const WARDEN_JAILER = [
     name: "Cage Torment",
     icon: "Necrotic/Necrotic Wither 2",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 3, y: 1 },
     requires: "wj_t1_cage_of_vengeance",
     spell: {
       name: "Cage Torment",
@@ -107,7 +107,7 @@ export const WARDEN_JAILER = [
     name: "Enhanced Caging",
     icon: "Utility/Barred Shield",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "wj_t1_mass_confinement",
     spell: {
       name: "Enhanced Caging",
@@ -128,7 +128,7 @@ export const WARDEN_JAILER = [
     name: "Isolation Protocol",
     icon: "Void/Black Hole",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "wj_t2_cage_torment",
     spell: {
       name: "Isolation Protocol",
@@ -150,7 +150,7 @@ export const WARDEN_JAILER = [
     name: "Prison Complex",
     icon: "Utility/Fortress Castle",
     maxRanks: 3,
-    position: { x: 3.5, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "wj_t2_enhanced_caging",
     spell: {
       name: "Prison Complex",
@@ -171,7 +171,7 @@ export const WARDEN_JAILER = [
     name: "Execution Chamber",
     icon: "Necrotic/Grim Reaper Casting",
     maxRanks: 3,
-    position: { x: 0.5, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "wj_t3_isolation_protocol",
     spell: {
       name: "Execution Chamber",
@@ -181,10 +181,10 @@ export const WARDEN_JAILER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 6 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["execution-chamber"], visualTheme: "shadow", tags: ["execute", "amplify", "warden"]
     },
     rankUpgrades: [
@@ -197,7 +197,7 @@ export const WARDEN_JAILER = [
     name: "Spectral Overlord",
     icon: "Necrotic/Lich With Green Orb",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 1.5, y: 3 },
     requires: "wj_t3_prison_complex",
     spell: {
       name: "Spectral Overlord",
@@ -217,7 +217,7 @@ export const WARDEN_JAILER = [
     name: "Iron Bars",
     icon: "Utility/Horned Shield Creature",
     maxRanks: 3,
-    position: { x: 0.5, y: 4 },
+    position: { x: 4.5, y: 4 },
     requires: "wj_t4_execution_chamber",
     spell: {
       name: "Iron Bars",
@@ -237,7 +237,7 @@ export const WARDEN_JAILER = [
     name: "Chain Ward",
     icon: "Utility/Bound Shield",
     maxRanks: 2,
-    position: { x: 3.5, y: 4 },
+    position: { x: 2.5, y: 4 },
     requires: "wj_t4_spectral_overlord",
     spell: {
       name: "Chain Ward",
@@ -257,7 +257,7 @@ export const WARDEN_JAILER = [
     name: "Vengeance Unleashed",
     icon: "Necrotic/Skull Explosion",
     maxRanks: 1,
-    position: { x: 1.5, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "wj_t5_iron_bars",
     spell: {
       name: "Vengeance Unleashed",
@@ -267,10 +267,10 @@ export const WARDEN_JAILER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 150, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 25, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 6 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
       debuffs: ["caged"], visualTheme: "shadow", tags: ["detonate", "aoe", "cage", "warden"]
@@ -300,7 +300,7 @@ export const WARDEN_JAILER = [
     name: "Warden's Attention",
     icon: "Psychic/Mind Read",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "wj_t5_iron_bars",
     spell: {
       name: "Warden's Attention",
@@ -320,7 +320,7 @@ export const WARDEN_JAILER = [
     name: "The Iron City",
     icon: "Necrotic/Golden Dollar Bones",
     maxRanks: 1,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "wj_t6_vengeance_unleashed",
     spell: {
       name: "The Iron City",
@@ -330,10 +330,10 @@ export const WARDEN_JAILER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { vengeance: { baseAmount: 8 }, mana: { baseAmount: 20 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       debuffs: ["caged"], visualTheme: "shadow", tags: ["ultimate", "capstone", "fortress", "warden"]
@@ -344,7 +344,7 @@ export const WARDEN_JAILER = [
     name: "Deep Reserves",
     icon: "Void/Contained Void Barrel",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "wj_t6_wardens_attention",
     spell: {
       name: "Deep Reserves",
@@ -366,7 +366,7 @@ export const WARDEN_JAILER = [
     name: "Cruel Architecture",
     icon: "Necrotic/Crowned Skull",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "wj_t6_wardens_attention",
     spell: {
       name: "Cruel Architecture",
@@ -387,7 +387,7 @@ export const WARDEN_JAILER = [
     name: "No Escape",
     icon: "Utility/Maw No Escape",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "wj_t6_transfer_sentence",
     spell: {
       name: "No Escape",
@@ -409,7 +409,7 @@ export const WARDEN_JAILER = [
     name: "Panopticon",
     icon: "Void/All Seeing Eye",
     maxRanks: 3,
-    position: { x: 4, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "wj_t6_transfer_sentence",
     spell: {
       name: "Panopticon",

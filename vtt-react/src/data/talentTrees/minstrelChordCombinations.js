@@ -26,7 +26,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Sonic Lance",
     icon: "Lightning/Lightning Bolt Arm",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Sonic Lance",
@@ -36,7 +36,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["storm"],
@@ -53,7 +53,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Dominant Fury",
     icon: "General/Rage",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Dominant Fury",
@@ -96,7 +96,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Battle Anthem",
     icon: "Social/Rally",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "cc_t1_sonic_lance",
     spell: {
       name: "Battle Anthem",
@@ -106,14 +106,14 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 12, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 2 } },
       buffs: ["battle-anthem"], visualTheme: "sacred", tags: ["anthem", "ally-buff", "burst", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Allies deal +3d8 bonus damage on their next 2 attacks and gain +20ft movement speed.", cooldownValue: 10 },
-      { description: "Allies deal +4d8 bonus damage on next 3 attacks, gain +25ft speed, and attack with advantage.", cooldownValue: 8 }
+      { description: "Allies deal +3d8 bonus damage on their next 2 attacks and gain +20ft movement speed.", cooldownValue: 2 },
+      { description: "Allies deal +4d8 bonus damage on next 3 attacks, gain +25ft speed, and attack with advantage.", cooldownValue: 1 }
     ]
   },
   {
@@ -121,7 +121,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Cadence Momentum",
     icon: "General/Inspiration",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "cc_t1_dominant_fury",
     spell: {
       name: "Cadence Momentum",
@@ -143,7 +143,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Perfect Cadence Strike",
     icon: "Healing/Healing Compass",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "cc_t2_battle_anthem",
     spell: {
       name: "Perfect Cadence Strike",
@@ -153,7 +153,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       damageTypes: ["storm"],
@@ -170,7 +170,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Circle of Fifths",
     icon: "Arcane/Spiral Vortex",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "cc_t2_cadence_momentum",
     spell: {
       name: "Circle of Fifths",
@@ -204,7 +204,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 3 } },
       damageTypes: ["storm"],
@@ -221,7 +221,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Double Time Tempo",
     icon: "Healing/Armored Healing",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "cc_t3_circle_mastery",
     spell: {
       name: "Double Time Tempo",
@@ -242,7 +242,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Crescendo Detonation",
     icon: "Force/Starburst Explosion",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 1.5, y: 4 },
     requires: "cc_t4_thunder_stanza",
     spell: {
       name: "Crescendo Detonation",
@@ -252,7 +252,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       damageTypes: ["storm"],
@@ -260,7 +260,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       visualTheme: "sacred", tags: ["nuke", "aoe", "storm", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Deals 8d10 storm to target and 4d10 to nearby foes. Note V bonus increases to +30 points per Note V.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
+      { description: "Deals 8d10 storm to target and 4d10 to nearby foes. Note V bonus increases to +30 points per Note V.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -268,7 +268,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Overture Momentum",
     icon: "General/Amplify",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "cc_t4_double_time",
     spell: {
       name: "Overture Momentum",
@@ -292,7 +292,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Rallying Fanfare",
     icon: "Utility/Sprinting Leg General",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "cc_t5_crescendo_detonation",
     spell: {
       name: "Rallying Fanfare",
@@ -302,7 +302,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 5 } },
       buffs: ["fanfare"], visualTheme: "sacred", tags: ["command", "ally-strike", "burst", "minstrel"]
@@ -314,7 +314,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Harmonic Fortification",
     icon: "Force/Force Tied",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "cc_t5_overture_momentum",
     spell: {
       name: "Harmonic Fortification",
@@ -355,20 +355,20 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Titan Anthem",
     icon: "Social/Party Celebration",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "cc_t6_rallying_fanfare",
     spell: {
       name: "Titan Anthem",
-      description: "ULTIMATE: Spend 6 notes to conduct the Titan War Anthem for 1 minute: all allies within 50 feet deal TRIPLE damage dice on all attacks and spells, gain +4 Durability Steps to equipped durability, and whenever ANY ally kills an enemy, all party cooldowns are reduced by 10 seconds.",
+      description: "ULTIMATE: Spend 6 notes to conduct the Titan War Anthem for 1 minute: all allies within 50 feet deal TRIPLE damage dice on all attacks and spells, gain +4 Durability Steps to equipped durability, and whenever ANY ally kills an enemy, all party cooldowns are reduced by 2 rounds.",
       flavorText: "The song the mountains sing when they choose to move.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["titan-anthem"], visualTheme: "sacred", tags: ["ultimate", "capstone", "party-buff", "minstrel"]
     },
     rankUpgrades: []
@@ -378,7 +378,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "War Conductor Doctrine",
     icon: "Radiant/Holy Bible",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "cc_t6_rallying_fanfare",
     spell: {
       name: "War Conductor Doctrine",
@@ -401,7 +401,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Infinite Cadence",
     icon: "Force/Force Wave",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "cc_t6_iron_harmonics",
     spell: {
       name: "Infinite Cadence",
@@ -421,7 +421,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Storm Overture",
     icon: "Lightning/Lightning Storm",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.75, y: 6 },
     requires: "cc_t6_storm_chords",
     spell: {
       name: "Storm Overture",
@@ -441,11 +441,11 @@ export const MINSTREL_CHORD_COMBINATIONS = [
     name: "Battlechoir Resurgence",
     icon: "Radiant/Radiant Golden Shield",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "cc_t6_storm_chords",
     spell: {
       name: "Battlechoir Resurgence",
-      description: "Whenever an ally drops below half maximum Hit Points, you automatically emit a free Battle Anthem and grant that ally a 4d8 damage shield (cooldown: 30s).",
+      description: "Whenever an ally drops below half maximum Hit Points, you automatically emit a free Battle Anthem and grant that ally a 4d8 damage shield (cooldown: 5 rounds).",
       flavorText: "When the line wavers, the chorus sings loudest.",
       source: "talent", class: "Minstrel", treeId: "chord_combinations",
       spellType: "PASSIVE", category: "buff",

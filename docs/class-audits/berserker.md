@@ -75,3 +75,72 @@
 
 - `class-phase0-tooling-and-fixes-2026-09-13`, `class-system-audit-snapshot-2026-09-13`
 - Pilot memory to follow on approval.
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs` (deep parsed-data render-contract audit; see
+`docs/class-audits/spell-card-qa-report.md`). **Before: 27 errors / 50 warnings. After: 0 errors /
+24 warnings** (all 24 remaining are descriptions >200 chars — verbosity backlog, deferred).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `bsk_hunger_scent` | `utility` with no config | added `utilityConfig` (perception/blood-trail, 3-mile track) |
+| `bsk_caldera_warmth` | `utility`+`buff` with no configs | dropped redundant `buff`; added environment `utilityConfig` (15ft allies, 4h) |
+| `bsk_arterial_burst` | `buff` with no config | added `buffConfig` (+2 AP / +10ft, 1 round, 1d6 self-damage) |
+| `berserk_boiled_blood_constitution` | `buff` with no config → "No stats configured yet" | dropped redundant `buff`; stays utility (environment) — the screenshot bug |
+| `berserk_unbroken_will` | `buff` with no config | dropped redundant `buff`; stays utility (social) |
+| `bsk_caldera_slam` | `crowd_control` label, no control config | renamed to `control` + knockdown `controlConfig` |
+| `berserk_skull_cleaver` | legacy dice shape, `MELEE_ATTACK`, thin control | `2d8 + strength`, `damageTypes`, `DICE`, daze effects[] |
+| `berserk_rending_flurry` | legacy dice shape, thin DoT | `3d6 + strength`, `DICE`, bleeding `debuffConfig.effects[]` |
+| `berserk_intimidating_shout` | `debuff` with no config, `SAVING_THROW` | added shaken debuff (spirit save, -2 attacks/checks) + control effects[]; resolution `SAVE` |
+| `berserk_blood_frenzy_rush` | `utility` missing, buff no stats | added cleanse `utilityConfig`; buff now movement statModifier + effects[] |
+| `berserk_bone_shatter` | legacy dice shape, thin debuff | `3d10 + strength`, `DICE`, Durability -2 penalty |
+| `berserk_war_cry_dominance` | buff no stats | damageIncrease effects[] + +2 damage statModifier; knockback effects[] |
+| `berserk_cleaving_cyclone` | legacy dice shape | `4d8 + strength`, `DICE` |
+| `berserk_titanic_endurance` | buff not gated, no stats | added `buff` type; temp HP 25% + stun immunity effects[] |
+| `berserk_spine_breaker` | legacy dice shape, thin control | `5d8 + strength`, `DICE`, pinned/incapacitated effects[] |
+| `berserk_juggernaut_charge` | legacy dice shape, thin control | `4d10 + strength`, `DICE`, prone effects[] |
+| `berserk_blood_boil_aura` | `school:'fire'`, buff no stats, `debuff` with no config | `ember` school/description; weapon-ignite buff + aura burn debuff |
+| `berserk_world_render` | legacy dice shape, `SAVING_THROW`, thin control | `6d10 + strength`, `DICE`, difficult-terrain zone effects[] |
+| `berserk_indomitable_spirit` | buff no stats | death-prevention effects[] (status immunity + 1 HP floor) |
+| `berserk_avatar_of_slaughter` | buff missing, empty transformation | buffConfig (armor-break + regen) + full `transformationConfig` (newForm, description, grantedAbilities) |
+
+Drive-by build fix (pre-existing, unrelated): `minstrelData.js` 3 formulas used banned
+`charisma` → `spirit` (24 other Minstrel formulas already use spirit). `npm run validate:classes`
+was failing on it before this pass.
+
+### Flavor / class-fit review (proposals — Daniel decides, no content changes made)
+
+- **Format-only group** (`skull_cleaver`, `rending_flurry`, `bone_shatter`, `cleaving_cyclone`,
+  `spine_breaker`, `juggernaut_charge`, `world_render`): pure physical violence with Rage costs,
+  on-identity for the Flesh-Toll economy. No retheme needed, only the format migration above.
+- **`berserk_world_render` (L9)**: reads as generic earthquake. Proposal: retheme toward
+  caldera/forge imagery (e.g. "Caldera Collapse") to keep Nordhalla/Vault vocabulary. Mechanically
+  unchanged.
+- **`berserk_avatar_of_slaughter` (L10)**: now concrete; name is generic. Proposal: give it a
+  Hunger Pact name at review (e.g. reference the Forge or the Hunger Winter). Daniel decides.
+- **`bsk_caldera_warmth` vs `berserk_boiled_blood_constitution`**: deliberate self-vs-allies,
+  8h-vs-4h split of environmental heat/cold hardening. Overlap is intentional asymmetry; keep, but
+  keep both texts distinct (they are).
+- **`bsk_arterial_burst` (arterial surge)**: only action-economy lever in the kit (+2 AP self);
+  good decision texture. Watch in the anti-overlap pass vs Martyr/Chronarch AP manipulation.
+- **Out-of-combat suite** (`hunger_scent`, `caldera_warmth`, `boiled_blood`, `forge_touched_hands`,
+  `pain_blind`, `unbroken_will`): strong Hunger Pact survival identity for an all-combat class;
+  recommend keeping all six as L1–L3 identity picks.
+- **Shout ladder** (`intimidating_shout` L3 fear vs `war_cry_dominance` L6 party damage): distinct
+  enough; check Dominance vs Warlord tree's galvanize during talent review.
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --class Berserker`: 0 errors / 24 warnings (long descriptions)
+- `npm run validate:classes`: structure 0 issues; audit 0 integrity errors / 0 floor gaps / 0 warnings
+- `node scripts/spell-qa.mjs`: 0 issues
+- Jest `allGuides.test.js`: 107 passed
+- Playwright card review: pending (Daniel) — `Boiled-Blood Constitution` should now show only the
+  Utility block (no "No stats configured yet")
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+24 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

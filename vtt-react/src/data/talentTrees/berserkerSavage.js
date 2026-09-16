@@ -11,7 +11,7 @@ export const BERSERKER_SAVAGE = [
     name: "Hunger Pact Ignition",
     icon: "General/Rage",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Hunger Pact Ignition",
@@ -32,7 +32,7 @@ export const BERSERKER_SAVAGE = [
     name: "Reckless Abandon",
     icon: "Slashing/Bloody Slash",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Reckless Abandon",
@@ -42,7 +42,7 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { health: { baseAmount: 5, costType: "flat" }, rage: { baseAmount: -20 } },
       damageTypes: ["slicing", "smashing"],
       primaryDamage: { dice: "1d10", flat: 0, procChance: 100 },
@@ -59,7 +59,7 @@ export const BERSERKER_SAVAGE = [
     name: "Boiling Momentum",
     icon: "Fire/Fiery Dash",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Boiling Momentum",
@@ -81,7 +81,7 @@ export const BERSERKER_SAVAGE = [
     name: "Hemorrhagic Cleave",
     icon: "Slashing/Bloody Meat Cleaver",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "bsv_t1_hunger_pact",
     spell: {
       name: "Hemorrhagic Cleave",
@@ -91,7 +91,7 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "cone", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 20 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
@@ -107,7 +107,7 @@ export const BERSERKER_SAVAGE = [
     name: "Sundering Hack",
     icon: "Slashing/Slashing Cleave",
     maxRanks: 3,
-    position: { x: 2.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "bsv_t1_reckless_slash",
     spell: {
       name: "Sundering Hack",
@@ -130,7 +130,7 @@ export const BERSERKER_SAVAGE = [
     name: "Unbridled Adrenaline",
     icon: "Fire/Burning Figure",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "bsv_t2_hemorrhagic_cleave",
     spell: {
       name: "Unbridled Adrenaline",
@@ -161,7 +161,7 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 1, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { health: { baseAmount: 10, costType: "flat" } },
       damageTypes: ["slicing"],
       visualTheme: "blood", tags: ["self-damage", "burst-heat", "extra-attack", "berserker"]
@@ -178,7 +178,7 @@ export const BERSERKER_SAVAGE = [
     name: "Decapitating Strike",
     icon: "Slashing/Execution",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "bsv_t3_unbridled_adrenaline",
     spell: {
       name: "Decapitating Strike",
@@ -188,7 +188,7 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 40 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
@@ -204,7 +204,7 @@ export const BERSERKER_SAVAGE = [
     name: "Flesh Feast",
     icon: "Necrotic/Devour",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "bsv_t3_blood_frenzy_surge",
     spell: {
       name: "Flesh Feast",
@@ -226,7 +226,7 @@ export const BERSERKER_SAVAGE = [
     name: "Caldera Eruption",
     icon: "Fire/Volcanic Erupt",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "bsv_t4_decapitating_strike",
     spell: {
       name: "Caldera Eruption",
@@ -248,7 +248,7 @@ export const BERSERKER_SAVAGE = [
     name: "Pain-Driven Fury",
     icon: "Utility/Scaled Armor General",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "bsv_t4_flesh_harvest",
     spell: {
       name: "Pain-Driven Fury",
@@ -270,7 +270,7 @@ export const BERSERKER_SAVAGE = [
     name: "Whirlwind of Ruin",
     icon: "Slashing/Whirl",
     maxRanks: 3,
-    position: { x: 1, y: 5 },
+    position: { x: 4, y: 5 },
     requires: "bsv_t5_caldera_combustion",
     spell: {
       name: "Whirlwind of Ruin",
@@ -280,7 +280,7 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 60 } },
       damageTypes: ["slicing", "ember"],
       primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },
@@ -297,7 +297,7 @@ export const BERSERKER_SAVAGE = [
     name: "Limitless Furnace",
     icon: "Fire/Burning Forge",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "bsv_t5_berserk_resilience",
     spell: {
       name: "Limitless Furnace",
@@ -319,7 +319,7 @@ export const BERSERKER_SAVAGE = [
     name: "Avatar of the Hunger Pact",
     icon: "Necrotic/Bloody Eyes",
     maxRanks: 1,
-    position: { x: 1, y: 6 },
+    position: { x: 3.75, y: 6 },
     requires: "bsv_t6_whirlwind_of_ruin",
     spell: {
       name: "Avatar of the Hunger Pact",
@@ -341,7 +341,7 @@ export const BERSERKER_SAVAGE = [
     name: "Relentless Massacre",
     icon: "Utility/Skeletal Warrior",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "bsv_t6_limitless_heat",
     spell: {
       name: "Relentless Massacre",
@@ -362,7 +362,7 @@ export const BERSERKER_SAVAGE = [
     name: "Hemorrhagic Ruin",
     icon: "Slashing/Blood Dripping Blade",
     maxRanks: 5,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "bsv_t6_whirlwind_of_ruin",
     spell: {
       name: "Hemorrhagic Ruin",
@@ -386,7 +386,7 @@ export const BERSERKER_SAVAGE = [
     name: "Bloodprice Apotheosis",
     icon: "General/Split Health",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "bsv_t6_limitless_heat",
     spell: {
       name: "Bloodprice Apotheosis",
@@ -408,7 +408,7 @@ export const BERSERKER_SAVAGE = [
     name: "Overheat Burst",
     icon: "Fire/Crimson Eruption",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "bsv_t6_whirlwind_of_ruin",
     spell: {
       name: "Overheat Burst",
@@ -418,7 +418,7 @@ export const BERSERKER_SAVAGE = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 50 } },
       damageTypes: ["ember", "smashing"],
       primaryDamage: { dice: "6d8", flat: 0, procChance: 100 },

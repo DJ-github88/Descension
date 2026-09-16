@@ -69,3 +69,22 @@
 ## 6. Mind memory
 
 - `minstrel-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 24 flagged / 2 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `minstrel_rallying_anthem` | `buff` with no config | added marching-anthem aura buffConfig |
+| `charisma` formulas (drive-by from Berserker pass) | banned attribute in 3 damage formulas | `charisma` → `spirit` (24 other formulas already used spirit) |
+
+Flavor: note/cadence identity intact; no rethemes proposed.
+
+### Pass 2 addendum — 2026-09-16 (mechanical warning cleanup)
+
+`minstrel_harmony_of_renewal`: purification `effects[]` added. 11 cadence spells had `durationType: rounds` / `durationUnit: turns` — type aligned to `turns`; `song_of_rest` aligned to `hours`.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+14 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

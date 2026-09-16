@@ -74,3 +74,18 @@
 ## 6. Mind memory
 
 - `animist-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 8 flagged / 6 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `animist_spirit_voice`, `animist_spirit_hawk` | no `effectTypes` | added `utility` + divination/scout utilityConfigs |
+| `animist_threshold_ward`, `animist_mourners_pact` | `buff` with no config | added vigil-rest / kin-trust buffConfigs |
+
+Flavor: ancestor/Resonance identity intact (CL-02 founder fix remains tracked separately); no rethemes proposed.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+6 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

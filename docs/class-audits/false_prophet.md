@@ -78,3 +78,21 @@
 ## 6. Mind memory
 
 - `false-prophet-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 33 flagged / 8 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `fp_veil_of_silence` | `debuff`+`utility` with no configs | added silence debuff + zone utilityConfig |
+| `fp_mind_control` | `debuff`+`control` with no configs | added mind-control config (DC 15 Spirit) + mental debuff |
+| `fp_wyrd_shape` | `debuff`+`control` with no configs | added polymorph control + helpless debuff |
+| `fp_mass_apostasy` | `debuff` with no config | added oath-shatter debuffConfig |
+| `fp_the_great_delusion` | `utility` with no config | added dreamscape utilityConfig |
+
+Flavor: manufactured-gospel/madness identity intact; no rethemes proposed.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+28 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

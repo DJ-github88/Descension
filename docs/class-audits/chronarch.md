@@ -67,3 +67,22 @@
 ## 6. Mind memory
 
 - `chronarch-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 43 flagged / 4 errors. After: 0 errors** (remaining warnings are long descriptions + resource-value-missing items from the deep dive).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `chrono_slow_fall`, `chrono_time_blink` | no `effectTypes` | added `utility` + feather-fall / blink utilityConfigs |
+| `temporal_foreknowledge` | `buff` with no config | added already-lived buffConfig |
+
+Flavor: clockwork/time-shard identity intact; Temporal Strain modeling remains the tracked deep-dive gap.
+
+### Pass 3 addendum — 2026-09-16 (cooldown declarations)
+
+28 spells had no `cooldownConfig` at all. Per the SQL reference, the field is required; every affected spell now declares `cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }` — an explicit no-cooldown declaration matching the class's resource-gated design (Time Shards / Temporal Strain), not a balance change.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+12 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

@@ -29,7 +29,7 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       damageTypes: ["smashing", "arcane"],
@@ -46,7 +46,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Camouflage",
     icon: "Utility/Hide",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Shadow Camouflage",
@@ -66,7 +66,7 @@ export const APEX_SHADOWBLADE = [
     name: "Quarry Tracker",
     icon: "Piercing/On the Mark",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Quarry Tracker",
@@ -89,7 +89,7 @@ export const APEX_SHADOWBLADE = [
     name: "Phantom Step",
     icon: "Utility/Phantom Dash",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "sb_t1_shadow_strike",
     spell: {
       name: "Phantom Step",
@@ -99,14 +99,14 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 2 } },
       buffs: ["phantom-ambush"], visualTheme: "shadow", tags: ["teleport", "stealth", "ambush", "apex"]
     },
     rankUpgrades: [
-      { description: "Teleport up to 50 feet; next attack deals +5d8 bonus damage and cooldown drops to 6s.", cooldownValue: 6 },
-      { description: "Teleport up to 60 feet; next attack deals +7d8 bonus damage and refunds the 2 QM on hit.", cooldownValue: 4 }
+      { description: "Teleport up to 50 feet; next attack deals +5d8 bonus damage and cooldown drops to 1 round.", cooldownValue: 1 },
+      { description: "Teleport up to 60 feet; next attack deals +7d8 bonus damage and refunds the 2 QM on hit.", cooldownValue: 1 }
     ]
   },
   {
@@ -114,7 +114,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shared Shadow Bond",
     icon: "Utility/Companion With Familiar",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "sb_t1_dark_presence",
     spell: {
       name: "Shared Shadow Bond",
@@ -138,7 +138,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Eruption",
     icon: "Void/Red Energy Burst",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "sb_t2_phantom_step",
     spell: {
       name: "Shadow Eruption",
@@ -148,7 +148,7 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
       damageTypes: ["arcane"],
@@ -165,7 +165,7 @@ export const APEX_SHADOWBLADE = [
     name: "Lethal Execution",
     icon: "Slashing/Execution",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "sb_t2_shadow_synergy",
     spell: {
       name: "Lethal Execution",
@@ -187,7 +187,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Smoke Screen",
     icon: "Void/Contained Void Barrel",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0, y: 3 },
     requires: "sb_t3_shadow_eruption",
     spell: {
       name: "Shadow Smoke Screen",
@@ -197,14 +197,14 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 2 } },
       buffs: ["invisibility"], visualTheme: "shadow", tags: ["stealth-zone", "blind", "peel", "apex"]
     },
     rankUpgrades: [
-      { description: "30-foot mist lasts 4 rounds: allies gain +4 Durability Steps to equipped durability inside, enemies take 2d8 shadow per round.", aoeSize: 30, cooldownValue: 16 },
-      { description: "35-foot mist lasts 5 rounds: enemies inside cannot cast spells or make ranged attacks.", aoeSize: 35, cooldownValue: 12 }
+      { description: "30-foot mist lasts 4 rounds: allies gain +4 Durability Steps to equipped durability inside, enemies take 2d8 shadow per round.", aoeSize: 30, cooldownValue: 3 },
+      { description: "35-foot mist lasts 5 rounds: enemies inside cannot cast spells or make ranged attacks.", aoeSize: 35, cooldownValue: 2 }
     ]
   },
   {
@@ -212,7 +212,7 @@ export const APEX_SHADOWBLADE = [
     name: "Apex Ambush",
     icon: "Piercing/Piercing Impale",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "sb_t3_stalker_execute",
     spell: {
       name: "Apex Ambush",
@@ -243,7 +243,7 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "multi", rangeType: "ranged", range: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
       damageTypes: ["arcane", "smashing"],
@@ -251,7 +251,7 @@ export const APEX_SHADOWBLADE = [
       visualTheme: "shadow", tags: ["omni-slash", "multi-teleport", "nuke", "apex"]
     },
     rankUpgrades: [
-      { description: "Deals 10d10 total damage across 6 strikes, stuns all hit targets for 1 round, and ends in stealth.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
+      { description: "Deals 10d10 total damage across 6 strikes, stuns all hit targets for 1 round, and ends in stealth.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -259,7 +259,7 @@ export const APEX_SHADOWBLADE = [
     name: "Gloom Leech",
     icon: "Necrotic/Drain Soul",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "sb_t4_ambush_mastery",
     spell: {
       name: "Gloom Leech",
@@ -281,7 +281,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadow Entity",
     icon: "Void/Consumed by Void",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "sb_t5_glaive_dance",
     spell: {
       name: "Shadow Entity",
@@ -291,10 +291,10 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 5 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["shadow-entity"], visualTheme: "shadow", tags: ["transform", "phase", "maximize", "apex"]
     },
     rankUpgrades: []
@@ -304,7 +304,7 @@ export const APEX_SHADOWBLADE = [
     name: "Severing Shadow",
     icon: "Slashing/Bloody Slash",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "sb_t5_shadow_vitality",
     spell: {
       name: "Severing Shadow",
@@ -345,7 +345,7 @@ export const APEX_SHADOWBLADE = [
     name: "Avatar of the Phantom Hunt",
     icon: "Void/Black Hole",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "sb_t6_shadow_assassin",
     spell: {
       name: "Avatar of the Phantom Hunt",
@@ -355,10 +355,10 @@ export const APEX_SHADOWBLADE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["phantom-hunt"], visualTheme: "shadow", tags: ["ultimate", "capstone", "eclipse", "apex"]
     },
     rankUpgrades: []
@@ -368,7 +368,7 @@ export const APEX_SHADOWBLADE = [
     name: "Shadowblade Doctrine",
     icon: "Piercing/Bloody Dagger Strike",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "sb_t6_shadow_assassin",
     spell: {
       name: "Shadowblade Doctrine",
@@ -391,7 +391,7 @@ export const APEX_SHADOWBLADE = [
     name: "Apex Quarry Reservoir",
     icon: "Piercing/Arrow Shot",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Apex Quarry Reservoir",
@@ -411,7 +411,7 @@ export const APEX_SHADOWBLADE = [
     name: "Throat Cutter",
     icon: "Utility/Speed Dash",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "sb_t6_phantom_crits",
     spell: {
       name: "Throat Cutter",
@@ -435,15 +435,15 @@ export const APEX_SHADOWBLADE = [
     requires: "sb_t6_vanishing_act",
     spell: {
       name: "Shadowform Rebirth",
-      description: "While at 3+ QM, lethal damage dissolves you into pure gloom instead: prevents death, restores 30 Hit Points, places you in stealth, and teleports you 30 feet away (cooldown: 120s).",
+      description: "While at 3+ QM, lethal damage dissolves you into pure gloom instead: prevents death, restores 30 Hit Points, places you in stealth, and teleports you 30 feet away (cooldown: 20 rounds).",
       flavorText: "You cannot execute a shadow.",
       source: "talent", class: "Apex", treeId: "shadowblade",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "shadow", tags: ["passive", "capstone", "cheat-death", "apex"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 45 Hit Points, gain max QM, and vanish with 50 temp HP (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 60 Hit Points, max QM, and immediately cast Shadow Glaive Dance for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, gain max QM, and vanish with 50 temp HP (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, max QM, and immediately cast Shadow Glaive Dance for free (cooldown: 10 rounds)." }
     ]
   }
 ];
@@ -458,7 +458,7 @@ export const APEX_BLADESTORM = [
     name: "Ricochet Glaive",
     icon: "Slashing/Hurled Blade",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Ricochet Glaive",
@@ -468,7 +468,7 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "multi", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["smashing"],
@@ -485,7 +485,7 @@ export const APEX_BLADESTORM = [
     name: "Blade Momentum",
     icon: "Utility/Motion Swoosh",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Blade Momentum",
@@ -505,7 +505,7 @@ export const APEX_BLADESTORM = [
     name: "Aerodynamic Edges",
     icon: "Piercing/Upward Arrow",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Aerodynamic Edges",
@@ -526,7 +526,7 @@ export const APEX_BLADESTORM = [
     name: "Whirling Cyclone",
     icon: "Slashing/Whirl",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "bs_t1_ricochet_glaive",
     spell: {
       name: "Whirling Cyclone",
@@ -536,7 +536,7 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 2 } },
       damageTypes: ["smashing"],
@@ -553,7 +553,7 @@ export const APEX_BLADESTORM = [
     name: "Chain Reaction",
     icon: "Lightning/Lightning Network 1",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "bs_t1_momentum",
     spell: {
       name: "Chain Reaction",
@@ -575,7 +575,7 @@ export const APEX_BLADESTORM = [
     name: "Glaive Storm",
     icon: "Force/Energy Whirlwind",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "bs_t2_whirling_cyclone",
     spell: {
       name: "Glaive Storm",
@@ -585,7 +585,7 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
       damageTypes: ["smashing"],
@@ -603,7 +603,7 @@ export const APEX_BLADESTORM = [
     name: "Sunder Ricochet",
     icon: "General/Broken Armor",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4.5, y: 2 },
     requires: "bs_t2_chain_reaction",
     spell: {
       name: "Sunder Ricochet",
@@ -625,7 +625,7 @@ export const APEX_BLADESTORM = [
     name: "Apex Blade Barrage",
     icon: "Piercing/Dagger Rain",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0, y: 3 },
     requires: "bs_t3_glaive_storm",
     spell: {
       name: "Apex Blade Barrage",
@@ -635,7 +635,7 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 40, aoeShape: "cone", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
       damageTypes: ["smashing"],
@@ -643,8 +643,8 @@ export const APEX_BLADESTORM = [
       visualTheme: "physical", tags: ["cone", "barrage", "ricochet", "apex"]
     },
     rankUpgrades: [
-      { description: "45-foot cone deals 8d10 damage, glaives bounce twice, and cooldown drops to 16s.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 16 },
-      { description: "50-foot cone deals 10d10 damage, glaives bounce 3 times, and knocks all enemies prone.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 12 }
+      { description: "45-foot cone deals 8d10 damage, glaives bounce twice, and cooldown drops to 3 rounds.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 3 },
+      { description: "50-foot cone deals 10d10 damage, glaives bounce 3 times, and knocks all enemies prone.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -652,7 +652,7 @@ export const APEX_BLADESTORM = [
     name: "Infinite Bounce",
     icon: "Utility/Winding Path",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "bs_t3_shredding_blades",
     spell: {
       name: "Infinite Bounce",
@@ -673,7 +673,7 @@ export const APEX_BLADESTORM = [
     name: "Orbiting Glaive Shield",
     icon: "Force/Energy Coil",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 0, y: 4 },
     requires: "bs_t4_blade_barrage",
     spell: {
       name: "Orbiting Glaive Shield",
@@ -683,13 +683,13 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
       buffs: ["glaive-shield"], visualTheme: "physical", tags: ["shield", "parry", "retaliation", "apex"]
     },
     rankUpgrades: [
-      { description: "Gain +6 Durability Steps to equipped durability, retaliate for 5d8 damage, and absorb up to 100 damage.", cooldownValue: 24 }
+      { description: "Gain +6 Durability Steps to equipped durability, retaliate for 5d8 damage, and absorb up to 100 damage.", cooldownValue: 4 }
     ]
   },
   {
@@ -708,8 +708,8 @@ export const APEX_BLADESTORM = [
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "action-economy", "qm-gain", "apex"]
     },
     rankUpgrades: [
-      { description: "Gain 2 AP, 4 QM, and all glaive cooldowns reduce by 3 seconds on 4+ hits." },
-      { description: "Gain 3 AP, max QM, and all glaive cooldowns reduce by 6 seconds on 4+ hits." }
+      { description: "Gain 2 AP, 4 QM, and all glaive cooldowns reduce by 1 round on 4+ hits." },
+      { description: "Gain 3 AP, max QM, and all glaive cooldowns reduce by 1 round on 4+ hits." }
     ]
   },
 
@@ -719,7 +719,7 @@ export const APEX_BLADESTORM = [
     name: "The Grand Bladestorm",
     icon: "Slashing/Slashing Slash",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "bs_t5_shredder_orbit",
     spell: {
       name: "The Grand Bladestorm",
@@ -729,10 +729,10 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 5 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       buffs: ["bladestorm"], visualTheme: "physical", tags: ["vortex", "immune", "aoe-nuke", "apex"]
@@ -744,7 +744,7 @@ export const APEX_BLADESTORM = [
     name: "Severing Ricochets",
     icon: "Slashing/Bloody Slash 1",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "bs_t5_cyclone_surge",
     spell: {
       name: "Severing Ricochets",
@@ -784,7 +784,7 @@ export const APEX_BLADESTORM = [
     name: "Typhoon of Thousand Glaives",
     icon: "Nature/Tornado Vortex",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "bs_t6_the_grand_bladestorm",
     spell: {
       name: "Typhoon of Thousand Glaives",
@@ -794,10 +794,10 @@ export const APEX_BLADESTORM = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["smashing"],
       primaryDamage: { dice: "10d10", flat: 0, procChance: 100 },
       buffs: ["typhoon-glaives"], visualTheme: "physical", tags: ["ultimate", "capstone", "typhoon", "apex"]
@@ -809,7 +809,7 @@ export const APEX_BLADESTORM = [
     name: "Bladestorm Doctrine",
     icon: "Slashing/Crossed Swords Clash",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "bs_t6_the_grand_bladestorm",
     spell: {
       name: "Bladestorm Doctrine",
@@ -832,7 +832,7 @@ export const APEX_BLADESTORM = [
     name: "Autonomous Glaive Forge",
     icon: "Piercing/Arrow Shot",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "bs_t6_severing_ricochet",
     spell: {
       name: "Autonomous Glaive Forge",
@@ -852,7 +852,7 @@ export const APEX_BLADESTORM = [
     name: "Cyclone Criticality",
     icon: "Slashing/Slashing Slash 1",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.75, y: 6 },
     requires: "bs_t6_steel_tempest",
     spell: {
       name: "Cyclone Criticality",
@@ -872,19 +872,19 @@ export const APEX_BLADESTORM = [
     name: "Ironwood Reflex Rebirth",
     icon: "Utility/Barred Shield",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "bs_t6_steel_tempest",
     spell: {
       name: "Ironwood Reflex Rebirth",
-      description: "While in combat, lethal damage deflects off your spinning blades instead: restores 30 Hit Points, grants 40 temporary health, and automatically activates Whirling Cyclone for free (cooldown: 120s).",
+      description: "While in combat, lethal damage deflects off your spinning blades instead: restores 30 Hit Points, grants 40 temporary health, and automatically activates Whirling Cyclone for free (cooldown: 20 rounds).",
       flavorText: "You cannot touch the center of a whirlwind.",
       source: "talent", class: "Apex", treeId: "bladestorm",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "cheat-death", "apex"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 45 Hit Points, 60 temp HP, and gain full QM (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Grand Bladestorm for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 60 temp HP, and gain full QM (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Grand Bladestorm for free (cooldown: 10 rounds)." }
     ]
   }
 ];
@@ -899,7 +899,7 @@ export const APEX_BEASTMASTER = [
     name: "Pack Command Strike",
     icon: "Nature/Claw Marks",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Pack Command Strike",
@@ -909,7 +909,7 @@ export const APEX_BEASTMASTER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       damageTypes: ["smashing"],
@@ -926,7 +926,7 @@ export const APEX_BEASTMASTER = [
     name: "Bonded Vigor",
     icon: "Healing/Heart Ripple",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Bonded Vigor",
@@ -946,7 +946,7 @@ export const APEX_BEASTMASTER = [
     name: "Alpha Coordination",
     icon: "Nature/Wolf Human Split Face",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Alpha Coordination",
@@ -969,7 +969,7 @@ export const APEX_BEASTMASTER = [
     name: "Apex Beast Roar",
     icon: "Nature/Roaring Bear",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "bm_t1_coordinated_command",
     spell: {
       name: "Apex Beast Roar",
@@ -979,7 +979,7 @@ export const APEX_BEASTMASTER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 2 } },
       damageTypes: ["storm"],
@@ -987,8 +987,8 @@ export const APEX_BEASTMASTER = [
       debuffs: ["taunt"], visualTheme: "physical", tags: ["taunt", "aoe", "crowd-control", "apex"]
     },
     rankUpgrades: [
-      { description: "30-foot roar deals 5d8 damage, taunts for 3 rounds, and grants companion 30 temporary health.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 8 },
-      { description: "35-foot roar deals 7d8 damage, stuns all enemies for 1 round, taunts for 3 rounds, and grants 60 temp HP.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 6 }
+      { description: "30-foot roar deals 5d8 damage, taunts for 3 rounds, and grants companion 30 temporary health.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 1 },
+      { description: "35-foot roar deals 7d8 damage, stuns all enemies for 1 round, taunts for 3 rounds, and grants 60 temp HP.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 1 }
     ]
   },
   {
@@ -996,7 +996,7 @@ export const APEX_BEASTMASTER = [
     name: "Symbiotic Armor",
     icon: "Utility/Scaled Armor",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "bm_t1_primal_vigor",
     spell: {
       name: "Symbiotic Armor",
@@ -1018,7 +1018,7 @@ export const APEX_BEASTMASTER = [
     name: "Savage Pounce & Pin",
     icon: "Nature/Furious Leap",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "bm_t2_beast_roar",
     spell: {
       name: "Savage Pounce & Pin",
@@ -1028,7 +1028,7 @@ export const APEX_BEASTMASTER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 3 } },
       damageTypes: ["smashing"],
@@ -1045,7 +1045,7 @@ export const APEX_BEASTMASTER = [
     name: "Feral Excitement",
     icon: "Nature/Claw",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "bm_t2_thick_hide",
     spell: {
       name: "Feral Excitement",
@@ -1069,17 +1069,17 @@ export const APEX_BEASTMASTER = [
     name: "Alpha Pack Call",
     icon: "Utility/Summon Minion",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "bm_t3_savage_pounce",
     spell: {
       name: "Alpha Pack Call",
-      description: "Spend 4 QM: summon 3 secondary hunting beasts to join your primary companion for 3 rounds. All beasts attack the primary target for 6d8 damage each round and grant the entire party +20 points movement speed.",
+      description: "Spend 4 QM: summon 1 roundary hunting beasts to join your primary companion for 3 rounds. All beasts attack the primary target for 6d8 damage each round and grant the entire party +20 points movement speed.",
       flavorText: "The pack answers the true alpha.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
       damageTypes: ["smashing"],
@@ -1087,8 +1087,8 @@ export const APEX_BEASTMASTER = [
       visualTheme: "physical", tags: ["summon", "pack", "party-buff", "apex"]
     },
     rankUpgrades: [
-      { description: "Summons 4 beasts dealing 8d8 damage per round and party deals +15 points damage.", cooldownValue: 16 },
-      { description: "Summons 5 beasts dealing 10d8 damage per round, party deals +25 points damage, and beasts take attacks meant for allies.", cooldownValue: 12 }
+      { description: "Summons 4 beasts dealing 8d8 damage per round and party deals +15 points damage.", cooldownValue: 3 },
+      { description: "Summons 5 beasts dealing 10d8 damage per round, party deals +25 points damage, and beasts take attacks meant for allies.", cooldownValue: 2 }
     ]
   },
   {
@@ -1117,7 +1117,7 @@ export const APEX_BEASTMASTER = [
     name: "Bestial Overdrive",
     icon: "Nature/Transform Bear",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "bm_t4_pack_rally",
     spell: {
       name: "Bestial Overdrive",
@@ -1127,13 +1127,13 @@ export const APEX_BEASTMASTER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 4 } },
       buffs: ["bestial-overdrive"], visualTheme: "physical", tags: ["companion-buff", "giant", "haste", "apex"]
     },
     rankUpgrades: [
-      { description: "Bestial Overdrive lasts 4 rounds: companion deals triple damage and radiates an aura dealing 3d8 damage per round to adjacent foes.", cooldownValue: 24 }
+      { description: "Bestial Overdrive lasts 4 rounds: companion deals triple damage and radiates an aura dealing 3d8 damage per round to adjacent foes.", cooldownValue: 4 }
     ]
   },
   {
@@ -1141,7 +1141,7 @@ export const APEX_BEASTMASTER = [
     name: "Pack Bloodlust",
     icon: "General/Rage",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "bm_t4_beast_cleave",
     spell: {
       name: "Pack Bloodlust",
@@ -1163,7 +1163,7 @@ export const APEX_BEASTMASTER = [
     name: "Dual Apex Assault",
     icon: "Nature/Nature Shrine",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "bm_t5_beast_ascension",
     spell: {
       name: "Dual Apex Assault",
@@ -1173,7 +1173,7 @@ export const APEX_BEASTMASTER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 5 } },
       damageTypes: ["smashing"],
@@ -1187,7 +1187,7 @@ export const APEX_BEASTMASTER = [
     name: "Telepathic Sync",
     icon: "Psychic/Telepathic",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "bm_t5_pack_bloodlust",
     spell: {
       name: "Telepathic Sync",
@@ -1206,7 +1206,7 @@ export const APEX_BEASTMASTER = [
     name: "Intimidating Alpha",
     icon: "Utility/Fear",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "bm_t5_pack_bloodlust",
     spell: {
       name: "Intimidating Alpha",
@@ -1227,7 +1227,7 @@ export const APEX_BEASTMASTER = [
     name: "Avatar of the Beast Sovereign",
     icon: "Nature/Nature Primal",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "bm_t6_dual_apex_fury",
     spell: {
       name: "Avatar of the Beast Sovereign",
@@ -1237,10 +1237,10 @@ export const APEX_BEASTMASTER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { quarryMarks: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["beast-sovereign"], visualTheme: "physical", tags: ["ultimate", "capstone", "god-mode", "apex"]
     },
     rankUpgrades: []
@@ -1250,7 +1250,7 @@ export const APEX_BEASTMASTER = [
     name: "Beastmaster Doctrine",
     icon: "Utility/Horned Beast",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 0.75, y: 6 },
     requires: "bm_t6_dual_apex_fury",
     spell: {
       name: "Beastmaster Doctrine",
@@ -1273,7 +1273,7 @@ export const APEX_BEASTMASTER = [
     name: "Unbreakable Pack Bond",
     icon: "Nature/Fanned Leaf",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "bm_t6_telepathic_link",
     spell: {
       name: "Unbreakable Pack Bond",
@@ -1293,7 +1293,7 @@ export const APEX_BEASTMASTER = [
     name: "Synchronized Criticals",
     icon: "Nature/Panda Nature",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "bm_t6_primal_roar_defense",
     spell: {
       name: "Synchronized Criticals",
@@ -1313,19 +1313,19 @@ export const APEX_BEASTMASTER = [
     name: "Bonded Sacrifice Rebirth",
     icon: "Utility/Roaring Beast Head",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "bm_t6_primal_roar_defense",
     spell: {
       name: "Bonded Sacrifice Rebirth",
-      description: "While companion is alive, lethal damage is absorbed by companion instead: restores 30 Hit Points, grants 50 temp HP, and activates Bestial Overdrive for free (cooldown: 120s).",
+      description: "While companion is alive, lethal damage is absorbed by companion instead: restores 30 Hit Points, grants 50 temp HP, and activates Bestial Overdrive for free (cooldown: 20 rounds).",
       flavorText: "The beast holds the door against the final dark.",
       source: "talent", class: "Apex", treeId: "beastmaster",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "physical", tags: ["passive", "capstone", "cheat-death", "apex"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, and gain max QM (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 60 Hit Points, gain max QM, and immediately trigger Avatar of the Beast Sovereign for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, and gain max QM (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, gain max QM, and immediately trigger Avatar of the Beast Sovereign for free (cooldown: 10 rounds)." }
     ]
   }
 ];

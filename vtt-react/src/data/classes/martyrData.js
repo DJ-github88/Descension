@@ -949,7 +949,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   { id: "martyr_intervene",
    name: "Intervene",
    description:
-    "Step in front of an ally to intercept an attack, taking the damage yourself. If the intercepted damage is 10 or greater, you gain bonus Devotion equal to damage taken divided by 10 (minimum 1). If the intercepted damage is less than 10 (a minor hit), you bypass Devotion gain and instead immediately restore 1d4 Mana. Choose wisely: bleed for power, or sustain your casting.",
+    "Intercept an attack meant for an ally, taking the damage yourself. 10+ damage grants bonus Devotion (damage/10, min 1); under 10 restores 1d4 Mana instead.",
    level: 1,
    spellType: "REACTION",
    icon: "Utility/Shield",
@@ -1431,7 +1431,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    },
 
    durationConfig: {
-    durationType: "rounds",
+    durationType: "minutes",
     duration: 1,
     durationUnit: "minutes",
    },
@@ -1737,7 +1737,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    },
 
    resolution: "NONE",
-   effectTypes: ["cleanse"],
+   effectTypes: ["purification", "cleanse"],
 
    purificationConfig: {
     purificationType: "cleanse",
@@ -1745,6 +1745,9 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     power: "moderate",
     duration: "instant",
     selfEffect: "You suffer the removed condition for 1 round",
+    effects: [
+     { id: "cleansing_touch_purge", name: "Cleansed", description: "Removes one condition, curse, or affliction from the target; you suffer the removed condition for 1 round.", mechanicsText: "Cleanse one condition onto the Martyr for 1 round." }
+    ],
    },
 
    devotionRequired: 1,
@@ -2923,7 +2926,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   { id: "martyr_ultimate_sacrifice",
    name: "Ultimate Sacrifice",
    description:
-    "The ultimate act of martyrdom. Full Sacrifice: reduce yourself to 0 HP to fully resurrect and empower all fallen allies. Partial Sacrifice: sacrifice 50 HP to fully heal all living allies within range.",
+    "The ultimate martyrdom. Full Sacrifice: drop to 0 HP to fully resurrect and empower all fallen allies. Partial Sacrifice: spend 50 HP to fully heal all living allies within range.",
    level: 10,
    spellType: "ACTION",
    icon: "Healing/Ressusitate",
@@ -3105,7 +3108,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
    id : "martyr_burden_of_faith",
    name: "Burden of Faith",
    description:
-    "Your healing power flows through sacrifice, not generosity. You can never heal yourself with any Martyr ability. All your healing spells target allies only. The only HP you gain is through suffering for others. Self-preservation is antithetical to the martyr's path.",
+    "Your healing flows through sacrifice, not generosity: you can never heal yourself with any Martyr ability, and all healing targets allies only. The only HP you gain is through suffering for others.",
    level: 1,
    spellType: "PASSIVE",
    icon: "Radiant/Sacred Symbol",
@@ -3131,7 +3134,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   // ===== NON-COMBAT / SYMPATHY & SACRED-GUARDIAN UTILITY (the bearer of others' pain, out of combat) =====
   { id: "martyr_sympathys_thread",
     name: "Sympathy's Thread",
-    description: "Open the bond and feel the shape of suffering around you. For the duration you sense every wounded, dying, frightened, or despairing creature within range, their direction and rough state, and the emotional tenor of a place (grief, terror, relief). Pain reads louder than health. Out of combat.",
+    description: "Feel suffering around you: sense every wounded, dying, frightened, or despairing creature in range, their direction and state, and the emotional tenor of a place. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Healing/Heart Shield",
     typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","martyr"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -3143,19 +3146,28 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_solbrand_warmth",
     name: "Sol's Breath Warmth",
-    description: "Your obsidian scars flare with low Sol's Breath heat. For the duration you radiate gentle warmth and soft gold light: stave off frostbite and cold-exhaustion for yourself and nearby allies, kindle a fire from your own pain, dry soaked gear, or light a 30 ft radius. You take 1 HP of self-damage per hour maintained. Out of combat.",
+    description: "Your scars flare with low Sol's Breath heat: radiate warmth and gold light, staving off frostbite and cold-exhaustion for nearby allies, kindling fire, drying gear. 1 HP/hour. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Burning Ember",
     typeConfig: { school: "ember", icon: "Fire/Flame Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","martyr"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Breathe into your scars until they glow" },
     resolution: "NONE", effectTypes: ["utility","buff"],
     utilityConfig: { utilityType: "environment", selectedEffects: [ { id: "solbrand_warmth_hearth", name: "Living Hearth", description: "For 1 hour: emit warmth + soft gold light in 30 ft; allies ignore mundane cold exposure/frostbite; kindle a fire; dry gear. Costs 1 HP/hour maintained.", mechanicsText: "Warmth + light 30 ft; ignore cold exposure; 1 HP/hour." } ], duration: 1, durationUnit: "hours", power: "minor" },
+    buffConfig: {
+      buffType: "auraEffect",
+      effects: [
+        { id: "solbrand_warmth_buff", name: "Sol's Breath Warmth", description: "You radiate gentle warmth and soft gold light: allies within 30ft ignore frostbite and cold-exhaustion.", mechanicsText: "Allies ignore cold exposure within 30ft; 1 HP/hour." }
+      ],
+      durationType: "hours",
+      durationValue: 1,
+      durationUnit: "hours"
+    },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","exploration","rest","martyr"],
   },
   { id: "martyr_vow_ward",
     name: "Vow-Ward",
-    description: "Swear to guard one creature or a small defined place for up to a day. For the duration you sense the moment that subject is threatened or breached, and may move an extra 10 ft toward them when you do. If you knowingly abandon the warded subject, you suffer a Devotion penalty and sympathetic pain. Out of combat.",
+    description: "Swear to guard one creature or place up to a day: sense when it is threatened or breached and move an extra 10ft toward it. Abandoning the ward costs Devotion and causes pain. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Healing/Heart Shield",
     typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "MINUTES", tags: ["utility","ward","social","martyr"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -3167,7 +3179,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_bear_the_burden",
     name: "Bear the Burden",
-    description: "Take a curse, magical affliction, or lingering sickness OFF another creature or object and onto your own flesh, suffering it so they are freed. You do not cure it; you carry it. The heavier the burden, the more it hurts you, and you cannot bear what would outright kill you. Out of combat.",
+    description: "Take a curse, affliction, or sickness off another creature or object onto your own flesh. You do not cure it; you carry it. The heavier the burden, the more it hurts. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
     typeConfig: { school: "ember", icon: "Necrotic/Necrotic Wither", castTime: 10, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","martyr"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -3179,19 +3191,28 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_sanctified_word",
     name: "Sanctified Word",
-    description: "Speak a vow that binds YOU, not them. Once per long rest, swear to fulfill a single stated promise (to protect, to deliver, to answer truly). The vow is magically binding on you  -  breaking it costs you HP and Devotion  -  and others feel its weight, granting advantage on Persuasion and reassurance checks with those who hear it, because they can sense you mean it absolutely. Out of combat.",
+    description: "Once per long rest, swear a promise that binds YOU: breaking it costs HP and Devotion. Listeners sense you mean it absolutely, granting advantage on Persuasion and reassurance. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
     typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","martyr"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["verbal"], verbalText: "The sworn promise, spoken aloud" },
     resolution: "NONE", effectTypes: ["utility","buff"],
     utilityConfig: { utilityType: "social", selectedEffects: [ { id: "sanctified_word_vow", name: "Self-Bound Vow", description: "Swear one promise; it binds you (breach costs 2d6 HP + 1 Devotion Level). Listeners feel its reality, granting advantage on Persuasion/reassurance with them for the scene. Useless if you swear falsely  -  the vow only binds what you truly intend.", mechanicsText: "Self-binding vow; advantage on Persuasion; penalty to break." } ], duration: 1, durationUnit: "days", power: "moderate" },
+    buffConfig: {
+      buffType: "combatAdvantage",
+      effects: [
+        { id: "sanctified_word_buff", name: "Word of Truth", description: "Others sense the absolute weight of your vow: advantage on Persuasion and reassurance checks with those who hear it.", mechanicsText: "Advantage on Persuasion/reassurance for the scene." }
+      ],
+      durationType: "days",
+      durationValue: 1,
+      durationUnit: "days"
+    },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
     tags: ["utility","social","martyr"],
   },
   { id: "martyr_empathic_transference",
     name: "Empathic Transference",
-    description: "Reach out and touch a fatigued, aching ally. Siphon their physical exhaustion, aches, and metabolic strain directly into your own muscles. They are fully refreshed, while you take on their heavy weariness.",
+    description: "Touch a fatigued ally and siphon their exhaustion, aches, and metabolic strain into your own muscles: they are fully refreshed while you take on their heavy weariness.",
     level: 2, spellType: "ACTION", icon: "sacred/sacred Healing",
     typeConfig: { school: "sacred", icon: "sacred/sacred Healing", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","roleplay","martyr"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["ally"] },
@@ -3315,7 +3336,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     durationConfig: {
       durationType: "instant",
       durationValue: 0,
-      durationUnit: "rounds"
+      durationUnit: "instant"
     },
     resourceCost: {
       actionPoints: 1,
@@ -3394,6 +3415,12 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
       durationValue: 3,
       durationUnit: "rounds"
     },
+    healingConfig: {
+      formula: "healing_received",
+      healingType: "conditional",
+      resolution: "AUTOMATIC",
+      description: "Any healing received by one bonded ally is shared equally across all bonded members."
+    },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
     tags: ["buff", "healing", "support", "covenant", "martyr"]
   },
@@ -3451,7 +3478,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_furnace_overcharge",
     name: "Furnace Vent Overcharge",
-    description: "Vent superheated boiler pressure from your furnace plating in a 30ft cone. Deals 10d8 ember damage to enemies (Agility DC 18 for half), plus bonus damage equal to half the total HP you sacrificed this combat.",
+    description: "Vent superheated pressure from your furnace plating in a 30ft cone: 10d8 ember (Agility DC 18 half), plus bonus damage equal to half the HP you sacrificed this combat.",
     level: 8,
     spellType: "ACTION",
     icon: "Fire/Burning Ember",
@@ -3472,7 +3499,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     durationConfig: {
       durationType: "instant",
       durationValue: 0,
-      durationUnit: "rounds"
+      durationUnit: "instant"
     },
     resourceCost: {
       actionPoints: 2,
@@ -3499,7 +3526,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_shroud_of_the_martyred_saint",
     name: "Shroud of the Martyred Saint",
-    description: "Surround an ally in an ethereal golden shroud for 3 rounds. The ally is completely immune to physical and elemental damage; 100% of all damage they would take is transferred to the Martyr with 25% damage reduction.",
+    description: "Shroud an ally in golden light for 3 rounds: immune to physical and elemental damage, with 100% of damage they would take transferred to the Martyr at 25% reduction.",
     level: 8,
     spellType: "ACTION",
     icon: "Radiant/Golden Embrace",
@@ -3551,7 +3578,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_retributive_immolation",
     name: "Retributive Immolation",
-    description: "Sacrifice 40 HP to detonate a cataclysmic solar supernova in a 35ft radius. Deals 12d10 ember damage to enemies (Spirit DC 19 for half) and cleanses all negative conditions from allies while granting them 40 Temporary HP.",
+    description: "Sacrifice 40 HP to detonate a solar supernova in a 35ft radius: 12d10 ember to enemies (Spirit DC 19 half), cleansing allies of all negative conditions and granting 40 Temporary HP.",
     level: 9,
     spellType: "ACTION",
     icon: "Fire/Meteor Strike",
@@ -3571,7 +3598,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     durationConfig: {
       durationType: "instant",
       durationValue: 0,
-      durationUnit: "rounds"
+      durationUnit: "instant"
     },
     resourceCost: {
       actionPoints: 2,
@@ -3613,7 +3640,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_unbroken_covenant",
     name: "Unbroken Covenant of Morvane",
-    description: "Enter an unbreakable legal covenant with your entire party for 1 minute (10 rounds). Allies cannot die under any circumstances while the Martyr is conscious; any blow that would drop an ally below 1 HP leaves them at 1 HP and transfers remaining damage to your Devotion pool.",
+    description: "An unbreakable covenant with your party for 1 minute: allies cannot die while you are conscious; a blow dropping an ally below 1 HP leaves them at 1 and moves the rest to your Devotion.",
     level: 10,
     spellType: "ACTION",
     icon: "Radiant/Divine Illumination",
@@ -3665,7 +3692,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
   },
   { id: "martyr_dreadnaught_transcendence",
     name: "Dreadnaught Transcendence",
-    description: "Awaken the ancient Cragjaw furnace within your iron plating for 5 rounds. Size increases to Huge, gain 80 Temporary HP, DR 12 against all damage, and whenever you take damage, you immediately retaliate with a 4d10 smashing cleave against all adjacent foes (0 AP).",
+    description: "Awaken the Cragjaw furnace within your plating for 5 rounds: size Huge, 80 Temporary HP, DR 12, and taking damage triggers an immediate 4d10 smashing retaliation cleave against adjacent foes (0 AP).",
     level: 10,
     spellType: "ACTION",
     icon: "Utility/Empowered Warrior",

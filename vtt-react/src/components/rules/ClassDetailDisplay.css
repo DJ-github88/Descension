@@ -2033,6 +2033,207 @@ div.class-detail-content::-webkit-scrollbar,
   padding: 20px;
 }
 
+/* ===== Specialization Spotlight (Overview) ===== */
+.spec-spotlight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.spec-selector-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.spec-selector-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(to bottom, #f8f4e6 0%, #f0ead8 100%);
+  border: 2px solid rgba(139, 69, 19, 0.25);
+  border-left: 5px solid var(--spec-color, #d4af37);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.spec-selector-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  border-color: var(--spec-color, #8b4513);
+}
+
+.spec-selector-card.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(139, 69, 19, 0.14) 100%);
+  border-color: var(--spec-color, #8b4513);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+}
+
+.spec-selector-icon {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  border: 2px solid var(--spec-color, #d4af37);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #241312;
+}
+
+.spec-selector-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.spec-selector-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.spec-selector-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #3d1a0a;
+  letter-spacing: 0.3px;
+}
+
+.spec-selector-theme {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.92rem;
+  font-style: italic;
+  color: #6b3a22;
+}
+
+.spec-selector-check {
+  margin-left: auto;
+  color: var(--spec-color, #d4af37);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.spec-selector-card.active .spec-selector-check {
+  opacity: 1;
+}
+
+.spec-profile {
+  position: relative;
+  background: linear-gradient(to bottom, #f8f4e6 0%, #f0ead8 100%);
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.spec-profile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: var(--spec-color, #d4af37);
+  pointer-events: none;
+}
+
+.spec-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 20px;
+  color: #ffffff;
+}
+
+.spec-profile-header .spec-title h4 {
+  margin: 0 0 4px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+.spec-profile .spec-body.premium-body {
+  padding: 20px;
+}
+
+.spec-method {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: rgba(212, 175, 55, 0.08);
+  border-radius: 6px;
+}
+
+.spec-method-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #5a1e12;
+}
+
+.spec-method-label i {
+  color: #8b4513;
+}
+
+.spec-method-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spec-method-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: 14px;
+  background: rgba(139, 69, 19, 0.08);
+  border: 1px solid rgba(139, 69, 19, 0.22);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #433422;
+}
+
+.spec-traits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.spec-traits-grid .spec-strengths,
+.spec-traits-grid .spec-weaknesses {
+  margin-bottom: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.spec-traits-grid .spec-strengths {
+  background: rgba(34, 139, 34, 0.06);
+  border: 1px solid rgba(34, 139, 34, 0.18);
+}
+
+.spec-traits-grid .spec-weaknesses {
+  background: rgba(220, 20, 60, 0.05);
+  border: 1px solid rgba(220, 20, 60, 0.16);
+}
+
+@media (max-width: 900px) {
+  .spec-traits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ===== Resource Bar Sizing: Rules Page Header ===== */
 .class-header-resource .class-resource-wrapper {
   width: 100% !important;

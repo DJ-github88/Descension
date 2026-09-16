@@ -2045,6 +2045,18 @@ MAX BANKED SPHERES: 12
    targetingConfig: { targetingType: "point", rangeType: "ranged", rangeDistance: 30 },
    resourceCost: { actionPoints: 3, mana: 12 , classResource: { type: "elemental_spheres", cost: 2 } },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+   resolution: "NONE",
+   effectTypes: ["utility"],
+   utilityConfig: {
+     utilityType: "teleportation",
+     selectedEffects: [
+       { id: "prismatic_portal_link", name: "Solvan Beacon Portal", description: "Open a glowing 6ft portal connecting your current location to a known Solvan beacon up to 10 miles away.", mechanicsText: "Two-way portal to a known beacon, up to 10 miles, 1 minute." }
+     ],
+     duration: 1,
+     durationUnit: "minutes",
+     concentration: false,
+     power: "major"
+   },
    tags: ["utility", "teleport", "portal", "arcanoneer"]
   },
   // ========================================
@@ -2055,7 +2067,7 @@ MAX BANKED SPHERES: 12
    id: "arc_aetheric_lantern",
    name: "Aetheric Projection Lantern",
    description:
-    "You focus raw aetheric energy through your mechanical lens, projecting a highly detailed 3D holographic blueprint or map of an observed mechanical object, lock, or structural seam. Somatic strain causes sweat to bead on your forehead as you maintain the projection.",
+    "Focus aetheric energy through your mechanical lens to project a detailed 3D holographic blueprint or map of an observed mechanical object, lock, or structural seam.",
    level: 1,
    spellType: "ACTION",
    icon: "Arcane/Beckon Faith",
@@ -2559,7 +2571,7 @@ MAX BANKED SPHERES: 12
     spheres: ["blight", "blight"],
    },
 
-   effectTypes: ["damage", "defensive"],
+   effectTypes: ["damage", "debuff", "defense"],
 
    damageConfig: {
     formula: "1d8 + intelligence/4",
@@ -3282,6 +3294,16 @@ MAX BANKED SPHERES: 12
      "A golden sigil hovers over the target. The next time they take damage, it is reduced by half. The ward then fades.",
    },
 
+   buffConfig: {
+    buffType: "damageMitigation",
+    effects: [
+     { id: "radiant_ward_sigil", name: "Radiant Ward", description: "The next time the target would take damage, reduce it by half; the ward then fades.", mechanicsText: "Next damage instance reduced 50%." }
+    ],
+    durationType: "rest",
+    restType: "long",
+    canBeDispelled: true,
+   },
+
    cooldownConfig: {
     cooldownType: "turn_based",
     cooldownValue: 0,
@@ -3858,7 +3880,7 @@ MAX BANKED SPHERES: 12
     spheres: ["ember", "sacred", "Arcane"],
    },
 
-   effectTypes: ["damage", "buff"],
+   effectTypes: ["damage", "buff", "debuff"],
 
    damageConfig: {
     formula: "10d6 + intelligence",
@@ -3872,6 +3894,21 @@ MAX BANKED SPHERES: 12
      partialEffectFormula: "damage/2",
      saveOutcome: "half_damage",
     },
+   },
+
+   buffConfig: {
+    buffType: "damageMitigation",
+    effects: [
+     {
+      id: "celestial_storm_barrier",
+      name: "Kinetic Barrier",
+      description: "Allies in the storm's area gain defensive kinetic barriers.",
+      mechanicsText: "Kinetic barriers on allies within the area."
+     }
+    ],
+    durationValue: 2,
+    durationType: "rounds",
+    durationUnit: "rounds"
    },
 
    debuffConfig: {
@@ -4458,7 +4495,7 @@ MAX BANKED SPHERES: 12
     spheres: ["Arcane", "ember", "blight", "ember"],
    },
 
-   effectTypes: ["buff", "defensive", "debuff"],
+   effectTypes: ["buff", "defense", "debuff"],
 
    buffConfig: {
     buffType: "custom",
@@ -4810,6 +4847,17 @@ MAX BANKED SPHERES: 12
     concentration: true,
     newForm: "Living Conduit",
     description: "Your body radiates prismatic elemental energy as a living conduit of force. You gain +4 spell damage, +3 Durability, fire/frost/lightning resistance, and 2-sphere spells cost half mana (rounded down).",
+    statModifiers: [
+     { stat: "spell_damage", magnitude: 4, magnitudeType: "flat" },
+     { stat: "durability", magnitude: 3, magnitudeType: "flat" }
+    ],
+    specialAbilities: [
+     { name: "Prismatic Conduit", description: "Fire/frost/lightning resistance and 2-sphere spells cost half mana." }
+    ],
+    grantedAbilities: [
+     { id: "living_conduit_resistance", name: "Elemental Resistance", description: "Resistance to fire, frost, and lightning damage." },
+     { id: "living_conduit_efficiency", name: "Sphere Efficiency", description: "2-sphere spells cost half mana (rounded down)." }
+    ],
     power: "ultimate",
     maintainEquipment: true
    },
@@ -4981,6 +5029,19 @@ MAX BANKED SPHERES: 12
       mechanicsText: "Immobilized + 25% physical vulnerability for 2 rounds.",
      },
     ],
+   },
+   debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [
+     {
+      id: "cryo_crystal_brittle",
+      name: "Brittle Limbs",
+      description: "Encased limbs take 25% increased physical damage while frozen.",
+      mechanicsText: "+25% physical damage taken for 2 rounds."
+     }
+    ],
+    durationValue: 2,
+    durationUnit: "rounds"
    },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
    tags: ["rime", "primal", "control", "debuff"],
@@ -5272,9 +5333,10 @@ MAX BANKED SPHERES: 12
    id: "arc_sphere_exhaustion",
    name: "Sphere Exhaustion",
    description:
-    "If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost — conserve or suffer.",
+   "If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost - conserve or suffer.",
    level: 1,
    spellType: "PASSIVE",
+   icon: "Arcane/Spellcasting Aura",
    effectTypes: ["passive"],
    typeConfig: {
     school: "arcane",

@@ -65,3 +65,21 @@
 ## 6. Mind memory
 
 - `harbinger-deep-dive-2026-09-14`, `damage-type-consistency-audit-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 11 flagged / 1 error. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `harbinger_universal_calamity_stasis_horizon` | `control` with no config, buff not gated | added cooldown-freeze zone config + `buff` type |
+
+Flavor: Mayhem/prophecy identity intact; no rethemes proposed.
+
+### Pass 2 addendum — 2026-09-16 (mechanical warning cleanup)
+
+`harbinger_universal_twist_of_doom`: reroll utility now renders via `selectedEffects` (was only in an unread `effects[]`).
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+10 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

@@ -29,7 +29,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Runic Precision",
     icon: "Arcane/Abstract Rune",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Runic Precision",
@@ -59,7 +59,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 5, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -67,8 +67,8 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       visualTheme: "arcane", tags: ["swap", "control", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Spend 2 mana: swap up to 3 banked spheres to chosen elements. Swapped spheres deal +1d6 when next spent. Cooldown drops to 4 seconds.", resourceCosts: { mana: { baseAmount: 2 } }, primaryDamage: { dice: "1d6", flat: 0, procChance: 100 }, cooldownValue: 4 },
-      { description: "Spend 1 mana: swap any number of banked spheres to chosen elements. Swapped spheres deal +1d8 when next spent. Cooldown drops to 3 seconds.", resourceCosts: { mana: { baseAmount: 1 } }, primaryDamage: { dice: "1d8", flat: 0, procChance: 100 }, cooldownValue: 3 }
+      { description: "Spend 2 mana: swap up to 3 banked spheres to chosen elements. Swapped spheres deal +1d6 when next spent. Cooldown drops to 1 round.", resourceCosts: { mana: { baseAmount: 2 } }, primaryDamage: { dice: "1d6", flat: 0, procChance: 100 }, cooldownValue: 1 },
+      { description: "Spend 1 mana: swap any number of banked spheres to chosen elements. Swapped spheres deal +1d8 when next spent. Cooldown drops to 1 round.", resourceCosts: { mana: { baseAmount: 1 } }, primaryDamage: { dice: "1d8", flat: 0, procChance: 100 }, cooldownValue: 1 }
     ]
   },
   {
@@ -107,13 +107,13 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 0 } },
       visualTheme: "arcane", tags: ["storage", "mana", "crystal", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Store up to 20 mana in a crystal. Shattering also grants 1 sphere of your choice and a bonus Action Point (use it only to cast). Cooldown drops to 8 seconds.", cooldownValue: 8 },
+      { description: "Store up to 20 mana in a crystal. Shattering also grants 1 sphere of your choice and a bonus Action Point (use it only to cast). Cooldown drops to 1 round.", cooldownValue: 1 },
       { description: "Store up to 30 mana in a crystal. In combat, crystals passively accrue 1 mana per round. Shattering grants 2 chosen spheres and a bonus Action Point." }
     ]
   },
@@ -122,7 +122,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Sphere Lock",
     icon: "Force/Force Tied",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 1, y: 1 },
     requires: "sa_t1_runic_precision",
     spell: {
       name: "Sphere Lock",
@@ -165,7 +165,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Runic Matrix",
     icon: "Arcane/Angular Rune",
     maxRanks: 2,
-    position: { x: 1, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "sa_t2_sphere_lock",
     spell: {
       name: "Runic Matrix",
@@ -175,16 +175,16 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 10,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 8 }, spheres: { baseAmount: 1 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       buffs: ["runic-matrix"], visualTheme: "arcane", tags: ["matrix", "zone", "empower", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "15-foot Runic Matrix within 30 feet (1 minute). Spells through it cost 3 less mana and deal +2d8 damage. Cooldown drops to 16 seconds.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, aoeSize: 15, cooldownValue: 16 }
+      { description: "15-foot Runic Matrix within 30 feet (1 minute). Spells through it cost 3 less mana and deal +2d8 damage. Cooldown drops to 3 rounds.", primaryDamage: { dice: "2d8", flat: 0, procChance: 100 }, aoeSize: 15, cooldownValue: 3 }
     ]
   },
   {
@@ -202,7 +202,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 }, spheres: { baseAmount: 2 } },
       damageTypes: ["ember", "rime", "storm", "arcane"],
@@ -210,7 +210,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       visualTheme: "arcane", tags: ["synthesis", "conversion", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Spend 2 mana: synthesize 2 different spheres into 1 chosen sphere. Synthesized sphere deals +2d6 when spent. Cooldown drops to 5 seconds.", resourceCosts: { mana: { baseAmount: 2 } }, primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, cooldownValue: 5 },
+      { description: "Spend 2 mana: synthesize 2 different spheres into 1 chosen sphere. Synthesized sphere deals +2d6 when spent. Cooldown drops to 1 round.", resourceCosts: { mana: { baseAmount: 2 } }, primaryDamage: { dice: "2d6", flat: 0, procChance: 100 }, cooldownValue: 1 },
       { description: "Free synthesis once per turn: combine 2 different spheres into 1 chosen sphere. Synthesized sphere deals +2d6 when spent and counts as a pure pair for purity bonuses." }
     ]
   },
@@ -221,7 +221,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Sphere Network",
     icon: "Psychic/Mind Growth",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "sa_t3_runic_matrix",
     spell: {
       name: "Sphere Network",
@@ -263,7 +263,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Runic Ascendancy",
     icon: "Arcane/Empowering Growth",
     maxRanks: 1,
-    position: { x: 0.5, y: 4 },
+    position: { x: 0, y: 4 },
     requires: "sa_t4_sphere_network",
     spell: {
       name: "Runic Ascendancy",
@@ -291,7 +291,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 0 } },
       buffs: ["shield"], visualTheme: "arcane", tags: ["reaction", "defense", "crystal", "arcanoneer"]
@@ -343,7 +343,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Rune Optimization",
     icon: "Psychic/Psionic Rune",
     maxRanks: 3,
-    position: { x: 2.5, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "sa_t5_crystal_bastion",
     spell: {
       name: "Rune Optimization",
@@ -375,7 +375,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 8 }, spheres: { baseAmount: 1 } },
       visualTheme: "arcane", tags: ["ultimate", "capstone", "custom", "arcanoneer"]
@@ -387,7 +387,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Ledger Mastery",
     icon: "Chaos/Chaos Book Channel",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 0.75, y: 6 },
     requires: "sa_t6_arcane_efficiency",
     spell: {
       name: "Ledger Mastery",
@@ -429,7 +429,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     name: "Matrix Lattice",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "sa_t6_rune_optimization",
     spell: {
       name: "Matrix Lattice",
@@ -455,15 +455,15 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
     requires: "sa_t5_crystal_bastion",
     spell: {
       name: "First Contract's Heir",
-      description: "Elemental Convergence costs 1 fewer sphere (minimum 1) and its cooldown is reduced by 30 seconds.",
+      description: "Elemental Convergence costs 1 fewer sphere (minimum 1) and its cooldown is reduced by 5 rounds.",
       flavorText: "Valerius left room in the will. For exactly you.",
       source: "talent", class: "Arcanoneer", treeId: "sphere_architect",
       spellType: "PASSIVE", category: "utility",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "ultimate", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Elemental Convergence costs 2 fewer spheres, cooldown -60 seconds, and its cast time is halved." },
-      { description: "Elemental Convergence costs 3 fewer spheres, cooldown -90 seconds, instant cast, and may be signed twice per combat." }
+      { description: "Elemental Convergence costs 2 fewer spheres, cooldown -10 rounds, and its cast time is halved." },
+      { description: "Elemental Convergence costs 3 fewer spheres, cooldown -15 rounds, instant cast, and may be signed twice per combat." }
     ]
   }
 ];

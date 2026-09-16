@@ -14,7 +14,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Starlight Carapace",
     icon: "Radiant/Radiant Golden Shield",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 1, y: 0 },
     requires: null,
     spell: {
       name: "Starlight Carapace",
@@ -35,7 +35,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Radiant Shield Slam",
     icon: "Bludgeoning/Warrior Hammer Shield",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Radiant Shield Slam",
@@ -45,7 +45,7 @@ export const CRUSADER_DAWN_BASTION = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 3, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       damageTypes: ["smashing", "sacred"],
@@ -63,7 +63,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Vow of the Aegis",
     icon: "Radiant/Golden Embrace",
     maxRanks: 2,
-    position: { x: 2.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Vow of the Aegis",
@@ -85,7 +85,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Sanctified Aegis Ground",
     icon: "Radiant/Radiant Magical Rune",
     maxRanks: 3,
-    position: { x: 1, y: 1.5 },
+    position: { x: 1, y: 1 },
     requires: "cdb_t1_bastion_armor",
     spell: {
       name: "Sanctified Aegis Ground",
@@ -106,7 +106,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Beacon of Solvan Challenge",
     icon: "Radiant/Radiant Light Burst",
     maxRanks: 3,
-    position: { x: 3, y: 1.5 },
+    position: { x: 4, y: 1 },
     requires: "cdb_t1_shield_slam",
     spell: {
       name: "Beacon of Solvan Challenge",
@@ -116,7 +116,7 @@ export const CRUSADER_DAWN_BASTION = [
       spellType: "ACTIVE", category: "debuff",
       actionPoints: 1, targetingMode: "aoe", rangeType: "self-centered", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 5 } },
       damageTypes: ["sacred"],
@@ -134,7 +134,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Starlight Wall",
     icon: "Force/Radiating Barrier",
     maxRanks: 3,
-    position: { x: 0.75, y: 3 },
+    position: { x: 0.5, y: 2 },
     requires: "cdb_t2_consecrated_bastion",
     spell: {
       name: "Starlight Wall",
@@ -145,7 +145,7 @@ export const CRUSADER_DAWN_BASTION = [
       actionPoints: 2, targetingMode: "line", rangeType: "ranged", range: 20,
       aoeShape: "line", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 7 } },
       visualTheme: "holy", tags: ["wall", "cover", "ranged-defense", "crusader"]
@@ -160,7 +160,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Retributive Mirror",
     icon: "Radiant/Golden Ring",
     maxRanks: 3,
-    position: { x: 3.25, y: 3 },
+    position: { x: 3, y: 2 },
     requires: "cdb_t2_radiant_taunt",
     spell: {
       name: "Retributive Mirror",
@@ -184,7 +184,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Immovable Sentinel",
     icon: "General/Defend",
     maxRanks: 3,
-    position: { x: 0.5, y: 4.5 },
+    position: { x: 1.5, y: 3 },
     requires: "cdb_t3_starlight_bulwark",
     spell: {
       name: "Immovable Sentinel",
@@ -205,7 +205,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Dawnward Rally",
     icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 2,
-    position: { x: 3.5, y: 4.5 },
+    position: { x: 3.5, y: 3 },
     requires: "cdb_t3_retributive_mirror",
     spell: {
       name: "Dawnward Rally",
@@ -215,7 +215,7 @@ export const CRUSADER_DAWN_BASTION = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 } },
       visualTheme: "holy", tags: ["aoe", "cleanse", "temp-hp", "support", "crusader"]
@@ -231,7 +231,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Living Phalanx",
     icon: "Bludgeoning/Fist Shield",
     maxRanks: 3,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 4 },
     requires: "cdb_t4_immovable_sentinel",
     spell: {
       name: "Living Phalanx",
@@ -252,7 +252,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Sacrifice Interposition",
     icon: "Radiant/Prayer of the Desperate",
     maxRanks: 2,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.5, y: 4 },
     requires: "cdb_t4_bastion_rally",
     spell: {
       name: "Sacrifice Interposition",
@@ -279,7 +279,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Monolith of the Vigil",
     icon: "Radiant/Golden Bell",
     maxRanks: 1,
-    position: { x: 0.5, y: 7 },
+    position: { x: 0, y: 5 },
     requires: "cdb_t5_unyielding_phalanx",
     spell: {
       name: "Monolith of the Vigil",
@@ -290,7 +290,7 @@ export const CRUSADER_DAWN_BASTION = [
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 20,
       aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 10 } },
       visualTheme: "holy", tags: ["aoe", "dome", "damage-reduction", "crusader"]
@@ -302,7 +302,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Heart of the Sun Fortress",
     icon: "Radiant/Radiant Golden Knight",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 1.5, y: 5 },
     requires: ["cdb_t5_unyielding_phalanx", "cdb_t5_sacred_redirection"],
     spell: {
       name: "Heart of the Sun Fortress",
@@ -322,7 +322,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Consecration Engine",
     icon: "Radiant/Radiant Divinity",
     maxRanks: 2,
-    position: { x: 3.5, y: 7 },
+    position: { x: 4, y: 5 },
     requires: "cdb_t5_sacred_redirection",
     spell: {
       name: "Consecration Engine",
@@ -344,7 +344,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Avatar of the Unbroken Dawn",
     icon: "Radiant/Winged Angel",
     maxRanks: 1,
-    position: { x: 2, y: 8 },
+    position: { x: 2, y: 6 },
     requires: ["cdb_t6_monolith_of_the_vigil", "cdb_t6_bastion_endurance"],
     requiresAll: true,
     spell: {
@@ -368,7 +368,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Bastion Doctrine",
     icon: "General/Guard",
     maxRanks: 5,
-    position: { x: 0, y: 8 },
+    position: { x: 0, y: 6 },
     requires: "cdb_t6_monolith_of_the_vigil",
     spell: {
       name: "Bastion Doctrine",
@@ -391,7 +391,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Vigil Reservoir",
     icon: "Radiant/Divine Illumination",
     maxRanks: 3,
-    position: { x: 1, y: 8 },
+    position: { x: 0.75, y: 6 },
     requires: "cdb_t6_bastion_endurance",
     spell: {
       name: "Vigil Reservoir",
@@ -412,7 +412,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Eternal Vigil Vow",
     icon: "Radiant/Sacred Symbol",
     maxRanks: 3,
-    position: { x: 3, y: 8 },
+    position: { x: 3.25, y: 6 },
     requires: "cdb_t6_consecration_engine",
     spell: {
       name: "Eternal Vigil Vow",
@@ -433,7 +433,7 @@ export const CRUSADER_DAWN_BASTION = [
     name: "Sacrifice of the Sun",
     icon: "Radiant/Redemption",
     maxRanks: 3,
-    position: { x: 4, y: 8 },
+    position: { x: 4, y: 6 },
     requires: "cdb_t6_consecration_engine",
     spell: {
       name: "Sacrifice of the Sun",

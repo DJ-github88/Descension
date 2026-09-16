@@ -11,7 +11,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Shattered Resilience",
     icon: "General/Defend",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Shattered Resilience",
@@ -32,7 +32,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Caldera Headbutt",
     icon: "General/Concussion",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Caldera Headbutt",
@@ -42,7 +42,7 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: -15 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
@@ -58,7 +58,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Tectonic Mass",
     icon: "Nature/Bull",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Tectonic Mass",
@@ -80,7 +80,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Calloused Barrier",
     icon: "Utility/Broad Shouldered Warrior",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "bjn_t1_calcified_hide",
     spell: {
       name: "Calloused Barrier",
@@ -90,7 +90,7 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 1, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 25 } },
       visualTheme: "blood", tags: ["shield", "temp-hp", "spender", "berserker"]
     },
@@ -104,7 +104,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Reactive Bone Spines",
     icon: "General/Break Bone",
     maxRanks: 3,
-    position: { x: 2.5, y: 1 },
+    position: { x: 1, y: 1 },
     requires: "bjn_t1_skull_bash",
     spell: {
       name: "Reactive Bone Spines",
@@ -128,7 +128,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Tectonic Stomp",
     icon: "Bludgeoning/Stomp",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "bjn_t2_calloused_barrier",
     spell: {
       name: "Tectonic Stomp",
@@ -138,7 +138,7 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 30 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
@@ -154,7 +154,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Living Obsidian",
     icon: "Fire/Flowing Lava",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "bjn_t2_bone_spines",
     spell: {
       name: "Living Obsidian",
@@ -177,7 +177,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Colossus Tenacity",
     icon: "General/Bolster",
     maxRanks: 2,
-    position: { x: 1, y: 3 },
+    position: { x: 4.5, y: 3 },
     requires: "bjn_t3_ground_crush",
     spell: {
       name: "Colossus Tenacity",
@@ -207,7 +207,7 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 40 } },
       damageTypes: ["stabbing", "smashing"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
@@ -226,7 +226,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Caldera Juggernaut Charge",
     icon: "Utility/Demonic Warrior",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "bjn_t4_unshakable_goliath",
     spell: {
       name: "Caldera Juggernaut Charge",
@@ -236,7 +236,7 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "line", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 0 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "3d10", flat: 0, procChance: 100 },
@@ -252,7 +252,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Heart of Caldera Basalt",
     icon: "Fire/Burning Forge",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "bjn_t4_spinal_shatter",
     spell: {
       name: "Heart of Caldera Basalt",
@@ -274,7 +274,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Mountain Breaker",
     icon: "Bludgeoning/Hammer Crush",
     maxRanks: 3,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "bjn_t5_juggernaut_charge",
     spell: {
       name: "Mountain Breaker",
@@ -284,7 +284,7 @@ export const BERSERKER_JUGGERNAUT = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 3, targetingMode: "cone", rangeType: "melee", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 60 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "7d10", flat: 0, procChance: 100 },
@@ -300,7 +300,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Vow of the Monolith",
     icon: "Utility/Shield With Plus",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "bjn_t5_unyielding_mass",
     spell: {
       name: "Vow of the Monolith",
@@ -322,7 +322,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Avatar of Caldera Iron",
     icon: "Fire/Burning Transformation",
     maxRanks: 1,
-    position: { x: 1, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "bjn_t6_monolithic_slam",
     spell: {
       name: "Avatar of Caldera Iron",
@@ -344,7 +344,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Living Fortress of the Waste",
     icon: "Utility/Bound Warrior",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "bjn_t6_granite_vow",
     spell: {
       name: "Living Fortress of the Waste",
@@ -365,7 +365,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Calcified Apotheosis",
     icon: "Utility/Scaled Armor",
     maxRanks: 5,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "bjn_t6_monolithic_slam",
     spell: {
       name: "Calcified Apotheosis",
@@ -388,7 +388,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Reactive Spine Mantle",
     icon: "Nature/Scorpion Stinger",
     maxRanks: 3,
-    position: { x: 1.5, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "bjn_t6_monolithic_slam",
     spell: {
       name: "Reactive Spine Mantle",
@@ -410,7 +410,7 @@ export const BERSERKER_JUGGERNAUT = [
     name: "Geothermal Ironhide",
     icon: "Fire/Flame Shield",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "bjn_t6_granite_vow",
     spell: {
       name: "Geothermal Ironhide",

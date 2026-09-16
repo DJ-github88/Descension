@@ -17,7 +17,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Vengeful Lash",
     icon: "Fire/Burning Touch",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Vengeful Lash",
@@ -28,7 +28,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       actionPoints: 1,
       targetingMode: "single", rangeType: "melee", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 2 } },
       damageTypes: ["blight"],
@@ -65,7 +65,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Spiteful Resilience",
     icon: "General/Bolster",
     maxRanks: 2,
-    position: { x: 3, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Spiteful Resilience",
@@ -88,7 +88,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Retaliatory Surge",
     icon: "Fire/Burning Ember",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "wvs_t1_vengeful_lash",
     spell: {
       name: "Retaliatory Surge",
@@ -99,7 +99,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       actionPoints: 0,
       targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "turn_based", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 1 } },
       damageTypes: ["blight"],
@@ -117,7 +117,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Burning Grudge Aura",
     icon: "Fire/Burning Cursed Book",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "wvs_t1_unyielding_vengeance",
     spell: {
       name: "Burning Grudge Aura",
@@ -141,7 +141,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Avatar of Vengeance",
     icon: "Fire/Burning Transformation",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "wvs_t2_retaliatory_surge",
     spell: {
       name: "Avatar of Vengeance",
@@ -168,7 +168,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Nemesis Resonance",
     icon: "Fire/Flame Aura",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "wvs_t2_spectral_retribution",
     spell: {
       name: "Nemesis Resonance",
@@ -201,7 +201,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
       actionPoints: 2,
       targetingMode: "aoe", rangeType: "self", range: 15, aoeShape: "cone", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "round",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 2 } },
       damageTypes: ["blight"],
@@ -218,7 +218,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Spite Siphon",
     icon: "Necrotic/Drain Soul",
     maxRanks: 2,
-    position: { x: 3, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "wvs_t3_avatar_synergy",
     spell: {
       name: "Spite Siphon",
@@ -239,7 +239,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Eye for an Eye",
     icon: "Psychic/Twist Pain",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "wvs_t4_grudge_cleave",
     spell: {
       name: "Eye for an Eye",
@@ -265,7 +265,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Endless Retaliation",
     icon: "Utility/Deflecting Shield",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4.5, y: 4 },
     requires: "wvs_t4_spite_siphon",
     spell: {
       name: "Endless Retaliation",
@@ -287,7 +287,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Cataclysmic Retribution",
     icon: "Fire/Eruption",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "wvs_t5_eye_for_an_eye",
     spell: {
       name: "Cataclysmic Retribution",
@@ -312,7 +312,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Juggernaut Momentum",
     icon: "Utility/Shield Spark",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "wvs_t5_unbroken_spite",
     spell: {
       name: "Juggernaut Momentum",
@@ -352,7 +352,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Avatar of the Nemesis",
     icon: "Fire/Crimson Eruption",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "wvs_t6_cataclysmic_retribution",
     spell: {
       name: "Avatar of the Nemesis",
@@ -399,7 +399,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Bottomless Grudge",
     icon: "Fire/Dragon Fire Breath",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "wvs_t6_iron_grudge",
     spell: {
       name: "Bottomless Grudge",
@@ -419,7 +419,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Infernal Retribution",
     icon: "Fire/Fire Dagger",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "wvs_t6_dread_nemesis",
     spell: {
       name: "Infernal Retribution",
@@ -439,7 +439,7 @@ export const WARDEN_VENGEANCE_SEEKER = [
     name: "Immortal Vengeance",
     icon: "Radiant/Redemption",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "wvs_t6_dread_nemesis",
     spell: {
       name: "Immortal Vengeance",

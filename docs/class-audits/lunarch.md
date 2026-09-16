@@ -75,3 +75,72 @@
 ## 6. Mind memory
 
 - `lunarch-pilot-deep-dive-2026-09-13`, `class-phase0-tooling-and-fixes-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs` (deep parsed-data render-contract audit). **Before: 31 flagged /
+27 errors. After: 0 errors / 18 warnings** (all 18 are descriptions >200 chars — deferred).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `waxing_crescent_scythe` | `debuff` with no config | added Waxing Bleed `debuffConfig` |
+| `eclipse_aegis` | `buff` with no config | added absorber `buffConfig` (absorb + melee-shatter blind); shieldConfig kept |
+| `lunar_tide_pull` | `crowd_control`, no control config | renamed to `control` + forced-movement pull config |
+| `starlight_delirium` | `crowd_control`, no control config | renamed to `control` + mind-control effects (spirit save) |
+| `gravity_singularity` | `crowd_control`, no control config | renamed to `control` + restraint/pin config |
+| `symbiote_overdrive` | `buff` with no stats | empowerment effects (+4 DR, +3d8 spell, crit 18–20, expiry self-damage) |
+| `celestial_symbiosis` | `buff` with no stats | empowerment effects (free phase select, half mana, 3 rounds) |
+| `tidal_scourge` | legacy dice shape, `radiant`, `SAVING_THROW` | `3d6 + intelligence` sacred, `DICE`, knockback effects[] |
+| `silence_shroud` | buff only-duration → "No stats configured yet" | effects[] (incoming attacks disadvantage, no LoS targeting, +3 stealth) |
+| `lunar_radiance_burst` | legacy dice shape, `radiant`, `SAVING_THROW`, blind with no detail | `4d8 + intelligence` sacred, `SAVE`, blind effects[] + Constitution save |
+| `parasitic_transfusion` | healing dice shape, buff no stats | `4d8 + intelligence` heal; +2 Durability buff |
+| `phase_displacement` | `utility` no config + buff not gated | added `buff` type, utilityConfig (phase walk), effects[] |
+| `gravity_inversion_field` | `utility` no config, `radiant`, `SAVING_THROW` | school arcane, `SAVE`, levitation effects[] + Agility save |
+| `eclipse_barrier` | buff not gated | added `buff` type + absorb/cleanse/reflect effects[] |
+| `coronal_ray` | legacy dice shape, `radiant`, `RANGED_ATTACK` | `5d10 + intelligence` sacred, `DICE` |
+| `astral_projection_anchor` | `utility` no config, buff no stats | projection effects[] + spirit-flight utilityConfig |
+| `apogee_lance` | legacy dice shape, `radiant`, `RANGED_ATTACK`, thin control | `6d10 + intelligence` sacred, `DICE`, stasis effects[] |
+| `null_horizon` | buff not gated, thin control | added `buff` type; zone silence + 50% magic-mitigation effects[] |
+| `phase_restoration` | healing dice shape, `radiant` | `6d8 + intelligence` heal (`direct`, DICE); school sacred |
+| `cosmic_annihilation` | legacy dice shape, `radiant`, `SAVING_THROW` | `8d10 + intelligence` sacred, `DICE`, blast-push effects[] |
+| `avatar_of_the_dead_moon` | `buff` no config, empty transformation | buffConfig (flight/immunity/free casting) + full celestial transformation with 3 granted abilities |
+| `syzygy_cataclysm` | legacy dice shape, `SAVING_THROW`, thin control | `6d8 + intelligence` wyrd, `SAVE`, stun effects[] + Strength save |
+
+### Class-wide damage-type correction (ember/radiant → sacred)
+
+The class's star/moonlight damage was encoded as **ember** (a generator artifact) and **radiant**
+(legacy alias) across the whole kit, contradicting its own text:
+- phase riders said "1d4 sacred" while `damageTypes` said `ember` (e.g. Phase Tear, Silence Rend);
+- the class play-example mixed "1d8 sacred … +2d8 sacred … **42 ember damage**" in one block;
+- expanded L4–L10 descriptions said "sacred damage" over `ember` data.
+
+Applied: every `"ember"` schema token (school/damageTypes/tags), prose damage statement, and
+`radiant` → **sacred**; class identity `damageTypes` now `["sacred","blight","wyrd"]`. The only
+surviving `ember` is Supernova Collapse's intentional mixed `["sacred","ember"]` (its description
+says both). Supernova Collapse, class lore text at lines 130/365/383/680/702/1114/1115/1864 and all
+rider text were corrected in the same sweep.
+
+### Flavor / class-fit review (proposals — Daniel decides, no further content changes made)
+
+- `binding_horror`: swept to sacred school, but the fiction is parasitic tendrils feeding on a
+  target — consider **blight** school instead.
+- `crescent_blade`: swept to sacred, but it is a *crystallized secretion blade* — consider
+  **slicing** if the damage is meant to be physical.
+- `hollow_sight`: swept to sacred; the sigil/mark fantasy could support **wyrd** instead.
+- `parasitic_bolt` phase riders now read "+1d4 sacred / +1d8 sacred" — consistent with the phase
+  tables; no balance change intended beyond type correction.
+- Open from the deep dive: phase-theme drift (config says Waxing=Healing/Waning=Efficiency, class
+  data says Waxing=damage/speed/Waning=vampiric) and the manual phase-shift agency cost.
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Lunarch`: 0 errors / 18 warnings (long descriptions)
+- `npm run validate:classes`: structure 0 issues; `audit:classes --class Lunarch` 0 integrity / 0 floor gaps / 0 warnings
+- `node scripts/spell-qa.mjs`: 0 issues (no legacy aliases, no non-canonical types)
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+18 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

@@ -65,3 +65,19 @@
 ## 6. Mind memory
 
 - `pyrofiend-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 42 flagged / 6 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `pyro_inferno_blast` | no `effectTypes` | added `damage`+`control` with 4d6 ember + burning-ground zone |
+| `pyro_hearth_heat` | no `effectTypes` | added `utility` + warmth utilityConfig |
+| `pyro_living_hearth`, `pyro_cinder_veil` | `buff` with no config | added hearth-warmth / heat-mirage buffConfigs |
+
+Flavor: volcanic-furnace identity intact; no rethemes proposed.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+40 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

@@ -11,7 +11,7 @@ export const BERSERKER_WARLORD = [
     name: "Sanguine Dictator",
     icon: "Social/Crimson Rally",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Sanguine Dictator",
@@ -42,7 +42,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "debuff",
       actionPoints: 1, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 15 } },
       visualTheme: "blood", tags: ["aoe", "shout", "intimidate", "party-buff", "berserker"]
     },
@@ -56,7 +56,7 @@ export const BERSERKER_WARLORD = [
     name: "Kin-Blood Resonance",
     icon: "Social/Blood Orb",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Kin-Blood Resonance",
@@ -78,7 +78,7 @@ export const BERSERKER_WARLORD = [
     name: "Dirge of Battle",
     icon: "General/Rage",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "bwl_t1_sanguine_dictator",
     spell: {
       name: "Dirge of Battle",
@@ -88,7 +88,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 30 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
@@ -104,7 +104,7 @@ export const BERSERKER_WARLORD = [
     name: "Gut-Wrenching Bellow",
     icon: "General/Beckoning Shout",
     maxRanks: 3,
-    position: { x: 2.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "bwl_t1_tyrants_command",
     spell: {
       name: "Gut-Wrenching Bellow",
@@ -114,7 +114,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 1, targetingMode: "cone", rangeType: "melee", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 20 } },
       damageTypes: ["smashing"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
@@ -132,7 +132,7 @@ export const BERSERKER_WARLORD = [
     name: "Aura of the Blood Feeder",
     icon: "Healing/Heart Ripple",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "bwl_t2_dirge_of_battle",
     spell: {
       name: "Aura of the Blood Feeder",
@@ -153,7 +153,7 @@ export const BERSERKER_WARLORD = [
     name: "Dictator's Focus",
     icon: "General/Order",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "bwl_t2_demoralizing_shout",
     spell: {
       name: "Dictator's Focus",
@@ -163,7 +163,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "debuff",
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 15 } },
       visualTheme: "blood", tags: ["mark", "single-target", "team-focus", "berserker"]
     },
@@ -179,7 +179,7 @@ export const BERSERKER_WARLORD = [
     name: "Blood Tithe Command",
     icon: "Slashing/Bloody Sacrifice",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "bwl_t3_sanguine_aura",
     spell: {
       name: "Blood Tithe Command",
@@ -189,7 +189,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 40 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
@@ -205,7 +205,7 @@ export const BERSERKER_WARLORD = [
     name: "Rallying Execution",
     icon: "Slashing/Execution",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "bwl_t3_focused_aggression",
     spell: {
       name: "Rallying Execution",
@@ -215,7 +215,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 35 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "4d10", flat: 0, procChance: 100 },
@@ -232,7 +232,7 @@ export const BERSERKER_WARLORD = [
     name: "Shared Metabolic Surge",
     icon: "General/Fiery Rage",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 4.5, y: 4 },
     requires: "bwl_t4_blood_tithe_command",
     spell: {
       name: "Shared Metabolic Surge",
@@ -254,7 +254,7 @@ export const BERSERKER_WARLORD = [
     name: "Voice of the Caldera Lord",
     icon: "General/Command",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "bwl_t4_chain_command",
     spell: {
       name: "Voice of the Caldera Lord",
@@ -276,7 +276,7 @@ export const BERSERKER_WARLORD = [
     name: "Total Mobilization Roar",
     icon: "Slashing/Bloody Slash",
     maxRanks: 3,
-    position: { x: 1, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "bwl_t5_sanguine_ferocity",
     spell: {
       name: "Total Mobilization Roar",
@@ -286,7 +286,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 60 } },
       damageTypes: ["slicing"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
@@ -302,7 +302,7 @@ export const BERSERKER_WARLORD = [
     name: "Throne of Scars",
     icon: "Social/Golden Crown",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "bwl_t5_unyielding_command",
     spell: {
       name: "Throne of Scars",
@@ -324,7 +324,7 @@ export const BERSERKER_WARLORD = [
     name: "Avatar of the Sanguine Sovereign",
     icon: "Social/Golden Trumpet",
     maxRanks: 1,
-    position: { x: 1, y: 6 },
+    position: { x: 3.75, y: 6 },
     requires: "bwl_t6_tyrants_bloodbath",
     spell: {
       name: "Avatar of the Sanguine Sovereign",
@@ -334,7 +334,7 @@ export const BERSERKER_WARLORD = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 3, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "once_per_combat", cooldownValue: 10, cooldownUnit: "round",
+      cooldownCategory: "once_per_combat", cooldownValue: 10, cooldownUnit: "rounds",
       resourceCosts: { rage: { baseAmount: 100 } },
       durationRounds: 3,
       visualTheme: "blood", tags: ["capstone", "ultimate", "invulnerability-share", "lifesteal", "berserker"]
@@ -346,7 +346,7 @@ export const BERSERKER_WARLORD = [
     name: "Pact of the Everlasting March",
     icon: "Social/Party Gathering",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "bwl_t6_warlord_supremacy",
     spell: {
       name: "Pact of the Everlasting March",
@@ -367,7 +367,7 @@ export const BERSERKER_WARLORD = [
     name: "Wounds Are Orders",
     icon: "Slashing/Blood Dripping Blade",
     maxRanks: 5,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "bwl_t6_tyrants_bloodbath",
     spell: {
       name: "Wounds Are Orders",
@@ -390,7 +390,7 @@ export const BERSERKER_WARLORD = [
     name: "Terror Is Policy",
     icon: "General/Concussion",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "bwl_t6_tyrants_bloodbath",
     spell: {
       name: "Terror Is Policy",
@@ -411,7 +411,7 @@ export const BERSERKER_WARLORD = [
     name: "Communion of Scars",
     icon: "Healing/Stitched",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "bwl_t6_warlord_supremacy",
     spell: {
       name: "Communion of Scars",

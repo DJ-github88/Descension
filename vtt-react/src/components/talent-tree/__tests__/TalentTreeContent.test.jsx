@@ -1,13 +1,16 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { TalentTreeContent } from '../TalentTreeContent';
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
+import { TalentTreeContent, buildBuildText, getTalentTreesForClass } from '../TalentTreeContent';
 import useCharacterStore from '../../../store/characterStore';
 import useSpellbookStore from '../../../store/spellbookStore';
 import { convertTalentSpellToLibrarySpell } from '../../../data/talentTrees/talentSystem.mjs';
 import { GAMBIT_PROBABILITY_SAVANT, GAMBIT_HIGH_ROLLER, GAMBIT_KARMIC_WEAVER } from '../../../data/talentTrees/gambit.js';
 
 describe('Talent Tree System Tests', () => {
+  const originalMatchMedia = window.matchMedia;
+
   beforeEach(() => {
+    window.localStorage.clear();
     useCharacterStore.setState({
       class: 'Gambit',
       level: 2,
@@ -17,6 +20,10 @@ describe('Talent Tree System Tests', () => {
     useSpellbookStore.setState({
       spells: []
     });
+  });
+
+  afterEach(() => {
+    window.matchMedia = originalMatchMedia;
   });
 
   test('renders active talent tree header and points badge', () => {
@@ -204,5 +211,88 @@ describe('Talent Tree System Tests', () => {
     expect(screen.getAllByText('Balanced Ledger').length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('Double Down')).toBeInTheDocument();
     expect(screen.getByText('Loaded Deck')).toBeInTheDocument();
+  });
+
+  test('help panel explains economy, tier gates and node states', () => {
+    render(<TalentTreeContent />);
+    expect(screen.getByText(/5 points per level/)).toBeInTheDocument();
+    expect(screen.getByText(/Tier T# unlocks/)).toBeInTheDocument();
+    expect(screen.getByText('Available')).toBeInTheDocument();
+    expect(screen.getByText('Maxed')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /how talents work/i }));
+    expect(screen.queryByText(/5 points per level/)).not.toBeInTheDocument();
+    expect(window.localStorage.getItem('mythrill:talentHelpOpen')).toBe('0');
+  });
+
+  test('buildBuildText summarizes learned talents with ranks, chips and descriptions', () => {
+    const trees = getTalentTreesForClass('Gambit');
+    const text = buildBuildText({
+      trees,
+      talents: { 'ps_t1_calculated_nudge': 2 },
+      characterClass: 'Gambit',
+      level: 4,
+      primarySpecialization: 'probability_savant'
+    });
+    expect(text).toContain('MYTHRILL BUILD — Gambit (Level 4)');
+    expect(text).toContain('Talent Points: 2/20');
+    expect(text).toContain('Primary Specialization: Probability Savant');
+    expect(text).toContain('[Probability Savant] — 2 pts');
+    expect(text).toMatch(/Calculated Nudge — Rank 2\/3/);
+    expect(text).toMatch(/Action|Reaction/);
+    expect(text).toMatch(/fortune/i);
+  });
+
+  test('copy build text writes the summary to the clipboard', async () => {
+    const writeText = jest.fn().mockResolvedValue();
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true
+    });
+    useCharacterStore.setState({ class: 'Gambit', level: 4, talents: { 'ps_t1_calculated_nudge': 1 } });
+
+    render(<TalentTreeContent selectedTreeIndex={3} />);
+    fireEvent.click(screen.getByRole('button', { name: /copy build text/i }));
+
+    await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
+    expect(writeText.mock.calls[0][0]).toContain('Calculated Nudge — Rank 1/3');
+  });
+
+  test('touch layout inspects first and allocates only from the sticky bar', () => {
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      matches: query.includes('pointer: coarse'),
+      media: query,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn()
+    }));
+
+    const { container } = render(<TalentTreeContent />);
+    const nodeButtons = container.querySelectorAll('.talent-node-button');
+    expect(nodeButtons.length).toBeGreaterThan(0);
+
+    // Tapping a node inspects only — no points spent yet.
+    fireEvent.click(nodeButtons[0]);
+    expect(Object.keys(useCharacterStore.getState().talents).length).toBe(0);
+
+    const bar = container.querySelector('.talent-touch-bar');
+    expect(bar).not.toBeNull();
+    expect(within(bar).getByText(/Rank 0 of/)).toBeInTheDocument();
+
+    // The bar's Learn button allocates the rank.
+    fireEvent.click(bar.querySelector('.learn-btn'));
+    expect(Object.keys(useCharacterStore.getState().talents).length).toBe(1);
+    expect(within(bar).getByText(/Rank 1 of/)).toBeInTheDocument();
+
+    // And its Refund button reclaims it.
+    fireEvent.click(bar.querySelector('.refund-btn'));
+    expect(Object.keys(useCharacterStore.getState().talents).length).toBe(0);
+  });
+
+  test('locked tier nodes render with the locked state class', () => {
+    const { container } = render(<TalentTreeContent />);
+    const lockedNodes = container.querySelectorAll('.talent-node-button.locked');
+    expect(lockedNodes.length).toBeGreaterThan(0);
   });
 });

@@ -19,7 +19,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Sanguine Syphon Strike",
     icon: "Necrotic/Blood Skull",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Sanguine Syphon Strike",
@@ -29,7 +29,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       damageTypes: ["blight"],
@@ -67,7 +67,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Crimson Adrenaline",
     icon: "General/Amplify",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Crimson Adrenaline",
@@ -88,7 +88,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Sanguine Gore Burst",
     icon: "Necrotic/Skull Burst",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4.5, y: 1 },
     requires: "sh_t1_sanguine_strike",
     spell: {
       name: "Sanguine Gore Burst",
@@ -98,7 +98,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 35, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 2 } },
       damageTypes: ["blight"],
@@ -115,7 +115,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Desperate Siphon",
     icon: "Necrotic/Blood Book",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "sh_t1_sanguine_mastery",
     spell: {
       name: "Desperate Siphon",
@@ -137,7 +137,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Exsanguinating Grasp",
     icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "sh_t2_sanguine_burst",
     spell: {
       name: "Exsanguinating Grasp",
@@ -147,7 +147,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { deathToll: { baseAmount: 3 } },
       damageTypes: ["blight"],
@@ -165,7 +165,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Vampiric Feast",
     icon: "Necrotic/Necrotic Wither",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "sh_t2_rush_of_blood",
     spell: {
       name: "Vampiric Feast",
@@ -187,7 +187,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Maelstrom of Frozen Blood",
     icon: "Necrotic/Necrotic Skull",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "sh_t3_exsanguinate",
     spell: {
       name: "Maelstrom of Frozen Blood",
@@ -197,7 +197,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 4 } },
       damageTypes: ["blight", "rime"],
@@ -206,8 +206,8 @@ export const REVENANT_SANGUINE_HARVEST = [
       visualTheme: "blood", tags: ["aoe-vortex", "party-heal", "slow", "revenant"]
     },
     rankUpgrades: [
-      { description: "35-foot vortex deals 3d6 per round, heals party for 25 points, and cooldown drops to 16s.", dotTick: "3d6", aoeSize: 35, cooldownValue: 16 },
-      { description: "40-foot vortex deals 3d6 per round, heals for 30 points, silences enemies, and grants allies +2 Durability Steps to equipped durability.", dotTick: "3d6", aoeSize: 40, cooldownValue: 14 }
+      { description: "35-foot vortex deals 3d6 per round, heals party for 25 points, and cooldown drops to 3 rounds.", dotTick: "3d6", aoeSize: 35, cooldownValue: 3 },
+      { description: "40-foot vortex deals 3d6 per round, heals for 30 points, silences enemies, and grants allies +2 Durability Steps to equipped durability.", dotTick: "3d6", aoeSize: 40, cooldownValue: 2 }
     ]
   },
   {
@@ -215,7 +215,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Coagulated Blood Shield",
     icon: "Healing/Heart Shield",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "sh_t3_vampiric_empowerment",
     spell: {
       name: "Coagulated Blood Shield",
@@ -236,7 +236,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Heart-Burst Cataclysm",
     icon: "Necrotic/Bloody Horse Skull",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "sh_t4_blood_storm",
     spell: {
       name: "Heart-Burst Cataclysm",
@@ -246,7 +246,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 5 } },
       damageTypes: ["blight"],
@@ -255,7 +255,7 @@ export const REVENANT_SANGUINE_HARVEST = [
       debuffs: ["stun"], visualTheme: "blood", tags: ["mass-nuke", "mass-stun", "party-heal", "revenant"]
     },
     rankUpgrades: [
-      { description: "50-foot radius deals 6d8 damage, stuns for 1 round, and cooldown drops to 24s.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, aoeSize: 50, cooldownValue: 24 }
+      { description: "50-foot radius deals 6d8 damage, stuns for 1 round, and cooldown drops to 4 rounds.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, aoeSize: 50, cooldownValue: 4 }
     ]
   },
   {
@@ -263,7 +263,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Blood Sovereign Form",
     icon: "Necrotic/Blood Scroll",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 0, y: 4 },
     requires: "sh_t4_blood_barrier",
     spell: {
       name: "Blood Sovereign Form",
@@ -287,7 +287,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Avatar of the Sanguine Lord",
     icon: "General/Rage",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "sh_t5_crimson_cataclysm",
     spell: {
       name: "Avatar of the Sanguine Lord",
@@ -297,10 +297,10 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["sanguine-lord"], visualTheme: "blood", tags: ["blood-avatar", "lifesteal", "revenant"]
     },
     rankUpgrades: []
@@ -330,7 +330,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Crimson Immortality Shroud",
     icon: "Force/Force Wave",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "sh_t5_sanguine_avatar_passive",
     spell: {
       name: "Crimson Immortality Shroud",
@@ -351,7 +351,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Cataclysmic Blood Ocean",
     icon: "Necrotic/Hooded Reaper Skull",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "sh_t6_the_blood_gods_harvest",
     spell: {
       name: "Cataclysmic Blood Ocean",
@@ -361,10 +361,10 @@ export const REVENANT_SANGUINE_HARVEST = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       buffs: ["blood-ocean"], visualTheme: "blood", tags: ["ultimate", "capstone", "blood-ocean", "revenant"]
@@ -376,7 +376,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Sanguine Harvest Doctrine",
     icon: "Necrotic/Soul Exit",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "sh_t6_the_blood_gods_harvest",
     spell: {
       name: "Sanguine Harvest Doctrine",
@@ -419,7 +419,7 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Arterial Decapitation",
     icon: "Necrotic/Cranium Skull Smash",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "sh_t6_blood_criticality",
     spell: {
       name: "Arterial Decapitation",
@@ -439,19 +439,19 @@ export const REVENANT_SANGUINE_HARVEST = [
     name: "Bloodpool Rebirth",
     icon: "Necrotic/Necrotic Death",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "sh_t6_undying_bloodline",
     spell: {
       name: "Bloodpool Rebirth",
-      description: "While at 3+ Toll, lethal damage dissolves you into a pool of blood: prevents death, restores 24 Hit Points, 30 temp HP, and sets DT to 5 (cooldown: 180s).",
+      description: "While at 3+ Toll, lethal damage dissolves you into a pool of blood: prevents death, restores 24 Hit Points, 30 temp HP, and sets DT to 5 (cooldown: 30 rounds).",
       flavorText: "You cannot bleed to death when you are made of blood.",
       source: "talent", class: "Revenant", treeId: "sanguine_harvest",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "blood", tags: ["passive", "capstone", "cheat-death", "revenant"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full DT (cooldown: 120s)." },
-      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP, full DT (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full DT (cooldown: 20 rounds)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP, full DT (cooldown: 15 rounds)." }
     ]
   }
 ];
@@ -466,7 +466,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Shatter Lance",
     icon: "Frost/Ice Crystal Spear",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Glacial Shatter Lance",
@@ -476,7 +476,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["rime"],
@@ -493,7 +493,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Black Ice Mastery",
     icon: "Frost/Frost Manipulation",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Black Ice Mastery",
@@ -514,7 +514,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Sub-Zero Shroud",
     icon: "Frost/Cold CLothing",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Sub-Zero Shroud",
@@ -537,7 +537,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Chain Shatter",
     icon: "Frost/Ice Shards",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 3, y: 1 },
     requires: "fs_t1_frost_lance_shatter",
     spell: {
       name: "Glacial Chain Shatter",
@@ -547,7 +547,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 2 } },
       damageTypes: ["rime"],
@@ -564,7 +564,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Synapse Bond",
     icon: "Force/Force Tied",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "fs_t1_eternal_focus",
     spell: {
       name: "Glacial Synapse Bond",
@@ -586,7 +586,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Permafrost Dominion Sphere",
     icon: "Frost/Icy Circle",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "fs_t2_glacial_cascade",
     spell: {
       name: "Permafrost Dominion Sphere",
@@ -596,7 +596,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 3 } },
       damageTypes: ["rime"],
@@ -605,8 +605,8 @@ export const REVENANT_FROST_SOVEREIGN = [
       debuffs: ["frozen", "heal-block"], visualTheme: "rime", tags: ["zone", "heal-block", "mass-freeze", "revenant"]
     },
     rankUpgrades: [
-      { description: "30-foot sphere deals 6d8 frost per round, heal-blocked, cooldown drops to 12s.", dotTick: "6d8", aoeSize: 30, cooldownValue: 12 },
-      { description: "35-foot sphere deals 8d8 frost per round, heal-blocked, and all damage against frozen targets crits on 17+.", dotTick: "8d8", aoeSize: 35, cooldownValue: 10 }
+      { description: "30-foot sphere deals 6d8 frost per round, heal-blocked, cooldown drops to 2 rounds.", dotTick: "6d8", aoeSize: 30, cooldownValue: 2 },
+      { description: "35-foot sphere deals 8d8 frost per round, heal-blocked, and all damage against frozen targets crits on 17+.", dotTick: "8d8", aoeSize: 35, cooldownValue: 2 }
     ]
   },
   {
@@ -614,7 +614,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Absolute Zero Vulnerability",
     icon: "Frost/Cresting Wave",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "fs_t2_ice_bond",
     spell: {
       name: "Absolute Zero Vulnerability",
@@ -636,7 +636,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Extinction Comet",
     icon: "Frost/Frozen AoE",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "fs_t3_permafrost_prison",
     spell: {
       name: "Glacial Extinction Comet",
@@ -646,7 +646,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 4 } },
       damageTypes: ["rime", "smashing"],
@@ -654,8 +654,8 @@ export const REVENANT_FROST_SOVEREIGN = [
       debuffs: ["frozen"], visualTheme: "rime", tags: ["aoe-nuke", "mass-freeze", "terrain", "revenant"]
     },
     rankUpgrades: [
-      { description: "35-foot comet deals 11d10 damage, freezes for 2 rounds, cooldown drops to 16s.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 16 },
-      { description: "40-foot comet deals 14d10 damage, shatters all existing frozen targets for double damage, and refunds 2 DT.", primaryDamage: { dice: "14d10", flat: 0, procChance: 100 }, aoeSize: 40, cooldownValue: 12 }
+      { description: "35-foot comet deals 11d10 damage, freezes for 2 rounds, cooldown drops to 3 rounds.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 3 },
+      { description: "40-foot comet deals 14d10 damage, shatters all existing frozen targets for double damage, and refunds 2 DT.", primaryDamage: { dice: "14d10", flat: 0, procChance: 100 }, aoeSize: 40, cooldownValue: 2 }
     ]
   },
   {
@@ -663,7 +663,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Armor Shell",
     icon: "Frost/Cursed Ice",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 2.5, y: 3 },
     requires: "fs_t3_absolute_zero",
     spell: {
       name: "Glacial Armor Shell",
@@ -684,7 +684,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Universal Shatter Protocol",
     icon: "Frost/Frozen",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "fs_t4_ice_comet",
     spell: {
       name: "Universal Shatter Protocol",
@@ -694,7 +694,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 5 } },
       damageTypes: ["rime"],
@@ -702,7 +702,7 @@ export const REVENANT_FROST_SOVEREIGN = [
       visualTheme: "rime", tags: ["mass-execute", "mass-shatter", "nuke", "revenant"]
     },
     rankUpgrades: [
-      { description: "Deals 16d10 frost true damage, instakills non-bosses below half maximum Hit Points, and cooldown drops to 24s.", primaryDamage: { dice: "16d10", flat: 0, procChance: 100 }, cooldownValue: 24 }
+      { description: "Deals 16d10 frost true damage, instakills non-bosses below half maximum Hit Points, and cooldown drops to 4 rounds.", primaryDamage: { dice: "16d10", flat: 0, procChance: 100 }, cooldownValue: 4 }
     ]
   },
   {
@@ -710,7 +710,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Endless Winter Engine",
     icon: "Frost/Blow Frost",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "fs_t4_frost_shield",
     spell: {
       name: "Endless Winter Engine",
@@ -732,7 +732,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Avatar of the Glacial Lich",
     icon: "Frost/Circular Frost Explosion",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "fs_t5_shatter_protocol",
     spell: {
       name: "Avatar of the Glacial Lich",
@@ -742,10 +742,10 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["glacial-lich"], visualTheme: "rime", tags: ["god-mode", "perma-freeze", "maximize", "revenant"]
     },
     rankUpgrades: []
@@ -755,7 +755,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Glacial Splinter Crits",
     icon: "Frost/Frozen Area",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "fs_t5_endless_winter",
     spell: {
       name: "Glacial Splinter Crits",
@@ -774,7 +774,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Permafrost Bastion",
     icon: "Frost/Icy Shield",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 2.5, y: 5 },
     requires: "fs_t5_endless_winter",
     spell: {
       name: "Permafrost Bastion",
@@ -795,7 +795,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "The Final Glaciation Cataclysm",
     icon: "Frost/Dripping Ice",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "fs_t6_the_frost_sovereign",
     spell: {
       name: "The Final Glaciation Cataclysm",
@@ -805,10 +805,10 @@ export const REVENANT_FROST_SOVEREIGN = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["rime"],
       primaryDamage: { dice: "12d10", flat: 0, procChance: 100 },
       buffs: ["final-glaciation"], visualTheme: "rime", tags: ["ultimate", "capstone", "perma-freeze", "revenant"]
@@ -820,7 +820,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Frost Sovereign Doctrine",
     icon: "Frost/Frost Ice 4",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "fs_t6_the_frost_sovereign",
     spell: {
       name: "Frost Sovereign Doctrine",
@@ -863,7 +863,7 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Chain Reaction Shatters",
     icon: "Frost/Frozen Capture",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "fs_t6_shatter_criticality",
     spell: {
       name: "Chain Reaction Shatters",
@@ -883,19 +883,19 @@ export const REVENANT_FROST_SOVEREIGN = [
     name: "Ice Tomb Rebirth",
     icon: "Frost/Ice Tomb",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "fs_t6_absolute_permafrost_wall",
     spell: {
       name: "Ice Tomb Rebirth",
-      description: "While at 3+ DT, lethal damage encases you in an impenetrable ice tomb: prevents death, restores 30 Hit Points, 50 temp HP, sets DT to max, and freezes all enemies within 40 feet for 2 rounds (cooldown: 120s).",
+      description: "While at 3+ DT, lethal damage encases you in an impenetrable ice tomb: prevents death, restores 30 Hit Points, 50 temp HP, sets DT to max, and freezes all enemies within 40 feet for 2 rounds (cooldown: 20 rounds).",
       flavorText: "The tomb shatters to release the undying monarch.",
       source: "talent", class: "Revenant", treeId: "frost_sovereign",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "rime", tags: ["passive", "capstone", "cheat-death", "revenant"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, full DT (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Final Glaciation Cataclysm for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, 75 temp HP, full DT (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Final Glaciation Cataclysm for free (cooldown: 10 rounds)." }
     ]
   }
 ];
@@ -910,7 +910,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Soul Shield",
     icon: "Necrotic/Protective Aura",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Phylactery Soul Shield",
@@ -920,14 +920,14 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       buffs: ["soul-shield"], visualTheme: "wyrd", tags: ["shield", "durability", "dt-builder", "revenant"]
     },
     rankUpgrades: [
-      { description: "Gain 50-damage shield, +4 Durability Steps to equipped durability, and generate 3 DT.", cooldownValue: 5 },
-      { description: "Gain 75-damage shield, +6 Durability Steps to equipped durability, generate 4 DT, and reflects 30 points absorbed damage as frost.", cooldownValue: 4 }
+      { description: "Gain 50-damage shield, +4 Durability Steps to equipped durability, and generate 3 DT.", cooldownValue: 1 },
+      { description: "Gain 75-damage shield, +6 Durability Steps to equipped durability, generate 4 DT, and reflects 30 points absorbed damage as frost.", cooldownValue: 1 }
     ]
   },
   {
@@ -935,7 +935,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Soul Battery Capacity",
     icon: "Utility/Souls",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Soul Battery Capacity",
@@ -955,7 +955,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Undying Fortitude",
     icon: "General/Defend",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Undying Fortitude",
@@ -976,7 +976,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Soul Anchor Strike",
     icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "pa_t1_phylactery_ward",
     spell: {
       name: "Soul Anchor Strike",
@@ -986,7 +986,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 2 } },
       damageTypes: ["blight", "rime"],
@@ -1003,7 +1003,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Party Link",
     icon: "Necrotic/Necrotic Wither",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 1, y: 1 },
     requires: "pa_t1_vital_reserve",
     spell: {
       name: "Phylactery Party Link",
@@ -1025,7 +1025,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Aegis Nova",
     icon: "Force/Force Field",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "pa_t2_soul_anchor_strike",
     spell: {
       name: "Phylactery Aegis Nova",
@@ -1035,14 +1035,14 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 3 } },
       buffs: ["soul-ward", "mass-taunt"], visualTheme: "wyrd", tags: ["party-shield", "mass-taunt", "tank", "revenant"]
     },
     rankUpgrades: [
-      { description: "Grants 65-damage ward, taunts for 3 rounds, and grants you +5 Durability Steps to equipped durability.", cooldownValue: 12 },
-      { description: "Grants 90-damage ward, taunts for 3 rounds, +7 Durability Steps to equipped durability, and reflects 50 points damage back at attackers.", cooldownValue: 10 }
+      { description: "Grants 65-damage ward, taunts for 3 rounds, and grants you +5 Durability Steps to equipped durability.", cooldownValue: 2 },
+      { description: "Grants 90-damage ward, taunts for 3 rounds, +7 Durability Steps to equipped durability, and reflects 50 points damage back at attackers.", cooldownValue: 2 }
     ]
   },
   {
@@ -1050,7 +1050,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Deathless Sentinel",
     icon: "Frost/Frost Chill",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "pa_t2_phylactery_link",
     spell: {
       name: "Deathless Sentinel",
@@ -1072,7 +1072,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Siphon Wave",
     icon: "Necrotic/Soul Exit",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 4.5, y: 3 },
     requires: "pa_t3_frost_barrier_eruption",
     spell: {
       name: "Phylactery Siphon Wave",
@@ -1082,7 +1082,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 4 } },
       damageTypes: ["blight", "rime"],
@@ -1090,8 +1090,8 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       debuffs: ["knockdown"], visualTheme: "wyrd", tags: ["aoe", "knockdown", "charge-phylactery", "revenant"]
     },
     rankUpgrades: [
-      { description: "35-foot wave deals 8d10 damage, charges 20 HP per enemy, cooldown drops to 16s.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 16 },
-      { description: "40-foot wave deals 11d10 damage, charges 30 HP per enemy, stuns for 1 round, and refunds 2 DT.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, aoeSize: 40, cooldownValue: 12 }
+      { description: "35-foot wave deals 8d10 damage, charges 20 HP per enemy, cooldown drops to 3 rounds.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, aoeSize: 35, cooldownValue: 3 },
+      { description: "40-foot wave deals 11d10 damage, charges 30 HP per enemy, stuns for 1 round, and refunds 2 DT.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, aoeSize: 40, cooldownValue: 2 }
     ]
   },
   {
@@ -1099,7 +1099,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Ambient Soul Harvest",
     icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 2.5, y: 3 },
     requires: "pa_t3_eternal_guardian",
     spell: {
       name: "Ambient Soul Harvest",
@@ -1120,7 +1120,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Soul Bastion",
     icon: "Necrotic/Bone Chain Ring",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "pa_t4_soul_drain_wave",
     spell: {
       name: "Phylactery Soul Bastion",
@@ -1130,13 +1130,13 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 5 } },
       buffs: ["death-immune"], visualTheme: "wyrd", tags: ["invulnerable-party", "climax", "tank", "revenant"]
     },
     rankUpgrades: [
-      { description: "Soul Bastion lasts 4 rounds: allies also deal +30 points bonus frost damage while protected.", cooldownValue: 24 }
+      { description: "Soul Bastion lasts 4 rounds: allies also deal +30 points bonus frost damage while protected.", cooldownValue: 4 }
     ]
   },
   {
@@ -1144,7 +1144,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Undying Soul Anchor",
     icon: "Frost/Frost Phonix",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "pa_t4_soul_siphon_passive",
     spell: {
       name: "Undying Soul Anchor",
@@ -1166,7 +1166,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Avatar of the Undying Lichlord",
     icon: "Frost/Blow Frost",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "pa_t5_immortal_essence",
     spell: {
       name: "Avatar of the Undying Lichlord",
@@ -1176,10 +1176,10 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["undying-lichlord"], visualTheme: "wyrd", tags: ["god-mode", "infinite-shield", "avatar", "revenant"]
     },
     rankUpgrades: []
@@ -1208,7 +1208,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Absolute Reliquary Shell",
     icon: "Force/Radiating Barrier",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 1, y: 5 },
     requires: "pa_t5_undying_anchor",
     spell: {
       name: "Absolute Reliquary Shell",
@@ -1229,7 +1229,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "The Eternal Reliquary Cataclysm",
     icon: "Necrotic/Resurrect",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "pa_t6_the_immortal_phylactery",
     spell: {
       name: "The Eternal Reliquary Cataclysm",
@@ -1239,10 +1239,10 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { deathToll: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       healing: { dice: "10d10", flat: 0 },
       damageTypes: ["blight"],
       primaryDamage: { dice: "12d10", flat: 0, procChance: 100 },
@@ -1255,7 +1255,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Anchor Doctrine",
     icon: "Frost/Circular Frost Explosion",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "pa_t6_the_immortal_phylactery",
     spell: {
       name: "Phylactery Anchor Doctrine",
@@ -1298,7 +1298,7 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Soul Rebound Shield",
     icon: "Force/Force Shield",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "pa_t6_phylactery_criticality",
     spell: {
       name: "Soul Rebound Shield",
@@ -1319,19 +1319,19 @@ export const REVENANT_PHYLACTERY_ANCHOR = [
     name: "Phylactery Vessel Rebirth",
     icon: "Healing/Healing Compass",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "pa_t6_eternal_soul_ward",
     spell: {
       name: "Phylactery Vessel Rebirth",
-      description: "While phylactery has at least 1 HP, lethal damage reconstructs your body instantly: restores 100 points full health, sets DT to max, and grants 50 temp HP (cooldown: 120s).",
+      description: "While phylactery has at least 1 HP, lethal damage reconstructs your body instantly: restores 100 points full health, sets DT to max, and grants 50 temp HP (cooldown: 20 rounds).",
       flavorText: "You cannot kill a vessel whose soul is stored elsewhere.",
       source: "talent", class: "Revenant", treeId: "phylactery_anchor",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "revenant"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 60 Hit Points, 75 temp HP, full DT (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Eternal Reliquary Cataclysm for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 60 Hit Points, 75 temp HP, full DT (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, and immediately activate The Eternal Reliquary Cataclysm for free (cooldown: 10 rounds)." }
     ]
   }
 ];

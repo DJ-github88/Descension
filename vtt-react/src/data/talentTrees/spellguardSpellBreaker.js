@@ -14,21 +14,21 @@ export const SPELLGUARD_SPELL_BREAKER = [
     requires: null,
     spell: {
       name: "Reflective Barrier",
-      description: "For 30 seconds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage.",
+      description: "For 3 rounds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage.",
       flavorText: "Return to sender. That is the whole art.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 12, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["reflection"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "defense", "spellguard"]
     },
     rankUpgrades: [
-      { description: "For 30 seconds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage, and you take 10 points less magical damage." },
-      { description: "For 40 seconds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage.", durationRounds: 4, durationRealTime: 40 }
+      { description: "For 3 rounds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage, and you take 10 points less magical damage." },
+      { description: "For 4 rounds, 25 points of the magical damage you take is reflected back at the attacker as arcane damage.", durationRounds: 4 }
     ]
   },
   {
@@ -36,7 +36,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Spell Disruption",
     icon: "Lightning/Shock",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Spell Disruption",
@@ -46,7 +46,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
       debuffs: ["counterspell"], visualTheme: "arcane", tags: ["counterspell", "interrupt", "spellguard"]
@@ -61,7 +61,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Counter Magic",
     icon: "Arcane/Empowering Growth",
     maxRanks: 2,
-    position: { x: 3, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Counter Magic",
@@ -81,25 +81,25 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Shield",
     icon: "Utility/Split Shield",
     maxRanks: 3,
-    position: { x: 0, y: 1 },
+    position: { x: 3, y: 1 },
     requires: "sb_t1_reflective_barrier",
     spell: {
       name: "Mirror Shield",
-      description: "Raise a perfect mirror: the next 1 spell cast at you is reflected in full — damage and effects — back at its caster. Lasts 30 seconds.",
+      description: "Raise a perfect mirror: the next 1 spell cast at you is reflected in full — damage and effects — back at its caster. Lasts 3 rounds.",
       flavorText: "The caster meets the only opponent they truly fear.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 15 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["mirror-shield"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "shield", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Raise a perfect mirror: the next 2 spells cast at you are reflected in full — damage and effects — back at their casters. Lasts 30 seconds." },
-      { description: "Raise a perfect mirror: the next 3 spells cast at you are reflected in full — damage and effects — back at their casters. Lasts 30 seconds." }
+      { description: "Raise a perfect mirror: the next 2 spells cast at you are reflected in full — damage and effects — back at their casters. Lasts 3 rounds." },
+      { description: "Raise a perfect mirror: the next 3 spells cast at you are reflected in full — damage and effects — back at their casters. Lasts 3 rounds." }
     ]
   },
   {
@@ -107,7 +107,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Echo Damage",
     icon: "Force/Sonic Boom",
     maxRanks: 3,
-    position: { x: 4, y: 1 },
+    position: { x: 1, y: 1 },
     requires: "sb_t1_spell_disruption",
     spell: {
       name: "Echo Damage",
@@ -130,7 +130,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Perfect Reflection",
     icon: "Force/Diagonal Energy Ray",
     maxRanks: 3,
-    position: { x: 0, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "sb_t2_echo_damage",
     spell: {
       name: "Perfect Reflection",
@@ -150,7 +150,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mana Burn",
     icon: "Force/Energy Whip",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "sb_t1_counter_magic",
     spell: {
       name: "Mana Burn",
@@ -171,7 +171,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Field",
     icon: "Arcane/Swirling Vortex",
     maxRanks: 2,
-    position: { x: 0, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "sb_t2_mirror_shield",
     spell: {
       name: "Mirror Field",
@@ -181,10 +181,10 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 20,
       castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "long", cooldownValue: 45, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 8, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { aep: { baseAmount: 20 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["mirror-field"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "aoe", "zone", "spellguard"]
     },
     rankUpgrades: [
@@ -196,7 +196,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Spell Nullification",
     icon: "Force/Break Chains",
     maxRanks: 3,
-    position: { x: 4, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "sb_t3_mana_burn",
     spell: {
       name: "Spell Nullification",
@@ -206,7 +206,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
       debuffs: ["counterspell"], visualTheme: "arcane", tags: ["counterspell", "nullify", "spellguard"]
@@ -222,7 +222,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Unbreakable Mirror",
     icon: "Force/Force Field",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "sb_t3_perfect_reflection",
     spell: {
       name: "Unbreakable Mirror",
@@ -241,27 +241,27 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Reciprocal Ward",
     icon: "Force/Radiating Burst",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "sb_t4_mirror_field",
     spell: {
       name: "Reciprocal Ward",
-      description: "For 30 seconds, melee attackers who strike you take 1d6 arcane damage in return.",
+      description: "For 3 rounds, melee attackers who strike you take 1d6 arcane damage in return.",
       flavorText: "Touch the artwork. See what the artwork does.",
       source: "talent", class: "Spellguard", treeId: "spell_breaker",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       buffs: ["retaliation"], visualTheme: "arcane", tags: ["retaliation", "defense", "spellguard"]
     },
     rankUpgrades: [
-      { description: "For 30 seconds, melee attackers who strike you take 2d6 arcane damage in return.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
-      { description: "For 30 seconds, melee attackers who strike you take 3d6 arcane damage in return and suffer -2 to their next attack roll.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
+      { description: "For 3 rounds, melee attackers who strike you take 2d6 arcane damage in return.", primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } },
+      { description: "For 3 rounds, melee attackers who strike you take 3d6 arcane damage in return and suffer -2 to their next attack roll.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -270,7 +270,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Reflection Nova",
     icon: "Force/Energy Burst",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "sb_t4_mirror_field",
     spell: {
       name: "Reflection Nova",
@@ -280,7 +280,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 20, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 30 } },
       damageTypes: ["arcane"],
@@ -312,7 +312,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Prismatic Shear",
     icon: "Slashing/Diagonal Energy Slash",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "sb_t4_spell_nullification",
     spell: {
       name: "Prismatic Shear",
@@ -322,7 +322,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
       damageTypes: ["arcane"],
@@ -339,7 +339,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Perfect Mirror",
     icon: "Arcane/Magical Duel",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "sb_t6_reflection_nova",
     spell: {
       name: "Perfect Mirror",
@@ -349,10 +349,10 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 40 } },
-      durationRounds: 1, durationRealTime: 6, durationUnit: "seconds",
+      durationRounds: 1, durationUnit: "rounds",
       buffs: ["perfect-mirror"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["ultimate", "capstone", "reflection", "aoe", "spellguard"]
     }
   },
@@ -361,7 +361,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Mirror Mastery",
     icon: "Force/Energy Star",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "sb_t6_mirror_soul",
     spell: {
       name: "Mirror Mastery",
@@ -383,7 +383,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Arcane Retribution",
     icon: "Arcane/Enchanted Sword",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "sb_t6_mirror_soul",
     spell: {
       name: "Arcane Retribution",
@@ -405,7 +405,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Thousand Faces",
     icon: "Utility/Amorphous Entity",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "sb_t6_prismatic_shear",
     spell: {
       name: "Thousand Faces",
@@ -415,10 +415,10 @@ export const SPELLGUARD_SPELL_BREAKER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 20 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["mirror-image"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["capstone", "images", "defense", "spellguard"]
     },
     rankUpgrades: [
@@ -431,7 +431,7 @@ export const SPELLGUARD_SPELL_BREAKER = [
     name: "Eternal Vigil",
     icon: "Utility/Watchful Eye",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "sb_t6_prismatic_shear",
     spell: {
       name: "Eternal Vigil",

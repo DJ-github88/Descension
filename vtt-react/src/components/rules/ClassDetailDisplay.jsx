@@ -7,9 +7,10 @@ import { getClassResourceConfig } from '../../data/classResources';
 import SphereComboFinder from '../../data/classes/arcanoneer/components/SphereComboFinder';
 import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import ClassIcon from '../common/ClassIcon';
+import ResourceSystemTab from './resource-system/ResourceSystemTab';
+import { hasResourceSystemGuide } from '../../data/resourceSystems';
 import './ClassDetailDisplay.css';
-import LoreLink from '../common/LoreLink';
-import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import { parseTextWithLoreLinks } from './contentFormatting';
 import useGameData from '../../hooks/useGameData';
 import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
 
@@ -335,63 +336,6 @@ const CLASS_REGIONS = {
    glowColor: 'rgba(165, 105, 189, 0.15)',
    icon: 'fas fa-exclamation-triangle'
   }
-};
-
-// Robust scanner/tokenizer that converts markdown and LoreLink markup into clickable React nodes
-const parseTextWithLoreLinks = (text, skipAutoLink = false) => {
- if (!text || typeof text !== 'string') return null;
-
- // Dynamically auto-link all dictionary terminology first
- const processedText = skipAutoLink ? text : autoLinkTerminology(text);
-
- const result = [];
- const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>|\*\*(.*?)\*\*|\*(.*?)\*)/g;
- let lastIndex = 0;
- let match;
- let key = 0;
-
- while ((match = regex.exec(processedText)) !== null) {
-  // Add text before the match
-  if (match.index > lastIndex) {
-   result.push(processedText.substring(lastIndex, match.index));
-  }
-
-  if (match[2]) {
-   // LoreLink match: match[2] is termId, match[3] is label
-   const termId = match[2];
-   const label = match[3];
-   result.push(
-   <LoreLink key={`lore-${key++}`} termId={termId}>
-     {parseTextWithLoreLinks(label, true)}
-    </LoreLink>
-   );
-  } else if (match[4] !== undefined) {
-   // Bold match: match[4] is the bold content
-   const boldText = match[4];
-   result.push(
-    <strong key={`bold-${key++}`}>
-     {parseTextWithLoreLinks(boldText, skipAutoLink)}
-    </strong>
-   );
-  } else if (match[5] !== undefined) {
-   // Italic match: match[5] is the italic content
-   const italicText = match[5];
-   result.push(
-    <em key={`italic-${key++}`}>
-     {parseTextWithLoreLinks(italicText, skipAutoLink)}
-    </em>
-   );
-  }
-
-  lastIndex = regex.lastIndex;
- }
-
- // Add remaining text
- if (lastIndex < processedText.length) {
-  result.push(processedText.substring(lastIndex));
- }
-
- return result.length > 0 ? result : processedText;
 };
 
 // Helper function to dynamically parse the class's Genesis lore origin and physical toll paragraphs
@@ -914,6 +858,16 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [isClassTabDropdownOpen, setIsClassTabDropdownOpen] = useState(false);
  const classTabDropdownRef = useRef(null);
  const contentContainerRef = useRef(null);
+ const detailContentRef = useRef(null);
+
+ // Cross-tab navigation used by the resource tab's "weave into your class" links
+ const handleNavigateClassTab = (tabId) => {
+  setActiveTab(tabId);
+  setCurrentPage(0);
+  if (detailContentRef.current) {
+   detailContentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+ };
 
  // Close class tab dropdown on outside click or Escape key
  useEffect(() => {
@@ -2147,6 +2101,21 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    icon: 'fas fa-scroll'
   };
 
+  // v2 layout (Essentials / Deep Dive / Reference) for classes with an authored guide.
+  // Classes without a guide keep the legacy tab below until their copy is written.
+  if (hasResourceSystemGuide(classId)) {
+   return (
+    <div className="class-detail-section parchment-content">
+     <ResourceSystemTab
+      classData={classData}
+      regionInfo={regionInfo}
+      demoResource={buildDemoClassResource(classData.name)}
+      onNavigateTab={handleNavigateClassTab}
+     />
+    </div>
+   );
+  }
+
   const genesisData = parseResourceOrigin(overview?.roleplayIdentity?.content);
 
   return (
@@ -2549,6 +2518,14 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    );
   }
 
+  const specs = specializations.specs;
+  const activeSpecIndex = Math.min(Math.max(selectedSpecTreeIndex, 0), specs.length - 1);
+  const activeSpec = specs[activeSpecIndex] || specs[0];
+  const methodChips = typeof activeSpec?.playstyle === 'string'
+   ? activeSpec.playstyle.split(',').map(part => part.trim().replace(/\.$/, '')).filter(Boolean)
+   : [];
+  const showMethodChips = methodChips.length >= 2 && methodChips.every(chip => chip.length <= 48);
+
   return (
    <div className="class-detail-section parchment-content">
     <div className="guide-badge-header spec-main-header">
@@ -2599,14 +2576,44 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        </div>
       )}
 
-      <div className="specializations-grid premium-grid">
-       {specializations.specs.map((spec, idx) => (
-        <div key={spec.id} className="specialization-card premium-card" style={{ '--spec-color': spec.color }}>
-         <div className="spec-header premium-header" style={{ backgroundColor: spec.color }}>
+      {activeSpec && (
+       <div className="spec-spotlight">
+        <div className="spec-selector-row" role="tablist" aria-label="Choose a specialization">
+         {specs.map((spec, idx) => (
+          <button
+           key={spec.id || idx}
+           type="button"
+           role="tab"
+           aria-selected={idx === activeSpecIndex}
+           className={`spec-selector-card ${idx === activeSpecIndex ? 'active' : ''}`}
+           style={{ '--spec-color': spec.color }}
+           onClick={() => setSelectedSpecTreeIndex(idx)}
+          >
+           <span className="spec-selector-icon">
+            <img
+             src={getIconUrl(spec.icon, 'abilities')}
+             alt=""
+             onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = getIconUrl('Utility/Utility', 'abilities');
+             }}
+            />
+           </span>
+           <span className="spec-selector-text">
+            <span className="spec-selector-name">{spec.name}</span>
+            <span className="spec-selector-theme">{spec.theme}</span>
+           </span>
+           <i className="fas fa-check-circle spec-selector-check"></i>
+          </button>
+         ))}
+        </div>
+
+        <div className="spec-profile" role="tabpanel" style={{ '--spec-color': activeSpec.color }}>
+         <div className="spec-profile-header" style={{ backgroundColor: activeSpec.color }}>
           <div className="spec-icon">
            <img
-            src={getIconUrl(spec.icon, 'abilities')}
-            alt={spec.name}
+            src={getIconUrl(activeSpec.icon, 'abilities')}
+            alt={activeSpec.name}
             onError={(e) => {
              e.target.onerror = null;
              e.target.src = getIconUrl('Utility/Utility', 'abilities');
@@ -2614,45 +2621,58 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
            />
           </div>
           <div className="spec-title">
-           <h4>{spec.name}</h4>
-           <p className="spec-theme">{spec.theme}</p>
+           <h4>{activeSpec.name}</h4>
+           <p className="spec-theme">{activeSpec.theme}</p>
           </div>
          </div>
 
          <div className="spec-body premium-body">
-          <p className="spec-description">{spec.description}</p>
+          <p className="spec-description">{parseTextWithLoreLinks(activeSpec.description)}</p>
 
-          <div className="spec-playstyle">
-           <strong>Combat Method:</strong> {spec.playstyle}
+          {showMethodChips ? (
+           <div className="spec-method">
+            <span className="spec-method-label"><i className="fas fa-crosshairs"></i> Combat Method</span>
+            <div className="spec-method-chips">
+             {methodChips.map((chip, i) => (
+              <span key={i} className="spec-method-chip">{chip}</span>
+             ))}
+            </div>
+           </div>
+          ) : (
+           <div className="spec-playstyle">
+            <strong>Combat Method:</strong> {activeSpec.playstyle}
+           </div>
+          )}
+
+          <div className="spec-traits-grid">
+           {activeSpec.strengths && activeSpec.strengths.length > 0 && (
+            <div className="spec-strengths">
+             <h5><i className="fas fa-plus-circle"></i> Strengths</h5>
+             <ul>
+              {activeSpec.strengths.map((strength, i) => (
+               <li key={i}>{parseTextWithLoreLinks(strength)}</li>
+              ))}
+             </ul>
+            </div>
+           )}
+
+           {activeSpec.weaknesses && activeSpec.weaknesses.length > 0 && (
+            <div className="spec-weaknesses">
+             <h5><i className="fas fa-minus-circle"></i> Weaknesses</h5>
+             <ul>
+              {activeSpec.weaknesses.map((weakness, i) => (
+               <li key={i}>{parseTextWithLoreLinks(weakness)}</li>
+              ))}
+             </ul>
+            </div>
+           )}
           </div>
 
-          {spec.strengths && spec.strengths.length > 0 && (
-           <div className="spec-strengths">
-            <h5><i className="fas fa-plus-circle"></i> Strengths</h5>
-            <ul>
-             {spec.strengths.map((strength, i) => (
-              <li key={i}>{strength}</li>
-             ))}
-            </ul>
-           </div>
-          )}
-
-          {spec.weaknesses && spec.weaknesses.length > 0 && (
-           <div className="spec-weaknesses">
-            <h5><i className="fas fa-minus-circle"></i> Weaknesses</h5>
-            <ul>
-             {spec.weaknesses.map((weakness, i) => (
-              <li key={i}>{weakness}</li>
-             ))}
-            </ul>
-           </div>
-          )}
-
-          {spec.keyAbilities && (
+          {activeSpec.keyAbilities && (
            <div className="spec-key-abilities">
             <h5><i className="fas fa-bolt"></i> Key Abilities</h5>
             <ul>
-             {spec.keyAbilities.map((ability, i) => (
+             {activeSpec.keyAbilities.map((ability, i) => (
               <li key={i}>
                {typeof ability === 'string' ? ability : (
                 <>
@@ -2668,11 +2688,11 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
            </div>
           )}
 
-          {(spec.passiveAbilities || spec.passiveAbility || spec.specPassive) && (
+          {(activeSpec.passiveAbilities || activeSpec.passiveAbility || activeSpec.specPassive) && (
            <div className="spec-passives">
             <h5><i className="fas fa-star"></i> Passive Abilities</h5>
 
-            {spec.passiveAbilities && spec.passiveAbilities.map((passive, i) => (
+            {activeSpec.passiveAbilities && activeSpec.passiveAbilities.map((passive, i) => (
              <div key={i} className={`passive-ability ${passive.tier === 'Path Passive' ? 'shared' : 'unique'}`}>
               <div className="passive-header">
                <strong>{passive.name}</strong>
@@ -2688,31 +2708,31 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
              </div>
             ))}
 
-            {spec.passiveAbility && (
+            {activeSpec.passiveAbility && (
              <div className="passive-ability shared">
               <div className="passive-header">
-               <strong>{spec.passiveAbility.name}</strong>
+               <strong>{activeSpec.passiveAbility.name}</strong>
                <span className="passive-tier">Path Passive</span>
               </div>
-              <p className="passive-description">{spec.passiveAbility.description}</p>
+              <p className="passive-description">{activeSpec.passiveAbility.description}</p>
              </div>
             )}
 
-            {spec.specPassive && (
+            {activeSpec.specPassive && (
              <div className="passive-ability unique">
               <div className="passive-header">
-               <strong>{spec.specPassive.name}</strong>
+               <strong>{activeSpec.specPassive.name}</strong>
                <span className="passive-tier">Specialization Passive</span>
               </div>
-              <p className="passive-description">{spec.specPassive.description}</p>
+              <p className="passive-description">{activeSpec.specPassive.description}</p>
              </div>
             )}
            </div>
           )}
 
-          {spec.recommendedFor && (
+          {activeSpec.recommendedFor && (
            <div className="spec-recommendation">
-            <i className="fas fa-thumbs-up"></i> <strong>Recommended for:</strong> {spec.recommendedFor}
+            <i className="fas fa-thumbs-up"></i> <strong>Recommended for:</strong> {activeSpec.recommendedFor}
            </div>
           )}
 
@@ -2721,18 +2741,18 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
             type="button"
             className="spec-view-tree-btn"
             onClick={() => {
-             setSelectedSpecTreeIndex(idx);
+             setSelectedSpecTreeIndex(activeSpecIndex);
              setSpecViewMode('talent-tree');
             }}
-            style={{ '--spec-btn-color': spec.color }}
+            style={{ '--spec-btn-color': activeSpec.color }}
            >
-            <i className="fas fa-sitemap"></i> View {spec.name} Talent Tree
+            <i className="fas fa-sitemap"></i> View {activeSpec.name} Talent Tree
            </button>
           </div>
          </div>
         </div>
-       ))}
-      </div>
+       </div>
+      )}
      </>
     ) : (
      <div className="spec-talent-tree-section">
@@ -3217,7 +3237,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      );
     })()}
 
-   <div className="class-detail-content">
+   <div className="class-detail-content" ref={detailContentRef}>
     {activeTab === 'overview' && renderOverview()}
     {activeTab === 'tradition' && renderTradition()}
     {activeTab === 'resource' && renderResourceSystem()}

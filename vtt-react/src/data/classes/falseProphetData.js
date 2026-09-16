@@ -688,6 +688,26 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    typeConfig: { school: "wyrd", icon: "Psychic/Psychic Telepathy", tags: ["utility", "silence", "false_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 40, areaSize: 20 },
    resourceCost: { actionPoints: 1, mana: 4 , classResource: { type: "madness", gain: 1 }},
+   resolution: "NONE",
+   debuffConfig: {
+     debuffType: "statusEffect",
+     effects: [
+       { id: "veil_of_silence_mute", name: "Soundless", description: "No sound exists inside the zone; spoken spellcasting is impossible.", mechanicsText: "Silenced zone; verbal casting blocked for 1 minute." }
+     ],
+     durationType: "minutes",
+     durationValue: 1,
+     durationUnit: "minutes"
+   },
+   utilityConfig: {
+     utilityType: "environment",
+     selectedEffects: [
+       { id: "veil_of_silence_zone", name: "Blackout of Sound", description: "A 20ft radius blackout of sound: no sound or spoken spellcasting can occur inside.", mechanicsText: "20ft silence zone for 1 minute." }
+     ],
+     duration: 1,
+     durationUnit: "minutes",
+     concentration: false,
+     power: "major"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 }
   },
   { id: "fp_mind_control",
@@ -700,6 +720,25 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    typeConfig: { school: "wyrd", icon: "Psychic/Hypnotic Eye", tags: ["utility", "control", "mind_control", "false_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy", "humanoid"] },
    resourceCost: { actionPoints: 2, mana: 6 , classResource: { type: "madness", cost: 4 }},
+   resolution: "SAVE",
+   controlConfig: {
+     controlType: "mind_control",
+     duration: 1,
+     durationUnit: "rounds",
+     savingThrow: { ability: "spirit", difficultyClass: 15, saveOutcome: "negates" },
+     effects: [
+       { id: "mind_control_command", name: "Commanded", description: "Target obeys a single 1-sentence command (Unlock gate, Drop weapon, Walk into snow).", config: { confusionType: "complete", saveType: "spirit", saveDC: 15 } }
+     ]
+   },
+   debuffConfig: {
+     debuffType: "mentalEffect",
+     effects: [
+       { id: "mind_control_revelation", name: "False Revelation", description: "The whispered revelation overrides the target's will for 1 round.", mechanicsText: "Will overridden; obeys one command." }
+     ],
+     durationType: "rounds",
+     durationValue: 1,
+     durationUnit: "rounds"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }
   },
   { id: "fp_wyrd_shape",
@@ -712,12 +751,31 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
    typeConfig: { school: "wyrd", icon: "Nature/Lizard", tags: ["utility", "polymorph", "false_prophet"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
    resourceCost: { actionPoints: 2, mana: 5 , classResource: { type: "madness", cost: 3 }},
+   resolution: "SAVE",
+   controlConfig: {
+     controlType: "mind_control",
+     duration: 10,
+     durationUnit: "rounds",
+     savingThrow: { ability: "spirit", difficultyClass: 15, saveOutcome: "negates" },
+     effects: [
+       { id: "wyrd_shape_polymorph", name: "Bog-Toad", description: "The target's physical identity is distorted into a helpless bog-toad.", config: { confusionType: "complete", saveType: "spirit", saveDC: 15 } }
+     ]
+   },
+   debuffConfig: {
+     debuffType: "statusEffect",
+     effects: [
+       { id: "wyrd_shape_helpless", name: "Helpless Form", description: "Transformed into a bog-toad for 1 minute or until damaged.", mechanicsText: "Polymorphed for 1 minute; ends on damage." }
+     ],
+     durationType: "minutes",
+     durationValue: 1,
+     durationUnit: "minutes"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 }
   },
  { id: "fp_blood_sermon",
   name: "Sermon of the Silence",
   description:
-  "Preach a sermon that rends the mind with stolen vitality. Deals 1d8 wyrd damage and exacts a toll of 3 HP to channel the wyrd pressure. Generates 1d4 Madness as the congregation's anguish echoes in your skull.",
+  "Preach a sermon that rends the mind with stolen vitality: 1d8 wyrd damage and a 3 HP toll to channel the pressure. Generates 1d4 Madness as anguish echoes in your skull.",
   level: 1,
   spellType: "ACTION",
   icon: "Arcane/Orb Manipulation",
@@ -788,7 +846,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_hollow_blessing",
   name: "Hollow Blessing",
   description:
-  "Extend a hand wreathed in false golden light. The target feels warmth, but it is the warmth of something feeding on them from within. Deals 1d4 wyrd damage immediately and 1d4 wyrd damage per turn for 3 turns. Generates 1d4 Madness.",
+  "Extend a hand wreathed in false golden light. It feels warm, but something feeds from within: 1d4 wyrd now and 1d4 wyrd per turn for 3 turns. Generates 1d4 Madness.",
   level: 1,
   spellType: "ACTION",
   icon: "Healing/Golden Heart",
@@ -866,7 +924,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_whispered_doubt",
   name: "Whispered Doubt",
   description:
-  "Lean close and whisper a single, perfect lie into the target's ear, a doubt that unravels their conviction. Reduces Spirit by 2 for 3 rounds. DC 12 Spirit save negates. Generates 1 Madness as their faith crumbles.",
+  "Whisper a single perfect lie: a doubt that unravels conviction. Spirit -2 for 3 rounds; DC 12 Spirit negates. Generates 1 Madness as their faith crumbles.",
   level: 1,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -954,7 +1012,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_siphon_devotion",
   name: "Siphon Devotion",
   description:
-  "Reach across the silence and hook your fingers into a target's life force. Drain 1d6 blight damage from them, healing yourself for the same amount. The stolen vitality surges through you like a psychic current. Generates 1 Madness.",
+  "Hook your fingers into a target's life force: drain 1d6 blight damage and heal yourself for the same. The stolen vitality surges like psychic current. Generates 1 Madness.",
   level: 1,
   spellType: "ACTION",
   icon: "Necrotic/Drain Soul",
@@ -1027,7 +1085,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_zealots_mark",
   name: "Zealot's Mark",
   description:
-  "Brand a target with a parasitic sigil that makes them vulnerable to your congregation's fervor. The next ally attack against the marked target deals +1d6 wyrd damage. The mark pulses with wyrd resonance, marking them for the congregation. Generates 1 Madness.",
+  "Brand a target with a parasitic sigil: the next ally attack against them deals +1d6 wyrd. The mark pulses with resonance, marking them for the congregation. Generates 1 Madness.",
   level: 1,
   spellType: "ACTION",
   icon: "Psychic/Mind Strike",
@@ -1118,7 +1176,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_stitch_of_suffering",
   name: "Stitch of Suffering",
   description:
-  "Thread a parasitic filament of stolen faith between an ally and an enemy, a conduit forged from wyrd pressure. For 3 rounds, 30% of all damage the linked ally receives is redirected to the bonded enemy as wyrd damage. The enemy reels under wyrd pressure that was never theirs. The link feeds on proximity and emotional intensity. Generates exactly 1 Madness. This is why your congregation tolerates you: because you redirect their suffering onto your enemies.",
+  "Thread a stolen-faith filament between an ally and an enemy for 3 rounds: 30% of damage the ally receives redirects to the bonded enemy as wyrd. Generates 1 Madness.",
   level: 1,
   spellType: "ACTION",
   icon: "Healing/Reaching Hand",
@@ -1240,7 +1298,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_false_miracle",
   name: "False Miracle",
   description:
-  "Perform a false miracle, the target sees golden light and feels warmth. But beneath the veneer, your psychic hooks dig into their consciousness. Deals 1d4 wyrd damage immediately and 1d4 wyrd damage per turn for 3 turns. The miracle is a lie; the suffering is real. Generates 1d4 Madness.",
+  "Perform a false miracle: the target sees golden light and feels warmth while your psychic hooks dig in. 1d4 wyrd now and 1d4 wyrd per turn for 3 turns. Generates 1d4 Madness.",
   level: 2,
   spellType: "ACTION",
   icon: "Healing/Golden Heart",
@@ -1318,7 +1376,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_parasitic_link",
   name: "Echoing Bond",
   description:
-  "Thread an invisible psychic conduit between yourself and an enemy. For 2 rounds, 50% of all damage you receive is mirrored to the linked target as wyrd damage. They stagger under the weight of redirected wyrd strain. Generates 1d4 Madness. The bond echoes every wound you suffer back upon them.",
+  "Thread a psychic conduit to an enemy for 2 rounds: 50% of all damage you receive is mirrored to them as wyrd. They stagger under your redirected strain. Generates 1d4 Madness.",
   level: 2,
   spellType: "ACTION",
   icon: "Psychic/Psionic Strike",
@@ -1406,7 +1464,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_blood_tithe",
   name: "Congregation's Tithe",
   description:
-  "Demand a psychic tithe from your congregation. All allies within 15 feet sacrifice 1d4 HP, gaining +2 to attack rolls for 2 rounds as channeled psychic energy sharpens their reflexes. You also pay the tithe — sacrifice 1d4 HP yourself. The channeled devotion feeds your power. Generates 1d4 Madness.",
+  "Demand a tithe: allies within 15ft each sacrifice 1d4 HP for +2 to attack rolls for 2 rounds. You pay it too. Generates 1d4 Madness.",
   level: 2,
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Decay 1",
@@ -1503,7 +1561,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_dark_benediction",
   name: "Dark Benediction",
   description:
-  "Bestow a benediction drawn from the psychic reservoir of your own Madness. Spend 1d6 Madness to gain +2 to attack and damage rolls for 3 rounds. The benediction is a gilded cage — the more Madness you channel, the closer to Convulsion when the spending stops.",
+  "Spend 1d6 Madness for +2 to attack and damage rolls for 3 rounds. A gilded cage; the more you channel, the closer to Convulsion when the spending stops.",
   level: 3,
   spellType: "ACTION",
   icon: "General/Increase Strength",
@@ -1577,7 +1635,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_befoul",
   name: "Befoul",
   description:
-  "Unleash a wave of blight energy that corrupts a 20-foot area for 4 rounds. The ground becomes difficult terrain and creatures starting their turn there take 1d6 blight damage as the soil itself turns hostile. The corrupted ground pulses with residual wyrd decay. Generates 1d4 Madness.",
+  "Corrupt a 20ft area for 4 rounds: difficult terrain; creatures starting their turn there take 1d6 blight as the soil turns hostile. Generates 1d4 Madness.",
   level: 3,
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
@@ -1674,7 +1732,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_sever_connections",
   name: "Sever Connections",
   description:
-  "Cut the invisible threads that bind a target to their allies — their healer's touch slides off, their comrade's shield covers nothing. The target cannot receive healing or beneficial effects from allies for 3 rounds. They are alone, as you once were. DC 14 Spirit save. Spends 1d4 Madness.",
+  "Cut a target's invisble threads to their allies: no healing or beneficial effects from allies for 3 rounds. DC 14 Spirit save. Spends 1d4 Madness.",
   level: 3,
   spellType: "ACTION",
   icon: "Radiant/Radiant Divinity",
@@ -1747,7 +1805,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_empathetic_transfer",
   name: "Empathetic Transfer",
   description:
-  "Reach across the battlefield and wrench every curse, poison, and debuff from an ally's psyche, then hurl them into an enemy's mind. The ally is cleansed; the enemy inherits their suffering. DC 14 Spirit save per debuff transferred. Spends 1d6 Madness. This is why your congregation tolerates you.",
+  "Wrench every curse, poison, and debuff from an ally's psyche and hurl them into an enemy's mind: the ally is cleansed, the enemy inherits. DC 14 Spirit per debuff. Spends 1d6 Madness.",
   level: 3,
   spellType: "ACTION",
   icon: "Healing/Reaching Hand",
@@ -1811,7 +1869,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_shattered_faith",
   name: "Shattered Faith",
   description:
-  "Condemn a target's deepest belief with a single, devastating revelation — spoken in a voice that is not your own. The target is confused for 3 rounds as everything they held true dissolves. DC 14 Spirit save. At 10+ Madness, confusion lasts 4 rounds. Generates 1d4 Madness.",
+  "Condemn a target's deepest belief in a voice not your own: confused for 3 rounds as everything they held true dissolves. DC 14 Spirit; at 10+ Madness, 4 rounds. Generates 1d4 Madness.",
   level: 4,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -1912,7 +1970,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_visions_of_heresy",
   name: "Visions of Heresy",
   description:
-  "Condemn a target to witness their own heresy — memories of every betrayal, broken oath, and lie they ever told. Deals 2d6 + Intelligence wyrd damage and 2d6 wyrd per turn for 4 turns as guilt eats them from within. At 10+ Madness, DoT increases to 3d6 per turn. Generates 1d4 Madness.",
+  "Condemn a target to witness their own heresy: 2d6 + Int wyrd and 2d6 wyrd per turn for 4 turns as guilt eats them. At 10+ Madness, 3d6 per turn. Generates 1d4 Madness.",
   level: 4,
   spellType: "ACTION",
   icon: "Psychic/Mind Strike",
@@ -2003,7 +2061,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_maddening_sermon",
   name: "Maddening Sermon",
   description:
-  "Deliver a sermon carved directly into the minds of all enemies within 20 feet. Words that should not exist tear through their sanity. Confuses enemies for 2 rounds. DC 14 Spirit save. Generates 1d6 Madness.",
+  "Carve a sermon into the minds of all enemies within 20ft; words that should not exist tear sanity. Confused 2 rounds; DC 14 Spirit. Generates 1d6 Madness.",
   level: 4,
   spellType: "ACTION",
   icon: "General/Fiery Rage",
@@ -2091,7 +2149,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_communion_of_blood",
   name: "Hollow Communion",
   description:
-  "Partake in communion with the congregation's life force. Spend 1d6 Madness — gain temporary HP equal to 2 x Madness spent for 3 rounds. At 15+ Madness, the wyrd pressure backfires: take 1d4 wyrd damage per Madness spent instead. The channeled energy overloads.",
+  "Spend 1d6 Madness for temporary HP equal to 2 x Madness spent for 3 rounds. At 15+ Madness the pressure backfires: take 1d4 wyrd per Madness spent instead.",
   level: 4,
   spellType: "ACTION",
   icon: "Necrotic/Drain Soul",
@@ -2167,7 +2225,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_corrupt_the_faithful",
   name: "Corrupt the Faithful",
   description:
-  "Preach corruption into a target's soul, turning their devotion against their allies for 3 rounds. DC 15 Spirit save. At 10+ Madness, target also deals 1d6 wyrd to allies it attacks. Generates 1d8 Madness.",
+  "Preach corruption into a soul, turning devotion against allies for 3 rounds. DC 15 Spirit; at 10+ Madness the target also deals 1d6 wyrd to allies it attacks. Generates 1d8 Madness.",
   level: 5,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -2269,7 +2327,7 @@ This is the catastrophic endpoint of recursive temptation. The Prophet who reach
  { id: "fp_twisted_sermon",
   name: "Twisted Sermon",
   description:
-  "Deliver a dark sermon in a 30-foot cone — words that peel back the skin of sanity. Deals 4d6 + Intelligence wyrd damage and causes paranoia for 2 rounds. DC 15 Spirit save for half damage. Generates 1d6 Madness.",
+  "A dark sermon in a 30ft cone peels back the skin of sanity: 4d6 + Int wyrd and paranoia for 2 rounds. DC 15 Spirit halves. Generates 1d6 Madness.",
   level: 5,
   spellType: "ACTION",
   icon: "Psychic/Agonizing Scream",
@@ -2420,7 +2478,7 @@ verbalText: "The silence answers!",
  { id: "fp_empathetic_agony",
   name: "Empathetic Surge",
   description:
-  "Fuse your psychic network with an enemy's through a searing empathetic link. For 2 rounds, 100% of ALL damage you take is mirrored to this enemy as wyrd damage. Generates 1d6 Madness. COST: Sacrifice 2d6 HP to forge the psychic bridge.",
+  "Fuse your psychic network with an enemy: for 2 rounds, 100% of ALL damage you take mirrors to them as wyrd. Cost: sacrifice 2d6 HP to forge the bridge. Generates 1d6 Madness.",
   level: 5,
   spellType: "ACTION",
   icon: "Psychic/Psionic Strike",
@@ -3281,7 +3339,7 @@ verbalText: "The silence answers!",
  { id: "fp_apocalyptic_revelation",
   name: "Apocalyptic Revelation",
   description:
-  "Unleash 12d6 + Intelligence wyrd energy in a 30-foot radius. DC 18 Spirit save for half damage. Requires 12 Madness. Adds 2d6 Madness (high Convulsion risk). Temptation ability. WARNING: If this spell triggers an Insanity Convulsion by pushing Madness to 20+, the backlash scales catastrophically, the Convulsion is no longer random. It becomes an Apocalyptic Convulsion: the Prophet suffers permanent Spirit drain (-2 Spirit until long rest), all allies within 30ft take 4d6 wyrd damage from the wyrd Shockwave, and the Prophet is Confused for 3 rounds instead of the standard Convulsion duration. The consumed minds do not simply scream, they detonate.",
+  "12d6 + Int wyrd in 30ft (DC 18 Spirit half). Needs 12 Madness, adds 2d6. At 20+ an Apocalyptic Convulsion: -2 Spirit until long rest, allies within 30ft take 4d6 wyrd, you Confused 3 rounds.",
   level: 8,
   spellType: "ACTION",
   icon: "Psychic/Mind Strike",
@@ -3414,7 +3472,7 @@ verbalText: "The silence answers!",
  { id: "fp_mass_manipulation",
   name: "Mass Manipulation",
   description:
-  "Rewrite the loyalties of all enemies within 40 feet. Dominated enemies follow your commands for 2 rounds. DC 18 Spirit save negates. Spends 1d8 Madness. At 15+ Madness, dominated targets attack each other.",
+  "Rewrite the loyalties of all enemies within 40ft: dominated foes follow your commands 2 rounds. DC 18 Spirit negates. Spends 1d8 Madness; at 15+, they attack each other.",
   level: 8,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -3580,7 +3638,7 @@ verbalText: "The silence answers!",
  { id: "fp_prophet_of_lies",
   name: "Prophet of Lies",
   description:
-  "Ascend to become the Prophet of Lies for 5 rounds. +6 INT/SPI, immune to charm/fear/confusion, charm or frighten enemies 30ft once, all deception spells auto-believed. On end: gain 3d10 Madness. Spends all current Madness.",
+  "Become the Prophet of Lies for 5 rounds: +6 Int/Spirit, immune to charm/fear/confusion, charm or frighten foes within 30ft once, deception auto-believed. On end: +3d10 Madness. Spends all Madness.",
   level: 10,
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
@@ -3789,7 +3847,7 @@ verbalText: "The silence answers!",
   {
   "id": "fp_halo_sanctified",
   "name": "Halo of the Sanctified",
-  "description": "Forge a gorgeous, shimmering golden halo of light above your head, accompanied by the faint, distant echo of a fake angelic choir. You look like a pure saint, easily swaying crowds and masking your true intentions.",
+  "description": "Forge a shimmering golden halo above your head with a faint, distant echo of a fake angelic choir. You look like a pure saint: crowds sway easily and true intentions hide.",
   "level": 1,
   "spellType": "ACTION",
   "icon": "Holy/Angelic Halo",
@@ -3854,7 +3912,7 @@ verbalText: "The silence answers!",
   // ===== NON-COMBAT / VOID & MIND UTILITY (the cult-leader out of combat) =====
   { id: "fp_unlit_gaze",
    name: "Unlit Gaze",
-   description: "You gouged your eyes to see the silence, not the light. For the duration you see perfectly in total and magical darkness, perceive the dead, the dying, the silence-touched, and undead as cold pale shapes, and read the single deepest fear of any creature you study. You are blind to bright color and fine detail in normal light. Out of combat.",
+   description: "Gouged eyes see the silence: perfect sight in magical darkness; the dead, dying, silence-touched, and undead show as pale shapes; read a creature's deepest fear. Bright color is lost. Out of combat.",
    level: 1,
    spellType: "ACTION",
    icon: "Psychic/Focused Mind",
@@ -3869,7 +3927,7 @@ verbalText: "The silence answers!",
   },
   { id: "fp_surface_thoughts",
    name: "Surface Thoughts",
-   description: "Press a psychic ear to a creature's mind and hear only what is loudest � its immediate surface thoughts and the emotion behind them. No deep secrets, no memories; just what it is thinking right now, which lets you catch lies by their nervous tell. Out of combat; concentration.",
+   description: "Press a psychic ear to a mind and hear what is loudest: immediate surface thoughts and the emotion behind them. No deep secrets, just now; catch lies by their tell. Out of combat; concentration.",
    level: 2,
    spellType: "ACTION",
    icon: "Psychic/Psychic Telepathy",
@@ -3884,7 +3942,7 @@ verbalText: "The silence answers!",
   },
   { id: "fp_consult_the_voice",
    name: "Consult the Voice",
-   description: "Fall silent and let the Voice answer. Ask one question; the silence-entity replies truthfully, in its own words, about anything it can perceive � but the truth it speaks costs you 1d4 Madness, and it answers what it wants, sometimes more than you asked, sometimes in a way meant to further its own unknown ends. Out of combat.",
+   description: "Fall silent and let the Voice answer one question truthfully about anything it perceives; the truth costs 1d4 Madness, and it answers what it wants, sometimes more than asked. Out of combat.",
    level: 2,
    spellType: "ACTION",
    icon: "Psychic/Agonizing Scream",
@@ -3899,7 +3957,7 @@ verbalText: "The silence answers!",
   },
   { id: "fp_whispered_suggestion",
    name: "Whispered Suggestion",
-   description: "Slip a single thought into a weak-willed creature's mind � a reasonable idea it believes is its own: to step aside, to answer, to look the other way, to trust you. Not domination; a nudge it can refuse if the suggestion is harmful or wildly out of character. Out of combat.",
+   description: "Slip a thought into a weak mind; a reasonable idea it believes is its own: step aside, answer, look away, trust you. Not domination; refusable if harmful or out of character. Out of combat.",
    level: 1,
    spellType: "ACTION",
    icon: "Psychic/Psychic Telepathy",
@@ -4166,6 +4224,19 @@ verbalText: "The silence answers!",
       verbalText: "Your gods have abandoned you — kneel to the Silence!",
       somaticText: "Brandish obsidian sigil toward targets"
     },
+    debuffConfig: {
+      debuffType: "mentalEffect",
+      effects: [
+        {
+          id: "apostasy_oathbreak",
+          name: "Oaths Shattered",
+          description: "The targets' deepest ideological loyalties are replaced with devotion to the prophet's manufactured gospel.",
+          mechanicsText: "Loyalties rewritten; target serves the prophet."
+        }
+      ],
+      durationValue: 2,
+      durationUnit: "rounds"
+    },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
     tags: ["control", "debuff", "domination", "madness"]
   },
@@ -4316,6 +4387,21 @@ verbalText: "The silence answers!",
       components: ["verbal", "somatic"],
       verbalText: "Dream your last dream, and sleep forever",
       somaticText: "Crush a phantom globe between both palms"
+    },
+    utilityConfig: {
+      utilityType: "special",
+      selectedEffects: [
+        {
+          id: "great_delusion_dreamscape",
+          name: "Artificial Dreamscape",
+          description: "Every hostile consciousness is plunged into an artificial dreamscape while your flock moves unhindered.",
+          mechanicsText: "Battlefield-wide delusion; allies unimpeded."
+        }
+      ],
+      duration: 2,
+      durationUnit: "rounds",
+      concentration: false,
+      power: "major"
     },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
     tags: ["control", "utility", "ultimate", "stasis", "madness"]

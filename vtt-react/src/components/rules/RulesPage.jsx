@@ -5832,6 +5832,40 @@ const RulesPage = () => {
 
 
 
+  const renderTomeSwitcher = (variant) => (
+    <div
+      className={`rules-tome-switcher ${variant === 'mobile' ? 'rules-tome-switcher-mobile' : 'rules-tome-switcher-desktop'}`}
+      role="group"
+      aria-label="Laws and Lore"
+    >
+      <button
+        type="button"
+        aria-pressed={activeTome === 'laws'}
+        className={`rules-tome-tab ${activeTome === 'laws' ? 'active' : ''}`}
+        onClick={() => handleTomeChange('laws')}
+        title="The Laws — rules, systems, and character creation"
+      >
+        <i className="fas fa-scale-balanced"></i>
+        <span className="rules-tome-label rules-tome-label-full">The Laws</span>
+        <span className="rules-tome-label rules-tome-label-short">Laws</span>
+      </button>
+      <span className="rules-tome-spine" aria-hidden="true">
+        <i className="fas fa-book-open"></i>
+      </span>
+      <button
+        type="button"
+        aria-pressed={activeTome === 'lore'}
+        className={`rules-tome-tab ${activeTome === 'lore' ? 'active' : ''}`}
+        onClick={() => handleTomeChange('lore')}
+        title="The Lore — world, history, peoples, and bestiary"
+      >
+        <i className="fas fa-scroll"></i>
+        <span className="rules-tome-label rules-tome-label-full">The Lore</span>
+        <span className="rules-tome-label rules-tome-label-short">Lore</span>
+      </button>
+    </div>
+  );
+
   return (
 
 
@@ -6395,6 +6429,9 @@ const RulesPage = () => {
 
 
 
+        {/* The Two Tomes — Laws / Lore switcher (slim view toolbar) */}
+        {renderTomeSwitcher('mobile')}
+
       </aside>
 
 
@@ -6453,31 +6490,7 @@ const RulesPage = () => {
           </div>
 
           {/* The Two Tomes — Laws (mechanics) and Lore (world) */}
-          <div className="rules-tome-switcher" role="group" aria-label="Laws and Lore">
-            <button
-              type="button"
-              aria-pressed={activeTome === 'laws'}
-              className={`rules-tome-tab ${activeTome === 'laws' ? 'active' : ''}`}
-              onClick={() => handleTomeChange('laws')}
-              title="The Laws — rules, systems, and character creation"
-            >
-              <i className="fas fa-scale-balanced"></i>
-              <span className="rules-tome-label">The Laws</span>
-            </button>
-            <span className="rules-tome-spine" aria-hidden="true">
-              <i className="fas fa-book-open"></i>
-            </span>
-            <button
-              type="button"
-              aria-pressed={activeTome === 'lore'}
-              className={`rules-tome-tab ${activeTome === 'lore' ? 'active' : ''}`}
-              onClick={() => handleTomeChange('lore')}
-              title="The Lore — world, history, peoples, and bestiary"
-            >
-              <i className="fas fa-scroll"></i>
-              <span className="rules-tome-label">The Lore</span>
-            </button>
-          </div>
+          {renderTomeSwitcher('desktop')}
 
           <div
             className="rules-header-quick-search"

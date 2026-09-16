@@ -954,9 +954,19 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    level: 3,
    spellType: "ACTION",
    icon: "Fire/Flame Burst",
+   effectTypes: ["damage", "control"],
    typeConfig: { school: "ember", icon: "Fire/Flame Burst", tags: ["utility", "damage", "fireball", "pyrofiend"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaSize: 20 },
    resourceCost: { actionPoints: 2, mana: 6 },
+   damageConfig: { formula: "4d6 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
+   controlConfig: {
+     controlType: "zone",
+     duration: 2,
+     durationUnit: "rounds",
+     effects: [
+       { id: "inferno_blast_ash_ground", name: "Burning Ash Ground", description: "The blast leaves burning ash ground that hazards creatures crossing it.", config: { zoneType: "difficult_terrain", duration: 2, durationUnit: "rounds" } }
+     ]
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
    tags: ["utility", "fireball", "pyrofiend"]
   },
@@ -966,9 +976,21 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
    level: 1,
    spellType: "ACTION",
    icon: "Fire/Burning Ember",
+   effectTypes: ["utility"],
    typeConfig: { school: "ember", icon: "Fire/Enveloping Fire", tags: ["utility", "heat", "warmth", "pyrofiend"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "area", rangeType: "self_centered", areaSize: 30 },
    resourceCost: { actionPoints: 1, mana: 2 },
+   resolution: "NONE",
+   utilityConfig: {
+     utilityType: "environment",
+     selectedEffects: [
+       { id: "hearth_heat_warmth", name: "Volcanic Warmth", description: "Warm your party in freezing blizzard conditions for 1 hour, granting immunity to environmental freezing damage.", mechanicsText: "Party immune to environmental freezing, 1 hour." }
+     ],
+     duration: 1,
+     durationUnit: "hours",
+     concentration: false,
+     power: "minor"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility", "heat", "pyrofiend"]
   },
@@ -979,7 +1001,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_ember_spark",
   name: "Ember Spark",
   description:
-  "Scathrach gifts you a malevolent spark, a fragment of its own hatred, compressed into a projectile. It burrows into flesh, igniting a smolder that no mortal can extinguish. Deals initial ember damage and leaves a persistent burn that consumes the target over 2 rounds. The ember is the horror's way of saying: burn everything.",
+  "Scathrach gifts a malevolent spark compressed into a projectile. It burrows into flesh and ignites an unquenchable smolder: initial ember damage plus a burn consuming the target for 2 rounds.",
   level: 1,
   spellType: "ACTION",
   icon: "Fire/Flame Burst",
@@ -1044,7 +1066,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_smoldering_touch",
   name: "Smoldering Touch",
   description:
-  "Your hand glows with the heat of Scathrach's contempt. You press it into an enemy's flesh, not gently, searing through Durability and DR and leaving a smolder that burns for 1d4 ember damage per round for 2 rounds. The touch is not a spell. It is an imposition. You are sharing what lives inside you.",
+  "Your hand glows with Scathrach's contempt. Press it into flesh, searing through Durability and DR and leaving a smolder of 1d4 ember per round for 2 rounds. Not a spell; an imposition.",
   level: 1,
   spellType: "ACTION",
   icon: "Fire/Fire Bolt",
@@ -1107,7 +1129,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_flicker",
   name: "Flicker",
   description:
-  "A quick flash of Scathrach's spite streaks toward your target. Small but precise, the flame ignites instantly and leaves a trail of heat in its wake. This is the horror flicking a match, dismissive, casual, and still enough to set the world alight.",
+  "A quick flash of Scathrach's spite streaks out: small, precise, igniting instantly and trailing heat. The horror flicking a match; dismissive, casual, enough to set the world alight.",
   level: 1,
   spellType: "ACTION",
   icon: "Fire/Fiery Symbol",
@@ -1155,7 +1177,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_cooling_ember",
   name: "Cooling Ember",
   description:
-  "You press your hand to your own chest and will the furnace to dim. Scathrach screams inside your skull, it hates this. Cooling Ember draws the infernal heat back into the horror's prison, soothing your corrupted flesh and restoring a fraction of your health. Essential for survival. Every cast costs mana you cannot afford. This is the Mana Tax, the price of not dying.",
+  "Press a hand to your chest and will the furnace to dim. Scathrach screams; the heat draws back, soothing your corrupted flesh and restoring some health. The Mana Tax costs mana you cannot afford.",
   level: 1,
   spellType: "ACTION",
   icon: "Fire/Dragon Breath",
@@ -1202,7 +1224,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_heat_shield",
   name: "Heat Shield",
   description:
-  "You pull Scathrach's heat outward, wrapping yourself in a shimmering barrier of superheated air. Attacks that pass through it are warped and dissipated by the thermal distortion. The shield is a fragment of the horror's own defenses, borrowed, not earned.",
+  "Pull Scathrach's heat outward into a superheated barrier; attacks passing through are warped and dissipated by thermal distortion. A fragment of the horror's own defenses, borrowed.",
   level: 1,
   spellType: "ACTION",
   icon: "Radiant/Radiant Divinity",
@@ -1268,7 +1290,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_scorching_grasp",
   name: "Scorching Grasp",
   description:
-  "Flames engulf your hand, not the warm orange of a hearth, but the sickly black-red of Scathrach's ire. You seize the enemy and the fire clings, searing through Durability and DR and flesh for 2d8 + INT/2 ember damage, then burning for 1d4 ember damage per round for 2 rounds. Your touch is a branding iron. The mark says: property of the Ashen Sovereign.",
+  "Flames engulf your hand. Seize the enemy: fire clings, searing through Durability and DR for 2d8 + INT/2 ember, then burning 1d4 per round for 2 rounds. The mark says: property of the Ashen Sovereign.",
   level: 2,
   spellType: "ACTION",
   icon: "Fire/Scorching Rune",
@@ -1331,7 +1353,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_flame_lash",
   name: "Flame Lash",
   description:
-  "A whip of condensed fire lashes out from your palm, coiling around an enemy and dragging them toward you through sheer infernal fury. The flames sear as they grip, and the target feels Scathrach's hunger pulling them closer to the furnace.",
+  "A whip of condensed fire lashes from your palm, coiling an enemy and dragging them toward you. The flames sear as they grip; they feel Scathrach's hunger pulling them close.",
   level: 2,
   spellType: "ACTION",
   icon: "Fire/Sun Symbol",
@@ -1403,7 +1425,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_cinder_bolt",
   name: "Cinder Bolt",
   description:
-  "You compress Scathrach's hatred into a bolt of cinders and hurl it. On impact, the bolt detonates, showering the area in sparks and slag. A small explosion by Pyrofiend standards. A catastrophic one by anyone else's.",
+  "Compress Scathrach's hatred into a bolt of cinders and hurl it. On impact it detonates, showering the area in sparks and slag. A small explosion by Pyrofiend standards; a catastrophe by anyone else's.",
   level: 2,
   spellType: "ACTION",
   icon: "Fire/Swirling Fireball",
@@ -1457,7 +1479,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_fireball",
   name: "Fireball",
   description:
-  "The classic instrument of Scathrach's wrath. A sphere of condensed Wyrd-fire streaks to a point you choose and detonates, engulfing everything within range in a roaring inferno. This is the spell that earned the Pyrofiend its reputation, and its body count.",
+  "A sphere of condensed Wyrd-fire streaks to a chosen point and detonates, engulfing all within range. The spell that earned the Pyrofiend its reputation; and its body count.",
   level: 3,
   spellType: "ACTION",
   icon: "Fire/Swirling Fireball",
@@ -1522,7 +1544,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_burning_hands",
   name: "Burning Hands",
   description:
-  "You spread your fingers wide and Scathrach exhales through your palms. A cone of Wyrd-fire erupts, scorching everything in a 20-foot arc. Close-range devastation for when the enemy is too close, which is exactly when Scathrach is happiest.",
+  "Spread your fingers and Scathrach exhales through your palms: a cone of Wyrd-fire scorches a 20-foot arc. Close-range devastation for when the enemy is too close; exactly when Scathrach is happiest.",
   level: 3,
   spellType: "ACTION",
   icon: "Fire/Flame Burst",
@@ -1586,7 +1608,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_flame_step",
   name: "Flame Step",
   description:
-  "You step through a tear in reality, a wound carved by Scathrach's fire. You vanish in a burst of flame and reappear nearby, leaving fire at both points of departure and arrival. The teleport is not graceful. It is violent, disorienting, and leaves the smell of burnt air.",
+  "Step through a tear carved by Scathrach's fire: vanish in flame and reappear nearby, leaving fire at both departure and arrival. Not graceful; violent, disorienting, smelling of burnt air.",
   level: 3,
   spellType: "ACTION",
   icon: "Fire/Burning Ember",
@@ -1662,7 +1684,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_infernal_blast",
   name: "Infernal Blast",
   description:
-  "A concentrated blast of Scathrach's purest hatred erupts from your hands, searing through defenses and leaving nothing but ash. 5d6 + INT ember damage. At Inferno Level 4+, the corruption surges, dealing an additional 2d6 ember damage. The blast is not fire. It is annihilation wearing fire as a mask.",
+  "A concentrated blast of Scathrach's purest hatred sears through defenses: 5d6 + INT ember. At Inferno Level 4+ the corruption surges for an extra 2d6. Not fire; annihilation wearing fire as a mask.",
   level: 4,
   spellType: "ACTION",
   icon: "Fire/Infernal Fire",
@@ -1743,7 +1765,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_searing_chains",
   name: "Searing Chains",
   description:
-  "Conjure burning chains of Scathrach's binding, links of condensed hatred that lash between enemies, dealing 3d6 + INT ember damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 ember damage per round for 2 rounds. Chains leap to up to 3 additional targets within 15 feet. The chains do not merely burn, they bind. Scathrach was a warden before it was a flame.",
+  "Burning chains lash between enemies for 3d6 + INT ember, tethering them. Jumps deal 75% and ignite for 1d6 ember/round for 2 rounds, leaping to 3 more within 15ft. They bind as they burn.",
   level: 4,
   spellType: "ACTION",
   icon: "Fire/Scorching Rune",
@@ -1816,7 +1838,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_fiery_aura",
   name: "Fiery Aura",
   description:
-  "You open the furnace door. An aura of Scathrach's contempt radiates outward, dealing 2d6 ember damage to any enemy foolish enough to stand within 5 feet. The aura persists for up to 3 rounds while you concentrate, a constant, pulsing reminder that you are not safe to be near.",
+  "Open the furnace door: an aura of contempt deals 2d6 ember to any enemy within 5ft. Persists up to 3 rounds while you concentrate; a pulsing reminder that you are not safe to stand near.",
   level: 4,
   spellType: "CHANNELED",
   icon: "Fire/Fire Orb",
@@ -2012,7 +2034,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_hellfire_wave",
   name: "Hellfire Wave",
   description:
-  "Scathrach opens its mouth through yours. A wave of hellish fire sweeps over everything in a 30-foot cone, 8d6 + INT ember damage. Enemies caught are Cinder-Marked for 2 rounds: +1d6 ember damage from each of your ember spells, and no stealth or invisibility. Anything caught in the cone does not burn. It ceases.",
+  "Scathrach opens its mouth through yours: a 30ft cone of hellfire for 8d6 + INT ember. Those caught are Cinder-Marked for 2 rounds (+1d6 ember, no stealth). They do not burn. They cease.",
   level: 5,
   spellType: "ACTION",
   icon: "Fire/Fiery Symbol",
@@ -2077,7 +2099,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_immolation",
   name: "Immolation",
   description:
-  "You designate a target for Scathrach's obsession. Flames engulf them, 6d8 + INT/2 ember damage immediately, and then the real cruelty begins. The fire does not stop. 1d6 + INT/4 ember damage per round for 3 rounds. The target screams. Scathrach hums contentedly. You try not to think about what that says about you.",
+  "Designate a target for Scathrach's obsession: 6d8 + INT/2 ember now, then 1d6 + INT/4 per round for 3 rounds. It screams; Scathrach hums; you try not to think what that says about you.",
   level: 5,
   spellType: "ACTION",
   icon: "Fire/Enveloping Fire",
@@ -2141,7 +2163,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_fire_whip",
   name: "Fire Whip",
   description:
-  "A whip of condensed infernal fury, not fire, but the idea of fire made violent. It lashes out, dealing 7d6 + INT ember damage and potentially stunning the target as Scathrach's malice briefly overwhelms their nervous system. The whip is the horror's tongue. It tastes what it strikes.",
+  "A whip of infernal fury; the idea of fire made violent. It strikes for 7d6 + INT ember and may stun as Scathrach's malice overwhelms the nerves. The horror's tongue tastes what it strikes.",
   level: 5,
   spellType: "ACTION",
   icon: "Fire/Sun Symbol",
@@ -2361,7 +2383,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_lava_burst",
   name: "Lava Burst",
   description:
-  "You slam your fists down and Scathrach boils the earth itself. A 15-foot radius of molten lava erupts, dealing 9d6 + INT ember damage, and the crater stays molten for 2 rounds: a creature that starts its turn in the area takes 1d6 ember damage. The ground does not simply burn, it becomes a grave. At Inferno Level 7+, the corruption deepens the eruption to 16d6 + INT�2.",
+  "Slam your fists down and Scathrach boils the earth: a 15ft lava burst for 9d6 + INT ember; the crater stays molten 2 rounds (1d6 at turn start). At Inferno Level 7+ it deepens to 16d6 + INT×2.",
   level: 6,
   spellType: "ACTION",
   icon: "Fire/Dripping Lava",
@@ -2436,7 +2458,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_flame_storm",
   name: "Flame Storm",
   description:
-  "You raise your arms and Scathrach screams into the sky. A swirling storm of fire descends on a 20-foot radius, dealing 8d6 + INT ember damage immediately and 2d6 + INT/2 ember damage per round for 3 rounds. The storm is not natural. It is the horror's rage made manifest, a localized apocalypse that turns earth to ash and air to agony.",
+  "Raise your arms and Scathrach screams skyward: a firestorm descends on a 20ft radius for 8d6 + INT ember, then 2d6 + INT/2 per round for 3 rounds. The horror's rage made manifest.",
   level: 6,
   spellType: "ACTION",
   icon: "Fire/Swirling Fireball",
@@ -2502,7 +2524,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_infernal_brand_advanced",
   name: "Infernal Brand (Advanced)",
   description:
-  "You carve Scathrach's sigil into an enemy's flesh with a gesture. The brand sears into them, 4d6 + INT/3 ember damage immediately, then 2d6 + INT/2 ember per round for 4 rounds. The sigil does more than burn: it weakens, sapping the target's strength as Scathrach feeds on their vitality through the mark. They are branded. They are marked for the furnace.",
+  "Carve Scathrach's sigil into an enemy: 4d6 + INT/3 ember now, then 2d6 + INT/2 per round for 4 rounds. It saps their strength as Scathrach feeds through the mark. Branded for the furnace.",
   level: 6,
   spellType: "ACTION",
   icon: "Fire/Fiery Symbol",
@@ -2645,7 +2667,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_volcanic_eruption",
   name: "Volcanic Eruption",
   description:
-  "You command the earth to open and Scathrach obliges with volcanic fury. A 25-foot radius eruption of magma and ash deals 12d6 + INT�2 ember damage (DC 16 Agility save for half). At Inferno Level 7+, the corruption deepens the caldera, 16d6 + INT�2. The ground becomes a crematorium. Bodies are not found. Only shapes in the slag.",
+  "Command the earth to open: a 25ft eruption of magma and ash for 12d6 + INT×2 ember (DC 16 Agility half). At Inferno Level 7+ it deepens to 16d6 + INT×2. Only shapes remain in the slag.",
   level: 7,
   spellType: "ACTION",
   icon: "Fire/Flowing Lava",
@@ -2751,7 +2773,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_hellfire_breath",
   name: "Hellfire Breath",
   description:
-  "You inhale and Scathrach exhales through you. A 40-foot cone of hellfire pours from your throat, 10d6 + INT�2 ember damage. This is not a spell. This is regurgitation. The horror has been living in your chest and now it breathes. Anything caught in the cone does not catch fire. It was always on fire. It simply didn't know it until now.",
+  "Inhale, and Scathrach exhales through you: a 40ft cone of hellfire for 10d6 + INT×2 ember. Not a spell; regurgitation. Anything caught was always on fire; it simply did not know until now.",
   level: 7,
   spellType: "ACTION",
   icon: "Fire/Flame Burst",
@@ -2816,7 +2838,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_demonic_empowerment",
   name: "Ember Empowerment",
   description:
-  "You open yourself fully to Scathrach's influence, allowing the horror to amplify your ember for 5 rounds. +5 ember damage on all ember-based attacks. As the channel deepens: enemies within 5 feet begin taking 1d6 ember (round 3), and your ember resistance doubles (round 5). This is borrowing power from the thing that is killing you. The interest rate is your soul.",
+  "Open yourself to Scathrach for 5 rounds: +5 ember damage on ember attacks; enemies within 5ft take 1d6 ember from round 3; your ember resistance doubles at round 5. Interest is your soul.",
   level: 7,
   spellType: "CHANNELED",
   icon: "Utility/Powerful Warrior",
@@ -2975,7 +2997,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_meteor_shower",
   name: "Meteor Shower",
   description:
-  "You reach into Scathrach's furnace and pull down the sky. A shower of flaming meteors descends on a 30-foot radius, dealing 14d6 + INT�2 ember damage with explosive force. The ground craters. The air ignites. This is not a spell, it is a natural disaster with your body as the epicenter.",
+  "Reach into Scathrach's furnace and pull down the sky: meteors descend on a 30ft radius for 14d6 + INT×2 ember. The ground craters, the air ignites; a natural disaster at your epicenter.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Fiery Comet",
@@ -3044,7 +3066,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_infernal_nova",
   name: "Infernal Nova",
   description:
-  "You detonate. Not metaphorically, you become the explosion. A massive sphere of infernal fire expands outward in all directions, dealing 14d6 + INT�2 ember damage to everything within 35 feet. Scathrach laughs. You scream. The distinction between the two sounds becomes academic. This is the nuclear option. Everything burns, including you. The detonation recoils through you: take 2d6 self-damage, and creatures struck are Staggered (disadvantage on attacks and saves) until the end of their next turn.",
+  "You detonate. A sphere of infernal fire expands 35ft for 14d6 + INT×2 ember; take 2d6 self-damage and struck foes are Staggered (disadvantage on attacks/saves) until their next turn ends.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Swirling Fireball",
@@ -3112,7 +3134,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_phoenix_flame",
   name: "Phoenix Flame",
   description:
-  "You summon the ghost of a phoenix, or perhaps Scathrach merely allows you to believe that. A 25-foot radius detonation deals 12d6 + INT�2 ember damage, then the ground itself catches fire: 3d6 + INT/2 ember damage per round for 4 rounds. The flames do not die. They persist, feeding on the corruption you've seeded into the earth. This is a funeral pyre. The question is whose.",
+  "Summon a phoenix's ghost; or Scathrach lets you believe so. A 25ft detonation deals 12d6 + INT×2 ember, then the ground burns 3d6 + INT/2 per round for 4 rounds. A funeral pyre; whose is unclear.",
   level: 8,
   spellType: "ACTION",
   icon: "Fire/Rising Inferno",
@@ -3322,7 +3344,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_infernal_avatar",
   name: "Infernal Avatar",
   description:
-  "You stop being human and start being a furnace. For 10 rounds, you become an Infernal Avatar, a being of pure Wyrd-fire, wreathed in Scathrach's essence. +5 ember spell power, +3 DR, ember immunity, and a burning aura (2d6 ember to enemies within 10 feet). Your skin is gone. Your voice is gone. Only the fire remains. When it ends, you will feel every second of what you've become.",
+  "For 10 rounds become an Infernal Avatar: +5 ember spell power, +3 DR, ember immunity, 10ft burning aura (2d6 ember). Skin and voice gone; only fire remains. When it ends, you feel every second.",
   level: 9,
   spellType: "CHANNELED",
   icon: "Fire/Fire Demon",
@@ -3396,7 +3418,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_apocalypse",
   name: "Apocalypse",
   description:
-  "Scathrach's grandest gift and cruelest joke. A cataclysmic explosion deals 16d10 + INT�2 ember damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls, the horror's fury is infinite, and it chooses to share. This is the end of something. Possibly the enemy. Possibly you. The blast radius is a grave. The silence afterward is Scathrach's applause.",
+  "Scathrach's grandest gift and cruelest joke: a 40ft cataclysm for 16d10 + INT×2 ember. At maximum Inferno Level, damage dice explode on max rolls. The blast radius is a grave; the silence is applause.",
   level: 9,
   spellType: "ACTION",
   icon: "Utility/Explosive Detonation",
@@ -3455,7 +3477,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_hellfire_ritual",
   name: "Hellfire Ritual",
   description:
-  "You perform a ritual of invocation, not to summon Scathrach, but to open the floodgates wider. For 3 rounds, your ember damage surges by +10. The horror does not grant this power freely; it uses the ritual to deepen its hold. By round 3, your Inferno Level bonuses are doubled. This is borrowing against your own annihilation.",
+  "A ritual not to summon Scathrach but to open the floodgates wider: for 3 rounds your ember damage surges +10, and by round 3 your Inferno Level bonuses double. Borrowing against your own annihilation.",
   level: 9,
   spellType: "CHANNELED",
   icon: "Radiant/Radiant Divinity",
@@ -3638,7 +3660,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_brimstone_teleport",
   name: "Brimstone Teleport",
   description:
-  "You tear a wound in reality and step through Scathrach's furnace, reappearing up to 60 feet away in a burst of hellfire that deals 6d6 + INT�2 ember damage to everything within 10 feet of your arrival. The teleport is not travel, it is passing through the horror's maw. You are digested and reborn in fire. The destination does not thank you.",
+  "Tear reality and step through Scathrach's furnace, reappearing up to 60ft away in hellfire dealing 6d6 + INT×2 ember within 10ft of arrival. Not travel; passing through the horror's maw.",
   level: 10,
   spellType: "ACTION",
   icon: "Fire/Burning Ember",
@@ -3706,7 +3728,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_demonic_ascension",
   name: "Cinder Ascension",
   description:
-  "You surrender completely. Wyrd-ascension is the final act of the Damned Conduit, transforming into a true horror of fire with overwhelming power. +15 ember damage to all spells, +5 DR, ember immunity, flight (30 ft), and enemies within 15 feet take 3d6 ember at the start of their turn. **WARNING:** This spell requires Inferno Level 9. The death clock does NOT pause while transformed, you must still descend below Level 9 within 3 of your turns or Scathrach claims you. Permanently. This is not a power-up. It is a eulogy you perform while still alive.",
+  "Surrender completely: +15 ember damage, +5 DR, ember immunity, 30ft flight, 3d6 ember to foes within 15ft each turn. Requires Inferno 9; drop below 9 in 3 turns or Scathrach claims you forever.",
   level: 10,
   spellType: "ACTION",
   icon: "Fire/Fire Demon",
@@ -3791,7 +3813,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyro_inferno_mastery",
   name: "Inferno Mastery",
   description:
-  "The ultimate expression of Scathrach's hunger made manifest through your ruined body. A cataclysmic inferno consumes a 50-foot radius, dealing 20d10 + INT�2 ember damage. At Inferno Level 7+, it deepens to 22d10. At Level 9, 25d10 + INT�3. This is not a spell. This is what happens when the horror stops pretending you're in control. The world burns. You burn. The distinction is meaningless.",
+  "Scathrach's hunger through your ruined body: a 50ft inferno for 20d10 + INT×2 ember. At Inferno 7+ it deepens to 22d10; at 9, 25d10 + INT×3. The world burns; you burn; the distinction is meaningless.",
   level: 10,
   spellType: "ACTION",
   icon: "Fire/Fire Orb",
@@ -3944,7 +3966,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyrofiend_burnout",
   name: "Burnout",
   description:
-  "When no fire burns, no ignited targets, no active Inferno Level, no fire auras, Scathrach's furnace sputters. You suffer -2 to all spell attack rolls and your fire spells deal -1d6 damage. The horror's contempt for inaction is physical: your power dims, your flames weaken. Cast something. Set something ablaze. The fire must burn or you burn out. This penalty lifts the moment any fire spell deals damage.",
+  "When nothing burns; no ignited targets, no Inferno Level, no auras; the furnace sputters: -2 spell attack rolls, -1d6 fire damage. Set something ablaze. Lifts when a fire spell deals damage.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Fire/Flame Shield",
@@ -3962,7 +3984,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyrofiend_fire_dependency",
   name: "Fire Dependency",
   description:
-  "Your body runs at a temperature that makes rime damage catastrophically lethal. You take +50% damage from all cold and frost attacks (rounded up). and, any rime damage received forces your Inferno Veil to ascend by +1, Scathrach's furnace burns hotter to compensate for internal crystallization, turning frost into fuel for your corruption. If submerged in water or affected by a cold environment, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not uncomfortable. It is antithetical to your existence. Frost does not soothe the furnace, it enrages the horror.",
+  "Your furnace runs so hot that rime is catastrophic: +50% cold/frost damage taken; taking rime raises Inferno Veil +1; in water or cold your Inferno Level falls 2 per round. Water is antithetical.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Frost/Icy Shield",
@@ -3980,7 +4002,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
  { id: "pyrofiend_heat_signature",
   name: "Heat Signature",
   description:
-  "Your body radiates Scathrach's heat at all times. You cannot benefit from Stealth or invisibility, the thermal glow gives you away like a bonfire in a dark room. Enemies have advantage on Perception checks to detect you within 60 feet. Ice-based terrain melts within 10 feet of you. Water terrain deals you 1d6 damage per round of immersion. You are never hidden. You are never cold. You are never safe.",
+  "You always radiate heat: no Stealth or invisibility; enemies have advantage on Perception within 60ft; ice melts within 10ft; water deals 1d6 per round of immersion. Never hidden, never safe.",
   level: 3,
   spellType: "PASSIVE",
   icon: "Fire/Eruption",
@@ -3998,19 +4020,28 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   // ===== NON-COMBAT / FIRE & ASH UTILITY (the living furnace, out of combat) =====
   { id: "pyro_living_hearth",
     name: "Living Hearth",
-    description: "Bank your inner fire to a gentle, even glow. For the duration you radiate safe warmth and soft ember-light: stave off cold exposure and frostbite for yourself and nearby allies, ignite a campfire or torch from your palm, and light a 30 ft radius. Costs 1 HP per hour held. Out of combat.",
+    description: "Bank your inner fire to a gentle glow: radiate warmth and ember-light (30ft), staving off cold exposure and frostbite for nearby allies, and kindle fires from your palm. 1 HP/hour. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Burning Forge",
     typeConfig: { school: "ember", icon: "Fire/Flame Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","pyrofiend"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 30 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 3 }, components: ["somatic"], somaticText: "Cup the ember in your palms and breathe it down to a glow" },
     resolution: "NONE", effectTypes: ["utility","buff"],
     utilityConfig: { utilityType: "environment", selectedEffects: [ { "id": "living_hearth_warmth", "name": "Banked Fire", "description": "For 1 hour: emit safe warmth + ember-light in 30 ft; allies ignore mundane cold exposure/frostbite; kindle fires. Costs 1 HP/hour.", "mechanicsText": "Warmth + light 30 ft; ignore cold exposure; 1 HP/hour." } ], duration: 1, durationUnit: "hours", power: "minor" },
+    buffConfig: {
+      buffType: "auraEffect",
+      effects: [
+        { id: "living_hearth_buff", name: "Living Hearth", description: "You radiate safe warmth and soft ember-light: allies within 30ft ignore mundane cold exposure and frostbite.", mechanicsText: "Allies ignore cold exposure within 30ft; 1 HP/hour." }
+      ],
+      durationType: "hours",
+      durationValue: 1,
+      durationUnit: "hours"
+    },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","exploration","rest","pyrofiend"]
   },
   { id: "pyro_smelters_touch",
     name: "Smelter's Touch",
-    description: "Focus your heat to a precise, surgical point. Smelt, weld, solder, or cut metal  -  seal a crack, fuse two pieces, repair a mechanism, or slice through a bar. Far finer than brute force; the Pyrofiend as glassblower and smith. You take 1d4 self-damage from the back-heat. Out of combat.",
+    description: "Focus your heat to a surgical point: smelt, weld, solder, or cut metal; seal a crack, fuse pieces, repair a mechanism. The Pyrofiend as smith; take 1d4 self-damage from back-heat. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Fire/Volcanic Corruption",
     typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","pyrofiend"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -4022,7 +4053,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
   { id: "pyro_ash_reading",
     name: "Ash-Reading",
-    description: "Burn an object or substance to ash and read the Sovereign's memory in what remains  -  what the thing was, how it was destroyed, who last held it, or the answer to a single question Scathrach deigns to whisper from the smoke. The Ashen Sovereign is honest, never kind, and the smoke-voice costs you 1d4 sanity (wyrd self-damage). Out of combat.",
+    description: "Burn an object and read the Sovereign's memory in the ash: what it was, how it died, who last held it; or ask Scathrach one question answered in the smoke. Never kind; costs 1d4 wyrd. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Fire/Volcanic Corruption",
     typeConfig: { school: "ember", icon: "Fire/Volcanic Corruption", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","pyrofiend"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -4034,7 +4065,7 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
   { id: "pyro_cauterize",
     name: "Cauterize",
-    description: "Grip a wound and burn it shut. Stop active bleeding, sear closed a gash, or burn a toxin-laced wound to neutralize a contact poison  -  painful, scarring field surgery that trades agony for survival. Restores no HP, but stabilizes and prevents bleed/poison progression. Out of combat.",
+    description: "Grip a wound and burn it shut: stop bleeding, sear a gash, or neutralize contact poison; field surgery trading agony for survival. No HP restored; bleed/poison stops. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Healing/Heart Shield",
     typeConfig: { school: "ember", icon: "Healing/Heart Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","investigation","pyrofiend"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -4046,13 +4077,22 @@ Apostates burn through their mana reserves at a terrifying rate. They deal less 
   },
   { id: "pyro_cinder_veil",
     name: "Cinder-Veil",
-    description: "Bend the heat rising off your skin into a shimmering mirage that distorts your party's outlines. In hot, dry, or smoky environments the haze grants advantage on Stealth and hides your exact numbers/position from distant observers. Useless in cold, wet, or wind. Out of combat.",
+    description: "Bend heat off your skin into a mirage that distorts your party's outlines: advantage on Stealth and hidden position from distant observers in hot, dry, or smoky places. Useless in cold, wet, wind.",
     level: 3, spellType: "ACTION", icon: "Fire/Burning Touch",
     typeConfig: { school: "ember", icon: "Fire/Flame Shield", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","stealth","exploration","pyrofiend"] },
     targetingConfig: { targetingType: "area", rangeType: "self_centered", areaType: "circle", areaSize: 20 },
     resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, components: ["somatic"], somaticText: "Exhale a flat sheet of rippling heat across your party" },
     resolution: "NONE", effectTypes: ["utility","buff"],
     utilityConfig: { utilityType: "stealth", selectedEffects: [ { "id": "cinder_veil_mirage", "name": "Heat Mirage", "description": "For 10 minutes, you and allies within 20 ft gain advantage on Stealth and obscure your exact count/position from distant observers  -  but only in hot, dry, or smoky conditions. Cold, wet, or wind dissolves the mirage instantly.", "mechanicsText": "Advantage Stealth + obscure position; hot/dry/smoky only, 10 min." } ], duration: 10, durationUnit: "minutes", power: "moderate" },
+    buffConfig: {
+      buffType: "combatAdvantage",
+      effects: [
+        { id: "cinder_veil_buff", name: "Heat Mirage", description: "You and allies within 20ft gain advantage on Stealth and obscure your position from distant observers.", mechanicsText: "Advantage Stealth; hot/dry/smoky only; 10 minutes." }
+      ],
+      durationType: "minutes",
+      durationValue: 10,
+      durationUnit: "minutes"
+    },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
     tags: ["utility","stealth","exploration","pyrofiend"]
   }

@@ -34,7 +34,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Bind Wyrd-hound",
     icon: "Necrotic/Spectral Summoning",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Bind Wyrd-hound",
@@ -44,10 +44,10 @@ export const INQUISITOR_WITCH_HAMMER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { authority: { baseAmount: 2 }, mana: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["bind", "summon", "inquisitor"]
@@ -62,7 +62,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Shadow Mastery",
     icon: "General/Stealth",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Shadow Mastery",
@@ -83,7 +83,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Pack Mind",
     icon: "Necrotic/Spectral Mask",
     maxRanks: 3,
-    position: { x: 0.5, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "wh_t1_wyrd_pack",
     spell: {
       name: "Pack Mind",
@@ -104,7 +104,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Swarm Tactics",
     icon: "Necrotic/Triple Skulls",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "wh_t1_bind_hound",
     spell: {
       name: "Swarm Tactics",
@@ -127,7 +127,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Steady Rein",
     icon: "Necrotic/Bone Chain Ring",
     maxRanks: 3,
-    position: { x: 2, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "wh_t2_pack_mind",
     spell: {
       name: "Steady Rein",
@@ -137,7 +137,7 @@ export const INQUISITOR_WITCH_HAMMER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { authority: { baseAmount: 1 } },
       damageTypes: ["wyrd"],
@@ -153,7 +153,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Silent Execution",
     icon: "Slashing/Assassins Blade",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "wh_t2_swarm_tactics",
     spell: {
       name: "Silent Execution",
@@ -176,7 +176,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Mass Restoration",
     icon: "Radiant/Radiant Aura",
     maxRanks: 3,
-    position: { x: 2, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "wh_t3_steady_rein",
     spell: {
       name: "Mass Restoration",
@@ -196,7 +196,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Wyrd Cyclone",
     icon: "Force/Energy Whirlwind",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 4.5, y: 3 },
     requires: "wh_t3_silent_execution",
     spell: {
       name: "Wyrd Cyclone",
@@ -206,7 +206,7 @@ export const INQUISITOR_WITCH_HAMMER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { authority: { baseAmount: 2 } },
       damageTypes: ["sacred"],
@@ -223,7 +223,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Pack Alpha",
     icon: "Necrotic/Cursed Entities",
     maxRanks: 3,
-    position: { x: 2, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "wh_t4_mass_restoration",
     spell: {
       name: "Pack Alpha",
@@ -244,7 +244,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Hunter's Authority",
     icon: "Radiant/Golden Trophy",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "wh_t4_wyrd_cyclone",
     spell: {
       name: "Hunter's Authority",
@@ -264,7 +264,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Cold Iron Doctrine",
     icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 1,
-    position: { x: 1.5, y: 5 },
+    position: { x: 1, y: 5 },
     requires: "wh_t5_pack_alpha",
     spell: {
       name: "Cold Iron Doctrine",
@@ -274,10 +274,10 @@ export const INQUISITOR_WITCH_HAMMER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { authority: { baseAmount: 3 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["cold-iron"], damageTypes: ["sacred"],
       visualTheme: "shadow", tags: ["anoint", "penetration", "pack", "inquisitor"]
     }
@@ -306,7 +306,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Shared Stealth",
     icon: "Necrotic/Ghostly Trio",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "wh_t5_pack_alpha",
     spell: {
       name: "Shared Stealth",
@@ -338,10 +338,10 @@ export const INQUISITOR_WITCH_HAMMER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { authority: { baseAmount: 6 }, mana: { baseAmount: 15 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["the-purging"], damageTypes: ["sacred", "wyrd"],
       visualTheme: "shadow", tags: ["ultimate", "capstone", "pack", "inquisitor"]
     }
@@ -351,7 +351,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "Writ of Binding",
     icon: "Utility/Bound Wrists",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 0.75, y: 6 },
     requires: "wh_t6_shared_stealth",
     spell: {
       name: "Writ of Binding",
@@ -394,7 +394,7 @@ export const INQUISITOR_WITCH_HAMMER = [
     name: "First-Name Iron",
     icon: "Force/Force Weapon",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "wh_t6_undisputed",
     spell: {
       name: "First-Name Iron",

@@ -75,3 +75,24 @@
 ## 6. Mind memory
 
 - `arcanoneer-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 9 flagged / 6 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `arc_prismatic_portal` | no `effectTypes` | added `utility` + portal utilityConfig |
+| `arc_divine_healing` | `buff` with no stats | added Radiant Ward buffConfig (next hit halved) |
+| `arc_celestial_storm` | `buff` with no stats, debuff not gated | added kinetic-barrier buffConfig + `debuff` type |
+| `arc_cryogenic_crystallization` | `debuff` with no config | added brittle-limbs debuffConfig |
+
+Flavor: sphere-combination identity intact; no rethemes proposed.
+
+### Pass 2 addendum — 2026-09-16 (mechanical warning cleanup)
+
+`arc_shadow_bolt` / `arc_arcane_synthesis`: non-canonical `defensive` effect type → `defense` (with `debuff` properly gated). `arc_elemental_apotheosis`: transformation now has `statModifiers` + `specialAbilities` + `grantedAbilities`. `arc_sphere_exhaustion`: icon added (`missing-icon`).
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+1 description over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

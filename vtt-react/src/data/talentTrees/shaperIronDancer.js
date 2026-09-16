@@ -11,7 +11,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Precision Edge",
     icon: "Slashing/Assassins Blade",
     maxRanks: 3,
-    position: { x: 0, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Precision Edge",
@@ -32,7 +32,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Arterial Strike",
     icon: "Slashing/Bloody Slash",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Arterial Strike",
@@ -42,10 +42,10 @@ export const SHAPER_IRON_DANCER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 2 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["slicing"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       buffs: ["arterial"], visualTheme: "primal", tags: ["form", "damage", "shaper"]
@@ -60,7 +60,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Deadened Bastion",
     icon: "Bludgeoning/Fist Shield",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Deadened Bastion",
@@ -70,10 +70,10 @@ export const SHAPER_IRON_DANCER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 2 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["slicing"],
       primaryDamage: { dice: "1d6", flat: 0, procChance: 100 },
       buffs: ["bastion"], visualTheme: "primal", tags: ["form", "defense", "riposte", "shaper"]
@@ -88,7 +88,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Perfect Timing",
     icon: "Utility/Counter Spiral",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "id_t1_arterial_strike",
     spell: {
       name: "Perfect Timing",
@@ -109,7 +109,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Defensive Stance",
     icon: "Utility/Broken Shield",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "id_t1_deadened_bastion",
     spell: {
       name: "Defensive Stance",
@@ -130,7 +130,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Dueling Mastery",
     icon: "General/Command",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 2, y: 1 },
     requires: null,
     spell: {
       name: "Dueling Mastery",
@@ -140,10 +140,10 @@ export const SHAPER_IRON_DANCER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 5 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["duel"], visualTheme: "primal", tags: ["duel", "control", "shaper"]
     },
     rankUpgrades: [
@@ -156,7 +156,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Counter Mastery",
     icon: "Utility/Parry",
     maxRanks: 3,
-    position: { x: 2.5, y: 1 },
+    position: { x: 3, y: 1 },
     requires: null,
     spell: {
       name: "Counter Mastery",
@@ -179,7 +179,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Serpent's Precision",
     icon: "Piercing/Targeted Strike",
     maxRanks: 3,
-    position: { x: 2, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "id_t2_dueling_mastery",
     spell: {
       name: "Serpent's Precision",
@@ -200,7 +200,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Trait Harvest",
     icon: "Utility/Souls",
     maxRanks: 2,
-    position: { x: 2.5, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "id_t2_counter_mastery",
     spell: {
       name: "Trait Harvest",
@@ -220,7 +220,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Duelist's Focus",
     icon: "Piercing/On the Mark",
     maxRanks: 3,
-    position: { x: 2, y: 3 },
+    position: { x: 4.5, y: 3 },
     requires: "id_t3_serpents_precision",
     spell: {
       name: "Duelist's Focus",
@@ -241,7 +241,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Unyielding Blade",
     icon: "Slashing/Crossed Swords Green",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "id_t3_trait_harvest",
     spell: {
       name: "Unyielding Blade",
@@ -261,7 +261,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Blade Dance",
     icon: "Slashing/Whirl",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "id_t4_duelists_focus",
     spell: {
       name: "Blade Dance",
@@ -281,7 +281,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Iron Skin",
     icon: "Nature/Earth Shield",
     maxRanks: 2,
-    position: { x: 3.5, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "id_t4_unyielding_blade",
     spell: {
       name: "Iron Skin",
@@ -300,7 +300,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Grand Challenge",
     icon: "General/Beckoning Shout",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "id_t4_unyielding_blade",
     spell: {
       name: "Grand Challenge",
@@ -310,10 +310,10 @@ export const SHAPER_IRON_DANCER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 20, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["challenged"], visualTheme: "primal", tags: ["taunt", "aoe", "duel", "shaper"]
     }
   },
@@ -323,7 +323,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Perfect Dancer",
     icon: "Slashing/Dual Blades",
     maxRanks: 1,
-    position: { x: 4, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "id_t5_blade_dance",
     spell: {
       name: "Perfect Dancer",
@@ -333,10 +333,10 @@ export const SHAPER_IRON_DANCER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 12 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["perfect-dancer"], damageTypes: ["slicing"],
       visualTheme: "primal", tags: ["ultimate", "capstone", "transform", "shaper"]
     }
@@ -346,7 +346,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Calcified Edge",
     icon: "Slashing/Crossed Swords Clash",
     maxRanks: 5,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "id_t5_blade_dance",
     spell: {
       name: "Calcified Edge",
@@ -369,7 +369,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Riposte Doctrine",
     icon: "Utility/Utility Effect",
     maxRanks: 3,
-    position: { x: 1.5, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "id_t5_blade_dance",
     spell: {
       name: "Riposte Doctrine",
@@ -390,7 +390,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Duelist's Resolve",
     icon: "General/Fiery Rage",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.75, y: 6 },
     requires: "id_t6_grand_challenge",
     spell: {
       name: "Duelist's Resolve",
@@ -410,7 +410,7 @@ export const SHAPER_IRON_DANCER = [
     name: "Bridge's Bounty",
     icon: "Psychic/Psychic Mind",
     maxRanks: 3,
-    position: { x: 0.5, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "id_t6_grand_challenge",
     spell: {
       name: "Bridge's Bounty",

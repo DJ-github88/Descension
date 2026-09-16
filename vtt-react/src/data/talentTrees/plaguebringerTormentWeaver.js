@@ -25,7 +25,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Agony Tether",
     icon: "Psychic/Finger connection Psy",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Agony Tether",
@@ -35,10 +35,10 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["tethered"], damageTypes: ["wyrd"],
       visualTheme: "poison", tags: ["link", "damage-share", "wyrd", "plaguebringer"]
     },
@@ -52,7 +52,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Resonant Agony",
     icon: "Psychic/Agonizing Scream",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Resonant Agony",
@@ -74,7 +74,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Shared Torment",
     icon: "Psychic/Twist Pain",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Shared Torment",
@@ -95,7 +95,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Synaptic Siphon",
     icon: "Necrotic/Drain Soul",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "tw_t1_agony_tether",
     spell: {
       name: "Synaptic Siphon",
@@ -105,7 +105,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 2 } },
       damageTypes: ["wyrd"],
@@ -122,7 +122,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Psychic Vulnerability",
     icon: "Psychic/Cast Doubt",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "tw_t1_resonance_damage",
     spell: {
       name: "Psychic Vulnerability",
@@ -145,7 +145,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Torment Web",
     icon: "Nature/Web",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "tw_t2_synaptic_siphon",
     spell: {
       name: "Torment Web",
@@ -155,10 +155,10 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 3 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["webbed"], damageTypes: ["wyrd"],
       visualTheme: "poison", tags: ["link", "aoe-mesh", "web", "plaguebringer"]
     },
@@ -172,7 +172,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Sympathetic Cascade",
     icon: "Psychic/Psychic Mind 2",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "tw_t2_nightmare_fuel",
     spell: {
       name: "Sympathetic Cascade",
@@ -196,7 +196,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Psychic Storm",
     icon: "Psychic/Psychic Mind",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "tw_t3_torment_web",
     spell: {
       name: "Psychic Storm",
@@ -206,10 +206,10 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 30,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { virulence: { baseAmount: 4 }, mana: { baseAmount: 8 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "3d8", flat: 0, procChance: 100 },
       isDot: true, dotDuration: 3, dotTick: "3d8",
@@ -225,7 +225,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Nerve Relay",
     icon: "Psychic/Psychic Mind 1",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "tw_t3_cascade_finale",
     spell: {
       name: "Nerve Relay",
@@ -246,7 +246,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Mass Resonance",
     icon: "Psychic/Psionic Boom",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 2.5, y: 4 },
     requires: "tw_t4_psychic_storm",
     spell: {
       name: "Mass Resonance",
@@ -256,7 +256,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 4 } },
       damageTypes: ["wyrd"],
@@ -264,7 +264,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       debuffs: ["stun"], visualTheme: "poison", tags: ["nuke", "mass-stun", "link", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Deals 7d8 wyrd damage to all linked enemies, stuns for 1 round, and reduces Mass Resonance cooldown to 24s.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 }, cooldownValue: 24 }
+      { description: "Deals 7d8 wyrd damage to all linked enemies, stuns for 1 round, and reduces Mass Resonance cooldown to 4 rounds.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 }, cooldownValue: 4 }
     ]
   },
   {
@@ -272,7 +272,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Agony Harvest",
     icon: "Necrotic/Grim Reaper Casting",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "tw_t4_sympathetic_pain",
     spell: {
       name: "Agony Harvest",
@@ -296,7 +296,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Sympathetic Collapse",
     icon: "Psychic/Psychic Mind 7",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "tw_t5_mass_resonance",
     spell: {
       name: "Sympathetic Collapse",
@@ -306,10 +306,10 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 5 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       debuffs: ["total-conduit"], visualTheme: "poison", tags: ["link", "burst-amplifier", "plaguebringer"]
     },
     rankUpgrades: []
@@ -319,7 +319,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Unbreakable Lattice",
     icon: "Force/Force Shield",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "tw_t5_torment_economy",
     spell: {
       name: "Unbreakable Lattice",
@@ -338,7 +338,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Synaptic Overload",
     icon: "Psychic/Enchanted Psionic Wave",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "tw_t5_torment_economy",
     spell: {
       name: "Synaptic Overload",
@@ -359,7 +359,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "The Grand Puppet",
     icon: "Psychic/Psychic Mind 10",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "tw_t6_sympathetic_collapse",
     spell: {
       name: "The Grand Puppet",
@@ -369,10 +369,10 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["grand-puppet"], visualTheme: "poison", tags: ["ultimate", "capstone", "mind-control", "plaguebringer"]
     },
     rankUpgrades: []
@@ -382,7 +382,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Agony Doctrine",
     icon: "Psychic/Grim Face",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "tw_t6_sympathetic_collapse",
     spell: {
       name: "Agony Doctrine",
@@ -405,7 +405,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Infinite Lattice",
     icon: "Psychic/Psychic Mind 9",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "tw_t6_web_reinforcement",
     spell: {
       name: "Infinite Lattice",
@@ -425,7 +425,7 @@ export const PLAGUEBRINGER_TORMENT_WEAVER = [
     name: "Psychic Scourge",
     icon: "Necrotic/Cranium Skull Smash",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "tw_t6_web_reinforcement",
     spell: {
       name: "Psychic Scourge",

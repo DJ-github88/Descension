@@ -22,6 +22,26 @@ export const CRUSADER_ABILITIES = [
       typeConfig: { school: "sacred", icon: "Utility/Embraced by Fire", tags: ["utility", "camp", "protection", "crusader"], castTime: 5, castTimeType: "MINUTES" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 20, targetRestrictions: ["ally", "self"] },
       resourceCost: { actionPoints: 1, mana: 4 },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "environment",
+        selectedEffects: [
+          { id: "sanctified_hearth_ward", name: "Consecrated Camp", description: "Starlight runes consecrate a 20ft campsite: no nighttime ambushes, alerts the party to approaching threats, and allows restful sleep.", mechanicsText: "Warded camp: no ambush, threat alerts, restful sleep." }
+        ],
+        duration: 8,
+        durationUnit: "hours",
+        concentration: false,
+        power: "moderate"
+      },
+      buffConfig: {
+        buffType: "auraEffect",
+        effects: [
+          { id: "sanctified_hearth_rest", name: "Sanctified Rest", description: "Allies resting in the hearth are warded against nighttime ambush.", mechanicsText: "Ward against nighttime ambush; out of combat." }
+        ],
+        durationType: "hours",
+        durationValue: 8,
+        durationUnit: "hours"
+      },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       tags: ["utility", "camp", "protection", "crusader"]
     },
@@ -36,6 +56,17 @@ export const CRUSADER_ABILITIES = [
       typeConfig: { school: "sacred", icon: "Radiant/Radiant Divinity", tags: ["utility", "light", "detection", "crusader"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, mana: 3 },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "perception",
+        selectedEffects: [
+          { id: "beacon_of_truth_light", name: "Unburied Light", description: "Your greatsword ignites with Aex's light for 1 hour: illuminates hidden passages and invisible runes, and reveals undead or Wyrd entities within 60ft.", mechanicsText: "Reveal hidden/invisible/Wyrd within 60ft for 1 hour." }
+        ],
+        duration: 1,
+        durationUnit: "hours",
+        concentration: false,
+        power: "moderate"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility", "light", "detection", "crusader"]
     },
@@ -50,6 +81,14 @@ export const CRUSADER_ABILITIES = [
       typeConfig: { school: "sacred", icon: "Radiant/Radiant Golden Shield", tags: ["reaction", "defense", "shield", "crusader"], castTime: 0, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 10, targetRestrictions: ["ally"] },
       resourceCost: { actionPoints: 0, mana: 4, classResource: { type: "fervor", gain: 10 } },
+      resolution: "NONE",
+      buffConfig: {
+        buffType: "damageMitigation",
+        effects: [
+          { id: "starlight_interposition_guard", name: "Starlight Interposition", description: "Interpose your shield: the triggering damage is reduced by 50%.", mechanicsText: "Reduce ally damage by 50%; +10 Fervor." }
+        ],
+        durationType: "instant"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["reaction", "defense", "shield", "crusader"]
     },
@@ -69,6 +108,19 @@ export const CRUSADER_ABILITIES = [
       resourceCost: { actionPoints: 1, mana: 5, classResource: { type: "fervor", gain: 10 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "2d6 + spirit", damageTypes: ["sacred"], resolution: "DICE" },
+      healingConfig: { formula: "1d6", healingType: "hot", resolution: "DICE" },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          { id: "solar_beacon_saves", name: "Consecrated Ground", description: "Allies within 15ft gain +2 to saving throws.", mechanicsText: "+2 saves within 15ft." }
+        ],
+        statModifiers: [
+          { stat: "saving_throws", magnitude: 2, magnitudeType: "flat" }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       customMechanic: "Generates +10 Fervor."
     },
     {
@@ -83,6 +135,15 @@ export const CRUSADER_ABILITIES = [
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["ally"] },
       resourceCost: { actionPoints: 1, mana: 8, classResource: { type: "fervor", cost: 25 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      buffConfig: {
+        buffType: "retaliation",
+        effects: [
+          { id: "aegis_martyred_sun_absorb", name: "Solar Mantle", description: "Absorbs 40 damage and retaliates with 2d8 sacred damage against any melee attacker.", mechanicsText: "Absorb 40; melee attackers take 2d8 sacred." }
+        ],
+        durationType: "rounds",
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       customMechanic: "Spends 25 Fervor. Absorbs 40 damage and retaliates for 2d8 sacred."
     },
     {
@@ -171,6 +232,15 @@ export const CRUSADER_ABILITIES = [
       damageTypes: ['sacred', 'smashing'],
       resolution: 'DICE'
     },
+    debuffConfig: {
+      debuffType: 'statusEffect',
+      effects: [
+        { id: 'zealous_strike_stagger', name: 'Staggered', description: 'The target\'s posture is broken, leaving them exposed after the overhead smash.', mechanicsText: 'Staggered posture.' }
+      ],
+      durationType: 'rounds',
+      durationValue: 1,
+      durationUnit: 'rounds'
+    },
     customMechanic: 'Generates +10 Fervor.'
   },
   {
@@ -234,7 +304,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 1,
       mana: 0,
-      classResource: { type: 'fervor', amount: 20 }
+      classResource: { type: 'fervor', cost: 20 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -328,7 +398,7 @@ export const CRUSADER_ABILITIES = [
     level: 3,
     spellType: 'ACTION',
     icon: 'Utility/Bent Leg Motion',
-    effectTypes: ['damage', 'mobility', 'debuff'],
+    effectTypes: ['damage', 'mobility', 'control'],
     typeConfig: {
       school: 'sacred',
       icon: 'Utility/Bent Leg Motion',
@@ -353,6 +423,14 @@ export const CRUSADER_ABILITIES = [
       formula: '2d8 + strength',
       damageTypes: ['smashing', 'sacred'],
       resolution: 'DICE'
+    },
+    controlConfig: {
+      controlType: 'forcedMovement',
+      duration: 0,
+      durationUnit: 'instant',
+      effects: [
+        { id: 'fervent_charge_push', name: 'Knocked Back', description: 'The target is pushed 10 ft back by the slam.', config: { movementType: 'push', distance: 10 } }
+      ]
     },
     customMechanic: 'Generates +20 Fervor. Target pushed 10 ft back.'
   },
@@ -428,7 +506,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 1,
       mana: 0,
-      classResource: { type: 'fervor', amount: 25 }
+      classResource: { type: 'fervor', cost: 25 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -438,6 +516,15 @@ export const CRUSADER_ABILITIES = [
       formula: '2d6 + spirit',
       damageTypes: ['sacred'],
       resolution: 'DICE'
+    },
+    buffConfig: {
+      buffType: 'retaliation',
+      effects: [
+        { id: 'solvan_retribution_cross', name: 'Starlight Cross', description: 'When an enemy hits you with a melee strike, release an immediate 10 ft radiant shockwave.', mechanicsText: 'Melee attackers trigger a 10 ft sacred shockwave.' }
+      ],
+      durationType: 'rounds',
+      durationValue: 2,
+      durationUnit: 'rounds'
     }
   },
 
@@ -502,7 +589,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 2,
       mana: 0,
-      classResource: { type: 'fervor', amount: 30 }
+      classResource: { type: 'fervor', cost: 30 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -582,7 +669,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 2,
       mana: 0,
-      classResource: { type: 'fervor', amount: 35 }
+      classResource: { type: 'fervor', cost: 35 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -668,7 +755,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 2,
       mana: 0,
-      classResource: { type: 'fervor', amount: 40 }
+      classResource: { type: 'fervor', cost: 40 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -706,7 +793,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 1,
       mana: 0,
-      classResource: { type: 'fervor', amount: 30 }
+      classResource: { type: 'fervor', cost: 30 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -744,7 +831,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 3,
       mana: 0,
-      classResource: { type: 'fervor', amount: 50 }
+      classResource: { type: 'fervor', cost: 50 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -754,6 +841,14 @@ export const CRUSADER_ABILITIES = [
       formula: '4d8 + strength + spirit',
       damageTypes: ['sacred'],
       resolution: 'DICE'
+    },
+    controlConfig: {
+      controlType: 'restraint',
+      duration: 1,
+      durationUnit: 'rounds',
+      effects: [
+        { id: 'pillars_of_the_vigil_pin', name: 'Pinned Between Monoliths', description: 'Foes caught between the pillars are pinned in place.', config: { restraintType: 'physical', condition: 'restrained', duration: 1, durationUnit: 'rounds' } }
+      ]
     }
   },
 
@@ -781,7 +876,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 2,
       mana: 0,
-      classResource: { type: 'fervor', amount: 40 }
+      classResource: { type: 'fervor', cost: 40 }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -818,7 +913,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 3,
       mana: 0,
-      classResource: { type: 'fervor', amount: 60 }
+      classResource: { type: 'fervor', cost: 60 }
     },
     cooldownConfig: {
       cooldownType: 'long_rest',
@@ -828,6 +923,14 @@ export const CRUSADER_ABILITIES = [
       formula: '6d8 + strength + spirit',
       damageTypes: ['sacred'],
       resolution: 'DICE'
+    },
+    debuffConfig: {
+      debuffType: 'statusEffect',
+      effects: [
+        { id: 'supernova_surge_blind', name: 'Blinded', description: 'All foes caught in the burst are blinded.', mechanicsText: 'Blinded by the starlight burst.' }
+      ],
+      durationValue: 1,
+      durationUnit: 'rounds'
     }
   },
 
@@ -858,7 +961,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 3,
       mana: 0,
-      classResource: { type: 'fervor', amount: 100 }
+      classResource: { type: 'fervor', cost: 100 }
     },
     cooldownConfig: {
       cooldownType: 'long_rest',
@@ -882,7 +985,7 @@ export const CRUSADER_ABILITIES = [
     level: 10,
     spellType: 'ACTION',
     icon: 'Radiant/Divine Downward Sword',
-    effectTypes: ['buff', 'damage'],
+    effectTypes: ['buff'],
     typeConfig: {
       school: 'sacred',
       icon: 'Radiant/Divine Downward Sword',
@@ -898,7 +1001,7 @@ export const CRUSADER_ABILITIES = [
     resourceCost: {
       actionPoints: 3,
       mana: 0,
-      classResource: { type: 'fervor', amount: 100 }
+      classResource: { type: 'fervor', cost: 100 }
     },
     cooldownConfig: {
       cooldownType: 'long_rest',
@@ -1108,6 +1211,19 @@ export const CRUSADER_ABILITIES = [
       durationValue: 3,
       durationUnit: "rounds"
     },
+    debuffConfig: {
+      debuffType: "movementImpairment",
+      effects: [
+        {
+          id: "radiant_sun_shackle_slow",
+          name: "Sun-Shackled",
+          description: "Movement speed drops to 0 on round 1 and is halved on rounds 2-3.",
+          mechanicsText: "Speed 0 (round 1), halved (rounds 2-3)."
+        }
+      ],
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
     tags: ["control", "debuff", "immobilize", "crusader"]
   },
@@ -1185,7 +1301,7 @@ export const CRUSADER_ABILITIES = [
     durationConfig: {
       durationType: "instant",
       durationValue: 0,
-      durationUnit: "rounds"
+      durationUnit: "instant"
     },
     resourceCost: {
       actionPoints: 1,
@@ -1384,7 +1500,7 @@ export const CRUSADER_ABILITIES = [
     level: 8,
     spellType: "ACTION",
     icon: "Healing/Golden Heart",
-    effectTypes: ["healing", "cleanse", "buff"],
+    effectTypes: ["healing", "cleanse", "buff", "utility"],
     typeConfig: {
       school: "sacred",
       icon: "Healing/Golden Heart",
@@ -1402,7 +1518,7 @@ export const CRUSADER_ABILITIES = [
     durationConfig: {
       durationType: "instant",
       durationValue: 0,
-      durationUnit: "rounds"
+      durationUnit: "instant"
     },
     resourceCost: {
       actionPoints: 1,
@@ -1555,7 +1671,7 @@ export const CRUSADER_ABILITIES = [
   {
     id: "crusader_apotheosis_of_light",
     name: "Apotheosis of Sol's Light",
-    description: "Transcend mortal form and manifest as an incandescent solar avatar for 1 minute (10 rounds). Sprout six wings of blinding light, gain flying speed 60ft, heal all allies for 15 HP at round start, and all attacks deal maximum possible damage rolls.",
+    description: "Manifest as an incandescent solar avatar for 1 minute: six wings of light, 60ft flying speed, allies heal 15 HP at round start, and all attacks deal maximum damage.",
     level: 10,
     spellType: "ACTION",
     icon: "Radiant/Divine Radiance",
@@ -1595,13 +1711,46 @@ export const CRUSADER_ABILITIES = [
       durationValue: 10,
       durationUnit: "rounds"
     },
+    healingConfig: {
+      formula: "15",
+      healingType: "hot",
+      resolution: "AUTOMATIC"
+    },
+    transformationConfig: {
+      transformationType: "divine",
+      targetType: "self",
+      newForm: "Avatar of Sol's Light",
+      description: "Transcend mortal form as an incandescent solar avatar with six wings of blinding light.",
+      duration: 10,
+      durationUnit: "rounds",
+      power: "ultimate",
+      concentration: false,
+      maintainEquipment: true,
+      grantedAbilities: [
+        {
+          id: "sol_apotheosis_flight",
+          name: "Wings of Blinding Light",
+          description: "Gain a 60ft flying speed."
+        },
+        {
+          id: "sol_apotheosis_max_damage",
+          name: "Unconquered Radiance",
+          description: "All attacks deal maximum possible damage rolls."
+        },
+        {
+          id: "sol_apotheosis_solar_heal",
+          name: "Dawn's Tender Mercy",
+          description: "Allies within 30ft heal 15 HP at the start of each round."
+        }
+      ]
+    },
     cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
     tags: ["buff", "transformation", "ultimate", "sacred", "crusader"]
   },
   {
     id: "crusader_sun_kings_decree",
     name: "Decree of the Sun King",
-    description: "Issue a supreme sovereign proclamation across an 80ft radius for 3 rounds. All enemies in range are compelled to prostrate before the Sun King (speed 0, cannot take reactions, DC 20 Spirit save negates), and cannot make attack rolls against allies with lower health than you.",
+    description: "Issue a supreme proclamation across an 80ft radius for 3 rounds: enemies prostrate before the Sun King (speed 0, no reactions, DC 20 Spirit negates) and cannot attack allies with less health than you.",
     level: 10,
     spellType: "ACTION",
     icon: "Radiant/Holy Cross",

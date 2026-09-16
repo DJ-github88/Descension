@@ -64,3 +64,49 @@
 ## 6. Mind memory
 
 - `spellguard-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 31 flagged / 12 errors. After: 0 errors / 0 non-verbosity
+warnings** (remaining are descriptions >200 chars only).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `sg_kinetic_discharge` | `crowd_control`, no control config | `control` + 15ft forced-movement knockback config |
+| `sg_null_field_bastion` | `buff` with no stats | added anti-magic ward buffConfig (+4 saves, 50% spell DR) |
+| `sg_anti_magic_shackle` | `crowd_control` + two missing configs | `control` + silenced config + magical-lockout debuffConfig |
+| `sg_overload_shockwave` | `crowd_control`, no control config | `control` + knockdown config; encoded the stated **50 AEP cost** |
+| `sg_fortress_of_nullification` | `buff` with no stats | added anchored-fortress buffConfig (magical damage/CC immunity) |
+| `sg_singularity_aegis` | `buff` with no stats | added singularity reflect buffConfig |
+| `spg_aegis_ward` | no `effectTypes` | added `buff` + +3 DR reaction buffConfig |
+| `spg_spell_break` | no `effectTypes` | added `control` + counter-spell config |
+
+### Resource / data notes (proposal — Daniel decides)
+
+- **AEP key drift:** spells spend `classResource:{type:"arcane_energy_points"}` (13 instances), but
+  `classResources.js` defines `Spellguard.id = 'arcaneEnergyPoints'` (camelCase). Same drift family
+  as Crusader's `fervor` vs `radiantFervor` — pick one canonical key before release.
+- `sg_overload_shockwave` explicitly states a 50 AEP cost but had none encoded; added
+  `classResource:{type:"arcane_energy_points", cost:50}` using the in-class key. If the key is
+  canonicalized, sweep all 14 instances together.
+- Other AEP spenders in prose (e.g. `sg_containment_cycle` "Spend 15 AEP", `sg_saturation_flush`
+  "Vent 40 AEP") should be audited in the same key pass.
+
+### Flavor / class-fit notes
+
+- Silence-crystal/anti-magic identity coherent; overlap prose vs Inquisitor already tracked in §4
+  (C5 cluster). No rethemes proposed.
+- 2 passives (`spellguard_arcane_radiation`, `spellguard_kinetic_fragility`) are class weaknesses in
+  the pick pool — already tracked in §4.
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Spellguard`: 0 errors
+- `audit:classes --class Spellguard`: 0 integrity / 0 floor gaps / 0 warnings; `spell-qa` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+21 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

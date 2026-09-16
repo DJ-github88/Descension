@@ -776,6 +776,16 @@
   flex-shrink: 0;
 }
 
+/* Desktop keeps the switcher in the top bar; the strip-mounted variant only
+   appears on slim/mobile layouts (see end of file). */
+.rules-tome-switcher-mobile {
+  display: none;
+}
+
+.rules-tome-label-short {
+  display: none;
+}
+
 /* Content Area - Premium TTRPG Archival Codex Folio Page */
 .rules-content-area {
   flex: 1;
@@ -851,6 +861,12 @@
 .rules-content-area.class-detail-view {
   overflow-y: visible !important;
   overflow-x: visible !important;
+}
+
+/* The folio badge anchors to this box, which is shorter than the overflowing
+   class-detail content, so it would paint over mid-page content. Hide it. */
+.rules-content-area.class-detail-view::after {
+  content: none;
 }
 
 /* Allow scrolling on rules-content-area when displaying custom components on desktop */
@@ -1819,24 +1835,11 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     display: none;
   }
 
+  /* Slim/mobile: the header folds into the nav strip (search + browse + tome
+     switcher share one row) — the top bar and its duplicate quick-search
+     field are retired on phones so the chrome stays two rows tall. */
   .rules-top-bar {
-    padding: 6px 16px;
-    height: auto;
-    min-height: 42px;
-    justify-content: center;
-    flex-wrap: wrap;
-    row-gap: 6px;
-  }
-
-  .rules-tome-switcher {
-    margin: 0 auto;
-    order: -1;
-  }
-
-  .rules-header-quick-search {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+    display: none !important;
   }
 
 
@@ -3048,5 +3051,72 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
   .rules-browse-trigger i {
     font-size: 0.95rem;
+  }
+}
+
+/* =====================================================
+   Slim header: tome switcher woven into the nav strip
+   (2026-09-16 header compaction)
+   ===================================================== */
+
+@media (max-width: 768px) {
+  /* The top-bar switcher is replaced by the strip-mounted one */
+  .rules-tome-switcher-desktop {
+    display: none !important;
+  }
+
+  .rules-tome-switcher-mobile {
+    display: inline-flex;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    height: 40px;
+    z-index: 110;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Drop the book spine on the strip variant — the pill reads cleaner */
+  .rules-tome-switcher-mobile .rules-tome-spine {
+    display: none;
+  }
+
+  .rules-tome-switcher-mobile .rules-tome-tab {
+    padding: 0 12px;
+    gap: 6px;
+  }
+
+  /* Short labels replace "The Laws"/"The Lore" so the pill fits the strip */
+  .rules-tome-label-full {
+    display: none !important;
+  }
+
+  .rules-tome-label-short {
+    display: inline !important;
+  }
+
+  /* Reserve the strip's right edge for the woven switcher */
+  .rules-nav.collapsed {
+    padding-right: 176px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Text-only segmented control keeps the single row within phone widths */
+  .rules-tome-switcher-mobile .rules-tome-tab {
+    padding: 0 10px;
+  }
+
+  .rules-tome-switcher-mobile .rules-tome-tab i {
+    display: none;
+  }
+
+  .rules-browse-trigger {
+    padding: 0 12px;
+  }
+
+  .rules-nav.collapsed {
+    padding-right: 140px !important;
   }
 }

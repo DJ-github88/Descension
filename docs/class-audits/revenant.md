@@ -83,3 +83,46 @@
 ## 6. Mind memory
 
 - `revenant-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 29 flagged / 15 errors. After: 0 errors / 15 warnings**
+(14 `resource-value-missing` + 1 long description — see proposal below).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `rv_tomb_frost_shroud` | `debuff` with no config | added Numbed debuffConfig (disadvantage, physical attacks) |
+| `rv_corpse_explosion` | `debuff` with no config | added Blight Poison debuffConfig |
+| `rv_grave_mire_stasis` | `crowd_control`, no control config | renamed to `control` + rooted controlConfig |
+| `rv_soul_echo_flay` | `healing` with no config | added vampiric healingConfig (`damage_dealt / 2`) |
+| `rv_bog_marrow_drain` | `buff` with no stats | added temporary-HP buffConfig |
+| `rv_glacial_sepulcher` | `crowd_control`, no control config | `control` + incapacitation controlConfig |
+| `rv_crypt_chill_nova` | `crowd_control`, no control config | `control` + stunned controlConfig + Con save |
+| `rv_absolute_zero_coffin` | `crowd_control`, no control config | `control` + restraint (peat-ice) controlConfig |
+| `rv_avatar_of_cold_hearth` | `buff` with no stats | added Cold Hearth aura buffConfig |
+| `rv_spectral_paralysis` | `debuff` duplicating control | dropped `debuff` type (controlConfig already detailed) |
+| `rv_corpse_puppet_march` | `summon` with no config | added summoningConfig (3 corpses, 3 rounds, swarm) |
+| `rv_soul_siphon_vortex` | `debuff` with no config | added +20% vulnerability debuffConfig |
+| `rv_undying_legion_call` | `summon` no config, buff not gated | added summoningConfig + `buff` type |
+| `rv_mycelial_shroud` | buff not gated, `healingType: over_time` | added `buff` type; healingType `regeneration` |
+
+### Flavor / class-fit review (proposal — Daniel decides)
+
+- **`resourceTypes: ["mana","health"]` with no health value (14 spells):** the type is declared
+  but nothing is ever paid — either wire real HP costs via `resourceFormulas: { health: 'XdY' }`
+  (Revenant's identity is the Flesh-Toll/Phylactery economy) or drop `health` from
+  `resourceTypes`. Left untouched pending your call since it is a balance decision.
+- Toll encoding is consistent (`classResource:{type:"toll", cost|gain}`) across the kit; identity
+  terms (Kora/Vesper, peat-bog, Phylactery, Cold Hearth) read consistently. No rethemes proposed.
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Revenant`: 0 errors / 15 warnings
+- `audit:classes --class Revenant`: 0 integrity / 0 floor gaps / 0 warnings; `validate:classes` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+9 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

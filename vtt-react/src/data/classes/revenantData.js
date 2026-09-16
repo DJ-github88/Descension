@@ -695,9 +695,17 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["damage", "aoe", "frost", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 10, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 6 , classResource: { type: "toll", gain: 2 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 , classResource: { type: "toll", gain: 2 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "2d8 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          { id: "tomb_frost_numb", name: "Numbed", description: "Enemies within 10ft suffer disadvantage on physical attacks.", mechanicsText: "Disadvantage on physical attacks." }
+        ],
+        durationValue: 1,
+        durationUnit: "rounds"
+      },
       tags: ["damage", "aoe", "frost", "revenant"]
     },
     {
@@ -710,9 +718,17 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "debuff"],
       typeConfig: { school: "blight", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "corpse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 50, targetRestrictions: ["corpse", "enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 7 , classResource: { type: "toll", gain: 3 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 7 , classResource: { type: "toll", gain: 3 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d8 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
+      debuffConfig: {
+        debuffType: "disease",
+        effects: [
+          { id: "corpse_detonation_poison", name: "Blight Poison", description: "Inflicts blight poison on creatures caught in the detonation.", mechanicsText: "Blight poison." }
+        ],
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
       tags: ["damage", "aoe", "corpse", "revenant"]
     },
     {
@@ -722,12 +738,20 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 4,
       spellType: "ACTION",
       icon: "Frost/Cold CLothing",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "rime", icon: "Frost/Cold CLothing", tags: ["damage", "aoe", "frost", "root", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 8 , classResource: { type: "toll", gain: 3 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "toll", gain: 3 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d8 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "rooted",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          { id: "grave_mire_root", name: "Bog-Frozen", description: "Enemies are rooted in place by bog-frost; rooted foes who perish charge the Phylactery.", config: { condition: "rooted", duration: 1, durationUnit: "rounds" } }
+        ]
+      },
       tags: ["damage", "aoe", "frost", "root", "revenant"]
     },
     {
@@ -740,9 +764,14 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "healing"],
       typeConfig: { school: "blight", icon: "Necrotic/Death Mark", tags: ["damage", "single_target", "drain", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 8 , classResource: { type: "toll", gain: 3 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "toll", gain: 3 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "4d8 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
+      healingConfig: {
+        formula: "damage_dealt / 2",
+        healingType: "vampiric",
+        resolution: "AUTOMATIC"
+      },
       tags: ["damage", "single_target", "drain", "revenant"]
     },
     {
@@ -755,9 +784,17 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "buff"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", tags: ["damage", "multi_target", "drain", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "multi", rangeType: "ranged", rangeDistance: 50, maxTargets: 3, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 9 , classResource: { type: "toll", gain: 4 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 , classResource: { type: "toll", gain: 4 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "3d10 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
+      buffConfig: {
+        buffType: "temporaryHP",
+        effects: [
+          { id: "bog_marrow_temp_hp", name: "Siphoned Vitality", description: "Siphoning up to 3 targets grants temporary HP.", mechanicsText: "Gain temporary HP from siphoned life force." }
+        ],
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       tags: ["damage", "multi_target", "drain", "revenant"]
     },
     {
@@ -767,12 +804,20 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 5,
       spellType: "ACTION",
       icon: "Frost/Frozen Wave",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["damage", "single_target", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 9 , classResource: { type: "toll", gain: 5 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 , classResource: { type: "toll", gain: 5 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: { formula: "4d10 + intelligence", damageTypes: ["rime"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "incapacitation",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          { id: "glacial_sepulcher_encase", name: "Ensepulchered", description: "Incapacitated inside the pillar of black frost for 1 round; shatters for heavy rime damage.", config: { duration: 1, durationUnit: "rounds" } }
+        ]
+      },
       tags: ["damage", "single_target", "stun", "revenant"]
     },
     {
@@ -782,12 +827,21 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 7,
       spellType: "ACTION",
       icon: "Frost/Cold CLothing",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "rime", icon: "Frost/Cold CLothing", tags: ["damage", "aoe", "frost", "stun", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 11 , classResource: { type: "toll", gain: 6 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 , classResource: { type: "toll", gain: 6 }} },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["rime"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "stunned",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          { id: "crypt_chill_stun", name: "Tomb-Chilled Stun", description: "Targets failing their save are stunned by the frozen tomb air.", config: { saveType: "constitution", duration: 1, durationUnit: "rounds" } }
+        ],
+        savingThrow: { ability: "constitution", saveOutcome: "negates" }
+      },
       tags: ["damage", "aoe", "frost", "stun", "revenant"]
     },
     {
@@ -812,12 +866,20 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 9,
       spellType: "ACTION",
       icon: "Frost/Frozen Wave",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["damage", "aoe", "frost", "apocalypse", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 70, areaType: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 , classResource: { type: "toll", cost: 30 }} },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: { formula: "8d10 + intelligence * 2", damageTypes: ["rime"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "restraint",
+        duration: 2,
+        durationUnit: "rounds",
+        effects: [
+          { id: "absolute_zero_freeze", name: "Peat-Ice Frozen", description: "Surviving enemies are frozen solid in peat ice.", config: { restraintType: "physical", condition: "restrained", duration: 2, durationUnit: "rounds" } }
+        ]
+      },
       tags: ["damage", "aoe", "frost", "apocalypse", "revenant"]
     },
     {
@@ -830,9 +892,17 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["buff", "damage"],
       typeConfig: { school: "blight", icon: "Necrotic/Ritual", tags: ["buff", "aoe", "avatar", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 18 , classResource: { type: "toll", cost: 40 }} },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 , classResource: { type: "toll", cost: 40 }} },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: { formula: "10d8", damageTypes: ["blight", "rime"], resolution: "DICE" },
+      buffConfig: {
+        buffType: "auraEffect",
+        effects: [
+          { id: "avatar_cold_hearth_aura", name: "Cold Hearth Aura", description: "Radiates a lethal 30ft frost-necrotic aura and instantly recharges the Phylactery.", mechanicsText: "30ft blight/rime aura; Phylactery instantly recharged." }
+        ],
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       tags: ["buff", "aoe", "avatar", "revenant"]
     },
   
@@ -1484,7 +1554,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_petition_the_dead",
       name: "Petition the Dead",
-      description: "Cut your palm and feed the blood to a grave, bone, or lingering shade to petition a specific ancestor by name. The dead answer one question truthfully, in their own voice, for the price of your blood  -  they owe you nothing freely, and a debt unrecorded is a debt denied. Out of combat.",
+      description: "Cut your palm and feed the blood to a grave, bone, or shade to petition an ancestor by name: the dead answer one question truthfully, in their own voice. They owe you nothing freely. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "MINUTES", tags: ["utility","divination","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1497,7 +1567,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_death_sense",
       name: "Death-Sense",
-      description: "Open your eyes to the dead-light. For the duration you sense every corpse, undead, lingering soul, and stain of violent death within range, and at any such spot you can read how and roughly when the thing died. The living read cold and faint; the dead read bright. Out of combat.",
+      description: "Open your eyes to the dead-light: sense every corpse, undead, lingering soul, and stain of violent death in range, and read how and roughly when anything died there. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Psychic/Focused Mind",
       typeConfig: { school: "blight", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","exploration","revenant"] },
       targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -1510,7 +1580,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_frost_stasis",
       name: "Frost-Stasis",
-      description: "Exhale the preserving cold of the peat-bogs over a corpse, food, document, or small object, freezing it in perfect stasis  -  halting decay, rot, or spoilage for days. Used to keep a body fresh for questioning, preserve evidence, or store perishable reagents. Out of combat.",
+      description: "Exhale the peat-bogs' preserving cold over a corpse, food, document, or small object: halt decay and spoilage for days. Keeps bodies fresh for questioning and preserves reagents. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Frost/Cold CLothing",
       typeConfig: { school: "rime", icon: "Frost/Frozen Wave", castTime: 1, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1523,7 +1593,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_soul_interrogate",
       name: "Soul-Interrogate",
-      description: "Bind a soul that has not yet departed  -  a fresh corpse, a captured wisp, or one drawn from your Phylactery  -  and compel it to answer your questions about its life, its death, and what it knew. The bound soul cannot lie, but it may omit or bargain, and older/weaker souls answer faintly. Out of combat.",
+      description: "Bind a soul that has not departed (a fresh corpse, captured wisp, or one from your Phylactery) and compel answers about its life and death. It cannot lie, but may omit or bargain. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Necrotic/Death Mark",
       typeConfig: { school: "blight", icon: "Necrotic/Death Mark", castTime: 10, castTimeType: "MINUTES", tags: ["utility","divination","investigation","social","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1536,7 +1606,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_undying_constitution",
       name: "Undying Constitution",
-      description: "Your half-dead body is barely a body at all. For the duration you do not need to breathe, eat, or drink, and you ignore mundane cold exposure  -  walk the seafloor, cross a poison-gas chamber, endure a blizzard, or sit vigil without food or air. You still take damage from attacks and magical hazards. Out of combat.",
+      description: "Your half-dead body barely needs anything: no breathing, eating, or drinking, and you ignore mundane cold, walking the seafloor or crossing poison gas. Attacks and magic still hurt you. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Utility/Empowered Warrior",
       typeConfig: { school: "rime", icon: "Utility/Empowered Warrior", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","revenant"] },
       targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -1549,7 +1619,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_blood_reading",
       name: "Blood-Reading",
-      description: "Taste or scatter a drop of blood and read what the blood remembers  -  whose it is (kin, species), their recent wounds or trauma, any poisons or diseases in it, and the emotional state at the moment it was shed. Fresh blood speaks clearly; old blood whispers. Out of combat.",
+      description: "Taste a drop of blood and read what it remembers: whose it is (kin, species), recent wounds, poisons or diseases, and the emotion when shed. Fresh blood speaks clearly; old whispers. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","revenant"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1571,7 +1641,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "control"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Grasp", tags: ["damage", "control", "blight", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 6 }, classResource: { type: "toll", cost: 5 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 }, classResource: { type: "toll", cost: 5 } },
       damageConfig: { formula: "3d6 + intelligence", damageTypes: ["blight"], resolution: "DICE" },
       controlConfig: { controlType: "restrained", duration: 2, durationUnit: "rounds", savingThrow: { ability: "strength", difficultyClass: 14, saveOutcome: "negates" }, effects: [{ id: "rib_restrain", name: "Bone Enclosure", description: "Restrained by rib cage for 2 rounds.", mechanicsText: "Restrained for 2 rounds on failed Strength save." }] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1584,12 +1654,12 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 4,
       spellType: "ACTION",
       icon: "Necrotic/Drain Soul",
-      effectTypes: ["defense", "healing"],
+      effectTypes: ["buff", "defense", "healing"],
       typeConfig: { school: "blight", icon: "Necrotic/Drain Soul", tags: ["defense", "healing", "buff", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 50, targetRestrictions: ["ally", "self"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, classResource: { type: "toll", cost: 8 } },
       buffConfig: { buffType: "statModifier", effects: [{ id: "mycelial_shroud_buff", name: "Root-Veil Shroud", description: "+4 DR and 2d6 regeneration per turn for 3 rounds.", mechanicsText: "+4 DR + 2d6 regen/turn for 3 rounds." }], durationValue: 3, durationUnit: "rounds" },
-      healingConfig: { formula: "2d6", healingType: "over_time" },
+      healingConfig: { formula: "2d6", healingType: "regeneration" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["defense", "healing", "buff", "revenant"]
     },
@@ -1603,7 +1673,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "control"],
       typeConfig: { school: "rime", icon: "Necrotic/Death Mark", tags: ["damage", "control", "rime", "pull", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 40, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 8 }, classResource: { type: "toll", gain: 4 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 }, classResource: { type: "toll", gain: 4 } },
       damageConfig: { formula: "4d8 + intelligence", damageTypes: ["rime", "blight"], resolution: "DICE" },
       controlConfig: { controlType: "pull", duration: 1, durationUnit: "rounds", effects: [{ id: "tendril_pull", name: "Sinew Drag", description: "Pulled 20 feet toward the Revenant.", mechanicsText: "Pulled 20 feet toward caster." }] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1612,7 +1682,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_phylactery_tether",
       name: "Phylactery Soul Tether",
-      description: "Anchor a sympathetic umbilical between your phylactery and an ally. Whenever that ally would take damage, 50% of it is absorbed harmlessly by the phylactery's integrity buffer for 3 rounds. Spends 10 Toll.",
+      description: "Anchor a sympathetic umbilical between your phylactery and an ally: 50% of damage they take is absorbed harmlessly by its integrity buffer for 3 rounds. Spends 10 Toll.",
       level: 5,
       spellType: "ACTION",
       icon: "Necrotic/Ritual",
@@ -1634,7 +1704,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "control"],
       typeConfig: { school: "rime", icon: "Frost/Frost Armor", tags: ["damage", "control", "rime", "blight", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 60, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana", "health"], resourceValues: { mana: 10 }, classResource: { type: "toll", gain: 5 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 }, classResource: { type: "toll", gain: 5 } },
       damageConfig: { formula: "5d8 + intelligence", damageTypes: ["rime", "blight"], resolution: "DICE" },
       controlConfig: { controlType: "knockdown", duration: 1, durationUnit: "rounds", effects: [{ id: "black_ice_slip", name: "Treacherous Crypt-Ice", description: "Knocked prone on ice.", mechanicsText: "Knocked prone on failed Agility save." }] },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
@@ -1647,7 +1717,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 6,
       spellType: "ACTION",
       icon: "Frost/Frozen Wave",
-      effectTypes: ["control", "debuff"],
+      effectTypes: ["control"],
       typeConfig: { school: "rime", icon: "Frost/Frozen Wave", tags: ["control", "debuff", "paralysis", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 12 }, classResource: { type: "toll", cost: 12 } },
@@ -1667,6 +1737,19 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, aoeShape: "circle", aoeParameters: { radius: 25 }, targetRestrictions: ["any"] },
       resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 14 }, classResource: { type: "toll", cost: 12 } },
       controlConfig: { controlType: "disadvantage", duration: 3, durationUnit: "rounds", effects: [{ id: "puppet_swarm", name: "Skeletal Swarm", description: "Enemies in swarm suffer Disadvantage on attacks.", mechanicsText: "Enemies suffer Disadvantage on attacks for 3 rounds." }] },
+      summoningConfig: {
+        summonType: "temporary",
+        creatureName: "Animated Corpses",
+        creatureType: "Undead",
+        quantity: 3,
+        maxQuantity: 3,
+        duration: 3,
+        durationUnit: "rounds",
+        commandable: true,
+        actionsPerTurn: 1,
+        abilities: ["Swarming Harassment"],
+        difficultyLevel: "easy"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       tags: ["summon", "control", "blight", "revenant"]
     },
@@ -1680,7 +1763,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage"],
       typeConfig: { school: "rime", icon: "Frost/Frost Touch", tags: ["damage", "aoe", "cone", "rime", "revenant"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "cone", aoeParameters: { length: 25, angle: 120 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 2, resourceTypes: ["mana", "health"], resourceValues: { mana: 12 }, classResource: { type: "toll", gain: 6 } },
+      resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 12 }, classResource: { type: "toll", gain: 6 } },
       damageConfig: { formula: "6d8 + intelligence", damageTypes: ["rime", "slicing"], resolution: "DICE" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["damage", "aoe", "cone", "rime", "revenant"]
@@ -1712,6 +1795,14 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, aoeShape: "circle", aoeParameters: { radius: 30 }, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 16 }, classResource: { type: "toll", cost: 15 } },
       controlConfig: { controlType: "silence", duration: 2, durationUnit: "rounds", savingThrow: { ability: "spirit", difficultyClass: 17, saveOutcome: "negates" }, effects: [{ id: "vortex_silence", name: "Underworld Mute", description: "Silenced and +20% damage taken for 2 rounds.", mechanicsText: "Silenced + 20% vulnerability for 2 rounds." }] },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          { id: "vortex_vulnerability", name: "Soul-Siphoned", description: "Targets take 20% increased damage from all sources for 2 rounds.", mechanicsText: "+20% damage taken for 2 rounds." }
+        ],
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       tags: ["control", "debuff", "silence", "vortex", "revenant"]
     },
@@ -1722,11 +1813,23 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       level: 8,
       spellType: "ACTION",
       icon: "Necrotic/Ritual",
-      effectTypes: ["summon", "defense"],
+      effectTypes: ["summon", "buff", "defense"],
       typeConfig: { school: "blight", icon: "Necrotic/Ritual", tags: ["summon", "defense", "legion", "revenant"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 35 }, targetRestrictions: ["ally"] },
       resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 20 }, classResource: { type: "toll", cost: 20 } },
       buffConfig: { buffType: "temporaryHitPoints", effects: [{ id: "cohort_shield", name: "Cohort Phalanx", description: "Grants 60 collective temporary HP buffer to allies for 3 rounds.", mechanicsText: "60 temp HP party buffer for 3 rounds." }], durationValue: 3, durationUnit: "rounds" },
+      summoningConfig: {
+        summonType: "temporary",
+        creatureName: "Restless Cohort Shades",
+        creatureType: "Undead",
+        quantity: 4,
+        duration: 3,
+        durationUnit: "rounds",
+        commandable: true,
+        actionsPerTurn: 1,
+        abilities: ["Rime Retaliation"],
+        difficultyLevel: "moderate"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
       tags: ["summon", "defense", "legion", "revenant"]
     },
@@ -1755,7 +1858,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage", "healing"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Skull", tags: ["damage", "healing", "aoe", "revenant"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 30 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 2, resourceTypes: ["mana", "health"], resourceValues: { mana: 20 }, classResource: { type: "toll", gain: 8 } },
+      resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 20 }, classResource: { type: "toll", gain: 8 } },
       damageConfig: { formula: "10d8 + intelligence", damageTypes: ["blight", "slicing"], resolution: "DICE" },
       healingConfig: { formula: "damageDealt / 2", healingType: "direct" },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
@@ -1802,7 +1905,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       effectTypes: ["damage"],
       typeConfig: { school: "blight", icon: "Fire/Shadowy Blaze", tags: ["damage", "aoe", "blight", "rime", "revenant"], castTime: 2, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, aoeShape: "circle", aoeParameters: { radius: 40 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 2, resourceTypes: ["mana", "health"], resourceValues: { mana: 25 }, classResource: { type: "toll", gain: 10 } },
+      resourceCost: { actionPoints: 2, resourceTypes: ["mana"], resourceValues: { mana: 25 }, classResource: { type: "toll", gain: 10 } },
       damageConfig: { formula: "14d8 + intelligence", damageTypes: ["blight", "rime"], resolution: "DICE", savingThrow: { ability: "fortitude", difficultyClass: 19, saveOutcome: "half_damage" } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
       tags: ["damage", "aoe", "blight", "rime", "revenant"]
@@ -1810,7 +1913,7 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_world_crypt_domain",
       name: "World-Crypt Domain",
-      description: "Expand your phylactery's field across the entire battlefield (80ft). Dead allies rise immediately as spectral champions at 50% HP, all party members gain +8 DR, and any enemy that dies recharges your phylactery by 25 points. Spends 35 Toll.",
+      description: "Expand your phylactery across the battlefield (80ft): dead allies rise as spectral champions at 50% HP, party gains +8 DR, and enemy deaths recharge it 25 points. Spends 35 Toll.",
       level: 10,
       spellType: "ACTION",
       icon: "Necrotic/Ritual",
@@ -1825,14 +1928,14 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
     {
       id: "rv_the_final_harvest",
       name: "The Final Harvest",
-      description: "Unfurl the grand scythe of the Primordial Grave across the entire encounter. Deals 20d10 blight/rime damage to all enemies within 70 feet. Targets reduced to 0 HP are permanently wiped from the cycle of rebirth. Spends 40 Toll.",
+      description: "Unfurl the Primordial Grave's grand scythe across the encounter: 20d10 blight/rime to all enemies within 70ft. Targets reduced to 0 HP are permanently wiped from the cycle of rebirth. Spends 40 Toll.",
       level: 10,
       spellType: "ACTION",
       icon: "Necrotic/Necrotic Skull",
       effectTypes: ["damage", "control"],
       typeConfig: { school: "blight", icon: "Necrotic/Necrotic Skull", tags: ["damage", "control", "ultimate", "cataclysm", "revenant"], castTime: 3, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self_centered", aoeShape: "circle", aoeParameters: { radius: 70 }, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 3, resourceTypes: ["mana", "health"], resourceValues: { mana: 40 }, classResource: { type: "toll", cost: 40 } },
+      resourceCost: { actionPoints: 3, resourceTypes: ["mana"], resourceValues: { mana: 40 }, classResource: { type: "toll", cost: 40 } },
       damageConfig: { formula: "20d10 + intelligence", damageTypes: ["blight", "rime"], resolution: "DICE", savingThrow: { ability: "fortitude", difficultyClass: 20, saveOutcome: "half_damage" } },
       controlConfig: { controlType: "execution", duration: 0, durationUnit: "permanent", effects: [{ id: "final_harvest_oblivion", name: "Oblivion Reaping", description: "Creatures slain cannot be resurrected.", mechanicsText: "Instant death below 10% HP; irreversible." }] },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },

@@ -63,3 +63,7 @@
 ## 6. Mind memory
 
 - `augur-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+32 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

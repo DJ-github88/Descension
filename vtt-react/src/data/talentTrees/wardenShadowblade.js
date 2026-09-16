@@ -11,7 +11,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Vengeful Pursuit",
     icon: "Utility/Marked Head",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Vengeful Pursuit",
@@ -21,10 +21,10 @@ export const WARDEN_SHADOWBLADE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 0 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["marked"], visualTheme: "shadow", tags: ["mark", "resource", "warden"]
     },
     rankUpgrades: [
@@ -57,7 +57,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Precision Strike",
     icon: "Piercing/Heart Pierce",
     maxRanks: 2,
-    position: { x: 2.5, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Precision Strike",
@@ -67,7 +67,7 @@ export const WARDEN_SHADOWBLADE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 1 } },
       visualTheme: "shadow", tags: ["empower", "crit", "warden"]
@@ -82,7 +82,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Predator Strike",
     icon: "Utility/Phantom Dash",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "wsb_t1_shadow_stalker",
     spell: {
       name: "Predator Strike",
@@ -102,7 +102,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Death Mark",
     icon: "Necrotic/Death Mark",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "wsb_t1_precision_strike",
     spell: {
       name: "Death Mark",
@@ -123,7 +123,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Unseen Executioner",
     icon: "Slashing/Cutthroat",
     maxRanks: 3,
-    position: { x: 1.5, y: 2 },
+    position: { x: 4.5, y: 2 },
     requires: "wsb_t2_predator_strike",
     spell: {
       name: "Unseen Executioner",
@@ -153,7 +153,7 @@ export const WARDEN_SHADOWBLADE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 4 } },
       visualTheme: "shadow", tags: ["execute", "burst", "warden"]
@@ -169,7 +169,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Deadly Precision",
     icon: "Piercing/On the Mark",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: null,
     spell: {
       name: "Deadly Precision",
@@ -189,23 +189,23 @@ export const WARDEN_SHADOWBLADE = [
     name: "Shadow Step",
     icon: "Void/Crimson Void Hood",
     maxRanks: 2,
-    position: { x: 2, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "wsb_t2_execution_strike",
     spell: {
       name: "Shadow Step",
-      description: "Spend 1 VP: teleport 30 feet to a shadowed or dim location you can see. Your next attack within 6 seconds is made with advantage.",
+      description: "Spend 1 VP: teleport 30 feet to a shadowed or dim location you can see. Your next attack within 1 round is made with advantage.",
       flavorText: "Distance is a courtesy you no longer observe.",
       source: "talent", class: "Warden", treeId: "shadowblade",
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 1 } },
       visualTheme: "shadow", tags: ["mobility", "stealth", "warden"]
     },
     rankUpgrades: [
-      { description: "Spend 1 VP: teleport 60 feet to any shadowed location; your next attack within 6 seconds has advantage and deals +2d6 blight damage.", damageTypes: ["blight"], primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
+      { description: "Spend 1 VP: teleport 60 feet to any shadowed location; your next attack within 1 round has advantage and deals +2d6 blight damage.", damageTypes: ["blight"], primaryDamage: { dice: "2d6", flat: 0, procChance: 100 } }
     ]
   },
 
@@ -214,7 +214,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Hunter's Instinct",
     icon: "Necrotic/Eagle Eye",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "wsb_t3_deadly_precision",
     spell: {
       name: "Hunter's Instinct",
@@ -234,7 +234,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Apex Hunter",
     icon: "Nature/Ethereal Bear Spirit",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "wsb_t3_shadow_step",
     spell: {
       name: "Apex Hunter",
@@ -254,7 +254,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Quiver of Debts",
     icon: "Piercing/Stylized Bow",
     maxRanks: 1,
-    position: { x: 2, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "wsb_t4_hunters_instinct",
     spell: {
       name: "Quiver of Debts",
@@ -272,7 +272,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Ghost Protocol",
     icon: "Necrotic/Ghostly Menace",
     maxRanks: 1,
-    position: { x: 2.5, y: 4 },
+    position: { x: 1.5, y: 4 },
     requires: "wsb_t4_apex_hunter",
     spell: {
       name: "Ghost Protocol",
@@ -289,7 +289,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Shadowblade Ascendant",
     icon: "Void/Consumed by Void",
     maxRanks: 1,
-    position: { x: 1.5, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "wsb_t4_apex_hunter",
     spell: {
       name: "Shadowblade Ascendant",
@@ -299,10 +299,10 @@ export const WARDEN_SHADOWBLADE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["shadow-ascendant"], damageTypes: ["blight"],
       primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
       visualTheme: "shadow", tags: ["transform", "empower", "warden"]
@@ -313,7 +313,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Vein Reader",
     icon: "Piercing/Targeted Strike 1",
     maxRanks: 2,
-    position: { x: 2, y: 5 },
+    position: { x: 2.5, y: 5 },
     requires: "wsb_t3_deadly_precision",
     spell: {
       name: "Vein Reader",
@@ -333,7 +333,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Shadow Requiem",
     icon: "Necrotic/Screaming Ghost",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "wsb_t6_shadowblade_ascendant",
     spell: {
       name: "Shadow Requiem",
@@ -343,10 +343,10 @@ export const WARDEN_SHADOWBLADE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 90,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { vengeance: { baseAmount: 6 }, mana: { baseAmount: 15 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["requiem-mark"], damageTypes: ["blight"],
       visualTheme: "shadow", tags: ["ultimate", "capstone", "multi-mark", "warden"]
     }
@@ -356,7 +356,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Eternal Hunt",
     icon: "Piercing/Dagger Upward Strike",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "wsb_t5_quiver_of_debts",
     spell: {
       name: "Eternal Hunt",
@@ -378,7 +378,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Silent Takedown",
     icon: "Piercing/Backstab",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1.75, y: 6 },
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Silent Takedown",
@@ -398,7 +398,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Blood Ledger",
     icon: "Necrotic/Blood Book 1",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Blood Ledger",
@@ -419,7 +419,7 @@ export const WARDEN_SHADOWBLADE = [
     name: "Predator's Memory",
     icon: "Psychic/Mind Read",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "wsb_t6_vein_reader",
     spell: {
       name: "Predator's Memory",

@@ -25,7 +25,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Chaos Generation",
     icon: "Chaos/Chaotic Shuffle",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Chaos Generation",
@@ -67,7 +67,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Chaos Amplification",
     icon: "Chaos/Chaotic Rupture",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Chaos Amplification",
@@ -90,7 +90,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Surge Injection",
     icon: "Chaos/Chaotic Assemblance",
     maxRanks: 3,
-    position: { x: 0, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "ew_t1_wild_magic_attunement",
     spell: {
       name: "Surge Injection",
@@ -100,13 +100,13 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 }, spheres: { baseAmount: 1 } },
       visualTheme: "wyrd", tags: ["surge", "inject", "control", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Spend 1 wyrd sphere and 2 mana: next spell triggers a surge, polarity your choice. If harmful, the surge deals +15 points damage. Cooldown drops to 6 seconds.", cooldownValue: 6, resourceCosts: { mana: { baseAmount: 2 }, spheres: { baseAmount: 1 } } },
+      { description: "Spend 1 wyrd sphere and 2 mana: next spell triggers a surge, polarity your choice. If harmful, the surge deals +15 points damage. Cooldown drops to 1 round.", cooldownValue: 1, resourceCosts: { mana: { baseAmount: 2 }, spheres: { baseAmount: 1 } } },
       { description: "Free once per turn: next spell triggers a surge, polarity your choice. Harmful surges deal +1d6 bonus damage. You may inject twice per turn (second injection costs 2 mana).", resourceCosts: { mana: { baseAmount: 0 }, spheres: { baseAmount: 1 } } }
     ]
   },
@@ -115,7 +115,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Entropy Field",
     icon: "Chaos/Chaotic Corruption",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "ew_t1_chaos_generation",
     spell: {
       name: "Entropy Field",
@@ -125,10 +125,10 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 20,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { mana: { baseAmount: 8 }, spheres: { baseAmount: 1 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["entropy"], damageTypes: ["wyrd"],
       visualTheme: "wyrd", tags: ["field", "control", "surge", "arcanoneer"]
     },
@@ -142,7 +142,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Unstable Sphere",
     icon: "Psychic/Mental Chaos",
     maxRanks: 3,
-    position: { x: 3.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "ew_t1_chaos_amplification",
     spell: {
       name: "Unstable Sphere",
@@ -166,7 +166,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Chaos Nova",
     icon: "Chaos/Meteor",
     maxRanks: 3,
-    position: { x: 0.5, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "ew_t2_surge_injection",
     spell: {
       name: "Chaos Nova",
@@ -176,7 +176,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 }, spheres: { baseAmount: 1 } },
       damageTypes: ["wyrd"],
@@ -184,7 +184,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       visualTheme: "wyrd", tags: ["nova", "aoe", "chaos", "surge", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "Consume 1 wyrd sphere: 30-foot nova deals 4d8 + 1d8 per banked wyrd sphere. Each hit triggers a surge (your polarity per target). Cooldown drops to 14 seconds.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 14 },
+      { description: "Consume 1 wyrd sphere: 30-foot nova deals 4d8 + 1d8 per banked wyrd sphere. Each hit triggers a surge (your polarity per target). Cooldown drops to 2 rounds.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 2 },
       { description: "Consume 2 wyrd spheres: 40-foot nova deals 5d8 + 2d8 per banked wyrd sphere. Each hit triggers a surge (individual polarity choice). You gain 1 wyrd sphere for every 3 enemies hit.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, aoeSize: 40, resourceCosts: { mana: { baseAmount: 10 }, spheres: { baseAmount: 2 } } }
     ]
   },
@@ -193,7 +193,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Reality Fracture",
     icon: "Force/Energy Nexus",
     maxRanks: 2,
-    position: { x: 3.5, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "ew_t2_entropy_field",
     spell: {
       name: "Reality Fracture",
@@ -214,7 +214,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Borrowed Fate",
     icon: "Arcane/Sands of Time",
     maxRanks: 2,
-    position: { x: 0, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "ew_t3_chaos_nova",
     spell: {
       name: "Borrowed Fate",
@@ -224,7 +224,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       visualTheme: "wyrd", tags: ["reaction", "intercept", "surge", "arcanoneer"]
@@ -238,7 +238,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Catastrophic Surge",
     icon: "Force/Explosive Burst",
     maxRanks: 3,
-    position: { x: 3.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "ew_t3_reality_fracture",
     spell: {
       name: "Catastrophic Surge",
@@ -261,7 +261,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Void Rift",
     icon: "Void/Black Hole",
     maxRanks: 2,
-    position: { x: 0.5, y: 4 },
+    position: { x: 4.5, y: 4 },
     requires: "ew_t4_borrowed_fate",
     spell: {
       name: "Void Rift",
@@ -271,15 +271,15 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "aoe", rangeType: "ranged", range: 40, aoeShape: "circle", aoeSize: 15,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { mana: { baseAmount: 10 }, spheres: { baseAmount: 2 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["wyrd"],
       visualTheme: "wyrd", tags: ["rift", "persistent", "surge", "arcanoneer"]
     },
     rankUpgrades: [
-      { description: "20-foot Void Rift within 40 feet. Spits 2 automatic surges per round (your targets and effects each). Enemies inside take 1d6 wyrd damage per round. Cooldown drops to 45 seconds.", aoeSize: 20, cooldownValue: 45 }
+      { description: "20-foot Void Rift within 40 feet. Spits 2 automatic surges per round (your targets and effects each). Enemies inside take 1d6 wyrd damage per round. Cooldown drops to 8 rounds.", aoeSize: 20, cooldownValue: 8 }
     ]
   },
   {
@@ -287,7 +287,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Chaos Armor",
     icon: "Force/Force Shield",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "ew_t4_catastrophic_surge",
     spell: {
       name: "Chaos Armor",
@@ -307,7 +307,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Entropic Residue",
     icon: "Chaos/Chaotic Shadow Storm",
     maxRanks: 2,
-    position: { x: 4, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "ew_t4_borrowed_fate",
     spell: {
       name: "Entropic Residue",
@@ -330,7 +330,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Entropy Weaving",
     icon: "Arcane/Spiral Vortex",
     maxRanks: 2,
-    position: { x: 1.5, y: 5 },
+    position: { x: 4, y: 5 },
     requires: "ew_t5_void_rift",
     spell: {
       name: "Entropy Weaving",
@@ -350,7 +350,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Volatile Power",
     icon: "Lightning/Lightning Network 1",
     maxRanks: 3,
-    position: { x: 3.5, y: 5 },
+    position: { x: 2.5, y: 5 },
     requires: "ew_t5_chaos_armor",
     spell: {
       name: "Volatile Power",
@@ -373,7 +373,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Apocalypse",
     icon: "Chaos/Comet Rain",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "ew_t6_entropy_weaving",
     spell: {
       name: "Apocalypse",
@@ -383,7 +383,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 25 }, spheres: { baseAmount: 6 } },
       damageTypes: ["wyrd"],
@@ -397,7 +397,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Entropy Doctrine",
     icon: "Psychic/Psychic Mind",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "ew_t6_entropy_weaving",
     spell: {
       name: "Entropy Doctrine",
@@ -420,7 +420,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Chain Reaction Engine",
     icon: "Lightning/Lightning Storm",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "ew_t6_volatile_power",
     spell: {
       name: "Chain Reaction Engine",
@@ -441,7 +441,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
     name: "Probabilistic Existence",
     icon: "Psychic/Hidden Intent",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "ew_t6_volatile_power",
     spell: {
       name: "Probabilistic Existence",

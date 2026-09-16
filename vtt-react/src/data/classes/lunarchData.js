@@ -127,7 +127,7 @@ export const LUNARCH_DATA = {
   name: "Lunarch",
   icon: "fas fa-moon",
   role: "Control/Support",
-  damageTypes: ["ember", "blight", "wyrd"],
+  damageTypes: ["sacred", "blight", "wyrd"],
 
   // Overview section
   livingOrder: {
@@ -362,7 +362,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 **FULL MOON — THE SANITY EROSION (Rounds 2-4)**
 
 **Full Moon Active**:
-- +2d8 ember damage on all attacks
+- +2d8 sacred damage on all attacks
 - Critical hits on 19-20
 - Attacks ignore 50% of DR
 - DELIRIUM: Roll on Delirium Table at start of each turn
@@ -380,7 +380,7 @@ Your unique utility. Key abilities let you add or remove rounds from effects, ex
 **Attack Roll**: d20+6 ? [19] = **CRITICAL HIT!** (19-20 crit range)
 **Base Damage**: 1d8 sacred ? [8] = 8, doubled = 16 sacred
 **Full Moon Bonus**: +2d8 sacred ? [7, 6] = 13, doubled = 26 sacred
-**Total Critical Damage**: **42 ember damage**
+**Total Critical Damage**: **42 sacred damage**
 **Self-Damage**: 1d4 blight ? [3] = 3
 
 *The bolt doesn't just hit the Weaver. It UNRAVELS it. Cold starlight erupts from every joint, every orifice, every crack in its carapace. The thing doesn't die — it stops. Mid-motion. Frozen in a moment of cosmic horror. Then it collapses into a pile of light-bleached chitin.*
@@ -677,7 +677,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
             tier: "Specialization Ability",
             icon: "Piercing/Targeted Strike",
             description:
-              "When you hit a creature with a ranged attack, you can mark them until the end of your next turn. Marked creatures are visible to you through walls and concealment. Your next spell against a marked creature deals +1d6 ember damage as the parasite focuses its hunger.",
+              "When you hit a creature with a ranged attack, you can mark them until the end of your next turn. Marked creatures are visible to you through walls and concealment. Your next spell against a marked creature deals +1d6 sacred damage as the parasite focuses its hunger.",
             uniqueTo: "Hollow Sentinel",
           },
         ],
@@ -699,7 +699,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
           "Battlefield controller who tears reality apart, spreading cosmic contamination and phase contagion across entire enemy formations",
 
         strengths: [
-          "AoE spells apply Star-Sickness: disadvantage on next attack roll, 1d4 ember damage at start of turn for 2 rounds",
+          "AoE spells apply Star-Sickness: disadvantage on next attack roll, 1d4 sacred damage at start of turn for 2 rounds",
           "During Waxing Moon, AoE radius increases by 5 ft (the parasite's tendrils reach further when feeding on sensation)",
           "Can spread the current phase's effects to enemies via Phase Contagion",
           "Round manipulation — add or remove rounds from active battlefield effects",
@@ -827,11 +827,24 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
       effectTypes: ["damage", "debuff"],
-      typeConfig: { school: "ember", icon: "Arcane/Star Trail Path", tags: ["damage", "cone", "sacred", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "sacred", icon: "Arcane/Star Trail Path", tags: ["damage", "cone", "sacred", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "cone", rangeType: "melee", rangeDistance: 5, areaSize: 15, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
-      damageConfig: { formula: "3d8 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
+      damageConfig: { formula: "3d8 + intelligence", damageTypes: ["sacred"], resolution: "DICE" },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "waxing_crescent_bleed",
+            name: "Bleed",
+            description: "During Waxing Moon, the wound bleeds and the phase count advances by +1.",
+            mechanicsText: "Waxing Moon: inflicts Bleed; +1 phase advancement."
+          }
+        ],
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
       tags: ["damage", "cone", "sacred", "lunarch"]
     },
     {
@@ -847,6 +860,17 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "lunar_phase", cost: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       shieldConfig: { formula: "30 + intelligence * 2", shieldType: "temporary_hp" },
+      buffConfig: {
+        buffType: "damageMitigation",
+        effects: [
+          {
+            id: "eclipse_aegis_absorb",
+            name: "Eclipse Aegis",
+            description: "Absorbs incoming damage; if shattered by a melee attack, the attacker is blinded for 1 round.",
+            mechanicsText: "Damage absorption shield; melee shatter blinds the attacker for 1 round."
+          }
+        ]
+      },
       tags: ["buff", "shield", "defense", "lunarch"]
     },
     {
@@ -856,12 +880,25 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 4,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "gravity", "pull", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "2d10 + intelligence", damageTypes: ["arcane"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "forcedMovement",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "lunar_tide_drag",
+            name: "Gravitational Drag",
+            description: "Enemies are yanked toward the focal point and their movement is reduced to 0 for 1 round.",
+            config: { movementType: "pull", distance: 30, duration: 1, durationUnit: "rounds" }
+          }
+        ]
+      },
       tags: ["damage", "aoe", "gravity", "pull", "lunarch"]
     },
     {
@@ -871,12 +908,26 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 5,
       spellType: "ACTION",
       icon: "Psychic/Brain Psionics",
-      effectTypes: ["damage", "crowd_control"],
-      typeConfig: { school: "ember", icon: "Psychic/Brain Psionics", tags: ["damage", "single_target", "charm", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      effectTypes: ["damage", "control"],
+      typeConfig: { school: "sacred", icon: "Psychic/Brain Psionics", tags: ["damage", "single_target", "charm", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 45, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      damageConfig: { formula: "4d8 + intelligence", damageTypes: ["ember"], resolution: "DICE" },
+      damageConfig: { formula: "4d8 + intelligence", damageTypes: ["sacred"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "mind_control",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "starlight_delirium_confusion",
+            name: "Cosmic Static",
+            description: "On a failed save, the target attacks the nearest creature.",
+            config: { confusionType: "complete", saveType: "spirit" }
+          }
+        ],
+        savingThrow: { ability: "spirit", saveOutcome: "negates" }
+      },
       tags: ["damage", "single_target", "charm", "lunarch"]
     },
     {
@@ -886,12 +937,12 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 6,
       spellType: "ACTION",
       icon: "Radiant/Radiant Divinity",
-      effectTypes: ["damage", "aoe"],
-      typeConfig: { school: "ember", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "sacred", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      effectTypes: ["damage"],
+      typeConfig: { school: "sacred", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "sacred", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 20, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 , classResource: { type: "lunar_phase", cost: 4, phaseRequired: "eclipse" } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["ember"], resolution: "DICE" },
+      damageConfig: { formula: "6d8 + intelligence * 2", damageTypes: ["sacred"], resolution: "DICE" },
       tags: ["damage", "aoe", "sacred", "apocalypse", "lunarch"]
     },
     {
@@ -901,12 +952,25 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 6,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "gravity", "immobilize", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 50, areaType: "circle", areaSize: 15, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 10 , classResource: { type: "lunar_phase", phaseAdvancement: 1 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       damageConfig: { formula: "5d8 + intelligence", damageTypes: ["arcane"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "restraint",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "gravity_singularity_pin",
+            name: "Pinned",
+            description: "Targets are pinned to the floor and immobilized for 1 round.",
+            config: { restraintType: "physical", condition: "restrained", duration: 1, durationUnit: "rounds" }
+          }
+        ]
+      },
       tags: ["damage", "aoe", "gravity", "immobilize", "lunarch"]
     },
     {
@@ -916,12 +980,12 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 7,
       spellType: "ACTION",
       icon: "Force/Explosion Burst",
-      effectTypes: ["damage", "aoe"],
+      effectTypes: ["damage"],
       typeConfig: { school: "arcane", icon: "Force/Explosion Burst", tags: ["damage", "aoe", "phase_shift", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 25, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 , classResource: { type: "lunar_phase", cost: 2, phaseRequired: "waning" } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
-      damageConfig: { formula: "6d6 + intelligence * 2", damageTypes: ["arcane", "ember"], resolution: "DICE" },
+      damageConfig: { formula: "6d6 + intelligence * 2", damageTypes: ["arcane", "sacred"], resolution: "DICE" },
       tags: ["damage", "aoe", "phase_shift", "lunarch"]
     },
     {
@@ -932,10 +996,24 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       spellType: "ACTION",
       icon: "Utility/Empowered Warrior",
       effectTypes: ["buff"],
-      typeConfig: { school: "ember", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "overdrive", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      typeConfig: { school: "sacred", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "overdrive", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 13 , classResource: { type: "lunar_phase", cost: 2 } } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      buffConfig: {
+        buffType: "empowerment",
+        effects: [
+          {
+            id: "symbiote_overdrive_empower",
+            name: "Parasite Awakened",
+            description: "+4 DR, +3d8 to all spell damage, and critical hits on 18-20 for 2 rounds. Suffer 2d8 self-damage upon expiration.",
+            mechanicsText: "+4 DR, +3d8 spell damage, crit on 18-20; 2d8 self-damage on expiry."
+          }
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
       tags: ["buff", "self", "overdrive", "lunarch"]
     },
     {
@@ -945,12 +1023,12 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       level: 9,
       spellType: "ACTION",
       icon: "Radiant/Radiant Divinity",
-      effectTypes: ["damage", "aoe"],
-      typeConfig: { school: "ember", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "sacred", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
+      effectTypes: ["damage"],
+      typeConfig: { school: "sacred", icon: "Radiant/Radiant Divinity", tags: ["damage", "aoe", "sacred", "apocalypse", "lunarch"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 60, areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 15 , classResource: { type: "lunar_phase", cost: 4, phaseRequired: "full_moon" } } },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
-      damageConfig: { formula: "9d10 + intelligence * 2", damageTypes: ["ember"], resolution: "DICE" },
+      damageConfig: { formula: "9d10 + intelligence * 2", damageTypes: ["sacred", "ember"], resolution: "DICE" },
       tags: ["damage", "aoe", "sacred", "apocalypse", "lunarch"]
     },
     {
@@ -965,6 +1043,20 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 , classResource: { type: "lunar_phase", selectAnyPhase: true } } },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      buffConfig: {
+        buffType: "empowerment",
+        effects: [
+          {
+            id: "celestial_symbiosis_unison",
+            name: "Total Symbiosis",
+            description: "Freely select your active moon phase each round without rolling shock; mana costs are halved for 3 rounds.",
+            mechanicsText: "Free phase selection each round; mana costs halved for 3 rounds."
+          }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
       tags: ["buff", "self", "ultimate", "lunarch"]
     },
   
@@ -981,7 +1073,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Arcane/Star Trail Path",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1010,7 +1102,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "1d8 + intelligence/4",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
       },
 
@@ -1019,8 +1111,8 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       specialMechanics: {
         phaseInteraction: {
           newMoon: "Damage type becomes blight. Target loses 1d4 mana or takes 1d4 extra blight if no mana.",
-          waxingMoon: "Add +1d4 ember damage. Take 1 blight damage.",
-          fullMoon: "Add +1d8 ember damage and increase crit range by 2.",
+          waxingMoon: "Add +1d4 sacred damage. Take 1 blight damage.",
+          fullMoon: "Add +1d8 sacred damage and increase crit range by 2.",
           waningMoon: "Heal for 25% of damage dealt. Costs 1 less mana (minimum 1).",
         },
         triggerConfig: {
@@ -1032,7 +1124,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         phaseAdvancement: 1,
       },
 
-      tags: ["ember", "damage", "ranged", "phase dependent", "self damage"],
+      tags: ["sacred", "damage", "ranged", "phase dependent", "self damage"],
     },
 
     { id : "lunarch_phase_tear",
@@ -1073,7 +1165,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "1d6",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1122,7 +1214,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1153,7 +1245,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "1d6 + intelligence/4",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
       },
 
@@ -1184,7 +1276,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["ember", "damage", "debuff", "melee", "phase dependent", "universal"],
+      tags: ["sacred", "damage", "debuff", "melee", "phase dependent", "universal"],
     },
 
     { id : "lunarch_crescent_blade",
@@ -1198,7 +1290,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "ember",
+        school: "slicing",
         icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1226,7 +1318,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "2d8",
-        damageTypes: ["ember"],
+        damageTypes: ["slicing"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -1246,7 +1338,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["ember", "damage", "cone", "phase dependent", "universal"],
+      tags: ["slicing", "damage", "cone", "phase dependent", "universal"],
     },
 
     { id : "lunarch_parasitic_stride",
@@ -1318,7 +1410,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     { id : "lunarch_celestial_rejection",
       name: "Celestial Rejection",
       description:
-        "PASSIVE: +25% smashing vulnerability (starlight-infused organs rupture under blunt trauma). Immune to standard magical healing — the parasite devours foreign magic, dealing wyrd damage equal to 50% of heal amount instead. Only your own phase-specific restoration works.",
+        "PASSIVE: +25% smashing vulnerability. Standard magical healing is devoured, dealing wyrd damage equal to 50% of the heal instead; only your phase-specific restoration works.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -1378,7 +1470,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     { id : "lunarch_transition_shock",
       name: "Transition Shock",
       description:
-        "PASSIVE: Every phase shift forces a 1d6 Transition Shock roll. 1=Tissue Rupture (2d6 blight), 2=Synaptic Flash (blinded 1 rnd), 3=Mana Hemorrhage (lose 2d4 mana), 4=Temporal Dissonance (lose 1 AP next turn), 5=Wyrd Whiplash (1d6 wyrd + disadv next save), 6=Parasitic Mercy (1 blight only).",
+        "PASSIVE: Each phase shift rolls 1d6 Transition Shock: 1=Rupture (2d6 blight), 2=Flash (blinded), 3=Hemorrhage (-2d4 mana), 4=Dissonance (-1 AP), 5=Whiplash (1d6 wyrd), 6=Mercy (1 blight).",
       level: 1,
       spellType: "PASSIVE",
       icon: "Force/Explosion Burst",
@@ -1406,7 +1498,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Arcane/Star Trail Path",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1438,7 +1530,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "2d6",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -1472,7 +1564,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["ember", "damage", "aoe", "debuff", "star-sickness", "silence-speaker"],
+      tags: ["sacred", "damage", "aoe", "debuff", "star-sickness", "silence-speaker"],
     },
 
     { id : "lunarch_sanguine_transfer",
@@ -1486,7 +1578,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["healing"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Healing/Prayer",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1551,7 +1643,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "ember",
+        school: "wyrd",
         icon: "Piercing/Targeted Strike",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1582,7 +1674,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "3d6",
-        damageTypes: ["ember"],
+        damageTypes: ["wyrd"],
         resolution: "DICE",
       },
 
@@ -1612,7 +1704,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["ember", "damage", "debuff", "mark", "hollow sentinel"],
+      tags: ["wyrd", "damage", "debuff", "mark", "hollow sentinel"],
     },
 
     // LEVEL 5 SPELLS
@@ -1627,7 +1719,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Arcane/Missile",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1659,7 +1751,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "4d6",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -1694,7 +1786,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["ember", "damage", "line", "debuff", "star-sickness", "silence-speaker"],
+      tags: ["sacred", "damage", "line", "debuff", "star-sickness", "silence-speaker"],
     },
 
     { id : "lunarch_binding_horror",
@@ -1708,7 +1800,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["control"],
 
       typeConfig: {
-        school: "ember",
+        school: "blight",
         icon: "Frost/Confused",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1769,7 +1861,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         phaseInteraction: {
           newMoon: "Target loses 1d4 mana/round or takes 1d4 wyrd.",
           waxingMoon: "Disadvantage on initial save.",
-          fullMoon: "Tendrils deal 1d6 ember/round. Duration 4 rounds.",
+          fullMoon: "Tendrils deal 1d6 sacred/round. Duration 4 rounds.",
           waningMoon: "Heal 25% of tendril damage. Mana cost reduced by 2.",
         },
       },
@@ -1789,7 +1881,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Radiant/Radiant Glow",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1817,7 +1909,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "7d10 + intelligence",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
         savingThrow: {
           ability: "constitution",
@@ -1858,14 +1950,14 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "control", "debuff", "ember", "silence-speaker"],
+      tags: ["damage", "control", "debuff", "sacred", "silence-speaker"],
     },
 
     // LEVEL 8 SPELLS
     { id : "lunarch_silence_constellation",
       name: "Silence Constellation",
       description:
-        "Summon a constellation of rift-wounds across the battlefield, each one firing a beam of cold silence-light at a different enemy. The constellation persists for moments — long enough to scar reality and everything caught in its geometry.",
+        "Summon a constellation of rift-wounds, each firing a beam of cold silence-light at a different enemy. The constellation persists for moments, long enough to scar reality and all it touches.",
       level: 8,
       spellType: "ACTION",
       icon: "Arcane/Crescent Moon",
@@ -1873,7 +1965,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage", "debuff"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Arcane/Magical Sword",
         castTime: 1,
         castTimeType: "IMMEDIATE",
@@ -1900,7 +1992,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "6d8 + intelligence",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
       },
 
@@ -1936,13 +2028,13 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
         },
       },
 
-      tags: ["damage", "multi target", "debuff", "ember", "silence-speaker"],
+      tags: ["damage", "multi target", "debuff", "sacred", "silence-speaker"],
     },
 
     { id : "lunarch_skyhole",
       name: "Skyhole",
       description:
-        "Tear open the sky above a battlefield. Raw, predatory starlight pours through the wound in reality, scorching everything below. The tear persists — a gaping hole where the sky used to be, raining cosmic radiation each round.",
+        "Tear the sky open: raw predatory starlight pours through, scorching everything below. The gaping wound persists, raining cosmic radiation each round.",
       level: 9,
       spellType: "ACTION",
       icon: "Arcane/Star Trail Path",
@@ -1950,7 +2042,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       effectTypes: ["damage"],
 
       typeConfig: {
-        school: "ember",
+        school: "sacred",
         icon: "Arcane/Star Trail Path",
         castTime: 2,
         castTimeType: "IMMEDIATE",
@@ -1978,7 +2070,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
 
       damageConfig: {
         formula: "12d8 + intelligence * 2",
-        damageTypes: ["ember"],
+        damageTypes: ["sacred"],
         resolution: "DICE",
         savingThrow: {
           ability: "agility",
@@ -2000,7 +2092,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     {
       "id": "lunarch_void_chill",
       "name": "Silence-Chill",
-      "description": "The parasite has made your blood a piece of the Silence between stars. For the duration you radiate an otherworldly cold: freeze a plane of water, crust a wet surface in ice, snuff small flames and heat-signatures, and chill drinks or preserve food. The same aura marks you as deeply, unsettlingly alien  —  advantage on Intimidation, disadvantage on Persuasion and warmth-based rapport. Out of combat.",
+      "description": "Blood of the Silence between stars: radiate cold; freeze water, crust surfaces, snuff flames. The aura marks you alien: advantage on Intimidation, disadvantage on warmth-based rapport. Out of combat.",
       "level": 3,
       "spellType": "ACTION",
       "icon": "Frost/Frozen Wave",
@@ -2020,7 +2112,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       {
         "id": "lunarch_phase_stasis",
         "name": "Phase Stasis",
-        "description": "Force the parasite into a single phase of dormancy for a few hours, buying yourself a window of lucid rest. The involuntary cycle pauses, you take no feeding damage, and you recover with advantage  —  but you cannot cast phase spells, and at the end the parasite wakes hungry, dealing a Transition Shock on emergence. Out of combat.",
+        "description": "Force the parasite dormant for hours of lucid rest: the cycle pauses, no feeding damage, recovery with advantage; no phase spells, and it wakes with a Transition Shock. Out of combat.",
         "level": 2,
         "spellType": "ACTION",
         "icon": "Utility/Utility",
@@ -2040,7 +2132,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_tidal_scourge",
     "name": "Tidal Scourge",
-    "description": "Channel the relentless gravitational drag of the high tide. Releases a 30ft line of surging lunar radiance dealing 3d6 + Int radiant damage and pushing all struck enemies 10ft backward.",
+    "description": "Channel the relentless gravitational drag of the high tide. Releases a 30ft line of surging lunar radiance dealing 3d6 + Int sacred damage and pushing all struck enemies 10ft backward.",
     "level": 3,
     "spellType": "ACTION",
     "icon": "Radiant/Moon Beam",
@@ -2048,10 +2140,10 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 1,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "sacred",
       "icon": "Radiant/Moon Beam",
       "tags": [
-        "radiant",
+        "sacred",
         "damage",
         "control",
         "lunarch"
@@ -2080,27 +2172,35 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "The tide does not negotiate",
       "somaticText": "Sweep palm horizontally as fingers curl like breaking waves"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "radiant",
-      "diceCount": 3,
-      "diceSides": 6,
-      "statModifier": "intelligence"
+      "formula": "3d6 + intelligence",
+      "damageTypes": ["sacred"],
+      "resolution": "DICE"
     },
     "controlConfig": {
       "controlType": "knockback",
-      "distance": 10
+      "duration": 0,
+      "durationUnit": "instant",
+      "effects": [
+        {
+          "id": "tidal_scourge_push",
+          "name": "Tidal Push",
+          "description": "All struck enemies are pushed 10ft backward.",
+          "config": { "distance": 10, "movementType": "push" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
       "cooldownValue": 1
     },
     "tags": [
-      "radiant",
+      "sacred",
       "damage",
       "control",
       "lunarch"
@@ -2109,7 +2209,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_silence_shroud",
     "name": "Silence Shroud",
-    "description": "Wrap yourself in an insulating veil of soundless moonlight for 2 rounds. All attack rolls against you suffer disadvantage, you cannot be targeted by spells requiring line-of-sight from beyond 20ft, and you gain +3 on stealth checks.",
+    "description": "Wrap yourself in soundless moonlight for 2 rounds: attacks against you have disadvantage, spells needing line-of-sight beyond 20ft cannot target you, and you gain +3 to stealth.",
     "level": 4,
     "spellType": "ACTION",
     "icon": "Defense/Shadow Cloak",
@@ -2149,7 +2249,15 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "defense"
     ],
     "buffConfig": {
-      "buffType": "disadvantage_to_hit",
+      "buffType": "combatAdvantage",
+      "effects": [
+        {
+          "id": "silence_shroud_veil",
+          "name": "Soundless Veil",
+          "description": "Attack rolls against you suffer disadvantage; you cannot be targeted by spells requiring line of sight beyond 20ft; +3 on stealth checks for 2 rounds.",
+          "mechanicsText": "Incoming attacks at disadvantage; no LoS targeting beyond 20ft; +3 stealth."
+        }
+      ],
       "durationValue": 2,
       "durationUnit": "rounds"
     },
@@ -2167,7 +2275,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_lunar_radiance_burst",
     "name": "Lunar Radiance Burst",
-    "description": "Release an explosive flare of cold lunar luminescence centered on yourself. Deals 4d8 radiant damage to all enemies within 20ft and inflicts blindness for 1 round on a failed Constitution save.",
+    "description": "Release an explosive flare of cold lunar luminescence centered on yourself. Deals 4d8 sacred damage to all enemies within 20ft and inflicts blindness for 1 round on a failed Constitution save.",
     "level": 5,
     "spellType": "ACTION",
     "icon": "Radiant/Holy Nova",
@@ -2175,10 +2283,10 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 1,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "sacred",
       "icon": "Radiant/Holy Nova",
       "tags": [
-        "radiant",
+        "sacred",
         "damage",
         "debuff",
         "aoe",
@@ -2211,20 +2319,28 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "Bear witness to the dead light",
       "somaticText": "Thrust both arms outward as palms ignite"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "SAVE",
     "effectTypes": [
       "damage",
       "debuff"
     ],
     "damageConfig": {
-      "damageType": "radiant",
-      "diceCount": 4,
-      "diceSides": 8,
-      "statModifier": "intelligence"
+      "formula": "4d8 + intelligence",
+      "damageTypes": ["sacred"],
+      "resolution": "DICE"
     },
     "debuffConfig": {
-      "debuffType": "blinded",
-      "duration": 1,
+      "debuffType": "statusEffect",
+      "effects": [
+        {
+          "id": "lunar_radiance_blind",
+          "name": "Blinded",
+          "description": "On a failed Constitution save, the target is blinded for 1 round.",
+          "mechanicsText": "Constitution save or blinded for 1 round."
+        }
+      ],
+      "savingThrow": { "ability": "constitution", "saveOutcome": "negates" },
+      "durationValue": 1,
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2232,7 +2348,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "cooldownValue": 2
     },
     "tags": [
-      "radiant",
+      "sacred",
       "damage",
       "debuff",
       "aoe",
@@ -2242,7 +2358,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_parasitic_transfusion",
     "name": "Parasitic Transfusion",
-    "description": "Direct the lunar entity within to knit the wounds of an ally using cold celestial ether. Restores 4d8 HP to target ally within 30ft and bolsters their physical shell, granting +2 Durability for 2 rounds.",
+    "description": "Direct the lunar entity to knit an ally's wounds with cold celestial ether: restore 4d8 HP to an ally within 30ft and grant +2 Durability for 2 rounds.",
     "level": 5,
     "spellType": "ACTION",
     "icon": "Healing/Life Surge",
@@ -2286,14 +2402,23 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "buff"
     ],
     "healingConfig": {
+      "formula": "4d8 + intelligence",
       "healingType": "direct",
-      "diceCount": 4,
-      "diceSides": 8,
-      "statModifier": "intelligence"
+      "resolution": "DICE"
     },
     "buffConfig": {
-      "buffType": "durability_boost",
-      "bonusValue": 2,
+      "buffType": "statEnhancement",
+      "effects": [
+        {
+          "id": "parasitic_transfusion_shell",
+          "name": "Bolstered Shell",
+          "description": "+2 Durability for 2 rounds.",
+          "mechanicsText": "+2 Durability for 2 rounds."
+        }
+      ],
+      "statModifiers": [
+        { "stat": "durability", "magnitude": 2, "magnitudeType": "flat" }
+      ],
       "durationValue": 2,
       "durationUnit": "rounds"
     },
@@ -2311,7 +2436,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_phase_displacement",
     "name": "Phase Displacement",
-    "description": "Shift your physical form entirely into the trans-dimensional silence for 1 round. While displaced, you are completely immune to non-magical damage, cannot be restrained, and can pass freely through solid physical barriers up to 5ft thick.",
+    "description": "Shift wholly into trans-dimensional silence for 1 round: immune to non-magical damage, cannot be restrained, and pass freely through solid barriers up to 5ft thick.",
     "level": 6,
     "spellType": "ACTION",
     "icon": "Buff/Ethereal Jaunt",
@@ -2347,13 +2472,37 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     },
     "resolution": "NONE",
     "effectTypes": [
+      "buff",
       "defense",
       "utility"
     ],
     "buffConfig": {
-      "buffType": "intangible",
+      "buffType": "transformation",
+      "effects": [
+        {
+          "id": "phase_displacement_intangible",
+          "name": "Displaced",
+          "description": "You are completely immune to non-magical damage and cannot be restrained while shifted out of phase.",
+          "mechanicsText": "Non-magical damage immunity; immunity to restraint, 1 round."
+        }
+      ],
       "durationValue": 1,
       "durationUnit": "rounds"
+    },
+    "utilityConfig": {
+      "utilityType": "movement",
+      "selectedEffects": [
+        {
+          "id": "phase_displacement_phasing",
+          "name": "Phase Walk",
+          "description": "Pass freely through solid physical barriers up to 5ft thick.",
+          "mechanicsText": "Pass through barriers up to 5ft thick."
+        }
+      ],
+      "duration": 1,
+      "durationUnit": "rounds",
+      "concentration": false,
+      "power": "major"
     },
     "cooldownConfig": {
       "cooldownType": "encounter",
@@ -2369,7 +2518,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_gravity_inversion_field",
     "name": "Gravity Inversion Field",
-    "description": "Reverse local gravitational forces within a 25ft radius area within 60ft. Enemies inside who fail an Agility save are suspended helplessly in mid-air for 2 rounds, unable to move and suffering disadvantage on attack rolls.",
+    "description": "Reverse local gravity in a 25ft area within 60ft: enemies failing an Agility save hang helplessly mid-air for 2 rounds, unable to move and at disadvantage on attacks.",
     "level": 6,
     "spellType": "ACTION",
     "icon": "Control/Gravity Well",
@@ -2377,7 +2526,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 2,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "arcane",
       "icon": "Control/Gravity Well",
       "tags": [
         "control",
@@ -2413,15 +2562,23 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "Earth forsakes you",
       "somaticText": "Turn palms toward sky and raise arms slowly"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "SAVE",
     "effectTypes": [
-      "control",
-      "utility"
+      "control"
     ],
     "controlConfig": {
       "controlType": "levitated",
       "duration": 2,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "gravity_inversion_suspend",
+          "name": "Suspended",
+          "description": "On a failed Agility save, enemies float helplessly mid-air: unable to move and at disadvantage on attack rolls for 2 rounds.",
+          "config": { "saveType": "agility", "duration": 2, "durationUnit": "rounds" }
+        }
+      ],
+      "savingThrow": { "ability": "agility", "saveOutcome": "negates" }
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -2437,7 +2594,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_eclipse_barrier",
     "name": "Eclipse Barrier",
-    "description": "Conjure a translucent sphere of lunar shadow enclosing you and adjacent allies. The barrier absorbs up to 50 damage, cleanses all blind and silence effects upon formation, and reflects targeted hostile spells back at their casters on a roll of 5-6 on 1d6.",
+    "description": "Conjure a translucent sphere of lunar shadow over you and adjacent allies: absorbs 50 damage, cleanses blind and silence on formation, and reflects targeted hostile spells on a 5-6 on 1d6.",
     "level": 7,
     "spellType": "ACTION",
     "icon": "Defense/Prismatic Sphere",
@@ -2482,13 +2639,22 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     },
     "resolution": "NONE",
     "effectTypes": [
+      "buff",
       "defense",
       "cleanse"
     ],
     "buffConfig": {
-      "buffType": "damage_absorb",
-      "absorbAmount": 50,
+      "buffType": "damageMitigation",
+      "effects": [
+        {
+          "id": "eclipse_barrier_absorb",
+          "name": "Lunar Barrier",
+          "description": "Absorbs up to 50 damage, cleanses all blind and silence effects on formation, and reflects targeted hostile spells back at their casters on a roll of 5-6 on 1d6.",
+          "mechanicsText": "Absorbs 50 damage; cleanses blind/silence; 5-6 on d6 reflects targeted hostile spells."
+        }
+      ],
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2505,7 +2671,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_coronal_ray",
     "name": "Coronal Ray",
-    "description": "Focus the unshielded corona of a solar eclipse into an agonizing lance of pale fire. Deals 5d10 radiant damage to a single target within 60ft and strips 1 positive magical buff currently active on them.",
+    "description": "Focus a solar eclipse's corona into an agonizing lance: 5d10 sacred to one target within 60ft, stripping 1 positive magical buff from them.",
     "level": 7,
     "spellType": "ACTION",
     "icon": "Radiant/Solar Ray",
@@ -2513,10 +2679,10 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 2,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "sacred",
       "icon": "Radiant/Solar Ray",
       "tags": [
-        "radiant",
+        "sacred",
         "damage",
         "cleanse",
         "lunarch"
@@ -2545,23 +2711,22 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "Burn away the mantle",
       "somaticText": "Align index fingers in triangular sight"
     },
-    "resolution": "RANGED_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "cleanse"
     ],
     "damageConfig": {
-      "damageType": "radiant",
-      "diceCount": 5,
-      "diceSides": 10,
-      "statModifier": "intelligence"
+      "formula": "5d10 + intelligence",
+      "damageTypes": ["sacred"],
+      "resolution": "DICE"
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
       "cooldownValue": 2
     },
     "tags": [
-      "radiant",
+      "sacred",
       "damage",
       "cleanse",
       "lunarch"
@@ -2570,7 +2735,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_astral_projection_anchor",
     "name": "Astral Projection Anchor",
-    "description": "Sever your spiritual presence into an intangible lunar projection for up to 3 rounds while your physical body remains protected in a stasis cocoon. The projection can fly up to 120ft, pass through barriers, and cast spells using your stats.",
+    "description": "Sever your spirit into an intangible lunar projection for up to 3 rounds while your body rests in a stasis cocoon. The projection flies up to 120ft, passes barriers, and casts using your stats.",
     "level": 8,
     "spellType": "ACTION",
     "icon": "Utility/Astral Form",
@@ -2612,9 +2777,32 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "buff"
     ],
     "buffConfig": {
-      "buffType": "astral_projection",
+      "buffType": "transformation",
+      "effects": [
+        {
+          "id": "astral_projection_form",
+          "name": "Astral Projection",
+          "description": "Your spirit leaves your body as an intangible projection with a 120ft flying speed that can pass through barriers and cast your spells using your stats. Your body remains protected in a stasis cocoon for up to 3 rounds.",
+          "mechanicsText": "Intangible projection: fly 120ft, pass barriers, cast spells; body in stasis, 3 rounds."
+        }
+      ],
       "durationValue": 3,
       "durationUnit": "rounds"
+    },
+    "utilityConfig": {
+      "utilityType": "movement",
+      "selectedEffects": [
+        {
+          "id": "astral_projection_flight",
+          "name": "Spirit Flight",
+          "description": "Fly up to 120ft and pass through solid barriers while projected.",
+          "mechanicsText": "Fly 120ft; phase through barriers."
+        }
+      ],
+      "duration": 3,
+      "durationUnit": "rounds",
+      "concentration": false,
+      "power": "major"
     },
     "cooldownConfig": {
       "cooldownType": "encounter",
@@ -2630,7 +2818,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_apogee_lance",
     "name": "Apogee Lance",
-    "description": "Impale a target with a lance forged from the apogee of celestial transit. Deals 6d10 radiant damage and anchors the target in temporal stasis for 1 round (incapacitated, cannot act or be moved).",
+    "description": "Impale a target with a lance forged from the apogee of celestial transit. Deals 6d10 sacred damage and anchors the target in temporal stasis for 1 round (incapacitated, cannot act or be moved).",
     "level": 8,
     "spellType": "ACTION",
     "icon": "Radiant/Spear of Light",
@@ -2638,10 +2826,10 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 2,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "sacred",
       "icon": "Radiant/Spear of Light",
       "tags": [
-        "radiant",
+        "sacred",
         "damage",
         "control",
         "lunarch"
@@ -2670,28 +2858,35 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "Frozen at the zenith",
       "somaticText": "Cock arm back and cast lance like a javelin"
     },
-    "resolution": "RANGED_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "radiant",
-      "diceCount": 6,
-      "diceSides": 10,
-      "statModifier": "intelligence"
+      "formula": "6d10 + intelligence",
+      "damageTypes": ["sacred"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "stasis",
+      "controlType": "incapacitation",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "apogee_lance_stasis",
+          "name": "Temporal Stasis",
+          "description": "The target is anchored in stasis: incapacitated, unable to act, and unable to be moved for 1 round.",
+          "config": { "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
       "cooldownValue": 3
     },
     "tags": [
-      "radiant",
+      "sacred",
       "damage",
       "control",
       "lunarch"
@@ -2700,7 +2895,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_null_horizon",
     "name": "Null Horizon",
-    "description": "Anchor the absolute silent dead zone of deep space across a 30ft radius area for 2 rounds. No sound or speech can exist inside, no spells can be verbally cast, and all magical damage dealt within the zone is reduced by 50%.",
+    "description": "Anchor deep space's absolute silence across a 30ft radius for 2 rounds: no sound or speech exists, no verbal casting, and magical damage inside is reduced by 50%.",
     "level": 9,
     "spellType": "ACTION",
     "icon": "Void/Null Zone",
@@ -2746,16 +2941,32 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "resolution": "NONE",
     "effectTypes": [
       "control",
+      "buff",
       "defense"
     ],
     "controlConfig": {
-      "controlType": "absolute_silence",
+      "controlType": "zone",
       "duration": 2,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "null_horizon_silence",
+          "name": "Absolute Silence",
+          "description": "No sound or speech can exist inside: spells cannot be verbally cast within the zone.",
+          "config": { "zoneType": "silence", "duration": 2, "durationUnit": "rounds" }
+        }
+      ]
     },
     "buffConfig": {
-      "buffType": "magic_mitigation",
-      "mitigationValue": 0.5,
+      "buffType": "damageMitigation",
+      "effects": [
+        {
+          "id": "null_horizon_mitigation",
+          "name": "Dead Zone",
+          "description": "All magical damage dealt within the zone is reduced by 50%.",
+          "mechanicsText": "Magical damage within the zone reduced 50%."
+        }
+      ],
       "durationValue": 2,
       "durationUnit": "rounds"
     },
@@ -2774,7 +2985,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_phase_restoration",
     "name": "Phase Restoration",
-    "description": "Invert the entropy of your companions through trans-phase rewind. All allies within 30ft instantly regain 6d8 HP, are cleansed of all ongoing conditions, debuffs, and curses, and gain +10ft movement speed for 2 rounds.",
+    "description": "Invert entropy through trans-phase rewind: allies within 30ft regain 6d8 HP, are cleansed of all conditions, debuffs, and curses, and gain +10ft speed for 2 rounds.",
     "level": 9,
     "spellType": "ACTION",
     "icon": "Healing/Revitalize All",
@@ -2782,7 +2993,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 2,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "sacred",
       "icon": "Healing/Revitalize All",
       "tags": [
         "healing",
@@ -2824,10 +3035,9 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "cleanse"
     ],
     "healingConfig": {
-      "healingType": "aoe",
-      "diceCount": 6,
-      "diceSides": 8,
-      "statModifier": "intelligence"
+      "formula": "6d8 + intelligence",
+      "healingType": "direct",
+      "resolution": "DICE"
     },
     "cooldownConfig": {
       "cooldownType": "long_rest",
@@ -2844,7 +3054,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_cosmic_annihilation",
     "name": "Cosmic Annihilation",
-    "description": "Command the celestial entity to bring down an unfathomable column of cosmic obliteration across a 40ft area. Deals 8d10 radiant damage to all enemies inside, disintegrates non-magical structures and cover, and pushes survivors to the perimeter.",
+    "description": "Command a column of cosmic obliteration across 40ft: 8d10 sacred to all enemies, non-magical structures and cover disintegrated, survivors pushed to the perimeter.",
     "level": 10,
     "spellType": "ACTION",
     "icon": "Radiant/Orbital Strike",
@@ -2852,10 +3062,10 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
     "typeConfig": {
       "castTime": 3,
       "castTimeType": "IMMEDIATE",
-      "school": "radiant",
+      "school": "sacred",
       "icon": "Radiant/Orbital Strike",
       "tags": [
-        "radiant",
+        "sacred",
         "damage",
         "control",
         "ultimate",
@@ -2889,27 +3099,35 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "Fall, uncreated sky!",
       "somaticText": "Reach toward heaven then plunge fists into earth"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "radiant",
-      "diceCount": 8,
-      "diceSides": 10,
-      "statModifier": "intelligence"
+      "formula": "8d10 + intelligence",
+      "damageTypes": ["sacred"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "knockback",
-      "distance": 20
+      "controlType": "forcedMovement",
+      "duration": 0,
+      "durationUnit": "instant",
+      "effects": [
+        {
+          "id": "cosmic_annihilation_perimeter_push",
+          "name": "Blast Wave",
+          "description": "Survivors are pushed to the perimeter of the blast.",
+          "config": { "movementType": "push", "distance": 20 }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "long_rest",
       "cooldownValue": 1
     },
     "tags": [
-      "radiant",
+      "sacred",
       "damage",
       "control",
       "ultimate",
@@ -2919,7 +3137,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_avatar_of_the_dead_moon",
     "name": "Avatar of the Dead Moon",
-    "description": "Surrender your physical form entirely to the cold divinity of the lunar predator for 2 rounds. You gain a flying speed of 60ft, are completely immune to all negative conditions and damage, and all Lunarch spells cost 0 mana.",
+    "description": "Surrender to the lunar predator's cold divinity for 2 rounds: 60ft flying speed, complete immunity to all negative conditions and damage, and all Lunarch spells cost 0 mana.",
     "level": 10,
     "spellType": "ACTION",
     "icon": "Transformation/Lunar Goddess",
@@ -2960,11 +3178,47 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "transformation",
       "buff"
     ],
+    "buffConfig": {
+      "buffType": "empowerment",
+      "effects": [
+        {
+          "id": "avatar_dead_moon_divinity",
+          "name": "Cold Divinity",
+          "description": "Gain a 60ft flying speed, complete immunity to all negative conditions and damage, and all Lunarch spells cost 0 mana for 2 rounds.",
+          "mechanicsText": "Fly 60ft; immune to conditions and damage; Lunarch spells free, 2 rounds."
+        }
+      ],
+      "durationValue": 2,
+      "durationType": "rounds",
+      "durationUnit": "rounds"
+    },
     "transformationConfig": {
-      "transformationType": "avatar",
+      "transformationType": "celestial",
+      "targetType": "self",
+      "newForm": "Avatar of the Dead Moon",
+      "description": "Your body is surrendered to the cold divinity of the lunar predator: flight, total immunity, and free Lunarch casting.",
       "duration": 2,
       "durationUnit": "rounds",
-      "power": "major"
+      "power": "ultimate",
+      "concentration": false,
+      "maintainEquipment": true,
+      "grantedAbilities": [
+        {
+          "id": "avatar_dead_moon_flight",
+          "name": "Moonlit Flight",
+          "description": "Gain a 60ft flying speed."
+        },
+        {
+          "id": "avatar_dead_moon_immunity",
+          "name": "Dead Moon's Grace",
+          "description": "Immune to all negative conditions and all damage."
+        },
+        {
+          "id": "avatar_dead_moon_free_cast",
+          "name": "Unbound Magic",
+          "description": "All Lunarch spells cost 0 mana."
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "long_rest",
@@ -2980,7 +3234,7 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
   {
     "id": "lunarch_syzygy_cataclysm",
     "name": "Syzygy Cataclysm",
-    "description": "Enact a total alignment of cosmic nodes across 60ft. Drags all enemies toward a designated epicenter with inescapable gravitational pull, deals 6d8 wyrd damage, and stuns all caught inside for 1 round on a failed Strength save.",
+    "description": "Align cosmic nodes across 60ft: drag all enemies toward an epicenter with inescapable gravity, deal 6d8 wyrd, and stun those caught 1 round on a failed Strength save.",
     "level": 10,
     "spellType": "ACTION",
     "icon": "Void/Black Hole",
@@ -3025,21 +3279,29 @@ WEAK:   +25% smashing vulnerability. Avoid hammers.
       "verbalText": "Collapse upon the fulcrum",
       "somaticText": "Clasp hands together until joints crack"
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "SAVE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "wyrd",
-      "diceCount": 6,
-      "diceSides": 8,
-      "statModifier": "intelligence"
+      "formula": "6d8 + intelligence",
+      "damageTypes": ["wyrd"],
+      "resolution": "DICE"
     },
     "controlConfig": {
       "controlType": "stunned",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "syzygy_cataclysm_stun",
+          "name": "Stunned",
+          "description": "On a failed Strength save, caught enemies are stunned for 1 round.",
+          "config": { "saveType": "strength", "saveOutcome": "negates", "duration": 1, "durationUnit": "rounds" }
+        }
+      ],
+      "savingThrow": { "ability": "strength", "saveOutcome": "negates" }
     },
     "cooldownConfig": {
       "cooldownType": "long_rest",

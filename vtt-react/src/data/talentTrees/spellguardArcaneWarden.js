@@ -10,7 +10,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Oath-Steel Bond",
     icon: "Force/Force Tied",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Oath-Steel Bond",
@@ -30,7 +30,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Arcane Absorption",
     icon: "Force/Absorb Energy",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Arcane Absorption",
@@ -50,24 +50,24 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Arcane Shield",
     icon: "Force/Force Shield",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Arcane Shield",
-      description: "Instantly wrap yourself in a shearing arcane barrier that absorbs 15 damage for 30 seconds.",
+      description: "Instantly wrap yourself in a shearing arcane barrier that absorbs 15 damage for 3 rounds.",
       flavorText: "First lesson of the Spellguard: the best rebuttal to a fireball is a wall.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["shield"], visualTheme: "arcane", tags: ["shield", "defense", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Instantly wrap yourself in a shearing arcane barrier that absorbs 25 damage for 30 seconds." }
+      { description: "Instantly wrap yourself in a shearing arcane barrier that absorbs 25 damage for 3 rounds." }
     ]
   },
 
@@ -76,7 +76,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Reinforced Wards",
     icon: "Force/Force Field",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "aw_t1_oath_steel",
     spell: {
       name: "Reinforced Wards",
@@ -96,7 +96,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Warden's Fortitude",
     icon: "Utility/Steadfast Bulwark",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "aw_t1_arcane_shield",
     spell: {
       name: "Warden's Fortitude",
@@ -117,24 +117,24 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Barrier of Protection",
     icon: "Utility/Deflecting Shield",
     maxRanks: 2,
-    position: { x: 1.5, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "aw_t2_reinforced_wards",
     spell: {
       name: "Barrier of Protection",
-      description: "Project a ward onto an ally within 30 feet, absorbing 20 damage for 30 seconds.",
+      description: "Project a ward onto an ally within 30 feet, absorbing 20 damage for 3 rounds.",
       flavorText: "The oath does not say 'protect myself'. Read it again.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 15 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["shield"], visualTheme: "arcane", tags: ["shield", "ally", "defense", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Project a ward onto an ally within 30 feet, absorbing 30 damage for 30 seconds." }
+      { description: "Project a ward onto an ally within 30 feet, absorbing 30 damage for 3 rounds." }
     ]
   },
   {
@@ -142,7 +142,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Absorption Mastery",
     icon: "Force/Energy Core",
     maxRanks: 2,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "aw_t2_reinforced_wards",
     spell: {
       name: "Absorption Mastery",
@@ -171,10 +171,10 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["resistance"], visualTheme: "arcane", tags: ["resistance", "ally", "spellguard"]
     },
     rankUpgrades: [
@@ -187,25 +187,25 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Mass Shielding",
     icon: "Force/Radiating Barrier",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "aw_t3_barrier_of_protection",
     spell: {
       name: "Mass Shielding",
-      description: "Unfold a lattice of wards over all allies within 15 feet, absorbing 10 damage each for 30 seconds.",
+      description: "Unfold a lattice of wards over all allies within 15 feet, absorbing 10 damage each for 3 rounds.",
       flavorText: "One shield is a tactic. A wall of them is a doctrine.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "ranged", range: 15, aoeShape: "circle", aoeSize: 15,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { aep: { baseAmount: 20 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["shield"], visualTheme: "arcane", tags: ["shield", "aoe", "ally", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Unfold a lattice of wards over all allies within 15 feet, absorbing 15 damage each for 30 seconds." },
-      { description: "Unfold a lattice of wards over all allies within 15 feet, absorbing 20 damage each for 30 seconds." }
+      { description: "Unfold a lattice of wards over all allies within 15 feet, absorbing 15 damage each for 3 rounds." },
+      { description: "Unfold a lattice of wards over all allies within 15 feet, absorbing 20 damage each for 3 rounds." }
     ]
   },
   {
@@ -213,7 +213,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Anti-Magic Zone",
     icon: "Utility/Barred Shield",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "aw_t3_absorption_mastery",
     spell: {
       name: "Anti-Magic Zone",
@@ -223,10 +223,10 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 15,
       castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { aep: { baseAmount: 15 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       debuffs: ["zone"], visualTheme: "arcane", tags: ["zone", "control", "antimagic", "spellguard"]
     },
     rankUpgrades: [
@@ -239,7 +239,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Overflowing Reservoir",
     icon: "Force/Energy Nexus",
     maxRanks: 2,
-    position: { x: 1.5, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "aw_t4_mass_shielding",
     spell: {
       name: "Overflowing Reservoir",
@@ -258,7 +258,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Warden's Sacrifice",
     icon: "General/Split Health",
     maxRanks: 3,
-    position: { x: 2.5, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "aw_t4_anti_magic_zone",
     spell: {
       name: "Warden's Sacrifice",
@@ -268,10 +268,10 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { aep: { baseAmount: 20 } },
-      durationRounds: 1, durationRealTime: 6, durationUnit: "seconds",
+      durationRounds: 1, durationUnit: "rounds",
       buffs: ["sacrifice"], visualTheme: "sacred", tags: ["redirect", "ally", "defense", "spellguard"]
     },
     rankUpgrades: [
@@ -285,7 +285,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Fortress Mode",
     icon: "Radiant/Radiant Golden Knight",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "aw_t5_overflow",
     spell: {
       name: "Fortress Mode",
@@ -295,10 +295,10 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 25 } },
-      durationRounds: 1, durationRealTime: 6, durationUnit: "seconds",
+      durationRounds: 1, durationUnit: "rounds",
       buffs: ["fortress"], visualTheme: "sacred", tags: ["ultimate-defense", "immunity", "spellguard"]
     }
   },
@@ -326,24 +326,24 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Reflective Ward",
     icon: "Utility/Golden Shield",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "aw_t5_overflow",
     spell: {
       name: "Reflective Ward",
-      description: "Wreathe your shields in mirror-force for 30 seconds: 10 points of all damage absorbed by your shields is reflected at the attacker as arcane damage.",
+      description: "Wreathe your shields in mirror-force for 3 rounds: 10 points of all damage absorbed by your shields is reflected at the attacker as arcane damage.",
       flavorText: "A defense that answers back.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { aep: { baseAmount: 5 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["reflection"], damageTypes: ["arcane"], visualTheme: "arcane", tags: ["reflection", "shield", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Wreathe your shields in mirror-force for 30 seconds: 25 points of all damage absorbed by your shields is reflected at the attacker as arcane damage." }
+      { description: "Wreathe your shields in mirror-force for 3 rounds: 25 points of all damage absorbed by your shields is reflected at the attacker as arcane damage." }
     ]
   },
 
@@ -352,7 +352,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Ultimate Ward",
     icon: "Radiant/Golden Knight",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "aw_t6_fortress_mode",
     spell: {
       name: "Ultimate Ward",
@@ -362,10 +362,10 @@ export const SPELLGUARD_ARCANE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 30,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 20, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { aep: { baseAmount: 30 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["ultimate-ward"], visualTheme: "sacred", tags: ["ultimate", "capstone", "shield", "aoe", "spellguard"]
     }
   },
@@ -400,21 +400,21 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     requires: "aw_t6_bulwark_doctrine",
     spell: {
       name: "Prismatic Bulwark",
-      description: "Raise a refracting wall over all allies within 20 feet, absorbing 25 damage each for 30 seconds.",
+      description: "Raise a refracting wall over all allies within 20 feet, absorbing 25 damage each for 3 rounds.",
       flavorText: "Light enters, decides against violence, leaves.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "ACTIVE", category: "buff",
       targetingMode: "aoe", rangeType: "ranged", range: 20, aoeShape: "circle", aoeSize: 20,
       castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 7, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { aep: { baseAmount: 25 } },
-      durationRounds: 3, durationRealTime: 30, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["shield"], visualTheme: "arcane", tags: ["capstone", "shield", "aoe", "ally", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Raise a refracting wall over all allies within 20 feet, absorbing 35 damage each for 30 seconds." },
-      { description: "Raise a refracting wall over all allies within 20 feet, absorbing 50 damage each for 30 seconds, and reflecting 25 points of absorbed damage back at attackers as arcane damage." }
+      { description: "Raise a refracting wall over all allies within 20 feet, absorbing 35 damage each for 3 rounds." },
+      { description: "Raise a refracting wall over all allies within 20 feet, absorbing 50 damage each for 3 rounds, and reflecting 25 points of absorbed damage back at attackers as arcane damage." }
     ]
   },
   {
@@ -422,7 +422,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     name: "Oathbound",
     icon: "Arcane/Orb Manipulation",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "aw_t6_reflective_ward",
     spell: {
       name: "Oathbound",

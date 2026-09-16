@@ -72,3 +72,38 @@ classSpellCategories and the Gaoler bar labels were updated; the bar test was up
 ## 6. Mind memory
 
 - `warden-pilot-deep-dive-2026-09-13`, `class-deep-dive-policies-2026-09-13`, `class-phase0-tooling-and-fixes-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 21 flagged / 9 errors. After: 0 errors / 0 non-verbosity
+warnings.**
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `warden_chain_tether` | no `effectTypes` | added `control` + restraint/pin config + Spirit save |
+| `warden_chain_drag` | no `effectTypes` | added `control` + 20ft forced-movement pull config |
+| `warden_iron_bastion` | buff with no renderable stats | effects[] + +3 Durability statModifier |
+| `warden_hook_and_rend` | legacy dice shape, thin control | `3d8 + strength` stabbing, `DICE`, pull 15ft + slow effects[] |
+| `warden_chain_cleave` | legacy dice shape, `SAVING_THROW` | `4d8 + strength` smashing, `DICE`, prone + Strength save |
+| `warden_judges_binding` | `debuff` with no config | added somatic-lock debuffConfig; `control` retyped + effects |
+| `warden_iron_cyclone` | legacy dice shape | `5d10 + strength` slicing, `DICE`, pull+prone effects[] |
+| `warden_shackles_of_the_condemned` | legacy dice shape, `SAVING_THROW` | `6d8 + strength` smashing, `DICE`, impale/paralyze effects[] |
+| `warden_grand_inquisition_iron_maiden` | legacy dice shape, `SAVING_THROW` | `8d10 + strength` stabbing, `DICE`, containment effects[] |
+| `warden_sanctuary_chains`, `warden_penitents_fortress` | buffConfig not gated, then empty content | added `buff` type **and** real effects[] (intercept 50%/taunt) |
+
+### Flavor / class-fit notes
+
+- Chain/Tension/cage identity is coherent across all 46 spells; no rethemes proposed.
+- Tension encoding is consistent (`classResource:{type:"tension", cost|gain}`).
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Warden`: 0 errors
+- `audit:classes --class Warden`: 0 integrity / 0 floor gaps / 0 warnings; `spell-qa` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+16 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

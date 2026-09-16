@@ -498,12 +498,20 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       level: 4,
       spellType: "ACTION",
       icon: "Lightning/Lightning Bolt",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "storm", icon: "Lightning/Lightning Bolt", tags: ["damage", "cone", "storm", "knockback", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "cone", rangeType: "melee", rangeDistance: 5, areaSize: 20, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 6 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "3d8 + strength", damageTypes: ["storm"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "forcedMovement",
+        duration: 0,
+        durationUnit: "instant",
+        effects: [
+          { id: "kinetic_discharge_knockback", name: "Kinetic Knockback", description: "Enemies in the cone are knocked back 15ft.", config: { movementType: "push", distance: 15 } }
+        ]
+      },
       tags: ["damage", "cone", "storm", "knockback", "spellguard"]
     },
     {
@@ -518,6 +526,15 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 10, targetRestrictions: ["ally", "self"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 8 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      buffConfig: {
+        buffType: "damageMitigation",
+        effects: [
+          { id: "null_field_bastion_ward", name: "Null Field", description: "Allies inside gain +4 to saves against spells and 50% spell damage reduction for 2 rounds.", mechanicsText: "+4 saves vs spells; 50% spell damage reduction, 2 rounds." }
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
       tags: ["buff", "aoe", "defense", "anti_magic", "spellguard"]
     },
     {
@@ -557,11 +574,27 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       level: 6,
       spellType: "ACTION",
       icon: "Bludgeoning/Hammer",
-      effectTypes: ["crowd_control", "debuff"],
+      effectTypes: ["control", "debuff"],
       typeConfig: { school: "arcane", icon: "Bludgeoning/Hammer", tags: ["silence", "debuff", "single_target", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 9 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      controlConfig: {
+        controlType: "silenced",
+        duration: 2,
+        durationUnit: "rounds",
+        effects: [
+          { id: "anti_magic_shackle_silence", name: "Leyline Cuffs", description: "The target is silenced and cannot cast spells or use magical abilities.", config: { duration: 2, durationUnit: "rounds" } }
+        ]
+      },
+      debuffConfig: {
+        debuffType: "abilityDisable",
+        effects: [
+          { id: "anti_magic_shackle_lockout", name: "Magical Lockout", description: "Spells and magical abilities are disabled for 2 rounds.", mechanicsText: "Magical ability lockout, 2 rounds." }
+        ],
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
       tags: ["silence", "debuff", "single_target", "spellguard"]
     },
     {
@@ -571,12 +604,20 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       level: 7,
       spellType: "ACTION",
       icon: "Lightning/Lightning Bolt",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "storm", icon: "Lightning/Lightning Bolt", tags: ["damage", "aoe", "storm", "knockdown", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 30, targetRestrictions: ["enemy"] },
-      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 } },
+      resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 11 }, classResource: { type: "arcane_energy_points", cost: 50 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       damageConfig: { formula: "6d10 + strength * 2", damageTypes: ["storm"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "knockdown",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          { id: "overload_shockwave_prone", name: "Knocked Prone", description: "All enemies in the 30ft blast are knocked prone.", config: { saveType: "strength", duration: 1, durationUnit: "rounds" } }
+        ]
+      },
       tags: ["damage", "aoe", "storm", "knockdown", "spellguard"]
     },
     {
@@ -591,6 +632,15 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 13 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      buffConfig: {
+        buffType: "immunity",
+        effects: [
+          { id: "fortress_nullification_anchor", name: "Anchored Fortress", description: "Immune to all magical damage, forced movement, and crowd control for 2 rounds; absorbs all spells within 20ft.", mechanicsText: "Magical damage/forced movement/CC immunity; absorbs spells within 20ft, 2 rounds." }
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
       tags: ["buff", "invulnerable", "defense", "spellguard"]
     },
     {
@@ -620,6 +670,15 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, resourceTypes: ["mana"], resourceValues: { mana: 18 } },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      buffConfig: {
+        buffType: "retaliation",
+        effects: [
+          { id: "singularity_aegis_reflect", name: "Singularity Aegis", description: "Swallows all hostile projectiles and reflects 100% of absorbed spell damage back at enemies for 3 rounds.", mechanicsText: "Absorb projectiles; reflect 100% absorbed spell damage, 3 rounds." }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
+      },
       tags: ["buff", "ultimate", "defense", "spellguard"]
     },
   
@@ -631,9 +690,18 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
    level: 1,
    spellType: "REACTION",
    icon: "Utility/Barred Shield",
+   effectTypes: ["buff"],
    typeConfig: { school: "arcane", icon: "Radiant/Radiant Golden Shield", tags: ["utility", "reaction", "shield", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    resourceCost: { actionPoints: 1, mana: 0 },
+   resolution: "NONE",
+   buffConfig: {
+     buffType: "damageMitigation",
+     effects: [
+       { id: "aegis_ward_dr", name: "Prismatic Barrier", description: "Grants +3 Passive DR against the incoming strike.", mechanicsText: "+3 Passive DR." }
+     ],
+     durationType: "instant"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility", "shield", "spellguard"]
   },
@@ -643,9 +711,19 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
    level: 2,
    spellType: "REACTION",
    icon: "Arcane/Conjure Elements",
+   effectTypes: ["control"],
    typeConfig: { school: "arcane", icon: "Arcane/Spiral Vortex", tags: ["utility", "counterspell", "spell_break", "spellguard"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 30, targetRestrictions: ["enemy"] },
    resourceCost: { actionPoints: 1, mana: 0 },
+   resolution: "NONE",
+   controlConfig: {
+     controlType: "silenced",
+     duration: 0,
+     durationUnit: "instant",
+     effects: [
+       { id: "spell_break_counterspell", name: "Spell Broken", description: "The spell fails and is countered at its source.", config: { saveType: "intelligence" } }
+     ]
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
    tags: ["utility", "counterspell", "spellguard"]
   },
@@ -655,7 +733,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "spellguard_arcane_radiation",
    name: "Arcane Radiation",
    description:
-    "The magic you absorb is radioactive poison. At the end of your round, if you hold unspent Arcane Energy Points (AEP), you take blight damage equal to (AEP / 10), rounded down. Your maximum HP is permanently reduced by this same amount until you complete a long rest.",
+    "Absorbed magic is radioactive poison: at your turn's end, unspent AEP deals blight equal to (AEP / 10, rounded down) and reduces max HP by the same until a long rest.",
    level: 1,
    spellType: "PASSIVE",
    icon: "Necrotic/Necrotic Decay 1",
@@ -673,7 +751,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "spellguard_kinetic_fragility",
    name: "Brittle Kinetic Shell",
    description:
-    "Your silence-glass plating and flesh are hyper-specialized to absorb energy, rendering you catastrophically vulnerable to martial trauma. You suffer a permanent +50% vulnerability to all smashing and slicing damage.",
+    "Your silence-glass plating is hyper-specialized for absorbing energy, leaving you catastrophically vulnerable to martial trauma: permanent +50% vulnerability to all smashing and slicing damage.",
    level: 1,
    spellType: "PASSIVE",
    icon: "Slashing/Crushing Blow",
@@ -695,7 +773,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_void_siphon",
     name: "Silence Siphon",
    description:
-    "A brutal melee strike that physically rips raw magic out of the target. Deals 1d8 physical and 1d8 storm damage. If the target is a spellcaster, they lose 2d4 mana. Generates +15 Arcane Energy Points (AEP) as the raw magic enters your bloodstream.",
+    "A brutal melee strike that rips raw magic from the target: 1d8 physical and 1d8 storm. A spellcaster also loses 2d4 mana. Generates +15 AEP as the raw magic enters your blood.",
    level: 1,
    spellType: "ACTION",
    icon: "Necrotic/Drain Soul",
@@ -753,7 +831,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_entropic_aegis",
    name: "Entropic Aegis",
    description:
-    "Shards of volatile silence crystal erupt from your skin, forming a barrier that absorbs 4d8 damage for 1 minute. Every time the shield absorbs damage, it generates 2 Arcane Energy Points (AEP) as the magic leaks into you. If shattered by a kinetic attack, it detonates inwardly, dealing 2d6 smashing damage to you.",
+    "Volatile silence crystal absorbs 4d8 damage for 1 minute, generating 2 AEP per absorb. If shattered by a kinetic attack, it detonates inwardly for 2d6 smashing to you.",
    level: 1,
    spellType: "ACTION",
    icon: "Force/Force Field",
@@ -808,7 +886,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_refract_kinetic",
    name: "Refract Kinetic",
    description:
-    "A desperate survival technique. You harden your physical shell by channeling radiation into your bones. For 1 round, your +50% smashing/slicing vulnerability is suppressed, and you gain +2 DR. However, the internal friction deals 1d4 blight damage to you instantly.",
+    "A desperate survival technique: channel radiation into your bones for 1 round, suppressing your +50% smashing/slicing vulnerability and gaining +2 DR. Internal friction deals 1d4 blight instantly.",
    level: 1,
    spellType: "ACTION",
    icon: "Slashing/Crushing Blow",
@@ -867,7 +945,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_leyline_rift",
    name: "Leyline Rift",
    description:
-    "Tear through the spatial leylines to instantly teleport up to 30 feet to an enemy caster. The violent transition generates +10 Arcane Energy Points (AEP), but the friction rips your flesh, dealing 1d6 blight damage to yourself.",
+    "Tear the spatial leylines to instantly teleport up to 30ft to an enemy caster. The violent transition generates +10 AEP, but friction rips your flesh for 1d6 blight to yourself.",
    level: 1,
    spellType: "ACTION",
    icon: "Force/Explosion Burst",
@@ -927,7 +1005,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_agonizing_intercept",
     name: "Silence Intercept",
    description:
-    "When an ally within 15 feet is targeted by a spell, you instantly leap into its path, becoming the new target. The magical impact is fully absorbed into your body, generating Arcane Energy Points (AEP) equal to the damage it would have dealt. The intense radiation feedback scorches your vision, blinding you until the end of your next turn.",
+    "When an ally within 15ft is targeted by a spell, leap into its path as the new target: the impact is fully absorbed, generating AEP equal to its damage. Feedback blinds you until your next turn ends.",
    level: 2,
    spellType: "REACTION",
    icon: "Force/Force Field",
@@ -993,7 +1071,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_shattered_mirror_ward",
    name: "Shattered Mirror Ward",
    description:
-    "Raise an agonizing barrier of spatial refraction. When targeted by a spell, reflect it back at the caster for 100% damage. The violent refraction inflicts internal burns, dealing 1d8 blight damage to your own organs.",
+    "Raise an agonizing barrier of spatial refraction: when targeted by a spell, reflect it back at the caster for 100% damage. The refraction inflicts internal burns, dealing 1d8 blight to your organs.",
    level: 2,
    spellType: "REACTION",
    icon: "Arcane/Magical Cross Emblem 2",
@@ -1052,7 +1130,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_warding_ribcage",
    name: "Warding Ribcage",
    description:
-    "Call forth spectral, radioactive rib-like structures to encase allies within 15 feet. Grants a shield absorbing 4d6 damage. Every time an ally's shield absorbs damage, you take 2 blight damage from the feedback link, but gain 2 Arcane Energy Points (AEP).",
+    "Spectral rib structures encase allies within 15ft, granting a shield absorbing 4d6 damage. Each time a shield absorbs, you take 2 blight from the feedback link but gain 2 AEP.",
    level: 3,
    spellType: "ACTION",
    icon: "Necrotic/Drain Soul",
@@ -1109,7 +1187,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_void_suppression",
     name: "Silence Suppression",
    description:
-     "Instantly choke a spell at its source by filling the target's lungs with silence ash. Force an Intelligence save. On fail, their spell is countered, and you absorb Arcane Energy Points (AEP) equal to the spell's level * 10.",
+     "Choke a spell at its source, filling the target's lungs with silence ash. Force an Intelligence save; on a fail their spell is countered, and you absorb AEP equal to its level x 10.",
    level: 3,
    spellType: "REACTION",
    icon: "Arcane/Magical Cross Emblem 2",
@@ -1181,7 +1259,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_entropic_supernova",
    name: "Entropic Supernova",
    description:
-    "A devastating purge of radiation. Unleash a blinding eruption of stored energy, dealing 6d8 storm damage to all enemies in a 20-foot radius (Agility save for half). Enemies who fail their save are blinded by silence radiation for 1 round.",
+    "A devastating purge: unleash a blinding eruption of stored energy, dealing 6d8 storm to all enemies in 20ft (Agility half). Failing enemies are blinded by silence radiation 1 round.",
    level: 4,
    spellType: "ACTION",
    icon: "Force/Explosion Burst",
@@ -1253,7 +1331,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_tomb_of_the_aegis",
    name: "Tomb of the Aegis",
    description:
-    "Encase yourself in a solid tomb of blackened silence crystal. You gain complete immunity to all damage and effects for 1 round, but cannot act. At the start of your next turn, the tomb violently shatters, dealing 4d6 smashing damage to you and all adjacent creatures.",
+    "Encase yourself in silence crystal: complete immunity to all damage and effects for 1 round, but you cannot act. The shattering tomb deals 4d6 smashing to you and adjacent creatures.",
    level: 5,
    spellType: "ACTION",
    icon: "Force/Force Field",
@@ -1313,7 +1391,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_violent_purge",
    name: "Violent Purge",
    description:
-    "A cataclysmic blast of arcane radiation to save your own life from a meltdown. Expel ALL your Arcane Energy Points (AEP) (minimum 30 required). Deals storm damage equal to (AEP * 1.5) to all creatures within 20 feet, including your allies.",
+    "A cataclysmic blast to save your life from meltdown: expel ALL AEP (minimum 30), dealing storm damage equal to (AEP x 1.5) to all creatures within 20ft, including allies.",
    level: 5,
    spellType: "ACTION",
    icon: "Force/Explosion Burst",
@@ -1365,7 +1443,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_leyline_blackout",
    name: "Leyline Blackout",
    description:
-     "Absolute suppression of the dimensional leylines. Creates a 60-foot zone of oppressive gravity that suppresses all spells, magic items, and magical effects for 5 rounds. Casting this strains your vocal cords, silencing you for 1 minute.",
+     "Suppression of dimensional leylines: a 60ft zone of oppressive gravity suppresses all spells, magic items, and magical effects for 5 rounds. Casting strains your voice, silencing you 1 minute.",
    level: 7,
    spellType: "ACTION",
    icon: "Void/Black Hole",
@@ -1433,7 +1511,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   { id : "sg_cosmic_unraveling",
    name: "Cosmic Unraveling",
    description:
-    "Instantly end all magical phenomena on the battlefield, regardless of power level or origin. The sheer volume of magic consumed instantly puts you into Critical Meltdown, reducing you to 1 HP and shattering your defensive plating.",
+    "Instantly end all magical phenomena on the battlefield, regardless of power or origin. The sheer volume consumed puts you into Critical Meltdown: reduced to 1 HP with defensive plating shattered.",
    level: 10,
    spellType: "ACTION",
    icon: "Void/Black Hole",
@@ -1492,7 +1570,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
    {
     "id": "spellguard_aegis_beacon",
     "name": "Aegis Beacon",
-    "description": "Tap your steel chest plate, causing your breastplate to gleam with a brilliant silver light. This projects a narrow beam of intense light that functions as a distress beacon or flashes to illuminate a dark cavern.",
+    "description": "Tap your steel chest plate so it gleams with silver light, projecting a narrow beam that serves as a distress beacon or illuminates a dark cavern.",
     "level": 2,
     "spellType": "ACTION",
     "icon": "Radiant/Radiant Divinity",
@@ -1556,7 +1634,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_ley_reading",
    name: "Ley-Reading",
-   description: "Open your scarred senses and read the magic in a place or object. For the duration you perceive active spells, enchantments, lingering spell-residue, magical traps, leylines, and the school and rough strength of each  -  glowing like heat-shimmer only you can see. Out of combat.",
+   description: "Open your scarred senses to magic in a place or object: perceive active spells, enchantments, residue, magical traps, and leylines, glowing like heat-shimmer only you can see. Out of combat.",
    level: 1, spellType: "ACTION", icon: "Arcane/Spellcasting Aura",
    typeConfig: { school: "arcane", icon: "Arcane/Spellcasting Aura", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","investigation","spellguard"] },
    targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -1569,7 +1647,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_aegis_ward",
    name: "Aegis-Ward",
-   description: "Raise a tuned prismatic barrier over a doorway, threshold, object, or small area that drinks incoming spells the way you do  -  absorbing hostile magic and weak magical traps before they can pass. It does not stop steel or bodies, only spells, and it cracks once it has drunk its fill. Out of combat.",
+   description: "Raise a tuned prismatic barrier over a doorway, object, or small area that drinks incoming spells and weak traps; it stops spells, not steel, and cracks once full. Out of combat.",
    level: 1, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
    typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 10, castTimeType: "MINUTES", tags: ["utility","ward","exploration","rest","spellguard"] },
    targetingConfig: { targetingType: "area", rangeType: "touch", rangeDistance: 0, areaType: "circle", areaSize: 15 },
@@ -1582,7 +1660,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_resonance_discharge",
    name: "Resonance Discharge",
-   description: "Dump stored Arcane Energy Points (AEP) into a mechanism, magical lock, construct, or device  -  powering it, overloading it, forcing a jammed magical mechanism, or blasting open an arcane seal. Pure energetic fuel drawn straight from spells you have already eaten. Out of combat.",
+   description: "Dump stored AEP into a mechanism, lock, construct, or device: power or overload it, force a jammed mechanism, or blast an arcane seal. Out of combat.",
    level: 2, spellType: "ACTION", icon: "Arcane/Spiral Vortex",
    typeConfig: { school: "arcane", icon: "Arcane/Spiral Vortex", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","investigation","spellguard"] },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1595,7 +1673,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_disenchant",
    name: "Disenchant",
-   description: "Drain the magic out of an enchanted object into your own flesh  -  temporarily suppressing its enchantment (a magic trap goes inert, a ward drops, a cursed item sleeps, a glowing alarm dims) and feeding the spent power into you as Arcane Energy Points (AEP). The magic returns when you stop feeding on it. Out of combat.",
+   description: "Drain an enchanted object's magic into your flesh, suppressing the enchantment (trap inert, ward down, cursed item asleep) and gaining AEP. It returns when you stop feeding. Out of combat.",
    level: 2, spellType: "ACTION", icon: "Arcane/Ebon Blaze",
    typeConfig: { school: "arcane", icon: "Arcane/Ebon Blaze", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","spellguard"] },
    targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -1608,7 +1686,7 @@ Devourers do not wait to be hit. They aggressively charge enemy casters, physica
   {
    id: "spellguard_glow_lantern",
    name: "Glow-Lantern",
-   description: "Let the magic in your veins surface as steady pale-blue light. Shape and brighten it to illuminate a 30 ft radius, or dampen it to a dim pulse (you can never go fully dark, but you can stop glowing like a beacon). The light is calm and carries a faint soothing quality against magically-induced dread. Out of combat.",
+   description: "Let the magic in your veins surface as pale-blue light: brighten to a 30ft radius or dampen to a pulse (you can never go fully dark). The glow soothes magically-induced dread. Out of combat.",
    level: 1, spellType: "ACTION", icon: "Arcane/Spellcasting Aura",
    typeConfig: { school: "arcane", icon: "Arcane/Spellcasting Aura", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","rest","spellguard"] },
    targetingConfig: { targetingType: "self", rangeType: "self" },

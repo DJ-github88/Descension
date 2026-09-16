@@ -11,7 +11,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Silence Predator",
     icon: "Utility/Hide",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Silence Predator",
@@ -21,10 +21,10 @@ export const SHAPER_PRIMAL_SHADOW = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 3 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["silence-predator"], visualTheme: "shadow", tags: ["form", "stealth", "shaper"]
     },
     rankUpgrades: [
@@ -47,7 +47,7 @@ export const SHAPER_PRIMAL_SHADOW = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       buffs: ["shadow-cloak"], visualTheme: "shadow", tags: ["stealth", "buff", "shaper"]
@@ -61,7 +61,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Ambush Mastery",
     icon: "Piercing/Backstab",
     maxRanks: 3,
-    position: { x: 3, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Ambush Mastery",
@@ -84,7 +84,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Phantom Step",
     icon: "Utility/Phantom Dash",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "ps_t1_silence_predator",
     spell: {
       name: "Phantom Step",
@@ -94,7 +94,7 @@ export const SHAPER_PRIMAL_SHADOW = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 1 } },
       visualTheme: "shadow", tags: ["mobility", "teleport", "form", "shaper"]
@@ -109,7 +109,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Eruption",
     icon: "Void/Red Energy Burst",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "ps_t1_ambush_mastery",
     spell: {
       name: "Shadow Eruption",
@@ -132,7 +132,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Darkness Within",
     icon: "Void/Contained Void Barrel",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "ps_t2_phantom_step",
     spell: {
       name: "Darkness Within",
@@ -152,7 +152,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Eternal Darkness",
     icon: "Void/Black Hole",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 0, y: 2 },
     requires: "ps_t2_shadow_eruption",
     spell: {
       name: "Eternal Darkness",
@@ -162,15 +162,15 @@ export const SHAPER_PRIMAL_SHADOW = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 2 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["blinded"], visualTheme: "shadow", tags: ["darkness", "zone", "control", "shaper"]
     },
     rankUpgrades: [
       { description: "Pull a 20-foot zone of magical darkness for 4 rounds: you see perfectly, enemies inside are blinded." },
-      { description: "Pull a 30-foot darkness zone for 5 rounds: you see perfectly, enemies are blinded, and their darkvision is suppressed inside.", durationRounds: 5, durationRealTime: 30 }
+      { description: "Pull a 30-foot darkness zone for 5 rounds: you see perfectly, enemies are blinded, and their darkvision is suppressed inside.", durationRounds: 5 }
     ]
   },
 
@@ -179,7 +179,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Mutation",
     icon: "Void/Mold Entity",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "ps_t3_darkness_within",
     spell: {
       name: "Shadow Mutation",
@@ -221,7 +221,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Dance of Shadows",
     icon: "Utility/Motion Swoosh",
     maxRanks: 3,
-    position: { x: 0.5, y: 4 },
+    position: { x: 0, y: 4 },
     requires: "ps_t4_shadow_mutation",
     spell: {
       name: "Dance of Shadows",
@@ -233,7 +233,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     },
     rankUpgrades: [
       { description: "Once per turn on entering Silence Predator, teleport 45 feet and gain advantage on your next attack." },
-      { description: "On entering Silence Predator, teleport 45 feet with advantage on the next attack; kills made within 6 seconds of the teleport reset the transition cooldown." }
+      { description: "On entering Silence Predator, teleport 45 feet with advantage on the next attack; kills made within 1 round of the teleport reset the transition cooldown." }
     ]
   },
   {
@@ -241,7 +241,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Umbral Hunger",
     icon: "Void/Maw Gripping Fear",
     maxRanks: 2,
-    position: { x: 3.5, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "ps_t4_shadow_weaving",
     spell: {
       name: "Umbral Hunger",
@@ -263,7 +263,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Shadow Ascendant",
     icon: "Necrotic/Demonic Mask",
     maxRanks: 1,
-    position: { x: 1.5, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "ps_t5_dance_of_shadows",
     spell: {
       name: "Shadow Ascendant",
@@ -273,10 +273,10 @@ export const SHAPER_PRIMAL_SHADOW = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["shadow-ascendant"], visualTheme: "shadow", tags: ["transform", "evasion", "shaper"]
     }
   },
@@ -285,7 +285,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Predator's Economy",
     icon: "Piercing/Heart Pierce",
     maxRanks: 2,
-    position: { x: 2, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "ps_t5_umbral_hunger",
     spell: {
       name: "Predator's Economy",
@@ -305,7 +305,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Night's Cartography",
     icon: "Necrotic/Ritual of Blood",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "ps_t5_umbral_hunger",
     spell: {
       name: "Night's Cartography",
@@ -335,10 +335,10 @@ export const SHAPER_PRIMAL_SHADOW = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 12 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["silence-between"], damageTypes: ["blight"],
       visualTheme: "shadow", tags: ["ultimate", "capstone", "transform", "shaper"]
     }
@@ -348,7 +348,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Abyssal Flux",
     icon: "Void/Consumed by Void",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "ps_t6_predators_economy",
     spell: {
       name: "Abyssal Flux",
@@ -390,7 +390,7 @@ export const SHAPER_PRIMAL_SHADOW = [
     name: "Night Terror",
     icon: "Void/Crimson Void Hood",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 2.75, y: 6 },
     requires: "ps_t6_predators_economy",
     spell: {
       name: "Night Terror",

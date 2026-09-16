@@ -11,7 +11,7 @@ export const AUGUR_HARBINGER = [
     name: "Dark Portent",
     icon: "Psychic/Dark Psychic",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Dark Portent",
@@ -31,7 +31,7 @@ export const AUGUR_HARBINGER = [
     name: "Ill Omen",
     icon: "Necrotic/Death Mark",
     maxRanks: 3,
-    position: { x: 1.5, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Ill Omen",
@@ -41,7 +41,7 @@ export const AUGUR_HARBINGER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { malediction: { baseAmount: 2 } },
       debuffs: ["ill-omen"], visualTheme: "wyrd", tags: ["curse", "debuff", "augur"]
@@ -56,7 +56,7 @@ export const AUGUR_HARBINGER = [
     name: "Wasting Portent",
     icon: "Necrotic/Necrotic Wither",
     maxRanks: 2,
-    position: { x: 3, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Wasting Portent",
@@ -76,7 +76,7 @@ export const AUGUR_HARBINGER = [
     name: "Sign of Decay",
     icon: "Necrotic/Necrotic Decay 1",
     maxRanks: 3,
-    position: { x: 0, y: 1 },
+    position: { x: 1, y: 1 },
     requires: "hb_t1_dark_portent",
     spell: {
       name: "Sign of Decay",
@@ -86,7 +86,7 @@ export const AUGUR_HARBINGER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { malediction: { baseAmount: 1 } },
       damageTypes: ["wyrd"],
@@ -134,10 +134,10 @@ export const AUGUR_HARBINGER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 20,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { malediction: { baseAmount: 4 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["wyrd"],
       isDot: true, dotDuration: 3, dotTick: "1d6",
       debuffs: ["cursed-terrain"], visualTheme: "wyrd", tags: ["zone", "dot", "control", "augur"]
@@ -152,7 +152,7 @@ export const AUGUR_HARBINGER = [
     name: "Curse Stack",
     icon: "Necrotic/Cursed Entities",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "hb_t2_misfortune_aura",
     spell: {
       name: "Curse Stack",
@@ -162,10 +162,10 @@ export const AUGUR_HARBINGER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { malediction: { baseAmount: 3 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["curse-stack"], visualTheme: "wyrd", tags: ["curse", "stacking", "augur"]
     },
     rankUpgrades: [
@@ -179,7 +179,7 @@ export const AUGUR_HARBINGER = [
     name: "Omen of Frailty",
     icon: "Necrotic/Necrotic Rot 4",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "hb_t3_terrain_of_ill",
     spell: {
       name: "Omen of Frailty",
@@ -200,7 +200,7 @@ export const AUGUR_HARBINGER = [
     name: "Dark Conviction",
     icon: "Necrotic/Demonic Empowerment",
     maxRanks: 2,
-    position: { x: 4, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "hb_t3_curse_stack",
     spell: {
       name: "Dark Conviction",
@@ -242,7 +242,7 @@ export const AUGUR_HARBINGER = [
     name: "Void Gaze",
     icon: "Void/All Seeing Eye",
     maxRanks: 2,
-    position: { x: 3.5, y: 4 },
+    position: { x: 4.5, y: 4 },
     requires: "hb_t4_dark_conviction",
     spell: {
       name: "Void Gaze",
@@ -262,7 +262,7 @@ export const AUGUR_HARBINGER = [
     name: "Ultimate Portent",
     icon: "Necrotic/Ebon Death",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "hb_t5_malediction_overflow",
     spell: {
       name: "Ultimate Portent",
@@ -272,10 +272,10 @@ export const AUGUR_HARBINGER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { malediction: { baseAmount: 8 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["condemned"], visualTheme: "wyrd", tags: ["curse", "disadvantage", "augur"]
     }
   },
@@ -303,7 +303,7 @@ export const AUGUR_HARBINGER = [
     name: "Lingering Doom",
     icon: "Necrotic/Bloody Horse Skull",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "hb_t5_void_gaze",
     spell: {
       name: "Lingering Doom",
@@ -323,7 +323,7 @@ export const AUGUR_HARBINGER = [
     name: "Harbinger Supreme",
     icon: "Necrotic/Bone Skull Staff",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "hb_t6_ultimate_portent",
     spell: {
       name: "Harbinger Supreme",
@@ -333,7 +333,7 @@ export const AUGUR_HARBINGER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { malediction: { baseAmount: 15 } },
       damageTypes: ["wyrd"],
@@ -346,7 +346,7 @@ export const AUGUR_HARBINGER = [
     name: "Portent Depth",
     icon: "Void/Consumed by Void",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 0.75, y: 6 },
     requires: "hb_t6_dark_revelation",
     spell: {
       name: "Portent Depth",
@@ -388,7 +388,7 @@ export const AUGUR_HARBINGER = [
     name: "Fractured Fate",
     icon: "Necrotic/Necrotic Hand Rising",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "hb_t6_lingering_doom",
     spell: {
       name: "Fractured Fate",
@@ -408,7 +408,7 @@ export const AUGUR_HARBINGER = [
     name: "Doom Siphon",
     icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "hb_t6_lingering_doom",
     spell: {
       name: "Doom Siphon",

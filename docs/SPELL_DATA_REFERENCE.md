@@ -1111,7 +1111,7 @@ Run this against EVERY spell. Fix any violation.
 | 7 | **False Prophet** | falseProphetData.js | (Doomsayer echo) | Madness | `madness` | `resourceGainConfig.resources:[{type:'madness'}]` + `specialMechanics.madnessGeneration` |
 | 8 | **Gambit** | gambitData.js | Gambler+Fate Weaver | Fortune + Karmic Debt | `fortune` | `classResource:{type:'fortune', cost}` (spenders) + `specialMechanics.fortunePoints.generates` (generators). **⚠ Karmic Debt is declared but NOT modeled in any spell** (known gap). |
 | 9 | **Harbinger** | harbingerData.js | Chaos Weaver+Doomsayer | Mayhem | `mayhem` | `classResource:{type:'mayhem', cost}` (negative = generate) |
-| 10 | **Inquisitor** | inquisitorData.js | Covenbane+Exorcist | Authority | `righteousAuthority` (camelCase) | `classResource:{type:'righteousAuthority', cost\|gain\|gainOnKill\|gainOnSupernatural}` |
+| 10 | **Inquisitor** | inquisitorData.js | Covenbane+Exorcist | Authority | `authority` | `classResource:{type:'authority', cost\|gain\|gainOnKill\|gainOnSupernatural}` |
 | 11 | **Lunarch** | lunarchData.js | (original) | Lunar Phase cycle | _none (environmental)_ | No per-spell resource cost; phase interactions live in `specialMechanics.phaseInteraction`. **⚠ Design gap: no resource-management loop** (report §3.4). |
 | 12 | **Martyr** | martyrData.js | Martyr+Dreadnaught (Ironclad spec) | Devotion | `devotion` | top-level `devotionCost`/`devotionGain`/`devotionRequired` (non-standard; one spell uses `resourceValues:{devotion:N}`) |
 | 13 | **Minstrel** | minstrelData.js | (kept) | Musical Notes I-VII | (notes, not a single key) | `musicalCombo:{type:'builder'\|'resolver', generates:[{note,count}]}` |

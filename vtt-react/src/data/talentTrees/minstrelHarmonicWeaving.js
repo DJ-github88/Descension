@@ -25,7 +25,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Soothing Hymn",
     icon: "Healing/Renewal",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Soothing Hymn",
@@ -35,7 +35,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       healing: { dice: "2d6", flat: 0 },
@@ -51,7 +51,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Tonic Resonance",
     icon: "Healing/Golden Heart",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Tonic Resonance",
@@ -73,7 +73,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Slack Tide Grace",
     icon: "Healing/Healing Compass",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Slack Tide Grace",
@@ -94,7 +94,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Submediant Ward",
     icon: "Force/Radiating Barrier",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "hw_t1_soothing_hymn",
     spell: {
       name: "Submediant Ward",
@@ -104,13 +104,13 @@ export const MINSTREL_HARMONIC_WEAVING = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 2 } },
       buffs: ["shield"], visualTheme: "sacred", tags: ["shield", "defense", "burst-heal", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Ward absorbs 4d8 damage, bursts for 3d8 healing on break, and cooldown drops to 6s.", cooldownValue: 6 },
+      { description: "Ward absorbs 4d8 damage, bursts for 3d8 healing on break, and cooldown drops to 1 round.", cooldownValue: 1 },
       { description: "Ward absorbs 6d8 damage, bursts for 4d8 healing, and can be placed on two allies simultaneously.", resourceCosts: { notes: { baseAmount: 2 } } }
     ]
   },
@@ -119,7 +119,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Cadence Memory",
     icon: "Arcane/Rewind Time",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "hw_t1_tonic_resonance",
     spell: {
       name: "Cadence Memory",
@@ -141,7 +141,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Authentic Cadence",
     icon: "Radiant/Divine Blessing",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "hw_t2_submediant_shield",
     spell: {
       name: "Authentic Cadence",
@@ -151,7 +151,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       healing: { dice: "3d8", flat: 0 },
@@ -167,7 +167,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Plagal Flow",
     icon: "Healing/Prayer",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "hw_t2_cadence_echo",
     spell: {
       name: "Plagal Flow",
@@ -191,7 +191,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Cleansing Stanza",
     icon: "Radiant/Radiant Radiance 3",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "hw_t3_authentic_mastery",
     spell: {
       name: "Cleansing Stanza",
@@ -201,14 +201,14 @@ export const MINSTREL_HARMONIC_WEAVING = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 2 } },
       buffs: ["cleanse-immunity"], visualTheme: "sacred", tags: ["cleanse", "aoe", "immunity", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Removes all debuffs, grants 2 rounds of immunity, and heals cleansed allies for 2d8 each.", cooldownValue: 14 },
-      { description: "Removes all debuffs, grants 2 rounds immunity, heals for 3d8, and refunds 1 note for every debuff removed.", cooldownValue: 12 }
+      { description: "Removes all debuffs, grants 2 rounds of immunity, and heals cleansed allies for 2d8 each.", cooldownValue: 2 },
+      { description: "Removes all debuffs, grants 2 rounds immunity, heals for 3d8, and refunds 1 note for every debuff removed.", cooldownValue: 2 }
     ]
   },
   {
@@ -216,7 +216,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Lullaby Ward",
     icon: "Psychic/Psychic Mind",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 4.5, y: 3 },
     requires: "hw_t3_plagal_bounty",
     spell: {
       name: "Lullaby Ward",
@@ -237,7 +237,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Healing Chorus",
     icon: "Healing/Armored Healing",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 0, y: 4 },
     requires: "hw_t4_cleansing_stanza",
     spell: {
       name: "Healing Chorus",
@@ -247,14 +247,14 @@ export const MINSTREL_HARMONIC_WEAVING = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "channeled", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 45, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 8, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       healing: { dice: "3d8", flat: 0 },
       visualTheme: "sacred", tags: ["channel", "aoe-heal", "unyielding", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Heals 5d8 per round within 40 feet, allies gain +2 to all rolls while inside, and can be channeled while taking other actions.", cooldownValue: 35 }
+      { description: "Heals 5d8 per round within 40 feet, allies gain +2 to all rolls while inside, and can be channeled while taking other actions.", cooldownValue: 6 }
     ]
   },
   {
@@ -262,7 +262,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Tonic Surge",
     icon: "Force/Force Weapon",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "hw_t4_lullaby_ward",
     spell: {
       name: "Tonic Surge",
@@ -284,17 +284,17 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Death-Defying Aria",
     icon: "Radiant/Redemption",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "hw_t5_healing_chorus",
     spell: {
       name: "Death-Defying Aria",
-      description: "Reaction: when an ally within 60 feet drops to 0 health, consume 4 notes to instantly revive them with 50 points maximum health and 30 temporary health. Cooldown: 90s.",
+      description: "Reaction: when an ally within 60 feet drops to 0 health, consume 4 notes to instantly revive them with 50 points maximum health and 30 temporary health. Cooldown: 15 rounds.",
       flavorText: "The encore nobody wanted to need.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "ACTIVE", category: "healing",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       healing: { dice: "6d10", flat: 0 },
@@ -347,7 +347,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Mereval Symphony",
     icon: "Radiant/Holy Cross",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "hw_t6_death_defying_aria",
     spell: {
       name: "Mereval Symphony",
@@ -357,10 +357,10 @@ export const MINSTREL_HARMONIC_WEAVING = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       healing: { dice: "4d8", flat: 0 },
       buffs: ["grand-symphony"], visualTheme: "sacred", tags: ["ultimate", "capstone", "invulnerability", "minstrel"]
     },
@@ -393,7 +393,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Endless Cadence",
     icon: "Force/Force Touch",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "hw_t6_unbroken_chorus",
     spell: {
       name: "Endless Cadence",
@@ -413,7 +413,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Fountain of the Deep",
     icon: "Radiant/Radiant Beam of Healing",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "hw_t6_unbroken_chorus",
     spell: {
       name: "Fountain of the Deep",
@@ -433,19 +433,19 @@ export const MINSTREL_HARMONIC_WEAVING = [
     name: "Immortal Cadence",
     icon: "Radiant/Radiant Radiance 4",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "hw_t6_tide_resilience",
     spell: {
       name: "Immortal Cadence",
-      description: "While you maintain at least 4 notes, you cannot be killed: lethal damage consumes all your notes and heals you for 5d10 health (cooldown: 120s).",
+      description: "While you maintain at least 4 notes, you cannot be killed: lethal damage consumes all your notes and heals you for 5d10 health (cooldown: 20 rounds).",
       flavorText: "The song refuses to let the singer fall.",
       source: "talent", class: "Minstrel", treeId: "harmonic_weaving",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "sacred", tags: ["passive", "capstone", "cheat-death", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Lethal damage consumes notes, heals you for 7d10, and grants you 40 temporary health (cooldown: 90s)." },
-      { description: "Lethal damage consumes notes, heals you for full health, casts Cleansing Stanza automatically, and resets Death-Defying Aria (cooldown: 60s)." }
+      { description: "Lethal damage consumes notes, heals you for 7d10, and grants you 40 temporary health (cooldown: 15 rounds)." },
+      { description: "Lethal damage consumes notes, heals you for full health, casts Cleansing Stanza automatically, and resets Death-Defying Aria (cooldown: 10 rounds)." }
     ]
   }
 ];

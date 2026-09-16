@@ -1028,9 +1028,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       spellType: "ACTION",
       icon: "Poison/Acid Drip",
       specialization: "universal",
+      effectTypes: ["utility"],
       typeConfig: { school: "blight", icon: "Poison/Acid Splash", tags: ["utility", "lockpick", "acid", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 5 },
       resourceCost: { actionPoints: 1, mana: 0 },
+      resolution: "AUTOMATIC",
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          { id: "acid_unlocking_dissolve", name: "Silent Dissolution", description: "Corrosive Florae acid quietly dissolves metal lock tumblers or mechanical trap gears over 10 seconds without making sound.", mechanicsText: "Silent lock/trap mechanism dissolve, 10 seconds." }
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "minor"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       tags: ["utility", "lockpick", "acid", "toxicologist"]
     },
@@ -1041,9 +1053,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       spellType: "REACTION",
       icon: "Poison/Deadly Poison",
       specialization: "universal",
+      effectTypes: ["utility"],
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", tags: ["utility", "feign_death", "stasis", "toxicologist"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, mana: 0 },
+      resolution: "AUTOMATIC",
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          { id: "false_death_feign", name: "Feigned Death", description: "Pulse and body temperature drop to zero; enemies believe you are dead and ignore you.", mechanicsText: "Feign death up to 10 minutes." }
+        ],
+        duration: 10,
+        durationUnit: "minutes",
+        concentration: false,
+        power: "moderate"
+      },
       cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
       tags: ["utility", "feign_death", "toxicologist"]
     },
@@ -1283,7 +1307,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "minutes",
         duration: 10,
         durationUnit: "minutes",
       },
@@ -1362,7 +1386,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "minutes",
         duration: 5,
         durationUnit: "minutes",
       },
@@ -1421,7 +1445,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_overcharged_trap",
       name: "Overcharged Trap",
       description:
-        "Deploy a supercharged contraption that erupts in a 15-foot blast of ember, dealing 8d6 ember damage, corroding 3 Durability, and leaving 1d6 ember burning per round for 3 rounds (Agility DC 17 for half).",
+        "Deploy a supercharged contraption erupting in a 15ft blast: 8d6 ember, 3 Durability corroded, and 1d6 ember burning per round for 3 rounds (Agility DC 17 half).",
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
       level: 6,
@@ -1442,7 +1466,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "minutes",
         duration: 10,
         durationUnit: "minutes",
       },
@@ -1524,7 +1548,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_crippling_toxin",
       name: "Crippling Toxin",
       description:
-        "Apply a debilitating poison that deals 3d6 blight damage and withers the target for 5 rounds: -4 to attack, -2 Durability, -10 feet of movement, and disadvantage on saves (Constitution DC 16 for reduced penalties).",
+        "A debilitating poison: 3d6 blight and withers for 5 rounds; -4 attack, -2 Durability, -10ft movement, disadvantage on saves (Con DC 16 for reduced penalties).",
       spellType: "ACTION",
       icon: "Utility/Hide",
       level: 3,
@@ -1610,12 +1634,13 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       tags: ["melee", "blight", "debuff", "saboteur"],
-    },
+    
+          cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }},
 
     { id : "tox_chaos_grenade",
       name: "Chaos Grenade",
       description:
-        "Throw a grenade of mingled blight and ember that deals 5d6 blight plus 3d8 ember damage in a 20-foot burst, leaving survivors confused and attacking at random for 2 rounds (Intelligence DC 17 negates confusion).",
+        "Throw a grenade of blight and ember: 5d6 blight + 3d8 ember in a 20ft burst; survivors are confused and attack at random for 2 rounds (Int DC 17 negates confusion).",
       spellType: "ACTION",
       icon: "Utility/Orange Bomb",
       level: 5,
@@ -1831,7 +1856,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "time",
         duration: 3,
         durationUnit: "attacks",
       },
@@ -1843,6 +1868,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         somaticText: "Apply poison to weapon", classResource: { type: "vials", cost: 1 } },
 
       resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
+      buffConfig: {
+        buffType: "damageIncrease",
+        effects: [
+          {
+            id: "apply_weapon_poison_coating",
+            name: "Poison Coating",
+            description: "Your weapon is coated: choose one poison when applying (Neurotoxin, Hemotoxin, Cytotoxin, Myotoxin, or Cardiotoxin). Lasts 3 attacks or until end of combat.",
+            mechanicsText: "Choose 1 of 5 poisons; lasts 3 attacks."
+          }
+        ],
+        durationType: "time",
+        durationValue: 3,
+        durationUnit: "attacks"
+      },
 
       effects: {
         weaponEnhancement: {
@@ -1914,6 +1954,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         description: "Cure all poison and disease effects",
         charges: 1,
         mechanicsText: "Cure all poison and disease effects",
+        selectedEffects: [
+          { id: "antidote_cure_all", name: "Antidote", description: "Cure all poison and disease effects on the target.", mechanicsText: "Cure all poison and disease effects." }
+        ],
       },
 
       buffConfig: {
@@ -2061,6 +2104,22 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         somaticText: "Throw smoke bomb", classResource: { type: "vials", cost: 1 } },
 
       resolution: "AUTOMATIC",
+      effectTypes: ["utility"],
+      utilityConfig: {
+        utilityType: "environment",
+        selectedEffects: [
+          {
+            id: "smoke_bomb_obscurement",
+            name: "Smoke Screen",
+            description: "A 15ft smoke cloud obscures vision and provides cover for 3 rounds.",
+            mechanicsText: "Heavy obscurement, 15ft, cover; 3 rounds."
+          }
+        ],
+        duration: 3,
+        durationUnit: "rounds",
+        concentration: false,
+        power: "minor"
+      },
 
       effects: {
         obscurement: {
@@ -2113,7 +2172,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_alchemical_outbreak",
       name: "Alchemical Outbreak",
       description:
-        "Uncork a plague that deals 12d6 blight damage, then spreads to any enemy within 10 feet at the start of their turn, dealing 3d6 blight per round and draining 4 Constitution for 5 rounds (Constitution DC 18 for half).",
+        "Uncork a plague: 12d6 blight, spreading to enemies within 10ft at their turn start for 3d6 blight per round and 4 Con drain for 5 rounds (Con DC 18 half).",
       level: 8,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
@@ -2552,7 +2611,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_apocalypse_plague",
       name: "Apocalypse Plague",
       description:
-        "Unleash a plague of apocalyptic virulence across a 100-foot radius, dealing 22d6 blight damage and leaving 4d10 blight seeping from every vein each round as it spreads without end (Constitution DC 22 for half).",
+        "Unleash apocalyptic virulence across 100ft: 22d6 blight and 4d10 blight seeping from every vein each round as it spreads without end (Con DC 22 half).",
       level: 10,
       spellType: "ACTION",
       icon: "Poison/Poison Plague",
@@ -2715,7 +2774,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_reality_bomb",
       name: "Reality Bomb",
       description:
-        "Detonate the ultimate sabotage device - a 50-foot blast dealing 22d6 storm damage that tears reality apart, leaving survivors disoriented for 1 round and suppressing all magic in the area for 1 minute (Constitution DC 22 for half).",
+        "Detonate the ultimate sabotage device: a 50ft blast for 22d6 storm that tears reality, disorienting survivors 1 round and suppressing all magic for 1 minute (Con DC 22 half).",
       level: 10,
       spellType: "ACTION",
       icon: "Poison/Poison Contagion",
@@ -2970,6 +3029,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         purificationType: "cleanse",
         cleansesTypes: ["blight"],
         dispelStrength: "moderate",
+        effects: [
+          { id: "purifying_antidote_cleanse", name: "Purified", description: "Cleanses blight-based poisons and diseases from the target.", mechanicsText: "Cleanse blight poisons/diseases." }
+        ],
       },
 
       resourceCost: {
@@ -3422,7 +3484,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       id : "tox_vial_dependency",
       name: "Vial Dependency",
       description:
-        "Your poisons require physical reagents. You begin each encounter with 5 Vials. Each poison spell costs 1 Vial. At 0 Vials, poison spells have a 50% chance to fail (the poison is too diluted). You regain 1 Vial per enemy killed within 30 feet.",
+        "Your poisons need reagents. Begin each encounter with 5 Vials; each poison spell costs 1. At 0 Vials, poison spells have a 50% chance to fail. Regain 1 Vial per enemy killed within 30ft.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Poison/Poison Flask",
@@ -3448,7 +3510,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     { id : "tox_concoction_instability",
       name: "Concoction Instability",
       description:
-        "When you take fire or ember damage, one random poison effect you have active on an enemy prematurely detonates — dealing its remaining damage to YOU instead of the target. Your concoctions are volatile and react poorly to heat and light.",
+        "When you take fire or ember damage, one random poison active on an enemy prematurely detonates, dealing its remaining damage to YOU instead of the target. Your concoctions react poorly to heat.",
       level: 3,
       spellType: "PASSIVE",
       icon: "Fire/Burning Status",
@@ -3473,7 +3535,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     },
     { id : "tox_no_hard_cc",
       name: "Poison, Not Paralysis",
-      description: "The Toxicologist does not Stun, Paralyze, or Freeze. Your poisons NAUSEATE: disadvantage on attack rolls and ability checks, halved movement speed. Targets can still move, act, and react - they just do it badly. Hard CC belongs to the Lichborne (freeze), Warden (cage), and Chronarch (time-stop). You weaken. You do not lock down.",
+      description: "No Stun, Paralyze, or Freeze. Your poisons NAUSEATE: disadvantage on attacks and checks, halved movement. Targets can still move and act; they just do it badly. You weaken, never lock down.",
       level: 1,
       spellType: "PASSIVE",
       icon: "Poison/Poison Flask",
@@ -3494,7 +3556,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_chemical_analysis",
       name: "Chemical Analysis",
-      description: "Taste, smell, or test a powder, liquid, residue, or food/drink and read its chemistry  -  what it is, its components, any toxins/poisons/contaminants, and what it does (and the antidote, if you know one). Your dead tastebuds are the instrument. Out of combat.",
+      description: "Taste, smell, or test a substance and read its chemistry: what it is, its components, toxins, and what it does (plus the antidote if known). Your dead tastebuds are the instrument. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "MINUTES", tags: ["utility","investigation","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -3507,7 +3569,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_caustic_flask",
       name: "Caustic Flask",
-      description: "Brew and apply a precise corrosive: dissolve a lock's pins, eat through a hinge, etch a hole in thin metal, scissor a rope, or destroy a document/parchment. Quiet fuming acid, not an explosion. You take 1 blight self-damage from the back-splash. Out of combat.",
+      description: "Brew a precise corrosive: dissolve a lock's pins, eat a hinge, etch thin metal, scissor rope, or destroy a document. Quiet fuming acid, not an explosion; take 1 blight back-splash. Out of combat.",
       level: 1, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -3520,7 +3582,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_smoke_screen",
       name: "Smoke Screen",
-      description: "Throw down a billowing chemical smoke that fills the area, blocks vision, lays a pungent reagent-stink that defeats scent tracking, and irritates the lungs of pursuers (they cough and slow). Excellent for retreats, break-ins, or masking your party's exact count. Out of combat.",
+      description: "A billowing chemical smoke blocks vision, defeats scent tracking, and irritates pursuers' lungs (they cough and slow). Ideal for retreats, break-ins, or masking your party's count. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Nature/Wind Gust",
       typeConfig: { school: "blight", icon: "Nature/Wind Gust", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 30, areaType: "circle", areaSize: 20 },
@@ -3533,7 +3595,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_brew_antidote",
       name: "Brew Antidote",
-      description: "From your own saturated blood and carried reagents, quickly culture an antidote to any poison, venom, or disease you have diagnosed in an ally  -  they made the cure for everyone but themselves. You suffer a brief toxic flush (1 blight) to brew it. Out of combat.",
+      description: "From your saturated blood, quickly culture an antidote to any poison, venom, or disease you have diagnosed in an ally; you take a brief toxic flush (1 blight) to brew it. Out of combat.",
       level: 2, spellType: "ACTION", icon: "Healing/Golden Heart",
       typeConfig: { school: "blight", icon: "Healing/Golden Heart", castTime: 10, castTimeType: "MINUTES", tags: ["utility","investigation","exploration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -3546,7 +3608,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_slow_taint",
       name: "Slow Taint",
-      description: "Slip a slow, untraceable reagent into a target's food or drink  -  no immediate effect, but hours later the victim is gripped by cramping sickness, weakness, or a deep sleep with no obvious cause. The poisoner's quiet art. A wary target may taste it; a paranoia-check saves them. Out of combat.",
+      description: "Slip a slow, untraceable reagent into food or drink: hours later the victim suffers cramping, weakness, or deep sleep with no obvious cause. A wary target may taste it. Out of combat.",
       level: 3, spellType: "ACTION", icon: "Poison/Poison Flask",
       typeConfig: { school: "blight", icon: "Poison/Poison Flask", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","social","infiltration","toxicologist"] },
       targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -3559,7 +3621,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_alchemical_adhesive",
       name: "Alchemical Adhesive",
-      description: "Lob a canister of quick-curing alchemical resin across 35ft, coating a 15ft radius. Hostile creatures caught within are rooted to the floor for 1 round (speed 0) and suffer halved movement for 2 subsequent rounds.",
+      description: "Lob quick-curing resin across 35ft to coat a 15ft radius: hostiles caught are rooted for 1 round (speed 0) and move at half speed for 2 more rounds.",
       level: 4,
       spellType: "ACTION",
       icon: "Poison/Poison Toxin 2",
@@ -3610,13 +3672,26 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         durationValue: 3,
         durationUnit: "rounds"
       },
+      debuffConfig: {
+        debuffType: "movementImpairment",
+        effects: [
+          {
+            id: "alchemical_adhesive_resin",
+            name: "Resin-Bound",
+            description: "Movement is halved for 2 rounds after the initial root.",
+            mechanicsText: "Movement halved for 2 rounds."
+          }
+        ],
+        durationValue: 3,
+        durationUnit: "rounds"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       tags: ["control", "debuff", "aoe", "gadget", "toxicologist"]
     },
     {
       id: "tox_vapor_veil",
       name: "Vapor Veil",
-      description: "Release a neutralizing aerosol spray in a 15ft radius around yourself for 3 rounds. Allies inside gain +4 to saving throws against blight, poison, and airborne afflictions, and gain light concealment against ranged attacks.",
+      description: "Release a neutralizing aerosol in a 15ft radius for 3 rounds: allies inside gain +4 to saves against blight, poison, and airborne afflictions, plus light concealment against ranged attacks.",
       level: 4,
       spellType: "ACTION",
       icon: "Poison/Poison Toxin 1",
@@ -3680,7 +3755,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_narcotic_vapor",
       name: "Narcotic Vapor",
-      description: "Discharge an insidious soporific reagent in a 20ft radius up to 40ft away. Enemies inhaling the vapor must pass a Spirit save or become dazed: unable to take reactions, suffering disadvantage on mental checks, and losing 1 AP on their next turn.",
+      description: "Discharge a soporific in a 20ft radius up to 40ft away: enemies inhaling it make a Spirit save or become dazed, unable to take reactions, disadvantage on mental checks, and lose 1 AP next turn.",
       level: 5,
       spellType: "ACTION",
       icon: "Poison/Poisoned Mind",
@@ -3751,7 +3826,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_calcified_antidote",
       name: "Calcified Antidote",
-      description: "Inject an ally with a heavy metallic curdling serum. Instantly purges all ongoing poison, blight, and bleed conditions, then calcifies their dermal layer, granting 20 Temporary HP and DR 4 against physical damage for 3 rounds.",
+      description: "Inject a metallic curdling serum: purge all poison, blight, and bleed, then calcify the dermal layer for 20 Temporary HP and DR 4 against physical damage for 3 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
@@ -3782,7 +3857,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         components: ["somatic"],
         somaticText: "Depress syringe into ally's bloodstream"
       },
-      effectTypes: ["buff", "cleanse"],
+      effectTypes: ["buff", "cleanse", "utility"],
       buffConfig: {
         buffType: "protection",
         effects: [
@@ -3815,7 +3890,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_pneumatic_stasis_piston",
       name: "Pneumatic Stasis Piston",
-      description: "Launch a spring-loaded magnetic vice-mine onto an enemy up to 40ft away. On impact, hydraulic jaws clamp shut around the target's limbs or weapon, disarming them or preventing physical attacks for 2 rounds (Agility DC 16 negates).",
+      description: "Launch a magnetic vice-mine at an enemy up to 40ft away: hydraulic jaws clamp their limbs or weapon, disarming them and preventing physical attacks for 2 rounds (Agility DC 16 negates).",
       level: 6,
       spellType: "ACTION",
       icon: "Utility/Utility Tool",
@@ -3865,13 +3940,26 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         durationValue: 2,
         durationUnit: "rounds"
       },
+      debuffConfig: {
+        debuffType: "abilityDisable",
+        effects: [
+          {
+            id: "pneumatic_stasis_disarm",
+            name: "Vice-Clamped",
+            description: "Equipped weapons and physical attacks are locked out for 2 rounds.",
+            mechanicsText: "Disarmed / physical attacks disabled, 2 rounds."
+          }
+        ],
+        durationValue: 2,
+        durationUnit: "rounds"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       tags: ["control", "debuff", "gadget", "sabotage", "toxicologist"]
     },
     {
       id: "tox_cryogenic_distillate",
       name: "Cryogenic Distillate",
-      description: "Shatter a volatile endothermic reagent flask across a 30ft radius. The air flash-freezes into crystalline frost: ground becomes difficult terrain, and any creature attempting to move or cast must pass an Agility save or fall prone and lose 1 AP.",
+      description: "Shatter an endothermic flask across 30ft: the air flash-freezes; ground becomes difficult terrain, and moving or casting requires an Agility save or fall prone and lose 1 AP.",
       level: 7,
       spellType: "ACTION",
       icon: "Frost/Frost Freeze 1",
@@ -4021,9 +4109,24 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
       effectTypes: ["buff", "debuff", "healing"],
       healingConfig: {
-        formula: "15 HP per turn",
-        healingType: "drain",
+        formula: "15",
+        healingType: "vampiric",
+        resolution: "AUTOMATIC",
         description: "Restores 15 HP to caster at start of turn while tether holds."
+      },
+      buffConfig: {
+        buffType: "link",
+        effects: [
+          {
+            id: "biochemical_siphon_tether",
+            name: "Pneumatic Tether",
+            description: "While tethered, drain 15 HP from the victim at the start of each turn to heal yourself.",
+            mechanicsText: "Drain 15 HP/turn to self for 3 rounds."
+          }
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds"
       },
       debuffConfig: {
         debuffType: "statusEffect",
@@ -4050,7 +4153,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_stasis_gas_dispersal",
       name: "Stasis Gas Dispersal",
-      description: "Flood a 30ft radius with an ultra-dense catalytic neurotoxin. All hostile creatures within must pass a DC 19 Spirit save or enter biochemical stasis for 2 rounds: they cannot take actions or reactions, and all damage dealt to them while in stasis is stored and delivered simultaneously when the gas clears.",
+      description: "Flood 30ft with catalytic neurotoxin: hostiles make a DC 19 Spirit save or enter biochemical stasis 2 rounds, and all damage dealt to them in stasis is stored and delivered when the gas clears.",
       level: 9,
       spellType: "ACTION",
       icon: "Poison/Poison Plague 1",
@@ -4107,7 +4210,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: "tox_panacea_concoction",
       name: "Panacea Concoction",
-      description: "The apex of pharmacological genius: brew and shatter a universal panacea vial across a 30ft radius. All allies within are cleansed of all negative conditions, heal for 40 HP, gain immunity to all poison, blight, and mind-affecting effects, and gain DR 8 for 3 rounds.",
+      description: "Shatter a universal panacea across 30ft: allies are cleansed of all negative conditions, heal 40 HP, gain immunity to poison, blight, and mind-affecting effects, and DR 8 for 3 rounds.",
       level: 10,
       spellType: "ACTION",
       icon: "Healing/Cure Within",
@@ -4139,7 +4242,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         verbalText: "Omnia Sanantur!",
         somaticText: "Shatter the crystalline panacea vial onto the ground"
       },
-      effectTypes: ["buff", "healing", "cleanse"],
+      effectTypes: ["buff", "healing", "cleanse", "utility"],
       healingConfig: {
         formula: "40",
         healingType: "direct",

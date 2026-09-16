@@ -79,3 +79,55 @@
 ## 6. Mind memory
 
 - `crusader-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 16 flagged / 21 errors. After: 0 errors / 2 warnings**
+(2 long descriptions — deferred).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `crusader_sanctified_hearth` | `utility`+`buff` with no configs | added consecrated-camp utilityConfig + Sanctified Rest buffConfig |
+| `crusader_beacon_of_truth` | `utility` with no config | added Unburied Light perception utilityConfig |
+| `crusader_starlight_interposition` | `buff` with no config | added 50% damage-reduction buffConfig |
+| `crusader_solar_beacon` | `healing`+`buff` with no configs | added 1d6 HP/round hot healingConfig + +2 saves buffConfig |
+| `crusader_aegis_of_the_martyred_sun` | `buff` with no config | added absorb-40 + 2d8 retaliation buffConfig |
+| `zealous_strike` | `debuff` with no config | added Staggered debuffConfig |
+| `fervent_charge` | `debuff` with no config | re-typed to `control` + forced-movement push 10ft config |
+| `solvan_retribution` | `buff` with no config | added Starlight Cross retaliation buffConfig |
+| `pillars_of_the_vigil` | `control` with no config | added pin/restraint controlConfig |
+| `supernova_surge` | `debuff` with no config | added Blinded debuffConfig |
+| `avatar_of_the_willing_sacrifice` | `damage` with no config | dropped `damage` type (passive smite trigger lives in buff) |
+| `crusader_radiant_shackle` | `debuff` with no config | added Sun-Shackled movement-impairment debuffConfig |
+| `crusader_apotheosis_of_light` | `transformation`+`healing` with no configs | added divine transformationConfig (3 granted abilities) + 15 HP round-start healingConfig |
+| `crusader_radiant_transfusion` | `utilityConfig` not gated, duration instant/rounds mismatch | added `utility` type; durationUnit `instant` |
+| `crusader_wrathful_smite` | duration instant/rounds mismatch | durationUnit `instant` |
+
+### Class-wide schema fixes
+
+- **Fervor cost encoding:** 11 spells used `classResource: { type: 'fervor', amount: N }` — the
+  engine pattern is `cost`/`gain` (and `amount` is read nowhere), so all were migrated to `cost`.
+  This matters: 100-Fervor capstones (`solvan_judgment_titanfall`,
+  `avatar_of_the_willing_sacrifice`, `sun_kings_decree`) were previously free.
+- **Resource key drift (proposal — Daniel decides):** spells spend `type: 'fervor'`, but
+  `classResources.js:1951` defines the class resource as `radiantFervor`. Same drift family as
+  Inquisitor's `righteousAuthority`. Recommend one canonical key before player-facing release.
+
+### Flavor / class-fit notes
+
+- Fantasy is consistently "Sol-bound zealot" (Aex's unburied light, Fervor, consecrated ground,
+  banners). No rethemes proposed.
+- `pillar_of_condemnation` and `solar_flameblade` intentionally deal ember (solar flame) — kept.
+- 2 remaining warnings are over-200-char descriptions (deferred).
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Crusader`: 0 errors / 2 warnings
+- `audit:classes --class Crusader`: 0 integrity / 0 floor gaps / 0 warnings; `spell-qa` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+2 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

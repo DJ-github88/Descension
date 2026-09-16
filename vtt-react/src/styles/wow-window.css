@@ -33,19 +33,6 @@
     z-index: 10002 !important;
 }
 
-/* Maximize (full-view) button rules live at the END of this file so they win
-   the !important cascade against the later .window-close block. */
-
-/* Maximized (full view) state: fill the viewport, keep the 38px tab strip */
-.wow-window.wow-window-maximized {
-    margin-top: 38px !important;
-    max-width: none !important;
-    max-height: none !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    border-radius: 0 !important;
-}
-
 /* Modal backdrop: rendered by MythrillWindow when modal={true} and backdrop !== false.
    Sits at zIndex-1 (above regular windows, below the modal window itself). */
 .wow-window-modal-backdrop {
@@ -1482,29 +1469,6 @@
     color: #ffffff;
     transform: translateX(3px);
 }
-/* ===== MAXIMIZE / FULL-VIEW BUTTON =====
-   Must stay AFTER the .window-close block (and its mobile overrides) �
-   same-specificity !important rules resolve by source order, and
-   .window-close would otherwise pin this button underneath itself. */
-
-.wow-window .wow-window-maximize-btn {
-    right: 44px !important;
-    top: 6px !important;
-    z-index: 10002 !important;
-    font-size: 13px !important;
-}
-
-.wow-window .wow-window-maximize-btn i {
-    pointer-events: none;
-}
-
-@media (max-width: 768px) {
-    /* Mobile windows are already fullscreen - hide the redundant toggle */
-    .wow-window .wow-window-maximize-btn {
-        display: none !important;
-    }
-}
-
 /* ===== WINDOW DRAG SURFACES (see MythrillWindow contentDrag) =====
    Most windows hide the classic header bar and show only protruding tabs, so
    the tab strips AND the window-content background act as drag handles.

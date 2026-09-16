@@ -537,9 +537,21 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
    level: 3,
    spellType: "ACTION",
    icon: "Poison/Acid Spray",
+   effectTypes: ["utility"],
    typeConfig: { school: "blight", icon: "Poison/Poison Blight", tags: ["utility", "gaseous_form", "plaguebringer"], castTime: 1, castTimeType: "IMMEDIATE" },
    targetingConfig: { targetingType: "self", rangeType: "self" },
    resourceCost: { actionPoints: 1, mana: 5 },
+   resolution: "NONE",
+   utilityConfig: {
+     utilityType: "movement",
+     selectedEffects: [
+       { id: "miasma_form_cloud", name: "Rot-Cloud Form", description: "Dissolve into a floating green rot-cloud, passing through keyholes, iron grates, and narrow cracks.", mechanicsText: "Gaseous form: squeeze through gaps for 10 minutes." }
+     ],
+     duration: 10,
+     durationUnit: "minutes",
+     concentration: false,
+     power: "moderate"
+   },
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
    tags: ["utility", "gaseous_form", "plaguebringer"]
   },
@@ -547,7 +559,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_curse_of_agony",
   effectTypes: ["damage"],
   name: "Wasting Curse",
-  description: "Plant a seed of decay in your target's veins, dealing 1d6 + intelligence blight damage immediately, and 1d6 blight damage at the start of their turn for 4 rounds. Advances the target's affliction stage by 1. Cultivates as a Decay category spell.",
+  description: "Plant a seed of decay: 1d6 + intelligence blight now, then 1d6 blight at their turn start for 4 rounds, and the target's affliction stage advances by 1. Cultivates as Decay.",
   spellType: "ACTION",
   icon: "Necrotic/Necrotic Skull",
   level: 1,
@@ -639,7 +651,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 1,
@@ -700,7 +712,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 1,
@@ -998,7 +1010,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 1,
@@ -1110,7 +1122,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_agonizing_wail",
   effectTypes: ["damage", "control"],
   name: "Wail of Decay",
-  description: "Let loose a tragic scream of pure despair, dealing 3d8 wyrd damage to all enemies in a 15ft cone. Targets with 2+ active afflictions lose their reaction next round. Cultivates as a Torment category spell.",
+  description: "A tragic scream of despair deals 3d8 wyrd to all enemies in a 15ft cone; targets with 2+ active afflictions lose their reaction next round. Cultivates as Torment.",
   spellType: "ACTION",
   icon: "Psychic/Mind Roar",
   level: 3,
@@ -1133,7 +1145,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -1189,7 +1201,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_infectious_sores",
   effectTypes: ["damage"],
   name: "Infectious Sores",
-  description: "Cause existing infections to blister and burst, dealing 2d6 blight damage. If the target is Stage 1+, the sores rupture, applying Stage 0 Seeds to 2 enemies within 10ft. Cultivates as a Fester category spell.",
+  description: "Existing infections blister and burst for 2d6 blight. If the target is Stage 1+, the sores rupture, applying Stage 0 Seeds to 2 enemies within 10ft. Cultivates as Fester.",
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 4,
@@ -1212,7 +1224,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 1,
@@ -1253,7 +1265,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_plague_of_flies",
   effectTypes: ["damage", "debuff"],
   name: "Plague of Flies",
-  description: "Summon a biting, black cloud of insects centered on a target, dealing 2d4 blight damage per round for 3 rounds. Enemies in the swarm have disadvantage on physical attacks. Cultivates as a Fester category spell.",
+  description: "Summon a biting black cloud on a target: 2d4 blight per round for 3 rounds; enemies in the swarm have disadvantage on physical attacks. Cultivates as Fester.",
   spellType: "ACTION",
   icon: "Poison/Poison Blight",
   level: 4,
@@ -1362,7 +1374,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 1,
@@ -1572,7 +1584,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 1,
@@ -1635,7 +1647,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -1748,7 +1760,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_affliction_mark",
   effectTypes: ["debuff"],
   name: "Affliction Mark",
-  description: "Mark an enemy with a highly volatile contagion. Reduces their Dodge by 6 and Agility by 4. If they die, their corpse bursts, applying Stage 0 Seeds to all enemies in 15ft. Cultivates as a Fester category spell.",
+  description: "Mark an enemy with volatile contagion: Dodge -6 and Agility -4. If they die, the corpse bursts, applying Stage 0 Seeds to all enemies within 15ft. Cultivates as Fester.",
   spellType: "ACTION",
   icon: "Necrotic/Death Mark",
   level: 6,
@@ -1822,7 +1834,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_plague_burst",
   effectTypes: ["damage"],
   name: "Plague Burst",
-  description: "Harvest all active afflictions in a 20ft radius (max 6). Each active affliction is immediately consumed to deal 5d6 blight damage to the host and all adjacent targets. Cultivates as a Weaken category spell.",
+  description: "Harvest all active afflictions in a 20ft radius (max 6), consuming each to deal 5d6 blight to its host and all adjacent targets. Cultivates as Weaken.",
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 7,
@@ -1845,7 +1857,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -1907,7 +1919,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -1973,7 +1985,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -2125,7 +2137,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -2162,7 +2174,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_mind_plague",
   effectTypes: ["damage", "control"],
   name: "Mind Plague",
-  description: "Infect the minds of all enemies in a 25ft radius, dealing 8d8 wyrd damage. Enemies take +2d8 wyrd damage per active affliction stage on them. Targets failing a Spirit save are confused for 2 rounds. Cultivates as a Torment category spell.",
+  description: "Infect the minds of all enemies in 25ft: 8d8 wyrd, +2d8 per active affliction stage on them; those failing a Spirit save are confused 2 rounds. Cultivates as Torment.",
   spellType: "ACTION",
   icon: "Psychic/Mind Control",
   level: 7,
@@ -2242,7 +2254,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_plague_incarnate",
   effectTypes: ["transformation"],
   name: "Plague Incarnate",
-  description: "Become a living vessel of disease and decay for 5 rounds. Your weapon attacks apply random Stage 0 Seeds. Enemies starting their turn within 15ft must make a Constitution save (DC 16) or contract a Seed. Cultivates as Torment.",
+  description: "Become a living vessel of disease for 5 rounds: weapon attacks apply random Stage 0 Seeds; enemies starting their turn within 15ft make a Con DC 16 save or contract a Seed. Cultivates as Torment.",
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 8,
@@ -2311,7 +2323,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_epidemic",
   effectTypes: ["damage"],
   name: "Epidemic",
-  description: "Start an epidemic chain. Deals 8d6 blight damage to a primary target, then chains to up to 8 enemies within 20ft, dealing +2d6 damage per active affliction already on each chain target. Cultivates as a Fester category spell.",
+  description: "Start an epidemic chain: 8d6 blight to the primary, then chain to up to 8 enemies within 20ft, +2d6 per active affliction already on each target. Cultivates as Fester.",
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 8,
@@ -2334,7 +2346,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 2,
@@ -2403,7 +2415,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 3,
@@ -2465,7 +2477,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   durationConfig: {
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds"
+  durationUnit: "instant"
   },
   resourceCost: {
   actionPoints: 3,
@@ -2500,7 +2512,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_plague_god",
   effectTypes: ["transformation"],
   name: "Plague God",
-  description: "Ascend to become the Plague God for 4 rounds. Your attributes surge (+8 Intelligence, +8 Constitution, +6 Spirit), all active afflictions deal +50% damage, your weapon attacks apply random Stage 2 afflictions, and your Virulence locks at 100. Cultivates as Decay.",
+  description: "Ascend as the Plague God for 4 rounds: +8 Int, +8 Con, +6 Spirit; afflictions deal +50%; attacks apply random Stage 2 afflictions; Virulence locks at 100. Cultivates as Decay.",
   spellType: "ACTION",
   icon: "Poison/Poison Contagion",
   level: 10,
@@ -2573,7 +2585,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
  { id: "pb_ultimate_affliction",
   effectTypes: ["damage", "debuff"],
   name: "Ultimate Affliction",
-  description: "Apply the ultimate plague, dealing 15d10 blight damage immediately and 5d10 blight damage per round for 6 rounds. Reduces target's healing received by 50% and all attributes by 4. Requires 5+ active afflictions on the field to cast. Cultivates as Amplify.",
+  description: "Apply the ultimate plague: 15d10 blight now and 5d10 per round for 6 rounds; healing received -50% and all attributes -4. Requires 5+ active afflictions on the field. Cultivates as Amplify.",
   spellType: "ACTION",
   icon: "Poison/Poison Plague",
   level: 10,
@@ -2718,7 +2730,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
   "id": "virulent-lavender_mask",
   "name": "Lavender Mask",
-  "description": "Exhale a thick, heavy cloud of purple mist. While it appears toxic, it is completely harmless and fills the room with the sweet smell of lavender, completely blocking all tracking scents and scent-based tracking.",
+  "description": "Exhale a thick purple mist; harmless despite its look, it fills the room with lavender and blocks all scent-based tracking.",
   "level": 1,
   "spellType": "ACTION",
   "icon": "Necrotic/Miasma",
@@ -2785,7 +2797,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   // ===== NON-COMBAT / ROT & MYCELIUM UTILITY (the gardener of decay, out of combat) =====
   { id : "pb_rot_touch",
     name: "Rot-Touch",
-    description: "Lay a hand on dead organic matter  -  a rope, a leather hinge, a wooden door, a plank, a corpse  -  and accelerate its decay a thousandfold. Rope crumbles, leather splits, softwood fails, and a corpse rots to clean bone and sludge in minutes (disposing of evidence). Living tissue and treated/magical materials resist. Out of combat.",
+    description: "Lay a hand on dead organic matter (rope, leather, wood, a corpse) and accelerate decay: rope crumbles, leather splits, wood fails, corpses rot to bone. Living/magic materials resist. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Necrotic/Necrotic Wither",
     typeConfig: { school: "blight", icon: "Necrotic/Necrotic Wither", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","exploration","infiltration","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2797,7 +2809,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_mycelium_sense",
     name: "Mycelium-Web Sense",
-    description: "Press bare skin to bare earth or root and listen through the Ghost-Mycelium. For the duration you feel every creature that treads on connected ground within range  -  footsteps, weight, direction, and the sharp sting of the Wyrd-touched. Stone, deep water, and dead/warded earth break the web. Out of combat.",
+    description: "Press skin to earth and listen through the Ghost-Mycelium: feel every creature treading connected ground in range, and the sting of Wyrd-touch. Stone, deep water, dead earth break the web.",
     level: 1, spellType: "ACTION", icon: "Nature/Nature Natural 11",
     typeConfig: { school: "blight", icon: "Nature/Nature Natural 11", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","exploration","investigation","plaguebringer"] },
     targetingConfig: { targetingType: "self", rangeType: "self" },
@@ -2809,7 +2821,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_plague_reader",
     name: "Plague-Reader",
-    description: "Taste a drop of blood, breath, or sweat, or run a fingertip over a substance, and read the disease, poison, or affliction written there  -  what it is, its cause, how far it has progressed, and whether it is contagious. Your body already hosts every illness you understand; you recognize them by sympathy. Out of combat.",
+    description: "Taste blood, breath, or sweat, or touch a substance, and read the disease, poison, or affliction there: what it is, its cause, its progress, and whether it spreads. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Psychic/Focused Mind",
     typeConfig: { school: "blight", icon: "Psychic/Focused Mind", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","divination","investigation","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2821,7 +2833,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_counter_culture",
     name: "Counter-Culture",
-    description: "From your own living substrate, culture a counter-strain to a disease or poison you have diagnosed: an antidote, a neutralizing spore, or a break-fever. You host the counter-disease briefly to brew it, then deliver it to cure the afflicted. The plaguebringer as healer  -  by suffering the cure. Out of combat.",
+    description: "Culture a counter-strain to a diagnosed disease or poison from your own substrate, briefly hosting it to brew an antidote, neutralizing spore, or break-fever, then deliver the cure. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Healing/Golden Heart",
     typeConfig: { school: "blight", icon: "Healing/Golden Heart", castTime: 10, castTimeType: "MINUTES", tags: ["utility","exploration","investigation","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0, targetRestrictions: ["any"] },
@@ -2833,7 +2845,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id : "pb_cadaver_puppet",
     name: "Cadaver-Puppet",
-    description: "Seed a fresh corpse with pestilence and heave it upright as a shambling, mindless servant for an hour. It obeys simple commands  -  carry, pull a lever, walk ahead to spring traps, block a doorway, or provide a grisly distraction. It cannot fight meaningfully and collapses when its rot runs dry. Out of combat.",
+    description: "Seed a fresh corpse with pestilence and raise it as a mindless servant for an hour: carries, springs traps, blocks doorways, distracts. It collapses when the rot runs dry. Out of combat.",
     level: 3, spellType: "ACTION", icon: "Necrotic/Death Mark",
     typeConfig: { school: "blight", icon: "Necrotic/Death Mark", castTime: 10, castTimeType: "MINUTES", tags: ["utility","exploration","infiltration","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "touch", rangeDistance: 0 },
@@ -2845,7 +2857,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id: "pb_spore_scout",
     name: "Spore Scout",
-    description: "Exhale a cloud of microscopic bioluminescent fungal spores that float up to 80ft ahead through passages, tunnels, or brush. They return tactile warnings of living creatures, hidden predators, or poisonous air directly to your nervous system. Out of combat.",
+    description: "Exhale bioluminescent fungal spores that float up to 80ft ahead through passages or brush, returning tactile warnings of living creatures, hidden predators, or poisonous air. Out of combat.",
     level: 1, spellType: "ACTION", icon: "Nature/Amplified Senses",
     typeConfig: { school: "blight", icon: "Nature/Amplified Senses", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","detection","scout","exploration","plaguebringer"] },
     targetingConfig: { targetingType: "single", rangeType: "ranged", rangeDistance: 80 },
@@ -2857,7 +2869,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   },
   { id: "pb_miasma_veil",
     name: "Miasma Veil",
-    description: "Release a low-hanging acrid mist in a 20ft radius around your party. Masks all human/humanoid scent, dissolves fresh footprints into black mulch, and gives tracking predators disadvantage on perception checks to follow you. Out of combat.",
+    description: "Release a low acrid mist in a 20ft radius: masks humanoid scent, dissolves fresh footprints into black mulch, and gives tracking predators disadvantage on Perception to follow. Out of combat.",
     level: 2, spellType: "ACTION", icon: "Poison/Poison Plague",
     typeConfig: { school: "blight", icon: "Poison/Poison Plague", castTime: 1, castTimeType: "IMMEDIATE", tags: ["utility","stealth","camp","survival","plaguebringer"] },
     targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 20 },
@@ -2870,7 +2882,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_septic_shroud",
     name: "Septic Shroud",
-    description: "Surround yourself in a churning fog of airborne rot and decomposing spores in a 15ft radius for 3 rounds. Enemies inside suffer disadvantage on attack rolls and cannot take reactions. Operational friction: The heavy spores irritate your lungs, dealing 3 self damage upon casting.",
+    description: "Surround yourself in churning rot-fog for 3 rounds (15ft): enemies inside have disadvantage on attacks and cannot take reactions. The spores irritate your lungs, dealing 3 self-damage on cast.",
     level: 4,
     spellType: "ACTION",
     icon: "Poison/Poison Toxin",
@@ -2947,7 +2959,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_parasitic_graft",
     name: "Parasitic Graft",
-    description: "Surgically implant a feeding fungal graft into a target within 25ft. If cast on an enemy, siphons 50% of all healing they receive for 3 rounds, granting it to you as temporary HP. If cast on an ally, purges 1 non-blight condition and grants 15 temporary HP, but they take 2 blight damage at start of turn.",
+    description: "Implant a feeding graft within 25ft. Enemy: siphon 50% of their healing for 3 rounds as temp HP. Ally: purge 1 non-blight condition, grant 15 temp HP, but 2 blight per turn.",
     level: 5,
     spellType: "ACTION",
     icon: "Necrotic/Drain Soul",
@@ -3026,7 +3038,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_calcifying_rot",
     name: "Calcifying Rot",
-    description: "Infect target's joints with rapid petrifying fungal spore growth. Target's speed drops to 0 on round 1 and is halved on rounds 2-3. Whenever target attempts a physical action, they must pass a Constitution save or lose 1 AP to stiffened cartilage.",
+    description: "Infect a target's joints with petrifying spore growth: speed 0 on round 1, halved on rounds 2-3. Physical actions require a Con save or lose 1 AP to stiffened cartilage.",
     level: 6,
     spellType: "ACTION",
     icon: "Necrotic/Bone Shards",
@@ -3079,6 +3091,19 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
       durationValue: 3,
       durationUnit: "rounds"
     },
+    debuffConfig: {
+      debuffType: "movementImpairment",
+      effects: [
+        {
+          id: "calcifying_rot_stiffness",
+          name: "Stiffened Cartilage",
+          description: "Attempting a physical action risks losing 1 AP to calcified joints.",
+          mechanicsText: "DC 16 Constitution save or lose 1 AP on physical actions for 3 rounds."
+        }
+      ],
+      durationValue: 3,
+      durationUnit: "rounds"
+    },
     specialMechanics: {
       agonyToll: {
         enabled: true,
@@ -3095,7 +3120,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_bubonic_detonation",
     name: "Bubonic Detonation",
-    description: "Detonate every dormant pustule and septic cyst in a 25ft radius. Deals 6d8 blight damage to all hostile creatures in the area; targets suffering from an affliction condition take double damage dice and are blinded for 2 rounds.",
+    description: "Detonate every dormant pustule in a 25ft radius: 6d8 blight to hostiles; targets suffering an affliction take double damage dice and are blinded 2 rounds.",
     level: 8,
     spellType: "ACTION",
     icon: "Poison/Toxic Bomb",
@@ -3118,7 +3143,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
     durationConfig: {
       durationType: "instant",
       durationValue: 0,
-      durationUnit: "rounds"
+      durationUnit: "instant"
     },
     resourceCost: {
       actionPoints: 2,
@@ -3176,7 +3201,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_spore_hive_quarantine",
     name: "Spore-Hive Quarantine",
-    description: "Erect a 20ft radius hemispherical quarantine bio-dome of interlocking fungal mycelium and spore filaments for 3 rounds. Blocks line of sight and passage. Creatures attempting to traverse the wall must pass a DC 17 Constitution save or become silenced and blinded for 1 round.",
+    description: "Erect a 20ft bio-dome of fungal mycelium for 3 rounds: blocks line of sight and passage. Traversing the wall requires a DC 17 Con save or become silenced and blinded 1 round.",
     level: 8,
     spellType: "ACTION",
     icon: "Necrotic/Glistening Evil",
@@ -3247,7 +3272,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_chitinous_carapace",
     name: "Chitinous Mycocarapace",
-    description: "Transmute your skin into thick layered fungal chitin and calcified spore plates for 3 rounds. Gain Damage Reduction 8 against all physical and elemental damage, immunity to critical hits and bleed/poison effects, and melee attackers contract Stage 2 Wasting Sickness upon hitting you.",
+    description: "Transmute your skin into layered fungal chitin for 3 rounds: DR 8 against physical and elemental damage, immunity to crits and bleed/poison, and melee attackers contract Stage 2 Wasting Sickness.",
     level: 9,
     spellType: "ACTION",
     icon: "Necrotic/Empowering Aura",
@@ -3303,7 +3328,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_symbiotic_resurrection",
     name: "Symbiotic Re-Germination",
-    description: "Touch a creature that died within the last round. Rapid mycorrhizal threads knit severed organs and re-ignite nervous impulses, returning the creature to life at 25% max HP. For the next hour, they gain +2 Constitution and immunity to pain, but bear fungal grafting marks.",
+    description: "Touch a creature that died within the last round: mycorrhizal threads knit organs and re-ignite nerves, reviving it at 25% max HP. For 1 hour: +2 Con, pain immunity, fungal marks.",
     level: 9,
     spellType: "ACTION",
     icon: "Necrotic/Arise",
@@ -3380,7 +3405,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_world_blight_cataclysm",
     name: "World-Blight Cataclysm",
-    description: "Unleash the primordial rot-fissures of the Bryngloom across a 40ft radius. Cracks spew corrosive bile and spore gas dealing 8d10 blight damage to hostile creatures, leaving treacherous mire that halves movement and infects survivors with Terminal Rot (3d10 blight damage at turn start).",
+    description: "Unleash the Bryngloom's rot-fissures across 40ft: cracks spew bile and spore gas for 8d10 blight, leaving mire that halves movement and infects survivors with Terminal Rot (3d10 blight at turn start).",
     level: 10,
     spellType: "ACTION",
     icon: "Necrotic/Cosmic Entity",
@@ -3474,7 +3499,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   {
     id: "pb_apotheosis_of_rot",
     name: "Apotheosis of Rot",
-    description: "Fully discard mortal limitations and become a living spore god for 1 minute (10 rounds). Cannot drop below 1 HP, can teleport between any diseased or fungal entities within 120ft as a bonus action, and all enemies within 30ft automatically advance 1 affliction stage at round end without a save.",
+    description: "Become a living spore god for 1 minute: cannot drop below 1 HP; teleport between diseased/fungal entities within 120ft as a bonus action; enemies within 30ft advance 1 affliction stage, no save.",
     level: 10,
     spellType: "ACTION",
     icon: "Necrotic/Demonic Empowerment",

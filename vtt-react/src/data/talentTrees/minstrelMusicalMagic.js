@@ -26,7 +26,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Dissonant Shriek",
     icon: "Psychic/Agonizing Scream",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Dissonant Shriek",
@@ -36,7 +36,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 25, aoeShape: "cone", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["wyrd"],
@@ -53,7 +53,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Unsettling Discord",
     icon: "Psychic/Mental Chaos",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Unsettling Discord",
@@ -75,7 +75,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Acoustic Strain",
     icon: "Psychic/Psychic Emanation",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Acoustic Strain",
@@ -96,7 +96,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Tritone Discord",
     icon: "Psychic/Hypnosis",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2, y: 1 },
     requires: "mm_t1_dissonant_shriek",
     spell: {
       name: "Tritone Discord",
@@ -106,7 +106,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 2 } },
       damageTypes: ["wyrd"],
@@ -123,7 +123,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Dissonant Resonance",
     icon: "Psychic/Read Mind",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "mm_t1_unsettling_vibration",
     spell: {
       name: "Dissonant Resonance",
@@ -147,7 +147,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Deceptive Cadence",
     icon: "Psychic/Mind Growth",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "mm_t2_tritone_discord",
     spell: {
       name: "Deceptive Cadence",
@@ -157,7 +157,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 12, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       damageTypes: ["wyrd"],
@@ -174,7 +174,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Suspended Resonance",
     icon: "Force/Force Field",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "mm_t2_dissonant_spread",
     spell: {
       name: "Suspended Resonance",
@@ -198,7 +198,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Sonic Feedback",
     icon: "Force/Absorb Energy",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "mm_t3_deceptive_cadence",
     spell: {
       name: "Sonic Feedback",
@@ -208,14 +208,14 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 3 } },
       visualTheme: "arcane", tags: ["counterspell", "reflect", "reaction", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Counters spell, reflects 25 points of damage back at caster, and silences the caster for 1 round.", cooldownValue: 16 },
-      { description: "Counters spell, reflects 25 points damage, silences caster for 2 rounds, and refunds 2 notes on successful reflection.", cooldownValue: 12 }
+      { description: "Counters spell, reflects 25 points of damage back at caster, and silences the caster for 1 round.", cooldownValue: 3 },
+      { description: "Counters spell, reflects 25 points damage, silences caster for 2 rounds, and refunds 2 notes on successful reflection.", cooldownValue: 2 }
     ]
   },
   {
@@ -223,7 +223,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Discordant Strain",
     icon: "Psychic/Brain Psionics",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 0, y: 3 },
     requires: "mm_t3_half_cadence_shield",
     spell: {
       name: "Discordant Strain",
@@ -245,7 +245,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Mind Shatter",
     icon: "Psychic/Mental Abyss",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "mm_t4_sonic_feedback",
     spell: {
       name: "Mind Shatter",
@@ -255,7 +255,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 50,
       castTimeType: "channeled", castTimeValue: 3,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: false,
       resourceCosts: { notes: { baseAmount: 4 } },
       damageTypes: ["wyrd"],
@@ -263,7 +263,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       debuffs: ["silence"], visualTheme: "arcane", tags: ["channel", "nuke", "silence", "minstrel"]
     },
     rankUpgrades: [
-      { description: "Deals 6d8 wyrd per round, silences target, and collateral shockwaves deal 3d8 wyrd to all adjacent enemies.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 24 }
+      { description: "Deals 6d8 wyrd per round, silences target, and collateral shockwaves deal 3d8 wyrd to all adjacent enemies.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 4 }
     ]
   },
   {
@@ -271,7 +271,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Cacophony Engine",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "mm_t4_discordant_amplification",
     spell: {
       name: "Cacophony Engine",
@@ -293,7 +293,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Deafening Crescendo",
     icon: "Psychic/Psychic Mind",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "mm_t5_mind_shatter",
     spell: {
       name: "Deafening Crescendo",
@@ -303,7 +303,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 5 } },
       damageTypes: ["wyrd"],
@@ -336,7 +336,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Psychic Resonance Bleed",
     icon: "Psychic/Twist Pain",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "mm_t5_cacophony_engine",
     spell: {
       name: "Psychic Resonance Bleed",
@@ -359,7 +359,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Symphony of Ruin",
     icon: "Psychic/Eldritch Thought",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "mm_t6_deafening_crescendo",
     spell: {
       name: "Symphony of Ruin",
@@ -369,10 +369,10 @@ export const MINSTREL_MUSICAL_MAGIC = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { notes: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       buffs: ["symphony-ruin"], visualTheme: "arcane", tags: ["ultimate", "capstone", "aoe-ruin", "minstrel"]
@@ -384,7 +384,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Dissonance Doctrine",
     icon: "Psychic/Mental Radiance",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.75, y: 6 },
     requires: "mm_t6_deafening_crescendo",
     spell: {
       name: "Dissonance Doctrine",
@@ -429,7 +429,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Master of Discord",
     icon: "Arcane/Magical Duel",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "mm_t6_psychic_bleed",
     spell: {
       name: "Master of Discord",
@@ -449,7 +449,7 @@ export const MINSTREL_MUSICAL_MAGIC = [
     name: "Living Discord",
     icon: "General/Rage",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "mm_t6_psychic_bleed",
     spell: {
       name: "Living Discord",

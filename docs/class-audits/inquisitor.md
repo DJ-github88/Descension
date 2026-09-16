@@ -84,3 +84,65 @@
 ## 6. Mind memory
 
 - `inquisitor-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 40 flagged / 12 errors. After: 0 errors / 10 warnings**
+(5 missing-cooldown on L1–L2 builders, 2 resource-value-missing, long descriptions — deferred).
+
+### Fixed (card-breaking)
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `inq_iron_interrogation` | `utility` with no config | added lie-detection utilityConfig |
+| `inq_iron_adjudication` | `crowd_control`, no control config | renamed to `control` + counter-cast controlConfig |
+| `inq_detect_corruption` | no `effectTypes` at all | added `utility` + detection utilityConfig |
+| `inq_wyrd_banish` | no `effectTypes` at all | added `control` + void-cage restraint config + Spirit save |
+| `inq_barbed_interdict` | `buff` with no config | added Vested Authority buffConfig |
+| `inq_severing_shackles` | `debuff` with no config | added cold-iron mana-burn debuffConfig |
+| `inq_null_zone_anchor` | `utility` with no config | added dead-magic field utilityConfig |
+| `inq_barbed_excommunication` | `utility` with no config | added void-of-binding-iron utilityConfig |
+| `inq_absolute_severance` | `debuff` with no config | added magic-denial debuffConfig |
+| `inq_final_confession` | `control` with no config | added compelled-confession controlConfig |
+| `inq_the_grand_interdict` | `utility` with no config | added supreme-interdict zone utilityConfig |
+| `inq_cold_iron_brand`, `inq_wrath_of_the_seven_vows` | duration instant/rounds mismatch | durationUnit `instant` |
+
+Bonus normalization: `inq_scent_of_ash` used a non-numeric `statModifier`
+(`magnitude:"advantage"`, `magnitudeType:"special"`) — migrated to the house Advantage
+convention (`magnitude: 99, magnitudeType: "advantage"`).
+
+### Resource / data notes
+
+- **No `authority` drift** — `classResources.js` `Inquisitor.id` is `authority`, matching every
+  spell's `classResource:{type:"authority"}`. (The older `righteousAuthority` note in
+  `SPELL_DATA_REFERENCE.md` §8 is stale and should be updated.)
+- 2 spells (`inq_scourge_of_submission`, `inq_shackles_of_searing_iron`) declare
+  `resourceTypes: ["...","health"]` with no health value — same Flesh-Toll review item as
+  Revenant; left pending your call.
+- 5 L1–L2 spells lack `cooldownConfig` entirely (missing-cooldown warnings) — deferred with the
+  broader warning backlog.
+
+### Flavor / class-fit notes
+
+- Cold-iron/anti-magic identity is coherent: null-salts, Barbed Vow, dead-magic zones,
+  excommunication, Authority economy. No rethemes proposed.
+- `inq_judgment_day` describes "pillars of sacred fire" but is encoded `ember`; consider whether
+  it should be `sacred` (flagged, not changed).
+
+### Evidence (this pass)
+
+- `node scripts/spell-card-qa.mjs --dump Inquisitor`: 0 errors / 10 warnings
+- `audit:classes --class Inquisitor`: 0 integrity / 0 floor gaps / 0 warnings; `spell-qa` 0 issues
+- Playwright card review: pending (Daniel)
+
+### Pass 2 addendum — 2026-09-16 (mechanical warning cleanup)
+
+2 spells had `instant`/`rounds` duration drift → unit `instant` (plus nested config normalization). `inq_judgment_day` ember-vs-sacred remains a flavor proposal.
+
+### Pass 3 addendum — 2026-09-16 (cooldown declarations)
+
+5 L1–L2 spells (`inq_scent_of_ash`, `inq_null_salts_strike`, `inq_silver_blade`, `inq_ash_step`, `inq_sigil_of_rotting_mana`) now declare `cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }`.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+29 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

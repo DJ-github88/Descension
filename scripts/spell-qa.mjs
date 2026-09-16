@@ -201,6 +201,7 @@ function validateSpells() {
     missingActionPoints: [],
     longDescriptions: [],
     rawFormulasInText: [],
+    nonCanonicalStatModifiers: [],
   };
 
   const files = fs.readdirSync(CLASSES_DIR).filter(f => f.endsWith('Data.js') && f !== 'index.js' && f !== 'classDisplayData.js');
@@ -256,9 +257,40 @@ function validateSpells() {
         issues.rawFormulasInText.push({ id: spell.id, file: spell.file, formulas: spell.rawFormulas });
       }
     }
+
+    issues.nonCanonicalStatModifiers.push(...scanNonCanonicalStatModifiers(filePath));
   }
 
   return issues;
+}
+
+/**
+ * Scan a class data file for statModifier values in non-canonical shapes.
+ * Keyed maps ({ dodge: 2 }) and arrays render as "+0 Stat" on the spell card
+ * and are ignored by the character engine, which expects
+ * { stat, magnitude, magnitudeType }.
+ */
+function scanNonCanonicalStatModifiers(filePath) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const file = path.basename(filePath);
+  const results = [];
+  const marker = /statModifier\s*:\s*/g;
+  let match;
+  while ((match = marker.exec(content)) !== null) {
+    const rest = content.slice(match.index + match[0].length);
+    const firstChar = rest.match(/^(\S)/)?.[1];
+    let isBad = false;
+    if (firstChar === '[') {
+      isBad = true;
+    } else if (firstChar === '{') {
+      isBad = !/^\{\s*(?:stat|id|magnitude|value|formula)\s*:/.test(rest);
+    }
+    if (isBad) {
+      const line = content.slice(0, match.index).split('\n').length;
+      results.push({ file, line, shape: firstChar === '[' ? 'array' : 'keyed map' });
+    }
+  }
+  return results;
 }
 
 const issues = validateSpells();
@@ -277,6 +309,7 @@ const categories = [
   ['missingActionPoints', 'Missing Action Points', 'Non-PASSIVE spells without actionPoints'],
   ['longDescriptions', 'Long Descriptions (>200 chars)', 'Spells with descriptions over 200 characters'],
   ['rawFormulasInText', 'Raw Formulas in Text', 'Spells with CARD_VALUE etc. in description/mechanicsText'],
+  ['nonCanonicalStatModifiers', 'Non-Canonical statModifier Shapes', 'statModifier must be { stat, magnitude, magnitudeType }; keyed maps/arrays render as "+0 Stat" and are ignored by the character engine'],
 ];
 
 let totalIssues = 0;
@@ -300,6 +333,8 @@ for (const [key, title, desc] of categories) {
         }
       } else if (key === 'nonCanonicalDamageTypes' || key === 'legacyDamageTypes') {
         console.log(`  ${item.file}: ${item.id} -> ${item.type}${item.field ? ` (${item.field})` : ''}`);
+      } else if (key === 'nonCanonicalStatModifiers') {
+        console.log(`  ${item.file}:${item.line} -> ${item.shape}`);
       } else {
         console.log(`  ${item.file}: ${item.id}${item.spellType ? ` (${item.spellType})` : ''}`);
       }

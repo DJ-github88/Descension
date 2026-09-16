@@ -528,20 +528,16 @@ function normalizeBuffConfig(spell) {
       return {
         buffType: 'statEnhancement',
         effects: extractBuffEffects(legacy),
-        duration: legacy.duration || 3,
-        durationValue: legacy.duration || 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        ...resolveBuffDuration(spell, legacy)
       };
     }
-    // Create minimal config
+    // Create minimal config. Never invent a duration here: if a buff has no
+    // stats, effects, or a real duration, the card should hide the section
+    // instead of rendering an empty "BUFF EFFECT" block.
     return {
       buffType: 'statEnhancement',
       effects: [],
-      duration: 3,
-      durationValue: 3,
-      durationType: 'rounds',
-      durationUnit: 'rounds'
+      ...resolveBuffDuration(spell, null)
     };
   }
 
@@ -701,6 +697,31 @@ function normalizePurificationConfig(spell) {
 
 function normalizeRestorationConfig(spell) {
   return spell.restorationConfig || null;
+}
+
+/**
+ * Resolve a real buff duration from an explicit legacy value or the spell's
+ * durationConfig. Returns duration fields only when a duration actually
+ * exists; otherwise returns an instant shell so the card hides the section.
+ */
+function resolveBuffDuration(spell, legacy) {
+  const dc = spell.durationConfig || {};
+  const legacyDuration = legacy?.duration;
+  const durationValue = legacyDuration || dc.durationValue || dc.duration;
+  const hasLegacyDuration = Boolean(legacyDuration || legacy?.durationUnit);
+  const durationType = legacy?.durationUnit || dc.durationType || dc.durationUnit ||
+    (hasLegacyDuration ? 'rounds' : null);
+
+  if (durationValue && durationType && durationType !== 'instant') {
+    return {
+      duration: durationValue,
+      durationValue,
+      durationType,
+      durationUnit: legacy?.durationUnit || dc.durationUnit || durationType
+    };
+  }
+
+  return { duration: 0, durationValue: 0, durationType: 'instant', durationUnit: 'instant' };
 }
 
 /**

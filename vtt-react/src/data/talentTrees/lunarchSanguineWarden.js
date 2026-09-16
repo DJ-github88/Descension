@@ -12,7 +12,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Symbiotic Carapace",
     icon: "Nature/Earth Shield",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Symbiotic Carapace",
@@ -33,7 +33,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Sanguine Transfer",
     icon: "Necrotic/Drain Soul",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Sanguine Transfer",
@@ -43,7 +43,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "1d8", flat: 0, procChance: 100 },
@@ -60,7 +60,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Transition Shock Absorption",
     icon: "Arcane/Crescent Moon",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Transition Shock Absorption",
@@ -82,7 +82,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Symbiotic Life-Tether",
     icon: "Nature/Shield Break",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "lsw_t1_symbiotic_carapace",
     spell: {
       name: "Symbiotic Life-Tether",
@@ -92,7 +92,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 5 } },
       visualTheme: "arcane", tags: ["tether", "redirect", "tank", "support", "lunarch"]
     },
@@ -106,7 +106,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Parasitic Blood Well",
     icon: "Necrotic/Ritual of Blood",
     maxRanks: 3,
-    position: { x: 2.5, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "lsw_t1_sanguine_transfer",
     spell: {
       name: "Parasitic Blood Well",
@@ -116,7 +116,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 2, targetingMode: "aoe", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 6 }, health: { baseAmount: 4, costType: "flat" } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
@@ -135,7 +135,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Moonwell Aegis",
     icon: "Healing/Heart Shield",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "lsw_t2_vitality_tether",
     spell: {
       name: "Moonwell Aegis",
@@ -145,7 +145,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 2, targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 7 } },
       visualTheme: "arcane", tags: ["shield", "cocoon", "immunity", "lunarch"]
     },
@@ -159,7 +159,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Symbiote Thorns Siphon",
     icon: "Necrotic/Necrotic Necrosis",
     maxRanks: 3,
-    position: { x: 2.5, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "lsw_t2_sanguine_bloom",
     spell: {
       name: "Symbiote Thorns Siphon",
@@ -184,7 +184,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Symbiotic Resurgence",
     icon: "Healing/Ressusitate",
     maxRanks: 2,
-    position: { x: 1, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "lsw_t3_symbiotic_shield",
     spell: {
       name: "Symbiotic Resurgence",
@@ -195,7 +195,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       actionPoints: 0, targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "reaction", castTimeValue: 1,
       reactionTrigger: "When you or an ally bound by a Vitality Tether would suffer a fatal blow",
-      cooldownValue: 5, cooldownUnit: "round",
+      cooldownValue: 5, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 8 } },
       visualTheme: "arcane", tags: ["reaction", "cheat-death", "resurgence", "lunarch"]
     },
@@ -208,7 +208,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Sanguine Shockwave",
     icon: "Necrotic/Skull Burst",
     maxRanks: 3,
-    position: { x: 2.5, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "lsw_t3_leeching_strikes",
     spell: {
       name: "Sanguine Shockwave",
@@ -218,7 +218,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 2, cooldownUnit: "round",
+      cooldownValue: 2, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 8 }, health: { baseAmount: 6, costType: "flat" } },
       damageTypes: ["wyrd"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
@@ -237,7 +237,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Hive-Mind Vitality Mesh",
     icon: "Nature/Root Network",
     maxRanks: 3,
-    position: { x: 1, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "lsw_t4_celestial_rebirth",
     spell: {
       name: "Hive-Mind Vitality Mesh",
@@ -258,7 +258,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Lunar Tide Siphon",
     icon: "Healing/Renewal",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "lsw_t4_blood_tide_pulse",
     spell: {
       name: "Lunar Tide Siphon",
@@ -280,7 +280,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Living Moonwell Sanctuary",
     icon: "Healing/Prayer",
     maxRanks: 3,
-    position: { x: 1, y: 5 },
+    position: { x: 4, y: 5 },
     requires: "lsw_t5_parasitic_hive_tether",
     spell: {
       name: "Living Moonwell Sanctuary",
@@ -290,7 +290,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 4, cooldownUnit: "round",
+      cooldownValue: 4, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 12 } },
       healing: { dice: "5d8" },
       visualTheme: "arcane", tags: ["aoe", "sanctuary", "invulnerability-zone", "regen", "lunarch"]
@@ -327,7 +327,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Avatar of the Blood Moon Broodmother",
     icon: "Necrotic/Cosmic Entity",
     maxRanks: 1,
-    position: { x: 1, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "lsw_t6_moonwell_sanctuary",
     spell: {
       name: "Avatar of the Blood Moon Broodmother",
@@ -337,7 +337,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "buff",
       actionPoints: 3, targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 8, cooldownUnit: "round",
+      cooldownValue: 8, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 15 } },
       durationRounds: 3,
       visualTheme: "blood", tags: ["capstone", "ultimate", "party-invulnerable", "symbiosis", "lunarch"]
@@ -349,7 +349,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Sanguine Tithe",
     icon: "Healing/Broken Heart",
     maxRanks: 5,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "lsw_t6_moonwell_sanctuary",
     spell: {
       name: "Sanguine Tithe",
@@ -359,7 +359,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 1, targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 1, cooldownUnit: "round",
+      cooldownValue: 1, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 8 }, health: { baseAmount: 8, costType: "flat" } },
       healing: { dice: "2d8" },
       visualTheme: "blood", tags: ["capstone", "sacrifice", "heal", "tithe", "lunarch"]
@@ -376,7 +376,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Bloodmoon Transfusion",
     icon: "Healing/Heart Ripple",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "lsw_t6_moonwell_sanctuary",
     spell: {
       name: "Bloodmoon Transfusion",
@@ -386,7 +386,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 2, targetingMode: "aoe", rangeType: "self-centered", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 10 }, health: { baseAmount: 15, costType: "flat" } },
       healing: { dice: "3d8" },
       visualTheme: "blood", tags: ["capstone", "transfusion", "aoe", "shields", "lunarch"]
@@ -401,7 +401,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Broodmother's Bargain",
     icon: "Nature/Thorny Entanglement",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "lsw_t6_endless_symbiosis",
     spell: {
       name: "Broodmother's Bargain",
@@ -411,7 +411,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
       spellType: "ACTIVE", category: "healing",
       actionPoints: 2, targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownValue: 3, cooldownUnit: "round",
+      cooldownValue: 3, cooldownUnit: "rounds",
       resourceCosts: { mana: { baseAmount: 10 }, health: { baseAmount: 12, costType: "flat" }, lunar_phase: { baseAmount: 1, phaseAdvancement: 1 } },
       healing: { dice: "3d8" },
       visualTheme: "blood", tags: ["capstone", "symbiosis", "graft", "phase", "lunarch"]
@@ -426,7 +426,7 @@ export const LUNARCH_SANGUINE_WARDEN = [
     name: "Accord of Undying Starlight",
     icon: "Healing/Armored Healing",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "lsw_t6_endless_symbiosis",
     spell: {
       name: "Accord of Undying Starlight",

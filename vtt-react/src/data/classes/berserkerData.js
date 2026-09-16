@@ -496,6 +496,12 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       typeConfig: { school: "primal", icon: "Nature/Beast Mark", tags: ["utility", "tracking", "perception", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 1, resourceTypes: ["health"], resourceValues: { health: 2 } },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "perception",
+        selectedEffects: [{ id: "hunger_scent_blood_trail", name: "Blood-Scent", description: "Catch the scent of blood or wounded creatures up to 3 miles away; learn exact distance, direction, and whether the target is bleeding.", mechanicsText: "Track blood or wounded creatures up to 3 miles; exact distance/direction; detects bleeding." }],
+        duration: 0, durationUnit: "instant", concentration: false, power: "minor"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility", "tracking", "perception", "berserker"]
     },
@@ -506,10 +512,16 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       level: 1,
       spellType: "ACTION",
       icon: "Utility/Embraced by Fire",
-      effectTypes: ["utility", "buff"],
+      effectTypes: ["utility"],
       typeConfig: { school: "ember", icon: "Utility/Embraced by Fire", tags: ["utility", "environment", "survival", "berserker"], castTime: 1, castTimeType: "MINUTES" },
       targetingConfig: { targetingType: "area", rangeType: "self", areaType: "circle", areaSize: 15, targetRestrictions: ["ally", "self"] },
       resourceCost: { actionPoints: 1, resourceTypes: ["health"], resourceValues: { health: 4 } },
+      resolution: "NONE",
+      utilityConfig: {
+        utilityType: "environment",
+        selectedEffects: [{ id: "caldera_warmth_aura", name: "Caldera Aura", description: "You and allies within 15ft stay warm and dry in blizzards, arctic temperatures, or freezing rain for 4 hours. Out of combat.", mechanicsText: "Allies within 15ft: no mundane cold exposure for 4 hours." }],
+        duration: 4, durationUnit: "hours", concentration: false, power: "minor"
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility", "environment", "survival", "berserker"]
     },
@@ -538,12 +550,25 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       level: 4,
       spellType: "ACTION",
       icon: "Bludgeoning/Hammer Crush",
-      effectTypes: ["damage", "crowd_control"],
+      effectTypes: ["damage", "control"],
       typeConfig: { school: "smashing", icon: "Bludgeoning/Hammer Crush", tags: ["damage", "aoe", "leap", "knockdown", "berserker"], castTime: 1, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "area", rangeType: "ranged", rangeDistance: 20, areaType: "circle", areaSize: 10, targetRestrictions: ["enemy"] },
       resourceCost: { actionPoints: 2, resourceTypes: ["health"], resourceValues: { health: 5 }, classResource: { type: "rage", gain: 15 } },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       damageConfig: { formula: "3d10 + strength", damageTypes: ["smashing"], resolution: "DICE" },
+      controlConfig: {
+        controlType: "knockdown",
+        duration: 1,
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "caldera_slam_knockdown",
+            name: "Knocked Down",
+            description: "Adjacent enemies are knocked down for 1 round.",
+            config: { saveType: "strength", saveDC: 14, duration: 1, durationUnit: "rounds" }
+          }
+        ]
+      },
       tags: ["damage", "aoe", "leap", "knockdown", "berserker"]
     },
     {
@@ -557,6 +582,16 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       typeConfig: { school: "smashing", icon: "Utility/Empowered Warrior", tags: ["buff", "self", "haste", "berserker"], castTime: 0, castTimeType: "IMMEDIATE" },
       targetingConfig: { targetingType: "self", rangeType: "self" },
       resourceCost: { actionPoints: 0, resourceTypes: ["health"], resourceValues: { health: 6 }, classResource: { type: "rage", gain: 20 } },
+      resolution: "NONE",
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [{ id: "arterial_burst_overdrive", name: "Adrenal Overdrive", description: "+2 Action Points and +10ft movement for 1 round. You suffer 1d6 self-damage.", mechanicsText: "+2 AP, +10ft movement, 1 round; 1d6 self-damage." }],
+        statModifiers: [
+          { stat: "action_points", magnitude: 2, magnitudeType: "flat" },
+          { stat: "movement_speed", magnitude: 10, magnitudeType: "flat" }
+        ],
+        durationValue: 1, durationType: "rounds", durationUnit: "rounds", concentrationRequired: false, canBeDispelled: true
+      },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       tags: ["buff", "self", "haste", "berserker"]
     },
@@ -642,7 +677,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   ],
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds",
+  durationUnit: "instant",
   canBeDispelled: false,
   },
 
@@ -686,7 +721,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_calloused_hide",
   name: "Calloused Hide",
   description:
-  "Toggle a defensive posture. Your flesh thickens with crude scar tissue, hardening you against strikes and feeding your Rage when hit,but the rigid skin makes you slow and highly vulnerable to bleeding.",
+  "Toggle a defensive posture: scar tissue hardens against strikes and feeds Rage when hit, but the rigid skin slows you and leaves you highly vulnerable to bleeding.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Utility/Deflecting Shield",
@@ -766,7 +801,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_boiling_veins",
   name: "Boiling Veins",
   description:
-  "Toggle a terrifying offensive stance. You allow your Rage to boil within your vessels. Your melee attacks deal bonus ember/smashing damage and boil your adrenaline rapidly,but your vessels rupture, burning your own life away each turn.",
+  "Toggle a terrifying offensive stance: melee attacks deal bonus ember/smashing and boil adrenaline rapidly, but your vessels rupture, burning your own life away each turn.",
   level: 1,
   spellType: "PASSIVE",
   icon: "Slashing/Bloody Slash",
@@ -858,7 +893,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserker_metabolic_burnout",
   name: "Metabolic Burnout & Death's Door",
   description:
-  "CLASS PASSIVE. You have absolutely zero self-healing or lifesteal. While Rage is 21 or higher, you enter a pain-numbed frenzy: you cannot receive healing from allies. However, when your HP falls below 30%, you enter Death's Door, allowing your attacks to completely bypass enemy physical resistances.",
+  "CLASS PASSIVE. No self-healing or lifesteal. At 21+ Rage you enter pain-numbed frenzy and cannot receive ally healing; below 30% HP you reach Death's Door and attacks bypass physical resistances.",
   level: 1,
   spellType: "PASSIVE",
   icon: "General/Rage",
@@ -1207,7 +1242,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_pain_starvation",
   name: "Pain Starvation",
   description:
-  "CLASS WEAKNESS. If you go 2 full rounds without dealing melee damage to an enemy, your body suffers immediate adrenaline withdrawal. Your Rage decays by 10 per round, and you gain disadvantage on all Dodge and Agility checks as your muscles shake.",
+  "CLASS WEAKNESS. Going 2 full rounds without dealing melee damage causes adrenaline withdrawal: Rage decays 10 per round and you have disadvantage on Dodge and Agility checks.",
   level: 3,
   spellType: "PASSIVE",
   icon: "Exhausted",
@@ -1245,7 +1280,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_carnage_strike",
   name: "Carnage Strike",
   description:
-  "A devastating overhead cleave that splits flesh and plating alike. You swing with such reckless weight that your shoulder partially dislocates, but the target's physical resistance is completely ignored if they are already wounded.",
+  "A reckless overhead cleave that splits flesh and plating alike. Your shoulder partially dislocates, but the target's physical resistance is completely ignored if they are already wounded.",
   level: 4,
   spellType: "ACTION",
   icon: "Bludgeoning/Mortal Strike",
@@ -1544,7 +1579,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_unstoppable_force",
   name: "Unstoppable Force",
   description:
-  "Force your boiling adrenaline to circulate at lethal pressures. You instantly rip free from all movement restraints and become completely immune to slows or paralysis,but your blood vessels burst, draining your life away.",
+  "Force boiling adrenaline to lethal pressures: instantly rip free of all movement restraints and become immune to slows and paralysis, but your blood vessels burst, draining your life.",
   level: 5,
   spellType: "ACTION",
   icon: "Utility/Empowered Warrior",
@@ -1648,7 +1683,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_obliterating_strike",
   name: "Obliterating Strike",
   description:
-  "The ultimate Death's Door execute. Channel your entire dying vitality into a single slash. Bypasses all damage resistances and shields. If your own HP is critically low, this strike splits the physical world.",
+  "The ultimate Death's Door execute: channel your dying vitality into one slash that bypasses all damage resistances and shields. At critically low HP it splits the physical world.",
   level: 6,
   spellType: "ACTION",
   icon: "Slashing/Cleave",
@@ -1706,7 +1741,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   ],
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds",
+  durationUnit: "instant",
   },
 
   triggerConfig: {
@@ -1947,7 +1982,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_immortal_rage",
   name: "Immortal Rage",
   description:
-  "Refuse to submit to death. You lock your muscular structure, ignoring all mortal injuries. You cannot die or fall unconscious, and your HP cannot drop below 1,but the toll of this defiance is catastrophic when the rage fades.",
+  "Refuse death: lock your muscular structure, ignoring mortal injuries. You cannot die or fall unconscious and cannot drop below 1 HP, but the toll is catastrophic when the rage fades.",
   level: 8,
   spellType: "ACTION",
   icon: "Necrotic/Drain Soul",
@@ -2160,7 +2195,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_primal_cataclysm",
   name: "Primal Cataclysm",
   description:
-  "Erupt in an explosion of desperate, earth-shaking violence. You strike the ground, tearing your own muscle tissue completely to unleash a 25-foot shockwave that deals 6d10 + Strength smashing damage to all nearby foes (DC 19 Constitution save for half). The exertion ravages your body: you suffer 4d6 smashing damage and your Durability is reduced by 4 for 2 rounds.",
+  "Strike the ground, tearing your own muscle to unleash a 25ft shockwave: 6d10 + Strength smashing to nearby foes (DC 19 Con half). You suffer 4d6 smashing and lose 4 Durability for 2 rounds.",
   level: 9,
   spellType: "ACTION",
   icon: "Arcane/Missile",
@@ -2244,7 +2279,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_veterans_resolve",
   name: "Veteran's Resolve",
   description:
-   "Focus your intense pain into perfect, deadly accuracy. Your melee attacks gain a flat damage bonus, but the frenzy requires constant aggression,if you go a turn without attacking, your focus collapses.",
+   "Focus intense pain into deadly accuracy: melee attacks gain a flat damage bonus, but the frenzy demands constant aggression; a turn without attacking collapses your focus.",
   level: 9,
   spellType: "ACTION",
   icon: "General/Rage",
@@ -2412,7 +2447,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   ],
   durationType: "instant",
   durationValue: 0,
-  durationUnit: "rounds",
+  durationUnit: "instant",
   },
 
   triggerConfig: {
@@ -2454,7 +2489,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_battle_incarnate",
   name: "Battle Incarnate",
   description:
-  "Transform into an unstoppable colossus of war. Your boiling blood hardens your skin into living stone, replacing all your standard Rage state bonuses. The transformation is absolute,you cannot dodge, block, or retreat, only attack.",
+  "Transform into an unstoppable colossus: boiling blood hardens into living stone, replacing all Rage state bonuses. The transformation is absolute; you cannot dodge, block, or retreat, only attack.",
   level: 10,
   spellType: "ACTION",
   icon: "Bludgeoning/Blood Punch",
@@ -2558,7 +2593,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   id: "berserk_primal_apex",
   name: "Primal Apex",
   description:
-  "Unlock the absolute pinnacle of anatomical destruction. You force your metabolic rate to increase by 500%. All nearby enemies tremble. You are a walking force of ruin, but your muscles literally burn off your skeletal frame.",
+  "Unlock the pinnacle of anatomical destruction, forcing your metabolic rate up 500%. Nearby enemies tremble before a walking force of ruin, but your muscles burn off the bone.",
   level: 10,
   spellType: "ACTION",
   icon: "General/Fiery Rage",
@@ -2720,7 +2755,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
    "id": "berserk_pain_blind",
    "name": "Pain-Blind",
-   "description": "Your Pain Immunity is not a combat state; it is what you are. You cannot feel pain at all  -  torture and pain-based interrogation simply do not register, and you shrug off fear-pain. The cost: you cannot gauge your own wounds, and must be told or checked to know how badly you are hurt. Out of combat.",
+   "description": "Pain immunity is not a state; it is what you are. No pain registers, and you shrug off fear-pain. The cost: you cannot gauge your own wounds without being told or checked. Out of combat.",
    "level": 1,
    "spellType": "ACTION",
    "icon": "Utility/Shout",
@@ -2740,27 +2775,27 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
    "id": "berserk_boiled_blood_constitution",
    "name": "Boiled-Blood Constitution",
-   "description": "Your blood runs hotter than forge-steel; cold cannot settle in you and heat cannot cook what is already boiling. You ignore environmental heat and cold exposure, cannot be frostbitten or heat-exhausted, and walk barefoot over coals or frost without harm. Out of combat.",
+   "description": "Your blood runs hotter than forge-steel: ignore environmental heat and cold exposure, resist frostbite and heat exhaustion, and walk barefoot over coals or frost. Out of combat.",
    "level": 1,
    "spellType": "ACTION",
    "icon": "Fire/Volcanic Corruption",
    "typeConfig": { "school": "smashing", "icon": "Fire/Volcanic Corruption", "tags": ["utility","exploration","berserker"], "castTime": 1, "castTimeType": "IMMEDIATE" },
    "targetingConfig": { "targetingType": "self", "rangeType": "self" },
    "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 3 }, "components": ["somatic"], "somaticText": "Breathe deep and let the forge-heat circulate to your skin" },
-   "resolution": "NONE",
-   "effectTypes": ["utility", "buff"],
-   "utilityConfig": {
-    "utilityType": "environment",
-    "selectedEffects": [ { "id": "boiled_blood_hardy", "name": "Forge-Tempered", "description": "For 8 hours ignore mundane heat/cold exposure (blizzards, caldera floors, deserts), take no environmental exhaustion from temperature, and cross coals/frost unharmed. Does not stop magical fire/frost damage in combat.", "mechanicsText": "Ignore heat/cold exposure 8 hours; no temp exhaustion." } ],
-    "duration": 8, "durationUnit": "hours", "concentration": false, "power": "minor"
-   },
+    "resolution": "NONE",
+    "effectTypes": ["utility"],
+    "utilityConfig": {
+     "utilityType": "environment",
+     "selectedEffects": [ { "id": "boiled_blood_hardy", "name": "Forge-Tempered", "description": "For 8 hours ignore mundane heat/cold exposure (blizzards, caldera floors, deserts), take no environmental exhaustion from temperature, and cross coals/frost unharmed. Does not stop magical fire/frost damage in combat.", "mechanicsText": "Ignore heat/cold exposure 8 hours; no temp exhaustion." } ],
+     "duration": 8, "durationUnit": "hours", "concentration": false, "power": "minor"
+    },
    "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 0 },
    "tags": ["utility","exploration","berserker"]
   },
   {
    "id": "berserk_forge_touched_hands",
    "name": "Forge-Touched Hands",
-   "description": "Seize non-magical metal  -  shackles, a lock, an iron bar, a chain, a thin gate  -  and let your forge-hot grip soften and warp it. Bend, break, or prise apart the metal with bare hands; the heat leaves your palms blistered. Cannot affect enchanted or large reinforced structures. Out of combat.",
+   "description": "Seize non-magical metal (shackles, a lock, a bar, a chain) and let your forge-hot grip warp it: bend, break, or prise it apart, palms blistered. Enchanted metal resists. Out of combat.",
    "level": 2,
    "spellType": "ACTION",
    "icon": "Fire/Volcanic Corruption",
@@ -2780,7 +2815,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
    "id": "berserk_unbroken_will",
    "name": "Unbroken Will",
-   "description": "The survival instinct that ignites your Rage will not let you kneel. For the duration you have advantage against charm, fear, sleep, and domination, and no magic can force you to grovel, confess, or surrender. You may still be restrained or imprisoned  -  but never made willing. Out of combat.",
+   "description": "The instinct behind your Rage will not let you kneel: advantage against charm, fear, and domination; no magic can force you to grovel, confess, or surrender. Restraint still works. Out of combat.",
    "level": 3,
    "spellType": "ACTION",
    "icon": "Utility/Empowered Warrior",
@@ -2788,7 +2823,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
    "targetingConfig": { "targetingType": "self", "rangeType": "self" },
    "resourceCost": { "actionPoints": 1, "resourceTypes": ["mana"], "resourceValues": { "mana": 6 }, "components": ["verbal","somatic"], "verbalText": "A single flat statement: I do not kneel" },
    "resolution": "NONE",
-   "effectTypes": ["utility", "buff"],
+   "effectTypes": ["utility"],
    "utilityConfig": {
     "utilityType": "social",
     "selectedEffects": [ { "id": "unbroken_will_steadfast", "name": "Unbroken", "description": "For 1 hour gain advantage vs charm, fear, sleep, and domination, and immunity to any effect that would force you to grovel, confess, or willingly surrender. Restraint and imprisonment still work; only your will cannot be bent.", "mechanicsText": "Advantage vs charm/fear/sleep/domination; can't be forced willing, 1 hour." } ],
@@ -2832,21 +2867,28 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": -15
       }
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 2,
-      "diceSides": 8,
-      "statModifier": "strength"
+      "formula": "2d8 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
       "controlType": "daze",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "skull_cleaver_daze",
+          "name": "Dazed",
+          "description": "The target's next attack roll is reduced by -2.",
+          "config": { "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -2893,23 +2935,27 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": 20
       }
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "debuff"
     ],
     "damageConfig": {
-      "damageType": "slicing",
-      "diceCount": 3,
-      "diceSides": 6,
-      "statModifier": "strength"
+      "formula": "3d6 + strength",
+      "damageTypes": ["slicing"],
+      "resolution": "DICE"
     },
     "debuffConfig": {
-      "debuffType": "dot",
-      "damageType": "slicing",
-      "diceCount": 1,
-      "diceSides": 6,
-      "duration": 2,
+      "debuffType": "damageOverTime",
+      "effects": [
+        {
+          "id": "rending_flurry_bleed",
+          "name": "Bleeding",
+          "description": "Take 1d6 slicing damage per round for 2 rounds.",
+          "mechanicsText": "1d6 slicing per round for 2 rounds."
+        }
+      ],
+      "durationValue": 2,
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2960,7 +3006,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": -15
       }
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "SAVE",
     "effectTypes": [
       "control",
       "debuff"
@@ -2968,6 +3014,31 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
     "controlConfig": {
       "controlType": "shaken",
       "duration": 2,
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "intimidating_shout_shaken",
+          "name": "Shaken",
+          "description": "Enemies within 20ft that fail a Willpower save are shaken for 2 rounds.",
+          "config": { "saveType": "spirit", "saveDC": 14, "duration": 2, "durationUnit": "rounds" }
+        }
+      ]
+    },
+    "debuffConfig": {
+      "debuffType": "statusEffect",
+      "effects": [
+        {
+          "id": "intimidating_shout_resolve",
+          "name": "Broken Resolve",
+          "description": "Shaken: -2 on attack rolls and ability checks for 2 rounds.",
+          "mechanicsText": "-2 attacks/checks, 2 rounds."
+        }
+      ],
+      "statPenalties": [
+        { "stat": "attack_and_saves", "magnitude": -2, "magnitudeType": "flat" }
+      ],
+      "savingThrow": { "ability": "spirit", "difficultyClass": 14, "saveOutcome": "negates" },
+      "durationValue": 2,
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -2984,7 +3055,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_blood_frenzy_rush",
     "name": "Blood Frenzy Rush",
-    "description": "Channel surging adrenal fury to break free of hindrances. Instantly purges all movement impairing slows or roots, grants +15ft movement speed for 1 round, and causes your next melee attack to deal +1d8 extra damage. Spends 15 Rage.",
+    "description": "Purge all movement-impairing slows and roots, gain +15ft speed for 1 round, and make your next melee attack deal +1d8 extra damage. Spends 15 Rage.",
     "level": 4,
     "spellType": "ACTION",
     "icon": "Utility/Sprint",
@@ -3018,10 +3089,36 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       "utility"
     ],
     "buffConfig": {
-      "buffType": "movement_speed",
-      "bonusMovement": 15,
+      "buffType": "movementBuff",
+      "effects": [
+        {
+          "id": "blood_frenzy_adrenal_sprint",
+          "name": "Adrenal Sprint",
+          "description": "+15ft movement speed for 1 round; your next melee attack deals +1d8 extra damage.",
+          "mechanicsText": "+15ft movement, next melee +1d8, 1 round."
+        }
+      ],
+      "statModifiers": [
+        { "stat": "movement_speed", "magnitude": 15, "magnitudeType": "flat" }
+      ],
       "durationValue": 1,
+      "durationType": "rounds",
       "durationUnit": "rounds"
+    },
+    "utilityConfig": {
+      "utilityType": "cleanse",
+      "selectedEffects": [
+        {
+          "id": "blood_frenzy_hindrance_purge",
+          "name": "Hindrance Purge",
+          "description": "Instantly remove all movement-impairing slows and roots.",
+          "mechanicsText": "Purge slows/roots."
+        }
+      ],
+      "duration": 0,
+      "durationUnit": "instant",
+      "concentration": false,
+      "power": "minor"
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -3069,21 +3166,30 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": 35
       }
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "debuff"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 3,
-      "diceSides": 10,
-      "statModifier": "strength"
+      "formula": "3d10 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "debuffConfig": {
-      "debuffType": "durability_reduction",
-      "penaltyValue": 2,
-      "duration": 2,
+      "debuffType": "statReduction",
+      "effects": [
+        {
+          "id": "bone_shatter_splintered",
+          "name": "Splintered",
+          "description": "Physical resistance shattered: Durability reduced by -2 for 2 rounds.",
+          "mechanicsText": "Durability -2 for 2 rounds."
+        }
+      ],
+      "statPenalties": [
+        { "stat": "durability", "magnitude": -2, "magnitudeType": "flat" }
+      ],
+      "durationValue": 2,
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -3140,14 +3246,34 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       "control"
     ],
     "buffConfig": {
-      "buffType": "damage_bonus",
-      "bonusValue": 2,
+      "buffType": "damageIncrease",
+      "effects": [
+        {
+          "id": "war_cry_dominance_allies",
+          "name": "Dominance",
+          "description": "Allies within 30ft gain +2 to damage rolls for 2 rounds.",
+          "mechanicsText": "+2 damage rolls for allies within 30ft, 2 rounds."
+        }
+      ],
+      "statModifiers": [
+        { "stat": "damage", "magnitude": 2, "magnitudeType": "flat" }
+      ],
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "controlConfig": {
       "controlType": "knockback",
-      "distance": 10
+      "duration": 0,
+      "durationUnit": "instant",
+      "effects": [
+        {
+          "id": "war_cry_knockback",
+          "name": "Knocked Back",
+          "description": "Adjacent enemies are pushed 10ft away.",
+          "config": { "distance": 10, "movementType": "push" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -3197,15 +3323,14 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": 40
       }
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage"
     ],
     "damageConfig": {
-      "damageType": "slicing",
-      "diceCount": 4,
-      "diceSides": 8,
-      "statModifier": "strength"
+      "formula": "4d8 + strength",
+      "damageTypes": ["slicing"],
+      "resolution": "DICE"
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -3221,7 +3346,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_titanic_endurance",
     "name": "Titanic Endurance",
-    "description": "Refuse mortality through pure bloodthirsty spite. Instantly gain temporary hit points equal to 25% of your max HP, cleanse all ongoing bleed and poison effects, and become immune to stun for 2 rounds. Spends 30 Rage.",
+    "description": "Refuse mortality: gain temporary HP equal to 25% of max HP, cleanse all bleed and poison effects, and become immune to stun for 2 rounds. Spends 30 Rage.",
     "level": 7,
     "spellType": "ACTION",
     "icon": "Defense/Hardened Flesh",
@@ -3250,12 +3375,25 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
     },
     "resolution": "NONE",
     "effectTypes": [
+      "buff",
       "defense",
       "cleanse"
     ],
     "buffConfig": {
-      "buffType": "temp_hp_and_immunity",
+      "buffType": "temporaryHP",
+      "effects": [
+        {
+          "id": "titanic_endurance_reserve",
+          "name": "Titanic Reserve",
+          "description": "Gain temporary HP equal to 25% of your max HP and become immune to stun for 2 rounds.",
+          "mechanicsText": "Temp HP = 25% max HP; stun immunity for 2 rounds."
+        }
+      ],
+      "statModifiers": [
+        { "stat": "maxHp", "magnitude": 25, "magnitudeType": "percentage" }
+      ],
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -3272,7 +3410,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_spine_breaker",
     "name": "Spine Breaker",
-    "description": "Seize an enemy and smash them over your knee with bone-cracking momentum. Deals 5d8 + Str smashing damage and leaves the target pinned and incapacitated until the end of their next turn. Spends 50 Rage.",
+    "description": "Seize an enemy and smash them over your knee: 5d8 + Str smashing and pinned, incapacitated until the end of their next turn. Spends 50 Rage.",
     "level": 7,
     "spellType": "ACTION",
     "icon": "Combat/Brutal Tackle",
@@ -3303,21 +3441,28 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": 50
       }
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 5,
-      "diceSides": 8,
-      "statModifier": "strength"
+      "formula": "5d8 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "incapacitated",
+      "controlType": "incapacitation",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "spine_breaker_pinned",
+          "name": "Pinned",
+          "description": "The target is pinned and incapacitated until the end of their next turn.",
+          "config": { "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -3333,7 +3478,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_juggernaut_charge",
     "name": "Juggernaut Charge",
-    "description": "Become a living battering ram, charging up to 40ft in a straight line. Knocks all creatures in your path prone and deals 4d10 smashing damage to the target creature at the charge's end. Spends 45 Rage.",
+    "description": "Charge up to 40ft in a straight line as a living battering ram: knock all creatures in your path prone and deal 4d10 smashing to the target at the charge's end. Spends 45 Rage.",
     "level": 8,
     "spellType": "ACTION",
     "icon": "Combat/Juggernaut Charge",
@@ -3365,21 +3510,28 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": 45
       }
     },
-    "resolution": "MELEE_ATTACK",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 4,
-      "diceSides": 10,
-      "statModifier": "strength"
+      "formula": "4d10 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "prone",
+      "controlType": "knockdown",
       "duration": 1,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "juggernaut_charge_prone",
+          "name": "Knocked Prone",
+          "description": "All creatures in the charge path are knocked prone for 1 round.",
+          "config": { "saveType": "strength", "saveDC": 14, "duration": 1, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "turn_based",
@@ -3396,15 +3548,15 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_blood_boil_aura",
     "name": "Blood Boil Aura",
-    "description": "Project an unbearable aura of visceral heat. All enemies within 25ft take 2d8 fire damage at the start of each of their turns, and your weapon strikes ignite foes for an extra 2d6 fire damage for 3 rounds. Spends 35 Rage.",
+    "description": "Project unbearable visceral heat: enemies within 25ft take 2d8 ember at the start of their turns, and your weapon strikes ignite for an extra 2d6 ember for 3 rounds. Spends 35 Rage.",
     "level": 8,
     "spellType": "ACTION",
     "icon": "Fire/Ember Storm",
     "typeConfig": {
-      "school": "fire",
+      "school": "ember",
       "icon": "Fire/Ember Storm",
       "tags": [
-        "fire",
+        "ember",
         "buff",
         "debuff",
         "berserker"
@@ -3436,7 +3588,29 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       "debuff"
     ],
     "buffConfig": {
-      "buffType": "blood_boil",
+      "buffType": "damageIncrease",
+      "effects": [
+        {
+          "id": "blood_boil_weapon_ignite",
+          "name": "Boiling Strikes",
+          "description": "Your weapon strikes ignite foes for an extra 2d6 ember damage for 3 rounds.",
+          "mechanicsText": "+2d6 ember on weapon strikes, 3 rounds."
+        }
+      ],
+      "durationValue": 3,
+      "durationType": "rounds",
+      "durationUnit": "rounds"
+    },
+    "debuffConfig": {
+      "debuffType": "damageOverTime",
+      "effects": [
+        {
+          "id": "blood_boil_aura_burn",
+          "name": "Blood Boil",
+          "description": "At the start of each of their turns, enemies within 25ft take 2d8 ember damage.",
+          "mechanicsText": "2d8 ember at turn start while inside the 25ft aura."
+        }
+      ],
       "durationValue": 3,
       "durationUnit": "rounds"
     },
@@ -3454,7 +3628,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_world_render",
     "name": "World Render",
-    "description": "Slam the ground with cataclysmic power, fracturing stone and bedrock in a 30ft cone. Deals 6d10 smashing damage to all targets in the cone and causes the terrain to become jagged difficult ground. Spends 60 Rage.",
+    "description": "Slam the ground with cataclysmic power, fracturing a 30ft cone: 6d10 smashing to all targets and the terrain becomes jagged difficult ground. Spends 60 Rage.",
     "level": 9,
     "spellType": "ACTION",
     "icon": "Earth/Fissure",
@@ -3488,21 +3662,28 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
         "cost": 60
       }
     },
-    "resolution": "SAVING_THROW",
+    "resolution": "DICE",
     "effectTypes": [
       "damage",
       "control"
     ],
     "damageConfig": {
-      "damageType": "smashing",
-      "diceCount": 6,
-      "diceSides": 10,
-      "statModifier": "strength"
+      "formula": "6d10 + strength",
+      "damageTypes": ["smashing"],
+      "resolution": "DICE"
     },
     "controlConfig": {
-      "controlType": "difficult_terrain",
+      "controlType": "zone",
       "duration": 3,
-      "durationUnit": "rounds"
+      "durationUnit": "rounds",
+      "effects": [
+        {
+          "id": "world_render_jagged_ground",
+          "name": "Jagged Ground",
+          "description": "The 30ft cone becomes jagged difficult terrain for 3 rounds.",
+          "config": { "zoneType": "difficult_terrain", "duration": 3, "durationUnit": "rounds" }
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "encounter",
@@ -3519,7 +3700,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_indomitable_spirit",
     "name": "Indomitable Spirit",
-    "description": "Enter an unrelenting state of raw survival instinct. For 2 rounds, you cannot be stunned, slowed, paralyzed, or charmed, and any damage that would reduce you below 1 HP leaves you at 1 HP instead. Spends 40 Rage.",
+    "description": "Enter raw survival instinct for 2 rounds: cannot be stunned, slowed, paralyzed, or charmed, and damage that would drop you below 1 HP leaves you at 1 HP instead. Spends 40 Rage.",
     "level": 9,
     "spellType": "ACTION",
     "icon": "Buff/Titan Resolve",
@@ -3553,7 +3734,16 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
     ],
     "buffConfig": {
       "buffType": "death_prevention",
+      "effects": [
+        {
+          "id": "indomitable_spirit_unbroken",
+          "name": "Indomitable",
+          "description": "Cannot be stunned, slowed, paralyzed, or charmed. Damage that would reduce you below 1 HP leaves you at 1 HP instead.",
+          "mechanicsText": "Immune to stun/slow/paralyze/charm; leaves you at 1 HP instead of dropping, 2 rounds."
+        }
+      ],
       "durationValue": 2,
+      "durationType": "rounds",
       "durationUnit": "rounds"
     },
     "cooldownConfig": {
@@ -3570,7 +3760,7 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
   {
     "id": "berserk_avatar_of_slaughter",
     "name": "Avatar of Slaughter",
-    "description": "Ascend to the mythical pinnacle of unkillable fury for 3 rounds. Your melee attacks ignore all armor and damage reduction, deals an additional 3d10 smashing damage per strike, and you regenerate 20 HP at the start of each turn. Spends 80 Rage.",
+    "description": "Ascend to unkillable fury for 3 rounds: melee attacks ignore armor and damage reduction, deal +3d10 smashing per strike, and you regenerate 20 HP at the start of each turn. Spends 80 Rage.",
     "level": 10,
     "spellType": "ACTION",
     "icon": "Transformation/God of War",
@@ -3602,11 +3792,48 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
       "transformation",
       "buff"
     ],
+    "buffConfig": {
+      "buffType": "damageIncrease",
+      "effects": [
+        {
+          "id": "avatar_of_slaughter_armor_breaker",
+          "name": "Armor-Breaker",
+          "description": "Melee attacks ignore all armor and damage reduction and deal an additional 3d10 smashing damage per strike.",
+          "mechanicsText": "Ignore armor/DR; +3d10 smashing per melee strike."
+        },
+        {
+          "id": "avatar_of_slaughter_regen",
+          "name": "Slaughter's Renewal",
+          "description": "Regenerate 20 HP at the start of each of your turns.",
+          "mechanicsText": "Regenerate 20 HP at turn start."
+        }
+      ],
+      "durationValue": 3,
+      "durationType": "rounds",
+      "durationUnit": "rounds"
+    },
     "transformationConfig": {
-      "transformationType": "avatar",
+      "transformationType": "physical",
+      "targetType": "self",
+      "newForm": "Avatar of Slaughter",
+      "description": "Ascend to the mythical pinnacle of unkillable fury: armor and damage reduction are ignored, strikes carry +3d10 smashing, and you regenerate 20 HP at the start of each turn.",
       "duration": 3,
       "durationUnit": "rounds",
-      "power": "major"
+      "power": "ultimate",
+      "concentration": false,
+      "maintainEquipment": true,
+      "grantedAbilities": [
+        {
+          "id": "avatar_armor_breaker",
+          "name": "Armor-Breaker",
+          "description": "Melee attacks ignore all armor and damage reduction and deal +3d10 smashing damage."
+        },
+        {
+          "id": "avatar_slaughter_regen",
+          "name": "Slaughter's Renewal",
+          "description": "Regenerate 20 HP at the start of each turn."
+        }
+      ]
     },
     "cooldownConfig": {
       "cooldownType": "long_rest",

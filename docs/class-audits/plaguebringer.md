@@ -76,3 +76,22 @@
 ## 6. Mind memory
 
 - `plaguebringer-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 40 flagged / 2 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `pb_miasma_form` | no `effectTypes` | added `utility` + rot-cloud utilityConfig |
+| `pb_calcifying_rot` | `debuff` with no config | added stiffened-cartilage debuffConfig |
+
+Flavor: virulence/Decay-stage identity intact; no rethemes proposed.
+
+### Pass 2 addendum — 2026-09-16 (mechanical warning cleanup)
+
+16 spells had `instant`/`rounds` duration drift → unit `instant`.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+28 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

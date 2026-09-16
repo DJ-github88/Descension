@@ -11,7 +11,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Seed of Doubt",
     icon: "Psychic/Cast Doubt",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2.5, y: 0 },
     requires: null,
     spell: {
       name: "Seed of Doubt",
@@ -31,7 +31,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "False Witness",
     icon: "Psychic/Ghostly being",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "False Witness",
@@ -41,7 +41,7 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 } },
       damageTypes: ["wyrd"],
@@ -58,7 +58,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Aura of False Faith",
     icon: "Psychic/Mental Dissaray",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Aura of False Faith",
@@ -78,7 +78,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "False Prophecy",
     icon: "Psychic/Mind Control",
     maxRanks: 3,
-    position: { x: 0, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "dc_t1_seed_of_doubt",
     spell: {
       name: "False Prophecy",
@@ -88,15 +88,15 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 30, aoeShape: "circle", aoeSize: 10,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { mana: { baseAmount: 12 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["charmed"], visualTheme: "shadow", tags: ["charm", "control", "falseprophet"]
     },
     rankUpgrades: [
       { description: "Deliver a prophecy of the silence spirit. Up to 3 creatures within 30 feet believe your lies for 3 rounds; spend 2 Madness: an affected creature attacks its nearest ally once." },
-      { description: "Deliver a prophecy of the silence spirit. Up to 4 creatures within 40 feet believe your lies for 1 minute; spend 2 Madness: ALL affected creatures attack their nearest allies once.", durationRounds: 6, durationRealTime: 60 }
+      { description: "Deliver a prophecy of the silence spirit. Up to 4 creatures within 40 feet believe your lies for 1 minute; spend 2 Madness: ALL affected creatures attack their nearest allies once.", durationRounds: 6 }
     ]
   },
   {
@@ -104,7 +104,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Corrupting Whisper",
     icon: "Psychic/Hypnosis",
     maxRanks: 3,
-    position: { x: 4, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "dc_t1_aura_of_false_faith",
     spell: {
       name: "Corrupting Whisper",
@@ -114,10 +114,10 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 12, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       debuffs: ["charmed"], visualTheme: "shadow", tags: ["charm", "fear", "scaling", "falseprophet"]
     },
     rankUpgrades: [
@@ -131,7 +131,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Heresy",
     icon: "Psychic/Mental Roar",
     maxRanks: 3,
-    position: { x: 0, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "dc_t2_false_prophecy",
     spell: {
       name: "Heresy",
@@ -141,16 +141,16 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 15, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       damageTypes: ["wyrd"],
       debuffs: ["heresy"], visualTheme: "shadow", tags: ["mark", "retaliation", "falseprophet"]
     },
     rankUpgrades: [
       { description: "Declare an enemy a heretic in the silence spirit's name. For 3 rounds, the target takes wyrd damage equal to TWICE your current Madness whenever it attacks anyone. Generates 1d6 Madness when cast." },
-      { description: "Declare an enemy a heretic in the silence spirit's name. For 4 rounds, the target takes double your Madness in wyrd damage whenever it attacks, and the declaration spreads to one enemy per round.", durationRounds: 4, durationRealTime: 24 }
+      { description: "Declare an enemy a heretic in the silence spirit's name. For 4 rounds, the target takes double your Madness in wyrd damage whenever it attacks, and the declaration spreads to one enemy per round.", durationRounds: 4 }
     ]
   },
   {
@@ -158,7 +158,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Congregation of Doubt",
     icon: "Psychic/Mental Chaos",
     maxRanks: 3,
-    position: { x: 4, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "dc_t2_corrupting_whisper",
     spell: {
       name: "Congregation of Doubt",
@@ -168,7 +168,7 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
       castTimeType: "short", castTimeValue: 1.5,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 15 } },
       debuffs: ["confused"], visualTheme: "shadow", tags: ["confusion", "aoe", "madness", "falseprophet"]
@@ -184,7 +184,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Turn the Faithful",
     icon: "Psychic/Psychic Mind",
     maxRanks: 3,
-    position: { x: 0, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "dc_t3_heresy",
     spell: {
       name: "Turn the Faithful",
@@ -204,7 +204,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Storm of Lies",
     icon: "Psychic/Mind Wave",
     maxRanks: 2,
-    position: { x: 4, y: 3 },
+    position: { x: 1, y: 3 },
     requires: "dc_t3_congregation_of_doubt",
     spell: {
       name: "Storm of Lies",
@@ -214,7 +214,7 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 30,
       castTimeType: "short", castTimeValue: 2,
-      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { mana: { baseAmount: 18 } },
       damageTypes: ["wyrd"],
@@ -231,7 +231,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Rewrite Truth",
     icon: "Arcane/Open Portal",
     maxRanks: 3,
-    position: { x: 0.5, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "dc_t4_turn_the_faithful",
     spell: {
       name: "Rewrite Truth",
@@ -241,7 +241,7 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 60,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { mana: { baseAmount: 12 } },
       visualTheme: "shadow", tags: ["teleport", "reposition", "control", "falseprophet"]
@@ -256,7 +256,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "The Grand Lie",
     icon: "Utility/Hooded Figure Archway",
     maxRanks: 2,
-    position: { x: 3.5, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "dc_t4_storm_of_lies",
     spell: {
       name: "The Grand Lie",
@@ -276,7 +276,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Shatter the Faith",
     icon: "Psychic/Hypnotic Eye",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "dc_t5_rewrite_truth",
     spell: {
       name: "Shatter the Faith",
@@ -286,10 +286,10 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "long", castTimeValue: 3,
-      cooldownCategory: "long", cooldownValue: 150, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 25, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: false, interruptible: true,
       resourceCosts: { mana: { baseAmount: 25 }, madness: { baseAmount: 7 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       debuffs: ["inverted-perception"], visualTheme: "shadow", tags: ["perception", "zone", "madness", "falseprophet"]
     }
   },
@@ -317,7 +317,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Doubt Engine",
     icon: "Psychic/Mind Surge",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 1, y: 5 },
     requires: "dc_t5_the_grand_lie",
     spell: {
       name: "Doubt Engine",
@@ -337,7 +337,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "The Great Deception",
     icon: "Psychic/Psychic Mind 1",
     maxRanks: 1,
-    position: { x: 1, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "dc_t6_shatter_the_faith",
     spell: {
       name: "The Great Deception",
@@ -347,10 +347,10 @@ export const FALSE_PROPHET_DECEIVER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 240, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 40, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 30 }, madness: { baseAmount: 5 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["grand-deception"], visualTheme: "shadow", tags: ["ultimate", "capstone", "control", "falseprophet"]
     }
   },
@@ -359,7 +359,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Silver Tongue",
     icon: "Psychic/Telepathic",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "dc_t6_credible_lies",
     spell: {
       name: "Silver Tongue",
@@ -382,7 +382,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Web of Lies",
     icon: "Poison/Poison Arm'",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "dc_t6_credible_lies",
     spell: {
       name: "Web of Lies",
@@ -402,7 +402,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Perfect Credibility",
     icon: "Utility/Glowing Empowered Figure",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "dc_t6_doubt_engine",
     spell: {
       name: "Perfect Credibility",
@@ -422,7 +422,7 @@ export const FALSE_PROPHET_DECEIVER = [
     name: "Deep Reservoir",
     icon: "Psychic/Mental Abyss",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "dc_t6_doubt_engine",
     spell: {
       name: "Deep Reservoir",

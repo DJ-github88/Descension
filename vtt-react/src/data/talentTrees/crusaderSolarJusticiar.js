@@ -13,7 +13,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Zealot's Edge",
     icon: "Slashing/Flaming Sword",
     maxRanks: 3,
-    position: { x: 0.5, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Zealot's Edge",
@@ -35,7 +35,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Righteous Cleave",
     icon: "Slashing/Slashing Cleave",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Righteous Cleave",
@@ -45,7 +45,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "cone", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 3, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["smashing", "sacred"],
@@ -63,7 +63,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Unflinching Stride",
     icon: "Bludgeoning/Steady Step",
     maxRanks: 2,
-    position: { x: 3.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Unflinching Stride",
@@ -85,7 +85,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Sundering Wrath",
     icon: "Radiant/Divine Downward Sword",
     maxRanks: 3,
-    position: { x: 1.25, y: 1.5 },
+    position: { x: 4.5, y: 1 },
     requires: "csj_t1_zealots_edge",
     spell: {
       name: "Sundering Wrath",
@@ -106,7 +106,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Searing Cross",
     icon: "Slashing/Cross Slash",
     maxRanks: 3,
-    position: { x: 2.75, y: 1.5 },
+    position: { x: 2, y: 1 },
     requires: "csj_t1_righteous_cleave",
     spell: {
       name: "Searing Cross",
@@ -116,7 +116,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "single", rangeType: "melee", range: 5,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 4, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 6 } },
       damageTypes: ["slicing", "sacred"],
@@ -137,7 +137,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Harmonic Overdrive",
     icon: "Lightning/Thunder Resonance",
     maxRanks: 3,
-    position: { x: 2.25, y: 3 },
+    position: { x: 2.5, y: 2 },
     requires: "csj_t2_sundering_wrath",
     spell: {
       name: "Harmonic Overdrive",
@@ -159,7 +159,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Consecrated Impact",
     icon: "Radiant/Radiant Sunburst",
     maxRanks: 3,
-    position: { x: 1.75, y: 3 },
+    position: { x: 4, y: 2 },
     requires: "csj_t2_searing_cross",
     spell: {
       name: "Consecrated Impact",
@@ -183,7 +183,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Judgment Blade",
     icon: "Radiant/Angelic Sword",
     maxRanks: 3,
-    position: { x: 2.75, y: 4.5 },
+    position: { x: 0, y: 3 },
     requires: "csj_t3_harmonic_overdrive",
     spell: {
       name: "Judgment Blade",
@@ -193,7 +193,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 2, targetingMode: "single", rangeType: "ranged", range: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 8 } },
       damageTypes: ["smashing", "sacred"],
@@ -211,7 +211,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Fervent Execution",
     icon: "Slashing/Execution",
     maxRanks: 2,
-    position: { x: 1.25, y: 4.5 },
+    position: { x: 4, y: 3 },
     requires: "csj_t3_consecrated_impact",
     spell: {
       name: "Fervent Execution",
@@ -233,7 +233,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Solar Combustion",
     icon: "Fire/Flame Burst",
     maxRanks: 3,
-    position: { x: 3.25, y: 6 },
+    position: { x: 0.5, y: 4 },
     requires: "csj_t4_judgment_blade",
     spell: {
       name: "Solar Combustion",
@@ -255,7 +255,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Unyielding Fervor",
     icon: "Fire/Firey Dedication",
     maxRanks: 2,
-    position: { x: 0.75, y: 6 },
+    position: { x: 4.5, y: 4 },
     requires: "csj_t4_fervent_execution",
     spell: {
       name: "Unyielding Fervor",
@@ -277,7 +277,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Titanfall Cleave",
     icon: "Slashing/Whirl",
     maxRanks: 1,
-    position: { x: 3.5, y: 7 },
+    position: { x: 0.5, y: 5 },
     requires: "csj_t5_solar_combustion",
     spell: {
       name: "Titanfall Cleave",
@@ -287,7 +287,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
       spellType: "ACTIVE", category: "damage",
       actionPoints: 3, targetingMode: "aoe", rangeType: "self-centered", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 10 } },
       damageTypes: ["smashing", "sacred"],
@@ -302,7 +302,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Vow of the Sunblade",
     icon: "Radiant/Angelic Ascension",
     maxRanks: 2,
-    position: { x: 2, y: 7 },
+    position: { x: 2, y: 5 },
     requires: ["csj_t5_solar_combustion", "csj_t5_unyielding_fervor"],
     spell: {
       name: "Vow of the Sunblade",
@@ -322,7 +322,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Dawnfire Baptism",
     icon: "Radiant/Divine Halo",
     maxRanks: 2,
-    position: { x: 0.5, y: 7 },
+    position: { x: 4, y: 5 },
     requires: "csj_t5_unyielding_fervor",
     spell: {
       name: "Dawnfire Baptism",
@@ -345,7 +345,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Titanfall Executioner",
     icon: "Bludgeoning/Comet Strike",
     maxRanks: 1,
-    position: { x: 4, y: 8 },
+    position: { x: 0.5, y: 6 },
     requires: "csj_t6_titanic_cleave",
     spell: {
       name: "Titanfall Executioner",
@@ -371,7 +371,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Justiciar Doctrine",
     icon: "Radiant/Holy Bible",
     maxRanks: 5,
-    position: { x: 3, y: 8 },
+    position: { x: 2, y: 6 },
     requires: "csj_t6_titanic_cleave",
     spell: {
       name: "Justiciar Doctrine",
@@ -395,7 +395,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Sunwell Reservoir",
     icon: "Radiant/Radiant Core",
     maxRanks: 3,
-    position: { x: 2, y: 8 },
+    position: { x: 2.5, y: 6 },
     requires: "csj_t6_vow_of_sunblade",
     spell: {
       name: "Sunwell Reservoir",
@@ -416,7 +416,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Verdict of the Sun",
     icon: "Radiant/Radiant Sun",
     maxRanks: 3,
-    position: { x: 1, y: 8 },
+    position: { x: 3, y: 6 },
     requires: "csj_t6_burning_vigil",
     spell: {
       name: "Verdict of the Sun",
@@ -438,7 +438,7 @@ export const CRUSADER_SOLAR_JUSTICIAR = [
     name: "Incarnate of Wrath",
     icon: "Radiant/Radiant Warrior",
     maxRanks: 3,
-    position: { x: 0, y: 8 },
+    position: { x: 4.5, y: 6 },
     requires: "csj_t6_burning_vigil",
     spell: {
       name: "Incarnate of Wrath",

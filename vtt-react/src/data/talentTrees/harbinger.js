@@ -19,7 +19,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Chaos Prophecy Eruption",
     icon: "Chaos/Chaotic Rupture",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 3.5, y: 0 },
     requires: null,
     spell: {
       name: "Chaos Prophecy Eruption",
@@ -29,7 +29,7 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["ember", "rime", "storm"],
@@ -37,8 +37,8 @@ export const HARBINGER_WILD_PROPHET = [
       visualTheme: "wyrd", tags: ["aoe", "wild-magic", "mayhem-builder", "harbinger"]
     },
     rankUpgrades: [
-      { description: "25-foot area deals 3d6 damage, generates 2 Mayhem, and has a 25 points chance to trigger a Wild Magic Surge.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 8 },
-      { description: "30-foot area deals 4d6 damage, generates 2 Mayhem, and 50 points chance to trigger Wild Magic Surge.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 10 }
+      { description: "25-foot area deals 3d6 damage, generates 2 Mayhem, and has a 25 points chance to trigger a Wild Magic Surge.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 1 },
+      { description: "30-foot area deals 4d6 damage, generates 2 Mayhem, and 50 points chance to trigger Wild Magic Surge.", primaryDamage: { dice: "4d6", flat: 0, procChance: 100 }, aoeSize: 30, cooldownValue: 2 }
     ]
   },
   {
@@ -68,7 +68,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Expanding Prophecy",
     icon: "Force/Radial Burst",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Expanding Prophecy",
@@ -89,7 +89,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Wild Magic Cascade",
     icon: "Lightning/Triple Lightning",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4.5, y: 1 },
     requires: "wp_t1_chaos_eruption",
     spell: {
       name: "Wild Magic Cascade",
@@ -99,7 +99,7 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "multi", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 3 } },
       damageTypes: ["ember", "storm"],
@@ -116,7 +116,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Unstable Wyrd Aura",
     icon: "Force/Radiating Barrier",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "wp_t1_surge_attunement",
     spell: {
       name: "Unstable Wyrd Aura",
@@ -140,7 +140,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Overlapping Doom Vortex",
     icon: "Chaos/Tendrils Chaos",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 3, y: 2 },
     requires: "wp_t2_wild_cascade",
     spell: {
       name: "Overlapping Doom Vortex",
@@ -150,7 +150,7 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 4 } },
       damageTypes: ["ember", "blight"],
@@ -168,7 +168,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Surging Power Escalation",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "wp_t2_unstable_aura",
     spell: {
       name: "Surging Power Escalation",
@@ -190,7 +190,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Cataclysmic Disintegration Beam",
     icon: "Fire/Fire Beam",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "wp_t3_overlapping_doom",
     spell: {
       name: "Cataclysmic Disintegration Beam",
@@ -200,7 +200,7 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 60, aoeShape: "line", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 5 } },
       damageTypes: ["ember", "storm", "blight"],
@@ -208,8 +208,8 @@ export const HARBINGER_WILD_PROPHET = [
       visualTheme: "wyrd", tags: ["line", "nuke", "multi-element", "harbinger"]
     },
     rankUpgrades: [
-      { description: "70-foot beam deals 4d8 damage, burns for 2d8, and cooldown drops to 18s.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 18 },
-      { description: "80-foot beam deals 5d8 damage, pierces 25 points of enemy shields/durability, and refunds 2 Mayhem.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 16 }
+      { description: "70-foot beam deals 4d8 damage, burns for 2d8, and cooldown drops to 3 rounds.", primaryDamage: { dice: "4d8", flat: 0, procChance: 100 }, cooldownValue: 3 },
+      { description: "80-foot beam deals 5d8 damage, pierces 25 points of enemy shields/durability, and refunds 2 Mayhem.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -217,7 +217,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Mayhem Overload",
     icon: "Force/Energy Nexus",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "wp_t3_surging_power",
     spell: {
       name: "Mayhem Overload",
@@ -238,7 +238,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Apex Surge Nova",
     icon: "Utility/Three Explosive Holes",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "wp_t4_cataclysm_beam",
     spell: {
       name: "Apex Surge Nova",
@@ -248,7 +248,7 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 6 } },
       damageTypes: ["ember", "rime", "storm"],
@@ -256,7 +256,7 @@ export const HARBINGER_WILD_PROPHET = [
       debuffs: ["elemental-vulnerability"], visualTheme: "wyrd", tags: ["supernova", "nuke", "mass-vuln", "harbinger"]
     },
     rankUpgrades: [
-      { description: "50-foot nova deals 6d8 damage, stuns all enemies for 1 round, and cooldown drops to 24s.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, aoeSize: 50, cooldownValue: 24 }
+      { description: "50-foot nova deals 6d8 damage, stuns all enemies for 1 round, and cooldown drops to 4 rounds.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, aoeSize: 50, cooldownValue: 4 }
     ]
   },
   {
@@ -264,7 +264,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Wild Sovereignty",
     icon: "Nature/Nature Wild 1",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "wp_t4_mayhem_overflow",
     spell: {
       name: "Wild Sovereignty",
@@ -286,7 +286,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Cataclysm Incarnate",
     icon: "Void/Demonic Possesion",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "wp_t5_apex_surge_nova",
     spell: {
       name: "Cataclysm Incarnate",
@@ -296,10 +296,10 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 8 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       buffs: ["cataclysm-incarnate"], visualTheme: "wyrd", tags: ["god-mode", "double-surges", "climax", "harbinger"]
     },
     rankUpgrades: []
@@ -330,7 +330,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Chaotic Bastion",
     icon: "Force/Force Shield",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "wp_t5_wild_sovereignty",
     spell: {
       name: "Chaotic Bastion",
@@ -351,7 +351,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Avatar of the Chaos Void",
     icon: "Lightning/Lightning Storm",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "wp_t6_cataclysm_incarnate",
     spell: {
       name: "Avatar of the Chaos Void",
@@ -361,10 +361,10 @@ export const HARBINGER_WILD_PROPHET = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["ember", "rime", "storm"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       buffs: ["avatar-keth-amar"], visualTheme: "wyrd", tags: ["ultimate", "capstone", "harbinger"]
@@ -376,7 +376,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Wild Prophet Doctrine",
     icon: "Nature/Nature Wild 10",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "wp_t6_cataclysm_incarnate",
     spell: {
       name: "Wild Prophet Doctrine",
@@ -419,7 +419,7 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Perpetual Cascade Nova",
     icon: "Utility/Embraced by Fire",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "wp_t6_chaos_criticality",
     spell: {
       name: "Perpetual Cascade Nova",
@@ -439,19 +439,19 @@ export const HARBINGER_WILD_PROPHET = [
     name: "Wild Surge Rebirth",
     icon: "Arcane/Rewind Time",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "wp_t6_entropy_ward",
     spell: {
       name: "Wild Surge Rebirth",
-      description: "While at 4+ Mayhem, lethal damage triggers a massive wild magic reset: prevents death, restores 24 Hit Points and 30 temporary health, and sets Mayhem to 5 (cooldown: 180s).",
+      description: "While at 4+ Mayhem, lethal damage triggers a massive wild magic reset: prevents death, restores 24 Hit Points and 30 temporary health, and sets Mayhem to 5 (cooldown: 30 rounds).",
       flavorText: "The universe refused the outcome, rewinding the fatal blow into an explosion.",
       source: "talent", class: "Harbinger", treeId: "wild_prophet",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 120s)." },
-      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 20 rounds)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 15 rounds)." }
     ]
   }
 ];
@@ -466,7 +466,7 @@ export const HARBINGER_DEATHS_SEER = [
     name: "Death Mark Strike",
     icon: "Necrotic/Death Mark",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Death Mark Strike",
@@ -476,7 +476,7 @@ export const HARBINGER_DEATHS_SEER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["blight"],
@@ -485,7 +485,7 @@ export const HARBINGER_DEATHS_SEER = [
     },
     rankUpgrades: [
       { description: "Deals 3d8 blight damage, reduces durability by 3, and causes bleed for 1d6 blight per round.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 } },
-      { description: "Deals 3d8 blight damage, reduces durability by 4, bleeds for 1d6, and attacks against the marked target score critical hits on 19+.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, cooldownValue: 10 }
+      { description: "Deals 3d8 blight damage, reduces durability by 4, bleeds for 1d6, and attacks against the marked target score critical hits on 19+.", primaryDamage: { dice: "3d8", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -493,7 +493,7 @@ export const HARBINGER_DEATHS_SEER = [
     name: "Necrotic Decay Aura",
     icon: "Necrotic/Necrotic Decay 1",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Necrotic Decay Aura",
@@ -537,7 +537,7 @@ export const HARBINGER_DEATHS_SEER = [
     name: "Decay Organ Collapse",
     icon: "Frost/Frost Chill",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "ds_t1_death_mark_strike",
     spell: {
       name: "Decay Organ Collapse",
@@ -547,7 +547,7 @@ export const HARBINGER_DEATHS_SEER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 2 } },
       damageTypes: ["blight"],
@@ -564,7 +564,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Deep Rotting Wounds",
     icon: "Psychic/Psychic Mind",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "ds_t1_decay_wave",
     spell: {
       name: "Deep Rotting Wounds",
@@ -586,7 +586,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Soul Reaping Harvest",
     icon: "Necrotic/Drain Soul",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 0, y: 2 },
     requires: "ds_t2_organ_collapse",
     spell: {
       name: "Soul Reaping Harvest",
@@ -596,7 +596,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 3 } },
       damageTypes: ["blight"],
@@ -614,7 +614,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Corrupting Blows",
     icon: "Necrotic/Corruption",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "ds_t2_deep_rot",
     spell: {
       name: "Corrupting Blows",
@@ -638,7 +638,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Unmake Entity",
     icon: "Psychic/Psychic Mind 2",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 1.5, y: 3 },
     requires: "ds_t3_reap_soul",
     spell: {
       name: "Unmake Entity",
@@ -648,7 +648,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 4 } },
       damageTypes: ["blight"],
@@ -656,8 +656,8 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "wyrd", tags: ["execute", "raise-dead", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Deals 5d8 blight damage; revenant lasts 2 minutes and deals 1d8 blight on attack.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 18 },
-      { description: "Deals 6d8 blight damage; kills refund 3 Mayhem.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 16 }
+      { description: "Deals 5d8 blight damage; revenant lasts 2 minutes and deals 1d8 blight on attack.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 3 },
+      { description: "Deals 6d8 blight damage; kills refund 3 Mayhem.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -665,7 +665,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Soul Harvest Economy",
     icon: "Necrotic/Grim Reaper Casting",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 4, y: 3 },
     requires: "ds_t3_unmaking_criticality",
     spell: {
       name: "Soul Harvest Economy",
@@ -686,7 +686,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Oblivion's Black Sun",
     icon: "Necrotic/Gravity Death",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 2.5, y: 4 },
     requires: "ds_t4_unmake_entity",
     spell: {
       name: "Oblivion's Black Sun",
@@ -696,7 +696,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 5 } },
       damageTypes: ["blight"],
@@ -705,7 +705,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       visualTheme: "wyrd", tags: ["black-sun", "heal-block", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Deals 4d6 blight per round, silences all marked enemies, and lasts 4 rounds.", dotTick: "4d6", cooldownValue: 24 }
+      { description: "Deals 4d6 blight per round, silences all marked enemies, and lasts 4 rounds.", dotTick: "4d6", cooldownValue: 4 }
     ]
   },
   {
@@ -713,7 +713,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Army of the Fallen Wyrd",
     icon: "Frost/Blow Frost",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "ds_t4_death_siphon",
     spell: {
       name: "Army of the Fallen Wyrd",
@@ -735,7 +735,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Death Incarnate",
     icon: "Necrotic/Ebon Death",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "ds_t5_eternal_decay",
     spell: {
       name: "Death Incarnate",
@@ -745,10 +745,10 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["death-incarnate"], visualTheme: "wyrd", tags: ["god-mode", "instant-execute", "maximize", "harbinger"]
     },
     rankUpgrades: []
@@ -778,7 +778,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Phylactery Shroud",
     icon: "Necrotic/Protective Aura",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "ds_t5_undead_mastery",
     spell: {
       name: "Phylactery Shroud",
@@ -799,7 +799,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Avatar of the Black Reaper",
     icon: "Psychic/Psychic Mind 4",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "ds_t6_death_incarnate",
     spell: {
       name: "Avatar of the Black Reaper",
@@ -809,10 +809,10 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       buffs: ["black-reaper"], visualTheme: "wyrd", tags: ["ultimate", "capstone", "mass-execute", "harbinger"]
@@ -824,7 +824,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Death's Seer Doctrine",
     icon: "Frost/Circular Frost Explosion",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "ds_t6_death_incarnate",
     spell: {
       name: "Death's Seer Doctrine",
@@ -847,7 +847,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Endless Soul Siphon Reservoir",
     icon: "Necrotic/Soul Exit",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "ds_t6_doom_penetration",
     spell: {
       name: "Endless Soul Siphon Reservoir",
@@ -867,7 +867,7 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     name: "Certain Death Principle",
     icon: "Necrotic/Necrotic Death",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "ds_t6_doom_penetration",
     spell: {
       name: "Certain Death Principle",
@@ -891,15 +891,15 @@ primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
     requires: "ds_t6_undying_shroud",
     spell: {
       name: "Necrotic Ascendance Rebirth",
-      description: "While at 3+ Mayhem, lethal damage dissolves you into necrotic mist instead: prevents death, restores 24 Hit Points and 30 temp HP, and sets Mayhem to 5 (cooldown: 180s).",
+      description: "While at 3+ Mayhem, lethal damage dissolves you into necrotic mist instead: prevents death, restores 24 Hit Points and 30 temp HP, and sets Mayhem to 5 (cooldown: 30 rounds).",
       flavorText: "Death cannot claim its own master.",
       source: "talent", class: "Harbinger", treeId: "deaths_seer",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 120s)." },
-      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 20 rounds)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 15 rounds)." }
     ]
   }
 ];
@@ -924,7 +924,7 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["arcane", "wyrd"],
@@ -933,7 +933,7 @@ export const HARBINGER_FATE_RIFT = [
     },
     rankUpgrades: [
       { description: "20-foot rift deals 3d6 wyrd damage, pulls enemies 10ft inward, and generates 1 Mayhem.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 20 },
-      { description: "25-foot rift deals 3d6 wyrd damage, pulls 15ft inward, and generates 2 Mayhem.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 8 }
+      { description: "25-foot rift deals 3d6 wyrd damage, pulls 15ft inward, and generates 2 Mayhem.", primaryDamage: { dice: "3d6", flat: 0, procChance: 100 }, aoeSize: 25, cooldownValue: 1 }
     ]
   },
   {
@@ -983,7 +983,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Gravitational Singularity Collapse",
     icon: "Force/Grasping Appendages",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "fr_t1_void_tear",
     spell: {
       name: "Gravitational Singularity Collapse",
@@ -993,7 +993,7 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 50, aoeShape: "circle", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 3 } },
       damageTypes: ["arcane"],
@@ -1010,7 +1010,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Resonating Rifts",
     icon: "Arcane/Swirling Vortex",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 3.5, y: 1 },
     requires: "fr_t1_spatial_instability",
     spell: {
       name: "Resonating Rifts",
@@ -1032,7 +1032,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Dimensional Shredder",
     icon: "Arcane/Magical Staff",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "fr_t2_rift_collapse",
     spell: {
       name: "Dimensional Shredder",
@@ -1042,7 +1042,7 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "line", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 4 } },
       damageTypes: ["arcane"],
@@ -1050,8 +1050,8 @@ export const HARBINGER_FATE_RIFT = [
       debuffs: ["armor-sunder"], visualTheme: "wyrd", tags: ["line", "wire", "sunder", "harbinger"]
     },
     rankUpgrades: [
-      { description: "50-foot wire deals 5d8 arcane damage, shears 30 points of enemy durability, cooldown drops to 12s.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 12 },
-      { description: "60-foot wire deals 6d8 arcane damage, shears 35 points of enemy durability, and silences targets for 1 round.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 10 }
+      { description: "50-foot wire deals 5d8 arcane damage, shears 30 points of enemy durability, cooldown drops to 2 rounds.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 2 },
+      { description: "60-foot wire deals 6d8 arcane damage, shears 35 points of enemy durability, and silences targets for 1 round.", primaryDamage: { dice: "6d8", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -1059,7 +1059,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Void Leech",
     icon: "Necrotic/Devour",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "fr_t2_rift_synergy",
     spell: {
       name: "Void Leech",
@@ -1081,7 +1081,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Fate Rift Super-Singularity",
     icon: "Void/Black Hole",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 2.5, y: 3 },
     requires: "fr_t3_dimensional_shred",
     spell: {
       name: "Fate Rift Super-Singularity",
@@ -1091,7 +1091,7 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 5 } },
       damageTypes: ["arcane"],
@@ -1130,7 +1130,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Event Horizon Implosion",
     icon: "Psychic/Psychic Mind",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "fr_t4_void_nova",
     spell: {
       name: "Event Horizon Implosion",
@@ -1140,7 +1140,7 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 6 } },
       damageTypes: ["arcane"],
@@ -1148,7 +1148,7 @@ export const HARBINGER_FATE_RIFT = [
       debuffs: ["ward-strip"], visualTheme: "wyrd", tags: ["chain-detonate", "mass-nuke", "dispel", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Deals 5d8 damage per rift, stuns all enemies for 1 round, and cooldown drops to 24s.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 24 }
+      { description: "Deals 5d8 damage per rift, stuns all enemies for 1 round, and cooldown drops to 4 rounds.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 4 }
     ]
   },
   {
@@ -1156,7 +1156,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Void Entity Dominion",
     icon: "Force/Void Push",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "fr_t4_multi_rift_capacity",
     spell: {
       name: "Void Entity Dominion",
@@ -1178,7 +1178,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "The Abyssal Riftway",
     icon: "Arcane/Open Portal",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0, y: 5 },
     requires: "fr_t5_event_horizon_implosion",
     spell: {
       name: "The Abyssal Riftway",
@@ -1188,10 +1188,10 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 7 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "4d6", flat: 0, procChance: 100 },
       buffs: ["abyssal-riftway"], visualTheme: "wyrd", tags: ["mass-pull", "climax", "harbinger"]
@@ -1244,7 +1244,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Avatar of the Singularity Sovereign",
     icon: "Psychic/Psychic Mind 5",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "fr_t6_the_abyssal_rift",
     spell: {
       name: "Avatar of the Singularity Sovereign",
@@ -1254,10 +1254,10 @@ export const HARBINGER_FATE_RIFT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mayhem: { baseAmount: 10 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "8d10", flat: 0, procChance: 100 },
       buffs: ["singularity-sovereign"], visualTheme: "wyrd", tags: ["ultimate", "capstone", "damage-reduction", "harbinger"]
@@ -1269,7 +1269,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Fate Rift Doctrine",
     icon: "Arcane/Magical Duel",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "fr_t6_the_abyssal_rift",
     spell: {
       name: "Fate Rift Doctrine",
@@ -1292,7 +1292,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Perpetual Void Generator",
     icon: "Force/Void Wave",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "fr_t6_void_criticality",
     spell: {
       name: "Perpetual Void Generator",
@@ -1312,7 +1312,7 @@ export const HARBINGER_FATE_RIFT = [
     name: "Hyper-Spatial Crush",
     icon: "Psychic/Psychic Mind 6",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "fr_t6_void_criticality",
     spell: {
       name: "Hyper-Spatial Crush",
@@ -1338,15 +1338,15 @@ export const HARBINGER_FATE_RIFT = [
     requires: "fr_t6_rift_sanctuary",
     spell: {
       name: "Dimensional Shift Rebirth",
-      description: "While at 3+ Mayhem, lethal damage shifts your body into an active void rift: prevents death, restores 24 Hit Points and 30 temp HP, sets Mayhem to 5, and teleports you 40 feet away (cooldown: 180s).",
+      description: "While at 3+ Mayhem, lethal damage shifts your body into an active void rift: prevents death, restores 24 Hit Points and 30 temp HP, sets Mayhem to 5, and teleports you 40 feet away (cooldown: 30 rounds).",
       flavorText: "You slipped into the rift before the executioner finished the swing.",
       source: "talent", class: "Harbinger", treeId: "fate_rift",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "wyrd", tags: ["passive", "capstone", "cheat-death", "harbinger"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 120s)." },
-      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 90s)." }
+      { description: "Survive lethal damage, restores 36 Hit Points, 40 temp HP, full Mayhem (cooldown: 20 rounds)." },
+      { description: "Survive lethal damage, restores 45 Hit Points, 50 temp HP (cooldown: 15 rounds)." }
     ]
   }
 ];

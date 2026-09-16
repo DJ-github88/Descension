@@ -353,29 +353,29 @@ The Master Wild Surge table is structured across four absolute thematic categori
   specs: [
    {
     id: "wild_prophet",
-    name: "Mayhem",
+    name: "Wild Prophet",
     icon: "Nature/Nature Wild 1",
     color: "#E74C3C",
     theme: "Area Surges & Prophecy Shrapnel",
-    description: "Wild Prophets merge the Chaos Weaver's Wild Magic tradition with the Doomsayer's Cataclysm specialization. They abandon all attempts at control, diving headfirst into planar instability and spraying prophecy-shrapnel across the entire battlefield. Their prophecies become blast zones that catch everything inside their radius. Every body caught in the detonation earns Mayhem, making them the most efficient entropy harvesters alive.",
+    description: "Wild Prophets merge the Chaos Weaver's Wild Magic tradition with the Doomsayer's Cataclysm specialization. They abandon all attempts at control, seeding the battlefield with area prophecies that erupt into storms of random element and feeding every enemy caught in the blast back into their Mayhem gauge. The more chaos they unleash, the faster the gauge fills, making them the most efficient entropy harvesters alive.",
     playstyle: "Maximum volatility, area devastation, multi-target RNG chaos, self-sustaining Mayhem economy.",
     strengths: [
-     "Area prophecies earn +1 Mayhem per target hit",
-     "Mayhem increases by an additional +2 whenever a Surge occurs",
-     "Surge effects deal double damage to enemies",
-     "Can have up to 3 area prophecies active simultaneously",
-     "Prophesied effects on area spells apply to ALL targets in the zone"
+     "Area prophecies erupt into random elemental storms 20-30 feet wide, with a rising chance to trigger a Wild Magic Surge",
+     "Every surge banks +2 Mayhem and lashes a random enemy for 2d6 to 4d6 damage",
+     "Overlapping Doom Vortex pulls, silences, and blocks dashes and teleports inside its overlap zone",
+     "Mayhem Overload raises maximum Mayhem by 8 and makes every cast trigger a free surge at 10+ Mayhem",
+     "Capstones: Wild Prophet Doctrine adds +1d8 chaos damage, and Wild Surge Rebirth can undo a killing blow at 4+ Mayhem"
     ],
     weaknesses: [
-     "Highest self-damage and friendly fire risk in the game",
-     "Zero predictability or tactical control",
-     "Per-target Prophesied damage is lower than single-target specs",
-     "Requires enemies to cluster for maximum effect",
-     "Extremely short life expectancy in prolonged fights"
+     "Every payoff is a die roll: surge chances, random elements, and random surge targets leave you without reliable burst",
+     "No single-target focus: your area damage thins out as enemies spread apart",
+     "Self-damage protection only arrives at Expanding Prophecy rank 2; until then misfires and surges burn your own HP",
+     "Riding high Mayhem for extra dice invites the 100-point Wild Surge reset, which leaves you physically vulnerable",
+     "No healing, wards, or utility in the tree: your first defensive tools sit in tier 6-7"
     ],
     specPassive: {
-     name: "Prophetic Detonation",
-     description: "All area prophecies earn +1 Mayhem per target caught in the blast when Prophesied. Overlapping area prophecies deal double damage in the overlap zone and grant +1 bonus Mayhem per target. Surge effects deal double damage to enemies."
+     name: "Wild Prophet Doctrine",
+     description: "All wild magic, chaos, and elemental prophecy damage you deal is increased by +1d6. At rank 3, Wild Magic Surges have a 25% chance to trigger twice; at rank 4 the bonus rises to +1d8; at rank 5 Chaos Prophecy Eruption costs 0 mana."
     }
    },
    {
@@ -384,52 +384,52 @@ The Master Wild Surge table is structured across four absolute thematic categori
     icon: "Necrotic/Necrotic Skull",
     color: "#4B0082",
     theme: "Single-Target Death Prophecies & Decay",
-    description: "Death's Seers merge the Chaos Weaver's Entropy Control tradition with the Doomsayer's Requiem specialization. They are fate's surgeons of death, planting the narrowest, most lethal prophecies in a single target's flesh while simultaneously dissolving their Durability and DR and molecular bonds. They stack prophecies on the same victim, layering doom upon doom until the target is a walking graveyard of unfulfilled endings.",
+    description: "Death's Seers merge the Chaos Weaver's Entropy Control tradition with the Doomsayer's Requiem specialization. They are fate's surgeons of death, branding one victim at a time with a Doom Mark and dismantling them piece by piece: durability, resistances, and finally the soul. Every execution feeds the Mayhem gauge, and every corpse can be raised as a revenant servant to continue the harvest.",
     playstyle: "Single-target nuke, precision prophecy, death stacking, durability shredding, sustained decay.",
     strengths: [
-     "Prophesied effects deal 50% more damage on single-target spells",
-     "Bonus Mayhem (+2) from single-target Prophesied hits",
-     "Can stack up to 3 prophecies on the same target simultaneously",
-     "Chaos/blight damage ignores 25% of enemy Durability and DR",
-     "Inflicting rot on enemies reduces their Durability by 2 (stacking up to 5)"
+     "Death Mark Strike brands a victim: blight damage, -2 durability, bleeding, and +2 Mayhem per strike",
+     "Deep Rotting Wounds makes marked foes take +1d6 from all sources and slows them by up to 20 feet",
+     "Necrotic Decay Aura adds +20 points to single-target blight and doom spells while ignoring 30 points of durability",
+     "Kills bank Mayhem, mana, and health; Unmake Entity raises the slain as revenants, up to 5 at a time",
+     "Capstones: Death's Seer Doctrine adds +1d8 blight, and Certain Death Principle executes marked targets below half health"
     ],
     weaknesses: [
-     "Narrower prophecy ranges mean higher Backlash risk",
-     "No area effect capability: all power focused on single targets",
-     "Vulnerable against groups of enemies",
-     "Less Mayhem generation per combat since fewer targets are hit",
-     "Requires multiple turns to stack prophecies and decay"
+     "Zero area capability: every tool is single-target, so swarms and spread formations starve you",
+     "Setup-dependent: nothing spikes until the Doom Mark lands, and it must be reapplied to each new victim",
+     "Lowest Mayhem generation of the three paths: one mark, one victim at a time",
+     "Your damage redirection lives in your revenants (Phylactery Shroud): lose them and the shroud falls",
+     "Hard-countered by anything that resists blight or ignores durability shredding, such as undead and constructs"
     ],
     specPassive: {
-     name: "Death's Precision",
-     description: "When you roll a Prophesied outcome on a single-target spell, gain +2 bonus Mayhem and the spell deals +50% damage. You can have up to 3 active prophecies on the same target. When one detonates, the others tick. Chaos and blight damage ignores 25% of enemy Durability and DR."
+     name: "Death's Seer Doctrine",
+     description: "All single-target blight and doom damage you deal is increased by +1d6. At rank 3 your blight spells ignore 10 points of enemy resistance; at rank 4 the bonus rises to +1d8; at rank 5 Death Mark Strike costs 0 mana."
     }
    },
    {
     id: "fate_rift",
     name: "Fate Rift",
-    icon: "Social/Dice Roll",
+    icon: "Void Rift Tear",
     color: "#F39C12",
-    theme: "Table Manipulation & Escalating Doom",
-    description: "Fate Rifts merge the Chaos Weaver's Chaos Dice tradition with the Doomsayer's Endbringer specialization. They treat reality as a rollable table and manipulate the probabilities of chaotic effects, while their doom grows heavier and more suffocating with every passing round. They radiate a doom aura that crushes the will of anything nearby, and their prophecies escalate with each round they remain active.",
-    playstyle: "Table-rolling amplification, outcome steering, escalating doom, doom aura, round-dependent power scaling.",
+    theme: "Void Rifts & Singularity Collapse",
+    description: "Fate Rifts merge the Chaos Weaver's Rift-Weaving tradition with the Doomsayer's Endbringer specialization. They treat space as something that can be wounded, tearing open void rifts that drag enemies inward before collapsing or chaining them into singularity bursts. Their rifts feed the Mayhem gauge and shelter the caster who stands among them, until the battlefield is a lattice of hungry holes in reality.",
+    playstyle: "Rift network control, collapse burst, chain detonations, sustained void damage.",
     strengths: [
-     "Prophecy effects escalate: +1d6 damage per round a prophecy remains active",
-     "Doom aura: enemies within 15ft have -1 to all rolls per 3 Mayhem held",
-     "Minimum rollable table results increased by +1 per 5 Mayhem (rounded down)",
-     "Can roll twice on spell tables and choose the preferred outcome",
-     "Late-combat power spike is the highest of any spec"
+     "Void Tear Strike opens 15-25 foot rifts that pull enemies inward and generate Mayhem",
+     "Collapse rifts for burst: Gravitational Singularity Collapse stuns, and Event Horizon Implosion detonates every rift for 4d8-5d8 each",
+     "Resonating Rifts stacks +10 points damage per rift on clustered foes, and Hyper-Spatial Crush adds 3d8-5d8 to every pull",
+     "Spatial Distortion Shell grants you and your allies a 40-point void ward that regenerates 10 points per round",
+     "Capstones: Fate Rift Doctrine adds +1d8 void and rift damage while widening rifts, and Dimensional Shift Rebirth cheats death at 3+ Mayhem"
     ],
     weaknesses: [
-     "Weak in early combat: needs time to build up",
-     "Vulnerable to being focused down before prophecies mature",
-     "Completely reliant on Mayhem gauge to manipulate tables",
-     "Less effective in short combats (3 rounds or fewer)",
-     "Escalation requires concentration and positioning"
+     "Two-step combo: rifts must be opened before they can be collapsed, chained, or crushed, so your burst is offline with no rift active",
+     "Positional kit: Rift Phasing's durability and healing only work within 20 feet of an active rift, and rift stacking punishes enemies who spread out",
+     "Rift zones resolve over rounds, so short, fast fights cut your value",
+     "Mayhem-hungry: collapses cost 3 and detonations cost 6, so rifts that miss their payoff starve the gauge",
+     "Fragile setup: focused fire before the rift lattice forms ends you, and your first party-wide defense sits in tier 6"
     ],
     specPassive: {
-     name: "Escalating Fate",
-     description: "Every round a prophecy remains active, its effects increase: +1d6 damage per round, +1 Mayhem generated per tick. Your doom aura gives enemies within 15ft -1 to all rolls for every 3 Mayhem you currently hold (max -5). Minimum rollable table results increased by +1 per 5 Mayhem held."
+     name: "Fate Rift Doctrine",
+     description: "All void, force, and rift damage you deal is increased by +1d6. At rank 3 your void rifts expand by 5 feet; at rank 4 the bonus rises to +1d8; at rank 5 Void Tear Strike costs 0 mana."
     }
    }
   ]
@@ -506,7 +506,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
     ...UTILITY_SPELLS,
     { id: "harbinger_universal_doom_bolt",
    name: "Doom Bolt",
-   description: "Your throat tears open as you speak the first syllable of ending. A bolt of pure blight certainty lances toward the target, branding their flesh with a doom that whispers of inevitable ruin. Every word costs blood.",
+   description: "Your throat tears open as you speak the first syllable of ending: a bolt of pure blight certainty lances out, branding the target with a doom that whispers of inevitable ruin. Every word costs blood.",
    spellType: "ACTION", icon: "Necrotic/Skull Burst", level: 1, specialization: "universal",
    effectTypes: ["damage", "debuff"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Burst", tags: ["blight", "damage", "debuff", "prophecy", "universal", "doom"] },
@@ -601,7 +601,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   // LEVEL 2 SPELLS
   { id: "harbinger-fate_rift-doom_countdown",
    name: "Doom Countdown",
-   description: "You press your bloodied palm against the air and speak a number. Doom burrows into the target's flesh like a second heartbeat. Each round it ticks, a slow drumbeat of blight certainty building toward detonation.",
+   description: "Press a bloodied palm to the air and speak a number. Doom burrows into the target like a second heartbeat, each tick a slow drumbeat of blight certainty building toward detonation.",
    spellType: "ACTION", icon: "Necrotic/Skull Explosion", level: 2, specialization: "fate_rift",
    effectTypes: ["damage", "debuff"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Explosion", tags: ["blight", "damage", "debuff", "prophecy", "fate_rift", "delayed", "concentration", "doom"] },
@@ -922,7 +922,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   // LEVEL 6 SPELLS
   { id: "harbinger-deaths_seer-execution_prophecy",
    name: "Execution Prophecy",
-   description: "A lethal prophecy of absolute death. The caster's voice becomes something OTHER: hollow, resonant, inhuman. The word carves through reality seeking the target's thread in the web of fate and CUTTING it.",
+   description: "A lethal prophecy of absolute death: your voice becomes hollow, resonant, inhuman, and the word carves through reality seeking the target's thread in fate and CUTTING it.",
    spellType: "ACTION", icon: "Necrotic/Death Mark", level: 6, specialization: "deaths_seer",
    effectTypes: ["damage"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Death Mark", tags: ["blight", "damage", "prophecy", "deaths_seer", "execution", "instant_kill"] },
@@ -981,7 +981,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   // LEVEL 7 SPELLS
   { id: "harbinger-fate_rift-armageddon_herald",
    name: "Armageddon Herald",
-   description: "The caster becomes a conduit of the apocalypse. Eyes entirely black. Voice echoes with something ancient. In Herald form, prophecies bend toward fulfillment, Mayhem generation doubles, and a Doom Aura radiates outward.",
+   description: "Become a conduit of the apocalypse: eyes black, voice echoing with something ancient. In Herald form, prophecies bend toward fulfillment, Mayhem generation doubles, and a Doom Aura radiates outward.",
    spellType: "ACTION", icon: "Arcane/Swirling Vortex", level: 7, specialization: "fate_rift",
    effectTypes: ["buff"],
    typeConfig: { school: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Swirling Vortex", tags: ["storm", "buff", "transformation", "fate_rift", "concentration", "aura"] },
@@ -1111,6 +1111,10 @@ The Master Wild Surge table is structured across four absolute thematic categori
    utilityConfig: { utilityType: "reroll", effects: [
     { id: "fate_reroll", name: "Fate Reroll", description: "Reroll any prophecy resolution die. Must accept new result.", rerollTarget: "prophecy_resolution", mustAccept: true },
     { id: "twist_havoc", name: "Twist Reward", description: "+3 Mayhem if new result is Prophesied.", conditionalHavoc: 3, condition: "New result is Prophesied" }
+   ],
+   selectedEffects: [
+    { id: "fate_reroll", name: "Fate Reroll", description: "Reroll any prophecy resolution die; must accept the new result.", mechanicsText: "Reroll prophecy resolution die." },
+    { id: "twist_havoc", name: "Twist Reward", description: "+3 Mayhem if the new result is Prophesied.", mechanicsText: "+3 Mayhem on Prophesied reroll." }
    ]},
    triggerConfig: { triggers: [{ id: "fate_twist", name: "Fate Twist", triggerType: "on_prophecy_resolution", action: "Reroll prophecy resolution die. Must accept. +3 Mayhem if Prophesied." }] },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -1252,7 +1256,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   // ===== NON-COMBAT / DOOM-ARITHMETIC & CHAOS UTILITY (the prophet of catastrophe, out of combat) =====
   { id: "harbinger_universal_doom_reckoning",
    name: "Doomsayer's Reckoning",
-   description: "Touch a creature, place, or object and run the arithmetic of its ending. Learn, in cold certainty, how and roughly when it is most likely to be destroyed, killed, or broken ï¿½ by blade, by rot, by fire, by betrayal. The math shows the likeliest doom, not a guaranteed fate, and it never shows you a way to prevent it. Out of combat.",
+   description: "Compute a creature, place, or object's ending: how and roughly when it is most likely destroyed by blade, rot, fire, or betrayal. The likeliest doom, never how to prevent it. Out of combat.",
    level: 1, icon: "Necrotic/Skull Burst", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Necrotic/Skull Burst", tags: ["utility", "divination", "investigation", "doom", "universal"] },
@@ -1265,7 +1269,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger_universal_entropy_read",
    name: "Entropy Read",
-   description: "Run your doom-arithmetic over an object or mechanism and read its decay ï¿½ how old it truly is, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. The colder and deader the object, the clearer the reading. Out of combat.",
+   description: "Run doom-arithmetic over an object: its true age, what has stressed or damaged it, how close it sits to breaking, and the last force that struck it. Colder objects read clearer. Out of combat.",
    level: 1, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "blight", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "divination", "investigation", "universal"] },
@@ -1278,7 +1282,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger_universal_rift_step",
    name: "Rift-Step",
-   description: "Thin reality at a single point and slip through it ï¿½ pass through a wall, door, pane of glass, or sealed barrier up to a few feet thick as though it were not there, leaving a brief shimmer of deleted space behind. Living matter and magical wards resist. Out of combat.",
+   description: "Thin reality at one point and slip through any wall, door, pane, or sealed barrier up to a few feet thick, leaving a brief shimmer of deleted space. Living matter and wards resist. Out of combat.",
    level: 2, icon: "Arcane/Spiral Vortex", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "storm", castTime: 1, castTimeType: "IMMEDIATE", icon: "Arcane/Spiral Vortex", tags: ["utility", "mobility", "infiltration", "chaos", "universal"] },
@@ -1291,7 +1295,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger_universal_prophetic_warning",
    name: "Prophetic Warning",
-   description: "Plant a shallow prophecy of warning in your own mind: you gain a cold premonition of the next ambush, trap, or hostile danger that will threaten you or your allies within the next hour, and a single detail of its nature (blade, fire, fall, betrayal). It does not show where or when, only that it is coming and what kind. Out of combat.",
+   description: "Plant a warning prophecy: a cold premonition of the next ambush, trap, or danger threatening you or allies within the hour, plus one detail of its nature (blade, fire, fall, betrayal). Out of combat.",
    level: 2, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "wyrd", castTime: 1, castTimeType: "IMMEDIATE", icon: "Psychic/Focused Mind", tags: ["utility", "divination", "exploration", "prophecy", "universal"] },
@@ -1304,7 +1308,7 @@ The Master Wild Surge table is structured across four absolute thematic categori
   },
   { id: "harbinger_universal_cold_certainty",
    name: "Cold Certainty",
-   description: "Turn your terminal-certain gaze on a creature and compute the doom written into them ï¿½ their deepest insecurity, the fatal flaw in the plan they are hiding, or the loss they cannot survive. The reading grants advantage on Intimidation (you tell them exactly how it ends) but disadvantage on Persuasion and empathy (you cannot stop calculating their odds). Out of combat.",
+   description: "Turn terminal-certain gaze on a creature and compute its doom: deepest insecurity, hidden fatal flaw, or the loss it cannot survive. Advantage on Intimidation; disadvantage on Persuasion and empathy.",
    level: 3, icon: "Psychic/Focused Mind", spellType: "ACTION", specialization: "universal",
    effectTypes: ["utility"],
    typeConfig: { school: "wyrd", castTime: 1, castTimeType: "IMMEDIATE", icon: "Psychic/Focused Mind", tags: ["utility", "divination", "social", "universal"] },
@@ -1318,12 +1322,12 @@ The Master Wild Surge table is structured across four absolute thematic categori
   {
    id: "harbinger_universal_calamity_stasis_horizon",
    name: "Calamity Stasis Horizon",
-   description: "Lock the boundary between existence and the void across a 40ft area. All allies inside are anchored against annihilation: immune to all lethal damage and negative effects for 2 rounds, while all enemy cooldowns in the area are frozen in stasis. Spends 20 Mayhem.",
+   description: "Lock the boundary between existence and the void across 40ft: allies inside are immune to all lethal damage and negative effects for 2 rounds, and enemy cooldowns in the area freeze. Spends 20 Mayhem.",
    spellType: "ACTION",
    icon: "Void/Consumed by Void",
    level: 10,
    specialization: "universal",
-   effectTypes: ["defense", "control"],
+   effectTypes: ["defense", "buff", "control"],
    typeConfig: {
     school: "wyrd",
     castTime: 3,
@@ -1342,6 +1346,19 @@ The Master Wild Surge table is structured across four absolute thematic categori
     actionPoints: 3,
     mana: 35,
     classResource: { type: "mayhem", cost: 20 }
+   },
+   controlConfig: {
+    controlType: "zone",
+    duration: 2,
+    durationUnit: "rounds",
+    effects: [
+     {
+      id: "stasis_horizon_freeze",
+      name: "Cooldown Stasis",
+      description: "All enemy cooldowns in the area are frozen in stasis.",
+      config: { zoneType: "cooldown_freeze", duration: 2, durationUnit: "rounds" }
+     }
+    ]
    },
    buffConfig: {
     buffType: "invulnerability",

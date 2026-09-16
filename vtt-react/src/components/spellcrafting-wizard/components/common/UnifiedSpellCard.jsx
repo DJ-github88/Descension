@@ -77,7 +77,17 @@ export const GLOBAL_STAT_MAP = {
  'multistanceecho': 'Multi-Stance Echo', 'multiStanceEcho': 'Multi-Stance Echo', 'multi_stance_echo': 'Multi-Stance Echo',
  'stancepower': 'Stance Power', 'stancePower': 'Stance Power', 'stance_power': 'Stance Power',
  'transitioncostreduction': 'Transition Cost Reduction', 'transition_cost_reduction': 'Transition Cost Reduction',
- 'movementspeed': 'Movement Speed', 'movement_speed': 'Movement Speed'
+ 'movementspeed': 'Movement Speed', 'movement_speed': 'Movement Speed',
+ // Defense / stance stats
+ 'dodge': 'Dodge', 'disengage': 'Disengage', 'stealth': 'Stealth',
+ 'durability': 'Durability', 'reach': 'Melee Reach', 'temporary_hp': 'Temporary HP', 'temp_hp': 'Temporary HP', 'temphp': 'Temporary HP',
+ 'attack_bonus': 'Attack Bonus', 'attackbonus': 'Attack Bonus',
+ 'crit_threshold': 'Critical Threshold', 'critthreshold': 'Critical Threshold',
+ 'dr_bypass': 'DR Bypass', 'drbypass': 'DR Bypass',
+ 'cleave': 'Cleave Damage', 'cleave_percent': 'Cleave Damage', 'cleavepercent': 'Cleave Damage',
+ 'ambush_damage': 'Ambush Damage', 'ambush_bonus': 'Ambush Bonus', 'ambushbonus': 'Ambush Bonus',
+ 'all_rolls': 'All Rolls', 'allrollsbonus': 'All Rolls',
+ 'flux_regeneration': 'Flux Regeneration', 'flux_regen': 'Flux Regeneration', 'fluxregen': 'Flux Regeneration'
 };
 
 // Helper to map stat key to a premium, user-friendly label
@@ -141,6 +151,51 @@ export const getAdvantageDisadvantageText = (statKey, magnitude, magnitudeType) 
  return {
   isAdvDis: false
  };
+};
+
+// Format a single stat-modifier map entry (e.g. dodge: 2, disengage: 'advantage')
+const formatStatModifierValue = (statKey, value) => {
+ const label = mapStatKeyToLabel(statKey);
+ if (typeof value === 'number') {
+  const sign = value >= 0 ? '+' : '';
+  return `${sign}${value} ${label}`;
+ }
+ const text = String(value ?? '').trim();
+ if (!text) return label;
+ if (/^advantage$/i.test(text)) return `Advantage on ${label}`;
+ if (/^disadvantage$/i.test(text)) return `Disadvantage on ${label}`;
+ if (/^-?\d+d\d+/i.test(text)) return `${text.startsWith('-') ? '' : '+'}${text} ${label}`;
+ return `${text} ${label}`;
+};
+
+/**
+ * Legacy/short-hand statModifier objects come in two non-canonical shapes:
+ *  - keyed maps: { dodge: 2, speed: 10, disengage: 'advantage' }
+ *  - arrays of canonical entries: [{ stat, magnitude, magnitudeType }, ...]
+ * Format both into display text so the card never falls back to "+0 Stat".
+ */
+export const formatNonCanonicalStatModifier = (statModifier) => {
+ if (!statModifier) return '';
+ if (Array.isArray(statModifier)) {
+  return statModifier
+   .map(entry => {
+    if (!entry || typeof entry !== 'object') return '';
+    const key = entry.stat || entry.id || entry.name;
+    const value = entry.magnitudeType === 'dice' && entry.formula
+     ? entry.formula
+     : (entry.magnitude ?? entry.value);
+    return key && value !== undefined ? formatStatModifierValue(key, value) : '';
+   })
+   .filter(Boolean)
+   .join(', ');
+ }
+ if (typeof statModifier !== 'object') return '';
+ const isCanonicalEntry = ['stat', 'id', 'magnitude', 'value', 'formula'].some(key => key in statModifier);
+ if (isCanonicalEntry) return '';
+ return Object.entries(statModifier)
+  .map(([key, value]) => formatStatModifierValue(key, value))
+  .filter(Boolean)
+  .join(', ');
 };
 
 /**
@@ -2549,6 +2604,12 @@ const UnifiedSpellCard = ({
          buffData.effects.forEach(effect => {
           // Use mechanicsText if provided, otherwise build from stat modifier
           let mechanicsText = effect.mechanicsText || '';
+
+          // Non-canonical legacy shapes (keyed maps/arrays) can't be read by the
+          // stat/magnitude path below - format them directly instead of "+0 Stat"
+          if (!mechanicsText && effect.statModifier) {
+           mechanicsText = formatNonCanonicalStatModifier(effect.statModifier);
+          }
           
           // Check if this effect has statModifier (stat enhancement) and no mechanicsText provided
           if (!mechanicsText && effect.statModifier) {
@@ -2626,14 +2687,14 @@ const UnifiedSpellCard = ({
               mechanicsText = `${sign}${cleanFormula(magnitude)}${typeText} ${statName}`;
              }
             } else if (hasStatInDescription) {
-             mechanicsText = (effect.description || '').trim().replace(/^-\s*/, '').trim();
+             mechanicsText = (effect.description || '').trim().replace(/^-(?!\d)\s*/, '').trim();
             }
            }
 
            // Strip leading dashes and whitespace from descriptions to prevent double dashes
            let cleanDescription = (effect.description || '').trim();
            // Remove leading dash followed by space or just dash
-           cleanDescription = cleanDescription.replace(/^-\s*/, '').trim();
+           cleanDescription = cleanDescription.replace(/^-(?!\d)\s*/, '').trim();
            
            // For resistance stats, format with thematic description
            if (isResistanceStat && magnitudeType === 'percentage') {
@@ -2690,10 +2751,11 @@ const UnifiedSpellCard = ({
             }
            }
 
-           // Use mechanicsText if provided, otherwise use customDescription or description
+           // Use the computed mechanicsText (includes formatted legacy
+           // statModifier shapes), otherwise customDescription or description
            // Strip leading dashes and whitespace from descriptions to prevent double dashes
-           let rawDescription = effect.mechanicsText || effect.customDescription || effect.description || '';
-           let cleanDescription = rawDescription.trim().replace(/^-\s*/, '').trim();
+           let rawDescription = mechanicsText || effect.customDescription || effect.description || '';
+           let cleanDescription = rawDescription.trim().replace(/^-(?!\d)\s*/, '').trim();
            
            // Use customName from buffConfig if effect doesn't have its own name
            const defaultBuffName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
@@ -3153,11 +3215,15 @@ const UnifiedSpellCard = ({
           durationDesc = durationParts.join(', ');
          }
 
-         buffEffectsToRender.push({
-          name: effectName,
-          description: durationDesc,
-          mechanicsText: buffData?.statModifiers?.length > 0 ? '' : 'No stats configured yet'
-         });
+         // Only render an entry when there is real duration data; a bare buff
+         // tag with no configured stats should not show an empty section.
+         if (durationDesc) {
+          buffEffectsToRender.push({
+           name: effectName,
+           description: durationDesc,
+           mechanicsText: ''
+          });
+         }
         }
 
        // Attach conditional formulas and targeting to buff effects
@@ -3573,9 +3639,21 @@ const UnifiedSpellCard = ({
              debuffData.effects.forEach(effect => {
               // Use mechanicsText if provided, otherwise build from stat modifier
               let mechanicsText = effect.mechanicsText || '';
-              
+
               // Check if this effect has statModifier (stat reduction) and no mechanicsText provided
               if (!mechanicsText && effect.statModifier) {
+               // Non-canonical legacy shapes (keyed maps/arrays) can't be read by
+               // the stat/magnitude path below - format them directly
+               const nonCanonicalStatText = formatNonCanonicalStatModifier(effect.statModifier);
+               if (nonCanonicalStatText) {
+                mechanicsText = nonCanonicalStatText;
+                effects.push({
+                 name: effect.name || effect.id || 'Stat Penalty',
+                 description: effect.description || '',
+                 mechanicsText: nonCanonicalStatText,
+                 targeting: formatEffectTargeting('debuff')
+                });
+               } else {
                const statMod = effect.statModifier;
                const statMap = {
                 'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
@@ -3636,7 +3714,7 @@ const UnifiedSpellCard = ({
                const descriptionParts = [];
                
                // Strip leading "-" from description if present (used for indentation but shouldn't display)
-               const cleanDescription = effectDescription.trim().replace(/^-\s*/, '');
+               const cleanDescription = effectDescription.trim().replace(/^-(?!\d)\s*/, '');
                
                // If description already has duration, use it as-is (don't add duration again)
                if (hasDurationInDescription && cleanDescription) {
@@ -3677,7 +3755,7 @@ const UnifiedSpellCard = ({
                // Strip leading "-" from final description if present
                const rawDescription = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
                            (effect.description || effect.name || 'Stat reduction');
-               const description = rawDescription.replace(/^-\s*/, '');
+               const description = rawDescription.replace(/^-(?!\d)\s*/, '');
                
                const debuffTargeting = formatEffectTargeting('debuff');
                effects.push({
@@ -3686,6 +3764,7 @@ const UnifiedSpellCard = ({
                 mechanicsText: mechanicsText,
                 targeting: debuffTargeting
                });
+               }
               } 
               // Check if this is a status effect
               else if (effect.id || effect.name || effect.statusType) {
@@ -3696,7 +3775,7 @@ const UnifiedSpellCard = ({
                // Build better description format for status effects
                // Strip leading "-" from description if present (used for indentation but shouldn't display)
                const rawEffectDescription = effect.description || formattedEffect.description;
-               const cleanEffectDescription = rawEffectDescription.replace(/^-\s*/, '');
+               const cleanEffectDescription = rawEffectDescription.replace(/^-(?!\d)\s*/, '');
                let descriptionParts = [cleanEffectDescription];
 
                // Add save info if available

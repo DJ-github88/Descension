@@ -26,7 +26,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Fluid Transition",
     icon: "Nature/Snake Transform",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0, y: 0 },
     requires: null,
     spell: {
       name: "Fluid Transition",
@@ -36,14 +36,14 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 4, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 0 } },
       buffs: ["fluid-haste"], visualTheme: "primal", tags: ["shift", "flux", "mobility", "shaper"]
     },
     rankUpgrades: [
-      { description: "Gain 3 Flux, +15ft movement speed, and your next form attack deals +2d6 bonus physical damage.", cooldownValue: 3 },
-      { description: "Gain 4 Flux, +20ft speed, next attack deals +3d6 damage and can be used twice per round.", cooldownValue: 2 }
+      { description: "Gain 3 Flux, +15ft movement speed, and your next form attack deals +2d6 bonus physical damage.", cooldownValue: 1 },
+      { description: "Gain 4 Flux, +20ft speed, next attack deals +3d6 damage and can be used twice per round.", cooldownValue: 1 }
     ]
   },
   {
@@ -51,7 +51,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Water Dance Dodge",
     icon: "Utility/Flowing Curve",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 1.5, y: 0 },
     requires: null,
     spell: {
       name: "Water Dance Dodge",
@@ -61,14 +61,14 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 1 } },
       buffs: ["dodge"], visualTheme: "primal", tags: ["reaction", "evasion", "mobility", "shaper"]
     },
     rankUpgrades: [
-      { description: "Dodge moves up to 15 feet, grants you 2 Flux, and cooldown drops to 6s.", cooldownValue: 6 },
-      { description: "Dodge moves up to 20 feet, grants 3 Flux, resets Fluid Transition cooldown, and can be used on area effects.", cooldownValue: 4 }
+      { description: "Dodge moves up to 15 feet, grants you 2 Flux, and cooldown drops to 1 round.", cooldownValue: 1 },
+      { description: "Dodge moves up to 20 feet, grants 3 Flux, resets Fluid Transition cooldown, and can be used on area effects.", cooldownValue: 1 }
     ]
   },
   {
@@ -76,7 +76,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Momentum Reserve",
     icon: "Nature/Centered",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Momentum Reserve",
@@ -97,7 +97,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Cascading Current",
     icon: "Slashing/Rapid Slash",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "fm_t1_fluid_transition",
     spell: {
       name: "Cascading Current",
@@ -107,7 +107,7 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "melee", range: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 2 } },
       damageTypes: ["slicing"],
@@ -146,7 +146,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Confluence Strike",
     icon: "Healing/Heart Ecg Line",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "fm_t2_cascading_current",
     spell: {
       name: "Confluence Strike",
@@ -156,7 +156,7 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "line", aoeSize: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 4 } },
       damageTypes: ["smashing", "rime"],
@@ -173,7 +173,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Liquid Motion",
     icon: "Nature/River Through Forest",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 3.5, y: 2 },
     requires: "fm_t2_combo_weaving",
     spell: {
       name: "Liquid Motion",
@@ -195,7 +195,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Mist Slip",
     icon: "Nature/Teleport",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0, y: 3 },
     requires: "fm_t3_confluence_strike",
     spell: {
       name: "Mist Slip",
@@ -205,14 +205,14 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 14, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 3 } },
       buffs: ["mist-ambush"], visualTheme: "primal", tags: ["teleport", "sunder", "mobility", "shaper"]
     },
     rankUpgrades: [
-      { description: "Teleport up to 45 feet, sunder durability by -5, and deals 3d8 cold damage to all enemies around your arrival point.", cooldownValue: 10 },
-      { description: "Teleport up to 60 feet, sunder durability by -6, deals 4d8 cold damage, and leaves behind a decoy mist that explodes for 4d8 cold when struck.", cooldownValue: 8 }
+      { description: "Teleport up to 45 feet, sunder durability by -5, and deals 3d8 cold damage to all enemies around your arrival point.", cooldownValue: 2 },
+      { description: "Teleport up to 60 feet, sunder durability by -6, deals 4d8 cold damage, and leaves behind a decoy mist that explodes for 4d8 cold when struck.", cooldownValue: 1 }
     ]
   },
   {
@@ -220,7 +220,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Toll Absorption",
     icon: "Nature/Growth",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 2.5, y: 3 },
     requires: "fm_t3_liquid_motion",
     spell: {
       name: "Toll Absorption",
@@ -243,7 +243,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Torrential Barrage",
     icon: "Healing/Heart Shield",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 1.5, y: 4 },
     requires: "fm_t4_mist_slip",
     spell: {
       name: "Torrential Barrage",
@@ -253,7 +253,7 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "multi", rangeType: "melee", range: 15,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 5 } },
       damageTypes: ["smashing", "rime"],
@@ -261,7 +261,7 @@ export const SHAPER_FLOW_MASTER = [
       debuffs: ["knockdown"], visualTheme: "primal", tags: ["flurry", "burst", "multi-hit", "shaper"]
     },
     rankUpgrades: [
-      { description: "Deals 8d10 total damage across 6 strikes, stuns all hit targets for 1 round, and refunds 2 Flux.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
+      { description: "Deals 8d10 total damage across 6 strikes, stuns all hit targets for 1 round, and refunds 2 Flux.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -269,7 +269,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Eternal Momentum",
     icon: "Nature/Nature Natural 11",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 4, y: 4 },
     requires: "fm_t4_toll_dancer",
     spell: {
       name: "Eternal Momentum",
@@ -301,10 +301,10 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["water-ascendant"], visualTheme: "primal", tags: ["transform", "invulnerability", "teleport", "shaper"]
     },
     rankUpgrades: []
@@ -314,7 +314,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Fluvial Reflexes",
     icon: "Nature/Leaf of the Wind",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "fm_t5_eternal_current",
     spell: {
       name: "Fluvial Reflexes",
@@ -333,7 +333,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Chimeric Flow",
     icon: "Nature/Nature Scene",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 3.5, y: 5 },
     requires: "fm_t5_eternal_current",
     spell: {
       name: "Chimeric Flow",
@@ -354,7 +354,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "The Living Cataract",
     icon: "Nature/Tornado Vortex",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "fm_t6_water_ascendant",
     spell: {
       name: "The Living Cataract",
@@ -364,10 +364,10 @@ export const SHAPER_FLOW_MASTER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { kineticFlux: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["rime", "smashing"],
       primaryDamage: { dice: "5d10", flat: 0, procChance: 100 },
       buffs: ["living-cataract"], visualTheme: "primal", tags: ["ultimate", "capstone", "tsunami", "shaper"]
@@ -379,7 +379,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Flow Master Doctrine",
     icon: "Healing/Red Heart",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1.25, y: 6 },
     requires: "fm_t6_water_ascendant",
     spell: {
       name: "Flow Master Doctrine",
@@ -402,7 +402,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Infinite Flux Reservoir",
     icon: "Lightning/Lightning Bolt Arm",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "fm_t6_fluvial_mastery",
     spell: {
       name: "Infinite Flux Reservoir",
@@ -422,7 +422,7 @@ export const SHAPER_FLOW_MASTER = [
     name: "Hydrokinetic Crits",
     icon: "Utility/Sleep Boot",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 2.75, y: 6 },
     requires: "fm_t6_fluvial_mastery",
     spell: {
       name: "Hydrokinetic Crits",
@@ -442,19 +442,19 @@ export const SHAPER_FLOW_MASTER = [
     name: "Undying Fluidity",
     icon: "Nature/Nature Primal",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "fm_t6_chimeric_perfection",
     spell: {
       name: "Undying Fluidity",
-      description: "While at 5+ Flux, lethal damage dissolves you into vapor instead, preventing death, restoring 50 points health, and teleporting you 30 feet away (cooldown: 120s).",
+      description: "While at 5+ Flux, lethal damage dissolves you into vapor instead, preventing death, restoring 50 points health, and teleporting you 30 feet away (cooldown: 20 rounds).",
       flavorText: "You cannot kill what has no fixed shape.",
       source: "talent", class: "Shaper", treeId: "flow_master",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "primal", tags: ["passive", "capstone", "cheat-death", "shaper"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 45 Hit Points, teleport 45 feet, and immediately gain full Flux (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 60 Hit Points, teleport 60 feet, gain full Flux, and trigger Torrential Barrage automatically for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 45 Hit Points, teleport 45 feet, and immediately gain full Flux (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 60 Hit Points, teleport 60 feet, gain full Flux, and trigger Torrential Barrage automatically for free (cooldown: 10 rounds)." }
     ]
   }
 ];

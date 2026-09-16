@@ -299,5 +299,81 @@ describe('UnifiedSpellCard Component', () => {
     expect(screen.getByText(/1d4 \+ 1 \+ Agility Mod/)).toBeInTheDocument();
     expect(screen.getByText(/Stabbing Damage/)).toBeInTheDocument();
   });
+
+  it('formats keyed-map statModifiers instead of rendering "+0 Stat"', () => {
+    const stanceSpell = {
+      id: 'stance_ataxic_test',
+      name: 'Form: Ataxic Flow',
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      description: 'Adopt the fluid, evasive stance.',
+      buffConfig: {
+        buffType: 'statModifier',
+        effects: [{
+          id: 'ataxic_flow_active',
+          name: 'Ataxic Flow Stance',
+          description: '+2 Dodge, +10ft Speed, Advantage on Disengage.',
+          statModifier: { dodge: 2, speed: 10, disengage: 'advantage' }
+        }],
+        durationType: 'continuous',
+        concentrationRequired: false
+      }
+    };
+
+    render(
+      <UnifiedSpellCard
+        spell={stanceSpell}
+        variant="wizard"
+        showStats={true}
+      />
+    );
+
+    expect(screen.getByText('+2 Dodge, +10 Speed, Advantage on Disengage')).toBeInTheDocument();
+    expect(screen.queryByText('+0 Stat')).not.toBeInTheDocument();
+  });
+
+  it('does not render an empty BUFF EFFECT block or "No stats configured yet" placeholder', () => {
+    const bareBuffSpell = {
+      id: 'bare_buff_test',
+      name: 'Reactive Bone Parry',
+      spellType: 'REACTION',
+      effectTypes: ['buff', 'defense'],
+      description: 'REACTION: gain +4 Active Soak and parry the strike.'
+    };
+
+    render(
+      <UnifiedSpellCard
+        spell={bareBuffSpell}
+        variant="wizard"
+        showStats={true}
+      />
+    );
+
+    expect(screen.queryByText(/No stats configured yet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Buff Effect/i)).not.toBeInTheDocument();
+  });
+
+  it('renders a real duration in the buff section when the spell has one', () => {
+    const timedBuffSpell = {
+      id: 'timed_buff_test',
+      name: 'Barbed Interdict',
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      description: 'Bind a target with spectral barbed chains.',
+      durationConfig: { durationType: 'rounds', durationValue: 2, durationUnit: 'rounds' }
+    };
+
+    render(
+      <UnifiedSpellCard
+        spell={timedBuffSpell}
+        variant="wizard"
+        showStats={true}
+      />
+    );
+
+    expect(screen.getByText(/Buff Effect/i)).toBeInTheDocument();
+    expect(screen.getByText(/2 rounds/i)).toBeInTheDocument();
+    expect(screen.queryByText(/No stats configured yet/i)).not.toBeInTheDocument();
+  });
 });
 

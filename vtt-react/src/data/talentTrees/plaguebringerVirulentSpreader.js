@@ -25,7 +25,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Spore Volley",
     icon: "Nature/Seeds",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Spore Volley",
@@ -35,7 +35,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "multi", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       damageTypes: ["blight"],
@@ -95,7 +95,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Vector Detonation",
     icon: "Poison/Toxic Bomb",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 0, y: 1 },
     requires: "vs_t1_spore_volley",
     spell: {
       name: "Vector Detonation",
@@ -105,7 +105,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 45, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 2 } },
       damageTypes: ["blight"],
@@ -156,7 +156,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 35, aoeShape: "cone", aoeSize: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 3 } },
       damageTypes: ["blight"],
@@ -173,7 +173,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Infectious Miasma",
     icon: "Poison/Poison Plague 2",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "vs_t2_chain_infection",
     spell: {
       name: "Infectious Miasma",
@@ -197,7 +197,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Plague Zone",
     icon: "Poison/Poison Plague 1",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "vs_t3_pandemic_wave",
     spell: {
       name: "Plague Zone",
@@ -207,10 +207,10 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 25,
       castTimeType: "short", castTimeValue: 1,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: false, requiresLoS: true, interruptible: true,
       resourceCosts: { virulence: { baseAmount: 3 }, mana: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "2d8", flat: 0, procChance: 100 },
       debuffs: ["slowed", "seeded"], visualTheme: "poison", tags: ["zone", "terrain", "hazard", "plaguebringer"]
@@ -225,7 +225,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Spore Multiplication",
     icon: "Nature/Glowing Green Egg",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "vs_t3_infectious_aura",
     spell: {
       name: "Spore Multiplication",
@@ -248,7 +248,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Epidemic Surge",
     icon: "Poison/Poison Venom",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 1.5, y: 4 },
     requires: "vs_t4_plague_zone",
     spell: {
       name: "Epidemic Surge",
@@ -258,14 +258,14 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 30, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 5, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 4 } },
       damageTypes: ["blight"],
       visualTheme: "poison", tags: ["mass-advance", "burst", "aoe", "plaguebringer"]
     },
     rankUpgrades: [
-      { description: "Advances all afflictions by 2 stages immediately and staggers all infected targets (they lose 1 action point next turn).", cooldownValue: 24 }
+      { description: "Advances all afflictions by 2 stages immediately and staggers all infected targets (they lose 1 action point next turn).", cooldownValue: 4 }
     ]
   },
   {
@@ -273,7 +273,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Pathogen Reservoir",
     icon: "Poison/Poison Venom 1",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 3.5, y: 4 },
     requires: "vs_t4_viral_burst",
     spell: {
       name: "Pathogen Reservoir",
@@ -295,7 +295,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Global Pandemic",
     icon: "Poison/Poison Arm'",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "vs_t5_epidemic_surge",
     spell: {
       name: "Global Pandemic",
@@ -305,7 +305,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 80,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 5 } },
       visualTheme: "poison", tags: ["spread-all", "pandemic", "aoe", "plaguebringer"]
@@ -317,7 +317,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Vector Cascade",
     icon: "Poison/Acid Splash",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "vs_t5_strain_banking",
     spell: {
       name: "Vector Cascade",
@@ -338,7 +338,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Superbug Mutation",
     icon: "Poison/Weapon Poison",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "vs_t5_strain_banking",
     spell: {
       name: "Superbug Mutation",
@@ -359,7 +359,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Patient Zero",
     icon: "Poison/Poison Plague",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "vs_t6_global_pandemic",
     spell: {
       name: "Patient Zero",
@@ -369,10 +369,10 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { virulence: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["blight"],
       primaryDamage: { dice: "4d8", flat: 0, procChance: 100 },
       debuffs: ["patient-zero"], visualTheme: "poison", tags: ["ultimate", "capstone", "epidemic", "plaguebringer"]
@@ -384,7 +384,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Waste Spore Doctrine",
     icon: "Nature/Spawn Chaos",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 1, y: 6 },
     requires: "vs_t6_global_pandemic",
     spell: {
       name: "Waste Spore Doctrine",
@@ -407,7 +407,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Continuous Blooming",
     icon: "Poison/Poison Blight",
     maxRanks: 3,
-    position: { x: 2.5, y: 6 },
+    position: { x: 2, y: 6 },
     requires: "vs_t6_cross_infection",
     spell: {
       name: "Continuous Blooming",
@@ -427,7 +427,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Pandemic Overdrive",
     icon: "Nature/Wind Gust",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 3, y: 6 },
     requires: "vs_t6_cross_infection",
     spell: {
       name: "Pandemic Overdrive",
@@ -447,7 +447,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
     name: "Living Pathogen",
     icon: "Poison/Poison Arrow",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 4, y: 6 },
     requires: "vs_t6_superbug_mutation",
     spell: {
       name: "Living Pathogen",

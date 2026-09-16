@@ -19,7 +19,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Stasis Field",
     icon: "Frost/Frozen in Place",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Stasis Field",
@@ -46,7 +46,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Frozen Momentum",
     icon: "Arcane/Star Trail Path",
     maxRanks: 3,
-    position: { x: 2.5, y: 0 },
+    position: { x: 2, y: 0 },
     requires: null,
     spell: {
       name: "Frozen Momentum",
@@ -68,7 +68,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Temporal Insulation",
     icon: "Force/Force Field",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Temporal Insulation",
@@ -89,7 +89,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Temporal Shockwave",
     icon: "Force/Force Wave",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4.5, y: 1 },
     requires: "st_t1_stasis_field",
     spell: {
       name: "Temporal Shockwave",
@@ -99,7 +99,7 @@ export const CHRONARCH_STASIS_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 25, aoeShape: "cone", aoeSize: 25,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 2 } },
       damageTypes: ["arcane"],
@@ -116,7 +116,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Chronal Lockdown",
     icon: "Utility/Slow Speed",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 1.5, y: 1 },
     requires: "st_t1_frozen_momentum",
     spell: {
       name: "Chronal Lockdown",
@@ -138,7 +138,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Chronal Prison Sphere",
     icon: "Arcane/Sands of Time",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 4, y: 2 },
     requires: "st_t2_temporal_shockwave",
     spell: {
       name: "Chronal Prison Sphere",
@@ -148,7 +148,7 @@ export const CHRONARCH_STASIS_TREE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 16, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 3 } },
       debuffs: ["mass-stasis"], visualTheme: "arcane", tags: ["aoe", "time-stop", "nuke-setup", "chronarch"]
@@ -163,7 +163,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Temporal Fracture",
     icon: "Force/Explosion Burst 2",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 1.5, y: 2 },
     requires: "st_t2_chronal_lockdown",
     spell: {
       name: "Temporal Fracture",
@@ -188,7 +188,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Absolute Stasis Beam",
     icon: "Force/Energy Beam 2",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 4.5, y: 3 },
     requires: "st_t3_chronal_cage",
     spell: {
       name: "Absolute Stasis Beam",
@@ -198,7 +198,7 @@ export const CHRONARCH_STASIS_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 50, aoeShape: "line", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 4 } },
       damageTypes: ["arcane"],
@@ -206,8 +206,8 @@ export const CHRONARCH_STASIS_TREE = [
       debuffs: ["stasis"], visualTheme: "arcane", tags: ["line", "nuke", "mass-freeze", "chronarch"]
     },
     rankUpgrades: [
-      { description: "60-foot line deals 8d10 force damage, freezes for 2 rounds, and cooldown drops to 16s.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 16 },
-      { description: "70-foot line deals 10d10 force damage, pierces all durability/shields, and refunds 2 Time Shards.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 12 }
+      { description: "60-foot line deals 8d10 force damage, freezes for 2 rounds, and cooldown drops to 3 rounds.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 3 },
+      { description: "70-foot line deals 10d10 force damage, pierces all durability/shields, and refunds 2 Time Shards.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -215,7 +215,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Dominion of Stillness",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 2, y: 3 },
     requires: "st_t3_fracture_mastery",
     spell: {
       name: "Dominion of Stillness",
@@ -236,7 +236,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Temporal Shatterstorm",
     icon: "Force/Explosion Burst",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "st_t4_absolute_stasis_beam",
     spell: {
       name: "Temporal Shatterstorm",
@@ -246,7 +246,7 @@ export const CHRONARCH_STASIS_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 4 } },
       damageTypes: ["arcane"],
@@ -254,7 +254,7 @@ export const CHRONARCH_STASIS_TREE = [
       debuffs: ["stun"], visualTheme: "arcane", tags: ["detonate", "mass-nuke", "stun", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Deals 11d10 force damage, stuns for 2 rounds, and completely resets all Stasis ability cooldowns.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
+      { description: "Deals 11d10 force damage, stuns for 2 rounds, and completely resets all Stasis ability cooldowns.", primaryDamage: { dice: "11d10", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -262,7 +262,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Chrono-Stasis Reservoir",
     icon: "Psychic/Mind Growth",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "st_t4_dominion_authority",
     spell: {
       name: "Chrono-Stasis Reservoir",
@@ -284,7 +284,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Avatar of Stasis",
     icon: "Nature/Nature Scene",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "st_t5_temporal_shatter",
     spell: {
       name: "Avatar of Stasis",
@@ -294,10 +294,10 @@ export const CHRONARCH_STASIS_TREE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 6 } },
-      durationRounds: 2, durationRealTime: 12, durationUnit: "seconds",
+      durationRounds: 2, durationUnit: "rounds",
       debuffs: ["absolute-timestop"], visualTheme: "arcane", tags: ["mass-timestop", "no-save", "climax", "chronarch"]
     },
     rankUpgrades: []
@@ -327,7 +327,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Anchored in Eternity",
     icon: "General/Defend",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 1.5, y: 5 },
     requires: "st_t5_endless_stasis",
     spell: {
       name: "Anchored in Eternity",
@@ -348,7 +348,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Grand Time-Lock Cataclysm",
     icon: "Nature/Nature Shrine",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "st_t6_avatar_of_stasis",
     spell: {
       name: "Grand Time-Lock Cataclysm",
@@ -358,10 +358,10 @@ export const CHRONARCH_STASIS_TREE = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 100,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 8 } },
-      durationRounds: 3, durationRealTime: 18, durationUnit: "seconds",
+      durationRounds: 3, durationUnit: "rounds",
       buffs: ["infinite-timestop"], visualTheme: "arcane", tags: ["ultimate", "capstone", "timestop", "chronarch"]
     },
     rankUpgrades: []
@@ -371,7 +371,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Stasis Archon Doctrine",
     icon: "Radiant/Bide Time",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "st_t6_avatar_of_stasis",
     spell: {
       name: "Stasis Archon Doctrine",
@@ -414,7 +414,7 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Absolute Zero Stasis",
     icon: "Frost/Frost Freeze 1",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "st_t6_force_criticality",
     spell: {
       name: "Absolute Zero Stasis",
@@ -434,19 +434,19 @@ export const CHRONARCH_STASIS_TREE = [
     name: "Rewound Mortality",
     icon: "Arcane/Rewind Time",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "st_t6_unmovable_presence",
     spell: {
       name: "Rewound Mortality",
-      description: "While you maintain at least 4 Time Shards, lethal damage freezes your timeline instead: restores 2d6 Hit Points, 0 Strain, and freezes all enemies within 30 feet for 1 round (cooldown: 120s).",
+      description: "While you maintain at least 4 Time Shards, lethal damage freezes your timeline instead: restores 2d6 Hit Points, 0 Strain, and freezes all enemies within 30 feet for 1 round (cooldown: 20 rounds).",
       flavorText: "Death was scheduled. You canceled the appointment.",
       source: "talent", class: "Chronarch", treeId: "stasis",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 3d6 Hit Points, gain max Shards, freeze foes for 2 rounds (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 4d6 Hit Points, and immediately activate Avatar of Stasis for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 3d6 Hit Points, gain max Shards, freeze foes for 2 rounds (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 4d6 Hit Points, and immediately activate Avatar of Stasis for free (cooldown: 10 rounds)." }
     ]
   }
 ];
@@ -461,7 +461,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Temporal Blink",
     icon: "Arcane/Quick Step",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4, y: 0 },
     requires: null,
     spell: {
       name: "Temporal Blink",
@@ -471,14 +471,14 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 3 } },
       buffs: ["blink-empower"], visualTheme: "arcane", tags: ["teleport", "mobility", "shards", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Teleport up to 45 feet, gain 3 Time Shards, next attack deals +3d8 force damage.", cooldownValue: 5 },
-      { description: "Teleport up to 60 feet, gain 4 Time Shards, next attack deals +4d8 force damage and blinks you back if desired.", cooldownValue: 4 }
+      { description: "Teleport up to 45 feet, gain 3 Time Shards, next attack deals +3d8 force damage.", cooldownValue: 1 },
+      { description: "Teleport up to 60 feet, gain 4 Time Shards, next attack deals +4d8 force damage and blinks you back if desired.", cooldownValue: 1 }
     ]
   },
   {
@@ -506,7 +506,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Quantum Flicker",
     icon: "Arcane/Revealing Steps",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Quantum Flicker",
@@ -527,7 +527,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Spatial Rift Strike",
     icon: "Force/Impact Explosion",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 3, y: 1 },
     requires: "dp_t1_temporal_blink",
     spell: {
       name: "Spatial Rift Strike",
@@ -537,7 +537,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 45,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 8, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 2 } },
       damageTypes: ["arcane"],
@@ -554,7 +554,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Displacement Slipstream",
     icon: "Arcane/Open Portal",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 1, y: 1 },
     requires: "dp_t1_displacement_speed",
     spell: {
       name: "Displacement Slipstream",
@@ -578,7 +578,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Wormhole Singularity",
     icon: "Arcane/Portal Archway",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 4.5, y: 2 },
     requires: "dp_t2_rift_strike",
     spell: {
       name: "Wormhole Singularity",
@@ -588,7 +588,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 10,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 3 } },
       damageTypes: ["arcane"],
@@ -605,7 +605,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Dimensional Shearing",
     icon: "Force/Energy Streak",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "dp_t2_echo_trail",
     spell: {
       name: "Dimensional Shearing",
@@ -627,7 +627,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Omnipresent Barrage",
     icon: "Force/Radial Burst",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3, y: 3 },
     requires: "dp_t3_wormhole_vortex",
     spell: {
       name: "Omnipresent Barrage",
@@ -637,7 +637,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 35,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 4 } },
       damageTypes: ["arcane"],
@@ -645,8 +645,8 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       visualTheme: "arcane", tags: ["omni-strike", "aoe", "nuke", "chronarch"]
     },
     rankUpgrades: [
-      { description: "40-foot area deals 9d10 force damage, stuns all hit enemies for 1 round, cooldown drops to 16s.", primaryDamage: { dice: "9d10", flat: 0, procChance: 100 }, cooldownValue: 16 },
-      { description: "45-foot area deals 12d10 force damage, stuns for 2 rounds, and refunds 2 Time Shards.", primaryDamage: { dice: "12d10", flat: 0, procChance: 100 }, cooldownValue: 12 }
+      { description: "40-foot area deals 9d10 force damage, stuns all hit enemies for 1 round, cooldown drops to 3 rounds.", primaryDamage: { dice: "9d10", flat: 0, procChance: 100 }, cooldownValue: 3 },
+      { description: "45-foot area deals 12d10 force damage, stuns for 2 rounds, and refunds 2 Time Shards.", primaryDamage: { dice: "12d10", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -654,7 +654,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Kinetic Extraction",
     icon: "Force/Reconstruct",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "dp_t3_spatial_shearing",
     spell: {
       name: "Kinetic Extraction",
@@ -677,7 +677,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Dimensional Implosion",
     icon: "Arcane/Spiral Vortex",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 2, y: 4 },
     requires: "dp_t4_chrono_barrage",
     spell: {
       name: "Dimensional Implosion",
@@ -687,7 +687,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "ranged", range: 60, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 24, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 4 } },
       damageTypes: ["arcane"],
@@ -695,7 +695,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       debuffs: ["crush"], visualTheme: "arcane", tags: ["vortex", "crush", "nuke", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Deals 12d10 initial damage + 6d10 crush damage, and roots all victims for 2 rounds.", primaryDamage: { dice: "12d10", flat: 0, procChance: 100 }, cooldownValue: 18 }
+      { description: "Deals 12d10 initial damage + 6d10 crush damage, and roots all victims for 2 rounds.", primaryDamage: { dice: "12d10", flat: 0, procChance: 100 }, cooldownValue: 3 }
     ]
   },
   {
@@ -703,7 +703,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Phase Shift Mastery",
     icon: "Psychic/Shifting Gaze",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "dp_t4_displacement_siphon",
     spell: {
       name: "Phase Shift Mastery",
@@ -725,7 +725,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Avatar of Omnipresence",
     icon: "Utility/All Seeing Eye",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "dp_t5_spatial_collapse",
     spell: {
       name: "Avatar of Omnipresence",
@@ -735,10 +735,10 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 90, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 15, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 6 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["omnipresent-avatar"], visualTheme: "arcane", tags: ["god-mode", "infinite-teleport", "avatar", "chronarch"]
     },
     rankUpgrades: []
@@ -748,7 +748,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Warp Acceleration",
     icon: "Arcane/Magical Duel",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 2, y: 5 },
     requires: "dp_t5_flicker_mastery",
     spell: {
       name: "Warp Acceleration",
@@ -767,7 +767,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Spatial Refraction Ward",
     icon: "Force/Radiating Barrier",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 1, y: 5 },
     requires: "dp_t5_flicker_mastery",
     spell: {
       name: "Spatial Refraction Ward",
@@ -788,7 +788,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Dimensional Shatter Cataclysm",
     icon: "Arcane/Desperate Channelling",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "dp_t6_omnipresent_avatar",
     spell: {
       name: "Dimensional Shatter Cataclysm",
@@ -798,10 +798,10 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       damageTypes: ["arcane"],
       primaryDamage: { dice: "6d10", flat: 0, procChance: 100 },
       buffs: ["pocket-dimension"], visualTheme: "arcane", tags: ["ultimate", "capstone", "dimensional-shatter", "chronarch"]
@@ -813,7 +813,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Displacement Doctrine",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.5, y: 6 },
     requires: "dp_t6_omnipresent_avatar",
     spell: {
       name: "Displacement Doctrine",
@@ -856,7 +856,7 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Warp Echo Clones",
     icon: "Psychic/Mind Growth",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.5, y: 6 },
     requires: "dp_t6_warp_criticality",
     spell: {
       name: "Warp Echo Clones",
@@ -876,19 +876,19 @@ export const CHRONARCH_DISPLACEMENT_TREE = [
     name: "Phase Rebirth",
     icon: "Arcane/Enchanted Double Axe",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0, y: 6 },
     requires: "dp_t6_spatial_refraction",
     spell: {
       name: "Phase Rebirth",
-      description: "While at 3+ Time Shards, lethal damage displaces you to a safe coordinate: prevents death, restores 2d6 Hit Points, grants 50 temporary health, and makes you invisible for 2 rounds (cooldown: 120s).",
+      description: "While at 3+ Time Shards, lethal damage displaces you to a safe coordinate: prevents death, restores 2d6 Hit Points, grants 50 temporary health, and makes you invisible for 2 rounds (cooldown: 20 rounds).",
       flavorText: "The killing blow struck an empty coordinate.",
       source: "talent", class: "Chronarch", treeId: "displacement",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, restores 3d6 Hit Points, 75 temp HP, gain max Shards (cooldown: 90s)." },
-      { description: "Survive lethal damage, restores 4d6 Hit Points, and immediately trigger Omnipresent Barrage automatically for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, restores 3d6 Hit Points, 75 temp HP, gain max Shards (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, restores 4d6 Hit Points, and immediately trigger Omnipresent Barrage automatically for free (cooldown: 10 rounds)." }
     ]
   }
 ];
@@ -903,7 +903,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Temporal Rewind",
     icon: "Utility/Rewind Time",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Temporal Rewind",
@@ -913,7 +913,7 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 6, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 1, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { mana: { baseAmount: 4 } },
       healing: { dice: "2d8", flat: 0 },
@@ -949,7 +949,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Chronal Echo Heal",
     icon: "Healing/Renewal",
     maxRanks: 2,
-    position: { x: 4, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Chronal Echo Heal",
@@ -970,7 +970,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Undo Fate",
     icon: "Arcane/Sands of Time",
     maxRanks: 3,
-    position: { x: 1, y: 1 },
+    position: { x: 4.5, y: 1 },
     requires: "rw_t1_temporal_rewind",
     spell: {
       name: "Undo Fate",
@@ -980,7 +980,7 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "single", rangeType: "ranged", range: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 2 } },
       damageTypes: ["arcane"],
@@ -988,8 +988,8 @@ export const CHRONARCH_REWINDING_TREE = [
       visualTheme: "arcane", tags: ["negate-attack", "reaction", "counter", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Feedback deals 5d8 force damage and silences attacker for 1 round.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 8 },
-      { description: "Feedback deals 7d8 force damage, stuns attacker for 1 round, and refunds the 2 Time Shards.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 }, cooldownValue: 6 }
+      { description: "Feedback deals 5d8 force damage and silences attacker for 1 round.", primaryDamage: { dice: "5d8", flat: 0, procChance: 100 }, cooldownValue: 1 },
+      { description: "Feedback deals 7d8 force damage, stuns attacker for 1 round, and refunds the 2 Time Shards.", primaryDamage: { dice: "7d8", flat: 0, procChance: 100 }, cooldownValue: 1 }
     ]
   },
   {
@@ -997,7 +997,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Destiny Reversal",
     icon: "Force/Energy Coil",
     maxRanks: 3,
-    position: { x: 3, y: 1 },
+    position: { x: 0.5, y: 1 },
     requires: "rw_t1_paradox_prevention",
     spell: {
       name: "Destiny Reversal",
@@ -1019,7 +1019,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Rewind Battlefield",
     icon: "Healing/Chakra",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2.5, y: 2 },
     requires: "rw_t2_undo_action",
     spell: {
       name: "Rewind Battlefield",
@@ -1029,7 +1029,7 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 40,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 18, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 3 } },
       healing: { dice: "4d8", flat: 0 },
@@ -1045,7 +1045,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Causal Anchor",
     icon: "Utility/Steadfast Bulwark",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 0.5, y: 2 },
     requires: "rw_t2_rewind_sunder",
     spell: {
       name: "Causal Anchor",
@@ -1067,7 +1067,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Entropy Inversion",
     icon: "Force/Explosion Burst 4",
     maxRanks: 3,
-    position: { x: 1, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "rw_t3_mass_rewind",
     spell: {
       name: "Entropy Inversion",
@@ -1077,7 +1077,7 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 50,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 4 } },
       damageTypes: ["arcane"],
@@ -1085,8 +1085,8 @@ export const CHRONARCH_REWINDING_TREE = [
       debuffs: ["dispel-all"], visualTheme: "arcane", tags: ["mass-dispel", "nuke", "strip-buffs", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Deals 8d10 force damage, strips all buffs, and converts stripped shields into damage dealt to the target.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 16 },
-      { description: "Deals 10d10 force damage, strips buffs, converts shields to damage, and silences target for 2 rounds.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 12 }
+      { description: "Deals 8d10 force damage, strips all buffs, and converts stripped shields into damage dealt to the target.", primaryDamage: { dice: "8d10", flat: 0, procChance: 100 }, cooldownValue: 3 },
+      { description: "Deals 10d10 force damage, strips buffs, converts shields to damage, and silences target for 2 rounds.", primaryDamage: { dice: "10d10", flat: 0, procChance: 100 }, cooldownValue: 2 }
     ]
   },
   {
@@ -1094,18 +1094,18 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Chrono-Recharge",
     icon: "Utility/Revolver Arc",
     maxRanks: 2,
-    position: { x: 3.5, y: 3 },
+    position: { x: 0.5, y: 3 },
     requires: "rw_t3_time_loop_protection",
     spell: {
       name: "Chrono-Recharge",
-      description: "Whenever you cast a rewind spell on an ally, all their ability cooldowns are reduced by 4 seconds.",
+      description: "Whenever you cast a rewind spell on an ally, all their ability cooldowns are reduced by 1 round.",
       flavorText: "Returning the spent breath to their lungs.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "utility",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "cdr", "party-utility", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Ally cooldowns reduced by 8 seconds, and restores 10 mana to the ally." }
+      { description: "Ally cooldowns reduced by 1 round, and restores 10 mana to the ally." }
     ]
   },
 
@@ -1115,7 +1115,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Revoking the Reaper",
     icon: "Healing/Ressusitate",
     maxRanks: 2,
-    position: { x: 1, y: 4 },
+    position: { x: 3, y: 4 },
     requires: "rw_t4_entropy_reversal",
     spell: {
       name: "Revoking the Reaper",
@@ -1125,14 +1125,14 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "single", rangeType: "ranged", range: 60,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 60, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 10, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 5 } },
       healing: { dice: "10d10", flat: 0 },
       visualTheme: "arcane", tags: ["resurrect", "instant", "climax", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Resurrects at 100 points HP/mana, grants 50 temporary health, and can be used on 2 fallen allies simultaneously.", cooldownValue: 45 }
+      { description: "Resurrects at 100 points HP/mana, grants 50 temporary health, and can be used on 2 fallen allies simultaneously.", cooldownValue: 8 }
     ]
   },
   {
@@ -1140,7 +1140,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Paradox Reversal Engine",
     icon: "Psychic/Telepathic Arcane",
     maxRanks: 3,
-    position: { x: 3, y: 4 },
+    position: { x: 1, y: 4 },
     requires: "rw_t4_undo_cooldowns",
     spell: {
       name: "Paradox Reversal Engine",
@@ -1162,7 +1162,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "The Grand Rewind",
     icon: "Nature/Panda Nature",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "rw_t5_rewind_death",
     spell: {
       name: "The Grand Rewind",
@@ -1172,7 +1172,7 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "healing",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 100,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 120, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 20, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 6 } },
       healing: { dice: "10d10", flat: 0 },
@@ -1185,7 +1185,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Infinite Loop Healing",
     icon: "Healing/Armored Healing",
     maxRanks: 2,
-    position: { x: 2.5, y: 5 },
+    position: { x: 3, y: 5 },
     requires: "rw_t5_eternal_undo",
     spell: {
       name: "Infinite Loop Healing",
@@ -1206,7 +1206,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Sanctuary of Untouchable Time",
     icon: "Force/Force Touch",
     maxRanks: 2,
-    position: { x: 4, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "rw_t5_eternal_undo",
     spell: {
       name: "Sanctuary of Untouchable Time",
@@ -1227,7 +1227,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Avatar of the Eternal Return",
     icon: "Radiant/Bide Time",
     maxRanks: 1,
-    position: { x: 0.5, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "rw_t6_the_grand_rewind",
     spell: {
       name: "Avatar of the Eternal Return",
@@ -1237,10 +1237,10 @@ export const CHRONARCH_REWINDING_TREE = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 180, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 30, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { timeShards: { baseAmount: 8 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["eternal-return"], visualTheme: "arcane", tags: ["ultimate", "capstone", "invulnerable", "chronarch"]
     },
     rankUpgrades: []
@@ -1250,7 +1250,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Rewinding Chronomancer Doctrine",
     icon: "Healing/Healing Compass",
     maxRanks: 5,
-    position: { x: 1.5, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "rw_t6_the_grand_rewind",
     spell: {
       name: "Rewinding Chronomancer Doctrine",
@@ -1292,7 +1292,7 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "Temporal Aegis",
     icon: "Force/Force Shield",
     maxRanks: 3,
-    position: { x: 3.5, y: 6 },
+    position: { x: 1.75, y: 6 },
     requires: "rw_t6_causal_loop_heal",
     spell: {
       name: "Temporal Aegis",
@@ -1312,19 +1312,19 @@ export const CHRONARCH_REWINDING_TREE = [
     name: "The Infinite Loop",
     icon: "Radiant/Holy Bible",
     maxRanks: 3,
-    position: { x: 4.5, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "rw_t6_temporal_immunity",
     spell: {
       name: "The Infinite Loop",
-      description: "While at 3+ Time Shards, lethal damage automatically triggers The Grand Rewind for free, resetting the entire encounter 2 rounds back and preventing death (cooldown: 120s).",
+      description: "While at 3+ Time Shards, lethal damage automatically triggers The Grand Rewind for free, resetting the entire encounter 2 rounds back and preventing death (cooldown: 20 rounds).",
       flavorText: "You cannot die; you merely return to before you made the error.",
       source: "talent", class: "Chronarch", treeId: "rewinding",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "capstone", "cheat-death", "chronarch"]
     },
     rankUpgrades: [
-      { description: "Survive lethal damage, triggers Grand Rewind, restores 3d6 Hit Points to all party members (cooldown: 90s)." },
-      { description: "Survive lethal damage, triggers Grand Rewind, restores 4d6 Hit Points, and activates Avatar of the Eternal Return for free (cooldown: 60s)." }
+      { description: "Survive lethal damage, triggers Grand Rewind, restores 3d6 Hit Points to all party members (cooldown: 15 rounds)." },
+      { description: "Survive lethal damage, triggers Grand Rewind, restores 4d6 Hit Points, and activates Avatar of the Eternal Return for free (cooldown: 10 rounds)." }
     ]
   }
 ];

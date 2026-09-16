@@ -81,3 +81,28 @@
 ## 6. Mind memory
 
 - `toxicologist-deep-dive-2026-09-14`, `class-deep-dive-policies-2026-09-13`
+
+## 7. Spell-level format & flavor pass — 2026-09-16
+
+Tool: `scripts/spell-card-qa.mjs`. **Before: 31 flagged / 8 errors. After: 0 errors** (remaining warnings are long descriptions).
+
+| Spell | Issue | Fix |
+|---|---|---|
+| `tox_acid_unlocking`, `tox_false_death`, `tox_smoke_bomb` | no `effectTypes` | added `utility` + utilityConfigs (dissolve, feign death, smoke cover) |
+| `tox_apply_poison` | no `effectTypes`, duration rounds/attacks mismatch | added poison-coating buffConfig; duration type `time` |
+| `tox_alchemical_adhesive`, `tox_pneumatic_stasis_piston` | `debuff` with no config | added resin slow / vice-clamp disarm debuffs |
+| `tox_biochemical_siphon` | `buff` with no stats, bad `healingType` | added tether buffConfig; healing `vampiric`, formula `15` |
+
+Flavor: vial/gadget identity intact; no rethemes proposed.
+
+### Pass 2 addendum — 2026-09-16 (mechanical warning cleanup)
+
+`tox_antidote` + `tox_purifying_antidote` + `tox_calcified_antidote` + `tox_panacea_concoction`: cure/purification configs now gated with `utility` type and have `selectedEffects`/`effects[]`. `tox_poison_trap`/`contraption_network`/`overcharged_trap`: duration type aligned to `minutes` (traps).
+
+### Pass 3 addendum — 2026-09-16 (cooldown declarations)
+
+`tox_crippling_toxin` now declares `cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 }`.
+
+### Pass 4 — 2026-09-16 (verbosity trim)
+
+22 descriptions over 200 chars rewritten to ≤200, preserving every mechanic, number, and the class voice. Full global spell-card QA is now **0 errors / 0 warnings** across all 21 classes (1,026 spells).

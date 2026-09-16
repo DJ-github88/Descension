@@ -11,7 +11,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hollow Pursuit",
     icon: "General/Glowing Paw Prints",
     maxRanks: 3,
-    position: { x: 1, y: 0 },
+    position: { x: 4.5, y: 0 },
     requires: null,
     spell: {
       name: "Hollow Pursuit",
@@ -32,7 +32,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Wyrd Embrace",
     icon: "Necrotic/Wolf Hood",
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 3, y: 0 },
     requires: null,
     spell: {
       name: "Wyrd Embrace",
@@ -54,7 +54,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Pursuit Mastery",
     icon: "Necrotic/Horned Charge",
     maxRanks: 2,
-    position: { x: 3, y: 0 },
+    position: { x: 0.5, y: 0 },
     requires: null,
     spell: {
       name: "Pursuit Mastery",
@@ -75,7 +75,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Corruption Aura",
     icon: "Necrotic/Corruption",
     maxRanks: 3,
-    position: { x: 0, y: 1 },
+    position: { x: 4, y: 1 },
     requires: "hsw_t1_wyrd_embrace",
     spell: {
       name: "Corruption Aura",
@@ -97,7 +97,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Condemn",
     icon: "Radiant/Divine Downward Sword",
     maxRanks: 3,
-    position: { x: 4, y: 1 },
+    position: { x: 2.5, y: 1 },
     requires: "hsw_t1_pursuit_mastery",
     spell: {
       name: "Condemn",
@@ -107,7 +107,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "single", rangeType: "ranged", range: 30,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 20, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 3, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { authority: { baseAmount: 3 } },
       damageTypes: ["sacred"],
@@ -125,7 +125,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Inner Peace",
     icon: "Arcane/Zen",
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 2, y: 2 },
     requires: "hsw_t2_corruption_aura",
     spell: {
       name: "Inner Peace",
@@ -146,7 +146,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Marked for Death",
     icon: "Piercing/Targeted Strike 1",
     maxRanks: 3,
-    position: { x: 3, y: 2 },
+    position: { x: 1, y: 2 },
     requires: "hsw_t2_condemn",
     spell: {
       name: "Marked for Death",
@@ -156,10 +156,10 @@ export const INQUISITOR_HOLLOW_SAINT = [
       spellType: "ACTIVE", category: "debuff",
       targetingMode: "single", rangeType: "ranged", range: 90,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: true, interruptible: false,
       resourceCosts: { authority: { baseAmount: 1 } },
-      durationRounds: 60, durationRealTime: 600, durationUnit: "seconds",
+      durationRounds: 60, durationUnit: "rounds",
       damageTypes: ["sacred"],
       primaryDamage: { dice: "2d6", flat: 0, procChance: 100 },
       debuffs: ["marked"], visualTheme: "shadow", tags: ["mark", "tracking", "inquisitor"]
@@ -175,7 +175,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Rein In Fury",
     icon: "General/Command",
     maxRanks: 3,
-    position: { x: 1.5, y: 3 },
+    position: { x: 3.5, y: 3 },
     requires: "hsw_t3_inner_peace",
     spell: {
       name: "Rein In Fury",
@@ -185,7 +185,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
       spellType: "ACTIVE", category: "utility",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "short", cooldownValue: 10, cooldownUnit: "seconds",
+      cooldownCategory: "short", cooldownValue: 2, cooldownUnit: "rounds",
       triggersGlobalCooldown: false, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { authority: { baseAmount: 2 } },
       visualTheme: "shadow", tags: ["internal-dd", "restore", "inquisitor"]
@@ -200,7 +200,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Corruption Nova",
     icon: "Force/Explosion Burst",
     maxRanks: 2,
-    position: { x: 2.5, y: 3 },
+    position: { x: 1.5, y: 3 },
     requires: "hsw_t3_marked_for_death",
     spell: {
       name: "Corruption Nova",
@@ -210,7 +210,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
       spellType: "ACTIVE", category: "damage",
       targetingMode: "aoe", rangeType: "self", range: 0, aoeShape: "circle", aoeSize: 20,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "medium", cooldownValue: 25, cooldownUnit: "seconds",
+      cooldownCategory: "medium", cooldownValue: 4, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { mana: { baseAmount: 10 } },
       damageTypes: ["blight"],
@@ -227,7 +227,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hound's Endurance",
     icon: "Healing/Renewal",
     maxRanks: 3,
-    position: { x: 1.5, y: 4 },
+    position: { x: 4.5, y: 4 },
     requires: "hsw_t4_rein_in_fury",
     spell: {
       name: "Hound's Endurance",
@@ -249,7 +249,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "No Escape",
     icon: "Utility/Maw No Escape",
     maxRanks: 2,
-    position: { x: 2.5, y: 4 },
+    position: { x: 0.5, y: 4 },
     requires: "hsw_t4_corruption_nova",
     spell: {
       name: "No Escape",
@@ -270,7 +270,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hollow Sovereign",
     icon: "Radiant/Ascendance",
     maxRanks: 1,
-    position: { x: 1, y: 5 },
+    position: { x: 4.5, y: 5 },
     requires: "hsw_t5_hounds_endurance",
     spell: {
       name: "Hollow Sovereign",
@@ -309,7 +309,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Hollow Bones",
     icon: "Necrotic/Ethereal Skeleton",
     maxRanks: 2,
-    position: { x: 3, y: 5 },
+    position: { x: 0.5, y: 5 },
     requires: "hsw_t5_hounds_endurance",
     spell: {
       name: "Hollow Bones",
@@ -329,7 +329,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Saint and Hound",
     icon: "Radiant/Golden Wolf",
     maxRanks: 1,
-    position: { x: 0, y: 6 },
+    position: { x: 4.5, y: 6 },
     requires: "hsw_t6_ascended_form",
     spell: {
       name: "Saint and Hound",
@@ -339,10 +339,10 @@ export const INQUISITOR_HOLLOW_SAINT = [
       spellType: "ACTIVE", category: "buff",
       targetingMode: "self", rangeType: "self", range: 0,
       castTimeType: "instant", castTimeValue: 0,
-      cooldownCategory: "long", cooldownValue: 300, cooldownUnit: "seconds",
+      cooldownCategory: "long", cooldownValue: 50, cooldownUnit: "rounds",
       triggersGlobalCooldown: true, usableWhileMoving: true, requiresLoS: false, interruptible: false,
       resourceCosts: { authority: { baseAmount: 6 }, mana: { baseAmount: 20 } },
-      durationRounds: 6, durationRealTime: 60, durationUnit: "seconds",
+      durationRounds: 6, durationUnit: "rounds",
       buffs: ["saint-and-hound"], damageTypes: ["blight"],
       visualTheme: "shadow", tags: ["ultimate", "capstone", "transform", "inquisitor"]
     }
@@ -352,7 +352,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Writ of Hunger",
     icon: "Necrotic/Blood Scroll",
     maxRanks: 5,
-    position: { x: 1, y: 6 },
+    position: { x: 3.25, y: 6 },
     requires: "hsw_t6_hollow_bones",
     spell: {
       name: "Writ of Hunger",
@@ -374,7 +374,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Tireless Pursuer",
     icon: "Utility/Golden Boot Armor",
     maxRanks: 3,
-    position: { x: 2, y: 6 },
+    position: { x: 2.5, y: 6 },
     requires: "hsw_t6_hollow_bones",
     spell: {
       name: "Tireless Pursuer",
@@ -395,7 +395,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Rot Crown",
     icon: "Poison/Poison Arrow",
     maxRanks: 3,
-    position: { x: 3, y: 6 },
+    position: { x: 1.75, y: 6 },
     requires: "hsw_t6_confession",
     spell: {
       name: "Rot Crown",
@@ -416,7 +416,7 @@ export const INQUISITOR_HOLLOW_SAINT = [
     name: "Last Confession",
     icon: "Radiant/Radiant Corrosion",
     maxRanks: 3,
-    position: { x: 4, y: 6 },
+    position: { x: 0.5, y: 6 },
     requires: "hsw_t6_confession",
     spell: {
       name: "Last Confession",
