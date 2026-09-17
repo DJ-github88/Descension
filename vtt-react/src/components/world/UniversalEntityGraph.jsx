@@ -52,6 +52,8 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const [hoveredNodeId, setHoveredNodeId] = useState(null);
   const [hoveredEdge, setHoveredEdge] = useState(null);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [pathwayHistory, setPathwayHistory] = useState([]);
+  const [strictPathway, setStrictPathway] = useState(false);
 
   // Hide redundant folk/culture factions (race-mirror factions) unless the user asks for them
   const factions = useMemo(
@@ -432,9 +434,130 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     });
   }, [allEdges, visibleNodes, activeRelFilter]);
 
+  // Active Pathway Focus & Multi-tier Connectivity Computation
+  const activeFocusId = hoveredNodeId || selectedNodeId;
+
+  const pathwayData = useMemo(() => {
+    if (!activeFocusId || !connectionMap.has(activeFocusId)) {
+      return {
+        degree0Id: activeFocusId || null,
+        degree1Set: new Set(),
+        degree2Set: new Set(),
+        degree1Edges: new Set(),
+        degree2Edges: new Set(),
+        hasActivePathway: false,
+        parentMap: new Map()
+      };
+    }
+
+    const d1Set = new Set(connectionMap.get(activeFocusId) || []);
+    const d2Set = new Set();
+    const parentMap = new Map();
+
+    d1Set.forEach((d1NodeId) => {
+      const neighbors = connectionMap.get(d1NodeId);
+      if (neighbors) {
+        neighbors.forEach((n2) => {
+          if (n2 !== activeFocusId && !d1Set.has(n2)) {
+            d2Set.add(n2);
+            if (!parentMap.has(n2)) {
+              parentMap.set(n2, d1NodeId);
+            }
+          }
+        });
+      }
+    });
+
+    const d1Edges = new Set();
+    const d2Edges = new Set();
+
+    allEdges.forEach((edge) => {
+      const isD0Source = edge.source === activeFocusId;
+      const isD0Target = edge.target === activeFocusId;
+
+      if ((isD0Source && d1Set.has(edge.target)) || (isD0Target && d1Set.has(edge.source))) {
+        d1Edges.add(edge.id);
+      } else if (
+        (d1Set.has(edge.source) && d2Set.has(edge.target)) ||
+        (d1Set.has(edge.target) && d2Set.has(edge.source)) ||
+        (d1Set.has(edge.source) && d1Set.has(edge.target))
+      ) {
+        d2Edges.add(edge.id);
+      }
+    });
+
+    return {
+      degree0Id: activeFocusId,
+      degree1Set: d1Set,
+      degree2Set: d2Set,
+      degree1Edges: d1Edges,
+      degree2Edges: d2Edges,
+      hasActivePathway: true,
+      parentMap
+    };
+  }, [activeFocusId, connectionMap, allEdges]);
+
   // Dynamic Layout: Generous, responsive concentric arrangement
   const defaultPositions = useMemo(() => {
     const positions = {};
+
+    // Specialized Pathway Radial Tree layout
+    if (layoutMode === 'pathway') {
+      const focusId = selectedNodeId || hoveredNodeId;
+      if (!focusId || !visibleNodes.some((n) => n.id === focusId)) {
+        visibleNodes.forEach((n, i) => {
+          const angle = (i / (visibleNodes.length || 1)) * Math.PI * 2;
+          const r = 380 + (i % 3) * 180;
+          positions[n.id] = {
+            x: Math.round(CX + Math.cos(angle) * r),
+            y: Math.round(CY + Math.sin(angle) * (r * 0.75))
+          };
+        });
+        return positions;
+      }
+
+      positions[focusId] = { x: CX, y: CY };
+
+      const d1Array = visibleNodes.filter((n) => pathwayData.degree1Set.has(n.id));
+      const d2Array = visibleNodes.filter((n) => pathwayData.degree2Set.has(n.id));
+      const otherNodes = visibleNodes.filter(
+        (n) => n.id !== focusId && !pathwayData.degree1Set.has(n.id) && !pathwayData.degree2Set.has(n.id)
+      );
+
+      const d1Count = d1Array.length || 1;
+      const d1Angles = new Map();
+      d1Array.forEach((n, i) => {
+        const angle = (i / d1Count) * Math.PI * 2 - Math.PI / 2;
+        d1Angles.set(n.id, angle);
+        positions[n.id] = {
+          x: Math.round(CX + Math.cos(angle) * 480),
+          y: Math.round(CY + Math.sin(angle) * 360)
+        };
+      });
+
+      const d2Count = d2Array.length || 1;
+      d2Array.forEach((n, i) => {
+        const parentId = pathwayData.parentMap.get(n.id);
+        const parentAngle = parentId && d1Angles.has(parentId) ? d1Angles.get(parentId) : (i / d2Count) * Math.PI * 2;
+        const angleOffset = ((i % 5) - 2) * 0.18;
+        const finalAngle = parentAngle + angleOffset;
+        positions[n.id] = {
+          x: Math.round(CX + Math.cos(finalAngle) * 920),
+          y: Math.round(CY + Math.sin(finalAngle) * 680)
+        };
+      });
+
+      const otherCount = otherNodes.length || 1;
+      otherNodes.forEach((n, i) => {
+        const angle = (i / otherCount) * Math.PI * 2;
+        positions[n.id] = {
+          x: Math.round(CX + Math.cos(angle) * 1400),
+          y: Math.round(CY + Math.sin(angle) * 1050)
+        };
+      });
+
+      return positions;
+    }
 
     const factionNodes = visibleNodes.filter((n) => n.type === 'faction');
     const lineageNodes = visibleNodes.filter((n) => n.type === 'lineage');
@@ -566,7 +689,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     });
 
     return positions;
-  }, [visibleNodes, layoutMode]);
+  }, [visibleNodes, layoutMode, pathwayData, selectedNodeId, hoveredNodeId]);
 
   const getNodePos = useCallback(
     (id) => {
@@ -613,13 +736,13 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     setPanOffset(newPan);
   }, [visibleNodes, defaultPositions]);
 
-  // Re-fit when user alters active filters, layout mode, or search
+  // Re-fit when user alters active filters, layout mode, or search (or when focused node changes in pathway layout)
   useEffect(() => {
     const timer = setTimeout(() => {
       handleFitToScreen();
     }, 60);
     return () => clearTimeout(timer);
-  }, [activeTypeFilters, activeRelFilter, layoutMode, hideDisconnected]);
+  }, [activeTypeFilters, activeRelFilter, layoutMode, hideDisconnected, layoutMode === 'pathway' ? selectedNodeId : null]);
 
   const handleResetLayout = () => {
     setCustomPositions({});
@@ -649,11 +772,36 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   };
 
   // --- Pan & Mouse Dragging Engine ---
+  const handleSelectNode = useCallback((nodeId) => {
+    if (!nodeId) {
+      setSelectedNodeId(null);
+      return;
+    }
+    setSelectedNodeId((prevId) => {
+      if (prevId && prevId !== nodeId) {
+        setPathwayHistory((hist) => [...hist.slice(-15), prevId]);
+      }
+      return nodeId;
+    });
+    const node = allNodes.find((n) => n.id === nodeId);
+    if (node && onEntityClick) onEntityClick(node);
+  }, [allNodes, onEntityClick]);
+
+  const handlePathwayBack = useCallback(() => {
+    setPathwayHistory((prev) => {
+      if (prev.length === 0) return prev;
+      const last = prev[prev.length - 1];
+      setSelectedNodeId(last);
+      return prev.slice(0, -1);
+    });
+  }, []);
+
   const handleMouseDown = (e) => {
     if (
       e.target.closest('.pathfinder-graph-node') ||
       e.target.closest('.pathfinder-graph-toolbar') ||
       e.target.closest('.pathfinder-floating-hud') ||
+      e.target.closest('.pathway-trail-hud') ||
       e.target.closest('.custom-rel-modal-overlay') ||
       e.target.closest('.pathfinder-codex-drawer') ||
       e.target.closest('.edge-label-pill')
@@ -665,10 +813,10 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
       x: e.clientX,
       y: e.clientY,
       startPanX: panOffsetRef.current.x,
-      startPanY: panOffsetRef.current.y
+      startPanY: panOffsetRef.current.y,
+      hasMoved: false
     };
     setIsPanning(true);
-    setSelectedNodeId(null);
   };
 
   const handleNodeMouseDown = (e, nodeId) => {
@@ -689,7 +837,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
       nodeX: curPos.x,
       nodeY: curPos.y
     };
-    setSelectedNodeId(nodeId);
+    handleSelectNode(nodeId);
   };
 
   // --- Touch Gesture State & Handlers ---
@@ -714,6 +862,9 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
       if (isPanningRef.current) {
         const dx = e.clientX - panStartRef.current.x;
         const dy = e.clientY - panStartRef.current.y;
+        if (Math.hypot(dx, dy) > 5) {
+          panStartRef.current.hasMoved = true;
+        }
         setPanOffset({
           x: panStartRef.current.startPanX + dx,
           y: panStartRef.current.startPanY + dy
@@ -734,6 +885,9 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
 
     const handleGlobalMouseUp = () => {
       if (isPanningRef.current) {
+        if (!panStartRef.current.hasMoved) {
+          setSelectedNodeId(null);
+        }
         isPanningRef.current = false;
         setIsPanning(false);
       }
@@ -758,6 +912,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     const handleTouchStart = (e) => {
       const isControl =
         e.target.closest('.pathfinder-floating-hud') ||
+        e.target.closest('.pathway-trail-hud') ||
         e.target.closest('.pathfinder-codex-drawer') ||
         e.target.closest('.custom-rel-modal-overlay') ||
         e.target.closest('.pathfinder-graph-toolbar');
@@ -960,21 +1115,24 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     let prevW = el.clientWidth;
     let prevH = el.clientHeight;
 
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        if (Math.abs(width - prevW) > 25 || Math.abs(height - prevH) > 25) {
-          prevW = width;
-          prevH = height;
-          handleFitToScreen();
+    let ro = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const { width, height } = entry.contentRect;
+          if (Math.abs(width - prevW) > 25 || Math.abs(height - prevH) > 25) {
+            prevW = width;
+            prevH = height;
+            handleFitToScreen();
+          }
         }
-      }
-    });
-    ro.observe(el);
+      });
+      ro.observe(el);
+    }
 
     return () => {
       el.removeEventListener('wheel', handleNativeWheel);
-      ro.disconnect();
+      if (ro) ro.disconnect();
     };
   }, [handleFitToScreen]);
 
@@ -1037,14 +1195,6 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const selectedNode = useMemo(() => {
     return allNodes.find((n) => n.id === selectedNodeId) || null;
   }, [allNodes, selectedNodeId]);
-
-  const activeFocusId = hoveredNodeId || selectedNodeId;
-  const directNeighborSet = useMemo(() => {
-    if (!activeFocusId || !connectionMap.has(activeFocusId)) return null;
-    const neighbors = new Set(connectionMap.get(activeFocusId));
-    neighbors.add(activeFocusId);
-    return neighbors;
-  }, [activeFocusId, connectionMap]);
 
   return (
     <div className="pathfinder-relationship-web-wrapper">
@@ -1162,12 +1312,20 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
 
             <select
               value={layoutMode}
-              onChange={(e) => setLayoutMode(e.target.value)}
+              onChange={(e) => {
+                const newMode = e.target.value;
+                setLayoutMode(newMode);
+                if (newMode === 'pathway' && !selectedNodeId && visibleNodes.length > 0) {
+                  const firstFaction = visibleNodes.find((n) => n.type === 'faction') || visibleNodes[0];
+                  if (firstFaction) handleSelectNode(firstFaction.id);
+                }
+              }}
               className="pathfinder-select"
               title="Layout Organization Mode"
             >
               <option value="cluster">Organic Clusters</option>
               <option value="orbital">Orbital Rings</option>
+              <option value="pathway">Pathway Focus (Radial)</option>
             </select>
           </div>
 
@@ -1208,7 +1366,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
       {/* Main Canvas Workspace */}
       <div
         ref={containerRef}
-        className={`pathfinder-canvas-container ${isPanning ? 'panning' : ''} ${linkingSourceNodeId ? 'linking-mode' : ''}`}
+        className={`pathfinder-canvas-container ${isPanning ? 'panning' : ''} ${linkingSourceNodeId ? 'linking-mode' : ''} ${strictPathway ? 'strict-pathway' : ''}`}
         onMouseDown={handleMouseDown}
       >
         {/* Floating Canvas HUD Controls */}
@@ -1265,18 +1423,27 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
               const p1 = getNodePos(edge.source);
               const p2 = getNodePos(edge.target);
               const isHovered = hoveredEdge === edge.id;
-              const isDirect =
-                activeFocusId &&
-                (edge.source === activeFocusId || edge.target === activeFocusId);
-              const isDimmed = activeFocusId && !isDirect;
+
+              const isD1Edge = pathwayData.hasActivePathway && pathwayData.degree1Edges.has(edge.id);
+              const isD2Edge = pathwayData.hasActivePathway && pathwayData.degree2Edges.has(edge.id);
+              const isDistantEdge = pathwayData.hasActivePathway && !isD1Edge && !isD2Edge;
+
+              let edgeClass = 'graph-edge-group';
+              if (pathwayData.hasActivePathway) {
+                if (isD1Edge) edgeClass += ' pathway-edge-1';
+                else if (isD2Edge) edgeClass += ' pathway-edge-2';
+                else edgeClass += ' pathway-edge-distant dimmed';
+              }
+              if (isHovered) edgeClass += ' hovered';
 
               const midX = (p1.x + p2.x) / 2;
               const midY = (p1.y + p2.y) / 2;
+              const showLabel = edge.label && (isHovered || (isD1Edge && zoomLevel >= 0.45));
 
               return (
                 <g
                   key={edge.id}
-                  className={`graph-edge-group ${isDimmed ? 'dimmed' : ''} ${isHovered ? 'hovered' : ''}`}
+                  className={edgeClass}
                   onMouseEnter={() => setHoveredEdge(edge.id)}
                   onMouseLeave={() => setHoveredEdge(null)}
                 >
@@ -1286,12 +1453,12 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
                     x2={p2.x}
                     y2={p2.y}
                     stroke={edge.color}
-                    strokeWidth={isHovered ? 4.5 : isDirect ? 3 : 1.8}
-                    strokeDasharray={edge.strokeDash || 'none'}
+                    strokeWidth={isHovered ? 4.5 : isD1Edge ? 3.6 : isD2Edge ? 2.2 : 1.6}
+                    strokeDasharray={edge.strokeDash || (isD2Edge ? '4,3' : 'none')}
                     className="edge-line"
                   />
-                  {edge.label && isHovered && (
-                  <g transform={`translate(${midX}, ${midY})`} className="edge-label-pill">
+                  {showLabel && (
+                    <g transform={`translate(${midX}, ${midY})`} className="edge-label-pill">
                       <rect
                         x={-(edge.label.length * 3.8 + 8)}
                         y="-9"
@@ -1319,14 +1486,28 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
               const isSelected = selectedNodeId === node.id;
               const isHovered = hoveredNodeId === node.id;
               const isLinkingSource = linkingSourceNodeId === node.id;
-              const isDirectNeighbor = directNeighborSet && directNeighborSet.has(node.id);
-              const isDimmed = directNeighborSet && !isDirectNeighbor;
+
+              const isDegree0 = pathwayData.hasActivePathway && node.id === pathwayData.degree0Id;
+              const isDegree1 = pathwayData.hasActivePathway && pathwayData.degree1Set.has(node.id);
+              const isDegree2 = pathwayData.hasActivePathway && pathwayData.degree2Set.has(node.id);
+
+              let nodeClasses = `pathfinder-graph-node ${node.type}`;
+              if (isSelected) nodeClasses += ' selected';
+              if (isHovered) nodeClasses += ' hovered';
+              if (isLinkingSource) nodeClasses += ' linking-source';
+
+              if (pathwayData.hasActivePathway) {
+                if (isDegree0) nodeClasses += ' pathway-root';
+                else if (isDegree1) nodeClasses += ' pathway-degree-1';
+                else if (isDegree2) nodeClasses += ' pathway-degree-2';
+                else nodeClasses += ' pathway-distant dimmed';
+              }
 
               return (
                 <div
                   key={node.id}
                   data-node-id={node.id}
-                  className={`pathfinder-graph-node ${node.type} ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''} ${isDimmed ? 'dimmed' : ''} ${isLinkingSource ? 'linking-source' : ''}`}
+                  className={nodeClasses}
                   style={{
                     left: `${pos.x}px`,
                     top: `${pos.y}px`,
@@ -1338,8 +1519,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
                   onMouseLeave={() => setHoveredNodeId(null)}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedNodeId(node.id);
-                    if (onEntityClick) onEntityClick(node);
+                    handleSelectNode(node.id);
                   }}
                   onDoubleClick={(e) => {
                     e.stopPropagation();
@@ -1354,7 +1534,12 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
                     )}
                   </div>
                   <div className="node-content-stack">
-                    <span className="node-name-text">{node.name}</span>
+                    <div className="node-title-row">
+                      <span className="node-name-text">{node.name}</span>
+                      {isDegree0 && <span className="pathway-indicator-badge root" title="Focal Root Faction">ROOT</span>}
+                      {isDegree1 && <span className="pathway-indicator-badge d1" title="Direct 1st-Degree Connection">1st</span>}
+                      {isDegree2 && <span className="pathway-indicator-badge d2" title="Secondary 2nd-Degree Connection">2nd</span>}
+                    </div>
                     <span className="node-type-badge">{node.subType}</span>
                   </div>
                 </div>
@@ -1362,6 +1547,89 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
             })}
           </div>
         </div>
+
+        {/* On-Canvas Floating Pathway Trail & Navigator HUD */}
+        {selectedNode && (
+          <div className="pathway-trail-hud">
+            <div className="pathway-trail-left">
+              {pathwayHistory.length > 0 && (
+                <button
+                  type="button"
+                  className="pathway-hud-btn back-btn"
+                  onClick={handlePathwayBack}
+                  title="Step back to previous faction along pathway"
+                >
+                  <i className="fas fa-arrow-left"></i>
+                </button>
+              )}
+              <div className="pathway-hud-root-info">
+                <span className="pathway-hud-tag">PATHWAY FOCUS</span>
+                <span className="pathway-hud-name">
+                  <i className={`fas ${selectedNode.icon}`} style={{ color: selectedNode.color, marginRight: 6 }}></i>
+                  {selectedNode.name}
+                </span>
+              </div>
+              <div className="pathway-hud-counts">
+                <span className="pathway-count-chip d1" title="Direct 1st-degree connections">
+                  <strong>{pathwayData.degree1Set.size}</strong> Direct
+                </span>
+                <span className="pathway-count-chip d2" title="Secondary 2nd-degree connections">
+                  <strong>{pathwayData.degree2Set.size}</strong> 2nd Degree
+                </span>
+              </div>
+            </div>
+
+            {pathwayData.degree1Set.size > 0 && (
+              <div className="pathway-trail-middle">
+                <span className="pathway-hops-title">Hop to Connection:</span>
+                <div className="pathway-hops-scroll">
+                  {Array.from(pathwayData.degree1Set).map((d1Id) => {
+                    const d1Node = allNodes.find((n) => n.id === d1Id);
+                    if (!d1Node) return null;
+                    return (
+                      <button
+                        key={d1Id}
+                        type="button"
+                        className="pathway-hop-btn"
+                        onClick={() => handleSelectNode(d1Id)}
+                        onMouseEnter={() => setHoveredNodeId(d1Id)}
+                        onMouseLeave={() => setHoveredNodeId(null)}
+                        style={{ '--hop-color': d1Node.color }}
+                        title={`Shift focus to ${d1Node.name}`}
+                      >
+                        <i className={`fas ${d1Node.icon}`} style={{ color: d1Node.color }}></i>
+                        <span>{d1Node.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            <div className="pathway-trail-right">
+              <button
+                type="button"
+                className={`pathway-hud-btn isolate-btn ${strictPathway ? 'active' : ''}`}
+                onClick={() => setStrictPathway((prev) => !prev)}
+                title={strictPathway ? "Show faded distant nodes" : "Isolate pathway (hide distant nodes)"}
+              >
+                <i className={`fas ${strictPathway ? 'fa-eye-slash' : 'fa-filter'}`}></i>
+                <span className="btn-label-desktop">{strictPathway ? 'Isolated' : 'Isolate'}</span>
+              </button>
+              <button
+                type="button"
+                className="pathway-hud-btn close-btn"
+                onClick={() => {
+                  setSelectedNodeId(null);
+                  setPathwayHistory([]);
+                }}
+                title="Exit pathway focus and show full web"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Selected Node Sidebar Inspector */}
@@ -1422,62 +1690,127 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
               )}
             </div>
 
-            {/* Direct Connected Entities */}
-            <h4 style={{ marginTop: '14px', fontFamily: 'Cinzel', fontSize: '0.82rem', color: '#5a2e12' }}>
-              Direct Connections ({connectionMap.get(selectedNode.id)?.size || 0})
-            </h4>
-            <div className="connected-entities-list" style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
-              {allEdges
-                .filter((e) => e.source === selectedNode.id || e.target === selectedNode.id)
-                .map((edge) => {
-                  const otherId = edge.source === selectedNode.id ? edge.target : edge.source;
-                  const otherNode = allNodes.find((n) => n.id === otherId);
-                  if (!otherNode) return null;
+            {/* Direct Connected Entities (Degree 1) */}
+            <div className="drawer-pathway-section">
+              <h4 style={{ marginTop: '14px', fontFamily: 'Cinzel', fontSize: '0.82rem', color: '#5a2e12', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>Direct Ties (1st Degree)</span>
+                <span style={{ fontSize: '0.75rem', background: 'rgba(139, 90, 26, 0.15)', padding: '1px 7px', borderRadius: '10px', fontWeight: 700 }}>
+                  {pathwayData.degree1Set.size}
+                </span>
+              </h4>
+              <div className="connected-entities-list" style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '6px' }}>
+                {allEdges
+                  .filter((e) => e.source === selectedNode.id || e.target === selectedNode.id)
+                  .map((edge) => {
+                    const otherId = edge.source === selectedNode.id ? edge.target : edge.source;
+                    const otherNode = allNodes.find((n) => n.id === otherId);
+                    if (!otherNode) return null;
 
-                  return (
-                    <div
-                      key={edge.id}
-                      className="connected-entity-item"
-                      onClick={() => setSelectedNodeId(otherNode.id)}
-                      onDoubleClick={(e) => {
-                        e.stopPropagation();
-                        if (onEntityDoubleClick) onEntityDoubleClick(otherNode);
-                      }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        background: '#fbf8f0',
-                        border: '1px solid #e3d5be',
-                        borderRadius: '4px',
-                        padding: '6px 8px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <i className={`fas ${otherNode.icon}`} style={{ color: otherNode.color, fontSize: '0.8rem' }}></i>
-                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#2b1408' }}>{otherNode.name}</span>
+                    return (
+                      <div
+                        key={edge.id}
+                        className="connected-entity-item"
+                        onClick={() => handleSelectNode(otherNode.id)}
+                        onDoubleClick={(e) => {
+                          e.stopPropagation();
+                          if (onEntityDoubleClick) onEntityDoubleClick(otherNode);
+                        }}
+                        title={`Focus pathway on ${otherNode.name} (Double-click to open page)`}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          background: '#fbf8f0',
+                          border: '1px solid #e3d5be',
+                          borderRadius: '4px',
+                          padding: '6px 8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <i className={`fas ${otherNode.icon}`} style={{ color: otherNode.color, fontSize: '0.8rem' }}></i>
+                          <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#2b1408' }}>{otherNode.name}</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span style={{ fontSize: '0.72rem', color: edge.color, fontWeight: 700 }}>{edge.label}</span>
+                          <i className="fas fa-arrow-right" style={{ fontSize: '0.65rem', color: '#8b5a1a', opacity: 0.7 }}></i>
+                          {edge.isUserCreated && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteCustomEdge(edge.id);
+                              }}
+                              style={{ background: 'none', border: 'none', color: '#a8241b', cursor: 'pointer', fontSize: '0.75rem' }}
+                              title="Remove Connection"
+                            >
+                              <i className="fas fa-times"></i>
+                            </button>
+                          )}
+                        </div>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ fontSize: '0.72rem', color: edge.color, fontWeight: 700 }}>{edge.label}</span>
-                        {edge.isUserCreated && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteCustomEdge(edge.id);
-                            }}
-                            style={{ background: 'none', border: 'none', color: '#a8241b', cursor: 'pointer', fontSize: '0.75rem' }}
-                            title="Remove Connection"
-                          >
-                            <i className="fas fa-times"></i>
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+              </div>
             </div>
+
+            {/* Extended Connected Entities (Degree 2) */}
+            {pathwayData.degree2Set.size > 0 && (
+              <div className="drawer-pathway-section" style={{ marginTop: '16px' }}>
+                <h4 style={{ fontFamily: 'Cinzel', fontSize: '0.82rem', color: '#7a5230', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Extended Web (2nd Degree)</span>
+                  <span style={{ fontSize: '0.75rem', background: 'rgba(122, 82, 48, 0.12)', padding: '1px 7px', borderRadius: '10px', fontWeight: 700 }}>
+                    {pathwayData.degree2Set.size}
+                  </span>
+                </h4>
+                <p style={{ margin: '2px 0 6px 0', fontSize: '0.73rem', color: '#8c6d46', fontStyle: 'italic' }}>
+                  Connections of direct allies & holdings
+                </p>
+                <div className="connected-entities-list" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                  {Array.from(pathwayData.degree2Set).slice(0, 24).map((d2Id) => {
+                    const d2Node = allNodes.find((n) => n.id === d2Id);
+                    if (!d2Node) return null;
+                    const viaId = pathwayData.parentMap.get(d2Id);
+                    const viaNode = viaId ? allNodes.find((n) => n.id === viaId) : null;
+
+                    return (
+                      <div
+                        key={d2Id}
+                        className="connected-entity-item secondary"
+                        onClick={() => handleSelectNode(d2Node.id)}
+                        onDoubleClick={(e) => {
+                          e.stopPropagation();
+                          if (onEntityDoubleClick) onEntityDoubleClick(d2Node);
+                        }}
+                        title={`Shift pathway focus to ${d2Node.name}`}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          background: '#f8f4eb',
+                          border: '1px dashed #d9caa7',
+                          borderRadius: '4px',
+                          padding: '5px 8px',
+                          cursor: 'pointer',
+                          opacity: 0.95
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <i className={`fas ${d2Node.icon}`} style={{ color: d2Node.color, fontSize: '0.76rem' }}></i>
+                          <span style={{ fontSize: '0.79rem', fontWeight: 600, color: '#3d2516' }}>{d2Node.name}</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          {viaNode && (
+                            <span style={{ fontSize: '0.68rem', color: '#8b693e' }}>via {viaNode.name}</span>
+                          )}
+                          <i className="fas fa-arrow-right" style={{ fontSize: '0.65rem', color: '#a07138' }}></i>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

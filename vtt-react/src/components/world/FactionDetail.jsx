@@ -139,28 +139,26 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
         }}
       >
         <div className="faction-hero-top-nav">
-          <button className="world-back-btn" onClick={onBack}>
+          <button className="world-back-btn faction-hero-back-btn" onClick={onBack}>
             <i className="fas fa-arrow-left"></i> Back to World
           </button>
           <div className="faction-breadcrumbs">
-            <span>World</span> <i className="fas fa-chevron-right"></i>
-            <span>Factions</span> <i className="fas fa-chevron-right"></i>
-            <span className="current">{sanitizeLoreText(faction.name)}</span>
+            <span className="crumb">World</span> <i className="fas fa-chevron-right crumb-sep"></i>
+            <span className="crumb">Factions</span> <i className="fas fa-chevron-right crumb-sep"></i>
+            <span className="crumb current">{sanitizeLoreText(faction.name)}</span>
           </div>
           <div className="faction-hero-actions">
             <button
-              className="btn-faction-hero-web"
+              className="btn-faction-hero-btn edit"
               onClick={openEditModal}
               title="Edit Faction Details & Lore"
-              style={{ background: 'rgba(212, 175, 55, 0.2)', borderColor: '#d4af37', color: '#fff' }}
             >
               <i className="fas fa-pen-to-square"></i> Edit Faction
             </button>
             <button
-              className="btn-faction-hero-web"
+              className="btn-faction-hero-btn web"
               onClick={() => {
                 onBack();
-                // trigger relationship web navigation
                 window.dispatchEvent(new CustomEvent('mythrill_open_faction_web', { detail: { factionId } }));
               }}
               title="Inspect in Relationship Web"
@@ -168,10 +166,9 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
               <i className="fas fa-project-diagram"></i> Relationship Web
             </button>
             <button
-              className="btn-faction-hero-web"
+              className="btn-faction-hero-btn delete"
               onClick={handleDeleteFaction}
               title="Delete Order"
-              style={{ background: 'rgba(180,40,40,0.22)', borderColor: '#a33', color: '#fff' }}
             >
               <i className="fas fa-trash"></i> Delete
             </button>

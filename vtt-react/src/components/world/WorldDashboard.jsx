@@ -13,6 +13,7 @@ import RegionDetail from './RegionDetail';
 import ClassLoreDetail from './ClassLoreDetail';
 import CustomLineageWizard from './CustomLineageWizard';
 import ClassIcon from '../common/ClassIcon';
+import { getClassIconUrl } from '../../utils/classIconUtils';
 import LoreEditorToolbar from '../common/LoreEditorToolbar';
 import { TimelineView } from './TimelineView';
 import AccountMapManager from '../account/AccountMapManager';
@@ -1234,27 +1235,13 @@ const WorldDashboard = () => {
                       className="world-faction-dossier-card world-faction-chronicle-card"
                       onClick={() => navigateToFaction(faction.id)}
                     >
-                      {/* Top Heraldic Banner */}
+                      {/* Top Heraldic Accent */}
                       <div
-                        className="dossier-banner"
+                        className="dossier-top-accent"
                         style={{
-                          background: `linear-gradient(135deg, ${faction.colors?.primary || '#5a3d1c'} 0%, ${faction.colors?.secondary || '#2b1a0a'} 100%)`
+                          background: `linear-gradient(90deg, ${faction.colors?.primary || '#8b5a1a'} 0%, ${faction.colors?.secondary || '#d4af37'} 50%, ${faction.colors?.primary || '#8b5a1a'} 100%)`
                         }}
-                      >
-                        <span className="dossier-type-badge">
-                          <i className={`fas ${getFactionTypeIcon(faction.type)}`}></i>
-                          {formatDisplayName(faction.type)}
-                        </span>
-                        {factionRegion && (
-                          <span
-                            className="dossier-region-chip"
-                            onClick={(e) => { e.stopPropagation(); navigateToRegion(factionRegion.id); }}
-                            title={`Seat in ${factionRegion.name}`}
-                          >
-                            <i className="fas fa-map-pin"></i> {factionRegion.name}
-                          </span>
-                        )}
-                      </div>
+                      />
 
                       <div className="dossier-body">
                         {/* Title & Crest Row */}
@@ -1262,17 +1249,32 @@ const WorldDashboard = () => {
                           <div
                             className="dossier-crest"
                             style={{
-                              background: `radial-gradient(circle at 35% 35%, ${faction.colors?.primary || '#8b5a1a'} 0%, #1a0f05 100%)`,
+                              background: `radial-gradient(circle at 35% 35%, ${faction.colors?.primary || '#8b5a1a'} 0%, #160b04 100%)`,
                               borderColor: faction.colors?.secondary || '#d4af37'
                             }}
                           >
                             <i className={`fas ${getFactionIcon(faction)}`}></i>
                           </div>
                           <div className="dossier-title-area">
+                            <div className="dossier-meta-badges">
+                              <span className="dossier-type-badge">
+                                <i className={`fas ${getFactionTypeIcon(faction.type)}`}></i>
+                                {formatDisplayName(faction.type)}
+                              </span>
+                              {factionRegion && (
+                                <span
+                                  className="dossier-region-chip"
+                                  onClick={(e) => { e.stopPropagation(); navigateToRegion(factionRegion.id); }}
+                                  title={`Seat in ${factionRegion.name}`}
+                                >
+                                  <i className="fas fa-map-pin"></i> {factionRegion.name}
+                                </span>
+                              )}
+                            </div>
                             <h4>{sanitizeLoreText(faction.name)}</h4>
                             {faction.leader?.title && (
                               <span className="dossier-leader-tag">
-                                <i className="fas fa-user-shield"></i> {sanitizeLoreText(faction.leader.title)}
+                                <i className="fas fa-crown"></i> {sanitizeLoreText(faction.leader.title)}
                               </span>
                             )}
                           </div>
@@ -1280,9 +1282,10 @@ const WorldDashboard = () => {
 
                         {/* Public Mandate / Motto */}
                         {faction.publicGoal && (
-                          <p className="dossier-goal-quote">
-                            &ldquo;{sanitizeLoreText(faction.publicGoal)}&rdquo;
-                          </p>
+                          <div className="dossier-goal-quote">
+                            <i className="fas fa-quote-left quote-icon"></i>
+                            <p>{sanitizeLoreText(faction.publicGoal)}</p>
+                          </div>
                         )}
 
                         {/* Description Preview */}
@@ -1292,40 +1295,29 @@ const WorldDashboard = () => {
                           </p>
                         )}
 
-                        {/* Intel / Holdings Row */}
+                        {/* Intel & Holdings Row */}
                         <div className="dossier-intel-row">
                           {faction.headquarters && (
-                            <span className="dossier-intel-pill">
-                              <i className="fas fa-chess-rook"></i> HQ: {formatDisplayName(sanitizeLoreText(faction.headquarters))}
+                            <span className="dossier-intel-pill" title={`Headquarters: ${sanitizeLoreText(faction.headquarters)}`}>
+                              <i className="fas fa-chess-rook"></i> {formatDisplayName(sanitizeLoreText(faction.headquarters))}
                             </span>
                           )}
                           {faction.territory?.length > 0 && (
-                            <span className="dossier-intel-pill holdings">
-                              <i className="fas fa-mountain-sun"></i> {faction.territory.length} Holdings
+                            <span className="dossier-intel-pill holdings" title={`${faction.territory.length} Fortified Holdings`}>
+                              <i className="fas fa-mountain-sun"></i> {faction.territory.length} {faction.territory.length === 1 ? 'Holding' : 'Holdings'}
                             </span>
                           )}
-                          {faction.minor && (
-                            <span className="dossier-intel-pill minor-power" title="A folk or culture power, not a major political actor">
-                              <i className="fas fa-feather"></i> Minor Power
+                          {alliesCount > 0 && (
+                            <span className="diplomacy-pill ally" title={`${alliesCount} Allied Factions`}>
+                              <i className="fas fa-handshake"></i> {alliesCount} {alliesCount === 1 ? 'Ally' : 'Allies'}
+                            </span>
+                          )}
+                          {rivalsCount > 0 && (
+                            <span className="diplomacy-pill rival" title={`${rivalsCount} Hostile / Rival Factions`}>
+                              <i className="fas fa-skull-crossbones"></i> {rivalsCount} {rivalsCount === 1 ? 'Rival' : 'Rivals'}
                             </span>
                           )}
                         </div>
-
-                        {/* Diplomatic Standing */}
-                        {faction.relationships?.length > 0 && (
-                          <div className="dossier-diplomacy-row">
-                            {alliesCount > 0 && (
-                              <span className="diplomacy-pill ally" title={`${alliesCount} Allied Factions`}>
-                                <i className="fas fa-handshake"></i> {alliesCount} {alliesCount === 1 ? 'Ally' : 'Allies'}
-                              </span>
-                            )}
-                            {rivalsCount > 0 && (
-                              <span className="diplomacy-pill rival" title={`${rivalsCount} Hostile / Rival Factions`}>
-                                <i className="fas fa-skull-crossbones"></i> {rivalsCount} {rivalsCount === 1 ? 'Rival' : 'Rivals'}
-                              </span>
-                            )}
-                          </div>
-                        )}
 
                         {/* Aligned Class Traditions */}
                         {faction.classAffinities?.length > 0 && (
@@ -1726,7 +1718,7 @@ const WorldDashboard = () => {
                   const profile = getClassFlavorProfile(cls.id);
                   const roleData = CLASS_ROLE_TAGS[normalizedId] || { role: profile?.role || 'Heroic Calling', icon: profile?.roleIcon || 'fa-star' };
                   const arch = CLASS_ARCHETYPES.find((a) => a.id !== 'all' && (a.classIds.includes(normalizedId) || a.classIds.includes(cls.id?.toLowerCase())));
-                  const iconSrc = `/assets/icons/classes/${normalizedId}.png`;
+                  const iconSrc = getClassIconUrl(cls.name) || `/assets/icons/classes/${normalizedId}.png`;
 
                   return (
                     <div
@@ -1750,31 +1742,30 @@ const WorldDashboard = () => {
                             </div>
                           </div>
                           <div className="class-title-block">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <div className="class-name-row">
                               <h4>{cls.name}</h4>
-                              {cls.isCustom && <span className="world-badge world-badge-custom" style={{ fontSize: '9px', padding: '1px 5px' }}>Custom</span>}
-                              {cls.isExtinct && <span className="world-badge" style={{ background: '#78281f', color: '#fff', fontSize: '9px', padding: '1px 5px' }}>Extinct / Inactive</span>}
+                              {cls.isCustom && <span className="world-badge world-badge-custom">Custom</span>}
+                              {cls.isExtinct && <span className="world-badge world-badge-extinct">Extinct</span>}
                             </div>
-                            <span className="class-archetype-tag">{cls.tradition || profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
+                            <div className="class-tags-row">
+                              <span className="class-archetype-tag">{cls.tradition || profile?.tradition || arch?.label?.split('&')[0] || 'Calling'}</span>
+                              <span className="class-tag-separator">•</span>
+                              <span className="class-role-pill">{cls.role || profile?.role || roleData.role}</span>
+                            </div>
                           </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <button
-                            type="button"
-                            className="world-mini-map-btn class-card-extinct-toggle"
-                            title={cls.isExtinct ? "Restore calling to active in this world" : "Mark calling as extinct / lost in this world"}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleClassStatus(cls.id, activeWorldId);
-                            }}
-                            style={{ color: cls.isExtinct ? '#27ae60' : '#c0392b' }}
-                          >
-                            <i className={`fas ${cls.isExtinct ? 'fa-rotate-left' : 'fa-ban'}`}></i>
-                          </button>
-                          <span className="class-role-pill">
-                            {cls.role || profile?.role || roleData.role}
-                          </span>
-                        </div>
+                        <button
+                          type="button"
+                          className="class-card-extinct-toggle"
+                          title={cls.isExtinct ? "Restore calling to active in this world" : "Mark calling as extinct / lost in this world"}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleClassStatus(cls.id, activeWorldId);
+                          }}
+                          aria-label={cls.isExtinct ? "Restore calling" : "Mark calling extinct"}
+                        >
+                          <i className={`fas ${cls.isExtinct ? 'fa-rotate-left' : 'fa-ban'}`}></i>
+                        </button>
                       </div>
 
                       {(cls.tagline || profile?.tagline) && (
