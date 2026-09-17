@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Berserker Class Data
  *
@@ -101,7 +100,7 @@ export const BERSERKER_DATA = {
  orderName: 'The Bloodhammer Line',
  founder: {
   name: '<LoreLink termId="grum-bloodhammer">Grum Bloodhammer</LoreLink>',
-  status: `Dead, seven centuries. His forge still burns in the <LoreLink termId="emberspire">Emberspire</LoreLink> tunnels, tended by a single elderly Berserker who has not spoken in sixty years.`,
+  status: `Dead, ages now. His forge still burns in the <LoreLink termId="emberspire">Emberspire</LoreLink> tunnels, tended by a single elderly Berserker who has not spoken in sixty years.`,
   note: `The first to weaponize the Rage. He did not ignite it first  -  the Hunger Pact was always in Skald blood. But Grum was the first to survive turning a survival reflex into a weapon. The Skald who stayed in Nordhalla tell it differently: they say he was sacrificed by his lords to test whether a man could burn and stand. The disagreement is theological and unresolved.`
  },
  currentLeader: {
@@ -201,17 +200,38 @@ Tensions erupted into violence at the last Harath-Vault arena, when an Unbound B
  classSpecificLocations: [
   {
   name: 'The Harath-Vault Arenas',
-  locationId: 'harath-vault',
+  locationId: 'harath_vault',
   description: 'A network of geothermal arenas carved into the volcanic tunnels beneath Sundale. Here, Berserkers compete in ritual combat, not for glory, but to test their Rage thresholds against worthy opponents. The arenas are heated by exposed magma vents, which Berserkers claim helps them maintain the Heat between fights.',
   purpose: 'Training, competition, and rite of passage, a Berserker is not considered blooded until they have won a match in the Vault',
   status: 'Active, but the Unbound schism has poisoned the atmosphere, with Pact-sworn Berserkers refusing to face Unbound opponents'
   },
   {
   name: 'The Forge of Grum',
-  locationId: 'emberspire-caldera',
+  locationId: 'emberspire_caldera',
   description: 'The original blacksmith\'s forge where Grum the Iron-Smith first experienced the Rage. The forge is still lit, the same coal-seam that burned before the sun was buried continues to smolder. Berserkers make pilgrimage here to press their bare hands against the anvil and feel the residual heat of the first transformation.',
   purpose: 'Pilgrimage site and initiation ground, some Berserkers claim the Forge speaks to them, offering cryptic advice',
   status: 'Active, maintained by a single elderly Berserker who has tended the coals for sixty years without speaking a word'
+  },
+  {
+  name: 'The Long Table',
+  locationId: 'long_table',
+  description: 'A slab of basalt in the Bloodhammer Sump, planed flat by three centuries of use, where the surviving clans of the three-winter blizzard ate their dead so the line could march another mile. The table is never empty: each clan keeps a standing invitation for any Skald Berserker who completes the three-night fast, and the dawn meal eaten here is the only one the Pact-sworn consider fully honest. The names of the eaten are carved around the rim, in order, and there are more names than there are spaces to carve them.',
+  purpose: 'Origin table of the Hunger Pact, pilgrimage and three-night fast, where the Bloodhammer line keeps its founding debt',
+  status: 'Active, and the table has been set for a fourth guest for two winters, an Unbound one, and the Pact-sworn cannot agree whether to seat them or break the plates'
+  },
+  {
+  name: 'The Unbound Deep',
+  locationId: 'unbound_deep',
+  description: 'A settlement in the deep volcanic tunnels beneath Emberspire, in warm galleries the Pyrofiends abandoned, where Berserkers who ignite without the Hunger Pact live under sentence of execution. They call themselves the Unbound, and they are not a mob: they hold drills, keep a rough archive, and argue theology in the dark. Their claim is simple and unbearable, they burn, therefore the Rage was never the Pact\'s gift, and the Skald Council has spent centuries guarding a leash and calling it a sacrament.',
+  purpose: 'Heretical settlement and refuge, the living question at the centre of the Berserker schism',
+  status: 'Growing, and hunted: the Council\'s execution order is still in force, and the tunnels are deep enough that every side has lost people in them'
+  },
+  {
+  name: 'The Collection Sumps',
+  locationId: 'collection_sumps',
+  description: 'A sealed annex of the Deep Alchemist laboratories beneath Frostmaw Holdfast where Vat-Woken who vanish from the Ancestor-Spans are taken. The rooms are clean, the restraints are rated for Morgh mass, and the notes on the walls are unhurried: serum load, ignition threshold, recovery time, retrieval cost. To the Alchemists, a Groven Berserker is not a deserter or a threat. It is a successful prototype, generations overdue for audit.',
+  purpose: 'Retrieval site and research annex, where the Vat-Breakers\' revolt comes looking for its missing',
+  status: 'Active and quiet, the Vat-Breakers\' Guild has posted a standing bounty on any map of the annex, and no one has collected it'
   }
  ],
 
@@ -2832,7 +2852,6 @@ Rage (0–100+) is thermal battle-fury coursing through your veins. As you deal 
    "cooldownConfig": { "cooldownType": "turn_based", "cooldownValue": 1 },
    "tags": ["utility","roleplay","social","berserker"]
   },
- ,
   {
     "id": "berserk_skull_cleaver",
     "name": "Skull Cleaver",

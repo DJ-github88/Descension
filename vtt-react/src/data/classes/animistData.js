@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const ANIMIST_DATA = {
   restrictions: {
       "allowedSubraces": [
@@ -8,6 +7,7 @@ export const ANIMIST_DATA = {
           "silath_astril",
           "morgh_groven",
           "thrask_solari",
+          "viridian_florae",
           "florae_unified"
       ],
       "hardBlocks": [
@@ -55,18 +55,18 @@ export const ANIMIST_DATA = {
     },
 
     vashir_astril: {
-      subraceName: 'Earthen Astril - Astril',
+      subraceName: 'Stargazer Astril',
       title: 'The Heritage-Conduit',
-      reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.`,
+      reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.`,
       signatureAbility: {
         name: 'Star-Communion',
-      description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Earthen Astril Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left.`
+      description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Stargazer Astril Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left.`
       },
-      currentCrisisAngle: `The Lumia heritage in Earthen Astril blood predates the Animist tradition, it is the loudest "ancestors" of any tradition. When the dialect fractured, the Earthen Astril's heritage began screaming contradictory prophecies through crystalline skin. Young Earthen Astril Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
+      currentCrisisAngle: `The Lumia heritage in Stargazer Astril blood predates the Animist tradition, it is the loudest "ancestors" of any tradition. When the dialect fractured, the Stargazer Astril's heritage began screaming contradictory prophecies through crystalline skin. Young Stargazer Astril Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
       signatureQuote: {
         text: '"You call them ancestors. I call them the memory of a dead world, and they live in my forearm. Do not ask me to be quiet about it."',
         speaker: 'Lirien Bright-Veined',
-        context: 'A Earthen Astril Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine'
+        context: 'A Stargazer Astril Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine'
       }
     },
 
@@ -119,18 +119,82 @@ export const ANIMIST_DATA = {
     },
 
     silath_astril: {
-      subraceName: 'Stellar Astril - Astril',
+      subraceName: 'Brutish Astril',
       title: 'The Star-Communer',
-      reframe: `The Animist tradition arrived to the <LoreLink termId="astril">Stellar Astril</LoreLink> not through bone or spore or rune, but through ritual \u2014 the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Stellar Astril adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Stellar Astril Animist channels Lumia's consciousness rather than a discrete ancestor. The \u201cancestor\u201d is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible \u2014 no bone eruption, no runic scarring, no spore-inhalation. Just a Stellar Astril standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.`,
+      reframe: `The Animist tradition arrived to the <LoreLink termId="astril">Brutish Astril</LoreLink> not through bone or spore or rune, but through ritual \u2014 the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Brutish Astril adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Brutish Astril Animist channels Lumia's consciousness rather than a discrete ancestor. The \u201cancestor\u201d is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible \u2014 no bone eruption, no runic scarring, no spore-inhalation. Just a Brutish Astril standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.`,
       signatureAbility: {
         name: 'Moon-Court Communion',
-        description: `Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Stellar Astril is motionless, the crystalline markings on their skin pulsing with stolen starlight.`
+        description: `Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Brutish Astril is motionless, the crystalline markings on their skin pulsing with stolen starlight.`
       },
-      currentCrisisAngle: `The dialect-fracture has reached the Stellar Astril in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all \u2014 it predates the Animist traditions entirely. When the Stellar Astril's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Stellar Astril Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.`,
+      currentCrisisAngle: `The dialect-fracture has reached the Brutish Astril in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all \u2014 it predates the Animist traditions entirely. When the Brutish Astril's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Brutish Astril Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.`,
       signatureQuote: {
         text: '"You carve, you sing, you breathe your dead. I stand still and let the dead star do all the talking. It has been talking for a century and a half. Tonight it went silent. I am very afraid."',
         speaker: 'Selenis Night-Still',
-        context: 'A Stellar Astril Animist, the first night the moon-courtyard returned silence'
+        context: 'A Brutish Astril Animist, the first night the moon-courtyard returned silence'
+      }
+    },
+
+    morgh_groven: {
+      subraceName: 'Morgh Groven',
+      title: 'The Vat-Mouth',
+      reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were born in the vat-laboratories, and their true ancestors never left them: the maker-caste dead are still in the substrate, calcified into the alchemical slurry of every dead vat. A Vat-Mouth puts an ear to the old tanks and listens. The ancestors of the Morgh are not honored or owed, they are *still arguing* in the chemistry that made their children, and the Morgh have learned to join the argument.`,
+      signatureAbility: {
+        name: 'Slurry-Choir',
+        description: `Communion happens through calcified alchemical substrate; the voice of a drained vat carries the memory of everyone who died in it. Strongest in the old laboratories where the substrate runs deep, silent in new stone. The deepest vats sing in the founder-castes' voices, and the Morgh treat those recordings as testimony, not worship.`
+      },
+      currentCrisisAngle: `The Groven are draining the old laboratories as they reclaim them, and every drained vat is a choir silenced. The Vat-Breakers call the listening a sentimental betrayal, talking to the men who made you while their machines are finally broken. The Vat-Mouths call it the last testimony: they are recording the alchemical dead's final words onto slate before the substrate is scrubbed clean, so that when the last vat is dry, someone will still know what the makers said when they knew they were losing.`,
+      signatureQuote: {
+        text: '"We broke the vats and called it freedom. I stayed to take the testimony. The makers are dead. Their recipe is not, and I have three of their spirits on slate arguing about whether we should exist."',
+        speaker: 'Vat-Mouth Thrumm-Kell',
+        context: 'A Vat-Mouth, transcribing a founder-caste dispute from a drained vat before the Groven salvage crews arrive'
+      }
+    },
+
+    thrask_solari: {
+      subraceName: 'Waste-Solari',
+      title: 'The Ash-Choir',
+      reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> burn their dead on the caldera slopes, and the ash is not disposal, it is a *congregation*. An Ash-Choir Animist reads the funeral ash-fall: soot-patterns in the wind, ember-crack in the cooling vents, and the voices that rise when the ridge exhales. The ancestors speak in ash, and the Waste-Solari have spent four centuries learning to read a language that falls from the sky.`,
+      signatureAbility: {
+        name: 'Ash-Fall Reading',
+        description: `Resonance builds from proximity to funeral ash and active caldera vents; the ancestors answer in ember-crack and soot-pattern, loudest in the open badlands where the wind carries them. Indoors, in clean air, the ash has nothing to say.`
+      },
+      currentCrisisAngle: `The ash has begun falling in patterns the elders do not recognize, and names are missing from the Choir. Solari dead who have answered from the slopes for four hundred years have gone quiet, and the Hollow-Solari vigil-keepers connect it to the dimming of Sol's Breath without telling anyone outside the Deep-Vault. The Ash-Choirs keep singing the missing names, and the ash keeps returning them unanswered.`,
+      signatureQuote: {
+        text: '"The ash remembers every Solari who ever burned. Lately it forgets names. Ours is a tradition of being remembered. We are being forgotten first, and no one will tell me by whom."',
+        speaker: 'Ash-Choir Suun Ember-Lung',
+        context: 'A Waste-Solari Animist, singing a missing matriarch\'s name into a ridge-vent at first light'
+      }
+    },
+
+    viridian_florae: {
+      subraceName: 'Viridian Florae',
+      title: 'The Thorn-Cantor',
+      reframe: `The <LoreLink termId="florae">Viridian Florae</LoreLink> are the descendants of House Viridane, the house the world *unwrote*, and their Animist tradition gives voice to the ancestors no ledger admits: the Unwritten dead, who have no graves, no records, and no names anywhere except thorn and blood. A Thorn-Cantor bleeds into the grove and the erased answer, because the thorn-grove is the only archive that kept them.`,
+      signatureAbility: {
+        name: 'Unwritten Summons',
+        description: `Summons ancestors erased from every record; their aid is real and their existence is not. Citation fails (there is nothing to cite), the bond is held by thorn-blood alone, and the spirits demand their names be spoken aloud with each summoning, because a spoken name is the only grave they have.`
+      },
+      currentCrisisAngle: `The contract-interest crisis has reached the Unwritten. The elder dead have begun answering in the fae-contract's voice instead of their own, using the language of compounded interest the Lunarchs describe, and the Thorn-Cantors suspect the fae are speaking *through* the ancestors, wearing the erased like borrowed faces. The elders cannot prove it, because the only witnesses are the ones being worn.`,
+      signatureQuote: {
+        text: '"Say the name. Every time. Out loud, or they slide back into the erasure. Whatever answers after you stop saying it is not my grandmother. She has been unwritten for four centuries. I will not let her be re-written by something else."',
+        speaker: 'Thorn-Cantor Ori-Vess',
+        context: 'A Thorn-Cantor, ending a summoning early because the answer came back in the contract\'s cadence'
+      }
+    },
+
+    florae_unified: {
+      subraceName: 'Oken Florae',
+      title: 'The Grove-Litany',
+      reframe: `The <LoreLink termId="florae">Oken Florae</LoreLink> pass as woodcraft travelers among the Thalren edge-settlements, and their ancestral rite has adapted to a life in hiding: an ancestor is held in a *splinter-graft*, a cutting the size of a thumb, carried in a pocket and spoken to through the wood. The Grove-Litany is the only Animist tradition that can practice inside a city, because the ancestor travels with the bearer, concealed, and the grove is wherever the graft is planted.`,
+      signatureAbility: {
+        name: 'Graft-Communion',
+        description: `Ancestors are held in carried splinter-grafts; portable, concealable, and functional anywhere, including cities and dead stone where no Ancestor mound exists. The price is the graft must be planted and take root at least once a season to keep the ancestor oriented; a graft that never roots begins to go feral into the wood, and a feral ancestor answers with the tree's voice instead of its own.`
+      },
+      currentCrisisAngle: `The Oken grafts have begun rooting *too eagerly*, pushing growth into whatever wood they touch, doors, beams, boat hulls, cart axles. A carried grandmother that blooms in a tavern doorpost exposes an entire hidden family line. The Grove-Litanies are burning their eldest grafts to keep them quiet, which the elders call pruning and the young call murder with extra steps.`,
+      signatureQuote: {
+        text: '"I carry my grandmother in a cutting the size of my thumb. She has been trying to root in a tavern doorpost for a month. If the door blooms, we are discovered. I have carried her across three provinces and I do not know how to explain to her that the safest thing is for her to sleep."',
+        speaker: 'Graft-Bearer Lios the Hidden',
+        context: 'A Grove-Litany, preparing to prune a grandmother out of a doorpost in a Thalren market town'
       }
     }
   },
@@ -192,7 +256,7 @@ She followed the voice south. She found the herd. She died three days later. But
 
 The practice spread along the Hunger Road. Skald caravans crossing the Groven Ancestor-Spans heard Ordan throat-singers and recognized the technique: they were carrying voices. The Skald, whose culture already preserved their dead in glacier-ice panels at Skalvyrhold, began carrying their own, carving ancestor-names directly into skin, making the flesh a permanent record. A Skald covered in runic scars carries a retinue of the dead, each anchored to a wound that never fully closes.
 
-The Earthen Astril adapted the practice through their Lumia heritage, the fragment of a dead world's biosphere living in every Astril bloodline. A Earthen Astril does not summon a separate ancestor. The heritage itself is the ancestor, channeled through crystalline skin that hums with lost starlight. The Earthen Astril variant is strongest in absolute darkness, where the trapped light in their markings is the only light left. The Stellar Astril practice a quieter version, communion through ritual stillness under the moon, where the dead world's consciousness speaks through crystalline markings rather than erupted bone.
+The Stargazer Astril adapted the practice through their Lumia heritage, the fragment of a dead world's biosphere living in every Astril bloodline. A Stargazer Astril does not summon a separate ancestor. The heritage itself is the ancestor, channeled through crystalline skin that hums with lost starlight. The Stargazer Astril variant is strongest in absolute darkness, where the trapped light in their markings is the only light left. The Brutish Astril practice a quieter version, communion through ritual stillness under the moon, where the dead world's consciousness speaks through crystalline markings rather than erupted bone.
 
 The Morgh Groven carry the most literal version of the art. The Still-Claiming already turns Groven dead into calcified stone, the ancestors literally become the bridges their descendants walk. A Morgh channels the dead not as spirits but as mineral memory, drawing on the same alchemical residues the Deep Alchemists used to reshape the Groven from Thrumm stock. The race that was sculpted against its will now sculpts itself.
 
@@ -238,7 +302,7 @@ There were no three founders. There was one lost Ordan throat-singer whose name 
 Animists are viewed with a mixture of deep respect and visceral fear. Their bone spurs, glowing inscriptions, and spirit-static hallucinations make them unmistakable. They are essential in wilderness expeditions and siege defense, but unsettling in settled communities.
 
 **RACES & CULTURAL AFFILIATION**
-The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Vreken</LoreLink> through Nethien contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Earthen Astril and Stellar Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the <LoreLink termId="neth">Nethien</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
+The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Vreken</LoreLink> through Nethien contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Stargazer Astril and Brutish Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the <LoreLink termId="neth">Nethien</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
 
 **NOTABLE FIGURES**
 * **Kael the Herd-Runner**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Navigation, not worship.
@@ -269,6 +333,37 @@ The Animists call this the Fading. The dead are not fragmenting because the trad
 Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the Monoliths are not the cause but a symptom. Whatever is wrong with death began when the Monoliths woke, but it predates them. The threshold between life and death has been... thinning. Or thickening. No one can agree which. But the dead who cross it now are not the same as the dead who crossed it before, and the ancestral language  —  the single root tongue that connects every Animist tradition back to that first Ordan throat-singer  —  is eroding from the far end.`,
 
     meaningfulTradeoffs: `To be an Animist is to never be comfortable in any environment. Buildings feel wrong to the totemic tradition (earth blocked). Cities feel overwhelming to the spirit tradition (too many spiritual echoes). Libraries feel dangerous to the runic tradition (the ink competes with blood-inscriptions). The Animist needs the wilderness for totems, the spiritual liminal spaces for invocations, and solid stone for runic carving. Finding all three in one place is nearly impossible, so they are perpetually homesick for a place that may not exist.`,
+
+    classSpecificLocations: [
+      {
+        name: 'The Concord of Tongues',
+        locationId: 'frozen_archive',
+        description: 'A ring-shaped hall deep in the Frozen Archive where the Convergence keeps the only complete collation of every ancestral dialect, Ordan overtone scores, Skald rune-rubbings, Vreken spore-bloom transcriptions, Nethien citation-registers, and Astril heritage-litanies filed side by side. The Convergence has no fixed seat, it rotates between cultures every generation, but the Concord never moves. Its walls are a dictionary of the dead, and the delegates\' table is a single slab of glacier-ice that has not melted in a century.',
+        purpose: 'Archive-seat of the Animist tradition, where the traditions collate, compare, and argue their dialects into one lexicon',
+        status: 'Contested, the collation now returns contradictions no delegate can reconcile, and the shared minutes have gone unsigned for two years'
+      },
+      {
+        name: 'The Listening Mound',
+        locationId: 'listening_mound',
+        description: 'A low barrow in the Sundrift Vale uplands where the Hearth-Singer died proving the dead could navigate. The Ordan did not build on it and did not fence it; the Mound-Camps simply gather near it each summer, and one singer at a time lies flat on the turf with their throat pressed to the earth and sings a single ancestor-name. The oldest dead answer here clearly, in every dialect, which makes it the only place left where the whole tradition agrees the language still works.',
+        purpose: 'Pilgrimage and proving-ground, where a new Animist first hears an ancestor answer cleanly',
+        status: 'Active, and the queues have grown long, singers now wait three summers for their turn at the turf'
+      },
+      {
+        name: 'Nyssa\'s Sink',
+        locationId: 'nyssa_sink',
+        description: 'A collapsed peat hollow in the deep Bryngloom where Nyssa the Herbalist inhaled her first deliberate spore and bargained with what answered. The sink is ringed with cultivation ledges of Ghost-Mycelium, and its spore-bloom is the cleanest in the bog: pre-Monolith dead, speaking in steady bioluminescent patterns without static. The elders call it the Quiet Conversation, and they guard it the way the Nethien guard the First Contract, because it is proof the tradition still works.',
+        purpose: 'Initiation sink and strain-garden of the Vreken lineage',
+        status: 'Guarded, and quietly failing, the ledges nearest the sink are blooming in dialects the elders cannot read'
+      },
+      {
+        name: 'The Quenched Hearth',
+        locationId: 'quenched_hearth',
+        description: 'A burned Sky-Singer steading in a Nordhalla side-fjord, left exactly as the Cleansing of the Hearth left it: roof-fall, cold ash, and eleven graves dug by neighbours who were forbidden to mark them. A family died here for throat-singing the old names, and the place is silent to every Animist dialect. Even the oldest dead do not answer at the Quenched Hearth, which is the fact that frightens the tradition most: if death is thinning at the far end, this is where something has already thinned through.',
+        purpose: 'Vigil site and warning, rune-keepers and spore-elders travel here to confirm the silence and leave one unlit wick per mound',
+        status: 'Persecuted ground, House Skalvyr patrols the fjord and treats any visitor as a heretic; the pilgrims come at night, in winter, and do not sing'
+      }
+    ],
 
     combatRole: {
       title: "The Ancestral Architect",

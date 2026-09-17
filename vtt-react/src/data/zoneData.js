@@ -111,7 +111,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Wraithfen",
     "type": "wilderness",
-    "description": "A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Fractured Mimir outcasts wander here with salvaged masks, their forms dissolving and reforming in the mist. Thalren trappers avoid it, those who enter too deep return speaking languages no one recognizes.",
+    "description": "A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Broken Mimir outcasts wander here with salvaged masks, their forms dissolving and reforming in the mist. Thalren trappers avoid it, those who enter too deep return speaking languages no one recognizes.",
     "dangerLevel": "high",
     "factions": [
       "Tethered Mimir"
@@ -584,7 +584,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Merrowport",
     "type": "city",
-    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Nethien brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over seven centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
+    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Nethien brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over the centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
     "dangerLevel": "low",
     "factions": [
       "house-mereval",
@@ -816,7 +816,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "Mound-Keepers",
-      "Earthen Astril"
+      "Stargazer Astril"
     ],
     "connections": [
       "synod-hold",
@@ -853,7 +853,7 @@ export const ZONE_DATA = [
     "description": "A unique region of the steppe where the grass is replaced by glowing, crystal-infused Lien-stalks. The soil here is highly fertile, but the crystalline grass makes grazing dangerous, attracting mutated beasts and crystal-skinned scavengers.",
     "dangerLevel": "extreme",
     "factions": [
-      "Stellar Astril"
+      "Brutish Astril"
     ],
     "connections": [
       "ancestor-mounds",
@@ -907,10 +907,10 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Starfall Vale",
     "type": "wilderness",
-    "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Earthen Astril make pilgrimages here to commune with Lumia's echo.",
+    "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Stargazer Astril make pilgrimages here to commune with Lumia's echo.",
     "dangerLevel": "high",
     "factions": [
-      "Earthen Astril"
+      "Stargazer Astril"
     ],
     "connections": [
       "ancestor-mounds",
@@ -2143,7 +2143,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Wisp-Willow Camp",
     "type": "settlement",
-    "description": "An outcast camp under bioluminescent willows; Mote-carrying Fractured Mimir trade salvaged masks here.",
+    "description": "An outcast camp under bioluminescent willows; Mote-carrying Broken Mimir trade salvaged masks here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3495,7 +3495,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Wisp-Willow Camp",
     "type": "settlement",
-    "description": "An outcast camp under bioluminescent willows; Mote-carrying Fractured Mimir trade salvaged masks here.",
+    "description": "An outcast camp under bioluminescent willows; Mote-carrying Broken Mimir trade salvaged masks here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5289,7 +5289,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Wisp-Willow Camp",
     "type": "settlement",
-    "description": "An outcast camp under bioluminescent willows; Mote-carrying Fractured Mimir trade salvaged masks here.",
+    "description": "An outcast camp under bioluminescent willows; Mote-carrying Broken Mimir trade salvaged masks here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6826,20 +6826,20 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Era of the Great Binding (Year 0)",
+      "founded": "The Great Binding",
       "foundedBy": "High King-Jarl Aethil Skalvyr",
       "foundingStory": "Frosthold was founded upon the sheer basalt bluffs of Skaldfjord immediately following the Great Binding. Aethil Skalvyr recognized that the mountain sat above the largest thermal sump cluster in the north. The first longhall was constructed from ancient ironwood logs salvaged from southern shipments, later encased in cyclopean black granite and rime-ice bastions as the Freezing Era deepened.",
       "significantEvents": [
         {
-          "date": "Year 0",
+          "date": "The first winters of the Freeze",
           "event": "First cornerstone laid above the thermal vents; the High Hearth ignited."
         },
         {
-          "date": "Year 45",
+          "date": "A generation into the Freeze",
           "event": "The Great Frost Surge: Basalt curtain walls reinforced with permanent enchanted rime-ice."
         },
         {
-          "date": "Year 110",
+          "date": "The mid-Freezing Era",
           "event": "King-Jarl Halvar (\"Iron-Tooth\") expands the lower vaulted halls and codifies the Icechamber trade pact."
         }
       ]
@@ -6875,11 +6875,11 @@ export const ZONE_DATA = [
           "event": "Original basalt observatory chambers carved into mountain bedrock."
         },
         {
-          "date": "Year 20",
+          "date": "The first winters of the Freeze",
           "event": "First genealogical stasis wall chiseled by Elder Chisel-Master Torstein."
         },
         {
-          "date": "Year 85",
+          "date": "The mid-Freezing Era",
           "event": "High Confessor Aldren Thalreth the Elder seals himself in meditative cryo-stasis in the lowest vault."
         }
       ]
@@ -6905,20 +6905,20 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 18 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Grum Bloodhammer (\"The Iron-Smith\")",
       "foundingStory": "Founded when Torra Bloodhammer's clan discovered a boiling volcanic caldera breaching through four hundred feet of solid glacier ice. Grum the Iron-Smith struck the first cold-iron anvil here, channeling subterranean magma channels into geothermal blast furnaces to forge the first weapons capable of cleaving frost-revenants without shattering from cold.",
       "significantEvents": [
         {
-          "date": "Year 18",
+          "date": "The first winters of the Freeze",
           "event": "The First Tap: Geothermal magma redirected into heavy iron casting trenches."
         },
         {
-          "date": "Year 72",
+          "date": "The mid-Freezing Era",
           "event": "The Steam Explosion of Vat 4: Rebuilt with reinforced dwarven-dowel masonry."
         },
         {
-          "date": "Year 130",
+          "date": "The late Freezing Era",
           "event": "Bloodhammer clan signs an exclusive armament pact with Frosthold Citadel."
         }
       ]
@@ -6945,20 +6945,20 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 30 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Sea-Guard Guild & House Skalvyr",
       "foundingStory": "Constructed at the narrowest throat of Skaldfjord where steep basalt cliffs meet the sea. The harbor was created by blasting sea-channels with volcanic charges. Colossal sliding stone doors were suspended on counterweighted chains to protect the interior longship fleet from violent winter sea-surges and ice-floe blockades.",
       "significantEvents": [
         {
-          "date": "Year 30",
+          "date": "A generation into the Freeze",
           "event": "First stone sea-doors hung between the fjord cliffs."
         },
         {
-          "date": "Year 88",
+          "date": "The mid-Freezing Era",
           "event": "The Merryn Corsair Siege: Sliding doors successfully repel a 40-ship pirate armada."
         },
         {
-          "date": "Year 140",
+          "date": "The late Freezing Era",
           "event": "Deepwater harbor dredging completed to accommodate ironclad ice-breakers."
         }
       ]
@@ -6983,16 +6983,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 52 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Jarl Vargen of House Skalvyr",
       "foundingStory": "Erected atop a high rocky tor commanding a 360-degree view of the glacier plain. Built from mortar mixed with whale-glue and crushed magnetite, the tower was designed to withstand hurricane-force blizzards while maintaining constant visual contact with Frosthold Citadel via beacon flares.",
       "significantEvents": [
         {
-          "date": "Year 52",
+          "date": "A generation into the Freeze",
           "event": "Watchtower completed and equipped with twin heavy ballistas."
         },
         {
-          "date": "Year 104",
+          "date": "The mid-Freezing Era",
           "event": "The Great Raven Flocking: First formal treaty signaling established with Corvani scouts."
         }
       ]
@@ -7016,16 +7016,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 12 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Warlord Ymir the Mountain-Cleaver",
       "foundingStory": "Carved directly into a sheer granite cliff by five hundred Berserker warriors wielding picks tempered in sulfur sumps. The fortress was designed as an impenetrable retreat in the event that the Glacier Bargain failed and the north was overrun by glacial wyrms.",
       "significantEvents": [
         {
-          "date": "Year 12",
+          "date": "The first winters of the Freeze",
           "event": "Upper battlements chiseled from living mountain stone."
         },
         {
-          "date": "Year 65",
+          "date": "The mid-Freezing Era",
           "event": "Subterranean endurance halls added to train Berserker recruits in sub-zero stasis."
         }
       ]
@@ -7059,7 +7059,7 @@ export const ZONE_DATA = [
           "event": "The Eldon-Stone raised to commemorate the first clan pact."
         },
         {
-          "date": "Year 1",
+          "date": "The first winters of the Freeze",
           "event": "Town transitions from open wooden longhouses to turf-and-stone cold-insulated steads."
         }
       ]
@@ -7083,12 +7083,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 40 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Sael-Fisher Clan",
       "foundingStory": "Built where an underground thermal river empties into Skaldfjord, keeping the waters unfrozen throughout winter. Seal hunters established permanent stone wharves to haul and cure catches in sub-zero winds.",
       "significantEvents": [
         {
-          "date": "Year 40",
+          "date": "A generation into the Freeze",
           "event": "First stone slipways built along the ice channels."
         }
       ]
@@ -7111,12 +7111,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 60 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Independent Sealers & Ice-Salvagers",
       "foundingStory": "Discovered as a sheltered inlet hidden behind sheer sea-stacks. Smugglers and sealers established hidden mooring rings in the basalt cliffs to cache salvaged timber and whale meat out of sight of royal tax cutters.",
       "significantEvents": [
         {
-          "date": "Year 60",
+          "date": "A generation into the Freeze",
           "event": "First mooring caves carved into the cliff base."
         }
       ]
@@ -7141,16 +7141,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 35 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Old Torvald (\"The Red-Nose\")",
       "foundingStory": "Started as a single canvas tent pitched over a steaming volcanic vent on the waterfront. As whalers and miners arrived, timber cabins were built over every accessible steam cleft, coalescing into Nordhalla's most famous entertainment district.",
       "significantEvents": [
         {
-          "date": "Year 35",
+          "date": "A generation into the Freeze",
           "event": "Torvald's First Kettle tavern established."
         },
         {
-          "date": "Year 90",
+          "date": "The mid-Freezing Era",
           "event": "District formally chartered under the Icechamber Syndicate."
         }
       ]
@@ -7174,12 +7174,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 25 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Guild of Harpooners",
       "foundingStory": "Established along the deepwater docks where giant leviathan carcasses could be hauled by teams of oxen. Massive iron kettles were set over stone fire-trenches, producing the oil that has illuminated the north for generations.",
       "significantEvents": [
         {
-          "date": "Year 25",
+          "date": "A generation into the Freeze",
           "event": "First rendering vat installed on the stone jetty."
         }
       ]
@@ -7203,12 +7203,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 48 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Brew-Master Sisters of Frostmead",
       "foundingStory": "Excavated deep beneath permafrost to provide the exact stable temperature required to ferment high-proof frost-mead without spoiling the delicate alpine clover honey.",
       "significantEvents": [
         {
-          "date": "Year 48",
+          "date": "A generation into the Freeze",
           "event": "First five hundred oak casks rolled into the cold vaults."
         }
       ]
@@ -7232,12 +7232,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 22 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Bloodhammer Transport Guild",
       "foundingStory": "Built to receive heavy sledges of raw iron ore sliding down wooden chutes from the mountain sumps directly onto cargo longships.",
       "significantEvents": [
         {
-          "date": "Year 22",
+          "date": "A generation into the Freeze",
           "event": "Timber chutes constructed down the mountain face."
         }
       ]
@@ -7261,12 +7261,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 55 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Royal Signal-Corps of Frosthold",
       "foundingStory": "Erected on a soaring cliff peak to serve as the northernmost line of sight for Frosthold's defense network.",
       "significantEvents": [
         {
-          "date": "Year 55",
+          "date": "A generation into the Freeze",
           "event": "Great iron brazier lit for the first time during the Winter Tempest."
         }
       ]
@@ -7289,12 +7289,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Primordial Era / Rebuilt Year 5 (Freezing Era)",
+      "founded": "Primordial age / rebuilt in the first winters of the Freeze",
       "foundedBy": "Eldonholm Fisherfolk",
       "foundingStory": "Generations of Skald families built timber scaffoldings along the ocean bluffs, taking advantage of the constant salt-laden gale winds that cure fish naturally without smoke.",
       "significantEvents": [
         {
-          "date": "Year 5",
+          "date": "The first winters of the Freeze",
           "event": "Scaffoldings reinforced with petrified ironwood poles to survive blizzards."
         }
       ]
@@ -7318,16 +7318,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 1 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The First Rime-Born Mothers & House Skalvyr",
       "foundingStory": "Established under the harsh terms of the Glacier Bargain. The first seven Skald mothers whose children bore the cold in their blood were brought to this open-air glacial plateau to give birth beneath the aurora.",
       "significantEvents": [
         {
-          "date": "Year 1",
+          "date": "The first winters of the Freeze",
           "event": "The First Cradle-Tithe paid to seal the Glacier Bargain."
         },
         {
-          "date": "Year 70",
+          "date": "The mid-Freezing Era",
           "event": "Sanctuary wall constructed to shelter mothers from predatory glacier beasts."
         }
       ]
@@ -7350,12 +7350,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 75 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "King-Jarl Jarn-Tand (\"Iron-Tooth\")",
       "foundingStory": "Following the Cleansing of the Hearth, King-Jarl Jarn-Tand ordered one hundred basalt monoliths quarried and erected in a dead-straight line to sever the animist tribes from royal civilization.",
       "significantEvents": [
         {
-          "date": "Year 75",
+          "date": "The mid-Freezing Era",
           "event": "The Hundredth Cairn consecrated with cold iron."
         }
       ]
@@ -7380,16 +7380,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 80 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "High King-Jarl Halvar Skalvyr & Skald Master-Masons",
       "foundingStory": "Constructed across the sole valley pass between the Rime-Spires and Skaldfjord. Teams of five thousand workers layered ice, granite boulders, and iron bracing for five years to raise the three-hundred-foot barrier.",
       "significantEvents": [
         {
-          "date": "Year 80",
+          "date": "The mid-Freezing Era",
           "event": "Construction completed; heavy iron gates dropped for the first time."
         },
         {
-          "date": "Year 115",
+          "date": "The mid-Freezing Era",
           "event": "The Great Wastes Incursion: Gate successfully holds against three hundred Jutul giants."
         }
       ]
@@ -7412,12 +7412,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 38 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Vaegfolk River Clans",
       "foundingStory": "Nomadic freshwater fishermen drove heavy timber piles into the geothermal riverbed, creating a series of interconnected stilt-villages safe from land predators.",
       "significantEvents": [
         {
-          "date": "Year 38",
+          "date": "A generation into the Freeze",
           "event": "First stilt-hall erected on the warm tributary."
         }
       ]
@@ -7441,12 +7441,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 95 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "Chief Engineer Astrid Halvarsdottir",
       "foundingStory": "Built to solve the logistical nightmare of hauling longships overland. Astrid designed a system of four stepped canal locks heated by steam conduits that raised ships thirty paces between fjord and inland river.",
       "significantEvents": [
         {
-          "date": "Year 95",
+          "date": "The mid-Freezing Era",
           "event": "First dreadnought longship ascends the locks successfully."
         }
       ]
@@ -7469,12 +7469,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Primordial Dawn / Reinforced Year 10",
+      "founded": "Primordial Dawn / reinforced in the first winters of the Freeze",
       "foundedBy": "House Bridhe",
       "foundingStory": "An ancient mountain keep built on the ruins of a pre-freeze fortress. Its subterranean cellars were heated by coal-fired hearths that have burned without interruption for centuries.",
       "significantEvents": [
         {
-          "date": "Year 10",
+          "date": "The first winters of the Freeze",
           "event": "House Bridhe swears fealty to House Skalvyr in exchange for coal shipments."
         }
       ]
@@ -7497,12 +7497,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 15 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The Skald Agrarian Settlers",
       "foundingStory": "Settled when warm steam plumes were discovered rising from a sheltered caldera floor. Early farmers discovered that barley grew rapidly in the mineral-rich heated soil.",
       "significantEvents": [
         {
-          "date": "Year 15",
+          "date": "The first winters of the Freeze",
           "event": "First winter crop harvested under steam-heated greenhouse canopies."
         }
       ]
@@ -7526,12 +7526,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-fjord-coast",
     "history": {
-      "founded": "Year 28 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Master Carver Brandur",
       "foundingStory": "Founded at the mouth of a crystal-clear glacial rill where walrus herds gathered on the sea-ice. Brandur established the first bone-carving guildhall here.",
       "significantEvents": [
         {
-          "date": "Year 28",
+          "date": "A generation into the Freeze",
           "event": "Bone-Carvers Guild chartered under royal seal."
         }
       ]
@@ -7559,7 +7559,7 @@ export const ZONE_DATA = [
       "foundingStory": "A sacred natural oasis where three steaming sulfur pools bubble up from the granite floor. For centuries, warriors of warring clans laid down their weapons upon entering the spring basin.",
       "significantEvents": [
         {
-          "date": "Year 42",
+          "date": "A generation into the Freeze",
           "event": "Stone bathing pavilions erected around the natural mineral basins."
         }
       ]
@@ -7586,16 +7586,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 62 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "The Skald-Nethien Coalition",
       "foundingStory": "Established on the high terraces of the Icetalon peaks as a neutral free-city where Nethien scholars fleeing southern upheavals could trade legal and arcane archiving in exchange for Skald protection and timber.",
       "significantEvents": [
         {
-          "date": "Year 62",
+          "date": "The mid-Freezing Era",
           "event": "The Snowcall Charter signed on parchment and etched into basalt."
         },
         {
-          "date": "Year 105",
+          "date": "The mid-Freezing Era",
           "event": "The Nethien Quarter completed with slate-roofed guildhalls."
         }
       ]
@@ -7620,12 +7620,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 14 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Captain Torvald Blood-Harpoon",
       "foundingStory": "Carved out of black sea cliffs as an advance whaling station for deep-sea expeditions venturing into the treacherous Iceheart waters.",
       "significantEvents": [
         {
-          "date": "Year 14",
+          "date": "The first winters of the Freeze",
           "event": "First leviathan brought into the harbor slipway."
         }
       ]
@@ -7650,16 +7650,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 35 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Lord Vaelen Sválghjarta",
       "foundingStory": "Constructed around the mysterious Swallow-Heart, an eldritch pulsating relic discovered embedded in black volcanic glass. The keep was raised to harness the organ's dark thermal energy.",
       "significantEvents": [
         {
-          "date": "Year 35",
+          "date": "A generation into the Freeze",
           "event": "The Swallow-Heart unearthed; obsidian keep walls raised around it."
         },
         {
-          "date": "Year 92",
+          "date": "The mid-Freezing Era",
           "event": "The Hungríd Cult formalizes its sacrificial blood-tithe rites in the inner sanctum."
         }
       ]
@@ -7684,12 +7684,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 20 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Skald Fortress-Masons",
       "foundingStory": "Built into the narrowest choke point of the Icetalon Pass to seal off the southern valleys from monster migrations descending from the high peaks.",
       "significantEvents": [
         {
-          "date": "Year 20",
+          "date": "The first winters of the Freeze",
           "event": "First counterweighted boulder-chutes installed above the pass road."
         }
       ]
@@ -7712,12 +7712,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 45 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Highland Herder Clans",
       "foundingStory": "Discovered by alpine herders who followed escaping woolly goats into a hidden mountain pocket warmed by deep subterranean vents.",
       "significantEvents": [
         {
-          "date": "Year 45",
+          "date": "A generation into the Freeze",
           "event": "First stone fold walls built around the natural geothermal vents."
         }
       ]
@@ -7742,16 +7742,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 50 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Xardin the Exiled",
       "foundingStory": "Established by banished Skald clans who found a hidden thermal harbor behind glacial walls. They established the Sorte Market, dealing in illicit contraband free from Frosthold taxes.",
       "significantEvents": [
         {
-          "date": "Year 50",
+          "date": "A generation into the Freeze",
           "event": "First pirate longship docks at Xardin's cove."
         },
         {
-          "date": "Year 125",
+          "date": "The late Freezing Era",
           "event": "The Sorte Market codifies its outlaw council rules."
         }
       ]
@@ -7774,12 +7774,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 70 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "Volcanic Sulfur Miners",
       "foundingStory": "Settled by hardy miners who rowed skin-canoes to these smoking volcanic sea-stacks to harvest pure yellow sulfur for fortress gunpowder and blast-mines.",
       "significantEvents": [
         {
-          "date": "Year 70",
+          "date": "The mid-Freezing Era",
           "event": "First sulfur processing kiln constructed on the islet rocks."
         }
       ]
@@ -7804,12 +7804,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 55 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Nethien Exiles",
       "foundingStory": "Tunneled into coastal caverns where brine springs evaporated on hot volcanic stone, creating vast fields of pure white salt crystals.",
       "significantEvents": [
         {
-          "date": "Year 55",
+          "date": "A generation into the Freeze",
           "event": "Nethien community establishes the deep cavern extraction galleries."
         }
       ]
@@ -7834,12 +7834,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 40 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Icechamber Syndicate",
       "foundingStory": "Built as the central naval shipyard of the Syndicate, equipped with heated drydocks capable of fitting thick iron plating onto longship hulls.",
       "significantEvents": [
         {
-          "date": "Year 40",
+          "date": "A generation into the Freeze",
           "event": "First ironclad dreadnought launched from drydock."
         }
       ]
@@ -7862,12 +7862,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 58 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Salt Merchants Guild",
       "foundingStory": "A fortified pier constructed to handle the massive salt trade flowing from Saltgrinn to the royal fish-curing stations.",
       "significantEvents": [
         {
-          "date": "Year 58",
+          "date": "A generation into the Freeze",
           "event": "Great storage warehouse built to store five thousand barrels of cured salt."
         }
       ]
@@ -7890,12 +7890,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 33 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Skald Mountain Sentinels",
       "foundingStory": "Built on an isolated needle peak to monitor the high glacier passes for signs of avalanche or hostile clan movements.",
       "significantEvents": [
         {
-          "date": "Year 33",
+          "date": "A generation into the Freeze",
           "event": "Heliograph signaling platform installed on the highest spire."
         }
       ]
@@ -7918,12 +7918,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 26 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Coastal Deep-Net Fishermen",
       "foundingStory": "Established behind a natural granite reef where fishing boats could moor safely away from crashing icebergs.",
       "significantEvents": [
         {
-          "date": "Year 26",
+          "date": "A generation into the Freeze",
           "event": "Granite jetty constructed from sea-stack rubble."
         }
       ]
@@ -7980,7 +7980,7 @@ export const ZONE_DATA = [
       "foundingStory": "Carved through millions of years by shifting ice sheets. The earliest Skald travelers marked the path through the howling pass with stone cairns.",
       "significantEvents": [
         {
-          "date": "Year 15",
+          "date": "The first winters of the Freeze",
           "event": "The Skadi Memorial Cairns established after a caravan of sixty fell to frost."
         }
       ]
@@ -8004,12 +8004,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 2 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Rime-Born Hermits & Shamans",
       "foundingStory": "Discovered immediately after the Glacier Bargain when the first frost-touched shamans noticed that all wind and sound died at the edge of the cliff. They dedicated it as a sanctuary for mental peace.",
       "significantEvents": [
         {
-          "date": "Year 2",
+          "date": "The first winters of the Freeze",
           "event": "First silence-meditation rite performed on the cliff ledge."
         }
       ]
@@ -8061,12 +8061,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 8 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Glacial Fissure Discovery",
       "foundingStory": "Opened during a massive earthquake that cracked the continental ice sheet, revealing a glowing blue celestial artifact deep in the crevasse.",
       "significantEvents": [
         {
-          "date": "Year 8",
+          "date": "The first winters of the Freeze",
           "event": "The Great Quake exposes the azure pulsing starlight beneath the ice."
         }
       ]
@@ -8089,12 +8089,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 12 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Pilgrims of Þögn",
       "foundingStory": "Hand-chiseled over twenty years by devout Rime-Born pilgrims seeking to ascend the vertical cliff to the Silence-Sanctuary.",
       "significantEvents": [
         {
-          "date": "Year 32",
+          "date": "A generation into the Freeze",
           "event": "The Three-Thousandth Step completed and consecrated."
         }
       ]
@@ -8118,12 +8118,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 25 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Blind Rune-Seekers",
       "foundingStory": "Built against the shear-face of the glacier by a sect of blind seers who discovered that listening to the acoustic groaning of the ice allowed them to predict future disasters.",
       "significantEvents": [
         {
-          "date": "Year 25",
+          "date": "A generation into the Freeze",
           "event": "First seismic augury log inscribed in stasis parchment."
         }
       ]
@@ -8146,12 +8146,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 42 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Volcanic Shoreline Settlers",
       "foundingStory": "Formed when fishermen realized that the black volcanic silt dumped into the sea by coastal vents created warm tidal pools abundant in crab and cod.",
       "significantEvents": [
         {
-          "date": "Year 42",
+          "date": "A generation into the Freeze",
           "event": "Village huts built on timber stilts above the volcanic mud."
         }
       ]
@@ -8175,12 +8175,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 65 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "The Icechamber Trade Engineers",
       "foundingStory": "Constructed by paving flat flagstones directly over a subterranean geothermal fissure, creating twenty miles of highway that never freezes over.",
       "significantEvents": [
         {
-          "date": "Year 65",
+          "date": "The mid-Freezing Era",
           "event": "Highway inaugurated with the first heated trade caravan."
         }
       ]
@@ -8204,12 +8204,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 10 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Rime-Born Outcasts",
       "foundingStory": "Hidden in a high alpine depression to protect blue-skinned children from being executed by superstitious purist clans.",
       "significantEvents": [
         {
-          "date": "Year 10",
+          "date": "The first winters of the Freeze",
           "event": "First ice-dome shelter raised for frost-touched orphans."
         }
       ]
@@ -8267,7 +8267,7 @@ export const ZONE_DATA = [
       "foundingStory": "An ancient ironwood taiga that adapted to the sub-zero freeze by absorbing trace volcanic minerals from the soil, hardening its timber to iron.",
       "significantEvents": [
         {
-          "date": "Year 30",
+          "date": "A generation into the Freeze",
           "event": "First logging trails opened under strict harvest limits."
         }
       ]
@@ -8290,12 +8290,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 1 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The Glacier Bargain Magic",
       "foundingStory": "Formed instantly when the cosmic frost wave was frozen in place, crystallizing into hundreds of needle-like blue ice towers.",
       "significantEvents": [
         {
-          "date": "Year 1",
+          "date": "The first winters of the Freeze",
           "event": "The spires crystallize during the freezing of the sky."
         }
       ]
@@ -8349,16 +8349,16 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 50 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Master Miner Torvald Iron-Drill",
       "foundingStory": "Tunneled into a massive granite mountain rich in iron ore and coal. Torvald designed a vertical shaft city where heat from deep blast furnaces warmed every residential level above.",
       "significantEvents": [
         {
-          "date": "Year 50",
+          "date": "A generation into the Freeze",
           "event": "First blast furnace lit inside the mountain heart."
         },
         {
-          "date": "Year 110",
+          "date": "The mid-Freezing Era",
           "event": "Deep mine tunnels expanded to connect with subterranean coal beds."
         }
       ]
@@ -8382,12 +8382,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 18 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Matriarch Morwenna",
       "foundingStory": "Constructed by hanging rope bridges and weaving timber roosts into the sheer cliff walls of the Icetalon peaks.",
       "significantEvents": [
         {
-          "date": "Year 18",
+          "date": "The first winters of the Freeze",
           "event": "First rope-bridge suspension spans anchored into the granite cliff."
         }
       ]
@@ -8410,12 +8410,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 75 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "Matriarch Vespera",
       "foundingStory": "Carved into an overhanging sea-cliff to serve as the sovereign council chamber for all Corvani flocks across Nordhalla.",
       "significantEvents": [
         {
-          "date": "Year 75",
+          "date": "The mid-Freezing Era",
           "event": "The Corvani Council of Flocks convenes for the first time in the high chamber."
         }
       ]
@@ -8443,7 +8443,7 @@ export const ZONE_DATA = [
       "foundingStory": "A high cliff where Corvani sentinels have gathered at daybreak for centuries to read the morning wind currents.",
       "significantEvents": [
         {
-          "date": "Year 20",
+          "date": "The first winters of the Freeze",
           "event": "Stone observation benches chiseled into the promontory edge."
         }
       ]
@@ -8466,12 +8466,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 60 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Stählberg Garrison Engineers",
       "foundingStory": "Built over an ignited underground coal vein to provide a warm outpost that never required wood fuel to heat.",
       "significantEvents": [
         {
-          "date": "Year 60",
+          "date": "A generation into the Freeze",
           "event": "Watchtower completed above the smoldering coal vent."
         }
       ]
@@ -8495,12 +8495,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 1 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Aethil Skalvyr & Keth Amar Pact Keepers",
       "foundingStory": "The sacred grotto where the original runes of the Glacier Bargain were inscribed into the living glacier floor.",
       "significantEvents": [
         {
-          "date": "Year 1",
+          "date": "The first winters of the Freeze",
           "event": "The First Rune chiseled with cold blood."
         }
       ]
@@ -8524,12 +8524,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 68 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "Frontier Pelt Traders",
       "foundingStory": "Formed as a stockade trading post where trappers returning from the deep mountains could trade furs without traveling all the way to the coast.",
       "significantEvents": [
         {
-          "date": "Year 68",
+          "date": "The mid-Freezing Era",
           "event": "Stockade walls erected around the central trading hall."
         }
       ]
@@ -8553,12 +8553,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 16 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Grum Bloodhammer",
       "foundingStory": "A natural ice amphitheater consecrated as the proving grounds where Berserkers duel to awaken their inner fire.",
       "significantEvents": [
         {
-          "date": "Year 16",
+          "date": "The first winters of the Freeze",
           "event": "First Blood-Duel fought; Grum ignites his primal blood-heat."
         }
       ]
@@ -8582,12 +8582,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 32 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Deep-Sea Captains Guild",
       "foundingStory": "Constructed as an outer deepwater port with granite breakwaters capable of withstanding sixty-foot rogue waves.",
       "significantEvents": [
         {
-          "date": "Year 32",
+          "date": "A generation into the Freeze",
           "event": "Outer stone breakwater completed."
         }
       ]
@@ -8610,12 +8610,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 44 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Timber Cartel",
       "foundingStory": "Heated logging camps established to harvest ironwood logs for longship keels and fortress gates.",
       "significantEvents": [
         {
-          "date": "Year 44",
+          "date": "A generation into the Freeze",
           "event": "First steam-sawmill brought online."
         }
       ]
@@ -8638,12 +8638,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 52 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Royal Quarry-Masters",
       "foundingStory": "High-altitude quarry camp opened to supply heavy granite blocks for the Sunder-Wall construction.",
       "significantEvents": [
         {
-          "date": "Year 52",
+          "date": "A generation into the Freeze",
           "event": "First hundred-ton granite block extracted and slid down the ice chutes."
         }
       ]
@@ -8666,12 +8666,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 72 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "Alchemist Valerius & Bloodhammer Smith-Masters",
       "foundingStory": "Built over hot sulfuric fissures to refine coal-oil and volatile heating tinctures for the military.",
       "significantEvents": [
         {
-          "date": "Year 72",
+          "date": "The mid-Freezing Era",
           "event": "First copper distillation coil brought into operation."
         }
       ]
@@ -8694,12 +8694,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 64 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "The Masked Sentinels Guild",
       "foundingStory": "Built at the mouth of the Whispering Gorge to guard against frost-witch incursions and psychological blizzard madness.",
       "significantEvents": [
         {
-          "date": "Year 64",
+          "date": "The mid-Freezing Era",
           "event": "First iron mask forged and sworn to the watch."
         }
       ]
@@ -8723,12 +8723,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 46 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Master Beast-Trainer Hroll",
       "foundingStory": "A stone keep and breeding kennels for massive white dire wolves trained to track in sub-zero whiteouts.",
       "significantEvents": [
         {
-          "date": "Year 46",
+          "date": "A generation into the Freeze",
           "event": "First pack of trained dire-wolves deployed on perimeter patrol."
         }
       ]
@@ -8751,12 +8751,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 66 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "The Stählberg Supply Guild",
       "foundingStory": "A fortified outpost ensuring that coal caravans from the mines reached the Frosthold arsenals without bandit ambushes.",
       "significantEvents": [
         {
-          "date": "Year 66",
+          "date": "The mid-Freezing Era",
           "event": "Paved stone supply road fortified with watch posts."
         }
       ]
@@ -8779,12 +8779,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-glacier-heart",
     "history": {
-      "founded": "Year 24 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "Corvani Messenger Flocks",
       "foundingStory": "A high-altitude cliff staging aerie where raven messengers rest and receive encrypted orders for inter-realm flights.",
       "significantEvents": [
         {
-          "date": "Year 24",
+          "date": "A generation into the Freeze",
           "event": "First inter-continental message dispatched to Frostwood Reach."
         }
       ]
@@ -8814,7 +8814,7 @@ export const ZONE_DATA = [
       "foundingStory": "The ancient polar expanse that swallowed the northern kingdoms when the sun was sealed into the world-heart. It remains an untamed wilderness of roving monsters and ancestral ruins.",
       "significantEvents": [
         {
-          "date": "Year 0",
+          "date": "The first winters of the Freeze",
           "event": "The Great Freeze seals the wastes under hundreds of feet of ice."
         }
       ]
@@ -8839,12 +8839,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 82 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "Øsling Outlaws & Exiled Skalds",
       "foundingStory": "Pitched against the outer foundations of the Sunder-Wall as a refuge for criminals and exiles who refused royal subjugation.",
       "significantEvents": [
         {
-          "date": "Year 82",
+          "date": "The mid-Freezing Era",
           "event": "First turf-and-bone shelters pitched against the wall base."
         }
       ]
@@ -8869,12 +8869,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 1 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The Glacier Bargain Monument",
       "foundingStory": "The historic epicenter where the primordial blizzard was halted. The armies of two dying empires were flash-frozen in mid-charge and stand preserved in crystal ice.",
       "significantEvents": [
         {
-          "date": "Year 1",
+          "date": "The first winters of the Freeze",
           "event": "The freezing of the charging armies into permanent stasis."
         }
       ]
@@ -8898,12 +8898,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 5 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Supernatural Glacial Convergence",
       "foundingStory": "Formed when a supernatural parasitic ice-shard merged with the continental glacier, giving the ice predatory intent that surges toward warm settlements.",
       "significantEvents": [
         {
-          "date": "Year 5",
+          "date": "The first winters of the Freeze",
           "event": "First expedition swallowed whole by the living crevasse surge."
         }
       ]
@@ -8927,7 +8927,7 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Pre-Freeze Era / Swallowed Year 22",
+      "founded": "Pre-Freeze Era / swallowed a generation into the Freeze",
       "foundedBy": "Jarl Rimor the Generous",
       "foundingStory": "A grand mountain castle with sixty fireplaces that was buried when an avalanche of glacier ice overtopped its walls in the first century.",
       "significantEvents": [
@@ -8936,7 +8936,7 @@ export const ZONE_DATA = [
           "event": "Keep constructed around thirty geothermal steam vents."
         },
         {
-          "date": "Year 22",
+          "date": "A generation into the Freeze",
           "event": "The Great Ice Surge overruns the battlements, entombing the keep."
         }
       ]
@@ -8959,12 +8959,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 15 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The Vow-Bound Hermits",
       "foundingStory": "A stone redoubt where an ancient brotherhood took a vow of absolute silence to avoid alerting the predatory glaciers to their presence.",
       "significantEvents": [
         {
-          "date": "Year 15",
+          "date": "The first winters of the Freeze",
           "event": "The Covenant of Silence sworn."
         }
       ]
@@ -8987,12 +8987,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 11 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "Captain Torbrand Spar",
       "foundingStory": "Torbrand tried to navigate a tidal surge across the ice shelf; the surging glacier lifted his entire war galley three miles inland where it remains frozen in the ice.",
       "significantEvents": [
         {
-          "date": "Year 11",
+          "date": "The first winters of the Freeze",
           "event": "The war galley stranded atop the glacier crest."
         }
       ]
@@ -9015,12 +9015,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 18 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The Great Shipwreck Gale",
       "foundingStory": "A fleet of thirty Skald longships was trapped against coastal shelf ice by a flash-freeze blizzard, sealing every ship under twenty feet of green ice.",
       "significantEvents": [
         {
-          "date": "Year 18",
+          "date": "The first winters of the Freeze",
           "event": "The entire fleet frozen in stasis beneath the shelf."
         }
       ]
@@ -9043,12 +9043,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 88 (Freezing Era)",
+      "founded": "The mid-Freezing Era",
       "foundedBy": "The Øsling Underground",
       "foundingStory": "Discovered deep in a glacier cave where a warm freshwater spring created an insulated cavern capable of housing two hundred outlaws.",
       "significantEvents": [
         {
-          "date": "Year 88",
+          "date": "The mid-Freezing Era",
           "event": "Cavern fortified with ice-boulder barricades."
         }
       ]
@@ -9072,12 +9072,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 55 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Shadow-Rowers Guild",
       "foundingStory": "Hidden behind jagged sea-ice arches, this cove has served as the premier transfer point for contraband goods entering and leaving the north.",
       "significantEvents": [
         {
-          "date": "Year 55",
+          "date": "A generation into the Freeze",
           "event": "Secret mooring bollards carved into the ice cave walls."
         }
       ]
@@ -9101,12 +9101,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 30 (Freezing Era)",
+      "founded": "A generation into the Freeze",
       "foundedBy": "The Early Skald Royal House",
       "foundingStory": "Seven colossal stone barrows constructed to hold the bodies of the first generation of Rime-Born princes and princesses who died in the freeze.",
       "significantEvents": [
         {
-          "date": "Year 30",
+          "date": "A generation into the Freeze",
           "event": "First royal tomb sealed behind iron runic slab."
         }
       ]
@@ -9158,12 +9158,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 12 (Freezing Era)",
+      "founded": "The first winters of the Freeze",
       "foundedBy": "The Øsling Frost-Chanters",
       "foundingStory": "A collection of hollowed granite towers designed so the whistling winds produced multi-toned acoustic resonances during storms.",
       "significantEvents": [
         {
-          "date": "Year 12",
+          "date": "The first winters of the Freeze",
           "event": "First choral harmony rite conducted during a blizzard."
         }
       ]
@@ -9215,12 +9215,12 @@ export const ZONE_DATA = [
     "wyrdCreatures": [],
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
-      "founded": "Year 0 (The Great Binding)",
+      "founded": "The Great Binding",
       "foundedBy": "The Continental Shattering",
       "foundingStory": "A bottomless abyss torn open when the celestial bindings of Sol fractured the tectonic crust of northern Mythrill.",
       "significantEvents": [
         {
-          "date": "Year 0",
+          "date": "The first winters of the Freeze",
           "event": "The earth tears open; freezing vapor begins venting from the core."
         }
       ]

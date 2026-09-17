@@ -8,7 +8,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Veil',
   shortName: 'Veil',
   type: 'stages',
-  description: 'The Emberspire\'s nine circles burn within the corrupted soul. Ember corruption through 9 inferno levels, each granting ember damage but severe drawbacks',
+  description: 'The Emberspire breach burns in the marrow: starfire and void-rot fused into a self-stoking furnace. The Veil ascends through the Rings, from the Banked Hearth to the Crucible, granting ember damage at escalating cost',
   visual: {
    type: 'inferno-veil',
    baseColor: '#8B0000',
@@ -427,6 +427,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Fortune',
   shortName: 'Fortune',
   type: 'gambling',
+  description: 'Fortune is the House\'s credit, drawn against the debtor\'s own future. Spend it to nudge fate, and mind the marker: the Karmic Debt that accrues is Mael-Zhul\'s ledger coming due.',
   visual: {
    type: 'fortune-points-gambling',
    baseColor: '#2D2D2D',
@@ -491,7 +492,7 @@ export const CLASS_RESOURCE_TYPES = {
   name: 'Devotion',
   shortName: 'Devotion',
   type: 'devotion-gauge',
-  description: 'Sundale Sol\'s Breath, the Sun-That-Was, taught that true devotion requires willing bleed. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 1 round without damage/sacrifice. The Martyr BLEEDS; the Ironclad endures.',
+  description: 'The faith of Aex teaches that devotion is not given, it is transfigured: a Witness stays lucid at the centre of unbearable pain. ACTIVE sacrifice required, bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 1 round without damage/sacrifice. The vessel cracks on purpose; that is where the light gets out.',
   visual: {
    type: 'devotion-gauge',
    count: 6,

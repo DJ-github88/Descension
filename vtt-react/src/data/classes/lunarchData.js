@@ -17,7 +17,6 @@ export const LUNARCH_DATA = {
       "allowedSubraces": [
           "viridian_florae",
           "florae_unified",
-          "shorn_florae",
           "veiled_mimir",
           "tethered_mimir",
           "thalren_human"
@@ -76,7 +75,26 @@ export const LUNARCH_DATA = {
       }
     },
 
-    shorn_florae: {
+    florae_unified: {
+      subraceName: 'Oken',
+      title: 'The Timber-Born',
+      reframe: `The <LoreLink termId="oken">Oken</LoreLink> pass as ordinary townsfolk with branch-bough arms hidden under city sleeves, and an Oken Lunarch hides the parasite the same way: a second self kept out of sight, fed in the dark. Where the Viridian release the phases into the grove, the Oken hold them in, and the held hours are repaid all at once in the first private moment, which is why the Oken know their Lunarchs by their absences and their neighbours know them only as quiet.`,
+      signatureAbility: {
+        name: 'Cellar-Suppression',
+        description: `Phases stay banked through daylight and public hours; every banked hour is repaid at once when the host is finally alone, doubling the phase's effects and the host's recovery time. The Oken are the most controlled variant in public and the most violent in private.`
+      },
+      currentCrisisAngle: `The dead moon's call is getting harder to hide. Oken Lunarchs have started chanting in their sleep on starless city nights, and the Scribe-Cartel has begun paying for recordings, which the Oken read as the first step toward the Forgotten treatment.`,
+      signatureQuote: {
+        text: '"My neighbours know me as a quiet clerk with a bad cough. The moon knows me as a door it has been knocking on for two hundred years."',
+        speaker: 'Oken Lunarch Vel-Sera the Unremarkable',
+        context: 'An Oken Lunarch, declining to attend a city service'
+      }
+    },
+
+    veiled_mimir: {
+      subraceName: 'Arch Mimir',
+      title: 'The Mask-Anchored',
+      reframe: `The <LoreLink termId="mimir">Arch Mimir</LoreLink> anchor identity to a fixed heartwood mask, and a Lunarch among them hands the parasite that job: a second, living anchor that holds the self together even when the wood is removed. The Arch halls consider this the deepest heresy or the most useful insurance, depending on which hall is asked, and Mir-Tassen's testimony is read at both.`,
       signatureAbility: {
         name: 'Lunar-Anchor',
         description: `The parasite serves as a *replacement mask*, a second, living identity-anchor that holds the self together even when the physical mask is removed. A host can survive briefly unmasked in the fog, sustained by the parasite. The cost: the parasite's phases now *are* the host's identity, and the Waning phase is amnesia.`
@@ -90,9 +108,9 @@ export const LUNARCH_DATA = {
     },
 
     tethered_mimir: {
-      subraceName: 'Fractured Mimir',
+      subraceName: 'Broken Mimir',
       title: 'The Sentinel-Moon',
-      reframe: `The <LoreLink termId="mimir">Fractured Mimir</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Fractured host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
+      reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Fractured host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
       signatureAbility: {
         name: 'Vigil-Bond',
         description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Fractured Lunarch who abandons their post loses their magic within hours.`
@@ -160,7 +178,7 @@ The first host was Selene of House Viridane, who struck the bargain during her f
 
 The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing smashing damage as the parasite rearranges their nervous system for the next feeding.
 
-For a century and a half, the parasite bonded only to Florae bloodlines. The Trueborn Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Fractured Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
+For a century and a half, the parasite bonded only to Florae bloodlines. The Trueborn Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Broken Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
 
 The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Florae elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves ages before the Star-Fall. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.`,
     title: "The Lunarch",
@@ -232,10 +250,24 @@ The elder parasites, those bonded to the first Lunarchs, are beginning to commun
     classSpecificLocations: [
       {
         name: 'The Moonlit Sanctuaries',
-        locationId: 'ironwood-heart',
+        locationId: 'ironwood_heart',
         description: 'Hidden clearings deep in the Ironwood Heart where the Florae elders established safe houses for Lunarchs to cycle through their phases without endangering others. Each sanctuary is a circle of standing stones positioned to catch the light of the dead moon at specific angles, minimizing the parasite\'s feeding efficiency and giving the host a few precious hours of lucidity.',
         purpose: 'Safe cycling grounds for Lunarchs in crisis',
         status: 'Active, Selene occupies the central sanctuary, and no one can approach'
+      },
+      {
+        name: 'The Thorn-Altar of Viridane',
+        locationId: 'thorn_altar',
+        description: 'A ring of blackthorn grown thick as columns and fused at the crown, standing in the deepest ironwood where Selene of House Viridane bound the first lunar parasite. She held the thing that had nested in the treetops against her own spine until it agreed to stay, and the stone she knelt on is still bare. The Altar is not built. It is grown, and it keeps growing: pilgrims press their thorn-plate to the stone and let the parasite answer the old debt aloud.',
+        purpose: 'Origin shrine of the Lunarch bloodline; where the fae-contract was first paid in flesh',
+        status: 'Active and guarded, and three weeks of silence from Selene have made the Altar restless; the thorns have begun growing inward, and no one will say toward what'
+      },
+      {
+        name: 'The Chanting Ward',
+        locationId: 'chanting_ward',
+        description: 'A quarantine grove deep in the Ironwood Heart where the oldest Lunarchs are kept: hosts whose parasites have seized their vocal cords, chanting in shifts that never overlap, in a language no scholar can parse. The Ward is tended by Florae wardens who do not speak and do not sleep on the grove side of the stream. The chant is rhythmic, patient, and, according to the scrolls kept at the gate, closer to coherent every season.',
+        purpose: 'Quarantine and study grove for the elder-host crisis; what the Scribe-Cartel calls evidence and the Florae call family',
+        status: 'Sealed, and the chant has begun arriving from hosts who are not in the Ward; the wardens have doubled the stream'
       }
     ],
 

@@ -8,6 +8,8 @@
 
 ## EXECUTIVE SUMMARY
 
+> **HISTORICAL — superseded.** This document was written against an older, hard-dated timeline (Year 0/300/325/475 and the ~800-year audits). Canon is now **era-relative**: see `vtt-react/src/store/timelineStore.js` and LORE_STYLE_GUIDE Rule 8 — no hard years anywhere, in text or UI. Use for reference only.
+
 | Metric | Count |
 |--------|-------|
 | Total checks performed | 282 |

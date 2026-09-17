@@ -5,7 +5,7 @@
 > This document is a convenience summary for GMs aligned with the **August 2026 "Fall of the Sun & The Broken Wyrd" lore lock** (supersedes earlier Ratified Patches):
 > - **Primary Launch Region:** **Nordhalla** is the sole launch region for the initial release.
 > - **The Sleeping Soul & the Two Wyrds:** Mythrill's primordial loom is **Natural Wyrd** (belief, folklore, myth and vow manifest into creatures); the hostile strain is **Predatory Wyrd**, Keth Amar's infection of that loom.
-> - **475-Year Master Timeline:** Year 0 Star-Fall & Bloodline Pacts; Year 300 Keth Amar arrives and seeds Predatory Wyrd; Years 300-325 the Whispered Purge; Year 325 the Blind Strike (mortal name: Blizzard's End) and the Secret Aegis; Year 475 Present Day / Freezing Era.
+> - **Master Timeline (era-relative):** the Star-Fall & Bloodline Pacts; the Slow Cracking; Keth Amar's arrival and the Whispered Purge; the Blind Strike (mortal name: Blizzard's End) and the Secret Aegis; the Freezing Era, now.
 > - **Class Heritage Taxonomy:** Pre-Binding (Mortals), Celestial Bargain (the Bound — Bloodline Pacts), Vreken Extortion (Blight), Cosmic Collision (Predatory Wyrd colliding with the pacts).
 > - **Ancestry Updates:** Neth (Well of Life), Fexrick (engine theft curse), and the Unwritten (the hidden lineage of the Secret Aegis).
 > - **Scrapped Mechanics:** Augur 41% accuracy is NOT tied to Sol's shell; strict maternal death quotas are scrapped; "the Wyrd arrived with Keth Amar" and "Keth Amar retreated as the Wyrd" are retired — Natural Wyrd is native, Predatory Wyrd is the infection.
@@ -22,7 +22,7 @@
 
 ## The State of the Age
 
-Mythrill is locked in an artificial ice age. Four hundred and seventy-five years after the celestial parents concealed their living, unhatched infant sun in the planet's volcanic core — **Aex** the Mother entombing him and **Aethil** the Father anchoring the sky-ward — and one hundred and fifty years after the Blind Strike fractured that ward, surface civilizations fight for survival under a sunless sky.
+Mythrill is locked in an artificial ice age. Long ages after the celestial parents concealed their living, unhatched infant sun in the planet's volcanic core — **Aex** the Mother entombing him and **Aethil** the Father anchoring the sky-ward — and long ages after the Blind Strike fractured that ward, surface civilizations fight for survival under a sunless sky.
 
 Warmth is an industrial commodity. Settlements huddle around volcanic vents or burn glowing **Aex Shards** — crystalline shrapnel from the Mother's broken divine aegis that radiate concentrated forge-heat. Caravans cross blizzard-choked mountain passes on bridges grown from calcified bone. Navigators sail storm-tossed seas where icebergs drift like moving fortresses. Every society that endures does so because its ancestors swore **Bloodline Pacts** to Aex and were changed by them — and because one hidden lineage, the Unwritten, never broke its oath.
 
@@ -34,7 +34,7 @@ Yet mortals do not surrender. Surviving four centuries of cold has turned human 
 
 Before celestial pacts touched mortals, Mythrill was already a world of the **Sleeping Soul** and the **Natural Wyrd** — a loom in which collective belief, folklore, fear and vow grew into living creatures. Elemental beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*) and land spirits held biological dominion over fire, ice and storm. Early mortals had zero magic: they survived strictly through forged cold iron, black powder matchlocks, traps, and folk taboos. What they feared long enough, the Loom eventually grew.
 
-### 1. The Celestial Star-Fall and the Bloodline Pacts (Year 0)
+### 1. The Celestial Star-Fall and the Bloodline Pacts
 When the celestial parents **Aex** (the Mother) and **Aethil** (the Father) sought a hiding place for their living, unhatched infant sun, **Sol**, they fled across the dark between stars to escape **Keth Amar**, an ancient cosmic predator that tracks and consumes young stellar bodies. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol within the molten core, sealing the inner vault with cosmic wards and lineage pacts. The parents concealed Sol inside Mythrill's volcanic mantle and froze Sol's sister **Selunis** — the moon-daughter egg that never quickened — in orbit as a thermal buffer, lest Sol's heat incinerate the world. Keth Amar nested in Selunis's unquickened shell during its approach.
 
 To anchor Sol's vault, ancient mortal lineages struck **Bloodline Pacts** with Aex, witnessed by Aethil. The warding shell holds only while each bound bloodline survives and upholds its oath — a **Blood Seal** per lineage. The divine magic channelled into them altered their biology and soul-resonance, producing the altered human sub-races. Highborn lineages became the Bound; commoners kept their firearms, black powder and iron weapons.
@@ -46,12 +46,12 @@ Over three centuries, severed Blood Seals cracked Aex's aegis from within, each 
 * In **Frostwood Reach**, an artificial sun experiment suffered a catastrophic meltdown, snapping a seal and venting boiling steam geysers into the pine swamps. House Viridane discovered that a dead lineage cracks the celestial aegis and fled into the mist.
 
 ### 3. The Whispered Purge (Years 300–325)
-In Year 300, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** — a corrupted strain of the Loom — onto Mythrill from the void. Because the world was already saturated with Natural Wyrd, the infection took deep root in soil and in the collective unconscious. For twenty-five years Keth Amar **posed as Aethil**, broadcasting whispers through the Predatory Wyrd, promising eternal warmth and stellar apotheosis to the Solari, Storm and Rime houses, and orchestrating the downfall of the remaining bound bloodlines through wars, hubris, tragic accidents and assassinations. Each severed lineage snapped another Blood Seal and cracked the aegis further. This is why the oldest codices describe Aethil as a cold mechanism without will — they are transcriptions of Keth Amar wearing a father's face.
+In the last age of the Pacting, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** — a corrupted strain of the Loom — onto Mythrill from the void. Because the world was already saturated with Natural Wyrd, the infection took deep root in soil and in the collective unconscious. For twenty-five years Keth Amar **posed as Aethil**, broadcasting whispers through the Predatory Wyrd, promising eternal warmth and stellar apotheosis to the Solari, Storm and Rime houses, and orchestrating the downfall of the remaining bound bloodlines through wars, hubris, tragic accidents and assassinations. Each severed lineage snapped another Blood Seal and cracked the aegis further. This is why the oldest codices describe Aethil as a cold mechanism without will — they are transcriptions of Keth Amar wearing a father's face.
 
-### 4. The Blind Strike (Year 325) — Mortal Name: Blizzard's End
+### 4. The Blind Strike — Mortal Name: Blizzard's End
 Believing all lineage oaths severed, Keth Amar launched a full kinetic assault on Mythrill. Mortal history calls the night of that assault **Blizzard's End**. It crashed into the planetary ward — and **the Secret Aegis held**. One hidden family had forged a secret, undocumented pact with Aex, erased itself from all recorded history and undergone total physical and metaphysical metamorphosis into an unrecorded lineage — the **Unwritten**. That forgotten vow was the only seal that had never been spoken aloud, and therefore the only one Keth Amar could not find to break. The ward held. Keth Amar was severely wounded and repelled into the deep void. The impact fractured the continental ward; **crystalline shards of Aex's broken divine aegis** rained across the continents, permanently altering geography, weather and ley lines. Millions of smaller **Aex Shards** now warm hearths and fuel engines; their glow is all that keeps the surface alive.
 
-### 5. The Sundered Monoliths and the 7th Counterfeit (Year 325 – Present / Year 475)
+### 5. The Sundered Monoliths and the 7th Counterfeit (since the Blind Strike)
 The seven greatest of those fallen shards are the **Seven Sundered Monoliths** — pieces of a mother's armour, not keys to a lock:
 * **Fog-Hand** (a fallen shard lodged in Frostwood Reach, wreathed in memory-fog)
 * **Ice-Crown** (a shard frozen into Nordhalla's mile-high glacier)
@@ -61,7 +61,7 @@ The seven greatest of those fallen shards are the **Seven Sundered Monoliths** �
 * **Still-Heart** (a shard buried beneath Sundale's ash)
 * **The Counterfeit** (see below)
 
-One of the seven seats is a lie. The **7th Counterfeit Monolith** is a **Predatory Wyrd forgery** fabricated to stand in the place of the seal that was never written. It looks like a shard, burns like a shard, and whispers. The **Masked Acolytes** who tend it are **Keth Amar's whisper-cult**. Most of them believe they serve a native god; they serve the thing that forged the counterfeit. Capital at **Vespera's Crown**, they proselytize and do odd jobs while their patron sees through their eyes as the **Hollow Sight** — a Predatory Wyrd counterfeit of Morvane the Watcher's true sight. For the past 150 years, adventurers and mercenary companies have waged trench wars over glowing Aex Shards for industrial fuel while the cult hunts the monoliths for its master.
+One of the seven seats is a lie. The **7th Counterfeit Monolith** is a **Predatory Wyrd forgery** fabricated to stand in the place of the seal that was never written. It looks like a shard, burns like a shard, and whispers. The **Masked Acolytes** who tend it are **Keth Amar's whisper-cult**. Most of them believe they serve a native god; they serve the thing that forged the counterfeit. Capital at **Vespera's Crown**, they proselytize and do odd jobs while their patron sees through their eyes as the **Hollow Sight** — a Predatory Wyrd counterfeit of Morvane the Watcher's true sight. For all the years since the Shattering, adventurers and mercenary companies have waged trench wars over glowing Aex Shards for industrial fuel while the cult hunts the monoliths for its master.
 
 ---
 
@@ -260,7 +260,7 @@ Lately, the port has become a site of brutal conscription. The Board of Trade is
 
 The population is split into two castes. The **Deck-Born** are wealthy merchants, captains, and officers who live in heated cabins and the stone keeps of Ironjaw. The **Bilge-Dwellers** are pressed sailors, coal-shovelers, and outcasts who live in the freezing, water-logged berths below, breathing coal-dust and rot.
 
-The human fleets of House Mereval (the **Merryn**) dominate Merrowport, tattooing their contracts directly onto their skin because paper rots. They share the waters with the **Myrathil**. The **Shore Myrathil** are the diplomats and merchants who navigate Merrowport. The **Deep Myrathil** are the mystics and sea-herders who live in the abyssal rifts, deeply troubled by the engine-screams of the whaling fleet. The **Brook Myrathil** are the inland scouts who follow freshwater rivers. The **Neth Velun** pact-lords run Ironjaw Port with legalistic coldness, frequently clashing with the chaotic Merryn captains.
+The human fleets of House Mereval (the **Merryn**) dominate Merrowport, tattooing their contracts directly onto their skin because paper rots. They share the waters with the **Myrathil**. The **Shore Myrathil** are the diplomats and merchants who navigate Merrowport. The **Deep Myrathil** are the mystics and sea-herders who live in the abyssal rifts, deeply troubled by the engine-screams of the whaling fleet. The **Brook Myrathil** are the inland scouts who follow freshwater rivers. The **Nethien** pact-lords run Ironjaw Port with legalistic coldness, frequently clashing with the chaotic Merryn captains.
 
 **Localized Threats, Persecution & The Wyrd**
 
@@ -417,7 +417,7 @@ The Bryngloom's power is split between the canopy city of **Atropolis** and the 
 
 The population is split into two castes. **The Contracted** are high-born Neth and wealthy merchants who hold active credits and live in the clean high canopy of Atropolis. **The Defaulted** are impoverished Vreken of both bloodlines who live in damp peat-shanties on the forest floor, breathing toxic rot-fumes and working the sumps.
 
-The **Neth** are divided into three bloodlines. The **Velun** are the pact-lords and arcanists. unable to lie, they govern the high libraries. The **Kessen** are the gamblers and weavers, reading the probability-web of the forest floor. The **Drun** are the severed outcasts. Immune to magic but legally non-existent under Neth law, they live in the canopy-sumps. The bog's most infamous landmark is **Black Fen**, a stretch of dead water serving as the contract court's dumping ground.
+The **Neth** are divided into three bloodlines. The **Nethien** are the pact-lords and arcanists; unable to lie, they govern the high libraries. The **Veldun** are the gamblers and weavers, reading the probability-web of the forest floor. The **Withered** are the severed outcasts, immune to magic but legally non-existent under Neth law; they live in the canopy-sumps. The bog's most infamous landmark is **Black Fen**, a stretch of dead water serving as the contract court's dumping ground.
 
 The **Vreken** are split by their fungal bonds. The **Clean Vreken** are immune to the addictive "hush" of the Ghost-Mycelium. They occupy every seat on the crypt-council. The **Marked Vreken** carry the volatile Ghost-Mycelium strain, granting them terrifying trail-sight but leaving them vulnerable to the hush. They are segregated into the **Over-Shanties** at the Spire's entrance.
 
@@ -433,7 +433,7 @@ The regional Sundered Monolith rests at the bottom of a bog-pool that has no bot
 
 Common food includes bog-mushroom stew, roasted peat-truffles, and dried river-eel, accompanied by bioluminescent tea. The local trade economy is built on exporting memory-glass, bog-preserved ironwood, and alchemical moss, under the Scribe-Cartel's monopoly. Poor Vreken are trapped in perpetual debt, mortgaging their children's future lifelines.
 
-In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Merchants and pact-mages negotiate details of shipping covenants over tea. Currency is recorded on ledger-tablets and verified by Velun pact-clerks.
+In Atropolis, taverns are open-air branch platforms suspended high in the canopy. The atmosphere is quiet, formal, and strictly transactional. Merchants and pact-mages negotiate details of shipping covenants over tea. Currency is recorded on ledger-tablets and verified by Nethien pact-clerks.
 
 ---
 
@@ -533,23 +533,23 @@ The Fexrick trade with the **Groven** through cold, functional intermediaries  -
 
 **The Current State**
 
-The Neth are an ancient, elegant people of the Bryngloom canopy whose natural fertility slowly eroded centuries ago. Desperate to preserve their lineage, their Augurs communed with the ancient forest spirit **Morvane** and received the sacred **Font Vessel** to fill at the hidden **Well of Youth**. The events at the Well split their species permanently within days into three distinct marked lineages: **High Neth**, **Pale Neth**, and **Hallowed Neth**.
+The Neth are an ancient, elegant people of the Bryngloom canopy whose natural fertility slowly eroded centuries ago. Desperate to preserve their lineage, their Augurs communed with the ancient forest spirit **Morvane** and received the sacred **Font Vessel** to fill at the hidden **Well of Youth**. The events at the Well split their species permanently within days into three distinct marked lineages: **Nethien**, **Withered**, and **Veldun**.
 
 **Subrace Settlements & Internal Fractures**
 
-* **High Neth (The Loyalists):** Kept human warmth, blood, and rare natural fertility, marked by delicate porcelain lines creeping beneath their temples.
+* **Nethien (The Loyalists):** Kept human warmth, blood, and rare natural fertility, marked by delicate porcelain lines creeping beneath their temples.
   * **Capital**: **Atropolis (White Canopy Spires)** – A magnificent white ironwood canopy city cultivated inside cathedral-trees.
   * **Lesser Settlements & Outposts**: **The Kessen Spire Array** (border watchtowers) and **Ironjaw Port (High Library Quarter)**.
-* **Pale Neth (The Conspirators / Cold Undead Variant):** Stripped of warmth and blood after rogue operatives switched the Font Vessel. Cast into cold *Warcraft*-style drow undeath (ashen skin, silver hair, obsidian eyes).
+* **Withered (The Conspirators / Cold Undead Variant):** Stripped of warmth and blood after rogue operatives switched the Font Vessel. Cast into cold *Warcraft*-style drow undeath (ashen skin, silver hair, obsidian eyes).
   * **Capital**: **The Drun Fen Vaults** – Subterranean peat-caverns beneath the canopy where low temperatures prevent cellular decay.
   * **Lesser Settlements & Outposts**: **Over-Shanty Deep-Quarter** and **Ironjaw Port (Subterranean Berths)**.
-* **Hallowed Neth (The Profane / Spirit Conduits):** Power-hungry magi who drank raw magic directly from the Well. Bound as volatile, semi-translucent spirit conduits.
+* **Veldun (The Profane / Spirit Conduits):** Power-hungry magi who drank raw magic directly from the Well. Bound as volatile, semi-translucent spirit conduits.
   * **Capital**: **Morvane’s Threshold Shrines** – Monastic shrines built directly over deep peat sinkholes.
   * **Lesser Camps**: **Widow's Quagmire Hermitages**.
 
 **Proximal Relations**
 
-High Neth govern Atropolis and enforce strict curfews against Pale Neth in the upper canopy. Pale Neth form a clandestine underworld alliance (**Pact of the Deep-Quarter**) with **Marked Vreken** in the lower shanties, exchanging forged legal credentials for Ghost-Mycelium trail-sight.
+The Nethien govern Atropolis and enforce strict curfews against the Withered in the upper canopy. The Withered form a clandestine underworld alliance (**Pact of the Deep-Quarter**) with **Marked Vreken** in the lower shanties, exchanging forged legal credentials for Ghost-Mycelium trail-sight.
 
 ---
 
@@ -758,7 +758,7 @@ There is no cure for what the Toxicologist has become. They began as healers  - 
 Toxicologists keep to workshop and wilderness, appearing in the apothecary-quarters of Greymark Keep and the alchemist-bazaars of the Harath-Vault where their reagents fetch the highest prices. They are paid handsomely and touched rarely; no healer will work on their corrupted flesh, and no contract-house will insure their workshops.
 
 ### Races & Cultural Affiliation
-The **Thalren** humans of the Frostwood, with their ledger-keeping precision, form the largest single cohort. **Neth** Velun arcanists sometimes adopt the discipline as a grim branch of contract-pharmacology, and **Fexrick** miners  -  already accustomed to toxic fumes  -  prove unnaturally resilient hosts.
+The **Thalren** humans of the Frostwood, with their ledger-keeping precision, form the largest single cohort. **Nethien** arcanists sometimes adopt the discipline as a grim branch of contract-pharmacology, and **Fexrick** miners  -  already accustomed to toxic fumes  -  prove unnaturally resilient hosts.
 
 > *"The Gref wanted my face. I gave it my venom instead. It could not steal a face that was melting. Problem solved."*
 
@@ -803,19 +803,19 @@ A distinctly **Skald** calling at its origin, the Augur's visceral craft has spr
 ---
 
 ## 7. Pyrofiend  -  Demonic Fire Wielder
-*Resource: Inferno Veil  -  escalating demonic corruption that grows hotter and more chaotic as battle progresses.*
+*Resource: Inferno Veil  -  the Emberspire breach-fire ascending through the Rings, burning hotter and more chaotic as battle progresses.*
 
 ### The Calling
-The Pyrofiend has invited a parasitic demon-intelligence  -  **Scathrach, the Ashen Sovereign**  -  to nest directly within their marrow. They do not command fire through study or grace; they bleed it. The demon within constantly claws at their sanity, demanding more heat, more ash, more fuel. At the height of ascension the host's skin cracks open to reveal molten rock, and they have only minutes before their marrow turns to ash.
+The Pyrofiend did not make a deal. They were claimed. When Emberspire ruptured, the starfire bound beneath the caldera met the void-rot Keth Amar had seeped into the fissures, and the collision fused inside the survivors, remaking them into living crucibles. **Scathrach, the Ashen Sovereign**, is the will that grew out of the first of them, and it claws at every host's sanity, demanding more heat, more ash, more fuel. At the height of the descent the host's skin cracks open to reveal molten rock, and the Debt Call begins counting down to the nova.
 
 ### History
-In the lightless badlands of Sundale, when Sol was entombed, a cabal of **Solvarn** occultists gathered in an obsidian cavern beneath the Emberspire caldera. They drew a summoning circle in their own blood, carving the seven sigils of Scathrach with volcanic glass knives, offering their marrow as kindling to the Ninth Flame of the Burning Throne. They swallowed demonic coals of pure burning sulfur; the embers did not destroy their flesh but bound their capillaries in a permanent, glowing lattice. They survived the freeze  -  emerging as the first Pyrofiends, living vessels for a parasitic demon-lord.
+When the caldera blew, seven Solari keepers of the Emberspire cloisters stood their vigil and swallowed the breaching starfire as it flooded the vault, to keep it from consuming the city above them. They did not summon anything. Their blood became liquid fire and their bones seared black, and one by one Scathrach collected them. They were the First Cabal, the first crucibles, and every Pyrofiend since has been a place setting at the same long table.
 
 ### Cities & Civil Reception
 Hunted with silver chains by the Sun-Speakers of the Harath-Vault, who view them not merely as heretics but as walking portals to the infernal deep. They have no open presence in any mortal city; they operate from the hidden obsidian conventicles beneath the Emberspire caldera.
 
 ### Races & Cultural Affiliation
-Exclusively **Solvarn** at origin  -  the sun-martyrs of Sundale who refused to leave the ashlands. A few **Solari** forge-pilgrims, already half-fire, have been accepted by Scathrach as kindling of a different grade.
+The **Solari** of the Dawn Vigil carry the fire at origin: Hollow-Solari keepers who hold the Banked Hearth in glacial stillness, and Waste-Solari forge-clans who race their own char-vessel conversion. The **Clockwork Fexric** refinery-clans, who survived the shockwave in sealed geothermal vaults by drinking mineral salts and embedding cooling heat-sinks along their spines, treat the furnace as a chemical hazard governed by thermal thresholds and call it chemistry.
 
 > *"Scathrach whispers to me in the language of burning things. It says the world was made from fire, and to fire it will return. It says I am the kindling. It says I should be grateful."*
 
@@ -825,16 +825,16 @@ Exclusively **Solvarn** at origin  -  the sun-martyrs of Sundale who refused to 
 *Resource: Devotion  -  filled by chosen suffering; if it stops flowing, the connection asphyxiates.* **(The Ironclad specialization is the old Dreadnaught discipline, absorbed when the two traditions recognized they bled for the same faith.)**
 
 ### The Calling
-The Martyr is not a protector  -  a protector uses a shield. The Martyr uses the soft meat of their own body to catch weapons swung at companions. Through the Devotion they transform willing suffering into grotesque emergency healing. Each wound they volunteer becomes a wound closed on someone else. But the connection is fragile: stop bleeding, and Devotion Collapse follows  -  a spiral into the Faithless state where healing rots to half strength.
+The Martyr is not a protector  -  a protector uses a shield. The Martyr steps into the arc of the axe and takes the claw-swipe meant for the backline. Their faith is Aex's: her power is a resonant frequency of suffering, channelled only by bodies that mirror her vigilance, and the Devotion is that wound transfigured into golden barriers and closed wounds. But the connection is fragile: stop bleeding, and Devotion Collapse follows  -  a spiral into the Faithless state where healing rots to half strength.
 
 ### History
-The **Solvarn** mother **Sera** refused to let her sacrificed child's name be erased by the noble houses' history-purge. She carved the name directly into her forearm with volcanic obsidian, swearing to bear the pain of the entire badlands to keep the memory alive. Her devotion opened a channel of sympathetic pain: her tissue burns with heat whenever an ally is struck, and she finds power only in her own suffering  -  converting blood to light, her skin cracking to reveal the solar embers of her vow.
+At the heart of the calling is **Aex**, the celestial mother of Sol, who stood between the cosmic dark and her child and took the wound meant for another. Her worship is not joy or song; martyrdom in Mythrill is not a title given upon death but an elevated state of consciousness, attained the way other traditions attain enlightenment. Drawing on the ancient root of the word, a true Martyr is above all a **Witness** (*martys*): a mind that stays lucid, observant, and serene in the centre of unbearable trauma. The first Witness of the modern era was the Solvarn mother **Sera**, who carved her sacrificed child's name into her forearm with volcanic obsidian, and the wound healed into a glowing solar scar.
 
 ### Cities & Civil Reception
 Martyrs are venerated in the sun-temples of Sundale and the field-hospitals of every war-front, and quietly feared in both. No community that has seen a Martyr work forgets the sight; none invite one to stay. The later absorption of the Dreadnaught's furnace-plate discipline gave the order its armored Ironclad wing  -  the passive absorbers to the active bleeders.
 
 ### Races & Cultural Affiliation
-Almost entirely **Solvarn** at the founding. The calling has since drawn the **Thalren** (whose ledger-keeping transposes neatly onto wound-accounting) and the occasional **Astril**, who read the Martyr's sympathetic pain as a recognizable echo of their own celestial court's slaughter.
+The **Solari** carry the calling in two forms  -  the Hollow-Solari Vault-Witnesses who endure in absolute stillness before the Sol's Breath, and the Waste-Solari Ash-Witnesses who took the burning debris at Emberspire and still sorrow for the broken brothers who became Pyrofiends. The **Groven** carry the Transmuted Burden: Morgh anchors bred in Fexric vats who made endurance sacred, and Ithran span-keepers who tally every crossing that held. The **Skald** walk it as Ironclads: they never knelt to Aex, but the Cragjaw's furnace-plate gives their Hunger Pact a boiler, burning every wound taken as coal.
 
 > *"My child's name was carved from history. I carved it back into my arm. Every beat of my heart pushes their name through my veins. They are not forgotten. They are my pulse."*
 
@@ -891,7 +891,7 @@ During the War of Thousand Screams, when a collapsing glacier threatened to crus
 Chronarchs are rare, feared, and indispensable. The Synod-Hold courts retain them as legal-arcana arbiters (a timeline that can be rewound is a contract that can be contested). They are otherwise sequestered in clocktower-workshops above the Frostmaw holds, their ticking hourglasses audible before they enter a room.
 
 ### Races & Cultural Affiliation
-A **Fexrick** invention at root, the Chronarch's craft has been adopted by **Neth** Velun chronometricians (who treat it as a branch of contract-law applied to causality) and by the rare **Astril** whose constellation-heritage already skirts the edge of linear time.
+A **Fexrick** invention at root, the Chronarch's craft has been adopted by **Nethien** chronometricians (who treat it as a branch of contract-law applied to causality) and by the rare **Astril** whose constellation-heritage already skirts the edge of linear time.
 
 > *"I have already lived this conversation. I know exactly what you are going to say next. Please, say it anyway  -  the version where you chose differently gives me headaches."*
 
@@ -948,7 +948,7 @@ In the first drafting of the First Contract with the Morvane, the high **Neth** 
 Arcanoneers are the sworn adjudicators of Atropolis and the Sunken Spire, their contract-syntax treated as binding law. They are rare outside the Neth contract-houses  -  their forearm cylinders mark them unmistakably, and the recoil-scars make deception impossible even if they wished it.
 
 ### Races & Cultural Affiliation
-Overwhelmingly **Neth** Velun at origin, the discipline has spread slowly to **Thalren** archivists (whose ledger-culture adapts readily to contractual spellcraft) and to a small **Mimir** enclave whose mask-merger memory allows them to hold multiple contract-branches at once.
+Overwhelmingly **Nethien** at origin, the discipline has spread slowly to **Thalren** archivists (whose ledger-culture adapts readily to contractual spellcraft) and to a small **Mimir** enclave whose mask-merger memory allows them to hold multiple contract-branches at once.
 
 > *"The Contract does not ask if you are willing. It asks if you are honest. And then it pulls the trigger."*
 
@@ -999,15 +999,15 @@ The dual origin ties the order to the **Vreken** of the Bryngloom (the Covenbane
 The Revenant walks between two necrotic traditions  -  the blood-fueled sacrifice of Kora's covenant and the frost-stasis harvest of Vesper's phylactery. Every spell costs life; every kill feeds the grave. They are the only class that converts their own death into a tactical weapon  -  the Death Trigger freeze that erupts from their resurrection is one of the strongest control effects in existence.
 
 ### History
-Two traditions of death magic, born in the same peat-bogs of the Bryngloom. The **Vreken** Veil-Speaker **Kora** bargained with the Root-Veil, offering her own blood as blight thread; every spell she wove drained her life, generating volatile Blood Tokens. The Velun Neth scribe **Vesper**, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth  -  binding her soul to a basalt phylactery and inviting the bog's freezing decay to halt her mortal heart. When the bog-graves began waking on their own  -  the dead marching toward the Sundered Monoliths without permission  -  Kora's descendants and Vesper's acolytes recognized their separate wars were the same war.
+Two traditions of death magic, born in the same peat-bogs of the Bryngloom. The **Vreken** Veil-Speaker **Kora** bargained with the Root-Veil, offering her own blood as blight thread; every spell she wove drained her life, generating volatile Blood Tokens. The Nethien scribe **Vesper**, dying of the sumps' lung-rot, performed the forbidden Rite of the Cold Hearth  -  binding her soul to a basalt phylactery and inviting the bog's freezing decay to halt her mortal heart. When the bog-graves began waking on their own  -  the dead marching toward the Sundered Monoliths without permission  -  Kora's descendants and Vesper's acolytes recognized their separate wars were the same war.
 
 ### Cities & Civil Reception
 The Revenant has no open presence in any mortal city. They operate from the forgotten ruins of the Frozen Archive's lowest vaults and the bottomless bog-caves of the Bryngloom, where they weave their death-webs in absolute secrecy. The Inquisition hunts them with extreme prejudice across all seven continents.
 
 ### Races & Cultural Affiliation
-The **Vreken** blood-covenant (Kora) and the Velun **Neth** phylactery-path (Vesper) are the twin roots. The merged tradition has since drawn **Skald** glacier-tomb keepers (whose cold-aligned dead adapt readily to Vesper's rite) and a growing **Neth** contingent who treat the Toll as just another renegotiated clause in the contract of mortality.
+The **Vreken** blood-covenant (Kora) and the Nethien phylactery-path (Vesper) are the twin roots. The merged tradition has since drawn **Skald** glacier-tomb keepers (whose cold-aligned dead adapt readily to Vesper's rite) and a growing **Neth** contingent who treat the Toll as just another renegotiated clause in the contract of mortality.
 
-> *"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting two hundred years. We have an understanding now  -  I go first, and it follows close behind."*
+> *"I hear six generations of the dead screaming in my veins. Death came for me in the peat-bogs and I told it to wait. It has been waiting ages. We have an understanding now  -  I go first, and it follows close behind."*
 
 ---
 
@@ -1031,19 +1031,19 @@ By definition tri-cultural: **Ordan** humans (totemic), **Vreken** (spiritual), 
 ---
 
 ## 19. Gambit  -  The Wagering Architect
-*Resource: Fortune + Karmic Debt  -  probability siphoned as a wager and navigated as a tapestry.* **(Fuses the Merryn Gambler and the Kessen-Neth Fate Weaver; Jax and Lyra discovered they were manipulating the same force.)**
+*Resource: Fortune + Karmic Debt  -  the House's credit drawn against the debtor's future, and the marker coming due.* **(Fuses the Merryn Gambler and the Veldun Fate Weaver; Jax and Lyra discovered they were manipulating the same force.)**
 
 ### The Calling
-A tragic ledger written in stolen luck and severed fate-threads. The Gambit does not play for gold or glory; they play for the next calculated breath. They wield both the Gambler's raw fortune-siphoning and the Fate Weaver's precise cartomantic surgery. Their nerves hum with the kinetic charge of stolen probability, and their mind splits across fractured timeline threads.
+A tragic ledger written in stolen luck and severed fate-threads. The Gambit does not play for gold or glory; they play for the next calculated breath. They wield both the Gambler's raw fortune-siphoning and the Fate Weaver's precise cartomantic surgery. The Fortune they spend is the House's credit, drawn against their own future; the Karmic Debt they accrue is the marker coming due. Their nerves hum with the kinetic charge of stolen probability, and their mind splits across fractured timeline threads.
 
 ### History
-In the floating alleys of Merrowport, the **Merryn** pirate captain **Jax** wagered his own lifeline in a game of dice against a freezing storm-spirit of the Iceheart Sea  -  and won, but the spirit claimed the warmth of his blood. His heartbeat was permanently synchronized with the ocean's tides, denying him sleep unless his head was submerged in freezing saltwater. In the vertical canyons of the Cragjaw Peaks, the **Kessen Neth** probability-watcher **Lyra** used her rune-etched cards to pluck the threads of alternate timelines to save her cornered caravan  -  the psychic recoil of experiencing every alternate death in a single second permanently fracturing her consciousness. When Jax's ship docked at Cragjaw during a rare thaw and their abilities resonated across the dock, they discovered they were manipulating the same fundamental force: probability itself.
+The Gambler is a hazard-pact archetype older than any kingdom: a mortal at the point of irreversible catastrophe, extended a line of credit by an entity the theologians of Nordhalla catalogue as **Mael-Zhul**, and known to those bound to its ledger only as **the House**. In Merrowport, the Merryn pirate captain **Jax** wagered his own lifeline in a game of dice against a freezing storm-spirit of the Iceheart Sea  -  and won, but the spirit claimed the warmth of his blood. In the Cragjaw Peaks, the **Veldun** probability-watcher **Lyra** used rune-etched cards to pluck the threads of alternate timelines to save her cornered caravan  -  the psychic recoil of experiencing every alternate death in a single second permanently fracturing her consciousness. When their paths crossed, they discovered they were manipulating the same fundamental force: probability itself, and the House's ledger was already open.
 
 ### Cities & Civil Reception
-Gambits are at home in the floating gambling-halls of Merrowport and the rune-trading posts of the Cragjaw canyons, where a wager and a card-reading are equally binding. They are watched carefully in Atropolis (the Neth contract-houses view unsanctioned fate-manipulation as unlicensed legal practice) and welcomed anywhere a bad outcome needs undoing.
+Gambits keep to the **Dead Pots**  -  the liminal dens in rotting hulls, abandoned mine shafts, and backstreet cellars where steel stays sheathed and disputes settle on the felt. The loudest sits in Oakhaven, on the Nordhalla coast. They are watched carefully in Atropolis (the Nethien contract-houses view unsanctioned fate-manipulation as unlicensed legal practice) and welcomed anywhere a bad outcome needs undoing.
 
 ### Races & Cultural Affiliation
-The **Merryn** pirate-gamblers and the **Kessen Neth** fate-weavers are the twin roots. The fused tradition draws **Corvani** raven-marked diviners and the occasional desperate **Solari** willing to bet against a world that already took everything from them.
+Three heritages carry the archetype: the **Merryn**, who wrote the first wager and inherited the Chasing Losses curse; the **Veldun**, whose fate-threads the House holds as collateral after the flooded-vault wager; and the **Caustic Fexric**, whose refinery wager broke deterministic machinery in their hands and left them the Tilt.
 
 > *"I do not gamble against the house. I am the house. The stakes are your luck, and I am very, very good at collecting."*
 
@@ -1154,7 +1154,7 @@ Xyris's nomad origin (variously claimed by the **Ordan** and the wandering **Myr
 | **Black Fen** | Wilderness | Morren | Stark descriptor + terrain (Fen). The simplest, darkest Morren naming. |
 | **Drowned Dingle** | Wilderness | Morren | Gothic (Drowned) + terrain (Dingle). Flemish-gothic naming for flooded land. |
 | **Vel-Keth Bayou** | Wilderness | Neth | Hyphenated Neth proper name + terrain (Bayou). The Neth name places in their own tongue. |
-| **Aran-Glen** | Settlement | Neth (Kessen) | Hyphenated Neth name + terrain (Glen). Silver/elvish naming convention. |
+| **Aran-Glen** | Settlement | Neth (Veldun) | Hyphenated Neth name + terrain (Glen). Silver/elvish naming convention. |
 | **Hunter's Gully** | Wilderness | Vreken | Predator concept + terrain (Gully). Vreken hunter naming. |
 | **Fangmere Grove** | Ruin | Vreken | Predator anatomy (Fang) + terrain (Grove). Blood-rite naming. |
 | **Thalren's Ledger-Post** | Settlement | Thalren diaspora | Scholarly (Ledger) + structure (Post). Thalren archival naming in the bog. |
@@ -1213,7 +1213,7 @@ But the price is absolute:
 * **The Mycelial Graft:** With every inhalation, the spores take root. The host's veins slowly darken with silver-blue fungal threads.
 * **The Loss of Flesh:** Over months, the host loses the ability to digest solid food, surviving solely on the damp nutrients of the bogs.
 * **The Fungal Thrall:** In the final stages of the addiction, the host's mind dissolves. They wander into the **Hush-Bogs**, joining the silent, shuffling herds of the "Spores-Born"  -  mindless husks whose bodies serve as fertile soil for new fungal colonies.
-The **Neth Velun** pact-mages maintain a strict monopoly on the legal trade of "Hush-Licenses," using the drug as a powerful tool of social control, while Vreken **Covenbanes** patrol the forest margins, using black pine-tar to burn infested settlements and execute those whose mycelial veins have reached their eyes.
+The **Nethien** pact-mages maintain a strict monopoly on the legal trade of "Hush-Licenses," using the drug as a powerful tool of social control, while Vreken **Covenbanes** patrol the forest margins, using black pine-tar to burn infested settlements and execute those whose mycelial veins have reached their eyes.
 
 ### The Shyr: Obsidian Caldera Trade Routes
 Connecting the volcanic calderas of **Sundale** to the frozen keeps of the north is **The Shyr**  -  a ninety-mile fracture of cooling basalt that serves as the primary trade artery of the dying world.

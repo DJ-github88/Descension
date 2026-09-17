@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 import { ARCANONEER_DATA } from "./arcanoneerData";
 import { BERSERKER_DATA } from "./berserkerData";
 import { SHAPER_DATA } from "./shaperData";

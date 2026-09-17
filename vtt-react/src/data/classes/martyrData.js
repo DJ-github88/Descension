@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Martyr Class Data
  *
@@ -8,22 +7,22 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 
 export const MARTYR_DATA = {
  restrictions: {
-   "allowedSubraces": [
-      "solvarn_human",
-      "korr_solari",
-      "velun_neth",
-      "skald_human",
-      "morren_human"
-   ],
-    "hardBlocks": [
-      "tessen_human",
-      "merryn_human",
-      "ordan_human",
-      "mimir"
-    ],
-   "narrativeUnlock": true,
-   "justification": "Requires a theological framework for willing suffering. Solari have the sun-vigil. Hollow-Solari have the Vault-Breath. Nethien have contract-martyrdom. Skald have the Hunger Pact, ancestral starvation channeled into combat fury, and the Ironclad specialization formalizes what the Skald have always done: use their own body as a weapon that gets stronger the more it is broken. Other cultures are too survival-pragmatic to embrace suffering as power."
-  },
+ "allowedSubraces": [
+ "korr_solari",
+ "thrask_solari",
+ "morgh_groven",
+ "ithran_groven",
+ "skald_human"
+ ],
+  "hardBlocks": [
+   "tessen_human",
+ "merryn_human",
+ "ordan_human",
+ "mimir"
+ ],
+ "narrativeUnlock": true,
+ "justification": "Requires a theology of willing suffering. Three peoples carry it: the Solari, who keep the Mother's Shield and the Vigil of the buried star in both the deep vaults and the ashlands; the Groven, who took the endurance forced on them by Fexric vats and made it a sacred art; and the Skald, who never knelt to Aex but walk the path as Ironclads, burning suffering as fuel in Cragjaw furnace-plate. Other cultures are too survival-pragmatic to embrace suffering as power."
+ },
 
   // Class Resource, generated per spell. Resource range/balance per design.
   // Lore name: Devotion / Devotion
@@ -39,32 +38,20 @@ export const MARTYR_DATA = {
    offHand: ['shield', 'tome', 'empty']
   },
  /**
-  * Subrace Variants, every Martyr absorbs suffering into their own body, but the
-   * *theology* of that absorption differs. To the Solari it is prayer. To the Hollow-Solari it
-  * is vigil. To the Nethien it is contract-fulfillment. To the Skald it is the Ironclad
-  * path, the body as a furnace-weapon, the Dreadnaught tradition reborn.
+  * Subrace Variants. Every Martyr welcomes the fracture of their own mortal shell, but the
+  * theology of that fracture differs by heritage. The Solari keep the Mother's Shield, the
+  * vigil Aex held between the dark and her child, in two forms: the Vault-Witnesses who endure
+  * in absolute stillness, and the Ash-Witnesses who step into the open and take the burning
+  * debris. The Groven carry the Transmuted Burden, endurance forced on them by the vats and
+  * chosen again as a sacred art: the Morgh as immovable anchors, the Ithran as span-keepers.
+  * The Skald walk it as Ironclads: the old Dreadnaught furnace-plating, suffering burned as
+  * fuel rather than witnessed as prayer.
   */
  subraceVariants: {
-  solvarn_human: {
-    subraceName: 'Solari',
-    title: 'The Sun-Vigil',
-   reframe: `This is <LoreLink termId="sera">Sera Solvan</LoreLink>'s original tradition. To the <LoreLink termId="house_solvan">Solari</LoreLink>, every wound willingly absorbed is a small death in imitation of <LoreLink termId="the_deepening">Sol's entombment</LoreLink>, suffering as prayer, the Martyr's body a living tomb-mass. A Solari Martyr does not protect the party by standing in front of it; they protect it by *re-enacting the founding sacrifice*, over and over, until the Devotion glows like a buried star.`,
-   signatureAbility: {
-    name: 'Solar-Imitation',
-    description: `Devotion-generation is amplified when the Martyr absorbs damage that would have struck a *specifically named* ally, the Solari must name who they are dying for, mirroring Sera naming her child. Generalized protection generates less Devotion than the deliberate, named sacrifice.`
-   },
-   currentCrisisAngle: `The conscription crisis cuts deepest among the Solari: the noble houses have learned that "recruiting" Martyrs through child-training produces cadres that fight three times as long. The Solari Martyrs are watching their sacred prayer industrialized into a strategic resource, and the veterans cannot decide whether to be honored or horrified that the houses finally found a use for their grief.`,
-   signatureQuote: {
-    text: '"I carved my son\'s name into my arm so the world would not forget him. Now the houses carve other children\'s names into other arms, and call it muster. My prayer has become a draft-notice."',
-    speaker: 'Sera Solvan',
-    context: 'The founder, confronting the first conscripted cadre'
-   }
-  },
-
   korr_solari: {
-    subraceName: 'Hollow-Solari - Thyrm',
-   title: 'The Vault-Silent',
-   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil. To a Hollow-Solari Martyr, suffering is not prayer; it is *keeping watch*. Every hit absorbed is another second the buried star's tomb remains tended. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template.`,
+    subraceName: 'Hollow-Solari',
+    title: 'The Vault-Witness',
+   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend the Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil kept. To a Vault-Witness, suffering is not prayer; it is *keeping watch*. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template: the mind stays lucid at the center of unbearable trauma, observing without flinching, exactly as <LoreLink termId="aex">Aex</LoreLink> stayed lucid between the dark and her child. Every hit taken without moving is a scar added to the vigil, and when the Vault-Witness's flesh finally cracks, the trapped radiant light of Aex spills out to shelter the room.`,
    signatureAbility: {
     name: 'Vigil-Absorption',
     description: `Devotion-generation is amplified by absolute physical stillness, a Hollow-Solari Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
@@ -77,53 +64,68 @@ export const MARTYR_DATA = {
    }
   },
 
-  velun_neth: {
-   subraceName: 'Nethien',
-   title: 'The Contract-Martyr',
-   reframe: `The <LoreLink termId="neth">Nethien</LoreLink> sacrifice per *explicit contract terms*, the suffering legally binding and the protection it generates a delivered obligation. A Nethien Marty the protection it generates a delivered obligation. A Nethien Martyr does not suffer out of love or faith; they suffer because the contract *requires* it, and the Devotion is, to them, a ledger of fulfilled clauses.`,
+  thrask_solari: {
+   subraceName: 'Waste-Solari',
+   title: 'The Ash-Witness',
+   reframe: `The Ash-Ranger Solari came up out of the deep when the caldera blew, and they are the ones who walked *into* the burning debris rather than away from it. When the Solari order fractured at <LoreLink termId="emberspire">Emberspire</LoreLink>, these were the brothers and sisters who planted their feet in the sulfur and took the fire onto their shields and their skin, the ones who refused to break. They keep the Loyal Vigil now: raw unpolished iron and bleached linen, linear brands cut along the arms to mark the tears of <LoreLink termId="aex">Aex</LoreLink>, and a quiet, sorrowful focus on the siblings they lost to the flame. To an Ash-Witness, every wound taken in the open, with no cover and no flinch, is an act of spiritual weight-lifting to balance the cosmic scales against the Pyrofiends' infernal rot.`,
    signatureAbility: {
-    name: 'Covenant-Absorption',
-    description: `Devotion-generation requires a *prior written covenant* naming the protected party and the terms of sacrifice; the Martyr cannot protect strangers, only contracted allies. In return, the protection is absolute, Morvane enforces the transfer. No waste, no ambiguity, no mercy.`
+    name: 'Cinder-Absorption',
+    description: `Devotion-generation is amplified when the Martyr intercepts damage *in the open*, standing between a named ally and an incoming strike with no cover. Ember and heat damage converts to Devotion at full value rather than reduced value; the Ash-Witness metabolizes the caldera's own fire into vigil.`
    },
-   currentCrisisAngle: `The conscription crisis is, to the Nethien, not a moral horror but a *jurisdictional dispute*. The noble houses are drafting Martyrs without proper Nethien oversight, and the resulting cadres operate under contracts the Nethien never co-signed. The Nethien consider this not exploitation but *counterfeiting*, unauthorized parties issuing obligations in Morvane's name, and the legal ramifications may be worse than the human cost.`,
+   currentCrisisAngle: `The breaking of the Solari order is not history to the Ash-Witnesses; it is a family wound. They watch the Pyrofiends of Sundale walk into the deep vents and cannot decide whether to intervene or let their broken kin go, and the conscription crisis has made it worse: the houses now recruit from both sides of the fracture and deploy them in the same battalions. The Ash-Witnesses spend as much Devotion keeping their own broken brothers alive as they do shielding the line.`,
    signatureQuote: {
-    text: '"I suffer because I agreed to suffer, in writing, with witnesses, at a fair rate of exchange. What you call martyrdom I call a satisfied clause. Do not sentimentalize my contract."',
-    speaker: 'Covenant-Martyr Vel-Ossar',
-    context: 'A Nethien Martyr, rejecting a Solari priest\'s blessing'
+    text: '"I took the fire so the star would not have to. My brother took it because he could not bear the waiting. We are both still burning. Only one of us chose it."',
+    speaker: 'Brand-Witness Threna Ash-Held',
+    context: 'An Ash-Witness, watching a Pyrofiend conscript march past her cadre'
+   }
+  },
+  morgh_groven: {
+    subraceName: 'Morgh Groven',
+    title: 'The Transmuted Burden',
+    reframe: `The <LoreLink termId="groven">Groven</LoreLink> were shaped in Fexric vats as biological labor-vessels, bred to carry the crushing dark of the deep mines without asking why. For a Morgh to become a Martyr is an act of sublime reclamation: "We were built to endure the crushing dark; now we choose to endure it so others may see the light." Their thick stone-scaled frames and unnatural stamina make them immovable anchors on the battlefield, and the endurance that was once their makers' instrument becomes a sacred art. Where the Solari imitate Aex's wound, the Morgh imitate her stance: feet planted, weight taken, nothing behind them allowed to fall.`,
+    signatureAbility: {
+      name: 'Load-Bearing',
+      description: `Devotion-generation scales with the weight behind the Martyr: the more allies standing within their guard, the faster the Devotion fills, and Devotion decay halts entirely while the Morgh holds a fixed position (a doorway, a span, a shield-line). The Morgh cannot generate Devotion while retreating.`
+    },
+    currentCrisisAngle: `The Ancestor-Spans are cracking, and the Morgh Martyrs read every groaning bridge as kin. They have begun refusing to leave spans they can feel failing, holding collapsing crossings so caravans can cross, and the noble houses have noticed: a Morgh Martyr is the most conscriptable creature in the world, an anchor that cannot be ordered to move because standing still is its calling. Several houses have stopped calling it conscription and started calling it garrison.`,
+    signatureQuote: {
+      text: '"The vats taught me to carry weight without asking why. Aex taught me to ask. I still carry it. The difference is that now it is mine to give."',
+      speaker: 'Span-Held Brannoc Vat-Risen',
+      context: 'A Morgh Martyr, refusing to leave a failing bridge'
+    }
+  },
+
+  ithran_groven: {
+   subraceName: 'Ithran Groven',
+   title: 'The Span-Kept',
+   reframe: `The long-limbed Ithran are the Groven's bridge-builders, toll-keepers, and span-negotiators, the caste that learned early that a bridge is a promise that others will cross safely. An Ithran Martyr carries that promise into their own flesh: every wound absorbed is a span they held, tallied in stone beads and silver wire woven into their braids, each bead a crossing that did not fall. They are not the heaviest Martyrs, but they are the most deliberate, a tallied endurance measured out and spent with an engineer's precision. Their silver-wire scars are read across the Cragjaw the way other cultures read a ledger of honors.`,
+   signatureAbility: {
+    name: 'Tally-Ledger',
+    description: `Devotion is tracked as tally-beads: each absorbed strike adds a bead, and spending Devotion transfers the load outward as barriers around allies within the Martyr's span (their reach) rather than inward as personal healing. When the tally is spent, every ally who stood within the span gains its protection.`
+   },
+   currentCrisisAngle: `The Ithran count the crossings now. Every span that fails is a promise they cannot keep, and the conscription has put Martyrs on battlefields where the next crossing is measured in enemy axes rather than feet. The Ithran elders have started a new tally in the span-moots: crossing-guarantees kept against those broken. The ledger is slipping, and the Ithran are the only people in the Cragjaw who find that more frightening than the blizzard.`,
+   signatureQuote: {
+    text: '"I have held one thousand and eleven crossings. I remember every one that fell. Keeping count is not pride. It is the only way to know what I still owe the bridge."',
+    speaker: 'Tally-Keeper Syl-Ith Vess',
+    context: 'An Ithran Martyr, reading the bead-ledger in her braid before a battle'
    }
   },
 
   skald_human: {
    subraceName: 'Skald',
    title: 'The Ironclad',
-   reframe: `This is the <LoreLink termId="dreadnaught">Dreadnaught</LoreLink> tradition reborn, the furnace-plating juggernauts of the Cragjaw, absorbed into the Martyr path. The <LoreLink termId="skald">Skald</LoreLink> Ironclad does not absorb suffering as prayer or vigil; they absorb it as *fuel*, sealing themselves in riveted iron plate threaded with heating-pipes, converting incoming damage into combustion pressure. The Hunger Pact meets the furnace: the body as a weapon that gets stronger the more it is broken.`,
+   reframe: `This is the <LoreLink termId="dreadnaught">Dreadnaught</LoreLink> tradition reborn: the furnace-plating juggernauts of the Cragjaw, absorbed into the Martyr path and carried north by Bloodhammer war-clans. The <LoreLink termId="skald">Skald</LoreLink> Ironclad does not keep Aex's vigil and does not pray; they absorb suffering as *fuel*, sealing themselves in riveted iron plate threaded with heating-pipes and converting incoming damage into combustion pressure. The Hunger Pact meets the furnace: the body as a weapon that gets stronger the more it is broken, and every wound taken for another is simply more coal. Where the Solari witness, the Skald burn, and both arrive at the same radiant end.`,
    signatureAbility: {
     name: 'Furnace-Conversion',
     description: `Devotion is tracked as *boiler-pressure* in the Martyr's furnace-plating; incoming damage heats the boiler rather than wounding the flesh directly, and vented pressure drives devastating counter-strikes. The Ironclad is the only Martyr variant that converts absorbed suffering into *offensive* output.`
    },
-   currentCrisisAngle: `The Skald Ironclads are the variant the noble houses want most, a Martyr that fights back, and the conscription has hit them hardest. Worse, the furnace-pipes rely on Cragjaw geothermal design, and the Steam-Line Cartel has begun *licensing* Ironclad production to the houses, turning a sacred adaptation into a manufactured asset. The original Ironclads consider this a desecration; the houses consider it procurement.`,
-    signatureQuote: {
-     text: '"They put the furnace in my chest so I would burn for them. They did not expect me to aim it. Everything you hit me with comes back hotter. Stand clear."',
-     speaker: 'Ironclad Torra Furnace-Born',
-     context: 'A Skald Martyr, the first to vent boiler-pressure in a counter-strike'
-    }
-   },
-
-   morren_human: {
-    subraceName: 'Vreken',
-    title: 'The Debt-Flesh',
-    reframe: `A <LoreLink termId="house_morrath">Vreken</LoreLink> who can no longer pay interest in gold or labor pays in flesh instead. The <LoreLink termId="neth">Nethien</LoreLink> contract-economy recognizes suffering as a valid form of payment  - <LoreLink termId="keeper_of_the_last_threshold">Morvane</LoreLink>'s pact respects sacrifice. A Vreken Martyr has been absorbing pain since childhood, first for family, then for creditors, now for anyone within reach. Their Devotion fills from contractual obligation, not faith. Every wound absorbed is a line-item on a ledger that never balances. The Vreken Martyr does not hope for salvation. They hope for a debt so large that even death cannot collect it.`,
-    signatureAbility: {
-     name: 'Debt-Absorption',
-     description: `Devotion-generation is tracked as *ledger-entries*: every wound absorbed is a line-item in an internal contract with Morvane. The Vreken Martyr can extend their Devotion persistence beyond standard limits by accruing "interest"  -  additional voluntary HP sacrifice that extends their Devotion gauge's decay timer by one round per 5 HP sacrificed. The cost compounds: the longer they stay alive, the more they owe.`
-    },
-    currentCrisisAngle: `The Vreken Martyrs are the only variant that views Scathrach's mass debt-collection with something like recognition  -  they understand a ledger being called in all at once. Several Vreken Martyrs have begun offering their accumulated suffering to Morvane as a counter-bid, arguing that their pain constitutes a competing claim on their flesh. Morvane has not responded. The Nethien contract-lawyers are watching closely: if Morvane accepts, the precedent would mean suffering is legally convertible to currency, and every Vreken in the peat-crypts becomes a mint.`,
-    signatureQuote: {
-     text: '"I do not bleed for faith. I bleed because it is due. My body is a receipt, my scars are itemized, and Morvane is the only creditor I have ever trusted to keep the books honest."',
-     speaker: 'Mor-Vash the Ledger-Kept',
-     context: 'A Vreken Martyr, adding a fresh entry to his scar-ledger'
-    }
+   currentCrisisAngle: `The Skald Ironclads are the variant the noble houses want most, a Martyr that fights back, and the conscription has hit them hardest. Worse, the furnace-pipes rely on Cragjaw geothermal design, and the Steam-Line Cartel has begun *licensing* Ironclad production to the houses, turning a sacred adaptation into a manufactured asset. The original Ironclads consider this a desecration; the houses consider it procurement. The Aexan orders call them heretics who skipped the vigil. The Ironclads say the fire does not care whose prayer it answered.`,
+   signatureQuote: {
+    text: '"They put the furnace in my chest so I would burn for them. They did not expect me to aim it. Everything you hit me with comes back hotter. Stand clear."',
+    speaker: 'Ironclad Torra Furnace-Born',
+    context: 'A Skald Martyr, the first to vent boiler-pressure in a counter-strike'
    }
+  }
   },
 
 
@@ -138,7 +140,7 @@ export const MARTYR_DATA = {
   orderName: 'The Covenant of the Scar',
   founder: {
    name: '<LoreLink termId="sera">Sera Solvan</LoreLink>',
-   status: `Dead, seven centuries. She carved her sacrificed child's name into her forearm with volcanic obsidian, the wound healed into a glowing solar scar, and she became the first Martyr. Her scarred forearm is preserved beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, still faintly warm.`,
+   status: `Dead, these many ages. She carved her sacrificed child's name into her forearm with volcanic obsidian, the wound healed into a glowing solar scar, and she became the first Martyr. Her scarred forearm is preserved beneath <LoreLink termId="emberspire">Emberspire</LoreLink>, still faintly warm.`,
    note: `<LoreLink termId="sera">Sera</LoreLink>'s covenant was personal, a mother's refusal to let her child be forgotten. The noble houses have spent two centuries turning that personal grief into an industrial resource. Sera would not recognize what her prayer has become.`
   },
   currentLeader: {
@@ -152,28 +154,30 @@ export const MARTYR_DATA = {
 
  worldFriction: [
   { region: 'sundale', status: 'celebrated-and-conscripted', consequence: 'The noble houses draft Martyrs as strategic resources; a Martyr cadre extends a battalion fight-duration threefold. Celebrated in public procession, a Sundale Martyr is in practice a conscript, refusal of "muster" is treated as desertion. The Vow-corruption (predatory absorption) is officially denied.', workaround: 'A Martyr who refuses the formal Vow but still absorbs covertly can operate as a "freelance", legally ambiguous, but the houses cannot conscript what they cannot document.' },
-  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Nethien read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Nethien tolerate only their own Contract-Martyr variant.' },
-   { region: 'nordhalla', status: 'hunted', consequence: 'House Skalvyr outlaws the Martyr\'s blood-vow, declaring that transferring wounds between mortals violates the ancestral lineage of the Rime-Born.', workaround: 'Martyrs serve in secret among the thrall-caste of the glacier-keeps, taking their beatings and freezing wounds onto themselves in the lightless sumps.' }
+  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Nethien read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Veldun are the quiet exception: their Witnesses keep the vigil in the deep groves, and the contract-halls prefer not to notice.' },
+   { region: 'nordhalla', status: 'hunted', consequence: 'House Skalvyr outlaws the Martyr\'s blood-vow, declaring that transferring wounds between mortals violates the ancestral lineage of the Rime-Born.', workaround: 'Martyrs serve in secret among the thrall-caste and outlander quarters of the glacier-keeps, taking beatings and freezing wounds onto themselves in the lightless sumps, where no Skald law-officer walks.' }
  ],
 
  overview: {
   originStory: `A martyr has learned to convert suffering into power. Not metaphorically. Physically. The body absorbs damage meant for others, converts it through a glowing scar, and releases it as healing, shielding, or raw protective force. The more pain the martyr bears, the stronger the effect. At high Devotion, the form turns translucent and the bones blaze with volatile golden energy.
 
-The first was Sera Solvan, a Solvarn mother whose child was sacrificed to Keth Amar during the Great Binding. The six noble houses marched their firstborn to the northern peaks as bloodline-offerings, and Sera went with them, not to participate, but to witness. She carried a piece of volcanic obsidian from Emberspire. She carved her child's name into her own forearm, and she swore to bear the pain of the entire world if it meant the memory would never be erased.
+The faith behind it is older than the class. At the heart of the Martyr's path is Aex, the celestial mother of Sol, the chained star. When the decision was made to drive Sol deep into the tectonic mantle to starve Keth Amar, Aex stood between the cosmic dark and her child and took the brunt of the void's predatory fury so the star could reach the earth. Her worship is not joy or song. It is the devastating, protective love of a mother who takes the wound meant for another.
 
-The wound did not heal correctly. It became a glowing solar scar that pulsed with heat, not her heat, but the heat of whatever her child had become inside Keth Amar. Sera discovered that when she placed herself between someone else and their suffering, the scar absorbed it. She could take a blade meant for an ally. She could draw poison from a wound into her own bloodstream. She could feel the death coming for someone else and intercept it with her own body.
+To the faithful, that power is not a blessing handed down from a distant power. It is a resonant frequency of suffering, and it can only be channelled by bodies that mirror Aex's vigilance. Martyrdom in Mythrill is not a title given upon death; it is a rare, elevated state of consciousness, attained the way other traditions attain enlightenment. Drawing on the ancient root of the word, a true Martyr is above all a Witness, a *martys*: a mind that stays completely lucid, observant, and serene in the centre of unbearable trauma. The prospective Witness trains for it through years of ascetic trials, ritual scarification, and deep meditative fasting until the instinct of self-preservation dissolves and pain stops registering as damage. It transfigures into Devotion. Where an Inquisitor seeks to break others and a Crusader seeks to break enemies, the Martyr welcomes the fracture of their own mortal shell, because only a cracked vessel lets the trapped radiant light of Aex spill out to shelter those nearby.
 
-The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free martyrs chose their suffering. The conscripted ones had it chosen for them.
+The first Witness of the modern era was Sera Solvan, a Solvarn mother whose child was sacrificed to Keth Amar during the Great Binding. The noble houses marched their firstborn to the northern peaks as bloodline-offerings, and Sera went with them, not to participate, but to witness. She carried a piece of volcanic obsidian from Emberspire. She carved her child's name into her own forearm, and the wound healed into a glowing solar scar, and she swore to bear the pain of the entire world if it meant the memory would never be erased. She could take a blade meant for an ally. She could draw poison from a wound into her own bloodstream. She could feel the death coming for someone else and intercept it with her own body.
 
-Each subrace approaches the sacrifice differently. The Solari treat every wound as a small death in imitation of Sol's entombment, the original tradition, suffering as prayer. The Hollow-Solari frame sacrifice as silent vigil over Sol's Breath, Devotion amplified by absolute physical stillness during absorption. The Nethien sacrifice per explicit contract terms, Morvane enforcing the transfer with precision, the Devotion a ledger of fulfilled clauses. The Skald Ironclad tradition converts absorbed suffering into combustion pressure inside riveted iron plate, the only variant that transforms pain into offensive output. The Vreken pay interest in flesh when gold runs out, the Nethien accepting suffering as valid debt payment.
+The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free Martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free martyrs. The ones who do not tend to die.`,
+Three peoples carry the path. The Solari keep the Mother's Shield in its oldest form, either as Hollow-Solari Vault-Witnesses who endure in absolute stillness before the Sol's Breath, or as Waste-Solari Ash-Witnesses who step into the open and take the burning debris, sorrowing for the brothers and sisters they lost to the flame. The Groven carry the Transmuted Burden: a people bred in Fexric vats as labor-vessels who took the endurance forced on them and made it a sacred art, Morgh anchors holding the line and Ithran span-keepers tallying every crossing that did not fall. And the Skald, who never knelt to Aex, walk the path anyway as Ironclads: the old Dreadnaught furnace-plating over Hunger-Pact blood, absorbing wounds as coal and answering the theology of the Witness with a boiler's worth of steam. The Aexan orders call them irregulars. The Ironclads call themselves the ones who skipped the sermon and kept the scars.
+
+Sera has been dead these many ages. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free Martyrs. The ones who do not tend to die.`,
   title: "The Martyr",
-   subtitle: "Wounded Faith Healer, Where the Sacred Meets the Scalpel",
+   subtitle: "The Mother's Shield, Witness of Aex",
 
   quickOverview: {
     title: "Class Overview",
-    content: `**Who they are**: The Martyr is the ultimate frontline savior and bleeding faith-healer who wears no heavy plate, choosing instead to catch lethal attacks meant for their allies with their own body. You don't prevent damage; you absorb it, converting suffering into divine authority and restorative miracles.
+    content: `**Who they are**: The Martyr is the ultimate frontline savior and bleeding faith-healer who wears no heavy plate, choosing instead to catch lethal attacks meant for their allies with their own body. You don't prevent damage; you absorb it, converting suffering into Devotion the way the faith of Aex teaches: a Witness stays lucid at the centre of unbearable pain so that someone else does not have to.
 
 **The hook**: Your signature ability is **Intervene**: whenever an ally would take a devastating or lethal hit, you can instantly intercept the blow into your own body, negating the hit on your ally and supercharging your own healing magic.
 
@@ -194,7 +198,7 @@ Sera is dead seven centuries. Her scarred forearm is preserved beneath Emberspir
     }
   },
 
-  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a transaction with something old and hungry that dwells in the space between flesh and faith. The more they bleed, the more that thing stirs. Unlike the Ironclad specialization which passively absorbs whatever hits them through furnace-plate plating, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
+  description: `The Martyr is not a protector. A protector uses a shield. The Martyr uses the fragile body of their own to catch weapons swung at their companions. Through the Devotion, a resource that fills as they deliberately bleed themselves for allies, the Martyr transforms willing suffering into powerful acts of emergency healing. Their power is not generosity. It is a resonance: the same lucid, protective love that Aex held between the cosmic dark and her child, frequency-matched in a mortal body trained not to flinch. The more they bleed, the more clearly the light comes through. Unlike the Ironclad specialization, which converts chosen suffering into boiler pressure inside welded furnace-plate, the standard Martyr must CHOOSE to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they volunteer for becomes a wound closed on someone else. Theirutility is singular and terrifying: the ability to completely negate fatal blows tracking toward allies by pulling the entire damage vector into their own anatomy and releasing localized bursts of vitality that scale with accumulated suffering. No other class can do this. But their connection to the sacred is fragile. If they stop bleeding, the connection asphyxiates. Devotion Collapse is the Martyr's constant companion, a spiral into the Faithless state where their healing rots to half strength and their reactions lock down. They are a crisis tool with an expiration date, and that date is measured in rounds since their last wound.`,
 
   roleplayIdentity: {
    title: "Roleplay Identity",
@@ -205,7 +209,7 @@ The martyr's devotion was born in the volcanic badlands of <LoreLink termId="sun
 Martyrs are highly respected as sacred guardians in the frontier keeps and the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Solari and the <LoreLink termId="solari">Hollow-Solari</LoreLink>.
+Two heritages carry the path: the Solari (Hollow-Solari Vault-Witnesses and Waste-Solari Ash-Witnesses) and the <LoreLink termId="groven">Groven</LoreLink> (Morgh anchors and Ithran span-keepers). The theology is Aex's own, so the deepest roots are the volcanic cloisters of <LoreLink termId="sundale">Sundale</LoreLink> and the bridge-cities of the Cragjaw.
 
 **NOTABLE FIGURES**
 * **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.
@@ -237,6 +241,20 @@ Several houses have begun "recruiting" Martyrs, some by indoctrination, some by 
     description: 'A shallow cave in the volcanic badlands of Sundale where Sera the Devoted carved her son\'s name into her arm. The cave walls are now covered in names, thousands of them, carved by every Martyr who has taken the Vow. Each name represents someone the Martyr has sworn to protect. The floor is worn smooth by generations of kneeling.',
     purpose: 'Pilgrimage site and initiation ground',
     status: 'Active, the free Martyrs gather here twice a year to renew their Vows'
+   },
+   {
+    name: 'The Scar-Shrine',
+    locationId: 'scar_shrine',
+    description: 'A worked basalt chamber beneath Emberspire where Sera Solvan\'s scarred forearm rests under glass on a plain stone plinth, still faintly warm after all these ages. The Dawn Vigil maintains the shrine but does not control it; the Covenant of the Scar predates the Vigil and intends to outlast it, and every Martyr who takes the Vow swears it here before the arm.',
+    purpose: 'Relic shrine and vow-site of the Covenant of the Scar',
+    status: 'Active, and the glass has been fogging more often'
+   },
+   {
+    name: 'The Martyr-Brigade Work-Camp',
+    locationId: 'the_ashen_escarpment',
+    description: 'The Dawn Vigil\'s conscription camp on the Ashen Escarpment, where Martyr-conscripts are trained from childhood against the escarpment\'s rime hazards. The free Martyrs do not man it and do not acknowledge it, but when its muster-bells ring, they answer from the ridge \u2014 which the Vigil reads as obedience and the free Martyrs call keeping the Vow to the people, not the camp.',
+    purpose: 'Vigil conscription and training camp; the tradition\'s disputed institution',
+    status: 'Active, and the muster-bells are ringing more often since the Reforging vote'
    }
   ],
 
@@ -775,7 +793,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
 
     description: `Ironclad Martyrs have sealed themselves inside hundreds of pounds of crude, superheated iron plating, voluntarily. They combine the Martyr's theology of willing suffering with the Cragjaw Peaks' tradition of furnace-plating, welding alchemical steam-pistons to their own limbs and stoking their Devotion through literal combustion. Their plating is not worn; it is inhabited. Every wound they absorb for an ally heats the boiler, every Devotion threshold crossed vents scalding steam, and every step forward grinds pistons that scream with sacred friction. They do not dodge. They do not retreat. They are the iron wall that bleeds.
 
-Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs represent a heretical synthesis: instead of the Dreadnaught's passive absorption of punishment, the Ironclad chooses to suffer, channeling the Martyr's active self-sacrifice through furnace mechanics. Where a Dreadnaught is struck and endures, an Ironclad Martyr throws themselves into the blow and thanks the sacred for the coal.`,
+Born from the Dreadnaught tradition of the Cragjaw's troll-kin and adopted by Bloodhammer war-clans marching south into Sundale, Ironclad Martyrs represent a heretical synthesis: instead of the Dreadnaught's passive absorption of punishment, the Ironclad chooses to suffer, channeling the Martyr's active self-sacrifice through furnace mechanics. Where a Dreadnaught is struck and endures, an Ironclad Martyr throws themselves into the blow and thanks the sacred for the coal. The Skald walk this path most often, but the plating takes any body with the will to weld it on.`,
 
     playstyle:
      "Immovable frontline tank, area denial through furnace heat, Devotion-powered steam vents",
@@ -3221,7 +3239,7 @@ Born from the Dreadnaught tradition of the Groven troll-kin, Ironclad Martyrs re
     utilityConfig: { utilityType: "restoration", selectedEffects: [ { id: "empathic_transference_effect", name: "Endured Fatigue", description: "Clears the target ally's exhaustion conditions. The Martyr suffers disadvantage on Agility checks for 1 hour from the transferred muscle fatigue.", mechanicsText: "Clears target's exhaustion; Martyr suffers disadvantage on Agility checks for 1 hour." } ], duration: 1, durationUnit: "hours", concentration: false, power: "minor" },
     cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
     tags: ["utility","roleplay","martyr"],
-  },,
+  },
   { id: "martyr_penitent_rebuke",
     name: "Penitent Rebuke",
     description: "Strike an attacker who recently damaged you or an ally with retributive holy flame. Deals 3d8 ember damage; deals +2d8 damage if you absorbed damage for an ally this round.",

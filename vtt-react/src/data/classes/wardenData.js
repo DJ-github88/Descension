@@ -39,7 +39,7 @@ export const WARDEN_DATA = {
   // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['chain', 'mace', 'warhammer'],
-   protectiveGear: ['reinforced_cuirass', 'heavy_plate'], protectiveGear: ['reinforced_cuirass', 'heavy_plate'],
+   protectiveGear: ['reinforced_cuirass', 'heavy_plate'],
    offHand: ['chain', 'shield', 'empty']
   },
   subraceVariants: {
@@ -174,7 +174,7 @@ export const WARDEN_DATA = {
     orderName: 'The Bound',
     founder: {
       name: '<LoreLink termId="alaric">Alaric the Law-Keeper</LoreLink>',
-      status: `Alive. The <LoreLink termId="groven">Groven</LoreLink> mine-guard who drove an ore-hauling chain through his own forearm into the largest Deep Alchemist specimen and held for three days still leads the Bound, the chain rusted into his bone, his regenerative Thrumm-derived biology keeping him functional seven centuries beyond a normal Groven lifespan. He said no to removing it then. He has said no every day since.`,
+      status: `Alive. The <LoreLink termId="groven">Groven</LoreLink> mine-guard who drove an ore-hauling chain through his own forearm into the largest Deep Alchemist specimen and held for three days still leads the Bound, the chain rusted into his bone, his regenerative Thrumm-derived biology keeping him functional long past any normal Groven lifespan. He said no to removing it then. He has said no every day since.`,
       note: `<LoreLink termId="alaric">Alaric</LoreLink> founded the Bound on a single principle: the Warden exists to ensure nothing is ever contained the way the Groven were contained in the vats. The chain is chosen, not inflicted. That distinction is the entire order.`
     },
     currentLeader: {
@@ -240,7 +240,7 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
 
 The first was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. During the Vat-Breakers' revolt, the Deep Alchemists' containment wards shattered and experiments poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving an ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his body as the pin. He held it for three days. When rescue arrived, the chain had rusted into his bone and the creature had died of exhaustion. The Fexric Caustic Fexric smiths who cut him free asked if he wanted the chain removed. He said no.
 
-Alaric's regenerative Thrumm-derived biology keeps him functional seven centuries beyond a normal Groven lifespan. He still leads the Bound from his anvil at Frostmaw. Every warden's first chain is forged there on the principle: "The chain is chosen, not inflicted."
+Alaric's regenerative Thrumm-derived biology keeps him functional long past any normal Groven lifespan. He still leads the Bound from his anvil at Frostmaw. Every warden's first chain is forged there on the principle: "The chain is chosen, not inflicted."
 
 Each subrace wears the chains for different reasons. The Morgh Groven invented the chain-graft. The chains echo the containment they shattered in the Vat-Breakers' revolt, worn voluntarily now to ensure nothing else is contained the way they were. The irony is the point. The Ithran Groven distribute tether-tension across multiple enemies through bridge-builder bone-knowledge, the only multi-target wardens. The Caustic Fexric re-tune chain configuration mid-combat as engineering, favoring lockdown or pursuit. The Clockwork Fexric practice as guild discipline with certified specifications and documented load-ratings, most consistent and most rigid. The Skald specialize in glacier-hunting, chains contracting and gripping harder in cold, the only wardens who have volunteered for chardalyn chains. The Clean Vreken mark tethered enemies with visible bioluminescence through fog and darkness, broadcasting their own position equally. The Marked Vreken route tethers through the Root-Veil, holding abominations miles away through connected terrain.
 
@@ -253,10 +253,31 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
     classSpecificLocations: [
       {
         name: 'The Forge of Alaric',
-        locationId: 'frostmaw-holdfast',
+        locationId: 'frostmaw_holdfast',
         description: 'The original blacksmith\'s forge where Alaric forged the first Iron Chain Tether chains. Still maintained by a line of Fexric Caustic Fexric smiths.',
         purpose: 'Chain forge and Warden initiation site',
         status: 'Active, struggling to meet demand for new chains'
+      },
+      {
+        name: 'The Chain-Hold',
+        locationId: 'chain_hold',
+        description: 'The Warden order\'s seat at Frostmaw, cut into the ravine wall below the Span. The graft-rite is performed here before witnesses, on a steel table bolted to the floor, and the scar-map wall runs the length of the initiation hall, every Warden\'s tether-scars inked in soot-resin, a map of every creature the order has ever anchored. No entry is removed, even after death. New entries have slowed to a crawl, and the wall has begun leaving deliberate gaps near the end, as if the masons know something the recruiters will not say aloud.',
+        purpose: 'Order seat, initiation hall, and the scar-map archive of every horror ever anchored',
+        status: 'Active but thinning, one training cohort at a time'
+      },
+      {
+        name: 'The Graft-Theatre',
+        locationId: 'graft_theatre',
+        description: 'The surgical theatre beneath the Frozen Archive where the graft-rite was adapted to cold-iron threading and Nordhalla\'s Wardens receive their chains. An archive-priest records every incision for the ledgers, because Nordhalla\'s admissions, unlike the rest of the world\'s, are permanent. When the chardalyn question split the order, the theatre answered it the way an archive answers everything: it opened a new ledger, filing every newly documented madness under the volunteer\'s own name, so the Archive will know exactly who asked for the whispers.',
+        purpose: 'Nordhalla graft-school and permanent record of the chardalyn schism',
+        status: 'Active and divided, still operating on volunteers who insist'
+      },
+      {
+        name: 'The Whisper-Galleries',
+        locationId: 'whisper_galleries',
+        description: 'The deepest galleries at Frostmaw where the Caustic Fexric proof chardalyn chain-links, working in pairs and never more than an hour at a stretch. The first chardalyn volunteers are still down there, tethered to the walls by their own chains, on the argument that the whispers want something chained and a wall can be chained forever without anyone losing a finger. A bell-rope runs to the surface: pull twice for relief, pull once to refuse it. It has been pulled twice all year. Alaric has ordered the Galleries sealed three times and rescinded the order three times, because brittle iron keeps breaking and chardalyn keeps holding.',
+        purpose: 'Chardalyn proofing gallery and long-term holding site for the first volunteer testers',
+        status: 'Active in the dark, reported downward instead of upward'
       }
     ],
 

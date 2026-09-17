@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Pyrofiend Class Data
  *
@@ -10,23 +9,25 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 
 export const PYROFIEND_DATA = {
  restrictions: {
-  "allowedSubraces": [
-    "thrask_solari",
-    "skald_human",
-    "morgh_groven"
-   ],
-   "hardBlocks": [
-    "neth",
-    "mimir",
-    "myrathil",
-    "florae"
-   ],
-   "narrativeUnlock": true,
-   "justification": "Requires proximity to Scathrach's influence and a culture that frames self-destruction as power. No Ordan or Vreken would willingly make that pact. The cold-loving Skald see it as antithetical."
-  },
+ "allowedSubraces": [
+ "korr_solari",
+ "thrask_solari",
+ "kethrin_fexric"
+ ],
+ "hardBlocks": [
+ "neth",
+ "mimir",
+ "myrathil",
+ "florae"
+ ],
+ "narrativeUnlock": true,
+ "justification": "Requires a body that survived the cosmic collision at Emberspire, or a culture that treats an internal furnace as a manageable engineering hazard. Two heritages carry it: the Solari, who keep the Vigil of the buried star and were standing in the cloisters when the caldera blew, and the Clockwork Fexric refinery-clans, who stabilized the charge with alchemical survivalism and call it chemistry. Cold-adapted Skald biology rejects the fire, and no Ordan or Vreken would knowingly carry it."
+ },
 
   // Class Resource, generated per spell. Resource range/balance per design.
-  // Lore name: Inferno Veil (Lore: At Inferno Level 9, exactly 3 turns remain before permanent death)
+  // Lore name: Inferno Veil (Lore: the Veil ascends through the Rings. Ring 0 is the Banked Hearth;
+  // Rings I-II are the Malice; Ring III, the Crucible, is Veil 7-9, where the Debt Call begins.
+  // At Inferno Level 9, exactly 3 turns remain before permanent death)
   classResource: { type: "inferno_veil", base: 0, max: 9, generationNote: "Builds with each spell cast (1 per cast). At max 9: 3 turns before patron consumes host. No reset, debt transfers on death." },
 
 
@@ -39,17 +40,34 @@ export const PYROFIEND_DATA = {
    offHand: ['empty', 'tome']
   },
  /**
- * Subrace Variants, the Pyrofiend pacts with Scathrach, the Ashen Sovereign, and the
- * meaning of that pact inverts depending on who makes it. For the Solari it is the
- * original blasphemy. For the Waste-Solari it is the dark mirror of their forge-craft. For
- * the Skald it is the ultimate treason, a betrayal of the cold their entire culture
- * worships.
- */
+ * Subrace Variants. The furnace is a cosmic wound, not a gift, and what a Pyrofiend believes
+ * they are carrying it for differs by heritage. The Solari were standing in the cloisters when
+ * Emberspire blew: the Vault-Keepers hold the Banked Hearth in glacial stillness, and the
+ * Waste-Solari forge-clans race their own conversion. The Clockwork Fexric survived the
+ * shockwave in sealed geothermal refineries and treat the fire as a chemical hazard with
+ * valves, chalk, and thermal thresholds.
+  */
  subraceVariants: {
+ korr_solari: {
+   subraceName: 'Hollow-Solari',
+   title: 'The Banked Hearth',
+  reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> were already ascetics of stillness before the caldera blew; they had spent centuries learning to slow a pulse and sit motionless while the world burned. When the breach reached the deep vaults, that discipline was the only reason any of them stayed human long enough to climb back out. A Vault-Keeper Pyrofiend holds Ring 0 the way they held the Sol's Breath: damper closed, breath measured, charcoal irises fixed on heat no one else can see. They do not descend for power. They descend because the fire in their marrow calls, and their tradition is the art of not answering.`,
+  signatureAbility: {
+   name: 'Banked-Stillness',
+   description: `The Veil rises more slowly for a Hollow-Solari Pyrofiend: their measured breathing and absolute stillness bleed off internal heat each round they spend without casting. In return, they generate less burst damage at every ring, the slowest ascent and the longest survival of any heritage.`
+  },
+  currentCrisisAngle: `The Hollow-Solari Pyrofiends read the mass debt-call as the tomb itself calling. If Scathrach is a thing born of the breach, and the breach is what protects Sol's tomb, then the Ashen Sovereign may be the only being that has touched the buried star since the Binding, and some Vault-Keepers have begun to *listen* to it the way they listen to the Sol's Breath's silence. The elders call this heresy. The listeners call it the first new voice in ages.`,
+  signatureQuote: {
+   text: '"I spent sixty years learning not to move while the star died. The fire found that very restful. It thinks I am its best vessel. I am simply the quietest one."',
+   speaker: 'Ash-Keeper Vorr-Then',
+   context: 'A Hollow-Solari Pyrofiend, holding Ring 0 through a collapsing forge-hall'
+  }
+ },
+
  thrask_solari: {
-   subraceName: 'Waste-Solari - Thyrm',
+   subraceName: 'Waste-Solari',
   title: 'The Forge-Damned',
-  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the Scathrach pact as the dark mirror of their craft. Where the forge-Solari tame heat to shape metal, the Waste-Solari Pyrofiend lets Scathrach's heat *reshape them*, the body itself as the workpiece, the Wyrd-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship.`,
+  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the furnace in their blood as the dark mirror of their craft. Where the forge-clans tame heat to shape metal, the Waste-Solari Pyrofiend lets the fire *reshape them*, the body itself as the workpiece, the breach-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship that no one signed for and everyone must serve.`,
   signatureAbility: {
   name: 'Forge-Conversion',
   description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Waste-Solari, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for natural Durability. The most veteran Waste-Solari Pyrofiends are more basalt than flesh, and fight accordingly.`
@@ -62,37 +80,21 @@ export const PYROFIEND_DATA = {
   }
  },
 
- skald_human: {
-  subraceName: 'Skald',
-  title: 'The Cold-Traitor',
-  reframe: `The <LoreLink termId="skald">Skald</LoreLink> worship cold-endurance as the measure of worth, and a Pyrofiend among them is the ultimate *traitor*, a Skald who rejected the cold their culture built itself around and embraced its antithesis. Skald Pyrofiends are the rarest, most reviled variant: exiles before they ever pact, drawn to Scathrach precisely *because* the cold abandoned them. Their fire is not faith. It is revenge against the frost that broke them.`,
+ kethrin_fexric: {
+   subraceName: 'Clockwork Fexric',
+   title: 'The Sealed Alembic',
+  reframe: `Deep beneath the fault lines, clans of <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> operated sealed geothermal refineries, harvesting primordial mineral heat and deep sulfur salts. When the Emberspire detonation sent shockwaves through the planet's faults, the vaults ruptured and the magma came in void-tainted. The artisans did not die. They improvised the way their guilds had always improvised: they drank reactive mineral salts, surgically embedded cooling heat-sinks along their spines, and stabilized their own chemistry by hand. A Clockwork Pyrofiend treats the furnace as a severe engineering hazard, not a spiritual failing. Their body is a volatile glass alembic, pressurized boiler included, and their descent is calculated, rhythmic, and strictly governed by thermal thresholds.`,
   signatureAbility: {
-  name: 'Frost-Betrayal',
-  description: `Inferno-Veil generation is *amplified by cold*, a Skald Pyrofiend draws extra power from environments that should be their native element, burning hotter the colder the surroundings. The pact is, mechanically, the inversion of everything Skald biology was built for, and the body resists violently.`
+  name: 'Thermal-Governor',
+  description: `The Inferno Veil ascends in measured steps for a Clockwork Fexric: their cooling-loop actions vent heat through grafted valve-work, converting the strain into stored pressure for one controlled release. They cannot be *forced* up the Rings by pain or panic, but every vent costs structural integrity, and the alembic body cracks a little more each time.`
   },
-  currentCrisisAngle: `Scathrach's mass collection is, for the Skald Pyrofiends, almost a *relief*, they have been exiles their whole lives, and being claimed by the Ashen Sovereign is, to them, finally belonging to something. The Skald Pyrofiends are not fleeing the collection. They are *walking toward* it, the first home they have ever been promised, and the Skald Council does not know whether to mourn them or consider the problem self-solving.`,
-    signatureQuote: {
-    text: '"Your cold broke me and cast me out. Scathrach\'s fire is the first thing that ever wanted me whole. I am going home. Do not call it damnation when it is the only welcome I have received."',
-    speaker: 'Traitor Skald-Varenn',
-    context: 'A Skald Pyrofiend, the night before walking into Emberspire\'s deepest vent'
-    }
-   },
-
-   morgh_groven: {
-    subraceName: 'Morgh Groven',
-    title: 'The Vat-Ignition',
-    reframe: `A fourth, independent discovery of internal fire. The <LoreLink termId="groven">Deep Alchemists</LoreLink>' serums left alchemical residue in every Morgh vein. A <LoreLink termId="groven">Morgh Groven</LoreLink> Pyrofiend does not pact with <LoreLink termId="scathrach">Scathrach</LoreLink>  -  they ignite the dormant alchemy already circulating in their blood. The fire is their own, not borrowed from a horror. The Inferno Veil rises from self-combustion, not external corruption. The cost is the same: the body burns. But the Morgh variant dies on their own terms, not Scathrach's. This is both their strength and their tragedy  -  no entity collects their debt, so no entity can be bargained with for more time.`,
-    signatureAbility: {
-    name: 'Vat-Ignition',
-    description: `The Inferno Veil is fed by dormant alchemical serums in the Morgh's blood rather than by Scathrach's pact. The Morgh Pyrofiend cannot be compelled by the Wyrd-touched Whisper because they have no patron to whisper  -  but they also gain no Infernal Surge. The Morgh variant sacrifices Scathrach's offensive bonus for total autonomy. The self-damage is identical, but it is their own fire, and that matters.`
-    },
-    currentCrisisAngle: `The Morgh Pyrofiends are watching Scathrach's mass debt-collection with the dispassion of people who never signed. The Vat-Ignition is the only Pyrofiend variant with no creditor  -  but the Deep Alchemists, who seeded the alchemical residue, have not been heard from in centuries. Some Morgh Pyrofiends are beginning to wonder if the Deep Alchemists made them *specifically* for this moment: independent fire, no patron's claim, free to burn when every other Pyrofiend is being called home. The Morgh Groven do not know if they are escapees or the final contingency.`,
-    signatureQuote: {
-    text: '"Scathrach calls its debts. I owe it nothing. The fire in my blood was put there by alchemists who vanished before your grandfather\'s grandfather was born. I burn on my own tab. No one collects."',
-    speaker: 'Morgh Ignis-Vat',
-    context: 'A Morgh Pyrofiend, the night of the mass debt-calling'
-    }
-   }
+  currentCrisisAngle: `The Clockwork Pyrofiends are watching two ledgers at once: Scathrach's debt-call, and the dying First Turbine beneath Frostmaw. Their heat-sinks are guild-made, the guilds are hoarding the maintenance songs, and quiet offers have begun arriving from the Deep Alchemists, sanctuary and parts in exchange for "study". Some Clockwork Pyrofiends have started to wonder whether the refinery vaults that survived the shockwave were *meant* to survive it, and whether their ancestors were selected for something the same way the Solari were.`,
+  signatureQuote: {
+  text: '"The boiler holds, so I hold. I have run hotter than this on purpose for pay. If the Sovereign wants my body, it will have to file the requisition with the guild first."',
+  speaker: 'Alembic-Master Kess-Ferrin',
+  context: 'A Clockwork Fexric Pyrofiend, monitoring her own pressure valves before the Final Convocation'
+  }
+ }
   },
 
 
@@ -109,7 +111,7 @@ export const PYROFIEND_DATA = {
   name: "Scathrach, the Ashen Sovereign",
   title: "The Ninth Flame of the Burning Throne",
   description:
-   "Scathrach is not a benevolent patron. It was born during the Shattering  -  a fragment of Aex's shattered shell that fell into Emberspire's deepest vent and was corrupted by the Wyrd seeping through Aex's stretched body. It grew sentient in the fire, served Keth Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers prayers with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were chosen, selected for their particular brand of despair, their willingness to burn rather than endure. The pact is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
+   "Scathrach is not a benevolent patron. It is the will that coalesced out of the first crucibles, the living residue of the starfire and void-rot that fused inside the survivors of the Emberspire breach. It grew sentient in the fire, served Keth Amar for centuries as a rooting tendril, then developed its own will and sealed the vent from within. Now it despises the Sun-Eater for what it was made into, but it has not stopped feeding. It answers desperation with combustion, considers every mortal body kindling, and calls in Pyrofiend debts not to serve Keth Amar but to hoard power to wound it back. The Pyrofiend did not make a deal with Scathrach. They were claimed, selected for their particular brand of despair, their willingness to burn rather than endure. The debt is written in scar tissue. The price is paid in breath, blood, and eventual immolation.",
  },
  utility:
   "Unmatched, escalating, exponential area-of-effect devastation. As the Inferno Veil ascends, damage multiplies to world-ending levels, capable of melting boss-tier encounters in a single turn. No other class can match the Pyrofiend's ceiling when the Veil climbs.",
@@ -121,9 +123,9 @@ export const PYROFIEND_DATA = {
  livingOrder: {
  orderName: 'The Ashen Communion',
  founder: {
-  name: '<LoreLink termId="first-cabal">The First Cabal</LoreLink> (seven Solvarn occultists)',
-  status: `All claimed. The seven who swallowed Scathrach's burning coals in an obsidian cavern beneath <LoreLink termId="emberspire">Emberspire</LoreLink> have, one by one, been collected, their souls fed to the Ashen Sovereign's furnace. The last was collected forty years ago. The Communion has no living founder.`,
-  note: `The cabal believed they were partnering with a power. They were, in fact, the first cutlery. Every Pyrofiend since has been a place setting at the same long table.`
+  name: '<LoreLink termId="first-cabal">The First Cabal</LoreLink> (seven Solari keepers)',
+  status: `All claimed. The seven who swallowed the breaching starfire in the flooded vaults beneath <LoreLink termId="emberspire">Emberspire</LoreLink> have, one by one, been collected, their souls fed to the Ashen Sovereign's furnace. The last was collected forty years ago. The Communion has no living founder.`,
+  note: `The cabal believed they were sealing a breach. They were, in fact, the first crucibles, and the thing they contained grew up wearing their fire. Every Pyrofiend since has been a place setting at the same long table.`
  },
  currentLeader: {
   name: '<LoreLink termId="sol-vareths">Last-Ember Sol-Vareths</LoreLink>',
@@ -138,7 +140,7 @@ export const PYROFIEND_DATA = {
     { region: 'frostwood-reach', status: 'banned', consequence: 'Thalren town elders ban Pyrofiends from entering wooden settlements; the uncontained heat melts protective frost-wards.', workaround: 'Wear enchanted cooling mantles and sleep outside town walls.' },
     { region: 'bryngloom-forest', status: 'hunted', consequence: 'Nethien peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
     { region: 'sundale', status: 'restricted', consequence: 'Great Forge smiths welcome Pyrofiend heat for extreme smelting, but require iron collars to prevent spontaneous combustion.', workaround: 'Submit to forge-guild supervision.' },
-    { region: 'emberspire', status: 'revered', consequence: 'Waste-Solari calderas treat Pyrofiends as living holy avatars of Scathrach\'s primordial ash.', workaround: 'None needed in the caldera heart.' }
+    { region: 'emberspire', status: 'revered', consequence: 'Waste-Solari calderas treat Pyrofiends as living crucibles of the Emberspire breach, holy survivors walking the fire that made them.', workaround: 'None needed in the caldera heart.' }
   ],
 
   overview: {
@@ -146,21 +148,23 @@ export const PYROFIEND_DATA = {
  subtitle: "Wyrd-fire Wielder",
  illustration: "/assets/images/classes/pyrofiend_illustration.png",
  illustrationCaption: "A Solari Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
-  originStory: `A pyrofiend has made a deal with Scathrach, the Ashen Sovereign, and the deal is being collected. Scathrach was born during the Shattering itself, a fragment of Aex's broken shell that fell into Emberspire's deepest vent as the Mother came apart. It was corrupted by the Wyrd, grew sentient in the volcanic dark, and served Keth Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed its own will. It sealed the vent from within. It now despises Keth Amar for what it was made into and hoards power to wound its former master back. Every pyrofiend pact feeds that hoard.
+  originStory: `A pyrofiend did not make a deal. They were claimed. When Emberspire ruptured, the starfire that had been bound beneath the caldera met the void-rot that Keth Amar had been seeping through the tectonic fissures for decades, and the two cosmic forces collided inside the bodies of everyone standing in the blast. No one who was in that fire died cleanly. The survivors became living crucibles: self-stoking engines of holy light and demonic void, carrying an internal furnace they never asked for. The first Pyrofiends were not practitioners. They were survivors, and most of them did not survive long.
 
-The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of Blizzard’s End. They carved the seven sigils of the Ashen Sovereign. They swallowed Wyrd-touched coals of pure burning sulfur. Their blood became liquid fire. Their bones seared black. One by one, Scathrach collected their souls. The last was taken forty years ago. No pyrofiend has ever survived to describe what happens when the horror collects a contract.
+Scathrach grew out of them. The theologians of the Dawn Vigil call it the Ninth Flame, the living residue of the first crucibles, a will that coalesced in the volcanic dark as one survivor after another burned out. It served Keth Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed a will of its own, sealed the vent from within, and turned. Now it despises Keth Amar for what it was made into, and it hoards every Pyrofiend it collects against the day it bites back. It answers desperation with combustion, considers every mortal body kindling, and calls in its debts not to serve the Sun-Eater but to wound it.
 
-The Inferno Veil measures how much of Scathrach's fire runs through the host at any moment, ascending through ten levels. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, a three-turn death clock begins, the body detonating in a thirty-foot radius and the soul claimed by Scathrach.
+The First Cabal were seven Solari keepers of the Emberspire cloisters, standing their vigil when the caldera blew. They did not summon anything. They swallowed the fused starfire and void-rot as it flooded the vault, deliberately, to keep the breach from consuming the city above them, and their blood became liquid fire and their bones seared black. One by one, Scathrach collected them. The last was taken forty years ago. No Pyrofiend has ever survived to describe what happens when the Ashen Sovereign collects a contract.
 
-Each subrace burns for different reasons. The Solari are the original. Their pact is the founding blasphemy: they helped bury the sun, then made a deal with the thing nesting in its tomb. The fire they wield is the perverted echo of the star their ancestors entombed. The Waste-Solari treat the pact as the dark mirror of forge-craft. The body is the workpiece, Wyrd-fire the forge, and the Waste-Solari can direct which body parts calcify into heat-resistant forge-plate. The Skald variant is rarest and most reviled. They rejected the cold their culture worships, and their fire is revenge against the frost that broke them, burning hotter the colder their surroundings, an inversion of Skald biology.
+The Inferno Veil measures how much of the breaching fire runs through the host at any moment. The tradition maps it as a descent through the Rings: Ring 0, the Banked Hearth, where a Pyrofiend appears almost normal; the Malice of Rings I and II, where the fissures open and the damage turns lethal; and Ring III, the Crucible, Veil 7 through 9, where the flesh vitrifies and the Debt Call begins. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, the three-turn countdown starts, and the body detonates in a thirty-foot radius, and the soul is claimed.
 
-The Morgh Groven discovered the fire independently, no pact, no Scathrach. They ignite the dormant alchemical serum residue still circulating in Groven veins, the same compounds the Deep Alchemists used to reshape Thrumm into servitors. A Morgh pyrofiend dies on their own terms. No entity collects their debt, so no entity can be bargained with for more time. This is both their strength and their tragedy.
+Two heritages were positioned to survive the collision. The Solari were the monastic core of the Dawn Vigil, sworn to keep the chains on the buried star, and they were inside the cloisters when those chains failed: the Hollow-Solari hold the Banked Hearth in absolute stillness, while the Waste-Solari forge-clans race their own conversion, more basalt than flesh. The Clockwork Fexric were continents away in sealed geothermal refineries when the shockwave ruptured their vaults; they drank reactive mineral salts, embedded cooling heat-sinks along their spines, and stabilized the fire by hand, and they treat the furnace as a manageable engineering hazard rather than a curse.
+
+Because dwelling in the deeper Rings is inherently fatal, an experienced Pyrofiend is defined less by how much fire they can raise than by how well they can put it back out. They purge soot in blinding black clouds, cauterize their own wounds with forced hellfire, and siphon raw thermal excess into an enemy's blood or blade. In a world shivering in the grip of permafrost and divine silence, the Pyrofiend walks a knife's edge between freezing to death like the rest of mortal kind and becoming the spark that burns down what little remains.
 
 Scathrach is calling in all debts simultaneously. The Final Convocation at Emberspire is imminent. The current leader, Last-Ember Sol-Vareths, more char-vessel than flesh, has calculated the exact day Scathrach will finish converting him. He has not shared the date.`,
 
  quickOverview: {
     title: "Class Overview",
-    content: `**Who they are**: The Pyrofiend is a reckless, explosive fire mage who has surrendered their flesh to Scathrach, the primordial Ashen Sovereign. You don't channel polite magic—you are a living volcanic combustion chamber whose fire burns hotter the more you push your own sanity to the brink.
+    content: `**Who they are**: The Pyrofiend is a reckless, explosive fire mage whose flesh was claimed by the cosmic collision at Emberspire. You don't channel polite magic—you are a living volcanic combustion chamber whose fire burns hotter the more you push your own sanity to the brink.
 
 **The hook**: You wield **Uncapped Firepower**: your spells deal overwhelming area-of-effect and single-target ember damage that ignores ordinary fire resistances, melting Durability and setting the very terrain ablaze.
 
@@ -181,24 +185,22 @@ Scathrach is calling in all debts simultaneously. The Final Convocation at Ember
     }
   },
 
- description: `The Pyrofiend is a chaotic, fire-wielder who has invited a parasitic Wyrd-intelligence, **Scathrach, the Ashen Sovereign**, to nest directly within their marrow. They do not command fire through careful study or sacred grace; they bleed it. The Pyrofiend's power is governed by the **Inferno Veil**, an escalating state of corruption that grows hotter, brighter, and more chaotic as battle progresses. The Pyrofiend deals devastating, explosive damage, but the horror within constantly claw at their sanity, demanding more heat, more ash, and more fuel.`,
+ description: `The Pyrofiend is a chaotic, fire-wielder who carries a cosmic wound: the starfire and void-rot that fused inside the survivors of the <LoreLink termId="emberspire">Emberspire</LoreLink> breach, still burning in their marrow and slowly remaking their body into a char-vessel of magma and bone. They do not command fire through careful study or sacred grace; they bleed it. **Scathrach, the Ashen Sovereign** is the will born of that fusion, and the **Inferno Veil** tracks its ascending hold on the host. The Pyrofiend deals devastating, explosive damage, but the furnace inside constantly claws at their sanity, demanding more heat, more ash, and more fuel.`,
 
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The pyrofiend's inferno veil was born in the volcanic desert of <LoreLink termId="sundale">Sundale</LoreLink>. The first practitioners were the First Cabal, seven Solvarn occultists who drew a summoning circle in their own blood in an obsidian cavern beneath Emberspire during the aftermath of Blizzard’s End, swallowing Wyrd-touched coals of pure burning sulfur.
-
-The price of this fiery pact was a sulfurous, burning ember nesting in his chest — the first of seven coals the Cabal swallowed. As the veil rose, Ignis's capillaries seared, pulling his flesh closer to the fiend's absolute claim.
+The pyrofiend's inferno veil was born in the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>, when Emberspire ruptured and the starfire bound beneath the caldera met the void-rot Keth Amar had seeped into the fissures. The first Pyrofiends were the survivors of that collision, their marrow fused into self-stoking engines of holy light and demonic void. The First Cabal, seven Solari keepers of the Emberspire cloisters, swallowed the breach itself to keep it from consuming the city above them, and became the first crucibles of the Ashen Sovereign's hoard.
 
 **CITIES & CIVIL RECEPTION**
 Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, where their destructive potential is used to clear volcanic blockades.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Waste-Solari and hot-blooded Solari.
+Two heritages carry the fire: the Solari (Hollow-Solari keepers of the Banked Hearth and Waste-Solari forge-clans racing their own conversion) and the <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> refinery-clans, who stabilized the charge in sealed alembic bodies and call it chemistry.
 
 **NOTABLE FIGURES**
-* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Hollow-Solari forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solvarn occultists of the First Cabal who first welcomed the Sovereign by swallowing Wyrd-touched coals in the obsidian cavern beneath Emberspire.
-* **Aethelgard the Seared**: A Solvarn occultist who led the Cabal of the Ninth Flame during the solar binding.`
+* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Hollow-Solari forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solari keepers of the First Cabal who swallowed the breaching starfire in the flooded vaults beneath Emberspire.
+* **Aethelgard the Seared**: A Solari keeper of the First Cabal, who first named the Ninth Flame in the Cabal's records before the fire took her.`
  },
 
  signatureQuote: {
@@ -209,7 +211,7 @@ The class is heavily practiced by the Waste-Solari and hot-blooded Solari.
 
  philosophy: {
   coreTenet: 'Fire is not destruction, it is transformation. The Pyrofiend does not burn things to ash. They return them to their original state: raw, formless, potential. Ash is not waste. Ash is the universe\'s memory of what something used to be.',
-   relationship: 'Scathrach, the Ashen Sovereign, is a parasitic Wyrd-intelligence born from a fragment of Aex\'s hide during the Great Binding. It does not possess the Pyrofiend, it rents them. The relationship is contractual: the horror provides power, and the Pyrofiend provides a body through which the horror can experience the material world. Scathrach is ancient  -  it has been sentient since the Great Binding itself, and for centuries it served as Keth Amar\'s emissary before rejecting the corruption, sealing Emberspire\'s vent from within, and turning against the Sun-Eater. It finds humans fascinating in the way a scholar finds a dying insect interesting.',
+   relationship: 'Scathrach, the Ashen Sovereign, is the will that coalesced out of the first crucibles, the living residue of the starfire and void-rot that fused inside the survivors of the Emberspire breach. It does not possess the Pyrofiend, it rents them. The relationship is contractual in the worst way: the horror provides power it already claimed, and the Pyrofiend provides a body through which the fire can experience the material world. Scathrach is ancient, it has been sentient since the breach itself, and for centuries it served as Keth Amar\'s emissary before rejecting the corruption, sealing Emberspire\'s vent from within, and turning against the Sun-Eater. It finds mortals fascinating in the way a scholar finds a dying insect interesting.',
   paradox: 'The Pyrofiend is most powerful when they are closest to permanent death. Every point of Inferno Veil brings them closer to Scathrach\'s embrace, and closer to being consumed entirely. At Veil 9, they have exactly three turns before they cease to exist, their body becoming a permanent conduit for the Ashen Sovereign. The power is intoxicating; the price is oblivion. Every Pyrofiend must decide exactly how much they are willing to burn for victory, knowing that the final flame will be themselves.'
  },
 
@@ -226,6 +228,27 @@ The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for 
   description: 'A vast, flat expanse of volcanic glass at the base of Emberspire, where Pyrofiends gather for their ritual convocations. The ground is hot enough to melt leather boots, Pyrofiends walk barefoot here, their soles callused by years of thermal exposure. The Convocation Grounds are where Scathrach\'s voice is loudest, and where the final contracts will be fulfilled.',
   purpose: 'Ritual gathering ground for Pyrofiend ceremonies and contract negotiations',
   status: 'Active, the Final Convocation is imminent'
+  },
+  {
+  name: 'The Obsidian Cavern',
+  locationId: 'obsidian_cavern',
+  description: 'The black glass bowl beneath Emberspire where the First Cabal stood when the caldera blew and swallowed the breach rather than let it take the city. Seven handprints are fused into the wall at chest height, one for each keeper, and the heat still rises off them. The Communion keeps no ritual here. It simply leaves the cavern open, and Pyrofiends who need to remember why they carry the fire come down and stand in the prints.',
+  purpose: 'Seat of the Ashen Communion and founding site of the tradition; the seven handprints of the First Cabal',
+  status: 'Active and open, and the handprints have begun to warm in sequence, one after another, the way a pulse moves'
+  },
+  {
+  name: 'The Quench Vaults',
+  locationId: 'quench_vaults',
+  description: 'Sealed quench chambers beneath Gearworks Gulch, built by Clockwork Fexric technicians for the Pyrofiends who cannot stop descending: stone tubs, cold-salt piping, and guild-rated vent valves that bleed a Ring down slowly enough for the host to survive the banking. The Vaults are the only place a Pyrofiend can sleep within arm\'s reach of another living person. The guild bills by the Ring; the Solari who staff the upper gallery call the fee a mercy and never argue about the price.',
+  purpose: 'Cooling-loop hospice and Fexric/Solari cooperation site; where the Rings are banked under supervision',
+  status: 'Active and full, and the guild has quietly begun a second gallery, which the Solari have taken as a bad sign'
+  },
+  {
+  name: 'The Sealed Vent',
+  locationId: 'sealed_vent',
+  description: 'The deepest vent on Emberspire, sealed from within before the Freezing Era by something that had decided it would no longer be anyone\'s tendril. The Convocation walks toward it every season; the Communion has never published a map that reaches it. Standing at the seal is the only place in Sundale where a Pyrofiend\'s Veil goes quiet on its own, as if something on the other side had reached up and banked it politely. The Scoured call it the mouth. The Communion calls it the door. No one has agreed on who is knocking.',
+  purpose: 'The Final Convocation destination and Scathrach\'s seat; where the debts are called',
+  status: 'Sealed, and the seal is warm to the touch for the first time since the Cabal; the Convocation has been moved forward a season'
   }
  ],
 

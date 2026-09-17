@@ -1,6 +1,8 @@
 ﻿# CRITICAL LORE ASSESSMENT  -  Mythrill VTT
 ## Expert Worldbuilding & Story Review
 
+> **HISTORICAL — superseded.** This document was written against an older, hard-dated timeline (Year 0/300/325/475 and the ~800-year audits). Canon is now **era-relative**: see `vtt-react/src/store/timelineStore.js` and LORE_STYLE_GUIDE Rule 8 — no hard years anywhere, in text or UI. Use for reference only.
+
 > **Methodology:** Assessing holistically as a single setting, not as isolated parts. Looking for coherence, dramatic weight, player-facing utility, and long-term sustainability for a campaign framework. Severity levels: **Critical** (will cause problems in play), **Moderate** (should fix), **Minor** (polish), **Opinion** (taste difference).
 
 ---

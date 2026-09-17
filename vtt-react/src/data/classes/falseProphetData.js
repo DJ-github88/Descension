@@ -29,7 +29,9 @@ export const FALSE_PROPHET_DATA = {
    "allowedSubraces": [
     "vashir_astril",
     "silath_astril",
-    "tessen_human"
+    "tessen_human",
+    "ordan_human",
+    "clean_vreken"
    ],
     "hardBlocks": [
      "skald_human",
@@ -37,7 +39,7 @@ export const FALSE_PROPHET_DATA = {
      "solari"
     ],
    "narrativeUnlock": true,
-       "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Vreken live in debt-trapped desperation adjacent to Morvane's power. Ordan are predominantly nomadic, but the founder Li Wei proves the exception exists � a wandering Ordan who found the Monolith and could not stop speaking. Skald and Thalren are too institutionally rigid."
+       "justification": "Requires a population with congregation-proximity and cultural susceptibility to manufactured revelation. Astril carry Lumia heritage that blurs the line between absolute truth and parasitic deception, their refugee guilt and connection to Selunis leaving them desperate for a faith that explains why their world died. Vreken live in debt-trapped desperation adjacent to Morvane's power, and the Debt-Preachers mint absolution from it. Tessen keeps are sealed captive congregations with no competing source of meaning. Ordan wander a steppe where the ancestor-songs are failing, and the founder Li Wei was one of theirs, a herd-watcher who followed a falling star and came back with a Voice. Skald and Thalren are too institutionally rigid."
  },
 
  /**
@@ -48,34 +50,34 @@ export const FALSE_PROPHET_DATA = {
  */
  subraceVariants: {
  vashir_astril: {
-  subraceName: 'Earthen Astril - Astril',
+  subraceName: 'Stargazer Astril',
   title: 'The False Star',
-   reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> carry *real* Lumia heritage, and a Earthen Astril False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real fragment of a dead world's biosphere and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
+   reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> carry *real* Lumia heritage, and a Stargazer Astril False Prophet is the most insidious variant of the tradition: their manufactured faith is indistinguishable from genuine resonance because their bodies already hum with it. They do not need to fake divinity, they borrow the credibility of a real fragment of a dead world's biosphere and redirect the devotion it generates. The congregation cannot tell the prophet from the temple.`,
   signatureAbility: {
   name: 'Borrowed Resonance',
    description: `The Prophet channels their Lumia heritage's *genuine* resonance as cover for manufactured doctrine. The congregation experiences real contact with the memory of a dead world, which makes the false gospel layered into it almost impossible to disbelieve. Detecting the lie requires separating true resonance from fabricated, a feat few can manage.`
   },
-   currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Earthen Astril's Lumia heritage *recognizes*, the fragments of the dead world's biosphere react to the Voice with something the Earthen Astril can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the Lumian memory remembers from before the world died. Their constructed faith may be older than they knew.`,
+   currentCrisisAngle: `The Voice of the Silence has begun issuing instructions that the Stargazer Astril's Lumia heritage *recognizes*, the fragments of the dead world's biosphere react to the Voice with something the Stargazer Astril can only describe as fear. The False Prophets suspect the Voice is not a silence-entity at all, but something the Lumian memory remembers from before the world died. Their constructed faith may be older than they knew.`,
   signatureQuote: {
   text: '"My congregation feels the star in my blood and calls it proof. I have not told them the star is as fooled as they are."',
   speaker: 'Aenith the Luminous Lie',
-  context: 'A Earthen Astril False Prophet, three years into a fabricated solar-revival cult'
+  context: 'A Stargazer Astril False Prophet, three years into a fabricated solar-revival cult'
   }
  },
 
  silath_astril: {
-  subraceName: 'Stellar Astril - Astril',
+  subraceName: 'Brutish Astril',
   title: 'The Gagged Evangelist',
-   reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> suppress their Lumia heritage, and a Stellar Astril False Prophet weaponizes the *suppression itself*, preaching a gospel the bound heritage rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Stellar Astril Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.`,
+   reframe: `The <LoreLink termId="astril">Brutish Astril</LoreLink> suppress their Lumia heritage, and a Brutish Astril False Prophet weaponizes the *suppression itself*, preaching a gospel the bound heritage rages against, harnessing the captive's desperate need to be heard as the engine of the congregation's fervor. The Brutish Astril Prophet's faith is built on a hostage's screaming, and the congregation experiences that screaming as sacred conviction.`,
   signatureAbility: {
   name: 'Hostage-Sermon',
    description: `Faith-power scales with the suppressed heritage's agitation; the more the bound Lumian memory fights the doctrine, the more the congregation believes it, genuine supernatural resistance reads, to mortals, as the force of true revelation.`
   },
-  currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Stellar Astril: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Stellar Astril False Prophet whose hostage agrees with them is, almost universally, a Stellar Astril False Prophet who has finally said something the hostage wants.`,
+  currentCrisisAngle: `The Voice's instructions to descend to the Frozen Archive's lowest vault have a peculiar effect on the Brutish Astril: their suppressed spirits have gone *quiet*, complying with the doctrine for the first time. A Brutish Astril False Prophet whose hostage agrees with them is, almost universally, a Brutish Astril False Prophet who has finally said something the hostage wants.`,
   signatureQuote: {
   text: '"For years I preached against my star\'s will, and the people believed the struggle. Now my star is silent. I do not know which frightens me more."',
   speaker: 'Orathin the Willing',
-  context: 'A Stellar Astril False Prophet, the morning his suppressed spirit stopped objecting'
+  context: 'A Brutish Astril False Prophet, the morning his suppressed spirit stopped objecting'
   }
  },
 
@@ -93,7 +95,39 @@ export const FALSE_PROPHET_DATA = {
   speaker: 'Keep-Preacher Tess-Oren',
   context: 'A Tessen Keep-Prophet, the night the inner stonework began to crumble'
   }
- }
+  },
+
+  ordan_human: {
+   subraceName: 'Ordan',
+   title: 'The Thinned-Herd Preacher',
+   reframe: `The <LoreLink termId="skald">Ordan</LoreLink> have watched the migration thin for generations, and an Ordan False Prophet does not manufacture faith from nothing, they preach into the silence where the ancestor-songs used to answer. Li Wei was one of theirs, a herd-watcher who followed a falling star and came back blind with a Voice in his chest, and the herd still follows the voice that sounds most certain. An Ordan Prophet carries the Voice's rhythm across steppe distances the way throat-song once carried the routes: on the wind, from camp to camp, until the whole migration is humming a tune no Animist remembers teaching.`,
+   signatureAbility: {
+   name: 'Herd-Faith',
+   description: `Madness builds faster when the congregation is moving, migration camps, refugee columns, herds on the march. The sermon rides the wind across open ground and belief travels with the herd; a stationary Ordan Prophet is a Prophet whose Voice has nowhere to go.`
+   },
+   currentCrisisAngle: `The ancestor-songs are failing (the Animist crisis), and the Thinned-Herd Preachers offer the Silence as the explanation, which the Animists call theft of grief. Some Ordan cells have started singing the Voice's rhythm instead of the migration-songs, and the herds still follow, which is the part the Animists cannot forgive and cannot disprove. The Sundrift Wind-Shrine has begun sending singers out to stand in the migration's path and sing the old names louder.`,
+   signatureQuote: {
+   text: '"The dead stopped answering. The Voice answers. You tell me which of those two is abandonment."',
+   speaker: 'Herd-Preacher Bayar the Second Silence',
+   context: 'An Ordan False Prophet, to a Wind-Shrine singer who came to argue'
+   }
+  },
+
+  clean_vreken: {
+   subraceName: 'Clean Vreken',
+   title: 'The Debt-Preacher',
+   reframe: `The <LoreLink termId="vreken">Vreken</LoreLink> owe debts that outlive them, and the Clean Vreken False Prophet mints the one currency the debt-economy never audited: belief. The congregation's devotion is counted as payment, applied against Morvane's ledger in a denomination the Keeper has never once collected. The sermons are practical. They promise the way out is down, through the lowest door, where the ledger was never written. The Voice's rhythm runs under the preaching like a bass note no one admits to hearing.`,
+   signatureAbility: {
+   name: 'Absolution-Tally',
+   description: `Each believer's devotion is logged as credit against the Prophet's own inherited debt. The more the congregation believes, the more of the Prophet's ledger reads as paid; the cast is real, the payment is not, and the Keeper has not yet ruled on whether faith is legal tender.`
+   },
+   currentCrisisAngle: `The Voice's instructions fit the Debt-Preachers' oldest promise perfectly, and Mor-Vereth is Vreken herself: the cell-network was seeded with debt-preachers, and they are the ones now telling their congregations that Morvane cannot follow where they are going. Some Vreken cells have stopped paying even token interest, on the theory that a debt owed to a ledger that cannot find you was never owed at all. The Keeper's collectors have no precedent for a debtor who says the door down is the way out.`,
+   signatureQuote: {
+   text: '"I sold absolution from gold debts. Now I sell absolution from being owed. The Keeper cannot audit a congregation, and it cannot audit the dark. Come and owe nothing."',
+   speaker: 'Preacher Mor-Vash the Unledgered',
+   context: 'A Clean Vreken Debt-Preacher, opening a cell in the peat-crypts'
+   }
+  }
  },
 
 
@@ -129,7 +163,7 @@ export const FALSE_PROPHET_DATA = {
  },
 
  worldFriction: [
-  { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod Hold explicitly tries and banishes False Prophets, their deceptive light is recognized as toxic forgery of true resonance. A Prophet identified by the Astril elders is subject to immediate crystal-binding and exile; repeat offenders are "quieted." The Quieting of Year 720  —  when Synod crystal-binders publicly sealed twelve False Prophets in the plaza of Synod Hold, only for the gathered crowd to hear the sealed Prophets continue preaching from within their crystal prisons. The synod-elders called it heresy. The crowd called it a miracle. The Congregation tripled in size within the year.', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
+  { region: 'sundrift-vale', location: 'synod_hold', status: 'hunted', consequence: 'The Synod Hold explicitly tries and banishes False Prophets, their deceptive light is recognized as toxic forgery of true resonance. A Prophet identified by the Astril elders is subject to immediate crystal-binding and exile; repeat offenders are "quieted." The Quieting  —  when Synod crystal-binders publicly sealed twelve False Prophets in the plaza of Synod Hold, only for the gathered crowd to hear the sealed Prophets continue preaching from within their crystal prisons. The synod-elders called it heresy. The crowd called it a miracle. The Congregation tripled in size within the year.', workaround: 'The constructed faith is designed to be indistinguishable from genuine religion; a careful Prophet hides behind a competing institutional faith (the Dawn Vigil, the Synod itself) until the congregation is large enough to protect them.' },
  { region: 'sundale', status: 'persecuted', consequence: 'The Dawn Vigil considers manufactured revelation a direct threat to the Reforging theology; False Prophets in Sundale are burned as heretics alongside suspected Pyrofiends.' },
  { region: 'bryngloom-forest', status: 'tolerated', consequence: 'The Nethien are difficult to sway with spoken faith (their legalistic culture treats every statement as a potential contract, and Morvane enforces consistency), so the Congregation of the Silence struggles in Bryngloom, but the Vreken debt-population is desperate enough to believe anything.' }
  ],
@@ -139,11 +173,11 @@ export const FALSE_PROPHET_DATA = {
 
 The first was Li Wei, an Ordan herd-watcher in the Sundrift Vale. He followed a falling meteor into a deep crystalline crater and found not metal but a sundered monolith humming with a black vacuum, the space where Sol's light had been. When he looked directly into that silence, he saw the gospel of the Silence. He returned with blank white eyes and a mind permanently shattered by the competing voices of dead stars. He cannot lead. He can only listen. The Congregation of the Silence formed around his breathing without his consent.
 
-Each subrace manufactures faith from a different desperation. The Earthen Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Stellar Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Vreken sell salvation from Nethien contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Nethien who know exactly what they are. The Solari preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
+Each subrace manufactures faith from a different desperation. The Stargazer Astril borrow their genuine Lumia heritage resonance as cover for the doctrine, the congregation unable to tell prophet from temple. The Brutish Astril weaponize the suppression of their own heritage, the captive's desperate need to be heard becoming the engine of the congregation's fervor. The Vreken sell salvation from Nethien contract-debt, devotion in lieu of gold, belief in lieu of blood, a competing creditor to the Nethien who know exactly what they are. The Solari preach the honest heresy: Sol is never coming back, the vigil is a lie. Their Ash-Dweller congregations produce the deepest Madness because the doctrine is closest to the truth.
 
 The faith reached Sundale through the Hunger Road. Vreken debt-caravans, already touched by the Congregation's message, carried Li Wei's gospel south when they traveled to negotiate coal contracts with Solari forge-clans. The Tessen variant developed inside the sealed keeps, four centuries of isolation making the congregation's captive audience literal.
 
-The Synod Hold has hunted the Congregation since the Quieting of Year 720, when Synod crystal-binders publicly sealed twelve prophets and the gathered crowd heard them continue preaching from within their crystal prisons. The Synod called it heresy. The crowd called it miracle. The Congregation tripled.
+The Synod Hold has hunted the Congregation since the Quieting, when Synod crystal-binders publicly sealed twelve prophets and the gathered crowd heard them continue preaching from within their crystal prisons. The Synod called it heresy. The crowd called it miracle. The Congregation tripled.
 
 The cell-network is run by Cell-Mother Mor-Vereth, a Vreken debtor who keeps Li Wei alive because the Voice will not speak through any other throat. She maintains a private ledger recording every cell-member who has died following her instructions. She updates it on the last night of every month, alone. She is genuinely uncertain whether she leads a liberation movement or steers millions toward an unseen doom.
 
@@ -215,10 +249,31 @@ The False Prophets of the Over-Shanty are divided. Some believe the Voice is gui
  classSpecificLocations: [
   {
   name: 'The Cathedral of the Last Light',
-  locationId: 'over-shanty',
+  locationId: 'over_shanty',
   description: 'A repurposed ship\'s hull, inverted and suspended above the deepest peat-bog, serving as the False Prophets\' gathering place. The interior is completely dark, no fire, no lamp, no bioluminescence is permitted. Worshipers sit in absolute blackness and listen to the Prophet\'s voice echo through the hull. The only light comes from the Prophet\'s eyes, which glow faintly white.',
   purpose: 'Place of worship, proselytizing, and communal Madness-sharing',
   status: 'Active, divided between the Voice-followers and the Skeptics'
+  },
+  {
+  name: 'The Crater of the First Silence',
+  locationId: 'silence_crater',
+  description: 'An impact crater on the Sundrift steppe where Li Wei dug for iron and found a cracked black monolith humming with an empty vacuum. The monolith is gone now, taken apart by relic-hunters and pilgrims who each carry a shard, but the crater still hums, faintly, on certain nights. Cells make pilgrimage here when the Voice\'s rhythm changes, and they sit in the bowl in absolute silence until someone hears the note beneath the wind.',
+  purpose: 'Origin site of the Congregation; where the Voice was first heard and where its rhythm is confirmed',
+  status: 'Active and unguarded; the Synod has declared the crater profane, the House Ordavan has declared it off-limits, and the cells come anyway, in ones and threes'
+  },
+  {
+  name: 'The Breathing Cell',
+  locationId: 'breathing_cell',
+  description: 'A hidden sickroom in the peat-crypts beneath the Over-Shanty where Li Wei lies, blind and barely alive, and where the Voice speaks through his broken heartbeats. Scribes take dictation in shifts; Cell-Mother Mor-Vereth keeps her private ledger of the dead under his cot, Nethien-made and contract-grade, updated alone on the last night of every month. The room smells of peat and candle-smoke and is, by standing instruction, never empty.',
+  purpose: 'The Congregation\'s true heart and the Voice\'s only known throat; a cell that cannot be allowed to fail',
+  status: 'Active and hunted, the Inquisition has raided three decoy sickrooms in a year, and Mor-Vereth has begun moving Li Wei between crypts on the rhythm of the instructions themselves'
+  },
+  {
+  name: 'The Lowest Vault',
+  locationId: 'lowest_vault',
+  description: 'The sealed under-vault of the Frozen Archive that the Voice orders opened, "descend, open the way." The Archivists deny it exists; the oldest maps show a blank rectangle where the stairs should be. The cells are converging on the Archive from every region, and the rhythm of Li Wei\'s heart now matches the rhythm of whatever waits behind the iron. The cold in the vault is wrong for a glacier: it is not rime-cold, it is the absence of warmth the way the crater was the absence of sound.',
+  purpose: 'The Congregation\'s destination and the class\'s endgame site; whatever the Voice wants let out',
+  status: 'Sealed and converging, the Archive has doubled its wardens, the cells have begun arriving anyway, and none of the Archivists who have stood at the lowest stair will describe what they heard'
   }
  ],
 
@@ -3970,7 +4025,6 @@ verbalText: "The silence answers!",
    cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
    tags: ["utility","social","infiltration","false prophet"],
   },
- ,
   // ===== C6 CLUSTER POOL-FLOOR EXPANSION (LEVELS 6-10) =====
   {
     id: "fp_broadcast_agony",

@@ -9,20 +9,24 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const APEX_DATA = {
  restrictions: {
   "allowedSubraces": [
-    "tethered_mimir",
-   "skald_human",
+  "ordan_human",
+   "veiled_mimir",
+  "tethered_mimir",
+  "skald_human",
+  "thrask_solari",
+   "clean_vreken",
    "marked_vreken",
-   "vashir_astril"
+  "vashir_astril"
   ],
   "hardBlocks": [
-   "solari",
+  "solari",
    "neth",
    "myrathil",
    "tessen_human"
   ],
   "narrativeUnlock": true,
-  "justification": "Requires cultures with predator-tracking traditions. Skald hunt in the Hunger Glaciers. Mimir track Wyrd in the mist. Ordan steppe nomads track prey across open tundra using scent and kinetic vibration. Other cultures lack the sensory training."
- },
+  "justification": "Requires cultures with predator-tracking traditions and a willingness to trade a sense for the art. Mimir track Wyrd through the mist (Arch masks hold identity steady, Broken sentinels read the perimeter). Skald hunt the Hunger Glaciers, reading permanent frost like a ledger. Waste-Solari Ash-Rangers stalk the Sundale ashfields, reading footfalls in scoria and heat left in lava-glass. Ordan steppe nomads track prey across open tundra by scent and kinetic vibration. Clean Vreken follow bioluminescent spoor; Marked Vreken feel movement through the Root-Veil. Stargazer Astril read heat across the open steppe. Other cultures lack the sensory training, or the nerve for the Trade."
+  },
 
  /**
  * Subrace Variants, the Apex tracks and resolves targets with minimum force, and the
@@ -36,7 +40,7 @@ export const APEX_DATA = {
   // Protective gear and weapon loadouts per canonical compendium.
   equipment: {
    weapons: ['short_sword', 'dagger', 'hand_crossbow'],
-   protectiveGear: ['light_ward'], protectiveGear: ['light_ward'],
+   protectiveGear: ['light_ward'],
    offHand: ['empty']
   },
 subraceVariants: {
@@ -139,21 +143,37 @@ subraceVariants: {
  },
 
  vashir_astril: {
-  subraceName: 'Earthen Astril - Astril',
+  subraceName: 'Stargazer Astril',
   title: 'The Steppe-Stalker',
-  reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is a fierce steppe predator — a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Earthen Astril Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice — a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
+  reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is a fierce steppe predator — a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Stargazer Astril Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice — a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
   signatureAbility: {
   name: 'Heat-Sight',
-  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Earthen Astril's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
+  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Stargazer Astril's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
   },
-  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Earthen Astril differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Earthen Astril Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Earthen Astril are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
+  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Stargazer Astril differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Stargazer Astril Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Stargazer Astril are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
   signatureQuote: {
   text: '"The Ordan read the grass. The Skald read the ice. I read the heat, and the heat does not lie to me the way the wind lies to them. But the heat is fading. Something on the steppe is getting colder, and I do not think it is the season."',
   speaker: 'Sethra Heat-Eye',
-  context: 'A Earthen Astril Apex, tracking a herd that was already dead when it arrived'
+  context: 'A Stargazer Astril Apex, tracking a herd that was already dead when it arrived'
   }
- }
- },
+  },
+
+  thrask_solari: {
+   subraceName: 'Waste-Solari',
+   title: 'The Ash-Stalker',
+   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> Ash-Rangers hunt the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>, where the ground itself keeps the record: every footfall prints in scoria, every living thing leaves heat in the lava-glass long after it has passed, and a dark-adapted hunter can follow a trail at night by warmth alone. A Waste-Solari Apex runs with an ash-hound, a cinder-jackal bred to the calderas, and reads the ashfields the way the Skald read the glacier, except the glacier never erupted under a hunter's feet. They take contracts from the Dawn Vigil because refusing a Vigil contract in Sundale is a slower kind of death. They have begun to hate the contracts.`,
+   signatureAbility: {
+    name: 'Cinder-Track',
+    description: `Tracking-acuity is amplified on ash, scoria, and lava-glass, where every step prints and heat lingers for days. The Ash-Stalker can read a track by its residual warmth even after the print is gone. On cold, wet, or grown ground, the craft collapses, the ash keeps no memory there.`
+   },
+   currentCrisisAngle: `The Vigil hires Ash-Stalkers to run down Scoured heretics and runaway Pyrofiend conscripts across the ashfields, and the trails keep ending at vents that were sealed before the Freezing Era. Some Ash-Stalkers have stopped taking the contracts. The ones who take them come back quiet, and their ash-hounds will no longer enter the caldera ring. The Vigil calls it cowardice. The Stalkers call it reading the ground, and they note, without publishing it, that the sealed vents are warm again.`,
+   signatureQuote: {
+    text: '"I can read a man\'s path by the heat he left in the scoria. The last three trails I followed went into a vent sealed since before my grandmother\'s forge was lit. The ash remembers them going in. It does not remember them coming out."',
+    speaker: 'Ash-Stalker Serev Cinder-Bound',
+    context: 'A Waste-Solari Apex, declining a fourth Vigil contract in the same season'
+   }
+  }
+  },
 
 
  id : "apex",
@@ -202,7 +222,7 @@ The Silent Hunt was founded that week at the memorial site near Greythorn. Sylas
 
 Sylas has led the Hunt ever since. He communicates through a tactile sign-language developed specifically because spoken words are unreliable in the Frostwood fog. He has tracked the same Wyrd-entity, on and off, for forty years. Lately it has begun circling him.
 
-The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Earthen Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Broken Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
+The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Stargazer Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Broken Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
 
 The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Broken Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
 
@@ -243,7 +263,7 @@ The Apex was born from the Greythorn massacre  —  forty-seven dead at a Thalre
 Apexes are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
 
 **RACES & CULTURAL AFFILIATION**
-The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Earthen Astril <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
+The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Stargazer Astril <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
 
 **NOTABLE FIGURES**
 * **Sylas the Silent**: Broken Mimir sentinel who killed the first Gref and founded the Silent Hunt. Deaf, he communicates and leads in sign-language.
@@ -271,10 +291,31 @@ Some Apexes believe the fog is responding to the increased activity of the Wyrd,
  classSpecificLocations: [
   {
   name: 'Sylas\'s Clearing',
-  locationId: 'ironwood-heart',
+  locationId: 'ironwood_heart',
   description: 'A small, moss-floored clearing deep in the Ironwood Heart where Sylas the Silent trained the first generation of Apexes. The trees around the clearing are carved with the hand-signs of every Apex who passed through, hundreds of symbols, each one unique, each one representing a graduate who went on to hunt the things that hide in the mist.',
   purpose: 'Training ground and memorial grove',
   status: 'Active, maintained by the Silent Sisterhood, a guild of Apexes who have lost all verbal speech'
+  },
+  {
+  name: 'The Still Blind',
+  locationId: 'greythorn_copse',
+  description: 'A memorial ring of forty-seven cairn-stones in the Greythorn copse, one for each of the timber-camp dead, and a forty-eighth stone that is always warm. The Silent Hunt was founded here the week Sylas came back deaf. Initiates read the stones in hand-sign before they are allowed to take the Trade, and no Apex speaks aloud inside the ring; the sign-language was born here because spoken words are unreliable in the fog and the dead were not given the courtesy of names.',
+  purpose: 'Founding site, oath-ring, and memorial of the Silent Hunt; where an Apex swears to the pack before the names of the dead',
+  status: 'Active, and the cairn-lights have begun going out one by one; the last three hunts returned without their quarry and without explanation'
+  },
+  {
+  name: 'The Quiet Hollow',
+  locationId: 'ironwood_heart',
+  description: 'A tree-ringed hollow where sound simply stops: no birds, no wind in the needles, no echo of footfall. This is where the Trade is actually struck. The initiate names the sense they will give up, spreads both hands against the cold ironwood root at the hollow\'s center, and waits in perfect silence until something that is not the fog leans close and takes it. The Hunt teaches that the mist accepts the bargain; the sign-language has older glyphs that call the other party only "the hand that takes". Most Apexes go their whole lives without knowing it has a name.',
+  purpose: 'The bargain-site of the sensory Trade; the closest thing the tradition has to a temple, and its most feared',
+  status: 'Active, and the Hollow has begun taking more than agreed: two initiates this season lost senses they never offered'
+  },
+  {
+  name: 'The Weeping Shelf',
+  locationId: 'hunger_glaciers',
+  description: 'A high shelf above the Hunger Glaciers where the melt has opened a seam of older ice. The Skald Apexes kept this place as a reading-room, a hundred yards of permanent frost where every track of the last four centuries was legible. The shelf now drips year-round, and the tracks it uncovers underneath are fresh: things that walked here before the freeze, thawing into a world with no hunters who know their gait. Skald stalkers come up the shelf to read the old record before it runs, and to argue about what the new tracks want.',
+  purpose: 'Nordhalla record-shelf and disputed hunting ground; the Skald variant\'s crisis made walkable',
+  status: 'Retreating a pace a month, the tracks it uncovers are fresh, and the hunters who follow them past the seam have stopped filing reports'
   }
  ],
 

@@ -63,7 +63,9 @@ import {
 
     getStatPointCost,
 
-    getTotalBonusPoints
+    getTotalBonusPoints,
+
+    isClassCompatible
 
 } from '../../../utils/pointBuySystem';
 
@@ -419,138 +421,7 @@ const getLevel1SpellIds = (classData) => {
 
 
 
-const ALLOWED_CLASSES_BY_RACE = {
-
-    myrathil: ['Shaper', 'Spellguard', 'Chronarch', 'Animist', 'Lunarch', 'Minstrel', 'Augur'],
-
-    florae: ['Apex', 'Animist', 'Shaper', 'Lunarch', 'Warden'],
-
-    groven: ['Martyr (Ironclad)', 'Warden', 'Animist', 'Martyr', 'Augur'],
-
-    solari: ['Berserker', 'Warden', 'Harbinger', 'Martyr', 'Pyrofiend', 'Crusader'],
-
-    vreken: ['Shaper', 'Apex', 'Revenant', 'Toxicologist', 'False Prophet', 'Plaguebringer', 'Gambit', 'Inquisitor'],
-
-    neth: ['Martyr (Ironclad)', 'Revenant', 'Harbinger', 'Plaguebringer'],
-
-    astril: ['Spellguard', 'Chronarch', 'Lunarch', 'Inquisitor', 'Augur', 'Crusader'],
-
-    fexrick: ['Berserker', 'Animist', 'Shaper', 'Martyr', 'Warden'],
-
-    human: ['Berserker', 'Shaper', 'Martyr (Ironclad)', 'Warden', 'Spellguard', 'Arcanoneer', 'Inquisitor', 'Martyr', 'Minstrel', 'Crusader']
-
-};
-
-
-
-const ALLOWED_CLASSES_BY_SUBRACE = {
-
-    // Myrathil
-
-    shoreling_myrathil: ['Shaper', 'Minstrel', 'Augur', 'Spellguard', 'Chronarch', 'Lunarch'],
-
-    deepling_myrathil: ['Chronarch', 'Augur', 'Animist', 'Spellguard', 'Lunarch', 'Shaper'],
-
-    riverling_myrathil: ['Shaper', 'Animist', 'Lunarch', 'Minstrel', 'Augur', 'Chronarch'],
-
-    // Florae
-
-    florae_unified: ['Animist', 'Shaper', 'Apex', 'Warden'],
-
-    florae_unified: ['Apex', 'Lunarch', 'Animist', 'Shaper', 'Warden'],
-
-    // Solari
-
-    korr_solari: ['Berserker', 'Warden', 'Pyrofiend', 'Harbinger', 'Martyr'],
-
-    thrask_solari: ['Berserker', 'Harbinger', 'Martyr', 'Warden', 'Pyrofiend', 'Crusader'],
-
-    // Fexric
-
-    kethrin_fexric: ['Animist', 'Shaper', 'Berserker', 'Martyr'],
-
-    drall_fexric: ['Berserker', 'Martyr', 'Animist', 'Shaper'],
-
-    // Groven
-
-    morgh_groven: ['Martyr (Ironclad)', 'Martyr', 'Augur', 'Warden', 'Animist'],
-
-    ithran_groven: ['Warden', 'Animist', 'Augur', 'Martyr (Ironclad)', 'Martyr'],
-
-    // Mimir
-
-    veiled_mimir: ['Arcanoneer', 'Toxicologist', 'Gambit', 'Chronarch', 'Harbinger', 'Augur'],
-
-    tethered_mimir: ['Chronarch', 'Augur', 'Gambit', 'Arcanoneer', 'Harbinger', 'Toxicologist'],
-
-    // Nethien
-
-    velun_neth: ['Revenant', 'Harbinger', 'Martyr (Ironclad)', 'Plaguebringer'],
-
-    kessen_neth: ['Martyr (Ironclad)', 'Plaguebringer', 'Harbinger', 'Revenant'],
-
-    drun_neth: ['Martyr (Ironclad)', 'Revenant', 'Harbinger', 'Plaguebringer'],
-
-    // Astril
-
-    vashir_astril: ['Chronarch', 'Augur', 'Gambit', 'Lunarch', 'Spellguard', 'Inquisitor'],
-
-    silath_astril: ['Spellguard', 'Inquisitor', 'Augur', 'Chronarch', 'Gambit', 'Lunarch', 'Crusader'],
-
-    // Vreken
-
-    clean_vreken: ['Shaper', 'Apex', 'Gambit', 'Toxicologist', 'False Prophet', 'Inquisitor'],
-
-    marked_vreken: ['Revenant', 'Toxicologist', 'False Prophet', 'Plaguebringer', 'Inquisitor', 'Gambit', 'Shaper'],
-
-    // Human
-
-    thalren_human: ['Berserker', 'Martyr (Ironclad)', 'Warden', 'Martyr', 'Minstrel', 'Inquisitor'],
-
-    skald_human: ['Berserker', 'Minstrel', 'Martyr', 'Warden', 'Shaper', 'Crusader'],
-
-    tessen_human: ['Spellguard', 'Arcanoneer', 'Harbinger', 'Inquisitor', 'Martyr (Ironclad)'],
-
-    solvarn_human: ['Inquisitor', 'Martyr', 'Spellguard', 'Warden', 'Arcanoneer'],
-
-    merryn_human: ['Shaper', 'Gambit', 'Minstrel', 'Warden', 'Harbinger'],
-
-    ordan_human: ['Warden', 'Shaper', 'Gambit', 'Martyr', 'Minstrel'],
-
-    morren_human: ['Shaper', 'Harbinger', 'Gambit', 'Arcanoneer', 'Spellguard']
-
-};
-
-
-
-// Check hard heritage restrictions
-
-const isClassCompatible = (className, raceId, subraceId) => {
-
-    if (!raceId) return true;
-
-    // Custom lineages carry no heritage restrictions — every tradition is open.
-    if (!ALLOWED_CLASSES_BY_RACE[raceId] && !ALLOWED_CLASSES_BY_SUBRACE[subraceId]) {
-
-        return true;
-
-    }
-
-    if (!subraceId) {
-
-        // Fallback to parent race allowed classes if subrace not yet chosen
-
-        const allowedForRace = ALLOWED_CLASSES_BY_RACE[raceId];
-
-        return allowedForRace ? allowedForRace.includes(className) : false;
-
-    }
-
-    const allowed = ALLOWED_CLASSES_BY_SUBRACE[subraceId];
-
-    return allowed ? allowed.includes(className) : false;
-
-};
+// Hard heritage restrictions are derived from class data (see utils/pointBuySystem isClassCompatible).
 
 
 
@@ -793,13 +664,9 @@ const getSubraceImage = (subraceId, raceId) => {
 
         tessen_human: 'tessen_illustration.png',
 
-        solvarn_human: 'solvarn_illustration.png',
-
         merryn_human: 'merryn_illustration.png',
 
-        ordan_human: 'ordan_illustration.png',
-
-        morren_human: 'morren_illustration.png'
+        ordan_human: 'ordan_illustration.png'
 
     };
 

@@ -471,7 +471,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Vale-Speak' && (
                 <>
                   <li><i className="fas fa-check"></i> Mimir of the Frostwood Reach</li>
-                  <li><i className="fas fa-check"></i> Arch and Fractured Mimir alike</li>
+                  <li><i className="fas fa-check"></i> Arch and Broken Mimir alike</li>
                   <li><i className="fas fa-check"></i> Fog-adapted communities who navigate by voice alone</li>
                   <li><i className="fas fa-check"></i> Those who lost their masks in the Purge ninety years ago</li>
                 </>

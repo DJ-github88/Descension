@@ -12,7 +12,7 @@ export const TOXICOLOGIST_DATA = {
            "thalren_human",
            "tethered_mimir",
            "viridian_florae",
-           "shorn_florae",
+           "florae_unified",
            "drun_neth"
        ],
       "hardBlocks": [
@@ -26,9 +26,9 @@ export const TOXICOLOGIST_DATA = {
   /**
    * Subrace Variants, the Toxicologist crafts poison, and the source of the reagents
    * defines the craft. The Thalren distill the fog-predators. The Tethered Mimir brew
-   * the canopy floor. The Vreken know the bog. The Florae carry the deep grove's
-   * thorn-venom, and the Shorn brew it in secret, among neighbors who would
-   * kill them for it.
+   * the canopy floor. The Withered distill from their own dissolution. The Florae carry
+   * the deep grove's thorn-venom, and the Oken brew it in secret, among neighbors who
+   * would kill them for it.
    */
 
   // EQUIPMENT (added 2026-07-28 audit fix)
@@ -293,35 +293,35 @@ Whatever the cause, the Toxicologists are losing their arsenal. Their most power
     classSpecificLocations: [
       {
         name: 'The Distillery  -  Canopy-Laboratory',
-        locationId: 'the-shallows',
-        description: 'A suspended platform high in the ironwood canopy above Thornwood grove where Varis the Alchemist conducted his original research into fog-predator venom. Built on the exact site where his four patrolmates fell to the Gref during the Third Harvest. The laboratory is still maintained  -  glass vials line the walls, each containing a different toxin sample collected over four centuries. The oldest vials date to the mid-Diming and their contents are still viable, though degrading fast. The newest vials are labeled with question marks: fog-distillates no one has been able to characterize. The Distillery holds its Conclave of Spoiling here annually.',
+        locationId: 'the_distillery',
+        description: 'A suspended platform high in the ironwood canopy above Thornwood grove where Varis the Trembling conducted his original research into fog-predator venom. Built on the exact site where his four patrolmates fell to the Gref during the Third Harvest. The laboratory is still maintained  -  glass vials line the walls, each containing a different toxin sample collected over four centuries. The oldest vials date to the mid-Diming and their contents are still viable, though degrading fast. The newest vials are labeled with question marks: fog-distillates no one has been able to characterize. The Distillery holds its Conclave of Spoiling here annually.',
         purpose: 'Headquarters, research laboratory, and toxin archive of the Distillery',
         status: 'Active  -  Varis still works here daily, flanked by junior distillers who monitor his tremors during pours'
       },
       {
         name: 'Thornwood Grove',
-        locationId: 'frostwood-reach',
+        locationId: 'thornwood_grove',
         description: 'A shallow-ironwood grove three leagues east of the Shallows where the Third Harvest occurred  -  the Gref ambush that killed four of six Thalren scouts and prompted Varis to systematize venom extraction. The grove is now considered a memorial site by the Distillery, though it is not marked or consecrated (Varis refuses to sentimentalize a massacre). Apprentice Shakers are brought here during their first year of training to understand what they are preparing to fight. The ironwood trees still bear claw-marks from the Gref-pack.',
         purpose: 'Memorial and training site',
         status: 'Unmarked; visited by the Distillery for initiations and vigils'
       },
       {
         name: 'The Peat-Crypts beneath Over-Shanty',
-        locationId: 'bryngloom-forest',
+        locationId: 'peat_crypts',
         description: 'A network of submerged peat-vaults beneath the Vreken settlement of Over-Shanty where bog-chemists distill unlicensed reagents away from Nethien auditors. The crypts are flooded knee-deep in bog-water, the walls weeping alchemical moss, and the Vreken Toxicologists brew by lantern-light, listening for the footsteps of Nethien revenue officers above. Mor-Velk the Wet maintained her primary laboratory here until she fled to the Deep-Quarter. The crypts contain the oldest Vreken toxin archives outside of Varis\'s collection  -  four centuries of bog-chemistry recorded on treated moss-sheets that the Nethien have never found.',
         purpose: 'Illegal Vreken distillery and toxin archive',
         status: 'Active, though increasingly dangerous  -  Nethien patrols have doubled since the ichor-thefts began'
       },
       {
         name: 'The Deep-Quarter Null-Laboratory',
-        locationId: 'frostwood-reach',
+        locationId: 'deep_quarter_null_lab',
         description: 'A converted peat-hold in the Withered enclave of the Deep-Quarter, established by Mor-Velk the Wet as payment for sanctuary. The laboratory is the only facility in Mythril capable of stabilizing null-distillates  -  Withered poisons that carry the Silence and register as non-existent on the First Contract. The walls are lined with lead-sheathed iron (a desperate attempt to contain null-spills), and the floor has been replaced twice after runaway distillates consumed the original ironwood. Withered Vel-Hassik now oversees the laboratory after Mor-Velk\'s death.',
         purpose: 'Withered distillery and null-distillate research facility',
         status: 'Active, but losing containment  -  the deepening Silence is eating through the lead-sheathing'
       },
       {
         name: 'Nerath\'s Ironwood Deep Laboratory',
-        locationId: 'frostwood-reach',
+        locationId: 'neraths_laboratory',
         description: 'An unmarked, single-room laboratory drilled into the exposed root-system of a dead ironwood in the forest\'s deepest reaches. Nerath the Soft-Voiced operates here alone, developing synthetic toxins from mineral chemistry rather than biological extraction. The laboratory is austere  -  no trophy vials, no formula archives, no memorial to the tradition. Just glassware, mineral samples, and a single chair. Nerath believes sentiment is what is killing the Distillery. The laboratory\'s location is known to perhaps six people, none of whom will admit to knowing it.',
         purpose: 'Rival distillery and synthetic toxin research facility',
         status: 'Active  -  Nerath works here alone, producing stable but low-potency synthetic poisons for clients who have lost faith in Varis'

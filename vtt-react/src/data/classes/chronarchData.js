@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Chronarch Class Data
  *
@@ -24,7 +23,7 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const CHRONARCH_DATA = {
  restrictions: {
    "allowedSubraces": [
-    "kethrin_fexrick",
+    "kethrin_fexric",
     "ithran_groven",
     "tessen_human",
     "velun_neth"
@@ -60,8 +59,8 @@ export const CHRONARCH_DATA = {
    offHand: ['orb', 'tome', 'wand']
   },
 subraceVariants: {
- kethrin_fexrick: {
-   subraceName: 'Clockwork Fexric - Fexric',
+ kethrin_fexric: {
+   subraceName: 'Clockwork Fexric',
   title: 'The Gear-Stitcher',
   reframe: `The guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> built the gear-craft half of Nesta's engine, and they have never stopped believing the Chronarch tradition is, fundamentally, an engineering discipline that happens to be embedded in a person. A Clockwork Fexric Chronarch treats time as a mechanism with replaceable parts, and treats their own chest-engine as a machine that, with sufficient maintenance, need not kill them. (It still kills them.)`,
   signatureAbility: {
@@ -172,7 +171,7 @@ subraceVariants: {
  ],
 
  overview: {
-   originStory: `A chronarch has learned that time is not a river. It is a mechanism, and like all mechanisms, it can be rebuilt. The art was invented during the War of Thousand Screams, a conflict between Fexric holdfasts and the Deep Alchemists over geothermal vent access beneath Frostmaw Crag that lasted from Year 310 to 325 of the Freezing Era. The Alchemists, seeking to restart their Groven experiments, attempted to collapse a glacier onto the holdfast's main ventilation shafts. Three levels of Frostmaw were crushed before Nesta, a Clockwork Fexric guild-engineer, hooked a prototype time-dilation engine directly into her own chest. The collapse froze mid-fall. The Fexric evacuated. Nesta's engine trapped her timeline in a feedback loop that has never fully closed.
+   originStory: `A chronarch has learned that time is not a river. It is a mechanism, and like all mechanisms, it can be rebuilt. The art was invented during the War of Thousand Screams, a conflict between Fexric holdfasts and the Deep Alchemists over geothermal vent access beneath Frostmaw Crag that burned for years beyond counting. The Alchemists, seeking to restart their Groven experiments, attempted to collapse a glacier onto the holdfast's main ventilation shafts. Three levels of Frostmaw were crushed before Nesta, a Clockwork Fexric guild-engineer, hooked a prototype time-dilation engine directly into her own chest. The collapse froze mid-fall. The Fexric evacuated. Nesta's engine trapped her timeline in a feedback loop that has never fully closed.
 
 The engine was built from volcanic glass and alchemical gears. Nesta had designed it as a theoretical exercise. The glacier gave her thirty seconds to make it practical. She succeeded, and the success has been slowly erasing her from history ever since. Records bearing her name are going blank. People who once knew her are forgetting. If she ceases to exist retroactively, every living chronarch inherits her accumulated temporal debt. The current leader, Conclave-Prime Fex-Vestara, is rebuilding Nesta's original engine from recorded schematics. Completion is estimated in three weeks. Nesta is estimated at four.
 
@@ -248,10 +247,31 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
  classSpecificLocations: [
   {
   name: 'The Chronostasis Chamber',
-  locationId: 'frostmaw-holdfast',
+  locationId: 'frostmaw_holdfast',
   description: 'A sealed chamber beneath Frostmaw Holdfast where Nesta\'s original time-dilation engine continues to hum. The chamber is kept at precisely -12 degrees Celsius, the temperature at which temporal friction is minimized. Chronarchs gather here to calibrate their internal clocks and share time shards.',
   purpose: 'Calibration, meditation, and temporal maintenance',
   status: 'Active, Nesta\'s chair at the center of the chamber has been empty for three weeks'
+  },
+  {
+  name: 'The Stalled Fall',
+  locationId: 'stalled_fall',
+  description: 'A wall of glacier-ice caught mid-collapse over the Frostmaw Holdfast, exactly where Nesta stopped it for three days while her clan evacuated. The ice has hung there for three centuries, a frozen wave the size of a cathedral, and it has not dripped. Chronarchs insist time is thinnest under the stalled fall, and initiates calibrate their first engines on the shelf beneath it, where a dropped gear takes a heartbeat too long to land.',
+  purpose: 'Origin site and calibration ground; the three days the tradition bought with one body',
+  status: 'Active, and dripping for the first time since Nesta stopped it, one drop a day, counted by the guild'
+  },
+  {
+  name: 'The First Turbine Gallery',
+  locationId: 'first_turbine_gallery',
+  description: 'The oldest machine in the oldest holdfast, quarantined in a gallery of black glass beneath Frostmaw, turning slower than it should and humming a note that is not in any maintenance song. Guild engineers say bearing failure. Chronarch heretics who have measured the hum say otherwise: local time stutters in the gallery, clocks disagree with each other by fractions of a second, and every measurement comes back with a different date. The Guild-Bound have sealed the stairs. The heretics have not stopped going down them.',
+  purpose: 'Quarantined engine-gallery and Vurath-touched taboo site; where the machine-song fails and time measures wrong',
+  status: 'Sealed by the Clockwork guilds; the seal is renewed every season, and every season it has been found broken from the inside'
+  },
+  {
+  name: 'The Slow Vault',
+  locationId: 'slow_vault',
+  description: 'An undercroft of a Tessen keep where a ceiling collapse has been arriving for two hundred years, one stone at a time. Tessen Chronarchs stall the fall a grain at a time: each generation inherits a vault of suspended rubble, held mid-crash, and the discipline to keep holding it. The vault reads as a museum of collapses that never landed. The oldest anchors are fraying now, because Nesta is fading, and the Tessen have begun to understand that they built their homes on the same debt as her engine.',
+  purpose: 'Keep-anchor proving ground and inheritance site; every Tessen Chronarch is measured by how long their vault has held',
+  status: 'Failing, three stones landed this winter, and the Castellan has forbidden further anchoring until the Frostmaw conclave rules'
   }
  ],
 

@@ -6,6 +6,8 @@
 
 ## Instructions to the Auditor
 
+> **HISTORICAL — superseded.** This document was written against an older, hard-dated timeline (Year 0/300/325/475 and the ~800-year audits). Canon is now **era-relative**: see `vtt-react/src/store/timelineStore.js` and LORE_STYLE_GUIDE Rule 8 — no hard years anywhere, in text or UI. Use for reference only.
+
 You have access to the full Mythrill VTT codebase. Your job is to conduct a **ruthless, unsparing audit** of the world lore. Do not be kind. Do not congratulate. Do not soft-pedal. Every inconsistency, every lazy sentence, every gap in logic, every missed opportunity for depth  -  find it, cite it, and propose a fix.
 
 **You are not reviewing for typos. You are reviewing for whether this world holds together as a living, breathing place that a Game Master could run a campaign in without tripping over contradictions.**

@@ -215,8 +215,22 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       shoreling: {
         id: 'shoreling_myrathil',
         name: 'Shoreling',
-        illustration: '/assets/images/races/shore_illustration.png',
-        illustrationCaption: 'A Shoreling Myrathil standing on a wind-whipped shore, webbed fingers flushing, wearing layered sailcloth.',
+        illustration: '/assets/images/races/myrathil_shoreling_redesign.jpg',
+        illustrationCaption: 'A Shoreling wave-warrior stepping onto storm-washed ship timbers with massive driftwood-and-anchor pauldrons and a colossal anchor poleaxe, in gritty charcoal draft sketch with stormy ocean-teal wave splash.',
+        illustrations: [
+          {
+            src: '/assets/images/races/myrathil_shoreling_redesign.jpg',
+            caption: 'A Shoreling wave-warrior stepping onto storm-washed ship timbers with massive driftwood-and-anchor pauldrons and a colossal anchor poleaxe, in gritty charcoal draft sketch with stormy ocean-teal wave splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_shoreling_humanoid.jpg',
+            caption: 'Shoreling coastal diplomat standing on coastal rocks in charcoal sketch style.'
+          },
+          {
+            src: '/assets/images/races/shore_illustration.png',
+            caption: 'Classic watercolor illustration of a Shoreling Myrathil standing on the coast.'
+          }
+        ],
         visualDescription: `The first and most numerous, the Shoreling are built for two worlds and belong fully to neither. Their bronze skin carries the shifting bioluminescent vein-colors common to all Myrathil, teal in calm, storm-grey when the pressure drops, but their gill-veins and webbed fingers flush with blood only when their marine nature surfaces, and they are as comfortable on dry land as at the tide-line. Their enormous ocean-blue eyes squint perpetually against a light they were not built for. They favor layered sailcloth and practical storm-capes, the dress of diplomats and traders, and salt dries on their lashes when the sea lets them go.`,
         tooltipSummary: 'Shoreling-born diplomats who broker deals between sea and land, their vein-colors betraying every emotion they cannot hide.',
         description: 'The first Myrathil, spawned from the meeting of volcanic foam and glacial melt, ages before the sun was buried. The most numerous and the ambassadors their people present to the world. Born where waves hammer shore, the collision of sea meeting land, of volcanic warmth meeting glacial melt, of the Iceheart Sea\'s patient fury meeting the continents it can never quite claim. The Shoreling are the most numerous Myrathil, the ambassadors, the face their people present to a world that collects them. Their bodies are built for both worlds and belong fully to neither, lungs for air, gill-veins for water, webbed fingers that flush with blood when they remember what they are. Unlike their Deepling and Riverling kin, the Shoreling can long rest on dry land without submersion, though they recover faster and more fully when sleeping in salt water. They are the most adaptable Myrathil, the diplomats and traders who run trade posts and negotiate with port authorities. They broker deals between ship-captains and shore-towns in ports from Frostwood Reach to Sundale. They mediate disputes in tide pools and trading posts. They carry the weight of being the diplomats of a people who have no nations, no armies, and no exploit except the quiet threat that the sea, should she choose, could take back every coastline she ever lent to the land. The flaw they carry is the flaw of the middle: they mediate everyone else\'s conflicts but cannot resolve their own. A Shoreling who picks a side, land or sea, is seen as having failed at being Myrathil.',
@@ -448,12 +462,20 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       deepling: {
         id: 'deepling_myrathil',
         name: 'Deepling',
-        illustration: '/assets/images/races/deep_illustration.png',
-        illustrationCaption: 'A Deepling Myrathil floating in the abyssal oceanic rift before a cracked crystal monolith glowing with sonar waveforms, surrounded by bioluminescent jellyfish and light-squid.',
+        illustration: '/assets/images/races/myrathil_deepling_pure_sketch.jpg',
+        illustrationCaption: 'An innocent, childlike Deepling Myrathil floating weightlessly with an oversized spiral ammonite shell pauldron, rendered in gritty charcoal concept draft with an energetic cyan watercolor splash.',
         illustrations: [
           {
+            src: '/assets/images/races/myrathil_deepling_pure_sketch.jpg',
+            caption: 'An innocent, childlike Deepling Myrathil floating weightlessly with an oversized spiral ammonite shell pauldron, rendered in gritty charcoal concept draft with an energetic cyan watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_deepling_redesign.jpg',
+            caption: 'Youthful Deepling mystic in mid-water dive with an abyssal resonant pearl in charcoal draft sketch.'
+          },
+          {
             src: '/assets/images/races/deep_illustration.png',
-            caption: 'A Deepling Myrathil floating in the abyssal oceanic rift before a cracked crystal monolith glowing with sonar waveforms, surrounded by bioluminescent jellyfish and light-squid.'
+            caption: 'Classic watercolor illustration of a Deepling Myrathil floating in the abyssal oceanic rift.'
           }
         ],
         visualDescription: `The abyss-adapted. Deepling biology skews further toward sea than their Shoreling kin: longer submersion tolerance, stronger swimming muscle, and less comfort with the spoken word. Their eyes are larger and darker, built for the absolute black of the deep, and their vein-colors run cooler and dimmer, calibrated for the abyssal current rather than the sunlit tide. They arrive on beaches already half-grown, salt-crusted, speaking only the low-frequency hum Myrathil use underwater, and their skin dries and cracks painfully without frequent hydration. They favor loose kelp-weave that floats free in the current and little else.`,
@@ -733,8 +755,22 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       riverling: {
         id: 'riverling_myrathil',
         name: 'Riverling',
-        illustration: '/assets/images/races/brook_illustration.png',
-        illustrationCaption: 'A Riverling Myrathil scout wading in a freshwater delta, holding a parchment map and surveying the terrain.',
+        illustration: '/assets/images/races/myrathil_riverling_redesign.jpg',
+        illustrationCaption: 'A Riverling scout and cartographer perched atop a mossy boulder amidst rushing river rapids, holding a surveying spear and water-divining compass, in gritty charcoal draft sketch with river jade watercolor splash.',
+        illustrations: [
+          {
+            src: '/assets/images/races/myrathil_riverling_redesign.jpg',
+            caption: 'A Riverling scout and cartographer perched atop a mossy boulder amidst rushing river rapids, holding a surveying spear and water-divining compass, in gritty charcoal draft sketch with river jade watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_riverling_humanoid.jpg',
+            caption: 'Riverling explorer wading through shallows in charcoal sketch style.'
+          },
+          {
+            src: '/assets/images/races/brook_illustration.png',
+            caption: 'Classic watercolor illustration of a Riverling Myrathil scout wading in a freshwater delta.'
+          }
+        ],
         visualDescription: `The wanderers of the inland waters. Riverling are born of brackish spawning, river mouths, estuaries, mangrove deltas, and it shows in a build tuned for freshwater travel: lean, self-sufficient, lighter-footed on land than any other Myrathil. Their vein-colors run brighter, fed by the oxygen of moving water, and they alone can submerge in freshwater without irritation. Most striking is their gift for concealment: a Riverling can retract their webbing completely, dim their vein-colors to near-invisibility, and still the restless tide in their movements until they look, briefly, almost human. They favor light traveling clothes and carry parchment maps of waterways no one else charts.`,
         tooltipSummary: 'Estuary-born explorers who follow rivers inland to map territories no Myrathil has ever seen, caught between two worlds that claim them.',
         description: 'Emerged in the early centuries of the Freezing Era when Venn the Salt-Walker discovered the Mother\'s Mirror and proved Myrathil could survive in freshwater. The wanderers who follow rivers inland. Born where freshwater meets salt, river mouths, estuaries, mangrove deltas, in brackish water that is neither one world nor the other. Unlike other Myrathil, they can submerge in freshwater without the salt-irritation that makes their kin avoid the rivers that vein the continents. This makes them the wanderers: the ones who follow waterways inland from the Frostwood Reach to the edge of Sundale\'s volcanic deserts, who have crossed the Sundrift Vale by following a seasonal stream that no map recorded, who become scouts and explorers seeing mountains for the first time in Myrathil history. They are the most adaptable and self-sufficient of the Myrathil, needing only some contact with water to sustain themselves where their kin require submersion. Their yearning is for flowing freshwater: a Riverling Myrathil who returns to a river after long absence feels the current in their veins reawaken, like a pulse finding its rhythm again. They return with maps and stories and a look in their eyes that other Myrathil find hard to hold. The flaw they carry is suspicion from their own kind. A Riverling who stays inland too long "forgets the taste of mother." Shoreling treat them as too land-ish. Deepling treat them as practically human. They are the ones caught between loyalties, accused of not being Myrathil enough, and yet they are the only Myrathil who have seen the inland territories where the Sundered Monoliths rest, who have walked the Sundrift Vale and mapped the rivers that flow toward the Bryngloom Forest\'s swampy heart.',

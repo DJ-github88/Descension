@@ -563,6 +563,25 @@ const PeopleTab = ({ context, locationNpcs, onClassClick, onFactionClick }) => {
         </section>
       )}
 
+      {context.classSites && context.classSites.length > 0 && (
+        <section className="world-section">
+          <h3><i className="fas fa-location-dot" /> Class Sites</h3>
+          <div className="world-card-grid">
+            {context.classSites.map((s, i) => (
+              <div
+                key={`${s.classKey}-${i}`}
+                className="world-info-card world-clickable"
+                onClick={() => onClassClick && onClassClick(s.classKey)}
+              >
+                <h4>{s.site}</h4>
+                <span className="world-badge">{formatDisplayName(s.classKey)}</span>
+                <p>{s.note}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="world-section">
         <h3><i className="fas fa-shield-halved" /> Faction Presence</h3>
         {factionPresence.length > 0 ? (

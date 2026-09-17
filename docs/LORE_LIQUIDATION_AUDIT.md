@@ -6,6 +6,8 @@
 
 ## 1. THE SENTENCE
 
+> **HISTORICAL — superseded.** This document was written against an older, hard-dated timeline (Year 0/300/325/475 and the ~800-year audits). Canon is now **era-relative**: see `vtt-react/src/store/timelineStore.js` and LORE_STYLE_GUIDE Rule 8 — no hard years anywhere, in text or UI. Use for reference only.
+
 The Mythrill VTT setting is an ambitious, sprawling, emotionally resonant world that has been built by accretion rather than architecture. Its contradictions are not bugs in an otherwise clean system  -  they are the inevitable result of eight hundred fictional years of parallel development where no one stopped to ask whether the new cool idea contradicted the old cool idea. The dead moon is an egg (lunarchData.js). The dead moon is a dead celestial body whose ghost still orbits (lunarchData.js, later). The Wyrd is primordial spiritual rot (rulesData.js). The Wyrd is also something you inhale through fungal spores (animistData.js). The Watcher is too abstract to matter. Too many classes have no political skin in the game. Too many races overlap into redundancy. The "secret at the center" the setting desperately needs is absent  -  replaced by a dozen semi-secrets that compete for attention and satisfy none.
 
 This document names every wound. The order is deliberate: cosmology first, then the bargain-invisible regions, then races, then classes, then the Watcher, the Dead Moon, the Wyrd, and finally the missing secret.

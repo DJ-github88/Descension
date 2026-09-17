@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import ClassResourceBar from '../hud/ClassResourceBar';
@@ -406,7 +406,7 @@ const getNotableFiguresForClass = (regionSection, className) => {
   const trimmed = line.trim();
   if (trimmed.startsWith('*') || trimmed.startsWith('•') || trimmed.startsWith('-')) {
    // Format: * **Name**: description
-   const nameMatch = trimmed.match(/^[\*\-•]\s*\*\*(.*?)\*\*\s*:\s*(.*)$/);
+   const nameMatch = trimmed.match(/^[*\-•]\s*\*\*(.*?)\*\*\s*:\s*(.*)$/);
    if (nameMatch) {
     // Strip trailing HTML tags like </div> or </p> from the description, while keeping LoreLink
     const rawDesc = nameMatch[2].trim();
@@ -416,7 +416,7 @@ const getNotableFiguresForClass = (regionSection, className) => {
      description: cleanDesc
     });
    } else {
-    const cleanLine = trimmed.replace(/^[\*\-•]\s*/, '');
+    const cleanLine = trimmed.replace(/^[*\-•]\s*/, '');
     if (cleanLine) {
      const cleanDesc = cleanLine.replace(/<(?!LoreLink\b|\/LoreLink\b)\/?[a-zA-Z0-9]+[^>]*>/g, '').trim();
      figures.push({
@@ -807,27 +807,27 @@ const classFallbacks = {
   { url: '/assets/images/classes/warden_illustration_3.png', caption: 'An Ordan Human Warden in heavy iron plate armor dragging a massive shackle.' }
  ],
  gambit: [
-  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Stellar Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
+  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Brutish Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
   { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' },
   { url: '/assets/images/classes/gambit_illustration_3.png', caption: 'A Skald Human Gambit flipping three glowing brass coins to trace probability lines.' }
  ],
  chronarch: [
-  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Earthen Astril Starlight Astrologer Chronarch utilizing time-sand.' },
+  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Stargazer Astril Starlight Astrologer Chronarch utilizing time-sand.' },
   { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' },
-  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Stellar Astril Chronarch tracing complex golden clockwork dials in the air.' }
+  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Brutish Astril Chronarch tracing complex golden clockwork dials in the air.' }
  ],
  spellguard: [
   { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Clockwork Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Stellar Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
+  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Brutish Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
   { url: '/assets/images/classes/spellguard_illustration_3.png', caption: 'A Caustic Fexric Spellguard with a metal-threaded beard carrying a rune tower shield.' }
  ],
  augur: [
   { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
-  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Earthen Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
-  { url: '/assets/images/classes/augur_illustration_3.png', caption: 'A Fractured Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
+  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Stargazer Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
+  { url: '/assets/images/classes/augur_illustration_3.png', caption: 'A Broken Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
  ],
  harbinger: [
-  { url: '/assets/images/classes/harbinger_illustration.png', caption: 'A Fractured Mimir Sump Archivist Harbinger channeling entropic friction.' },
+  { url: '/assets/images/classes/harbinger_illustration.png', caption: 'A Broken Mimir Sump Archivist Harbinger channeling entropic friction.' },
   { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Withered Harbinger holding a clockwork device of entropic friction.' },
   { url: '/assets/images/classes/harbinger_illustration_3.png', caption: 'A Clockwork Fexric Harbinger wreathed in copper-wire carrying an entropic chronometer.' }
  ],
@@ -1073,13 +1073,13 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   ? processedSpells.findIndex(s => s.id === selectedSpell.id)
   : -1;
 
- const navigateSpell = (direction) => {
+ const navigateSpell = useCallback((direction) => {
   if (processedSpells.length === 0) return;
   const newIndex = selectedSpellIndex + direction;
   if (newIndex >= 0 && newIndex < processedSpells.length) {
    setSelectedSpell(processedSpells[newIndex]);
   }
- };
+ }, [processedSpells, selectedSpellIndex]);
 
  useEffect(() => {
   if (!selectedSpell) return;
@@ -1096,7 +1096,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   };
   window.addEventListener('keydown', handleKeyDown);
   return () => window.removeEventListener('keydown', handleKeyDown);
- }, [selectedSpell, selectedSpellIndex, processedSpells]);
+ }, [selectedSpell, selectedSpellIndex, processedSpells, navigateSpell]);
 
  // Memoize icon URLs to prevent flickering
  const spellIconUrls = useMemo(() => {
@@ -1197,7 +1197,6 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const lines = content.split('\n');
   const blocks = [];
   let currentItems = [];
-  let currentHeader = null;
   let currentHeaderText = null;
 
   const flushItems = () => {
@@ -1389,7 +1388,6 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 
      // 6. Tactical resolutions
      const resultMatch = trimmed.match(/^\*\*Result\*\*:\s*(.*)/i);
-     const costMatch = trimmed.match(/^\*\*Cost\*\*:\s*(.*)/i);
      const mindRacesMatch = trimmed.match(/^\*\*Your Mind Races\*\*:\s*(.*)/i);
 
      if (resultMatch) {

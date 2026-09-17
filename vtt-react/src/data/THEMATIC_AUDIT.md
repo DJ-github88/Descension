@@ -1,5 +1,7 @@
 # Thematic Audit — Mythrill VTT: Race & Class Framework
 
+> **HISTORICAL — superseded 2026-09-17.** This July 2026 audit predates the class-data SSOT work. The bugs it lists (toxicologist `"human"` hardBlock, martyr `"neth"` hardBlock) were fixed long ago, and heritage gating now runs entirely on class data (`isClassCompatible` in `vtt-react/src/utils/pointBuySystem.js`). Restriction IDs printed below (solvarn_human, morren_human, korr_emberth, etc.) are historical and are not current canon. Current tooling: `audit-class-doc-drift.mjs` + `_verify_lore.mjs`; current restriction truth: the `restrictions` block of each `vtt-react/src/data/classes/*Data.js`.
+
 **Audit Date:** 2026-07-10
 **Scope:** All 10 race files, 20 class data files, lore dictionary, background data, restriction logic
 **Reviewer:** AI-assisted systematic cross-reference

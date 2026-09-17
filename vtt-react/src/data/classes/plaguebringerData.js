@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * PLAGUEBRINGER CLASS DATA
  *
@@ -231,10 +230,24 @@ The cause is unclear. Some blame the Silence contamination spreading through the
  classSpecificLocations: [
   {
   name: 'The Rot-Gardens',
-  locationId: 'peat-bog-sinks',
+  locationId: 'peat_bog_sinks',
   description: 'Submerged cultivation chambers in the deepest peat-bogs, where Plaguebringers grow and maintain their foundational bacterial strains. The gardens are marked by distinctive bioluminescent fungi that change color based on the health of the culture. Several gardens have recently turned black, the color of culture death.',
   purpose: 'Bacterial cultivation and strain preservation',
   status: 'Critical, foundational strains are failing across all active gardens'
+  },
+  {
+  name: 'The Blight-Mother\'s Ward',
+  locationId: 'blight_mothers_ward',
+  description: 'A sealed chamber in the deep Bryngloom where Vespera lies, three centuries old and kept alive entirely by the cultures in her blood. The Ward is warm, humid, and reeks of peat and iron; her apprentices rotate through it in silence, updating the charts on the walls, feeding the strain, and racing the clock the charts describe. The room holds two beds. One is Vespera\'s. The other is empty, and has been since the tradition understood that the successor strain will need somewhere to live.',
+  purpose: 'Seat of the tradition and the founder\'s sickroom; where the successor strain is engineered against a deadline nobody writes down',
+  status: 'Active, and the charts have begun disagreeing; the strain in Vespera\'s blood is dying faster than the apprentices can build its heir'
+  },
+  {
+  name: 'The Half-Life Ward',
+  locationId: 'half_life_ward',
+  description: 'A cultivation warren beneath the Over-Shanty, dug into the peat by Withered hands, where legally nonexistent people grow illegal biology in a jurisdiction that can see neither. The Ward\'s gardens are smaller than the Rot-Gardens and much more aggressive, because the substrate here is alive: the Withered host the cultures in their own half-dead flesh, and the wardens log every acceleration as a line in a ledger no court can subpoena.',
+  purpose: 'Withered substrate-gardens and refuge; where disease is cultivated in bodies the Contract no longer protects or regulates',
+  status: 'Active and dissolving, the Withered are dying faster than the tradition can replace them, and the survivors have stopped accepting treatment for a strain they suspect was always going to take them'
   }
  ],
 

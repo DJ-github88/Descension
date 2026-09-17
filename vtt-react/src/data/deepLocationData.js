@@ -317,7 +317,7 @@ DEEP_LOCATIONS['synod-hold'] = {
   description: 'A circle of seven standing stones against a starless sky, each stone inscribed with the crest of a noble house'
  },
  population: 800,
- dominantRaces: ['Solari', 'Astril (Stellar Astril)'],
+ dominantRaces: ['Solari', 'Astril (Brutish Astril)'],
  leadership: {
   type: 'noble_house',
   title: 'Steppe-Lord',
@@ -358,7 +358,7 @@ DEEP_LOCATIONS['synod-hold'] = {
    { date: 'in the early generations of the Freezing Era', event: 'Synod Hold established as a permanent trade post' },
    { date: 'in the early centuries of the Freezing Era', event: 'The first Synod delegates arrived, offering "trade consultation services"' },
    { date: 'in the early centuries of the Freezing Era', event: 'The Synod Organizes: formal ruling council established; first Echo-Submersion case recorded' },
-   { date: 'decades into the Freezing Era', event: 'The Earthen Astril-Stellar Astril Schism: Harmonists vs. Silencers split the Astril' },
+   { date: 'decades into the Freezing Era', event: 'The Stargazer Astril-Brutish Astril Schism: Harmonists vs. Silencers split the Astril' },
    { date: 'in the later centuries of the Freezing Era', event: 'False Dawn Riots: Synod authority challenged when the myth of Sol\'s return breaks' },
    { date: 'in the later centuries of the Freezing Era', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' },
    { date: 'in the most recent centuries', event: 'Silence Between Stars: Li Wei witnesses the contact and founds the False Prophet tradition' }
@@ -949,19 +949,19 @@ DEEP_LOCATIONS['starfall-vale'] = {
   description: 'A crystalline shard embedded in dark earth, emanating pale starlight'
  },
  population: 150,
- dominantRaces: ['Earthen Astril', 'Ordan humans'],
+ dominantRaces: ['Stargazer Astril', 'Ordan humans'],
  leadership: {
   type: 'religious',
   title: 'Star-Oracle',
   leaderId: null,
   description:
-   'The Star-Oracle, a Earthen Astril whose Lumian echo has achieved the deepest symbiosis, governs Starfall Vale. The symbiosis grants them prophetic visions tied to the crystalline shards. The Oracle\'s authority is spiritual rather than political, but in a settlement built around pilgrimage, spiritual authority is absolute.'
+   'The Star-Oracle, a Stargazer Astril whose Lumian echo has achieved the deepest symbiosis, governs Starfall Vale. The symbiosis grants them prophetic visions tied to the crystalline shards. The Oracle\'s authority is spiritual rather than political, but in a settlement built around pilgrimage, spiritual authority is absolute.'
  },
  defenses: {
   militiaSize: 10,
   fortifications:
    'The vale\'s natural geography provides protection, steep walls of dark stone rise on all sides, broken only by narrow paths. The crystalline shards emit a faint radiation that Wyrd-creatures instinctively avoid, creating an invisible barrier.',
-  watchPresence: 'Earthen Astril sentinels meditate at the vale\'s entrances, their crystalline resonance alerting them to approaching threats'
+  watchPresence: 'Stargazer Astril sentinels meditate at the vale\'s entrances, their crystalline resonance alerting them to approaching threats'
  },
  economy: {
   primary: 'Pilgrimage and spiritual tourism',
@@ -974,19 +974,19 @@ DEEP_LOCATIONS['starfall-vale'] = {
   architecture:
    'Minimal and organic, Ordan yurts and Astril crystal-tents arranged around the vale\'s central shard-field. No permanent stone structures; the Astril believe building in stone would insult the starlight. The Ordan herders maintain the paths and supply the settlement with food.',
   sounds:
-   'The harmonic hum of the crystalline shards. Each produces a unique tone, and the cumulative effect is an endless, shifting chord that resonates in the chest. Wind through the vale. The soft chanting of Earthen Astril pilgrims. The distant lowing of Ordan herds on the steppe above.',
+   'The harmonic hum of the crystalline shards. Each produces a unique tone, and the cumulative effect is an endless, shifting chord that resonates in the chest. Wind through the vale. The soft chanting of Stargazer Astril pilgrims. The distant lowing of Ordan herds on the steppe above.',
   smells:
    'Ozone, the sharp, clean scent of the sky before a storm, present constantly. Crushed herbs from Ordan cooking fires. The faint metallic scent of the crystalline shards, like licking a coin.',
   lighting:
-   'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Earthen Astril navigate by reading the glow-patterns, which shift subtly with the season and the state of Lumia\'s echo within them.'
+   'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Stargazer Astril navigate by reading the glow-patterns, which shift subtly with the season and the state of Lumia\'s echo within them.'
  },
  history: {
   founded: 'at the Great Binding',
-  foundedBy: 'Earthen Astril',
+  foundedBy: 'Stargazer Astril',
   foundingStory:
-    'When Keth Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Earthen Astril found within hours of their arrival. They have never left.',
+    'When Keth Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Stargazer Astril found within hours of their arrival. They have never left.',
   significantEvents: [
-    { date: 'before the Star-Fall', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Earthen Astril claim the site within hours' },
+    { date: 'before the Star-Fall', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Stargazer Astril claim the site within hours' },
    { date: 'in the first centuries of the Freezing Era', event: 'First Oracle-vision recorded, a prophecy of the Sundered Monoliths' },
    { date: 'in the later centuries of the Freezing Era', event: 'Ordan herders granted grazing rights in exchange for provisioning the pilgrimage route' }
   ]
@@ -997,8 +997,8 @@ DEEP_LOCATIONS['starfall-vale'] = {
    name: 'The Shard-Field',
    type: 'temple',
    description:
-    'The central crater floor, carpeted with thousands of crystalline shards ranging from grain-sized to massive pillars thirty feet tall. The largest shards pulse with trapped starlight, their tones harmonizing in a chord that the Earthen Astril call the Memory of Sol. Pilgrims walk barefoot through the field, believing the starlight heals the spirit.',
-   proprietor: 'Earthen Astril',
+    'The central crater floor, carpeted with thousands of crystalline shards ranging from grain-sized to massive pillars thirty feet tall. The largest shards pulse with trapped starlight, their tones harmonizing in a chord that the Stargazer Astril call the Memory of Sol. Pilgrims walk barefoot through the field, believing the starlight heals the spirit.',
+   proprietor: 'Stargazer Astril',
    notableFeatures: [
     'The First Shard: the largest crystal, at the crater\'s center, it produces a tone that resonates with every Astril\'s Lumian heritage simultaneously',
     'The Oracle\'s Seat: a natural depression in the First Shard where the Star-Oracle sits to receive visions'
@@ -1084,7 +1084,7 @@ DEEP_LOCATIONS['harath-vault'] = {
    id: 'the-forge-floor',
    name: 'The Forge Floor',
    type: 'great_hall',
-   description: 'The heart of the Harath-Vault, a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by seven centuries of hammer-strikes, ritual ignitions, and the Rage testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
+   description: 'The heart of the Harath-Vault, a massive chamber where the forge-pits glow with captured geothermal fire. The floor is scarred by ages of hammer-strikes, ritual ignitions, and the Rage testing of every Berserker who has trained here. Grum\'s original hammer-impression is preserved under volcanic glass at the chamber\'s center.',
    proprietor: 'Blood-Priest',
    notableFeatures: [
     'Grum\'s Impression: the volcanic glass seal preserving the founder\'s hammer-strike',
@@ -1341,8 +1341,8 @@ DEEP_LOCATIONS['atropolis'] = {
     foundedBy: 'Scribe-Clan Ancestors & Morvane',
     foundingStory: 'Grown from an ancient elven grove-sanctuary across centuries, Atropolis became the seat of the Nethien when the dying scribe-clan presented Morvane with the First Contract to survive the freeze.',
     significantEvents: [
-      { date: 'Year 42 of the Freezing Era', event: 'The First Contract signed at the Heartwood Archive' },
-      { date: 'Year 310 of the Freezing Era', event: 'House Morrath elevated as substitute 7th signatory after Viridane\'s erasure' }
+      { date: 'The first generations of the Freezing Era', event: 'The First Contract signed at the Heartwood Archive' },
+      { date: 'When the Seventh Seat changed hands', event: 'House Morrath elevated as substitute 7th signatory after Viridane\'s erasure' }
     ]
   },
   subLocations: [
@@ -1721,5 +1721,144 @@ const LEGACY_SITES = {
  lichborne: { site: "Vesper's Basalt-Phylactery", region: "bryngloom-forest", parentLocation: "aran-glen", note: "The founder's own basalt stone, enshrined in the Cold Hearth, still pulsing once per hour; Revenants of the frost-stasis inclination touch it before long operations." }
 };
 
-export { DEEP_LOCATIONS, LEGACY_SITES, getDeepLocation, getEnrichedZone, getEnrichedZonesByRegion };
+const CLASS_SITES = {
+ animist: [
+  { site: "The Concord of Tongues", region: "frozen-archive", parentLocation: "frozen-archive", note: "The ring-hall where the Convergence collates every ancestral dialect; its collation now contradicts itself, and the shared minutes have gone unsigned for two years." },
+  { site: "The Listening Mound", region: "sundrift-vale", parentLocation: "ancestor-wold", note: "The barrow where the Hearth-Singer proved the dead could navigate; the last place the oldest dead answer clearly in every dialect." },
+  { site: "Nyssa's Sink", region: "bryngloom-forest", parentLocation: "peat-bog-sinks", note: "The collapsed peat hollow of the first deliberate spore-inhalation; the cleanest pre-Monolith bloom left in the bog, and quietly blooming in unknown dialects." },
+  { site: "The Quenched Hearth", region: "nordhalla", parentLocation: "skaldfjord-dal", note: "A burned Sky-Singer steading from the Cleansing, left unmarked; silent to every Animist dialect, even the oldest dead." }
+ ],
+ apex: [
+  { site: "The Still Blind", region: "frostwood-reach", parentLocation: "greythorn-copse", note: "The Greythorn oath-ring of the Silent Hunt, forty-seven cairns and a forty-eighth that is always warm; the cairn-lights are going out." },
+  { site: "Sylas's Clearing", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "The Silent Sisterhood's training grove deep in the Ironwood Heart, its trees carved with the hand-signs of every graduate." },
+  { site: "The Quiet Hollow", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "The soundless bowl where the Apex Trade is struck; lately the hand that takes has been taking more than agreed." },
+  { site: "The Weeping Shelf", region: "nordhalla", parentLocation: "hunger-glaciers", note: "A melting glacier record-room uncovering fresher tracks than it should hold; last report reads, in full: it walks the way the glacier walks." }
+ ],
+ arcanoneer: [
+  { site: "The Canopy-Ledger", region: "bryngloom-forest", parentLocation: "atropolis", note: "The Atropolis seat of the craft, paralyzed by the factional dispute over the Nethien Contingency Protocol." },
+  { site: "The Heart-Vault", region: "bryngloom-forest", parentLocation: "atropolis", note: "The First Contract's chamber; Arcanoneers press their focuses to the bark, and the bark has begun refusing certain clause-copies." },
+  { site: "The Underground Proving Grounds", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The tiered test range where Nethien theory met Fexric engineering and the Gear-Weaver/Scrap-Weaver schism happened at one bench." },
+  { site: "The Quiet Observatory", region: "sundrift-vale", parentLocation: "starfall-vale", note: "The Stargazer chart-house older than the First Contract; its ninth column is no longer empty." }
+ ],
+ augur: [
+  { site: "The Entrail Chambers", region: "frozen-archive", parentLocation: "frozen-archive", note: "The Augur ritual chambers below the Frozen Archive; contradictory results have thrown the chamber into chaos." },
+  { site: "Cassia's Terrace", region: "frozen-archive", parentLocation: "frozen-archive", note: "Where the First Failing's hour was read; the elk-vein pattern is kept in ice, and the annual reading no longer matches it." },
+  { site: "The Contradiction Vault", region: "frozen-archive", parentLocation: "frozen-archive", note: "A lead-lined vault of failed auguries and the Reckoner's tally; the count is short by an unknown quantity." },
+  { site: "The Last Cut", region: "bryngloom-forest", parentLocation: "black-fen", note: "The Black Fen peat-cut where the bog returned its final mummy; the Vreken keep vigil over an empty cut no one will refill." }
+ ],
+ berserker: [
+  { site: "The Harath-Vault Arenas", region: "sundale", parentLocation: "harath-vault", note: "The geothermal proving-grounds where a Berserker is not blooded until they have won a match; the Unbound schism has poisoned the air." },
+  { site: "The Forge of Grum", region: "sundale", parentLocation: "emberspire-caldera", note: "The original forge, still lit, tended by one silent keeper for sixty years; pilgrims press their hands to the anvil." },
+  { site: "The Long Table", region: "nordhalla", parentLocation: "bloodhammer-sump", note: "The basalt origin-table of the Hunger Pact; set for an Unbound guest no one will seat or refuse." },
+  { site: "The Unbound Deep", region: "sundale", parentLocation: "emberspire", note: "The heretical settlement in Emberspire's abandoned warm galleries; they burn without the Pact and the Council has sentenced them for it." },
+  { site: "The Collection Sumps", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The Deep Alchemist annex where vanished Vat-Woken are taken for audit; the Vat-Breakers' bounty on its map remains uncollected." }
+ ],
+ chronarch: [
+  { site: "The Chronostasis Chamber", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "Nesta's original engine chamber beneath Frostmaw; her chair has been empty for three weeks." },
+  { site: "The Stalled Fall", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The glacier wall Nesta stopped for three days; for the first time in three centuries it is dripping, one drop a day." },
+  { site: "The First Turbine Gallery", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The quarantined oldest machine; time stutters in the gallery and the seal is broken from the inside every season." },
+  { site: "The Slow Vault", region: "cragjaw-peaks", parentLocation: "deepchasm-keep", note: "A Tessen undercroft where a ceiling collapse has been arriving for two hundred years; three stones landed this winter." }
+ ],
+ crusader: [
+  { site: "The Obsidian Citadel", region: "sundale", parentLocation: "the-ashen-escarpment", note: "The Dawn Vigil's toll-fortresses: the gates keep refugees in and the Wyrd out, and the garrison oaths are sworn before a humming reliquary light." },
+  { site: "The Mounted Blade", region: "sundale", parentLocation: "harath-vault", note: "Vane Solvan's shattered sword above the Great Forge; it dimmed the day the Vigil voted to reforge the Monoliths." },
+  { site: "The Glass Field", region: "sundale", parentLocation: "the-ashen-escarpment", note: "Four miles vitrified by a century of Solvan Judgments; the garrison counts the reflections, and no one will say what to do when the count changes." },
+  { site: "The Reforging Altar", region: "sundale", parentLocation: "emberspire", note: "Where six true Monolith fragments wait with a seventh that hums half a tone off; guards report it hums along with their Fervor, and sometimes first." }
+ ],
+ false_prophet: [
+  { site: "The Cathedral of the Last Light", region: "bryngloom-forest", parentLocation: "over-shanty", note: "An inverted ship's hull above the peat-bog; services are held in absolute darkness and the only light is the Prophet's eyes." },
+  { site: "The Crater of the First Silence", region: "sundrift-vale", parentLocation: "starfall-vale", note: "Where Li Wei dug for iron and found the hum; the monolith is gone and the crater still hums." },
+  { site: "The Breathing Cell", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Li Wei's hidden sickroom under the Over-Shanty; the Voice arrives in his heartbeats and Mor-Vereth's ledger of the dead sits beneath his cot." },
+  { site: "The Lowest Vault", region: "frostwood-reach", parentLocation: "frozen-archive", note: "The sealed under-vault the Voice orders opened; the Archivists deny it exists and the cells are converging anyway." }
+ ],
+ gambit: [
+  { site: "The House of Eighty-Eight Doors", region: "iceheart-sea", parentLocation: "merrowport", note: "The most notorious den in Merrowport; Jax's empty chair at the high-stakes table has become a shrine." },
+  { site: "The Deck-Burners' Hollow", region: "cragjaw-peaks", parentLocation: "deepchasm-keep", note: "Lyra's hidden cave-chamber, its walls covered in the burn-patterns of thousands of severed decks." },
+  { site: "The Dead Pot of Oakhaven", region: "nordhalla", parentLocation: "oakhaven", note: "The northern shore's loudest Dead Pot; a chair by the stove is kept empty for the Wager and has been warm for three nights." },
+  { site: "The Flooded Vault", region: "bryngloom-forest", parentLocation: "the-shallows", note: "Where the Veldun staked caste and memory against a rising room; the crack at the waterline is still touched before wagers." },
+  { site: "The Roulette Manifold", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The spent refinery where a roulette gear vented a meltdown into the Wyrd; the threshold games have an incalculable house edge." }
+ ],
+ harbinger: [
+  { site: "The Fracture Sites", region: "sundrift-vale", parentLocation: "sundrift-vale", note: "The first Chaos Pocket and its siblings, cordoned and under observation by both Weaver and Sayer traditions." },
+  { site: "The Apocrypha Vaults", region: "frostwood-reach", parentLocation: "frozen-archive", note: "Over-capacity vaults of extinction proofs; some scrolls have begun rewriting themselves in frost." },
+  { site: "The Finite Redoubt", region: "sundrift-vale", parentLocation: "sundrift-vale", note: "Malakor's forward survey post at the largest permanent pocket; the pocket has started returning measurements nobody gave it." },
+  { site: "The Margin Room", region: "frostwood-reach", parentLocation: "frozen-archive", note: "The Doom-Choir's hand-kept ledgers; the sums correct themselves overnight, and the Reckoner's auditors have stopped correcting them back." }
+ ],
+ inquisitor: [
+  { site: "The Hall of Barbed Vows", region: "bryngloom-forest", parentLocation: "sunken-spire", note: "The initiation hall beneath the Sunken Spire; the newest blades are being hung by people whose families now glow in the dark." },
+  { site: "The Salt-Pans of Greymark", region: "frostwood-reach", parentLocation: "greymark-keep", note: "Null-salt preparation and entity containment beneath Greymark Keep; operating at capacity." },
+  { site: "The Bait-Row", region: "frostwood-reach", parentLocation: "wraithfen", note: "Elias's boundary stones, now a Bait-Vow training ground; two instructors per recruit since the incursions tripled." },
+  { site: "The Ninth Ward", region: "bryngloom-forest", parentLocation: "sunken-spire", note: "Unlisted ward beneath the Hall of Barbed Vows; the order keeps nine wards and the registers list eight." }
+ ],
+ lunarch: [
+  { site: "The Moonlit Sanctuaries", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "Standing-stone cycling grounds for hosts in crisis; Selene occupies the central sanctuary and no one can approach." },
+  { site: "The Thorn-Altar of Viridane", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "Where Selene bound the first parasite; the thorns have begun growing inward since her silence began." },
+  { site: "The Chanting Ward", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "Quarantine grove of the oldest hosts; the chant is more coherent every season and has begun arriving from outside the Ward." }
+ ],
+ martyr: [
+  { site: "The Martyr's Vigil", region: "sundale", parentLocation: "sundale", note: "The volcanic cave where Sera carved her son's name; the walls now carry thousands of names and the free Martyrs renew their Vows here twice a year." },
+  { site: "The Scar-Shrine", region: "sundale", parentLocation: "emberspire", note: "Sera's forearm under glass below Emberspire, still faintly warm; the glass has been fogging more often." },
+  { site: "The Martyr-Brigade Work-Camp", region: "sundale", parentLocation: "the-ashen-escarpment", note: "The Vigil's conscription camp; conscripts trained from childhood, and the free Martyrs answer its muster-bells from the ridge." }
+ ],
+ minstrel: [
+  { site: "The Tide-Chamber", region: "iceheart-sea", parentLocation: "merrowport", note: "The Choir's hall; silent since the sea went quiet, maintained as a vigil." },
+  { site: "The First Shore", region: "iceheart-sea", parentLocation: "first-shore", note: "The spawning beach where the surf-cadence was first matched; the foam now breaks half a beat late." },
+  { site: "The Deep-Watch", region: "iceheart-sea", parentLocation: "deepwell-archipelago", note: "Listening station above the drowned cities; the returning song arrives in rehearsed phrases, and the Deep-Chamber survivors wait under the ice." },
+  { site: "The Sunken Chair", region: "iceheart-sea", parentLocation: "deepwell-archipelago", note: "Abyssal resonance hollow where a Minstrel's own phrase comes back improved; the Choir keeps one survivor's notation page under glass." }
+ ],
+ plaguebringer: [
+  { site: "The Rot-Gardens", region: "bryngloom-forest", parentLocation: "peat-bog-sinks", note: "Submerged cultivation chambers in the deep bogs; several gardens have turned black, the colour of culture death." },
+  { site: "The Blight-Mother's Ward", region: "bryngloom-forest", parentLocation: "bryngloom-forest", note: "Vespera's sealed sickroom and the second, empty bed; the charts have begun disagreeing and the strain is dying faster than its heir can be built." },
+  { site: "The Half-Life Ward", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Withered substrate-gardens beneath the Over-Shanty; the ledger now has more entries than the Ward has cultivators." }
+ ],
+ pyrofiend: [
+  { site: "The Convocation Grounds", region: "sundale", parentLocation: "emberspire", note: "The glassed expanse where Pyrofiends gather for the debt-call; the Final Convocation is imminent." },
+  { site: "The Obsidian Cavern", region: "sundale", parentLocation: "emberspire", note: "The founding cavern of the First Cabal; seven handprints fused into the wall, warming one after another like a pulse." },
+  { site: "The Quench Vaults", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "Fexric quench chambers where the Rings are banked under supervision; a second gallery is quietly under construction." },
+  { site: "The Sealed Vent", region: "sundale", parentLocation: "emberspire", note: "Scathrach's door; the Veil goes quiet at the seal and Pyrofiends describe the feeling as being counted." }
+ ],
+ revenant: [
+  { site: "The Bog-Graves of Kora", region: "bryngloom-forest", parentLocation: "peat-bog-sinks", note: "The oldest consecrated burial ground; twelve graves are empty and the fungi pulse erratically." },
+  { site: "The Cold Hearth", region: "bryngloom-forest", parentLocation: "black-fen", note: "The Black Fen initiation water where initiates let their hearth-fires die before wading in." },
+  { site: "The Sunken Confessionals", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Where the Cult of Forgotten Shadow offers Silence-stasis that requires no life force." }
+ ],
+ shaper: [
+  { site: "The Convergence Sumps", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "Dual-transformation chambers at Frostmaw; divided between purist and converger factions." },
+  { site: "The Calcifying Vats", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The old Formbender vats where initiates drink rationed sulfur-clay; the eldest vats are mysteriously the fullest." },
+  { site: "The Old Dance-Floor", region: "frostwood-reach", parentLocation: "mirror-mere", note: "The unrailed ironwood platform where the momentum half of the art was born; the moss grows in the shape of the drills." },
+  { site: "The Collapse Ward", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "Where Convergence Collapse cases are witnessed instead of hidden; two sets of notes are kept, and the word 'recovered' differs." }
+ ],
+ spellguard: [
+  { site: "The Deflection Halls", region: "frostwood-reach", parentLocation: "greymark-keep", note: "Lead-lined training chambers beneath Greymark Keep; the newest chamber is already showing structural fatigue." },
+  { site: "The Iron-Handed Shrine", region: "sundale", parentLocation: "harath-vault", note: "Damon's slagged shield above the Harath-Vault; the Keepers have stopped reading the First Rule aloud." },
+  { site: "The Dimming Yards", region: "sundale", parentLocation: "vulkars-karst", note: "Lead-walled cooling cells where saturated Spellguards dim below a lamp-line; a surveyor crew is staking out rows no one asked for." }
+ ],
+ toxicologist: [
+  { site: "The Distillery", region: "frostwood-reach", parentLocation: "the-shallows", note: "Canopy laboratory where Varis still works the coils; the newest vials are labeled with question marks." },
+  { site: "Thornwood Grove", region: "frostwood-reach", parentLocation: "the-shallows", note: "The unmarked Third Harvest site; apprentice Shakers leave their failed batches at the claw-marked trees." },
+  { site: "The Peat-Crypts", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Flooded Vreken vaults brewing unlicensed reagents; the patrols have doubled and the archive is moving somewhere it doesn't exist." },
+  { site: "The Deep-Quarter Null-Laboratory", region: "bryngloom-forest", parentLocation: "atropolis", note: "Lead-sheathed peat-hold beneath the Withered rope-slum; the deepening Silence is eating through the sheathing." },
+  { site: "Nerath's Ironwood Deep Laboratory", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "A single unmarked room in a dead ironwood's roots; Nerath buys the spoiled batches the Distillery pours out." }
+ ],
+ warden: [
+  { site: "The Forge of Alaric", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The original chain-forge, still maintained by Caustic Fexric smiths and falling behind demand." },
+  { site: "The Chain-Hold", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The order's seat and initiation hall; the scar-map wall is leaving deliberate gaps." },
+  { site: "The Graft-Theatre", region: "nordhalla", parentLocation: "frozen-archive", note: "Surgical hall beneath the glacier-dead; every chardalyn madness is filed under the volunteer's own name." },
+  { site: "The Whisper-Galleries", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "Deepest tunnels where chardalyn is proofed and the first testers tether themselves to the walls; the bell-rope has rung twice." }
+ ]
+};
+
+const normalizeZoneKey = (id) => String(id || '').replace(/-/g, '_');
+const getClassSitesForZone = (zoneId) => {
+ const key = normalizeZoneKey(zoneId);
+ const out = [];
+ Object.entries(CLASS_SITES).forEach(([classKey, sites]) => {
+  (sites || []).forEach((site) => {
+   if (normalizeZoneKey(site.parentLocation) === key) out.push({ classKey, ...site });
+  });
+ });
+ return out;
+};
+
+export { DEEP_LOCATIONS, LEGACY_SITES, CLASS_SITES, getDeepLocation, getEnrichedZone, getEnrichedZonesByRegion, getClassSitesForZone };
 export default DEEP_LOCATIONS;

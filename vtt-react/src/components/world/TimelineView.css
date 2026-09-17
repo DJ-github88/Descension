@@ -927,3 +927,16 @@
 .chronicon-event-card:hover .event-expand-link {
   color: #2b1408;
 }
+
+/* ── Readable illuminated narrative on parchment ─────────────── */
+.event-narrative-prose .rich-lore-container {
+  color: #2d1810;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+.event-narrative-prose .rich-bold { color: #2b1408; font-weight: 800; }
+.event-narrative-prose .rich-italic { color: #4a2f1a; }
+.event-narrative-prose .rich-h1,
+.event-narrative-prose .rich-h2,
+.event-narrative-prose .rich-h3 { color: #5a2e12; text-shadow: none; }
+.event-narrative-prose .lore-link { color: #8b5a1a; }

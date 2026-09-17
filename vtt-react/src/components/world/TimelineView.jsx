@@ -20,6 +20,11 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
   const activeWorld = getActiveWorld();
   const isCanonWorld = activeWorldId === 'mythrill';
   const chronology = useMemo(() => getChronology(activeWorldId), [getChronology, activeWorldId, activeWorld]);
+  const eraPlacementLabel = (target) => {
+    const d = target?.date || target || {};
+    const era = chronology.find((e) => e.id === d.eraId);
+    return era?.yearRange || 'The Freezing Era';
+  };
   const worldEvents = useMemo(() => getAllEvents(activeWorldId), [getAllEvents, activeWorldId, customEvents]);
 
   const [selectedEra, setSelectedEra] = useState(chronology[0]?.id || 'freezing-era');
@@ -185,7 +190,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
     if (!newEraName.trim()) return;
     const eraId = addCustomTimeline(activeWorldId, {
       name: newEraName.trim(),
-      yearRange: newEraRange.trim() || 'Years 0–100',
+      yearRange: newEraRange.trim() || 'An age of its own',
       description: newEraDesc.trim()
     });
     setSelectedEra(eraId);
@@ -207,7 +212,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
         eraId: targetEra,
         year: parseInt(newEventYear, 10) || 0
       },
-      dateDisplay: `Year ${newEventYear}`,
+      dateDisplay: eraPlacementLabel({ date: { eraId: targetEra } }),
       description: newEventDesc.trim(),
       narrative: newEventNarrative.trim(),
       dmHook: newEventHook.trim(),
@@ -230,7 +235,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
     if (!editingEra || !editingEra.name.trim()) return;
     updateCustomTimeline(activeWorldId, editingEra.id, {
       name: editingEra.name.trim(),
-      yearRange: editingEra.yearRange?.trim() || 'Years 0–100',
+      yearRange: editingEra.yearRange?.trim() || 'An age of its own',
       description: editingEra.description?.trim() || ''
     });
     setEditingEra(null);
@@ -254,7 +259,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
         eraId: editingEvent.date?.eraId || currentEra?.id || 'custom-era',
         year: parseInt(editingEvent.date?.year, 10) || 0
       },
-      dateDisplay: `Year ${editingEvent.date?.year ?? 0}`,
+      dateDisplay: eraPlacementLabel(editingEvent),
       description: editingEvent.description?.trim() || '',
       narrative: editingEvent.narrative?.trim() || '',
       dmHook: editingEvent.dmHook?.trim() || '',
@@ -303,7 +308,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
             </h3>
             {filterFactionId && faction && (
               <p className="compact-stream-sub">
-                Canonical events connecting {sanitizeLoreText(faction.name)} to the 150-Year Freeze
+                Canonical events connecting {sanitizeLoreText(faction.name)} to the long freeze
               </p>
             )}
           </div>
@@ -323,7 +328,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                 <div className="compact-card-meta-bar">
                   <span className="compact-year-badge">
                     <i className="fas fa-calendar-alt" style={{ marginRight: '5px' }}></i>
-                    Year {event.date?.year ?? 0}
+                    {event.dateDisplay || eraPlacementLabel(event)}
                   </span>
                   <span className={`compact-type-badge ${event.type}`}>
                     <i
@@ -377,7 +382,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
               <h2 className="chronicon-title">{isCanonWorld ? 'The Mythrill Chronicon' : `${activeWorld.name} Historical Chronicon`}</h2>
               <span className="chronicon-subtitle">
                 {isCanonWorld
-                  ? 'An illuminated record of the 150-year freeze, celestial pacts, and the deepening silence'
+                  ? 'An illuminated record of the long freeze, celestial pacts, and the deepening silence'
                   : `Living annals, historic epochs, and sovereign chronicle records of ${activeWorld.name}`}
               </span>
             </div>
@@ -533,11 +538,11 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
               borderRadius: '8px',
               overflow: 'hidden'
             }}
-            title="Drag custom (gold-rimmed) events to change their year"
+            title="Drag custom (gold-rimmed) events to move them in time"
           >
             <div style={{ position: 'absolute', left: '8px', right: '8px', top: '50%', height: '2px', background: '#cdb592', transform: 'translateY(-50%)' }} />
-            <div style={{ position: 'absolute', left: '8px', top: '6px', fontSize: '10px', color: '#8b7355' }}>Year {minY}</div>
-            <div style={{ position: 'absolute', right: '8px', top: '6px', fontSize: '10px', color: '#8b7355' }}>Year {maxY}</div>
+            <div style={{ position: 'absolute', left: '8px', top: '6px', fontSize: '10px', color: '#8b7355' }}>{chronology[0]?.name || ''}</div>
+            <div style={{ position: 'absolute', right: '8px', top: '6px', fontSize: '10px', color: '#8b7355' }}>{currentEra?.name || ''}</div>
             {filteredEvents.map((ev) => {
               const pct = ((ev.date?.year ?? 0) - minY) / range;
               const left = 8 + pct * 100; // 8px padding compensation will be handled via calc
@@ -552,7 +557,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                     setDraggingEventId(ev.id);
                   }}
                   onClick={() => setSelectedEventId(ev.id)}
-                  title={`${ev.title} — Year ${ev.date?.year ?? 0}${isCustom ? ' (drag to re-date)' : ''}`}
+                  title={`${ev.title} — ${eraPlacementLabel(ev)}${isCustom ? ' (drag to re-date)' : ''}`}
                   style={{
                     position: 'absolute',
                     left: `calc(8px + ${pct * 100}% - 8px)`,
@@ -670,7 +675,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                     <div className="event-card-header">
                       <div className="event-year-tag">
                         <i className="fas fa-calendar"></i>
-                        <span>{event.dateDisplay || `Year ${event.date?.year ?? 0}`}</span>
+                        <span>{event.dateDisplay || eraPlacementLabel(event)}</span>
                       </div>
                       <div className="event-header-right">
                         <span className={`event-category-badge type-${event.type}`}>
@@ -850,7 +855,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                   />
                 </div>
                 <div className="world-form-group">
-                  <label>Year Range</label>
+                  <label>Age / Span</label>
                   <input
                     type="text"
                     placeholder="e.g. Years 0–300, Pre-Sundering..."
@@ -907,7 +912,7 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                   />
                 </div>
                 <div className="world-form-group">
-                  <label>Year Range</label>
+                  <label>Age / Span</label>
                   <input
                     type="text"
                     value={editingEra.yearRange || ''}
@@ -1114,16 +1119,11 @@ const TimelineView = ({ filterLocationId, filterFactionId, filterClassId, compac
                 </div>
                 <div className="world-form-row">
                   <div className="world-form-group">
-                    <label>Year</label>
+                    <label>Placement</label>
                     <input
-                      type="number"
-                      value={editingEvent.date?.year ?? 0}
-                      onChange={(e) =>
-                        setEditingEvent({
-                          ...editingEvent,
-                          date: { ...editingEvent.date, year: e.target.value }
-                        })
-                      }
+                      type="text"
+                      value={eraPlacementLabel(editingEvent)}
+                      readOnly
                     />
                   </div>
                   <div className="world-form-group">

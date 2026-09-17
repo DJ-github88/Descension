@@ -5,16 +5,20 @@ export const REVENANT_DATA = {
            "clean_vreken",
            "marked_vreken",
            "drun_neth",
-           "tessen_human"
+           "tessen_human",
+           "kessen_neth",
+           "merryn_human",
+           "shoreling_myrathil",
+           "deepling_myrathil",
+           "riverling_myrathil"
        ],
       "hardBlocks": [
           "solari",
-          "myrathil",
           "astril",
           "fexrick"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires cultural acceptance of undeath as continuation of obligation. Reframing undeath as contract renewal is Nethien/Vreken-specific."
+      "justification": "Requires cultural acceptance of undeath as continuation of obligation, or a water that refuses to let its dead go. Reframing undeath as contract renewal is Nethien/Vreken-specific (Withered, Veldun); the Merryn drown with their ink still binding; the Myrathil are kept by Mareth's tides, which do not release what they hold. Thalren, Skald, Ordan, and Tessen have no such framework (the Tessen anchor to keeps, not contracts)."
   },
 
   /**
@@ -86,6 +90,86 @@ export const REVENANT_DATA = {
         text: '"My keep is my coffin and my coffin is my keep. I have stood in this hall for four hundred years refusing to be the last of my line. The hall is falling. The line may finally end. I am not ready, even now."',
         speaker: 'Castellan Tess-Varek the Waked',
         context: 'A Tessen Revenant, as the eastern wall of her keep-phylactery began to crack'
+      }
+    },
+
+    kessen_neth: {
+      subraceName: 'Veldun',
+      title: 'The Lien-Holder',
+      reframe: `The <LoreLink termId="neth">Veldun</LoreLink> read the obligation-web the way other people read weather, and a Veldun Revenant is what the web does when a reader dies with entries still open. Death closes the account, but the web keeps the reader: unpaid obligations haul the body back the way a creditor hauls a debtor out of a canal, and the Revenant returns to finish what the web still lists as owed.`,
+      signatureAbility: {
+        name: 'Open-Ledger',
+        description: `Toll is drawn from outstanding obligations owed to and by the host; every unpaid entry anchors them further, and their phylactery is the ledger itself. The moment the web reads settled, the Veldun drops where they stand, which is the only retirement the tradition recognizes.`
+      },
+      currentCrisisAngle: `The dead marching toward the Monoliths are visible in the web as a mass settlement: something is paying every obligation at once and calling in every lien. A Veldun Revenant who accepts the payment becomes a willing marcher; one who refuses becomes an unbalanced entry, and the web has begun sending collectors, their own risen kin, to close the difference.`,
+      signatureQuote: {
+        text: '"I am not undead. I am unsettled. The difference matters to me, to the web, and very soon to whatever is paying everybody\'s debts at once."',
+        speaker: 'Vel-Ossar the Open Entry',
+        context: 'A Veldun Revenant, refusing a settlement she cannot audit'
+      }
+    },
+
+    merryn_human: {
+      subraceName: 'Merryn',
+      title: 'The Drift-Bound',
+      reframe: `The <LoreLink termId="iceheart-sea">Merryn</LoreLink> bury their dead at sea, and the sea is supposed to keep them. But a sailor whose ink-contracts are still open does not sink: the tattoos haul the body back the way a creditor hauls a debtor out of a canal, and the ink itself serves as the phylactery, still legally binding, therefore still legally occupied.`,
+      signatureAbility: {
+        name: 'Ink-Anchorage',
+        description: `Toll is drawn from the debt-ink; as long as any unfulfilled tattoo remains legible on the skin, the Drift-Bound rises. Each raising fades the ink, and when the last line goes, the sea collects its principal.`
+      },
+      currentCrisisAngle: `The sea has gone silent, and the dead cannot be released because no one can hear the water's verdict. The Drift-Bound walk the docks of Merrowport and Ironjaw Port waiting for a sea that has stopped speaking. Some have begun burning their own tattoos to force a settlement, one line at a time, which the Tide-Choir regards as the worst kind of suicide: an audit performed on yourself.`,
+      signatureQuote: {
+        text: '"The ink on my arm says I owe a voyage. The sea says nothing, so the voyage stands. If the sea will not speak, I will finish the line myself."',
+        speaker: 'Drift-Bound Merr-Cael the Elder',
+        context: 'A Merryn Revenant, holding a lit wick to the last unread line on her forearm'
+      }
+    },
+
+    shoreling_myrathil: {
+      subraceName: 'Shoreling Myrathil',
+      title: 'The Tide-Kept',
+      reframe: `The <LoreLink termId="myrathil">Shore</LoreLink> give their dead to the tide and the tide keeps giving them back. A Shoreling Revenant is a body the sea returned but did not *release*: it walks the tide-line at low water, drawn a little further inland with every ebb, because Mareth does not release what she holds, and every wave is an installment on a debt with no final payment.`,
+      signatureAbility: {
+        name: 'Tidal Return',
+        description: `Toll is drawn from the sea's grip: each raising is a wave that must come back down, and the sea collects in installments. The Tide-Kept rises strongest at the waterline and weakens with distance inland; they must return to the tideline to renew, and every renewal pulls them a little further from the shore.`
+      },
+      currentCrisisAngle: `The sea has stopped speaking, and the tide-kept dead are being returned without instructions: wave after wave of them, out of order, too early, all along the coast. The Shoreling Revenants no longer know what the sea wants, only that it will not let go and will not explain. Some have started walking inland deliberately, to see whether a debt the sea will not name can still be collected.`,
+      signatureQuote: {
+        text: '"I have been returned four times. The sea returns what it is not finished with. It has never been this unfinished. Something down there is counting wrong."',
+        speaker: 'Tide-Kept Verr the Fourth Rowing',
+        context: 'A Shoreling Revenant, counting the waves the morning after a fourth unrequested return'
+      }
+    },
+
+    deepling_myrathil: {
+      subraceName: 'Deepling Myrathil',
+      title: 'The Pressure-Woken',
+      reframe: `The <LoreLink termId="myrathil">Deep</LoreLink> bury nothing. In the trench, a body does not decay and does not finish: the cold does not vary, the pressure does not lift, and the dead simply *wait*. A Pressure-Woken is one who kept waiting after the body stopped: the abyss preserved them so absolutely that death itself could not complete, and they surface in their own time, hating the slow weight of air.`,
+      signatureAbility: {
+        name: 'Trench-Hold',
+        description: `The phylactery is the pressure that preserved the host: raisings are slow, massive, and nearly impossible to interrupt. Every ascent weakens the hold, and the Pressure-Woken must periodically return to deep water to re-compress; a Deepling Revenant who stays on land too long begins to come apart from the inside, the way anything does when the weight that shaped it is removed.`
+      },
+      currentCrisisAngle: `The Deep are surfacing: not the living only, but the waiting. Dead Deelings who have not risen in centuries are swimming up out of the trench and standing on shorelines in the wrong sunlight, disoriented and enormous with age. None of them will say what they left down there. The living Deepling take the arrival of their own ancestors as an omen, and the omens all point out of the water.`,
+      signatureQuote: {
+        text: '"I waited where nothing happens forever. Then something happened. I do not know why I am breathing air of all things. I only know I was not finished, and now the whole deep feels like it is holding its breath with me."',
+        speaker: 'Venerable Myr-Vass the Waiting',
+        context: 'A Pressure-Woken, speaking on land for the first time in two hundred years'
+      }
+    },
+
+    riverling_myrathil: {
+      subraceName: 'Riverling Myrathil',
+      title: 'The Weir-Locked',
+      reframe: `The <LoreLink termId="myrathil">Brook</LoreLink> trust their dead to the rivers, but a river does not always finish the carrying. A Brook Revenant is a body caught at a weir, a mill-dam, a winter jam, un-finished because the water never delivered it to the sea. The Weir-Locked are held by unfinished current: they rise along the river that caught them, tethered to the whole waterway, walking the banks where the flow is loudest.`,
+      signatureAbility: {
+        name: 'Weir-Hold',
+        description: `As long as the river holds the body, the host rises, and the whole watercourse is the phylactery: a Weir-Locked can surface anywhere along the river that caught them, upstream or down. The tether narrows in dry seasons and breaks if the flow is fully dammed, which is the only death-free death the tradition recognizes.`
+      },
+      currentCrisisAngle: `The rivers are failing in both directions: drought upstream, flood downstream, and the Weir-Locked are being caught and released at random. Some are pushed to the sea they were never meant to reach, where they go quiet; others are stranded in drying bends, awake and furious. The Brook are negotiating water-rights with the Nethien and the Thalren for the first time in history, not for crops, but to keep the dead moving.`,
+      signatureQuote: {
+        text: '"The river is supposed to carry me home. It has changed its mind four times this season. If the water cannot finish what it started, then I will walk, and everything between here and the sea had better be ready to hear about it."',
+        speaker: 'Weir-Locked Murr the Undelivered',
+        context: 'A Riverling Revenant, setting out upstream against his own river'
       }
     }
   },
@@ -248,21 +332,21 @@ The peat-bogs are reacting. In areas where Silence-stasis Revenants have congreg
     classSpecificLocations: [
       {
         name: 'The Bog-Graves of Kora',
-        locationId: 'peat-bog-sinks',
+        locationId: 'peat_bog_sinks',
         description: 'The oldest consecrated burial ground in the Bryngloom, where Kora performed the first necrotic covenant. Graves marked by pale, bioluminescent fungi that pulse in sequence, a slow heartbeat of light that Revenants believe is the ancestors breathing.',
         purpose: 'Primary necrotic anchor and covenant site',
         status: 'Compromised, twelve graves are empty, fungi pulses erratically',
       },
       {
-        name: 'The Peat-Bog Sinks',
-        locationId: 'peat-bog-sinks',
-        description: 'The deep, preserving bogs where Revenants perform the Rite of the Cold Hearth. Acidic peat preserves organic matter, those who enter and perform the ritual emerge with their decay halted.',
+        name: 'The Cold Hearth',
+        locationId: 'black_fen',
+        description: 'The deep, preserving water of the Black Fen where Revenants perform the Rite of the Cold Hearth. Acidic peat preserves organic matter, those who enter and perform the ritual emerge with their decay halted. The rite takes its name from the hearth-fires the initiates let die before they wade in: you walk into the black water carrying no warmth at all, and you walk out carrying less.',
         purpose: 'Initiation site and final resting place',
         status: 'Active, sections turning black and acidic due to Silence contamination',
       },
       {
         name: 'The Sunken Confessionals',
-        locationId: 'over-shanty',
+        locationId: 'over_shanty',
         description: 'Where the Cult of Forgotten Shadow offers Silence-stasis to Revenants willing to abandon the old ways.',
         purpose: 'Silence-stasis initiation',
         status: 'Active, increasingly popular',
@@ -1629,7 +1713,6 @@ You do not use mana. Instead, you pay **Toll**—spending your own Health to cas
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       tags: ["utility","divination","investigation","revenant"],
     },
-  ,
     // ===== POOL-FLOOR EXPANSION SPELLS (LEVELS 3-10) =====
     {
       id: "rv_bone_cage_prison",

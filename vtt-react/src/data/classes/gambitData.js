@@ -1,33 +1,33 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const GAMBIT_DATA = {
   restrictions: {
        "allowedSubraces": [
            "merryn_human",
-            "shoreling_myrathil",
            "kessen_neth",
-           "ithran_groven",
            "drall_fexric"
        ],
       "hardBlocks": [
           "tessen_human",
           "skald_human",
           "ordan_human",
-          "astril"
+          "astril",
+          "shoreling_myrathil",
+          "ithran_groven"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires a culture that embraces risk-calculation. Tessen too isolated and risk-averse. Skald too honor-bound (gambling is dishonorable). Ordan too pragmatic. Astril too spiritually governed (spirit forbids random chance)."
+      "justification": "Requires a people who have either struck a hazard-wager with the House or treat risk as a language. Three heritages carry the tradition: the Merryn (who wager voyage-shares with the sea), the Veldun Nethien (who wager clauses against their own fate-threads), and the Caustic Fexric (who rig the game and pay in resentment-debt). Tessen too isolated, Skald too honor-bound, Ordan too pragmatic, Astril too spiritually governed. The Shore Myrathil read probability but pay in memory, not in debt; the Ithran Groven calculate failure-points, not wagers. Both keep their own traditions."
   },
 
   /**
-   * Subrace Variants, the Gambit nudges probability, and what counts as a "gamble"
-   * depends on what your people are willing to stake. The four allowed subraces each
-   * wager a different currency: salt, foam, clause, and bone.
+   * Subrace Variants. A Gambit does not study probability. They are staked by the House,
+   * and what counts as a "gamble" depends on what their people are willing to put on the felt.
+   * Three heritages carry the tradition, each wagering a different currency: salt, clause,
+   * and scrap. Each also carries the curse of the wager that started it.
    */
   subraceVariants: {
     merryn_human: {
       subraceName: 'Merryn',
       title: 'The Sea-Omen Gambler',
-      reframe: `The <LoreLink termId="skald">Merryn</LoreLink> practically invented the tradition, Jax the pirate wagered his lifeline against a storm-spirit in <LoreLink termId="merrowport">Merrowport</LoreLink>. A Merryn Gambit's dice are weighted with salt-coral, the stakes are always voyage-shares, and the loss is always someone else's debt transferred onto your own ledger. The sea is the house, and the house always wins, but a Merryn Gambit makes the house wait.`,
+      reframe: `The <LoreLink termId="iceheart-sea">Merryn</LoreLink> wrote the first wager the House ever honored: a becalmed corsair fleet in dead-water doldrums, raw lead dice cast into the dark, and a captain who cursed the sea gods for running a rigged game and dared whatever hunted beneath the ice to deal him a fair hand. The gale came. So did the curse. Every Merryn Gambit since carries the Chasing Losses debt: the moment they take a safe berth or try to settle, their luck putrefies, food spoils in hours, roofs fall, and violence follows. They must keep moving, keep betting, keep the sea able to hear them. Dice weighted with salt-coral, stakes in voyage-shares, and a ledger that never quite balances. The sea is the House's oldest table, and a Merryn Gambit makes the House wait.`,
       signatureAbility: {
         name: 'Salt-Coral Wager',
         description: `Fortune-points are staked against sea-conditions; a gamble made on open water draws probability from the storm itself, but a gamble made inland draws from the Gambit's own dwindling luck with nothing to replenish it. The Merryn are strongest where the sea can hear them.`
@@ -40,31 +40,15 @@ export const GAMBIT_DATA = {
       }
     },
 
-    shoreling_myrathil: {
-      subraceName: 'Shoreling Myrathil',
-      title: 'The Tide-Reader',
-      reframe: `The <LoreLink termId="myrathil">Shore</LoreLink> read probability in foam-patterns and the color-shift of their own mood-skin. A Myrathil Gambit does not roll dice, they read the odds the sea-mother writes in the surf, and the payment is always in *memory*: the Myrathil's bioluminescent skin dims a little with each stake, the wager paid in recalled light.`,
-      signatureAbility: {
-        name: 'Foom-Cast',
-        description: `Probability is read from sea-foam patterns and staked against the Gambit's own bioluminescence, each wager dims the host's glow as a memory is spent. A Myrathil Gambit who gambles too much goes dark, and a dark Myrathil is, by their own culture, considered already half-dead.`
-      },
-      currentCrisisAngle: `The Iceheart Sea has fallen silent (the Minstrel crisis), and the Myrathil Tide-Readers can no longer read foam, the surf writes nothing. A Myrathil Gambit without surf to read is gambling blind, and the tradition's young are dimming themselves on nothing, paying memory for randomness. The elders have forbidden deep-water wagers until the sea speaks again.`,
-      signatureQuote: {
-        text: '"The foam used to whisper. Now it stares. I will not bet against a sea that has stopped blinking."',
-        speaker: 'Tide-Mother Mrya',
-        context: 'A Shore Gambit, refusing a wager her grand-daughter begged her to take'
-      }
-    },
-
     kessen_neth: {
       subraceName: 'Veldun',
       title: 'The Clause-Gambler',
-      reframe: `The <LoreLink termId="neth">Veldun</LoreLink>, the weavers of the forest floor, refined probability-web reading in the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>, and Lyra formalized it through rune-etched cards in the Cragjaw toll-negotiations. To a Veldun Gambit, every hand of cards is a clause analysis: the opponent's tells are legal vulnerabilities, the pot is a renegotiated term, and the win is a precedent.`,
+      reframe: `The <LoreLink termId="neth">Veldun</LoreLink> read the obligation-web the way other people read ledgers, so when a ring of contraband runners was cornered in a flooding vault by Inquisition auditors, their ringleader did the only thing a Veldun could do: she scattered blank scrimshaw tiles across the wet stone and asked the void what the room cost. She staked caste, pedigree, and ancestral memory. Probability inverted, the vault floor cracked open, and the House took payment in the one currency no Nethien ledger could record: her bloodline's standing in the web. The House holds every Veldun Gambit's fate-threads as collateral now. Their names survive; their luck no longer belongs to them. As long as they keep raising the stakes, they stay solid. Fold, back down, choose the safe path, and reality remembers the deficit.`,
       signatureAbility: {
         name: 'Clause-Analysis',
         description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Veldun Gambit cannot bluff, but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
       },
-      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Veldun Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Nethien who no longer gambles is, by the terms of their own tradition, in breach of their relationship with chance itself.`,
+      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Veldun Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Nethien who no longer gambles is, by the terms of their own tradition, in breach of the debt that keeps them solid.`,
       signatureQuote: {
         text: '"I do not cheat. I draft the wager so that every outcome is mine. The other player signed the rules. That they did not read them is not my failure."',
         speaker: 'Lyra',
@@ -72,38 +56,22 @@ export const GAMBIT_DATA = {
       }
     },
 
-    ithran_groven: {
-      subraceName: 'Ithran Groven',
-      title: 'The Span-Better',
-      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink>, the bridge-builders, bet on which calcified bone-span will hold and which will crack. Their risk-calculation is architectural: load, stress, fatigue, the precise moment a structure fails. An Ithran Gambit does not gamble on chance; they gamble on *when the inevitable arrives*, and their bridge-builder's instinct makes them terrifyingly precise.`,
+    drall_fexric: {
+      subraceName: 'Caustic Fexric',
+      title: 'The Sump-Hustler',
+      reframe: `The <LoreLink termId="fexrick">Caustic Fexric</LoreLink> did not learn to gamble from the Merryn. A refinery-hand watched a kinetic core reach irreversible meltdown, threw the blueprints into the steam, jammed a clockwork roulette gear into the primary manifold, and let chaos answer for determinism. The pressure vented into the Wyrd. The curse that followed is the Tilt: in a Caustic Gambit's hands, ordinary predictable machines simply refuse to work, threads strip, welds crack, gears bind, and only contraptions built with intentional variance will run at all. So they gamble in salvage, running rigged dice and weighted cards through the Sump-Markets, and their Karmic Debt is personal: the accumulated resentment of every mark they ever hustled, coming due from below.`,
       signatureAbility: {
-        name: 'Load-Reading',
-        description: `Probability is calculated as structural failure-analysis; the Gambit reads any system (a negotiation, a battle, a person) as a load-bearing structure and stakes on its failure-point. The Ithran are weakest against genuinely random events, but almost nothing in a world of bargains is genuinely random.`
+        name: 'Sump-Rig',
+        description: `Fortune are generated by rigging the game rather than gambling it; the Caustic Fexric Gambit's dice, cards, and dealing machines are all fixed in advance, building Karmic Debt from the resentment of hustled marks rather than cosmic balance. The debt is personal, and when it comes due, the marks come to collect.`
       },
-      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden order crisis), and every Ithran Gambit can feel it. They have begun refusing to wager on anything that crosses a span, because they can read the spans' failure-point now, and it is *soon*. The Ithran Gambits know when their own bridges will fall, and the knowing has made them the most frightened people in the Cragjaw.`,
-      signatureQuote: {
-        text: '"I can tell you the exact hour my grandmother\'s bridge fails. I have bet against telling her. I am losing that bet too."',
-        speaker: 'Ith-Calss Span-Reader',
-        context: 'An Ithran Gambit, declining to cross the oldest Ancestor-Span'
-      }
-    }
-  },
-
-  drall_fexric: {
-    subraceName: 'Caustic Fexric - Fexric',
-    title: 'The Sump-Hustler',
-    reframe: `Gambles in salvage, not gold. Rigged dice, weighted cards, scrap-built dealing machines. Every game in the <LoreLink termId="fexrick">Sump-Markets</LoreLink> is fixed, and the Caustic Fexric Gambit is the one fixing it. The Karmic Debt builds differently  —  not from cosmic balance but from the accumulated resentment of every mark they have ever hustled. When the debt comes due, it comes from below.`,
-    signatureAbility: {
-      name: 'Sump-Rig',
-      description: `Fortune are generated by rigging the game rather than gambling it; the Caustic Fexric Gambit's dice, cards, and dealing machines are all fixed in advance, building Karmic Debt from the resentment of hustled marks rather than cosmic balance. The debt is personal, and when it comes due, the marks come to collect.`
-    },
-    currentCrisisAngle: `The Sump-Markets have grown wise to the hustlers, and the Caustic Fexric Gambits are running out of fresh marks. Some have begun to gamble against each other  —  hustler versus hustler, both knowing the game is rigged but neither knowing how. The Sump-Hustler tradition is eating itself, and the resentment-debt is compounding.
+      currentCrisisAngle: `The Sump-Markets have grown wise to the hustlers, and the Caustic Fexric Gambits are running out of fresh marks. Some have begun to gamble against each other  —  hustler versus hustler, both knowing the game is rigged but neither knowing how. The Sump-Hustler tradition is eating itself, and the resentment-debt is compounding.
 
 The Caustic Fexric did not adopt Merryn gambling  —  they independently discovered probability manipulation through salvage. But the first Caustic Fexric Gambit, a sump-hustler named **Gear-Rat Jix**, did encounter a Merryn Gambit at Ironjaw Port during the Toll Wars and recognized the shared language. Jix is the reason Caustic Fexric Gambits use cards  —  she stole a Merryn deck, replaced the salt-coral dice with weighted gear-teeth, and never looked back.`,
-    signatureQuote: {
-      text: '"I did not cheat. I built the deck, I dealt the cards, and I knew what was coming before the first hand was played. That is not cheating. That is architecture."',
-      speaker: 'Caustic Fexric-Voss the Sump-Dealer',
-      context: 'A Caustic Fexric Gambit, caught with a rigged dealing-machine, addressing the crowd'
+      signatureQuote: {
+        text: '"I did not cheat. I built the deck, I dealt the cards, and I knew what was coming before the first hand was played. That is not cheating. That is architecture."',
+        speaker: 'Caustic Fexric-Voss the Sump-Dealer',
+        context: 'A Caustic Fexric Gambit, caught with a rigged dealing-machine, addressing the crowd'
+      }
     }
   },
 
@@ -151,7 +119,7 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
     currentLeader: {
       name: '<LoreLink termId="merr-cael">Harbor-Master Merr-Cael</LoreLink>',
       title: 'Keeper of the Middle Odds',
-      characterization: `A Merryn broker who has spent thirty years keeping the House solvent while its founders self-destruct. He believes in the wager as a *discipline*, not a religion, the opposite of <LoreLink termId="lyra">Lyra</LoreLink>'s Deck-Burners. He is tired, principled, and the only thing standing between the House and a civil war between the followers of its two vanished founders. He kept the House solvent through the Winter of Lost Wagers (Year 780), when three Merryn sea-captains wagered their entire fleets against each other on a single storm-pattern  —  and all three lost. The House should have collapsed under the collective debt. Merr-Cael brokered a consolidation: the three fleets merged into one, the captains became equals on a shared council, and the House took a permanent percentage of every future voyage. It was the first time a Gambit solved a debt with an institution instead of a wager. The Merryn call it the Merr-Cael Precedent. It is taught to every apprentice.`
+      characterization: `A Merryn broker who has spent thirty years keeping the House solvent while its founders self-destruct. He believes in the wager as a *discipline*, not a religion, the opposite of <LoreLink termId="lyra">Lyra</LoreLink>'s Deck-Burners. He is tired, principled, and the only thing standing between the House and a civil war between the followers of its two vanished founders. He kept the House solvent through the Winter of Lost Wagers, when three Merryn sea-captains wagered their entire fleets against each other on a single storm-pattern  —  and all three lost. The House should have collapsed under the collective debt. Merr-Cael brokered a consolidation: the three fleets merged into one, the captains became equals on a shared council, and the House took a permanent percentage of every future voyage. It was the first time a Gambit solved a debt with an institution instead of a wager. The Merryn call it the Merr-Cael Precedent. It is taught to every apprentice.`
     },
     headquarters: { name: 'The Last Table, Merrowport', locationId: 'merrowport' },
     crisisConnection: `<LoreLink termId="merr-cael">Merr-Cael</LoreLink> is losing. <LoreLink termId="jax">Jax</LoreLink>'s disappearance has emboldened the mystics who want to emulate his final wager; <LoreLink termId="lyra">Lyra</LoreLink>'s radicalization has armed the Deck-Burners who want to *force* the universe to choose. The House is splitting along the same fault-line that defined its founding, luck versus clause, sea versus contract, and <LoreLink termId="merr-cael">Merr-Cael</LoreLink>'s middle ground is shrinking. He has one play left: find out what <LoreLink termId="jax">Jax</LoreLink> actually won, before the Deck-Burners find out first.`
@@ -164,17 +132,19 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
   ],
 
   overview: {
-     originStory: `A gambit plays probability the way a musician plays an instrument, except the instrument can kill them. The House, the gambling institution that trains and licenses practitioners, was founded from two traditions that collided at Ironjaw Port during the Toll Wars.
+     originStory: `A gambit plays probability the way a musician plays an instrument, except the instrument can kill them. The mortal institution that trains and licenses practitioners, the Merrowport House, was founded from two traditions that collided at Ironjaw Port during the Toll Wars.
 
-The first was Jax, a Merryn pirate captain who wagered his lifeline against a freezing storm-spirit in Merrowport. He rolled three sixes on salt-coral dice and claimed the wind, but lost his blood's warmth in the bargain. The second was Lyra, a Veldun probability-watcher who severed alternate timelines to save her caravan during a Cragjaw avalanche, experiencing every companion's alternate death in a single second and permanently fracturing her consciousness. Their paths crossed in Year 310 of the Freezing Era, when Jax's ship, the Last Wager, docked at Ironjaw Port during the Toll Wars. Lyra was there as a probability-consultant for Groven bridge-engineers calculating span-failure risks. Both were manipulating the same fundamental force through different systems.
+The Gambler's power is not studied. It is staked. The House, which the theologians of Nordhalla catalogue as <LoreLink termId="mael_zhul">Mael-Zhul</LoreLink>, does not ask for worship; it extends an exorbitant line of credit to a ruined soul and logs the mortal's soul as collateral. Every Gambit began at the exact point of irreversible catastrophe: drowning, cornered, debtor's knives in a dark alley. When lawful escape, logic, and divine intervention had all run dry, they rolled. Three dice, a Death Roll against the void. Win, and Wyrd magic floods the veins like boiling ice. Lose, and the thread snaps where they sit. That is why Gamblers are among the rarest figures in the world, and why their lives are notoriously brief. They burn years like flash-paper.
 
-Each subrace gambles through their own culture's understanding of chance. The Merryn wager voyage-shares with salt-coral dice, strongest on open water where the sea can hear them. The Shore Myrathil read probability in foam-patterns and the color-shift of their skin, paying in memory, their bioluminescence dimming with each stake. The Veldun treat every hand as a clause analysis, structuring wagers so losing benefits them more than winning. The Ithran Groven bet on structural failure, when the Ancestor-Span will crack, how much weight the calcified dead can bear, their calculations terrifyingly precise against non-random events.
+The tradition the House prefers is the Dead Pot: liminal rooms in rotting hulls, dry mine shafts, and the backrooms behind fishmarkets, where steel stays sheathed by universal agreement and disputes settle on the felt. Gamblers recognize no guildmasters, only rival debtors working the same cosmic margins, and they trade in high-volatility contraband: weighted dice cut from sea-horror teeth, blank bone tiles, loadstone coins, and bad paper signed by dead men that still carries resonance.
 
-The Caustic Fexric did not adopt Merryn gambling. They independently discovered probability manipulation through salvage-hustling. A hustler named Gear-Rat Jix encountered a Merryn gambit at Ironjaw Port during the Toll Wars and recognized the shared language, stealing a Merryn deck and replacing the salt-coral dice with weighted gear-teeth. The Solari gamble on the sun, pilgrimage-gamblers walking from shrine to shrine placing the same bet that has not paid out since the Freeze began.
+Three peoples carry the archetype, each cornered by doom, each leaving a different piece of themselves on the table. The Merryn staked the sea and inherited the Chasing Losses curse, unable to settle anywhere their luck can catch them. The Veldun staked caste and ancestral memory in a flooding vault and now live on borrowed credit, their fate-threads held as collateral by the House. The Caustic Fexric staked determinism itself in a refinery meltdown and live on the Tilt, where only machines built to fail unpredictably will run at all.
 
-The Karmic Debt that every gambit accrues is collected by an entity Lyra calls the Debtor, not a god, not a Wyrd-lord, but something older. The Deck-Burners, Lyra's radical faction, intend to force it to show itself by burning their rune-cards to collapse probability into certainty. If the ritual fails, every living gambit's Karmic Debt is collected simultaneously.
+The modern Gambit fused these heritages with the Fate Weaver's cartomancy when Jax, a Merryn pirate captain, wagered his lifeline against a freezing storm-spirit in Merrowport and lost his blood's warmth, and Lyra, a Veldun probability-watcher, severed alternate timelines to save her caravan on the Cragjaw approach, experiencing every companion's alternate death in a single second and permanently fracturing her consciousness. Their paths crossed in the years of the Toll Wars, when Jax's ship, the Last Wager, docked at Ironjaw Port during the Toll Wars. Lyra was there as a probability-consultant for Groven bridge-engineers calculating span-failure risks. Both were manipulating the same fundamental force through different systems.
 
-Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-spirit has not been heard since. Sailors crossing that strait report hearing two voices in the wind, one that matches the old gale, and a second, lower one, laughing. The House's current leader, Harbor-Master Merr-Cael, kept the institution solvent for thirty years while its founders self-destructed, most famously through the Winter of Lost Wagers when three sea-captains wagered their entire fleets against each other and all three lost simultaneously. His consolidation of their debts into a permanent institutional share is taught to every apprentice as the Merr-Cael Precedent.`,
+The Karmic Debt that every Gambit accrues is the House's marker coming due. Lyra insists the collector is not a god at all, but something older that predates the First Contract, and her Deck-Burners intend to force it to show itself by burning their rune-cards to collapse probability into certainty. If the ritual fails, every living Gambit's debt is collected simultaneously. The Veldun elders say the answer was never in doubt: the House always collects, and the House always wins.
+
+Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-spirit has not been heard since. Sailors crossing that strait report hearing two voices in the wind, one that matches the old gale, and a second, lower one, laughing. The House's mortal institution, the Merrowport House, survives on Harbor-Master Merr-Cael's ledger discipline, and his consolidation of three rival fleets' debts into a permanent institutional share is taught to every apprentice as the Merr-Cael Precedent.`,
 
     title: "The Wagering Architect",
     subtitle: "The Probability Siphon",
@@ -206,13 +176,13 @@ Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE DUAL GENESIS**
-The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the <LoreLink termId="neth">Nethien</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Ironjaw Port during the Toll Wars (Year 310), when Lyra was there as a Veldun probability-consultant for Groven bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
+The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the <LoreLink termId="neth">Nethien</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Ironjaw Port during the Toll Wars, when Lyra was there as a Veldun probability-consultant for Groven bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
 
 **CITIES AND CIVIL RECEPTION**
 Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Nethien pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
 
 **RACES AND CULTURAL AFFILIATION**
-The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">Myrathil</LoreLink>, the <LoreLink termId="neth">Nethien</LoreLink>, the fine-scaled Ithran <LoreLink termId="groven">Groven</LoreLink>, the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets, and the pilgrimage-wagering <LoreLink termId="house_solvan">Solari</LoreLink> who bet on Sol's return.
+Three heritages carry the tradition: the Merryn humans of the Iceheart Sea, the <LoreLink termId="neth">Veldun Nethien</LoreLink> of the Bryngloom, and the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets. Each wagers a different currency, salt, clause, and scrap, and each carries the curse of the wager that started it.
 
 **NOTABLE FIGURES**
 * Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the Iceheart Sea for one final game.
@@ -227,7 +197,7 @@ The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">M
 
     philosophy: {
       coreTenet: 'Everything is a bet, and probability is a landscape. Love, war, survival, the weather: every moment is a wager between you and the universe, played on a terrain of shifting threads. Most people walk blindly across both. The Gambit reads the map, knows the game is rigged, and has learned to rig it back.',
-      relationship: 'A Gambit wields two forms of stolen power. Fortune are banked luck siphoned from the world, siphoned freely from the world. Fate Reserve cards are pre-drawn destiny, paid for in Karmic Debt. Both are borrowed from the Gambit\'s own future. Every FP spent was once a genuine stroke of good fortune waiting in their future. Every card override severs a thread of probability that the universe will eventually demand back. The Gambit is always in debt to two collectors simultaneously.',
+      relationship: 'A Gambit wields two forms of stolen power. Fortune are banked luck siphoned from the world, siphoned freely from the world. Fate Reserve cards are pre-drawn destiny, paid for in Karmic Debt. Both are borrowed from the Gambit\'s own future. Every FP spent was once a genuine stroke of good fortune waiting in their future. Every card override severs a thread of probability that the universe will eventually demand back. The Gambit is always in debt to two collectors simultaneously: the House that staked them, and the self they have not met yet.',
       paradox: 'The Gambit controls luck and weaves fate, but cannot be lucky themselves. Every Fortune costs 1 unpreventable HP. Every card override accumulates Karmic Debt that amplifies all incoming damage. A Gambit who uses their power excessively bleeds from both resource systems: physical degradation from Fortune strain and temporal strain from Karmic Debt. The universe always balances both ledgers, and the Gambit always pays twice.'
     },
 
@@ -235,7 +205,7 @@ The class is practiced by Merryn humans, the Shore <LoreLink termId="myrathil">M
 
 Simultaneously, Lyra has gone radical. The founder of the Fate Weaver half of the tradition has concluded that Karmic Debt is not a natural law but an artificial construct imposed by an unknown entity. She has gathered the Deck-Burners, a faction pursuing a ritual that will force the universe to choose between the entity and every Gambit alive. If the ritual succeeds, Gambits will be free from Debt. If it fails, the Karmic Debt of every living practitioner will be collected simultaneously. Lyra has not told her followers the second part.
 
-The Karmic Debt is collected by an entity Lyra calls the Debtor  —  not a god, not a Wyrd-lord, but something older than both. It may be the same thing Morvane answers to when it enforces the First Contract. It may be a natural law that woke up. The Deck-Burners do not know. They intend to find out by forcing it to show itself.`,
+The Karmic Debt is the House's marker coming due, and the House has a name the theologians of Nordhalla know: <LoreLink termId="mael_zhul">Mael-Zhul</LoreLink>, an Old God of shifting currents, sudden ruin, and bitter mockery, older than the Freezing and older than the pacts. Lyra calls it the Debtor and insists it is not a god at all, but something older that predates the First Contract. The Veldun elders say the distinction is academic: to those bound to the ledger, the entity has only one title, and it always collects. The Deck-Burners intend to force it to show itself anyway.`,
 
     meaningfulTradeoffs: `A Gambit carries two compounding burdens. The Fortune addiction is physiological: the collateral damage from stored Fortune creates constant, low-grade physical suffering that only a gamble can relieve. Gambits develop compulsive habits not out of choice but because the pain of unspent Fortune is worse than spending it.
 
@@ -255,6 +225,27 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
         description: 'A hidden cave-chamber in the lower Cragjaw Peaks where Lyra and her followers meet. The walls are covered in the burned patterns of thousands of cards, residue of Gambits who have burned their decks to sever their connection to fate entirely. The air is thick with the smell of old ash and ozone.',
         purpose: 'Secret meeting place for the radical Deck-Burners faction',
         status: 'Secret. Hidden even from most Gambits.'
+      },
+      {
+        name: 'The Dead Pot of Oakhaven',
+        locationId: 'oakhaven',
+        description: 'The loudest Dead Pot on the Nordhalla coast, set in a limestone cistern beneath Oakhaven\'s fish-market where whale-oil was once smuggled. The rules are the rules: steel stays sheathed, disputes settle on the felt, and common coin means little. What trades here is weighted dice cut from sea-horror teeth, blank bone tiles, loadstone coins, and bad paper signed by dead men. A chair by the stove is kept empty for the Wager, though no one will say which Wager they mean.',
+        purpose: 'Northern-shore Dead Pot and neutral table; where Merryn luck, Veldun clauses, and Caustic rigs meet and are measured',
+        status: 'Active and busy, and the empty chair has been warm for three nights running'
+      },
+      {
+        name: 'The Flooded Vault',
+        locationId: 'flooded_vault',
+        description: 'A collapsed contraband vault beneath the Bryngloom\'s flooded root-ways, where a ring of Veldun runners was cornered by Inquisition auditors with the water rising. The ringleader scattered blank scrimshaw tiles across the wet stone and asked the void what the room cost. Probability inverted, the vault floor cracked open, and the House took payment in her bloodline\'s standing in the obligation-web. The crack is still there, at the waterline, and Veldun Gambits still come down to touch it before a wager; the tile-scatter pattern is preserved under root-glass, which the Veldun insist is respect and the Nethien insist is evidence.',
+        purpose: 'Origin site of the Veldun wager and the House\'s collateral; a shrine the Nethien refuse to classify',
+        status: 'Flooded, watched by a Nethien notice no one reads, and visited anyway'
+      },
+      {
+        name: 'The Roulette Manifold',
+        locationId: 'roulette_manifold',
+        description: 'The sealed manifold chamber of a spent geothermal refinery, where a Caustic refinery-hand jammed a clockwork roulette gear into the primary manifold as the kinetic core went to meltdown, and the pressure vented into the Wyrd instead of the city. The melted gear is still fused into the wall, the Tilt pools in the doorway the way heat pools in a room, and Caustic Gambits deal their first hand on the threshold plate where the gear landed. Guild surveyors have declared the site structurally impossible; the Caustic have declared it holy, which they mean as a joke, mostly.',
+        purpose: 'Origin site of the Caustic wager and the Tilt; where the first rigged game was struck against determinism',
+        status: 'Active as a sump-shrine, and the games dealt at the threshold have a house edge no one can calculate, including the house'
       }
     ],
     combatRole: {

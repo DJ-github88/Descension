@@ -74,20 +74,20 @@ export const INQUISITOR_DATA = {
     },
 
     tethered_mimir: {
-     subraceName: 'Tethered Mimir',
+     subraceName: 'Broken Mimir',
      title: 'The Fog-Sentinel',
-     reframe: `The <LoreLink termId="mimir">Woven</LoreLink> already stand watch on the Ironwood Palisade against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Woven Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Authority builds from patience, not pursuit.`,
+     reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink> already stand watch on the Ironwood Palisade against the Wyrd. An Inquisitor among them is simply a Sentinel who took the Barbed Vow. They detect Wyrd-incursions before they manifest  -  reading the fog's memory-shifts as early warning. The Broken Inquisitor does not hunt the Wyrd; they wait for it, and the waiting is the art. Their Authority builds from patience, not pursuit.`,
      signatureAbility: {
        name: 'Fog-Reading',
-       description: `Wyrd-incursions are detected through the fog's memory-shifts before they physically manifest; the Woven Inquisitor reads the mist like a seismograph, feeling the corruption as a wrongness in the fog's texture. Their Authority builds from the waiting itself  -  each silent hour on the Palisade is a vigil that deepens their power.`
+       description: `Wyrd-incursions are detected through the fog's memory-shifts before they physically manifest; the Broken Inquisitor reads the mist like a seismograph, feeling the corruption as a wrongness in the fog's texture. Their Authority builds from the waiting itself  -  each silent hour on the Palisade is a vigil that deepens their power.`
      },
-     currentCrisisAngle: `The fog has begun to remember things the Woven do not want it to remember  -  old incursions, ancient corruptions, forgotten entities that predate the Palisade. The Sentinels are reading warnings for threats that may be centuries old, or may be arriving now. The fog does not distinguish between past and present danger, and the Woven Inquisitors are losing the ability to tell the difference.`,
+     currentCrisisAngle: `The fog has begun to remember things the Broken do not want it to remember  -  old incursions, ancient corruptions, forgotten entities that predate the Palisade. The Sentinels are reading warnings for threats that may be centuries old, or may be arriving now. The fog does not distinguish between past and present danger, and the Broken Inquisitors are losing the ability to tell the difference.`,
      signatureQuote: {
        text: '"The fog warned me of your arrival three days ago. It did not warn me of what follows you. I am still waiting for that warning. I suspect I will be waiting for a very long time."',
-       speaker: 'Sentinel Woven-Marr',
-       context: 'A Woven Fog-Sentinel, greeting a party at the Ironwood Palisade, refusing entry'
+       speaker: 'Sentinel Broken-Marr',
+       context: 'A Broken Fog-Sentinel, greeting a party at the Ironwood Palisade, refusing entry'
      }
-   },
+  },
 
   },
 
@@ -153,7 +153,7 @@ export const INQUISITOR_DATA = {
       title: 'Last Commander of the Barbed Vow',
       characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor, and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
     },
-    headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'the-sunken-spire' },
+    headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'sunken_spire' },
     crisisConnection: `Vrael commands forty-six others against an incursion rate that has tripled and is still climbing. The new, unnamed entities in the deep groves have no contracts to sever and no faces to bait, they fall outside the Inquisitor's entire art. She has begun, in desperation, to train recruits in techniques the order considers forbidden: not severing corruption, but *binding* it, borrowing from the very traditions the Inquisitors were founded to destroy. She knows this is how the order ends. She does not see another way it survives.`
   },
 
@@ -240,17 +240,31 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
     classSpecificLocations: [
       {
         name: 'The Hall of Barbed Vows',
-        locationId: 'the-sunken-spire',
+        locationId: 'sunken_spire',
         description: 'A deep chamber beneath the Sunken Spire where Inquisitors undergo their initiation. The walls are hung with the cold-iron blades of every Inquisitor who has taken the oath, and the floor is carved with containment circles for binding rituals.',
         purpose: 'Initiation hall, equipment vault, ritual space, and memorial',
         status: 'Active — but the newest blades are being hung by people whose families now glow in the dark'
       },
       {
         name: 'The Salt-Pans of Greymark',
-        locationId: 'greymark-keep',
+        locationId: 'greymark_keep',
         description: 'A ritual space beneath Greymark Keep where Inquisitors prepare null-salt mixtures and forge binding chains. Containment circles carved into the stone floor hold bound entities in stasis.',
         purpose: 'Ritual preparation, entity containment, and training',
         status: 'Active — operating at capacity'
+      },
+      {
+        name: 'The Bait-Row',
+        locationId: 'bait_row',
+        description: 'A line of boundary stones standing in the Wraithfen where Elias the Salt-Scarred first opened his own veins and promised something he intended to break. The row is a training ground now: recruits bleed at the stones under supervision, learning the Bait-Vow on the exact ground where the technique was born. The stones are dark and always damp. Nothing builds within a hundred paces of the row, and the fen keeps its distance from them.',
+        purpose: 'Origin site and training ground of the Salt-Scarred tradition; where the first oath was broken on purpose',
+        status: 'Active, and the incursion rate at the row has tripled; the order has begun posting two instructors per recruit instead of one'
+      },
+      {
+        name: 'The Ninth Ward',
+        locationId: 'ninth_ward',
+        description: 'The order keeps nine wards. The registers list eight. Beneath the Hall of Barbed Vows, past a door that appears on no containment diagram, High-Severer Vrael the Forty-Seventh trains the last recruits in the art the Inquisitors were founded to destroy: not severing corruption, but binding it, grafting living horrors into willing limbs to balance a war the order is losing. The walls are hung with the same cold-iron blades as the Hall above, but the blades in the Ninth Ward are still warm.',
+        purpose: 'Forbidden training ward and the order\'s quiet betrayal of its own founding vow',
+        status: 'Active and unlisted, and the recruits who pass through it stop flinching at things that should make anyone flinch'
       }
     ],
 
@@ -3182,7 +3196,7 @@ Each bound entity makes a Rebellion Save (DC varies by entity type):
     {
       id: "inq_wrath_of_the_seven_vows",
       name: "Wrath of the Seven Vows",
-      description: "Ignite seven centuries of cold iron across a 35ft radius: seven pillars erupt for 14d10 ember to hostiles (Spirit DC 20 half). Creatures reduced to 0 HP are obliterated into white salt.",
+      description: "Ignite seven pillars of ancient cold iron across a 35ft radius: seven pillars erupt for 14d10 ember to hostiles (Spirit DC 20 half). Creatures reduced to 0 HP are obliterated into white salt.",
       level: 10,
       spellType: "ACTION",
       icon: "Fire/Fireball",

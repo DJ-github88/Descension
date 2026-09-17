@@ -120,7 +120,8 @@ const TimelineDisplay = () => {
                   <div className="timeline-events-list">
                     {era.events.map((ev, ei2) => {
                       const artImage = getEventArt(ev.title);
-                      const dateStr = ev.dateDisplay || (ev.date && typeof ev.date === 'object' ? `Year ${ev.date.year}` : ev.date) || '';
+                      const eraLabel = { 'before-deepening': 'The Primordial Dawn', 'star-fall-binding': 'The Long Pacting', 'ingress-breach': 'The Years of Whispers', 'freezing-era': 'The Freezing Era' };
+        const dateStr = ev.dateDisplay || (ev.date && typeof ev.date === 'object' ? (eraLabel[ev.date.eraId] || 'The Freezing Era') : ev.date) || '';
                       const narrativeText = ev.narrative || ev.description || '';
 
                       return (

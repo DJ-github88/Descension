@@ -336,7 +336,7 @@
               "wyrd": 50
             }
           },
-          "depth": "Driven by a strange, compulsive obsession, Schratlings sneak into Greymark homes at night to organize and rewrite journal entries in messy peat-ink scribbles; though they cannot read, they compulsively alter the family lineage-logs. In the deep woods, they weave shredded memory-glass into their hollow nests, creating pocket sanctuaries where the memory-draining fog cannot penetrate, drawing the desperate Fractured Mimir who seek these nests to recall their lost lives. Adventurers often venture into the misty hollows following rumors of these creatures, hoping to recover their memory-glass nests or gather components for powerful wards.",
+          "depth": "Driven by a strange, compulsive obsession, Schratlings sneak into Greymark homes at night to organize and rewrite journal entries in messy peat-ink scribbles; though they cannot read, they compulsively alter the family lineage-logs. In the deep woods, they weave shredded memory-glass into their hollow nests, creating pocket sanctuaries where the memory-draining fog cannot penetrate, drawing the desperate Broken Mimir who seek these nests to recall their lost lives. Adventurers often venture into the misty hollows following rumors of these creatures, hoping to recover their memory-glass nests or gather components for powerful wards.",
           "hooks": [
             "A town scribe woke to find a Schratling had rewritten the village land registry. Find the sprite's hollow to reclaim the correct records.",
             "An old Mimir seeks the peat-nest of a Schratling to recover a specific childhood memory sealed within."
@@ -1863,7 +1863,7 @@
             "function": "It licks exposed runes and warm mineral seams, clears unstable residue, competes in bands, and signals where ancient energy is concentrated.",
             "values": "Access to a feeding stone, band territory, and the survival of its clutch; it guards the strongest resonance from rival bands.",
             "folklore": "Tiny blue pests near powerful stones are true. The claim that they consume mortal magic is a later vocabulary error because Mythrill had no mortal magic before the Great Binding.",
-            "bindingEffect": "Celestial magic entering house territories made more feedable residue available after Year 0; First Cracks exposed new warm-cold gradients and intensified competition around vents.",
+            "bindingEffect": "Celestial magic entering house territories made more feedable residue available after the Star-Fall; First Cracks exposed new warm-cold gradients and intensified competition around vents.",
             "wyrdRelationship": "Native. Wyrd can poison a resonance stone or make a band aggressive, but it is not the species' origin.",
             "nextDecision": "Replace \"mana\" with a precise pre-mortal-energy term and define whether the creatures existed in all glacial regions or only around old celestial geology."
           },

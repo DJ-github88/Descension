@@ -201,7 +201,6 @@ export const FLORAE_BASE_ITEMS = [
         }
     }
 ];
-export const BRIARAN_BASE_ITEMS = FLORAE_BASE_ITEMS;
 
 // Groven base items
 export const GROVEN_BASE_ITEMS = [
@@ -1069,7 +1068,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Stellar Astril crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
+        description: 'A Brutish Astril crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
         iconId: 'inv_helmet_31',
         value: { platinum: 0, gold: 10, silver: 75, copper: 25 },
         weight: 1,
@@ -1090,7 +1089,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Earthen Astril crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
+        description: 'A Stargazer Astril crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
         iconId: 'inv_crown_01',
         value: { platinum: 0, gold: 12, silver: 50, copper: 75 },
         weight: 1,

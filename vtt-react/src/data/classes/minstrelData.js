@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Minstrel Class Data
  *
@@ -242,6 +241,27 @@ The Tide-Choir numbers sixty-four active Minstrels  —  one for every note in t
   description: 'A submerged stone amphitheater beneath the Merrowport docks, accessible only by diving through a flooded passage. The chamber is designed to amplify the ocean\'s natural frequencies, Minstrels would sit here for hours, letting the sea\'s song fill them. The chamber is now completely silent, the water still and dead.',
   purpose: 'Meditation chamber and frequency-harvesting site',
   status: 'Silent, the Minstrels maintain a vigil, hoping the song returns'
+  },
+  {
+  name: 'The First Shore',
+  locationId: 'first_shore',
+  description: 'A crescent of white shell-grit beach where more Myrathil have spawned than anywhere else, and where the Shore-Conductors first matched the surf\'s cadence to a living body. The trick was never the song, it was the timing: a wave breaks half a beat after the body is ready to receive it, and the Shore spent generations learning the interval. The interval is gone. The foam still breaks, the rhythm is wrong, and the Shore camp on the dunes listening to the half-second that no longer arrives.',
+  purpose: 'Cadence training ground and Shore-Myrathil vigil; the birthplace of the tide-song and its current tomb',
+  status: 'Silent, and the Shore-Mothers have posted chanters at every tide, hoping to catch the interval returning'
+  },
+  {
+  name: 'The Deep-Watch',
+  locationId: 'deep_watch',
+  description: 'A stripped drift-station on the Deepwell Archipelago, above the drowned cities, where the Choir keeps the only permanent listening post in the Iceheart. Instruments are lowered into the trench on weighted cable, tuned for frequencies no surface ear parses, and the log-books are kept in three hands: what the instruments heard, what the Deep heard, and one only the Choir-Mistress reads. The Deep-Chamber survivors are quartered under the ice; they will not perform.',
+  purpose: 'Listening station and Deep-Chamber refuge; where the returning song is logged, phrase by phrase',
+  status: 'Active, and the returning song arrives in rehearsed phrases on a schedule, as if something below knows it has an audience'
+  },
+  {
+  name: 'The Sunken Chair',
+  locationId: 'sunken_chair',
+  description: 'A bowl of smooth stone on the abyssal floor, ringed by vent-chimneys that carry sound the way a cathedral carries a chord. The Deep-Chamber used it as a performance hollow for generations, because a cadence played into the Chair comes back larger. It still comes back, and it comes back improved: a phrase returned half a beat later with the flaws filed off and the resolution moved one step nearer the truth. The Deep do not perform there anymore. The Chair performs on its own.',
+  purpose: 'Abyssal resonance site and the Listener Below\'s suspected seat; where the sea rehearses',
+  status: 'Silent to visitors and loud to instruments, and the Choir keeps one survivor\'s notation page under glass, unsung'
   }
  ],
 

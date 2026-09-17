@@ -16,7 +16,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const activeWorldId = useWorldStore((state) => state.activeWorldId || 'mythrill');
   const activeWorld = useWorldStore((state) => state.getActiveWorld ? state.getActiveWorld() : null);
   
-  const factions = useFactionStore((state) => {
+  const allFactions = useFactionStore((state) => {
     return state.getAllFactions ? state.getAllFactions(activeWorldId) : (state.factions || []);
   });
 
@@ -44,6 +44,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
 
   const [activeTypeFilters, setActiveTypeFilters] = useState(['faction', 'lineage', 'location', 'family_node', 'custom']);
   const [activeRelFilter, setActiveRelFilter] = useState('all');
+  const [showMinorPowers, setShowMinorPowers] = useState(false);
   const [layoutMode, setLayoutMode] = useState('cluster'); // 'cluster' | 'orbital'
   const [hideDisconnected, setHideDisconnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -51,6 +52,12 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const [hoveredNodeId, setHoveredNodeId] = useState(null);
   const [hoveredEdge, setHoveredEdge] = useState(null);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+
+  // Hide redundant folk/culture factions (race-mirror factions) unless the user asks for them
+  const factions = useMemo(
+    () => allFactions.filter((f) => showMinorPowers || !f.minor),
+    [allFactions, showMinorPowers]
+  );
 
   // Pan & Zoom state
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
@@ -1164,6 +1171,17 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
             </select>
           </div>
 
+          <button
+            type="button"
+            className={`pathfinder-action-btn ${showMinorPowers ? 'active' : ''}`}
+            onClick={() => setShowMinorPowers((prev) => !prev)}
+            title="Show minor powers: folk and culture factions that mirror the races"
+            aria-label="Toggle minor powers"
+          >
+            <i className="fas fa-feather"></i>
+            <span className="btn-label-desktop">Minor Powers</span>
+          </button>
+
           <div className="pathfinder-search-box">
             <i className="fas fa-search"></i>
             <input
@@ -1272,8 +1290,8 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
                     strokeDasharray={edge.strokeDash || 'none'}
                     className="edge-line"
                   />
-                  {edge.label && (
-                    <g transform={`translate(${midX}, ${midY})`} className="edge-label-pill">
+                  {edge.label && isHovered && (
+                  <g transform={`translate(${midX}, ${midY})`} className="edge-label-pill">
                       <rect
                         x={-(edge.label.length * 3.8 + 8)}
                         y="-9"

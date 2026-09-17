@@ -4,7 +4,8 @@ export const HARBINGER_DATA = {
    "allowedSubraces": [
       "vashir_astril",
       "silath_astril",
-      "tessen_human"
+      "tessen_human",
+      "thrask_solari"
     ],
    "hardBlocks": [
       "merryn_human",
@@ -25,34 +26,34 @@ export const HARBINGER_DATA = {
   */
  subraceVariants: {
   vashir_astril: {
-   subraceName: 'Earthen Astril - Astril',
+   subraceName: 'Stargazer Astril',
    title: 'The Entropy-Symphony',
-    reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Earthen Astril Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
+    reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Stargazer Astril Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
    signatureAbility: {
     name: 'Death-Crescendo',
-     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Earthen Astril Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
+     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Stargazer Astril Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
    },
-    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Earthen Astril's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Earthen Astril Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
+    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Stargazer Astril's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Stargazer Astril Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
     signatureQuote: {
      text: '"My world is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can."',
     speaker: 'Caelum Dim-Voiced',
-    context: 'A Earthen Astril Harbinger, conducting a Wild Surge that rearranged a hillside'
+    context: 'A Stargazer Astril Harbinger, conducting a Wild Surge that rearranged a hillside'
    }
   },
 
   silath_astril: {
-   subraceName: 'Stellar Astril - Astril',
+   subraceName: 'Brutish Astril',
    title: 'The Suppressed Catastrophe',
-    reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Stellar Astril Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
+    reframe: `The <LoreLink termId="astril">Brutish Astril</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Brutish Astril Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
    signatureAbility: {
     name: 'Gagged-Doom',
-     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Stellar Astril burn their captive's love for the world as fuel.`
+     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Brutish Astril burn their captive's love for the world as fuel.`
    },
-    currentCrisisAngle: `The permanent Chaos Pockets have made the Stellar Astril's suppressed heritage go quiet, the same silence the False Prophet Stellar Astril report. A Stellar Astril Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
+    currentCrisisAngle: `The permanent Chaos Pockets have made the Brutish Astril's suppressed heritage go quiet, the same silence the False Prophet Brutish Astril report. A Brutish Astril Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
     signatureQuote: {
      text: '"I bound my heritage to stop it from warning me. Now I weaponize the warning it cannot give. It has not forgiven me. I did not ask."',
     speaker: 'Vesh the Muffled',
-    context: 'A Stellar Astril Harbinger, tightening her bindings before a major surge'
+    context: 'A Brutish Astril Harbinger, tightening her bindings before a major surge'
    }
   },
 
@@ -69,6 +70,22 @@ export const HARBINGER_DATA = {
     text: '"You fear the end. I have feared it for four hundred years, and the fear has grown bored of itself. Let it come. I have rehearsed my part."',
     speaker: 'Castellan Tess-Haral',
     context: 'A Tessen Harbinger, ignoring a Chronarch\'s order to reinforce the eastern wall'
+   }
+  },
+
+  thrask_solari: {
+   subraceName: 'Waste-Solari',
+   title: 'The Dying-Light Doomsayer',
+   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> forge-clans read Sol's Breath the way other cultures read a sky, and the reading has been getting worse for three generations. A Waste-Solari Harbinger does not need star-arithmetic or a dead world's memory; they have a forge that breathes less every decade and a caldera that gives a little less heat every winter. They take the vent-readings, run the arithmetic, and publish numbers the Dawn Vigil calls heresy and the Scoured read too closely. The countdown is not prophecy to them. It is bookkeeping.`,
+   signatureAbility: {
+   name: 'Caldera-Countdown',
+   description: `Mayhem scales with ambient heat-loss: the cooling vents, the dying forges, the dusk of a winter day. The colder the surroundings, the faster the arithmetic runs, an inversion of every forge-clan instinct, because the Waste-Solari measure the end in degrees the way a smith measures steel in degrees.`
+   },
+   currentCrisisAngle: `The caldera is cooling, and the Doomsayers' published vent-readings keep matching the Choir's own models, which is exactly what the Dawn Vigil cannot forgive: a heresy that agrees with the math. Some Waste-Solari forge-clans have begun keeping two sets of readings, one for the Vigil and one for themselves, and the difference between the sets is growing.`,
+   signatureQuote: {
+   text: '"The forge used to breathe. Now it counts. I am only writing down what it says."',
+   speaker: 'Vent-Reader Thass Cinder-Quill',
+   context: 'A Waste-Solari Harbinger, publishing vent-readings the Vigil has ordered suppressed'
    }
   }
  },
@@ -116,7 +133,7 @@ He published his findings. The Frozen Archive suppressed them. The calculations 
 
 Xyris was a Solvarn student who found Malakor's suppressed papers. She was the first to apply the math practically: if freeze was entropy and entropy was measurable, then entropy could be directed. She tore the first Chaos Pocket in the Sundrift Vale, a localized acceleration of the freeze, weaponized. The hole killed her. It also proved the principle. Malakor provided the truth. Xyris proved it could be used.
 
-Each subrace channels a different apocalypse. The Earthen Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Stellar Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solari read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
+Each subrace channels a different apocalypse. The Stargazer Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Brutish Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solari read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
 
 The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift Vale. Time flows at different rates in the torn spaces. The Doom-Choir's own magic is measurably accelerating Sol's dimming. Malakor predicted the pockets. He did not predict that they would speed the end.`,
    title: "The Harbinger",
@@ -158,7 +175,7 @@ The math could not be suppressed forever. Other mathematicians found Malakor's w
 Heralds are viewed with intense suspicion, fear, and reluctant respect throughout the settled kingdoms. They are both feared for their volatile spatial distortions and consulted in desperation for their prophetic accuracy. They are forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  —  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solari read the arithmetic of Sol's extinguishment. The Earthen Astril hear the entropy as a dying world's music. The Stellar Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
+This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  —  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solari read the arithmetic of Sol's extinguishment. The Stargazer Astril hear the entropy as a dying world's music. The Brutish Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
 
 **NOTABLE FIGURES**
 * **Malakor the Finite**: The Skald mathematician who calculated the mathematical certainty of doom in the Frozen Archive. His suppressed papers are the founding text of the Doom-Choir.
@@ -199,10 +216,24 @@ Simultaneously, they cannot feel warmth, not physical, not emotional. They exper
    },
    {
     name: "The Apocrypha Vaults",
-    locationId: "frozen-archive",
+    locationId: "frozen_archive",
     description: "The deepest, coldest chambers of the Frozen Archive, where Doomsayers store their completed calculations. Each vault contains a single scroll, a mathematical proof of a specific extinction event. The oldest scrolls date to the first years of the Freezing Era. The newest are added weekly. The vaults are over capacity, and some scrolls have begun to rewrite themselves in frost.",
     purpose: "Archival: the Heralds believe that if the world ends, the calculations should survive to warn whatever comes next",
     status: "Active: over capacity, scrolls self-rewriting"
+   },
+   {
+    name: "The Finite Redoubt",
+    locationId: "finite_redoubt",
+    description: "A hardened survey station at the edge of the largest permanent Chaos Pocket, where Malakor's students take field measurements of a wound in the world. The station is a stone drum with lead shutters and a ruined observation deck, staffed in shifts by Doom-Choir arithmeticians who record the pocket's growth, its color, and the way compasses and marriages fail inside it. The Redoubt's standing instruction is to measure, never to intervene. Twice the Choir has voted to break that instruction; both votes failed by one.",
+    purpose: "Field-research station and the Choir's only forward post, where the doom-arithmetic is checked against the real wound",
+    status: "Active, and the pocket has begun returning measurements nobody gave it; the last shift's figures match predictions made eleven years ago, which the Choir finds either vindicating or unbearable"
+   },
+   {
+    name: "The Margin Room",
+    locationId: "margin_room",
+    description: "A narrow room off the Frozen Archive's mathematics stacks where the Doom-Choir keeps its working ledgers: columns of figures, scratch-paper, tally-sticks, and the founding thirty scrolls behind glass. The arithmetic is done by hand, in the margins, because the Choir does not trust machines with numbers this important. The tallies have begun to disagree with their own sums overnight: a column that adds to four hundred and nine is found the next morning written four hundred and ten, in the same hand, in the same ink.",
+    purpose: "Working archive of the Doom-Choir and the Reckoner's strangest audit; where the count corrects itself",
+    status: "Active, and the Choir has stopped publishing its sums; the number in the margin is always one higher than the number they wrote"
    }
   ],
 

@@ -9,26 +9,26 @@ const CHRONOLOGY_ERA_DISPLAY = [
   {
     "id": "before-deepening",
     "name": "The Primordial Dawn",
-    "yearRange": "Pre-Year 0",
+    "yearRange": "Before the Pacts",
     "description": "Before celestial pacts or feudal houses, mortals survived on forged cold iron, black powder matchlocks, and folk taboos to appease wild elemental beasts."
   },
   {
     "id": "star-fall-binding",
     "name": "The Star-Fall & The Bloodline Pacts",
-    "yearRange": "Years 0–300",
+    "yearRange": "The Long Pacting",
     "description": "Aex and Aethil conceal the living, unhatched infant sun in the molten core. Ancient mortal lineages swear Bloodline Pacts to Aex, witnessed by Aethil; each pact is a living Blood Seal. The Sleeping Soul's Natural Wyrd already grows the world's creatures."
   },
   {
     "id": "ingress-breach",
     "name": "The Whispered Purge & The Blind Strike",
-    "yearRange": "Years 300–325",
+    "yearRange": "The Years of Whispers",
     "description": "Unable to breach Aethil's ward, Keth Amar spews Predatory Wyrd onto Mythrill and orchestrates the Whispered Purge for twenty-five years posing as Aethil. At the Blind Strike (mortal name: Blizzard's End) it crashes into the planetary ward; the Secret Aegis holds. Keth Amar is wounded and repelled into the void, but the impact fractures Aex's aegis into Aex Shards."
   },
   {
     "id": "freezing-era",
     "name": "The Freezing Era & Present Day",
-    "yearRange": "Years 325–475",
-    "description": "Trapped in a 150-year ice age because Sol is entombed in the core, rival factions wage trench wars over glowing Aex Shards — the seven greatest are the Sundered Monoliths (one is the Predatory Wyrd Counterfeit) — for thermal fuel while the Masked Acolytes hunt the shards for their whispering patron."
+    "yearRange": "The Freezing Era, continuing",
+    "description": "Trapped in an ice age that has not broken because Sol is entombed in the core, rival factions wage trench wars over glowing Aex Shards — the seven greatest are the Sundered Monoliths (one is the Predatory Wyrd Counterfeit) — for thermal fuel while the Masked Acolytes hunt the shards for their whispering patron."
   }
 ];
 
@@ -123,21 +123,21 @@ const MYTHRILL_CALENDAR = {
       "id": "star-fall-binding",
       "name": "The Star-Fall & Great Binding",
       "startYear": 0,
-      "endYear": 300,
+      "endYear": 750,
       "description": "The celestial parents hide the infant sun Sol inside the volcanic mantle. The noble houses bind their bloodlines to anchor the thermal shell."
     },
     {
       "id": "ingress-breach",
       "name": "The Ingress & Blizzard's End",
       "startYear": 300,
-      "endYear": 325,
+      "endYear": 775,
       "description": "Keth Amar infiltrates the houses and slaughters the heirs at Nordhalla. Aex shatters into glowing crystal shards, and Keth Amar is driven into the sky."
     },
     {
       "id": "freezing-era",
       "name": "The Freezing Era & Present Day",
       "startYear": 325,
-      "endYear": 475,
+      "endYear": 1195,
       "description": "One hundred and fifty years of ice age. Factions wage territorial wars over glowing Aex Shards for thermal fuel while masked cultists search for counterfeit monoliths."
     }
   ],
@@ -184,67 +184,67 @@ const MYTHRILL_CALENDAR = {
 const AEX_SCREAM_PULSES = [
 {
 "cycle": 1,
-"year": 328,
+"year": 783,
 "outputPercent": 40,
 "significance": "The first pulse, three years after the Shattering: the scattered shards of the Mother, trying to sing to one another. Measured at 40% intensity. The \"False Dawn\" month is named. The Augurs begin logging."
 },
 {
 "cycle": 2,
-"year": 340,
+"year": 817,
 "outputPercent": 38,
 "significance": "The decline becomes undeniable. Cassia's successors begin systematic output-logging of every pulse. The first marginal settlements fail."
 },
 {
 "cycle": 4,
-"year": 364,
+"year": 884,
 "outputPercent": 35,
 "significance": "The \"False Dawn\" month barely lightens. A faction of Solvan Martyrs begins secretly tracking the decline: precursor to the Dawn Vigil."
 },
 {
 "cycle": 6,
-"year": 388,
+"year": 951,
 "outputPercent": 33,
 "significance": "Barely perceptible warming. The Dawn Vigil formalizes around the promise of reassembly. The learned classes accept the shards are fading."
 },
 {
 "cycle": 7,
-"year": 400,
+"year": 985,
 "outputPercent": 30,
 "significance": "Erratic output. Some readings contradictory. First evidence of temporal friction contaminating the Augurs' instruments."
 },
 {
 "cycle": 8,
-"year": 412,
+"year": 1019,
 "outputPercent": 27,
 "significance": "Detectable only by Augur instruments. The common person no longer sees any warming during the False Dawn. The False Dawn Riots erupt as the promise breaks."
 },
 {
 "cycle": 9,
-"year": 424,
+"year": 1052,
 "outputPercent": 24,
 "significance": "Barely a flicker. Detection now requires precision instruments and elk-blood at the Frozen Archive. The Hollow-Solari have stopped publishing reassurances."
 },
 {
 "cycle": 10,
-"year": 436,
+"year": 1086,
 "outputPercent": 20,
 "significance": "The last detectable pulse. The Mother's voice in the shards is exhausted. The Augurs record: \"The song has stopped.\" No cycle since has produced measurable output."
 },
 {
 "cycle": 11,
-"year": 448,
+"year": 1119,
 "outputPercent": 15,
 "significance": "First fully silent window. The Augurs check instruments three times. Nothing. The False Dawn month brings no warming, not even a flicker. A generation is born that has never felt a pulse."
 },
 {
 "cycle": 12,
-"year": 460,
+"year": 1153,
 "outputPercent": 8,
 "significance": "Silent. The Elder Augurs retire; their successors inherit a data set of silence. Monolith activity increases. Scholars begin to suspect the silence and the waking are connected."
 },
 {
 "cycle": 13,
-"year": 475,
+"year": 1195,
 "outputPercent": 0,
 "significance": "The thirteenth window closes with no output. The elder lunar parasites synchronize across Lunarch hosts, Selene stops speaking, and the Watcher's fracturing accelerates. The Monoliths are waking. The silence is not absence — it is attention."
 }
@@ -254,7 +254,7 @@ const WARMTH_PHASES = [
   {
     "id": "before-deepening",
     "name": "Before the Star-Fall",
-    "years": "before Year 0",
+    "years": "before the Pacts",
     "warmth": "Cosmic abundance. The universe is young, stars burn bright, the deep cold has not yet reached this arm of the Silence.",
     "intrusion": "None. Keth Amar has not yet noticed this system. The Wyrd does not exist. The cosmic balance is undisturbed.",
     "society": "Pre-history. The Fexric carve their first holdfasts. Sol sleeps unborn in the deep dark of the world. Aex coils around the egg, and Selunis hangs cold and quiet in the sky. There is no Freeze and no Bargain; nothing has yet needed one."
@@ -281,7 +281,7 @@ const WARMTH_PHASES = [
     "years": "325-420",
     "warmth": "Significant decline. Major geothermal systems failing. The Freeze-Front advances. Rebirth windows below 15%. Habitable zones visibly contract.",
     "intrusion": "Targeted. Keth Amar can corrupt specific individuals. Wyrd epidemic in multiple regions. The first \"owned\" agents appear. The Mimir Purge happens. The Vreken Over-Lit epidemic begins. Morvane becomes noticeably distracted.",
-    "society": "Survival infrastructure solidifies. The Sovereign Ledger becomes a weapon of social control. Wars break out over thermal resources. Subraces split into castes (Mimir Rupture, Earthen Astril/Stellar Astril schism). Classes form from organized responses to Wyrd and scarcity."
+    "society": "Survival infrastructure solidifies. The Sovereign Ledger becomes a weapon of social control. Wars break out over thermal resources. Subraces split into castes (Mimir Rupture, Stargazer Astril/Brutish Astril schism). Classes form from organized responses to Wyrd and scarcity."
   },
   {
     "id": "squeeze",
@@ -314,7 +314,7 @@ const TRADE_ROUTES = [
     "cargo": "Frostwood timber, memory-ink, ironwood → Sundale sulfur, volcanic coal, forged arms",
     "established": "Year ~40 (Freezing Era)",
     "status": "active",
-    "history": "The oldest overland route. Established by Greymark Keep to trade for Sundale's volcanic warmth. The Scribe-Cartel taxes ink shipments. Florae raiders target timber caravans during the Uprising (Year 350). Contested during the Memory Wars."
+    "history": "The oldest overland route. Established by Greymark Keep to trade for Sundale's volcanic warmth. The Scribe-Cartel taxes ink shipments. Florae raiders target timber caravans during the Uprising. Contested during the Memory Wars."
   },
   {
     "id": "trade-cinder-strait",
@@ -370,7 +370,7 @@ const TRADE_ROUTES = [
     "cargo": "Peat-oil, memory-glass, fungal-light exports, ironwood crafts → Sundrift steppe-wool, Astril crystal-lattice fragments",
     "established": "Year ~60 (Freezing Era)",
     "status": "active (smuggler-heavy)",
-    "history": "The winding bog-route connecting settled Bryngloom to the Sundrift Vale's border. The Nethien Great Registry taxes legitimate trade; the Over-Shanty (founded Year 412) routes black-market goods. Withered outcasts control the peat-harvesting bypass channels."
+    "history": "The winding bog-route connecting settled Bryngloom to the Sundrift Vale's border. The Nethien Great Registry taxes legitimate trade; the Over-Shanty (raised in the Over-Shanty's first years) routes black-market goods. Withered outcasts control the peat-harvesting bypass channels."
   },
   {
     "id": "trade-north-south",
@@ -407,7 +407,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-sol-deepening",
     "date": {
-      "year": 260,
+      "year": 650,
       "eraId": "star-fall-binding"
     },
     "title": "The First Failing",
@@ -430,9 +430,9 @@ const SEEDED_EVENTS = [
     "effects": [
       "event-entombment"
     ],
-    "narrative": "The warmth thins. What the priests preached as a passing cycle was no cycle at all, but the first shadow cast by the thing already tracking them (the slow leak of the buried star. Across the seven continents, the sudden shift in the light is felt not as a shadow, but as a physical coldness that seeps into the bones. Cassia, a Skald star-watcher at the Frozen Archive in Nordhalla, is the first to read the terrifying portents. Her rune-scarred forearms burn with intense, blistering heat, a feedback loop of visions traded from her own personal memories to glimpse the future. The **Astril**, already present on Mythrill as refugees from the devoured star Lumia, scream silent warnings across the Silence: Keth Amar has tracked them here. The oldest star-singers watch the northern skies slowly gutter and go dark, knowing what comes next. Even the **Marked Vreken**, deep within the damp fungal abbeys of the Bryngloom, report that the phosphorescent trails left by the dead begin to glow with a frantic, silver heat, signaling that the cosmic balance has been violently upset.",
+    "narrative": "The warmth thins. What the priests preached as a passing cycle was no cycle at all, but the first shadow cast by the thing already tracking them —the slow leak of the buried star. Across the seven continents, the sudden shift in the light is felt not as a shadow, but as a physical coldness that seeps into the bones. Cassia, a Skald star-watcher at the Frozen Archive in Nordhalla, is the first to read the terrifying portents. Her rune-scarred forearms burn with intense, blistering heat, a feedback loop of visions traded from her own personal memories to glimpse the future. The **Astril**, already present on Mythrill as refugees from the devoured star Lumia, scream silent warnings across the Silence: Keth Amar has tracked them here. The oldest star-singers watch the northern skies slowly gutter and go dark, knowing what comes next. Even the **Marked Vreken**, deep within the damp fungal abbeys of the Bryngloom, report that the phosphorescent trails left by the dead begin to glow with a frantic, silver heat, signaling that the cosmic balance has been violently upset.",
     "dmHook": "A Doomsayer's journal from this period, preserved in the Greymark archive, contains a prophecy that was never fulfilled: \"When the sun-child weeps, the predator will choke.\" The prophecy was dismissed at the time. It has never been revisited. An Astril Oracle who reads the journal today sees something in the words that no one saw four centuries ago.",
-    "dateDisplay": "Year 260, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-entombment",
@@ -471,19 +471,19 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "In an act of desperate, terrifying genius, the seven noble houses of Mythrill pool their bloodlines and forbidden rituals to entomb the dying star beneath the volcanic crust of **Sundale**. High **Inscriptors** engrave the mathematical terms of the binding directly into memory-glass and the burning flesh of volunteers, while massive **Hollow-Solari Titans** stand sentinel along the volcanic catwalks to hold the boundaries. But a cosmic star cannot be bound by stone alone; the seal requires a vessel woven from pure, living solar radiance — the hide of **Aex**, Sol's firstborn. Aex volunteered; no coerced binding could hold a being of pure stellar radiance, and Aex knew this and consented. House **Solvan** wielded a blade of crystallized starlight and flayed Aex's living hide in a single unbroken sheet; the firstborn did not scream but sang — Sol's own frequency, a harmonic matched to the star's death-throes — and that singing hide was woven into the seal while Aex bled stellar plasma onto the ritual ground. (The **Spellguards** of later ages trace their blood-oath to this first sacrificial magic: the acts of arcanists who absorbed the solar backdraft to prevent their lords from being vaporized.) The seal was set, a monumental, one-way vault with no key, protecting the slumbering sun from the Silence at the cost of freezing the surface world.",
     "dmHook": "A fragment of Aex's hide (a scrap that was cut away during the ritual and discarded) survives in a hidden reliquary beneath the Harath-Vault. It still burns. The tending-clan has never told anyone it exists. A Solari Titan who discovers it must choose: reveal the evidence of the original sin, or protect the faith that keeps the forge-clans united.",
-    "dateDisplay": "Year 0, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-keth-amar-corruption",
     "date": {
-      "year": 310,
+      "year": 760,
       "eraId": "ingress-breach",
-      "endYear": 318
+      "endYear": 768
     },
     "title": "Keth Amar Weaves the Corruption",
     "type": "cosmic",
     "phase": "false-spring",
-    "description": "Denied its prey by the anchoring, Keth Amar did not rage, it waited. For twenty-five years, wearing the Father’s stolen face through the noble councils while the vents cooled and children froze and whole villages went silent, the Sun-Eater whispered. Not into the grand halls of the noble houses. Into the kitchens, the nurseries, the night-watches. It whispered into the dreams of fathers who had signed the Great Binding. It showed mothers the faces of their starving children. It offered a simple trade: warmth for blood. The whispers did not compel. they corroded. By Year 11, six noble houses had heard the same offer so many times it no longer sounded like a choice.",
+    "description": "Denied its prey by the anchoring, Keth Amar did not rage, it waited. For twenty-five years, wearing the Father’s stolen face through the noble councils while the vents cooled and children froze and whole villages went silent, the Sun-Eater whispered. Not into the grand halls of the noble houses. Into the kitchens, the nurseries, the night-watches. It whispered into the dreams of fathers who had signed the Great Binding. It showed mothers the faces of their starving children. It offered a simple trade: warmth for blood. The whispers did not compel. they corroded. By the eleventh year, six noble houses had heard the same offer so many times it no longer sounded like a choice.",
     "locationIds": [
       "sundale",
       "frostwood-reach",
@@ -515,7 +515,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-keth-amar-breach",
     "date": {
-      "year": 325,
+      "year": 775,
       "eraId": "ingress-breach"
     },
     "title": "The Whispered Purge Claims the Bloodlines",
@@ -552,12 +552,12 @@ const SEEDED_EVENTS = [
     "narrative": "The purge is not a battle — it is a ledger closing one line at a time. **Keth Amar** does not need to eat the heirs; it needs their houses to stop existing. Through Predatory Wyrd it whispers the precise dread that makes a ruler trade his own blood for the promise of warmth, and one by one the Blood Seals snap. Each severed lineage cracks Aex's aegis wider. The Predatory Wyrd — seeded in the void and rooted in the world's own Natural Wyrd — bleeds through those cracks, inhabiting shared terrors and turning folklore into predatory horror. In the south **Emberspire** begins to stir; the vents the houses once bargained for now leak faster as the ward thins.",
     "dmHook": "The seventh seat is the anomaly. Six bloodlines were snapped — where did the seventh shard come from? The truth is it does not exist: the seventh Monolith is the **Counterfeit**, a Predatory Wyrd forgery standing in for the seal that was never written. The hidden lineage of the Secret Aegis (the Unwritten) never gave Keth Amar a line to break, so the predator forged a lie to hold its place. Morvane hid the shape of that lie in the bogs where even it can no longer quite locate it.",
 
-    "dateDisplay": "Year 310, Ingress"
+    "dateDisplay": "The Years of Whispers"
   },
   {
     "id": "event-emberspire-eruption",
     "date": {
-      "year": 325,
+      "year": 775,
       "eraId": "ingress-breach"
     },
     "title": "Emberspire Erupts: The False Spring Begins",
@@ -587,7 +587,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-myrathil-spawning",
     "date": {
-      "year": 325,
+      "year": 775,
       "eraId": "ingress-breach"
     },
     "title": "The Myrathil Spawn",
@@ -608,12 +608,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "As the cataclysmic ash-cloud of Emberspire's eruption hits the freezing oceans, it triggers a global ecological event. The violent collision of superheated volcanic lava-flows and melting glacial runoff creates massive, miles-wide fields of warm oceanic foam along every coastline. These are the perfect, fertile conditions for the spawning of the **Myrathil**. In a single season of steam and storm, thousands of foam-born infants wash onto the beaches of the Iceheart Sea. **Mareth**, the vast semi-conscious intelligence of the deep, watches her new children emerge with glowing bioluminescent veins and webbed fingers. She does not speak to them, but she guides the currents to protect them, shaping the **Shore** to navigate the floating ports, the **Deep** to tend the oceanic trenches, and the **Brook** to explore the inland waters as her silent, watery eyes.",
     "dmHook": "The spawning explosion wasn't random. Mareth deliberately created the conditions (a response to the Shattering, an immune reaction of the ocean itself. The Myrathil are her antibodies, grown to fight a spiritual infection. But Mareth cannot tell them this directly. She can only send more storms, more foam, more children) and hope they figure out what they were born to do.",
-    "dateDisplay": "Year 325, Blizzard's End"
+    "dateDisplay": "The Years of Whispers"
   },
   {
     "id": "event-viridane-flight",
     "date": {
-      "year": 325,
+      "year": 775,
       "eraId": "ingress-breach"
     },
     "title": "The Refusal of House Viridane",
@@ -638,12 +638,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "Not all houses capitulate to the predator's whispers. **House Viridane**, the seventh original signatory, refuses. Declaring the bargain an act of unforgivable cowardice, they flee south through the freezing trails of the Frostwood Reach, pursued relentlessly by the soldiers of the six houses who seek to silence their dissent. The six houses, needing a complete set of signatures to maintain the fiction of the seal, elevate House Morrath as a replacement seventh house and begin the centuries-long project of erasing every trace of Viridane. Cornered in the deepest, oldest groves where the memory-fog thins, the survivors make a desperate counter-bargain with ancient, primordial fae entities of the wildwood. The **Florae** are born from this magical transformation: their human flesh merges with the petrified briars, growing sharp wood-thorns where hair should be. The Florae later call themselves the \"eighth house\" — counting Viridane as the true seventh and themselves as the living proof that one house refused — but from an objective standpoint, only seven houses ever signed the Great Binding.",
     "dmHook": "The original fae contract still exists: a living document grown from thorn-vine and moonlight, buried beneath the oldest Florae grove. It can be read, but only by a Florae Lunarch during a lunar eclipse. The contract contains a clause that the Florae have never invoked: the fae entities owe House Viridane a debt that has never been collected.",
-    "dateDisplay": "Year 325, Blizzard's End"
+    "dateDisplay": "The Years of Whispers"
   },
   {
     "id": "event-first-rebirth",
     "date": {
-      "year": 328,
+      "year": 783,
       "eraId": "freezing-era"
     },
     "title": "The First Failed Rebirth: 40%",
@@ -668,7 +668,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-fog-compact",
     "date": {
-      "year": 50,
+      "year": 125,
       "eraId": "star-fall-binding"
     },
     "title": "The Fog Compact",
@@ -698,7 +698,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-glacier-bargain",
     "date": {
-      "year": 55,
+      "year": 138,
       "eraId": "star-fall-binding"
     },
     "title": "The Skalvyr Glacier Bargain",
@@ -725,14 +725,14 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "As glaciers advance to threaten their mountain keeps, House Skalvyr strikes the **Glacier Bargain** on Keth Amar's terms to freeze the ice sheets in place. The glacier is halted, but Keth Amar decrees that summer will never return to Nordhalla. Construction begins on the Frozen Archive, carved into the living glacier to preserve Skald ancestry and history.",
     "dmHook": "The first chisel stroke of the Archive struck a pocket of liquid rime-plasma that has remained active. A character who drinks this plasma gains absolute recall of their ancestors' memories but suffers permanent frostbite in one limb.",
-    "dateDisplay": "Year 328, Freezing Era"
+    "dateDisplay": "The Freezing Era"
   },
   {
     "id": "event-hunger-winter",
     "date": {
-      "year": 60,
+      "year": 150,
       "eraId": "star-fall-binding",
-      "endYear": 63
+      "endYear": 158
     },
     "title": "The Hunger Winter",
     "type": "disaster",
@@ -754,16 +754,16 @@ const SEEDED_EVENTS = [
     "effects": [
       "event-bloodhammer-migration"
     ],
-    "narrative": "The binding of Sol brings no relief; the Long Winter descends, and the surface world enters a state of permanent, agonizing twilight. Crops turn to black iron-hard ash in the fields, and glaciers grind past the northern gates of Nordhalla. Children freeze in their cradles, and the desperate **Skald Humans** measure their survival in body-counts. Within the Over-Shanties at the gates of the Vreken abbeys, the star-starved refugees turn to eating raw ghost-mycelium, triggering the first outbreaks of the mind-consuming \"hush\" addiction. Frustrated by the absolute seal of Aex's hide, **Keth Amar** turns its attention to the starving rulers. It whispers to the desperate patriarchs of the six houses (not in spoken words, but in overwhelming mental impressions of roaring coal-fires, volcanic vents cracking the frozen earth, and warm soil. The predator's price is absolute and horrific: the **firstborn heirs** of each noble house must be surrendered to Keth Amar.",
-    "dmHook": "The whispers were not heard equally. Some nobles reported hearing nothing at all) only a growing, gnawing certainty that their children would save them. The Doomsayers who recorded this phenomenon called it \"the predator's logic\": a form of psychic manipulation that bypassed language entirely. A character with psychic sensitivity who enters the Frostwood Reach's deep fog may hear residual echoes of these whispers, still reverberating after a century and a half.",
-    "dateDisplay": "Year 60, Star-Fall Era"
+    "narrative": "The binding of Sol brings no relief; the Long Winter descends, and the surface world enters a state of permanent, agonizing twilight. Crops turn to black iron-hard ash in the fields, and glaciers grind past the northern gates of Nordhalla. Children freeze in their cradles, and the desperate **Skald Humans** measure their survival in body-counts. Within the Over-Shanties at the gates of the Vreken abbeys, the star-starved refugees turn to eating raw ghost-mycelium, triggering the first outbreaks of the mind-consuming \"hush\" addiction. Frustrated by the absolute seal of Aex's hide, **Keth Amar** turns its attention to the starving rulers. It whispers to the desperate patriarchs of the six houses —not in spoken words, but in overwhelming mental impressions of roaring coal-fires, volcanic vents cracking the frozen earth, and warm soil. The predator's price is absolute and horrific: the **firstborn heirs** of each noble house must be surrendered to Keth Amar.",
+    "dmHook": "The whispers were not heard equally. Some nobles reported hearing nothing at all— only a growing, gnawing certainty that their children would save them. The Doomsayers who recorded this phenomenon called it \"the predator's logic\": a form of psychic manipulation that bypassed language entirely. A character with psychic sensitivity who enters the Frostwood Reach's deep fog may hear residual echoes of these whispers, still reverberating after a century and a half.",
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-remaining-bargains",
     "date": {
-      "year": 65,
+      "year": 163,
       "eraId": "star-fall-binding",
-      "endYear": 103
+      "endYear": 258
     },
     "title": "The Remaining Bargains Struck",
     "type": "pact",
@@ -818,7 +818,7 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "The fragments of Lumia's biosphere, the living memory of a world that died before Mythrill's sky went dark, descend to Mythrill before the Great Binding, finding sanctuary in willing human herders and throat-singers of the Sundrift Vale. The **Astril** are born: mortals whose skin bears shimmering, luminous patterns that ebb and flow with faith and emotion. They are not passengers; they are refugees carrying the memories of a world that once held light. The Astril elders govern the community as a loose council of the oldest bloodlines, though the singers watch in silent despair as the oldest memories fade one by one. Unknown to most, their flight across the void led Keth Amar directly to Sol.",
     "dmHook": "One fragment of Lumia refused to enter a vessel. It remains in the Silence above Mythrill (the last light visible in the starless sky. The Astril call it \"the Remnant.\" It has been growing brighter for the past decade. The Astril elders refuse to acknowledge this. An Astril Oracle who looks directly at the Remnant receives visions that no other Oracle can access) but the heritage within them screams the entire time.",
-    "dateDisplay": "Year 65, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-first-contract",
@@ -845,13 +845,13 @@ const SEEDED_EVENTS = [
       "event-contraction-traditions"
     ],
     "narrative": "The **Nethien**, an ancient canopy-dwelling people, face slow extinction as fewer and fewer children are born. Through intense devotion, their **Augurs** commune with Morvane, the death-boundary entity of the Bryngloom, and receive the **Font Vessel**. The Augurs are told to fill it at the hidden **Well of Life**. But three factions trail the Augur: the loyalists (future **Nethien**) who intend to honor the deal; the conspirators (future **Withered**) who secretly switch the vessel with a corrupt siphoning replica; and the profane magi (future **Veldun**) who bypass the vessels entirely and drink raw cosmic magic directly from the Well. When the loyalists restore order and fill the true vessel with reverence, Morvane's judgment descends within a week, permanently marking every bloodline.",
-    "dmHook": "The Font Vessel still exists, preserved in the heartwood of Atropolis. It is a living relic (it remembers who touched it honestly and who came with corruption in their hands. A Nethien character who touches it sees echoes of that fateful week: three paths diverging at one Well, and Morvane's judgment descending like a blade.",
+    "dmHook": "The Font Vessel still exists, preserved in the heartwood of Atropolis. It is a living relic —it remembers who touched it honestly and who came with corruption in their hands. A Nethien character who touches it sees echoes of that fateful week: three paths diverging at one Well, and Morvane's judgment descending like a blade.",
     "dateDisplay": "Before the Star-Fall"
   },
   {
     "id": "event-vat-breakers-revolt",
     "date": {
-      "year": 75,
+      "year": 188,
       "eraId": "freezing-era"
     },
     "title": "The Vat-Breakers' Revolt",
@@ -873,14 +873,14 @@ const SEEDED_EVENTS = [
       "event-remaining-bargains"
     ],
     "effects": [],
-    "narrative": "Driven by the industrial demands of their subterranean galleries, **Fexric Deep Alchemists** capture primitive **Thrumm** broodlings from the lower crags. Seeking to refine their mineral hides into flexible labor frames, they inject them with alchemical serums, triggering the catastrophic *Smoothing Plague*. The experiment goes out of control: the trolls' rigid stone-hide refines into fine, overlapping scales, their thick limbs lengthen to span bottomless chasms, and a higher, desperate cognition awakens in their minds. The first **Groven** (the Vat-Breakers) break their alchemical chains, shatter the spawning vats, and flee upward into the high crags. In their frantic escape, they leave behind the *Lost Brood* (siblings still locked in the lower alchemical tubes, permanently abandoned to Fexric experimentation.",
-    "dmHook": "The Deep Alchemists are still operating. Recent Groven expeditions have found fresh alchemical residue in the lower tunnels) and a fragment of stone-scale that is unmistakably Groven. The Lost Brood may still be alive. A rescue expedition into the deep would take the party through Fexric territory, abandoned vat-chambers, and the suffocating dark where something has been breeding for generations.",
-    "dateDisplay": "Year 75, Freezing Era"
+    "narrative": "Driven by the industrial demands of their subterranean galleries, **Fexric Deep Alchemists** capture primitive **Thrumm** broodlings from the lower crags. Seeking to refine their mineral hides into flexible labor frames, they inject them with alchemical serums, triggering the catastrophic *Smoothing Plague*. The experiment goes out of control: the trolls' rigid stone-hide refines into fine, overlapping scales, their thick limbs lengthen to span bottomless chasms, and a higher, desperate cognition awakens in their minds. The first **Groven** (the Vat-Breakers) break their alchemical chains, shatter the spawning vats, and flee upward into the high crags. In their frantic escape, they leave behind the *Lost Brood* —siblings still locked in the lower alchemical tubes, permanently abandoned to Fexric experimentation.",
+    "dmHook": "The Deep Alchemists are still operating. Recent Groven expeditions have found fresh alchemical residue in the lower tunnels— and a fragment of stone-scale that is unmistakably Groven. The Lost Brood may still be alive. A rescue expedition into the deep would take the party through Fexric territory, abandoned vat-chambers, and the suffocating dark where something has been breeding for generations.",
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-church-founding",
     "date": {
-      "year": 350,
+      "year": 845,
       "eraId": "freezing-era"
     },
     "title": "Founding of the Solbrand Order",
@@ -906,12 +906,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "Seeking comfort and guidance in the permanent twilight following the Shattering of the Seal, refugees gather in the High Hearth of Greymark Keep to found the **Solbrand Order**. They venerate the memory of Sol's purity, preaching that the star will rise again if mortals remain unified against the creeping dark.",
     "dmHook": "The first High Confessor's ceremonial rod, carved from a living branch of the High Hearth root, was lost during the Florae Uprising. It is rumored to still pulse with warm solar light.",
-    "dateDisplay": "Year 350, Freezing Era"
+    "dateDisplay": "The Freezing Era"
   },
   {
     "id": "event-preservation-pact",
     "date": {
-      "year": 345,
+      "year": 831,
       "eraId": "freezing-era"
     },
     "title": "The Preservation Compact",
@@ -941,14 +941,14 @@ const SEEDED_EVENTS = [
   {
     "id": "event-false-spring-traditions",
     "date": {
-      "year": 340,
+      "year": 817,
       "eraId": "freezing-era",
-      "endYear": 388
+      "endYear": 951
     },
     "title": "The False Spring Traditions: Immediate Survival",
     "type": "founding",
     "phase": "false-spring",
-    "description": "Five combat traditions were born from the Great Binding, Blizzard’s End, and the first decades of desperate survival:\n\n• Augur (art predates the Star-Fall): Cassia, a Skald star-watcher at the Frozen Archive, read the First Failing's hour in the steaming entrails of a sacrificed glacier-elk. The temporal-feedback burn incinerated her past to make space for cosmic-doom coordinate chains.\n• Spellguard (Year ~3): Damon, an Solari blacksmith, blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands are preserved frozen in the shielding posture at the Shield-Forge Keeps beneath Emberspire.\n• Martyr (Year ~12) (Sera Solvan, a mother of House Solvan, carved her sacrificed child's name into her forearm with volcanic obsidian when the heirs were marched north at Blizzard’s End. The wound healed into a glowing solar scar) the first Vow, founded in the years after the Shattering.\n• Apex (Year ~10-30): Sylas, a Mimir tracker, formalized the Silent Hunt for Wyrd-creatures emerging through the shell’s cracks. He traded his hearing for vibration-sense in the deep Ironwood Heart.\n• Pyrofiend (Year ~12): When the first pulse failed, seven Solvarn occultists gathered in an obsidian cavern beneath Emberspire, drew a summoning circle in their own blood, and swallowed Wyrd-touched coals of Scathrach, the Ashen Sovereign.",
+    "description": "Five combat traditions were born from the Great Binding, Blizzard’s End, and the first decades of desperate survival:\n\n• Augur (art predates the Star-Fall): Cassia, a Skald star-watcher at the Frozen Archive, read the First Failing's hour in the steaming entrails of a sacrificed glacier-elk. The temporal-feedback burn incinerated her past to make space for cosmic-doom coordinate chains.\n• Spellguard (Year ~3): Damon, an Solari blacksmith, blocked a solar flare with an alchemical tower shield during Sol's entombment. His hands are preserved frozen in the shielding posture at the Shield-Forge Keeps beneath Emberspire.\n• Martyr (Year ~325): Sera Solvan, a mother of House Solvan, carved her sacrificed child's name into her forearm with volcanic obsidian when the heirs were marched north at Blizzard’s End; the wound healed into a glowing solar scar, and she became the first Witness of Aex, the first Vow, founded in the years after the Shattering.\n• Apex (Year ~10-30): Sylas, a Mimir tracker, formalized the Silent Hunt for Wyrd-creatures emerging through the shell’s cracks. He traded his hearing for vibration-sense in the deep Ironwood Heart.\n• Pyrofiend (Year ~325): When Emberspire ruptured, the starfire bound beneath the caldera met the void-rot Keth Amar had seeped into the fissures; seven Solari keepers of the Emberspire cloisters swallowed the breach as it flooded their vault to save the city above them, becoming the First Cabal and the first crucibles of Scathrach, the Ashen Sovereign.",
     "locationIds": [
       "frozen-archive",
       "sundale",
@@ -976,7 +976,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-first-vent-failure",
     "date": {
-      "year": 120,
+      "year": 300,
       "eraId": "freezing-era"
     },
     "title": "The First Vent Failure",
@@ -999,7 +999,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-fifth-rebirth",
     "date": {
-      "year": 376,
+      "year": 918,
       "eraId": "freezing-era"
     },
     "title": "The Fifth Rebirth Window: 28%",
@@ -1021,7 +1021,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-bloodhammer-migration",
     "date": {
-      "year": 150,
+      "year": 375,
       "eraId": "freezing-era"
     },
     "title": "The Bloodhammer Migration South",
@@ -1050,7 +1050,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-berserker-founding",
     "date": {
-      "year": 155,
+      "year": 388,
       "eraId": "freezing-era"
     },
     "title": "Grum Ignites the Rage",
@@ -1075,7 +1075,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-florae-shorn",
     "date": {
-      "year": 90,
+      "year": 225,
       "eraId": "freezing-era"
     },
     "title": "The Shorn Emerge",
@@ -1098,7 +1098,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-northern-schism",
     "date": {
-      "year": 170,
+      "year": 425,
       "eraId": "freezing-era"
     },
     "title": "The Ledger Purge",
@@ -1122,7 +1122,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-sovereign-ledger",
     "date": {
-      "year": 180,
+      "year": 450,
       "eraId": "freezing-era"
     },
     "title": "The Sovereign Ledger Established",
@@ -1149,7 +1149,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-deep-born-emerge",
     "date": {
-      "year": 185,
+      "year": 463,
       "eraId": "freezing-era"
     },
     "title": "The Deep Myrathil Emerge",
@@ -1171,7 +1171,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-first-thermal-war",
     "date": {
-      "year": 190,
+      "year": 475,
       "eraId": "freezing-era"
     },
     "title": "The First Thermal War",
@@ -1195,7 +1195,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-fogwood-schism",
     "date": {
-      "year": 230,
+      "year": 575,
       "eraId": "freezing-era"
     },
     "title": "The Fogwood Schism",
@@ -1222,7 +1222,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-brook-emerge",
     "date": {
-      "year": 235,
+      "year": 588,
       "eraId": "freezing-era"
     },
     "title": "The Brook Myrathil Emerge",
@@ -1243,13 +1243,13 @@ const SEEDED_EVENTS = [
   {
     "id": "event-synod-founded",
     "date": {
-      "year": 240,
+      "year": 600,
       "eraId": "freezing-era"
     },
     "title": "The Synod Organizes",
     "type": "founding",
     "phase": "first-ebbing",
-    "description": "The Astril elders formally organized into the Synod, a ruling council of the oldest heritage-bloodlines governing from the crystal-lattice cathedral of Synod Hold. The Synod's purpose was dual: coordinate the Selunis-ritual across all Astril communities, and maintain the secrecy of their refugee origins. Keth Amar was already searching for the light it had failed to consume, and discovery meant extinction. The Earthen Astril and Stellar Astril bloodlines established their complementary roles: Earthen Astril as farmers, hunters, and guardians of the physical communities; Stellar Astril as star-readers, ritual-tenders, and keepers of the celestial record.",
+    "description": "The Astril elders formally organized into the Synod, a ruling council of the oldest heritage-bloodlines governing from the crystal-lattice cathedral of Synod Hold. The Synod's purpose was dual: coordinate the Selunis-ritual across all Astril communities, and maintain the secrecy of their refugee origins. Keth Amar was already searching for the light it had failed to consume, and discovery meant extinction. The Stargazer Astril and Brutish Astril bloodlines established their complementary roles: Stargazer Astril as farmers, hunters, and guardians of the physical communities; Brutish Astril as star-readers, ritual-tenders, and keepers of the celestial record.",
     "locationIds": [
       "sundrift-vale",
       "synod-hold"
@@ -1268,9 +1268,9 @@ const SEEDED_EVENTS = [
   {
     "id": "event-first-ebbing-traditions",
     "date": {
-      "year": 80,
+      "year": 200,
       "eraId": "freezing-era",
-      "endYear": 220
+      "endYear": 550
     },
     "title": "The First Ebbing Traditions: Early Adaptation",
     "type": "founding",
@@ -1302,7 +1302,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-ledger-collapse",
     "date": {
-      "year": 250,
+      "year": 625,
       "eraId": "freezing-era"
     },
     "title": "The Ledger Halls Collapse",
@@ -1332,7 +1332,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-mimir-purge",
     "date": {
-      "year": 255,
+      "year": 638,
       "eraId": "freezing-era"
     },
     "title": "The Mimir Purge: The Mask-Mothers Die",
@@ -1353,20 +1353,20 @@ const SEEDED_EVENTS = [
     "effects": [
       "event-mimir-rupture"
     ],
-    "narrative": "Paranoid noble inquisitors, fearing the shape-shifting espionage of the **Mimir**, burn their sacred birthing chambers across the Frostwood Reach. In a single season of fire and steel, the sacred technique of mask-forging (the ritual by which Mimir craft their persona masks from heartwood and storm-glass) is lost to history. The *Rupture* follows, permanently splintering Mimir society: the **Arch Mimir** canopy aristocrats hoard the surviving masks to maintain their lineages, while the siblings and those left without ancestral masks become the **Fractured Mimir**, forging crude storm-glass masks from fulgurite or composite masks from salvaged fragments, and living as outcasts and frontier-guards.",
+    "narrative": "Paranoid noble inquisitors, fearing the shape-shifting espionage of the **Mimir**, burn their sacred birthing chambers across the Frostwood Reach. In a single season of fire and steel, the sacred technique of mask-forging (the ritual by which Mimir craft their persona masks from heartwood and storm-glass) is lost to history. The *Rupture* follows, permanently splintering Mimir society: the **Arch Mimir** canopy aristocrats hoard the surviving masks to maintain their lineages, while the siblings and those left without ancestral masks become the **Broken Mimir**, forging crude storm-glass masks from fulgurite or composite masks from salvaged fragments, and living as outcasts and frontier-guards.",
     "dmHook": "A partially-burned mask-forging manual survived the Purge, hidden in the canopy-hold of a Mimir elder who died protecting it. The manual is incomplete: the final three steps are missing. A Mimir character who finds the manual can attempt to reconstruct the lost steps through trial, error, and communion with the fog itself. Failure means the mask consumes the wearer. Success means the Mimir can forge the first new persona mask in ninety years.",
-    "dateDisplay": "Year 345, Freezing Era"
+    "dateDisplay": "The Freezing Era"
   },
   {
     "id": "event-mimir-rupture",
     "date": {
-      "year": 260,
+      "year": 650,
       "eraId": "freezing-era"
     },
     "title": "The Mimir Rupture: The Three Castes",
     "type": "schism",
     "phase": "contraction",
-    "description": "With no new masks being made, the Masked elders (the aristocratic inheritors of heartwood masks bearing eleven generations of carved lineage) decreed that only first-born children may receive their mother's mask. Siblings were cast to the forest floor with no inheritance. Within a generation, Mimir society had shattered into two primary groups:\n• Arch Mimir: the shrinking aristocracy holding ancestral heartwood masks, presiding over a majority they refuse to acknowledge.\n• Fractured Mimir: the sentinels and outcasts who forge storm-glass masks from fulgurite or wear composite masks of salvaged fragments, surviving the harsh conditions of the forest floor and borders.",
+    "description": "With no new masks being made, the Masked elders (the aristocratic inheritors of heartwood masks bearing eleven generations of carved lineage) decreed that only first-born children may receive their mother's mask. Siblings were cast to the forest floor with no inheritance. Within a generation, Mimir society had shattered into two primary groups:\n• Arch Mimir: the shrinking aristocracy holding ancestral heartwood masks, presiding over a majority they refuse to acknowledge.\n• Broken Mimir: the sentinels and outcasts who forge storm-glass masks from fulgurite or wear composite masks of salvaged fragments, surviving the harsh conditions of the forest floor and borders.",
     "locationIds": [
       "frostwood-reach",
       "ironwood-heart"
@@ -1383,7 +1383,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-twentieth-rebirth",
     "date": {
-      "year": 386,
+      "year": 946,
       "eraId": "freezing-era"
     },
     "title": "The Sixth Rebirth Window: 33%",
@@ -1407,14 +1407,14 @@ const SEEDED_EVENTS = [
   {
     "id": "event-astril-schism",
     "date": {
-      "year": 245,
+      "year": 613,
       "eraId": "freezing-era",
-      "endYear": 295
+      "endYear": 738
     },
-    "title": "The Earthen Astril-Stellar Astril Schism",
+    "title": "The Stargazer Astril-Brutish Astril Schism",
     "type": "schism",
     "phase": "contraction",
-    "description": "The Astril fractured. The Harmonists (future Earthen Astril) argued that the Lumia heritage must be embraced fully: suppression was a betrayal of the sanctuary their ancestors had promised. The Silencers (future Stellar Astril) argued that unchecked embrace led to full consumption and that suppression through scarification, fasting, and binding-chants was survival. Tharun Stellar Astril, the first Silencer, was assassinated by his own Earthen Astril sister who believed his suppression was starving the heritage. The heritage consumed her. She lost herself to full possession within the year. The schism has never healed.",
+    "description": "The Astril fractured. The Harmonists (future Stargazer Astril) argued that the Lumia heritage must be embraced fully: suppression was a betrayal of the sanctuary their ancestors had promised. The Silencers (future Brutish Astril) argued that unchecked embrace led to full consumption and that suppression through scarification, fasting, and binding-chants was survival. Tharun Brutish Astril, the first Silencer, was assassinated by his own Stargazer Astril sister who believed his suppression was starving the heritage. The heritage consumed her. She lost herself to full possession within the year. The schism has never healed.",
     "locationIds": [
       "sundrift-vale",
       "synod-hold"
@@ -1431,7 +1431,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-drun-severing",
     "date": {
-      "year": 410,
+      "year": 1013,
       "eraId": "freezing-era"
     },
     "title": "The Withered Severing: Saren-Vel Burns Her Name",
@@ -1454,7 +1454,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-dawn-vigil-founded",
     "date": {
-      "year": 388,
+      "year": 951,
       "eraId": "freezing-era"
     },
     "title": "The Dawn Vigil Founded",
@@ -1480,9 +1480,9 @@ const SEEDED_EVENTS = [
   {
     "id": "event-war-thousand-screams",
     "date": {
-      "year": 265,
+      "year": 663,
       "eraId": "freezing-era",
-      "endYear": 290
+      "endYear": 725
     },
     "title": "The War of Thousand Screams",
     "type": "conflict",
@@ -1506,16 +1506,16 @@ const SEEDED_EVENTS = [
       "event-first-thermal-war"
     ],
     "effects": [],
-    "narrative": "A brutal northern conflict erupts as the glaciers halt. **Skald warriors** hold the sheer Frostgate Pass alone against an invading army ten times their number, the battle running red for three months. When the spring thaw fails to arrive, the corpses are frozen solid in active positions of combat (a sculpture garden of the dead that still stands in the pass. In the aftermath, the first **Dreadnaughts** are forged: Skald smiths weld their greatest warriors permanently inside massive, Archive-forged iron steam-boilers, utilizing coal, blood, or trapped souls to provide the heat and strength needed to ensure the gates never fall again.",
-    "dmHook": "The Frostgate Pass is still there. The frozen dead are still there) eight hundred corpses locked in eternal combat. Some of them are not entirely dead. The Wyrd, drawn to the concentration of violent death, has been nesting in the pass for centuries. Travelers who cross at night report hearing battle cries from the ice. Some report seeing the dead move.",
-    "dateDisplay": "Year 260, Freezing Era"
+    "narrative": "A brutal northern conflict erupts as the glaciers halt. **Skald warriors** hold the sheer Frostgate Pass alone against an invading army ten times their number, the battle running red for three months. When the spring thaw fails to arrive, the corpses are frozen solid in active positions of combat —a sculpture garden of the dead that still stands in the pass. In the aftermath, the first **Dreadnaughts** are forged: Skald smiths weld their greatest warriors permanently inside massive, Archive-forged iron steam-boilers, utilizing coal, blood, or trapped souls to provide the heat and strength needed to ensure the gates never fall again.",
+    "dmHook": "The Frostgate Pass is still there. The frozen dead are still there— eight hundred corpses locked in eternal combat. Some of them are not entirely dead. The Wyrd, drawn to the concentration of violent death, has been nesting in the pass for centuries. Travelers who cross at night report hearing battle cries from the ice. Some report seeing the dead move.",
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-toll-wars",
     "date": {
-      "year": 210,
+      "year": 525,
       "eraId": "freezing-era",
-      "endYear": 270
+      "endYear": 675
     },
     "title": "The Toll Wars",
     "type": "conflict",
@@ -1542,9 +1542,9 @@ const SEEDED_EVENTS = [
   {
     "id": "event-memory-wars",
     "date": {
-      "year": 215,
+      "year": 538,
       "eraId": "freezing-era",
-      "endYear": 315
+      "endYear": 765
     },
     "title": "The Memory Wars",
     "type": "conflict",
@@ -1571,7 +1571,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-florae-uprising",
     "date": {
-      "year": 400,
+      "year": 985,
       "eraId": "freezing-era"
     },
     "title": "The Florae Uprising",
@@ -1600,9 +1600,9 @@ const SEEDED_EVENTS = [
   {
     "id": "event-vreken-overlit-epidemic",
     "date": {
-      "year": 420,
+      "year": 1041,
       "eraId": "freezing-era",
-      "endYear": 470
+      "endYear": 1181
     },
     "title": "The Over-Lit Epidemic",
     "type": "disaster",
@@ -1626,7 +1626,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-inquisitor-merge",
     "date": {
-      "year": 412,
+      "year": 1019,
       "eraId": "freezing-era"
     },
     "title": "The Inquisitor Traditions Merge: The Barbed Vow",
@@ -1651,7 +1651,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-brine-bond-syndicate",
     "date": {
-      "year": 395,
+      "year": 971,
       "eraId": "freezing-era"
     },
     "title": "The Brine-Bond Syndicate Founded",
@@ -1678,9 +1678,9 @@ const SEEDED_EVENTS = [
   {
     "id": "event-contraction-traditions",
     "date": {
-      "year": 390,
+      "year": 957,
       "eraId": "freezing-era",
-      "endYear": 475
+      "endYear": 1195
     },
     "title": "The Contraction Traditions: Mid-Era Response",
     "type": "founding",
@@ -1713,7 +1713,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-cult-founding",
     "date": {
-      "year": 430,
+      "year": 1069,
       "eraId": "freezing-era"
     },
     "title": "The Over-Shanty Established: The Cult of Forgotten Shadow",
@@ -1741,7 +1741,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-fortieth-rebirth",
     "date": {
-      "year": 424,
+      "year": 1052,
       "eraId": "freezing-era"
     },
     "title": "The Ninth Rebirth Window: 24%",
@@ -1768,7 +1768,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-false-dawn-riots",
     "date": {
-      "year": 425,
+      "year": 1055,
       "eraId": "freezing-era"
     },
     "title": "The False Dawn Riots",
@@ -1799,13 +1799,13 @@ const SEEDED_EVENTS = [
   {
     "id": "event-solbrand-concealment",
     "date": {
-      "year": 426,
+      "year": 1058,
       "eraId": "freezing-era"
     },
     "title": "The Concealment of Sol's Breath Begins",
     "type": "conspiracy",
     "phase": "squeeze",
-    "description": "In the chaos of the False Dawn Riots, the Hollow-Solari tending-clan beneath Emberspire made a decision that would shape Sundale for three centuries: they concealed Sol's Breath's measurable dimming from the outside world. The sacred flame (the primary thermal radiator of the entire Solari vault capital) had been fading for decades. Public knowledge would have destroyed what remained of Sundale's theocratic legitimacy. The concealment lasted generations, passed from tending-clan matriarch to matriarch, until Sol's Breath could no longer be hidden. By Year 780, three factions had formed around the truth: the Risen, the Sunderer, and the Scoured.",
+    "description": "In the chaos of the False Dawn Riots, the Hollow-Solari tending-clan beneath Emberspire made a decision that would shape Sundale for the ages that followed: they concealed Sol's Breath's measurable dimming from the outside world. The sacred flame (the primary thermal radiator of the entire Solari vault capital) had been fading for decades. Public knowledge would have destroyed what remained of Sundale's theocratic legitimacy. The concealment lasted generations, passed from tending-clan matriarch to matriarch, until Sol's Breath could no longer be hidden. By the end of the concealment, three factions had formed around the truth: the Risen, the Sunderer, and the Scoured.",
     "locationIds": [
       "sundale",
       "emberspire-caldera",
@@ -1827,7 +1827,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-memory-editing",
     "date": {
-      "year": 438,
+      "year": 1091,
       "eraId": "freezing-era"
     },
     "title": "The Great Revision",
@@ -1855,13 +1855,13 @@ const SEEDED_EVENTS = [
   {
     "id": "event-silence-between-stars",
     "date": {
-      "year": 455,
+      "year": 1139,
       "eraId": "freezing-era"
     },
     "title": "The Silence Between Stars: Contact Made",
     "type": "discovery",
     "phase": "squeeze",
-    "description": "The Cult of Forgotten Shadow, founded long ago in the peat-crypts beneath the Over-Shanty, made the first intentional two-way contact with the deep dark since Blizzard’s End. Something answered. Not an echo. Not a Wyrd-echo. Something that knew the cultists' names. Something that had been waiting. This was Keth Amar's first direct communication with the surface in nearly six centuries: and it signaled the shift from passive consumption to active intrusion. Keth Amar currently has no active emissary on the surface (Scathrach sealed itself away centuries ago) — it speaks through the cracks directly. The False Prophet tradition was born within months: Li Wei, an Ordan herd-watcher in the Sundrift Vale, witnessed the contact in a vision and looked directly into the silence where Sol once shone.",
+    "description": "The Cult of Forgotten Shadow, founded long ago in the peat-crypts beneath the Over-Shanty, made the first intentional two-way contact with the deep dark since Blizzard’s End. Something answered. Not an echo. Not a Wyrd-echo. Something that knew the cultists' names. Something that had been waiting. This was Keth Amar's first direct communication with the surface in all the ages since the Shattering: and it signaled the shift from passive consumption to active intrusion. Keth Amar currently has no active emissary on the surface (Scathrach sealed itself away centuries ago) — it speaks through the cracks directly. The False Prophet tradition was born within months: Li Wei, an Ordan herd-watcher in the Sundrift Vale, witnessed the contact in a vision and looked directly into the silence where Sol once shone.",
     "locationIds": [
       "bryngloom-forest",
       "over-shanty",
@@ -1883,14 +1883,14 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "The Cult of Forgotten Shadow's inner circle makes first contact with **The Silence Between Stars**-an amorphous silence entity that whispers from the dark sky, instructing shadow priests on the locations of the Monoliths.",
     "dmHook": "The contact was initiated by an Astril heretic who tried to bind their Lumia heritage with shadow magic, creating a permanent beacon for the Silence.",
-    "dateDisplay": "Year 210, Freezing Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-squeeze-traditions",
     "date": {
-      "year": 415,
+      "year": 1027,
       "eraId": "freezing-era",
-      "endYear": 475
+      "endYear": 1195
     },
     "title": "The Squeeze Traditions: Late-Era Crisis",
     "type": "founding",
@@ -1917,7 +1917,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-last-rebirth",
     "date": {
-      "year": 475,
+      "year": 1195,
       "eraId": "freezing-era"
     },
     "title": "The Final Silent Window: 0%",
@@ -1942,7 +1942,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-skalyvr-silence",
     "date": {
-      "year": 465,
+      "year": 1167,
       "eraId": "freezing-era"
     },
     "title": "The Silence-Heat Heresy",
@@ -1968,12 +1968,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "A secret faction within the Frozen Archive, the **Cult of Forgotten Shadow**, begins clandestine construction of Silence-heat engines in the sealed lower vaults, attempting to melt the glaciers from within.",
     "dmHook": "The engines run on siphoned soul-warmth. Several missing Skald trackers' bodies have been found drained of heat near the vents.",
-    "dateDisplay": "Year 415, Freezing Era"
+    "dateDisplay": "The Freezing Era"
   },
   {
     "id": "event-nethering",
     "date": {
-      "year": 467,
+      "year": 1173,
       "eraId": "freezing-era"
     },
     "title": "The Nethering",
@@ -2000,7 +2000,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-augur-collapse",
     "date": {
-      "year": 469,
+      "year": 1178,
       "eraId": "freezing-era"
     },
     "title": "The Augur Collapse: Accuracy Plummets",
@@ -2026,13 +2026,13 @@ const SEEDED_EVENTS = [
   {
     "id": "event-solbrand-failing",
     "date": {
-      "year": 470,
+      "year": 1181,
       "eraId": "freezing-era"
     },
     "title": "Sol's Breath Fails: The Failing Becomes Visible",
     "type": "disaster",
     "phase": "intrusion",
-    "description": "Sol's Breath (the sacred warmth the Hollow-Solari have tended in the deep vaults beneath Emberspire for four centuries) visibly began to fail. The tending-clan could no longer conceal the decline. Emberspire's vents cooled measurably. The Waste-Solari caldera weakened. The Frost-Tithe (Keth Amar's birth-debt on Rime-Born mothers) worsened, claiming twice as many infants. Three factions crystallized around the failing Sol's Breath: the Risen (old faith, \"Sol will return\"), the Sunderer (heretics who believe Sol's Breath is Keth Amar's feeding-line and must be destroyed), and the Scoured (who deface their forge-marks and scour the world for Monolith Shards).",
+    "description": "Sol's Breath (the sacred warmth the Hollow-Solari have tended in the deep vaults beneath Emberspire for long ages) visibly began to fail. The tending-clan could no longer conceal the decline. Emberspire's vents cooled measurably. The Waste-Solari caldera weakened. The Frost-Tithe (Keth Amar's birth-debt on Rime-Born mothers) worsened, claiming twice as many infants. Three factions crystallized around the failing Sol's Breath: the Risen (old faith, \"Sol will return\"), the Sunderer (heretics who believe Sol's Breath is Keth Amar's feeding-line and must be destroyed), and the Scoured (who deface their forge-marks and scour the world for Monolith Shards).",
     "locationIds": [
       "sundale",
       "emberspire-caldera",
@@ -2055,12 +2055,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "The **Sol's Breath** (the eternal ember believed to be Sol's last conscious fragment inside the Harath-Vault) begins to dim. The Hollow-Solari priestly elite of the Solari, desperate to maintain faith, conceal the decline from the outer Waste-Solari clans. Elder **Thaeron**, the eldest Sun-Speaker, retreats into the inner basalt ring of the Harath-Vault, spending eleven years staring into the fading flame in absolute silence. He discovers that Sol's Breath is not a closed ember, but a thermal feeding-line through which Keth Amar is actively siphoning Sol's life, triggering a quiet three-way theological schism among the forge-clans.",
     "dmHook": "Thaeron is dying. He has been sustained for decades by proximity to Sol's Breath, but the ember's fading is accelerating his decline. Before he dies, he wants to tell someone what he has seen. He will only speak to an outsider: someone unaffiliated with the forge-clans, someone who cannot be accused of factional bias. The party is summoned to the Harath-Vault. What Thaeron tells them will change everything.",
-    "dateDisplay": "Year 467, Freezing Era"
+    "dateDisplay": "The Freezing Era"
   },
   {
     "id": "event-sundale-civil-war",
     "date": {
-      "year": 471,
+      "year": 1184,
       "eraId": "freezing-era"
     },
     "title": "The Sundale Civil War",
@@ -2095,13 +2095,13 @@ const SEEDED_EVENTS = [
   {
     "id": "event-geothermal-collapse",
     "date": {
-      "year": 472,
+      "year": 1187,
       "eraId": "freezing-era"
     },
     "title": "The Frostmaw Geothermal Collapse",
     "type": "disaster",
     "phase": "intrusion",
-    "description": "The geothermal terraces at Frostmaw Holdfast (the primary food-growing infrastructure for the entire Cragjaw Peaks) began cooling. Hydrothermal crops failed. The Steam-Line Cartel throttled its surviving pipelines, prioritizing military and guild users. The Cragjaw's population faced the first mass famine in six centuries. Reports from the lower sumps claimed the Deep Alchemists had reopened their laboratories and were, once again, experimenting on something with more than two limbs.",
+    "description": "The geothermal terraces at Frostmaw Holdfast (the primary food-growing infrastructure for the entire Cragjaw Peaks) began cooling. Hydrothermal crops failed. The Steam-Line Cartel throttled its surviving pipelines, prioritizing military and guild users. The Cragjaw's population faced the first mass famine in living memory. Reports from the lower sumps claimed the Deep Alchemists had reopened their laboratories and were, once again, experimenting on something with more than two limbs.",
     "locationIds": [
       "cragjaw-peaks",
       "frostmaw-holdfast",
@@ -2126,7 +2126,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-silent-sea",
     "date": {
-      "year": 473,
+      "year": 1189,
       "eraId": "freezing-era"
     },
     "title": "The Silent Sea",
@@ -2154,7 +2154,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-monoliths-waking",
     "date": {
-      "year": 474,
+      "year": 1192,
       "eraId": "freezing-era"
     },
     "title": "The Waking of the Monoliths",
@@ -2184,12 +2184,12 @@ const SEEDED_EVENTS = [
     "effects": [],
     "narrative": "The **Scoured** Solari, having ritually defaced their forge-marks, scour the continents for Sundered Monoliths, believing that sealing the predator's wound will let the buried star die whole and quiet. In the north, frost lords stir beneath Nordhalla's glaciers. In Atropolis, the **Nethien** file seventeen urgent petitions to claim the Monolith pools as protected contract archives. Civil war brews between the Hollow-Solari and Waste-Solari forge-clans in Sundale, while **Inquisitors** hunt the mycelial-addicted Over-Lit across the margins of every settled capital. The powder keg is global. The fuse is lit.",
     "dmHook": "This is where your campaign begins. Every region's crisis is an adventure waiting to happen. Every Sundered Monolith is a dungeon with a boss at its heart. Every faction has an agenda. Every NPC has a secret. The seventh age of Mythrill does not have a predetermined ending: that's what the players are for. Start small: a frozen village in the Frostwood Reach, a missing child, a fog that whispers. Build toward the Monoliths. End at Emberspire.",
-    "dateDisplay": "Year 471, Freezing Era"
+    "dateDisplay": "The Freezing Era"
   },
   {
     "id": "event-bog-dead-march",
     "date": {
-      "year": 474,
+      "year": 1192,
       "eraId": "freezing-era"
     },
     "title": "The Marching Dead",
@@ -2221,10 +2221,10 @@ const SEEDED_EVENTS = [
     "title": "The First Ignition",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "The first stars ignite across the Silence, and each one establishes its dimming window (the ancient, cosmic death-rebirth cycle that governs all celestial ...",
+    "description": "The first stars ignite across the Silence, and each one establishes its dimming window —the ancient, cosmic death-rebirth cycle that governs all celestial bodies. This is not a myth.",
     "narrative": "The first stars ignite across the Silence, and each one establishes its **dimming window** (the ancient, cosmic death-rebirth cycle that governs all celestial bodies. This is not a myth. It is a fundamental law of existence, older than any deity, crueler than any scripture. Every star that has ever burned has passed through its dimming window, shedding exhausted light and rekindling from within, surrounded by starless space. Every star has successfully emerged from its slumber) until Sol. This cosmic rule ensures that a star's vulnerability is also its ultimate furnace, but the dimming phase acts as a universal broadcast, signaling across the Silence to entities that feed on fading light.",
     "dmHook": "An artifact older than the Star-Fall, older than any known civilization, surfaces in the Cragjaw Peaks. The Fexric claim it predates their oldest holdfasts by millennia. It hums at a frequency that makes Astril heritage weep.",
-    "dateDisplay": "Year 474, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2240,9 +2240,9 @@ const SEEDED_EVENTS = [
     "title": "Aex, Mother of Suns",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "Aex comes into being (living solar fire given form, a great parent of the cosmos, the Mother of suns yet unborn. Coiled around bright embers through the long eons, Aex is their gu...",
-    "narrative": "**Aex** comes into being (living solar fire given form, a great parent of the cosmos, the Mother of suns yet unborn. Coiled around bright embers through the long eons, Aex is their guardian, its witness, its memory across eons. The oldest Fexric carvings depict Aex as a massive serpent of light coiled around a bright ember. Aex's very body was composed of a specialized, highly concentrated solar fire that could absorb raw thermal shocks, a biological armor of heat that would later inspire the defensive techniques of the **Spellguards** and serve as the physical foundation for the binding seal beneath Sundale.",
-    "dmHook": "Aex is not truly dead. Fragments of the firstborn's consciousness linger in the binding seal) and therefore in every Sundered Monolith. A character who touches a Monolith may receive a vision: fire, betrayal, and the face of the one who took the hide.",
+    "description": "Aex comes into being —living solar fire given form, a great parent of the cosmos, the Mother of suns yet unborn.",
+    "narrative": "**Aex** comes into being —living solar fire given form, a great parent of the cosmos, the Mother of suns yet unborn. Coiled around bright embers through the long eons, Aex is their guardian, its witness, its memory across eons. The oldest Fexric carvings depict Aex as a massive serpent of light coiled around a bright ember. Aex's very body was composed of a specialized, highly concentrated solar fire that could absorb raw thermal shocks, a biological armor of heat that would later inspire the defensive techniques of the **Spellguards** and serve as the physical foundation for the binding seal beneath Sundale.",
+    "dmHook": "Aex is not truly dead. Fragments of the firstborn's consciousness linger in the binding seal— and therefore in every Sundered Monolith. A character who touches a Monolith may receive a vision: fire, betrayal, and the face of the one who took the hide.",
     "dateDisplay": "Before the Star-Fall",
     "locationIds": [],
     "factionIds": [],
@@ -2259,7 +2259,7 @@ const SEEDED_EVENTS = [
     "title": "The Fexric Carve the First Holdfast",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "The Fexric (compact, gnomish engineers driven by an obsessive, generational mathematical focus) carve their first holdfast into the Cragjaw Peaks. Th...",
+    "description": "The Fexric (compact, gnomish engineers driven by an obsessive, generational mathematical focus) carve their first holdfast into the Cragjaw Peaks.",
     "narrative": "The **Fexric** (compact, gnomish engineers driven by an obsessive, generational mathematical focus) carve their first holdfast into the Cragjaw Peaks. This marks the beginning of the oldest continuous civilization on Mythrill. Their oral maintenance songs, passed down for eight millennia, contain complex architectural equations and alchemical formulas no living Fexric fully understands, representing a lost age of advanced steam-power and clockwork engineering from before the ice sheets advanced.",
     "dmHook": "A Fexric oral song, when translated by a Myrathil Deep Listener, turns out to be a star-chart from before the sky went dark. It points to a location beneath Frostmaw Crag that no Fexric has excavated in six thousand years.",
     "dateDisplay": "Before the Star-Fall",
@@ -2278,7 +2278,7 @@ const SEEDED_EVENTS = [
     "title": "The Thrumm Awaken",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "The Thrumm (hulking stone-trolls born of mineral and pressure) awaken in the deepest crags of the mountains. They are the peaks' first children, speak...",
+    "description": "The Thrumm (hulking stone-trolls born of mineral and pressure) awaken in the deepest crags of the mountains. They are the peaks' first children, speaking in a low-frequency rumble that gives them their name.",
     "narrative": "The **Thrumm** (hulking stone-trolls born of mineral and pressure) awaken in the deepest crags of the mountains. They are the peaks' first children, speaking in a low-frequency rumble that gives them their name. The Fexric call them \"the mountain's heartbeat made flesh.\" Their thick, calcified stone-hide and structural bones would later become the target of Fexric alchemical experiments, leading directly to the creation of the Smoothing Plague and the birth of the Groven.",
     "dmHook": "Thrumm shamans practice a form of lithomancy: reading future events in the cracks of sacred stones. The shamans have been reading the same prophecy for age upon age: \"The smooth ones will return, and the mountain will choose.\" The Groven do not know about this prophecy.",
     "dateDisplay": "Before the Star-Fall",
@@ -2297,7 +2297,7 @@ const SEEDED_EVENTS = [
     "title": "The Vreken Cultivate the Deep",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "The Vreken (a compact, lantern-eyed people) cultivate phosphorescent fungi in the Bryngloom's bog-caverns. Evolving to survive in the absolute black o...",
+    "description": "The Vreken (a compact, lantern-eyed people) cultivate phosphorescent fungi in the Bryngloom's bog-caverns.",
     "narrative": "The **Vreken** (a compact, lantern-eyed people) cultivate phosphorescent fungi in the Bryngloom's bog-caverns. Evolving to survive in the absolute black of the deep earth, their irises emit a steady bioluminescent glow, and they perceive \"the trail\": residual light left by passage, death, and decay. They develop a deep, spiritual reverence for the mycelial networks, laying the foundation for the political divide between the high-born **Clean** abbeys and the outcasted **Marked** wilderness guides.",
     "dmHook": "The oldest Vreken fungal-tablet records contain a word that does not translate into any known language. A Nethien archivist who glimpsed the tablet went silent for three days, then filed a petition to have the tablet destroyed. The petition was denied. The Nethien has not spoken of what they read.",
     "dateDisplay": "Before the Star-Fall",
@@ -2316,9 +2316,9 @@ const SEEDED_EVENTS = [
     "title": "Morvane Establishes Dominion",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "The Morvane establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand wor...",
-    "narrative": "The **Morvane** establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand worship (it demands order. Every death in its domain is recorded. Every soul that passes through is weighed, catalogued, and filed, establishing the cosmic bureaucracy that the **Nethien** would later exploit to write their First Contract for immortality.",
-    "dmHook": "Morvane is not a god. It is something older) a cosmic functionary, a bureaucrat of the threshold between life and whatever comes after. It can be bargained with, but it cannot be lied to. Characters who die in the Bryngloom may find themselves in a waiting room, filling out forms in a language they suddenly understand, while something behind an ironwood desk considers their case.",
+    "description": "The Morvane establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand worship —it demands order. Every death in its domain is recorded.",
+    "narrative": "The **Morvane** establishes its domain over the Bryngloom Forest. The Vreken call it the Root-Veil and revere it as sacred. The entity does not demand worship —it demands order. Every death in its domain is recorded. Every soul that passes through is weighed, catalogued, and filed, establishing the cosmic bureaucracy that the **Nethien** would later exploit to write their First Contract for immortality.",
+    "dmHook": "Morvane is not a god. It is something older— a cosmic functionary, a bureaucrat of the threshold between life and whatever comes after. It can be bargained with, but it cannot be lied to. Characters who die in the Bryngloom may find themselves in a waiting room, filling out forms in a language they suddenly understand, while something behind an ironwood desk considers their case.",
     "dateDisplay": "Before the Star-Fall",
     "locationIds": [],
     "factionIds": [],
@@ -2335,7 +2335,7 @@ const SEEDED_EVENTS = [
     "title": "Mareth's First Attempts",
     "type": "cosmic",
     "phase": "before-deepening",
-    "description": "Mareth (the vast, semi-conscious intelligence of the Iceheart Sea) makes her first attempts at personhood. She shapes foam into faces, currents into l...",
+    "description": "Mareth (the vast, semi-conscious intelligence of the Iceheart Sea) makes her first attempts at personhood. She shapes foam into faces, currents into limbs, storms into voices. None of them hold. But she is patient.",
     "narrative": "Mareth (the vast, semi-conscious intelligence of the Iceheart Sea) makes her first attempts at personhood. She shapes foam into faces, currents into limbs, storms into voices. None of them hold. But she is patient. She has been patient for longer than the continents have had names, slowly preparing the tidal spawning beds that would later explode with life to spawn the **Myrathil** during the Great Eruption.",
     "dmHook": "Mareth is not hostile: she is curious. She wants to understand the creatures that live on her skin. But her attempts at communication have created the Myrathil, the spawning gales, and the storms that sink ships. Characters lost at sea may encounter one of her failed experiments: a face in the foam that speaks in the voice of someone they buried.",
     "dateDisplay": "Before the Star-Fall",
@@ -2348,16 +2348,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-keth-amar-descends",
     "date": {
-      "year": 300,
+      "year": 750,
       "eraId": "ingress-breach"
     },
     "title": "Keth Amar Descends",
     "type": "cosmic",
     "phase": "false-spring",
-    "description": "Drawn by the fading beacon of a star in slumber, the abyssal predator Keth Amar (the Sun-Eater, the First Hunger, a formless entity older than the dis...",
-    "narrative": "Drawn by the fading beacon of a star in slumber, the abyssal predator **Keth Amar** (the Sun-Eater, the First Hunger, a formless entity older than the distinction between life and Silence) descends upon the vulnerable solar core. The predator does not strike immediately; instead, it circles the dying sun like a leviathan in the dark, casting a massive, unseen shadow over Mythrill. The world begins to twist under its gravity. Nightmares of endless hunger plague the sleeping, the southern crops fail as a dry, mineral frost creeps past the northern ranges, and children born during this dark decade emerge with \"predator-eyes\" (black, glassy irises that reflect absolutely no light. The **Skald** of Nordhalla record that their prehistoric clockwork engines grow sluggish, their copper gears grinding as if choked by soot, while the **Waste-Solari** badland rangers urge their clans to dig deeper calderas, refusing to trust the silent vigil of the priests.",
-    "dmHook": "Keth Amar left something behind when it descended) a physical remnant of its passage through the Silence. It fell somewhere in the Iceheart Sea. The Myrathil call it \"the Hunger-Stone\" and have kept its location secret for centuries. Mareth has been circling it, studying it, waiting.",
-    "dateDisplay": "Year 300, Ingress",
+    "description": "Drawn by the fading beacon of a star in slumber, the abyssal predator Keth Amar (the Sun-Eater, the First Hunger, a formless entity older than the distinction between life and Silence) descends upon the vulnerable solar core.",
+    "narrative": "Drawn by the fading beacon of a star in slumber, the abyssal predator **Keth Amar** (the Sun-Eater, the First Hunger, a formless entity older than the distinction between life and Silence) descends upon the vulnerable solar core. The predator does not strike immediately; instead, it circles the dying sun like a leviathan in the dark, casting a massive, unseen shadow over Mythrill. The world begins to twist under its gravity. Nightmares of endless hunger plague the sleeping, the southern crops fail as a dry, mineral frost creeps past the northern ranges, and children born during this dark decade emerge with \"predator-eyes\" —black, glassy irises that reflect absolutely no light. The **Skald** of Nordhalla record that their prehistoric clockwork engines grow sluggish, their copper gears grinding as if choked by soot, while the **Waste-Solari** badland rangers urge their clans to dig deeper calderas, refusing to trust the silent vigil of the priests.",
+    "dmHook": "Keth Amar left something behind when it descended— a physical remnant of its passage through the Silence. It fell somewhere in the Iceheart Sea. The Myrathil call it \"the Hunger-Stone\" and have kept its location secret for centuries. Mareth has been circling it, studying it, waiting.",
+    "dateDisplay": "The Long Pacting",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2367,16 +2367,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-fog-compact-founding-of-greymark-",
     "date": {
-      "year": 50,
+      "year": 125,
       "eraId": "star-fall-binding"
     },
     "title": "The Fog Compact (Founding of Greymark)",
     "type": "cosmic",
     "phase": "false-spring",
-    "description": "House Thalreth seals the Fog Compact with the forest Sylvain and early Mimir, trading the region's spatial clarity for an insulating, protective mist ...",
+    "description": "House Thalreth seals the Fog Compact with the forest Sylvain and early Mimir, trading the region's spatial clarity for an insulating, protective mist to keep their ironwood forests warm.",
     "narrative": "House Thalreth seals the **Fog Compact** with the forest Sylvain and early Mimir, trading the region's spatial clarity for an insulating, protective mist to keep their ironwood forests warm. Greymark Keep is established as their seat of power, carved into three massive converging ironwood roots above a geothermal vent.",
     "dmHook": "The original copy of the Fog Compact, written on heartwood, contains a secret clause detailing a spatial coordinate in the deep woods where the fog does not enter. The Thalreth have kept this coordinate secret for generations.",
-    "dateDisplay": "Year 50, Star-Fall Era",
+    "dateDisplay": "The Long Pacting",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2386,16 +2386,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-underground-exodus",
     "date": {
-      "year": 1,
+      "year": 3,
       "eraId": "star-fall-binding"
     },
     "title": "The Underground Exodus",
     "type": "cosmic",
     "phase": "false-spring",
-    "description": "As the surface world begins its long freeze, the great migrations begin. The Solari, forewarned by the frantic prophecies of the Hollow-Solari Sun-Speakers, a...",
+    "description": "As the surface world begins its long freeze, the great migrations begin. The Solari, forewarned by the frantic prophecies of the Hollow-Solari Sun-Speakers, are already deep underground when the first glaciers advance.",
     "narrative": "As the surface world begins its long freeze, the great migrations begin. The **Solari**, forewarned by the frantic prophecies of the Hollow-Solari Sun-Speakers, are already deep underground when the first glaciers advance. Guided by generational visions of darkness and descent, they establish **The Harath-Vault** deep within Sundale's secondary calderas, though the pragmatic **Waste-Solari** clans refuse the inner rings and build their own calderas along the Shyr basalt highway. In the northern reaches, the **Mimir** (the ancient, shape-shifting faceshifters) retreat into the transitional Fog-Vales of the Frostwood. Surrounded by a memory-stealing mist, their canopy aristocrats forge the first pristine heartwood masks, establishing the **Masked** nobility who use shape-shifting only as a high-born tool of statecraft, while the outcasted **Fractured** Mimir floor-scrappers wear crude composite masks of salvaged fragments, building a black market of salvaged memories in the dark undergrowth.",
     "dmHook": "Some Solari tunnels were sealed from the inside during the exodus: sections that Sun-Speakers declared \"unclean.\" No living Solari remembers why. The seals have never been broken. Something is still down there, waiting in the dark beneath Sundale, and it is not Keth Amar.",
-    "dateDisplay": "Year 1, Star-Fall Era",
+    "dateDisplay": "The Long Pacting",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2405,16 +2405,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-sera-solvan-the-first-martyr",
     "date": {
-      "year": 325,
+      "year": 775,
       "eraId": "ingress-breach"
     },
     "title": "Sera Solvan, the First Martyr",
     "type": "cosmic",
     "phase": "false-spring",
-    "description": "The historical tragedy of the capitulation is forever marked by the name of Sera Solvan, a Solvarn mother who became the first Martyr. While the other...",
+    "description": "The historical tragedy of the capitulation is forever marked by the name of Sera Solvan, a Solvarn mother who became the first Martyr.",
     "narrative": "The historical tragedy of the capitulation is forever marked by the name of **Sera Solvan**, a Solvarn mother who became the first **Martyr**. While the other noble patriarchs surrendered their firstborn heirs in silent, shame-filled secrecy to secure the volcanic vents, Sera refused to let her child's sacrifice be forgotten. As her infant was dragged into the northern rift, she took a shard of jagged volcanic obsidian and carved the child's true name deep into her forearm. The blood-spelled scar did not heal; instead, it began to glow with a pale, sympathetic solar fire that flared whenever she drew near the binding seals. This mark of ultimate maternal grief became an inherited biological legacy, passed down through her bloodline to every descendant. Her sacrifice birthed the Martyr calling: a lineage of protectors who carry the literal wounds of their people in their own flesh, turning their pain into an impenetrable shield.",
     "dmHook": "Sera Solvan's original journal survives in the Greymark archive, written in a code that only her bloodline can read. The journal contains the names of all six sacrificed children: names that were burned from every official record. Speaking a child's true name near the Monolith tied to their bloodline causes the Monolith to resonate differently. No one has tried this. No one knows what would happen.",
-    "dateDisplay": "Year 325, Blizzard's End",
+    "dateDisplay": "The Years of Whispers",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2424,16 +2424,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-first-exorcists-rise",
     "date": {
-      "year": 327,
+      "year": 781,
       "eraId": "ingress-breach"
     },
     "title": "The First Exorcists Rise",
     "type": "cosmic",
     "phase": "false-spring",
-    "description": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races. Within months of the Shattering, the first Exorcists emerg...",
-    "narrative": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races. Within months of the Shattering, the first **Exorcists** emerge (steel-willed scholars and priests who discover that the Wyrd-corruption can be bound, contained, and banished using rusted cold iron, burning salt, and sacred terror. Alongside them, the **Apexes** begin tracking the invisible spoor of Wyrd-manifestations through the freezing fog, while **Deathcallers** tune their hearing to the screams of the victims whose souls are trapped within the rot. Most tragic of all are the **Inquisitors**: an elite order of **Marked Vreken** and outcasted **Withered** who take the Barbed Vow, using their biological trail-sight to hunt down their own spore-addicted, \"Over-Lit\" kin before the mycelial corruption can consume their minds.",
-    "dmHook": "The first Exorcist) whose name has been lost to history: left behind a grimoire called \"The Anathema.\" It contains rituals for permanently destroying Wyrd-creatures by addressing the specific fear that birthed them. The grimoire was stolen from the Greymark archive forty years ago. It resurfaces at your campaign's most desperate moment, in the hands of someone who should not have it.",
-    "dateDisplay": "Year 327, Ingress",
+    "description": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races.",
+    "narrative": "The release of the Wyrd triggers an immediate, desperate immune response from the mortal races. Within months of the Shattering, the first **Exorcists** emerge —steel-willed scholars and priests who discover that the Wyrd-corruption can be bound, contained, and banished using rusted cold iron, burning salt, and sacred terror. Alongside them, the **Apexes** begin tracking the invisible spoor of Wyrd-manifestations through the freezing fog, while **Deathcallers** tune their hearing to the screams of the victims whose souls are trapped within the rot. Most tragic of all are the **Inquisitors**: an elite order of **Marked Vreken** and outcasted **Withered** who take the Barbed Vow, using their biological trail-sight to hunt down their own spore-addicted, \"Over-Lit\" kin before the mycelial corruption can consume their minds.",
+    "dmHook": "The first Exorcist— whose name has been lost to history: left behind a grimoire called \"The Anathema.\" It contains rituals for permanently destroying Wyrd-creatures by addressing the specific fear that birthed them. The grimoire was stolen from the Greymark archive forty years ago. It resurfaces at your campaign's most desperate moment, in the hands of someone who should not have it.",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2443,16 +2443,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-synod-hold-established",
     "date": {
-      "year": 240,
+      "year": 600,
       "eraId": "freezing-era"
     },
     "title": "Synod Hold Established",
     "type": "cosmic",
     "phase": "first-ebbing",
-    "description": "House Ordavan establishes Synod Hold as a permanent trade post and gathering place in the starless Sundrift Vale. They trade nomadic wool and hide for...",
+    "description": "House Ordavan establishes Synod Hold as a permanent trade post and gathering place in the starless Sundrift Vale.",
     "narrative": "House Ordavan establishes **Synod Hold** as a permanent trade post and gathering place in the starless Sundrift Vale. They trade nomadic wool and hide for southern geothermal resources, drawing herders and Astril to settle in concentric stone rings.",
     "dmHook": "The central stone circle at Synod Hold is built from seven standing stones that hum at the same frequency as the Sundered Monoliths, suggesting they were harvested from the same ancient geological vein.",
-    "dateDisplay": "Year 240, Freezing Era",
+    "dateDisplay": "The Long Pacting",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2462,16 +2462,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-stasis-of-aldren-thalreth-the-elder",
     "date": {
-      "year": 170,
+      "year": 425,
       "eraId": "freezing-era"
     },
     "title": "The Stasis of Aldren Thalreth the Elder",
     "type": "cosmic",
     "phase": "first-ebbing",
-    "description": "Fearing the total loss of his memory to the creeping Frostwood fog, High Confessor Aldren Thalreth the Elder (ancestor of the line that still rules Gr...",
+    "description": "Fearing the total loss of his memory to the creeping Frostwood fog, High Confessor Aldren Thalreth the Elder (ancestor of the line that still rules Greymark) journeys to Nordhalla and seals himself in meditative stasis inside a block of warm, glowing ice within the Frozen Archive.",
     "narrative": "Fearing the total loss of his memory to the creeping Frostwood fog, High Confessor **Aldren Thalreth the Elder** (ancestor of the line that still rules Greymark) journeys to Nordhalla and seals himself in meditative stasis inside a block of warm, glowing ice within the Frozen Archive. Scribe-Sentinels stand watch eternally to record any telepathic whispers from the frozen saint.",
     "dmHook": "The Elder's stasis chamber is radiating accelerated heat. If the ice melts, his return will trigger a massive theological crisis, as his last journals contradict the Church's official scriptures regarding Blizzard’s End.",
-    "dateDisplay": "Year 170, Freezing Era",
+    "dateDisplay": "The Long Pacting",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2481,16 +2481,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-unlit-veil-reach-synod-hold",
     "date": {
-      "year": 235,
+      "year": 588,
       "eraId": "freezing-era"
     },
     "title": "The Unlit Veil Reach Synod Hold",
     "type": "cosmic",
     "phase": "first-ebbing",
-    "description": "The first Unlit Veil couriers arrive at Synod Hold, offering \"trade consultation services\" and navigation charts. This marks the beginning of their sl...",
+    "description": "The first Unlit Veil couriers arrive at Synod Hold, offering \"trade consultation services\" and navigation charts.",
     "narrative": "The first **Unlit Veil** couriers arrive at Synod Hold, offering \"trade consultation services\" and navigation charts. This marks the beginning of their slow intelligence infiltration of the Sundrift Vale, positioning advisors at every Ordavan minister's elbow. The Veil are Astril who have learned to suppress their markings, the only Astril who can lie without their skin betraying them, making them the perfect spies.",
     "dmHook": "An Unlit Veil memory-crystal from this first contact is locked in the Synod vault. It contains the names of House Ordavan nobles who traded grazing rights for Vecross secrets: and the First Liar still holds those names as exploit.",
-    "dateDisplay": "Year 235, Freezing Era",
+    "dateDisplay": "The Long Pacting",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2500,16 +2500,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-florae-siege-of-greymark",
     "date": {
-      "year": 400,
+      "year": 985,
       "eraId": "freezing-era"
     },
     "title": "The Florae Siege of Greymark",
     "type": "cosmic",
     "phase": "contraction",
-    "description": "Florae raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep. Scribe-Sentinels and Thalren...",
+    "description": "Florae raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep.",
     "narrative": "Florae raiders, seeking to reclaim their ancestral wood from House Thalreth, breach the outer palisade of Greymark Keep. Scribe-Sentinels and Thalren soldiers fight house-to-house for three days before repelling the invaders.",
     "dmHook": "The siege ended when the Thalreth released a high-density surge of memory-fog, hollowing the minds of the attacking Florae. The descendants of those attackers still wander the woods as mindless sentinel-shells.",
-    "dateDisplay": "Year 400, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2519,16 +2519,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-cult-of-forgotten-shadow-founded",
     "date": {
-      "year": 431,
+      "year": 1072,
       "eraId": "freezing-era"
     },
     "title": "Cult of Forgotten Shadow Founded",
     "type": "cosmic",
     "phase": "contraction",
-    "description": "Natalie Seline, a rogue Nethien pact-weaver, founds the Cult of Forgotten Shadow in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest. The Cul...",
+    "description": "Natalie Seline, a rogue Nethien pact-weaver, founds the Cult of Forgotten Shadow in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest.",
     "narrative": "Natalie Seline, a rogue Nethien pact-weaver, founds the **Cult of Forgotten Shadow** in a peat-crypt beneath the Over-Shanty in the Bryngloom Forest. The Cult begins practicing shadow-confession and memory extraction, trading crystal vials of harvested memories.",
     "dmHook": "Natalie Seline's first extracted memory-her own name and face-remains in the Sunken Confessionals. The Nethien pact-lords will pay any price to destroy it.",
-    "dateDisplay": "Year 431, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2538,16 +2538,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-mounds-fall-silent",
     "date": {
-      "year": 440,
+      "year": 1097,
       "eraId": "freezing-era"
     },
     "title": "The Mounds Fall Silent",
     "type": "cosmic",
     "phase": "squeeze",
-    "description": "Nomadic clans of the Sundrift Vale report that three major ancestral burial mounds have fallen completely silent. The low-frequency hum that guided mi...",
+    "description": "Nomadic clans of the Sundrift Vale report that three major ancestral burial mounds have fallen completely silent.",
     "narrative": "Nomadic clans of the Sundrift Vale report that three major ancestral burial mounds have fallen completely silent. The low-frequency hum that guided migrations for centuries vanishes, causing herders to lose their way in the starless steppes.",
     "dmHook": "The mounds didn't fall silent naturally. The Unlit Veil excavated their cores, siphoning the ancestral resonance into memory-crystals for sale in the south. The First Liar now possesses three hundred years of stolen Ordan ancestor-voices: and is listening.",
-    "dateDisplay": "Year 440, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2557,16 +2557,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-erasure-of-house-viridane",
     "date": {
-      "year": 335,
+      "year": 803,
       "eraId": "freezing-era"
     },
     "title": "The Erasure of House Viridane",
     "type": "cosmic",
     "phase": "squeeze",
-    "description": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of House Viridan...",
-    "narrative": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of **House Viridane**'s existence (the house that said *no*, the house that chose flight over sacrifice. Official histories are rewritten, libraries are burned, and lineages are forged. The lie holds in all human capitals: there were always only seven houses. The thorn-born **Florae** become the only living archive of the eighth house's existence, their oral tradition and migrating briar-scars keeping the memory of the refusal alive in the deep fog.",
-    "dmHook": "A hidden chamber beneath the oldest Florae grove contains the Viridane family tree, grown from thorn-vine and preserved in moon-silver. It shows every descendant) and it shows that the bloodline did not die out. A living Viridane heir exists somewhere in the Frostwood Reach, unaware of their heritage. The Florae Lunarchs know who it is. They have been protecting this person for generations.",
-    "dateDisplay": "Year 335, Freezing Era",
+    "description": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of House Viridane's existence —the house that said no, the house that chose flight over sacrifice.",
+    "narrative": "Determined to justify their own survival, the six capitulating noble houses spend three centuries systematically erasing every record of **House Viridane**'s existence —the house that said *no*, the house that chose flight over sacrifice. Official histories are rewritten, libraries are burned, and lineages are forged. The lie holds in all human capitals: there were always only seven houses. The thorn-born **Florae** become the only living archive of the eighth house's existence, their oral tradition and migrating briar-scars keeping the memory of the refusal alive in the deep fog.",
+    "dmHook": "A hidden chamber beneath the oldest Florae grove contains the Viridane family tree, grown from thorn-vine and preserved in moon-silver. It shows every descendant— and it shows that the bloodline did not die out. A living Viridane heir exists somewhere in the Frostwood Reach, unaware of their heritage. The Florae Lunarchs know who it is. They have been protecting this person for generations.",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2576,16 +2576,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-great-fire-of-the-over-shanty",
     "date": {
-      "year": 460,
+      "year": 1153,
       "eraId": "freezing-era"
     },
     "title": "The Great Fire of the Over-Shanty",
     "type": "cosmic",
     "phase": "intrusion",
-    "description": "A massive fire breaks out in the Over-Shanty, threatening to burn down the entire suspended platforms slum. The Cult of Forgotten Shadow uses shadow m...",
+    "description": "A massive fire breaks out in the Over-Shanty, threatening to burn down the entire suspended platforms slum.",
     "narrative": "A massive fire breaks out in the Over-Shanty, threatening to burn down the entire suspended platforms slum. The Cult of Forgotten Shadow uses shadow magic to contain the flames, earning grudging respect from the Withered outcasts.",
     "dmHook": "The fire was set by Nethien agents attempting to incinerate the wanted boards and memory vaults of the Dangling Keel.",
-    "dateDisplay": "Year 460, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2595,16 +2595,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-last-mimir-birth",
     "date": {
-      "year": 470,
+      "year": 1181,
       "eraId": "freezing-era"
     },
     "title": "The Last Mimir Birth",
     "type": "cosmic",
     "phase": "intrusion",
-    "description": "The mother-flame (the sacred Mimir birthing fire maintained by midwives since before the Purge) gutters and goes out. The final Mimir birth occurs, bu...",
+    "description": "The mother-flame (the sacred Mimir birthing fire maintained by midwives since before the Purge) gutters and goes out.",
     "narrative": "The mother-flame (the sacred Mimir birthing fire maintained by midwives since before the Purge) gutters and goes out. The final Mimir birth occurs, but the child emerges **maskless**: a child whose mask cracked during the birthing ritual, leaving them without a stable face. Evolving a shifting parade of historical faces belonging to ancestors both living and dead, the child becomes a living archive of the Mimir race. The elders are paralyzed, unable to decide whether this child is a sign of their ultimate extinction or the first step toward a maskless rebirth.",
     "dmHook": "The maskless child is now thirty years old. They live in the deepest canopy-hold, hidden from the world. They have never worn a mask. Their face shifts constantly: a parade of strangers, some living, some dead, some who have never existed. The child can tell you who each face belongs to. Some of them are people who died centuries ago. One of them is someone who has not been born yet.",
-    "dateDisplay": "Year 470, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2614,17 +2614,17 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-monoliths-change-resonance",
     "date": {
-      "year": 472,
+      "year": 1187,
       "eraId": "freezing-era"
     },
     "title": "The Monoliths Change Resonance",
     "type": "cosmic",
     "phase": "intrusion",
-    "description": "The Sundered Monoliths (the seven greatest fallen shards of Aex's broken divine aegis, dormant since the Blind Strike) begin to wake in sequence. The Deep Myrathi...",
+    "description": "The Sundered Monoliths (the seven greatest fallen shards of Aex's broken divine aegis, dormant since the Blind Strike fractured the continental ward) begin to wake in sequence.",
     "narrative": "The **Sundered Monoliths** (the seven greatest fallen shards of Aex's broken divine aegis, dormant since the Blind Strike fractured the continental ward) begin to wake in sequence. One is the Predatory Wyrd Counterfeit, humming wrong. The Deep Myrathil Listeners feel the Iceheart shard thrumming like a plucked string, while the Groven report the shard beneath Frostmaw Crag has begun to sing, its vibrations cracking the calcified bridges of the Ancestor-Spans and making the stone weep.",
 
     "dmHook": "The seven Monoliths are not waking independently. They are waking in sequence (each one activating the next in a chain reaction that circles the world. The pattern traces a spiral that, when mapped, points to a single location: a point in the Silence directly above Emberspire's caldera. Whatever happens when the last Monolith wakes will happen there. The Astril Remnant) the last visible light: is positioned exactly at that point.",
-    "dateDisplay": "Year 472, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2634,16 +2634,16 @@ const SEEDED_EVENTS = [
   {
     "id": "event-the-shifting-of-the-spawning-gales",
     "date": {
-      "year": 473,
+      "year": 1189,
       "eraId": "freezing-era"
     },
     "title": "The Shifting of the Spawning Gales",
     "type": "cosmic",
     "phase": "intrusion",
-    "description": "The spawning gales: the oceanic storms that have created new Myrathil for centuries — shift north. The First Shore, the stretch of Iceheart coastline ...",
+    "description": "The spawning gales: the oceanic storms that have created new Myrathil for centuries — shift north.",
     "narrative": "The spawning gales: the oceanic storms that have created new Myrathil for centuries — shift north. The First Shore, the stretch of Iceheart coastline where Myrathil have spawned for millennia, grows quiet, its waves stilling and its foam thinning. **Mareth** shifts her storms toward Nordhalla's frozen coast, positioned directly over the deepest oceanic trench. Evolving a desperate defensive intelligence, Mareth is massing her Myrathil forces along the seabed to block Keth Amar's geothermal hunger from breaching the ocean floor.",
     "dmHook": "Mareth is repositioning her forces. She knows something the land-folk do not: Keth Amar's influence is not limited to the Sundered Monoliths. It is spreading through the world's geothermal network, following the vents and volcanic channels that warm the surface. Mareth is moving the Myrathil toward the point where the predator's influence will breach the ocean floor.",
-    "dateDisplay": "Year 473, Freezing Era",
+    "dateDisplay": "The Freezing Era",
     "locationIds": [],
     "factionIds": [],
     "classIds": [],
@@ -2653,7 +2653,7 @@ const SEEDED_EVENTS = [
   {
     "id": "event-whispering-pine-awakening",
     "date": {
-      "year": 12,
+      "year": 30,
       "eraId": "star-fall-binding"
     },
     "title": "The Awakening of the Whispering Pine",
@@ -2683,12 +2683,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "When the sun was bound beneath Sundale, the cold plunged northward with terrifying speed. In the highland basin of the Icetalon, five million evergreen pines froze solid in a single night. Yet instead of snapping under the weight of ice, the ironwood trees drew upon deep geothermal steam vents, mineralizing their wood with iron and quartz. When the winds roared down from the peaks, the needles resonated like copper chimes. The Skald called it the 'Voice of the Ancestors' — an acoustic early-warning network that echoed across sixty leagues.",
     "dmHook": "The oldest grandmother pine in the center of the forest still hums a specific three-chord progression before a Wyrd-storm. An Animist who sleeps with their ear pressed to its petrified root-bark will receive a vision of the exact hour the next celestial tremor will strike.",
-    "dateDisplay": "Year 12, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-corvani-whispering-pact",
     "date": {
-      "year": 28,
+      "year": 70,
       "eraId": "star-fall-binding"
     },
     "title": "The Corvan Roost-Charter of Hrafnest",
@@ -2717,12 +2717,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "Faced with freezing skies and territorial competition from Skald lumberjacks, Matriarch Morwenna descended from the Icetalon spires with five thousand ravens swirling in a dark vortex. In the Great Meadhall of Frosthold, she laid three feathers of pure frost upon the high hearth and offered a bargain: the Corvani would serve as the living eyes and ears of Nordhalla, carrying letters through blizzards that would ground any human scout, if the Skald swore to never fell a roost-tree in Hrafnskógur.",
     "dmHook": "A hidden clause in the original charcoal parchment of the Roost-Charter grants the Corvani Matriarch veto power over any timber harvest exceeding one hundred ironwood trunks. A rogue logging syndicate is currently attempting to burn the archive copy to expand their operations.",
-    "dateDisplay": "Year 28, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-bloodhammer-first-anvil",
     "date": {
-      "year": 18,
+      "year": 45,
       "eraId": "star-fall-binding"
     },
     "title": "The First Cold-Iron Anvil at Bloodhammer Sump",
@@ -2750,12 +2750,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "Traditional bronze and soft iron weapons shattered like glass against the frost-wraiths roaming the glacial moraine. Grum Bloodhammer, scorched from dipping his arms into sulfuric magma trenches, hauled a nine-hundred-pound meteoric iron block to the crater rim. Mixing volcanic sulfur with crushed magnetite and whale bone ash, he forged the legendary 'Frost-Cleaver' war-axes that allowed the Skald to reclaim the fjord valleys.",
     "dmHook": "The original master-anvil upon which Grum forged the first runic axe is still embedded in the heart of Sump Vent 1. It is said that any weapon quenched in its magma-trough receives a permanent rune of unyielding kinetic force.",
-    "dateDisplay": "Year 18, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-silence-vow-thogn",
     "date": {
-      "year": 42,
+      "year": 105,
       "eraId": "star-fall-binding"
     },
     "title": "The Silence-Vow of Þögn & the Breathless Stair",
@@ -2782,12 +2782,12 @@ const SEEDED_EVENTS = [
     "effects": [],
     "narrative": "The grief of watching green meadows die under mountains of ice drove dozens of early clan elders to despair. Seeking solace, hermit shamans discovered a granite precipice where the screaming polar gales dropped dead silent. They carved three thousand steps into the ice-covered rockface. Those who ascended to the top drank distilled rime-melt and chiseled their memories into the cliff face, feeling their sorrow freeze into numb, peaceful stillness.",
     "dmHook": "A disgraced Augur who climbed Þögn forty years ago chiseled an unbroken sequence of future dates into the stone ledge before taking the Silence-Vow. The final date chiseled on the cliff is tomorrow's sunrise.",
-    "dateDisplay": "Year 42, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-swallow-heart-awakening",
     "date": {
-      "year": 35,
+      "year": 88,
       "eraId": "star-fall-binding"
     },
     "title": "The Swallow-Heart Awakening at Sválghjarta",
@@ -2816,12 +2816,12 @@ const SEEDED_EVENTS = [
     ],
     "narrative": "When miners struck the black glass vein, the ground groaned with the rhythmic thump of a giant heart. The air inside the cavern heated to blood-warmth within seconds, melting the glacier overhead and creating a labyrinth of steaming basalt galleries. Lord Vaelen Sválghjarta drank the ichor seeping from the heart, his skin turning obsidian black and his veins glowing crimson with unnatural heat. He declared that those who fed the Swallow-Heart with blood would never freeze.",
     "dmHook": "The Hungríd Cult is secretly smuggling frozen corpses from the Heir-Mounds to feed the Swallow-Heart. The heart's pulse rate has doubled in the past three weeks, causing violent geothermal eruptions beneath Snowcall City.",
-    "dateDisplay": "Year 35, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-sunder-wall-erection",
     "date": {
-      "year": 80,
+      "year": 200,
       "eraId": "star-fall-binding"
     },
     "title": "The Raising of the Sunder-Wall",
@@ -2850,12 +2850,12 @@ const SEEDED_EVENTS = [
     "effects": [],
     "narrative": "Five thousand Skald masons, Bloodhammer smiths, and Icechamber engineers worked continuously for five years in twenty-below blizzards. They anchored two thousand iron I-beams into mountain bedrock, packing the gaps with granite boulders and freezing them into solid monoliths with pumped seawater. The Sunder-Wall became the impenetrable shield protecting the civil fjord valleys from the feral monsters of the northern polar wastes.",
     "dmHook": "A deep fracture has appeared along the southern foundation of the Sunder-Wall near Gate 3. Sabotage marks resembling Jutul giant stone-chisels have been discovered along the iron pins.",
-    "dateDisplay": "Year 80, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   },
   {
     "id": "event-snowcall-coalition",
     "date": {
-      "year": 62,
+      "year": 155,
       "eraId": "star-fall-binding"
     },
     "title": "The Snowcall Charter & Free City Concord",
@@ -2884,7 +2884,7 @@ const SEEDED_EVENTS = [
     "effects": [],
     "narrative": "As civil unrest spread across the southern continents, hundreds of Nethien legal scribes and merchants fled north carrying cartloads of illuminated manuscripts and gold ingots. Meeting atop the geothermal terraces of the Icetalon, they swore the Snowcall Concord with Jarl Sigurd Skalvyr: the scholars would maintain the legal registries and trade ledgers of the north in exchange for permanent residential wards warmed by mountain steam conduits.",
     "dmHook": "The Slate Scriptorium in Snowcall City houses a copy of the First Binding Charter that contains three lines of text missing from all southern copies — lines that name the original sacrifice required to relight the sun.",
-    "dateDisplay": "Year 62, Star-Fall Era"
+    "dateDisplay": "The Long Pacting"
   }
 ];
 

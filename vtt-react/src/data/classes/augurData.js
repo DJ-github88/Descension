@@ -16,16 +16,20 @@ export const AUGUR_DATA = {
    "vashir_astril",
    "silath_astril",
    "tessen_human",
+   "clean_vreken",
    "marked_vreken",
-   "korr_solari"
-  ],
+   "kessen_neth",
+   "korr_solari",
+    "shoreling_myrathil",
+   "deepling_myrathil",
+   "riverling_myrathil"
+   ],
    "hardBlocks": [
     "merryn_human",
-    "ordan_human",
-    "myrathil"
-   ],
+     "ordan_human"
+    ],
   "narrativeUnlock": true,
-  "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordan leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection."
+  "justification": "Requires proximity to preserved dead (glacier-tombs) and access to Frozen Archive's runic mathematics. Cultures without burial-preservation traditions (Ordan leave dead to steppe, Merryn bury at sea) can't maintain the ancestral connection. The Veldun read the obligation-web's tensions the way other Augurs read entrails, and the Clean Vreken were reading bog-mummies before the Skald taught anyone anything. The Myrathil keep their dead in the deep, where abyssal cold and pressure preserve what any surface grave would lose; the Deep read drowned elders in the trench, and the Shore and Brook carry the practice to the tide-line and the rivers."
  },
 
  /**
@@ -61,34 +65,34 @@ subraceVariants: {
  },
 
  vashir_astril: {
-  subraceName: 'Earthen Astril - Astril',
+  subraceName: 'Stargazer Astril',
   title: 'The Star-Viscera Reader',
-   reframe: `The <LoreLink termId="astril">Earthen Astril</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The Lumia heritage's memory echoes *forward* through the crystal lattice, a Earthen Astril Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
+   reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> read the future not in animal gore but in the resonant fractures of their own crystalline skin. The Lumia heritage's memory echoes *forward* through the crystal lattice, a Stargazer Astril Augur's body is the entrail, and the prophecy is the crack that has not yet formed.`,
   signatureAbility: {
   name: 'Lattice-Fracture',
   description: `Visions manifest as stress-fractures in the host's crystalline skin, each fracture a glimpse of a future that has not yet occurred. The deeper the symbiosis, the clearer the crack, but the crack is real, and the skin does not always heal.`
   },
-   currentCrisisAngle: `The Earthen Astril's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Earthen Astril Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the long failing’s truth.`,
+   currentCrisisAngle: `The Stargazer Astril's accuracy has not collapsed so much as *inverted*, they now see futures that are vividly clear and entirely wrong. Some Stargazer Astril Augurs believe their Lumia heritage is no longer reading the real future but a future the dead world *wants* to be true, the fading memory choosing comfortable lies over the long failing’s truth.`,
   signatureQuote: {
   text: '"My skin broke in the shape of your death three days ago. You are still here. I do not know which of us to believe."',
   speaker: 'Aenith Glass-Skinned',
-  context: 'A Earthen Astril Augur to a party member who, by her reading, should be dead'
+  context: 'A Stargazer Astril Augur to a party member who, by her reading, should be dead'
   }
  },
 
  silath_astril: {
-  subraceName: 'Stellar Astril - Astril',
+  subraceName: 'Brutish Astril',
   title: 'The Suppressed Oracle',
-   reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> bind and suppress their Lumia heritage, and an Augur among them weaponizes that captivity. The suppressed memory *knows* what is coming and screams it through the crystal the Stellar Astril have gagged. A Stellar Astril Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
+   reframe: `The <LoreLink termId="astril">Brutish Astril</LoreLink> bind and suppress their Lumia heritage, and an Augur among them weaponizes that captivity. The suppressed memory *knows* what is coming and screams it through the crystal the Brutish Astril have gagged. A Brutish Astril Augur's prophecy is the desperate, trapped foreknowledge of a prisoner pounding on the inside of its own cage.`,
   signatureAbility: {
   name: 'Gagged-Foresight',
-   description: `Suppressed Lumia heritage leaks prophecy as involuntary flashes, vivid but fragmentary, the memory smuggling warnings past its own bindings. The Stellar Astril cannot control what they see, only endure it.`
+   description: `Suppressed Lumia heritage leaks prophecy as involuntary flashes, vivid but fragmentary, the memory smuggling warnings past its own bindings. The Brutish Astril cannot control what they see, only endure it.`
   },
-   currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Stellar Astril's heritage *easier* to suppress, the future it screams about is now so garbled it barely registers. Some Stellar Astril Augurs are relieved. Others are terrified: a heritage that stops screaming may have stopped because it has nothing left worth warning about.`,
+   currentCrisisAngle: `The accuracy collapse has, paradoxically, made the Brutish Astril's heritage *easier* to suppress, the future it screams about is now so garbled it barely registers. Some Brutish Astril Augurs are relieved. Others are terrified: a heritage that stops screaming may have stopped because it has nothing left worth warning about.`,
   signatureQuote: {
   text: '"I bound it to silence it. Now it whispers, and I cannot tell whether it is finally dying or finally right."',
   speaker: 'Orathin the Muzzled',
-  context: 'A Stellar Astril Augur, the night the readings first contradicted themselves'
+  context: 'A Brutish Astril Augur, the night the readings first contradicted themselves'
   }
  },
 
@@ -154,6 +158,70 @@ signatureAbility: {
   speaker: 'Vigil-Keeper Orm Ember-Eye',
   context: 'A Hollow-Solari Augur, responding to a Skald Haruspex who dismissed flame-reading as imprecise'
   }
+ },
+
+ kessen_neth: {
+   subraceName: 'Veldun',
+   title: 'The Web-Tally',
+   reframe: `The <LoreLink termId="neth">Veldun</LoreLink> read the future in the obligation-web, the living ledger of every debt and duty their bloodline carries. Where other Augurs cut flesh, a Veldun Augur reads tension: a strand pulled too tight will snap, a knot left untended rots, and the web shows the snapping days, sometimes weeks, before the world does. The reading is not of gore but of structure, and the Veldun have been the Nethien's quiet auditors for as long as the web has existed.`,
+   signatureAbility: {
+   name: 'Tension-Reading',
+   description: `Reads the immediate future in the strain-patterns of the obligation-web: which strand is about to break, which party to a contract is about to default, which oath is about to be tested. The Veldun are the tradition's most *auditable* Augurs, their readings can be verified after the fact against the web itself, which is both their strength (reproducible omens) and their curse (a wrong reading is a documented failure, and the web remembers).`
+   },
+   currentCrisisAngle: `The accuracy collapse hit the Web-Tally as an *audit failure*: the web and the readings disagree, and both are ledgers, which means one of them is lying. The Veldun have begun keeping two sets of auguries, one for the web and one for themselves, and **the Reckoner**'s tally comes up short every time. The youngest readers have started asking the question the elders will not: what if the web itself is being rewritten, and the future is simply keeping up?`,
+   signatureQuote: {
+   text: '"My reading was correct. The web says so. The web also says the reading was never made. I have begun to distrust the only ledger I have ever trusted."',
+   speaker: 'Tally-Keeper Vel-Orun',
+   context: 'A Veldun Augur, after a reading the obligation-web disowned'
+   }
+ },
+
+ deepling_myrathil: {
+   subraceName: 'Deepling Myrathil',
+   title: 'The Trench-Haruspex',
+   reframe: `The <LoreLink termId="myrathil">Deep</LoreLink> read the future in the drowned, and the deep keeps its dead better than any glacier: cold that does not vary, pressure that crushes rot before it starts, silence that preserves. A Trench-Haruspex descends to the <LoreLink termId="treakous_rift">Treakous Rift</LoreLink> with an offering, and reads the pattern the water makes of it, blood and marrow suspended in the abyss, spreading along currents that have not changed in ten thousand years.`,
+   signatureAbility: {
+   name: 'Pressure-Reading',
+   description: `The abyssal dead do not decay, they wait; the Trench-Haruspex reads the immediate future in how the deep accepts a sacrifice. The reading window is the longest of any Augur variant (the cold preserves everything), but the offering must be made at depth, and the ascent costs the reader hours they cannot spend on land.`
+   },
+   currentCrisisAngle: `The accuracy collapse reached the Rift late, and the Deep are the last Augurs whose method still mostly works, which frightens them more than failure would. If the abyss begins lying too, the Deep suspect the problem was never the medium. Something is editing the future itself, and the trench is simply the last place it has not bothered to reach.`,
+   signatureQuote: {
+   text: '"The tide-pattern has never arrived early. It arrived early. The deep is not lying to me. Something is making the future arrive before its time."',
+   speaker: 'Rift-Seer Marethis',
+   context: 'A Trench-Haruspex, after a reading that came true six seconds early'
+   }
+ },
+
+ shoreling_myrathil: {
+   subraceName: 'Shoreling Myrathil',
+   title: 'The Tide-Reader',
+   reframe: `The <LoreLink termId="myrathil">Shore</LoreLink> give their dead to the tide-line, and the sea returns portions: bone, shell, and the slow arithmetic of what the water decides to give back. A Shore Augur reads the return, not the dead, what the tide surrenders, when it surrenders it, and in what order.`,
+   signatureAbility: {
+   name: 'Return-Reading',
+   description: `Reads the future in what the sea gives back: the order and timing of flotsam along the tide-line, the pattern of a returning offering. Cheaper and faster than the Deep's descents, but the reading window is the length of a single tide, and the sea is a slow correspondent that answers only twice a day.`
+   },
+   currentCrisisAngle: `The tides themselves are changing, the Shore's whole calendar of return is drifting, and the returned offerings are coming back wrong: out of order, too early, some not at all. The Shore Augurs are re-learning their own tide-tables from scratch, and their readings are crawling out of seasonal sync with every other Myrathil tradition.`,
+   signatureQuote: {
+   text: '"The sea used to answer twice a day. Now it answers when it pleases, and it has started lying in the pauses. My grandmother\'s tide-table is a page of fiction."',
+   speaker: 'Shore-Seer Vethra',
+   context: 'A Tide-Reader, watching an offering return on the wrong tide'
+   }
+ },
+
+ riverling_myrathil: {
+   subraceName: 'Riverling Myrathil',
+   title: 'The Current-Haruspex',
+   reframe: `The <LoreLink termId="myrathil">Brook</LoreLink> are the inland Myrathil, and their dead travel downstream: given to the current, carried to the confluence, read where the rivers meet. A Brook Augur reads the confluence, the place where two waters argue, and the shape of the argument is the shape of tomorrow.`,
+   signatureAbility: {
+   name: 'Confluence-Reading',
+   description: `Reads the future where two currents meet: the standing-wave patterns of a confluence, the sorting of a carried offering by weight and speed. The Brook are the tradition's inland specialists, their readings work far from any sea, but only at confluences, a Brook Augur in a drought reads nothing but mud.`
+   },
+   currentCrisisAngle: `The rivers are running wrong, snowmelt arriving off-schedule, flows reversing in the high passes after the Monolith pulses. The Brook's confluence readings are drowning in noise, and the elder Current-Haruspices have begun reading the flood itself as an omen: the rivers are not confused, they say, they are being told something.`,
+   signatureQuote: {
+   text: '"A confluence is a conversation. Lately both rivers are shouting. I cannot hear the future over the water."',
+   speaker: 'Brook-Seer Malliv',
+   context: 'A Current-Haruspex, abandoning a reading at the flood-stage'
+   }
  }
  },
 
@@ -206,7 +274,7 @@ The first was Cassia, a Skald star-watcher at the Frozen Archive. When Sol first
 
 The temporal feedback burn took her past. The memories of her husband's face were incinerated to clear space for precise coordinate chains of cosmic doom. The names of her children went next. The warmth of the hearth. Her own name. She does not move. She cannot move. Her body sits preserved in the glacier-ice at the Frozen Archive, trapped in the moment of her greatest vision. The glacier-ice is the entrail now, and Cassia reads the future in the stress-fractures forming in her own ice-prison. The Archive-Mistress interprets the crack-patterns for those who cannot read them.
 
-Each culture reads a different entrail. The Skald, Cassia's original tradition, still sacrifice glacier-elk against frozen ground. The Earthen Astril read the future in resonant fractures of their own crystalline skin, Lumian memory echoing forward through the lattice. The Stellar Astril smuggle prophecy past their own suppression, the gagged heritage screaming warnings through crystal. The Tessen read the future in the crumbling architecture of their sealed keeps, the dying keep as sacrificial animal. The Marked Vreken read bioluminescent bloom-patterns across the mycelial network, though the network has begun looping the same prophecy. The Hollow-Solari read Sol's Breath itself, the dying star's pulse as omen, patterns in the dimming that no one else has been told about.
+Each culture reads a different entrail. The Skald, Cassia's original tradition, still sacrifice glacier-elk against frozen ground. The Stargazer Astril read the future in resonant fractures of their own crystalline skin, Lumian memory echoing forward through the lattice. The Brutish Astril smuggle prophecy past their own suppression, the gagged heritage screaming warnings through crystal. The Tessen read the future in the crumbling architecture of their sealed keeps, the dying keep as sacrificial animal. The Marked Vreken read bioluminescent bloom-patterns across the mycelial network, though the network has begun looping the same prophecy. The Hollow-Solari read Sol's Breath itself, the dying star's pulse as omen, patterns in the dimming that no one else has been told about.
 
 The star-arithmetic is failing. Accuracy has collapsed from ninety-three percent to forty-one percent in three months. One elk shows the Archive intact in ten years. Another shows it collapsed last week. The entrails return contradictory results because something is interfering with the flow of time itself. The current leader, Archive-Mistress Skadi Glass-Eye, privately suspects the Chronarchs' temporal stitching is responsible. A rival within the order, Helgar the Rejector, argues the entire method should be abandoned for pure mathematical calculation with no blood involved.`,
 
@@ -277,10 +345,31 @@ The Augurs have identified the cause: something is interfering with the flow of 
  classSpecificLocations: [
   {
   name: 'The Entrail Chambers',
-  locationId: 'frozen-archive',
+  locationId: 'frozen_archive',
   description: 'A cold, stone chamber beneath the Frozen Archive where Augurs perform their readings. The floor is sloped and drained, blood washes away into a central basin. Racks of rune-etched bone chisels line the walls. The air smells of iron and old salt.',
   purpose: 'Ritual space for augury readings',
   status: 'Active, but the contradictory results have thrown the chamber into chaos'
+  },
+  {
+  name: 'Cassia\'s Terrace',
+  locationId: 'cassia_terrace',
+  description: 'A shelf of black stone above the Frozen Archive, with a mirror of glacier-ice set into the floor. Cassia read the First Failing\'s hour here from the liver of a sacrificed glacier-elk, and the pattern of those veins is preserved in the ice, catalogued by the minute. Once a year the eldest Skald Augur sacrifices an elk on the same stone and reads the same veins against the frozen original. For eighty years the veins matched.',
+  purpose: 'Origin site and annual proving-ground; the tradition\'s oldest honest answer, kept under glass',
+  status: 'Pilgrimage site, and the annual reading no longer matches the ice; Augurs of every tradition climb the terrace to see the discrepancy with their own eyes'
+  },
+  {
+  name: 'The Contradiction Vault',
+  locationId: 'contradiction_vault',
+  description: 'A lead-lined vault beneath the Frozen Archive where every augury that failed or contradicted another is written on a slate, shelved, and added to the count. The Vault was built as proof of the art\'s honesty, a place where the tradition keeps its own errors instead of burning them. Since the accuracy collapse, whole galleries have been sealed because no one could catalogue them fast enough.',
+  purpose: 'Archive of failed readings and the Reckoner\'s tally; the tradition\'s conscience, shelved in lead',
+  status: 'Overwhelmed, the tally-sticks in the entry hall no longer agree with the shelves, and the Reckoner\'s last three quarterly reports contain one repeated line: the count is short by an unknown quantity'
+  },
+  {
+  name: 'The Last Cut',
+  locationId: 'last_cut',
+  description: 'A peat-cut in the Black Fen where the bog returned its final mummified corpse two winters ago. The Clean Vreken read bog-mummies the way the Skald read elk: face, posture, the orientation of the last grasp, centuries of preserved dead drifting up to be read. The bog has stopped returning them. The cut has been left open; no one will refill it and no one will cut deeper.',
+  purpose: 'Vreken divination site and vigil; a peat-cut that has stopped returning its dead is either finished or angry',
+  status: 'Silent, vigils are kept at dusk by one spore-chanter at a time, listening for a bloom that does not come'
   }
  ],
 
@@ -1986,7 +2075,7 @@ Fate demands resolution. If you hoard Benediction or Malediction without spendin
  { id : "augur_gagged_portent",
   name: "Gagged Portent",
   description:
-  "Whisper the Stellar Astril's suffocated foresight of doom into the target's skull: incapacitated 1 round (DC 16 Spirit negates); attacks against them deal +1d6 wyrd for 2 rounds.",
+  "Whisper the Brutish Astril's suffocated foresight of doom into the target's skull: incapacitated 1 round (DC 16 Spirit negates); attacks against them deal +1d6 wyrd for 2 rounds.",
   level: 6,
   spellType: "ACTION",
   icon: "Necrotic/Gloomy Death",

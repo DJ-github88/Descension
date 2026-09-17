@@ -170,7 +170,7 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
     }
     const found = realmSubregions.find((sub) => sub.zoneIds?.includes(loc.id));
     if (found) return found;
-    return realmSubregions[0] || null;
+    return null;
   };
 
   // Category counts for quick filter chips
@@ -284,15 +284,28 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
 
   // Grouped by Subregion
   const subregionGroups = realmSubregions.map((sub) => {
-    return {
-      id: sub.id,
-      name: sub.name,
-      climate: sub.climate,
-      dominantTerrain: sub.dominantTerrain,
-      description: sub.description,
-      items: filteredLocations.filter((loc) => getLocationSubregion(loc)?.id === sub.id)
-    };
+  return {
+  id: sub.id,
+  name: sub.name,
+  climate: sub.climate,
+  dominantTerrain: sub.dominantTerrain,
+  description: sub.description,
+  items: filteredLocations.filter((loc) => getLocationSubregion(loc)?.id === sub.id)
+  };
   }).filter((group) => group.items.length > 0);
+
+ // Holds catalogued to the realm but not assigned to any subregion
+ const unassignedHolds = filteredLocations.filter((loc) => !getLocationSubregion(loc));
+ if (unassignedHolds.length > 0) {
+   subregionGroups.push({
+     id: 'region-unassigned',
+     name: 'Other Holds & Wilds',
+     climate: null,
+     dominantTerrain: null,
+     description: 'Holds catalogued to this realm that are not yet assigned to a subregion.',
+     items: unassignedHolds
+   });
+ }
 
   // Grouped location clusters for 'categorized' view
   const categorizedGroups = [
@@ -352,8 +365,8 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
 
         {loc.description && (
           <p className="location-card-desc">
-            {sanitizeLoreText(loc.description).slice(0, 140)}
-            {loc.description.length > 140 ? '…' : ''}
+            {sanitizeLoreText(loc.description)}
+            
           </p>
         )}
 

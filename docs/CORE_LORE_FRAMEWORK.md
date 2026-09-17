@@ -30,7 +30,7 @@
 
 ---
 
-### 1.2 The Celestial Star-Fall (Year 0)
+### 1.2 The Celestial Star-Fall
 * **Celestial Reproduction:** Celestial Deities (**AEX**, the Mother, and **AETHIL**, the Father) lay eggs
   that hatch into celestial bodies across the universe. Sons hatch into Suns; Daughters hatch into Moons.
 * **Sol (The Living Sun of Mythrill):** Sol is the Sun of Mythrill — a living, unhatched celestial infant,
@@ -82,14 +82,14 @@
 ---
 
 ### 1.4 The Whispered Purge (Years 300 – 325)
-Keth Amar arrived at Mythrill in **Year 300**, trailing Astril starlight. For twenty-five years it did not
+Keth Amar arrived at Mythrill in the last age of the Pacting, trailing Astril starlight. For twenty-five years it did not
 attack — it orchestrated. Through the Predatory Wyrd it provoked wars, hubris, tragic accidents, and
 assassinations, extinguishing the bound bloodlines one by one and snapping each Blood Seal in turn. Each
 death cracked Aex's aegis further and vented a little more of Sol's warmth into the crust.
 
 ---
 
-### 1.5 The Blind Strike & The Secret Aegis (Year 325)
+### 1.5 The Blind Strike & The Secret Aegis
 * **The Blind Strike:** Believing all lineage oaths were severed, Keth Amar launched a full-scale kinetic
   assault against Mythrill to claim Sol. Mortal history calls the night of that assault **Blizzard's End**.
 * **The Unknown Seal:** A single, hidden family had forged a **secret, undocumented pact with Aex**. To
@@ -116,7 +116,7 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
   Every one of these pacts is real magic built on a wound.
 * **The Freezing Era:** The world is cold because **Sol is entombed in the core**, not because Keth Amar
   broke anything on the surface. His light is filtered through subterranean networks; what reaches the
-  surface is geothermal warmth venting through the cracks. Present day is **Year 475**.
+  surface is geothermal warmth venting through the cracks. Present day lies deep in the Freezing Era.
 
 ---
 
@@ -174,13 +174,13 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
 
 ---
 
-## 3. RECONCILED 475-YEAR MASTER TIMELINE
+## 3. THE MASTER TIMELINE (ERA-RELATIVE)
 
 ```
- [ YEAR 0 ]                      [ YEAR 300 ]                 [ YEAR 325 ]              [ YEAR 475 ]
+ [ THE STAR-FALL ]                      [ THE PACTING ]                 [ THE STRIKE ]              [ THE FREEZING ERA ]
  The Celestial Star-Fall         Keth Amar Arrives            The Blind Strike          Present Day (Campaign Start)
  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────►
- • Aex entombs Sol in the core  • Spews Predatory Wyrd       • Keth Amar crashes into  • 150 Years of Freezing Era
+ • Aex entombs Sol in the core  • Spews Predatory Wyrd       • Keth Amar crashes into  • The Freezing Era Era
  • Aethil anchors the sky-ward  • Begins the Whispered Purge   the planetary ward      • Shard Pacts fuel wars
  • Bloodline Pacts struck;      • Impersonates Aethil for    • The Secret Aegis holds  • Whisper-cult active
    High Houses transformed;       25 years                   • Aex's aegis fractures   • Nordhalla launch campaign
@@ -188,16 +188,16 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
                                   one; aegis cracks            Counterfeit is planted    awake
 ```
 
-### Era I: The Primordial Loom (Pre-Year 0)
+### Era I: The Primordial Loom
 Mythrill of folklore and Natural Wyrd. The Sleeping Soul dreams; the Loom grows beasts (*Jutul*, *Glacier
 Wyrms*, *Thrumm*), spirits (*Vaettir*, *Fossegrim*), and peoples out of what the world believes. Mortals
 survive with steel, black powder, matchlocks, archery, and taboos.
 
-### Era II: The Star-Fall & The Bloodline Pacts (Year 0 – 300)
-* **Year 0:** Celestial Star-Fall. Aex entombs Sol in the core; Aethil anchors the atmospheric ward; mortal
+### Era II: The Star-Fall & The Bloodline Pacts
+* **The Star-Fall:** Celestial Star-Fall. Aex entombs Sol in the core; Aethil anchors the atmospheric ward; mortal
   houses strike the Bloodline Pacts and become the Bound. Astril arrive in Sundrift Vale with star-tech and
   Sacred Magic.
-* **Years 0–300 (The Slow Cracking):** Blood Seals fail as bound lineages fall, and each failure cracks
+* **The Slow Cracking:** Blood Seals fail as bound lineages fall, and each failure cracks
   Aex's aegis and vents Sol's warmth, creating regional hot springs, volcanic bogs, and thermal pine
   wetlands:
   * **Bryngloom:** Vreken slaughter nobility early to cure the Blight curse → seal snaps → boiling bogs &
@@ -210,18 +210,18 @@ survive with steel, black powder, matchlocks, archery, and taboos.
   * **Florae Sacred Grove:** Native Nature Deity discovers that lineage deaths crack the aegis; saves the
     heirs who refused, erases their memories, mutates them into treant Florae.
 
-### Era III: The Whispered Purge (Years 300 – 325)
-* **Year 300:** Keth Amar arrives, trailing Astril starlight, and seeds Predatory Wyrd into the Loom.
-* **Years 300–325:** Posing as Aethil, Keth Amar whispers through Predatory Wyrd and promises warmth and
+### Era III: The Whispered Purge
+* **The Purge begins:** Keth Amar arrives, trailing Astril starlight, and seeds Predatory Wyrd into the Loom.
+* **The whispered years:** Posing as Aethil, Keth Amar whispers through Predatory Wyrd and promises warmth and
   stellar apotheosis to the Solari, Storm, and Rime houses. Blood Seals snap one by one.
 
-### Era IV: The Blind Strike (Year 325)
-* **Year 325:** Keth Amar's kinetic assault — the Blind Strike, remembered by mortals as **Blizzard's
+### Era IV: The Blind Strike
+* **The Blind Strike:** Keth Amar's kinetic assault — the Blind Strike, remembered by mortals as **Blizzard's
   End**. The Secret Aegis holds; Keth Amar is wounded and repelled into the void. Aex's aegis fractures
   into shards that rain across the continents. The Counterfeit Monolith is planted among them.
 
-### Era V: The Freezing Era & Present Day (Years 325 – 475)
-* **Present Day (150 Years After the Strike):** Sol is sealed in the core and the surface freezes. Factions
+### Era V: The Freezing Era & Present Day
+* **Present Day (long ages after the Strike):** Sol is sealed in the core and the surface freezes. Factions
   battle over glowing Aex Shards for fuel. The Masked Acolytes hunt monoliths. Regional campaigns launch in
   **Nordhalla**.
 
@@ -229,25 +229,15 @@ survive with steel, black powder, matchlocks, archery, and taboos.
 
 ## 4. CLASS HERITAGE TAXONOMY
 
-All 20+ playable classes fall into four distinct metaphysical heritages:
+All 20+ playable classes fall into five distinct metaphysical heritages:
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                          CLASS HERITAGE TAXONOMY                            │
-├─────────────────────────┬─────────────────────────┬─────────────────────────┤
-│ 1. PRE-BINDING CLASSES  │ 2. CELESTIAL BARGAIN    │ 3. COSMIC COLLISION     │
-│   (Traditional/Mortals) │    (The Bound)          │    (Post-Keth Amar)     │
-│ • Berserker             │ • Spellguard            │ • Pyrofiend             │
-│ • Apex                  │ • Arcanoneer            │ • Harbinger             │
-│ • Minstrel              │ • Chronarch             │ • Plaguebringer         │
-│ • Warden                │ • Shaper                │ • Revenant              │
-│ • Toxicologist          ├─────────────────────────┤                         │
-│                         │ 4. VREKEN EXTORTION     │                         │
-│ (Steel, black powder,   │    (Blight Magic)       │ (Predatory Wyrd         │
-│  cold iron, traps,      │ • Blight-Weaving Orders │  colliding with the     │
-│  physical mastery)      │ (Extorted divine power) │  Bloodline Pacts)       │
-└─────────────────────────┴─────────────────────────┴─────────────────────────┘
-```
+| Heritage | Classes | Basis |
+|---|---|---|
+| 1. Pre-Binding Classes | Berserker, Apex, Minstrel, Warden, Toxicologist | Steel, black powder, cold iron, traps, physical mastery |
+| 2. Celestial Bargain (The Bound) | Spellguard, Arcanoneer, Chronarch, Shaper, Crusader; Martyr (devotional) | Elemental control from the Bloodline Pacts; Aex's wound channelled by trained Witnesses (Solari and Groven) and walked as Ironclads by the Skald |
+| 3. Vreken Extortion (Blight Magic) | Blight-Weaving Orders | Extorted divine desperation |
+| 4. Cosmic Collision (Post-Keth Amar) | Harbinger, Plaguebringer, Revenant | Predatory Wyrd colliding with the Bloodline Pacts |
+| 5. Hazard Pact (The Debt-Bound) | Gambit, Pyrofiend | Power staked as a wager or debt against a cosmic entity; Mael-Zhul's ledger and Scathrach's furnace |
 
 1. **Pre-Binding Classes (Traditional / Mortals):** Masteries forged before magic touched mortals. Built on
    steel, black powder, cold-iron traps, matchlocks, physical mastery, and survival tactics (*Berserker*,
@@ -259,27 +249,37 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
    sulfurous bogs.
 4. **Cosmic Collision Classes (Post-Keth Amar):** Forged when Predatory Wyrd collided violently with the
    celestial pacts:
-   * **Pyrofiend:** A demonic/void collision with Solari amber-sun pacts.
    * **Harbinger:** Void-dissonance and doom-arithmetic woven into raw kinetic force.
    * **Plaguebringer:** Predatory Wyrd decay fused with Blight biology.
    * **Revenant:** Souls suspended between celestial embers and void stasis.
+5. **Hazard Pact Classes (The Debt-Bound):** Power staked at the point of irreversible catastrophe and owed
+   to a cosmic entity:
+   * **Gambit:** Mael-Zhul, the House, trades Wyrd-twisting credit for souls; Fortune is its credit drawn
+     against the debtor's future, and Karmic Debt is its marker coming due.
+   * **Pyrofiend:** Claimed by the Emberspire collision; Scathrach, the will born of the first crucibles,
+     holds the debt and calls it in at the Crucible. (Pyrofiends are also a Cosmic Collision product; the
+     Hazard Pact describes the mechanism of the power, not its origin.)
 
 ---
 
 ## 5. ANCESTRY ORIGINS & SUBRACE CODEX
 
-### 5.1 The Neth (The Pitcher of Greed & Youth)
+### 5.1 The Nethien (The Pitcher of Greed & Youth)
 * **Origin:** Predates the Celestial Gods. Facing extinction due to a fading birth rate, they were guided by
-  a forest spirit in Bryngloom Forest to a sacred **Well of Life**. Their subraces reflect how they
+  a forest spirit in Bryngloom Forest to a sacred **Well of Life**. Their bloodlines reflect how they
   approached the waters:
-  * **High Neth (The Half-Filled Pitcher):** Followed instructions by filling the pitcher halfway. Became
+  * **Nethien (The Half-Filled Pitcher):** Followed instructions by filling the pitcher halfway. Became
     pristine, ethereal, but slightly frail, immortal-adjacent beings. They cherish children above all else,
     operating with intense, protective parenting rooted in the belief that youth holds unspent possibility.
-  * **Pale Neth (The Stolen Urns):** Hoarded massive jars out of panic, over-saturating themselves into
-    non-breathing, wraith-like subterranean hoarders.
-  * **Hallowed / Rot-Bound Neth (The Well-Dippers):** Dove directly into the Well out of greed/panic. The
-    raw power burned away their living vitality, turning them into true undead husks bound to the Old God's
-    roots.
+  * **Veldun (The Well-Dippers):** Dove into the Well out of greed and panic (the old tellings called them
+    Hallowed, then Kessen). The raw power burned away their living vitality, binding them to Morvane's roots
+    as spirit-conduits and probability-readers; they perceive the obligation-web and yearn eternally for
+    sensations they can no longer taste.
+  * **Withered (The Severed):** Descend from Saren-Vel, who burned her own name from the First Contract in
+    the fourth century. Legally nonexistent and no longer preserved by Morvane's pact, they decay slowly
+    outside the law, living as shadow-brokers and outcasts beneath Atropolis.
+* **Naming canon:** the bloodlines are **Nethien, Veldun, Withered**. The old forms (High Neth, Velun,
+  Pale Neth, Hallowed, Kessen, Grave Neth, Drun) are retired and survive only in in-world archaisms.
 * **Rival Truths (canon framing):** The Well of Life parable is the Neth's own liturgy. Outside scholars —
   and the Neth's own contract-elders — tell the same event as the **First Contract with Morvane, the Keeper
   of the Last Threshold**: the same waters, the same prices, recorded as law rather than told as scripture.
@@ -324,6 +324,32 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
 
 ---
 
+### 5.4 Old Native Gods
+* **Mael-Zhul** is an Old Native God of Nordhalla, grown by the Natural Wyrd out of northern dread of
+  shifting currents, sudden ruin, and luck that turns. It predates the Celestial Gods and the Binding.
+* It keeps no temples and answers no prayers. Its bargains are lines of credit extended to the doomed, and
+  the collateral is the soul. Those bound to its ledger call it only **the House**, and its debtors are the
+  **Gambits**: Fortune is the credit, Karmic Debt is the marker coming due, and the initiation Death Roll
+  kills the debtor outright if they lose.
+* **The Dead Pots** are its tables: liminal dens in rotting hulls, abandoned mine shafts, and backstreet
+  cellars, where steel stays sheathed and disputes settle on the felt. **Oakhaven** hosts the loudest one on
+  the Nordhalla coast.
+* **The Quiet** is the Old Native God of absence. The Frostwood mist is its oldest temple; the Skald of the
+  Rime-Spire know the same absence as *þögn* and will not camp in it. Its bargains are the Apex Trade, struck
+  in the Quiet Hollow: a sense surrendered for a way to read what the senses cannot. It keeps no priests,
+  only hunters.
+* **The Reckoner** is the Old Native God of omens, even and odd, and owed hours. It counts without judging;
+  tally is not justice. The Augurs read its ledger in entrails and dice pips, the Harbingers call it the
+  first doom-mathematician, and the glacier-tombs say it counted the dead before the freeze began.
+* **Vurath** is the engine beneath the Cragjaw: older than speech, found and robbed by the Fexric eight
+  millennia ago. It sleeps under the maintenance songs; the dying First Turbine is its stirring, time runs
+  wrong in its gallery, and the Clockwork guilds deny it while the Chronarch heretics measure it.
+* **Canon note:** these Old Gods are native entities of the Loom. They are not masks of Keth Amar and not
+  Ancient Cosmic Wyrdkin. Gambit is a Hazard Pact class (§4); Pyrofiends are claimed by Scathrach, the will
+  born of the Emberspire collision, whose hazard-debt runs through the Inferno Veil.
+
+---
+
 ## 6. LAUNCH REGION: NORDHALLA
 
 * **App Launch Focus:** **Nordhalla** is the **sole, self-contained launch region** for the app map and
@@ -341,6 +367,9 @@ All 20+ playable classes fall into four distinct metaphysical heritages:
   * **Bloodhammer Sump:** Geothermal forge-crater powering the north's iron industry.
   * **The Icechamber Syndicate:** Merchant cartel controlling coal, grain, and mammoth-hide trade.
   * **Øsling (Outlaw Clans):** Nomadic hunter-clans resisting royal subjugation.
+  * **Oakhaven:** A freezing harbour town on the northern coast, and home to the loudest **Dead Pot**, the
+    liminal gambling dens where the Gambits of the House settle their debts. **Mael-Zhul**, the Old Native
+    God the debtors call only the House, feeds on the wagers made there (§5.4).
 
 ---
 

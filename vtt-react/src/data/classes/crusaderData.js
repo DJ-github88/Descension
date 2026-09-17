@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 
 /**
  * Crusader Class Data
@@ -1953,7 +1952,7 @@ Forged during the Freezing Era when Solvan knights bound Aex's starlight song to
 Highly revered in Sundale and Emberspire; viewed with caution by Atropolis archivists who fear religious zeal.
 
 **RACES & CULTURAL AFFILIATION**
-Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hunger Pact; Waste-Solari draw geothermal magma-fire; Stellar Astril refract it through crystal skin.
+Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hunger Pact; Waste-Solari draw geothermal magma-fire; Brutish Astril refract it through crystal skin.
 
 **NOTABLE FIGURES**
 * **Lord-Captain Vane Solvan**: The first to forge starlight steel into heavy battle-plates.
@@ -1974,10 +1973,31 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     classSpecificLocations: [
       {
         name: 'The Obsidian Citadel',
-        locationId: 'sundale',
-        description: 'The bastion of the Dawn Vigil guarding the Ashen Escarpment.',
-        purpose: 'Training and holy vows',
-        status: 'Active'
+        locationId: 'obsidian_citadel',
+        description: 'The bastion of the Dawn Vigil guarding the Ashen Escarpment: siege-grade obsidian curtain walls, garrison chapels, and gates built to hold a breach shut. Officially a defense; in practice a toll-fence that keeps refugees inside the ashfall because the Vigil has decided every pair of hands in Sundale belongs to the Reforging.',
+        purpose: 'Seat of the Solvan Vigil; training, holy vows, and gate-oaths sworn before a starlight reliquary',
+        status: 'Active, and the gates are busier than ever; the garrison swears the same oath every season and some of the veterans have begun to hear the chapel light hum'
+      },
+      {
+        name: 'The Mounted Blade',
+        locationId: 'mounted_blade',
+        description: 'Lord-Captain Vane Solvan\'s greatsword, broken into three pieces and bound in consecrated glass above the Great Forge at the Harath-Vault. Every Crusader swears their oath beneath it before their first posting. It has never been seen unlit, and the fragments still carry heat enough to fog a cold gauntlet.',
+        purpose: 'Founding relic and oath-altar; the tradition\'s oldest witness, and its quietest reproach',
+        status: 'Active, and cooling: the blade dimmed the day the Vigil voted to reforge the Monoliths, an event the Hierophant\'s office attributes to age and the forge-masters decline to discuss'
+      },
+      {
+        name: 'The Glass Field',
+        locationId: 'glass_field',
+        description: 'Four miles of the Ashen Escarpment melted and re-melted by a century of Solvan Judgments until the ground set black and glassy and perfectly smooth. Nothing grows on the Glass Field. Wyrd-things will not cross it, and the Vigil has never wanted to ask too precisely why. A small garrison watches from a fort at the edge, rotating its soldiers yearly because they do not age well there.',
+        purpose: 'Consecrated battleground and proof-site; where the light left a mark the dark respects',
+        status: 'Guarded, and the garrison\'s standing order is to count the reflections in the glass; no one will say what to do when the count changes'
+      },
+      {
+        name: 'The Reforging Altar',
+        locationId: 'reforging_altar',
+        description: 'A ring of consecrated obsidian around the largest vent the Vigil can hold open near Emberspire, where the seven Sundered Monolith fragments are assembled. Six true fragments sit in niches of starlight glass. The seventh shard is a perfect fit, answers the same harmonics, and hums half a tone off from the others, a discrepancy the official assays have measured, re-measured, and set aside in the interest of the Reforging.',
+        purpose: 'The Vigil\'s great work and greatest danger; where Sol is meant to be woken',
+        status: 'Active and guarded, and the seventh shard feels warm at night; it hums along with the guards\' Fervor, and sometimes it hums first'
       }
     ],
     combatRole: {
@@ -2012,7 +2032,7 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     },
 
     thrask_solari: {
-      subraceName: 'Waste-Solari - Thyrm',
+      subraceName: 'Waste-Solari',
       title: 'The Magma Crusader',
       reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy bulwark plate with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
       signatureAbility: {
@@ -2028,9 +2048,9 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     },
 
     silath_astril: {
-      subraceName: 'Stellar Astril - Astril',
+      subraceName: 'Brutish Astril',
       title: 'The Crystal Judgment',
-      reframe: `The <LoreLink termId="astril">Stellar Astril</LoreLink> Crusaders resonate with Aex's willing sacrifice, using their crystalline skin lattice to act as a tuning fork for starlight. When they absorb damage, the energy refracts through their skin, charging their blade with golden harmonic frequency.`,
+      reframe: `The <LoreLink termId="astril">Brutish Astril</LoreLink> Crusaders resonate with Aex's willing sacrifice, using their crystalline skin lattice to act as a tuning fork for starlight. When they absorb damage, the energy refracts through their skin, charging their blade with golden harmonic frequency.`,
       signatureAbility: {
         name: 'Refractive Bulwark',
         description: `Rolling your Active Soak die against spell strikes generates +5 Fervor. Absorbing spell damage empowers your next strike with +1d6 bonus sacred damage.`

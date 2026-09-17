@@ -483,7 +483,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'sundale',
     width: 4096,
     height: 3072,
-    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn descendants of the old Solvarn nobility who fled the capital.'
+    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn exiles of the old Solvan nobility who fled the capital.'
   },
   'iceheart-merrow-archipelago': {
     id: 'iceheart-merrow-archipelago',

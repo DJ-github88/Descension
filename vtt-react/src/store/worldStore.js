@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
-import { getEnrichedZone, getEnrichedZonesByRegion } from '../data/deepLocationData';
+import { getEnrichedZone, getEnrichedZonesByRegion, getClassSitesForZone } from '../data/deepLocationData';
 import { RACE_DATA, getRaceData } from '../data/raceData';
 import useFactionStore from './factionStore';
 import useTimelineStore from './timelineStore';
@@ -618,6 +618,7 @@ const useWorldStore = create(
           region: get().getRegion(location.regionId),
           factions: get().getFactionPresenceAtLocation(locationId),
           classesPracticed: get().getClassesPracticedAtLocation(locationId),
+          classSites: getClassSitesForZone(locationId),
           timeline: get().getTimelineForLocation(locationId)
         };
       },

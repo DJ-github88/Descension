@@ -241,7 +241,7 @@ export const BACKGROUND_DATA = {
         "silath_astril"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires access to Synod Hold crystal archives and steppe scholarship. Both Earthen Astril and Stellar Astril study at the Synod, just on different paths."
+      "justification": "Requires access to Synod Hold crystal archives and steppe scholarship. Both Stargazer Astril and Brutish Astril study at the Synod, just on different paths."
     },
     classHooks: [
       { classId: 'augur', bridge: 'Celestial-archive study and constellation arithmetic are the Astril path into the augury.' },
@@ -818,13 +818,13 @@ export const BACKGROUND_DATA = {
     classHooks: [
       { classId: 'apex', bridge: 'Reading spore-trails and fog-silence is the native tracking art of the Silent Hunt.' },
       { classId: 'shaper', bridge: 'A Mimir who defends masks understands form and identity deeply, the substrate of the Shaping Forms.' },
-      { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Fractured Mimir half of the Distillery.' }
+      { classId: 'toxicologist', bridge: 'Floor-toxin brewing and intruder-detection are the Broken Mimir half of the Distillery.' }
     ],
     tensionPairings: [
       { classId: 'berserker', tension: 'A Guardian exists to preserve fixed identity; the Rage dissolves it. The two are philosophical opposites, and a Mimir cannot be a Berserker anyway.' }
     ],
     name: 'Guardian',
-    description: 'The Mimir are a masked people whose masks are ancient relics, and the Hunters (mask-collecting cartels) pay fortunes for them on the black market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-specialists who probe the misty Vales with ever-refining tools. The Mimir Purge took the birthing chambers and the last Mask-Mothers (the only ones who could craft new masks) with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Keepers have guarded what remains. Whether you are an Arch Mimir scholar or a Fractured Mimir sentinel, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. The Vales will not defend themselves, and the Hunters have deeper coffers every season. Every mask you lose ends in a glass case in a city that calls it art.',
+    description: 'The Mimir are a masked people whose masks are ancient relics, and the Hunters (mask-collecting cartels) pay fortunes for them on the black market. You stand between the mask-wearers and the cartels that hunt them. You patrol the fog-spider-silk rope-bridges of the Spire-Aeries, watch the Watch-Bells for the next alarm, and track the detection-specialists who probe the misty Vales with ever-refining tools. The Mimir Purge took the birthing chambers and the last Mask-Mothers (the only ones who could craft new masks) with them. The Rupture that followed restricted every surviving mask to a first-born heir, and the mothers who could have made more are ashes. Since then, Keepers have guarded what remains. Whether you are an Arch Mimir scholar or a Broken Mimir sentinel, you learned to read the spore-trails intruders leave and the silence the fog carves when an outsider moves through it. The Hunters are better funded than they have been in generations, and every mask that falls feeds a collection that grows bolder. You know their methods because you have buried the ones who got careless. The Vales will not defend themselves, and the Hunters have deeper coffers every season. Every mask you lose ends in a glass case in a city that calls it art.',
     skillProficiencies: ['Perception', 'Stealth'],
     toolProficiencies: ['Navigator\'s tools', 'Disguise kit'],
     languages: 1,
@@ -842,7 +842,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Hunter\'s Reversal',
-      description: 'You have learned how the Hunters track Mimir and how to turn that tracking back on them. Once per long rest, when you observe a creature using detection magic, scrying, or mundane tracking against you or a masked ally, you may turn the method against its user: for 1 hour, the tracker has disadvantage on all Perception and Investigation checks, and you know their general direction. Woven wardens along the Spire-Aeries and Fractured Mimir allies will shelter you and pass warning of Hunter movements.'
+      description: 'You have learned how the Hunters track Mimir and how to turn that tracking back on them. Once per long rest, when you observe a creature using detection magic, scrying, or mundane tracking against you or a masked ally, you may turn the method against its user: for 1 hour, the tracker has disadvantage on all Perception and Investigation checks, and you know their general direction. Woven wardens along the Spire-Aeries and Broken Mimir allies will shelter you and pass warning of Hunter movements.'
     },
     statModifiers: {
       agility: 2,
@@ -956,7 +956,7 @@ export const BACKGROUND_DATA = {
         "silath_astril"
       ],
       "narrativeUnlock": true,
-      "justification": "The Echo traditions are Astril-specific institutions. Both Earthen Astril (embracing) and Stellar Astril (suppressing) train in the same cathedral."
+      "justification": "The Echo traditions are Astril-specific institutions. Both Stargazer Astril (embracing) and Brutish Astril (suppressing) train in the same cathedral."
     },
     classHooks: [
       { classId: 'augur', bridge: 'Reading Lumia\'s echo and resonance-signatures is the Astril path into the augury.' },
@@ -967,7 +967,7 @@ export const BACKGROUND_DATA = {
       { classId: 'berserker', tension: 'Crystal-archive discipline and the Rage fury cannot coexist in the same nervous system.' }
     ],
     name: 'Stargazer',
-    description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Earthen Astril, who embraces the passenger\'s wild power, or Stellar Astril, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echo-Songs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',
+    description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Stargazer Astril, who embraces the passenger\'s wild power, or Brutish Astril, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echo-Songs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',
     skillProficiencies: ['Religion', 'Arcana'],
     toolProficiencies: ['Musical instrument (throat-singing bowl)'],
     languages: 2,
@@ -985,7 +985,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Echo-Resonance Reading',
-      description: 'You can identify any Astril\'s echo-lineage, power-level, and stability by observing their crystalline patterns for one minute. Once per long rest, you can calm an echo that is approaching the Submersion threshold (loss of control), granting the host advantage on their next Spirit saving throw. The Synod provides sanctuary to recognized scholars, though Stellar Astril scholars are watched more carefully than Earthen Astril.'
+      description: 'You can identify any Astril\'s echo-lineage, power-level, and stability by observing their crystalline patterns for one minute. Once per long rest, you can calm an echo that is approaching the Submersion threshold (loss of control), granting the host advantage on their next Spirit saving throw. The Synod provides sanctuary to recognized scholars, though Brutish Astril scholars are watched more carefully tha Stargazer Astril.'
     },
     statModifiers: {
       spirit: 3,

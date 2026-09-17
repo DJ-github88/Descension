@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 export const SHAPER_DATA = {
   restrictions: {
       "allowedSubraces": [
@@ -43,9 +42,9 @@ export const SHAPER_DATA = {
     },
 
     tethered_mimir: {
-      subraceName: 'Fractured Mimir',
+      subraceName: 'Broken Mimir',
       title: 'The Sentinel-Shifter',
-      reframe: `The <LoreLink termId="mimir">Fractured Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance.`,
+      reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance.`,
       signatureAbility: {
         name: 'Vigil-Form',
         description: `Shaping forms optimized for sensory coverage rather than offense. The Fractured are the tradition's scouts.`
@@ -222,10 +221,31 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
     classSpecificLocations: [
       {
         name: "The Convergence Sumps",
-        locationId: "frostmaw-holdfast",
+        locationId: "frostmaw_holdfast",
         description: "Deep alchemical chambers where Shapers undergo dual-transformations. Walls carved with both Mimir branch-vibration patterns and Groven transformation runes.",
         purpose: "Training ground, transformation chamber, recovery ward",
         status: "Active, divided between purist and converger factions"
+      },
+      {
+        name: "The Calcifying Vats",
+        locationId: "calcifying_vats",
+        description: "The old Formbender vats beneath Frostmaw, repurposed from the Deep Alchemist laboratories, where Shaper initiates are taught the biological half of the art before they ever learn the momentum dance. The vats still hold their sulfur-clay, and the initiates still drink it, a mouthful a day, until their bones remember how to be edited. The Guild calls the practice heritage. The purists call it a leash that has not been cut.",
+        purpose: "Initiation vats and biological-training hall, the Deep Alchemist inheritance turned inward",
+        status: "Active and rationed; the salt-clay is running lower every season, and no one will say whether the source is failing or being taken"
+      },
+      {
+        name: "The Old Dance-Floor",
+        locationId: "old_dance_floor",
+        description: "A mossed-over ironwood platform at Mirror Mere, built before the merge of the two traditions, where the kinetic forms were drilled long before anyone called them Shaping. Purist Shapers make pilgrimage here to practice single-tradition momentum work in the exact place the dance was born, on wood that flexes like the bridges the Ithran run. The platform has no rails and no rules. It has never once broken.",
+        purpose: "Pilgrimage and purist training ground; the kinetic half of the art at its origin",
+        status: "Active and quiet, and the moss has begun growing in patterns that match the drilled forms, which the purists consider auspicious and the convergers find unnerving"
+      },
+      {
+        name: "The Collapse Ward",
+        locationId: "collapse_ward",
+        description: "A sealed recovery hall at Frostmaw where young convergers are kept when the body attempts every transformation at once. The Ward's walls are shaped like the patients: stone handholds fused where someone held on, floor worn into a circle by pacing that never stopped, one wall bowed outward from the night a patient's skeleton tried to become six things. The attendants do not restrain the patients. They keep them company and take notes, because the tradition has decided that the collapse is data, and the data is the only thing that can save the next one.",
+        purpose: "Recovery ward and study hall for Convergence Collapse cases; where the tradition's youngest failure mode is witnessed instead of hidden",
+        status: "Active and full, and the attendants have begun keeping two sets of notes: one for the Guild and one for the families"
       }
     ],
 

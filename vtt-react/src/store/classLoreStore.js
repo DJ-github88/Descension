@@ -4380,7 +4380,7 @@ const useClassLoreStore = create((set, get) => ({
 
 
 
-      (c.classSpecificLocations || []).some((loc) => loc.locationId === locationId)
+      (c.classSpecificLocations || []).some((loc) => String(loc.locationId || '').replace(/-/g, '_') === String(locationId || '').replace(/-/g, '_'))
 
 
 

@@ -211,7 +211,7 @@ export const SUBREGIONS = {
     id: 'sundale-glitterwood',
     name: 'Glitterwood Ridge & Glimmering Forest',
     regionId: 'sundale',
-    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn descendants of the old Solvarn nobility who fled the capital.',
+    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn exiles of the old Solvan nobility who fled the capital.',
     climate: 'Warm, humid, sheltered by mountain spine',
     dominantTerrain: 'Crystal-rich soil, ancient broadleaf forest, geothermal hot-springs, hidden valleys',
     primaryRaces: ['The Risen (old Solari faith)', 'Shorn exiles', 'Solari hermits'],
@@ -424,7 +424,7 @@ export const SUBREGIONS = {
     description: 'The eastern uplands of the Vale, rolling hills covered with thousands of burial barrows. The Mound-Camps gather here for in summer; the Astril pilgrimage to the deepest mounds to hear Lumia\'s echo. The Ordavan Herd-Tithe is enforced at cairn-checkpoints; the Echo-Singers come here to die.',
     climate: 'Cool upland, fog in the burial hollows',
     dominantTerrain: 'Burial barrows, hallowed ground, cairn-checkpoints',
-    primaryRaces: ['Ordan humans', 'Astril (Stellar Astril and Earthen Astril)', 'Sky-Singer hermits'],
+    primaryRaces: ['Ordan humans', 'Astril (Brutish Astril and Stargazer Astril)', 'Sky-Singer hermits'],
     primaryFactions: ['House Ordavan', 'Astril Synod', 'Mound-Keepers'],
     zoneIds: ['ancestor-mounds', 'mound-camps', 'novas-heath', 'the-moundwatch']
   },
@@ -435,8 +435,8 @@ export const SUBREGIONS = {
     description: 'The western basin of the Vale, dominated by the great crater of Starfall Vale, where the crystalline remnants of Lumia\'s destruction struck Mythrill during Blizzard’s End. The Synod Hold, the Astril crystal-lattice fortress, rises at the basin\'s center. The most spiritually significant site in the Vale, and the most contested.',
     climate: 'Cold, the basin is sheltered by ridges',
     dominantTerrain: 'Meteor crater, crystal-fields, crystal-lattice spires',
-    primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Earthen Astril pilgrims'],
-    primaryFactions: ['Astril Synod', 'Earthen Astril Pilgrim-Orders', 'Lumia-Memory cult'],
+    primaryRaces: ['Astril (all castes)', 'Ordan Unmounted (servants)', 'Stargazer Astril pilgrims'],
+    primaryFactions: ['Astril Synod', 'Stargazer Astril Pilgrim-Orders', 'Lumia-Memory cult'],
     zoneIds: ['synod-hold', 'starfall-vale']
   },
   'sundrift-bogpost-march': {

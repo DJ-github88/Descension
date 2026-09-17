@@ -31,7 +31,7 @@ These creatures and spirits are Nordhalla's **original owners** and act as the l
 * **Infused House Leaders:** Noble clan leaders and Infused bloodlines channel **celestial Rime magic** and wield ancestral relics at the shield-wall, manipulating the Glacier Bargain's power against the encroaching cold.
 
 ### Climate
-**Eternal winter.** The Glacier Bargain traded summer for halted glaciers. There is no spring and no summer—only a 150-Year Ice Age (Year 475) with brief, precarious geothermal pockets of survival.
+**Eternal winter.** The Glacier Bargain traded summer for halted glaciers. There is no spring and no summer—only an ice age that has not broken, with brief, precarious geothermal pockets of survival.
 
 ### Government
 Ruled by **King-Jarl Halvar Skalvyr, called Jarn-Tand ("Iron-Tooth")** of **House Skalvyr**. He unified the settled clans by force, constructed the **Sunder-Wall**, and established the **Icechamber Syndicate** trade monopoly. The **Cleansing of the Hearth** — his state-enforced suppression of tribal Animists — is ongoing across all settled river-steads.
@@ -40,6 +40,11 @@ Ruled by **King-Jarl Halvar Skalvyr, called Jarn-Tand ("Iron-Tooth")** of **Hous
 1. **The Frozen Archive** — institutional control of history, clockwork relics, glacier-mummies, and prophecy.
 2. **The Icechamber Syndicate** — economic monopoly on coal, iron ore, whale oil, and mammoth hides.
 3. **The Sunder-Wall** — military fortification regulating migration, taxing trade, and walling off the Øsling nomads.
+
+### Oakhaven & the Dead Pots
+**Oakhaven** is a freezing harbour town on the Nordhalla coast, built where the fjord-ice breaks just wide enough for a keel: tarred timber, salt-cured meat, rope-walks, and a trade built on people who need a berth the Icechamber Syndicate does not inspect too closely. Under the chandlery row, behind a fish-market that sells more brine than fish, a low door opens into the loudest **Dead Pot** on the northern shore — a limestone cistern that once held smuggled whale-oil, now a gambling den where steel stays sheathed and disputes settle on the felt.
+
+The Gambits who work the Dead Pots are debtors of **Mael-Zhul**, the Old Native God the bound call only **the House**. It keeps no temples and answers no prayers; it extends a line of credit to the ruined, stakes their souls as collateral, and takes its payments in **Karmic Debt**. Fortune is its credit, the Dead Pots are its tables, and the House always collects. House Skalvyr outlaws probability-manipulation as theft, so Oakhaven's den exists on sufferance, tolerated because the harbour fees keep a vent-village fed.
 
 ---
 
@@ -50,7 +55,7 @@ Mythrill was never a barren rock; it was an animistic world where native behemot
 
 While ancient mortal disciplines (**Animists**, **Berserkers**, **Wardens**, **Shapers**, **Minstrels**) communed with the land's primal resonance, common folk survived strictly through forged steel, tactical engineering, black powder matchlocks, archery, and strict cultural taboos.
 
-### The Celestial Star-Fall and the Bloodline Pacts (Year 0)
+### The Celestial Star-Fall and the Bloodline Pacts
 Celestial Parents (**AEX**, the Mother, and **AETHIL**, the Father) fled across the cosmos to hide their living, unhatched infant sun (**SOL**) in Mythrill's volcanic core from the cosmic predator **KETH AMAR**. Aethil sacrificed his absolute divine status to anchor the celestial barrier around the atmosphere; Aex sacrificed her divine form to entomb and protect Sol in the molten core, sealing the vault with cosmic wards and **Bloodline Pacts** with ancient mortal lineages. Each pact is a **Blood Seal**. The Sister Moon (**Selunis**) — the never-quickened moon-daughter egg — was frozen in orbit as a thermal buffer to anchor **Rime Magic**; Keth Amar nested in her unquickened shell during its approach.
 
 ### The Bloodline Pacts & the Bound
@@ -59,8 +64,8 @@ Ancient mortal lineages struck Bloodline Pacts with Aex, witnessed by Aethil. Th
 - **The Forest Exiles:** The bloodline that refused the Whisper was saved by the Sleeping Soul of Mythrill and transformed in moonlit groves into the **Florae** (**Viridian** and **Oken**) — the lineage history erased along with its name.
 - **Common & Wild Folk:** Preserved traditional black powder, matchlocks, and melee combat, or drew upon the Natural Wyrd of the Sleeping Soul (*Moraine Clans*).
 
-### The Whispered Purge, the Blind Strike and the Freezing Era (Years 300–325 – Present / Year 475)
-Over three centuries, severed Blood Seals cracked Aex's aegis, each dead lineage venting a little more of Sol's warmth. From **Year 300**, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** onto Mythrill and orchestrated the **Whispered Purge** — twenty-five years posing as Aethil, snapping the remaining seals through whispers, wars and engineered tragedies. In **Year 325** came the **Blind Strike** (mortal name: Blizzard's End): Keth Amar crashed into the planetary ward. The **Secret Aegis** — the hidden lineage that erased itself from history — held; Keth Amar was severely wounded and repelled into the void. The impact fractured Aex's continental ward; crystalline **Aex Shards** — the greatest of them the Seven Sundered Monoliths, one of which is the Predatory Wyrd Counterfeit — rained across the continents. Sol vented volcanic fire through Emberspire. Mythrill is now trapped in a 150-Year Ice Age (Year 475), fighting over glowing shards for warmth and fuel.
+### The Whispered Purge, the Blind Strike and the Freezing Era
+Over three centuries, severed Blood Seals cracked Aex's aegis, each dead lineage venting a little more of Sol's warmth. In the last age of the Pacting, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** onto Mythrill and orchestrated the **Whispered Purge** — twenty-five years posing as Aethil, snapping the remaining seals through whispers, wars and engineered tragedies. Then came the **Blind Strike** (mortal name: Blizzard's End): Keth Amar crashed into the planetary ward. The **Secret Aegis** — the hidden lineage that erased itself from history — held; Keth Amar was severely wounded and repelled into the void. The impact fractured Aex's continental ward; crystalline **Aex Shards** — the greatest of them the Seven Sundered Monoliths, one of which is the Predatory Wyrd Counterfeit — rained across the continents. Sol vented volcanic fire through Emberspire. Mythrill is now trapped in an ice age that has not broken, fighting over glowing shards for warmth and fuel.
 
 ---
 
@@ -223,7 +228,7 @@ Built by King-Jarl Halvar Skalvyr to regulate trade, tax the nomad migration, an
 
 | Location | Type | Lived-In & Environmental Description |
 |----------|------|---------------------------------------|
-| **Blizzard’s End** | The Broken Seal | Epicenter of the Year 325 Massacre. Seven cairns stand here: six covered in black, flesh-searing frost, and a seventh overgrown with living green tundra moss and snow-poppies. |
+| **Blizzard’s End** | The Broken Seal | Epicenter of the Blizzard's End Massacre. Seven cairns stand here: six covered in black, flesh-searing frost, and a seventh overgrown with living green tundra moss and snow-poppies. |
 | **The Heir-Mounds** | Dark Landmark | Frozen burial barrows of the slaughtered noble heirs. The ice twists in unnatural spirals; Øsling raiders avoid crossing within bowshot. |
 | **The Hunger Glaciers** | Moving Ice Expanse | Living glacier sheets that actively move and crevasse to herd travelers into dead-ends. Training grounds for Endurance Purists. |
 | **The Chant-Mounds** | Frost Chanter Sites | Glacial sound-cavities where Øsling Frost Chanters preserve pre-Bargain oral sagas, now corrupted with bloodthirsty verses justifying lowland raids. |

@@ -241,7 +241,7 @@ export const PATH_DATA = {
     threshold_watcher: {
         id: 'threshold_watcher',
         name: 'The Threshold-Watcher',
-        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Stellar Astril who maintains their rituals is a fortress; a Stellar Astril who falters is a bomb. You do not falter.',
+        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Brutish Astril who maintains their rituals is a fortress; a Brutish Astril who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,

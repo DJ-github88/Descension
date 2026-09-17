@@ -409,15 +409,19 @@ const OverviewTab = ({ cls, context }) => {  const profile = getClassFlavorProfi
       )}
 
     {cls.classSpecificLocations && cls.classSpecificLocations.length > 0 && (
-      <section className="world-section">
+      <section className="world-section sacred-sites-section">
         <h3>Sacred Sites & Citadels</h3>
-        <div className="world-card-grid">
+        <div className="sacred-sites-grid">
           {cls.classSpecificLocations.map((loc, i) => (
-            <div key={i} className="world-info-card">
-              <h4><LoreLink termId={loc.locationId || loc.name}>{loc.name}</LoreLink></h4>
-              {loc.status && <span className="world-badge">{loc.status}</span>}
-              <p className="world-card-meta">{loc.description}</p>
-              {loc.purpose && <p className="world-card-purpose"><strong>Purpose:</strong> {loc.purpose}</p>}
+            <div key={i} className="sacred-site-card">
+              <div className="sacred-site-head">
+                <h4><LoreLink termId={loc.locationId || loc.name}>{loc.name}</LoreLink></h4>
+                {loc.status && <span className="sacred-site-status">{loc.status}</span>}
+              </div>
+              <p className="sacred-site-desc">{loc.description}</p>
+              {loc.purpose && (
+                <p className="sacred-site-purpose"><strong>Purpose:</strong> {loc.purpose}</p>
+              )}
             </div>
           ))}
         </div>
@@ -432,7 +436,7 @@ const OverviewTab = ({ cls, context }) => {  const profile = getClassFlavorProfi
             <div key={f.id} className="world-list-item">
               <div className="world-faction-colors" style={{ background: f.colors?.primary || '#888' }} />
               <strong>{f.name}</strong>
-              <span className="world-muted">: {f.publicGoal || f.publicDescription?.slice(0, 100)}...</span>
+              <span className="world-muted">: {f.publicGoal || f.publicDescription}</span>
             </div>
           ))}
         </div>

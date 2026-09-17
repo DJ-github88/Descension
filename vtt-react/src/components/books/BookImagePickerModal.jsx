@@ -120,8 +120,8 @@ export const CHARACTER_ART_PRESETS = [
     thumbnail: '/assets/images/races/brook_illustration.png'
   },
   {
-    id: 'subrace-briaran-florae',
-    name: 'Briaran Thorn-Weaver',
+    id: 'subrace-viridian-florae',
+    name: 'Viridian Thorn-Weaver',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/briaran_illustration.jpg',

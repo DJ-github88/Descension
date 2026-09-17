@@ -4,6 +4,8 @@ Use this prompt to perform a comprehensive, systematic audit of every lore-beari
 
 ## AUDIT PROTOCOL
 
+> **HISTORICAL — superseded.** This document was written against an older, hard-dated timeline (Year 0/300/325/475 and the ~800-year audits). Canon is now **era-relative**: see `vtt-react/src/store/timelineStore.js` and LORE_STYLE_GUIDE Rule 8 — no hard years anywhere, in text or UI. Use for reference only.
+
 For every finding, report:
 - **Severity**: `CRITICAL` (lore-breaking), `MAJOR` (misleading/wrong), `MINOR` (wording/stylistic)
 - **File + Line(s)**

@@ -176,12 +176,12 @@ The last line of any race, class, or background lore must address the player dir
 
 | Don't | Do |
 |---|---|
-| Year 5 of the Deepening | Before the world froze |
-| Year 412 of the Dimming | Generations ago |
-| ~Year 795 | Within living memory |
-| Year 11 | Just after the Binding |
+| Year 300 of the Pacting | Before the world froze |
+| Year 200 of the Freezing Era | Generations ago |
+| The recent years, dated exactly | Within living memory |
+| Just after the Great Binding (dated) | Just after the Great Binding |
 
-**Exact years go in the timeline file.** Player-facing lore gets one rough time reference per entry, max. "For eight centuries." "Recently." "Long ago." "In the years since."
+**Exact years go nowhere.** Player-facing lore gets one rough time reference per entry, max. "For eight centuries." "Recently." "Long ago." "In the years since."
 
 ### Rule 9: Concrete images. You should be able to see it.
 
@@ -275,7 +275,7 @@ Here's a complete race rewrite following all 18 rules, compared to the current t
 >
 > The First Contract is still visible in the heart of Atropolis, fossilized in living heartwood like a fly in amber. Every Neth child born since carries the terms in their blood. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.
 >
-> Now the Neth rule the Bryngloom's canopy city of Atropolis, writing contracts for everything: marriages, inheritances, debts, souls. The Drun are those who burned their names from the Contract and became legally nonexistent, living in the Over-Shanty beneath the city. The Velun Neth are the silver-tongued elite who navigate the law like a living language.
+> Now the Neth rule the Bryngloom's canopy city of Atropolis, writing contracts for everything: marriages, inheritances, debts, souls. The Withered are those who burned their names from the Contract and became legally nonexistent, living in the Over-Shanty beneath the city. The Nethien are the silver-tongued elite who navigate the law like a living language.
 >
 > You are one of the pact-bound. Your blood is ink. Your breath is a signature. The Keeper is watching, and the Contract endures. What terms will you write?
 
@@ -285,7 +285,7 @@ Here's a complete race rewrite following all 18 rules, compared to the current t
 |---|---|
 | 1. Open with scale | "For eight centuries..." sets time immediately |
 | 2. Story arc | Dying → walked into the wood → presented the case → made the deal → now |
-| 3. Names anchor | The Keeper, Atropolis, the Drun, the Velun Neth |
+| 3. Names anchor | The Keeper, Atropolis, the Withered, the Nethien |
 | 4. Consequence chains | Were dying → walked into the wood → found the Keeper → made the deal → rose with silver skin → now rule Atropolis |
 | 5. The "now" pivot | "Now the Neth rule Atropolis..." — clear present moment |
 | 6. One job per paragraph | Paragraph 1: the pact. P2: the dying. P3: the walk. P4: the argument. P5: the transformation. P6: the present. P7: the player. |
@@ -296,7 +296,7 @@ Here's a complete race rewrite following all 18 rules, compared to the current t
 | 11. Active verbs | "Walked," "presented," "rose," "rule," "write," "carries," "watching" — no passive |
 | 12. Different tones | Precise, legalistic, clinical — the language of contracts |
 | 13. One em dash | Zero. Uses colons and periods instead. |
-| 14. Proper nouns | Keeper of the Last Threshold, Bryngloom, Atropolis, Drun, Velun Neth, Over-Shanty, the Contract |
+| 14. Proper nouns | Keeper of the Last Threshold, Bryngloom, Atropolis, Withered, Nethien, Over-Shanty, the Contract |
 | 15. No over-explanation | "The alternative is the silence that waits." — trusts the reader to understand |
 | 16. Tragedy + hope | Were dying AND made the deal AND now thrive |
 | 17. Character mention | Indirect (the Neth as a people, not individual characters here — this is the overview) |
@@ -326,14 +326,14 @@ Here's a complete race rewrite following all 18 rules, compared to the current t
 ### Bonus Example — Region: The Bryngloom Forest
 
 **Before (current loreDictionary.js):**
-> The Bryngloom Forest is a twilight swamp. Since the Neth signed the First Contract with the Keeper of the Last Threshold, the region has been governed by legalistic debt-covenants. It is ruled by Regent Morrath Neth, who enforces the Great Registry. Neth Kessen weavers facilitate memory-extraction for certified debtors. The Vreken are the indigenous population whose ancestral fungal traditions are threatened by Neth expansion. Tensions between the Neth and Vreken have defined Bryngloom politics, flaring into periodic conflict.
+> The Bryngloom Forest is a twilight swamp. Since the Neth signed the First Contract with the Keeper of the Last Threshold, the region has been governed by legalistic debt-covenants. It is ruled by Regent Morrath Neth, who enforces the Great Registry. Neth Veldun weavers facilitate memory-extraction for certified debtors. The Vreken are the indigenous population whose ancestral fungal traditions are threatened by Neth expansion. Tensions between the Neth and Vreken have defined Bryngloom politics, flaring into periodic conflict.
 
 **After (Blizzard-style):**
 > The Bryngloom is a twilight swamp where the trees glow and the bogs remember what falls into them. The air is thick with spores. The water is thick with debt. This is the domain of the Neth: the silver-skinned pact-lords who wrote a contract with the forest itself and have been collecting interest ever since.
 >
 > Before the Neth, the Bryngloom belonged to the Vreken. They lived among the fungal groves, reading the mycelium like others read maps, harvesting Ghost-Mycelium from the Hush-Bogs, and honoring the Root-Veil as a sacred ancestor. Then the Neth returned from the Well of Youth with the First Contract, and the forest recognized a new authority: written law.
 >
-> Now the Neth rule from Atropolis, a city of living ironwood coaxed into cathedral-shapes over a thousand years. The Vreken live in the shadow of the canopy, their ancestral traditions receding as Neth trade networks expand. The Over-Shanty hangs beneath Atropolis, home to the Drun: Neth who burned their names from the Contract and became legally nonexistent.
+> Now the Neth rule from Atropolis, a city of living ironwood coaxed into cathedral-shapes over a thousand years. The Vreken live in the shadow of the canopy, their ancestral traditions receding as Neth trade networks expand. The Over-Shanty hangs beneath Atropolis, home to the Withered: Neth who burned their names from the Contract and became legally nonexistent.
 >
 > The Bryngloom is a place where everything has a price and every price is negotiable. Your signature is your bond. Your word is your collateral. And the Keeper is always watching from beneath the roots.
 
@@ -373,16 +373,16 @@ The 18 rules tell you how to change the **voice** of a lore entry. They do **not
 **Worked example — Saren-Vel (notableFigures):**
 
 Before (encyclopedia register, ~300 words):
-> Before she was the first Drun, Saren-Vel was the most powerful Velun mage of her generation: a contract-lawyer and arcanist whose binding-clauses were so precise that the Keeper itself had never found a loophole in her work. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two competing Velun bloodlines. She was, by any measure, the apotheosis of what a Velun could become. *(...continues for 5 paragraphs...)*
+> Before she was the first Withered, Saren-Vel was the most powerful Nethien mage of her generation: a contract-lawyer and arcanist whose binding-clauses were so precise that the Keeper itself had never found a loophole in her work. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two competing Nethien bloodlines. She was, by any measure, the apotheosis of what a Nethien could become. *(...continues for 5 paragraphs...)*
 
 After (Blizzard prose, same lore, ~200 words):
-> Before she was the first Drun, Saren-Vel was the most powerful Velun mage of her generation: a contract-lawyer whose binding-clauses were so precise the Keeper had never found a loophole. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two Velun bloodlines.
+> Before she was the first Withered, Saren-Vel was the most powerful Nethien mage of her generation: a contract-lawyer whose binding-clauses were so precise the Keeper had never found a loophole. She drafted the trade-treaty that opened Ironjaw Port to the Emberth. She wrote the inheritance-contract that resolved a three-century dispute between two Nethien bloodlines.
 >
 > She was also unraveling. She had been breaking small contracts for decades: a promise here, a receipt there, a skipped ritual. Each breach felt like freedom and brought the Fading closer. By the time she walked into the bog, she was six months from dissolution, coming apart like a manuscript left in damp air.
 >
 > The flame she carried had been prepared over thirty years: pure annihilation, the inverse of the pact's preservation. It burned only ink. She touched it to the First Contract, and her name vanished from every active copy simultaneously. The silence that followed lasted seventeen seconds. Every Neth alive counted them.
 >
-> She walked out past guards who could not touch her because no contract authorized them to. She has not spoken in four centuries. The Drun revere her as their founder. The Velun consider her the greatest legal crisis in Neth history: a person who exists outside the pact, outside the law, and therefore cannot be wrong about anything — because "wrong" requires a standard she no longer acknowledges.
+> She walked out past guards who could not touch her because no contract authorized them to. She has not spoken in four centuries. The Withered revere her as their founder. The Nethien consider her the greatest legal crisis in Neth history: a person who exists outside the pact, outside the law, and therefore cannot be wrong about anything — because "wrong" requires a standard she no longer acknowledges.
 
 Same lore: the treaty, the 3-century dispute, the decades of small breaches, the manuscript image, the 30-year flame, the 17-second silence, the guards, the "wrong requires a standard" line. Different voice: active verbs, shorter sentences for impact, paragraphs with one job each. That is what every rewrite should look like.
 
@@ -427,13 +427,13 @@ This is what every race `description` should sound like:
 >
 > The First Contract is still visible in the heart of Atropolis, fossilized in living heartwood like a fly in amber. Every Neth child born since carries the terms in their blood. They cannot lie. They cannot break a promise. They cannot stop writing. The alternative is the silence that waits for anyone who breaches the agreement.
 >
-> Now the Neth rule the Bryngloom's canopy city of Atropolis, writing contracts for everything: marriages, inheritances, debts, souls. The Drun are those who burned their names from the Contract and became legally nonexistent, living in the Over-Shanty beneath the city. The Velun Neth are the silver-tongued elite who navigate the law like a living language.
+> Now the Neth rule the Bryngloom's canopy city of Atropolis, writing contracts for everything: marriages, inheritances, debts, souls. The Withered are those who burned their names from the Contract and became legally nonexistent, living in the Over-Shanty beneath the city. The Nethien are the silver-tongued elite who navigate the law like a living language.
 >
 > You are one of the pact-bound. Your blood is ink. Your breath is a signature. The Keeper is watching, and the Contract endures. What terms will you write?
 
 **Why this works:**
 - Opens with scale and judgment ("For eight centuries") — Rule 1
-- Every paragraph has a name: the Keeper, the Bryngloom, Atropolis, the Drun, the Velun — Rule 3
+- Every paragraph has a name: the Keeper, the Bryngloom, Atropolis, the Withered, the Nethien — Rule 3
 - Consequence chain: dying → walked into the wood → presented the case → Keeper accepted → rose with silver skin → now rule Atropolis — Rule 4
 - Short hit: "They did not pray. They presented a case." — Rule 10
 - Player hook: "You are one of the pact-bound. What terms will you write?" — Rule 7
@@ -465,13 +465,13 @@ This is what every region entry in loreDictionary.js should sound like:
 >
 > Before the Neth, the Bryngloom belonged to the Vreken. They lived among the fungal groves, reading the mycelium like others read maps, harvesting Ghost-Mycelium from the Hush-Bogs, and honoring the Root-Veil as a sacred ancestor. Then the Neth returned from the Well of Youth with the First Contract, and the forest recognized a new authority: written law.
 >
-> Now the Neth rule from Atropolis, a city of living ironwood coaxed into cathedral-shapes over a thousand years. The Vreken live in the shadow of the canopy, their ancestral traditions receding as Neth trade networks expand. The Over-Shanty hangs beneath Atropolis, home to the Drun: Neth who burned their names from the Contract and became legally nonexistent.
+> Now the Neth rule from Atropolis, a city of living ironwood coaxed into cathedral-shapes over a thousand years. The Vreken live in the shadow of the canopy, their ancestral traditions receding as Neth trade networks expand. The Over-Shanty hangs beneath Atropolis, home to the Withered: Neth who burned their names from the Contract and became legally nonexistent.
 >
 > The Bryngloom is a place where everything has a price and every price is negotiable. Your signature is your bond. Your word is your collateral. And the Keeper is always watching from beneath the roots.
 
 **Why this works:**
 - Opens with concrete sensory detail ("trees glow and the bogs remember") — Rule 9
-- Names everywhere: the Neth, the Vreken, Atropolis, the Root-Veil, the Hush-Bogs, the Over-Shanty, the Drun, the Keeper — Rule 14
+- Names everywhere: the Neth, the Vreken, Atropolis, the Root-Veil, the Hush-Bogs, the Over-Shanty, the Withered, the Keeper — Rule 14
 - Past → what happened → now → player hook — Rule 2
 - No "The Bryngloom is a region characterized by..." — kills the encyclopedia voice
 
@@ -506,10 +506,10 @@ When you write a Neth entry, the sentences should feel like contract clauses. Wh
 ### Example E — What "Tightening" Looks Like (the Saren-Vel rule)
 
 **Before** (encyclopedia register, passive, over-explained):
-> Saren-Vel was considered by many to be the most powerful Velun mage of her generation. Her binding-clauses were known to be so precise that the Keeper itself had never found a loophole in her work. She was also experiencing the Unraveling, which is a process that occurs when a Neth begins breaking contracts on purpose.
+> Saren-Vel was considered by many to be the most powerful Nethien mage of her generation. Her binding-clauses were known to be so precise that the Keeper itself had never found a loophole in her work. She was also experiencing the Unraveling, which is a process that occurs when a Neth begins breaking contracts on purpose.
 
 **After** (Blizzard prose, active, trusts the reader):
-> Before she was the first Drun, Saren-Vel was the most powerful Velun mage of her generation: a contract-lawyer whose binding-clauses were so precise the Keeper had never found a loophole. She was also unraveling. She had been breaking small contracts for decades: a promise here, a receipt there, a skipped ritual. Each breach felt like freedom and brought the Fading closer.
+> Before she was the first Withered, Saren-Vel was the most powerful Nethien mage of her generation: a contract-lawyer whose binding-clauses were so precise the Keeper had never found a loophole. She was also unraveling. She had been breaking small contracts for decades: a promise here, a receipt there, a skipped ritual. Each breach felt like freedom and brought the Fading closer.
 
 Same lore. Different voice. The second version has: active verbs, concrete examples ("a promise here, a receipt there"), short sentences for impact ("She was also unraveling."), and trusts you to understand what "unraveling" means without a parenthetical definition.
 
@@ -622,17 +622,17 @@ Before you write a single sentence of lore, you need to know what's already true
 ### 6.1 The Master Timeline & Core World Premise
 
 * **Pre-Star Mythrill (The Sleeping Soul & Natural Wyrd):** Mythrill is the loom of the Sleeping Soul. **Natural Wyrd** — collective belief, folklore, myth, fear and vow manifesting into creatures — grew the native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*) and ancient non-human races. Its hostile strain, **Predatory Wyrd**, is Keth Amar's infection of that loom (see below). Mortals had **zero magic** and survived via steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
-* **The Celestial Star-Fall (Year 0):** Aex (the Mother) and Aethil (the Father) fled across the cosmos to hide their living, unhatched infant sun *Sol* in Mythrill's molten core from *Keth Amar*. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol in the core, sealing the vault with cosmic wards and **Bloodline Pacts**. The High Houses who swore those pacts mutated into the Bound (*Solari*, *Vreken*, etc.); common folk received subtle physical adaptations while keeping traditional black-powder and melee combat.
-* **The 475-Year Master Timeline:**
+* **The Celestial Star-Fall:** Aex (the Mother) and Aethil (the Father) fled across the cosmos to hide their living, unhatched infant sun *Sol* in Mythrill's molten core from *Keth Amar*. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol in the core, sealing the vault with cosmic wards and **Bloodline Pacts**. The High Houses who swore those pacts mutated into the Bound (*Solari*, *Vreken*, etc.); common folk received subtle physical adaptations while keeping traditional black-powder and melee combat.
+* **The Master Timeline (era-relative):**
 
-| Epoch | Year | What Happened |
-|---|---|---|
-| The Celestial Star-Fall | Year 0 | Aex entombs Sol in the core; Aethil anchors the sky-ward; Bloodline Pacts struck; Astril land in Sundrift Vale |
-| The Slow Cracking | Years 0–300 | Severed Blood Seals crack Aex's aegis (Vreken massacre, Ordan purge, Frostwood meltdown); Predatory Wyrd not yet seeded |
-| Keth Amar Arrives | Year 300 | Trails Astril starlight; spews Predatory Wyrd onto Mythrill |
-| The Whispered Purge | Years 300–325 | Keth Amar poses as Aethil for 25 years, snapping Blood Seals through wars, hubris, accidents and assassinations |
-| The Blind Strike (Blizzard's End) | Year 325 | Keth Amar crashes into the ward; the Secret Aegis (the Unwritten) holds; Keth Amar wounded and repelled into the void; Aex's aegis fractures into Aex Shards |
-| The Freezing Era (Present Day) | Year 475 | 150 Years of Freezing Era (cold because Sol is entombed in the core); factions fight over Aex Shards — the greatest shards are the Seven Sundered Monoliths (one is the Predatory Wyrd Counterfeit); **Nordhalla launch campaign** |
+| Epoch | What Happened |
+|---|---|
+| The Celestial Star-Fall | Aex entombs Sol in the core; Aethil anchors the sky-ward; Bloodline Pacts struck; Astril land in Sundrift Vale |
+| The Slow Cracking | Severed Blood Seals crack Aex's aegis (Vreken massacre, Ordan purge, Frostwood meltdown); Predatory Wyrd not yet seeded |
+| Keth Amar Arrives | Trails Astril starlight; spews Predatory Wyrd onto Mythrill |
+| The Whispered Purge | Keth Amar poses as Aethil, snapping Blood Seals through wars, hubris, accidents and assassinations |
+| The Blind Strike (Blizzard's End) | Keth Amar crashes into the ward; the Secret Aegis (the Unwritten) holds; Keth Amar wounded and repelled into the void; Aex's aegis fractures into Aex Shards |
+| The Freezing Era (Present Day) | Sol is entombed in the core and the surface freezes; factions fight over Aex Shards — the greatest shards are the Seven Sundered Monoliths (one is the Predatory Wyrd Counterfeit) |
 
 ### 6.1B Scrapped & Corrected Lore (DO NOT WRITE)
 * ❌ **SCRAPPED:** "The Wyrd arrived with Keth Amar" / "Keth Amar retreated into the sky as the Wyrd" — Natural Wyrd is native (the Loom); Predatory Wyrd is Keth Amar's infection of it.
@@ -643,12 +643,13 @@ Before you write a single sentence of lore, you need to know what's already true
 
 ### 6.1C Class Heritage Taxonomy
 1. **Pre-Binding Classes (Traditional / Mortals):** Berserker, Apex, Minstrel, Warden, Toxicologist (steel, black powder, matchlocks, cold-iron traps, archery, physical mastery — grown from what the Natural Wyrd made and mortals learned to survive).
-2. **Celestial Bargain Classes (The Bound):** Spellguard, Arcanoneer, Chronarch, Shaper (direct elemental control born from the Bloodline Pacts sworn to Aex and witnessed by Aethil).
+2. **Celestial Bargain Classes (The Bound):** Spellguard, Arcanoneer, Chronarch, Shaper (direct elemental control born from the Bloodline Pacts sworn to Aex and witnessed by Aethil). **Martyr:** the devotional channel of Aex's sacrifice, a Witness trained to stay lucid inside pain; the Skald walk it as Ironclads, burning suffering as fuel.
 3. **Vreken Extortion (Blight Magic):** Blight-Weavers and Decay specialists (extorted divine desperation for ultimate power from Aethil).
-4. **Cosmic Collision Classes (Post-Keth Amar):** Pyrofiend (Solari/Void demonic collision), Harbinger, Plaguebringer, Revenant — Predatory Wyrd colliding with the celestial pacts.
+4. **Cosmic Collision Classes (Post-Keth Amar):** Harbinger, Plaguebringer, Revenant — Predatory Wyrd colliding with the celestial pacts.
+5. **Hazard Pact Classes (The Debt-Bound):** Gambit (Mael-Zhul's ledger; Fortune is credit drawn against the debtor's future, Karmic Debt is the marker coming due) and Pyrofiend (claimed by the Emberspire collision and indentured to Scathrach, the will born of the first crucibles). Hazard-pact power is staked at the point of irreversible catastrophe and owed to a cosmic entity; Pyrofiends are also a Cosmic Collision product, and the pact describes the mechanism, not the origin.
 
 ### 6.1D Ancestry Updates
-* **The Neth (Well of Life):** High Neth (half-filled pitcher, pristine, immortal-adjacent, Peter Pan helicopter parenting), Pale Neth (stolen urns, subterranean hoarders), Hallowed Neth (well-dippers, undead husks bound to Old God roots).
+* **The Nethien (Well of Life):** Nethien (half-filled pitcher, pristine, immortal-adjacent, protective helicopter parenting), Veldun (well-dippers, spirit-conduits bound to Morvane's roots, probability-readers), Withered (the Severed, legally nonexistent outcasts who burned their names from the First Contract). Old forms (High/Pale/Hallowed Neth, Velun/Drun/Kessen) are retired and survive only as in-world archaisms.
 * **The Fexrick (Engine-Theft):** Gnomish/Dwarvish engineers of Cragjaw Peaks who dug too deep, uncovered a Primordial God's engine/vault, and were cursed with erratic twitching, manic paranoia, and an insatiable urge to build and tweak.
 
 ### 6.1E Primary Launch Region
@@ -664,7 +665,7 @@ Before you write a single sentence of lore, you need to know what's already true
 | Mereval | Iceheart Sea | Grand Admiral Varis Mereval | Board of Trade | Pirates, unregistered ships | Enforces the Sea-Charter |
 | Tesshan | Cragjaw Peaks | Jarl-Inca Oda Tesshan | Knotted Decree | Grotto-secessionists | Veiled the peaks in perpetual blizzard |
 | Ordavan | Sundrift Vale | Khatun Bayarmaa Ordavan | Unlit Veil (unwillingly) | Traditionalist nomads | Unlit Veil manipulates the house |
-| Morrath | Bryngloom Forest | Regent Morrath Neth | Neth Kessen weavers, Keeper | Vreken (tension), debtors | Enforces the Great Registry |
+| Morrath | Bryngloom Forest | Regent Morrath Neth | Veldun weavers, Keeper | Vreken (tension), debtors | Enforces the Great Registry |
 | Viridane | Frostwood Reach (erased) | None (extinct) | Florae (descendants) | All other houses | Erased after refusing Keth Amar; Florae carry their blood |
 
 ### 6.3 Name Rules
@@ -673,7 +674,7 @@ Before you write a single sentence of lore, you need to know what's already true
 - **Fexric** (not Fexrick — check the most recent files)
 - **Bryngloom Forest** (not just Bryngloom on first reference)
 - **The Keeper of the Last Threshold** (not just "the Keeper" on first reference)
-- **The Drun** (capitalized, plural: "the Drun," "a Drun")
+- **The Withered** (capitalized as a people: "the Withered," "a Withered")
 - **The Forgotten** (capitalized, refers to undocumented people in the Frostwood)
 - **North is not a direction in Mythrill** — the world is a closed system beneath a dark sky. Use "the northern reaches" or "toward Nordhalla" instead of compass directions unless speaking from a character's limited perspective.
 
@@ -714,7 +715,7 @@ Rules for this block:
 
 ### 6.5B What Not To Do
 
-- **Don't contradict the timeline.** If the Mimir Purge is ~Year 220, you can't refer to "recent Purge" in present-day entries.
+- **Don't contradict the timeline.** If the Mimir Purge is generations past, you can't refer to "recent Purge" in present-day entries.
 - **Don't use real-world religions or mythologies.** No "gods," "heaven," "hell," "angels," "demons" — use Mythrill equivalents: the Warden, the Keeper, the Wyrd, Keth Amar.
 - **Don't mix region tones.** A Sundrift Vale entry shouldn't sound like a Nordhalla entry. The voice must match the place.
 - **Don't forget the erased houses.** House Viridane was erased. Referencing "the seven houses" without acknowledging the eighth is a lore error.
@@ -1238,7 +1239,7 @@ Based on what players see most, rewrite in this order:
 Before rewriting any lore entry, check:
 
 - [ ] Does this contradict another lore entry? (Check cross-references in loreDictionary.js)
-- [ ] Does the timeline make sense? (Key dates: Binding = Year 3, Breach = Year 11, Present = ~Year 800)
+- [ ] Does the timeline make sense? (Era order: Star-Fall & Bloodline Pacts → the Slow Cracking → the Whispered Purge → the Blind Strike → the Freezing Era.)
 - [ ] Does this use the correct naming? (Jarn-Tand, not Iron-Tooth, etc.)
 - [ ] Is this consistent with the region's tone? (Frostwood = grim, Bryngloom = treacherous, Sundale = zealous)
 - [ ] Does this respect house/race relationships? (Who's allied, who's hostile, who's erased from records?)

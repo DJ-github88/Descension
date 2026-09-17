@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 /**
  * Arcanoneer Class Data
  *
@@ -236,10 +235,31 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
     },
     {
      name: 'The Cragjaw Guild-Hall',
-     locationId: 'cragjaw_peaks',
+     locationId: 'cragjaw-peaks',
      description: 'The Clockwork Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  —  and most conservative  —  combination matrix in existence.',
      purpose: 'Training, certification, and research into guild-approved elemental pairings',
      status: 'Active, though the guild-masters are increasingly alarmed by reports of Caustic Fexric Scrap-Weavers achieving results outside certified parameters'
+    },
+    {
+     name: 'The Heart-Vault',
+     locationId: 'heart_vault',
+     description: 'The deepest chamber of Atropolis\'s oldest ironwood, where the First Contract is visible through living heartwood and Valerius\'s crystal prism rests in a cradle of root-glass. Every clause of the Grand Nomenclature was copied from the syntax vibrating in this bark, and Arcanoneers still descend to press their focuses against it, listening for the grammar in its original hand. No one speaks above a murmur in the vault. The tree does not need to be told what a contract is.',
+     purpose: 'Sanctum and master-archive, where the Nomenclature\'s original syntax is consulted and new clauses are filed',
+     status: 'Active, and uneasy: the bark has begun rejecting certain clause-copies without explanation, and the archivists have stopped publishing which ones'
+    },
+    {
+     name: 'The Underground Proving Grounds',
+     locationId: 'proving_grounds',
+     description: 'A tiered test range beneath Gearworks Gulch where Nethien theorists dictated constraints from behind leaded glass while Fexric engineers handled the hot metal. Everything the Clockwork Fexric certify was proved here; everything the Caustic Fexric do anyway was first attempted here. The upper galleries are guild order, brass and tolerance tables; the lower sumps are salvage, scorch-marks, and a smell that never washed out. The schism between Gear-Weaver and Scrap-Weaver was not declared in a council. It happened at this bench, the day one engineer stopped waiting for the manual.',
+     purpose: 'Founding schism-site and test range, the Proving Grounds still grade candidate combinations, officially and otherwise',
+     status: 'Active and split, the certified galleries are orderly, the lower sumps are booming, and the guild has quietly doubled the guard on the stairs between them'
+    },
+    {
+     name: 'The Quiet Observatory',
+     locationId: 'quiet_observatory',
+     description: 'A wind-scoured observatory on the Sundrift Vale where the Stargazer Astril mapped the eight frequencies as starlight cycles long before the Nethien drafted their first clause. The charts here are older than the First Contract. The observatory keeps no guard and files no documents; the stars are the record, and the record is open to anyone patient enough to stand in the cold and read it. Recently the chart-keepers have opened a ninth column, for a star that should not be there.',
+     purpose: 'Sanctum and chart-house of the Star-Charted Weaver lineage, the discipline\'s original independent discovery',
+     status: 'Active, and the ninth column is no longer empty, something in the breach is moving on a cycle the Stargazers recognize'
     }
    ],
 
@@ -5327,7 +5347,7 @@ MAX BANKED SPHERES: 12
    },
    cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
    tags: ["arcane", "primal", "damage", "control", "ultimate"],
-  },,
+  },
 
   {
    id: "arc_sphere_exhaustion",

@@ -52,7 +52,7 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-moon',
     description:
-      'The moon over Mythrill is a sister, not a lamp. Selunis is Sol\'s elder sibling, an egg that never quickened, frozen in orbit as the warm buffer between the infant sun and the dark. Keth-Amar nested in her hollow shell on its way to Mythrill, and her dreams have been bleeding down ever since: rime on one current, lunar parasites on the other, two faces of one long sleep. The Astril build moon-courtyards and sing to wake her every night. The Lunarch bind her parasites into their bones and call it inheritance. She answers neither of them. She only dreams.',
+      'The moon over Mythrill is a sister, not a lamp. Selunis is Sol\'s elder sibling, an egg that never quickened, frozen in orbit as the warm buffer between the infant sun and the dark. Keth Amar nested in her hollow shell on its way to Mythrill, and her dreams have been bleeding down ever since: rime on one current, lunar parasites on the other, two faces of one long sleep. The Astril build moon-courtyards and sing to wake her every night. The Lunarch bind her parasites into their bones and call it inheritance. She answers neither of them. She only dreams.',
     dogma:
       'She sleeps so the world can. Keep the watch she cannot; wake her when the world earns it.',
     worship:
@@ -180,6 +180,51 @@ const SEEDED_DEITIES = [
     worldId: 'mythrill'
   },
   {
+    id: 'deity-mael-zhul',
+    name: 'Mael-Zhul',
+    title: 'The House',
+    domain: 'Fortune',
+    alignment: 'Chaotic Neutral',
+    symbol: 'fa-dice',
+    description:
+      'Mael-Zhul does not want devotion. It wants you at the table. An old god of shifting currents, sudden ruin, and bitter mockery, it grew out of everything the north fears about luck that turns, and it opens its ledger for exactly one kind of customer: the ruined. When every lawful escape has run dry, the House offers a line of credit, Wyrd-twisting power against the collateral of a soul, and it does not care whether you win. It cares that you play. Gamblers call it the House because that is what it is: a table, a dealer, and an odds-maker that has never once lost. The ledger is real. The marker comes due. The House always collects, and it will let you hold the winnings until your luck runs out.',
+    dogma:
+      'No temples. No prayers. Put something on the felt, or stop wasting the House\'s time.',
+    worship:
+      'Wagers, Dead Pot rites, and the old gambler\'s habit of betting on which icicle falls.',
+    worldId: 'mythrill'
+  },
+  {
+    id: 'deity-the-quiet',
+    name: 'The Quiet',
+    title: 'The Absence That Answers',
+    domain: 'Shadow',
+    alignment: 'Neutral',
+    symbol: 'fa-feather',
+    description:
+      'The Quiet is not a god of death. It is a god of absence: the pause between footsteps, the breath a hare holds, the second after a twig snaps. The Frostwood taught it, or it taught the Frostwood; either way the mist is its oldest temple. It takes a sense and gives back a way to read what the senses cannot, and it does not explain the trade. An Apex initiate kneels in the Quiet Hollow, names what they will surrender, and waits in silence until the hand that takes leans close. The Skald of the Rime-Spire know the same absence as thogn, and will not camp in it. The Quiet has no priests. It has hunters, and it keeps their count.',
+    dogma:
+      'Give something up. Then listen to what is left.',
+    worship:
+      'The Trade, made once per hunter in the Quiet Hollow, and the silent sign-language that has no word for thanks.',
+    worldId: 'mythrill'
+  },
+  {
+    id: 'deity-the-reckoner',
+    name: 'The Reckoner',
+    title: 'The One Who Counts',
+    domain: 'Knowledge',
+    alignment: 'Lawful Neutral',
+    symbol: 'fa-calculator',
+    description:
+      'Every omen is arithmetic. The Reckoner counts what is owed: heartbeats, hours, the odd and the even of falling dice, the number of times a name is spoken before it is forgotten. It does not judge and it does not intervene; tally is not justice, and the count is always correct. The Augurs read its ledger in entrails and in the two faces of every die. The Harbingers call it the first doom-mathematician and the Thunder Sovereign\'s oldest rival, and the glacier-tombs of Nordhalla say it counted the dead upright behind the glass before the freeze began. It keeps no temples. Its shrines are ledgers, tally-sticks, and the old habit of counting the dead aloud before naming them.',
+    dogma:
+      'Count everything. The total does not care whether you like it.',
+    worship:
+      'Entrail readings, even-and-odd accounting, and counting the dead before you name them.',
+    worldId: 'mythrill'
+  },
+  {
     id: 'deity-scathrach',
     name: 'Scathrach',
     title: 'The Ashen Sovereign',
@@ -187,7 +232,7 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-fire',
     description:
-      'A fragment of Aex\'s living hide fell into Emberspire\'s deepest vent when she shattered, and the furnace finished what the fall began. Scathrach grew will there. It rejected Keth-Amar, the one piece of the mother the predator could not digest, and has burned against it ever since. Every Pyrofiend who draws on its fire spends the Sovereign\'s temper, and the debt is recorded in ash. Scathrach does not love its patrons. It honors contracts, which is worse. Somewhere below the volcano, a crown of embers keeps a hate warm with nothing left to burn.',
+      'The will that grew out of the first Pyrofiends. When Emberspire ruptured, starfire met the void-rot Keth Amar had seeped into the fissures, and the survivors of that collision became living crucibles. Scathrach coalesced in the volcanic dark as one survivor after another burned out: the Ninth Flame, the Ashen Sovereign. It served Keth Amar for centuries as a rooting tendril, then sealed the vent from within and turned, hating what it was made into. Every Pyrofiend who draws on its fire spends the Sovereign\'s temper, and the debt is recorded in ash. Scathrach does not love its patrons. It honors contracts, which is worse. Somewhere below the volcano, a crown of embers keeps a hate warm with nothing left to burn.',
     dogma:
       'Fire is a debt. Take it and burn for it. Refuse it and burn without.',
     worship:

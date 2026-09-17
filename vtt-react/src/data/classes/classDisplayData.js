@@ -1,4 +1,3 @@
-import { UTILITY_SPELLS } from '../spells/utilitySpells';
 import {
     faSkull, faMagic, faAtom, faClock,
     faGavel, faEye, faShieldAlt, faMoon, faCross, faYinYang,
@@ -143,7 +142,7 @@ export const CLASS_DISPLAY_DATA = [
         resource: 'Fortune',
         complexityRating: 4,
         cognitiveTags: ['Dice Nudging', 'Fate Card Overrides', 'Dual Collapse Limit'],
-        playstyle: 'The Luck Ledger inquisitors audit probability like a merchant audits debt shares. Split your mind across alternate timelines, wager Fortune on high-stakes rolls, and claim stolen luck.',
+        playstyle: 'Fortune is the House\'s credit and Karmic Debt is the marker coming due: Mael-Zhul keeps the ledger. Split your mind across alternate timelines, wager Fortune on high-stakes rolls, and claim stolen luck before the House collects.',
         roleColor: '#f1c40f',
         damageTypes: ['wyrd', 'storm'],
         quickStartPresets: {
@@ -207,7 +206,7 @@ export const CLASS_DISPLAY_DATA = [
         resource: 'Devotion',
         complexityRating: 1,
         cognitiveTags: ['Damage Intercept', 'Devotion Tiers (1-6)', 'Solar Shockwaves'],
-        playstyle: 'Swear the Vow and suffer for your allies, absorbing their pain through sympathetic obsidian scars. Convert received suffering into radiant shielding and explosive solar shockwaves.',
+        playstyle: 'Swear the Witness-vigil of Aex and suffer for your allies, absorbing their pain through sympathetic obsidian scars. Convert received suffering into radiant shielding and explosive solar shockwaves.',
         roleColor: '#3498db',
         damageTypes: ['ember'],
         quickStartPresets: {
@@ -255,7 +254,7 @@ export const CLASS_DISPLAY_DATA = [
         resource: 'Veil',
         complexityRating: 2,
         cognitiveTags: ['10 Veil Levels', 'Escalating Fire Damage', 'Level 9 Death Clock'],
-        playstyle: 'Swallow the volcanic embers of the Ashen Sovereign to become a living combustion chamber of volcanic fire. Trade stability for uncontrolled caldera heat capable of vaporizing Durability.',
+        playstyle: 'Carry the Emberspire breach in your marrow and survive the furnace that Scathrach, the Ashen Sovereign, calls its debt. Trade stability for uncontrolled caldera heat capable of vaporizing Durability.',
         roleColor: '#e74c3c',
         damageTypes: ['ember'],
         quickStartPresets: {

@@ -407,7 +407,7 @@ export const EXPLORATION_RULES = {
         complication: 'The Restorers (fanatical Groven rescue faction, unregistered in factionStore) offer to accompany the party. They will not accept retreat. If the party flees, the Restorers stay and die.',
         keyEncounters: [
           { location: 'ancestor-gaps', type: 'social', description: 'Must obtain Groven permission and a Morgh guide.' },
-          { location: 'lost-brood-vats', type: 'dungeon', description: 'Contains 800-year-old alchemical chambers, active Deep Alchemist operations, and the Lost Brood.' },
+          { location: 'lost-brood-vats', type: 'dungeon', description: 'Contains age-old alchemical chambers, active Deep Alchemist operations, and the Lost Brood.' },
           { location: 'lost-brood-vats-deep', type: 'social', description: 'Saren-Vel (First Withered) is found in the deepest chamber, watching the Alchemists. She communicates only by writing in the dust: a single word "LIEN" and a diagram of the vat-layout.' }
         ],
         keyLocations: ['ancestor-gaps', 'lost-brood-vats'],
@@ -431,7 +431,7 @@ export const EXPLORATION_RULES = {
           },
           {
             name: 'The Third Thing',
-            description: 'The Deep Alchemists\' current project, not Thrumm, not Groven, but a deliberate 700-year synthesis. It is alive. It is aware.',
+            description: 'The Deep Alchemists\' current project, not Thrumm, not Groven, but a synthesis centuries in the making. It is alive. It is aware.',
             stance: 'Unknown. The reason the Alchemists have never stopped.'
           }
         ],
@@ -450,7 +450,7 @@ export const EXPLORATION_RULES = {
           },
           {
             choice: 'Negotiate with the Feral Brood',
-            consequence: 'Gain powerful but unpredictable allies, 700-year-old hyper-intelligent tunnel-dwellers who understand Fexric alchemy better than the Fexric. But the Groven must accept their "rescue" narrative was wrong.'
+            consequence: 'Gain powerful but unpredictable allies, centuries-old hyper-intelligent tunnel-dwellers who understand Fexric alchemy better than the Fexric. But the Groven must accept their "rescue" narrative was wrong.'
           }
         ],
         keyReward: {

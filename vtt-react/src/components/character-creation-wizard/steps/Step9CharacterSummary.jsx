@@ -159,10 +159,8 @@ const getSubraceImage = (subraceId, raceId) => {
     thalren_human: 'thalren_illustration.png',
     skald_human: 'skald_illustration.png',
     tessen_human: 'tessen_illustration.png',
-    solvarn_human: 'solvarn_illustration.png',
     merryn_human: 'merryn_illustration.png',
-    ordan_human: 'ordan_illustration.png',
-    morren_human: 'morren_illustration.png'
+    ordan_human: 'ordan_illustration.png'
   };
   
   if (subraceId && mapping[subraceId]) {

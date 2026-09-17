@@ -238,11 +238,25 @@ Spellguards are reporting that their Arcane Energy Points (AEP) are filling fast
   classSpecificLocations: [
    {
     name: 'The Deflection Halls',
-    locationId: 'greymark-keep',
+    locationId: 'greymark_keep',
     description: 'A series of stone chambers beneath Greymark Keep, reinforced with lead-lined walls, where Spellguards train by absorbing controlled bursts of magical energy. The training chambers are marked by scorch patterns, residual evidence of thousands of absorbed spells. The newest chamber, built for the current crisis, is already showing signs of structural fatigue.',
     purpose: 'Training facility and radiation detox center',
     status: 'Active, operating at maximum capacity'
-   }
+    },
+      {
+     name: 'The Iron-Handed Shrine',
+     locationId: 'iron_handed_shrine',
+     description: 'A furnace shrine cut into the Harath-Vault\'s upper galleries, where Damon\'s shield is kept: a fist of slag fused to a length of forearm-bone, mounted on an anvil that has not been struck in two hundred years. Aegis recruits swear their first oath with both palms flat against the slag, and the Keepers of the Rule read Damon\'s First Rule aloud at every binding. They have stopped reading it this year; two galleries up, Thrak-Damos\'s standing order teaches recruits to absorb what cannot be dismantled, and the Keepers have not yet decided whether obedience is heresy or the Rule\'s last amendment.',
+     purpose: 'Relic shrine and oath-site of the Aegis; where the tradition\'s founding rule is kept, and where it is quietly breaking',
+     status: 'Active and divided, recruits swearing on the slag either way'
+    },
+    {
+     name: 'The Dimming Yards',
+     locationId: 'dimming_yards',
+     description: 'A row of lead-walled cooling cells in the Vulkars\' Karst badlands, built where the wind can carry an unshielded burst away from anything that matters. Spellguards who have held too much Silence Resonance are sent here to dim: a cot, a bell, and a lamp-line painted around the cell. When the glow falls below the line, they are cleared to leave. The keepers are all retired Spellguards, the only people who can stand the radiance without masks, and they do not ask the oldest residents why the bells have stopped ringing. A surveyor\'s crew has been quietly staking out ground for new rows that no one has asked for.',
+     purpose: 'Resonance quarantine and hospice; where the tradition\'s last discipline (vent or melt, but do it where the wind can take it) is practiced in silence',
+     status: 'Active and expanding, against the keepers\' stated wishes'
+    }
   ],
   combatRole: {
    title: "Combat Role",

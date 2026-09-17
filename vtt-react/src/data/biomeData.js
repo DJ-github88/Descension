@@ -733,7 +733,7 @@ export const BIOMES = [
       { range: [12, 12], type: 'combat', label: 'Mound-Awakened Ancestor', note: 'Rises from barrow. Resist slashing.' },
       { range: [13, 13], type: 'hazard', label: 'Collapsing Mound', note: 'Perception vs challenging die (d10) to spot unstable ground.' },
       { range: [14, 14], type: 'hazard', label: 'Lien-Stalk Razorgrass Field', note: 'Agility vs challenging die (d10) or 1d4 slashing per 10 feet.' },
-      { range: [15, 15], type: 'combat', label: 'Stellar Astril Agent', note: 'Echo-subdued combat. Persuasion vs difficult die (d12) to bargain.' },
+      { range: [15, 15], type: 'combat', label: 'Brutish Astril Agent', note: 'Echo-subdued combat. Persuasion vs difficult die (d12) to bargain.' },
       { range: [16, 16], type: 'combat', label: 'Wyrd-Touched Herd-Beast', note: 'Stampede risk. Animal Handling vs challenging die (d10).' },
       { range: [17, 17], type: 'discovery', label: 'Buried Synod Archive', note: 'Perception vs challenging die (d10) to spot crystal-lattice.' },
       { range: [18, 18], type: 'social', label: 'Unlit Veil Courier', note: 'Evasive. Deception vs challenging die (d10).' },

@@ -1288,7 +1288,7 @@ const WorldDashboard = () => {
                         {/* Description Preview */}
                         {faction.publicDescription && (
                           <p className="dossier-desc">
-                            {sanitizeLoreText(faction.publicDescription).slice(0, 130)}{faction.publicDescription.length > 130 ? '…' : ''}
+                            {sanitizeLoreText(faction.publicDescription)}
                           </p>
                         )}
 
@@ -1302,6 +1302,11 @@ const WorldDashboard = () => {
                           {faction.territory?.length > 0 && (
                             <span className="dossier-intel-pill holdings">
                               <i className="fas fa-mountain-sun"></i> {faction.territory.length} Holdings
+                            </span>
+                          )}
+                          {faction.minor && (
+                            <span className="dossier-intel-pill minor-power" title="A folk or culture power, not a major political actor">
+                              <i className="fas fa-feather"></i> Minor Power
                             </span>
                           )}
                         </div>
@@ -1465,7 +1470,7 @@ const WorldDashboard = () => {
                               <div>
                                 <span className="ledger-faction-title">{sanitizeLoreText(faction.name)}</span>
                                 {faction.publicGoal && (
-                                  <span className="ledger-faction-motto">{sanitizeLoreText(faction.publicGoal).slice(0, 75)}...</span>
+                                  <span className="ledger-faction-motto">{sanitizeLoreText(faction.publicGoal)}</span>
                                 )}
                               </div>
                             </div>
@@ -1614,7 +1619,7 @@ const WorldDashboard = () => {
                     </div>
                     
                     <p className="world-card-meta" style={{ margin: '4px 0', fontSize: '12.5px', color: '#4a2810', lineHeight: 1.5 }}>
-                      {lineage.cardFlavor || (lineage.description ? lineage.description.slice(0, 120) + '...' : 'An ancient lineage of Mythrill.')}
+                      {lineage.cardFlavor || (lineage.description ? lineage.description : 'An ancient lineage of Mythrill.')}
                     </p>
 
                     <div className="lineage-card-stats-strip">
@@ -1756,13 +1761,13 @@ const WorldDashboard = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           <button
                             type="button"
-                            className="world-mini-map-btn"
+                            className="world-mini-map-btn class-card-extinct-toggle"
                             title={cls.isExtinct ? "Restore calling to active in this world" : "Mark calling as extinct / lost in this world"}
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleClassStatus(cls.id, activeWorldId);
                             }}
-                            style={{ width: '26px', height: '26px', fontSize: '11px', color: cls.isExtinct ? '#27ae60' : '#c0392b' }}
+                            style={{ color: cls.isExtinct ? '#27ae60' : '#c0392b' }}
                           >
                             <i className={`fas ${cls.isExtinct ? 'fa-rotate-left' : 'fa-ban'}`}></i>
                           </button>
@@ -1790,7 +1795,7 @@ const WorldDashboard = () => {
                       </div>
 
                       <p className="class-origin-snippet">
-                        {profile?.loreSnippet || cls.description?.slice(0, 140) + '...'}
+                        {profile?.loreSnippet || cls.description}
                       </p>
 
                       <div className="class-card-footer">

@@ -1,5 +1,7 @@
 # MYTHRILL BESTIARY LORE PLAN
 
+> **HISTORICAL — superseded.** This document was written against an older, hard-dated timeline (Year 0/300/325/475 and the ~800-year audits). Canon is now **era-relative**: see `vtt-react/src/store/timelineStore.js` and LORE_STYLE_GUIDE Rule 8 — no hard years anywhere, in text or UI. Use for reference only.
+
 **Status:** Source-of-truth planning draft; proposed canon, not yet merged into the canonical framework or runtime data.
 
 **Purpose:** Rebuild the Mythrill bestiary as a deliberate worldbuilding layer. Each creature must be a real inhabitant, spirit, lineage, construct, death-form, or later invader with a specific place in Mythrill rather than a generic monster produced by a universal rule.

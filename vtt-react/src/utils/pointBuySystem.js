@@ -320,7 +320,7 @@ export const getSubraceBonusPoints = (raceId, subraceId) => {
  * Check if a class/race/subrace combination is compatible based on class restrictions.
  * Source of truth is the class data files (ALL_CLASSES_DATA).
  */
-const isClassCompatible = (className, raceId, subraceId) => {
+export const isClassCompatible = (className, raceId, subraceId) => {
     if (!raceId) return true;
 
     // Normalize: strip specialization suffix (e.g., 'Martyr (Ironclad)' -> 'Martyr')
