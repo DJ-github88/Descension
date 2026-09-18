@@ -698,15 +698,25 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     [customPositions, defaultPositions]
   );
 
-  // Auto-fit visible nodes to the screen
-  const handleFitToScreen = useCallback(() => {
+  // Auto-fit visible nodes (or active isolated pathway) to the screen
+  const handleFitToScreen = useCallback((targetNodeId = null) => {
     if (!containerRef.current || visibleNodes.length === 0) return;
     const rect = containerRef.current.getBoundingClientRect();
     const vWidth = rect.width || 1100;
     const vHeight = rect.height || 720;
 
+    let relevantNodes = visibleNodes;
+    const focusId = targetNodeId || selectedNodeId;
+    if (focusId && pathwayData.hasActivePathway) {
+      const activeIds = new Set([focusId, ...pathwayData.degree1Set, ...pathwayData.degree2Set]);
+      const isolated = visibleNodes.filter((n) => activeIds.has(n.id));
+      if (isolated.length > 0) {
+        relevantNodes = isolated;
+      }
+    }
+
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    visibleNodes.forEach((n) => {
+    relevantNodes.forEach((n) => {
       const pos = customPositionsRef.current[n.id] || defaultPositions[n.id] || { x: CX, y: CY };
       if (pos.x < minX) minX = pos.x;
       if (pos.x > maxX) maxX = pos.x;
@@ -718,11 +728,12 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
       minX = CX - 300; maxX = CX + 300; minY = CY - 200; maxY = CY + 200;
     }
 
-    const padding = 160;
-    const bWidth = Math.max(maxX - minX + padding * 2, 600);
-    const bHeight = Math.max(maxY - minY + padding * 2, 450);
+    const padding = focusId ? 220 : 160;
+    const bWidth = Math.max(maxX - minX + padding * 2, 500);
+    const bHeight = Math.max(maxY - minY + padding * 2, 400);
 
-    const fitZoom = Math.max(0.25, Math.min(1.2, Math.min(vWidth / bWidth, vHeight / bHeight)));
+    const maxAllowedZoom = focusId ? 1.05 : 1.2;
+    const fitZoom = Math.max(0.25, Math.min(maxAllowedZoom, Math.min(vWidth / bWidth, vHeight / bHeight)));
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
 
@@ -734,15 +745,15 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
 
     setZoomLevel(newZoom);
     setPanOffset(newPan);
-  }, [visibleNodes, defaultPositions]);
+  }, [visibleNodes, defaultPositions, selectedNodeId, pathwayData]);
 
-  // Re-fit when user alters active filters, layout mode, or search (or when focused node changes in pathway layout)
+  // Re-fit when user alters active filters, layout mode, search, or when a faction is selected
   useEffect(() => {
     const timer = setTimeout(() => {
       handleFitToScreen();
     }, 60);
     return () => clearTimeout(timer);
-  }, [activeTypeFilters, activeRelFilter, layoutMode, hideDisconnected, layoutMode === 'pathway' ? selectedNodeId : null]);
+  }, [activeTypeFilters, activeRelFilter, layoutMode, hideDisconnected, selectedNodeId]);
 
   const handleResetLayout = () => {
     setCustomPositions({});
@@ -1327,6 +1338,23 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
               <option value="orbital">Orbital Rings</option>
               <option value="pathway">Pathway Focus (Radial)</option>
             </select>
+
+            <select
+              value={selectedNodeId && selectedNodeId.startsWith('faction:') ? selectedNodeId : ''}
+              onChange={(e) => {
+                if (e.target.value) handleSelectNode(e.target.value);
+                else setSelectedNodeId(null);
+              }}
+              className="pathfinder-select faction-quick-picker"
+              title="Select a Realm Faction to isolate its political pathway"
+            >
+              <option value="">⚜️ Trace Faction Pathway...</option>
+              {factions.map((f) => (
+                <option key={f.id} value={`faction:${f.id}`}>
+                  {f.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <button
@@ -1369,6 +1397,14 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
         className={`pathfinder-canvas-container ${isPanning ? 'panning' : ''} ${linkingSourceNodeId ? 'linking-mode' : ''} ${strictPathway ? 'strict-pathway' : ''}`}
         onMouseDown={handleMouseDown}
       >
+        {/* Ambient RPG Prompt when no pathway is active */}
+        {!pathwayData.hasActivePathway && (
+          <div className="pathway-canvas-hint">
+            <i className="fas fa-compass"></i>
+            <span>Select any realm faction to illuminate its political pathway</span>
+          </div>
+        )}
+
         {/* Floating Canvas HUD Controls */}
         <div className="pathfinder-floating-hud">
           <button
@@ -1526,14 +1562,16 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
                     if (onEntityDoubleClick) onEntityDoubleClick(node);
                   }}
                 >
-                  <div className="node-crest-seal">
-                    {node.imageUrl ? (
-                      <img src={node.imageUrl} alt={node.name} onError={(e) => { e.target.style.display = 'none'; }} />
-                    ) : (
-                      <i className={`fas ${node.icon}`}></i>
-                    )}
+                  <div className="sigil-crest-coin">
+                    <div className="sigil-metallic-rim">
+                      {node.imageUrl ? (
+                        <img src={node.imageUrl} alt={node.name} onError={(e) => { e.target.style.display = 'none'; }} />
+                      ) : (
+                        <i className={`fas ${node.icon}`}></i>
+                      )}
+                    </div>
                   </div>
-                  <div className="node-content-stack">
+                  <div className="sigil-name-ribbon">
                     <div className="node-title-row">
                       <span className="node-name-text">{node.name}</span>
                       {isDegree0 && <span className="pathway-indicator-badge root" title="Focal Root Faction">ROOT</span>}

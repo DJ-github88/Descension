@@ -61,10 +61,10 @@ describe('UniversalEntityGraph - Faction Pathway Network', () => {
 
   it('renders all factions on initial view without active pathway dimming', () => {
     const { container } = render(<UniversalEntityGraph />);
-    expect(screen.getByText('Order of the Dawn')).toBeInTheDocument();
-    expect(screen.getByText('Ironwood Guild')).toBeInTheDocument();
-    expect(screen.getByText('Shadow Syndicate')).toBeInTheDocument();
-    expect(screen.getByText('Solitary Hermits')).toBeInTheDocument();
+    expect(container.querySelector('[data-node-id="faction:faction-a"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-node-id="faction:faction-b"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-node-id="faction:faction-c"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-node-id="faction:faction-d"]')).toBeInTheDocument();
 
     // No pathway root should be active before clicking
     expect(container.querySelectorAll('.pathway-root').length).toBe(0);
@@ -72,7 +72,7 @@ describe('UniversalEntityGraph - Faction Pathway Network', () => {
 
   it('activates multi-tier pathway when clicking Faction A (Root -> 1st -> 2nd -> Distant)', () => {
     const { container } = render(<UniversalEntityGraph />);
-    const nodeA = screen.getByText('Order of the Dawn').closest('.pathfinder-graph-node');
+    const nodeA = container.querySelector('[data-node-id="faction:faction-a"]');
 
     fireEvent.click(nodeA);
 
@@ -128,9 +128,22 @@ describe('UniversalEntityGraph - Faction Pathway Network', () => {
     expect(nodeC).toHaveClass('pathway-degree-2');
   });
 
+  it('activates pathway via quick faction selector dropdown in toolbar', () => {
+    const { container } = render(<UniversalEntityGraph />);
+    const pathwaySelect = screen.getByTitle('Select a Realm Faction to isolate its political pathway');
+
+    fireEvent.change(pathwaySelect, { target: { value: 'faction:faction-a' } });
+
+    const nodeA = container.querySelector('[data-node-id="faction:faction-a"]');
+    expect(nodeA).toHaveClass('pathway-root');
+
+    const nodeB = container.querySelector('[data-node-id="faction:faction-b"]');
+    expect(nodeB).toHaveClass('pathway-degree-1');
+  });
+
   it('toggles strict isolate mode to completely hide distant nodes', () => {
     const { container } = render(<UniversalEntityGraph />);
-    const nodeA = screen.getByText('Order of the Dawn').closest('.pathfinder-graph-node');
+    const nodeA = container.querySelector('[data-node-id="faction:faction-a"]');
     fireEvent.click(nodeA);
 
     const isolateBtn = screen.getByRole('button', { name: /Isolate/i });

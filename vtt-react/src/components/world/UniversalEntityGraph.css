@@ -324,16 +324,52 @@
   overflow: hidden;
   cursor: grab;
   touch-action: none;
-  background-color: #160f0a;
+  background-color: #0e0804;
   background-image: 
-    radial-gradient(circle at center, rgba(139, 90, 26, 0.08) 0%, transparent 70%),
+    radial-gradient(circle at center, rgba(184, 134, 11, 0.12) 0%, transparent 65%),
+    radial-gradient(circle at center, transparent 380px, rgba(184, 134, 11, 0.04) 381px, transparent 383px),
+    radial-gradient(circle at center, transparent 720px, rgba(184, 134, 11, 0.04) 721px, transparent 723px),
     linear-gradient(rgba(139, 90, 26, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(139, 90, 26, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
 }
 
 .pathfinder-canvas-container.panning {
   cursor: grabbing !important;
+}
+
+/* Ambient RPG Canvas Prompt */
+.pathway-canvas-hint {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(22, 13, 7, 0.88);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 20px;
+  padding: 6px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  letter-spacing: 0.5px;
+  color: #e6c88b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 20;
+  pointer-events: none;
+  animation: promptGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes promptGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 22px rgba(212, 175, 55, 0.55);
+    border-color: rgba(255, 215, 0, 0.7);
+  }
 }
 
 .pathfinder-canvas-stage {
@@ -363,48 +399,49 @@
 
 .graph-edge-group line {
   pointer-events: stroke;
+  stroke-linecap: round;
 }
 
 .graph-edge-group.dimmed {
   opacity: 0.12;
 }
 
-/* Degree 1 Pathway Edges (Direct Connections) */
+/* Degree 1 Pathway Edges (Direct Connections - zys) */
 .graph-edge-group.pathway-edge-1 {
   opacity: 1 !important;
 }
 
 .graph-edge-group.pathway-edge-1 .edge-line {
-  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.7));
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.85));
 }
 
-/* Degree 2 Pathway Edges (Secondary Connections) */
+/* Degree 2 Pathway Edges (Secondary Connections - ysad: FADED BUT VISIBLE) */
 .graph-edge-group.pathway-edge-2 {
-  opacity: 0.48;
+  opacity: 0.35 !important;
+}
+
+.graph-edge-group.pathway-edge-2 .edge-line {
+  stroke-dasharray: 4,4;
 }
 
 .graph-edge-group.pathway-edge-2:hover {
-  opacity: 0.95;
+  opacity: 0.9 !important;
 }
 
-/* Distant Pathway Edges */
+/* Distant Pathway Edges: Completely INVISIBLE */
 .graph-edge-group.pathway-edge-distant {
-  opacity: 0.025;
-  pointer-events: none;
-}
-
-.pathfinder-canvas-container.strict-pathway .graph-edge-group.pathway-edge-distant {
-  opacity: 0;
-  display: none;
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .graph-edge-group.hovered .edge-line {
-  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.95)) !important;
+  filter: drop-shadow(0 0 7px rgba(255, 215, 0, 0.95)) !important;
   opacity: 1 !important;
 }
 
 .edge-line {
-  transition: stroke-width 0.15s ease, stroke 0.15s ease;
+  transition: stroke-width 0.15s ease, stroke 0.15s ease, opacity 0.2s ease;
 }
 
 .edge-label-pill {
@@ -469,142 +506,259 @@
 }
 
 /* ==========================================================================
-   Node Badges (Crisp Parchment Cards with Antique Borders)
+   RPG Heraldic Sigils & Wax Seals (Replaces bulky rectangular cards)
    ========================================================================== */
 .pathfinder-graph-node {
   position: absolute;
   transform: translate(-50%, -50%);
-  background: #fcf9f2;
-  border: 1.5px solid var(--node-color, #a07138);
-  border-left: 2px solid var(--node-color, #a07138);
-  border-radius: 6px;
-  padding: 6px 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(139, 90, 26, 0.08);
-  cursor: grab;
-  transition: box-shadow 0.15s, transform 0.15s, opacity 0.2s;
-  min-width: 130px;
-  max-width: 220px;
-  z-index: 10;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 12;
   pointer-events: auto;
   user-select: none;
   -webkit-user-select: none;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease, filter 0.25s ease;
 }
 
-.pathfinder-graph-node:hover {
-  transform: translate(-50%, -50%) scale(1.06);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(139, 90, 26, 0.15);
-  border-color: #5c140e;
-  z-index: 25;
-}
-
-.pathfinder-graph-node.selected {
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 0 3.5px rgba(212, 175, 55, 0.65), 0 0 20px rgba(212, 175, 55, 0.4), 0 8px 24px rgba(0, 0, 0, 0.7);
-  background: #fffdf9;
-  z-index: 35;
-}
-
-.pathfinder-graph-node.dimmed {
-  opacity: 0.18;
-  filter: grayscale(0.6);
-}
-
-/* Multi-tier Pathway Node Styling */
-.pathfinder-graph-node.pathway-root {
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.75), 0 0 26px rgba(212, 175, 55, 0.45), 0 8px 25px rgba(0, 0, 0, 0.75) !important;
-  background: #fffdf8 !important;
-  z-index: 36 !important;
-  opacity: 1 !important;
-  transform: translate(-50%, -50%) scale(1.05);
-}
-
-.pathfinder-graph-node.pathway-degree-1 {
-  opacity: 1 !important;
-  border-color: var(--node-color, #8b5a1a);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(212, 175, 55, 0.25);
-  z-index: 25;
-}
-
-.pathfinder-graph-node.pathway-degree-1:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.7), 0 0 14px rgba(212, 175, 55, 0.5);
-  z-index: 30;
-}
-
-/* Degree 2: Greyed out a bit, secondary tier */
-.pathfinder-graph-node.pathway-degree-2 {
-  opacity: 0.56;
-  filter: grayscale(0.35);
-  border-style: dashed;
-  border-width: 1.5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  z-index: 15;
-  transition: all 0.2s ease;
-}
-
-.pathfinder-graph-node.pathway-degree-2:hover {
-  opacity: 1;
-  filter: grayscale(0);
-  border-style: solid;
-  transform: translate(-50%, -50%) scale(1.06);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  z-index: 28;
-}
-
-/* Distant Nodes: Heavy Fade ("That's it") */
-.pathfinder-graph-node.pathway-distant {
-  opacity: 0.07;
-  filter: grayscale(0.85);
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity 0.25s ease;
-}
-
-.pathfinder-canvas-container.strict-pathway .pathfinder-graph-node.pathway-distant {
-  opacity: 0;
-  pointer-events: none;
-  display: none;
-}
-
-.node-crest-seal {
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  border: 1px solid rgba(139, 90, 26, 0.3);
-  background: var(--node-crest-bg, #f5edd9);
-  color: var(--node-color, #8b261e);
+/* Circular Heraldic Sigil Medallion */
+.sigil-crest-coin {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2a1a11 0%, #130a05 100%);
+  border: 2px solid var(--node-color, #a07138);
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.8),
+    inset 0 0 10px rgba(0, 0, 0, 0.85),
+    0 4px 14px rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
   flex-shrink: 0;
-  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
-.node-crest-seal img {
+.sigil-metallic-rim {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--node-crest-bg, #29160e);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--node-color, #e0aa4c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.sigil-metallic-rim img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.node-content-stack {
+/* Antique Nameplate Ribbon below seal */
+.sigil-name-ribbon {
+  margin-top: 5px;
+  background: linear-gradient(180deg, #fbf7ee 0%, #ede3d1 100%);
+  border: 1px solid #8b5a1a;
+  border-radius: 4px;
+  padding: 2px 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5), inset 0 0 6px rgba(139, 90, 26, 0.1);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  flex: 1;
+  align-items: center;
+  white-space: nowrap;
+  max-width: 170px;
+  transition: all 0.2s ease;
 }
 
 .node-title-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 5px;
 }
 
+.node-name-text {
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #2b1408;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 155px;
+  line-height: 1.2;
+}
+
+.node-type-badge {
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #7a5028;
+  margin-top: 1px;
+}
+
+/* Hover effects */
+.pathfinder-graph-node:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  z-index: 35;
+}
+
+.pathfinder-graph-node:hover .sigil-crest-coin {
+  border-color: #ffd700;
+  box-shadow: 
+    0 0 0 2px #d4af37,
+    0 0 20px rgba(212, 175, 55, 0.65),
+    0 8px 24px rgba(0, 0, 0, 0.85);
+}
+
+.pathfinder-graph-node:hover .sigil-name-ribbon {
+  background: #ffffff;
+  border-color: #d4af37;
+  transform: translateY(2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Selected Node */
+.pathfinder-graph-node.selected {
+  z-index: 40;
+}
+
+.pathfinder-graph-node.selected .sigil-crest-coin {
+  border-color: #d4af37 !important;
+  box-shadow: 
+    0 0 0 3px rgba(212, 175, 55, 0.7),
+    0 0 24px rgba(212, 175, 55, 0.5),
+    0 8px 25px rgba(0, 0, 0, 0.8);
+}
+
+/* Multi-tier Pathway Hierarchy */
+
+/* Degree 0: Root Faction (X) */
+.pathfinder-graph-node.pathway-root {
+  z-index: 45 !important;
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.pathfinder-graph-node.pathway-root .sigil-crest-coin {
+  width: 58px;
+  height: 58px;
+  border-width: 2.5px;
+  border-color: #ffd700 !important;
+  box-shadow: 
+    0 0 0 3px rgba(212, 175, 55, 0.8),
+    0 0 32px rgba(255, 215, 0, 0.6),
+    0 10px 30px rgba(0, 0, 0, 0.9) !important;
+  animation: rootSigilPulse 2.5s infinite ease-in-out;
+}
+
+.pathfinder-graph-node.pathway-root .sigil-metallic-rim {
+  width: 44px;
+  height: 44px;
+  font-size: 19px;
+  background: radial-gradient(circle, #3e2617 0%, #1e1008 100%);
+  border-color: #ffd700;
+}
+
+.pathfinder-graph-node.pathway-root .sigil-name-ribbon {
+  background: linear-gradient(180deg, #fffdf8 0%, #f7ecd7 100%);
+  border: 1.5px solid #d4af37;
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.45), 0 4px 16px rgba(0, 0, 0, 0.7);
+  padding: 3px 10px;
+}
+
+.pathfinder-graph-node.pathway-root .node-name-text {
+  font-size: 12.5px;
+  color: #1a0b04;
+  font-weight: 800;
+}
+
+@keyframes rootSigilPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 3px rgba(212, 175, 55, 0.8),
+      0 0 24px rgba(255, 215, 0, 0.5),
+      0 10px 30px rgba(0, 0, 0, 0.9);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 4.5px rgba(255, 215, 0, 0.95),
+      0 0 38px rgba(255, 215, 0, 0.8),
+      0 12px 36px rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Degree 1: Direct Ties (zys) - Crisp, full visibility */
+.pathfinder-graph-node.pathway-degree-1 {
+  z-index: 25;
+  opacity: 1 !important;
+}
+
+.pathfinder-graph-node.pathway-degree-1 .sigil-crest-coin {
+  width: 46px;
+  height: 46px;
+  border-color: var(--node-color, #d4af37);
+  box-shadow: 
+    0 0 0 1.5px rgba(212, 175, 55, 0.5),
+    0 0 16px rgba(212, 175, 55, 0.3),
+    0 6px 18px rgba(0, 0, 0, 0.7);
+}
+
+/* Degree 2: Secondary Ties (ysad) - FADED BUT VISIBLE */
+.pathfinder-graph-node.pathway-degree-2 {
+  z-index: 15;
+  opacity: 0.45 !important;
+  filter: grayscale(0.3);
+  transition: opacity 0.25s ease, filter 0.25s ease, transform 0.2s ease;
+}
+
+.pathfinder-graph-node.pathway-degree-2 .sigil-crest-coin {
+  width: 36px;
+  height: 36px;
+  border-style: dashed;
+}
+
+.pathfinder-graph-node.pathway-degree-2 .sigil-metallic-rim {
+  width: 26px;
+  height: 26px;
+  font-size: 11px;
+}
+
+.pathfinder-graph-node.pathway-degree-2 .sigil-name-ribbon {
+  opacity: 0.85;
+  padding: 1px 6px;
+}
+
+.pathfinder-graph-node.pathway-degree-2 .node-name-text {
+  font-size: 10px;
+}
+
+.pathfinder-graph-node.pathway-degree-2:hover {
+  opacity: 1 !important;
+  filter: grayscale(0) !important;
+  z-index: 32;
+  transform: translate(-50%, -50%) scale(1.14);
+}
+
+/* Distant / Unrelated Nodes: Completely INVISIBLE ("They should get invisible") */
+.pathfinder-graph-node.pathway-distant {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Pathway indicator badges */
 .pathway-indicator-badge {
   font-family: 'Cinzel', serif;
   font-size: 8px;
@@ -631,26 +785,6 @@
 .pathway-indicator-badge.d2 {
   background: rgba(120, 100, 80, 0.15);
   color: #7a6552;
-}
-
-.node-name-text {
-  font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: #2b1408;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
-}
-
-.node-type-badge {
-  font-size: 9.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #6e4823;
-  margin-top: 1px;
 }
 
 /* ==========================================================================
