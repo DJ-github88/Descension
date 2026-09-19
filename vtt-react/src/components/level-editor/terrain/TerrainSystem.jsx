@@ -285,7 +285,8 @@ const TerrainSystem = () => {
     drawingLayers,
     viewingFromToken,
     visibleArea,
-    isGMMode
+    isGMMode,
+    terrain3DEnabled
   } = useLevelEditorStore();
 
   const {
@@ -712,23 +713,25 @@ const TerrainSystem = () => {
             targetCtx.clip();
 
             if (terrain) {
-              if (terrain.tileVariations && terrain.tileVariations.length > 0) {
-                const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
-                if (!imageCache[tileVariationPath]) {
-                  const img = new Image();
-                  pendingImageLoadsRef.current++;
-                  img.onload = () => batchTerrainVersionBump();
-                  img.src = `${tileVariationPath}?v=35`;
-                  imageCache[tileVariationPath] = img;
+              if (!terrain3DEnabled) {
+                if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+                  const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+                  if (!imageCache[tileVariationPath]) {
+                    const img = new Image();
+                    pendingImageLoadsRef.current++;
+                    img.onload = () => batchTerrainVersionBump();
+                    img.src = `${tileVariationPath}?v=35`;
+                    imageCache[tileVariationPath] = img;
+                  }
+                  const img = imageCache[tileVariationPath];
+                  if (img.complete && img.naturalWidth > 0) {
+                    targetCtx.drawImage(img, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
+                  }
+                } else {
+                  drawTerrainTexture(targetCtx, terrain, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY, q, r);
                 }
-                const img = imageCache[tileVariationPath];
-                if (img.complete && img.naturalWidth > 0) {
-                  targetCtx.drawImage(img, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
-                }
-              } else {
-                drawTerrainTexture(targetCtx, terrain, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY, q, r);
               }
-            } else {
+            } else if (!terrain3DEnabled) {
               // Untextured elevated hex: flat fill using the current clipped hex path
               // (pits use a darker solid tone so they read as sunken ground)
               targetCtx.fillStyle = hexElevationLevel < 0 ? 'rgb(44, 40, 36)' : defaultGroundFill;
@@ -1091,23 +1094,25 @@ const TerrainSystem = () => {
             targetCtx.setTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f + elevationScreenOffset);
 
             if (terrain) {
-              if (terrain.tileVariations && terrain.tileVariations.length > 0) {
-                const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
-                if (!imageCache[tileVariationPath]) {
-                  const img = new Image();
-                  pendingImageLoadsRef.current++;
-                  img.onload = () => batchTerrainVersionBump();
-                  img.src = `${tileVariationPath}?v=35`;
-                  imageCache[tileVariationPath] = img;
+              if (!terrain3DEnabled) {
+                if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+                  const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+                  if (!imageCache[tileVariationPath]) {
+                    const img = new Image();
+                    pendingImageLoadsRef.current++;
+                    img.onload = () => batchTerrainVersionBump();
+                    img.src = `${tileVariationPath}?v=35`;
+                    imageCache[tileVariationPath] = img;
+                  }
+                  const img = imageCache[tileVariationPath];
+                  if (img.complete && img.naturalWidth > 0) {
+                    targetCtx.drawImage(img, worldX, worldY, gridSize, gridSize);
+                  }
+                } else {
+                  drawTerrainTexture(targetCtx, terrain, worldX, worldY, gridSize, gridSize, gridX, gridY);
                 }
-                const img = imageCache[tileVariationPath];
-                if (img.complete && img.naturalWidth > 0) {
-                  targetCtx.drawImage(img, worldX, worldY, gridSize, gridSize);
-                }
-              } else {
-                drawTerrainTexture(targetCtx, terrain, worldX, worldY, gridSize, gridSize, gridX, gridY);
               }
-            } else {
+            } else if (!terrain3DEnabled) {
               // Untextured elevated ground: flat fill so plateaus read as solid
               // (de-elevated ground uses a darker solid tone so pits read as holes)
               targetCtx.fillStyle = elevationLevel < 0 ? 'rgb(44, 40, 36)' : defaultGroundFill;

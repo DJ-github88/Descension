@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './TimelineDisplay.css';
 import useTimelineStore from '../../store/timelineStore';
 
@@ -12,16 +12,21 @@ const getEventArt = (title) => {
 const TimelineDisplay = () => {
  const E = useTimelineStore(state => state.getEraTimeline());
  const [showDMNotes, setShowDMNotes] = useState(false);
- const [expandedEras, setExpandedEras] = useState(E.map(() => true));
+ // Collapsed era ids only. Storing which eras are collapsed (instead of an
+ // expanded-flags array synced from `E`) keeps this state independent of the
+ // fresh array identity that getEraTimeline() returns on every render.
+ const [collapsedEras, setCollapsedEras] = useState(() => new Set());
 
- useEffect(() => {
-  setExpandedEras(E.map(() => true));
- }, [E]);
-
- const toggleEra = (idx) => {
-  const next = [...expandedEras];
-  next[idx] = !next[idx];
-  setExpandedEras(next);
+ const toggleEra = (eraId) => {
+  setCollapsedEras(prev => {
+   const next = new Set(prev);
+   if (next.has(eraId)) {
+    next.delete(eraId);
+   } else {
+    next.add(eraId);
+   }
+   return next;
+  });
  };
 
  const runicDiamond = '\u25C6';
@@ -65,14 +70,14 @@ const TimelineDisplay = () => {
         <div className="timeline-spine" />
 
         {E.map((era, ei) => {
-          const expanded = expandedEras[ei];
+          const expanded = !collapsedEras.has(era.id);
           const isLast = ei === E.length - 1;
 
           return (
-            <div key={ei} className={`timeline-era-block ${isLast ? 'last' : ''}`}>
+            <div key={era.id} className={`timeline-era-block ${isLast ? 'last' : ''}`}>
               {/* Era plaque header */}
               <div
-                onClick={() => toggleEra(ei)}
+                onClick={() => toggleEra(era.id)}
                 className="timeline-era-header"
               >
                 {/* Custom Wax-Sealed Node */}

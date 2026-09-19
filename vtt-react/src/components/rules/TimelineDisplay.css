@@ -253,6 +253,8 @@
   transition: all 0.25s ease;
   box-sizing: border-box;
   width: 100%;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
 }
 
 .timeline-card:hover {

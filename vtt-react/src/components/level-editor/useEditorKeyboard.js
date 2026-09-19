@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import useLevelEditorStore from '../../store/levelEditorStore';
 
 /**
  * Custom hook for editor keyboard shortcuts.
@@ -93,6 +94,15 @@ export const useEditorKeyboard = ({
                 case 'delete':
                 case 'backspace':
                     e.preventDefault();
+                    // First check if any environmental objects are selected
+                    {
+                        const editorState = useLevelEditorStore.getState();
+                        const selectedEnvObjs = (editorState.environmentalObjects || []).filter(o => o.selected);
+                        if (selectedEnvObjs.length > 0) {
+                            selectedEnvObjs.forEach(o => editorState.removeEnvironmentalObject(o.id, getExplicitCurrentMapId()));
+                            return;
+                        }
+                    }
                     if (selectedTool === 'wall_select' && isObjectLocked) {
                         if (selectedWindow) {
                             removeWindowOverlay(selectedWindow.gridX, selectedWindow.gridY, getExplicitCurrentMapId());

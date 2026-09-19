@@ -25,6 +25,7 @@ import CanvasGridRenderer from "./grid/CanvasGridRenderer";
 import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
 import VTTDrawingEngine from "./level-editor/VTTDrawingEngine";
 import TerrainSystem from "./level-editor/terrain/TerrainSystem";
+import ThreeDWorldLayer from "./level-editor/three/ThreeDWorldLayer";
 import ObjectSystem from "./level-editor/objects/ObjectSystem";
 import TileOverlay from "./level-editor/TileOverlay";
 import LightSourceOverlay from "./level-editor/LightSourceOverlay";
@@ -176,6 +177,7 @@ function GridComponent({
 }) {
  // CRITICAL FIX: Subscribe to activeMovement from combatStore for reactive movement visualization
  const activeMovement = useCombatStore(state => state.activeMovement);
+ const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
 
  // Calculate effective zoom early (GM zoom * player zoom) - memoized for performance
  const effectiveZoom = useMemo(() => zoomLevel * playerZoom, [zoomLevel, playerZoom]);
@@ -304,11 +306,12 @@ function GridComponent({
  const gridSystem = useMemo(() => createGridSystem(gameStore), [gameStore]);
 
   // Make gameStore, gridSystem, and levelEditorStore available globally for components that need it
-  useEffect(() => {
-   window.gameStore = gameStore;
-   window.gridSystem = gridSystem;
-   window.useLevelEditorStore = useLevelEditorStore;
-  }, [gameStore, gridSystem]);
+   useEffect(() => {
+    window.gameStore = gameStore;
+    window.gridSystem = gridSystem;
+    window.useGameStore = useGameStore;
+    window.useLevelEditorStore = useLevelEditorStore;
+   }, [gameStore, gridSystem]);
 
   // Camera orbit hotkeys: [ / ] rotate (hold Shift to snap to 45deg steps)
   useEffect(() => {
@@ -3607,8 +3610,8 @@ function GridComponent({
     {/* Canvas Wall System - High-performance canvas-based wall rendering with FOV support */}
     <CanvasWallSystem />
 
-    {/* SVG Wall Layer - vector wall prisms for 2.5D / rotated camera views */}
-    <SvgWallLayer />
+    {/* SVG Wall Layer - vector wall prisms for 2.5D / rotated camera views (only active if 3D modular walls disabled) */}
+    {!walls3DEnabled && <SvgWallLayer />}
 
     {/* Wall Overlay - Invisible hit areas for door interactions only */}
     <WallOverlay />
@@ -3756,6 +3759,9 @@ function GridComponent({
 
     {/* Professional Terrain System - Renders terrain on the grid */}
     <TerrainSystem />
+
+    {/* Three.js 3D World Layer - Renders 3D models for props, modular 3D walls, and ghost previews */}
+    <ThreeDWorldLayer />
 
     {/* Professional Object System - Renders objects like lights, trees, etc */}
     <ObjectSystem />

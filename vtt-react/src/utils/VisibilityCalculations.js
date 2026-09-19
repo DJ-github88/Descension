@@ -86,20 +86,32 @@ function getWallEdgeIndex(wallData, windowOverlays) {
  * @returns {Array} Array of {x, y} coordinates along the line
  */
 export function getLineOfSight(x0, y0, x1, y1) {
+  // Tile-space Bresenham. Callers may hand us fractional sample coordinates
+  // (e.g. shadow sampling around a light target); without integer snapping the
+  // `x === x1 && y === y1` termination test can never be met and the walk
+  // grows until it throws "Invalid array length". Snap to tiles and cap the
+  // step count as a safety net.
+  const ix0 = Math.floor(Number(x0) || 0);
+  const iy0 = Math.floor(Number(y0) || 0);
+  const ix1 = Math.floor(Number(x1) || 0);
+  const iy1 = Math.floor(Number(y1) || 0);
+
   const points = [];
-  const dx = Math.abs(x1 - x0);
-  const dy = Math.abs(y1 - y0);
-  const sx = x0 < x1 ? 1 : -1;
-  const sy = y0 < y1 ? 1 : -1;
+  const dx = Math.abs(ix1 - ix0);
+  const dy = Math.abs(iy1 - iy0);
+  const sx = ix0 < ix1 ? 1 : -1;
+  const sy = iy0 < iy1 ? 1 : -1;
   let err = dx - dy;
+  const maxSteps = dx + dy + 2;
 
-  let x = x0;
-  let y = y0;
+  let x = ix0;
+  let y = iy0;
 
-  while (true) {
+  for (let step = 0; step <= maxSteps; step += 1) {
     points.push({ x, y });
 
-    if (x === x1 && y === y1) break;
+    if (x === ix1 && y === iy1) break;
+    if (step === maxSteps) break;
 
     const e2 = 2 * err;
     if (e2 > -dy) {
@@ -495,7 +507,7 @@ function fallbackRaymarchVisibility(originX, originY, visionRange, wallData, gri
  * @param {Object} gridSystem - Grid system instance (required for hex walls)
  * @returns {Array} Array of {x, y} points forming the visibility polygon
  */
-export function calculateVisibilityPolygon(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}, gridType = 'square', gridSystem = null) {
+export function calculateVisibilityPolygon(originX, originY, visionRange, wallData, gridSize, gridOffsetX, gridOffsetY, fovAngle = 360, facingAngle = null, windowOverlays = {}, gridType = 'square', gridSystem = null, environmentalObjects = []) {
   const maxRange = (visionRange || 6) * gridSize;
   if (!maxRange || maxRange <= 0) return [];
 
@@ -565,6 +577,41 @@ export function calculateVisibilityPolygon(originX, originY, visionRange, wallDa
 
           segments.push([[worldX1, worldY1], [worldX2, worldY2]]);
         }
+      }
+    }
+
+    // 3. Extract vision-blocking environmental objects (boulders, trees, crates, pillars, walls)
+    if (environmentalObjects && environmentalObjects.length > 0) {
+      for (const obj of environmentalObjects) {
+        if (!obj) continue;
+        const blocksSight = obj.blocksLineOfSight !== undefined
+          ? obj.blocksLineOfSight
+          : (obj.type && !['torch_wall', 'torch_standing', 'candle', 'candelabra', 'potion_bottle_green', 'potion_bottle_brown', 'grate_closed', 'grate_open', 'spikes_floor', 'treasure_coins', 'gold_pile'].includes(obj.type));
+        if (!blocksSight) continue;
+
+        const objX = obj.worldX !== undefined ? obj.worldX : (obj.gridX * gridSize + gridSize / 2 + gridOffsetX);
+        const objY = obj.worldY !== undefined ? obj.worldY : (obj.gridY * gridSize + gridSize / 2 + gridOffsetY);
+
+        // Bounding box filter
+        if (Math.hypot(objX - originX, objY - originY) > searchRadius + gridSize) continue;
+
+        const objScale = obj.scale || 1;
+        const objW = (obj.width || 1) * gridSize * objScale;
+        const objH = (obj.height || 1) * gridSize * objScale;
+
+        // Inset slightly by 15% so a token standing directly beside the object isn't occluded by its own side
+        const halfW = (objW / 2) * 0.85;
+        const halfH = (objH / 2) * 0.85;
+        const rotRad = ((obj.rotation || 0) * Math.PI) / 180;
+        const cos = Math.cos(rotRad);
+        const sin = Math.sin(rotRad);
+
+        const p1 = [objX + (-halfW) * cos - (-halfH) * sin, objY + (-halfW) * sin + (-halfH) * cos];
+        const p2 = [objX + (halfW) * cos - (-halfH) * sin, objY + (halfW) * sin + (-halfH) * cos];
+        const p3 = [objX + (halfW) * cos - (halfH) * sin, objY + (halfW) * sin + (halfH) * cos];
+        const p4 = [objX + (-halfW) * cos - (halfH) * sin, objY + (-halfW) * sin + (halfH) * cos];
+
+        segments.push([p1, p2], [p2, p3], [p3, p4], [p4, p1]);
       }
     }
 
@@ -725,7 +772,7 @@ function isWithinFovCone(tokenX, tokenY, targetX, targetY, fovAngle, facingAngle
  * @param {Object} gridSystem - Grid system instance for hex calculations
  * @returns {Set} Set of visible tile keys "x,y" or "q,r" for hex
  */
-export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 'normal', wallData = {}, lightSources = {}, fovAngle = 360, facingAngle = null, gridType = 'square', gridSystem = null, windowOverlays = {}) {
+export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 'normal', wallData = {}, lightSources = {}, fovAngle = 360, facingAngle = null, gridType = 'square', gridSystem = null, windowOverlays = {}, environmentalObjects = []) {
   const visibleTiles = new Set();
   const tokenTileX = Math.floor(tokenX);
   const tokenTileY = Math.floor(tokenY);
@@ -775,7 +822,7 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
         }
 
         // Check line of sight to target hex (simplified for hex - could be improved)
-        const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType, windowOverlays, gridSystem);
+        const hasLOS = hasLineOfSight(tokenQ, tokenR, q, r, wallData, gridType, windowOverlays, gridSystem, environmentalObjects);
         if (hasLOS) {
           visibleTiles.add(targetKey);
         }
@@ -805,7 +852,7 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
         }
 
         // Check line of sight to target tile
-        const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType, windowOverlays, gridSystem);
+        const hasLOS = hasLineOfSight(tokenTileX, tokenTileY, targetX, targetY, wallData, gridType, windowOverlays, gridSystem, environmentalObjects);
         if (hasLOS) {
           visibleTiles.add(`${targetX},${targetY}`);
         }
@@ -827,11 +874,12 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
  * @param {string} gridType - Grid type ('square' or 'hex')
  * @param {Object} windowOverlays - Window overlay data (square grids)
  * @param {Object} gridSystem - Grid system instance (required for hex)
+ * @param {Array} environmentalObjects - Environmental objects that can block sight
  * @returns {boolean} True if line of sight exists
  */
-export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', windowOverlays = {}, gridSystem = null) {
-  if (!wallData || Object.keys(wallData).length === 0) {
-    // No walls to check - line of sight is clear
+export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', windowOverlays = {}, gridSystem = null, environmentalObjects = []) {
+  if ((!wallData || Object.keys(wallData).length === 0) && (!environmentalObjects || environmentalObjects.length === 0)) {
+    // No walls or objects to check - line of sight is clear
     return true;
   }
 
@@ -848,11 +896,26 @@ export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', wi
 
     // Check if a wall blocks movement between these two adjacent tiles
     // Walls can be stored on edges between tiles, so we need to check multiple potential wall keys
-    if (isWallBlocking(current.x, current.y, next.x, next.y, wallData, windowOverlays)) {
+    if (wallData && Object.keys(wallData).length > 0 && isWallBlocking(current.x, current.y, next.x, next.y, wallData, windowOverlays)) {
       // Wall detected blocking line of sight
       return false;
     }
 
+    // Check if intermediate tile (excluding start and target tiles) is blocked by an environmental object
+    if (i > 0 && environmentalObjects && environmentalObjects.length > 0) {
+      const isBlockedByObj = environmentalObjects.some(obj => {
+        if (!obj) return false;
+        const blocksSight = obj.blocksLineOfSight !== undefined
+          ? obj.blocksLineOfSight
+          : (obj.type && !['torch_wall', 'torch_standing', 'candle', 'candelabra', 'potion_bottle_green', 'potion_bottle_brown', 'grate_closed', 'grate_open', 'spikes_floor', 'treasure_coins', 'gold_pile'].includes(obj.type));
+        if (!blocksSight) return false;
+
+        const ogx = obj.gridX !== undefined ? obj.gridX : Math.floor(obj.worldX / 50);
+        const ogy = obj.gridY !== undefined ? obj.gridY : Math.floor(obj.worldY / 50);
+        return ogx === current.x && ogy === current.y;
+      });
+      if (isBlockedByObj) return false;
+    }
   }
 
   return true;

@@ -9,6 +9,8 @@ import MythrillWindow from '../windows/MythrillWindow';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { pickWallAtScreenPoint } from '../../utils/WallPicking';
 import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
+import { getObjectScreenBounds, getObjectSelectionHandles } from '../../utils/ObjectSelectionBounds';
+import { getTileElevation } from '../../utils/ElevationUtils';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
 
 import DrawingTools from './tools/DrawingTools';
@@ -19,11 +21,13 @@ import WallTools from './tools/WallTools';
 import FogTools from './tools/FogTools';
 import GridTools from './tools/GridTools';
 import TerrainHoverPreview from './TerrainHoverPreview';
-import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
+import { PROFESSIONAL_OBJECTS, snapRotationForHitTest } from './objects/ObjectSystem';
 import AreaRemoveModal from './AreaRemoveModal';
 import AdvancedLightingPanel from './AdvancedLightingPanel';
 import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
 import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
+import { resolveObjectWheelTransform } from './objectWheelTransforms';
+import { resolveWallMountPlacement } from './objects/wallAttachment';
 import { LIGHT_PRESETS } from '../../utils/LightingCalculations';
 import LayersPanel from './LayersPanel';
 import TabDropdownButton from '../../components/common/TabDropdownButton';
@@ -93,6 +97,7 @@ const ProfessionalVTTEditor = () => {
     // Throttled hover preview updates - store latest position in ref and update state via RAF
     const hoverPreviewRef = useRef({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
     const hoverPreviewRafId = useRef(null);
+    const lastLoadedMapIdRef = useRef(null);
 
     // Throttle fog painting calls using RAF for smooth painting
     const fogPaintThrottleRef = useRef(null);
@@ -307,10 +312,102 @@ const elevationStrokePaintedRef = useRef(null);
         }
     };
 
-    // Handle tool settings change
+    // Handle tool settings change. Merge over the live store snapshot instead
+    // of the component's render-time copy so rapid wheel-driven updates (which
+    // do not re-render) are never clobbered by the next UI click.
     const handleToolSettingsChange = (newSettings) => {
-        setToolSettings({ ...toolSettings, ...newSettings });
+        const patch = typeof newSettings === 'function' ? newSettings(toolSettings) : newSettings;
+        useLevelEditorStore.getState().setToolSettings(patch);
     };
+
+    // Publish the active tool to the shared store. Other systems read it to
+    // decide who owns canvas input: the 3D layer only shows the placement ghost
+    // for 'object_place', and ObjectSystem must not hijack clicks for
+    // selection/dragging while a placement/erase tool is active.
+    useEffect(() => {
+        useLevelEditorStore.getState().setSelectedTool(isEditorMode ? selectedTool : 'select');
+    }, [selectedTool, isEditorMode]);
+
+    // Leaving the editor must drop any live placement tool, otherwise the 3D
+    // layer would keep ghost-previewing placements in play mode.
+    useEffect(() => {
+        return () => {
+            useLevelEditorStore.getState().setSelectedTool('select');
+        };
+    }, []);
+
+    // Wheel transforms: scale the armed placement ghost or the selected placed
+    // object; Alt/Shift variants rotate it. Ctrl+wheel is deliberately left to
+    // the camera zoom handler in Grid.jsx.
+    const wheelTransformHistoryRef = useRef(0);
+    const isOverEditorUiRef = useRef(() => false);
+    isOverEditorUiRef.current = (target) => {
+        if (!target || typeof target.closest !== 'function') return false;
+        if (target.closest('.wow-window, .vtt-tool-palette, .vtt-tool-settings')) return true;
+        // Keep native wheel scrolling wherever the cursor sits on a scrollable
+        // element (object catalog, notes, etc.) between the cursor and the
+        // canvas. The walk must stop at the editor overlay: the app shell
+        // around it is scrollable and would otherwise swallow every wheel.
+        let element = target;
+        while (element && element !== document.body) {
+            if (element.classList && element.classList.contains('vtt-drawing-overlay')) return false;
+            const style = window.getComputedStyle(element);
+            const overflow = `${style.overflow}${style.overflowY}${style.overflowX}`;
+            if (/auto|scroll/.test(overflow)) return true;
+            element = element.parentElement;
+        }
+        return false;
+    };
+    const editorWheelTransformRef = useRef(null);
+    editorWheelTransformRef.current = (e) => {
+        if (!isEditorMode) return;
+
+        const placementArmed = selectedTool === 'object_place' && !!toolSettings?.selectedObjectType;
+        if (placementArmed) {
+            const patch = resolveObjectWheelTransform(e, {
+                scale: toolSettings.objectScale || 1,
+                rotation: toolSettings.objectRotation || 0,
+                rotationX: toolSettings.objectRotationX || 0,
+                rotationY: toolSettings.objectRotationY || 0
+            });
+            if (!patch) return;
+            e.preventDefault();
+            e.stopPropagation();
+            useLevelEditorStore.getState().setToolSettings(patch);
+            return;
+        }
+
+        const selectedObject = (environmentalObjects || []).find(obj => obj.selected);
+        if (!selectedObject) return;
+        // Locked objects are frozen: wheel resize/rotate/tilt is ignored.
+        if (selectedObject.locked) return;
+        const patch = resolveObjectWheelTransform(e, selectedObject);
+        if (!patch) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        // One undo entry per gesture instead of one per wheel notch.
+        const now = Date.now();
+        if (now - wheelTransformHistoryRef.current > 800) {
+            wheelTransformHistoryRef.current = now;
+            pushHistorySnapshot();
+        }
+        updateEnvironmentalObject(selectedObject.id, patch);
+    };
+
+    useEffect(() => {
+        if (!isEditorMode) return undefined;
+        // Capture phase: Grid.jsx also listens for wheel on window (bubble) to
+        // handle Ctrl+zoom, and its handler must never see Alt/Shift/wheel
+        // transforms. Non-Ctrl events are claimed here first.
+        const handler = (e) => {
+            if (e.ctrlKey) return;
+            if (isOverEditorUiRef.current(e.target)) return;
+            editorWheelTransformRef.current?.(e);
+        };
+        window.addEventListener('wheel', handler, { passive: false, capture: true });
+        return () => window.removeEventListener('wheel', handler, { capture: true });
+    }, [isEditorMode]);
 
     // Apply an elevation brush stamp. Stroke-local dedupe prevents repeated
     // raise/lower while the pointer stays on the same tile during a drag.
@@ -1123,6 +1220,7 @@ const elevationStrokePaintedRef = useRef(null);
 
     // Handle mouse events for drawing
     const handleMouseDown = useCallback((e) => {
+        console.log('[RAW_MOUSEDOWN]', e.clientX, e.clientY, 'tool:', selectedTool);
         if (!isEditorMode) return;
 
         // CRITICAL: Capture the current map ID at the EXACT moment of mouse down
@@ -1205,6 +1303,124 @@ const elevationStrokePaintedRef = useRef(null);
             return;
         }
 
+        // If an environmental object is currently selected, check if click hits delete or rotate handles
+        const currentEnvObjs = useLevelEditorStore.getState().environmentalObjects || [];
+        const currentlySelectedObj = currentEnvObjs.find(o => o.selected);
+        console.log('[ED_MOUSEDOWN]', { isEditorMode, selectedTool, selObj: currentlySelectedObj?.id, curEnvCount: currentEnvObjs.length });
+        // Locked objects have no manipulation handles, so skip handle hit-testing.
+        if (currentlySelectedObj && !currentlySelectedObj.locked) {
+            const objectDef = PROFESSIONAL_OBJECTS[currentlySelectedObj.type];
+            if (objectDef && objectDef.draggable) {
+                const gridSystem = getGridSystem();
+                const viewport = gridSystem.getViewportDimensions();
+                let objScreenPos;
+                if (currentlySelectedObj.freePosition && Number.isFinite(currentlySelectedObj.worldX) && Number.isFinite(currentlySelectedObj.worldY)) {
+                    try {
+                        objScreenPos = gridSystem.worldToScreen(currentlySelectedObj.worldX, currentlySelectedObj.worldY, viewport.width, viewport.height);
+                    } catch (err) {
+                        objScreenPos = null;
+                    }
+                } else if (Number.isFinite(currentlySelectedObj.gridX) && Number.isFinite(currentlySelectedObj.gridY)) {
+                    const worldCorner = gridSystem.gridToWorldCorner(currentlySelectedObj.gridX, currentlySelectedObj.gridY);
+                    objScreenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
+                }
+
+                if (objScreenPos) {
+                    const overlayRect = overlayRef.current?.getBoundingClientRect();
+                    const screenX = e.clientX - (overlayRect ? overlayRect.left : 0);
+                    const screenY = e.clientY - (overlayRect ? overlayRect.top : 0);
+
+                    const effectiveZoom = (zoomLevel || 1) * (playerZoom || 1);
+                    const snappedDeg = snapRotationForHitTest(currentlySelectedObj.type, currentlySelectedObj.rotation || 0);
+                    const rotRad = (snappedDeg || 0) * Math.PI / 180;
+
+                    // Same bounds the chrome is drawn with, so the 3D props'
+                    // delete/rotate buttons line up with their rendered figure.
+                    const bounds = getObjectScreenBounds(currentlySelectedObj, objectDef, objScreenPos, {
+                        gridSize,
+                        effectiveZoom,
+                        rotationRad: rotRad
+                    });
+                    const { deletePosition, rotatePosition } = getObjectSelectionHandles(bounds);
+
+                    console.log('[HANDLE_CHECK]', { screenX, screenY, rotHx: rotatePosition.x, rotHy: rotatePosition.y, delHx: deletePosition.x, delHy: deletePosition.y, distRot: Math.hypot(screenX - rotatePosition.x, screenY - rotatePosition.y) });
+
+                    if (Math.hypot(screenX - deletePosition.x, screenY - deletePosition.y) <= 22) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        removeEnvironmentalObject(currentlySelectedObj.id, activeMapIdRef.current);
+                        selectEnvironmentalObject(null);
+                        return;
+                    }
+
+                    // Rotate handle check (right side)
+                    if (Math.hypot(screenX - rotatePosition.x, screenY - rotatePosition.y) <= 22) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        let hasDragged = false;
+                        const startX = screenX;
+                        const startY = screenY;
+                        const startAngle = Math.atan2(screenY - bounds.centerY, screenX - bounds.centerX);
+                        const initialRotation = currentlySelectedObj.rotation || 0;
+                        const mapId = activeMapIdRef.current;
+
+                        const handleDocRotateMove = (moveEvt) => {
+                            const cRect = overlayRef.current?.getBoundingClientRect();
+                            if (!cRect) return;
+                            const mx = moveEvt.clientX - cRect.left;
+                            const my = moveEvt.clientY - cRect.top;
+                            if (Math.hypot(mx - startX, my - startY) > 3) {
+                                hasDragged = true;
+                            }
+                            if (hasDragged) {
+                                const curAngle = Math.atan2(my - bounds.centerY, mx - bounds.centerX);
+                                const deltaDeg = ((curAngle - startAngle) * 180) / Math.PI;
+                                let newRot = Math.round((initialRotation + deltaDeg) % 360 + 360) % 360;
+                                if (moveEvt.shiftKey) {
+                                    newRot = Math.round(newRot / 15) * 15;
+                                }
+                                updateEnvironmentalObject(currentlySelectedObj.id, {
+                                    ...currentlySelectedObj,
+                                    rotation: newRot
+                                }, mapId);
+                            }
+                        };
+
+                        const handleDocRotateUp = () => {
+                            document.removeEventListener('mousemove', handleDocRotateMove);
+                            document.removeEventListener('mouseup', handleDocRotateUp);
+                            if (!hasDragged) {
+                                // Immediate click without drag: rotate by +45 degrees clockwise
+                                const newRot = Math.round((initialRotation + 45) % 360);
+                                updateEnvironmentalObject(currentlySelectedObj.id, {
+                                    ...currentlySelectedObj,
+                                    rotation: newRot
+                                }, mapId);
+                            }
+                        };
+
+                        document.addEventListener('mousemove', handleDocRotateMove);
+                        document.addEventListener('mouseup', handleDocRotateUp);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // In object_place tool, if no catalog object is selected, clicks select existing objects or deselect
+        if (selectedTool === 'object_place' && !toolSettings?.selectedObjectType) {
+            const clickCoords = screenToGrid(e.clientX, e.clientY);
+            if (clickCoords) {
+                const objectAtPos = getObjectAtPosition(clickCoords.gridX, clickCoords.gridY);
+                if (objectAtPos) {
+                    selectEnvironmentalObject(objectAtPos.id);
+                } else {
+                    selectEnvironmentalObject(null);
+                }
+            }
+            return;
+        }
+
         // Handle tools that don't need drawing state
         switch (selectedTool) {
             case 'text':
@@ -1276,11 +1492,37 @@ const elevationStrokePaintedRef = useRef(null);
                     const objectType = selectedObjectType;
                     const objectDef = PROFESSIONAL_OBJECTS[objectType];
 
+                    // Interweave 3D Wooden Door into walls if placed near an existing wall
+                    if (objectType === 'wall_doorway') {
+                        const currentWalls = useLevelEditorStore.getState().wallData || {};
+                        const gOX = gridOffsetX || 0;
+                        const gOY = gridOffsetY || 0;
+                        const clickX = (objCoords.worldX - gOX) / gridSize;
+                        const clickY = (objCoords.worldY - gOY) / gridSize;
+                        let hasNearbyWall = false;
+                        for (const [key, wall] of Object.entries(currentWalls)) {
+                            const [x1, y1, x2, y2] = key.split(',').map(Number);
+                            if (Number.isFinite(x1) && Number.isFinite(y1) && Number.isFinite(x2) && Number.isFinite(y2)) {
+                                const dist = pointSegmentDistance2D(clickX, clickY, x1, y1, x2, y2);
+                                if (dist < 1.4) {
+                                    hasNearbyWall = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (hasNearbyWall) {
+                            placeWallFeature('wooden_door', e.clientX, e.clientY);
+                            return;
+                        }
+                    }
+
                     const objectData = {
                         gridX: objCoords.gridX,
                         gridY: objCoords.gridY,
                         type: objectType,
                         rotation: toolSettings.objectRotation || 0,
+                        rotationX: toolSettings.objectRotationX || 0,
+                        rotationY: toolSettings.objectRotationY || 0,
                         scale: toolSettings.objectScale || 1,
                         layer: 'objects'
                     };
@@ -1312,7 +1554,80 @@ const elevationStrokePaintedRef = useRef(null);
                         };
                     }
 
-                    addEnvironmentalObject(objectData, activeMapIdRef.current);
+                    // Smart surface stacking and attachment:
+                    // Check if clicked over an existing environmental object (e.g. chest on stone, torch on wall/pillar, potion on table)
+                    const existingObjects = useLevelEditorStore.getState().environmentalObjects || [];
+                    let parentCandidate = null;
+
+                    for (const other of existingObjects) {
+                        const otherDef = PROFESSIONAL_OBJECTS[other.type];
+                        if (!otherDef) continue;
+                        const oScale = other.scale || 1;
+                        const oWidth = (otherDef.size?.width || 1) * gridSize * oScale;
+                        const oHeight = (otherDef.size?.height || 1) * gridSize * oScale;
+                        const ox = other.worldX !== undefined ? other.worldX : (other.gridX * gridSize + gridSize / 2);
+                        const oy = other.worldY !== undefined ? other.worldY : (other.gridY * gridSize + gridSize / 2);
+
+                        if (
+                            objCoords.worldX >= ox - oWidth / 2 &&
+                            objCoords.worldX <= ox + oWidth / 2 &&
+                            objCoords.worldY >= oy - oHeight / 2 &&
+                            objCoords.worldY <= oy + oHeight / 2
+                        ) {
+                            parentCandidate = other;
+                            break;
+                        }
+                    }
+
+                    if (parentCandidate) {
+                        const pWorldX = parentCandidate.worldX !== undefined ? parentCandidate.worldX : (parentCandidate.gridX * gridSize + gridSize / 2);
+                        const pWorldY = parentCandidate.worldY !== undefined ? parentCandidate.worldY : (parentCandidate.gridY * gridSize + gridSize / 2);
+                        objectData.parentObjectId = parentCandidate.id;
+                        objectData.attachOffsetX = objCoords.worldX - pWorldX;
+                        objectData.attachOffsetY = objCoords.worldY - pWorldY;
+                        objectData.elevation = (parentCandidate.elevation || 0) + 1;
+                    } else if (objectDef?.wallMountable) {
+                        // Wall-mountable fixtures (torches, banners, shelves) snap
+                        // to the nearest wall face and aim outward from it.
+                        let gridSystem = null;
+                        try {
+                            gridSystem = getGridSystem();
+                        } catch (error) {
+                            gridSystem = null;
+                        }
+                        const mount = resolveWallMountPlacement({
+                            objectDef,
+                            worldX: objCoords.worldX,
+                            worldY: objCoords.worldY,
+                            wallData: useLevelEditorStore.getState().wallData || {},
+                            elevationData: useLevelEditorStore.getState().elevationData || {},
+                            gridSize,
+                            gridOffsetX: gridOffsetX || 0,
+                            gridOffsetY: gridOffsetY || 0,
+                            gridSystem
+                        });
+                        if (mount) {
+                            objectData.worldX = mount.mountX;
+                            objectData.worldY = mount.mountY;
+                            objectData.freePosition = true;
+                            objectData.wallAttached = true;
+                            objectData.wallKey = mount.wallKey;
+                            objectData.wallSide = mount.wallSide;
+                            objectData.wallElevation = mount.wallElevation;
+                            objectData.rotation = mount.rotation;
+                            objectData.elevation = mount.elevation;
+                            objectData.gridX = Math.floor((mount.mountX - (gridOffsetX || 0)) / gridSize);
+                            objectData.gridY = Math.floor((mount.mountY - (gridOffsetY || 0)) / gridSize);
+                        }
+                    } else {
+                        const tileElev = getTileElevation(useLevelEditorStore.getState().elevationData || {}, objCoords.gridX, objCoords.gridY) || 0;
+                        objectData.elevation = tileElev;
+                    }
+
+                    const placedObjId = addEnvironmentalObject(objectData, activeMapIdRef.current);
+                    if (placedObjId) {
+                        selectEnvironmentalObject(placedObjId);
+                    }
                 }
                 return;
             case 'object_select':
@@ -1942,7 +2257,7 @@ const elevationStrokePaintedRef = useRef(null);
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt, placeWallFeature]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, updateEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt, placeWallFeature]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -3031,12 +3346,15 @@ const elevationStrokePaintedRef = useRef(null);
 
     // Load current map state when editor opens (only once, and only if map has data)
     useEffect(() => {
-        if (isEditorMode && isGMMode) {
-            // Load the current map's state when editor opens
-            const mapId = getCurrentMapId();
-            if (mapId) {
-                const mapState = getMapStateFromStore();
-                if (mapState) {
+        if (!isEditorMode || !isGMMode) {
+            lastLoadedMapIdRef.current = null;
+            return;
+        }
+        const mapId = getCurrentMapId();
+        if (mapId && lastLoadedMapIdRef.current !== mapId) {
+            lastLoadedMapIdRef.current = mapId;
+            const mapState = getMapStateFromStore();
+            if (mapState) {
                     // Load terrain and other level editor data from the current map
                     // Only load if the map actually has data (not empty arrays/objects)
                     const levelEditorState = useLevelEditorStore.getState();
@@ -3104,7 +3422,6 @@ const elevationStrokePaintedRef = useRef(null);
                                 ? mapState.drawingLayers
                                 : defaultLayers
                         );
-                    }
                 }
             }
         }

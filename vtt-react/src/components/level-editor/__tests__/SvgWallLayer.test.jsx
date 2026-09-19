@@ -194,4 +194,25 @@ describe('SvgWallLayer', () => {
       expect(unique.size).toBeGreaterThanOrEqual(3);
     }
   });
+
+  it('updates projected wall geometry when gridOffsetX changes', () => {
+    setView({ gridOffsetX: 0, gridOffsetY: 0 });
+    setEditor({
+      wallData: { '0,0,1,0': { type: 'stone_wall' } }
+    });
+
+    const { container } = render(<SvgWallLayer />);
+    const polyBefore = container.querySelector('polygon');
+    expect(polyBefore).toBeTruthy();
+    const pointsBefore = polyBefore.getAttribute('points');
+
+    act(() => {
+      useGameStore.setState({ gridOffsetX: 100 });
+    });
+
+    const polyAfter = container.querySelector('polygon');
+    expect(polyAfter).toBeTruthy();
+    const pointsAfter = polyAfter.getAttribute('points');
+    expect(pointsAfter).not.toBe(pointsBefore);
+  });
 });

@@ -229,8 +229,11 @@ export const useLevelEditorPersistence = () => {
     const gameStore = useGameStore.getState();
     const isDraggingCamera = gameStore.isDraggingCamera || false;
     const isScrolling = window._isScrolling || false;
+    // Object/prop drags write the store every frame; skip the full-state
+    // JSON comparison until the drag ends (ObjectSystem clears this flag).
+    const isDraggingObject = window._isDraggingObject || false;
 
-    if (isDraggingCamera || isScrolling) {
+    if (isDraggingCamera || isScrolling || isDraggingObject) {
       // Skip persistence during active scrolling/dragging
       return;
     }

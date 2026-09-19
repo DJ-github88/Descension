@@ -1107,6 +1107,8 @@ const SvgWallLayer = () => {
   const {
     gridSize,
     gridType,
+    gridOffsetX,
+    gridOffsetY,
     zoomLevel,
     playerZoom,
     viewMode,
@@ -1116,6 +1118,8 @@ const SvgWallLayer = () => {
   } = useGameStore(useShallow((state) => ({
     gridSize: state.gridSize,
     gridType: state.gridType,
+    gridOffsetX: state.gridOffsetX || 0,
+    gridOffsetY: state.gridOffsetY || 0,
     zoomLevel: state.zoomLevel,
     playerZoom: state.playerZoom,
     viewMode: state.viewMode,
@@ -1146,10 +1150,11 @@ const SvgWallLayer = () => {
     const forceCommit = () => setCommitTick((tick) => tick + 1);
     const unsubscribe = useGameStore.subscribe((state, prev) => {
       const cameraChanged = state.cameraX !== prev.cameraX || state.cameraY !== prev.cameraY;
+      const offsetChanged = state.gridOffsetX !== prev.gridOffsetX || state.gridOffsetY !== prev.gridOffsetY;
       const dragEnded = prev.isDraggingCamera && !state.isDraggingCamera;
-      if (!cameraChanged && !dragEnded) return;
+      if (!cameraChanged && !offsetChanged && !dragEnded) return;
 
-      if (state.isDraggingCamera && cameraChanged) {
+      if (state.isDraggingCamera && cameraChanged && !offsetChanged) {
         const svg = svgRef.current;
         const scene = sceneCameraRef.current;
         if (svg && scene) {
@@ -1393,6 +1398,8 @@ const SvgWallLayer = () => {
     wallData,
     gridSize,
     gridType,
+    gridOffsetX,
+    gridOffsetY,
     zoomLevel,
     playerZoom,
     viewRotation,

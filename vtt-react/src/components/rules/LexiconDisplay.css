@@ -235,6 +235,9 @@
 
 .lexicon-letter-group {
   margin-bottom: 2rem;
+  /* Offscreen letter blocks (and their term cards) skip layout/paint work. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
 }
 
 .lexicon-letter-header {

@@ -50,7 +50,7 @@ class ActionBarPersistenceService {
    * @returns {boolean} Success status
    */
   saveActionBarConfig(characterId, roomId, actionSlots) {
-    if (!characterId || !actionSlots) {
+    if (!characterId || !actionSlots || !Array.isArray(actionSlots)) {
       console.warn('Invalid parameters for saving action bar config');
       return false;
     }

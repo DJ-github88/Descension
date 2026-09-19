@@ -75,6 +75,11 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
             icon: 'Utility/Barred Shield',
             walls: ['stone_wall', 'wooden_wall', 'brick_wall']
         },
+        variations: {
+            name: 'Variations & Parapets',
+            icon: 'Utility/Barred Shield',
+            walls: ['half_wall', 'wall_arched', 'wall_broken', 'wall_shelves', 'barrier_wood']
+        },
         advanced: {
             name: 'Advanced Materials',
             icon: 'Utility/Golden Toothed Gear',
@@ -239,8 +244,39 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         });
     }, []); // Only run on mount
 
+    const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
+    const setWalls3DEnabled = useLevelEditorStore(state => state.setWalls3DEnabled);
+
     return (
         <div className="wall-tools">
+            {/* 3D Modular Walls Toggle */}
+            <div className="tool-section" style={{ marginBottom: 12 }}>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: walls3DEnabled ? 'linear-gradient(135deg, rgba(0,180,219,0.2), rgba(0,131,176,0.2))' : 'rgba(255,255,255,0.05)',
+                    border: `1px solid ${walls3DEnabled ? '#00b4db' : 'rgba(255,255,255,0.1)'}`,
+                    borderRadius: 8
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <i className="fas fa-cubes" style={{ color: walls3DEnabled ? '#00b4db' : '#aaa', fontSize: 16 }}></i>
+                        <div>
+                            <div style={{ fontSize: 13, fontWeight: 'bold', color: '#fff' }}>3D Modular Walls</div>
+                            <div style={{ fontSize: 10, color: '#aaa' }}>{walls3DEnabled ? 'Real 3D Mesh Walls Active' : 'SVG 2.5D Wall Layer Active'}</div>
+                        </div>
+                    </div>
+                    <button
+                        className={`size-btn ${walls3DEnabled ? 'active' : ''}`}
+                        onClick={() => setWalls3DEnabled(!walls3DEnabled)}
+                        style={{ padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}
+                    >
+                        {walls3DEnabled ? 'ON' : 'OFF'}
+                    </button>
+                </div>
+            </div>
+
             {/* Tool Selection */}
             <div className="tool-section">
                 <h4>Wall Tools</h4>

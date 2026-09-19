@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect, useMemo, useLayoutEffect } from 'react';
+import React, { useCallback, useRef, useEffect, useMemo } from 'react';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCreatureStore from '../../store/creatureStore';
@@ -445,6 +445,36 @@ const StaticFogOverlay = () => {
             const exploredCircles = playerMemoriesLocal?.exploredCircles || levelEditorState.exploredCircles || [];
             if (exploredPolygons.length === 0 && exploredCircles.length === 0) return;
 
+            // PERFORMANCE: build the projection transform ONCE per render instead of
+            // rebuilding it for every polygon point (worldToScreen rebuilds per call).
+            const exploredTransform = buildProjectionTransform({
+                viewMode,
+                viewRotation,
+                viewTilt,
+                effectiveZoom,
+                cameraX,
+                cameraY,
+                viewportWidth: maskCanvas.width,
+                viewportHeight: maskCanvas.height
+            });
+            const expCenterX = exploredTransform.centerX;
+            const expCenterY = exploredTransform.centerY;
+            const expCosYaw = exploredTransform.cosYaw;
+            const expSinYaw = exploredTransform.sinYaw;
+            const expSinTilt = exploredTransform.sinTilt;
+            const expZoom = exploredTransform.effectiveZoom;
+            const expCamX = exploredTransform.cameraX;
+            const expCamY = exploredTransform.cameraY;
+
+            // Conservative world-space radius of the visible screen (any yaw/tilt),
+            // used to skip explored shapes that cannot touch the viewport.
+            const cullRadius = Math.hypot(maskCanvas.width, maskCanvas.height) /
+                Math.max(1e-3, expZoom * Math.max(0.2, expSinTilt)) + gridSize * 2;
+            const minWorldX = expCamX - cullRadius;
+            const maxWorldX = expCamX + cullRadius;
+            const minWorldY = expCamY - cullRadius;
+            const maxWorldY = expCamY + cullRadius;
+
             // CRITICAL FIX: UNION the explored shapes on a scratch canvas FIRST,
             // then erase the fog ONCE. Erasing per-polygon compounds
             // multiplicatively in overlap regions (0.67^N ≈ 0 after a handful of
@@ -457,20 +487,44 @@ const StaticFogOverlay = () => {
             sCtx.clearRect(0, 0, scratch.width, scratch.height);
             sCtx.fillStyle = '#000000';
             exploredPolygons.forEach(polygon => {
-                if (!polygon.points || polygon.points.length < 3) return;
-                const screenPoints = polygon.points.map(p => worldToScreen(p.x, p.y, cameraX, cameraY, effectiveZoom));
+                const points = polygon.points;
+                if (!points || points.length < 3) return;
+
+                // Fast bbox rejection: most explored polygons are off-screen while panning.
+                let pMinX = Infinity, pMinY = Infinity, pMaxX = -Infinity, pMaxY = -Infinity;
+                for (let i = 0; i < points.length; i++) {
+                    const p = points[i];
+                    if (p.x < pMinX) pMinX = p.x;
+                    if (p.x > pMaxX) pMaxX = p.x;
+                    if (p.y < pMinY) pMinY = p.y;
+                    if (p.y > pMaxY) pMaxY = p.y;
+                }
+                if (pMaxX < minWorldX || pMinX > maxWorldX || pMaxY < minWorldY || pMinY > maxWorldY) return;
+
                 sCtx.beginPath();
-                sCtx.moveTo(screenPoints[0].x, screenPoints[0].y);
-                for (let i = 1; i < screenPoints.length; i++) sCtx.lineTo(screenPoints[i].x, screenPoints[i].y);
+                for (let i = 0; i < points.length; i++) {
+                    const p = points[i];
+                    const dx = p.x - expCamX;
+                    const dy = p.y - expCamY;
+                    const sx = expCenterX + (dx * expCosYaw + dy * expSinYaw) * expZoom;
+                    const sy = expCenterY + (-dx * expSinYaw + dy * expCosYaw) * expSinTilt * expZoom;
+                    if (i === 0) sCtx.moveTo(sx, sy);
+                    else sCtx.lineTo(sx, sy);
+                }
                 sCtx.closePath();
                 sCtx.fill();
             });
             exploredCircles.forEach(circle => {
-                const screenPos = worldToScreen(circle.x, circle.y, cameraX, cameraY, effectiveZoom);
-                const radius = circle.radius * effectiveZoom * 1.12;
+                if (circle.x + circle.radius < minWorldX || circle.x - circle.radius > maxWorldX ||
+                    circle.y + circle.radius < minWorldY || circle.y - circle.radius > maxWorldY) return;
+                const dx = circle.x - expCamX;
+                const dy = circle.y - expCamY;
+                const sx = expCenterX + (dx * expCosYaw + dy * expSinYaw) * expZoom;
+                const sy = expCenterY + (-dx * expSinYaw + dy * expCosYaw) * expSinTilt * expZoom;
+                const radius = circle.radius * expZoom * 1.12;
                 sCtx.beginPath();
                 // Project the world circle as an ellipse (foreshortened by tilt)
-                sCtx.ellipse(screenPos.x, screenPos.y, radius, radius * fogSinTilt, 0, 0, Math.PI * 2);
+                sCtx.ellipse(sx, sy, radius, radius * fogSinTilt, 0, 0, Math.PI * 2);
                 sCtx.fill();
             });
             sCtx.restore();
@@ -880,7 +934,14 @@ const StaticFogOverlay = () => {
         }
     }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, fovWallSilhouettes, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
-    useLayoutEffect(() => {
+    // NOTE: passive effect on purpose. A layout effect redrew the fog in the
+    // same frame the camera was updated (pre-paint), while tokens, walls, the
+    // grid and the 3D layer all repaint one rAF later. During a camera drag the
+    // fog therefore looked like it slid ~1 frame ahead of everything on the
+    // grid, snapping back on mouse-up. Redrawing after paint keeps the fog in
+    // the same phase as the object layers.
+    useEffect(() => {
+        if (typeof window !== 'undefined') window.__fogPhase = 'passive-v1';
         renderFog();
     }, [renderFog, cameraX, cameraY, zoomLevel, playerZoom, visibilityPolygon, fogOfWarPaths, viewMode, viewRotation, viewTilt]);
 

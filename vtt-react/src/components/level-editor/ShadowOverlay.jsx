@@ -21,6 +21,7 @@ const ShadowOverlay = () => {
     const performanceMode = useLevelEditorStore(state => state.performanceMode);
     const sunSettings = useLevelEditorStore(state => state.sunSettings);
     const wallShadowsEnabled = useLevelEditorStore(state => state.wallShadowsEnabled);
+    const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
 
     // Game store for positioning
     const gridSize = useGameStore(state => state.gridSize);
@@ -41,7 +42,7 @@ const ShadowOverlay = () => {
 
     // Calculate shadows for all light sources
     const calculateAllShadows = useCallback(() => {
-        if (!lightingEnabled) {
+        if (!lightingEnabled || walls3DEnabled) {
             shadowDataRef.current = {};
             return;
         }
@@ -73,7 +74,7 @@ const ShadowOverlay = () => {
         });
         
         shadowDataRef.current = shadows;
-    }, [lightSources, lightingEnabled, wallData]);
+    }, [lightSources, lightingEnabled, wallData, walls3DEnabled]);
 
     // Render shadows on canvas
     const renderShadows = useCallback(() => {
@@ -87,7 +88,7 @@ const ShadowOverlay = () => {
         const sunActive = sun.intensity > 0.05;
         const hasLightShadows = Object.keys(shadowDataRef.current).length > 0;
 
-        if (!lightingEnabled || (!hasLightShadows && !sunActive)) {
+        if (!lightingEnabled || walls3DEnabled || (!hasLightShadows && !sunActive)) {
             return;
         }
 
@@ -235,7 +236,8 @@ const ShadowOverlay = () => {
         viewMode,
         viewRotation,
         viewTilt,
-        wallShadowsEnabled
+        wallShadowsEnabled,
+        walls3DEnabled
     ]);
 
     // Update shadows when dependencies change
@@ -265,8 +267,11 @@ const ShadowOverlay = () => {
         return () => window.removeEventListener('resize', updateCanvasSize);
     }, [renderShadows]);
 
-    // Don't render if shadows are disabled
-    if (!lightingEnabled) {
+    // Don't render if shadows are disabled. When 3D walls are active, the
+    // WebGL world layer renders real sun/light-source shadows from the same
+    // lighting model, so drawing the 2D approximations on top would
+    // double-darken (and disagree with the 3D shadow directions).
+    if (!lightingEnabled || walls3DEnabled) {
         return null;
     }
 

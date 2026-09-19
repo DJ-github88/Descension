@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useLevelEditorStore from '../../../store/levelEditorStore';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../terrain/TerrainSystem';
 import { getIconUrl } from '../../../utils/assetManager';
 import './styles/TerrainTools.css';
@@ -90,8 +91,39 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         });
     };
 
+    const terrain3DEnabled = useLevelEditorStore(state => state.terrain3DEnabled);
+    const setTerrain3DEnabled = useLevelEditorStore(state => state.setTerrain3DEnabled);
+
     return (
         <>
+            {/* 3D Modular Mesh Terrain Toggle */}
+            <div className="tool-section" style={{ marginBottom: 12 }}>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: terrain3DEnabled ? 'linear-gradient(135deg, rgba(0,180,219,0.2), rgba(0,131,176,0.2))' : 'rgba(255,255,255,0.05)',
+                    border: `1px solid ${terrain3DEnabled ? '#00b4db' : 'rgba(255,255,255,0.1)'}`,
+                    borderRadius: 8
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <i className="fas fa-cubes" style={{ color: terrain3DEnabled ? '#00b4db' : '#aaa', fontSize: 16 }}></i>
+                        <div>
+                            <div style={{ fontSize: 13, fontWeight: 'bold', color: '#fff' }}>3D Modular Tiles</div>
+                            <div style={{ fontSize: 10, color: '#aaa' }}>{terrain3DEnabled ? 'Real 3D Mesh Terrain Active' : '2D Canvas Terrain Active'}</div>
+                        </div>
+                    </div>
+                    <button
+                        className={`size-btn ${terrain3DEnabled ? 'active' : ''}`}
+                        onClick={() => setTerrain3DEnabled(!terrain3DEnabled)}
+                        style={{ padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}
+                    >
+                        {terrain3DEnabled ? 'ON' : 'OFF'}
+                    </button>
+                </div>
+            </div>
+
             {/* Tool Selection */}
             <div className="tool-section">
                 <h4>Terrain Tools</h4>

@@ -1,7 +1,8 @@
 /* ===== RULES PAGE - TTRPG TAVERN DESK THEME ===== */
 
-/* Import fonts - including decorative medieval fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=MedievalSharp&family=Uncial+Antiqua&display=swap');
+/* Fonts (Cinzel, Crimson Text, MedievalSharp, Uncial Antiqua) are loaded
+   asynchronously from public/index.html so this lazy-loaded stylesheet does
+   not add a serial Google Fonts round-trip before rules content can paint. */
 
 /* Main Container - High-fidelity Mahogany Wood Planks Desktop */
 .rules-page {

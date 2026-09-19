@@ -55,6 +55,9 @@
     background-clip: padding-box;
     display: flex;
     flex-direction: column;
+    /* Offscreen race cards skip layout/paint work while scrolling. */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 240px;
 }
 
 .race-card::before {

@@ -23,6 +23,21 @@ const MAX_BATCH_SIZE = 200; // Increased to 200 to accommodate faster line inter
 const MAX_BATCH_TIME = 100; // Max 100ms to wait before emitting
 let batchSequenceNumber = 0; // Sequence number for ordering
 
+// Locked environmental objects are frozen in place: every transform field is
+// stripped from update payloads unless the same update explicitly unlocks the
+// object. Non-transform state (lighting, container flags, GM notes, selection)
+// still applies, so a locked object stays selectable/inspectable.
+const LOCKED_OBJECT_TRANSFORM_KEYS = [
+  'worldX',
+  'worldY',
+  'gridX',
+  'gridY',
+  'scale',
+  'rotation',
+  'rotationX',
+  'rotationY'
+];
+
 const mapUpdateBatcher = {
   pendingUpdates: {},
   outgoingQueue: [],
@@ -890,6 +905,61 @@ export const WALL_TYPES = {
     icon: 'ðŸªŸ',
     description: 'An open window frame - allows movement and vision',
     isWindow: true
+  },
+  half_wall: {
+    id: 'half_wall',
+    name: 'Half Wall / Parapet',
+    category: 'variations',
+    color: '#9C8262',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_wall.png',
+    icon: '🧱',
+    description: 'Low half-height stone wall or parapet - provides cover without blocking sight'
+  },
+  wall_arched: {
+    id: 'wall_arched',
+    name: 'Arched Stone Wall',
+    category: 'variations',
+    color: '#8B7355',
+    blocksMovement: false,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_wall.png',
+    icon: '⛩️',
+    description: 'Stone wall with grand arched opening - allows passage underneath'
+  },
+  wall_broken: {
+    id: 'wall_broken',
+    name: 'Ruined / Broken Wall',
+    category: 'variations',
+    color: '#7A6448',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_wall.png',
+    icon: '🏚️',
+    description: 'Crumbling damaged stone wall with partial sightlines'
+  },
+  wall_shelves: {
+    id: 'wall_shelves',
+    name: 'Wall with Inset Shelves',
+    category: 'variations',
+    color: '#826B4E',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/stone_wall.png',
+    icon: '📚',
+    description: 'Dungeon stone wall with built-in alcove shelving'
+  },
+  barrier_wood: {
+    id: 'barrier_wood',
+    name: 'Wooden Palisade Barrier',
+    category: 'variations',
+    color: '#8B5A2B',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wooden_wall.png',
+    icon: '🪵',
+    description: 'Wooden palisade timber barricade'
   }
 };
 
@@ -897,6 +967,7 @@ export const WALL_TYPES = {
 export const WALL_CATEGORIES = {
   BASIC: 'Basic Walls',
   ADVANCED: 'Advanced Materials',
+  VARIATIONS: 'Variations & Parapets',
   MAGICAL: 'Magical Barriers',
   INTERACTIVE: 'Interactive Elements'
 };
@@ -1004,6 +1075,48 @@ const pointInPolygon = (point, polygon) => {
   return inside;
 };
 
+// PERFORMANCE: Explored-position lookups run per object/tile/afterimage every
+// rendered frame (ObjectSystem, TerrainSystem, AfterimageOverlay, 3D fog).
+// Point-in-polygon over the full explored trail is O(polygons x points), so
+// results are memoized per exact world position and invalidated whenever the
+// explored data identity changes (zustand always writes new arrays/objects).
+const MAX_EXPLORED_LOOKUP_CACHE_ENTRIES = 20000;
+
+const polygonBoundsCache = new WeakMap();
+const getPolygonBounds = (points) => {
+  let bounds = polygonBoundsCache.get(points);
+  if (bounds) return bounds;
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (let i = 0; i < points.length; i++) {
+    const p = points[i];
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.y > maxY) maxY = p.y;
+  }
+  bounds = { minX, minY, maxX, maxY };
+  polygonBoundsCache.set(points, bounds);
+  return bounds;
+};
+
+const pointInPolygonChecked = (x, y, points) => {
+  if (!points || points.length < 3) return false;
+  const bounds = getPolygonBounds(points);
+  if (x < bounds.minX || x > bounds.maxX || y < bounds.minY || y > bounds.maxY) {
+    return false;
+  }
+  return pointInPolygon({ x, y }, points);
+};
+
+const createExploredLookupCache = () => ({
+  polygons: null,
+  areas: null,
+  results: new Map()
+});
+
+const globalExploredLookupCache = createExploredLookupCache();
+const playerExploredLookupCache = createExploredLookupCache();
+
 const initialState = {
   // Editor state
   isEditorMode: false,
@@ -1068,6 +1181,7 @@ const initialState = {
 
   // Terrain data - stores terrain type for each grid position
   terrainData: {}, // { "x,y": terrainType }
+  terrain3DEnabled: true, // Toggle 3D modular mesh terrain in ThreeDWorldLayer
 
   // Verticality data (runtime per-map; persisted to mapStore)
   elevationData: {}, // { "x,y": level } integer levels in 5ft units (0 = ground, negative = pits)
@@ -1079,6 +1193,7 @@ const initialState = {
 
   // Wall data - stores walls placed on grid edges
   wallData: {}, // { "x1,y1,x2,y2": { type: wallType, state: 'closed'|'open', id: string } }
+  walls3DEnabled: true, // Enable true 3D modular WebGL walls with PCF soft shadows
   selectedWallKey: null, // Currently selected wall key for editing
 
   // Window overlays - placed on top of walls to create see-through points
@@ -1217,6 +1332,10 @@ const useLevelEditorStore = create((set, get) => ({
   },
 
   setObjectManipulationEnabled: (enabled) => set({ objectManipulationEnabled: enabled }),
+
+  setTerrain3DEnabled: (enabled) => set({ terrain3DEnabled: enabled }),
+
+  setWalls3DEnabled: (enabled) => set({ walls3DEnabled: enabled }),
 
 
   // Layer visibility
@@ -2004,37 +2123,45 @@ const useLevelEditorStore = create((set, get) => ({
   // Check if a world position is within any explored circle or polygon
   isPositionExplored: (worldX, worldY) => {
     const state = get();
+    const polygons = state.exploredPolygons || null;
+    const areas = state.exploredAreas || null;
 
-    // Helper function for point-in-polygon check
-    const isPointInPolygon = (x, y, polygon) => {
-      if (!polygon || polygon.length < 3) return false;
-      let inside = false;
-      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const xi = polygon[i].x, yi = polygon[i].y;
-        const xj = polygon[j].x, yj = polygon[j].y;
-        const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        if (intersect) inside = !inside;
-      }
-      return inside;
-    };
+    const cache = globalExploredLookupCache;
+    if (cache.polygons !== polygons || cache.areas !== areas) {
+      cache.polygons = polygons;
+      cache.areas = areas;
+      cache.results.clear();
+    }
 
-    // First check polygons (more accurate, matches vision shape)
-    const polygons = state.exploredPolygons || [];
-    for (const polygon of polygons) {
-      if (isPointInPolygon(worldX, worldY, polygon.points)) {
-        return true;
+    const key = `${worldX},${worldY}`;
+    const cached = cache.results.get(key);
+    if (cached !== undefined) return cached;
+
+    let result = false;
+
+    // Check polygons (more accurate, matches vision shape)
+    if (polygons) {
+      for (let i = 0; i < polygons.length; i++) {
+        const polygon = polygons[i];
+        if (polygon && pointInPolygonChecked(worldX, worldY, polygon.points)) {
+          result = true;
+          break;
+        }
       }
     }
 
-    // NOTE: circle-based exploration is intentionally ignored (circles were
-    // recorded without wall clipping and leaked "explored" terrain through walls).
-    // Wall-clipped polygons + exploredAreas tiles are authoritative.
-
     // Fallback to tile-based check for backward compatibility
-    const gridSystem = getGridSystem();
-    const gridCoords = gridSystem.worldToGrid(worldX, worldY);
-    const key = `${gridCoords.x},${gridCoords.y}`;
-    return state.exploredAreas[key] || false;
+    if (!result && areas) {
+      const gridSystem = getGridSystem();
+      const gridCoords = gridSystem.worldToGrid(worldX, worldY);
+      result = !!areas[`${gridCoords.x},${gridCoords.y}`];
+    }
+
+    if (cache.results.size >= MAX_EXPLORED_LOOKUP_CACHE_ENTRIES) {
+      cache.results.clear();
+    }
+    cache.results.set(key, result);
+    return result;
   },
 
   getExploredArea: (x, y) => {
@@ -2695,8 +2822,12 @@ const useLevelEditorStore = create((set, get) => ({
 
   setToolSettings: (settings) => {
     const state = get();
+    // Accept both a patch object and the legacy updater-function form so
+    // callers outside React (wheel handlers, event listeners) can patch a
+    // single key without spreading a stale snapshot over the whole settings.
+    const patch = typeof settings === 'function' ? settings(state.toolSettings) : settings;
     set({
-      toolSettings: { ...state.toolSettings, ...settings }
+      toolSettings: { ...state.toolSettings, ...patch }
     });
   },
 
@@ -3675,6 +3806,7 @@ const useLevelEditorStore = create((set, get) => ({
       scale: objectData.scale || 1,
       layer: objectData.layer || 'objects',
       selected: false,
+      locked: objectData.locked || false,
       showLight: objectData.showLight || false,
       timestamp: Date.now(),
       ...objectData
@@ -3695,6 +3827,9 @@ const useLevelEditorStore = create((set, get) => ({
 
   removeEnvironmentalObject: (objectId, mapId = null) => {
     const state = get();
+    const target = state.environmentalObjects.find(obj => obj.id === objectId);
+    // Locked objects must be unlocked before they can be removed.
+    if (target?.locked) return false;
     const newObjects = state.environmentalObjects
       .filter(obj => obj.id !== objectId)
       .map(obj => {
@@ -3712,12 +3847,26 @@ const useLevelEditorStore = create((set, get) => ({
     if (!window._isReceivingMapUpdate) {
       mapUpdateBatcher.addUpdate('environmentalObjects', newObjects, mapId);
     }
+    return true;
   },
 
   updateEnvironmentalObject: (objectId, updates, mapId = null) => {
     const state = get();
+    const existing = state.environmentalObjects.find(obj => obj.id === objectId);
+
+    // Freeze transforms on locked objects. Callers commonly spread the whole
+    // object into `updates` (e.g. { ...obj, worldX }), so only an explicit
+    // `locked: false` in the same update is allowed to bypass the guard.
+    let nextUpdates = updates;
+    if (existing?.locked && updates && updates.locked !== false) {
+      nextUpdates = { ...updates };
+      for (const key of LOCKED_OBJECT_TRANSFORM_KEYS) {
+        delete nextUpdates[key];
+      }
+    }
+
     const newObjects = state.environmentalObjects.map(obj =>
-      obj.id === objectId ? { ...obj, ...updates } : obj
+      obj.id === objectId ? { ...obj, ...nextUpdates } : obj
     );
     set({
       environmentalObjects: newObjects
@@ -3727,6 +3876,23 @@ const useLevelEditorStore = create((set, get) => ({
     if (!window._isReceivingMapUpdate) {
       mapUpdateBatcher.addUpdate('environmentalObjects', newObjects, mapId);
     }
+  },
+
+  setEnvironmentalObjectLocked: (objectId, locked, mapId = null) => {
+    const state = get();
+    if (!state.environmentalObjects.some(obj => obj.id === objectId)) return false;
+    const newObjects = state.environmentalObjects.map(obj =>
+      obj.id === objectId ? { ...obj, locked: !!locked } : obj
+    );
+    set({
+      environmentalObjects: newObjects
+    });
+
+    // Sync to other clients
+    if (!window._isReceivingMapUpdate) {
+      mapUpdateBatcher.addUpdate('environmentalObjects', newObjects, mapId);
+    }
+    return true;
   },
 
   reorderEnvironmentalObject: (objectId, action, mapId = null) => {
@@ -4120,13 +4286,37 @@ const useLevelEditorStore = create((set, get) => ({
   // Check if position is explored for current player
   isPlayerPositionExplored: (worldX, worldY) => {
     const state = get();
-    const playerId = state.currentPlayerId;
+    const playerId = state.currentPlayerId || null;
 
     // CRITICAL FIX: Fall back to the legacy explored stores when the per-player
     // memory key is missing. With dual-writes the legacy stores always mirror
     // exploration, so this keeps memory rendering working even when
     // currentPlayerId is null or was changed after memories were recorded.
     const memories = playerId ? state.playerMemories[playerId] : null;
+    const playerPolygons = memories?.exploredPolygons || null;
+    const playerAreas = memories?.exploredAreas || null;
+    const legacyPolygons = state.exploredPolygons || null;
+    const legacyAreas = state.exploredAreas || null;
+
+    const cache = playerExploredLookupCache;
+    if (
+      cache.playerId !== playerId ||
+      cache.playerPolygons !== playerPolygons ||
+      cache.playerAreas !== playerAreas ||
+      cache.legacyPolygons !== legacyPolygons ||
+      cache.legacyAreas !== legacyAreas
+    ) {
+      cache.playerId = playerId;
+      cache.playerPolygons = playerPolygons;
+      cache.playerAreas = playerAreas;
+      cache.legacyPolygons = legacyPolygons;
+      cache.legacyAreas = legacyAreas;
+      cache.results.clear();
+    }
+
+    const key = `${worldX},${worldY}`;
+    const cached = cache.results.get(key);
+    if (cached !== undefined) return cached;
 
     // Get grid settings from gameStore for coordinate conversion
     let gridSize = 50, gridOffsetX = 0, gridOffsetY = 0;
@@ -4143,23 +4333,41 @@ const useLevelEditorStore = create((set, get) => ({
     const gridX = Math.floor((worldX - gridOffsetX) / gridSize);
     const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
     const tileKey = `${gridX},${gridY}`;
-    if (memories?.exploredAreas && memories.exploredAreas[tileKey]) return true;
-    if (state.exploredAreas && state.exploredAreas[tileKey]) return true;
 
     // NOTE: circle-based exploration is intentionally ignored here. Circles were
     // recorded around the viewer without wall clipping and leaked "explored"
     // terrain through walls; LOS-clipped polygons + exploredAreas tiles are authoritative.
+    const exploredByTile = !!(playerAreas && playerAreas[tileKey]) || !!(legacyAreas && legacyAreas[tileKey]);
 
-    // Check polygon-based explored areas (per-player, then legacy)
-    const polygons = [
-      ...(memories?.exploredPolygons || []),
-      ...(state.exploredPolygons || [])
-    ];
-    for (const polygon of polygons) {
-      if (pointInPolygon({ x: worldX, y: worldY }, polygon.points)) return true;
+    let result = exploredByTile;
+
+    if (!exploredByTile) {
+      // Check polygon-based explored areas (per-player, then legacy)
+      if (playerPolygons) {
+        for (let i = 0; i < playerPolygons.length; i++) {
+          const polygon = playerPolygons[i];
+          if (polygon && pointInPolygonChecked(worldX, worldY, polygon.points)) {
+            result = true;
+            break;
+          }
+        }
+      }
+      if (!result && legacyPolygons) {
+        for (let i = 0; i < legacyPolygons.length; i++) {
+          const polygon = legacyPolygons[i];
+          if (polygon && pointInPolygonChecked(worldX, worldY, polygon.points)) {
+            result = true;
+            break;
+          }
+        }
+      }
     }
 
-    return false;
+    if (cache.results.size >= MAX_EXPLORED_LOOKUP_CACHE_ENTRIES) {
+      cache.results.clear();
+    }
+    cache.results.set(key, result);
+    return result;
   },
 
   // Get current player's token afterimages

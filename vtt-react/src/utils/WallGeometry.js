@@ -59,6 +59,17 @@ export function getWallHeightWorld(wall, typeData, gridSize) {
 }
 
 /**
+ * Height of the wall body (the masonry run) rather than the opening.
+ * Doors/windows keep their own opening proportions but their surrounding
+ * masonry wraps up to the host wall height so runs stay level. 3D feature
+ * models must therefore be scaled to this height too.
+ */
+export function getWallBodyHeightWorld(wall, gridSize) {
+  if (Number.isFinite(wall?.height) && wall.height > 0) return wall.height;
+  return WALL_HEIGHT_MULTIPLIERS.wall * (gridSize || 50);
+}
+
+/**
  * Free-form hex walls store their world-space endpoints on the wall record
  * (`hexEndpoints: [{x,y}, {x,y}]`). They may connect any two hex corners,
  * including straight chords that cross several cells, so the cell-pair key

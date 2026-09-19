@@ -5604,7 +5604,9 @@ const RulesPage = () => {
 
 
 
-    const handleResize = () => {
+    let rafId = 0;
+
+    const updatePopoutPosition = () => {
 
 
 
@@ -5744,7 +5746,11 @@ const RulesPage = () => {
 
 
 
-        setPopoutPosition({ top, left });
+        setPopoutPosition(prev => (
+          Math.abs(prev.top - top) < 1 && Math.abs(prev.left - left) < 1
+            ? prev
+            : { top, left }
+        ));
 
 
 
@@ -5759,6 +5765,16 @@ const RulesPage = () => {
 
 
 
+
+    // The popout re-anchors on scroll/resize; batch those into a single
+    // animation frame so raw scroll events do not re-render the codex.
+    const handleResize = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        updatePopoutPosition();
+      });
+    };
 
     // Delay to avoid immediate closure when opening
 
@@ -5780,7 +5796,7 @@ const RulesPage = () => {
 
 
 
-      window.addEventListener('scroll', handleResize, true);
+      window.addEventListener('scroll', handleResize, { capture: true, passive: true });
 
 
 
@@ -5797,6 +5813,7 @@ const RulesPage = () => {
 
 
       clearTimeout(timeoutId);
+      cancelAnimationFrame(rafId);
 
 
 

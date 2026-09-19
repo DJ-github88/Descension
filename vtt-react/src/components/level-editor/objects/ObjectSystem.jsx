@@ -1,16 +1,21 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useCallback, useState, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
+import useChatStore from '../../../store/chatStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
+import { getObjectScreenBounds, getObjectSelectionHandles } from '../../../utils/ObjectSelectionBounds';
 import { isWorldPointOccluded } from '../../../utils/WallOcclusion';
+import { isPointInPolygon } from '../../../utils/VisibilityCalculations';
 import UnifiedContextMenu from '../UnifiedContextMenu';
+import UnlockContainerModal from '../../item-generation/UnlockContainerModal';
+import LockSettingsModal from '../../item-generation/LockSettingsModal';
 import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
 
-const snapRotationForHitTest = (type, rotation) => {
+export const snapRotationForHitTest = (type, rotation) => {
     // Snap rotation to the nearest 90- for any object that has a sprite.
     // Pure canvas-only objects (like GM Notes) get free rotation.
     const def = PROFESSIONAL_OBJECTS[type];
@@ -60,616 +65,931 @@ export const getObjectImageCache = () => globalObjectImageCache;
 const SPRITE = (name) => `/assets/objects/${name}.png`;
 
 export const PROFESSIONAL_OBJECTS = {
-    // ===== Furniture =====
-    misc_box: {
-        id: 'misc_box',
-        name: 'Treasure Chest',
-        image: SPRITE('misc_box'),
-        category: 'furniture',
+    // ===== 3D Structures & Architecture =====
+    wall_doorway: {
+        id: 'wall_doorway',
+        name: '3D Wooden Door',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A wooden chest for treasures',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Interactive 3D swinging wooden door with stone archway',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: true
     },
-    shop_potions: {
-        id: 'shop_potions',
-        name: 'Shop Counter',
-        image: SPRITE('shop_potions'),
-        category: 'furniture',
-        size: { width: 2, height: 1 },
-        description: 'A merchant counter',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    statue_base: {
-        id: 'statue_base',
-        name: 'Stone Statue',
-        image: SPRITE('statue_base'),
-        category: 'furniture',
+    pillar_stone: {
+        id: 'pillar_stone',
+        name: '3D Square Pillar',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A carved stone statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Square carved dungeon stone support pillar',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    silver_statue: {
-        id: 'silver_statue',
-        name: 'Silver Statue',
-        image: SPRITE('silver_statue'),
-        category: 'furniture',
+    column_stone: {
+        id: 'column_stone',
+        name: '3D Round Column',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A gleaming silver statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Classical round masonry column pillar',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    dark_vine_statue_base: {
-        id: 'dark_vine_statue_base',
-        name: 'Dark Statue',
-        image: SPRITE('dark_vine_statue_base'),
-        category: 'furniture',
+    barrier_wood: {
+        id: 'barrier_wood',
+        name: '3D Wooden Barrier',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A dark vine-wrapped statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Sturdy wooden palisade barrier fence',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    light_vine_statue_base: {
-        id: 'light_vine_statue_base',
-        name: 'Light Statue',
-        image: SPRITE('light_vine_statue_base'),
-        category: 'furniture',
+    barrier_corner: {
+        id: 'barrier_corner',
+        name: '3D Barrier Corner',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A light vine-wrapped statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Corner piece for wooden barrier fence',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    orange_crystal_statue: {
-        id: 'orange_crystal_statue',
-        name: 'Crystal Statue',
-        image: SPRITE('orange_crystal_statue'),
-        category: 'furniture',
+    barrier_column: {
+        id: 'barrier_column',
+        name: '3D Fence Post',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A statue carved from orange crystal',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Wooden barrier fence post',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    ice_statue: {
-        id: 'ice_statue',
-        name: 'Ice Statue',
-        image: SPRITE('ice_statue'),
-        category: 'furniture',
+    barrier_half: {
+        id: 'barrier_half',
+        name: '3D Low Wooden Barrier',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A frozen ice statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Low wooden barricade railing',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    firespitter_statue: {
-        id: 'firespitter_statue',
-        name: 'Fire Statue',
-        image: SPRITE('firespitter_statue'),
-        category: 'furniture',
+    barrier_post_half: {
+        id: 'barrier_post_half',
+        name: '3D Low Post',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A statue breathing fire',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Half-height wooden barrier post',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    elephant_statue: {
-        id: 'elephant_statue',
-        name: 'Elephant Statue',
-        image: SPRITE('elephant_statue'),
-        category: 'furniture',
-        size: { width: 2, height: 2 },
-        description: 'A massive stone elephant',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    bone: {
-        id: 'bone',
-        name: 'Bone',
-        image: SPRITE('bone'),
-        category: 'furniture',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A scattered bone',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    flying_skull: {
-        id: 'flying_skull',
-        name: 'Skull',
-        image: SPRITE('flying_skull'),
-        category: 'furniture',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A floating skull',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    curse_skull: {
-        id: 'curse_skull',
-        name: 'Cursed Skull',
-        image: SPRITE('curse_skull'),
-        category: 'furniture',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A cursed floating skull',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-
-    // ===== Props =====
-    gold_pile: {
-        id: 'gold_pile',
-        name: 'Treasure Pile',
-        image: SPRITE('gold_pile'),
-        category: 'props',
+    pillar_decorated: {
+        id: 'pillar_decorated',
+        name: '3D Ornate Stone Pillar',
+        image: null,
+        category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A pile of gold',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Decorated carved stone support pillar',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    misc_lamp: {
-        id: 'misc_lamp',
-        name: 'Brass Lamp',
-        image: SPRITE('misc_lamp'),
-        category: 'props',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A small brass lamp',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    misc_lantern: {
-        id: 'misc_lantern',
-        name: 'Lantern',
-        image: SPRITE('misc_lantern'),
-        category: 'props',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A handheld lantern',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    misc_orb: {
-        id: 'misc_orb',
-        name: 'Crystal Orb',
-        image: SPRITE('misc_orb'),
-        category: 'props',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A glowing crystal orb',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    misc_bottle: {
-        id: 'misc_bottle',
-        name: 'Bottle',
-        image: SPRITE('misc_bottle'),
-        category: 'props',
-        size: { width: 0.4, height: 0.4 },
-        description: 'A glass bottle',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    misc_stone: {
-        id: 'misc_stone',
-        name: 'Rune Stone',
-        image: SPRITE('misc_stone'),
-        category: 'props',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A stone with carved runes',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    misc_crystal: {
-        id: 'misc_crystal',
-        name: 'Mystic Crystal',
-        image: SPRITE('misc_crystal'),
-        category: 'props',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A glowing mystic crystal',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    dngn_sparkling_fountain: {
-        id: 'dngn_sparkling_fountain',
-        name: 'Sparkling Fountain',
-        image: SPRITE('dngn_sparkling_fountain'),
-        category: 'props',
-        size: { width: 2, height: 2 },
-        description: 'A fountain of sparkling water',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    dngn_blue_fountain: {
-        id: 'dngn_blue_fountain',
-        name: 'Blue Fountain',
-        image: SPRITE('dngn_blue_fountain'),
-        category: 'props',
-        size: { width: 2, height: 2 },
-        description: 'A blue-water fountain',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    dngn_blood_fountain: {
-        id: 'dngn_blood_fountain',
-        name: 'Blood Fountain',
-        image: SPRITE('dngn_blood_fountain'),
-        category: 'props',
-        size: { width: 2, height: 2 },
-        description: 'A gruesome blood fountain',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    cherub: {
-        id: 'cherub',
-        name: 'Cherub Statue',
-        image: SPRITE('cherub'),
-        category: 'props',
-        size: { width: 1, height: 1 },
-        description: 'A cherub statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    paladin: {
-        id: 'paladin',
-        name: 'Paladin Statue',
-        image: SPRITE('paladin'),
-        category: 'props',
-        size: { width: 1, height: 1 },
-        description: 'A holy paladin statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    eastern_dragon: {
-        id: 'eastern_dragon',
-        name: 'Dragon Statue',
-        image: SPRITE('eastern_dragon'),
-        category: 'props',
-        size: { width: 2, height: 2 },
-        description: 'An eastern dragon statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    shedu: {
-        id: 'shedu',
-        name: 'Shedu Statue',
-        image: SPRITE('shedu'),
-        category: 'props',
-        size: { width: 1, height: 1 },
-        description: 'A lamassu guardian statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    ophan: {
-        id: 'ophan',
-        name: 'Ophan Statue',
-        image: SPRITE('ophan'),
-        category: 'props',
-        size: { width: 1, height: 1 },
-        description: 'A wheeled ophan statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    apis: {
-        id: 'apis',
-        name: 'Apis Statue',
-        image: SPRITE('apis'),
-        category: 'props',
-        size: { width: 1, height: 1 },
-        description: 'A sacred bull statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    demon_wings_bones: {
-        id: 'demon_wings_bones',
-        name: 'Demon Remains',
-        image: SPRITE('demon_wings_bones'),
-        category: 'props',
-        size: { width: 1, height: 1 },
-        description: 'The skeletal remains of a demon',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-
-    // ===== Structures =====
-    dngn_altar: {
-        id: 'dngn_altar',
-        name: 'Stone Altar',
-        image: SPRITE('dngn_altar'),
+    wall_doorway_sides: {
+        id: 'wall_doorway_sides',
+        name: '3D Winged Doorway',
+        image: null,
         category: 'structures',
         size: { width: 2, height: 1 },
-        description: 'A ritual stone altar',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Stone doorway framed by arched masonry side wings',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: true
     },
-    dngn_granite_statue: {
-        id: 'dngn_granite_statue',
-        name: 'Granite Statue',
-        image: SPRITE('dngn_granite_statue'),
+    wall_sloped: {
+        id: 'wall_sloped',
+        name: '3D Sloped Wall',
+        image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A weathered granite statue',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Angled sloped stone ramp wall',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    crumbled_column: {
-        id: 'crumbled_column',
-        name: 'Crumbling Column',
-        image: SPRITE('crumbled_column'),
+    wall_half_endcap: {
+        id: 'wall_half_endcap',
+        name: '3D Half Wall Cap',
+        image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A crumbling stone column',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Finished end terminal for low stone half-walls',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    zot_pillar: {
-        id: 'zot_pillar',
-        name: 'Ornate Pillar',
-        image: SPRITE('zot_pillar'),
+    stairs_stone: {
+        id: 'stairs_stone',
+        name: '3D Stone Stairs',
+        image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'An ornate magical pillar',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Carved dungeon stone steps leading upward',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    granite_stump: {
-        id: 'granite_stump',
-        name: 'Granite Stump',
-        image: SPRITE('granite_stump'),
+    stairs_narrow: {
+        id: 'stairs_narrow',
+        name: '3D Narrow Steps',
+        image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A flat-topped granite pillar',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Narrow stone stairway passage',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    dngn_closed_door: {
-        id: 'dngn_closed_door',
-        name: 'Stone Door',
-        image: SPRITE('dngn_closed_door'),
+    stairs_wide: {
+        id: 'stairs_wide',
+        name: '3D Grand Stairs',
+        image: null,
+        category: 'structures',
+        size: { width: 2, height: 1 },
+        description: 'Grand wide stone stairs for throne rooms and courtyards',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    stairs_wood: {
+        id: 'stairs_wood',
+        name: '3D Wooden Stairs',
+        image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'A closed stone door',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Timber tavern steps',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
-    dngn_open_door: {
-        id: 'dngn_open_door',
-        name: 'Open Doorway',
-        image: SPRITE('dngn_open_door'),
+    stairs_walled: {
+        id: 'stairs_walled',
+        name: '3D Walled Stairs',
+        image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'An open stone doorway',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    dngn_trap_spear: {
-        id: 'dngn_trap_spear',
-        name: 'Spear Trap',
-        image: SPRITE('dngn_trap_spear'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A floor-mounted spear trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_blade: {
-        id: 'dngn_trap_blade',
-        name: 'Blade Trap',
-        image: SPRITE('dngn_trap_blade'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A spinning blade trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_axe: {
-        id: 'dngn_trap_axe',
-        name: 'Axe Trap',
-        image: SPRITE('dngn_trap_axe'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A swinging axe trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_arrow: {
-        id: 'dngn_trap_arrow',
-        name: 'Arrow Trap',
-        image: SPRITE('dngn_trap_arrow'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A wall-mounted arrow trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_bolt: {
-        id: 'dngn_trap_bolt',
-        name: 'Bolt Trap',
-        image: SPRITE('dngn_trap_bolt'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A heavy crossbow bolt trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_dart: {
-        id: 'dngn_trap_dart',
-        name: 'Dart Trap',
-        image: SPRITE('dngn_trap_dart'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A poisoned dart trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_needle: {
-        id: 'dngn_trap_needle',
-        name: 'Needle Trap',
-        image: SPRITE('dngn_trap_needle'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A tiny poisoned needle trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_net: {
-        id: 'dngn_trap_net',
-        name: 'Net Trap',
-        image: SPRITE('dngn_trap_net'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A falling net trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_teleport: {
-        id: 'dngn_trap_teleport',
-        name: 'Teleport Trap',
-        image: SPRITE('dngn_trap_teleport'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A teleportation trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_zot: {
-        id: 'dngn_trap_zot',
-        name: 'Zot Trap',
-        image: SPRITE('dngn_trap_zot'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A magical Zot trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
-    },
-    dngn_trap_alarm: {
-        id: 'dngn_trap_alarm',
-        name: 'Alarm Trap',
-        image: SPRITE('dngn_trap_alarm'),
-        category: 'structures',
-        size: { width: 1, height: 1 },
-        description: 'A noise-making alarm trap',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true
+        description: 'Enclosed stone stairway flanked by protective masonry walls',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
 
-    // ===== Nature =====
-    tree1_red: {
-        id: 'tree1_red',
-        name: 'Broadleaf Tree',
-        image: SPRITE('tree1_red'),
+    // ===== 3D Furniture & Interior =====
+    table_long: {
+        id: 'table_long',
+        name: '3D Long Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 2, height: 1 },
+        description: 'Long wooden banquet table',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_medium: {
+        id: 'table_medium',
+        name: '3D Dining Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Medium wooden dining table',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_small: {
+        id: 'table_small',
+        name: '3D Small Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Small side table',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_feast: {
+        id: 'table_feast',
+        name: '3D Feast Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 2, height: 1 },
+        description: 'Feast banquet table loaded with food and drink',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_long_broken: {
+        id: 'table_long_broken',
+        name: '3D Ruined Banquet Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 2, height: 1 },
+        description: 'Broken, splintered long wooden table',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_long_tablecloth: {
+        id: 'table_long_tablecloth',
+        name: '3D Tablecloth Banquet Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 2, height: 1 },
+        description: 'Long dining table draped in fine tablecloth',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_medium_tablecloth: {
+        id: 'table_medium_tablecloth',
+        name: '3D Tablecloth Dining Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Dining table with cloth covering',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    table_small_decorated: {
+        id: 'table_small_decorated',
+        name: '3D Decorated Small Table',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Small side table with candles and tavern cup',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    bed_floor: {
+        id: 'bed_floor',
+        name: '3D Dungeon Bedroll',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1.5 },
+        description: 'Straw and cloth bedroll on stone floor',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    chair: {
+        id: 'chair',
+        name: '3D Wooden Chair',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Wooden dining chair',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    stool: {
+        id: 'stool',
+        name: '3D Wooden Stool',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Simple round wooden stool',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    bed_frame: {
+        id: 'bed_frame',
+        name: '3D Wooden Bed Frame',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 2 },
+        description: 'Sturdy wooden bed frame',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    bed_decorated: {
+        id: 'bed_decorated',
+        name: '3D Made Bed',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 2 },
+        description: 'Wooden bed with blankets and pillow',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    bookshelf_large: {
+        id: 'bookshelf_large',
+        name: '3D Large Bookshelf',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Large wooden library bookshelf',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    shelves: {
+        id: 'shelves',
+        name: '3D Wall Shelves',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Wooden wall shelving unit',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 1.0,
+        blocksLineOfSight: false
+    },
+    shelf_candles: {
+        id: 'shelf_candles',
+        name: '3D Candle Shelf',
+        image: null,
+        category: 'furniture',
+        size: { width: 1, height: 1 },
+        description: 'Wall shelf with burning candles',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 1.2,
+        blocksLineOfSight: false
+    },
+
+    // ===== 3D Nature & Environment =====
+    tree_pine: {
+        id: 'tree_pine',
+        name: '3D Pine Tree',
+        image: null,
         category: 'nature',
         size: { width: 1, height: 1 },
-        description: 'A broadleaf tree with deep-red autumn foliage',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Stylized 3D pine tree',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    tree1_lightred: {
-        id: 'tree1_lightred',
-        name: 'Broadleaf Tree (Autumn)',
-        image: SPRITE('tree1_lightred'),
+    tree_oak: {
+        id: 'tree_oak',
+        name: '3D Oak Tree',
+        image: null,
         category: 'nature',
         size: { width: 1, height: 1 },
-        description: 'A broadleaf tree with light autumn foliage',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        description: 'Stylized 3D oak tree',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    tree1_yellow: {
-        id: 'tree1_yellow',
-        name: 'Broadleaf Tree (Golden)',
-        image: SPRITE('tree1_yellow'),
-        category: 'nature',
-        size: { width: 1, height: 1 },
-        description: 'A broadleaf tree with golden autumn leaves',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    tree2_red: {
-        id: 'tree2_red',
-        name: 'Canopy Tree',
-        image: SPRITE('tree2_red'),
-        category: 'nature',
-        size: { width: 1, height: 1 },
-        description: 'A wide-canopied tree with deep-red foliage',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    tree2_lightred: {
-        id: 'tree2_lightred',
-        name: 'Canopy Tree (Autumn)',
-        image: SPRITE('tree2_lightred'),
-        category: 'nature',
-        size: { width: 1, height: 1 },
-        description: 'A wide-canopied tree with light autumn foliage',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    tree2_yellow: {
-        id: 'tree2_yellow',
-        name: 'Canopy Tree (Golden)',
-        image: SPRITE('tree2_yellow'),
-        category: 'nature',
-        size: { width: 1, height: 1 },
-        description: 'A wide-canopied tree with golden leaves',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    plant: {
-        id: 'plant',
-        name: 'Shrub',
-        image: SPRITE('plant'),
-        category: 'nature',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A leafy green shrub',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    plant_crypt: {
-        id: 'plant_crypt',
-        name: 'Crypt Plant',
-        image: SPRITE('plant_crypt'),
-        category: 'nature',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A pale, withered crypt plant',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
-    },
-    fire_drake: {
-        id: 'fire_drake',
-        name: 'Fire Drake',
-        image: SPRITE('fire_drake'),
-        category: 'nature',
-        size: { width: 1, height: 1 },
-        description: 'A small red fire drake',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true,
-        lightRadius: 2, lightColor: '#ff6622', showLight: true
-    },
-    fire_giant: {
-        id: 'fire_giant',
-        name: 'Fire Giant',
-        image: SPRITE('fire_giant'),
+    trees_small_cluster: {
+        id: 'trees_small_cluster',
+        name: '3D Tree Grove',
+        image: null,
         category: 'nature',
         size: { width: 2, height: 2 },
-        description: 'A towering fire giant',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true,
-        lightRadius: 3, lightColor: '#ff4400', showLight: true
+        description: 'Cluster of low-poly deciduous trees and shrubs',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    fire_elemental: {
-        id: 'fire_elemental',
-        name: 'Fire Elemental',
-        image: SPRITE('fire_elemental'),
+    rock_boulder: {
+        id: 'rock_boulder',
+        name: '3D Boulder',
+        image: null,
         category: 'nature',
         size: { width: 1, height: 1 },
-        description: 'A living ball of elemental fire',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true,
-        lightRadius: 3, lightColor: '#ff6622', showLight: true
+        description: 'Stylized 3D rock boulder',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
     },
-    flame: {
-        id: 'flame',
-        name: 'Flame',
-        image: SPRITE('flame'),
+    rock_single_B: {
+        id: 'rock_single_B',
+        name: '3D Mossy Rock',
+        image: null,
         category: 'nature',
-        size: { width: 0.5, height: 0.5 },
-        description: 'A small fire flame',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        size: { width: 1, height: 1 },
+        description: 'Weathered mossy rock formation',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    rock_single_C: {
+        id: 'rock_single_C',
+        name: '3D Jagged Rock',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Sharp jagged mountain stone',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
 
-    // ===== Lighting =====
-    torch0: {
-        id: 'torch0',
-        name: 'Wall Torch',
-        image: SPRITE('torch0'),
+    // ===== 3D Props, Containers & Traps =====
+    chest: {
+        id: 'chest',
+        name: '3D Treasure Chest',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D animated treasure chest (opens on click)',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    chest_gold: {
+        id: 'chest_gold',
+        name: '3D Royal Gold Chest',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D ornate gold-trimmed chest (opens on click)',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    trunk_large: {
+        id: 'trunk_large',
+        name: '3D Ironbound Trunk',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Large ironbound storage trunk',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    barrel: {
+        id: 'barrel',
+        name: '3D Barrel',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Stylized 3D wooden barrel',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    barrel_large: {
+        id: 'barrel_large',
+        name: '3D Large Barrel',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Large wooden ale barrel',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    barrel_stack: {
+        id: 'barrel_stack',
+        name: '3D Stacked Barrels',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Pyramid stack of wooden tavern barrels',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    crates: {
+        id: 'crates',
+        name: '3D Stacked Crates',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Stylized 3D stacked wooden crates',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    crates_tall: {
+        id: 'crates_tall',
+        name: '3D Tall Crates Stack',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Stylized 3D tall stack of wooden cargo crates',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    keg: {
+        id: 'keg',
+        name: '3D Ale Keg',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Wooden brew keg',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    keg_decorated: {
+        id: 'keg_decorated',
+        name: '3D Tap Keg Stand',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Ale keg on wooden dispenser stand with tap',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    weapons_rack: {
+        id: 'weapons_rack',
+        name: '3D Weapon Display',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Wall trophy with iron shield and crossed swords',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    royal_weapons: {
+        id: 'royal_weapons',
+        name: '3D Royal Arms',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Golden heraldic crest with royal sword and shield',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    treasure_coins: {
+        id: 'treasure_coins',
+        name: '3D Gold Coin Pile',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Heaping mound of glistening gold coins',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    rubble_pile: {
+        id: 'rubble_pile',
+        name: '3D Stone Rubble',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Pile of collapsed masonry stones',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    rubble_half: {
+        id: 'rubble_half',
+        name: '3D Scattered Rubble',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Scattered stones and debris',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    barrel_decorated: {
+        id: 'barrel_decorated',
+        name: '3D Ornate Ale Barrel',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Carved wooden tavern barrel with brass bands',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    barrel_small: {
+        id: 'barrel_small',
+        name: '3D Small Keg',
+        image: null,
+        category: 'props',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Compact wooden keg',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    box_large: {
+        id: 'box_large',
+        name: '3D Large Cargo Box',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Reinforced shipping cargo crate',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    box_small: {
+        id: 'box_small',
+        name: '3D Small Wooden Box',
+        image: null,
+        category: 'props',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Small wooden storage container',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    trunk_medium: {
+        id: 'trunk_medium',
+        name: '3D Storage Trunk',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Medium ironbound footlocker trunk',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    trunk_small: {
+        id: 'trunk_small',
+        name: '3D Small Strongbox',
+        image: null,
+        category: 'props',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Small locked wooden strongbox',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    coin_stack_medium: {
+        id: 'coin_stack_medium',
+        name: '3D Medium Coin Pile',
+        image: null,
+        category: 'props',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Stack of gleaming silver and gold coins',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    weapons_broken: {
+        id: 'weapons_broken',
+        name: '3D Damaged Weapons',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Broken weapons and shattered shields from past battles',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    spikes_floor: {
+        id: 'spikes_floor',
+        name: '3D Floor Spikes Trap',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Deadly iron floor spikes trap',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    grate_closed: {
+        id: 'grate_closed',
+        name: '3D Closed Metal Grate',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Heavy dungeon drainage iron grate',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    grate_open: {
+        id: 'grate_open',
+        name: '3D Open Metal Grate',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Opened dungeon floor iron grate leading down',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    potion_bottle_green: {
+        id: 'potion_bottle_green',
+        name: '3D Healing Potion',
+        image: null,
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'Emerald green glass alchemical potion bottle',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    potion_bottle_brown: {
+        id: 'potion_bottle_brown',
+        name: '3D Elixir Flask',
+        image: null,
+        category: 'props',
+        size: { width: 0.5, height: 0.5 },
+        description: 'Amber glass elixir flask',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+
+    // ===== 3D Lighting & Banners =====
+    torch_wall: {
+        id: 'torch_wall',
+        name: '3D Wall Torch',
+        image: null,
+        category: 'lighting',
+        size: { width: 0.6, height: 0.6 },
+        description: 'Mounted wall sconce torch with flickering flame',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 1.2,
+        lightRadius: 3, lightColor: '#ffaa33', showLight: true,
+        blocksLineOfSight: false
+    },
+    torch_standing: {
+        id: 'torch_standing',
+        name: '3D Standing Torch',
+        image: null,
+        category: 'lighting',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Free-standing iron lit dungeon torch brazier',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        lightRadius: 4, lightColor: '#ff9922', showLight: true,
+        blocksLineOfSight: false
+    },
+    candle: {
+        id: 'candle',
+        name: '3D Lit Candle',
+        image: null,
         category: 'lighting',
         size: { width: 0.4, height: 0.4 },
-        description: 'A wall-mounted torch',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
-        lightRadius: 2, lightColor: '#ffcc55', showLight: true
+        description: 'Small burning wax candle',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        lightRadius: 1.5, lightColor: '#ffcc66', showLight: true,
+        blocksLineOfSight: false
     },
-    torch1: {
-        id: 'torch1',
-        name: 'Brazier',
-        image: SPRITE('torch1'),
+    candle_melted: {
+        id: 'candle_melted',
+        name: '3D Melted Candle',
+        image: null,
         category: 'lighting',
         size: { width: 0.4, height: 0.4 },
-        description: 'A standing brazier with flame',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
-        lightRadius: 2, lightColor: '#ffcc55', showLight: true
+        description: 'Low melted tallow candle stump',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        lightRadius: 1.2, lightColor: '#ffb347', showLight: true,
+        blocksLineOfSight: false
     },
-    torch2: {
-        id: 'torch2',
-        name: 'Torch Stand',
-        image: SPRITE('torch2'),
+    candle_thin: {
+        id: 'candle_thin',
+        name: '3D Taper Candle',
+        image: null,
         category: 'lighting',
-        size: { width: 0.4, height: 0.4 },
-        description: 'A standing torch on a pedestal',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
-        lightRadius: 2, lightColor: '#ffcc55', showLight: true
+        size: { width: 0.3, height: 0.3 },
+        description: 'Slender lit taper candle',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        lightRadius: 1.5, lightColor: '#ffcc66', showLight: true,
+        blocksLineOfSight: false
     },
-    torch3: {
-        id: 'torch3',
-        name: 'Brass Torch',
-        image: SPRITE('torch3'),
+    candelabra: {
+        id: 'candelabra',
+        name: '3D Candelabra',
+        image: null,
         category: 'lighting',
-        size: { width: 0.4, height: 0.4 },
-        description: 'A brass-mounted torch',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
-        lightRadius: 2.5, lightColor: '#ffdd55', showLight: true
+        size: { width: 0.8, height: 0.8 },
+        description: 'Triple brass candelabra stand',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        lightRadius: 3, lightColor: '#ffbb44', showLight: true,
+        blocksLineOfSight: false
     },
-    torch4: {
-        id: 'torch4',
-        name: 'Smoldering Torch',
-        image: SPRITE('torch4'),
+    banner_red: {
+        id: 'banner_red',
+        name: '3D Crimson Banner',
+        image: null,
         category: 'lighting',
-        size: { width: 0.4, height: 0.4 },
-        description: 'A smoldering torch with low flame',
-        freePosition: true, draggable: true, resizable: false, clickable: true, interactive: true,
-        lightRadius: 1.5, lightColor: '#ffaa33', showLight: true
+        size: { width: 0.8, height: 1.5 },
+        description: 'Hanging crimson banner with heraldic emblem',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.3,
+        blocksLineOfSight: false
     },
-    banner1: {
-        id: 'banner1',
-        name: 'Wall Banner',
-        image: SPRITE('banner1'),
+    banner_blue: {
+        id: 'banner_blue',
+        name: '3D Azure Banner',
+        image: null,
         category: 'lighting',
-        size: { width: 0.5, height: 1 },
-        description: 'A decorative wall banner',
-        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true
+        size: { width: 0.8, height: 1.5 },
+        description: 'Hanging royal azure cloth banner',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.3,
+        blocksLineOfSight: false
+    },
+    banner_green: {
+        id: 'banner_green',
+        name: '3D Emerald Banner',
+        image: null,
+        category: 'lighting',
+        size: { width: 0.8, height: 1.5 },
+        description: 'Hanging forest emerald cloth banner',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.3,
+        blocksLineOfSight: false
+    },
+    banner_yellow: {
+        id: 'banner_yellow',
+        name: '3D Golden Sun Banner',
+        image: null,
+        category: 'lighting',
+        size: { width: 0.8, height: 1.5 },
+        description: 'Hanging sunburst gold cloth banner',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.3,
+        blocksLineOfSight: false
+    },
+    banner_crest: {
+        id: 'banner_crest',
+        name: '3D Royal Crest Banner',
+        image: null,
+        category: 'lighting',
+        size: { width: 0.8, height: 1.5 },
+        description: 'Shield crest heraldic banner of the realm',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.3,
+        blocksLineOfSight: false
+    },
+
+    // ===== 3D Crypt, Graveyard & Tombs =====
+    gravestone: {
+        id: 'gravestone',
+        name: '3D Weathered Gravestone',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 1 },
+        description: 'Weathered stone cemetery headstone',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    coffin: {
+        id: 'coffin',
+        name: '3D Crypt Coffin',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 2 },
+        description: 'Ancient stone and iron coffin burial casket',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    crypt: {
+        id: 'crypt',
+        name: '3D Stone Mausoleum Crypt',
+        image: null,
+        category: 'crypt',
+        size: { width: 2, height: 2 },
+        description: 'Grand ornate ancestral stone crypt tomb',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    skull: {
+        id: 'skull',
+        name: '3D Human Skull',
+        image: null,
+        category: 'crypt',
+        size: { width: 0.5, height: 0.5 },
+        description: 'Bleached human skeleton skull',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    skull_candle: {
+        id: 'skull_candle',
+        name: '3D Ritual Skull Candle',
+        image: null,
+        category: 'crypt',
+        size: { width: 0.5, height: 0.5 },
+        description: 'Ritual skull topped with flickering melted candle wax',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        lightRadius: 2, lightColor: '#ff9944', showLight: true,
+        blocksLineOfSight: false
+    },
+    ribcage: {
+        id: 'ribcage',
+        name: '3D Skeletal Ribcage',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 1 },
+        description: 'Sunken skeletal ribcage remains',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    bone_pile: {
+        id: 'bone_pile',
+        name: '3D Bone Pile',
+        image: null,
+        category: 'crypt',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Scattered human skeletal bones',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    tree_dead_large: {
+        id: 'tree_dead_large',
+        name: '3D Gnarled Dead Tree',
+        image: null,
+        category: 'crypt',
+        size: { width: 2, height: 2 },
+        description: 'Towering gnarled leafless dead tree',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    tree_dead_medium: {
+        id: 'tree_dead_medium',
+        name: '3D Twisted Dead Tree',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 1 },
+        description: 'Twisted barren spooky tree',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    fence_iron: {
+        id: 'fence_iron',
+        name: '3D Wrought Iron Fence',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 1 },
+        description: 'Spiked cemetery iron fence railing',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    fence_gate_iron: {
+        id: 'fence_gate_iron',
+        name: '3D Iron Graveyard Gate',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 1 },
+        description: 'Hinged cemetery wrought iron gate',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    arch_iron: {
+        id: 'arch_iron',
+        name: '3D Iron Crypt Arch',
+        image: null,
+        category: 'crypt',
+        size: { width: 1, height: 1 },
+        description: 'Gothic wrought iron entrance archway',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
     },
 
     // ===== Utility / GM =====
@@ -682,8 +1002,9 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 1, height: 1 },
         description: 'GM prepared notes with items and creatures',
         freePosition: true, draggable: true, resizable: false, clickable: true,
-        gmOnly: true, interactive: true
-    },
+        gmOnly: true, interactive: true,
+        blocksLineOfSight: false
+    }
 };
 
 // Pre-warm the image cache for all known sprites so the editor
@@ -705,8 +1026,51 @@ const ObjectSystem = () => {
     const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
     const [hoveredHandle, setHoveredHandle] = useState(null);
     const dragStateRef = useRef({ isDragging: false, dragObjectId: null, dragOffsetX: 0, dragOffsetY: 0 });
+    // PERFORMANCE: coalesce drag store writes to one per animation frame. Raw
+    // mousemove can fire several times per frame and every write re-renders all
+    // whole-store subscribers (grid layers, tiles, fog, persistence).
+    const pendingDragApplyRef = useRef(null);
+    const dragApplyRafRef = useRef(null);
+    const scheduleDragApply = useCallback((applyFn) => {
+        window._isDraggingObject = true;
+        pendingDragApplyRef.current = applyFn;
+        if (dragApplyRafRef.current !== null) return;
+        dragApplyRafRef.current = requestAnimationFrame(() => {
+            dragApplyRafRef.current = null;
+            const fn = pendingDragApplyRef.current;
+            pendingDragApplyRef.current = null;
+            if (fn) fn();
+        });
+    }, []);
+    const flushDragApply = useCallback(() => {
+        if (dragApplyRafRef.current !== null) {
+            cancelAnimationFrame(dragApplyRafRef.current);
+            dragApplyRafRef.current = null;
+        }
+        const fn = pendingDragApplyRef.current;
+        pendingDragApplyRef.current = null;
+        if (fn) fn();
+        window._isDraggingObject = false;
+    }, []);
+
+    // Safety net: never leave the drag flag set if the component unmounts mid-drag.
+    useEffect(() => {
+        return () => {
+            if (dragApplyRafRef.current !== null) {
+                cancelAnimationFrame(dragApplyRafRef.current);
+            }
+            dragApplyRafRef.current = null;
+            pendingDragApplyRef.current = null;
+            window._isDraggingObject = false;
+        };
+    }, []);
     const [isOverConnection, setIsOverConnection] = useState(false);
     const connectionElementRef = useRef(null);
+
+    // Chest Modal state
+    const [activeUnlockChest, setActiveUnlockChest] = useState(null);
+    const [activeLockSettingsChest, setActiveLockSettingsChest] = useState(null);
+    const [isRotating, setIsRotating] = useState(false);
 
     // Context menu state
     const [showContextMenu, setShowContextMenu] = useState(false);
@@ -730,7 +1094,7 @@ const ObjectSystem = () => {
     const setPickParent = (val) => { setPickParentMode(val); pickParentModeRef.current = val; };
     const setPendingChild = (val) => { setPendingChildId(val); pendingChildIdRef.current = val; };
 
-    const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects);
+    const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects || []);
     const isEditorMode = useLevelEditorStore(state => state.isEditorMode);
     const activeLayer = useLevelEditorStore(state => state.activeLayer);
     const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
@@ -739,19 +1103,36 @@ const ObjectSystem = () => {
     const removeEnvironmentalObject = useLevelEditorStore(state => state.removeEnvironmentalObject);
     const updateEnvironmentalObject = useLevelEditorStore(state => state.updateEnvironmentalObject);
     const selectEnvironmentalObject = useLevelEditorStore(state => state.selectEnvironmentalObject);
+    const setEnvironmentalObjectLocked = useLevelEditorStore(state => state.setEnvironmentalObjectLocked);
     const reorderEnvironmentalObject = useLevelEditorStore(state => state.reorderEnvironmentalObject);
     const attachChildToParent = useLevelEditorStore(state => state.attachChildToParent);
     const detachFromParent = useLevelEditorStore(state => state.detachFromParent);
     const getChildrenOfParent = useLevelEditorStore(state => state.getChildrenOfParent);
     const objectManipulationEnabled = useLevelEditorStore(state => state.objectManipulationEnabled);
 
+    // Fog of War & Vision subscriptions
+    const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
+    const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
+    const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
+    const visibleArea = useLevelEditorStore(state => state.visibleArea);
+    const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
+    const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
+    const isPlayerPositionExplored = useLevelEditorStore(state => state.isPlayerPositionExplored);
+
+    const visibleAreaSet = useMemo(() => {
+        if (!visibleArea) return null;
+        const set = new Set(visibleArea instanceof Set ? visibleArea : visibleArea);
+        if (controlledVisibleTiles) controlledVisibleTiles.forEach(t => set.add(t));
+        return set;
+    }, [visibleArea, controlledVisibleTiles]);
+
     const gridSize = useGameStore(state => state.gridSize);
     const gridOffsetX = useGameStore(state => state.gridOffsetX);
     const gridOffsetY = useGameStore(state => state.gridOffsetY);
     const cameraX = useGameStore(state => state.cameraX);
-  const viewMode = useGameStore(state => state.viewMode);
-  const viewRotation = useGameStore(state => state.viewRotation);
-  const viewTilt = useGameStore(state => state.viewTilt);
+    const viewMode = useGameStore(state => state.viewMode);
+    const viewRotation = useGameStore(state => state.viewRotation);
+    const viewTilt = useGameStore(state => state.viewTilt);
     const cameraY = useGameStore(state => state.cameraY);
     const zoomLevel = useGameStore(state => state.zoomLevel);
     const playerZoom = useGameStore(state => state.playerZoom);
@@ -792,6 +1173,29 @@ const ObjectSystem = () => {
             globalObjectImageCache.delete(`__loading:${url}`);
         };
     }, [processSingleImage]);
+
+    // Helper to get current map ID explicitly (prevents stale reads during rapid updates)
+    const getExplicitCurrentMapId = useCallback(() => {
+        const mapStoreState = useMapStore.getState();
+        return mapStoreState.currentMapId || 'default';
+    }, []);
+
+    // Keyboard shortcut to delete selected object with Delete or Backspace
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                const selected = (environmentalObjects || []).find(o => o.selected);
+                if (selected && !selected.locked) {
+                    removeEnvironmentalObject(selected.id, getExplicitCurrentMapId());
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [environmentalObjects, removeEnvironmentalObject, getExplicitCurrentMapId]);
 
     useEffect(() => {
         if (!environmentalObjects || environmentalObjects.length === 0) return;
@@ -895,11 +1299,47 @@ const ObjectSystem = () => {
         return () => clearTimeout(timer);
     }, [processSingleImage]);
 
-    // Helper to get current map ID explicitly (prevents stale reads during rapid updates)
-    const getExplicitCurrentMapId = () => {
-        const mapStoreState = useMapStore.getState();
-        return mapStoreState.currentMapId || 'default';
-    };
+
+
+    // Listen for 3D chest interaction events (unlock prompt and settings)
+    useEffect(() => {
+        const handleChestUnlockEvent = (e) => {
+            if (e?.detail?.chest) {
+                setActiveUnlockChest(e.detail.chest);
+            }
+        };
+        const handleChestSettingsEvent = (e) => {
+            if (e?.detail?.chest) {
+                setActiveLockSettingsChest(e.detail.chest);
+            }
+        };
+        window.addEventListener('vtt:chest:unlock', handleChestUnlockEvent);
+        window.addEventListener('vtt:chest:settings', handleChestSettingsEvent);
+        return () => {
+            window.removeEventListener('vtt:chest:unlock', handleChestUnlockEvent);
+            window.removeEventListener('vtt:chest:settings', handleChestSettingsEvent);
+        };
+    }, []);
+
+    // Keyboard listener for Delete and Backspace keys on selected object
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                const selectedObj = (environmentalObjects || []).find(o => o.selected);
+                if (selectedObj && !selectedObj.locked && (isEditorMode || isGMMode)) {
+                    e.preventDefault();
+                    removeEnvironmentalObject(selectedObj.id, getExplicitCurrentMapId());
+                    setSelectedObject(null);
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [environmentalObjects, isEditorMode, isGMMode, removeEnvironmentalObject]);
 
     // Calculate effective zoom and grid positioning
     const effectiveZoom = zoomLevel * playerZoom;
@@ -983,11 +1423,9 @@ const ObjectSystem = () => {
     }, [elevationData, gridSize]);
 
     // 2.5D occlusion: an object covered by a wall or raised terrain must not be
-    // drawn. The object canvas sits above the wall layers, so without this
-    // check props behind walls render on top of them. Editor mode keeps every
-    // object visible so it can still be selected and moved.
+    // drawn in front of the wall. In editor mode, occluded objects are rendered
+    // as semi-transparent ghosts so the GM can still see, select, and move them.
     const isObjectOccluded = useCallback((obj, objectDef) => {
-        if (isEditorMode) return false;
         if (!wallData) return false;
         // GM notes are interaction markers, keep them reachable for the GM.
         if (objectDef?.gmOnly) return false;
@@ -1006,7 +1444,68 @@ const ObjectSystem = () => {
         } catch (error) {
             return false;
         }
-    }, [isEditorMode, wallData, elevationData, getObjectWorldAnchor, viewMode, viewRotation, viewTilt]);
+    }, [wallData, elevationData, getObjectWorldAnchor, viewMode, viewRotation, viewTilt]);
+
+    // Calculate exact screen center position of an object (incorporating 3D/grid anchor, elevation, tilt)
+    const getObjectScreenCenter = useCallback((obj, objectDef) => {
+        if (!obj) return null;
+        let screenPos;
+        const gridSystem = getGridSystem();
+        const viewport = gridSystem.getViewportDimensions();
+
+        if (obj.freePosition && Number.isFinite(obj.worldX) && Number.isFinite(obj.worldY)) {
+            try {
+                screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
+            } catch (error) {
+                const canvasWidth = canvasRef.current?.width || window.innerWidth;
+                const canvasHeight = canvasRef.current?.height || window.innerHeight;
+                screenPos = {
+                    x: (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2,
+                    y: (obj.worldY - cameraY) * effectiveZoom + canvasHeight / 2
+                };
+            }
+        } else if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
+            const worldCorner = gridSystem.gridToWorldCorner(obj.gridX, obj.gridY);
+            screenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
+        } else {
+            return null;
+        }
+
+        let objectLevel = 0;
+        try {
+            if (obj.freePosition && Number.isFinite(obj.worldX) && Number.isFinite(obj.worldY)) {
+                const tileCoords = gridSystem.worldToGrid(obj.worldX, obj.worldY);
+                objectLevel = getTileElevation(elevationData, tileCoords.x, tileCoords.y);
+            } else if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
+                objectLevel = getTileElevation(elevationData, obj.gridX, obj.gridY);
+            }
+        } catch (error) {
+            objectLevel = 0;
+        }
+
+        // Wall-mounted fixtures sit at a fraction of a level above the floor.
+        // Their 2D chrome (selection frame, handles, hit-test) must lift with
+        // the same half-grid level height the 3D layer renders them at.
+        if (obj.wallAttached && Number.isFinite(obj.elevation)) {
+            objectLevel = obj.elevation;
+        }
+
+        if (objectLevel !== 0) {
+            let objectCosTilt = 0;
+            let objectZoom = effectiveZoom;
+            try {
+                const projection = gridSystem.getProjectionTransform(viewport.width, viewport.height);
+                objectCosTilt = projection.cosTilt;
+                objectZoom = projection.effectiveZoom;
+            } catch (err) {}
+            const elevationScale = objectCosTilt * objectZoom;
+            screenPos = {
+                x: screenPos.x,
+                y: screenPos.y - objectLevel * gridSize * 0.5 * elevationScale
+            };
+        }
+        return screenPos;
+    }, [gridSize, effectiveZoom, cameraX, cameraY, elevationData]);
 
     // Render objects on canvas
     const renderObjects = useCallback(() => {
@@ -1071,85 +1570,57 @@ const ObjectSystem = () => {
             // Skip GM-only objects for players
             if (objectDef.gmOnly && !isGMMode) return;
 
-            // Hide objects covered by walls or raised terrain (2.5D occlusion)
-            if (isObjectOccluded(obj, objectDef)) return;
+            // Hide objects covered by walls or raised terrain (2.5D occlusion) in play mode
+            const isOccludedByWall = isObjectOccluded(obj, objectDef);
+            if (isOccludedByWall && !isEditorMode) return;
 
-            let screenPos;
+            // Fog of War & Memory/Explored check
+            const isFogActive = fogOfWarEnabled && !isEditorMode && (!isGMMode || viewingFromToken);
+            let isExplored = true;
+            let isActiveVision = true;
 
-            // Handle free positioning vs grid-aligned positioning
-            if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-                // Use world coordinates for free positioning - place exactly where clicked
-                // Use the same coordinate system as the grid system for consistency
-                try {
-                    const gridSystem = getGridSystem();
-                    const viewport = gridSystem.getViewportDimensions();
-                    screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
-                } catch (error) {
-                    // Fallback to manual calculation
-                    const canvasWidth = canvas?.width || window.innerWidth;
-                    const canvasHeight = canvas?.height || window.innerHeight;
-                    const screenX = (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2;
-                    const screenY = (obj.worldY - cameraY) * effectiveZoom + canvasHeight / 2;
-                    screenPos = { x: screenX, y: screenY };
+            const anchor = getObjectWorldAnchor(obj);
+            if (isFogActive && anchor) {
+                isExplored = isPlayerPositionExplored ? isPlayerPositionExplored(anchor.worldX, anchor.worldY) : true;
+                if (!isExplored) return;
+
+                if (visibleAreaSet && visibleAreaSet.size > 0) {
+                    const gridCoords = getGridSystem().worldToGrid(anchor.worldX, anchor.worldY);
+                    const tileKey = `${gridCoords.x},${gridCoords.y}`;
+                    isActiveVision = visibleAreaSet.has(tileKey);
+                } else if (viewingFromToken) {
+                    isActiveVision = false;
                 }
-
-                // For free-positioned objects, check if they're visible on screen instead of grid bounds
-                const objWidth = objectDef.size.width * gridSize * effectiveZoom * (obj.scale || 1);
-                const objHeight = objectDef.size.height * gridSize * effectiveZoom * (obj.scale || 1);
-
-                // Skip if object is completely outside the visible canvas area
-                // Use more generous bounds to ensure objects are visible
-                if (screenPos.x + objWidth < -100 || screenPos.x - objWidth > canvas.width + 100 ||
-                    screenPos.y + objHeight < -100 || screenPos.y - objHeight > canvas.height + 100) {
-                    return;
-                }
-            } else {
-                // Check if object is in visible area for grid-aligned objects
-                if (obj.gridX < startX || obj.gridX > endX || obj.gridY < startY || obj.gridY > endY) {
-                    return;
-                }
-                screenPos = gridToScreen(obj.gridX, obj.gridY);
             }
 
-            const tileSize = gridSize * effectiveZoom;
+            const screenPos = getObjectScreenCenter(obj, objectDef);
+            if (!screenPos) return;
 
-            // Calculate object size with custom scaling
+            const tileSize = gridSize * effectiveZoom;
             const scale = obj.scale || 1;
             const objWidth = objectDef.size.width * tileSize * scale;
             const objHeight = objectDef.size.height * tileSize * scale;
 
-            // === 2.5D elevation: lift sprites and add a projected contact shadow ===
-            let objectLevel = 0;
-            try {
-                if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-                    const tileCoords = getGridSystem().worldToGrid(obj.worldX, obj.worldY);
-                    objectLevel = getTileElevation(elevationData, tileCoords.x, tileCoords.y);
-                } else if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
-                    objectLevel = getTileElevation(elevationData, obj.gridX, obj.gridY);
-                }
-            } catch (error) {
-                objectLevel = 0;
-            }
-
-            if (objectLevel !== 0) {
-                if (objectCosTilt > 0.05) {
-                    const shadowRx = objWidth * 0.42;
-                    const shadowRy = Math.max(2, shadowRx * objectSinTilt);
-                    ctx.save();
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
-                    ctx.beginPath();
-                    ctx.ellipse(screenPos.x, screenPos.y + shadowRy * 0.3, shadowRx, shadowRy, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                }
-                screenPos = {
-                    x: screenPos.x,
-                    y: screenPos.y - objectLevel * gridSize * objectElevationScale
-                };
+            // Skip if completely offscreen
+            if (screenPos.x + objWidth < -100 || screenPos.x - objWidth > canvas.width + 100 ||
+                screenPos.y + objHeight < -100 || screenPos.y + objHeight > canvas.height + 100) {
+                return;
             }
 
             // Render object based on category
-            renderObjectByCategory(ctx, obj, objectDef, screenPos, objWidth, objHeight);
+            if (isOccludedByWall && isEditorMode) {
+                ctx.save();
+                ctx.globalAlpha = 0.35;
+                renderObjectByCategory(ctx, obj, objectDef, screenPos, objWidth, objHeight);
+                ctx.restore();
+            } else if (isFogActive && !isActiveVision) {
+                ctx.save();
+                ctx.globalAlpha = 0.45;
+                renderObjectByCategory(ctx, obj, objectDef, screenPos, objWidth, objHeight);
+                ctx.restore();
+            } else {
+                renderObjectByCategory(ctx, obj, objectDef, screenPos, objWidth, objHeight);
+            }
 
             // Use the snapped rotation for selection chrome so the highlight
             // and handles stay aligned with the pixel art underneath.
@@ -1163,14 +1634,33 @@ const ObjectSystem = () => {
                 renderLightRadius(ctx, screenPos, lightRadius * tileSize, lightColor);
             }
 
-            // Render selection highlight if selected
+            // Render selection highlight if selected. 3D props use the projected
+            // model bounds so the frame hugs the figure instead of the tile.
             if (obj.selected) {
-                renderSelectionHighlight(ctx, screenPos, objWidth, objHeight, rotRad);
-            }
+                const bounds = getObjectScreenBounds(obj, objectDef, screenPos, {
+                    gridSize,
+                    effectiveZoom,
+                    rotationRad: rotRad
+                });
+                if (bounds) {
+                    renderSelectionHighlight(ctx, bounds, bounds.tight3D ? 3 : 6, !!obj.locked);
 
-            // Render drag handles if selected and draggable
-            if (obj.selected && objectDef.draggable && (isEditorMode || isGMMode)) {
-                renderDragHandles(ctx, screenPos, objWidth, objHeight, rotRad);
+                    // Locked objects show a padlock instead of drag handles.
+                    if (obj.locked) {
+                        renderLockBadge(ctx, bounds);
+                    } else if (objectDef.draggable && (isEditorMode || isGMMode)) {
+                        renderDragHandles(ctx, bounds);
+                    }
+                }
+            } else if (obj.locked && (isEditorMode || isGMMode)) {
+                const bounds = getObjectScreenBounds(obj, objectDef, screenPos, {
+                    gridSize,
+                    effectiveZoom,
+                    rotationRad: rotRad
+                });
+                if (bounds) {
+                    renderLockBadge(ctx, bounds);
+                }
             }
 
             // Render attachment line if this object has a parent
@@ -1244,6 +1734,11 @@ const ObjectSystem = () => {
             ctx.translate(screenPos.x, screenPos.y);
             ctx.rotate(rotationDeg * Math.PI / 180);
             ctx.translate(-screenPos.x, -screenPos.y);
+        }
+
+        // 3D objects are rendered by ThreeDWorldLayer in true 3D WebGL
+        if (objectDef.is3D) {
+            return;
         }
 
         // GM Notes is canvas-rendered (paper style). Everything else uses the
@@ -1361,76 +1856,179 @@ const ObjectSystem = () => {
         ctx.restore();
     };
 
-    const renderSelectionHighlight = (ctx, screenPos, width, height, rotation) => {
+    const renderSelectionHighlight = (ctx, bounds, pad = 6, locked = false) => {
+        const { centerX, centerY, width, height, rotation } = bounds;
         ctx.save();
 
         if (rotation) {
-            ctx.translate(screenPos.x, screenPos.y);
+            ctx.translate(centerX, centerY);
             ctx.rotate(rotation);
-            ctx.translate(-screenPos.x, -screenPos.y);
+            ctx.translate(-centerX, -centerY);
         }
-        
-        // Draw glow
-        ctx.shadowColor = '#d4af37';
-        ctx.shadowBlur = 15;
-        ctx.strokeStyle = '#d4af37';
-        ctx.lineWidth = 3;
-        ctx.setLineDash([]);
-        
-        // Pulsing effect
-        const pulse = Math.sin(Date.now() / 200) * 2;
-        ctx.strokeRect(
-            screenPos.x - width / 2 - 4 - pulse, 
-            screenPos.y - height / 2 - 4 - pulse, 
-            width + 8 + pulse * 2, 
-            height + 8 + pulse * 2
-        );
-        
-        // Inner sharp box
+
+        const boxX = centerX - width / 2 - pad;
+        const boxY = centerY - height / 2 - pad;
+        const boxW = width + pad * 2;
+        const boxH = height + pad * 2;
+
+        // Locked objects use an amber "frozen" accent instead of the cyan edit accent.
+        const accentColor = locked ? '#f59e0b' : '#38bdf8';
+
+        // Glowing outer frame
+        ctx.shadowColor = accentColor;
+        ctx.shadowBlur = 12;
+        ctx.strokeStyle = accentColor;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+        // Inner crisp white outline
         ctx.shadowBlur = 0;
-        ctx.strokeStyle = '#ffffff';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
         ctx.lineWidth = 1;
-        ctx.strokeRect(screenPos.x - width / 2 - 2, screenPos.y - height / 2 - 2, width + 4, height + 4);
-        
+        ctx.strokeRect(boxX + 1.5, boxY + 1.5, boxW - 3, boxH - 3);
+
+        // Tech / fantasy corner accent brackets
+        const bracketLen = Math.min(14, Math.max(6, width * 0.25), Math.max(6, height * 0.25));
+        ctx.strokeStyle = accentColor;
+        ctx.lineWidth = 3;
+        const x0 = boxX;
+        const y0 = boxY;
+        const x1 = boxX + boxW;
+        const y1 = boxY + boxH;
+
+        // Top-Left
+        ctx.beginPath(); ctx.moveTo(x0, y0 + bracketLen); ctx.lineTo(x0, y0); ctx.lineTo(x0 + bracketLen, y0); ctx.stroke();
+        // Top-Right
+        ctx.beginPath(); ctx.moveTo(x1 - bracketLen, y0); ctx.lineTo(x1, y0); ctx.lineTo(x1, y0 + bracketLen); ctx.stroke();
+        // Bottom-Left
+        ctx.beginPath(); ctx.moveTo(x0, y1 - bracketLen); ctx.lineTo(x0, y1); ctx.lineTo(x0 + bracketLen, y1); ctx.stroke();
+        // Bottom-Right
+        ctx.beginPath(); ctx.moveTo(x1 - bracketLen, y1); ctx.lineTo(x1, y1); ctx.lineTo(x1, y1 - bracketLen); ctx.stroke();
+
         ctx.restore();
     };
 
-    const renderDragHandles = (ctx, screenPos, width, height, rotation) => {
+    const renderDragHandles = (ctx, bounds) => {
+        const { centerX, centerY, width, height, rotation } = bounds;
         ctx.save();
-        const handleSize = 14;
         const halfWidth = width / 2;
         const halfHeight = height / 2;
 
         if (rotation) {
-            ctx.translate(screenPos.x, screenPos.y);
+            ctx.translate(centerX, centerY);
             ctx.rotate(rotation);
-            ctx.translate(-screenPos.x, -screenPos.y);
+            ctx.translate(-centerX, -centerY);
         }
 
+        // 1. Four corner resize handles
+        const handleSize = 10;
         const handles = [
-            { x: screenPos.x - halfWidth, y: screenPos.y - halfHeight },
-            { x: screenPos.x + halfWidth, y: screenPos.y - halfHeight },
-            { x: screenPos.x - halfWidth, y: screenPos.y + halfHeight },
-            { x: screenPos.x + halfWidth, y: screenPos.y + halfHeight },
+            { x: centerX - halfWidth, y: centerY - halfHeight },
+            { x: centerX + halfWidth, y: centerY - halfHeight },
+            { x: centerX - halfWidth, y: centerY + halfHeight },
+            { x: centerX + halfWidth, y: centerY + halfHeight },
         ];
         handles.forEach(handle => {
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
-            ctx.fillRect(handle.x - handleSize/2 + 2, handle.y - handleSize/2 + 2, handleSize, handleSize);
-            ctx.fillStyle = '#d4af37';
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 4;
+            ctx.fillStyle = '#0f172a';
             ctx.fillRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
-            ctx.strokeStyle = '#ffffff';
+            ctx.shadowBlur = 0;
+            ctx.strokeStyle = '#38bdf8';
             ctx.lineWidth = 2;
             ctx.strokeRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(handle.x - 2, handle.y - 2, 4, 4);
         });
 
-        // Delete handle
-        const dx = screenPos.x;
-        const dy = screenPos.y - halfHeight - 25;
-        ctx.fillStyle = '#ff4444';
+        const { delOffset, rotOffset } = getObjectSelectionHandles(bounds);
+
+        // 2. Delete handle (top center)
+        const dx = centerX;
+        const dy = centerY - delOffset;
+        // Connecting line
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY - halfHeight);
+        ctx.lineTo(dx, dy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Delete pill button
+        ctx.shadowColor = 'rgba(239, 68, 68, 0.4)';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = '#ef4444';
         ctx.beginPath(); ctx.arc(dx, dy, 12, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
         ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
-        ctx.fillStyle = '#ffffff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText('\u00d7', dx, dy + 1);
+        ctx.fillStyle = '#ffffff'; ctx.font = 'bold 15px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('\u00d7', dx, dy);
+
+        // 3. Rotation handle (right center)
+        const rx = centerX + rotOffset;
+        const ry = centerY;
+        // Connecting line
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(centerX + halfWidth, centerY);
+        ctx.lineTo(rx, ry);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Glassmorphic circular rotate button
+        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath(); ctx.arc(rx, ry, 13, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
+
+        // Curved rotation arrow icon
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.2;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.arc(rx, ry, 6.5, -Math.PI * 0.7, Math.PI * 0.7);
+        ctx.stroke();
+        // Arrowhead
+        const arrowAngle = Math.PI * 0.7;
+        const tipX = rx + 6.5 * Math.cos(arrowAngle);
+        const tipY = ry + 6.5 * Math.sin(arrowAngle);
+        ctx.beginPath();
+        ctx.moveTo(tipX - 3.5, tipY - 4);
+        ctx.lineTo(tipX, tipY);
+        ctx.lineTo(tipX + 4, tipY - 1.5);
+        ctx.stroke();
+
+        ctx.restore();
+    };
+
+    // Small padlock badge shown on locked objects in editor/GM views.
+    const renderLockBadge = (ctx, bounds) => {
+        const x = bounds.centerX + bounds.width / 2 + 12;
+        const y = bounds.centerY - bounds.height / 2 - 12;
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+        ctx.shadowBlur = 6;
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(x, y, 11, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '900 11px "Font Awesome 6 Free"';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('\uf023', x, y + 0.5);
         ctx.restore();
     };
 
@@ -1453,6 +2051,13 @@ const ObjectSystem = () => {
 
     // Find object at screen position
     const getObjectAtScreenPosition = useCallback((screenX, screenY) => {
+        // Several objects can share a tile when they are stacked (a stool on a
+        // table, a potion on a chest). Prefer the object that sits highest:
+        // stacked children first, then higher elevations. First-match wins on
+        // ties to keep the historical behaviour for plain overlaps.
+        let bestHit = null;
+        let bestRank = -Infinity;
+
         for (const obj of environmentalObjects) {
             const objectDef = PROFESSIONAL_OBJECTS[obj.type];
             if (!objectDef) continue;
@@ -1460,57 +2065,69 @@ const ObjectSystem = () => {
             // Invisible behind a wall/terrain => not clickable either
             if (isObjectOccluded(obj, objectDef)) continue;
 
-            let screenPos;
-            if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-                try {
-                    const gridSystem = getGridSystem();
-                    const viewport = gridSystem.getViewportDimensions();
-                    screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
-                } catch (error) {
-                    const canvasWidth = canvasRef.current?.width || window.innerWidth;
-                    const canvasHeight = canvasRef.current?.height || window.innerHeight;
-                    const screenObjX = (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2;
-                    const screenObjY = (obj.worldY - cameraY) * effectiveZoom + canvasHeight / 2;
-                    screenPos = { x: screenObjX, y: screenObjY };
+            // Fog of War check: If fog is active and object is unexplored, ignore it
+            if (fogOfWarEnabled && !isEditorMode && (!isGMMode || viewingFromToken)) {
+                const anchor = getObjectWorldAnchor(obj);
+                if (anchor && isPlayerPositionExplored && !isPlayerPositionExplored(anchor.worldX, anchor.worldY)) {
+                    continue;
                 }
-            } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
-                screenPos = gridToScreen(obj.gridX, obj.gridY);
-            } else {
-                continue;
             }
 
+            const screenPos = getObjectScreenCenter(obj, objectDef);
+            if (!screenPos) continue;
+
             const tileSize = gridSize * effectiveZoom;
-            const scale = obj.scale || 1;
-            const objWidth = objectDef.size.width * tileSize * scale;
-            const objHeight = objectDef.size.height * tileSize * scale;
-
-            const padding = Math.max(10, tileSize * 0.1);
-
-            let testX = screenX;
-            let testY = screenY;
             // Hit-test against the same snapped rotation the visual uses, so a
             // user can click where the pixel art actually appears instead of
             // missing because the bounding box is rotated to a different angle.
             const snappedDeg = snapRotationForHitTest(obj.type, obj.rotation || 0);
             const rotation = (snappedDeg || 0) * Math.PI / 180;
-            if (rotation !== 0) {
-                const dx = screenX - screenPos.x;
-                const dy = screenY - screenPos.y;
-                testX = screenPos.x + dx * Math.cos(-rotation) - dy * Math.sin(-rotation);
-                testY = screenPos.y + dx * Math.sin(-rotation) + dy * Math.cos(-rotation);
+
+            // 3D props are not drawn on this canvas; click the rendered model
+            // silhouette instead of the whole tile footprint so neighbouring
+            // objects stay reachable.
+            const bounds = getObjectScreenBounds(obj, objectDef, screenPos, {
+                gridSize,
+                effectiveZoom,
+                rotationRad: rotation
+            });
+            if (!bounds) continue;
+
+            let objWidth = bounds.width;
+            let objHeight = bounds.height;
+            if (bounds.tight3D) {
+                // Keep small props (bottles, plates, torches) comfortably clickable.
+                const minHitSize = Math.max(tileSize * 0.4, 24);
+                objWidth = Math.max(objWidth, minHitSize);
+                objHeight = Math.max(objHeight, minHitSize);
             }
 
-            const left = screenPos.x - objWidth / 2 - padding;
-            const right = screenPos.x + objWidth / 2 + padding;
-            const top = screenPos.y - objHeight / 2 - padding;
-            const bottom = screenPos.y + objHeight / 2 + padding;
+            const padding = Math.max(10, tileSize * 0.1);
+
+            let testX = screenX;
+            let testY = screenY;
+            if (rotation !== 0) {
+                const dx = screenX - bounds.centerX;
+                const dy = screenY - bounds.centerY;
+                testX = bounds.centerX + dx * Math.cos(-rotation) - dy * Math.sin(-rotation);
+                testY = bounds.centerY + dx * Math.sin(-rotation) + dy * Math.cos(-rotation);
+            }
+
+            const left = bounds.centerX - objWidth / 2 - padding;
+            const right = bounds.centerX + objWidth / 2 + padding;
+            const top = bounds.centerY - objHeight / 2 - padding;
+            const bottom = bounds.centerY + objHeight / 2 + padding;
 
             if (testX >= left && testX <= right && testY >= top && testY <= bottom) {
-                return obj;
+                const rank = (obj.parentObjectId ? 100 : 0) + (obj.elevation || obj.z || 0);
+                if (rank > bestRank) {
+                    bestRank = rank;
+                    bestHit = obj;
+                }
             }
         }
-        return null;
-    }, [environmentalObjects, cameraX, cameraY, effectiveZoom, gridSize, isObjectOccluded]);
+        return bestHit;
+    }, [environmentalObjects, effectiveZoom, gridSize, isObjectOccluded, fogOfWarEnabled, isEditorMode, isGMMode, viewingFromToken, isPlayerPositionExplored, getObjectWorldAnchor, getObjectScreenCenter]);
 
     // Check if click is on a resize handle
     const getResizeHandle = useCallback((screenX, screenY, obj) => {
@@ -1519,23 +2136,29 @@ const ObjectSystem = () => {
         const objectDef = PROFESSIONAL_OBJECTS[obj.type];
         if (!objectDef || !objectDef.resizable) return null;
 
-        const gridSystem = getGridSystem();
-        const viewport = gridSystem.getViewportDimensions();
+        const screenPos = getObjectScreenCenter(obj, objectDef);
+        if (!screenPos) return null;
+
         const gridSize = useGameStore.getState().gridSize;
         const currentZoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
 
-        let screenPos;
-        if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-            screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
-        } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
-            const worldCorner = gridSystem.gridToWorldCorner(obj.gridX, obj.gridY);
-            screenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
-        } else return null;
+        // Use the same bounds the chrome is drawn with, so the resize handles
+        // always sit (and hit) exactly where they are rendered.
+        const bounds = getObjectScreenBounds(obj, objectDef, screenPos, {
+            gridSize,
+            effectiveZoom: currentZoom,
+            rotationRad: (snapRotationForHitTest(obj.type, obj.rotation || 0)) * Math.PI / 180
+        });
+        if (!bounds) return null;
 
-        const tileSize = gridSize * currentZoom;
-        const scale = obj.scale || 1;
-        const objW = (objectDef.size.width || 1) * tileSize * scale;
-        const objH = (objectDef.size.height || 1) * tileSize * scale;
+        const objW = bounds.width;
+        const objH = bounds.height;
+
+        // Corner handles must stay grabbable without swallowing the whole
+        // figure: tight 3D bounds can be smaller than the old fixed 40px
+        // radius, which made any click on a chair/table start a resize instead
+        // of a move.
+        const hitRadius = Math.max(12, Math.min(40, Math.min(objW, objH) * 0.4));
 
         const handles = [
             { id: 'tl', lx: -objW / 2, ly: -objH / 2 },
@@ -1544,23 +2167,23 @@ const ObjectSystem = () => {
             { id: 'br', lx: objW / 2, ly: objH / 2 }
         ];
 
-        const rotation = (snapRotationForHitTest(obj.type, obj.rotation || 0)) * Math.PI / 180;
+        const rotation = bounds.rotation;
 
         for (const handle of handles) {
-            let hx = screenPos.x + handle.lx;
-            let hy = screenPos.y + handle.ly;
+            let hx = bounds.centerX + handle.lx;
+            let hy = bounds.centerY + handle.ly;
             if (rotation !== 0) {
                 const rx = handle.lx * Math.cos(rotation) - handle.ly * Math.sin(rotation);
                 const ry = handle.lx * Math.sin(rotation) + handle.ly * Math.cos(rotation);
-                hx = screenPos.x + rx;
-                hy = screenPos.y + ry;
+                hx = bounds.centerX + rx;
+                hy = bounds.centerY + ry;
             }
             const dist = Math.sqrt(Math.pow(screenX - hx, 2) + Math.pow(screenY - hy, 2));
-            if (dist < 40) return handle.id;
+            if (dist < hitRadius) return handle.id;
         }
 
         return null;
-    }, [isEditorMode, isGMMode]);
+    }, [isEditorMode, isGMMode, getObjectScreenCenter]);
 
     // Get cursor style based on resize handle
     const getCursorForHandle = useCallback((handle) => {
@@ -1718,9 +2341,120 @@ const ObjectSystem = () => {
         const screenX = e.clientX - canvasRect.left;
         const screenY = e.clientY - canvasRect.top;
 
+        // 1. Check handles (Delete, Rotate, Resize) on the CURRENTLY selected object FIRST!
+        const currentlySelected = (environmentalObjects || []).find(o => o.selected);
+        if (currentlySelected && !currentlySelected.locked && (isEditorMode || isGMMode)) {
+            const objectDef = PROFESSIONAL_OBJECTS[currentlySelected.type];
+            if (objectDef && objectDef.draggable) {
+                const objScreenPos = getObjectScreenCenter(currentlySelected, objectDef);
+
+                if (objScreenPos) {
+                    const snappedDeg = snapRotationForHitTest(currentlySelected.type, currentlySelected.rotation || 0);
+                    const rotRad = (snappedDeg || 0) * Math.PI / 180;
+                    const bounds = getObjectScreenBounds(currentlySelected, objectDef, objScreenPos, {
+                        gridSize,
+                        effectiveZoom,
+                        rotationRad: rotRad
+                    });
+                    const { deletePosition, rotatePosition } = getObjectSelectionHandles(bounds);
+
+                    // Delete handle check (top)
+                    if (Math.hypot(screenX - deletePosition.x, screenY - deletePosition.y) <= 22) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        removeEnvironmentalObject(currentlySelected.id, getExplicitCurrentMapId());
+                        setSelectedObject(null);
+                        return;
+                    }
+
+                    // Rotate handle check (right side)
+                    if (Math.hypot(screenX - rotatePosition.x, screenY - rotatePosition.y) <= 22) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setIsRotating(true);
+                        let hasDragged = false;
+                        const startX = screenX;
+                        const startY = screenY;
+                        const startAngle = Math.atan2(screenY - bounds.centerY, screenX - bounds.centerX);
+                        const initialRotation = currentlySelected.rotation || 0;
+                        const mapId = getExplicitCurrentMapId();
+
+                        const handleDocRotateMove = (moveEvt) => {
+                            const cRect = canvasRef.current?.getBoundingClientRect();
+                            if (!cRect) return;
+                            const mx = moveEvt.clientX - cRect.left;
+                            const my = moveEvt.clientY - cRect.top;
+                            if (Math.hypot(mx - startX, my - startY) > 3) {
+                                hasDragged = true;
+                            }
+                            if (hasDragged) {
+                                const curAngle = Math.atan2(my - bounds.centerY, mx - bounds.centerX);
+                                const deltaDeg = ((curAngle - startAngle) * 180) / Math.PI;
+                                let newRot = Math.round((initialRotation + deltaDeg) % 360 + 360) % 360;
+                                if (moveEvt.shiftKey) {
+                                    newRot = Math.round(newRot / 15) * 15;
+                                }
+                                updateEnvironmentalObject(currentlySelected.id, {
+                                    ...currentlySelected,
+                                    rotation: newRot
+                                }, mapId);
+                            }
+                        };
+
+                        const handleDocRotateUp = () => {
+                            document.removeEventListener('mousemove', handleDocRotateMove);
+                            document.removeEventListener('mouseup', handleDocRotateUp);
+                            setIsRotating(false);
+                            if (!hasDragged) {
+                                // Immediate click without drag: rotate by +45 degrees clockwise
+                                const newRot = Math.round((initialRotation + 45) % 360);
+                                updateEnvironmentalObject(currentlySelected.id, {
+                                    ...currentlySelected,
+                                    rotation: newRot
+                                }, mapId);
+                            }
+                        };
+
+                        document.addEventListener('mousemove', handleDocRotateMove);
+                        document.addEventListener('mouseup', handleDocRotateUp);
+                        return;
+                    }
+
+                    // Resize handle check
+                    const handle = getResizeHandle(screenX, screenY, currentlySelected);
+                    if (handle) {
+                        setIsResizing(true);
+                        setResizeHandle(handle);
+                        setInitialScale(currentlySelected.scale || 1);
+                        setInitialMousePos({ x: screenX, y: screenY });
+                        e.stopPropagation();
+                        e.preventDefault();
+                        return;
+                    }
+                }
+            }
+        }
+
         const clickedObject = getObjectAtScreenPosition(screenX, screenY);
 
         if (clickedObject) {
+            // Check if chest is clicked and locked
+            if (clickedObject.type === 'chest') {
+                const isLocked = clickedObject.isLocked || clickedObject.containerProperties?.isLocked;
+                if (isLocked && !isEditorMode) {
+                    setActiveUnlockChest(clickedObject);
+                    const { addChatNotification } = useChatStore.getState();
+                    if (addChatNotification) {
+                        addChatNotification({
+                            type: 'warning',
+                            content: 'The Treasure Chest is locked tight.',
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                    return;
+                }
+            }
+
             // In editor mode, allow all interactions
             // In GM mode (but not editor mode), only allow interactions with GM notes
             if (isEditorMode || (isGMMode && clickedObject.type === 'gmNotes')) {
@@ -1728,22 +2462,9 @@ const ObjectSystem = () => {
                 selectEnvironmentalObject(clickedObject.id);
 
                 const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
-                if (objectDef && objectDef.draggable) {
-                    // Check for delete handle click
-                    const tileSize = gridSize * effectiveZoom;
-                    const halfHeight = (objectDef.size.height * tileSize * (clickedObject.scale || 1)) / 2;
-                    const gridSystem = getGridSystem();
-                    const viewport = gridSystem.getViewportDimensions();
-                    const objScreenPos = gridSystem.worldToScreen(clickedObject.worldX, clickedObject.worldY, viewport.width, viewport.height);
-                    const hx = objScreenPos.x;
-                    const hy = objScreenPos.y - halfHeight - 25;
-                    const distToDelete = Math.sqrt(Math.pow(screenX - hx, 2) + Math.pow(screenY - hy, 2));
-
-                    if (distToDelete < 15) {
-                        removeEnvironmentalObject(clickedObject.id, getExplicitCurrentMapId());
-                        return;
-                    }
-
+                // Locked objects remain selectable (so they can be unlocked) but
+                // never start a drag or resize gesture.
+                if (objectDef && objectDef.draggable && !clickedObject.locked) {
                     const handle = getResizeHandle(screenX, screenY, clickedObject);
 
                     if (handle) {
@@ -1791,23 +2512,27 @@ const ObjectSystem = () => {
 
                             const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
                             const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
-                            const mapId = useMapStore.getState().currentMapId || 'default';
-                            const currentObjects = useLevelEditorStore.getState().environmentalObjects;
-                            const targetObj = currentObjects.find(o => o.id === dragStateRef.current.dragObjectId);
-                            if (targetObj) {
+                            scheduleDragApply(() => {
+                                const objectId = dragStateRef.current.dragObjectId;
+                                if (!objectId) return;
+                                const mapId = useMapStore.getState().currentMapId || 'default';
+                                const currentObjects = useLevelEditorStore.getState().environmentalObjects;
+                                const targetObj = currentObjects.find(o => o.id === objectId);
+                                if (!targetObj) return;
                                 useLevelEditorStore.getState().updateEnvironmentalObject(
-                                    dragStateRef.current.dragObjectId,
+                                    objectId,
                                     { ...targetObj, worldX: newWorldX, worldY: newWorldY },
                                     mapId
                                 );
-                                updateAttachmentOffset(dragStateRef.current.dragObjectId, newWorldX, newWorldY, mapId);
-                                moveChildrenWithParent(dragStateRef.current.dragObjectId, newWorldX, newWorldY, mapId);
-                            }
+                                updateAttachmentOffset(objectId, newWorldX, newWorldY, mapId);
+                                moveChildrenWithParent(objectId, newWorldX, newWorldY, mapId);
+                            });
                         };
 
                         const handleDocMouseUp = () => {
                             document.removeEventListener('mousemove', handleDocMouseMove);
                             document.removeEventListener('mouseup', handleDocMouseUp);
+                            flushDragApply();
                             dragStateRef.current.isDragging = false;
                             dragStateRef.current.dragObjectId = null;
                             setIsDragging(false);
@@ -1945,10 +2670,20 @@ const ObjectSystem = () => {
 
     // Handle removing selected object
     const handleRemoveObject = () => {
-        if (selectedObject) {
+        if (selectedObject && !selectedObject.locked) {
             removeEnvironmentalObject(selectedObject.id, getExplicitCurrentMapId());
             setShowContextMenu(false);
             setSelectedObject(null);
+        }
+    };
+
+    // Handle locking/unlocking the selected object so it cannot be moved
+    const handleToggleObjectLock = () => {
+        if (selectedObject) {
+            const locked = !selectedObject.locked;
+            setEnvironmentalObjectLocked(selectedObject.id, locked, getExplicitCurrentMapId());
+            setSelectedObject({ ...selectedObject, locked });
+            setShowContextMenu(false);
         }
     };
 
@@ -2074,7 +2809,7 @@ const ObjectSystem = () => {
             // Check for hover over resize handles when not dragging/resizing (editor mode only)
             if (isEditorMode) {
                 const selectedObject = environmentalObjects.find(obj => obj.selected);
-                if (selectedObject) {
+                if (selectedObject && !selectedObject.locked) {
                     const handle = getResizeHandle(screenX, screenY, selectedObject);
                     setHoveredHandle(handle);
                 } else {
@@ -2228,7 +2963,21 @@ const ObjectSystem = () => {
 
         const handleDocMouseDown = (e) => {
             if (e.button !== 0) return;
+            // While a level-editor tool other than 'select' is active (placing
+            // objects, erasing, terrain, ...) the editor overlay owns canvas
+            // clicks. Hijacking them here selected/dragged whatever sat under
+            // the cursor, which made it impossible to place objects on top of
+            // an existing object (e.g. a stool on a table).
+            if (isEditorMode && useLevelEditorStore.getState().selectedTool !== 'select') return;
             if (e.target.closest('.unified-context-menu')) return;
+            if (e.target.closest('.mythrill-window') ||
+                e.target.closest('.level-editor-window') ||
+                e.target.closest('.action-bar-container') ||
+                e.target.closest('.modal-content') ||
+                e.target.closest('.party-hud-frame') ||
+                e.target.closest('.target-hud-frame')) {
+                return;
+            }
             if (!objectManipulationEnabled) return; // Respect the interaction lock
             if (window.multiplayerDragState && window.multiplayerDragState.size > 0) return;
 
@@ -2302,14 +3051,25 @@ const ObjectSystem = () => {
                 if (!targetObj) return;
 
                 if (dragStateRef.current.isResizing) {
-                    const { initialScale, initialMousePos, objScreenPos } = dragStateRef.current;
-                    const initialDist = Math.sqrt(Math.pow(initialMousePos.x - objScreenPos.x, 2) + Math.pow(initialMousePos.y - objScreenPos.y, 2));
-                    const currentDist = Math.sqrt(Math.pow(mx - objScreenPos.x, 2) + Math.pow(my - objScreenPos.y, 2));
-                    
-                    if (initialDist > 0) {
-                        const scaleFactor = currentDist / initialDist;
-                        const newScale = Math.max(0.2, Math.min(10, initialScale * scaleFactor));
-                        updateEnvironmentalObject(targetObj.id, { ...targetObj, scale: newScale }, mapId);
+                    const currentMousePos = { x: mx, y: my };
+                    const initialMousePos = dragStateRef.current.initialMousePos;
+                    const initialScale = dragStateRef.current.initialScale || 1;
+                    const objPos = dragStateRef.current.objScreenPos;
+
+                    const initialDistance = Math.hypot(initialMousePos.x - objPos.x, initialMousePos.y - objPos.y);
+                    const currentDistance = Math.hypot(currentMousePos.x - objPos.x, currentMousePos.y - objPos.y);
+
+                    if (initialDistance > 0) {
+                        let scaleFactor = currentDistance / initialDistance;
+                        let newScale = Math.round(initialScale * scaleFactor * 10) / 10;
+                        newScale = Math.max(0.2, Math.min(5.0, newScale));
+                        scheduleDragApply(() => {
+                            const objectId = dragStateRef.current.dragObjectId;
+                            if (!objectId) return;
+                            const latest = useLevelEditorStore.getState().environmentalObjects.find(o => o.id === objectId);
+                            if (!latest) return;
+                            updateEnvironmentalObject(objectId, { ...latest, scale: newScale }, mapId);
+                        });
                     }
                 } else if (dragStateRef.current.isDragging) {
                     let moveWorldPos;
@@ -2326,15 +3086,22 @@ const ObjectSystem = () => {
 
                     const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
                     const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
-                    updateEnvironmentalObject(targetObj.id, { ...targetObj, worldX: newWorldX, worldY: newWorldY }, mapId);
-                    updateAttachmentOffset(targetObj.id, newWorldX, newWorldY, mapId);
-                    moveChildrenWithParent(targetObj.id, newWorldX, newWorldY, mapId);
+                    scheduleDragApply(() => {
+                        const objectId = dragStateRef.current.dragObjectId;
+                        if (!objectId) return;
+                        const latest = useLevelEditorStore.getState().environmentalObjects.find(o => o.id === objectId);
+                        if (!latest) return;
+                        updateEnvironmentalObject(objectId, { ...latest, worldX: newWorldX, worldY: newWorldY }, mapId);
+                        updateAttachmentOffset(objectId, newWorldX, newWorldY, mapId);
+                        moveChildrenWithParent(objectId, newWorldX, newWorldY, mapId);
+                    });
                 }
             };
 
             const handleDocMouseUp = () => {
                 document.removeEventListener('mousemove', handleDocMouseMove);
                 document.removeEventListener('mouseup', handleDocMouseUp);
+                flushDragApply();
                 setIsDragging(false);
                 setIsResizing(false);
                 setResizeHandle(null);
@@ -2343,67 +3110,107 @@ const ObjectSystem = () => {
                 dragStateRef.current.dragObjectId = null;
             };
 
-            // Attach listeners before potentially returning
-            document.addEventListener('mousemove', handleDocMouseMove);
-            document.addEventListener('mouseup', handleDocMouseUp);
-
-            // 1. HANDLE CHECK (Priority #1)
+            // 1. HANDLE CHECK (Priority #1) - Delete, Rotate, Resize on the selected object
             const selObj = objects.find(o => o.selected);
-            if (selObj && (isEditorMode || isGMMode)) {
-                const handleId = getResizeHandle(screenX, screenY, selObj);
-                if (handleId) {
-                    setIsResizing(true);
-                    setResizeHandle(handleId);
-                    
-                    const selDef = PROFESSIONAL_OBJECTS[selObj.type];
-                    const curScale = selObj.scale || 1;
-                    
-                    let selScreenPos;
-                    if (selObj.freePosition) {
-                        selScreenPos = gridSystem.worldToScreen(selObj.worldX, selObj.worldY, viewport.width, viewport.height);
-                    } else {
-                        const worldCorner = gridSystem.gridToWorldCorner(selObj.gridX, selObj.gridY);
-                        selScreenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
-                    }
-
-                    dragStateRef.current = {
-                        isDragging: false, isResizing: true,
-                        resizeHandle: handleId, dragObjectId: selObj.id,
-                        initialScale: curScale, 
-                        initialMousePos: { x: screenX, y: screenY },
-                        objScreenPos: selScreenPos
-                    };
-                    
-                    e.preventDefault(); e.stopPropagation();
-                    return;
-                }
-
-                // Delete Handle
+            if (selObj && !selObj.locked && (isEditorMode || isGMMode)) {
                 const selDef = PROFESSIONAL_OBJECTS[selObj.type];
-                if (selDef) {
-                    const tileSize = gridSize * currentZoom;
-                    const curScale = selObj.scale || 1;
-                    const objH = (selDef.size.height || 1) * tileSize * curScale;
-                    
-                    let selScreenPos;
-                    if (selObj.freePosition) {
-                        selScreenPos = gridSystem.worldToScreen(selObj.worldX, selObj.worldY, viewport.width, viewport.height);
-                    } else {
-                        const worldCorner = gridSystem.gridToWorldCorner(selObj.gridX, selObj.gridY);
-                        selScreenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
-                    }
+                if (selDef && selDef.draggable) {
+                    const selScreenPos = getObjectScreenCenter(selObj, selDef);
+                    if (selScreenPos) {
+                        const curScale = selObj.scale || 1;
+                        const snappedDeg = snapRotationForHitTest(selObj.type, selObj.rotation || 0);
+                        const rotRad = (snappedDeg || 0) * Math.PI / 180;
+                        const selBounds = getObjectScreenBounds(selObj, selDef, selScreenPos, {
+                            gridSize,
+                            effectiveZoom: currentZoom,
+                            rotationRad: rotRad
+                        });
+                        const { deletePosition, rotatePosition } = getObjectSelectionHandles(selBounds);
 
-                    const hx = selScreenPos.x;
-                    const hy = selScreenPos.y - (objH / 2) - 25;
-                    const distToDelete = Math.sqrt(Math.pow(screenX - hx, 2) + Math.pow(screenY - hy, 2));
-                    if (distToDelete < 30) {
-                        removeEnvironmentalObject(selObj.id, getExplicitCurrentMapId());
-                        e.preventDefault(); e.stopPropagation(); return;
+                        // Delete Handle (top)
+                        if (Math.hypot(screenX - deletePosition.x, screenY - deletePosition.y) <= 22) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            removeEnvironmentalObject(selObj.id, getExplicitCurrentMapId());
+                            useLevelEditorStore.getState().clearObjectSelection();
+                            return;
+                        }
+
+                        // Rotate Handle (right side)
+                        if (Math.hypot(screenX - rotatePosition.x, screenY - rotatePosition.y) <= 22) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsRotating(true);
+                            let hasDragged = false;
+                            const startX = screenX;
+                            const startY = screenY;
+                            const startAngle = Math.atan2(screenY - selBounds.centerY, screenX - selBounds.centerX);
+                            const initialRotation = selObj.rotation || 0;
+                            const mapId = getExplicitCurrentMapId();
+
+                            const handleDocRotateMove = (moveEvt) => {
+                                const cRect = canvas.getBoundingClientRect();
+                                if (!cRect) return;
+                                const mx = moveEvt.clientX - cRect.left;
+                                const my = moveEvt.clientY - cRect.top;
+                                if (Math.hypot(mx - startX, my - startY) > 3) {
+                                    hasDragged = true;
+                                }
+                                if (hasDragged) {
+                                    const curAngle = Math.atan2(my - selBounds.centerY, mx - selBounds.centerX);
+                                    const deltaDeg = ((curAngle - startAngle) * 180) / Math.PI;
+                                    let newRot = Math.round((initialRotation + deltaDeg) % 360 + 360) % 360;
+                                    if (moveEvt.shiftKey) {
+                                        newRot = Math.round(newRot / 15) * 15;
+                                    }
+                                    updateEnvironmentalObject(selObj.id, {
+                                        ...selObj,
+                                        rotation: newRot
+                                    }, mapId);
+                                }
+                            };
+
+                            const handleDocRotateUp = () => {
+                                document.removeEventListener('mousemove', handleDocRotateMove, true);
+                                document.removeEventListener('mouseup', handleDocRotateUp, true);
+                                setIsRotating(false);
+                                if (!hasDragged) {
+                                    const newRot = Math.round((initialRotation + 45) % 360);
+                                    updateEnvironmentalObject(selObj.id, {
+                                        ...selObj,
+                                        rotation: newRot
+                                    }, mapId);
+                                }
+                            };
+
+                            document.addEventListener('mousemove', handleDocRotateMove, true);
+                            document.addEventListener('mouseup', handleDocRotateUp, true);
+                            return;
+                        }
+
+                        // Resize Handles
+                        const handleId = getResizeHandle(screenX, screenY, selObj);
+                        if (handleId) {
+                            setIsResizing(true);
+                            setResizeHandle(handleId);
+                            dragStateRef.current = {
+                                isDragging: false, isResizing: true,
+                                resizeHandle: handleId, dragObjectId: selObj.id,
+                                initialScale: curScale,
+                                initialMousePos: { x: screenX, y: screenY },
+                                objScreenPos: { x: selBounds.centerX, y: selBounds.centerY }
+                            };
+                            document.addEventListener('mousemove', handleDocMouseMove);
+                            document.addEventListener('mouseup', handleDocMouseUp);
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return;
+                        }
                     }
                 }
             }
 
-            // 2. Find if we clicked a NEW object
+            // 2. Find if we clicked an object
             let clickedObject = null;
             for (const obj of objects) {
                 const objectDef = PROFESSIONAL_OBJECTS[obj.type];
@@ -2432,8 +3239,6 @@ const ObjectSystem = () => {
 
             // 3. DESELECT (Priority #3) - Only if clicking the empty grid
             if (!clickedObject) {
-                document.removeEventListener('mousemove', handleDocMouseMove);
-                document.removeEventListener('mouseup', handleDocMouseUp);
                 const anySelected = objects.find(o => o.selected);
                 if (anySelected) useLevelEditorStore.getState().clearObjectSelection();
                 return;
@@ -2444,7 +3249,8 @@ const ObjectSystem = () => {
 
             e.preventDefault(); e.stopPropagation();
             useLevelEditorStore.getState().selectEnvironmentalObject(clickedObject.id);
-            if (!objectDef.draggable) return;
+            // Locked objects stay selectable but cannot be dragged.
+            if (!objectDef.draggable || clickedObject.locked) return;
 
             let worldPos;
             try { worldPos = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height); }
@@ -2461,13 +3267,15 @@ const ObjectSystem = () => {
                 dragOffsetX: worldPos.x - curWX,
                 dragOffsetY: worldPos.y - curWY
             };
+            document.addEventListener('mousemove', handleDocMouseMove);
+            document.addEventListener('mouseup', handleDocMouseUp);
         };
 
         document.addEventListener('mousedown', handleDocMouseDown, true);
         return () => {
             document.removeEventListener('mousedown', handleDocMouseDown, true);
         };
-    }, [isGMMode, isEditorMode]);
+    }, [isGMMode, isEditorMode, getObjectScreenCenter, getResizeHandle, removeEnvironmentalObject, updateEnvironmentalObject]);
 
     // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
     const scheduledRenderRef = useRef(null);
@@ -2502,6 +3310,11 @@ const ObjectSystem = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [renderObjects]);
+
+    // Context-menu actions that mutate a locked object stay disabled until it is unlocked.
+    const lockedActionGuards = selectedObject?.locked
+        ? { disabled: true, tooltip: 'Unlock this object first' }
+        : {};
 
 
     return (
@@ -2565,12 +3378,71 @@ const ObjectSystem = () => {
                     onClose={closeContextMenu}
                     title={PROFESSIONAL_OBJECTS[selectedObject.type]?.name || selectedObject.type}
                     items={[
+                        {
+                            icon: <i className={`fas ${selectedObject.locked ? 'fa-lock-open' : 'fa-lock'}`}></i>,
+                            label: selectedObject.locked ? 'Unlock Object' : 'Lock Object',
+                            tooltip: selectedObject.locked
+                                ? 'Allow this object to be moved again'
+                                : 'Prevent this object from being moved, resized, rotated or removed',
+                            onClick: handleToggleObjectLock
+                        },
+                        {
+                            type: 'separator'
+                        },
                         ...(selectedObject.type === 'gmNotes' ? [
                             {
                                 icon: <i className="fas fa-scroll"></i>,
                                 label: 'Open GM Notes',
                                 onClick: handleOpenGMNotes,
                                 className: 'primary-action'
+                            },
+                            {
+                                type: 'separator'
+                            }
+                        ] : []),
+                        ...(selectedObject.type === 'chest' ? [
+                            {
+                                icon: <i className={`fas ${(selectedObject.isLocked || selectedObject.containerProperties?.isLocked) ? 'fa-lock' : 'fa-lock-open'}`}></i>,
+                                label: (selectedObject.isLocked || selectedObject.containerProperties?.isLocked) ? 'Unlock Chest' : 'Lock Chest',
+                                onClick: () => {
+                                    const nowLocked = !(selectedObject.isLocked || selectedObject.containerProperties?.isLocked);
+                                    updateEnvironmentalObject(selectedObject.id, {
+                                        ...selectedObject,
+                                        isLocked: nowLocked,
+                                        containerProperties: {
+                                            ...(selectedObject.containerProperties || {}),
+                                            isLocked: nowLocked
+                                        }
+                                    }, getExplicitCurrentMapId());
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-sliders-h"></i>,
+                                label: 'Lock & Container Settings',
+                                onClick: () => {
+                                    setActiveLockSettingsChest(selectedObject);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-key"></i>,
+                                label: 'Attempt Lockpick (Test)',
+                                onClick: () => {
+                                    setActiveUnlockChest(selectedObject);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className={`fas ${selectedObject.isOpen ? 'fa-box' : 'fa-box-open'}`}></i>,
+                                label: selectedObject.isOpen ? 'Close Lid' : 'Open Lid',
+                                onClick: () => {
+                                    updateEnvironmentalObject(selectedObject.id, {
+                                        ...selectedObject,
+                                        isOpen: !selectedObject.isOpen
+                                    }, getExplicitCurrentMapId());
+                                    setShowContextMenu(false);
+                                }
                             },
                             {
                                 type: 'separator'
@@ -2609,43 +3481,51 @@ const ObjectSystem = () => {
                                 {
                                     icon: <i className="fas fa-undo"></i>,
                                     label: 'Rotate Left 45\u00B0',
-                                    onClick: () => handleRotateObject(-45)
+                                    onClick: () => handleRotateObject(-45),
+                                    ...lockedActionGuards
                                 },
                                 {
                                     icon: <i className="fas fa-redo"></i>,
                                     label: 'Rotate Right 45\u00B0',
-                                    onClick: () => handleRotateObject(45)
+                                    onClick: () => handleRotateObject(45),
+                                    ...lockedActionGuards
                                 },
                                 {
                                     icon: <i className="fas fa-undo"></i>,
                                     label: 'Rotate Left 90\u00B0',
-                                    onClick: () => handleRotateObject(-90)
+                                    onClick: () => handleRotateObject(-90),
+                                    ...lockedActionGuards
                                 },
                                 {
                                     icon: <i className="fas fa-redo"></i>,
                                     label: 'Rotate Right 90\u00B0',
-                                    onClick: () => handleRotateObject(90)
+                                    onClick: () => handleRotateObject(90),
+                                    ...lockedActionGuards
                                 },
                                 { type: 'separator' },
                                 {
                                     icon: <i className="fas fa-arrow-up"></i>,
                                     label: '0\u00B0',
-                                    onClick: () => handleSetRotation(0)
+                                    onClick: () => handleSetRotation(0),
+                                    ...lockedActionGuards
                                 },
                                 {
                                     icon: <i className="fas fa-arrow-right"></i>,
                                     label: '90\u00B0',
-                                    onClick: () => handleSetRotation(90)
+                                    onClick: () => handleSetRotation(90),
+                                    ...lockedActionGuards
                                 },
                                 {
                                     icon: <i className="fas fa-arrow-down"></i>,
                                     label: '180\u00B0',
-                                    onClick: () => handleSetRotation(180)
+                                    onClick: () => handleSetRotation(180),
+                                    ...lockedActionGuards
                                 },
                                 {
                                     icon: <i className="fas fa-arrow-left"></i>,
                                     label: '270\u00B0',
-                                    onClick: () => handleSetRotation(270)
+                                    onClick: () => handleSetRotation(270),
+                                    ...lockedActionGuards
                                 }
                             ]
                         },
@@ -2672,7 +3552,8 @@ const ObjectSystem = () => {
                             icon: <i className="fas fa-trash"></i>,
                             label: 'Remove',
                             onClick: handleRemoveObject,
-                            className: 'danger-action'
+                            className: 'danger-action',
+                            ...lockedActionGuards
                         },
                         {
                             type: 'separator'
@@ -2716,6 +3597,92 @@ const ObjectSystem = () => {
                     <i className="fas fa-link" style={{ color: '#44aaff' }}></i>
                     Click an object to attach to (or press Escape to cancel)
                 </div>
+            )}
+
+            {/* Unlock Chest Modal (Player Lockpick / Password) */}
+            {activeUnlockChest && (
+                <UnlockContainerModal
+                    container={{
+                        ...activeUnlockChest,
+                        name: activeUnlockChest.name || 'Treasure Chest',
+                        containerProperties: {
+                            isLocked: activeUnlockChest.isLocked ?? true,
+                            lockType: activeUnlockChest.containerProperties?.lockType || activeUnlockChest.lockType || 'thievery',
+                            lockDC: activeUnlockChest.containerProperties?.lockDC || activeUnlockChest.lockDC || 15,
+                            lockCode: activeUnlockChest.containerProperties?.lockCode || activeUnlockChest.lockCode || '',
+                            flavorText: activeUnlockChest.containerProperties?.flavorText || 'A sturdy iron-bound chest.',
+                            maxAttempts: activeUnlockChest.containerProperties?.maxAttempts || 3,
+                            failureAction: activeUnlockChest.containerProperties?.failureAction || 'none',
+                            failureActionDetails: activeUnlockChest.containerProperties?.failureActionDetails || {},
+                            ...(activeUnlockChest.containerProperties || {})
+                        }
+                    }}
+                    onSuccess={(unlockedObj) => {
+                        const chestId = unlockedObj?.id || activeUnlockChest.id;
+                        const current = (environmentalObjects || []).find(o => o.id === chestId);
+                        if (current) {
+                            const updatedProps = {
+                                ...(current.containerProperties || {}),
+                                ...(unlockedObj?.containerProperties || {}),
+                                isLocked: false
+                            };
+                            updateEnvironmentalObject(chestId, {
+                                ...current,
+                                isLocked: false,
+                                isOpen: true,
+                                containerProperties: updatedProps
+                            }, getExplicitCurrentMapId());
+                        }
+                        setActiveUnlockChest(null);
+
+                        const { addChatNotification } = useChatStore.getState();
+                        if (addChatNotification) {
+                            addChatNotification({
+                                type: 'interaction',
+                                content: 'Treasure Chest was successfully picked and opened!',
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                    }}
+                    onClose={() => setActiveUnlockChest(null)}
+                />
+            )}
+
+            {/* Lock & Container Settings Modal (GM Only) */}
+            {activeLockSettingsChest && isGMMode && (
+                <LockSettingsModal
+                    container={{
+                        ...activeLockSettingsChest,
+                        name: activeLockSettingsChest.name || 'Treasure Chest',
+                        containerProperties: {
+                            isLocked: activeLockSettingsChest.isLocked || false,
+                            lockType: activeLockSettingsChest.containerProperties?.lockType || 'thievery',
+                            lockDC: activeLockSettingsChest.containerProperties?.lockDC || 15,
+                            lockCode: activeLockSettingsChest.containerProperties?.lockCode || '',
+                            flavorText: activeLockSettingsChest.containerProperties?.flavorText || '',
+                            maxAttempts: activeLockSettingsChest.containerProperties?.maxAttempts || 3,
+                            failureAction: activeLockSettingsChest.containerProperties?.failureAction || 'none',
+                            failureActionDetails: activeLockSettingsChest.containerProperties?.failureActionDetails || {},
+                            ...(activeLockSettingsChest.containerProperties || {})
+                        }
+                    }}
+                    onSave={(settings) => {
+                        const chestId = activeLockSettingsChest.id;
+                        const current = (environmentalObjects || []).find(o => o.id === chestId);
+                        if (current) {
+                            updateEnvironmentalObject(chestId, {
+                                ...current,
+                                isLocked: settings.isLocked,
+                                containerProperties: {
+                                    ...(current.containerProperties || {}),
+                                    ...settings
+                                }
+                            }, getExplicitCurrentMapId());
+                        }
+                        setActiveLockSettingsChest(null);
+                    }}
+                    onClose={() => setActiveLockSettingsChest(null)}
+                />
             )}
         </>
     );

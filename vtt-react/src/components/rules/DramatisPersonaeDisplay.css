@@ -241,6 +241,9 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(139, 115, 85, 0.08);
+  /* Offscreen dossier cards skip layout/paint work while scrolling. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
 }
 
 .dp-npc-card:hover {

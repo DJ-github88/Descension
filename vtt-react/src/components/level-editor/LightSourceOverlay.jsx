@@ -194,22 +194,35 @@ const LightSourceOverlay = () => {
         return null;
     }
 
+    const lightScreenInfo = (light) => {
+        const lightWorldX = light.x * tileSize + gridOffsetX;
+        const lightWorldY = light.y * tileSize + gridOffsetY;
+        const lightElevationLevel = getTileElevation(elevationData, light.x, light.y);
+        const screenPos = worldToScreen(lightWorldX, lightWorldY, lightElevationLevel * tileSize);
+        const radiusInPixels = light.radius * tileSize * effectiveZoom;
+        const radiusYInPixels = Math.max(2, radiusInPixels * lightSinTilt);
+        return { screenPos, radiusInPixels, radiusYInPixels };
+    };
+
     return (
-        <div className="light-source-overlay">
-            {visibleLights.map(light => {
-                const lightWorldX = light.x * tileSize + gridOffsetX;
-                const lightWorldY = light.y * tileSize + gridOffsetY;
-                const lightElevationLevel = getTileElevation(elevationData, light.x, light.y);
-                const screenPos = worldToScreen(lightWorldX, lightWorldY, lightElevationLevel * tileSize);
-                
-                // Calculate light radius in screen pixels (elliptical under tilt)
-                const radiusInPixels = light.radius * tileSize * effectiveZoom;
-                const radiusYInPixels = Math.max(2, radiusInPixels * lightSinTilt);
-                
-                return (
-                    <div key={light.id} className="light-source-container">
-                        {/* Light illumination area (only visible to GM or when enabled) */}
-                        {(isGMMode || light.enabled) && (
+        <>
+            {/* Floor illumination layer. Deliberately BELOW the 3D world layer
+                (z 10) and the fog canvas (z 40): the pool tints the 2D floor
+                only — it must not wash out 3D walls — and fog covers it. */}
+            <div className="light-illumination-layer">
+                {visibleLights.map(light => {
+                    if (light.enabled === false) return null;
+                    const { screenPos, radiusInPixels, radiusYInPixels } = lightScreenInfo(light);
+                    const color = light.color || '#ffaa00';
+                    const intensity = Math.max(0, light.intensity ?? 1);
+                    // Floor-only pool: the 3D point light handles the walls, so
+                    // this can stay a soft graded brightening without the old
+                    // flat wash that tinted every surface on screen.
+                    const centerAlpha = Math.round(Math.min(0.32, intensity * 0.24) * 255).toString(16).padStart(2, '0');
+                    const midAlpha = Math.round(Math.min(0.12, intensity * 0.08) * 255).toString(16).padStart(2, '0');
+
+                    return (
+                        <div key={light.id}>
                             <div
                                 className={`light-illumination ${light.flickering ? 'flickering' : ''}`}
                                 style={{
@@ -217,83 +230,94 @@ const LightSourceOverlay = () => {
                                     top: screenPos.y - radiusYInPixels,
                                     width: radiusInPixels * 2,
                                     height: radiusYInPixels * 2,
-                                    background: `radial-gradient(circle, ${light.color}${Math.round(light.intensity * 0.3 * 255).toString(16).padStart(2, '0')} 0%, transparent 70%)`,
-                                    opacity: light.enabled ? 1 : 0.3,
+                                    background: `radial-gradient(circle, ${color}${centerAlpha} 0%, ${color}${midAlpha} 45%, transparent 78%)`,
                                     pointerEvents: 'none'
                                 }}
                             />
-                        )}
-                        
-                        {/* Directional cone overlay */}
-                        {light.direction && light.coneAngle && light.coneAngle < 360 && (
-                            <svg
-                                style={{
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    pointerEvents: 'none',
-                                    overflow: 'visible'
-                                }}
-                            >
-                                <g
-                                    transform={`translate(${screenPos.x} ${screenPos.y}) scale(1 ${lightSinTilt}) rotate(${light.direction - 90})`}
-                                >
-                                    <path
-                                        d={buildConePath(radiusInPixels, light.coneAngle)}
-                                        fill={light.color || '#ffaa00'}
-                                        opacity={Math.min(0.35, 0.18 * (light.intensity ?? 1))}
-                                    />
-                                </g>
-                            </svg>
-                        )}
 
-                        {/* Light source icon */}
-                        <div
-                            className={`light-source-icon ${!light.enabled ? 'disabled' : ''} ${isGMMode ? 'interactive' : ''}`}
-                            style={{
-                                left: screenPos.x - 12,
-                                top: screenPos.y - 12,
-                                fontSize: `${Math.max(12, Math.min(24, 16 * effectiveZoom))}px`,
-                                filter: light.enabled ? 'none' : 'grayscale(100%)',
-                                opacity: light.enabled ? 1 : 0.5,
-                                boxShadow: selectedLightId === light.id ? '0 0 0 2px #d4af37' : 'none',
-                                cursor: isGMMode ? 'grab' : 'default'
-                            }}
-                            onPointerDown={(event) => handleLightPointerDown(light, event)}
-                            onDoubleClick={(event) => handleLightClick(light, event)}
-                            onContextMenu={(event) => handleLightRightClick(light, event)}
-                            title={`${LIGHT_PRESETS[light.type]?.name || light.type} - ${light.enabled ? 'Enabled' : 'Disabled'} (${light.radius * 5}ft radius)`}
-                        >
-                            <img
-                                src={getIconUrl(getLightIcon(light.type), 'abilities')}
-                                alt={LIGHT_PRESETS[light.type]?.name || light.type}
-                                className="light-source-icon-img"
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = getIconUrl('Utility/Utility', 'abilities');
-                                }}
-                            />
+                            {/* Directional cone overlay */}
+                            {light.direction && light.coneAngle && light.coneAngle < 360 && (
+                                <svg
+                                    style={{
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: 0,
+                                        width: '100%',
+                                        height: '100%',
+                                        pointerEvents: 'none',
+                                        overflow: 'visible'
+                                    }}
+                                >
+                                    <g
+                                        transform={`translate(${screenPos.x} ${screenPos.y}) scale(1 ${lightSinTilt}) rotate(${light.direction - 90})`}
+                                    >
+                                        <path
+                                            d={buildConePath(radiusInPixels, light.coneAngle)}
+                                            fill={color}
+                                            opacity={Math.min(0.16, 0.09 * intensity)}
+                                        />
+                                    </g>
+                                </svg>
+                            )}
                         </div>
-                        
-                        {/* Light source label (GM only) */}
-                        {isGMMode && (
-                            <div
-                                className="light-source-label"
-                                style={{
-                                    left: screenPos.x - 30,
-                                    top: screenPos.y + 16,
-                                    fontSize: `${Math.max(8, Math.min(12, 10 * effectiveZoom))}px`
-                                }}
-                            >
-                                {LIGHT_PRESETS[light.type]?.name || light.type}
+                    );
+                })}
+            </div>
+
+            {/* GM interaction layer: light gizmos only. Players never see the
+                ability icons/labels; they only see the illumination pools. */}
+            {isGMMode && (
+                <div className="light-source-overlay">
+                    {visibleLights.map(light => {
+                        const { screenPos } = lightScreenInfo(light);
+                        const isSelected = selectedLightId === light.id;
+                        return (
+                            <div key={light.id} className="light-source-container">
+                                <div
+                                    className={`light-source-icon ${!light.enabled ? 'disabled' : ''} interactive ${isSelected ? 'selected' : ''}`}
+                                    style={{
+                                        left: screenPos.x - 10,
+                                        top: screenPos.y - 10,
+                                        filter: light.enabled ? 'none' : 'grayscale(100%)',
+                                        opacity: isSelected ? 1 : 0.65,
+                                        cursor: 'grab'
+                                    }}
+                                    onPointerDown={(event) => handleLightPointerDown(light, event)}
+                                    onDoubleClick={(event) => handleLightClick(light, event)}
+                                    onContextMenu={(event) => handleLightRightClick(light, event)}
+                                    title={`${LIGHT_PRESETS[light.type]?.name || light.type} - ${light.enabled ? 'Enabled' : 'Disabled'} (${light.radius * 5}ft radius)`}
+                                >
+                                    <img
+                                        src={getIconUrl(getLightIcon(light.type), 'abilities')}
+                                        alt={LIGHT_PRESETS[light.type]?.name || light.type}
+                                        className="light-source-icon-img"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = getIconUrl('Utility/Utility', 'abilities');
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Label only for the selected light: labels on every
+                                    fixture read like token nameplates. */}
+                                {isSelected && (
+                                    <div
+                                        className="light-source-label"
+                                        style={{
+                                            left: screenPos.x - 30,
+                                            top: screenPos.y + 14,
+                                            fontSize: `${Math.max(8, Math.min(12, 10 * effectiveZoom))}px`
+                                        }}
+                                    >
+                                        {LIGHT_PRESETS[light.type]?.name || light.type}
+                                    </div>
+                                )}
                             </div>
-                        )}
-                    </div>
-                );
-            })}
-        </div>
+                        );
+                    })}
+                </div>
+            )}
+        </>
     );
 };
 

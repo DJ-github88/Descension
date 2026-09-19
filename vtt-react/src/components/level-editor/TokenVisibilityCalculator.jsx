@@ -49,6 +49,7 @@ const TokenVisibilityCalculator = () => {
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
     const isGMMode = useGameStore(state => state.isGMMode);
     const wallData = useLevelEditorStore(state => state.wallData) || {};
+    const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects) || [];
     const elevationData = useLevelEditorStore(state => state.elevationData) || {};
     const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges) || {};
     const fovAngle = useLevelEditorStore(state => state.fovAngle) || 360;
@@ -198,7 +199,8 @@ const TokenVisibilityCalculator = () => {
             facingAngle,
             gridType,
             gridSystem,
-            respectLineOfSight ? windowOverlays : {}
+            respectLineOfSight ? windowOverlays : {},
+            respectLineOfSight ? environmentalObjects : []
         );
 
         // Calculate visibility polygon (for smooth fog rendering)
@@ -214,7 +216,8 @@ const TokenVisibilityCalculator = () => {
             facingAngle,
             respectLineOfSight ? windowOverlays : {},
             gridType,
-            gridSystem
+            gridSystem,
+            respectLineOfSight ? environmentalObjects : []
         );
 
         // Elevation-aware terrain occlusion: tiles hidden behind raised terrain,
@@ -286,12 +289,14 @@ const TokenVisibilityCalculator = () => {
                         const gc = gridSystem.worldToGrid(ct.position.x, ct.position.y);
                         const tiles = calculateVisibleTiles(gc.x, gc.y, range, type,
                             respectLineOfSight ? wallData : {}, {}, fovAngle, fa, gridType, gridSystem,
-                            respectLineOfSight ? windowOverlays : {});
+                            respectLineOfSight ? windowOverlays : {},
+                            respectLineOfSight ? environmentalObjects : []);
                         tiles.forEach(t => allSecondaryTiles.add(t));
 
                         const poly = calculateVisibilityPolygon(ct.position.x, ct.position.y, range,
                             respectLineOfSight ? wallData : {}, gridSize, gridOffsetX, gridOffsetY,
-                            fovAngle, fa, respectLineOfSight ? windowOverlays : {}, gridType, gridSystem);
+                            fovAngle, fa, respectLineOfSight ? windowOverlays : {}, gridType, gridSystem,
+                            respectLineOfSight ? environmentalObjects : []);
                         
                         if (poly && poly.length >= 3) {
                             allSecondaryPolygons.push(poly);
@@ -337,6 +342,7 @@ const TokenVisibilityCalculator = () => {
         visionSettings,
         respectLineOfSight,
         wallData,
+        environmentalObjects,
         elevationData,
         windowOverlays,
         fovAngle,
