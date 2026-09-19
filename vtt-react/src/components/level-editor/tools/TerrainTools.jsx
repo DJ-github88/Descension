@@ -98,26 +98,17 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         <>
             {/* 3D Modular Mesh Terrain Toggle */}
             <div className="tool-section" style={{ marginBottom: 12 }}>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: terrain3DEnabled ? 'linear-gradient(135deg, rgba(0,180,219,0.2), rgba(0,131,176,0.2))' : 'rgba(255,255,255,0.05)',
-                    border: `1px solid ${terrain3DEnabled ? '#00b4db' : 'rgba(255,255,255,0.1)'}`,
-                    borderRadius: 8
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <i className="fas fa-cubes" style={{ color: terrain3DEnabled ? '#00b4db' : '#aaa', fontSize: 16 }}></i>
+                <div className={`mesh-3d-toggle ${terrain3DEnabled ? 'active' : ''}`}>
+                    <div className="mesh-3d-toggle-info">
+                        <i className="fas fa-cubes"></i>
                         <div>
-                            <div style={{ fontSize: 13, fontWeight: 'bold', color: '#fff' }}>3D Modular Tiles</div>
-                            <div style={{ fontSize: 10, color: '#aaa' }}>{terrain3DEnabled ? 'Real 3D Mesh Terrain Active' : '2D Canvas Terrain Active'}</div>
+                            <div className="mesh-3d-toggle-title">3D Modular Tiles</div>
+                            <div className="mesh-3d-toggle-status">{terrain3DEnabled ? 'Real 3D Mesh Terrain Active' : '2D Canvas Terrain Active'}</div>
                         </div>
                     </div>
                     <button
-                        className={`size-btn ${terrain3DEnabled ? 'active' : ''}`}
+                        className={`mesh-3d-toggle-btn ${terrain3DEnabled ? 'active' : ''}`}
                         onClick={() => setTerrain3DEnabled(!terrain3DEnabled)}
-                        style={{ padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}
                     >
                         {terrain3DEnabled ? 'ON' : 'OFF'}
                     </button>

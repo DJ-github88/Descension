@@ -251,26 +251,17 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         <div className="wall-tools">
             {/* 3D Modular Walls Toggle */}
             <div className="tool-section" style={{ marginBottom: 12 }}>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '8px 12px',
-                    background: walls3DEnabled ? 'linear-gradient(135deg, rgba(0,180,219,0.2), rgba(0,131,176,0.2))' : 'rgba(255,255,255,0.05)',
-                    border: `1px solid ${walls3DEnabled ? '#00b4db' : 'rgba(255,255,255,0.1)'}`,
-                    borderRadius: 8
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <i className="fas fa-cubes" style={{ color: walls3DEnabled ? '#00b4db' : '#aaa', fontSize: 16 }}></i>
+                <div className={`mesh-3d-toggle ${walls3DEnabled ? 'active' : ''}`}>
+                    <div className="mesh-3d-toggle-info">
+                        <i className="fas fa-cubes"></i>
                         <div>
-                            <div style={{ fontSize: 13, fontWeight: 'bold', color: '#fff' }}>3D Modular Walls</div>
-                            <div style={{ fontSize: 10, color: '#aaa' }}>{walls3DEnabled ? 'Real 3D Mesh Walls Active' : 'SVG 2.5D Wall Layer Active'}</div>
+                            <div className="mesh-3d-toggle-title">3D Modular Walls</div>
+                            <div className="mesh-3d-toggle-status">{walls3DEnabled ? 'Real 3D Mesh Walls Active' : 'SVG 2.5D Wall Layer Active'}</div>
                         </div>
                     </div>
                     <button
-                        className={`size-btn ${walls3DEnabled ? 'active' : ''}`}
+                        className={`mesh-3d-toggle-btn ${walls3DEnabled ? 'active' : ''}`}
                         onClick={() => setWalls3DEnabled(!walls3DEnabled)}
-                        style={{ padding: '4px 10px', fontSize: 11, cursor: 'pointer' }}
                     >
                         {walls3DEnabled ? 'ON' : 'OFF'}
                     </button>

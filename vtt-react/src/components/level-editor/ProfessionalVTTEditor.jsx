@@ -26,7 +26,7 @@ import AreaRemoveModal from './AreaRemoveModal';
 import AdvancedLightingPanel from './AdvancedLightingPanel';
 import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
 import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
-import { resolveObjectWheelTransform } from './objectWheelTransforms';
+import { resolveObjectWheelTransform, toToolSettingsPatch } from './objectWheelTransforms';
 import { resolveWallMountPlacement } from './objects/wallAttachment';
 import { LIGHT_PRESETS } from '../../utils/LightingCalculations';
 import LayersPanel from './LayersPanel';
@@ -258,12 +258,14 @@ const elevationStrokePaintedRef = useRef(null);
                 // CRITICAL FIX: Defer setToolSettings to avoid React 'update during render' warning
                 // which causes stale state snapshots (including drawingPaths) in the batcher
                 setTimeout(() => {
-                    const newSettings = {
-                        ...toolSettings,
+                    // Functional patch: a spread of the render-time toolSettings
+                    // snapshot here re-added values that other deferred writes
+                    // (terrain cleanup below) had just cleared.
+                    setToolSettings(prev => ({
+                        ...prev,
                         selectedObjectType: undefined,
                         selectedPlacementType: undefined
-                    };
-                    setToolSettings(newSettings);
+                    }));
                 }, 0);
             }
         }
@@ -272,9 +274,11 @@ const elevationStrokePaintedRef = useRef(null);
         // CRITICAL FIX: Defer to avoid React 'update during render' warning
         if (tabId !== 'terrain') {
             setTimeout(() => {
-                const newSettings = { ...toolSettings };
-                delete newSettings.selectedTerrainType;
-                setToolSettings(newSettings);
+                setToolSettings(prev => {
+                    const newSettings = { ...prev };
+                    delete newSettings.selectedTerrainType;
+                    return newSettings;
+                });
             }, 0);
         }
 
@@ -373,12 +377,7 @@ const elevationStrokePaintedRef = useRef(null);
             if (!patch) return;
             e.preventDefault();
             e.stopPropagation();
-            const toolPatch = {};
-            if (patch.scale !== undefined) toolPatch.objectScale = patch.scale;
-            if (patch.rotation !== undefined) toolPatch.objectRotation = patch.rotation;
-            if (patch.rotationX !== undefined) toolPatch.objectRotationX = patch.rotationX;
-            if (patch.rotationY !== undefined) toolPatch.objectRotationY = patch.rotationY;
-            useLevelEditorStore.getState().setToolSettings(toolPatch);
+            useLevelEditorStore.getState().setToolSettings(toToolSettingsPatch(patch));
             return;
         }
 

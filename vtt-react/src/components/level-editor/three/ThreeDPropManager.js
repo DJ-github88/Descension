@@ -933,7 +933,9 @@ export class ThreeDPropManager {
         const parentEntry = this.propInstances.get(obj.parentObjectId);
         if (parentEntry && parentEntry.baseBox) {
           const parentScale = parentEntry.innerModel.scale.x || 1;
-          const parentTopZ = parentEntry.mesh.position.z + parentEntry.baseBox.max.z * parentScale;
+          const parentTopZ = parentEntry.mesh.position.z +
+            parentEntry.innerModel.position.z +
+            parentEntry.baseBox.max.z * parentScale;
           if (Number.isFinite(parentTopZ)) worldZ = parentTopZ;
         }
       }
@@ -953,6 +955,17 @@ export class ThreeDPropManager {
         bbox.getSize(size);
         const maxFootprint = Math.max(size.x, size.y) || 1;
         const unitScale = (gridSize / maxFootprint) * (def.scale || 1.0);
+
+        // Kit models are not all authored with a base-centred origin: wall
+        // shelves/banners hang off a wall plane, rubble/endcap pieces start at
+        // one end, and a few props dip below the floor. Store the offset that
+        // recentres the figure on its tile and rests its base on the ground so
+        // free-placed props stop floating, sinking or sitting half a tile off.
+        const normalize = {
+          x: -(bbox.min.x + bbox.max.x) / 2,
+          y: -(bbox.min.y + bbox.max.y) / 2,
+          z: -bbox.min.z
+        };
 
         // Wrapper group for scene positioning & ground-plane yaw rotation
         const wrapperGroup = new THREE.Group();
@@ -988,6 +1001,7 @@ export class ThreeDPropManager {
           innerModel: modelScene,
           unitScale,
           baseBox: bbox,
+          normalize,
           def,
           lidNode,
           doorNode,
@@ -1021,6 +1035,10 @@ export class ThreeDPropManager {
       // 3. Dynamic scaling: updates immediately when resized on canvas or via settings!
       const currentScale = entry.unitScale * (obj.scale || 1.0);
       entry.innerModel.scale.set(currentScale, currentScale, currentScale);
+
+      // Wall-mounted fixtures keep their authored mount origin; everything
+      // else is recentred on the tile and rested on the ground plane.
+      this.applyPlacementOffset(entry, currentScale, !obj.wallAttached);
 
       // 4. Sync open/closed state
       if (obj.isOpen !== undefined && obj.isOpen !== entry.isOpen) {
@@ -1147,7 +1165,18 @@ export class ThreeDPropManager {
           }
         });
 
-        entry = { id, modelUrl: def.url, mesh: wrapperGroup, innerModel: modelScene, unitScale };
+        entry = {
+          id,
+          modelUrl: def.url,
+          mesh: wrapperGroup,
+          innerModel: modelScene,
+          unitScale,
+          normalize: {
+            x: -(bbox.min.x + bbox.max.x) / 2,
+            y: -(bbox.min.y + bbox.max.y) / 2,
+            z: -bbox.min.z
+          }
+        };
         this.lightPropInstances.set(id, entry);
         this.group.add(wrapperGroup);
       }
@@ -1155,6 +1184,7 @@ export class ThreeDPropManager {
       entry.mesh.position.set(worldX, -worldY, worldZ);
       entry.mesh.rotation.z = 0;
       entry.innerModel.scale.set(entry.unitScale, entry.unitScale, entry.unitScale);
+      this.applyPlacementOffset(entry, entry.unitScale, true);
 
       // Fog of War & Memory/Explored visibility
       let isVisible = true;
@@ -1478,6 +1508,21 @@ export class ThreeDPropManager {
   }
 
   /**
+   * Offset the inner model so its footprint is centred on the wrapper origin
+   * and its base sits on the ground. The offset lives on the inner model, so
+   * it must be re-applied (scaled) whenever the prop's scale changes.
+   */
+  applyPlacementOffset(entry, scale, grounded) {
+    if (!entry || !entry.normalize || !entry.innerModel) return;
+    if (!grounded) {
+      entry.innerModel.position.set(0, 0, 0);
+      return;
+    }
+    const { x, y, z } = entry.normalize;
+    entry.innerModel.position.set(x * scale, y * scale, z * scale);
+  }
+
+  /**
    * World-space corners of a rendered prop model, used by the 2D selection
    * chrome to tightly wrap the 3D figure.
    *
@@ -1495,6 +1540,9 @@ export class ThreeDPropManager {
     const box = entry.baseBox.clone();
     box.min.multiplyScalar(scale);
     box.max.multiplyScalar(scale);
+    // The placement offset is applied to the inner model in wrapper space.
+    box.min.add(entry.innerModel.position);
+    box.max.add(entry.innerModel.position);
     box.applyMatrix4(entry.mesh.matrixWorld);
 
     const corners = [];

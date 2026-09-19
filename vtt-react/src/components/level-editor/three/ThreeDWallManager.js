@@ -9,6 +9,7 @@ import {
 } from '../../../utils/WallGeometry';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
+import { applyWallMaterial } from './wallMaterialTextures';
 import {
   WALL_EXPLORED_OPACITY,
   createTileKeyResolver,
@@ -35,7 +36,21 @@ export const WALL_MODELS = {
   corner: '/assets/models/dungeon/wall_corner.glb',
   tsplit: '/assets/models/dungeon/wall_tsplit.glb',
   crossing: '/assets/models/dungeon/wall_crossing.glb',
-  endcap: '/assets/models/dungeon/wall_endcap.glb'
+  endcap: '/assets/models/dungeon/wall_endcap.glb',
+
+  // Dedicated CC0 3D Wall Models
+  brick: '/assets/models/walls/brick_wall.glb',
+  brick_corner: '/assets/models/walls/brick_wall_corner.glb',
+  wood: '/assets/models/walls/wooden_wall.glb',
+  wood_corner: '/assets/models/walls/wooden_wall_corner.glb',
+  wood_door: '/assets/models/walls/wooden_wall_door.glb',
+  wood_half: '/assets/models/walls/wooden_wall_half.glb',
+  wood_window: '/assets/models/walls/wooden_wall_window.glb',
+  hedge: '/assets/models/walls/hedge.glb',
+  hedge_corner: '/assets/models/walls/hedge_corner.glb',
+  metal: '/assets/models/walls/metal_wall.glb',
+  metal_border: '/assets/models/walls/metal_wall_border.glb',
+  metal_gate: '/assets/models/walls/metal_wall_gate.glb'
 };
 
 // Every wall/junction model in the modular kit is authored 4 units long, 4 units
@@ -48,6 +63,27 @@ const JUNCTION_MODEL_BY_TYPE = {
   crossing: WALL_MODELS.crossing,
   endcap: WALL_MODELS.endcap
 };
+
+// Authored dimensions for kit models that are not the standard 4 x 4 x 1 wall.
+// `length` maps the model onto the wall piece length, `height` maps it onto the
+// wall body height (the palisade is only 1.1 units tall and must stretch).
+const DEFAULT_WALL_METRICS = { length: WALL_MODEL_UNIT, height: WALL_MODEL_UNIT, centerX: 0 };
+export const WALL_MODEL_METRICS = {
+  [WALL_MODELS.barrier]: { length: 4, height: 1.1, centerX: 0 },
+  [WALL_MODELS.brick]: { length: 1, height: 0.702, centerX: 0 },
+  [WALL_MODELS.brick_corner]: { length: 1, height: 0.702, centerX: 0 },
+  [WALL_MODELS.wood]: { length: 1, height: 1.0, centerX: 0, rotateY: Math.PI / 2 },
+  [WALL_MODELS.wood_corner]: { length: 1, height: 1.0, centerX: 0 },
+  [WALL_MODELS.wood_door]: { length: 1, height: 1.0, centerX: 0, rotateY: Math.PI / 2 },
+  [WALL_MODELS.wood_half]: { length: 1, height: 0.5, centerX: 0, rotateY: Math.PI / 2 },
+  [WALL_MODELS.wood_window]: { length: 1, height: 1.0, centerX: 0, rotateY: Math.PI / 2 },
+  [WALL_MODELS.hedge]: { length: 1, height: 0.25, centerX: 0, rotateY: Math.PI / 2 },
+  [WALL_MODELS.hedge_corner]: { length: 1, height: 0.20, centerX: 0 },
+  [WALL_MODELS.metal]: { length: 1, height: 0.824, centerX: 0 },
+  [WALL_MODELS.metal_border]: { length: 1, height: 0.824, centerX: 0 },
+  [WALL_MODELS.metal_gate]: { length: 1, height: 0.824, centerX: 0 }
+};
+export const wallModelMetrics = (url) => WALL_MODEL_METRICS[url] || DEFAULT_WALL_METRICS;
 
 // Pre-load all wall models into cache
 Object.values(WALL_MODELS).forEach(url => modelCache.loadModel(url).catch(() => {}));
@@ -83,16 +119,18 @@ export class ThreeDWallManager {
     const typeId = (typeof wall === 'string' ? wall : wall?.type) || 'stone_wall';
     const typeLower = String(typeId).toLowerCase();
 
-    if (typeLower.includes('half')) {
-      return WALL_MODELS.half;
-    }
+    // The kit's `wall_half` piece is a half-LENGTH wall segment, not a low
+    // parapet. The half_wall type is a low wall, so it reuses the straight
+    // masonry model at the type's heightScale instead (see WALL_TYPES).
     if (typeLower.includes('arch')) {
       return WALL_MODELS.arched;
     }
     if (typeLower.includes('shel')) {
       return WALL_MODELS.shelves;
     }
-    if (typeLower.includes('barrier') || typeLower.includes('palisade')) {
+    // Palette `magical_barrier`/`force_wall` are energy walls, not wooden
+    // palisades: they must fall through to the straight masonry model below.
+    if (typeLower.includes('palisade') || typeLower === 'barrier_wood') {
       return WALL_MODELS.barrier;
     }
     if (typeLower.includes('window')) {
@@ -117,7 +155,7 @@ export class ThreeDWallManager {
       return WALL_MODELS.gated;
     }
 
-    // Default straight stone wall
+    // Default straight stone wall (also used by the low half-wall parapet and material variants).
     return WALL_MODELS.straight;
   }
 
@@ -129,25 +167,70 @@ export class ThreeDWallManager {
   }
 
   /**
-   * Tint/normalise a wall type onto the shared stone models so wooden, brick
-   * and metal walls read as different materials in 3D. Magical/force barriers
-   * are translucent and emissive, matching their 2.5D treatment.
+   * Resolve the 3D appearance of a wall type.
+   *
+   * Material variations (wood, brick, metal) use dedicated high-definition
+   * textures that tile seamlessly across runs, corners, and junctions.
+   * Energy barriers use an emissive translucent pane.
    */
   resolveWallAppearance(wall) {
     const typeId = (typeof wall === 'string' ? wall : wall?.type) || 'stone_wall';
     const typeData = WALL_TYPES[typeId] || {};
     if (typeData.isWindow || typeData.interactive) return null;
+    const typeLower = String(typeId).toLowerCase();
+
+    if (typeLower === 'wooden_wall' || typeLower === 'wood_wall') {
+      return { tint: null, baseOpacity: 1, emissive: null, material: 'wood', key: 'wooden_wall:texture' };
+    }
+
+    if (typeLower === 'brick_wall') {
+      return { tint: null, baseOpacity: 1, emissive: null, material: 'brick', key: 'brick_wall:texture' };
+    }
+
+    if (typeLower === 'metal_wall' || typeLower === 'iron_wall' || typeLower === 'iron_fence') {
+      return { tint: null, baseOpacity: 1, emissive: null, material: 'metal', key: 'metal_wall:texture' };
+    }
+
+    // Structural variations (half wall, arches, ruins, shelves, palisades) already ship
+    // their own kit model and material; palette colours exist for the 2.5D
+    // pattern layer, not for tinting pristine stone into dark slabs.
+    if (typeData.category === 'variations' || typeId === 'barrier_wood') return null;
     if (!typeData.color || typeId === 'stone_wall') return null;
-    // Only a light lift toward white keeps the type identifiable: a heavier
-    // lerp washed the tints out entirely against the grey masonry texture.
+
     const tint = new THREE.Color(typeData.color).lerp(WHITE, 0.15);
-    const translucent = typeData.blocksLineOfSight === false;
+    const translucent = typeData.category === 'magical';
     return {
       tint,
-      baseOpacity: translucent ? 0.6 : 1,
-      emissive: translucent ? new THREE.Color(typeData.color).multiplyScalar(0.35) : null,
-      key: `${typeId}:${Math.round(tint.r * 255)},${Math.round(tint.g * 255)},${Math.round(tint.b * 255)}:${translucent ? 0.6 : 1}`
+      baseOpacity: translucent ? 0.5 : 1,
+      emissive: translucent ? new THREE.Color(typeData.color).multiplyScalar(0.45) : null,
+      material: translucent ? 'energy' : null,
+      key: `${typeId}:${Math.round(tint.r * 255)},${Math.round(tint.g * 255)},${Math.round(tint.b * 255)}:${translucent ? 0.5 : 1}`
     };
+  }
+
+  /**
+   * Apply an appearance to a freshly cloned kit material. Generated material
+   * families replace the atlas map; energy barriers strip it so the pane
+   * reads as a force surface; everything else keeps the tint/emissive path.
+   */
+  applyAppearanceToMaterial(material, appearance) {
+    if (!appearance || !material) return;
+    if (appearance.material === 'energy') {
+      if (material.map) {
+        material.map = null;
+        material.needsUpdate = true;
+      }
+    } else if (appearance.material && applyWallMaterial(material, appearance.material)) {
+      return;
+    }
+    if (appearance.tint) {
+      // Lerp gracefully rather than multiply to preserve texture crack and highlight definition
+      material.color.lerp(appearance.tint, 0.45);
+    }
+    if (appearance.emissive) {
+      material.emissive.copy(appearance.emissive);
+      material.emissiveIntensity = 0.6;
+    }
   }
 
   resolveElevationZ(wall, parsed, elevationData, gridSize) {
@@ -170,14 +253,14 @@ export class ThreeDWallManager {
    * roughly one-tile-long segments for the same reason: the texture repeats
    * per piece instead of smearing across the whole run.
    */
-  computeWallPieces({ start, end, gridSize, heightWorld, baseZ, gridType }) {
+  computeWallPieces({ start, end, gridSize, heightWorld, baseZ, gridType, metrics = DEFAULT_WALL_METRICS }) {
     const dx = end.x - start.x;
     const dy = end.y - start.y;
     const length = Math.hypot(dx, dy);
     if (length < 1e-4) return [];
 
-    const scalePlan = gridSize / WALL_MODEL_UNIT;
-    const scaleY = heightWorld / WALL_MODEL_UNIT;
+    const scalePlan = gridSize / metrics.length;
+    const scaleY = heightWorld / metrics.height;
     const rotationZ = Math.atan2(-dy, dx);
     const axisAligned = Math.abs(dx) < QUANT_EPSILON || Math.abs(dy) < QUANT_EPSILON;
     const tileCount = Math.round(length / gridSize);
@@ -194,6 +277,7 @@ export class ThreeDWallManager {
     }
 
     const pieceLength = length / segments;
+    const pieceScaleX = pieceLength / metrics.length;
     const ux = dx / length;
     const uy = dy / length;
     const probeOffset = fogProbeOffset(gridSize);
@@ -207,9 +291,11 @@ export class ThreeDWallManager {
         y: centerY,
         z: baseZ,
         rotationZ,
-        scaleX: pieceLength / WALL_MODEL_UNIT,
+        scaleX: pieceScaleX,
         scaleY,
         scaleZ: scalePlan,
+        // Models authored with an off-centre origin sit on the piece centre.
+        offsetX: -(metrics.centerX || 0) * pieceScaleX,
         // Probes on both sides of the wall so piece visibility never depends
         // on which side a boundary-sitting Math.floor lands.
         fogSamples: fogSamplesAlongSegment({
@@ -309,7 +395,10 @@ export class ThreeDWallManager {
       if (!ends || !ends.start || !ends.end) continue;
 
       const isDoor = this.isDoorWall(wall);
-      wallRecords.push({ key, wall, parsed, ends, isDoor });
+      const appearance = isDoor ? null : this.resolveWallAppearance(wall);
+      const typeData = WALL_TYPES[wall && typeof wall === 'object' ? wall.type : wall] || {};
+      const heightWorld = getWallBodyHeightWorld(wall, gridSize, typeData);
+      wallRecords.push({ key, wall, parsed, ends, isDoor, appearance, heightWorld });
 
       // Junction analysis includes doors: their doorway model occupies the tile,
       // so neighbouring walls must not cap themselves against the opening.
@@ -317,24 +406,44 @@ export class ThreeDWallManager {
         const vertexKey = `${Math.round(here.x)},${Math.round(here.y)}`;
         let vertex = dirsByVertex.get(vertexKey);
         if (!vertex) {
-          vertex = { x: here.x, y: here.y, dirs: [], hasDoor: false };
+          vertex = { x: here.x, y: here.y, dirs: [], hasDoor: false, appearance: null, mixed: false };
           dirsByVertex.set(vertexKey, vertex);
         }
         if (isDoor) vertex.hasDoor = true;
         const dir = quantizeDirection(there.x - here.x, there.y - here.y);
         if (dir) vertex.dirs.push(dir);
+
+        // Junction pieces should carry the same material and height as the
+        // runs meeting there. A vertex joining different wall types falls back
+        // to the default stone look and full wall body height.
+        if (!isDoor) {
+          const appearanceKey = appearance?.key || null;
+          if (!vertex.appearanceSeen) {
+            vertex.appearanceSeen = true;
+            vertex.appearance = appearance;
+            vertex.appearanceKey = appearanceKey;
+            vertex.heightWorld = heightWorld;
+          } else {
+            if (vertex.appearanceKey !== appearanceKey) {
+              vertex.appearance = null;
+              vertex.mixed = true;
+            }
+            if (!Number.isFinite(vertex.heightWorld) ||
+              Math.abs(vertex.heightWorld - heightWorld) > 0.5) {
+              vertex.heightWorld = null;
+            }
+          }
+        }
       }
     }
 
     // 1. Wall segments (one model per tile when the run is axis-aligned/tile-exact)
-    for (const { key, wall, parsed, ends, isDoor } of wallRecords) {
+    for (const { key, wall, parsed, ends, isDoor, appearance, heightWorld } of wallRecords) {
       // Doors are rendered by ThreeDPropManager with interactive swing hinges
       if (isDoor) continue;
 
       currentWallKeys.add(key);
       const modelUrl = this.resolveWallModelUrl(wall);
-      const appearance = this.resolveWallAppearance(wall);
-      const heightWorld = getWallBodyHeightWorld(wall, gridSize);
       const baseZ = this.resolveElevationZ(wall, parsed, elevationData, gridSize);
       const pieces = this.computeWallPieces({
         start: ends.start,
@@ -342,7 +451,8 @@ export class ThreeDWallManager {
         gridSize,
         heightWorld,
         baseZ,
-        gridType
+        gridType,
+        metrics: wallModelMetrics(modelUrl)
       });
       if (pieces.length === 0) continue;
 
@@ -400,11 +510,14 @@ export class ThreeDWallManager {
       if (!junction) continue;
 
       currentJunctionKeys.add(vertexKey);
-      const modelUrl = JUNCTION_MODEL_BY_TYPE[junction.kind];
+
+      const appearance = vertex.mixed ? null : vertex.appearance;
+      const appearanceKey = appearance?.key || null;
+      const modelUrl = (appearance?.junctionModels && appearance.junctionModels[junction.kind]) || JUNCTION_MODEL_BY_TYPE[junction.kind];
       if (!modelUrl) continue;
 
       let entry = this.junctionInstances.get(vertexKey);
-      if (entry && entry.modelUrl !== modelUrl) {
+      if (entry && (entry.modelUrl !== modelUrl || entry.appearanceKey !== appearanceKey)) {
         this.group.remove(entry.group);
         this.junctionInstances.delete(vertexKey);
         entry = null;
@@ -412,7 +525,8 @@ export class ThreeDWallManager {
       if (!entry) {
         const innerModel = modelCache.createInstance(modelUrl);
         if (!innerModel) continue; // Still loading in background
-        innerModel.rotation.x = Math.PI / 2;
+        const junctionMetrics = wallModelMetrics(modelUrl);
+        innerModel.rotation.set(Math.PI / 2, junctionMetrics.rotateY || 0, 0, 'XYZ');
 
         const junctionGroup = new THREE.Group();
         junctionGroup.name = `3djunction_${junction.kind}_${vertexKey}`;
@@ -421,23 +535,39 @@ export class ThreeDWallManager {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
+            if (child.material) {
+              this.applyAppearanceToMaterial(child.material, appearance);
+            }
           }
         });
 
-        entry = { key: vertexKey, kind: junction.kind, modelUrl, group: junctionGroup, innerModel };
+        entry = {
+          key: vertexKey,
+          kind: junction.kind,
+          modelUrl,
+          appearanceKey,
+          baseOpacity: appearance?.baseOpacity ?? 1,
+          group: junctionGroup,
+          innerModel
+        };
         this.junctionInstances.set(vertexKey, entry);
         this.group.add(junctionGroup);
       }
 
       const scalePlan = gridSize / WALL_MODEL_UNIT;
-      const heightWorld = WALL_HEIGHT_MULTIPLIERS.wall * gridSize;
+      // Low runs (half-wall parapets) should not tower over themselves at
+      // their end caps/corners; mixed-height joins keep the full body height.
+      const heightWorld = Number.isFinite(vertex.heightWorld)
+        ? vertex.heightWorld
+        : WALL_HEIGHT_MULTIPLIERS.wall * gridSize;
       entry.group.position.set(
         vertex.x,
         -vertex.y,
         this.resolveJunctionBaseZ(vertex, elevationData, gridSize, gridOffsetX, gridOffsetY)
       );
       entry.group.rotation.z = junction.rotation;
-      entry.innerModel.scale.set(scalePlan, heightWorld / WALL_MODEL_UNIT, scalePlan);
+      const junctionMetrics = wallModelMetrics(modelUrl);
+      entry.innerModel.scale.set(scalePlan, heightWorld / junctionMetrics.height, scalePlan);
 
       const fog = this.resolveFogVisibility(fogSamplesAroundPoint(vertex.x, vertex.y, probeOffset), {
         isFogActive,
@@ -445,7 +575,7 @@ export class ThreeDWallManager {
         visibleAreaSet,
         tileKeyAt
       });
-      this.applyPieceState({ mesh: entry.group, innerModel: entry.innerModel }, fog);
+      this.applyPieceState({ mesh: entry.group, innerModel: entry.innerModel, baseOpacity: entry.baseOpacity }, fog);
     }
 
     // Remove obsolete junction pieces
@@ -483,21 +613,15 @@ export class ThreeDWallManager {
       for (let i = 0; i < pieces.length; i += 1) {
         const innerModel = modelCache.createInstance(modelUrl);
         if (!innerModel) continue;
-        innerModel.rotation.x = Math.PI / 2;
+        const metrics = wallModelMetrics(modelUrl);
+        innerModel.rotation.set(Math.PI / 2, metrics.rotateY || 0, 0, 'XYZ');
         innerModel.traverse(child => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
             child.userData = { ...userData, is3DWall: true };
-            if (appearance && child.material) {
-              const mats = Array.isArray(child.material) ? child.material : [child.material];
-              mats.forEach(m => {
-                m.color.multiply(appearance.tint);
-                if (appearance.emissive) {
-                  m.emissive.copy(appearance.emissive);
-                  m.emissiveIntensity = 0.6;
-                }
-              });
+            if (child.material) {
+              this.applyAppearanceToMaterial(child.material, appearance);
             }
           }
         });
@@ -519,6 +643,7 @@ export class ThreeDWallManager {
       piece.mesh.position.set(target.x, -target.y, target.z);
       piece.mesh.rotation.z = target.rotationZ;
       piece.innerModel.scale.set(target.scaleX, target.scaleY, target.scaleZ);
+      piece.innerModel.position.x = target.offsetX || 0;
     });
   }
 

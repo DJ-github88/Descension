@@ -188,6 +188,83 @@
     margin-bottom: 0;
 }
 
+/* 3D Modular Mesh toggles (Terrain / Walls) */
+.mesh-3d-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: linear-gradient(to bottom, #f4f1e8, #e8e2d5);
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(58, 47, 26, 0.15);
+    transition: all 0.2s ease;
+}
+
+.mesh-3d-toggle.active {
+    background: linear-gradient(to bottom, #f0e6d2, #e6d9b8);
+    border-color: #d4af37;
+    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.35), 0 1px 2px rgba(58, 47, 26, 0.2);
+}
+
+.mesh-3d-toggle-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mesh-3d-toggle-info i {
+    font-size: 16px;
+    color: #a08c70;
+}
+
+.mesh-3d-toggle.active .mesh-3d-toggle-info i {
+    color: #b8941f;
+}
+
+.mesh-3d-toggle-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #5a3a2a;
+}
+
+.mesh-3d-toggle-status {
+    font-size: 10px;
+    color: #8b7355;
+}
+
+.mesh-3d-toggle.active .mesh-3d-toggle-status {
+    color: #7a3b2e;
+}
+
+.mesh-3d-toggle-btn {
+    width: 40px;
+    height: 30px;
+    border: 2px solid #a08c70;
+    background: #f4f1e8;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+    color: #5a3a2a;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mesh-3d-toggle-btn:hover {
+    background: #e8e2d5;
+    border-color: #7a3b2e;
+}
+
+.mesh-3d-toggle-btn.active {
+    background: #d4af37;
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+}
+
 .layer-panel-overlay-toggle {
     position: absolute !important;
     top: 8px !important;

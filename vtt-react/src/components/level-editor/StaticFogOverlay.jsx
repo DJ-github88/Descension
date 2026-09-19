@@ -75,6 +75,12 @@ const StaticFogOverlay = () => {
     const offscreenCanvasRef = useRef(null);
     const tempCanvasRef = useRef(null);
     const isDraggingCameraRef = useRef(false);
+    // Coalesced next-frame fog redraw. Drawing directly from the commit put the
+    // fog one frame AHEAD of the grid/tokens/walls/3D layers during camera
+    // drags (those all repaint on a rAF that samples the camera after the
+    // store update); deferring the draw to a rAF puts the fog on their tick.
+    const fogRafRef = useRef(null);
+    const renderFogRef = useRef(null);
 
     // PERFORMANCE: Pooled canvases to avoid per-frame allocation/GC
     // NOTE: primaryShapeCanvasRef/blurredShapeCacheRef were removed — the blur
@@ -934,21 +940,29 @@ const StaticFogOverlay = () => {
         }
     }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, fovWallSilhouettes, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
-    // NOTE: passive effect on purpose. A layout effect redrew the fog in the
-    // same frame the camera was updated (pre-paint), while tokens, walls, the
-    // grid and the 3D layer all repaint one rAF later. During a camera drag the
-    // fog therefore looked like it slid ~1 frame ahead of everything on the
-    // grid, snapping back on mouse-up. Redrawing after paint keeps the fog in
-    // the same phase as the object layers.
+    renderFogRef.current = renderFog;
+
+    // Repaint on the frame AFTER the store commit so the fog shares its phase
+    // with the other camera-following layers instead of leading them. The
+    // callback reads renderFogRef, so a coalesced draw always paints the
+    // newest committed camera/visibility state.
     useEffect(() => {
-        if (typeof window !== 'undefined') window.__fogPhase = 'passive-v1';
-        renderFog();
+        if (fogRafRef.current !== null) return undefined;
+        fogRafRef.current = requestAnimationFrame(() => {
+            fogRafRef.current = null;
+            if (renderFogRef.current) renderFogRef.current();
+        });
+        return undefined;
     }, [renderFog, cameraX, cameraY, zoomLevel, playerZoom, visibilityPolygon, fogOfWarPaths, viewMode, viewRotation, viewTilt]);
 
     // Cleanup RAF and subscription
     useEffect(() => {
         return () => {
             if (cameraRafRef.current) cancelAnimationFrame(cameraRafRef.current);
+            if (fogRafRef.current !== null) {
+                cancelAnimationFrame(fogRafRef.current);
+                fogRafRef.current = null;
+            }
         };
     }, []);
 

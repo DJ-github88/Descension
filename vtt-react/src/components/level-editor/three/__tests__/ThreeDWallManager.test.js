@@ -73,11 +73,14 @@ describe('ThreeDWallManager', () => {
     expect(manager.resolveWallModelUrl({ type: 'barred_window' })).toContain('wall_window_gated.glb');
     expect(manager.resolveWallModelUrl({ type: 'cracked_stone' })).toContain('wall_cracked.glb');
     expect(manager.resolveWallModelUrl({ type: 'gated_portcullis' })).toContain('wall_gated.glb');
-    expect(manager.resolveWallModelUrl({ type: 'half_wall' })).toContain('wall_half.glb');
+    expect(manager.resolveWallModelUrl({ type: 'half_wall' })).toContain('wall_stone_straight.glb');
     expect(manager.resolveWallModelUrl({ type: 'wall_arched' })).toContain('wall_arched.glb');
     expect(manager.resolveWallModelUrl({ type: 'wall_broken' })).toContain('wall_broken.glb');
     expect(manager.resolveWallModelUrl({ type: 'wall_shelves' })).toContain('wall_shelves.glb');
     expect(manager.resolveWallModelUrl({ type: 'barrier_wood' })).toContain('barrier_wood.glb');
+    // Energy barriers are not palisades: the word "barrier" must not hijack them.
+    expect(manager.resolveWallModelUrl({ type: 'magical_barrier' })).toContain('wall_stone_straight.glb');
+    expect(manager.resolveWallModelUrl({ type: 'force_wall' })).toContain('wall_stone_straight.glb');
   });
 
   it('renders one model per grid tile so multi-tile runs are not stretched', () => {
@@ -330,19 +333,86 @@ describe('ThreeDWallManager', () => {
     });
   });
 
-  it('tints non-stone wall types and makes barriers translucent', () => {
+  it('maps material wall types to generated textures or stand-in models', () => {
     expect(manager.resolveWallAppearance({ type: 'stone_wall' })).toBeNull();
     expect(manager.resolveWallAppearance({ type: 'glass_window' })).toBeNull();
     expect(manager.resolveWallAppearance({ type: 'wooden_door' })).toBeNull();
 
     const wood = manager.resolveWallAppearance({ type: 'wooden_wall' });
     expect(wood).not.toBeNull();
-    expect(wood.baseOpacity).toBe(1);
-    expect(wood.tint.getHexString()).not.toBe('ffffff');
+    expect(wood.material).toBe('wood');
+    expect(wood.tint).toBeNull();
+
+    const brick = manager.resolveWallAppearance({ type: 'brick_wall' });
+    expect(brick.material).toBe('brick');
+    expect(brick.baseOpacity).toBe(1);
+
+    const metal = manager.resolveWallAppearance({ type: 'metal_wall' });
+    expect(metal.material).toBe('metal');
+
+    // `blocksLineOfSight: false` is a gameplay trait; parapets, ruins and
+    // palisades are solid matter and must not render as ghosts. Structural
+    // variations keep their own kit material instead of a muddy tint.
+    ['half_wall', 'wall_arched', 'wall_broken', 'wall_shelves', 'barrier_wood'].forEach((type) => {
+      expect(manager.resolveWallAppearance({ type })).toBeNull();
+    });
 
     const barrier = manager.resolveWallAppearance({ type: 'magical_barrier' });
-    expect(barrier.baseOpacity).toBeCloseTo(0.6);
+    expect(barrier.baseOpacity).toBeCloseTo(0.5);
+    expect(barrier.material).toBe('energy');
     expect(barrier.emissive).not.toBeNull();
+    const force = manager.resolveWallAppearance({ type: 'force_wall' });
+    expect(force.baseOpacity).toBeCloseTo(0.5);
+    expect(force.material).toBe('energy');
+  });
+
+  it('renders the wooden wall with the generated timber material', () => {
+    const appearance = manager.resolveWallAppearance({ type: 'wooden_wall' });
+    expect(appearance.material).toBe('wood');
+    expect(manager.resolveWallModelUrl({ type: 'wooden_wall' })).toContain('wall_stone_straight.glb');
+  });
+
+  it('keeps the palisade barrier low via the type heightScale', () => {
+    manager.updateWalls({ '0,0,1,0': { type: 'barrier_wood' } }, {}, GRID);
+    const entry = manager.wallInstances.get('0,0,1,0');
+    expect(entry.pieces[0].innerModel.scale.y).toBeCloseTo((1.8 * 50 * 0.3) / 1.1);
+  });
+
+  it('renders the half wall as a low parapet scaled by the type heightScale', () => {
+    manager.updateWalls({ '0,0,1,0': { type: 'half_wall' } }, {}, GRID);
+    const entry = manager.wallInstances.get('0,0,1,0');
+    expect(entry).toBeDefined();
+    expect(entry.modelUrl).toContain('wall_stone_straight.glb');
+    // Half the default 1.8 x grid body height.
+    expect(entry.pieces[0].innerModel.scale.y).toBeCloseTo((1.8 * 50 * 0.5) / 4);
+  });
+
+  it('tints junction pieces to match the runs meeting at the vertex', () => {
+    manager.updateWalls({ ...horizontalRun(0, 0, 2, 'magical_barrier') }, {}, GRID);
+
+    const endcaps = [...manager.junctionInstances.values()].filter((e) => e.kind === 'endcap');
+    expect(endcaps.length).toBe(2);
+    endcaps.forEach((entry) => {
+      expect(entry.appearanceKey).toContain('magical_barrier');
+      let tinted = false;
+      entry.innerModel.traverse(child => {
+        if (child.isMesh && child.material.color.getHexString() !== 'ffffff') tinted = true;
+      });
+      expect(tinted).toBe(true);
+    });
+  });
+
+  it('falls back to stone junctions when different wall types meet', () => {
+    manager.updateWalls(
+      { ...horizontalRun(-1, 0, 1, 'wooden_wall'), ...verticalRun(0, 0, 1, 'stone_wall') },
+      {},
+      GRID
+    );
+
+    const corner = manager.junctionInstances.get('0,0');
+    expect(corner).toBeDefined();
+    expect(corner.kind).toBe('corner');
+    expect(corner.appearanceKey).toBeNull();
   });
 
   it('keeps a tinted wall piece translucent under fog instead of overwriting opacity', () => {
@@ -365,7 +435,7 @@ describe('ThreeDWallManager', () => {
     piece.innerModel.traverse(child => {
       if (child.isMesh) opacity = child.material.opacity;
     });
-    expect(opacity).toBeCloseTo(0.6 * 0.7, 2);
+    expect(opacity).toBeCloseTo(0.5 * 0.7, 2);
   });
 
   it('subdivides diagonal runs so the masonry texture repeats instead of stretching', () => {

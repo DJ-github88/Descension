@@ -55,7 +55,8 @@ export function getWallHeightWorld(wall, typeData, gridSize) {
     : typeData?.isWindow
       ? WALL_HEIGHT_MULTIPLIERS.window
       : WALL_HEIGHT_MULTIPLIERS.wall;
-  return multiplier * (gridSize || 50);
+  const heightScale = Number.isFinite(typeData?.heightScale) ? typeData.heightScale : 1;
+  return multiplier * (gridSize || 50) * heightScale;
 }
 
 /**
@@ -64,9 +65,10 @@ export function getWallHeightWorld(wall, typeData, gridSize) {
  * masonry wraps up to the host wall height so runs stay level. 3D feature
  * models must therefore be scaled to this height too.
  */
-export function getWallBodyHeightWorld(wall, gridSize) {
+export function getWallBodyHeightWorld(wall, gridSize, typeData = null) {
   if (Number.isFinite(wall?.height) && wall.height > 0) return wall.height;
-  return WALL_HEIGHT_MULTIPLIERS.wall * (gridSize || 50);
+  const heightScale = Number.isFinite(typeData?.heightScale) ? typeData.heightScale : 1;
+  return WALL_HEIGHT_MULTIPLIERS.wall * (gridSize || 50) * heightScale;
 }
 
 /**

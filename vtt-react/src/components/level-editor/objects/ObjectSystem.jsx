@@ -14,6 +14,7 @@ import UnlockContainerModal from '../../item-generation/UnlockContainerModal';
 import LockSettingsModal from '../../item-generation/LockSettingsModal';
 import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
+import { resolveWallMountDragPatch } from './wallAttachment';
 
 export const snapRotationForHitTest = (type, rotation) => {
     // Snap rotation to the nearest 90- for any object that has a sprite.
@@ -1395,6 +1396,33 @@ const ObjectSystem = () => {
         }
     }, []);
 
+    // Wall-mountable props (torches, banners, shelves) re-snap to the nearest
+    // wall face while dragging and detach when pulled away from every wall.
+    const resolveDragWallPatch = useCallback((obj, worldX, worldY) => {
+        const objectDef = PROFESSIONAL_OBJECTS[obj?.type];
+        if (!objectDef?.wallMountable || obj?.parentObjectId) return null;
+        let gridSystem = null;
+        try {
+            gridSystem = getGridSystem();
+        } catch (error) {
+            gridSystem = null;
+        }
+        const gameState = useGameStore.getState();
+        const editorState = useLevelEditorStore.getState();
+        return resolveWallMountDragPatch({
+            objectDef,
+            object: obj,
+            worldX,
+            worldY,
+            wallData: editorState.wallData || {},
+            elevationData: editorState.elevationData || {},
+            gridSize: gameState.gridSize || 50,
+            gridOffsetX: gameState.gridOffsetX || 0,
+            gridOffsetY: gameState.gridOffsetY || 0,
+            gridSystem
+        });
+    }, []);
+
     // Resolve the world anchor (and base elevation) used to project/occlude an
     // object. Mirrors the coordinates the renderer draws the sprite at.
     const getObjectWorldAnchor = useCallback((obj) => {
@@ -1484,11 +1512,13 @@ const ObjectSystem = () => {
         }
 
         // Wall-mounted fixtures sit at a fraction of a level above the floor.
-        // Their 2D chrome (selection frame, handles, hit-test) must lift with
-        // the same half-grid level height the 3D layer renders them at.
+        // The 3D layer renders elevation levels at half a grid cell, while the
+        // 2.5D canvas convention is a full grid cell per level - wall-mounted
+        // chrome must follow the 3D height to stay on the rendered model.
         if (obj.wallAttached && Number.isFinite(obj.elevation)) {
             objectLevel = obj.elevation;
         }
+        const levelHeight = obj.wallAttached ? gridSize * 0.5 : gridSize;
 
         if (objectLevel !== 0) {
             let objectCosTilt = 0;
@@ -1501,7 +1531,7 @@ const ObjectSystem = () => {
             const elevationScale = objectCosTilt * objectZoom;
             screenPos = {
                 x: screenPos.x,
-                y: screenPos.y - objectLevel * gridSize * 0.5 * elevationScale
+                y: screenPos.y - objectLevel * levelHeight * elevationScale
             };
         }
         return screenPos;
@@ -1736,8 +1766,12 @@ const ObjectSystem = () => {
             ctx.translate(-screenPos.x, -screenPos.y);
         }
 
-        // 3D objects are rendered by ThreeDWorldLayer in true 3D WebGL
+        // 3D objects are rendered by ThreeDWorldLayer in true 3D WebGL.
+        // Restore before returning: the save() (and any rotation applied above)
+        // must not leak into the selection chrome or later objects, or a rotated
+        // 3D prop skews every subsequent draw on this canvas.
         if (objectDef.is3D) {
+            ctx.restore();
             return;
         }
 
@@ -2519,9 +2553,10 @@ const ObjectSystem = () => {
                                 const currentObjects = useLevelEditorStore.getState().environmentalObjects;
                                 const targetObj = currentObjects.find(o => o.id === objectId);
                                 if (!targetObj) return;
+                                const wallPatch = resolveDragWallPatch(targetObj, newWorldX, newWorldY);
                                 useLevelEditorStore.getState().updateEnvironmentalObject(
                                     objectId,
-                                    { ...targetObj, worldX: newWorldX, worldY: newWorldY },
+                                    { ...targetObj, worldX: newWorldX, worldY: newWorldY, ...(wallPatch || {}) },
                                     mapId
                                 );
                                 updateAttachmentOffset(objectId, newWorldX, newWorldY, mapId);
@@ -2552,7 +2587,7 @@ const ObjectSystem = () => {
                 }
             });
         }
-    }, [isEditorMode, isGMMode, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject, pickParentMode, pendingChildId, attachChildToParent, moveChildrenWithParent]);
+    }, [isEditorMode, isGMMode, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject, pickParentMode, pendingChildId, attachChildToParent, moveChildrenWithParent, resolveDragWallPatch]);
 
     // Handle context menu (right-click)
     const handleContextMenu = useCallback((e) => {
@@ -3091,7 +3126,8 @@ const ObjectSystem = () => {
                         if (!objectId) return;
                         const latest = useLevelEditorStore.getState().environmentalObjects.find(o => o.id === objectId);
                         if (!latest) return;
-                        updateEnvironmentalObject(objectId, { ...latest, worldX: newWorldX, worldY: newWorldY }, mapId);
+                        const wallPatch = resolveDragWallPatch(latest, newWorldX, newWorldY);
+                        updateEnvironmentalObject(objectId, { ...latest, worldX: newWorldX, worldY: newWorldY, ...(wallPatch || {}) }, mapId);
                         updateAttachmentOffset(objectId, newWorldX, newWorldY, mapId);
                         moveChildrenWithParent(objectId, newWorldX, newWorldY, mapId);
                     });
@@ -3275,7 +3311,7 @@ const ObjectSystem = () => {
         return () => {
             document.removeEventListener('mousedown', handleDocMouseDown, true);
         };
-    }, [isGMMode, isEditorMode, getObjectScreenCenter, getResizeHandle, removeEnvironmentalObject, updateEnvironmentalObject]);
+    }, [isGMMode, isEditorMode, getObjectScreenCenter, getResizeHandle, removeEnvironmentalObject, updateEnvironmentalObject, resolveDragWallPatch]);
 
     // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
     const scheduledRenderRef = useRef(null);

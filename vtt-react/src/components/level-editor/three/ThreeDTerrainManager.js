@@ -82,23 +82,83 @@ export const TERRAIN_MODEL_REGISTRY = {
 
 const WHITE = new THREE.Color(0xffffff);
 
-// Terrain types whose material should stay closest to the raw kit texture.
-const NATURAL_TINT_TYPES = new Set(['stone', 'dungeon_floor', 'cobblestone', 'wooden_floor']);
-
-// Types that ought to glow rather than just reflect.
-const EMISSIVE_TERRAIN = {
-  lava: 0.55,
-  acid: 0.4,
-  fungal_growth: 0.35,
-  crystal_floor: 0.4,
-  gold_floor: 0.3
+// Authentic 1024x1024 PBR terrain textures from public/assets/tiles/
+export const TERRAIN_TEXTURE_MAP = {
+  grass: '/assets/tiles/Grass1.png',
+  dirt: '/assets/tiles/Dirt1.png',
+  stone: '/assets/tiles/Stone1.png',
+  sand: '/assets/tiles/Sand1.png',
+  water: '/assets/tiles/Water1.png',
+  cobblestone: '/assets/tiles/Cobble1.png',
+  dungeon_floor: '/assets/tiles/Dungeon1.png',
+  marble_floor: '/assets/tiles/Marble1.png',
+  wooden_floor: '/assets/tiles/Wood1.png',
+  wood_floor: '/assets/tiles/Wood1.png',
+  snow: '/assets/tiles/Snow1.png',
+  mud: '/assets/tiles/Mud1.png',
+  swamp: '/assets/tiles/Swamp1.png',
+  ice: '/assets/tiles/Ice1.png',
+  fungal_growth: '/assets/tiles/Fungal1.png',
+  lava: '/assets/tiles/Lava1.png',
+  acid: '/assets/tiles/Acid1.png',
+  pit: '/assets/tiles/Pit1.png',
+  abyss: '/assets/tiles/Abyss1.png',
+  crystal_floor: '/assets/tiles/Crystal1.png',
+  gold_floor: '/assets/tiles/Gold1.png'
 };
 
-const DIRT_MODEL_TYPES = new Set([
-  'dirt', 'mud', 'swamp', 'sand', 'grass', 'fungal_growth', 'water'
-]);
+export const TERRAIN_MATERIAL_CONFIGS = {
+  grass: { roughness: 0.85, metalness: 0.05 },
+  sand: { roughness: 0.95, metalness: 0.0 },
+  snow: { roughness: 0.7, metalness: 0.1 },
+  ice: { roughness: 0.08, metalness: 0.2, transparent: true, opacity: 0.92 },
+  water: { roughness: 0.1, metalness: 0.1, transparent: true, opacity: 0.85 },
+  lava: { emissive: 0xff5500, emissiveIntensity: 0.85, roughness: 0.65 },
+  acid: { emissive: 0x33ff00, emissiveIntensity: 0.6, roughness: 0.35 },
+  crystal_floor: { emissive: 0x00e5ff, emissiveIntensity: 0.45, roughness: 0.3 },
+  gold_floor: { roughness: 0.3, metalness: 0.85 },
+  fungal_growth: { emissive: 0x9900ff, emissiveIntensity: 0.4, roughness: 0.7 },
+  cobblestone: { roughness: 0.7, metalness: 0.05 },
+  marble_floor: { roughness: 0.25, metalness: 0.05 },
+  wooden_floor: { roughness: 0.65, metalness: 0.05 },
+  wood_floor: { roughness: 0.65, metalness: 0.05 },
+  dirt: { roughness: 0.9, metalness: 0.0 },
+  stone: { roughness: 0.75, metalness: 0.05 },
+  mud: { roughness: 0.9, metalness: 0.0 },
+  swamp: { roughness: 0.8, metalness: 0.05 },
+  dungeon_floor: { roughness: 0.7, metalness: 0.05 },
+  abyss: { roughness: 0.95, color: 0x111115 },
+  pit: { roughness: 0.95, color: 0x222225 }
+};
 
-function resolveTerrainModelKey(typeId, typeDef) {
+const textureCache = new Map();
+export function getTerrainTexture(url) {
+  if (!url || typeof document === 'undefined') return null;
+  if (!textureCache.has(url)) {
+    const loader = new THREE.TextureLoader();
+    const tex = loader.load(url, () => {
+      tex.needsUpdate = true;
+    });
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    if (THREE.SRGBColorSpace) {
+      tex.colorSpace = THREE.SRGBColorSpace;
+    }
+    textureCache.set(url, tex);
+  }
+  return textureCache.get(url);
+}
+
+let cachedFloorGeom = null;
+function getTexturedFloorGeometry() {
+  if (!cachedFloorGeom) {
+    cachedFloorGeom = new THREE.BoxGeometry(1, 0.2, 1);
+    cachedFloorGeom.translate(0, -0.1, 0);
+  }
+  return cachedFloorGeom;
+}
+
+export function resolveTerrainModelKey(typeId, typeDef) {
   const type = String(typeId || '').toLowerCase();
   const name = String(typeDef?.name || '').toLowerCase();
   const haystack = `${type} ${name}`;
@@ -115,27 +175,35 @@ function resolveTerrainModelKey(typeId, typeDef) {
   if (haystack.includes('gravel') || haystack.includes('rocky_dirt')) {
     return 'dirt_rocky';
   }
-  if (DIRT_MODEL_TYPES.has(type)) return 'dirt';
-  if (haystack.includes('dirt') || haystack.includes('mud') || haystack.includes('earth') || haystack.includes('ground')) return 'dirt';
-  if (haystack.includes('stone') || haystack.includes('cobble') || haystack.includes('floor') || haystack.includes('marble') || haystack.includes('tile')) return 'stone_floor';
-  if (haystack.includes('grass') || haystack.includes('sand') || haystack.includes('snow') || haystack.includes('water') || haystack.includes('ice')) return 'dirt';
-  // Unknown / custom terrain still gets a 3D tile so the 2D canvas never shows
-  // through under it.
+
+  // If this terrain type has an authentic high-resolution texture:
+  if (TERRAIN_TEXTURE_MAP[type] || typeDef?.tileVariations?.[0]) {
+    return type;
+  }
+
   return 'stone_floor';
 }
 
-function resolveTerrainLook(typeId, typeDef) {
-  const color = new THREE.Color(typeDef?.color || '#8a8a8a');
-  const isNeutral = NATURAL_TINT_TYPES.has(typeId);
-  const luma = color.r * 0.3 + color.g * 0.6 + color.b * 0.1;
-  const lift = isNeutral ? 0.15 : (luma < 0.15 ? 0.2 : 0.4);
-  const tint = color.clone().lerp(WHITE, lift);
-  const emissiveStrength = EMISSIVE_TERRAIN[typeId] || 0;
+export const EMISSIVE_TERRAIN = {
+  lava: 0.85,
+  acid: 0.6,
+  fungal_growth: 0.4,
+  crystal_floor: 0.45,
+  gold_floor: 0.3
+};
+
+export function resolveTerrainLook(typeId, typeDef) {
+  const baseColor = new THREE.Color(typeDef?.color || '#8a8a8a');
+  const config = TERRAIN_MATERIAL_CONFIGS[typeId] || {};
+  const emissiveStrength = config.emissiveIntensity || EMISSIVE_TERRAIN[typeId] || 0;
+  const emissive = config.emissive ? new THREE.Color(config.emissive) : (emissiveStrength > 0 ? baseColor.clone() : null);
+
   return {
-    tint,
-    emissive: emissiveStrength > 0 ? color.clone() : null,
+    typeId,
+    tint: baseColor,
+    emissive,
     emissiveStrength,
-    key: `${typeId}:${Math.round(tint.r * 255)},${Math.round(tint.g * 255)},${Math.round(tint.b * 255)}`
+    key: `${typeId}:${baseColor.getHexString()}:${emissive ? emissive.getHexString() : 'none'}`
   };
 }
 
@@ -314,10 +382,76 @@ export class ThreeDTerrainManager {
     instancesByVariant.forEach((instances, variantKey) => {
       const [modelKey] = variantKey.split('|');
       const def = TERRAIN_MODEL_REGISTRY[modelKey];
-      if (!def) return;
+      const isKitModel = Boolean(def);
 
-      const geomMat = modelCache.getGeometryAndMaterial(def.url);
-      if (!geomMat) return; // Model still loading
+      let geometry = null;
+      let material = null;
+      let baseZ = 0;
+      let scaleFactor = 1;
+
+      if (isKitModel) {
+        const geomMat = modelCache.getGeometryAndMaterial(def.url);
+        if (!geomMat) return; // Model still loading
+
+        geometry = geomMat.geometry;
+        material = geomMat.material.clone();
+        baseZ = def.baseZ || 0;
+
+        geometry.computeBoundingBox();
+        const bbox = geometry.boundingBox;
+        const size = new THREE.Vector3();
+        bbox.getSize(size);
+        const maxFootprint = Math.max(size.x, size.z) || 1;
+        scaleFactor = (gridSize / maxFootprint) * (def.scale || 1.0);
+
+        const look = instances[0]?.look || null;
+        if (look) {
+          material.color.multiply(look.tint);
+          if (look.emissive) {
+            material.emissive.copy(look.emissive);
+            material.emissiveIntensity = look.emissiveStrength;
+          }
+        }
+      } else {
+        // Authentic PBR Textured Floor Tile
+        geometry = getTexturedFloorGeometry();
+        baseZ = 0;
+        scaleFactor = gridSize;
+
+        const look = instances[0]?.look || null;
+        const typeId = look?.typeId || modelKey;
+        const typeDef = PROFESSIONAL_TERRAIN_TYPES[typeId] || null;
+        const textureUrl = TERRAIN_TEXTURE_MAP[typeId] || typeDef?.tileVariations?.[0] || null;
+        const config = TERRAIN_MATERIAL_CONFIGS[typeId] || {};
+        const baseColor = new THREE.Color(typeDef?.color || '#8a8a8a');
+
+        const matParams = {
+          roughness: config.roughness ?? 0.8,
+          metalness: config.metalness ?? 0.05,
+          transparent: config.transparent ?? false,
+          opacity: config.opacity ?? 1.0,
+          color: config.color ? new THREE.Color(config.color) : baseColor.clone()
+        };
+
+        if (textureUrl) {
+          const tex = getTerrainTexture(textureUrl);
+          if (tex) {
+            matParams.map = tex;
+            // Lerp baseColor slightly toward white so the authentic texture colors show vividly
+            matParams.color.lerp(WHITE, 0.65);
+          }
+          if (config.emissive) {
+            matParams.emissive = new THREE.Color(config.emissive);
+            matParams.emissiveIntensity = config.emissiveIntensity ?? 0.6;
+            if (tex) matParams.emissiveMap = tex;
+          }
+        } else if (config.emissive) {
+          matParams.emissive = new THREE.Color(config.emissive);
+          matParams.emissiveIntensity = config.emissiveIntensity ?? 0.6;
+        }
+
+        material = new THREE.MeshStandardMaterial(matParams);
+      }
 
       let instMesh = this.instancedMeshes.get(variantKey);
       const neededCapacity = instances.length;
@@ -330,42 +464,27 @@ export class ThreeDTerrainManager {
           instMesh.dispose?.();
         }
 
-        // Compute geometry scale to match 1 grid cell
-        geomMat.geometry.computeBoundingBox();
-        const bbox = geomMat.geometry.boundingBox;
-        const size = new THREE.Vector3();
-        bbox.getSize(size);
-        const maxFootprint = Math.max(size.x, size.z) || 1;
-        const scaleFactor = (gridSize / maxFootprint) * (def.scale || 1.0);
-
-        // Clone per variant so tinting one terrain type never repaints other
-        // users of the same shared floor model (walls, other variants).
-        const material = geomMat.material.clone();
-        const look = instances[0]?.look || null;
-        if (look) {
-          material.color.multiply(look.tint);
-          if (look.emissive) {
-            material.emissive.copy(look.emissive);
-            material.emissiveIntensity = look.emissiveStrength;
-          }
-        }
-
         const capacity = Math.max(instances.length * 2, 256);
-        instMesh = new THREE.InstancedMesh(geomMat.geometry, material, capacity);
+        instMesh = new THREE.InstancedMesh(geometry, material, capacity);
         instMesh.castShadow = true;
         instMesh.receiveShadow = true;
-        instMesh.userData = { scaleFactor, capacity };
+        instMesh.userData = { scaleFactor, baseZ, capacity };
         this.instancedMeshes.set(variantKey, instMesh);
         this.group.add(instMesh);
+      } else {
+        // Keep updated scale factor and baseZ
+        instMesh.userData.scaleFactor = scaleFactor;
+        instMesh.userData.baseZ = baseZ;
       }
 
-      const scaleFactor = instMesh.userData.scaleFactor || 1;
+      const activeScale = instMesh.userData.scaleFactor || 1;
+      const activeBaseZ = instMesh.userData.baseZ || 0;
 
       // Populate instance matrices (rotate by +90 deg around X so floor is flat in X-Y plane)
       instances.forEach((inst, idx) => {
-        this.dummy.position.set(inst.x, inst.y, inst.z + (def.baseZ || 0));
+        this.dummy.position.set(inst.x, inst.y, inst.z + activeBaseZ);
         this.dummy.rotation.set(Math.PI / 2, 0, inst.rotationZ, 'ZYX');
-        this.dummy.scale.set(scaleFactor * 1, scaleFactor * 1, scaleFactor * 1);
+        this.dummy.scale.set(activeScale, activeScale, activeScale);
         this.dummy.updateMatrix();
         instMesh.setMatrixAt(idx, this.dummy.matrix);
       });

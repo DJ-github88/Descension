@@ -204,7 +204,8 @@ describe('ThreeDPropManager world bounds', () => {
 
     // Mock model is a 4x4x1 box rotated +90deg around X => 4 x 1 x 4 in
     // wrapper space, scaled down so its largest footprint fills one tile
-    // (unitScale = 50 / 4, table_long has registry scale 1.0).
+    // (unitScale = 50 / 4, table_long has registry scale 1.0). Free-placed
+    // props are recentred and grounded, so the box spans z 0..50.
     const corners = manager.getWorldBoundsCorners('table1');
     expect(corners).toHaveLength(8);
 
@@ -217,8 +218,8 @@ describe('ThreeDPropManager world bounds', () => {
     expect(Math.max(...xs)).toBeCloseTo(100 + 25);
     expect(Math.min(...ys)).toBeCloseTo(200 - 6.25);
     expect(Math.max(...ys)).toBeCloseTo(200 + 6.25);
-    expect(Math.min(...zs)).toBeCloseTo(-25);
-    expect(Math.max(...zs)).toBeCloseTo(25);
+    expect(Math.min(...zs)).toBeCloseTo(0);
+    expect(Math.max(...zs)).toBeCloseTo(50);
 
     // Resizing scales the derived bounds.
     manager.updateObjects([{ id: 'table1', type: 'table_long', worldX: 100, worldY: 200, scale: 2 }], GRID, {});
@@ -239,6 +240,23 @@ describe('ThreeDPropManager world bounds', () => {
     expect(manager.getWorldBoundsCorners('missing')).toBeNull();
   });
 
+  it('grounds free props but preserves the authored origin of wall-mounted fixtures', () => {
+    manager.updateObjects([
+      { id: 'bookshelf1', type: 'bookshelf_large', worldX: 100, worldY: 200 }
+    ], GRID, {});
+    const shelf = manager.propInstances.get('bookshelf1');
+    // Mock box dips to z = -2 in wrapper space; grounding lifts it by 2 * scale.
+    expect(shelf.innerModel.position.z).toBeCloseTo(2 * shelf.innerModel.scale.x);
+
+    manager.updateObjects([
+      { id: 'torch1', type: 'torch_wall', worldX: 25, worldY: 25, wallAttached: true, wallKey: '0,0,1,0', wallElevation: 0, elevation: 1.2 }
+    ], GRID, {});
+    const torch = manager.propInstances.get('torch1');
+    expect(torch.innerModel.position.x).toBeCloseTo(0);
+    expect(torch.innerModel.position.y).toBeCloseTo(0);
+    expect(torch.innerModel.position.z).toBeCloseTo(0);
+  });
+
   it('applies pitch and roll to the placed prop', () => {
     manager.updateObjects([
       { id: 'table1', type: 'table_long', worldX: 100, worldY: 200, rotation: 90, rotationX: 30, rotationY: -15 }
@@ -255,16 +273,18 @@ describe('ThreeDPropManager world bounds', () => {
   it('rests a stacked child on the parent rendered top surface, not the elevation level', () => {
     manager.updateObjects([
       { id: 'table1', type: 'table_long', worldX: 100, worldY: 200 },
-      { id: 'stool1', type: 'stool', worldX: 100, worldY: 200, parentObjectId: 'table1', elevation: 2 }
+      { id: 'stool1', type: 'stool', worldX: 100, worldY: 200, parentObjectId: 'table1', elevation: 3 }
     ], GRID, {});
 
     const table = manager.propInstances.get('table1');
     const stool = manager.propInstances.get('stool1');
-    const parentTop = table.mesh.position.z + table.baseBox.max.z * table.innerModel.scale.x;
+    const parentTop = table.mesh.position.z +
+      table.innerModel.position.z +
+      table.baseBox.max.z * table.innerModel.scale.x;
 
     expect(stool.mesh.position.z).toBeCloseTo(parentTop);
-    // elevation 2 would have been 2 * gridSize * 0.5 = 50 - stacking overrides it
-    expect(stool.mesh.position.z).not.toBeCloseTo(50);
+    // elevation 3 would have been 3 * gridSize * 0.5 = 75 - stacking overrides it
+    expect(stool.mesh.position.z).not.toBeCloseTo(75);
   });
 
   it('falls back to the elevation level when the parent has no model yet', () => {

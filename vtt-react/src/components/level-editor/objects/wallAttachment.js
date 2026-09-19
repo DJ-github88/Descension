@@ -171,3 +171,61 @@ export function resolveWallMountPlacement({
     elevation: mount.wallElevation + (objectDef.wallMountElevation ?? 1.2)
   };
 }
+
+/**
+ * Patch for a wall-mountable object being dragged to a new world position.
+ *
+ * - Near a wall: snaps to the face and re-aims the fixture.
+ * - Away from any wall: detaches (keeps the current height so the prop simply
+ *   floats where the GM dropped it instead of following a stale wall).
+ *
+ * Returns null when the object is not wall-mountable or is stacked on another
+ * object (parent attachments own its transform).
+ */
+export function resolveWallMountDragPatch({
+  objectDef,
+  object,
+  worldX,
+  worldY,
+  wallData,
+  gridSize,
+  gridOffsetX,
+  gridOffsetY,
+  elevationData,
+  gridSystem
+} = {}) {
+  if (!objectDef || !objectDef.wallMountable || !object) return null;
+  if (object.parentObjectId) return null;
+
+  const mount = findWallMount({
+    worldX,
+    worldY,
+    wallData,
+    gridSize,
+    gridOffsetX,
+    gridOffsetY,
+    elevationData,
+    gridSystem
+  });
+
+  if (!mount) {
+    if (!object.wallAttached) return null;
+    return {
+      wallAttached: false,
+      wallKey: undefined,
+      wallSide: undefined,
+      wallElevation: undefined
+    };
+  }
+
+  return {
+    worldX: mount.mountX,
+    worldY: mount.mountY,
+    rotation: mount.rotation,
+    elevation: mount.wallElevation + (objectDef.wallMountElevation ?? 1.2),
+    wallAttached: true,
+    wallKey: mount.wallKey,
+    wallSide: mount.wallSide,
+    wallElevation: mount.wallElevation
+  };
+}

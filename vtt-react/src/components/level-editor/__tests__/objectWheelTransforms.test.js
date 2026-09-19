@@ -1,5 +1,6 @@
 import {
   resolveObjectWheelTransform,
+  toToolSettingsPatch,
   clampObjectScale,
   wrapYawDegrees,
   wrapTiltDegrees,
@@ -66,5 +67,13 @@ describe('objectWheelTransforms', () => {
   it('uses deltaX when a trackpad reports horizontal scroll only', () => {
     const patch = resolveObjectWheelTransform(wheel({ deltaY: 0, deltaX: -50 }), { scale: 1 });
     expect(patch.scale).toBeGreaterThan(1);
+  });
+
+  it('maps canonical keys onto tool-settings keys for the ghost preview', () => {
+    expect(toToolSettingsPatch({ scale: 1.1 })).toEqual({ objectScale: 1.1 });
+    expect(toToolSettingsPatch({ rotation: 15 })).toEqual({ objectRotation: 15 });
+    expect(toToolSettingsPatch({ rotationX: -15 })).toEqual({ objectRotationX: -15 });
+    expect(toToolSettingsPatch({ rotationY: 30 })).toEqual({ objectRotationY: 30 });
+    expect(toToolSettingsPatch(null)).toBeNull();
   });
 });

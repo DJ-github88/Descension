@@ -65,10 +65,6 @@ export function getObjectScreenBounds(obj, objectDef, screenPos, options = {}) {
   };
 }
 
-if (typeof window !== 'undefined') {
-  window.__vttDebugBounds = { getPropWorldBoundsCorners, getObjectScreenBounds };
-}
-
 /**
  * Delete/rotate handle placement in screen space, derived from the same bounds
  * used to draw the chrome. `*Offset` values are local to the (rotated) object

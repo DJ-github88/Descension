@@ -6,6 +6,29 @@ import ConnectionRenameDialog from '../ConnectionRenameDialog';
 import CanvasObjectThumbnail from '../objects/CanvasObjectThumbnail';
 import './styles/ObjectTools.css';
 
+const TransformRow = ({ label, options, value, formatOption, onSelect }) => (
+    <div className="transform-row">
+        <span className="transform-label">{label}</span>
+        <div className="transform-options" role="group" aria-label={label}>
+            {options.map((option) => {
+                const isActive = value === option;
+                return (
+                    <button
+                        key={option}
+                        type="button"
+                        className={`transform-btn${isActive ? ' active' : ''}`}
+                        aria-pressed={isActive}
+                        title={`${label}: ${formatOption(option)}`}
+                        onClick={() => onSelect(option)}
+                    >
+                        {formatOption(option)}
+                    </button>
+                );
+            })}
+        </div>
+    </div>
+);
+
 const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
     const [selectedObjectType, setSelectedObjectType] = useState(undefined);
     const [objectRotation, setObjectRotation] = useState(0);
@@ -94,23 +117,34 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
         });
     };
 
+    const handleTransformSelect = (field, value) => {
+        const settersByField = {
+            objectScale: setObjectScale,
+            objectRotation: setObjectRotation,
+            objectRotationX: setObjectRotationX,
+            objectRotationY: setObjectRotationY
+        };
+        settersByField[field](value);
+        onSettingsChange({ ...settings, [field]: value });
+    };
+
     useEffect(() => {
-        if (settings?.selectedObjectType !== undefined) setSelectedObjectType(settings.selectedObjectType);
+        // Sync the local catalog selection with the store even when it is
+        // cleared (tab switches write `selectedObjectType: undefined`); a stale
+        // local id made the next card click toggle "off" instead of arming.
+        if (settings && 'selectedObjectType' in settings) setSelectedObjectType(settings.selectedObjectType);
         if (settings?.objectRotation !== undefined) setObjectRotation(settings.objectRotation);
         if (settings?.objectRotationX !== undefined) setObjectRotationX(settings.objectRotationX);
         if (settings?.objectRotationY !== undefined) setObjectRotationY(settings.objectRotationY);
         if (settings?.objectScale !== undefined) setObjectScale(settings.objectScale);
     }, [settings?.selectedObjectType, settings?.objectRotation, settings?.objectRotationX, settings?.objectRotationY, settings?.objectScale]);
 
-    useEffect(() => {
-        onSettingsChange({
-            selectedObjectType: undefined,
-            objectRotation: 0,
-            objectRotationX: 0,
-            objectRotationY: 0,
-            objectScale: 1
-        });
-    }, []);
+    // NOTE: the panel intentionally does not reset tool settings on mount. The
+    // editor clears the catalog selection when the Objects tab is opened
+    // (`handleTabChange`), and a mount-time reset raced with the sync effect:
+    // it copied the previous selection into local state before clearing the
+    // store, so the next catalog click toggled the object off instead of
+    // arming it for placement.
 
     const handleConnectionRename = (connection, newName) => {
         updateDndElement(connection.id, {
@@ -227,102 +261,41 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                         </div>
                     )}
 
-                    {/* Scale and Rotation Toolbar */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 14, background: 'rgba(0,0,0,0.25)', padding: '8px 12px', borderRadius: 8 }}>
-                        <div style={{ display: 'flex', gap: 12 }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ fontSize: 11, color: '#aaa', display: 'block', marginBottom: 4 }}>Scale:</label>
-                                <div style={{ display: 'flex', gap: 4 }}>
-                                    {[0.5, 1, 1.5, 2, 3].map(sc => (
-                                        <button
-                                            key={sc}
-                                            type="button"
-                                            className={`size-btn ${(settings?.objectScale || objectScale) === sc ? 'active' : ''}`}
-                                            style={{ flex: 1, padding: '3px 0', fontSize: 11, cursor: 'pointer' }}
-                                            onClick={() => {
-                                                setObjectScale(sc);
-                                                onSettingsChange({
-                                                    ...settings,
-                                                    objectScale: sc
-                                                });
-                                            }}
-                                        >
-                                            {sc}x
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ fontSize: 11, color: '#aaa', display: 'block', marginBottom: 4 }}>Rotation:</label>
-                                <div style={{ display: 'flex', gap: 4 }}>
-                                    {[0, 90, 180, 270].map(deg => (
-                                        <button
-                                            key={deg}
-                                            type="button"
-                                            className={`size-btn ${(settings?.objectRotation || objectRotation) === deg ? 'active' : ''}`}
-                                            style={{ flex: 1, padding: '3px 0', fontSize: 11, cursor: 'pointer' }}
-                                            onClick={() => {
-                                                setObjectRotation(deg);
-                                                onSettingsChange({
-                                                    ...settings,
-                                                    objectRotation: deg
-                                                });
-                                            }}
-                                        >
-                                            {deg}°
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{ display: 'flex', gap: 12 }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ fontSize: 11, color: '#aaa', display: 'block', marginBottom: 4 }}>Tilt (X):</label>
-                                <div style={{ display: 'flex', gap: 4 }}>
-                                    {[-45, -15, 0, 15, 45].map(deg => (
-                                        <button
-                                            key={deg}
-                                            type="button"
-                                            className={`size-btn ${(settings?.objectRotationX || objectRotationX) === deg ? 'active' : ''}`}
-                                            style={{ flex: 1, padding: '3px 0', fontSize: 11, cursor: 'pointer' }}
-                                            onClick={() => {
-                                                setObjectRotationX(deg);
-                                                onSettingsChange({
-                                                    ...settings,
-                                                    objectRotationX: deg
-                                                });
-                                            }}
-                                        >
-                                            {deg}°
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ fontSize: 11, color: '#aaa', display: 'block', marginBottom: 4 }}>Roll (Y):</label>
-                                <div style={{ display: 'flex', gap: 4 }}>
-                                    {[-45, -15, 0, 15, 45].map(deg => (
-                                        <button
-                                            key={deg}
-                                            type="button"
-                                            className={`size-btn ${(settings?.objectRotationY || objectRotationY) === deg ? 'active' : ''}`}
-                                            style={{ flex: 1, padding: '3px 0', fontSize: 11, cursor: 'pointer' }}
-                                            onClick={() => {
-                                                setObjectRotationY(deg);
-                                                onSettingsChange({
-                                                    ...settings,
-                                                    objectRotationY: deg
-                                                });
-                                            }}
-                                        >
-                                            {deg}°
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{ fontSize: 10, color: '#8a9bb0', lineHeight: 1.4 }}>
-                            Wheel: resize • Alt+Wheel: rotate • Alt+Shift+Wheel: tilt • Shift+Wheel: roll
+                    {/* Transform Toolbar */}
+                    <div className="transform-panel">
+                        <TransformRow
+                            label="Scale"
+                            options={[0.5, 1, 1.5, 2, 3]}
+                            value={settings?.objectScale ?? objectScale}
+                            formatOption={(v) => `${v}×`}
+                            onSelect={(v) => handleTransformSelect('objectScale', v)}
+                        />
+                        <TransformRow
+                            label="Rotation"
+                            options={[0, 90, 180, 270]}
+                            value={settings?.objectRotation ?? objectRotation}
+                            formatOption={(v) => `${v}°`}
+                            onSelect={(v) => handleTransformSelect('objectRotation', v)}
+                        />
+                        <TransformRow
+                            label="Tilt (X)"
+                            options={[-45, -15, 0, 15, 45]}
+                            value={settings?.objectRotationX ?? objectRotationX}
+                            formatOption={(v) => `${v}°`}
+                            onSelect={(v) => handleTransformSelect('objectRotationX', v)}
+                        />
+                        <TransformRow
+                            label="Roll (Y)"
+                            options={[-45, -15, 0, 15, 45]}
+                            value={settings?.objectRotationY ?? objectRotationY}
+                            formatOption={(v) => `${v}°`}
+                            onSelect={(v) => handleTransformSelect('objectRotationY', v)}
+                        />
+                        <div className="transform-hint">
+                            <span className="transform-hint-item"><kbd>Wheel</kbd> Resize</span>
+                            <span className="transform-hint-item"><kbd>Alt</kbd>+<kbd>Wheel</kbd> Rotate</span>
+                            <span className="transform-hint-item"><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Wheel</kbd> Tilt</span>
+                            <span className="transform-hint-item"><kbd>Shift</kbd>+<kbd>Wheel</kbd> Roll</span>
                         </div>
                     </div>
 

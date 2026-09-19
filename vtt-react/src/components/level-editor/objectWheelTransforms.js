@@ -35,13 +35,13 @@ export function clampObjectScale(scale) {
 }
 
 /**
- * Resolve the transform patch for one wheel event.
+ * Resolve the transform patch for one wheel event. Keys are canonical object
+ * transform names (`scale`, `rotation`, `rotationX`, `rotationY`) so the patch
+ * can be written straight onto placed object data.
  *
  * @param {object} event Wheel-like event (deltaX, deltaY, altKey, shiftKey, ctrlKey).
  * @param {object} current Current transform { scale, rotation, rotationX, rotationY }.
- * @returns {object|null} Partial patch keyed for tool settings / object data
- *   (`objectScale`, `objectRotation`, `objectRotationX`, `objectRotationY`), or
- *   null when the event is not ours.
+ * @returns {object|null} Partial patch, or null when the event is not ours.
  */
 export function resolveObjectWheelTransform(event, current = {}) {
   if (!event || event.ctrlKey) return null;
@@ -68,4 +68,25 @@ export function resolveObjectWheelTransform(event, current = {}) {
     return { rotationY: wrapTiltDegrees(rotationY + direction * OBJECT_ROTATION_STEP) };
   }
   return { scale: clampObjectScale(scale * (direction > 0 ? OBJECT_SCALE_STEP : 1 / OBJECT_SCALE_STEP)) };
+}
+
+const TOOL_SETTINGS_KEY_BY_TRANSFORM_KEY = {
+  scale: 'objectScale',
+  rotation: 'objectRotation',
+  rotationX: 'objectRotationX',
+  rotationY: 'objectRotationY'
+};
+
+/**
+ * Map a canonical wheel-transform patch onto level-editor tool settings keys
+ * (`objectScale`, `objectRotation`, `objectRotationX`, `objectRotationY`).
+ */
+export function toToolSettingsPatch(patch) {
+  if (!patch) return null;
+  const mapped = {};
+  for (const [key, value] of Object.entries(patch)) {
+    const settingsKey = TOOL_SETTINGS_KEY_BY_TRANSFORM_KEY[key];
+    if (settingsKey) mapped[settingsKey] = value;
+  }
+  return mapped;
 }
