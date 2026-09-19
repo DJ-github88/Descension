@@ -373,7 +373,12 @@ const elevationStrokePaintedRef = useRef(null);
             if (!patch) return;
             e.preventDefault();
             e.stopPropagation();
-            useLevelEditorStore.getState().setToolSettings(patch);
+            const toolPatch = {};
+            if (patch.scale !== undefined) toolPatch.objectScale = patch.scale;
+            if (patch.rotation !== undefined) toolPatch.objectRotation = patch.rotation;
+            if (patch.rotationX !== undefined) toolPatch.objectRotationX = patch.rotationX;
+            if (patch.rotationY !== undefined) toolPatch.objectRotationY = patch.rotationY;
+            useLevelEditorStore.getState().setToolSettings(toolPatch);
             return;
         }
 

@@ -39,7 +39,9 @@ export function clampObjectScale(scale) {
  *
  * @param {object} event Wheel-like event (deltaX, deltaY, altKey, shiftKey, ctrlKey).
  * @param {object} current Current transform { scale, rotation, rotationX, rotationY }.
- * @returns {object|null} Partial patch, or null when the event is not ours.
+ * @returns {object|null} Partial patch keyed for tool settings / object data
+ *   (`objectScale`, `objectRotation`, `objectRotationX`, `objectRotationY`), or
+ *   null when the event is not ours.
  */
 export function resolveObjectWheelTransform(event, current = {}) {
   if (!event || event.ctrlKey) return null;
