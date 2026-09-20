@@ -221,4 +221,48 @@ describe('resolveWallMountDragPatch', () => {
       ...GRID
     })).toBeNull();
   });
+
+  it('supports wall-side ground furniture with depth offset and floor elevation', () => {
+    const shelfDef = { wallSideSnap: true, size: { width: 1, height: 1 } };
+    const placement = resolveWallMountPlacement({
+      objectDef: shelfDef,
+      worldX: 25,
+      worldY: 10,
+      wallData: { '0,0,1,0': stoneWall },
+      ...GRID
+    });
+
+    expect(placement).not.toBeNull();
+    expect(placement.elevation).toBe(0); // Floor elevation
+    expect(placement.isWallFixture).toBe(false);
+    // Depth = 1 * 50 * 0.5 = 25. Offset = thickness/2 (3.75) + depth/2 (12.5) + gap (1) = 17.25.
+    expect(placement.mountY).toBeCloseTo(17.25);
+    expect(placement.worldX).toBe(placement.mountX);
+    expect(placement.worldY).toBe(placement.mountY);
+  });
+
+  it('uses 3D mid-height projection when screen coordinates are provided', () => {
+    const mockGridSystem = {
+      getGridState: () => ({ gridType: 'square' }),
+      getViewportDimensions: () => ({ width: 1600, height: 1000 }),
+      screenToWorld3D: jest.fn(() => ({ x: 25, y: 3 })) // Hits near y=0 at wall height
+    };
+
+    const mount = findWallMount({
+      worldX: 25,
+      worldY: 50, // Ground coordinate is far away (50)
+      screenX: 800,
+      screenY: 450,
+      wallData: { '0,0,1,0': stoneWall },
+      gridSystem: mockGridSystem,
+      ...GRID
+    });
+
+    expect(mount).not.toBeNull();
+    expect(mockGridSystem.screenToWorld3D).toHaveBeenCalled();
+    expect(mount.wallKey).toBe('0,0,1,0');
+    expect(mount.worldX).toBeDefined();
+    expect(mount.worldY).toBeDefined();
+  });
 });
+

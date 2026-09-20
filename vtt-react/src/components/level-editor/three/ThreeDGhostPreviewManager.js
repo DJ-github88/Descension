@@ -52,8 +52,8 @@ export class ThreeDGhostPreviewManager {
     if (wallMount) {
       // Wall-mounted placement: the mount resolver already snapped the position
       // to the wall face, aimed the prop outward and picked the mount height.
-      worldX = wallMount.worldX;
-      worldY = wallMount.worldY;
+      worldX = wallMount.worldX !== undefined ? wallMount.worldX : wallMount.mountX;
+      worldY = wallMount.worldY !== undefined ? wallMount.worldY : wallMount.mountY;
       rotation = wallMount.rotation;
       baseElevation = wallMount.elevation || 0;
     } else {
@@ -164,21 +164,11 @@ export class ThreeDGhostPreviewManager {
       finalAngleRad
     );
 
-    // The authored mount plane is the local +Y (south) face at model Z = 0.
-    // Wall-mounted props must show the side that will actually face away from
-    // the masonry: mirror the ghost about that plane so the visible half is
-    // the outward half. The placed prop is unaffected (nothing behind the wall
-    // is visible there anyway).
-    const wantsWallMountGhost = !!wallMount;
-    if (this.currentModelScene && wantsWallMountGhost !== this.isWallMountGhost) {
-      this.isWallMountGhost = wantsWallMountGhost;
-      const unitSize = this.currentBaseBox || new THREE.Vector3(1, 1, 1);
-      const maxFootprint = Math.max(unitSize.x, unitSize.y) || 1;
-      const unitScale = (gridSize / maxFootprint) * (modelConfig.scale || 1.0);
-      const faceOffset = (unitSize.y / 2) * unitScale;
-      // Offset is applied before the wrapper rotation; the wrapper is already
-      // aimed outward, so translate along the local +Y (south) axis.
-      this.currentModelScene.position.set(0, this.isWallMountGhost ? faceOffset : 0, 0);
+    // In ThreeDPropManager, wall-mounted fixtures keep their authored mount origin
+    // via applyPlacementOffset(entry, currentScale, !obj.wallAttached) -> position.set(0,0,0).
+    // The ghost preview mirrors this exactly so the preview sits flush with the rendered wall.
+    if (this.currentModelScene) {
+      this.currentModelScene.position.set(0, 0, 0);
     }
 
     // Scale the ghost with the same fit-to-one-tile rule the placed prop uses.

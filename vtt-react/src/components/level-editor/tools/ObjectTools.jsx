@@ -297,6 +297,30 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                             <span className="transform-hint-item"><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Wheel</kbd> Tilt</span>
                             <span className="transform-hint-item"><kbd>Shift</kbd>+<kbd>Wheel</kbd> Roll</span>
                         </div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 4px', borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: 8 }}>
+                            <span style={{ fontSize: 11, color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: 5 }}>
+                                <i className="fas fa-magnet" style={{ color: '#00ffff' }}></i> Snap to Walls
+                            </span>
+                            <button
+                                type="button"
+                                className={`transform-chip ${(settings?.snapToWall ?? true) ? 'active' : ''}`}
+                                style={{
+                                    padding: '3px 10px',
+                                    fontSize: 11,
+                                    borderRadius: 4,
+                                    background: (settings?.snapToWall ?? true) ? '#0284c7' : 'rgba(255,255,255,0.1)',
+                                    color: '#fff',
+                                    border: 'none',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => {
+                                    const next = !(settings?.snapToWall ?? true);
+                                    onSettingsChange({ ...settings, snapToWall: next });
+                                }}
+                            >
+                                {(settings?.snapToWall ?? true) ? 'ON' : 'OFF'}
+                            </button>
+                        </div>
                     </div>
 
                     <h4>OBJECT CATALOG</h4>

@@ -1590,9 +1590,9 @@ const elevationStrokePaintedRef = useRef(null);
                         objectData.attachOffsetX = objCoords.worldX - pWorldX;
                         objectData.attachOffsetY = objCoords.worldY - pWorldY;
                         objectData.elevation = (parentCandidate.elevation || 0) + 1;
-                    } else if (objectDef?.wallMountable) {
-                        // Wall-mountable fixtures (torches, banners, shelves) snap
-                        // to the nearest wall face and aim outward from it.
+                    } else if (objectDef?.wallMountable || objectDef?.wallSideSnap || toolSettings?.snapToWall) {
+                        // Wall-mountable fixtures (torches, banners, shelves) or wall-side furniture
+                        // snap to the nearest wall face and aim outward from it.
                         let gridSystem = null;
                         try {
                             gridSystem = getGridSystem();
@@ -1603,12 +1603,15 @@ const elevationStrokePaintedRef = useRef(null);
                             objectDef,
                             worldX: objCoords.worldX,
                             worldY: objCoords.worldY,
+                            screenX: objCoords.screenX,
+                            screenY: objCoords.screenY,
                             wallData: useLevelEditorStore.getState().wallData || {},
                             elevationData: useLevelEditorStore.getState().elevationData || {},
                             gridSize,
                             gridOffsetX: gridOffsetX || 0,
                             gridOffsetY: gridOffsetY || 0,
-                            gridSystem
+                            gridSystem,
+                            snapToWall: toolSettings?.snapToWall !== false
                         });
                         if (mount) {
                             objectData.worldX = mount.mountX;
@@ -1622,6 +1625,9 @@ const elevationStrokePaintedRef = useRef(null);
                             objectData.elevation = mount.elevation;
                             objectData.gridX = Math.floor((mount.mountX - (gridOffsetX || 0)) / gridSize);
                             objectData.gridY = Math.floor((mount.mountY - (gridOffsetY || 0)) / gridSize);
+                        } else {
+                            const tileElev = getTileElevation(useLevelEditorStore.getState().elevationData || {}, objCoords.gridX, objCoords.gridY) || 0;
+                            objectData.elevation = tileElev;
                         }
                     } else {
                         const tileElev = getTileElevation(useLevelEditorStore.getState().elevationData || {}, objCoords.gridX, objCoords.gridY) || 0;

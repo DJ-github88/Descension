@@ -355,8 +355,9 @@ export const PROFESSIONAL_OBJECTS = {
         image: null,
         category: 'furniture',
         size: { width: 1, height: 2 },
-        description: 'Sturdy wooden bed frame',
+        description: 'Unmade wooden bed frame',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallSideSnap: true,
         blocksLineOfSight: false
     },
     bed_decorated: {
@@ -367,6 +368,7 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 1, height: 2 },
         description: 'Wooden bed with blankets and pillow',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallSideSnap: true,
         blocksLineOfSight: false
     },
     bookshelf_large: {
@@ -377,6 +379,7 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 1, height: 1 },
         description: 'Large wooden library bookshelf',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallSideSnap: true,
         blocksLineOfSight: true
     },
     shelves: {
@@ -573,6 +576,7 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 1, height: 1 },
         description: 'Wall trophy with iron shield and crossed swords',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.8, wallSideSnap: true,
         blocksLineOfSight: false
     },
     royal_weapons: {
@@ -583,6 +587,7 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 1, height: 1 },
         description: 'Golden heraldic crest with royal sword and shield',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 0.8,
         blocksLineOfSight: false
     },
     treasure_coins: {
@@ -909,6 +914,7 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 0.5, height: 0.5 },
         description: 'Bleached human skeleton skull',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 1.2,
         blocksLineOfSight: false
     },
     skull_candle: {
@@ -919,6 +925,7 @@ export const PROFESSIONAL_OBJECTS = {
         size: { width: 0.5, height: 0.5 },
         description: 'Ritual skull topped with flickering melted candle wax',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        wallMountable: true, wallMountElevation: 1.2,
         lightRadius: 2, lightColor: '#ff9944', showLight: true,
         blocksLineOfSight: false
     },
@@ -1396,11 +1403,13 @@ const ObjectSystem = () => {
         }
     }, []);
 
-    // Wall-mountable props (torches, banners, shelves) re-snap to the nearest
+    // Wall-mountable or wall-side props re-snap to the nearest
     // wall face while dragging and detach when pulled away from every wall.
-    const resolveDragWallPatch = useCallback((obj, worldX, worldY) => {
+    const resolveDragWallPatch = useCallback((obj, worldX, worldY, screenX = null, screenY = null) => {
         const objectDef = PROFESSIONAL_OBJECTS[obj?.type];
-        if (!objectDef?.wallMountable || obj?.parentObjectId) return null;
+        const editorState = useLevelEditorStore.getState();
+        const snapToWall = editorState?.toolSettings?.snapToWall !== false;
+        if ((!objectDef?.wallMountable && !objectDef?.wallSideSnap && !snapToWall) || obj?.parentObjectId) return null;
         let gridSystem = null;
         try {
             gridSystem = getGridSystem();
@@ -1408,18 +1417,20 @@ const ObjectSystem = () => {
             gridSystem = null;
         }
         const gameState = useGameStore.getState();
-        const editorState = useLevelEditorStore.getState();
         return resolveWallMountDragPatch({
             objectDef,
             object: obj,
             worldX,
             worldY,
+            screenX,
+            screenY,
             wallData: editorState.wallData || {},
             elevationData: editorState.elevationData || {},
             gridSize: gameState.gridSize || 50,
             gridOffsetX: gameState.gridOffsetX || 0,
             gridOffsetY: gameState.gridOffsetY || 0,
-            gridSystem
+            gridSystem,
+            snapToWall
         });
     }, []);
 

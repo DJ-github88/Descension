@@ -248,17 +248,20 @@ export const ThreeDWorldLayer = ({ width, height }) => {
             const elevationData = curEditorState.elevationData || {};
 
             let wallMount = null;
-            if (objectDef?.wallMountable) {
+            if (objectDef?.wallMountable || objectDef?.wallSideSnap || curEditorState.toolSettings?.snapToWall) {
               wallMount = resolveWallMountPlacement({
                 objectDef,
                 worldX: worldPos.x,
                 worldY: worldPos.y,
+                screenX: mPos.screenX,
+                screenY: mPos.screenY,
                 wallData: curEditorState.wallData || {},
                 elevationData,
                 gridSize,
                 gridOffsetX,
                 gridOffsetY,
-                gridSystem: gs
+                gridSystem: gs,
+                snapToWall: curEditorState.toolSettings?.snapToWall !== false
               });
             }
 

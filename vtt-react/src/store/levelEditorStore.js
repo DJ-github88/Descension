@@ -1139,6 +1139,7 @@ const initialState = {
     brushSize: 'medium',
     brushOpacity: 100,
     snapToGrid: true,
+    snapToWall: true,
     showPreview: true,
     strokeWidth: 2,
     fillOpacity: 50
