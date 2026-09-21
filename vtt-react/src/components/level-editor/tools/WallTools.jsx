@@ -3,6 +3,8 @@ import { getIconUrl } from '../../../utils/assetManager';
 import { WALL_TYPES } from '../../../store/levelEditorStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
+import WallTypeThumbnail from './WallTypeThumbnail';
+import { hasCurvedCornerStyle } from '../three/ThreeDWallManager';
 import './styles/WallTools.css';
 
 // Using WALL_TYPES from store - removed duplicate definition
@@ -68,17 +70,24 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         }
     ];
 
-    // Wall categories for organization using store WALL_TYPES
+    // Wall categories for organization using store WALL_TYPES. The decorative
+    // segment models (stucco / diagonal / curved tower) are not drawable wall
+    // types: curved corners are a per-type build style instead.
     const allWallCategories = {
         basic: {
             name: 'Basic Walls',
             icon: 'Utility/Barred Shield',
-            walls: ['stone_wall', 'wooden_wall', 'brick_wall']
+            walls: ['stone_wall', 'wooden_wall', 'brick_wall', 'gothic_stone']
+        },
+        fences: {
+            name: 'Fences & Barriers',
+            icon: 'Nature/Nature Natural',
+            walls: ['hedge', 'iron_fence', 'wooden_fence', 'barrier_wood']
         },
         variations: {
             name: 'Variations & Parapets',
             icon: 'Utility/Barred Shield',
-            walls: ['half_wall', 'wall_arched', 'wall_broken', 'wall_shelves', 'barrier_wood']
+            walls: ['half_wall', 'wall_cracked', 'wall_gated', 'wall_arched', 'wall_broken', 'wall_shelves', 'stone_column', 'wooden_column']
         },
         advanced: {
             name: 'Advanced Materials',
@@ -93,12 +102,12 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         interactive: {
             name: 'Interactive Elements',
             icon: 'General/Lockpick',
-            walls: ['wooden_door', 'stone_door']
+            walls: ['wooden_door', 'stone_door', 'town_door', 'iron_gate', 'wooden_gate', 'hedge_gate']
         },
         window: {
             name: 'Windows',
             icon: 'Utility/All Seeing Eye',
-            walls: ['glass_window', 'barred_window', 'arrow_slit', 'open_window']
+            walls: ['glass_window', 'barred_window', 'arrow_slit', 'open_window', 'town_window']
         }
     };
 
@@ -246,6 +255,10 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
     const setWalls3DEnabled = useLevelEditorStore(state => state.setWalls3DEnabled);
+    const wallCornerStyles = useLevelEditorStore(state => state.wallCornerStyles || {});
+    const setWallCornerStyle = useLevelEditorStore(state => state.setWallCornerStyle);
+    const selectedCornerStyle = wallCornerStyles[selectedWallType] || 'square';
+    const cornerStyleAvailable = hasCurvedCornerStyle(selectedWallType);
 
     return (
         <div className="wall-tools">
@@ -413,6 +426,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                     }}
                                 />
                                 <span className="category-name">{category.name}</span>
+                                <span className="category-count">{category.walls.length}</span>
                             </div>
                             <div className="wall-grid">
                                 {category.walls.map(wallId => {
@@ -426,86 +440,29 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                             onClick={() => handleWallTypeSelect(wallId)}
                                             title={`${wall.name} - ${wall.description}`}
                                         >
-                                            <div
-                                                className="wall-preview"
-                                                style={{
-                                                    backgroundImage: `url(/assets/textures/walls/${wallId}.png)`,
-                                                    backgroundColor: wall.color,
-                                                    backgroundSize: 'cover',
-                                                    backgroundPosition: 'center',
-                                                    backgroundBlendMode: 'multiply',
-                                                    opacity: wall.category === 'partial' ? 0.7 : 1,
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    padding: '8px 6px',
-                                                    minHeight: '58px',
-                                                    border: selectedWallType === wallId ? '3px solid #d4af37' : '2px solid #a08c70'
-                                                }}
-                                            >
-                                                <span
-                                                    className="wall-name"
-                                                    style={{
-                                                        color: '#ffffff',
-                                                        fontSize: '12px',
-                                                        fontWeight: 'bold',
-                                                        textAlign: 'center',
-                                                        textShadow: '2px 2px 4px rgba(0,0,0,0.9)',
-                                                        lineHeight: '1.1',
-                                                        marginBottom: '4px'
-                                                    }}
-                                                >
-                                                    {wall.name}
-                                                </span>
-                                                <div className="wall-properties" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', justifyContent: 'center' }}>
+                                            <div className="wall-tile-thumb">
+                                                <WallTypeThumbnail typeId={wallId} className="wall-thumb-img" />
+                                                {selectedWallType === wallId && (
+                                                    <span className="wall-tile-check">✓</span>
+                                                )}
+                                            </div>
+                                            <div className="wall-tile-body">
+                                                <span className="wall-tile-name">{wall.name}</span>
+                                                <div className="wall-properties">
                                                     {wall.blocksMovement && (
-                                                        <span
-                                                            className="property-badge movement-block"
-                                                            title="Blocks Movement"
-                                                            style={{
-                                                                backgroundColor: 'rgba(255, 0, 0, 0.8)',
-                                                                color: '#ffffff',
-                                                                fontSize: '10px',
-                                                                padding: '2px 4px',
-                                                                borderRadius: '3px',
-                                                                fontWeight: 'bold'
-                                                            }}
-                                                        >
-                                                            BLOCKS
-                                                        </span>
+                                                        <span className="property-badge movement-block" title="Blocks Movement">Blocks</span>
                                                     )}
                                                     {wall.blocksLineOfSight && (
-                                                        <span
-                                                            className="property-badge vision-block"
-                                                            title="Blocks Vision"
-                                                            style={{
-                                                                backgroundColor: 'rgba(0, 0, 255, 0.8)',
-                                                                color: '#ffffff',
-                                                                fontSize: '10px',
-                                                                padding: '2px 4px',
-                                                                borderRadius: '3px',
-                                                                fontWeight: 'bold'
-                                                            }}
-                                                        >
-                                                            VISION
-                                                        </span>
+                                                        <span className="property-badge vision-block" title="Blocks Vision">Sight</span>
                                                     )}
                                                     {wall.interactive && (
-                                                        <span
-                                                            className="property-badge interactive"
-                                                            title="Interactive"
-                                                            style={{
-                                                                backgroundColor: 'rgba(0, 255, 0, 0.8)',
-                                                                color: '#ffffff',
-                                                                fontSize: '10px',
-                                                                padding: '2px 4px',
-                                                                borderRadius: '3px',
-                                                                fontWeight: 'bold'
-                                                            }}
-                                                        >
-                                                            DOOR
-                                                        </span>
+                                                        <span className="property-badge interactive" title="Interactive door/gate">Door</span>
+                                                    )}
+                                                    {wall.isWindow && (
+                                                        <span className="property-badge window" title="Window opening">Window</span>
+                                                    )}
+                                                    {Number.isFinite(wall.heightScale) && wall.heightScale < 1 && (
+                                                        <span className="property-badge low" title={`Low: ${Math.round(wall.heightScale * 100)}% of wall height`}>Low</span>
                                                     )}
                                                 </div>
                                             </div>
@@ -518,6 +475,46 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 </div>
             )}
 
+            {/* Corner build style for types with a dedicated corner model */}
+            {selectedTool === 'wall_draw' && cornerStyleAvailable && (
+                <div className="tool-section">
+                    <h4>Corners</h4>
+                    <div className="mode-controls">
+                        {[
+                            { id: 'square', name: 'Square', desc: 'Runs meet at the grid vertex' },
+                            { id: 'curved', name: 'Curved', desc: 'A full-cell corner piece replaces the two end tiles' }
+                        ].map(mode => (
+                            <button
+                                key={mode.id}
+                                className={`mode-btn ${selectedCornerStyle === mode.id ? 'active' : ''}`}
+                                onClick={() => setWallCornerStyle(selectedWallType, mode.id)}
+                                title={mode.desc}
+                            >
+                                {mode.name}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="wall-corner-hint">
+                        Curved corners apply to {WALL_TYPES[selectedWallType]?.name || selectedWallType} walls only.
+                    </div>
+                </div>
+            )}
+
+            {/* Selected wall type details */}
+            {(selectedTool === 'wall_draw' || selectedTool === 'door_place' || selectedTool === 'window_place') && WALL_TYPES[selectedWallType] && (
+                <div className="tool-section">
+                    <h4>Selected Type</h4>
+                    <div className="wall-selected-info">
+                        <div className="wall-selected-thumb">
+                            <WallTypeThumbnail typeId={selectedWallType} className="wall-thumb-img" />
+                        </div>
+                        <div className="wall-selected-text">
+                            <div className="wall-selected-name">{WALL_TYPES[selectedWallType].name}</div>
+                            <div className="wall-selected-description">{WALL_TYPES[selectedWallType].description}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     );

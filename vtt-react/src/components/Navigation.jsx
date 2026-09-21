@@ -884,11 +884,17 @@ export default function Navigation({ onReturnToLanding }) {
             return;
         }
 
+        // Ignore single-key shortcuts if any modifier key (Shift, Alt, Ctrl, Meta) is held
+        if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
+
+        // Don't hijack 'E' to toggle editor when editor is already open and active
+        if (isEditorMode && (key === 'E' || e.code === 'KeyE')) return;
+
         if (button) {
             e.preventDefault();
             handleButtonClick(button.id);
         }
-    }, [handleButtonClick, onReturnToLanding, handleToggleCollapse]);
+    }, [handleButtonClick, onReturnToLanding, handleToggleCollapse, isEditorMode]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);

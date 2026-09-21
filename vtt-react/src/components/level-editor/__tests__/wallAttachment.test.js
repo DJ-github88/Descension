@@ -152,6 +152,29 @@ describe('resolveWallMountPlacement', () => {
     expect(placement.elevation).toBeCloseTo(2.2);
     expect(placement.rotation).toBe(0);
   });
+
+  it('returns null when snapToWall is explicitly false', () => {
+    expect(resolveWallMountPlacement({
+      objectDef: torchDef,
+      worldX: 25,
+      worldY: 8,
+      wallData: { '0,0,1,0': stoneWall },
+      snapToWall: false,
+      ...GRID
+    })).toBeNull();
+  });
+
+  it('never snaps ordinary non-wall props even if snapToWall is true', () => {
+    const barrelDef = { id: 'barrel', name: 'Barrel', size: { width: 1, height: 1 } };
+    expect(resolveWallMountPlacement({
+      objectDef: barrelDef,
+      worldX: 25,
+      worldY: 8,
+      wallData: { '0,0,1,0': stoneWall },
+      snapToWall: true,
+      ...GRID
+    })).toBeNull();
+  });
 });
 
 describe('resolveWallMountDragPatch', () => {
@@ -211,13 +234,31 @@ describe('resolveWallMountDragPatch', () => {
     expect(patch.wallKey).toBeUndefined();
   });
 
-  it('does nothing when an unattached fixture is dragged on open ground', () => {
-    expect(resolveWallMountDragPatch({
+  it('detaches when snapToWall is explicitly false during drag', () => {
+    const patch = resolveWallMountDragPatch({
       objectDef: torchDef,
-      object: { ...torch, wallAttached: false, wallKey: undefined },
-      worldX: 500,
-      worldY: 500,
+      object: torch,
+      worldX: 25,
+      worldY: -8,
       wallData: { '0,0,1,0': stoneWall },
+      snapToWall: false,
+      ...GRID
+    });
+
+    expect(patch.wallAttached).toBe(false);
+    expect(patch.wallKey).toBeUndefined();
+  });
+
+  it('never snaps ordinary props during drag even near walls', () => {
+    const barrelDef = { id: 'barrel', name: 'Barrel', size: { width: 1, height: 1 } };
+    const barrel = { id: 'b1', type: 'barrel', wallAttached: false };
+    expect(resolveWallMountDragPatch({
+      objectDef: barrelDef,
+      object: barrel,
+      worldX: 25,
+      worldY: 8,
+      wallData: { '0,0,1,0': stoneWall },
+      snapToWall: true,
       ...GRID
     })).toBeNull();
   });

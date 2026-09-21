@@ -1567,11 +1567,14 @@ const SvgWallLayer = () => {
         />
       ))}
 
+      {/* Explored-but-not-visible walls stay opaque and are darkened instead:
+          a 0.4 alpha made the masonry see-through and revealed the fogged
+          ground (and whatever lies beyond) through the wall. */}
       {scene.items.map((item) => (
         <g
           key={item.key}
           data-wall-key={item.wallKeys ? item.wallKeys.join('+') : item.key}
-          opacity={item.dimmed ? 0.4 : 1}
+          style={item.dimmed ? { filter: 'brightness(0.6)' } : undefined}
           mask={item.maskId ? `url(#${item.maskId})` : undefined}
         >
           {item.kind === 'side'

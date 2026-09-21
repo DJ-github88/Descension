@@ -41,6 +41,12 @@ const AfterimageOverlay = () => {
     const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const wallData = useLevelEditorStore(state => state.wallData);
     const terrainData = useLevelEditorStore(state => state.terrainData);
+    // 3D world toggles: when the 3D layers are rendering, the fog-dimmed 3D
+    // meshes are the explored-area visuals. Painting the 2D PNG ghost tiles /
+    // wall lines over them produced the "explored tiles use the old 2D art"
+    // mixed look, so those ghost passes are skipped in 3D mode.
+    const terrain3DEnabled = useLevelEditorStore(state => state.terrain3DEnabled);
+    const walls3DEnabled = useLevelEditorStore(state => state.walls3DEnabled ?? true);
 
     // Per-player memory subscriptions
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
@@ -440,55 +446,32 @@ const AfterimageOverlay = () => {
         let terrainRendered = 0;
         const snapshotCoveredTiles = new Set();
 
-        // Pass A: snapshot terrain (the player's actual stale memory)
-        for (const [tileKey, snapshot] of snapshotEntries) {
-            if (terrainRendered >= maxTerrainToRender) break;
-            if (!snapshot?.terrain) continue;
-
-            const resolved = resolveTerrainTypeAndVariation(snapshot.terrain);
-            if (!resolved || !PROFESSIONAL_TERRAIN_TYPES[resolved.terrainType]) continue;
-
-            const [coordX, coordY] = tileKey.split(',').map(Number);
-            const worldPos = gridSystem.gridToWorld(coordX, coordY);
-
-            // Skip if currently visible (real terrain layer shows instead)
-            if (isTileVisible(worldPos.x, worldPos.y)) continue;
-            // Skip if not explored
-            if (!isExploredPos(worldPos.x, worldPos.y)) continue;
-
-            const screenPos = worldToScreen(worldPos.x, worldPos.y);
-
-            // Viewport culling (cheap check BEFORE marking covered — offscreen
-            // tiles may come into view later and must still be covered by their snapshot)
-            snapshotCoveredTiles.add(tileKey);
-
-            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
-                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
-                continue;
-            }
-
-            if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos, worldPos)) {
-                terrainRendered++;
-            }
-        }
-
-        // Pass B: live terrainData fill for explored tiles with NO snapshot terrain
-        // (holes: terrain painted after the player explored the area).
-        if (terrainRendered < maxTerrainToRender) {
-            for (const [tileKey, rawTerrain] of Object.entries(terrainData || {})) {
+        // 3D terrain renders every painted tile as a mesh (explored tiles are
+        // dimmed by the fog tint), so the 2D PNG ghost pass would only paint the
+        // old flat art over the 3D world.
+        if (!terrain3DEnabled) {
+            // Pass A: snapshot terrain (the player's actual stale memory)
+            for (const [tileKey, snapshot] of snapshotEntries) {
                 if (terrainRendered >= maxTerrainToRender) break;
-                if (!rawTerrain || snapshotCoveredTiles.has(tileKey)) continue;
+                if (!snapshot?.terrain) continue;
 
-                const resolved = resolveTerrainTypeAndVariation(rawTerrain);
+                const resolved = resolveTerrainTypeAndVariation(snapshot.terrain);
                 if (!resolved || !PROFESSIONAL_TERRAIN_TYPES[resolved.terrainType]) continue;
 
                 const [coordX, coordY] = tileKey.split(',').map(Number);
                 const worldPos = gridSystem.gridToWorld(coordX, coordY);
 
+                // Skip if currently visible (real terrain layer shows instead)
                 if (isTileVisible(worldPos.x, worldPos.y)) continue;
+                // Skip if not explored
                 if (!isExploredPos(worldPos.x, worldPos.y)) continue;
 
                 const screenPos = worldToScreen(worldPos.x, worldPos.y);
+
+                // Viewport culling (cheap check BEFORE marking covered — offscreen
+                // tiles may come into view later and must still be covered by their snapshot)
+                snapshotCoveredTiles.add(tileKey);
+
                 if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
                     screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
                     continue;
@@ -496,6 +479,34 @@ const AfterimageOverlay = () => {
 
                 if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos, worldPos)) {
                     terrainRendered++;
+                }
+            }
+
+            // Pass B: live terrainData fill for explored tiles with NO snapshot terrain
+            // (holes: terrain painted after the player explored the area).
+            if (terrainRendered < maxTerrainToRender) {
+                for (const [tileKey, rawTerrain] of Object.entries(terrainData || {})) {
+                    if (terrainRendered >= maxTerrainToRender) break;
+                    if (!rawTerrain || snapshotCoveredTiles.has(tileKey)) continue;
+
+                    const resolved = resolveTerrainTypeAndVariation(rawTerrain);
+                    if (!resolved || !PROFESSIONAL_TERRAIN_TYPES[resolved.terrainType]) continue;
+
+                    const [coordX, coordY] = tileKey.split(',').map(Number);
+                    const worldPos = gridSystem.gridToWorld(coordX, coordY);
+
+                    if (isTileVisible(worldPos.x, worldPos.y)) continue;
+                    if (!isExploredPos(worldPos.x, worldPos.y)) continue;
+
+                    const screenPos = worldToScreen(worldPos.x, worldPos.y);
+                    if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
+                        screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
+                        continue;
+                    }
+
+                    if (drawTerrainGhostTile(resolved.terrainType, resolved.variationIndex, screenPos, worldPos)) {
+                        terrainRendered++;
+                    }
                 }
             }
         }
@@ -509,6 +520,9 @@ const AfterimageOverlay = () => {
         let wallsRendered = 0;
         for (const [wallKey, wall] of wallEntries) {
             if (wallsRendered >= maxWallsToRender) break;
+            // 3D walls render explored runs as fog-dimmed meshes themselves; the
+            // flat ghost stroke on top of them read as "see-through 2D walls".
+            if (walls3DEnabled) break;
 
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
@@ -819,6 +833,8 @@ const AfterimageOverlay = () => {
         gridOffsetX,
         gridOffsetY,
         wallData,
+        terrain3DEnabled,
+        walls3DEnabled,
         gridToWorld,
         worldToScreen,
         getGrayscaleCanvas,
@@ -1017,7 +1033,7 @@ const AfterimageOverlay = () => {
 
             return () => clearTimeout(timeoutId);
         }
-    }, [currentTokenAfterimages, currentMemorySnapshots, afterimageEnabled, isGMMode, dynamicFogEnabled, viewingFromToken, loadImage]);
+    }, [currentTokenAfterimages, currentMemorySnapshots, afterimageEnabled, isGMMode, dynamicFogEnabled, viewingFromToken, terrain3DEnabled, walls3DEnabled, loadImage]);
 
     // Trigger render when non-camera dependencies change
     useEffect(() => {
@@ -1033,6 +1049,8 @@ const AfterimageOverlay = () => {
         memorySnapshots,
         tokenAfterimages,
         visibleArea,
+        terrain3DEnabled,
+        walls3DEnabled,
         // PERFORMANCE FIX: Removed cameraX/cameraY - camera changes handled by subscription below
         effectiveZoom,
         gridSize,

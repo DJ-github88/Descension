@@ -144,6 +144,23 @@ describe('SvgWallLayer', () => {
     expect(withFog.container.querySelectorAll('path[fill="rgba(0,0,0,0.16)"]').length).toBe(0);
   });
 
+  it('keeps explored walls opaque and dims them with a brightness filter', () => {
+    setView({ isGMMode: false });
+    setEditor({
+      wallData: { '0,0,1,0': { type: 'stone_wall' } },
+      fogOfWarEnabled: true,
+      viewingFromToken: { id: 'tok1', position: { x: 25, y: 25 } },
+      visibleArea: [] // explored, but not in active vision
+    });
+
+    const { container } = render(<SvgWallLayer />);
+    const group = container.querySelector('g[data-wall-key="0,0,1,0"]');
+    expect(group).toBeTruthy();
+    // No alpha fade: a see-through wall revealed the fogged ground behind it.
+    expect(group.getAttribute('opacity')).toBeNull();
+    expect(group.style.filter).toBe('brightness(0.6)');
+  });
+
   it('merges cast shadows into a single pass under every run', () => {
     setView();
     setEditor({

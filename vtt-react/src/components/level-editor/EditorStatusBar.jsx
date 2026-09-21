@@ -38,7 +38,9 @@ const EditorStatusBar = ({
 
             <div className="vtt-shortcuts-help">
                 <small>
-                    [1] Terrain &nbsp; [2] Drawing &nbsp; [3] Walls &nbsp; [4] Fog &nbsp; [5] Objects &nbsp; [6] Grid &nbsp; [7] Lighting &nbsp; [V] Select &nbsp; [Del] Delete &nbsp; [Esc] Close &nbsp; [Ctrl+Z] Undo &nbsp; [Ctrl+Shift+Z] Redo
+                    {activeTab === 'objects'
+                        ? '[Wheel] Scale  [Alt+Wheel] Rotate  [Shift+E+Wheel] Elevate  [Del] Delete  [Esc] Deselect'
+                        : '[1] Terrain  [2] Drawing  [3] Walls  [4] Fog  [5] Objects  [6] Grid  [7] Lighting  [V] Select  [Del] Delete  [Esc] Close  [Ctrl+Z] Undo'}
                 </small>
             </div>
         </>

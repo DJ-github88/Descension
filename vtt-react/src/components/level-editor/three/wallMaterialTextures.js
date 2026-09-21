@@ -16,7 +16,16 @@ const V_SPAN = 0.208;
 const UV_PER_WORLD_U = U_SPAN / WALL_UNIT;
 const UV_PER_WORLD_V = V_SPAN / WALL_UNIT;
 
+// Dedicated KayKit-style wall models carry world-space UVs measured in inches
+// (a 1 x 1 model spans UV -19.685..19.685, i.e. 39.37 units per model cell).
+// Mapping a seamless 1024px wall texture with this repeat makes one texture
+// tile cover exactly one grid cell, matching the 2.5D pattern layer.
+const CC0_UV_PER_CELL = 39.37;
+const WALL_TEXTURE_BASE = '/assets/textures/walls';
+
 const cache = new Map();
+const wallTextureCache = new Map();
+const textureLoader = typeof THREE.TextureLoader === 'function' ? new THREE.TextureLoader() : null;
 
 function createCanvas() {
   if (typeof document === 'undefined') return null;
@@ -238,4 +247,51 @@ export function applyWallMaterial(material, kind) {
     m.needsUpdate = true;
   });
   return true;
+}
+
+/**
+ * Seamless 2.5D wall texture for the dedicated wall models (the KayKit-style
+ * `walls/*.glb` set ships flat prototype colours with no textures). Cached per
+ * wall type so every piece and junction shares one GPU upload.
+ */
+export function getWallTypeTexture(typeId) {
+  if (!typeId || !textureLoader) return null;
+  if (wallTextureCache.has(typeId)) return wallTextureCache.get(typeId);
+  const texture = textureLoader.load(`${WALL_TEXTURE_BASE}/${typeId}.png`);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1 / CC0_UV_PER_CELL, 1 / CC0_UV_PER_CELL);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestMipmapLinearFilter;
+  texture.generateMipmaps = true;
+  wallTextureCache.set(typeId, texture);
+  return texture;
+}
+
+/**
+ * Replace a cloned wall model's prototype colour with the type's seamless
+ * 2.5D texture. Returns true when the material was changed.
+ */
+export function applyWallTexture(material, typeId) {
+  if (!material) return false;
+  const texture = getWallTypeTexture(typeId);
+  if (!texture) return false;
+  const mats = Array.isArray(material) ? material : [material];
+  mats.forEach((m) => {
+    m.map = texture;
+    m.color.setHex(0xffffff);
+    if (m.emissive) m.emissive.setHex(0x000000);
+    m.needsUpdate = true;
+  });
+  return true;
+}
+
+/**
+ * Translucent emissive pane texture for magical barriers and force walls.
+ * Rendered on a simple box (not the stone kit) so energy walls read as energy
+ * instead of tinted masonry.
+ */
+export function getEnergyWallTexture(typeId) {
+  return getWallTypeTexture(typeId);
 }

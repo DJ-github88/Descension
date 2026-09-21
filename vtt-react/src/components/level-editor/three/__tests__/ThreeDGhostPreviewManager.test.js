@@ -7,8 +7,12 @@ jest.mock('../../../../services/ModelCacheService', () => {
     __esModule: true,
     default: {
       createInstance: () => {
+        // Authored off-origin, like many kit models (statue_horse sits several
+        // units away from its origin): the ghost must normalise this away.
+        const geometry = new three.BoxGeometry(4, 4, 1);
+        geometry.translate(6, 3, 5);
         const group = new three.Group();
-        const mesh = new three.Mesh(new three.BoxGeometry(4, 4, 1), new three.MeshStandardMaterial());
+        const mesh = new three.Mesh(geometry, new three.MeshStandardMaterial());
         group.add(mesh);
         return group;
       },
@@ -95,6 +99,28 @@ describe('ThreeDGhostPreviewManager', () => {
     expect(manager.group.rotation.z).toBeCloseTo((-90 * Math.PI) / 180);
     expect(manager.group.rotation.x).toBeCloseTo((30 * Math.PI) / 180);
     expect(manager.group.rotation.y).toBeCloseTo((-15 * Math.PI) / 180);
+  });
+
+  it('recentres off-origin models on the cursor like the placed prop', () => {
+    manager.updatePreview(payload);
+
+    // Geometry centre (6, 3, 5) rotated upright -> (6, -5, 3); bbox
+    // x [4, 8], y [-5.5, -4.5], z [1, 5] with scale 50 / 4 = 12.5.
+    expect(manager.currentModelScene.position.x).toBeCloseTo(-6 * 12.5);
+    expect(manager.currentModelScene.position.y).toBeCloseTo(5 * 12.5);
+    expect(manager.currentModelScene.position.z).toBeCloseTo(-1 * 12.5);
+  });
+
+  it('keeps the authored origin for wall-mounted ghosts', () => {
+    manager.updatePreview({
+      ...payload,
+      objectType: 'torch_wall',
+      wallMount: { worldX: 25, worldY: 4.75, rotation: 180, elevation: 2.2 }
+    });
+
+    expect(manager.currentModelScene.position.x).toBeCloseTo(0);
+    expect(manager.currentModelScene.position.y).toBeCloseTo(0);
+    expect(manager.currentModelScene.position.z).toBeCloseTo(0);
   });
 
   it('snaps to a wall mount when one is resolved', () => {

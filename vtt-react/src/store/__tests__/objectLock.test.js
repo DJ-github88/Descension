@@ -39,7 +39,7 @@ describe('environmental object locking', () => {
 
     afterEach(() => {
         window._isReceivingMapUpdate = syncFlag;
-        useLevelEditorStore.setState({ environmentalObjects: [] });
+        useLevelEditorStore.setState({ environmentalObjects: [], isEditorOpen: false });
     });
 
     test('setEnvironmentalObjectLocked toggles the lock flag', () => {
@@ -110,6 +110,19 @@ describe('environmental object locking', () => {
         expect(obj.worldX).toBe(700);
     });
 
+    test('locked objects ignore elevation updates', () => {
+        useLevelEditorStore.setState({ environmentalObjects: [makeObject({ elevation: 0 })] });
+        const store = useLevelEditorStore.getState();
+        store.setEnvironmentalObjectLocked('obj-1', true);
+
+        useLevelEditorStore.getState().updateEnvironmentalObject('obj-1', {
+            ...readObject(),
+            elevation: 3
+        });
+
+        expect(readObject().elevation).toBe(0);
+    });
+
     test('locked objects cannot be removed until unlocked', () => {
         const store = useLevelEditorStore.getState();
         store.setEnvironmentalObjectLocked('obj-1', true);
@@ -122,5 +135,85 @@ describe('environmental object locking', () => {
         const removed = useLevelEditorStore.getState().removeEnvironmentalObject('obj-1');
         expect(removed).toBe(true);
         expect(readObject()).toBeUndefined();
+    });
+
+    test('setAllEnvironmentalObjectsLocked locks and unlocks every object', () => {
+        useLevelEditorStore.setState({
+            environmentalObjects: [
+                makeObject({ id: 'obj-1' }),
+                makeObject({ id: 'obj-2', locked: true }),
+                makeObject({ id: 'obj-3' })
+            ]
+        });
+
+        const locked = useLevelEditorStore.getState().setAllEnvironmentalObjectsLocked(true);
+        expect(locked).toBe(true);
+        expect(useLevelEditorStore.getState().environmentalObjects.every(o => o.locked)).toBe(true);
+
+        const unlocked = useLevelEditorStore.getState().setAllEnvironmentalObjectsLocked(false);
+        expect(unlocked).toBe(true);
+        expect(useLevelEditorStore.getState().environmentalObjects.every(o => !o.locked)).toBe(true);
+    });
+
+    test('setAllEnvironmentalObjectsLocked is a no-op without objects', () => {
+        useLevelEditorStore.setState({ environmentalObjects: [] });
+        expect(useLevelEditorStore.getState().setAllEnvironmentalObjectsLocked(true)).toBe(false);
+    });
+
+    test('setEditorOpen publishes the window visibility flag', () => {
+        expect(useLevelEditorStore.getState().isEditorOpen).toBe(false);
+        useLevelEditorStore.getState().setEditorOpen(true);
+        expect(useLevelEditorStore.getState().isEditorOpen).toBe(true);
+        useLevelEditorStore.getState().setEditorOpen(false);
+        expect(useLevelEditorStore.getState().isEditorOpen).toBe(false);
+    });
+
+    test('locked objects cannot be selected while the editor window is closed', () => {
+        useLevelEditorStore.getState().setEnvironmentalObjectLocked('obj-1', true);
+
+        // Editor window closed: locked objects are click-through.
+        expect(useLevelEditorStore.getState().selectEnvironmentalObject('obj-1')).toBe(false);
+        expect(readObject().selected).toBe(false);
+
+        // With the editor open the padlock must be reachable, so selection works.
+        useLevelEditorStore.getState().setEditorOpen(true);
+        expect(useLevelEditorStore.getState().selectEnvironmentalObject('obj-1')).toBe(true);
+        expect(readObject().selected).toBe(true);
+
+        // Unlocked objects stay selectable with the editor closed.
+        useLevelEditorStore.getState().clearObjectSelection();
+        useLevelEditorStore.getState().setEditorOpen(false);
+        useLevelEditorStore.getState().setEnvironmentalObjectLocked('obj-1', false);
+        expect(useLevelEditorStore.getState().selectEnvironmentalObject('obj-1')).toBe(true);
+        expect(readObject().selected).toBe(true);
+    });
+
+    test('objects placed while lock-all is active start unlocked and stay movable', () => {
+        useLevelEditorStore.setState({
+            environmentalObjects: [
+                makeObject({ id: 'obj-1' }),
+                makeObject({ id: 'obj-2' })
+            ]
+        });
+        useLevelEditorStore.getState().setAllEnvironmentalObjectsLocked(true);
+
+        const newId = useLevelEditorStore.getState().addEnvironmentalObject({
+            type: 'table_medium',
+            gridX: 5,
+            gridY: 5,
+            worldX: 500,
+            worldY: 500
+        });
+
+        expect(readObject(newId).locked).toBe(false);
+        expect(readObject('obj-1').locked).toBe(true);
+        expect(readObject('obj-2').locked).toBe(true);
+
+        // The freshly placed object is not frozen and can still be nudged.
+        useLevelEditorStore.getState().updateEnvironmentalObject(newId, {
+            ...readObject(newId),
+            worldX: 640
+        });
+        expect(readObject(newId).worldX).toBe(640);
     });
 });

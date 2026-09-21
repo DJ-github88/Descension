@@ -90,3 +90,88 @@ export const WallSelectionIndicator = ({ selectedWindow, selectedWallKey, wallDa
         </div>
     );
 };
+
+export const ObjectShortcutHUD = ({
+    mode = 'place',
+    objectName = '',
+    scale = 1,
+    rotation = 0,
+    rotationX = 0,
+    rotationY = 0,
+    elevation = 0,
+    isEHeld = false,
+    isAltHeld = false,
+    isShiftHeld = false
+}) => {
+    const formattedElevation = `${elevation > 0 ? '+' : ''}${elevation} lvl (${elevation > 0 ? '+' : ''}${Math.round(elevation * 5 * 10) / 10} ft)`;
+    const formattedRotation = `${rotation}°`;
+    const formattedScale = `${scale}×`;
+
+    return (
+        <div className="vtt-object-shortcut-hud">
+            <div className="vtt-object-hud-header">
+                <span className="vtt-object-hud-badge">
+                    {mode === 'place' ? 'Placing' : 'Selected'}
+                </span>
+                <strong className="vtt-object-hud-title">{objectName}</strong>
+            </div>
+
+            <div className="vtt-object-hud-divider" />
+
+            <div className="vtt-object-hud-shortcuts">
+                {/* Height / Elevation Shortcut */}
+                <div className={`vtt-object-hud-item ${isEHeld ? 'active' : ''}`}>
+                    <span className="vtt-hud-keys">
+                        <kbd>Shift</kbd>+<kbd>E</kbd>+<kbd>Wheel</kbd>
+                    </span>
+                    <span className="vtt-hud-label">Height:</span>
+                    <span className="vtt-hud-val">{formattedElevation}</span>
+                </div>
+
+                {/* Rotation Shortcut */}
+                <div className={`vtt-object-hud-item ${((isAltHeld || isShiftHeld) && !isEHeld) ? 'active' : ''}`}>
+                    <span className="vtt-hud-keys">
+                        {isShiftHeld && !isAltHeld ? (
+                            <><kbd>Shift</kbd>+<kbd>Wheel</kbd></>
+                        ) : isAltHeld && isShiftHeld ? (
+                            <><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Wheel</kbd></>
+                        ) : (
+                            <><kbd>Alt</kbd>+<kbd>Wheel</kbd></>
+                        )}
+                    </span>
+                    <span className="vtt-hud-label">
+                        {isShiftHeld && !isAltHeld ? 'Roll:' : isAltHeld && isShiftHeld ? 'Pitch:' : 'Rotate:'}
+                    </span>
+                    <span className="vtt-hud-val">
+                        {isShiftHeld && !isAltHeld ? `${rotationY}°` : isAltHeld && isShiftHeld ? `${rotationX}°` : formattedRotation}
+                    </span>
+                </div>
+
+                {/* Scale Shortcut */}
+                <div className={`vtt-object-hud-item ${!isAltHeld && !isEHeld && !isShiftHeld ? 'active' : ''}`}>
+                    <span className="vtt-hud-keys">
+                        <kbd>Wheel</kbd>
+                    </span>
+                    <span className="vtt-hud-label">Scale:</span>
+                    <span className="vtt-hud-val">{formattedScale}</span>
+                </div>
+
+                {/* Contextual Action Hint */}
+                <div className="vtt-object-hud-action">
+                    {mode === 'place' ? (
+                        <>
+                            <span><kbd>Click</kbd> Place</span>
+                            <span><kbd>Esc</kbd> Cancel</span>
+                        </>
+                    ) : (
+                        <>
+                            <span><kbd>Drag</kbd> Move</span>
+                            <span><kbd>Del</kbd> Delete</span>
+                            <span><kbd>Esc</kbd> Deselect</span>
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};

@@ -8,18 +8,21 @@ const UnifiedContextMenu = ({
     onClose,
     items = [],
     title = null,
-    disableClickOutside = false
+    disableClickOutside = false,
+    className = ''
 }) => {
     const menuRef = useRef(null);
     const [hoveredSubmenuIndex, setHoveredSubmenuIndex] = useState(null);
     const [position, setPosition] = useState({ left: -9999, top: -9999 });
     const [isPositioned, setIsPositioned] = useState(false);
+    const [flipSubmenuLeft, setFlipSubmenuLeft] = useState(false);
 
     // Calculate position after DOM mount but before paint to prevent "jump"
     useLayoutEffect(() => {
         if (!visible) {
             setIsPositioned(false);
             setPosition({ left: -9999, top: -9999 });
+            setFlipSubmenuLeft(false);
             return;
         }
 
@@ -39,6 +42,10 @@ const UnifiedContextMenu = ({
                 top = Math.max(10, y - menuRect.height);
             }
 
+            // Flip submenus to the left if there's not enough room on the right
+            const shouldFlip = (left + menuRect.width + 200) > viewportWidth;
+            setFlipSubmenuLeft(shouldFlip);
+
             setPosition({ left, top });
             setIsPositioned(true);
         }
@@ -48,6 +55,7 @@ const UnifiedContextMenu = ({
     useEffect(() => {
         if (!visible) {
             setIsPositioned(false);
+            setFlipSubmenuLeft(false);
         }
     }, [visible]);
 
@@ -57,42 +65,24 @@ const UnifiedContextMenu = ({
             // Skip click outside handling if disabled (parent component handles it)
             if (disableClickOutside) return;
 
-            /*
-            console.log('🖱️ [CONTEXT MENU] Click outside detected, target:', event.target);
-            console.log('🖱️ [CONTEXT MENU] Menu ref current:', menuRef.current);
-            console.log('🖱️ [CONTEXT MENU] Contains check:', menuRef.current?.contains(event.target));
-            */
-
-            /*
-            console.log('🖱️ [CONTEXT MENU] Click outside detected, target:', event.target);
-            console.log('🖱️ [CONTEXT MENU] Menu ref current:', menuRef.current);
-            console.log('🖱️ [CONTEXT MENU] Contains check:', menuRef.current?.contains(event.target));
-            */
-
             if (menuRef.current && !menuRef.current.contains(event.target)) {
-                // console.log('🖱️ [CONTEXT MENU] Closing menu due to outside click');
-                onClose();
-            } else {
-                // console.log('🖱️ [CONTEXT MENU] Click was inside menu, not closing');
+                onClose?.();
             }
         };
 
         const handleEscapeKey = (event) => {
             if (event.key === 'Escape') {
-                // console.log('🖱️ [CONTEXT MENU] Escape key pressed, closing menu');
-                onClose();
+                onClose?.();
             }
         };
 
         // Prevent wheel events from bubbling up to the grid
         const handleWheel = (event) => {
-            // console.log('🖱️ [CONTEXT MENU] Wheel event on menu, preventing propagation');
             event.stopPropagation();
             event.preventDefault();
         };
 
         if (visible) {
-            // console.log('🖱️ [CONTEXT MENU] Setting up event listeners');
             document.addEventListener('mousedown', handleClickOutside);
             document.addEventListener('keydown', handleEscapeKey);
             const refAtMount = menuRef.current;
@@ -101,7 +91,6 @@ const UnifiedContextMenu = ({
             }
 
             return () => {
-                // console.log('🖱️ [CONTEXT MENU] Cleaning up event listeners');
                 document.removeEventListener('mousedown', handleClickOutside);
                 document.removeEventListener('keydown', handleEscapeKey);
                 if (refAtMount) {
@@ -116,7 +105,7 @@ const UnifiedContextMenu = ({
     return (
         <div
             ref={menuRef}
-            className={`unified-context-menu compact${isPositioned ? '' : ' positioning'}`}
+            className={`unified-context-menu compact ${flipSubmenuLeft ? 'submenu-flip-left' : ''} ${className} ${isPositioned ? '' : ' positioning'}`}
             style={{
                 left: position.left,
                 top: position.top,
@@ -150,17 +139,15 @@ const UnifiedContextMenu = ({
                                     <div
                                         className={`context-menu-group has-submenu ${hoveredSubmenuIndex === index ? 'hovered' : ''}`}
                                         onMouseEnter={() => {
-                                            // console.log('🖱️ [CONTEXT MENU] Mouse entered submenu item:', item.label, 'index:', index);
                                             setHoveredSubmenuIndex(index);
                                         }}
                                         onMouseLeave={() => {
-                                            // console.log('🖱️ [CONTEXT MENU] Mouse left submenu item:', item.label);
                                             setHoveredSubmenuIndex(null);
                                         }}
                                     >
                                         <div className="group-header">
-                                            {item.icon}
-                                            <span>{item.label}</span>
+                                            {item.icon && <span className="menu-icon-wrapper">{item.icon}</span>}
+                                            <span className="menu-label-text">{item.label}</span>
                                             <i className="fas fa-chevron-right expand-icon"></i>
                                         </div>
                                         <div className="submenu">
@@ -178,8 +165,8 @@ const UnifiedContextMenu = ({
 
                                                                 if (!subItem.disabled && subItem.onClick) {
                                                                     const button = e.currentTarget;
-                                                                    button.style.transform = 'scale(0.95)';
-                                                                    button.style.opacity = '0.7';
+                                                                    button.style.transform = 'scale(0.97)';
+                                                                    button.style.opacity = '0.75';
 
                                                                     setTimeout(() => {
                                                                         try {
@@ -190,13 +177,17 @@ const UnifiedContextMenu = ({
 
                                                                         button.style.transform = '';
                                                                         button.style.opacity = '';
-                                                                    }, 100);
+                                                                        if (!subItem.keepOpen) {
+                                                                            onClose?.();
+                                                                        }
+                                                                    }, 80);
                                                                 }
                                                             }}
                                                             disabled={subItem.disabled}
-                                                            title={subItem.tooltip}
+                                                            title={subItem.tooltip || subItem.title}
                                                         >
-                                                            {subItem.icon} {subItem.label}
+                                                            {subItem.icon && <span className="menu-icon-wrapper">{subItem.icon}</span>}
+                                                            <span className="menu-label-text">{subItem.label}</span>
                                                         </button>
                                                     )}
                                                 </React.Fragment>
@@ -213,13 +204,10 @@ const UnifiedContextMenu = ({
                                             e.preventDefault();
 
                                             if (!item.disabled && item.onClick) {
-
-                                                // Add visual feedback before executing action
                                                 const button = e.currentTarget;
-                                                button.style.transform = 'scale(0.95)';
-                                                button.style.opacity = '0.7';
+                                                button.style.transform = 'scale(0.97)';
+                                                button.style.opacity = '0.75';
 
-                                                // Execute the action after a brief delay for visual feedback
                                                 setTimeout(() => {
                                                     try {
                                                         item.onClick(e);
@@ -227,16 +215,19 @@ const UnifiedContextMenu = ({
                                                         console.error('❌ [CONTEXT MENU] Error in onClick for:', item.label, error);
                                                     }
 
-                                                    // Reset button appearance
                                                     button.style.transform = '';
                                                     button.style.opacity = '';
-                                                }, 100);
+                                                    if (!item.keepOpen) {
+                                                        onClose?.();
+                                                    }
+                                                }, 80);
                                             }
                                         }}
                                         disabled={item.disabled}
-                                        title={item.tooltip}
+                                        title={item.tooltip || item.title}
                                     >
-                                        {item.icon} {item.label}
+                                        {item.icon && <span className="menu-icon-wrapper">{item.icon}</span>}
+                                        <span className="menu-label-text">{item.label}</span>
                                     </button>
                                 )}
                             </React.Fragment>

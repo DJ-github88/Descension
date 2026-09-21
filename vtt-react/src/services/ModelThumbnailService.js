@@ -30,17 +30,29 @@ class ModelThumbnailService {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: this.canvas,
-      alpha: true,
-      antialias: true,
-      preserveDrawingBuffer: true
-    });
-    this.renderer.setSize(this.width, this.height);
-    this.renderer.setPixelRatio(1);
-    this.renderer.setClearColor(0x000000, 0);
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    try {
+      const gl = this.canvas.getContext('webgl2') || this.canvas.getContext('webgl');
+      if (!gl || !gl.getShaderPrecisionFormat || !gl.getShaderPrecisionFormat(gl.VERTEX_SHADER, gl.HIGH_FLOAT)) {
+        console.warn('[ModelThumbnailService] WebGL context or shader precision unavailable');
+        return;
+      }
+
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas,
+        alpha: true,
+        antialias: true,
+        preserveDrawingBuffer: true
+      });
+      this.renderer.setSize(this.width, this.height);
+      this.renderer.setPixelRatio(1);
+      this.renderer.setClearColor(0x000000, 0);
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    } catch (e) {
+      console.warn('[ModelThumbnailService] Failed to initialize WebGL offscreen renderer:', e);
+      this.renderer = null;
+      return;
+    }
 
     this.scene = new THREE.Scene();
 

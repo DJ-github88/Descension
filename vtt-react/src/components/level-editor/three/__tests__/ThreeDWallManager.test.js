@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { ThreeDWallManager } from '../ThreeDWallManager';
+import { ThreeDWallManager, WALL_MODELS, WALL_EXPLORED_DIM } from '../ThreeDWallManager';
+import useLevelEditorStore from '../../../../store/levelEditorStore';
 import useGameStore from '../../../../store/gameStore';
 import { createGridSystem } from '../../../../utils/InfiniteGridSystem';
 
@@ -71,6 +72,10 @@ describe('ThreeDWallManager', () => {
     expect(manager.resolveWallModelUrl('stone_wall')).toContain('wall_stone_straight.glb');
     expect(manager.resolveWallModelUrl({ type: 'glass_window' })).toContain('wall_window_closed.glb');
     expect(manager.resolveWallModelUrl({ type: 'barred_window' })).toContain('wall_window_gated.glb');
+    // Arrow slits must render an opening, not a plain wall segment.
+    expect(manager.resolveWallModelUrl({ type: 'arrow_slit' })).toContain('wall_window_gated.glb');
+    // The town window uses the host-agnostic kit window so it fits any wall run.
+    expect(manager.resolveWallModelUrl({ type: 'town_window' })).toContain('wall_window_closed.glb');
     expect(manager.resolveWallModelUrl({ type: 'cracked_stone' })).toContain('wall_cracked.glb');
     expect(manager.resolveWallModelUrl({ type: 'gated_portcullis' })).toContain('wall_gated.glb');
     expect(manager.resolveWallModelUrl({ type: 'half_wall' })).toContain('wall_stone_straight.glb');
@@ -223,7 +228,7 @@ describe('ThreeDWallManager', () => {
     expect(manager.junctionInstances.size).toBe(0);
   });
 
-  it('adjusts opacity and shadows based on Fog of War state', () => {
+  it('dims explored walls by tint but keeps solid masonry opaque', () => {
     const wallData = { '0,0,1,0': { type: 'stone_wall' } };
     const fogState = {
       fogOfWarEnabled: true,
@@ -239,17 +244,34 @@ describe('ThreeDWallManager', () => {
     expect(wall).toBeDefined();
     expect(wall.pieces[0].mesh.visible).toBe(true);
 
-    let matOpacity = 1;
+    let matOpacity = 0;
     let castsShadow = true;
+    let dimColor = null;
+    let baseColor = null;
     wall.pieces[0].innerModel.traverse(child => {
       if (child.isMesh) {
         castsShadow = child.castShadow;
         matOpacity = child.material.opacity;
+        baseColor = child.material.userData.baseColor;
+        dimColor = child.material.color.clone();
       }
     });
 
     expect(castsShadow).toBe(false);
-    expect(matOpacity).toBeCloseTo(0.7, 1);
+    // Solid walls stay opaque (no x-ray) and are dimmed via their colour.
+    expect(matOpacity).toBe(1);
+    expect(dimColor.r).toBeCloseTo(baseColor.r * WALL_EXPLORED_DIM, 5);
+
+    // Stepping into active vision restores the original colour and shadows.
+    manager.updateWalls(wallData, {}, GRID, {
+      ...fogState,
+      visibleAreaSet: new Set(['0,0'])
+    });
+    let litColor = null;
+    wall.pieces[0].innerModel.traverse(child => {
+      if (child.isMesh) litColor = child.material.color.clone();
+    });
+    expect(litColor.r).toBeCloseTo(baseColor.r, 5);
   });
 
   it('keeps a frontier wall visible when only the viewer side is explored', () => {
@@ -304,11 +326,18 @@ describe('ThreeDWallManager', () => {
     const wall = manager.wallInstances.get('10,3,10,7');
     wall.pieces.forEach(piece => {
       expect(piece.mesh.visible).toBe(true);
-      let opacity = 1;
+      let opacity = 0;
+      let dimColor = null;
+      let baseColor = null;
       piece.innerModel.traverse(child => {
-        if (child.isMesh) opacity = child.material.opacity;
+        if (child.isMesh) {
+          opacity = child.material.opacity;
+          baseColor = child.material.userData.baseColor;
+          dimColor = child.material.color.clone();
+        }
       });
-      expect(opacity).toBeCloseTo(0.7);
+      expect(opacity).toBe(1);
+      expect(dimColor.r).toBeCloseTo(baseColor.r * WALL_EXPLORED_DIM, 5);
     });
   });
 
@@ -333,43 +362,140 @@ describe('ThreeDWallManager', () => {
     });
   });
 
-  it('maps material wall types to generated textures or stand-in models', () => {
+  it('maps wall types to their dedicated model textures or energy panes', () => {
     expect(manager.resolveWallAppearance({ type: 'stone_wall' })).toBeNull();
     expect(manager.resolveWallAppearance({ type: 'glass_window' })).toBeNull();
     expect(manager.resolveWallAppearance({ type: 'wooden_door' })).toBeNull();
 
     const wood = manager.resolveWallAppearance({ type: 'wooden_wall' });
     expect(wood).not.toBeNull();
-    expect(wood.material).toBe('wood');
+    expect(wood.texture).toBe('wooden_wall');
     expect(wood.tint).toBeNull();
+    expect(wood.junctionModels).toEqual({});
 
     const brick = manager.resolveWallAppearance({ type: 'brick_wall' });
-    expect(brick.material).toBe('brick');
+    expect(brick.texture).toBe('brick_wall');
     expect(brick.baseOpacity).toBe(1);
 
     const metal = manager.resolveWallAppearance({ type: 'metal_wall' });
-    expect(metal.material).toBe('metal');
+    expect(metal.texture).toBe('metal_wall');
+
+    const hedge = manager.resolveWallAppearance({ type: 'hedge' });
+    expect(hedge.texture).toBe('hedge');
 
     // `blocksLineOfSight: false` is a gameplay trait; parapets, ruins and
     // palisades are solid matter and must not render as ghosts. Structural
     // variations keep their own kit material instead of a muddy tint.
-    ['half_wall', 'wall_arched', 'wall_broken', 'wall_shelves', 'barrier_wood'].forEach((type) => {
+    ['half_wall', 'wall_arched', 'wall_broken', 'wall_shelves'].forEach((type) => {
       expect(manager.resolveWallAppearance({ type })).toBeNull();
     });
 
+    const palisade = manager.resolveWallAppearance({ type: 'barrier_wood' });
+    expect(palisade.junctionModels).toEqual({ corner: WALL_MODELS.barrier_corner });
+
     const barrier = manager.resolveWallAppearance({ type: 'magical_barrier' });
-    expect(barrier.baseOpacity).toBeCloseTo(0.5);
-    expect(barrier.material).toBe('energy');
+    expect(barrier.baseOpacity).toBeCloseTo(0.72);
+    expect(barrier.energy).toBe(true);
+    expect(barrier.junctionModels).toEqual({});
     expect(barrier.emissive).not.toBeNull();
     const force = manager.resolveWallAppearance({ type: 'force_wall' });
-    expect(force.baseOpacity).toBeCloseTo(0.5);
-    expect(force.material).toBe('energy');
+    expect(force.baseOpacity).toBeCloseTo(0.72);
+    expect(force.energy).toBe(true);
   });
 
-  it('renders the wooden wall with the generated timber material', () => {
+  it('renders dedicated wall types with their own model and seamless texture', () => {
     const appearance = manager.resolveWallAppearance({ type: 'wooden_wall' });
-    expect(appearance.material).toBe('wood');
-    expect(manager.resolveWallModelUrl({ type: 'wooden_wall' })).toContain('wall_stone_straight.glb');
+    expect(appearance.texture).toBe('wooden_wall');
+    expect(manager.resolveWallModelUrl({ type: 'wooden_wall' })).toContain('wooden_wall.glb');
+    expect(manager.resolveWallModelUrl({ type: 'brick_wall' })).toContain('brick_wall.glb');
+  });
+
+  it('centres dedicated models on the wall line instead of their authored edge origin', () => {
+    // Wooden fence: thickness centre -0.4625 model units, rotateY 90 deg.
+    manager.updateWalls({ '0,0,1,0': { type: 'wooden_fence' } }, {}, GRID);
+    let piece = manager.wallInstances.get('0,0,1,0').pieces[0];
+    expect(piece.innerModel.position.y).toBeCloseTo(0.4625 * 50);
+
+    // Brick wall: thickness centre +0.41 model units, no rotation.
+    manager.updateWalls({ '0,0,1,0': { type: 'brick_wall' } }, {}, GRID);
+    piece = manager.wallInstances.get('0,0,1,0').pieces[0];
+    expect(piece.innerModel.position.y).toBeCloseTo(0.41 * 50);
+
+    // Kit walls are already centred.
+    manager.updateWalls({ '0,0,1,0': { type: 'stone_wall' } }, {}, GRID);
+    piece = manager.wallInstances.get('0,0,1,0').pieces[0];
+    expect(piece.innerModel.position.y).toBeCloseTo(0);
+  });
+
+  it('does not cap or corner dedicated-model walls with stone junction pieces', () => {
+    manager.updateWalls({ ...horizontalRun(0, 0, 2, 'wooden_fence') }, {}, GRID);
+    expect(manager.junctionInstances.size).toBe(0);
+
+    manager.updateWalls(
+      { ...horizontalRun(-1, 0, 1, 'hedge'), ...verticalRun(0, 0, 1, 'hedge') },
+      {},
+      GRID
+    );
+    expect(manager.junctionInstances.size).toBe(0);
+
+    // Free-standing columns are single pillars; no stone caps beside them.
+    manager.updateWalls({ '0,0,1,0': { type: 'stone_column' } }, {}, GRID);
+    expect(manager.junctionInstances.size).toBe(0);
+  });
+
+  it('replaces the two end tiles with one curved corner piece when the style is on', () => {
+    const walls = { ...horizontalRun(-3, 0, 3, 'wooden_wall'), ...verticalRun(0, 0, 2, 'wooden_wall') };
+    useLevelEditorStore.setState({ wallCornerStyles: { wooden_wall: 'curved' } });
+    try {
+      manager.updateWalls(walls, {}, GRID);
+
+      const junction = manager.junctionInstances.get('0,0');
+      expect(junction).toBeDefined();
+      expect(junction.kind).toBe('corner');
+      expect(junction.modelUrl).toBe(WALL_MODELS.wood_corner);
+      // The tile each run ends on at the vertex is dropped entirely.
+      expect(manager.wallInstances.has('-1,0,0,0')).toBe(false);
+      expect(manager.wallInstances.has('0,0,0,1')).toBe(false);
+      // Tiles further along the runs are untouched.
+      expect(manager.wallInstances.get('-2,0,-1,0').pieces).toHaveLength(1);
+      expect(manager.wallInstances.get('0,1,0,2').pieces).toHaveLength(1);
+    } finally {
+      useLevelEditorStore.setState({ wallCornerStyles: {} });
+    }
+  });
+
+  it('honours a curved corner recorded on the wall records themselves', () => {
+    const walls = { ...horizontalRun(-3, 0, 3, 'wooden_wall'), ...verticalRun(0, 0, 2, 'wooden_wall') };
+    Object.values(walls).forEach((wall) => { wall.cornerStyle = 'curved'; });
+    manager.updateWalls(walls, {}, GRID);
+    const junction = manager.junctionInstances.get('0,0');
+    expect(junction).toBeDefined();
+    expect(junction.modelUrl).toBe(WALL_MODELS.wood_corner);
+  });
+
+  it('leaves corners as plain run joins when the style is square', () => {
+    const walls = { ...horizontalRun(-2, 0, 2, 'wooden_wall'), ...verticalRun(0, 0, 2, 'wooden_wall') };
+    manager.updateWalls(walls, {}, GRID);
+    expect(manager.junctionInstances.size).toBe(0);
+    expect(manager.wallInstances.get('-1,0,0,0').pieces).toHaveLength(1);
+    expect(manager.wallInstances.get('0,0,0,1').pieces).toHaveLength(1);
+  });
+
+  it('renders magical barriers as translucent energy panes, not tinted masonry', () => {
+    manager.updateWalls({ '0,0,1,0': { type: 'magical_barrier' } }, {}, GRID);
+    const entry = manager.wallInstances.get('0,0,1,0');
+    const piece = entry.pieces[0];
+    // The energy pane is authored as a single upright box mesh.
+    const pane = piece.innerModel.isMesh ? piece.innerModel : piece.innerModel.children[0];
+    expect(pane.geometry.type).toBe('BoxGeometry');
+    let material = null;
+    piece.innerModel.traverse(child => {
+      if (child.isMesh) material = child.material;
+    });
+    expect(material.transparent).toBe(true);
+    expect(material.opacity).toBeCloseTo(0.72);
+    expect(material.emissiveMap).not.toBeNull();
+    expect(manager.junctionInstances.size).toBe(0);
   });
 
   it('keeps the palisade barrier low via the type heightScale', () => {
@@ -387,19 +513,20 @@ describe('ThreeDWallManager', () => {
     expect(entry.pieces[0].innerModel.scale.y).toBeCloseTo((1.8 * 50 * 0.5) / 4);
   });
 
-  it('tints junction pieces to match the runs meeting at the vertex', () => {
-    manager.updateWalls({ ...horizontalRun(0, 0, 2, 'magical_barrier') }, {}, GRID);
+  it('gives the wooden palisade its own corner piece instead of stone caps', () => {
+    manager.updateWalls(
+      { ...horizontalRun(-1, 0, 1, 'barrier_wood'), ...verticalRun(0, 0, 1, 'barrier_wood') },
+      {},
+      GRID
+    );
 
-    const endcaps = [...manager.junctionInstances.values()].filter((e) => e.kind === 'endcap');
-    expect(endcaps.length).toBe(2);
-    endcaps.forEach((entry) => {
-      expect(entry.appearanceKey).toContain('magical_barrier');
-      let tinted = false;
-      entry.innerModel.traverse(child => {
-        if (child.isMesh && child.material.color.getHexString() !== 'ffffff') tinted = true;
-      });
-      expect(tinted).toBe(true);
-    });
+    const corner = manager.junctionInstances.get('0,0');
+    expect(corner).toBeDefined();
+    expect(corner.kind).toBe('corner');
+    expect(corner.modelUrl).toBe(WALL_MODELS.barrier_corner);
+    // No stone end caps on the palisade's free ends.
+    const kinds = [...manager.junctionInstances.values()].map((e) => e.kind);
+    expect(kinds.filter((k) => k === 'endcap')).toHaveLength(0);
   });
 
   it('falls back to stone junctions when different wall types meet', () => {
@@ -415,7 +542,7 @@ describe('ThreeDWallManager', () => {
     expect(corner.appearanceKey).toBeNull();
   });
 
-  it('keeps a tinted wall piece translucent under fog instead of overwriting opacity', () => {
+  it('keeps a translucent energy pane dimmed by fog instead of overwriting opacity', () => {
     manager.updateWalls(
       { '0,0,1,0': { type: 'magical_barrier' } },
       {},
@@ -435,7 +562,7 @@ describe('ThreeDWallManager', () => {
     piece.innerModel.traverse(child => {
       if (child.isMesh) opacity = child.material.opacity;
     });
-    expect(opacity).toBeCloseTo(0.5 * 0.7, 2);
+    expect(opacity).toBeCloseTo(0.72 * 0.7, 2);
   });
 
   it('subdivides diagonal runs so the masonry texture repeats instead of stretching', () => {

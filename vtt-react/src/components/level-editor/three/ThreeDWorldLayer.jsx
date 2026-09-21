@@ -10,12 +10,13 @@ import { ThreeDWallOccluderManager } from './ThreeDWallOccluderManager';
 import { ThreeDWallManager } from './ThreeDWallManager';
 import { ThreeDLightingManager } from './ThreeDLightingManager';
 import { ThreeDGhostPreviewManager } from './ThreeDGhostPreviewManager';
+import { applySunOnlyShadowMask } from './sunOnlyShadowMask';
 import { PROFESSIONAL_OBJECTS } from '../objects/ObjectSystem';
 import { resolveWallMountPlacement } from '../objects/wallAttachment';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 
 export const ThreeDWorldLayer = ({ width, height }) => {
-  const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
@@ -29,9 +30,9 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   const ghostPreviewManagerRef = useRef(null);
   const mousePosRef = useRef({ screenX: 0, screenY: 0, active: false });
   const interactionHandlerRef = useRef(null);
+  const shadowMaterialRef = useRef(null);
   const animFrameRef = useRef(null);
   const lastTimeRef = useRef(performance.now());
-  const shadowDirtyRef = useRef(true);
 
   // Camera & View Store
   const cameraX = useGameStore(state => state.cameraX);
@@ -70,6 +71,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   const wallShadowsEnabled = useLevelEditorStore(state => state.wallShadowsEnabled);
   const lightAnimations = useLevelEditorStore(state => state.lightAnimations);
   const performanceMode = useLevelEditorStore(state => state.performanceMode);
+  const shadowQuality = useLevelEditorStore(state => state.shadowQuality || 'high');
 
   const visibleAreaSet = useMemo(() => {
     if (!visibleArea) return null;
@@ -82,19 +84,42 @@ export const ThreeDWorldLayer = ({ width, height }) => {
 
   // Initialize Three.js Scene
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!container) return undefined;
+
+    // The canvas is created here (not via JSX) so every effect run gets a
+    // FRESH canvas. Reusing a canvas whose WebGL context was lost throws
+    // inside the WebGLRenderer constructor ("reading 'precision'"), which is
+    // how a dead context used to take the whole app down on remount/HMR.
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'block';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    container.appendChild(canvas);
 
     const w = width || window.innerWidth;
     const h = height || window.innerHeight;
 
     // Renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance'
-    });
+    let renderer;
+    try {
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (!gl || !gl.getShaderPrecisionFormat || !gl.getShaderPrecisionFormat(gl.VERTEX_SHADER, gl.HIGH_FLOAT)) {
+        console.warn('[ThreeDWorldLayer] WebGL is not supported or context unavailable');
+        canvas.remove();
+        return undefined;
+      }
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance'
+      });
+    } catch (err) {
+      console.error('[ThreeDWorldLayer] Failed to create WebGL renderer:', err);
+      canvas.remove();
+      return undefined;
+    }
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0); // Transparent background
@@ -126,23 +151,23 @@ export const ThreeDWorldLayer = ({ width, height }) => {
 
     // Ground Shadow Receiver Plane (captures PCF soft shadows onto the transparent canvas)
     const shadowGeo = new THREE.PlaneGeometry(100000, 100000);
-    const shadowMat = new THREE.ShadowMaterial({
+    const shadowMat = applySunOnlyShadowMask(new THREE.ShadowMaterial({
       opacity: 0.42,
       depthWrite: false
-    });
+    }));
     const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
     shadowPlane.name = 'GroundShadowReceiver';
     shadowPlane.position.set(0, 0, -0.05);
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
+    shadowMaterialRef.current = shadowMat;
 
-    // Shadow maps only re-render when something actually changed (camera moved,
-    // geometry/lights updated, doors animating). Re-rendering the sun map plus
-    // up to three point-light cube maps every frame was the main cost of
-    // token-view play.
+    // Shadow maps only re-render when something actually changed (the sun
+    // anchor crossed a cell, geometry/lights updated, doors animating). The
+    // lighting manager owns the per-light dirty flags; this renderer-level
+    // flag is flipped from its consumeShadowDirty() in the render loop.
     renderer.shadowMap.autoUpdate = false;
     renderer.shadowMap.needsUpdate = true;
-    shadowDirtyRef.current = false;
 
     // Lighting is driven by the map's own lighting model (sun settings,
     // ambient level and placed light sources) via ThreeDLightingManager.
@@ -179,32 +204,29 @@ export const ThreeDWorldLayer = ({ width, height }) => {
 
       if (rig.position.x !== camX || rig.position.y !== -camY) {
         rig.position.set(camX, -camY, 0);
-        shadowDirtyRef.current = true;
       }
 
       const validZoom = Number.isFinite(effZoom) && effZoom > 0 ? effZoom : 1;
       if (Math.abs(camera.zoom - validZoom) > 1e-4) {
         camera.zoom = validZoom;
         camera.updateProjectionMatrix();
-        shadowDirtyRef.current = true;
       }
 
       const yawDeg = ((vRot % 360) + 360) % 360;
       const targetRotZ = -(yawDeg * Math.PI) / 180;
       if (Math.abs(rig.rotation.z - targetRotZ) > 1e-4) {
         rig.rotation.z = targetRotZ;
-        shadowDirtyRef.current = true;
       }
 
       const activeTilt = vMode === '2d' ? 90 : Math.max(15, Math.min(90, vTilt !== undefined ? vTilt : 30));
       const targetPitchX = ((90 - activeTilt) * Math.PI) / 180;
       if (Math.abs(pitchGroup.rotation.x - targetPitchX) > 1e-4) {
         pitchGroup.rotation.x = targetPitchX;
-        shadowDirtyRef.current = true;
       }
 
-      // Keep the map sun anchored on the camera target so its shadow maps
-      // cover the visible area; the direction itself comes from sunSettings.
+      // Keep the map sun anchored to its world-space shadow tile (not to the
+      // camera): the manager re-anchors and flags the sun map only when the
+      // camera crosses an anchor cell, so panning does not re-render shadows.
       if (lightingManagerRef.current) {
         lightingManagerRef.current.syncCamera(camX, camY);
       }
@@ -222,12 +244,17 @@ export const ThreeDWorldLayer = ({ width, height }) => {
 
       // Update interactive animations (chests/doors)
       if (propManager.updateAnimations(delta)) {
-        shadowDirtyRef.current = true;
+        lightingManagerRef.current.markAllShadowsDirty();
       }
 
       // Animate flickering light sources
       if (lightingManagerRef.current) {
         lightingManagerRef.current.updateAnimations(delta);
+      }
+
+      // Scroll the liquid terrain sheets (water/ice/lava/acid ripples)
+      if (terrainManagerRef.current) {
+        terrainManagerRef.current.updateAnimations(delta);
       }
 
       // Update 3D ghost placement preview
@@ -248,7 +275,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
             const elevationData = curEditorState.elevationData || {};
 
             let wallMount = null;
-            if (objectDef?.wallMountable || objectDef?.wallSideSnap || curEditorState.toolSettings?.snapToWall) {
+            if (curEditorState.toolSettings?.snapToWall && (objectDef?.wallMountable || objectDef?.wallSideSnap)) {
               wallMount = resolveWallMountPlacement({
                 objectDef,
                 worldX: worldPos.x,
@@ -261,7 +288,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
                 gridOffsetX,
                 gridOffsetY,
                 gridSystem: gs,
-                snapToWall: curEditorState.toolSettings?.snapToWall !== false
+                snapToWall: true
               });
             }
 
@@ -274,6 +301,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
               rotationX: curEditorState.toolSettings?.objectRotationX || 0,
               rotationY: curEditorState.toolSettings?.objectRotationY || 0,
               scale: curEditorState.toolSettings?.objectScale || 1,
+              elevationOffset: curEditorState.toolSettings?.objectElevation || 0,
               gridSize,
               elevationData,
               environmentalObjects: curEditorState.environmentalObjects || [],
@@ -291,9 +319,10 @@ export const ThreeDWorldLayer = ({ width, height }) => {
       // Frame-accurate camera synchronization with gameStore (eliminates drag latency/drifting)
       syncCamera(useGameStore.getState());
 
-      if (shadowDirtyRef.current) {
+      // One renderer-level flag gates every shadow pass; the manager keeps the
+      // per-light flags and only reports dirty when a map truly needs work.
+      if (lightingManagerRef.current.consumeShadowDirty()) {
         renderer.shadowMap.needsUpdate = true;
-        shadowDirtyRef.current = false;
       }
 
       renderer.render(scene, camera);
@@ -349,14 +378,14 @@ export const ThreeDWorldLayer = ({ width, height }) => {
           enabled: useLevelEditorStore.getState().terrain3DEnabled ?? false
         });
       }
-      shadowDirtyRef.current = true;
+      lightingManager.markAllShadowsDirty();
     });
 
     // Capture pointer clicks on interactive 3D objects without blocking canvas pass-through
     const handleGlobalPointerDown = (e) => {
-      if (!interactionHandlerRef.current || !canvasRef.current) return;
+      if (!interactionHandlerRef.current) return;
       // Only process if clicking inside the canvas viewport
-      const rect = canvasRef.current.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
       if (
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
@@ -371,8 +400,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     };
 
     const handlePointerMove = (e) => {
-      if (!canvasRef.current) return;
-      const rect = canvasRef.current.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
       if (
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
@@ -400,12 +428,29 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerleave', handlePointerLeave);
 
+    // Browsers cap live WebGL contexts (~16) and silently kill the oldest one
+    // when the limit is hit — which looks like the app "crashing" (black map,
+    // no JS error). Log context loss so it reaches the error tracker, and
+    // release the context explicitly on unmount so remounts never stack up.
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      console.error('[ThreeDWorldLayer] WebGL context lost — 3D layer will attempt to restore');
+    };
+    const handleContextRestored = () => {
+      console.warn('[ThreeDWorldLayer] WebGL context restored');
+      renderer.shadowMap.needsUpdate = true;
+    };
+    canvas.addEventListener('webglcontextlost', handleContextLost, false);
+    canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
+
     return () => {
       isRunning = false;
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('pointerdown', handleGlobalPointerDown, { capture: true });
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerleave', handlePointerLeave);
+      canvas.removeEventListener('webglcontextlost', handleContextLost, false);
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored, false);
       unsubscribe();
       propManager.dispose();
       terrainManager.dispose();
@@ -414,6 +459,9 @@ export const ThreeDWorldLayer = ({ width, height }) => {
       lightingManager.dispose();
       ghostPreviewManager.dispose();
       renderer.dispose();
+      if (canvas.parentNode) {
+        canvas.remove();
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -458,15 +506,22 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     const pitchAngleRad = ((90 - activeTilt) * Math.PI) / 180;
     pitchGroup.rotation.x = pitchAngleRad;
 
-    // Dynamic shadow camera extent sized to the visible area
+    // Dynamic sun-shadow camera extent sized to the visible ground area. The
+    // manager grows this by its coverage factor and pins it to a coarse world
+    // anchor, so panning does not re-render the sun map every frame.
     if (lightingManagerRef.current) {
       const w = width || window.innerWidth;
       const h = height || window.innerHeight;
-      const maxSpan = Math.max(w, h) / Math.max(effectiveZoom, 0.2);
-      lightingManagerRef.current.setShadowCameraExtent(maxSpan * 0.75);
+      const zoom = Math.max(Number.isFinite(effectiveZoom) ? effectiveZoom : 1, 0.2);
+      // Lower tilt stretches the ground footprint along the view direction.
+      const pitchRad = ((90 - activeTilt) * Math.PI) / 180;
+      const groundHalfDepth = (h / 2) / Math.max(Math.cos(pitchRad), 0.2) / zoom;
+      const groundHalfWidth = (w / 2) / zoom;
+      lightingManagerRef.current.setShadowCameraExtent(
+        Math.hypot(groundHalfWidth, groundHalfDepth)
+      );
       lightingManagerRef.current.syncCamera(cameraX, cameraY);
     }
-    shadowDirtyRef.current = true;
   }, [cameraX, cameraY, effectiveZoom, viewRotation, viewTilt, viewMode, width, height]);
 
   // Update Props with full grid and fog state
@@ -486,7 +541,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
         visibilityPolygon
       }, wallData, elevationData);
     }
-    shadowDirtyRef.current = true;
+    lightingManagerRef.current?.markAllShadowsDirty();
   }, [
     environmentalObjects,
     wallData,
@@ -562,7 +617,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     } else if (wallOccluderManagerRef.current) {
       wallOccluderManagerRef.current.updateWalls({}, {}, {});
     }
-    shadowDirtyRef.current = true;
+    lightingManagerRef.current?.markAllShadowsDirty();
   }, [
     wallData,
     elevationData,
@@ -582,7 +637,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   // Drive 3D lighting from the map's own lighting model (sun, ambient, lights)
   useEffect(() => {
     if (propManagerRef.current) {
-      propManagerRef.current.updateLightProps(lightSources, {
+      const lightPropsChanged = propManagerRef.current.updateLightProps(lightSources, {
         gridSize,
         gridOffsetX,
         gridOffsetY
@@ -595,6 +650,13 @@ export const ThreeDWorldLayer = ({ width, height }) => {
         visibleAreaSet,
         visibilityPolygon
       }, elevationData);
+      // Placed lights cast real sun shadows, and the sun map is re-rendered on
+      // demand only. A fixture that appeared, moved, resized or was deleted
+      // must request that pass or its old shadow lingers on the floor until the
+      // camera happens to cross a shadow-anchor cell.
+      if (lightPropsChanged) {
+        lightingManagerRef.current?.markAllShadowsDirty();
+      }
     }
     if (!lightingManagerRef.current) return;
     lightingManagerRef.current.update({
@@ -605,14 +667,27 @@ export const ThreeDWorldLayer = ({ width, height }) => {
       wallShadowsEnabled,
       performanceMode,
       lightAnimations,
+      shadowQuality,
+      maxTextureSize: rendererRef.current?.capabilities?.maxTextureSize,
       gridSize,
       gridOffsetX,
       gridOffsetY,
-      elevationData,
-      cameraX,
-      cameraY
+      elevationData
     });
-    shadowDirtyRef.current = true;
+
+    // Shadow darkness follows the sun: strong sun = deep shadows, dusk/low
+    // intensity = faint ones, and heavy ambient fill lightens them further.
+    const shadowMaterial = shadowMaterialRef.current;
+    if (shadowMaterial) {
+      const sunStrength = Math.min(Math.max(Number(sunSettings?.intensity ?? 1) / 1.5, 0), 1.4);
+      const fill = Math.min(Math.max(Number(ambientLightLevel ?? 0.2), 0), 1);
+      const opacity = lightingEnabled
+        ? Math.min(Math.max(0.18 + 0.4 * sunStrength * (1 - 0.25 * fill), 0.12), 0.5)
+        : 0.12;
+      if (Math.abs(shadowMaterial.opacity - opacity) > 0.005) {
+        shadowMaterial.opacity = opacity;
+      }
+    }
   }, [
     lightSources,
     lightingEnabled,
@@ -621,12 +696,11 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     wallShadowsEnabled,
     performanceMode,
     lightAnimations,
+    shadowQuality,
     gridSize,
     gridOffsetX,
     gridOffsetY,
     elevationData,
-    cameraX,
-    cameraY,
     fogOfWarEnabled,
     isEditorMode,
     isGMMode,
@@ -649,12 +723,12 @@ export const ThreeDWorldLayer = ({ width, height }) => {
         enabled: terrain3DEnabled
       });
     }
-    shadowDirtyRef.current = true;
+    lightingManagerRef.current?.markAllShadowsDirty();
   }, [terrainData, elevationData, rampData, gridSize, gridOffsetX, gridOffsetY, terrain3DEnabled]);
 
   return (
-    <canvas
-      ref={canvasRef}
+    <div
+      ref={containerRef}
       className="three-d-world-layer"
       style={{
         position: 'absolute',

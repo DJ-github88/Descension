@@ -14,6 +14,7 @@ export class ThreeDGhostPreviewManager {
     this.currentModelType = null;
     this.currentModelScene = null;
     this.currentBaseBox = null;
+    this.currentNormalize = null;
     this.isWallMountGhost = false;
   }
 
@@ -26,6 +27,7 @@ export class ThreeDGhostPreviewManager {
     rotationX = 0,
     rotationY = 0,
     scale = 1,
+    elevationOffset = 0,
     gridSize = 50,
     elevationData = {},
     environmentalObjects = [],
@@ -49,6 +51,7 @@ export class ThreeDGhostPreviewManager {
     let baseElevation = 0;
     let parentCandidate = null;
 
+    this.isWallMountGhost = !!wallMount;
     if (wallMount) {
       // Wall-mounted placement: the mount resolver already snapped the position
       // to the wall face, aimed the prop outward and picked the mount height.
@@ -96,7 +99,8 @@ export class ThreeDGhostPreviewManager {
       }
     }
 
-    const worldZ = (parentTopZ !== null ? parentTopZ : baseElevation * (gridSize * 0.5)) + (modelConfig.offsetZ || 0);
+    const elevOffset = Number.isFinite(elevationOffset) ? elevationOffset : 0;
+    const worldZ = (parentTopZ !== null ? parentTopZ : baseElevation * (gridSize * 0.5)) + (elevOffset * gridSize * 0.5) + (modelConfig.offsetZ || 0);
 
     // If model type changed, rebuild ghost mesh
     if (this.currentModelType !== objectType || !this.currentModelScene) {
@@ -113,7 +117,6 @@ export class ThreeDGhostPreviewManager {
 
       this.currentModelType = objectType;
       this.currentModelScene = instance;
-      this.isWallMountGhost = false;
 
       // GLTF upright rotation
       instance.rotation.x = Math.PI / 2;
@@ -125,6 +128,17 @@ export class ThreeDGhostPreviewManager {
       const size = new THREE.Vector3();
       bbox.getSize(size);
       this.currentBaseBox = size.clone();
+
+      // Mirror ThreeDPropManager's origin normalisation so the ghost sits on
+      // the cursor exactly like the placed prop will. Kit models are not all
+      // authored base-centred (statue_horse is authored several units off its
+      // origin), and without this the ghost renders offset from the mouse
+      // while placement itself is correct.
+      this.currentNormalize = {
+        x: -(bbox.min.x + bbox.max.x) / 2,
+        y: -(bbox.min.y + bbox.max.y) / 2,
+        z: modelConfig.groundZ !== undefined ? modelConfig.groundZ : -bbox.min.z
+      };
 
       // Traverse and make all meshes translucent cyan-tinted ghost
       instance.traverse(child => {
@@ -164,13 +178,6 @@ export class ThreeDGhostPreviewManager {
       finalAngleRad
     );
 
-    // In ThreeDPropManager, wall-mounted fixtures keep their authored mount origin
-    // via applyPlacementOffset(entry, currentScale, !obj.wallAttached) -> position.set(0,0,0).
-    // The ghost preview mirrors this exactly so the preview sits flush with the rendered wall.
-    if (this.currentModelScene) {
-      this.currentModelScene.position.set(0, 0, 0);
-    }
-
     // Scale the ghost with the same fit-to-one-tile rule the placed prop uses.
     const size = this.currentBaseBox || new THREE.Vector3(1, 1, 1);
     const maxFootprint = Math.max(size.x, size.y) || 1;
@@ -179,6 +186,16 @@ export class ThreeDGhostPreviewManager {
     const finalScale = baseScale * configScale * scale;
 
     this.currentModelScene.scale.set(finalScale, finalScale, finalScale);
+
+    // Free-placed props are recentred on their tile and rested on the ground by
+    // ThreeDPropManager; the ghost mirrors that (scaled) offset. Wall-mounted
+    // fixtures keep their authored mount origin, so they stay at (0, 0, 0).
+    if (this.isWallMountGhost || !this.currentNormalize) {
+      this.currentModelScene.position.set(0, 0, 0);
+    } else {
+      const { x, y, z } = this.currentNormalize;
+      this.currentModelScene.position.set(x * finalScale, y * finalScale, z * finalScale);
+    }
   }
 
   dispose() {

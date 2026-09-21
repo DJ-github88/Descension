@@ -81,7 +81,7 @@ describe('getObjectScreenBounds', () => {
 });
 
 describe('getObjectSelectionHandles', () => {
-  it('places delete above and rotate right of an unrotated box', () => {
+  it('places delete at top-right badge and rotate on top stalk of an unrotated box', () => {
     const handles = getObjectSelectionHandles({
       centerX: 100,
       centerY: 200,
@@ -90,8 +90,8 @@ describe('getObjectSelectionHandles', () => {
       rotation: 0
     });
 
-    expect(handles.deletePosition).toEqual({ x: 100, y: 200 - 38 });
-    expect(handles.rotatePosition).toEqual({ x: 100 + 48, y: 200 });
+    expect(handles.deletePosition).toEqual({ x: 100 + 30, y: 200 - 20 });
+    expect(handles.rotatePosition).toEqual({ x: 100, y: 200 - 38 });
   });
 
   it('rotates handle positions with the box', () => {
@@ -103,10 +103,10 @@ describe('getObjectSelectionHandles', () => {
       rotation: Math.PI / 2
     });
 
-    expect(handles.deletePosition.x).toBeCloseTo(100 + 48);
-    expect(handles.deletePosition.y).toBeCloseTo(200);
-    expect(handles.rotatePosition.x).toBeCloseTo(100);
-    expect(handles.rotatePosition.y).toBeCloseTo(200 + 48);
+    expect(handles.deletePosition.x).toBeCloseTo(100 + 30);
+    expect(handles.deletePosition.y).toBeCloseTo(200 + 30);
+    expect(handles.rotatePosition.x).toBeCloseTo(100 + 48);
+    expect(handles.rotatePosition.y).toBeCloseTo(200);
   });
 
   it('keeps the delete/rotate buttons a minimum distance from small props', () => {

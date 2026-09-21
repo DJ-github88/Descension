@@ -18,10 +18,12 @@ const AdvancedLightingPanel = () => {
         atmosphericEffects,
         lightAnimations,
         performanceMode,
+        shadowQuality,
         weatherEffects,
         setAtmosphericEffects,
         setLightAnimations,
         setPerformanceMode,
+        setShadowQuality,
         setWeatherEffect,
         clearWeatherEffects,
         selectedLightType,
@@ -99,6 +101,32 @@ const AdvancedLightingPanel = () => {
                     </label>
                     <div className="setting-description">
                         Enable flickering effects for torches and candles
+                    </div>
+                </div>
+
+                <div className="setting-item">
+                    <label className="setting-label">3D Shadow Quality</label>
+                    <select
+                        value={shadowQuality}
+                        onChange={(e) => setShadowQuality(e.target.value)}
+                        style={{
+                            width: '100%',
+                            padding: '4px 6px',
+                            fontSize: 12,
+                            borderRadius: 4,
+                            border: '1.5px solid #7a3b2e',
+                            background: '#f2e7cd',
+                            color: '#5d2d22',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <option value="low">Low — fastest</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High — sharpest</option>
+                    </select>
+                    <div className="setting-description">
+                        Resolution of sun and dynamic light shadows. High sharpens
+                        object shadows; Performance Mode overrides this to Low.
                     </div>
                 </div>
             </div>

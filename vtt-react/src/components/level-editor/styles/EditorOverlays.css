@@ -109,3 +109,166 @@
 .vtt-selection-unlock-btn:hover {
     background: #5a4a35;
 }
+
+/* Object Transform & Shortcut HUD */
+.vtt-object-shortcut-hud {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 17, 13, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-radius: 24px;
+    padding: 6px 18px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    animation: vttHudFadeIn 0.2s ease-out;
+}
+
+@keyframes vttHudFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 8px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.vtt-object-hud-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.vtt-object-hud-badge {
+    background: rgba(212, 175, 55, 0.2);
+    color: #e6c875;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.vtt-object-hud-title {
+    color: #f7f1e5;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.vtt-object-hud-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.vtt-object-hud-shortcuts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.vtt-object-hud-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #b0a490;
+    padding: 3px 8px;
+    border-radius: 12px;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.vtt-object-hud-item.active {
+    background: rgba(2, 132, 199, 0.25);
+    border-color: rgba(56, 189, 248, 0.6);
+    color: #f0f9ff;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.vtt-object-hud-item kbd,
+.vtt-object-hud-action kbd {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-family: inherit;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+}
+
+.vtt-object-hud-item.active kbd {
+    background: rgba(56, 189, 248, 0.35);
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+
+.vtt-hud-keys {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+.vtt-hud-label {
+    color: #a09480;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.vtt-object-hud-item.active .vtt-hud-label {
+    color: #bae6fd;
+}
+
+.vtt-hud-val {
+    color: #f1f5f9;
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.vtt-object-hud-item.active .vtt-hud-val {
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+.vtt-object-hud-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #948b7a;
+    padding-left: 4px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vtt-object-hud-action span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+

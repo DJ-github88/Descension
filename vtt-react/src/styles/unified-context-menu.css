@@ -3,18 +3,41 @@
 
 .unified-context-menu {
   position: fixed;
-  width: 300px;
-  background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
-  border: 2px solid #a08c70;
+  width: 280px;
+  background: linear-gradient(135deg, rgba(248, 243, 232, 0.98) 0%, rgba(236, 227, 210, 0.98) 100%);
+  border: 1px solid #9c8365;
   border-radius: 8px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   z-index: 99999999;
-  color: #3a3a3a;
+  color: #382414;
   font-family: 'Bookman Old Style', 'Garamond', serif;
   overflow: visible;
   user-select: none;
   animation: contextMenuFadeIn 0.15s ease-out;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  padding: 4px;
+}
+
+.unified-context-menu .context-menu-header {
+  padding: 7px 12px;
+  background: linear-gradient(180deg, #6c3224 0%, #522419 100%);
+  border-bottom: 1px solid #8c6d48;
+  border-radius: 5px 5px 0 0;
+  margin: -4px -4px 4px -4px;
+  display: flex;
+  align-items: center;
+}
+
+.unified-context-menu .context-menu-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f7eed8;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
 }
 
 @keyframes contextMenuFadeIn {
@@ -181,17 +204,17 @@
 }
 
 .context-menu-main {
-  padding: 10px;
+  padding: 4px 2px;
 }
 
 /* Extra compact main container for note menus */
 .unified-context-menu.compact.note-menu .context-menu-main {
-  padding: 6px 8px;
+  padding: 4px;
 }
 
 .context-menu-group {
   position: relative;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .context-menu-group:last-child {
@@ -201,50 +224,65 @@
 .group-header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
   text-align: left;
   padding: 6px 10px;
-  margin: 2px 0;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
+  margin: 1px 0;
+  background: transparent;
+  border: none;
   border-radius: 4px;
-  color: #3a3a3a;
-  font-size: 10px;
+  color: #3d291a;
+  font-size: 12px;
   font-family: 'Bookman Old Style', 'Garamond', serif;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1.3;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  line-height: 1.35;
   position: relative;
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .group-header:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  color: #2a2a2a;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transform: translateY(-1px);
+  background: rgba(160, 110, 50, 0.14);
+  color: #1a0f07;
 }
 
-.group-header i:first-child {
+.group-header .menu-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 18px;
-  text-align: center;
+  height: 18px;
   flex-shrink: 0;
-  font-size: 16px;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
-  transition: transform 0.25s ease;
+  color: #8c653f;
+  font-size: 13px;
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
-.group-header:hover i:first-child {
+.group-header:hover .menu-icon-wrapper {
+  color: #5c3514;
   transform: scale(1.1);
+}
+
+.group-header .menu-label-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .group-header .expand-icon {
   margin-left: auto;
   font-size: 10px;
-  transition: transform 0.2s ease;
+  color: #8c653f;
+  opacity: 0.6;
+  transition: transform 0.2s ease, opacity 0.15s ease;
+}
+
+.group-header:hover .expand-icon {
+  opacity: 1;
+  transform: translateX(2px);
 }
 
 .context-menu-group.expanded .group-header .expand-icon {
@@ -254,28 +292,40 @@
 /* Enhanced Submenu - default state for nested submenus (hidden) */
 .context-menu-group.has-submenu .submenu {
   position: absolute;
-  left: 100%;
-  top: 0;
-  width: 200px;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%) !important;
-  border: 3px solid #5a1e12 !important;
-  border-radius: 10px;
+  left: calc(100% + 4px);
+  top: -4px;
+  min-width: 180px;
+  background: linear-gradient(135deg, rgba(248, 243, 232, 0.98) 0%, rgba(236, 227, 210, 0.98) 100%);
+  border: 1px solid #9c8365;
+  border-radius: 8px;
   box-shadow:
-    0 6px 20px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-10px);
-  transition: all 0.25s ease;
+  transform: translateX(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
   z-index: 100000000;
-  padding: 12px;
-  backdrop-filter: blur(1px);
+  padding: 4px;
+  backdrop-filter: blur(8px);
 }
 
 /* Show nested submenu on hover */
 .context-menu-group.has-submenu.hovered .submenu {
   opacity: 1;
   visibility: visible;
+  transform: translateX(0);
+}
+
+/* Flip submenu to the left if near right edge */
+.unified-context-menu.submenu-flip-left .context-menu-group.has-submenu .submenu {
+  left: auto;
+  right: calc(100% + 4px);
+  transform: translateX(4px);
+}
+
+.unified-context-menu.submenu-flip-left .context-menu-group.has-submenu.hovered .submenu {
   transform: translateX(0);
 }
 
@@ -361,73 +411,54 @@
 .context-menu-button {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
   text-align: left;
   padding: 6px 10px;
-  margin: 2px 0;
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
+  margin: 1px 0;
+  background: transparent;
+  border: none;
   border-radius: 4px;
-  color: #3a3a3a;
-  font-size: 10px;
+  color: #3d291a;
+  font-size: 12px;
   font-family: 'Bookman Old Style', 'Garamond', serif;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1.3;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  line-height: 1.35;
   position: relative;
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .context-menu-button:hover:not(:disabled) {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  color: #2a2a2a;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transform: translateY(-1px);
-}
-
-.context-menu-button:hover:not(:disabled)::before {
-  left: 100%;
-}
-
-.context-menu-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.5s ease;
+  background: rgba(160, 110, 50, 0.14);
+  color: #1a0f07;
+  border: none;
+  box-shadow: none;
+  transform: none;
 }
 
 .context-menu-button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 .context-menu-button.active {
-  background: rgba(213, 203, 176, 0.9);
-  border-color: #8b7355;
-  border-width: 2px;
-  color: #2a2a2a;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: rgba(160, 110, 50, 0.2);
+  color: #1a0f07;
   font-weight: 600;
 }
 
 /* Extra compact buttons for note menus */
 .unified-context-menu.compact.note-menu .context-menu-button {
-  padding: 3px 5px;
+  padding: 4px 6px;
   margin: 1px 0;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .context-menu-button:focus {
   outline: none;
-  border-color: #8b7355;
-  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.3);
+  background: rgba(160, 110, 50, 0.16);
 }
 
 .context-menu-input:focus {
@@ -441,73 +472,71 @@
 
 .context-menu-button.danger,
 .context-menu-button.danger-action {
-  background: rgba(255, 230, 230, 0.8);
-  border-color: #b22222;
-  color: #8b3a2e;
+  background: transparent;
+  color: #991b1b;
 }
 
-.context-menu-button.danger:hover:not(:disabled) {
-  background: rgba(255, 204, 204, 0.9);
-  border-color: #b22222;
+.context-menu-button.danger .menu-icon-wrapper,
+.context-menu-button.danger-action .menu-icon-wrapper {
+  color: #dc2626;
+}
+
+.context-menu-button.danger:hover:not(:disabled),
+.context-menu-button.danger-action:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.12);
+  color: #7f1d1d;
+  border: none;
+  box-shadow: none;
 }
 
 .context-menu-button.heal {
-  background: rgba(230, 255, 230, 0.8);
-  border-color: #228b22;
-  color: #2e5a2e;
+  background: transparent;
+  color: #166534;
+}
+
+.context-menu-button.heal .menu-icon-wrapper {
+  color: #15803d;
 }
 
 .context-menu-button.heal:hover:not(:disabled) {
-  background: rgba(204, 255, 204, 0.9);
-  border-color: #228b22;
+  background: rgba(22, 101, 52, 0.12);
+  color: #14532d;
+  border: none;
+  box-shadow: none;
 }
 
 .context-menu-button.debug {
-  background: #fff2cc;
-  border-color: #daa520;
+  background: transparent;
   color: #8b7355;
   padding: 4px 6px;
 }
 
 .context-menu-button.debug:hover:not(:disabled) {
-  background: #ffe6aa;
-  border-color: #daa520;
+  background: rgba(218, 165, 32, 0.15);
 }
 
-/* Enhanced Submenu button styling */
-.context-menu-group .submenu .context-menu-button {
-  background: linear-gradient(145deg, rgba(248, 244, 230, 0.95) 0%, rgba(237, 228, 211, 0.95) 100%) !important;
-  border: 2px solid rgba(139, 115, 85, 0.4) !important;
-  margin: 4px 0;
-  border-radius: 6px;
-  width: 100%;
-  padding: 10px 14px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+.menu-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #8c653f;
+  font-size: 13px;
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
-.context-menu-group .submenu .context-menu-button:hover:not(:disabled) {
-  background: linear-gradient(145deg, rgba(237, 228, 211, 0.95) 0%, rgba(232, 220, 198, 0.95) 100%) !important;
-  border-color: rgba(139, 115, 85, 0.6) !important;
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 2px 8px rgba(139, 69, 19, 0.2);
+.context-menu-button:hover:not(:disabled) .menu-icon-wrapper {
+  color: #5c3514;
+  transform: scale(1.1);
 }
 
-.context-menu-group .submenu .context-menu-button.active {
-  background: linear-gradient(145deg, rgba(212, 197, 176, 0.95) 0%, rgba(196, 180, 153, 0.95) 100%) !important;
-  border-color: rgba(90, 30, 18, 0.7) !important;
-  border-width: 3px !important;
-}
-
-.context-menu-group .submenu .context-menu-button.danger:hover:not(:disabled) {
-  background: linear-gradient(145deg, rgba(255, 204, 204, 0.95) 0%, rgba(255, 170, 170, 0.95) 100%) !important;
-  border-color: rgba(178, 34, 52, 0.6) !important;
-}
-
-.context-menu-group .submenu .context-menu-button.heal:hover:not(:disabled) {
-  background: linear-gradient(145deg, rgba(204, 255, 204, 0.95) 0%, rgba(170, 255, 170, 0.95) 100%) !important;
-  border-color: rgba(34, 139, 34, 0.6) !important;
+.menu-label-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Enhanced Icon styling */
@@ -539,8 +568,8 @@
 /* Separator */
 .context-menu-separator {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(160, 140, 112, 0.6), transparent);
-  margin: 8px 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(156, 131, 101, 0.45) 15%, rgba(156, 131, 101, 0.45) 85%, transparent 100%);
+  margin: 4px 4px;
   position: relative;
 }
 
@@ -691,32 +720,6 @@
 }
 
 .unified-context-menu .menu-buttons button:hover {
-  background: rgba(213, 203, 176, 0.8);
-  border-color: #8b7355;
-  color: #2a2a2a;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Context menu button styling (for buttons with context-menu-button class) */
-.unified-context-menu .context-menu-button {
-  background: rgba(240, 230, 210, 0.6);
-  border: 1px solid rgba(160, 140, 112, 0.5);
-  color: #3a3a3a;
-  padding: 6px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 10px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  text-align: left;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.unified-context-menu .context-menu-button:hover:not(:disabled) {
   background: rgba(213, 203, 176, 0.8);
   border-color: #8b7355;
   color: #2a2a2a;

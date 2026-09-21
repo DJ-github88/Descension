@@ -191,11 +191,12 @@ export function resolveWallMountPlacement({
   elevationData,
   gridSystem,
   maxDistance,
-  snapToWall = false
+  snapToWall = true
 } = {}) {
   if (!objectDef) return null;
+  if (snapToWall === false) return null;
   const isWallMountable = !!objectDef.wallMountable;
-  const isWallSideSnap = !!(objectDef.wallSideSnap || (snapToWall && objectDef.allowWallSideSnap !== false));
+  const isWallSideSnap = !!(objectDef.wallSideSnap && snapToWall);
   if (!isWallMountable && !isWallSideSnap) return null;
 
   const objDepth = isWallSideSnap && !isWallMountable
@@ -252,12 +253,22 @@ export function resolveWallMountDragPatch({
   gridOffsetY,
   elevationData,
   gridSystem,
-  snapToWall = false
+  snapToWall = true
 } = {}) {
   if (!objectDef || !object || object.parentObjectId) return null;
   const isWallMountable = !!objectDef.wallMountable;
-  const isWallSideSnap = !!(objectDef.wallSideSnap || (snapToWall && objectDef.allowWallSideSnap !== false));
+  const isWallSideSnap = !!(objectDef.wallSideSnap && snapToWall);
   if (!isWallMountable && !isWallSideSnap) return null;
+
+  if (snapToWall === false) {
+    if (!object.wallAttached) return null;
+    return {
+      wallAttached: false,
+      wallKey: undefined,
+      wallSide: undefined,
+      wallElevation: undefined
+    };
+  }
 
   const objDepth = isWallSideSnap && !isWallMountable
     ? (objectDef.size?.height || 1) * (gridSize || 50) * 0.5

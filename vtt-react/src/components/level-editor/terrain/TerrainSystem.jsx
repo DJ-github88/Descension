@@ -23,6 +23,17 @@ const grayscaleCache = {};
 const textureCache = {};
 const MAX_TEXTURE_CACHE_SIZE = 2000; // Limit cache to prevent memory issues
 
+// Variation pick for painted tiles: the stored per-tile variation (chosen when
+// the brush paints a type with multiple tile images) wins; legacy string tiles
+// fall back to a deterministic per-coordinate shuffle so a tile keeps its look.
+const resolveVariationIndex = (rawTerrain, axisA, axisB, variationCount) => {
+  if (!variationCount || variationCount <= 1) return 0;
+  if (rawTerrain && typeof rawTerrain === 'object' && Number.isFinite(rawTerrain.variation)) {
+    return Math.abs(Math.trunc(rawTerrain.variation)) % variationCount;
+  }
+  return Math.abs((axisA * 7) ^ (axisB * 13)) % variationCount;
+};
+
 // Hypsometric elevation tint: raised ground warms up, pits cool/darken.
 // Alpha scales with |level| so multi-level plateaus read clearly.
 const getElevationTint = (level) => {
@@ -591,17 +602,17 @@ const TerrainSystem = () => {
             if (terrainData_tile) {
               if (typeof terrainData_tile === 'string') {
                 terrainType = terrainData_tile;
-                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                variationIndex = terrainDef?.tileVariations?.length > 0
-                  ? Math.abs((q * 7) ^ (r * 13)) % terrainDef.tileVariations.length
-                  : 0;
               } else {
                 terrainType = terrainData_tile.type;
-                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                variationIndex = terrainDef?.tileVariations?.length > 0 ? Math.abs((q * 7) ^ (r * 13)) % terrainDef.tileVariations.length : 0;
               }
               terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
               if (!terrain) continue;
+              variationIndex = resolveVariationIndex(
+                terrainData_tile,
+                q,
+                r,
+                terrain.tileVariations?.length || 0
+              );
             }
 
             const worldPos = gridSystem.hexToWorld(q, r);
@@ -858,19 +869,18 @@ const TerrainSystem = () => {
           let terrainType, variationIndex;
           if (typeof terrainData_tile === 'string') {
             terrainType = terrainData_tile;
-            const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-            // Deterministic shuffle based on coordinates
-            variationIndex = terrain?.tileVariations?.length > 0 
-              ? Math.abs((q * 7) ^ (r * 13)) % terrain.tileVariations.length 
-              : 0;
           } else {
             terrainType = terrainData_tile.type;
-            const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-            variationIndex = terrain?.tileVariations?.length > 0 ? Math.abs((q * 7) ^ (r * 13)) % terrain.tileVariations.length : 0;
           }
 
           const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
           if (!terrain) continue;
+          variationIndex = resolveVariationIndex(
+            terrainData_tile,
+            q,
+            r,
+            terrain.tileVariations?.length || 0
+          );
 
           const worldPos = gridSystem.hexToWorld(q, r);
 
@@ -903,29 +913,31 @@ const TerrainSystem = () => {
             maxY: Math.max(...corners.map(c => c.y))
           };
 
-          if (terrain.tileVariations && terrain.tileVariations.length > 0) {
-            const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
-            if (!imageCache[tileVariationPath]) {
-              const img = new Image();
-              pendingImageLoadsRef.current++;
-              img.onload = () => batchTerrainVersionBump();
-              img.src = `${tileVariationPath}?v=35`;
-              imageCache[tileVariationPath] = img;
+          if (!terrain3DEnabled) {
+            if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+              const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+              if (!imageCache[tileVariationPath]) {
+                const img = new Image();
+                pendingImageLoadsRef.current++;
+                img.onload = () => batchTerrainVersionBump();
+                img.src = `${tileVariationPath}?v=35`;
+                imageCache[tileVariationPath] = img;
+              }
+              const img = imageCache[tileVariationPath];
+              if (img.complete && img.naturalWidth > 0) {
+                targetCtx.save();
+                const centerX = hexBounds.minX + (hexBounds.maxX - hexBounds.minX) / 2;
+                const centerY = hexBounds.minY + (hexBounds.maxY - hexBounds.minY) / 2;
+                targetCtx.translate(centerX, centerY);
+                
+                // Deterministic rotation/flip disabled as per user request
+                
+                targetCtx.drawImage(img, -(hexBounds.maxX - hexBounds.minX) / 2, -(hexBounds.maxY - hexBounds.minY) / 2, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
+                targetCtx.restore();
+              }
+            } else {
+              drawTerrainTexture(targetCtx, terrain, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY, q, r);
             }
-            const img = imageCache[tileVariationPath];
-            if (img.complete && img.naturalWidth > 0) {
-              targetCtx.save();
-              const centerX = hexBounds.minX + (hexBounds.maxX - hexBounds.minX) / 2;
-              const centerY = hexBounds.minY + (hexBounds.maxY - hexBounds.minY) / 2;
-              targetCtx.translate(centerX, centerY);
-              
-              // Deterministic rotation/flip disabled as per user request
-              
-              targetCtx.drawImage(img, -(hexBounds.maxX - hexBounds.minX) / 2, -(hexBounds.maxY - hexBounds.minY) / 2, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY);
-              targetCtx.restore();
-            }
-          } else {
-            drawTerrainTexture(targetCtx, terrain, hexBounds.minX, hexBounds.minY, hexBounds.maxX - hexBounds.minX, hexBounds.maxY - hexBounds.minY, q, r);
           }
           targetCtx.restore();
         }
@@ -983,17 +995,17 @@ const TerrainSystem = () => {
             if (terrainData_tile) {
               if (typeof terrainData_tile === 'string') {
                 terrainType = terrainData_tile;
-                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                variationIndex = terrainDef?.tileVariations?.length > 0
-                  ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrainDef.tileVariations.length
-                  : 0;
               } else {
                 terrainType = terrainData_tile.type;
-                const terrainDef = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-                variationIndex = terrainDef?.tileVariations?.length > 0 ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrainDef.tileVariations.length : 0;
               }
               terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
               if (!terrain) continue;
+              variationIndex = resolveVariationIndex(
+                terrainData_tile,
+                gridX,
+                gridY,
+                terrain.tileVariations?.length || 0
+              );
             }
 
             const worldX = (gridX * gridSize) + gridOffsetX;
@@ -1226,19 +1238,18 @@ const TerrainSystem = () => {
           let terrainType, variationIndex;
           if (typeof terrainData_tile === 'string') {
             terrainType = terrainData_tile;
-            const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-            // Deterministic shuffle based on coordinates
-            variationIndex = terrain?.tileVariations?.length > 0 
-              ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrain.tileVariations.length 
-              : 0;
           } else {
             terrainType = terrainData_tile.type;
-            const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
-            variationIndex = terrain?.tileVariations?.length > 0 ? Math.abs((gridX * 7) ^ (gridY * 13)) % terrain.tileVariations.length : 0;
           }
 
           const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
           if (!terrain) continue;
+          variationIndex = resolveVariationIndex(
+            terrainData_tile,
+            gridX,
+            gridY,
+            terrain.tileVariations?.length || 0
+          );
 
           const worldX = (gridX * gridSize) + gridOffsetX;
           const worldY = (gridY * gridSize) + gridOffsetY;
@@ -1255,32 +1266,34 @@ const TerrainSystem = () => {
           const tileX = (worldX - viewCameraX) * viewZoom + targetWidth / 2;
           const tileY = (worldY - viewCameraY) * viewZoom + targetHeight / 2;
 
-          if (terrain.tileVariations && terrain.tileVariations.length > 0) {
-            const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
-            if (!imageCache[tileVariationPath]) {
-              const img = new Image();
-              pendingImageLoadsRef.current++;
-              img.onload = () => batchTerrainVersionBump();
-              img.src = `${tileVariationPath}?v=35`;
-              imageCache[tileVariationPath] = img;
+          if (!terrain3DEnabled) {
+            if (terrain.tileVariations && terrain.tileVariations.length > 0) {
+              const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
+              if (!imageCache[tileVariationPath]) {
+                const img = new Image();
+                pendingImageLoadsRef.current++;
+                img.onload = () => batchTerrainVersionBump();
+                img.src = `${tileVariationPath}?v=35`;
+                imageCache[tileVariationPath] = img;
+              }
+              const img = imageCache[tileVariationPath];
+              if (img.complete && img.naturalWidth > 0) {
+                targetCtx.save();
+                targetCtx.translate(tileX + tileSize / 2, tileY + tileSize / 2);
+                
+                // Deterministic rotation/flip disabled as per user request
+                
+                targetCtx.drawImage(img, -tileSize / 2, -tileSize / 2, tileSize, tileSize);
+                targetCtx.restore();
+              }
+            } else {
+              drawTerrainTexture(targetCtx, terrain, tileX, tileY, tileSize, tileSize, gridX, gridY);
             }
-            const img = imageCache[tileVariationPath];
-            if (img.complete && img.naturalWidth > 0) {
-              targetCtx.save();
-              targetCtx.translate(tileX + tileSize / 2, tileY + tileSize / 2);
-              
-              // Deterministic rotation/flip disabled as per user request
-              
-              targetCtx.drawImage(img, -tileSize / 2, -tileSize / 2, tileSize, tileSize);
-              targetCtx.restore();
-            }
-          } else {
-            drawTerrainTexture(targetCtx, terrain, tileX, tileY, tileSize, tileSize, gridX, gridY);
           }
         }
       }
     }
-  }, [terrainData, elevationData, rampData, drawingLayers, gridSize, gridType, gridOffsetX, gridOffsetY, isGMMode, viewingFromToken, visibleArea]);
+  }, [terrainData, elevationData, rampData, drawingLayers, gridSize, gridType, gridOffsetX, gridOffsetY, isGMMode, viewingFromToken, visibleArea, terrain3DEnabled]);
 
   // Render terrain to an offscreen buffer
   const renderToBuffer = useCallback(() => {

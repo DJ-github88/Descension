@@ -7,6 +7,7 @@ import './styles/TerrainTools.css';
 const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
     const [selectedTerrainType, setSelectedTerrainType] = useState(settings.selectedTerrainType || 'grass');
     const [brushSize, setBrushSize] = useState(settings.brushSize || 1);
+    const [failedImages, setFailedImages] = useState(() => new Set());
 
     // Initialize settings with default terrain type and brush size on mount
     useEffect(() => {
@@ -23,12 +24,12 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         natural: {
             name: 'Natural Terrain',
             icon: 'Nature/Nature Natural',
-            terrains: ['grass', 'dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone']
+            terrains: ['grass', 'dirt', 'rocky_dirt', 'overgrown_dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone', 'cobblestone_road', 'stone_path']
         },
         dungeon: {
             name: 'Dungeon Floors',
             icon: 'General/Lockpick',
-            terrains: ['dungeon_floor', 'marble_floor', 'wooden_floor', 'crystal_floor', 'gold_floor']
+            terrains: ['dungeon_floor', 'weathered_stone', 'grate_floor', 'wooden_floor', 'wooden_planks', 'dark_wood', 'marble_floor', 'crystal_floor', 'gold_floor']
         },
         difficult: {
             name: 'Difficult Terrain',
@@ -38,7 +39,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         hazard: {
             name: 'Hazardous Terrain',
             icon: 'Fire/Fiery Skull',
-            terrains: ['lava', 'acid', 'pit', 'abyss']
+            terrains: ['lava', 'acid', 'pit', 'abyss', 'spike_trap']
         }
     };
 
@@ -185,7 +186,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                             key={terrainId}
                                             className={`terrain-tile ${selectedTerrainType === terrainId ? 'active' : ''}`}
                                             onClick={() => handleTerrainSelect(terrainId)}
-                                            title={`${terrain.name} - ${terrain.description}`}
+                                            title={`${terrain.name} - ${terrain.description}${terrain.tileVariations?.length > 1 ? ` (${terrain.tileVariations.length} tile images)` : ''}`}
                                             style={{
                                                 border: selectedTerrainType === terrainId
                                                     ? '3px solid #d4af37'
@@ -193,28 +194,18 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                             }}
                                         >
                                             <div className="terrain-preview">
-                                                {/* Show tile image if available, otherwise show color */}
-                                                {tileImage ? (
+                                                {/* Show tile image if available and not failed, otherwise show color */}
+                                                {tileImage && !failedImages.has(terrainId) ? (
                                                     <img
                                                         src={`${tileImage}?v=35`}
                                                         alt={terrain.name}
                                                         className="terrain-tile-image"
-                                                        onError={(e) => {
-                                                            // Fallback to color if image fails to load
-                                                            e.target.style.display = 'none';
-                                                            const preview = e.target.parentElement;
-                                                            preview.style.backgroundColor = terrain.color;
-                                                            // Add fallback div with terrain type class
-                                                            const fallback = document.createElement('div');
-                                                            fallback.className = `terrain-color-fallback terrain-type-${terrainId}`;
-                                                            fallback.style.backgroundColor = terrain.color;
-                                                            fallback.style.position = 'absolute';
-                                                            fallback.style.top = '0';
-                                                            fallback.style.left = '0';
-                                                            fallback.style.width = '100%';
-                                                            fallback.style.height = '100%';
-                                                            fallback.style.zIndex = '0';
-                                                            preview.appendChild(fallback);
+                                                        onError={() => {
+                                                            setFailedImages(prev => {
+                                                                const next = new Set(prev);
+                                                                next.add(terrainId);
+                                                                return next;
+                                                            });
                                                         }}
                                                     />
                                                 ) : (
@@ -223,10 +214,15 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                                         style={{ backgroundColor: terrain.color }}
                                                     />
                                                 )}
-                                                <span className="terrain-name">{terrain.name}</span>
+                                                <span className="terrain-name">{terrain.shortName || terrain.name}</span>
+                                                {terrain.tileVariations?.length > 1 && (
+                                                    <span className="terrain-variant-count">
+                                                        {terrain.tileVariations.length}
+                                                    </span>
+                                                )}
                                                 {terrain.movementCost > 1 && (
                                                     <span className="movement-cost">
-                                                        {terrain.movementCost === 99 ? '∞' : `� - ${terrain.movementCost}`}
+                                                        {terrain.movementCost === 99 ? '∞' : `×${terrain.movementCost}`}
                                                     </span>
                                                 )}
                                                 {terrain.damage && (

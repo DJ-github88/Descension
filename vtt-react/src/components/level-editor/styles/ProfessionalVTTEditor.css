@@ -27,7 +27,185 @@
     overflow: hidden;
     min-height: 0;
     max-height: 100%;
+    gap: 0;
+}
+
+/* Main column: panel bar + tool settings */
+.vtt-editor-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+}
+
+/* Panel bar - identifies the active tab/tool and hosts the layers toggle */
+.vtt-panel-bar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    /* Right padding clears the floating window close button that sits over the
+       content's top-right corner. */
+    padding: 7px 36px 7px 12px;
+    background: linear-gradient(180deg, rgba(160, 140, 112, 0.3), rgba(160, 140, 112, 0.12));
+    border-bottom: 1px solid rgba(160, 140, 112, 0.55);
+}
+
+/* The editor is a dense tool UI: global touch-target rules (tablet media
+   query in index.css) must not inflate these compact controls. */
+.vtt-panel-bar button,
+.vtt-layer-panel button {
+    min-height: 0;
+}
+
+.vtt-panel-bar-title {
+    display: flex;
+    align-items: center;
     gap: 8px;
+    min-width: 0;
+}
+
+.vtt-panel-bar-icon {
+    font-size: 12px;
+    color: #7a3b2e;
+}
+
+.vtt-panel-bar-name {
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #5a1e12;
+    white-space: nowrap;
+}
+
+.vtt-panel-bar-sep {
+    width: 1px;
+    height: 13px;
+    background: rgba(122, 59, 46, 0.3);
+    flex-shrink: 0;
+}
+
+.vtt-panel-bar-tool {
+    font-size: 11px;
+    font-style: italic;
+    color: #6b5a42;
+    text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vtt-layers-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #5a3a2a;
+    background: linear-gradient(180deg, #f8f5ec, #ece6d9);
+    border: 1px solid #a08c70;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.vtt-layers-toggle:hover {
+    border-color: var(--my-gold, #d4af37);
+    color: var(--my-brown-darkest, #2d1810);
+}
+
+.vtt-layers-toggle.active {
+    background: linear-gradient(180deg, var(--my-gold, #d4af37), #b8941f);
+    border-color: #7a3b2e;
+    color: #fff8e1;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.vtt-layers-toggle-count {
+    min-width: 16px;
+    padding: 0 4px;
+    font-size: 9px;
+    line-height: 14px;
+    text-align: center;
+    background: rgba(122, 59, 46, 0.15);
+    border-radius: 8px;
+}
+
+.vtt-layers-toggle.active .vtt-layers-toggle-count {
+    background: rgba(45, 24, 16, 0.3);
+}
+
+/* Panel-bar action cluster (lock-all + layers) */
+.vtt-panel-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.vtt-lock-all-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #5a3a2a;
+    background: linear-gradient(180deg, #f8f5ec, #ece6d9);
+    border: 1px solid #a08c70;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.vtt-lock-all-toggle:hover:not(:disabled) {
+    border-color: var(--my-gold, #d4af37);
+    color: var(--my-brown-darkest, #2d1810);
+}
+
+.vtt-lock-all-toggle.partial {
+    border-color: rgba(245, 158, 11, 0.75);
+    color: #92600a;
+}
+
+.vtt-lock-all-toggle.active {
+    background: linear-gradient(180deg, var(--my-gold, #d4af37), #b8941f);
+    border-color: #7a3b2e;
+    color: #fff8e1;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.vtt-lock-all-toggle:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.vtt-lock-all-toggle-count {
+    min-width: 26px;
+    padding: 0 4px;
+    font-size: 9px;
+    line-height: 14px;
+    text-align: center;
+    background: rgba(122, 59, 46, 0.15);
+    border-radius: 8px;
+}
+
+.vtt-lock-all-toggle.active .vtt-lock-all-toggle-count {
+    background: rgba(45, 24, 16, 0.3);
 }
 
 /* Tool Palette - Left Panel */
@@ -69,7 +247,9 @@
     font-style: italic;
 }
 
-.tool-grid {
+/* Legacy palette grid (kept for the retired tool palette markup; the active
+   tool panels each define their own auto-fit .tool-grid). */
+.vtt-tool-palette .tool-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -132,16 +312,18 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Tool Settings - Full Width Panel */
+/* Tool Settings - Full Width */
 .vtt-tool-settings {
     flex: 1;
     padding: 16px;
     background: rgba(255, 255, 255, 0.3);
-    border-right: 2px solid #a08c70;
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    /* Keep a visible slim scrollbar: the palette (terrain types etc.) is taller
+       than the window, and with a hidden scrollbar the rest looked "missing". */
+    scrollbar-width: thin;
+    scrollbar-color: #a08c70 rgba(160, 140, 112, 0.18);
+    -ms-overflow-style: auto;
     margin-right: 0;
     position: relative;
     min-height: 0;
@@ -150,6 +332,26 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.vtt-tool-settings::-webkit-scrollbar {
+    display: block;
+    width: 9px;
+}
+
+.vtt-tool-settings::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.18);
+    border-radius: 5px;
+}
+
+.vtt-tool-settings::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 5px;
+    border: 2px solid rgba(240, 230, 210, 0.6);
+}
+
+.vtt-tool-settings::-webkit-scrollbar-thumb:hover {
+    background: #7a3b2e;
 }
 
 .vtt-tool-settings h4 {
@@ -265,31 +467,23 @@
     color: #f0e6d2;
 }
 
-.layer-panel-overlay-toggle {
-    position: absolute !important;
-    top: 8px !important;
-    right: 64px !important;
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 4px !important;
-    background: rgba(60, 30, 15, 0.9) !important;
-    border: 1px solid rgba(240, 230, 210, 0.5) !important;
-    color: #f0e6d2 !important;
-    font-size: 14px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    z-index: 10001 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 !important;
-    line-height: 1 !important;
+/* Scrim behind the layers drawer (click to dismiss) */
+.vtt-layers-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(45, 24, 16, 0.24);
+    z-index: 15;
+    animation: vtt-scrim-in 0.15s ease-out;
 }
 
-.layer-panel-overlay-toggle:hover {
-    background-color: rgba(240, 230, 210, 0.2) !important;
-    color: #fff !important;
-    border-color: #f0e6d2 !important;
+@keyframes vtt-scrim-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes vtt-drawer-in {
+    from { transform: translateX(26px); opacity: 0.4; }
+    to { transform: translateX(0); opacity: 1; }
 }
 
 
@@ -357,117 +551,192 @@
     text-align: center;
 }
 
-/* Layer Panel - Right Side (flex sibling, no longer absolute overlay) */
+/* Layer Panel - overlay drawer on the right edge of the editor content */
 .vtt-layer-panel {
-    width: 250px;
-    flex-shrink: 0;
-    background: rgba(240, 230, 210, 0.95);
-    padding: 16px;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(300px, 86%);
+    background: linear-gradient(180deg, #f8f4e6 0%, #f1e8d6 100%);
+    border-left: 2px solid #a08c70;
+    box-shadow: -10px 0 26px rgba(45, 24, 16, 0.28);
+    z-index: 16;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: vtt-drawer-in 0.18s ease-out;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
 }
 
 /* (collapsed state handled by conditional render, not CSS class) */
 
 .layer-panel-header {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
+    gap: 8px;
+    /* Right padding clears the floating window close button. */
+    padding: 10px 36px 10px 12px;
+    background: linear-gradient(180deg, rgba(160, 140, 112, 0.32), rgba(160, 140, 112, 0.14));
+    border-bottom: 2px solid #a08c70;
+}
+
+.layer-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.layer-panel-title i {
+    color: #7a3b2e;
+    font-size: 13px;
+}
+
+.layer-panel-header h4 {
+    margin: 0;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    white-space: nowrap;
+}
+
+.layer-panel-count {
+    padding: 1px 7px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #7a3b2e;
+    background: rgba(139, 69, 19, 0.1);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    border-radius: 9px;
+    white-space: nowrap;
 }
 
 .layer-panel-toggle {
-    background: rgba(122, 59, 46, 0.8);
-    border: 2px solid #7a3b2e;
-    border-radius: 4px;
-    color: #f0e6d2;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    background: rgba(122, 59, 46, 0.12);
+    border: 1px solid rgba(122, 59, 46, 0.35);
+    color: #7a3b2e;
     cursor: pointer;
-    padding: 4px 8px;
-    font-size: 16px;
-    transition: all 0.2s ease;
-    min-width: 30px;
-    height: 30px;
+    font-size: 11px;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .layer-panel-toggle:hover {
-    background: rgba(122, 59, 46, 1);
-    transform: scale(1.05);
-}
-
-
-.vtt-layer-panel h4 {
-    margin: 0;
-    font-size: 14px;
-    color: #7a3b2e;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #a08c70;
-    padding-bottom: 8px;
-    text-align: center;
-    flex: 1;
-    /* Ensure crisp text rendering */
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background: rgba(122, 59, 46, 0.9);
+    border-color: #7a3b2e;
+    color: #f8f4e6;
 }
 
 .layer-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 20px;
-    flex: 1;
+    gap: 4px;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #a08c70 rgba(160, 140, 112, 0.15);
+}
+
+.layer-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.layer-list::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.15);
+    border-radius: 4px;
+}
+
+.layer-list::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 4px;
+    border: 2px solid rgba(248, 244, 230, 0.8);
 }
 
 .layer-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 12px;
+    gap: 8px;
+    padding: 7px 9px;
     background: rgba(255, 255, 255, 0.4);
-    border: 2px solid transparent;
-    border-radius: 4px;
+    border: 1px solid rgba(160, 140, 112, 0.4);
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .layer-item:hover {
-    background: rgba(255, 255, 255, 0.6);
-    border-color: #a08c70;
+    background: #fffdf7;
+    border-color: rgba(212, 175, 55, 0.7);
 }
 
 .layer-item.active {
-    background: rgba(212, 175, 55, 0.4);
-    border-color: #7a3b2e;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.34), rgba(212, 175, 55, 0.18));
+    border-color: var(--my-gold, #d4af37);
+    box-shadow: 0 1px 3px rgba(122, 59, 46, 0.18);
+}
+
+.layer-kind {
+    width: 21px;
+    height: 21px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #7a3b2e;
+    background: rgba(122, 59, 46, 0.1);
+    flex-shrink: 0;
+}
+
+.layer-item.active .layer-kind {
+    background: rgba(122, 59, 46, 0.85);
+    color: #f8f4e6;
 }
 
 .layer-name {
-    font-size: 12px;
-    font-weight: bold;
+    flex: 1;
+    min-width: 0;
+    font-size: 11.5px;
+    font-weight: 700;
     color: #5a3a2a;
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    /* Ensure crisp text rendering */
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.layer-item.layer-muted .layer-name,
+.layer-item.layer-muted .layer-kind {
+    opacity: 0.45;
 }
 
 .layer-controls {
     display: flex;
-    gap: 6px;
+    gap: 3px;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+}
+
+.layer-item:hover .layer-controls,
+.layer-item.active .layer-controls {
+    opacity: 1;
 }
 
 .layer-visibility,
@@ -475,34 +744,70 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 14px;
-    padding: 4px;
-    border-radius: 3px;
-    transition: all 0.2s ease;
+    font-size: 11.5px;
+    padding: 3px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+    color: #6b5a42;
 }
 
 .layer-visibility:hover,
 .layer-lock:hover {
-    background: rgba(122, 59, 46, 0.2);
+    background: rgba(122, 59, 46, 0.18);
+    color: #5a1e12;
 }
 
-.layer-actions {
+.layer-visibility.hidden {
+    color: #a08c70;
+}
+
+.layer-lock.locked {
+    color: #b8860b;
+}
+
+.layer-panel-footer {
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: auto;
-    padding-top: 16px;
-    border-top: 1px solid #a08c70;
+    padding: 10px 12px;
+    border-top: 1px solid rgba(160, 140, 112, 0.55);
+    background: rgba(160, 140, 112, 0.08);
 }
 
-.layer-actions>div:first-child {
-    display: flex;
-    gap: 8px;
+.layer-panel-hint {
+    font-size: 10px;
+    font-style: italic;
+    color: #8b7355;
+}
+
+.layer-clear-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+    padding: 7px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #fff;
+    background: linear-gradient(180deg, #dc3545, #b02a37);
+    border: 1px solid #a02633;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 2px rgba(139, 0, 0, 0.25);
+}
+
+.layer-clear-btn:hover {
+    background: linear-gradient(180deg, #e04b59, #c03240);
 }
 
 .room-status {
@@ -696,14 +1001,8 @@
     .vtt-tool-palette {
         width: 240px;
     }
-
-    .vtt-layer-panel {
-        width: 200px;
-    }
-
-    .tool-grid {
-        grid-template-columns: 1fr;
-    }
+    /* Tool grids keep their own auto-fit columns; the window is freely
+       resizable, so collapsing them to one column here wasted the panel. */
 }
 
 /* Performance Optimizations - Fixed text rendering */
@@ -714,9 +1013,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbars in all editor panels */
+/* Hide scrollbars in all editor panels (except the main tool settings panel,
+   which keeps a slim scrollbar so off-screen sections are discoverable) */
 .vtt-tool-palette::-webkit-scrollbar,
-.vtt-tool-settings::-webkit-scrollbar,
 .vtt-layer-panel::-webkit-scrollbar,
 .wall-tools::-webkit-scrollbar,
 .terrain-tools::-webkit-scrollbar,

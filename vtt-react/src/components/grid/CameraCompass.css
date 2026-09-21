@@ -1,15 +1,35 @@
-/* CameraCompass - parchment-styled local camera orientation control */
-.camera-compass {
+/* CameraCompass - parchment-styled local camera orientation control.
+   Selectors are deliberately qualified with `input.camera-compass__*[type=...]`
+   so leaked global form rules (e.g. input[type="range"] in
+   ClutterLootGenerator.css, input[type="number"] in ChanceOnHitConfig.css)
+   cannot hijack the panel. */
+
+/* Dock: stacks the panel above the Camera toggle pill, which itself sits
+   directly above the Dialogue toggle in the bottom-right corner. */
+.camera-compass-dock {
   position: fixed;
-  right: 16px;
-  bottom: 128px;
+  right: 20px;
+  bottom: 88px;
   z-index: 300;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 10px 7px;
-  border-radius: 8px;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.camera-compass-dock > * {
+  pointer-events: auto;
+}
+
+.camera-compass {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+  width: 188px;
+  padding: 10px 12px 9px;
+  border-radius: 10px;
   background:
     linear-gradient(180deg, #efe3c8 0%, #e3d5b4 55%, #d9c8a4 100%);
   border: 2px solid #7a3b2e;
@@ -23,11 +43,97 @@
   font-family: inherit;
 }
 
-.camera-compass * {
-  pointer-events: auto;
+.camera-compass__title-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18px;
+}
+
+.camera-compass__minimize {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  /* Leaked global button rules set min-height: 40px - keep this a small chip. */
+  min-height: 0 !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #7a3b2e;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #f6ecd6 0%, #e2d2ae 100%);
+  color: #5d2d22;
+  font-size: 9px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+
+.camera-compass__minimize:hover {
+  background: linear-gradient(180deg, #fdf5e4 0%, #eadcb9 100%);
+}
+
+.camera-compass__minimize:active {
+  transform: translateY(-50%) scale(0.94);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* Collapsed-state pill - mirrors the Dialogue toggle beside/below it. */
+.camera-compass-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 2px solid #8b7355;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+  color: #2c1810;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.camera-compass-toggle:hover {
+  background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a8 100%);
+  border-color: #7a3b2e;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.camera-compass-toggle.active {
+  background: linear-gradient(180deg, #f4d03f, #d4af37);
+  border-color: #b8860b;
+  color: #2d1810;
+}
+
+.camera-compass-toggle i {
+  font-size: 16px;
+}
+
+.camera-compass-toggle__text {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .camera-compass__title {
+
+  text-align: center;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.4px;
@@ -36,19 +142,78 @@
   text-shadow: 0 1px 0 rgba(255, 248, 230, 0.8);
 }
 
-.camera-compass__row {
+/* Segmented controls (projection mode, tilt presets) */
+.camera-compass__segmented {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  width: 100%;
+  border: 1.5px solid #7a3b2e;
+  border-radius: 6px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f2e7cd 0%, #ddcda6 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.camera-compass__btn {
-  width: 30px;
-  height: 30px;
+.camera-compass__mode-btn,
+.camera-compass__tilt-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 0;
+  border: 0;
+  border-right: 1.5px solid rgba(122, 59, 46, 0.55);
+  background: transparent;
+  color: #5d2d22;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.camera-compass__mode-btn:last-child,
+.camera-compass__tilt-btn:last-child {
+  border-right: 0;
+}
+
+.camera-compass__mode-btn:hover,
+.camera-compass__tilt-btn:hover {
+  background: rgba(255, 252, 240, 0.55);
+}
+
+.camera-compass__mode-btn:active,
+.camera-compass__tilt-btn:active {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.camera-compass__mode-btn.active,
+.camera-compass__tilt-btn.active {
+  background: linear-gradient(180deg, #c9a24a 0%, #b08d3e 100%);
+  color: #fff8e6;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+/* Rotate row: turn left, dial, turn right */
+.camera-compass__rotate {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  gap: 12px;
+  padding: 1px 0;
+}
+
+.camera-compass__btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
   border: 1.5px solid #7a3b2e;
   background: linear-gradient(180deg, #f6ecd6 0%, #e2d2ae 100%);
   color: #5d2d22;
@@ -70,8 +235,8 @@
 }
 
 .camera-compass__dial {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   border: 2px solid #b08d3e;
   background:
@@ -106,39 +271,160 @@
   color: #7d4a33;
 }
 
-.camera-compass__tilts {
+/* Slider blocks: label + readout chip on top, full-width slider below */
+.camera-compass__control {
   display: flex;
-  gap: 4px;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
 }
 
-.camera-compass__tilt-btn {
-  padding: 3px 7px;
-  border-radius: 5px;
+.camera-compass__control-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 22px;
+}
+
+.camera-compass__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #7d4a33;
+}
+
+.camera-compass__value-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1px;
+  height: 22px;
+  min-width: 52px;
+  padding: 0 6px;
   border: 1.5px solid #7a3b2e;
-  background: linear-gradient(180deg, #f2e7cd 0%, #ddcda6 100%);
+  border-radius: 5px;
+  background: #f6ecd6;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.camera-compass__value {
+  font-size: 11px;
+  font-weight: 700;
   color: #5d2d22;
+  line-height: 1;
+}
+
+.camera-compass__unit {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.4px;
+  color: #7d4a33;
+  line-height: 1;
+}
+
+/* Component-scoped !important beats the leaked global form input rules. */
+input.camera-compass__number[type='number'] {
+  width: 30px !important;
+  flex: 0 0 30px;
+  height: 18px !important;
+  min-height: 0;
+  padding: 0 !important;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 11px !important;
+  font-weight: 700;
+  text-align: right;
+  color: #5d2d22;
+  box-shadow: none;
+  outline: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input.camera-compass__number[type='number']::-webkit-outer-spin-button,
+input.camera-compass__number[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Track is painted on the input itself so the browser centers the thumb
+   for us - no fragile margin-top math across webkit/moz. */
+input.camera-compass__slider[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100% !important;
+  height: 8px !important;
+  margin: 3px 0 !important;
+  padding: 0 !important;
+  border: 1.5px solid #a5844f;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #f6ecd6 0%, #ddcda6 100%) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.28);
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  touch-action: none;
+  outline: none;
 }
 
-.camera-compass__tilt-btn:hover {
-  background: linear-gradient(180deg, #fbf2de 0%, #e6d8b3 100%);
+input.camera-compass__slider[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #7a3b2e;
+  background: radial-gradient(circle at 35% 28%, #fbf3df 0%, #e2d2ae 60%, #c9b07f 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
+  cursor: grab;
 }
 
-.camera-compass__tilt-btn.active {
-  background: linear-gradient(180deg, #c9a24a 0%, #b08d3e 100%);
-  color: #fff8e6;
-  border-color: #8a6a25;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+input.camera-compass__slider[type='range']:active::-webkit-slider-thumb {
+  cursor: grabbing;
+}
+
+input.camera-compass__slider[type='range']::-moz-range-track {
+  height: 5px;
+  border-radius: 3px;
+  background: transparent;
+}
+
+input.camera-compass__slider[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid #7a3b2e;
+  background: radial-gradient(circle at 35% 28%, #fbf3df 0%, #e2d2ae 60%, #c9b07f 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
+  cursor: grab;
+}
+
+input.camera-compass__slider[type='range']:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.9);
+  outline-offset: 2px;
 }
 
 .camera-compass__hint {
-  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding-top: 1px;
+  font-size: 8.5px;
   font-weight: 600;
   letter-spacing: 0.3px;
   color: #8a6a4a;
   white-space: nowrap;
+}
+
+.camera-compass__keys {
+  padding: 0 4px;
+  border: 1px solid rgba(122, 59, 46, 0.45);
+  border-radius: 3px;
+  background: rgba(255, 250, 235, 0.55);
+  color: #6b3226;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }

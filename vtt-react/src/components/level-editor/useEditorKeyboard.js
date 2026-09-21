@@ -91,6 +91,25 @@ export const useEditorKeyboard = ({
                     e.preventDefault();
                     handleToolSelect('select');
                     break;
+                case 'l': {
+                    // L = freeze/unfreeze the selected object, Shift+L = every object.
+                    e.preventDefault();
+                    const editorState = useLevelEditorStore.getState();
+                    const selectedEnvObj = (editorState.environmentalObjects || []).find(o => o.selected);
+                    if (e.shiftKey) {
+                        editorState.setAllEnvironmentalObjectsLocked(
+                            !(editorState.environmentalObjects || []).every(o => o.locked),
+                            getExplicitCurrentMapId()
+                        );
+                    } else if (selectedEnvObj) {
+                        editorState.setEnvironmentalObjectLocked(
+                            selectedEnvObj.id,
+                            !selectedEnvObj.locked,
+                            getExplicitCurrentMapId()
+                        );
+                    }
+                    break;
+                }
                 case 'delete':
                 case 'backspace':
                     e.preventDefault();

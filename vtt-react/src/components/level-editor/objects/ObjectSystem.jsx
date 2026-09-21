@@ -6,7 +6,7 @@ import useMapStore from '../../../store/mapStore';
 import useChatStore from '../../../store/chatStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
-import { getObjectScreenBounds, getObjectSelectionHandles } from '../../../utils/ObjectSelectionBounds';
+import { getObjectScreenBounds, getObjectSelectionHandles, getObjectLockBadgePosition, LOCK_BADGE_RADIUS } from '../../../utils/ObjectSelectionBounds';
 import { isWorldPointOccluded } from '../../../utils/WallOcclusion';
 import { isPointInPolygon } from '../../../utils/VisibilityCalculations';
 import UnifiedContextMenu from '../UnifiedContextMenu';
@@ -69,13 +69,63 @@ export const PROFESSIONAL_OBJECTS = {
     // ===== 3D Structures & Architecture =====
     wall_doorway: {
         id: 'wall_doorway',
-        name: '3D Wooden Door',
+        name: '3D Arched Stone Doorway',
         image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
         description: 'Interactive 3D swinging wooden door with stone archway',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
         blocksLineOfSight: true
+    },
+    wooden_door: {
+        id: 'wooden_door',
+        name: '3D Wooden Wall Door',
+        image: null,
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D planked wooden door with arched transom',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: true
+    },
+    town_door: {
+        id: 'town_door',
+        name: '3D Town Stucco Door',
+        image: null,
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D timber door framed in town stucco masonry',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: true
+    },
+    iron_gate: {
+        id: 'iron_gate',
+        name: '3D Wrought Iron Gate',
+        image: null,
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D hinged wrought iron gate',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    wooden_gate: {
+        id: 'wooden_gate',
+        name: '3D Wooden Picket Gate',
+        image: null,
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D swinging timber picket gate',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
+    },
+    hedge_gate: {
+        id: 'hedge_gate',
+        name: '3D Garden Hedge Archway',
+        image: null,
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'Interactive 3D arched gateway passage through a living hedge',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: true, is3D: true,
+        blocksLineOfSight: false
     },
     pillar_stone: {
         id: 'pillar_stone',
@@ -463,6 +513,86 @@ export const PROFESSIONAL_OBJECTS = {
         category: 'nature',
         size: { width: 1, height: 1 },
         description: 'Sharp jagged mountain stone',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    tree_pine_snow: {
+        id: 'tree_pine_snow',
+        name: '3D Snow Pine Tree',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Winter pine tree laden with fresh snow',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    tree_birch_autumn: {
+        id: 'tree_birch_autumn',
+        name: '3D Autumn Birch Tree',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Vibrant golden autumn birch tree',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    rock_snow: {
+        id: 'rock_snow',
+        name: '3D Snow-Covered Rock',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Granite boulder capped with winter snow',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    rock_moss: {
+        id: 'rock_moss',
+        name: '3D Mossy Boulder',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Forest boulder covered in green lichen and moss',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    bush: {
+        id: 'bush',
+        name: '3D Dense Bush',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Thick low-poly wilderness shrub and foliage',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    tree_stump_moss: {
+        id: 'tree_stump_moss',
+        name: '3D Mossy Tree Stump',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Felled tree stump covered in moss',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: false
+    },
+    statue_horse: {
+        id: 'statue_horse',
+        name: '3D Equestrian Knight Statue',
+        image: null,
+        category: 'structures',
+        size: { width: 2, height: 2 },
+        description: 'Monumental carved stone knight and warhorse statue',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    woodfire: {
+        id: 'woodfire',
+        name: '3D Campfire / Firepit',
+        image: null,
+        category: 'props',
+        size: { width: 1, height: 1 },
+        description: 'Stone encircled campfire with burning timber logs',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
         blocksLineOfSight: false
     },
@@ -1104,6 +1234,7 @@ const ObjectSystem = () => {
 
     const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects || []);
     const isEditorMode = useLevelEditorStore(state => state.isEditorMode);
+    const isEditorOpen = useLevelEditorStore(state => state.isEditorOpen);
     const activeLayer = useLevelEditorStore(state => state.activeLayer);
     const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
     const elevationData = useLevelEditorStore(state => state.elevationData);
@@ -1408,8 +1539,18 @@ const ObjectSystem = () => {
     const resolveDragWallPatch = useCallback((obj, worldX, worldY, screenX = null, screenY = null) => {
         const objectDef = PROFESSIONAL_OBJECTS[obj?.type];
         const editorState = useLevelEditorStore.getState();
-        const snapToWall = editorState?.toolSettings?.snapToWall !== false;
-        if ((!objectDef?.wallMountable && !objectDef?.wallSideSnap && !snapToWall) || obj?.parentObjectId) return null;
+        const snapToWall = !!editorState?.toolSettings?.snapToWall;
+        if (!snapToWall || (!objectDef?.wallMountable && !objectDef?.wallSideSnap) || obj?.parentObjectId) {
+            if (obj?.wallAttached) {
+                return {
+                    wallAttached: false,
+                    wallKey: undefined,
+                    wallSide: undefined,
+                    wallElevation: undefined
+                };
+            }
+            return null;
+        }
         let gridSystem = null;
         try {
             gridSystem = getGridSystem();
@@ -1439,12 +1580,16 @@ const ObjectSystem = () => {
     const getObjectWorldAnchor = useCallback((obj) => {
         try {
             const gridSystem = getGridSystem();
+            const tileElev = (obj.freePosition && Number.isFinite(obj.worldX) && Number.isFinite(obj.worldY))
+                ? getTileElevation(elevationData, gridSystem.worldToGrid(obj.worldX, obj.worldY).x, gridSystem.worldToGrid(obj.worldX, obj.worldY).y)
+                : (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY) ? getTileElevation(elevationData, obj.gridX, obj.gridY) : 0);
+            const effElev = Number.isFinite(obj.elevation) ? obj.elevation : tileElev;
+
             if (obj.freePosition && Number.isFinite(obj.worldX) && Number.isFinite(obj.worldY)) {
-                const tile = gridSystem.worldToGrid(obj.worldX, obj.worldY);
                 return {
                     worldX: obj.worldX,
                     worldY: obj.worldY,
-                    worldZ: getTileElevation(elevationData, tile.x, tile.y) * gridSize
+                    worldZ: effElev * gridSize * 0.5
                 };
             }
             if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
@@ -1452,7 +1597,7 @@ const ObjectSystem = () => {
                 return {
                     worldX: corner.x,
                     worldY: corner.y,
-                    worldZ: getTileElevation(elevationData, obj.gridX, obj.gridY) * gridSize
+                    worldZ: effElev * gridSize * 0.5
                 };
             }
         } catch (error) {
@@ -1468,6 +1613,7 @@ const ObjectSystem = () => {
         if (!wallData) return false;
         // GM notes are interaction markers, keep them reachable for the GM.
         if (objectDef?.gmOnly) return false;
+
         const anchor = getObjectWorldAnchor(obj);
         if (!anchor) return false;
         try {
@@ -1483,30 +1629,24 @@ const ObjectSystem = () => {
         } catch (error) {
             return false;
         }
-    }, [wallData, elevationData, getObjectWorldAnchor, viewMode, viewRotation, viewTilt]);
+    }, [wallData, elevationData, getObjectWorldAnchor]);
 
     // Calculate exact screen center position of an object (incorporating 3D/grid anchor, elevation, tilt)
     const getObjectScreenCenter = useCallback((obj, objectDef) => {
-        if (!obj) return null;
-        let screenPos;
+        let screenPos = null;
         const gridSystem = getGridSystem();
         const viewport = gridSystem.getViewportDimensions();
 
         if (obj.freePosition && Number.isFinite(obj.worldX) && Number.isFinite(obj.worldY)) {
-            try {
-                screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
-            } catch (error) {
-                const canvasWidth = canvasRef.current?.width || window.innerWidth;
-                const canvasHeight = canvasRef.current?.height || window.innerHeight;
-                screenPos = {
-                    x: (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2,
-                    y: (obj.worldY - cameraY) * effectiveZoom + canvasHeight / 2
-                };
-            }
+            screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
         } else if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
             const worldCorner = gridSystem.gridToWorldCorner(obj.gridX, obj.gridY);
-            screenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
-        } else {
+            const w = (objectDef.size?.width || 1) * gridSize;
+            const h = (objectDef.size?.height || 1) * gridSize;
+            screenPos = gridSystem.worldToScreen(worldCorner.x + w / 2, worldCorner.y + h / 2, viewport.width, viewport.height);
+        }
+
+        if (!screenPos) {
             return null;
         }
 
@@ -1522,14 +1662,11 @@ const ObjectSystem = () => {
             objectLevel = 0;
         }
 
-        // Wall-mounted fixtures sit at a fraction of a level above the floor.
-        // The 3D layer renders elevation levels at half a grid cell, while the
-        // 2.5D canvas convention is a full grid cell per level - wall-mounted
-        // chrome must follow the 3D height to stay on the rendered model.
-        if (obj.wallAttached && Number.isFinite(obj.elevation)) {
+        // Custom object elevation lifts the sprite above the terrain surface
+        if (Number.isFinite(obj.elevation)) {
             objectLevel = obj.elevation;
         }
-        const levelHeight = obj.wallAttached ? gridSize * 0.5 : gridSize;
+        const levelHeight = (obj.wallAttached || Number.isFinite(obj.elevation)) ? gridSize * 0.5 : gridSize;
 
         if (objectLevel !== 0) {
             let objectCosTilt = 0;
@@ -1686,21 +1823,24 @@ const ObjectSystem = () => {
                 if (bounds) {
                     renderSelectionHighlight(ctx, bounds, bounds.tight3D ? 3 : 6, !!obj.locked);
 
-                    // Locked objects show a padlock instead of drag handles.
-                    if (obj.locked) {
-                        renderLockBadge(ctx, bounds);
-                    } else if (objectDef.draggable && (isEditorMode || isGMMode)) {
+                    // The padlock is editor chrome: only drawn while the editor
+                    // window is actually open. Locked objects hide their
+                    // move/resize/rotate handles.
+                    if (isEditorOpen) {
+                        renderLockBadge(ctx, bounds, !!obj.locked);
+                    }
+                    if (!obj.locked && objectDef.draggable && (isEditorMode || isGMMode)) {
                         renderDragHandles(ctx, bounds);
                     }
                 }
-            } else if (obj.locked && (isEditorMode || isGMMode)) {
+            } else if (obj.locked && isEditorOpen) {
                 const bounds = getObjectScreenBounds(obj, objectDef, screenPos, {
                     gridSize,
                     effectiveZoom,
                     rotationRad: rotRad
                 });
                 if (bounds) {
-                    renderLockBadge(ctx, bounds);
+                    renderLockBadge(ctx, bounds, true);
                 }
             }
 
@@ -1747,7 +1887,7 @@ const ObjectSystem = () => {
                 ctx.restore();
             }
         });
-    }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, gridSize, cameraX, cameraY, isGMMode, drawingLayers, pickParentMode, pendingChildId, elevationData, viewMode, viewRotation, viewTilt, wallData, isObjectOccluded]);
+    }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, isEditorOpen, gridSize, cameraX, cameraY, isGMMode, drawingLayers, pickParentMode, pendingChildId, elevationData, viewMode, viewRotation, viewTilt, wallData, isObjectOccluded]);
 
     renderObjectsRef.current = renderObjects;
 
@@ -1986,94 +2126,115 @@ const ObjectSystem = () => {
             ctx.fillRect(handle.x - 2, handle.y - 2, 4, 4);
         });
 
-        const { delOffset, rotOffset } = getObjectSelectionHandles(bounds);
+        const { deleteOffset, rotateOffset } = getObjectSelectionHandles(bounds);
 
-        // 2. Delete handle (top center)
-        const dx = centerX;
-        const dy = centerY - delOffset;
-        // Connecting line
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+        // 2. Rotation handle (top center on extension stalk)
+        const rx = centerX + rotateOffset.x;
+        const ry = centerY + rotateOffset.y;
+
+        // Connecting stalk line from top of bounding box to rotation handle
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
         ctx.lineWidth = 1.5;
-        ctx.setLineDash([3, 3]);
         ctx.beginPath();
         ctx.moveTo(centerX, centerY - halfHeight);
-        ctx.lineTo(dx, dy);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        // Delete pill button
-        ctx.shadowColor = 'rgba(239, 68, 68, 0.4)';
-        ctx.shadowBlur = 8;
-        ctx.fillStyle = '#ef4444';
-        ctx.beginPath(); ctx.arc(dx, dy, 12, 0, Math.PI * 2); ctx.fill();
-        ctx.shadowBlur = 0;
-        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
-        ctx.fillStyle = '#ffffff'; ctx.font = 'bold 15px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText('\u00d7', dx, dy);
-
-        // 3. Rotation handle (right center)
-        const rx = centerX + rotOffset;
-        const ry = centerY;
-        // Connecting line
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([3, 3]);
-        ctx.beginPath();
-        ctx.moveTo(centerX + halfWidth, centerY);
         ctx.lineTo(rx, ry);
         ctx.stroke();
-        ctx.setLineDash([]);
 
-        // Glassmorphic circular rotate button
-        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
-        ctx.shadowBlur = 8;
+        // Refined circular rotate button (dark slate with cyan accent)
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+        ctx.shadowBlur = 6;
         ctx.fillStyle = '#0f172a';
-        ctx.beginPath(); ctx.arc(rx, ry, 13, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath();
+        ctx.arc(rx, ry, 12, 0, Math.PI * 2);
+        ctx.fill();
         ctx.shadowBlur = 0;
-        ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
-
-        // Curved rotation arrow icon
         ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 2.2;
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        // Elegant dual circular arrows
+        ctx.save();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.fillStyle = '#38bdf8';
+        ctx.lineWidth = 1.6;
         ctx.lineCap = 'round';
+
+        // Upper arc
         ctx.beginPath();
-        ctx.arc(rx, ry, 6.5, -Math.PI * 0.7, Math.PI * 0.7);
+        ctx.arc(rx, ry, 5.5, -Math.PI * 0.8, -Math.PI * 0.1);
         ctx.stroke();
-        // Arrowhead
-        const arrowAngle = Math.PI * 0.7;
-        const tipX = rx + 6.5 * Math.cos(arrowAngle);
-        const tipY = ry + 6.5 * Math.sin(arrowAngle);
+        const a1 = -Math.PI * 0.1;
+        const x1 = rx + 5.5 * Math.cos(a1);
+        const y1 = ry + 5.5 * Math.sin(a1);
         ctx.beginPath();
-        ctx.moveTo(tipX - 3.5, tipY - 4);
-        ctx.lineTo(tipX, tipY);
-        ctx.lineTo(tipX + 4, tipY - 1.5);
+        ctx.moveTo(x1 + 3, y1 - 2);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x1 - 1, y1 - 3.5);
         ctx.stroke();
+
+        // Lower arc
+        ctx.beginPath();
+        ctx.arc(rx, ry, 5.5, Math.PI * 0.2, Math.PI * 0.9);
+        ctx.stroke();
+        const a2 = Math.PI * 0.9;
+        const x2 = rx + 5.5 * Math.cos(a2);
+        const y2 = ry + 5.5 * Math.sin(a2);
+        ctx.beginPath();
+        ctx.moveTo(x2 - 3, y2 + 2);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x2 + 1, y2 + 3.5);
+        ctx.stroke();
+        ctx.restore();
+
+        // 3. Delete badge (top right corner badge)
+        const dx = centerX + deleteOffset.x;
+        const dy = centerY + deleteOffset.y;
+
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+        ctx.shadowBlur = 6;
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(dx, dy, 10.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('\u00d7', dx, dy);
 
         ctx.restore();
     };
 
-    // Small padlock badge shown on locked objects in editor/GM views.
-    const renderLockBadge = (ctx, bounds) => {
-        const x = bounds.centerX + bounds.width / 2 + 12;
-        const y = bounds.centerY - bounds.height / 2 - 12;
+    // Padlock badge shown on selected objects (click to freeze/unfreeze) and on
+    // locked objects even while they are not selected. Unlocked objects render a
+    // muted open padlock as an affordance; locked objects render amber.
+    const renderLockBadge = (ctx, bounds, locked = false) => {
+        const { x, y } = getObjectLockBadgePosition(bounds);
+        const accent = locked ? '#f59e0b' : '#94a3b8';
 
         ctx.save();
         ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
         ctx.shadowBlur = 6;
         ctx.fillStyle = '#0f172a';
         ctx.beginPath();
-        ctx.arc(x, y, 11, 0, Math.PI * 2);
+        ctx.arc(x, y, LOCK_BADGE_RADIUS, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
-        ctx.strokeStyle = '#f59e0b';
+        ctx.strokeStyle = accent;
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.fillStyle = '#f59e0b';
+        ctx.fillStyle = accent;
         ctx.font = '900 11px "Font Awesome 6 Free"';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('\uf023', x, y + 0.5);
+        // \uf023 = padlock (locked), \uf09c = open padlock (unlocked)
+        ctx.fillText(locked ? '\uf023' : '\uf09c', x, y + 0.5);
         ctx.restore();
     };
 
@@ -2386,6 +2547,37 @@ const ObjectSystem = () => {
         const screenX = e.clientX - canvasRect.left;
         const screenY = e.clientY - canvasRect.top;
 
+        // 0. Lock badge hit-test: the padlock on the selection frame toggles the
+        // lock and must work for locked objects too (which have no other
+        // handles). Only while the editor window is open, since the badge is
+        // editor chrome and is not drawn otherwise.
+        const lockBadgeTarget = (environmentalObjects || []).find(o => o.selected);
+        if (isEditorOpen && lockBadgeTarget && (isEditorMode || isGMMode)) {
+            const lockDef = PROFESSIONAL_OBJECTS[lockBadgeTarget.type];
+            const lockScreenPos = lockDef ? getObjectScreenCenter(lockBadgeTarget, lockDef) : null;
+            if (lockDef && lockScreenPos) {
+                const lockSnappedDeg = snapRotationForHitTest(lockBadgeTarget.type, lockBadgeTarget.rotation || 0);
+                const lockBounds = getObjectScreenBounds(lockBadgeTarget, lockDef, lockScreenPos, {
+                    gridSize,
+                    effectiveZoom,
+                    rotationRad: (lockSnappedDeg || 0) * Math.PI / 180
+                });
+                if (lockBounds) {
+                    const badgePos = getObjectLockBadgePosition(lockBounds);
+                    if (Math.hypot(screenX - badgePos.x, screenY - badgePos.y) <= LOCK_BADGE_RADIUS + 7) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setEnvironmentalObjectLocked(
+                            lockBadgeTarget.id,
+                            !lockBadgeTarget.locked,
+                            getExplicitCurrentMapId()
+                        );
+                        return;
+                    }
+                }
+            }
+        }
+
         // 1. Check handles (Delete, Rotate, Resize) on the CURRENTLY selected object FIRST!
         const currentlySelected = (environmentalObjects || []).find(o => o.selected);
         if (currentlySelected && !currentlySelected.locked && (isEditorMode || isGMMode)) {
@@ -2482,7 +2674,10 @@ const ObjectSystem = () => {
 
         const clickedObject = getObjectAtScreenPosition(screenX, screenY);
 
-        if (clickedObject) {
+        // Locked objects are click-through while the editor window is closed (the
+        // editor is where the padlock lives to unlock them), so they fall through
+        // to the same "clicked empty space" branch below and deselect instead.
+        if (clickedObject && !(clickedObject.locked && !isEditorOpen)) {
             // Check if chest is clicked and locked
             if (clickedObject.type === 'chest') {
                 const isLocked = clickedObject.isLocked || clickedObject.containerProperties?.isLocked;
@@ -2598,7 +2793,7 @@ const ObjectSystem = () => {
                 }
             });
         }
-    }, [isEditorMode, isGMMode, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject, pickParentMode, pendingChildId, attachChildToParent, moveChildrenWithParent, resolveDragWallPatch]);
+    }, [isEditorMode, isGMMode, isEditorOpen, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject, setEnvironmentalObjectLocked, pickParentMode, pendingChildId, attachChildToParent, moveChildrenWithParent, resolveDragWallPatch]);
 
     // Handle context menu (right-click)
     const handleContextMenu = useCallback((e) => {
@@ -2687,7 +2882,9 @@ const ObjectSystem = () => {
         console.log('🎯 Clicked object:', clickedObject);
 
         if (clickedObject) {
-            if (isEditorMode || isGMMode) {
+            // Locked objects only expose their menu (Lock/Unlock) while the
+            // editor window is open; outside the editor they stay click-through.
+            if ((isEditorMode || isGMMode) && (isEditorOpen || !clickedObject.locked)) {
                 console.log('🎯 Showing context menu for object:', clickedObject.id, clickedObject.type);
                 selectEnvironmentalObject(clickedObject.id);
                 setSelectedObject(clickedObject);
@@ -2699,7 +2896,7 @@ const ObjectSystem = () => {
         } else {
             console.log('🎯 No object found at click position', { screenX, screenY });
         }
-    }, [isEditorMode, isGMMode, getObjectAtScreenPosition, selectEnvironmentalObject]);
+    }, [isEditorMode, isGMMode, isEditorOpen, getObjectAtScreenPosition, selectEnvironmentalObject]);
 
     // Handle Escape to cancel pick-parent mode
     useEffect(() => {
@@ -3157,6 +3354,37 @@ const ObjectSystem = () => {
                 dragStateRef.current.dragObjectId = null;
             };
 
+            // 0. LOCK BADGE (Priority #0) - toggles the lock on the selected object,
+            // including locked ones that have no other handles to click. Only
+            // while the editor window is open, since the badge is not drawn
+            // otherwise (an invisible hit-target would toggle locks by surprise).
+            {
+                const lockTarget = objects.find(o => o.selected);
+                const lockDef = lockTarget ? PROFESSIONAL_OBJECTS[lockTarget.type] : null;
+                const lockScreenPos = lockTarget && lockDef ? getObjectScreenCenter(lockTarget, lockDef) : null;
+                if (isEditorOpen && lockTarget && lockDef && lockScreenPos && (isEditorMode || isGMMode)) {
+                    const snappedDeg = snapRotationForHitTest(lockTarget.type, lockTarget.rotation || 0);
+                    const lockBounds = getObjectScreenBounds(lockTarget, lockDef, lockScreenPos, {
+                        gridSize,
+                        effectiveZoom: currentZoom,
+                        rotationRad: (snappedDeg || 0) * Math.PI / 180
+                    });
+                    if (lockBounds) {
+                        const badgePos = getObjectLockBadgePosition(lockBounds);
+                        if (Math.hypot(screenX - badgePos.x, screenY - badgePos.y) <= LOCK_BADGE_RADIUS + 7) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            useLevelEditorStore.getState().setEnvironmentalObjectLocked(
+                                lockTarget.id,
+                                !lockTarget.locked,
+                                getExplicitCurrentMapId()
+                            );
+                            return;
+                        }
+                    }
+                }
+            }
+
             // 1. HANDLE CHECK (Priority #1) - Delete, Rotate, Resize on the selected object
             const selObj = objects.find(o => o.selected);
             if (selObj && !selObj.locked && (isEditorMode || isGMMode)) {
@@ -3284,8 +3512,10 @@ const ObjectSystem = () => {
                 }
             }
 
-            // 3. DESELECT (Priority #3) - Only if clicking the empty grid
-            if (!clickedObject) {
+            // 3. DESELECT (Priority #3) - Only if clicking the empty grid.
+            // Locked objects count as empty grid while the editor window is
+            // closed: they cannot be selected outside the editor.
+            if (!clickedObject || (clickedObject.locked && !isEditorOpen)) {
                 const anySelected = objects.find(o => o.selected);
                 if (anySelected) useLevelEditorStore.getState().clearObjectSelection();
                 return;
@@ -3322,7 +3552,7 @@ const ObjectSystem = () => {
         return () => {
             document.removeEventListener('mousedown', handleDocMouseDown, true);
         };
-    }, [isGMMode, isEditorMode, getObjectScreenCenter, getResizeHandle, removeEnvironmentalObject, updateEnvironmentalObject, resolveDragWallPatch]);
+    }, [isGMMode, isEditorMode, isEditorOpen, getObjectScreenCenter, getResizeHandle, removeEnvironmentalObject, updateEnvironmentalObject, resolveDragWallPatch]);
 
     // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
     const scheduledRenderRef = useRef(null);

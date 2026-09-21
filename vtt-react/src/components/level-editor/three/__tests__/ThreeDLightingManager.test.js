@@ -58,8 +58,28 @@ describe('ThreeDLightingManager', () => {
     expect(secondOffset.x).toBeCloseTo(firstOffset.x);
     expect(secondOffset.y).toBeCloseTo(firstOffset.y);
     expect(secondOffset.z).toBeCloseTo(firstOffset.z);
-    expect(manager.sunTarget.position.x).toBe(500);
-    expect(manager.sunTarget.position.y).toBe(300);
+  });
+
+  it('re-aims the sun when its azimuth or height changes without a camera move', () => {
+    manager.update({
+      sunSettings: { azimuth: 135, elevation: 45, intensity: 1 },
+      cameraX: 0,
+      cameraY: 0,
+      gridSize: 50
+    });
+    const before = manager.sunLight.position.clone().sub(manager.sunTarget.position);
+
+    manager.update({
+      sunSettings: { azimuth: 315, elevation: 20, intensity: 1 },
+      cameraX: 0,
+      cameraY: 0,
+      gridSize: 50
+    });
+    const after = manager.sunLight.position.clone().sub(manager.sunTarget.position);
+
+    expect(after.x).toBeCloseTo(-before.x);
+    expect(after.y).toBeCloseTo(-before.y);
+    expect(after.z).toBeLessThan(before.z);
   });
 
   it('disables the sun entirely when lighting is off', () => {
@@ -89,6 +109,8 @@ describe('ThreeDLightingManager', () => {
     // Tile centre: (2.5 * 50, -(3.5 * 50)) in Three.js space
     expect(entry.light.position.x).toBeCloseTo(125);
     expect(entry.light.position.y).toBeCloseTo(-175);
+    // Near the top of the fixture model so the light is not inside it.
+    expect(entry.light.position.z).toBeCloseTo(45);
   });
 
   it('switches to a spot light for directional cone sources', () => {
@@ -153,5 +175,88 @@ describe('ThreeDLightingManager', () => {
 
     expect(manager.pointLights.get('steady').light.intensity).toBe(steadyBefore);
     expect(manager.pointLights.get('flicker').light.intensity).not.toBe(flickerBefore);
+  });
+
+  it('anchors the sun shadow camera to a coarse world grid instead of chasing the camera', () => {
+    manager.setShadowCameraExtent(1000);
+    expect(manager.syncCamera(0, 0)).toBe(true);
+    const anchor = manager.sunTarget.position.clone();
+
+    manager.consumeShadowDirty();
+    expect(manager.syncCamera(10, -10)).toBe(false);
+    expect(manager.sunTarget.position.x).toBeCloseTo(anchor.x);
+    expect(manager.sunTarget.position.y).toBeCloseTo(anchor.y);
+    expect(manager.consumeShadowDirty()).toBe(false);
+
+    const step = manager.shadowAnchorStep;
+    expect(manager.syncCamera(step * 4, 0)).toBe(true);
+    expect(manager.sunTarget.position.x).not.toBeCloseTo(anchor.x);
+    expect(manager.consumeShadowDirty()).toBe(true);
+  });
+
+  it('grows the requested extent by the anchor coverage factor', () => {
+    manager.setShadowCameraExtent(1000);
+    const camera = manager.sunLight.shadow.camera;
+    const half = camera.right;
+
+    expect(half).toBeGreaterThanOrEqual(1000 * 1.25);
+    expect(half).toBeLessThanOrEqual(1000 * 1.25 * 1.25 + 1e-6);
+    expect(camera.left).toBeCloseTo(-half);
+    expect(camera.top).toBeCloseTo(half);
+    expect(camera.bottom).toBeCloseTo(-half);
+  });
+
+  it('tracks shadow re-render requests and only flags casting lights', () => {
+    const lightSources = {};
+    for (let i = 0; i < 6; i += 1) {
+      lightSources[`light${i}`] = baseLight({ id: `light${i}`, x: i, y: 0 });
+    }
+    manager.update({ lightSources, gridSize: 50, cameraX: 0, cameraY: 0 });
+    manager.consumeShadowDirty();
+    [...manager.pointLights.values()].forEach((entry) => {
+      entry.light.shadow.needsUpdate = false;
+    });
+
+    manager.markLightShadowsDirty();
+    const entries = [...manager.pointLights.values()];
+    const casters = entries.filter((entry) => entry.light.castShadow);
+    const idle = entries.filter((entry) => !entry.light.castShadow);
+
+    expect(casters).toHaveLength(MAX_SHADOW_LIGHTS);
+    casters.forEach((entry) => expect(entry.light.shadow.needsUpdate).toBe(true));
+    idle.forEach((entry) => expect(entry.light.shadow.needsUpdate).toBe(false));
+    expect(manager.consumeShadowDirty()).toBe(true);
+    expect(manager.consumeShadowDirty()).toBe(false);
+  });
+
+  it('applies shadow quality presets to sun and dynamic light map sizes', () => {
+    manager.update({ shadowQuality: 'low', gridSize: 50 });
+    expect(manager.sunLight.shadow.mapSize.width).toBe(1024);
+
+    manager.update({ shadowQuality: 'high', gridSize: 50 });
+    expect(manager.sunLight.shadow.mapSize.width).toBe(2048);
+
+    const lightSources = {};
+    for (let i = 0; i < 3; i += 1) {
+      lightSources[`light${i}`] = baseLight({ id: `light${i}`, x: i, y: 0 });
+    }
+    manager.update({
+      lightSources,
+      shadowQuality: 'high',
+      gridSize: 50,
+      cameraX: 0,
+      cameraY: 0
+    });
+    const casters = [...manager.pointLights.values()]
+      .filter((entry) => entry.light.castShadow)
+      .sort((a, b) => b.light.position.z - a.light.position.z || a.light.position.x - b.light.position.x);
+    expect(casters.length).toBeGreaterThan(0);
+    expect(casters[0].light.shadow.mapSize.width).toBe(1024);
+
+    manager.update({ shadowQuality: 'low', performanceMode: true, lightSources, gridSize: 50 });
+    expect(manager.sunLight.shadow.mapSize.width).toBe(1024);
+    [...manager.pointLights.values()].forEach((entry) => {
+      expect(entry.light.castShadow).toBe(false);
+    });
   });
 });

@@ -54,20 +54,34 @@ function getWallEdgeIndex(wallData, windowOverlays) {
         if (!horizontalEdges.has(key)) horizontalEdges.set(key, []);
         horizontalEdges.get(key).push({ wall, wallKey });
       }
-    } else if (Math.abs(wx2 - wx1) === Math.abs(wy2 - wy1)) {
-      // Angled wall (45°): index every cell it bisects. Diagonal movement across
-      // such a cell is blocked; previously these walls were ignored entirely.
-      const steps = Math.abs(wx2 - wx1);
-      const stepX = Math.sign(wx2 - wx1);
-      const stepY = Math.sign(wy2 - wy1);
-      for (let i = 0; i < steps; i++) {
-        const ax = wx1 + stepX * i;
-        const bx = wx1 + stepX * (i + 1);
-        const ay = wy1 + stepY * i;
-        const by = wy1 + stepY * (i + 1);
-        const key = `${Math.min(ax, bx)},${Math.min(ay, by)}`;
+    } else {
+      // Angled wall: any straight segment that is neither horizontal nor
+      // vertical (45° diagonals, 2:1 slopes, free-form chords). Index every cell
+      // the segment passes through so movement checks can find it; the exact
+      // crossing is then decided by a segment intersection test. Previously only
+      // exact 45° walls were indexed, so any other angled wall was ignored
+      // entirely and tokens walked straight through it.
+      const stepCount = Math.max(2, Math.ceil((Math.abs(wx2 - wx1) + Math.abs(wy2 - wy1)) * 4));
+      const epsilon = 1e-3;
+      const seenCells = new Set();
+      const addUniqueCell = (cx, cy) => {
+        const key = `${cx},${cy}`;
+        if (seenCells.has(key)) return;
+        seenCells.add(key);
         if (!diagonalEdges.has(key)) diagonalEdges.set(key, []);
         diagonalEdges.get(key).push({ wall, wallKey });
+      };
+      for (let i = 0; i <= stepCount; i++) {
+        const t = i / stepCount;
+        const px = wx1 + (wx2 - wx1) * t;
+        const py = wy1 + (wy2 - wy1) * t;
+        // Epsilon probes on both sides keep walls that run exactly through cell
+        // corners indexed in every cell they touch.
+        addUniqueCell(Math.floor(px), Math.floor(py));
+        addUniqueCell(Math.floor(px + epsilon), Math.floor(py + epsilon));
+        addUniqueCell(Math.floor(px + epsilon), Math.floor(py - epsilon));
+        addUniqueCell(Math.floor(px - epsilon), Math.floor(py + epsilon));
+        addUniqueCell(Math.floor(px - epsilon), Math.floor(py - epsilon));
       }
     }
   }
@@ -200,17 +214,6 @@ function isWallBlockingWith(x1, y1, x2, y2, wallData, predicate) {
 
   // For diagonal movement, check both edges
   if (dx === 1 && dy === 1) {
-    // Angled (45°) wall bisecting the shared cell blocks the diagonal crossing
-    const diagonalKey = `${Math.min(gx1, gx2)},${Math.min(gy1, gy2)}`;
-    const diagonalWalls = index._d.get(diagonalKey);
-    if (diagonalWalls) {
-      for (const { wall, wallKey } of diagonalWalls) {
-        if (predicate(wall, wallKey)) {
-          return true;
-        }
-      }
-    }
-
     // Check vertical edge for diagonal
     const wallX = Math.max(gx1, gx2);
     for (const checkY of [gy1, gy2]) {
@@ -235,6 +238,51 @@ function isWallBlockingWith(x1, y1, x2, y2, wallData, predicate) {
           if (predicate(wall, wallKey)) {
             return true;
           }
+        }
+      }
+    }
+  }
+
+  // Angled walls (45° diagonals, 2:1 slopes, free-form chords) sit on no
+  // axis-aligned edge, so they can only be caught geometrically. Probe the
+  // movement segment (tile center to tile center) against every angled wall
+  // that touches the cells the step travels through. For diagonal steps the two
+  // side cells sharing the crossed corner are probed too, so a wall ending or
+  // passing exactly through that corner still blocks the squeeze.
+  if (index._d.size > 0) {
+    const candidates = new Map();
+    const collectCell = (cellX, cellY) => {
+      const angled = index._d.get(`${cellX},${cellY}`);
+      if (!angled) return;
+      for (const entry of angled) {
+        if (!candidates.has(entry.wallKey)) candidates.set(entry.wallKey, entry);
+      }
+    };
+    collectCell(gx1, gy1);
+    collectCell(gx2, gy2);
+    if (dx === 1 && dy === 1) {
+      collectCell(gx1, gy2);
+      collectCell(gx2, gy1);
+    }
+
+    if (candidates.size > 0) {
+      const startX = gx1 + 0.5;
+      const startY = gy1 + 0.5;
+      const endX = gx2 + 0.5;
+      const endY = gy2 + 0.5;
+      // A token whose center sits exactly on an angled wall (the wall runs
+      // through its cell center) must still be able to step off it, so an
+      // intersection confined to the very start of the step does not block.
+      const skip = 1e-6;
+      const fromX = startX + (endX - startX) * skip;
+      const fromY = startY + (endY - startY) * skip;
+
+      for (const { wall, wallKey } of candidates.values()) {
+        if (!predicate(wall, wallKey)) continue;
+        const parts = String(wallKey).split(',').map(Number);
+        if (parts.length !== 4 || parts.some((n) => !Number.isFinite(n))) continue;
+        if (segmentsIntersect(fromX, fromY, endX, endY, parts[0], parts[1], parts[2], parts[3])) {
+          return true;
         }
       }
     }

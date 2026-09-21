@@ -409,6 +409,19 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                 <span>Reset</span>
                             </button>
                         </div>
+                        <div className="appearance-group" style={{ marginTop: 8 }}>
+                            <label className="appearance-label">Rotation ({Math.round(viewRotation) % 360}°)</label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="359"
+                                step="1"
+                                value={Math.round(viewRotation) % 360}
+                                onChange={(e) => handleDefaultRotationChange(parseFloat(e.target.value))}
+                                className="compact-slider"
+                                title="Fine-tune the default heading (1° steps)"
+                            />
+                        </div>
                         {viewMode === '2.5d' && (
                             <div className="appearance-group" style={{ marginTop: 8 }}>
                                 <label className="appearance-label">Tilt ({Math.round(viewTilt)}°)</label>
@@ -416,10 +429,11 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                     type="range"
                                     min="15"
                                     max="90"
-                                    step="5"
+                                    step="1"
                                     value={viewTilt}
                                     onChange={(e) => handleDefaultTiltChange(parseFloat(e.target.value))}
                                     className="compact-slider"
+                                    title="Fine-tune the default tilt (15°–90°)"
                                 />
                             </div>
                         )}

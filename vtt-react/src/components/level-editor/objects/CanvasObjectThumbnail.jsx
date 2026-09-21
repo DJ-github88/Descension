@@ -7,7 +7,7 @@ import modelThumbnailService from '../../../services/ModelThumbnailService';
 const fallback = (objectType) => `/assets/objects/misc_box.png?v=${CACHE_BUST}`;
 const CACHE_BUST = Date.now();
 
-const CanvasObjectThumbnail = ({ objectType, className, style }) => {
+const CanvasObjectThumbnail = ({ objectType, className, style, size = 80 }) => {
     const [, setTick] = useState(0);
 
     const is3D = !!MODEL_REGISTRY[objectType];
@@ -35,7 +35,10 @@ const CanvasObjectThumbnail = ({ objectType, className, style }) => {
     const src = thumbSrc || (objDef && objDef.image) || (is3D ? null : `/assets/objects/${objectType}.png?v=${CACHE_BUST}`);
 
     return (
-        <div style={{ position: 'relative', display: 'inline-block', width: 80, height: 80 }}>
+        <div
+            className="canvas-object-thumb"
+            style={{ position: 'relative', display: 'inline-block', width: size, height: size }}
+        >
             {src ? (
                 <img
                     src={src}
@@ -59,34 +62,12 @@ const CanvasObjectThumbnail = ({ objectType, className, style }) => {
                     }}
                 />
             ) : (
-                <div style={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'rgba(0, 180, 219, 0.08)',
-                    borderRadius: 6
-                }}>
-                    <i className="fas fa-cube fa-spin" style={{ color: '#00b4db', fontSize: 22, opacity: 0.8 }} />
+                <div className="canvas-object-thumb-loading">
+                    <i className="fas fa-cube fa-spin" />
                 </div>
             )}
             {is3D && (
-                <span style={{
-                    position: 'absolute',
-                    top: 2,
-                    right: 2,
-                    background: 'linear-gradient(135deg, #00b4db, #0083b0)',
-                    color: '#fff',
-                    fontSize: '9px',
-                    fontWeight: 'bold',
-                    padding: '1px 4px',
-                    borderRadius: '3px',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                    pointerEvents: 'none'
-                }}>
-                    3D
-                </span>
+                <span className="thumb-3d-badge">3D</span>
             )}
         </div>
     );

@@ -6,6 +6,7 @@ import {
   getWallWorldEndpoints,
   getWallBodyHeightWorld
 } from '../../../utils/WallGeometry';
+import { wallModelMetrics } from './ThreeDWallManager';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
 import useLevelEditorStore from '../../../store/levelEditorStore';
@@ -31,9 +32,25 @@ export const LIGHT_SOURCE_MODELS = {
   lantern: { url: '/assets/models/dungeon/candelabra.glb', scale: 0.75 },
   candle: { url: '/assets/models/dungeon/candle.glb', scale: 1.0 },
   magical: { url: '/assets/models/dungeon/candelabra.glb', scale: 0.85 },
-  campfire: { url: '/assets/models/dungeon/torch_standing.glb', scale: 0.8 },
+  campfire: { url: '/assets/models/dungeon/woodfire.glb', scale: 1.2 },
   sunlight: null // ambient light source, no placed fixture
 };
+
+// Footprint of a placed light fixture, in grid cells. Fixtures used to be
+// normalized to exactly one cell, so a candle (5 ft) looked as big as a
+// campfire. Scaling with the light's radius makes small lights read as small
+// objects and lets a widened range visibly grow its fixture.
+const LIGHT_FIXTURE_FOOTPRINT_MIN = 0.45;
+const LIGHT_FIXTURE_FOOTPRINT_MAX = 1.4;
+const LIGHT_FIXTURE_RADIUS_MIN = 1;
+const LIGHT_FIXTURE_RADIUS_MAX = 8;
+
+export function lightFixtureFootprint(radius) {
+  const value = Number(radius);
+  const r = Number.isFinite(value) ? Math.max(LIGHT_FIXTURE_RADIUS_MIN, value) : LIGHT_FIXTURE_RADIUS_MIN;
+  const t = Math.min(1, (r - LIGHT_FIXTURE_RADIUS_MIN) / (LIGHT_FIXTURE_RADIUS_MAX - LIGHT_FIXTURE_RADIUS_MIN));
+  return LIGHT_FIXTURE_FOOTPRINT_MIN + (LIGHT_FIXTURE_FOOTPRINT_MAX - LIGHT_FIXTURE_FOOTPRINT_MIN) * t;
+}
 
 // Registry of 3D Models mapped to object types
 export const MODEL_REGISTRY = {
@@ -116,7 +133,39 @@ export const MODEL_REGISTRY = {
     type: 'door'
   },
   wooden_door: {
-    url: '/assets/models/dungeon/wall_doorway.glb',
+    url: '/assets/models/walls/wooden_wall_door.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: true,
+    type: 'door'
+  },
+  town_door: {
+    url: '/assets/models/walls/town_wall_door.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: true,
+    type: 'door'
+  },
+  iron_gate: {
+    url: '/assets/models/walls/metal_wall_gate.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: true,
+    type: 'door'
+  },
+  wooden_gate: {
+    url: '/assets/models/walls/wooden_fence_gate.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: true,
+    type: 'door'
+  },
+  hedge_gate: {
+    url: '/assets/models/walls/hedge_gate.glb',
     scale: 1.0,
     baseRotation: 0,
     offsetZ: 0,
@@ -261,6 +310,7 @@ export const MODEL_REGISTRY = {
     scale: 1.0,
     baseRotation: 0,
     offsetZ: 0,
+    groundZ: 0.1,
     interactive: false
   },
   grate_open: {
@@ -268,6 +318,7 @@ export const MODEL_REGISTRY = {
     scale: 1.0,
     baseRotation: 0,
     offsetZ: 0,
+    groundZ: 0.1,
     interactive: false
   },
   potion_bottle_green: {
@@ -814,6 +865,62 @@ export const MODEL_REGISTRY = {
     baseRotation: 0,
     offsetZ: 0,
     interactive: false
+  },
+  tree_pine_snow: {
+    url: '/assets/models/nature/tree_pine_snow.glb',
+    scale: 1.4,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  tree_birch_autumn: {
+    url: '/assets/models/nature/tree_birch_autumn.glb',
+    scale: 1.3,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  rock_snow: {
+    url: '/assets/models/nature/rock_snow.glb',
+    scale: 1.1,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  rock_moss: {
+    url: '/assets/models/nature/rock_moss.glb',
+    scale: 1.1,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  bush: {
+    url: '/assets/models/nature/bush.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  tree_stump_moss: {
+    url: '/assets/models/nature/tree_stump_moss.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  statue_horse: {
+    url: '/assets/models/dungeon/statue_horse.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  woodfire: {
+    url: '/assets/models/dungeon/woodfire.glb',
+    scale: 1.2,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
   }
 };
 
@@ -828,6 +935,11 @@ export class ThreeDPropManager {
     this.propInstances = new Map();
     this.wallDoorInstances = new Map();
     this.lightPropInstances = new Map();
+    // Fingerprint of the placed-light fixture transforms (id/position/scale/
+    // visibility) so callers can tell a real scene change from a parameter-only
+    // update (intensity, colour, flicker) and re-render shadows only when
+    // needed.
+    this.lightPropsKey = '';
     this.interactiveMeshes = []; // For Raycasting
 
     // Expose rendered-model bounds to the 2D overlays so selection chrome can
@@ -964,7 +1076,7 @@ export class ThreeDPropManager {
         const normalize = {
           x: -(bbox.min.x + bbox.max.x) / 2,
           y: -(bbox.min.y + bbox.max.y) / 2,
-          z: -bbox.min.z
+          z: def.groundZ !== undefined ? def.groundZ : -bbox.min.z
         };
 
         // Wrapper group for scene positioning & ground-plane yaw rotation
@@ -1104,10 +1216,16 @@ export class ThreeDPropManager {
    * Placed light sources render as real 3D props so the world layer shows what
    * is producing the light instead of only a floating 2D gizmo. Types without
    * a dedicated model reuse the nearest kit piece (sunlight is ambient only).
+   *
+   * Returns true when the set of fixtures or any of their world transforms
+   * changed (added/removed/moved/resized/visibility), so the caller can mark
+   * the sun shadow map dirty. Parameter-only edits (intensity, colour, flicker)
+   * return false and never cost a shadow pass.
    */
   updateLightProps(lightSources = {}, gridState = {}, fogState = {}, elevationData = {}) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentIds = new Set();
+    const transformParts = [];
 
     const {
       fogOfWarEnabled = false,
@@ -1152,7 +1270,6 @@ export class ThreeDPropManager {
         const size = new THREE.Vector3();
         bbox.getSize(size);
         const maxFootprint = Math.max(size.x, size.y) || 1;
-        const unitScale = (gridSize / maxFootprint) * (def.scale || 1.0);
 
         const wrapperGroup = new THREE.Group();
         wrapperGroup.name = `lightProp_${id}`;
@@ -1170,7 +1287,8 @@ export class ThreeDPropManager {
           modelUrl: def.url,
           mesh: wrapperGroup,
           innerModel: modelScene,
-          unitScale,
+          maxFootprint,
+          unitScale: 1,
           normalize: {
             x: -(bbox.min.x + bbox.max.x) / 2,
             y: -(bbox.min.y + bbox.max.y) / 2,
@@ -1181,10 +1299,16 @@ export class ThreeDPropManager {
         this.group.add(wrapperGroup);
       }
 
+      // The fixture footprint follows the light's radius, so a candle stays a
+      // small object while a campfire or a widened range visibly grows.
+      const unitScale =
+        (gridSize / entry.maxFootprint) * (def.scale || 1.0) * lightFixtureFootprint(source.radius);
+      entry.unitScale = unitScale;
+
       entry.mesh.position.set(worldX, -worldY, worldZ);
       entry.mesh.rotation.z = 0;
-      entry.innerModel.scale.set(entry.unitScale, entry.unitScale, entry.unitScale);
-      this.applyPlacementOffset(entry, entry.unitScale, true);
+      entry.innerModel.scale.set(unitScale, unitScale, unitScale);
+      this.applyPlacementOffset(entry, unitScale, true);
 
       // Fog of War & Memory/Explored visibility
       let isVisible = true;
@@ -1201,9 +1325,9 @@ export class ThreeDPropManager {
       }
 
       entry.mesh.visible = isVisible;
+      const canCastShadow = !isFogActive || inActiveVision;
       if (isVisible) {
         const targetOpacity = (isFogActive && !inActiveVision) ? 0.45 : 1.0;
-        const canCastShadow = !isFogActive || inActiveVision;
         entry.innerModel.traverse(child => {
           if (child.isMesh) {
             child.castShadow = canCastShadow;
@@ -1221,6 +1345,10 @@ export class ThreeDPropManager {
           }
         });
       }
+
+      transformParts.push(
+        `${id}:${gx},${gy}:${elevation}:${unitScale.toFixed(4)}:${isVisible ? 1 : 0}:${canCastShadow === false ? 0 : 1}`
+      );
     });
 
     for (const [id, entry] of this.lightPropInstances.entries()) {
@@ -1229,13 +1357,16 @@ export class ThreeDPropManager {
         this.lightPropInstances.delete(id);
       }
     }
+
+    const lightPropsKey = transformParts.join('|');
+    const changed = lightPropsKey !== this.lightPropsKey;
+    this.lightPropsKey = lightPropsKey;
+    return changed;
   }
 
   updateWallDoors(wallData = {}, gridState = {}, fogState = {}, elevationData = {}) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentDoorKeys = new Set();
-    const doorwayDef = MODEL_REGISTRY.wall_doorway;
-    const doorwayUrl = doorwayDef?.url || '/assets/models/dungeon/wall_doorway.glb';
 
     let gridSystem = null;
     try {
@@ -1260,7 +1391,9 @@ export class ThreeDPropManager {
 
     Object.entries(wallData).forEach(([key, wall]) => {
       const type = typeof wall === 'string' ? wall : wall?.type;
-      if (!type || (!type.includes('door') && type !== 'wall_doorway')) return;
+      const typeData = WALL_TYPES[type] || {};
+      const isDoorOrGate = type && (type.includes('door') || (type.includes('gate') && type !== 'wall_gated') || typeData.interactive || type === 'wall_doorway');
+      if (!isDoorOrGate) return;
 
       const parsed = parseWallKey(key);
       if (!parsed) return;
@@ -1275,6 +1408,38 @@ export class ThreeDPropManager {
 
       currentDoorKeys.add(key);
       let entry = this.wallDoorInstances.get(key);
+
+      let doorwayUrl = MODEL_REGISTRY.wall_doorway?.url || '/assets/models/dungeon/wall_doorway.glb';
+      if (type === 'town_door') {
+        doorwayUrl = '/assets/models/walls/town_wall_door.glb';
+      } else if (type === 'wooden_door') {
+        doorwayUrl = '/assets/models/walls/wooden_wall_door.glb';
+      } else if (type === 'iron_gate') {
+        doorwayUrl = '/assets/models/walls/metal_wall_gate.glb';
+      } else if (type === 'wooden_gate') {
+        doorwayUrl = '/assets/models/walls/wooden_fence_gate.glb';
+      } else if (type === 'hedge_gate') {
+        doorwayUrl = '/assets/models/walls/hedge_gate.glb';
+      }
+
+      // Dedicated door/gate models are authored flush to the cell boundary, so
+      // their origin is not on the wall line. Use the same metrics table as the
+      // modular wall pieces (ThreeDWallManager.computeWallPieces) so doors sit
+      // inside their opening instead of a fraction of a tile in front of it.
+      const metrics = wallModelMetrics(doorwayUrl);
+      const modelLength = metrics.length || WALL_MODEL_UNIT;
+      const modelHeight = metrics.height || WALL_MODEL_UNIT;
+      const rotateY = metrics.rotateY || 0;
+      const innerOffset = {
+        x: -(metrics.centerX || 0),
+        y: metrics.rotateY ? -(metrics.centerZ || 0) : (metrics.centerZ || 0)
+      };
+
+      if (entry && entry.doorwayUrl !== doorwayUrl) {
+        this.group.remove(entry.mesh);
+        this.wallDoorInstances.delete(key);
+        entry = null;
+      }
 
       const worldX = (ends.start.x + ends.end.x) / 2;
       const worldY = (ends.start.y + ends.end.y) / 2;
@@ -1292,15 +1457,17 @@ export class ThreeDPropManager {
       // In Three.js: +Y is North, so screen dy is inverted (-dy)
       const angleRad = Math.atan2(-dy, dx);
       // Doors wrap masonry to the full host wall height, so they scale with the
-      // same wall-body height as the modular wall segments.
-      const heightWorld = getWallBodyHeightWorld(wall, gridSize);
+      // same wall-body height as the modular wall segments. Gate types carry the
+      // heightScale of the fence/hedge they belong to so a picket gate matches
+      // its picket fence instead of towering over it.
+      const heightWorld = getWallBodyHeightWorld(wall, gridSize, typeData);
 
       if (!entry) {
         const modelScene = modelCache.createInstance(doorwayUrl);
         if (!modelScene) return; // Still loading
 
-        // Upright orientation
-        modelScene.rotation.x = Math.PI / 2;
+        // Upright orientation with authored yaw
+        modelScene.rotation.set(Math.PI / 2, rotateY, 0, 'XYZ');
 
         const wrapperGroup = new THREE.Group();
         wrapperGroup.name = `walldoor_${key}`;
@@ -1323,13 +1490,19 @@ export class ThreeDPropManager {
 
         let doorNode = null;
         modelScene.traverse(child => {
-          if (child.name === 'wall_doorway_door') doorNode = child;
+          if (child.name === 'wall_doorway_door' || child.name === 'door' || child.name === 'gate') {
+            doorNode = child;
+          }
         });
 
         const isDoorOpen = wall?.state === 'open';
 
         entry = {
           key,
+          doorwayUrl,
+          modelLength,
+          modelHeight,
+          innerOffset,
           ...parsed,
           mesh: wrapperGroup,
           innerModel: modelScene,
@@ -1347,11 +1520,16 @@ export class ThreeDPropManager {
 
       entry.mesh.position.set(worldX, -worldY, worldZ);
       entry.mesh.rotation.z = angleRad;
+      const doorScale = gridSize / (entry.modelLength || WALL_MODEL_UNIT);
       entry.innerModel.scale.set(
-        gridSize / WALL_MODEL_UNIT,
-        heightWorld / WALL_MODEL_UNIT,
-        gridSize / WALL_MODEL_UNIT
+        doorScale,
+        heightWorld / (entry.modelHeight || WALL_MODEL_UNIT),
+        doorScale
       );
+      // Offsets live on the unscaled model, so scale them onto the wrapper axes
+      // (thickness along wrapper Y uses the same piece scale for 1-tile doors).
+      entry.innerModel.position.x = (entry.innerOffset?.x || 0) * doorScale;
+      entry.innerModel.position.y = (entry.innerOffset?.y || 0) * doorScale;
 
       const isDoorOpen = wall?.state === 'open';
       if (isDoorOpen !== entry.isOpen) {

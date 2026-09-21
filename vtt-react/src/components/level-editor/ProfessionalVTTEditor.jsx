@@ -24,7 +24,7 @@ import TerrainHoverPreview from './TerrainHoverPreview';
 import { PROFESSIONAL_OBJECTS, snapRotationForHitTest } from './objects/ObjectSystem';
 import AreaRemoveModal from './AreaRemoveModal';
 import AdvancedLightingPanel from './AdvancedLightingPanel';
-import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator } from './EditorOverlays';
+import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator, ObjectShortcutHUD } from './EditorOverlays';
 import { EDITOR_TABS as vttTools, getToolCursor, getFirstTool } from './editorTools';
 import { resolveObjectWheelTransform, toToolSettingsPatch } from './objectWheelTransforms';
 import { resolveWallMountPlacement } from './objects/wallAttachment';
@@ -48,6 +48,17 @@ const pointSegmentDistance2D = (px, py, ax, ay, bx, by) => {
     if (lengthSq < 1e-9) return Math.hypot(px - ax, py - ay);
     const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq));
     return Math.hypot(px - (ax + dx * t), py - (ay + dy * t));
+};
+
+// 3D door/gate objects that weave into an existing wall as a door feature when
+// placed next to one (object type -> WALL_TYPES feature id).
+const DOOR_OBJECT_FEATURE_TYPES = {
+    wall_doorway: 'stone_door',
+    wooden_door: 'wooden_door',
+    town_door: 'town_door',
+    iron_gate: 'iron_gate',
+    wooden_gate: 'wooden_gate',
+    hedge_gate: 'hedge_gate'
 };
 
 // Straight hex walls connect two honeycomb corners; the ghost preview carries
@@ -165,6 +176,8 @@ const elevationStrokePaintedRef = useRef(null);
         removeEnvironmentalObject,
         updateEnvironmentalObject,
         selectEnvironmentalObject,
+        setAllEnvironmentalObjectsLocked,
+        setEditorOpen,
         getObjectAtPosition,
         environmentalObjects,
         terrainData,
@@ -194,6 +207,14 @@ const elevationStrokePaintedRef = useRef(null);
         undo,
         redo
     } = useLevelEditorStore();
+
+    // Derived lock state for the panel-bar "Lock All" toggle. There is no stored
+    // flag: the toggle snapshots the lock onto the objects placed so far, so a
+    // newly placed object stays movable until locked again.
+    const lockedObjectsCount = (environmentalObjects || []).filter(o => o.locked).length;
+    const objectsTotalCount = (environmentalObjects || []).length;
+    const allObjectsLocked = objectsTotalCount > 0 && lockedObjectsCount === objectsTotalCount;
+    const someObjectsLocked = lockedObjectsCount > 0 && !allObjectsLocked;
 
     const {
         isGMMode,
@@ -363,16 +384,73 @@ const elevationStrokePaintedRef = useRef(null);
         return false;
     };
     const editorWheelTransformRef = useRef(null);
+    const isEKeyPressedRef = useRef(false);
+    const [heldModifiers, setHeldModifiers] = useState({ e: false, alt: false, shift: false });
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            const isInput = ['INPUT', 'TEXTAREA'].includes(e.target?.tagName) || e.target?.isContentEditable;
+            if (isInput) return;
+
+            if (e.code === 'KeyE' || e.key?.toLowerCase() === 'e') {
+                isEKeyPressedRef.current = true;
+                setHeldModifiers(prev => prev.e ? prev : ({ ...prev, e: true }));
+            }
+            if (e.altKey) {
+                setHeldModifiers(prev => prev.alt ? prev : ({ ...prev, alt: true }));
+            }
+            if (e.shiftKey) {
+                setHeldModifiers(prev => prev.shift ? prev : ({ ...prev, shift: true }));
+            }
+        };
+        const handleKeyUp = (e) => {
+            if (e.code === 'KeyE' || e.key?.toLowerCase() === 'e') {
+                isEKeyPressedRef.current = false;
+                setHeldModifiers(prev => !prev.e ? prev : ({ ...prev, e: false }));
+            }
+            setHeldModifiers(prev => {
+                const alt = !!e.altKey;
+                const shift = !!e.shiftKey;
+                if (prev.alt === alt && prev.shift === shift) return prev;
+                return { ...prev, alt, shift };
+            });
+        };
+        const handleWindowBlur = () => {
+            isEKeyPressedRef.current = false;
+            setHeldModifiers({ e: false, alt: false, shift: false });
+        };
+
+        window.addEventListener('keydown', handleKeyDown, { capture: true });
+        window.addEventListener('keyup', handleKeyUp, { capture: true });
+        window.addEventListener('blur', handleWindowBlur);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown, { capture: true });
+            window.removeEventListener('keyup', handleKeyUp, { capture: true });
+            window.removeEventListener('blur', handleWindowBlur);
+        };
+    }, []);
+
     editorWheelTransformRef.current = (e) => {
         if (!isEditorMode) return;
 
+        const wheelEvent = {
+            deltaX: e.deltaX,
+            deltaY: e.deltaY,
+            altKey: e.altKey,
+            shiftKey: e.shiftKey,
+            ctrlKey: e.ctrlKey,
+            eKey: isEKeyPressedRef.current
+        };
+
         const placementArmed = selectedTool === 'object_place' && !!toolSettings?.selectedObjectType;
         if (placementArmed) {
-            const patch = resolveObjectWheelTransform(e, {
+            const patch = resolveObjectWheelTransform(wheelEvent, {
                 scale: toolSettings.objectScale || 1,
                 rotation: toolSettings.objectRotation || 0,
                 rotationX: toolSettings.objectRotationX || 0,
-                rotationY: toolSettings.objectRotationY || 0
+                rotationY: toolSettings.objectRotationY || 0,
+                elevation: toolSettings.objectElevation !== undefined ? toolSettings.objectElevation : 0
             });
             if (!patch) return;
             e.preventDefault();
@@ -385,7 +463,7 @@ const elevationStrokePaintedRef = useRef(null);
         if (!selectedObject) return;
         // Locked objects are frozen: wheel resize/rotate/tilt is ignored.
         if (selectedObject.locked) return;
-        const patch = resolveObjectWheelTransform(e, selectedObject);
+        const patch = resolveObjectWheelTransform(wheelEvent, selectedObject);
         if (!patch) return;
         e.preventDefault();
         e.stopPropagation();
@@ -1496,8 +1574,9 @@ const elevationStrokePaintedRef = useRef(null);
                     const objectType = selectedObjectType;
                     const objectDef = PROFESSIONAL_OBJECTS[objectType];
 
-                    // Interweave 3D Wooden Door into walls if placed near an existing wall
-                    if (objectType === 'wall_doorway') {
+                    // Interweave 3D doors into walls if placed near an existing wall
+                    const doorFeatureType = DOOR_OBJECT_FEATURE_TYPES[objectType];
+                    if (doorFeatureType) {
                         const currentWalls = useLevelEditorStore.getState().wallData || {};
                         const gOX = gridOffsetX || 0;
                         const gOY = gridOffsetY || 0;
@@ -1515,7 +1594,7 @@ const elevationStrokePaintedRef = useRef(null);
                             }
                         }
                         if (hasNearbyWall) {
-                            placeWallFeature('wooden_door', e.clientX, e.clientY);
+                            placeWallFeature(doorFeatureType, e.clientX, e.clientY);
                             return;
                         }
                     }
@@ -1583,16 +1662,18 @@ const elevationStrokePaintedRef = useRef(null);
                         }
                     }
 
+                    const elevOffset = Number.isFinite(toolSettings?.objectElevation) ? toolSettings.objectElevation : 0;
+
                     if (parentCandidate) {
                         const pWorldX = parentCandidate.worldX !== undefined ? parentCandidate.worldX : (parentCandidate.gridX * gridSize + gridSize / 2);
                         const pWorldY = parentCandidate.worldY !== undefined ? parentCandidate.worldY : (parentCandidate.gridY * gridSize + gridSize / 2);
                         objectData.parentObjectId = parentCandidate.id;
                         objectData.attachOffsetX = objCoords.worldX - pWorldX;
                         objectData.attachOffsetY = objCoords.worldY - pWorldY;
-                        objectData.elevation = (parentCandidate.elevation || 0) + 1;
-                    } else if (objectDef?.wallMountable || objectDef?.wallSideSnap || toolSettings?.snapToWall) {
+                        objectData.elevation = (parentCandidate.elevation || 0) + 1 + elevOffset;
+                    } else if (toolSettings?.snapToWall && (objectDef?.wallMountable || objectDef?.wallSideSnap)) {
                         // Wall-mountable fixtures (torches, banners, shelves) or wall-side furniture
-                        // snap to the nearest wall face and aim outward from it.
+                        // snap to the nearest wall face and aim outward from it ONLY if snapToWall is ON.
                         let gridSystem = null;
                         try {
                             gridSystem = getGridSystem();
@@ -1611,7 +1692,7 @@ const elevationStrokePaintedRef = useRef(null);
                             gridOffsetX: gridOffsetX || 0,
                             gridOffsetY: gridOffsetY || 0,
                             gridSystem,
-                            snapToWall: toolSettings?.snapToWall !== false
+                            snapToWall: true
                         });
                         if (mount) {
                             objectData.worldX = mount.mountX;
@@ -1622,16 +1703,16 @@ const elevationStrokePaintedRef = useRef(null);
                             objectData.wallSide = mount.wallSide;
                             objectData.wallElevation = mount.wallElevation;
                             objectData.rotation = mount.rotation;
-                            objectData.elevation = mount.elevation;
+                            objectData.elevation = mount.elevation + elevOffset;
                             objectData.gridX = Math.floor((mount.mountX - (gridOffsetX || 0)) / gridSize);
                             objectData.gridY = Math.floor((mount.mountY - (gridOffsetY || 0)) / gridSize);
                         } else {
                             const tileElev = getTileElevation(useLevelEditorStore.getState().elevationData || {}, objCoords.gridX, objCoords.gridY) || 0;
-                            objectData.elevation = tileElev;
+                            objectData.elevation = tileElev + elevOffset;
                         }
                     } else {
                         const tileElev = getTileElevation(useLevelEditorStore.getState().elevationData || {}, objCoords.gridX, objCoords.gridY) || 0;
-                        objectData.elevation = tileElev;
+                        objectData.elevation = tileElev + elevOffset;
                     }
 
                     const placedObjId = addEnvironmentalObject(objectData, activeMapIdRef.current);
@@ -3148,6 +3229,10 @@ const elevationStrokePaintedRef = useRef(null);
                 wallType = 'stone_wall';
             }
             const wallMode = toolSettings.wallMode || 'continuous';
+            // Curved corners are a build style recorded on the wall itself so a
+            // saved map keeps rendering the corner pieces it was drawn with.
+            const cornerStylePref = (useLevelEditorStore.getState().wallCornerStyles || {})[wallType];
+            const wallExtraFields = cornerStylePref === 'curved' ? { cornerStyle: 'curved' } : null;
 
             if (wallMode === 'continuous') {
                 // Direct-line mode: commit the wall from start to end point.
@@ -3172,7 +3257,8 @@ const elevationStrokePaintedRef = useRef(null);
                                 hexEndpoints: [
                                     { x: chain.startVertex.x, y: chain.startVertex.y },
                                     { x: chain.endVertex.x, y: chain.endVertex.y }
-                                ]
+                                ],
+                                ...(wallExtraFields || {})
                             }
                         );
                     }
@@ -3183,7 +3269,8 @@ const elevationStrokePaintedRef = useRef(null);
                         chain.lastX,
                         chain.lastY,
                         wallType,
-                        activeMapIdRef.current
+                        activeMapIdRef.current,
+                        wallExtraFields
                     );
                 }
             } else if (wallMode === 'rectangle' && currentPath.length === 2) {
@@ -3215,20 +3302,20 @@ const elevationStrokePaintedRef = useRef(null);
                             // If neighbor is outside the rectangle, create a wall
                             if (neighbor.q < minX || neighbor.q > maxX || neighbor.r < minY || neighbor.r > maxY) {
                                 // Create wall between this hex and its neighbor
-                                setWall(hex.q, hex.r, neighbor.q, neighbor.r, wallType, activeMapIdRef.current);
+                                setWall(hex.q, hex.r, neighbor.q, neighbor.r, wallType, activeMapIdRef.current, wallExtraFields);
                             }
                         });
                     });
                 } else {
                     // Square grid: create 4 walls
                     // Top wall
-                    setWall(minX, minY, maxX, minY, wallType, activeMapIdRef.current);
+                    setWall(minX, minY, maxX, minY, wallType, activeMapIdRef.current, wallExtraFields);
                     // Bottom wall
-                    setWall(minX, maxY, maxX, maxY, wallType, activeMapIdRef.current);
+                    setWall(minX, maxY, maxX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
                     // Left wall
-                    setWall(minX, minY, minX, maxY, wallType, activeMapIdRef.current);
+                    setWall(minX, minY, minX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
                     // Right wall
-                    setWall(maxX, minY, maxX, maxY, wallType, activeMapIdRef.current);
+                    setWall(maxX, minY, maxX, maxY, wallType, activeMapIdRef.current, wallExtraFields);
                 }
             }
         } else if (currentPath.length > 0 &&
@@ -3354,6 +3441,18 @@ const elevationStrokePaintedRef = useRef(null);
         }
     }, [isGMMode, isEditorMode, isOpen, setActiveTool]);
 
+    // Publish the real window visibility so canvas chrome (object padlock badge
+    // and locked-object hit-testing) knows when the editor is actually on
+    // screen. Locked objects go click-through and drop their selection while
+    // the window is closed.
+    useEffect(() => {
+        setEditorOpen(isOpen);
+        if (!isOpen) {
+            useLevelEditorStore.getState().clearObjectSelection();
+        }
+        return () => setEditorOpen(false);
+    }, [isOpen, setEditorOpen]);
+
     // Load current map state when editor opens (only once, and only if map has data)
     useEffect(() => {
         if (!isEditorMode || !isGMMode) {
@@ -3472,9 +3571,9 @@ const elevationStrokePaintedRef = useRef(null);
                     setIsOpen(false);
                     setEditorMode(false);
                 }}
-                defaultSize={{ width: 500, height: 680 }}
+                defaultSize={{ width: 560, height: 780 }}
                 defaultPosition={{ x: 50, y: 50 }}
-                minConstraints={[400, 450]}
+                minConstraints={[400, 480]}
                 customHeader={
                     <TabDropdownButton
                         tabs={Object.entries(vttTools).map(([id, category]) => ({
@@ -3489,17 +3588,57 @@ const elevationStrokePaintedRef = useRef(null);
                 className="professional-vtt-editor"
             >
                 <div className="vtt-editor-content">
-                    {/* Layer Panel Toggle Overlay Button */}
-                    <button
-                        className="layer-panel-overlay-toggle"
-                        onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
-                        title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
-                    >
-                        <i className={`fas ${isLayersPanelCollapsed ? 'fa-layer-group' : 'fa-times'}`}></i>
-                    </button>
+                    <div className="vtt-editor-main">
+                        {/* Panel bar: identifies the active tab/tool and hosts the layers toggle */}
+                        <div className="vtt-panel-bar">
+                            <div className="vtt-panel-bar-title">
+                                <i className={`${vttTools[activeTab]?.icon || 'fas fa-sliders-h'} vtt-panel-bar-icon`}></i>
+                                <span className="vtt-panel-bar-name">{vttTools[activeTab]?.name || 'Tools'}</span>
+                                <span className="vtt-panel-bar-sep" aria-hidden="true"></span>
+                                <span className="vtt-panel-bar-tool">
+                                    {vttTools[activeTab]?.tools.find(t => t.id === selectedTool)?.name
+                                        || String(selectedTool || '').replace(/_/g, ' ')}
+                                </span>
+                            </div>
+                            <div className="vtt-panel-bar-actions">
+                                <button
+                                    type="button"
+                                    className={`vtt-lock-all-toggle${allObjectsLocked ? ' active' : ''}${someObjectsLocked ? ' partial' : ''}`}
+                                    onClick={() => setAllEnvironmentalObjectsLocked(!allObjectsLocked, getExplicitCurrentMapId())}
+                                    disabled={objectsTotalCount === 0}
+                                    title={objectsTotalCount === 0
+                                        ? 'No objects placed yet'
+                                        : allObjectsLocked
+                                            ? `Unlock all ${objectsTotalCount} objects`
+                                            : someObjectsLocked
+                                                ? `${lockedObjectsCount} of ${objectsTotalCount} objects locked - lock the rest`
+                                                : `Lock all ${objectsTotalCount} placed objects (L / Shift+L)`}
+                                    aria-pressed={allObjectsLocked}
+                                >
+                                    <i className={`fas ${allObjectsLocked ? 'fa-lock-open' : 'fa-lock'}`}></i>
+                                    <span>{allObjectsLocked ? 'Unlock All' : 'Lock All'}</span>
+                                    {objectsTotalCount > 0 && (
+                                        <span className="vtt-lock-all-toggle-count">{lockedObjectsCount}/{objectsTotalCount}</span>
+                                    )}
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`vtt-layers-toggle${isLayersPanelCollapsed ? '' : ' active'}`}
+                                    onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                                    title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
+                                    aria-pressed={!isLayersPanelCollapsed}
+                                >
+                                    <i className="fas fa-layer-group"></i>
+                                    <span>Layers</span>
+                                    {drawingLayers?.length > 0 && (
+                                        <span className="vtt-layers-toggle-count">{drawingLayers.length}</span>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
 
-                    {/* Tool Settings - Full Width */}
-                    <div className="vtt-tool-settings">
+                        {/* Tool Settings - Full Width */}
+                        <div className="vtt-tool-settings">
                         {/* Render tool-specific components */}
                         {activeTab === 'drawing' && (
                             <DrawingTools
@@ -3560,25 +3699,35 @@ const elevationStrokePaintedRef = useRef(null);
                         {activeTab === 'lighting' && (
                             <AdvancedLightingPanel />
                         )}
+                        </div>
                     </div>
 
-                    {/* Layer Management Panel (extracted component) */}
-                    <LayersPanel
-                        isCollapsed={isLayersPanelCollapsed}
-                        onToggleCollapse={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
-                        drawingLayers={drawingLayers}
-                        activeLayer={activeLayer}
-                        onSetActiveLayer={setActiveLayer}
-                        showGrid={showGrid}
-                        onToggleLayerVisibility={toggleLayerVisibility}
-                        onToggleLayerLock={toggleLayerLock}
-                        onLegacyToggleLayer={toggleLayer}
-                        onToggleGrid={() => {
-                            const { setShowGrid, showGrid } = useGameStore.getState();
-                            setShowGrid(!showGrid);
-                        }}
-                        onClearAll={clearAllProfessionalData}
-                    />
+                    {/* Layer Management drawer (overlays the tool panel so narrow windows stay usable) */}
+                    {!isLayersPanelCollapsed && (
+                        <>
+                            <div
+                                className="vtt-layers-scrim"
+                                onClick={() => setIsLayersPanelCollapsed(true)}
+                                aria-hidden="true"
+                            />
+                            <LayersPanel
+                                isCollapsed={isLayersPanelCollapsed}
+                                onToggleCollapse={() => setIsLayersPanelCollapsed(true)}
+                                drawingLayers={drawingLayers}
+                                activeLayer={activeLayer}
+                                onSetActiveLayer={setActiveLayer}
+                                showGrid={showGrid}
+                                onToggleLayerVisibility={toggleLayerVisibility}
+                                onToggleLayerLock={toggleLayerLock}
+                                onLegacyToggleLayer={toggleLayer}
+                                onToggleGrid={() => {
+                                    const { setShowGrid, showGrid } = useGameStore.getState();
+                                    setShowGrid(!showGrid);
+                                }}
+                                onClearAll={clearAllProfessionalData}
+                            />
+                        </>
+                    )}
                 </div>
 
             </MythrillWindow>
@@ -3676,6 +3825,38 @@ const elevationStrokePaintedRef = useRef(null);
                     }}
                 />
             )}
+
+            {/* Contextual Object Shortcut HUD (visible during object placement or when an object is selected) */}
+            {(() => {
+                const isPlacing = isEditorMode && selectedTool === 'object_place' && !!toolSettings?.selectedObjectType;
+                const selectedEnvObj = isEditorMode ? (environmentalObjects || []).find(o => o.selected) : null;
+                if (!isPlacing && !selectedEnvObj) return null;
+
+                const objectDef = isPlacing
+                    ? PROFESSIONAL_OBJECTS[toolSettings.selectedObjectType]
+                    : PROFESSIONAL_OBJECTS[selectedEnvObj.type];
+                const objectName = objectDef?.name || (isPlacing ? toolSettings.selectedObjectType : selectedEnvObj.type) || 'Object';
+                const scale = isPlacing ? (toolSettings.objectScale || 1) : (selectedEnvObj.scale || 1);
+                const rotation = isPlacing ? (toolSettings.objectRotation || 0) : (selectedEnvObj.rotation || 0);
+                const rotationX = isPlacing ? (toolSettings.objectRotationX || 0) : (selectedEnvObj.rotationX || 0);
+                const rotationY = isPlacing ? (toolSettings.objectRotationY || 0) : (selectedEnvObj.rotationY || 0);
+                const elevation = isPlacing ? (toolSettings.objectElevation || 0) : (selectedEnvObj.elevation || 0);
+
+                return (
+                    <ObjectShortcutHUD
+                        mode={isPlacing ? 'place' : 'selected'}
+                        objectName={objectName}
+                        scale={scale}
+                        rotation={rotation}
+                        rotationX={rotationX}
+                        rotationY={rotationY}
+                        elevation={elevation}
+                        isEHeld={heldModifiers.e}
+                        isAltHeld={heldModifiers.alt}
+                        isShiftHeld={heldModifiers.shift}
+                    />
+                );
+            })()}
 
         </>
     );

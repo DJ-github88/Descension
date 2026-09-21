@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { MODEL_REGISTRY } from '../../components/level-editor/three/ThreeDPropManager';
 import { TERRAIN_MODEL_REGISTRY } from '../../components/level-editor/three/ThreeDTerrainManager';
 
@@ -13,9 +14,12 @@ jest.mock('three/examples/jsm/utils/SkeletonUtils', () => ({
 
 describe('3D Models & Cache Service', () => {
   let modelCache;
+  let ensureLitMaterials;
 
   beforeEach(() => {
-    modelCache = require('../ModelCacheService').default;
+    const service = require('../ModelCacheService');
+    modelCache = service.default;
+    ensureLitMaterials = service.ensureLitMaterials;
   });
 
   it('has valid model registries for props and terrain', () => {
@@ -73,5 +77,63 @@ describe('3D Models & Cache Service', () => {
   it('safely handles missing model instances', () => {
     const instance = modelCache.createInstance('/non/existent/path.glb');
     expect(instance).toBeNull();
+  });
+
+  it('upgrades unlit glTF materials so the sun and shadows apply to them', () => {
+    const map = new THREE.Texture();
+    const basic = new THREE.MeshBasicMaterial({
+      color: 0xff8844,
+      map,
+      opacity: 0.6,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+    basic.name = 'wood';
+
+    const lit = ensureLitMaterials(basic);
+
+    expect(lit).toBeInstanceOf(THREE.MeshStandardMaterial);
+    expect(lit).not.toBe(basic);
+    expect(lit.name).toBe('wood');
+    expect(lit.color.getHex()).toBe(0xff8844);
+    expect(lit.map).toBe(map);
+    expect(lit.opacity).toBe(0.6);
+    expect(lit.transparent).toBe(true);
+    expect(lit.side).toBe(THREE.DoubleSide);
+    expect(lit.roughness).toBe(0.8);
+    expect(lit.metalness).toBe(0.1);
+  });
+
+  it('leaves already lit materials untouched', () => {
+    const standard = new THREE.MeshStandardMaterial({ color: 0x123456 });
+    expect(ensureLitMaterials(standard)).toBe(standard);
+  });
+
+  it('creates lit instances from unlit cached models', () => {
+    const { clone } = require('three/examples/jsm/utils/SkeletonUtils');
+    clone.mockImplementation((scene) => scene);
+
+    const basic = new THREE.MeshBasicMaterial({ color: 0xff8844 });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(), basic);
+    const scene = new THREE.Group();
+    scene.add(mesh);
+    modelCache.loadedModels.set('/fake/unlit.glb', { scene, animations: [] });
+
+    const instance = modelCache.createInstance('/fake/unlit.glb');
+
+    const clonedMesh = instance.children[0];
+    expect(clonedMesh.material).toBeInstanceOf(THREE.MeshStandardMaterial);
+    expect(clonedMesh.material.color.getHex()).toBe(0xff8844);
+  });
+
+  it('upgrades every entry of a material array', () => {
+    const basicA = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const standardB = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+
+    const [litA, litB] = ensureLitMaterials([basicA, standardB]);
+
+    expect(litA).toBeInstanceOf(THREE.MeshStandardMaterial);
+    expect(litA.color.getHex()).toBe(0xff0000);
+    expect(litB).toBe(standardB);
   });
 });

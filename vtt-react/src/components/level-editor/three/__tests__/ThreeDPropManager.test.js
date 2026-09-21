@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ThreeDPropManager } from '../ThreeDPropManager';
+import { ThreeDPropManager, lightFixtureFootprint } from '../ThreeDPropManager';
 
 jest.mock('../../../../services/ModelCacheService', () => {
   const three = require('three');
@@ -81,6 +81,51 @@ describe('ThreeDPropManager light fixtures', () => {
 
     manager.updateLightProps({}, GRID, {});
     expect(manager.lightPropInstances.size).toBe(0);
+  });
+
+  it('sizes the fixture from the light radius instead of pinning every light to one cell', () => {
+    // Mock model footprint is 4 world units, so unitScale is (50 / 4) * def.scale.
+    manager.updateLightProps({ light1: light({ type: 'candle', radius: 1 }) }, GRID, {});
+    const candleScale = manager.lightPropInstances.get('light1').innerModel.scale.x;
+
+    manager.updateLightProps({ light1: light({ type: 'campfire', radius: 5 }) }, GRID, {});
+    const campfireScale = manager.lightPropInstances.get('light1').innerModel.scale.x;
+
+    expect(candleScale).toBeCloseTo((50 / 4) * 1.0 * lightFixtureFootprint(1), 6);
+    expect(campfireScale).toBeCloseTo((50 / 4) * 1.2 * lightFixtureFootprint(5), 6);
+    expect(campfireScale).toBeGreaterThan(candleScale * 2);
+  });
+
+  it('resizes an existing fixture when its radius changes', () => {
+    manager.updateLightProps({ light1: light({ radius: 2 }) }, GRID, {});
+    const before = manager.lightPropInstances.get('light1').innerModel.scale.x;
+
+    manager.updateLightProps({ light1: light({ radius: 8 }) }, GRID, {});
+    const after = manager.lightPropInstances.get('light1').innerModel.scale.x;
+
+    expect(after).toBeGreaterThan(before);
+    expect(after).toBeCloseTo((50 / 4) * 0.9 * lightFixtureFootprint(8), 6);
+  });
+
+  it('reports fixture scene changes so the sun shadow map is re-rendered', () => {
+    // Empty scene stays unchanged.
+    expect(manager.updateLightProps({}, GRID, {})).toBe(false);
+
+    // Adding and deleting fixtures are scene changes: the baked sun shadow of
+    // a deleted light must be cleared instead of lingering on the floor.
+    expect(manager.updateLightProps({ light1: light() }, GRID, {})).toBe(true);
+    expect(manager.updateLightProps({}, GRID, {})).toBe(true);
+    expect(manager.updateLightProps({}, GRID, {})).toBe(false);
+
+    // Parameter-only edits (intensity/colour/flicker) never cost a shadow pass.
+    manager.updateLightProps({ light1: light() }, GRID, {});
+    expect(
+      manager.updateLightProps({ light1: light({ intensity: 0.3, color: '#00ff00', flickering: true }) }, GRID, {})
+    ).toBe(false);
+
+    // Moving or resizing the fixture is a scene change too.
+    expect(manager.updateLightProps({ light1: light({ x: 3 }) }, GRID, {})).toBe(true);
+    expect(manager.updateLightProps({ light1: light({ x: 3, radius: 9 }) }, GRID, {})).toBe(true);
   });
 
   it('dims fixtures outside active vision under fog of war', () => {
@@ -180,6 +225,52 @@ describe('ThreeDPropManager fog visibility', () => {
     const entry = manager.wallDoorInstances.get('10,3,10,4');
     expect(entry).toBeDefined();
     expect(entry.mesh.visible).toBe(true);
+  });
+});
+
+describe('ThreeDPropManager wall door seating', () => {
+  let scene;
+  let manager;
+
+  beforeEach(() => {
+    scene = new THREE.Scene();
+    manager = new ThreeDPropManager(scene);
+  });
+
+  afterEach(() => {
+    manager.dispose();
+  });
+
+  it('shifts dedicated door models back onto the wall line using model metrics', () => {
+    manager.updateWallDoors({ '2,2,3,2': { type: 'wooden_door', state: 'closed' } }, GRID, {});
+
+    const entry = manager.wallDoorInstances.get('2,2,3,2');
+    expect(entry).toBeDefined();
+    // walls/wooden_wall_door.glb is authored flush to the cell edge (thickness
+    // centre -0.45), so the model must be shifted back by that amount.
+    expect(entry.innerModel.position.y).toBeCloseTo(0.45 * 50);
+    expect(entry.innerModel.position.x).toBeCloseTo(0);
+    // Wall key 2,2,3,2 sits on the lattice line y=2: midpoint (125, 100)
+    // in world, -100 in three.js Y.
+    expect(entry.mesh.position.x).toBeCloseTo(125);
+    expect(entry.mesh.position.y).toBeCloseTo(-100);
+  });
+
+  it('centres flush gate models on both the wall line and the tile length', () => {
+    manager.updateWallDoors({ '0,0,1,0': { type: 'iron_gate', state: 'closed' } }, GRID, {});
+
+    const entry = manager.wallDoorInstances.get('0,0,1,0');
+    expect(entry.innerModel.position.x).toBeCloseTo(0.05 * 50);
+    expect(entry.innerModel.position.y).toBeCloseTo(0.43 * 50);
+  });
+
+  it('leaves the centred kit doorway model untouched', () => {
+    manager.updateWallDoors({ '5,5,6,5': { type: 'stone_door', state: 'closed' } }, GRID, {});
+
+    const entry = manager.wallDoorInstances.get('5,5,6,5');
+    expect(entry.doorwayUrl).toContain('/assets/models/dungeon/wall_doorway.glb');
+    expect(entry.innerModel.position.x).toBeCloseTo(0);
+    expect(entry.innerModel.position.y).toBeCloseTo(0);
   });
 });
 

@@ -2,11 +2,15 @@ import {
   resolveObjectWheelTransform,
   toToolSettingsPatch,
   clampObjectScale,
+  clampObjectElevation,
   wrapYawDegrees,
   wrapTiltDegrees,
   OBJECT_SCALE_MAX,
   OBJECT_SCALE_MIN,
-  OBJECT_ROTATION_STEP
+  OBJECT_ROTATION_STEP,
+  OBJECT_ELEVATION_STEP,
+  OBJECT_ELEVATION_MIN,
+  OBJECT_ELEVATION_MAX
 } from '../objectWheelTransforms';
 
 const wheel = (overrides = {}) => ({
@@ -15,6 +19,7 @@ const wheel = (overrides = {}) => ({
   altKey: false,
   shiftKey: false,
   ctrlKey: false,
+  eKey: false,
   ...overrides
 });
 
@@ -69,11 +74,38 @@ describe('objectWheelTransforms', () => {
     expect(patch.scale).toBeGreaterThan(1);
   });
 
+  it('elevates height with E+wheel and Shift+E+wheel', () => {
+    // E + wheel up elevates by OBJECT_ELEVATION_STEP (0.5)
+    const up = resolveObjectWheelTransform(wheel({ eKey: true }), { elevation: 0 });
+    expect(up).toEqual({ elevation: OBJECT_ELEVATION_STEP });
+
+    // Shift + E + wheel up also elevates by OBJECT_ELEVATION_STEP (0.5)
+    const shiftUp = resolveObjectWheelTransform(wheel({ eKey: true, shiftKey: true }), { elevation: 1 });
+    expect(shiftUp).toEqual({ elevation: 1 + OBJECT_ELEVATION_STEP });
+
+    // E + wheel down lowers elevation
+    const down = resolveObjectWheelTransform(wheel({ eKey: true, deltaY: 100 }), { elevation: 1 });
+    expect(down).toEqual({ elevation: 1 - OBJECT_ELEVATION_STEP });
+  });
+
+  it('supports fine elevation adjustments with Alt+E+wheel', () => {
+    const fineUp = resolveObjectWheelTransform(wheel({ eKey: true, altKey: true }), { elevation: 1 });
+    expect(fineUp).toEqual({ elevation: 1.1 });
+  });
+
+  it('clamps elevation to supported range', () => {
+    expect(clampObjectElevation(-999)).toBe(OBJECT_ELEVATION_MIN);
+    expect(clampObjectElevation(999)).toBe(OBJECT_ELEVATION_MAX);
+    const clamped = resolveObjectWheelTransform(wheel({ eKey: true }), { elevation: OBJECT_ELEVATION_MAX });
+    expect(clamped.elevation).toBe(OBJECT_ELEVATION_MAX);
+  });
+
   it('maps canonical keys onto tool-settings keys for the ghost preview', () => {
     expect(toToolSettingsPatch({ scale: 1.1 })).toEqual({ objectScale: 1.1 });
     expect(toToolSettingsPatch({ rotation: 15 })).toEqual({ objectRotation: 15 });
     expect(toToolSettingsPatch({ rotationX: -15 })).toEqual({ objectRotationX: -15 });
     expect(toToolSettingsPatch({ rotationY: 30 })).toEqual({ objectRotationY: 30 });
+    expect(toToolSettingsPatch({ elevation: 1.5 })).toEqual({ objectElevation: 1.5 });
     expect(toToolSettingsPatch(null)).toBeNull();
   });
 });

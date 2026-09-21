@@ -35,7 +35,8 @@ const LOCKED_OBJECT_TRANSFORM_KEYS = [
   'scale',
   'rotation',
   'rotationX',
-  'rotationY'
+  'rotationY',
+  'elevation'
 ];
 
 const mapUpdateBatcher = {
@@ -329,6 +330,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     tileVariations: [
       '/assets/tiles/Dirt1.png'
     ],
+    modelKey: 'dirt',
     movementCost: 1,
     description: 'Bare earth and soil'
   },
@@ -338,6 +340,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     category: 'natural',
     color: '#6b6b6b',
     tileVariations: ['/assets/tiles/Stone1.png'],
+    modelKey: 'stone_floor',
     movementCost: 1,
     description: 'Natural stone surface'
   },
@@ -346,7 +349,9 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     name: 'Sand',
     category: 'natural',
     color: '#c2b280',
-    tileVariations: ['/assets/tiles/Sand1.png'],
+    tileVariations: [
+      '/assets/tiles/Sand1.png'
+    ],
     movementCost: 2,
     description: 'Sandy terrain'
   },
@@ -355,18 +360,22 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     name: 'Water',
     category: 'natural',
     color: '#4682b4',
-    tileVariations: ['/assets/tiles/Water2.png'],
+    tileVariations: [
+      '/assets/tiles/Water1.png'
+    ],
     movementCost: 4,
     description: 'Deep water'
   },
   cobblestone: {
     id: 'cobblestone',
     name: 'Cobblestone',
+    shortName: 'Cobble',
     category: 'natural',
     color: '#8a8a8a',
     tileVariations: [
       '/assets/tiles/Cobble1.png'
     ],
+    modelKey: 'cobblestone',
     movementCost: 1,
     description: 'Cobblestone path or road'
   },
@@ -375,6 +384,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
   dungeon_floor: {
     id: 'dungeon_floor',
     name: 'Dungeon Floor',
+    shortName: 'Dungeon',
     category: 'dungeon',
     color: '#5a5a5a',
     tileVariations: ['/assets/tiles/Dungeon1.png'],
@@ -384,6 +394,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
   marble_floor: {
     id: 'marble_floor',
     name: 'Marble Floor',
+    shortName: 'Marble',
     category: 'dungeon',
     color: '#f0f0f0',
     tileVariations: ['/assets/tiles/Marble1.png'],
@@ -393,6 +404,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
   wooden_floor: {
     id: 'wooden_floor',
     name: 'Wooden Floor',
+    shortName: 'Wood Floor',
     category: 'dungeon',
     color: '#8b4513',
     tileVariations: ['/assets/tiles/Wood1.png'],
@@ -453,7 +465,11 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     name: 'Lava',
     category: 'hazard',
     color: '#ff4500',
-    tileVariations: ['/assets/tiles/Lava1.png'],
+    tileVariations: [
+      '/assets/tiles/Lava1.png',
+      '/assets/tiles/Lava2.png',
+      '/assets/tiles/Lava3.png'
+    ],
     movementCost: 99,
     damage: '2d6 fire',
     description: 'Molten lava - extremely dangerous'
@@ -463,7 +479,11 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     name: 'Acid Pool',
     category: 'hazard',
     color: '#32cd32',
-    tileVariations: ['/assets/tiles/Acid1.png'],
+    tileVariations: [
+      '/assets/tiles/Acid1.png',
+      '/assets/tiles/Acid2.png',
+      '/assets/tiles/Acid3.png'
+    ],
     movementCost: 99,
     damage: '1d6 acid',
     description: 'Corrosive acid pool'
@@ -473,7 +493,10 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     name: 'Pit',
     category: 'hazard',
     color: '#2f2f2f',
-    tileVariations: ['/assets/tiles/Pit1.png'],
+    tileVariations: [
+      '/assets/tiles/Pit1.png',
+      '/assets/tiles/Pit2.png'
+    ],
     movementCost: 99,
     description: 'Deep pit or chasm'
   },
@@ -482,7 +505,10 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     name: 'The Abyss',
     category: 'hazard',
     color: '#000000',
-    tileVariations: ['/assets/tiles/Abyss1.png'],
+    tileVariations: [
+      '/assets/tiles/Abyss1.png',
+      '/assets/tiles/Abyss2.png'
+    ],
     movementCost: 99,
     description: 'Infinite dark Silence'
   },
@@ -503,6 +529,138 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     tileVariations: ['/assets/tiles/Gold1.png'],
     movementCost: 1,
     description: 'Opulent solid gold flooring'
+  },
+  grate_floor: {
+    id: 'grate_floor',
+    name: 'Iron Grate Floor',
+    shortName: 'Grate',
+    category: 'dungeon',
+    color: '#4f5861',
+    tileVariations: ['/assets/tiles/Grate1.png'],
+    modelKey: 'floor_grate',
+    movementCost: 1,
+    description: 'Cast iron drainage and ventilation grate'
+  },
+  spike_trap: {
+    id: 'spike_trap',
+    name: 'Spike Trap Floor',
+    shortName: 'Spikes',
+    category: 'hazard',
+    color: '#52433d',
+    tileVariations: ['/assets/tiles/Spikes1.png'],
+    modelKey: 'floor_spikes',
+    movementCost: 2,
+    damage: '2d6 piercing',
+    description: 'Lethal floor spike trap'
+  },
+  dark_wood: {
+    id: 'dark_wood',
+    name: 'Dark Wood Floor',
+    shortName: 'Dark Wood',
+    category: 'dungeon',
+    color: '#543621',
+    tileVariations: ['/assets/tiles/DarkWood1.png'],
+    movementCost: 1,
+    description: 'Aged dark timber planking'
+  },
+  weathered_stone: {
+    id: 'weathered_stone',
+    name: 'Weathered Stone',
+    shortName: 'Weathered',
+    category: 'dungeon',
+    color: '#6e706e',
+    tileVariations: ['/assets/tiles/Stone1.png', '/assets/tiles/Cobble1.png'],
+    modelKey: 'stone_rocks',
+    movementCost: 1,
+    description: 'Cracked, weathered stone flagstones with rubble'
+  },
+  rocky_dirt: {
+    id: 'rocky_dirt',
+    name: 'Rocky Dirt',
+    shortName: 'Rocky Dirt',
+    category: 'natural',
+    color: '#7a5a22',
+    tileVariations: ['/assets/tiles/RockyDirt1.png'],
+    modelKey: 'rocky_dirt',
+    movementCost: 1,
+    description: 'Coarse dirt strewn with rough stones'
+  },
+  overgrown_dirt: {
+    id: 'overgrown_dirt',
+    name: 'Overgrown Earth',
+    shortName: 'Overgrown',
+    category: 'natural',
+    color: '#656b3b',
+    tileVariations: ['/assets/tiles/OvergrownDirt1.png'],
+    modelKey: 'overgrown_dirt',
+    movementCost: 1,
+    description: 'Earthy ground sprouting patches of wild weeds'
+  },
+  cobblestone_road: {
+    id: 'cobblestone_road',
+    name: 'Cobblestone Road',
+    shortName: 'Road',
+    category: 'natural',
+    color: '#757575',
+    tileVariations: ['/assets/tiles/CobbleRoad1.png'],
+    modelKey: 'road_stone',
+    movementCost: 1,
+    description: 'Paved cobblestone road thoroughfare'
+  },
+  wooden_planks: {
+    id: 'wooden_planks',
+    name: 'Wooden Boardwalk',
+    shortName: 'Boardwalk',
+    category: 'dungeon',
+    color: '#9e6d42',
+    tileVariations: ['/assets/tiles/WoodenPlanks1.png'],
+    modelKey: 'wooden_planks',
+    movementCost: 1,
+    description: 'Sturdy wooden boardwalk, bridge, or dock planking'
+  },
+  stone_path: {
+    id: 'stone_path',
+    name: 'Flagstone Path',
+    shortName: 'Path',
+    category: 'natural',
+    color: '#6e6a64',
+    tileVariations: ['/assets/tiles/StonePath1.png'],
+    modelKey: 'road_graveyard',
+    movementCost: 1,
+    description: 'Chiseled cemetery and garden flagstone walkway'
+  },
+  brick_floor: {
+    id: 'brick_floor',
+    name: 'Brick Floor',
+    shortName: 'Brick',
+    category: 'dungeon',
+    color: '#8b4513',
+    tileVariations: ['/assets/tiles/Dungeon1.png'],
+    modelKey: 'dungeon_brick',
+    movementCost: 1,
+    description: 'Carved modular brick flooring'
+  },
+  quaternius_wood: {
+    id: 'quaternius_wood',
+    name: 'Stylized Wood Planks',
+    shortName: 'Planks',
+    category: 'dungeon',
+    color: '#a0522d',
+    tileVariations: ['/assets/tiles/WoodenPlanks1.png'],
+    modelKey: 'quaternius_wood',
+    movementCost: 1,
+    description: 'Stylized textured wood floor'
+  },
+  kaykit_cobble: {
+    id: 'kaykit_cobble',
+    name: 'Old Cobblestone',
+    shortName: 'Old Cobble',
+    category: 'natural',
+    color: '#7a7a7a',
+    tileVariations: ['/assets/tiles/Cobble1.png'],
+    modelKey: 'kaykit_cobble',
+    movementCost: 1,
+    description: 'Handcrafted cobblestone paving'
   }
 };
 
@@ -565,8 +723,119 @@ export const TERRAIN_TYPES = {
     mechanics: 'Standard movement. Excellent footing.',
     tacticalNotes: 'Ideal for mounted combat and formations.'
   },
+  cobblestone_road: {
+    id: 'cobblestone_road',
+    name: 'Cobblestone Road',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#757575',
+    texture: 'cobblestone',
+    movementCost: 1,
+    description: 'Paved cobblestone road thoroughfare',
+    mechanics: 'Standard movement. Excellent footing.',
+    tacticalNotes: 'Ideal for thoroughfares and mounted travel.'
+  },
+  rocky_dirt: {
+    id: 'rocky_dirt',
+    name: 'Rocky Dirt',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#7a5a22',
+    texture: 'dirt',
+    movementCost: 1,
+    description: 'Coarse dirt strewn with rough stones',
+    mechanics: 'Standard movement.',
+    tacticalNotes: 'Natural wilderness terrain.'
+  },
+  overgrown_dirt: {
+    id: 'overgrown_dirt',
+    name: 'Overgrown Earth',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#656b3b',
+    texture: 'dirt',
+    movementCost: 1,
+    description: 'Earthy ground sprouting patches of wild weeds',
+    mechanics: 'Standard movement.',
+    tacticalNotes: 'Natural ground cover.'
+  },
+  stone_path: {
+    id: 'stone_path',
+    name: 'Flagstone Path',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#6e6a64',
+    texture: 'stone',
+    movementCost: 1,
+    description: 'Chiseled cemetery and garden flagstone walkway',
+    mechanics: 'Standard movement.',
+    tacticalNotes: 'Paved garden or cemetery pathway.'
+  },
+  wooden_planks: {
+    id: 'wooden_planks',
+    name: 'Wooden Boardwalk',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#9e6d42',
+    texture: 'wood',
+    movementCost: 1,
+    description: 'Sturdy wooden boardwalk, bridge, or dock planking',
+    mechanics: 'Standard movement.',
+    tacticalNotes: 'Boardwalk and dock flooring.'
+  },
+  grate_floor: {
+    id: 'grate_floor',
+    name: 'Iron Grate Floor',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#55585e',
+    texture: 'stone',
+    movementCost: 1,
+    description: 'Cast iron drainage and ventilation grate',
+    mechanics: 'Standard movement. Liquid drains through.',
+    tacticalNotes: 'Allows air and liquid flow.'
+  },
+  spike_trap: {
+    id: 'spike_trap',
+    name: 'Spike Trap Floor',
+    category: TERRAIN_CATEGORIES.HAZARDOUS,
+    color: '#733d3d',
+    texture: 'stone',
+    movementCost: 2,
+    description: 'Lethal floor spike trap',
+    mechanics: 'Deals 2d6 piercing damage upon entry.',
+    tacticalNotes: 'Hazardous terrain.'
+  },
+  dark_wood: {
+    id: 'dark_wood',
+    name: 'Dark Wood Floor',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#422c1b',
+    texture: 'wood',
+    movementCost: 1,
+    description: 'Aged dark timber planking',
+    mechanics: 'Standard movement.',
+    tacticalNotes: 'Interior dungeon wooden flooring.'
+  },
+  weathered_stone: {
+    id: 'weathered_stone',
+    name: 'Weathered Stone',
+    category: TERRAIN_CATEGORIES.BASIC,
+    color: '#6e706e',
+    texture: 'stone',
+    movementCost: 1,
+    description: 'Cracked, weathered stone flagstones with rubble',
+    mechanics: 'Standard movement.',
+    tacticalNotes: 'Ancient distressed masonry.'
+  },
 
   // WATER & WETLANDS
+  water: {
+    id: 'water',
+    name: 'Water',
+    category: TERRAIN_CATEGORIES.WATER,
+    color: '#4682b4',
+    texture: 'water',
+    imageUrl: '/assets/tiles/Water1.png',
+    movementCost: 4,
+    description: 'Deep water',
+    mechanics: 'Requires swimming. Difficult terrain.',
+    tacticalNotes: 'Impassable without swimming ability.'
+  },
   shallowWater: {
     id: 'shallowWater',
     name: 'Shallow Water',
@@ -954,24 +1223,230 @@ export const WALL_TYPES = {
   barrier_wood: {
     id: 'barrier_wood',
     name: 'Wooden Palisade Barrier',
-    category: 'variations',
+    category: 'fences',
     color: '#8B5A2B',
     heightScale: 0.3,
     blocksMovement: true,
     blocksLineOfSight: false,
-    imageUrl: '/assets/walls/wooden_wall.png',
+    imageUrl: '/assets/walls/barrier_wood.png',
     icon: '🪵',
     description: 'Wooden palisade timber barricade'
+  },
+  hedge: {
+    id: 'hedge',
+    name: 'Garden Hedge',
+    category: 'fences',
+    color: '#2e7d32',
+    heightScale: 0.6,
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/hedge.png',
+    icon: '🌿',
+    description: 'Dense trimmed living foliage hedge barrier'
+  },
+  iron_fence: {
+    id: 'iron_fence',
+    name: 'Wrought Iron Fence',
+    category: 'fences',
+    color: '#474f59',
+    heightScale: 0.8,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/iron_fence.png',
+    icon: '⚔️',
+    description: 'Ornate wrought iron railing and security fence'
+  },
+  wooden_fence: {
+    id: 'wooden_fence',
+    name: 'Wooden Picket Fence',
+    category: 'fences',
+    color: '#a07855',
+    heightScale: 0.5,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wooden_fence.png',
+    icon: '🪵',
+    description: 'Traditional rustic timber picket fence'
+  },
+  town_wall: {
+    id: 'town_wall',
+    name: 'Town Stucco Wall',
+    category: 'town',
+    color: '#c4a482',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/town_wall.png',
+    icon: '🏛️',
+    description: 'Stucco and timber framed medieval town wall'
+  },
+  gothic_stone: {
+    id: 'gothic_stone',
+    name: 'Gothic Masonry Wall',
+    category: 'basic',
+    color: '#69645d',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/gothic_stone.png',
+    icon: '🏰',
+    description: 'Heavy chiseled gothic stone masonry wall'
+  },
+  wall_cracked: {
+    id: 'wall_cracked',
+    name: 'Cracked Stone Wall',
+    category: 'variations',
+    color: '#70685e',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/wall_cracked.png',
+    icon: '⚡',
+    description: 'Ancient stone wall bearing deep structural fractures'
+  },
+  wall_gated: {
+    id: 'wall_gated',
+    name: 'Portcullis Gated Wall',
+    category: 'variations',
+    color: '#525459',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wall_gated.png',
+    icon: '⛓️',
+    description: 'Reinforced archway with heavy lowered iron portcullis'
+  },
+  town_door: {
+    id: 'town_door',
+    name: 'Town Stucco Door',
+    category: 'interactive',
+    color: '#b08a65',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/town_door.png',
+    icon: '🚪',
+    description: 'Stucco wall frame with hinged heavy wooden door',
+    states: ['closed', 'open', 'locked'],
+    interactive: true
+  },
+  iron_gate: {
+    id: 'iron_gate',
+    name: 'Wrought Iron Gate',
+    category: 'interactive',
+    color: '#3d444d',
+    heightScale: 0.8,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/iron_gate.png',
+    icon: '🚪',
+    description: 'Hinged ornate wrought iron gate',
+    states: ['closed', 'open', 'locked'],
+    interactive: true
+  },
+  wooden_gate: {
+    id: 'wooden_gate',
+    name: 'Wooden Picket Gate',
+    category: 'interactive',
+    color: '#8f6848',
+    heightScale: 0.5,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wooden_gate.png',
+    icon: '🚪',
+    description: 'Swinging timber fence garden gate',
+    states: ['closed', 'open', 'locked'],
+    interactive: true
+  },
+  hedge_gate: {
+    id: 'hedge_gate',
+    name: 'Garden Hedge Archway',
+    category: 'interactive',
+    color: '#266329',
+    heightScale: 0.6,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/hedge_gate.png',
+    icon: '⛩️',
+    description: 'Arched gateway passage through living hedge',
+    states: ['closed', 'open'],
+    interactive: true
+  },
+  town_window: {
+    id: 'town_window',
+    name: 'Town Framed Window',
+    category: 'window',
+    color: '#e6ded3',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/town_window.png',
+    icon: '🪟',
+    description: 'Timber-framed leaded glass town window',
+    isWindow: true
+  },
+  stone_column: {
+    id: 'stone_column',
+    name: 'Stone Pillar / Column',
+    category: 'variations',
+    color: '#787570',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_column.png',
+    icon: '🏛️',
+    description: 'Freestanding structural stone support column'
+  },
+  wooden_column: {
+    id: 'wooden_column',
+    name: 'Timber Post / Column',
+    category: 'variations',
+    color: '#7a512d',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wooden_column.png',
+    icon: '🪵',
+    description: 'Heavy timber structural support post'
+  },
+  wall_diagonal: {
+    id: 'wall_diagonal',
+    name: 'Diagonal Fortress Wall',
+    category: 'town',
+    color: '#baa182',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/wall_diagonal.png',
+    icon: '📐',
+    description: 'Angled 45-degree fortification wall segment'
+  },
+  wall_curved: {
+    id: 'wall_curved',
+    name: 'Curved Tower Wall',
+    category: 'town',
+    color: '#bfa787',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/wall_curved.png',
+    icon: '🏰',
+    description: 'Curved wall segment for circular towers and bastions'
+  },
+  quaternius_wood: {
+    id: 'quaternius_wood',
+    name: 'Palisade Wood Wall',
+    category: 'fences',
+    color: '#8b5a2b',
+    heightScale: 1.0,
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/wooden_wall.png',
+    icon: '🪵',
+    description: 'Stylized timber palisade fortification wall'
   }
 };
 
 // Wall categories for organization
 export const WALL_CATEGORIES = {
   BASIC: 'Basic Walls',
+  TOWN: 'Town Architecture',
+  FENCES: 'Fences & Barriers',
   ADVANCED: 'Advanced Materials',
   VARIATIONS: 'Variations & Parapets',
   MAGICAL: 'Magical Barriers',
-  INTERACTIVE: 'Interactive Elements'
+  INTERACTIVE: 'Interactive Elements',
+  WINDOW: 'Windows & Slits'
 };
 
 // Environmental object types
@@ -1122,6 +1597,10 @@ const playerExploredLookupCache = createExploredLookupCache();
 const initialState = {
   // Editor state
   isEditorMode: false,
+  // True only while the editor WINDOW is actually rendered. Distinct from
+  // isEditorMode, which can stay true with the window hidden (e.g. GM mode
+  // toggled off); canvas chrome like the object padlock badge keys off this.
+  isEditorOpen: false,
   activeTab: 'drawing',
   activeTool: 'select',
   activeTerrainType: 'grass',
@@ -1139,10 +1618,15 @@ const initialState = {
     brushSize: 'medium',
     brushOpacity: 100,
     snapToGrid: true,
-    snapToWall: true,
+    snapToWall: false,
     showPreview: true,
     strokeWidth: 2,
-    fillOpacity: 50
+    fillOpacity: 50,
+    objectScale: 1,
+    objectRotation: 0,
+    objectRotationX: 0,
+    objectRotationY: 0,
+    objectElevation: 0
   },
 
   // CRITICAL: Drawing tools data - NOW MAP-SPECIFIC (stored in mapStore)
@@ -1198,6 +1682,9 @@ const initialState = {
   wallData: {}, // { "x1,y1,x2,y2": { type: wallType, state: 'closed'|'open', id: string } }
   walls3DEnabled: true, // Enable true 3D modular WebGL walls with PCF soft shadows
   selectedWallKey: null, // Currently selected wall key for editing
+  // Per wall type build style for 90-degree corners: 'square' (default) or
+  // 'curved' where the type has a full-cell corner model.
+  wallCornerStyles: {}, // { [wallTypeId]: 'square' | 'curved' }
 
   // Window overlays - placed on top of walls to create see-through points
   windowOverlays: {}, // { "gridX,gridY": { type: windowType, id: string } }
@@ -1270,6 +1757,8 @@ const initialState = {
   atmosphericEffects: false,
   lightAnimations: true,
   performanceMode: false,
+  // 3D shadow tier: low | medium | high (see ThreeDLightingManager presets).
+  shadowQuality: 'high',
 
   weatherEffects: {
     type: 'none',
@@ -1300,6 +1789,11 @@ const useLevelEditorStore = create((set, get) => ({
     // Clearing only happens when entering via World Builder from landing page
     set({ isEditorMode });
   },
+
+  // Published by ProfessionalVTTEditor so canvas chrome can tell whether the
+  // editor WINDOW is actually visible (isEditorMode can stay true while the
+  // window is hidden, e.g. when GM mode is toggled off).
+  setEditorOpen: (isEditorOpen) => set({ isEditorOpen: !!isEditorOpen }),
 
   // Tool selection
   setActiveTool: (tool) => {
@@ -1339,6 +1833,13 @@ const useLevelEditorStore = create((set, get) => ({
   setTerrain3DEnabled: (enabled) => set({ terrain3DEnabled: enabled }),
 
   setWalls3DEnabled: (enabled) => set({ walls3DEnabled: enabled }),
+
+  setWallCornerStyle: (wallTypeId, style) => set((state) => ({
+    wallCornerStyles: {
+      ...state.wallCornerStyles,
+      [wallTypeId]: style === 'curved' ? 'curved' : 'square'
+    }
+  })),
 
 
   // Layer visibility
@@ -2733,6 +3234,10 @@ const useLevelEditorStore = create((set, get) => ({
     set({ performanceMode: enabled });
   },
 
+  setShadowQuality: (quality) => {
+    set({ shadowQuality: quality === 'low' || quality === 'medium' ? quality : 'high' });
+  },
+
   // Weather effects
   setWeatherEffect: (type, intensity = 0.5, enabled = true) => {
     const weatherState = {
@@ -3898,6 +4403,28 @@ const useLevelEditorStore = create((set, get) => ({
     return true;
   },
 
+  // Bulk lock/unlock every environmental object. The global "Lock All" toggle
+  // snapshots the lock state onto the objects placed so far; objects placed
+  // afterwards start unlocked so a freshly dropped prop can still be nudged.
+  setAllEnvironmentalObjectsLocked: (locked, mapId = null) => {
+    const state = get();
+    if (!state.environmentalObjects.length) return false;
+    const nextLocked = !!locked;
+    if (state.environmentalObjects.every(obj => !!obj.locked === nextLocked)) return true;
+    const newObjects = state.environmentalObjects.map(obj =>
+      !!obj.locked === nextLocked ? obj : { ...obj, locked: nextLocked }
+    );
+    set({
+      environmentalObjects: newObjects
+    });
+
+    // Sync to other clients
+    if (!window._isReceivingMapUpdate) {
+      mapUpdateBatcher.addUpdate('environmentalObjects', newObjects, mapId);
+    }
+    return true;
+  },
+
   reorderEnvironmentalObject: (objectId, action, mapId = null) => {
     const state = get();
     const objects = [...state.environmentalObjects];
@@ -3933,11 +4460,17 @@ const useLevelEditorStore = create((set, get) => ({
 
   selectEnvironmentalObject: (objectId) => {
     const state = get();
+    // Locked objects only accept selection while the editor window is open,
+    // where the padlock can be clicked to unlock them. Outside the editor they
+    // are click-through so a frozen prop is never selected by accident.
+    const target = state.environmentalObjects.find(obj => obj.id === objectId);
+    if (target?.locked && !state.isEditorOpen) return false;
     set({
       environmentalObjects: state.environmentalObjects.map(obj =>
         obj.id === objectId ? { ...obj, selected: true } : { ...obj, selected: false }
       )
     });
+    return true;
   },
 
   clearObjectSelection: () => {
@@ -4014,6 +4547,9 @@ const useLevelEditorStore = create((set, get) => ({
           intensity: lightData.intensity || 1.0,
           color: lightData.color || '#ffaa00',
           flickering: lightData.flickering || false,
+          // Placed lights are on by default; without this the GM gizmo rendered
+          // grayscale and tooltipped "Disabled" for every freshly placed light.
+          enabled: lightData.enabled !== false,
           timestamp: Date.now(),
           ...lightData
         }

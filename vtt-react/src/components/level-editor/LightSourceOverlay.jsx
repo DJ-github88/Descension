@@ -102,8 +102,9 @@ const LightSourceOverlay = () => {
         event.preventDefault();
         event.stopPropagation();
         
-        // Toggle light on/off with left click
-        updateLightSource(light.id, { enabled: !light.enabled });
+        // Toggle light on/off with left click. Lights persisted before the
+        // enabled flag existed have `enabled === undefined`, which counts as on.
+        updateLightSource(light.id, { enabled: light.enabled === false });
     };
 
     // Handle light source right-click (for context menu)
@@ -274,18 +275,18 @@ const LightSourceOverlay = () => {
                         return (
                             <div key={light.id} className="light-source-container">
                                 <div
-                                    className={`light-source-icon ${!light.enabled ? 'disabled' : ''} interactive ${isSelected ? 'selected' : ''}`}
+                                    className={`light-source-icon ${light.enabled === false ? 'disabled' : ''} interactive ${isSelected ? 'selected' : ''}`}
                                     style={{
                                         left: screenPos.x - 10,
                                         top: screenPos.y - 10,
-                                        filter: light.enabled ? 'none' : 'grayscale(100%)',
+                                        filter: light.enabled === false ? 'grayscale(100%)' : 'none',
                                         opacity: isSelected ? 1 : 0.65,
                                         cursor: 'grab'
                                     }}
                                     onPointerDown={(event) => handleLightPointerDown(light, event)}
                                     onDoubleClick={(event) => handleLightClick(light, event)}
                                     onContextMenu={(event) => handleLightRightClick(light, event)}
-                                    title={`${LIGHT_PRESETS[light.type]?.name || light.type} - ${light.enabled ? 'Enabled' : 'Disabled'} (${light.radius * 5}ft radius)`}
+                                    title={`${LIGHT_PRESETS[light.type]?.name || light.type} - ${light.enabled === false ? 'Disabled' : 'Enabled'} (${light.radius * 5}ft radius)`}
                                 >
                                     <img
                                         src={getIconUrl(getLightIcon(light.type), 'abilities')}

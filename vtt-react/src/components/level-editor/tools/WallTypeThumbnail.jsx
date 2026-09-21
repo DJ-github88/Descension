@@ -1,0 +1,62 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { resolveWallModelUrlForType } from '../three/ThreeDWallManager';
+import modelThumbnailService from '../../../services/ModelThumbnailService';
+
+// Energy barriers and windows render from generated/energy materials rather than
+// a lit wall model, so a 3D snapshot of the stand-in model would misrepresent
+// them. Those types show their seamless 2.5D texture instead.
+const TEXTURE_ONLY_TYPES = new Set([
+  'magical_barrier',
+  'force_wall',
+  'glass_window',
+  'barred_window',
+  'arrow_slit',
+  'open_window',
+  'town_window'
+]);
+
+/**
+ * Palette preview for a wall type: an isometric snapshot of the exact 3D model
+ * the type places (same resolution the wall manager uses), falling back to the
+ * type's seamless 2.5D texture while the model loads.
+ */
+const WallTypeThumbnail = ({ typeId, className }) => {
+  const [, setTick] = useState(0);
+  const textureOnly = TEXTURE_ONLY_TYPES.has(typeId);
+  const modelUrl = useMemo(
+    () => (textureOnly ? null : resolveWallModelUrlForType(typeId)),
+    [typeId, textureOnly]
+  );
+
+  useEffect(() => {
+    if (!modelUrl) return undefined;
+    const unsub = modelThumbnailService.subscribe(() => setTick((t) => t + 1));
+    modelThumbnailService.getThumbnail(modelUrl);
+    return unsub;
+  }, [modelUrl]);
+
+  const thumb = modelUrl ? modelThumbnailService.getThumbnail(modelUrl) : null;
+  const src = thumb || `/assets/textures/walls/${typeId}.png`;
+
+  return (
+    <img
+      src={src}
+      alt=""
+      className={className}
+      draggable={false}
+      style={{
+        imageRendering: thumb ? 'auto' : 'pixelated',
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block'
+      }}
+      onError={(e) => {
+        e.currentTarget.onerror = null;
+        e.currentTarget.style.visibility = 'hidden';
+      }}
+    />
+  );
+};
+
+export default WallTypeThumbnail;
