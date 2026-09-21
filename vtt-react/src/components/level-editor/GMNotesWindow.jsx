@@ -13,26 +13,8 @@ import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCr
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../common/useTooltipPosition';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
+import { NOTE_ICONS } from './objects/noteIcons';
 import '../../styles/gm-notes-window.css';
-
-const NOTE_ICONS = [
-    { id: 'scroll', icon: 'fa-scroll', label: 'General Note', color: '#8B4513' },
-    { id: 'location', icon: 'fa-map-marker-alt', label: 'Location', color: '#2d6a4f' },
-    { id: 'npc', icon: 'fa-users', label: 'NPC', color: '#6a4c93' },
-    { id: 'encounter', icon: 'fa-skull-crossbones', label: 'Encounter', color: '#9b2226' },
-    { id: 'trap', icon: 'fa-exclamation-triangle', label: 'Trap', color: '#e76f51' },
-    { id: 'quest', icon: 'fa-flag', label: 'Quest', color: '#264653' },
-    { id: 'puzzle', icon: 'fa-puzzle-piece', label: 'Puzzle', color: '#457b9d' },
-    { id: 'treasure', icon: 'fa-gem', label: 'Treasure', color: '#b5838d' },
-    { id: 'lore', icon: 'fa-book-open', label: 'Lore', color: '#5a189a' },
-    { id: 'shop', icon: 'fa-store', label: 'Shop', color: '#606c38' },
-    { id: 'secret', icon: 'fa-eye-slash', label: 'Secret', color: '#4a4e69' },
-    { id: 'monster', icon: 'fa-dragon', label: 'Monster', color: '#6b0f1a' },
-    { id: 'puzzle-door', icon: 'fa-dungeon', label: 'Dungeon', color: '#343a40' },
-    { id: 'event', icon: 'fa-bolt', label: 'Event', color: '#e9c46a' },
-    { id: 'read-aloud', icon: 'fa-book-reader', label: 'Read Aloud', color: '#d4af37' },
-    { id: 'safe-rest', icon: 'fa-campground', label: 'Safe Haven', color: '#2a9d8f' },
-];
 
 const PREDEFINED_TAGS = [
     'Trap', 'Mystery', 'Combat', 'Social', 'Ambush', 'Puzzle',

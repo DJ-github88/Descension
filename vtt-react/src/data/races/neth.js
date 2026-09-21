@@ -2,8 +2,8 @@ export const neth = {
  id: 'neth',
  name: 'Nethien',
  essence: 'The Silver-Touched',
- illustration: '/assets/images/races/neth_illustration.png',
- illustrationCaption: 'An elegant Nethien scribe in ghost-silk robes, paper-white skin with delicate porcelain lines, solid obsidian-black eyes, and a silver leaf circlet standing on an Atropolis canopy balcony.',
+ illustration: '/assets/images/races/neth_high_icon_v1.png',
+ illustrationCaption: 'A High Nethien contract scribe in layered ghost-silk robes holding an unrolled parchment scroll and writing stylus in rough charcoal draft with moon-silver watercolor splash.',
  cardFlavor: 'The pale-skinned Pact-Lords, bound by an ancient contract to Morvane, writing new agreements to sustain their pale skin and stilled breath.',
  visualDescription: `Tall, slender, and impossibly elegant (5'10" to 6'6"), with paper-white luminous skin preserved by Morvane's pact. As Nethien age into centuries, delicate porcelain-like lines creep beneath their temples and jawlines, marking the calcification of ancient preservation. Their eyes are solid obsidian-black without sclera or pupils, reflecting canopy light like still pools. Long, silver-white hair falls straight or pinned with slender silver leaf circlets. They dress in flowing, high-collared ghost-silk robes of pale ivory, soft grey, and silver embroidery. Their most unnerving trait is their absolute, hyper-controlled posture — their chests do not visibly rise or fall with breath, standing as still and beautiful as a manuscript illustration given flesh.`,
  description: `**[The pale-skinned Pact-Lords]**, *Inside the quiet canopy-libraries of Atropolis, a tall, pale-skinned scribe traces contract terms on memory-glass, his chest perfectly still and unbreathing as he bargains with the forest's root-veil.*
@@ -391,13 +391,17 @@ The Nethien do not love Morvane. They respect it the way a debtor respects a cre
  },
 
  subraces: {
- velun: {
-  id: 'velun_neth',
-  name: 'Nethien',
-  illustration: '/assets/images/races/velun_illustration.png',
-  illustrationCaption: 'A Nethien male noble with solid black eyes and a silver circlet, wearing layered ghost-silk robes.',
-  illustration2: '/assets/images/races/velun_illustration_2.png',
-  illustration2Caption: 'A Nethien female noble with solid black eyes and long flowing silver hair with braided accents.',
+  velun: {
+   id: 'velun_neth',
+   name: 'High Nethien',
+   illustration: '/assets/images/races/neth_high_icon_v1.png',
+   illustrationCaption: 'A High Nethien contract scribe in layered ghost-silk robes holding an unrolled parchment scroll and writing stylus in rough charcoal draft with moon-silver watercolor splash.',
+   illustrations: [
+     {
+       src: '/assets/images/races/neth_high_icon_v1.png',
+       caption: 'High Nethien contract scribe of Atropolis holding an open scroll and writing stylus in rough charcoal draft with moon-silver watercolor splash.'
+     }
+   ],
   cultureIllustration: '/assets/images/races/velun_culture_birth.png',
   cultureIllustrationCaption: 'Nethien families and scholars gathered on a grand ironwood balcony looking out over misty canopy spires.',
   domesticIllustration: '/assets/images/races/velun_culture_education.png',
@@ -570,14 +574,14 @@ They view the Veldun with a mixture of admiration and unease, the Veldun see the
  kessen: {
   id: 'kessen_neth',
   name: 'Veldun',
-  illustration: '/assets/images/races/hallowed_illustration.png',
-  illustrationCaption: 'A Veldun male showing face markings, black neck runes, long red hair, and glowing white eyes.',
-  illustration2: '/assets/images/races/hallowed_illustration_2.png',
-  illustration2Caption: 'A Veldun female showing black runic neck tattoos, long red hair, and glowing white eyes.',
-  cultureIllustration: '/assets/images/races/hallowed_culture_ruins.png',
-  cultureIllustrationCaption: 'A Veldun scholar in a gothic library, studying an ancient book near leafy arches.',
-  domesticIllustration: '/assets/images/races/hallowed_culture_altar.png',
-  domesticIllustrationCaption: 'A Veldun scholar at a stone desk, studying magic scrolls while holding a simple drinking cup.',
+  illustration: '/assets/images/races/neth_veldun_icon_v1.png',
+  illustrationCaption: 'A Veldun fate-smuggler and spirit conduit in weathered traveler duster coat holding fate cards with ink-black neck runes in rough charcoal draft with cyan-emerald watercolor splash.',
+  illustrations: [
+    {
+      src: '/assets/images/races/neth_veldun_icon_v1.png',
+      caption: 'Veldun fate-smuggler and spirit conduit in weathered traveler duster coat holding fate cards with ink-black neck runes in rough charcoal draft with cyan-emerald watercolor splash.'
+    }
+  ],
   visualDescription: `The volatile spirit conduits. The Veldun possess a striking, porcelain-pale undead grace with a tall, slender silhouette. Their skin is a ghostly, luminous paper-white, marked by subtle glowing white mana-burn smudges around their solid white eyes and sharp, ink-black runic binding tattoos wrapping around their wrists and necks. Long, vibrant red hair falls over their shoulders. They wear elegant, tattered dark monastic wraps, and their hands drift with a soft, ghostly white mana mist.`,
   tooltipSummary: 'Porcelain-pale spirit conduits bound to abandoned castles and monasteries, hunting ancient texts to revert their undead curse.',
   description: 'The profane magi of the Well. Banished and punished for their bloodline\'s ancient sins—drinking raw, unshielded magic directly from the Well of Life—the Veldun exist in a state of striking, porcelain-pale undead grace. They gain no sensory pleasure or flavor from eating or drinking, consuming food and water purely for survival and sustenance, while deeply yearning for the living warmth they once knew.',
@@ -757,14 +761,14 @@ They view the Veldun with a mixture of admiration and unease, the Veldun see the
  drun: {
   id: 'drun_neth',
   name: 'Withered',
-  illustration: '/assets/images/races/drun_illustration.png',
-  illustrationCaption: 'A Withered male smuggler with ashen-grey skin, silver-white hair, and obsidian eyes, wearing a high-collared leather coat.',
-  illustration2: '/assets/images/races/drun_illustration_2.png',
-  illustration2Caption: 'A Withered female smuggler with ashen-grey skin, silver hair, and obsidian eyes, standing on the harbor docks.',
-  cultureIllustration: '/assets/images/races/drun_culture_swamp.png',
-  cultureIllustrationCaption: 'A hidden Withered bay outpost with stilt-docks and stone warehouses in the foggy twilight.',
-  domesticIllustration: '/assets/images/races/drun_culture_education.png',
-  domesticIllustrationCaption: 'Two Withered smugglers in a dimly lit warehouse, counting contraband coin-weights and unrolling maps.',
+  illustration: '/assets/images/races/neth_withered_icon_v1.png',
+  illustrationCaption: 'A Withered Nethien silence-walker crouching in a dark hunter jerkin, holding a chipped iron cinder-blade and smoldering contract fragment in rough charcoal draft with cinder-orange watercolor splash.',
+  illustrations: [
+    {
+      src: '/assets/images/races/neth_withered_icon_v1.png',
+      caption: 'Withered Nethien silence-walker crouching in a dark hunter jerkin with wrapped forearms, sunken obsidian eyes, holding a chipped cinder-blade and smoldering contract parchment in rough charcoal draft with cinder-orange watercolor splash.'
+    }
+  ],
   visualDescription: `The severed. The Withered bear the tall pale frame of their kin, but the pact no longer preserves them, and it shows. Their once-luminous skin has dulled to a flat, slightly grey pallor that deepens the further they travel from the First Contract, and unlike other Nethien their chests rise and fall with real breath, for they must now eat, drink, and sleep like the mortal things they have become. They dress in simple, deliberately unmarked fabrics, stripped of sigil and house-color, and their dark eyes watch the world with the wary attention of people whom no god will pull back from death.`,
   tooltipSummary: 'Severed silence-walkers who cut their pact-seals to gain magic immunity, becoming legally nonexistent shadow-brokers who bear the pact-sickness as their price.',
   description: 'Founded in Year ~380 of the Freezing Era by Saren-Vel, who walked into the deepest bog with a flame that consumed only ink and burned her name from every active copy of the First Contract. The Withered have been legally nonexistent for ~420 years. The inheritors of Morvane\'s silence. Through the Severing, a traumatic fire-ritual that burns their name from every active copy of the First Contract, the Withered have removed themselves from the pact entirely. They are magic-resistant, debt-null, invisible to Morvane\'s enforcement. They are also legally non-existent: no property, no marriage, no testimony in a Nethien court. Their freedom is absolute. Their vulnerability is absolute.',

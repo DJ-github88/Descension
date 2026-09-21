@@ -263,14 +263,15 @@ const TokenVisibilityCalculator = () => {
                     const allSecondaryTiles = new Set();
                     const allSecondaryPolygons = [];
                     const allSecondaryDetails = [];
-                    const creatures = require('../../store/creatureStore').default.getState().creatures || [];
-                    const feetPerTile = require('../../store/gameStore').default.getState().feetPerTile || 5;
-                    const tvr = require('../../store/levelEditorStore').default.getState().tokenVisionRanges || {};
-                    const tfdd = require('../../store/levelEditorStore').default.getState().tokenFacingDirections || {};
+                    const creatures = useCreatureStore.getState().creatures || [];
+                    const feetPerTile = useGameStore.getState().feetPerTile || 5;
+                    const tvr = tokenVisionRanges;
+                    const tfdd = tokenFacingDirections;
+                    const creatureById = new Map(creatures.map(c => [c.id, c]));
 
                     controlledCreatures.forEach(ct => {
                         const tokenId = ct.creatureId || ct.id;
-                        const creature = creatures.find(c => c.id === ct.creatureId);
+                        const creature = creatureById.get(ct.creatureId);
                         const vd = tvr[tokenId] || {};
                         let range = feetToTiles(30, feetPerTile, 'diameter');
                         let type = 'normal';
@@ -358,6 +359,8 @@ const TokenVisibilityCalculator = () => {
         currentPlayerId,
         viewUpdateOnPlacement,
         creatureTokens,
+        tokenVisionRanges,
+        tokenFacingDirections,
         setControlledVisibleData,
         controlledCreaturePositionKey
     ]);
@@ -446,9 +449,19 @@ const TokenVisibilityCalculator = () => {
         };
     }, [positionKey, wallDataKey, visionKey, controlledCreaturePositionKey, calculateVisibility, currentViewingToken?.position]);
 
-    // Also recalculate when viewingFromToken changes (new token selected)
+    // Identity of the viewed token (NOT its position). The throttle effect above
+    // already handles movement via the live token position; keying this on the
+    // whole viewingFromToken object re-ran an unthrottled recalculation for
+    // every position update (viewingFromToken is replaced per move), which
+    // doubled the LOS/polygon work and all downstream fog repaints.
+    const viewingTokenKey = useMemo(() => {
+        if (!viewingFromToken) return null;
+        return `${viewingFromToken.type || ''}:${viewingFromToken.characterId || viewingFromToken.creatureId || viewingFromToken.id || ''}`;
+    }, [viewingFromToken]);
+
+    // Also recalculate when the viewed token changes (new token selected)
     useEffect(() => {
-        if (viewingFromToken) {
+        if (viewingTokenKey) {
             // Reset all cache and timing when switching viewing token
             lastCalculationRef.current = {
                 positionKey: null,
@@ -465,7 +478,7 @@ const TokenVisibilityCalculator = () => {
             setVisibilityPolygon(null);
             setControlledVisibleData(null, []);
         }
-    }, [viewingFromToken, calculateVisibility, setVisibleArea, setVisibilityPolygon, setControlledVisibleData]);
+    }, [viewingTokenKey, calculateVisibility, setVisibleArea, setVisibilityPolygon, setControlledVisibleData]);
 
     // This component renders nothing
     return null;

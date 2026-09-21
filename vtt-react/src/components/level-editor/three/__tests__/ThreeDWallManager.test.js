@@ -88,6 +88,20 @@ describe('ThreeDWallManager', () => {
     expect(manager.resolveWallModelUrl({ type: 'force_wall' })).toContain('wall_stone_straight.glb');
   });
 
+  it('resolves the dedicated doorway models that the door pass places', () => {
+    // Doors/gates are rendered by ThreeDPropManager.updateWallDoors, not as wall
+    // bodies. The palette used to preview the stone fallback (town_door) and the
+    // dungeon portcullis (every *_gate) instead of the placed model.
+    expect(manager.resolveWallModelUrl({ type: 'wooden_door' })).toContain('wooden_wall_door.glb');
+    expect(manager.resolveWallModelUrl({ type: 'stone_door' })).toContain('wall_doorway.glb');
+    expect(manager.resolveWallModelUrl({ type: 'town_door' })).toContain('town_wall_door.glb');
+    expect(manager.resolveWallModelUrl({ type: 'iron_gate' })).toContain('metal_wall_gate.glb');
+    expect(manager.resolveWallModelUrl({ type: 'wooden_gate' })).toContain('wooden_fence_gate.glb');
+    expect(manager.resolveWallModelUrl({ type: 'hedge_gate' })).toContain('hedge_gate.glb');
+    // The portcullis variation is a wall body, not an interactive gate.
+    expect(manager.resolveWallModelUrl({ type: 'wall_gated' })).toContain('wall_gated.glb');
+  });
+
   it('renders one model per grid tile so multi-tile runs are not stretched', () => {
     const walls = { '0,0,3,0': { type: 'stone_wall' } };
     manager.updateWalls(walls, {}, GRID);
@@ -408,6 +422,21 @@ describe('ThreeDWallManager', () => {
     expect(appearance.texture).toBe('wooden_wall');
     expect(manager.resolveWallModelUrl({ type: 'wooden_wall' })).toContain('wooden_wall.glb');
     expect(manager.resolveWallModelUrl({ type: 'brick_wall' })).toContain('brick_wall.glb');
+  });
+
+  it('compensates the vertical UV stretch of dedicated models', () => {
+    // A 0.702-tall brick piece is scaled to the 1.8-cell wall body height, so
+    // its texture must be sampled 1.8 / 0.702 times denser vertically.
+    const brick = manager.resolveWallAppearance({ type: 'brick_wall' });
+    expect(brick.uvVerticalScale).toBeCloseTo(1.8 / 0.702, 5);
+
+    const wood = manager.resolveWallAppearance({ type: 'wooden_wall' });
+    expect(wood.uvVerticalScale).toBeCloseTo(1.8, 5);
+
+    // Types with a smaller heightScale (hedge: 0.6) get a proportionally
+    // smaller compensation so the pattern keeps its world size.
+    const hedge = manager.resolveWallAppearance({ type: 'hedge' });
+    expect(hedge.uvVerticalScale).toBeCloseTo((1.8 * 0.6) / 0.25, 5);
   });
 
   it('centres dedicated models on the wall line instead of their authored edge origin', () => {

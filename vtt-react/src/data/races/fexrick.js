@@ -5,8 +5,8 @@ export const fexrick = {
     id: 'fexrick',
     name: 'Fexric',
     essence: 'The Cyber-Graft Guilds of the Cragjaw Sumps',
-    illustration: '/assets/images/races/fexric_illustration.png',
-    illustrationCaption: 'A stocky Fexric engineer in a worn leather apron, copper wire threads and a single fiber-optic filament woven through their beard, a quiet public resume of guild rank.',
+    illustration: '/assets/images/races/fexric_clockwork_icon_v1.png',
+    illustrationCaption: 'A Clockwork Fexric master clockmaker with brass mechanical arm, goggles, and copper-wired beard in rough charcoal draft with brass-amber watercolor splash.',
     cardFlavor: 'Master alchemists and cyber-grafters who have been augmenting themselves to endure the Peaks since before the mountain had a name.',
     description: `**[The Cyber-Graft Guilds]**, *In the volcanic soot-glow and neon flicker of the Cragjaw Peak vaults, a green-skinned cyber-engineer adjusts a whirring, brass alchemical ocular grafted to his left eye-socket, his copper-wired beard clicking as neural data pulses through his pneumatic tools.*
 
@@ -225,14 +225,14 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
         kethrin: {
             id: 'kethrin_fexric',
             name: 'Clockwork Fexric',
-            illustration: '/assets/images/races/kethrin_illustration.png',
-            illustrationCaption: 'A Clockwork Fexric Fexric craftsman, a small humanoid with large pointed ears, displaying a precise mechanical cyber-arm.',
-            illustration2: '/assets/images/races/kethrin_illustration_2.png',
-            illustration2Caption: 'A Clockwork Fexric Fexric engineer at a drafting table, wearing a leather apron and a brass steampunk loupe over one eye.',
-            cultureIllustration: '/assets/images/races/kethrin_culture_maintenance.png',
-            cultureIllustrationCaption: 'A Clockwork Fexric Fexric technician adjusting steam pipes and valves in a geothermal engine room.',
-            domesticIllustration: '/assets/images/races/kethrin_culture_home.png',
-            domesticIllustrationCaption: 'A Clockwork Fexric Fexric family gathering in their cozy underground holdfast home surrounded by clockwork gears and steam piping.',
+            illustration: '/assets/images/races/fexric_clockwork_icon_v1.png',
+            illustrationCaption: 'A Clockwork Fexric master clockmaker with steampunk brass cybernetic arm, goggles, calipers, and pocket chronometer in rough charcoal draft with brass-amber watercolor splash.',
+            illustrations: [
+                {
+                    src: '/assets/images/races/fexric_clockwork_icon_v1.png',
+                    caption: 'Clockwork Fexric master clockmaker with steampunk brass cybernetic arm, goggles, calipers, and pocket chronometer in rough charcoal draft with brass-amber watercolor splash.'
+                }
+            ],
 
             tooltipSummary: 'Precision-engineered guild alchemists whose machine-song resonates through their cyber-grafted frames, overstraining with peak operation.',
             description: 'The Clockwork Fexric are Fexric born into the corporate guild system, inheritors of formal training, ancient proprietary oral traditions, and the unspoken arrogance of those who believe technical knowledge is lineage. Their beards are elaborate: copper wire for tinkering guilds, silver filament for alchemy, braided leather for trap-craft, gear-teeth marking each rank achieved, and glowing indicator-threads that signal active sub-routines. Their mechanical replacement, or cyber-graft, was awarded by guild directors in a ceremony that is part graduation and part branding. A Clockwork Fexric\'s graft is their security credential, and they wear it visibly. Their hands are precise. Their minds are methodical. Their trust is extended only to other guild members, and sometimes not even then. The Guild-Bound Clockwork Fexric trace their lineage to Clockwork Fexric Gear-Father, who founded the first holdfast eight millennia before the Freezing Era. The Clockwork Fexric maintain proprietary oral maintenance songs that are the oldest continuous knowledge transmission in the known world.',
@@ -382,14 +382,14 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
         drall: {
             id: 'drall_fexric',
             name: 'Caustic Fexric',
-            illustration: '/assets/images/races/drall_illustration.png',
-            illustrationCaption: 'A Caustic Fexric Fexric alchemist, a small humanoid with large pointed ears, displaying a custom chemical injector sleeve graft with vials of green liquid.',
-            illustration2: '/assets/images/races/drall_illustration_2.png',
-            illustration2Caption: 'A young Caustic Fexric Fexric alchemist showing off an arm integrated with glass tubes filled with glowing orange fluid.',
-            cultureIllustration: '/assets/images/races/drall_culture_tinker.png',
-            cultureIllustrationCaption: 'Several Caustic Fexric Fexric alchemists working around a massive, glowing copper vat of bubbling green liquid in a cave market.',
-            domesticIllustration: '/assets/images/races/drall_culture_home.png',
-            domesticIllustrationCaption: 'A Caustic Fexric Fexric family inside their cavern home, showing a mother cooking over a stone hearth while a father and child inspect test tubes.',
+            illustration: '/assets/images/races/fexric_caustic_icon_v1.png',
+            illustrationCaption: 'A scrappy Caustic Fexric sump-alchemist with chemical-injector cyber-arm, bubbling green acid flask, and claw-tipped hands in rough charcoal draft with caustic green watercolor splash.',
+            illustrations: [
+                {
+                    src: '/assets/images/races/fexric_caustic_icon_v1.png',
+                    caption: 'Caustic Fexric sump-alchemist with chemical-injector cyber-arm, bubbling green acid flask, and claw-tipped hands in rough charcoal draft with caustic green watercolor splash.'
+                }
+            ],
 
 
             tooltipSummary: 'Sump-dwelling alchemical jury-riggers who synthesize scrap reagents and unstable glow-fluids, thriving in the toxic depths of the Cragjaw Sumps.',

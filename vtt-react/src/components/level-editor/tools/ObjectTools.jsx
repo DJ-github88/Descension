@@ -87,7 +87,7 @@ const ObjectTools = ({ selectedTool, settings, onSettingsChange }) => {
     }, [environmentalObjects]);
 
     // Get connections (portals) from current map's dndElements (should match level editor store)
-    const connections = dndElements.filter(el => el.type === 'portal');
+    const connections = dndElements.filter(el => el.type === 'portal' || el.type === 'connection');
 
     const handleObjectSelect = (objectId) => {
         if (selectedObjectType === objectId) {
@@ -251,7 +251,7 @@ const ObjectTools = ({ selectedTool, settings, onSettingsChange }) => {
             }}
             title="Place a map connection between two locations"
         >
-            <span className="mini-icon"><i className="fas fa-link"></i><i className="fas fa-arrow-right mini-icon-arrow"></i><i className="fas fa-link"></i></span>
+            <CanvasObjectThumbnail objectType="connection" className="mini-img" size={64} />
             <span className="mini-name">Connection</span>
             <span className="mini-badge">GM only</span>
         </button>

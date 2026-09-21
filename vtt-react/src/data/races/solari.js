@@ -2,8 +2,8 @@ export const solari = {
   id: 'solari',
   name: 'Solari',
   essence: 'Devoted cave-dwelling nomads, keepers of Sol\'s last ember',
-  illustration: '/assets/images/races/solari_illustration.png',
-  illustrationCaption: 'A Solari cinder-walker with dark brown-beige skin and dreadlocks, holding a tiny, fading ember near their chest in solemn devotion.',
+  illustration: '/assets/images/races/solari_hollow_icon_v1.png',
+  illustrationCaption: 'A Hollow-Solari cinder-monk seated in deep Vault-Breath meditation, dark brown-beige skin dusted with mineral-ash and solid black light-absorbing eyes, cupping the warm ember of the Sol\'s Breath.',
   cardFlavor: 'Religious cave-dwelling nomads and devoted keepers of the Sol\'s Breath, the last ember of their sleeping god.',
   visualDescription: `Broad-shouldered and solid, standing 5'10" to 6'4" and weighing 190 to 280 pounds. Their skin is a warm, earthy dark brown-beige with a fine grey dusting of mineral-ash that sheds when they move or under stress. Their eyes are enormous and solid black, absorbing light rather than reflecting it — on the surface, they wear thick ash-tinted eye-cloths to filter the painful daylight. Their forearms and shoulders bear deliberate burn-scars and forge-marks encoding clan affiliation, trade, and lineage in a visual language. They wear their hair in dreadlocks. Their bearing is deliberately calm and still, the discipline of the Vault-Breath made visible in every unhurried movement.`,
   description: `**[The Cinder-Born Clans]**, *Deep in the dark vaults of Sundale, a broad, still figure sits in absolute contemplation, dark brown-beige skin lit by the faint glow of the Sol\'s Breath, holding a moment of perfect silence before the last ember of Sol.*
@@ -281,16 +281,12 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
     korr: {
       id: 'korr_solari',
       name: 'Hollow-Solari',
-      illustration: '/assets/images/races/korr_illustration.png',
-      illustrationCaption: 'A Hollow-Solari Solari with charcoal skin, braided hair, and solid-black eyes, looking out with quiet focus as steam rises from a geothermal caldera vent behind him.',
+      illustration: '/assets/images/races/solari_hollow_icon_v1.png',
+      illustrationCaption: 'A Hollow-Solari cinder-monk seated in deep Vault-Breath meditation, dark brown-beige skin dusted with mineral-ash and solid black light-absorbing eyes, cupping the warm ember of the Sol\'s Breath.',
       illustrations: [
         {
-          src: '/assets/images/races/korr_illustration.png',
-          caption: 'A Hollow-Solari Solari with charcoal skin, braided hair, and solid-black eyes, looking out with quiet focus as steam rises from a geothermal caldera vent behind him.'
-        },
-        {
-          src: '/assets/images/races/korr_illustration_2.png',
-          caption: 'Hollow-Solari Solari residents of both genders living in a subterranean gallery. Basalt cliff houses carved into the cave walls feature heavy cloth drapes, with copper geothermal heating pipes and steam conduits running throughout.'
+          src: '/assets/images/races/solari_hollow_icon_v1.png',
+          caption: 'A Hollow-Solari cinder-monk seated in deep Vault-Breath meditation, dark brown-beige skin dusted with mineral-ash and solid black light-absorbing eyes, cupping the warm ember of the Sol\'s Breath in rough charcoal draft with fiery volcanic orange watercolor splash.'
         }
       ],
       visualDescription: `The fewest and the most deep-adapted. Hollow-Solari skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns of any Solari bloodline, stark and crisp from centuries of proximity to the Sol\'s Breath. Their enormous solid-black eyes are enlarged to read faint heat in absolute darkness, and their metabolisms are so slow their pulses are barely perceptible. Their bodies are conditioned for absolute stillness: elongated air-conserving lungs, dense bone, and a bearing so motionless that a sitting Hollow-Solari can be mistaken for a carved votive. They wear their dreadlocks long and their ash-cloths thick against a daylight that pains them.`,
@@ -508,8 +504,14 @@ The current crisis is a Hollow-Solari crisis. The tending-clan has concealed the
     thrask: {
       id: 'thrask_solari',
       name: 'Waste-Solari',
-      illustration: '/assets/images/races/thrask_illustration.png',
-      illustrationCaption: 'A Waste-Solari Solari badland-hunter crouching on a volcanic rock, insulated in thick ashy cloth wraps and a hood, with a stone-bladed spear on their back and small pointed ears exposed.',
+      illustration: '/assets/images/races/solari_waste_icon_v1.png',
+      illustrationCaption: 'A Waste-Solari badland scout crouching alertly on a volcanic scree rock with wide horizontal bat-ears, solid black light-absorbing eyes, face veil, desert drapes, and an obsidian-tipped spear in rough charcoal draft with burning ash-orange watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/solari_waste_icon_v1.png',
+          caption: 'A Waste-Solari badland scout crouching alertly on a volcanic scree rock with wide horizontal bat-ears, solid black light-absorbing eyes, face veil, desert drapes, and an obsidian-tipped spear in rough charcoal draft with burning ash-orange watercolor splash.'
+        }
+      ],
       visualDescription: `The surface face of the Solari. Waste-Solari bodies are leaner and more mobile than their deep-vault kin, built to range the volcanic ashlands rather than sit vigil in the dark. Their dark brown-beige skin is weathered from generations of surface exposure, and their ash-branding marks are fainter and blurred at the edges, softened by distance from the Sol\'s Breath. They shave their hair close and wrap themselves head to toe in heavy ash-insulating cloths against the cold of the open badlands, moving with the purposeful economy of scouts who have forgotten why stillness was ever necessary.`,
       tooltipSummary: 'Surface scouts of the volcanic ashlands, leaner and more mobile than their deep-vault kin, carrying obsidian-forged tools across the scree.',
       description: 'The most surface-adapted and the most mobile. Waste-Solari bodies have shorn hair and are wrapped in heavy ash-insulating cloths against the cold of the open ashlands. Their skin is dark brown-beige, weathered from surface exposure, and their ash-branding marks are fainter, blurred at the edges from generational distance from the Sol\'s Breath. Their ash-filtering lungs are somewhat weaker than the Hollow-Solari\'s, adapted for the thin, cold air of the surface border rather than the thick particulate of the Mid-Vault. They are the Solari\'s connection to the surface, ranging the volcanic ashlands as scouts, messengers, and badland-hunters, mapping the thermal vents and carrying word between outposts. Leaner, faster, and more mobile than the Hollow-Solari, they move like people who have forgotten why stillness was ever necessary.',

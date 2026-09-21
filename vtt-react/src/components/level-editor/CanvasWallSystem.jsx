@@ -3,6 +3,7 @@ import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
+import { getCachedCanvasSize } from '../../utils/canvasSizeCache';
 import { rafThrottle } from '../../utils/performanceUtils';
 
 const CanvasWallSystem = () => {
@@ -217,7 +218,7 @@ const CanvasWallSystem = () => {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
+    const rect = getCachedCanvasSize(canvas);
 
     // Get valid dimensions - use window size as fallback if rect is invalid
     const width = rect.width > 0 ? rect.width : (window.innerWidth || 1920);
@@ -228,9 +229,12 @@ const CanvasWallSystem = () => {
       return;
     }
 
-    // Set canvas size to match container
-    canvas.width = width;
-    canvas.height = height;
+    // Set canvas size to match container (only on change — assigning width/height
+    // resets the whole canvas bitmap even when the size is the same)
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
+    }
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);

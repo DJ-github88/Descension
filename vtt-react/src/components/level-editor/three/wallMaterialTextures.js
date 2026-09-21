@@ -20,8 +20,25 @@ const UV_PER_WORLD_V = V_SPAN / WALL_UNIT;
 // (a 1 x 1 model spans UV -19.685..19.685, i.e. 39.37 units per model cell).
 // Mapping a seamless 1024px wall texture with this repeat makes one texture
 // tile cover exactly one grid cell, matching the 2.5D pattern layer.
-const CC0_UV_PER_CELL = 39.37;
+//
+// The vertical repeat is NOT the same number: a piece is stretched from its
+// authored height to the standard wall body height (1.8 cells), which stretches
+// its UVs with it. Dividing V by that same stretch factor keeps one tile per
+// cell on the vertical axis too, so a brick course stays a course instead of
+// becoming a 2.5x-tall slab. Horizontal top strips (whose V runs across the
+// wall thickness) inherit the denser sample; the strip is ~0.15 cell wide, so
+// the difference is not readable.
+export const CC0_UV_PER_CELL = 39.37;
+export const DEFAULT_WALL_BODY_MULTIPLIER = 1.8;
 const WALL_TEXTURE_BASE = '/assets/textures/walls';
+
+/** Vertical UV stretch a dedicated model is rendered with at its wall height. */
+export function wallTextureVerticalScale(modelHeight, bodyMultiplier = DEFAULT_WALL_BODY_MULTIPLIER) {
+  const height = Number(modelHeight);
+  if (!Number.isFinite(height) || height <= 0) return 1;
+  const scale = bodyMultiplier / height;
+  return Number.isFinite(scale) && scale > 0 ? scale : 1;
+}
 
 const cache = new Map();
 const wallTextureCache = new Map();
@@ -252,20 +269,25 @@ export function applyWallMaterial(material, kind) {
 /**
  * Seamless 2.5D wall texture for the dedicated wall models (the KayKit-style
  * `walls/*.glb` set ships flat prototype colours with no textures). Cached per
- * wall type so every piece and junction shares one GPU upload.
+ * wall type (+ vertical scale) so every piece and junction shares one GPU
+ * upload. `verticalScale` compensates the UV stretch a model gets when it is
+ * scaled to the wall body height (see `wallTextureVerticalScale`).
  */
-export function getWallTypeTexture(typeId) {
+export function getWallTypeTexture(typeId, verticalScale = 1) {
   if (!typeId || !textureLoader) return null;
-  if (wallTextureCache.has(typeId)) return wallTextureCache.get(typeId);
+  const scale = Number.isFinite(verticalScale) && verticalScale > 0 ? verticalScale : 1;
+  const cacheKey = `${typeId}@${scale.toFixed(4)}`;
+  if (wallTextureCache.has(cacheKey)) return wallTextureCache.get(cacheKey);
   const texture = textureLoader.load(`${WALL_TEXTURE_BASE}/${typeId}.png`);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(1 / CC0_UV_PER_CELL, 1 / CC0_UV_PER_CELL);
+  texture.repeat.set(1 / CC0_UV_PER_CELL, scale / CC0_UV_PER_CELL);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.magFilter = THREE.NearestFilter;
-  texture.minFilter = THREE.NearestMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
   texture.generateMipmaps = true;
-  wallTextureCache.set(typeId, texture);
+  texture.anisotropy = 4;
+  wallTextureCache.set(cacheKey, texture);
   return texture;
 }
 
@@ -273,9 +295,9 @@ export function getWallTypeTexture(typeId) {
  * Replace a cloned wall model's prototype colour with the type's seamless
  * 2.5D texture. Returns true when the material was changed.
  */
-export function applyWallTexture(material, typeId) {
+export function applyWallTexture(material, typeId, verticalScale = 1) {
   if (!material) return false;
-  const texture = getWallTypeTexture(typeId);
+  const texture = getWallTypeTexture(typeId, verticalScale);
   if (!texture) return false;
   const mats = Array.isArray(material) ? material : [material];
   mats.forEach((m) => {

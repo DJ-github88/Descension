@@ -2,8 +2,18 @@ export const groven = {
   id: 'groven',
   name: 'Groven',
   essence: 'The Living Bridges of Cragjaw Peaks',
-  illustration: '/assets/images/races/groven_illustration.png',
-  illustrationCaption: 'A massive Groven with thick stone-scale plates fused to their joints, standing firm in a mountain blizzard.',
+  illustration: '/assets/images/races/groven_morgh_icon_v1.png',
+  illustrationCaption: 'A bulky Morgh Groven mountain stone-troll sentinel in a tattered hooded cowl leaning on a gnarled wooden staff in rough charcoal draft with slate-grey watercolor splash.',
+  illustrations: [
+    {
+      src: '/assets/images/races/groven_morgh_icon_v1.png',
+      caption: 'Morgh Groven mountain stone-troll sentinel in tattered hooded cowl with spiral wraps and gnarled staff in rough charcoal draft with slate-grey watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/groven_ithran_icon_v1.png',
+      caption: 'Ithran Groven bridge toll-keeper in classic crouching troll stance with elongated reach, braided dreadlocks, crown horns, and brass balance scale in rough charcoal draft with watercolor splash.'
+    }
+  ],
   cardFlavor: 'Once monumental living landmarks, their bodies were engineered by Fexric alchemists who flayed away their stone tusks to break their bond to the earth.',
   visualDescription: `The Groven are a markedly variable people, divided by caste into two very different frames. The Morgh are stocky, broad-shouldered, deep-chested hall-builders of 1.50m-1.60m (4'11"-5'3"), their dense slate-grey granite hide and overlapping stone plates giving them the look of living crag. The Ithran are slender and impossibly long of limb, standing 2.00m-2.18m (6'7"-7'2"), with blue-grey draconic and mineral scales covering their forehead, cheekbones, neck, and arms. Both castes possess high sharp troll cheekbones, long pointed ears with silver rings/hoops, and braided dreadlocked hair adorned with silver wire and stone beads. Males feature backward-curving dark mineral horns along their crown. Morgh Groven carry flat stone-slab faces with deep-set amber eyes and lower flint tusks; Ithran Groven are slender dragon-scaled diplomats with reduced elegant tusks and tailored green-and-gold lichen coats.`,
   description: `**[The Living Bridges]**, *Standing atop an ancient stone span spanning a mountain abyss, a blue-grey dragon-scaled Ithran diplomat weighs coin-tolls on a brass balance scale while cantilevered homes hang beneath the bridge arches.*
@@ -227,16 +237,12 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
     morgh: {
       id: 'morgh_groven',
       name: 'Morgh',
-      illustration: '/assets/images/races/groven_illustration.png',
-      illustrationCaption: 'A massive Groven with thick stone-scale plates fused to their joints, standing firm in a mountain blizzard.',
+      illustration: '/assets/images/races/groven_morgh_icon_v1.png',
+      illustrationCaption: 'A bulky Morgh Groven mountain stone-troll sentinel in a tattered hooded cowl leaning on a gnarled wooden staff in rough charcoal draft with slate-grey watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/groven_illustration.png',
-          caption: 'A massive Morgh Groven with thick stone-scale plates fused to their joints, standing firm in a mountain blizzard.'
-        },
-        {
-          src: '/assets/images/races/morgh_portrait.jpg',
-          caption: 'A Morgh Groven sentinel, hulking and stone-still, their granite hide indistinguishable from the boulders around them in a killing blizzard.'
+          src: '/assets/images/races/groven_morgh_icon_v1.png',
+          caption: 'Morgh Groven mountain stone-troll sentinel in tattered hooded cowl with spiral wraps and gnarled staff in rough charcoal draft with slate-grey watercolor splash.'
         }
       ],
       visualDescription: `Heavy-scaled, stocky, and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. Standing 4'11" to 5'3" (1.50m to 1.60m), they are broad-shouldered, deep-chested, and stone-hewn, built as immovable subterranean forge-smiths and hall-builders of Cragjaw Peaks. Their faces are flat and stone-slab, heavy-browed with deep-set amber eyes and lipless rock mouths. Their stone-scales grow in dense overlapping plates across shoulders, spine, and joints like natural granite plating. Their knuckles are obsidian points, and when a Morgh stands still among high crag boulders, living stone is indistinguishable from dead stone. They dress in tattered lichen-fiber wraps and carry long ash walking-staves.`,
@@ -509,24 +515,12 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
     ithran: {
       id: 'ithran_groven',
       name: 'Ithran',
-      illustration: '/assets/images/races/ithran_portrait.jpg',
-      illustrationCaption: 'An Ithran Groven diplomat, impossibly long-limbed with blue-grey draconic scales, holding a brass balance scale on an Ancestor-Span bone bridge above the Cragjaw Peaks.',
+      illustration: '/assets/images/races/groven_ithran_icon_v1.png',
+      illustrationCaption: 'A predatory, crouching Ithran Groven bridge toll-keeper with elongated limbs, braided dreadlocks, and crown horns holding a brass balance scale in rough charcoal draft with cold slate-blue and lichen-teal watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/ithran_portrait.jpg',
-          caption: 'An Ithran Groven diplomat, impossibly long-limbed with blue-grey draconic scales, holding a brass balance scale on an Ancestor-Span bone bridge above the Cragjaw Peaks.'
-        },
-        {
-          src: '/assets/images/races/ithran_illustration.png',
-          caption: 'An elegant, slate-grey Ithran Groven in green traveler robes and leather boots, standing on an Ancestor-Span bridge woven from massive calcified bones in the snowy Cragjaw Peaks.'
-        },
-        {
-          src: '/assets/images/races/ithran_illustration_2.png',
-          caption: 'Ithran Groven diplomats of both genders operating a wooden customs and toll checkpoint on a suspended bridge-top settlement in the snowy Cragjaw Peaks, using knotted fiber records.'
-        },
-        {
-          src: '/assets/images/races/ithran_bridge_city.jpg',
-          caption: 'A sprawling Ithran Groven bridge-city: cantilevered homes hanging beneath the stone arch spans, with slender Ithran figures walking the roadways above the mountain gorge.'
+          src: '/assets/images/races/groven_ithran_icon_v1.png',
+          caption: 'Ithran Groven bridge toll-keeper in classic crouching troll stance with elongated reach, braided dreadlocks, crown horns, and brass balance scale in rough charcoal draft with watercolor splash.'
         }
       ],
       visualDescription: `Slender and impossibly long of limb, the Ithran are the Fexric's most refined design made flesh. Their stone-scales grow fine as tessellated mail over lean frames, their tusks reduced to elegant points, and their fingers are long enough to tie a bridge-knot from a body-length away. Their movements are fluid and deliberate, the gait of a creature whose limbs were meant to span chasms, and when an Ithran gestures the whole hall watches the arc of those impossible arms. They favor finer woven garments than the Morgh and carry themselves with the bearing of diplomats who happen to be eight feet tall.`,

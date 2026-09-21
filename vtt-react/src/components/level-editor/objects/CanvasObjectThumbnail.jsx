@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { MODEL_REGISTRY } from '../three/ThreeDPropManager';
 import { PROFESSIONAL_OBJECTS } from './ObjectSystem';
+import { ConnectionMarker, GmNotePreview } from './objectPreviewArt';
 import modelThumbnailService from '../../../services/ModelThumbnailService';
 
 const fallback = (objectType) => `/assets/objects/misc_box.png?v=${CACHE_BUST}`;
@@ -26,9 +27,38 @@ const CanvasObjectThumbnail = ({ objectType, className, style, size = 80 }) => {
 
     if (!objectType) return null;
 
+    // Canvas-rendered GM notes and connections have no sprite to load; preview
+    // the exact art the level editor draws for the placed object instead.
+    if (objectType === 'gmNotes') {
+        return (
+            <div className="canvas-object-thumb" style={{ position: 'relative', display: 'inline-block', width: size, height: size }}>
+                <GmNotePreview size={size} className={className} />
+            </div>
+        );
+    }
+
+    if (objectType === 'connection') {
+        return (
+            <div className="canvas-object-thumb" style={{ position: 'relative', display: 'inline-block', width: size, height: size }}>
+                <div
+                    className={className}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <ConnectionMarker size={size * 0.8} />
+                </div>
+            </div>
+        );
+    }
+
     let thumbSrc = null;
     if (is3D && modelDef?.url) {
-        thumbSrc = modelThumbnailService.getThumbnail(modelDef.url);
+        thumbSrc = modelThumbnailService.peek(modelDef.url);
     }
 
     const objDef = PROFESSIONAL_OBJECTS ? PROFESSIONAL_OBJECTS[objectType] : null;

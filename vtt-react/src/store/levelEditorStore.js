@@ -1588,11 +1588,71 @@ const pointInPolygonChecked = (x, y, points) => {
 const createExploredLookupCache = () => ({
   polygons: null,
   areas: null,
-  results: new Map()
+  results: new Map(),
+  polygonsIndex: null
 });
+
+// PERFORMANCE: spatial bucket index for explored polygons. The point lookup
+// used to scan every polygon (the trail grows to 2000 entries x 30-200 points)
+// and the memo cache is cleared by every explored write (roughly every 50-100 ms
+// while a token walks), so misses scanned the whole trail repeatedly.
+const EXPLORED_INDEX_BUCKET = 1024;
+const buildExploredPolygonIndex = (polygons) => {
+  const index = new Map();
+  if (!polygons) return index;
+  for (let i = 0; i < polygons.length; i++) {
+    const points = polygons[i]?.points;
+    if (!points || points.length < 3) continue;
+    const bounds = getPolygonBounds(points);
+    const minBX = Math.floor(bounds.minX / EXPLORED_INDEX_BUCKET);
+    const maxBX = Math.floor(bounds.maxX / EXPLORED_INDEX_BUCKET);
+    const minBY = Math.floor(bounds.minY / EXPLORED_INDEX_BUCKET);
+    const maxBY = Math.floor(bounds.maxY / EXPLORED_INDEX_BUCKET);
+    for (let bx = minBX; bx <= maxBX; bx++) {
+      for (let by = minBY; by <= maxBY; by++) {
+        const bucketKey = `${bx},${by}`;
+        let bucket = index.get(bucketKey);
+        if (!bucket) {
+          bucket = [];
+          index.set(bucketKey, bucket);
+        }
+        bucket.push(points);
+      }
+    }
+  }
+  return index;
+};
+
+const polygonIndexHit = (index, x, y) => {
+  if (!index || index.size === 0) return false;
+  const bucket = index.get(`${Math.floor(x / EXPLORED_INDEX_BUCKET)},${Math.floor(y / EXPLORED_INDEX_BUCKET)}`);
+  if (!bucket) return false;
+  for (let i = 0; i < bucket.length; i++) {
+    if (pointInPolygonChecked(x, y, bucket[i])) return true;
+  }
+  return false;
+};
 
 const globalExploredLookupCache = createExploredLookupCache();
 const playerExploredLookupCache = createExploredLookupCache();
+
+// PERFORMANCE: setVisibilityPolygon is called on every visibility recalculation
+// (up to 20x/s while the viewed token walks). Subscribers key off the array
+// identity, so an unchanged polygon must not produce a new one — otherwise the
+// whole 2D/3D fog stack re-renders even when the token barely moved.
+const POLYGON_POINT_EPSILON = 0.01;
+const arePolygonsEqual = (a, b) => {
+  if (a === b) return true;
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    const pa = a[i];
+    const pb = b[i];
+    if (!pa || !pb) return false;
+    if (Math.abs(pa.x - pb.x) > POLYGON_POINT_EPSILON) return false;
+    if (Math.abs(pa.y - pb.y) > POLYGON_POINT_EPSILON) return false;
+  }
+  return true;
+};
 
 const initialState = {
   // Editor state
@@ -2634,6 +2694,7 @@ const useLevelEditorStore = create((set, get) => ({
     if (cache.polygons !== polygons || cache.areas !== areas) {
       cache.polygons = polygons;
       cache.areas = areas;
+      cache.polygonsIndex = buildExploredPolygonIndex(polygons);
       cache.results.clear();
     }
 
@@ -2645,13 +2706,7 @@ const useLevelEditorStore = create((set, get) => ({
 
     // Check polygons (more accurate, matches vision shape)
     if (polygons) {
-      for (let i = 0; i < polygons.length; i++) {
-        const polygon = polygons[i];
-        if (polygon && pointInPolygonChecked(worldX, worldY, polygon.points)) {
-          result = true;
-          break;
-        }
-      }
+      result = polygonIndexHit(cache.polygonsIndex, worldX, worldY);
     }
 
     // Fallback to tile-based check for backward compatibility
@@ -2791,9 +2846,10 @@ const useLevelEditorStore = create((set, get) => ({
         gridSystem
       );
 
-      // Create memory snapshots for all visible tiles
+      // Create memory snapshots for all visible tiles (single batched write)
       const itemStore = itemStoreModule.default.getState();
       const { gridItems } = itemStore;
+      const tileEntries = [];
 
       visibleTiles.forEach(tileKey => {
         const [x, y] = tileKey.split(',').map(Number);
@@ -2830,23 +2886,10 @@ const useLevelEditorStore = create((set, get) => ({
           })
         };
 
-        // Create memory snapshot and mark as explored
-        const currentState = get();
-        const key = `${x},${y}`;
-        set({
-          memorySnapshots: {
-            ...currentState.memorySnapshots,
-            [key]: {
-              ...snapshotData,
-              timestamp: Date.now()
-            }
-          },
-          exploredAreas: {
-            ...currentState.exploredAreas,
-            [key]: true
-          }
-        });
+        tileEntries.push({ key: tileKey, snapshot: snapshotData });
       });
+
+      get().commitTileMemories(tileEntries);
 
       // Create afterimage at the old position
       const currentState = get();
@@ -3024,6 +3067,7 @@ const useLevelEditorStore = create((set, get) => ({
 
   // Update visibility polygon for accurate point-in-polygon checks
   setVisibilityPolygon: (polygon) => {
+    if (arePolygonsEqual(get().visibilityPolygon, polygon)) return;
     set({ visibilityPolygon: polygon });
   },
 
@@ -4767,6 +4811,74 @@ const useLevelEditorStore = create((set, get) => ({
     });
   },
 
+  // PERFORMANCE: batched form of the per-tile memory writes. The snapshot pass
+  // used to call createMemorySnapshot/setExploredArea/createPlayerMemorySnapshot/
+  // setPlayerExploredArea once per visible tile — 4 store writes per tile, each
+  // spreading the ever-growing explored maps, so a single visibility update
+  // could copy millions of properties and re-render every store subscriber.
+  // This applies a whole pass in one set() and emits one multiplayer update.
+  commitTileMemories: (entries, options = {}) => {
+    const state = get();
+    if (!entries || entries.length === 0) return;
+
+    const playerId = options.playerId || null;
+    const now = Date.now();
+
+    const memorySnapshots = { ...state.memorySnapshots };
+    const exploredAreas = { ...state.exploredAreas };
+    let playerMemories = state.playerMemories;
+
+    if (playerId) {
+      const currentMemories = playerMemories[playerId] || {
+        exploredAreas: {},
+        exploredCircles: [],
+        exploredPolygons: [],
+        memorySnapshots: {},
+        tokenAfterimages: {}
+      };
+      playerMemories = {
+        ...playerMemories,
+        [playerId]: {
+          ...currentMemories,
+          memorySnapshots: { ...currentMemories.memorySnapshots },
+          exploredAreas: { ...currentMemories.exploredAreas }
+        }
+      };
+    }
+
+    entries.forEach(({ key, snapshot }) => {
+      if (!key) return;
+      if (snapshot) memorySnapshots[key] = { ...snapshot, timestamp: now };
+      exploredAreas[key] = true;
+      if (playerId) {
+        const playerRecord = playerMemories[playerId];
+        if (snapshot) playerRecord.memorySnapshots[key] = { ...snapshot, timestamp: now };
+        playerRecord.exploredAreas[key] = true;
+      }
+    });
+
+    set(playerId
+      ? { memorySnapshots, exploredAreas, playerMemories }
+      : { memorySnapshots, exploredAreas });
+
+    // Single multiplayer sync for the whole pass (GM explores for the party)
+    Promise.all([
+      import('./gameStore'),
+      import('./mapStore')
+    ]).then(([{ default: useGameStore }, { default: useMapStore }]) => {
+      const gameStore = useGameStore.getState();
+      const mapStore = useMapStore.getState();
+      const targetMapId = mapStore.currentMapId || 'default';
+      if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected && gameStore.isGMMode) {
+        if (!window._isReceivingMapUpdate) {
+          mapUpdateBatcher.addUpdate('exploredAreas', exploredAreas, targetMapId);
+        }
+      }
+    }).catch((error) => {
+      console.warn('Failed to batch explored areas update:', error?.message || error);
+    });
+  },
+
   // Update token afterimage for current player
   updatePlayerTokenAfterimage: (tokenId, tokenData, position) => {
     const state = get();
@@ -4850,6 +4962,8 @@ const useLevelEditorStore = create((set, get) => ({
       cache.playerAreas = playerAreas;
       cache.legacyPolygons = legacyPolygons;
       cache.legacyAreas = legacyAreas;
+      cache.polygonsIndex = buildExploredPolygonIndex(playerPolygons);
+      cache.legacyIndex = buildExploredPolygonIndex(legacyPolygons);
       cache.results.clear();
     }
 
@@ -4883,22 +4997,10 @@ const useLevelEditorStore = create((set, get) => ({
     if (!exploredByTile) {
       // Check polygon-based explored areas (per-player, then legacy)
       if (playerPolygons) {
-        for (let i = 0; i < playerPolygons.length; i++) {
-          const polygon = playerPolygons[i];
-          if (polygon && pointInPolygonChecked(worldX, worldY, polygon.points)) {
-            result = true;
-            break;
-          }
-        }
+        result = polygonIndexHit(cache.polygonsIndex, worldX, worldY);
       }
       if (!result && legacyPolygons) {
-        for (let i = 0; i < legacyPolygons.length; i++) {
-          const polygon = legacyPolygons[i];
-          if (polygon && pointInPolygonChecked(worldX, worldY, polygon.points)) {
-            result = true;
-            break;
-          }
-        }
+        result = polygonIndexHit(cache.legacyIndex, worldX, worldY);
       }
     }
 

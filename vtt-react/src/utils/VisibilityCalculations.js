@@ -167,7 +167,11 @@ export function isWallBlockingMovement(x1, y1, x2, y2, wallData) {
 }
 
 function isWallBlockingWith(x1, y1, x2, y2, wallData, predicate) {
-  if (!wallData || Object.keys(wallData).length === 0) return false;
+  // NOTE: don't use Object.keys(wallData).length here — this runs per Bresenham
+  // step (thousands of times per visibility recalculation) and allocating the
+  // key array each call dominated the LOS cost. The edge index is cached by
+  // wallData reference, and an empty object simply finds no edges.
+  if (!wallData) return false;
 
   const gx1 = Math.floor(x1);
   const gy1 = Math.floor(y1);
@@ -925,8 +929,43 @@ export function calculateVisibleTiles(tokenX, tokenY, visionRange, visionType = 
  * @param {Array} environmentalObjects - Environmental objects that can block sight
  * @returns {boolean} True if line of sight exists
  */
+// Types that never block sight even though they are environmental objects.
+const NON_SIGHT_BLOCKING_TYPES = [
+  'torch_wall', 'torch_standing', 'candle', 'candelabra',
+  'potion_bottle_green', 'potion_bottle_brown',
+  'grate_closed', 'grate_open', 'spikes_floor',
+  'treasure_coins', 'gold_pile'
+];
+
+// PERFORMANCE: index environmental sight blockers by tile once per object-list
+// identity. hasLineOfSight runs thousands of times per visibility recalculation
+// and previously scanned the whole object list per Bresenham step.
+const sightBlockerIndexCache = new WeakMap();
+function getSightBlockerIndex(environmentalObjects) {
+  let index = sightBlockerIndexCache.get(environmentalObjects);
+  if (index) return index;
+  index = new Set();
+  for (const obj of environmentalObjects) {
+    if (!obj) continue;
+    const blocksSight = obj.blocksLineOfSight !== undefined
+      ? obj.blocksLineOfSight
+      : (obj.type && !NON_SIGHT_BLOCKING_TYPES.includes(obj.type));
+    if (!blocksSight) continue;
+    const ogx = obj.gridX !== undefined ? obj.gridX : Math.floor(obj.worldX / 50);
+    const ogy = obj.gridY !== undefined ? obj.gridY : Math.floor(obj.worldY / 50);
+    index.add(`${ogx},${ogy}`);
+  }
+  sightBlockerIndexCache.set(environmentalObjects, index);
+  return index;
+}
+
 export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', windowOverlays = {}, gridSystem = null, environmentalObjects = []) {
-  if ((!wallData || Object.keys(wallData).length === 0) && (!environmentalObjects || environmentalObjects.length === 0)) {
+  // PERFORMANCE: computed once per call, not per Bresenham step — this runs
+  // thousands of times per visibility recalculation and `Object.keys(...)`
+  // allocated the full wall-key array on every step.
+  const hasWalls = !!(wallData && Object.keys(wallData).length > 0);
+
+  if (!hasWalls && (!environmentalObjects || environmentalObjects.length === 0)) {
     // No walls or objects to check - line of sight is clear
     return true;
   }
@@ -934,6 +973,10 @@ export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', wi
   if (gridType === 'hex' && gridSystem) {
     return hexHasLineOfSight(x1, y1, x2, y2, wallData, gridSystem, windowOverlays);
   }
+
+  const sightBlockerIndex = (environmentalObjects && environmentalObjects.length > 0)
+    ? getSightBlockerIndex(environmentalObjects)
+    : null;
 
   const linePoints = getLineOfSight(x1, y1, x2, y2);
 
@@ -944,25 +987,14 @@ export function hasLineOfSight(x1, y1, x2, y2, wallData, gridType = 'square', wi
 
     // Check if a wall blocks movement between these two adjacent tiles
     // Walls can be stored on edges between tiles, so we need to check multiple potential wall keys
-    if (wallData && Object.keys(wallData).length > 0 && isWallBlocking(current.x, current.y, next.x, next.y, wallData, windowOverlays)) {
+    if (hasWalls && isWallBlocking(current.x, current.y, next.x, next.y, wallData, windowOverlays)) {
       // Wall detected blocking line of sight
       return false;
     }
 
     // Check if intermediate tile (excluding start and target tiles) is blocked by an environmental object
-    if (i > 0 && environmentalObjects && environmentalObjects.length > 0) {
-      const isBlockedByObj = environmentalObjects.some(obj => {
-        if (!obj) return false;
-        const blocksSight = obj.blocksLineOfSight !== undefined
-          ? obj.blocksLineOfSight
-          : (obj.type && !['torch_wall', 'torch_standing', 'candle', 'candelabra', 'potion_bottle_green', 'potion_bottle_brown', 'grate_closed', 'grate_open', 'spikes_floor', 'treasure_coins', 'gold_pile'].includes(obj.type));
-        if (!blocksSight) return false;
-
-        const ogx = obj.gridX !== undefined ? obj.gridX : Math.floor(obj.worldX / 50);
-        const ogy = obj.gridY !== undefined ? obj.gridY : Math.floor(obj.worldY / 50);
-        return ogx === current.x && ogy === current.y;
-      });
-      if (isBlockedByObj) return false;
+    if (i > 0 && sightBlockerIndex && sightBlockerIndex.has(`${current.x},${current.y}`)) {
+      return false;
     }
   }
 

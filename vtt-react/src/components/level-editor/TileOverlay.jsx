@@ -13,6 +13,7 @@ import PortalTransferDialog from './PortalTransferDialog';
 import GMNotesWindow from './GMNotesWindow';
 import ConnectionContextMenu from './ConnectionContextMenu';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
+import { ConnectionMarkerGlyph } from './objects/objectPreviewArt';
 import useMapStore from '../../store/mapStore';
 import useInteractiveMapStore from '../../store/interactiveMapStore';
 import useSettingsStore from '../../store/settingsStore';
@@ -126,7 +127,6 @@ const TileOverlay = () => {
     dndElements,
     fogOfWarData,
     revealedAreas,
-    getTerrain,
     getFogOfWar,
     removeEnvironmentalObject,
     updateEnvironmentalObject,
@@ -898,6 +898,40 @@ const TileOverlay = () => {
     };
   }, [isGMMode, gridSize, updateDndElement]);
 
+  // PERFORMANCE OPTIMIZATION: map objects and elements by position for O(1)
+  // tile lookups. getContentTiles scans ~9x the viewport per camera frame, so
+  // filtering the entity arrays per tile was millions of iterations per frame.
+  const objectsByPosition = useMemo(() => {
+    const map = new Map();
+    environmentalObjects.forEach(obj => {
+      if (obj.freePosition) return; // Skip free-positioned objects
+      // [PHASE 4] Prioritize explicit grid coordinates
+      const objX = obj.gridX ?? (obj.position?.x);
+      const objY = obj.gridY ?? (obj.position?.y);
+      if (objX !== undefined && objY !== undefined) {
+        const key = `${Math.floor(objX)},${Math.floor(objY)}`;
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(obj);
+      }
+    });
+    return map;
+  }, [environmentalObjects]);
+
+  const elementsByPosition = useMemo(() => {
+    const map = new Map();
+    dndElements.forEach(element => {
+      // [PHASE 4] Prioritize explicit grid coordinates
+      const elemX = element.gridX ?? (element.position?.x);
+      const elemY = element.gridY ?? (element.position?.y);
+      if (elemX !== undefined && elemY !== undefined) {
+        const key = `${Math.floor(elemX)},${Math.floor(elemY)}`;
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(element);
+      }
+    });
+    return map;
+  }, [dndElements]);
+
   // Get all tiles that have content within the visible area
   const getContentTiles = () => {
     const tiles = [];
@@ -930,38 +964,24 @@ const TileOverlay = () => {
 
       for (let x = minX; x < maxX; x++) {
         for (let y = minY; y < maxY; y++) {
-          const terrainType = showTerrainLayer ? getTerrain(x, y) : null;
-          const hasObjects = showObjectLayer && environmentalObjects.some(obj => {
-            // Skip objects with free positioning (they're rendered by ObjectSystem)
-            if (obj.freePosition) return false;
+          const tileKey = `${x},${y}`;
+          const tileObjects = objectsByPosition.get(tileKey);
+          const tileElements = elementsByPosition.get(tileKey);
+          const hasObjects = showObjectLayer && !!tileObjects && tileObjects.length > 0;
+          const hasDndElements = showDndLayer && !!tileElements && tileElements.length > 0;
+          // Empty tiles need no DOM: skip the fog/visibility work, which would
+          // otherwise run for every tile in the padded window every camera frame.
+          if (!hasObjects && !hasDndElements) continue;
 
-            // [PHASE 3] Prioritize explicit grid coordinates for tile flagging
-            const objX = obj.gridX ?? (obj.position?.x);
-            const objY = obj.gridY ?? (obj.position?.y);
-            return objX !== undefined && objY !== undefined &&
-              Math.floor(objX) === x && Math.floor(objY) === y;
-          });
-          const hasDndElements = showDndLayer && dndElements.some(element => {
-            // [PHASE 3] Prioritize explicit grid coordinates for tile flagging
-            const elemX = element.gridX ?? (element.position?.x);
-            const elemY = element.gridY ?? (element.position?.y);
-            return elemX !== undefined && elemY !== undefined &&
-              Math.floor(elemX) === x && Math.floor(elemY) === y;
-          });
           const hasFog = showDndLayer && getFogOfWar(x, y);
           const isVisible = isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode);
 
           // Show objects, D&D elements, and fog (terrain is handled by TerrainSystem)
           // Connections/Portals should always be shown even if tile is not normally visible
-          const hasAlwaysVisibleDndElement = showDndLayer && dndElements.some(element => {
-            const elemX = element.gridX ?? (element.position?.x);
-            const elemY = element.gridY ?? (element.position?.y);
-            return (element.type === 'portal' || element.type === 'connection') &&
-              elemX !== undefined && elemY !== undefined &&
-              Math.floor(elemX) === x && Math.floor(elemY) === y;
-          });
+          const hasAlwaysVisibleDndElement = showDndLayer && !!tileElements &&
+            tileElements.some(element => element.type === 'portal' || element.type === 'connection');
 
-          if ((hasObjects || hasDndElements) && (isVisible || isGMMode || hasAlwaysVisibleDndElement)) {
+          if (isVisible || isGMMode || hasAlwaysVisibleDndElement) {
             tiles.push({
               x,
               y,
@@ -984,38 +1004,24 @@ const TileOverlay = () => {
 
       for (let x = minX; x < maxX; x++) {
         for (let y = minY; y < maxY; y++) {
-          const terrainType = showTerrainLayer ? getTerrain(x, y) : null;
-          const hasObjects = showObjectLayer && environmentalObjects.some(obj => {
-            // Skip objects with free positioning (they're rendered by ObjectSystem)
-            if (obj.freePosition) return false;
+          const tileKey = `${x},${y}`;
+          const tileObjects = objectsByPosition.get(tileKey);
+          const tileElements = elementsByPosition.get(tileKey);
+          const hasObjects = showObjectLayer && !!tileObjects && tileObjects.length > 0;
+          const hasDndElements = showDndLayer && !!tileElements && tileElements.length > 0;
+          // Empty tiles need no DOM: skip the fog/visibility work, which would
+          // otherwise run for every tile in the padded window every camera frame.
+          if (!hasObjects && !hasDndElements) continue;
 
-            // [PHASE 3] Prioritize gridX/gridY
-            const objX = obj.gridX ?? (obj.position?.x);
-            const objY = obj.gridY ?? (obj.position?.y);
-            return objX !== undefined && objY !== undefined &&
-              Math.floor(objX) === x && Math.floor(objY) === y;
-          });
-          const hasDndElements = showDndLayer && dndElements.some(element => {
-            // [PHASE 3] Prioritize gridX/gridY
-            const elemX = element.gridX ?? (element.position?.x);
-            const elemY = element.gridY ?? (element.position?.y);
-            return elemX !== undefined && elemY !== undefined &&
-              Math.floor(elemX) === x && Math.floor(elemY) === y;
-          });
           const hasFog = showDndLayer && getFogOfWar(x, y);
           const isVisible = isTileVisible(x, y, fogOfWarData, revealedAreas, isGMMode);
 
           // Show objects, D&D elements, and fog (terrain is handled by TerrainSystem)
           // Connections/Portals should always be shown even if tile is not normally visible
-          const hasAlwaysVisibleDndElement = showDndLayer && dndElements.some(element => {
-            const elemX = element.gridX ?? (element.position?.x);
-            const elemY = element.gridY ?? (element.position?.y);
-            return (element.type === 'portal' || element.type === 'connection') &&
-              elemX !== undefined && elemY !== undefined &&
-              Math.floor(elemX) === x && Math.floor(elemY) === y;
-          });
+          const hasAlwaysVisibleDndElement = showDndLayer && !!tileElements &&
+            tileElements.some(element => element.type === 'portal' || element.type === 'connection');
 
-          if ((hasObjects || hasDndElements) && (isVisible || isGMMode || hasAlwaysVisibleDndElement)) {
+          if (isVisible || isGMMode || hasAlwaysVisibleDndElement) {
             tiles.push({
               x,
               y,
@@ -1031,39 +1037,6 @@ const TileOverlay = () => {
 
     return tiles;
   };
-
-  // PERFORMANCE OPTIMIZATION: Create a map of objects and elements by position for O(1) lookup
-  // instead of filtering arrays for each tile
-  const objectsByPosition = useMemo(() => {
-    const map = new Map();
-    environmentalObjects.forEach(obj => {
-      if (obj.freePosition) return; // Skip free-positioned objects
-      // [PHASE 4] Prioritize explicit grid coordinates
-      const objX = obj.gridX ?? (obj.position?.x);
-      const objY = obj.gridY ?? (obj.position?.y);
-      if (objX !== undefined && objY !== undefined) {
-        const key = `${Math.floor(objX)},${Math.floor(objY)}`;
-        if (!map.has(key)) map.set(key, []);
-        map.get(key).push(obj);
-      }
-    });
-    return map;
-  }, [environmentalObjects]);
-
-  const elementsByPosition = useMemo(() => {
-    const map = new Map();
-    dndElements.forEach(element => {
-      // [PHASE 4] Prioritize explicit grid coordinates
-      const elemX = element.gridX ?? (element.position?.x);
-      const elemY = element.gridY ?? (element.position?.y);
-      if (elemX !== undefined && elemY !== undefined) {
-        const key = `${Math.floor(elemX)},${Math.floor(elemY)}`;
-        if (!map.has(key)) map.set(key, []);
-        map.get(key).push(element);
-      }
-    });
-    return map;
-  }, [dndElements]);
 
   const contentTiles = useMemo(() => getContentTiles(), [
     terrainData,
@@ -1513,21 +1486,7 @@ const TileOverlay = () => {
         }}
       >
         {isPortal ? (
-          <svg
-            width={`${connectionSize * 0.6}px`}
-            height={`${connectionSize * 0.6}px`}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{
-              pointerEvents: 'none',
-              userSelect: 'none'
-            }}
-          >
-            <circle cx="12" cy="12" r="8" stroke={connectionColor} strokeWidth="2" fill="none" />
-            <circle cx="12" cy="12" r="4" fill={connectionColor} opacity="0.6" />
-            <path d="M12 4 L12 8 M12 16 L12 20 M4 12 L8 12 M16 12 L20 12" stroke={connectionColor} strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <ConnectionMarkerGlyph size={connectionSize * 0.6} color={connectionColor} />
         ) : (elementType?.icon || '?')}
       </div>
     );

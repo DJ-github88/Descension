@@ -2,24 +2,12 @@ export const mimir = {
     id: 'mimir',
     name: 'Mimir',
     essence: 'The Mask-Bound',
-    illustration: '/assets/images/races/Untethered_Mimir.png',
-    illustrationCaption: 'A Broken Mimir with a hopeful expression, wearing a small broken mask remnant and accompanied by a floating golden Mote companion.',
+    illustration: '/assets/images/races/mimir_broken_icon_v1.png',
+    illustrationCaption: 'A free-spirited Broken Mimir with a cracked wooden mask shard over one brow, wide soulful eyes, and a floating golden Mote companion in rough charcoal draft with gold and lavender watercolor splash.',
     illustrations: [
       {
-        src: '/assets/images/races/Untethered_Mimir.png',
-        caption: 'Broken Mimir with broken mask remnant and floating golden Mote companion.'
-      },
-      {
-        src: '/assets/images/races/Veiled_Mimir.png',
-        caption: 'Broken Mimir forest wanderer with small mask fragment.'
-      },
-      {
-        src: '/assets/images/races/Veiled_Mimir_2.png',
-        caption: 'Broken Mimir Mote-Keeper resting by ancient tree roots.'
-      },
-      {
-        src: '/assets/images/races/Tethered_Mimir.png',
-        caption: 'Arch Mimir in towering horn-curved heartwood mask.'
+        src: '/assets/images/races/mimir_broken_icon_v1.png',
+        caption: 'Broken Mimir free-spirited wanderer with exposed fae face, mask shard, and floating golden seed Mote companion in rough charcoal draft with watercolor splash.'
       }
     ],
     cardFlavor: 'Canopy-dwellers who sealed their faces behind wooden masks when the Frostwood fog began stealing their memories.',
@@ -324,12 +312,14 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
       veiled: {
         id: 'veiled_mimir',
         name: 'Arch Mimir',
-        illustration: '/assets/images/races/Veiled_Mimir.png',
-        illustrationCaption: 'An Arch Mimir male aristocrat with a strong chiseled jawline and broad shoulders, wearing a towering horn-curved heartwood mask that covers his face down to his nose, with braided lavender-grey hair spilling out.',
-        illustration2: '/assets/images/races/Veiled_Mimir_2.png',
-        illustration2Caption: 'An Arch Mimir female aristocrat showing noble, determined yet calm and peaceful eyes, rounded ears, and braided lavender-grey hair under a towering horn-curved heartwood mask.',
-        cultureIllustration: '/assets/images/races/Veiled_Mimir_society.png',
-        cultureIllustrationCaption: 'A group of Arch Mimir wearing serene, horn-curved heartwood masks, walking along elegant stilt-walkways in the giant tree canopy high above rolling fog.',
+        illustration: '/assets/images/races/mimir_arch_icon_v1.png',
+        illustrationCaption: 'An Arch Mimir canopy aristocrat in layered courtly robes with leaf pauldrons, wearing an ancient towering heartwood mask with antler crown-crests and holding an inscribed elderwood scripture staff with royal violet and gold watercolor splash.',
+        illustrations: [
+          {
+            src: '/assets/images/races/mimir_arch_icon_v1.png',
+            caption: 'Arch Mimir canopy aristocrat wearing a towering heartwood mask with organic crown-crests, braided lavender hair, and holding an elderwood staff in rough charcoal draft with royal violet and antique gold watercolor splash.'
+          }
+        ],
         visualDescription: `The aristocracy of the masked. Underneath their masks, the Arch Mimir are actually incredibly beautiful, near-perfect fae humanoids, but they hide their faces in the belief that they are hideous. Their faces are covered by towering, ancient heartwood masks with stylized organic horn-like curves. The male's mask is shorter but covers more of the face, leaving only a strong chiseled jawline, rounded ear, and calm eye visible. The female's mask is a domino style, showing her peaceful eyes, nose, and mouth beneath. Beautiful braided lavender-grey hair spills out elegantly from beneath their masks.`,
         tooltipSummary: 'Beautiful fae aristocrats who hide behind towering, eons-old horn-curved masks, living in high canopy-holds to escape the fog below.',
         description: 'The scripture-keepers and inheritors of the oldest masks. The Arch Mimir are a beautiful, near-perfect fae people who wear towering, ancient heartwood masks with organic horn-like curves passed down through generations. They do so out of an inherited shame, believing themselves to be hideous because their creator was never satisfied with them. In Mimir society, each mask is unique depending on the specific lineage one comes from, bearing different meanings and dictating their role in society. Mask theft is considered the ultimate transgression—punished by death, or exile if the stolen mask is successfully retrieved. To avoid the thick, rolling fog on the forest floor beneath, they build unique, ancient wood structures high in the canopy-holds.',
@@ -546,20 +536,12 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
       tethered: {
         id: 'tethered_mimir',
         name: 'Broken Mimir',
-        illustration: '/assets/images/races/Untethered_Mimir.png',
-        illustrationCaption: 'A young Broken Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.',
+        illustration: '/assets/images/races/mimir_broken_icon_v1.png',
+        illustrationCaption: 'A free-spirited Broken Mimir with a cracked wooden mask shard over one brow, wide soulful eyes, and a floating golden Mote companion in rough charcoal draft with gold and lavender watercolor splash.',
         illustrations: [
           {
-            src: '/assets/images/races/Untethered_Mimir.png',
-            caption: 'A young Broken Mimir looking up with a hopeful expression, wearing only a broken remnant of an old mask on one side of his brow, a warm gold orb of light floating near their hand.'
-          },
-          {
-            src: '/assets/images/races/Veiled_Mimir.png',
-            caption: 'A Broken Mimir forest wanderer with a small mask fragment and Mote companion.'
-          },
-          {
-            src: '/assets/images/races/Veiled_Mimir_2.png',
-            caption: 'A Broken Mimir Mote-Keeper resting by ancient tree roots.'
+            src: '/assets/images/races/mimir_broken_icon_v1.png',
+            caption: 'Broken Mimir free-spirited wanderer with exposed fae face, mask shard, and floating golden seed Mote companion in rough charcoal draft with watercolor splash.'
           }
         ],
         visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside, shunning the idea of hiding their natural beauty. They still wear small, broken remnants of masks (like a wooden shard or eye-bracket), leaving most of their faces exposed. This exposure is both embraced and feared, reflecting a mix of child-like glee, hopeful curiosity, and a lingering, instinctual fear of fully showing their face. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light.`,

@@ -6,7 +6,7 @@ import {
   getWallWorldEndpoints,
   getWallBodyHeightWorld
 } from '../../../utils/WallGeometry';
-import { wallModelMetrics } from './ThreeDWallManager';
+import { wallModelMetrics, WALL_DOOR_MODELS } from './ThreeDWallManager';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
 import useLevelEditorStore from '../../../store/levelEditorStore';
@@ -958,6 +958,10 @@ export class ThreeDPropManager {
   updateObjects(objects = [], gridState = {}, fogState = {}, wallData = {}, elevationData = {}) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentIds = new Set();
+    // Tracks whether any prop's fog state (visibility / shadow casting /
+    // opacity) actually changed, so callers only re-render shadow maps when
+    // something moved — not on every visibility recalculation.
+    let stateChanged = false;
 
     // The wall pass feeds the manager its own wall data (used for wall-mounted
     // fixtures); direct calls fall back to the store so callers stay unchanged.
@@ -1179,11 +1183,17 @@ export class ThreeDPropManager {
       const targetOpacity = fog.targetOpacity;
       const canCastShadow = fog.canCastShadow;
 
-      entry.mesh.visible = isVisible;
+      if (entry.mesh.visible !== isVisible) {
+        entry.mesh.visible = isVisible;
+        stateChanged = true;
+      }
       if (isVisible) {
         entry.innerModel.traverse(child => {
           if (child.isMesh) {
-            child.castShadow = canCastShadow;
+            if (child.castShadow !== canCastShadow) {
+              child.castShadow = canCastShadow;
+              stateChanged = true;
+            }
             child.receiveShadow = true;
             if (child.material) {
               const mats = Array.isArray(child.material) ? child.material : [child.material];
@@ -1192,6 +1202,7 @@ export class ThreeDPropManager {
                   m.transparent = targetOpacity < 1.0;
                   m.opacity = targetOpacity;
                   m.needsUpdate = true;
+                  stateChanged = true;
                 }
               });
             }
@@ -1205,11 +1216,13 @@ export class ThreeDPropManager {
       if (!currentIds.has(id)) {
         this.group.remove(entry.mesh);
         this.propInstances.delete(id);
+        stateChanged = true;
       }
     }
 
     // Update raycastable list: only meshes that are currently visible can be clicked!
     this.refreshInteractiveMeshes();
+    return stateChanged;
   }
 
   /**
@@ -1367,6 +1380,7 @@ export class ThreeDPropManager {
   updateWallDoors(wallData = {}, gridState = {}, fogState = {}, elevationData = {}) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentDoorKeys = new Set();
+    let stateChanged = false;
 
     let gridSystem = null;
     try {
@@ -1409,18 +1423,10 @@ export class ThreeDPropManager {
       currentDoorKeys.add(key);
       let entry = this.wallDoorInstances.get(key);
 
-      let doorwayUrl = MODEL_REGISTRY.wall_doorway?.url || '/assets/models/dungeon/wall_doorway.glb';
-      if (type === 'town_door') {
-        doorwayUrl = '/assets/models/walls/town_wall_door.glb';
-      } else if (type === 'wooden_door') {
-        doorwayUrl = '/assets/models/walls/wooden_wall_door.glb';
-      } else if (type === 'iron_gate') {
-        doorwayUrl = '/assets/models/walls/metal_wall_gate.glb';
-      } else if (type === 'wooden_gate') {
-        doorwayUrl = '/assets/models/walls/wooden_fence_gate.glb';
-      } else if (type === 'hedge_gate') {
-        doorwayUrl = '/assets/models/walls/hedge_gate.glb';
-      }
+      // Same map as ThreeDWallManager.resolveWallModelUrlForType so palette
+      // thumbnails and the placed door always render the same model.
+      const doorwayUrl = WALL_DOOR_MODELS[String(type || '').toLowerCase()]
+        || WALL_DOOR_MODELS.wall_doorway;
 
       // Dedicated door/gate models are authored flush to the cell boundary, so
       // their origin is not on the wall line. Use the same metrics table as the
@@ -1561,11 +1567,17 @@ export class ThreeDPropManager {
       const targetOpacity = fog.targetOpacity;
       const canCastShadow = fog.canCastShadow;
 
-      entry.mesh.visible = isVisible;
+      if (entry.mesh.visible !== isVisible) {
+        entry.mesh.visible = isVisible;
+        stateChanged = true;
+      }
       if (isVisible) {
         entry.innerModel.traverse(child => {
           if (child.isMesh) {
-            child.castShadow = canCastShadow;
+            if (child.castShadow !== canCastShadow) {
+              child.castShadow = canCastShadow;
+              stateChanged = true;
+            }
             child.receiveShadow = true;
             if (child.material) {
               const mats = Array.isArray(child.material) ? child.material : [child.material];
@@ -1574,6 +1586,7 @@ export class ThreeDPropManager {
                   m.transparent = targetOpacity < 1.0;
                   m.opacity = targetOpacity;
                   m.needsUpdate = true;
+                  stateChanged = true;
                 }
               });
             }
@@ -1587,10 +1600,12 @@ export class ThreeDPropManager {
       if (!currentDoorKeys.has(key)) {
         this.group.remove(entry.mesh);
         this.wallDoorInstances.delete(key);
+        stateChanged = true;
       }
     }
 
     this.refreshInteractiveMeshes();
+    return stateChanged;
   }
 
   refreshInteractiveMeshes() {

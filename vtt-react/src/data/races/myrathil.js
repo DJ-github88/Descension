@@ -215,20 +215,12 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       shoreling: {
         id: 'shoreling_myrathil',
         name: 'Shoreling',
-        illustration: '/assets/images/races/myrathil_shoreling_redesign.jpg',
-        illustrationCaption: 'A Shoreling wave-warrior stepping onto storm-washed ship timbers with massive driftwood-and-anchor pauldrons and a colossal anchor poleaxe, in gritty charcoal draft sketch with stormy ocean-teal wave splash.',
+        illustration: '/assets/images/races/myrathil_shoreling_icon_v1.png',
+        illustrationCaption: 'A Shoreling wave-warrior in sculpted green sea-armor with shell motifs, finned ears, and long braided hair, holding a sculpted driftwood staff with a sea-slate watercolor splash.',
         illustrations: [
           {
-            src: '/assets/images/races/myrathil_shoreling_redesign.jpg',
-            caption: 'A Shoreling wave-warrior stepping onto storm-washed ship timbers with massive driftwood-and-anchor pauldrons and a colossal anchor poleaxe, in gritty charcoal draft sketch with stormy ocean-teal wave splash.'
-          },
-          {
-            src: '/assets/images/races/myrathil_shoreling_humanoid.jpg',
-            caption: 'Shoreling coastal diplomat standing on coastal rocks in charcoal sketch style.'
-          },
-          {
-            src: '/assets/images/races/shore_illustration.png',
-            caption: 'Classic watercolor illustration of a Shoreling Myrathil standing on the coast.'
+            src: '/assets/images/races/myrathil_shoreling_icon_v1.png',
+            caption: 'Shoreling wave-warrior in sculpted green sea-armor with shell motifs, finned ears, and sculpted driftwood staff in rough charcoal draft with sea-slate watercolor splash.'
           }
         ],
         visualDescription: `The first and most numerous, the Shoreling are built for two worlds and belong fully to neither. Their bronze skin carries the shifting bioluminescent vein-colors common to all Myrathil, teal in calm, storm-grey when the pressure drops, but their gill-veins and webbed fingers flush with blood only when their marine nature surfaces, and they are as comfortable on dry land as at the tide-line. Their enormous ocean-blue eyes squint perpetually against a light they were not built for. They favor layered sailcloth and practical storm-capes, the dress of diplomats and traders, and salt dries on their lashes when the sea lets them go.`,
@@ -462,20 +454,20 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       deepling: {
         id: 'deepling_myrathil',
         name: 'Deepling',
-        illustration: '/assets/images/races/myrathil_deepling_pure_sketch.jpg',
-        illustrationCaption: 'An innocent, childlike Deepling Myrathil floating weightlessly with an oversized spiral ammonite shell pauldron, rendered in gritty charcoal concept draft with an energetic cyan watercolor splash.',
+        illustration: '/assets/images/races/myrathil_deepling_icon_v1.jpg',
+        illustrationCaption: 'An innocent, childlike Deepling Myrathil gliding downward through the deep with pleated kelp dress, shell necklace, and companion squids in rough charcoal draft with cyan watercolor splash.',
         illustrations: [
           {
-            src: '/assets/images/races/myrathil_deepling_pure_sketch.jpg',
-            caption: 'An innocent, childlike Deepling Myrathil floating weightlessly with an oversized spiral ammonite shell pauldron, rendered in gritty charcoal concept draft with an energetic cyan watercolor splash.'
+            src: '/assets/images/races/myrathil_deepling_swim_icon.png',
+            caption: 'Deepling Swimmer (Zero-G Glider) — Youthful aquatic Deepling gliding weightlessly with bioluminescent squids in rough charcoal draft with cyan watercolor splash.'
           },
           {
-            src: '/assets/images/races/myrathil_deepling_redesign.jpg',
-            caption: 'Youthful Deepling mystic in mid-water dive with an abyssal resonant pearl in charcoal draft sketch.'
+            src: '/assets/images/races/myrathil_deepling_icon_v1.jpg',
+            caption: 'Female Deepling (Downward Glider) — Innocent aquatic youth in pleated kelp dress with light-squids in rough charcoal draft with cyan watercolor splash.'
           },
           {
-            src: '/assets/images/races/deep_illustration.png',
-            caption: 'Classic watercolor illustration of a Deepling Myrathil floating in the abyssal oceanic rift.'
+            src: '/assets/images/races/myrathil_deepling_male_icon_v2.jpg',
+            caption: 'Male Deepling (Downward Glider Counterpart) — Innocent aquatic boy gliding downward with companion squids in rough charcoal draft with cyan watercolor splash.'
           }
         ],
         visualDescription: `The abyss-adapted. Deepling biology skews further toward sea than their Shoreling kin: longer submersion tolerance, stronger swimming muscle, and less comfort with the spoken word. Their eyes are larger and darker, built for the absolute black of the deep, and their vein-colors run cooler and dimmer, calibrated for the abyssal current rather than the sunlit tide. They arrive on beaches already half-grown, salt-crusted, speaking only the low-frequency hum Myrathil use underwater, and their skin dries and cracks painfully without frequent hydration. They favor loose kelp-weave that floats free in the current and little else.`,
@@ -755,20 +747,16 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
       riverling: {
         id: 'riverling_myrathil',
         name: 'Riverling',
-        illustration: '/assets/images/races/myrathil_riverling_redesign.jpg',
-        illustrationCaption: 'A Riverling scout and cartographer perched atop a mossy boulder amidst rushing river rapids, holding a surveying spear and water-divining compass, in gritty charcoal draft sketch with river jade watercolor splash.',
+        illustration: '/assets/images/races/myrathil_riverling_male_icon_v1.png',
+        illustrationCaption: 'A handsome humanoid Riverling scout with frilled aquatic antlers and river-scale patterns, holding a three-pronged gig trident, in rough charcoal sketch with river-wave watercolor splash.',
         illustrations: [
           {
-            src: '/assets/images/races/myrathil_riverling_redesign.jpg',
-            caption: 'A Riverling scout and cartographer perched atop a mossy boulder amidst rushing river rapids, holding a surveying spear and water-divining compass, in gritty charcoal draft sketch with river jade watercolor splash.'
+            src: '/assets/images/races/myrathil_riverling_male_icon_v1.png',
+            caption: 'Riverling Male (Trident Scout) — Athletic humanoid scout with frilled gill antlers, gig trident, and river-scales in rough charcoal draft with emerald wave splash.'
           },
           {
-            src: '/assets/images/races/myrathil_riverling_humanoid.jpg',
-            caption: 'Riverling explorer wading through shallows in charcoal sketch style.'
-          },
-          {
-            src: '/assets/images/races/brook_illustration.png',
-            caption: 'Classic watercolor illustration of a Riverling Myrathil scout wading in a freshwater delta.'
+            src: '/assets/images/races/myrathil_riverling_female_icon_v1.png',
+            caption: 'Riverling Female (Coastal Animist) — Humanoid animist in sculpted sea-armor seated on a mossy boulder with driftwood staff, levitating shells and sea glass in rough charcoal draft with ocean watercolor splash.'
           }
         ],
         visualDescription: `The wanderers of the inland waters. Riverling are born of brackish spawning, river mouths, estuaries, mangrove deltas, and it shows in a build tuned for freshwater travel: lean, self-sufficient, lighter-footed on land than any other Myrathil. Their vein-colors run brighter, fed by the oxygen of moving water, and they alone can submerge in freshwater without irritation. Most striking is their gift for concealment: a Riverling can retract their webbing completely, dim their vein-colors to near-invisibility, and still the restless tide in their movements until they look, briefly, almost human. They favor light traveling clothes and carry parchment maps of waterways no one else charts.`,

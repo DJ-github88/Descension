@@ -10,6 +10,16 @@
     z-index: 99;
 }
 
+/* Placement Ghost Preview (GM notes / connections) */
+.vtt-placement-ghost {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 101;
+    opacity: 0.8;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
 /* Text Input Overlay */
 .vtt-text-input-overlay {
     position: absolute;

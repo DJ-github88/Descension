@@ -7,6 +7,31 @@ import useMapStore from '../../store/mapStore';
 import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 
 /**
+ * Cheap identity comparison between a stored memory snapshot and a freshly
+ * built one. Store slices keep stable references for terrain, wall entries,
+ * objects, elements and items, so per-tile equality never needs a deep/JSON
+ * comparison.
+ */
+const snapshotMatches = (existing, next) => {
+    if (!existing || !next) return false;
+    if (existing.terrain !== next.terrain) return false;
+    const fields = ['walls', 'objects', 'dndElements', 'gridItems'];
+    for (const field of fields) {
+        const a = existing[field] || [];
+        const b = next[field] || [];
+        if (a.length !== b.length) return false;
+        for (let i = 0; i < a.length; i++) {
+            if (field === 'walls') {
+                if (a[i]?.key !== b[i]?.key || a[i]?.data !== b[i]?.data) return false;
+            } else if (a[i] !== b[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+};
+
+/**
  * MemorySnapshotManager - Handles memory snapshots and afterimages for previously explored areas
  * This component tracks what was visible when areas were explored and creates afterimages
  * 
@@ -27,7 +52,6 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         environmentalObjects,
         dndElements,
         // Legacy actions (kept for backward compatibility)
-        createMemorySnapshot,
         setExploredArea,
         updateTokenAfterimage,
         removeTokenAfterimage,
@@ -38,7 +62,6 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         // Per-player memory actions
         currentPlayerId,
         setCurrentPlayerId,
-        createPlayerMemorySnapshot,
         setPlayerExploredArea,
         addPlayerExploredPolygon,
         addPlayerExploredCircle,
@@ -171,48 +194,77 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         // walls, permanently marking terrain behind walls as "explored" (dim vision
         // leaked through walls). Missing a frame is far better than leaking.
 
-        // Still create memory snapshots for individual tiles (for remembering what was seen)
-        // But explored area rendering will use circles
+        // PERF: build per-tile indexes once per pass instead of filtering every
+        // entity list for every visible tile, and commit the whole pass to the
+        // store with ONE write instead of four writes per tile. Snapshot payload
+        // building is only skipped when the stored snapshot is already identical
+        // (stable store references make that an identity comparison).
+        const wallsByX = new Map();
+        const wallsByY = new Map();
+        const objectsByTile = new Map();
+        const elementsByTile = new Map();
+        const gridItemsByTile = new Map();
+
+        Object.entries(wallData).forEach(([wallKey, wallItem]) => {
+            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+            const record = { key: wallKey, data: wallItem };
+            for (const x of [x1, x2]) {
+                if (!wallsByX.has(x)) wallsByX.set(x, []);
+                wallsByX.get(x).push(record);
+            }
+            for (const y of [y1, y2]) {
+                if (!wallsByY.has(y)) wallsByY.set(y, []);
+                wallsByY.get(y).push(record);
+            }
+        });
+
+        const indexByTile = (list, map) => {
+            for (const entry of list) {
+                if (!entry.position) continue;
+                const coords = gridSystem.worldToGrid(entry.position.x, entry.position.y);
+                const key = `${coords.x},${coords.y}`;
+                if (!map.has(key)) map.set(key, []);
+                map.get(key).push(entry);
+            }
+        };
+        indexByTile(environmentalObjects, objectsByTile);
+        indexByTile(dndElements, elementsByTile);
+        indexByTile(gridItems, gridItemsByTile);
+
+        const tileEntries = [];
         currentVisibleAreas.forEach(tileKey => {
             const [coord1, coord2] = tileKey.split(',').map(Number);
 
-            // Get current state of this tile for memory snapshot
+            const wallMatches = new Map();
+            (wallsByX.get(coord1) || []).forEach(wall => wallMatches.set(wall.key, wall));
+            (wallsByY.get(coord2) || []).forEach(wall => wallMatches.set(wall.key, wall));
+
             const snapshotData = {
                 terrain: terrainData[tileKey] || null,
-                // Get walls that touch this tile
-                walls: Object.entries(wallData).filter(([wallKey]) => {
-                    const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-                    // Check if wall touches this tile (works for both square and hex)
-                    return (x1 === coord1 || x2 === coord1 || y1 === coord2 || y2 === coord2);
-                }).map(([wallKey, wallData_item]) => ({ key: wallKey, data: wallData_item })),
-                // Get objects at this tile - FIXED: now uses grid system for hex grids
-                objects: environmentalObjects.filter(obj => {
-                    if (!obj.position) return false;
-                    const objGridCoords = gridSystem.worldToGrid(obj.position.x, obj.position.y);
-                    return objGridCoords.x === coord1 && objGridCoords.y === coord2;
-                }),
-                // Get D&D elements at this tile - FIXED: now uses grid system for hex grids
-                dndElements: dndElements.filter(elem => {
-                    if (!elem.position) return false;
-                    const elemGridCoords = gridSystem.worldToGrid(elem.position.x, elem.position.y);
-                    return elemGridCoords.x === coord1 && elemGridCoords.y === coord2;
-                }),
-                // Get grid items at this tile - FIXED: now uses grid system for hex grids
-                gridItems: gridItems.filter(item => {
-                    if (!item.position) return false;
-                    const itemGridCoords = gridSystem.worldToGrid(item.position.x, item.position.y);
-                    return itemGridCoords.x === coord1 && itemGridCoords.y === coord2;
-                })
+                walls: Array.from(wallMatches.values()),
+                objects: objectsByTile.get(tileKey) || [],
+                dndElements: elementsByTile.get(tileKey) || [],
+                gridItems: gridItemsByTile.get(tileKey) || []
             };
 
-            // UPDATED: DUAL-WRITE snapshot — per-player (when available) + legacy fallback
-            createMemorySnapshot(coord1, coord2, snapshotData);
-            setExploredArea(coord1, coord2, true);
-            if (currentPlayerId) {
-                createPlayerMemorySnapshot(coord1, coord2, snapshotData);
-                setPlayerExploredArea(coord1, coord2, true);
-            }
+            const existingLegacy = levelEditorStore.memorySnapshots?.[tileKey];
+            const existingPlayer = currentPlayerId
+                ? levelEditorStore.playerMemories?.[currentPlayerId]?.memorySnapshots?.[tileKey]
+                : null;
+            const legacyUpToDate = !!levelEditorStore.exploredAreas?.[tileKey]
+                && snapshotMatches(existingLegacy, snapshotData);
+            const playerUpToDate = !currentPlayerId || (
+                !!levelEditorStore.playerMemories?.[currentPlayerId]?.exploredAreas?.[tileKey]
+                && snapshotMatches(existingPlayer, snapshotData)
+            );
+            if (legacyUpToDate && playerUpToDate) return;
+
+            tileEntries.push({ key: tileKey, snapshot: snapshotData });
         });
+
+        if (tileEntries.length > 0) {
+            levelEditorStore.commitTileMemories(tileEntries, { playerId: currentPlayerId });
+        }
 
         // Note: Explored circles are now stored separately and rendered as soft circles
     }, [
@@ -229,11 +281,9 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         gridSize,
         gridOffsetX,
         gridOffsetY,
-        createPlayerMemorySnapshot,
         setPlayerExploredArea,
         addPlayerExploredPolygon,
         addPlayerExploredCircle,
-        createMemorySnapshot,
         setExploredArea,
         addExploredPolygon,
         addExploredCircle

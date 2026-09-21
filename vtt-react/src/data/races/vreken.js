@@ -2,8 +2,14 @@
   id: 'vreken',
   name: 'Vreken',
   essence: 'The Gloom-Lit',
-  illustration: '/assets/images/races/vreken_monk.jpg',
-  illustrationCaption: 'A compact Vreken crypt-keeper in dark monastic vestments with upward-curled horn-like ears and eerie bioluminescent rust-amber eyes glowing beneath a hooded dark cowl.',
+  illustration: '/assets/images/races/vreken_clean_icon_v1.png',
+  illustrationCaption: 'A Clean Vreken crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved rune staff and crypt tome with toxic green watercolor splash.',
+  illustrations: [
+    {
+      src: '/assets/images/races/vreken_clean_icon_v1.png',
+      caption: 'Clean Vreken crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved wooden staff and heavy crypt tome in rough charcoal draft with green and gold watercolor splash.'
+    }
+  ],
   cardFlavor: 'Amber-eyed crypt-keepers who tend the Sunken Spire reverse cathedrals beneath the Bryngloom bogs.',
   visualDescription: `Compact and wiry, standing 4'10" to 5'6", with long tapered ears that gracefully curl upward like spiral horns rising from beneath dark cowl hoods. Their eyes are bioluminescent lantern-eyes peeking from beneath the hood, glowing with rust-amber (Clean Deep-Glow) or silver-white (Marked Ghost-Mycelium) light in the dark. Their lower faces are wrapped in cloth, and their long-fingered hands are built for delicate spore-harvesting. They wear gothic monastic vestments in dark earth tones with gold-woven trim, living in inverted reverse cathedral-monasteries (Sunken Spires) carved into peat-stone.`,
   description: `**[The Lantern-Eyed Crypt-Speakers]**, *Leaning into the damp peat-stone of the Sunken Spire, a Vreken keeper with upward-curling horn-ears and glowing rust-amber eyes traces a fingertip along glowing fungal filaments in an inverted catacomb.*
@@ -267,8 +273,14 @@ Death rites are simple and grueling. The dying Vreken is carried to the nearest 
  clean: {
  id: 'clean_vreken',
  name: 'Clean',
- illustration: '/assets/images/races/clean_illustration.png',
-  illustrationCaption: 'A Clean Vreken crypt-keeper in monastic vestments with glowing amber eyes, holding a leather-bound book and a crystal staff, surrounded by scrolls and bioluminescent mushrooms.',
+ illustration: '/assets/images/races/vreken_clean_icon_v1.png',
+ illustrationCaption: 'A Clean Vreken crypt-scholar in gothic monastic cassock with gently-curled ear tips, glowing green lantern-eyes, holding a carved rune staff and crypt tome with toxic green watercolor splash.',
+ illustrations: [
+   {
+     src: '/assets/images/races/vreken_clean_icon_v1.png',
+     caption: 'Clean Vreken crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved wooden staff and heavy crypt tome in rough charcoal draft with green and gold watercolor splash.'
+   }
+ ],
   visualDescription: `The inheritors of Deep-Glow, the oldest and most stable fungal strain, the Clean bear their transformation lightly. Their features are closer to the original elven forms than any other Vreken, elegant cheekbones, long tapered limbs, ears that curl only gently, and their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. They favor dark monastic cassocks embroidered with fungal-thread that marks bloodline and vocation. Pale-skinned and composed, they move with the quiet authority of people whose biology has never been a war, and they are accustomed to being stared at but never to being doubted.`,
   tooltipSummary: 'Steadfast crypt-keepers whose stable Deep-Glow blood leaves them closer to the old elven forms, moving through the world with composed rust-amber sight and quiet authority.',
   description: `The inheritors of Deep-Glow, the oldest and most stable fungal strain, bonded to their ancestors in the deep caves before the Wyrd wounded Morvane. Their transformation was less severe: their features are closer to their original elven forms, their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. The Deep-Glow strain threads less deeply through their nervous systems, leaves their minds more stable, their bodies more composed. They are near-total immune to the Over-Lit addiction: not morally superior, merely less entangled in Morvane's wound, carrying a strain that does not intoxicate. Disproportionately represented in trade delegations, crypt-councils, scriptorium gatekeeping, and every position that faces the outside world. Their privilege is invisible to them, they have never had to fight the hush, so they do not understand why the Marked cannot simply resist it. The flaw they carry is the quiet assumption that their biological luck is a form of virtue.`,
@@ -403,11 +415,17 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
  savingThrowModifiers: { advantage: ['blight', 'disease'], disadvantage: [] }
  },
 
- marked: {
- id: 'marked_vreken',
- name: 'Marked',
- illustration: '/assets/images/races/vreken_illustration.png',
-  illustrationCaption: 'A compact Marked Vreken keeper in gothic monastic vestments with curled ear tips and blazing silver-white lantern-eyes.',
+  marked: {
+  id: 'marked_vreken',
+  name: 'Marked',
+  illustration: '/assets/images/races/vreken_marked_icon_v1.png',
+  illustrationCaption: 'A feral Marked Vreken crypt inquisitor crouching in tattered monastic vestments with upward-curled horn-ears, glowing green lantern eyes, holding a bone sickle and chained lantern in rough charcoal draft with acid-green watercolor splash.',
+  illustrations: [
+    {
+      src: '/assets/images/races/vreken_marked_icon_v1.png',
+      caption: 'Marked Vreken feral crypt inquisitor with upward-curling spiral horn-ears, glowing green lantern eyes, sharp claws, holding a bone spore-sickle and chained lantern in rough charcoal draft with toxic green watercolor splash.'
+    }
+  ],
   visualDescription: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic. The Marked share the compact wiry frame and vestigial elven architecture of their kin, but their lantern-eyes burn silver-white and will not dim easily, flaring with anger, flickering with grief, brightening under any strong emotion so that their hearts are readable across a room. Their ear-tips curl more sharply. The volatile strain threads deeper through them: their presence is impossible to hide in darkness, and the brilliant light that makes their perception extraordinary is the same light that consumes them from within.`,
   tooltipSummary: 'Ghost-sighted beacon-carriers whose branded eyes blaze with Morvane\'s wounded nerve-tissue, perceiving the Root-Veil most keenly even as the Hush tempts them with every step.',
   description: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic, the volatile, brilliant, painful strain that amplifies perception and sensitivity at the cost of stability. Their lantern-eyes burn silver-white and do not dim easily; their emotions are readable from across a room, their presence impossible to hide in darkness. Their perception of the Root-Veil is extraordinary: they sense the mycelial network's pulse more clearly than any Clean, read the spore-signatures of the underground, detect things other Vreken cannot. They are also the most vulnerable to the Over-Lit addiction, their sensitivity is both gift and curse, and every Marked family carries at least one Over-Lit relative. Stigmatized by the Clean as unreliable, dangerous, the bloodline most deeply entangled in the wounded god. The flaw they carry is their own biology: the light that makes them extraordinary is the same light that consumes them from within.`,

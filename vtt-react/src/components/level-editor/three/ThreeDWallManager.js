@@ -9,7 +9,7 @@ import {
 } from '../../../utils/WallGeometry';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
-import { applyWallMaterial, applyWallTexture, getEnergyWallTexture } from './wallMaterialTextures';
+import { applyWallMaterial, applyWallTexture, getEnergyWallTexture, wallTextureVerticalScale } from './wallMaterialTextures';
 import {
   WALL_EXPLORED_OPACITY,
   createTileKeyResolver,
@@ -79,6 +79,22 @@ export const WALL_MODELS = {
   hedge_curved: '/assets/models/walls/hedge_curved.glb',
   brick_wall_curve: '/assets/models/walls/brick_wall_curve.glb',
   quaternius_wood: '/assets/models/walls/quaternius_wood_wall.glb'
+};
+
+/**
+ * Interactive door/gate wall types do not render as modular wall bodies: the
+ * wall pass skips them and `ThreeDPropManager.updateWallDoors` places the
+ * dedicated doorway model instead. Shared here so palette thumbnails
+ * (`resolveWallModelUrlForType`) preview exactly the model that gets placed.
+ */
+export const WALL_DOOR_MODELS = {
+  wall_doorway: '/assets/models/dungeon/wall_doorway.glb',
+  stone_door: '/assets/models/dungeon/wall_doorway.glb',
+  wooden_door: WALL_MODELS.wood_door,
+  town_door: WALL_MODELS.town_wall_door,
+  iron_gate: WALL_MODELS.metal_gate,
+  wooden_gate: WALL_MODELS.wooden_fence_gate,
+  hedge_gate: WALL_MODELS.hedge_gate
 };
 
 // Every wall/junction model in the modular kit is authored 4 units long, 4 units
@@ -241,6 +257,13 @@ export function resolveWallModelUrlForType(type) {
   const typeId = (typeof type === 'string' ? type : type?.type) || 'stone_wall';
   const typeLower = String(typeId).toLowerCase();
 
+  // Doors and gates place a dedicated doorway model, not a wall segment: the
+  // palette must preview that model, not the stone/portcullis stand-ins.
+  const doorModel = WALL_DOOR_MODELS[typeLower];
+  if (doorModel) {
+    return doorModel;
+  }
+
   // Dedicated models for fences and special architectural walls
   if (typeLower === 'hedge') {
     return WALL_MODELS.hedge;
@@ -363,11 +386,19 @@ export class ThreeDWallManager {
 
     const textureKey = DEDICATED_WALL_TEXTURE_TYPES[typeLower];
     if (textureKey) {
+      // Dedicated pieces are authored at their own height and get stretched to
+      // the wall body height, which stretches their UVs with them. Compensate on
+      // the vertical axis so one texture tile still covers one grid cell.
+      const modelUrl = resolveWallModelUrlForType(typeId);
+      const metrics = wallModelMetrics(modelUrl);
+      const bodyMultiplier = WALL_HEIGHT_MULTIPLIERS.wall
+        * (Number.isFinite(typeData.heightScale) ? typeData.heightScale : 1);
       return {
         tint: null,
         baseOpacity: 1,
         emissive: null,
         texture: textureKey,
+        uvVerticalScale: wallTextureVerticalScale(metrics.height, bodyMultiplier),
         // Full-cell dedicated models own their ends and corners.
         junctionModels: {},
         key: `${typeId}:texture`
@@ -427,7 +458,7 @@ export class ThreeDWallManager {
    */
   applyAppearanceToMaterial(material, appearance) {
     if (!appearance || !material) return;
-    if (appearance.texture && applyWallTexture(material, appearance.texture)) {
+    if (appearance.texture && applyWallTexture(material, appearance.texture, appearance.uvVerticalScale)) {
       return;
     }
     if (appearance.material && applyWallMaterial(material, appearance.material)) {
@@ -625,6 +656,10 @@ export class ThreeDWallManager {
     } = fogState;
 
     const isFogActive = fogOfWarEnabled && !isEditorMode && (!isGMMode || viewingFromToken);
+    // Tracks whether any wall/junction fog state actually changed so the caller
+    // can skip the (very expensive) full shadow-map re-render on visibility
+    // recalculations that did not change any wall's appearance.
+    let stateChanged = false;
 
     let gridSystem = null;
     try {
@@ -797,7 +832,7 @@ export class ThreeDWallManager {
           visibleAreaSet,
           tileKeyAt
         });
-        this.applyPieceState(piece, fog);
+        if (this.applyPieceState(piece, fog)) stateChanged = true;
       }
     }
 
@@ -895,7 +930,9 @@ export class ThreeDWallManager {
         visibleAreaSet,
         tileKeyAt
       });
-      this.applyPieceState({ mesh: entry.group, innerModel: entry.innerModel, baseOpacity: entry.baseOpacity }, fog);
+      if (this.applyPieceState({ mesh: entry.group, innerModel: entry.innerModel, baseOpacity: entry.baseOpacity }, fog)) {
+        stateChanged = true;
+      }
     }
 
     // Remove obsolete junction pieces
@@ -903,8 +940,11 @@ export class ThreeDWallManager {
       if (!currentJunctionKeys.has(vertexKey)) {
         this.group.remove(entry.group);
         this.junctionInstances.delete(vertexKey);
+        stateChanged = true;
       }
     }
+
+    return stateChanged;
   }
 
   resolveJunctionBaseZ(vertex, elevationData, gridSize, gridOffsetX = 0, gridOffsetY = 0) {
@@ -976,8 +1016,12 @@ export class ThreeDWallManager {
   }
 
   applyPieceState(piece, { isVisible, targetOpacity, canCastShadow }) {
-    piece.mesh.visible = isVisible;
-    if (!isVisible) return;
+    let changed = false;
+    if (piece.mesh.visible !== isVisible) {
+      piece.mesh.visible = isVisible;
+      changed = true;
+    }
+    if (!isVisible) return changed;
     const baseOpacity = piece.baseOpacity ?? 1;
     const opacity = targetOpacity * baseOpacity;
     const dimmed = targetOpacity < 0.999;
@@ -985,7 +1029,11 @@ export class ThreeDWallManager {
     piece.innerModel.traverse(child => {
       if (!child.isMesh) return;
       // Energy panes are translucent: a solid shadow would read as masonry.
-      child.castShadow = canCastShadow && !child.userData.energyPane;
+      const nextCastShadow = canCastShadow && !child.userData.energyPane;
+      if (child.castShadow !== nextCastShadow) {
+        child.castShadow = nextCastShadow;
+        changed = true;
+      }
       child.receiveShadow = true;
       if (!child.material) return;
 
@@ -1001,16 +1049,20 @@ export class ThreeDWallManager {
           m.transparent = nextOpacity < 0.999;
           m.opacity = nextOpacity;
           m.needsUpdate = true;
+          changed = true;
         }
         if (solid) {
           const factor = dimmed ? WALL_EXPLORED_DIM : 1;
           if (m.userData.dimFactor !== factor) {
             m.userData.dimFactor = factor;
             m.color.copy(m.userData.baseColor).multiplyScalar(factor);
+            changed = true;
           }
         }
       });
     });
+
+    return changed;
   }
 
   dispose() {

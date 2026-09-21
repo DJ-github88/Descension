@@ -2,17 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { resolveWallModelUrlForType } from '../three/ThreeDWallManager';
 import modelThumbnailService from '../../../services/ModelThumbnailService';
 
-// Energy barriers and windows render from generated/energy materials rather than
-// a lit wall model, so a 3D snapshot of the stand-in model would misrepresent
-// them. Those types show their seamless 2.5D texture instead.
+// Energy barriers render from a generated emissive material rather than a lit
+// wall model, so a 3D snapshot of their stand-in masonry model would
+// misrepresent them. Those types show their seamless 2.5D texture instead.
+// Windows and doors render real models (kit windows / dedicated doorway
+// models), so they must preview that exact model.
 const TEXTURE_ONLY_TYPES = new Set([
   'magical_barrier',
-  'force_wall',
-  'glass_window',
-  'barred_window',
-  'arrow_slit',
-  'open_window',
-  'town_window'
+  'force_wall'
 ]);
 
 /**
@@ -35,7 +32,7 @@ const WallTypeThumbnail = ({ typeId, className }) => {
     return unsub;
   }, [modelUrl]);
 
-  const thumb = modelUrl ? modelThumbnailService.getThumbnail(modelUrl) : null;
+  const thumb = modelUrl ? modelThumbnailService.peek(modelUrl) : null;
   const src = thumb || `/assets/textures/walls/${typeId}.png`;
 
   return (

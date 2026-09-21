@@ -9,12 +9,14 @@ import { getTileElevation } from '../../../utils/ElevationUtils';
 import { getObjectScreenBounds, getObjectSelectionHandles, getObjectLockBadgePosition, LOCK_BADGE_RADIUS } from '../../../utils/ObjectSelectionBounds';
 import { isWorldPointOccluded } from '../../../utils/WallOcclusion';
 import { isPointInPolygon } from '../../../utils/VisibilityCalculations';
+import { getCachedCanvasSize } from '../../../utils/canvasSizeCache';
 import UnifiedContextMenu from '../UnifiedContextMenu';
 import UnlockContainerModal from '../../item-generation/UnlockContainerModal';
 import LockSettingsModal from '../../item-generation/LockSettingsModal';
 import { drawObject, hasObjectArt } from './ObjectCanvasRenderer';
 import { drawObjectArt } from './PixelArtRenderer';
 import { resolveWallMountDragPatch } from './wallAttachment';
+import { NOTE_ICON_UNICODES } from './noteIcons';
 
 export const snapRotationForHitTest = (type, rotation) => {
     // Snap rotation to the nearest 90- for any object that has a sprite.
@@ -1691,11 +1693,14 @@ const ObjectSystem = () => {
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
+        const rect = getCachedCanvasSize(canvas);
 
-        // Set canvas size to match container
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        // Set canvas size to match container (only on change — assigning
+        // width/height resets the whole canvas bitmap even when unchanged)
+        if (canvas.width !== rect.width || canvas.height !== rect.height) {
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1969,15 +1974,6 @@ const ObjectSystem = () => {
 
 
 
-    const FA_ICON_UNICODES = {
-        'scroll': '\uf70e', 'location': '\uf3c5', 'npc': '\uf0c0',
-        'encounter': '\uf714', 'trap': '\uf071', 'quest': '\uf024',
-        'puzzle': '\uf12e', 'treasure': '\uf3a5', 'lore': '\uf518',
-        'shop': '\uf54e', 'secret': '\uf070', 'monster': '\uf6d1',
-        'puzzle-door': '\uf6d5', 'event': '\uf0e7', 'read-aloud': '\uf5da',
-        'safe-rest': '\uf6bb',
-    };
-
     const renderGMObject = (ctx, objectDef, screenPos, width, height, obj) => {
         const left = screenPos.x - width / 2;
         const top = screenPos.y - height / 2;
@@ -2000,7 +1996,7 @@ const ObjectSystem = () => {
         }
 
         const noteIcon = (obj?.gmNotesData?.noteIcon) || 'scroll';
-        const unicode = FA_ICON_UNICODES[noteIcon] || FA_ICON_UNICODES['scroll'];
+        const unicode = NOTE_ICON_UNICODES[noteIcon] || NOTE_ICON_UNICODES['scroll'];
         const iconSize = Math.min(width, height) * 0.45;
 
         ctx.save();

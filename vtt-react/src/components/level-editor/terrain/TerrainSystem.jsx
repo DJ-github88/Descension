@@ -3,6 +3,7 @@ import useLevelEditorStore, { PROFESSIONAL_TERRAIN_TYPES } from '../../../store/
 import useGameStore from '../../../store/gameStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getCanvasTransform } from '../../../utils/ProjectionSystem';
+import { getCachedCanvasSize } from '../../../utils/canvasSizeCache';
 import { getTileElevation, getRampAt } from '../../../utils/ElevationUtils';
 import {
   getSquareRampEdges,
@@ -516,6 +517,15 @@ const TerrainSystem = () => {
     const currentGridType = gridType || 'square';
     const gridSystem = getGridSystem();
 
+    // PERF: snapshot the store and build the visible-tile Set ONCE per render.
+    // These used to be rebuilt inside the per-tile loops (a fresh Set of ~100+
+    // entries per rendered tile, thousands per full render).
+    const levelEditorState = useLevelEditorStore.getState();
+    const visibleAreaSet = (!isGMMode && viewingFromToken && visibleArea)
+      ? (visibleArea instanceof Set ? visibleArea : new Set(visibleArea))
+      : null;
+    const exploredAreasMap = levelEditorState.exploredAreas || {};
+
     // Check if terrain layer is visible
     const terrainLayer = drawingLayers.find(layer => layer.id === 'terrain');
     if (!terrainLayer || !terrainLayer.visible) return;
@@ -617,13 +627,9 @@ const TerrainSystem = () => {
 
             const worldPos = gridSystem.hexToWorld(q, r);
 
-            if (!isGMMode && viewingFromToken && visibleArea) {
-              const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-              if (!visibleAreaSet.has(tileKey)) {
-                const levelEditorStore = useLevelEditorStore.getState();
-                let isExplored = levelEditorStore.isPositionExplored?.(worldPos.x, worldPos.y) || levelEditorStore.exploredAreas[tileKey];
-                if (!isExplored) continue;
-              }
+            if (visibleAreaSet && !visibleAreaSet.has(tileKey)) {
+              const isExplored = exploredAreasMap[tileKey] || levelEditorState.isPositionExplored?.(worldPos.x, worldPos.y);
+              if (!isExplored) continue;
             }
 
             // Elevation for hexes: lift the top face and draw skirts to lower neighbors
@@ -885,13 +891,9 @@ const TerrainSystem = () => {
           const worldPos = gridSystem.hexToWorld(q, r);
 
           // Visibility check (if GM mode is off)
-          if (!isGMMode && viewingFromToken && visibleArea) {
-            const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-            if (!visibleAreaSet.has(tileKey)) {
-              const levelEditorStore = useLevelEditorStore.getState();
-              let isExplored = levelEditorStore.isPositionExplored?.(worldPos.x, worldPos.y) || levelEditorStore.exploredAreas[tileKey];
-              if (!isExplored) continue;
-            }
+          if (visibleAreaSet && !visibleAreaSet.has(tileKey)) {
+            const isExplored = exploredAreasMap[tileKey] || levelEditorState.isPositionExplored?.(worldPos.x, worldPos.y);
+            if (!isExplored) continue;
           }
 
           const screenX = (worldPos.x - viewCameraX) * viewZoom + targetWidth / 2;
@@ -1011,13 +1013,9 @@ const TerrainSystem = () => {
             const worldX = (gridX * gridSize) + gridOffsetX;
             const worldY = (gridY * gridSize) + gridOffsetY;
 
-            if (!isGMMode && viewingFromToken && visibleArea) {
-              const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-              if (!visibleAreaSet.has(tileKey)) {
-                const levelEditorStore = useLevelEditorStore.getState();
-                let isExplored = levelEditorStore.isPositionExplored?.(worldX + gridSize / 2, worldY + gridSize / 2) || levelEditorStore.exploredAreas[tileKey];
-                if (!isExplored) continue;
-              }
+            if (visibleAreaSet && !visibleAreaSet.has(tileKey)) {
+              const isExplored = exploredAreasMap[tileKey] || levelEditorState.isPositionExplored?.(worldX + gridSize / 2, worldY + gridSize / 2);
+              if (!isExplored) continue;
             }
 
             // Elevation: lift the tile top face by level * gridSize world height
@@ -1254,13 +1252,9 @@ const TerrainSystem = () => {
           const worldX = (gridX * gridSize) + gridOffsetX;
           const worldY = (gridY * gridSize) + gridOffsetY;
 
-          if (!isGMMode && viewingFromToken && visibleArea) {
-            const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
-            if (!visibleAreaSet.has(tileKey)) {
-              const levelEditorStore = useLevelEditorStore.getState();
-              let isExplored = levelEditorStore.isPositionExplored?.(worldX + gridSize / 2, worldY + gridSize / 2) || levelEditorStore.exploredAreas[tileKey];
-              if (!isExplored) continue;
-            }
+          if (visibleAreaSet && !visibleAreaSet.has(tileKey)) {
+            const isExplored = exploredAreasMap[tileKey] || levelEditorState.isPositionExplored?.(worldX + gridSize / 2, worldY + gridSize / 2);
+            if (!isExplored) continue;
           }
 
           const tileX = (worldX - viewCameraX) * viewZoom + targetWidth / 2;
@@ -1343,7 +1337,7 @@ const TerrainSystem = () => {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
+    const rect = getCachedCanvasSize(canvas);
     const width = rect.width > 0 ? rect.width : (window.innerWidth || 1920);
     const height = rect.height > 0 ? rect.height : (window.innerHeight || 1080);
 

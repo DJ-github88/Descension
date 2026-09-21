@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { PROFESSIONAL_TERRAIN_TYPES, WALL_TYPES, WALL_CATEGORIES } from '../../../store/levelEditorStore';
 import { TERRAIN_MODEL_REGISTRY, resolveTerrainModelKey, TERRAIN_TEXTURE_MAP } from '../three/ThreeDTerrainManager';
-import { ThreeDWallManager, WALL_MODELS, WALL_MODEL_METRICS } from '../three/ThreeDWallManager';
+import { ThreeDWallManager, WALL_MODELS, WALL_MODEL_METRICS, resolveWallModelUrlForType } from '../three/ThreeDWallManager';
 import { ThreeDPropManager } from '../three/ThreeDPropManager';
 
 jest.mock('../../../services/ModelCacheService', () => {
@@ -373,6 +373,25 @@ describe('Modular Tiles and Wall Assets Integration', () => {
       const hedgeGateEntry = propManager.wallDoorInstances.get('4,0,5,0');
       expect(hedgeGateEntry.doorwayUrl).toBe('/assets/models/walls/hedge_gate.glb');
       expect(hedgeGateEntry.modelLength).toBe(1);
+    });
+
+    it('palette previews resolve to the exact model the door pass places', () => {
+      const wallData = {
+        '0,0,1,0': { type: 'wooden_door', state: 'closed' },
+        '1,0,2,0': { type: 'stone_door', state: 'closed' },
+        '2,0,3,0': { type: 'town_door', state: 'closed' },
+        '3,0,4,0': { type: 'iron_gate', state: 'closed' },
+        '4,0,5,0': { type: 'wooden_gate', state: 'closed' },
+        '5,0,6,0': { type: 'hedge_gate', state: 'closed' }
+      };
+
+      propManager.updateWallDoors(wallData, gridState, {});
+
+      Object.entries(wallData).forEach(([key, wall]) => {
+        const entry = propManager.wallDoorInstances.get(key);
+        expect(entry).toBeDefined();
+        expect(resolveWallModelUrlForType(wall.type)).toBe(entry.doorwayUrl);
+      });
     });
 
     it('all door and gate models exist in public/ directory', () => {

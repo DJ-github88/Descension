@@ -2,8 +2,8 @@ export const astril = {
     id: 'astril',
     name: 'Astril',
     essence: 'The Fire-Carried',
-    illustration: '/assets/images/races/astril_illustration.png',
-    illustrationCaption: 'An Astril farmer standing watch over moonlit fields, reptilian eyes catching a glow that belongs to another world.',
+    illustration: '/assets/images/races/astril_brutish_icon_v1.png',
+    illustrationCaption: 'A noble Brutish Astril warrior-chieftain with sweeping demonic bone horns and celestial war-sash in rough charcoal draft with midnight violet watercolor splash.',
     cardFlavor: 'Refugees of a devoured star, they carry the last embers of a dead world in their blood, and the guilt of leading the predator to this one.',
     visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual â€” crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. Stargazer Astril carry Lumia's stellar memory and star-constellation lines along their pale skin, while Brutish Astril carry dark violet-grey skin etched with fractured purple void-crystal lines. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
     description: `**[The Last of Lumia]**, *An Astril elder tilts her head toward a moon only she can feel, her slit-pupil eyes reflecting a light that belongs to a sun that no longer exists.*
@@ -297,14 +297,14 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
         vashir: {
             id: 'vashir_astril',
             name: 'Stargazer Astril',
-            illustration: '/assets/images/races/vashir_illustration.png',
-            illustrationCaption: 'A Stargazer Astril portrait showing glowing blue star-constellation lines along pale luminous skin and starry eyes.',
-            illustration2: '/assets/images/races/vashir_illustration_2.png',
-            illustration2Caption: 'A Stargazer Astril portrait variation highlighting starry constellation skin markings and traveler gear.',
-            cultureIllustration: '/assets/images/races/vashir_culture_farm.png',
-            cultureIllustrationCaption: 'A Stargazer Astril farmer with starlight skin tending to glowing moonlit crops in the fields.',
-            domesticIllustration: '/assets/images/races/vashir_culture_home.png',
-            domesticIllustrationCaption: 'A Stargazer Astril family gathering for a meal inside their star-lit dome-house.',
+            illustration: '/assets/images/races/astril_stargazer_icon_v1.png',
+            illustrationCaption: 'A petite Stargazer Astril celestial scholar holding an armillary sphere and star scroll in rough charcoal draft with starlight cyan watercolor splash.',
+            illustrations: [
+                {
+                    src: '/assets/images/races/astril_stargazer_icon_v1.png',
+                    caption: 'Stargazer Astril celestial scholar with armillary sphere, star scroll, and crystal crescent tiara in rough charcoal draft with starlight cyan watercolor splash.'
+                }
+            ],
 
             visualDescription: `Carrying Lumia's starlight memory, Stargazer Astril possess pale, luminescent skin etched with shifting blue star-constellation lines that glow in low light. Their starry eyes reflect celestial nebulae, and they favor elegant practical robes woven from night-blooming silk and starlight thread.`,
             tooltipSummary: 'Peaceful cosmic scholars and star-readers whose attunement guides the Selunis vigil and preserves ancient cosmic lore.',
@@ -434,12 +434,14 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
         silath: {
             id: 'silath_astril',
             name: 'Brutish Astril',
-            illustration: '/assets/images/races/silath_illustration.png',
-            illustrationCaption: 'A Brutish Astril portrait showing dark violet-grey skin, fractured purple void-crystal lines, and martial starlight plating.',
-            illustration2: '/assets/images/races/silath_illustration_2.png',
-            illustration2Caption: 'A Brutish Astril portrait variation highlighting dark void-crystal skin markings and conqueror gear.',
-            cultureIllustration: '/assets/images/races/silath_culture_study.png',
-            cultureIllustrationCaption: 'Brutish Astril inquisitors commanding star-tech fortresses in Sundrift Vale.',
+            illustration: '/assets/images/races/astril_brutish_icon_v1.png',
+            illustrationCaption: 'A noble Brutish Astril warrior-chieftain with sweeping demonic bone horns and celestial war-sash in rough charcoal draft with midnight violet watercolor splash.',
+            illustrations: [
+                {
+                    src: '/assets/images/races/astril_brutish_icon_v1.png',
+                    caption: 'Brutish Astril warrior-chieftain with demonic horns, celestial war-sash, and stone cleaver in rough charcoal draft with midnight violet watercolor splash.'
+                }
+            ],
 
             visualDescription: `The Brutish Astril wear the martial, conqueror power of dark starlight. Their skin is dark violet-grey, etched with sharp purple void-crystal lines that pulse with military cosmic energy. Their dark eyes reflect abyssal starlight, and they favor heavy star-steel plating studded with void-crystal fragments.`,
             tooltipSummary: 'Warlike conquerors wielding dark starlight technology, the imperious martial caste who demanded the historic Ordan purge.',

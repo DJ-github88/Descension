@@ -2,24 +2,16 @@ export const florae = {
   id: 'florae',
   name: 'Florae',
   essence: 'The Tree-Born House Viridane',
-  illustration: '/assets/images/races/florae_village.jpg',
-  illustrationCaption: 'A peaceful Florae ground-level village built into colossal oak tree trunks with stone water-wells, garden beds, and forest animals.',
+  illustration: '/assets/images/races/florae_oken_icon_v1.png',
+  illustrationCaption: 'An Oken Florae warden with majestic branch-horns, flowing foliage hair, and a nesting squirrel companion in rough charcoal draft with forest-green watercolor splash.',
   illustrations: [
     {
-      src: '/assets/images/races/florae_village.jpg',
-      caption: 'Florae Tree-Village: Ground-level cottages carved into colossal oak trunks with stone rain-wells and animal companions.'
+      src: '/assets/images/races/florae_oken_icon_v1.png',
+      caption: 'Oken Florae warden with flowing leaf hair, branch-horns, nesting squirrel, and crystal staff in rough charcoal draft with forest-green watercolor splash.'
     },
     {
-      src: '/assets/images/races/florae_craftsman.jpg',
-      caption: 'Florae Craftsman: A cheerful Birch-kin Florae artisan shaping a wooden fox trinket in a sunlit forest.'
-    },
-    {
-      src: '/assets/images/races/florae_illustration.jpg',
-      caption: 'Florae Elder: A cheerful Florae elder made of crude timber boughs with an amber staff and copper water-flask.'
-    },
-    {
-      src: '/assets/images/races/florae_ranger.jpg',
-      caption: 'Florae Ranger: A heroic Florae ranger with a leafy branch crown, longbow, and green traveler coat.'
+      src: '/assets/images/races/florae_viridian_icon_v1.png',
+      caption: 'Viridian Florae ranger drawing a living briar bow with forearm thorn-barbs and wild mountain flora in rough charcoal draft with watercolor splash.'
     }
   ],
   cardFlavor: 'The erased 7th noble house (House Viridane) transformed by ancient forest pacts into tree-born treant-kin with crude branch-arms, water dependency, and twig-regrowth.',
@@ -167,8 +159,14 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
     viridian: {
       id: 'viridian_florae',
       name: 'Viridian',
-      illustration: '/assets/images/races/florae_ranger.jpg',
-      illustrationCaption: 'A Viridian Florae ranger with thorned forearms and a leafy briar crown, watching the deep groves.',
+      illustration: '/assets/images/races/florae_viridian_icon_v1.png',
+      illustrationCaption: 'A Viridian Florae ranger with living thorn-barbs along her forearms, drawing a briar recurve bow in rough charcoal draft with emerald and thistle-violet watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/florae_viridian_icon_v1.png',
+          caption: 'Viridian Florae ranger drawing a living briar bow with forearm thorn-barbs, wild mountain flora, and unstitched house crest in rough charcoal draft with watercolor splash.'
+        }
+      ],
       visualDescription: `Standing 5'6" to 6'2" with lean, fae-slender builds and forearms that bristle with living thorn-barbs grown from beneath the skin. Their eyes shift to the green of deep canopy, and their hair often weaves itself into briar-tangles if left uncombed. They wear thorn-cloaks openly in the deep groves and high-collared traveler coats (with the unstitched Viridane crest patch) when they must pass through Ledgered towns. Small forest creatures give them a wide berth; the thorns mark them, and the barbs carry the old fae-contract in their flesh.`,
       tooltipSummary: 'Thorn-blooded Florae whose forearms bristle with the living barbs of the old fae-contract, carrying the Unwritten Word and the refusal of the Fog Compact.',
       description: `The Viridian are the Trueborn Florae, the ones who kept House Viridane's refusal in their flesh. When the fae-contract was struck in the moonlit groves, the price came due two ways: thorns for the Viridian, timber for the Oken. The Viridian grew barbs from their forearms that mark them as the physical embodiment of the pact, and they retreated into the deepest ironwood groves to tend the places where the uncorrupted Monolith fragment was hidden.
@@ -274,24 +272,12 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
     oken: {
       id: 'florae_unified',
       name: 'Oken',
-      illustration: '/assets/images/races/florae_village.jpg',
-      illustrationCaption: 'A peaceful Oken Florae ground-level village built into colossal oak tree trunks with stone water-wells, garden beds, and forest animals.',
+      illustration: '/assets/images/races/florae_oken_icon_v1.png',
+      illustrationCaption: 'An Oken Florae warden with majestic branch-horns, flowing leaf hair, and a companion squirrel in rough charcoal draft with forest-green watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/florae_village.jpg',
-          caption: 'Florae Tree-Village: Ground-level cottages carved into colossal oak trunks with stone rain-wells and animal companions.'
-        },
-        {
-          src: '/assets/images/races/florae_craftsman.jpg',
-          caption: 'Florae Craftsman: A cheerful Birch-kin Florae artisan shaping a wooden fox trinket in a sunlit forest.'
-        },
-        {
-          src: '/assets/images/races/florae_illustration.jpg',
-          caption: 'Florae Elder: A cheerful Florae elder made of crude timber boughs with an amber staff and copper water-flask.'
-        },
-        {
-          src: '/assets/images/races/florae_ranger.jpg',
-          caption: 'Florae Ranger: A heroic Florae ranger with a leafy branch crown, longbow, and green traveler coat.'
+          src: '/assets/images/races/florae_oken_icon_v1.png',
+          caption: 'Oken Florae warden with flowing leaf hair, branch-horns, nesting squirrel, and crystal staff in rough charcoal draft with forest-green watercolor splash.'
         }
       ],
       visualDescription: `Standing 5'4" to 6'4" with friendly, carved-wooden faces, expressive amber eyes, and wide warm smiles. Their arms are crude, natural tree boughs (oak, birch, willow, pine, or rowan) that split into flexible twig-fingers sprouting fresh green leaf-buds when hydrated. Small forest creatures (squirrels, bluebirds, owls) often perch on their shoulder-boughs. They wear high-collared traveler coats with blank unstitched Viridane crest patches and copper water-flasks on their belts. Some groom themselves neatly ('Shorn') to travel in cities, while others remain unkempt and leaf-covered ('Wild') in the deep groves.`,

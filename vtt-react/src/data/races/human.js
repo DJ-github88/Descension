@@ -223,8 +223,14 @@ Tessen children are born underground, and most will never see open sky. Educatio
     thalren: {
       id: 'thalren_human',
       name: 'Thalren',
-      illustration: '/assets/images/races/thalren_illustration.png',
-      illustrationCaption: 'A Thalren human scholar writing in their journal within a fog-choked forest.',
+      illustration: '/assets/images/races/human_thalren_icon_v1.png',
+      illustrationCaption: 'A Thalren human watchman in a heavy sheepskin longcoat holding an iron lantern-staff and broadsword, in rough charcoal draft with mist-grey watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/human_thalren_icon_v1.png',
+          caption: 'Thalren human watchman in sheepskin longcoat with iron lantern-staff and broadsword in rough charcoal draft with mist-grey watercolor splash.'
+        }
+      ],
       cultureIllustration: '/assets/images/races/thalren_culture_write.png',
       cultureIllustrationCaption: 'A Thalren traveler sitting on a gnarled log in the misty Frostwood Reach, writing in their journal.',
       domesticIllustration: '/assets/images/races/thalren_culture_home.png',
@@ -305,8 +311,14 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
     skald: {
       id: 'skald_human',
       name: 'Skald',
-      illustration: '/assets/images/races/skald_illustration.png',
-      illustrationCaption: 'A Skald human warrior standing before a freezing mountain fjord.',
+      illustration: '/assets/images/races/human_skald_icon_v1.png',
+      illustrationCaption: 'A massive Nordhalla Skald berserker in heavy fur-lined cloak and studded cuirass, holding a heavy iron battleaxe across both hands in rough charcoal draft with piercing glacial frost-blue watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/human_skald_icon_v1.png',
+          caption: 'A massive Nordhalla Skald berserker in heavy fur-lined cloak and studded cuirass, holding a heavy iron battleaxe across both hands in rough charcoal draft with piercing glacial frost-blue watercolor splash.'
+        }
+      ],
       cultureIllustration: '/assets/images/races/skald_culture_ritual.png',
       cultureIllustrationCaption: 'A Skald father holding a swaddled infant out to the freezing gale of a snowy Nordhalla mountain cliff.',
       domesticIllustration: '/assets/images/races/skald_culture_home.png',
@@ -398,8 +410,14 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
     tessen: {
       id: 'tessen_human',
       name: 'Tessen',
-      illustration: '/assets/images/races/tessen_illustration.png',
-      illustrationCaption: 'A Tessen human scholar with a pale complexion and soot smudges, carrying a large knotted cord-ledger on their back.',
+      illustration: '/assets/images/races/human_tessen_icon_v1.png',
+      illustrationCaption: 'A sturdy Tessen stone-architect and bastion defender in heavy leather smith apron and quilted armor, carrying a massive two-handed stonemason war-hammer over his shoulder and holding draft calipers in rough charcoal draft with warm forge amber watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/human_tessen_icon_v1.png',
+          caption: 'A sturdy Tessen stone-architect and bastion defender in heavy leather smith apron and quilted armor, carrying a massive two-handed stonemason war-hammer over his shoulder and holding draft calipers in rough charcoal draft with warm forge amber watercolor splash.'
+        }
+      ],
       cultureIllustration: '/assets/images/races/tessen_culture_bazaar.png',
       cultureIllustrationCaption: 'A bustling multi-level marketplace with catwalks and bridges inside the vertical stone chasm of a Tessen keep.',
       domesticIllustration: '/assets/images/races/tessen_culture_home.png',
@@ -480,8 +498,18 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
     merryn: {
       id: 'merryn_human',
       name: 'Merryn',
-      illustration: '/assets/images/races/merryn_illustration.png',
-      illustrationCaption: 'A rugged Merryn mariner with dark hair holding three dice in his hand, with sailing ships in the harbor.',
+      illustration: '/assets/images/races/human_merryn_icon_v1.png',
+      illustrationCaption: 'A Merryn human mariner with contract-tattoos, striped naval jersey, and heavy toggle coat, holding a cutlass and coiled anchor-rope, in rough charcoal draft with wave-indigo watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/human_merryn_icon_v1.png',
+          caption: 'Male Merryn human mariner with contract-tattoos, cutlass, and coiled anchor-rope in rough charcoal draft with wave-indigo watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_merryn_female_icon_v1.png',
+          caption: 'Female Merryn human mariner with contract-tattoos, naval deck-coat, cutlass, and braided hair in rough charcoal draft with wave-indigo watercolor splash.'
+        }
+      ],
       cultureIllustration: '/assets/images/races/merryn_culture_sail.png',
       cultureIllustrationCaption: 'A Merryn deckhand hauling a thick frozen rope on a ship deck during an arctic storm.',
       domesticIllustration: '/assets/images/races/merryn_culture_home.png',
@@ -561,8 +589,18 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
     ordan: {
       id: 'ordan_human',
       name: 'Ordan (Disguised Remnant)',
-      illustration: '/assets/images/races/ordan_illustration.png',
-      illustrationCaption: 'An Ordan shepherd with braided hair holding a carved wooden Steppe-Stave, disguised in common traveler robes.',
+      illustration: '/assets/images/races/human_ordan_icon_v1.png',
+      illustrationCaption: 'An Ordan human nomad dual-wielding curved scimitars in billowing desert traveling wraps, in rough charcoal draft with cyan-blue watercolor splash.',
+      illustrations: [
+        {
+          src: '/assets/images/races/human_ordan_icon_v1.png',
+          caption: 'Male Ordan human nomad dual-wielding curved scimitars with billowing desert traveling wraps in rough charcoal draft with cyan-blue watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_ordan_female_icon_v1.png',
+          caption: 'Female Ordan human nomad kneeling beside an ancient solar astrolabe mechanism with desert sword in rough charcoal draft with cyan-blue watercolor splash.'
+        }
+      ],
       cultureIllustration: '/assets/images/races/ordan_culture_herd.png',
       cultureIllustrationCaption: 'An Ordan shepherd watching over a hidden flock across the vast open steppe under storm clouds.',
       domesticIllustration: '/assets/images/races/ordan_culture_home.png',

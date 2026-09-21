@@ -8,14 +8,24 @@ import modelCache from './ModelCacheService';
  * with transparent backgrounds, soft studio lighting, and contact shadows.
  * This completely replaces 2D pixel-art placeholder sprites in the UI.
  */
+
+// Isometric framing: fixed camera direction, then each model's projected
+// bounds are fitted to the square frame so palette assets read as large as
+// possible without clipping.
+const THUMB_FILL = 0.86;
+const THUMB_CAMERA_POS = new THREE.Vector3(3, 2.5, 3);
+const THUMB_CAMERA_TARGET = new THREE.Vector3(0, 0.35, 0);
+
 class ModelThumbnailService {
   constructor() {
     this.cache = new Map();
     this.listeners = new Set();
     this.pending = new Set();
 
-    this.width = 128;
-    this.height = 128;
+    // 192px keeps model detail crisp when the palette zooms the snapshot into
+    // small tiles (62-80px).
+    this.width = 192;
+    this.height = 192;
     this.canvas = null;
     this.renderer = null;
     this.scene = null;
@@ -100,8 +110,8 @@ class ModelThumbnailService {
       50
     );
     // 35.264 deg pitch isometric view
-    this.camera.position.set(3, 2.5, 3);
-    this.camera.lookAt(0, 0.35, 0);
+    this.camera.position.copy(THUMB_CAMERA_POS);
+    this.camera.lookAt(THUMB_CAMERA_TARGET);
   }
 
   subscribe(callback) {
@@ -124,6 +134,16 @@ class ModelThumbnailService {
     // Trigger asynchronous render
     this.requestRender(url, scaleMultiplier);
     return null;
+  }
+
+  /**
+   * Cache-only lookup for React render paths. `getThumbnail` may kick off a
+   * render whose completion synchronously notifies subscribers, so calling it
+   * during render can schedule state updates on other thumbnail components.
+   */
+  peek(url) {
+    if (!url) return null;
+    return this.cache.get(url) || null;
   }
 
   async requestRender(url, scaleMultiplier = 1.0) {
@@ -149,7 +169,10 @@ class ModelThumbnailService {
       bbox.getSize(size);
 
       const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const fitScale = (1.5 / maxDim) * scaleMultiplier;
+      // Normalises the model before framing; the camera fit below then sizes
+      // the frame to the model's projected bounds, so this only affects
+      // world-space lighting/shadow softness.
+      const fitScale = (1.9 / maxDim) * scaleMultiplier;
 
       instance.scale.set(fitScale, fitScale, fitScale);
       // Center horizontally, sit bottom on ground (y = 0)
@@ -158,6 +181,7 @@ class ModelThumbnailService {
         -bbox.min.y * fitScale,
         -center.z * fitScale
       );
+      instance.updateMatrixWorld(true);
 
       // Enable shadows for all meshes
       instance.traverse(child => {
@@ -166,6 +190,49 @@ class ModelThumbnailService {
           child.receiveShadow = true;
         }
       });
+
+      // Fit the ortho frustum around the model's projected bounds (with a small
+      // margin) and recentre the camera on them. The previous fixed frustum
+      // left models small in the palette tiles and could clip long walls.
+      const framed = new THREE.Box3().setFromObject(instance);
+      const camera = this.camera;
+      camera.position.copy(THUMB_CAMERA_POS);
+      camera.lookAt(THUMB_CAMERA_TARGET);
+      camera.updateMatrixWorld(true);
+      const viewMatrix = camera.matrixWorldInverse;
+      let minX = Infinity;
+      let maxX = -Infinity;
+      let minY = Infinity;
+      let maxY = -Infinity;
+      for (let xi = 0; xi < 2; xi += 1) {
+        for (let yi = 0; yi < 2; yi += 1) {
+          for (let zi = 0; zi < 2; zi += 1) {
+            const corner = new THREE.Vector3(
+              xi ? framed.max.x : framed.min.x,
+              yi ? framed.max.y : framed.min.y,
+              zi ? framed.max.z : framed.min.z
+            ).applyMatrix4(viewMatrix);
+            minX = Math.min(minX, corner.x);
+            maxX = Math.max(maxX, corner.x);
+            minY = Math.min(minY, corner.y);
+            maxY = Math.max(maxY, corner.y);
+          }
+        }
+      }
+
+      const half = Math.max(maxX - minX, maxY - minY) / 2 / THUMB_FILL;
+      const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+      const up = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
+      const centerOffset = right
+        .multiplyScalar((minX + maxX) / 2)
+        .add(up.clone().multiplyScalar((minY + maxY) / 2));
+      camera.position.add(centerOffset);
+      camera.lookAt(THUMB_CAMERA_TARGET.clone().add(centerOffset));
+      camera.left = -half;
+      camera.right = half;
+      camera.top = half;
+      camera.bottom = -half;
+      camera.updateProjectionMatrix();
 
       this.scene.add(instance);
       this.renderer.render(this.scene, this.camera);

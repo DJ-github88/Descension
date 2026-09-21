@@ -21,7 +21,9 @@ import WallTools from './tools/WallTools';
 import FogTools from './tools/FogTools';
 import GridTools from './tools/GridTools';
 import TerrainHoverPreview from './TerrainHoverPreview';
+import PlacementGhostPreview from './PlacementGhostPreview';
 import { PROFESSIONAL_OBJECTS, snapRotationForHitTest } from './objects/ObjectSystem';
+import { CONNECTION_MARKER_COLOR } from './objects/objectPreviewArt';
 import AreaRemoveModal from './AreaRemoveModal';
 import AdvancedLightingPanel from './AdvancedLightingPanel';
 import { EraserCursorPreview, TextInputOverlay, AreaRemoveSelection, WallSelectionIndicator, ObjectShortcutHUD } from './EditorOverlays';
@@ -70,8 +72,13 @@ const hexSegmentPreviewPath = (startVertex, endVertex) => [{
 }];
 
 const ProfessionalVTTEditor = () => {
-    // eslint-disable-next-line no-console
-    console.log('[ed-render] ' + JSON.stringify({ n: (window.__edRenderN = (window.__edRenderN || 0) + 1), sel: window.useLevelEditorStore?.getState?.().selectedWallKey }));
+    // Render-loop debugging is opt-in: this logs (and JSON.stringifies) on EVERY
+    // render, which is a real dev-mode frame cost while token-view fog updates
+    // at ~20 Hz. Enable with window.__ED_RENDER_DEBUG = true.
+    if (typeof window !== 'undefined' && window.__ED_RENDER_DEBUG) {
+        // eslint-disable-next-line no-console
+        console.log('[ed-render] ' + JSON.stringify({ n: (window.__edRenderN = (window.__edRenderN || 0) + 1), sel: window.useLevelEditorStore?.getState?.().selectedWallKey }));
+    }
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('terrain');
     const [selectedTool, setSelectedTool] = useState('terrain_brush');
@@ -1489,8 +1496,11 @@ const elevationStrokePaintedRef = useRef(null);
             }
         }
 
-        // In object_place tool, if no catalog object is selected, clicks select existing objects or deselect
-        if (selectedTool === 'object_place' && !toolSettings?.selectedObjectType) {
+        // In object_place tool, if no catalog object is selected, clicks select existing objects or deselect.
+        // Connection placement has no catalog object and is handled by the switch below, so it must not
+        // fall into this selection-only path.
+        if (selectedTool === 'object_place' && !toolSettings?.selectedObjectType
+            && toolSettings?.selectedPlacementType !== 'connection') {
             const clickCoords = screenToGrid(e.clientX, e.clientY);
             if (clickCoords) {
                 const objectAtPos = getObjectAtPosition(clickCoords.gridX, clickCoords.gridY);
@@ -1544,7 +1554,7 @@ const elevationStrokePaintedRef = useRef(null);
                                 destinationPosition: null, // Keep for backward compatibility
                                 isActive: true,
                                 isHidden: false,
-                                color: '#4a90e2',
+                                color: CONNECTION_MARKER_COLOR,
                                 description: ''
                             }
                         };
@@ -2392,6 +2402,27 @@ const elevationStrokePaintedRef = useRef(null);
                     brushSize: brushSize,
                     screenX: (selectedTool === 'fog_erase' || selectedTool === 'fog_draw') ? screenX : undefined,
                     screenY: (selectedTool === 'fog_erase' || selectedTool === 'fog_draw') ? screenY : undefined
+                };
+
+                // Throttle React state update via RAF to avoid lag
+                throttledUpdateHoverPreview();
+            }
+        } else if (isEditorMode && selectedTool === 'object_place' &&
+            (toolSettings?.selectedObjectType === 'gmNotes' || toolSettings?.selectedPlacementType === 'connection')) {
+            // Canvas-rendered placements (GM notes) and connections have no 3D
+            // model ghost; track the cursor so PlacementGhostPreview can draw
+            // the exact art that gets placed.
+            const coords = screenToGrid(e.clientX, e.clientY);
+            if (coords) {
+                hoverPreviewRef.current = {
+                    show: true,
+                    ghost: toolSettings?.selectedPlacementType === 'connection' ? 'connection' : 'gmNotes',
+                    gridX: coords.gridX,
+                    gridY: coords.gridY,
+                    screenX: coords.screenX,
+                    screenY: coords.screenY,
+                    scale: toolSettings?.objectScale || 1,
+                    elevation: toolSettings?.objectElevation || 0
                 };
 
                 // Throttle React state update via RAF to avoid lag
@@ -3775,6 +3806,19 @@ const elevationStrokePaintedRef = useRef(null);
                         : undefined}
                     screenX={hoverPreview.screenX}
                     screenY={hoverPreview.screenY}
+                />
+            )}
+
+            {/* Placement Ghost Preview for GM Notes / Connections */}
+            {isEditorMode && hoverPreview.show && hoverPreview.ghost && (
+                <PlacementGhostPreview
+                    ghost={hoverPreview.ghost}
+                    screenX={hoverPreview.screenX}
+                    screenY={hoverPreview.screenY}
+                    gridX={hoverPreview.gridX}
+                    gridY={hoverPreview.gridY}
+                    scale={hoverPreview.scale}
+                    elevation={hoverPreview.elevation}
                 />
             )}
 

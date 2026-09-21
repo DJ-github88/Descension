@@ -12,6 +12,19 @@ import { isPointInPolygon } from '../../utils/VisibilityCalculations';
 import { isTokenControlledByMe } from '../../utils/tokenOwnership';
 import { PROFESSIONAL_TERRAIN_TYPES } from './terrain/TerrainSystem';
 import { RARITY_COLORS } from '../../constants/itemConstants';
+import { getCachedCanvasSize } from '../../utils/canvasSizeCache';
+
+// Fallback icons for remembered loot when the live item record is gone.
+const ITEM_TYPE_ICON_FALLBACKS = {
+    weapon: 'inv_sword_04',
+    armor: 'inv_chest_cloth_01',
+    accessory: 'inv_jewelry_ring_01',
+    consumable: 'inv_potion_51',
+    miscellaneous: 'inv_misc_questionmark',
+    material: 'inv_fabric_wool_01',
+    quest: 'inv_misc_note_01',
+    container: 'inv_box_01'
+};
 
 /**
  * AfterimageOverlay - Renders afterimages of previously explored areas and tokens
@@ -258,7 +271,7 @@ const AfterimageOverlay = () => {
         }
 
         const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
+        const rect = getCachedCanvasSize(canvas);
 
         // Resize canvas if needed
         if (canvas.width !== rect.width || canvas.height !== rect.height) {
@@ -279,6 +292,13 @@ const AfterimageOverlay = () => {
         const tileSize = gridSize * effectiveZoom;
         const ghostSinTilt = gridSystem.getProjectionTransform(viewport.width, viewport.height).sinTilt;
         const levelEditorStore = useLevelEditorStore.getState();
+
+        // PERF: one item index per render instead of an O(items) `.find` per
+        // remembered loot orb per frame.
+        const itemsById = new Map();
+        (useItemStore.getState().items || []).forEach(item => {
+            if (item && item.id) itemsById.set(item.id, item);
+        });
 
         // DEBUG: Log player memory state (throttled to every 2 seconds)
         const now = Date.now();
@@ -580,19 +600,19 @@ const AfterimageOverlay = () => {
             const [coordX, coordY] = tileKey.split(',').map(Number);
             const worldPos = gridSystem.gridToWorld(coordX, coordY);
 
+            // Viewport cull FIRST: the polygon checks below are the expensive
+            // part and most remembered loot tiles are off-screen while moving.
+            const screenPos = worldToScreen(worldPos.x, worldPos.y);
+            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
+                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
+                continue;
+            }
+
             // Skip if currently visible (precise check for items/orbs)
             if (isPointVisible(worldPos.x, worldPos.y)) continue;
 
             // Skip if not explored
             if (!isExploredPos(worldPos.x, worldPos.y)) continue;
-
-            const screenPos = worldToScreen(worldPos.x, worldPos.y);
-
-            // Viewport culling
-            if (screenPos.x < minScreenX - tileSize || screenPos.x > maxScreenX + tileSize ||
-                screenPos.y < minScreenY - tileSize || screenPos.y > maxScreenY + tileSize) {
-                continue;
-            }
 
             for (const item of snapshot.gridItems) {
                 if (lootRendered >= maxLootToRender) break;
@@ -600,27 +620,12 @@ const AfterimageOverlay = () => {
                 const itemIdToLookup = item.itemId || item.originalItemStoreId;
                 if (!itemIdToLookup) continue;
 
-                const itemStore = useItemStore.getState();
-                const originalItem = itemStore.items.find(i =>
-                    i.id === item.itemId || i.id === item.originalItemStoreId
-                );
-
-                const getItemIcon = (type, subtype) => {
-                    const typeIcons = {
-                        weapon: 'inv_sword_04',
-                        armor: 'inv_chest_cloth_01',
-                        accessory: 'inv_jewelry_ring_01',
-                        consumable: 'inv_potion_51',
-                        miscellaneous: 'inv_misc_questionmark',
-                        material: 'inv_fabric_wool_01',
-                        quest: 'inv_misc_note_01',
-                        container: 'inv_box_01'
-                    };
-                    return typeIcons[type] || 'inv_misc_questionmark';
-                };
+                const originalItem = (item.itemId && itemsById.get(item.itemId))
+                    || (item.originalItemStoreId && itemsById.get(item.originalItemStoreId))
+                    || null;
 
                 const iconId = item.iconId || (originalItem && originalItem.iconId) ||
-                    getItemIcon(item.type, item.subtype);
+                    ITEM_TYPE_ICON_FALLBACKS[item.type] || 'inv_misc_questionmark';
                 const iconUrl = getIconUrl(iconId, 'items');
 
                 const orbSize = tileSize * 0.5;
@@ -678,10 +683,6 @@ const AfterimageOverlay = () => {
         const maxTokensToRender = 40;
         const afterimagesToRender = afterimageEntries.slice(0, maxTokensToRender);
 
-        if (afterimageEntries.length > 0) {
-            console.log('🖼️ [AfterimageOverlay] Rendering token afterimages:', afterimageEntries.length, 'tokens');
-        }
-
         let afterimagesActuallyRendered = 0;
 
         afterimageEntries.forEach(([tokenId, afterimage]) => {
@@ -689,23 +690,7 @@ const AfterimageOverlay = () => {
 
             const { position, data } = afterimage;
 
-            // ALWAYS LOG for debugging creature afterimage issues
-            console.log('🖼️ [AfterimageOverlay] Processing afterimage:', {
-                tokenId,
-                hasPosition: !!position,
-                hasWorldPosition: !!position?.worldPosition,
-                positionData: position,
-                hasData: !!data,
-                dataType: data?.type,
-                dataCreatureId: data?.creatureId,
-                dataIcon: data?.icon,
-                dataTokenIcon: data?.tokenIcon,
-                dataCustomIcon: data?.customIcon,
-                dataStateCustomIcon: data?.state?.customIcon
-            });
-
             if (!position) {
-                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - no position in afterimage`);
                 return;
             }
 
@@ -715,17 +700,12 @@ const AfterimageOverlay = () => {
             } else if (position.x !== undefined && position.y !== undefined) {
                 tokenWorldPos = gridToWorld(position.x, position.y);
             } else {
-                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - no valid position format`);
                 return;
             }
 
-            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} worldPos:`, tokenWorldPos);
-
-            // Skip if not explored - ALWAYS LOG THIS CHECK
+            // Skip if not explored
             const isExplored = isExploredPos(tokenWorldPos.x, tokenWorldPos.y);
-            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} isExplored:`, isExplored);
             if (!isExplored) {
-                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - NOT EXPLORED. Pos:`, tokenWorldPos);
                 return;
             }
 
@@ -736,25 +716,21 @@ const AfterimageOverlay = () => {
             // the token again at its new location.
 
             const screenPos = worldToScreen(tokenWorldPos.x, tokenWorldPos.y);
-            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} screenPos:`, screenPos);
 
             // Viewport culling
             if (screenPos.x < minScreenX || screenPos.x > maxScreenX ||
                 screenPos.y < minScreenY || screenPos.y > maxScreenY) {
-                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - OUTSIDE VIEWPORT. ScreenPos:`, screenPos, 'bounds:', { minScreenX, maxScreenX, minScreenY, maxScreenY });
                 return;
             }
 
             const tokenSize = gridSize * effectiveZoom * 0.8;
 
-            // Get image URL - ALWAYS LOG THIS
+            // Get image URL
             let imageUrl = null;
             if (data) {
-                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} checking image URL. dataType:`, data.type, 'creatureId:', data.creatureId, 'tokenIcon:', data.tokenIcon, 'icon:', data.icon);
                 if (data.type === 'creature' || data.creatureId || data.tokenIcon) {
                     const customIcon = data.state?.customIcon || data.customTokenImage || data.customIcon;
                     const tokenIcon = data.tokenIcon || data.icon;
-                    console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} creature path - customIcon:`, customIcon, 'tokenIcon:', tokenIcon);
                     if (customIcon) {
                         imageUrl = customIcon;
                     } else if (tokenIcon) {
@@ -762,18 +738,13 @@ const AfterimageOverlay = () => {
                     }
                 } else if (data.type === 'character' || data.characterId) {
                     imageUrl = data.characterImage || data.lore?.characterImage || data.characterIcon;
-                    console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} character path - imageUrl:`, imageUrl);
                 }
             }
 
-            console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} final imageUrl:`, imageUrl);
-
             if (!imageUrl) {
-                console.log(`🖼️ [AfterimageOverlay] Token ${tokenId} SKIPPED - NO IMAGE URL. Full data:`, JSON.stringify(data, null, 2));
                 return;
             }
 
-            console.log(`🖼️ [AfterimageOverlay] ✅ RENDERING afterimage for ${tokenId} with imageUrl:`, imageUrl);
             afterimagesActuallyRendered++;
 
             // Draw ghostly token
@@ -813,10 +784,6 @@ const AfterimageOverlay = () => {
 
             ctx.restore();
         });
-
-        if (afterimagesActuallyRendered > 0) {
-            console.log('🖼️ [AfterimageOverlay] Total afterimages rendered:', afterimagesActuallyRendered);
-        }
     }, [
         afterimageEnabled,
         isGMMode,

@@ -6,6 +6,28 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getProjectionTransform as buildProjectionTransform, worldToScreen as projectWorldToScreen } from '../../utils/ProjectionSystem';
 import { calculateVisibilityPolygon, collectVisibleWallRuns } from '../../utils/VisibilityCalculations';
+import { getCachedCanvasSize } from '../../utils/canvasSizeCache';
+
+// PERFORMANCE: explored polygon bounds are scanned for viewport culling on
+// every fog repaint. Explored trails grow to ~2000 polygons (30-200 points
+// each), so caching bounds per points-array identity removes hundreds of
+// thousands of reads per frame.
+const exploredPolygonBoundsCache = new WeakMap();
+const getExploredPolygonBounds = (points) => {
+    let bounds = exploredPolygonBoundsCache.get(points);
+    if (bounds) return bounds;
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+    }
+    bounds = { minX, minY, maxX, maxY };
+    exploredPolygonBoundsCache.set(points, bounds);
+    return bounds;
+};
 
 /**
  * Traces the screen-space silhouette of each visible wall run into the current
@@ -128,6 +150,11 @@ const StaticFogOverlay = () => {
     // PERFORMANCE: RAF-based camera tracking ref: avoids React re-render on every camera move
     const cameraRafRef = useRef(null);
 
+    // PERFORMANCE: projection transform cache. worldToScreen is called for every
+    // polygon point, fog tile corner and wall silhouette per repaint; rebuilding
+    // the transform (4 trig calls + object) per call dominated that work.
+    const projectionCacheRef = useRef({ key: null, transform: null });
+
     // Store Subscriptions - Level Editor State
     const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
     const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
@@ -165,24 +192,31 @@ const StaticFogOverlay = () => {
     const worldToScreen = useCallback((worldX, worldY, customCameraX, customCameraY, customZoom) => {
         const canvas = canvasRef.current;
         if (!canvas) return { x: 0, y: 0 };
-        
+
         const cx = customCameraX ?? cameraX;
         const cy = customCameraY ?? cameraY;
         const cz = customZoom ?? (zoomLevel * playerZoom);
 
-        // Projection-aware: respects camera yaw/tilt in 2.5D and rotated 2D view
-        const transform = buildProjectionTransform({
-            viewMode,
-            viewRotation,
-            viewTilt,
-            effectiveZoom: cz,
-            cameraX: cx,
-            cameraY: cy,
-            viewportWidth: canvas.width,
-            viewportHeight: canvas.height
-        });
+        // Projection-aware: respects camera yaw/tilt in 2.5D and rotated 2D view.
+        // The transform is cached per (camera, view, canvas size) tuple so a
+        // single repaint reuses one transform for all of its points.
+        const cache = projectionCacheRef.current;
+        const key = `${cx}|${cy}|${cz}|${viewMode}|${viewRotation}|${viewTilt}|${canvas.width}|${canvas.height}`;
+        if (cache.key !== key) {
+            cache.key = key;
+            cache.transform = buildProjectionTransform({
+                viewMode,
+                viewRotation,
+                viewTilt,
+                effectiveZoom: cz,
+                cameraX: cx,
+                cameraY: cy,
+                viewportWidth: canvas.width,
+                viewportHeight: canvas.height
+            });
+        }
 
-        return projectWorldToScreen(worldX, worldY, transform, 0);
+        return projectWorldToScreen(worldX, worldY, cache.transform, 0);
     }, [cameraX, cameraY, zoomLevel, playerZoom, viewMode, viewRotation, viewTilt]);
 
     const screenToWorld = useCallback((screenX, screenY) => {
@@ -334,7 +368,7 @@ const StaticFogOverlay = () => {
         const tempCanvas = tempCanvasRef.current;
 
         const ctx = canvas.getContext('2d');
-        const rect = canvas.getBoundingClientRect();
+        const rect = getCachedCanvasSize(canvas);
 
         if (canvas.width !== rect.width || canvas.height !== rect.height) {
             canvas.width = rect.width;
@@ -497,15 +531,9 @@ const StaticFogOverlay = () => {
                 if (!points || points.length < 3) return;
 
                 // Fast bbox rejection: most explored polygons are off-screen while panning.
-                let pMinX = Infinity, pMinY = Infinity, pMaxX = -Infinity, pMaxY = -Infinity;
-                for (let i = 0; i < points.length; i++) {
-                    const p = points[i];
-                    if (p.x < pMinX) pMinX = p.x;
-                    if (p.x > pMaxX) pMaxX = p.x;
-                    if (p.y < pMinY) pMinY = p.y;
-                    if (p.y > pMaxY) pMaxY = p.y;
-                }
-                if (pMaxX < minWorldX || pMinX > maxWorldX || pMaxY < minWorldY || pMinY > maxWorldY) return;
+                const bounds = getExploredPolygonBounds(points);
+                if (bounds.maxX < minWorldX || bounds.minX > maxWorldX ||
+                    bounds.maxY < minWorldY || bounds.minY > maxWorldY) return;
 
                 sCtx.beginPath();
                 for (let i = 0; i < points.length; i++) {

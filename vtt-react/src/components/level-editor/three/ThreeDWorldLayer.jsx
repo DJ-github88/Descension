@@ -33,6 +33,10 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   const shadowMaterialRef = useRef(null);
   const animFrameRef = useRef(null);
   const lastTimeRef = useRef(performance.now());
+  // Structural (non-fog) inputs of the prop/wall passes. Shadow maps must be
+  // re-rendered when geometry moves, but not when only fog visibility flips.
+  const propsStructuralRef = useRef(null);
+  const wallsStructuralRef = useRef(null);
 
   // Camera & View Store
   const cameraX = useGameStore(state => state.cameraX);
@@ -62,7 +66,14 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
   const visibleArea = useLevelEditorStore(state => state.visibleArea);
   const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
-  const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
+  // NOTE: visibilityPolygon is deliberately NOT subscribed here. It gets a new
+  // identity on every visibility recalculation (up to 20x/s while walking), and
+  // nothing in the 3D managers reads it — the fog passes key off visibleAreaSet
+  // and the explored-memory identities below instead.
+  // Explored-memory identities: the 3D fog pass must re-run when a tile becomes
+  // explored, but only on real memory writes — not on every visibility recalc.
+  const exploredAreas = useLevelEditorStore(state => state.exploredAreas);
+  const playerMemories = useLevelEditorStore(state => state.playerMemories);
   const isPlayerPositionExplored = useLevelEditorStore(state => state.isPlayerPositionExplored);
   const lightSources = useLevelEditorStore(state => state.lightSources || {});
   const lightingEnabled = useLevelEditorStore(state => state.lightingEnabled);
@@ -347,8 +358,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
           isGMMode: gs.isGMMode,
           viewingFromToken: les.viewingFromToken,
           isPlayerPositionExplored: les.isPlayerPositionExplored,
-          visibleAreaSet: les.visibleArea ? new Set(les.visibleArea) : null,
-          visibilityPolygon: les.visibilityPolygon
+          visibleAreaSet: les.visibleArea ? new Set(les.visibleArea) : null
         };
 
         propManagerRef.current.updateObjects(objs, gridState, fogState, wData, les.elevationData || {});
@@ -526,22 +536,44 @@ export const ThreeDWorldLayer = ({ width, height }) => {
 
   // Update Props with full grid and fog state
   useEffect(() => {
-    if (propManagerRef.current) {
-      propManagerRef.current.updateObjects(environmentalObjects, {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY
-      }, {
-        fogOfWarEnabled,
-        isEditorMode,
-        isGMMode,
-        viewingFromToken,
-        isPlayerPositionExplored,
-        visibleAreaSet,
-        visibilityPolygon
-      }, wallData, elevationData);
+    const structural = {
+      walls: wallData,
+      elevation: elevationData,
+      gridSize,
+      gridOffsetX,
+      gridOffsetY,
+      objects: environmentalObjects
+    };
+    const previous = propsStructuralRef.current;
+    const structuralChanged = !previous
+      || previous.walls !== structural.walls
+      || previous.elevation !== structural.elevation
+      || previous.gridSize !== structural.gridSize
+      || previous.gridOffsetX !== structural.gridOffsetX
+      || previous.gridOffsetY !== structural.gridOffsetY
+      || previous.objects !== structural.objects;
+    propsStructuralRef.current = structural;
+
+    const fogChanged = propManagerRef.current
+      ? !!propManagerRef.current.updateObjects(environmentalObjects, {
+          gridSize,
+          gridOffsetX,
+          gridOffsetY
+        }, {
+          fogOfWarEnabled,
+          isEditorMode,
+          isGMMode,
+          viewingFromToken,
+          isPlayerPositionExplored,
+          visibleAreaSet
+        }, wallData, elevationData)
+      : false;
+
+    // Visibility recalculations alone must NOT re-render the sun + point-light
+    // shadow maps; only geometry movement or an actual fog-state flip does.
+    if (structuralChanged || fogChanged) {
+      lightingManagerRef.current?.markAllShadowsDirty();
     }
-    lightingManagerRef.current?.markAllShadowsDirty();
   }, [
     environmentalObjects,
     wallData,
@@ -555,73 +587,74 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     viewingFromToken,
     isPlayerPositionExplored,
     visibleAreaSet,
-    visibilityPolygon
+    exploredAreas,
+    playerMemories
   ]);
 
   // Update 3D Wall Doors & Wall Depth Occluders
   useEffect(() => {
+    const structural = {
+      walls: wallData,
+      elevation: elevationData,
+      walls3DEnabled,
+      gridSize,
+      gridOffsetX,
+      gridOffsetY
+    };
+    const previous = wallsStructuralRef.current;
+    const structuralChanged = !previous
+      || previous.walls !== structural.walls
+      || previous.elevation !== structural.elevation
+      || previous.walls3DEnabled !== structural.walls3DEnabled
+      || previous.gridSize !== structural.gridSize
+      || previous.gridOffsetX !== structural.gridOffsetX
+      || previous.gridOffsetY !== structural.gridOffsetY;
+    wallsStructuralRef.current = structural;
+
+    const fogState = {
+      fogOfWarEnabled,
+      isEditorMode,
+      isGMMode,
+      viewingFromToken,
+      isPlayerPositionExplored,
+      visibleAreaSet
+    };
+    const gridState = {
+      gridSize,
+      gridOffsetX,
+      gridOffsetY
+    };
+
+    let fogChanged = false;
+    let doorsChanged = false;
+    let wallPropsChanged = false;
+
     if (propManagerRef.current) {
-      propManagerRef.current.updateWallDoors(wallData, {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY
-      }, {
-        fogOfWarEnabled,
-        isEditorMode,
-        isGMMode,
-        viewingFromToken,
-        isPlayerPositionExplored,
-        visibleAreaSet,
-        visibilityPolygon
-      }, elevationData);
+      doorsChanged = !!propManagerRef.current.updateWallDoors(wallData, gridState, fogState, elevationData);
       // Wall-attached fixtures (torches, banners) derive their height from the
       // wall run they are mounted on, so wall edits must refresh them too.
-      propManagerRef.current.updateObjects(environmentalObjects, {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY
-      }, {
-        fogOfWarEnabled,
-        isEditorMode,
-        isGMMode,
-        viewingFromToken,
-        isPlayerPositionExplored,
-        visibleAreaSet,
-        visibilityPolygon
-      }, wallData, elevationData);
+      wallPropsChanged = !!propManagerRef.current.updateObjects(environmentalObjects, gridState, fogState, wallData, elevationData);
     }
     if (walls3DEnabled && wallManagerRef.current) {
-      wallManagerRef.current.updateWalls(wallData, elevationData, {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY
-      }, {
-        fogOfWarEnabled,
-        isEditorMode,
-        isGMMode,
-        viewingFromToken,
-        isPlayerPositionExplored,
-        visibleAreaSet,
-        visibilityPolygon
-      });
+      fogChanged = !!wallManagerRef.current.updateWalls(wallData, elevationData, gridState, fogState);
     } else if (wallManagerRef.current) {
       wallManagerRef.current.updateWalls({}, {}, {}, {});
     }
 
     if (!walls3DEnabled && wallOccluderManagerRef.current) {
-      wallOccluderManagerRef.current.updateWalls(wallData, elevationData, {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY
-      });
+      wallOccluderManagerRef.current.updateWalls(wallData, elevationData, gridState);
     } else if (wallOccluderManagerRef.current) {
       wallOccluderManagerRef.current.updateWalls({}, {}, {});
     }
-    lightingManagerRef.current?.markAllShadowsDirty();
+
+    if (structuralChanged || fogChanged || doorsChanged || wallPropsChanged) {
+      lightingManagerRef.current?.markAllShadowsDirty();
+    }
   }, [
     wallData,
     elevationData,
     walls3DEnabled,
+    environmentalObjects,
     gridSize,
     gridOffsetX,
     gridOffsetY,
@@ -631,7 +664,8 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     viewingFromToken,
     isPlayerPositionExplored,
     visibleAreaSet,
-    visibilityPolygon
+    exploredAreas,
+    playerMemories
   ]);
 
   // Drive 3D lighting from the map's own lighting model (sun, ambient, lights)
@@ -647,8 +681,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
         isGMMode,
         viewingFromToken,
         isPlayerPositionExplored,
-        visibleAreaSet,
-        visibilityPolygon
+        visibleAreaSet
       }, elevationData);
       // Placed lights cast real sun shadows, and the sun map is re-rendered on
       // demand only. A fixture that appeared, moved, resized or was deleted
@@ -707,7 +740,8 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     viewingFromToken,
     isPlayerPositionExplored,
     visibleAreaSet,
-    visibilityPolygon
+    exploredAreas,
+    playerMemories
   ]);
 
   // Update Terrain

@@ -253,9 +253,19 @@ export const useLevelEditorPersistence = () => {
       lightSources: levelEditorState.lightSources
     };
 
-    // Compare with previous state
-    if (lastStateRef.current) {
-      const stateChanged = JSON.stringify(lastStateRef.current) !== JSON.stringify(currentState);
+    // Compare with previous state by identity: every store write replaces the
+    // changed slice, so per-key reference comparison is exact and avoids two
+    // full JSON.stringify passes over the whole map state on every explored
+    // tile write (this hook lives inside <Grid> and runs during token moves).
+    const previousState = lastStateRef.current;
+    if (previousState) {
+      let stateChanged = false;
+      for (const key of Object.keys(currentState)) {
+        if (previousState[key] !== currentState[key]) {
+          stateChanged = true;
+          break;
+        }
+      }
       if (!stateChanged) {
         // State hasn't actually changed, skip auto-save
         return;
