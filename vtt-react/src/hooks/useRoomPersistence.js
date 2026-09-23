@@ -19,6 +19,11 @@ export const useRoomPersistence = (roomId) => {
   // Auto-save timer refs
   const roomStateTimerRef = useRef(null);
   const lastSavedStateRef = useRef(null);
+  // Latest realtimeSync API kept in a ref so save/schedule callbacks stay
+  // stable. The hook's returned object changes identity on every connection /
+  // conflict state change; putting it in effect deps re-subscribed the store
+  // listeners (and reset the save debounce) on every render.
+  const realtimeSyncRef = useRef(null);
 
   // Debounced auto-save delay (3 seconds for room data)
   const AUTO_SAVE_DELAY = 3000;
@@ -109,6 +114,7 @@ export const useRoomPersistence = (roomId) => {
       // Import stores dynamically and update them
       (async () => {
         const [
+          characterTokenStoreModule,
           gridItemStoreModule,
           creatureStoreModule,
           levelEditorStoreModule,
@@ -116,6 +122,7 @@ export const useRoomPersistence = (roomId) => {
           chatStoreModule,
           conditionStoreModule
         ] = await Promise.all([
+          import('../store/characterTokenStore'),
           import('../store/gridItemStore'),
           import('../store/creatureStore'),
           import('../store/levelEditorStore'),
@@ -123,6 +130,13 @@ export const useRoomPersistence = (roomId) => {
           import('../store/chatStore'),
           import('../store/conditionStore')
         ]);
+
+        // Update character tokens
+        if (remoteData.characterTokens) {
+          characterTokenStoreModule.default.setState({
+            characterTokens: remoteData.characterTokens
+          });
+        }
 
         // Update grid items
         if (remoteData.gridItems) {
@@ -175,6 +189,20 @@ export const useRoomPersistence = (roomId) => {
           });
         }
 
+        // Record the applied remote state as "last saved" so the auto-save
+        // subscription does not immediately write the same data back (which
+        // would bounce between clients as an endless write echo).
+        lastSavedStateRef.current = JSON.stringify({
+          characterTokens: remoteData.characterTokens || [],
+          creatureTokens: remoteData.creatureTokens || [],
+          gridItems: remoteData.gridItems || [],
+          environmentalObjects: remoteData.environmentalObjects || [],
+          combat: remoteData.combat || null,
+          chatHistory: remoteData.chatHistory || null,
+          buffsAndDebuffs: remoteData.buffsAndDebuffs || null,
+          version: remoteData.version || 1
+        });
+
         console.log('✅ Room state updated from remote changes');
       })();
     }
@@ -186,13 +214,11 @@ export const useRoomPersistence = (roomId) => {
     handleRemoteRoomChange,
     {
       enabled: !!user && !user.isGuest && !!currentRoomId,
-      conflictResolution: 'remote-wins', // GM changes usually take precedence
-      onConflict: (conflictInfo) => {
-        console.warn('⚠️ Room data conflict detected - accepting remote (GM) changes');
-        conflictInfo.resolveWithRemote();
-      }
+      conflictResolution: 'remote-wins' // GM changes usually take precedence
     }
   );
+
+  realtimeSyncRef.current = realtimeSync;
 
   /**
    * Save room state to Firebase
@@ -212,7 +238,8 @@ export const useRoomPersistence = (roomId) => {
 
       if (result.success) {
         lastSavedStateRef.current = JSON.stringify(dataToSave);
-        realtimeSync.markLocalSave(new Date(result.data?.lastUpdated));
+        // Pass the write token so the listener ignores our own echo.
+        realtimeSyncRef.current?.markLocalSave(result.writeToken);
         console.log(`💾 Room state saved for ${currentRoomId}`);
       }
 
@@ -221,7 +248,7 @@ export const useRoomPersistence = (roomId) => {
       console.error('Failed to save room state:', error);
       return { success: false, error: error.message };
     }
-  }, [user, currentRoomId, collectRoomState, persistenceService, realtimeSync]);
+  }, [user, currentRoomId, collectRoomState, persistenceService]);
 
   /**
    * Load room state from Firebase
@@ -329,6 +356,11 @@ export const useRoomPersistence = (roomId) => {
    * Auto-save room state when it changes
    */
   const scheduleAutoSave = useCallback(() => {
+    // A local change is being scheduled - flag it so a concurrent remote update
+    // can be detected as a conflict. (This used to run in a separate effect
+    // that re-fired on every render, permanently marking the room dirty.)
+    realtimeSyncRef.current?.markLocalChange('room-state');
+
     // Clear existing timer
     if (roomStateTimerRef.current) {
       clearTimeout(roomStateTimerRef.current);
@@ -336,6 +368,7 @@ export const useRoomPersistence = (roomId) => {
 
     // Set new auto-save timer
     roomStateTimerRef.current = setTimeout(async () => {
+      roomStateTimerRef.current = null;
       const currentState = await collectRoomState();
       if (currentState) {
         const currentStateStr = JSON.stringify(currentState);
@@ -367,74 +400,73 @@ export const useRoomPersistence = (roomId) => {
     }
   }, [user, currentRoomId, loadRoomState]);
 
-  // Auto-save when room state changes (with store subscriptions for automatic saving)
+  // Auto-save when room state changes.
+  // Subscribe to every store that `collectRoomState` reads from, otherwise
+  // character-token moves, grid items, environmental objects (doors/chests),
+  // chat and buffs were collected but never actually triggered a save.
   useEffect(() => {
     let isMounted = true;
-    let unsubscribeTokens, unsubscribeCombat;
+    const unsubscribers = [];
 
-    if (user && !user.isGuest && currentRoomId) {
-      scheduleAutoSave();
-
-      // CRITICAL FIX: Add store subscriptions for automatic saving on token/combat changes
-
-      // Import stores dynamically
-      import('../store/creatureStore').then(({ default: creatureStore }) => {
-        if (!isMounted) return;
-
-        // Watch for token changes (add/remove/move/state updates)
-        unsubscribeTokens = creatureStore.subscribe((state, prevState) => {
-          if (state.tokens !== prevState.tokens) {
-            console.log('🔄 Token state changed, scheduling auto-save');
-            scheduleAutoSave();
-          }
-        });
-
-        // Also watch combat state
-        import('../store/combatStore').then(({ default: combatStore }) => {
-          if (!isMounted) {
-            if (unsubscribeTokens) unsubscribeTokens();
-            return;
-          }
-
-          unsubscribeCombat = combatStore.subscribe((state, prevState) => {
-            if (state.isInCombat !== prevState.isInCombat ||
-              state.currentTurn !== prevState.currentTurn ||
-              state.round !== prevState.round) {
-              console.log('⚔️ Combat state changed, scheduling auto-save');
-              scheduleAutoSave();
-            }
-          });
-        });
-      });
+    if (!user || user.isGuest || !currentRoomId) {
+      return undefined;
     }
+
+    Promise.all([
+      import('../store/creatureStore'),
+      import('../store/characterTokenStore'),
+      import('../store/gridItemStore'),
+      import('../store/levelEditorStore'),
+      import('../store/combatStore'),
+      import('../store/chatStore'),
+      import('../store/conditionStore')
+    ]).then(([creatureStoreModule, characterTokenStoreModule, gridItemStoreModule, levelEditorStoreModule, combatStoreModule, chatStoreModule, conditionStoreModule]) => {
+      if (!isMounted) return;
+
+      const creatureStore = creatureStoreModule.default;
+      const characterTokenStore = characterTokenStoreModule.default;
+      const gridItemStore = gridItemStoreModule.default;
+      const levelEditorStore = levelEditorStoreModule.default;
+      const combatStore = combatStoreModule.default;
+      const chatStore = chatStoreModule.default;
+      const conditionStore = conditionStoreModule.default;
+
+      const watch = (store, selector, label) =>
+        store.subscribe((state, prevState) => {
+          if (selector(state, prevState)) {
+            scheduleAutoSave();
+            if (process.env.NODE_ENV === 'development') {
+              console.debug(`[RoomPersistence] ${label} changed, scheduling auto-save`);
+            }
+          }
+        });
+
+      unsubscribers.push(
+        watch(creatureStore, (s, p) => s.tokens !== p.tokens, 'creature tokens'),
+        watch(characterTokenStore, (s, p) => s.characterTokens !== p.characterTokens, 'character tokens'),
+        watch(gridItemStore, (s, p) => s.gridItems !== p.gridItems, 'grid items'),
+        watch(levelEditorStore, (s, p) => s.dndElements !== p.dndElements, 'environmental objects'),
+        watch(combatStore, (s, p) => s.isInCombat !== p.isInCombat || s.currentTurn !== p.currentTurn || s.round !== p.round || s.combatLog !== p.combatLog, 'combat'),
+        watch(chatStore, (s, p) => s.notifications !== p.notifications, 'chat'),
+        watch(conditionStore, (s, p) => s.activeBuffs !== p.activeBuffs || s.activeDebuffs !== p.activeDebuffs, 'conditions')
+      );
+    });
 
     // Cleanup timer and subscriptions on unmount
     return () => {
       isMounted = false;
       if (roomStateTimerRef.current) {
         clearTimeout(roomStateTimerRef.current);
+        roomStateTimerRef.current = null;
       }
-      // CRITICAL FIX: Clean up store subscriptions
-      if (unsubscribeTokens) {
-        unsubscribeTokens();
-      }
-      if (unsubscribeCombat) {
-        unsubscribeCombat();
-      }
+      unsubscribers.forEach((unsubscribe) => unsubscribe());
     };
   }, [
-    // Watch for major room state changes
+    // Watch for major room state changes (all stable identities)
     currentRoomId,
     scheduleAutoSave,
     user
   ]);
-
-  // Mark local changes for conflict detection
-  useEffect(() => {
-    if (user && !user.isGuest && currentRoomId) {
-      realtimeSync.markLocalChange('room-state');
-    }
-  }, [user, currentRoomId, realtimeSync]);
 
   return {
     // State

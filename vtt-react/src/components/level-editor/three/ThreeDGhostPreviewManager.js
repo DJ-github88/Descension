@@ -100,7 +100,7 @@ export class ThreeDGhostPreviewManager {
     }
 
     const elevOffset = Number.isFinite(elevationOffset) ? elevationOffset : 0;
-    const worldZ = (parentTopZ !== null ? parentTopZ : baseElevation * (gridSize * 0.5)) + (elevOffset * gridSize * 0.5) + (modelConfig.offsetZ || 0);
+    const worldZ = (parentTopZ !== null ? parentTopZ : baseElevation * gridSize) + (elevOffset * gridSize) + (modelConfig.offsetZ || 0);
 
     // If model type changed, rebuild ghost mesh
     if (this.currentModelType !== objectType || !this.currentModelScene) {

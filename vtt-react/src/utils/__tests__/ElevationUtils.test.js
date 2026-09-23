@@ -2,10 +2,12 @@ import {
   FEET_PER_ELEVATION_LEVEL,
   getTileElevation,
   getElevationAtWorld,
+  getElevationLevelAtWorld,
   levelToWorldHeight,
   feetToWorldHeight,
   getEyeHeightFeet,
   getRampAt,
+  resolveRampDirection,
   rampAllowsStep,
   canStepElevation,
   isSegmentOccludedByTerrain,
@@ -94,6 +96,119 @@ describe('ElevationUtils', () => {
       const result = canStepElevation({ elevationData, rampData, from: { x: 0, y: 0 }, to: { x: 1, y: 0 } });
       expect(result.allowed).toBe(true);
       expect(result.delta).toBe(3);
+    });
+  });
+
+  describe('getElevationLevelAtWorld (ramp slopes)', () => {
+    const gridSystem = {
+      worldToGrid: (x, y) => ({ x: Math.floor(x / 50), y: Math.floor(y / 50) }),
+      gridToWorld: (gx, gy) => ({ x: gx * 50 + 25, y: gy * 50 + 25 })
+    };
+
+    it('returns the flat tile level away from ramps', () => {
+      expect(getElevationLevelAtWorld({
+        elevationData: { '1,0': 2 },
+        rampData: {},
+        gridSystem,
+        worldX: 75,
+        worldY: 25
+      })).toBe(2);
+    });
+
+    it('interpolates ascending ramps from the far edge to the connected neighbour', () => {
+      const elevationData = { '1,0': 2 };
+      const rampData = { '0,0': { dir: 'e' } };
+      // West (far) edge sits at the tile's own level, east (near) edge at +2.
+      expect(getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX: 0, worldY: 25 })).toBeCloseTo(0, 6);
+      expect(getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX: 49.9, worldY: 25 })).toBeCloseTo(1.996, 3);
+      // Tile centre sits mid-slope.
+      expect(getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX: 25, worldY: 25 })).toBeCloseTo(1, 6);
+    });
+
+    it('interpolates descending ramps toward the lower neighbour', () => {
+      const elevationData = { '0,0': 2, '1,0': 1, '-1,0': 2, '0,-1': 2, '0,1': 2 };
+      const rampData = { '0,0': { dir: 'e' } };
+      expect(getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX: 0, worldY: 25 })).toBeCloseTo(2, 6);
+      expect(getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX: 25, worldY: 25 })).toBeCloseTo(1.5, 6);
+      expect(getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX: 49.9, worldY: 25 })).toBeCloseTo(1, 2);
+    });
+
+    it('keeps flat ramp tiles at the tile level', () => {
+      expect(getElevationLevelAtWorld({
+        elevationData: { '0,0': 1, '1,0': 1, '-1,0': 1, '0,-1': 1, '0,1': 1 },
+        rampData: { '0,0': { dir: 'e' } },
+        gridSystem,
+        worldX: 25,
+        worldY: 25
+      })).toBe(1);
+    });
+  });
+
+  describe('resolveRampDirection (auto-align)', () => {
+    it('points at the only differing neighbour', () => {
+      expect(resolveRampDirection({
+        elevationData: { '1,0': 2 },
+        rampData: { '0,0': { type: 'ramp' } },
+        x: 0,
+        y: 0
+      })).toBe('e');
+    });
+
+    it('points at the biggest level difference', () => {
+      expect(resolveRampDirection({
+        elevationData: { '0,-1': 1, '1,0': 3 },
+        rampData: { '0,0': { type: 'ramp' } },
+        x: 0,
+        y: 0
+      })).toBe('e');
+    });
+
+    it('prefers the ascending side on a tie', () => {
+      expect(resolveRampDirection({
+        elevationData: { '0,-1': -2, '1,0': 2 },
+        rampData: { '0,0': { type: 'ramp' } },
+        x: 0,
+        y: 0
+      })).toBe('e');
+    });
+
+    it('falls back to the stored dir when nothing differs (flat ramp)', () => {
+      expect(resolveRampDirection({
+        elevationData: {},
+        rampData: { '0,0': { dir: 'w', type: 'ramp' } },
+        x: 0,
+        y: 0
+      })).toBe('w');
+    });
+
+    it('uses the stored dir when no elevation data is available', () => {
+      expect(resolveRampDirection({
+        elevationData: null,
+        rampData: { '0,0': { dir: 's', type: 'ramp' } },
+        x: 0,
+        y: 0
+      })).toBe('s');
+    });
+  });
+
+  describe('auto-aligned ramp movement', () => {
+    it('bridges a big step on any adjacent side of a ramp tile', () => {
+      const elevationData = { '1,0': 3 };
+      const rampData = { '1,0': { type: 'ramp' } };
+      expect(canStepElevation({
+        elevationData,
+        rampData,
+        from: { x: 0, y: 0 },
+        to: { x: 1, y: 0 }
+      }).allowed).toBe(true);
+      // Approaching from the north is allowed too: the ramp serves every side
+      // it can actually bridge, and the rendered slope follows the steepest.
+      expect(canStepElevation({
+        elevationData,
+        rampData,
+        from: { x: 1, y: -1 },
+        to: { x: 1, y: 0 }
+      }).allowed).toBe(true);
     });
   });
 

@@ -137,7 +137,7 @@ describe('ThreeDGhostPreviewManager', () => {
 
     expect(manager.group.position.x).toBeCloseTo(25);
     expect(manager.group.position.y).toBeCloseTo(-4.75);
-    expect(manager.group.position.z).toBeCloseTo(2.2 * 25);
+    expect(manager.group.position.z).toBeCloseTo(2.2 * 50);
     expect(manager.group.rotation.z).toBeCloseTo((-180 * Math.PI) / 180);
   });
 });

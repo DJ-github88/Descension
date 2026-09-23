@@ -343,7 +343,7 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
                 const c2 = dstTiles[idx + 1];
                 const elev1 = getTileElevation(elevationData, c1.x, c1.y);
                 const elev2 = getTileElevation(elevationData, c2.x, c2.y);
-                if (Math.abs(elev2 - elev1) > 1 && !rampAllowsStep(rampData, c1, c2)) {
+                if (Math.abs(elev2 - elev1) > 1 && !rampAllowsStep(rampData, c1, c2, elevationData)) {
                   elevationBlocked = true;
                   break;
                 }
@@ -352,7 +352,7 @@ export function findGridPath(startX, startY, endX, endY, wallData = {}, windowOv
                 const c2 = dstTiles[(fpy + 1) * normFootprint.width + fpx];
                 const elev1 = getTileElevation(elevationData, c1.x, c1.y);
                 const elev2 = getTileElevation(elevationData, c2.x, c2.y);
-                if (Math.abs(elev2 - elev1) > 1 && !rampAllowsStep(rampData, c1, c2)) {
+                if (Math.abs(elev2 - elev1) > 1 && !rampAllowsStep(rampData, c1, c2, elevationData)) {
                   elevationBlocked = true;
                   break;
                 }

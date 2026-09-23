@@ -200,6 +200,14 @@ service cloud.firestore {
         request.resource.data.keys().hasOnly(['downloads'])
       );
       allow delete: if request.auth != null && request.auth.uid == resource.data.publisherId;
+
+      // Full campaign gameState lives in a subcollection doc so browse lists
+      // never download it. Only the publisher may write.
+      match /data/{documentId} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null &&
+          request.auth.uid == get(/databases/$(database)/documents/sharedCampaigns/$(campaignId)).data.publisherId;
+      }
     }
 
     // Public game data (items, spells, etc.) - read only
@@ -240,9 +248,11 @@ service cloud.firestore {
         request.auth.uid == resource.data.userId;
     }
 
-    // Community items - allow public read access and community updates for counts
+    // Community items - public read is limited to published items. The previous
+    // `allow read: if true` combined with the client's unfiltered fallback
+    // query exposed private drafts in the public feed.
     match /community_items/{itemId} {
-      allow read: if true; // Allow all to see public items (service handles isPublic filter)
+      allow read: if resource.data.isPublic == true;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
       allow update: if request.auth != null && (
         request.auth.uid == resource.data.userId || 
@@ -304,6 +314,81 @@ service cloud.firestore {
     match /pack_ratings/{ratingId} {
       allow read, write: if request.auth != null &&
         request.auth.uid == resource.data.userId;
+    }
+
+    // Spell favorites - previously had no rule block at all (default deny), so
+    // favoriting silently failed. Doc id convention: {spellId}_{userId}.
+    match /spell_favorites/{favoriteId} {
+      allow read: if request.auth != null && (
+        resource == null || resource.data.userId == request.auth.uid
+      );
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Community maps - public read for published maps, owner-managed otherwise.
+    match /community_maps/{mapId} {
+      allow read: if resource.data.isPublic == true ||
+        (request.auth != null && request.auth.uid == resource.data.userId);
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.resource.data.diff(resource.data).affectedKeys().hasAny(['downloadCount', 'rating', 'ratingCount'])
+      );
+      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    // Map categories - public read access
+    match /map_categories/{categoryId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Map ratings - users manage their own ratings
+    match /map_ratings/{ratingId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        ratingId.endsWith(request.auth.uid)
+      );
+    }
+
+    // Lightweight feed summaries - public read, owner writes.
+    // Feed lists query this shallow collection instead of downloading full
+    // stat blocks / nested configs; the full entity is fetched on demand.
+    match /community_summaries/{summaryId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.authorId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.authorId;
+    }
+
+    // ===== CHAT RATE LIMITING =====
+    // Timestamp-comparison write cooldown. Clients send chat through a batch
+    // that (a) updates chat_cooldowns/{uid}.lastMessageAt and (b) creates the
+    // message. Rules evaluate both writes against the pre-batch cooldown doc,
+    // so a second send inside the window is rejected server-side.
+    match /chat_cooldowns/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId
+        && request.time >= resource.data.lastMessageAt + duration.value(1, 's');
+    }
+
+    match /globalChat/{messageId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.senderId
+        && request.resource.data.content is string
+        && request.resource.data.content.size() > 0
+        && request.resource.data.content.size() <= 500
+        && (
+          !exists(/databases/$(database)/documents/chat_cooldowns/$(request.auth.uid))
+          || request.time >= get(/databases/$(database)/documents/chat_cooldowns/$(request.auth.uid)).data.lastMessageAt + duration.value(1, 's')
+        );
+      allow update, delete: if false;
     }
 
     // ===== USER LIBRARIES =====

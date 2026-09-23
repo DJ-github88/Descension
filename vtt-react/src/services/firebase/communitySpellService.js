@@ -23,10 +23,17 @@ import {
   limit,
   startAfter,
   getDoc,
-  setDoc
+  setDoc,
+  increment
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import {
+  getCommunitySummaries,
+  upsertCommunitySummary,
+  backfillCommunitySummaries,
+  SUMMARY_KINDS
+} from './communitySummaryService';
 
 // Collection names
 const COLLECTIONS = {
@@ -367,6 +374,31 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
 
+    // Preferred path: shallow summary feed (no stat blocks / nested configs).
+    // Skipped when paginating a full-doc fallback page, to keep cursors valid.
+    const usingFullCursor = !!(lastDoc && lastDoc.__fullCursor);
+    if (!usingFullCursor) {
+      try {
+        const { summaries, lastDoc: summaryCursor, hasMore } = await getCommunitySummaries(
+          SUMMARY_KINDS.SPELL,
+          { pageSize, sortBy, cursor: lastDoc }
+        );
+        if (summaries.length > 0) {
+          return {
+            spells: deduplicateSpellList(summaries),
+            lastDoc: summaryCursor,
+            hasMore
+          };
+        }
+      } catch (summaryError) {
+        console.debug('Summary feed unavailable, using full spell documents:', summaryError?.message || summaryError);
+      }
+    }
+
+    // Fallback path: full documents (existing content without summaries yet).
+    // Backfill summaries in the background so later pages/list loads are shallow.
+    const fullCursor = lastDoc?.__fullCursor || lastDoc;
+
     // Build query - get all public shared spells
     try {
       let orderField = 'createdAt';
@@ -381,8 +413,8 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
         limit(pageSize)
       );
 
-      if (lastDoc) {
-        q = query(q, startAfter(lastDoc));
+      if (fullCursor) {
+        q = query(q, startAfter(fullCursor));
       }
 
       const snapshot = await getDocs(q);
@@ -391,9 +423,11 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
         ...doc.data()
       }));
 
+      backfillCommunitySummaries(SUMMARY_KINDS.SPELL, rawSpells);
+
       return {
         spells: deduplicateSpellList(rawSpells),
-        lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+        lastDoc: snapshot.docs.length ? { __fullCursor: snapshot.docs[snapshot.docs.length - 1] } : null,
         hasMore: snapshot.docs.length === pageSize
       };
     } catch (queryError) {
@@ -405,8 +439,8 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
         limit(pageSize)
       );
 
-      if (lastDoc) {
-        q = query(q, startAfter(lastDoc));
+      if (fullCursor) {
+        q = query(q, startAfter(fullCursor));
       }
 
       const snapshot = await getDocs(q);
@@ -415,9 +449,11 @@ export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortB
         ...doc.data()
       }));
 
+      backfillCommunitySummaries(SUMMARY_KINDS.SPELL, rawSpells);
+
       return {
         spells: deduplicateSpellList(rawSpells),
-        lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+        lastDoc: snapshot.docs.length ? { __fullCursor: snapshot.docs[snapshot.docs.length - 1] } : null,
         hasMore: snapshot.docs.length === pageSize
       };
     }
@@ -538,13 +574,35 @@ export async function uploadSpell(spellData, userId) {
 
     const docRef = await addDoc(spellsRef, communitySpell);
 
-    return {
+    // Keep the shallow feed summary in sync (best effort, never blocks upload).
+    const uploadedSpell = {
       id: docRef.id,
       ...communitySpell
     };
+    upsertCommunitySummary(SUMMARY_KINDS.SPELL, docRef.id, uploadedSpell).catch(() => {});
+
+    return uploadedSpell;
   } catch (error) {
     console.error('Error uploading spell:', error);
     throw new Error('Failed to upload spell');
+  }
+}
+
+/**
+ * Fetch a single full spell document by id (no side effects).
+ * Used to hydrate summary rows when the user opens details.
+ */
+export async function getCommunitySpellById(spellId) {
+  try {
+    if (!checkFirebaseAvailable()) {
+      return MOCK_FEATURED_SPELLS.find(s => s.id === spellId) || null;
+    }
+    const spellDoc = await getDoc(doc(db, COLLECTIONS.SPELLS, spellId));
+    if (!spellDoc.exists()) return null;
+    return { id: spellDoc.id, ...spellDoc.data() };
+  } catch (error) {
+    console.error('Error fetching spell by id:', error);
+    return null;
   }
 }
 
@@ -569,15 +627,21 @@ export async function downloadSpell(spellId) {
       throw new Error('Spell not found');
     }
 
-    // Increment download count
+    // Increment download count (atomic; avoids lost updates on concurrent downloads)
     await updateDoc(spellRef, {
-      downloadCount: (spellDoc.data().downloadCount || 0) + 1
+      downloadCount: increment(1)
     });
 
-    return {
+    const fullSpell = {
       id: spellDoc.id,
-      ...spellDoc.data()
+      ...spellDoc.data(),
+      downloadCount: (spellDoc.data().downloadCount || 0) + 1
     };
+
+    // Keep the feed summary's counter in sync (best effort).
+    upsertCommunitySummary(SUMMARY_KINDS.SPELL, spellDoc.id, fullSpell).catch(() => {});
+
+    return fullSpell;
   } catch (error) {
     console.error('Error downloading spell:', error);
     throw new Error('Failed to download spell');
@@ -845,6 +909,83 @@ export async function getUserVote(spellId, userId) {
     console.error('Error getting user vote:', error);
     return null;
   }
+}
+
+const chunkArray = (items, size) => {
+  const chunks = [];
+  for (let i = 0; i < items.length; i += size) {
+    chunks.push(items.slice(i, i + size));
+  }
+  return chunks;
+};
+
+/**
+ * Batch-fetch the user's vote for many spells.
+ * One `in` query per 30 ids instead of one getDoc per visible card (N+1 fix).
+ */
+export async function getSpellVoteStatuses(userId, spellIds = []) {
+  const statuses = {};
+  if (!userId || !Array.isArray(spellIds) || spellIds.length === 0) return statuses;
+  spellIds.forEach((id) => { statuses[id] = null; });
+
+  if (!checkFirebaseAvailable()) {
+    spellIds.forEach((id) => { statuses[id] = MOCK_USER_VOTES[id] || null; });
+    return statuses;
+  }
+
+  try {
+    await Promise.all(
+      chunkArray(spellIds, 30).map(async (chunk) => {
+        const q = query(
+          collection(db, COLLECTIONS.RATINGS),
+          where('userId', '==', userId),
+          where('spellId', 'in', chunk)
+        );
+        const snapshot = await getDocs(q);
+        snapshot.docs.forEach((d) => {
+          const data = d.data();
+          if (data.spellId) statuses[data.spellId] = data.vote || null;
+        });
+      })
+    );
+  } catch (error) {
+    console.error('Error batch-fetching spell votes:', error);
+  }
+  return statuses;
+}
+
+/**
+ * Batch-fetch favorite status for many spells (N+1 fix).
+ */
+export async function getSpellFavoriteStatuses(userId, spellIds = []) {
+  const statuses = {};
+  if (!userId || !Array.isArray(spellIds) || spellIds.length === 0) return statuses;
+  spellIds.forEach((id) => { statuses[id] = false; });
+
+  if (!checkFirebaseAvailable()) {
+    spellIds.forEach((id) => { statuses[id] = MOCK_USER_FAVORITES.has(id); });
+    return statuses;
+  }
+
+  try {
+    await Promise.all(
+      chunkArray(spellIds, 30).map(async (chunk) => {
+        const q = query(
+          collection(db, COLLECTIONS.FAVORITES),
+          where('userId', '==', userId),
+          where('spellId', 'in', chunk)
+        );
+        const snapshot = await getDocs(q);
+        snapshot.docs.forEach((d) => {
+          const data = d.data();
+          if (data.spellId) statuses[data.spellId] = true;
+        });
+      })
+    );
+  } catch (error) {
+    console.error('Error batch-fetching spell favorites:', error);
+  }
+  return statuses;
 }
 
 /**

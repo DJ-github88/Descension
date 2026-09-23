@@ -1733,7 +1733,10 @@ const initialState = {
   // Verticality data (runtime per-map; persisted to mapStore)
   elevationData: {}, // { "x,y": level } integer levels in 5ft units (0 = ground, negative = pits)
   elevationDataVersion: 0, // Bumped on bulk replace so renderers can invalidate caches
-  rampData: {}, // { "x,y": { dir: 'n'|'e'|'s'|'w', type: 'ramp'|'stairs' } }
+  rampData: {}, // { "x,y": { type: 'ramp'|'stairs' } } — auto-aligns with the steepest neighbour
+  // In-world elevation markers (badges/cliff rims/ramp arrows). Drawn by the
+  // ElevationIndicators overlay in every view mode; fog still hides them.
+  elevationIndicatorsEnabled: true,
 
   // Environmental objects
   environmentalObjects: [], // [{ id, type, position: {x, y}, rotation, state }]
@@ -2020,6 +2023,10 @@ const useLevelEditorStore = create((set, get) => ({
     set({ rampData: rampData || {} });
   },
 
+  setElevationIndicatorsEnabled: (enabled) => {
+    set({ elevationIndicatorsEnabled: enabled !== false });
+  },
+
   // Per-tile elevation editing (paint tools write these; the batcher syncs to the server)
   setElevationAt: (gridX, gridY, level) => {
     const key = `${gridX},${gridY}`;
@@ -2081,9 +2088,14 @@ const useLevelEditorStore = create((set, get) => ({
       return;
     }
 
+    // Ramps auto-align with their neighbours, so new entries carry only the
+    // visual type. Legacy string/dir entries are preserved as a fallback.
     const normalized = typeof ramp === 'string'
       ? { dir: ramp, type: 'ramp' }
-      : { dir: ramp.dir, type: ramp.type || 'ramp' };
+      : { type: ramp.type || 'ramp' };
+    if (typeof ramp === 'object' && ramp && ramp.dir) {
+      normalized.dir = ramp.dir;
+    }
 
     set(prev => ({ rampData: { ...prev.rampData, [key]: normalized } }));
     mapUpdateBatcher.addUpdate('rampData', { [key]: normalized }, window.currentMapId || null);
@@ -4289,54 +4301,125 @@ const useLevelEditorStore = create((set, get) => ({
     }
   },
 
-  // Flood fill terrain
+  // Flood fill terrain: paints the contiguous region of tiles that currently
+  // hold the same terrain as the clicked tile. Unpainted (undefined) tiles are
+  // its own "type", so a bucket click on an open map cannot run away across an
+  // infinite grid; a hard tile cap protects huge regions.
   floodFillTerrain: (startX, startY, newTerrainType, mapId = null) => {
+    // CRITICAL GUARD: Prevent painting while map is switching or processing incoming update
+    if (typeof window !== 'undefined' && (window._isMapSwitching || window._isReceivingMapUpdate)) return 0;
+
+    const MAX_FILL_TILES = 20000;
     const state = get();
     const startKey = `${startX},${startY}`;
-    const originalTerrain = state.terrainData[startKey];
-
-    if (originalTerrain === newTerrainType) return;
+    const originalRaw = state.terrainData[startKey];
+    const originalType = originalRaw === undefined || originalRaw === null
+      ? undefined
+      : (typeof originalRaw === 'string' ? originalRaw : originalRaw.type);
+    // Bucket fill needs a painted region to trace; on an infinite empty map a
+    // click on nothing would otherwise flood unboundedly. Use Fill Box there.
+    if (originalType === undefined) return 0;
+    const terrain = PROFESSIONAL_TERRAIN_TYPES[newTerrainType];
 
     const newTerrainData = { ...state.terrainData };
     const changedTiles = {};
     const visited = new Set();
     const queue = [[startX, startY]];
-    const terrain = PROFESSIONAL_TERRAIN_TYPES[newTerrainType];
+    let hasChanges = false;
 
-    while (queue.length > 0) {
+    while (queue.length > 0 && visited.size < MAX_FILL_TILES) {
       const [x, y] = queue.shift();
       const key = `${x},${y}`;
-
       if (visited.has(key)) continue;
       visited.add(key);
 
-      const currentTerrain = newTerrainData[key];
-      if (currentTerrain !== originalTerrain && currentTerrain !== undefined) continue;
+      const raw = newTerrainData[key];
+      const currentType = raw === undefined || raw === null
+        ? undefined
+        : (typeof raw === 'string' ? raw : raw.type);
+      // Only spread through tiles sharing the start tile's terrain (including
+      // the unpainted region when the start tile is empty).
+      if (currentType !== originalType) continue;
 
-      let terrainData_value;
-      // For terrain types with tile variations, use precalculated variation
+      let variationIndex;
       if (terrain && terrain.tileVariations && terrain.tileVariations.length > 0) {
-        const variationIndex = get().getTileVariation(x, y, terrain.tileVariations.length);
-        terrainData_value = {
-          type: newTerrainType,
-          variation: variationIndex
-        };
-      } else {
-        // Standard terrain without variations
-        terrainData_value = newTerrainType;
+        variationIndex = state.getTileVariation(x, y, terrain.tileVariations.length);
+      }
+      const needsUpdate = currentType !== newTerrainType || (
+        variationIndex !== undefined &&
+        (typeof raw === 'object' && raw ? raw.variation !== variationIndex : true)
+      );
+
+      if (needsUpdate) {
+        const value = variationIndex !== undefined
+          ? { type: newTerrainType, variation: variationIndex }
+          : newTerrainType;
+        newTerrainData[key] = value;
+        changedTiles[key] = value;
+        hasChanges = true;
       }
 
-      newTerrainData[key] = terrainData_value;
-      changedTiles[key] = terrainData_value;
-
-      // Add adjacent tiles to queue
       queue.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
     }
 
-    set({ terrainData: newTerrainData });
+    if (hasChanges) {
+      set({ terrainData: newTerrainData });
+      mapUpdateBatcher.addUpdate('terrainData', changedTiles, mapId);
+    }
+    return Object.keys(changedTiles).length;
+  },
 
-    // Use batcher
-    mapUpdateBatcher.addUpdate('terrainData', changedTiles, mapId);
+  // Fill a rectangular area (drag) with one terrain type in a single batched
+  // update. Bounded by the rectangle, so it is safe on the infinite grid.
+  fillTerrainArea: (x1, y1, x2, y2, terrainType, mapId = null) => {
+    if (typeof window !== 'undefined' && (window._isMapSwitching || window._isReceivingMapUpdate)) return 0;
+
+    const MAX_AREA_TILES = 25000;
+    const state = get();
+    const minX = Math.min(x1, x2);
+    const maxX = Math.max(x1, x2);
+    const minY = Math.min(y1, y2);
+    const maxY = Math.max(y1, y2);
+    if ((maxX - minX + 1) * (maxY - minY + 1) > MAX_AREA_TILES) return 0;
+
+    const newTerrainData = { ...state.terrainData };
+    const addedTiles = {};
+    let hasChanges = false;
+    const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
+
+    for (let x = minX; x <= maxX; x++) {
+      for (let y = minY; y <= maxY; y++) {
+        const key = `${x},${y}`;
+        const existingTerrain = newTerrainData[key];
+
+        let variationIndex;
+        if (terrain && terrain.tileVariations && terrain.tileVariations.length > 0) {
+          variationIndex = state.getTileVariation(x, y, terrain.tileVariations.length);
+        }
+
+        const needsUpdate = !existingTerrain || (
+          typeof existingTerrain === 'string' ? existingTerrain !== terrainType : (
+            existingTerrain.type !== terrainType ||
+            (variationIndex !== undefined && existingTerrain.variation !== variationIndex)
+          )
+        );
+
+        if (needsUpdate) {
+          const terrainData_value = variationIndex !== undefined
+            ? { type: terrainType, variation: variationIndex }
+            : terrainType;
+          newTerrainData[key] = terrainData_value;
+          addedTiles[key] = terrainData_value;
+          hasChanges = true;
+        }
+      }
+    }
+
+    if (hasChanges) {
+      set({ terrainData: newTerrainData });
+      mapUpdateBatcher.addUpdate('terrainData', addedTiles, mapId);
+    }
+    return Object.keys(addedTiles).length;
   },
 
   // Get terrain type at position

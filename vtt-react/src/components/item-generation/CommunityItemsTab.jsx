@@ -5,14 +5,18 @@
  * Fully aligned with the Pathfinder grimoire UI system.
  */
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { useCommunityItems } from '../../hooks/useCommunityItems';
 import useItemStore from '../../store/itemStore';
 import useAuthStore from '../../store/authStore';
 import ItemCard from './ItemCard';
 import { getIconUrl } from '../../utils/assetManager';
 import { RARITY_COLORS } from '../../constants/itemConstants';
+import { getCommunityItemById } from '../../services/firebase/communityItemService';
 import './CommunityItemsTab.css';
+
+// Session cache of full item documents hydrated from summary rows.
+const itemHydrationCache = new Map();
 
 const DEFAULT_ITEM_CATEGORIES = [
   { id: 'all', name: 'All Categories' },
@@ -68,6 +72,26 @@ const CommunityItemsTab = () => {
     setToast({ message, type });
     const timer = setTimeout(() => setToast(null), duration);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Feed rows may be shallow summaries; fetch the full item on demand.
+  const openItemDetails = useCallback(async (item) => {
+    setInspectingItem(item);
+    if (!item?._summary) return;
+
+    const sourceId = item.sourceId || item.id;
+    let full = itemHydrationCache.get(sourceId);
+    if (!full) {
+      full = await getCommunityItemById(sourceId);
+      if (full) itemHydrationCache.set(sourceId, full);
+    }
+    if (!full) return;
+
+    setInspectingItem((prev) => {
+      if (!prev) return prev;
+      const prevId = prev.sourceId || prev.id;
+      return prevId === sourceId ? { ...prev, ...full, id: sourceId, source: 'community' } : prev;
+    });
   }, []);
 
   // Check if item is in local library
@@ -177,10 +201,18 @@ const CommunityItemsTab = () => {
     }
   };
 
+  // Vote status is fetched at most once per item per session: hovering the
+  // upvote button used to issue a getDoc on every mouseenter.
+  const voteStatusLoadedRef = useRef(new Set());
   const loadUserVote = async (itemId) => {
-    if (!user?.uid) return;
-    const vote = await fetchUserVote(itemId, user.uid);
-    setUserVotes(prev => ({ ...prev, [itemId]: vote }));
+    if (!user?.uid || voteStatusLoadedRef.current.has(itemId)) return;
+    voteStatusLoadedRef.current.add(itemId);
+    try {
+      const vote = await fetchUserVote(itemId, user.uid);
+      setUserVotes(prev => (prev[itemId] !== undefined ? prev : { ...prev, [itemId]: vote }));
+    } catch (err) {
+      voteStatusLoadedRef.current.delete(itemId);
+    }
   };
 
   const buildCompleteItem = useCallback((item) => {
@@ -245,7 +277,7 @@ const CommunityItemsTab = () => {
         <div
           key={item.id}
           className={`cit-card quality-${quality}`}
-          onClick={() => setInspectingItem(completeItem)}
+          onClick={() => openItemDetails(completeItem)}
         >
           <div className="cit-card-topbar">
             <span className="cit-quality-badge" style={{ color: qualityColor, borderColor: `${qualityColor}40` }}>
@@ -379,7 +411,7 @@ const CommunityItemsTab = () => {
       <div
         key={item.id}
         className={`cit-row quality-${quality}`}
-        onClick={() => setInspectingItem(completeItem)}
+        onClick={() => openItemDetails(completeItem)}
       >
         <div className="cit-row-main">
           <div className="cit-row-icon-frame" style={{ borderColor: qualityColor }}>

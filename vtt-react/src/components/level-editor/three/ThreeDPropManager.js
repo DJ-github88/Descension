@@ -8,7 +8,7 @@ import {
 } from '../../../utils/WallGeometry';
 import { wallModelMetrics, WALL_DOOR_MODELS } from './ThreeDWallManager';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
-import { getTileElevation } from '../../../utils/ElevationUtils';
+import { getTileElevation, getElevationLevelAtWorld } from '../../../utils/ElevationUtils';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import {
   PROP_EXPLORED_OPACITY,
@@ -924,6 +924,28 @@ export const MODEL_REGISTRY = {
   }
 };
 
+// Ramp-aware ground level for a world position: props/lights standing on a ramp
+// tile sit on the interpolated slope instead of the tile's flat level. Uses the
+// live grid system when available and falls back to square-grid offset math so
+// headless tests and early mounts still resolve a level.
+function sampleGroundLevel(elevationData, rampData, gridSystem, { gridSize, gridOffsetX, gridOffsetY }, worldX, worldY) {
+  const system = gridSystem || {
+    worldToGrid: (x, y) => ({
+      x: Math.floor((x - gridOffsetX) / gridSize),
+      y: Math.floor((y - gridOffsetY) / gridSize)
+    }),
+    gridToWorld: (gx, gy) => ({
+      x: gx * gridSize + gridOffsetX + gridSize / 2,
+      y: gy * gridSize + gridOffsetY + gridSize / 2
+    })
+  };
+  if (!rampData || Object.keys(rampData).length === 0) {
+    const grid = system.worldToGrid(worldX, worldY);
+    return getTileElevation(elevationData, grid.x, grid.y);
+  }
+  return getElevationLevelAtWorld({ elevationData, rampData, gridSystem: system, worldX, worldY });
+}
+
 export class ThreeDPropManager {
   constructor(scene) {
     this.scene = scene;
@@ -955,7 +977,7 @@ export class ThreeDPropManager {
     });
   }
 
-  updateObjects(objects = [], gridState = {}, fogState = {}, wallData = {}, elevationData = {}) {
+  updateObjects(objects = [], gridState = {}, fogState = {}, wallData = {}, elevationData = {}, rampData = {}) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentIds = new Set();
     // Tracks whether any prop's fog state (visibility / shadow casting /
@@ -1006,16 +1028,25 @@ export class ThreeDPropManager {
         return;
       }
 
-      // Sample underlying terrain elevation if not explicitly defined on object
+      // Sample underlying terrain elevation if not explicitly defined on the
+      // object. Ramp tiles sample the interpolated slope so furniture/lights
+      // seated on a ramp follow the surface instead of the flat tile level.
       let gx = obj.gridX;
       let gy = obj.gridY;
       if (gx === undefined || gy === undefined) {
         gx = Math.floor((worldX - gridOffsetX) / gridSize);
         gy = Math.floor((worldY - gridOffsetY) / gridSize);
       }
-      const tileElev = getTileElevation(elevationData, gx, gy) || 0;
-      const effectiveElevation = obj.elevation !== undefined ? obj.elevation : tileElev;
-      let worldZ = (effectiveElevation + (obj.z || 0)) * (gridSize * 0.5);
+      const sampledElev = sampleGroundLevel(
+        elevationData,
+        rampData,
+        gridSystem,
+        { gridSize, gridOffsetX, gridOffsetY },
+        worldX,
+        worldY
+      );
+      const effectiveElevation = obj.elevation !== undefined ? obj.elevation : sampledElev;
+      let worldZ = (effectiveElevation + (obj.z || 0)) * gridSize;
 
       // Wall-attached fixtures (torches, banners, shelves) are stored with a
       // wall elevation; their rendered height follows the wall run they were
@@ -1036,7 +1067,7 @@ export class ThreeDPropManager {
           }
           if (Number.isFinite(wallElevation)) {
             const mountOffset = (obj.elevation || 0) - (Number.isFinite(obj.wallElevation) ? obj.wallElevation : (obj.elevation || 0));
-            worldZ = (wallElevation + mountOffset) * (gridSize * 0.5);
+            worldZ = (wallElevation + mountOffset) * gridSize;
           }
         }
       }
@@ -1235,10 +1266,17 @@ export class ThreeDPropManager {
    * the sun shadow map dirty. Parameter-only edits (intensity, colour, flicker)
    * return false and never cost a shadow pass.
    */
-  updateLightProps(lightSources = {}, gridState = {}, fogState = {}, elevationData = {}) {
+  updateLightProps(lightSources = {}, gridState = {}, fogState = {}, elevationData = {}, rampData = {}) {
     const { gridSize = 50, gridOffsetX = 0, gridOffsetY = 0 } = gridState;
     const currentIds = new Set();
     const transformParts = [];
+
+    let gridSystem = null;
+    try {
+      gridSystem = getGridSystem();
+    } catch (e) {
+      gridSystem = null;
+    }
 
     const {
       fogOfWarEnabled = false,
@@ -1270,8 +1308,15 @@ export class ThreeDPropManager {
 
       const worldX = gx * gridSize + gridOffsetX + gridSize / 2;
       const worldY = gy * gridSize + gridOffsetY + gridSize / 2;
-      const elevation = getTileElevation(elevationData, gx, gy) || 0;
-      const worldZ = elevation * (gridSize * 0.5);
+      const elevation = sampleGroundLevel(
+        elevationData,
+        rampData,
+        gridSystem,
+        { gridSize, gridOffsetX, gridOffsetY },
+        worldX,
+        worldY
+      );
+      const worldZ = elevation * gridSize;
 
       if (!entry) {
         const modelScene = modelCache.createInstance(def.url);
@@ -1456,7 +1501,7 @@ export class ThreeDPropManager {
         const midGridY = Math.floor((parsed.y1 + parsed.y2) / 2);
         elevation = getTileElevation(elevationData, midGridX, midGridY) || 0;
       }
-      const worldZ = elevation * (gridSize * 0.5);
+      const worldZ = elevation * gridSize;
 
       const dx = ends.end.x - ends.start.x;
       const dy = ends.end.y - ends.start.y;

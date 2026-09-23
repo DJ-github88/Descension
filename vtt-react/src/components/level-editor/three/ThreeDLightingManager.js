@@ -198,7 +198,7 @@ export class ThreeDLightingManager {
       const position = new THREE.Vector3(
         gx * gridSize + gridOffsetX + gridSize / 2,
         -(gy * gridSize + gridOffsetY + gridSize / 2),
-        level * (gridSize * 0.5) + gridSize * 0.9
+        level * gridSize + gridSize * 0.9
       );
       const direction = Number(source.direction ?? 0);
       const coneAngle = Number(source.coneAngle ?? 360);

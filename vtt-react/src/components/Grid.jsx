@@ -14,7 +14,6 @@ import { getWowIconUrl, getIconUrl } from '../utils/assetManager';
 import { getClassIconUrl } from '../utils/classIconUtils';
 import useMapStore from "../store/mapStore";
 import * as SettingsStoreModule from "../store/settingsStore";
-import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
 import GridItem from "./grid/GridItem";
 import GridContainer from "./grid/GridContainer";
@@ -26,6 +25,7 @@ import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
 import VTTDrawingEngine from "./level-editor/VTTDrawingEngine";
 import TerrainSystem from "./level-editor/terrain/TerrainSystem";
 import ThreeDWorldLayer from "./level-editor/three/ThreeDWorldLayer";
+import ElevationIndicators from "./level-editor/ElevationIndicators";
 import ObjectSystem from "./level-editor/objects/ObjectSystem";
 import TileOverlay from "./level-editor/TileOverlay";
 import LightSourceOverlay from "./level-editor/LightSourceOverlay";
@@ -484,8 +484,9 @@ function GridComponent({
   currentMapId: state.currentMapId
  })));
 
- // Level editor persistence hook
- const { scheduleAutoSave } = useLevelEditorPersistence();
+ // Level editor persistence is owned by ProfessionalVTTEditor; <Grid> is always
+ // mounted, so instantiating the hook here created a second timer/subscription
+ // set (and duplicated the in-memory cleanup saves) with no consumer.
 
  // Generate grid tiles using the infinite grid system with optimized updates
  const [gridTiles, setGridTiles] = useState([]);
@@ -3765,6 +3766,9 @@ function GridComponent({
 
     {/* Professional Object System - Renders objects like lights, trees, etc */}
     <ObjectSystem />
+
+    {/* In-world elevation readability: cliff rims, level badges, ramp arrows */}
+    <ElevationIndicators />
 
     {/* VTT Drawing Engine - Renders all drawings on the grid */}
     <VTTDrawingEngine />

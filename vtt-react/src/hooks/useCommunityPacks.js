@@ -5,7 +5,8 @@
  * It handles loading, searching, and managing community packs from Firebase.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { tryAcquireCooldown } from '../utils/writeThrottle';
 import {
   getPacksByType,
   searchPacks,
@@ -29,7 +30,11 @@ export function useCommunityPacks() {
   const [selectedType, setSelectedType] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [hasMore, setHasMore] = useState(false);
-  const [lastDoc, setLastDoc] = useState(null);
+  // Pagination cursor kept in a ref, NOT state: storing the QueryDocumentSnapshot
+  // in state gave it a new identity on every fetch, which changed the
+  // `loadPacksByType` callback identity, which re-ran the load effect, which
+  // fetched again - an endless 20-document read loop while a type was selected.
+  const lastDocRef = useRef(null);
 
   // Load featured packs on mount
   useEffect(() => {
@@ -56,7 +61,7 @@ export function useCommunityPacks() {
       const result = await getPacksByType(
         packType, 
         20, 
-        loadMore ? lastDoc : null
+        loadMore ? lastDocRef.current : null
       );
       
       if (loadMore) {
@@ -66,14 +71,14 @@ export function useCommunityPacks() {
       }
       
       setHasMore(result.hasMore);
-      setLastDoc(result.lastDoc);
+      lastDocRef.current = result.lastDoc || null;
     } catch (err) {
       setError(err.message);
       console.error('Failed to load packs:', err);
     } finally {
       setLoading(false);
     }
-  }, [lastDoc]);
+  }, []);
 
   const performSearch = useCallback(async (term) => {
     try {
@@ -82,7 +87,7 @@ export function useCommunityPacks() {
       const searchResults = await searchPacks(term);
       setPacks(searchResults);
       setHasMore(false);
-      setLastDoc(null);
+      lastDocRef.current = null;
     } catch (err) {
       setError(err.message);
       console.error('Failed to search packs:', err);
@@ -100,20 +105,20 @@ export function useCommunityPacks() {
   const selectType = useCallback((packType) => {
     setSelectedType(packType);
     setSearchTerm('');
-    setLastDoc(null);
+    lastDocRef.current = null;
   }, []);
 
   const search = useCallback((term) => {
     setSearchTerm(term);
     setSelectedType(null);
-    setLastDoc(null);
+    lastDocRef.current = null;
   }, []);
 
   const clearSelection = useCallback(() => {
     setSelectedType(null);
     setSearchTerm('');
     setPacks([]);
-    setLastDoc(null);
+    lastDocRef.current = null;
     setHasMore(false);
   }, []);
 
@@ -163,6 +168,10 @@ export function useCommunityPacks() {
   }, []);
 
   const rateCommunityPack = useCallback(async (packId, userId, rating) => {
+    if (!tryAcquireCooldown(`rate:${userId || 'anon'}`, 1500)) {
+      return { blocked: true };
+    }
+
     try {
       await ratePack(packId, userId, rating);
       
@@ -171,6 +180,7 @@ export function useCommunityPacks() {
         loadPacksByType(selectedType);
       }
       loadFeaturedPacks();
+      return { success: true };
     } catch (err) {
       setError(err.message);
       console.error('Failed to rate pack:', err);

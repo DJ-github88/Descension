@@ -5,13 +5,18 @@
  * Uses Firebase real-time listeners to detect changes from other devices.
  */
 
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useMemo, useRef, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { logFirestoreSnapshot, trackListener } from '../utils/firestoreDiagnostics';
 
 export const useRealtimeSync = (collection, documentId, onRemoteChange, options = {}) => {
   const useAuthStore = require('../store/authStore').default;
-  const { user } = useAuthStore();
+  // Select the raw user slice only; subscribing to the whole store re-renders
+  // (and re-runs effects in) every consumer on unrelated auth changes.
+  const user = useAuthStore((state) => state.user);
+  const userId = user?.uid;
+  const isGuest = user?.isGuest;
   const [isConnected, setIsConnected] = useState(false);
   const [lastRemoteUpdate, setLastRemoteUpdate] = useState(null);
   const [conflictDetected, setConflictDetected] = useState(false);
@@ -20,6 +25,7 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
   const unsubscribeRef = useRef(null);
   const localChangesRef = useRef(new Set());
   const lastLocalSaveRef = useRef(null);
+  const lastLocalWriteTokenRef = useRef(null);
   const conflictDataRef = useRef(null);
 
   const {
@@ -34,6 +40,7 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
     if (unsubscribeRef.current) {
       unsubscribeRef.current();
       unsubscribeRef.current = null;
+      trackListener(-1);
       setIsConnected(false);
       console.log(`🛑 Stopped real-time sync for ${collection}/${documentId}`);
     }
@@ -47,10 +54,17 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
   }, []);
 
   /**
-   * Mark that local changes have been saved
+   * Mark that local changes have been saved.
+   *
+   * Pass the `writeToken` returned by the persistence service: the next
+   * snapshot whose document carries the same token is our own echo and is
+   * ignored. Comparing timestamps is not reliable (client/server clock skew,
+   * and the services used to return no timestamp at all, which produced
+   * Invalid Dates and disabled this guard entirely).
    */
-  const markLocalSave = useCallback((timestamp = new Date()) => {
-    lastLocalSaveRef.current = timestamp;
+  const markLocalSave = useCallback((writeToken = null) => {
+    lastLocalSaveRef.current = new Date();
+    lastLocalWriteTokenRef.current = typeof writeToken === 'string' ? writeToken : null;
     localChangesRef.current.clear();
     setConflictDetected(false);
     setConflictData(null);
@@ -89,7 +103,7 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
    * Start real-time listener for the document
    */
   const startSync = useCallback(() => {
-    if (!db || !user || !documentId || !enabled) {
+    if (!db || !userId || !documentId || !enabled) {
       // If conditions aren't met, ensure we stop any existing sync
       stopSync();
       return;
@@ -102,11 +116,11 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
     // "collection/documentId" signature and the new "users/{uid}/collection/documentId"
     // signature used by characterStates / roomStates subcollections.
     let docRef;
-    if (user && collection && collection.startsWith('users/')) {
+    if (collection && collection.startsWith('users/')) {
       const parts = collection.split('/');
       // Expect ["users", "{userId}", "{subcollection}"]
       const subcollection = parts[2];
-      docRef = doc(db, 'users', user.uid, subcollection, documentId);
+      docRef = doc(db, 'users', userId, subcollection, documentId);
     } else {
       docRef = doc(db, collection, documentId);
     }
@@ -123,12 +137,18 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
         const remoteTimestamp = remoteData.lastUpdated?.toDate?.() || new Date(remoteData.lastUpdated);
         const remoteVersion = remoteData.version || 1;
 
+        logFirestoreSnapshot({
+          collection,
+          changes: [{ type: 'modified' }],
+          total: 1
+        });
+
         setLastRemoteUpdate(remoteTimestamp);
         setIsConnected(true);
 
-        // Check if this is a change we made locally (ignore our own changes)
-        if (lastLocalSaveRef.current &&
-            Math.abs(remoteTimestamp.getTime() - lastLocalSaveRef.current.getTime()) < 1000) {
+        // Ignore our own write echo (identified by the write token, which is
+        // immune to client/server clock skew).
+        if (lastLocalWriteTokenRef.current && remoteData.lastWriteToken === lastLocalWriteTokenRef.current) {
           return;
         }
 
@@ -176,12 +196,14 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
     );
 
     console.log(`🔄 Started real-time sync for ${collection}/${documentId}`);
-  }, [collection, documentId, user, enabled, onRemoteChange, conflictResolution, handleConflictResolution, stopSync]);
+    trackListener(1);
+  }, [collection, documentId, userId, enabled, onRemoteChange, conflictResolution, handleConflictResolution, stopSync]);
 
   // Start/stop sync based on enabled state and dependencies
   useEffect(() => {
-    const isMock = !user?.uid || user.uid === 'admin-dev-user' || user.uid === 'dev-user-123' || user.uid.startsWith('guest-') || user.uid.startsWith('demo-');
-    if (enabled && user && documentId && !isMock && !user.isGuest) {
+    const uid = typeof userId === 'string' ? userId : '';
+    const isMock = !uid || uid === 'admin-dev-user' || uid === 'dev-user-123' || uid.startsWith('guest-') || uid.startsWith('demo-');
+    if (enabled && uid && documentId && !isMock && !isGuest) {
       startSync();
     } else {
       stopSync();
@@ -192,31 +214,48 @@ export const useRealtimeSync = (collection, documentId, onRemoteChange, options 
       if (unsubscribeRef.current) {
         unsubscribeRef.current();
         unsubscribeRef.current = null;
+        trackListener(-1);
         setIsConnected(false);
         console.log(`🧹 Cleanup: Stopped real-time sync for ${collection}/${documentId} on unmount/dependency change`);
       }
     };
-  }, [enabled, user, documentId, collection, startSync, stopSync]);
+  }, [enabled, userId, isGuest, documentId, collection, startSync, stopSync]);
 
   // Keep a ref to the latest conflictData so the stable conflict resolver and
   // the snapshot callback can read the current value without depending on it
   // (depending on it would force listener re-subscriptions).
   conflictDataRef.current = conflictData;
 
-  return {
-    // Status
-    isConnected,
-    conflictDetected,
-    conflictData,
-    lastRemoteUpdate,
+  // Stable identity for the returned object: consumers use this object in
+  // effect dependency arrays, and a fresh object literal every render caused
+  // their effects to re-run (and re-subscribe Firestore listeners) constantly.
+  return useMemo(
+    () => ({
+      // Status
+      isConnected,
+      conflictDetected,
+      conflictData,
+      lastRemoteUpdate,
 
-    // Controls
-    startSync,
-    stopSync,
-    markLocalChange,
-    markLocalSave,
+      // Controls
+      startSync,
+      stopSync,
+      markLocalChange,
+      markLocalSave,
 
-    // Conflict resolution
-    resolveConflict: handleConflictResolution
-  };
+      // Conflict resolution
+      resolveConflict: handleConflictResolution
+    }),
+    [
+      isConnected,
+      conflictDetected,
+      conflictData,
+      lastRemoteUpdate,
+      startSync,
+      stopSync,
+      markLocalChange,
+      markLocalSave,
+      handleConflictResolution
+    ]
+  );
 };

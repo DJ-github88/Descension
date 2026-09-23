@@ -302,7 +302,15 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             illustrations: [
                 {
                     src: '/assets/images/races/astril_stargazer_icon_v1.png',
-                    caption: 'Stargazer Astril celestial scholar with armillary sphere, star scroll, and crystal crescent tiara in rough charcoal draft with starlight cyan watercolor splash.'
+                    caption: 'Stargazer Astril celestial scholar with armillary sphere, star scroll, and carved bone crown in rough charcoal draft with starlight cyan watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_stargazer_culture_vigil.png',
+                    caption: 'Stargazer Astril scholars conducting the midnight Selunis waking vigil around a star-reflecting water basin and armillary sphere in rough charcoal draft with celestial cyan watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_stargazer_city_observatory.jpg',
+                    caption: 'The Megalithic Quiet Observatory of Lumia\'s Hearth overlooking stepped moon-terraces and telescope domes in rough charcoal draft with celestial cyan watercolor splash.'
                 }
             ],
 
@@ -440,6 +448,14 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     src: '/assets/images/races/astril_brutish_icon_v1.png',
                     caption: 'Brutish Astril warrior-chieftain with demonic horns, celestial war-sash, and stone cleaver in rough charcoal draft with midnight violet watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_brutish_culture_honing.png',
+                    caption: 'Brutish Astril warrior-chieftain honing his meteoric stone war-cleaver beside a star-constellation obelisk in rough charcoal draft with midnight violet watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_brutish_city_settlement.jpg',
+                    caption: 'The Crater Basalt Settlement of High Lumia showing daily life, stone terraced dwellings, and hunters in rough charcoal draft with midnight violet watercolor splash.'
                 }
             ],
 

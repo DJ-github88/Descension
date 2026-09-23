@@ -71,8 +71,8 @@ describe('ThreeDPropManager light fixtures', () => {
   it('raises fixtures to the tile elevation', () => {
     manager.updateLightProps({ light1: light({ x: 1, y: 1 }) }, GRID, {}, { '1,1': 2 });
 
-    // Elevation levels are half a grid cell tall in the 3D world.
-    expect(manager.lightPropInstances.get('light1').mesh.position.z).toBeCloseTo(50);
+    // One elevation level is one grid cell of height in the 3D world.
+    expect(manager.lightPropInstances.get('light1').mesh.position.z).toBeCloseTo(100);
   });
 
   it('removes fixtures when their light is deleted', () => {
@@ -374,8 +374,8 @@ describe('ThreeDPropManager world bounds', () => {
       table.baseBox.max.z * table.innerModel.scale.x;
 
     expect(stool.mesh.position.z).toBeCloseTo(parentTop);
-    // elevation 3 would have been 3 * gridSize * 0.5 = 75 - stacking overrides it
-    expect(stool.mesh.position.z).not.toBeCloseTo(75);
+    // elevation 3 would have been 3 * gridSize = 150 - stacking overrides it
+    expect(stool.mesh.position.z).not.toBeCloseTo(150);
   });
 
   it('falls back to the elevation level when the parent has no model yet', () => {
@@ -385,7 +385,7 @@ describe('ThreeDPropManager world bounds', () => {
       {}
     );
 
-    expect(manager.propInstances.get('stool1').mesh.position.z).toBeCloseTo(50);
+    expect(manager.propInstances.get('stool1').mesh.position.z).toBeCloseTo(100);
   });
 
   it('raises a wall-attached fixture when its host wall elevation changes', () => {
@@ -401,12 +401,12 @@ describe('ThreeDPropManager world bounds', () => {
     };
 
     manager.updateObjects([torch], GRID, {}, { '0,0,1,0': { type: 'stone_wall', elevation: 0 } });
-    // Mount offset 1.2 levels above the wall base (0) -> 1.2 * 25.
-    expect(manager.propInstances.get('torch1').mesh.position.z).toBeCloseTo(30);
+    // Mount offset 1.2 levels above the wall base (0) -> 1.2 * 50.
+    expect(manager.propInstances.get('torch1').mesh.position.z).toBeCloseTo(60);
 
     manager.updateObjects([torch], GRID, {}, { '0,0,1,0': { type: 'stone_wall', elevation: 2 } });
     // Wall moved up two levels, fixture keeps its 1.2-level mount offset.
-    expect(manager.propInstances.get('torch1').mesh.position.z).toBeCloseTo(80);
+    expect(manager.propInstances.get('torch1').mesh.position.z).toBeCloseTo(160);
   });
 
   it('automatically places objects atop elevated terrain when obj.elevation is not set', () => {
@@ -421,7 +421,7 @@ describe('ThreeDPropManager world bounds', () => {
     );
 
     const chest = manager.propInstances.get('chest1');
-    // Elevation 3 * (50 * 0.5) = 75
-    expect(chest.mesh.position.z).toBeCloseTo(75);
+    // Elevation 3 * gridSize = 150
+    expect(chest.mesh.position.z).toBeCloseTo(150);
   });
 });

@@ -57,6 +57,9 @@ class CustomMapService {
     }
     try {
       const mapsCol = collection(db, 'userCustomMaps', userId, 'maps');
+      // Suppress no-op emits (including the echo of our own save) so the store
+      // does not replace the maps array and re-render the editor for nothing.
+      let lastFingerprint = '';
       return onSnapshot(mapsCol, (snapshot) => {
         const maps = [];
         snapshot.forEach((d) => maps.push({ id: d.id, ...d.data() }));
@@ -67,6 +70,21 @@ class CustomMapService {
            return Number.isNaN(parsed) ? 0 : parsed;
          };
          maps.sort((a, b) => toMillis(b.updatedAt) - toMillis(a.updatedAt));
+
+        // Cheap fingerprint (map images are up to 700 KB - never stringify them)
+        const fingerprint = maps
+          .map((m) => [
+            m.id,
+            m.updatedAt?.seconds ?? m.updatedAt ?? '',
+            m.name || '',
+            m.zones?.length || 0,
+            m.image ? m.image.length : 0
+          ].join(':'))
+          .join('|');
+
+        if (fingerprint === lastFingerprint) return;
+        lastFingerprint = fingerprint;
+
         onUpdate(maps);
       }, (error) => {
         if (error?.code !== 'permission-denied') {

@@ -1591,7 +1591,7 @@ const ObjectSystem = () => {
                 return {
                     worldX: obj.worldX,
                     worldY: obj.worldY,
-                    worldZ: effElev * gridSize * 0.5
+                    worldZ: effElev * gridSize
                 };
             }
             if (Number.isFinite(obj.gridX) && Number.isFinite(obj.gridY)) {
@@ -1599,7 +1599,7 @@ const ObjectSystem = () => {
                 return {
                     worldX: corner.x,
                     worldY: corner.y,
-                    worldZ: effElev * gridSize * 0.5
+                    worldZ: effElev * gridSize
                 };
             }
         } catch (error) {
@@ -1668,7 +1668,10 @@ const ObjectSystem = () => {
         if (Number.isFinite(obj.elevation)) {
             objectLevel = obj.elevation;
         }
-        const levelHeight = (obj.wallAttached || Number.isFinite(obj.elevation)) ? gridSize * 0.5 : gridSize;
+        // Elevation levels are 5 ft, i.e. one full tile: every lifted object
+        // (tile level, custom elevation, wall-mounted) uses the same scale so
+        // the canvas sprites line up with the 3D layer.
+        const levelHeight = gridSize;
 
         if (objectLevel !== 0) {
             let objectCosTilt = 0;

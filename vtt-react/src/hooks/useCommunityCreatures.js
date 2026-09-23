@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { tryAcquireCooldown } from '../utils/writeThrottle';
 import {
   getCreatureCategories,
   getAllCommunityCreatures,
@@ -54,7 +55,6 @@ export function useCommunityCreatures() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [hasMore, setHasMore] = useState(false);
-  const [lastDoc, setLastDoc] = useState(null);
   const lastDocRef = useRef(null);
   const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
 
@@ -98,7 +98,6 @@ export function useCommunityCreatures() {
       );
       
       lastDocRef.current = result.lastDoc;
-      setLastDoc(result.lastDoc);
       setHasMore(result.hasMore);
 
       if (loadMore) {
@@ -127,7 +126,6 @@ export function useCommunityCreatures() {
       );
       
       lastDocRef.current = result.lastDoc;
-      setLastDoc(result.lastDoc);
       setHasMore(result.hasMore);
 
       if (loadMore) {
@@ -151,7 +149,6 @@ export function useCommunityCreatures() {
       setCreatures(deduplicateCreatureList(searchResults));
       setHasMore(false);
       lastDocRef.current = null;
-      setLastDoc(null);
     } catch (err) {
       setError(err.message);
       console.error('Failed to search creatures:', err);
@@ -173,26 +170,22 @@ export function useCommunityCreatures() {
   const selectCategory = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
     setSearchTerm('');
-    setLastDoc(null);
   }, []);
 
   const search = useCallback((term) => {
     setSearchTerm(term);
     setSelectedCategory(null);
-    setLastDoc(null);
   }, []);
 
   const clearSelection = useCallback(() => {
     setSelectedCategory(null);
     setSearchTerm('');
-    setLastDoc(null);
     setHasMore(false);
     loadAllCreatures();
   }, [loadAllCreatures]);
 
   const changeSortBy = useCallback((newSortBy) => {
     setSortBy(newSortBy);
-    setLastDoc(null);
     setHasMore(false);
   }, []);
 
@@ -237,6 +230,10 @@ export function useCommunityCreatures() {
   }, []);
 
   const rateCommunityCreature = useCallback(async (creatureId, userId, rating) => {
+    if (!tryAcquireCooldown(`rate:${userId || 'anon'}`, 1500)) {
+      return { blocked: true };
+    }
+
     try {
       await rateCreature(creatureId, userId, rating);
       
@@ -244,6 +241,7 @@ export function useCommunityCreatures() {
       if (selectedCategory) {
         loadCreaturesByCategory(selectedCategory);
       }
+      return { success: true };
     } catch (err) {
       setError(err.message);
       console.error('Failed to rate creature:', err);

@@ -109,7 +109,7 @@ export function findWallMount({
           ? gridSystem.getViewportDimensions()
           : { width: 1600, height: 1000 };
         // Mid-height of wall in worldZ units: elevation * 25 + 25 (half of 50-unit wall)
-        const midWallZ = (wallElevation * gridSize * 0.5) + (gridSize * 0.5);
+        const midWallZ = (wallElevation * gridSize) + (gridSize * 0.5);
         const p3d = gridSystem.screenToWorld3D(screenX, screenY, midWallZ, vp.width, vp.height);
         if (p3d && Number.isFinite(p3d.x) && Number.isFinite(p3d.y)) {
           const t3d = Math.max(0, Math.min(1, ((p3d.x - start.x) * dx + (p3d.y - start.y) * dy) / lengthSq));

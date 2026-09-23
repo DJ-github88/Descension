@@ -99,6 +99,7 @@ import LoreLink from '../common/LoreLink';
 
 
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import useAuthStore from '../../store/authStore';
 
 
 
@@ -4313,16 +4314,39 @@ const RulesPage = () => {
 
 
 
-  // Categories for the active tome: Lore is the World Lore codex, Laws is everything else.
+  // Categories for the active tome. The Lore tome renders its topics directly in
+  // the rail (see loreCategory), so only the Laws categories are mapped as popout groups.
   const filteredCategories = useMemo(() => {
 
     const all = rulesCategories || [];
 
-    if (activeTome === 'lore') return all.filter(c => c.id === 'world-lore');
+    if (activeTome === 'lore') return [];
 
     return all.filter(c => c.id !== 'world-lore');
 
   }, [rulesCategories, activeTome]);
+
+  const loreCategory = useMemo(
+    () => (rulesCategories || []).find(c => c.id === 'world-lore') || null,
+    [rulesCategories]
+  );
+
+  // Browse sheet keeps a single World Lore entry per tome.
+  const browseCategories = useMemo(
+    () => (activeTome === 'lore' ? (loreCategory ? [loreCategory] : []) : filteredCategories),
+    [activeTome, loreCategory, filteredCategories]
+  );
+
+  // Lore that lives outside this compendium: account codex, campaigns, journal and books.
+  const loreArchives = useMemo(() => ([
+    { id: 'world-codex', label: 'World Codex', icon: 'fas fa-atlas', tab: 'maps' },
+    { id: 'campaign-chronicles', label: 'Campaign Chronicles', icon: 'fas fa-scroll', tab: 'campaigns' },
+    { id: 'journal', label: 'Journal', icon: 'fas fa-feather-alt', tab: 'journal' },
+    { id: 'books', label: 'Books', icon: 'fas fa-book-bookmark', tab: 'books' }
+  ]), []);
+
+  const { isAuthenticated } = useAuthStore();
+  const canOpenAccountLore = isAuthenticated;
 
 
 
@@ -5860,11 +5884,10 @@ const RulesPage = () => {
         aria-pressed={activeTome === 'laws'}
         className={`rules-tome-tab ${activeTome === 'laws' ? 'active' : ''}`}
         onClick={() => handleTomeChange('laws')}
-        title="The Laws — rules, systems, and character creation"
+        title="Laws — rules, systems, and character creation"
       >
         <i className="fas fa-scale-balanced"></i>
-        <span className="rules-tome-label rules-tome-label-full">The Laws</span>
-        <span className="rules-tome-label rules-tome-label-short">Laws</span>
+        <span className="rules-tome-label">Laws</span>
       </button>
       <span className="rules-tome-spine" aria-hidden="true">
         <i className="fas fa-book-open"></i>
@@ -5874,11 +5897,10 @@ const RulesPage = () => {
         aria-pressed={activeTome === 'lore'}
         className={`rules-tome-tab ${activeTome === 'lore' ? 'active' : ''}`}
         onClick={() => handleTomeChange('lore')}
-        title="The Lore — world, history, peoples, and bestiary"
+        title="Lore — world, history, peoples, and bestiary"
       >
         <i className="fas fa-scroll"></i>
-        <span className="rules-tome-label rules-tome-label-full">The Lore</span>
-        <span className="rules-tome-label rules-tome-label-short">Lore</span>
+        <span className="rules-tome-label">Lore</span>
       </button>
     </div>
   );
@@ -5990,6 +6012,46 @@ const RulesPage = () => {
           </button>
 
 
+
+          {/* Lore rail — one button per World Lore topic (14 topics used to hide
+              behind a single globe button) plus the lore that lives elsewhere. */}
+          {activeTome === 'lore' && (
+            <>
+              {(loreCategory?.subcategories || []).map(sub => (
+                <div key={sub.id} className="rules-nav-category">
+                  <button
+                    type="button"
+                    className={`rules-nav-category-btn ${selectedCategory === 'world-lore' && selectedSubcategory === sub.id && !selectedClassDetail ? 'active-category' : ''}`}
+                    onClick={() => handleSubcategoryClick('world-lore', sub.id)}
+                    title={sub.name}
+                    aria-label={sub.name}
+                    data-active={selectedCategory === 'world-lore' && selectedSubcategory === sub.id ? 'true' : 'false'}
+                  >
+                    <i className={`${sub.icon || 'fas fa-scroll'} rules-nav-icon`}></i>
+                  </button>
+                </div>
+              ))}
+
+              {canOpenAccountLore && (
+                <>
+                  <div className="rules-nav-divider" aria-hidden="true" />
+                  {loreArchives.map(entry => (
+                    <div key={entry.id} className="rules-nav-category">
+                      <button
+                        type="button"
+                        className="rules-nav-category-btn rules-nav-archive-btn"
+                        onClick={() => navigate(`/account?tab=${entry.tab}`)}
+                        title={`${entry.label} — continues in your account`}
+                        aria-label={entry.label}
+                      >
+                        <i className={`${entry.icon} rules-nav-icon`}></i>
+                      </button>
+                    </div>
+                  ))}
+                </>
+              )}
+            </>
+          )}
 
           {filteredCategories.map(category => (
 
@@ -6800,10 +6862,9 @@ const RulesPage = () => {
 
 
               {!browseCategory ? (
+                <>
 
-
-
-                filteredCategories.map(cat => (
+                  {browseCategories.map(cat => (
 
 
 
@@ -6847,10 +6908,39 @@ const RulesPage = () => {
 
 
 
-                ))
+                ))}
 
 
 
+                {activeTome === 'lore' && canOpenAccountLore && (
+                  <div className="rules-browse-archives">
+
+                    <span className="rules-browse-archives-label">More lore across Mythrill</span>
+
+                    {loreArchives.map(entry => (
+                      <button
+                        type="button"
+                        key={entry.id}
+                        className="rules-browse-item"
+                        onClick={() => {
+                          navigate(`/account?tab=${entry.tab}`);
+                          setShowRulesBrowse(false);
+                        }}
+                      >
+
+                        <i className={entry.icon}></i>
+
+                        <span>{entry.label}</span>
+
+                        <i className="fas fa-arrow-up-right-from-square rules-browse-chevron"></i>
+
+                      </button>
+                    ))}
+
+                  </div>
+                )}
+
+                </>
               ) : (
 
 

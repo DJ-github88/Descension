@@ -308,27 +308,40 @@ export async function getPackContents(packId) {
    creatures: []
   };
 
-  // Fetch items if any
-  if (packData.items && packData.items.length > 0) {
-   const itemsRef = collection(db, COLLECTIONS.ITEMS);
-   const itemsQuery = query(itemsRef, where('__name__', 'in', packData.items));
-   const itemsSnapshot = await getDocs(itemsQuery);
-   contents.items = itemsSnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-   }));
-  }
+  // `in` queries cap at 30 values; chunk them and preserve pack order.
+  // A reference to a non-public doc makes a chunk's query fail under the
+  // isPublic read rule, so retry that chunk per-document and skip inaccessible
+  // references instead of failing the whole pack.
+  const fetchByIds = async (colRef, ids) => {
+   if (!Array.isArray(ids) || ids.length === 0) return [];
+   const chunks = [];
+   for (let i = 0; i < ids.length; i += 30) {
+    chunks.push(ids.slice(i, i + 30));
+   }
 
-  // Fetch creatures if any
-  if (packData.creatures && packData.creatures.length > 0) {
-   const creaturesRef = collection(db, COLLECTIONS.CREATURES);
-   const creaturesQuery = query(creaturesRef, where('__name__', 'in', packData.creatures));
-   const creaturesSnapshot = await getDocs(creaturesQuery);
-   contents.creatures = creaturesSnapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-   }));
-  }
+   const found = [];
+   for (const group of chunks) {
+    try {
+     const snapshot = await getDocs(query(colRef, where('__name__', 'in', group)));
+     snapshot.docs.forEach((d) => found.push({ id: d.id, ...d.data() }));
+    } catch (err) {
+     await Promise.all(group.map(async (id) => {
+      try {
+       const snap = await getDoc(doc(colRef, id));
+       if (snap.exists()) found.push({ id: snap.id, ...snap.data() });
+      } catch (e) {
+       // Inaccessible/non-public reference - skip it.
+      }
+     }));
+    }
+   }
+
+   const byId = new Map(found.map((entry) => [entry.id, entry]));
+   return ids.map((id) => byId.get(id)).filter(Boolean);
+  };
+
+  contents.items = await fetchByIds(collection(db, COLLECTIONS.ITEMS), packData.items);
+  contents.creatures = await fetchByIds(collection(db, COLLECTIONS.CREATURES), packData.creatures);
 
   return contents;
  } catch (error) {

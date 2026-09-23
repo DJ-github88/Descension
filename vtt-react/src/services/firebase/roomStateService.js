@@ -41,6 +41,13 @@ class RoomStateService {
     try {
       const docRef = doc(db, 'users', userId, 'roomStates', roomId);
 
+      // Client-generated token echoed back by the realtime listener so a client
+      // can recognize (and ignore) its own write instead of treating it as a
+      // remote update. Timestamp comparison is unreliable across clocks.
+      const writeToken =
+        roomState.writeToken ||
+        `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
       const firestoreData = {
         // Token placements
         characterTokens: roomState.characterTokens || [],
@@ -52,9 +59,19 @@ class RoomStateService {
         // Environmental objects
         environmentalObjects: roomState.environmentalObjects || [],
 
+        // Combat state
+        combat: roomState.combat || null,
+
+        // Chat history (bounded client-side before collection)
+        chatHistory: roomState.chatHistory || null,
+
+        // Active buffs and debuffs
+        buffsAndDebuffs: roomState.buffsAndDebuffs || null,
+
         // Metadata
         roomId,
         lastUpdated: serverTimestamp(),
+        lastWriteToken: writeToken,
         version: roomState.version || 1
       };
 
@@ -66,6 +83,8 @@ class RoomStateService {
       return {
         success: true,
         roomId,
+        writeToken,
+        lastUpdated: new Date().toISOString(),
         size: new Blob([JSON.stringify(firestoreData)]).size
       };
 

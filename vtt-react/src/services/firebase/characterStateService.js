@@ -39,6 +39,13 @@ class CharacterStateService {
     try {
       const docRef = doc(db, 'users', userId, 'characterStates', characterId);
 
+      // Client-generated token echoed back by the realtime listener so a client
+      // can recognize (and ignore) its own write instead of treating it as a
+      // remote update. Timestamp comparison is unreliable across clocks.
+      const writeToken =
+        stateData.writeToken ||
+        `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
       const firestoreData = {
         // Basic state
         health: stateData.health,
@@ -82,6 +89,7 @@ class CharacterStateService {
         // Metadata
         characterId,
         lastUpdated: serverTimestamp(),
+        lastWriteToken: writeToken,
         version: stateData.version || 1
       };
 
@@ -90,6 +98,8 @@ class CharacterStateService {
       return {
         success: true,
         characterId,
+        writeToken,
+        lastUpdated: new Date().toISOString(),
         size: new Blob([JSON.stringify(firestoreData)]).size
       };
 

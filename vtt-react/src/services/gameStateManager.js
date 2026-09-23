@@ -10,6 +10,10 @@ class GameStateManager {
     this.pendingChanges = new Set();
     this.isLoading = false;
     this.isSaving = false;
+    // True while applying loaded/remote state to stores: store subscriptions
+    // fire during that window and must not mark the state dirty (which caused
+    // a full redundant gameState write right after every load).
+    this.isApplyingState = false;
   }
 
   async initialize(roomId, enableAutoSave = true) {
@@ -20,11 +24,30 @@ class GameStateManager {
       clearInterval(this.autoSaveTimer);
     }
 
+    // Re-initializing (rejoin / room switch) used to overwrite the unsubscribe
+    // refs, leaking a full set of store subscriptions each time.
+    this.teardownStoreListeners();
+
     if (enableAutoSave) {
       await this.loadGameState();
       this.setupStoreListeners();
       this.startAutoSave();
     }
+  }
+
+  teardownStoreListeners() {
+    const unsubscribes = [
+      'unsubscribeCreatures', 'unsubscribeLevelEditor', 'unsubscribeGame',
+      'unsubscribeCombat', 'unsubscribeGridItems', 'unsubscribeTravel',
+      'unsubscribeConditions', 'unsubscribeContainers',
+      'unsubscribeCharacterTokens'
+    ];
+    unsubscribes.forEach(key => {
+      if (this[key]) {
+        this[key]();
+        this[key] = null;
+      }
+    });
   }
 
   setupStoreListeners() {
@@ -69,10 +92,10 @@ class GameStateManager {
     });
 
     this.unsubscribeGame = useGameStore.subscribe((state, prevState) => {
-      if (state.cameraX !== prevState.cameraX ||
-        state.cameraY !== prevState.cameraY ||
-        state.zoomLevel !== prevState.zoomLevel ||
-        state.backgrounds !== prevState.backgrounds ||
+      // NOTE: cameraX/cameraY/zoomLevel deliberately excluded. They change on
+      // every pan/zoom frame and used to mark 'mapData' dirty continuously,
+      // forcing a full gameState write every 30s for pure camera movement.
+      if (state.backgrounds !== prevState.backgrounds ||
         state.activeBackgroundId !== prevState.activeBackgroundId ||
         state.gridSize !== prevState.gridSize ||
         state.gridOffsetX !== prevState.gridOffsetX ||
@@ -137,6 +160,7 @@ class GameStateManager {
     if (!this.currentRoomId || this.isLoading) return;
 
     this.isLoading = true;
+    this.isApplyingState = true;
 
     try {
       const gameState = await loadCompleteGameState(this.currentRoomId);
@@ -153,6 +177,7 @@ class GameStateManager {
       console.error('[GameStateManager] Error loading game state:', error);
     } finally {
       this.isLoading = false;
+      this.isApplyingState = false;
     }
   }
 
@@ -454,10 +479,15 @@ class GameStateManager {
 
     try {
       const gameState = this.collectGameStateFromStores();
+      // Snapshot what this write covers; changes that arrive while the write
+      // is in flight must remain pending (clearing the whole set afterwards
+      // silently dropped them).
+      const pendingSnapshot = new Set(this.pendingChanges);
+
       await saveCompleteGameState(this.currentRoomId, gameState);
 
       this.lastSaveTime = Date.now();
-      this.pendingChanges.clear();
+      pendingSnapshot.forEach(key => this.pendingChanges.delete(key));
     } catch (error) {
       if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
         console.warn('[GameStateManager] Firebase permission denied for saving. Disabling auto-save.');
@@ -473,6 +503,8 @@ class GameStateManager {
   }
 
   markChanged(section = 'general') {
+    // Store writes during load/apply are echoes of remote data, not local edits.
+    if (this.isApplyingState) return;
     this.pendingChanges.add(section);
   }
 
@@ -498,18 +530,7 @@ class GameStateManager {
       await this.saveGameState(true);
     }
 
-    const unsubscribes = [
-      'unsubscribeCreatures', 'unsubscribeLevelEditor', 'unsubscribeGame',
-      'unsubscribeCombat', 'unsubscribeGridItems', 'unsubscribeTravel',
-      'unsubscribeConditions', 'unsubscribeContainers',
-      'unsubscribeCharacterTokens'
-    ];
-    unsubscribes.forEach(key => {
-      if (this[key]) {
-        this[key]();
-        this[key] = null;
-      }
-    });
+    this.teardownStoreListeners();
 
     this.stopAutoSave();
     this.currentRoomId = null;

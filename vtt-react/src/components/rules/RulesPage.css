@@ -778,12 +778,9 @@
 }
 
 /* Desktop keeps the switcher in the top bar; the strip-mounted variant only
-   appears on slim/mobile layouts (see end of file). */
+   appears on slim/mobile layouts (see end of file). The labels are short
+   ("Laws"/"Lore") and fit every layout. */
 .rules-tome-switcher-mobile {
-  display: none;
-}
-
-.rules-tome-label-short {
   display: none;
 }
 
@@ -1666,10 +1663,6 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   .rules-nav-popout-item {
     min-height: 48px;
     padding: 12px 16px;
-  }
-
-  .rules-tome-label {
-    display: none;
   }
 
   .rules-tome-tab {
@@ -3088,15 +3081,6 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     gap: 6px;
   }
 
-  /* Short labels replace "The Laws"/"The Lore" so the pill fits the strip */
-  .rules-tome-label-full {
-    display: none !important;
-  }
-
-  .rules-tome-label-short {
-    display: inline !important;
-  }
-
   /* Reserve the strip's right edge for the woven switcher */
   .rules-nav.collapsed {
     padding-right: 176px !important;
@@ -3119,5 +3103,66 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
   .rules-nav.collapsed {
     padding-right: 140px !important;
+  }
+}
+
+/* =====================================================
+   Lore rail — World Lore topics + cross-app lore archives
+   (2026-09-22 lore navigation expansion)
+   ===================================================== */
+
+.rules-nav-divider {
+  flex-shrink: 0;
+  height: 1px;
+  width: 28px;
+  margin: 8px auto;
+  background: linear-gradient(90deg, transparent, rgba(196, 160, 96, 0.55), transparent);
+}
+
+/* Archives point outside the codex (account codex, campaigns, journal, books) —
+   a cooler steel tone marks them as a different destination than gold topic icons. */
+.rules-sidebar.collapsed .rules-nav-archive-btn {
+  border-style: dashed !important;
+  border-color: rgba(159, 195, 214, 0.45) !important;
+  color: #9fc3d6 !important;
+}
+
+.rules-sidebar.collapsed .rules-nav-archive-btn .rules-nav-icon {
+  color: #9fc3d6 !important;
+}
+
+.rules-sidebar.collapsed .rules-nav-archive-btn:hover {
+  border-color: #9fc3d6 !important;
+  color: #eaf6fc !important;
+}
+
+.rules-sidebar.collapsed .rules-nav-archive-btn:hover .rules-nav-icon {
+  color: #eaf6fc !important;
+}
+
+.rules-browse-archives {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(196, 160, 96, 0.4);
+}
+
+.rules-browse-archives-label {
+  display: block;
+  padding: 0 4px 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #8a6d3b;
+}
+
+@media (max-width: 768px) {
+  /* Horizontal rail: the archives separator becomes a vertical rule */
+  .rules-nav-divider {
+    height: 28px;
+    width: 1px;
+    margin: 0 4px;
+    background: linear-gradient(180deg, transparent, rgba(196, 160, 96, 0.55), transparent);
   }
 }

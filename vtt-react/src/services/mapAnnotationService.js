@@ -21,7 +21,7 @@ class MapAnnotationService {
    * Helper to check if we should fall back to localStorage
    */
   shouldUseLocalStorage(userId) {
-    return !this.isConfigured || !userId || userId.startsWith('guest-') || userId === 'dev-user-123';
+    return !this.isConfigured || !userId || userId.startsWith('guest-') || userId === 'dev-user-123' || userId === 'admin-dev-user';
   }
 
   /**
@@ -37,11 +37,17 @@ class MapAnnotationService {
 
     try {
       const pinsCol = collection(db, 'userMapAnnotations', userId, 'pins');
+      // Fingerprint guard: skip no-op emits (including echoes of our own save)
+      // so the store does not replace arrays and re-render the map view.
+      let lastFingerprint = '';
       return onSnapshot(pinsCol, (snapshot) => {
         const pins = [];
         snapshot.forEach((doc) => {
           pins.push({ id: doc.id, ...doc.data() });
         });
+        const fingerprint = JSON.stringify(pins);
+        if (fingerprint === lastFingerprint) return;
+        lastFingerprint = fingerprint;
         onUpdate(pins);
       }, (error) => {
         if (error?.code !== 'permission-denied') {
@@ -125,11 +131,15 @@ class MapAnnotationService {
 
     try {
       const areasCol = collection(db, 'userMapAnnotations', userId, 'areas');
+      let lastFingerprint = '';
       return onSnapshot(areasCol, (snapshot) => {
         const areas = [];
         snapshot.forEach((doc) => {
           areas.push({ id: doc.id, ...doc.data() });
         });
+        const fingerprint = JSON.stringify(areas);
+        if (fingerprint === lastFingerprint) return;
+        lastFingerprint = fingerprint;
         onUpdate(areas);
       }, (error) => {
         if (error?.code !== 'permission-denied') {
@@ -218,11 +228,15 @@ class MapAnnotationService {
         where('toUserId', '==', userId),
         where('status', '==', 'pending')
       );
+      let lastShareFingerprint = '';
       return onSnapshot(q, (snapshot) => {
         const shares = [];
         snapshot.forEach((doc) => {
           shares.push({ id: doc.id, ...doc.data() });
         });
+        const fingerprint = JSON.stringify(shares);
+        if (fingerprint === lastShareFingerprint) return;
+        lastShareFingerprint = fingerprint;
         onUpdate(shares);
       }, (error) => {
         if (error?.code !== 'permission-denied') {

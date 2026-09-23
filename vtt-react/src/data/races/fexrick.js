@@ -231,6 +231,14 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     src: '/assets/images/races/fexric_clockwork_icon_v1.png',
                     caption: 'Clockwork Fexric master clockmaker with steampunk brass cybernetic arm, goggles, calipers, and pocket chronometer in rough charcoal draft with brass-amber watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/fexric_clockwork_culture_workbench.jpg',
+                    caption: 'Clockwork Fexric master artificer inspecting the escapement gearwork inside a geothermal brass clock-tower surrounded by steam pipes and chronometers.'
+                },
+                {
+                    src: '/assets/images/races/fexric_clockwork_city_gearhaven.jpg',
+                    caption: 'Gearhaven — Two Clockwork Fexric artificers consulting blueprints on an elevated iron gantry overlooking the sprawling tiered geothermal clockwork metropolis.'
                 }
             ],
 
@@ -388,6 +396,14 @@ Now the oldest machines are failing faster. The oral traditions are degrading. T
                 {
                     src: '/assets/images/races/fexric_caustic_icon_v1.png',
                     caption: 'Caustic Fexric sump-alchemist with chemical-injector cyber-arm, bubbling green acid flask, and claw-tipped hands in rough charcoal draft with caustic green watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/fexric_caustic_culture_extraction.png',
+                    caption: 'Caustic Fexric alchemist harvesting volatile mineral acids from a subterranean rock fissure using a brass wrench, copper valve, and Erlenmeyer flask.'
+                },
+                {
+                    src: '/assets/images/races/fexric_caustic_city_sumpdeep.jpg',
+                    caption: 'Sump-Deep — Two Caustic Fexric alchemists discussing a distillation formula on a wooden-and-iron grating catwalk overlooking the subterranean cavern settlement.'
                 }
             ],
 

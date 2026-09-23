@@ -145,7 +145,7 @@ export class ThreeDWallOccluderManager {
         const e2 = getTileElevation(elevationData, gx2, gy2) || 0;
         elevation = Math.max(e1, e2);
       }
-      const baseZ = elevation * (gridSize * 0.5);
+      const baseZ = elevation * gridSize;
 
       // In Three.js: +Y is North (-dy in screen space)
       const angleRad = Math.atan2(-dy, dx);

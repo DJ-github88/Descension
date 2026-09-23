@@ -10,7 +10,7 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { pickWallAtScreenPoint } from '../../utils/WallPicking';
 import { getWallWorldEndpoints, parseWallKey } from '../../utils/WallGeometry';
 import { getObjectScreenBounds, getObjectSelectionHandles } from '../../utils/ObjectSelectionBounds';
-import { getTileElevation } from '../../utils/ElevationUtils';
+import { getTileElevation, screenToWorldElevated } from '../../utils/ElevationUtils';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
 
 import DrawingTools from './tools/DrawingTools';
@@ -124,6 +124,8 @@ const ProfessionalVTTEditor = () => {
     // Track last terrain brush position for line interpolation
     const lastTerrainBrushPosRef = useRef(null);
 const elevationStrokePaintedRef = useRef(null);
+    const rampStrokePaintedRef = useRef(null);
+    const terrainFillStartRef = useRef(null);
     const activeMapIdRef = useRef(null); // CRITICAL: Capture mapId on pointer down to prevent bleeding during transitions
 
     // Throttled function to update hover preview state
@@ -165,6 +167,7 @@ const elevationStrokePaintedRef = useRef(null);
         paintTerrainBrush,
         paintTerrainLine,
         floodFillTerrain,
+        fillTerrainArea,
         removeTerrainAtPosition,
         removeTerrainLine,
         getTerrainAtPosition,
@@ -541,7 +544,19 @@ const elevationStrokePaintedRef = useRef(null);
             // Use the InfiniteGridSystem for consistent coordinate conversion
             const gridSystem = getGridSystem();
             const viewport = gridSystem.getViewportDimensions();
-            const worldPos = gridSystem.screenToWorld(x, y, viewport.width, viewport.height);
+            // Resolve the world point against the ELEVATED surface under the
+            // cursor: a ground-first inverse lands behind raised terrain in
+            // tilted views, so elevation/terrain brush strokes would target the
+            // wrong tile. Tokens already resolve their drags this way.
+            const elevationData = useLevelEditorStore.getState().elevationData || {};
+            const worldPos = screenToWorldElevated({
+                screenX: x,
+                screenY: y,
+                gridSystem,
+                elevationData,
+                viewportWidth: viewport.width,
+                viewportHeight: viewport.height
+            }) || gridSystem.screenToWorld(x, y, viewport.width, viewport.height);
             const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
 
             return {
@@ -2236,6 +2251,22 @@ const elevationStrokePaintedRef = useRef(null);
                 lastTerrainBrushPosRef.current = coords;
                 removeTerrainAtPosition(coords.gridX, coords.gridY, toolSettings.brushSize || 1, activeMapIdRef.current);
                 break;
+            case 'terrain_fill': {
+                // Bucket fill: paints the whole connected region of the same
+                // terrain (bounded in the store — safe on the infinite grid).
+                floodFillTerrain(
+                    coords.gridX,
+                    coords.gridY,
+                    toolSettings.selectedTerrainType || 'grass',
+                    activeMapIdRef.current
+                );
+                break;
+            }
+            case 'terrain_fill_area':
+                // Drag a rectangle; the fill is applied in one batched update on
+                // mouse-up so the whole box lands at once.
+                terrainFillStartRef.current = { gridX: coords.gridX, gridY: coords.gridY };
+                break;
             case 'elevation':
             case 'elevation_raise':
             case 'elevation_lower':
@@ -2252,10 +2283,16 @@ const elevationStrokePaintedRef = useRef(null);
                 break;
             }
             case 'elevation_ramp': {
-                setRampAt(coords.gridX, coords.gridY, {
-                    dir: toolSettings.rampDirection || 'e',
-                    type: toolSettings.rampType || 'ramp'
-                });
+                rampStrokePaintedRef.current = new Set();
+                if (toolSettings.rampRemove) {
+                    setRampAt(coords.gridX, coords.gridY, null);
+                } else {
+                    // No stored direction: the ramp auto-aligns with whichever
+                    // adjacent tile has the biggest level difference.
+                    setRampAt(coords.gridX, coords.gridY, {
+                        type: toolSettings.rampType || 'ramp'
+                    });
+                }
                 break;
             }
             case 'light_place': {
@@ -2538,6 +2575,27 @@ const elevationStrokePaintedRef = useRef(null);
                     lastTerrainBrushPosRef.current = eraseCoords;
                 }
                 break;
+            case 'terrain_fill_area': {
+                // Live rectangle preview while dragging; the store update is
+                // applied once on mouse-up.
+                const fillAreaCoords = screenToGrid(e.clientX, e.clientY);
+                if (fillAreaCoords && terrainFillStartRef.current) {
+                    hoverPreviewRef.current = {
+                        ...(hoverPreviewRef.current || {}),
+                        show: true,
+                        gridX: fillAreaCoords.gridX,
+                        gridY: fillAreaCoords.gridY,
+                        fillRect: {
+                            x1: terrainFillStartRef.current.gridX,
+                            y1: terrainFillStartRef.current.gridY,
+                            x2: fillAreaCoords.gridX,
+                            y2: fillAreaCoords.gridY
+                        }
+                    };
+                    throttledUpdateHoverPreview();
+                }
+                break;
+            }
             case 'elevation':
             case 'elevation_raise':
             case 'elevation_lower':
@@ -2552,6 +2610,26 @@ const elevationStrokePaintedRef = useRef(null);
                         toolSettings.elevationTargetLevel ?? 1,
                         toolSettings.elevationBrushSize || 1
                     );
+                }
+                break;
+            }
+            case 'elevation_ramp': {
+                // Ramp tool paints along a drag too (one ramp per tile per
+                // stroke), and can erase ramps when Remove mode is on.
+                const rampCoords = screenToGrid(e.clientX, e.clientY);
+                if (rampCoords) {
+                    const rampKey = `${rampCoords.gridX},${rampCoords.gridY}`;
+                    const painted = rampStrokePaintedRef.current || (rampStrokePaintedRef.current = new Set());
+                    if (!painted.has(rampKey)) {
+                        painted.add(rampKey);
+                        if (toolSettings.rampRemove) {
+                            setRampAt(rampCoords.gridX, rampCoords.gridY, null);
+                        } else {
+                            setRampAt(rampCoords.gridX, rampCoords.gridY, {
+                                type: toolSettings.rampType || 'ramp'
+                            });
+                        }
+                    }
                 }
                 break;
             }
@@ -3218,6 +3296,29 @@ const elevationStrokePaintedRef = useRef(null);
 
         if (!isDrawing) return;
 
+        // Finish an area fill drag: commit the whole rectangle in one batched
+        // store update and clear the preview.
+        if (selectedTool === 'terrain_fill_area') {
+            const fillStart = terrainFillStartRef.current;
+            const fillEnd = e ? screenToGrid(e.clientX, e.clientY) : null;
+            if (fillStart && fillEnd) {
+                fillTerrainArea(
+                    fillStart.gridX,
+                    fillStart.gridY,
+                    fillEnd.gridX,
+                    fillEnd.gridY,
+                    toolSettings.selectedTerrainType || 'grass',
+                    activeMapIdRef.current
+                );
+            }
+            terrainFillStartRef.current = null;
+            hoverPreviewRef.current = { ...(hoverPreviewRef.current || {}), show: false, fillRect: null };
+            throttledUpdateHoverPreview();
+            setIsDrawing(false);
+            setIsCurrentlyDrawing(false);
+            return;
+        }
+
         // Handle wall select drag end
         if (selectedTool === 'wall_select') {
             // Cancel any pending window/door drag RAF updates
@@ -3387,6 +3488,7 @@ const elevationStrokePaintedRef = useRef(null);
         setCurrentDrawingTool('');
         lastTerrainBrushPosRef.current = null;
         elevationStrokePaintedRef.current = null;
+        rampStrokePaintedRef.current = null;
         activeMapIdRef.current = null; // CRITICAL: Clear mapId on pointer up
     }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
@@ -3793,14 +3895,16 @@ const elevationStrokePaintedRef = useRef(null);
                 />
             )}
 
-            {/* Hover Preview for Brush Tools */}
-            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw' || String(selectedTool).startsWith('elevation')) && (
+            {/* Hover Preview for Brush Tools / Area Fill Rectangle */}
+            {isEditorMode && hoverPreview.show && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'terrain_fill_area' || selectedTool === 'fog_erase' || selectedTool === 'fog_draw' || String(selectedTool).startsWith('elevation')) && (
                 <TerrainHoverPreview
                     gridX={hoverPreview.gridX}
                     gridY={hoverPreview.gridY}
                     brushSize={hoverPreview.brushSize}
+                    fillRect={hoverPreview.fillRect}
                     isEraser={selectedTool === 'terrain_erase' || selectedTool === 'fog_erase'}
                     isFog={selectedTool === 'fog_erase' || selectedTool === 'fog_draw'}
+                    isFill={selectedTool === 'terrain_fill' || selectedTool === 'terrain_fill_area'}
                     elevationMode={String(selectedTool).startsWith('elevation')
                         ? (selectedTool === 'elevation' ? 'raise' : selectedTool.replace('elevation_', ''))
                         : undefined}

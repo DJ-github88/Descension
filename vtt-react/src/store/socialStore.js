@@ -28,6 +28,8 @@ const processedAcceptedRequestIds = new Set();
 
 // Store cleanup functions returned by initialize()
 let initializeCleanupFn = null;
+// Which user the current listeners belong to (idempotency guard)
+let initializedUserId = null;
 
 // Create the store
 const useSocialStore = create((set, get) => ({
@@ -36,6 +38,19 @@ const useSocialStore = create((set, get) => ({
   // Initialization and Listeners
   initialize: (userId) => {
     if (!userId) return () => { };
+
+    // Idempotent: repeated calls (chat window open/close, presence updates,
+    // account dashboard mount) must not stack duplicate Firestore listeners.
+    if (initializedUserId === userId && initializeCleanupFn) {
+      return initializeCleanupFn;
+    }
+
+    // Switching accounts: tear down the previous user's listeners first.
+    if (initializeCleanupFn) {
+      initializeCleanupFn();
+      initializeCleanupFn = null;
+      initializedUserId = null;
+    }
 
     set({ isLoading: true });
 
@@ -205,6 +220,7 @@ const useSocialStore = create((set, get) => ({
     };
 
     initializeCleanupFn = cleanupFn;
+    initializedUserId = userId;
     return cleanupFn;
   },
 
@@ -215,6 +231,7 @@ const useSocialStore = create((set, get) => ({
       initializeCleanupFn();
       initializeCleanupFn = null;
     }
+    initializedUserId = null;
     // Also clear presence subscriptions
     presenceSubscriptions.forEach(unsub => unsub());
     presenceSubscriptions.clear();

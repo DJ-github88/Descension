@@ -24,7 +24,11 @@ import SpellTooltip from '../common/SpellTooltip';
 import SpellContextMenu from './SpellContextMenu';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import MythrillWindow from '../../../windows/MythrillWindow';
+import { getCommunitySpellById } from '../../../../services/firebase/communitySpellService';
 import './CommunitySpellsTab.css';
+
+// Session cache of full spell documents hydrated from summary rows.
+const spellHydrationCache = new Map();
 
 const CATEGORIES = [
   { id: 'all', name: 'All Roles', icon: 'fa-layer-group' },
@@ -225,6 +229,49 @@ const CommunitySpellsTab = () => {
   const handleMouseLeave = () => {
     setHoveredSpell(null);
   };
+
+  // ---- Lazy full-document hydration -------------------------------------
+  // Feed rows may be shallow summaries (no stat blocks / nested configs).
+  // Full docs are fetched by id on demand and cached for the session.
+  const openSpellDetails = useCallback(async (spell) => {
+    setInspectingSpell(spell);
+    if (!spell?._summary) return;
+
+    const sourceId = spell.sourceId || spell.id;
+    let full = spellHydrationCache.get(sourceId);
+    if (!full) {
+      full = await getCommunitySpellById(sourceId);
+      if (full) spellHydrationCache.set(sourceId, full);
+    }
+    if (!full) return;
+
+    setInspectingSpell((prev) => {
+      if (!prev) return prev;
+      const prevId = prev.sourceId || prev.id;
+      return prevId === sourceId
+        ? { ...full, id: sourceId, source: 'community' }
+        : prev;
+    });
+  }, []);
+
+  const handleSpellHover = useCallback(async (spell, e) => {
+    handleMouseEnter(spell, e);
+    if (!spell?._summary) return;
+
+    const sourceId = spell.sourceId || spell.id;
+    let full = spellHydrationCache.get(sourceId);
+    if (!full) {
+      full = await getCommunitySpellById(sourceId);
+      if (full) spellHydrationCache.set(sourceId, full);
+    }
+    if (!full) return;
+
+    setHoveredSpell((prev) => {
+      if (!prev) return prev;
+      const prevId = prev.sourceId || prev.id;
+      return prevId === sourceId ? { ...full, id: sourceId, source: 'community' } : prev;
+    });
+  }, []);
 
   // Download spell to local library
   const handleDownloadSpell = async (spell, e) => {
@@ -481,8 +528,8 @@ const CommunitySpellsTab = () => {
         <div
           key={spell.id}
           className={`csp-card ${schoolClass}`}
-          onClick={() => setInspectingSpell(completeSpell)}
-          onMouseEnter={(e) => handleMouseEnter(completeSpell, e)}
+          onClick={() => openSpellDetails(completeSpell)}
+          onMouseEnter={(e) => handleSpellHover(completeSpell, e)}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           onContextMenu={(e) => handleSpellContextMenu(e, spell)}
@@ -609,8 +656,8 @@ const CommunitySpellsTab = () => {
       <div
         key={spell.id}
         className={`csp-row ${schoolClass}`}
-        onClick={() => setInspectingSpell(completeSpell)}
-        onMouseEnter={(e) => handleMouseEnter(completeSpell, e)}
+        onClick={() => openSpellDetails(completeSpell)}
+        onMouseEnter={(e) => handleSpellHover(completeSpell, e)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onContextMenu={(e) => handleSpellContextMenu(e, spell)}

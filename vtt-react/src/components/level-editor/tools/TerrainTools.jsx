@@ -58,6 +58,18 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             description: 'Remove terrain from tiles'
         },
         {
+            id: 'terrain_fill',
+            name: 'Fill',
+            icon: 'Utility/Utility',
+            description: 'Bucket fill: replace the whole connected area of the same terrain with the selected type'
+        },
+        {
+            id: 'terrain_fill_area',
+            name: 'Fill Box',
+            icon: 'Nature/World Map',
+            description: 'Drag a rectangle to fill it with the selected terrain type'
+        },
+        {
             id: 'elevation',
             name: 'Elevation',
             icon: 'Nature/World Map',
@@ -76,8 +88,12 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
 
     const handleTerrainSelect = (terrainId) => {
         setSelectedTerrainType(terrainId);
-        // Auto-select terrain brush when terrain is selected
-        onToolSelect('terrain_brush');
+        // Selecting a tile type switches a non-paint tool to the brush, but
+        // keeps the fill tools active so you can pick a type and fill with it.
+        const keepTool = selectedTool === 'terrain_fill' || selectedTool === 'terrain_fill_area';
+        if (!keepTool) {
+            onToolSelect('terrain_brush');
+        }
         onSettingsChange({
             selectedTerrainType: terrainId,
             brushSize: brushSize  // Preserve current brush size

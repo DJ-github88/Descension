@@ -25,51 +25,56 @@ export const useLevelEditorPersistence = () => {
   const lastStateRef = useRef(null);
 
   /**
-   * Collect current level editor state for saving
+   * Collect current level editor state for saving.
+   * Reads fresh store state via getState() and keeps a stable identity: using
+   * the subscribed `levelEditorState` object made this callback (and every
+   * effect depending on it) re-run on every store change, which bypassed the
+   * debounce and force-saved on each edit frame.
    */
   const collectLevelEditorState = useCallback(() => {
+    const s = useLevelEditorStore.getState();
     return {
       // Terrain and environment
-      terrainData: levelEditorState.terrainData,
-      environmentalObjects: levelEditorState.environmentalObjects,
+      terrainData: s.terrainData,
+      environmentalObjects: s.environmentalObjects,
 
       // Walls and structures
-      wallData: levelEditorState.wallData,
+      wallData: s.wallData,
 
       // D&D elements
-      dndElements: levelEditorState.dndElements,
+      dndElements: s.dndElements,
 
       // Fog of war
-      fogOfWarData: levelEditorState.fogOfWarData,
-      exploredAreas: levelEditorState.exploredAreas,
+      fogOfWarData: s.fogOfWarData,
+      exploredAreas: s.exploredAreas,
 
       // Drawing system
-      drawingPaths: levelEditorState.drawingPaths,
-      drawingLayers: levelEditorState.drawingLayers,
+      drawingPaths: s.drawingPaths,
+      drawingLayers: s.drawingLayers,
 
       // Lighting system
-      lightSources: levelEditorState.lightSources,
+      lightSources: s.lightSources,
 
       // Grid and view settings
-      gridSize: levelEditorState.gridSize,
-      gridOffsetX: levelEditorState.gridOffsetX,
-      gridOffsetY: levelEditorState.gridOffsetY,
-      gridColor: levelEditorState.gridColor,
-      gridThickness: levelEditorState.gridThickness,
-      showGridLines: levelEditorState.showGridLines,
+      gridSize: s.gridSize,
+      gridOffsetX: s.gridOffsetX,
+      gridOffsetY: s.gridOffsetY,
+      gridColor: s.gridColor,
+      gridThickness: s.gridThickness,
+      showGridLines: s.showGridLines,
 
       // Layer visibility settings
-      showTerrainLayer: levelEditorState.showTerrainLayer,
-      showObjectLayer: levelEditorState.showObjectLayer,
-      showWallLayer: levelEditorState.showWallLayer,
-      showDndLayer: levelEditorState.showDndLayer,
+      showTerrainLayer: s.showTerrainLayer,
+      showObjectLayer: s.showObjectLayer,
+      showWallLayer: s.showWallLayer,
+      showDndLayer: s.showDndLayer,
 
       // Tool settings
-      selectedTool: levelEditorState.selectedTool,
-      brushSize: levelEditorState.brushSize,
-      activeLayer: levelEditorState.activeLayer
+      selectedTool: s.selectedTool,
+      brushSize: s.brushSize,
+      activeLayer: s.activeLayer
     };
-  }, [levelEditorState]);
+  }, [useLevelEditorStore]);
 
   /**
    * Save current level editor state to room
@@ -144,14 +149,22 @@ export const useLevelEditorPersistence = () => {
       clearTimeout(autoSaveTimerRef.current);
     }
 
-    // Don't auto-save too frequently - increased to 15 seconds minimum
-    const timeSinceLastSave = Date.now() - lastSaveTimeRef.current;
-    if (timeSinceLastSave < 15000) { // Minimum 15 seconds between saves
-      return;
-    }
-
-    // Schedule save after 10 seconds of inactivity (increased from 3)
+    // Schedule save after 10 seconds of inactivity, then respect the 15s
+    // minimum interval. The gate must be checked INSIDE the timer: returning
+    // early before scheduling meant continuous edits within 15s of the last
+    // save never scheduled anything at all.
     autoSaveTimerRef.current = setTimeout(() => {
+      autoSaveTimerRef.current = null;
+      const timeSinceLastSave = Date.now() - lastSaveTimeRef.current;
+
+      if (timeSinceLastSave < 15000) {
+        autoSaveTimerRef.current = setTimeout(() => {
+          autoSaveTimerRef.current = null;
+          saveLevelEditorState();
+        }, 15000 - timeSinceLastSave);
+        return;
+      }
+
       saveLevelEditorState();
     }, 10000);
   }, [saveLevelEditorState]);

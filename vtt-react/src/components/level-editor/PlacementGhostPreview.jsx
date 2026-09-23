@@ -43,7 +43,7 @@ const PlacementGhostPreview = ({ ghost, screenX, screenY, gridX, gridY, scale = 
     // same way ObjectSystem lifts the placed note.
     const noteScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
     const noteSize = Math.max(16, tileSize * noteScale);
-    const lift = (Number.isFinite(elevation) ? elevation : 0) * gs * 0.5 * transform.cosTilt * transform.effectiveZoom;
+    const lift = (Number.isFinite(elevation) ? elevation : 0) * gs * transform.cosTilt * transform.effectiveZoom;
     return (
         <div
             className="vtt-placement-ghost"

@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { tryAcquireCooldown } from '../utils/writeThrottle';
 import {
   getItemCategories,
   getAllCommunityItems,
@@ -46,7 +47,6 @@ export function useCommunityItems() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [hasMore, setHasMore] = useState(false);
-  const [lastDoc, setLastDoc] = useState(null);
   const lastDocRef = useRef(null);
   const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
 
@@ -96,7 +96,6 @@ export function useCommunityItems() {
       );
 
       lastDocRef.current = result.lastDoc;
-      setLastDoc(result.lastDoc);
       setHasMore(result.hasMore);
 
       if (loadMore) {
@@ -125,7 +124,6 @@ export function useCommunityItems() {
       );
       
       lastDocRef.current = result.lastDoc;
-      setLastDoc(result.lastDoc);
       setHasMore(result.hasMore);
 
       if (loadMore) {
@@ -149,7 +147,6 @@ export function useCommunityItems() {
       setItems(deduplicateItemList(searchResults));
       setHasMore(false);
       lastDocRef.current = null;
-      setLastDoc(null);
     } catch (err) {
       setError(err.message);
       console.error('Failed to search items:', err);
@@ -165,14 +162,9 @@ export function useCommunityItems() {
     loadRecentItems();
   }, [loadCategories, loadFeaturedItems, loadRecentItems]);
 
-  // Load items on sort change or initial mount
-  useEffect(() => {
-    if (!searchTerm && !selectedCategory) {
-      loadAllItems(sortBy);
-    }
-  }, [sortBy, searchTerm, selectedCategory, loadAllItems]);
-
-  // Load items when category or search term changes
+  // Load items when category, search term or sort changes.
+  // NOTE: a duplicate effect previously ran the same `loadAllItems(sortBy)`
+  // query here as well, doubling the catalog read on mount and every sort.
   useEffect(() => {
     if (selectedCategory) {
       loadItemsByCategory(selectedCategory);
@@ -197,21 +189,18 @@ export function useCommunityItems() {
     setSelectedCategory(categoryId);
     setSearchTerm('');
     lastDocRef.current = null;
-    setLastDoc(null);
   }, []);
 
   const search = useCallback((term) => {
     setSearchTerm(term);
     setSelectedCategory(null);
     lastDocRef.current = null;
-    setLastDoc(null);
   }, []);
 
   const clearSelection = useCallback(() => {
     setSelectedCategory(null);
     setSearchTerm('');
     lastDocRef.current = null;
-    setLastDoc(null);
     setHasMore(false);
     loadAllItems(sortBy);
   }, [loadAllItems, sortBy]);
@@ -219,7 +208,6 @@ export function useCommunityItems() {
   const changeSortBy = useCallback((newSortBy) => {
     setSortBy(newSortBy);
     lastDocRef.current = null;
-    setLastDoc(null);
     setHasMore(false);
   }, []);
 
@@ -252,6 +240,10 @@ export function useCommunityItems() {
   }, []);
 
   const rateCommunityItem = useCallback(async (itemId, userId, rating) => {
+    if (!tryAcquireCooldown(`rate:${userId || 'anon'}`, 1500)) {
+      return { blocked: true };
+    }
+
     try {
       await rateItem(itemId, userId, rating);
       if (selectedCategory) {
@@ -259,6 +251,7 @@ export function useCommunityItems() {
       } else {
         loadAllItems(sortBy);
       }
+      return { success: true };
     } catch (err) {
       setError(err.message);
       console.error('Failed to rate item:', err);
@@ -282,6 +275,12 @@ export function useCommunityItems() {
   }, [loadCategories, loadFeaturedItems, loadRecentItems, loadAllItems, sortBy]);
 
   const voteCommunityItem = useCallback(async (itemId, userId, direction) => {
+    // Cooldown: the vote counters are read-modify-write on the server, so
+    // double-clicks used to race and lose updates.
+    if (!tryAcquireCooldown(`vote:${userId || 'anon'}`, 1500)) {
+      return { blocked: true };
+    }
+
     try {
       await voteItem(itemId, userId, direction);
       const updateVoteCount = (list) => list.map(i => {

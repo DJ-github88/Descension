@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { tryAcquireCooldown } from '../utils/writeThrottle';
 import {
   getAllCommunitySpells,
   searchSpells,
@@ -13,9 +14,9 @@ import {
   downloadSpell,
   getUserSpells,
   voteSpell,
-  getUserVote,
+  getSpellVoteStatuses,
   favoriteSpell,
-  isSpellFavorited,
+  getSpellFavoriteStatuses,
   getUserFavorites,
   seedTestSpell,
   cleanupDuplicateSpells,
@@ -43,7 +44,6 @@ export function useCommunitySpells() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
   const [hasMore, setHasMore] = useState(false);
-  const [lastDoc, setLastDoc] = useState(null);
   const lastDocRef = useRef(null);
   const [userVotes, setUserVotes] = useState({}); // Map of spellId -> vote
   const [userFavorites, setUserFavorites] = useState(new Set()); // Set of favorited spell IDs
@@ -65,7 +65,6 @@ export function useCommunitySpells() {
       );
       
       lastDocRef.current = result.lastDoc;
-      setLastDoc(result.lastDoc);
       setHasMore(result.hasMore);
 
       if (loadMore) {
@@ -97,7 +96,6 @@ export function useCommunitySpells() {
       const searchResults = await searchSpells(term);
       setSpells(deduplicateSpellList(searchResults));
       setHasMore(false);
-      setLastDoc(null);
     } catch (err) {
       setError(err.message);
       console.error('Failed to search spells:', err);
@@ -114,20 +112,17 @@ export function useCommunitySpells() {
 
   const search = useCallback((term) => {
     setSearchTerm(term);
-    setLastDoc(null);
     setHasMore(false);
   }, []);
 
   const clearSelection = useCallback(() => {
     setSearchTerm('');
-    setLastDoc(null);
     setHasMore(false);
     loadSpells();
   }, [loadSpells]);
 
   const changeSortBy = useCallback((newSortBy) => {
     setSortBy(newSortBy);
-    setLastDoc(null);
     setHasMore(false);
   }, []);
 
@@ -171,28 +166,44 @@ export function useCommunitySpells() {
   }, []);
 
   const voteCommunitySpell = useCallback(async (spellId, userId, voteType) => {
+    // Cooldown: prevents double-click races on the read-modify-write vote
+    // counters and stops vote spam from firing a query per click.
+    if (!tryAcquireCooldown(`vote:${userId || 'anon'}`, 1500)) {
+      return { blocked: true };
+    }
+
     try {
       await voteSpell(spellId, userId, voteType);
-      
-      // Update local state
+
+      // Update local state instead of re-reading catalog + featured + my
+      // spells (that was 46+ document reads per upvote).
       setUserVotes(prev => ({ ...prev, [spellId]: voteType === 'upvote' ? 1 : -1 }));
-      
-      // Refresh spell data to get updated rating
-      if (searchTerm) {
-        performSearch(searchTerm);
-      } else {
-        loadSpells(sortBy);
-      }
-      
-      // Refresh featured and my spells
-      loadFeaturedSpells();
-      loadMySpells(userId);
+
+      const updateVoteCount = (list) => list.map(s => {
+        if (s.id !== spellId) return s;
+        const prevDir = s._userVote;
+        let upvotes = s.upvotes || 0;
+        let downvotes = s.downvotes || 0;
+        const dir = voteType === 'upvote' ? 'up' : 'down';
+        if (prevDir === dir) {
+          if (dir === 'up') upvotes--; else downvotes--;
+          return { ...s, upvotes, downvotes, _userVote: null };
+        }
+        if (prevDir === 'up') upvotes--;
+        if (prevDir === 'down') downvotes--;
+        if (dir === 'up') upvotes++; else downvotes++;
+        return { ...s, upvotes, downvotes, _userVote: dir };
+      });
+      setSpells(prev => updateVoteCount(prev));
+      setFeaturedSpells(prev => updateVoteCount(prev));
+      setMySpells(prev => updateVoteCount(prev));
+      return { success: true };
     } catch (err) {
       setError(err.message);
       console.error('Failed to vote on spell:', err);
       throw err;
     }
-  }, [searchTerm, sortBy, performSearch, loadSpells, loadFeaturedSpells, loadMySpells]);
+  }, []);
 
   const favoriteCommunitySpell = useCallback(async (spellId, userId, isFavorite) => {
     try {
@@ -244,14 +255,10 @@ export function useCommunitySpells() {
     if (!userId || !spellIds || spellIds.length === 0) return;
 
     try {
-      const favoriteIds = new Set();
-      await Promise.all(
-        spellIds.map(async (spellId) => {
-          const isFav = await isSpellFavorited(spellId, userId);
-          if (isFav) {
-            favoriteIds.add(spellId);
-          }
-        })
+      // Batch `in` queries (30 ids each) instead of one getDoc per card.
+      const statuses = await getSpellFavoriteStatuses(userId, spellIds);
+      const favoriteIds = new Set(
+        Object.entries(statuses).filter(([, isFav]) => isFav).map(([id]) => id)
       );
       setUserFavorites(favoriteIds);
     } catch (err) {
@@ -263,15 +270,14 @@ export function useCommunitySpells() {
     if (!userId || !spellIds || spellIds.length === 0) return;
 
     try {
+      // Batch `in` queries instead of one getDoc per card.
+      const statuses = await getSpellVoteStatuses(userId, spellIds);
       const votes = {};
-      await Promise.all(
-        spellIds.map(async (spellId) => {
-          const vote = await getUserVote(spellId, userId);
-          if (vote !== null) {
-            votes[spellId] = vote;
-          }
-        })
-      );
+      Object.entries(statuses).forEach(([spellId, vote]) => {
+        if (vote !== null && vote !== undefined) {
+          votes[spellId] = vote;
+        }
+      });
       setUserVotes(votes);
     } catch (err) {
       console.error('Failed to load user votes:', err);

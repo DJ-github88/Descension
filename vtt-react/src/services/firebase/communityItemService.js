@@ -29,6 +29,12 @@ import {
 import { db } from '../../config/firebase';
 import { getIconUrl } from '../../utils/assetManager';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import {
+ getCommunitySummaries,
+ upsertCommunitySummary,
+ backfillCommunitySummaries,
+ SUMMARY_KINDS
+} from './communitySummaryService';
 
 // Collection names
 const COLLECTIONS = {
@@ -269,47 +275,79 @@ export async function getAllCommunityItems(pageSize = 20, lastDoc = null, sortBy
   }
 
   const itemsRef = collection(db, COLLECTIONS.ITEMS);
+
+  // Preferred path: shallow summary feed (no nested itemData/weapon stats).
+  const usingFullCursor = !!(lastDoc && lastDoc.__fullCursor);
+  if (!usingFullCursor) {
+   try {
+    const { summaries, lastDoc: summaryCursor, hasMore } = await getCommunitySummaries(
+     SUMMARY_KINDS.ITEM,
+     { pageSize, sortBy, cursor: lastDoc }
+    );
+    if (summaries.length > 0) {
+     return {
+      items: summaries,
+      lastDoc: summaryCursor,
+      hasMore
+     };
+    }
+   } catch (summaryError) {
+    console.debug('Summary feed unavailable, using full item documents:', summaryError?.message || summaryError);
+   }
+  }
+
+  const fullCursor = lastDoc?.__fullCursor || lastDoc;
   let orderField = 'rating';
   if (sortBy === 'downloads') orderField = 'downloadCount';
   if (sortBy === 'newest') orderField = 'createdAt';
 
-  let q;
+  let snapshot = null;
   try {
-   q = query(
+   let q = query(
     itemsRef,
     where('isPublic', '==', true),
     orderBy(orderField, 'desc'),
     limit(pageSize)
    );
-   if (lastDoc) {
-    q = query(q, startAfter(lastDoc));
+   if (fullCursor) {
+    q = query(q, startAfter(fullCursor));
    }
-   const snapshot = await getDocs(q);
-   if (!snapshot.empty) {
-    const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return {
-     items,
-     lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
-     hasMore: snapshot.docs.length === pageSize
-    };
-   }
+   snapshot = await getDocs(q);
   } catch (err) {
    console.warn('getAllCommunityItems ordered query failed, trying unconstrained query:', err);
   }
 
-  // Fallback query without complex order
-  const fallbackQ = query(itemsRef, limit(pageSize));
-  const snapshot = await getDocs(fallbackQ);
-  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  if (snapshot) {
+   // An empty ordered result is a valid answer - do NOT fall through to an
+   // unfiltered query or mock data (that would leak private drafts and double
+   // the read count on every empty page).
+   const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+   backfillCommunitySummaries(SUMMARY_KINDS.ITEM, items);
+   return {
+    items,
+    lastDoc: snapshot.docs.length ? { __fullCursor: snapshot.docs[snapshot.docs.length - 1] } : null,
+    hasMore: snapshot.docs.length === pageSize
+   };
+  }
+
+  // Fallback query without the composite order (missing index), still public-only.
+  const fallbackQ = query(
+   itemsRef,
+   where('isPublic', '==', true),
+   limit(pageSize)
+  );
+  const fallbackSnapshot = await getDocs(fallbackQ);
+  const items = fallbackSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  backfillCommunitySummaries(SUMMARY_KINDS.ITEM, items);
   return {
-   items: items.length > 0 ? items : MOCK_FEATURED_ITEMS,
-   lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+   items,
+   lastDoc: fallbackSnapshot.docs.length ? { __fullCursor: fallbackSnapshot.docs[fallbackSnapshot.docs.length - 1] } : null,
    hasMore: false
   };
  } catch (error) {
   console.error('Error fetching all community items:', error);
   return {
-   items: MOCK_FEATURED_ITEMS,
+   items: [],
    lastDoc: null,
    hasMore: false
   };
@@ -424,14 +462,9 @@ export async function getRecentItems(pageSize = 10) {
    limit(pageSize)
   );
   const fallbackSnapshot = await getDocs(qFallback);
-  if (!fallbackSnapshot.empty) {
-   return fallbackSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  }
-
-  // Fallback 2: Any items (if even isPublic is missing or all false)
-  const qAny = query(itemsRef, limit(pageSize));
-  const anySnapshot = await getDocs(qAny);
-  return anySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  // Public-only by design: an unfiltered query here surfaced private drafts
+  // in the public feed (the rules allow public reads of this collection).
+  return fallbackSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
  } catch (error) {
   console.error('Error fetching recent items:', error);
@@ -463,13 +496,35 @@ export async function uploadItem(itemData, userId) {
 
   const docRef = await addDoc(itemsRef, communityItem);
 
-  return {
+  const uploadedItem = {
    id: docRef.id,
    ...communityItem
   };
+  // Keep the shallow feed summary in sync (best effort).
+  upsertCommunitySummary(SUMMARY_KINDS.ITEM, docRef.id, uploadedItem).catch(() => {});
+
+  return uploadedItem;
  } catch (error) {
   console.error('Error uploading item:', error);
   throw new Error('Failed to upload item');
+ }
+}
+
+/**
+ * Fetch a single full item document by id (no side effects).
+ * Used to hydrate summary rows when the user opens details.
+ */
+export async function getCommunityItemById(itemId) {
+ try {
+  if (!checkFirebaseAvailable()) {
+   return null;
+  }
+  const itemDoc = await getDoc(doc(db, COLLECTIONS.ITEMS, itemId));
+  if (!itemDoc.exists()) return null;
+  return { id: itemDoc.id, ...itemDoc.data() };
+ } catch (error) {
+  console.error('Error fetching item by id:', error);
+  return null;
  }
 }
 
@@ -485,15 +540,21 @@ export async function downloadItem(itemId) {
    throw new Error('Item not found');
   }
 
-  // Increment download count
+  // Increment download count (atomic; avoids lost updates on concurrent downloads)
   await updateDoc(itemRef, {
-   downloadCount: (itemDoc.data().downloadCount || 0) + 1
+   downloadCount: increment(1)
   });
 
-  return {
+  const fullItem = {
    id: itemDoc.id,
-   ...itemDoc.data()
+   ...itemDoc.data(),
+   downloadCount: (itemDoc.data().downloadCount || 0) + 1
   };
+
+  // Keep the feed summary's counter in sync (best effort).
+  upsertCommunitySummary(SUMMARY_KINDS.ITEM, itemDoc.id, fullItem).catch(() => {});
+
+  return fullItem;
  } catch (error) {
   console.error('Error downloading item:', error);
   throw new Error('Failed to download item');
@@ -711,11 +772,18 @@ export async function addComment(itemId, userId, displayName, text) {
 /**
  * Get comments for a community item
  */
-export async function getComments(itemId) {
+export async function getComments(itemId, pageSize = 50) {
  try {
   if (!checkFirebaseAvailable()) return [];
   const commentsRef = collection(db, COLLECTIONS.COMMENTS);
-  const q = query(commentsRef, where('communityItemId', '==', itemId), orderBy('createdAt', 'desc'));
+  // Bounded: comments were previously read without a limit, so a popular item
+  // downloaded its entire comment history every time the panel opened.
+  const q = query(
+   commentsRef,
+   where('communityItemId', '==', itemId),
+   orderBy('createdAt', 'desc'),
+   limit(pageSize)
+  );
   const snapshot = await getDocs(q);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
  } catch (error) {

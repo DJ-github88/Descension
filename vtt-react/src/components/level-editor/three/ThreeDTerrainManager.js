@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import modelCache from '../../../services/ModelCacheService';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../../../store/levelEditorStore';
+import { getTileElevation, resolveRampDirection } from '../../../utils/ElevationUtils';
+import { getRampDirectionDelta } from '../../../utils/RampGeometry';
 import {
   TERRAIN_UV_PER_CELL,
   getTerrainTileTexture,
@@ -680,6 +682,90 @@ function getPlateMaterial() {
   return plateMaterial;
 }
 
+let rampGeometry = null;
+let pitGeometry = null;
+
+/**
+ * Unit smooth ramp authored like the kit stairs: Y up, run along Z, ascending
+ * toward -Z, centred on the instance origin. The instance pipeline rotates the
+ * model +90 deg around X, so local Y becomes world height and local Z the run;
+ * `fitHeight`/`fitRun` stretch it to the exact level difference and footprint.
+ */
+function getRampGeometry() {
+  if (!rampGeometry) {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array([
+      -0.5, 0, 0.5,   0.5, 0, 0.5,   -0.5, 0, -0.5,   0.5, 0, -0.5,
+      -0.5, 1, -0.5,  0.5, 1, -0.5
+    ]), 3));
+    g.setIndex([
+      0, 3, 1, 0, 2, 3,       // bottom
+      0, 4, 2,                // west side
+      1, 3, 5,                // east side
+      0, 1, 5, 0, 5, 4,       // sloped surface
+      2, 4, 5, 2, 5, 3        // high end face
+    ]);
+    g.computeVertexNormals();
+    rampGeometry = g;
+  }
+  return rampGeometry;
+}
+
+/** Unit open-top shell (Y-up, floor at y=0) rendered BackSide for pits. */
+function getPitGeometry() {
+  if (!pitGeometry) {
+    pitGeometry = new THREE.BoxGeometry(1, 1, 1);
+    pitGeometry.translate(0, 0.5, 0);
+  }
+  return pitGeometry;
+}
+
+/** Fresh materials per instanced mesh (the manager disposes them on rebuild). */
+function createRampMaterial() {
+  return new THREE.MeshStandardMaterial({ color: 0x6b7075, roughness: 0.8, metalness: 0.04 });
+}
+
+function createPitMaterial() {
+  return new THREE.MeshStandardMaterial({
+    // Lit stone, not a black void: a pit has to read as a sunken room even
+    // when the map lighting is dim. Combined with receiveShadow: false the
+    // interior always catches the sun instead of going pitch black.
+    color: 0x6d6459,
+    roughness: 0.95,
+    metalness: 0,
+    side: THREE.BackSide
+  });
+}
+
+function createPlateMaterial() {
+  return new THREE.MeshStandardMaterial({ color: 0x5f5a54, roughness: 0.95, metalness: 0 });
+}
+
+// Elevation rendering that has no kit model: smooth ramps, pit shells and the
+// ground plates that cap unpainted plateaus.
+const PROCEDURAL_TERRAIN_MODELS = {
+  procedural_ramp: {
+    geometry: getRampGeometry,
+    createMaterial: createRampMaterial,
+    castShadow: true,
+    receiveShadow: true
+  },
+  procedural_pit: {
+    geometry: getPitGeometry,
+    createMaterial: createPitMaterial,
+    castShadow: false,
+    receiveShadow: false
+  },
+  procedural_plate: {
+    geometry: getPlateGeometry,
+    createMaterial: createPlateMaterial,
+    castShadow: false,
+    receiveShadow: true
+  }
+};
+
+const _normalizeMatrix = new THREE.Matrix4();
+
 const CURTAIN_SKIN = 0.02;
 
 /**
@@ -691,7 +777,7 @@ const CURTAIN_SKIN = 0.02;
  */
 function buildLiquidCurtainGeometry(cells, { gridSize, lift, elevationData, rippleWorld, cellKeys }) {
   const half = gridSize / 2;
-  const levelStep = gridSize * 0.5;
+  const levelStep = gridSize;
   const skinOffset = gridSize * CURTAIN_SKIN;
   const positions = [];
   const normals = [];
@@ -730,7 +816,7 @@ function buildLiquidCurtainGeometry(cells, { gridSize, lift, elevationData, ripp
     directions.forEach(({ dx, dy, axis, sign }) => {
       const neighbourKey = `${cell.gx + dx},${cell.gy + dy}`;
       if (!cellKeys.has(neighbourKey)) return;
-      const neighbourElevation = elevationData[neighbourKey] || 0;
+      const neighbourElevation = getTileElevation(elevationData, cell.gx + dx, cell.gy + dy);
       if (neighbourElevation >= cell.elevation) return;
       const lowZ = neighbourElevation * levelStep + lift;
       if (topZ - lowZ < 1e-4) return;
@@ -971,20 +1057,99 @@ export class ThreeDTerrainManager {
       return Boolean(id && WATER_SHORE_TYPES[id]);
     };
 
-    // Foundation deduplication helper so cliffs and elevated stairs don't spawn duplicate blocks
+    // Resolve every ramp/stairs tile up front: the surface spans the tile from
+    // its own level at the far edge up/down to the connected neighbour's level
+    // at the near edge, so the renderer needs the level difference per tile.
+    const rampTiles = new Map();
+    Object.keys(rampData || {}).forEach(key => {
+      const parts = key.split(',').map(Number);
+      if (parts.length !== 2 || !Number.isFinite(parts[0]) || !Number.isFinite(parts[1])) return;
+      const [gx, gy] = parts;
+      const ramp = rampData[key];
+      if (!ramp) return;
+      // Ramps auto-align with the biggest adjacent level change; nothing is
+      // stored on the tile itself.
+      const dir = resolveRampDirection({ elevationData, rampData, x: gx, y: gy });
+      const delta = getRampDirectionDelta(dir);
+      const selfLevel = getTileElevation(elevationData, gx, gy);
+      const targetLevel = getTileElevation(elevationData, gx + delta.x, gy + delta.y);
+      rampTiles.set(key, {
+        gx,
+        gy,
+        ramp,
+        dir,
+        delta,
+        selfLevel,
+        targetLevel,
+        deltaZ: (targetLevel - selfLevel) * gridSize
+      });
+    });
+
+    // Foundation deduplication helper so cliffs and elevated stairs don't spawn
+    // duplicate blocks. Non-top blocks are stretched into the block above:
+    // flush-stacked slabs showed the kit's decorative top rim as a groove per
+    // level, which read as a stack of crates instead of a hill.
+    const FOUNDATION_OVERLAP = 1.15;
     const placedFoundations = new Set();
-    const pushFoundation = (gx, gy, worldX, worldY, lvl) => {
+    const pushFoundation = (gx, gy, worldX, worldY, lvl, isTop = true) => {
       const fKey = `${gx},${gy},${lvl}`;
       if (placedFoundations.has(fKey)) return;
       placedFoundations.add(fKey);
       pushInstance('foundation|default', {
         x: worldX,
         y: -worldY,
-        z: lvl * (gridSize * 0.5),
+        z: lvl * gridSize,
         rotationZ: 0,
-        look: null
+        look: null,
+        fitHeight: gridSize * (isTop ? 1 : FOUNDATION_OVERLAP)
       });
     };
+    const pushPit = (gx, gy, worldX, worldY, level) => {
+      pushInstance('procedural_pit|default', {
+        x: worldX,
+        y: -worldY,
+        z: level * gridSize,
+        rotationZ: 0,
+        look: null,
+        fitHeight: Math.abs(level) * gridSize,
+        fitRun: gridSize
+      });
+    };
+
+    // Solid column height per tile: how far the ground under the tile must be
+    // built up. A sloped ramp's wedge is itself solid, so it replaces the
+    // tile's own elevation and only needs support up to its low end
+    // (min(self, target)) — otherwise the foundation would poke through the
+    // thin end of the slope.
+    const columnTopByTile = new Map();
+    const rampColumnKeys = new Set();
+    const noteColumnTop = (key, topLevel) => {
+      if (topLevel <= 0) return;
+      const previous = columnTopByTile.get(key);
+      if (previous === undefined || topLevel > previous) {
+        columnTopByTile.set(key, topLevel);
+      }
+    };
+    rampTiles.forEach((rt, key) => {
+      if (rt.deltaZ === 0) return;
+      rampColumnKeys.add(key);
+      noteColumnTop(key, Math.min(rt.selfLevel, rt.targetLevel));
+    });
+    Object.keys(elevationData || {}).forEach(key => {
+      if (rampColumnKeys.has(key)) return;
+      const parts = key.split(',').map(Number);
+      if (parts.length !== 2 || !Number.isFinite(parts[0]) || !Number.isFinite(parts[1])) return;
+      const level = getTileElevation(elevationData, parts[0], parts[1]);
+      if (level > 0) noteColumnTop(key, level);
+    });
+    columnTopByTile.forEach((topLevel, key) => {
+      const [gx, gy] = key.split(',').map(Number);
+      const worldX = gx * gridSize + gridSize / 2 + gridOffsetX;
+      const worldY = gy * gridSize + gridSize / 2 + gridOffsetY;
+      for (let lvl = 0; lvl < topLevel; lvl++) {
+        pushFoundation(gx, gy, worldX, worldY, lvl, lvl === topLevel - 1);
+      }
+    });
 
     Object.keys(terrainData).forEach(key => {
       const parts = key.split(',').map(Number);
@@ -995,21 +1160,23 @@ export class ThreeDTerrainManager {
       const typeId = typeof rawType === 'string' ? rawType : rawType?.type;
       if (!typeId) return;
 
-      const elevation = (elevationData[key] || 0);
+      const elevation = getTileElevation(elevationData, gx, gy);
       const worldX = gx * gridSize + gridSize / 2 + gridOffsetX;
       const worldY = gy * gridSize + gridSize / 2 + gridOffsetY;
-      const worldZ = elevation * (gridSize * 0.5);
+      const worldZ = elevation * gridSize;
 
-      // If tile is elevated (cliff), place supporting 3D foundation blocks underneath
-      if (elevation > 0) {
-        for (let lvl = 0; lvl < elevation; lvl++) {
-          pushFoundation(gx, gy, worldX, worldY, lvl);
-        }
+      // Supporting foundations come from the column pass above; only sunken
+      // tiles need per-tile geometry here.
+      if (elevation < 0) {
+        // Sunken tiles get an open pit shell so the ground reads as solid.
+        pushPit(gx, gy, worldX, worldY, elevation);
       }
 
-      // If this cell has a ramp/stair, omit the flat floor tile so it does not
-      // slice through the stair treads causing z-fighting
-      if (rampData && rampData[key]) {
+      // If this cell has a ramp/stair with a height difference, omit the flat
+      // floor tile so it does not slice through the ramp surface; flat ramps
+      // keep the ordinary floor.
+      const rampTile = rampTiles.get(key);
+      if (rampTile && rampTile.deltaZ !== 0) {
         return;
       }
 
@@ -1097,7 +1264,45 @@ export class ThreeDTerrainManager {
       }
     });
 
-    // Scan ramp / stairs
+    // Elevation-only cells: 3D owns elevation in 3D mode, so unpainted
+    // plateaus get their foundation column plus a ground plate, and unpainted
+    // pits get their sunken shell — otherwise elevation painted without a
+    // terrain texture would exist only in the 2D canvas.
+    Object.keys(elevationData || {}).forEach(key => {
+      const parts = key.split(',').map(Number);
+      if (parts.length !== 2 || !Number.isFinite(parts[0]) || !Number.isFinite(parts[1])) return;
+      const [gx, gy] = parts;
+      if (terrainData[key]) return; // painted cells are handled above
+      const elevation = getTileElevation(elevationData, gx, gy);
+      if (elevation === 0) return;
+
+      const worldX = gx * gridSize + gridSize / 2 + gridOffsetX;
+      const worldY = gy * gridSize + gridSize / 2 + gridOffsetY;
+
+      if (elevation > 0) {
+        // The column pass above already built the support; unpainted plateaus
+        // get a ground plate cap. Lifted a hair off the top foundation block so
+        // the two coplanar faces cannot z-fight.
+        // A sloped ramp/stairs surface already spans this tile; capping it with
+        // a flat plate would cover the descending half of the slope.
+        const rampTile = rampTiles.get(key);
+        if (!rampTile || rampTile.deltaZ === 0) {
+          pushInstance('procedural_plate|default', {
+            x: worldX,
+            y: -worldY,
+            z: elevation * gridSize + 0.5,
+            rotationZ: 0,
+            look: null
+          });
+        }
+      } else {
+        pushPit(gx, gy, worldX, worldY, elevation);
+      }
+    });
+
+    // Ramp / stairs surfaces. Flat ramps keep the ordinary floor tile; sloped
+    // ramps render across the whole tile, from the lower end at one edge up to
+    // the higher level at the edge shared with the connected neighbour.
     const RAMP_DIR_ROTATIONS = {
       n: 0,
       e: -Math.PI / 2,
@@ -1105,52 +1310,65 @@ export class ThreeDTerrainManager {
       w: Math.PI / 2
     };
 
-    Object.keys(rampData).forEach(key => {
-      const parts = key.split(',').map(Number);
-      if (parts.length !== 2) return;
-      const [gx, gy] = parts;
-      const ramp = rampData[key];
-      if (!ramp) return;
-
+    rampTiles.forEach((rt) => {
+      const { gx, gy, ramp, dir, selfLevel, targetLevel, deltaZ } = rt;
       const worldX = gx * gridSize + gridSize / 2 + gridOffsetX;
       const worldY = gy * gridSize + gridSize / 2 + gridOffsetY;
-      const elevation = (elevationData[key] || 0);
-      const worldZ = elevation * (gridSize * 0.5);
+      const baseLevel = Math.min(selfLevel, targetLevel);
+      const baseZ = baseLevel * gridSize;
 
-      // Support foundation blocks under elevated stairs
-      if (elevation > 0) {
-        for (let lvl = 0; lvl < elevation; lvl++) {
-          pushFoundation(gx, gy, worldX, worldY, lvl);
+      if (deltaZ === 0) {
+        // No slope to render; an unpainted flat ramp still gets a ground plate
+        // so the tile is visible in 3D. Unpainted tiles that carry elevation are
+        // already capped by the elevation-only pass above, so skip those.
+        if (!terrainData[`${gx},${gy}`] && selfLevel === 0) {
+          pushInstance('procedural_plate|default', {
+            x: worldX,
+            y: -worldY,
+            z: selfLevel * gridSize,
+            rotationZ: 0,
+            look: null
+          });
         }
+        return;
       }
 
-      // Map ramp direction to rotation (case-insensitive)
-      const rawDir = String(ramp.dir || ramp || 'n').toLowerCase();
-      const rot = RAMP_DIR_ROTATIONS[rawDir] !== undefined ? RAMP_DIR_ROTATIONS[rawDir] : 0;
+      const rot = RAMP_DIR_ROTATIONS[dir] !== undefined ? RAMP_DIR_ROTATIONS[dir] : 0;
+      // Descending ramps flip 180 deg and sit at the lower level, so the model
+      // always climbs away from the low side toward the higher edge.
+      const descending = deltaZ < 0;
+      const rotationZ = descending ? rot + Math.PI : rot;
+      const fitHeight = Math.abs(deltaZ);
 
-      // Select stair model: wood if specified or placed on wooden floor, wide, narrow, or stone
-      const rawType = terrainData[key];
+      const rawType = terrainData[`${gx},${gy}`];
       const terrainTypeId = typeof rawType === 'string' ? rawType : rawType?.type;
       const isWood = ramp.type === 'wood' ||
         terrainTypeId === 'wooden_floor' ||
         terrainTypeId === 'wood_floor' ||
         terrainTypeId === 'wood_floor_dark';
 
+      // Every sloped ramp/stairs tile uses the kit stair assets (the authored
+      // stair models read better than a flat wedge). `ramp` maps to the wide
+      // stair run so the two tool styles stay visually distinct; narrow/wood
+      // remain for legacy data.
       let stairModel = 'stairs';
       if (isWood) {
         stairModel = 'stairs_wood';
       } else if (ramp.type === 'narrow') {
         stairModel = 'stairs_narrow';
-      } else if (ramp.type === 'wide') {
+      } else if (ramp.type === 'wide' || ramp.type === 'ramp') {
         stairModel = 'stairs_wide';
       }
 
       pushInstance(`${stairModel}|default`, {
         x: worldX,
         y: -worldY,
-        z: worldZ,
-        rotationZ: rot,
-        look: null
+        z: baseZ,
+        rotationZ,
+        look: null,
+        fitHeight,
+        fitRun: gridSize,
+        normalize: true
       });
     });
 
@@ -1159,32 +1377,60 @@ export class ThreeDTerrainManager {
     const activeVariantKeys = new Set();
     instancesByVariant.forEach((instances, variantKey) => {
       const [modelKey] = variantKey.split('|');
-      const def = TERRAIN_MODEL_REGISTRY[modelKey];
+      const procedural = PROCEDURAL_TERRAIN_MODELS[modelKey];
+      const def = procedural
+        ? { scale: 1.0, baseZ: 0 }
+        : TERRAIN_MODEL_REGISTRY[modelKey];
       if (!def) return;
 
       // Procedural plates have no GLB: they are a shared unit plane whose UVs
       // span the cell 0..1. Kit tiles can carry several primitives (ground,
       // banks, water), so every part becomes its own InstancedMesh sharing the
       // same instance matrices.
-      const parts = def.plate
-        ? [{ geometry: getPlateGeometry(), material: getPlateMaterial(), name: 'plate' }]
-        : modelCache.getMeshParts(def.url);
+      const parts = procedural
+        ? [{ geometry: procedural.geometry(), createMaterial: procedural.createMaterial }]
+        : (def.plate
+          ? [{ geometry: getPlateGeometry(), material: getPlateMaterial(), name: 'plate' }]
+          : modelCache.getMeshParts(def.url));
       if (!parts || !parts.length) return; // Model still loading
 
       const baseZ = def.baseZ || 0;
       const look = instances[0]?.look || null;
       const liquidConfig = look ? (LIQUID_SURFACE_CONFIGS[look.typeId] || null) : null;
 
-      // One scale for every part, from the union footprint of the model.
+      // One scale for every part, from the union footprint of the model, plus
+      // the union box (height / run / centres) that the adaptive fits need.
       let maxFootprint = 0;
+      let minX = Infinity, maxX = -Infinity;
+      let minY = Infinity, maxY = -Infinity;
+      let minZ = Infinity, maxZ = -Infinity;
       parts.forEach(part => {
         part.geometry.computeBoundingBox();
+        const box = part.geometry.boundingBox;
         const size = new THREE.Vector3();
-        part.geometry.boundingBox.getSize(size);
+        box.getSize(size);
         maxFootprint = Math.max(maxFootprint, size.x, size.z);
+        minX = Math.min(minX, box.min.x);
+        maxX = Math.max(maxX, box.max.x);
+        minY = Math.min(minY, box.min.y);
+        maxY = Math.max(maxY, box.max.y);
+        minZ = Math.min(minZ, box.min.z);
+        maxZ = Math.max(maxZ, box.max.z);
       });
+      const modelBox = Number.isFinite(minX)
+        ? {
+          centerX: (minX + maxX) / 2,
+          minY,
+          centerZ: (minZ + maxZ) / 2,
+          height: maxY - minY,
+          run: maxZ - minZ
+        }
+        : { centerX: 0, minY: 0, centerZ: 0, height: 0, run: 0 };
       const scaleFactor = (gridSize / (maxFootprint || 1)) * (def.scale || 1.0);
       scaleFactorByModel.set(modelKey, scaleFactor);
+
+      const naturalHeight = modelBox.height * scaleFactor;
+      const naturalRun = modelBox.run * scaleFactor;
 
       parts.forEach((part, partIndex) => {
         // Single-part models keep the plain variant key; multi-part kit tiles
@@ -1203,32 +1449,43 @@ export class ThreeDTerrainManager {
           }
 
           const capacity = Math.max(instances.length * 2, 256);
-          instMesh = new THREE.InstancedMesh(
-            part.geometry,
-            this.buildPartMaterial({ def, part, look, liquidConfig }),
-            capacity
-          );
+          const material = part.createMaterial
+            ? part.createMaterial()
+            : this.buildPartMaterial({ def, part, look, liquidConfig });
+          instMesh = new THREE.InstancedMesh(part.geometry, material, capacity);
           instMesh.name = `ThreeDTerrainTile:${partKey}`;
-          instMesh.castShadow = def.noShadow !== true;
-          instMesh.receiveShadow = true;
+          instMesh.castShadow = procedural ? procedural.castShadow : def.noShadow !== true;
+          instMesh.receiveShadow = procedural ? procedural.receiveShadow !== false : true;
           instMesh.userData = { capacity };
           this.instancedMeshes.set(partKey, instMesh);
           this.group.add(instMesh);
-        } else {
-          instMesh.userData.scaleFactor = scaleFactor;
-          instMesh.userData.baseZ = baseZ;
         }
 
         instMesh.userData.scaleFactor = scaleFactor;
         instMesh.userData.baseZ = baseZ;
         instMesh.userData.variantKey = variantKey;
 
-        // Populate instance matrices (rotate by +90 deg around X so floor is flat in X-Y plane)
+        // Populate instance matrices (rotate by +90 deg around X so floor is
+        // flat in X-Y plane). Ramps/stairs/foundations stretch to an exact
+        // world height (`fitHeight`) and footprint run (`fitRun`) so they meet
+        // the tile edges and the neighbour's level instead of the authored
+        // model size. `normalize` recentres top-pivoted kit stairs so their
+        // run spans the whole tile.
         instances.forEach((inst, idx) => {
+          const heightMul = inst.fitHeight && naturalHeight > 0 ? inst.fitHeight / naturalHeight : 1;
+          const runMul = inst.fitRun && naturalRun > 0 ? inst.fitRun / naturalRun : 1;
           this.dummy.position.set(inst.x, inst.y, inst.z + baseZ + (def.baseZFrac || 0) * gridSize);
           this.dummy.rotation.set(Math.PI / 2, 0, inst.rotationZ, 'ZYX');
-          this.dummy.scale.set(scaleFactor, scaleFactor, scaleFactor);
+          this.dummy.scale.set(
+            scaleFactor * (inst.scaleX || 1),
+            scaleFactor * heightMul * (inst.scaleY || 1),
+            scaleFactor * runMul * (inst.scaleZ || 1)
+          );
           this.dummy.updateMatrix();
+          if (inst.normalize) {
+            _normalizeMatrix.makeTranslation(-modelBox.centerX, -modelBox.minY, -modelBox.centerZ);
+            this.dummy.matrix.multiply(_normalizeMatrix);
+          }
           instMesh.setMatrixAt(idx, this.dummy.matrix);
         });
 

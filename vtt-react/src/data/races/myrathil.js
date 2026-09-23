@@ -220,7 +220,11 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         illustrations: [
           {
             src: '/assets/images/races/myrathil_shoreling_icon_v1.png',
-            caption: 'Shoreling wave-warrior in sculpted green sea-armor with shell motifs, finned ears, and sculpted driftwood staff in rough charcoal draft with sea-slate watercolor splash.'
+            caption: 'Shoreling Male (Wave-Warrior) — Noble coastal wave-warrior in sculpted green sea-armor with shell motifs, finned ears, and sculpted driftwood staff in rough charcoal draft with sea-slate watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_shoreling_female_icon_v1.png',
+            caption: 'Shoreling Female (Coastal Animist & Tide-Weaver) — Humanoid animist in matching sculpted sea-armor seated on a mossy boulder with driftwood staff, levitating shells and sea glass in rough charcoal draft with sea-slate watercolor splash.'
           }
         ],
         visualDescription: `The first and most numerous, the Shoreling are built for two worlds and belong fully to neither. Their bronze skin carries the shifting bioluminescent vein-colors common to all Myrathil, teal in calm, storm-grey when the pressure drops, but their gill-veins and webbed fingers flush with blood only when their marine nature surfaces, and they are as comfortable on dry land as at the tide-line. Their enormous ocean-blue eyes squint perpetually against a light they were not built for. They favor layered sailcloth and practical storm-capes, the dress of diplomats and traders, and salt dries on their lashes when the sea lets them go.`,
@@ -752,11 +756,19 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         illustrations: [
           {
             src: '/assets/images/races/myrathil_riverling_male_icon_v1.png',
-            caption: 'Riverling Male (Trident Scout) — Athletic humanoid scout with frilled gill antlers, gig trident, and river-scales in rough charcoal draft with emerald wave splash.'
+            caption: 'Riverling Male (Trident Scout) — Athletic humanoid scout with webbed gill tendrils, gig trident, and river-scales in rough charcoal draft with emerald wave splash.'
           },
           {
-            src: '/assets/images/races/myrathil_riverling_female_icon_v1.png',
-            caption: 'Riverling Female (Coastal Animist) — Humanoid animist in sculpted sea-armor seated on a mossy boulder with driftwood staff, levitating shells and sea glass in rough charcoal draft with ocean watercolor splash.'
+            src: '/assets/images/races/myrathil_riverling_female_basin.png',
+            caption: 'Riverling Female (Water-Weaver) — Humanoid river animist with webbed gill tendrils and river-scales, weaving river water from a stone basin in rough charcoal draft with emerald wave splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_riverling_culture_rapids.jpg',
+            caption: 'The Rapid-Spear Harvest on the Roaring Shallows — Riverling scout in dynamic hunter crouch atop a rapids boulder with gig trident, river snails, and bare webbed feet in rough charcoal draft with jade wave splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_riverling_city_stilt.jpg',
+            caption: 'The Cascading Stilt-City & Waterway Bridges — Sprawling cypress-stilt longhouse city over roaring tiered waterfalls with waterwheels, dugout canoes, and scout lookout pair in rough charcoal draft with jade wave splash.'
           }
         ],
         visualDescription: `The wanderers of the inland waters. Riverling are born of brackish spawning, river mouths, estuaries, mangrove deltas, and it shows in a build tuned for freshwater travel: lean, self-sufficient, lighter-footed on land than any other Myrathil. Their vein-colors run brighter, fed by the oxygen of moving water, and they alone can submerge in freshwater without irritation. Most striking is their gift for concealment: a Riverling can retract their webbing completely, dim their vein-colors to near-invisibility, and still the restless tide in their movements until they look, briefly, almost human. They favor light traveling clothes and carry parchment maps of waterways no one else charts.`,

@@ -8,7 +8,7 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
  * (squares become parallelograms, hexes become projected hexagons, circles
  * become ellipses) instead of staying axis-aligned on screen.
  */
-const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, elevationMode, screenX, screenY }) => {
+const TerrainHoverPreview = ({ gridX, gridY, brushSize, fillRect, isEraser, isFog, isFill, elevationMode, screenX, screenY }) => {
     const {
         gridSize,
         gridType,
@@ -54,6 +54,9 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, elevati
     } else if (elevationMode === 'ramp') {
         borderColor = '#a0ffdd';
         bgColor = 'rgba(160, 255, 221, 0.22)';
+    } else if (isFill) {
+        borderColor = '#c9a227';
+        bgColor = 'rgba(201, 162, 39, 0.22)';
     }
 
     const overlayStyle = {
@@ -65,6 +68,51 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, elevati
         pointerEvents: 'none',
         zIndex: 99
     };
+
+    // Area fill: dashed rectangle preview spanning the dragged box (inclusive).
+    if (fillRect) {
+        const minX = Math.min(fillRect.x1, fillRect.x2);
+        const maxX = Math.max(fillRect.x1, fillRect.x2);
+        const minY = Math.min(fillRect.y1, fillRect.y2);
+        const maxY = Math.max(fillRect.y1, fillRect.y2);
+        const corner = gridSystem.gridToWorldCorner(minX, minY);
+        const c1 = gridSystem.worldToScreen(corner.x, corner.y, viewportWidth, viewportHeight);
+        const c2 = gridSystem.worldToScreen(corner.x + (maxX - minX + 1) * gs, corner.y, viewportWidth, viewportHeight);
+        const c3 = gridSystem.worldToScreen(corner.x + (maxX - minX + 1) * gs, corner.y + (maxY - minY + 1) * gs, viewportWidth, viewportHeight);
+        const c4 = gridSystem.worldToScreen(corner.x, corner.y + (maxY - minY + 1) * gs, viewportWidth, viewportHeight);
+        const points = [c1, c2, c3, c4].map(p => `${p.x},${p.y}`).join(' ');
+        const tileCount = (maxX - minX + 1) * (maxY - minY + 1);
+        const labelPos = {
+            x: (c1.x + c3.x) / 2,
+            y: (c1.y + c3.y) / 2
+        };
+
+        return (
+            <svg style={overlayStyle}>
+                <polygon
+                    points={points}
+                    fill={bgColor}
+                    stroke={borderColor}
+                    strokeWidth="2"
+                    strokeDasharray="6 4"
+                />
+                {tileCount > 1 && (
+                    <text
+                        x={labelPos.x}
+                        y={labelPos.y}
+                        fill="#f4e3b2"
+                        fontSize="12"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        style={{ paintOrder: 'stroke', stroke: 'rgba(20, 14, 6, 0.75)', strokeWidth: 3 }}
+                    >
+                        {`${maxX - minX + 1}×${maxY - minY + 1}`}
+                    </text>
+                )}
+            </svg>
+        );
+    }
 
     // Fog brush: projected ellipse footprint
     if (isFog) {

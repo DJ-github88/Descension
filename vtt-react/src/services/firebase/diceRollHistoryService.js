@@ -11,11 +11,15 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
+  writeBatch,
   query,
   where,
   orderBy,
   limit,
-  serverTimestamp
+  serverTimestamp,
+  increment,
+  Timestamp
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 
@@ -98,66 +102,79 @@ export async function saveDiceRoll(userId, characterId, roomId, rollData) {
 
 /**
  * Update character roll statistics
+ *
+ * Uses atomic `increment()` writes with dotted field paths, so concurrent
+ * rolls from multiple devices no longer lose updates. `averageRoll` is derived
+ * on read (`getCharacterRollStats`) instead of being stored by a
+ * read-modify-write cycle.
  */
 async function updateCharacterRollStats(userId, characterId, rollData) {
   try {
     const statsRef = doc(db, COLLECTIONS.CHARACTER_ROLL_STATS, `${userId}_${characterId}`);
 
-    // Get current stats
-    const statsDoc = await getDoc(statsRef);
-    const currentStats = statsDoc.exists() ? statsDoc.data() : {
+    const d20Results = rollData.results?.filter(r => r.sides === 20) || [];
+    let natural20s = 0;
+    let natural1s = 0;
+    d20Results.forEach(result => {
+      if (result.value === 20) natural20s += 1;
+      else if (result.value === 1) natural1s += 1;
+    });
+
+    const rollType = rollData.rollType || 'manual';
+
+    const updates = {
       userId,
       characterId,
-      totalRolls: 0,
-      lastRollDate: null,
-      diceTypeStats: {},
-      rollTypeStats: {},
-      totalSum: 0,
-      averageRoll: 0,
-      criticalSuccesses: 0,
-      criticalFailures: 0,
-      natural20s: 0,
-      natural1s: 0
+      lastRollDate: serverTimestamp(),
+      totalRolls: increment(1),
+      totalSum: increment(rollData.total || 0),
+      criticalSuccesses: increment(natural20s),
+      criticalFailures: increment(natural1s),
+      natural20s: increment(natural20s),
+      natural1s: increment(natural1s)
     };
 
-    // Calculate new statistics
-    const newStats = { ...currentStats };
-    newStats.totalRolls += 1;
-    newStats.lastRollDate = serverTimestamp();
-    newStats.totalSum += rollData.total || 0;
-    newStats.averageRoll = newStats.totalSum / newStats.totalRolls;
-
-    // Update dice type statistics
-    rollData.dice?.forEach(die => {
+    (rollData.dice || []).forEach(die => {
       const dieType = `d${die.sides}`;
-      if (!newStats.diceTypeStats[dieType]) {
-        newStats.diceTypeStats[dieType] = { count: 0, total: 0 };
-      }
-      newStats.diceTypeStats[dieType].count += die.count || 1;
+      updates[`diceTypeStats.${dieType}.count`] = increment(die.count || 1);
     });
 
-    // Update roll type statistics
-    const rollType = rollData.rollType || 'manual';
-    if (!newStats.rollTypeStats[rollType]) {
-      newStats.rollTypeStats[rollType] = { count: 0, total: 0 };
+    updates[`rollTypeStats.${rollType}.count`] = increment(1);
+    updates[`rollTypeStats.${rollType}.total`] = increment(rollData.total || 0);
+
+    try {
+      await updateDoc(statsRef, updates);
+    } catch (error) {
+      if (error?.code !== 'not-found') throw error;
+
+      // First roll for this character: create the document. setDoc does not
+      // split dotted keys into field paths, so build the nested maps here.
+      const firstStats = {
+        userId,
+        characterId,
+        lastRollDate: serverTimestamp(),
+        totalRolls: 1,
+        totalSum: rollData.total || 0,
+        criticalSuccesses: natural20s,
+        criticalFailures: natural1s,
+        natural20s,
+        natural1s,
+        diceTypeStats: {},
+        rollTypeStats: {}
+      };
+
+      (rollData.dice || []).forEach(die => {
+        const dieType = `d${die.sides}`;
+        firstStats.diceTypeStats[dieType] = { count: die.count || 1, total: 0 };
+      });
+
+      firstStats.rollTypeStats[rollType] = {
+        count: 1,
+        total: rollData.total || 0
+      };
+
+      await setDoc(statsRef, firstStats, { merge: true });
     }
-    newStats.rollTypeStats[rollType].count += 1;
-    newStats.rollTypeStats[rollType].total += rollData.total || 0;
-
-    // Check for criticals (assuming d20 rolls)
-    const d20Results = rollData.results?.filter(r => r.sides === 20) || [];
-    d20Results.forEach(result => {
-      if (result.value === 20) {
-        newStats.natural20s += 1;
-        newStats.criticalSuccesses += 1;
-      } else if (result.value === 1) {
-        newStats.natural1s += 1;
-        newStats.criticalFailures += 1;
-      }
-    });
-
-    // Save updated statistics
-    await setDoc(statsRef, newStats, { merge: true });
 
   } catch (error) {
     console.error('Error updating character roll stats:', error);
@@ -223,7 +240,13 @@ export async function getCharacterRollStats(userId, characterId) {
     const statsDoc = await getDoc(statsRef);
 
     if (statsDoc.exists()) {
-      return statsDoc.data();
+      const stats = statsDoc.data();
+      // averageRoll is derived (increment-only writes keep it race-free).
+      const totalRolls = stats.totalRolls || 0;
+      return {
+        ...stats,
+        averageRoll: totalRolls > 0 ? (stats.totalSum || 0) / totalRolls : 0
+      };
     } else {
       return {
         userId,
@@ -286,6 +309,10 @@ export async function getRoomRollHistory(roomId, options = {}) {
 
 /**
  * Delete old roll history (cleanup function)
+ *
+ * Actually deletes in batches (it used to just log a message). Scoped to the
+ * user's own rolls; `characterId` filters client-side so a single composite
+ * index on userId+timestamp is enough.
  */
 export async function cleanupOldRolls(userId, characterId, daysOld = 90) {
   try {
@@ -295,12 +322,32 @@ export async function cleanupOldRolls(userId, characterId, daysOld = 90) {
 
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
+    const cutoffTimestamp = Timestamp.fromDate(cutoffDate);
 
-    // This is a simplified cleanup - in production you'd want to batch delete
-    // For now, we'll just mark old rolls for potential cleanup
-    console.log(`Cleanup requested for rolls older than ${cutoffDate.toISOString()}`);
+    const q = query(
+      collection(db, COLLECTIONS.DICE_ROLLS),
+      where('userId', '==', userId),
+      where('timestamp', '<', cutoffTimestamp),
+      limit(200)
+    );
+    const snapshot = await getDocs(q);
 
-    return { success: true, localOnly: false };
+    const toDelete = characterId
+      ? snapshot.docs.filter(d => d.data().characterId === characterId)
+      : snapshot.docs;
+
+    if (toDelete.length > 0) {
+      const batch = writeBatch(db);
+      toDelete.forEach(d => batch.delete(d.ref));
+      await batch.commit();
+    }
+
+    return {
+      success: true,
+      localOnly: false,
+      deleted: toDelete.length,
+      hasMore: snapshot.size === 200
+    };
 
   } catch (error) {
     console.error('Error cleaning up old rolls:', error);

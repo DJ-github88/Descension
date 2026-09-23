@@ -112,10 +112,35 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const initializePresence = usePresenceStore((state) => state.initializePresence);
   const subscribeToOnlineUsers = usePresenceStore((state) => state.subscribeToOnlineUsers);
-  const cleanup = usePresenceStore((state) => state.cleanup);
   const openWhisperTab = usePresenceStore((state) => state.openWhisperTab);
   const initializeSocial = useSocialStore((state) => state.initialize);
 
+  // Primitive auth slices keep effects from re-running on unrelated auth-store
+  // updates (the whole `user` object changes identity easily).
+  const userUid = user?.uid;
+  const userDisplayName = user?.displayName;
+  const userEmail = user?.email;
+  const userIsGuest = user?.isGuest;
+  const userFriendId = user?.friendId;
+  const friendId = userData?.friendId || userFriendId || null;
+
+  // Signature of the character fields that actually affect presence. Used to
+  // stop the per-keystroke `setDoc(presence)` storm: typing a character name
+  // used to rewrite the full presence document on every keypress.
+  const presenceSignature = [
+    characterId,
+    characterName,
+    characterClass,
+    characterLevel,
+    characterRace,
+    characterSubrace,
+    characterRaceDisplayName,
+    characterBackground,
+    characterBackgroundDisplayName,
+    characterPath,
+    characterPathDisplayName
+  ].join('|');
+  const lastPresenceSignatureRef = useRef(null);
 
   // Initialize presence when window opens (fallback if not already initialized by GlobalSocketManager)
   // NOTE: GlobalSocketManager now initializes presence on login, so this is a backup
@@ -123,8 +148,8 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
     if (isOpen && !currentUserPresence) {
       // CRITICAL: Check for default "Character Name" and use account name as fallback
       const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
-      const resolvedCharacterName = (!isDefaultName && characterName) ? characterName : (user?.displayName || 'Guest');
-      
+      const resolvedCharacterName = (!isDefaultName && characterName) ? characterName : (userDisplayName || 'Guest');
+
       // Use character data if available, otherwise use defaults
       const characterData = {
         id: characterId || 'temp_character',
@@ -145,68 +170,65 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       };
 
       // Use user.uid if logged in, otherwise use a dev mode ID
-      const userId = user?.uid || `dev_user_${characterId || 'guest'}`;
-      const accountName = user?.displayName || user?.name || user?.email?.split('@')[0] || (user?.isGuest ? 'Guest' : 'Adventurer');
-      const isGuest = user?.isGuest || false;
+      const userId = userUid || `dev_user_${characterId || 'guest'}`;
+      const accountName = userDisplayName || userEmail?.split('@')[0] || (userIsGuest ? 'Guest' : 'Adventurer');
 
-      console.log('🎭 GlobalChatWindow: Initializing presence (fallback) with character:', characterData);
-      console.log('🎭 User ID:', userId, '(logged in:', !!user, ')');
-      console.log('🎭 Account Name:', accountName, 'isGuest:', isGuest);
-      const friendId = userData?.friendId || user?.friendId || null;
-      initializePresence(userId, characterData, sessionData, accountName, isGuest, friendId);
+      lastPresenceSignatureRef.current = presenceSignature;
+      initializePresence(userId, characterData, sessionData, accountName, userIsGuest || false, friendId);
       subscribeToOnlineUsers();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, currentUserPresence, initializePresence, subscribeToOnlineUsers]);
 
-    // Initialize social store for friends and requests (always when window opens and user exists)
-    if (isOpen && user?.uid) {
-      initializeSocial(user.uid);
-    }
-  }, [isOpen, user, characterId, currentUserPresence]);
-
-  // Update presence when character changes
+  // Initialize social store for friends and requests (idempotent in the store)
   useEffect(() => {
-    if (isOpen && characterId && currentUserPresence) {
-      // CRITICAL: Check for default "Character Name" and use account name as fallback
-      const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
-      const resolvedCharacterName = (!isDefaultName && characterName) ? characterName : (user?.displayName || 'Adventurer');
-      
-      const characterData = {
-        id: characterId,
-        name: resolvedCharacterName,
-        level: characterLevel,
-        class: characterClass,
-        background: characterBackground,
-        backgroundDisplayName: characterBackgroundDisplayName,
-        race: characterRace,
-        subrace: characterSubrace,
-        raceDisplayName: characterRaceDisplayName,
-        path: characterPath,
-        pathDisplayName: characterPathDisplayName
-      };
-
-      const sessionData = {
-        sessionType: currentUserPresence.sessionType || null
-      };
-
-      // Use user.uid if logged in, otherwise use a dev mode ID
-      const userId = user?.uid || `dev_user_${characterId}`;
-      const accountName = user?.displayName || user?.name || user?.email?.split('@')[0] || (user?.isGuest ? 'Guest' : 'Adventurer');
-      const isGuest = user?.isGuest || false;
-      const friendId = userData?.friendId || user?.friendId || null;
-
-      console.log('🔄 Updating presence with new character data:', characterData);
-      // Re-initialize presence with updated character data
-      initializePresence(userId, characterData, sessionData, accountName, isGuest, friendId);
+    if (isOpen && userUid) {
+      initializeSocial(userUid);
     }
-  }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterRaceDisplayName, characterBackground, characterBackgroundDisplayName, characterPath, characterLevel]);
+  }, [isOpen, userUid, initializeSocial]);
 
+  // Update presence when character changes (guarded by signature)
   useEffect(() => {
-    return () => {
-      if (!isOpen) {
-        cleanup();
-      }
+    if (!isOpen || !characterId || !currentUserPresence) return;
+    if (lastPresenceSignatureRef.current === presenceSignature) return;
+    lastPresenceSignatureRef.current = presenceSignature;
+
+    // CRITICAL: Check for default "Character Name" and use account name as fallback
+    const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
+    const resolvedCharacterName = (!isDefaultName && characterName) ? characterName : (userDisplayName || 'Adventurer');
+
+    const characterData = {
+      id: characterId,
+      name: resolvedCharacterName,
+      level: characterLevel,
+      class: characterClass,
+      background: characterBackground,
+      backgroundDisplayName: characterBackgroundDisplayName,
+      race: characterRace,
+      subrace: characterSubrace,
+      raceDisplayName: characterRaceDisplayName,
+      path: characterPath,
+      pathDisplayName: characterPathDisplayName
     };
-  }, [isOpen]);
+
+    const sessionData = {
+      sessionType: currentUserPresence.sessionType || null
+    };
+
+    // Use user.uid if logged in, otherwise use a dev mode ID
+    const userId = userUid || `dev_user_${characterId}`;
+    const accountName = userDisplayName || userEmail?.split('@')[0] || (userIsGuest ? 'Guest' : 'Adventurer');
+
+    console.log('🔄 Updating presence with new character data:', characterData.name);
+    // Re-initialize presence with updated character data
+    initializePresence(userId, characterData, sessionData, accountName, userIsGuest || false, friendId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, presenceSignature, currentUserPresence, initializePresence]);
+
+  // NOTE: presence/social teardown intentionally lives with the app-level
+  // GlobalSocketManager and auth lifecycle. This window unmounts whenever it
+  // is closed (GlobalChatWindowWrapper returns null), so cleaning up presence
+  // here would mark the user offline just for closing the chat window.
 
   useEffect(() => {
     const handleResize = () => {

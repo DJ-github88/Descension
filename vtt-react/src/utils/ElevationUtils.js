@@ -58,6 +58,43 @@ export function getElevationAtWorld(elevationData, gridSystem, worldX, worldY) {
   return getTileElevation(elevationData, grid.x, grid.y);
 }
 
+/**
+ * Elevation level (possibly fractional) at a world position, ramp-aware.
+ *
+ * On a normal tile this is the tile's integer level. On a ramp/stairs tile the
+ * level interpolates linearly along the ramp axis: the tile's own level at the
+ * far edge (opposite `dir`) up/down to the connected neighbour's level at the
+ * near edge (toward `dir`) — matching RampGeometry's wedge. Props, lights and
+ * tokens use this to sit on the visible slope instead of the flat tile level.
+ */
+export function getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX, worldY }) {
+  if (!gridSystem) return 0;
+
+  const tile = gridSystem.worldToGrid(worldX, worldY);
+  const level = getTileElevation(elevationData, tile.x, tile.y);
+  const ramp = getRampAt(rampData, tile.x, tile.y);
+  if (!ramp) return level;
+
+  // Auto-aligned: the slope follows whichever neighbour currently differs most.
+  const dir = resolveRampDirection({ elevationData, rampData, x: tile.x, y: tile.y });
+  const delta = DIRECTION_DELTAS[dir];
+  if (!delta) return level;
+
+  const targetLevel = getTileElevation(elevationData, tile.x + delta.x, tile.y + delta.y);
+  if (targetLevel === level) return level;
+
+  const tileCenter = gridSystem.gridToWorld(tile.x, tile.y);
+  const targetCenter = gridSystem.gridToWorld(tile.x + delta.x, tile.y + delta.y);
+  const axisX = targetCenter.x - tileCenter.x;
+  const axisY = targetCenter.y - tileCenter.y;
+  const axisLenSq = axisX * axisX + axisY * axisY;
+  if (axisLenSq <= 0) return level;
+
+  const projection = ((worldX - tileCenter.x) * axisX + (worldY - tileCenter.y) * axisY) / axisLenSq;
+  const t = Math.max(0, Math.min(1, projection + 0.5));
+  return level + (targetLevel - level) * t;
+}
+
 /** Ground height in world units (same units as gridSize/world px). */
 export function levelToWorldHeight(level, gridSize = 50) {
   return (level || 0) * gridSize;
@@ -90,13 +127,59 @@ export function getRampAt(rampData, x, y) {
   return ramp;
 }
 
-/** True when a ramp/stairs tile on either end points toward the other tile. */
-export function rampAllowsStep(rampData, from, to) {
+/**
+ * Auto-align a ramp/stairs tile with the terrain around it.
+ *
+ * Ramps carry no required direction: they connect toward the adjacent neighbour
+ * that needs them most — the largest absolute level difference, preferring the
+ * higher (ascending) side on a tie. Returns the stored dir as a fallback for
+ * legacy data or callers without elevation data, and null when nothing differs
+ * (flat ramp).
+ */
+export function resolveRampDirection({ elevationData, rampData, x, y }) {
+  const ramp = getRampAt(rampData, x, y);
+  if (!ramp) return null;
+  if (!elevationData) return ramp.dir || null;
+
+  const selfLevel = getTileElevation(elevationData, x, y);
+  let bestDir = null;
+  let bestScore = 0;
+  let bestDiff = 0;
+
+  for (const dir of Object.keys(DIRECTION_DELTAS)) {
+    const delta = DIRECTION_DELTAS[dir];
+    const diff = getTileElevation(elevationData, x + delta.x, y + delta.y) - selfLevel;
+    const score = Math.abs(diff);
+    if (score === 0) continue;
+    if (score > bestScore || (score === bestScore && diff > bestDiff)) {
+      bestDir = dir;
+      bestScore = score;
+      bestDiff = diff;
+    }
+  }
+
+  return bestDir || ramp.dir || null;
+}
+
+/**
+ * True when a ramp/stairs tile on either end connects to the other tile.
+ *
+ * With elevation data, auto-aligned ramps bridge any big step (|delta| > 1)
+ * adjacent to them — the rendered slope points at the steepest one, but the
+ * tile is walkable from every side it can actually serve. Without elevation
+ * data, legacy stored directions are used.
+ */
+export function rampAllowsStep(rampData, from, to, elevationData = null) {
   if (!rampData || !from || !to) return false;
 
   const rampConnects = (rampTile, target) => {
     const ramp = getRampAt(rampData, rampTile.x, rampTile.y);
     if (!ramp) return false;
+    if (elevationData) {
+      const fromLevel = getTileElevation(elevationData, rampTile.x, rampTile.y);
+      const toLevel = getTileElevation(elevationData, target.x, target.y);
+      return Math.abs(toLevel - fromLevel) > 1;
+    }
     const delta = DIRECTION_DELTAS[ramp.dir];
     if (!delta) return false;
     return rampTile.x + delta.x === target.x && rampTile.y + delta.y === target.y;
@@ -118,7 +201,7 @@ export function canStepElevation({ elevationData, rampData, from, to }) {
     return { allowed: true, cost: 1, blockedReason: null, fromLevel, toLevel, delta };
   }
 
-  if (rampAllowsStep(rampData, from, to)) {
+  if (rampAllowsStep(rampData, from, to, elevationData)) {
     return { allowed: true, cost: 1, blockedReason: null, fromLevel, toLevel, delta };
   }
 
@@ -257,16 +340,29 @@ export function filterVisibleTilesByElevation({
  * under the candidate point actually has that level). That makes the cursor
  * resolve to the raised top it is visually over.
  */
-export function screenToWorldElevated({ screenX, screenY, gridSystem, elevationData, minLevel = -10, maxLevel = 20 }) {
+export function screenToWorldElevated({
+  screenX,
+  screenY,
+  gridSystem,
+  elevationData,
+  minLevel = -10,
+  maxLevel = 20,
+  viewportWidth,
+  viewportHeight
+}) {
   if (!gridSystem) return null;
 
-  const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
-  const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
+  const resolvedViewportWidth = Number.isFinite(viewportWidth)
+    ? viewportWidth
+    : (typeof window !== 'undefined' ? window.innerWidth : 0);
+  const resolvedViewportHeight = Number.isFinite(viewportHeight)
+    ? viewportHeight
+    : (typeof window !== 'undefined' ? window.innerHeight : 0);
   const { gridSize = 50 } = gridSystem.getGridState();
 
   const groundWorld = gridSystem.screenToWorld3D
-    ? gridSystem.screenToWorld3D(screenX, screenY, 0, viewportWidth, viewportHeight)
-    : gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+    ? gridSystem.screenToWorld3D(screenX, screenY, 0, resolvedViewportWidth, resolvedViewportHeight)
+    : gridSystem.screenToWorld(screenX, screenY, resolvedViewportWidth, resolvedViewportHeight);
 
   if (!elevationData || !gridSystem.screenToWorld3D) {
     return groundWorld;
@@ -280,8 +376,8 @@ export function screenToWorldElevated({ screenX, screenY, gridSystem, elevationD
       screenX,
       screenY,
       trialLevel * gridSize,
-      viewportWidth,
-      viewportHeight
+      resolvedViewportWidth,
+      resolvedViewportHeight
     );
     const tile = gridSystem.worldToGrid(candidate.x, candidate.y);
     const tileLevel = getTileElevation(elevationData, tile.x, tile.y);

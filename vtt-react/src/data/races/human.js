@@ -228,7 +228,15 @@ Tessen children are born underground, and most will never see open sky. Educatio
       illustrations: [
         {
           src: '/assets/images/races/human_thalren_icon_v1.png',
-          caption: 'Thalren human watchman in sheepskin longcoat with iron lantern-staff and broadsword in rough charcoal draft with mist-grey watercolor splash.'
+          caption: 'Thalren Watchman (Rampart Sentry) — Human watchman in sheepskin longcoat with iron lantern-staff and broadsword in rough charcoal draft with mist-grey watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/thalren_culture_scriptorium.png',
+          caption: 'The Scriptorium Midnight Vigil — Thalren archivist recording lineage by lamplight among towering chained folios in Greymark, in rough charcoal draft with mist-grey watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/thalren_city_greymark.png',
+          caption: 'The Walled Archive-City of Greymark — Gothic clocktowers, ironwood palisade bastions, and sky-bridges rising through pine mists, in rough charcoal draft with mist-grey watercolor splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/thalren_culture_write.png',
@@ -316,7 +324,15 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
       illustrations: [
         {
           src: '/assets/images/races/human_skald_icon_v1.png',
-          caption: 'A massive Nordhalla Skald berserker in heavy fur-lined cloak and studded cuirass, holding a heavy iron battleaxe across both hands in rough charcoal draft with piercing glacial frost-blue watercolor splash.'
+          caption: 'Skald Berserker (Nordhalla Warrior) — Massive warrior in heavy fur-lined mantle and studded cuirass, holding a heavy iron battleaxe across both hands in rough charcoal draft with piercing glacial frost-blue watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/skald_culture_tomb.jpg',
+          caption: 'The Glacier-Tomb Vigil of the Standing Ancestors — Colossal Skald warrior standing vigil before upright ancestors frozen in glacier-ice, grounded battleaxe in rough charcoal draft with glacial blue splash.'
+        },
+        {
+          src: '/assets/images/races/skald_city_skalvyrhold.png',
+          caption: 'Skalvyrhold: The Glacier Fjord-Fortress — Dragon-prowed timber mead-halls, iron-banded gates, and dragon longships frozen into sea ice beneath sheer peaks, in rough charcoal draft with glacial blue splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/skald_culture_ritual.png',
@@ -415,7 +431,15 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
       illustrations: [
         {
           src: '/assets/images/races/human_tessen_icon_v1.png',
-          caption: 'A sturdy Tessen stone-architect and bastion defender in heavy leather smith apron and quilted armor, carrying a massive two-handed stonemason war-hammer over his shoulder and holding draft calipers in rough charcoal draft with warm forge amber watercolor splash.'
+          caption: 'Tessen Stone-Architect — Sturdy bastion defender in leather smith apron and quilted armor, carrying a massive two-handed masonry war-hammer and brass draft calipers in rough charcoal draft with forge amber watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/tessen_culture_survey.png',
+          caption: 'The Chasm-Bridge Survey & Caliper Inspection — Tessen engineer measuring stress on a stone bridge keystone over a vertical abyss with venting geothermal copper pipes, in rough charcoal draft with forge amber splash.'
+        },
+        {
+          src: '/assets/images/races/tessen_city_keep.jpg',
+          caption: 'The Vertical Chasm Keep of Tesshan — Monumental subterranean chasm city carved into cliff-walls with calcified bridges, stairways, and steam pipes, in rough charcoal draft with forge amber splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/tessen_culture_bazaar.png',
@@ -508,6 +532,14 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         {
           src: '/assets/images/races/human_merryn_female_icon_v1.png',
           caption: 'Female Merryn human mariner with contract-tattoos, naval deck-coat, cutlass, and braided hair in rough charcoal draft with wave-indigo watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/merryn_culture_tattoo.jpg',
+          caption: 'The Below-Deck Contract Tattooing — Merryn sailor biting a wooden peg while a shipboard tattooist inkes binding nautical runes into his forearm in rough charcoal draft with wave-indigo splash.'
+        },
+        {
+          src: '/assets/images/races/merryn_city_merrowport.jpg',
+          caption: 'Merrowport: The Storm-Wharf Haven — Sea-captain with spyglass overlooking high-masted icebreaker ships, cargo crane towers, and gabled boardwalks in rough charcoal draft with wave-indigo splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/merryn_culture_sail.png',
@@ -599,6 +631,14 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
         {
           src: '/assets/images/races/human_ordan_female_icon_v1.png',
           caption: 'Female Ordan human nomad kneeling beside an ancient solar astrolabe mechanism with desert sword in rough charcoal draft with cyan-blue watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/ordan_culture_astrolabe.png',
+          caption: 'The Throat-Sung Starless Navigation Circle — Ordan nomads chanting oral navigation maps around a campfire while holding up an engraved brass solar astrolabe in rough charcoal draft with desert amber splash.'
+        },
+        {
+          src: '/assets/images/races/ordan_city_encampment.jpg',
+          caption: 'The Great Felt Pavilion Encampment of the Vale — Nomad scout on a ridge with horned mount overlooking a sprawling city of white yurts, chieftain pavilions, and cart-trains in rough charcoal draft with desert amber splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/ordan_culture_herd.png',

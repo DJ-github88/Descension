@@ -13,9 +13,13 @@ import {
   getDoc,
   getDocs,
   collection,
+  query,
+  where,
+  limit,
   serverTimestamp
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
+import { logFirestoreSnapshot, trackListener } from '../../utils/firestoreDiagnostics';
 
 class PresenceService {
   constructor() {
@@ -117,6 +121,11 @@ class PresenceService {
       return;
     }
 
+    // Remove any handlers registered by a previous setOnline call before
+    // adding new ones - `_boundHandlers` was overwritten on every call, so
+    // every re-init leaked a full set of window listeners.
+    this.removeOfflineHandlers();
+
     const handleOffline = async () => {
       if (this.isCleanedUp) return;
       console.log('🔴 Setting user offline:', userId);
@@ -152,6 +161,23 @@ class PresenceService {
     window.addEventListener('offline', handleOffline);
 
     this._boundHandlers = [handleVisibilityChange, handleOffline];
+  }
+
+  /**
+   * Remove offline-detection handlers registered by setupOfflineHandlers.
+   */
+  removeOfflineHandlers() {
+    if (!this._boundHandlers || this._boundHandlers.length === 0) return;
+    const [handleVisibilityChange, handleOffline] = this._boundHandlers;
+    if (handleVisibilityChange) {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
+    if (handleOffline) {
+      window.removeEventListener('beforeunload', handleOffline);
+      window.removeEventListener('unload', handleOffline);
+      window.removeEventListener('offline', handleOffline);
+    }
+    this._boundHandlers = [];
   }
 
   /**
@@ -194,15 +220,8 @@ class PresenceService {
     try {
       const presenceRef = doc(db, 'presence', userId);
 
-      // Get current data to preserve other fields
-      const snapshot = await getDoc(presenceRef);
-      if (!snapshot.exists()) {
-        return false;
-      }
-
-      const currentData = snapshot.data();
+      // Partial update - no getDoc + full-document setDoc round trip.
       const updates = {
-        ...currentData,
         status,
         lastSeen: serverTimestamp()
       };
@@ -212,7 +231,7 @@ class PresenceService {
         updates.statusComment = statusComment;
       }
 
-      await setDoc(presenceRef, updates, { merge: true });
+      await updateDoc(presenceRef, updates);
       return true;
     } catch (error) {
       console.debug('Failed to update status:', error?.message || error);
@@ -231,32 +250,30 @@ class PresenceService {
     try {
       const presenceRef = doc(db, 'presence', userId);
 
-      // First get current presence data to preserve session info
-      const snapshot = await getDoc(presenceRef);
-      if (!snapshot.exists()) {
-        return false;
-      }
-
-      const currentData = snapshot.data();
-      const updates = {
-        ...currentData,
-        characterId: characterData.id || currentData.characterId,
-        characterName: characterData.name || currentData.characterName,
-        accountName: characterData.accountName || currentData.accountName,
-        isGuest: characterData.isGuest !== undefined ? characterData.isGuest : currentData.isGuest,
-        level: characterData.level || currentData.level,
-        class: characterData.class || currentData.class,
-        background: characterData.background || currentData.background,
-        backgroundDisplayName: characterData.backgroundDisplayName || currentData.backgroundDisplayName,
-        path: characterData.path || currentData.path,
-        pathDisplayName: characterData.pathDisplayName || currentData.pathDisplayName,
-        race: characterData.race || currentData.race,
-        subrace: characterData.subrace || currentData.subrace,
-        raceDisplayName: characterData.raceDisplayName || currentData.raceDisplayName,
-        lastSeen: serverTimestamp()
+      // Partial update - no getDoc + full-document setDoc round trip. Only
+      // fields actually provided are written; others keep their current value.
+      const updates = { lastSeen: serverTimestamp() };
+      const copyIfPresent = (key, value) => {
+        if (value !== undefined && value !== null && value !== '') {
+          updates[key] = value;
+        }
       };
 
-      await setDoc(presenceRef, updates, { merge: true });
+      copyIfPresent('characterId', characterData.id);
+      copyIfPresent('characterName', characterData.name);
+      copyIfPresent('accountName', characterData.accountName);
+      if (characterData.isGuest !== undefined) updates.isGuest = characterData.isGuest;
+      copyIfPresent('level', characterData.level);
+      copyIfPresent('class', characterData.class);
+      copyIfPresent('background', characterData.background);
+      copyIfPresent('backgroundDisplayName', characterData.backgroundDisplayName);
+      copyIfPresent('path', characterData.path);
+      copyIfPresent('pathDisplayName', characterData.pathDisplayName);
+      copyIfPresent('race', characterData.race);
+      copyIfPresent('subrace', characterData.subrace);
+      copyIfPresent('raceDisplayName', characterData.raceDisplayName);
+
+      await updateDoc(presenceRef, updates);
       return true;
     } catch (error) {
       console.debug('Failed to update character data:', error?.message || error);
@@ -297,27 +314,78 @@ class PresenceService {
       return () => { };
     }
 
-    try {
-      const presenceRef = collection(db, 'presence');
+    // Idempotent: replacing the listener must unsubscribe the previous one,
+    // otherwise every call (GlobalSocketManager + GlobalChatWindow + account
+    // switch) accumulates another full-collection listener.
+    const existing = this.listeners.get('__onlineUsers__');
+    if (existing) {
+      existing();
+      this.listeners.delete('__onlineUsers__');
+    }
 
-      const unsubscribe = onSnapshot(presenceRef, (snapshot) => {
-        const users = [];
-        snapshot.forEach((docSnapshot) => {
-          const userData = docSnapshot.data();
-          if (this.isUserOnline(userData)) {
-            users.push(userData);
-          }
-        });
-        if (users.length !== this._lastOnlineCount) {
-            console.log('👥 Online users updated:', users.length, 'users');
-            this._lastOnlineCount = users.length;
+    const emit = (users) => {
+      if (users.length !== this._lastOnlineCount) {
+        console.log('👥 Online users updated:', users.length, 'users');
+        this._lastOnlineCount = users.length;
+      }
+      callback(users);
+    };
+
+    const buildUsers = (usersById) => {
+      const users = [];
+      usersById.forEach((userData, id) => {
+        if (this.isUserOnline(userData)) {
+          users.push(userData);
+        } else {
+          // Stale (no heartbeat) - drop so the map does not grow forever.
+          usersById.delete(id);
         }
-        callback(users);
-      }, (error) => {
-        console.debug('Presence subscription ended/skipped:', error?.message || error);
       });
+      return users;
+    };
 
+    const attach = (targetQuery) => {
+      const usersById = new Map();
+      const unsubscribe = onSnapshot(
+        targetQuery,
+        (snapshot) => {
+          // Incremental: only touch documents that actually changed instead of
+          // re-scanning the entire presence collection on every heartbeat.
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === 'removed') {
+              usersById.delete(change.doc.id);
+            } else {
+              usersById.set(change.doc.id, change.doc.data());
+            }
+          });
+
+          logFirestoreSnapshot({
+            collection: 'presence',
+            changes: snapshot.docChanges(),
+            total: usersById.size
+          });
+
+          emit(buildUsers(usersById));
+        },
+        (error) => {
+          console.debug('Presence subscription ended/skipped:', error?.message || error);
+        }
+      );
+      this.listeners.set('__onlineUsers__', unsubscribe);
+      trackListener(1);
       return unsubscribe;
+    };
+
+    try {
+      // Only online-ish statuses, capped: avoids downloading offline records
+      // and unbounded collection growth. Falls back to the full collection if
+      // the status field/index is unavailable.
+      const onlineQuery = query(
+        collection(db, 'presence'),
+        where('status', 'in', ['online', 'away', 'busy']),
+        limit(200)
+      );
+      return attach(onlineQuery);
     } catch (error) {
       console.debug('Failed to subscribe to online users:', error?.message || error);
       return () => { };
@@ -330,6 +398,13 @@ class PresenceService {
   subscribeToUser(userId, callback) {
     if (!this.isConfigured || !db || isMockOrDevUser(userId) || !auth?.currentUser) {
       return () => { };
+    }
+
+    // Replace any existing listener for this user instead of leaking it.
+    const existing = this.listeners.get(userId);
+    if (existing) {
+      existing();
+      this.listeners.delete(userId);
     }
 
     try {
@@ -345,6 +420,7 @@ class PresenceService {
       });
 
       this.listeners.set(userId, unsubscribe);
+      trackListener(1);
       return unsubscribe;
     } catch (error) {
       console.error('❌ Failed to subscribe to user:', userId, error);
@@ -462,18 +538,12 @@ class PresenceService {
     }
 
     // Remove all tracked event listeners
-    if (this._boundHandlers.length > 0) {
-      const [handleVisibilityChange, handleOffline] = this._boundHandlers;
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('beforeunload', handleOffline);
-      window.removeEventListener('unload', handleOffline);
-      window.removeEventListener('offline', handleOffline);
-      this._boundHandlers = [];
-    }
+    this.removeOfflineHandlers();
 
     // Unsubscribe all user listeners
     this.listeners.forEach((unsubscribe) => {
       unsubscribe();
+      trackListener(-1);
     });
     this.listeners.clear();
 

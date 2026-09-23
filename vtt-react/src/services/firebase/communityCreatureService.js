@@ -23,10 +23,17 @@ import {
  limit,
  startAfter,
  getDoc,
- setDoc
+ setDoc,
+ increment
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import {
+ getCommunitySummaries,
+ upsertCommunitySummary,
+ backfillCommunitySummaries,
+ SUMMARY_KINDS
+} from './communitySummaryService';
 
 // Collection names
 const COLLECTIONS = {
@@ -208,6 +215,28 @@ export async function getAllCommunityCreatures(pageSize = 20, lastDoc = null, so
 
   const creaturesRef = collection(db, COLLECTIONS.CREATURES);
 
+  // Preferred path: shallow summary feed (no nested creatureData/stats/loot).
+  const usingFullCursor = !!(lastDoc && lastDoc.__fullCursor);
+  if (!usingFullCursor) {
+   try {
+    const { summaries, lastDoc: summaryCursor, hasMore } = await getCommunitySummaries(
+     SUMMARY_KINDS.CREATURE,
+     { pageSize, sortBy, cursor: lastDoc }
+    );
+    if (summaries.length > 0) {
+     return {
+      creatures: summaries,
+      lastDoc: summaryCursor,
+      hasMore
+     };
+    }
+   } catch (summaryError) {
+    console.debug('Summary feed unavailable, using full creature documents:', summaryError?.message || summaryError);
+   }
+  }
+
+  const fullCursor = lastDoc?.__fullCursor || lastDoc;
+
   // Build query - get all public shared creatures
   try {
    let orderField = 'createdAt';
@@ -222,18 +251,21 @@ export async function getAllCommunityCreatures(pageSize = 20, lastDoc = null, so
     limit(pageSize)
    );
 
-   if (lastDoc) {
-    q = query(q, startAfter(lastDoc));
+   if (fullCursor) {
+    q = query(q, startAfter(fullCursor));
    }
 
    const snapshot = await getDocs(q);
+   const creatures = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+   }));
+
+   backfillCommunitySummaries(SUMMARY_KINDS.CREATURE, creatures);
 
    return {
-    creatures: snapshot.docs.map(doc => ({
-     id: doc.id,
-     ...doc.data()
-    })),
-    lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+    creatures,
+    lastDoc: snapshot.docs.length ? { __fullCursor: snapshot.docs[snapshot.docs.length - 1] } : null,
     hasMore: snapshot.docs.length === pageSize
    };
   } catch (queryError) {
@@ -245,18 +277,21 @@ export async function getAllCommunityCreatures(pageSize = 20, lastDoc = null, so
     limit(pageSize)
    );
 
-   if (lastDoc) {
-    q = query(q, startAfter(lastDoc));
+   if (fullCursor) {
+    q = query(q, startAfter(fullCursor));
    }
 
    const snapshot = await getDocs(q);
+   const creatures = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+   }));
+
+   backfillCommunitySummaries(SUMMARY_KINDS.CREATURE, creatures);
 
    return {
-    creatures: snapshot.docs.map(doc => ({
-     id: doc.id,
-     ...doc.data()
-    })),
-    lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+    creatures,
+    lastDoc: snapshot.docs.length ? { __fullCursor: snapshot.docs[snapshot.docs.length - 1] } : null,
     hasMore: snapshot.docs.length === pageSize
    };
   }
@@ -418,13 +453,35 @@ export async function uploadCreature(creatureData, userId) {
 
   const docRef = await addDoc(creaturesRef, communityCreature);
 
-  return {
+  const uploadedCreature = {
    id: docRef.id,
    ...communityCreature
   };
+  // Keep the shallow feed summary in sync (best effort).
+  upsertCommunitySummary(SUMMARY_KINDS.CREATURE, docRef.id, uploadedCreature).catch(() => {});
+
+  return uploadedCreature;
  } catch (error) {
   console.error('Error uploading creature:', error);
   throw new Error('Failed to upload creature');
+ }
+}
+
+/**
+ * Fetch a single full creature document by id (no side effects).
+ * Used to hydrate summary rows when the user opens details.
+ */
+export async function getCommunityCreatureById(creatureId) {
+ try {
+  if (!checkFirebaseAvailable()) {
+   return null;
+  }
+  const creatureDoc = await getDoc(doc(db, COLLECTIONS.CREATURES, creatureId));
+  if (!creatureDoc.exists()) return null;
+  return { id: creatureDoc.id, ...creatureDoc.data() };
+ } catch (error) {
+  console.error('Error fetching creature by id:', error);
+  return null;
  }
 }
 
@@ -440,15 +497,21 @@ export async function downloadCreature(creatureId) {
    throw new Error('Creature not found');
   }
 
-  // Increment download count
+  // Increment download count (atomic; avoids lost updates on concurrent downloads)
   await updateDoc(creatureRef, {
-   downloadCount: (creatureDoc.data().downloadCount || 0) + 1
+   downloadCount: increment(1)
   });
 
-  return {
+  const fullCreature = {
    id: creatureDoc.id,
-   ...creatureDoc.data()
+   ...creatureDoc.data(),
+   downloadCount: (creatureDoc.data().downloadCount || 0) + 1
   };
+
+  // Keep the feed summary's counter in sync (best effort).
+  upsertCommunitySummary(SUMMARY_KINDS.CREATURE, creatureDoc.id, fullCreature).catch(() => {});
+
+  return fullCreature;
  } catch (error) {
   console.error('Error downloading creature:', error);
   throw new Error('Failed to download creature');

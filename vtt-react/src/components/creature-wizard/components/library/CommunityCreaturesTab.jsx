@@ -11,7 +11,11 @@ import { useCreatureLibraryDispatch, libraryActionCreators } from '../../context
 import useCreatureStore from '../../../../store/creatureStore';
 import useAuthStore from '../../../../store/authStore';
 import CompactCreatureCard from '../common/CompactCreatureCard';
+import { getCommunityCreatureById } from '../../../../services/firebase/communityCreatureService';
 import './CommunityCreaturesTab.css';
+
+// Session cache of full creature documents hydrated from summary rows.
+const creatureHydrationCache = new Map();
 
 const DEFAULT_CREATURE_CATEGORIES = [
   { id: 'all', name: 'All Categories' },
@@ -66,6 +70,26 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
     setToast({ message, type });
     const timer = setTimeout(() => setToast(null), duration);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Feed rows may be shallow summaries; fetch the full creature on demand.
+  const openCreatureDetails = useCallback(async (creature) => {
+    setInspectingCreature(creature);
+    if (!creature?._summary) return;
+
+    const sourceId = creature.sourceId || creature.id;
+    let full = creatureHydrationCache.get(sourceId);
+    if (!full) {
+      full = await getCommunityCreatureById(sourceId);
+      if (full) creatureHydrationCache.set(sourceId, full);
+    }
+    if (!full) return;
+
+    setInspectingCreature((prev) => {
+      if (!prev) return prev;
+      const prevId = prev.sourceId || prev.id;
+      return prevId === sourceId ? { ...prev, ...full, id: sourceId, source: 'community' } : prev;
+    });
   }, []);
 
   // Check if creature is in local library
@@ -206,7 +230,7 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
         <div
           key={creature.id}
           className="cct-card"
-          onClick={() => setInspectingCreature(completeCreature)}
+          onClick={() => openCreatureDetails(completeCreature)}
         >
           <div className="cct-card-topbar">
             <span className="cct-type-badge">{completeCreature.type || 'Creature'}</span>
@@ -297,7 +321,7 @@ const CommunityCreaturesTab = ({ refreshKey = 0 }) => {
       <div
         key={creature.id}
         className="cct-row"
-        onClick={() => setInspectingCreature(completeCreature)}
+        onClick={() => openCreatureDetails(completeCreature)}
       >
         <div className="cct-row-main">
           <div className="cct-row-icon-frame">

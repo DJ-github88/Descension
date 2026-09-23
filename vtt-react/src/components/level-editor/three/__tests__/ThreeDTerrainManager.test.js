@@ -12,6 +12,11 @@ jest.mock('../../../../services/ModelCacheService', () => {
   const three = require('three');
   const sharedGeometry = new three.BoxGeometry(4, 4, 1);
   const sharedMaterial = new three.MeshStandardMaterial();
+  // The real foundation GLB is authored grounded (y 0..2) on a 2.2 footprint, so
+  // the mock models that too — the adaptive fit has to make it exactly one
+  // level tall despite the authored 45.45-unit height.
+  const foundationGeometry = new three.BoxGeometry(2.2, 2, 2.2);
+  foundationGeometry.translate(0, 1, 0);
   // Kit shoreline tiles are multi-primitive: ground, banks and water arrive as
   // separate materials, which is what the manager has to keep apart.
   const partMaterial = (name, r, g, b) => {
@@ -29,6 +34,9 @@ jest.mock('../../../../services/ModelCacheService', () => {
       getGeometryAndMaterial: () => ({ geometry: sharedGeometry, material: sharedMaterial }),
       getMeshParts: (url) => {
         const target = String(url);
+        if (target.includes('floor_foundation')) {
+          return [{ geometry: foundationGeometry, material: sharedMaterial, name: 'texture' }];
+        }
         if (target.includes('lily_large') || target.includes('lily_small')) {
           return [
             { geometry: sharedGeometry, material: partMaterial('leafsGreen', 0.03, 0.62, 0.45), name: 'leafsGreen' },
@@ -203,7 +211,7 @@ describe('ThreeDTerrainManager', () => {
       expect(faces).toEqual(new Set(['1,0,0', '-1,0,0', '0,1,0', '0,-1,0']));
 
       const lift = GRID.gridSize * LIQUID_SURFACE_CONFIGS.water.lift;
-      const step = GRID.gridSize * 0.5;
+      const step = GRID.gridSize;
       const zs = Array.from({ length: 16 }, (_, i) => positions.getZ(i));
       expect(Math.min(...zs)).toBeCloseTo(lift);
       expect(Math.max(...zs)).toBeCloseTo(step + lift);
@@ -457,41 +465,197 @@ describe('ThreeDTerrainManager', () => {
     expect(variantKey).toContain('wood_floor');
   });
 
-  it('generates 3D foundation blocks underneath elevated cliff tiles', () => {
+  it('builds a foundation column whose topmost block meets the tile top', () => {
     manager.updateTerrain({
       terrainData: { '0,0': 'stone' },
       elevationData: { '0,0': 2 },
       ...GRID,
       enabled: true
     });
-    // Should have stone_floor variant and foundation variant
     const foundationMesh = manager.instancedMeshes.get('foundation|default');
     expect(foundationMesh).toBeDefined();
-    expect(foundationMesh.count).toBe(2); // 2 elevation levels under the tile
+    expect(foundationMesh.count).toBe(2);
+
+    // Non-top blocks overlap 15% into the block above so the kit's decorative
+    // top rim cannot show as a groove per level ("crate stack"); the top block
+    // ends exactly at the tile floor (100).
+    const bottomMatrix = new THREE.Matrix4();
+    const topMatrix = new THREE.Matrix4();
+    foundationMesh.getMatrixAt(0, bottomMatrix);
+    foundationMesh.getMatrixAt(1, topMatrix);
+    const modelBottomZ = (m) => new THREE.Vector3(0, 0, 0).applyMatrix4(m).z;
+    const modelTopZ = (m) => new THREE.Vector3(0, 2, 0).applyMatrix4(m).z;
+    expect(modelBottomZ(bottomMatrix)).toBeCloseTo(0, 3);
+    expect(modelTopZ(bottomMatrix)).toBeCloseTo(57.5, 3); // 50 * 1.15 overlap
+    expect(modelBottomZ(topMatrix)).toBeCloseTo(50, 3);
+    expect(modelTopZ(topMatrix)).toBeCloseTo(100, 3);
   });
 
-  it('omits flat floor tiles on cells containing ramps to avoid z-fighting', () => {
+  it('creates an unpainted plateau in 3D from elevation data alone', () => {
     manager.updateTerrain({
-      terrainData: { '0,0': 'stone' },
-      rampData: { '0,0': { dir: 's', type: 'ramp' } },
+      terrainData: {},
+      elevationData: { '0,0': 1 },
       ...GRID,
       enabled: true
     });
-    // Flat stone_floor should not be pushed; only stairs
+    // One foundation block (lvl 0) plus a ground plate capping it at +1.
+    expect(manager.instancedMeshes.get('foundation|default').count).toBe(1);
+    const plate = manager.instancedMeshes.get('procedural_plate|default');
+    expect(plate).toBeDefined();
+    expect(plate.count).toBe(1);
+    const matrix = new THREE.Matrix4();
+    plate.getMatrixAt(0, matrix);
+    // Lifted a hair above the top block so coplanar faces cannot z-fight.
+    expect(matrix.elements[14]).toBeCloseTo(50.5, 3);
+  });
+
+  it('carves an unpainted pit as an open shell that meets the ground plane', () => {
+    manager.updateTerrain({
+      terrainData: {},
+      elevationData: { '0,0': -2 },
+      ...GRID,
+      enabled: true
+    });
+    const pit = manager.instancedMeshes.get('procedural_pit|default');
+    expect(pit).toBeDefined();
+    expect(pit.count).toBe(1);
+    expect(pit.material.side).toBe(THREE.BackSide);
+    const matrix = new THREE.Matrix4();
+    pit.getMatrixAt(0, matrix);
+    // Floor sits two levels down; the shell (height 2 levels) reaches z=0.
+    expect(new THREE.Vector3(0, 0, 0).applyMatrix4(matrix).z).toBeCloseTo(-100, 3);
+    expect(new THREE.Vector3(0, 1, 0).applyMatrix4(matrix).z).toBeCloseTo(0, 3);
+  });
+
+  it('lets the ramp wedge carry the column under unpainted elevated ramps', () => {
+    manager.updateTerrain({
+      terrainData: {},
+      elevationData: { '0,0': 2 },
+      rampData: { '0,0': { dir: 'e', type: 'ramp' } },
+      ...GRID,
+      enabled: true
+    });
+    // The solid wedge supplies the tile volume: no foundation blocks (they
+    // would poke through the thin end of the slope) and no plate either.
+    expect(manager.instancedMeshes.get('foundation|default')).toBeUndefined();
+    expect(manager.instancedMeshes.get('procedural_plate|default')).toBeUndefined();
+    const ramp = manager.instancedMeshes.get('procedural_ramp|default');
+    expect(ramp).toBeDefined();
+    expect(ramp.count).toBe(1);
+  });
+
+  it('keeps flat ramps on the ordinary floor tile and slopes only real level changes', () => {
+    manager.updateTerrain({
+      terrainData: { '0,0': 'stone', '1,0': 'stone' },
+      rampData: {
+        '0,0': { dir: 'e', type: 'ramp' },
+        '1,0': { dir: 'e', type: 'ramp' }
+      },
+      ...GRID,
+      enabled: true
+    });
+    // Neither ramp changes level, so both tiles keep their flat floor and no
+    // slope geometry is generated.
+    const stoneFloor = [...manager.instancedMeshes.entries()]
+      .find(([key]) => key.startsWith('stone_floor|'));
+    expect(stoneFloor).toBeDefined();
+    expect(stoneFloor[1].count).toBe(2);
+    expect(manager.instancedMeshes.get('procedural_ramp|default')).toBeUndefined();
+  });
+
+  it('renders a smooth ramp spanning the tile and climbing to the connected neighbour', () => {
+    manager.updateTerrain({
+      terrainData: { '0,0': 'stone' },
+      elevationData: { '1,0': 1 },
+      rampData: { '0,0': { dir: 'e', type: 'ramp' } },
+      ...GRID,
+      enabled: true
+    });
+    // Floor omitted under a sloped ramp; smooth ramp geometry instead.
     const stoneFloorMesh = manager.instancedMeshes.get('stone_floor|default');
     expect(stoneFloorMesh ? stoneFloorMesh.count : 0).toBe(0);
+    const rampMesh = manager.instancedMeshes.get('procedural_ramp|default');
+    expect(rampMesh).toBeDefined();
+    expect(rampMesh.count).toBe(1);
+
+    // Authored unit wedge: top edge centre is local (0, 1, -0.5); after the
+    // +90deg X rotation and the east rotation it must land on the tile's east
+    // edge one level up, with the base on the west edge at ground.
+    const matrix = new THREE.Matrix4();
+    rampMesh.getMatrixAt(0, matrix);
+    const top = new THREE.Vector3(0, 1, -0.5).applyMatrix4(matrix);
+    expect(top.x).toBeCloseTo(50, 3);
+    expect(top.y).toBeCloseTo(-25, 3);
+    expect(top.z).toBeCloseTo(50, 3);
+    const base = new THREE.Vector3(0, 0, 0.5).applyMatrix4(matrix);
+    expect(base.x).toBeCloseTo(0, 3);
+    expect(base.y).toBeCloseTo(-25, 3);
+    expect(base.z).toBeCloseTo(0, 3);
+  });
+
+  it('stretches stairs to the neighbour level and centres their run on the tile', () => {
+    manager.updateTerrain({
+      elevationData: { '1,0': 2 },
+      rampData: { '0,0': { dir: 'e', type: 'stairs' } },
+      ...GRID,
+      enabled: true
+    });
     const stairsMesh = manager.instancedMeshes.get('stairs|default');
     expect(stairsMesh).toBeDefined();
     expect(stairsMesh.count).toBe(1);
+
+    const matrix = new THREE.Matrix4();
+    stairsMesh.getMatrixAt(0, matrix);
+    // Mock stair box spans y ±2, z ±0.5; normalisation grounds the base and
+    // centres the run so it spans the whole tile.
+    const bottomCenter = new THREE.Vector3(0, -2, 0).applyMatrix4(matrix);
+    expect(bottomCenter.x).toBeCloseTo(25, 3);
+    expect(bottomCenter.y).toBeCloseTo(-25, 3);
+    expect(bottomCenter.z).toBeCloseTo(0, 3);
+    const topCenter = new THREE.Vector3(0, 2, 0).applyMatrix4(matrix);
+    expect(topCenter.z).toBeCloseTo(100, 3); // two levels of height
+
+    const runNorth = new THREE.Vector3(0, -2, -0.5).applyMatrix4(matrix);
+    const runSouth = new THREE.Vector3(0, -2, 0.5).applyMatrix4(matrix);
+    // East-facing ramp: the run maps onto the world X axis and spans the tile.
+    expect(Math.abs(runSouth.x - runNorth.x)).toBeCloseTo(50, 3);
   });
 
-  it('supports lowercase directions for stairs and applies correct rotation', () => {
+  it('flips descending stairs so they drop toward the connected neighbour', () => {
     manager.updateTerrain({
+      // Steepest adjacent difference is east (2 -> 0): auto-aligns east and
+      // descends, so the high end sits on the west edge at the tile's level.
+      elevationData: { '0,0': 2, '1,0': 0, '-1,0': 2, '0,-1': 2, '0,1': 2 },
+      rampData: { '0,0': { type: 'stairs' } },
+      ...GRID,
+      enabled: true
+    });
+    const stairsMesh = manager.instancedMeshes.get('stairs|default');
+    const matrix = new THREE.Matrix4();
+    stairsMesh.getMatrixAt(0, matrix);
+    // High run edge sits on the tile's west edge at the tile's own level...
+    const highEdge = new THREE.Vector3(0, 2, -0.5).applyMatrix4(matrix);
+    expect(highEdge.x).toBeCloseTo(0, 3);
+    expect(highEdge.z).toBeCloseTo(100, 3);
+    // ...and the grounded base lands on the east edge at the lower neighbour.
+    const lowEdge = new THREE.Vector3(0, -2, 0.5).applyMatrix4(matrix);
+    expect(lowEdge.x).toBeCloseTo(50, 3);
+    expect(lowEdge.z).toBeCloseTo(0, 3);
+  });
+
+  it('supports lowercase directions and rotates the ramp toward each neighbour', () => {
+    manager.updateTerrain({
+      elevationData: {
+        '0,-1': 1, // north of (0,0)
+        '2,0': 1,  // east of (1,0)
+        '3,1': 1,  // south of (3,0)
+        '-1,1': 1  // west of (0,1)
+      },
       rampData: {
-        '0,0': { dir: 'n' },
-        '1,0': { dir: 'e' },
-        '2,0': { dir: 's' },
-        '3,0': { dir: 'w' }
+        '0,0': { dir: 'n', type: 'stairs' },
+        '1,0': { dir: 'e', type: 'stairs' },
+        '3,0': { dir: 's', type: 'stairs' },
+        '0,1': { dir: 'w', type: 'stairs' }
       },
       ...GRID,
       enabled: true
@@ -499,13 +663,37 @@ describe('ThreeDTerrainManager', () => {
     const stairsMesh = manager.instancedMeshes.get('stairs|default');
     expect(stairsMesh).toBeDefined();
     expect(stairsMesh.count).toBe(4);
+
+    // The high run edge (model +Y top, -Z up-slope corner) must land on the
+    // edge shared with the connected neighbour, one level up.
+    const highEdgeOf = (idx) => {
+      const matrix = new THREE.Matrix4();
+      stairsMesh.getMatrixAt(idx, matrix);
+      return new THREE.Vector3(0, 2, -0.5).applyMatrix4(matrix);
+    };
+    // Instance order follows Object.keys(rampData): n, e, s, w.
+    const north = highEdgeOf(0); // tile (0,0), north edge is y=0
+    expect(north.x).toBeCloseTo(25, 3);
+    expect(north.y).toBeCloseTo(0, 3);
+    expect(north.z).toBeCloseTo(50, 3);
+    const east = highEdgeOf(1); // tile (1,0), east edge is x=100
+    expect(east.x).toBeCloseTo(100, 3);
+    expect(east.y).toBeCloseTo(-25, 3);
+    const south = highEdgeOf(2); // tile (3,0), south edge is y=-50
+    expect(south.x).toBeCloseTo(175, 3);
+    expect(south.y).toBeCloseTo(-50, 3);
+    const west = highEdgeOf(3); // tile (0,1), west edge is x=0
+    expect(west.x).toBeCloseTo(0, 3);
+    expect(west.y).toBeCloseTo(-75, 3);
   });
 
   it('generates foundation blocks underneath elevated stairs and uses wood stairs on wood terrain', () => {
     manager.updateTerrain({
       terrainData: { '0,0': 'wooden_floor' },
-      elevationData: { '0,0': 2 },
-      rampData: { '0,0': { dir: 'e', type: 'stairs' } },
+      // The +3 neighbour is the only level difference, so the ramp auto-aligns
+      // east; the surrounding ground matches the tile so it is not the target.
+      elevationData: { '0,0': 2, '1,0': 3, '-1,0': 2, '0,-1': 2, '0,1': 2 },
+      rampData: { '0,0': { type: 'stairs' } },
       ...GRID,
       enabled: true
     });
@@ -515,7 +703,17 @@ describe('ThreeDTerrainManager', () => {
 
     const foundationMesh = manager.instancedMeshes.get('foundation|default');
     expect(foundationMesh).toBeDefined();
-    expect(foundationMesh.count).toBe(2);
+    // Two supporting blocks specifically under the elevated ramp tile (tile
+    // (0,0) is centred at world x 25, y -25).
+    const matrix = new THREE.Matrix4();
+    let blocksAtRampTile = 0;
+    for (let i = 0; i < foundationMesh.count; i += 1) {
+      foundationMesh.getMatrixAt(i, matrix);
+      if (Math.abs(matrix.elements[12] - 25) < 0.01 && Math.abs(matrix.elements[13] + 25) < 0.01) {
+        blocksAtRampTile += 1;
+      }
+    }
+    expect(blocksAtRampTile).toBe(2);
   });
 
   it('hides the group when disabled', () => {

@@ -10,6 +10,11 @@ import { create } from 'zustand';
 import { io } from 'socket.io-client';
 import presenceService from '../services/firebase/presenceService';
 import { v4 as uuidv4 } from 'uuid';
+import { tryAcquireCooldown } from '../utils/writeThrottle';
+
+// Minimum gap between chat sends from one client. Mirrors the server-side
+// cooldown documented in firestore.rules.
+const CHAT_SEND_COOLDOWN_MS = 750;
 
 const CHAT_DEBUG = process.env.NODE_ENV === 'development' || process.env.REACT_APP_CHAT_DEBUG === 'true';
 const chatDebug = (...args) => {
@@ -242,6 +247,15 @@ const usePresenceStore = create((set, get) => ({
    *   2. Change-detection: skip set() if the serialized user list is identical.
    */
   subscribeToOnlineUsers: () => {
+    // Idempotent: unsubscribe any previous listener before creating a new one.
+    // Previously the new unsubscribe simply overwrote the stored one, leaking
+    // every earlier full-collection presence listener.
+    const existingUnsubscribe = get().presenceUnsubscribe;
+    if (existingUnsubscribe) {
+      existingUnsubscribe();
+      set({ presenceUnsubscribe: null });
+    }
+
     let debounceTimer = null;
     let lastSnapshot = ''; // Serialized key for change detection
 
@@ -276,8 +290,16 @@ const usePresenceStore = create((set, get) => ({
       }, 500);
     });
 
-    set({ presenceUnsubscribe: unsubscribe });
-    return unsubscribe;
+    const wrappedUnsubscribe = () => {
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+        debounceTimer = null;
+      }
+      unsubscribe();
+    };
+
+    set({ presenceUnsubscribe: wrappedUnsubscribe });
+    return wrappedUnsubscribe;
   },
 
   /**
@@ -526,6 +548,13 @@ const usePresenceStore = create((set, get) => ({
     // Current user is required above; this keeps identity deterministic for routing/UI anchors
     const senderData = currentUserPresence;
 
+    // Client-side rate limit: block rapid-fire sends before any local append
+    // or socket emit happens.
+    if (!tryAcquireCooldown(`chat-send:${senderData.userId || 'anon'}`, CHAT_SEND_COOLDOWN_MS)) {
+      chatDebug('⏳ [sendGlobalMessage] blocked by cooldown');
+      return false;
+    }
+
     // Resolve a stable sender id for multiplayer + local fallback modes
     let fallbackPlayerId = null;
     try {
@@ -608,6 +637,12 @@ const usePresenceStore = create((set, get) => ({
     // Allow guests to send whispers (essential for trial interaction)
     if (!currentUserPresence) {
       console.warn('Authentication required to send whispers');
+      return false;
+    }
+
+    // Client-side rate limit shared with global chat sends.
+    if (!tryAcquireCooldown(`chat-send:${currentUserPresence.userId || 'anon'}`, CHAT_SEND_COOLDOWN_MS)) {
+      chatDebug('⏳ [sendWhisper] blocked by cooldown');
       return false;
     }
 
@@ -2432,8 +2467,12 @@ const usePresenceStore = create((set, get) => ({
       return resolvedUserId;
     }
 
-    // Add message to tab
+    // Add message to tab (bounded, same cap as global/party chat)
     tab.messages.push(message);
+    const whisperCap = get().maxChatMessages || 100;
+    if (tab.messages.length > whisperCap) {
+      tab.messages = tab.messages.slice(-whisperCap);
+    }
 
     // Increment unread count if community window is closed or not on this tab
     const { isCommunityWindowOpen } = get();

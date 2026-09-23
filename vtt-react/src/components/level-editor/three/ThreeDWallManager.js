@@ -522,7 +522,7 @@ export class ThreeDWallManager {
       const midGridY = Math.floor((parsed.y1 + parsed.y2) / 2);
       elevation = getTileElevation(elevationData, midGridX, midGridY) || 0;
     }
-    return elevation * (gridSize * 0.5);
+    return elevation * gridSize;
   }
 
   /**
@@ -951,7 +951,7 @@ export class ThreeDWallManager {
     const gx = Math.floor((vertex.x - gridOffsetX) / gridSize);
     const gy = Math.floor((vertex.y - gridOffsetY) / gridSize);
     const elevation = getTileElevation(elevationData, gx, gy) || 0;
-    return elevation * (gridSize * 0.5);
+    return elevation * gridSize;
   }
 
   resolveFogVisibility(samples, { isFogActive, isPlayerPositionExplored, visibleAreaSet, tileKeyAt }) {

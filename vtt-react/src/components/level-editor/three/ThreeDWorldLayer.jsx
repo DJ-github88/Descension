@@ -361,9 +361,9 @@ export const ThreeDWorldLayer = ({ width, height }) => {
           visibleAreaSet: les.visibleArea ? new Set(les.visibleArea) : null
         };
 
-        propManagerRef.current.updateObjects(objs, gridState, fogState, wData, les.elevationData || {});
+        propManagerRef.current.updateObjects(objs, gridState, fogState, wData, les.elevationData || {}, les.rampData || {});
         propManagerRef.current.updateWallDoors(wData, gridState, fogState, les.elevationData || {});
-        propManagerRef.current.updateLightProps(les.lightSources || {}, gridState, fogState, les.elevationData || {});
+        propManagerRef.current.updateLightProps(les.lightSources || {}, gridState, fogState, les.elevationData || {}, les.rampData || {});
 
         if (wallManagerRef.current && les.walls3DEnabled !== false) {
           wallManagerRef.current.updateWalls(wData, les.elevationData || {}, gridState, fogState);
@@ -633,7 +633,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
       doorsChanged = !!propManagerRef.current.updateWallDoors(wallData, gridState, fogState, elevationData);
       // Wall-attached fixtures (torches, banners) derive their height from the
       // wall run they are mounted on, so wall edits must refresh them too.
-      wallPropsChanged = !!propManagerRef.current.updateObjects(environmentalObjects, gridState, fogState, wallData, elevationData);
+      wallPropsChanged = !!propManagerRef.current.updateObjects(environmentalObjects, gridState, fogState, wallData, elevationData, rampData);
     }
     if (walls3DEnabled && wallManagerRef.current) {
       fogChanged = !!wallManagerRef.current.updateWalls(wallData, elevationData, gridState, fogState);
@@ -653,6 +653,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
   }, [
     wallData,
     elevationData,
+    rampData,
     walls3DEnabled,
     environmentalObjects,
     gridSize,
@@ -682,7 +683,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
         viewingFromToken,
         isPlayerPositionExplored,
         visibleAreaSet
-      }, elevationData);
+      }, elevationData, rampData);
       // Placed lights cast real sun shadows, and the sun map is re-rendered on
       // demand only. A fixture that appeared, moved, resized or was deleted
       // must request that pass or its old shadow lingers on the floor until the
@@ -734,6 +735,7 @@ export const ThreeDWorldLayer = ({ width, height }) => {
     gridOffsetX,
     gridOffsetY,
     elevationData,
+    rampData,
     fogOfWarEnabled,
     isEditorMode,
     isGMMode,

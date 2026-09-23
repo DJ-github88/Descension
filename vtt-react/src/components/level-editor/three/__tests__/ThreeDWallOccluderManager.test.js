@@ -82,8 +82,8 @@ describe('ThreeDWallOccluderManager', () => {
     const quaternion = new THREE.Quaternion();
     matrix.decompose(position, quaternion, scale);
 
-    // Base elevation is 2 * (50 * 0.5) = 50. Height is 1.8 * 50 = 90.
-    // Box center Z is baseZ + height / 2 = 50 + 45 = 95.
-    expect(position.z).toBeCloseTo(95);
+    // Base elevation is 2 * 50 = 100. Height is 1.8 * 50 = 90.
+    // Box center Z is baseZ + height / 2 = 100 + 45 = 145.
+    expect(position.z).toBeCloseTo(145);
   });
 });

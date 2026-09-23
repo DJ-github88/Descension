@@ -21,10 +21,15 @@ import {
   orderBy,
   limit,
   startAfter,
-  getDoc
+  getDoc,
+  increment
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import {
+  upsertCommunitySummary,
+  SUMMARY_KINDS
+} from './communitySummaryService';
 
 // Collection names
 const COLLECTIONS = {
@@ -118,6 +123,9 @@ export async function uploadMap(mapData, userId) {
     const sanitizedMapData = sanitizeForFirestore(communityMap);
 
     const docRef = await addDoc(mapsRef, sanitizedMapData);
+
+    // Keep the shallow feed summary in sync (best effort).
+    upsertCommunitySummary(SUMMARY_KINDS.MAP, docRef.id, { ...communityMap, id: docRef.id }).catch(() => {});
 
     console.log(`✅ Map uploaded to community: ${docRef.id}`);
 
@@ -287,12 +295,17 @@ export async function downloadCommunityMap(mapId, userId) {
     });
 
     if (result.success) {
-      // Update download count
+      // Atomic increment (read-modify-write raced on concurrent downloads).
       const mapRef = doc(db, COLLECTIONS.MAPS, mapId);
-      const currentDownloads = mapData.downloadCount || 0;
       await updateDoc(mapRef, {
-        downloadCount: currentDownloads + 1
+        downloadCount: increment(1)
       });
+
+      // Keep the feed summary's counter in sync (best effort).
+      upsertCommunitySummary(SUMMARY_KINDS.MAP, mapId, {
+        ...mapData,
+        downloadCount: (mapData.downloadCount || 0) + 1
+      }).catch(() => {});
     }
 
     return result;

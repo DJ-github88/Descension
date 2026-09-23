@@ -8,7 +8,7 @@ import useCombatStore from '../../store/combatStore';
 import useConditionStore from '../../store/conditionStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
-import { getTileElevation, screenToWorldElevated } from '../../utils/ElevationUtils';
+import { getTileElevation, getElevationLevelAtWorld, screenToWorldElevated } from '../../utils/ElevationUtils';
 import { isWorldAreaPartiallyOccluded } from '../../utils/WallOcclusion';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
@@ -403,6 +403,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const controlledVisibleTiles = useLevelEditorStore(state => state.controlledVisibleTiles);
   const getExploredArea = useLevelEditorStore(state => state.getExploredArea);
   const elevationData = useLevelEditorStore(state => state.elevationData);
+  const rampData = useLevelEditorStore(state => state.rampData);
   const wallDataForOcclusion = useLevelEditorStore(state => state.wallData);
   const viewModeForOcclusion = useGameStore(state => state.viewMode);
   const viewRotationForOcclusion = useGameStore(state => state.viewRotation);
@@ -966,15 +967,22 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   const currentPos = isDragging ? localPosition : position;
 
-  // Lift tokens to their tile's elevation in 2.5D (world z = level * gridSize)
+  // Lift tokens to their tile's elevation in 2.5D (world z = level * gridSize).
+  // On ramp/stairs tiles the level is interpolated along the slope so the token
+  // stands on the surface instead of floating at the tile's flat level.
   const getElevationWorldZ = useCallback((worldX, worldY) => {
-    if (!elevationData || !gridSystem) return 0;
-    const tile = gridSystem.worldToGrid(worldX, worldY);
-    const level = getTileElevation(elevationData, tile.x, tile.y);
+    if (!gridSystem || (!elevationData && !rampData)) return 0;
+    let level;
+    if (rampData && Object.keys(rampData).length > 0) {
+      level = getElevationLevelAtWorld({ elevationData, rampData, gridSystem, worldX, worldY });
+    } else {
+      const tile = gridSystem.worldToGrid(worldX, worldY);
+      level = getTileElevation(elevationData, tile.x, tile.y);
+    }
     if (!level) return 0;
     const { gridSize: gs } = gridSystem.getGridState();
     return level * (gs || 50);
-  }, [elevationData, gridSystem]);
+  }, [elevationData, rampData, gridSystem]);
 
   // "Behind the wall" indicator for 2.5D projected views
   const isBehindWall = useMemo(() => {

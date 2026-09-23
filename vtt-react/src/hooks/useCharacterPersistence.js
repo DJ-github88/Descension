@@ -138,21 +138,23 @@ export const useCharacterPersistence = () => {
   return { success: false, reason: 'No data to save' };
  }
 
- try {
+  try {
   const result = await persistenceService.saveCharacterState(user.uid, currentCharacterId, dataToSave);
 
   if (result.success) {
   lastSavedStateRef.current = JSON.stringify(dataToSave);
-  realtimeSyncRef.current?.markLocalSave(new Date(result.data?.lastUpdated));
+  lastStateHashRef.current = getCharacterStateHash();
+  // Pass the write token so the listener ignores our own echo.
+  realtimeSyncRef.current?.markLocalSave(result.writeToken);
   console.log(`💾 Character state saved for ${currentCharacterId}`);
   }
 
   return result;
- } catch (error) {
+  } catch (error) {
   console.error('Failed to save character state:', error);
   return { success: false, error: error.message };
- }
-  }, [user, currentCharacterId, collectCharacterState, persistenceService]);
+  }
+  }, [user, currentCharacterId, collectCharacterState, getCharacterStateHash, persistenceService]);
 
   /**
    * Load character state from Firebase
@@ -175,6 +177,7 @@ export const useCharacterPersistence = () => {
   }
 
   // Update stores with remote data
+  isApplyingRemoteRef.current = true;
   useCharacterStore?.setState({
    // Basic resources
    health: result.health || { current: 45, max: 50 },
@@ -215,6 +218,8 @@ export const useCharacterPersistence = () => {
   });
 
   lastSavedStateRef.current = JSON.stringify(result);
+  lastStateHashRef.current = getCharacterStateHash();
+  isApplyingRemoteRef.current = false;
   console.log(`📂 Character state loaded for ${currentCharacterId}`);
   return { success: true, data: result };
   } else {
@@ -225,7 +230,7 @@ export const useCharacterPersistence = () => {
   console.error('Failed to load character state:', error);
   return { success: false, error: error.message };
  }
-  }, [user, currentCharacterId, persistenceService, useCharacterStore]);
+  }, [user, currentCharacterId, persistenceService, useCharacterStore, getCharacterStateHash]);
 
   /**
    * Auto-save character state when it changes
@@ -237,8 +242,9 @@ export const useCharacterPersistence = () => {
   characterStateTimerRef.current = null;
  }
 
- // Set new auto-save timer
- characterStateTimerRef.current = setTimeout(async () => {
+  // Set new auto-save timer
+  characterStateTimerRef.current = setTimeout(async () => {
+  characterStateTimerRef.current = null;
   const currentState = collectCharacterState();
   if (currentState) {
   const currentStateStr = JSON.stringify(currentState);
@@ -249,8 +255,8 @@ export const useCharacterPersistence = () => {
    await saveCharacterState(currentState);
   }
   }
- }, AUTO_SAVE_DELAY);
- }, [collectCharacterState, saveCharacterState, getCharacterStateHash]);
+  }, AUTO_SAVE_DELAY);
+  }, [collectCharacterState, saveCharacterState, getCharacterStateHash]);
 
  /**
  * Force immediate save
@@ -282,38 +288,76 @@ export const useCharacterPersistence = () => {
  }
  }, [user, currentCharacterId, loadCharacterState]);
 
- // Auto-save when character state changes (optimized version)
+ // Auto-save when character state changes.
+ // Store subscriptions are required: the previous version compared a state
+ // hash inside an effect whose dependencies never changed when HP/mana/
+ // inventory changed, so local edits were never flagged and conflict
+ // detection was effectively dead.
  useEffect(() => {
  if (!user || user.isGuest || !currentCharacterId) {
-  return;
+  return undefined;
  }
 
-  const currentHash = getCharacterStateHash();
-  if (currentHash && currentHash !== lastStateHashRef.current) {
-   lastStateHashRef.current = currentHash;
+ let isMounted = true;
+ const unsubscribers = [];
 
-   // If the state changed because we just applied remote data, don't treat
-   // it as a local edit - this avoids false conflicts and redundant saves.
-   // Don't return early; fall through so the unmount cleanup below is still
-   // registered for this run of the effect.
-   const fromRemote = isApplyingRemoteRef.current;
-   isApplyingRemoteRef.current = false;
-   if (!fromRemote) {
-   // Genuine local edit - flag it so a concurrent remote update can be
-   // detected as a conflict, then schedule the debounced save.
-   realtimeSyncRef.current?.markLocalChange('character-state');
-   scheduleAutoSave();
-   }
-  }
+ Promise.all([
+  import('../store/characterStore'),
+  import('../store/inventoryStore'),
+  import('../store/conditionStore'),
+  import('../store/questStore')
+ ]).then(([characterStoreModule, inventoryStoreModule, conditionStoreModule, questStoreModule]) => {
+  if (!isMounted) return;
 
- // Cleanup timer on unmount
+  const characterStore = characterStoreModule.default;
+  const inventoryStore = inventoryStoreModule.default;
+  const conditionStore = conditionStoreModule.default;
+  const questStore = questStoreModule.default;
+
+  const watch = (store, selector) =>
+   store.subscribe((state, prevState) => {
+    if (!selector(state, prevState)) return;
+    // Remote-applied state is not a local edit; the remote handler updates
+    // lastSavedStateRef/lastStateHashRef itself.
+    if (isApplyingRemoteRef.current) return;
+    realtimeSyncRef.current?.markLocalChange('character-state');
+    scheduleAutoSave();
+   });
+
+  unsubscribers.push(
+   watch(
+    characterStore,
+    (s, p) =>
+     s.health !== p.health ||
+     s.mana !== p.mana ||
+     s.actionPoints !== p.actionPoints ||
+     s.tempHealth !== p.tempHealth ||
+     s.tempMana !== p.tempMana ||
+     s.tempActionPoints !== p.tempActionPoints ||
+     s.exhaustionLevel !== p.exhaustionLevel ||
+     s.classResource !== p.classResource ||
+     s.equipment !== p.equipment ||
+     s.skillRanks !== p.skillRanks ||
+     s.skillProgress !== p.skillProgress ||
+     s.skillPointsSpent !== p.skillPointsSpent ||
+     s.skillPointsAvailable !== p.skillPointsAvailable
+   ),
+   watch(inventoryStore, (s, p) => s.items !== p.items || s.currency !== p.currency || s.encumbranceState !== p.encumbranceState),
+   watch(conditionStore, (s, p) => s.activeBuffs !== p.activeBuffs || s.activeDebuffs !== p.activeDebuffs),
+   watch(questStore, (s, p) => s.quests !== p.quests)
+  );
+ });
+
+ // Cleanup timer and subscriptions on unmount
  return () => {
+  isMounted = false;
   if (characterStateTimerRef.current) {
-  clearTimeout(characterStateTimerRef.current);
-  characterStateTimerRef.current = null;
+   clearTimeout(characterStateTimerRef.current);
+   characterStateTimerRef.current = null;
   }
+  unsubscribers.forEach((unsubscribe) => unsubscribe());
  };
- }, [user, currentCharacterId, getCharacterStateHash, scheduleAutoSave]);
+ }, [user, currentCharacterId, scheduleAutoSave]);
 
  // Real-time sync for cross-device synchronization
   const handleRemoteCharacterChange = useCallback((remoteData, changeType) => {
@@ -374,9 +418,15 @@ export const useCharacterPersistence = () => {
   });
   }
 
+  // The remote state is now the persisted baseline; prevents the store
+  // subscriptions from treating it as a local edit and echoing it back.
+  lastSavedStateRef.current = JSON.stringify(collectCharacterState());
+  lastStateHashRef.current = getCharacterStateHash();
+  isApplyingRemoteRef.current = false;
+
   console.log('✅ Character state updated from remote changes');
   }
-  }, [useCharacterStore, useConditionStore, useInventoryStore, useQuestStore]);
+  }, [useCharacterStore, useConditionStore, useInventoryStore, useQuestStore, collectCharacterState, getCharacterStateHash]);
 
  const realtimeSyncRef = useRef(null);
 
