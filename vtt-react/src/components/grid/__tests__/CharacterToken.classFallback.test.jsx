@@ -184,6 +184,21 @@ const renderToken = () => render(
 describe('CharacterToken portrait resolution', () => {
   beforeEach(() => {
     useCharacterStore.getState().lore = {};
+    useCharacterStore.getState().tokenSettings = {};
+  });
+
+  it('keeps a visible token border when no border colour is configured', () => {
+    const { container } = renderToken();
+    const token = container.querySelector('.character-token');
+    expect(token).not.toBeNull();
+    expect(token.style.border).toContain('#506e30');
+    expect(token.style.border).not.toContain('undefined');
+  });
+
+  it('uses the configured token border colour when one is set', () => {
+    useCharacterStore.getState().tokenSettings = { borderColor: '#123456' };
+    const { container } = renderToken();
+    expect(container.querySelector('.character-token').style.border).toContain('#123456');
   });
 
   it('falls back to the class icon when no portrait image or icon is chosen', () => {

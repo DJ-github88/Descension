@@ -78,7 +78,8 @@ export const WALL_MODELS = {
   wooden_fence_curved: '/assets/models/walls/wooden_fence_curved.glb',
   hedge_curved: '/assets/models/walls/hedge_curved.glb',
   brick_wall_curve: '/assets/models/walls/brick_wall_curve.glb',
-  quaternius_wood: '/assets/models/walls/quaternius_wood_wall.glb'
+  quaternius_wood: '/assets/models/walls/quaternius_wood_wall.glb',
+  stone_wall_lowpoly: '/assets/models/walls/stone_wall_lowpoly.glb'
 };
 
 /**
@@ -203,7 +204,8 @@ export const WALL_MODEL_METRICS = {
   [WALL_MODELS.wooden_wall_diagonal]: { length: 1, height: 1.0, centerX: 0, rotateY: Math.PI / 2 },
   [WALL_MODELS.wooden_fence_curved]: { length: 1, height: 0.38, centerX: 0, rotateY: Math.PI / 2 },
   [WALL_MODELS.hedge_curved]: { length: 1, height: 0.25, centerX: 0, rotateY: Math.PI / 2 },
-  [WALL_MODELS.brick_wall_curve]: { length: 1, height: 0.702, centerX: 0 }
+  [WALL_MODELS.brick_wall_curve]: { length: 1, height: 0.702, centerX: 0 },
+  [WALL_MODELS.stone_wall_lowpoly]: { length: 1, height: 1, centerX: 0, centerZ: 0.4 }
 };
 export const wallModelMetrics = (url) => WALL_MODEL_METRICS[url] || DEFAULT_WALL_METRICS;
 
@@ -262,6 +264,10 @@ export function resolveWallModelUrlForType(type) {
   const doorModel = WALL_DOOR_MODELS[typeLower];
   if (doorModel) {
     return doorModel;
+  }
+
+  if (typeLower === 'stone_wall_lowpoly') {
+    return WALL_MODELS.stone_wall_lowpoly;
   }
 
   // Dedicated models for fences and special architectural walls
@@ -407,6 +413,16 @@ export class ThreeDWallManager {
 
     if (typeLower === 'quaternius_wood') {
       return null;
+    }
+
+    if (typeLower === 'stone_wall_lowpoly') {
+      return {
+        tint: null,
+        baseOpacity: 1,
+        emissive: null,
+        junctionModels: {},
+        key: `${typeId}:authored`
+      };
     }
 
     // Magical barriers / force walls: translucent emissive energy panes.

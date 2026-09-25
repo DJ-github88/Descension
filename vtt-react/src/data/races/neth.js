@@ -400,6 +400,14 @@ The Nethien do not love Morvane. They respect it the way a debtor respects a cre
      {
        src: '/assets/images/races/neth_high_icon_v1.png',
        caption: 'High Nethien contract scribe of Atropolis holding an open scroll and writing stylus in rough charcoal draft with moon-silver watercolor splash.'
+     },
+     {
+       src: '/assets/images/races/neth_high_culture_contract.png',
+       caption: 'High Nethien magistrate standing before an archival lectern inspecting an unrolled parchment treaty with quill in hand in rough charcoal draft with moon-silver watercolor splash.'
+     },
+     {
+       src: '/assets/images/races/neth_high_city_atropolis.jpg',
+       caption: 'Atropolis silent white marble metropolis of the High Nethien with soaring neoclassical spires, calm reflecting pools, lawgiver statues, and robed magistrates conferring on a balustrade overlook in rough charcoal draft with moon-silver watercolor splash.'
      }
    ],
   cultureIllustration: '/assets/images/races/velun_culture_birth.png',
@@ -580,6 +588,14 @@ They view the Veldun with a mixture of admiration and unease, the Veldun see the
     {
       src: '/assets/images/races/neth_veldun_icon_v1.png',
       caption: 'Veldun fate-smuggler and spirit conduit in weathered traveler duster coat holding fate cards with ink-black neck runes in rough charcoal draft with cyan-emerald watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/neth_veldun_culture_divination.png',
+      caption: 'Veldun gambler in an underground spirit-den leaning on a dice-table while drawing fate tarot cards with spiraling soul mist in rough charcoal draft with cyan-emerald watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/neth_veldun_city_canals.jpg',
+      caption: 'The atmospheric fog-canal undercity of the Veldun with half-timbered warehouses, arched footbridges, gondolas, and fate-smugglers on a wet quay in rough charcoal draft with cyan-emerald watercolor splash.'
     }
   ],
   visualDescription: `The volatile spirit conduits. The Veldun possess a striking, porcelain-pale undead grace with a tall, slender silhouette. Their skin is a ghostly, luminous paper-white, marked by subtle glowing white mana-burn smudges around their solid white eyes and sharp, ink-black runic binding tattoos wrapping around their wrists and necks. Long, vibrant red hair falls over their shoulders. They wear elegant, tattered dark monastic wraps, and their hands drift with a soft, ghostly white mana mist.`,
@@ -767,6 +783,14 @@ They view the Veldun with a mixture of admiration and unease, the Veldun see the
     {
       src: '/assets/images/races/neth_withered_icon_v1.png',
       caption: 'Withered Nethien silence-walker crouching in a dark hunter jerkin with wrapped forearms, sunken obsidian eyes, holding a chipped cinder-blade and smoldering contract parchment in rough charcoal draft with cinder-orange watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/neth_withered_culture_burning.png',
+      caption: 'Withered Nethien outlaw crouching beside a crypt fire scorching a binding contract scroll into smoking ash with notched cinder-blade in hand in rough charcoal draft with cinder-orange watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/neth_withered_city_severancehold.jpg',
+      caption: 'Severance Hold subterranean necropolis haven of the Withered Nethien with reinforced ruined colonnades, blacksmith forges, campfires, and outlaws keeping watch in rough charcoal draft with cinder-orange watercolor splash.'
     }
   ],
   visualDescription: `The severed. The Withered bear the tall pale frame of their kin, but the pact no longer preserves them, and it shows. Their once-luminous skin has dulled to a flat, slightly grey pallor that deepens the further they travel from the First Contract, and unlike other Nethien their chests rise and fall with real breath, for they must now eat, drink, and sleep like the mortal things they have become. They dress in simple, deliberately unmarked fabrics, stripped of sigil and house-color, and their dark eyes watch the world with the wary attention of people whom no god will pull back from death.`,

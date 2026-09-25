@@ -318,6 +318,14 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
           {
             src: '/assets/images/races/mimir_arch_icon_v1.png',
             caption: 'Arch Mimir canopy aristocrat wearing a towering heartwood mask with organic crown-crests, braided lavender hair, and holding an elderwood staff in rough charcoal draft with royal violet and antique gold watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/mimir_arch_culture_scripture.jpg',
+            caption: 'Arch Mimir canopy oracle studying ancient inscribed scripture tablets at a heartwood lectern, holding an elderwood staff hung with runic prayer slates in rough charcoal draft with violet and gold watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/mimir_arch_city_valcaelis.jpg',
+            caption: 'Val-Caelis treetop palace metropolis of the Arch Mimir with soaring living heartwood cathedrals, swept sky-bridges between ironwood crowns, and masked courtiers conferring on a terrace overlook in rough charcoal draft with violet and gold watercolor splash.'
           }
         ],
         visualDescription: `The aristocracy of the masked. Underneath their masks, the Arch Mimir are actually incredibly beautiful, near-perfect fae humanoids, but they hide their faces in the belief that they are hideous. Their faces are covered by towering, ancient heartwood masks with stylized organic horn-like curves. The male's mask is shorter but covers more of the face, leaving only a strong chiseled jawline, rounded ear, and calm eye visible. The female's mask is a domino style, showing her peaceful eyes, nose, and mouth beneath. Beautiful braided lavender-grey hair spills out elegantly from beneath their masks.`,
@@ -542,6 +550,14 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
           {
             src: '/assets/images/races/mimir_broken_icon_v1.png',
             caption: 'Broken Mimir free-spirited wanderer with exposed fae face, mask shard, and floating golden seed Mote companion in rough charcoal draft with watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/mimir_broken_culture_mirror.png',
+            caption: 'Broken Mimir wanderer seated at a stone river pier, admiring their unmasked reflection in a hand-mirror as their awakened jewel-mote floats above an open palm.'
+          },
+          {
+            src: '/assets/images/races/mimir_broken_city_revelsend.jpg',
+            caption: 'Revels-End — The lively medieval riverfront town of the Broken Mimir, where unmasked citizens stroll promenades with standing carnival mirrors and glowing spirit motes.'
           }
         ],
         visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside, shunning the idea of hiding their natural beauty. They still wear small, broken remnants of masks (like a wooden shard or eye-bracket), leaving most of their faces exposed. This exposure is both embraced and feared, reflecting a mix of child-like glee, hopeful curiosity, and a lingering, instinctual fear of fully showing their face. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light.`,

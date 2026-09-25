@@ -2156,7 +2156,7 @@ const CharacterToken = ({
           top: 0,
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
-          borderColor: isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isTargeted ? '#9a5e15' : characterData.tokenSettings.borderColor),
+          borderColor: isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isTargeted ? '#9a5e15' : (characterData.tokenSettings?.borderColor || '#506e30')),
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
           opacity: isBehindWall ? 0.55 : undefined,
           filter: isBehindWall ? 'saturate(0.65) brightness(0.9)' : undefined,
@@ -2164,7 +2164,7 @@ const CharacterToken = ({
           transform: `translate3d(${screenPosition.x}px, ${screenPosition.y}px, 0) translate(-50%, -50%) scaleY(${groundSquash})`,
           willChange: 'transform',
           borderRadius: '50%',
-          border: `3px solid ${isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : characterData.tokenSettings.borderColor)}`,
+          border: `3px solid ${isViewingFrom ? '#4a6a8a' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#506e30' : isTargeted ? '#9a5e15' : (characterData.tokenSettings?.borderColor || '#506e30'))}`,
           overflow: 'visible',
           boxShadow: isViewingFrom
             ? '0 0 25px rgba(0, 191, 255,1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'

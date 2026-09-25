@@ -331,6 +331,60 @@ export function filterVisibleTilesByElevation({
 }
 
 /**
+ * Tile keys whose centres fall inside the given visibility polygon. The 2D fog
+ * mask only knows the ground-plane polygon, so these tiles are the ones the
+ * vision cut actually reaches; `filterVisibleTilesByElevation` then removes the
+ * tiles hidden behind raised terrain.
+ */
+export function collectPolygonTiles({ visibilityPolygon, gridSystem, isPointInPolygon, padding = 1 }) {
+  const keys = [];
+  if (!gridSystem || !isPointInPolygon || !visibilityPolygon || visibilityPolygon.length < 3) return keys;
+
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (const p of visibilityPolygon) {
+    if (p.x < minX) minX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y > maxY) maxY = p.y;
+  }
+
+  const minGrid = gridSystem.worldToGrid(minX, minY);
+  const maxGrid = gridSystem.worldToGrid(maxX, maxY);
+  for (let gx = minGrid.x - padding; gx <= maxGrid.x + padding; gx++) {
+    for (let gy = minGrid.y - padding; gy <= maxGrid.y + padding; gy++) {
+      const center = gridSystem.gridToWorld(gx, gy);
+      if (isPointInPolygon(center.x, center.y, visibilityPolygon)) {
+        keys.push(tileKey(gx, gy));
+      }
+    }
+  }
+  return keys;
+}
+
+/**
+ * Elevated terrain prisms (level > 0) whose tiles fall inside the visibility
+ * polygon. The ground-plane fog cut never covers a hill's lifted top/faces, so
+ * the fog mask carves these prisms out separately — otherwise visible hills
+ * stay fogged while the ground around them is revealed.
+ */
+export function collectVisibleTerrainPrisms({ elevationData, visibilityPolygon, gridSystem, isPointInPolygon, padding = 1 }) {
+  const prisms = [];
+  if (!elevationData || Object.keys(elevationData).length === 0) return prisms;
+
+  const keys = collectPolygonTiles({ visibilityPolygon, gridSystem, isPointInPolygon, padding });
+  for (const key of keys) {
+    const [gx, gy] = key.split(',').map(Number);
+    if (!Number.isFinite(gx) || !Number.isFinite(gy)) continue;
+    const level = getTileElevation(elevationData, gx, gy);
+    if (level > 0) prisms.push({ gx, gy, level });
+  }
+  return prisms;
+}
+
+/**
  * Screen point -> world point that resolves the ELEVATED plane under the cursor.
  *
  * A ground-first inverse projection would land BEHIND a raised area (the ray at

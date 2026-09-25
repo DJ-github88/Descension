@@ -831,6 +831,13 @@ export const MODEL_REGISTRY = {
     offsetZ: 0,
     interactive: false
   },
+  tree_pine_lowpoly: {
+    url: '/assets/models/nature/tree_pine_lowpoly.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
   tree_oak: {
     url: '/assets/models/nature/tree_oak.glb',
     scale: 1.3,

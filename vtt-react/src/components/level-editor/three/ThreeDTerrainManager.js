@@ -32,6 +32,13 @@ export const TERRAIN_MODEL_REGISTRY = {
     scale: 1.0,
     baseZ: 0
   },
+  stone_tile_lowpoly: {
+    url: '/assets/models/terrain/stone_tile_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    baseZFrac: 0.06,
+    mapTintBase: { r: 0.541, g: 0.525, b: 0.502 }
+  },
   stone_rocks: {
     url: '/assets/models/dungeon/floor_stone_rocks.glb',
     scale: 1.0,
@@ -41,6 +48,232 @@ export const TERRAIN_MODEL_REGISTRY = {
     url: '/assets/models/dungeon/floor_dirt.glb',
     scale: 1.0,
     baseZ: 0
+  },
+  dirt_path_lowpoly: {
+    url: '/assets/models/terrain/dirt_path_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
+  },
+  lava_v2_lowpoly: {
+    url: '/assets/models/terrain/lava_v2_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 1.0, g: 0.271, b: 0.0 },
+    variants: ['lava_v2_lowpoly'],
+    rotate4: true
+  },
+  acid_v2_lowpoly: {
+    url: '/assets/models/terrain/acid_v2_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.196, g: 0.804, b: 0.196 },
+    variants: ['acid_v2_lowpoly'],
+    rotate4: true
+  },
+  ice_v2_lowpoly: {
+    url: '/assets/models/terrain/ice_v2_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.69, g: 0.878, b: 0.902 },
+    variants: ['ice_v2_lowpoly'],
+    rotate4: true
+  },
+  crystal_v2_lowpoly: {
+    url: '/assets/models/terrain/crystal_v2_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.878, g: 1.0, b: 1.0 },
+    variants: ['crystal_v2_lowpoly'],
+    rotate4: true
+  },
+  gold_lowpoly: {
+    url: '/assets/models/terrain/gold_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 1.0, g: 0.843, b: 0.0 },
+    variants: ['gold_lowpoly'],
+    rotate4: true
+  },
+  cobblestone_lowpoly: {
+    url: '/assets/models/terrain/cobblestone_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.541, g: 0.541, b: 0.541 },
+    variants: ['cobblestone_lowpoly'],
+    rotate4: true
+  },
+  cobble_road_lowpoly: {
+    url: '/assets/models/terrain/cobble_road_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.459, g: 0.459, b: 0.459 },
+    variants: ['cobble_road_lowpoly'],
+    rotate4: true
+  },
+  wooden_floor_lowpoly: {
+    url: '/assets/models/terrain/wooden_floor_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.545, g: 0.271, b: 0.075 },
+    variants: ['wooden_floor_lowpoly'],
+    rotate4: true
+  },
+  boardwalk_lowpoly: {
+    url: '/assets/models/terrain/boardwalk_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.62, g: 0.427, b: 0.259 },
+    variants: ['boardwalk_lowpoly'],
+    rotate4: true
+  },
+  dark_wood_lowpoly: {
+    url: '/assets/models/terrain/dark_wood_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.329, g: 0.212, b: 0.129 },
+    variants: ['dark_wood_lowpoly'],
+    rotate4: true
+  },
+  weathered_stone_lowpoly: {
+    url: '/assets/models/terrain/weathered_stone_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.431, g: 0.439, b: 0.431 },
+    variants: ['weathered_stone_lowpoly'],
+    rotate4: true
+  },
+  marble_lowpoly: {
+    url: '/assets/models/terrain/marble_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.941, g: 0.941, b: 0.941 },
+    variants: ['marble_lowpoly'],
+    rotate4: true
+  },
+  dungeon_lowpoly: {
+    url: '/assets/models/terrain/dungeon_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.353, g: 0.353, b: 0.353 },
+    variants: ['dungeon_lowpoly'],
+    rotate4: true
+  },
+  fungal_lowpoly: {
+    url: '/assets/models/terrain/fungal_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.482, g: 0.408, b: 0.933 },
+    variants: ['fungal_lowpoly'],
+    rotate4: true
+  },
+  swamp_lowpoly: {
+    url: '/assets/models/terrain/swamp_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.333, g: 0.42, b: 0.184 },
+    variants: ['swamp_lowpoly'],
+    rotate4: true
+  },
+  rocky_dirt_lowpoly: {
+    url: '/assets/models/terrain/rocky_dirt_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.478, g: 0.353, b: 0.133 },
+    variants: ['rocky_dirt_lowpoly'],
+    rotate4: true
+  },
+  overgrown_dirt_lowpoly: {
+    url: '/assets/models/terrain/overgrown_dirt_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.396, g: 0.42, b: 0.231 },
+    variants: ['overgrown_dirt_lowpoly'],
+    rotate4: true
+  },
+  grass_lowpoly_a: {
+    url: '/assets/models/terrain/grass_lowpoly_a.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.29, g: 0.486, b: 0.349 },
+    variants: ['grass_lowpoly_a', 'grass_lowpoly_b'],
+    rotate4: true
+  },
+  grass_lowpoly_b: {
+    url: '/assets/models/terrain/grass_lowpoly_b.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.29, g: 0.486, b: 0.349 }
+  },
+  dirt_lowpoly_a: {
+    url: '/assets/models/terrain/dirt_lowpoly_a.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.545, g: 0.412, b: 0.078 },
+    variants: ['dirt_lowpoly_a', 'dirt_lowpoly_b'],
+    rotate4: true
+  },
+  dirt_lowpoly_b: {
+    url: '/assets/models/terrain/dirt_lowpoly_b.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.545, g: 0.412, b: 0.078 }
+  },
+  sand_lowpoly_a: {
+    url: '/assets/models/terrain/sand_lowpoly_a.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.761, g: 0.698, b: 0.502 },
+    variants: ['sand_lowpoly_a', 'sand_lowpoly_b'],
+    rotate4: true
+  },
+  sand_lowpoly_b: {
+    url: '/assets/models/terrain/sand_lowpoly_b.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.761, g: 0.698, b: 0.502 }
+  },
+  stone_lowpoly_a: {
+    url: '/assets/models/terrain/stone_lowpoly_a.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.42, g: 0.42, b: 0.42 },
+    variants: ['stone_lowpoly_a', 'stone_lowpoly_b'],
+    rotate4: true
+  },
+  stone_lowpoly_b: {
+    url: '/assets/models/terrain/stone_lowpoly_b.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.42, g: 0.42, b: 0.42 }
+  },
+  snow_lowpoly_a: {
+    url: '/assets/models/terrain/snow_lowpoly_a.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 1.0, g: 1.0, b: 1.0 },
+    variants: ['snow_lowpoly_a', 'snow_lowpoly_b'],
+    rotate4: true
+  },
+  snow_lowpoly_b: {
+    url: '/assets/models/terrain/snow_lowpoly_b.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 1.0, g: 1.0, b: 1.0 }
+  },
+  mud_lowpoly_a: {
+    url: '/assets/models/terrain/mud_lowpoly_a.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.396, g: 0.263, b: 0.129 },
+    variants: ['mud_lowpoly_a', 'mud_lowpoly_b'],
+    rotate4: true
+  },
+  mud_lowpoly_b: {
+    url: '/assets/models/terrain/mud_lowpoly_b.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.396, g: 0.263, b: 0.129 }
   },
   dirt_rocky: {
     url: '/assets/models/dungeon/floor_dirt_rocky.glb',
@@ -177,10 +410,9 @@ export const TERRAIN_MODEL_REGISTRY = {
   // separate primitives, so they need multi-part instancing + per-part tints
   // (see WATER_SHORE_PIECES / buildPartMaterial).
   ground_riverOpen: {
-    url: '/assets/models/water/ground_riverOpen.glb',
+    url: '/assets/models/water/water_open_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
-    baseZFrac: 0.05,
     doubleSided: true,
     // Water: optically flat, so it must not drop a hard shadow on whatever sits
     // below it (visible whenever the cell is on a higher elevation level).
@@ -188,7 +420,7 @@ export const TERRAIN_MODEL_REGISTRY = {
     liquidParts: ['water']
   },
   ground_riverSide: {
-    url: '/assets/models/water/ground_riverSide.glb',
+    url: '/assets/models/water/water_side_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
     doubleSided: true,
@@ -196,7 +428,7 @@ export const TERRAIN_MODEL_REGISTRY = {
     partPalette: WATER_SHORE_BANK_PALETTE
   },
   ground_riverStraight: {
-    url: '/assets/models/water/ground_riverStraight.glb',
+    url: '/assets/models/water/water_straight_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
     doubleSided: true,
@@ -204,7 +436,7 @@ export const TERRAIN_MODEL_REGISTRY = {
     partPalette: WATER_SHORE_BANK_PALETTE
   },
   ground_riverCorner: {
-    url: '/assets/models/water/ground_riverCorner.glb',
+    url: '/assets/models/water/water_corner_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
     doubleSided: true,
@@ -212,7 +444,7 @@ export const TERRAIN_MODEL_REGISTRY = {
     partPalette: WATER_SHORE_BANK_PALETTE
   },
   ground_riverEndClosed: {
-    url: '/assets/models/water/ground_riverEndClosed.glb',
+    url: '/assets/models/water/water_end_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
     doubleSided: true,
@@ -220,7 +452,7 @@ export const TERRAIN_MODEL_REGISTRY = {
     partPalette: WATER_SHORE_BANK_PALETTE
   },
   ground_riverTile: {
-    url: '/assets/models/water/ground_riverTile.glb',
+    url: '/assets/models/water/water_pond_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
     doubleSided: true,
@@ -228,7 +460,7 @@ export const TERRAIN_MODEL_REGISTRY = {
     partPalette: WATER_SHORE_BANK_PALETTE
   },
   ground_riverRocks: {
-    url: '/assets/models/water/ground_riverRocks.glb',
+    url: '/assets/models/water/water_rocks_lowpoly.glb',
     scale: 1.0,
     baseZ: 0,
     doubleSided: true,
@@ -416,6 +648,14 @@ export function resolveWaterShorePiece(landDirections = [], seed = 0) {
   return { modelKey: WATER_SHORE_PIECES.open.modelKey, rotationDeg: 0, isOpen: true };
 }
 
+// Terrain types rendered as a continuous sunken pit: adjacent cells merge into
+// one region with a single rim, so a 2x2 pit paints as one big pit, not four
+// single-cell holes with internal walls.
+export const PIT_TYPES = {
+  pit: { depth: -0.22, floor: [0.03, 0.025, 0.035], wall: [0.16, 0.135, 0.12] },
+  abyss: { depth: -0.4, floor: [0.07, 0.02, 0.12], wall: [0.13, 0.1, 0.19] }
+};
+
 // Terrain types rendered as a liquid body with kit shorelines. Cells touching
 // land get a banked tile; open water cells are covered by the liquid sheet.
 // Water only: the level editor's TileOverlay draws animated DOM tiles for
@@ -437,40 +677,40 @@ function cellHash(gx, gy, salt = 0) {
 // Every 3D terrain type maps to a low-poly kit model. 3D mode never falls back
 // to the 2D PNG art: the PNGs belong to the 2D canvas and the palette previews.
 export const TERRAIN_MODEL_BY_TYPE = {
-  grass: 'tile_weeds',
-  dirt: 'dirt',
-  rocky_dirt: 'dirt_rocky',
-  overgrown_dirt: 'overgrown_dirt',
-  stone: 'stone_floor',
-  cobblestone: 'cobblestone',
-  cobblestone_road: 'road_stone',
+  grass: 'grass_lowpoly_a',
+  dirt: 'dirt_lowpoly_a',
+  rocky_dirt: 'rocky_dirt_lowpoly',
+  overgrown_dirt: 'overgrown_dirt_lowpoly',
+  stone: 'stone_lowpoly_a',
+  cobblestone: 'cobblestone_lowpoly',
+  cobblestone_road: 'cobble_road_lowpoly',
   stone_path: 'road_graveyard',
-  sand: 'dirt',
+  sand: 'sand_lowpoly_a',
   water: 'tile_small',
-  snow: 'tile_small',
-  ice: 'tile_small',
-  mud: 'dirt',
-  swamp: 'dirt_rocky',
-  fungal_growth: 'tile_weeds',
-  dungeon_floor: 'tile_small',
-  marble_floor: 'tile_small',
-  wooden_floor: 'wood_floor',
-  dark_wood: 'wood_floor_dark',
-  wooden_planks: 'wooden_planks',
-  weathered_stone: 'stone_rocks',
+  snow: 'snow_lowpoly_a',
+  ice: 'ice_v2_lowpoly',
+  mud: 'mud_lowpoly_a',
+  swamp: 'swamp_lowpoly',
+  fungal_growth: 'fungal_lowpoly',
+  dungeon_floor: 'dungeon_lowpoly',
+  marble_floor: 'marble_lowpoly',
+  wooden_floor: 'wooden_floor_lowpoly',
+  dark_wood: 'dark_wood_lowpoly',
+  wooden_planks: 'boardwalk_lowpoly',
+  weathered_stone: 'weathered_stone_lowpoly',
   grate_floor: 'grate',
   spike_trap: 'spikes',
-  lava: 'tile_small',
-  acid: 'tile_small',
-  pit: 'grate_open',
-  abyss: 'grate_open',
-  crystal_floor: 'tile_small',
-  gold_floor: 'tile_small',
+  lava: 'lava_v2_lowpoly',
+  acid: 'acid_v2_lowpoly',
+  crystal_floor: 'crystal_v2_lowpoly',
+  gold_floor: 'gold_lowpoly',
   dungeon_modular: 'dungeon_modular',
   dungeon_brick: 'dungeon_brick',
   brick_floor: 'dungeon_brick',
   quaternius_wood: 'quaternius_wood',
-  kaykit_cobble: 'kaykit_cobble'
+  kaykit_cobble: 'kaykit_cobble',
+  stone_tile: 'stone_tile_lowpoly',
+  dirt_path: 'dirt_path_lowpoly'
 };
 
 // Authored swatch colour of each kit model (sampled from the shared
@@ -548,7 +788,9 @@ export const TERRAIN_TEXTURE_MAP = {
   overgrown_dirt: '/assets/tiles/OvergrownDirt1.png',
   cobblestone_road: '/assets/tiles/CobbleRoad1.png',
   wooden_planks: '/assets/tiles/WoodenPlanks1.png',
-  stone_path: '/assets/tiles/StonePath1.png'
+  stone_path: '/assets/tiles/StonePath1.png',
+  stone_tile: '/assets/tiles/Stone1.png',
+  dirt_path: '/assets/tiles/Dirt1.png'
 };
 
 export const TERRAIN_MATERIAL_CONFIGS = {
@@ -557,7 +799,7 @@ export const TERRAIN_MATERIAL_CONFIGS = {
   snow: { roughness: 0.7, metalness: 0.1 },
   ice: { roughness: 0.08, metalness: 0.2, transparent: true, opacity: 0.92 },
   water: { roughness: 0.1, metalness: 0.1, transparent: true, opacity: 0.85 },
-  lava: { emissive: 0xff5500, emissiveIntensity: 0.85, roughness: 0.65 },
+  lava: { emissive: 0xff5500, emissiveIntensity: 0.4, roughness: 0.8 },
   acid: { emissive: 0x33ff00, emissiveIntensity: 0.6, roughness: 0.35 },
   crystal_floor: { emissive: 0x00e5ff, emissiveIntensity: 0.45, roughness: 0.3 },
   gold_floor: { roughness: 0.3, metalness: 0.85 },
@@ -567,7 +809,9 @@ export const TERRAIN_MATERIAL_CONFIGS = {
   wooden_floor: { roughness: 0.65, metalness: 0.05 },
   wood_floor: { roughness: 0.65, metalness: 0.05 },
   dirt: { roughness: 0.9, metalness: 0.0 },
+  dirt_path: { roughness: 0.95, metalness: 0.0 },
   stone: { roughness: 0.75, metalness: 0.05 },
+  stone_tile: { roughness: 0.8, metalness: 0.05 },
   mud: { roughness: 0.9, metalness: 0.0 },
   swamp: { roughness: 0.8, metalness: 0.05 },
   dungeon_floor: { roughness: 0.7, metalness: 0.05 },
@@ -599,11 +843,11 @@ export const TERRAIN_MATERIAL_CONFIGS = {
 // darker than the 2D tile art); `color` is the palette colour * boost.
 export const LIQUID_SURFACE_CONFIGS = {
   water: {
-    color: '#4d91c9',
+    color: '#4682b4',
     boost: 1.3,
-    // Opaque: a translucent sheet lets the parchment/texture behind show
-    // through as bright hairlines wherever the tiles under it do not meet.
-    opacity: 1,
+    // Translucent so the sandy bed baked into the shore pieces shows through
+    // near the banks and fades into the deep centre.
+    opacity: 0.86,
     roughness: 0.34,
     metalness: 0,
     normalScale: 0.3,
@@ -682,34 +926,7 @@ function getPlateMaterial() {
   return plateMaterial;
 }
 
-let rampGeometry = null;
 let pitGeometry = null;
-
-/**
- * Unit smooth ramp authored like the kit stairs: Y up, run along Z, ascending
- * toward -Z, centred on the instance origin. The instance pipeline rotates the
- * model +90 deg around X, so local Y becomes world height and local Z the run;
- * `fitHeight`/`fitRun` stretch it to the exact level difference and footprint.
- */
-function getRampGeometry() {
-  if (!rampGeometry) {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array([
-      -0.5, 0, 0.5,   0.5, 0, 0.5,   -0.5, 0, -0.5,   0.5, 0, -0.5,
-      -0.5, 1, -0.5,  0.5, 1, -0.5
-    ]), 3));
-    g.setIndex([
-      0, 3, 1, 0, 2, 3,       // bottom
-      0, 4, 2,                // west side
-      1, 3, 5,                // east side
-      0, 1, 5, 0, 5, 4,       // sloped surface
-      2, 4, 5, 2, 5, 3        // high end face
-    ]);
-    g.computeVertexNormals();
-    rampGeometry = g;
-  }
-  return rampGeometry;
-}
 
 /** Unit open-top shell (Y-up, floor at y=0) rendered BackSide for pits. */
 function getPitGeometry() {
@@ -721,10 +938,6 @@ function getPitGeometry() {
 }
 
 /** Fresh materials per instanced mesh (the manager disposes them on rebuild). */
-function createRampMaterial() {
-  return new THREE.MeshStandardMaterial({ color: 0x6b7075, roughness: 0.8, metalness: 0.04 });
-}
-
 function createPitMaterial() {
   return new THREE.MeshStandardMaterial({
     // Lit stone, not a black void: a pit has to read as a sunken room even
@@ -741,15 +954,9 @@ function createPlateMaterial() {
   return new THREE.MeshStandardMaterial({ color: 0x5f5a54, roughness: 0.95, metalness: 0 });
 }
 
-// Elevation rendering that has no kit model: smooth ramps, pit shells and the
-// ground plates that cap unpainted plateaus.
+// Elevation rendering that has no kit model: pit shells and the ground plates
+// that cap unpainted plateaus. Ramps/stairs use the authored kit models.
 const PROCEDURAL_TERRAIN_MODELS = {
-  procedural_ramp: {
-    geometry: getRampGeometry,
-    createMaterial: createRampMaterial,
-    castShadow: true,
-    receiveShadow: true
-  },
   procedural_pit: {
     geometry: getPitGeometry,
     createMaterial: createPitMaterial,
@@ -965,14 +1172,23 @@ export function resolveTerrainLook(typeId, typeDef) {
   };
 }
 
+export function paletteColorOf(typeId) {
+  const def = PROFESSIONAL_TERRAIN_TYPES[typeId];
+  return new THREE.Color(def?.color || '#8a8a8a');
+}
+
 // Flat (untextured) kit parts carry their whole colour in the material, so a
 // palette rule simply replaces it Ã¢â‚¬â€ the part renders exactly on the terrain
 // palette colour regardless of the kit's own swatch.
-function resolvePaletteRuleTarget(rule) {
-  const typeId = typeof rule === 'string' ? rule : rule?.type;
+function resolvePaletteRuleTarget(rule, bankType) {
+  let typeId = typeof rule === 'string' ? rule : rule?.type;
+  const dim = (rule && typeof rule === 'object' && rule.dim) || 1;
+  if (bankType && typeof rule === 'object' && rule?.type && PROFESSIONAL_TERRAIN_TYPES[bankType]) {
+    typeId = bankType;
+  }
   const terrainDef = PROFESSIONAL_TERRAIN_TYPES[typeId];
   const color = new THREE.Color(terrainDef?.color || '#8a8a8a');
-  if (rule && typeof rule === 'object' && rule.dim) color.multiplyScalar(rule.dim);
+  color.multiplyScalar(dim);
   return color;
 }
 
@@ -996,6 +1212,26 @@ export class ThreeDTerrainManager {
     this.outlineMaterial.name = 'ThreeDTerrainOutlineMaterial';
     this.dummy = new THREE.Object3D();
     this.lastParams = null;
+    this.blendMaterial = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      roughness: 1,
+      metalness: 0,
+      flatShading: true,
+      side: THREE.DoubleSide,
+      transparent: true,
+      depthWrite: false
+    });
+    this.blendMaterial.name = 'ThreeDTerrainBlendMaterial';
+    this.blendMesh = null;
+    this.pitMaterial = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      roughness: 0.95,
+      metalness: 0,
+      flatShading: true,
+      side: THREE.DoubleSide
+    });
+    this.pitMaterial.name = 'ThreeDTerrainPitMaterial';
+    this.pitMesh = null;
 
     // Preload terrain models
     Object.values(TERRAIN_MODEL_REGISTRY).forEach(reg => {
@@ -1159,6 +1395,7 @@ export class ThreeDTerrainManager {
       const rawType = terrainData[key];
       const typeId = typeof rawType === 'string' ? rawType : rawType?.type;
       if (!typeId) return;
+      if (PIT_TYPES[typeId]) return;
 
       const elevation = getTileElevation(elevationData, gx, gy);
       const worldX = gx * gridSize + gridSize / 2 + gridOffsetX;
@@ -1181,7 +1418,7 @@ export class ThreeDTerrainManager {
       }
 
       const typeDef = PROFESSIONAL_TERRAIN_TYPES[typeId] || null;
-      const look = resolveTerrainLook(typeId, typeDef);
+      let look = resolveTerrainLook(typeId, typeDef);
 
       // Water bodies pick a kit shoreline tile from their land neighbours so
       // lakes and rivers get real banks instead of a grid of water squares.
@@ -1190,16 +1427,37 @@ export class ThreeDTerrainManager {
       let shoreOpen = false;
       if (WATER_SHORE_TYPES[typeId]) {
         const landDirections = [];
-        if (!isWaterCell(gx, gy - 1)) landDirections.push('north');
-        if (!isWaterCell(gx + 1, gy)) landDirections.push('east');
-        if (!isWaterCell(gx, gy + 1)) landDirections.push('south');
-        if (!isWaterCell(gx - 1, gy)) landDirections.push('west');
+        const landTypes = [];
+        const noteLand = (dir, nx, ny) => {
+          if (isWaterCell(nx, ny)) return;
+          landDirections.push(dir);
+          const raw = terrainData[`${nx},${ny}`];
+          const id = typeof raw === 'string' ? raw : raw?.type;
+          if (id && PROFESSIONAL_TERRAIN_TYPES[id]) landTypes.push(id);
+        };
+        noteLand('north', gx, gy - 1);
+        noteLand('east', gx + 1, gy);
+        noteLand('south', gx, gy + 1);
+        noteLand('west', gx - 1, gy);
         const shore = resolveWaterShorePiece(landDirections, gx + gy);
         modelKey = shore.modelKey;
         rotationDeg = shore.rotationDeg;
         shoreOpen = shore.isOpen;
+        if (landTypes.length > 0) {
+          const counts = {};
+          landTypes.forEach((id) => { counts[id] = (counts[id] || 0) + 1; });
+          const bankType = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+          look = { ...look, key: `${look.key}|bank:${bankType}`, bankType };
+        }
       } else {
         modelKey = resolveTerrainModelKey(typeId, typeDef);
+        const baseDef = TERRAIN_MODEL_REGISTRY[modelKey];
+        if (baseDef && Array.isArray(baseDef.variants) && baseDef.variants.length > 0) {
+          modelKey = baseDef.variants[Math.floor(cellHash(gx, gy, 7) * baseDef.variants.length)];
+          if (baseDef.rotate4) {
+            rotationDeg = 90 * Math.floor(cellHash(gx, gy, 13) * 4);
+          }
+        }
       }
 
       const modelDef = TERRAIN_MODEL_REGISTRY[modelKey];
@@ -1224,10 +1482,10 @@ export class ThreeDTerrainManager {
         look
       });
 
-      // Liquids float a sheet above their bed (see rebuildLiquidSurfaces), so
-      // only the cell position is needed here. Banked shore tiles already carry
-      // a water surface, so those cells are skipped â€” but every liquid cell is
-      // tracked so drop skins can tell water from land.
+      // Liquids float a sheet above their bed (see rebuildLiquidSurfaces):
+      // only open water cells get the animated sheet so it never overlaps the
+      // banks; banked cells carry their own baked water surface (matching
+      // colour) so the shoreline stays clean.
       const liquidConfig = LIQUID_SURFACE_CONFIGS[typeId];
       if (liquidConfig) {
         if (!liquidCellKeys.has(typeId)) liquidCellKeys.set(typeId, new Set());
@@ -1263,6 +1521,79 @@ export class ThreeDTerrainManager {
         }
       }
     });
+
+    // Blend strips between neighbouring terrain of different types so type
+    // borders read as an organic seam instead of two butting blocks. Each
+    // shared edge is collected once (east + south per cell) and each grid
+    // point once (the point's four surrounding cells); the geometry itself is
+    // built procedurally in rebuildBlendGeometry as feathered gradients
+    // between the meeting palette colours.
+    const blendNeighbourType = (nx, ny) => {
+      const raw = terrainData[`${nx},${ny}`];
+      const id = typeof raw === 'string' ? raw : raw?.type;
+      return id && PROFESSIONAL_TERRAIN_TYPES[id] ? id : null;
+    };
+    const pitCells = [];
+    const blendEdges = [];
+    const blendCorners = [];
+    Object.keys(terrainData).forEach(key => {
+      const parts = key.split(',').map(Number);
+      if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) return;
+      const [gx, gy] = parts;
+      const rawType = terrainData[key];
+      const typeId = typeof rawType === 'string' ? rawType : rawType?.type;
+      if (!typeId || !PROFESSIONAL_TERRAIN_TYPES[typeId]) return;
+      const elevation = getTileElevation(elevationData, gx, gy);
+      const worldZ = elevation * gridSize;
+
+      if (PIT_TYPES[typeId]) {
+        pitCells.push({
+          gx,
+          gy,
+          typeId,
+          worldX: gx * gridSize + gridSize / 2 + gridOffsetX,
+          worldY: gy * gridSize + gridSize / 2 + gridOffsetY,
+          worldZ
+        });
+        return;
+      }
+
+      const eastType = blendNeighbourType(gx + 1, gy);
+      if (eastType && eastType !== typeId && typeId !== 'water' && !PIT_TYPES[eastType]) {
+        blendEdges.push({ gx, gy, dir: 'east', typeA: typeId, typeB: eastType, worldZ, half: eastType === 'water' });
+      }
+      const southType = blendNeighbourType(gx, gy + 1);
+      if (southType && southType !== typeId && typeId !== 'water' && !PIT_TYPES[southType]) {
+        blendEdges.push({ gx, gy, dir: 'south', typeA: typeId, typeB: southType, worldZ, half: southType === 'water' });
+      }
+      const westType = blendNeighbourType(gx - 1, gy);
+      if (westType === 'water') {
+        blendEdges.push({ gx, gy, dir: 'west', typeA: typeId, typeB: 'water', worldZ, half: true });
+      }
+      const northTypeForEdge = blendNeighbourType(gx, gy - 1);
+      if (northTypeForEdge === 'water') {
+        blendEdges.push({ gx, gy, dir: 'north', typeA: typeId, typeB: 'water', worldZ, half: true });
+      }
+
+      const northType = blendNeighbourType(gx, gy - 1);
+      const northEastType = blendNeighbourType(gx + 1, gy - 1);
+      const cornerTypes = [typeId, eastType, northType, northEastType].filter(Boolean);
+      if (
+        cornerTypes.length === 4
+        && !cornerTypes.every(t => t === typeId)
+        && !cornerTypes.includes('water')
+        && !cornerTypes.some(t => PIT_TYPES[t])
+      ) {
+        blendCorners.push({
+          gx,
+          gy,
+          types: { nw: northType, ne: northEastType, sw: typeId, se: eastType },
+          worldZ
+        });
+      }
+    });
+    this.rebuildBlendGeometry(blendEdges, blendCorners, gridSize, gridOffsetX, gridOffsetY);
+    this.rebuildPitGeometry(pitCells, gridSize, gridOffsetX, gridOffsetY);
 
     // Elevation-only cells: 3D owns elevation in 3D mode, so unpainted
     // plateaus get their foundation column plus a ground plate, and unpainted
@@ -1454,6 +1785,11 @@ export class ThreeDTerrainManager {
             : this.buildPartMaterial({ def, part, look, liquidConfig });
           instMesh = new THREE.InstancedMesh(part.geometry, material, capacity);
           instMesh.name = `ThreeDTerrainTile:${partKey}`;
+          // Instance matrices change on every terrain update, but three only
+          // computes an InstancedMesh bounding sphere once — a stale sphere
+          // culls whole variants ("tiles vanish at some zooms"). The map is
+          // unbounded, so skip frustum culling entirely.
+          instMesh.frustumCulled = false;
           instMesh.castShadow = procedural ? procedural.castShadow : def.noShadow !== true;
           instMesh.receiveShadow = procedural ? procedural.receiveShadow !== false : true;
           instMesh.userData = { capacity };
@@ -1541,7 +1877,7 @@ export class ThreeDTerrainManager {
 
     const paletteRule = def.partPalette?.[partName];
     if (paletteRule && !material.map) {
-      material.color.copy(resolvePaletteRuleTarget(paletteRule));
+      material.color.copy(resolvePaletteRuleTarget(paletteRule, look?.bankType));
       return material;
     }
     if (!look) return material;
@@ -1615,6 +1951,7 @@ export class ThreeDTerrainManager {
         const capacity = Math.max(instances.length * 2, 256);
         mesh = new THREE.InstancedMesh(geomMat.geometry, this.outlineMaterial, capacity);
         mesh.name = `ThreeDTerrainOutline:${modelKey}`;
+        mesh.frustumCulled = false;
         mesh.castShadow = false;
         mesh.receiveShadow = false;
         mesh.userData = { capacity };
@@ -1660,6 +1997,8 @@ export class ThreeDTerrainManager {
       const positions = new Float32Array(cells.length * 12);
       const uvs = new Float32Array(cells.length * 8);
       const indices = new Uint32Array(cells.length * 6);
+      const colors = new Float32Array(cells.length * 16);
+      const openKeys = new Set(cells.map((cell) => `${cell.gx},${cell.gy}`));
 
       cells.forEach((cell, i) => {
         const x = cell.x;
@@ -1679,6 +2018,24 @@ export class ThreeDTerrainManager {
         ], i * 8);
         const v = i * 4;
         indices.set([v, v + 1, v + 2, v, v + 2, v + 3], i * 6);
+
+        // Soft fade at sheet edges that border banked (non-sheet) water cells
+        // so the animated surface dissolves into the baked shoreline water
+        // instead of cutting a hard line through the lake.
+        const keySet = cellKeysByType.get(typeId) || openKeys;
+        const fade = (gx2, gy2) => {
+          const key = `${gx2},${gy2}`;
+          return keySet.has(key) && !openKeys.has(key) ? 1 : 0;
+        };
+        const fN = fade(cell.gx, cell.gy - 1);
+        const fE = fade(cell.gx + 1, cell.gy);
+        const fS = fade(cell.gx, cell.gy + 1);
+        const fW = fade(cell.gx - 1, cell.gy);
+        const aNW = 1 - 0.5 * (fN + fW);
+        const aNE = 1 - 0.5 * (fN + fE);
+        const aSE = 1 - 0.5 * (fS + fE);
+        const aSW = 1 - 0.5 * (fS + fW);
+        colors.set([1, 1, 1, aNW, 1, 1, 1, aNE, 1, 1, 1, aSE, 1, 1, 1, aSW], i * 16);
       });
 
       const geometry = new THREE.BufferGeometry();
@@ -1689,19 +2046,21 @@ export class ThreeDTerrainManager {
       for (let i = 0; i < cells.length * 4; i += 1) normals[i * 3 + 2] = 1;
       geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
       geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
       geometry.setIndex(new THREE.BufferAttribute(indices, 1));
       geometry.computeBoundingSphere();
 
       const textures = getLiquidSurfaceTextures(config.profile);
       const isTransparent = config.opacity < 1;
       const material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(config.color),
+        color: new THREE.Color(config.color).multiplyScalar(config.boost || 1),
         transparent: isTransparent,
         opacity: config.opacity,
         roughness: config.roughness,
         metalness: config.metalness,
         depthWrite: !isTransparent,
         side: THREE.FrontSide,
+        vertexColors: true,
         map: textures ? textures.albedo : null,
         normalMap: textures ? textures.normal : null,
         emissive: new THREE.Color(config.emissive || '#000000'),
@@ -1771,6 +2130,273 @@ export class ThreeDTerrainManager {
    * Scroll the liquid ripple textures and pulse the emissive hazard glow.
    * Returns true when something actually moved.
    */
+  /**
+   * Continuous pits: flood-fills adjacent pit/abyss cells into regions and
+   * builds one floor plus one rim wall per region, so a 2x2 painted pit reads
+   * as a single bigger pit instead of four single-cell holes.
+   */
+  rebuildPitGeometry(pitCells, gridSize, gridOffsetX, gridOffsetY) {
+    if (this.pitMesh) {
+      this.group.remove(this.pitMesh);
+      this.pitMesh.geometry.dispose();
+      this.pitMesh = null;
+    }
+    if (!pitCells.length) return;
+
+    const positions = [];
+    const colors = [];
+    const pushQuad = (a, b, c, d, color, zJitter = 0) => {
+      const quad = [a, b, c, d].map((vtx) => ({
+        x: vtx.x,
+        y: vtx.y,
+        z: vtx.z + (zJitter ? (cellHash(Math.round(vtx.x), Math.round(vtx.y), 7) - 0.5) * zJitter : 0)
+      }));
+      const tris = [quad[0], quad[1], quad[2], quad[0], quad[2], quad[3]];
+      tris.forEach((vtx) => {
+        positions.push(vtx.x, vtx.y, vtx.z);
+        colors.push(color[0], color[1], color[2]);
+      });
+    };
+
+    const cellsByKey = new Map();
+    pitCells.forEach((cell) => {
+      cellsByKey.set(`${cell.gx},${cell.gy}`, cell);
+    });
+    const visited = new Set();
+
+    cellsByKey.forEach((start) => {
+      const startKey = `${start.gx},${start.gy}`;
+      if (visited.has(startKey)) return;
+      const region = [];
+      const queue = [start];
+      visited.add(startKey);
+      while (queue.length) {
+        const cell = queue.shift();
+        region.push(cell);
+        [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+          const key = `${cell.gx + dx},${cell.gy + dy}`;
+          const next = cellsByKey.get(key);
+          if (next && next.typeId === start.typeId && !visited.has(key)) {
+            visited.add(key);
+            queue.push(next);
+          }
+        });
+      }
+
+      const spec = PIT_TYPES[start.typeId];
+      const floorZ = start.worldZ + spec.depth * gridSize;
+      const half = gridSize / 2;
+
+      region.forEach((cell) => {
+        pushQuad(
+          { x: cell.worldX - half, y: cell.worldY - half, z: floorZ },
+          { x: cell.worldX + half, y: cell.worldY - half, z: floorZ },
+          { x: cell.worldX + half, y: cell.worldY + half, z: floorZ },
+          { x: cell.worldX - half, y: cell.worldY + half, z: floorZ },
+          spec.floor,
+          1.2
+        );
+        const isSame = (dx, dy) => {
+          const neighbour = cellsByKey.get(`${cell.gx + dx},${cell.gy + dy}`);
+          return Boolean(neighbour && neighbour.typeId === start.typeId);
+        };
+        if (!isSame(0, -1)) {
+          pushQuad(
+            { x: cell.worldX - half, y: cell.worldY - half, z: cell.worldZ },
+            { x: cell.worldX + half, y: cell.worldY - half, z: cell.worldZ },
+            { x: cell.worldX + half, y: cell.worldY - half, z: floorZ },
+            { x: cell.worldX - half, y: cell.worldY - half, z: floorZ },
+            spec.wall
+          );
+        }
+        if (!isSame(1, 0)) {
+          pushQuad(
+            { x: cell.worldX + half, y: cell.worldY - half, z: cell.worldZ },
+            { x: cell.worldX + half, y: cell.worldY + half, z: cell.worldZ },
+            { x: cell.worldX + half, y: cell.worldY + half, z: floorZ },
+            { x: cell.worldX + half, y: cell.worldY - half, z: floorZ },
+            spec.wall
+          );
+        }
+        if (!isSame(0, 1)) {
+          pushQuad(
+            { x: cell.worldX + half, y: cell.worldY + half, z: cell.worldZ },
+            { x: cell.worldX - half, y: cell.worldY + half, z: cell.worldZ },
+            { x: cell.worldX - half, y: cell.worldY + half, z: floorZ },
+            { x: cell.worldX + half, y: cell.worldY + half, z: floorZ },
+            spec.wall
+          );
+        }
+        if (!isSame(-1, 0)) {
+          pushQuad(
+            { x: cell.worldX - half, y: cell.worldY + half, z: cell.worldZ },
+            { x: cell.worldX - half, y: cell.worldY - half, z: cell.worldZ },
+            { x: cell.worldX - half, y: cell.worldY - half, z: floorZ },
+            { x: cell.worldX - half, y: cell.worldY + half, z: floorZ },
+            spec.wall
+          );
+        }
+      });
+    });
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.computeVertexNormals();
+
+    const mesh = new THREE.Mesh(geometry, this.pitMaterial);
+    mesh.name = 'ThreeDTerrainPits';
+    mesh.frustumCulled = false;
+    mesh.castShadow = false;
+    mesh.receiveShadow = false;
+    this.pitMesh = mesh;
+    this.group.add(mesh);
+  }
+
+  /**
+   * Procedural feather-strips between neighbouring terrain types: gradient
+   * quads from one palette colour to the other with a wavy, speckled boundary,
+   * plus fan patches where four types meet at a grid point.
+   */
+  rebuildBlendGeometry(blendEdges, blendCorners, gridSize, gridOffsetX, gridOffsetY) {
+    if (this.blendMesh) {
+      this.group.remove(this.blendMesh);
+      this.blendMesh.geometry.dispose();
+      this.blendMesh = null;
+    }
+    if (!blendEdges.length && !blendCorners.length) return;
+
+    const colorCache = new Map();
+    const colorOf = (typeId) => {
+      if (!colorCache.has(typeId)) colorCache.set(typeId, paletteColorOf(typeId));
+      return colorCache.get(typeId);
+    };
+
+    const positions = [];
+    const colors = [];
+    const pushVertex = (v) => {
+      positions.push(v.x, v.y, v.z);
+      colors.push(v.r, v.g, v.b, v.a);
+    };
+    const pushTriangle = (a, b, c) => {
+      pushVertex(a);
+      pushVertex(b);
+      pushVertex(c);
+    };
+
+    const LEN_SEG = 6;
+    const W_SEG = 3;
+    const W = gridSize * 0.3;
+    const LIFT = 0.2;
+    const ALPHA_PEAK = 0.8;
+
+    blendEdges.forEach((edge) => {
+      const { gx, gy, dir, typeA, typeB, worldZ } = edge;
+      const colorA = colorOf(typeA);
+      const colorB = colorOf(typeB);
+      const vertical = dir === 'east' || dir === 'west';
+      const westLike = dir === 'west' || dir === 'north';
+      const baseX = vertical
+        ? (dir === 'east' ? (gx + 1) : gx) * gridSize + gridOffsetX
+        : gx * gridSize + gridOffsetX;
+      const baseY = vertical
+        ? gy * gridSize + gridOffsetY
+        : (dir === 'south' ? (gy + 1) : gy) * gridSize + gridOffsetY;
+      const alongX = vertical ? 0 : 1;
+      const alongY = vertical ? 1 : 0;
+      const wStart = westLike ? 0 : -0.5;
+      const wEnd = westLike ? 0.5 : (edge.half ? 0 : 0.5);
+
+      const verts = [];
+      for (let i = 0; i <= LEN_SEG; i += 1) {
+        for (let j = 0; j <= W_SEG; j += 1) {
+          const u = i / LEN_SEG;
+          const w = wStart + (j / W_SEG) * (wEnd - wStart);
+          const px = baseX + alongX * u * gridSize + (1 - alongX) * w * W;
+          const py = baseY + alongY * u * gridSize + (1 - alongY) * w * W;
+          const t = westLike ? 1 - w / 0.5 : (w + 0.5) / (edge.half ? 0.5 : 1);
+          const saltA = dir === 'east' ? gx : gx + i;
+          const saltB = dir === 'east' ? gy + i : gy;
+          const n = cellHash(saltA, saltB, 21);
+          const n2 = cellHash(i * 31 + j, gx + gy, 33);
+          const tt = Math.min(1, Math.max(0, t + (n - 0.5) * 0.5));
+          const dim = 0.95 + 0.1 * n2;
+          const alpha = (1 - Math.min(1, Math.abs(w) * 2)) * ALPHA_PEAK;
+          verts.push({
+            x: px,
+            y: -py,
+            z: worldZ + LIFT,
+            r: (colorA.r + (colorB.r - colorA.r) * tt) * dim,
+            g: (colorA.g + (colorB.g - colorA.g) * tt) * dim,
+            b: (colorA.b + (colorB.b - colorA.b) * tt) * dim,
+            a: alpha
+          });
+        }
+      }
+      for (let i = 0; i < LEN_SEG; i += 1) {
+        for (let j = 0; j < W_SEG; j += 1) {
+          const a = verts[i * (W_SEG + 1) + j];
+          const b = verts[(i + 1) * (W_SEG + 1) + j];
+          const c = verts[(i + 1) * (W_SEG + 1) + j + 1];
+          const d = verts[i * (W_SEG + 1) + j + 1];
+          pushTriangle(a, c, b);
+          pushTriangle(a, d, c);
+        }
+      }
+    });
+
+    blendCorners.forEach((corner) => {
+      const { gx, gy, types, worldZ } = corner;
+      const px = gx * gridSize + gridOffsetX;
+      const py = gy * gridSize + gridOffsetY;
+      const H = gridSize * 0.17;
+      const quad = {
+        nw: colorOf(types.nw),
+        ne: colorOf(types.ne),
+        se: colorOf(types.se),
+        sw: colorOf(types.sw)
+      };
+      const center = { x: px, y: -py, z: worldZ + LIFT, r: 0, g: 0, b: 0, a: 1 };
+      Object.values(quad).forEach((color) => {
+        center.r += color.r / 4;
+        center.g += color.g / 4;
+        center.b += color.b / 4;
+      });
+      const jitX = 1 + (cellHash(gx, gy, 41) - 0.5) * 0.2;
+      const jitY = 1 + (cellHash(gx, gy, 43) - 0.5) * 0.2;
+      const mk = (qx, qy, color) => ({
+        x: px + qx * H * jitX,
+        y: -(py + qy * H * jitY),
+        z: worldZ + LIFT,
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        a: 0
+      });
+      const nw = mk(-1, -1, quad.nw);
+      const ne = mk(1, -1, quad.ne);
+      const se = mk(1, 1, quad.se);
+      const sw = mk(-1, 1, quad.sw);
+      pushTriangle(center, nw, ne);
+      pushTriangle(center, ne, se);
+      pushTriangle(center, se, sw);
+      pushTriangle(center, sw, nw);
+    });
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4));
+    geometry.computeVertexNormals();
+
+    const mesh = new THREE.Mesh(geometry, this.blendMaterial);
+    mesh.name = 'ThreeDTerrainBlends';
+    mesh.frustumCulled = false;
+    mesh.castShadow = false;
+    mesh.receiveShadow = false;
+    this.blendMesh = mesh;
+    this.group.add(mesh);
+  }
+
   updateAnimations(delta) {
     if (!this.liquidMaterials.length || !Number.isFinite(delta)) return false;
     this.liquidTime += delta;
@@ -1820,5 +2446,17 @@ export class ThreeDTerrainManager {
     });
     this.liquidCurtains.clear();
     this.liquidMaterials = [];
+    if (this.blendMesh) {
+      this.group.remove(this.blendMesh);
+      this.blendMesh.geometry.dispose();
+      this.blendMesh = null;
+    }
+    this.blendMaterial?.dispose();
+    if (this.pitMesh) {
+      this.group.remove(this.pitMesh);
+      this.pitMesh.geometry.dispose();
+      this.pitMesh = null;
+    }
+    this.pitMaterial?.dispose();
   }
 }

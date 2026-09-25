@@ -21,7 +21,7 @@ const ElevationTools = ({ selectedTool, onToolSelect, settings, onSettingsChange
 
     const brushSize = settings.elevationBrushSize || 1;
     const targetLevel = settings.elevationTargetLevel ?? 1;
-    const rampType = settings.rampType || 'ramp';
+    const rampType = settings.rampType || 'stairs';
     const rampRemove = settings.rampRemove === true;
 
     // NOTE: no auto-switch effect here. Selecting the bare 'elevation' tool is
@@ -159,22 +159,28 @@ const ElevationTools = ({ selectedTool, onToolSelect, settings, onSettingsChange
                         </div>
                         {!rampRemove && (
                             <>
-                                <label style={{ marginTop: 6, display: 'block' }}>Style:</label>
+                                <label style={{ marginTop: 6, display: 'block' }}>Stair style:</label>
                                 <div className="brush-size-controls">
-                                    {['ramp', 'stairs'].map(type => (
+                                    {[
+                                        { id: 'stairs', label: 'Stone' },
+                                        { id: 'wide', label: 'Wide' },
+                                        { id: 'narrow', label: 'Narrow' }
+                                    ].map(style => (
                                         <button
-                                            key={type}
-                                            className={`size-btn ${rampType === type ? 'active' : ''}`}
-                                            onClick={() => updateSettings({ rampType: type })}
+                                            key={style.id}
+                                            className={`size-btn ${rampType === style.id ? 'active' : ''}`}
+                                            onClick={() => updateSettings({ rampType: style.id })}
+                                            title={`Use the ${style.label.toLowerCase()} stair asset`}
                                             style={{ width: 'auto', padding: '0 8px' }}
                                         >
-                                            {type === 'ramp' ? 'Ramp' : 'Stairs'}
+                                            {style.label}
                                         </button>
                                     ))}
                                 </div>
                                 <div style={{ marginTop: 6, opacity: 0.75, fontSize: 11 }}>
                                     Auto-aligns with the adjacent tile that has the biggest
-                                    level difference — no direction to set.
+                                    level difference — no direction to set. Wooden floors use
+                                    the wooden stairs automatically.
                                 </div>
                             </>
                         )}
@@ -194,7 +200,7 @@ const ElevationTools = ({ selectedTool, onToolSelect, settings, onSettingsChange
                     className="terrain-tool-btn"
                     style={{ marginTop: 8 }}
                     onClick={() => setElevationIndicatorsEnabled(!indicatorsEnabled)}
-                    title="In-world markers: cliff rims, level badges (▲/▼) and ramp direction arrows. Players always see them; fog still hides undiscovered areas."
+                    title="In-world markers: cliff/pit rims and +N / -N level badges. Players always see them; fog still hides undiscovered areas."
                 >
                     <span className="tool-name">
                         {indicatorsEnabled ? 'Hide Elevation Markers' : 'Show Elevation Markers'}

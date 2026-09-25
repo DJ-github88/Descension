@@ -1410,7 +1410,6 @@ const elevationStrokePaintedRef = useRef(null);
         // If an environmental object is currently selected, check if click hits delete or rotate handles
         const currentEnvObjs = useLevelEditorStore.getState().environmentalObjects || [];
         const currentlySelectedObj = currentEnvObjs.find(o => o.selected);
-        console.log('[ED_MOUSEDOWN]', { isEditorMode, selectedTool, selObj: currentlySelectedObj?.id, curEnvCount: currentEnvObjs.length });
         // Locked objects have no manipulation handles, so skip handle hit-testing.
         if (currentlySelectedObj && !currentlySelectedObj.locked) {
             const objectDef = PROFESSIONAL_OBJECTS[currentlySelectedObj.type];
@@ -1446,8 +1445,6 @@ const elevationStrokePaintedRef = useRef(null);
                         rotationRad: rotRad
                     });
                     const { deletePosition, rotatePosition } = getObjectSelectionHandles(bounds);
-
-                    console.log('[HANDLE_CHECK]', { screenX, screenY, rotHx: rotatePosition.x, rotHy: rotatePosition.y, delHx: deletePosition.x, delHy: deletePosition.y, distRot: Math.hypot(screenX - rotatePosition.x, screenY - rotatePosition.y) });
 
                     if (Math.hypot(screenX - deletePosition.x, screenY - deletePosition.y) <= 22) {
                         e.stopPropagation();
@@ -2290,7 +2287,7 @@ const elevationStrokePaintedRef = useRef(null);
                     // No stored direction: the ramp auto-aligns with whichever
                     // adjacent tile has the biggest level difference.
                     setRampAt(coords.gridX, coords.gridY, {
-                        type: toolSettings.rampType || 'ramp'
+                        type: toolSettings.rampType || 'stairs'
                     });
                 }
                 break;
@@ -2626,7 +2623,7 @@ const elevationStrokePaintedRef = useRef(null);
                             setRampAt(rampCoords.gridX, rampCoords.gridY, null);
                         } else {
                             setRampAt(rampCoords.gridX, rampCoords.gridY, {
-                                type: toolSettings.rampType || 'ramp'
+                                type: toolSettings.rampType || 'stairs'
                             });
                         }
                     }

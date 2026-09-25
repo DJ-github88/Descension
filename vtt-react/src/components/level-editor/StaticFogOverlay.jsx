@@ -5,7 +5,13 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { getProjectionTransform as buildProjectionTransform, worldToScreen as projectWorldToScreen } from '../../utils/ProjectionSystem';
-import { calculateVisibilityPolygon, collectVisibleWallRuns } from '../../utils/VisibilityCalculations';
+import { calculateVisibilityPolygon, collectVisibleWallRuns, isPointInPolygon } from '../../utils/VisibilityCalculations';
+import {
+    getTileElevation,
+    filterVisibleTilesByElevation,
+    collectPolygonTiles,
+    collectVisibleTerrainPrisms
+} from '../../utils/ElevationUtils';
 import { getCachedCanvasSize } from '../../utils/canvasSizeCache';
 
 // PERFORMANCE: explored polygon bounds are scanned for viewport culling on
@@ -67,6 +73,62 @@ function traceWallSilhouettes(maskCtx, runs, transform, origin) {
         maskCtx.lineTo(t2.x, t2.y);
         maskCtx.lineTo(t1.x, t1.y);
         maskCtx.closePath();
+    }
+}
+
+/**
+ * Traces the screen-space silhouette of visible elevated terrain prisms into
+ * the current canvas path: the lifted top face plus every side face turned
+ * toward the viewer, so hills read as solid visible ground instead of staying
+ * covered by fog (the ground-plane vision polygon cannot reach them).
+ */
+function traceTerrainPrisms(maskCtx, prisms, transform, gridSize, gridOffsetX, gridOffsetY, origin) {
+    for (const prism of prisms) {
+        const topZ = prism.level * gridSize;
+        const worldX = prism.gx * gridSize + gridOffsetX;
+        const worldY = prism.gy * gridSize + gridOffsetY;
+
+        const corners = [
+            { x: worldX, y: worldY },
+            { x: worldX + gridSize, y: worldY },
+            { x: worldX + gridSize, y: worldY + gridSize },
+            { x: worldX, y: worldY + gridSize }
+        ];
+
+        const base = corners.map(c => projectWorldToScreen(c.x, c.y, transform, 0));
+        const top = corners.map(c => projectWorldToScreen(c.x, c.y, transform, topZ));
+
+        // Lifted top face.
+        maskCtx.moveTo(top[0].x, top[0].y);
+        maskCtx.lineTo(top[1].x, top[1].y);
+        maskCtx.lineTo(top[2].x, top[2].y);
+        maskCtx.lineTo(top[3].x, top[3].y);
+        maskCtx.closePath();
+
+        // Side faces turned toward the viewer (outward normal dotted with the
+        // viewer direction), so the near cliff faces are carved out too.
+        if (origin) {
+            for (let i = 0; i < 4; i++) {
+                const a = corners[i];
+                const b = corners[(i + 1) % 4];
+                const edgeX = b.x - a.x;
+                const edgeY = b.y - a.y;
+                // Corners wind clockwise in world space (y down), so the
+                // outward normal of edge a->b is (edgeY, -edgeX).
+                const outwardX = edgeY;
+                const outwardY = -edgeX;
+                const midX = (a.x + b.x) / 2;
+                const midY = (a.y + b.y) / 2;
+                const dot = outwardX * (midX - origin.x) + outwardY * (midY - origin.y);
+                if (dot <= 0) continue;
+
+                maskCtx.moveTo(base[i].x, base[i].y);
+                maskCtx.lineTo(base[(i + 1) % 4].x, base[(i + 1) % 4].y);
+                maskCtx.lineTo(top[(i + 1) % 4].x, top[(i + 1) % 4].y);
+                maskCtx.lineTo(top[i].x, top[i].y);
+                maskCtx.closePath();
+            }
+        }
     }
 }
 
@@ -278,6 +340,48 @@ const StaticFogOverlay = () => {
             windowOverlays
         });
     }, [fogOfWarEnabled, respectLineOfSight, currentViewingToken, visibilityPolygon, wallData, gridType, gridSize, elevationData, windowOverlays]);
+
+    // Elevated terrain obstruction for the 2D fog mask: which ground tiles the
+    // polygon reaches are hidden behind raised terrain (re-fog them), and which
+    // hill prisms are visible (carve them out so hills are not fogged). The 3D
+    // layer already does this via the elevation-filtered visible tile set.
+    const elevationFogData = useMemo(() => {
+        if (!fogOfWarEnabled || !currentViewingToken?.position) return null;
+        if (!elevationData || Object.keys(elevationData).length === 0) return null;
+        if (!visibilityPolygon || visibilityPolygon.length < 3) return null;
+
+        const gridSystem = getGridSystem();
+        if (!gridSystem) return null;
+
+        const coveredKeys = collectPolygonTiles({
+            visibilityPolygon,
+            gridSystem,
+            isPointInPolygon
+        });
+
+        const viewerTile = gridSystem.worldToGrid(
+            currentViewingToken.position.x,
+            currentViewingToken.position.y
+        );
+        const viewerLevel = getTileElevation(elevationData, viewerTile.x, viewerTile.y);
+        const kept = new Set(filterVisibleTilesByElevation({
+            tileKeys: coveredKeys,
+            fromWorld: currentViewingToken.position,
+            fromGroundLevel: viewerLevel,
+            elevationData,
+            gridSystem
+        }));
+        const occludedKeys = coveredKeys.filter(key => !kept.has(key));
+
+        const prisms = collectVisibleTerrainPrisms({
+            elevationData,
+            visibilityPolygon,
+            gridSystem,
+            isPointInPolygon
+        });
+
+        return { occludedKeys, prisms };
+    }, [fogOfWarEnabled, currentViewingToken, elevationData, visibilityPolygon]);
 
     // Vision polygons for all tokens (used by GM to see what players/creatures can see)
     const allTokensVisibilityPolygons = useMemo(() => {
@@ -817,8 +921,10 @@ const StaticFogOverlay = () => {
 
                 // Wall silhouettes AFTER the rim gradient: a wall the token can
                 // see must be lit over its full height, not faded by the vision
-                // rim that only applies to the ground.
-                if (fovWallSilhouettes.length > 0) {
+                // rim that only applies to the ground. Terrain prisms get the
+                // same treatment, and ground tiles hidden behind raised terrain
+                // are re-fogged so hills/pits actually obstruct sight.
+                if (fovWallSilhouettes.length > 0 || (elevationFogData && (elevationFogData.prisms.length > 0 || elevationFogData.occludedKeys.length > 0))) {
                     const silhouetteTransform = buildProjectionTransform({
                         viewMode,
                         viewRotation,
@@ -829,19 +935,66 @@ const StaticFogOverlay = () => {
                         viewportWidth: canvas.width,
                         viewportHeight: canvas.height
                     });
-                    maskCtx.globalCompositeOperation = 'source-over';
-                    maskCtx.save();
-                    maskCtx.filter = 'blur(5px)';
-                    maskCtx.fillStyle = 'rgba(255, 255, 255, 1)';
-                    traceWallSilhouettes(
-                        maskCtx,
-                        fovWallSilhouettes,
-                        silhouetteTransform,
-                        currentViewingToken?.position
-                    );
-                    maskCtx.fill();
-                    maskCtx.filter = 'none';
-                    maskCtx.restore();
+                    if (fovWallSilhouettes.length > 0) {
+                        maskCtx.globalCompositeOperation = 'source-over';
+                        maskCtx.save();
+                        maskCtx.filter = 'blur(5px)';
+                        maskCtx.fillStyle = 'rgba(255, 255, 255, 1)';
+                        traceWallSilhouettes(
+                            maskCtx,
+                            fovWallSilhouettes,
+                            silhouetteTransform,
+                            currentViewingToken?.position
+                        );
+                        maskCtx.fill();
+                        maskCtx.filter = 'none';
+                        maskCtx.restore();
+                    }
+
+                    if (elevationFogData && elevationFogData.prisms.length > 0) {
+                        maskCtx.globalCompositeOperation = 'source-over';
+                        maskCtx.save();
+                        maskCtx.filter = 'blur(4px)';
+                        maskCtx.fillStyle = 'rgba(255, 255, 255, 1)';
+                        maskCtx.beginPath();
+                        traceTerrainPrisms(
+                            maskCtx,
+                            elevationFogData.prisms,
+                            silhouetteTransform,
+                            gridSize,
+                            gridOffsetX,
+                            gridOffsetY,
+                            currentViewingToken?.position
+                        );
+                        maskCtx.fill();
+                        maskCtx.filter = 'none';
+                        maskCtx.restore();
+                    }
+
+                    if (elevationFogData && elevationFogData.occludedKeys.length > 0) {
+                        maskCtx.globalCompositeOperation = 'destination-out';
+                        maskCtx.save();
+                        maskCtx.filter = 'blur(3px)';
+                        for (const key of elevationFogData.occludedKeys) {
+                            const [gx, gy] = key.split(',').map(Number);
+                            if (!Number.isFinite(gx) || !Number.isFinite(gy)) continue;
+                            const worldX = gx * gridSize + gridOffsetX;
+                            const worldY = gy * gridSize + gridOffsetY;
+                            const c1 = worldToScreen(worldX, worldY, cameraX, cameraY, effectiveZoom);
+                            const c2 = worldToScreen(worldX + gridSize, worldY, cameraX, cameraY, effectiveZoom);
+                            const c3 = worldToScreen(worldX + gridSize, worldY + gridSize, cameraX, cameraY, effectiveZoom);
+                            const c4 = worldToScreen(worldX, worldY + gridSize, cameraX, cameraY, effectiveZoom);
+                            maskCtx.beginPath();
+                            maskCtx.moveTo(c1.x, c1.y);
+                            maskCtx.lineTo(c2.x, c2.y);
+                            maskCtx.lineTo(c3.x, c3.y);
+                            maskCtx.lineTo(c4.x, c4.y);
+                            maskCtx.closePath();
+                            maskCtx.fill();
+                        }
+                        maskCtx.filter = 'none';
+                        maskCtx.restore();
+                    }
                 }
 
                 ctx.globalCompositeOperation = 'destination-out';
@@ -966,7 +1119,7 @@ const StaticFogOverlay = () => {
             ctx.globalAlpha = 1;
             ctx.drawImage(visibilityMask, 0, 0);
         }
-    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, fovWallSilhouettes, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
+    }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, dynamicFogEnabled, isFogLayerVisible, zoomLevel, playerZoom, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld, currentPlayerId, playerMemories, legacyExploredAreas, wallData, gridSize, gridOffsetX, gridOffsetY, additionalVisibilityPolygons, controlledCreatureVisionDetails, fovWallSilhouettes, elevationFogData, cameraX, cameraY, viewMode, viewRotation, viewTilt]);
 
     renderFogRef.current = renderFog;
 

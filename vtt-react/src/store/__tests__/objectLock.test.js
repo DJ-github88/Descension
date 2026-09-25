@@ -39,7 +39,14 @@ describe('environmental object locking', () => {
 
     afterEach(() => {
         window._isReceivingMapUpdate = syncFlag;
-        useLevelEditorStore.setState({ environmentalObjects: [], isEditorOpen: false });
+        useLevelEditorStore.setState({
+            environmentalObjects: [],
+            isEditorOpen: false,
+            toolSettings: {
+                ...useLevelEditorStore.getState().toolSettings,
+                selectedObjectType: undefined
+            }
+        });
     });
 
     test('setEnvironmentalObjectLocked toggles the lock flag', () => {
@@ -135,6 +142,34 @@ describe('environmental object locking', () => {
         const removed = useLevelEditorStore.getState().removeEnvironmentalObject('obj-1');
         expect(removed).toBe(true);
         expect(readObject()).toBeUndefined();
+    });
+
+    test('deleting a selected object disarms the armed placement type', () => {
+        useLevelEditorStore.setState({
+            environmentalObjects: [makeObject({ selected: true })],
+            toolSettings: {
+                ...useLevelEditorStore.getState().toolSettings,
+                selectedObjectType: 'tree_pine'
+            }
+        });
+
+        useLevelEditorStore.getState().removeEnvironmentalObject('obj-1');
+
+        expect(useLevelEditorStore.getState().toolSettings.selectedObjectType).toBeUndefined();
+    });
+
+    test('deleting an unselected object keeps the armed placement type', () => {
+        useLevelEditorStore.setState({
+            environmentalObjects: [makeObject({ selected: false })],
+            toolSettings: {
+                ...useLevelEditorStore.getState().toolSettings,
+                selectedObjectType: 'tree_pine'
+            }
+        });
+
+        useLevelEditorStore.getState().removeEnvironmentalObject('obj-1');
+
+        expect(useLevelEditorStore.getState().toolSettings.selectedObjectType).toBe('tree_pine');
     });
 
     test('setAllEnvironmentalObjectsLocked locks and unlocks every object', () => {

@@ -77,7 +77,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         basic: {
             name: 'Basic Walls',
             icon: 'Utility/Barred Shield',
-            walls: ['stone_wall', 'wooden_wall', 'brick_wall', 'gothic_stone']
+            walls: ['stone_wall', 'stone_wall_lowpoly', 'wooden_wall', 'brick_wall', 'gothic_stone']
         },
         fences: {
             name: 'Fences & Barriers',

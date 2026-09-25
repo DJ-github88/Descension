@@ -24,12 +24,12 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         natural: {
             name: 'Natural Terrain',
             icon: 'Nature/Nature Natural',
-            terrains: ['grass', 'dirt', 'rocky_dirt', 'overgrown_dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone', 'cobblestone_road', 'stone_path']
+            terrains: ['grass', 'dirt', 'dirt_path', 'rocky_dirt', 'overgrown_dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone', 'cobblestone_road', 'stone_path']
         },
         dungeon: {
             name: 'Dungeon Floors',
             icon: 'General/Lockpick',
-            terrains: ['dungeon_floor', 'weathered_stone', 'grate_floor', 'wooden_floor', 'wooden_planks', 'dark_wood', 'marble_floor', 'crystal_floor', 'gold_floor']
+            terrains: ['dungeon_floor', 'stone_tile', 'weathered_stone', 'grate_floor', 'wooden_floor', 'wooden_planks', 'dark_wood', 'marble_floor', 'crystal_floor', 'gold_floor']
         },
         difficult: {
             name: 'Difficult Terrain',

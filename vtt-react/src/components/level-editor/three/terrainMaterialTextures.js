@@ -45,30 +45,37 @@ const liquidTextureCache = new Map();
 
 // Integer wave vectors keep the generated height field seamless in both axes,
 // so one small texture tiles across a whole lake without visible seams.
+// `facetLevels` quantises the field into flat bands so liquids render as
+// low-poly faceted contours instead of a blurred sine smear.
 const RIPPLE_PROFILES = {
   water: {
     waves: [[1, 0, 1], [0, 1, 0.9], [2, 1, 0.5], [1, -2, 0.4], [-3, 2, 0.25]],
-    normalStrength: 1.25,
+    facetLevels: 0,
+    smooth: true,
+    normalStrength: 0.8,
     albedoBase: 240,
-    albedoContrast: 12
+    albedoContrast: 10
   },
   ice: {
     waves: [[1, 0, 0.6], [0, 2, 0.5], [3, 1, 0.28]],
-    normalStrength: 1.1,
+    facetLevels: 4,
+    normalStrength: 0.8,
     albedoBase: 246,
     albedoContrast: 12
   },
   lava: {
     waves: [[1, 1, 0.8], [2, -1, 0.6], [0, 2, 0.5], [3, 2, 0.35]],
-    normalStrength: 2.6,
-    albedoBase: 148,
-    albedoContrast: 96
+    facetLevels: 5,
+    normalStrength: 1.0,
+    albedoBase: 142,
+    albedoContrast: 110
   },
   acid: {
     waves: [[3, 0, 0.7], [0, 3, 0.7], [2, 2, 0.5], [1, -3, 0.4]],
-    normalStrength: 1.8,
+    facetLevels: 4,
+    normalStrength: 1.0,
     albedoBase: 208,
-    albedoContrast: 42
+    albedoContrast: 46
   }
 };
 
@@ -125,7 +132,11 @@ export function getLiquidSurfaceTextures(profile) {
     for (let x = 0; x < size; x += 1) {
       const u = x * step;
       const offset = (y * size + x) * 4;
-      const height = sampleField(config.waves, u, v);
+      let height = sampleField(config.waves, u, v);
+      if (config.facetLevels > 1) {
+        const levels = config.facetLevels;
+        height = Math.round((height * 0.5 + 0.5) * levels) / levels * 2 - 1;
+      }
 
       const left = sampleField(config.waves, u - step, v);
       const right = sampleField(config.waves, u + step, v);
@@ -156,8 +167,13 @@ export function getLiquidSurfaceTextures(profile) {
   [albedo, normal].forEach((texture) => {
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.magFilter = THREE.LinearFilter;
-    texture.minFilter = THREE.LinearMipmapLinearFilter;
+    if (config.smooth) {
+      texture.magFilter = THREE.LinearFilter;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+    } else {
+      texture.magFilter = THREE.NearestFilter;
+      texture.minFilter = THREE.NearestMipmapLinearFilter;
+    }
     texture.generateMipmaps = true;
   });
   albedo.colorSpace = THREE.SRGBColorSpace;

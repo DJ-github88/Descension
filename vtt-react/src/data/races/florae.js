@@ -165,6 +165,14 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
         {
           src: '/assets/images/races/florae_viridian_icon_v1.png',
           caption: 'Viridian Florae ranger drawing a living briar bow with forearm thorn-barbs, wild mountain flora, and unstitched house crest in rough charcoal draft with watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/florae_viridian_culture_archer.jpg',
+          caption: 'Viridian Florae ranger poised on a mountain crag, drawing a living thorny briar recurve bow with wild briar hair and barbed bracers.'
+        },
+        {
+          src: '/assets/images/races/florae_viridian_city_thornhollow.jpg',
+          caption: 'Thornhollow — Two Viridian Florae sentries standing watch from stone parapets overlooking their mountain canyon briar-bastion fortified with woven thorn-hedges and watchtowers.'
         }
       ],
       visualDescription: `Standing 5'6" to 6'2" with lean, fae-slender builds and forearms that bristle with living thorn-barbs grown from beneath the skin. Their eyes shift to the green of deep canopy, and their hair often weaves itself into briar-tangles if left uncombed. They wear thorn-cloaks openly in the deep groves and high-collared traveler coats (with the unstitched Viridane crest patch) when they must pass through Ledgered towns. Small forest creatures give them a wide berth; the thorns mark them, and the barbs carry the old fae-contract in their flesh.`,
@@ -278,6 +286,14 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
         {
           src: '/assets/images/races/florae_oken_icon_v1.png',
           caption: 'Oken Florae warden with flowing leaf hair, branch-horns, nesting squirrel, and crystal staff in rough charcoal draft with forest-green watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/florae_oken_culture_nursery.jpg',
+          caption: 'Oken Florae tree-humanoid warden kneeling at the roots of an ancient ironwood tree, watering living humanoid seedling sprouts from a copper hearth-flask.'
+        },
+        {
+          src: '/assets/images/races/florae_oken_city_ironroot.jpg',
+          caption: 'Iron-Root Haven — Two Oken Florae tree-wardens conversing beside moss-covered root buttresses overlooking their ground-level primeval root-hollow settlement.'
         }
       ],
       visualDescription: `Standing 5'4" to 6'4" with friendly, carved-wooden faces, expressive amber eyes, and wide warm smiles. Their arms are crude, natural tree boughs (oak, birch, willow, pine, or rowan) that split into flexible twig-fingers sprouting fresh green leaf-buds when hydrated. Small forest creatures (squirrels, bluebirds, owls) often perch on their shoulder-boughs. They wear high-collared traveler coats with blank unstitched Viridane crest patches and copper water-flasks on their belts. Some groom themselves neatly ('Shorn') to travel in cities, while others remain unkempt and leaf-covered ('Wild') in the deep groves.`,

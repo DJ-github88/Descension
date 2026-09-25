@@ -468,6 +468,16 @@ export const PROFESSIONAL_OBJECTS = {
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
         blocksLineOfSight: true
     },
+    tree_pine_lowpoly: {
+        id: 'tree_pine_lowpoly',
+        name: '3D Low-Poly Pine',
+        image: null,
+        category: 'nature',
+        size: { width: 1, height: 1 },
+        description: 'Chunky low-poly pine with flat green foliage tiers',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
     tree_oak: {
         id: 'tree_oak',
         name: '3D Oak Tree',

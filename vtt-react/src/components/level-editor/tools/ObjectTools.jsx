@@ -388,7 +388,7 @@ const ObjectTools = ({ selectedTool, settings, onSettingsChange }) => {
                                         disabled={selectedEnvObj.locked}
                                         title={selectedEnvObj.locked ? 'Unlock this object first' : 'Delete this object'}
                                         onClick={() => {
-                                            removeEnvironmentalObject(selectedEnvObj.id);
+                                            removeEnvironmentalObject(selectedEnvObj.id, currentMapId);
                                         }}
                                     >
                                         <i className="fas fa-trash-alt"></i> Delete

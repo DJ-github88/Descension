@@ -379,6 +379,32 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     movementCost: 1,
     description: 'Cobblestone path or road'
   },
+  dirt_path: {
+    id: 'dirt_path',
+    name: 'Dirt Path',
+    shortName: 'Dirt Path',
+    category: 'natural',
+    color: '#7d8446',
+    tileVariations: [
+      '/assets/tiles/Dirt1.png'
+    ],
+    modelKey: 'dirt_path_lowpoly',
+    movementCost: 1,
+    description: 'Winding dirt trail worn through low-poly grass'
+  },
+  stone_tile: {
+    id: 'stone_tile',
+    name: 'Low-Poly Stone Tile',
+    shortName: 'Stone Tile',
+    category: 'dungeon',
+    color: '#8a8680',
+    tileVariations: [
+      '/assets/tiles/Stone1.png'
+    ],
+    modelKey: 'stone_tile_lowpoly',
+    movementCost: 1,
+    description: 'Chunky low-poly stone floor blocks'
+  },
 
   // Dungeon Terrain
   dungeon_floor: {
@@ -1044,6 +1070,18 @@ export const WALL_TYPES = {
     imageUrl: '/assets/walls/stone_wall.png',
     icon: 'ðŸ§±',
     description: 'A solid stone wall that blocks movement and sight'
+  },
+  stone_wall_lowpoly: {
+    id: 'stone_wall_lowpoly',
+    name: 'Low-Poly Stone Wall',
+    category: 'basic',
+    color: '#8a8680',
+    heightScale: 0.5556,
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/stone_wall_lowpoly.png',
+    icon: '🧱',
+    description: 'Chunky low-poly stone wall segment, one grid cell tall'
   },
   wooden_wall: {
     id: 'wooden_wall',
@@ -2092,7 +2130,7 @@ const useLevelEditorStore = create((set, get) => ({
     // visual type. Legacy string/dir entries are preserved as a fallback.
     const normalized = typeof ramp === 'string'
       ? { dir: ramp, type: 'ramp' }
-      : { type: ramp.type || 'ramp' };
+      : { type: ramp.type || 'stairs' };
     if (typeof ramp === 'object' && ramp && ramp.dir) {
       normalized.dir = ramp.dir;
     }
@@ -4477,6 +4515,12 @@ const useLevelEditorStore = create((set, get) => ({
     set({
       environmentalObjects: newObjects
     });
+
+    if (target?.selected && get().toolSettings?.selectedObjectType) {
+      set((state) => ({
+        toolSettings: { ...state.toolSettings, selectedObjectType: undefined }
+      }));
+    }
 
     // Sync to other clients
     if (!window._isReceivingMapUpdate) {

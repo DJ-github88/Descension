@@ -32,7 +32,9 @@ describe('Modular Tiles and Wall Assets Integration', () => {
       'overgrown_dirt',
       'cobblestone_road',
       'wooden_planks',
-      'stone_path'
+      'stone_path',
+      'stone_tile',
+      'dirt_path'
     ];
 
     it.each(allAddedTerrains)('defines valid terrain type %s', (id) => {
@@ -125,7 +127,8 @@ describe('Modular Tiles and Wall Assets Integration', () => {
       'stone_column',
       'wooden_column',
       'wall_diagonal',
-      'wall_curved'
+      'wall_curved',
+      'stone_wall_lowpoly'
     ];
 
     it.each(allAddedWalls)('defines valid wall type %s', (id) => {
@@ -205,28 +208,34 @@ describe('Modular Tiles and Wall Assets Integration', () => {
       expect(TERRAIN_MODEL_REGISTRY[keySpike].url).toContain('floor_spikes.glb');
 
       const keyDarkWood = resolveTerrainModelKey('dark_wood', PROFESSIONAL_TERRAIN_TYPES.dark_wood);
-      expect(TERRAIN_MODEL_REGISTRY[keyDarkWood].url).toContain('floor_wood_dark.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyDarkWood].url).toContain('dark_wood_lowpoly.glb');
 
       const keyWeathered = resolveTerrainModelKey('weathered_stone', PROFESSIONAL_TERRAIN_TYPES.weathered_stone);
-      expect(TERRAIN_MODEL_REGISTRY[keyWeathered].url).toContain('floor_stone_rocks.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyWeathered].url).toContain('weathered_stone_lowpoly.glb');
 
       const keyRockyDirt = resolveTerrainModelKey('rocky_dirt', PROFESSIONAL_TERRAIN_TYPES.rocky_dirt);
-      expect(TERRAIN_MODEL_REGISTRY[keyRockyDirt].url).toContain('floor_dirt_rocky.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyRockyDirt].url).toContain('rocky_dirt_lowpoly.glb');
 
       const keyOvergrown = resolveTerrainModelKey('overgrown_dirt', PROFESSIONAL_TERRAIN_TYPES.overgrown_dirt);
-      expect(TERRAIN_MODEL_REGISTRY[keyOvergrown].url).toContain('floor_tile_small_weeds_A.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyOvergrown].url).toContain('overgrown_dirt_lowpoly.glb');
 
       const keyCobble = resolveTerrainModelKey('cobblestone', PROFESSIONAL_TERRAIN_TYPES.cobblestone);
-      expect(TERRAIN_MODEL_REGISTRY[keyCobble].url).toContain('floor_stone.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyCobble].url).toContain('cobblestone_lowpoly.glb');
 
       const keyDirt = resolveTerrainModelKey('dirt', PROFESSIONAL_TERRAIN_TYPES.dirt);
-      expect(TERRAIN_MODEL_REGISTRY[keyDirt].url).toContain('floor_dirt.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyDirt].url).toContain('dirt_lowpoly_a.glb');
+
+      const keyGrass = resolveTerrainModelKey('grass', PROFESSIONAL_TERRAIN_TYPES.grass);
+      expect(TERRAIN_MODEL_REGISTRY[keyGrass].url).toContain('grass_lowpoly_a.glb');
+
+      const keySand = resolveTerrainModelKey('sand', PROFESSIONAL_TERRAIN_TYPES.sand);
+      expect(TERRAIN_MODEL_REGISTRY[keySand].url).toContain('sand_lowpoly_a.glb');
 
       const keyCobbleRoad = resolveTerrainModelKey('cobblestone_road', PROFESSIONAL_TERRAIN_TYPES.cobblestone_road);
-      expect(TERRAIN_MODEL_REGISTRY[keyCobbleRoad].url).toContain('road_stone.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyCobbleRoad].url).toContain('cobble_road_lowpoly.glb');
 
       const keyBoardwalk = resolveTerrainModelKey('wooden_planks', PROFESSIONAL_TERRAIN_TYPES.wooden_planks);
-      expect(TERRAIN_MODEL_REGISTRY[keyBoardwalk].url).toContain('wooden_planks.glb');
+      expect(TERRAIN_MODEL_REGISTRY[keyBoardwalk].url).toContain('boardwalk_lowpoly.glb');
 
       const keyStonePath = resolveTerrainModelKey('stone_path', PROFESSIONAL_TERRAIN_TYPES.stone_path);
       expect(TERRAIN_MODEL_REGISTRY[keyStonePath].url).toContain('road_graveyard.glb');
@@ -239,6 +248,21 @@ describe('Modular Tiles and Wall Assets Integration', () => {
 
       const keyKayCobble = resolveTerrainModelKey('kaykit_cobble', PROFESSIONAL_TERRAIN_TYPES.kaykit_cobble);
       expect(TERRAIN_MODEL_REGISTRY[keyKayCobble].url).toContain('kaykit_cobble_path.glb');
+
+      const keyStoneTile = resolveTerrainModelKey('stone_tile', PROFESSIONAL_TERRAIN_TYPES.stone_tile);
+      expect(TERRAIN_MODEL_REGISTRY[keyStoneTile].url).toContain('stone_tile_lowpoly.glb');
+
+      const keyDirtPath = resolveTerrainModelKey('dirt_path', PROFESSIONAL_TERRAIN_TYPES.dirt_path);
+      expect(TERRAIN_MODEL_REGISTRY[keyDirtPath].url).toContain('dirt_path_lowpoly.glb');
+
+      const keyLava = resolveTerrainModelKey('lava', PROFESSIONAL_TERRAIN_TYPES.lava);
+      expect(TERRAIN_MODEL_REGISTRY[keyLava].url).toContain('lava_v2_lowpoly.glb');
+
+      const keyIce = resolveTerrainModelKey('ice', PROFESSIONAL_TERRAIN_TYPES.ice);
+      expect(TERRAIN_MODEL_REGISTRY[keyIce].url).toContain('ice_v2_lowpoly.glb');
+
+      const keyCrystal = resolveTerrainModelKey('crystal_floor', PROFESSIONAL_TERRAIN_TYPES.crystal_floor);
+      expect(TERRAIN_MODEL_REGISTRY[keyCrystal].url).toContain('crystal_v2_lowpoly.glb');
     });
 
     it('contains valid GLB models in TERRAIN_MODEL_REGISTRY', () => {
@@ -282,6 +306,7 @@ describe('Modular Tiles and Wall Assets Integration', () => {
       // host-agnostic kit window instead of the dedicated town stucco piece.
       expect(manager.resolveWallModelUrl({ type: 'town_window' })).toBe(WALL_MODELS.window_closed);
       expect(manager.resolveWallModelUrl({ type: 'quaternius_wood' })).toBe(WALL_MODELS.quaternius_wood);
+      expect(manager.resolveWallModelUrl({ type: 'stone_wall_lowpoly' })).toBe(WALL_MODELS.stone_wall_lowpoly);
     });
 
     it('has authored metrics for all registered wall models', () => {
@@ -309,7 +334,8 @@ describe('Modular Tiles and Wall Assets Integration', () => {
         'iron_gate',
         'wooden_gate',
         'hedge_gate',
-        'quaternius_wood'
+        'quaternius_wood',
+        'stone_wall_lowpoly'
       ];
 
       authoredTypes.forEach(type => {

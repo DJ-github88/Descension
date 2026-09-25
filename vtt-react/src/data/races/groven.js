@@ -243,6 +243,14 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           src: '/assets/images/races/groven_morgh_icon_v1.png',
           caption: 'Morgh Groven mountain stone-troll sentinel in tattered hooded cowl with spiral wraps and gnarled staff in rough charcoal draft with slate-grey watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/groven_morgh_culture_megalith.png',
+          caption: 'Morgh Groven mountain sentinel and stonemason standing vigil by a split-granite megalith on an alpine summit, leaning on a gnarled staff.'
+        },
+        {
+          src: '/assets/images/races/groven_morgh_city_karstmorgh.jpg',
+          caption: 'Karst-Morgh — The cyclopean subterranean mountain halls of the Morgh Groven, where stonemasons dress granite blocks under vaulted stone arches.'
         }
       ],
       visualDescription: `Heavy-scaled, stocky, and craggy-featured, the Morgh carry the old Thrumm blood closest to the surface. Standing 4'11" to 5'3" (1.50m to 1.60m), they are broad-shouldered, deep-chested, and stone-hewn, built as immovable subterranean forge-smiths and hall-builders of Cragjaw Peaks. Their faces are flat and stone-slab, heavy-browed with deep-set amber eyes and lipless rock mouths. Their stone-scales grow in dense overlapping plates across shoulders, spine, and joints like natural granite plating. Their knuckles are obsidian points, and when a Morgh stands still among high crag boulders, living stone is indistinguishable from dead stone. They dress in tattered lichen-fiber wraps and carry long ash walking-staves.`,
@@ -521,6 +529,14 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
         {
           src: '/assets/images/races/groven_ithran_icon_v1.png',
           caption: 'Ithran Groven bridge toll-keeper in classic crouching troll stance with elongated reach, braided dreadlocks, crown horns, and brass balance scale in rough charcoal draft with watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/groven_ithran_culture_balance.png',
+          caption: 'Ithran Groven bridge toll-warden perched upon a stone gargoyle cornice, inspecting coin weights on a hanging balance scale over the chasm.'
+        },
+        {
+          src: '/assets/images/races/groven_ithran_city_cragspan.png',
+          caption: 'Crag-Span — The vertigo-inducing bridge-bazaar of the Ithran Groven, where long-limbed merchants trade across colossal stone arches above cantilevered dwellings.'
         }
       ],
       visualDescription: `Slender and impossibly long of limb, the Ithran are the Fexric's most refined design made flesh. Their stone-scales grow fine as tessellated mail over lean frames, their tusks reduced to elegant points, and their fingers are long enough to tie a bridge-knot from a body-length away. Their movements are fluid and deliberate, the gait of a creature whose limbs were meant to span chasms, and when an Ithran gestures the whole hall watches the arc of those impossible arms. They favor finer woven garments than the Morgh and carry themselves with the bearing of diplomats who happen to be eight feet tall.`,

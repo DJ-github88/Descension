@@ -6,7 +6,6 @@ import {
   resolveWaterShorePiece,
   WATER_SHORE_PIECES
 } from '../ThreeDTerrainManager';
-import { TERRAIN_UV_PER_CELL } from '../terrainMaterialTextures';
 
 jest.mock('../../../../services/ModelCacheService', () => {
   const three = require('three');
@@ -84,9 +83,11 @@ describe('ThreeDTerrainManager', () => {
       enabled: true
     });
 
-    expect(manager.instancedMeshes.size).toBe(4);
-    manager.instancedMeshes.forEach(mesh => {
-      expect(mesh.count).toBe(1);
+    expect(manager.instancedMeshes.size).toBeGreaterThanOrEqual(4);
+    const mainKeys = [...manager.instancedMeshes.keys()].filter(k => !k.startsWith('blend_'));
+    expect(mainKeys).toHaveLength(4);
+    mainKeys.forEach(key => {
+      expect(manager.instancedMeshes.get(key).count).toBe(1);
     });
   });
 
@@ -174,7 +175,8 @@ describe('ThreeDTerrainManager', () => {
 
       const sheet = manager.liquidSurfaces.get('water');
       expect(sheet).toBeDefined();
-      // Only the lake centre is open water (the river run has banks on two sides).
+      // The animated sheet covers only the open centre; banked edges carry
+      // their own baked water so the sheet never overlaps the shoreline.
       expect(sheet.geometry.getAttribute('position').count).toBe(4);
 
       // Every shoreline piece keeps its three parts apart.
@@ -247,8 +249,8 @@ describe('ThreeDTerrainManager', () => {
 
       const modelKeys = [...manager.instancedMeshes.keys()].map(key => key.split('#')[0].split('|')[0]);
       // The animated DOM TileOverlay covers lava/acid/ice, so those types keep
-      // the stone bed + emissive sheet instead of shoreline tiles.
-      expect(modelKeys).toContain('tile_small');
+      // their own bed model + emissive sheet instead of shoreline tiles.
+      expect(modelKeys).toContain('lava_v2_lowpoly');
       expect(modelKeys.some(key => key.startsWith('ground_river'))).toBe(false);
 
       const lavaSheet = manager.liquidSurfaces.get('lava');
@@ -298,6 +300,8 @@ describe('ThreeDTerrainManager', () => {
       const [modelKey] = key.split('#')[0].split('|');
       expect(TERRAIN_MODEL_REGISTRY[modelKey]).toBeDefined();
     });
+    expect(manager.blendMesh).toBeDefined();
+    expect(manager.blendMesh.geometry.getAttribute('position').count).toBeGreaterThan(0);
   });
 
   it('maps multi-variation 2D types onto their 3D model without variation keys', () => {
@@ -310,7 +314,7 @@ describe('ThreeDTerrainManager', () => {
       enabled: true
     });
 
-    const keys = [...manager.instancedMeshes.keys()].filter(k => k.startsWith('tile_small|'));
+    const keys = [...manager.instancedMeshes.keys()].filter(k => k.startsWith('marble_lowpoly|'));
     expect(keys).toHaveLength(1);
     expect(keys[0]).not.toContain('|v');
     expect(manager.instancedMeshes.get(keys[0]).count).toBe(2);
@@ -336,14 +340,18 @@ describe('ThreeDTerrainManager', () => {
       enabled: true
     });
 
-    const materials = [...manager.instancedMeshes.values()].map(m => m.material);
-    expect(materials).toHaveLength(2);
+    const entries = [...manager.instancedMeshes.entries()].filter(([key]) => !key.startsWith('blend_'));
+    expect(entries).toHaveLength(2);
+    const materials = entries.map(([, mesh]) => mesh.material);
     expect(materials[0]).not.toBe(materials[1]);
     // Every variant gets its own cloned material.
     materials.forEach(m => expect(m).toBeInstanceOf(THREE.MeshStandardMaterial));
 
-    const grass = materials.find(m => m.emissive && m.emissive.getHex() === 0 && m.color.g > m.color.b);
-    expect(grass).toBeDefined();
+    const grassEntry = [...manager.instancedMeshes.entries()].find(([key]) => key.startsWith('grass_lowpoly_'));
+    expect(grassEntry).toBeDefined();
+
+    expect(manager.blendMesh).toBeDefined();
+    expect(manager.blendMesh.geometry.getAttribute('position').count).toBeGreaterThan(0);
   });
 
   it('gives hazard terrain an emissive glow on its liquid sheet', () => {
@@ -357,21 +365,153 @@ describe('ThreeDTerrainManager', () => {
     expect(sheet.material.emissive.getHex()).not.toBe(0);
   });
 
-  it('maps the authored 2D tile art onto the flat prototype plates', () => {
+  it('picks deterministic seamless variants and rotations for base terrain', () => {
+    const field = {};
+    for (let gx = 0; gx < 4; gx += 1) field[`${gx},0`] = 'grass';
+    manager.updateTerrain({ terrainData: field, ...GRID, enabled: true });
+
+    const grassKeys = [...manager.instancedMeshes.keys()]
+      .map(key => key.split('|')[0])
+      .filter(key => key.startsWith('grass_lowpoly_'));
+    expect(grassKeys.length).toBeGreaterThan(0);
+    grassKeys.forEach(key => expect(TERRAIN_MODEL_REGISTRY[key]).toBeDefined());
+
+    manager.updateTerrain({ terrainData: field, ...GRID, enabled: true });
+    const grassKeysAgain = [...manager.instancedMeshes.keys()]
+      .map(key => key.split('|')[0])
+      .filter(key => key.startsWith('grass_lowpoly_'));
+    expect(grassKeysAgain).toEqual(grassKeys);
+  });
+
+  it('draws blend strips between neighbouring terrain of different types', () => {
+    manager.updateTerrain({
+      terrainData: {
+        '0,0': 'grass',
+        '1,0': 'dirt',
+        '0,1': 'grass',
+        '1,1': 'dirt'
+      },
+      ...GRID,
+      enabled: true
+    });
+
+    expect(manager.blendMesh).toBeDefined();
+    const count = manager.blendMesh.geometry.getAttribute('position').count;
+    expect(count).toBeGreaterThan(0);
+  });
+
+  it('skips blend strips inside uniform terrain', () => {
+    manager.updateTerrain({
+      terrainData: {
+        '0,0': 'grass',
+        '1,0': 'grass',
+        '0,1': 'grass',
+        '1,1': 'grass'
+      },
+      ...GRID,
+      enabled: true
+    });
+
+    expect(manager.blendMesh).toBeNull();
+  });
+
+  it('draws wet fade strips where water borders land', () => {
+    manager.updateTerrain({
+      terrainData: {
+        '0,0': 'water',
+        '1,0': 'grass',
+        '0,1': 'water',
+        '1,1': 'grass'
+      },
+      ...GRID,
+      enabled: true
+    });
+
+    expect(manager.blendMesh).toBeDefined();
+    expect(manager.blendMesh.geometry.getAttribute('position').count).toBeGreaterThan(0);
+  });
+
+  it('merges adjacent pits into one continuous pit region', () => {
+    manager.updateTerrain({
+      terrainData: {
+        '0,0': 'pit', '1,0': 'pit',
+        '0,1': 'pit', '1,1': 'pit'
+      },
+      ...GRID,
+      enabled: true
+    });
+
+    expect(manager.pitMesh).toBeDefined();
+    expect(manager.pitMesh.geometry.getAttribute('position').count).toBeGreaterThan(0);
+    const pitKeys = [...manager.instancedMeshes.keys()].filter(k => k.startsWith('pit_lowpoly'));
+    expect(pitKeys).toHaveLength(0);
+  });
+
+  it('builds a single pit with four rim walls', () => {
+    manager.updateTerrain({
+      terrainData: { '0,0': 'pit' },
+      ...GRID,
+      enabled: true
+    });
+
+    expect(manager.pitMesh).toBeDefined();
+    // 1 floor quad (6 verts) + 4 wall quads (24 verts) = 30 positions.
+    expect(manager.pitMesh.geometry.getAttribute('position').count).toBe(30);
+    // The pit must land on the painted cell: cell 0,0 is centred at
+    // worldX = gx*gridSize + gridSize/2 + offset = 25, so the floor spans 0..50.
+    const xs = manager.pitMesh.geometry.getAttribute('position').array.filter((_, i) => i % 3 === 0);
+    expect(Math.min(...xs)).toBeCloseTo(0, 1);
+    expect(Math.max(...xs)).toBeCloseTo(50, 1);
+  });
+
+  it('leaves no pit mesh when no pits are painted', () => {
+    manager.updateTerrain({ terrainData: { '0,0': 'grass' }, ...GRID, enabled: true });
+    expect(manager.pitMesh).toBeNull();
+  });
+
+  it('tints water banks toward the actual neighbouring terrain', () => {
+    manager.updateTerrain({
+      terrainData: {
+        '5,5': 'water',
+        '4,5': 'dirt',
+        '6,5': 'dirt',
+        '5,4': 'dirt',
+        '5,6': 'dirt'
+      },
+      ...GRID,
+      enabled: true
+    });
+
+    const keys = [...manager.instancedMeshes.keys()];
+    expect(keys.some(k => k.includes('bank:dirt'))).toBe(true);
+    const banked = keys.find(k => k.includes('bank:dirt'));
+    expect(banked.split('|')[0]).not.toBe('ground_riverOpen');
+  });
+
+  it('keeps the static bank palette when water has no painted neighbours', () => {
+    manager.updateTerrain({
+      terrainData: { '5,5': 'water' },
+      ...GRID,
+      enabled: true
+    });
+
+    const keys = [...manager.instancedMeshes.keys()];
+    expect(keys.some(k => k.includes('bank:'))).toBe(false);
+  });
+
+  it('renders dedicated road and boardwalk models without texture plates', () => {
     manager.updateTerrain({
       terrainData: { '0,0': 'cobblestone_road', '1,0': 'wooden_planks' },
       ...GRID,
       enabled: true
     });
 
-    const roadKey = [...manager.instancedMeshes.keys()].find(key => key.startsWith('road_stone|'));
+    const roadKey = [...manager.instancedMeshes.keys()].find(key => key.startsWith('cobble_road_lowpoly|'));
     expect(roadKey).toBeDefined();
-    const road = manager.instancedMeshes.get(roadKey);
-    expect(road.material.map).toBeTruthy();
-    expect(road.material.map.repeat.x).toBeCloseTo(1 / TERRAIN_UV_PER_CELL);
+    expect(manager.instancedMeshes.get(roadKey).material.map).toBeFalsy();
 
-    const plankKey = [...manager.instancedMeshes.keys()].find(key => key.startsWith('wooden_planks|'));
-    expect(manager.instancedMeshes.get(plankKey).material.map).toBeTruthy();
+    const plankKey = [...manager.instancedMeshes.keys()].find(key => key.startsWith('boardwalk_lowpoly|'));
+    expect(manager.instancedMeshes.get(plankKey).material.map).toBeFalsy();
   });
 
   it('lays a ground bed under gap models such as the flagstone path', () => {
@@ -414,8 +554,8 @@ describe('ThreeDTerrainManager', () => {
 
     const water = manager.liquidSurfaces.get('water');
     expect(water).toBeDefined();
-    expect(water.material.transparent).toBe(false);
-    expect(water.material.opacity).toBe(1);
+    expect(water.material.transparent).toBe(true);
+    expect(water.material.opacity).toBeCloseTo(0.86);
     // Only the lake centre is open water; banked shore tiles carry their own.
     expect(water.geometry.getAttribute('position').count).toBe(4);
 
@@ -462,7 +602,7 @@ describe('ThreeDTerrainManager', () => {
       enabled: true
     });
     const [variantKey] = [...manager.instancedMeshes.keys()];
-    expect(variantKey).toContain('wood_floor');
+    expect(variantKey).toContain('wooden_floor_lowpoly');
   });
 
   it('builds a foundation column whose topmost block meets the tile top', () => {
@@ -527,7 +667,7 @@ describe('ThreeDTerrainManager', () => {
     expect(new THREE.Vector3(0, 1, 0).applyMatrix4(matrix).z).toBeCloseTo(0, 3);
   });
 
-  it('lets the ramp wedge carry the column under unpainted elevated ramps', () => {
+  it('lets the stair asset carry the column under unpainted elevated ramps', () => {
     manager.updateTerrain({
       terrainData: {},
       elevationData: { '0,0': 2 },
@@ -535,11 +675,11 @@ describe('ThreeDTerrainManager', () => {
       ...GRID,
       enabled: true
     });
-    // The solid wedge supplies the tile volume: no foundation blocks (they
+    // The stair model supplies the tile volume: no foundation blocks (they
     // would poke through the thin end of the slope) and no plate either.
     expect(manager.instancedMeshes.get('foundation|default')).toBeUndefined();
     expect(manager.instancedMeshes.get('procedural_plate|default')).toBeUndefined();
-    const ramp = manager.instancedMeshes.get('procedural_ramp|default');
+    const ramp = manager.instancedMeshes.get('stairs_wide|default');
     expect(ramp).toBeDefined();
     expect(ramp.count).toBe(1);
   });
@@ -556,14 +696,14 @@ describe('ThreeDTerrainManager', () => {
     });
     // Neither ramp changes level, so both tiles keep their flat floor and no
     // slope geometry is generated.
-    const stoneFloor = [...manager.instancedMeshes.entries()]
-      .find(([key]) => key.startsWith('stone_floor|'));
-    expect(stoneFloor).toBeDefined();
-    expect(stoneFloor[1].count).toBe(2);
-    expect(manager.instancedMeshes.get('procedural_ramp|default')).toBeUndefined();
+    const stoneTiles = [...manager.instancedMeshes.entries()]
+      .filter(([key]) => key.startsWith('stone_lowpoly_'));
+    expect(stoneTiles.length).toBeGreaterThan(0);
+    expect(stoneTiles.reduce((sum, [, mesh]) => sum + mesh.count, 0)).toBe(2);
+    expect(manager.instancedMeshes.get('stairs_wide|default')).toBeUndefined();
   });
 
-  it('renders a smooth ramp spanning the tile and climbing to the connected neighbour', () => {
+  it('uses the wide stair asset for ramp tiles and climbs to the connected neighbour', () => {
     manager.updateTerrain({
       terrainData: { '0,0': 'stone' },
       elevationData: { '1,0': 1 },
@@ -571,26 +711,24 @@ describe('ThreeDTerrainManager', () => {
       ...GRID,
       enabled: true
     });
-    // Floor omitted under a sloped ramp; smooth ramp geometry instead.
+    // Floor omitted under a sloped ramp; the wide stair asset is used instead
+    // of the old procedural wedge.
     const stoneFloorMesh = manager.instancedMeshes.get('stone_floor|default');
     expect(stoneFloorMesh ? stoneFloorMesh.count : 0).toBe(0);
-    const rampMesh = manager.instancedMeshes.get('procedural_ramp|default');
+    const rampMesh = manager.instancedMeshes.get('stairs_wide|default');
     expect(rampMesh).toBeDefined();
     expect(rampMesh.count).toBe(1);
 
-    // Authored unit wedge: top edge centre is local (0, 1, -0.5); after the
-    // +90deg X rotation and the east rotation it must land on the tile's east
-    // edge one level up, with the base on the west edge at ground.
+    // The normalised model grounds its base and centres the run on the tile,
+    // reaching one level up at the top.
     const matrix = new THREE.Matrix4();
     rampMesh.getMatrixAt(0, matrix);
-    const top = new THREE.Vector3(0, 1, -0.5).applyMatrix4(matrix);
-    expect(top.x).toBeCloseTo(50, 3);
-    expect(top.y).toBeCloseTo(-25, 3);
-    expect(top.z).toBeCloseTo(50, 3);
-    const base = new THREE.Vector3(0, 0, 0.5).applyMatrix4(matrix);
-    expect(base.x).toBeCloseTo(0, 3);
+    const base = new THREE.Vector3(0, -2, 0).applyMatrix4(matrix);
+    expect(base.x).toBeCloseTo(25, 3);
     expect(base.y).toBeCloseTo(-25, 3);
     expect(base.z).toBeCloseTo(0, 3);
+    const top = new THREE.Vector3(0, 2, 0).applyMatrix4(matrix);
+    expect(top.z).toBeCloseTo(50, 3);
   });
 
   it('stretches stairs to the neighbour level and centres their run on the tile', () => {
@@ -714,6 +852,25 @@ describe('ThreeDTerrainManager', () => {
       }
     }
     expect(blocksAtRampTile).toBe(2);
+  });
+
+  it('disables frustum culling on terrain instanced meshes (instance matrices change)', () => {
+    manager.updateTerrain({
+      terrainData: { '0,0': 'stone', '1,0': 'stone_path' },
+      ...GRID,
+      enabled: true
+    });
+    // three computes an InstancedMesh bounding sphere only once; with matrices
+    // rewritten on every terrain update a stale sphere culls whole variants
+    // ("tiles vanish at some zooms"), so the meshes must opt out of culling.
+    expect(manager.instancedMeshes.size).toBeGreaterThan(0);
+    manager.instancedMeshes.forEach(mesh => {
+      expect(mesh.frustumCulled).toBe(false);
+    });
+    expect(manager.outlineMeshes.size).toBeGreaterThan(0);
+    manager.outlineMeshes.forEach(mesh => {
+      expect(mesh.frustumCulled).toBe(false);
+    });
   });
 
   it('hides the group when disabled', () => {

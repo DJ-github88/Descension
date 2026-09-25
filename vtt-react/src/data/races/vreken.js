@@ -279,6 +279,14 @@ Death rites are simple and grueling. The dying Vreken is carried to the nearest 
    {
      src: '/assets/images/races/vreken_clean_icon_v1.png',
      caption: 'Clean Vreken crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved wooden staff and heavy crypt tome in rough charcoal draft with green and gold watercolor splash.'
+   },
+   {
+     src: '/assets/images/races/vreken_clean_culture_singing.jpg',
+     caption: 'Clean Vreken crypt-monk singing ancestral lineage names from an iron lectern before glowing fungal burial niches in rough charcoal draft with toxic green and gold watercolor splash.'
+   },
+   {
+     src: '/assets/images/races/vreken_clean_city_sunkenspire.jpg',
+     caption: 'The Sunken Spire inverted subterranean gothic cathedral metropolis of the Clean Vreken with plunging cloisters, flying buttresses, swinging censers, and monks on an arched gallery overlook in rough charcoal draft with toxic green and gold watercolor splash.'
    }
  ],
   visualDescription: `The inheritors of Deep-Glow, the oldest and most stable fungal strain, the Clean bear their transformation lightly. Their features are closer to the original elven forms than any other Vreken, elegant cheekbones, long tapered limbs, ears that curl only gently, and their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. They favor dark monastic cassocks embroidered with fungal-thread that marks bloodline and vocation. Pale-skinned and composed, they move with the quiet authority of people whose biology has never been a war, and they are accustomed to being stared at but never to being doubted.`,
@@ -424,6 +432,14 @@ The Clean rarely leave the Bryngloom Forest. When they do, they travel in monast
     {
       src: '/assets/images/races/vreken_marked_icon_v1.png',
       caption: 'Marked Vreken feral crypt inquisitor with upward-curling spiral horn-ears, glowing green lantern eyes, sharp claws, holding a bone spore-sickle and chained lantern in rough charcoal draft with toxic green watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/vreken_marked_culture_harvest.jpg',
+      caption: 'Marked Vreken spore harvester crouching in a deep peat-bog cavern harvesting bioluminescent ghost-mycelium with sickle and spore lantern in rough charcoal draft with acid-green watercolor splash.'
+    },
+    {
+      src: '/assets/images/races/vreken_marked_city_mirehollow.jpg',
+      caption: 'Mire-Hollow wetland haven of the Marked Vreken with stilt longhouses, drying nets, palisade channels, and scouts keeping watch in rough charcoal draft with acid-green watercolor splash.'
     }
   ],
   visualDescription: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic. The Marked share the compact wiry frame and vestigial elven architecture of their kin, but their lantern-eyes burn silver-white and will not dim easily, flaring with anger, flickering with grief, brightening under any strong emotion so that their hearts are readable across a room. Their ear-tips curl more sharply. The volatile strain threads deeper through them: their presence is impossible to hide in darkness, and the brilliant light that makes their perception extraordinary is the same light that consumes them from within.`,
