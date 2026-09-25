@@ -66,7 +66,8 @@ const ObjectTools = ({ selectedTool, settings, onSettingsChange }) => {
         removeEnvironmentalObject,
         updateEnvironmentalObject,
         setEnvironmentalObjectLocked,
-        setAllEnvironmentalObjectsLocked
+        setAllEnvironmentalObjectsLocked,
+        detachFromParent
     } = useLevelEditorStore();
     const { maps, getCurrentMapId } = useMapStore();
     const currentMapId = getCurrentMapId();
@@ -382,6 +383,18 @@ const ObjectTools = ({ selectedTool, settings, onSettingsChange }) => {
                                         <i className={`fas ${selectedEnvObj.locked ? 'fa-lock-open' : 'fa-lock'}`}></i>
                                         {selectedEnvObj.locked ? 'Unlock' : 'Lock'}
                                     </button>
+                                    {selectedEnvObj.parentObjectId && (
+                                        <button
+                                            type="button"
+                                            className="obj-action-btn"
+                                            title="Disconnect from parent object"
+                                            onClick={() => {
+                                                detachFromParent(selectedEnvObj.id, currentMapId);
+                                            }}
+                                        >
+                                            <i className="fas fa-unlink"></i> Disconnect
+                                        </button>
+                                    )}
                                     <button
                                         type="button"
                                         className="obj-action-btn danger"

@@ -10,6 +10,7 @@ import './DialogueSystem.css';
 const DialogueSystem = () => {
   const dialogueRef = useRef(null);
   const typewriterRef = useRef(null);
+  const contentRef = useRef(null);
 
   // Store hooks
   const { name: currentCharacterName, lore } = useCharacterStore();
@@ -108,6 +109,14 @@ const DialogueSystem = () => {
       sendDialogueToChat(activeDialogue);
     }
   }, [activeDialogue]); // Only trigger when activeDialogue changes
+
+  // Follow the typewriter: scroll to the newest line while typing,
+  // scroll back to the start once the message is fully shown
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    el.scrollTop = isTyping ? el.scrollHeight : 0;
+  }, [currentText, isTyping]);
 
   // Handle click to skip or close
   const handleDialogueClick = () => {
@@ -544,7 +553,7 @@ const DialogueSystem = () => {
           </div>
 
           {/* Text Content */}
-          <div className="dialogue-content">
+          <div className="dialogue-content" ref={contentRef}>
             {renderTextWithEffects(
               currentText,
               activeDialogue.effect,

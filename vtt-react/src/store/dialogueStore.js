@@ -21,6 +21,7 @@ const useDialogueStore = create(
     defaultPosition: 'bottom',
     defaultEffect: 'normal',
     defaultColor: '#ffffff',
+    defaultFont: 'courier',
 
     // Character data for current dialogue
     currentCharacter: null,
@@ -57,6 +58,7 @@ const useDialogueStore = create(
         characterName: options.characterName,
         effect: options.effect || state.defaultEffect,
         color: options.color || state.defaultColor,
+        font: options.font || state.defaultFont,
         speed: options.speed || state.defaultSpeed,
         position: options.position || state.defaultPosition,
         backdropEffect: options.backdropEffect || 'none',
@@ -210,7 +212,8 @@ const useDialogueStore = create(
       defaultSpeed: settings.speed || get().defaultSpeed,
       defaultPosition: settings.position || get().defaultPosition,
       defaultEffect: settings.effect || get().defaultEffect,
-      defaultColor: settings.color || get().defaultColor
+      defaultColor: settings.color || get().defaultColor,
+      defaultFont: settings.font || get().defaultFont
     }),
 
     // Get current settings
@@ -220,7 +223,8 @@ const useDialogueStore = create(
         speed: state.defaultSpeed,
         position: state.defaultPosition,
         effect: state.defaultEffect,
-        color: state.defaultColor
+        color: state.defaultColor,
+        font: state.defaultFont
       };
     },
 
@@ -254,6 +258,14 @@ const useDialogueStore = create(
       orange: '#ff8844',
       gold: '#ffd700',
       silver: '#c0c0c0'
+    },
+
+    fonts: {
+      classic: 'courier',
+      '16-bit': 'press-start',
+      terminal: 'vt323',
+      fantasy: 'cinzel',
+      medieval: 'medieval'
     },
 
     positions: {

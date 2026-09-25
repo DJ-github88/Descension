@@ -177,7 +177,8 @@ describe('ThreeDTerrainManager', () => {
       expect(sheet).toBeDefined();
       // The animated sheet covers only the open centre; banked edges carry
       // their own baked water so the sheet never overlaps the shoreline.
-      expect(sheet.geometry.getAttribute('position').count).toBe(4);
+      // Each sheet cell is a 3x3 patch (16 verts) so it can feather at banks.
+      expect(sheet.geometry.getAttribute('position').count).toBe(16);
 
       // Every shoreline piece keeps its three parts apart.
       const straightKeys = keys.filter(key => key.startsWith('ground_riverStraight|') || key.startsWith('ground_riverRocks|'));
@@ -237,7 +238,49 @@ describe('ThreeDTerrainManager', () => {
         .find(material => material.name === 'leafsGreen');
       expect(lilyLeaf).toBeDefined();
       expect(lilyLeaf.color.getHex()).toBe(new THREE.Color('#4a7c59').getHex());
-      expect(manager.liquidSurfaces.get('water').geometry.getAttribute('position').count).toBe(36);
+      // 3x3 open centre = 9 open cells x 16-vert patches.
+      expect(manager.liquidSurfaces.get('water').geometry.getAttribute('position').count).toBe(144);
+    });
+
+    it('keeps ocean tiles plain: no rapids, no lilies', () => {
+      // Oceans never swap in the rocky-rapids variant.
+      expect(resolveWaterShorePiece(['north', 'south'], 0, { rocky: false })).toEqual({
+        modelKey: WATER_SHORE_PIECES.straight.modelKey,
+        rotationDeg: 90,
+        isOpen: false
+      });
+
+      const sea = {};
+      for (let gx = 0; gx < 5; gx += 1) {
+        for (let gy = 0; gy < 5; gy += 1) sea[`${gx},${gy}`] = 'ocean';
+      }
+      manager.updateTerrain({ terrainData: sea, ...GRID, enabled: true });
+
+      const keys = [...manager.instancedMeshes.keys()];
+      // Oceans bank like water...
+      expect(keys.some(key => key.startsWith('ground_river'))).toBe(true);
+      // ...but never use rapids or spawn pond plants.
+      expect(keys.some(key => key.startsWith('ground_riverRocks'))).toBe(false);
+      expect(keys.some(key => key.startsWith('water_lily'))).toBe(false);
+      expect(manager.liquidSurfaces.get('ocean')).toBeDefined();
+      expect(manager.liquidSurfaces.get('water')).toBeUndefined();
+    });
+
+    it('clips the open-water sheet at diagonal shores', () => {
+      // A 3x3 pond: the single open centre is diagonal to four corner banks.
+      const lake = {};
+      for (let gx = 0; gx < 3; gx += 1) {
+        for (let gy = 0; gy < 3; gy += 1) lake[`${gx},${gy}`] = 'water';
+      }
+      manager.updateTerrain({ terrainData: lake, ...GRID, enabled: true });
+
+      const sheet = manager.liquidSurfaces.get('water');
+      const colors = sheet.geometry.getAttribute('color');
+      const alphas = Array.from({ length: colors.count }, (_, i) => colors.getW(i));
+      // Corner verts are fully transparent so the square sheet corner cannot
+      // poke across the diagonal bank; the interior stays opaque.
+      expect(Math.min(...alphas)).toBe(0);
+      expect(Math.max(...alphas)).toBe(1);
     });
 
     it('keeps hazard liquids on the stone bed with their own glow', () => {
@@ -255,7 +298,7 @@ describe('ThreeDTerrainManager', () => {
 
       const lavaSheet = manager.liquidSurfaces.get('lava');
       expect(lavaSheet.material.emissive.getHex()).not.toBe(0);
-      expect(lavaSheet.geometry.getAttribute('position').count).toBe(36);
+      expect(lavaSheet.geometry.getAttribute('position').count).toBe(144);
     });
 
     it('recolours liquid and bank parts onto the terrain palette', () => {
@@ -557,7 +600,7 @@ describe('ThreeDTerrainManager', () => {
     expect(water.material.transparent).toBe(true);
     expect(water.material.opacity).toBeCloseTo(0.86);
     // Only the lake centre is open water; banked shore tiles carry their own.
-    expect(water.geometry.getAttribute('position').count).toBe(4);
+    expect(water.geometry.getAttribute('position').count).toBe(16);
 
     const uvs = water.geometry.getAttribute('uv');
     const rippleWorld = GRID.gridSize * LIQUID_SURFACE_CONFIGS.water.rippleSize;
@@ -876,5 +919,39 @@ describe('ThreeDTerrainManager', () => {
   it('hides the group when disabled', () => {
     manager.updateTerrain({ terrainData: { '0,0': 'grass' }, ...GRID, enabled: false });
     expect(manager.group.visible).toBe(false);
+  });
+
+  it('intelligently auto-tiles connected cobblestone roads into straights, corners, and junctions', () => {
+    // Layout:
+    // (0,0) - (1,0) [Corner: S+E at 0,0, W+S at 1,0]
+    //   |       |
+    // (0,1) - (1,1)
+    const roadMap = {
+      '0,0': 'cobblestone_road',
+      '1,0': 'cobblestone_road',
+      '0,1': 'cobblestone_road',
+      '1,1': 'cobblestone_road'
+    };
+    manager.updateTerrain({ terrainData: roadMap, ...GRID, enabled: true });
+    const keys = [...manager.instancedMeshes.keys()];
+    const cornerMeshKey = keys.find(k => k.startsWith('cobble_road_corner_lowpoly|'));
+    expect(cornerMeshKey).toBeDefined();
+    expect(manager.instancedMeshes.get(cornerMeshKey).count).toBe(4);
+  });
+
+  it('intelligently auto-tiles connected dirt paths into straights and crossings', () => {
+    // 3x3 plus shape with center at (1,1) having 4 neighbours -> crossroad
+    const pathMap = {
+      '1,0': 'dirt_path',
+      '0,1': 'dirt_path',
+      '1,1': 'dirt_path',
+      '2,1': 'dirt_path',
+      '1,2': 'dirt_path'
+    };
+    manager.updateTerrain({ terrainData: pathMap, ...GRID, enabled: true });
+    const keys = [...manager.instancedMeshes.keys()];
+    const crossKey = keys.find(k => k.startsWith('dirt_path_cross_lowpoly|'));
+    expect(crossKey).toBeDefined();
+    expect(manager.instancedMeshes.get(crossKey).count).toBe(1);
   });
 });

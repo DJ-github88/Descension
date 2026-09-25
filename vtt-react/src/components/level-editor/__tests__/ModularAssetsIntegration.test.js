@@ -167,7 +167,7 @@ describe('Modular Tiles and Wall Assets Integration', () => {
     });
 
     it('correctly configures interactive doors and gates', () => {
-      const doorsAndGates = ['town_door', 'iron_gate', 'wooden_gate', 'hedge_gate'];
+      const doorsAndGates = ['town_door', 'iron_gate', 'wooden_gate', 'hedge_gate', 'graveyard_gate'];
       doorsAndGates.forEach(id => {
         const def = WALL_TYPES[id];
         expect(def.interactive).toBe(true);
@@ -292,7 +292,13 @@ describe('Modular Tiles and Wall Assets Integration', () => {
 
     it('resolves dedicated models for newly added walls', () => {
       expect(manager.resolveWallModelUrl({ type: 'hedge' })).toBe(WALL_MODELS.hedge);
-      expect(manager.resolveWallModelUrl({ type: 'iron_fence' })).toBe(WALL_MODELS.metal);
+      expect(manager.resolveWallModelUrl({ type: 'iron_fence' })).toBe(WALL_MODELS.wrought_iron_fence);
+      expect(manager.resolveWallModelUrl({ type: 'wrought_iron_fence' })).toBe(WALL_MODELS.wrought_iron_fence);
+      expect(manager.resolveWallModelUrl({ type: 'crypt_arch' })).toBe(WALL_MODELS.crypt_arch);
+      expect(manager.resolveWallModelUrl({ type: 'pillar_decorated' })).toBe(WALL_MODELS.pillar_decorated);
+      expect(manager.resolveWallModelUrl({ type: 'column_large' })).toBe(WALL_MODELS.column_large);
+      expect(manager.resolveWallModelUrl({ type: 'gothic_stone_column' })).toBe(WALL_MODELS.gothic_stone_column);
+      expect(manager.resolveWallModelUrl({ type: 'wall_pillar' })).toBe(WALL_MODELS.wall_pillar);
       expect(manager.resolveWallModelUrl({ type: 'wooden_fence' })).toBe(WALL_MODELS.wooden_fence);
       expect(manager.resolveWallModelUrl({ type: 'town_wall' })).toBe(WALL_MODELS.town_wall);
       expect(manager.resolveWallModelUrl({ type: 'gothic_stone' })).toBe(WALL_MODELS.gothic_stone);

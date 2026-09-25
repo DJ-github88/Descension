@@ -374,7 +374,7 @@ const GridItem = ({ gridItem }) => {
           cursor: 'grab',
           opacity: isOccluded ? 0.55 : undefined,
           filter: isOccluded ? 'saturate(0.65) brightness(0.9)' : undefined,
-          zIndex: 90,
+          zIndex: 150,
           pointerEvents: 'all',
           willChange: 'transform'
         }}

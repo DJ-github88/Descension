@@ -131,11 +131,21 @@ export const PROFESSIONAL_OBJECTS = {
     },
     pillar_stone: {
         id: 'pillar_stone',
-        name: '3D Square Pillar',
+        name: '3D Stone Pillar',
         image: null,
         category: 'structures',
         size: { width: 1, height: 1 },
-        description: 'Square carved dungeon stone support pillar',
+        description: 'Square carved stone pillar with molded plinth and capital',
+        freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
+        blocksLineOfSight: true
+    },
+    pillar_wood: {
+        id: 'pillar_wood',
+        name: '3D Timber Post',
+        image: null,
+        category: 'structures',
+        size: { width: 1, height: 1 },
+        description: 'Heavy structural timber post with iron strap bands and bolts',
         freePosition: true, draggable: true, resizable: true, clickable: true, interactive: false, is3D: true,
         blocksLineOfSight: true
     },

@@ -55,6 +55,36 @@ export const TERRAIN_MODEL_REGISTRY = {
     baseZ: 0,
     mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
   },
+  dirt_path_straight_lowpoly: {
+    url: '/assets/models/terrain/dirt_path_straight_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
+  },
+  dirt_path_corner_lowpoly: {
+    url: '/assets/models/terrain/dirt_path_corner_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
+  },
+  dirt_path_t_lowpoly: {
+    url: '/assets/models/terrain/dirt_path_t_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
+  },
+  dirt_path_cross_lowpoly: {
+    url: '/assets/models/terrain/dirt_path_cross_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
+  },
+  dirt_path_end_lowpoly: {
+    url: '/assets/models/terrain/dirt_path_end_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.49, g: 0.518, b: 0.275 }
+  },
   lava_v2_lowpoly: {
     url: '/assets/models/terrain/lava_v2_lowpoly.glb',
     scale: 1.0,
@@ -110,6 +140,36 @@ export const TERRAIN_MODEL_REGISTRY = {
     mapTintBase: { r: 0.459, g: 0.459, b: 0.459 },
     variants: ['cobble_road_lowpoly'],
     rotate4: true
+  },
+  cobble_road_straight_lowpoly: {
+    url: '/assets/models/terrain/cobble_road_straight_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.459, g: 0.459, b: 0.459 }
+  },
+  cobble_road_corner_lowpoly: {
+    url: '/assets/models/terrain/cobble_road_corner_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.459, g: 0.459, b: 0.459 }
+  },
+  cobble_road_t_lowpoly: {
+    url: '/assets/models/terrain/cobble_road_t_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.459, g: 0.459, b: 0.459 }
+  },
+  cobble_road_cross_lowpoly: {
+    url: '/assets/models/terrain/cobble_road_cross_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.459, g: 0.459, b: 0.459 }
+  },
+  cobble_road_end_lowpoly: {
+    url: '/assets/models/terrain/cobble_road_end_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.459, g: 0.459, b: 0.459 }
   },
   wooden_floor_lowpoly: {
     url: '/assets/models/terrain/wooden_floor_lowpoly.glb',
@@ -566,23 +626,39 @@ export const TERRAIN_MODEL_REGISTRY = {
   },
   quaternius_wood: {
     url: '/assets/models/terrain/quaternius_wood_floor.glb',
-    scale: 100.0,
+    scale: 1.0,
     baseZ: 0
   },
   kaykit_cobble: {
     url: '/assets/models/terrain/kaykit_cobble_path.glb',
-    scale: 200.0,
+    scale: 1.0,
     baseZ: 0
   },
   dungeon_brick: {
     url: '/assets/models/terrain/dungeon_brick_floor.glb',
-    scale: 4.0,
+    scale: 1.0,
     baseZ: 0
   },
   dungeon_modular: {
     url: '/assets/models/terrain/dungeon_modular_floor.glb',
-    scale: 2.0,
+    scale: 1.0,
     baseZ: 0
+  },
+  pit_lowpoly: {
+    url: '/assets/models/terrain/pit_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.18, g: 0.18, b: 0.18 },
+    variants: ['pit_lowpoly'],
+    rotate4: true
+  },
+  abyss_lowpoly: {
+    url: '/assets/models/terrain/abyss_lowpoly.glb',
+    scale: 1.0,
+    baseZ: 0,
+    mapTintBase: { r: 0.08, g: 0.05, b: 0.1 },
+    variants: ['abyss_lowpoly'],
+    rotate4: true
   }
 };
 
@@ -616,9 +692,11 @@ const SHORE_ROTATIONS = [0, 90, 180, 270];
 /**
  * Shoreline tile + rotation for a water cell, chosen from the map directions
  * that border land. A cell with no land neighbours is open water: its surface
- * comes from the animated liquid sheet, not from a tile.
+ * comes from the animated liquid sheet, not from a tile. `rocky` swaps every
+ * third straight run for the rocky-rapids variant; oceans keep plain straights
+ * (no rapids in open sea).
  */
-export function resolveWaterShorePiece(landDirections = [], seed = 0) {
+export function resolveWaterShorePiece(landDirections = [], seed = 0, { rocky = true } = {}) {
   const land = [...new Set(landDirections)].sort();
   if (land.length === 0) {
     return { modelKey: WATER_SHORE_PIECES.open.modelKey, rotationDeg: 0, isOpen: true };
@@ -633,7 +711,7 @@ export function resolveWaterShorePiece(landDirections = [], seed = 0) {
     const opposite = (land.includes('north') && land.includes('south')) ||
       (land.includes('east') && land.includes('west'));
     // Every third straight run gets the rocky-rapids variant.
-    key = opposite ? (seed % 3 === 0 ? 'rocks' : 'straight') : 'corner';
+    key = opposite ? ((rocky && seed % 3 === 0) ? 'rocks' : 'straight') : 'corner';
   } else {
     key = 'side';
   }
@@ -658,15 +736,84 @@ export const PIT_TYPES = {
 
 // Terrain types rendered as a liquid body with kit shorelines. Cells touching
 // land get a banked tile; open water cells are covered by the liquid sheet.
-// Water only: the level editor's TileOverlay draws animated DOM tiles for
-// lava/acid/ice (it is not gated on the 3D toggle), so a 3D shoreline for those
-// types would be hidden underneath it.
-export const WATER_SHORE_TYPES = { water: true };
+// Water and ocean only: the level editor's TileOverlay draws animated DOM tiles
+// for lava/acid/ice (it is not gated on the 3D toggle), so a 3D shoreline for
+// those types would be hidden underneath it.
+export const WATER_SHORE_TYPES = { water: true, ocean: true };
 
 // Liquids that get drifting surface decor (lilies) on their open cells.
+// Oceans stay clear of pond plants.
 export const LIQUID_DECOR_TYPES = { water: true };
 export const WATER_DECOR_MODELS = ['water_lily_large', 'water_lily_small'];
 export const WATER_DECOR_CHANCE = 0.14;
+
+// Intelligent auto-tiling for roads and paths based on orthogonal connections.
+export const CONNECTING_TERRAIN_TYPES = {
+  cobblestone_road: {
+    family: 'cobblestone_road',
+    straight: 'cobble_road_straight_lowpoly',
+    corner: 'cobble_road_corner_lowpoly',
+    t: 'cobble_road_t_lowpoly',
+    cross: 'cobble_road_cross_lowpoly',
+    end: 'cobble_road_end_lowpoly',
+    default: 'cobble_road_lowpoly'
+  },
+  dirt_path: {
+    family: 'dirt_path',
+    straight: 'dirt_path_straight_lowpoly',
+    corner: 'dirt_path_corner_lowpoly',
+    t: 'dirt_path_t_lowpoly',
+    cross: 'dirt_path_cross_lowpoly',
+    end: 'dirt_path_end_lowpoly',
+    default: 'dirt_path_lowpoly'
+  }
+};
+
+export function resolveConnectingPiece(typeId, gx, gy, terrainData = {}) {
+  const config = CONNECTING_TERRAIN_TYPES[typeId];
+  if (!config) return null;
+
+  const isConnected = (nx, ny) => {
+    const raw = terrainData[`${nx},${ny}`];
+    const id = typeof raw === 'string' ? raw : raw?.type;
+    if (!id) return false;
+    return id === typeId || CONNECTING_TERRAIN_TYPES[id]?.family === config.family;
+  };
+
+  const n = isConnected(gx, gy - 1);
+  const e = isConnected(gx + 1, gy);
+  const s = isConnected(gx, gy + 1);
+  const w = isConnected(gx - 1, gy);
+
+  const count = (n ? 1 : 0) + (e ? 1 : 0) + (s ? 1 : 0) + (w ? 1 : 0);
+
+  if (count === 4) {
+    return { modelKey: config.cross, rotationDeg: 0 };
+  }
+  if (count === 3) {
+    if (!w) return { modelKey: config.t, rotationDeg: 0 };
+    if (!n) return { modelKey: config.t, rotationDeg: 90 };
+    if (!e) return { modelKey: config.t, rotationDeg: 180 };
+    if (!s) return { modelKey: config.t, rotationDeg: 270 };
+  }
+  if (count === 2) {
+    // Straights
+    if (n && s) return { modelKey: config.straight, rotationDeg: 0 };
+    if (e && w) return { modelKey: config.straight, rotationDeg: 90 };
+    // Corners
+    if (s && e) return { modelKey: config.corner, rotationDeg: 0 };
+    if (w && s) return { modelKey: config.corner, rotationDeg: 90 };
+    if (n && w) return { modelKey: config.corner, rotationDeg: 180 };
+    if (e && n) return { modelKey: config.corner, rotationDeg: 270 };
+  }
+  if (count === 1) {
+    if (s) return { modelKey: config.end, rotationDeg: 0 };
+    if (w) return { modelKey: config.end, rotationDeg: 90 };
+    if (n) return { modelKey: config.end, rotationDeg: 180 };
+    if (e) return { modelKey: config.end, rotationDeg: 270 };
+  }
+  return { modelKey: config.default, rotationDeg: 0 };
+}
 
 // Deterministic 0..1 hash so decor and variants never flicker between updates.
 function cellHash(gx, gy, salt = 0) {
@@ -687,6 +834,7 @@ export const TERRAIN_MODEL_BY_TYPE = {
   stone_path: 'road_graveyard',
   sand: 'sand_lowpoly_a',
   water: 'tile_small',
+  ocean: 'tile_small',
   snow: 'snow_lowpoly_a',
   ice: 'ice_v2_lowpoly',
   mud: 'mud_lowpoly_a',
@@ -748,7 +896,9 @@ export const MODEL_TINT_BASE = {
   quaternius_wood: { r: 0.62, g: 0.62, b: 0.62 },
   kaykit_cobble: { r: 0.63, g: 0.78, b: 0.82 },
   dungeon_brick: { r: 0.54, g: 0.50, b: 0.47 },
-  dungeon_modular: { r: 0.54, g: 0.50, b: 0.47 }
+  dungeon_modular: { r: 0.54, g: 0.50, b: 0.47 },
+  snow_lowpoly_a: { r: 0.98, g: 0.98, b: 0.99 },
+  snow_lowpoly_b: { r: 0.98, g: 0.98, b: 0.99 }
 };
 
 const DEFAULT_MODEL_BASE = { r: 0.62, g: 0.62, b: 0.62 };
@@ -855,6 +1005,22 @@ export const LIQUID_SURFACE_CONFIGS = {
     profile: 'water',
     bedDim: 0.8,
     scroll: { x: 0.018, y: 0.012 },
+    lift: 0.002
+  },
+  ocean: {
+    // Same shore kit as water, but deeper/darker and calmer: a wider ripple
+    // field with a slower scroll reads as open sea rather than a pond, and no
+    // lily decor is scattered (see LIQUID_DECOR_TYPES).
+    color: '#2f6c9e',
+    boost: 1.22,
+    opacity: 0.9,
+    roughness: 0.3,
+    metalness: 0,
+    normalScale: 0.26,
+    rippleSize: 0.7,
+    profile: 'water',
+    bedDim: 0.72,
+    scroll: { x: 0.012, y: 0.008 },
     lift: 0.002
   },
   ice: {
@@ -1439,7 +1605,7 @@ export class ThreeDTerrainManager {
         noteLand('east', gx + 1, gy);
         noteLand('south', gx, gy + 1);
         noteLand('west', gx - 1, gy);
-        const shore = resolveWaterShorePiece(landDirections, gx + gy);
+        const shore = resolveWaterShorePiece(landDirections, gx + gy, { rocky: typeId !== 'ocean' });
         modelKey = shore.modelKey;
         rotationDeg = shore.rotationDeg;
         shoreOpen = shore.isOpen;
@@ -1450,17 +1616,25 @@ export class ThreeDTerrainManager {
           look = { ...look, key: `${look.key}|bank:${bankType}`, bankType };
         }
       } else {
-        modelKey = resolveTerrainModelKey(typeId, typeDef);
-        const baseDef = TERRAIN_MODEL_REGISTRY[modelKey];
-        if (baseDef && Array.isArray(baseDef.variants) && baseDef.variants.length > 0) {
-          modelKey = baseDef.variants[Math.floor(cellHash(gx, gy, 7) * baseDef.variants.length)];
-          if (baseDef.rotate4) {
-            rotationDeg = 90 * Math.floor(cellHash(gx, gy, 13) * 4);
+        const connecting = resolveConnectingPiece(typeId, gx, gy, terrainData);
+        if (connecting) {
+          modelKey = connecting.modelKey;
+          rotationDeg = connecting.rotationDeg;
+        } else {
+          modelKey = resolveTerrainModelKey(typeId, typeDef);
+          const baseDef = TERRAIN_MODEL_REGISTRY[modelKey];
+          if (baseDef && Array.isArray(baseDef.variants) && baseDef.variants.length > 0) {
+            modelKey = baseDef.variants[Math.floor(cellHash(gx, gy, 7) * baseDef.variants.length)];
+            if (baseDef.rotate4) {
+              rotationDeg = 90 * Math.floor(cellHash(gx, gy, 13) * 4);
+            }
           }
         }
       }
 
       const modelDef = TERRAIN_MODEL_REGISTRY[modelKey];
+
+      const tileLift = elevation > 0 ? 0.35 : 0;
 
       // Gap models (scattered flagstones) get a ground slab underneath so the
       // grid does not show through between the pieces.
@@ -1468,7 +1642,7 @@ export class ThreeDTerrainManager {
         pushInstance(`${modelDef.bedModelKey}|default`, {
           x: worldX,
           y: -worldY,
-          z: worldZ,
+          z: worldZ + tileLift,
           rotationZ: 0,
           look: null
         });
@@ -1477,7 +1651,7 @@ export class ThreeDTerrainManager {
       pushInstance(`${modelKey}|${look.key}`, {
         x: worldX,
         y: -worldY, // Three.js Y inverted
-        z: worldZ,
+        z: worldZ + tileLift,
         rotationZ: (rotationDeg * Math.PI) / 180,
         look
       });
@@ -1559,20 +1733,20 @@ export class ThreeDTerrainManager {
       }
 
       const eastType = blendNeighbourType(gx + 1, gy);
-      if (eastType && eastType !== typeId && typeId !== 'water' && !PIT_TYPES[eastType]) {
-        blendEdges.push({ gx, gy, dir: 'east', typeA: typeId, typeB: eastType, worldZ, half: eastType === 'water' });
+      if (eastType && eastType !== typeId && !WATER_SHORE_TYPES[typeId] && !PIT_TYPES[eastType]) {
+        blendEdges.push({ gx, gy, dir: 'east', typeA: typeId, typeB: eastType, worldZ, half: Boolean(WATER_SHORE_TYPES[eastType]) });
       }
       const southType = blendNeighbourType(gx, gy + 1);
-      if (southType && southType !== typeId && typeId !== 'water' && !PIT_TYPES[southType]) {
-        blendEdges.push({ gx, gy, dir: 'south', typeA: typeId, typeB: southType, worldZ, half: southType === 'water' });
+      if (southType && southType !== typeId && !WATER_SHORE_TYPES[typeId] && !PIT_TYPES[southType]) {
+        blendEdges.push({ gx, gy, dir: 'south', typeA: typeId, typeB: southType, worldZ, half: Boolean(WATER_SHORE_TYPES[southType]) });
       }
       const westType = blendNeighbourType(gx - 1, gy);
-      if (westType === 'water') {
-        blendEdges.push({ gx, gy, dir: 'west', typeA: typeId, typeB: 'water', worldZ, half: true });
+      if (WATER_SHORE_TYPES[westType]) {
+        blendEdges.push({ gx, gy, dir: 'west', typeA: typeId, typeB: westType, worldZ, half: true });
       }
       const northTypeForEdge = blendNeighbourType(gx, gy - 1);
-      if (northTypeForEdge === 'water') {
-        blendEdges.push({ gx, gy, dir: 'north', typeA: typeId, typeB: 'water', worldZ, half: true });
+      if (WATER_SHORE_TYPES[northTypeForEdge]) {
+        blendEdges.push({ gx, gy, dir: 'north', typeA: typeId, typeB: northTypeForEdge, worldZ, half: true });
       }
 
       const northType = blendNeighbourType(gx, gy - 1);
@@ -1581,7 +1755,7 @@ export class ThreeDTerrainManager {
       if (
         cornerTypes.length === 4
         && !cornerTypes.every(t => t === typeId)
-        && !cornerTypes.includes('water')
+        && !cornerTypes.some(t => WATER_SHORE_TYPES[t])
         && !cornerTypes.some(t => PIT_TYPES[t])
       ) {
         blendCorners.push({
@@ -1783,6 +1957,11 @@ export class ThreeDTerrainManager {
           const material = part.createMaterial
             ? part.createMaterial()
             : this.buildPartMaterial({ def, part, look, liquidConfig });
+          if (modelKey === 'foundation') {
+            material.polygonOffset = true;
+            material.polygonOffsetFactor = 1.0;
+            material.polygonOffsetUnits = 1.0;
+          }
           instMesh = new THREE.InstancedMesh(part.geometry, material, capacity);
           instMesh.name = `ThreeDTerrainTile:${partKey}`;
           // Instance matrices change on every terrain update, but three only
@@ -1991,59 +2170,84 @@ export class ThreeDTerrainManager {
       const config = LIQUID_SURFACE_CONFIGS[typeId];
       if (!config || !cells.length) return;
 
-      const half = gridSize / 2;
       const lift = gridSize * (config.lift ?? LIQUID_SURFACE_LIFT);
       const rippleWorld = Math.max(gridSize * config.rippleSize, 1);
-      const positions = new Float32Array(cells.length * 12);
-      const uvs = new Float32Array(cells.length * 8);
-      const indices = new Uint32Array(cells.length * 6);
-      const colors = new Float32Array(cells.length * 16);
+      // Each cell is a SEG x SEG patch instead of one quad: the finer mesh lets
+      // the sheet feather into banks smoothly and clip its corners where the
+      // shore cuts diagonally (a single quad can only fade whole edges).
+      const SEG = 3;
+      const VERTS = (SEG + 1) * (SEG + 1);
+      const EDGE_FADE = 0.05;
+      const CORNER_FADE = 0.10;
+      const positions = new Float32Array(cells.length * VERTS * 3);
+      const uvs = new Float32Array(cells.length * VERTS * 2);
+      const colors = new Float32Array(cells.length * VERTS * 4);
+      const indices = new Uint32Array(cells.length * SEG * SEG * 6);
       const openKeys = new Set(cells.map((cell) => `${cell.gx},${cell.gy}`));
+      const typeKeys = cellKeysByType.get(typeId) || openKeys;
+      const shoreLiquid = Boolean(WATER_SHORE_TYPES[typeId]);
+      const smooth = (t) => {
+        const c = Math.min(1, Math.max(0, t));
+        return c * c * (3 - 2 * c);
+      };
+      const banked = (gx2, gy2) => {
+        const key = `${gx2},${gy2}`;
+        return typeKeys.has(key) && !openKeys.has(key);
+      };
+      const blocked = (gx2, gy2) => !typeKeys.has(`${gx2},${gy2}`);
 
       cells.forEach((cell, i) => {
-        const x = cell.x;
-        const y = cell.y;
         const z = cell.z + lift;
-        positions.set([
-          x - half, y - half, z,
-          x + half, y - half, z,
-          x + half, y + half, z,
-          x - half, y + half, z
-        ], i * 12);
-        uvs.set([
-          (x - half) / rippleWorld, (y - half) / rippleWorld,
-          (x + half) / rippleWorld, (y - half) / rippleWorld,
-          (x + half) / rippleWorld, (y + half) / rippleWorld,
-          (x - half) / rippleWorld, (y + half) / rippleWorld
-        ], i * 8);
-        const v = i * 4;
-        indices.set([v, v + 1, v + 2, v, v + 2, v + 3], i * 6);
+        // Orthogonal banked neighbours feather the shared edge smoothly
+        const fN = shoreLiquid && banked(cell.gx, cell.gy - 1);
+        const fE = shoreLiquid && banked(cell.gx + 1, cell.gy);
+        const fS = shoreLiquid && banked(cell.gx, cell.gy + 1);
+        const fW = shoreLiquid && banked(cell.gx - 1, cell.gy);
+        // Only clip diagonal corners if bordering real non-water land AND a banked neighbour
+        const cNE = shoreLiquid && blocked(cell.gx + 1, cell.gy - 1) && (fN || fE);
+        const cNW = shoreLiquid && blocked(cell.gx - 1, cell.gy - 1) && (fN || fW);
+        const cSE = shoreLiquid && blocked(cell.gx + 1, cell.gy + 1) && (fS || fE);
+        const cSW = shoreLiquid && blocked(cell.gx - 1, cell.gy + 1) && (fS || fW);
 
-        // Soft fade at sheet edges that border banked (non-sheet) water cells
-        // so the animated surface dissolves into the baked shoreline water
-        // instead of cutting a hard line through the lake.
-        const keySet = cellKeysByType.get(typeId) || openKeys;
-        const fade = (gx2, gy2) => {
-          const key = `${gx2},${gy2}`;
-          return keySet.has(key) && !openKeys.has(key) ? 1 : 0;
-        };
-        const fN = fade(cell.gx, cell.gy - 1);
-        const fE = fade(cell.gx + 1, cell.gy);
-        const fS = fade(cell.gx, cell.gy + 1);
-        const fW = fade(cell.gx - 1, cell.gy);
-        const aNW = 1 - 0.5 * (fN + fW);
-        const aNE = 1 - 0.5 * (fN + fE);
-        const aSE = 1 - 0.5 * (fS + fE);
-        const aSW = 1 - 0.5 * (fS + fW);
-        colors.set([1, 1, 1, aNW, 1, 1, 1, aNE, 1, 1, 1, aSE, 1, 1, 1, aSW], i * 16);
+        for (let ix = 0; ix <= SEG; ix += 1) {
+          for (let iy = 0; iy <= SEG; iy += 1) {
+            const lx = -0.5 + ix / SEG;
+            const ly = -0.5 + iy / SEG;
+            const px = cell.x + lx * gridSize;
+            const py = cell.y + ly * gridSize;
+            let alpha = 1;
+            if (fN) alpha *= smooth((ly + 0.5) / EDGE_FADE);
+            if (fS) alpha *= smooth((0.5 - ly) / EDGE_FADE);
+            if (fW) alpha *= smooth((lx + 0.5) / EDGE_FADE);
+            if (fE) alpha *= smooth((0.5 - lx) / EDGE_FADE);
+            if (cNE) alpha *= smooth(Math.hypot(0.5 - lx, ly + 0.5) / CORNER_FADE);
+            if (cNW) alpha *= smooth(Math.hypot(lx + 0.5, ly + 0.5) / CORNER_FADE);
+            if (cSE) alpha *= smooth(Math.hypot(0.5 - lx, 0.5 - ly) / CORNER_FADE);
+            if (cSW) alpha *= smooth(Math.hypot(lx + 0.5, 0.5 - ly) / CORNER_FADE);
+            const vi = i * VERTS + ix * (SEG + 1) + iy;
+            positions.set([px, py, z], vi * 3);
+            uvs.set([px / rippleWorld, py / rippleWorld], vi * 2);
+            colors.set([1, 1, 1, alpha], vi * 4);
+          }
+        }
+
+        for (let ix = 0; ix < SEG; ix += 1) {
+          for (let iy = 0; iy < SEG; iy += 1) {
+            const a = i * VERTS + ix * (SEG + 1) + iy;
+            const b = i * VERTS + (ix + 1) * (SEG + 1) + iy;
+            const c = i * VERTS + (ix + 1) * (SEG + 1) + iy + 1;
+            const d = i * VERTS + ix * (SEG + 1) + iy + 1;
+            indices.set([a, b, c, a, c, d], (i * SEG * SEG + ix * SEG + iy) * 6);
+          }
+        }
       });
 
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       // Flat sheet: without explicit normals the lit material would sample a
       // zero normal and lose every sun/light contribution.
-      const normals = new Float32Array(cells.length * 12);
-      for (let i = 0; i < cells.length * 4; i += 1) normals[i * 3 + 2] = 1;
+      const normals = new Float32Array(cells.length * VERTS * 3);
+      for (let i = 0; i < cells.length * VERTS; i += 1) normals[i * 3 + 2] = 1;
       geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
       geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 4));
@@ -2188,11 +2392,13 @@ export class ThreeDTerrainManager {
       const half = gridSize / 2;
 
       region.forEach((cell) => {
+        const cX = cell.worldX;
+        const cY = -cell.worldY;
         pushQuad(
-          { x: cell.worldX - half, y: cell.worldY - half, z: floorZ },
-          { x: cell.worldX + half, y: cell.worldY - half, z: floorZ },
-          { x: cell.worldX + half, y: cell.worldY + half, z: floorZ },
-          { x: cell.worldX - half, y: cell.worldY + half, z: floorZ },
+          { x: cX - half, y: cY - half, z: floorZ },
+          { x: cX + half, y: cY - half, z: floorZ },
+          { x: cX + half, y: cY + half, z: floorZ },
+          { x: cX - half, y: cY + half, z: floorZ },
           spec.floor,
           1.2
         );
@@ -2200,39 +2406,43 @@ export class ThreeDTerrainManager {
           const neighbour = cellsByKey.get(`${cell.gx + dx},${cell.gy + dy}`);
           return Boolean(neighbour && neighbour.typeId === start.typeId);
         };
+        // 2D dy = -1 is North, which in Three.js (y = -worldY) is +Y (cY + half)
         if (!isSame(0, -1)) {
           pushQuad(
-            { x: cell.worldX - half, y: cell.worldY - half, z: cell.worldZ },
-            { x: cell.worldX + half, y: cell.worldY - half, z: cell.worldZ },
-            { x: cell.worldX + half, y: cell.worldY - half, z: floorZ },
-            { x: cell.worldX - half, y: cell.worldY - half, z: floorZ },
+            { x: cX + half, y: cY + half, z: cell.worldZ },
+            { x: cX - half, y: cY + half, z: cell.worldZ },
+            { x: cX - half, y: cY + half, z: floorZ },
+            { x: cX + half, y: cY + half, z: floorZ },
             spec.wall
           );
         }
+        // 2D dx = 1 is East (cX + half)
         if (!isSame(1, 0)) {
           pushQuad(
-            { x: cell.worldX + half, y: cell.worldY - half, z: cell.worldZ },
-            { x: cell.worldX + half, y: cell.worldY + half, z: cell.worldZ },
-            { x: cell.worldX + half, y: cell.worldY + half, z: floorZ },
-            { x: cell.worldX + half, y: cell.worldY - half, z: floorZ },
+            { x: cX + half, y: cY - half, z: cell.worldZ },
+            { x: cX + half, y: cY + half, z: cell.worldZ },
+            { x: cX + half, y: cY + half, z: floorZ },
+            { x: cX + half, y: cY - half, z: floorZ },
             spec.wall
           );
         }
+        // 2D dy = 1 is South, which in Three.js (y = -worldY) is -Y (cY - half)
         if (!isSame(0, 1)) {
           pushQuad(
-            { x: cell.worldX + half, y: cell.worldY + half, z: cell.worldZ },
-            { x: cell.worldX - half, y: cell.worldY + half, z: cell.worldZ },
-            { x: cell.worldX - half, y: cell.worldY + half, z: floorZ },
-            { x: cell.worldX + half, y: cell.worldY + half, z: floorZ },
+            { x: cX - half, y: cY - half, z: cell.worldZ },
+            { x: cX + half, y: cY - half, z: cell.worldZ },
+            { x: cX + half, y: cY - half, z: floorZ },
+            { x: cX - half, y: cY - half, z: floorZ },
             spec.wall
           );
         }
+        // 2D dx = -1 is West (cX - half)
         if (!isSame(-1, 0)) {
           pushQuad(
-            { x: cell.worldX - half, y: cell.worldY + half, z: cell.worldZ },
-            { x: cell.worldX - half, y: cell.worldY - half, z: cell.worldZ },
-            { x: cell.worldX - half, y: cell.worldY - half, z: floorZ },
-            { x: cell.worldX - half, y: cell.worldY + half, z: floorZ },
+            { x: cX - half, y: cY + half, z: cell.worldZ },
+            { x: cX - half, y: cY - half, z: cell.worldZ },
+            { x: cX - half, y: cY - half, z: floorZ },
+            { x: cX - half, y: cY + half, z: floorZ },
             spec.wall
           );
         }

@@ -47,9 +47,7 @@ export class ThreeDGhostPreviewManager {
       return;
     }
 
-    // Auto-detect underlying object for smart surface stacking
     let baseElevation = 0;
-    let parentCandidate = null;
 
     this.isWallMountGhost = !!wallMount;
     if (wallMount) {
@@ -60,47 +58,13 @@ export class ThreeDGhostPreviewManager {
       rotation = wallMount.rotation;
       baseElevation = wallMount.elevation || 0;
     } else {
-      for (const other of environmentalObjects) {
-        const otherDef = PROFESSIONAL_OBJECTS[other.type];
-        if (!otherDef) continue;
-        const oScale = other.scale || 1;
-        const oW = (otherDef.size?.width || 1) * gridSize * oScale;
-        const oH = (otherDef.size?.height || 1) * gridSize * oScale;
-        const ox = other.worldX !== undefined ? other.worldX : (other.gridX * gridSize + gridSize / 2);
-        const oy = other.worldY !== undefined ? other.worldY : (other.gridY * gridSize + gridSize / 2);
-
-        if (
-          worldX >= ox - oW / 2 &&
-          worldX <= ox + oW / 2 &&
-          worldY >= oy - oH / 2 &&
-          worldY <= oy + oH / 2
-        ) {
-          parentCandidate = other;
-          baseElevation = (other.elevation || 0) + 1;
-          break;
-        }
-      }
-
-      if (!parentCandidate) {
-        const gridX = Math.floor(worldX / gridSize);
-        const gridY = Math.floor(worldY / gridSize);
-        baseElevation = getTileElevation(elevationData, gridX, gridY) || 0;
-      }
-    }
-
-    // Match the placement result exactly: a stacked object rests on the
-    // parent's rendered top surface, which is usually well below one level.
-    let parentTopZ = null;
-    if (parentCandidate && propManager) {
-      const parentCorners = propManager.getWorldBoundsCorners(parentCandidate.id);
-      if (parentCorners && parentCorners.length === 8) {
-        parentTopZ = parentCorners.reduce((max, c) => Math.max(max, c.z), -Infinity);
-        if (!Number.isFinite(parentTopZ)) parentTopZ = null;
-      }
+      const gridX = Math.floor(worldX / gridSize);
+      const gridY = Math.floor(worldY / gridSize);
+      baseElevation = getTileElevation(elevationData, gridX, gridY) || 0;
     }
 
     const elevOffset = Number.isFinite(elevationOffset) ? elevationOffset : 0;
-    const worldZ = (parentTopZ !== null ? parentTopZ : baseElevation * gridSize) + (elevOffset * gridSize) + (modelConfig.offsetZ || 0);
+    const worldZ = (baseElevation * gridSize) + (elevOffset * gridSize) + (modelConfig.offsetZ || 0);
 
     // If model type changed, rebuild ghost mesh
     if (this.currentModelType !== objectType || !this.currentModelScene) {

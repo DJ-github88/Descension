@@ -71,6 +71,79 @@ const hexSegmentPreviewPath = (startVertex, endVertex) => [{
     end: { x: endVertex.x, y: endVertex.y, key: endVertex.key }
 }];
 
+/**
+ * Determines whether a DOM element is part of interactive game UI
+ * (Action Bar, Party HUD, windows, tokens, menus, dialogs, etc.).
+ * When pointer is over UI, level editor drawing/placement tools yield
+ * interactions so the UI remains fully clickable, hoverable, and usable.
+ */
+export const isInteractiveUiElement = (element) => {
+    if (!element || !(element instanceof Element)) return false;
+    // Drawing overlay, canvas elements, and grid background are map interactions, not UI
+    if (
+        element.classList?.contains('vtt-drawing-overlay') ||
+        element.id === 'grid-overlay' ||
+        element.classList?.contains('terrain-system-canvas') ||
+        element.classList?.contains('canvas-wall-system') ||
+        element.classList?.contains('object-system-canvas') ||
+        element.classList?.contains('fog-of-war-canvas') ||
+        element.classList?.contains('grid-background')
+    ) {
+        return false;
+    }
+
+    const interactiveSelector = [
+        '.mythrill-window',
+        '.wow-window',
+        '.level-editor-window',
+        '.professional-vtt-editor',
+        '.action-bar-assembly',
+        '.action-bar-container',
+        '.action-bar-wing',
+        '.party-hud-frame',
+        '.target-hud-frame',
+        '.hud-container',
+        '.combat-tracker-panel',
+        '.combat-selection-window',
+        '.combat-timeline',
+        '.character-token',
+        '.creature-token',
+        '.grid-item',
+        '[data-token-id]',
+        '[data-grid-item-id]',
+        '.unified-context-menu',
+        '.token-context-menu',
+        '.context-menu',
+        '.action-bar-consumable-tooltip',
+        '.item-tooltip',
+        '.spellbook-popup-overlay',
+        '.modal-content',
+        '.custom-dialog',
+        '.dialog-container',
+        '.notification-container',
+        '.navigation-container',
+        '.nav-bar',
+        'nav',
+        'header',
+        '.audio-player-widget',
+        '.chat-window',
+        '.chat-container',
+        '.vtt-tool-palette',
+        '.vtt-tool-settings',
+        '.vtt-object-shortcut-hud',
+        '.vtt-selection-indicator',
+        'button',
+        'input',
+        'select',
+        'textarea',
+        '[role="button"]',
+        '[role="dialog"]',
+        '[role="menu"]'
+    ].join(',');
+
+    return Boolean(element.closest(interactiveSelector));
+};
+
 const ProfessionalVTTEditor = () => {
     // Render-loop debugging is opt-in: this logs (and JSON.stringifies) on EVERY
     // render, which is a real dev-mode frame cost while token-view fog updates
@@ -83,6 +156,8 @@ const ProfessionalVTTEditor = () => {
     const [activeTab, setActiveTab] = useState('terrain');
     const [selectedTool, setSelectedTool] = useState('terrain_brush');
     const [isDrawing, setIsDrawing] = useState(false);
+    const isDrawingRef = useRef(false);
+    isDrawingRef.current = isDrawing;
     const [currentPath, setCurrentPath] = useState([]);
     const [textInput, setTextInput] = useState({ show: false, x: 0, y: 0, text: '', gridX: 0, gridY: 0 });
     const [hoverPreview, setHoverPreview] = useState({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
@@ -377,8 +452,8 @@ const elevationStrokePaintedRef = useRef(null);
     const wheelTransformHistoryRef = useRef(0);
     const isOverEditorUiRef = useRef(() => false);
     isOverEditorUiRef.current = (target) => {
-        if (!target || typeof target.closest !== 'function') return false;
-        if (target.closest('.wow-window, .vtt-tool-palette, .vtt-tool-settings')) return true;
+        if (!target) return false;
+        if (isInteractiveUiElement(target)) return true;
         // Keep native wheel scrolling wherever the cursor sits on a scrollable
         // element (object catalog, notes, etc.) between the cursor and the
         // canvas. The walk must stop at the editor overlay: the app shell
@@ -386,9 +461,11 @@ const elevationStrokePaintedRef = useRef(null);
         let element = target;
         while (element && element !== document.body) {
             if (element.classList && element.classList.contains('vtt-drawing-overlay')) return false;
-            const style = window.getComputedStyle(element);
-            const overflow = `${style.overflow}${style.overflowY}${style.overflowX}`;
-            if (/auto|scroll/.test(overflow)) return true;
+            const style = window.getComputedStyle ? window.getComputedStyle(element) : null;
+            if (style) {
+                const overflow = `${style.overflow}${style.overflowY}${style.overflowX}`;
+                if (/auto|scroll/.test(overflow)) return true;
+            }
             element = element.parentElement;
         }
         return false;
@@ -501,6 +578,35 @@ const elevationStrokePaintedRef = useRef(null);
         return () => window.removeEventListener('wheel', handler, { capture: true });
     }, [isEditorMode]);
 
+    // Dynamically yield pointer events to interactive UI elements (Action Bar, Party HUD, windows, tokens, etc.)
+    // so the user can freely click, hover, and interact with game UI even when the level editor is open.
+    useEffect(() => {
+        if (!isEditorMode) return undefined;
+
+        const handlePointerMoveGlobal = (e) => {
+            if (!overlayRef.current) return;
+            // If actively drawing a stroke, don't interrupt it mid-gesture
+            if (isDrawingRef.current) {
+                overlayRef.current.style.pointerEvents = 'auto';
+                return;
+            }
+
+            const elements = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+            const overUi = elements.some(el => isInteractiveUiElement(el));
+
+            if (overUi) {
+                overlayRef.current.style.pointerEvents = 'none';
+            } else {
+                overlayRef.current.style.pointerEvents = (selectedTool === 'select') ? 'none' : 'auto';
+            }
+        };
+
+        window.addEventListener('pointermove', handlePointerMoveGlobal, { capture: true, passive: true });
+        return () => {
+            window.removeEventListener('pointermove', handlePointerMoveGlobal, { capture: true });
+        };
+    }, [isEditorMode, selectedTool]);
+
     // Apply an elevation brush stamp. Stroke-local dedupe prevents repeated
     // raise/lower while the pointer stays on the same tile during a drag.
     const applyElevationStamp = useCallback((gridX, gridY, mode, target, brushSize) => {
@@ -605,6 +711,45 @@ const elevationStrokePaintedRef = useRef(null);
             return { x: screenX, y: screenY };
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, playerZoom]);
+
+    // Place a freestanding pillar or timber post at a clicked grid intersection/corner
+    const placePillarFeature = useCallback((pillarType, clientX, clientY) => {
+        const coords = screenToGrid(clientX, clientY);
+        if (!coords || coords.worldX === undefined || coords.worldY === undefined) return;
+        const gOX = gridOffsetX || 0;
+        const gOY = gridOffsetY || 0;
+        const gs = gridSize || 50;
+        const snapGx = Math.round((coords.worldX - gOX) / gs);
+        const snapGy = Math.round((coords.worldY - gOY) / gs);
+        const propTypeMap = {
+            wooden_column: 'pillar_wood',
+            pillar_wood: 'pillar_wood',
+            pillar_decorated: 'pillar_decorated',
+            column_large: 'column_large',
+            gothic_stone_column: 'gothic_stone_column',
+            gothic_column: 'gothic_stone_column',
+            wall_pillar: 'wall_pillar',
+            column_stone: 'column_stone'
+        };
+        const propType = propTypeMap[pillarType] || 'pillar_stone';
+        const elevationData = useLevelEditorStore.getState().elevationData || {};
+        const tileElev = getTileElevation(elevationData, snapGx, snapGy) || 0;
+        const placedId = addEnvironmentalObject({
+            gridX: snapGx,
+            gridY: snapGy,
+            type: propType,
+            elevation: tileElev,
+            freePosition: true,
+            worldX: snapGx * gs + gOX,
+            worldY: snapGy * gs + gOY,
+            rotation: 0,
+            scale: 1,
+            layer: 'objects'
+        }, activeMapIdRef.current);
+        if (placedId) {
+            selectEnvironmentalObject(placedId);
+        }
+    }, [screenToGrid, gridOffsetX, gridOffsetY, gridSize, addEnvironmentalObject, selectEnvironmentalObject]);
 
     // Place a door/window feature on the nearest wall: the host wall is split
     // around the feature so the feature occupies a real gap in the wall run
@@ -1344,6 +1489,12 @@ const elevationStrokePaintedRef = useRef(null);
             pushHistorySnapshot();
         }
 
+        // Do not draw/place if clicking on interactive UI elements (Action Bar, Party HUD, windows, tokens, etc.)
+        const elementsAtPoint = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+        if (elementsAtPoint.some(el => isInteractiveUiElement(el))) {
+            return;
+        }
+
         // Check if the click is on a background image - ignore it here UNLESS we're in background manipulation mode
         // In background manipulation mode, we want to allow clicks on backgrounds for resizing/moving
         const gameStore = useGameStore.getState();
@@ -1659,41 +1810,9 @@ const elevationStrokePaintedRef = useRef(null);
                         };
                     }
 
-                    // Smart surface stacking and attachment:
-                    // Check if clicked over an existing environmental object (e.g. chest on stone, torch on wall/pillar, potion on table)
-                    const existingObjects = useLevelEditorStore.getState().environmentalObjects || [];
-                    let parentCandidate = null;
-
-                    for (const other of existingObjects) {
-                        const otherDef = PROFESSIONAL_OBJECTS[other.type];
-                        if (!otherDef) continue;
-                        const oScale = other.scale || 1;
-                        const oWidth = (otherDef.size?.width || 1) * gridSize * oScale;
-                        const oHeight = (otherDef.size?.height || 1) * gridSize * oScale;
-                        const ox = other.worldX !== undefined ? other.worldX : (other.gridX * gridSize + gridSize / 2);
-                        const oy = other.worldY !== undefined ? other.worldY : (other.gridY * gridSize + gridSize / 2);
-
-                        if (
-                            objCoords.worldX >= ox - oWidth / 2 &&
-                            objCoords.worldX <= ox + oWidth / 2 &&
-                            objCoords.worldY >= oy - oHeight / 2 &&
-                            objCoords.worldY <= oy + oHeight / 2
-                        ) {
-                            parentCandidate = other;
-                            break;
-                        }
-                    }
-
                     const elevOffset = Number.isFinite(toolSettings?.objectElevation) ? toolSettings.objectElevation : 0;
 
-                    if (parentCandidate) {
-                        const pWorldX = parentCandidate.worldX !== undefined ? parentCandidate.worldX : (parentCandidate.gridX * gridSize + gridSize / 2);
-                        const pWorldY = parentCandidate.worldY !== undefined ? parentCandidate.worldY : (parentCandidate.gridY * gridSize + gridSize / 2);
-                        objectData.parentObjectId = parentCandidate.id;
-                        objectData.attachOffsetX = objCoords.worldX - pWorldX;
-                        objectData.attachOffsetY = objCoords.worldY - pWorldY;
-                        objectData.elevation = (parentCandidate.elevation || 0) + 1 + elevOffset;
-                    } else if (toolSettings?.snapToWall && (objectDef?.wallMountable || objectDef?.wallSideSnap)) {
+                    if (toolSettings?.snapToWall && (objectDef?.wallMountable || objectDef?.wallSideSnap)) {
                         // Wall-mountable fixtures (torches, banners, shelves) or wall-side furniture
                         // snap to the nearest wall face and aim outward from it ONLY if snapToWall is ON.
                         let gridSystem = null;
@@ -1777,6 +1896,14 @@ const elevationStrokePaintedRef = useRef(null);
                     return;
                 }
                 placeWallFeature(toolSettings.selectedWallType, e.clientX, e.clientY);
+                return;
+
+            case 'pillar_place':
+                // Single-click placement of freestanding pillars and timber posts
+                if (isDraggingWall || isObjectLocked || selectedWindow || selectedWallKey) {
+                    return;
+                }
+                placePillarFeature(toolSettings.selectedWallType, e.clientX, e.clientY);
                 return;
 
             case 'wall_erase':
@@ -2329,8 +2456,20 @@ const elevationStrokePaintedRef = useRef(null);
                 // Handle different wall drawing modes
                 {
                     const activeWallType = toolSettings.selectedWallType || 'stone_wall';
+                    const isFreestandingPillar = [
+                        'stone_column', 'wooden_column', 'pillar_stone', 'pillar_wood',
+                        'pillar_decorated', 'column_large', 'gothic_stone_column', 'gothic_column', 'column_stone'
+                    ].includes(activeWallType);
+                    if (isFreestandingPillar) {
+                        placePillarFeature(activeWallType, e.clientX, e.clientY);
+                        return;
+                    }
                     const wallTypeData = WALL_TYPES[activeWallType];
-                    const validWallType = (!wallTypeData || wallTypeData.interactive || wallTypeData.category === 'window')
+                    if (wallTypeData?.interactive) {
+                        placeWallFeature(activeWallType, e.clientX, e.clientY);
+                        return;
+                    }
+                    const validWallType = (!wallTypeData || wallTypeData.category === 'window')
                         ? 'stone_wall'
                         : activeWallType;
                     if (validWallType !== toolSettings.selectedWallType) {
@@ -2392,7 +2531,7 @@ const elevationStrokePaintedRef = useRef(null);
             default:
                 break;
         }
-    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, updateEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt, placeWallFeature]);
+    }, [isEditorMode, selectedTool, screenToGrid, toolSettings, paintTerrainBrush, removeTerrainAtPosition, paintTerrainLine, removeTerrainLine, removeFogAtPosition, gridSize, zoomLevel, playerZoom, getObjectAtPosition, selectEnvironmentalObject, removeEnvironmentalObject, updateEnvironmentalObject, addEnvironmentalObject, clearAllFog, coverEntireMapWithFog, setIsDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool, setCurrentPath, setCurrentDrawingPath, pushHistorySnapshot, applyElevationStamp, setRampAt, placeWallFeature, placePillarFeature]);
 
     const handleMouseMove = useCallback((e) => {
         // For select tools, let ObjectSystem handle the events
@@ -2413,6 +2552,17 @@ const elevationStrokePaintedRef = useRef(null);
                 }));
             }
             return;
+        }
+
+        // If not actively drawing, yield when over interactive UI elements and hide hover preview
+        if (!isDrawing) {
+            const elementsAtPoint = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+            if (elementsAtPoint.some(el => isInteractiveUiElement(el))) {
+                if (hoverPreview.show) {
+                    setHoverPreview({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
+                }
+                return;
+            }
         }
 
         // Update hover preview for brush tools and eraser (throttled via RAF)
@@ -3491,6 +3641,12 @@ const elevationStrokePaintedRef = useRef(null);
 
     // Handle right-click context menu (used for completing polygons)
     const handleContextMenu = useCallback((e) => {
+        // Do not block context menu if clicking over interactive UI elements (Action Bar, tokens, windows, etc.)
+        const elementsAtPoint = document.elementsFromPoint ? document.elementsFromPoint(e.clientX, e.clientY) : [];
+        if (elementsAtPoint.some(el => isInteractiveUiElement(el))) {
+            return;
+        }
+
         e.preventDefault(); // Prevent default context menu
 
         // Complete polygon on right-click if currently drawing a polygon

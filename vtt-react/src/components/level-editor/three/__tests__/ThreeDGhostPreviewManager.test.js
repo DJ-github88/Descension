@@ -66,7 +66,7 @@ describe('ThreeDGhostPreviewManager', () => {
     expect(manager.group.visible).toBe(false);
   });
 
-  it('hovers a stacked ghost at the parent rendered top surface', () => {
+  it('does not auto-stack when hovering over another object (respects manual elevation)', () => {
     const propManager = {
       getWorldBoundsCorners: jest.fn(() => {
         const corners = [];
@@ -86,11 +86,12 @@ describe('ThreeDGhostPreviewManager', () => {
       ...payload,
       objectType: 'stool',
       environmentalObjects: [parent],
-      propManager
+      propManager,
+      elevationOffset: 0
     });
 
-    expect(propManager.getWorldBoundsCorners).toHaveBeenCalledWith('table1');
-    expect(manager.group.position.z).toBeCloseTo(12.5);
+    expect(propManager.getWorldBoundsCorners).not.toHaveBeenCalled();
+    expect(manager.group.position.z).toBeCloseTo(0);
   });
 
   it('applies yaw, pitch and roll to the ghost', () => {

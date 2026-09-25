@@ -45,6 +45,12 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
             description: 'Draw walls between grid points'
         },
         {
+            id: 'pillar_place',
+            name: 'Place Pillar',
+            icon: 'Utility/Falling Block',
+            description: 'Click to place structural pillars and posts'
+        },
+        {
             id: 'door_place',
             name: 'Place Door',
             icon: 'General/Lockpick',
@@ -71,23 +77,29 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     ];
 
     // Wall categories for organization using store WALL_TYPES. The decorative
+    // Wall categories for organization using store WALL_TYPES. The decorative
     // segment models (stucco / diagonal / curved tower) are not drawable wall
     // types: curved corners are a per-type build style instead.
     const allWallCategories = {
         basic: {
             name: 'Basic Walls',
             icon: 'Utility/Barred Shield',
-            walls: ['stone_wall', 'stone_wall_lowpoly', 'wooden_wall', 'brick_wall', 'gothic_stone']
+            walls: ['stone_wall', 'stone_wall_lowpoly', 'wooden_wall', 'brick_wall', 'gothic_stone', 'gothic_stone_damaged']
         },
         fences: {
             name: 'Fences & Barriers',
             icon: 'Nature/Nature Natural',
-            walls: ['hedge', 'iron_fence', 'wooden_fence', 'barrier_wood']
+            walls: ['iron_fence', 'iron_fence_damaged', 'wooden_fence', 'wooden_fence_broken', 'hedge', 'barrier_wood', 'barrier_column']
         },
         variations: {
             name: 'Variations & Parapets',
             icon: 'Utility/Barred Shield',
-            walls: ['half_wall', 'wall_cracked', 'wall_gated', 'wall_arched', 'wall_broken', 'wall_shelves', 'stone_column', 'wooden_column']
+            walls: ['half_wall', 'crypt_arch', 'wall_arched', 'wall_gated', 'wall_cracked', 'wall_broken', 'wall_shelves']
+        },
+        pillars: {
+            name: 'Pillars & Posts',
+            icon: 'Utility/Falling Block',
+            walls: ['stone_column', 'wooden_column', 'pillar_decorated', 'column_large', 'gothic_stone_column', 'wall_pillar']
         },
         advanced: {
             name: 'Advanced Materials',
@@ -102,7 +114,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         interactive: {
             name: 'Interactive Elements',
             icon: 'General/Lockpick',
-            walls: ['wooden_door', 'stone_door', 'town_door', 'iron_gate', 'wooden_gate', 'hedge_gate']
+            walls: ['wooden_door', 'stone_door', 'town_door', 'graveyard_gate', 'iron_gate', 'wooden_gate', 'hedge_gate']
         },
         window: {
             name: 'Windows',
@@ -115,11 +127,13 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const getCategoriesForTool = (tool) => {
         switch (tool) {
             case 'wall_draw':
-                // Show all categories except interactive elements (doors) and windows
+                // Show wall categories including pillars and fences, excluding interactive doors and windows
                 const { interactive, window: windowCat, ...wallCategories } = allWallCategories;
                 return wallCategories;
+            case 'pillar_place':
+                return { pillars: allWallCategories.pillars };
             case 'door_place':
-                // Only show interactive elements (doors)
+                // Only show interactive elements (doors and gates)
                 return { interactive: allWallCategories.interactive };
             case 'window_place':
                 // Only show window types
@@ -133,8 +147,17 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
     // Sync selectedWallType when selectedTool changes
     useEffect(() => {
-        if (selectedTool === 'door_place') {
-            if (!['wooden_door', 'stone_door'].includes(selectedWallType)) {
+        if (selectedTool === 'pillar_place') {
+            if (!allWallCategories.pillars.walls.includes(selectedWallType)) {
+                setSelectedWallType('stone_column');
+                onSettingsChange({
+                    selectedWallType: 'stone_column',
+                    wallMode,
+                    doorOrientation
+                });
+            }
+        } else if (selectedTool === 'door_place') {
+            if (!allWallCategories.interactive.walls.includes(selectedWallType)) {
                 setSelectedWallType('wooden_door');
                 onSettingsChange({
                     selectedWallType: 'wooden_door',
@@ -143,7 +166,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 });
             }
         } else if (selectedTool === 'window_place') {
-            if (!['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType)) {
+            if (!allWallCategories.window.walls.includes(selectedWallType)) {
                 setSelectedWallType('glass_window');
                 onSettingsChange({
                     selectedWallType: 'glass_window',
@@ -169,8 +192,16 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         onToolSelect(toolId);
         
         // Auto-select appropriate wall type based on tool
-        if (toolId === 'door_place') {
-            const nextType = ['wooden_door', 'stone_door'].includes(selectedWallType) ? selectedWallType : 'wooden_door';
+        if (toolId === 'pillar_place') {
+            const nextType = allWallCategories.pillars.walls.includes(selectedWallType) ? selectedWallType : 'stone_column';
+            setSelectedWallType(nextType);
+            onSettingsChange({
+                selectedWallType: nextType,
+                wallMode,
+                doorOrientation
+            });
+        } else if (toolId === 'door_place') {
+            const nextType = allWallCategories.interactive.walls.includes(selectedWallType) ? selectedWallType : 'wooden_door';
             setSelectedWallType(nextType);
             onSettingsChange({
                 selectedWallType: nextType,
@@ -178,7 +209,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 doorOrientation
             });
         } else if (toolId === 'window_place') {
-            const nextType = ['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType) ? selectedWallType : 'glass_window';
+            const nextType = allWallCategories.window.walls.includes(selectedWallType) ? selectedWallType : 'glass_window';
             setSelectedWallType(nextType);
             onSettingsChange({
                 selectedWallType: nextType,
@@ -391,8 +422,8 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 </div>
             )}
 
-            {/* Door/Window placement hint */}
-            {(selectedTool === 'door_place' || selectedTool === 'window_place') && (
+            {/* Door/Window/Pillar placement hint */}
+            {(selectedTool === 'door_place' || selectedTool === 'window_place' || selectedTool === 'pillar_place') && (
                 <div className="tool-section">
                     <div style={{ 
                         fontSize: '11px', 
@@ -402,15 +433,17 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                         background: 'rgba(0,0,0,0.2)',
                         borderRadius: '4px'
                     }}>
-                        {selectedTool === 'door_place' 
-                            ? 'Click on a wall to place a door. Orientation auto-detects from nearby walls.'
-                            : 'Click on a wall to place a window opening. Windows allow vision through.'}
+                        {selectedTool === 'pillar_place'
+                            ? 'Click on the grid to place a freestanding stone pillar or timber post.'
+                            : selectedTool === 'door_place' 
+                                ? 'Click on a wall to place a door. Orientation auto-detects from nearby walls.'
+                                : 'Click on a wall to place a window opening. Windows allow vision through.'}
                     </div>
                 </div>
             )}
 
             {/* Wall Type Selection */}
-            {(selectedTool === 'wall_draw' || selectedTool === 'door_place' || selectedTool === 'window_place') && (
+            {(selectedTool === 'wall_draw' || selectedTool === 'pillar_place' || selectedTool === 'door_place' || selectedTool === 'window_place') && (
                 <div className="tool-section">
                     <h4>Wall Types</h4>
                     {Object.entries(wallCategories).map(([categoryId, category]) => (

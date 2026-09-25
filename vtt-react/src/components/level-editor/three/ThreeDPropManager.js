@@ -148,6 +148,14 @@ export const MODEL_REGISTRY = {
     interactive: true,
     type: 'door'
   },
+  graveyard_gate: {
+    url: '/assets/models/crypt/fence_gate.glb',
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: true,
+    type: 'door'
+  },
   iron_gate: {
     url: '/assets/models/walls/metal_wall_gate.glb',
     scale: 1.0,
@@ -285,8 +293,33 @@ export const MODEL_REGISTRY = {
     interactive: false
   },
   pillar_stone: {
-    url: '/assets/models/dungeon/pillar_stone.glb',
-    scale: 0.9,
+    url: '/assets/models/walls/pillar_stone.glb',
+    footprint: 1.0,
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  pillar_wood: {
+    url: '/assets/models/walls/pillar_wood.glb',
+    footprint: 1.0,
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  column_large: {
+    url: '/assets/models/walls/column_large.glb',
+    footprint: 1.0,
+    scale: 1.0,
+    baseRotation: 0,
+    offsetZ: 0,
+    interactive: false
+  },
+  gothic_stone_column: {
+    url: '/assets/models/walls/gothic_stone_wall_column.glb',
+    footprint: 1.0,
+    scale: 1.0,
     baseRotation: 0,
     offsetZ: 0,
     interactive: false
@@ -1107,7 +1140,7 @@ export class ThreeDPropManager {
         const bbox = new THREE.Box3().setFromObject(modelScene);
         const size = new THREE.Vector3();
         bbox.getSize(size);
-        const maxFootprint = Math.max(size.x, size.y) || 1;
+        const maxFootprint = def.footprint || Math.max(size.x, size.y) || 1;
         const unitScale = (gridSize / maxFootprint) * (def.scale || 1.0);
 
         // Kit models are not all authored with a base-centred origin: wall

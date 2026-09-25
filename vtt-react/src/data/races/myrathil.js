@@ -225,6 +225,14 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             src: '/assets/images/races/myrathil_shoreling_female_icon_v1.png',
             caption: 'Shoreling Female (Coastal Animist & Tide-Weaver) — Humanoid animist in matching sculpted sea-armor seated on a mossy boulder with driftwood staff, levitating shells and sea glass in rough charcoal draft with sea-slate watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_shoreling_culture_council.jpg',
+            caption: 'The Tide-Council Embassy & Spindrift Treaty — Shoreling diplomat in sculpted sea-armor leaning on driftwood staff overlooking coastal limestone tide pavilion where diplomats negotiate trade with sea-slate watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_shoreling_city_salthinge.jpg',
+            caption: 'Salt-Hinge Harbor & Tidal Spires — Sprawling tidal breakwater harbor with spiral conch spires, terraced limestone aqueducts, and wave-warrior in sculpted sea-armor overlooking bustling estuary docks with sea-slate watercolor splash.'
           }
         ],
         visualDescription: `The first and most numerous, the Shoreling are built for two worlds and belong fully to neither. Their bronze skin carries the shifting bioluminescent vein-colors common to all Myrathil, teal in calm, storm-grey when the pressure drops, but their gill-veins and webbed fingers flush with blood only when their marine nature surfaces, and they are as comfortable on dry land as at the tide-line. Their enormous ocean-blue eyes squint perpetually against a light they were not built for. They favor layered sailcloth and practical storm-capes, the dress of diplomats and traders, and salt dries on their lashes when the sea lets them go.`,
@@ -472,6 +480,14 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
           {
             src: '/assets/images/races/myrathil_deepling_male_icon_v2.jpg',
             caption: 'Male Deepling (Downward Glider Counterpart) — Innocent aquatic boy gliding downward with companion squids in rough charcoal draft with cyan watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_deepling_culture_emergence.png',
+            caption: 'The Tide-Crag Emergence & Light-Squid Guidance — Adolescent Deeplings standing upright on coastal tide-rocks, guiding floating light-squids and experiencing the surface world in rough charcoal draft with cyan watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/myrathil_deepling_city_trench.jpg',
+            caption: 'The Abyssal Basalt Trench & Sunken Metropolis — Sunken underwater metropolis built into sheer oceanic trench walls with hexagonal basalt towers, bio-dome bubble chimneys, and kelp bridges in rough charcoal draft with cyan watercolor splash.'
           }
         ],
         visualDescription: `The abyss-adapted. Deepling biology skews further toward sea than their Shoreling kin: longer submersion tolerance, stronger swimming muscle, and less comfort with the spoken word. Their eyes are larger and darker, built for the absolute black of the deep, and their vein-colors run cooler and dimmer, calibrated for the abyssal current rather than the sunlit tide. They arrive on beaches already half-grown, salt-crusted, speaking only the low-frequency hum Myrathil use underwater, and their skin dries and cracks painfully without frequent hydration. They favor loose kelp-weave that floats free in the current and little else.`,

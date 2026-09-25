@@ -8,6 +8,7 @@ import './DialogueControls.css';
 
 const DialogueControls = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('message');
   const [message, setMessage] = useState('');
   const [selectedEffect, setSelectedEffect] = useState('normal');
   const [selectedColor, setSelectedColor] = useState('#ffffff');
@@ -16,6 +17,7 @@ const DialogueControls = () => {
   const [selectedCreatureId, setSelectedCreatureId] = useState(null);
   const [selectedSpeaker, setSelectedSpeaker] = useState('character');
   const [selectedBackdropEffect, setSelectedBackdropEffect] = useState('none');
+  const [selectedFont, setSelectedFont] = useState('courier');
   const [previewText, setPreviewText] = useState('');
   const [isReplaying, setIsReplaying] = useState(false);
 
@@ -24,6 +26,7 @@ const DialogueControls = () => {
   const previewRef = useRef(null);
   const replayTimeoutRef = useRef(null);
   const replayIntervalRef = useRef(null);
+  const lastSpeedRef = useRef(null);
 
   // Store hooks
   const { name: characterName, lore } = useCharacterStore();
@@ -33,6 +36,7 @@ const DialogueControls = () => {
     showDialogue,
     textEffects,
     textColors,
+    fonts,
     positions,
     updateSettings,
     getSettings,
@@ -47,6 +51,7 @@ const DialogueControls = () => {
     setSelectedPosition(settings.position);
     setSpeed(settings.speed);
     setSelectedBackdropEffect(settings.backdropEffect || 'none');
+    setSelectedFont(settings.font || 'courier');
   }, [getSettings]);
 
   // Close controls when clicking outside
@@ -70,6 +75,7 @@ const DialogueControls = () => {
   useEffect(() => {
     const handleToggle = () => {
       setIsOpen(prev => !prev);
+      setActiveTab('message');
     };
 
     window.addEventListener('toggleDialogueControls', handleToggle);
@@ -95,63 +101,65 @@ const DialogueControls = () => {
       replayIntervalRef.current = null;
     }
 
-    if (message.trim()) {
-      // Set the full message initially
-      setPreviewText(message);
-      setIsReplaying(false);
-
-      // After 3 seconds of no typing, start replay
-      replayTimeoutRef.current = setTimeout(() => {
-        // Double-check message hasn't changed
-        const currentMessage = message;
-        if (!currentMessage.trim()) return;
-
-        const startReplay = () => {
-          // Check message hasn't changed
-          if (message !== currentMessage) return;
-
-          setIsReplaying(true);
-          setPreviewText('');
-
-          // Replay character by character
-          const fullMessage = currentMessage;
-          let currentIndex = 0;
-          const replaySpeed = Math.max(10, parseInt(speed) || 50);
-
-          replayIntervalRef.current = setInterval(() => {
-            // Check message hasn't changed
-            if (message !== currentMessage) {
-              clearInterval(replayIntervalRef.current);
-              replayIntervalRef.current = null;
-              return;
-            }
-
-            if (currentIndex < fullMessage.length) {
-              setPreviewText(fullMessage.substring(0, currentIndex + 1));
-              currentIndex++;
-            } else {
-              // Finished replaying, wait 3 seconds and restart
-              clearInterval(replayIntervalRef.current);
-              replayIntervalRef.current = null;
-
-              // Check message hasn't changed before restarting
-              if (message === currentMessage) {
-                replayTimeoutRef.current = setTimeout(() => {
-                  if (message === currentMessage) {
-                    startReplay(); // Restart the replay
-                  }
-                }, 3000);
-              }
-            }
-          }, replaySpeed);
-        };
-
-        startReplay();
-      }, 3000);
-    } else {
+    if (!message.trim()) {
       setPreviewText('');
       setIsReplaying(false);
+      lastSpeedRef.current = null;
+      return;
     }
+
+    // Set the full message initially
+    setPreviewText(message);
+    setIsReplaying(false);
+
+    const currentMessage = message;
+    const replaySpeed = Math.max(10, parseInt(speed) || 50);
+
+    const startReplay = () => {
+      // Check message hasn't changed
+      if (message !== currentMessage) return;
+
+      setIsReplaying(true);
+      setPreviewText('');
+
+      // Replay character by character
+      let currentIndex = 0;
+
+      replayIntervalRef.current = setInterval(() => {
+        // Check message hasn't changed
+        if (message !== currentMessage) {
+          clearInterval(replayIntervalRef.current);
+          replayIntervalRef.current = null;
+          return;
+        }
+
+        if (currentIndex < currentMessage.length) {
+          setPreviewText(currentMessage.substring(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          // Finished replaying, wait 3 seconds and restart
+          clearInterval(replayIntervalRef.current);
+          replayIntervalRef.current = null;
+
+          // Check message hasn't changed before restarting
+          if (message === currentMessage) {
+            replayTimeoutRef.current = setTimeout(() => {
+              if (message === currentMessage) {
+                startReplay(); // Restart the replay
+              }
+            }, 3000);
+          }
+        }
+      }, replaySpeed);
+    };
+
+    // Speed change: restart replay immediately to showcase the new speed
+    const speedChanged = lastSpeedRef.current !== null && lastSpeedRef.current !== speed;
+    lastSpeedRef.current = speed;
+
+    replayTimeoutRef.current = setTimeout(() => {
+      startReplay();
+    }, speedChanged ? 0 : 3000);
 
     // Cleanup on unmount or message change
     return () => {
@@ -191,7 +199,7 @@ const DialogueControls = () => {
           };
         }
       }
-    } else {
+    } else if (selectedSpeaker !== 'character') {
       // Use predefined speaker
       character.name = selectedSpeaker;
     }
@@ -201,6 +209,7 @@ const DialogueControls = () => {
       characterName: character.name,
       effect: selectedEffect,
       color: selectedColor,
+      font: selectedFont,
       position: selectedPosition,
       speed: parseInt(speed),
       backdropEffect: selectedBackdropEffect,
@@ -212,6 +221,7 @@ const DialogueControls = () => {
     updateSettings({
       effect: selectedEffect,
       color: selectedColor,
+      font: selectedFont,
       position: selectedPosition,
       speed: parseInt(speed),
       backdropEffect: selectedBackdropEffect
@@ -230,6 +240,25 @@ const DialogueControls = () => {
 
   const toggleControls = () => {
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      setActiveTab('message');
+    }
+  };
+
+  // Derived display names for the preview caption
+  const effectName = Object.entries(textEffects).find(([, value]) => value === selectedEffect)?.[0] || selectedEffect;
+  const colorName = Object.entries(textColors).find(([, value]) => value === selectedColor)?.[0] || 'white';
+  const fontName = Object.entries(fonts).find(([, value]) => value === selectedFont)?.[0] || 'Classic';
+  const backdropName = selectedBackdropEffect === 'none'
+    ? 'None'
+    : selectedBackdropEffect.charAt(0).toUpperCase() + selectedBackdropEffect.slice(1);
+
+  const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+
+  // Tint the preview box to showcase the selected backdrop effect
+  const getPreviewBackdropClass = (effect) => {
+    if (!effect || effect === 'none') return '';
+    return `preview-backdrop-${effect}`;
   };
 
   return (
@@ -257,373 +286,388 @@ const DialogueControls = () => {
             </button>
           </div>
 
+          {/* Tabs */}
+          <div className="panel-tabs">
+            <button
+              className={`panel-tab ${activeTab === 'message' ? 'active' : ''}`}
+              onClick={() => setActiveTab('message')}
+            >
+              <i className="fas fa-pen"></i>
+              Message
+            </button>
+            <button
+              className={`panel-tab ${activeTab === 'style' ? 'active' : ''}`}
+              onClick={() => setActiveTab('style')}
+            >
+              <i className="fas fa-palette"></i>
+              Style
+            </button>
+          </div>
+
           <div className="panel-content">
-            {/* Message Input */}
-            <div className="input-section">
-              <label>Message:</label>
-              <textarea
-                ref={inputRef}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter your character's dialogue... Use {bounce:word} for animations!"
-                maxLength={500}
-                rows={2}
-              />
-              <div className="char-count">
-                {message.length}/500
-              </div>
-
-              {/* Markup Help */}
-              <div className="markup-help">
-                <details>
-                  <summary>Text Effects Guide</summary>
-                  <div className="markup-examples">
-                    <div className="effect-category">
-                      <strong>Animations:</strong>
-                      <div className="effect-list">
-                        <span><code>{'{bounce:word}'}</code> - Bouncing text</span>
-                        <span><code>{'{shake:word}'}</code> - Shaking text</span>
-                        <span><code>{'{glow:word}'}</code> - Glowing text</span>
-                        <span><code>{'{wave:word}'}</code> - Wave animation</span>
-                        <span><code>{'{float:word}'}</code> - Floating text</span>
-                        <span><code>{'{pulse:word}'}</code> - Pulsing text</span>
-                      </div>
-                    </div>
-                    <div className="effect-category">
-                      <strong>Colors:</strong>
-                      <div className="effect-list">
-                        <span><code>{'{red:word}'}</code> <code>{'{gold:word}'}</code> <code>{'{blue:word}'}</code></span>
-                        <span><code>{'{green:word}'}</code> <code>{'{purple:word}'}</code> <code>{'{rainbow:word}'}</code></span>
-                      </div>
-                    </div>
-                    <div className="effect-category">
-                      <strong>Multi-word Support:</strong>
-                      <div className="effect-list">
-                        <span><code>{'{red: crimson road}'}</code> - Colors multiple words</span>
-                        <span><code>{'{bounce: magical spell}'}</code> - Animates phrases</span>
-                        <span>Supports spaces in effect content!</span>
-                      </div>
-                    </div>
-                  </div>
-                </details>
-              </div>
-            </div>
-
-            {/* New Intuitive Control Layout */}
-            <div className="control-sections">
-              {/* Speaker Selection Section */}
-              <div className="control-section">
-                <div className="control-section-header">
-                  <div className="control-section-icon">
-                    <i className="fas fa-user"></i>
-                  </div>
-                  <h4 className="control-section-title">Speaker</h4>
-                </div>
-                <div className="control-item">
-                  <label>Select Speaker:</label>
-                  <select
-                    value={selectedSpeaker}
-                    onChange={(e) => {
-                      setSelectedSpeaker(e.target.value);
-                      // Reset creature selection when switching to predefined speakers
-                      if (e.target.value !== 'custom') {
-                        setSelectedCreatureId(null);
-                      }
-                    }}
-                  >
-                    <option value="character">Character ({characterName})</option>
-                    <option value="Thorin Blackforge">Thorin Blackforge</option>
-                    <option value="Snicksnack the Prankster">Snicksnack the Prankster</option>
-                    <option value="Gigglegut the Explosive">Gigglegut the Explosive</option>
-                    <option value="Wobblestick the Unbalanced">Wobblestick the Unbalanced</option>
-                    <option value="Grubfingers the Collector">Grubfingers the Collector</option>
-                    <option value="Frostbite the Yeti">Frostbite the Yeti</option>
-                    <option value="Thornroo">Thornroo</option>
-                    <option value="custom">Custom Creature...</option>
-                  </select>
-                </div>
-
-                {/* Show creature selection when custom is selected */}
-                {selectedSpeaker === 'custom' && (
-                  <div className="control-item">
-                    <label>Select Creature:</label>
-                    <select
-                      value={selectedCreatureId || ''}
-                      onChange={(e) => setSelectedCreatureId(e.target.value || null)}
-                    >
-                      <option value="">Select a creature...</option>
-                      {creatures.map((creature) => (
-                        <option key={creature.id} value={creature.id}>
-                          {creature.name || 'Unnamed Creature'}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-              </div>
-
-              {/* Visual Effects Section */}
-              <div className="control-section">
-                <div className="control-section-header">
-                  <div className="control-section-icon">
-                    <i className="fas fa-palette"></i>
-                  </div>
-                  <h4 className="control-section-title">Visual Effects</h4>
-                </div>
-                <div className="control-grid">
-                  <div className="control-item">
-                    <label>Text Effect:</label>
-                    <select
-                      value={selectedEffect}
-                      onChange={(e) => setSelectedEffect(e.target.value)}
-                    >
-                      {Object.entries(textEffects).map(([key, value]) => (
-                        <option key={key} value={value}>
-                          {key.charAt(0).toUpperCase() + key.slice(1)}
-                        </option>
-                      ))}
-                    </select>
+            {activeTab === 'message' ? (
+              <>
+                {/* Message Input */}
+                <div className="input-section">
+                  <label>Message:</label>
+                  <textarea
+                    ref={inputRef}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Enter your character's dialogue... Use {bounce:word} for animations!"
+                    maxLength={500}
+                    rows={3}
+                  />
+                  <div className="char-count">
+                    {message.length}/500
                   </div>
 
-                  <div className="control-item">
-                    <label>Text Color:</label>
-                    <select
-                      value={selectedColor}
-                      onChange={(e) => setSelectedColor(e.target.value)}
-                    >
-                      {Object.entries(textColors).map(([key, value]) => (
-                        <option key={key} value={value} style={{ color: value }}>
-                          {key.charAt(0).toUpperCase() + key.slice(1)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="control-item">
-                    <label>Backdrop Effect:</label>
-                    <select
-                      value={selectedBackdropEffect}
-                      onChange={(e) => setSelectedBackdropEffect(e.target.value)}
-                    >
-                      <option value="none">None</option>
-                      <option value="dim">Dim</option>
-                      <option value="brighten">Brighten</option>
-                      <option value="reddish">Reddish Tint</option>
-                      <option value="blueish">Blueish Tint</option>
-                      <option value="greenish">Greenish Tint</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Display Settings Section */}
-              <div className="control-section">
-                <div className="control-section-header">
-                  <div className="control-section-icon">
-                    <i className="fas fa-cog"></i>
-                  </div>
-                  <h4 className="control-section-title">Display Settings</h4>
-                </div>
-                <div className="control-grid">
-                  <div className="control-item">
-                    <label>Position:</label>
-                    <select
-                      value={selectedPosition}
-                      onChange={(e) => setSelectedPosition(e.target.value)}
-                    >
-                      {Object.entries(positions).map(([key, value]) => (
-                        <option key={key} value={value}>
-                          {key.charAt(0).toUpperCase() + key.slice(1)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="control-item">
-                    <label>Animation Speed:</label>
-                    <div className="speed-control">
-                      <input
-                        type="range"
-                        min="10"
-                        max="200"
-                        value={speed}
-                        onChange={(e) => setSpeed(e.target.value)}
-                        className="speed-slider"
-                      />
-                      <div className="speed-value">{speed}ms</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Preview Section */}
-              <div className="control-section">
-                <div className="control-section-header">
-                  <div className="control-section-icon">
-                    <i className="fas fa-eye"></i>
-                  </div>
-                  <h4 className="control-section-title">Preview</h4>
-                </div>
-                <div className="preview-text" ref={previewRef}>
-                  <span
-                    className={`dialogue-text ${selectedEffect} ${isReplaying ? 'replaying' : ''}`}
-                    style={{
-                      color: selectedColor || '#ffffff',
-                      /* Enhanced 8-directional black text stroke for 16-bit look */
-                      textShadow: `
-                        -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
-                        -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
-                        0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
-                        1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
-                        2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000
-                      `,
-                      /* 16-bit pixelated rendering */
-                      imageRendering: 'pixelated',
-                      fontSmooth: 'never',
-                      WebkitFontSmoothing: 'none'
-                    }}
-                  >
-                    {previewText || message || 'Type a message to see preview...'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Actions Section */}
-              <div className="control-section">
-                <div className="control-section-header">
-                  <div className="control-section-icon">
-                    <i className="fas fa-play"></i>
-                  </div>
-                  <h4 className="control-section-title">Actions</h4>
-                </div>
-                <div className="action-buttons-grid">
-                  <button
-                    className="send-btn"
-                    onClick={handleSendDialogue}
-                    disabled={!message.trim() || isDialogueActive()}
-                  >
-                    <i className="fas fa-paper-plane"></i>
-                    Send Dialogue
-                  </button>
-
-                  <button
-                    className="clear-btn"
-                    onClick={() => setMessage('')}
-                    disabled={!message}
-                  >
-                    <i className="fas fa-eraser"></i>
-                    Clear
-                  </button>
-
-                  <button
-                    className="test-btn"
-                    onClick={() => {
-                      const testMessage = "Welcome to the {bounce:magical retro} dialogue system! This {glow:amazing feature} has {shake:incredible multi-word} {float:phrase support} just like {pulse:classic RPG} {wave:adventure games}! Now you can use {red:crimson road} and {gold:golden treasures} with multiple words!";
-                      const character = {
-                        name: characterName,
-                        characterImage: lore?.characterImage,
-                        lore: lore
-                      };
-                      showDialogue(testMessage, {
-                        character,
-                        characterName,
-                        effect: 'normal',
-                        color: '#ffffff',
-                        position: 'bottom',
-                        speed: 40,
-                        closeable: true
-                      });
-                    }}
-                    style={{
-                      background: 'linear-gradient(135deg, #4a90e2, #357abd)',
-                      border: '2px solid #6ab7ff'
-                    }}
-                  >
-                    <i className="fas fa-vial"></i>
-                    Test Animations
-                  </button>
-                </div>
-              </div>
-
-              {/* Current Speaker Display */}
-              <div className="control-section">
-                <div className="control-section-header">
-                  <div className="control-section-icon">
-                    <i className="fas fa-id-card"></i>
-                  </div>
-                  <h4 className="control-section-title">Current Speaker</h4>
-                </div>
-                <div className="character-preview">
-                  {(() => {
-                    const selectedCreature = selectedCreatureId
-                      ? creatures.find(c => c.id === selectedCreatureId)
-                      : null;
-                    const displayName = selectedCreature
-                      ? (selectedCreature.name || 'Creature')
-                      : characterName;
-
-                    // Get display image/icon styling - match exactly how compact-creature-icon displays it
-                    let backgroundImage = null;
-                    let borderColor = '#d4af37'; // Default gold border for characters
-                    let backgroundSize = 'cover';
-                    let backgroundPosition = 'center center';
-                    let transform = 'none';
-
-                    if (selectedCreature) {
-                      // Match CompactCreatureCard logic exactly
-                      if (selectedCreature.customTokenImage) {
-                        backgroundImage = `url(${selectedCreature.customTokenImage})`;
-                        backgroundSize = selectedCreature.imageTransformations
-                          ? `${(selectedCreature.imageTransformations.scale || 1) * 100}%`
-                          : 'cover';
-                        backgroundPosition = selectedCreature.imageTransformations
-                          ? `${50 + (selectedCreature.imageTransformations.positionX || 0) / 2}% ${50 - (selectedCreature.imageTransformations.positionY || 0) / 2}%`
-                          : 'center center';
-                        transform = selectedCreature.imageTransformations
-                          ? `rotate(${selectedCreature.imageTransformations.rotation || 0}deg)`
-                          : 'none';
-                      } else if (selectedCreature.tokenIcon) {
-                        backgroundImage = `url(${getCreatureTokenIconUrl(selectedCreature.tokenIcon, selectedCreature.type)})`;
-                        backgroundSize = 'cover';
-                        backgroundPosition = 'center center';
-                        transform = 'none';
-                      }
-                      // Use tokenBorder for creature border color
-                      if (selectedCreature.tokenBorder) {
-                        borderColor = selectedCreature.tokenBorder;
-                      }
-                    } else {
-                      // Character: use characterImage from lore
-                      if (lore?.characterImage) {
-                        backgroundImage = `url(${lore.characterImage})`;
-                      }
-                    }
-
-                    return (
-                      <div className="character-display">
-                        <div
-                          className={`avatar-placeholder portrait-placeholder ${backgroundImage ? '' : 'no-image'}`}
-                          style={{
-                            backgroundImage: backgroundImage || 'none',
-                            borderColor: borderColor,
-                            backgroundSize: backgroundSize,
-                            backgroundPosition: backgroundPosition,
-                            transform: transform,
-                            display: 'flex'
-                          }}
-                        >
-                          {!backgroundImage && (
-                            <i className={`fas ${selectedCreature ? 'fa-dragon' : 'fa-user'}`}></i>
-                          )}
+                  {/* Markup Help */}
+                  <div className="markup-help">
+                    <details>
+                      <summary>Text Effects Guide</summary>
+                      <div className="markup-examples">
+                        <div className="effect-category">
+                          <strong>Animations:</strong>
+                          <div className="effect-list">
+                            <span><code>{'{bounce:word}'}</code> - Bouncing text</span>
+                            <span><code>{'{shake:word}'}</code> - Shaking text</span>
+                            <span><code>{'{glow:word}'}</code> - Glowing text</span>
+                            <span><code>{'{wave:word}'}</code> - Wave animation</span>
+                            <span><code>{'{float:word}'}</code> - Floating text</span>
+                            <span><code>{'{pulse:word}'}</code> - Pulsing text</span>
+                          </div>
                         </div>
-                        <span className="character-name">{displayName}</span>
+                        <div className="effect-category">
+                          <strong>Colors:</strong>
+                          <div className="effect-list">
+                            <span><code>{'{red:word}'}</code> <code>{'{gold:word}'}</code> <code>{'{blue:word}'}</code></span>
+                            <span><code>{'{green:word}'}</code> <code>{'{purple:word}'}</code> <code>{'{rainbow:word}'}</code></span>
+                          </div>
+                        </div>
+                        <div className="effect-category">
+                          <strong>Multi-word Support:</strong>
+                          <div className="effect-list">
+                            <span><code>{'{red: crimson road}'}</code> - Colors multiple words</span>
+                            <span><code>{'{bounce: magical spell}'}</code> - Animates phrases</span>
+                            <span>Supports spaces in effect content!</span>
+                          </div>
+                        </div>
                       </div>
-                    );
-                  })()}
+                    </details>
+                  </div>
                 </div>
-              </div>
-            </div>
+
+                {/* Speaker Selection Section */}
+                <div className="control-section">
+                  <div className="control-section-header">
+                    <div className="control-section-icon">
+                      <i className="fas fa-user"></i>
+                    </div>
+                    <h4 className="control-section-title">Speaker</h4>
+                  </div>
+                  <div className="control-item">
+                    <label>Select Speaker:</label>
+                    <select
+                      value={selectedSpeaker}
+                      onChange={(e) => {
+                        setSelectedSpeaker(e.target.value);
+                        // Reset creature selection when switching to predefined speakers
+                        if (e.target.value !== 'custom') {
+                          setSelectedCreatureId(null);
+                        }
+                      }}
+                    >
+                      <option value="character">Character ({characterName})</option>
+                      <option value="Thorin Blackforge">Thorin Blackforge</option>
+                      <option value="Snicksnack the Prankster">Snicksnack the Prankster</option>
+                      <option value="Gigglegut the Explosive">Gigglegut the Explosive</option>
+                      <option value="Wobblestick the Unbalanced">Wobblestick the Unbalanced</option>
+                      <option value="Grubfingers the Collector">Grubfingers the Collector</option>
+                      <option value="Frostbite the Yeti">Frostbite the Yeti</option>
+                      <option value="Thornroo">Thornroo</option>
+                      <option value="custom">Custom Creature...</option>
+                    </select>
+                  </div>
+
+                  {/* Show creature selection when custom is selected */}
+                  {selectedSpeaker === 'custom' && (
+                    <div className="control-item">
+                      <label>Select Creature:</label>
+                      <select
+                        value={selectedCreatureId || ''}
+                        onChange={(e) => setSelectedCreatureId(e.target.value || null)}
+                      >
+                        <option value="">Select a creature...</option>
+                        {creatures.map((creature) => (
+                          <option key={creature.id} value={creature.id}>
+                            {creature.name || 'Unnamed Creature'}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Visual Effects Section */}
+                <div className="control-section">
+                  <div className="control-section-header">
+                    <div className="control-section-icon">
+                      <i className="fas fa-palette"></i>
+                    </div>
+                    <h4 className="control-section-title">Visual Effects</h4>
+                  </div>
+                  <div className="control-grid">
+                    <div className="control-item">
+                      <label>Text Effect:</label>
+                      <select
+                        value={selectedEffect}
+                        onChange={(e) => setSelectedEffect(e.target.value)}
+                      >
+                        {Object.entries(textEffects).map(([key, value]) => (
+                          <option key={key} value={value}>
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="control-item">
+                      <label>Text Color:</label>
+                      <select
+                        value={selectedColor}
+                        onChange={(e) => setSelectedColor(e.target.value)}
+                      >
+                        {Object.entries(textColors).map(([key, value]) => (
+                          <option key={key} value={value} style={{ color: value }}>
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="control-item">
+                      <label>Backdrop Effect:</label>
+                      <select
+                        value={selectedBackdropEffect}
+                        onChange={(e) => setSelectedBackdropEffect(e.target.value)}
+                      >
+                        <option value="none">None</option>
+                        <option value="dim">Dim</option>
+                        <option value="brighten">Brighten</option>
+                        <option value="reddish">Reddish Tint</option>
+                        <option value="blueish">Blueish Tint</option>
+                        <option value="greenish">Greenish Tint</option>
+                      </select>
+                    </div>
+
+                    <div className="control-item">
+                      <label>Dialogue Font:</label>
+                      <select
+                        value={selectedFont}
+                        onChange={(e) => setSelectedFont(e.target.value)}
+                      >
+                        {Object.entries(fonts).map(([key, value]) => (
+                          <option key={key} value={value}>
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="control-item">
+                      <label>Position:</label>
+                      <select
+                        value={selectedPosition}
+                        onChange={(e) => setSelectedPosition(e.target.value)}
+                      >
+                        {Object.entries(positions).map(([key, value]) => (
+                          <option key={key} value={value}>
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="control-item speed-item">
+                      <label>Animation Speed:</label>
+                      <div className="speed-control">
+                        <input
+                          type="range"
+                          min="10"
+                          max="200"
+                          value={speed}
+                          onChange={(e) => setSpeed(e.target.value)}
+                          className="speed-slider"
+                        />
+                        <div className="speed-value">{speed}ms</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preview Section */}
+                <div className="control-section">
+                  <div className="control-section-header">
+                    <div className="control-section-icon">
+                      <i className="fas fa-eye"></i>
+                    </div>
+                    <h4 className="control-section-title">Preview</h4>
+                  </div>
+                  <div className={`preview-text ${getPreviewBackdropClass(selectedBackdropEffect)}`} ref={previewRef}>
+                    <span
+                      className={`dialogue-text ${selectedEffect} ${isReplaying ? 'replaying' : ''}`}
+                      style={{
+                        color: selectedColor || '#ffffff',
+                        /* Enhanced 8-directional black text stroke for 16-bit look */
+                        textShadow: `
+                          -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
+                          -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
+                          0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
+                          1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
+                          2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000
+                        `,
+                        /* 16-bit pixelated rendering */
+                        imageRendering: 'pixelated',
+                        fontSmooth: 'never',
+                        WebkitFontSmoothing: 'none'
+                      }}
+                    >
+                      {previewText || message || 'Type a message to see preview...'}
+                    </span>
+                  </div>
+
+                  <div className="preview-caption">
+                    <span><strong>Effect:</strong> {capitalize(effectName)}</span>
+                    <span><strong>Color:</strong> {capitalize(colorName)}</span>
+                    <span><strong>Speed:</strong> {speed}ms/char</span>
+                    <span><strong>Backdrop:</strong> {backdropName}</span>
+                  </div>
+
+                  <div className="preview-footer-row">
+                    <div className="character-preview">
+                      {(() => {
+                        const selectedCreature = selectedCreatureId
+                          ? creatures.find(c => c.id === selectedCreatureId)
+                          : null;
+                        const displayName = selectedCreature
+                          ? (selectedCreature.name || 'Creature')
+                          : characterName;
+
+                        // Get display image/icon styling - match exactly how compact-creature-icon displays it
+                        let backgroundImage = null;
+                        let borderColor = '#d4af37'; // Default gold border for characters
+                        let backgroundSize = 'cover';
+                        let backgroundPosition = 'center center';
+                        let transform = 'none';
+
+                        if (selectedCreature) {
+                          // Match CompactCreatureCard logic exactly
+                          if (selectedCreature.customTokenImage) {
+                            backgroundImage = `url(${selectedCreature.customTokenImage})`;
+                            backgroundSize = selectedCreature.imageTransformations
+                              ? `${(selectedCreature.imageTransformations.scale || 1) * 100}%`
+                              : 'cover';
+                            backgroundPosition = selectedCreature.imageTransformations
+                              ? `${50 + (selectedCreature.imageTransformations.positionX || 0) / 2}% ${50 - (selectedCreature.imageTransformations.positionY || 0) / 2}%`
+                              : 'center center';
+                            transform = selectedCreature.imageTransformations
+                              ? `rotate(${selectedCreature.imageTransformations.rotation || 0}deg)`
+                              : 'none';
+                          } else if (selectedCreature.tokenIcon) {
+                            backgroundImage = `url(${getCreatureTokenIconUrl(selectedCreature.tokenIcon, selectedCreature.type)})`;
+                            backgroundSize = 'cover';
+                            backgroundPosition = 'center center';
+                            transform = 'none';
+                          }
+                          // Use tokenBorder for creature border color
+                          if (selectedCreature.tokenBorder) {
+                            borderColor = selectedCreature.tokenBorder;
+                          }
+                        } else {
+                          // Character: use characterImage from lore
+                          if (lore?.characterImage) {
+                            backgroundImage = `url(${lore.characterImage})`;
+                          }
+                        }
+
+                        return (
+                          <div className="character-display">
+                            <div
+                              className={`avatar-placeholder portrait-placeholder ${backgroundImage ? '' : 'no-image'}`}
+                              style={{
+                                backgroundImage: backgroundImage || 'none',
+                                borderColor: borderColor,
+                                backgroundSize: backgroundSize,
+                                backgroundPosition: backgroundPosition,
+                                transform: transform,
+                                display: 'flex'
+                              }}
+                            >
+                              {!backgroundImage && (
+                                <i className={`fas ${selectedCreature ? 'fa-dragon' : 'fa-user'}`}></i>
+                              )}
+                            </div>
+                            <span className="character-name">{displayName}</span>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    <button
+                      className="test-btn"
+                      onClick={() => {
+                        const testMessage = "Welcome to the {bounce:magical retro} dialogue system! This {glow:amazing feature} has {shake:incredible multi-word} {float:phrase support} just like {pulse:classic RPG} {wave:adventure games}! Now you can use {red:crimson road} and {gold:golden treasures} with multiple words!";
+                        const character = {
+                          name: characterName,
+                          characterImage: lore?.characterImage,
+                          lore: lore
+                        };
+                        showDialogue(testMessage, {
+                          character,
+                          characterName,
+                          effect: 'normal',
+                          color: '#ffffff',
+                          position: 'bottom',
+                          speed: 40,
+                          closeable: true
+                        });
+                      }}
+                      style={{
+                        background: 'linear-gradient(135deg, #4a90e2, #357abd)',
+                        border: '2px solid #6ab7ff'
+                      }}
+                    >
+                      <i className="fas fa-vial"></i>
+                      Test Animations
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Sticky Action Footer */}
+          <div className="panel-footer">
+            <button
+              className="clear-btn"
+              onClick={() => setMessage('')}
+              disabled={!message}
+            >
+              <i className="fas fa-eraser"></i>
+              Clear
+            </button>
+            <button
+              className="send-btn"
+              onClick={handleSendDialogue}
+              disabled={!message.trim() || isDialogueActive()}
+            >
+              <i className="fas fa-paper-plane"></i>
+              Send Dialogue
+            </button>
           </div>
         </div>
       )}

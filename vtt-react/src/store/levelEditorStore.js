@@ -366,6 +366,18 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
     movementCost: 4,
     description: 'Deep water'
   },
+  ocean: {
+    id: 'ocean',
+    name: 'Ocean',
+    shortName: 'Ocean',
+    category: 'natural',
+    color: '#2f6c9e',
+    tileVariations: [
+      '/assets/tiles/Water1.png'
+    ],
+    movementCost: 4,
+    description: 'Open ocean: deep sea with no pond plants or rapids'
+  },
   cobblestone: {
     id: 'cobblestone',
     name: 'Cobblestone',
@@ -862,6 +874,18 @@ export const TERRAIN_TYPES = {
     mechanics: 'Requires swimming. Difficult terrain.',
     tacticalNotes: 'Impassable without swimming ability.'
   },
+  ocean: {
+    id: 'ocean',
+    name: 'Ocean',
+    category: TERRAIN_CATEGORIES.WATER,
+    color: '#2f6c9e',
+    texture: 'water',
+    imageUrl: '/assets/tiles/Water1.png',
+    movementCost: 4,
+    description: 'Open ocean water',
+    mechanics: 'Requires swimming. Difficult terrain.',
+    tacticalNotes: 'Endless open water: no shoreline plants or rapids.'
+  },
   shallowWater: {
     id: 'shallowWater',
     name: 'Shallow Water',
@@ -1076,12 +1100,11 @@ export const WALL_TYPES = {
     name: 'Low-Poly Stone Wall',
     category: 'basic',
     color: '#8a8680',
-    heightScale: 0.5556,
     blocksMovement: true,
     blocksLineOfSight: true,
     imageUrl: '/assets/walls/stone_wall_lowpoly.png',
     icon: '🧱',
-    description: 'Chunky low-poly stone wall segment, one grid cell tall'
+    description: 'Chunky low-poly stone wall segment'
   },
   wooden_wall: {
     id: 'wooden_wall',
@@ -1292,7 +1315,31 @@ export const WALL_TYPES = {
     blocksLineOfSight: false,
     imageUrl: '/assets/walls/iron_fence.png',
     icon: '⚔️',
-    description: 'Ornate wrought iron railing and security fence'
+    description: 'Ornate gothic wrought iron railing and cemetery fence'
+  },
+  wrought_iron_fence: {
+    id: 'wrought_iron_fence',
+    name: 'Wrought Iron Fence',
+    category: 'fences',
+    color: '#474f59',
+    heightScale: 0.8,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/iron_fence.png',
+    icon: '⚔️',
+    description: 'Ornate gothic wrought iron railing and cemetery fence'
+  },
+  iron_fence_damaged: {
+    id: 'iron_fence_damaged',
+    name: 'Damaged Iron Fence',
+    category: 'fences',
+    color: '#3d444d',
+    heightScale: 0.8,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/iron_fence.png',
+    icon: '⚔️',
+    description: 'Weathered and bent wrought iron fence section'
   },
   wooden_fence: {
     id: 'wooden_fence',
@@ -1305,6 +1352,30 @@ export const WALL_TYPES = {
     imageUrl: '/assets/walls/wooden_fence.png',
     icon: '🪵',
     description: 'Traditional rustic timber picket fence'
+  },
+  wooden_fence_broken: {
+    id: 'wooden_fence_broken',
+    name: 'Broken Wooden Fence',
+    category: 'fences',
+    color: '#8f6848',
+    heightScale: 0.5,
+    blocksMovement: false,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wooden_fence.png',
+    icon: '🪵',
+    description: 'Broken and splintered wooden picket fence opening'
+  },
+  barrier_column: {
+    id: 'barrier_column',
+    name: 'Palisade Barrier Post',
+    category: 'fences',
+    color: '#8B5A2B',
+    heightScale: 0.3,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/barrier_wood.png',
+    icon: '🪵',
+    description: 'Heavy timber fortification post with palisade barrier'
   },
   town_wall: {
     id: 'town_wall',
@@ -1328,6 +1399,18 @@ export const WALL_TYPES = {
     icon: '🏰',
     description: 'Heavy chiseled gothic stone masonry wall'
   },
+  gothic_stone_damaged: {
+    id: 'gothic_stone_damaged',
+    name: 'Damaged Gothic Wall',
+    category: 'basic',
+    color: '#5a554f',
+    heightScale: 1.0,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/gothic_stone.png',
+    icon: '🏰',
+    description: 'Weathered gothic masonry wall with broken stone sections'
+  },
   wall_cracked: {
     id: 'wall_cracked',
     name: 'Cracked Stone Wall',
@@ -1350,6 +1433,18 @@ export const WALL_TYPES = {
     icon: '⛓️',
     description: 'Reinforced archway with heavy lowered iron portcullis'
   },
+  crypt_arch: {
+    id: 'crypt_arch',
+    name: 'Crypt Archway',
+    category: 'variations',
+    color: '#524f4b',
+    heightScale: 1.0,
+    blocksMovement: false,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/wall_arched.png',
+    icon: '⛩️',
+    description: 'Ancient stone crypt archway with ornate iron cresting'
+  },
   town_door: {
     id: 'town_door',
     name: 'Town Stucco Door',
@@ -1360,6 +1455,20 @@ export const WALL_TYPES = {
     imageUrl: '/assets/walls/town_door.png',
     icon: '🚪',
     description: 'Stucco wall frame with hinged heavy wooden door',
+    states: ['closed', 'open', 'locked'],
+    interactive: true
+  },
+  graveyard_gate: {
+    id: 'graveyard_gate',
+    name: 'Graveyard Gate',
+    category: 'interactive',
+    color: '#3d444d',
+    heightScale: 0.85,
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/iron_gate.png',
+    icon: '🚪',
+    description: 'Hinged ornate gothic graveyard iron gate with archway',
     states: ['closed', 'open', 'locked'],
     interactive: true
   },
@@ -1420,7 +1529,7 @@ export const WALL_TYPES = {
   stone_column: {
     id: 'stone_column',
     name: 'Stone Pillar / Column',
-    category: 'variations',
+    category: 'pillars',
     color: '#787570',
     blocksMovement: true,
     blocksLineOfSight: false,
@@ -1431,13 +1540,57 @@ export const WALL_TYPES = {
   wooden_column: {
     id: 'wooden_column',
     name: 'Timber Post / Column',
-    category: 'variations',
+    category: 'pillars',
     color: '#7a512d',
     blocksMovement: true,
     blocksLineOfSight: false,
     imageUrl: '/assets/walls/wooden_column.png',
     icon: '🪵',
     description: 'Heavy timber structural support post'
+  },
+  pillar_decorated: {
+    id: 'pillar_decorated',
+    name: 'Decorated Stone Pillar',
+    category: 'pillars',
+    color: '#7a756f',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_column.png',
+    icon: '🏛️',
+    description: 'Ancient carved stone pillar with intricate relief engravings'
+  },
+  column_large: {
+    id: 'column_large',
+    name: 'Grand Stone Column',
+    category: 'pillars',
+    color: '#8a857e',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_column.png',
+    icon: '🏛️',
+    description: 'Monumental structural stone column for grand halls and temples'
+  },
+  gothic_stone_column: {
+    id: 'gothic_stone_column',
+    name: 'Gothic Masonry Column',
+    category: 'pillars',
+    color: '#656059',
+    blocksMovement: true,
+    blocksLineOfSight: false,
+    imageUrl: '/assets/walls/stone_column.png',
+    icon: '🏛️',
+    description: 'Chiseled gothic masonry pillar for vaults and crypts'
+  },
+  wall_pillar: {
+    id: 'wall_pillar',
+    name: 'Dungeon Wall Pillar',
+    category: 'pillars',
+    color: '#6e6962',
+    blocksMovement: true,
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/stone_wall.png',
+    icon: '🧱',
+    description: 'Reinforced masonry wall segment with engaged load-bearing pillar'
   },
   wall_diagonal: {
     id: 'wall_diagonal',
@@ -1482,6 +1635,7 @@ export const WALL_CATEGORIES = {
   FENCES: 'Fences & Barriers',
   ADVANCED: 'Advanced Materials',
   VARIATIONS: 'Variations & Parapets',
+  PILLARS: 'Pillars & Posts',
   MAGICAL: 'Magical Barriers',
   INTERACTIVE: 'Interactive Elements',
   WINDOW: 'Windows & Slits'

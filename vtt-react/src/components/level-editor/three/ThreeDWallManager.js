@@ -9,7 +9,7 @@ import {
 } from '../../../utils/WallGeometry';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import { getTileElevation } from '../../../utils/ElevationUtils';
-import { applyWallMaterial, applyWallTexture, getEnergyWallTexture, wallTextureVerticalScale } from './wallMaterialTextures';
+import { applyWallMaterial, applyWallTexture, applyHedgeTextures, getWallMaterialTexture, getEnergyWallTexture, wallTextureVerticalScale } from './wallMaterialTextures';
 import {
   WALL_EXPLORED_OPACITY,
   createTileKeyResolver,
@@ -79,7 +79,20 @@ export const WALL_MODELS = {
   hedge_curved: '/assets/models/walls/hedge_curved.glb',
   brick_wall_curve: '/assets/models/walls/brick_wall_curve.glb',
   quaternius_wood: '/assets/models/walls/quaternius_wood_wall.glb',
-  stone_wall_lowpoly: '/assets/models/walls/stone_wall_lowpoly.glb'
+  stone_wall_lowpoly: '/assets/models/walls/stone_wall_lowpoly.glb',
+
+  // Crypt & Cemetery Models
+  wrought_iron_fence: '/assets/models/crypt/fence.glb',
+  crypt_fence: '/assets/models/crypt/fence.glb',
+  graveyard_gate: '/assets/models/crypt/fence_gate.glb',
+  crypt_gate: '/assets/models/crypt/fence_gate.glb',
+  crypt_arch: '/assets/models/crypt/arch.glb',
+
+  // Dungeon Pillars & Structural Posts
+  pillar_decorated: '/assets/models/dungeon/pillar_decorated.glb',
+  wall_pillar: '/assets/models/dungeon/wall_pillar.glb',
+  column_stone: '/assets/models/dungeon/column_stone.glb',
+  barrier_column: '/assets/models/dungeon/barrier_column.glb'
 };
 
 /**
@@ -93,6 +106,9 @@ export const WALL_DOOR_MODELS = {
   stone_door: '/assets/models/dungeon/wall_doorway.glb',
   wooden_door: WALL_MODELS.wood_door,
   town_door: WALL_MODELS.town_wall_door,
+  graveyard_gate: '/assets/models/crypt/fence_gate.glb',
+  fence_gate: '/assets/models/crypt/fence_gate.glb',
+  crypt_gate: '/assets/models/crypt/fence_gate.glb',
   iron_gate: WALL_MODELS.metal_gate,
   wooden_gate: WALL_MODELS.wooden_fence_gate,
   hedge_gate: WALL_MODELS.hedge_gate
@@ -166,9 +182,9 @@ const DEFAULT_WALL_METRICS = { length: WALL_MODEL_UNIT, height: WALL_MODEL_UNIT,
 export const WALL_MODEL_METRICS = {
   [WALL_MODELS.barrier]: { length: 4, height: 1.1, centerX: 0 },
   [WALL_MODELS.barrier_corner]: { length: 4, height: 1.4, centerX: 0 },
-  [WALL_MODELS.brick]: { length: 1, height: 0.702, centerX: 0, centerZ: 0.41 },
+  [WALL_MODELS.brick]: { length: 1, height: 1.8, centerX: 0, centerZ: 0.41 },
   [WALL_MODELS.brick_corner]: { length: 1, height: 0.702, centerX: 0 },
-  [WALL_MODELS.wood]: { length: 1, height: 1.0, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
+  [WALL_MODELS.wood]: { length: 1, height: 1.8, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
   [WALL_MODELS.wood_corner]: { length: 1, height: 1.0, centerX: 0 },
   [WALL_MODELS.wood_door]: { length: 1, height: 1.0, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
   [WALL_MODELS.wood_half]: { length: 1, height: 0.5, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
@@ -190,14 +206,14 @@ export const WALL_MODEL_METRICS = {
   [WALL_MODELS.town_wall_door]: { length: 1, height: 1.0, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
   [WALL_MODELS.town_wall_half]: { length: 1, height: 0.5, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
   [WALL_MODELS.town_wall_window]: { length: 1, height: 1.0, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
-  [WALL_MODELS.gothic_stone]: { length: 1, height: 0.65, centerX: 0, centerZ: 0.45 },
+  [WALL_MODELS.gothic_stone]: { length: 1, height: 1.8, centerX: 0, centerZ: 0.45 },
   [WALL_MODELS.gothic_stone_curve]: { length: 1, height: 0.65, centerX: 0 },
   [WALL_MODELS.gothic_stone_damaged]: { length: 1, height: 0.65, centerX: 0, centerZ: 0.45 },
   [WALL_MODELS.gothic_stone_column]: { length: 1, height: 0.65, centerX: 0, centerZ: 0.45 },
   [WALL_MODELS.iron_fence_curve]: { length: 1, height: 0.824, centerX: 0 },
   [WALL_MODELS.iron_fence_damaged]: { length: 1, height: 0.824, centerX: 0, centerZ: 0.4495 },
-  [WALL_MODELS.pillar_stone]: { length: 1, height: 1.0, centerX: 0 },
-  [WALL_MODELS.pillar_wood]: { length: 1, height: 1.0, centerX: 0 },
+  [WALL_MODELS.pillar_stone]: { length: 1, height: 1.8, centerX: 0 },
+  [WALL_MODELS.pillar_wood]: { length: 1, height: 1.8, centerX: 0 },
   [WALL_MODELS.column_large]: { length: 1, height: 1.1, centerX: 0 },
   [WALL_MODELS.town_wall_diagonal]: { length: 1, height: 1.0, centerX: 0, rotateY: Math.PI / 2 },
   [WALL_MODELS.wooden_wall_curved]: { length: 1, height: 1.0, centerX: 0 },
@@ -205,7 +221,20 @@ export const WALL_MODEL_METRICS = {
   [WALL_MODELS.wooden_fence_curved]: { length: 1, height: 0.38, centerX: 0, rotateY: Math.PI / 2 },
   [WALL_MODELS.hedge_curved]: { length: 1, height: 0.25, centerX: 0, rotateY: Math.PI / 2 },
   [WALL_MODELS.brick_wall_curve]: { length: 1, height: 0.702, centerX: 0 },
-  [WALL_MODELS.stone_wall_lowpoly]: { length: 1, height: 1, centerX: 0, centerZ: 0.4 }
+  [WALL_MODELS.stone_wall_lowpoly]: { length: 1, height: 1.8, centerX: 0, centerZ: 0.4 },
+
+  // Crypt & Cemetery Models
+  [WALL_MODELS.wrought_iron_fence]: { length: 4, height: 2.2, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.crypt_fence]: { length: 4, height: 2.2, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.graveyard_gate]: { length: 4, height: 3.0, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.crypt_gate]: { length: 4, height: 3.0, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.crypt_arch]: { length: 4, height: 4.414, centerX: 0, centerZ: 0 },
+
+  // Dungeon Pillars & Structural Posts
+  [WALL_MODELS.pillar_decorated]: { length: 2.232, height: 4.0, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.wall_pillar]: { length: 4, height: 4.0, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.column_stone]: { length: 0.7, height: 1.4, centerX: 0, centerZ: 0 },
+  [WALL_MODELS.barrier_column]: { length: 4, height: 1.4, centerX: 0, centerZ: 0 }
 };
 export const wallModelMetrics = (url) => WALL_MODEL_METRICS[url] || DEFAULT_WALL_METRICS;
 
@@ -237,16 +266,8 @@ function opposite(a, b) {
  * their own ends and meet at the vertex instead of receiving stone caps.
  */
 export const DEDICATED_WALL_TEXTURE_TYPES = {
-  wooden_wall: 'wooden_wall',
-  brick_wall: 'brick_wall',
   metal_wall: 'metal_wall',
-  hedge: 'hedge',
-  iron_fence: 'iron_fence',
-  wooden_fence: 'wooden_fence',
   town_wall: 'town_wall',
-  gothic_stone: 'gothic_stone',
-  stone_column: 'stone_column',
-  wooden_column: 'wooden_column',
   wall_diagonal: 'wall_diagonal',
   wall_curved: 'wall_curved'
 };
@@ -274,7 +295,16 @@ export function resolveWallModelUrlForType(type) {
   if (typeLower === 'hedge') {
     return WALL_MODELS.hedge;
   }
-  if (typeLower === 'iron_fence' || typeLower === 'metal_wall') {
+  if (typeLower === 'wrought_iron_fence' || typeLower === 'crypt_fence' || typeLower === 'iron_fence') {
+    return WALL_MODELS.wrought_iron_fence;
+  }
+  if (typeLower === 'iron_fence_damaged') {
+    return WALL_MODELS.iron_fence_damaged;
+  }
+  if (typeLower === 'wooden_fence_broken') {
+    return WALL_MODELS.wooden_fence_broken;
+  }
+  if (typeLower === 'metal_wall') {
     return WALL_MODELS.metal;
   }
   if (typeLower === 'wooden_fence' || typeLower.includes('picket')) {
@@ -282,6 +312,9 @@ export function resolveWallModelUrlForType(type) {
   }
   if (typeLower === 'town_wall') {
     return WALL_MODELS.town_wall;
+  }
+  if (typeLower === 'gothic_stone_damaged') {
+    return WALL_MODELS.gothic_stone_damaged;
   }
   if (typeLower === 'gothic_stone') {
     return WALL_MODELS.gothic_stone;
@@ -291,6 +324,21 @@ export function resolveWallModelUrlForType(type) {
   }
   if (typeLower === 'brick_wall') {
     return WALL_MODELS.brick;
+  }
+  if (typeLower === 'pillar_decorated') {
+    return WALL_MODELS.pillar_decorated;
+  }
+  if (typeLower === 'column_large') {
+    return WALL_MODELS.column_large;
+  }
+  if (typeLower === 'gothic_stone_column' || typeLower === 'gothic_column') {
+    return WALL_MODELS.gothic_stone_column;
+  }
+  if (typeLower === 'wall_pillar') {
+    return WALL_MODELS.wall_pillar;
+  }
+  if (typeLower === 'column_stone') {
+    return WALL_MODELS.column_stone;
   }
   if (typeLower === 'stone_column') {
     return WALL_MODELS.pillar_stone;
@@ -306,6 +354,12 @@ export function resolveWallModelUrlForType(type) {
   }
   if (typeLower === 'quaternius_wood' || typeLower === 'palisade_wood' || typeLower === 'wood_palisade') {
     return WALL_MODELS.quaternius_wood;
+  }
+  if (typeLower === 'barrier_column') {
+    return WALL_MODELS.barrier_column;
+  }
+  if (typeLower === 'crypt_arch' || typeLower.includes('crypt_arch')) {
+    return WALL_MODELS.crypt_arch;
   }
 
   // The kit's `wall_half` piece is a half-LENGTH wall segment, not a low
@@ -415,15 +469,74 @@ export class ThreeDWallManager {
       return null;
     }
 
-    if (typeLower === 'stone_wall_lowpoly') {
+    // Gothic stone walls — apply detailed ashlar masonry texture procedurally.
+    // The GLBs ship with flat untextured grey materials; the generator fills them.
+    if (typeLower === 'gothic_stone' || typeLower === 'gothic_stone_damaged') {
       return {
         tint: null,
         baseOpacity: 1,
         emissive: null,
+        material: 'gothic_stone',
+        texture: null,
+        junctionModels: {},
+        key: `${typeId}:gothic-stone`
+      };
+    }
+
+    // Wooden fence — fine-grain timber picket texture, not the raw 2D photo PNG.
+    if (typeLower === 'wooden_fence') {
+      return {
+        tint: null,
+        baseOpacity: 1,
+        emissive: null,
+        material: 'wood_fence',
+        texture: null,
+        junctionModels: {},
+        key: `${typeId}:wood-fence`
+      };
+    }
+
+    // Hedge — two-slot per-material-name texturing handled in syncPieces.
+    if (typeLower === 'hedge') {
+      return {
+        tint: null,
+        baseOpacity: 1,
+        emissive: null,
+        texture: null,
+        hedgeTextures: true,
+        junctionModels: {},
+        key: `${typeId}:hedge`
+      };
+    }
+
+    if (typeLower === 'stone_wall_lowpoly' ||
+        typeLower === 'wooden_wall' || typeLower === 'wood_wall' ||
+        typeLower === 'brick_wall' ||
+        typeLower === 'stone_column' ||
+        typeLower === 'wooden_column' ||
+        typeLower === 'pillar_decorated' ||
+        typeLower === 'column_large' ||
+        typeLower === 'gothic_stone_column' ||
+        typeLower === 'gothic_column' ||
+        typeLower === 'wall_pillar' ||
+        typeLower === 'column_stone' ||
+        typeLower === 'barrier_column' ||
+        typeLower === 'iron_fence' ||
+        typeLower === 'wrought_iron_fence' ||
+        typeLower === 'crypt_fence' ||
+        typeLower === 'crypt_arch' ||
+        typeLower === 'iron_fence_damaged' ||
+        typeLower === 'wooden_fence_broken') {
+      return {
+        tint: null,
+        baseOpacity: 1,
+        emissive: null,
+        texture: null,
         junctionModels: {},
         key: `${typeId}:authored`
       };
     }
+
 
     // Magical barriers / force walls: translucent emissive energy panes.
     if (typeLower === 'magical_barrier' || typeLower === 'force_wall') {
@@ -989,18 +1102,31 @@ export class ThreeDWallManager {
       if (!instance) return null;
       const metrics = wallModelMetrics(modelUrl);
       instance.rotation.set(Math.PI / 2, metrics.rotateY || 0, 0, 'XYZ');
-      instance.traverse(child => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          child.userData = { ...userData, is3DWall: true };
-          if (child.material) {
-            this.applyAppearanceToMaterial(child.material, appearance);
+      if (appearance?.hedgeTextures) {
+        // Hedge has two distinct material slots; apply per-slot procedural textures.
+        applyHedgeTextures(instance);
+        instance.traverse(child => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            child.userData = { ...userData, is3DWall: true };
           }
-        }
-      });
+        });
+      } else {
+        instance.traverse(child => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            child.userData = { ...userData, is3DWall: true };
+            if (child.material) {
+              this.applyAppearanceToMaterial(child.material, appearance);
+            }
+          }
+        });
+      }
       return instance;
     };
+
 
     if (entry.pieces.length !== pieces.length) {
       entry.group.clear();

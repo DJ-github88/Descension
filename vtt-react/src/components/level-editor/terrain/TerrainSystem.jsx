@@ -1320,6 +1320,7 @@ const TerrainSystem = () => {
         drawSandTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase, gridX, gridY);
         break;
       case 'water':
+      case 'ocean':
         drawWaterTexture(textureCtx, baseColor, 0, 0, nativeSize, nativeSize, seedBase, gridX, gridY);
         break;
       case 'cobblestone':
@@ -1419,6 +1420,7 @@ const TerrainSystem = () => {
         drawSandTexture(ctx, baseColor, x, y, width, height, seedBase, effectiveGridX, effectiveGridY);
         break;
       case 'water':
+      case 'ocean':
         drawWaterTexture(ctx, baseColor, x, y, width, height, seedBase, effectiveGridX, effectiveGridY);
         break;
       case 'cobblestone':

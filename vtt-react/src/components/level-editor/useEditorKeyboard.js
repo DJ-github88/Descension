@@ -31,7 +31,14 @@ export const useEditorKeyboard = ({
 }) => {
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (!isOpen || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (!isOpen || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+
+            // If focus is inside another window (Character Sheet, Inventory, Codex, etc.) or modal,
+            // do not intercept hotkeys or close the editor.
+            const inOtherWindow = e.target && typeof e.target.closest === 'function' &&
+                Boolean(e.target.closest('.mythrill-window:not(.level-editor-window), .modal-content, .custom-dialog, .dialog-container, .inventory-container'));
+
+            if (inOtherWindow) return;
 
             // Undo / Redo
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
@@ -60,33 +67,31 @@ export const useEditorKeyboard = ({
                     }
                     break;
                 case '1':
-                    e.preventDefault();
-                    handleTabChange('terrain');
-                    break;
                 case '2':
-                    e.preventDefault();
-                    handleTabChange('drawing');
-                    break;
                 case '3':
-                    e.preventDefault();
-                    handleTabChange('walls');
-                    break;
                 case '4':
-                    e.preventDefault();
-                    handleTabChange('fog');
-                    break;
                 case '5':
-                    e.preventDefault();
-                    handleTabChange('objects');
-                    break;
                 case '6':
-                    e.preventDefault();
-                    handleTabChange('grid');
+                case '7': {
+                    // Only intercept 1-7 to change editor tabs if Alt is held OR focus is within the level editor UI.
+                    // Otherwise, allow raw number keys to activate Action Bar slots and game hotkeys.
+                    const isEditorFocused = e.target && typeof e.target.closest === 'function' &&
+                        Boolean(e.target.closest('.professional-vtt-editor, .level-editor-window, .vtt-tool-palette, .vtt-editor-content'));
+                    if (e.altKey || isEditorFocused) {
+                        e.preventDefault();
+                        const tabMap = {
+                            '1': 'terrain',
+                            '2': 'drawing',
+                            '3': 'walls',
+                            '4': 'fog',
+                            '5': 'objects',
+                            '6': 'grid',
+                            '7': 'lighting'
+                        };
+                        handleTabChange(tabMap[e.key]);
+                    }
                     break;
-                case '7':
-                    e.preventDefault();
-                    handleTabChange('lighting');
-                    break;
+                }
                 case 'v':
                     e.preventDefault();
                     handleToolSelect('select');

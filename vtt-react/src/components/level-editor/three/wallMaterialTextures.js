@@ -232,10 +232,287 @@ function createWoodTexture() {
   return texture;
 }
 
+/** Gothic ashlar — large dressed-stone blocks with deep mortar joints, chiselled bevels,
+ *  subtle tonal variation and hairline age cracks. Replaces the flat-grey untextured
+ *  prototype that the gothic_stone_wall.glb material ships without an embedded diffuse. */
+function createGothicStoneTexture() {
+  const canvas = createCanvas();
+  const ctx = canvas && canvas.getContext('2d');
+  if (!ctx) return null;
+
+  // Background mortar — dark charcoal grout
+  ctx.fillStyle = '#2a2826';
+  ctx.fillRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
+
+  // Ashlar block dimensions: wider than tall, slightly irregular
+  const blockW = 0.55 * UV_PER_WORLD_U * TEXTURE_SIZE;
+  const blockH = 0.28 * UV_PER_WORLD_V * TEXTURE_SIZE;
+  const mortar = Math.max(2, Math.round(blockW * 0.07));
+
+  let row = 0;
+  for (let y = 0; y < TEXTURE_SIZE; y += blockH, row += 1) {
+    const offset = (row % 2) * (blockW * 0.5);
+    for (let x = -blockW; x < TEXTURE_SIZE + blockW; x += blockW) {
+      const bx = Math.round(x + offset);
+      const by = Math.round(y);
+      const bw = Math.round(blockW - mortar);
+      const bh = Math.round(blockH - mortar);
+      const col = Math.floor((bx + blockW) / blockW);
+
+      // Per-block colour variation — cool grey-blue slate tones
+      const tone = (hash(row, col, 2) - 0.5) * 0.18;
+      const sat  = (hash(row, col, 5) - 0.5) * 0.04;
+      const base = new THREE.Color('#5a5650');
+      base.offsetHSL(sat, 0, tone);
+      ctx.fillStyle = `#${base.getHexString()}`;
+      ctx.fillRect(bx + mortar, by + mortar, bw, bh);
+
+      // Chiselled edge bevel — lighter top/left, darker bottom/right
+      const bevelW = Math.max(1, Math.round(bw * 0.08));
+      ctx.fillStyle = 'rgba(255,255,255,0.11)';
+      ctx.fillRect(bx + mortar, by + mortar, bw, bevelW);           // top
+      ctx.fillRect(bx + mortar, by + mortar, bevelW, bh);           // left
+      ctx.fillStyle = 'rgba(0,0,0,0.28)';
+      ctx.fillRect(bx + mortar, by + mortar + bh - bevelW, bw, bevelW); // bottom
+      ctx.fillRect(bx + mortar + bw - bevelW, by + mortar, bevelW, bh); // right
+
+      // Subtle surface noise / lichen specks
+      const nSpecks = Math.floor(hash(row, col, 9) * 6);
+      for (let s = 0; s < nSpecks; s++) {
+        const sx = bx + mortar + bevelW + hash(row * 13 + s, col, 3) * (bw - bevelW * 2);
+        const sy = by + mortar + bevelW + hash(row, col * 7 + s, 4) * (bh - bevelW * 2);
+        const sr = Math.max(1, hash(row + s, col + s) * bw * 0.04);
+        const alpha = 0.06 + hash(row + s, col) * 0.08;
+        ctx.fillStyle = `rgba(160,170,140,${alpha.toFixed(2)})`;
+        ctx.beginPath();
+        ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Occasional hairline crack across a block face
+      if (hash(row * 3, col * 7, 11) > 0.78) {
+        const cx1 = bx + mortar + bevelW + hash(row, col, 12) * (bw * 0.6);
+        const cy1 = by + mortar + bevelW + hash(row, col, 13) * (bh * 0.4);
+        const cx2 = cx1 + (hash(row, col, 14) - 0.5) * bw * 0.5;
+        const cy2 = cy1 + hash(row, col, 15) * bh * 0.55;
+        ctx.strokeStyle = 'rgba(0,0,0,0.32)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(cx1, cy1);
+        ctx.quadraticCurveTo(
+          cx1 + (hash(row, col, 16) - 0.5) * bw * 0.3,
+          (cy1 + cy2) / 2,
+          cx2, cy2
+        );
+        ctx.stroke();
+      }
+    }
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.generateMipmaps = true;
+  texture.anisotropy = 4;
+  return texture;
+}
+
+/** Fine-grain timber planks suitable for fence pickets: no heavy crossbeams,
+ *  tight vertical grain, natural knots and subtle weathering. */
+function createWoodFenceTexture() {
+  const canvas = createCanvas();
+  const ctx = canvas && canvas.getContext('2d');
+  if (!ctx) return null;
+
+  // Dark gap between pickets
+  ctx.fillStyle = '#1e130a';
+  ctx.fillRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
+
+  // Narrower planks than wall-boards: fence pickets are ~0.2 world units wide
+  const plankW = 0.22 * UV_PER_WORLD_U * TEXTURE_SIZE;
+  const seam   = Math.max(1, Math.round(plankW * 0.10));
+  let index = 0;
+  for (let x = 0; x < TEXTURE_SIZE; x += plankW, index += 1) {
+    // Each picket gets a slightly different warm brown
+    const tone = (hash(index, 1) - 0.5) * 0.2;
+    const base = new THREE.Color('#8b6240');
+    base.offsetHSL(0, 0, tone);
+    ctx.fillStyle = `#${base.getHexString()}`;
+    ctx.fillRect(x + seam, 0, plankW - seam, TEXTURE_SIZE);
+
+    // Fine longitudinal grain lines — many tight strokes
+    const numGrain = 8;
+    for (let g = 0; g < numGrain; g++) {
+      const gx = x + seam + (plankW - seam) * ((g + 0.5) / numGrain);
+      const wob = (hash(index, g, 7) - 0.5) * plankW * 0.15;
+      const alpha = 0.08 + hash(index, g, 8) * 0.10;
+      ctx.strokeStyle = `rgba(0,0,0,${alpha.toFixed(2)})`;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(gx, 0);
+      ctx.bezierCurveTo(gx + wob, TEXTURE_SIZE * 0.3, gx - wob, TEXTURE_SIZE * 0.6, gx + wob * 0.5, TEXTURE_SIZE);
+      ctx.stroke();
+    }
+
+    // Highlight grain (lighter streaks for fibre gloss)
+    for (let h2 = 0; h2 < 3; h2++) {
+      const gx = x + seam + (plankW - seam) * ((h2 + 0.5) / 3);
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(gx, 0);
+      ctx.lineTo(gx + (hash(index, h2, 4) - 0.5) * 4, TEXTURE_SIZE);
+      ctx.stroke();
+    }
+
+    // Knot (probability ~35%)
+    if (hash(index, 11) > 0.65) {
+      const kx = x + seam + (plankW - seam) * 0.5;
+      const ky = TEXTURE_SIZE * (0.1 + hash(index, 13) * 0.8);
+      const kr = Math.max(2, plankW * 0.12);
+      // Dark knot core
+      ctx.fillStyle = 'rgba(20,10,5,0.55)';
+      ctx.beginPath();
+      ctx.ellipse(kx, ky, kr, kr * 1.4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // Ring halo
+      ctx.strokeStyle = 'rgba(0,0,0,0.22)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.ellipse(kx, ky, kr * 1.5, kr * 2.1, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Left-edge highlight for rounded picket look
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillRect(x + seam, 0, 1, TEXTURE_SIZE);
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.generateMipmaps = true;
+  texture.anisotropy = 4;
+  return texture;
+}
+
+/** Leafy foliage texture for hedge bush meshes — layered green clusters with
+ *  light and shadow variation to break up flat uniformity. */
+function createFoliageTexture() {
+  const canvas = createCanvas();
+  const ctx = canvas && canvas.getContext('2d');
+  if (!ctx) return null;
+
+  // Mid-green base
+  ctx.fillStyle = '#2e5c1e';
+  ctx.fillRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
+
+  // Leaf-cluster cells — irregular voronoi-like blobs packed across the canvas
+  const cellSize = TEXTURE_SIZE / 12;
+  for (let cy = 0; cy < TEXTURE_SIZE; cy += cellSize) {
+    for (let cx = 0; cx < TEXTURE_SIZE; cx += cellSize) {
+      const ci = Math.floor(cx / cellSize);
+      const ri = Math.floor(cy / cellSize);
+      const jx = cx + hash(ci, ri, 1) * cellSize;
+      const jy = cy + hash(ci, ri, 2) * cellSize;
+      const r  = cellSize * (0.35 + hash(ci, ri, 3) * 0.3);
+
+      // Leaf cluster blob — slightly varied greens
+      const g = 0.28 + hash(ci, ri, 4) * 0.22;
+      const bl = 0.08 + hash(ci, ri, 5) * 0.08;
+      ctx.fillStyle = `rgb(${Math.round(0.12 * 255)},${Math.round(g * 255)},${Math.round(bl * 255)})`;
+      ctx.beginPath();
+      ctx.arc(jx, jy, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Highlight dot — simulated top-light on leaf cluster
+      ctx.fillStyle = `rgba(180,230,80,${(0.08 + hash(ci, ri, 6) * 0.10).toFixed(2)})`;
+      ctx.beginPath();
+      ctx.arc(jx - r * 0.2, jy - r * 0.2, r * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Dark shadow fringe lines between clusters
+  ctx.strokeStyle = 'rgba(0,0,0,0.22)';
+  ctx.lineWidth = 2;
+  const fringeCount = 60;
+  for (let f = 0; f < fringeCount; f++) {
+    const fx = hash(f, 0, 7) * TEXTURE_SIZE;
+    const fy = hash(f, 1, 8) * TEXTURE_SIZE;
+    const len = 8 + hash(f, 2) * 18;
+    const angle = hash(f, 3, 9) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx + Math.cos(angle) * len, fy + Math.sin(angle) * len);
+    ctx.stroke();
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.generateMipmaps = true;
+  texture.anisotropy = 4;
+  return texture;
+}
+
+/** Low rough-cut stone base texture for the hedge wall plinth (the 'stone'
+ *  material underneath the leafy bush). Smaller blocks, more weathered. */
+function createHedgeStoneTexture() {
+  const canvas = createCanvas();
+  const ctx = canvas && canvas.getContext('2d');
+  if (!ctx) return null;
+
+  // Mortar
+  ctx.fillStyle = '#3d3830';
+  ctx.fillRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
+
+  const bW = 0.45 * UV_PER_WORLD_U * TEXTURE_SIZE;
+  const bH = 0.22 * UV_PER_WORLD_V * TEXTURE_SIZE;
+  const mortar = Math.max(2, Math.round(bW * 0.09));
+
+  let row = 0;
+  for (let y = 0; y < TEXTURE_SIZE; y += bH, row += 1) {
+    const offset = (row % 2) * (bW * 0.5);
+    for (let x = -bW; x < TEXTURE_SIZE + bW; x += bW) {
+      const bx = Math.round(x + offset);
+      const tone = (hash(row, Math.floor(bx / bW), 2) - 0.5) * 0.14;
+      const base = new THREE.Color('#6b5e4a');
+      base.offsetHSL(0, 0, tone);
+      ctx.fillStyle = `#${base.getHexString()}`;
+      ctx.fillRect(bx + mortar, Math.round(y) + mortar, Math.round(bW - mortar), Math.round(bH - mortar));
+      // Simple top/bottom bevel
+      ctx.fillStyle = 'rgba(255,255,255,0.09)';
+      ctx.fillRect(bx + mortar, Math.round(y) + mortar, Math.round(bW - mortar), 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.22)';
+      ctx.fillRect(bx + mortar, Math.round(y + bH - mortar - 2), Math.round(bW - mortar), 2);
+    }
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.generateMipmaps = true;
+  texture.anisotropy = 4;
+  return texture;
+}
+
 const GENERATORS = {
   brick: createBrickTexture,
   metal: createMetalTexture,
-  wood: createWoodTexture
+  wood: createWoodTexture,
+  gothic_stone: createGothicStoneTexture,
+  wood_fence: createWoodFenceTexture,
+  foliage: createFoliageTexture,
+  hedge_stone: createHedgeStoneTexture
 };
 
 export function getWallMaterialTexture(kind) {
@@ -264,6 +541,37 @@ export function applyWallMaterial(material, kind) {
     m.needsUpdate = true;
   });
   return true;
+}
+
+/**
+ * Apply per-material-name textures to a hedge GLB instance. The hedge model
+ * has two distinct material slots -- 'stone' (the low plinth) and 'foliage'
+ * (the leafy bush). Plastering both with hedge.png looked terrible; this gives
+ * each slot an appropriate procedural texture instead.
+ *
+ * @param {THREE.Object3D} root - the cloned hedge model root
+ */
+export function applyHedgeTextures(root) {
+  if (!root) return;
+  const foliageTex = getWallMaterialTexture('foliage');
+  const stoneTex   = getWallMaterialTexture('hedge_stone');
+
+  root.traverse((child) => {
+    if (!child.isMesh) return;
+    const mats = Array.isArray(child.material) ? child.material : [child.material];
+    mats.forEach((m) => {
+      if (!m) return;
+      const name = (m.name || '').toLowerCase();
+      const isStone = name.includes('stone') || name.includes('rock') || name.includes('wall');
+      const tex = isStone ? stoneTex : foliageTex;
+      if (tex) {
+        m.map = tex;
+        m.color.setHex(0xffffff);
+        if (m.emissive) m.emissive.setHex(0x000000);
+        m.needsUpdate = true;
+      }
+    });
+  });
 }
 
 /**

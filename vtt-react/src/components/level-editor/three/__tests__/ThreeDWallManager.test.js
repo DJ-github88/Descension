@@ -383,19 +383,23 @@ describe('ThreeDWallManager', () => {
 
     const wood = manager.resolveWallAppearance({ type: 'wooden_wall' });
     expect(wood).not.toBeNull();
-    expect(wood.texture).toBe('wooden_wall');
+    expect(wood.texture).toBeNull();
     expect(wood.tint).toBeNull();
     expect(wood.junctionModels).toEqual({});
 
     const brick = manager.resolveWallAppearance({ type: 'brick_wall' });
-    expect(brick.texture).toBe('brick_wall');
-    expect(brick.baseOpacity).toBe(1);
+    expect(brick).not.toBeNull();
+    expect(brick.texture).toBeNull();
+    expect(brick.tint).toBeNull();
 
     const metal = manager.resolveWallAppearance({ type: 'metal_wall' });
     expect(metal.texture).toBe('metal_wall');
 
     const hedge = manager.resolveWallAppearance({ type: 'hedge' });
-    expect(hedge.texture).toBe('hedge');
+    // Hedge now uses per-slot procedural textures (hedgeTextures flag) instead
+    // of a single raw PNG mapped over both stone and foliage material slots.
+    expect(hedge.hedgeTextures).toBe(true);
+    expect(hedge.texture).toBeNull();
 
     // `blocksLineOfSight: false` is a gameplay trait; parapets, ruins and
     // palisades are solid matter and must not render as ghosts. Structural
@@ -417,27 +421,25 @@ describe('ThreeDWallManager', () => {
     expect(force.energy).toBe(true);
   });
 
-  it('renders dedicated wall types with their own model and seamless texture', () => {
+  it('renders dedicated wall types with their own model and authored appearance', () => {
     const appearance = manager.resolveWallAppearance({ type: 'wooden_wall' });
-    expect(appearance.texture).toBe('wooden_wall');
+    expect(appearance.texture).toBeNull();
     expect(manager.resolveWallModelUrl({ type: 'wooden_wall' })).toContain('wooden_wall.glb');
     expect(manager.resolveWallModelUrl({ type: 'brick_wall' })).toContain('brick_wall.glb');
   });
 
   it('compensates the vertical UV stretch of dedicated models', () => {
-    // A 0.702-tall brick piece is scaled to the 1.8-cell wall body height, so
-    // its texture must be sampled 1.8 / 0.702 times denser vertically.
-    const brick = manager.resolveWallAppearance({ type: 'brick_wall' });
-    expect(brick.uvVerticalScale).toBeCloseTo(1.8 / 0.702, 5);
+    // Dedicated texture wall types like metal_wall compensate UV stretch
+    const metal = manager.resolveWallAppearance({ type: 'metal_wall' });
+    expect(metal.uvVerticalScale).toBeCloseTo(1.8 / 0.824, 5);
 
-    const wood = manager.resolveWallAppearance({ type: 'wooden_wall' });
-    expect(wood.uvVerticalScale).toBeCloseTo(1.8, 5);
-
-    // Types with a smaller heightScale (hedge: 0.6) get a proportionally
-    // smaller compensation so the pattern keeps its world size.
+    // Hedge now uses per-slot procedural textures via the hedgeTextures flag rather
+    // than a single PNG with UV compensation; it returns no uvVerticalScale.
     const hedge = manager.resolveWallAppearance({ type: 'hedge' });
-    expect(hedge.uvVerticalScale).toBeCloseTo((1.8 * 0.6) / 0.25, 5);
+    expect(hedge.hedgeTextures).toBe(true);
+    expect(hedge.uvVerticalScale).toBeUndefined();
   });
+
 
   it('centres dedicated models on the wall line instead of their authored edge origin', () => {
     // Wooden fence: thickness centre -0.4625 model units, rotateY 90 deg.
