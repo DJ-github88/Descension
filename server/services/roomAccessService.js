@@ -525,9 +525,17 @@ async function retryMembershipCompensations(firebaseService, authorityService, r
         clearResult = { ok: false, code: 'compensation_clear_failed' };
       }
     }
-    if (!clearResult || clearResult.ok !== true) {continue;}
-    membershipCompensations.delete(`${entry.roomId}\u0000${entry.userId}`);
-    cleared += 1;
+    if (clearResult && clearResult.ok === true) {
+      membershipCompensations.delete(`${entry.roomId}\u0000${entry.userId}`);
+      cleared += 1;
+      continue;
+    }
+    if (clearResult && clearResult.code === 'membership_compensation_missing') {
+      // The obligation was already resolved by another current holder; the
+      // corrective membership state is satisfied and nothing remains to clear.
+      membershipCompensations.delete(`${entry.roomId}\u0000${entry.userId}`);
+      cleared += 1;
+    }
   }
   return { pending: membershipCompensations.size, cleared, ok: true, code: null };
 }
@@ -1446,8 +1454,9 @@ async function admitVerifiedMember({
     if (!grant.ok) {return { ok: false, code: DENIAL_CODES.MEMBERSHIP_PERSISTENCE_FAILED };}
 
     // C3: finalize the pending recovery record created atomically with a new
-    // durable membership. The clear is conditional on the exact obligation and
-    // is performed under the captured authority at the backend commit boundary.
+    // durable membership. Finalization is accepted ONLY when this exact
+    // obligation was transactionally cleared under the captured authority; a
+    // missing or replaced record is ambiguous/not-finalized, never success.
     const finalizePendingAdmission = async(roomId) => {
       if (!grant.compensationId) {return { ok: true, code: null };}
       if (!firebaseService || typeof firebaseService.clearMembershipCompensation !== 'function') {
@@ -1458,10 +1467,49 @@ async function admitVerifiedMember({
           compensationId: grant.compensationId,
           authority: authorityToken
         });
-        return { ok: !!(result && result.ok === true), code: (result && result.code) || null };
+        if (result && result.ok === true && result.cleared === true) {
+          return { ok: true, code: null };
+        }
+        return { ok: false, code: (result && result.code) || DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE };
       } catch (_error) {
         return { ok: false, code: DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE };
       }
+    };
+
+    // C3: retire ONLY this operation's exact runtime/socket/map effects. A
+    // replacement binding belonging to a successor operation is preserved.
+    const retireAdmissionRuntimeEffects = () => {
+      if (live.players.get(playerId) === player) {
+        live.players.delete(playerId);
+        if (live.gameState && live.gameState.playerMapAssignments) {
+          delete live.gameState.playerMapAssignments[playerId];
+        }
+      }
+      if (players.get(socket.id) === player) {players.delete(socket.id);}
+      if (socket.rooms && typeof socket.rooms.has === 'function' && socket.rooms.has(live.id)) {
+        socket.leave(live.id);
+      }
+    };
+
+    // C3: the exact originating context must still be current before clean
+    // participation success.
+    const checkFinalAdmissionContext = () => {
+      if (rooms.get(live.id) !== live) {
+        return { ok: false, code: DENIAL_CODES.ROOM_AUTHORITY_LOST };
+      }
+      if (players.get(socket.id) !== player) {
+        return { ok: false, code: DENIAL_CODES.ROOM_AUTHORITY_LOST };
+      }
+      if (socket.data && socket.data.userId !== userId) {
+        return { ok: false, code: DENIAL_CODES.ROOM_AUTHORITY_LOST };
+      }
+      if (socket.rooms && typeof socket.rooms.has === 'function' && !socket.rooms.has(live.id)) {
+        return { ok: false, code: DENIAL_CODES.ROOM_AUTHORITY_LOST };
+      }
+      if (!Array.isArray(live.members) || !live.members.includes(userId)) {
+        return { ok: false, code: DENIAL_CODES.ROOM_AUTHORITY_LOST };
+      }
+      return { ok: true, code: null };
     };
 
     // C3: every post-grant abort either revokes the newly-created durable
@@ -1582,21 +1630,33 @@ async function admitVerifiedMember({
     socket.join(live.id);
 
     // C3: clean admission success is reported only after the pending recovery
-    // record is conditionally cleared under the captured authority. A failed
-    // clear retains the durable record and retires this operation's runtime/
-    // socket/map effects, returning a bounded recovery-required failure.
+    // record is conditionally cleared under the captured authority AND the
+    // exact originating context is still current after that clear await. A
+    // failed finalization retains the durable record and retires this
+    // operation's exact runtime effects; a final context loss returns a
+    // bounded authority-lost outcome without undoing historical durability.
     if (grant.persisted && grant.compensationId) {
       const finalized = await finalizePendingAdmission(live.id);
       if (!finalized.ok) {
-        live.players.delete(playerId);
-        if (live.gameState && live.gameState.playerMapAssignments) {
-          delete live.gameState.playerMapAssignments[playerId];
-        }
-        if (players.get(socket.id) === player) {players.delete(socket.id);}
-        if (socket.rooms && typeof socket.rooms.has === 'function' && socket.rooms.has(live.id)) {
-          socket.leave(live.id);
-        }
+        retireAdmissionRuntimeEffects();
         return { ok: false, code: DENIAL_CODES.MEMBERSHIP_COMPENSATION_REQUIRED };
+      }
+      const preContext = checkFinalAdmissionContext();
+      if (!preContext.ok) {
+        retireAdmissionRuntimeEffects();
+        return { ok: false, code: preContext.code };
+      }
+      if (authorityService && authorityToken && typeof authorityService.assertCurrent === 'function') {
+        const freshFinal = await authorityService.assertCurrent(authorityToken, { backendCheck: true });
+        if (!freshFinal || freshFinal.ok !== true) {
+          retireAdmissionRuntimeEffects();
+          return { ok: false, code: (freshFinal && freshFinal.code) || DENIAL_CODES.ROOM_AUTHORITY_LOST };
+        }
+      }
+      const postContext = checkFinalAdmissionContext();
+      if (!postContext.ok) {
+        retireAdmissionRuntimeEffects();
+        return { ok: false, code: postContext.code };
       }
     }
 

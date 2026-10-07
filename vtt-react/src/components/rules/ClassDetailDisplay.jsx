@@ -851,6 +851,13 @@ const classFallbacks = {
   { url: '/assets/images/classes/augur_deepling_myrathil.jpg', caption: 'Deepling Myrathil Augur — The Trench-Haruspex, deep-sea aquatic seer holding a spherical pressure astrolabe with a swirling azure current-vortex.' },
   { url: '/assets/images/classes/augur_korr_solari.jpg', caption: 'Korr Solari Augur — The Sol\'s Breath-Reader, deep-vault cinder-monk seated in Vault-Breath stillness with a sun-crest staff, watching the multifaceted holy ember glowing in a bronze brazier.' }
  ],
+ crusader: [
+  { url: '/assets/images/classes/crusader_skald_human.jpg', caption: 'Skald Human Crusader — The Frost-Hearth Zealot, Nordic vanguard juggernaut planted in deep alpine snow with a glowing runic starlight hearth-blade.' },
+  { url: '/assets/images/classes/crusader_anhur_solari.jpg', caption: 'Anhur Solari Crusader — The Magma Crusader, volcanic vanguard knight in tectonic iron plate wielding an obsidian flameblade greatsword and embossed sun-crest tower shield.' },
+  { url: '/assets/images/classes/crusader_kordak_astril.jpg', caption: 'Kordak Astril Crusader — The Crystal Judgment, colossal crystalline titan with forward-curving horns locked behind a glowing amber starlight tower shield and quartz executioner greatsword.' },
+  { url: '/assets/images/classes/crusader_lumian_astril.jpg', caption: 'Lumian Astril Crusader — The Starlight Vanguard, celestial paladin in sculpted silver and starlight glass raising an armillary-ringed celestial greatsword.' },
+  { url: '/assets/images/classes/crusader_korr_solari.jpg', caption: 'Korr Solari Crusader — The Vault-Templar, Deep-Vault holy monk with ash-branding tattoos and sun-crest gorget, resting upon a colossal basalt great-maul.' }
+ ],
  harbinger: [
   { url: '/assets/images/classes/harbinger_stargazer_astril.jpg', caption: 'Lumian Harbinger — The Entropy-Symphony, drawing glowing star-alignments and dying planetary orbits with a sleek brass telescope.' },
   { url: '/assets/images/classes/harbinger_skald_human.jpg', caption: 'Skald Human Harbinger — The Doom-Scribe, carving differential equations of solar extinction onto an alpine stone slab with an ivory stylus.' },

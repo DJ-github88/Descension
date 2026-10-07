@@ -807,34 +807,39 @@ const VariantCard = React.memo(({ raceId, variantId, variant, isSelected, onSele
   const variantClass = variant.id || variantId;
   const shortClass = variantId && variantId !== variantClass ? `variant-card-${variantId}` : '';
   return (
-    <div
+    <button
+      type="button"
       className={`variant-card variant-card-${raceId} variant-card-${variantClass} ${shortClass} ${isSelected ? 'selected' : ''}`.trim().replace(/\s+/g, ' ')}
       onClick={() => onSelect(variantId)}
+      aria-label={`View ${variant.name} variant details`}
     >
-      <div className="variant-card-bg-effects"></div>
-      <div className="variant-card-fx" aria-hidden="true"></div>
-      <h4 className="variant-card-name">{variant.name}</h4>
-      <div className="variant-card-showcase">
+      <span className="variant-card-bg-effects" aria-hidden="true"></span>
+      <span className="variant-card-fx" aria-hidden="true"></span>
+      <span className="variant-card-name">{variant.name}</span>
+      <span className="variant-card-showcase">
         {variant.crest && (
-          <div className="variant-card-crest-wrapper">
-            <div className="variant-card-crest-halo" aria-hidden="true"></div>
-            <img src={variant.crest} alt={variant.name} className="variant-card-crest-img" />
-          </div>
+          <span className="variant-card-crest-wrapper">
+            <span className="variant-card-crest-halo" aria-hidden="true"></span>
+            <img src={variant.crest} alt="" className="variant-card-crest-img" />
+          </span>
         )}
         {variant.statModifiers && Object.keys(variant.statModifiers).length > 0 && (
-          <div className="variant-card-stats-side">
+          <span className="variant-card-stats-side">
             <StatModifiersMini statModifiers={variant.statModifiers} />
-          </div>
+          </span>
         )}
-      </div>
-      <p className="variant-card-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</p>
-    </div>
+      </span>
+      <span className="variant-card-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</span>
+      <span className="variant-card-action">
+        View variant <i className="fas fa-arrow-right" aria-hidden="true"></i>
+      </span>
+    </button>
   );
 });
 
 // Memoized Stat Modifiers Mini Component
 const StatModifiersMini = React.memo(({ statModifiers }) => (
-  <div className="stat-modifiers-mini">
+  <span className="stat-modifiers-mini">
     {Object.entries(statModifiers).map(([stat, modifier]) => {
       if (modifier === 0) return null;
       return (
@@ -843,7 +848,7 @@ const StatModifiersMini = React.memo(({ statModifiers }) => (
         </span>
       );
     })}
-  </div>
+  </span>
 ));
 
 // Memoized Stat Modifiers Full Component
@@ -1261,6 +1266,10 @@ const RaceSelector = () => {
 
   // Determine current step for conditional rendering
   const currentStep = !selectedRace ? 'race' : !selectedVariant ? 'variant' : 'details';
+  const raceIllustrations = gatherIllustrations();
+  const overviewIllustration = customIllustration?.src || raceData?.illustration;
+  const overviewIllustrationCaption = customIllustration?.caption || raceData?.illustrationCaption || raceData?.name;
+  const hasOverviewIllustration = overviewIllustration && !imageErrors[overviewIllustration];
 
   return (
     <div className="race-selector-container">
@@ -1303,7 +1312,13 @@ const RaceSelector = () => {
               <div className="race-info-header">
                 <div className="race-info-title-row">
                   <div className="race-info-icon">
-                    <i className={raceData.icon}></i>
+                    {raceData.icon ? (
+                      <i className={raceData.icon} aria-hidden="true"></i>
+                    ) : RACE_WATERCOLOR[raceData.id] ? (
+                      <img src={`${PUB}/assets/images/${RACE_WATERCOLOR[raceData.id]}.png`} alt="" />
+                    ) : (
+                      <i className="fas fa-users" aria-hidden="true"></i>
+                    )}
                   </div>
                   <div className="race-info-title-area">
                     <h3 className="race-info-name">{raceData.name}</h3>
@@ -1311,6 +1326,7 @@ const RaceSelector = () => {
                   </div>
                   {raceData.epicHistory && (
                     <button
+                      type="button"
                       className="epic-lore-button"
                       onClick={() => setShowEpicLore(true)}
                     >
@@ -1321,105 +1337,126 @@ const RaceSelector = () => {
                 </div>
               </div>
 
-              {/* Variant Selection */}
-              <h3 className="step-title">Choose a Variant</h3>
-              <div className="variant-grid">
-                {Object.entries(raceData.subraces).map(([variantId, variant]) => (
-                  <VariantCard
-                    key={variantId}
-                    raceId={raceData.id}
-                    variantId={variantId}
-                    variant={variant}
-                    isSelected={selectedVariant === variantId}
-                    onSelect={handleVariantSelect}
-                  />
-                ))}
-              </div>
-              <div className="empty-state">
-                <i className="fas fa-hand-pointer"></i>
-                <p>Select a variant to view detailed information</p>
-              </div>
+              <div className="race-info-layout">
+                <div className="race-selection-content">
+                  <section className="race-variant-options" aria-labelledby="race-variant-heading">
+                    <div className="race-variant-heading">
+                      <h3 className="step-title" id="race-variant-heading">Choose a Variant</h3>
+                      <span className="race-variant-count">
+                        {Object.keys(raceData.subraces).length} {Object.keys(raceData.subraces).length === 1 ? 'variant' : 'variants'}
+                      </span>
+                    </div>
+                    <p className="race-selection-hint">Explore a variant to see its traits, abilities, and native callings.</p>
+                    <div className="variant-grid">
+                      {Object.entries(raceData.subraces).map(([variantId, variant]) => (
+                        <VariantCard
+                          key={variantId}
+                          raceId={raceData.id}
+                          variantId={variantId}
+                          variant={variant}
+                          isSelected={selectedVariant === variantId}
+                          onSelect={handleVariantSelect}
+                        />
+                      ))}
+                    </div>
+                  </section>
 
-              {/* Race Overview Container with floated illustration */}
-              <div className="race-overview-container">
-                {(variantData?.illustration || customIllustration?.src || raceData.illustration) && !imageErrors[variantData?.illustration || customIllustration?.src || raceData.illustration] && (
-                  <div className="race-overview-illustration-wrapper">
-                    <div 
-                      className={`guide-illustration-frame ${gatherIllustrations().length > 1 ? 'interactive-illustration' : ''}`}
-                      onClick={handleIllustrationClick}
-                      title={gatherIllustrations().length > 1 ? 'Click to cycle variant illustrations' : ''}
-                    >
-                      <img
-                        src={variantData?.illustration || customIllustration?.src || raceData.illustration}
-                        alt={variantData?.illustrationCaption || customIllustration?.caption || raceData.illustrationCaption || raceData.name}
-                        className="guide-illustration-image"
-                        onError={(e) => {
-                          const src = variantData?.illustration || customIllustration?.src || raceData.illustration;
-                          setImageErrors(prev => ({ ...prev, [src]: true }));
-                        }}
-                      />
-                      {gatherIllustrations().length > 1 && (
-                        <div className="illustration-cycle-badge">
-                          <i className="fas fa-sync-alt"></i> Cycle Variant
-                        </div>
+                  {raceData.overview && (
+                    <div className="race-overview-section">
+                      <div className={`race-overview-text ${raceOverviewExpanded ? 'expanded' : ''}`}>
+                        {renderLoreText(raceData.overview)}
+                      </div>
+                      {raceData.overview.length > 300 && (
+                        <button
+                          type="button"
+                          className="overview-toggle"
+                          aria-expanded={raceOverviewExpanded}
+                          onClick={() => setRaceOverviewExpanded(prev => !prev)}
+                        >
+                          {raceOverviewExpanded ? 'Show Less' : 'Read More'}
+                        </button>
                       )}
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {raceData.overview && (
-                  <div className="race-overview-section">
-                    <div
-                      className={`race-overview-text ${raceOverviewExpanded ? 'expanded' : ''}`}
-                    >
-                      {renderLoreText(raceData.overview)}
-                    </div>
-                    {raceData.overview.length > 300 && (
+                  {raceData.variantDiversity && (
+                    <section className="race-selection-notes">
+                      <h4 className="content-section-title">
+                        <i className="fas fa-users" aria-hidden="true"></i> Variant Overview
+                      </h4>
+                      <p className="content-section-text">{renderLoreText(raceData.variantDiversity)}</p>
+                    </section>
+                  )}
+
+                  {raceData.visualDescription && (
+                    <section className="race-selection-notes">
+                      <h4 className="content-section-title">
+                        <i className="fas fa-eye" aria-hidden="true"></i> Appearance
+                      </h4>
+                      <p className="content-section-text">{renderLoreText(raceData.visualDescription)}</p>
+                    </section>
+                  )}
+                </div>
+
+                <aside className="race-selection-sidebar" aria-label={`${raceData.name} portrait and shared traits`}>
+                  {hasOverviewIllustration && (
+                    <figure className="race-selection-artwork">
                       <button
-                        className="overview-toggle"
-                        onClick={() => setRaceOverviewExpanded(prev => !prev)}
+                        type="button"
+                        className="guide-illustration-frame interactive-illustration"
+                        aria-label={`Enlarge ${raceData.name} illustration`}
+                        onClick={() => setLightboxImage({
+                          src: overviewIllustration,
+                          caption: overviewIllustrationCaption,
+                          images: raceIllustrations,
+                          index: Math.max(0, raceIllustrations.findIndex(image => image.src === overviewIllustration))
+                        })}
                       >
-                        {raceOverviewExpanded ? 'Show Less' : 'Read More'}
+                        <img
+                          src={overviewIllustration}
+                          alt={overviewIllustrationCaption}
+                          className="guide-illustration-image"
+                          onError={() => setImageErrors(prev => ({ ...prev, [overviewIllustration]: true }))}
+                        />
+                        <span className="race-artwork-enlarge">
+                          <i className="fas fa-search-plus" aria-hidden="true"></i> Enlarge
+                        </span>
                       </button>
-                    )}
+                      <figcaption className="race-artwork-caption">
+                        {raceData.name}
+                        {raceData.essence && <span>{raceData.essence}</span>}
+                      </figcaption>
+                      {raceIllustrations.length > 1 && (
+                        <button type="button" className="race-artwork-cycle" onClick={handleIllustrationClick}>
+                          <i className="fas fa-sync-alt" aria-hidden="true"></i> Cycle artwork
+                        </button>
+                      )}
+                    </figure>
+                  )}
+
+                  <div className="race-shared-traits">
+                    <h4 className="content-section-title">At a Glance</h4>
+                    <dl className="race-base-traits-compact">
+                      <div className="base-trait-chip">
+                        <dt><i className="fas fa-ruler-vertical" aria-hidden="true"></i> Size</dt>
+                        <dd>{raceData.baseTraits.size}</dd>
+                      </div>
+                      <div className="base-trait-chip">
+                        <dt><i className="fas fa-shoe-prints" aria-hidden="true"></i> Speed</dt>
+                        <dd>{raceData.baseTraits.baseSpeed} ft</dd>
+                      </div>
+                      <div className="base-trait-chip">
+                        <dt><i className="fas fa-hourglass-half" aria-hidden="true"></i> Lifespan</dt>
+                        <dd>{raceData.baseTraits.lifespan}</dd>
+                      </div>
+                      <div className="base-trait-chip">
+                        <dt><i className="fas fa-globe" aria-hidden="true"></i> Languages</dt>
+                        <dd>{raceData.baseTraits.languages.join(', ')}</dd>
+                      </div>
+                    </dl>
                   </div>
-                )}
+                </aside>
               </div>
-
-              {/* Shared Base Traits */}
-              <div className="race-base-traits-compact">
-                <div className="base-trait-chip">
-                  <i className="fas fa-ruler-vertical"></i>
-                  <span>{raceData.baseTraits.size}</span>
-                </div>
-                <div className="base-trait-chip">
-                  <i className="fas fa-shoe-prints"></i>
-                  <span>{raceData.baseTraits.baseSpeed} ft</span>
-                </div>
-                <div className="base-trait-chip">
-                  <i className="fas fa-hourglass-half"></i>
-                  <span>{raceData.baseTraits.lifespan}</span>
-                </div>
-                <div className="base-trait-chip">
-                  <i className="fas fa-globe"></i>
-                  <span>{raceData.baseTraits.languages.join(', ')}</span>
-                </div>
-              </div>
-
-              {/* Variant Diversity */}
-              {raceData.variantDiversity && (
-                <p className="race-variant-diversity">{renderLoreText(raceData.variantDiversity)}</p>
-              )}
-
-              {/* Appearance */}
-              {raceData.visualDescription && (
-                <div className="content-section">
-                  <h4 className="content-section-title">
-                    <i className="fas fa-eye"></i> Appearance
-                  </h4>
-                  <p className="content-section-text">{renderLoreText(raceData.visualDescription)}</p>
-                </div>
-              )}
             </div>
           </div>
         ) : (

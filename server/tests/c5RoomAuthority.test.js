@@ -3644,6 +3644,275 @@ describe('Project 4 C5 room authority', function() {
         loaded.restore();
       }
     });
+
+    it('TEST A: a pending-only UID does not receive the reconnect password exemption', async() => {
+      const durable = createDurableCompensationStore();
+      const server = createProductionStackServer();
+      try {
+        await server.start();
+        durable.install();
+        const gmUid = server.nextUserId('gm');
+        server.registerAuthToken(`tok-${gmUid}`, gmUid);
+        const gm = server.connect({ token: `tok-${gmUid}` });
+        await connected(gm);
+        const room = await server.seedRoom(gm.id, {
+          name: 'Pending PW', gmName: 'GM', gmUserId: gmUid, members: [gmUid],
+          password: 'correct-horse', persistentRoomId: 'test-a-room'
+        });
+        room.isPermanent = true;
+        const playerUid = server.nextUserId('player');
+        server.registerAuthToken(`tok-${playerUid}`, playerUid);
+        const player = server.connect({ token: `tok-${playerUid}` });
+        await connected(player);
+
+        // The UID is in durable membership only because of an unfinished
+        // atomic grant with a pending recovery intent.
+        room.members = [gmUid, playerUid];
+        durable.store.set(`test-a-room\u0000${playerUid}`, {
+          roomId: 'test-a-room', userId: playerUid, compensationId: 'pending-1', state: 'pending_admission'
+        });
+
+        // Wrong password must be rejected: recovery resolves the pending grant
+        // BEFORE any member-based credential exemption.
+        const errorPromise = once(player, 'room_error');
+        player.emit('join_room', { roomId: 'test-a-room', playerName: 'P', password: 'wrong-password' });
+        const error = await errorPromise;
+        expect(error.code).to.equal('invalid_password');
+        expect(room.players.size).to.equal(0);
+        expect(server.players.has(player.id)).to.equal(false);
+        expect(server.io.sockets.sockets.get(player.id).rooms.has('test-a-room')).to.equal(false);
+        expect(room.members).to.deep.equal([gmUid]);
+        expect(durable.store.has(`test-a-room\u0000${playerUid}`)).to.equal(false);
+
+        // The correct password now performs a normal new admission.
+        const joined = once(player, 'room_joined');
+        player.emit('join_room', { roomId: 'test-a-room', playerName: 'P', password: 'correct-horse' });
+        const joinedPayload = await joined;
+        expect(joinedPayload.room.id).to.equal('test-a-room');
+        expect(room.members).to.include(playerUid);
+        expect(room.players.size).to.equal(1);
+      } finally {
+        await server.stop();
+      }
+    });
+
+    it('TEST B: context loss during the finalization clear prevents clean participation success', async() => {
+      const durable = createDurableCompensationStore();
+      const server = createProductionStackServer();
+      try {
+        await server.start();
+        durable.install();
+        let releaseGate = null;
+        const gate = new Promise((resolve) => { releaseGate = resolve; });
+        let enteredResolve = null;
+        const entered = new Promise((resolve) => { enteredResolve = resolve; });
+        firebaseService.addRoomMember = async(roomId, uid) => {
+          const compensationId = `comp-${uid}`;
+          durable.store.set(`${roomId}\u0000${uid}`, {
+            roomId, userId: uid, compensationId, state: 'pending_admission'
+          });
+          return { ok: true, compensationId };
+        };
+        firebaseService.clearMembershipCompensation = async(roomId, uid, options = {}) => {
+          enteredResolve();
+          await gate;
+          const key = `${roomId}\u0000${uid}`;
+          const current = durable.store.get(key);
+          if (!current || current.compensationId !== options.compensationId) {
+            return { ok: false, code: 'membership_compensation_missing' };
+          }
+          durable.store.delete(key);
+          return { ok: true, cleared: true };
+        };
+
+        const gmUid = server.nextUserId('gm');
+        server.registerAuthToken(`tok-${gmUid}`, gmUid);
+        const gm = server.connect({ token: `tok-${gmUid}` });
+        await connected(gm);
+        const roomA = await server.seedRoom(gm.id, {
+          name: 'Finalize A', gmName: 'GM', gmUserId: gmUid, members: [gmUid],
+          persistentRoomId: 'test-b-room'
+        });
+        roomA.isPermanent = true;
+        const playerUid = server.nextUserId('player');
+        server.registerAuthToken(`tok-${playerUid}`, playerUid);
+        const player = server.connect({ token: `tok-${playerUid}` });
+        await connected(player);
+
+        const errorPromise = once(player, 'room_error');
+        player.emit('join_room', { roomId: 'test-b-room', playerName: 'P' });
+        await entered;
+
+        // While the clear is paused, the socket/player binding is rebound to B.
+        const roomB = await server.seedRoom(player.id, {
+          name: 'Finalize B', gmName: 'Player', gmUserId: playerUid
+        });
+        expect(server.players.get(player.id).roomId).to.equal(roomB.id);
+
+        releaseGate();
+        const error = await errorPromise;
+        expect(error.code).to.equal('room_authority_lost');
+
+        // No stale participation in A; the replacement binding in B survives.
+        expect(roomA.players.size).to.equal(0);
+        expect(server.players.get(player.id).roomId).to.equal(roomB.id);
+        expect(server.io.sockets.sockets.get(player.id).rooms.has('test-b-room')).to.equal(false);
+        // Historical durability of the finalized membership remains truthful.
+        expect(roomA.members).to.include(playerUid);
+        expect(durable.store.size).to.equal(0);
+      } finally {
+        await server.stop();
+      }
+    });
+
+    it('TEST C: a stale finalizer cannot convert a missing intent into admission success', async() => {
+      // Part 1 - the real production clear adapter: an absent record is an
+      // explicit non-finalized outcome, and authority is validated first.
+      const cas = makeCasFakeDb();
+      const loaded = loadFirebaseServiceWithFakeDb(cas.db);
+      const clock = { value: 0 };
+      try {
+        const serviceA = roomAuthority.createRoomAuthorityService({
+          backend: roomAuthority.createFirestoreAuthorityBackend(loaded.service),
+          instanceId: 'instance-A',
+          now: () => clock.value,
+          logger: silentLogger,
+          setIntervalFn: () => ({ unref() {} }),
+          clearIntervalFn: () => {}
+        });
+        const claimA = await serviceA.acquire('c3c-missing');
+        const missing = await loaded.service.clearMembershipCompensation('c3c-missing', 'uid-c', {
+          compensationId: 'v1', authority: claimA.token
+        });
+        expect(missing.ok).to.equal(false);
+        expect(missing.code).to.equal('membership_compensation_missing');
+
+        cas.setBackendTime(40000);
+        const serviceB = roomAuthority.createRoomAuthorityService({
+          backend: roomAuthority.createFirestoreAuthorityBackend(loaded.service),
+          instanceId: 'instance-B',
+          now: () => clock.value,
+          logger: silentLogger,
+          setIntervalFn: () => ({ unref() {} }),
+          clearIntervalFn: () => {}
+        });
+        const claimB = await serviceB.acquire('c3c-missing');
+        expect(claimB.ok).to.equal(true);
+        const stale = await loaded.service.clearMembershipCompensation('c3c-missing', 'uid-c', {
+          compensationId: 'v1', authority: claimA.token
+        });
+        expect(stale.ok).to.equal(false);
+        expect(stale.code).to.equal('room_authority_lost');
+      } finally {
+        loaded.restore();
+      }
+
+      // Part 2 - the real admission finalization path with a boundary adapter
+      // whose outcomes match the production adapter.
+      const store = { members: ['gm'], compensation: null };
+      let releaseGate = null;
+      const gate = new Promise((resolve) => { releaseGate = resolve; });
+      let enteredResolve = null;
+      const entered = new Promise((resolve) => { enteredResolve = resolve; });
+      let clearCalls = 0;
+      const fakeFirebase = {
+        addRoomMember: async(roomId, uid) => {
+          store.members = Array.from(new Set([...store.members, uid]));
+          store.compensation = {
+            roomId, userId: uid, compensationId: 'comp-c', state: 'pending_admission'
+          };
+          return { ok: true, compensationId: 'comp-c' };
+        },
+        removeRoomMember: async(roomId, uid) => {
+          store.members = store.members.filter((memberId) => memberId !== uid);
+          return { ok: true };
+        },
+        listMembershipCompensations: async() => ({
+          ok: true,
+          entries: store.compensation ? [store.compensation] : []
+        }),
+        clearMembershipCompensation: async(roomId, uid) => {
+          clearCalls += 1;
+          enteredResolve();
+          await gate;
+          // B took authority, recovered the membership and removed the intent.
+          store.compensation = null;
+          store.members = store.members.filter((memberId) => memberId !== uid);
+          return { ok: false, code: 'membership_compensation_missing' };
+        }
+      };
+      const fake = createFakeAuthorityBackend();
+      const service = makeService(fake.backend, 'instance-A');
+      await service.acquire('final-c');
+      const room = fakeRoom({ id: 'final-c', gmId: 'gm', members: ['gm'] });
+      room.isPermanent = true;
+      service.attachRoom(room);
+
+      const admissionPromise = roomAccess.admitVerifiedMember({
+        socket: fakeSocket('u1', 'final-c-s'),
+        rooms: new Map([[room.id, room]]),
+        players: new Map(),
+        firebaseService: fakeFirebase,
+        uuidv4: () => 'p1',
+        room,
+        userId: 'u1',
+        playerName: 'u1',
+        playerColor: '#ffffff',
+        character: null,
+        sanitizePlayerName: (name) => name,
+        authorityService: service
+      });
+      await entered;
+      releaseGate();
+      const result = await admissionPromise;
+      expect(result.ok).to.equal(false);
+      expect(result.code).to.equal('membership_compensation_required');
+      expect(room.players.size).to.equal(0);
+      expect(store.members).to.deep.equal(['gm']);
+      expect(store.compensation).to.equal(null);
+      expect(clearCalls).to.equal(1);
+    });
+
+    it('TEST D: a normal uncontested admission still finalizes and returns clean success', async() => {
+      const durable = createDurableCompensationStore();
+      const server = createProductionStackServer();
+      try {
+        await server.start();
+        durable.install();
+        // Emulate the atomic grant+intent adapter: the membership commit
+        // returns the compensationId and the durable record exists.
+        firebaseService.addRoomMember = async(roomId, uid) => {
+          const compensationId = `comp-${uid}`;
+          durable.store.set(`${roomId}\u0000${uid}`, {
+            roomId, userId: uid, compensationId, state: 'pending_admission'
+          });
+          return { ok: true, compensationId };
+        };
+        const gmUid = server.nextUserId('gm');
+        server.registerAuthToken(`tok-${gmUid}`, gmUid);
+        const gm = server.connect({ token: `tok-${gmUid}` });
+        await connected(gm);
+        const room = await server.seedRoom(gm.id, {
+          name: 'Finalize D', gmName: 'GM', gmUserId: gmUid, members: [gmUid],
+          persistentRoomId: 'test-d-room'
+        });
+        room.isPermanent = true;
+        const playerUid = server.nextUserId('player');
+        server.registerAuthToken(`tok-${playerUid}`, playerUid);
+        const player = server.connect({ token: `tok-${playerUid}` });
+        await connected(player);
+
+        const joined = once(player, 'room_joined');
+        player.emit('join_room', { roomId: 'test-d-room', playerName: 'P' });
+        const payload = await joined;
+        expect(payload.player.userId).to.equal(playerUid);
+        expect(room.members).to.include(playerUid);
+        expect(room.players.size).to.equal(1);
+        expect(durable.store.size).to.equal(0);
+      } finally {
+        await server.stop();
+      }
+    });
   });
 });
 

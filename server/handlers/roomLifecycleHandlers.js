@@ -690,6 +690,30 @@ function registerRoomHandlers(ctx) {
         return;
       }
 
+      // C3: pending-admission recovery must be resolved BEFORE any membership-
+      // based reconnect exemption. A pending_admission UID is not proof of
+      // completed legitimate membership and must never supply a password/
+      // reconnect shortcut. Discovery failure fails closed.
+      if (room.isPermanent && authorityService &&
+        firebaseService && typeof firebaseService.removeRoomMember === 'function' &&
+        typeof firebaseService.listMembershipCompensations === 'function') {
+        let recovery;
+        try {
+          recovery = await roomAccess.retryMembershipCompensations(
+            firebaseService, authorityService, room.id, rooms
+          );
+        } catch (_error) {
+          recovery = { ok: false, code: roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE };
+        }
+        if (!recovery || recovery.ok !== true) {
+          socket.emit('room_error', {
+            error: 'Room membership recovery is temporarily unavailable; join was refused',
+            code: (recovery && recovery.code) || roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE
+          });
+          return;
+        }
+      }
+
       // Password is the initial admission credential, not perpetual proof.
       // Verified owner resume and durable member reconnect do not require it.
       let admissionClass = roomAccess.classifyAdmission(room, uid);
@@ -769,7 +793,9 @@ function registerRoomHandlers(ctx) {
         socket.emit('room_error', {
           error: admission.code === roomAccess.DENIAL_CODES.CAPACITY_REACHED ? 'Room is full'
             : admission.code === roomAccess.DENIAL_CODES.MEMBERSHIP_PERSISTENCE_FAILED ? 'Room membership could not be confirmed; join was refused'
-              : 'Unable to join this room',
+              : admission.code === roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_REQUIRED ? 'Join was refused; the room membership change needs retry'
+                : admission.code === roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE ? 'Room membership recovery is temporarily unavailable; join was refused'
+                  : 'Unable to join this room',
           code: admission.code
         });
         return;

@@ -1922,8 +1922,15 @@ export const CRUSADER_DATA = {
   overview: {
     title: "The Crusader",
     subtitle: "The Sol-Bound Zealot",
-    illustration: "/assets/images/classes/crusader_illustration.png",
-    illustrationCaption: "A Solari Crusader channeling Aex's starlight song through a shattered greatsword.",
+    illustration: "/assets/images/classes/crusader_skald_human.jpg",
+    illustrationCaption: "Skald Human Crusader — The Frost-Hearth Zealot, Nordic vanguard juggernaut planted in deep alpine snow with a glowing runic starlight hearth-blade.",
+    illustrations: [
+      { url: "/assets/images/classes/crusader_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Crusader — The Frost-Hearth Zealot, Nordic vanguard juggernaut planted in deep alpine snow with a glowing runic starlight hearth-blade." },
+      { url: "/assets/images/classes/crusader_anhur_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Solari Crusader — The Magma Crusader, volcanic vanguard knight in tectonic iron plate wielding an obsidian flameblade greatsword and embossed sun-crest tower shield." },
+      { url: "/assets/images/classes/crusader_kordak_astril.jpg", subraceId: "silath_astril", caption: "Kordak Astril Crusader — The Crystal Judgment, colossal crystalline titan with forward-curving horns locked behind a glowing amber starlight tower shield and quartz executioner greatsword." },
+      { url: "/assets/images/classes/crusader_lumian_astril.jpg", subraceId: "vashir_astril", caption: "Lumian Astril Crusader — The Starlight Vanguard, celestial paladin in sculpted silver and starlight glass raising an armillary-ringed celestial greatsword." },
+      { url: "/assets/images/classes/crusader_korr_solari.jpg", subraceId: "korr_solari", caption: "Korr Solari Crusader — The Vault-Templar, Deep-Vault holy monk with ash-branding tattoos and sun-crest gorget, resting upon a colossal basalt great-maul." }
+    ],
     originStory: `A Crusader is not a peaceful monk praying at an altar. You are a walking starlight furnace encased in sixty pounds of hammered iron and consecrated glass, standing on the rim of the dark and daring the monsters of Keth Amar to try you.
 
 When the Freezing Era fell post-Great Breach and the sun was extinguished from the heavens, six noble houses marched their firstborn heirs north to seal the dark bargains of survival. But House Solvan recognised that appeasement was merely a delayed death sentence. Led by Lord-Captain Vane Solvan, their smiths and knights broke into the sealed vaults of the fallen star Aex, prying loose fragments of pure, crystallized starlight. They did not store the relics in velvet boxes—they smelted the star-matter directly into the core of their heavy battle-plates and Greatswords.
@@ -2061,6 +2068,38 @@ Smelting a dead god into battle-plate is a Anhur forge tradition. The Kordak ref
         text: '"My skin broke in the shape of a star a century ago. I am merely passing the light forward."',
         speaker: 'Valen Prism-Blade',
         context: 'Before executing a Wyrd-Channel in the Frostwood'
+      }
+    },
+
+    vashir_astril: {
+      subraceName: 'Lumian',
+      title: 'The Starlight Vanguard',
+      reframe: `The <LoreLink termId="astril">Lumian</LoreLink> Crusaders maintain the unsuppressed celestial Stargazer lineage. Encased in silver-tempered steel and starlight glass, they align their physical strikes with Aex's falling star frequency through rotating celestial armillary rings.`,
+      signatureAbility: {
+        name: 'Starlight Armillary Pulse',
+        description: `Unleashing Harmonic Stance discharges a 15 ft radius flash of violet celestial light, blinding Wyrd creatures for 1 round and granting allies Advantage on attack rolls.`
+      },
+      currentCrisisAngle: `As the celestial alignment drifts, Lumian Crusaders feel Aex's starlight frequency shifting toward discordant harmonic distress, suspecting corruption within the Reforging Altar.`,
+      signatureQuote: {
+        text: '"A star does not negotiate with the void. It burns until the dark gives way."',
+        speaker: 'Therra Sun-Singer',
+        context: 'Addressing the Vigil Vanguard at the Obsidian Citadel'
+      }
+    },
+
+    korr_solari: {
+      subraceName: 'Korr',
+      title: 'The Vault-Templar',
+      reframe: `The <LoreLink termId="solari">Korr</LoreLink> Crusaders inherit the monastic traditions of High Prior Thaeron and Templar-Warden Malthor. Meditative Deep-Vault guardians wearing frayed sun-crest tabards over stone-tempered mail, they ground raw starlight directly through massive square-headed basalt great-mauls.`,
+      signatureAbility: {
+        name: 'Vault-Breath Consecration',
+        description: `Striking with your basalt great-maul ignites the core ember chamber, converting all ground within 10 ft into sanctified stone that grants +10 Passive DR to allies standing within.`
+      },
+      currentCrisisAngle: `Templar-Warden Malthor's disciples guard the sacred Sol's Breath hearth, standing vigilant against those who would rush the Reforging without purifying the seventh corrupted monolith.`,
+      signatureQuote: {
+        text: '"Stone does not flee the hammer. It endures until the spark takes hold."',
+        speaker: 'Templar-Warden Malthor',
+        context: 'Standing vigil before the Sol\'s Breath hearth'
       }
     }
   },

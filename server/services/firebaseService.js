@@ -1286,7 +1286,12 @@ const listMembershipCompensations = async(roomId = null) => {
  * deleted by the stale clear. When an authority token is supplied the SAME
  * transaction also requires the captured token to still be the current
  * unexpired backend holder, so a stale holder can never clear an obligation
- * after takeover.
+ * after takeover - including for an already-absent record.
+ *
+ * Record absence is NOT finalization proof: `{ok:false,
+ * code:'membership_compensation_missing'}` means the exact obligation this
+ * caller owned was never transactionally cleared here (another holder may have
+ * recovered the membership and removed the intent).
  * @param {string} roomId
  * @param {string} userId
  * @param {{compensationId?: string, authority?: Object}} [options]
@@ -1310,18 +1315,23 @@ const clearMembershipCompensation = async(roomId, userId, options = {}) => {
     return await db.runTransaction(async(transaction) => {
       const ref = db.collection(MEMBERSHIP_COMPENSATION_COLLECTION).doc(membershipCompensationDocId(roomId, userId));
       const snapshot = await transaction.get(ref);
-      if (!snapshot || snapshot.exists !== true) {
-        return { ok: true, cleared: false };
+      const exists = !!(snapshot && snapshot.exists === true);
+      if (exists) {
+        const data = (typeof snapshot.data === 'function' ? snapshot.data() : snapshot.data) || {};
+        if (data.compensationId !== expectedId) {
+          return { ok: false, code: 'compensation_replaced', cleared: false };
+        }
       }
-      const data = (typeof snapshot.data === 'function' ? snapshot.data() : snapshot.data) || {};
-      if (data.compensationId !== expectedId) {
-        return { ok: false, code: 'compensation_replaced', cleared: false };
-      }
+      // Authority is validated for EVERY outcome, including an absent record,
+      // before any success is possible.
       if (authority) {
         const authorityRef = db.collection(AUTHORITY_COLLECTION).doc(roomId);
         const authoritySnapshot = await transaction.get(authorityRef);
         const denial = verifyAuthoritySnapshot(authoritySnapshot, authority);
         if (denial) {return { ok: false, code: denial, cleared: false };}
+      }
+      if (!exists) {
+        return { ok: false, code: 'membership_compensation_missing', cleared: false };
       }
       transaction.delete(ref);
       return { ok: true, cleared: true };
