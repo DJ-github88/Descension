@@ -22,8 +22,8 @@ export const mimir = {
         caption: 'The Mist-Ferry River Mooring & Watch-Keep — Fortified wooden toll-shanty and pole-punt ferry crossing over calm mist-laden waters.'
       },
       {
-        src: '/assets/images/races/mimir_broken_figure_vaelith.jpg',
-        caption: 'Vaelith Thread-Speaker — Legendary Broken Mimir Storyteller with unmasked demon-scarred face and cascading silver ear-jewelry in rough charcoal draft with festival rose watercolor splash.'
+        src: '/assets/images/races/mimir_broken_portrait_bust.jpg',
+        caption: 'Broken Mimir Racial Portrait — Upper-torso bust of an unmasked rebel with expressive demon facial scarring, pointed demon-fae ears with dangling silver jewelry, and companion spirit motes in rough charcoal draft with festival rose watercolor splash.'
       }
     ],
     cardFlavor: 'Sereth\'s native creations: Arch keep lineage masks and archives; Broken walk unmasked beside their personal Motes.',
@@ -577,6 +577,10 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
           {
             src: '/assets/images/races/mimir_broken_location_mist_ferry.jpg',
             caption: 'The Mist-Ferry River Mooring & Watch-Keep — Fortified wooden toll-shanty and pole-punt ferry crossing over calm mist-laden waters.'
+          },
+          {
+            src: '/assets/images/races/mimir_broken_portrait_bust.jpg',
+            caption: 'Broken Mimir Racial Portrait — Upper-torso bust of an unmasked rebel with expressive demon facial scarring, pointed demon-fae ears with dangling silver jewelry, and companion spirit motes in rough charcoal draft with festival rose watercolor splash.'
           }
         ],
         visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside forever, completely rejecting the shame of hiding their faces. They wear NO masks whatsoever. Their faces are fully uncovered, distinguished by striking, elegant demon facial scarring across cheeks and brows, long pointed demon-fae ears pierced with elaborate jewelry (ear cuffs, dangling silver chains, rings, and beads), and wide soulful luminous eyes. This complete facial exposure is embraced with vibrant spirit, child-like wonder, and defiance against the stifling mask-culture of the high canopy. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light (Motes).`,

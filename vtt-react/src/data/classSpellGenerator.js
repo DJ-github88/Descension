@@ -384,7 +384,7 @@ export const generateAllClassSpells = () => {
    return;
   }
 
-  const classData = CLASS_SPECIALIZATIONS[className];
+  const classData = CLASS_SPECIALIZATIONS[className] || CLASS_SPECIALIZATIONS[CLASS_DATA_MAP[className]?.name];
   if (!classData) {
    console.warn(`No specialization data found for class ${className}, skipping spell generation`);
    return;
