@@ -25,7 +25,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 20,
         silver: 0,
         copper: 0,
-        description: 'Nethien back-alley pact-coins, still warm from the last hand that held them. Ill-gotten gains from past exploits'
+        description: 'Athien back-alley pact-coins, still warm from the last hand that held them. Ill-gotten gains from past exploits'
     },
     
     folkHero: {
@@ -33,7 +33,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Coppers pressed into a Tessen road-tavern\'s palm by grateful commoners. Humble savings from common folk'
+        description: 'Coppers pressed into a Tessic road-tavern\'s palm by grateful commoners. Humble savings from common folk'
     },
     
     noble: {
@@ -41,7 +41,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 50,
         silver: 0,
         copper: 0,
-        description: 'Thalren house-leadger silver, sealed with the family\'s sigil-ring. Generous family allowance'
+        description: 'Tallyn house-leadger silver, sealed with the family\'s sigil-ring. Generous family allowance'
     },
     
     sage: {
@@ -57,7 +57,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 12,
         silver: 0,
         copper: 0,
-        description: 'Waste-Solari border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
+        description: 'Anhur border-ranger pay-pouches, ledger-stamped at the Greymark garrison. Military pay and saved wages'
     },
     
     outlander: {
@@ -89,7 +89,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 15,
         silver: 0,
         copper: 0,
-        description: 'Vreken guild-stamped marks from the wagon-fort markets. Earnings from guild craft sales'
+        description: 'Mycellan guild-stamped marks from the wagon-fort markets. Earnings from guild craft sales'
     },
     
     hermit: {
@@ -113,7 +113,7 @@ export const BACKGROUND_STARTING_CURRENCY = {
         gold: 25,
         silver: 0,
         copper: 0,
-        description: 'Vreken caravan-trade silver, bound for the holding markets. Starting trade capital'
+        description: 'Mycellan caravan-trade silver, bound for the holding markets. Starting trade capital'
     },
     
     urchin: {
@@ -222,7 +222,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 10,
         silver: 0,
         copper: 0,
-        description: 'Nethien contract-house kickbacks from fine-print clauses. Extra funds from clever schemes'
+        description: 'Athien contract-house kickbacks from fine-print clauses. Extra funds from clever schemes'
     },
     
     harrow: {
@@ -254,7 +254,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 6,
         silver: 0,
         copper: 0,
-        description: 'Waste-Solari battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
+        description: 'Anhur battlefield-scavenged coin-pouches from the fallen. Spoils from past battles'
     },
     
     mercenary: {

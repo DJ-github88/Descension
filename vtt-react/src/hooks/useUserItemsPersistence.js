@@ -19,6 +19,7 @@ export const useUserItemsPersistence = () => {
   const useItemStore = require('../store/itemStore').default;
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
+  const syncedItemsRef = useRef(new Map());
   const items = useItemStore(useShallow(state => state.items));
 
   const isUserCreatedItem = useCallback((item) => {
@@ -111,6 +112,10 @@ export const useUserItemsPersistence = () => {
           items: [...builtInItems, ...allUserItems]
         });
 
+        // Mark loaded items as already-synced so they are not immediately
+        // re-written (and so their local edits are detected afterwards).
+        syncedItemsRef.current = new Map(allUserItems.map(i => [i.id, JSON.stringify(i)]));
+
         console.log(`📂 Loaded ${firebaseItems.length} user items from Firebase, merged with ${missingLocalItems.length} local items`);
       }
     } catch (error) {
@@ -128,26 +133,37 @@ export const useUserItemsPersistence = () => {
 
     const userItems = getUserItems();
 
-    // Find items that don't have Firebase timestamps (newly created)
-    const unsyncedItems = userItems.filter(item =>
-      !item.createdAt || !item.updatedAt || !item.userId
+    // Save any item whose content changed since the last successful sync.
+    // Comparing content (not just timestamp presence) means edits to an
+    // already-synced item are persisted, and unchanged items are not rewritten.
+    const pending = userItems.filter(item =>
+      syncedItemsRef.current.get(item.id) !== JSON.stringify(item)
     );
 
-    if (unsyncedItems.length > 0) {
-      console.log(`🔄 Syncing ${unsyncedItems.length} new items to Firebase`);
+    if (pending.length > 0) {
+      console.log(`🔄 Syncing ${pending.length} changed item(s) to Firebase`);
 
-      for (const item of unsyncedItems) {
+      for (const item of pending) {
         try {
-          await saveItem({
+          const result = await saveItem({
             ...item,
             userId: user.uid,
-            createdAt: new Date().toISOString(),
+            createdAt: item.createdAt || new Date().toISOString(),
             updatedAt: new Date().toISOString()
           });
+          if (result?.success) {
+            syncedItemsRef.current.set(item.id, JSON.stringify(item));
+          }
         } catch (error) {
           console.error(`Failed to sync item ${item.id}:`, error);
         }
       }
+    }
+
+    // Drop tracking for items that no longer exist.
+    const liveIds = new Set(userItems.map(i => i.id));
+    for (const key of Array.from(syncedItemsRef.current.keys())) {
+      if (!liveIds.has(key)) syncedItemsRef.current.delete(key);
     }
   }, [user, getUserItems, saveItem]);
 

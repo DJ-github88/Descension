@@ -84,7 +84,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         basic: {
             name: 'Basic Walls',
             icon: 'Utility/Barred Shield',
-            walls: ['stone_wall', 'stone_wall_lowpoly', 'wooden_wall', 'brick_wall', 'gothic_stone', 'gothic_stone_damaged']
+            walls: ['stone_wall', 'stone_wall_lowpoly', 'wooden_wall', 'brick_wall', 'gothic_stone', 'gothic_stone_damaged', 'gothic_stone_column']
         },
         fences: {
             name: 'Fences & Barriers',
@@ -94,12 +94,12 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         variations: {
             name: 'Variations & Parapets',
             icon: 'Utility/Barred Shield',
-            walls: ['half_wall', 'crypt_arch', 'wall_arched', 'wall_gated', 'wall_cracked', 'wall_broken', 'wall_shelves']
+            walls: ['half_wall', 'crypt_arch', 'wall_arched', 'wall_gated', 'wall_cracked', 'wall_broken', 'wall_shelves', 'wall_pillar']
         },
         pillars: {
             name: 'Pillars & Posts',
             icon: 'Utility/Falling Block',
-            walls: ['stone_column', 'wooden_column', 'pillar_decorated', 'column_large', 'gothic_stone_column', 'wall_pillar']
+            walls: ['stone_column', 'wooden_column', 'pillar_decorated', 'column_large']
         },
         advanced: {
             name: 'Advanced Materials',

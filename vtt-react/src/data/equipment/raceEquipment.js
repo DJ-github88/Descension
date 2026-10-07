@@ -11,11 +11,11 @@
 export const HUMAN_BASE_ITEMS = [
     {
         id: 'human-longsword',
-        name: 'Thalren Reach-Blade',
+        name: 'Tallyn Reach-Blade',
         type: 'weapon',
         subtype: 'SWORD',
         quality: 'common',
-        description: 'A well-balanced longsword of Fog-Compact ironwood and bog-iron, standard issue for the lineage-keeps of House Thalren.',
+        description: 'A well-balanced longsword of Fog-Compact ironwood and bog-iron, standard issue for the lineage-keeps of House Tallyn.',
         iconId: 'inv_sword_04',
         value: { platinum: 0, gold: 7, silver: 25, copper: 50 },
         weight: 3,
@@ -302,7 +302,7 @@ export const SOLARI_BASE_ITEMS = [
     }
 ];
 
-// Vreken base items
+// Mycellan base items
 export const VREKEN_BASE_ITEMS = [
     {
         id: 'vreken-shadow-gloves',
@@ -310,7 +310,7 @@ export const VREKEN_BASE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'Gloves of Root-Veil silk that drink the light the way the Hush-Bogs drink memory. A Vreken tool of the deep groves.',
+        description: 'Gloves of Root-Veil silk that drink the light the way the Hush-Bogs drink memory. A Mycellan tool of the deep groves.',
         iconId: 'inv_gauntlets_23',
         value: { platinum: 0, gold: 7, silver: 85, copper: 50 },
         weight: 0.5,
@@ -332,7 +332,7 @@ export const VREKEN_BASE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A cloak of ghost-mycelium weave that bends the eye away. The Clean Vreken wear these to walk where the spore-hush cannot follow.',
+        description: 'A cloak of ghost-mycelium weave that bends the eye away. The Bedel wear these to walk where the spore-hush cannot follow.',
         iconId: 'inv_misc_cape_21',
         value: { platinum: 0, gold: 9, silver: 60, copper: 40 },
         weight: 2,
@@ -349,7 +349,7 @@ export const VREKEN_BASE_ITEMS = [
     }
 ];
 
-// Nethien base items
+// Athien base items
 export const NETH_BASE_ITEMS = [
     {
         id: 'neth-death-ring',
@@ -379,7 +379,7 @@ export const NETH_BASE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Boots of Atropolis ironwood, silent on the contract-house floors. A Nethien debt-collector walks where the dying cannot hear.',
+        description: 'Boots of Atropolis ironwood, silent on the contract-house floors. A Athien debt-collector walks where the dying cannot hear.',
         iconId: 'inv_boots_08',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 2,
@@ -452,7 +452,7 @@ export const FERRICK_BASE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'Gauntlets of copper-plate reinforcement, standard issue for Fexric warren-workers who handle gear-assemblies behind the blast-doors.',
+        description: 'Gauntlets of copper-plate reinforcement, standard issue for Fex warren-workers who handle gear-assemblies behind the blast-doors.',
         iconId: 'inv_gauntlets_10',
         value: { platinum: 0, gold: 5, silver: 50, copper: 75 },
         weight: 1,
@@ -477,7 +477,7 @@ agility: { value: 1, isPercentage: false }
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'common',
-        description: 'A belt hung with the guild-vault tools a Fexric carries: calipers, pinion-keys, and fragment-page notes stitched into the lining.',
+        description: 'A belt hung with the guild-vault tools a Fex carries: calipers, pinion-keys, and fragment-page notes stitched into the lining.',
         iconId: 'inv_belt_05',
         value: { platinum: 0, gold: 4, silver: 75, copper: 50 },
         weight: 2,
@@ -661,7 +661,7 @@ export const FLORAE_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A mirror of ghost-metal polish that shows the face beneath an Oken Floraes borrowed name. The Hollow-Court trades in what it reveals.',
+        description: 'A mirror of ghost-metal polish that shows the face beneath an Oaken Floraes borrowed name. The Hollow-Court trades in what it reveals.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 1,
@@ -682,7 +682,7 @@ export const FLORAE_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Living thorn-plate grown from a Viridian Floraes own skin. The Thorn-Fall records every wound it absorbs.',
+        description: 'Living thorn-plate grown from a Briaren Floraes own skin. The Thorn-Fall records every wound it absorbs.',
         iconId: 'inv_chest_leather_04',
         value: { platinum: 0, gold: 9, silver: 60, copper: 40 },
         weight: 10,
@@ -846,7 +846,7 @@ export const SOLARI_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'An ash-cloth cloak from the Waste-Solari forges. The caldera-wind taught the weave to shed cinder and ember alike.',
+        description: 'An ash-cloth cloak from the Anhur forges. The caldera-wind taught the weave to shed cinder and ember alike.',
         iconId: 'inv_misc_cape_18',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 3,
@@ -870,7 +870,7 @@ export const SOLARI_SUBRACE_ITEMS = [
         type: 'weapon',
         subtype: 'SWORD',
         quality: 'uncommon',
-        description: 'A Hollow-Solari-forged blade quenched in Sol\'s Breath-light. The Dawn Vigil issues these to its most devoted sworn-swords.',
+        description: 'A Korr-forged blade quenched in Sol\'s Breath-light. The Dawn Vigil issues these to its most devoted sworn-swords.',
         iconId: 'inv_sword_48',
         value: { platinum: 0, gold: 12, silver: 50, copper: 75 },
         weight: 3,
@@ -896,7 +896,7 @@ export const SOLARI_SUBRACE_ITEMS = [
     }
 ];
 
-// Vreken subrace items
+// Mycellan subrace items
 export const VREKEN_SUBRACE_ITEMS = [
     {
         id: 'hunter-beast-claw',
@@ -904,7 +904,7 @@ export const VREKEN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'LEATHER',
         quality: 'uncommon',
-        description: 'Gauntlets tipped with the calcified growths of a Marked Vrekens own bones. The Root-Veil marks its own.',
+        description: 'Gauntlets tipped with the calcified growths of a Cromyx Mycellan\'s own bones. The Root-Veil marks its own.',
         iconId: 'inv_gauntlets_08',
         value: { platinum: 0, gold: 9, silver: 75, copper: 50 },
         weight: 2,
@@ -928,7 +928,7 @@ export const VREKEN_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'RING',
         quality: 'uncommon',
-        description: 'A ring of Clean Vreken making, forged to suppress the fungal-heritage that strains against the surface. It steadies the spirit at the cost of the hunger beneath.',
+        description: 'A ring of Bedel making, forged to suppress the fungal-heritage that strains against the surface. It steadies the spirit at the cost of the hunger beneath.',
         iconId: 'inv_jewelry_ring_28',
         value: { platinum: 0, gold: 8, silver: 60, copper: 40 },
         weight: 0.1,
@@ -992,7 +992,7 @@ export const VREKEN_SUBRACE_ITEMS = [
     }
 ];
 
-// Nethien subrace items
+// Athien subrace items
 export const NETH_SUBRACE_ITEMS = [
     {
         id: 'vault-keeper-seal',
@@ -1000,7 +1000,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A Veldun contract-seal stamped in bog-iron, authorizing the bearer to enter the deepest Atropolis vaults where the First Contract sleeps.',
+        description: 'A Weft contract-seal stamped in bog-iron, authorizing the bearer to enter the deepest Atropolis vaults where the First Contract sleeps.',
         iconId: 'inv_misc_gem_pearl_05',
         value: { platinum: 0, gold: 9, silver: 50, copper: 75 },
         weight: 0.5,
@@ -1021,7 +1021,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A Nethien quill that writes in silver-leaf ink, drafting contract-clauses so tight Morvane has never found a gap. The ink never dries.',
+        description: 'A Athien quill that writes in silver-leaf ink, drafting contract-clauses so tight Morvane has never found a gap. The ink never dries.',
         iconId: 'inv_feather_12',
         value: { platinum: 0, gold: 7, silver: 85, copper: 25 },
         weight: 0.1,
@@ -1043,7 +1043,7 @@ export const NETH_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A cloak of the Over-Shanty, woven from the legal nonexistence of the Withered. It wears the absence of a name.',
+        description: 'A cloak of the Over-Shanty, woven from the legal nonexistence of the Riven. It wears the absence of a name.',
         iconId: 'inv_misc_cape_20',
         value: { platinum: 0, gold: 10, silver: 50, copper: 75 },
         weight: 1,
@@ -1068,7 +1068,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Brutish Astril crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
+        description: 'A Kordak crystal-veil that cages Lumian resonance behind mental discipline. The Submersion threshold recedes while it is worn.',
         iconId: 'inv_helmet_31',
         value: { platinum: 0, gold: 10, silver: 75, copper: 25 },
         weight: 1,
@@ -1089,7 +1089,7 @@ export const ASTREN_SUBRACE_ITEMS = [
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'uncommon',
-        description: 'A Stargazer Astril crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
+        description: 'A Lumian crown that lets Lumia\'s echo burn bright and unchained. The host\'s chest glows like a captured star.',
         iconId: 'inv_crown_01',
         value: { platinum: 0, gold: 12, silver: 50, copper: 75 },
         weight: 1,
@@ -1135,7 +1135,7 @@ export const FERRICK_SUBRACE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A Caustic Fexric toolkit assembled from stolen guild-vault fragments. Every tool is improvised from half-understood blueprints, and most of them work.',
+        description: 'A Alchemite toolkit assembled from stolen guild-vault fragments. Every tool is improvised from half-understood blueprints, and most of them work.',
         iconId: 'inv_misc_enggizmos_27',
         value: { platinum: 0, gold: 7, silver: 75, copper: 50 },
         weight: 2,
@@ -1155,7 +1155,7 @@ export const FERRICK_SUBRACE_ITEMS = [
         type: 'weapon',
         subtype: 'MACE',
         quality: 'uncommon',
-        description: 'Clockwork Fexric-forged knuckle-guards stamped with a Master Craft-Guild seal. The guild-vaults teach that every mechanism, including a fist, benefits from reinforcement.',
+        description: 'Brasskin-forged knuckle-guards stamped with a Master Craft-Guild seal. The guild-vaults teach that every mechanism, including a fist, benefits from reinforcement.',
         iconId: 'inv_gauntlets_08',
         value: { platinum: 0, gold: 8, silver: 50, copper: 75 },
         weight: 2,
@@ -1261,7 +1261,7 @@ export const HUMAN_SUBRACE_ITEMS = [
     },
     {
         id: 'ordan-steppe-stave-fitting',
-        name: 'Ordan Steppe-Stave Fitting',
+        name: 'Ordu Steppe-Stave Fitting',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',

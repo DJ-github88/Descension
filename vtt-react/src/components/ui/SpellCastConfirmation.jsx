@@ -2,6 +2,8 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import { migrateBlockId } from '../../utils/arcanoneerMigration';
+import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
+import { MINSTREL_PITCHES, MINSTREL_MAX_PER_PITCH } from '../../data/classResourceBanks';
 import './SpellCastConfirmation.css';
 
 const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: classResourceProp }) => {
@@ -9,7 +11,9 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     const currentMana = useCharacterStore(state => state.mana);
     const currentAP = useCharacterStore(state => state.actionPoints);
     const storeClassResource = useCharacterStore(state => state.classResource);
-    const currentClassResource = classResourceProp || storeClassResource;
+    const characterClass = useCharacterStore(state => state.class);
+    const resourceClass = classResourceProp?.type ? undefined : characterClass;
+    const currentClassResource = normalizeManagedClassResource(classResourceProp || storeClassResource, resourceClass);
 
     if (!spell) return null;
 
@@ -37,39 +41,18 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     const manaCost = resourceValues.mana || resourceCost.mana || 0;
     const apCost = resourceCost.actionPoints || 0;
     
-    // Extract class resource changes
-    // IMPORTANT: inferno_ascend is a GAIN, not a requirement - it should NOT block casting
-    // Only inferno_required should block casting
-    const infernoAscend = resourceValues.inferno_ascend || spell.infernoAscend || 0;
-    const infernoDescend = resourceValues.inferno_descend || spell.infernoDescend || 0;
-    
-    // CRITICAL: If a spell has inferno_ascend (gain), it means you're GAINING inferno
-    // Therefore, you should NOT need inferno to cast it - ignore inferno_required in this case
-    // This handles incorrectly configured spell data where both are set
-    let infernoRequired = 0;
-    if (infernoAscend === 0) {
-        // Only check inferno_required if there's no inferno_ascend (gain)
-        // If you're gaining inferno, you don't need it to cast
-        infernoRequired = resourceValues.inferno_required || spell.infernoRequired || 0;
-    } else {
-        // Spell has inferno_ascend (gain) - ignore any inferno_required value
-        // Log if there's a conflicting value in the data
-        const rawInfernoRequired = resourceValues.inferno_required || spell.infernoRequired || 0;
-        if (rawInfernoRequired > 0) {
-            console.warn(`Spell "${spell.name}" has both inferno_ascend (gain) and inferno_required. Ignoring requirement since spell gains inferno.`, {
-                infernoAscend,
-                rawInfernoRequired,
-                note: 'Spell gains inferno, so requirement is ignored'
-            });
-        }
-    }
+    // Ascension is a gain, but it never removes a separate pre-cast minimum.
+    const infernoAscend = spell.infernoAscend ?? resourceValues.inferno_ascend ?? 0;
+    const infernoDescend = spell.infernoDescend ?? resourceValues.inferno_descend ?? 0;
+    const infernoRequired = spell.infernoRequired ?? resourceValues.inferno_required ?? 0;
 
     // Generic class resource changes (Tension, Authority, Ancestral Resonance, …)
     // Chronarch Time Shards render through their dedicated fields.
     const genericCr = resourceCost.classResource || {};
     const genericCrType = genericCr.type;
     const genericCrCost = Number(genericCr.cost || 0);
-    const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+    const managedPlan = getManagedSpellResourcePlan(spell, currentClassResource, resourceClass);
+    const usesGenericCr = !managedPlan.handled && genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
     const genericCrLabel = genericCrType
         ? genericCrType.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
         : 'Class Resource';
@@ -78,13 +61,15 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
 
     // Extract Arcanoneer elemental spheres requirement
     const requiredSpheres = [];
-    if (Array.isArray(spell._arcanoneerElements)) {
+    if (managedPlan.bank === 'spheres') {
+        requiredSpheres.push(...managedPlan.costs);
+    } else if (!managedPlan.bank && Array.isArray(spell._arcanoneerElements)) {
         spell._arcanoneerElements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
-    } else if (Array.isArray(spell.elements)) {
+    } else if (!managedPlan.bank && Array.isArray(spell.elements)) {
         spell.elements.forEach(el => requiredSpheres.push(migrateBlockId(el)));
-    } else if (Array.isArray(resourceCost.spheres)) {
+    } else if (!managedPlan.bank && Array.isArray(resourceCost.spheres)) {
         resourceCost.spheres.forEach(el => requiredSpheres.push(migrateBlockId(el)));
-    } else if (resourceValues) {
+    } else if (!managedPlan.bank && resourceValues) {
         Object.entries(resourceValues).forEach(([key, val]) => {
             if (key.endsWith('_sphere')) {
                 const elem = migrateBlockId(key.replace('_sphere', ''));
@@ -131,8 +116,9 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
     const hasEnoughMana = !manaCost || (currentMana && currentMana.current >= manaCost);
     const hasEnoughAP = !apCost || (currentAP && currentAP.current >= apCost);
     // Only check inferno_required - inferno_ascend does NOT block casting
-    const hasEnoughInferno = !infernoRequired || (currentClassResource && currentClassResource.current >= infernoRequired);
-    const canCast = hasEnoughMana && hasEnoughAP && hasEnoughInferno && hasEnoughSpheres && hasEnoughGenericCr;
+    const hasEnoughInferno = managedPlan.handled || !infernoRequired || (currentClassResource && currentClassResource.current >= infernoRequired);
+    const canCast = hasEnoughMana && hasEnoughAP && hasEnoughInferno && hasEnoughSpheres && hasEnoughGenericCr &&
+        (!managedPlan.handled || managedPlan.affordable);
 
     // Build resource cost display with availability indicators
     const resourceCosts = [];
@@ -166,15 +152,55 @@ const SpellCastConfirmation = ({ spell, onConfirm, onCancel, classResource: clas
             insufficient: !hasEnoughGenericCr
         });
     }
+    if (managedPlan.handled && !managedPlan.bank && Math.max(managedPlan.cost, managedPlan.required) > 0) {
+        resourceCosts.push({
+            type: 'class-resource', amount: Math.max(managedPlan.cost, managedPlan.required),
+            label: managedPlan.label, current: managedPlan.current,
+            max: currentClassResource?.max || 0, insufficient: !managedPlan.affordable
+        });
+    }
     // Add elemental sphere costs
     resourceCosts.push(...sphereResourceCosts);
+    if (managedPlan.bank === 'notes') {
+        MINSTREL_PITCHES.forEach((numeral, index) => {
+            const amount = managedPlan.costs.filter(key => key === numeral).length;
+            if (amount) resourceCosts.push({ type: 'class-resource', amount, label: `Note ${numeral}`,
+                current: currentClassResource?.notes?.[index] || 0, max: MINSTREL_MAX_PER_PITCH,
+                insufficient: (currentClassResource?.notes?.[index] || 0) < amount });
+        });
+    }
 
     // Build resource changes display
     const resourceChanges = [];
-    if (infernoAscend > 0) {
+    if (managedPlan.transition === 'shaper') {
+        resourceChanges.push({ type: 'class-resource', amount: `${managedPlan.current} → ${managedPlan.nextResource.current}`, label: 'Flux balance', color: '#34d399' });
+        resourceChanges.push({ type: 'class-resource', amount: `${managedPlan.nextResource.bodyToll}/10`, label: 'Body Toll (risk)', color: '#f87171' });
+        if (managedPlan.reason) resourceChanges.push({ type: 'class-resource', amount: 'Required', label: managedPlan.reason, color: '#f87171' });
+        if (managedPlan.targetForm) resourceChanges.push({ type: 'class-resource', amount: 'Adopt', label: managedPlan.targetForm, color: '#a78bfa' });
+    }
+    if (managedPlan.transition === 'infernoVeil') {
+        resourceChanges.push({ type: 'inferno', amount: `${managedPlan.current} → ${managedPlan.nextResource.current}`,
+            label: 'Veil transition', color: '#ff4500' });
+        if (managedPlan.nextResource.debtCall.latched) resourceChanges.push({ type: 'class-resource',
+            amount: `${managedPlan.nextResource.debtCall.turnsRemaining} own turn${managedPlan.nextResource.debtCall.turnsRemaining === 1 ? '' : 's'}`,
+            label: managedPlan.nextResource.debtCall.expired ? 'Debt Call expired — consequence due' : 'Debt Call remains latched', color: '#f87171' });
+    }
+    if (managedPlan.deferredGeneration) resourceChanges.push({
+        type: 'class-resource', amount: 'Report', label: 'Resolved pack outcome (no cast-only Marks)', color: '#a78bfa'
+    });
+    if (managedPlan.bank) {
+        const keys = [...new Set(managedPlan.gains)];
+        keys.forEach(key => resourceChanges.push({ type: 'class-resource',
+            amount: `+${managedPlan.gains.filter(value => value === key).length}`,
+            label: managedPlan.bank === 'notes' ? `Note ${key}` : `${key} Sphere`, color: '#a78bfa' }));
+    }
+    if (managedPlan.handled && !managedPlan.bank && !managedPlan.transition && managedPlan.gain > 0) resourceChanges.push({
+        type: 'class-resource', amount: `+${managedPlan.gain}`, label: managedPlan.label, color: '#a78bfa'
+    });
+    if (!managedPlan.handled && infernoAscend > 0) {
         resourceChanges.push({ type: 'inferno', amount: `+${infernoAscend}`, label: 'Inferno', color: '#ff4500' });
     }
-    if (infernoDescend > 0) {
+    if (!managedPlan.handled && infernoDescend > 0) {
         resourceChanges.push({ type: 'inferno', amount: `-${infernoDescend}`, label: 'Inferno', color: '#4682b4' });
     }
     if (usesGenericCr && genericCrCost < 0) {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TimelineDisplay.css';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import useTimelineStore from '../../store/timelineStore';
 
 const EVENT_ART_MAP = {};
@@ -125,8 +126,8 @@ const TimelineDisplay = () => {
                   <div className="timeline-events-list">
                     {era.events.map((ev, ei2) => {
                       const artImage = getEventArt(ev.title);
-                      const eraLabel = { 'before-deepening': 'The Primordial Dawn', 'star-fall-binding': 'The Long Pacting', 'ingress-breach': 'The Years of Whispers', 'freezing-era': 'The Freezing Era' };
-        const dateStr = ev.dateDisplay || (ev.date && typeof ev.date === 'object' ? (eraLabel[ev.date.eraId] || 'The Freezing Era') : ev.date) || '';
+                      const dateStr = ev.dateDisplay || (ev.date && typeof ev.date === 'object'
+                        ? (era.yearRange || era.name || 'The Freezing Era') : ev.date) || '';
                       const narrativeText = ev.narrative || ev.description || '';
 
                       return (
@@ -146,10 +147,10 @@ const TimelineDisplay = () => {
                               </div>
                             )}
                             <p className="timeline-card-text" dangerouslySetInnerHTML={{
-                              __html: narrativeText.replace(
+                              __html: sanitizeHtml(narrativeText.replace(
                                 /\*\*(.*?)\*\*/g,
                                 '<strong>$1</strong>'
-                              )
+                              ))
                             }} />
                           </div>
 

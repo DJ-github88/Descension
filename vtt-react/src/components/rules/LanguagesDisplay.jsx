@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../data/languages';
+import { SEEDED_LANGUAGES } from '../../data/seedLanguages';
 import './BackgroundSelector.css';
 
 const PUB = process.env.PUBLIC_URL || '';
@@ -24,9 +25,56 @@ const CATEGORY_SCRIPT_META = {
 
 const COMMON_LANGUAGES = LANGUAGES;
 
+// The nine seeded world tongues are registers/scripts/ciphers of a parent tongue,
+// surfaced here so the codex and the world registry agree (blueprint §8.2).
+const REGISTERS_BY_PARENT = SEEDED_LANGUAGES.reduce((acc, seed) => {
+  if (!seed.parentLanguage) return acc;
+  if (!acc[seed.parentLanguage]) acc[seed.parentLanguage] = [];
+  acc[seed.parentLanguage].push(seed);
+  return acc;
+}, {});
+
 const LanguagesDisplay = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const totalLanguages = COMMON_LANGUAGES.length;
+  const currentLanguageIndex = selectedLanguage
+    ? COMMON_LANGUAGES.findIndex(lang => lang.name === selectedLanguage.name)
+    : -1;
+  const prevLanguage = currentLanguageIndex >= 0
+    ? COMMON_LANGUAGES[(currentLanguageIndex - 1 + totalLanguages) % totalLanguages]
+    : null;
+  const nextLanguage = currentLanguageIndex >= 0
+    ? COMMON_LANGUAGES[(currentLanguageIndex + 1) % totalLanguages]
+    : null;
+
+  const goToLanguage = (offset) => {
+    if (currentLanguageIndex < 0) return;
+    const target = COMMON_LANGUAGES[(currentLanguageIndex + offset + totalLanguages) % totalLanguages];
+    setSelectedLanguage(target);
+    setSelectedCategory(target.category);
+  };
+
+  // Arrow keys step through every tongue in the codex while a folio is open.
+  useEffect(() => {
+    if (!selectedLanguage) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      const target = event.target;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) return;
+      event.preventDefault();
+      const index = COMMON_LANGUAGES.findIndex(lang => lang.name === selectedLanguage.name);
+      if (index < 0) return;
+      const step = event.key === 'ArrowLeft' ? -1 : 1;
+      const nextTongue = COMMON_LANGUAGES[(index + step + totalLanguages) % totalLanguages];
+      setSelectedLanguage(nextTongue);
+      setSelectedCategory(nextTongue.category);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedLanguage, totalLanguages]);
 
   const languagesByCategory = COMMON_LANGUAGES.reduce((acc, lang) => {
     if (!acc[lang.category]) acc[lang.category] = [];
@@ -66,7 +114,7 @@ const LanguagesDisplay = () => {
 
             <div className="scroll-section">
               <h5><i className="fas fa-scroll"></i> How Tongues Work</h5>
-              <p>Every creature that can be parleyed with speaks at least one tongue from this codex. <strong>Common</strong> carries you through markets and muster-fields; everything else opens a door that Common cannot — a closed court, a cold ritual, a whispering mycelium, a wind that answers back.</p>
+              <p>Every creature that can be parleyed with speaks at least one tongue from this codex. <strong>Wayfarer&apos;s Cant</strong> carries you through markets and muster-fields; everything else opens a door that Wayfarer&apos;s Cant cannot — a closed court, a cold ritual, a whispering mycelium, a wind that answers back.</p>
               <ul>
                 <li><strong>Your race speaks first</strong> — granted automatically and always legible on your sheet.</li>
                 <li><strong>Background & path</strong> add 1–2 learned tongues of your choice.</li>
@@ -80,13 +128,13 @@ const LanguagesDisplay = () => {
               <div className="dc-reference-grid lang-at-table-grid">
                 <div className="dc-row"><span>Speak</span><strong>Be understood</strong><span>Whisper, shout, or throat-sing — if the listener knows it, they hear you</span></div>
                 <div className="dc-row"><span>Scribe</span><strong>Read & write</strong><span>Letters, contracts, frozen phylacteries — ink is the tongue made durable</span></div>
-                <div className="dc-row"><span>Cipher</span><strong>Secret cant</strong><span>Thieves&apos; marks, druidic knots, Trickster&apos;s nested lies — meaning hidden in plain speech</span></div>
+                <div className="dc-row"><span>Cipher</span><strong>Secret cant</strong><span>Under-Cant marks, Grove-Sign knots, Trickster&apos;s nested lies — meaning hidden in plain speech</span></div>
               </div>
             </div>
 
             <div className="scroll-section" style={{ marginBottom: 0 }}>
-              <h5><i className="fas fa-map"></i> Seven Regions, Thirty-Five Tongues</h5>
-              <p>From Gloom-Tongue murmured beneath Atropolis to Terran grinding in the Cragjaw deep, each language carries the <strong>memory of its people</strong> — their bargains, their exiles, their surviving gods. Learn the tongue and you inherit a fraction of that memory.</p>
+              <h5><i className="fas fa-map"></i> Seven Regions, {COMMON_LANGUAGES.length} Tongues</h5>
+              <p>From Gloom-Tongue murmured beneath Atropolis to Span-Speech grinding in the Cragjaw deep, each language carries the <strong>memory of its people</strong> — their bargains, their exiles, their surviving gods. Learn the tongue and you inherit a fraction of that memory.</p>
             </div>
           </div>
         </div>
@@ -119,6 +167,8 @@ const LanguagesDisplay = () => {
                       src={`${PUB}/assets/images/${LANG_WATERCOLOR[categoryId]}.png`}
                       alt=""
                       aria-hidden="true"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   )}
@@ -257,6 +307,40 @@ const LanguagesDisplay = () => {
               </div>
             </div>
 
+            <div className="lang-folio-nav" role="group" aria-label="Switch language">
+              <button
+                type="button"
+                className="lang-nav-btn"
+                onClick={() => goToLanguage(-1)}
+                title={`Previous: ${prevLanguage.name}`}
+                aria-label={`Previous tongue: ${prevLanguage.name}`}
+              >
+                <i className="fas fa-chevron-left" aria-hidden="true"></i>
+                <span className="lang-nav-text">
+                  <em>Previous</em>
+                  <span>{prevLanguage.name}</span>
+                </span>
+              </button>
+
+              <span className="lang-nav-position" title="Position in the codex">
+                {currentLanguageIndex + 1} / {totalLanguages}
+              </span>
+
+              <button
+                type="button"
+                className="lang-nav-btn next"
+                onClick={() => goToLanguage(1)}
+                title={`Next: ${nextLanguage.name}`}
+                aria-label={`Next tongue: ${nextLanguage.name}`}
+              >
+                <span className="lang-nav-text">
+                  <em>Next</em>
+                  <span>{nextLanguage.name}</span>
+                </span>
+                <i className="fas fa-chevron-right" aria-hidden="true"></i>
+              </button>
+            </div>
+
             <div className="lang-folio-script-box">
               <div className="lang-folio-script-row">
                 <i className="fas fa-music"></i>
@@ -280,7 +364,20 @@ const LanguagesDisplay = () => {
             <h4>House Ledger — {categoryData.name}</h4>
             <ul className="equipment-items">
               {languagesByCategory[selectedLanguage.category].map((language) => (
-                <li key={language.name} className={language.name === selectedLanguage.name ? 'is-active' : ''}>
+                <li
+                  key={language.name}
+                  className={`lang-ledger-jump ${language.name === selectedLanguage.name ? 'is-active' : ''}`}
+                  onClick={() => { setSelectedLanguage(language); setSelectedCategory(language.category); }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelectedLanguage(language);
+                      setSelectedCategory(language.category);
+                    }
+                  }}
+                >
                   <i className={`fas ${language.icon}`}></i>
                   <span>{language.name}</span>
                   {language.name === selectedLanguage.name && <em> — you are here</em>}
@@ -309,22 +406,6 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Those who study spirit-genealogies</li>
                 </>
               )}
-              {selectedLanguage.name === 'Thrumm-Speech' && (
-                <>
-                  <li><i className="fas fa-check"></i> Ancient stone-trolls of the Cragjaw Peaks</li>
-                  <li><i className="fas fa-check"></i> The mountain's own mineral consciousness</li>
-                  <li><i className="fas fa-check"></i> Geothermal entities and deep-earth beings</li>
-                  <li><i className="fas fa-check"></i> Hermits who spend decades learning a single phrase</li>
-                </>
-              )}
-              {selectedLanguage.name === 'Gear-Cant' && (
-                <>
-                  <li><i className="fas fa-check"></i> Fexric Deep Alchemists and engineers</li>
-                  <li><i className="fas fa-check"></i> Forge-wrights from Harath-Vault to Bloodhammer Sump</li>
-                  <li><i className="fas fa-check"></i> Guild artificers and schematic-annotators</li>
-                  <li><i className="fas fa-check"></i> Anyone who builds what has never been built before</li>
-                </>
-              )}
               {selectedLanguage.name === 'Scrap-Tongue' && (
                 <>
                   <li><i className="fas fa-check"></i> Frostwood Reach salvage-crews and peat-bog scavengers</li>
@@ -335,7 +416,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Mound-Tongue' && (
                 <>
-                  <li><i className="fas fa-check"></i> Ordan nomads of the Sundrift Vale steppe</li>
+                  <li><i className="fas fa-check"></i> Ordu nomads of the Sundrift Vale steppe</li>
                   <li><i className="fas fa-check"></i> Throat-singers who navigate by ancestor-harmonics</li>
                   <li><i className="fas fa-check"></i> Mound-camp elders and migration-leaders</li>
                   <li><i className="fas fa-check"></i> Travelers crossing the starless grasslands</li>
@@ -349,7 +430,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Anyone trained in geothermal or high-altitude combat</li>
                 </>
               )}
-              {selectedLanguage.name === 'Abyssal' && (
+              {selectedLanguage.name === 'Kethvash' && (
                 <>
                   <li><i className="fas fa-check"></i> Keth Amar's silence-spawn and demonic entities</li>
                   <li><i className="fas fa-check"></i> Cultists who serve Scathrach the Ashen Sovereign</li>
@@ -357,11 +438,11 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Exorcists and dark channelers who bind what they study</li>
                 </>
               )}
-              {selectedLanguage.name === 'Celestial' && (
+              {selectedLanguage.name === 'Echo-Song' && (
                 <>
                   <li><i className="fas fa-check"></i> Lumian echo and its Astril vessels</li>
                   <li><i className="fas fa-check"></i> Solari martyrs who tend Emberspire's wound</li>
-                  <li><i className="fas fa-check"></i> Hollow-Solari Sun-Speakers in their sacred vigil</li>
+                  <li><i className="fas fa-check"></i> Korr Sun-Speakers in their sacred vigil</li>
                   <li><i className="fas fa-check"></i> Those who carry the memory of stars in their blood</li>
                 </>
               )}
@@ -376,20 +457,20 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Root-Veil' && (
                 <>
                   <li><i className="fas fa-check"></i> Morvane and fungal entities</li>
-                  <li><i className="fas fa-check"></i> Over-Lit Vreken who hear it constantly</li>
+                  <li><i className="fas fa-check"></i> Over-Lit Mycellan who hear it constantly</li>
                   <li><i className="fas fa-check"></i> Ghost-Mycelium and the Hush-Bogs themselves</li>
                   <li><i className="fas fa-check"></i> Entities that predate all surface civilization</li>
                 </>
               )}
-              {selectedLanguage.name === 'Infernal' && (
+              {selectedLanguage.name === 'Aethilic' && (
                 <>
                   <li><i className="fas fa-check"></i> Aethil's enforcement-mechanisms</li>
-                  <li><i className="fas fa-check"></i> Nethien contract-houses drafting deathless clauses</li>
+                  <li><i className="fas fa-check"></i> Athien contract-houses drafting deathless clauses</li>
                   <li><i className="fas fa-check"></i> Arcanoneers who bind spells to formal agreements</li>
                   <li><i className="fas fa-check"></i> Any being bound by the First Contract's oldest sections</li>
                 </>
               )}
-              {selectedLanguage.name === 'Primordial' && (
+              {selectedLanguage.name === 'First-Word' && (
                 <>
                   <li><i className="fas fa-check"></i> Elementals of all four primal forces</li>
                   <li><i className="fas fa-check"></i> Mareth and the Deep Thrum's oldest dialect</li>
@@ -397,18 +478,18 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Creatures native to elemental intelligences</li>
                 </>
               )}
-              {selectedLanguage.name === 'Sylvan' && (
+              {selectedLanguage.name === 'Thorn-Song' && (
                 <>
                   <li><i className="fas fa-check"></i> Fae entities who accepted House Viridane's counter-bargain</li>
-                  <li><i className="fas fa-check"></i> Florae Trueborn who sing to their groves</li>
+                  <li><i className="fas fa-check"></i> Florae Briaren who sing to their groves</li>
                   <li><i className="fas fa-check"></i> The Revel's endlessly-celebrating courtiers</li>
                   <li><i className="fas fa-check"></i> Moonlit groves where promises echo forever</li>
                 </>
               )}
-              {selectedLanguage.name === 'Shanty-Patois' && (
+              {selectedLanguage.name === 'Shanty Argot' && (
                 <>
                   <li><i className="fas fa-check"></i> Over-Shanty residents beneath Atropolis</li>
-                  <li><i className="fas fa-check"></i> Withered who trade in silence-codes and rope-bridge tolls</li>
+                  <li><i className="fas fa-check"></i> Riven who trade in silence-codes and rope-bridge tolls</li>
                   <li><i className="fas fa-check"></i> Cult of Forgotten Shadow memory-brokers</li>
                   <li><i className="fas fa-check"></i> Anyone trading in the Gloom without a contract-house</li>
                 </>
@@ -429,7 +510,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Information brokers and street informants</li>
                 </>
               )}
-              {selectedLanguage.name === 'Aquan' && (
+              {selectedLanguage.name === 'Tide-Speech' && (
                 <>
                   <li><i className="fas fa-check"></i> The Iceheart Sea's consciousness: Mareth</li>
                   <li><i className="fas fa-check"></i> Myrathil of all three subraces</li>
@@ -437,22 +518,22 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Water elementals and deep-ocean entities</li>
                 </>
               )}
-              {selectedLanguage.name === 'Auran' && (
+              {selectedLanguage.name === 'Gale-Speech' && (
                 <>
                   <li><i className="fas fa-check"></i> Air elementals and sky-dwelling entities</li>
                   <li><i className="fas fa-check"></i> Blizzard-voices above Nordhalla's glacier-spires</li>
                   <li><i className="fas fa-check"></i> Wind-spirits and storm-chasers</li>
                 </>
               )}
-              {selectedLanguage.name === 'Ignan' && (
+              {selectedLanguage.name === 'Cinder-Speech' && (
                 <>
                   <li><i className="fas fa-check"></i> Fire elementals and Emberspire's magma-children</li>
-                  <li><i className="fas fa-check"></i> Hollow-Solari Sun-Speakers (they speak it only in their minds)</li>
+                  <li><i className="fas fa-check"></i> Korr Sun-Speakers (they speak it only in their minds)</li>
                   <li><i className="fas fa-check"></i> Salamanders and geothermal vent-creatures</li>
                   <li><i className="fas fa-check"></i> Flame-touched beings and forge-spirits</li>
                 </>
               )}
-              {selectedLanguage.name === 'Terran' && (
+              {selectedLanguage.name === 'Span-Speech' && (
                 <>
                   <li><i className="fas fa-check"></i> Earth elementals and stone-touched races</li>
                   <li><i className="fas fa-check"></i> Groven whose speech grinds like Ancestor-Spans shifting</li>
@@ -462,7 +543,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Gloom-Tongue' && (
                 <>
-                  <li><i className="fas fa-check"></i> Vreken and Nethien of the Bryngloom Forest</li>
+                  <li><i className="fas fa-check"></i> Mycellan and Athien of the Bryngloom Forest</li>
                   <li><i className="fas fa-check"></i> The Root-Veil's mycelial network (strains it beneath words)</li>
                   <li><i className="fas fa-check"></i> Over-Lit who lose it last before the hush takes them</li>
                   <li><i className="fas fa-check"></i> Anyone raised beneath Atropolis's canopy</li>
@@ -478,26 +559,18 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Sundari' && (
                 <>
-                  <li><i className="fas fa-check"></i> Solari of Sundale: both Hollow-Solari and Waste-Solari</li>
+                  <li><i className="fas fa-check"></i> Solari of Sundale: both Korr and Anhur</li>
                   <li><i className="fas fa-check"></i> Solari who tend Emberspire's wound</li>
                   <li><i className="fas fa-check"></i> Pilgrims who have witnessed Sol's Breath's fading</li>
                   <li><i className="fas fa-check"></i> Forge-priests of the Harath-Vault</li>
                 </>
               )}
-              {selectedLanguage.name === 'Fexric' && (
+              {selectedLanguage.name === 'Fex' && (
                 <>
-                  <li><i className="fas fa-check"></i> Fexric of Frostmaw Holdfast: Clockwork Fexric and Caustic Fexric</li>
+                  <li><i className="fas fa-check"></i> Fex of Frostmaw Holdfast: Brasskin and Alchemite</li>
                   <li><i className="fas fa-check"></i> Deep Alchemists operating in abyssal tunnels</li>
                   <li><i className="fas fa-check"></i> Guild artificers and vat-technicians</li>
                   <li><i className="fas fa-check"></i> Anyone who works the geothermal foundries</li>
-                </>
-              )}
-              {selectedLanguage.name === 'Corvid-Speech' && (
-                <>
-                  <li><i className="fas fa-check"></i> Corvani subfolk: raven-marked glacier-dwellers of Nordhalla</li>
-                  <li><i className="fas fa-check"></i> Corvid Fate-Spirits bound to Corvani bloodlines</li>
-                  <li><i className="fas fa-check"></i> Messengers who carry fate-words between the frozen fjord-keeps</li>
-                  <li><i className="fas fa-check"></i> Those who trade in premonition and hidden knowledge</li>
                 </>
               )}
               {selectedLanguage.name === 'Old Nord' && (
@@ -508,7 +581,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Anyone initiated into the Frozen Archive's traditions</li>
                 </>
               )}
-              {selectedLanguage.name === 'Ethereal' && (
+              {selectedLanguage.name === 'Veilspeech' && (
                 <>
                   <li><i className="fas fa-check"></i> Spirits and the Veilborn between worlds</li>
                   <li><i className="fas fa-check"></i> Lumian echo in their vessels' dreams</li>
@@ -516,7 +589,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Mediums and spirit-channelers</li>
                 </>
               )}
-              {selectedLanguage.name === 'Changeling' && (
+              {selectedLanguage.name === 'Skin-Tongue' && (
                 <>
                   <li><i className="fas fa-check"></i> Changelings and shapeshifters</li>
                   <li><i className="fas fa-check"></i> Those who wear identities not their own</li>
@@ -524,7 +597,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Any being whose face is a negotiation</li>
                 </>
               )}
-              {selectedLanguage.name === 'Druidic' && (
+              {selectedLanguage.name === 'Grove-Sign' && (
                 <>
                   <li><i className="fas fa-check"></i> Druids and only druids (secret by oath)</li>
                   <li><i className="fas fa-check"></i> Initiates of Bryngloom's deepest groves</li>
@@ -532,7 +605,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Cannot be learned from books: only passed teacher to initiate</li>
                 </>
               )}
-              {selectedLanguage.name === 'Beast Speech' && (
+              {selectedLanguage.name === 'Feralspeech' && (
                 <>
                   <li><i className="fas fa-check"></i> Rangers and those who live among animals</li>
                   <li><i className="fas fa-check"></i> Thrumm stone-trolls (they understand it in their slow way)</li>
@@ -540,7 +613,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Does not confer obedience: only conversation</li>
                 </>
               )}
-              {selectedLanguage.name === 'Necril' && (
+              {selectedLanguage.name === 'Bonewrit' && (
                 <>
                   <li><i className="fas fa-check"></i> The undead and Debt-Revenants</li>
                   <li><i className="fas fa-check"></i> Lichborne souls in basalt phylacteries</li>
@@ -548,7 +621,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> The Frozen Archive's oldest revenant-scribes</li>
                 </>
               )}
-              {selectedLanguage.name === 'Elemental' && (
+              {selectedLanguage.name === 'Concord of Four' && (
                 <>
                   <li><i className="fas fa-check"></i> Elementals of all four primal forces</li>
                   <li><i className="fas fa-check"></i> Simplified Primordial for cross-elemental consensus</li>
@@ -556,7 +629,7 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Creatures of mixed elemental heritage</li>
                 </>
               )}
-              {selectedLanguage.name === 'Primal' && (
+              {selectedLanguage.name === 'Greenmantle' && (
                 <>
                   <li><i className="fas fa-check"></i> Nature itself: the world speaking to itself</li>
                   <li><i className="fas fa-check"></i> Frostwood ironwood trees and Bryngloom peat-bogs</li>
@@ -564,15 +637,15 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Older than the Dark Bargains, older than Sol's binding</li>
                 </>
               )}
-              {selectedLanguage.name === 'Thieves\' Cant' && (
+              {selectedLanguage.name === 'Under-Cant' && (
                 <>
                   <li><i className="fas fa-check"></i> Rogues, smugglers, and underworld operatives</li>
-                  <li><i className="fas fa-check"></i> The Withered's silence-coded argot</li>
+                  <li><i className="fas fa-check"></i> The Riven's silence-coded argot</li>
                   <li><i className="fas fa-check"></i> Cult of Forgotten Shadow's corrupted dialect</li>
                   <li><i className="fas fa-check"></i> Cannot be learned without underworld initiation</li>
                 </>
               )}
-              {selectedLanguage.name === 'Sign Language' && (
+              {selectedLanguage.name === 'Vat-Sign' && (
                 <>
                   <li><i className="fas fa-check"></i> Anyone: developed by Groven Vat-Breakers</li>
                   <li><i className="fas fa-check"></i> Silent communication across all language barriers</li>
@@ -580,15 +653,55 @@ const LanguagesDisplay = () => {
                   <li><i className="fas fa-check"></i> Adapted across all seven regions after the rebellion</li>
                 </>
               )}
-              {selectedLanguage.name === 'All Ancient Languages' && (
+              {selectedLanguage.name === 'Archive-Writ' && (
                 <>
-                  <li><i className="fas fa-check"></i> Elite scholars and eternal archivists</li>
-                  <li><i className="fas fa-check"></i> Pre-Binding dialects from before Sol was entombed</li>
-                  <li><i className="fas fa-check"></i> Languages whose last speakers calcified into Ancestor-Spans</li>
-                  <li><i className="fas fa-check"></i> Granted only through decades of dedicated study</li>
+                  <li><i className="fas fa-check"></i> Rime-Born Rune Keepers of the Frozen Archive</li>
+                  <li><i className="fas fa-check"></i> Scholars of the pre-Binding civilization the glacier took</li>
+                  <li><i className="fas fa-check"></i> Rune-readers under Vargtor, who read by raking ice-light</li>
+                  <li><i className="fas fa-check"></i> A page that thaws is a page lost; study is done cold</li>
                 </>
               )}
-              {selectedLanguage.name === 'Common' && (
+              {selectedLanguage.name === 'Span-Runes' && (
+                <>
+                  <li><i className="fas fa-check"></i> Groven toll-keepers who read the Ancestor-Spans like contracts</li>
+                  <li><i className="fas fa-check"></i> Stone-Moot reckoners and lineage-keepers</li>
+                  <li><i className="fas fa-check"></i> Cragjaw masons and span-tenders</li>
+                  <li><i className="fas fa-check"></i> The old dead whose calcified bodies hold the crossing</li>
+                </>
+              )}
+              {selectedLanguage.name === 'Keth-ash' && (
+                <>
+                  <li><i className="fas fa-check"></i> Exorcists and notaries who study burned ledger-ends</li>
+                  <li><i className="fas fa-check"></i> Keepers of scorched phylacteries and Aethilic margins</li>
+                  <li><i className="fas fa-check"></i> Acolytes who have learned exactly when to stop reading</li>
+                  <li><i className="fas fa-check"></i> No living native speakers, and that is the point</li>
+                </>
+              )}
+              {selectedLanguage.name === 'Vættir-Speech' && (
+                <>
+                  <li><i className="fas fa-check"></i> Landvaettir, vettir, and the boundary-spirits of Nordhalla</li>
+                  <li><i className="fas fa-check"></i> The nokk, the huldra, and the Fossegrim-Ice</li>
+                  <li><i className="fas fa-check"></i> Skald farmers who leave a greeting-bowl at the boundary stone</li>
+                  <li><i className="fas fa-check"></i> Given, never commanded: it has no polite register</li>
+                </>
+              )}
+              {selectedLanguage.name === 'Neteru Liturgy' && (
+                <>
+                  <li><i className="fas fa-check"></i> Lamassu gate-sentinels and ushabti servants</li>
+                  <li><i className="fas fa-check"></i> The sun-faced ammit and the deep-vent guardians</li>
+                  <li><i className="fas fa-check"></i> Emberspire&apos;s Ash-Woven Oracles, transcribing onto soot-tablets</li>
+                  <li><i className="fas fa-check"></i> Every clause names a witness; mortals should not answer lightly</li>
+                </>
+              )}
+              {selectedLanguage.name === 'Sluagh-Whisper' && (
+                <>
+                  <li><i className="fas fa-check"></i> The Sluagh, memory-eating swarm of the Frostwood Reach</li>
+                  <li><i className="fas fa-check"></i> Familiars and mediums carrying messages the swarm will not eat</li>
+                  <li><i className="fas fa-check"></i> Listeners who answer a sentence nobody remembers being told</li>
+                  <li><i className="fas fa-check"></i> What is forgotten is the message; what remains is the hush</li>
+                </>
+              )}
+              {selectedLanguage.name === "Wayfarer's Cant" && (
                 <>
                   <li><i className="fas fa-check"></i> All civilized races across the seven regions</li>
                   <li><i className="fas fa-check"></i> Merchants and traders on every trade route</li>
@@ -598,6 +711,26 @@ const LanguagesDisplay = () => {
               )}
             </ul>
           </div>
+
+          {REGISTERS_BY_PARENT[selectedLanguage.name]?.length > 0 && (
+            <div className="benefits-section">
+              <h4>Registers, Scripts &amp; Ciphers</h4>
+              <ul className="equipment-items">
+                {REGISTERS_BY_PARENT[selectedLanguage.name].map((seed) => (
+                  <li key={seed.id}>
+                    <i className="fas fa-layer-group"></i>
+                    <span>
+                      {seed.name} <em>({seed.script})</em>
+                      {seed.registerType ? ` — ${seed.registerType}` : ''}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="language-type-description" style={{ marginTop: 12 }}>
+                These are trained registers and scripts of {selectedLanguage.name}, not separate default fluencies. Reading one still requires its own instruction or key.
+              </p>
+            </div>
+          )}
 
           <div className="benefits-section">
             <h4>Learning This Tongue</h4>

@@ -18,16 +18,23 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function() {
   let serverInstance = null;
   let client1 = null;
   let client2 = null;
+  // Original require.cache entries for server modules. The integration server
+  // needs its own fresh module graph so boundary overrides take effect; the
+  // original graph is restored in after() so later test files keep consistent
+  // module identities (logger/syncService/firebaseService) instead of
+  // duplicate copies.
+  const originalServerCache = {};
 
   before(async() => {
-    // 1. Clear local module cache to force re-evaluation of all server modules
+    // 1. Snapshot + clear local server module cache for a fresh server graph.
     Object.keys(require.cache).forEach((key) => {
       if (key.includes('server') && !key.includes('node_modules')) {
+        originalServerCache[key] = require.cache[key];
         delete require.cache[key];
       }
     });
 
-    // 2. Require and manually override service methods after cache clearing
+    // 2. Override only true external boundaries on the fresh graph.
     const firebaseService = require('../services/firebaseService');
     const tierService = require('../services/tierService');
 
@@ -37,6 +44,15 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function() {
       }
       return null;
     };
+
+    // C5 external boundary: room authority coordination lives in Firestore.
+    // This legacy integration server has no Firebase project, so the authority
+    // backend is stubbed exactly like token verification.
+    let authorityGeneration = 0;
+    firebaseService.claimRoomAuthority = async() => ({ ok: true, generation: ++authorityGeneration });
+    firebaseService.renewRoomAuthority = async() => ({ ok: true });
+    firebaseService.releaseRoomAuthority = async() => ({ ok: true });
+    firebaseService.validateRoomAuthority = async() => ({ ok: true });
 
     tierService.canCreateRoom = async() => ({ 
       allowed: true, 
@@ -73,6 +89,15 @@ describe('Mythrill VTT Integration Tests (CI-runnable)', function() {
         serverInstance.close(resolve);
       });
     }
+
+    // Restore the original server module registry: drop every cache entry the
+    // integration graph created, then re-install the pre-test entries.
+    Object.keys(require.cache).forEach((key) => {
+      if (key.includes('server') && !key.includes('node_modules') && !(key in originalServerCache)) {
+        delete require.cache[key];
+      }
+    });
+    Object.assign(require.cache, originalServerCache);
   });
 
   it('verifies socket connection and ping/pong', async() => {

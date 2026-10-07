@@ -15,10 +15,14 @@
 
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { sanitizeHtml } from '../../../utils/sanitizeHtml';
 
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
+import ClassAcquisitionEditor from '../components/ClassAcquisitionEditor';
+import { getCharacterHeritageOptions, getCharacterClassAccess, validateCharacterClassAccess } from '../../../utils/characterClassAccess';
+import { getClassNativeHeritageIds, HERITAGE_TRADITIONS } from '../../../data/classHeritageRegistry';
 
-import { RACE_DATA, applyRacialModifiers, getRaceData } from '../../../data/raceData';
+import { RACE_DATA, applyRacialModifiers, getRaceData, getHeritageIllustrations, getHeritageImage } from '../../../data/raceData';
 import { BACKGROUND_DATA, BACKGROUND_FLAVOR_TEXT } from '../../../data/backgroundData';
 
 
@@ -114,12 +118,15 @@ import { WARDEN_DATA } from '../../../data/classes/wardenData';
 
 import { AUGUR_DATA } from '../../../data/classes/augurData';
 import { CRUSADER_DATA } from '../../../data/classes/crusaderData';
+import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from '../../../data/classes/index';
+import { withClassHeritageMetadata } from '../../../data/classHeritageRegistry';
 
 
 
 
 
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import '../styles/Step1CoreDraft.css';
 
 
 
@@ -330,7 +337,7 @@ const getSpellIconUrl = (iconId) => {
 
 
 
-const CLASS_DATA_MAP = {
+const CLASS_DATA_MAP = Object.fromEntries(Object.entries({
 
     'Arcanoneer': ARCANONEER_DATA,
 
@@ -377,13 +384,20 @@ const CLASS_DATA_MAP = {
 
     'Augur': AUGUR_DATA,
 
-    'Crusader': CRUSADER_DATA
+    'Crusader': CRUSADER_DATA,
 
-};
+    'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
+
+    'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
+
+    'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
+
+}).map(([name, data]) => [name, withClassHeritageMetadata(name, data)]));
 
 
 
-// Subgroup classifications for all 30 TTRPG classes
+// Subgroup classifications for the 21 base classes. Legacy heritage aliases
+// remain in the lookup map above, not as extra class-selection choices.
 
 const CLASS_GROUPS = {
 
@@ -421,19 +435,7 @@ const getLevel1SpellIds = (classData) => {
 
 
 
-// Hard heritage restrictions are derived from class data (see utils/pointBuySystem isClassCompatible).
-
-
-
-const getClassRestrictionMessage = (className) => {
-
-    if (className === 'Inquisitor') return 'Inquisitor requires Marked Vreken heritage or Frostwood Reach heritage.';
-
-    if (className === 'Lunarch') return 'Lunarch requires Florae heritage.';
-
-    return '';
-
-};
+// Class access comes from the registry plus this character's acquisition/state.
 
 
 
@@ -588,117 +590,65 @@ const BACKGROUND_ICONS_MYTHRILL = {
 
     groveWarden: 'fas fa-leaf',
 
-    maskWarden: 'fas fa-theater-masks'
+    maskWarden: 'fas fa-theater-masks',
+
+    vaultScholar: 'fas fa-cogs',
+
+    herdGuardian: 'fas fa-horse',
+
+    starboundScholar: 'fas fa-star',
+
+    deepCurrentGuide: 'fas fa-water',
+
+    fogReader: 'fas fa-map',
+
+    chasmDelver: 'fas fa-dungeon',
+
+    brineTrader: 'fas fa-sack-dollar',
+
+    keepWarden: 'fas fa-bell',
+
+    spanBuilder: 'fas fa-helmet-safety',
+
+    contractClerk: 'fas fa-file-signature',
+
+    obligationBroker: 'fas fa-handshake',
+
+    greymarkArchivist: 'fas fa-scroll',
+
+    privateer: 'fas fa-ship',
+
+    nameless: 'fas fa-user-secret',
+
+    cryptKeeper: 'fas fa-skull',
+
+    zenithCartographer: 'fas fa-compass',
+    craterVanguard: 'fas fa-meteor',
+    clockworkHorologist: 'fas fa-clock',
+    vitriolProspector: 'fas fa-flask',
+    peatTender: 'fas fa-seedling',
+    petrifiedMason: 'fas fa-monument',
+    scriptureHerald: 'fas fa-scroll',
+    quietTraded: 'fas fa-eye-slash',
+    trenchListener: 'fas fa-water',
+    saltHingeEnvoy: 'fas fa-anchor',
+    cataractScout: 'fas fa-route',
+    vaultTender: 'fas fa-mountain',
+    ashDuneSkimmer: 'fas fa-wind',
+    sanctuarySeneschal: 'fas fa-shield-virus',
+    nullSaltHunter: 'fas fa-skull-crossbones',
+    steppeSinger: 'fas fa-horse-head',
+    glacierHarpooner: 'fas fa-icicles',
+    canopyWeaver: 'fas fa-spa',
+    briarSentinel: 'fas fa-tree'
 
 };
 
 
 
 const getSubraceImage = (subraceId, raceId) => {
-
-    const mapping = {
-
-        // Myrathil
-
-        shoreling_myrathil: 'shore_illustration.png',
-
-        deepling_myrathil: 'deep_illustration.png',
-
-        riverling_myrathil: 'brook_illustration.png',
-
-        // Florae
-
-        florae_unified: 'trueborn_illustration.png',
-
-        florae_unified: 'shorn_illustration.png',
-
-        // Solari
-
-        korr_solari: 'korr_illustration.png',
-
-        thrask_solari: 'thrask_illustration.png',
-
-        // Fexric
-
-        kethrin_fexric: 'kethrin_illustration.png',
-
-        drall_fexric: 'drall_illustration.png',
-
-        // Groven
-
-        morgh_groven: 'morgh_illustration.png',
-
-        ithran_groven: 'ithran_illustration.png',
-
-        // Mimir
-
-        veiled_mimir: 'masked_illustration.png',
-
-        tethered_mimir: 'woven_illustration.png',
-
-        // Nethien
-
-        velun_neth: 'velun_illustration.png',
-
-        kessen_neth: 'kessen_illustration.png',
-
-        drun_neth: 'drun_illustration.png',
-
-        // Astril
-
-        vashir_astril: 'vashir_illustration.png',
-
-        silath_astril: 'silath_illustration.png',
-
-        // Vreken
-
-        clean_vreken: 'clean_illustration.png',
-
-        marked_vreken: 'marked_illustration.png',
-
-        // Human
-
-        thalren_human: 'thalren_illustration.png',
-
-        skald_human: 'skald_illustration.png',
-
-        tessen_human: 'tessen_illustration.png',
-
-        merryn_human: 'merryn_illustration.png',
-
-        ordan_human: 'ordan_illustration.png'
-
-    };
-
-    
-
-    if (subraceId && mapping[subraceId]) {
-
-        return `/assets/images/races/${mapping[subraceId]}`;
-
-    }
-
-    
-
-    if (raceId) {
-
-        // Fexric base race rotates between 3 illustrations randomly
-        if (raceId === 'fexrick') {
-            const fexricVariants = ['fexric_illustration_1.png', 'fexric_illustration_2.png', 'fexric_illustration_3.png'];
-            return `/assets/images/races/${fexricVariants[Math.floor(Math.random() * fexricVariants.length)]}`;
-        }
-
-        const cleanRaceId = raceId.toLowerCase();
-
-        return `/assets/images/races/${cleanRaceId}_illustration.png`;
-
-    }
-
-    return null;
-
+    return getHeritageImage(raceId, subraceId);
 };
-
-
 
 const formatDescriptionText = (text) => {
 
@@ -718,7 +668,7 @@ const formatDescriptionText = (text) => {
 
         
 
-    return <span dangerouslySetInnerHTML={{ __html: formatted }} />;
+    return <span dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatted) }} />;
 
 };
 
@@ -760,6 +710,80 @@ const truncateForTooltip = (text, maxSentences = 2) => {
 
 
 
+// Section header for the three rites of Step 1. The numeral carries real
+// information: Heritage gates which Callings and Origins are native.
+const activateOnKey = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.currentTarget.click();
+    }
+};
+
+const normalizeClassId = (name) => String(name || '').replace(/\s*\(.*?\)\s*$/, '').toLowerCase().replace(/[\s_-]+/g, '');
+
+const isClassThematicToBg = (clsName, bgId) => {
+    if (!bgId) return true;
+    const bg = BACKGROUND_DATA[bgId];
+    if (!bg) return true;
+    const norm = normalizeClassId(clsName);
+    // 1. Direct classHook
+    if (bg.classHooks?.some(h => normalizeClassId(h.classId) === norm)) return true;
+    // 2. Direct tensionPairing
+    if (bg.tensionPairings?.some(t => normalizeClassId(t.classId) === norm)) return true;
+    // 3. Classes native to any of the background's allowed subraces
+    const allowed = bg.restrictions?.allowedSubraces || [];
+    if (allowed.length > 0) {
+        return allowed.some(sid => {
+            const tradition = HERITAGE_TRADITIONS[sid];
+            return tradition?.classes?.some(c => normalizeClassId(c) === norm);
+        });
+    }
+    return true;
+};
+
+const isBgThematicToClass = (bg, className) => {
+    if (!className) return true;
+    const norm = normalizeClassId(className);
+    // 1. Direct classHook
+    if (bg.classHooks?.some(h => normalizeClassId(h.classId) === norm)) return true;
+    // 2. Direct tensionPairing
+    if (bg.tensionPairings?.some(t => normalizeClassId(t.classId) === norm)) return true;
+    // 3. Overlap between background allowed subraces and class native subraces
+    const classSubraces = getClassNativeHeritageIds(className);
+    const bgSubraces = bg.restrictions?.allowedSubraces || [];
+    if (bgSubraces.length === 0) return true;
+    return bgSubraces.some(sid => classSubraces.includes(sid));
+};
+
+const RiteHeader = ({ numeral, title, hint, value, pendingText = 'Unchosen', onClear, required }) => (
+    <header className={`draft-rite-header ${value ? 'is-set' : ''} ${required ? 'is-required' : ''}`}>
+        <span className="draft-rite-numeral" aria-hidden="true">{numeral}</span>
+        <div className="draft-rite-titles">
+            <h3 className="section-headline">{title}</h3>
+            <span className="draft-rite-hint">{hint}</span>
+        </div>
+        <div className="draft-rite-status-group">
+            <span className="draft-rite-status" title={value || pendingText}>
+                {value ? (<><i className="fas fa-check" aria-hidden="true"></i>{value}</>) : pendingText}
+            </span>
+            {value && onClear && (
+                <button
+                    type="button"
+                    className="draft-rite-clear-btn"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onClear();
+                    }}
+                    title={`Clear ${title} selection`}
+                    aria-label={`Clear ${title} selection`}
+                >
+                    <i className="fas fa-times"></i>
+                </button>
+            )}
+        </div>
+    </header>
+);
+
 const Step1CoreDraft = () => {
 
     const user = useAuthStore(state => state.user);
@@ -775,6 +799,8 @@ const Step1CoreDraft = () => {
     const { characterData, validationErrors } = state;
 
     const { baseStats, race, subrace, background, name, gender } = characterData;
+
+    const [nameTouched, setNameTouched] = useState(false);
 
 
 
@@ -800,7 +826,7 @@ const Step1CoreDraft = () => {
 
     const handleConfirmJustification = (justificationText) => {
 
-        if (!justificationTarget) return;
+        if (!justificationTarget || justificationTarget.type !== 'background') return;
 
 
 
@@ -826,15 +852,7 @@ const Step1CoreDraft = () => {
 
         // Set the choice
 
-        if (justificationTarget.type === 'class') {
-
-            dispatch(wizardActionCreators.setClass(justificationTarget.id));
-
-            setFocusedSection('class');
-
-            dispatch(wizardActionCreators.setStartingSpells([]));
-
-        } else if (justificationTarget.type === 'background') {
+        if (justificationTarget.type === 'background') {
 
             dispatch(wizardActionCreators.setBackground(justificationTarget.id));
 
@@ -871,6 +889,7 @@ const Step1CoreDraft = () => {
     } = useUnifiedTooltip();
 
     const [showRestrictedClasses, setShowRestrictedClasses] = useState(false);
+    const [showRestrictedRaces, setShowRestrictedRaces] = useState(false);
     const [showRestrictedBackgrounds, setShowRestrictedBackgrounds] = useState(false);
 
     const [showSpellsDrawer, setShowSpellsDrawer] = useState(false);
@@ -885,7 +904,56 @@ const Step1CoreDraft = () => {
 
     const [lightboxImage, setLightboxImage] = useState(null);
 
+    const [heritageIllIndex, setHeritageIllIndex] = useState(0);
+
+    useEffect(() => {
+        setHeritageIllIndex(0);
+    }, [race, subrace]);
+
+    const heritageIllustrations = useMemo(() => {
+        return getHeritageIllustrations(selectedRace?.id, selectedSubrace?.id);
+    }, [selectedRace?.id, selectedSubrace?.id]);
+
+    const currentHeritageIll = heritageIllustrations[heritageIllIndex] || heritageIllustrations[0] || {
+        src: getHeritageImage(selectedRace?.id, selectedSubrace?.id),
+        caption: selectedSubrace?.name || selectedRace?.name || ''
+    };
+
     const [mobilePanel, setMobilePanel] = useState('selections');
+
+    const [classIllIndex, setClassIllIndex] = useState(0);
+
+    const classIllustrations = useMemo(() => {
+        const clsData = CLASS_DATA_MAP[characterData.class];
+        if (!clsData) return [];
+        if (clsData.overview?.illustrations && clsData.overview.illustrations.length > 0) {
+            return clsData.overview.illustrations.map(ill => ({
+                src: ill.url,
+                caption: ill.caption,
+                subraceId: ill.subraceId
+            }));
+        }
+        if (clsData.overview?.illustration) {
+            return [{
+                src: clsData.overview.illustration,
+                caption: clsData.overview.illustrationCaption || clsData.name
+            }];
+        }
+        return [];
+    }, [characterData.class]);
+
+    useEffect(() => {
+        if (selectedSubrace && classIllustrations.length > 0) {
+            const matchIdx = classIllustrations.findIndex(ill => ill.subraceId === selectedSubrace.id);
+            if (matchIdx >= 0) {
+                setClassIllIndex(matchIdx);
+                return;
+            }
+        }
+        setClassIllIndex(0);
+    }, [characterData.class, selectedSubrace?.id, classIllustrations]);
+
+    const currentClassIll = classIllustrations[classIllIndex] || classIllustrations[0] || null;
 
 
 
@@ -1037,17 +1105,15 @@ const Step1CoreDraft = () => {
     // Name / Gender Handlers
 
     const handleNameChange = (e) => {
-
+        setNameTouched(true);
         dispatch(wizardActionCreators.updateBasicInfo({ name: e.target.value }));
-
     };
 
 
 
     const handleRandomName = () => {
-
+        setNameTouched(true);
         dispatch(wizardActionCreators.updateBasicInfo({ name: getRandomCharacterName(race) }));
-
     };
 
 
@@ -1076,7 +1142,8 @@ const Step1CoreDraft = () => {
                 name: subraceData.name,
                 description: subraceData.description,
                 tooltipSummary: subraceData.tooltipSummary,
-                statModifiers: subraceData.statModifiers
+                statModifiers: subraceData.statModifiers,
+                crest: subraceData.crest || null
             }))
         }));
 
@@ -1097,7 +1164,8 @@ const Step1CoreDraft = () => {
                     name: subraceData.name,
                     description: subraceData.description,
                     tooltipSummary: subraceData.tooltipSummary,
-                    statModifiers: subraceData.statModifiers
+                    statModifiers: subraceData.statModifiers,
+                    crest: subraceData.crest || null
                 }))
             };
         });
@@ -1121,13 +1189,13 @@ const Step1CoreDraft = () => {
 
             'Solari': 'fas fa-fire',
 
-            'Vreken': 'fas fa-eye',
+            'Mycellan': 'fas fa-eye',
 
-            'Nethien': 'fas fa-scroll',
+            'Athien': 'fas fa-scroll',
 
             'Astril': 'fas fa-star',
 
-            'Fexric': 'fas fa-cog',
+            'Fex': 'fas fa-cog',
 
             'Human': 'fas fa-user'
 
@@ -1138,6 +1206,62 @@ const Step1CoreDraft = () => {
     };
 
 
+
+    const heritageNarrowing = useMemo(() => {
+        const selectedClass = characterData.class;
+        const selectedBg = background;
+        const bgData = BACKGROUND_DATA[selectedBg];
+
+        if (!selectedClass && !selectedBg) {
+            return { isNarrowed: false, nativeRaceIds: new Set(), nativeSubraceIds: new Set(), reason: null };
+        }
+
+        const classSubraces = selectedClass ? getClassNativeHeritageIds(selectedClass) : null;
+        const bgSubraces = (selectedBg && bgData?.restrictions?.allowedSubraces?.length > 0)
+            ? bgData.restrictions.allowedSubraces
+            : null;
+
+        let targetSubraces = null;
+        let reason = '';
+
+        if (classSubraces && bgSubraces) {
+            const intersection = classSubraces.filter(id => bgSubraces.includes(id));
+            if (intersection.length > 0) {
+                targetSubraces = intersection;
+                reason = `Native to ${selectedClass} & ${bgData.name}`;
+            } else {
+                targetSubraces = Array.from(new Set([...classSubraces, ...bgSubraces]));
+                reason = `Thematic to ${selectedClass} or ${bgData.name}`;
+            }
+        } else if (classSubraces) {
+            targetSubraces = classSubraces;
+            reason = `Native tradition for ${selectedClass}`;
+        } else if (bgSubraces) {
+            targetSubraces = bgSubraces;
+            reason = `Homelands of the ${bgData.name}`;
+        }
+
+        if (!targetSubraces || targetSubraces.length === 0) {
+            return { isNarrowed: false, nativeRaceIds: new Set(), nativeSubraceIds: new Set(), reason: null };
+        }
+
+        const nativeSubraceIds = new Set(targetSubraces);
+        const nativeRaceIds = new Set();
+        const raceList = getRaceList();
+        raceList.forEach(r => {
+            const subraces = Array.isArray(r.subraces) ? r.subraces : [];
+            if (subraces.some(s => nativeSubraceIds.has(s.id))) {
+                nativeRaceIds.add(r.id);
+            }
+        });
+
+        return {
+            isNarrowed: true,
+            nativeRaceIds,
+            nativeSubraceIds,
+            reason
+        };
+    }, [characterData.class, background, customLineages]);
 
     const handleRaceClick = (raceId) => {
 
@@ -1150,6 +1274,10 @@ const Step1CoreDraft = () => {
 
 
     const handleSubraceSelect = (raceId, subraceId) => {
+        if (subrace === subraceId) {
+            dispatch(wizardActionCreators.setSubrace(''));
+            return;
+        }
 
         dispatch(wizardActionCreators.setRace(raceId));
 
@@ -1164,38 +1292,36 @@ const Step1CoreDraft = () => {
     // Class Handlers
 
     const handleClassClick = (className) => {
-
-        if (isClassCompatible(className, race, subrace)) {
-
-            dispatch(wizardActionCreators.setClass(className));
-
-            setFocusedSection('class');
-
-            // Clear current spells if class changes
-
+        if (characterData.class === className) {
+            dispatch(wizardActionCreators.setClass(''));
             dispatch(wizardActionCreators.setStartingSpells([]));
-
-        } else {
-
-            setJustificationTarget({ type: 'class', name: className, id: className });
-
-            setShowJustificationModal(true);
-
+            return;
         }
-
+        // A draft may explore an exceptional path; final validation requires
+        // evidence and compatible state rather than a backstory approval.
+        dispatch(wizardActionCreators.setClass(className));
+        setFocusedSection('class');
+        if (characterData.class !== className) dispatch(wizardActionCreators.setStartingSpells([]));
     };
+
+    const isCharacterClassCompatible = className => isClassCompatible(className, race, subrace,
+        getCharacterHeritageOptions(characterData, className));
 
 
 
     // Background Handlers
 
     const handleBackgroundChange = (bgId) => {
+        if (background === bgId) {
+            dispatch(wizardActionCreators.setBackground(''));
+            return;
+        }
 
         const bg = BACKGROUND_DATA[bgId];
 
         const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
 
-        const isCompatible = selectable && !narrativeUnlock;
+        const isCompatible = !race || (selectable && !narrativeUnlock);
 
         if (isCompatible) {
 
@@ -1427,95 +1553,130 @@ const Step1CoreDraft = () => {
 
                     <div className="core-draft-section">
 
-                        <h3 className="section-headline">
-
-                            <i className="fas fa-users"></i> Select Heritage (Race)
-
-                        </h3>
-
-                        {validationErrors.race && <span className="section-error-msg">{validationErrors.race}</span>}
-
-                        {validationErrors.subrace && <span className="section-error-msg">{validationErrors.subrace}</span>}
+                        <RiteHeader
+                            numeral="I"
+                            title="Heritage"
+                            hint={
+                                heritageNarrowing.isNarrowed && !selectedSubrace
+                                    ? `Filtered: ${heritageNarrowing.reason}`
+                                    : "Blood and homeland · race"
+                            }
+                            value={selectedSubrace && selectedRace ? `${selectedSubrace.name} ${selectedRace.name}` : selectedRace ? selectedRace.name : null}
+                            pendingText={selectedRace ? 'Pick a lineage' : 'Unchosen'}
+                            required={!!(validationErrors.race || validationErrors.subrace)}
+                            onClear={selectedRace || selectedSubrace ? () => {
+                                dispatch(wizardActionCreators.setRace(''));
+                                dispatch(wizardActionCreators.setSubrace(''));
+                                setActiveRaceSelection(null);
+                            } : null}
+                        />
 
                         
 
-                        {!activeRaceSelection ? (
+                        {!activeRaceSelection ? (() => {
+                            const allRaces = getRaceList();
+                            const isNarrowed = heritageNarrowing.isNarrowed;
+                            const nativeRaces = isNarrowed
+                                ? allRaces.filter(r => heritageNarrowing.nativeRaceIds.has(r.id))
+                                : allRaces;
+                            const otherRaces = isNarrowed
+                                ? allRaces.filter(r => !heritageNarrowing.nativeRaceIds.has(r.id))
+                                : [];
+                            const isCurrentRaceInOther = race && otherRaces.some(r => r.id === race);
 
-                            <div className="race-buttons-grid">
+                            const renderRaceToken = (raceObj, isNonNative) => {
+                                const isSelectedRace = race === raceObj.id;
+                                const raceTooltipContent = (
+                                    <div className="race-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
+                                        {raceObj.essence && (
+                                            <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                                {raceObj.essence}
+                                            </div>
+                                        )}
+                                        <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
+                                            {raceObj.cardFlavor}
+                                        </p>
+                                        {isNonNative && (
+                                            <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
+                                                Non-native lineage for selected path
+                                            </div>
+                                        )}
+                                    </div>
+                                );
 
-                                {getRaceList().map((raceObj) => {
-
-                                    const isSelectedRace = race === raceObj.id;
-
-                                    const raceTooltipContent = (
-
-                                        <div className="race-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
-
-                                            {raceObj.essence && (
-
-                                                <div style={{ color: '#7a5a35', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
-
-                                                    {raceObj.essence}
-
-                                                </div>
-
-                                            )}
-
-                                            <p style={{ margin: 0, color: '#2e1e0f', lineHeight: '1.4' }}>
-
-                                                {raceObj.cardFlavor}
-
-                                            </p>
-
-                                        </div>
-
-                                    );
-
-                                    return (
-
-                                        <div
-
-                                            key={raceObj.id}
-
-                                            className={`race-button-token ${isSelectedRace ? 'selected' : ''}`}
-
-                                            onClick={() => {
-
-                                                setActiveRaceSelection(raceObj.id);
-
-                                                if (raceObj.id !== race) {
-
-                                                    dispatch(wizardActionCreators.setRace(raceObj.id));
-
-                                                    dispatch(wizardActionCreators.setSubrace(''));
-
-                                                }
-
-                                                setFocusedSection('race');
-
-                                            }}
-
-                                            onMouseEnter={handleMouseEnter(raceTooltipContent, { title: raceObj.name })}
-
-                                            onMouseLeave={handleMouseLeave}
-
-                                            onMouseMove={handleMouseMove}
-
-                                        >
-
-                                            <i className={`${raceObj.icon} race-token-icon`}></i>
-
+                                return (
+                                    <div
+                                        key={raceObj.id}
+                                        className={`race-button-token ${isSelectedRace ? 'selected' : ''} ${isNonNative ? 'narrative-unlock' : ''}`}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-pressed={isSelectedRace}
+                                        onKeyDown={activateOnKey}
+                                        onClick={() => {
+                                            setActiveRaceSelection(raceObj.id);
+                                            if (raceObj.id !== race) {
+                                                dispatch(wizardActionCreators.setRace(raceObj.id));
+                                                dispatch(wizardActionCreators.setSubrace(''));
+                                            }
+                                            setFocusedSection('race');
+                                        }}
+                                        onMouseEnter={handleMouseEnter(raceTooltipContent, { title: isNonNative ? `${raceObj.name} (Other Homeland)` : raceObj.name })}
+                                        onMouseLeave={handleMouseLeave}
+                                        onMouseMove={handleMouseMove}
+                                        style={isNonNative ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
+                                    >
+                                        <span className="race-token-sigil" aria-hidden="true"><i className={`${raceObj.icon} race-token-icon`}></i></span>
+                                        <span className="race-token-text">
                                             <span className="race-token-label">{raceObj.name}</span>
+                                            {raceObj.essence && raceObj.essence !== raceObj.name && (
+                                                <span className="race-token-essence">{raceObj.essence}</span>
+                                            )}
+                                        </span>
+                                    </div>
+                                );
+                            };
 
+                            return (
+                                <>
+                                    {isNarrowed && (
+                                        <h4 className="categorized-section-title">Native Homelands &amp; Lineages</h4>
+                                    )}
+                                    <div className="race-buttons-grid">
+                                        {nativeRaces.map(r => renderRaceToken(r, false))}
+                                    </div>
+
+                                    {otherRaces.length > 0 && (
+                                        <div className="restricted-toggle-container">
+                                            <button
+                                                type="button"
+                                                className={`restricted-toggle-button ${showRestrictedRaces ? 'open' : ''} ${isCurrentRaceInOther ? 'has-selected' : ''}`}
+                                                onClick={() => setShowRestrictedRaces(prev => !prev)}
+                                                aria-expanded={showRestrictedRaces}
+                                            >
+                                                <div className="restricted-toggle-left">
+                                                    <i className={`fas fa-chevron-${showRestrictedRaces ? 'down' : 'right'} toggle-chevron`}></i>
+                                                    <span className="restricted-toggle-label">
+                                                        Other Homelands (Rare / Narrative Exceptions)
+                                                    </span>
+                                                    <span className="restricted-count-badge">{otherRaces.length}</span>
+                                                </div>
+                                                {isCurrentRaceInOther && (
+                                                    <span className="restricted-selected-indicator">
+                                                        <i className="fas fa-check-circle"></i> Selected: {getRaceData(race)?.name || race}
+                                                    </span>
+                                                )}
+                                            </button>
+                                            {showRestrictedRaces && (
+                                                <div className="race-buttons-grid restricted-grid toggleable-restricted-content">
+                                                    {otherRaces.map(r => renderRaceToken(r, true))}
+                                                </div>
+                                            )}
                                         </div>
-
-                                    );
-
-                                })}
-
-                            </div>
-
-                        ) : (
+                                    )}
+                                </>
+                            );
+                        })() : (
 
                             <div className="subrace-selection-container">
 
@@ -1548,6 +1709,7 @@ const Step1CoreDraft = () => {
                                     {(getRaceData(activeRaceSelection)?.subraces ? Object.values(getRaceData(activeRaceSelection).subraces) : []).map((subObj) => {
 
                                         const isSelectedSubrace = subrace === subObj.id;
+                                        const isNativeLineage = !heritageNarrowing.isNarrowed || heritageNarrowing.nativeSubraceIds.has(subObj.id);
 
                                         const subraceTooltipContent = (
 
@@ -1575,6 +1737,13 @@ const Step1CoreDraft = () => {
 
                                                 </p>
 
+                                                {heritageNarrowing.isNarrowed && (
+                                                    <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: isNativeLineage ? '#15803d' : '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                                                        <i className={`fas fa-${isNativeLineage ? 'check-circle' : 'info-circle'}`} style={{ marginRight: '4px' }}></i>
+                                                        {isNativeLineage ? (heritageNarrowing.reason || 'Native Lineage') : 'Rare / Non-native path for chosen calling or background'}
+                                                    </div>
+                                                )}
+
                                             </div>
 
                                         );
@@ -1585,19 +1754,40 @@ const Step1CoreDraft = () => {
 
                                                 key={subObj.id}
 
-                                                className={`subrace-button-token ${isSelectedSubrace ? 'selected' : ''}`}
+                                                className={`subrace-button-token ${isSelectedSubrace ? 'selected' : ''} ${!isNativeLineage ? 'narrative-unlock' : ''}`}
+
+                                                role="button"
+
+                                                tabIndex={0}
+
+                                                aria-pressed={isSelectedSubrace}
+
+                                                onKeyDown={activateOnKey}
 
                                                 onClick={() => handleSubraceSelect(activeRaceSelection, subObj.id)}
 
-                                                onMouseEnter={handleMouseEnter(subraceTooltipContent, { title: subObj.name })}
+                                                onMouseEnter={handleMouseEnter(subraceTooltipContent, { title: !isNativeLineage ? `${subObj.name} (Sourced Lineage)` : subObj.name })}
 
                                                 onMouseLeave={handleMouseLeave}
 
                                                 onMouseMove={handleMouseMove}
 
+                                                style={!isNativeLineage ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
+
                                             >
 
-                                                <span className="subrace-token-title">{subObj.name}</span>
+                                                <div className="subrace-token-title-wrapper">
+                                                    {subObj.crest && (
+                                                        <img src={subObj.crest} alt="" className="subrace-token-crest-img" />
+                                                    )}
+                                                    <span className="subrace-token-title">{subObj.name}</span>
+                                                </div>
+
+                                                {heritageNarrowing.isNarrowed && (
+                                                    isNativeLineage
+                                                        ? <span className="subrace-native-badge">Native</span>
+                                                        : <span className="subrace-rare-badge">Sourced</span>
+                                                )}
 
                                                 {subObj.statModifiers && (
 
@@ -1635,28 +1825,53 @@ const Step1CoreDraft = () => {
 
                     <div className="core-draft-section class-grid-section">
 
-                        <h3 className="section-headline">
+                        <RiteHeader
+                            numeral="II"
+                            title="Calling"
+                            hint={!race && background ? `Thematic to ${BACKGROUND_DATA[background]?.name || 'Origin'}` : "The path you walk · class"}
+                            value={characterData.class || null}
+                            required={!!validationErrors.class}
+                            onClear={characterData.class ? () => {
+                                dispatch(wizardActionCreators.setClass(''));
+                                dispatch(wizardActionCreators.setStartingSpells([]));
+                            } : null}
+                        />
 
-                            <i className="fas fa-shield-alt"></i> Select Class
-
-                        </h3>
-
-                        {validationErrors.class && <span className="section-error-msg">{validationErrors.class}</span>}
+                        {characterData.class && validationErrors.class && <span className="section-error-msg">{validationErrors.class}</span>}
 
                         
 
                         <div className="class-grid-wrapper">
 
                             {(() => {
-                                const allClassNames = Array.from(new Set(Object.values(CLASS_GROUPS).flat()));
-                                const compatibleClasses = allClassNames.filter((clsName) => isClassCompatible(clsName, race, subrace));
-                                const restrictedClasses = allClassNames.filter((clsName) => !isClassCompatible(clsName, race, subrace));
+                                // Classes that are exclusive to a single subrace (narrativeUnlock: false)
+                                // are hidden entirely for incompatible heritage combinations.
+                                const isExclusiveClassMismatch = (clsName) => {
+                                    const classInfo = CLASS_DATA_MAP[clsName];
+                                    if (classInfo?.restrictions?.narrativeUnlock !== false) return false;
+                                    return !isCharacterClassCompatible(clsName);
+                                };
+                                const allClassNames = Array.from(new Set(Object.values(CLASS_GROUPS).flat()))
+                                    .filter((clsName) => !isExclusiveClassMismatch(clsName));
+                                const isClassThematic = (clsName) => {
+                                    if (race) {
+                                        return isCharacterClassCompatible(clsName);
+                                    }
+                                    if (background) {
+                                        return isClassThematicToBg(clsName, background);
+                                    }
+                                    return true;
+                                };
+
+                                const compatibleClasses = allClassNames.filter((clsName) => isClassThematic(clsName));
+                                const restrictedClasses = allClassNames.filter((clsName) => !isClassThematic(clsName));
                                 const isCurrentClassRestricted = restrictedClasses.includes(characterData.class);
 
                                 const renderClassToken = (clsName) => {
                                     const classInfo = CLASS_DATA_MAP[clsName];
                                     const isSelectedClass = characterData.class === clsName;
-                                    const isCompatible = isClassCompatible(clsName, race, subrace);
+                                    const isCompatible = isClassThematic(clsName);
+                                    const classAccess = getCharacterClassAccess(characterData, clsName);
 
                                     const tooltipContent = (
                                         <div className="class-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
@@ -1676,7 +1891,7 @@ const Step1CoreDraft = () => {
                                             {!isCompatible && (
                                                 <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                     <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
-                                                    Narrative Unlock: Requires GM approval
+                                                    {race ? (classAccess.reason || 'Sourced acquisition required') : 'Non-thematic to selected origin'}
                                                 </div>
                                             )}
                                         </div>
@@ -1686,8 +1901,13 @@ const Step1CoreDraft = () => {
                                         <div 
                                             key={clsName} 
                                             className={`class-icon-token ${isSelectedClass ? 'selected' : ''} ${!isCompatible ? 'narrative-unlock' : ''}`}
+                                            role="button"
+                                            tabIndex={0}
+                                            aria-pressed={isSelectedClass}
+                                            aria-label={clsName}
+                                            onKeyDown={activateOnKey}
                                             onClick={() => handleClassClick(clsName)}
-                                            onMouseEnter={handleMouseEnter(tooltipContent, { title: !isCompatible ? `${clsName} (Narrative Unlock)` : clsName })}
+                                            onMouseEnter={handleMouseEnter(tooltipContent, { title: !isCompatible ? (race ? `${clsName} (Acquisition / State Required)` : `${clsName} (Other Calling)`) : clsName })}
                                             onMouseLeave={handleMouseLeave}
                                             onMouseMove={handleMouseMove}
                                             style={!isCompatible ? { borderStyle: 'dashed', borderColor: '#d4af37' } : undefined}
@@ -1703,9 +1923,19 @@ const Step1CoreDraft = () => {
                                     );
                                 };
 
+                                const callingSectionTitle = race
+                                    ? "Native & Qualified Callings"
+                                    : background
+                                        ? `Thematic Callings (${BACKGROUND_DATA[background]?.name || 'Origin'})`
+                                        : "All Callings";
+
+                                const otherCallingsLabel = race
+                                    ? "Other Callings (Acquisition / State Required)"
+                                    : "Other Callings (Non-Thematic to Origin)";
+
                                 return (
                                     <>
-                                        <h4 className="categorized-section-title">Lore-Fitting Callings</h4>
+                                        <h4 className="categorized-section-title">{callingSectionTitle}</h4>
                                         <div className="class-icons-grid">
                                             {compatibleClasses.map(renderClassToken)}
                                         </div>
@@ -1721,7 +1951,7 @@ const Step1CoreDraft = () => {
                                                     <div className="restricted-toggle-left">
                                                         <i className={`fas fa-chevron-${showRestrictedClasses ? 'down' : 'right'} toggle-chevron`}></i>
                                                         <span className="restricted-toggle-label">
-                                                            Non-Native Callings (Requires GM Approval)
+                                                            {otherCallingsLabel}
                                                         </span>
                                                         <span className="restricted-count-badge">{restrictedClasses.length}</span>
                                                     </div>
@@ -1746,6 +1976,10 @@ const Step1CoreDraft = () => {
 
                     </div>
 
+                    <ClassAcquisitionEditor characterData={characterData}
+                        onChange={patch => dispatch(wizardActionCreators.updateBasicInfo(patch))}
+                        warnings={validateCharacterClassAccess(characterData, state.originalCalling).warnings} />
+
                     {(() => {
                         const classData = CLASS_DATA_MAP[characterData.class];
                         const variant = classData?.subraceVariants?.[characterData.subrace];
@@ -1764,13 +1998,13 @@ const Step1CoreDraft = () => {
                                     <i className="fas fa-scroll" style={{ color: '#b08a4a', fontSize: '1.1rem' }}></i>
                                     <h5 style={{ margin: 0, color: '#5a3d1d', fontSize: '1.15rem', fontWeight: 'bold' }}>{variant.subraceName} {characterData.class}: {variant.title}</h5>
                                 </div>
-                                <p style={{ margin: '0 0 12px', color: '#2e1e0f', lineHeight: '1.6', fontSize: '0.95rem' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.reframe) }} />
+                                <p style={{ margin: '0 0 12px', color: '#2e1e0f', lineHeight: '1.6', fontSize: '0.95rem' }}>{formatDescriptionText(variant.reframe)}</p>
                                 {variant.signatureAbility && (
                                     <div style={{ marginBottom: '10px', padding: '10px 14px', background: 'rgba(176,138,74,0.08)', borderRadius: '4px', borderLeft: '3px solid #b08a4a' }}>
                                         <div style={{ fontWeight: 'bold', color: '#7a5a35', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
                                             <i className="fas fa-bolt" style={{ marginRight: '4px' }}></i>{variant.signatureAbility.name}
                                         </div>
-                                        <p style={{ margin: 0, color: '#3e2e1f', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.signatureAbility.description) }} />
+                                        <p style={{ margin: 0, color: '#3e2e1f', fontSize: '0.9rem', lineHeight: '1.5' }}>{formatDescriptionText(variant.signatureAbility.description)}</p>
                                     </div>
                                 )}
                                 {variant.currentCrisisAngle && (
@@ -1778,12 +2012,12 @@ const Step1CoreDraft = () => {
                                         <div style={{ fontWeight: 'bold', color: '#8b0000', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '4px' }}>
                                             <i className="fas fa-exclamation-circle" style={{ marginRight: '4px' }}></i>Current Crisis
                                         </div>
-                                        <p style={{ margin: 0, color: '#3e2e1f', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.currentCrisisAngle) }} />
+                                        <p style={{ margin: 0, color: '#3e2e1f', fontSize: '0.9rem', lineHeight: '1.5' }}>{formatDescriptionText(variant.currentCrisisAngle)}</p>
                                     </div>
                                 )}
                                 {variant.signatureQuote && (
                                     <div style={{ padding: '10px 14px', background: 'rgba(90,61,29,0.06)', borderRadius: '4px', fontStyle: 'italic' }}>
-                                        <p style={{ margin: '0 0 4px', color: '#5a3d1d', fontSize: '0.9rem', lineHeight: '1.5' }} dangerouslySetInnerHTML={{ __html: formatDescriptionText(variant.signatureQuote.text) }} />
+                                        <p style={{ margin: '0 0 4px', color: '#5a3d1d', fontSize: '0.9rem', lineHeight: '1.5' }}>{formatDescriptionText(variant.signatureQuote.text)}</p>
                                         <span style={{ color: '#8a7a5a', fontSize: '0.8rem' }}>- {variant.signatureQuote.speaker}, {variant.signatureQuote.context}</span>
                                     </div>
                                 )}
@@ -1797,13 +2031,16 @@ const Step1CoreDraft = () => {
 
                     <div className="core-draft-section">
 
-                        <h3 className="section-headline">
-
-                            <i className="fas fa-book-open"></i> Character Origins (Background)
-
-                        </h3>
-
-                        {validationErrors.background && <span className="section-error-msg">{validationErrors.background}</span>}
+                        <RiteHeader
+                            numeral="III"
+                            title="Origin"
+                            hint={!race && characterData.class ? `Thematic to ${characterData.class}` : "Who you were before · background"}
+                            value={BACKGROUND_DATA[background]?.name || null}
+                            required={!!validationErrors.background}
+                            onClear={background ? () => {
+                                dispatch(wizardActionCreators.setBackground(''));
+                            } : null}
+                        />
 
                         
 
@@ -1811,20 +2048,24 @@ const Step1CoreDraft = () => {
 
                             {(() => {
                                 const allBackgrounds = Object.values(BACKGROUND_DATA);
-                                const compatibleBackgrounds = allBackgrounds.filter((bg) => {
-                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
-                                    return selectable && !narrativeUnlock;
-                                });
-                                const restrictedBackgrounds = allBackgrounds.filter((bg) => {
-                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
-                                    return !(selectable && !narrativeUnlock);
-                                });
+                                const isThematicBg = (bg) => {
+                                    if (race) {
+                                        const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
+                                        return selectable && !narrativeUnlock;
+                                    }
+                                    if (characterData.class) {
+                                        return isBgThematicToClass(bg, characterData.class);
+                                    }
+                                    return true;
+                                };
+
+                                const compatibleBackgrounds = allBackgrounds.filter(isThematicBg);
+                                const restrictedBackgrounds = allBackgrounds.filter(bg => !isThematicBg(bg));
                                 const isCurrentBackgroundRestricted = restrictedBackgrounds.some(bg => bg.id === background);
 
                                 const renderBackgroundToken = (bg) => {
-                                    const { selectable, narrativeUnlock } = isBackgroundCompatible(bg, race, subrace);
-                                    const isCompatible = selectable && !narrativeUnlock;
-                                    const requiresUnlock = !isCompatible;
+                                    const isThematic = isThematicBg(bg);
+                                    const requiresUnlock = !isThematic;
 
                                     const bgTooltipContent = (
                                         <div className="bg-tooltip-content" style={{ fontFamily: "'Crimson Text', serif", fontSize: '0.9rem', maxWidth: '240px' }}>
@@ -1839,7 +2080,7 @@ const Step1CoreDraft = () => {
                                             {requiresUnlock && (
                                                 <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px dashed #b08a4a', color: '#8a5a00', fontStyle: 'italic', fontSize: '0.8rem' }}>
                                                     <i className="fas fa-exclamation-triangle" style={{ marginRight: '4px' }}></i>
-                                                    Narrative Unlock: Requires GM approval
+                                                    {race ? 'Narrative Unlock: Requires GM approval' : 'Non-thematic to selected calling'}
                                                 </div>
                                             )}
                                         </div>
@@ -1849,8 +2090,12 @@ const Step1CoreDraft = () => {
                                         <div
                                             key={bg.id}
                                             className={`background-button-token ${background === bg.id ? 'selected' : ''} ${requiresUnlock ? 'narrative-unlock' : ''}`}
+                                            role="button"
+                                            tabIndex={0}
+                                            aria-pressed={background === bg.id}
+                                            onKeyDown={activateOnKey}
                                             onClick={() => handleBackgroundChange(bg.id)}
-                                            onMouseEnter={handleMouseEnter(bgTooltipContent, { title: requiresUnlock ? `${bg.name} (Narrative Unlock)` : bg.name })}
+                                            onMouseEnter={handleMouseEnter(bgTooltipContent, { title: requiresUnlock ? (race ? `${bg.name} (Narrative Unlock)` : `${bg.name} (Other Origin)`) : bg.name })}
                                             onMouseLeave={handleMouseLeave}
                                             onMouseMove={handleMouseMove}
                                         >
@@ -1860,9 +2105,19 @@ const Step1CoreDraft = () => {
                                     );
                                 };
 
+                                const originSectionTitle = race
+                                    ? "Lore-Fitting Origins"
+                                    : characterData.class
+                                        ? `Thematic Origins (${characterData.class})`
+                                        : "All Origins";
+
+                                const otherOriginsLabel = race
+                                    ? "Non-Native Origins (Requires GM Approval)"
+                                    : "Other Origins (Non-Thematic to Calling)";
+
                                 return (
                                     <>
-                                        <h4 className="categorized-section-title">Lore-Fitting Origins</h4>
+                                        <h4 className="categorized-section-title">{originSectionTitle}</h4>
                                         <div className="background-buttons-grid">
                                             {compatibleBackgrounds.map(renderBackgroundToken)}
                                         </div>
@@ -1878,7 +2133,7 @@ const Step1CoreDraft = () => {
                                                     <div className="restricted-toggle-left">
                                                         <i className={`fas fa-chevron-${showRestrictedBackgrounds ? 'down' : 'right'} toggle-chevron`}></i>
                                                         <span className="restricted-toggle-label">
-                                                            Non-Native Origins (Requires GM Approval)
+                                                            {otherOriginsLabel}
                                                         </span>
                                                         <span className="restricted-count-badge">{restrictedBackgrounds.length}</span>
                                                     </div>
@@ -1923,7 +2178,7 @@ const Step1CoreDraft = () => {
 
                             ? `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45)), url(/assets/Backgrounds/${encodeURIComponent(characterData.iconBackgroundImage)})`
 
-                            : 'rgba(255, 255, 255, 0.15)'
+                            : 'radial-gradient(ellipse at 50% 42%, rgba(253, 248, 239, 0.9) 0%, rgba(232, 219, 190, 0.55) 55%, rgba(153, 126, 85, 0.32) 100%)'
 
                     }}
 
@@ -1931,81 +2186,45 @@ const Step1CoreDraft = () => {
 
                     <div className="canvas-frame-gothic">
 
-                        <div className="canvas-portrait-area">
-
+                        <div className="canvas-portrait-area mode-2d">
                             <div 
-
                                 className="portrait-avatar-wrapper"
-
                                 onClick={() => setShowAppearanceModal(true)}
-
                                 style={{
-
                                     backgroundColor: characterData.iconBackgroundColor,
-
                                     borderColor: characterData.iconBorderColor,
-
                                     backgroundImage: characterData.iconBackgroundImage ? `url(/assets/Backgrounds/${encodeURIComponent(characterData.iconBackgroundImage)})` : 'none',
-
                                     backgroundSize: characterData.iconBackgroundImage ? `${(characterData.iconBackgroundScale || 2.5) * 100}%` : 'cover',
-
                                     backgroundPosition: characterData.iconBackgroundImage ? `calc(50% + ${characterData.iconBackgroundOffsetX || 0}px) calc(50% + ${characterData.iconBackgroundOffsetY || 0}px)` : 'center',
-
                                     backgroundRepeat: 'no-repeat'
-
                                 }}
-
                             >
-
                                 {(characterData.characterImage || imagePreview) ? (
-
                                     <img 
-
                                         src={characterData.characterImage || imagePreview} 
-
                                         alt="Avatar" 
-
                                         style={getImageStyle()} 
-
                                     />
-
                                 ) : characterData.characterIcon ? (
-
                                     <img 
-
                                         src={getCustomIconUrl(characterData.characterIcon, 'creatures')} 
-
                                         alt="Icon" 
-
                                         style={{
-
                                             transform: `scale(${characterData.iconScale || 1}) translate(${characterData.iconOffsetX || 0}px, ${characterData.iconOffsetY || 0}px)`,
-
                                             borderRadius: '50%'
-
                                         }}
-
                                         onError={(e) => { e.target.onerror = null; e.target.src = getCustomIconUrl('Human/Icon1', 'creatures'); }}
-
                                     />
-
                                 ) : (
-
                                     <div className="avatar-placeholder-silhouette">
-
-                                        <i className="fas fa-user-plus"></i>
-
-                                        <span>Customize Visuals</span>
-
+                                        <i className="fas fa-feather-alt" aria-hidden="true"></i>
+                                        <span>Choose a likeness</span>
                                     </div>
-
                                 )}
-
                                 <div className="avatar-hover-layer"><i className="fas fa-edit"></i> Edit Appearance</div>
-
                             </div>
-
                         </div>
+
 
 
 
@@ -2023,13 +2242,19 @@ const Step1CoreDraft = () => {
 
                                     onChange={handleNameChange} 
 
-                                    placeholder="Enter Hero Name"
+                                    placeholder="Name your hero"
 
-                                    className={`interactive-name-input ${validationErrors.name ? 'error' : ''}`}
+                                    aria-label="Hero name"
+
+                                    maxLength={50}
+
+                                    onBlur={() => { if (name && name.trim().length > 0) setNameTouched(true); }}
+
+                                    className={`interactive-name-input ${nameTouched && validationErrors.name ? 'error' : ''}`}
 
                                 />
 
-                                <button type="button" className="dice-randomizer-btn" onClick={handleRandomName} title="Random Name">
+                                <button type="button" className="dice-randomizer-btn" onClick={handleRandomName} title="Roll a name" aria-label="Roll a random name">
 
                                     <i className="fas fa-dice"></i>
 
@@ -2037,7 +2262,7 @@ const Step1CoreDraft = () => {
 
                             </div>
 
-                            {validationErrors.name && <span className="canvas-error-label">{validationErrors.name}</span>}
+                            {nameTouched && validationErrors.name && <span className="canvas-error-label">{validationErrors.name}</span>}
 
 
 
@@ -2052,6 +2277,8 @@ const Step1CoreDraft = () => {
                                         type="button" 
 
                                         className={`gender-toggle-btn ${gender === g ? 'active' : ''}`}
+
+                                        aria-pressed={gender === g}
 
                                         onClick={() => handleGenderChange(g)}
 
@@ -2071,48 +2298,48 @@ const Step1CoreDraft = () => {
 
 
 
-                        {/* Drawer Launchers */}
+                        {/* Hero dossier: live record of the three rites, then the drawers */}
+                        <div className="draft-dossier">
+                            <dl className="draft-dossier-rites">
+                                <div className={`draft-dossier-row ${selectedSubrace ? 'is-set' : ''}`}>
+                                    <dt>Heritage</dt>
+                                    <dd>{selectedSubrace && selectedRace ? `${selectedSubrace.name} ${selectedRace.name}` : selectedRace ? `${selectedRace.name}, no lineage` : 'Unchosen'}</dd>
+                                </div>
+                                <div className={`draft-dossier-row ${characterData.class ? 'is-set' : ''}`}>
+                                    <dt>Calling</dt>
+                                    <dd>{characterData.class || 'Unchosen'}</dd>
+                                </div>
+                                <div className={`draft-dossier-row ${background ? 'is-set' : ''}`}>
+                                    <dt>Origin</dt>
+                                    <dd>{BACKGROUND_DATA[background]?.name || 'Unchosen'}</dd>
+                                </div>
+                            </dl>
 
-                        <div className="canvas-drawer-launchers">
+                            <div className="canvas-drawer-launchers">
+                                <button
+                                    type="button"
+                                    className={`launcher-trigger-btn ${validationErrors.stats ? 'warning' : ''} ${availablePoints === 0 ? 'is-complete' : ''}`}
+                                    onClick={() => setShowStatsDrawer(true)}
+                                >
+                                    <i className="fas fa-chart-bar" aria-hidden="true"></i>
+                                    <span className="launcher-label">Ability Scores</span>
+                                    <span className="launcher-value">{availablePoints === 0 ? 'All points spent' : `${availablePoints} points to spend`}</span>
+                                    <i className="fas fa-chevron-right launcher-chevron" aria-hidden="true"></i>
+                                </button>
 
-                            <button 
-
-                                type="button" 
-
-                                className={`launcher-trigger-btn ${validationErrors.stats ? 'warning' : ''}`}
-
-                                onClick={() => setShowStatsDrawer(true)}
-
-                            >
-
-                                <i className="fas fa-chart-bar"></i>
-
-                                <span>Ability Scores ({availablePoints} pts left)</span>
-
-                            </button>
-
-                            
-
-                            <button 
-
-                                type="button" 
-
-                                className={`launcher-trigger-btn ${validationErrors.spells ? 'warning' : ''}`}
-
-                                onClick={() => setShowSpellsDrawer(true)}
-
-                                disabled={!characterData.class}
-
-                                title={!characterData.class ? 'Select a class first' : 'Choose Spells'}
-
-                            >
-
-                                <i className="fas fa-magic"></i>
-
-                                <span>Starting Spells ({selectedSpells.length}/3 selected)</span>
-
-                            </button>
-
+                                <button
+                                    type="button"
+                                    className={`launcher-trigger-btn ${validationErrors.spells ? 'warning' : ''} ${selectedSpells.length === 3 ? 'is-complete' : ''}`}
+                                    onClick={() => setShowSpellsDrawer(true)}
+                                    disabled={!characterData.class}
+                                    title={!characterData.class ? 'Choose a calling first' : 'Choose starting spells'}
+                                >
+                                    <i className="fas fa-magic" aria-hidden="true"></i>
+                                    <span className="launcher-label">Starting Spells</span>
+                                    <span className="launcher-value">{!characterData.class ? 'Choose a calling first' : `${selectedSpells.length} of 3 chosen`}</span>
+                                    <i className="fas fa-chevron-right launcher-chevron" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
 
                     </div>
@@ -2228,31 +2455,70 @@ const Step1CoreDraft = () => {
                                     
 
                                     <div className="grimoire-heritage-showcase">
-
-                                        <div className="grimoire-heritage-icon-wrapper">
-
+                                        <div
+                                            className="grimoire-heritage-icon-wrapper"
+                                            onClick={() => setLightboxImage(currentHeritageIll.src)}
+                                            title="Click to zoom race illustration"
+                                        >
                                             <img 
-
-                                                src={getSubraceImage(selectedSubrace?.id, selectedRace.id)}
-
-                                                alt={selectedSubrace ? selectedSubrace.name : selectedRace.name}
-
+                                                src={currentHeritageIll.src}
+                                                alt={currentHeritageIll.caption || (selectedSubrace ? selectedSubrace.name : selectedRace.name)}
                                                 className="grimoire-large-heritage-icon grimoire-zoomable"
-
-                                                onClick={() => setLightboxImage(getSubraceImage(selectedSubrace?.id, selectedRace.id))}
-
                                                 onError={(e) => {
-
                                                     e.target.onerror = null;
-
                                                     e.target.src = '/assets/images/races/human_illustration.png';
-
                                                 }}
-
                                             />
-
+                                            <div className="grimoire-art-zoom-hint">
+                                                <i className="fas fa-search-plus"></i>
+                                            </div>
                                         </div>
 
+                                        {heritageIllustrations.length > 1 && (
+                                            <div className="grimoire-heritage-nav-row">
+                                                <button
+                                                    type="button"
+                                                    className="grimoire-carousel-arrow-btn"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setHeritageIllIndex(prev => (prev > 0 ? prev - 1 : heritageIllustrations.length - 1));
+                                                    }}
+                                                    title="Previous illustration"
+                                                >
+                                                    <i className="fas fa-chevron-left"></i>
+                                                </button>
+                                                <span className="grimoire-carousel-pills">
+                                                    {heritageIllustrations.map((_, idx) => (
+                                                        <span
+                                                            key={idx}
+                                                            className={`grimoire-carousel-pill ${idx === heritageIllIndex ? 'active' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setHeritageIllIndex(idx);
+                                                            }}
+                                                            title={`View illustration ${idx + 1}: ${heritageIllustrations[idx]?.caption || ''}`}
+                                                        />
+                                                    ))}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    className="grimoire-carousel-arrow-btn"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setHeritageIllIndex(prev => (prev < heritageIllustrations.length - 1 ? prev + 1 : 0));
+                                                    }}
+                                                    title="Next illustration"
+                                                >
+                                                    <i className="fas fa-chevron-right"></i>
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        {currentHeritageIll.caption && (
+                                            <div className="grimoire-heritage-caption-tag" title={currentHeritageIll.caption}>
+                                                <i className="fas fa-feather-alt"></i> {currentHeritageIll.caption}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <p className="grimoire-flavor-quote">"{selectedRace.cardFlavor}"</p>
@@ -2261,7 +2527,12 @@ const Step1CoreDraft = () => {
 
                                         <>
 
-                                            <h4 className="grimoire-section-header">{selectedSubrace.name}</h4>
+                                            <h4 className="grimoire-section-header">
+                                                {selectedSubrace.crest && (
+                                                    <img src={selectedSubrace.crest} alt="" className="grimoire-crest-thumbnail" />
+                                                )}
+                                                {selectedSubrace.name}
+                                            </h4>
 
                                             <div className="grimoire-markdown-body">
 
@@ -2395,7 +2666,11 @@ const Step1CoreDraft = () => {
 
                                     </div>
 
-                                    <p className="codex-placeholder-text">Select a Heritage on the left to reveal its lore.</p>
+                                    <div className="grimoire-empty-state-card">
+                                        <div className="grimoire-watermark-icon"><i className="fas fa-feather-alt"></i></div>
+                                        <h4 className="codex-placeholder-headline">The Annals of Heritage</h4>
+                                        <p className="codex-placeholder-text">Choose a Heritage on the left to inscribe its ancient bloodline, traits, and physical form into this chronicle.</p>
+                                    </div>
 
                                 </div>
 
@@ -2439,7 +2714,7 @@ const Step1CoreDraft = () => {
 
                                         <span className="grimoire-subtitle">
 
-                                            {characterData.class ? CLASS_DATA_MAP[characterData.class]?.name || characterData.class : 'None Selected'}
+                                            {characterData.class ? CLASS_DATA_MAP[characterData.class]?.variantName || CLASS_DATA_MAP[characterData.class]?.name || characterData.class : 'None Selected'}
 
                                         </span>
 
@@ -2452,27 +2727,85 @@ const Step1CoreDraft = () => {
                                         <>
 
                                             <div className="grimoire-class-showcase">
+                                                {currentClassIll ? (
+                                                    <>
+                                                        <div
+                                                            className="grimoire-heritage-icon-wrapper"
+                                                            onClick={() => setLightboxImage(currentClassIll.src)}
+                                                            title="Click to zoom class illustration"
+                                                        >
+                                                            <img 
+                                                                src={currentClassIll.src}
+                                                                alt={currentClassIll.caption || characterData.class}
+                                                                className="grimoire-large-heritage-icon grimoire-zoomable"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`;
+                                                                }}
+                                                            />
+                                                            <div className="grimoire-art-zoom-hint">
+                                                                <i className="fas fa-search-plus"></i>
+                                                            </div>
+                                                        </div>
 
-                                                <div className="grimoire-class-icon-wrapper">
+                                                        {classIllustrations.length > 1 && (
+                                                            <div className="grimoire-heritage-nav-row">
+                                                                <button
+                                                                    type="button"
+                                                                    className="grimoire-carousel-arrow-btn"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setClassIllIndex(prev => (prev > 0 ? prev - 1 : classIllustrations.length - 1));
+                                                                    }}
+                                                                    title="Previous illustration"
+                                                                >
+                                                                    <i className="fas fa-chevron-left"></i>
+                                                                </button>
+                                                                <span className="grimoire-carousel-pills">
+                                                                    {classIllustrations.map((_, idx) => (
+                                                                        <span
+                                                                            key={idx}
+                                                                            className={`grimoire-carousel-pill ${idx === classIllIndex ? 'active' : ''}`}
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                setClassIllIndex(idx);
+                                                                            }}
+                                                                            title={`View illustration ${idx + 1}: ${classIllustrations[idx]?.caption || ''}`}
+                                                                        />
+                                                                    ))}
+                                                                </span>
+                                                                <button
+                                                                    type="button"
+                                                                    className="grimoire-carousel-arrow-btn"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setClassIllIndex(prev => (prev < classIllustrations.length - 1 ? prev + 1 : 0));
+                                                                    }}
+                                                                    title="Next illustration"
+                                                                >
+                                                                    <i className="fas fa-chevron-right"></i>
+                                                                </button>
+                                                            </div>
+                                                        )}
 
-                                                    <ClassIcon 
-
-                                                        src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
-
-                                                        alt={characterData.class}
-
-                                                        size="large"
-
-                                                        className="grimoire-large-class-icon grimoire-zoomable"
-
-                                                        dataClass={characterData.class}
-
-                                                        onClick={() => setLightboxImage(CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`)}
-
-                                                    />
-
-                                                </div>
-
+                                                        {currentClassIll.caption && (
+                                                            <div className="grimoire-heritage-caption-tag" title={currentClassIll.caption}>
+                                                                <i className="fas fa-feather-alt"></i> {currentClassIll.caption}
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <div className="grimoire-class-icon-wrapper">
+                                                        <ClassIcon 
+                                                            src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
+                                                            alt={characterData.class}
+                                                            size="large"
+                                                            className="grimoire-large-class-icon grimoire-zoomable"
+                                                            dataClass={characterData.class}
+                                                            onClick={() => setLightboxImage(CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`)}
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
 
                                             <h3 className="grimoire-subtitle" style={{ fontSize: '1rem', color: '#2e1e0f' }}>
@@ -2617,7 +2950,11 @@ const Step1CoreDraft = () => {
 
                                     </div>
 
-                                    <p className="codex-placeholder-text">Select a Calling on the left to reveal its features.</p>
+                                    <div className="grimoire-empty-state-card">
+                                        <div className="grimoire-watermark-icon"><i className="fas fa-shield-alt"></i></div>
+                                        <h4 className="codex-placeholder-headline">Order Arts &amp; Disciplines</h4>
+                                        <p className="codex-placeholder-text">Select a Calling to reveal combat arts, primary resources, order paths, and starting spells.</p>
+                                    </div>
 
                                 </div>
 
@@ -2658,6 +2995,12 @@ const Step1CoreDraft = () => {
                                             <div className="grimoire-markdown-body">
 
                                                 <p>{BACKGROUND_DATA[background].description}</p>
+
+                                                {subrace && BACKGROUND_DATA[background].subraceFlavor && BACKGROUND_DATA[background].subraceFlavor[subrace] && (
+                                                    <p className="grimoire-flavor-line" style={{ fontStyle: 'italic', marginTop: '0.5rem', color: '#6b4f33' }}>
+                                                        <strong>{selectedSubrace?.name || subrace}:</strong> {BACKGROUND_DATA[background].subraceFlavor[subrace]}
+                                                    </p>
+                                                )}
 
                                             </div>
 
@@ -2765,7 +3108,11 @@ const Step1CoreDraft = () => {
 
                                     </div>
 
-                                    <p className="codex-placeholder-text">Select a Background on the left to reveal its benefits.</p>
+                                    <div className="grimoire-empty-state-card">
+                                        <div className="grimoire-watermark-icon"><i className="fas fa-compass"></i></div>
+                                        <h4 className="codex-placeholder-headline">Past Deeds &amp; Provenance</h4>
+                                        <p className="codex-placeholder-text">Choose an Origin to uncover the trade, guild, or survival oath your hero swore before answering the call.</p>
+                                    </div>
 
                                 </div>
 

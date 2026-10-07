@@ -694,7 +694,7 @@ export async function seedTestCreature() {
   }
 
   const creaturesRef = collection(db, COLLECTIONS.CREATURES);
-  const q = query(creaturesRef, where('name', '==', 'Ember Wisp'), limit(1));
+  const q = query(creaturesRef, where('isPublic', '==', true), where('name', '==', 'Ember Wisp'), limit(1));
   const snapshot = await getDocs(q);
 
   if (!snapshot.empty) {
@@ -769,7 +769,7 @@ export async function cleanupDuplicateCreatures() {
   if (!checkFirebaseAvailable()) return 0;
 
   const creaturesRef = collection(db, COLLECTIONS.CREATURES);
-  const snapshot = await getDocs(creaturesRef);
+  const snapshot = await getDocs(query(creaturesRef, where('isPublic', '==', true)));
 
   const seen = new Map();
   const duplicates = [];

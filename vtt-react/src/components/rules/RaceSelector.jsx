@@ -1,11 +1,13 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
-import { getRacialBaseStats, getRacialSavingThrowModifiers } from '../../data/raceData';
+import { getRacialBaseStats, getRacialSavingThrowModifiers, formatSavingThrowModifier, getFullRaceData } from '../../data/raceData';
 import { getIconUrl } from '../../utils/assetManager';
 import RaceEpicLore from './RaceEpicLore';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import { HERITAGE_TRADITIONS } from '../../data/classHeritageRegistry';
+import { BACKGROUND_DATA } from '../../data/backgroundData';
 
 import './RaceSelector.css';
 
@@ -773,6 +775,8 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
             src={`${PUB}/assets/images/${RACE_WATERCOLOR[race.id]}.png`}
             alt=""
             aria-hidden="true"
+            loading="lazy"
+            decoding="async"
             onError={(e) => { e.target.style.display = 'none'; }}
           />
         )}
@@ -800,16 +804,30 @@ const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
 
 // Memoized Variant Card Component
 const VariantCard = React.memo(({ raceId, variantId, variant, isSelected, onSelect }) => {
+  const variantClass = variant.id || variantId;
+  const shortClass = variantId && variantId !== variantClass ? `variant-card-${variantId}` : '';
   return (
     <div
-      className={`variant-card variant-card-${raceId} variant-card-${variant.id || variantId} ${isSelected ? 'selected' : ''}`}
+      className={`variant-card variant-card-${raceId} variant-card-${variantClass} ${shortClass} ${isSelected ? 'selected' : ''}`.trim().replace(/\s+/g, ' ')}
       onClick={() => onSelect(variantId)}
     >
       <div className="variant-card-bg-effects"></div>
       <div className="variant-card-fx" aria-hidden="true"></div>
       <h4 className="variant-card-name">{variant.name}</h4>
+      <div className="variant-card-showcase">
+        {variant.crest && (
+          <div className="variant-card-crest-wrapper">
+            <div className="variant-card-crest-halo" aria-hidden="true"></div>
+            <img src={variant.crest} alt={variant.name} className="variant-card-crest-img" />
+          </div>
+        )}
+        {variant.statModifiers && Object.keys(variant.statModifiers).length > 0 && (
+          <div className="variant-card-stats-side">
+            <StatModifiersMini statModifiers={variant.statModifiers} />
+          </div>
+        )}
+      </div>
       <p className="variant-card-description">{variant.tooltipSummary || (variant.description?.length > 160 ? variant.description.substring(0, 160).trim() + '...' : variant.description)}</p>
-      <StatModifiersMini statModifiers={variant.statModifiers} />
     </div>
   );
 });
@@ -1065,6 +1083,20 @@ const RaceSelector = () => {
     [selectedVariant, raceData]
   );
 
+  // Native classes + available backgrounds for the selected subrace (shown inline).
+  // (class callings & backgrounds panel)
+  const callingsAndBackgrounds = useMemo(() => {
+    const heritageId = variantData?.id || selectedVariant;
+    const heritage = heritageId ? HERITAGE_TRADITIONS[heritageId] : null;
+    const classes = heritage ? heritage.classes : [];
+    const all = Object.values(BACKGROUND_DATA);
+    const backgrounds = heritageId
+      ? all.filter(bg => (bg.restrictions?.allowedSubraces || []).includes(heritageId)).map(bg => bg.name)
+      : [];
+    const universal = all.filter(bg => !(bg.restrictions?.allowedSubraces || []).length).map(bg => bg.name);
+    return { classes, backgrounds, universal };
+  }, [selectedVariant, variantData]);
+
   // Memoize subrace images list to support multiple illustrations
   const subraceImages = useMemo(() => {
     if (!variantData) return [];
@@ -1289,6 +1321,25 @@ const RaceSelector = () => {
                 </div>
               </div>
 
+              {/* Variant Selection */}
+              <h3 className="step-title">Choose a Variant</h3>
+              <div className="variant-grid">
+                {Object.entries(raceData.subraces).map(([variantId, variant]) => (
+                  <VariantCard
+                    key={variantId}
+                    raceId={raceData.id}
+                    variantId={variantId}
+                    variant={variant}
+                    isSelected={selectedVariant === variantId}
+                    onSelect={handleVariantSelect}
+                  />
+                ))}
+              </div>
+              <div className="empty-state">
+                <i className="fas fa-hand-pointer"></i>
+                <p>Select a variant to view detailed information</p>
+              </div>
+
               {/* Race Overview Container with floated illustration */}
               <div className="race-overview-container">
                 {(variantData?.illustration || customIllustration?.src || raceData.illustration) && !imageErrors[variantData?.illustration || customIllustration?.src || raceData.illustration] && (
@@ -1370,25 +1421,6 @@ const RaceSelector = () => {
                 </div>
               )}
             </div>
-
-            {/* Variant Selection */}
-            <h3 className="step-title">Choose a Variant</h3>
-            <div className="variant-grid">
-              {Object.entries(raceData.subraces).map(([variantId, variant]) => (
-                <VariantCard
-                  key={variantId}
-                  raceId={raceData.id}
-                  variantId={variantId}
-                  variant={variant}
-                  isSelected={selectedVariant === variantId}
-                  onSelect={handleVariantSelect}
-                />
-              ))}
-            </div>
-            <div className="empty-state">
-              <i className="fas fa-hand-pointer"></i>
-              <p>Select a variant to view detailed information</p>
-            </div>
           </div>
         ) : (
           <div className="race-loading">
@@ -1402,6 +1434,9 @@ const RaceSelector = () => {
       {currentStep === 'details' && variantData && raceData && (
         <div className="variant-details-view">
           <div className="step-title">
+            {variantData.crest && (
+              <img src={variantData.crest} alt={variantData.name} className="variant-details-crest-hero" />
+            )}
             {variantData.name} Details
             {(raceData.epicHistory || raceData.description || raceData.overview) && (
               <button
@@ -1434,6 +1469,9 @@ const RaceSelector = () => {
                         setDescriptionExpanded(false);
                       }}
                     >
+                      {variant.crest && (
+                        <img src={variant.crest} alt="" className="switcher-btn-crest" />
+                      )}
                       <span className="variant-name">{variant.name}</span>
                       {variant.statModifiers && Object.keys(variant.statModifiers).length > 0 && (
                         <span className="variant-stats">
@@ -1610,13 +1648,13 @@ const RaceSelector = () => {
                         {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
                           <div className="info-row info-row-full info-row-no-bg">
                             <span className="info-label">ADVANTAGE:</span>
-                            <span className="info-value">{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                            <span className="info-value">{savingThrowMods.advantage.map(formatSavingThrowModifier).join(', ')}</span>
                           </div>
                         )}
                         {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
                           <div className="info-row info-row-full info-row-no-bg">
                             <span className="info-label">DISADV.:</span>
-                            <span className="info-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                            <span className="info-value">{savingThrowMods.disadvantage.map(formatSavingThrowModifier).join(', ')}</span>
                           </div>
                         )}
                       </div>
@@ -1628,7 +1666,18 @@ const RaceSelector = () => {
 
               {(() => {
                 if (!raceData.baseTraits) return null;
-                const displayedTraits = { ...raceData.baseTraits, ...(variantData?.baseTraits || {}) };
+                const displayedTraits = (() => {
+                  const full = (selectedRace && selectedVariant) ? getFullRaceData(selectedRace, selectedVariant) : null;
+                  const ct = full?.combinedTraits || {};
+                  return {
+                    ...raceData.baseTraits,
+                    ...(variantData?.baseTraits || {}),
+                    ...ct,
+                    // combinedTraits exposes `speed`; the sidebar expects `baseSpeed`.
+                    baseSpeed: ct.speed ?? variantData?.speed ?? raceData.baseTraits?.baseSpeed,
+                    languages: ct.languages || variantData?.languages || raceData.baseTraits?.languages
+                  };
+                })();
                 return (
                 <div className="sidebar-physical">
                   {displayedTraits.size && <div className="sidebar-stat-row"><span>Size</span><strong>{displayedTraits.size}</strong></div>}
@@ -1700,6 +1749,25 @@ const RaceSelector = () => {
                 </div>
               )}
 
+              {selectedVariant && (callingsAndBackgrounds.classes.length > 0 || callingsAndBackgrounds.backgrounds.length > 0) && (
+                <div className="content-section content-section--callings">
+                  <h4 className="content-section-title">
+                    <i className="fas fa-hat-wizard"></i> Callings &amp; Backgrounds
+                  </h4>
+                  {callingsAndBackgrounds.classes.length > 0 && (
+                    <p className="content-section-text">
+                      <strong>Native Classes:</strong> {callingsAndBackgrounds.classes.join(', ')}
+                    </p>
+                  )}
+                  {callingsAndBackgrounds.backgrounds.length > 0 && (
+                    <p className="content-section-text">
+                      <strong>Backgrounds:</strong> {callingsAndBackgrounds.backgrounds.join(', ')}
+                      {callingsAndBackgrounds.universal.length > 0 ? ` · open to all: ${callingsAndBackgrounds.universal.join(', ')}` : ''}
+                    </p>
+                  )}
+                </div>
+              )}
+
               <div className="content-section">
                 <h4 className="content-section-title">
                   <i className="fas fa-star"></i> Racial Traits
@@ -1763,6 +1831,7 @@ const RaceSelector = () => {
         <div className="epic-lore-overlay">
           <RaceEpicLore
             raceData={raceData}
+            subraceId={variantData?.id || selectedVariant}
             availableTabs={['history', 'figures', 'locations', 'crisis', 'practices', 'culture']}
             onClose={() => setShowEpicLore(false)}
           />

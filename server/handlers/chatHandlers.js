@@ -22,16 +22,34 @@ function registerChatHandlers(ctx) {
     requireAuth,
     chatDebug,
     getSocketsByUserId,
-    emitToUserId
+    emitToUserId,
+    validateRoomMembership
   } = ctx;
+
+  const resolveCurrentMembership = () => {
+    if (typeof validateRoomMembership === 'function') {
+      return validateRoomMembership(socket, undefined);
+    }
+    const fallbackPlayer = players.get(socket.id);
+    const fallbackRoom = fallbackPlayer && rooms ? rooms.get(fallbackPlayer.roomId) : null;
+    if (!fallbackPlayer || !fallbackRoom) {return { valid: false };}
+    return { valid: true, player: fallbackPlayer, room: fallbackRoom };
+  };
 
   socket.on('chat_message', async(data) => {
     try {
-      const player = players.get(socket.id);
-      if (!player) {return;}
+      // Current room membership/entitlement is required; a revoked or stale
+      // device that is no longer in the authoritative room cannot chat.
+      const validation = resolveCurrentMembership();
+      if (!validation.valid) {return;}
+      const { room, player } = validation;
 
-      const room = rooms.get(player.roomId);
-      if (!room) {return;}
+      // GM mute: block the message server-side (flag set by GM Tools mute_player).
+      if (player.muted) {
+        logger.info('[chat_message] Blocked muted player', { playerId: player.id, roomId: room.id });
+        socket.emit('chat_muted', { reason: 'You have been muted by the GM.' });
+        return;
+      }
 
       const sanitizedMessage = sanitizeChatMessage(data.message);
       if (!sanitizedMessage) {return;}
@@ -64,6 +82,22 @@ function registerChatHandlers(ctx) {
       logger.error('[chat_message] Error:', { error: error.message });
     }
   });
+
+  // Typing indicators: relay with server-authoritative identity (players cannot
+  // spoof who is typing).
+  const relayTyping = (event) => {
+    socket.on(event, () => {
+      const validation = resolveCurrentMembership();
+      if (!validation.valid) {return;}
+      const { room, player } = validation;
+      socket.to(room.id).emit(event, {
+        playerId: player.id,
+        playerName: player.name
+      });
+    });
+  };
+  relayTyping('user_typing');
+  relayTyping('user_stopped_typing');
 
   socket.on('global_chat_message', requireAuth((data) => {
     try {

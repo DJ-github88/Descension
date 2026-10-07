@@ -10,6 +10,10 @@
  * - sync_map_state: send current map state back to requesting player
  */
 
+const { ackFailure } = require('../utils/socketAck');
+const roomCheckpoint = require('../services/roomCheckpoint');
+const roomAccess = require('../services/roomAccessService');
+
 function registerMapHandlers(ctx) {
   const {
     io,
@@ -20,9 +24,35 @@ function registerMapHandlers(ctx) {
     validateRoomMembership,
     validateMapExists,
     firebaseBatchWriter,
-    getNextEventSequence,
-    realtimeSync
+    getNextEventSequence
   } = ctx;
+
+  const getOwnMapForRead = (room, mapId) => {
+    const maps = room && room.gameState && room.gameState.maps;
+    if (!maps || typeof maps !== 'object' || !Object.prototype.hasOwnProperty.call(maps, mapId)) {
+      return null;
+    }
+    const map = maps[mapId];
+    return map && typeof map === 'object' && !Array.isArray(map) ? map : null;
+  };
+
+  const buildFullMapSyncPayload = (room, mapId, map) => {
+    // One positive privacy projection for every outbound map snapshot.
+    const projected = roomAccess.projectGameStateForClient({ maps: { [mapId]: { ...map } } }).maps[mapId];
+    return {
+      mapId,
+      mapIds: Object.keys((room.gameState && room.gameState.maps) || {}),
+      tokens: projected.tokens || {},
+      characterTokens: projected.characterTokens || {},
+      gridItems: projected.gridItems || {},
+      fogOfWar: projected.fogOfWarData || {},
+      mapData: projected,
+      combat: (room.gameState && room.gameState.combat) || null,
+      players: roomAccess.projectPlayersForClient(room.players),
+      gm: roomAccess.projectPlayerForClient(room.gm),
+      room: { id: room.id, name: room.name }
+    };
+  };
 
   socket.on('update_current_map', async(data) => {
     try {
@@ -105,26 +135,56 @@ function registerMapHandlers(ctx) {
       logger.debug(`[map_update] Received [Seq: ${sequence}, TargetID: ${hasTargetId ? data.targetMapId : 'N/A'}]`);
 
       const validation = validateRoomMembership(socket, data.roomId);
-      if (!validation.valid) {return;}
+      if (!validation.valid) {
+        // Inline authorization rejection must still answer an ack-bearing request.
+        ackFailure(callback, { success: false, error: 'Not a member of this room' });
+        return;
+      }
 
       const { room, player } = validation;
 
       if (data.action === 'create' && data.map) {
+        if (!player.isGM) {
+          logger.warn('[map_update] Non-GM attempted map creation');
+          ackFailure(callback, { success: false, error: 'GM privileges required' });
+          return;
+        }
         const mapId = data.map.id || uuidv4();
         validateMapExists(room, mapId, data.map.name);
 
         io.to(room.id).emit('map_update', {
           action: 'create',
-          map: { id: mapId, ...data.map },
+          map: roomAccess.projectMapDataForClient({ id: mapId, ...data.map }),
           createdBy: socket.id
         });
       } else if (data.action === 'delete' && data.mapId) {
+        if (!player.isGM) {
+          logger.warn('[map_update] Non-GM attempted map deletion');
+          ackFailure(callback, { success: false, error: 'GM privileges required' });
+          return;
+        }
         const deletedMapId = data.mapId;
         if (room.gameState.maps && room.gameState.maps[deletedMapId]) {
           delete room.gameState.maps[deletedMapId];
         }
 
-        const fallbackMapId = room.gameState.defaultMapId || 'default';
+        // Deterministic default-map rule: retain the existing default when it
+        // survives, otherwise choose the lexicographically first remaining map
+        // (or null for none) before any checkpoint is queued.
+        const remainingMapIds = Object.keys(room.gameState.maps || {}).sort();
+        const defaultStillPresent = room.gameState.defaultMapId !== deletedMapId &&
+          Object.prototype.hasOwnProperty.call(room.gameState.maps || {}, room.gameState.defaultMapId);
+        if (!defaultStillPresent) {
+          room.gameState.defaultMapId = remainingMapIds.length > 0 ? remainingMapIds[0] : null;
+        }
+        const fallbackMapId = room.gameState.defaultMapId || remainingMapIds[0] || 'default';
+
+        // Regenerate compatibility mirrors from surviving authoritative maps
+        // only; removed-map entities must not survive in root mirrors.
+        const mirrors = roomCheckpoint.deriveRootMirrors(room.gameState.maps || {});
+        room.gameState.tokens = mirrors.tokens;
+        room.gameState.characterTokens = mirrors.characterTokens;
+        room.gameState.gridItems = mirrors.gridItems;
 
         Object.values(room.gameState.maps || {}).forEach(map => {
           if (Array.isArray(map.dndElements)) {
@@ -158,6 +218,7 @@ function registerMapHandlers(ctx) {
       } else if (data.mapUpdates && data.targetMapId) {
         if (!player.isGM) {
           logger.warn('[map_update] Non-GM attempted terrain sync');
+          ackFailure(callback, { success: false, error: 'GM privileges required' });
           return;
         }
 
@@ -277,7 +338,7 @@ function registerMapHandlers(ctx) {
           if (shouldReceive) {
             io.to(sid).emit('map_update', {
               mapId: targetMapId,
-              mapData: mapUpdates,
+              mapData: roomAccess.projectMapDataForClient(mapUpdates),
               updatedBy: player.id,
               sequence: sequence
             });
@@ -306,15 +367,28 @@ function registerMapHandlers(ctx) {
       const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {return;}
 
-      if (realtimeSync) {
-        logger.info(`🔄 [request_full_map_sync] Forcing map sync for room ${data.roomId}`);
-        await realtimeSync.forceSyncAll(data.roomId);
-      } else {
-        io.to(data.roomId).emit('gm_action', {
-          type: 'force_map_sync',
-          timestamp: Date.now()
+      const { room } = validation;
+      const delivered = new Set();
+      const fallbackMapId = room.gameState.defaultMapId || 'default';
+      const deliver = (socketId, playerMapId) => {
+        if (!socketId || delivered.has(socketId)) {return;}
+        const mapId = getOwnMapForRead(room, playerMapId) ? playerMapId : (getOwnMapForRead(room, fallbackMapId) ? fallbackMapId : null);
+        if (!mapId) {return;}
+        delivered.add(socketId);
+        io.to(socketId).emit('full_game_state_sync', buildFullMapSyncPayload(room, mapId, getOwnMapForRead(room, mapId)));
+      };
+
+      if (room.players && typeof room.players.forEach === 'function') {
+        room.players.forEach((member) => {
+          deliver(member && member.socketId, (member && member.currentMapId) || fallbackMapId);
         });
       }
+      if (room.gm) {deliver(room.gm.socketId, room.gm.currentMapId || fallbackMapId);}
+
+      logger.info('[request_full_map_sync] Delivered complete live map projections from server memory', {
+        roomId: room.id,
+        recipients: delivered.size
+      });
     } catch (error) {
       logger.error('[request_full_map_sync] Error:', { error: error.message });
     }
@@ -400,27 +474,22 @@ function registerMapHandlers(ctx) {
 
       const { room, player } = validation;
       const mapId = player.currentMapId || room.gameState.defaultMapId || 'default';
-      const map = validateMapExists(room, mapId);
+      const map = getOwnMapForRead(room, mapId);
 
+      if (!map) {
+        socket.emit('sync_error', {
+          event: 'sync_map_state',
+          code: 'map_unavailable',
+          mapId,
+          message: `Map '${mapId}' is not available for recovery`
+        });
+        return;
+      }
+
+      const projectedMap = roomAccess.projectGameStateForClient({ maps: { [mapId]: { ...map } } }).maps[mapId];
       socket.emit('map_state_synced', {
         mapId,
-        state: {
-          tokens: map.tokens || {},
-          characterTokens: map.characterTokens || {},
-          gridItems: map.gridItems || {},
-          terrainData: map.terrainData || {},
-          wallData: map.wallData || {},
-          windowOverlays: map.windowOverlays || {},
-          environmentalObjects: map.environmentalObjects || [],
-          drawingPaths: map.drawingPaths || [],
-          fogOfWarData: map.fogOfWarData || {},
-          lightSources: map.lightSources || {},
-          dndElements: map.dndElements || [],
-          gridSettings: map.gridSettings || {},
-          elevationData: map.elevationData || {},
-          rampData: map.rampData || {},
-          sunSettings: map.sunSettings || {}
-        }
+        state: projectedMap
       });
 
     } catch (error) {
@@ -432,7 +501,7 @@ function registerMapHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {
-        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized' });
+        if (typeof callback === 'function') {callback({ success: false, error: 'Unauthorized' });}
         return;
       }
 
@@ -474,7 +543,7 @@ function registerMapHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {
-        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized' });
+        if (typeof callback === 'function') {callback({ success: false, error: 'Unauthorized' });}
         return;
       }
 
@@ -522,7 +591,7 @@ function registerMapHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {
-        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized' });
+        if (typeof callback === 'function') {callback({ success: false, error: 'Unauthorized' });}
         return;
       }
 
@@ -573,14 +642,14 @@ function registerMapHandlers(ctx) {
     try {
       const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {
-        if (typeof callback === 'function') callback({ success: false, error: 'Unauthorized: GM only' });
+        if (typeof callback === 'function') {callback({ success: false, error: 'Unauthorized: GM only' });}
         return;
       }
 
       const { room, player } = validation;
       const mapId = data.mapId;
       if (!mapId) {
-        if (typeof callback === 'function') callback({ success: false, error: 'Missing mapId' });
+        if (typeof callback === 'function') {callback({ success: false, error: 'Missing mapId' });}
         return;
       }
 
@@ -593,7 +662,7 @@ function registerMapHandlers(ctx) {
       }
 
       // Assign all active players in room to this map
-      for (const [sid, p] of players.entries()) {
+      for (const [, p] of players.entries()) {
         if (p.roomId === room.id) {
           p.currentMapId = mapId;
           room.gameState.playerMapAssignments[p.id] = mapId;
@@ -602,17 +671,17 @@ function registerMapHandlers(ctx) {
 
       // If full map snapshot was attached from GM prep, persist it to the room state
       if (data.mapSnapshot) {
-        if (data.mapSnapshot.terrainData) map.terrainData = data.mapSnapshot.terrainData;
-        if (data.mapSnapshot.wallData) map.wallData = data.mapSnapshot.wallData;
-        if (data.mapSnapshot.fogOfWarData) map.fogOfWarData = data.mapSnapshot.fogOfWarData;
-        if (data.mapSnapshot.fogOfWarPaths) map.fogOfWarPaths = data.mapSnapshot.fogOfWarPaths;
-        if (data.mapSnapshot.fogErasePaths) map.fogErasePaths = data.mapSnapshot.fogErasePaths;
-        if (data.mapSnapshot.exploredAreas) map.exploredAreas = data.mapSnapshot.exploredAreas;
-        if (data.mapSnapshot.environmentalObjects) map.environmentalObjects = data.mapSnapshot.environmentalObjects;
-        if (data.mapSnapshot.drawingPaths) map.drawingPaths = data.mapSnapshot.drawingPaths;
-        if (data.mapSnapshot.drawingLayers) map.drawingLayers = data.mapSnapshot.drawingLayers;
-        if (data.mapSnapshot.dndElements) map.dndElements = data.mapSnapshot.dndElements;
-        if (data.mapSnapshot.gridSettings) map.gridSettings = data.mapSnapshot.gridSettings;
+        if (data.mapSnapshot.terrainData) {map.terrainData = data.mapSnapshot.terrainData;}
+        if (data.mapSnapshot.wallData) {map.wallData = data.mapSnapshot.wallData;}
+        if (data.mapSnapshot.fogOfWarData) {map.fogOfWarData = data.mapSnapshot.fogOfWarData;}
+        if (data.mapSnapshot.fogOfWarPaths) {map.fogOfWarPaths = data.mapSnapshot.fogOfWarPaths;}
+        if (data.mapSnapshot.fogErasePaths) {map.fogErasePaths = data.mapSnapshot.fogErasePaths;}
+        if (data.mapSnapshot.exploredAreas) {map.exploredAreas = data.mapSnapshot.exploredAreas;}
+        if (data.mapSnapshot.environmentalObjects) {map.environmentalObjects = data.mapSnapshot.environmentalObjects;}
+        if (data.mapSnapshot.drawingPaths) {map.drawingPaths = data.mapSnapshot.drawingPaths;}
+        if (data.mapSnapshot.drawingLayers) {map.drawingLayers = data.mapSnapshot.drawingLayers;}
+        if (data.mapSnapshot.dndElements) {map.dndElements = data.mapSnapshot.dndElements;}
+        if (data.mapSnapshot.gridSettings) {map.gridSettings = data.mapSnapshot.gridSettings;}
       }
 
       const payload = {
@@ -620,18 +689,29 @@ function registerMapHandlers(ctx) {
         mapName: data.mapName || map.name || 'Map',
         pulledBy: player.name || 'Game Master',
         gmId: player.id,
-        mapSnapshot: data.mapSnapshot || {
-          terrainData: map.terrainData || {},
-          wallData: map.wallData || {},
-          fogOfWarData: map.fogOfWarData || {},
-          fogOfWarPaths: map.fogOfWarPaths || [],
-          fogErasePaths: map.fogErasePaths || [],
-          exploredAreas: map.exploredAreas || {},
-          environmentalObjects: map.environmentalObjects || [],
-          drawingPaths: map.drawingPaths || [],
-          gridSettings: map.gridSettings || null,
-          dndElements: map.dndElements || []
-        },
+        mapSnapshot: data.mapSnapshot
+          ? roomAccess.projectMapDataForClient(data.mapSnapshot)
+          : roomAccess.projectGameStateForClient({
+            maps: {
+              [mapId]: {
+                id: mapId,
+                name: map.name,
+                tokens: map.tokens || {},
+                characterTokens: map.characterTokens || {},
+                gridItems: map.gridItems || {},
+                terrainData: map.terrainData || {},
+                wallData: map.wallData || {},
+                fogOfWarData: map.fogOfWarData || {},
+                fogOfWarPaths: map.fogOfWarPaths || [],
+                fogErasePaths: map.fogErasePaths || [],
+                exploredAreas: map.exploredAreas || {},
+                environmentalObjects: map.environmentalObjects || [],
+                drawingPaths: map.drawingPaths || [],
+                gridSettings: map.gridSettings || null,
+                dndElements: map.dndElements || []
+              }
+            }
+          }).maps[mapId],
         sequence: getNextEventSequence()
       };
 

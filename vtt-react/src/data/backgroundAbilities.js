@@ -106,7 +106,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Contractual Eye',
       type: 'Passive',
       usage: 'Always Active',
-      description: "You read Nethien contracts the way an Inquisitor reads guilt. Gain advantage on Insight checks to detect lies and hidden motives, and one additional language.",
+      description: "You read Athien contracts the way an Inquisitor reads guilt. Gain advantage on Insight checks to detect lies and hidden motives, and one additional language.",
       details: "You have advantage on Wisdom (Insight) checks to detect deception or hidden intent. You learn one additional language of your choice."
     },
     {
@@ -300,7 +300,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Field Improvisation',
       type: 'Active',
       usage: '1/Short Rest',
-      description: "A Caustic Fexric dropout or Clockwork Fexric scholar, you can jury-rig anything. Modify a spell or device by changing one aspect of its function for a single use.",
+      description: "A Alchemite dropout or Brasskin scholar, you can jury-rig anything. Modify a spell or device by changing one aspect of its function for a single use.",
       details: "When you cast a spell or use a device, you can change one aspect: damage type (to any other type), double or halve the range, or reduce its resource cost by 1 (minimum 0)."
     }
   ],
@@ -405,7 +405,466 @@ export const BACKGROUND_ABILITIES = {
       description: "The fog eats memory, but it cannot eat the trace of what it has already swallowed. Trace the recent passage of any creature through fog or mist for up to 1 mile.",
       details: "As an action, choose a creature whose trail you can see in fog or mist. You can follow their path for up to 1 mile, learning how long ago they passed and whether they were moving in haste, stealth, or combat."
     }
-  ]
+  ],
+
+  zenithCartographer: [
+  {
+    "name": "Stellar Orientation",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You always know true celestial north, time of day or night, and the phase of Selunis even while deep underground or beneath thick fog.",
+    "details": "You cannot become disoriented by non-magical fog or subterranean depth, and gain advantage on Arcana and Survival checks involving astronomical or dimensional phenomena."
+  },
+  {
+    "name": "Zenith Flare",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Concentrated starlight flares from your brass astrolabe, blinding a foe or illuminating the unseen.",
+    "details": "For 1 AP, channel starlight to blind one target within 30 ft on a failed Spirit save until the end of their next turn, or illuminate all hidden and invisible creatures within a 20 ft radius."
+  }
+],
+
+  craterVanguard: [
+  {
+    "name": "Meteorite Density",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Your dense bone structure and kinetic shock-tolerance anchor you against violent impacts.",
+    "details": "You gain advantage on saving throws and checks against being knocked prone or moved against your will, and falling damage is reduced by an amount equal to twice your character level."
+  },
+  {
+    "name": "Ground-Breaker Stomp",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Strike the earth with immense kinetic force, sending a shockwave through nearby foes.",
+    "details": "For 1 AP, stomp the ground to force all enemies within 10 ft to succeed on an Agility save or be knocked prone and suffer 1d6 bludgeoning damage."
+  }
+],
+
+  clockworkHorologist: [
+  {
+    "name": "Escapement Precision",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You intuitively detect mechanical stress, clockwork timing, trap triggers, and lock tumblers by sound and touch.",
+    "details": "You gain advantage on checks to disarm mechanical devices, pick clockwork locks, or repair complex mechanisms and automata."
+  },
+  {
+    "name": "Overclock Mechanism",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Temporarily fine-tune an engineered apparatus for extraordinary output or jam an enemy gear.",
+    "details": "For 1 AP, grant an engineered or mechanical device advantage on its next check, or force an enemy mechanical apparatus or automaton to make an Intelligence save or become jammed for 1 turn."
+  }
+],
+
+  vitriolProspector: [
+  {
+    "name": "Acid-Tempered Flesh",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Long exposure to chemical runoff has hardened your skin and respiratory system against caustic hazards.",
+    "details": "You gain resistance to acid damage and toxic environmental fumes, and can identify chemical compounds and alchemical reagents by scent alone."
+  },
+  {
+    "name": "Caustic Flask Splash",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Hurl a flask of refined vitriol at a nearby foe, dissolving armor and flesh.",
+    "details": "For 1 AP, throw a vitriol flask at a target within 20 ft. The target takes 1d6 acid damage and suffers a -1 penalty to Armor Class from corroded armor for 2 turns."
+  }
+],
+
+  peatTender: [
+  {
+    "name": "Mycelial Sense",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Pressing your hands to wet soil, moss, or peat reveals the decomposition cycles beneath.",
+    "details": "You can sense buried corpses, decomposing organic matter, and subterranean water flows within 60 ft, and gain advantage on Medicine checks using natural fungal poultices."
+  },
+  {
+    "name": "Spore Poultice",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Release soothing medicinal spores to heal and cleanse wounds.",
+    "details": "For 1 AP, release medicinal spores on an adjacent creature, restoring 1d8 + Spirit hit points and cleansing one non-magical poison or disease condition."
+  }
+],
+
+  petrifiedMason: [
+  {
+    "name": "Lithic Grain",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Centuries of absorbing mineral springs have given your heartwood the grain and resilience of stone.",
+    "details": "You gain natural DR 1 against non-magical bludgeoning and crushing damage, and identify structural faults and load-bearing weak points on sight."
+  },
+  {
+    "name": "Bedrock Anchor",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Anchor your petrified roots deep into stone or soil, becoming an immovable pillar.",
+    "details": "For 1 AP, anchor yourself to the ground. Until the end of your next turn, you cannot be moved, shoved, knocked prone, or repositioned by any force."
+  }
+],
+
+  scriptureHerald: [
+  {
+    "name": "Highborne Decorum",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Your formal heraldic training commands instant deference among highborn houses and religious hierarchies.",
+    "details": "You gain advantage on Persuasion and Insight checks when dealing with nobility, diplomats, high priests, or planar entities."
+  },
+  {
+    "name": "Heraldic Decree",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Proclaim an ancestral decree with the ringing authority of the high wind-aeries.",
+    "details": "For 1 AP, utter an authoritative decree. One humanoid or planar creature within 30 ft must succeed on a Spirit save or be charmed or frightened (your choice) for 1 turn."
+  }
+],
+
+  quietTraded: [
+  {
+    "name": "Echo of the Quiet",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Having traded a sense to the Quiet, your remaining perception expands into the surrounding silence.",
+    "details": "You cannot be surprised by hidden or invisible creatures within 30 ft while you remain motionless in darkness or fog, and gain advantage on non-visual Perception checks."
+  },
+  {
+    "name": "Quiet Slip",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Disappear into sensory blind spots even while under observation.",
+    "details": "For 1 AP, take the Hide action as a free action, even while observed, provided you are in dim light, fog, or shadow."
+  }
+],
+
+  trenchListener: [
+  {
+    "name": "Pressure Reverberation",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Tuned to the subsonic hum of the Treakous Rift, you feel vibrations through water and stone.",
+    "details": "You can detect low-frequency vibrations, seismic shifts, and aquatic currents up to 120 ft away, and are immune to being deafened by acoustic shocks."
+  },
+  {
+    "name": "Subsonic Drone",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Vocalize a disorienting low-frequency drone that rattles the equilibrium of nearby foes.",
+    "details": "For 1 AP, emit a subsonic wave. Enemies within 15 ft must succeed on a Constitution save or suffer -2 to all attack rolls and physical checks for 1 turn."
+  }
+],
+
+  saltHingeEnvoy: [
+  {
+    "name": "Maritime Accords",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Diplomatic credentials recognized across civilized coastal harbors and trade posts.",
+    "details": "You and your companions receive free lodging and docking rights in coastal ports, and you gain advantage on checks to evaluate cargo manifests and spot maritime fraud."
+  },
+  {
+    "name": "Spindrift Parley",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Invoke ancient maritime neutrality to stall violence and open negotiations.",
+    "details": "For 1 AP, invoke formal maritime parley. A hostile humanoid within 30 ft must succeed on a Spirit save or pause hostile actions for 1 round to hear your terms."
+  }
+],
+
+  cataractScout: [
+  {
+    "name": "Current Rider",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Freshwater river currents and marsh muck present no obstacle to your aquatic momentum.",
+    "details": "Moving against rapid currents, river rapids, or marsh muck costs no extra movement, and watercraft travel speed is doubled along freshwater rivers."
+  },
+  {
+    "name": "River Surge",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Harness the momentum of flowing water to surge forward in a burst of speed.",
+    "details": "For 1 AP, take the Dash action as a free action or grant yourself +20 ft movement speed and water-walking until the end of your turn."
+  }
+],
+
+  vaultTender: [
+  {
+    "name": "Vault Thermal Sight",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Centuries in the obsidian shafts under Emberspire trained your eyes to perceive thermal radiation.",
+    "details": "In subterranean darkness, you clearly perceive heat signatures and magma veins up to 60 ft away, and you are immune to being blinded by bright flashes of flame or light."
+  },
+  {
+    "name": "Vault Hearth Focus",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Tap into geothermal memory to warm the blood and shield against biting freeze.",
+    "details": "For 1 AP, channel latent earth-heat, granting yourself and all allies within 15 ft resistance to cold damage and immunity to freezing penalties for 1 hour."
+  }
+],
+
+  ashDuneSkimmer: [
+  {
+    "name": "Ash-Lung Resilience",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Your lungs and respiratory passages are conditioned against toxic volcanic dust.",
+    "details": "You cannot suffocate from non-magical volcanic ash, heavy dust, or sulfur fumes, and have advantage on Constitution checks against caldera and arid heat exhaustion."
+  },
+  {
+    "name": "Ash-Cloud Escape",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Kick up a blinding curtain of volcanic sand and ash to disengage safely.",
+    "details": "For 1 AP, create a 10 ft radius cloud of dense ash that heavily obscures the area for 1 turn and allow yourself to Disengage immediately as a free action."
+  }
+],
+
+  sanctuarySeneschal: [
+  {
+    "name": "Quarantine Vigil",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Rigorous sanitary training lets you spot the earliest signs of blight or infection.",
+    "details": "With 1 minute of inspection, you can determine if a creature or food item is infected with non-magical disease or necrotic taint, and gain advantage on saves against contagion."
+  },
+  {
+    "name": "Cleansing Fumigation",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Burn consecrated camphor resin to cleanse the surrounding air of biological corruption.",
+    "details": "For 1 AP, burn camphor salts in a 15 ft radius. Cleanses airborne toxins and grants all allies in range advantage on saving throws against disease and poison for 1 hour."
+  }
+],
+
+  nullSaltHunter: [
+  {
+    "name": "Blight-Scarred Tenacity",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Deadened nerve-endings in your necrotic scars flare with numbness under mortal peril.",
+    "details": "When your hit points fall below one-third of maximum, gain +2 to Armor Class and immunity to pain stun and movement reduction effects until healed."
+  },
+  {
+    "name": "Null-Salt Brand",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Lash a foe with caustic null-salt to sever their connection to magical or necrotic regeneration.",
+    "details": "For 1 AP, strike an adjacent target with null-salt. If the target has magical or undead traits, their spellcasting, magical abilities, or regeneration are disrupted for 1 turn."
+  }
+],
+
+  steppeSinger: [
+  {
+    "name": "Wind-Pace & Herd-Song",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Throat-singing rhythms that carry across the endless grasslands to guide beasts and clans.",
+    "details": "You gain advantage on Animal Handling checks to calm agitated beasts, and mounted or marching overland travel pace for your party is increased by 20% across plains."
+  },
+  {
+    "name": "Ancestral Herd Call",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Sound an ancestral resonant drone that inspires mounts and allies alike.",
+    "details": "For 1 AP, sound an ancestral song. All allies within 30 ft gain +10 ft movement speed and advantage on saving throws against fear for 2 turns."
+  }
+],
+
+  glacierHarpooner: [
+  {
+    "name": "Ice-Footed Stride",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Crampon conditioning that makes slick glacier crevasses as safe as solid ground.",
+    "details": "You ignore difficult terrain caused by ice, snow, or frozen slopes without slipping, and extreme sub-zero cold conditions impose no exhaustion or penalties on physical checks."
+  },
+  {
+    "name": "Harpoon Takedown",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Drive a barbed line-harpoon into a target, anchoring them in place.",
+    "details": "For 1 AP, make a harpoon strike or throw (range 30 ft). On hit, deal normal weapon damage and anchor the target; they cannot move away from you until they spend an action to dislodge the hook."
+  }
+],
+
+  canopyWeaver: [
+  {
+    "name": "Pheromone Distillation",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Subtle botanical essences that ease social tension and allow rapid reagent gathering.",
+    "details": "You gain advantage on Persuasion checks against non-hostile humanoids and beasts, and can harvest fresh botanical and herbal components during any short rest in wild vegetation."
+  },
+  {
+    "name": "Soothing Pollen Cloud",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Disperse a sweet-scented puff of soothing pollen that dampens violent impulses.",
+    "details": "For 1 AP, release a 10 ft puff of soothing pollen. Humanoids in range must make a Spirit save or have their aggressive actions suppressed for 1 turn, preventing attack rolls."
+  }
+],
+
+  briarSentinel: [
+  {
+    "name": "Thorn-Barbed Bark",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Rigid bark covered in needle-sharp briar thorns that punish close-quarters aggressors.",
+    "details": "Any creature that grapples you or hits you with an unarmed strike or natural weapon takes 1d4 piercing damage, and you have advantage on saves against plant-based toxins and thorns."
+  },
+  {
+    "name": "Briar Entangle",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Call forth grasping thorny roots to snare the feet of nearby trespassers.",
+    "details": "For 1 AP, cause thorny briars to erupt in a 10 ft radius around you. Enemies in the area must succeed on an Agility save or have their speed reduced to 0 and take 1d4 piercing damage."
+  }
+],
+
+  keepWarden: [
+  {
+    "name": "Watch-Bell Recall",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You know the warning signs of structural failure: frost-thick, pipe-groan, or shifting stone. You gain advantage on checks to detect structural collapse, failing seals, or breached walls, and instinctively know the safest exit of any enclosed space.",
+    "details": "You gain advantage on checks to detect structural or environmental failure (collapsing floors, failing seals, breached walls) and can name the safest exit of any enclosed settlement you have spent an hour in."
+  },
+  {
+    "name": "Brace the Threshold",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Brace a doorway, portcullis, or defensive choke point against rushing intruders.",
+    "details": "For 1 AP, brace a doorway or narrow passage (up to 10 ft wide). Hostile creatures cannot move through the passage until the start of your next turn unless they succeed on a Strength save against your save DC."
+  }
+],
+
+  spanBuilder: [
+  {
+    "name": "Load-Bearer",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You intuitively read the safe load and structural flaws of bridges, catwalks, and scaffoldings. You and nearby allies gain advantage on checks to navigate crumbling spans or unstable terrain.",
+    "details": "You can read the structural integrity of any span, floor, or bridge at a glance and know its safe load. You gain advantage on checks to cross or reinforce failing structures."
+  },
+  {
+    "name": "Anchor Span",
+    "type": "Active",
+    "usage": "1/Long Rest",
+    "description": "Reinforce or brace a failing structure long enough for companions to cross safely.",
+    "details": "Once per long rest, for 1 AP you may brace a collapsing structure, ladder, or bridge long enough for up to 4 allies to cross safely (they pass unharmed; you take the strain)."
+  }
+],
+
+  contractClerk: [
+  {
+    "name": "Subclause Scrutiny",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Trained in Athien contractual scripture, you immediately spot deceptive wording, hidden stipulations, or forgery in written documents.",
+    "details": "You gain advantage on Investigation and Insight checks to inspect contracts, warrants, ledgers, and treaties for omissions or bad-faith stipulations."
+  },
+  {
+    "name": "Filed Witness",
+    "type": "Active",
+    "usage": "1/Long Rest",
+    "description": "Invoke the First Contract to compel a moment of unvarnished truth.",
+    "details": "Once per long rest, for 1 AP when a creature speaks a falsehood in your presence, invoke the Contract aloud; the creature must make a Spirit save (DC 13) or be unable to repeat that specific lie for one day."
+  }
+],
+
+  obligationBroker: [
+  {
+    "name": "Debt Scent",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You sense the unspoken pressure of debts, pledges, and leverage. You have advantage on Insight checks to determine what a creature desires or owes.",
+    "details": "You gain advantage on Insight and Persuasion checks when dealing with financial transactions, debt collection, or collateral negotiation."
+  },
+  {
+    "name": "Web-Read",
+    "type": "Active",
+    "usage": "1/Long Rest",
+    "description": "Sense a binding obligation and its strain upon a creature.",
+    "details": "Once per long rest, for 1 AP after interacting with a creature for at least a minute, learn one true obligation they carry (debt, oath, promised favor) and whether it is close to breaking."
+  }
+],
+
+  greymarkArchivist: [
+  {
+    "name": "Living Index",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You have committed thousands of lineages to memory, granting advantage on History and Arcana checks relating to erased lineage, heraldry, or regional treaties.",
+    "details": "You can recite the recorded ancestry of any Frostwood family you have studied, and Tallyn recognize your authority."
+  },
+  {
+    "name": "Recall the Forgotten",
+    "type": "Active",
+    "usage": "1/Long Rest",
+    "description": "Recall a specific detail erased by the fog or soothe an ally lost in memory-loss.",
+    "details": "Once per long rest, for 1 AP speak aloud an exact truth or forgotten identity erased by the Frostwood mist, or clear the bewildered or memory-fogged condition from one ally within 30 ft."
+  }
+],
+
+  privateer: [
+  {
+    "name": "Letter of Marque",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Your commissioned status grants safe harbor and preferential market tariffs in maritime ports, plus advantage on Intimidation checks against maritime authorities.",
+    "details": "In coastal settlements you can claim safe harbor, sell prize goods at a reduced tariff, and legally refuse a Press-Warrant once per port."
+  },
+  {
+    "name": "Boarding Repartee",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Issue a commanding nautical maneuver or threat to rally a squadmate.",
+    "details": "For 1 AP, grant one ally within 30 ft +10 ft movement speed and advantage on their next attack roll before the end of the round."
+  }
+],
+
+  nameless: [
+  {
+    "name": "Unperson",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "Having no entry in any registry, you cannot be located or tracked by name-keyed divination, contract magic, or bureaucratic scrying.",
+    "details": "Registry- and Ledger-keyed magic and bureaucracy cannot target or track you by name (this includes First Contract-keyed detection)."
+  },
+  {
+    "name": "Slip the Ledger",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Vanish from sight or evade identification when pursued.",
+    "details": "For 1 AP, when targeted by an attack or investigation check, use a reaction to blend into shadows or a crowd, imposing disadvantage on the attack or check."
+  }
+],
+
+  cryptKeeper: [
+  {
+    "name": "Ancestral Light",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "You can read fungal ancestral lights of a crypt: which are at rest, which are failing, and which are corrupted.",
+    "details": "You have advantage on checks to detect undead, fungal corruption, or a light that has been tampered with, and you can safely seal (or release) one such light per long rest."
+  },
+  {
+    "name": "Lantern Hallowing",
+    "type": "Active",
+    "usage": "1/Short Rest",
+    "description": "Ignite or channel ancestral spirit lantern light to ward off restless dead.",
+    "details": "For 1 AP, channel your ancestral light in a 20 ft radius. Undead within the area must succeed on a Spirit save or suffer 1d8 radiant damage and be turned for 1 turn."
+  }
+]
 };
 
 export const getBackgroundAbilities = (backgroundId) => {

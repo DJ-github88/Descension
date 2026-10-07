@@ -1,9 +1,24 @@
 import { create } from 'zustand';
 import mapAnnotationService from '../services/mapAnnotationService';
+import useNotificationStore from './notificationStore';
 
 let unsubPins = null;
 let unsubAreas = null;
 let unsubShares = null;
+
+// Surface silent cloud-save failures (e.g. permission-denied) instead of
+// letting the annotation appear to vanish.
+const notifySaveFailure = (label, result) => {
+  if (!result || result.success) return;
+  try {
+    useNotificationStore.getState().showError(
+      `Could not save your ${label} to the cloud. Check your connection and try again.`,
+      { title: 'Map save failed' }
+    );
+  } catch (_e) {
+    // Notification store unavailable (tests) — ignore.
+  }
+};
 
 const useMapAnnotationStore = create((set, get) => ({
   pins: [],
@@ -80,6 +95,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.savePin(userId, newPin);
     set({ isLoading: false });
+    notifySaveFailure('marker', result);
 
     if (result.success && mapAnnotationService.shouldUseLocalStorage(userId)) {
       // Trigger a local state refresh for local storage mode
@@ -100,6 +116,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.savePin(userId, updatedPin);
     set({ isLoading: false });
+    notifySaveFailure('marker', result);
 
     if (result.success && mapAnnotationService.shouldUseLocalStorage(userId)) {
       set(state => ({
@@ -113,6 +130,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.deletePin(userId, pinId);
     set({ isLoading: false });
+    notifySaveFailure('marker', result);
 
     if (result.success && mapAnnotationService.shouldUseLocalStorage(userId)) {
       set(state => ({
@@ -142,6 +160,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.saveArea(userId, newArea);
     set({ isLoading: false });
+    notifySaveFailure('territory', result);
 
     if (result.success && mapAnnotationService.shouldUseLocalStorage(userId)) {
       set(state => ({ areas: [...state.areas, newArea] }));
@@ -161,6 +180,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.saveArea(userId, updatedArea);
     set({ isLoading: false });
+    notifySaveFailure('territory', result);
 
     if (result.success && mapAnnotationService.shouldUseLocalStorage(userId)) {
       set(state => ({
@@ -174,6 +194,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.deleteArea(userId, areaId);
     set({ isLoading: false });
+    notifySaveFailure('territory', result);
 
     if (result.success && mapAnnotationService.shouldUseLocalStorage(userId)) {
       set(state => ({
@@ -186,11 +207,11 @@ const useMapAnnotationStore = create((set, get) => ({
   /**
    * Map Share Actions
    */
-  shareView: async (userId, targetFriend, viewState, message) => {
+  shareView: async (userId, targetFriend, viewState, message, fromUserName) => {
     const shareData = {
       toUserId: targetFriend.id,
       toUserName: targetFriend.name || targetFriend.displayName,
-      fromUserName: targetFriend.fromUserName || 'Someone',
+      fromUserName: fromUserName || targetFriend.fromUserName || 'Someone',
       message: message || '',
       viewState: {
         centerX: viewState.centerX,
@@ -202,6 +223,7 @@ const useMapAnnotationStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await mapAnnotationService.createShare(userId, shareData);
     set({ isLoading: false });
+    notifySaveFailure('shared view', result);
     return result;
   },
 

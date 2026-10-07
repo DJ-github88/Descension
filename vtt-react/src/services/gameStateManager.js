@@ -1,5 +1,9 @@
 import { saveCompleteGameState, loadCompleteGameState } from './roomService';
 
+// Project 3: while a multiplayer room is active the server owns shared room
+// state; this manager must not load or autosave the whole-room document.
+let multiplayerActive = false;
+
 class GameStateManager {
   constructor() {
     this.currentRoomId = null;
@@ -17,6 +21,13 @@ class GameStateManager {
   }
 
   async initialize(roomId, enableAutoSave = true) {
+    if (multiplayerActive) {
+      this.currentRoomId = roomId;
+      this.isAutoSaveEnabled = false;
+      this.teardownStoreListeners();
+      this.stopAutoSave();
+      return;
+    }
     this.currentRoomId = roomId;
     this.isAutoSaveEnabled = enableAutoSave;
 
@@ -469,6 +480,7 @@ class GameStateManager {
   }
 
   async saveGameState(force = false) {
+    if (multiplayerActive) { return; }
     if (!this.isAutoSaveEnabled || !this.currentRoomId || this.isSaving) return;
 
     if (!force && this.pendingChanges.size === 0) {
@@ -535,6 +547,18 @@ class GameStateManager {
     this.stopAutoSave();
     this.currentRoomId = null;
     this.pendingChanges.clear();
+  }
+
+  setMultiplayerActive(value) {
+    multiplayerActive = !!value;
+    if (multiplayerActive) {
+      this.teardownStoreListeners();
+      this.stopAutoSave();
+    }
+  }
+
+  isMultiplayerActive() {
+    return multiplayerActive;
   }
 
   getStatus() {

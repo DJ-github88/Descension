@@ -1,7 +1,7 @@
 /**
  * Martyr — Resource System tab v2 authored guide.
  * Copy drafted from martyrData.js resourceSystem (Devotion tiers, thresholds)
- * since classResources.js has no Martyr entry.
+ * and the cumulative damage / available-level contract.
  */
 export const martyrResourceGuide = {
  version: 2,
@@ -21,12 +21,12 @@ export const martyrResourceGuide = {
   gain: {
    title: 'Intervene',
    icon: 'fa-heart',
-   text: 'Intercepting an attack aimed at an ally adds +1 to +2 Devotion tiers, and absorbing a major hit (10+ damage) converts the excess into bonus progress. Damage you soak is the currency.',
+    text: 'Eligible damage advances a cumulative ledger. Crossing 10 / 20 / 40 / 60 / 80 / 100 earns levels; explicit spell-level grants are separate from damage progress.',
   },
   hold: {
    title: 'Six Thresholds',
    icon: 'fa-shield-alt',
-   text: 'Devotion advances through cumulative thresholds of 10 / 20 / 40 / 60 / 80 / 100. Every tier grows your passive auras and radiant presence — and the horror of the transfiguration.',
+    text: 'Displayed Devotion is available levels, 0–6. Cumulative damage, earned levels, spent levels and explicit bonus levels are distinct. Spending does not erase damage history or permit the next point of damage to refund a spent tier.',
   },
   spend: {
    title: 'Amplify',
@@ -41,7 +41,7 @@ export const martyrResourceGuide = {
  },
 
  exampleTurn:
-  '**Round 1:** the archer\'s shot at your wizard is intercepted (+1 tier) and a 14-damage crit adds +4 more progress — you are already climbing fast. **Round 2:** at tier 3 your DR aura protects the back line. You spend a tier to amplify the wizard\'s next spell rather than rush the dangerous bands, and soak a minor hit for 1d4 mana.',
+   'At 62 cumulative eligible damage, four levels have been earned. Spend two: available Devotion becomes 2, while damage stays 62. At 73 damage it remains 2; crossing 80 earns the fifth level, leaving 3 available. An explicit level grant restores available levels without inventing damage.',
 
  weaveIn: [
   {
@@ -63,14 +63,14 @@ export const martyrResourceGuide = {
   title: 'Devotion at a Glance',
   headers: ['Action', 'Devotion', 'What it does'],
   rows: [
-   ['Intervene (major hit, 10+ dmg)', '+1 tier + excess', 'Biggest single gain'],
-   ['Absorb a hit on your bastion', '+1 tier', 'Soak for progress'],
+    ['Eligible damage progress', 'Damage ledger', 'Only a newly crossed threshold earns a level'],
+    ['Explicit Devotion gain', '+levels', 'A typed level grant, not damage points'],
    ['Minor hit intercepted', '1d4 mana', 'Stay low on purpose'],
    ['Amplify spell', '−1 to −5 levels', 'Convert Devotion to output'],
    ['Zealot wrath tithe', 'HP cost', 'Trade health for damage'],
    ['Thresholds', '10 / 20 / 40 / 60 / 80 / 100', 'Cumulative damage absorbed'],
   ],
   footnote:
-   'Devotion persists until a rest or until you are healed above 80% max HP; higher tiers force enemies to focus you.',
+    'Spells spend levels, not HP or damage points. Explicit tier controls establish a fresh ledger at that tier; ordinary spending preserves cumulative damage. Automatic damage-source qualification, decay and passive aura resolution are separate engine work.',
  },
 };

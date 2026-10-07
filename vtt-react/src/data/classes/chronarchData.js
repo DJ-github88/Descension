@@ -40,12 +40,12 @@ export const CHRONARCH_DATA = {
     "mimir"
    ],
   "narrativeUnlock": true,
-  "justification": "Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned the technique, it requires Fexric gear-craft and Groven bone-knowledge."
+  "justification": "Requires temporal-suspension training only available in Cragjaw. Outsiders have never learned the technique, it requires Fex gear-craft and Groven bone-knowledge."
  },
 
  /**
- * Subrace Variants, the Chronarch engine is half gear-craft (Fexric) and half
- * living-bone interface (Groven), and the Tessen learned it by sending emissaries up
+ * Subrace Variants, the Chronarch engine is half gear-craft (Fex) and half
+ * living-bone interface (Groven), and the Tessic learned it by sending emissaries up
  * to Frostmaw. Each subrace treats the same temporal engine as a different object:
  * machine, body, or anchor.
  */
@@ -60,67 +60,67 @@ export const CHRONARCH_DATA = {
   },
 subraceVariants: {
  kethrin_fexric: {
-   subraceName: 'Clockwork Fexric',
+   subraceName: 'Brasskin',
   title: 'The Gear-Stitcher',
-  reframe: `The guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> built the gear-craft half of Nesta's engine, and they have never stopped believing the Chronarch tradition is, fundamentally, an engineering discipline that happens to be embedded in a person. A Clockwork Fexric Chronarch treats time as a mechanism with replaceable parts, and treats their own chest-engine as a machine that, with sufficient maintenance, need not kill them. (It still kills them.)`,
+  reframe: `The guild-bound <LoreLink termId="fexrick">Brasskin</LoreLink> built the gear-craft half of Nesta's engine, and they have never stopped believing the Chronarch tradition is, fundamentally, an engineering discipline that happens to be embedded in a person. A Brasskin Chronarch treats time as a mechanism with replaceable parts, and treats their own chest-engine as a machine that, with sufficient maintenance, need not kill them. (It still kills them.)`,
   signatureAbility: {
   name: 'Gear-Swap',
-  description: `Temporal effects are modulated by physically swapping gear-configurations in the chest-engine, a maintenance action that briefly destabilizes the user but allows re-tuning of a temporal effect mid-cast. The Clockwork Fexric alone can hot-swap without lethal feedback.`
+  description: `Temporal effects are modulated by physically swapping gear-configurations in the chest-engine, a maintenance action that briefly destabilizes the user but allows re-tuning of a temporal effect mid-cast. The Brasskin alone can hot-swap without lethal feedback.`
   },
-  currentCrisisAngle: `Nesta is disappearing, and the Clockwork Fexric read this as a *maintainable failure*, a fault in the oldest engine that a sufficiently skilled guild-master could, in theory, repair. The Clockwork Fexric guilds have begun the most ambitious repair attempt in history: rebuilding Nesta's engine from recorded schematics, hoping that if the machine persists, its inventor will too.`,
+  currentCrisisAngle: `Nesta is disappearing, and the Brasskin read this as a *maintainable failure*, a fault in the oldest engine that a sufficiently skilled guild-master could, in theory, repair. The Brasskin guilds have begun the most ambitious repair attempt in history: rebuilding Nesta's engine from recorded schematics, hoping that if the machine persists, its inventor will too.`,
   signatureQuote: {
   text: '"Time is a gearbox. Nesta is a gearbox. Both can be rebuilt. The only question is whether we have the parts, and we have always had the parts."',
   speaker: 'Guild-Master Fex-Torren',
-  context: 'A Clockwork Fexric engineer, unveiling the reconstruction schematics'
+  context: 'A Brasskin engineer, unveiling the reconstruction schematics'
   }
  },
 
  ithran_groven: {
-  subraceName: 'Ithran Groven',
+  subraceName: 'Amordjin Groven',
   title: 'The Bone-Calibrator',
-  reframe: `The volcanic-glass gears of a Chronarch engine must interface with *living bone* to function, and the long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink>, the bridge-builders, the diplomats who instinctively read load and stress, provide the ideal substrate. An Ithran Chronarch does not own their engine so much as *host* it; the gears grow into the extended limbs, and the tradition reads as much like architecture as like time.`,
+  reframe: `The volcanic-glass gears of a Chronarch engine must interface with *living bone* to function, and the long-limbed <LoreLink termId="groven">Amordjin Groven</LoreLink>, the bridge-builders, the diplomats who instinctively read load and stress, provide the ideal substrate. An Amordjin Chronarch does not own their engine so much as *host* it; the gears grow into the extended limbs, and the tradition reads as much like architecture as like time.`,
   signatureAbility: {
   name: 'Span-Calibration',
-  description: `Temporal effects scale with the reach and stability of the host's limbs, an Ithran Chronarch can stretch a local time-dilation across a wider area than any other practitioner, anchoring the field through their own outstretched body the way a bridge distributes load.`
+  description: `Temporal effects scale with the reach and stability of the host's limbs, an Amordjin Chronarch can stretch a local time-dilation across a wider area than any other practitioner, anchoring the field through their own outstretched body the way a bridge distributes load.`
   },
-  currentCrisisAngle: `Nesta's disappearance terrifies the Ithran most: they feel temporal friction as *bone-ache*, and as Nesta fades, every Ithran Chronarch's limbs ache a little more. Some have begun to splint their own arms, not for injury, but because the bone-engine interface is vibrating at a frequency the living skeleton cannot sustain.`,
+  currentCrisisAngle: `Nesta's disappearance terrifies the Amordjin most: they feel temporal friction as *bone-ache*, and as Nesta fades, every Amordjin Chronarch's limbs ache a little more. Some have begun to splint their own arms, not for injury, but because the bone-engine interface is vibrating at a frequency the living skeleton cannot sustain.`,
   signatureQuote: {
   text: '"My grandmother built a bridge from the bones of her dead. I build a bridge from the bones of my living. Hers still stands. Ask me in a century about mine."',
   speaker: 'Ith-Sparra Long-Limb',
-  context: 'An Ithran Chronarch, splinting her forearm before a long cast'
+  context: 'An Amordjin Chronarch, splinting her forearm before a long cast'
   }
  },
 
  tessen_human: {
-  subraceName: 'Tessen',
+  subraceName: 'Tessic',
   title: 'The Keep-Anchor',
-  reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> learned the Chronarch art by sending emissaries up through the <LoreLink termId="cragjaw-peaks">Cragjaw</LoreLink> trade-routes to Frostmaw, and they practice it for one reason: to keep their sealed keeps from collapsing *in time*, not merely in stone. A Tessen Chronarch does not manipulate time to win battles, they manipulate it to delay the arrival of a future their entire culture has been dreading for four centuries.`,
+  reframe: `The <LoreLink termId="house_tesshan">Tessic</LoreLink> learned the Chronarch art by sending emissaries up through the <LoreLink termId="cragjaw-peaks">Cragjaw</LoreLink> trade-routes to Frostmaw, and they practice it for one reason: to keep their sealed keeps from collapsing *in time*, not merely in stone. A Tessic Chronarch does not manipulate time to win battles, they manipulate it to delay the arrival of a future their entire culture has been dreading for four centuries.`,
   signatureAbility: {
   name: 'Keep-Anchor',
-  description: `Temporal effects are drastically amplified when cast inside a single fixed structure the Augur has inhabited for years, the keep itself becomes a stasis-anchor. Outside their home keep, a Tessen Chronarch is the weakest of the tradition. Inside it, they are nearly omnipotent over local time.`
+  description: `Temporal effects are drastically amplified when cast inside a single fixed structure the Augur has inhabited for years, the keep itself becomes a stasis-anchor. Outside their home keep, a Tessic Chronarch is the weakest of the tradition. Inside it, they are nearly omnipotent over local time.`
   },
-  currentCrisisAngle: `The Tessen's keeps are failing *and* Nesta is disappearing, and the Tessen Chronarchs have realized the two events are linked. Nesta's engine and the Tessen keeps were built in the same decade, on the same geothermal line. As Nesta fades, the keeps' temporal integrity fails. The Tessen face a choice no other tradition shares: save Nesta, or save home.`,
+  currentCrisisAngle: `The Tessic's keeps are failing *and* Nesta is disappearing, and the Tessic Chronarchs have realized the two events are linked. Nesta's engine and the Tessic keeps were built in the same decade, on the same geothermal line. As Nesta fades, the keeps' temporal integrity fails. The Tessic face a choice no other tradition shares: save Nesta, or save home.`,
   signatureQuote: {
   text: '"I learned to bend time so that my granddaughter could grow old in the same hall I did. I will not bend it so that the hall falls on her instead."',
   speaker: 'Castellan Tess-Varek',
-  context: 'A Tessen Chronarch, refusing a summons to the Frostmaw conclave'
+  context: 'A Tessic Chronarch, refusing a summons to the Frostmaw conclave'
   }
  },
 
  velun_neth: {
-  subraceName: 'Nethien',
+  subraceName: 'Athien',
   title: 'The Archive-Keeper',
-  reframe: `To the <LoreLink termId="velun">Nethien</LoreLink>, time is not an engine  —  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Nethien Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  —  a crystal archive that stores every moment they have ever witnessed. The Nethien Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Nethien are beginning to find unbearable.`,
-   adoptionBridge: `The Nethien encountered temporal manipulation during the post-war reconstruction of Frostmaw. Nethien archivists were contracted to catalog the damage to the Fexric archive-halls  —  the same memory-preservation work the Nethien had done for themselves for centuries. Observing Nesta's engine, the Nethien recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  —  an archive that stored moments instead of clauses. The first Nethien Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,
+  reframe: `To the <LoreLink termId="velun">Athien</LoreLink>, time is not an engine  —  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Athien Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  —  a crystal archive that stores every moment they have ever witnessed. The Athien Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Athien are beginning to find unbearable.`,
+   adoptionBridge: `The Athien encountered temporal manipulation during the post-war reconstruction of Frostmaw. Athien archivists were contracted to catalog the damage to the Fex archive-halls  —  the same memory-preservation work the Athien had done for themselves for centuries. Observing Nesta's engine, the Athien recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  —  an archive that stored moments instead of clauses. The first Athien Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,
    signatureAbility: {
    name: 'Memory-Glass Lattice',
-   description: `Temporal effects are stored in a crystal archive rather than the body; the Nethien Chronarch externalizes temporal feedback into an ever-growing memory-glass lattice, allowing them to recall any witnessed moment with perfect clarity but at the cost of an increasingly encumbered stillness the young Nethien are beginning to find unbearable.`
+   description: `Temporal effects are stored in a crystal archive rather than the body; the Athien Chronarch externalizes temporal feedback into an ever-growing memory-glass lattice, allowing them to recall any witnessed moment with perfect clarity but at the cost of an increasingly encumbered stillness the young Athien are beginning to find unbearable.`
    },
-   currentCrisisAngle: `The archive grows heavier with every stored moment, and the young Nethien are beginning to reject the stillness their elders require. The Nethien Chronarchs face a schism between the old, who carry centuries of perfectly-preserved memory and cannot imagine discarding it, and the young, who feel the weight of a history they did not choose to archive bearing down on them.`,
+   currentCrisisAngle: `The archive grows heavier with every stored moment, and the young Athien are beginning to reject the stillness their elders require. The Athien Chronarchs face a schism between the old, who carry centuries of perfectly-preserved memory and cannot imagine discarding it, and the young, who feel the weight of a history they did not choose to archive bearing down on them.`,
   signatureQuote: {
   text: '"I remember the day my grandmother was born. I remember the day she died. I remember every heartbeat between. The archive is complete. The archive is unbearable. The archive is mine."',
   speaker: 'Archivist Vel-Sevar',
-  context: 'A Nethien Chronarch, touching the memory-glass for the last time before walking out'
+  context: 'A Athien Chronarch, touching the memory-glass for the last time before walking out'
   }
  }
  },
@@ -158,7 +158,7 @@ subraceVariants: {
  currentLeader: {
   name: '<LoreLink termId="fex-vestara">Conclave-Prime Fex-Vestara</LoreLink>',
   title: 'Keeper of the Reconstruction Schematics',
-  characterization: `A guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> engineer who refuses to accept that <LoreLink termId="nesta">Nesta</LoreLink>'s disappearance is unpreventable. She has spent six years rebuilding <LoreLink termId="nesta">Nesta</LoreLink>'s original engine from recorded schematics, arguing that if the machine persists, its inventor will too. The other Conclave members consider this either genius or grief.`
+  characterization: `A guild-bound <LoreLink termId="fexrick">Brasskin</LoreLink> engineer who refuses to accept that <LoreLink termId="nesta">Nesta</LoreLink>'s disappearance is unpreventable. She has spent six years rebuilding <LoreLink termId="nesta">Nesta</LoreLink>'s original engine from recorded schematics, arguing that if the machine persists, its inventor will too. The other Conclave members consider this either genius or grief.`
  },
  headquarters: { name: 'Frostmaw Holdfast', locationId: 'frostmaw_holdfast' },
  crisisConnection: `<LoreLink termId="fex-vestara">Fex-Vestara</LoreLink>'s reconstruction is a race against <LoreLink termId="nesta">Nesta</LoreLink>'s erasure, and the Conclave has gathered at Frostmaw to witness what they believe will be <LoreLink termId="nesta">Nesta</LoreLink>'s final collapse. If <LoreLink termId="fex-vestara">Fex-Vestara</LoreLink> completes the rebuild before <LoreLink termId="nesta">Nesta</LoreLink> vanishes, the founder may persist as a clause in the new engine. If she is too late, every Chronarch's temporal debt comes due at once. She is three weeks from completion. <LoreLink termId="nesta">Nesta</LoreLink> is estimated at four.`
@@ -171,17 +171,25 @@ subraceVariants: {
  ],
 
  overview: {
-   originStory: `A chronarch has learned that time is not a river. It is a mechanism, and like all mechanisms, it can be rebuilt. The art was invented during the War of Thousand Screams, a conflict between Fexric holdfasts and the Deep Alchemists over geothermal vent access beneath Frostmaw Crag that burned for years beyond counting. The Alchemists, seeking to restart their Groven experiments, attempted to collapse a glacier onto the holdfast's main ventilation shafts. Three levels of Frostmaw were crushed before Nesta, a Clockwork Fexric guild-engineer, hooked a prototype time-dilation engine directly into her own chest. The collapse froze mid-fall. The Fexric evacuated. Nesta's engine trapped her timeline in a feedback loop that has never fully closed.
+   originStory: `A chronarch has learned that time is not a river. It is a mechanism, and like all mechanisms, it can be rebuilt. The art was invented during the War of Thousand Screams, a conflict between Fex holdfasts and the Deep Alchemists over geothermal vent access beneath Frostmaw Crag that burned for years beyond counting. The Alchemists, seeking to restart their Groven experiments, attempted to collapse a glacier onto the holdfast's main ventilation shafts. Three levels of Frostmaw were crushed before Nesta, a Brasskin guild-engineer, hooked a prototype time-dilation engine directly into her own chest. The collapse froze mid-fall. The Fex evacuated. Nesta's engine trapped her timeline in a feedback loop that has never fully closed.
 
 The engine was built from volcanic glass and alchemical gears. Nesta had designed it as a theoretical exercise. The glacier gave her thirty seconds to make it practical. She succeeded, and the success has been slowly erasing her from history ever since. Records bearing her name are going blank. People who once knew her are forgetting. If she ceases to exist retroactively, every living chronarch inherits her accumulated temporal debt. The current leader, Conclave-Prime Fex-Vestara, is rebuilding Nesta's original engine from recorded schematics. Completion is estimated in three weeks. Nesta is estimated at four.
 
-Each subrace manipulates time through a different cultural lens. The Clockwork Fexric treat it as precision engineering, calibrated gears, documented tolerances, replaceable parts, their chest-engine a machine that will eventually kill them regardless. The Ithran Groven provide the living-bone interface, their extended limbs distributing temporal fields across wider areas through bridge-builder bone-knowledge. The Tessen learned the art to keep their sealed keeps from collapsing not merely in stone but in time, the keep-preservation applied to chronology itself, nearly omnipotent inside their own walls and the weakest variant outside them. The Nethien encountered temporal manipulation during the post-war reconstruction when Nethien archivists were contracted to catalog damage to the Fexric archive-halls. An archivist named Vel-Thalen spent thirty years adapting the principle: time as a document to be preserved, a memory-glass lattice replacing the gear-engine.
+Each subrace manipulates time through a different cultural lens. The Brasskin treat it as precision engineering, calibrated gears, documented tolerances, replaceable parts, their chest-engine a machine that will eventually kill them regardless. The Amordjin Groven provide the living-bone interface, their extended limbs distributing temporal fields across wider areas through bridge-builder bone-knowledge. The Tessic learned the art to keep their sealed keeps from collapsing not merely in stone but in time, the keep-preservation applied to chronology itself, nearly omnipotent inside their own walls and the weakest variant outside them. The Athien encountered temporal manipulation during the post-war reconstruction when Athien archivists were contracted to catalog damage to the Fex archive-halls. An archivist named Vel-Thalen spent thirty years adapting the principle: time as a document to be preserved, a memory-glass lattice replacing the gear-engine.
 
-Temporal Strain is the accumulated paradox-weight of every causality violation. Small rewinds accumulate. Loops compound. At ten strain, the timeline's self-correction instinct activates, not out of malice, but because the accumulated paradox has become noticeable to the fundamental laws of cause and effect. The backlash is reality's immune response to being edited.`,
+Temporal Strain is the accumulated paradox-weight of every causality violation. Small rewinds accumulate. Loops compound. At ten strain, the timeline's self-correction instinct activates, not out of malice, but because the accumulated paradox has become noticeable to the fundamental laws of cause and effect. The backlash is reality's immune response to being edited.
+
+Native only to Brasskin. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
   title: "The Chronarch",
- subtitle: "The Accidental Anchor",
- illustration: "/assets/images/classes/chronarch_illustration.png",
-  illustrationCaption: "A Fexric Chronarch using starlight sand to stabilize a bleeding timeline.",
+  subtitle: "The Accidental Anchor",
+  illustration: "/assets/images/classes/chronarch_clockwork_fexric.jpg",
+  illustrationCaption: "Brasskin Chronarch — The Gear-Stitcher, calibrating volcanic-glass timing gears directly into an exposed brass chest escapement.",
+  illustrations: [
+    { url: "/assets/images/classes/chronarch_clockwork_fexric.jpg", subraceId: "kethrin_fexric", caption: "Brasskin Chronarch — The Gear-Stitcher, seating a glowing volcanic-glass timing gear into his exposed chest escapement." },
+    { url: "/assets/images/classes/chronarch_ithran_groven.jpg", subraceId: "ithran_groven", caption: "Amordjin Groven Chronarch — The Bone-Calibrator, bracing a cracked suspension bridge in temporal stasis with gears embedded in living bone." },
+    { url: "/assets/images/classes/chronarch_tessen_human.jpg", subraceId: "tessen_human", caption: "Tessic Human Chronarch — The Keep-Anchor, tuning a brass keystone stasis ring on a fortress pillar to freeze crumbling masonry." },
+    { url: "/assets/images/classes/chronarch_high_nethien.jpg", subraceId: "velun_neth", caption: "Athien Chronarch — The Archive-Keeper, extracting a glowing memory-glass legal slide from a hovering crystalline archive." }
+  ],
 
  quickOverview: {
     title: "Class Overview",
@@ -198,7 +206,7 @@ Temporal Strain is the accumulated paradox-weight of every causality violation. 
     },
     combatRole: {
       title: "Combat Role",
-      content: "Clockwork temporal engineer who banks Time Shards from cantrips to dilate speed, freeze projectiles, displace allies, and rewind mortal damage."
+      content: "Brasskin temporal engineer who banks Time Shards from cantrips to dilate speed, freeze projectiles, displace allies, and rewind mortal damage."
     },
     playstyle: {
       title: "Playstyle & Turn 1 Flow",
@@ -211,7 +219,7 @@ Temporal Strain is the accumulated paradox-weight of every causality violation. 
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The chronarch's temporal manipulation was first manifested in the high passes of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A Fexric clockwork engineer named **Nesta** sought to repair an alchemical engine and accidentally trapped her own timeline in a feedback loop of temporal friction.
+The chronarch's temporal manipulation was first manifested in the high passes of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>. A Fex clockwork engineer named **Nesta** sought to repair an alchemical engine and accidentally trapped her own timeline in a feedback loop of temporal friction.
 
 The price of this chronal mastery was rapid localized aging and memory displacement. Every time she manipulated time to prolong an ally's lifespan or delay a threat, her own personal history decayed, leaving her past as blank grey stone.
 
@@ -219,11 +227,10 @@ The price of this chronal mastery was rapid localized aging and memory displacem
 Chronarchs are highly respected and given places of honor in the library-cathedrals of the <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> and the guild chambers of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink>, long-limbed Groven diplomats who oversee the Ancestor-Spans, the isolated Tessen keep-holders, and the <LoreLink termId="velun">Nethien</LoreLink> archivists of the memory-glass.
-
+The chest-engine is Brasskin engineering, carrying Nesta's debt. The Tessic keep their sealed keeps whole in time, the Amordjin Groven spread temporal fields through living bone, and the Athien preserve a moment in a memory-glass archive. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
-* **Nesta the Clockwork Engineer**: The Fexric builder who halted a glacier's advance by trapping herself in a temporal loop.
-* **Chronos the Blind**: A prehistoric Fexric master who built the clockwork galleries in <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.`
+* **Nesta the Brasskin Engineer**: The Fex builder who halted a glacier's advance by trapping herself in a temporal loop.
+* **Chronos the Blind**: A prehistoric Fex master who built the clockwork galleries in <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.`
  },
 
  signatureQuote: {
@@ -264,13 +271,13 @@ If Nesta ceases to exist retroactively, the temporal friction she generated will
   locationId: 'first_turbine_gallery',
   description: 'The oldest machine in the oldest holdfast, quarantined in a gallery of black glass beneath Frostmaw, turning slower than it should and humming a note that is not in any maintenance song. Guild engineers say bearing failure. Chronarch heretics who have measured the hum say otherwise: local time stutters in the gallery, clocks disagree with each other by fractions of a second, and every measurement comes back with a different date. The Guild-Bound have sealed the stairs. The heretics have not stopped going down them.',
   purpose: 'Quarantined engine-gallery and Vurath-touched taboo site; where the machine-song fails and time measures wrong',
-  status: 'Sealed by the Clockwork guilds; the seal is renewed every season, and every season it has been found broken from the inside'
+  status: 'Sealed by the Brasskin guilds; the seal is renewed every season, and every season it has been found broken from the inside'
   },
   {
   name: 'The Slow Vault',
   locationId: 'slow_vault',
-  description: 'An undercroft of a Tessen keep where a ceiling collapse has been arriving for two hundred years, one stone at a time. Tessen Chronarchs stall the fall a grain at a time: each generation inherits a vault of suspended rubble, held mid-crash, and the discipline to keep holding it. The vault reads as a museum of collapses that never landed. The oldest anchors are fraying now, because Nesta is fading, and the Tessen have begun to understand that they built their homes on the same debt as her engine.',
-  purpose: 'Keep-anchor proving ground and inheritance site; every Tessen Chronarch is measured by how long their vault has held',
+  description: 'An undercroft of a Tessic keep where a ceiling collapse has been arriving for two hundred years, one stone at a time. Tessic Chronarchs stall the fall a grain at a time: each generation inherits a vault of suspended rubble, held mid-crash, and the discipline to keep holding it. The vault reads as a museum of collapses that never landed. The oldest anchors are fraying now, because Nesta is fading, and the Tessic have begun to understand that they built their homes on the same debt as her engine.',
+  purpose: 'Keep-anchor proving ground and inheritance site; every Tessic Chronarch is measured by how long their vault has held',
   status: 'Failing, three stones landed this winter, and the Castellan has forbidden further anchoring until the Frostmaw conclave rules'
   }
  ],
@@ -2025,7 +2032,7 @@ When the timeline snaps, roll 1d6 to determine the chaotic chronal fallout:
     effects: [
      {
       id: "causality_reweave_haste",
-      name: "Untethered Velocity",
+      name: "Unchained Velocity",
       description: "+10 ft speed and +1 Action Point for 1 round.",
       mechanicsText: "+10 ft speed and +1 AP for 1 round.",
       statModifier: {

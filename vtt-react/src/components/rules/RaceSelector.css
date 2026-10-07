@@ -135,7 +135,6 @@
     object-fit: contain;
     opacity: 0.06;
     pointer-events: none;
-    filter: sepia(0.3) saturate(0.6);
     z-index: 0;
 }
 
@@ -350,13 +349,13 @@
 
 .race-variant-diversity {
     font-size: 0.85rem;
-    color: #5d4037;
+    color: #5a4632;
     line-height: 1.5;
     margin: 0 0 1.25rem 0;
     font-style: italic;
     padding: 0.75rem 1rem;
-    background: rgba(139, 90, 60, 0.08);
-    border: 1px solid rgba(139, 90, 60, 0.15);
+    background: rgba(212, 175, 55, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.18);
     border-radius: 6px;
 }
 
@@ -372,29 +371,53 @@
 
 .variant-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.15rem;
 }
 
 .variant-card {
-    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
-    border: 2px solid #8b5a3c;
-    border-radius: 8px;
-    padding: 1rem;
+    background: #11141a;
+    background-image: var(--subrace-card-bg, none);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 1rem 1.1rem 1.15rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.65), inset 0 0 20px rgba(0, 0, 0, 0.6);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.variant-card::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 7px;
+    pointer-events: none;
+    transition: border-color 0.3s ease;
+    z-index: 1;
 }
 
 .variant-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(139, 90, 60, 0.3);
-    border-color: #6b3e2a;
+    transform: translateY(-4px);
+    border-color: var(--subrace-card-border-hover, rgba(255, 255, 255, 0.35));
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.75), 0 0 16px var(--subrace-halo-glow, rgba(255, 255, 255, 0.15)), inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.variant-card:hover::before {
+    border-color: var(--subrace-halo-ring, rgba(255, 255, 255, 0.2));
 }
 
 .variant-card.selected {
-    background: linear-gradient(135deg, #8b5a3c 0%, #6b3e2a 100%);
-    border-color: #4a2c1a;
-    box-shadow: 0 4px 8px rgba(139, 90, 60, 0.4);
+    border-color: var(--subrace-card-border-selected, #d4af37);
+    box-shadow: 0 0 24px var(--subrace-halo-glow, rgba(212, 175, 55, 0.45)), inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.variant-card.selected::before {
+    border-color: var(--subrace-accent, rgba(212, 175, 55, 0.4));
 }
 
 .variant-card.selected .variant-card-name,
@@ -404,61 +427,99 @@
 
 .variant-card-name {
     font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #2c2416;
-    margin: 0 0 0.5rem 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: 0.05em;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.variant-card:hover .variant-card-name {
+    color: var(--subrace-title-color, #fef3c7);
+    text-shadow: 0 0 8px var(--subrace-accent, rgba(212, 175, 55, 0.5)), 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.variant-card.selected .variant-card-name {
+    color: var(--subrace-title-color, #ffffff);
+    text-shadow: 0 0 12px var(--subrace-accent, #d4af37), 0 2px 4px rgba(0, 0, 0, 0.95);
 }
 
 .variant-card-description {
-    font-size: 0.8rem;
-    color: #5d4037;
-    line-height: 1.4;
-    margin: 0 0 0.75rem 0;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    line-height: 1.45;
+    margin: 0.35rem 0 0;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 5.6em;
+    text-align: left;
+    position: relative;
+    z-index: 4;
+    transition: color 0.25s ease;
+}
+
+.variant-card:hover .variant-card-description {
+    color: #cbd5e1;
+}
+
+.variant-card.selected .variant-card-description {
+    color: #f1f5f9;
 }
 
 .stat-modifiers-mini {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
+    gap: 0.35rem;
+    position: relative;
+    z-index: 4;
 }
 
 .stat-mod {
-    padding: 0.25rem 0.5rem;
+    padding: 0.18rem 0.45rem;
     border-radius: 4px;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
     font-family: 'Cinzel', serif;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
 }
 
 .stat-mod.positive {
-    background: rgba(139, 69, 19, 0.3);
-    color: #8b4513;
-    border: 1px solid #a0522d;
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    border: 1px solid rgba(74, 222, 128, 0.45);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
 }
 
 .stat-mod.negative {
-    background: rgba(244, 67, 54, 0.3);
-    color: #c62828;
-    border: 1px solid #f44336;
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(248, 113, 113, 0.45);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 }
 
 .variant-card.selected .stat-mod.positive {
-    background: rgba(212, 175, 55, 0.3);
-    color: #f4f1e8;
-    border-color: #d4af37;
+    background: rgba(34, 197, 94, 0.25);
+    border-color: rgba(74, 222, 128, 0.7);
+    color: #bbf7d0;
 }
 
 .variant-card.selected .stat-mod.negative {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffccbc;
-    border-color: #ff8a65;
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(248, 113, 113, 0.7);
+    color: #fecaca;
 }
 
 /* ===== VARIANT DETAILS VIEW ===== */
@@ -589,7 +650,8 @@
 }
 
 .sidebar-stat-row-full strong {
-    text-align: left;
+    text-align: right;
+    width: 100%;
 }
 
 /* RIGHT CONTENT FLOW */
@@ -1590,37 +1652,39 @@
 }
 
 .variant-details-switcher .switcher-btn {
-    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
-    border: 1.5px solid #8b5a3c;
+    background: rgba(18, 22, 28, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #5d4037;
+    color: #cbd5e1;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    gap: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
 }
 
 .variant-details-switcher .switcher-btn:hover {
-    background: #faecd6;
-    border-color: #8b7355;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(30, 36, 48, 0.95);
+    border-color: rgba(212, 175, 55, 0.6);
+    color: #f8fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .variant-details-switcher .switcher-btn.active {
-    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-    border-color: #8b6914;
-    color: #2c2416;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(184, 148, 31, 0.4) 100%);
+    border-color: #d4af37;
+    color: #fffaf0;
     font-weight: 700;
     box-shadow: 
-        0 4px 10px rgba(212, 175, 55, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 0 16px rgba(212, 175, 55, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
     .variant-details-switcher .switcher-btn .variant-stats {
         font-size: 0.75rem;
@@ -1648,7 +1712,6 @@
     pointer-events: none;
     z-index: 2;
     border-radius: inherit;
-    opacity: 0;
     transition: opacity 0.35s ease;
     overflow: visible;
     background-repeat: no-repeat;
@@ -1656,15 +1719,39 @@
     background-size: cover;
 }
 
-.race-card:hover .race-card-fx,
-.variant-card:hover .variant-card-fx {
+.race-card-fx {
+    opacity: 0;
+}
+
+.race-card:hover .race-card-fx {
     opacity: 1;
 }
 
-.race-card.selected .race-card-fx,
-.variant-card.selected .variant-card-fx {
+.race-card.selected .race-card-fx {
     opacity: 0.85;
 }
+
+/* Variant card perimeter drawings framing the central heraldic crest */
+.variant-card-fx {
+    opacity: 0.35;
+    -webkit-mask-image: radial-gradient(ellipse 60% 48% at 50% 45%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.38) 45%, rgba(0,0,0,1) 85%);
+    mask-image: radial-gradient(ellipse 60% 48% at 50% 45%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.38) 45%, rgba(0,0,0,1) 85%);
+}
+
+.variant-card:hover .variant-card-fx {
+    opacity: 0.85;
+}
+
+.variant-card.selected .variant-card-fx {
+    opacity: 1;
+}
+
+/* Suppress generic race-level fx layers on subrace buttons so they do not conflict with custom subrace vector artwork */
+.variant-card .variant-card-fx,
+.variant-card .variant-card-bg-effects {
+    display: none !important;
+}
+
 
 .race-card, .variant-card {
     position: relative;
@@ -1707,6 +1794,7 @@
 .race-card-description,
 .race-card-info,
 .variant-card-name,
+.variant-card-showcase,
 .variant-card-description,
 .stat-modifiers-mini {
     position: relative;
@@ -1717,12 +1805,8 @@
 .race-card-mimir {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 0 200 L 0 170 L 20 150 L 40 175 L 70 140 L 90 165 L 120 130 L 150 170 L 180 145 L 210 175 L 240 135 L 270 165 L 300 120 L 300 200 Z' fill='%23080403' opacity='0.8'/%3E%3Cpath d='M 0 200 L 0 180 L 15 165 L 35 185 L 55 155 L 85 180 L 115 145 L 140 180 L 175 160 L 200 185 L 230 150 L 265 180 L 300 145 L 300 200 Z' fill='%23030101'/%3E%3Cpath d='M-20 -20 A 100 100 0 0 1 120 120 M-20 -20 A 150 150 0 0 1 180 180' fill='none' stroke='%2325160f' stroke-width='2' stroke-opacity='0.4'/%3E%3C/svg%3E") !important;
 }
-.variant-card-veiled_mimir {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M-20 -20 A 100 100 0 0 1 120 120' fill='none' stroke='%2325160f' stroke-width='2' stroke-opacity='0.4'/%3E%3Cpath d='M 230 160 Q 230 140, 245 125 Q 260 110, 270 125 Q 280 140, 280 160 Q 280 180, 255 190 Q 230 180, 230 160 Z' fill='%23080403' stroke='%2325160f' stroke-width='1.5'/%3E%3Ccircle cx='247' cy='155' r='2.5' fill='%23150d0a'/%3E%3Ccircle cx='263' cy='155' r='2.5' fill='%23150d0a'/%3E%3C/svg%3E") !important;
-}
-.variant-card-tethered_mimir {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23150d0a'/%3E%3Cpath d='M 10 0 L 10 200 M 40 0 L 40 200 M 70 0 L 70 200 M 100 0 L 100 200 M 130 0 L 130 200 M 160 0 L 160 200 M 190 0 L 190 200 M 220 0 L 220 200 M 250 0 L 250 200 M 280 0 L 280 200' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3Cpath d='M 0 20 L 300 20 M 0 50 L 300 50 M 0 80 L 300 80 M 0 110 L 300 110 M 0 140 L 300 140 M 0 170 L 300 170' stroke='%2325160f' stroke-width='1.5' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-mimir,
 .variant-card-mimir {
     background-size: cover !important;
@@ -1831,15 +1915,12 @@
 .race-card-myrathil {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23002d3c'/%3E%3Cstop offset='100%25' stop-color='%23010c12'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss%29'/%3E%3Cpath d='M 0 80 Q 75 120, 150 60 T 300 110' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.25'/%3E%3Cpath d='M 0 100 Q 80 50, 160 110 T 300 80' fill='none' stroke='%2300b0ff' stroke-width='1.5' stroke-opacity='0.2'/%3E%3Ccircle cx='40' cy='50' r='3' fill='%2300e5ff' opacity='0.6' filter='blur%281px%29'/%3E%3Ccircle cx='260' cy='140' r='4' fill='%2300e5ff' opacity='0.5' filter='blur%281px%29'/%3E%3Ccircle cx='120' cy='160' r='2' fill='%2300e5ff' opacity='0.7'/%3E%3Ccircle cx='210' cy='40' r='2.5' fill='%2300b0ff' opacity='0.6'/%3E%3C/svg%3E") !important;
 }
-.variant-card-shoreling_myrathil {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-shore' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23002d3c'/%3E%3Cstop offset='100%25' stop-color='%23010c12'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-shore%29'/%3E%3Cpath d='M 0 190 Q 75 160, 150 190 T 300 190 L 300 200 L 0 200 Z' fill='%2300e5ff' opacity='0.25'/%3E%3Cpath d='M 0 190 Q 75 160, 150 190 T 300 190' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-opacity='0.4'/%3E%3C/svg%3E") !important;
-}
-.variant-card-deepling_myrathil {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-deep' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23001e28'/%3E%3Cstop offset='100%25' stop-color='%2300090e'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-deep%29'/%3E%3Ccircle cx='60' cy='140' r='12' fill='none' stroke='%2300e5ff' stroke-width='1.5' stroke-opacity='0.4' filter='blur%281px%29'/%3E%3Cpath d='M 60 152 Q 58 165, 53 175 M 60 152 Q 62 165, 67 175' stroke='%2300e5ff' stroke-width='1' stroke-opacity='0.3'/%3E%3Ccircle cx='230' cy='60' r='8' fill='none' stroke='%2300e5ff' stroke-width='1.5' stroke-opacity='0.4' filter='blur%281px%29'/%3E%3Cpath d='M 230 68 Q 228 75, 225 82 M 230 68 Q 232 75, 235 82' stroke='%2300e5ff' stroke-width='1' stroke-opacity='0.3'/%3E%3C/svg%3E") !important;
-}
-.variant-card-riverling_myrathil {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='abyss-brook' cx='50%25' cy='100%25' r='100%25'%3E%3Cstop offset='0%25' stop-color='%23013a40'/%3E%3Cstop offset='100%25' stop-color='%23011317'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23abyss-brook%29'/%3E%3Ccircle cx='40' cy='180' r='15' fill='%23011c21'/%3E%3Ccircle cx='90' cy='190' r='12' fill='%23011c21'/%3E%3Ccircle cx='150' cy='185' r='18' fill='%23011c21'/%3E%3Cpath d='M 200 40 Q 220 30, 230 50 Q 210 60, 200 40 Z' fill='%2300e5ff' opacity='0.25'/%3E%3C/svg%3E") !important;
-}
+.variant-card-shoreling,
+/* Placeholder removed - replaced by canonical vector illustrations */
+.variant-card-deepling,
+/* Placeholder removed - replaced by canonical vector illustrations */
+.variant-card-riverling,
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-myrathil,
 .variant-card-myrathil {
     background-size: cover !important;
@@ -1942,12 +2023,10 @@
 .race-card-florae {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 150 185 L 152 195 M 220 187 L 222 196' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3Ccircle cx='25' cy='45' r='2' fill='%2381c784' opacity='0.8'/%3E%3Ccircle cx='85' cy='175' r='2.5' fill='%2381c784' opacity='0.7'/%3E%3Ccircle cx='190' cy='170' r='2' fill='%2381c784' opacity='0.9'/%3E%3C/svg%3E") !important;
 }
-.variant-card-florae_unified {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 C 180 185, 240 195, 310 180 M 290 -10 C 280 40, 295 80, 285 120' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 10 20 L 2 15 M 13 50 L 22 55 M 8 80 L 0 82 M 16 110 L 23 115 M 40 170 L 38 180 M 80 182 L 82 191 M 285 30 L 293 25 M 283 60 L 275 65 M 287 90 L 295 93' fill='none' stroke='%231b4d1b' stroke-width='2.5'/%3E%3C/svg%3E") !important;
-}
-.variant-card-florae_unified {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23050e05'/%3E%3Cpath d='M 10 -10 C 20 40, 5 80, 15 120 C 25 160, 60 185, 120 185 L 310 180' fill='none' stroke='%231b4d1b' stroke-width='3.5' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='30' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3Ccircle cx='14' cy='70' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3Ccircle cx='50' cy='175' r='3' fill='%23050e05' stroke='%231b4d1b' stroke-width='1.5'/%3E%3C/svg%3E") !important;
-}
+.variant-card-viridian,
+/* Placeholder removed - replaced by canonical vector illustrations */
+.variant-card-oken,
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-florae,
 .variant-card-florae {
     background-size: cover !important;
@@ -2034,12 +2113,8 @@
 .race-card-groven {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231e2022'/%3E%3Cpath d='M 80 0 L 100 50 L 90 120 L 110 200 M 0 100 L 95 90 L 220 110 L 300 95 M 220 110 L 210 200' fill='none' stroke='%23121314' stroke-width='3'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E") !important;
 }
-.variant-card-morgh_groven {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231a1b1d'/%3E%3Cpath d='M 80 0 L 100 50 L 90 120 L 110 200 M 0 100 L 300 95' fill='none' stroke='%23121314' stroke-width='3'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%2369f0ae' stroke-width='2' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 35 40 L 55 40 M 45 40 L 45 75 M 45 50 L 35 60 M 45 60 L 55 70' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E") !important;
-}
-.variant-card-ithran_groven {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%231e2022'/%3E%3Cpath d='M 80 0 L 100 50 L 90 120 L 110 200 M 0 100 L 300 95 M 220 110 L 210 200' fill='none' stroke='%23121314' stroke-width='3'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%2300b0ff' stroke-width='2.5' stroke-opacity='0.85' filter='blur%281px%29'/%3E%3Cpath d='M 240 130 L 260 150 L 240 170 M 250 140 L 250 180' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-groven,
 .variant-card-groven {
     background-size: cover !important;
@@ -2116,48 +2191,57 @@
 }
 
 
-/* 5. EMBERTH - Sol's Keepers (Volcanic Magma cracks) */
-.race-card-emberth {
+/* 5. EMBERTH / SOLARI - Sol's Keepers (Volcanic Magma cracks) */
+.race-card-emberth,
+.race-card-solari {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d0402'/%3E%3Cpath d='M -20 180 Q 80 150, 160 80 T 320 20' fill='none' stroke='%23ff3d00' stroke-width='8' stroke-opacity='0.75' filter='blur%284px%29'/%3E%3Cpath d='M -20 180 Q 80 150, 160 80 T 320 20' fill='none' stroke='%23ff9100' stroke-width='4' stroke-opacity='0.9' filter='blur%281px%29'/%3E%3Cpath d='M -20 180 Q 80 150, 160 80 T 320 20' fill='none' stroke='%23ffff00' stroke-width='1.5' stroke-opacity='0.95'/%3E%3Cpath d='M 80 140 L 100 190 M 180 65 L 230 40 M 140 100 L 110 50' fill='none' stroke='%23ff3d00' stroke-width='2.5' stroke-opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 80 140 L 100 190 M 180 65 L 230 40 M 140 100 L 110 50' fill='none' stroke='%23ff9100' stroke-width='1' stroke-opacity='0.95'/%3E%3C/svg%3E") !important;
 }
-.variant-card-korr_solari {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d0402'/%3E%3Cpath d='M -20 180 L 160 80 L 320 20' fill='none' stroke='%23ff3d00' stroke-width='12' stroke-opacity='0.8' filter='blur%285px%29'/%3E%3Cpath d='M -20 180 L 160 80 L 320 20' fill='none' stroke='%23ffea00' stroke-width='3' stroke-opacity='0.95'/%3E%3C/svg%3E") !important;
-}
-.variant-card-thrask_solari {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230a0503'/%3E%3Cpath d='M 50 200 Q 70 140, 50 0 M 230 200 Q 210 120, 240 0' fill='none' stroke='%23d84315' stroke-width='3' stroke-opacity='0.4' filter='blur%282px%29'/%3E%3Ccircle cx='80' cy='60' r='1.5' fill='%23ff9100' opacity='0.7'/%3E%3Ccircle cx='210' cy='140' r='2' fill='%23ff9100' opacity='0.6'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-emberth,
-.variant-card-emberth {
+.variant-card-emberth,
+.race-card-solari,
+.variant-card-solari {
     background-size: cover !important;
     border: 1px solid rgba(216, 67, 21, 0.25) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(183, 28, 28, 0.3);
 }
 
 .race-card-emberth::before,
-.variant-card-emberth::before {
+.variant-card-emberth::before,
+.race-card-solari::before,
+.variant-card-solari::before {
     border: 1px solid rgba(255, 112, 67, 0.15);
 }
 
 .race-card-emberth:hover,
-.variant-card-emberth:hover {
+.variant-card-emberth:hover,
+.race-card-solari:hover,
+.variant-card-solari:hover {
     border-color: #ff7043 !important;
     box-shadow: 0 0 20px rgba(255, 112, 67, 0.35), inset 0 0 10px rgba(183, 28, 28, 0.3) !important;
     transform: translateY(-4px);
 }
 
 .race-card-emberth:hover::before,
-.variant-card-emberth:hover::before {
+.variant-card-emberth:hover::before,
+.race-card-solari:hover::before,
+.variant-card-solari:hover::before {
     border-color: rgba(255, 112, 67, 0.35);
 }
 
 .race-card-emberth.selected,
-.variant-card-emberth.selected {
+.variant-card-emberth.selected,
+.race-card-solari.selected,
+.variant-card-solari.selected {
     border-color: #ff8a65 !important;
     box-shadow: 0 0 25px rgba(255, 138, 101, 0.45), inset 0 0 15px rgba(183, 28, 28, 0.4) !important;
 }
 
 .race-card-emberth.selected::before,
-.variant-card-emberth.selected::before {
+.variant-card-emberth.selected::before,
+.race-card-solari.selected::before,
+.variant-card-solari.selected::before {
     border-color: rgba(255, 138, 101, 0.5);
 }
 
@@ -2165,7 +2249,12 @@
 .race-card-emberth .race-card-essence,
 .race-card-emberth .race-card-description,
 .variant-card-emberth .variant-card-name,
-.variant-card-emberth .variant-card-description {
+.variant-card-emberth .variant-card-description,
+.race-card-solari .race-card-name,
+.race-card-solari .race-card-essence,
+.race-card-solari .race-card-description,
+.variant-card-solari .variant-card-name,
+.variant-card-solari .variant-card-description {
     color: #ffccbc !important;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
 }
@@ -2174,25 +2263,35 @@
 .race-card-emberth.selected .race-card-description,
 .race-card-emberth.selected .race-card-essence,
 .variant-card-emberth.selected .variant-card-name,
-.variant-card-emberth.selected .variant-card-description {
+.variant-card-emberth.selected .variant-card-description,
+.race-card-solari.selected .race-card-name,
+.race-card-solari.selected .race-card-description,
+.race-card-solari.selected .race-card-essence,
+.variant-card-solari.selected .variant-card-name,
+.variant-card-solari.selected .variant-card-description {
     color: #ffebe5 !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
 .race-card-emberth .race-card-icon,
-.race-card-emberth.selected .race-card-icon {
+.race-card-emberth.selected .race-card-icon,
+.race-card-solari .race-card-icon,
+.race-card-solari.selected .race-card-icon {
     color: #ff7043 !important;
     filter: drop-shadow(0 0 5px rgba(255, 112, 67, 0.6));
 }
 
-.race-card-emberth .info-badge {
+.race-card-emberth .info-badge,
+.race-card-solari .info-badge {
     background: rgba(255, 87, 34, 0.15) !important;
     color: #ffab91 !important;
     border: 1px solid rgba(255, 87, 34, 0.25);
 }
 
 .race-card-emberth .race-card-bg-effects::before,
-.variant-card-emberth .variant-card-bg-effects::before {
+.variant-card-emberth .variant-card-bg-effects::before,
+.race-card-solari .race-card-bg-effects::before,
+.variant-card-solari .variant-card-bg-effects::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -2200,7 +2299,9 @@
 }
 
 .race-card-emberth .race-card-bg-effects::after,
-.variant-card-emberth .variant-card-bg-effects::after {
+.variant-card-emberth .variant-card-bg-effects::after,
+.race-card-solari .race-card-bg-effects::after,
+.variant-card-solari .variant-card-bg-effects::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -2225,12 +2326,8 @@
 .race-card-vreken {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23040c06'/%3E%3Cpath d='M 30 0 L 25 40 M 45 0 L 40 30 M 120 0 L 125 50 M 180 0 L 175 35 M 260 0 L 265 45' fill='none' stroke='%23142c16' stroke-width='2' stroke-opacity='0.6'/%3E%3Cpath d='M 30 0 L 27 25 M 120 0 L 122 35 M 260 0 L 262 30' fill='none' stroke='%232e7d32' stroke-width='1' stroke-opacity='0.8'/%3E%3Cpath d='M 250 200 Q 252 170, 245 160' fill='none' stroke='%231b5e20' stroke-width='3.5'/%3E%3Cpath d='M 230 160 Q 245 145, 260 160 Z' fill='%2369f0ae' opacity='0.8' filter='blur%281px%29'/%3E%3Cpath d='M 235 158 Q 245 150, 255 158 Z' fill='%23ffffff'/%3E%3Cpath d='M 275 200 Q 272 180, 268 175' fill='none' stroke='%231b5e20' stroke-width='2.5'/%3E%3Cpath d='M 258 175 Q 268 165, 278 175 Z' fill='%2369f0ae' opacity='0.8' filter='blur%281px%29'/%3E%3Ccircle cx='230' cy='130' r='2' fill='%2369f0ae' opacity='0.9'/%3E%3Ccircle cx='265' cy='115' r='1.5' fill='%23b9f6ca' opacity='0.8'/%3E%3Ccircle cx='210' cy='160' r='2.5' fill='%2369f0ae' opacity='0.7'/%3E%3C/svg%3E") !important;
 }
-.variant-card-marked_vreken {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23040c06'/%3E%3Ccircle cx='60' cy='120' r='15' fill='%2300e676' opacity='0.15' filter='blur%2810px%29'/%3E%3Ccircle cx='60' cy='120' r='2.5' fill='%2369f0ae' opacity='0.9'/%3E%3Ccircle cx='220' cy='70' r='20' fill='%2300e676' opacity='0.12' filter='blur%2812px%29'/%3E%3Ccircle cx='220' cy='70' r='3' fill='%23b9f6ca' opacity='0.8'/%3E%3C/svg%3E") !important;
-}
-.variant-card-clean_vreken {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23040c06'/%3E%3Cpath d='M 0 0 C 40 40, 80 40, 120 0 M 180 0 C 220 40, 260 40, 300 0' fill='none' stroke='%23142c16' stroke-width='6' stroke-opacity='0.7'/%3E%3Cpath d='M 120 0 L 125 60 M 180 0 L 175 55' fill='none' stroke='%23142c16' stroke-width='2' stroke-opacity='0.6'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-vreken,
 .variant-card-vreken {
     background-size: cover !important;
@@ -2316,15 +2413,9 @@
 .race-card-neth {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 5 25 C 5 5, 25 5, 25 5 M 5 15 C 5 8, 8 5, 15 5 M 8 20 A 4 4 0 1 1 12 16' fill='none' stroke='%238a9ba8' stroke-width='1.5' stroke-opacity='0.5'/%3E%3Cpath d='M 295 175 C 295 195, 275 195, 275 195 M 295 185 C 295 192, 292 195, 285 195 M 288 180 A 4 4 0 1 1 292 176' fill='none' stroke='%238a9ba8' stroke-width='1.5' stroke-opacity='0.5'/%3E%3Cpath d='M 40 45 C 50 43, 60 47, 70 45 C 80 43, 90 47, 100 45 C 110 43, 120 47, 130 45 M 40 60 C 50 58, 60 62, 70 60 C 80 58, 90 62, 100 60 M 40 75 C 50 73, 60 77, 70 75 C 80 73, 90 77, 100 75 C 110 73, 120 77, 130 75' fill='none' stroke='%238a9ba8' stroke-width='1' stroke-opacity='0.2'/%3E%3C/svg%3E") !important;
 }
-.variant-card-kessen_neth {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 5 25 C 5 5, 25 5, 25 5 M 5 15 C 5 8, 8 5, 15 5 M 8 20 A 4 4 0 1 1 12 16' fill='none' stroke='%23d4af37' stroke-width='1.5' stroke-opacity='0.6'/%3E%3C/svg%3E") !important;
-}
-.variant-card-velun_neth {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 150 40 L 150 140 M 110 60 L 190 60 M 110 60 L 110 90 M 190 60 L 190 90' fill='none' stroke='%238a9ba8' stroke-width='1.5' stroke-opacity='0.25'/%3E%3C/svg%3E") !important;
-}
-.variant-card-drun_neth {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%230d1117'/%3E%3Cpath d='M 45 0 L 45 200 M 50 0 L 50 200' stroke='%23b71c1c' stroke-width='0.8' stroke-opacity='0.3'/%3E%3Cpath d='M 0 30 L 300 30 M 0 60 L 300 60 M 0 90 L 300 90 M 0 120 L 300 120' stroke='%238a9ba8' stroke-width='0.5' stroke-opacity='0.15'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-neth,
 .variant-card-neth {
     background-size: cover !important;
@@ -2424,12 +2515,8 @@
 .race-card-astril {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='nebula-orange' cx='20%25' cy='30%25' r='60%25'%3E%3Cstop offset='0%25' stop-color='%23ff6d00' stop-opacity='0.25'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3CradialGradient id='nebula-purple' cx='80%25' cy='70%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%236200ea' stop-opacity='0.3'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='%2304020a'/%3E%3Crect width='300' height='200' fill='url%28%23nebula-orange%29'/%3E%3Crect width='300' height='200' fill='url%28%23nebula-purple%29'/%3E%3Cg opacity='0.9'%3E%3Ccircle cx='70' cy='50' r='2' fill='%23fff'/%3E%3Cpath d='M 70 45 L 70 55 M 65 50 L 75 50' stroke='%23fff' stroke-width='0.5'/%3E%3C/g%3E%3Cg opacity='0.8'%3E%3Ccircle cx='230' cy='150' r='1.8' fill='%23ffb74d'/%3E%3Cpath d='M 230 146 L 230 154 M 226 150 L 234 150' stroke='%23ffb74d' stroke-width='0.5'/%3E%3C/g%3E%3Ccircle cx='150' cy='30' r='0.8' fill='%23fff' opacity='0.6'/%3E%3Ccircle cx='40' cy='140' r='1' fill='%23fff' opacity='0.5'/%3E%3Ccircle cx='110' cy='170' r='0.6' fill='%23fff' opacity='0.4'/%3E%3Ccircle cx='280' cy='80' r='1.2' fill='%23fff' opacity='0.7'/%3E%3Ccircle cx='180' cy='110' r='0.5' fill='%23fff' opacity='0.5'/%3E%3Ccircle cx='250' cy='40' r='1' fill='%23ffb74d' opacity='0.6'/%3E%3C/svg%3E") !important;
 }
-.variant-card-silath_astril {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='neb-silath' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.4'/%3E%3Cstop offset='40%25' stop-color='%236200ea' stop-opacity='0.15'/%3E%3Cstop offset='100%25' stop-color='transparent'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='%2304020a'/%3E%3Ccircle cx='150' cy='100' r='60' fill='url%28%23neb-silath%29'/%3E%3Cpath d='M 150 60 L 150 140 M 110 100 L 190 100' stroke='%23fff' stroke-width='1' stroke-opacity='0.6'/%3E%3C/svg%3E") !important;
-}
-.variant-card-vashir_astril {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%2304020a'/%3E%3Cpath d='M 50 140 L 110 170 L 180 110 L 250 40' fill='none' stroke='%23ffb74d' stroke-width='0.7' stroke-opacity='0.5' stroke-dasharray='3,3'/%3E%3Ccircle cx='50' cy='140' r='2' fill='%23fff'/%3E%3Ccircle cx='110' cy='170' r='2' fill='%23fff'/%3E%3Ccircle cx='180' cy='110' r='2' fill='%23fff'/%3E%3Ccircle cx='250' cy='40' r='2' fill='%23ffb74d'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-astril,
 .variant-card-astril {
     background-size: cover !important;
@@ -2516,12 +2603,8 @@
 .race-card-fexrick {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23140f0a'/%3E%3Cpath d='M 0 160 L 230 160 L 230 210' fill='none' stroke='%235d4037' stroke-width='8' stroke-linecap='square'/%3E%3Cpath d='M 0 160 L 230 160 L 230 210' fill='none' stroke='%23795548' stroke-width='6' stroke-linecap='square'/%3E%3Cpath d='M 0 160 L 230 160 L 230 210' fill='none' stroke='%2364dd17' stroke-width='2' stroke-linecap='square' stroke-opacity='0.8' filter='blur%280.5px%29'/%3E%3Ccircle cx='270' cy='170' r='25' fill='none' stroke='%238d6e63' stroke-width='3' stroke-dasharray='6,4'/%3E%3Ccircle cx='270' cy='170' r='18' fill='none' stroke='%238d6e63' stroke-width='1.5'/%3E%3Ccircle cx='270' cy='170' r='5' fill='%234e342e'/%3E%3Ccircle cx='225' cy='185' r='15' fill='none' stroke='%23a1887f' stroke-width='2' stroke-dasharray='4,3'/%3E%3Ccircle cx='225' cy='185' r='10' fill='none' stroke='%23a1887f' stroke-width='1'/%3E%3Ccircle cx='225' cy='185' r='3' fill='%234e342e'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%235d4037'/%3E%3Ccircle cx='292' cy='8' r='2' fill='%235d4037'/%3E%3Ccircle cx='8' cy='192' r='2' fill='%235d4037'/%3E%3Ccircle cx='292' cy='192' r='2' fill='%235d4037'/%3E%3C/svg%3E") !important;
 }
-.variant-card-drall_fexric {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23140f0a'/%3E%3Cpath d='M 100 0 L 100 200 M 0 100 L 300 100' stroke='%232d1f18' stroke-width='3'/%3E%3Ccircle cx='90' cy='90' r='1.5' fill='%235d4037'/%3E%3Ccircle cx='110' cy='90' r='1.5' fill='%235d4037'/%3E%3Ccircle cx='90' cy='110' r='1.5' fill='%235d4037'/%3E%3Ccircle cx='110' cy='110' r='1.5' fill='%235d4037'/%3E%3C/svg%3E") !important;
-}
-.variant-card-kethrin_fexric {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23140f0a'/%3E%3Ccircle cx='60' cy='70' r='30' fill='none' stroke='%238d6e63' stroke-width='2.5' stroke-dasharray='5,3'/%3E%3Ccircle cx='110' cy='110' r='25' fill='none' stroke='%23a1887f' stroke-width='2' stroke-dasharray='4,2'/%3E%3C/svg%3E") !important;
-}
+/* Placeholder removed - replaced by canonical vector illustrations */
+/* Placeholder removed - replaced by canonical vector illustrations */
 .race-card-fexrick,
 .variant-card-fexrick {
     background-size: cover !important;
@@ -2616,69 +2699,53 @@
 }
 
 
-/* 10. HUMAN - The Burning Wick (HIGH READABILITY Parchment & Candle) */
-/* 10. HUMAN - The Burning Wick (HIGH READABILITY Parchment & Candle) */
+/* 10. HUMAN - The Burning Wick (Hearth & Torchlight) */
 .race-card-human {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='candle-glow' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='40%25' stop-color='%23f5ecc8'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23candle-glow%29'/%3E%3Cpath d='M 0 50 C 40 40, 60 70, 100 50 T 200 40 T 300 60' fill='none' stroke='%23d7ccc8' stroke-width='0.7' stroke-opacity='0.4'/%3E%3Cpath d='M 0 130 C 50 140, 80 110, 150 120 T 300 130' fill='none' stroke='%23d7ccc8' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Cpath d='M 285 200 L 285 100 Q 285 95, 280 95 L 275 95 Q 270 95, 270 100 L 270 200 Z' fill='%236d4c41' opacity='0.15'/%3E%3Ccircle cx='277' cy='80' r='15' fill='%23ffa000' opacity='0.25' filter='blur%285px%29'/%3E%3Cpath d='M 277 88 C 281 88, 283 83, 277 72 C 271 83, 273 88, 277 88 Z' fill='%23ffb300' opacity='0.4'/%3E%3C/svg%3E") !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%2312151b'/%3E%3CradialGradient id='candle-glow' cx='85%25' cy='65%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23ff9800' stop-opacity='0.25'/%3E%3Cstop offset='50%25' stop-color='%23e65100' stop-opacity='0.08'/%3E%3Cstop offset='100%25' stop-color='%2312151b' stop-opacity='0'/%3E%3C/radialGradient%3E%3Crect width='300' height='200' fill='url%28%23candle-glow%29'/%3E%3Cpath d='M 0 50 C 40 40, 60 70, 100 50 T 200 40 T 300 60' fill='none' stroke='%23ffb74d' stroke-width='0.7' stroke-opacity='0.15'/%3E%3Cpath d='M 0 130 C 50 140, 80 110, 150 120 T 300 130' fill='none' stroke='%23ffb74d' stroke-width='0.5' stroke-opacity='0.12'/%3E%3C/svg%3E") !important;
 }
-.variant-card-thalren_human {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-thalren' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-thalren%29'/%3E%3Cpath d='M 40 45 L 260 45 M 40 60 L 260 60 M 40 75 L 260 75' stroke='%236d4c41' stroke-width='0.5' stroke-opacity='0.15'/%3E%3Cpath d='M 230 180 Q 240 140, 260 110 L 265 110 Q 250 145, 235 180 Z' fill='%236d4c41' opacity='0.12'/%3E%3Ccircle cx='230' cy='180' r='8' fill='%236d4c41' opacity='0.15'/%3E%3Cpath d='M 10 -10 C 50 20, 10 60, -10 90' fill='none' stroke='%23d7ccc8' stroke-width='8' stroke-opacity='0.25' filter='blur%283px%29'/%3E%3C/svg%3E") !important;
-}
-.variant-card-skald_human {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-skald' cx='50%25' cy='50%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23e8f4f8'/%3E%3Cstop offset='100%25' stop-color='%23ebdca0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-skald%29'/%3E%3Cpath d='M 0 0 L 20 20 M 300 0 L 280 20 M 0 200 L 20 180 M 300 200 L 280 180' stroke='%23b0bec5' stroke-width='1.5' stroke-opacity='0.3'/%3E%3Cpath d='M 10 30 L 30 10 M 290 30 L 270 10 M 10 170 L 30 190 M 290 170 L 270 190' stroke='%23b0bec5' stroke-width='1' stroke-opacity='0.2'/%3E%3Cpath d='M 230 40 L 245 40 L 237 55 Z M 237 35 L 237 60 M 225 48 L 250 48' fill='none' stroke='%236d4c41' stroke-width='1' stroke-opacity='0.2'/%3E%3C/svg%3E") !important;
-}
-.variant-card-tessen_human {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-tessen' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='100%25' stop-color='%23ebdca0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-tessen%29'/%3E%3Cpath d='M 0 40 L 300 40 M 0 80 L 300 80 M 0 120 L 300 120 M 0 160 L 300 160 M 100 0 L 100 200 M 200 0 L 200 200' stroke='%236d4c41' stroke-width='1' stroke-opacity='0.08'/%3E%3Cpath d='M 40 0 L 40 200' stroke='%23ff7043' stroke-width='4' stroke-opacity='0.15' filter='blur%281px%29'/%3E%3Cpath d='M 220 0 L 220 120 Q 215 125, 220 130 A 5 5 0 1 1 220 120' fill='none' stroke='%236d4c41' stroke-width='2' stroke-opacity='0.25'/%3E%3C/svg%3E") !important;
-}
-.variant-card-merryn_human {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-merryn' cx='90%25' cy='50%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23fff8e1'/%3E%3Cstop offset='100%25' stop-color='%23eadaa2'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-merryn%29'/%3E%3Ccircle cx='150' cy='100' r='50' fill='none' stroke='%238d6e63' stroke-width='0.8' stroke-opacity='0.25' stroke-dasharray='4,4'/%3E%3Ccircle cx='150' cy='100' r='30' fill='none' stroke='%238d6e63' stroke-width='0.5' stroke-opacity='0.15'/%3E%3Cpath d='M 150 40 L 150 160 M 90 100 L 210 100 M 108 58 L 192 142 M 108 142 L 192 58' stroke='%238d6e63' stroke-width='0.8' stroke-opacity='0.2'/%3E%3Cpath d='M 230 170 C 240 160, 250 160, 260 170 C 270 180, 280 180, 290 170' fill='none' stroke='%232d1510' stroke-width='1.5' stroke-opacity='0.15'/%3E%3Cpath d='M 10 30 C 20 20, 30 20, 40 30 C 50 40, 60 40, 70 30' fill='none' stroke='%232d1510' stroke-width='1.5' stroke-opacity='0.15'/%3E%3C/svg%3E") !important;
-}
-.variant-card-ordan_human {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Cdefs%3E%3CradialGradient id='c-glow-ordan' cx='50%25' cy='50%25' r='75%25'%3E%3Cstop offset='0%25' stop-color='%23fdfbf7'/%3E%3Cstop offset='100%25' stop-color='%23e5d59c'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url%28%23c-glow-ordan%29'/%3E%3Cpath d='M 0 100 Q 75 80, 150 100 T 300 100 M 0 120 Q 75 100, 150 120 T 300 120 M 0 140 Q 75 120, 150 140 T 300 140' fill='none' stroke='%238d6e63' stroke-width='0.6' stroke-opacity='0.2'/%3E%3Cpath d='M 230 170 H 250 L 255 165 L 260 170 H 270' fill='none' stroke='%236d4c41' stroke-width='1.2' stroke-opacity='0.25'/%3E%3C/svg%3E") !important;
-}
+
 .race-card-human,
 .variant-card-human {
     background-size: cover !important;
-    border: 1px solid rgba(141, 110, 99, 0.45) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15), inset 0 0 12px rgba(141, 110, 99, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.22) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 0, 0, 0.6);
 }
 
 .race-card-human::before,
 .variant-card-human::before {
-    border: 1px dashed rgba(141, 110, 99, 0.45);
+    border: 1px solid rgba(255, 179, 0, 0.15);
 }
 
 .race-card-human:hover,
 .variant-card-human:hover {
-    border-color: #5d4037 !important;
-    box-shadow: 0 6px 18px rgba(93, 64, 55, 0.25), inset 0 0 10px rgba(141, 110, 99, 0.15) !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), inset 0 0 12px rgba(0, 0, 0, 0.5) !important;
     transform: translateY(-4px);
 }
 
 .race-card-human:hover::before,
 .variant-card-human:hover::before {
-    border-color: rgba(93, 64, 55, 0.6);
+    border-color: rgba(245, 158, 11, 0.35);
 }
 
 .race-card-human.selected,
 .variant-card-human.selected {
-    border-color: #3e2723 !important;
-    box-shadow: 0 0 18px rgba(93, 64, 55, 0.4), inset 0 0 12px rgba(93, 64, 55, 0.2) !important;
+    border-color: #fbbf24 !important;
+    box-shadow: 0 0 24px rgba(251, 191, 36, 0.45), inset 0 0 15px rgba(0, 0, 0, 0.7) !important;
 }
 
 .race-card-human.selected::before,
 .variant-card-human.selected::before {
-    border-color: rgba(93, 64, 55, 0.8);
+    border-color: rgba(251, 191, 36, 0.5);
 }
 
-/* Light background contrast text color overrides */
 .race-card-human .race-card-name,
 .race-card-human .race-card-essence,
 .race-card-human .race-card-description,
 .variant-card-human .variant-card-name,
 .variant-card-human .variant-card-description {
-    color: #2d1510 !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    color: #f1f5f9 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
 }
 
 .race-card-human.selected .race-card-name,
@@ -2686,20 +2753,20 @@
 .race-card-human.selected .race-card-essence,
 .variant-card-human.selected .variant-card-name,
 .variant-card-human.selected .variant-card-description {
-    color: #1a0805 !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
 .race-card-human .race-card-icon,
 .race-card-human.selected .race-card-icon {
-    color: #5d4037 !important;
-    filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.5));
+    color: #f59e0b !important;
+    filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.6));
 }
 
 .race-card-human .info-badge {
-    background: rgba(93, 64, 55, 0.1) !important;
-    color: #3e2723 !important;
-    border: 1px solid rgba(93, 64, 55, 0.25) !important;
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #fde68a !important;
+    border: 1px solid rgba(245, 158, 11, 0.28);
 }
 
 .race-card-human .race-card-bg-effects::before,
@@ -2707,7 +2774,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 90% 50%, rgba(255, 224, 130, 0.35) 0%, transparent 65%);
+    background: radial-gradient(circle at 85% 65%, rgba(245, 158, 11, 0.18) 0%, transparent 65%);
     animation: candle-flicker 4s ease-in-out infinite alternate;
 }
 
@@ -2890,7 +2957,7 @@
 }
 
 
-/* 4. FEXRICK - Clockwork GEARS mesh (drift) + rising CHEMICAL bubbles. */
+/* 4. FEXRICK - Brasskin gear mesh (drift) + rising CHEMICAL bubbles. */
 .race-card-fexrick .race-card-fx,
 .variant-card-fexrick .variant-card-fx {
     mix-blend-mode: screen;
@@ -2949,9 +3016,11 @@
 }
 
 
-/* 6. EMBERTH - Glowing magma cracks + heat shimmer. */
+/* 6. EMBERTH / SOLARI - Glowing magma cracks + heat shimmer. */
 .race-card-emberth .race-card-fx,
-.variant-card-emberth .variant-card-fx {
+.variant-card-emberth .variant-card-fx,
+.race-card-solari .race-card-fx,
+.variant-card-solari .variant-card-fx {
     mix-blend-mode: screen;
     background-image:
         /* magma veins */
@@ -2964,7 +3033,9 @@
 }
 
 .race-card-emberth:hover .race-card-fx,
-.variant-card-emberth:hover .variant-card-fx {
+.variant-card-emberth:hover .variant-card-fx,
+.race-card-solari:hover .race-card-fx,
+.variant-card-solari:hover .variant-card-fx {
     animation: emberth-heat 2.6s ease-in-out infinite;
     transform: scale(1.02);
 }
@@ -3212,4 +3283,604 @@
     font-size: 1rem;
     text-align: center;
     line-height: 1.4;
+}
+
+/* ===== HERALDIC SUBRACE CRESTS & VARIANT CARD SHOWCASE ===== */
+.variant-card-showcase {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 122px;
+  margin: 0.4rem 0 0.75rem 0;
+  width: 100%;
+}
+
+.variant-card-crest-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 118px;
+  height: 118px;
+  margin: 0 auto;
+  z-index: 3;
+}
+
+.variant-card-crest-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    var(--subrace-halo-inner, rgba(212, 175, 55, 0.24)) 0%,
+    var(--subrace-halo-outer, rgba(212, 175, 55, 0.05)) 56%,
+    transparent 74%
+  );
+  border: 1px dashed var(--subrace-halo-ring, rgba(212, 175, 55, 0.38));
+  box-shadow: 
+    0 0 20px var(--subrace-halo-glow, rgba(212, 175, 55, 0.22)),
+    inset 0 0 16px var(--subrace-halo-inner, rgba(212, 175, 55, 0.16));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  pointer-events: none;
+}
+
+.variant-card-crest-halo::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.variant-card:hover .variant-card-crest-halo {
+  transform: scale(1.08);
+  box-shadow: 
+    0 0 28px var(--subrace-halo-glow, rgba(212, 175, 55, 0.5)),
+    inset 0 0 18px var(--subrace-halo-inner, rgba(212, 175, 55, 0.35));
+  border-color: var(--subrace-accent, rgba(212, 175, 55, 0.7));
+}
+
+.variant-card.selected .variant-card-crest-halo {
+  transform: scale(1.12);
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: var(--subrace-accent, #d4af37);
+  box-shadow: 
+    0 0 32px var(--subrace-halo-glow, rgba(212, 175, 55, 0.65)),
+    inset 0 0 20px var(--subrace-halo-inner, rgba(212, 175, 55, 0.45));
+}
+
+.variant-card-crest-img {
+  position: relative;
+  z-index: 2;
+  max-height: 104px;
+  max-width: 108px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 10px var(--subrace-halo-glow, rgba(212, 175, 55, 0.25)));
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+}
+
+.variant-card:hover .variant-card-crest-img {
+  transform: scale(1.12) translateY(-3px);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px var(--subrace-accent, rgba(212, 175, 55, 0.55)));
+}
+
+.variant-card.selected .variant-card-crest-img {
+  transform: scale(1.15) translateY(-3px);
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.98)) drop-shadow(0 0 20px var(--subrace-accent, rgba(212, 175, 55, 0.8)));
+}
+
+.variant-card-stats-side {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  z-index: 4;
+}
+
+.variant-card-stats-side .stat-modifiers-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: flex-end;
+}
+
+.variant-card-stats-side .stat-mod {
+  padding: 0.18rem 0.48rem;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.variant-card-stats-side .stat-mod.positive {
+  background: rgba(4, 30, 18, 0.94) !important;
+  border: 1px solid #10b981 !important;
+  color: #4ade80 !important;
+  text-shadow: 0 1px 2px #000, 0 0 6px rgba(16, 185, 129, 0.7) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.85), inset 0 0 6px rgba(16, 185, 129, 0.3) !important;
+}
+
+.variant-card-stats-side .stat-mod.negative {
+  background: rgba(38, 8, 12, 0.94) !important;
+  border: 1px solid #f43f5e !important;
+  color: #fb7185 !important;
+  text-shadow: 0 1px 2px #000, 0 0 6px rgba(244, 63, 94, 0.7) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.85), inset 0 0 6px rgba(244, 63, 94, 0.3) !important;
+}
+
+.variant-card:hover .variant-card-stats-side .stat-mod {
+  transform: scale(1.04);
+}
+
+.variant-card:hover .variant-card-stats-side .stat-mod.positive {
+  border-color: #34d399 !important;
+  color: #86efac !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9), inset 0 0 8px rgba(52, 211, 153, 0.45) !important;
+}
+
+.variant-card:hover .variant-card-stats-side .stat-mod.negative {
+  border-color: #fb7185 !important;
+  color: #fecdd3 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9), inset 0 0 8px rgba(251, 113, 133, 0.45) !important;
+}
+
+.variant-details-crest-hero {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 0.75rem;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.6));
+  display: inline-block;
+}
+
+.switcher-btn-crest {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  display: inline-block;
+}
+
+/* ============================================================
+   25 SUBRACE CHROMATIC IDENTITY & HERALDIC ACCENTS
+   ============================================================ */
+
+/* Arch Mimir: Ancient noble beast-mask rulers of high redwood canopy palaces */
+.variant-card-arch_mimir, .variant-card-veiled_mimir, .variant-card-veiled {
+  --subrace-accent: #f59e0b;
+  --subrace-halo-inner: rgba(245, 158, 11, 0.28);
+  --subrace-halo-outer: rgba(217, 119, 6, 0.06);
+  --subrace-halo-ring: rgba(251, 191, 36, 0.5);
+  --subrace-halo-glow: rgba(245, 158, 11, 0.35);
+  --subrace-card-border-hover: #d97706;
+  --subrace-card-border-selected: #f59e0b;
+  --subrace-title-color: #fef3c7;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='mimir-canopy' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230e0817'/%3E %3Cstop offset='60%25' stop-color='%23170d26'/%3E %3Cstop offset='100%25' stop-color='%23231238'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23mimir-canopy)'/%3E %3Cpath d='M-15,-20 C15,60 10,180 -15,280 L25,280 C40,180 35,60 15,-20 Z' fill='%23150b20' stroke='%23581c87' stroke-width='2'/%3E %3Cpath d='M335,-20 C305,60 310,180 335,280 L295,280 C280,180 285,60 305,-20 Z' fill='%23150b20' stroke='%23581c87' stroke-width='2'/%3E %3Cpath d='M15,55 Q160,105 305,55' fill='none' stroke='%239333ea' stroke-width='5'/%3E %3Cpath d='M15,55 Q160,105 305,55' fill='none' stroke='%23e9d5ff' stroke-width='1.8'/%3E %3Cg stroke='%23c084fc' stroke-width='1.2' stroke-opacity='0.75'%3E %3Cline x1='65' y1='20' x2='65' y2='74'/%3E %3Cline x1='110' y1='10' x2='110' y2='90'/%3E %3Cline x1='160' y1='5' x2='160' y2='95'/%3E %3Cline x1='210' y1='10' x2='210' y2='90'/%3E %3Cline x1='255' y1='20' x2='255' y2='74'/%3E %3C/g%3E %3Ccircle cx='110' cy='92' r='4' fill='%23fbbf24' filter='blur(0.5px)'/%3E %3Ccircle cx='160' cy='97' r='4.5' fill='%23fbbf24' filter='blur(0.5px)'/%3E %3Ccircle cx='210' cy='92' r='4' fill='%23fbbf24' filter='blur(0.5px)'/%3E %3Cpath d='M-10,240 Q60,205 130,230 T270,215 T340,240 L340,260 L-10,260 Z' fill='%23190e28'/%3E %3Cg transform='translate(160, 235) scale(0.72)' stroke='%23c084fc' stroke-width='2' fill='none'%3E %3Cpath d='M-25,-5 C-35,-25 -20,-45 -40,-60 C-25,-40 -15,-20 -15,-5'/%3E %3Cpath d='M25,-5 C35,-25 20,-45 40,-60 C25,-40 15,-20 15,-5'/%3E %3Cpath d='M-25,-5 Q0,-18 25,-5 L15,15 Q0,25 -15,15 Z' fill='%23170b24'/%3E %3Cline x1='-12' y1='2' x2='-4' y2='-2' stroke='%23fbbf24' stroke-width='2.2'/%3E %3Cline x1='12' y1='2' x2='4' y2='-2' stroke='%23fbbf24' stroke-width='2.2'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Broken Mimir: Fractured masks, mournful bells, melancholy indigo mist */
+.variant-card-broken_mimir, .variant-card-tethered_mimir, .variant-card-tethered {
+  --subrace-accent: #818cf8;
+  --subrace-halo-inner: rgba(129, 140, 248, 0.28);
+  --subrace-halo-outer: rgba(99, 102, 241, 0.06);
+  --subrace-halo-ring: rgba(165, 180, 252, 0.5);
+  --subrace-halo-glow: rgba(129, 140, 248, 0.35);
+  --subrace-card-border-hover: #6366f1;
+  --subrace-card-border-selected: #818cf8;
+  --subrace-title-color: #e0e7ff;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='broken-sepia' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230f0b09'/%3E %3Cstop offset='60%25' stop-color='%2317100b'/%3E %3Cstop offset='100%25' stop-color='%23261a12'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23broken-sepia)'/%3E %3Cpath d='M-10,-5 Q50,45 80,25 T140,55' fill='none' stroke='%23451a03' stroke-width='4.5'/%3E %3Cpath d='M330,-5 Q270,45 240,25 T180,55' fill='none' stroke='%23451a03' stroke-width='4.5'/%3E %3Cg stroke='%23cbd5e1' stroke-width='1.2' stroke-dasharray='12,6,4,8' stroke-opacity='0.65'%3E %3Cline x1='60' y1='0' x2='50' y2='120'/%3E %3Cline x1='100' y1='0' x2='95' y2='90'/%3E %3Cline x1='220' y1='0' x2='225' y2='85'/%3E %3Cline x1='260' y1='0' x2='270' y2='130'/%3E %3C/g%3E %3Cg transform='translate(75, 45)' stroke='%23f97316' stroke-width='1.5' fill='%237c2d12'%3E %3Cline x1='0' y1='-15' x2='0' y2='0' stroke='%23cbd5e1' stroke-width='1.2'/%3E %3Cpath d='M-7,14 C-7,3 -3,0 0,0 C3,0 7,3 7,14 Z'/%3E %3Cline x1='-9' y1='14' x2='9' y2='14'/%3E %3Ccircle cx='0' cy='17' r='2.5' fill='%23fef08a'/%3E %3C/g%3E %3Cg transform='translate(245, 45)' stroke='%23f97316' stroke-width='1.5' fill='%237c2d12'%3E %3Cline x1='0' y1='-15' x2='0' y2='0' stroke='%23cbd5e1' stroke-width='1.2'/%3E %3Cpath d='M-7,14 C-7,3 -3,0 0,0 C3,0 7,3 7,14 Z'/%3E %3Cline x1='-9' y1='14' x2='9' y2='14'/%3E %3Ccircle cx='0' cy='17' r='2.5' fill='%23fef08a'/%3E %3C/g%3E %3Cg transform='translate(160, 230) scale(0.78)'%3E %3Cpath d='M-2,-25 C-18,-25 -28,-10 -25,10 C-22,25 -10,35 -3,38 L-3,20 L-6,10 L-2,5 L-8,-5 L-2,-25 Z' fill='%231c140d' stroke='%23ea580c' stroke-width='2'/%3E %3Cellipse cx='-12' cy='-2' rx='4' ry='2.5' fill='%230f0b09' stroke='%23f87171' stroke-width='1.5'/%3E %3Cpath d='M-12,2 Q-14,14 -11,20' fill='none' stroke='%23f87171' stroke-width='1.5'/%3E %3Cpath d='M4,-22 C20,-22 30,-7 27,13 C24,28 12,38 5,40 L5,22 L2,12 L6,7 L0,-3 L4,-22 Z' fill='%231c140d' stroke='%23ea580c' stroke-width='2'/%3E %3Cellipse cx='14' cy='0' rx='4' ry='2.5' fill='%230f0b09' stroke='%23f1f5f9' stroke-width='1.5'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Morgh Groven: Deep stone mud-kilns, bubbling cauldrons, primal troll regeneration */
+.variant-card-morgh, .variant-card-morgh_groven {
+  --subrace-accent: #84cc16;
+  --subrace-halo-inner: rgba(132, 204, 22, 0.28);
+  --subrace-halo-outer: rgba(101, 163, 13, 0.06);
+  --subrace-halo-ring: rgba(163, 230, 53, 0.45);
+  --subrace-halo-glow: rgba(132, 204, 22, 0.32);
+  --subrace-card-border-hover: #65a30d;
+  --subrace-card-border-selected: #84cc16;
+  --subrace-title-color: #ecfccb;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(132, 204, 22, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='morgh-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230d0e10'/%3E %3Cstop offset='60%25' stop-color='%2315161a'/%3E %3Cstop offset='100%25' stop-color='%2323242c'/%3E %3C/linearGradient%3E %3CradialGradient id='kiln-glow' cx='50%25' cy='50%25' r='50%25'%3E %3Cstop offset='0%25' stop-color='%23fef08a'/%3E %3Cstop offset='30%25' stop-color='%23f97316' stop-opacity='0.9'/%3E %3Cstop offset='100%25' stop-color='%23f97316' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23morgh-bg)'/%3E %3Cpolygon points='-10,0 20,0 5,70' fill='%23262626' stroke='%23737373' stroke-width='1.5'/%3E %3Cpolygon points='40,0 75,0 58,50' fill='%231f1f1f' stroke='%23525252' stroke-width='1.2'/%3E %3Cpolygon points='230,0 265,0 248,60' fill='%231f1f1f' stroke='%23525252' stroke-width='1.2'/%3E %3Cpolygon points='285,0 330,0 305,80' fill='%23262626' stroke='%23737373' stroke-width='1.5'/%3E %3C!-- Mud Kiln Left --%3E %3Cpath d='M20,260 C20,200 35,178 55,178 C75,178 90,200 90,260 Z' fill='%23292524' stroke='%23d6d3d1' stroke-width='2'/%3E %3Cellipse cx='55' cy='230' rx='16' ry='22' fill='%239a3412' stroke='%23ea580c' stroke-width='2.2'/%3E %3Cellipse cx='55' cy='230' rx='11' ry='15' fill='%23fef08a'/%3E %3Ccircle cx='55' cy='230' r='32' fill='url(%23kiln-glow)'/%3E %3C!-- Mud Kiln Right --%3E %3Cpath d='M230,260 C230,202 245,185 268,185 C290,185 305,202 305,260 Z' fill='%23292524' stroke='%23d6d3d1' stroke-width='2'/%3E %3Cellipse cx='268' cy='230' rx='16' ry='22' fill='%239a3412' stroke='%23ea580c' stroke-width='2.2'/%3E %3Cellipse cx='268' cy='230' rx='11' ry='15' fill='%23fef08a'/%3E %3Ccircle cx='268' cy='230' r='32' fill='url(%23kiln-glow)'/%3E %3Ccircle cx='55' cy='160' r='2.5' fill='%23fef08a'/%3E %3Ccircle cx='268' cy='165' r='2.5' fill='%23fef08a'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Amordjin Groven: Cyclopean stone bridges, mystic azure runes, planar geomancy */
+.variant-card-ithran, .variant-card-ithran_groven {
+  --subrace-accent: #38bdf8;
+  --subrace-halo-inner: rgba(56, 189, 248, 0.28);
+  --subrace-halo-outer: rgba(2, 132, 199, 0.06);
+  --subrace-halo-ring: rgba(125, 211, 252, 0.45);
+  --subrace-halo-glow: rgba(56, 189, 248, 0.35);
+  --subrace-card-border-hover: #0284c7;
+  --subrace-card-border-selected: #38bdf8;
+  --subrace-title-color: #e0f2fe;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='ithran-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23090d12'/%3E %3Cstop offset='60%25' stop-color='%23111822'/%3E %3Cstop offset='100%25' stop-color='%231e293b'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23ithran-bg)'/%3E %3Cpolygon points='-20,0 60,0 75,260 -20,260' fill='%230f172a' stroke='%2364748b' stroke-width='2.2'/%3E %3Cpolygon points='340,0 260,0 245,260 340,260' fill='%230f172a' stroke='%2364748b' stroke-width='2.2'/%3E %3C!-- Bridge Arch --%3E %3Cpath d='M60,130 C110,90 210,90 260,130 L260,168 C200,122 120,122 60,168 Z' fill='%231e293b' stroke='%2394a3b8' stroke-width='2.5'/%3E %3Cg stroke='%23cbd5e1' stroke-width='1.8'%3E %3Cline x1='90' y1='116' x2='90' y2='148'/%3E %3Cline x1='125' y1='104' x2='125' y2='136'/%3E %3Cline x1='160' y1='100' x2='160' y2='132'/%3E %3Cline x1='195' y1='104' x2='195' y2='136'/%3E %3Cline x1='230' y1='116' x2='230' y2='148'/%3E %3C/g%3E %3Cpath d='M25,70 L44,70 M34,70 L34,105 M34,80 L25,92 M34,92 L44,102' fill='none' stroke='%2338bdf8' stroke-width='2.6' filter='blur(0.8px)'/%3E %3Cpath d='M25,70 L44,70 M34,70 L34,105 M34,80 L25,92 M34,92 L44,102' fill='none' stroke='%23ffffff' stroke-width='1.4'/%3E %3Cpath d='M283,150 L302,165 L283,180 M292,155 L292,190' fill='none' stroke='%2338bdf8' stroke-width='2.6' filter='blur(0.8px)'/%3E %3Cpath d='M283,150 L302,165 L283,180 M292,155 L292,190' fill='none' stroke='%23ffffff' stroke-width='1.4'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Lumian: Astromancer constellation maps, celestial nodes, stellar dawn */
+.variant-card-vashir, .variant-card-vashir_astril, .variant-card-stargazer_astril {
+  --subrace-accent: #38bdf8;
+  --subrace-halo-inner: rgba(56, 189, 248, 0.3);
+  --subrace-halo-outer: rgba(14, 165, 233, 0.06);
+  --subrace-halo-ring: rgba(125, 211, 252, 0.5);
+  --subrace-halo-glow: rgba(56, 189, 248, 0.38);
+  --subrace-card-border-hover: #0284c7;
+  --subrace-card-border-selected: #38bdf8;
+  --subrace-title-color: #e0f2fe;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='star-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%2305030e'/%3E %3Cstop offset='60%25' stop-color='%230a081c'/%3E %3Cstop offset='100%25' stop-color='%2316113b'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23star-bg)'/%3E %3Cg fill='none' stroke='%23818cf8' stroke-opacity='0.45' stroke-width='1.8'%3E %3Ccircle cx='160' cy='120' r='85'/%3E %3Cellipse cx='160' cy='120' rx='85' ry='30' transform='rotate(25 160 120)'/%3E %3Cellipse cx='160' cy='120' rx='85' ry='30' transform='rotate(-25 160 120)'/%3E %3Cellipse cx='160' cy='120' rx='85' ry='15' stroke-dasharray='4,6'/%3E %3C/g%3E %3Cg stroke='%2338bdf8' stroke-width='1.6' stroke-opacity='0.9'%3E %3Cline x1='35' y1='40' x2='60' y2='55'/%3E %3Cline x1='60' y1='55' x2='85' y2='45'/%3E %3Cline x1='85' y1='45' x2='100' y2='75'/%3E %3Cline x1='100' y1='75' x2='75' y2='90'/%3E %3Cline x1='75' y1='90' x2='60' y2='55'/%3E %3Cline x1='230' y1='50' x2='255' y2='35'/%3E %3Cline x1='255' y1='35' x2='275' y2='60'/%3E %3Cline x1='275' y1='60' x2='295' y2='45'/%3E %3C/g%3E %3Cg fill='%23ffffff'%3E %3Ccircle cx='35' cy='40' r='3'/%3E %3Ccircle cx='60' cy='55' r='3.5'/%3E %3Ccircle cx='85' cy='45' r='3'/%3E %3Ccircle cx='100' cy='75' r='3.5'/%3E %3Ccircle cx='75' cy='90' r='3'/%3E %3Ccircle cx='230' cy='50' r='3'/%3E %3Ccircle cx='255' cy='35' r='3.5'/%3E %3Ccircle cx='275' cy='60' r='3'/%3E %3Ccircle cx='295' cy='45' r='3.5'/%3E %3C/g%3E %3Cpath d='M140,245 C140,230 160,225 175,235 C165,232 150,238 152,248 Z' fill='%2338bdf8'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Kordak: Kinetic impact craters, cosmic obsidian shards, amethyst fire */
+.variant-card-silath, .variant-card-silath_astril, .variant-card-brutish_astril {
+  --subrace-accent: #c084fc;
+  --subrace-halo-inner: rgba(192, 132, 252, 0.28);
+  --subrace-halo-outer: rgba(147, 51, 234, 0.06);
+  --subrace-halo-ring: rgba(216, 180, 254, 0.45);
+  --subrace-halo-glow: rgba(192, 132, 252, 0.35);
+  --subrace-card-border-hover: #9333ea;
+  --subrace-card-border-selected: #c084fc;
+  --subrace-title-color: #f3e8ff;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(147, 51, 234, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='brute-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23070412'/%3E %3Cstop offset='60%25' stop-color='%23110924'/%3E %3Cstop offset='100%25' stop-color='%23231545'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23brute-bg)'/%3E %3Cg fill='none' stroke='%23c084fc' stroke-opacity='0.45' stroke-width='2'%3E %3Cellipse cx='160' cy='230' rx='50' ry='18'/%3E %3Cellipse cx='160' cy='230' rx='95' ry='35'/%3E %3Cellipse cx='160' cy='230' rx='145' ry='52' stroke-dasharray='8,6'/%3E %3C/g%3E %3Cpolygon points='35,260 50,142 75,185 85,260' fill='%232e1065' stroke='%23e9d5ff' stroke-width='2'/%3E %3Cpolygon points='50,142 65,170 75,185' fill='%237e22ce' stroke='%23ffffff' stroke-width='1.5'/%3E %3Cpolygon points='10,260 25,175 45,210 50,260' fill='%231e0845' stroke='%23c084fc' stroke-width='1.8'/%3E %3Cpolygon points='285,260 270,138 245,180 235,260' fill='%232e1065' stroke='%23e9d5ff' stroke-width='2'/%3E %3Cpolygon points='270,138 255,168 245,180' fill='%237e22ce' stroke='%23ffffff' stroke-width='1.5'/%3E %3Cpolygon points='310,260 295,170 275,205 270,260' fill='%231e0845' stroke='%23c084fc' stroke-width='1.8'/%3E %3Ccircle cx='50' cy='142' r='3.5' fill='%23ffffff'/%3E %3Ccircle cx='270' cy='138' r='3.5' fill='%23ffffff'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Korr: Monastic sun disc temple pillars, cupped sacred ember brazier */
+.variant-card-korr, .variant-card-korr_solari, .variant-card-hollow_solari {
+  --subrace-accent: #f59e0b;
+  --subrace-halo-inner: rgba(245, 158, 11, 0.3);
+  --subrace-halo-outer: rgba(217, 119, 6, 0.06);
+  --subrace-halo-ring: rgba(252, 211, 77, 0.5);
+  --subrace-halo-glow: rgba(245, 158, 11, 0.38);
+  --subrace-card-border-hover: #d97706;
+  --subrace-card-border-selected: #f59e0b;
+  --subrace-title-color: #fef3c7;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='hollow-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230f0705'/%3E %3Cstop offset='60%25' stop-color='%231c0e09'/%3E %3Cstop offset='100%25' stop-color='%23331b12'/%3E %3C/linearGradient%3E %3CradialGradient id='sacred-ember-glow' cx='50%25' cy='50%25' r='50%25'%3E %3Cstop offset='0%25' stop-color='%23ffffff'/%3E %3Cstop offset='30%25' stop-color='%23f59e0b'/%3E %3Cstop offset='70%25' stop-color='%23b45309' stop-opacity='0.6'/%3E %3Cstop offset='100%25' stop-color='%23b45309' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23hollow-bg)'/%3E %3Cg fill='none' stroke='%23f59e0b' stroke-opacity='0.55' stroke-width='1.8'%3E %3Ccircle cx='160' cy='70' r='52'/%3E %3Ccircle cx='160' cy='70' r='78' stroke-dasharray='6,8'/%3E %3Cline x1='160' y1='6' x2='160' y2='134'/%3E %3Cline x1='96' y1='70' x2='224' y2='70'/%3E %3C/g%3E %3Crect x='15' y='115' width='24' height='145' fill='%231c100a' stroke='%23f59e0b' stroke-width='1.8'/%3E %3Cpolygon points='10,115 27,96 44,115' fill='%232e140a' stroke='%23fde047' stroke-width='1.5'/%3E %3Crect x='281' y='115' width='24' height='145' fill='%231c100a' stroke='%23f59e0b' stroke-width='1.8'/%3E %3Cpolygon points='276,115 293,96 310,115' fill='%232e140a' stroke='%23fde047' stroke-width='1.5'/%3E %3C!-- Cinder Brazier --%3E %3Cg transform='translate(160, 240)'%3E %3Cpath d='M-38,20 L38,20 L28,0 L-28,0 Z' fill='%2329160e' stroke='%23f59e0b' stroke-width='2'/%3E %3Cpath d='M-48,0 C-48,-16 48,-16 48,0 Z' fill='%231c0e09' stroke='%23fde047' stroke-width='2'/%3E %3Ccircle cx='0' cy='-12' r='18' fill='url(%23sacred-ember-glow)'/%3E %3Ccircle cx='0' cy='-12' r='8' fill='%23ffffff'/%3E %3Ccircle cx='-8' cy='-34' r='2.5' fill='%23fef08a'/%3E %3Ccircle cx='6' cy='-48' r='2' fill='%23f59e0b'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Anhur: Scorched obsidian faultlines, erupting magma fissures, heat mirages */
+.variant-card-thrask, .variant-card-thrask_solari, .variant-card-waste_solari {
+  --subrace-accent: #f43f5e;
+  --subrace-halo-inner: rgba(244, 63, 94, 0.32);
+  --subrace-halo-outer: rgba(225, 29, 72, 0.06);
+  --subrace-halo-ring: rgba(251, 113, 133, 0.5);
+  --subrace-halo-glow: rgba(244, 63, 94, 0.4);
+  --subrace-card-border-hover: #e11d48;
+  --subrace-card-border-selected: #f43f5e;
+  --subrace-title-color: #ffe4e6;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(225, 29, 72, 0.14) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='waste-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23100402'/%3E %3Cstop offset='60%25' stop-color='%231a0804'/%3E %3Cstop offset='100%25' stop-color='%23331109'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23waste-bg)'/%3E %3Cpolygon points='-20,195 30,145 70,180 120,130 170,175 220,135 270,180 340,140 340,260 -20,260' fill='%231a0804' stroke='%23ef4444' stroke-width='1.5'/%3E %3C!-- Blazing Magma Faultlines --%3E %3Cpath d='M-10,240 Q70,222 150,212 T330,192' fill='none' stroke='%23ff3d00' stroke-width='9' filter='blur(3px)'/%3E %3Cpath d='M-10,240 Q70,222 150,212 T330,192' fill='none' stroke='%23ff9100' stroke-width='4.5'/%3E %3Cpath d='M-10,240 Q70,222 150,212 T330,192' fill='none' stroke='%23ffffff' stroke-width='2'/%3E %3Cpath d='M75,222 L60,250 M140,214 L155,245 M225,205 L210,235' stroke='%23ffff55' stroke-width='2.2'/%3E %3Cg fill='%23ea580c' stroke='%23fde047' stroke-width='1'%3E %3Cpath d='M140,212 Q145,180 150,168 Q155,180 160,212 Z'/%3E %3Cpath d='M215,202 Q220,175 224,163 Q228,175 232,202 Z'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Brasskin: Articulated brass cogs, escapement wheels, pressure dials */
+.variant-card-clockwork_fexric, .variant-card-kethrin_fexric, .variant-card-kethrin {
+  --subrace-accent: #d4af37;
+  --subrace-halo-inner: rgba(212, 175, 55, 0.28);
+  --subrace-halo-outer: rgba(180, 140, 50, 0.06);
+  --subrace-halo-ring: rgba(235, 205, 110, 0.45);
+  --subrace-halo-glow: rgba(212, 175, 55, 0.35);
+  --subrace-card-border-hover: #b45309;
+  --subrace-card-border-selected: #d4af37;
+  --subrace-title-color: #fef9c3;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='clock-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230f0b07'/%3E %3Cstop offset='60%25' stop-color='%2317110a'/%3E %3Cstop offset='100%25' stop-color='%23261c10'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23clock-bg)'/%3E %3Cpath d='M0,0 L320,0 L320,25 L0,25 Z' fill='%231c140d' stroke='%23b45309' stroke-width='1.5'/%3E %3Ccircle cx='20' cy='12' r='3' fill='%23f59e0b'/%3E %3Ccircle cx='80' cy='12' r='3' fill='%23f59e0b'/%3E %3Ccircle cx='160' cy='12' r='3' fill='%23f59e0b'/%3E %3Ccircle cx='240' cy='12' r='3' fill='%23f59e0b'/%3E %3Ccircle cx='300' cy='12' r='3' fill='%23f59e0b'/%3E %3Cg transform='translate(275, 185)'%3E %3Ccircle cx='0' cy='0' r='42' fill='none' stroke='%23b45309' stroke-width='7' stroke-dasharray='11,7'/%3E %3Ccircle cx='0' cy='0' r='36' fill='%2317110a' stroke='%23f59e0b' stroke-width='2'/%3E %3Ccircle cx='0' cy='0' r='14' fill='%232e1c0d' stroke='%23d97706' stroke-width='2'/%3E %3Cline x1='-36' y1='0' x2='36' y2='0' stroke='%23f59e0b' stroke-width='2.2'/%3E %3Cline x1='0' y1='-36' x2='0' y2='36' stroke='%23f59e0b' stroke-width='2.2'/%3E %3C/g%3E %3Cg transform='translate(45, 195)'%3E %3Ccircle cx='0' cy='0' r='30' fill='none' stroke='%23b45309' stroke-width='6' stroke-dasharray='8,6'/%3E %3Ccircle cx='0' cy='0' r='25' fill='%2317110a' stroke='%23f59e0b' stroke-width='1.8'/%3E %3Ccircle cx='0' cy='0' r='10' fill='%232e1c0d' stroke='%23d97706' stroke-width='1.8'/%3E %3Cline x1='-25' y1='0' x2='25' y2='0' stroke='%23f59e0b' stroke-width='2'/%3E %3Cline x1='0' y1='-25' x2='0' y2='25' stroke='%23f59e0b' stroke-width='2'/%3E %3C/g%3E %3Cpath d='M0,248 L320,248' stroke='%239a3412' stroke-width='7'/%3E %3Cpath d='M0,248 L320,248' stroke='%23f59e0b' stroke-width='1.8'/%3E %3Ccircle cx='160' cy='245' r='14' fill='%231c140d' stroke='%23f59e0b' stroke-width='2'/%3E %3Cline x1='160' y1='245' x2='168' y2='237' stroke='%23ef4444' stroke-width='2'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Alchemite: Alembic distillation coils, venomous acid pipes, boiling slime */
+.variant-card-caustic_fexric, .variant-card-drall_fexric, .variant-card-drall {
+  --subrace-accent: #22c55e;
+  --subrace-halo-inner: rgba(34, 197, 94, 0.32);
+  --subrace-halo-outer: rgba(22, 163, 74, 0.06);
+  --subrace-halo-ring: rgba(134, 239, 172, 0.5);
+  --subrace-halo-glow: rgba(34, 197, 94, 0.4);
+  --subrace-card-border-hover: #16a34a;
+  --subrace-card-border-selected: #22c55e;
+  --subrace-title-color: #dcfce7;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(34, 197, 94, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='caustic-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23080e06'/%3E %3Cstop offset='60%25' stop-color='%230f1c0a'/%3E %3Cstop offset='100%25' stop-color='%23223d18'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23caustic-bg)'/%3E %3Cg stroke='%2365a30d' stroke-width='1' stroke-opacity='0.45'%3E %3Cline x1='0' y1='60' x2='320' y2='60'/%3E %3Cline x1='0' y1='100' x2='320' y2='100'/%3E %3Cline x1='0' y1='140' x2='320' y2='140'/%3E %3Cline x1='80' y1='0' x2='80' y2='200'/%3E %3Cline x1='160' y1='0' x2='160' y2='200'/%3E %3Cline x1='240' y1='0' x2='240' y2='200'/%3E %3C/g%3E %3C!-- Alembic Flask --%3E %3Cg transform='translate(50, 215)'%3E %3Cpath d='M0,-25 L0,-12 C-15,0 -20,15 -18,30 L18,30 C20,15 15,0 0,-12 Z' fill='%23142908' stroke='%23bef264' stroke-width='2'/%3E %3Cpath d='M-16,18 C-8,14 8,22 16,18 L18,30 L-18,30 Z' fill='%2384cc16'/%3E %3Ccircle cx='-6' cy='12' r='3' fill='%23ffffff'/%3E %3Ccircle cx='4' cy='8' r='2.5' fill='%23bef264'/%3E %3Cpath d='M0,-25 C12,-35 25,-10 35,-15' fill='none' stroke='%23bef264' stroke-width='2.8'/%3E %3C/g%3E %3C!-- Drainage Pipe --%3E %3Cg transform='translate(270, 205)'%3E %3Crect x='-15' y='-20' width='30' height='45' fill='%231a2e05' stroke='%2384cc16' stroke-width='2'/%3E %3Cline x1='-18' y1='25' x2='18' y2='25' stroke='%23bef264' stroke-width='4'/%3E %3Cpath d='M0,26 C-2,36 2,42 0,48' fill='none' stroke='%23bef264' stroke-width='3' stroke-linecap='round'/%3E %3Ccircle cx='0' cy='52' r='3' fill='%23ffffff'/%3E %3C/g%3E %3Cpath d='M-10,245 Q60,225 140,248 T300,235 T340,245 L340,260 L-10,260 Z' fill='%234d7c0f' opacity='0.85'/%3E %3Ccircle cx='140' cy='238' r='14' fill='%23bef264' opacity='0.5' filter='blur(4px)'/%3E %3Ccircle cx='200' cy='232' r='16' fill='%23bef264' opacity='0.5' filter='blur(4px)'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Corali: Chalk sea-cliffs, conch lighthouse beacon, crashing breaker waves */
+.variant-card-shoreling, .variant-card-shoreling_myrathil {
+  --subrace-accent: #06b6d4;
+  --subrace-halo-inner: rgba(6, 182, 212, 0.28);
+  --subrace-halo-outer: rgba(8, 145, 178, 0.06);
+  --subrace-halo-ring: rgba(103, 232, 249, 0.45);
+  --subrace-halo-glow: rgba(6, 182, 212, 0.35);
+  --subrace-card-border-hover: #0891b2;
+  --subrace-card-border-selected: #06b6d4;
+  --subrace-title-color: #cffafe;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='shore-sky' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%2306131c'/%3E %3Cstop offset='60%25' stop-color='%23091f2c'/%3E %3Cstop offset='100%25' stop-color='%230f3042'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23shore-sky)'/%3E %3Cpolygon points='-20,260 -20,130 35,145 65,190 90,260' fill='%23162e3d' stroke='%2338bdf8' stroke-width='1.8'/%3E %3Cpolygon points='25,145 32,92 38,145' fill='%23f8fafc'/%3E %3Ccircle cx='35' cy='90' r='5' fill='%2338bdf8' filter='blur(1px)'/%3E %3Cpolygon points='35,90 320,35 320,85' fill='%2338bdf8' opacity='0.2'/%3E %3Cpath d='M50,230 Q80,195 120,225 T220,215 T340,225 L340,260 L50,260 Z' fill='%230e2838'/%3E %3Cpath d='M-10,245 C40,225 80,220 130,242 C180,222 230,220 280,240 L340,232 L340,260 L-10,260 Z' fill='%23083344'/%3E %3Cpath d='M-10,245 C40,225 80,220 130,242 C180,222 230,220 280,240 L340,232' fill='none' stroke='%2338bdf8' stroke-width='2.5'/%3E %3Cpath d='M35,225 Q55,210 75,225 M125,220 Q145,208 165,222 M225,220 Q245,208 265,222' fill='none' stroke='%23ffffff' stroke-width='1.8'/%3E %3Cg stroke='%2338bdf8' stroke-width='2'%3E %3Cline x1='280' y1='170' x2='315' y2='240'/%3E %3Cpolygon points='280,170 274,182 286,182' fill='%2338bdf8'/%3E %3Cline x1='315' y1='170' x2='280' y2='240'/%3E %3Cpolygon points='315,170 309,182 321,182' fill='%2338bdf8'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Nereid: Hadal abyss trenches, electric-cyan siphonophores, thermal bubble vents */
+.variant-card-deepling, .variant-card-deepling_myrathil {
+  --subrace-accent: #3b82f6;
+  --subrace-halo-inner: rgba(59, 130, 246, 0.3);
+  --subrace-halo-outer: rgba(37, 99, 235, 0.06);
+  --subrace-halo-ring: rgba(147, 197, 253, 0.5);
+  --subrace-halo-glow: rgba(59, 130, 246, 0.38);
+  --subrace-card-border-hover: #2563eb;
+  --subrace-card-border-selected: #3b82f6;
+  --subrace-title-color: #dbeafe;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3CradialGradient id='abyss-glow' cx='50%25' cy='40%25' r='60%25'%3E %3Cstop offset='0%25' stop-color='%23002533'/%3E %3Cstop offset='70%25' stop-color='%23010b10'/%3E %3Cstop offset='100%25' stop-color='%23000508'/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23abyss-glow)'/%3E %3Cpolygon points='-20,260 80,235 140,250 200,230 340,260' fill='%23011622' stroke='%2300e5ff' stroke-width='1.5'/%3E %3Cg fill='%2300e5ff'%3E %3Ccircle cx='135' cy='245' r='2.5'/%3E %3Ccircle cx='138' cy='230' r='3.2'/%3E %3Ccircle cx='134' cy='212' r='4' opacity='0.75'/%3E %3Ccircle cx='205' cy='238' r='2.5'/%3E %3Ccircle cx='202' cy='220' r='3.5'/%3E %3C/g%3E %3C!-- Bioluminescent Jellyfish (Left) --%3E %3Cg transform='translate(50, 75)'%3E %3Cpath d='M-22,0 C-22,-22 22,-22 22,0 C16,6 -16,6 -22,0 Z' fill='%23002533' stroke='%2300e5ff' stroke-width='2'/%3E %3Cellipse cx='0' cy='-4' rx='10' ry='5.5' fill='%2300e5ff' opacity='0.8' filter='blur(1px)'/%3E %3Cpath d='M-12,2 Q-18,30 -7,60 T-8,110' fill='none' stroke='%2300e5ff' stroke-width='1.8'/%3E %3Cpath d='M-3,2 Q0,35 7,70 T2,120' fill='none' stroke='%2338bdf8' stroke-width='2'/%3E %3Cpath d='M5,2 Q14,32 5,65 T12,115' fill='none' stroke='%2300e5ff' stroke-width='1.8'/%3E %3Cpath d='M14,2 Q20,28 12,55 T16,100' fill='none' stroke='%23a5f3fc' stroke-width='1.5'/%3E %3C/g%3E %3C!-- Siphonophore (Right) --%3E %3Cg transform='translate(270, 68)'%3E %3Cpath d='M-15,0 C-15,-15 15,-15 15,0 C10,5 -10,5 -15,0 Z' fill='%23002533' stroke='%2300e5ff' stroke-width='1.8'/%3E %3Cellipse cx='0' cy='-3' rx='7' ry='4' fill='%2300e5ff' opacity='0.85' filter='blur(1px)'/%3E %3Cpath d='M-7,2 Q-12,25 -4,50 T-5,90' fill='none' stroke='%2300e5ff' stroke-width='1.6'/%3E %3Cpath d='M0,2 Q5,30 2,58 T4,95' fill='none' stroke='%2338bdf8' stroke-width='1.8'/%3E %3Cpath d='M7,2 Q12,25 6,50 T9,85' fill='none' stroke='%23a5f3fc' stroke-width='1.5'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Ondine: Riparian river rapids, cattail reeds, stepping stones, leaping salmon */
+.variant-card-riverling, .variant-card-riverling_myrathil {
+  --subrace-accent: #14b8a6;
+  --subrace-halo-inner: rgba(20, 184, 166, 0.28);
+  --subrace-halo-outer: rgba(13, 148, 136, 0.06);
+  --subrace-halo-ring: rgba(94, 234, 212, 0.45);
+  --subrace-halo-glow: rgba(20, 184, 166, 0.32);
+  --subrace-card-border-hover: #0d9488;
+  --subrace-card-border-selected: #14b8a6;
+  --subrace-title-color: #ccfbf1;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(20, 184, 166, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='river-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%2303120f'/%3E %3Cstop offset='60%25' stop-color='%23061d19'/%3E %3Cstop offset='100%25' stop-color='%230d3830'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23river-bg)'/%3E %3Cg stroke='%2310b981' stroke-width='2'%3E %3Cpath d='M15,260 Q12,180 8,130'/%3E %3Cpath d='M25,260 Q30,175 35,120'/%3E %3Cpath d='M38,260 Q34,190 28,140'/%3E %3Crect x='5' y='130' width='6' height='22' fill='%23b45309' stroke='%2334d399' stroke-width='0.8' rx='2'/%3E %3Crect x='32' y='120' width='6' height='24' fill='%23b45309' stroke='%2334d399' stroke-width='0.8' rx='2'/%3E %3C/g%3E %3Cpath d='M-10,210 Q90,170 180,215 T340,195 L340,260 L-10,260 Z' fill='%23042e26'/%3E %3Cpath d='M-10,230 Q100,190 200,235 T340,215 L340,260 L-10,260 Z' fill='%23065f46'/%3E %3Cpath d='M-10,225 Q90,185 190,225 T340,205' fill='none' stroke='%2334d399' stroke-width='2.6'/%3E %3Cpath d='M20,242 Q110,205 210,245 T340,225' fill='none' stroke='%23a7f3d0' stroke-width='2'/%3E %3Cg transform='translate(170, 160) rotate(-25)' fill='%2334d399' stroke='%23ffffff' stroke-width='0.8'%3E %3Cpath d='M-18,0 C-10,-8 10,-8 18,0 C10,8 -10,8 -18,0 Z'/%3E %3Cpolygon points='17,0 26,-7 24,0 26,7'/%3E %3Cpath d='M-7,-5 L-2,-12 L4,-5 Z'/%3E %3C/g%3E %3Cellipse cx='75' cy='248' rx='16' ry='8' fill='%231e293b' stroke='%2334d399' stroke-width='1.5'/%3E %3Cellipse cx='105' cy='252' rx='13' ry='6' fill='%23334155' stroke='%236ee7b7' stroke-width='1.2'/%3E %3Cellipse cx='265' cy='248' rx='18' ry='9' fill='%231e293b' stroke='%2334d399' stroke-width='1.5'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Athien: Classical marble temple pediment, sterling scales of justice */
+.variant-card-high_nethien, .variant-card-velun_neth, .variant-card-velun {
+  --subrace-accent: #e2e8f0;
+  --subrace-halo-inner: rgba(226, 232, 240, 0.26);
+  --subrace-halo-outer: rgba(148, 163, 184, 0.06);
+  --subrace-halo-ring: rgba(241, 245, 249, 0.5);
+  --subrace-halo-glow: rgba(226, 232, 240, 0.32);
+  --subrace-card-border-hover: #94a3b8;
+  --subrace-card-border-selected: #e2e8f0;
+  --subrace-title-color: #ffffff;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(226, 232, 240, 0.08) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='neth-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230a0e14'/%3E %3Cstop offset='60%25' stop-color='%23101620'/%3E %3Cstop offset='100%25' stop-color='%231d2a3d'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23neth-bg)'/%3E %3Cpolygon points='30,35 160,8 290,35' fill='%231e293b' stroke='%23fbbf24' stroke-width='2.2'/%3E %3Crect x='25' y='35' width='270' height='12' fill='%230f172a' stroke='%23fbbf24' stroke-width='1.8'/%3E %3Cg fill='%231e293b' stroke='%23fbbf24' stroke-width='1.5'%3E %3Crect x='40' y='47' width='18' height='213'/%3E %3Crect x='70' y='47' width='18' height='213'/%3E %3Crect x='232' y='47' width='18' height='213'/%3E %3Crect x='262' y='47' width='18' height='213'/%3E %3C/g%3E %3Cg transform='translate(160, 220)' stroke='%23fbbf24' stroke-width='2' fill='none'%3E %3Cline x1='0' y1='-35' x2='0' y2='30'/%3E %3Cline x1='-30' y1='-25' x2='30' y2='-25'/%3E %3Cline x1='-30' y1='-25' x2='-42' y2='-5'/%3E %3Cline x1='-30' y1='-25' x2='-18' y2='-5'/%3E %3Cpath d='M-45,-5 Q-30,5 -15,-5 Z' fill='%23334155' stroke-width='1.8'/%3E %3Cline x1='30' y1='-25' x2='18' y2='-5'/%3E %3Cline x1='30' y1='-25' x2='42' y2='-5'/%3E %3Cpath d='M15,-5 Q30,5 45,-5 Z' fill='%23334155' stroke-width='1.8'/%3E %3Ccircle cx='0' cy='25' r='8' fill='%23b45309' stroke='%23fde047' stroke-width='2'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Weft: Quicksilver chain links, silver covenant padlock, shadow umbra */
+.variant-card-veldun, .variant-card-kessen_neth, .variant-card-kessen {
+  --subrace-accent: #a855f7;
+  --subrace-halo-inner: rgba(168, 85, 247, 0.28);
+  --subrace-halo-outer: rgba(126, 34, 206, 0.06);
+  --subrace-halo-ring: rgba(216, 180, 254, 0.45);
+  --subrace-halo-glow: rgba(168, 85, 247, 0.35);
+  --subrace-card-border-hover: #7e22ce;
+  --subrace-card-border-selected: #a855f7;
+  --subrace-title-color: #f3e8ff;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(126, 34, 206, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='veldun-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230a0e14'/%3E %3Cstop offset='60%25' stop-color='%23121924'/%3E %3Cstop offset='100%25' stop-color='%231e2b3e'/%3E %3C/linearGradient%3E %3ClinearGradient id='chrome' x1='0' y1='0' x2='1' y2='1'%3E %3Cstop offset='0%25' stop-color='%23ffffff'/%3E %3Cstop offset='45%25' stop-color='%2394a3b8'/%3E %3Cstop offset='70%25' stop-color='%23475569'/%3E %3Cstop offset='100%25' stop-color='%23cbd5e1'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23veldun-bg)'/%3E %3Cg fill='none' stroke='url(%23chrome)' stroke-width='4.5'%3E %3Cellipse cx='40' cy='40' rx='16' ry='26' transform='rotate(45 40 40)'/%3E %3Cellipse cx='75' cy='75' rx='16' ry='26' transform='rotate(45 75 75)'/%3E %3Cellipse cx='110' cy='110' rx='16' ry='26' transform='rotate(45 110 110)' opacity='0.45'/%3E %3Cellipse cx='210' cy='210' rx='16' ry='26' transform='rotate(45 210 210)' opacity='0.45'/%3E %3Cellipse cx='245' cy='245' rx='16' ry='26' transform='rotate(45 245 245)'/%3E %3Cellipse cx='280' cy='280' rx='16' ry='26' transform='rotate(45 280 280)'/%3E %3C/g%3E %3Cpath d='M-10,230 Q80,210 160,235 T340,220 L340,260 L-10,260 Z' fill='%23334155'/%3E %3Cpath d='M-10,230 Q80,210 160,235 T340,220' fill='none' stroke='%23f8fafc' stroke-width='3'/%3E %3Cg transform='translate(50, 220)' stroke='%23f8fafc' stroke-width='2' fill='%231e293b'%3E %3Cpath d='M-10,-5 C-10,-20 10,-20 10,-5' fill='none' stroke-width='3'/%3E %3Crect x='-15' y='-5' width='30' height='24' rx='4'/%3E %3Ccircle cx='0' cy='5' r='3' fill='%2338bdf8'/%3E %3Cline x1='0' y1='7' x2='0' y2='14' stroke='%2338bdf8' stroke-width='1.8'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Riven: Fractured covenant monoliths, fraying crimson-silver oath threads */
+.variant-card-withered, .variant-card-drun_neth, .variant-card-drun {
+  --subrace-accent: #a3a3a3;
+  --subrace-halo-inner: rgba(163, 163, 163, 0.22);
+  --subrace-halo-outer: rgba(115, 115, 115, 0.06);
+  --subrace-halo-ring: rgba(212, 212, 212, 0.4);
+  --subrace-halo-glow: rgba(163, 163, 163, 0.26);
+  --subrace-card-border-hover: #737373;
+  --subrace-card-border-selected: #a3a3a3;
+  --subrace-title-color: #f5f5f5;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(163, 163, 163, 0.08) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='wither-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230f090b'/%3E %3Cstop offset='60%25' stop-color='%231a0e12'/%3E %3Cstop offset='100%25' stop-color='%232e161f'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23wither-bg)'/%3E %3Cpolygon points='30,260 25,115 50,135 65,260' fill='%231c1917' stroke='%23ef4444' stroke-width='2'/%3E %3Cpolygon points='260,260 270,105 290,130 295,260' fill='%231c1917' stroke='%23ef4444' stroke-width='2'/%3E %3Cpath d='M35,160 L45,185 L38,210' stroke='%23fca5a5' stroke-width='2' fill='none'/%3E %3Cpath d='M275,150 L285,175 L280,205' stroke='%23fca5a5' stroke-width='2' fill='none'/%3E %3Cg stroke-linecap='round'%3E %3Cpath d='M-10,40 Q90,70 140,50' fill='none' stroke='%23ef4444' stroke-width='2.6' stroke-dasharray='15,8,4,6'/%3E %3Cpath d='M180,50 Q230,30 330,60' fill='none' stroke='%23ef4444' stroke-width='2.6' stroke-dasharray='10,12,6,4'/%3E %3Cpath d='M-10,210 Q100,185 140,215' fill='none' stroke='%23f1f5f9' stroke-width='2' stroke-dasharray='8,6,2,6'/%3E %3Cpath d='M180,215 Q220,240 330,205' fill='none' stroke='%23f1f5f9' stroke-width='2' stroke-dasharray='12,8,3,8'/%3E %3C/g%3E %3Cg transform='translate(160, 235)' stroke='%23fca5a5' stroke-width='1.8' fill='none'%3E %3Ccircle cx='0' cy='0' r='18' stroke-dasharray='6,4,2,4'/%3E %3Cline x1='-12' y1='-12' x2='12' y2='12'/%3E %3Cline x1='12' y1='-12' x2='-12' y2='12'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Bedel: Gothic crypt ribbing, ossuary pillars, glowing lichen scholar lantern */
+.variant-card-clean, .variant-card-clean_vreken {
+  --subrace-accent: #10b981;
+  --subrace-halo-inner: rgba(16, 185, 129, 0.3);
+  --subrace-halo-outer: rgba(5, 150, 105, 0.06);
+  --subrace-halo-ring: rgba(110, 231, 183, 0.5);
+  --subrace-halo-glow: rgba(16, 185, 129, 0.38);
+  --subrace-card-border-hover: #059669;
+  --subrace-card-border-selected: #10b981;
+  --subrace-title-color: #d1fae5;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='clean-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23050d08'/%3E %3Cstop offset='60%25' stop-color='%230a1710'/%3E %3Cstop offset='100%25' stop-color='%23142e20'/%3E %3C/linearGradient%3E %3CradialGradient id='lantern-glow' cx='50%25' cy='50%25' r='50%25'%3E %3Cstop offset='0%25' stop-color='%23f7fee7'/%3E %3Cstop offset='40%25' stop-color='%23a3e635' stop-opacity='0.8'/%3E %3Cstop offset='100%25' stop-color='%23a3e635' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23clean-bg)'/%3E %3Cpath d='M-10,0 C60,70 120,70 160,0 M160,0 C200,70 260,70 330,0' fill='none' stroke='%2322c55e' stroke-width='4.5'/%3E %3Crect x='15' y='75' width='26' height='185' fill='%230a1a12' stroke='%234ade80' stroke-width='1.8'/%3E %3Crect x='279' y='75' width='26' height='185' fill='%230a1a12' stroke='%234ade80' stroke-width='1.8'/%3E %3C!-- Lanterns --%3E %3Cg transform='translate(55, 65)'%3E %3Cline x1='0' y1='-65' x2='0' y2='0' stroke='%2384cc16' stroke-width='2'/%3E %3Cpath d='M-9,0 L9,0 L12,22 L-12,22 Z' fill='%231a2e05' stroke='%23a3e635' stroke-width='2'/%3E %3Ccircle cx='0' cy='12' r='7' fill='%23f7fee7'/%3E %3Ccircle cx='0' cy='12' r='26' fill='url(%23lantern-glow)'/%3E %3C/g%3E %3Cg transform='translate(265, 65)'%3E %3Cline x1='0' y1='-65' x2='0' y2='0' stroke='%2384cc16' stroke-width='2'/%3E %3Cpath d='M-9,0 L9,0 L12,22 L-12,22 Z' fill='%231a2e05' stroke='%23a3e635' stroke-width='2'/%3E %3Ccircle cx='0' cy='12' r='7' fill='%23f7fee7'/%3E %3Ccircle cx='0' cy='12' r='26' fill='url(%23lantern-glow)'/%3E %3C/g%3E %3Cpolygon points='120,260 145,212 175,212 200,260' fill='%230f291e' stroke='%234ade80' stroke-width='1.8'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Cromyx: Fungal mutated roots, bioluminescent amethyst mushrooms, toxic spores */
+.variant-card-marked, .variant-card-marked_vreken {
+  --subrace-accent: #c084fc;
+  --subrace-halo-inner: rgba(192, 132, 252, 0.28);
+  --subrace-halo-outer: rgba(147, 51, 234, 0.06);
+  --subrace-halo-ring: rgba(216, 180, 254, 0.45);
+  --subrace-halo-glow: rgba(192, 132, 252, 0.35);
+  --subrace-card-border-hover: #9333ea;
+  --subrace-card-border-selected: #c084fc;
+  --subrace-title-color: #f3e8ff;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(147, 51, 234, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='marked-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230a0614'/%3E %3Cstop offset='60%25' stop-color='%23130b24'/%3E %3Cstop offset='100%25' stop-color='%23261542'/%3E %3C/linearGradient%3E %3CradialGradient id='spore-plume' cx='50%25' cy='50%25' r='50%25'%3E %3Cstop offset='0%25' stop-color='%23f3e8ff'/%3E %3Cstop offset='40%25' stop-color='%23c084fc' stop-opacity='0.8'/%3E %3Cstop offset='100%25' stop-color='%23c084fc' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23marked-bg)'/%3E %3Cg stroke='%23c084fc' stroke-width='1.5' stroke-opacity='0.8'%3E %3Cpath d='M25,0 Q30,40 22,80 T28,140'/%3E %3Cpath d='M65,0 Q60,35 68,70 T62,110'/%3E %3Cpath d='M255,0 Q260,35 252,70 T258,110'/%3E %3Cpath d='M295,0 Q290,40 298,80 T292,140'/%3E %3C/g%3E %3C!-- Mushroom Cluster --%3E %3Cg transform='translate(45, 235)'%3E %3Cpath d='M-15,25 Q-18,5 -12,-15' stroke='%237e22ce' stroke-width='6' fill='none'/%3E %3Cpath d='M5,25 Q8,10 6,-8' stroke='%237e22ce' stroke-width='5' fill='none'/%3E %3Cpath d='M20,25 Q26,12 22,-20' stroke='%237e22ce' stroke-width='6' fill='none'/%3E %3Cpath d='M-26,-15 C-26,-32 2,-32 2,-15 Z' fill='%233b0764' stroke='%23e9d5ff' stroke-width='2'/%3E %3Ccircle cx='-12' cy='-23' r='3' fill='%23ffffff'/%3E %3Cpath d='M-2,-8 C-2,-22 16,-22 16,-8 Z' fill='%233b0764' stroke='%23e9d5ff' stroke-width='1.8'/%3E %3Ccircle cx='7' cy='-15' r='2.5' fill='%23ffffff'/%3E %3Cpath d='M10,-20 C10,-40 36,-40 36,-20 Z' fill='%233b0764' stroke='%23e9d5ff' stroke-width='2'/%3E %3Ccircle cx='23' cy='-30' r='3' fill='%23ffffff'/%3E %3Ccircle cx='10' cy='-20' r='42' fill='url(%23spore-plume)'/%3E %3C/g%3E %3Ccircle cx='110' cy='180' r='3' fill='%23ffffff'/%3E %3Ccircle cx='195' cy='190' r='3' fill='%23ffffff'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Briaren: Interwoven briar brambles, sharp thorns, blooming wild roses */
+.variant-card-viridian, .variant-card-viridian_florae {
+  --subrace-accent: #22c55e;
+  --subrace-halo-inner: rgba(34, 197, 94, 0.28);
+  --subrace-halo-outer: rgba(21, 128, 61, 0.06);
+  --subrace-halo-ring: rgba(134, 239, 172, 0.5);
+  --subrace-halo-glow: rgba(34, 197, 94, 0.35);
+  --subrace-card-border-hover: #15803d;
+  --subrace-card-border-selected: #22c55e;
+  --subrace-title-color: #dcfce7;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='virid-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23030f06'/%3E %3Cstop offset='60%25' stop-color='%23071a0c'/%3E %3Cstop offset='100%25' stop-color='%230f3319'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23virid-bg)'/%3E %3Cpath d='M-10,260 C25,200 10,100 20,40 C25,0 5,0 0,-10' fill='none' stroke='%23166534' stroke-width='5.5'/%3E %3Cpath d='M-10,260 C25,200 10,100 20,40 C25,0 5,0 0,-10' fill='none' stroke='%234ade80' stroke-width='2'/%3E %3Cpolygon points='16,180 5,170 21,173' fill='%2386efac'/%3E %3Cpolygon points='18,130 31,118 19,124' fill='%2386efac'/%3E %3Cpolygon points='15,80 4,70 18,73' fill='%2386efac'/%3E %3Cpath d='M330,260 C295,200 310,100 300,40 C295,0 315,0 320,-10' fill='none' stroke='%23166534' stroke-width='5.5'/%3E %3Cpath d='M330,260 C295,200 310,100 300,40 C295,0 315,0 320,-10' fill='none' stroke='%234ade80' stroke-width='2'/%3E %3Cpolygon points='304,180 315,170 299,173' fill='%2386efac'/%3E %3Cpolygon points='302,130 289,118 301,124' fill='%2386efac'/%3E %3C!-- Wild Briar Roses --%3E %3Cg transform='translate(45, 230) scale(0.95)'%3E %3Ccircle cx='0' cy='0' r='16' fill='%23052e16' stroke='%2322c55e' stroke-width='2'/%3E %3Cpath d='M-10,-5 C-12,-14 0,-16 8,-12 C14,-16 20,-8 16,0 C20,10 10,16 0,14 C-10,16 -16,8 -12,0 Z' fill='%23be123c' stroke='%23fb7185' stroke-width='1.8'/%3E %3Ccircle cx='2' cy='-1' r='5' fill='%23fecdd3'/%3E %3C/g%3E %3Cg transform='translate(275, 230) scale(0.95)'%3E %3Ccircle cx='0' cy='0' r='16' fill='%23052e16' stroke='%2322c55e' stroke-width='2'/%3E %3Cpath d='M-10,-5 C-12,-14 0,-16 8,-12 C14,-16 20,-8 16,0 C20,10 10,16 0,14 C-10,16 -16,8 -12,0 Z' fill='%23be123c' stroke='%23fb7185' stroke-width='1.8'/%3E %3Ccircle cx='2' cy='-1' r='5' fill='%23fecdd3'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Oaken: Massive petrified ironwood trunk, concentric growth rings, autumn bronze bark */
+.variant-card-oken, .variant-card-florae_unified {
+  --subrace-accent: #b45309;
+  --subrace-halo-inner: rgba(180, 83, 9, 0.28);
+  --subrace-halo-outer: rgba(146, 64, 14, 0.06);
+  --subrace-halo-ring: rgba(245, 158, 11, 0.45);
+  --subrace-halo-glow: rgba(180, 83, 9, 0.35);
+  --subrace-card-border-hover: #92400e;
+  --subrace-card-border-selected: #b45309;
+  --subrace-title-color: #fef3c7;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(180, 83, 9, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='oken-bg' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230f0b06'/%3E %3Cstop offset='60%25' stop-color='%231a120a'/%3E %3Cstop offset='100%25' stop-color='%232d1f11'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23oken-bg)'/%3E %3Cg fill='none' stroke='%23f59e0b' stroke-opacity='0.5' stroke-width='2'%3E %3Cellipse cx='160' cy='20' rx='48' ry='32'/%3E %3Cellipse cx='160' cy='20' rx='90' ry='60'/%3E %3Cellipse cx='160' cy='20' rx='138' ry='94'/%3E %3Cellipse cx='160' cy='20' rx='190' ry='130'/%3E %3C/g%3E %3Cpath d='M-10,260 C40,240 70,200 90,160 C95,140 100,100 110,0' fill='none' stroke='%2392400e' stroke-width='10' stroke-linecap='round'/%3E %3Cpath d='M-10,260 C40,240 70,200 90,160 C95,140 100,100 110,0' fill='none' stroke='%23fbbf24' stroke-width='2.6'/%3E %3Cpath d='M330,260 C280,240 250,200 230,160 C225,140 220,100 210,0' fill='none' stroke='%2392400e' stroke-width='10' stroke-linecap='round'/%3E %3Cpath d='M330,260 C280,240 250,200 230,160 C225,140 220,100 210,0' fill='none' stroke='%23fbbf24' stroke-width='2.6'/%3E %3Cg fill='%23facc15' stroke='%2378350f' stroke-width='1'%3E %3Cpath d='M50,85 C55,78 68,85 64,96 C56,100 44,93 50,85 Z'/%3E %3Cpath d='M265,95 C270,88 283,95 279,106 C271,110 259,103 265,95 Z'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Tallyn: Greymark gothic library spires, rose windows, chained ledger links, pine mists */
+.variant-card-thalren, .variant-card-thalren_human {
+  --subrace-accent: #94a3b8;
+  --subrace-halo-inner: rgba(148, 163, 184, 0.26);
+  --subrace-halo-outer: rgba(100, 116, 139, 0.06);
+  --subrace-halo-ring: rgba(203, 213, 225, 0.45);
+  --subrace-halo-glow: rgba(148, 163, 184, 0.3);
+  --subrace-card-border-hover: #64748b;
+  --subrace-card-border-selected: #94a3b8;
+  --subrace-title-color: #f1f5f9;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(148, 163, 184, 0.08) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='thalren-sky' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230e1319'/%3E %3Cstop offset='60%25' stop-color='%23141a22'/%3E %3Cstop offset='100%25' stop-color='%231b232e'/%3E %3C/linearGradient%3E %3ClinearGradient id='fog-wash' x1='0' y1='1' x2='0' y2='0'%3E %3Cstop offset='0%25' stop-color='%2394a3b8' stop-opacity='0.25'/%3E %3Cstop offset='60%25' stop-color='%2394a3b8' stop-opacity='0.08'/%3E %3Cstop offset='100%25' stop-color='%2394a3b8' stop-opacity='0'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23thalren-sky)'/%3E %3Cpath d='M-10,260 L-10,175 L8,155 L26,175 L26,260 M20,260 L20,165 L36,140 L52,165 L52,260 M270,260 L270,170 L288,148 L306,170 L306,260 M295,260 L295,160 L312,135 L330,160 L330,260' fill='%230f1722'/%3E %3Crect x='15' y='155' width='32' height='105' fill='%2317212e' stroke='%2364748b' stroke-width='1.5'/%3E %3Cpolygon points='15,155 31,98 47,155' fill='%231e2b3c' stroke='%2394a3b8' stroke-width='1.5'/%3E %3Cline x1='31' y1='98' x2='31' y2='84' stroke='%23f8fafc' stroke-width='2'/%3E %3Ccircle cx='31' cy='82' r='3' fill='%23ffffff'/%3E %3Ccircle cx='31' cy='172' r='7' fill='%230b0f15' stroke='%23cbd5e1' stroke-width='1.5'/%3E %3Cpath d='M25,205 C25,195 37,195 37,205 L37,230 L25,230 Z' fill='%230b0f15' stroke='%2364748b' stroke-width='1'/%3E %3Cpath d='M47,185 C65,185 75,190 90,190' fill='none' stroke='%23475569' stroke-width='3.5'/%3E %3Crect x='265' y='165' width='28' height='95' fill='%2317212e' stroke='%2364748b' stroke-width='1.5'/%3E %3Cpolygon points='265,165 279,112 293,165' fill='%231e2b3c' stroke='%2394a3b8' stroke-width='1.5'/%3E %3Cline x1='279' y1='112' x2='279' y2='98' stroke='%23f8fafc' stroke-width='2'/%3E %3Ccircle cx='279' cy='96' r='3' fill='%23ffffff'/%3E %3Cpath d='M50,248 C90,238 140,243 170,238 C200,233 240,243 275,246' fill='none' stroke='%23f8fafc' stroke-width='1.8' stroke-opacity='0.75'/%3E %3Ccircle cx='75' cy='242' r='4' fill='none' stroke='%23fbbf24' stroke-width='1.8'/%3E %3Ccircle cx='81' cy='242' r='4' fill='none' stroke='%23ffffff' stroke-width='1.8'/%3E %3Ccircle cx='87' cy='242' r='4' fill='none' stroke='%23fbbf24' stroke-width='1.8'/%3E %3Ccircle cx='93' cy='242' r='4' fill='none' stroke='%23ffffff' stroke-width='1.8'/%3E %3Cpath d='M-20,180 Q60,150 150,185 T340,170 L340,260 L-20,260 Z' fill='url(%23fog-wash)'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Skald: Jagged snow-capped mountain peaks, glacial crags, northern sky aurora */
+.variant-card-skald, .variant-card-skald_human {
+  --subrace-accent: #38bdf8;
+  --subrace-halo-inner: rgba(56, 189, 248, 0.32);
+  --subrace-halo-outer: rgba(14, 165, 233, 0.08);
+  --subrace-halo-ring: rgba(125, 211, 252, 0.55);
+  --subrace-halo-glow: rgba(56, 189, 248, 0.4);
+  --subrace-card-border-hover: #0284c7;
+  --subrace-card-border-selected: #38bdf8;
+  --subrace-title-color: #f0f9ff;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='skald-sky' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23060c14'/%3E %3Cstop offset='60%25' stop-color='%230a1522'/%3E %3Cstop offset='100%25' stop-color='%23101d2c'/%3E %3C/linearGradient%3E %3ClinearGradient id='aurora' x1='0' y1='0' x2='1' y2='0'%3E %3Cstop offset='0%25' stop-color='%2338bdf8' stop-opacity='0'/%3E %3Cstop offset='30%25' stop-color='%2338bdf8' stop-opacity='0.35'/%3E %3Cstop offset='70%25' stop-color='%234ade80' stop-opacity='0.28'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23skald-sky)'/%3E %3Cpath d='M-20,45 Q70,12 160,35 T340,22 Q260,60 160,45 T-20,45 Z' fill='url(%23aurora)' filter='blur(3px)'/%3E %3Cpath d='M-20,30 Q90,5 200,25 T340,15' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-opacity='0.55' filter='blur(1px)'/%3E %3Cpolygon points='-20,220 25,145 65,175 115,130 160,165 210,120 265,170 310,135 340,165 340,260 -20,260' fill='%230e1f33' opacity='0.85'/%3E %3Cpolygon points='-10,240 50,165 95,200 150,150 195,190 250,140 295,185 335,155 340,260 -10,260' fill='%2313273e'/%3E %3Cpolygon points='-20,260 45,155 100,260' fill='%231e293b'/%3E %3Cpolygon points='45,155 45,260 100,260' fill='%230f172a' opacity='0.75'/%3E %3Cpolygon points='45,155 28,195 45,188 48,178 58,198 68,188' fill='%23f1f5f9' opacity='0.95'/%3E %3Cpath d='M45,155 L45,230 M45,188 L30,220 M45,200 L58,225' stroke='%2338bdf8' stroke-width='1.8' stroke-opacity='0.8'/%3E %3Cpolygon points='220,260 272,140 338,260' fill='%231e293b'/%3E %3Cpolygon points='272,140 272,260 338,260' fill='%230f172a' opacity='0.8'/%3E %3Cpolygon points='272,140 254,180 268,170 272,165 286,185 295,172' fill='%23ffffff' opacity='0.98'/%3E %3Cpath d='M272,140 L272,235 M272,180 L256,215 M272,195 L285,230' stroke='%237dd3fc' stroke-width='1.8' stroke-opacity='0.85'/%3E %3Cpolygon points='80,260 160,200 240,260' fill='%2317263c'/%3E %3Cpolygon points='160,200 150,218 160,214 170,220' fill='%23cbd5e1' opacity='0.85'/%3E %3Cpath d='M-10,135 Q80,118 170,140 T330,122' fill='none' stroke='%23bae6fd' stroke-width='1.2' stroke-opacity='0.45' stroke-dasharray='40,15,20,10'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Tessic: Subterranean stone ribs, portcullis grate, glowing geothermal copper pipes & valves */
+.variant-card-tessen, .variant-card-tessen_human {
+  --subrace-accent: #f97316;
+  --subrace-halo-inner: rgba(249, 115, 22, 0.3);
+  --subrace-halo-outer: rgba(194, 65, 12, 0.06);
+  --subrace-halo-ring: rgba(253, 186, 116, 0.5);
+  --subrace-halo-glow: rgba(249, 115, 22, 0.38);
+  --subrace-card-border-hover: #c2410c;
+  --subrace-card-border-selected: #f97316;
+  --subrace-title-color: #ffedd5;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(249, 115, 22, 0.12) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='tessen-dark' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230a0e14'/%3E %3Cstop offset='50%25' stop-color='%2310141b'/%3E %3Cstop offset='100%25' stop-color='%2318202c'/%3E %3C/linearGradient%3E %3CradialGradient id='pipe-glow' cx='50%25' cy='50%25' r='50%25'%3E %3Cstop offset='0%25' stop-color='%23fdba74'/%3E %3Cstop offset='40%25' stop-color='%23f97316' stop-opacity='0.8'/%3E %3Cstop offset='100%25' stop-color='%23f97316' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23tessen-dark)'/%3E %3C!-- High contrast Vaulted Ribs --%3E %3Cpath d='M-20,-10 C50,65 110,65 160,-10 M160,-10 C210,65 270,65 340,-10' fill='none' stroke='%23334155' stroke-width='6'/%3E %3Cpath d='M-20,-10 C50,65 110,65 160,-10 M160,-10 C210,65 270,65 340,-10' fill='none' stroke='%2394a3b8' stroke-width='2'/%3E %3C!-- Stone Bastions with clean joints --%3E %3Cpath d='M0,0 L48,0 L48,260 L0,260 Z' fill='%23111822' stroke='%23475569' stroke-width='2'/%3E %3Cline x1='0' y1='50' x2='48' y2='50' stroke='%2364748b' stroke-width='1.5'/%3E %3Cline x1='0' y1='100' x2='48' y2='100' stroke='%2364748b' stroke-width='1.5'/%3E %3Cline x1='0' y1='150' x2='48' y2='150' stroke='%2364748b' stroke-width='1.5'/%3E %3Cline x1='0' y1='200' x2='48' y2='200' stroke='%2364748b' stroke-width='1.5'/%3E %3Cpath d='M272,0 L320,0 L320,260 L272,260 Z' fill='%23111822' stroke='%23475569' stroke-width='2'/%3E %3Cline x1='272' y1='50' x2='320' y2='50' stroke='%2364748b' stroke-width='1.5'/%3E %3Cline x1='272' y1='100' x2='320' y2='100' stroke='%2364748b' stroke-width='1.5'/%3E %3Cline x1='272' y1='150' x2='320' y2='150' stroke='%2364748b' stroke-width='1.5'/%3E %3Cline x1='272' y1='200' x2='320' y2='200' stroke='%2364748b' stroke-width='1.5'/%3E %3C!-- Crisp Steel Portcullis Grate --%3E %3Cg stroke='%2394a3b8' stroke-width='2.2' stroke-opacity='0.8'%3E %3Cline x1='75' y1='170' x2='75' y2='260'/%3E %3Cline x1='105' y1='170' x2='105' y2='260'/%3E %3Cline x1='135' y1='170' x2='135' y2='260'/%3E %3Cline x1='165' y1='170' x2='165' y2='260'/%3E %3Cline x1='195' y1='170' x2='195' y2='260'/%3E %3Cline x1='225' y1='170' x2='225' y2='260'/%3E %3Cline x1='245' y1='170' x2='245' y2='260'/%3E %3Cline x1='50' y1='195' x2='270' y2='195'/%3E %3Cline x1='50' y1='225' x2='270' y2='225'/%3E %3C/g%3E %3C!-- Blazing Geothermal Copper Supply Pipes --%3E %3Cpath d='M0,248 L320,248' stroke='%23c2410c' stroke-width='9'/%3E %3Cpath d='M0,248 L320,248' stroke='%23fed7aa' stroke-width='3'/%3E %3Crect x='65' y='238' width='12' height='19' fill='%23f59e0b' stroke='%23ffffff' stroke-width='1' rx='2'/%3E %3Crect x='243' y='238' width='12' height='19' fill='%23f59e0b' stroke='%23ffffff' stroke-width='1' rx='2'/%3E %3Ccircle cx='71' cy='248' r='28' fill='url(%23pipe-glow)'/%3E %3Ccircle cx='249' cy='248' r='28' fill='url(%23pipe-glow)'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Merryn: Astrolabe compass arcs, longship silhouette & sails, cresting seafoam breakers */
+.variant-card-merryn, .variant-card-merryn_human {
+  --subrace-accent: #2dd4bf;
+  --subrace-halo-inner: rgba(45, 212, 191, 0.28);
+  --subrace-halo-outer: rgba(15, 118, 110, 0.06);
+  --subrace-halo-ring: rgba(153, 246, 228, 0.45);
+  --subrace-halo-glow: rgba(45, 212, 191, 0.32);
+  --subrace-card-border-hover: #0f766e;
+  --subrace-card-border-selected: #2dd4bf;
+  --subrace-title-color: #ccfbf1;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(45, 212, 191, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='merryn-abyss' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23040d14'/%3E %3Cstop offset='60%25' stop-color='%23071822'/%3E %3Cstop offset='100%25' stop-color='%230d2a38'/%3E %3C/linearGradient%3E %3ClinearGradient id='wave-grad' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%232dd4bf' stop-opacity='0.55'/%3E %3Cstop offset='100%25' stop-color='%230f766e' stop-opacity='0.9'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23merryn-abyss)'/%3E %3Ccircle cx='40' cy='40' r='58' fill='none' stroke='%2314b8a6' stroke-width='1.5' stroke-opacity='0.45' stroke-dasharray='4,6'/%3E %3Ccircle cx='40' cy='40' r='40' fill='none' stroke='%235eead4' stroke-width='1.2' stroke-opacity='0.6'/%3E %3Cline x1='40' y1='5' x2='40' y2='75' stroke='%235eead4' stroke-width='1.2' stroke-opacity='0.6'/%3E %3Cline x1='5' y1='40' x2='75' y2='40' stroke='%235eead4' stroke-width='1.2' stroke-opacity='0.6'/%3E %3C!-- Longship Silhouette --%3E %3Cpath d='M25,185 C35,178 52,178 72,186 C67,183 55,183 45,185 Z' fill='%230f172a'/%3E %3Cline x1='45' y1='184' x2='45' y2='148' stroke='%2394a3b8' stroke-width='2'/%3E %3Cpath d='M33,150 C45,148 57,148 59,150 L56,172 C45,170 36,170 31,172 Z' fill='%231e293b' stroke='%232dd4bf' stroke-width='1.2'/%3E %3C!-- Waves --%3E %3Cpath d='M-10,215 Q40,195 90,215 T190,210 T290,215 T340,205' fill='none' stroke='%230d9488' stroke-width='2.2' stroke-opacity='0.6'/%3E %3Cpath d='M-10,230 Q60,205 130,225 T270,218 T340,225 L340,260 L-10,260 Z' fill='%230b222f' opacity='0.85'/%3E %3Cpath d='M-10,230 Q60,205 130,225 T270,218 T340,225' fill='none' stroke='%2314b8a6' stroke-width='2.5' stroke-opacity='0.8'/%3E %3Cpath d='M-10,248 C40,228 70,222 110,244 C150,222 190,218 230,240 C270,222 300,230 340,244 L340,260 L-10,260 Z' fill='url(%23wave-grad)'/%3E %3Cpath d='M-10,248 C40,228 70,222 110,244 C150,222 190,218 230,240 C270,222 300,230 340,244' fill='none' stroke='%23f0fdfa' stroke-width='2'/%3E %3Ccircle cx='108' cy='236' r='2.5' fill='%23ffffff'/%3E %3Ccircle cx='228' cy='233' r='2.5' fill='%23ffffff'/%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Ordu: Throat-song wind spirals, nomad yurt tents, rolling steppe hills, wild galloping horse */
+.variant-card-ordan, .variant-card-ordan_human {
+  --subrace-accent: #eab308;
+  --subrace-halo-inner: rgba(234, 179, 8, 0.28);
+  --subrace-halo-outer: rgba(202, 138, 4, 0.06);
+  --subrace-halo-ring: rgba(253, 224, 71, 0.5);
+  --subrace-halo-glow: rgba(234, 179, 8, 0.35);
+  --subrace-card-border-hover: #ca8a04;
+  --subrace-card-border-selected: #eab308;
+  --subrace-title-color: #fef9c3;
+  --subrace-card-bg: radial-gradient(ellipse at 50% 0%, rgba(234, 179, 8, 0.1) 0%, transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='260' viewBox='0 0 320 260'%3E %3Cdefs%3E %3ClinearGradient id='ordan-sky' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%230f0d09'/%3E %3Cstop offset='55%25' stop-color='%231c160e'/%3E %3Cstop offset='100%25' stop-color='%232b2214'/%3E %3C/linearGradient%3E %3ClinearGradient id='steppe-hills' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0%25' stop-color='%23a16207' stop-opacity='0.6'/%3E %3Cstop offset='100%25' stop-color='%23291e0f' stop-opacity='0.95'/%3E %3C/linearGradient%3E %3C/defs%3E %3Crect width='320' height='260' fill='url(%23ordan-sky)'/%3E %3Cpath d='M25,40 C60,22 95,45 85,62 C72,74 48,68 55,50 C62,32 95,26 130,38' fill='none' stroke='%23fde047' stroke-width='1.5' stroke-opacity='0.45'/%3E %3Cpath d='M205,30 C240,12 275,35 265,52 C252,64 228,58 235,40' fill='none' stroke='%23facc15' stroke-width='1.5' stroke-opacity='0.4'/%3E %3Cpath d='M-10,190 Q60,170 140,186 T300,175 T340,186 L340,260 L-10,260 Z' fill='%23241c11'/%3E %3Cpath d='M-10,212 Q80,190 180,206 T340,200 L340,260 L-10,260 Z' fill='url(%23steppe-hills)'/%3E %3Cpath d='M35,206 L65,206 L60,194 C53,190 47,190 40,194 Z' fill='%23171109' stroke='%23f59e0b' stroke-width='1.5'/%3E %3Cline x1='50' y1='190' x2='50' y2='184' stroke='%23fef08a' stroke-width='2'/%3E %3Cpath d='M260,208 L285,208 L281,198 C275,195 270,195 264,198 Z' fill='%23171109' stroke='%23f59e0b' stroke-width='1.5'/%3E %3Cpath d='M-10,232 Q100,206 220,232 T340,224 L340,260 L-10,260 Z' fill='%231c150c'/%3E %3C!-- Galloping Horse in Bright Gold --%3E %3Cg fill='%23fef08a' opacity='0.95' transform='translate(170, 202) scale(0.75)'%3E %3Cpath d='M0,15 Q8,5 18,10 Q28,12 32,8 L36,12 Q30,18 24,18 L20,30 L16,28 L18,20 L10,22 L6,32 L2,30 L6,18 Q0,18 -4,14 Z'/%3E %3C/g%3E %3Cg stroke='%23fde047' stroke-width='1.5' stroke-opacity='0.8'%3E %3Cpath d='M15,255 Q18,235 12,226 M18,255 Q24,238 28,228 M22,255 Q20,240 16,230'/%3E %3Cpath d='M105,255 Q108,238 102,230 M108,255 Q114,240 118,233'/%3E %3Cpath d='M295,255 Q298,238 294,228 M298,255 Q305,240 310,232'/%3E %3C/g%3E %3C/svg%3E") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }

@@ -205,6 +205,9 @@
   letter-spacing: 0.3px;
   color: var(--travel-text-muted, #a09070);
   font-weight: normal;
+  min-width: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .tt-cta-card {
@@ -410,6 +413,7 @@
 
 .tt-encounter-table-wrap {
   overflow-y: auto;
+  overflow-x: auto;
   flex: 1;
   min-height: 100px;
   border: 1px solid rgba(139, 115, 85, 0.15);
@@ -427,6 +431,7 @@
 
 .tt-encounter-table {
   width: 100%;
+  min-width: 460px;
   border-collapse: collapse;
   font-size: 11px;
 }
@@ -486,6 +491,14 @@
   align-items: flex-start;
 }
 
+.tt-table-empty {
+  padding: 22px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--travel-text-muted, rgba(59, 42, 26, 0.6));
+  font-style: italic;
+}
+
 .tt-encounter-log {
   border-top: 1px solid rgba(139, 115, 85, 0.15);
   padding-top: 8px;
@@ -507,6 +520,8 @@
   background: rgba(139, 115, 85, 0.04);
   border-radius: 3px;
   font-size: 11px;
+  flex-wrap: wrap;
+  row-gap: 2px;
 }
 
 .tt-journey-tab {
@@ -1269,11 +1284,13 @@
 }
 
 .tt-input:focus { border-color: var(--travel-accent, #7a3b2e); box-shadow: 0 0 0 1px rgba(122, 59, 46, 0.2); }
-.tt-input-sm { width: 55px; text-align: center; }
-.tt-input-xs { font-size: 10px; padding: 2px 4px; height: 22px; width: 35px; text-align: center; }
+/* !important: the app has unscoped `input[type="number"] { width:100% }` rules
+   that outrank these class selectors, which stretched the compact inputs. */
+.tt-input-sm { width: 55px !important; min-width: 55px; flex: 0 0 auto; text-align: center; }
+.tt-input-xs { font-size: 10px; padding: 2px 4px; height: 22px; width: 35px !important; min-width: 35px; flex: 0 0 auto; text-align: center; }
 
-.tt-row { display: flex; align-items: center; gap: 6px; }
-.tt-row-between { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.tt-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; row-gap: 4px; }
+.tt-row-between { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; row-gap: 4px; }
 .tt-flex-1 { flex: 1; min-width: 0; }
 .tt-gap-xs { gap: 3px; }
 .tt-gap-sm { gap: 5px; }
@@ -1337,6 +1354,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
+  row-gap: 6px;
 }
 
 .tt-weather-compact-empty {
@@ -1367,6 +1386,8 @@
   font-size: 12px;
   font-weight: bold;
   color: var(--travel-accent, #7a3b2e);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .tt-prediction-panel {
@@ -1448,7 +1469,7 @@
 
 .tt-roster-col-name { flex: 1; min-width: 0; }
 .tt-roster-col-exhaustion { width: 130px; flex-shrink: 0; text-align: center; }
-.tt-roster-col-gear { width: 160px; flex-shrink: 0; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+.tt-roster-col-gear { width: 160px; flex-shrink: 0; display: flex; align-items: center; justify-content: flex-end; gap: 4px; flex-wrap: wrap; row-gap: 3px; }
 
 .tt-roster-row {
   display: flex;
@@ -1576,4 +1597,18 @@
 
 .tt-note-bad i {
   color: var(--travel-warn, #c87a2e) !important;
+}
+
+/* Narrow container: shrink the fixed roster columns so names keep room and
+   nothing spills out of the frame. */
+@media (max-width: 660px) {
+  .tt-roster-col-exhaustion,
+  .tt-roster-cell-exhaustion { width: 92px; }
+  .tt-roster-col-gear,
+  .tt-roster-cell-gear { width: 118px; }
+  .tt-roster-gear-btn { font-size: 9px; padding: 3px 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-fade-in { animation: none; }
 }

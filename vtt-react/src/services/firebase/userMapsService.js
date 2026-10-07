@@ -502,8 +502,15 @@ export async function shareMapToCommunity(userId, mapId) {
     delete communityMap.folderId;
     delete communityMap.isCustom;
 
+    // Copy private art to the shared prefix so other users can view it.
+    const { shareEntityImages } = await import('./uploadService');
+    const communityMapShared = await shareEntityImages(
+      userId, communityMap, 'maps',
+      ['image', 'imageUrl', 'thumbnail', 'thumbnailUrl']
+    );
+
     // Upload to community
-    const sharedMap = await uploadMap(communityMap, userId);
+    const sharedMap = await uploadMap(communityMapShared, userId);
 
     // Mark original map as shared
     await updateDoc(mapRef, {

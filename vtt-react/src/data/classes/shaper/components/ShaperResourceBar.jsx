@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
-import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
 import '../styles/ShaperResourceBar.css';
+import { SHAPER_FLUX_MAX, SHAPER_TOLL_MAX, SHAPER_FORMS, normalizeShaperResource, getShaperFormAdoptionPlan,
+    BODY_TOLL_TIERS, getBodyTollTier } from '../../../shaperResourceContract';
+
+export { BODY_TOLL_TIERS, getBodyTollTier };
 
 /**
  * SHAPER CLASS RESOURCE BAR: "The Biomantic Morphic Osteo-Blade"
@@ -42,7 +45,6 @@ export const SHAPER_STANCES = [
     {
         name: 'Ataxic Flow',
         role: 'Default / Mobility',
-        cost: 0,
         color: '#10b981',
         glow: '#34d399',
         benefit: '+2 Dodge, +10 ft movement, advantage on Disengage',
@@ -51,7 +53,6 @@ export const SHAPER_STANCES = [
     {
         name: 'Arterial Strike',
         role: 'Offense / Precision',
-        cost: 2,
         color: '#ef4444',
         glow: '#f87171',
         benefit: '+2 attack, crit on 19-20, bypasses 25% DR and Durability',
@@ -60,7 +61,6 @@ export const SHAPER_STANCES = [
     {
         name: 'Centrifugal Fury',
         role: 'Cleave / Multi-Hit',
-        cost: 4,
         color: '#f59e0b',
         glow: '#fbbf24',
         benefit: '+5 ft melee reach; melee hits cleave adjacent foes for 50%',
@@ -69,7 +69,6 @@ export const SHAPER_STANCES = [
     {
         name: 'Deadened Bastion',
         role: 'Defense / Carapace',
-        cost: 3,
         color: '#64748b',
         glow: '#94a3b8',
         benefit: '+20 temporary HP, +4 Durability, -10 ft speed',
@@ -78,7 +77,6 @@ export const SHAPER_STANCES = [
     {
         name: 'Fluid Apex',
         role: 'Evasion / Counter',
-        cost: 5,
         color: '#a855f7',
         glow: '#c084fc',
         benefit: '+1 to all d20 rolls, +1 Flux per round, free form transitions',
@@ -87,26 +85,15 @@ export const SHAPER_STANCES = [
     {
         name: 'Silence Predator',
         role: 'Stealth / Burst',
-        cost: 3,
         color: '#3b82f6',
         glow: '#60a5fa',
         benefit: 'Advantage on Stealth; first concealed strike +2d6 blight',
         desc: 'Pigment-absorbing skin cells and sound-dampening fibrous pads on limbs.'
     }
-];
-
-// Body Toll Mutation Milestones (0-10)
-export const BODY_TOLL_TIERS = [
-    { min: 0, max: 2, name: 'Supple Clay', color: '#10b981', glow: '#34d399', desc: 'Cellular cohesion stable. No biological penalty.' },
-    { min: 3, max: 4, name: 'Joint Lock', color: '#f59e0b', glow: '#fbbf24', desc: 'Stiffened joints drag at your movement.' },
-    { min: 5, max: 6, name: 'Identity Erosion', color: '#ec4899', glow: '#f472b6', desc: 'Cellular drift — focus and composure erode.' },
-    { min: 7, max: 9, name: 'Feral Mutation', color: '#ef4444', glow: '#f87171', desc: 'Violent bone spurs erupt: +2 melee damage, vulnerability to wyrd.' },
-    { min: 10, max: 10, name: 'Unraveling', color: '#dc2626', glow: '#f43f5e', desc: 'CRITICAL OVERLOAD: purge Body Toll now or take severe damage each turn.' }
-];
-
-export const getBodyTollTier = (toll) => {
-    return BODY_TOLL_TIERS.find(t => toll >= t.min && toll <= t.max) || BODY_TOLL_TIERS[0];
-};
+].map(stance => {
+    const contract = SHAPER_FORMS.find(form => form.name === stance.name);
+    return { ...stance, cost: contract.fluxCost, tollCost: contract.tollCost };
+});
 
 const ShaperResourceBar = ({
     classResource = {},
@@ -118,9 +105,10 @@ const ShaperResourceBar = ({
     showcase = false
 }) => {
     // Normalization for Dual Resources: Kinetic Flux (0-20) + Body Toll (0-10)
-    const propFlux = classResource?.flux ?? classResource?.momentum?.current ?? classResource?.momentum ?? classResource?.current ?? 0;
-    const propToll = classResource?.toll ?? classResource?.bodyToll ?? classResource?.flourish?.current ?? classResource?.flourish ?? 0;
-    const propStance = classResource?.stance?.current ?? classResource?.stance ?? (typeof classResource?.currentStance === 'string' ? classResource.currentStance : 'Ataxic Flow');
+    const normalizedResource = normalizeShaperResource(classResource);
+    const propFlux = normalizedResource.current;
+    const propToll = normalizedResource.bodyToll;
+    const propStance = normalizedResource.stance?.current ?? normalizedResource.stance;
 
     const [localFlux, setLocalFlux] = useState(propFlux);
     const [localToll, setLocalToll] = useState(propToll);
@@ -135,8 +123,8 @@ const ShaperResourceBar = ({
     const matrixMenuRef = useRef(null);
     const crucibleRef = useRef(null);
 
-    const maxFlux = 20;
-    const maxToll = 10;
+    const maxFlux = SHAPER_FLUX_MAX;
+    const maxToll = SHAPER_TOLL_MAX;
 
     const currentTollTier = getBodyTollTier(localToll);
     const isConvergenceCollapse = localToll >= 10;
@@ -206,7 +194,6 @@ const ShaperResourceBar = ({
     };
 
     const { addCombatNotification } = useChatStore();
-    const isGMMode = useGameStore(state => state.isGMMode);
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
 
     const logClassResourceChange = (resourceType, amount, isPositive, subKey) => {
@@ -215,7 +202,8 @@ const ShaperResourceBar = ({
         const characterName = currentPlayerName;
         const sign = isPositive ? '+' : '-';
         const absAmount = Math.abs(amount);
-        const message = `${actorName} ${isPositive ? 'gained' : 'spent'} ${absAmount} ${resourceType} (${sign}${absAmount} ${resourceType})`;
+        const verb = resourceType === 'Body Toll' ? (isPositive ? 'accumulated' : 'recovered') : (isPositive ? 'gained' : 'spent');
+        const message = `${actorName} ${verb} ${absAmount} ${resourceType} (${sign}${absAmount} ${resourceType})`;
 
         addCombatNotification({
             type: 'combat_resource',
@@ -290,11 +278,12 @@ const ShaperResourceBar = ({
 
     const handleStanceChange = (targetStance) => {
         if (!isOwner || targetStance.name === localStance) return;
-        const cost = targetStance.cost;
-        if (localFlux < cost && !isGMMode) return;
-
-        const newFlux = Math.max(0, localFlux - cost);
+        const plan = getShaperFormAdoptionPlan({ ...classResource, current: localFlux, bodyToll: localToll, stance: localStance }, targetStance.name);
+        if (!plan.affordable) return;
+        const cost = plan.cost;
+        const newFlux = plan.nextResource.current;
         setLocalFlux(newFlux);
+        setLocalToll(plan.nextResource.bodyToll);
         setLocalStance(targetStance.name);
         setShowMatrix(false);
 
@@ -303,6 +292,9 @@ const ShaperResourceBar = ({
             onClassResourceUpdate('flux', newFlux);
             onClassResourceUpdate('current', newFlux);
             onClassResourceUpdate('momentum', newFlux);
+            onClassResourceUpdate('bodyToll', plan.nextResource.bodyToll);
+            onClassResourceUpdate('toll', plan.nextResource.bodyToll);
+            onClassResourceUpdate('flourish', plan.nextResource.bodyToll);
             onClassResourceUpdate('stance', targetStance.name);
         }
     };
@@ -889,7 +881,7 @@ const ShaperResourceBar = ({
                             <div className="shaper-stance-grid">
                                 {SHAPER_STANCES.map((st) => {
                                     const isActive = st.name === localStance;
-                                    const canAfford = localFlux >= st.cost || isGMMode;
+                                    const canAfford = getShaperFormAdoptionPlan({ ...classResource, current: localFlux, bodyToll: localToll, stance: localStance }, st.name).affordable;
 
                                     return (
                                         <button
@@ -904,7 +896,7 @@ const ShaperResourceBar = ({
                                                     {st.name}
                                                 </span>
                                                 <span className="shaper-stance-cost-badge">
-                                                    {st.cost === 0 ? 'Free' : `${st.cost} Flux`}
+                                                    {st.cost} Flux · +{st.tollCost} Toll
                                                 </span>
                                             </div>
                                             <div className="shaper-stance-role-text">{st.role}</div>
@@ -913,6 +905,7 @@ const ShaperResourceBar = ({
                                     );
                                 })}
                             </div>
+                            <div style={{ fontSize: '10px', marginTop: '6px' }}>Adoption uses the authored Form spell cost and adds strain. Directed network rules, opening-free shifts and specialization modifiers are pending; these controls do not apply stat bonuses or risk penalties.</div>
                         </div>
 
                         {/* Section 2: Metabolic Calibration Actions */}
@@ -977,7 +970,7 @@ const ShaperResourceBar = ({
                         subtitle="Shaper Morphic Osteo-Blade"
                         state={`${localFlux}/20 Flux • ${localToll}/10 Toll`}
                         stateTone={isConvergenceCollapse ? 'bad' : isFeral ? 'warn' : 'good'}
-                        mechanic="Shift forms to spend 2-4 Flux and gain +1 Body Toll (max 10); stance abilities cost 3-6 Flux. Build Flux on hits, crits, and dodges; lose it on misses, damage, and idle rounds — going rooted drops Flux to 0 and deals 1d10 blight per round."
+                        mechanic="Flux is a spendable 0–20 pool. Body Toll is 0–10 strain, not reward Flourish. Authored Form adoptions spend 2–4 Flux and add 1 Toll (Fluid Apex adds 2). Combat triggers, directed network modifiers, risk penalties and control transfer require their separate handling."
                         status={[
                             `Active Stance: ${localStance} — ${activeStanceData.benefit}`,
                             `Mutation Tier: ${currentTollTier.name} (${localToll}/10) — ${currentTollTier.desc}`,

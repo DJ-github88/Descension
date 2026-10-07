@@ -4,6 +4,23 @@ import useWorldStore from '../store/worldStore';
 import useFamilyTreeStore from '../store/familyTreeStore';
 import useCustomLineageStore from '../store/customLineageStore';
 
+// Flatten all locations across the active world's regions. worldStore exposes
+// getRegions()/getLocationsByRegion() rather than a flat `locations` array.
+function getWorldLocations() {
+  try {
+    const world = useWorldStore.getState();
+    const regions = world.getRegions ? world.getRegions() : (world.regions || []);
+    const all = [];
+    (regions || []).forEach((r) => {
+      const locs = world.getLocationsByRegion ? world.getLocationsByRegion(r.id) : (r.locations || []);
+      if (Array.isArray(locs)) all.push(...locs);
+    });
+    return all;
+  } catch (_e) {
+    return [];
+  }
+}
+
 /**
  * Universal Tag Registry Service
  * Aggregates tags dynamically across all system stores, providing unified query,
@@ -99,7 +116,7 @@ class TagRegistryService {
         return factions.find(f => f.id === entityId) || null;
       }
       if (entityType === 'location') {
-        const locations = useWorldStore.getState().locations || [];
+        const locations = getWorldLocations();
         return locations.find(l => l.id === entityId) || null;
       }
       if (entityType === 'family_node') {
@@ -143,7 +160,7 @@ class TagRegistryService {
 
     // Locations
     try {
-      const locations = useWorldStore.getState().locations || [];
+      const locations = getWorldLocations();
       locations.forEach(l => {
         entities.push({
           type: 'location',

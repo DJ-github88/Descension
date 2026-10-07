@@ -39,7 +39,7 @@ const REGIONS = [
   bgGradient: 'linear-gradient(135deg, rgba(25, 111, 61, 0.08) 0%, rgba(25, 111, 61, 0.02) 100%)',
   borderColor: '#196f3d',
   glowColor: 'rgba(25, 111, 61, 0.12)',
-  description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Thalren humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Florae hide in the mist-shrouded canopies.',
+  description: 'A pine forest of perpetual fog where the mist eats memories and births conceptual Wyrd-horrors from human fear. The Tallyn humans keep journals chained to their belts to preserve their pasts, while the mask-bound Mimir and Florae hide in the mist-shrouded canopies.',
   darkBargain: 'House Thalreth traded the region\'s spatial clarity for an insulating fog: the same fog that now devours memory with every passing year. The Sovereign Ledger and Scribe-Cartel emerged to fight what the bargain created.',
   classIds: ['apex', 'shaper', 'lunarch', 'inquisitor', 'toxicologist']
  },
@@ -51,8 +51,8 @@ const REGIONS = [
   bgGradient: 'linear-gradient(135deg, rgba(17, 120, 100, 0.08) 0%, rgba(17, 120, 100, 0.02) 100%)',
   borderColor: '#117864',
   glowColor: 'rgba(17, 120, 100, 0.12)',
-  description: 'Sinking, semi-frozen bogs and bioluminescent ironwood groves where the Nethien and lantern-eyed Vreken coexist in functional silence. Here, death is a renegotiated contract with Morvane, and the bogs preserve both memories and ancestral debts.',
-  darkBargain: 'The Nethien negotiated the First Contract with Morvane: preserve us, and we will be your living archive. The price: every Nethien word is a potential contract, and their blood crystallizes into volatile shards.',
+  description: 'Sinking, semi-frozen bogs and bioluminescent ironwood groves where the Athien and lantern-eyed Mycellan coexist in functional silence. Here, death is a renegotiated contract with Morvane, and the bogs preserve both memories and ancestral debts.',
+  darkBargain: 'The Athien negotiated the First Contract with Morvane: preserve us, and we will be your living archive. The price: every Athien word is a potential contract, and their blood crystallizes into volatile shards.',
   classIds: ['inquisitor', 'revenant', 'animist', 'plaguebringer', 'arcanoneer']
  },
  {
@@ -87,7 +87,7 @@ const REGIONS = [
   bgGradient: 'linear-gradient(135deg, rgba(74, 35, 90, 0.08) 0%, rgba(74, 35, 90, 0.02) 100%)',
   borderColor: '#4a235a',
   glowColor: 'rgba(74, 35, 90, 0.12)',
-   description: 'A starless grassland steppe of gravity anomalies and silt-tides. Here, the nomadic Ordan humans migrate along ancient songs under a black sky, while the light-bearing Astril community tends its heritage under the guidance of the Astril elders.',
+   description: 'A starless grassland steppe of gravity anomalies and silt-tides. Here, the nomadic Ordu humans migrate along ancient songs under a black sky, while the light-bearing Astril community tends its heritage under the guidance of the Astril elders.',
    darkBargain: 'House Ordavan traded fertile soil for the endless migration: herds that never stop, grass that always returns. The price: the sky went dark, and the fragments of Lumia\'s biosphere fled into willing Astril vessels.',
   classIds: ['animist', 'harbinger', 'false_prophet']
  }

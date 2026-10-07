@@ -42,6 +42,7 @@ export const SPELL_RESOURCE_KEY_TO_ENGINE_ID = {
   // Gambit
   fortune: 'fortunePoints',
   karmic_debt: 'fortunePoints',
+  karmicDebt: 'fortunePoints',
   // Harbinger
   mayhem: 'mayhemGauge',
   // Inquisitor
@@ -68,7 +69,10 @@ export const SPELL_RESOURCE_KEY_TO_ENGINE_ID = {
   phylactery: 'revenant-toll',
   // Shaper
   flux: 'kineticFluxBodyToll',
+  momentum: 'kineticFluxBodyToll',
   body_toll: 'kineticFluxBodyToll',
+  bodyToll: 'kineticFluxBodyToll',
+  flourish: 'kineticFluxBodyToll',
   // Spellguard
   aep: 'arcaneEnergyPoints',
   arcane_energy_points: 'arcaneEnergyPoints',

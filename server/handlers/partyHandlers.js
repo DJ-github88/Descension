@@ -171,13 +171,13 @@ function registerPartyHandlers(ctx) {
 
   socket.on('register_presence', (data) => {
     try {
-      let userId = socket.data.userId || data.userId;
-      let originalUserId = userId;
+      // Identity comes only from the verified socket auth. Never trust the
+      // client-supplied userId (that allowed impersonating other users).
+      let userId = socket.data.userId;
       let name = data.name || 'Unknown';
 
       const player = players.get(socket.id);
       if (player) {
-        originalUserId = userId;
         userId = player.userId || userId || player.id;
         name = player.name;
       }
@@ -186,7 +186,7 @@ function registerPartyHandlers(ctx) {
         if (socket.data.isGuest) {
           userId = 'guest-' + socket.id;
         } else {
-          logger.warn('[register_presence] No userId available', { socketId: socket.id, dataUserId: data.userId });
+          logger.warn('[register_presence] No verified userId available', { socketId: socket.id });
           return;
         }
       }
@@ -195,10 +195,10 @@ function registerPartyHandlers(ctx) {
       socket.data.userName = name;
 
       onlineSocialUsers.set(socket.id, {
-        userId: userId,
+        userId,
         socketId: socket.id,
-        originalUserId: originalUserId !== userId ? originalUserId : null,
-        name: name,
+        originalUserId: null,
+        name,
         characterClass: data.characterClass,
         characterLevel: data.characterLevel,
         status: 'online',
@@ -214,12 +214,7 @@ function registerPartyHandlers(ctx) {
 
   socket.on('update_status', (data) => {
     try {
-      const { userId, status, statusComment } = data;
-
-      if (!userId) {
-        logger.warn('[update_status] Missing userId');
-        return;
-      }
+      const { status, statusComment } = data;
 
       const validStatuses = ['online', 'away', 'busy', 'offline'];
       if (!validStatuses.includes(status)) {
@@ -227,26 +222,29 @@ function registerPartyHandlers(ctx) {
         return;
       }
 
-      const userEntry = Array.from(onlineSocialUsers.entries())
-        .find(([_socketId, user]) => user.userId === userId);
-
-      if (userEntry) {
-        const [socketId, userData] = userEntry;
-        onlineSocialUsers.set(socketId, {
-          ...userData,
-          status,
-          statusComment: statusComment || null,
-          lastSeen: Date.now()
-        });
-
-        socket.broadcast.emit('user_status_changed', {
-          userId,
-          status,
-          statusComment: statusComment || null
-        });
-
-        logger.info('[update_status] Status updated', { userId, status });
+      // A socket may only change its OWN presence; the client-supplied userId
+      // is ignored so users cannot forge another user's status.
+      const userData = onlineSocialUsers.get(socket.id);
+      if (!userData) {
+        logger.warn('[update_status] No presence registered for socket', { socketId: socket.id });
+        return;
       }
+
+      const userId = userData.userId;
+      onlineSocialUsers.set(socket.id, {
+        ...userData,
+        status,
+        statusComment: statusComment || null,
+        lastSeen: Date.now()
+      });
+
+      socket.broadcast.emit('user_status_changed', {
+        userId,
+        status,
+        statusComment: statusComment || null
+      });
+
+      logger.info('[update_status] Status updated', { userId, status });
 
     } catch (error) {
       logger.error('[update_status] Error:', { error: error.message });
@@ -256,8 +254,18 @@ function registerPartyHandlers(ctx) {
   socket.on('accept_party_invite', ({ invitationId }) => {
     try {
       const invitation = partyInvitations.get(invitationId);
-      if (!invitation) {
+      // Domain isolation: this social event may only operate on social party
+      // invitations, never on recipient-bound room invitations.
+      if (!invitation || invitation.kind !== 'party') {
         socket.emit('party_error', { error: 'Invitation not found or expired' });
+        return;
+      }
+      const acceptingUid = socket.data.userId
+        || (players.get(socket.id) && players.get(socket.id).userId)
+        || (onlineSocialUsers.get(socket.id) && onlineSocialUsers.get(socket.id).userId)
+        || null;
+      if (!acceptingUid || invitation.toUserId !== acceptingUid) {
+        socket.emit('party_error', { error: 'Not authorized for this invitation' });
         return;
       }
 
@@ -354,7 +362,12 @@ function registerPartyHandlers(ctx) {
   socket.on('decline_party_invite', ({ invitationId }) => {
     try {
       const invitation = partyInvitations.get(invitationId);
-      if (!invitation) {return;}
+      if (!invitation || invitation.kind !== 'party') {return;}
+      const decliningUid = socket.data.userId
+        || (players.get(socket.id) && players.get(socket.id).userId)
+        || (onlineSocialUsers.get(socket.id) && onlineSocialUsers.get(socket.id).userId)
+        || null;
+      if (!decliningUid || invitation.toUserId !== decliningUid) {return;}
 
       let declinerName = invitation.toUserId;
       const socialUser = onlineSocialUsers.get(socket.id);

@@ -11,6 +11,10 @@ import {
     rotateShape
 } from '../utils/itemShapeUtils';
 
+// Bounded set of remote update IDs already applied on this device. Prevents a
+// retried/duplicated private-inventory delivery from applying twice.
+const appliedRemoteUpdateIds = new Set();
+
 // Helper function to sync inventory to multiplayer server
 // This function is called with the current inventory state to avoid circular dependencies
 const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryState) => {
@@ -100,11 +104,13 @@ const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryStat
                         };
                 }
 
-                // Send inventory update to server
+                // Send inventory update to server. The retry-stable updateId
+                // lets the owner's other devices suppress duplicate delivery.
                 gameState.multiplayerSocket.emit('inventory_update', {
                     playerId: playerId,
                     inventoryData: inventoryData,
                     changeType: inventoryData.changeType || 'full',
+                    updateId: `${playerId}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
                     timestamp: Date.now()
                 });
             }
@@ -405,6 +411,54 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         return { currency: convertedCurrency };
+    }),
+
+    // Apply an inventory change received from another socket for THIS character
+    // (same-account cross-device sync). Uses raw `set` so it never re-broadcasts
+    // or records a local change, avoiding an echo loop. The caller is
+    // responsible for verifying the update targets the locally active character.
+    applyRemoteInventory: (inventoryData) => set((state) => {
+        if (!inventoryData) return {};
+
+        // Bounded duplicate suppression: a retried add-item delivery must not
+        // duplicate the item.
+        if (inventoryData.updateId) {
+            if (appliedRemoteUpdateIds.has(inventoryData.updateId)) return {};
+            appliedRemoteUpdateIds.add(inventoryData.updateId);
+            if (appliedRemoteUpdateIds.size > 200) {
+                const oldest = appliedRemoteUpdateIds.values().next().value;
+                appliedRemoteUpdateIds.delete(oldest);
+            }
+        }
+
+        switch (inventoryData.changeType) {
+            case 'full':
+                return {
+                    items: inventoryData.items || state.items,
+                    currency: inventoryData.currency || state.currency,
+                    encumbranceState: inventoryData.encumbranceState || state.encumbranceState
+                };
+            case 'add_item':
+                return inventoryData.item
+                    ? { items: [...state.items, inventoryData.item] }
+                    : {};
+            case 'remove_item':
+                return {
+                    items: state.items.filter(i => i.id !== inventoryData.itemId)
+                };
+            case 'move_item':
+                return {
+                    items: state.items.map(i => {
+                        if (i.id !== inventoryData.itemId) return i;
+                        const next = { ...i };
+                        if (inventoryData.newPosition) next.position = inventoryData.newPosition;
+                        if (inventoryData.newRotation != null) next.rotation = inventoryData.newRotation;
+                        return next;
+                    })
+                };
+            default:
+                return {};
+        }
     }),
 
     // Update encumbrance state based on item positions

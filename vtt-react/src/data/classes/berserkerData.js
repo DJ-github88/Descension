@@ -20,14 +20,14 @@ export const BERSERKER_DATA = {
    "ordan_human"
   ],
   "narrativeUnlock": true,
-  "justification": "Requires Hunger Pact lineage (Skald) or deliberate Rage adoption (Waste-Solari). Mimir are too identity-fragile to sustain the emotional singularity. Nethien can't suppress their contract-nature. Ordan reject self-destruction over migration."
+  "justification": "Requires Hunger Pact lineage (Skald) or deliberate Rage adoption (Anhur). Mimir are too identity-fragile to sustain the emotional singularity. Athien can't suppress their contract-nature. Ordu reject self-destruction over migration."
  },
 
  /**
  * Subrace Variants, how each allowed subrace *lives* the Berserker path differently.
  * The Rage mechanic is universal; what the Heat *means*, where it comes from,
  * and how the practitioner is received by their own people is not. A Skald who ignites
- * is performing a liturgy. A Waste-Solari who ignites is arguing with a mountain. A Groven
+ * is performing a liturgy. A Anhur who ignites is arguing with a mountain. A Groven
  * who ignites is reawakening the alchemy their ancestors bled to escape.
  */
  subraceVariants: {
@@ -48,25 +48,25 @@ export const BERSERKER_DATA = {
  },
 
   thrask_solari: {
-   subraceName: 'Waste-Solari - Thyrm',
+   subraceName: 'Anhur - Thyrm',
   title: 'The Caldera-Forged',
-  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> did not inherit the Hunger Pact, they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Waste-Solari rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead, Solari dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Waste-Solari Berserker's Rage is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Waste-Solari rage is an argument with the mountain.`,
+  reframe: `The <LoreLink termId="solari">Anhur</LoreLink> did not inherit the Hunger Pact, they stole it. When the Bloodhammer clans descended into the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> tunnels, the Anhur rangers who shared those volcanic darks watched the Skald ignite and wanted the fire for themselves. They could not eat their dead, Solari dead are committed to the Vault in sacred silence. So they found another door: geothermal resonance. A Anhur Berserker's Rage is drawn not from ancestry but from the caldera itself. They do not taste kin-blood when they burn; they taste sulfur, basalt-dust, and the deep thermal hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their fury is tectonic, not memorial. Where the Skald rage is a song to the dead, the Anhur rage is an argument with the mountain.`,
   signatureAbility: {
   name: 'Caldera-Draw',
-  description: `Rage rises faster near geothermal vents, magma-fractures, and the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s residual warmth. A Waste-Solari Berserker fighting on volcanic terrain ignites with terrifying speed, and slides toward Metabolic Burnout just as fast. The mountain gives freely, and takes freely.`
+  description: `Rage rises faster near geothermal vents, magma-fractures, and the <LoreLink termId="sols_breath">Sol's Breath</LoreLink>'s residual warmth. A Anhur Berserker fighting on volcanic terrain ignites with terrifying speed, and slides toward Metabolic Burnout just as fast. The mountain gives freely, and takes freely.`
   },
-  currentCrisisAngle: `The Waste-Solari largely ignore the Unbound schism, it is a Skald argument about Skald ancestry, and the Waste-Solari never signed the Pact to begin with. But the Waste-Solari carry a quieter, worse crisis of their own: the caldera's vents are cooling as Sol's prison dims. A Waste-Solari Berserker who could once draw limitless Heat from the mountain now finds the well running dry. Some have begun, in desperation, to seek out Scathrach's deeper vents, the ones the Pyrofiends whisper about, trading geothermal fire for something far more expensive.`,
+  currentCrisisAngle: `The Anhur largely ignore the Unbound schism, it is a Skald argument about Skald ancestry, and the Anhur never signed the Pact to begin with. But the Anhur carry a quieter, worse crisis of their own: the caldera's vents are cooling as Sol's prison dims. A Anhur Berserker who could once draw limitless Heat from the mountain now finds the well running dry. Some have begun, in desperation, to seek out Scathrach's deeper vents, the ones the Pyrofiends whisper about, trading geothermal fire for something far more expensive.`,
   signatureQuote: {
   text: '"The Skald burn for their dead. I burn because the mountain told me to. Ask me which one of us sleeps better when the vent goes cold."',
   speaker: 'Vareth Cinder-Kin',
-  context: 'A Waste-Solari arena-champion, to a Pact-sworn Skald who accused him of theft'
+  context: 'A Anhur arena-champion, to a Pact-sworn Skald who accused him of theft'
   }
  },
 
  morgh_groven: {
   subraceName: 'Morgh Groven',
   title: 'The Vat-Woken',
-  reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fexric Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility, the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by a thousand years of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood, they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Rage tastes of reagents and old Thrumm grief.`,
+  reframe: `The <LoreLink termId="groven">Morgh Groven</LoreLink> were never meant to rage. The <LoreLink termId="deep_alchemists">Fex Deep Alchemists</LoreLink> engineered the <LoreLink termId="thrumm">Thrumm</LoreLink> root-stock for docility, the one trait that made them perfect vat-subjects. When the first Groven shattered their containment vessels in the <LoreLink termId="vat_breakers_guild">Vat-Breakers' revolt</LoreLink>, they discovered something the Alchemists had accidentally bred into them: the regenerative Thrumm biology, supercharged by a thousand years of alchemical saturation, could be pushed past its design limit. A Morgh Berserker does not burn blood, they burn the dormant alchemy still circulating in their stone-scaled veins. The serums that were meant to make them obedient instead make them, when ignited, catastrophically free. Their Rage tastes of reagents and old Thrumm grief.`,
   signatureAbility: {
   name: 'Vat-Overclock',
   description: `Rage builds from the Groven's regenerative biology fighting itself. Each wound the Groven regenerates dumps waste-heat into serum-saturated blood, meaning a Morgh Berserker ignites fastest when they are being *healed*, the opposite of every other tradition. The alchemy that was meant to suppress them becomes, under pressure, the engine of their liberation.`
@@ -113,28 +113,36 @@ export const BERSERKER_DATA = {
  },
 
  worldFriction: [
- { region: 'bryngloom-forest', location: 'atropolis', status: 'banned', consequence: 'Berserkers are outlawed within Atropolis as rabid beasts, a volatile Rage burst in the silver law-chambers would be catastrophic. Any identified Berserker is denied entry at the Toll-Dikes and arrested on sight.', workaround: 'Travel cold and masked; register as a laborer or forge-hand. A Berserker who has not ignited in days is nearly indistinguishable from a scarred Waste-Solari smith, until the Heat rises.' },
+ { region: 'bryngloom-forest', location: 'atropolis', status: 'banned', consequence: 'Berserkers are outlawed within Atropolis as rabid beasts, a volatile Rage burst in the silver law-chambers would be catastrophic. Any identified Berserker is denied entry at the Toll-Dikes and arrested on sight.', workaround: 'Travel cold and masked; register as a laborer or forge-hand. A Berserker who has not ignited in days is nearly indistinguishable from a scarred Anhur smith, until the Heat rises.' },
  { region: 'sundale', location: 'harath_vault', status: 'celebrated', consequence: 'In the Harath-Vault arenas, Berserkers are champion-entertainers and sacred survivors. Arena victors receive lodging, patrons, and legal immunity within Sundale for the duration of their winning streak.' },
  { region: 'nordhalla', location: 'frozen_archive', status: 'distrusted', consequence: 'The Skald elders of the Frozen Archive claim jurisdiction over who may carry the Hunger Pact; an Unbound Berserker in Nordhalla faces execution without trial.' },
-  { region: 'cragjaw-peaks', status: 'tolerated', consequence: 'Fexric miners value Berserkers as biological heavy excavators who can ignore the cold-chill. However, House Tesshan requires them to wear steam-dampening shackles inside the keeps to prevent accidental rage explosions.', workaround: 'Berserkers work in the deep sumps where Jarl Tesshan\'s guards rarely patrol, selling their muscle-power directly to Clan-Free forge-masters.' }
+  { region: 'cragjaw-peaks', status: 'tolerated', consequence: 'Fex miners value Berserkers as biological heavy excavators who can ignore the cold-chill. However, House Tesshan requires them to wear steam-dampening shackles inside the keeps to prevent accidental rage explosions.', workaround: 'Berserkers work in the deep sumps where Jarl Tesshan\'s guards rarely patrol, selling their muscle-power directly to Clan-Free forge-masters.' }
  ],
 
  overview: {
  title: "The Berserker",
  subtitle: "The Blood-Fueled Berserker",
- illustration: "/assets/images/classes/berserker_illustration.png",
-  illustrationCaption: "A Skald Bloodhammer Berserker with burning copper veins wielding twin axes on a frozen battlefield.",
+ illustration: "/assets/images/classes/berserker_skald_raider.jpg",
+ illustrationCaption: "Skald Human Berserker — The Hunger-Pact Sworn (Vanguard), lunging across glacial crags with boiling copper-heat handaxes.",
+ illustrations: [
+  { url: "/assets/images/classes/berserker_skald_raider.jpg", subraceId: "skald_human", caption: "Skald Human Berserker — The Hunger-Pact Sworn (Vanguard), lunging across glacial crags with boiling copper-heat handaxes." },
+  { url: "/assets/images/classes/berserker_skald_elder.jpg", subraceId: "skald_human", caption: "Skald Human Berserker — The Hunger-Pact Sworn (Bloodhammer Elder), clad in mammoth furs hefting an ancestral greataxe." },
+  { url: "/assets/images/classes/berserker_morgh_groven.jpg", subraceId: "morgh_groven", caption: "Morgh Groven Berserker — The Vat-Woken, shattering alchemical brass shackles with boiling fissure-vein rage." },
+  { url: "/assets/images/classes/berserker_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Berserker — The Caldera-Forged, channeling tectonic magma resonance with an obsidian pollaxe." }
+ ],
  originStory: `Born not from rage but from memory  -  the Hunger Winter, three years of absolute cold following House Skalvyr's Glacier Bargain. The price of halting the glaciers was not merely eternal winter. The price was the land freezing solid. Nothing grew. Nothing hunted. Nothing survived except what the Skald carried in their own bodies. The ancestors consumed their dead to persist. They did not do this as ritual. They did it because the alternative was the end of their bloodline. The children who survived that winter were born with the Hunger Pact in their veins  -  the physiological memory of starvation, passed down through generations. When recalled, it literally boils the blood.
 
 This is the Rage. It is not a magical rage or a barbarian fury. It is the body remembering a time when it should have died and refusing to let that happen again. Every Berserker carries their ancestors' last meal in their blood  -  and that meal was family.
 
 The first to weaponize it was Grum the Iron-Smith. During the Bloodhammer migration south  -  when Torra Bloodhammer abandoned Nordhalla's frozen keeps and led the Skald clans through the Cragjaw into <LoreLink termId="sundale">Sundale</LoreLink>'s volcanic tunnels  -  Grum was working the forge when an ice-wyrm burst through the cooling vents. He did not choose the fury. The fury recognized a threat to the bloodline and ignited itself. His veins boiled, his tendons snapped, and he killed the wyrm with his bare hands. Afterward, he could not stand for three days. The Rage had never been meant for combat  -  it was a survival reflex. Grum was the first to survive turning it into a weapon. The Skald who stayed in Nordhalla  -  the ones who refused the migration  -  tell the story differently. They say Grum was sacrificed by his lords as a test. They say the Rage is not a gift but a curse, a sign that the Hunger Pact has been dishonored by making it a weapon instead of a memory. The disagreement has never been resolved.
 
-From the Skald, the Rage spread through contact  -  never independently re-discovered, always learned. The Waste-Solari encountered it when the Bloodhammer migration reached Sundale; Waste-Solari forge-workers watched Skald warriors ignite during a volcanic vent-collapse and asked to learn. Lacking the Hunger Pact's ancestral memory, they substituted the mountain's geothermal heat. The Solari learned it from Waste-Solari forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, when Groven bridge-tenders and Skald caravans fought side by side against Draskar raids  -  their alchemical serum residue igniting as a parallel mechanism, not the Pact itself. Four peoples, one fire, four different fuel sources: ancestral memory, geothermal resonance, religious faith, and alchemical residue.
+From the Skald, the Rage spread through contact  -  never independently re-discovered, always learned. The Anhur encountered it when the Bloodhammer migration reached Sundale; Anhur forge-workers watched Skald warriors ignite during a volcanic vent-collapse and asked to learn. Lacking the Hunger Pact's ancestral memory, they substituted the mountain's geothermal heat. The Solari learned it from Anhur forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, when Groven bridge-tenders and Skald caravans fought side by side against Draskar raids  -  their alchemical serum residue igniting as a parallel mechanism, not the Pact itself. Four peoples, one fire, four different fuel sources: ancestral memory, geothermal resonance, religious faith, and alchemical residue.
 
 Today, a Berserker\u2019s muscles literally tear themselves from the bone to swing harder. Their heart is a ticking engine of self-destruction. In the civilized plazas of <LoreLink termId="atropolis">Atropolis</LoreLink>, they are banned as rabid beasts. But in the arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, they are celebrated as the ultimate survivors of a world that tried to freeze them.
 
-As a Berserker, you carry the Hunger Pact in your veins  -  or the substitute your people found to survive without it. The world sees a savage. Your ancestors see a promise kept. Let your blood boil. Let the cold world watch you burn.`,
+As a Berserker, you carry the Hunger Pact in your veins  -  or the substitute your people found to survive without it. The world sees a savage. Your ancestors see a promise kept. Let your blood boil. Let the cold world watch you burn.
+
+Native only to Skald. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
  quickOverview: {
     title: "Class Overview",
@@ -172,8 +180,7 @@ The first to weaponize it was Grum the Iron-Smith during the Bloodhammer migrati
 Berserkers are completely outlawed within the silver law-chambers and administrative halls of <LoreLink termId="atropolis">Atropolis</LoreLink>, where their volatile fury is viewed as a threat to public order. However, they are highly celebrated in the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink> and the frontier keeps of the Skald, where their high-stamina survival engine is viewed as a sacred gift.
 
 **RACES & CULTURAL AFFILIATION**
-Born from the Skald Hunger Pact, the Rage spread through contact, not independent discovery. The Waste-Solari learned it during the Bloodhammer migration into Sundale, substituting geothermal resonance for ancestral memory. The Solari learned it from Waste-Solari forge-workers in Sundale, substituting religious ecstasy for the fire they could not inherit. The Morgh Groven absorbed it during the Toll Wars, their alchemical serum residue igniting as a parallel mechanism. Four peoples, one fire, four different fuel sources: memory, geothermal heat, faith, and alchemy.
-
+The Hunger Pact is a Skald inheritance. The Anhur learned it via the Bloodhammer and substitute geothermal heat, and the Morgh Groven convert a Toll-war regenerative serum into Rage. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Grum the Iron-Smith**: The smith who was the first to weaponize the Rage, killing an ice-wyrm with his bare hands when the Hunger Pact ignited in defense of the bloodline.
 * **Torra Bloodhammer**: The chieftain who led the Bloodhammer clans out of Nordhalla's frozen keeps into the geothermal vaults of Sundale, bringing the Hunger Pact south.`

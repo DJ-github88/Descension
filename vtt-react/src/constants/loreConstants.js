@@ -12,8 +12,8 @@ export const LORE_PLACEHOLDERS = {
     fears: 'What terrifies you. E.g. "Being forgotten; the dark beneath the caldera."',
     appearance: 'How you look and dress. E.g. "Tall, ash-cloth coat, bog-iron pauldrons, a burn scar across one cheek."',
     allies: 'Who is on your side. E.g. "Bryn the cartographer; the Warden who trained me."',
-    enemies: 'Who wants you dead or ruined. E.g. "A Marked Vreken bounty hunter; my rival house."',
-    organizations: 'Groups you belong to. E.g. "The Sol\'s Breath tending-clans; a Nethien trading house."',
+    enemies: 'Who wants you dead or ruined. E.g. "A Cromyx bounty hunter; my rival house."',
+    organizations: 'Groups you belong to. E.g. "The Sol\'s Breath tending-clans; a Athien trading house."',
     notes: 'Anything else — rumors, reminders, loose ends. E.g. "Owe the waystation keeper 3 gold; heard whispers of a caldera cave."'
 };
 

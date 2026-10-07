@@ -151,7 +151,8 @@
 .character-wizard-container .wizard-top-header {
     all: initial;
     background: linear-gradient(135deg, #e8e2d2 0%, #d8cdb5 100%) !important;
-    border-bottom: 2px solid #d4af37 !important;
+    border-bottom: 1px solid rgba(153, 126, 85, 0.45) !important;
+    box-shadow: 0 2px 8px rgba(46, 30, 15, 0.08) !important;
     box-sizing: border-box !important;
     color: #2c2416 !important;
     display: flex;
@@ -11198,75 +11199,80 @@ button.gender-option.selected {
 }
 
 .lore-header {
-    background: rgba(252, 249, 240, 0.94) !important;
-    border: 3px double #2f5f57 !important;
-    border-radius: 14px;
-    padding: 0 !important;
-    margin-bottom: 2.25rem;
-    box-shadow: inset 0 0 24px rgba(47, 95, 87, 0.12), 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+    background: linear-gradient(180deg, #fbf7ee 0%, #f4ecdc 100%) !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    outline: 1px solid rgba(122, 90, 53, 0.22) !important;
+    border-radius: 4px !important;
+    padding: 1.25rem 1.75rem !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: inset 0 0 25px rgba(153, 126, 85, 0.08), 0 3px 12px rgba(46, 30, 15, 0.04) !important;
     text-align: center;
     overflow: hidden;
 }
 
 .lore-header h2 {
-    margin: 0 !important;
-    font-family: 'Cinzel', serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #234540 0%, #2f5f57 50%, #234540 100%) !important;
-    color: #fbf8f0 !important;
+    margin: 0 0 0.5rem 0 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    background: none !important;
+    color: #2e1e0f !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem !important;
-    border-bottom: 3px double #2f5f57 !important;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    gap: 0.6rem;
+    padding: 0 !important;
+    border-bottom: none !important;
+    letter-spacing: 0.6px;
+    text-shadow: none !important;
+    box-shadow: none !important;
 }
 
 .lore-header h2 i {
-    color: #d4af37 !important;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    color: #997e55 !important;
+    font-size: 1.2rem;
+    filter: none !important;
 }
 
 .lore-description {
-    margin: 0;
-    font-size: 0.95rem;
-    color: #4e361d !important;
-    line-height: 1.6;
-    padding: 1.5rem 2rem !important;
+    margin: 0 auto;
+    font-size: 1rem;
+    color: #5a3d1d !important;
+    line-height: 1.5;
+    padding: 0 !important;
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    max-width: 800px;
 }
 
 .lore-group {
-    background: rgba(255, 254, 250, 0.96);
-    border: 1.5px solid rgba(47, 95, 87, 0.30);
-    border-radius: 14px;
-    margin-bottom: 1.5rem;
+    background: rgba(250, 246, 235, 0.94) !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    outline: 1px solid rgba(122, 90, 53, 0.22) !important;
+    border-radius: 4px !important;
+    margin-bottom: 1.25rem !important;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 0 25px rgba(153, 126, 85, 0.08), 0 3px 12px rgba(46, 30, 15, 0.04) !important;
 }
 
 .lore-group-header {
-    background: linear-gradient(135deg, rgba(47, 95, 87, 0.12) 0%, rgba(248, 245, 235, 0.92) 100%);
-    padding: 0.75rem 1.25rem;
-    border-bottom: 1.5px solid rgba(47, 95, 87, 0.25);
+    background: linear-gradient(180deg, rgba(247, 241, 226, 0.85) 0%, rgba(240, 230, 210, 0.85) 100%) !important;
+    padding: 0.65rem 1.1rem;
+    border-bottom: 1px solid rgba(153, 126, 85, 0.35);
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    font-size: 0.85rem;
-    color: #234540;
+    font-size: 0.88rem;
+    color: #2e1e0f;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Gold icon on teal = complementary pop, ties back to the app's gold accent */
 .lore-group-header i {
-    color: #d4af37;
+    color: #997e55;
+    font-size: 1rem;
 }
 
 .lore-group-fields {
@@ -11281,7 +11287,7 @@ button.gender-option.selected {
 
 .lore-field-container {
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid rgba(47, 95, 87, 0.10);
+    border-bottom: 1px solid rgba(153, 126, 85, 0.15);
 }
 
 .lore-field-container:last-child {
@@ -11293,16 +11299,15 @@ button.gender-option.selected {
     align-items: center;
     gap: 0.5rem;
     font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    color: #2f5f57;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5rem;
+    color: #4a3526;
+    letter-spacing: 0.4px;
+    margin-bottom: 0.4rem;
 }
 
 .lore-field-label i {
-    color: #d4af37;
+    color: #997e55;
     font-size: 0.85rem;
 }
 
@@ -12227,6 +12232,12 @@ select.lore-field-input option,
 
 .portrait-avatar-wrapper:hover .avatar-hover-layer {
     opacity: 1;
+}
+
+.canvas-portrait-area.mode-2d {
+    width: 200px;
+    height: 200px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .portrait-avatar-placeholder {
@@ -13840,60 +13851,180 @@ select.lore-field-input option,
     transform: scale(1.03);
 }
 
-/* Large Heritage Showcase Centerpiece in Grimoire - Styled as an old square portrait frame */
+/* Large Heritage Showcase Centerpiece in Grimoire - Styled as an antique framed canvas */
 .grimoire-heritage-showcase {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1.25rem 0 1rem 0;
-    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0.85rem 0 1rem 0 !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
 }
 
 .grimoire-heritage-icon-wrapper {
-    width: 110px;
-    height: 110px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eedfc2;
-    border: 4px solid #5a3d1d;
-    outline: 1px solid #7a5a35;
-    border-radius: 6px;
-    box-shadow: 0 6px 14px rgba(46, 30, 15, 0.25), inset 0 0 10px rgba(46, 30, 15, 0.2);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    width: 100% !important;
+    max-width: 320px !important;
+    height: 195px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #eedfc2 !important;
+    border: 3px solid #5a3d1d !important;
+    outline: 1px solid #7a5a35 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 6px 18px rgba(46, 30, 15, 0.25), inset 0 0 12px rgba(46, 30, 15, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 0 auto !important;
 }
 
 .grimoire-heritage-icon-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    border: 1px dashed rgba(122, 90, 53, 0.6);
-    border-radius: 3px;
-    pointer-events: none;
-    z-index: 2;
+    content: '' !important;
+    position: absolute !important;
+    inset: 4px !important;
+    border: 1px dashed rgba(122, 90, 53, 0.6) !important;
+    border-radius: 5px !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
 }
 
 .grimoire-heritage-icon-wrapper:hover {
-    transform: scale(1.06) rotate(2deg);
-    border-color: #7a5a35;
-    box-shadow: 0 10px 20px rgba(46, 30, 15, 0.35), inset 0 0 8px rgba(46, 30, 15, 0.1);
+    transform: scale(1.02) !important;
+    border-color: #7a5a35 !important;
+    box-shadow: 0 10px 22px rgba(46, 30, 15, 0.35), inset 0 0 8px rgba(46, 30, 15, 0.1) !important;
 }
 
 .grimoire-large-heritage-icon {
-    width: 92px !important;
-    height: 92px !important;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover !important;
-    border-radius: 2px;
-    box-shadow: 0 2px 5px rgba(46, 30, 15, 0.15);
-    z-index: 1;
-    transition: transform 0.3s ease;
+    object-position: center 20% !important;
+    border-radius: 4px !important;
+    display: block !important;
+    box-shadow: 0 2px 6px rgba(46, 30, 15, 0.2) !important;
+    z-index: 1 !important;
+    transition: transform 0.3s ease !important;
 }
 
 .grimoire-heritage-icon-wrapper:hover .grimoire-large-heritage-icon {
-    transform: scale(1.03);
+    transform: scale(1.04) !important;
+}
+
+.grimoire-art-zoom-hint {
+    position: absolute !important;
+    bottom: 8px !important;
+    right: 8px !important;
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    background: rgba(44, 36, 22, 0.85) !important;
+    border: 1px solid #d4af37 !important;
+    color: #e5d8b8 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.72rem !important;
+    z-index: 3 !important;
+    opacity: 0.8 !important;
+    transition: all 0.2s ease !important;
+}
+
+.grimoire-heritage-icon-wrapper:hover .grimoire-art-zoom-hint {
+    opacity: 1 !important;
+    background: #d4af37 !important;
+    color: #1a160f !important;
+    transform: scale(1.1) !important;
+}
+
+.grimoire-heritage-nav-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+    margin-top: 0.15rem !important;
+}
+
+.grimoire-carousel-arrow-btn {
+    background: rgba(90, 61, 29, 0.12) !important;
+    border: 1px solid #7a5a35 !important;
+    color: #4a351f !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 0.7rem !important;
+    padding: 0 !important;
+    transition: all 0.2s ease !important;
+    outline: none !important;
+}
+
+.grimoire-carousel-arrow-btn:hover {
+    background: #5a3d1d !important;
+    color: #f4efe1 !important;
+    border-color: #d4af37 !important;
+    transform: scale(1.1) !important;
+}
+
+.grimoire-carousel-pills {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+}
+
+.grimoire-carousel-pill {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: rgba(122, 90, 53, 0.3) !important;
+    border: 1px solid rgba(90, 61, 29, 0.45) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+}
+
+.grimoire-carousel-pill:hover {
+    background: #7a5a35 !important;
+    transform: scale(1.25) !important;
+}
+
+.grimoire-carousel-pill.active {
+    background: #b8860b !important;
+    border-color: #5a3d1d !important;
+    width: 18px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.5) !important;
+}
+
+.grimoire-heritage-caption-tag {
+    font-family: 'Crimson Text', 'Georgia', serif !important;
+    font-size: 0.82rem !important;
+    line-height: 1.35 !important;
+    color: #4a351f !important;
+    background: rgba(122, 90, 53, 0.08) !important;
+    border: 1px solid rgba(122, 90, 53, 0.25) !important;
+    border-radius: 6px !important;
+    padding: 0.35rem 0.65rem !important;
+    text-align: center !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    box-sizing: border-box !important;
+    font-style: italic !important;
+    display: block !important;
+    overflow: hidden !important;
+}
+
+.grimoire-heritage-caption-tag i {
+    color: #b8860b !important;
+    margin-right: 0.3rem !important;
 }
 
 /* ============================================================
@@ -15035,4 +15166,92 @@ select.lore-field-input option,
     .justification-modal-content textarea {
         font-size: 16px !important;
     }
+}
+
+/* ---------------------------------------------------------------------------
+   Readable prose font.
+   The wizard forces 'Cinzel' (a caps-only display face) on every descendant
+   via `.character-wizard-container *`. Long-form prose — codex placeholders,
+   skill rules, lore copy and summary validation messages — must stay in
+   Crimson Text so full sentences remain legible. Headings/labels keep Cinzel.
+   --------------------------------------------------------------------------- */
+.character-wizard-container .codex-placeholder-text,
+.character-wizard-container .rules-content-block,
+.character-wizard-container .rules-content-block p,
+.character-wizard-container .rules-content-block li,
+.character-wizard-container .rules-subsection,
+.character-wizard-container .rules-subsection p,
+.character-wizard-container .rules-subsection li,
+.character-wizard-container .lore-description,
+.character-wizard-container .lore-field-input,
+.character-wizard-container .lore-field-input option,
+.character-wizard-container .summary-validation-banner-title,
+.character-wizard-container .summary-validation-list li,
+.character-wizard-container .no-resistances-msg {
+    font-family: 'Crimson Text', 'Georgia', serif !important;
+}
+
+/* The existing .grimoire-markdown-body rule only covers the container; the
+   blanket `*` !important still forces its child <p>/<span> etc. into Cinzel. */
+.character-wizard-container .grimoire-markdown-body,
+.character-wizard-container .grimoire-markdown-body :not(i):not(svg) {
+    font-family: 'Crimson Text', 'Georgia', serif !important;
+}
+
+/* Subrace variant flavor cards set 'Crimson Text' inline, which cannot beat the
+   wizard's stylesheet !important. Re-apply it via a matching rule. */
+.character-wizard-container .subrace-variant-flavor-card,
+.character-wizard-container .subrace-variant-flavor-card :not(i):not(svg) {
+    font-family: 'Crimson Text', serif !important;
+}
+
+/* Shared item tooltips ship their own readable serif face; the blanket Cinzel
+   !important would otherwise render their descriptions as all-caps. Restore
+   the tooltip's own font (icons excluded so Font Awesome glyphs stay intact). */
+.character-wizard-container .item-tooltip,
+.character-wizard-container .item-tooltip :not(i):not(svg) {
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
 }
+/* ===== HERALDIC SUBRACE CRESTS ===== */
+.subrace-tab .subrace-detail-icon {
+    overflow: hidden;
+}
+
+.subrace-detail-crest-img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+}
+
+.subrace-mini-crest-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+    flex-shrink: 0;
+}
+
+.subrace-token-crest-img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    margin-right: 6px;
+    vertical-align: middle;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+    flex-shrink: 0;
+}
+
+.grimoire-crest-thumbnail {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    margin-right: 8px;
+    vertical-align: middle;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+}
+.subrace-token-title-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}

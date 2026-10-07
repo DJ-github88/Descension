@@ -28,13 +28,13 @@ export const SPELLGUARD_DATA = {
      "florae"
    ],
    "narrativeUnlock": true,
-   "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Nethien provide precise magical cancellation. Thalren provide anti-Wyrd paranoia."
+   "justification": "Requires access to Emberspire's volcanic forge-tradition and Sol's Breath's residual energy. The Athien provide precise magical cancellation. Tallyn provide anti-Wyrd paranoia."
  },
 
  /**
   * Subrace Variants, the Spellguard dismantles incoming magic, and how they dismantle
-  * it depends on what tradition of "understanding magic" they inherited. The Nethien cancel
-   * it legally. The Thalren defuse it like a Wyrd-trap. The Solari shield it like a
+  * it depends on what tradition of "understanding magic" they inherited. The Athien cancel
+   * it legally. The Tallyn defuse it like a Wyrd-trap. The Solari shield it like a
   * tomb-guard. The Solari intercept it like a forge-rupture.
   */
  
@@ -47,67 +47,112 @@ export const SPELLGUARD_DATA = {
    offHand: ['shield', 'tome', 'orb']
   },
 subraceVariants: {
+    kethrin_fexric: {
+      subraceName: 'Brasskin',
+      title: 'The Regulator',
+      reframe: `The Brasskin build certified shield-regulators, catching a spell and venting it within documented tolerances. Predictable, rated, and rigid: a regulator catches exactly what the spec says it can.`,
+      signatureAbility: {
+        name: 'Shield Regulator',
+        description: `Your certified shield-regulator operates predictably within rated tolerances; equipment ratings limit the catch.`
+      },
+      currentCrisisAngle: `Ambient magic is exceeding the rated tolerance of every regulator in the guild vaults, and the engineers are being asked to certify what they cannot.`,
+      signatureQuote: {
+        text: 'My regulator catches what the spec says it catches. The spec is now the thing that is failing.',
+        speaker: 'Regulator-Master Gul',
+        context: 'A Brasskin Spellguard at a saturated shield array'
+      }
+    },
+    tessen_human: {
+      subraceName: 'Tessic',
+      title: 'The Gate-Grounder',
+      reframe: `The Tessic learned to ground intercepted magic through the same prepared gates and chambers their keep-engineers build. Where a Solari absorbs and a Athien annuls, the Tessic routes: they catch a spell and send it into fixed infrastructure, a gate, a chamber, the keep’s own grounding stone.`,
+      signatureAbility: {
+        name: 'Gate-Grounding',
+        description: `You ground an intercepted spell into prepared infrastructure; the edge does not travel with you and ambient saturation still applies.`
+      },
+      currentCrisisAngle: `The keep’s grounding chambers were built to survive a siege, not a flood of ambient magic; they are saturating faster than the engineers can rebuild them.`,
+      signatureQuote: {
+        text: 'A spell is just lightning with a lawyer. You do not fight it. You give it somewhere else to go.',
+        speaker: 'Warden-Engineer Tolk',
+        context: 'A Tessic Spellguard at a keep grounding chamber'
+      }
+    },
+    drall_fexric: {
+      subraceName: 'Alchemite',
+      title: 'The Salvage-Warder',
+      reframe: `The Alchemite retune salvaged containment parts into working shields, accepting the instability the guild would never certify. A Salvage-Warder catches what the certified regulators cannot and pays for it in repair load.`,
+      signatureAbility: {
+        name: 'Jury-Rig Vent',
+        description: `You retune one prepared salvaged vent profile to catch a spell; the jury-rig adds instability and repair load, and is not limitless reflection.`
+      },
+      currentCrisisAngle: `The Alchemite workshops are being treated as saviors as certified weaves fail, and every salvaged shield they sell carries a failure mode they cannot guarantee.`,
+      signatureQuote: {
+        text: 'The guild’s shield is rated for Class-3 entropy. Mine is rated for probably. It is still the only one that caught the thing.',
+        speaker: 'Unnamed Alchemite Spellguard',
+        context: 'After a salvage-vent held where a certified array failed'
+      }
+    },
   velun_neth: {
-   subraceName: 'Nethien',
+   subraceName: 'Athien',
    title: 'The Clause-Canceller',
-   reframe: `The <LoreLink termId="neth">Nethien</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment*, identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Nethien Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
+   reframe: `The <LoreLink termId="neth">Athien</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment*, identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Athien Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
    signatureAbility: {
     name: 'Clause-Annulment',
-    description: `Incoming spells are canceled through legal-inversion rather than raw absorption; the Spellguard files the annulment, and the magic fails on its own terms. The process is precise and low-radiation, the Nethien take on far less Arcane Energy Points (AEP) than absorbing variants, but fails entirely against magic with no clause-structure (wild Wyrd, primal forces).`
+     description: `A trained clause-annulment interface dismantles a legible spell rather than taking its full impact. It still retains finite captured residual AEP and accounts for the dissipated remainder. Reduced yield is not zero-resource immunity. Illegible or foreign structure defeats this special method; ordinary compatible containment remains the baseline, not an ancestry-wide loss of Spellguard ability. No automatic yield percentage is applied by the resource tracker.`
    },
-   currentCrisisAngle: `The rising ambient magic is, to the Nethien, a *jurisdictional overload*, too many spells in the air, too many clauses to parse in real time. The Nethien Spellguards are the most radiation-resistant variant, but they are being drowned in paperwork: the annulments cannot be drafted fast enough to keep pace with a world whose magic level is spiking.`,
+   currentCrisisAngle: `The rising ambient magic is, to the Athien, a *jurisdictional overload*, too many spells in the air, too many clauses to parse in real time. The Athien Spellguards are the most radiation-resistant variant, but they are being drowned in paperwork: the annulments cannot be drafted fast enough to keep pace with a world whose magic level is spiking.`,
    signatureQuote: {
     text: '"Your fireball is poorly drafted. I have filed an objection. It will not arrive. The objection was sustained."',
     speaker: 'Canceller Vel-Ossar',
-    context: 'A Nethien Spellguard, intercepting a court-mage\'s assault on procedural grounds'
+    context: 'A Athien Spellguard, intercepting a court-mage\'s assault on procedural grounds'
    }
   },
 
   thalren_human: {
-   subraceName: 'Thalren',
+   subraceName: 'Tallyn',
    title: 'The Wyrd-Defuser',
-   reframe: `The <LoreLink termId="skald">Thalren</LoreLink> have spent nearly two centuries paranoid about the Wyrd’s intrusions, and a Spellguard among them defuses incoming magic the way a sapper defuses a trap, slowly, suspiciously, expecting a second trigger. The Thalren are the tradition's most *cautious* variant: they assume every spell has a backup, and they are usually right.`,
+   reframe: `The <LoreLink termId="skald">Tallyn</LoreLink> have spent nearly two centuries paranoid about the Wyrd’s intrusions, and a Spellguard among them defuses incoming magic the way a sapper defuses a trap, slowly, suspiciously, expecting a second trigger. The Tallyn are the tradition's most *cautious* variant: they assume every spell has a backup, and they are usually right.`,
    signatureAbility: {
     name: 'Trap-Defusal',
     description: `Incoming spells are disarmed through methodical structural analysis, the Spellguard identifies the spell's trigger, payload, and failsafe, then neutralizes each in sequence. Slower than absorption or annulment, but the only method that reliably catches layered/contingent spells that would detonate on a hasty counter.`
    },
-   currentCrisisAngle: `The rising ambient magic is producing spells the Thalren's paranoia cannot fully parse, magic with *no visible structure*, wild and structureless, the kind the Wyrd itself uses. The Thalren Spellguards, trained to find traps in everything, are being driven to breakdown by magic that has no trap to find because it has no design at all.`,
+   currentCrisisAngle: `The rising ambient magic is producing spells the Tallyn's paranoia cannot fully parse, magic with *no visible structure*, wild and structureless, the kind the Wyrd itself uses. The Tallyn Spellguards, trained to find traps in everything, are being driven to breakdown by magic that has no trap to find because it has no design at all.`,
    signatureQuote: {
     text: '"Every spell has a second trigger. Every spell. This one has none, and that is the most dangerous second trigger I have ever failed to find."',
     speaker: 'Defuser Thal-Veyr',
-    context: 'A Thalren Spellguard, confronting the first wild-magic eruption he could not parse'
+    context: 'A Tallyn Spellguard, confronting the first wild-magic eruption he could not parse'
    }
    },
 
    korr_solari: {
-    subraceName: 'Hollow-Solari - Thyrm',
+    subraceName: 'Korr - Thyrm',
    title: 'The Silent-Guard',
-   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend Sol's Breath in wordless silence, and a Spellguard among them intercepts magic from a state of <LoreLink termId="vault_breath">Vault-Breath</LoreLink> stillness, the same meditative suspension they use to tend the buried star. The Hollow-Solari are the tradition's *steadiest* variant: their interception happens in the gaps between heartbeats, in a stillness so absolute that incoming magic has nothing to push against.`,
+   reframe: `The <LoreLink termId="solari">Korr</LoreLink> tend Sol's Breath in wordless silence, and a Spellguard among them intercepts magic from a state of <LoreLink termId="vault_breath">Vault-Breath</LoreLink> stillness, the same meditative suspension they use to tend the buried star. The Korr are the tradition's *steadiest* variant: their interception happens in the gaps between heartbeats, in a stillness so absolute that incoming magic has nothing to push against.`,
    signatureAbility: {
     name: 'Silent-Intercept',
-    description: `Magical interception is performed from a state of metabolic stillness, the Spellguard slows their own vitals to near-zero, becoming a silence that incoming magic *falls into* rather than strikes. The Hollow-Solari intercept with the least collateral damage and the quietest profile, but cannot intercept while moving.`
+    description: `Magical interception is performed from a state of metabolic stillness, the Spellguard slows their own vitals to near-zero, becoming a silence that incoming magic *falls into* rather than strikes. The Korr intercept with the least collateral damage and the quietest profile, but cannot intercept while moving.`
    },
-   currentCrisisAngle: `The rising ambient magic makes stillness *unsafe*, the ambient radiation accumulates in a stationary body faster than a moving one, and the Hollow-Solari's Silent-Intercept is becoming a liability. The Hollow-Solari Spellguards, masters of stillness, are being forced to *move* for the first time in their tradition's history, and the movement is breaking their meditation.`,
+   currentCrisisAngle: `The rising ambient magic makes stillness *unsafe*, the ambient radiation accumulates in a stationary body faster than a moving one, and the Korr's Silent-Intercept is becoming a liability. The Korr Spellguards, masters of stillness, are being forced to *move* for the first time in their tradition's history, and the movement is breaking their meditation.`,
    signatureQuote: {
     text: '"I caught magic by being the silence it fell into. Now the silence itself is radioactive, and I must move to survive. I have forgotten how to walk and guard at once."',
     speaker: 'Keeper Kor-Vesh the Still',
-    context: 'A Hollow-Solari Spellguard, taking her first step mid-intercept in forty years of service'
+    context: 'A Korr Spellguard, taking her first step mid-intercept in forty years of service'
    }
   },
 
   thrask_solari: {
-    subraceName: 'Waste-Solari - Thyrm',
+    subraceName: 'Anhur - Thyrm',
    title: 'The Forge-Shield',
-   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Waste-Solari are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
+   reframe: `The <LoreLink termId="solari">Anhur</LoreLink>, badland rangers, intercept magic the way they intercept forge-ruptures in the field: practically, violently, on the move. The Anhur are the tradition's *mobile* variant, deflecting and redirecting rather than absorbing, treating incoming magic as a thermal hazard to be angled away from the party rather than caught.`,
    signatureAbility: {
     name: 'Rupture-Deflection',
-    description: `Incoming spells are deflected or redirected rather than absorbed, the Spellguard angles the magic away using alchemical shield-surfaces, the way a forge-ranger angles a thermal vent. The Waste-Solari take on the least Arcane Energy Points (AEP), but cannot fully neutralize a spell, only redirect it (sometimes back at the caster, sometimes into the terrain).`
+     description: `A trained deflection interface angles magic away using alchemical shield-surfaces. It retains a positive captured residual in the same finite AEP bank and records where redirected or dissipated energy went. Lower capture does not remove saturation or venting obligations, and redirection is not unconditional neutralization or free collateral avoidance. No automatic yield percentage is applied by the resource tracker.`
    },
-   currentCrisisAngle: `The rising ambient magic cannot be *deflected*, it is everywhere, ambient, with no vector to angle away. The Waste-Solari Forge-Shields, masters of redirection, are helpless against a hazard that has no direction. Several have begun abandoning deflection for desperate absorption, a technique they were never trained for, and the radiation sickness is spreading through the badland garrisons.`,
+   currentCrisisAngle: `The rising ambient magic cannot be *deflected*, it is everywhere, ambient, with no vector to angle away. The Anhur Forge-Shields, masters of redirection, are helpless against a hazard that has no direction. Several have begun abandoning deflection for desperate absorption, a technique they were never trained for, and the radiation sickness is spreading through the badland garrisons.`,
    signatureQuote: {
     text: '"I redirect what has a direction. This has no direction. I am a shield-wall against the weather. You cannot parry the sky."',
     speaker: 'Ranger Thrak-Vess',
-    context: 'A Waste-Solari Spellguard, abandoning his shield-surface to absorb his first spell'
+    context: 'A Anhur Spellguard, abandoning his shield-surface to absorb his first spell'
    }
   }
  },
@@ -118,7 +163,7 @@ subraceVariants: {
     type: "aep",
     base: 0,
     max: 100,
-    generationNote: "Aetheric Energy Potential absorbed from hostile spells and magical impacts.",
+    generationNote: "Arcane Energy Points are captured magical energy in one 0–100 bank. Every valid interception method retains and accounts for finite residual; Silence Resonance describes saturation rather than a second implemented pool.",
     criticalThresholds: { meltdown: 100 },
     mechanicsNote: "At 100 AEP, a Meltdown triggers, violently venting raw arcane energy in a 30ft radius and damaging both allies and enemies."
   },
@@ -150,7 +195,7 @@ subraceVariants: {
   currentLeader: {
    name: '<LoreLink termId="thrak-damos">Bulwark-Captain Thrak-Damos</LoreLink>',
     title: 'Warden of the Silence-Scars',
-   characterization: `A Waste-Solari veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId="damon">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId="damon">Damon</LoreLink> never imagined.`
+   characterization: `A Anhur veteran whose forearms are latticed with absorbed-magic scars that glow through his sleeves. He leads the Aegis from the forge-keeps and enforces <LoreLink termId="damon">Damon</LoreLink>'s method with drill-sergeant discipline. He is a pragmatist who is watching his entire engineering discipline fail against a threat, ambient magic with no structure, that <LoreLink termId="damon">Damon</LoreLink> never imagined.`
   },
   headquarters: { name: 'The Shield-Forge Keeps, Emberspire', locationId: 'emberspire' },
   crisisConnection: `<LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> is watching the Aegis's foundational method collapse: ambient magic has no structure to dismantle, no vector to redirect. The Spellguards' Arcane Energy Points (AEP) are filling faster than they can purge, and the Arcane Saturation radiation-bursts are striking their own lines. He has begun ordering his Spellguards to *absorb*, <LoreLink termId="damon">Damon</LoreLink>'s forbidden technique, because there is nothing left to dismantle. The order that defined itself by precision is being reduced to a wall of sponges, and <LoreLink termId="thrak-damos">Thrak-Damos</LoreLink> considers this the death of his craft even if his Spellguards survive.`
@@ -158,9 +203,18 @@ subraceVariants: {
 
  worldFriction: [
     { region: 'bryngloom-forest', status: 'revered', consequence: 'Atropolis magistrates hire Spellguards as the premier defense against rogue covenant-weavers and eldritch breaches.', workaround: 'Register with the High Citadel Defense Council.' },
-    { region: 'frostwood-reach', status: 'allied', consequence: 'Thalren sentinels station Spellguards on the Ironwood Palisade to catch and deflect aerial Wyrd projectiles.', workaround: 'Present sentinel military credentials.' },
+    { region: 'frostwood-reach', status: 'allied', consequence: 'Tallyn sentinels station Spellguards on the Ironwood Palisade to catch and deflect aerial Wyrd projectiles.', workaround: 'Present sentinel military credentials.' },
     { region: 'sundale', status: 'honored', consequence: 'Solvan smiths prioritize forging rune-tower shields for Spellguards in exchange for anti-magic warding around star-forges.', workaround: 'None needed in artisan quarters.' },
     { region: 'emberspire', status: 'distrusted', consequence: 'Magma shamans fear that Spellguard refraction shields will siphon geothermal energy from thermal vents.', workaround: 'Keep shields grounded when traversing calderas.' }
+  ],
+
+  illustration: "/assets/images/classes/spellguard_hollow_solari.jpg",
+  illustrationCaption: "Korr Spellguard — The Silent-Guard, immovable monastic guardian anchored behind a colossal basalt slab shield with solar bronze crest, drawing raw intercepted magic directly into glowing vascular branding scars.",
+  illustrations: [
+    { url: "/assets/images/classes/spellguard_hollow_solari.jpg", subraceId: "korr_solari", caption: "Korr Spellguard — The Silent-Guard, immovable monastic guardian anchored behind a colossal basalt slab shield with solar bronze crest, drawing raw intercepted magic directly into glowing vascular branding scars." },
+    { url: "/assets/images/classes/spellguard_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Spellguard — The Forge-Shield, athletic badland scout in dynamic stride violently deflecting a blast of magical fire off an angled obsidian-beveled tower shield with notched forge-blade in hand." },
+    { url: "/assets/images/classes/spellguard_high_nethien.jpg", subraceId: "velun_neth", caption: "High Athien Spellguard — The Clause-Canceller, aristocratic pact-lord in gothic plate and ghost-silk mantle planting a silver-alloy clause tower shield that dissolves an incoming spell into golden contract script." },
+    { url: "/assets/images/classes/spellguard_thalren_human.jpg", subraceId: "thalren_human", caption: "Tallyn Human Spellguard — The Wyrd-Defuser, frontier sapper in wire-rimmed spectacles and Greymark garrison plate grounding an intercepted wild-magic strike through copper coils into frozen earth." }
   ],
 
   overview: {
@@ -170,9 +224,11 @@ The first was Damon, a Solari blacksmith working the forge-keeps during the Grea
 
 The solar energy permanently scarred his flesh and left his veins humming with volatile trapped mana. His hands froze in rigid shielding posture. He spent the rest of his life refining the principle: identify the structure of incoming magic, dismantle what can be dismantled, absorb what cannot, and redirect the rest. His unbreakable rule: "A spellguard who absorbs what they cannot dismantle is a weapon pointed at their own line."
 
-Each subrace absorbs differently. The Nethien cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Thalren defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Hollow-Solari intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Waste-Solari deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
+Each subrace absorbs differently. The Athien cancel spells through legal inversion, a fireball is an aggressively-worded offer, the response is rejection on procedural grounds. Lowest radiation intake, but fails against wild Wyrd with no structure. The Tallyn defuse magic like a sapper defuses a trap, identifying trigger, payload, and failsafe, neutralizing each in sequence. Only method that reliably catches layered spells. The Solari absorb raw into flesh, practice-tested against Sol's Breath-scale eruptions. Most Resonance intake but can absorb the largest single bursts. The Korr intercept from Vault-Breath stillness, becoming a silence that magic falls into. Steadiest but cannot move while intercepting. The Anhur deflect and redirect, treating magic as thermal hazard to be angled away. Lowest Resonance but cannot fully neutralize.
 
-Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Arcane Energy Points (AEP) faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.`,
+Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with Arcane Energy Points (AEP) faster than they can purge. Some enter Arcane Saturation, spontaneous Radiation Bursts harming everyone nearby. The current leader, Bulwark-Captain Thrak-Damos, is ordering absorption, Damon's forbidden technique, because there is nothing left to dismantle.
+
+Native only to Korr, Anhur. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
   title: "The Spellguard",
   subtitle: "The Silence-Scarred Aegis",
 
@@ -191,7 +247,7 @@ Ambient magic levels are rising as the Wyrd bleeds faster. Spellguards fill with
     },
     combatRole: {
       title: "Combat Role",
-      content: "Radioactive anti-magic fortress who intercepts hostile spells, converts magical energy into AEP and Silence Resonance, and discharges kinetic shockwaves."
+      content: "Anti-magic fortress who intercepts hostile spells, accounts for captured residual in one AEP bank, and discharges kinetic shockwaves. Silence Resonance is the saturation risk of stored energy, not a second pool."
     },
     playstyle: {
       title: "Playstyle & Turn 1 Flow",
@@ -210,11 +266,10 @@ The spellguard's aetheric aegis was forged during the entombment of Sol in the v
 Spellguards are given places of honor as elite guards in the Canopy-Ledger of Atropolis and the keep of <LoreLink termId="greymark_keep">Greymark Keep</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="neth">Nethien</LoreLink> and the Thalren humans.
-
+Catching magic in living flesh was born in the Solari forge-vaults: the Korr intercept from stillness, the Anhur angle the blast away. The Tessic ground intercepted magic through prepared gates and chambers, the Alchemite retune salvaged vent profiles, the Tallyn defuse layered triggers like sappers, the Brasskin run certified shield-regulators, and the Athien annul spells by contract law. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Damon the Iron-Handed**: The legendary blacksmith whose shield absorbed the first flares of the dying sun.
-* **Elysia Silver-Vein**: A Nethien sentinel who stabilized the barrier chambers during the first Breach.`
+* **Elysia Silver-Vein**: A Athien sentinel who stabilized the barrier chambers during the first Breach.`
   },
 
   signatureQuote: {
@@ -285,19 +340,19 @@ Spellguards are reporting that their Arcane Energy Points (AEP) are filling fast
 
   // Resource System
  resourceSystem: {
-  title: "Resonance: The Spell Absorber",
+  title: "Arcane Energy Points: The Spell Absorber",
   subtitle: "How Your Resource Works (Beginner's Guide)",
 
   description: `**1. What is it? (The Spell Absorber)**
-Resonance (0–100) measures hostile magical energy captured and stored in your radioactive fortress shield.
+AEP (0–100) measures captured magical energy in one finite bank. Annulment, defusal, deflection and containment still account for positive residual; redirected and dissipated energy are recorded separately.
 
 **2. How do I build it?**
-- Block or intercept hostile spells with your tower shield (+10 to +30 Resonance).
-- Stand in enemy area-of-effect hazard fields to absorb raw magic (+10 per round).
+- Report resolved magical intake, with captured + redirected + dissipated equal to the incoming AEP-equivalent energy. Captured residual must be positive; bank overflow is recorded instead of silently disappearing.
+- Authored fixed spell conversions retain their declared costs/gains; variable interception outcomes require their actual resolved quantities. Automatic intake observers and interface multipliers are pending.
 
 **3. How do I spend it & what is the catch?**
-- Discharge stored Resonance as concussive kinetic shockwaves, anti-magic fields, and party shielding.
-- **The Catch (AEP Meltdown)**: If Resonance hits **100** without being vented, your shield suffers a containment breach, radiating dangerous feedback to adjacent creatures.`,
+- Discharge stored AEP as the authored shockwave, field or shielding ability. No ordinary rest creates new AEP.
+- **The Catch (AEP Meltdown)**: At 100 the tracker marks containment breach due. Radiation, damage and breach/reset consequences still require effect resolution.`,
 
   cards: [
    {

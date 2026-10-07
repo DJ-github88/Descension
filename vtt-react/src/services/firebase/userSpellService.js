@@ -644,8 +644,15 @@ export async function shareSpellToCommunity(userId, spellId) {
     delete communitySpell.folderId;
     delete communitySpell.isCustom;
 
+    // Copy private art to the shared prefix so other users can view it.
+    const { shareEntityImages } = await import('./uploadService');
+    const communitySpellShared = await shareEntityImages(
+      userId, communitySpell, 'spells',
+      ['image', 'icon']
+    );
+
     // Upload to community
-    const sharedSpell = await uploadSpell(communitySpell, userId);
+    const sharedSpell = await uploadSpell(communitySpellShared, userId);
 
     // Mark original spell as shared
     await updateDoc(spellRef, {

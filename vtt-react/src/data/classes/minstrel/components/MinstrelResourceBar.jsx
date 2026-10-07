@@ -8,6 +8,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import ClassTip from '../../../../components/hud/ClassTip';
 import SpellTooltip from '../../../../components/spellcrafting-wizard/components/common/SpellTooltip';
 import { cadenceToSpell } from '../cadenceToSpell';
+import { MINSTREL_MAX_PER_PITCH, normalizeNoteBank, getBankSpellResourcePlan } from '../../../classResourceBanks';
 
 /**
  * MinstrelResourceBar, the "Musical Notes & Cadences" resource system.
@@ -50,7 +51,7 @@ const MinstrelResourceBar = ({
 }) => {
     // ===== Configuration =====
     const notes = config?.visual?.notes || [];
-    const maxPerNote = config?.mechanics?.maxPerNote || 5;
+    const maxPerNote = MINSTREL_MAX_PER_PITCH;
     // Cadence matrix is plumbed via config.cadenceMatrix by ClassResourceBar's
     // dispatcher, we don't import minstrelData directly (avoids circular deps
     // and matches the Arcanoneer pattern).
@@ -64,10 +65,7 @@ const MinstrelResourceBar = ({
     // `notes` state mirrors the canonical 7-element count array
     // (index 0 = I, 6 = VII; values are banked counts 0–5). Default to all
     // zeros if upstream hasn't populated it yet so the bar never NaNs.
-    const normalizeNotes = (arr) => {
-        if (Array.isArray(arr) && arr.length === 7) return arr.map(v => Math.max(0, Math.min(maxPerNote, parseInt(v, 10) || 0)));
-        return [0, 0, 0, 0, 0, 0, 0];
-    };
+    const normalizeNotes = normalizeNoteBank;
     const [localNotes, setLocalNotes] = useState(normalizeNotes(classResource?.notes));
     const [hoveredNoteIndex, setHoveredNoteIndex] = useState(null);
     const [editMenuNoteIndex, setEditMenuNoteIndex] = useState(null);
@@ -184,7 +182,7 @@ const MinstrelResourceBar = ({
 
     // ===== Actions =====
     const commitNotes = (next, changeLog = null) => {
-        const clamped = next.map(v => Math.max(0, Math.min(maxPerNote, v)));
+        const clamped = normalizeNoteBank(next);
         setLocalNotes(clamped);
         if (onClassResourceUpdate) onClassResourceUpdate('notes', clamped);
         if (changeLog) logChange(changeLog.name, changeLog.amount, changeLog.isPositive);
@@ -234,15 +232,9 @@ const MinstrelResourceBar = ({
      */
     const resolveCadence = (entry) => {
         if (!canEdit) return;
-        const next = [...localNotes];
-        let consumed = 0;
-        for (const [numeral, need] of Object.entries(entry.notes || {})) {
-            const idx = notes.findIndex(n => n.numeral === numeral);
-            if (idx < 0) continue;
-            next[idx] = Math.max(0, next[idx] - need);
-            consumed += need;
-        }
-        commitNotes(next, { name: `${entry.name} cadence`, amount: consumed, isPositive: false });
+        const plan = getBankSpellResourcePlan({ _cadenceNotes: entry.notes }, { type: 'musicalNotes', notes: localNotes }, 'Minstrel');
+        if (!plan.affordable) return;
+        commitNotes(plan.nextResource.notes, { name: `${entry.name} cadence`, amount: plan.costs.length, isPositive: false });
     };
 
     // ===== Outside-click handling =====

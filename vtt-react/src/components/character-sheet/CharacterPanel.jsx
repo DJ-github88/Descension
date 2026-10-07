@@ -14,7 +14,7 @@ import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import { isOffHandDisabled, normalizeEquipment } from '../../utils/equipmentUtils';
 import { calculateDerivedStats, getExhaustionEffectsList } from '../../utils/characterUtils';
 import { getClassResourceConfig } from '../../data/classResources';
-import { getRaceList, getSubraceList, getRacialSavingThrowModifiers } from '../../data/raceData';
+import { getRaceList, getSubraceList, getRacialSavingThrowModifiers, formatSavingThrowModifier, getHeritageCrest } from '../../data/raceData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import {   getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory } from '../../utils/raceDisciplineSpellUtils';
 import { getPassiveAbilities } from '../../data/backgroundAbilities';
@@ -738,7 +738,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
     const [durabilityModalItem, setDurabilityModalItem] = useState(null);
-    const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
+    const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '', class: '' });
     const [lastCharacterId, setLastCharacterId] = useState(null);
     const [showOverhealModal, setShowOverhealModal] = useState(false);
     const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
@@ -853,7 +853,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
         // Reset race/subrace/path tracking so new character's spells will be added
         // This ensures the spell addition effect runs even if race/subrace/path are the same
-        setLastRaceSubracePath({ race: '', subrace: '', path: '' });
+        setLastRaceSubracePath({ race: '', subrace: '', path: '', class: '' });
     }, [currentCharacterId, lastCharacterId, inspectionData, libraryDispatch, spellLibrary.spells]);
 
     // Handle spell addition and passives when race/subrace/path changes
@@ -861,15 +861,15 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         // Only run if we're not in inspection mode and if something actually changed
         if (inspectionData) return; // Skip in inspection mode
 
-        const current = { race: race || '', subrace: subrace || '', path: path || '' };
+        const current = { race: race || '', subrace: subrace || '', path: path || '', class: characterClass || '' };
         const last = lastRaceSubracePath;
 
         // Check if anything changed (including if last was reset to empty by character change)
-        const hasChanges = current.race !== last.race || current.subrace !== last.subrace || current.path !== last.path;
+        const hasChanges = current.race !== last.race || current.subrace !== last.subrace || current.path !== last.path || current.class !== last.class;
 
         // Also check if character changed (if lastRaceSubracePath was reset, we need to add spells)
         const characterChanged = last.race === '' && last.subrace === '' && last.path === '' &&
-            (current.race !== '' || current.subrace !== '' || current.path !== '');
+            (current.race !== '' || current.subrace !== '' || current.path !== '' || current.class !== '');
 
         if (!hasChanges && !characterChanged) {
             return; // No changes
@@ -880,7 +880,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
 
         // IMPORTANT: Remove old spells BEFORE updating lastRaceSubracePath
         // This ensures we always remove spells when race/subrace changes, even if the effect re-runs
-        if (current.race !== last.race || current.subrace !== last.subrace) {
+        if (current.race !== last.race || current.subrace !== last.subrace || current.class !== last.class) {
             if (!characterChanged) {
                 // Get the latest spells from the library
                 const currentSpells = spellLibrary.spells;
@@ -889,14 +889,14 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 // Only remove if we had a previous race/subrace selection
                 let oldRacialSpellIds = [];
                 if (last.race && last.subrace) {
-                    const oldRacialSpells = getRacialSpells(last.race, last.subrace);
+                    const oldRacialSpells = getRacialSpells(last.race, last.subrace, last.class);
                     oldRacialSpellIds = oldRacialSpells.map(s => s.id);
                 }
 
                 // Always remove all racial spells when race/subrace changes to ensure clean state
                 // This prevents old spells from different subraces from persisting
-                if (current.race !== last.race || current.subrace !== last.subrace) {
-                    // Always remove ALL racial spells when race/subrace changes
+                if (current.race !== last.race || current.subrace !== last.subrace || current.class !== last.class) {
+                    // Always remove ALL racial spells when race/subrace/class changes
                     // This ensures we don't have leftover spells from previous selections
                     const allRacialSpellsToRemove = currentSpells.filter(s =>
                         s.categoryIds && s.categoryIds.includes('Racial Abilities')
@@ -939,11 +939,11 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         setLastRaceSubracePath(current);
 
         // Handle racial spells - add new ones if race/subrace changed OR if character changed
-        if (current.race !== last.race || current.subrace !== last.subrace || characterChanged) {
+        if (current.race !== last.race || current.subrace !== last.subrace || current.class !== last.class || characterChanged) {
             // Add new racial spells (only if both race and subrace are set)
             // Note: Old spells were already removed above before updating lastRaceSubracePath
             if (current.race && current.subrace) {
-                const racialSpells = getRacialSpells(current.race, current.subrace);
+                const racialSpells = getRacialSpells(current.race, current.subrace, current.class);
 
                 // Filter out the spells we just removed from the existing spells list
                 // This prevents them from being filtered out as "already existing" when we try to add them
@@ -1007,7 +1007,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
             // Clear path passives since disciplines are removed from the system
             updateCharacterInfo('pathPassives', []);
         }
-    }, [race, subrace, path, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath]);
+    }, [race, subrace, path, characterClass, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath]);
 
     const updateTooltipPosition = (e) => {
         // Position tooltip near cursor but with a small offset
@@ -1226,13 +1226,13 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                             {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
                                                 <div style={{ padding: '8px', backgroundColor: '#e8f5e9', borderRadius: '4px', border: '1px solid #4caf50' }}>
                                                     <span style={{ fontWeight: 'bold', color: '#4caf50' }}>Advantage on saves against: </span>
-                                                    <span>{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                    <span>{savingThrowMods.advantage.map(formatSavingThrowModifier).join(', ')}</span>
                                                 </div>
                                             )}
                                             {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
                                                 <div style={{ padding: '8px', backgroundColor: '#ffebee', borderRadius: '4px', border: '1px solid #f44336' }}>
                                                     <span style={{ fontWeight: 'bold', color: '#f44336' }}>Disadvantage on saves against: </span>
-                                                    <span>{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                    <span>{savingThrowMods.disadvantage.map(formatSavingThrowModifier).join(', ')}</span>
                                                 </div>
                                             )}
                                         </div>
@@ -1257,7 +1257,8 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
         const pills = [];
         if (level) pills.push({ key: 'level', label: `Level ${level}` });
         const racePill = buildRacePill(race, subrace);
-        if (racePill) pills.push({ key: 'race', label: racePill });
+        const raceCrest = getHeritageCrest(race, subrace);
+        if (racePill) pills.push({ key: 'race', label: racePill, crest: raceCrest });
         if (characterClass) pills.push({ key: 'class', label: characterClass });
         if (pathDisplayName) pills.push({ key: 'path', label: pathDisplayName });
         else if (path) pills.push({ key: 'path', label: path });
@@ -1268,7 +1269,10 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 {pills.length > 0 && (
                     <div className="equipment-identity-subtitle">
                         {pills.map(p => (
-                            <span key={p.key} className="identity-pill">{p.label}</span>
+                            <span key={p.key} className="identity-pill">
+                                {p.crest && <img src={p.crest} alt="" className="identity-pill-crest" />}
+                                {p.label}
+                            </span>
                         ))}
                     </div>
                 )}
@@ -2383,7 +2387,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                             Advantage on saves against:
                                         </div>
                                         <div className="passive-summary-description">
-                                            {savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}
+                                            {savingThrowMods.advantage.map(formatSavingThrowModifier).join(', ')}
                                         </div>
                                     </div>
                                 </div>
@@ -2395,7 +2399,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                             Disadvantage on saves against:
                                         </div>
                                         <div className="passive-summary-description">
-                                            {savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}
+                                            {savingThrowMods.disadvantage.map(formatSavingThrowModifier).join(', ')}
                                         </div>
                                     </div>
                                 </div>

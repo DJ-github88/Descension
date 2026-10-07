@@ -1,26 +1,70 @@
 // Room service for Firebase Firestore integration
 import {
- collection,
  doc,
- setDoc,
  getDoc,
- getDocs,
  updateDoc,
- deleteDoc,
- onSnapshot,
- query,
- where,
- orderBy,
- limit,
- serverTimestamp,
- arrayUnion,
- arrayRemove
+ serverTimestamp
 } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
 import subscriptionService from './subscriptionService';
 
 // Room collection reference
 const ROOMS_COLLECTION = 'rooms';
+
+/**
+ * Resolve the verified multiplayer socket when connected. Project 4 routes
+ * every access-sensitive room operation through the server; the browser never
+ * falls back to a direct Firebase mutation when the server denies.
+ */
+function getMultiplayerSocket() {
+  try {
+    const { getStore } = require('../store/storeRegistry');
+    const presence = getStore('presenceStore') || require('../store/presenceStore').default;
+    return presence?.getState?.().socket || null;
+  } catch (_error) {
+    return null;
+  }
+}
+
+function resolveServerUrl() {
+  if (process.env.REACT_APP_SOCKET_URL) {
+    return process.env.REACT_APP_SOCKET_URL;
+  }
+  return process.env.NODE_ENV === 'production'
+    ? 'https://descension-mythrill.up.railway.app'
+    : 'http://localhost:3001';
+}
+
+/**
+ * Emit one ack-bearing request over the verified multiplayer socket.
+ */
+function requestServerEvent(event, payload, timeoutMs = 10000) {
+  return new Promise((resolve, reject) => {
+    const socket = getMultiplayerSocket();
+    if (!socket || !socket.connected) {
+      reject(new Error('Multiplayer connection unavailable'));
+      return;
+    }
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (settled) {return;}
+      settled = true;
+      reject(new Error(`Server ${event} request timed out`));
+    }, timeoutMs);
+    socket.emit(event, payload, (response) => {
+      if (settled) {return;}
+      settled = true;
+      clearTimeout(timer);
+      if (response && response.success) {
+        resolve(response);
+      } else {
+        const error = new Error((response && response.error) || `Server ${event} request failed`);
+        error.code = response && response.code;
+        reject(error);
+      }
+    });
+  });
+}
 
 /**
  * Create a new permanent room in Firestore
@@ -51,127 +95,23 @@ export const createPersistentRoom = async (roomData) => {
   throw new Error('Your plan does not allow room creation. Please upgrade your membership.');
  }
 
- try {
-  const userRooms = await getUserRooms(userId);
-  const currentRoomCount = userRooms.filter(room => room.userRole === 'gm').length;
-
-  const roomLimitCheck = await subscriptionService.canCreateRoom(currentRoomCount, userId);
-
-  if (!roomLimitCheck.canCreate) {
-   throw new Error(`Room limit reached. Your ${tier.name} plan allows ${tier.roomLimit} room${tier.roomLimit === 1 ? '' : 's'}. You currently have ${currentRoomCount} room${currentRoomCount === 1 ? '' : 's'}.`);
-  }
- } catch (error) {
-  if (error.message.includes('Room limit reached') || error.message.includes('cannot create rooms')) {
-   throw error;
-  }
-  console.warn('Could not check room limits:', error);
- }
-
- const maxPlayers = tier.maxPlayersPerRoom || 3;
-
- const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
- const room = {
-  id: roomId,
+ // Project 4: safe draft creation is server-mediated. The server verifies the
+ // durable account principal and refuses any id that already has a room root
+ // or checkpoint fragments, so a new draft can never claim orphaned state.
+ const maxPlayers = Math.min(roomData.maxPlayers || tier.maxPlayersPerRoom || 3, tier.maxPlayersPerRoom || 3);
+ const response = await requestServerEvent('create_room_draft', {
   name: roomData.name,
   description: roomData.description || '',
-  // SECURITY: Password must NOT be stored in Firestore.
-  // Room creation/joining should go through server-side socket events which use bcrypt hashing.
-  // This field is intentionally omitted from the Firestore document.
-  gmId: userId,
   gmName: roomData.gmName || auth?.currentUser?.displayName || 'Game Master',
-
-  // Room settings
   settings: {
-   maxPlayers: Math.min(roomData.maxPlayers || maxPlayers, maxPlayers),
-   isPrivate: true,
-   allowSpectators: roomData.allowSpectators || false,
-   autoSaveInterval: 300000, // 5 minutes
-   enableVoiceChat: false,
-   enableVideoChat: false
-  },
-
-  // Game state - complete VTT data
-  gameState: {
-   currentMap: null,
-   characters: {},
-   tokens: {},
-   combat: {
-    isActive: false,
-    currentTurn: null,
-    turnOrder: [],
-    round: 0
-   },
-   mapData: {
-    backgrounds: [],
-    activeBackgroundId: null,
-    cameraPosition: { x: 0, y: 0 },
-    zoomLevel: 1.0,
-    gridSettings: {
-     size: 50,
-     offsetX: 0,
-     offsetY: 0,
-     color: 'rgba(212, 175, 55, 0.8)',
-     thickness: 2
-    }
-   },
-   fogOfWar: {},
-   lighting: {
-    globalIllumination: 0.3,
-    lightSources: []
-   },
-   // Level editor data
-   levelEditor: {
-    terrainData: [],
-    environmentalObjects: [],
-    wallData: [],
-    dndElements: [],
-    fogOfWarData: [],
-    drawingPaths: [],
-    drawingLayers: [],
-    lightSources: []
-   },
-   // Inventory and items
-   inventory: {
-    droppedItems: {},
-    lootBags: {}
-   },
-   // Notes and annotations
-   notes: {
-    gmNotes: [],
-    playerNotes: [],
-    sharedNotes: []
-   }
-  },
-
-  // Chat and communication
-  chatHistory: [],
-
-  // Metadata
-  createdAt: serverTimestamp(),
-  lastModified: serverTimestamp(),
-  lastActivity: serverTimestamp(),
-  isActive: false, // Whether there's an active session
-
-  // Player management
-  members: [userId], // Array of user IDs who have access
-  bannedUsers: [],
-
-  // Room statistics
-  stats: {
-   totalSessions: 0,
-   totalPlayTime: 0,
-   lastSessionDate: null
+   maxPlayers,
+   allowSpectators: roomData.allowSpectators || false
   }
- };
-
- try {
-  await setDoc(doc(db, ROOMS_COLLECTION, roomId), room);
-  return roomId;
- } catch (error) {
-  console.error('❌ Error creating room in Firestore:', error);
-  throw error;
+ });
+ if (!response.roomId) {
+  throw new Error('Room draft creation did not return a room id');
  }
+ return response.roomId;
 };
 
 /**
@@ -191,11 +131,11 @@ export const getRoomData = async (roomId) => {
   }
   return null;
  } catch (error) {
-  // Check if this is a permission error and handle gracefully
+  // Project 4: a permission denial is never reinterpreted as room absence.
   if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
-   console.warn(`⚠️ Firebase permission denied for room ${roomId}. User may not be in room members array.`);
-   // Return null instead of throwing to prevent repeated errors
-   return null;
+   const denied = new Error('Room access denied; authorized state is delivered by the multiplayer server');
+   denied.code = 'permission-denied';
+   throw denied;
   }
 
   console.error('❌ Error fetching room data:', error);
@@ -210,21 +150,7 @@ export const getRoomData = async (roomId) => {
  * @returns {Promise<void>}
  */
 export const updateRoomGameState = async (roomId, gameStateUpdate) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-  await updateDoc(roomRef, {
-   gameState: gameStateUpdate,
-   lastModified: serverTimestamp(),
-   lastActivity: serverTimestamp()
-  });
- } catch (error) {
-  console.error('❌ Error updating room game state:', error);
-  throw error;
- }
+ throw new Error('Project 3: browser whole-room gameState writes are disabled; the server checkpoint writer owns shared room state');
 };
 
 /**
@@ -233,32 +159,21 @@ export const updateRoomGameState = async (roomId, gameStateUpdate) => {
  * @param {Object} message - Chat message
  * @returns {Promise<void>}
  */
-export const addChatMessage = async (roomId, message) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- const messageWithTimestamp = {
-  ...message,
-  timestamp: serverTimestamp()
- };
-
- try {
-  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-  await updateDoc(roomRef, {
-   chatHistory: arrayUnion(messageWithTimestamp),
-   lastActivity: serverTimestamp()
-  });
- } catch (error) {
-  console.error('❌ Error adding chat message:', error);
-  throw error;
- }
+export const addChatMessage = async (_roomId, _message) => {
+ // Project 4: canonical room chat is server-mediated. Direct chatHistory
+ // writes to a raw room document are disabled.
+ throw new Error('Project 4: room chat is server-mediated; use the chat socket events');
 };
 
 /**
  * Get user's rooms (where they are GM or member)
  * @param {string} userId - User ID
  * @returns {Promise<Array>} - Array of room data
+ */
+/**
+ * Project 4: verified owner/member room listing comes from the server
+ * projection (metadata only; may include inactive entitled rooms). Raw room
+ * documents are server-only and are never queried directly.
  */
 export const getUserRooms = async (userId) => {
  // Check for demo/mock mode
@@ -271,48 +186,12 @@ export const getUserRooms = async (userId) => {
   console.warn('Could not check demo mode:', error);
  }
 
- if (!db) {
-  return [];
- }
-
  try {
-  // Get rooms where user is GM
-  const gmRoomsQuery = query(
-   collection(db, ROOMS_COLLECTION),
-   where('gmId', '==', userId),
-   orderBy('lastActivity', 'desc')
-  );
-
-  // Get rooms where user is a member
-  const memberRoomsQuery = query(
-   collection(db, ROOMS_COLLECTION),
-   where('members', 'array-contains', userId),
-   orderBy('lastActivity', 'desc')
-  );
-
-  const [gmRoomsSnapshot, memberRoomsSnapshot] = await Promise.all([
-   getDocs(gmRoomsQuery),
-   getDocs(memberRoomsQuery)
-  ]);
-
-  const rooms = new Map();
-
-  // Add GM rooms
-  gmRoomsSnapshot.forEach(doc => {
-   rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'gm' });
-  });
-
-  // Add member rooms (avoid duplicates)
-  memberRoomsSnapshot.forEach(doc => {
-   if (!rooms.has(doc.id)) {
-    rooms.set(doc.id, { id: doc.id, ...doc.data(), userRole: 'player' });
-   }
-  });
-
-  return Array.from(rooms.values());
+  const response = await requestServerEvent('request_my_rooms', {});
+  return Array.isArray(response.rooms) ? response.rooms : [];
  } catch (error) {
-  console.error('❌ Error fetching user rooms:', error);
-  throw error;
+  console.warn('Could not load entitled rooms from the server:', error?.message || error);
+  return [];
  }
 };
 
@@ -323,52 +202,11 @@ export const getUserRooms = async (userId) => {
  * @param {string} password - Room password
  * @returns {Promise<Object>} - Room data or error
  */
-export const joinRoom = async (roomId, userId, password) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomData = await getRoomData(roomId);
-
-  if (!roomData) {
-   throw new Error(`Room not found: ${roomId}`);
-  }
-
-  // SECURITY: Password verification must be done server-side via bcrypt.
-  // Client-side password checking is insecure and has been removed.
-  // The server handles password verification during the join_room socket event.
-  // This function only adds the user to the room's Firestore members list
-  // after the server has already verified the password.
-
-  if (roomData.password) {
-   throw new Error('Password-protected rooms must be joined through the multiplayer server.');
-  }
-
-  // Check if user is banned
-  if (roomData.bannedUsers.includes(userId)) {
-   throw new Error('You are banned from this room');
-  }
-
-  // Check if room is full
-  if (roomData.members.length >= roomData.settings.maxPlayers + 1) { // +1 for GM
-   throw new Error('Room is full');
-  }
-
-  // Add user to members if not already a member
-  if (!roomData.members.includes(userId)) {
-   const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-   await updateDoc(roomRef, {
-    members: arrayUnion(userId),
-    lastActivity: serverTimestamp()
-   });
-  }
-
-  return await getRoomData(roomId);
- } catch (error) {
-  console.error('❌ Error joining room:', error);
-  throw error;
- }
+export const joinRoom = async (_roomId, _userId, _password) => {
+ // Project 4: durable membership is established by the server admission gate
+ // during the join_room socket event, never by a direct Firestore members
+ // write. This legacy helper performs no mutation.
+ throw new Error('Project 4: room membership is established by the multiplayer server join, not by a client write');
 };
 
 /**
@@ -377,21 +215,12 @@ export const joinRoom = async (roomId, userId, password) => {
  * @param {string} userId - User ID
  * @returns {Promise<void>}
  */
-export const leaveRoom = async (roomId, userId) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-  await updateDoc(roomRef, {
-   members: arrayRemove(userId),
-   lastActivity: serverTimestamp()
-  });
- } catch (error) {
-  console.error('❌ Error leaving room:', error);
-  throw error;
- }
+/**
+ * Explicit durable membership revocation by the account holder. Distinct from
+ * leaving a session (leave_room), which preserves durable membership.
+ */
+export const leaveRoom = async (_roomId, _userId) => {
+ return requestServerEvent('leave_room_membership', {});
 };
 
 /**
@@ -401,6 +230,18 @@ export const leaveRoom = async (roomId, userId) => {
  * @returns {Promise<void>}
  */
 export const updateRoom = async (roomId, updates) => {
+ // Project 3 metadata-only boundary: shared gameplay/checkpoint fields and
+ // shared name/description/settings may never be written from the browser.
+ // Canonical-room metadata changes must be accepted by the server and
+ // checkpointed through P2. Checked before any environment gate so the
+ // boundary is provable without a live Firebase.
+ for (const key of Object.keys(updates || {})) {
+  if (key === 'gameState' || key === 'checkpoint' || key.startsWith('gameState.') || key.startsWith('checkpoint.') ||
+      key === 'name' || key === 'description' || key === 'settings' || key.startsWith('settings.')) {
+   throw new Error(`Project 3: browser writes to shared room field "${key}" are disabled; shared room metadata must be checkpointed through the server`);
+  }
+ }
+
  if (!db) {
   throw new Error('Firebase not initialized');
  }
@@ -419,66 +260,59 @@ export const updateRoom = async (roomId, updates) => {
 };
 
 /**
+ * Project 3 server-mediated shared metadata boundary.
+ *
+ * Canonical room name/description/settings are accepted by the server on the
+ * verified multiplayer socket and checkpointed through the selected P2/P3
+ * writer; the browser never writes canonical Firestore metadata directly.
+ *
+ * @param {string} roomId - Canonical room ID
+ * @param {{name?: string, description?: string|null, settings?: Object}} updates
+ * @returns {Promise<Object>} server acknowledgement with truthful outcome
+ */
+export const requestRoomMetadataUpdate = (roomId, updates) => new Promise((resolve, reject) => {
+ let socket = null;
+ try {
+  const { getStore } = require('../store/storeRegistry');
+  const presence = getStore('presenceStore') || require('../store/presenceStore').default;
+  socket = presence?.getState?.().socket || null;
+ } catch (_error) {
+  socket = null;
+ }
+ if (!socket || !socket.connected) {
+  reject(new Error('Multiplayer connection unavailable for shared room metadata update'));
+  return;
+ }
+ let settled = false;
+ const timer = setTimeout(() => {
+  if (settled) {return;}
+  settled = true;
+  reject(new Error('Shared room metadata update timed out'));
+ }, 10000);
+ socket.emit('update_room_metadata', { roomId, ...updates }, (response) => {
+  if (settled) {return;}
+  settled = true;
+  clearTimeout(timer);
+  if (response && response.success) {
+   resolve(response);
+  } else {
+   reject(new Error((response && response.error) || 'Shared room metadata update failed'));
+  }
+ });
+});
+
+/**
  * Delete a room (only GM can do this)
  * @param {string} roomId - Room ID
  * @param {string} userId - User ID (must be GM)
  * @returns {Promise<void>}
  */
-export const deleteRoom = async (roomId, userId) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomData = await getRoomData(roomId);
-
-  if (!roomData) {
-   throw new Error('Room not found');
-  }
-
-  if (roomData.gmId !== userId) {
-   throw new Error('Only the GM can delete the room');
-  }
-
-  const gameStateSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'gameState'));
-  for (const subDoc of gameStateSnapshot.docs) {
-   await deleteDoc(subDoc.ref);
-  }
-
-  const chatSnapshot = await getDocs(collection(db, ROOMS_COLLECTION, roomId, 'chat'));
-  for (const subDoc of chatSnapshot.docs) {
-   await deleteDoc(subDoc.ref);
-  }
-
-  await deleteDoc(doc(db, ROOMS_COLLECTION, roomId));
- } catch (error) {
-  console.error('❌ Error deleting room:', error);
-  throw error;
- }
-};
-
 /**
- * Subscribe to room changes
- * @param {string} roomId - Room ID
- * @param {Function} callback - Callback function for updates
- * @returns {Function} - Unsubscribe function
+ * Canonical room deletion is a server-mediated owner operation (Project 4).
+ * The browser cannot delete room documents or checkpoint fragments directly.
  */
-export const subscribeToRoom = (roomId, callback) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- const roomRef = doc(db, ROOMS_COLLECTION, roomId);
- return onSnapshot(roomRef, (doc) => {
-  if (doc.exists()) {
-   callback({ id: doc.id, ...doc.data() });
-  } else {
-   callback(null);
-  }
- }, (error) => {
-  console.error('❌ Error in room subscription:', error);
-  callback(null, error);
- });
+export const deleteRoom = async (roomId, _userId) => {
+ return requestServerEvent('delete_room', { roomId });
 };
 
 /**
@@ -486,34 +320,19 @@ export const subscribeToRoom = (roomId, callback) => {
  * @param {number} limitCount - Maximum number of rooms to return
  * @returns {Promise<Array>} - Array of public room data
  */
-export const getPublicRooms = async (limitCount = 20) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
+/**
+ * Project 4 public discovery: exact shallow server projection. Only rooms
+ * whose owner explicitly opted in (settings.isPrivate === false) are listed.
+ */
+export const getPublicRooms = async (_limitCount = 20) => {
+ const response = await fetch(`${resolveServerUrl()}/api/rooms`, {
+  method: 'GET',
+  headers: { 'Content-Type': 'application/json' }
+ });
+ if (!response.ok) {
+  throw new Error(`Room discovery failed (HTTP ${response.status})`);
  }
-
- try {
-  const publicRoomsQuery = query(
-   collection(db, ROOMS_COLLECTION),
-   where('settings.isPrivate', '==', false),
-   orderBy('lastActivity', 'desc'),
-   limit(limitCount)
-  );
-
-  const snapshot = await getDocs(publicRoomsQuery);
-  return snapshot.docs.map(doc => ({
-   id: doc.id,
-   name: doc.data().name,
-   description: doc.data().description,
-   gmName: doc.data().gmName,
-   memberCount: doc.data().members?.length || 0,
-   maxPlayers: doc.data().settings?.maxPlayers || 6,
-   lastActivity: doc.data().lastActivity,
-   isActive: doc.data().isActive || false
-  }));
- } catch (error) {
-  console.error('❌ Error fetching public rooms:', error);
-  throw error;
- }
+ return response.json();
 };
 
 /**
@@ -523,27 +342,7 @@ export const getPublicRooms = async (limitCount = 20) => {
  * @returns {Promise<void>}
  */
 export const saveCompleteGameState = async (roomId, gameState) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-  // NOTE: Only update gameState and lastActivity to match Firestore security rules
-  // (members can only update these two fields, GM can update any field)
-  await updateDoc(roomRef, {
-   gameState: gameState,
-   lastActivity: serverTimestamp()
-  });
-
- } catch (error) {
-  if (error.code === 'permission-denied' || error.message.includes('permission')) {
-   console.warn(`⚠️ Firebase permission denied for saving game state in room ${roomId}. User may not be GM or in members array.`);
-   throw new Error('Firebase permission denied: You may not have permission to save this room state.');
-  }
-  console.error('❌ Error saving complete game state:', error);
-  throw error;
- }
+ throw new Error('Project 3: browser whole-room gameState writes are disabled; use the server explicit save request instead');
 };
 
 /**
@@ -551,32 +350,10 @@ export const saveCompleteGameState = async (roomId, gameState) => {
  * @param {string} roomId - Room ID
  * @returns {Promise<Object>} - Complete game state object
  */
-export const loadCompleteGameState = async (roomId) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomData = await getRoomData(roomId);
-
-  if (!roomData) {
-   throw new Error('Room not found');
-  }
-
-  return roomData.gameState || {};
- } catch (error) {
-  // Check if this is a permission error and handle gracefully
-  if (error.code === 'permission-denied' || error.message.includes('permission')) {
-   console.warn(`⚠️ Firebase permission denied for loading room ${roomId}. User may not be in room members array.`);
-   // Re-throw with a clearer message so GameStateManager can decide what to do
-   const permError = new Error('Firebase permission denied: Missing or insufficient permissions to load this hall.');
-   permError.code = 'permission-denied';
-   throw permError;
-  }
-
-  console.error('❌ Error loading complete game state:', error);
-  throw error;
- }
+export const loadCompleteGameState = async (_roomId) => {
+ // Project 4: initialized room state is server-only. Entitled clients receive
+ // a privacy projection over the verified multiplayer socket sync.
+ throw new Error('Project 4: shared room state is delivered by the server; direct room-state reads are disabled');
 };
 
 /**
@@ -587,23 +364,7 @@ export const loadCompleteGameState = async (roomId) => {
  * @returns {Promise<void>}
  */
 export const updateGameStateSection = async (roomId, section, sectionData) => {
- if (!db) {
-  throw new Error('Firebase not initialized');
- }
-
- try {
-  const roomRef = doc(db, ROOMS_COLLECTION, roomId);
-  const updateData = {};
-  updateData[`gameState.${section}`] = sectionData;
-  updateData.lastModified = serverTimestamp();
-  updateData.lastActivity = serverTimestamp();
-
-  await updateDoc(roomRef, updateData);
-
- } catch (error) {
-  console.error(`❌ Error updating game state section '${section}':`, error);
-  throw error;
- }
+ throw new Error('Project 3: browser gameState section writes are disabled; the server checkpoint writer owns shared room state');
 };
 
 /**
@@ -737,7 +498,6 @@ const roomService = {
  leaveRoom,
  deleteRoom,
  updateRoom,
- subscribeToRoom,
  getPublicRooms,
  getRoomLimits,
  saveCompleteGameState,

@@ -13,6 +13,9 @@
  * - environmental_object_update: chests/doors/portals/GM notes add/remove/update
  */
 
+const tokenAuthority = require('./tokenHandlers');
+const roomAccess = require('../services/roomAccessService');
+
 function registerEnvironmentHandlers(ctx) {
   const {
     io,
@@ -24,7 +27,8 @@ function registerEnvironmentHandlers(ctx) {
     validateRoomMembership,
     validateMapExists,
     firebaseBatchWriter,
-    stripUndefined
+    stripUndefined,
+    authorityService
   } = ctx;
 
   socket.on('container_update', async(data) => {
@@ -72,7 +76,7 @@ function registerEnvironmentHandlers(ctx) {
       };
 
       io.to(data.roomId).emit('creature_added', {
-        creature: map.creatures[creatureId],
+        creature: roomAccess.projectTokenForClient(map.creatures[creatureId]),
         mapId,
         addedBy: socket.id
       });
@@ -89,12 +93,36 @@ function registerEnvironmentHandlers(ctx) {
       const validation = validateRoomMembership(socket, data.roomId);
       if (!validation.valid) {return;}
 
-      const { room } = validation;
+      const { room, player } = validation;
+      const uid = socket.data && socket.data.userId ? socket.data.userId : null;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
-      const map = validateMapExists(room, mapId);
+      // Environment creature updates never create maps.
+      const maps = room.gameState && room.gameState.maps;
+      const map = maps && typeof maps === 'object' ? maps[mapId] : null;
+      if (!map) {return;}
 
       const updates = data.updates || data.stateUpdates || {};
+      // Same authority matrix as creature tokens: any protected
+      // ownership/control/identity field rejects the whole request.
+      const protectedKey = tokenAuthority.findProtectedKey(updates);
+      if (protectedKey) {
+        logger.warn('[creature_updated] Protected creature field update blocked', {
+          creatureId: data.creatureId, key: protectedKey
+        });
+        return;
+      }
+
       if (map.creatures && map.creatures[data.creatureId]) {
+        const authority = tokenAuthority.resolveTokenAuthority(
+          room, player, data.creatureId, map.creatures[data.creatureId], mapId, uid
+        );
+        if (authority === 'none') {
+          logger.warn('[creature_updated] Unauthorized creature update blocked', {
+            creatureId: data.creatureId, playerId: player && player.id
+          });
+          return;
+        }
+
         map.creatures[data.creatureId] = {
           ...map.creatures[data.creatureId],
           ...updates
@@ -102,7 +130,7 @@ function registerEnvironmentHandlers(ctx) {
 
         io.to(data.roomId).emit('creature_updated', {
           creatureId: data.creatureId,
-          updates: updates,
+          updates: roomAccess.projectTokenUpdateForClient(updates),
           mapId,
           updatedBy: socket.id
         });
@@ -118,7 +146,7 @@ function registerEnvironmentHandlers(ctx) {
 
   socket.on('wall_update', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {return;}
 
       const { room } = validation;
@@ -194,7 +222,7 @@ function registerEnvironmentHandlers(ctx) {
 
   socket.on('light_source_update', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {return;}
 
       const { room } = validation;
@@ -246,7 +274,7 @@ function registerEnvironmentHandlers(ctx) {
 
   socket.on('fog_update', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {return;}
 
       const { room } = validation;
@@ -289,6 +317,10 @@ function registerEnvironmentHandlers(ctx) {
       const room = rooms.get(player.roomId);
       if (!room) {return;}
 
+      // R1: the canonical target is the caller's actual session room; a stale
+      // lifecycle must never mutate or broadcast room weather.
+      if (authorityService && roomAccess.roomAuthorityDenial(room, authorityService)) {return;}
+
       if (!room.gameState.weather) {room.gameState.weather = {};}
       room.gameState.weather = { ...data };
 
@@ -302,7 +334,7 @@ function registerEnvironmentHandlers(ctx) {
 
   socket.on('drawing_update', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {return;}
 
       const { room } = validation;
@@ -333,7 +365,7 @@ function registerEnvironmentHandlers(ctx) {
 
   socket.on('environmental_object_update', async(data) => {
     try {
-      const validation = validateRoomMembership(socket, data.roomId);
+      const validation = validateRoomMembership(socket, data.roomId, true);
       if (!validation.valid) {return;}
 
       const { room } = validation;

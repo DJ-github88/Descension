@@ -18,21 +18,8 @@ import {
   favoriteSpell,
   getSpellFavoriteStatuses,
   getUserFavorites,
-  seedTestSpell,
-  cleanupDuplicateSpells,
   deduplicateSpellList
 } from '../services/firebase/communitySpellService';
-
-let spellsInitPromise = null;
-function ensureSpellsInit(sortByValue) {
-  if (!spellsInitPromise) {
-    spellsInitPromise = (async () => {
-      await cleanupDuplicateSpells();
-      await seedTestSpell();
-    })();
-  }
-  return spellsInitPromise;
-}
 
 export function useCommunitySpells() {
   const [spells, setSpells] = useState([]);
@@ -54,9 +41,6 @@ export function useCommunitySpells() {
       setLoading(true);
       setError(null);
       
-      // One-time cleanup + seed (deduped via shared promise)
-      if (!loadMore) await ensureSpellsInit(sortByValue);
-
       const docCursor = loadMore ? lastDocRef.current : null;
       const result = await getAllCommunitySpells(
         20,

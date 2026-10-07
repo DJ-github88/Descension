@@ -9,6 +9,8 @@ import { registerConditionHandlers } from './conditionHandlers';
 import { registerMapGridHandlers } from './mapGridHandlers';
 import { registerQuestHandlers } from './questHandlers';
 import { registerGmHandlers } from './gmHandlers';
+import { registerJournalHandlers } from './journalHandlers';
+import { registerInventoryHandlers } from './inventoryHandlers';
 import { registerAudioGameSessionHandlers } from './audioGameSessionHandlers';
 import { registerErrorHandlers } from './errorHandlers';
 
@@ -25,6 +27,8 @@ export function registerAllSocketHandlers(ctx) {
     registerMapGridHandlers(ctx),
     registerQuestHandlers(ctx),
     registerGmHandlers(ctx),
+    registerJournalHandlers(ctx),
+    registerInventoryHandlers(ctx),
     registerAudioGameSessionHandlers(ctx),
     registerErrorHandlers(ctx)
   ];

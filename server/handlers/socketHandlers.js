@@ -18,6 +18,7 @@ const { v4: uuidv4 } = require('uuid');
 const logger = require('../services/logger');
 const firebaseService = require('../services/firebaseService');
 const { sanitizeChatMessage, sanitizePlayerName } = require('../services/sanitizationService');
+const { ackFailure } = require('../utils/socketAck');
 const { canCreateRoom, canJoinRoom } = require('../services/tierService');
 const { registerUtilityHandlers } = require('./utilityHandlers');
 const { registerTravelHandlers } = require('./travelHandlers');
@@ -35,11 +36,79 @@ const { registerRoomHandlers } = require('./roomLifecycleHandlers');
 const { registerPartyHandlers } = require('./partyHandlers');
 const { registerSessionInvitationHandlers } = require('./sessionInvitationHandlers');
 const { registerJournalHandlers } = require('./journalHandlers');
+const { registerQuestHandlers } = require('./questHandlers');
+const { registerGmToolsHandlers } = require('./gmToolsHandlers');
 
 const { INVITATION_EXPIRY_MS } = require('../utils/constants');
+const { assertFreshRoomAuthority, attachOperationContext } = require('../services/roomAuthorityService');
 
 // Echo Prevention Window - standardized timeout across all stores
 const ECHO_PREVENTION_WINDOW_MS = 200;
+
+/**
+ * R5: events that mutate or disclose authoritative room state. Each is wrapped
+ * with ONE shared async guard that resolves the SAME canonical target room the
+ * handler will operate on, validates the caller's exact captured room token
+ * against the local lifecycle and the backend before the handler runs, and
+ * attaches the immutable operation context for awaited continuations.
+ * Deliberately excluded:
+ * - lifecycle/join/leave/disconnect (must always be able to clean up),
+ * - global/profile/social/party operations (not room-authoritative),
+ * - cursor_move (ephemeral relay with no room state or persistence).
+ * Delayed/buffered work is epoch-bound at its own capture point.
+ */
+const AUTHORITATIVE_ROOM_EVENTS = new Set([
+  // authoritative state reads
+  'request_room_checkpoint',
+  'request_full_sync', 'sync_tokens', 'sync_grid_items', 'sync_character_tokens', 'request_combat_sync',
+  'save_room_state_request',
+  // tokens
+  'token_created', 'token_moved', 'token_updated', 'token_control_granted', 'token_control_response',
+  'character_token_created', 'character_token_updated', 'token_removed', 'token_dismissed', 'character_token_removed',
+  // characters
+  'character_moved', 'character_resource_delta', 'character_updated', 'character_equipment_updated',
+  'character_resource_updated', 'buff_update', 'debuff_update',
+  // environment
+  'container_update', 'creature_added', 'creature_updated', 'wall_update', 'door_state_changed',
+  'light_source_update', 'fog_update', 'weather_update', 'drawing_update', 'environmental_object_update',
+  // maps
+  'update_current_map', 'sync_level_editor_state', 'map_update', 'request_full_map_sync', 'grid_item_update',
+  'sync_map_state', 'set_scene_mode', 'sync_location_scene_state', 'sync_party_marker', 'pull_players_to_map',
+  // combat
+  'combat_started', 'combat_ended', 'combat_log', 'dice_update', 'combat_turn_changed', 'item_looted',
+  'inventory_update', 'inventory_share_grant', 'inventory_share_revoke', 'spell_cast', 'dice_roll',
+  // shared chat
+  'chat_message', 'user_typing', 'user_stopped_typing',
+  // audio room state
+  'audio_broadcast', 'audio_stop', 'audio_stop_all', 'audio_sync_request',
+  // session
+  'launch_game_session', 'respond_to_game_session', 'respond_to_room_invitation', 'update_player_color',
+  // GM actions
+  'gm_switch_view', 'gm_transfer_player', 'gm_request_fresh_positions', 'player_use_connection',
+  'gm_action', 'sync_gameplay_settings', 'gm_note_update',
+  // GM tools / metadata / access / deletion
+  'request_player_list', 'request_room_settings', 'update_room_settings', 'update_room_metadata',
+  'mute_player', 'kick_player', 'delete_room', 'leave_room_membership',
+  // quests / journals
+  'share_quest', 'quest_accepted', 'quest_declined', 'quest_complete_request', 'quest_rewards_delivered',
+  'quest_completion_denied', 'journal_show_to_players',
+  // travel
+  'request_travel_sync', 'travel_sync', 'travel_update', 'travel_broadcast'
+]);
+
+/**
+ * Account/cloud-targeted events where the payload room id IS the legitimate
+ * target (the caller may not be a live member of it). For these the canonical
+ * target is the payload room id (falling back to the session room); the
+ * handler still performs its own entitlement/ownership proof. Every other
+ * authoritative event must target the caller's current session room.
+ */
+const PAYLOAD_TARGETED_ROOM_EVENTS = new Set([
+  'request_room_checkpoint',
+  'update_room_metadata',
+  'delete_room',
+  'create_room_draft'
+]);
 
 // Event Sequence Counter - ensures event ordering across socket broadcasts
 let eventSequenceNumber = 0;
@@ -129,6 +198,8 @@ function validateMapExists(room, mapId, preferredName = null) {
  */
 function registerSocketHandlers(io, rooms, players, parties, userToParty, partyInvitations, onlineSocialUsers, pendingPartyCreations, helpers, services) {
   const { createRoom, hashPassword, verifyPassword, getPublicRooms, validateRoomMembership, mergeRoomGameStateForResume } = helpers;
+  const buildRoomCandidate = helpers.buildRoomCandidate || null;
+  const installRoomCandidate = helpers.installRoomCandidate || null;
   const { firebaseBatchWriter, movementDebouncer, eventBatcher, realtimeSync } = services;
 
   const roomJoinRequests = new Map();
@@ -151,10 +222,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     const requireAuth = (callback) => {
       return (...args) => {
         const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
+        const allowDevAuth = !isProduction && (process.env.ALLOW_DEV_AUTH === 'true' || process.env.NODE_ENV === 'development');
         if (!socket.data.authenticated) {
           const payload = args[0];
-          // In development mode, auto-authenticate if client provided explicit user identification (and isn't an explicit guest)
-          if (!isProduction && payload && (payload.userId || payload.character?.userId) && !payload.isGuest && payload.userId !== 'guest' && socket.data.isGuest !== true) {
+          // Local-development convenience only: auto-authenticate from an event
+          // payload. Never in production / without ALLOW_DEV_AUTH.
+          if (allowDevAuth && payload && (payload.userId || payload.character?.userId) && !payload.isGuest && payload.userId !== 'guest' && socket.data.isGuest !== true) {
             const devUid = payload.userId || payload.character?.userId;
             socket.data.authenticated = true;
             socket.data.userId = devUid;
@@ -165,6 +238,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
           logger.warn('Unauthenticated socket attempted restricted action', { socketId: socket.id, isGuest: socket.data.isGuest });
           socket.emit('auth_error', { error: 'Authentication required. Please log in to perform this action.' });
+          // Do not leave an ack-bearing request waiting on an authorization denial.
+          const ack = [...args].reverse().find(a => typeof a === 'function');
+          ackFailure(ack, { success: false, error: 'Authentication required', event: 'authorization' });
           return;
         }
         return callback(...args);
@@ -442,40 +518,57 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       const notifiedSocketIds = new Set();
 
       const sendInvitationToSockets = (targetSockets, partyName = room.name, partyId = 'explicit-party') => {
-        if (!targetSockets || targetSockets.length === 0) return;
+        if (!targetSockets || targetSockets.length === 0) {return;}
 
-        const invitation = {
-          id: uuidv4(),
-          partyId,
-          roomId,
-          partyName: room.name || partyName,
-          roomName: room.name,
-          gmName: gmData.name,
-          gmCharacterName: gmData.characterName,
-          gmClass: gmData.characterClass,
-          gmLevel: gmData.characterLevel,
-          isPermanent: room.isPermanent || false,
-          roomDescription: room.settings?.description || gmData.description || room.description || '',
-          description: room.settings?.description || gmData.description || room.description || '',
-          currentPlayers: Array.from(room.players.values()).map(p => ({
-            id: p.id,
-            name: p.name,
-            class: p.character?.class || 'Unknown'
-          })),
-          status: 'pending',
-          createdAt: Date.now(),
-          expiresAt: Date.now() + INVITATION_EXPIRY_MS
-        };
+        // P4: room invitations are typed and recipient-bound. Socket ids are
+        // delivery hints only; the verified account UID is the recipient.
+        const byRecipientUid = new Map();
+        for (const s of targetSockets) {
+          const recipientUid = s && s.data && s.data.userId;
+          if (!recipientUid || recipientUid === userId) {continue;}
+          if (!byRecipientUid.has(recipientUid)) {byRecipientUid.set(recipientUid, []);}
+          byRecipientUid.get(recipientUid).push(s);
+        }
 
-        partyInvitations.set(invitation.id, invitation);
+        for (const [recipientUid, recipientSockets] of byRecipientUid.entries()) {
+          const invitation = {
+            version: 1,
+            kind: 'room',
+            id: uuidv4(),
+            partyId,
+            roomId,
+            fromUserId: userId,
+            toUserId: recipientUid,
+            role: 'member',
+            partyName: room.name || partyName,
+            roomName: room.name,
+            gmName: gmData.name,
+            gmCharacterName: gmData.characterName,
+            gmClass: gmData.characterClass,
+            gmLevel: gmData.characterLevel,
+            isPermanent: room.isPermanent || false,
+            roomDescription: room.settings?.description || gmData.description || room.description || '',
+            description: room.settings?.description || gmData.description || room.description || '',
+            currentPlayers: Array.from(room.players.values()).filter(p => !p.isGM).map(p => ({
+              id: p.id,
+              name: p.name,
+              class: p.character?.class || 'Unknown'
+            })),
+            status: 'pending',
+            createdAt: Date.now(),
+            expiresAt: Date.now() + INVITATION_EXPIRY_MS
+          };
 
-        targetSockets.forEach(s => {
-          if (!notifiedSocketIds.has(s.id)) {
-            notifiedSocketIds.add(s.id);
-            s.emit('gm_session_invitation', invitation);
-            logger.info('GM session invitation sent to socket', { socketId: s.id, roomId, partyName });
-          }
-        });
+          partyInvitations.set(invitation.id, invitation);
+
+          recipientSockets.forEach(s => {
+            if (!notifiedSocketIds.has(s.id)) {
+              notifiedSocketIds.add(s.id);
+              s.emit('gm_session_invitation', invitation);
+              logger.info('GM session invitation sent to recipient', { socketId: s.id, roomId, recipientUid });
+            }
+          });
+        }
       };
 
       const partyId = userToParty.get(userId);
@@ -518,7 +611,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             let memberSockets = getSocketsByUserId(memberId);
             if (memberSockets.length === 0 && member.socketId) {
               const directSocket = io.sockets.sockets.get(member.socketId);
-              if (directSocket) memberSockets = [directSocket];
+              if (directSocket) {memberSockets = [directSocket];}
             }
             sendInvitationToSockets(memberSockets, room.name, partyId || 'explicit-party');
           }
@@ -570,6 +663,8 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       requireAuth,
       chatDebug,
       createRoom,
+      buildRoomCandidate,
+      installRoomCandidate,
       hashPassword,
       verifyPassword,
       getPublicRooms,
@@ -579,6 +674,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       movementDebouncer,
       eventBatcher,
       realtimeSync,
+      authorityService: services.authorityService || null,
       getNextEventSequence,
       ECHO_PREVENTION_WINDOW_MS,
       validateMapExists,
@@ -593,6 +689,110 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       handlePartyLeave,
       notifyPartyMembersOfGMJoin,
       stripUndefined
+    };
+
+    // R5/R1: one shared fresh-authority guard for every authoritative room
+    // event. The canonical target is the room the handler will actually
+    // operate on, resolved from server-side session state - never trusted from
+    // the client alone. A client room id contradicting the session room is
+    // rejected before the handler runs. The exact captured token is validated
+    // locally AND freshly against the backend, and the immutable operation
+    // context is attached to the payload so awaited continuations revalidate
+    // the SAME epoch (never a successor token resolved by roomId).
+    const originalOn = socket.on.bind(socket);
+    socket.on = (event, handler) => {
+      if (typeof handler !== 'function' || !AUTHORITATIVE_ROOM_EVENTS.has(event)) {
+        return originalOn(event, handler);
+      }
+      return originalOn(event, async(...args) => {
+        const data = args[0];
+        const deny = (code, message = 'Room is not currently available on this server') => {
+          socket.emit('room_error', {
+            code,
+            event,
+            message
+          });
+          const ack = [...args].reverse().find((arg) => typeof arg === 'function');
+          ackFailure(ack, {
+            success: false,
+            error: message,
+            code,
+            event
+          });
+        };
+        try {
+          const roomAuthority = services.authorityService || null;
+          if (roomAuthority) {
+            // C1: capture the IMMUTABLE operation binding before any await.
+            const player = players.get(socket.id) || null;
+            const playerRoomId = (player && typeof player.roomId === 'string' && player.roomId) || null;
+            const clientRoomId = (data && typeof data === 'object' && typeof data.roomId === 'string' && data.roomId)
+              || null;
+            const payloadTargeted = PAYLOAD_TARGETED_ROOM_EVENTS.has(event);
+            if (!payloadTargeted && clientRoomId && playerRoomId && clientRoomId !== playerRoomId) {
+              deny('room_target_mismatch', 'Not a member of this room');
+              return;
+            }
+            const canonicalRoomId = payloadTargeted
+              ? (clientRoomId || playerRoomId)
+              : playerRoomId;
+            const room = canonicalRoomId ? rooms.get(canonicalRoomId) : null;
+            const captured = {
+              socketId: socket.id,
+              player,
+              playerId: player ? player.id : null,
+              userId: (player && player.userId) || (socket.data && socket.data.userId) || null,
+              roomId: canonicalRoomId || null,
+              room: room || null,
+              token: room && room.authorityToken ? room.authorityToken : null,
+              payloadTargeted
+            };
+            if (room) {
+              const check = await assertFreshRoomAuthority(room, roomAuthority);
+              if (!check.ok) {
+                deny(check.code || 'room_authority_lost');
+                return;
+              }
+              // C1: after the authority await the operation may continue ONLY
+              // against the exact runtime/binding it started with. It may never
+              // migrate to a replacement room, successor runtime or replacement
+              // player binding.
+              const currentPlayer = players.get(socket.id) || null;
+              const runtimeChanged = rooms.get(canonicalRoomId) !== captured.room;
+              const playerChanged = payloadTargeted
+                ? false
+                : (!currentPlayer ||
+                   currentPlayer !== captured.player ||
+                   currentPlayer.roomId !== captured.roomId ||
+                   (captured.playerId && currentPlayer.id !== captured.playerId));
+              const tokenChanged = !!(captured.token && room.authorityToken &&
+                (room.authorityToken.authorityInstanceId !== captured.token.authorityInstanceId ||
+                 room.authorityToken.authorityGeneration !== captured.token.authorityGeneration));
+              if (runtimeChanged || playerChanged || tokenChanged) {
+                deny('room_binding_changed', 'Room session changed during authorization; the operation was not applied');
+                return;
+              }
+              if (room.authorityToken && data && typeof data === 'object') {
+                attachOperationContext(data, {
+                  roomId: room.id,
+                  authorityInstanceId: room.authorityToken.authorityInstanceId,
+                  authorityGeneration: room.authorityToken.authorityGeneration,
+                  token: room.authorityToken,
+                  socketId: socket.id,
+                  playerId: captured.playerId,
+                  userId: captured.userId,
+                  roomRef: room,
+                  playerRef: captured.player
+                });
+              }
+            }
+          }
+        } catch (error) {
+          logger.error('Room authority guard failed; event refused', { event, error: error.message });
+          return;
+        }
+        return handler.apply(socket, args);
+      });
     };
 
     // ==================== UTILITY HANDLERS ====================
@@ -643,6 +843,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ===== JOURNAL EVENTS =====
     registerJournalHandlers(handlerCtx);
+
+    // ===== QUEST EVENTS =====
+    registerQuestHandlers(handlerCtx);
+
+    // ===== GM TOOLS EVENTS =====
+    registerGmToolsHandlers(handlerCtx);
 
   });
 }

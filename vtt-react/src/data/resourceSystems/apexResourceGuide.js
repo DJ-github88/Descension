@@ -21,12 +21,12 @@ export const apexResourceGuide = {
   gain: {
    title: 'Hunt as One',
    icon: 'fa-crosshairs',
-   text: 'A coordinated strike with your companion +2 Marks, the companion landing a hit +1, taking damage +1, a companion crit +2, and marking quarry +1. Solo glaive hits generate nothing.',
+    text: 'Report resolved outcomes in the Pack Codex: both hunter and companion hit the same quarry +2, companion hit or damage taken +1, companion critical hit +2, or a pack quarry designation +1. Solo glaive hits and casting alone grant nothing. Each receipt counts once.',
   },
   hold: {
    title: 'Pack Tactics',
    icon: 'fa-archive',
-   text: 'Marks cap at 5 with a generation cap of +3 per turn (+4 for Beastmaster). Overflow is lost, and outside combat marks decay 1 per minute after a grace period.',
+    text: 'Marks cap at 5; generation caps at +3 per own-turn window (+4 for Beastmaster). Spending does not refund this budget and overflow is lost. Begin the next own turn in the Codex; automatic turn detection and out-of-combat decay remain pending.',
   },
   spend: {
    title: 'Mark the Prey',
@@ -36,12 +36,12 @@ export const apexResourceGuide = {
   risk: {
    title: 'Pack Dependency',
    icon: 'fa-exclamation-triangle',
-   text: 'If your bonded beast is dead you generate zero Marks until it is revived — and if it drops below 25% HP while you hold 3+, it enters Primal Outrage. The pack is the meter.',
+    text: 'An unavailable companion grants no Marks. Link its canvas token to read live vitality, or report companion availability when tracking manually; the old HUD HP cache is not authoritative. Primal Outrage, Bond Sickness and passive effects still require separate handling.',
   },
  },
 
  exampleTurn:
-  '**Round 1:** you flank with the beast — coordinated strike +2, companion hit +1, and it takes a hit +1: 4 Marks in a single round. **Round 2:** you mark the quarry (+1, capped at 5), but the beast is at 20% HP, so you spend 3 on a companion special to end the fight before Primal Outrage triggers.',
+   '**Own turn 1 (standard cap 3):** both hit the same quarry for +2; a distinct companion hit adds +1. Further generation is lost, even after you spend Marks. **Own turn 2:** advance the Codex window; a companion critical adds +2, bringing an unspent bank to five. Enemy turns and round boundaries do not refill the current window.',
 
  weaveIn: [
   {
@@ -72,6 +72,6 @@ export const apexResourceGuide = {
    ['Per-turn generation cap', '+3 (+4 Beastmaster)', 'Overflow is lost'],
   ],
   footnote:
-   'Marks cap at 5 and persist between combats; they decay 1 per minute outside combat after a grace period.',
+    'Marks cap at 5. The Codex tracks reported outcomes and manual own-turn windows; automatic outcome/turn detection, decay, and passive effects are pending. Talons and stepper buttons are manual corrections, not generation events.',
  },
 };

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { getUserRooms, deleteRoom, getRoomLimits, updateRoom } from '../../services/roomService';
+import { getUserRooms, deleteRoom, getRoomLimits, requestRoomMetadataUpdate } from '../../services/roomService';
 import localRoomService from '../../services/localRoomService';
 import subscriptionService from '../../services/subscriptionService';
 import { getRandomRoomName } from '../../utils/nameGenerator';
@@ -390,10 +390,28 @@ const RoomManager = () => {
         throw new Error('Room ID is required');
       }
 
-      // 1. Update Firestore if it's a permanent room (has a real ID, not test-room)
-      if (roomId && !roomId.includes('test')) {
-        await updateRoom(roomId, updates);
-        console.log('✅ Room updated in Firestore:', roomId, updates);
+      // Project 3: shared canonical metadata (name/description/settings) is
+      // accepted by the server and checkpointed through the selected P2/P3
+      // writer. The browser never writes those fields directly.
+      const sharedKeys = ['name', 'description', 'settings'];
+      const sharedUpdates = {};
+      const directUpdates = {};
+      for (const [key, value] of Object.entries(updates || {})) {
+        if (sharedKeys.includes(key)) {sharedUpdates[key] = value;}
+        else {directUpdates[key] = value;}
+      }
+
+      // 1. Server-mediated shared metadata checkpoint for a canonical room.
+      if (Object.keys(sharedUpdates).length > 0 && !roomId.includes('test')) {
+        await requestRoomMetadataUpdate(roomId, sharedUpdates);
+        console.log('✅ Room metadata checkpointed through server:', roomId, Object.keys(sharedUpdates));
+      }
+
+      // 2. Project 4: raw canonical room root writes are server-only. Fields
+      // outside the bounded server metadata contract are not written through a
+      // denied SDK fallback; they are surfaced for a future server path.
+      if (Object.keys(directUpdates).length > 0 && !roomId.includes('test')) {
+        console.warn('Room field(s) require a server-mediated path and were not written:', Object.keys(directUpdates));
       }
 
       // 2. Update local state for immediate UI feedback

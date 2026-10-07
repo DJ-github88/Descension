@@ -6,11 +6,15 @@
  *
  * Exports:
  *   - RACE_DATA object (all canonical races keyed by id)
- *   - Utility functions: getRaceList, getSubraceList, getRaceData, getFullRaceData, applyRacialModifiers
+ *   - Utility functions: getRaceList, getSubraceList, getRaceData, getFullRaceData,
+ *     getRacialLanguages, applyRacialModifiers
  */
 
 import { ABILITY_SCORES } from '../utils/pointBuySystem';
 import useCustomLineageStore from '../store/customLineageStore';
+import { getMechanicsByRace } from './raceMechanics';
+import { normalizeLanguageName } from './languages';
+import { HERITAGE_TRADITIONS } from './classHeritageRegistry';
 
 import { myrathil } from './races/myrathil';
 import { mimir } from './races/mimir';
@@ -85,7 +89,8 @@ export const getSubraceList = (raceId) => {
     return Object.values(race.subraces).map(subrace => ({
         id: subrace.id,
         name: subrace.name,
-        description: subrace.description
+        description: subrace.description,
+        crest: subrace.crest || null
     }));
 };
 
@@ -107,7 +112,7 @@ export const getSubraceData = (raceId, subraceId) => {
     const byId = subracesList.find(sr => sr.id && sr.id.toLowerCase() === normalizedTarget);
     if (byId) return byId;
 
-    // Direct name match (e.g. 'Viridian', 'Oken')
+    // Direct name match (e.g. 'Briaren', 'Oaken')
     const byName = subracesList.find(sr => sr.name && sr.name.toLowerCase() === normalizedTarget);
     if (byName) return byName;
 
@@ -120,7 +125,7 @@ export const getSubraceData = (raceId, subraceId) => {
     const byPrefix = subracesList.find(sr => sr.id && (sr.id.toLowerCase().startsWith(normalizedTarget) || normalizedTarget.startsWith(sr.id.toLowerCase())));
     if (byPrefix) return byPrefix;
 
-    // Name prefix/containment match (e.g. 'oken_florae' starts with 'oken', matching 'Oken')
+    // Name prefix/containment match (e.g. 'oken_florae' starts with 'oken', matching 'Oaken')
     const byNameFuzzy = subracesList.find(sr => {
         const srName = (sr.name || '').toLowerCase();
         return srName && (normalizedTarget.startsWith(srName) || normalizedTarget.includes(srName));
@@ -129,6 +134,10 @@ export const getSubraceData = (raceId, subraceId) => {
 
     return null;
 };
+
+const resolveRaceLanguages = (race, subrace) =>
+    (subrace?.languages ?? subrace?.baseTraits?.languages ?? race.baseTraits?.languages ?? ["Wayfarer's Cant"])
+        .map(normalizeLanguageName);
 
 export const getFullRaceData = (raceId, subraceId) => {
     const race = getRaceData(raceId);
@@ -167,7 +176,11 @@ export const getFullRaceData = (raceId, subraceId) => {
             if (key) traitMap.set(key, t);
         }
     });
-    const combinedTraitsList = Array.from(traitMap.values());
+    // Resolve aliases first, then enforce heritage-scoped inheritance. Unscoped
+    // traits (including custom lineages) retain the existing merge behavior.
+    const combinedTraitsList = Array.from(traitMap.values()).filter(trait =>
+        !Array.isArray(trait.applicableSubraces) || trait.applicableSubraces.includes(subrace.id)
+    );
 
     // Merge stat modifiers: start with race.abilityModifiers, then apply subrace.statModifiers
     const mergedStatModifiers = {
@@ -196,10 +209,14 @@ export const getFullRaceData = (raceId, subraceId) => {
         combinedTraits: {
             ...(race.baseTraits || {}),
             ...(subrace.baseTraits || {}),
-            languages: subrace.languages || race.baseTraits?.languages || ['Common'],
+            languages: resolveRaceLanguages(race, subrace),
             speed: baseSpeed,
             statModifiers: mergedStatModifiers,
             traits: combinedTraitsList,
+            mechanics: getMechanicsByRace(race.id, subrace.id),
+            // Eligibility/transmission paths, not automatic class grants.
+            normalClassPaths: HERITAGE_TRADITIONS[subrace.id]?.raceId === race.id
+                ? [...HERITAGE_TRADITIONS[subrace.id].classes] : [],
             baseStats: subrace.baseStats || {},
             savingThrowModifiers: mergedSavingThrows
         }
@@ -258,6 +275,19 @@ export const getRacialSavingThrowModifiers = (raceId, subraceId) => {
     return raceData.combinedTraits.savingThrowModifiers || {};
 };
 
+/**
+ * Humanize a saving-throw modifier key for display.
+ * Race data stores categories in snake_case (e.g. "identity_effects",
+ * "grapple_effects"); round-tripping them raw produced labels like
+ * "Identity_effects" in the UI.
+ */
+export const formatSavingThrowModifier = (modifier) => {
+    if (typeof modifier !== 'string' || !modifier) return '';
+    return modifier
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (ch) => ch.toUpperCase());
+};
+
 export const applyRacialModifiers = (baseStats, raceId, subraceId) => {
     const raceData = getFullRaceData(raceId, subraceId);
     if (!raceData) return baseStats;
@@ -278,4 +308,137 @@ export const applyRacialModifiers = (baseStats, raceId, subraceId) => {
     });
 
     return modifiedStats;
+};
+
+// Character creation and other consumers use the same resolved language grants.
+export const getRacialLanguages = (raceId, subraceId) => {
+    const race = raceId ? getRaceData(raceId) : null;
+    if (!race) return [];
+    // An unfinished draft gets base grants, not the first heritage's languages.
+    return resolveRaceLanguages(race, subraceId ? getSubraceData(raceId, subraceId) : null);
+};
+
+/**
+ * Resolves all canonical illustrations for a race and optional subrace.
+ * Supports either argument order: (raceId, subraceId) or (subraceId, raceId).
+ */
+export const getHeritageIllustrations = (arg1, arg2) => {
+    let raceId = null;
+    let subraceId = null;
+
+    if (arg1 && RACE_DATA[String(arg1).toLowerCase()]) {
+        raceId = String(arg1).toLowerCase();
+        subraceId = arg2 ? String(arg2).toLowerCase() : null;
+    } else if (arg2 && RACE_DATA[String(arg2).toLowerCase()]) {
+        raceId = String(arg2).toLowerCase();
+        subraceId = arg1 ? String(arg1).toLowerCase() : null;
+    } else {
+        raceId = arg1 ? String(arg1).toLowerCase() : (arg2 ? String(arg2).toLowerCase() : null);
+        subraceId = arg2 && arg2 !== raceId ? String(arg2).toLowerCase() : null;
+    }
+
+    if (!raceId) return [];
+    const race = getRaceData(raceId);
+    if (!race) return [];
+
+    const subrace = subraceId ? getSubraceData(raceId, subraceId) : null;
+
+    if (subrace) {
+        if (Array.isArray(subrace.illustrations) && subrace.illustrations.length > 0) {
+            return subrace.illustrations.map(item => 
+                typeof item === 'string' 
+                    ? { src: item, caption: subrace.name } 
+                    : { src: item.src, caption: item.caption || subrace.name }
+            );
+        }
+        if (subrace.illustration) {
+            return [{
+                src: subrace.illustration,
+                caption: subrace.illustrationCaption || subrace.name
+            }];
+        }
+    }
+
+    if (Array.isArray(race.illustrations) && race.illustrations.length > 0) {
+        return race.illustrations.map(item => 
+            typeof item === 'string' 
+                ? { src: item, caption: race.name } 
+                : { src: item.src, caption: item.caption || race.name }
+        );
+    }
+    if (race.illustration) {
+        return [{
+            src: race.illustration,
+            caption: race.illustrationCaption || race.name
+        }];
+    }
+
+    if (race.subraces) {
+        const subImages = [];
+        Object.values(race.subraces).forEach(sr => {
+            if (sr.illustration) {
+                subImages.push({
+                    src: sr.illustration,
+                    caption: sr.illustrationCaption || sr.name
+                });
+            }
+        });
+        if (subImages.length > 0) return subImages;
+    }
+
+    return [{
+        src: `/assets/images/races/${raceId}_illustration.png`,
+        caption: race.name
+    }];
+};
+
+/**
+ * Returns the primary illustration URL for a given race and optional subrace.
+ * Supports either argument order: (raceId, subraceId) or (subraceId, raceId).
+ */
+export const getHeritageImage = (arg1, arg2) => {
+    const list = getHeritageIllustrations(arg1, arg2);
+    if (list && list.length > 0) {
+        return list[0].src;
+    }
+    const cleanId = (arg1 || arg2 || 'human').toString().toLowerCase();
+    return `/assets/images/races/${cleanId}_illustration.png`;
+};
+
+
+/**
+ * Resolves the heraldic crest for a race and subrace.
+ * Supports either argument order: (raceId, subraceId) or (subraceId, raceId),
+ * or passing just subraceId.
+ */
+export const getHeritageCrest = (arg1, arg2) => {
+    let raceId = null;
+    let subraceId = null;
+
+    if (arg1 && RACE_DATA[String(arg1).toLowerCase()]) {
+        raceId = String(arg1).toLowerCase();
+        subraceId = arg2 ? String(arg2).toLowerCase() : null;
+    } else if (arg2 && RACE_DATA[String(arg2).toLowerCase()]) {
+        raceId = String(arg2).toLowerCase();
+        subraceId = arg1 ? String(arg1).toLowerCase() : null;
+    } else {
+        raceId = arg1 ? String(arg1).toLowerCase() : (arg2 ? String(arg2).toLowerCase() : null);
+        subraceId = arg2 && arg2 !== raceId ? String(arg2).toLowerCase() : null;
+    }
+
+    if (raceId && subraceId) {
+        const subrace = getSubraceData(raceId, subraceId);
+        if (subrace?.crest) return subrace.crest;
+    }
+
+    // If subraceId wasn't identified from the pair, try looking up candidate across all races
+    const candidateSubIds = [arg1, arg2].filter(Boolean).map(s => String(s).toLowerCase());
+    for (const subId of candidateSubIds) {
+        for (const r of Object.values(RACE_DATA)) {
+            const sub = getSubraceData(r.id, subId);
+            if (sub?.crest) return sub.crest;
+        }
+    }
+
+    return null;
 };

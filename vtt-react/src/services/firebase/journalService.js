@@ -94,8 +94,9 @@ class JournalService {
       const docSnap = await getDoc(docRef);
 
       if (!docSnap.exists()) {
-        // Return default empty journal structure
-        return this.getDefaultJournalStructure();
+        // No cloud journal yet: return null so callers leave local/guest state
+        // untouched instead of overwriting it with an empty structure.
+        return null;
       }
 
       const data = docSnap.data();
@@ -131,7 +132,8 @@ class JournalService {
       if (error?.code !== 'permission-denied') {
         console.error('Error loading journal:', error);
       }
-      return this.getDefaultJournalStructure();
+      // Never clobber local state with empties on a read failure.
+      return null;
     }
   }
 

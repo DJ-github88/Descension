@@ -7,6 +7,10 @@ import '../styles/ApexResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
+import useCreatureStore from '../../../../store/creatureStore';
+import { APEX_MARK_MAX, APEX_PACK_EVENTS, normalizeApexResource, applyApexPackEvent, beginApexOwnTurn, getApexCompanionStatus, getApexTurnCap } from '../../../apexResourceContract';
+
+const EMPTY_TOKENS = [];
 
 /**
  * Apex Resource Bar: "The Predator's Kill-Ledger"
@@ -28,10 +32,12 @@ const ApexResourceBar = ({
     config = {},
     context = 'hud',
     isOwner = true,
-    onClassResourceUpdate = null
+    onClassResourceUpdate = null,
+    showcase = false
 }) => {
-    const maxMarks = classResource?.max ?? 5;
-    const propMarks = Math.min(Math.max(classResource?.current ?? 0, 0), maxMarks);
+    const normalizedResource = normalizeApexResource(classResource);
+    const maxMarks = APEX_MARK_MAX;
+    const propMarks = normalizedResource.current;
     const propCompanionHP = classResource?.companionHP ?? 50;
     const propCompanionMaxHP = classResource?.companionMaxHP ?? 50;
     const propStance = classResource?.companionStance || 'Hunt';
@@ -40,15 +46,28 @@ const ApexResourceBar = ({
     const [companionHP, setCompanionHP] = useState(propCompanionHP);
     const [companionMaxHP, setCompanionMaxHP] = useState(propCompanionMaxHP);
     const [companionStance, setCompanionStance] = useState(propStance);
+    const [generation, setGeneration] = useState(normalizedResource.apexGeneration);
+    const [companionTokenId, setCompanionTokenId] = useState(classResource.companionTokenId || '');
+    const [reportedAvailable, setReportedAvailable] = useState(classResource.companionAvailable === true);
+    const [targetReference, setTargetReference] = useState('');
+    const eventSequence = useRef(0);
+    const creatureTokens = useCreatureStore(state => state.creatureTokens) || EMPTY_TOKENS;
+    const primarySpecialization = useCharacterStore(state => state.primarySpecialization);
+    const specialization = (!showcase && primarySpecialization) || classResource.apexSpecialization || classResource.spec;
+    const turnCap = getApexTurnCap(specialization);
+    const localResource = { ...classResource, current: marks, apexGeneration: generation, companionTokenId, companionAvailable: reportedAvailable };
+    const companionStatus = getApexCompanionStatus(localResource, creatureTokens);
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
 
     useEffect(() => {
-        if (classResource?.current !== undefined) {
-            setMarks(Math.min(Math.max(classResource.current, 0), maxMarks));
-        }
-    }, [classResource?.current, maxMarks]);
+        setMarks(propMarks);
+    }, [propMarks]);
+
+    useEffect(() => { setGeneration(normalizedResource.apexGeneration); }, [classResource.apexGeneration]);
+    useEffect(() => { setCompanionTokenId(classResource.companionTokenId || ''); }, [classResource.companionTokenId]);
+    useEffect(() => { setReportedAvailable(classResource.companionAvailable === true); }, [classResource.companionAvailable]);
 
     useEffect(() => {
         if (classResource?.companionHP !== undefined) {
@@ -111,13 +130,36 @@ const ApexResourceBar = ({
     };
 
     const updateMarks = (newMarks) => {
-        const clamped = Math.min(Math.max(newMarks, 0), maxMarks);
+        const clamped = normalizeApexResource({ current: newMarks }).current;
         setMarks(clamped);
         logResourceChange(`adjusted Quarry Marks to ${clamped}/${maxMarks}`, clamped);
 
         if (onClassResourceUpdate) {
             onClassResourceUpdate('current', clamped);
         }
+    };
+
+    const commitPackResource = next => {
+        setGeneration(next.apexGeneration);
+        setMarks(next.current);
+        if (onClassResourceUpdate) {
+            onClassResourceUpdate('apexGeneration', next.apexGeneration);
+            onClassResourceUpdate('current', next.current);
+        }
+    };
+
+    const recordPackOutcome = kind => {
+        if (!isOwner) return;
+        const latestTokens = useCreatureStore.getState().creatureTokens || EMPTY_TOKENS;
+        const result = applyApexPackEvent(localResource, {
+            kind, turn: generation.turn,
+            id: `reported:${generation.turn}:${Date.now()}:${++eventSequence.current}`,
+            companionTokenId,
+            hunterTargetId: targetReference.trim(), companionTargetId: targetReference.trim()
+        }, { companionAvailable: getApexCompanionStatus(localResource, latestTokens).available, specialization });
+        if (!result.accepted) return;
+        commitPackResource(result.resource);
+        logResourceChange(`recorded ${kind.replace(/_/g, ' ')}: +${result.gained} Marks (${result.resource.apexGeneration.generated}/${turnCap} generated this own turn)`, result.gained);
     };
 
 
@@ -529,9 +571,10 @@ const ApexResourceBar = ({
                             isApexReady
                                 ? { text: '5/5 Marks — ultimate finisher primed.', tone: 'good' }
                                 : `Marks: ${marks}/${maxMarks} banked via the pack.`,
+                            `${generation.generated}/${turnCap} generated in own-turn window ${generation.turn}. Spending does not refund this limit.`,
                             `Companion: ${companionStance} · ${companionHP}/${companionMaxHP} HP.`
                         ]}
-                        usage={isOwner ? 'Right-click for Pack Codex. Click talons to set Marks. Click flank chevrons to step Marks.' : null}
+                        usage={isOwner ? 'Click chassis for Pack Codex and report resolved pack outcomes. Talons and chevrons are manual corrections.' : null}
                     />
                 </div>,
                 document.body
@@ -561,14 +604,19 @@ const ApexResourceBar = ({
                                 const hudRect = hudContainer.getBoundingClientRect();
                                 hudBottom = hudRect.bottom;
                             }
-                            return hudBottom + 8;
+                            const menuHeight = Math.min(600, window.innerHeight - 24);
+                            return Math.max(12, Math.min(hudBottom + 8, window.innerHeight - menuHeight - 12));
                         })(),
                         left: (() => {
                             if (!barRef.current) return '50%';
                             const rect = barRef.current.getBoundingClientRect();
-                            return rect.left + (rect.width / 2);
+                            const menuWidth = Math.min(340, window.innerWidth - 24);
+                            return Math.max(12, Math.min(rect.left + rect.width / 2 - menuWidth / 2, window.innerWidth - menuWidth - 12));
                         })(),
-                        transform: 'translateX(-50%)',
+                        width: Math.min(340, window.innerWidth - 24),
+                        maxHeight: Math.min(600, window.innerHeight - 24),
+                        overflowY: 'auto',
+                        boxSizing: 'border-box',
                         zIndex: 100000
                     }}
                 >
@@ -583,6 +631,38 @@ const ApexResourceBar = ({
                             <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '4px' }}>
                                 Quarry Marks: {marks} / {maxMarks} {isApexReady ? '(Apex Primed!)' : ''}
                             </div>
+                            <div style={{ fontSize: '11px', marginBottom: '6px' }}>
+                                Own turn {generation.turn}: {generation.generated} / {turnCap} generated
+                            </div>
+                            <div className="context-menu-section-header" style={{ fontSize: '11px', marginBottom: '4px' }}>Resolved Pack Outcomes</div>
+                            <label style={{ display: 'block', fontSize: '11px', marginBottom: '6px' }}>
+                                Companion token
+                                <select aria-label="Companion token" value={companionTokenId} onChange={e => {
+                                    setCompanionTokenId(e.target.value);
+                                    onClassResourceUpdate?.('companionTokenId', e.target.value);
+                                }} style={{ width: '100%' }}>
+                                    <option value="">Use reported companion status</option>
+                                    {creatureTokens.map(token => <option key={token.id} value={token.id}>{token.name || token.id}</option>)}
+                                </select>
+                            </label>
+                            {companionTokenId ? <div style={{ fontSize: '11px', marginBottom: '6px' }}>{companionStatus.name}: {companionStatus.available ? 'available' : 'unavailable'} (canvas state)</div> : (
+                                <label style={{ display: 'block', fontSize: '11px', marginBottom: '6px' }}>
+                                    <input type="checkbox" checked={reportedAvailable} onChange={e => {
+                                        setReportedAvailable(e.target.checked);
+                                        onClassResourceUpdate?.('companionAvailable', e.target.checked);
+                                    }} /> Companion available (reported)
+                                </label>
+                            )}
+                            <input aria-label="Coordinated strike quarry reference" placeholder="Same quarry: both attacks hit" value={targetReference}
+                                onChange={e => setTargetReference(e.target.value)} style={{ width: '100%', marginBottom: '6px', fontSize: '11px' }} />
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '6px' }}>
+                                {Object.entries(APEX_PACK_EVENTS).map(([kind, rule]) => <button key={kind} className="context-menu-button"
+                                    onClick={() => recordPackOutcome(kind)} disabled={!companionStatus.available || generation.generated >= turnCap ||
+                                        (kind === 'coordinated_strike' && !targetReference.trim())}>{rule.label}</button>)}
+                            </div>
+                            <button className="context-menu-button" onClick={() => commitPackResource(beginApexOwnTurn(localResource))} style={{ width: '100%', marginBottom: '6px' }}>Begin next own turn</button>
+                            <div style={{ fontSize: '10px', marginBottom: '8px' }}>Report each resolved outcome once. Advance at your next turn, not a round boundary. Automatic outcome/turn detection is pending.</div>
+                            <div className="context-menu-section-header" style={{ fontSize: '11px', marginBottom: '4px' }}>Manual Mark Corrections</div>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '3px', marginBottom: '8px' }}>
                                 {[0, 1, 2, 3, 4, 5].map((val) => (
                                     <button
@@ -609,7 +689,7 @@ const ApexResourceBar = ({
 
                             {/* Beast Companion Management */}
                             <div className="context-menu-section-header" style={{ fontSize: '12px', marginBottom: '4px' }}>
-                                Companion Vitality: {companionHP} / {companionMaxHP} HP
+                                Companion Vitality Cache: {companionHP} / {companionMaxHP} HP
                             </div>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '3px', marginBottom: '8px' }}>
                                 <button className="context-menu-button spend" onClick={() => updateCompanionHP(companionHP - 10)}>

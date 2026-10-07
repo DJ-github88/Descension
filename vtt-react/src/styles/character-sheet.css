@@ -5403,6 +5403,18 @@ body.resource-controls-open .character-sheet {
     font-weight: 600;
     font-style: normal;
     padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.equipment-identity-subtitle .identity-pill-crest {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-right: 4px;
+    vertical-align: middle;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+    display: inline-block;
 }
 
 .equipment-identity-subtitle .identity-pill + .identity-pill::before {
@@ -6453,6 +6465,83 @@ body.resource-controls-open .character-sheet {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+/* Prev / next known-language navigation */
+.cs-lang-nav {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.cs-lang-nav-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+    background: linear-gradient(145deg, rgba(250, 248, 245, 0.7) 0%, rgba(252, 250, 247, 0.9) 100%);
+    color: #5c4033;
+    cursor: pointer;
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    transition: all 0.2s ease;
+}
+
+.cs-lang-nav-btn.next { justify-content: flex-end; text-align: right; }
+
+.cs-lang-nav-btn:hover {
+    border-color: #8B4513;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cs-lang-nav-btn:focus-visible {
+    outline: 2px solid #8B4513;
+    outline-offset: 2px;
+}
+
+.cs-lang-nav-btn > i { color: #8B4513; font-size: 0.82rem; flex-shrink: 0; }
+
+.cs-lang-nav-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.15;
+}
+
+.cs-lang-nav-text em {
+    font-style: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8b7355;
+}
+
+.cs-lang-nav-text span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d1810;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cs-lang-nav-position {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    font-size: 0.72rem;
+    color: #8b7355;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .cs-lang-nav-text span { font-size: 0.8rem; }
+    .cs-lang-nav-position { display: none; }
 }
 
 .language-description {

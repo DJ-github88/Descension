@@ -6,6 +6,12 @@ startCommand = "cd server && npm ci && npm start"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
+# C5 intended current-product configuration (NOT proof of deployed settings):
+# one replica, and a drain window long enough for the bounded 5s P2 writer
+# drain plus conditional authority release. Room authority is enforced by the
+# Firestore lease; these settings are routing/resource choices.
+numReplicas = 1
+drainingSeconds = 15
 
 [environments.production]
 variables = {

@@ -60,14 +60,14 @@ export const LUNARCH_DATA = {
    */
   subraceVariants: {
     viridian_florae: {
-      subraceName: 'Trueborn Florae (Viridian)',
+      subraceName: 'Briaren Florae (Briaren)',
       title: 'The Thorn-Bound',
-      reframe: `The <LoreLink termId="florae">Trueborn</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Trueborn, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Trueborn Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
+      reframe: `The <LoreLink termId="florae">Briaren</LoreLink>, thorn-cloaked traditionalists of the deep groves, are the parasite's original hosts, and they wear it openly. For the Briaren, the lunar parasite is the fae-contract made flesh: the thorn-blood remembers what the fae loaned, and the parasite's phases *are* the debt's interest cycle. An Briaren Lunarch does not fight the parasite; they *account* for it, each phase a payment, each Waning a default.`,
       signatureAbility: {
         name: 'Thorn-Debt',
-        description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Trueborn Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
+        description: `The parasite's phases are synced to the host's fae-contract debt; power scales with the outstanding obligation, and the Waning phase (memory-loss) is *literally* interest collection. An Briaren Lunarch who has fully repaid their fae-debt loses their magic, and so none ever do.`
       },
-      currentCrisisAngle: `The dead-moon-is-a-fallen-star revelation strikes the Trueborn hardest: their fae-contract is bound to a *living* entity, and the elder parasites now communicating across hosts are the fallen star's brood-siblings. The Trueborn elders fear the fae themselves were parasites all along, that the entire Florae bloodline is a larval stage. Selene's three-week silence is, the Trueborn believe, her being *called home* to the fallen star she cannot refuse.`,
+      currentCrisisAngle: `The dead-moon-is-a-fallen-star revelation strikes the Briaren hardest: their fae-contract is bound to a *living* entity, and the elder parasites now communicating across hosts are the fallen star's brood-siblings. The Briaren elders fear the fae themselves were parasites all along, that the entire Florae bloodline is a larval stage. Selene's three-week silence is, the Briaren believe, her being *called home* to the fallen star she cannot refuse.`,
       signatureQuote: {
         text: '"The fae lent us the thorn and the moon collects the interest. We always knew the lender was older than the loan. We did not know the lender was still hatching."',
         speaker: 'Selene of House Viridane',
@@ -76,18 +76,18 @@ export const LUNARCH_DATA = {
     },
 
     florae_unified: {
-      subraceName: 'Oken',
+      subraceName: 'Oaken',
       title: 'The Timber-Born',
-      reframe: `The <LoreLink termId="oken">Oken</LoreLink> pass as ordinary townsfolk with branch-bough arms hidden under city sleeves, and an Oken Lunarch hides the parasite the same way: a second self kept out of sight, fed in the dark. Where the Viridian release the phases into the grove, the Oken hold them in, and the held hours are repaid all at once in the first private moment, which is why the Oken know their Lunarchs by their absences and their neighbours know them only as quiet.`,
+      reframe: `The <LoreLink termId="oken">Oaken</LoreLink> pass as ordinary townsfolk with branch-bough arms hidden under city sleeves, and an Oaken Lunarch hides the parasite the same way: a second self kept out of sight, fed in the dark. Where the Briaren release the phases into the grove, the Oaken hold them in, and the held hours are repaid all at once in the first private moment, which is why the Oaken know their Lunarchs by their absences and their neighbours know them only as quiet.`,
       signatureAbility: {
         name: 'Cellar-Suppression',
-        description: `Phases stay banked through daylight and public hours; every banked hour is repaid at once when the host is finally alone, doubling the phase's effects and the host's recovery time. The Oken are the most controlled variant in public and the most violent in private.`
+        description: `Phases stay banked through daylight and public hours; every banked hour is repaid at once when the host is finally alone, doubling the phase's effects and the host's recovery time. The Oaken are the most controlled variant in public and the most violent in private.`
       },
-      currentCrisisAngle: `The dead moon's call is getting harder to hide. Oken Lunarchs have started chanting in their sleep on starless city nights, and the Scribe-Cartel has begun paying for recordings, which the Oken read as the first step toward the Forgotten treatment.`,
+      currentCrisisAngle: `The dead moon's call is getting harder to hide. Oaken Lunarchs have started chanting in their sleep on starless city nights, and the Scribe-Cartel has begun paying for recordings, which the Oaken read as the first step toward the Forgotten treatment.`,
       signatureQuote: {
         text: '"My neighbours know me as a quiet clerk with a bad cough. The moon knows me as a door it has been knocking on for two hundred years."',
-        speaker: 'Oken Lunarch Vel-Sera the Unremarkable',
-        context: 'An Oken Lunarch, declining to attend a city service'
+        speaker: 'Oaken Lunarch Vel-Sera the Unremarkable',
+        context: 'An Oaken Lunarch, declining to attend a city service'
       }
     },
 
@@ -110,32 +110,32 @@ export const LUNARCH_DATA = {
     tethered_mimir: {
       subraceName: 'Broken Mimir',
       title: 'The Sentinel-Moon',
-      reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Fractured host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
+      reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink> are the fog-sentinels, the watchers on the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, and a Lunarch among them must reconcile the parasite with an existing *duty-identity*. The Broken Mimir host is anchored not by a mask but by *vigil*: the sentinel's watch. The parasite bonds to the vigil itself, and the moon becomes the thing they watch *for*.`,
       signatureAbility: {
         name: 'Vigil-Bond',
-        description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Fractured Lunarch who abandons their post loses their magic within hours.`
+        description: `The parasite's power scales with the host's adherence to their sentinel-duty; a Broken Mimir Lunarch who abandons their post loses their magic within hours.`
       },
-      currentCrisisAngle: `The elder-parasite communication manifests in the Fractured as *false alarms*, the sentinel-moon reporting threats that are not there, calling the host to posts that do not exist.`,
+      currentCrisisAngle: `The elder-parasite communication manifests in the Broken Mimir as *false alarms*, the sentinel-moon reporting threats that are not there, calling the host to posts that do not exist.`,
       signatureQuote: {
         text: '"I am the sentinel and the moon is my post. Lately the moon sees things I do not. I do not know if it is lying or if I am going blind."',
         speaker: 'Sentinel Mir-Felss',
-        context: 'A Fractured Lunarch, the fourth night of phantom alarms'
+        context: 'A Broken Mimir Lunarch, the fourth night of phantom alarms'
       }
     },
 
     thalren_human: {
-      subraceName: 'Thalren',
+      subraceName: 'Tallyn',
       title: 'The Fog-Heresy',
-      reframe: `The <LoreLink termId="skald">Thalren</LoreLink> value fixed identity above all, journals chained to belts, lineages tattooed on tapestries, and a Lunarch among them is a *heretic*, surrendering the very stability their culture worships. A Thalren Lunarch is rare, ostracized, and desperate: they have traded the recorded self for a parasitic one, and the fog that erases Thalren memory is, for them, *feeding* the moon.`,
+      reframe: `The <LoreLink termId="skald">Tallyn</LoreLink> value fixed identity above all, journals chained to belts, lineages tattooed on tapestries, and a Lunarch among them is a *heretic*, surrendering the very stability their culture worships. A Tallyn Lunarch is rare, ostracized, and desperate: they have traded the recorded self for a parasitic one, and the fog that erases Tallyn memory is, for them, *feeding* the moon.`,
       signatureAbility: {
         name: 'Fog-Communion',
-        description: `The parasite draws power directly from the Frostwood's memory-erasing fog; a Thalren Lunarch in dense fog is the most potent variant of the tradition, channeling silence-light the fog itself filters. The cost: the Thalren's already-fading memories fade *faster*, fed to the parasite as fuel.`
+        description: `The parasite draws power directly from the Frostwood's memory-erasing fog; a Tallyn Lunarch in dense fog is the most potent variant of the tradition, channeling silence-light the fog itself filters. The cost: the Tallyn's already-fading memories fade *faster*, fed to the parasite as fuel.`
       },
-      currentCrisisAngle: `The Thalren Lunarchs are the variant most endangered by their own people: the Scribe-Cartel has begun identifying them (the glow gives them away) and striking them from the Sovereign Ledger as *legally nonexistent*, the same erasure applied to the Forgotten. A Thalren Lunarch who is unrecorded cannot prove they exist, and the parasite, feeding on a host the world no longer acknowledges, is growing erratic.`,
+      currentCrisisAngle: `The Tallyn Lunarchs are the variant most endangered by their own people: the Scribe-Cartel has begun identifying them (the glow gives them away) and striking them from the Sovereign Ledger as *legally nonexistent*, the same erasure applied to the Forgotten. A Tallyn Lunarch who is unrecorded cannot prove they exist, and the parasite, feeding on a host the world no longer acknowledges, is growing erratic.`,
       signatureQuote: {
         text: '"My people chain journals to their belts to prove they are real. I let the moon eat my proof. The Ledger struck my name. By your law, I do not exist. By the moon\'s, I never stop."',
         speaker: 'Thal-Veyr the Unrecorded',
-        context: 'A Thalren Lunarch, reading the notice of her own legal erasure'
+        context: 'A Tallyn Lunarch, reading the notice of her own legal erasure'
       }
     }
   },
@@ -158,17 +158,17 @@ export const LUNARCH_DATA = {
     currentLeader: {
       name: '<LoreLink termId="bri-vessela">Regent Bri-Vessela</LoreLink>',
       title: 'Keeper of the Phases (acting)',
-      characterization: `A senior Trueborn Florae who has led the Communion in Selene's silence with visible reluctance. She is a theologian, not a politician, and she took the regency only because the alternative was civil war between the caste-factions. She spends her nights at Selene's side, transcribing the dead-language whispers, and her days pretending she understands what they mean.`
+      characterization: `A senior Briaren Florae who has led the Communion in Selene's silence with visible reluctance. She is a theologian, not a politician, and she took the regency only because the alternative was civil war between the caste-factions. She spends her nights at Selene's side, transcribing the dead-language whispers, and her days pretending she understands what they mean.`
     },
     headquarters: { name: 'The Moonlit Groves, deep Frostwood Reach', locationId: 'frostwood-reach' },
     crisisConnection: `<LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> is presiding over a Communion that is, quietly, being *called*, the elder parasites communicating across hosts are synchronizing the phases of every Lunarch toward an unknown convergence. Selene's whispers are, <LoreLink termId="bri-vessela">Bri-Vessela</LoreLink> has begun to suspect, not madness but *instructions*: the waking-song of the fallen star, and every Lunarch is a note in it. She does not know whether to stop the convergence or let it come, because no one alive remembers what wakes.`
   },
 
   worldFriction: [
-    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints.', workaround: 'The Shorn Florae variant survives by passing as human; the Tethered Mimir variant is already unrecorded. The openly lunar have no workaround, only flight into the deep groves.' },
-    { region: 'bryngloom-forest', status: 'banned', consequence: 'The Nethien consider the lunar parasite an unbound entity outside the First Contract. A Lunarch in Atropolis is treated as a walking contract-breach and detained for resolution of the unfiled attachment.', workaround: 'Obtain a temporary diplomatic containment bond from the Ledger-Keepers.' },
+    { region: 'frostwood-reach', status: 'persecuted', consequence: 'The Scribe-Cartel identifies Lunarchs by their tell-tale glow and strikes them from the Sovereign Ledger, the same legal erasure applied to the Forgotten. An unrecorded Lunarch cannot prove citizenship, own property, or cross the Ironwood Palisade checkpoints.', workaround: 'The Oaken Florae variant survives by passing as human; the Broken Mimir variant is already unrecorded. The openly lunar have no workaround, only flight into the deep groves.' },
+    { region: 'bryngloom-forest', status: 'banned', consequence: 'The Athien consider the lunar parasite an unbound entity outside the First Contract. A Lunarch in Atropolis is treated as a walking contract-breach and detained for resolution of the unfiled attachment.', workaround: 'Obtain a temporary diplomatic containment bond from the Ledger-Keepers.' },
     { region: 'sundale', status: 'distrusted', consequence: 'Sundale forge-masters consider lunar starlight an unstable, cold aberration that weakens sacred solar metallurgy.', workaround: 'Confine casting to non-forge districts and wear lead-lined wraps over phase-scars.' },
-    { region: 'emberspire', status: 'hunted', consequence: 'Waste-Solari zealots view the lunar parasite as a cosmic blight that threatens to extinguish the caldera flames.', workaround: 'Travel only through subterranean venting tunnels or under heavy escort.' }
+    { region: 'emberspire', status: 'hunted', consequence: 'Anhur zealots view the lunar parasite as a cosmic blight that threatens to extinguish the caldera flames.', workaround: 'Travel only through subterranean venting tunnels or under heavy escort.' }
   ],
 
   overview: {
@@ -178,11 +178,21 @@ The first host was Selene of House Viridane, who struck the bargain during her f
 
 The Lunar Cycle is not a tool. It is the parasite's feeding schedule, and it does not care what the host was doing when the phase shifts. Every three rounds, the parasite forcefully rewrites the host's physiology to extract a different nutrient. During the New Moon, it feeds on memory, granting damage resistance and emotional immunity. During the Waxing phase, it feeds on sensation, amplifying damage output. During the Full Moon, it feeds on sanity, granting devastating radiant power but forcing Delirium rolls. During the Waning, it feeds on vitality, granting vampiric regeneration at the cost of life force. At the end of each phase, the host pays in pain, every transition dealing smashing damage as the parasite rearranges their nervous system for the next feeding.
 
-For a century and a half, the parasite bonded only to Florae bloodlines. The Trueborn Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Shorn Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Broken Mimir having it bond to the vigil itself. Thalren hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Thalren lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
+For a century and a half, the parasite bonded only to Florae bloodlines. The Briaren Florae, descendants of House Viridane, are the original hosts. The parasite is the fae-contract made flesh, each phase a payment on an ancient debt. The Oaken Florae carry the parasite in secret while passing as human, sneaking into moonlit clearings to feed it when no one is watching. But the parasite has recently begun spreading. It now bonds to Mimir hosts, the Arch Mimir finding it replaces their heartwood mask as identity-anchor, and the Broken Mimir having it bond to the vigil itself. Tallyn hosts have begun emerging, the memory-erasing fog providing direct fuel for the parasite. A Tallyn lunarch trades fixed identity for a parasitic one, and in dense fog, they are the most potent variant.
 
-The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Florae elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves ages before the Star-Fall. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.`,
+The elder parasites are communicating across their hosts. They are planning something. Selene has not spoken in three weeks, and when she does speak, it is in a language no living person recognizes. The Florae elders have discovered that the dead moon was never a moon at all. It was a fallen star, and the parasites are its brood, hatched from a fragment that fell into the Frostwood's groves ages before the Star-Fall. Whatever is waking is older than the fae-contract, older than the dark bargains, older than Selene's bargain itself.
+
+Native only to Briaren Florae. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
     title: "The Lunarch",
     subtitle: "Vessel of the Lunar Parasite",
+    illustration: "/assets/images/classes/lunarch_viridian_florae.jpg",
+    illustrationCaption: "Briaren Florae Lunarch — The Thorn-Bound, commanding plant-fae woman wielding a silver crescent sickle while levitating a pulsating thorny lunar chrysalis in the moonlit ancient grove.",
+    illustrations: [
+      { url: "/assets/images/classes/lunarch_viridian_florae.jpg", subraceId: "viridian_florae", caption: "Briaren Florae Lunarch — The Thorn-Bound, commanding plant-fae woman wielding a silver crescent sickle while levitating a pulsating thorny lunar chrysalis in the moonlit ancient grove." },
+      { url: "/assets/images/classes/lunarch_oken_florae.jpg", subraceId: "florae_unified", caption: "Oaken Florae Lunarch — The Timber-Born, massive timber craftsman holding an oak staff with a crescent crest, his forearm bark split open with crackling blue silence-light while raising a glowing full moon orb." },
+      { url: "/assets/images/classes/lunarch_arch_mimir.jpg", subraceId: "veiled_mimir", caption: "Arch Mimir Lunarch — The Mask-Anchored, high-canopy noble in an ornate porcelain owl mask and flowing silk robes, brandishing an engraved crescent sickle and cradling a glowing celestial moon orb." },
+      { url: "/assets/images/classes/lunarch_thalren_human.jpg", subraceId: "thalren_human", caption: "Tallyn Human Lunarch — The Fog-Heresy, exiled scholar striding through the mist with a rune-etched reaping sickle, the empty brass binding of his personal ledger burning with crackling blue silence-light." }
+    ],
 
     quickOverview: {
     title: "Class Overview",
@@ -222,8 +232,7 @@ The lunarch's crescent aura was born in the moonlit groves of the <LoreLink term
 Lunarchs are celebrated as spiritual leaders among the Florae, but they are hunted as heretics by the noble houses of the north.
 
 **RACES & CULTURAL AFFILIATION**
-The class is primarily practiced by the <LoreLink termId="florae">Florae</LoreLink> descendants of House Viridane, though the lunar parasite has occasionally bonded with Mimir mask-merged and Thalren hosts drawn to the Frostwood's moonlit groves.
-
+The lunar parasite is the Briaren Florae fae-contract made flesh. The Oaken Florae contain its phases through timber restraint, and the Arch Mimir use their heartwood mask as an identity-anchor. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Selene of House Viridane**: The founding scion of the Lunarch order who led her house's escape from the north.
 * **Eldrin the Moon-Touched**: A Florae elder who established the first moonlit sanctuaries in the Frostwood Reach.`

@@ -1807,7 +1807,7 @@
     min-width: 0;
 }
 
-/* Heritage line: "of the Withered" — mirrors the /account header's
+/* Heritage line: "of the Riven" — mirrors the /account header's
    "<Class> <Name> of the <Subrace>" title grammar in miniature. */
 .party-member-frame .member-heritage-line {
     display: flex;
@@ -2161,6 +2161,95 @@
     margin-bottom: 6px;
     padding-bottom: 4px;
     border-bottom: 1px solid rgba(139, 115, 85, 0.4);
+}
+
+.mount-adjust-label {
+    margin-right: 4px;
+}
+
+.mount-adjust-value {
+    background: none;
+    border: none;
+    padding: 0 2px;
+    margin: 0;
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 3px;
+    text-decoration: underline dotted rgba(245, 222, 179, 0.5);
+    text-underline-offset: 2px;
+}
+
+.mount-adjust-value:hover {
+    color: #ffd8a8;
+    background: rgba(139, 115, 85, 0.35);
+}
+
+.mount-adjust-confirm,
+.mount-adjust-cancel {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 3px;
+    border: 1px solid #8b7355;
+    cursor: pointer;
+    background: #3a2818;
+    transition: background 0.15s ease;
+}
+
+.mount-adjust-confirm {
+    color: #2ecc71;
+    border-color: #27ae60;
+}
+
+.mount-adjust-confirm:hover {
+    background: rgba(46, 204, 113, 0.25);
+}
+
+.mount-adjust-cancel {
+    color: #e74c3c;
+    border-color: #c0392b;
+}
+
+.mount-adjust-cancel:hover {
+    background: rgba(231, 76, 60, 0.25);
+}
+
+.mount-adjust-input {
+    width: 52px;
+    padding: 1px 4px;
+    font: inherit;
+    font-weight: 700;
+    text-align: center;
+    color: #1a120b;
+    background: #f5deb3;
+    border: 1px solid #8b7355;
+    border-radius: 3px;
+    outline: none;
+}
+
+.mount-adjust-input:focus {
+    border-color: #ffd8a8;
+    box-shadow: 0 0 0 2px rgba(255, 216, 168, 0.3);
+}
+
+.mount-adjust-input::-webkit-outer-spin-button,
+.mount-adjust-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.mount-adjust-input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .mount-adjust-close {

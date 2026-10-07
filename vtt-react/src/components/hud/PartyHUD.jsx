@@ -35,9 +35,9 @@ import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
-// Nethien and Human bloodlines carry only the bloodline name in race data; the
-// heritage line appends the people/species (e.g. "Withered Nethien",
-// "Thalren (Human)") so the lineage is always clear.
+// Athien and Human bloodlines carry only the bloodline name in race data; the
+// heritage line appends the people/species (e.g. "Riven",
+// "Tallyn (Human)") so the lineage is always clear.
 const BACKGROUND_ICON_OVERRIDES = {
     pilgrim: 'person-walking',
     courier: 'horse',
@@ -45,20 +45,32 @@ const BACKGROUND_ICON_OVERRIDES = {
     'noble scion': 'crown',
     scholar: 'book',
     veteran: 'shield-halved',
-    'debt negotiator': 'scale-balanced',
+    negotiator: 'scale-balanced',
     storyteller: 'masks-theater',
     smith: 'hammer',
-    'plague warden': 'shield-virus',
+    survivor: 'shield-virus',
     mountaineer: 'mountain',
     sailor: 'ship',
-    'black market trader': 'sack-dollar',
+    smuggler: 'sack-dollar',
     urchin: 'coins',
     'relic hunter': 'gem',
-    'forest warden': 'tree',
+    ranger: 'tree',
     machinist: 'gear',
     herder: 'wheat-awn',
-    stargazer: 'star',
+    astronomer: 'star',
+    archivist: 'book',
     guardian: 'shield',
+    navigator: 'compass',
+    scout: 'map',
+    delver: 'mountain',
+    trader: 'sack-dollar',
+    sentry: 'shield',
+    builder: 'hammer',
+    clerk: 'feather-pointed',
+    broker: 'scale-balanced',
+    privateer: 'ship',
+    nameless: 'user-secret',
+    'crypt-keeper': 'skull',
     'hunter\'s reversal': 'crosshairs'
 };
 const DEFAULT_BACKGROUND_ICON = 'scroll';
@@ -245,6 +257,9 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     // Quick-adjust popover for the corner mounts (HP bottle / mana crystal / AP boot)
     const [mountMenu, setMountMenu] = useState(null);
     const mountMenuRef = useRef(null);
+    // Inline edit of the current value inside the mount popover (null = not editing)
+    const [mountEditValue, setMountEditValue] = useState(null);
+    const mountEditCommittedRef = useRef(false);
 
     // Long names shrink to fit the header row instead of spilling out of the
     // frame (min-width: min-content would otherwise defeat ellipsis).
@@ -264,6 +279,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         const y = kind === 'ap'
             ? rect.bottom + 8
             : Math.max(8, rect.top - menuHeight - 8);
+        setMountEditValue(null);
         setMountMenu({ kind, x, y });
     };
 
@@ -1271,8 +1287,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         }
 
                         // Heritage label with dedup for legacy suffixes, e.g.
-                        // "Stargazer Astril (Astril)" -> "Stargazer Astril",
-                        // "Thalren (Frostwood Reach)" -> "Thalren (Human)".
+                        // "Lumian (Astril)" -> "Lumian",
+                        // "Tallyn (Frostwood Reach)" -> "Tallyn (Human)".
                         const cleanRace = getRaceHeritageLabel(race) || '';
 
                         // Title block: name / "of the <bloodline>" / background script.
@@ -1467,6 +1483,17 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             : (kind === 'mana' ? (member.character?.tempMana || 0) : (member.character?.tempHealth || 0));
                         const cur = pool?.current || 0;
                         const maxVal = pool?.max || 1;
+                        const commitMountEdit = () => {
+                            if (mountEditCommittedRef.current) return;
+                            mountEditCommittedRef.current = true;
+                            const parsed = parseInt(mountEditValue, 10);
+                            if (!isNaN(parsed)) {
+                                const clamped = Math.max(0, parsed);
+                                const delta = clamped - cur;
+                                if (delta !== 0) onResourceAdjust(member.id, resourceType, delta);
+                            }
+                            setMountEditValue(null);
+                        };
                         return (
                             <div
                                 ref={mountMenuRef}
@@ -1476,9 +1503,73 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 onMouseDown={(e) => e.stopPropagation()}
                                 onContextMenu={(e) => e.preventDefault()}
                             >
-                                <button className="mount-adjust-close" onClick={() => setMountMenu(null)} title="Close">×</button>
-                                <div className="mount-adjust-title">
-                                    {MOUNT_TITLES[kind]} {cur}/{maxVal}{tempVal > 0 ? ` (+${tempVal})` : ''}
+                                <button className="mount-adjust-close" onClick={() => { setMountEditValue(null); setMountMenu(null); }} title="Close">×</button>
+                                <div
+                                    className="mount-adjust-title"
+                                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                                >
+                                    <span className="mount-adjust-label">{MOUNT_TITLES[kind]}</span>
+                                    {mountEditValue !== null ? (
+                                        <>
+                                            <input
+                                                className="mount-adjust-input"
+                                                type="text"
+                                                inputMode="numeric"
+                                                pattern="[0-9]*"
+                                                autoFocus
+                                                value={mountEditValue}
+                                                style={{
+                                                    width: '52px',
+                                                    minWidth: '52px',
+                                                    flex: '0 0 auto',
+                                                    height: '20px',
+                                                    padding: '0 4px',
+                                                    fontSize: '11px',
+                                                    fontWeight: 700,
+                                                    textAlign: 'center',
+                                                    color: '#1a120b',
+                                                    background: '#f5deb3',
+                                                    border: '1px solid #8b7355',
+                                                    borderRadius: '3px',
+                                                    outline: 'none',
+                                                    boxSizing: 'border-box'
+                                                }}
+                                                onChange={(e) => setMountEditValue(e.target.value.replace(/[^\d]/g, ''))}
+                                                onFocus={(e) => e.target.select()}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') commitMountEdit();
+                                                    else if (e.key === 'Escape') { mountEditCommittedRef.current = true; setMountEditValue(null); }
+                                                }}
+                                                onBlur={commitMountEdit}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="mount-adjust-confirm"
+                                                title="Apply"
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={commitMountEdit}
+                                            >✓</button>
+                                            <button
+                                                type="button"
+                                                className="mount-adjust-cancel"
+                                                title="Cancel"
+                                                onMouseDown={(e) => e.preventDefault()}
+                                                onClick={() => { mountEditCommittedRef.current = true; setMountEditValue(null); }}
+                                            >✕</button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button
+                                                type="button"
+                                                className="mount-adjust-value"
+                                                title="Click to set an exact value"
+                                                onClick={() => { mountEditCommittedRef.current = false; setMountEditValue(String(cur)); }}
+                                            >
+                                                {cur}/{maxVal}
+                                            </button>
+                                            {tempVal > 0 ? <span>(+{tempVal})</span> : null}
+                                        </>
+                                    )}
                                 </div>
                                 <div className="mount-adjust-row">
                                     {MOUNT_ADJUST_STEPS[resourceType].map((step) => (

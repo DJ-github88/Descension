@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { handleRest } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
+import { getManagedResourceId, normalizeManagedClassResource } from '../data/classResourceContracts';
 
 const initialState = {
     creatures: [],
@@ -525,14 +526,45 @@ const useGameStore = create((set, get) => ({
         try {
             const useCharacterStore = getStore('characterStore');
             const charStore = useCharacterStore.getState();
-            const cr = charStore.classResource;
-            if (cr && typeof cr.current === 'number' && typeof cr.max === 'number' && cr.max > 0) {
+            const savedResource = charStore.classResource;
+            const managedId = getManagedResourceId(savedResource, charStore.class);
+            const cr = managedId === 'kineticFluxBodyToll' ? normalizeManagedClassResource(savedResource, charStore.class) : savedResource;
+            const shortRestZero = ['bloodHeat', 'mayhemGauge', 'radiantFervor', 'ancestralResonance', 'madnessPoints', 'virulenceCultivation', 'vengeance-points'];
+            if (cr && managedId === 'infernoVeil') {
+                // Rest cools the Veil; the shared update retains any Debt Call.
+                charStore.updateClassResource('current', 0, true, true);
+                charStore.syncResourcesWithMultiplayer({ classResource: 0 });
+            } else if (cr && shortRestZero.includes(managedId)) {
+                // Combat build-up resources cool to zero; they are not rest-healing currencies.
+                charStore.updateClassResource('current', 0, true, true);
+                charStore.syncResourcesWithMultiplayer({ classResource: 0 });
+            } else if (cr && managedId === 'benediction-malediction') {
+                // Short rest vents both omen pools with no Omen Debt.
+                charStore.updateClassResource('benediction', 0, true, true);
+                charStore.updateClassResource('malediction', 0, true, true);
+                charStore.syncResourcesWithMultiplayer({ classResource: 0 });
+            } else if (cr && managedId === 'toxinVialsContraptions') {
+                // Contraption Parts return one on a short rest; Vial recovery is dice-driven and deferred.
+                const parts = Math.min(cr.contraptionPartsMax ?? 5, (cr.contraptionParts ?? 0) + 1);
+                charStore.updateClassResource('contraptionParts', parts, true, true);
+                charStore.syncResourcesWithMultiplayer({ classResource: 0 });
+            } else if (cr && managedId === 'lunarPhases') {
+                // The phase is not a rest-healing pool; normalize the shape and keep the current phase.
+                charStore.updateClassResource('currentLunarPhase', cr.currentLunarPhase ?? cr.phase ?? cr.current, true, true);
+            } else if (cr && ['timeShardsStrain', 'revenant-toll'].includes(managedId)) {
+                // Shards persist between combats; the finite anchor is not a rest-healing pool.
+            } else if (cr && !['quarryMarksCompanion', 'arcaneEnergyPoints', 'authority'].includes(managedId) && typeof cr.current === 'number' && typeof cr.max === 'number' && cr.max > 0) {
+                // Pack Marks, captured AEP and occult-contact Authority are not generic rest-recovery currencies.
                 const stats = charStore.stats || {};
                 const spirit = stats.spirit || 10;
                 const spiritModifier = Math.max(0, Math.floor((spirit - 10) / 2));
                 const recoveryPercent = Math.min(0.75, 0.25 + (spiritModifier * 0.05));
                 const recovered = Math.min(cr.max, cr.current + Math.floor(cr.max * recoveryPercent));
                 charStore.updateClassResource('current', recovered, true, true);
+                if (managedId === 'kineticFluxBodyToll') {
+                    const balances = normalizeManagedClassResource(cr, charStore.class);
+                    charStore.updateClassResource('bodyToll', Math.max(0, balances.bodyToll - 3), true, true);
+                }
                 charStore.syncResourcesWithMultiplayer({ classResource: 0 });
             }
         } catch (e) {

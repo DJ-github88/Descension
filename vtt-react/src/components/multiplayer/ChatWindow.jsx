@@ -20,26 +20,44 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
       setMessages(room.chatHistory);
     }
 
-    // Listen for new messages
-    socket.on('chat_message', (message) => {
+    // Named handlers so cleanup removes only OUR listeners (socket.off(event)
+    // with no handler would remove the socketHandlers/* listeners too).
+    const onChatMessage = (message) => {
       setMessages(prev => [...prev, message]);
-    });
+    };
 
-    // Listen for typing indicators
-    socket.on('user_typing', (data) => {
+    const onUserTyping = (data) => {
       if (data.playerId !== currentPlayer?.id) {
         setUserTyping(data.playerId, data.playerName, true);
       }
-    });
+    };
 
-    socket.on('user_stopped_typing', (data) => {
+    const onUserStoppedTyping = (data) => {
       setUserTyping(data.playerId, data.playerName, false);
-    });
+    };
+
+    // Server rejected a chat message (e.g. the GM muted this player).
+    const onChatMuted = (data) => {
+      setMessages(prev => [...prev, {
+        id: `chat-muted-${Date.now()}`,
+        playerName: 'System',
+        content: data?.reason || 'You have been muted by the GM.',
+        isGM: false,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      }]);
+    };
+
+    socket.on('chat_message', onChatMessage);
+    socket.on('user_typing', onUserTyping);
+    socket.on('user_stopped_typing', onUserStoppedTyping);
+    socket.on('chat_muted', onChatMuted);
 
     return () => {
-      socket.off('chat_message');
-      socket.off('user_typing');
-      socket.off('user_stopped_typing');
+      socket.off('chat_message', onChatMessage);
+      socket.off('user_typing', onUserTyping);
+      socket.off('user_stopped_typing', onUserStoppedTyping);
+      socket.off('chat_muted', onChatMuted);
     };
   }, [socket, room, currentPlayer]);
 

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SpellguardResourceBar from '../components/SpellguardResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
+import { updateManagedClassResource } from '../../../classResourceContracts';
 
 describe('SpellguardResourceBar Component (Damon Alchemical Tower Shield Apparatus)', () => {
     it('renders the pure SVG alchemical tower shield apparatus with 10 capacitor chambers and central AEP numeral', () => {
@@ -110,5 +111,33 @@ describe('SpellguardResourceBar Component (Damon Alchemical Tower Shield Apparat
         const textElements = container.querySelectorAll('svg text');
         expect(textElements).toHaveLength(1);
         expect(textElements[0].textContent).toBe('95');
+    });
+
+    it('controlled annulment and deflection reports bank residual once and retain the routed remainder', () => {
+        let resource;
+        const Bank = () => {
+            const [value, setValue] = useState({ current: 0, max: 9, resonance: 0 });
+            resource = value;
+            return <SpellguardResourceBar classResource={value} isOwner={true}
+                onClassResourceUpdate={(field, amount) => setValue(previous => updateManagedClassResource(previous, 'Spellguard', field, amount))} />;
+        };
+        const { container } = render(<Bank />);
+        fireEvent.click(container.querySelector('.sg-keystone-module'));
+        fireEvent.change(screen.getByLabelText('Intake interface'), { target: { value: 'annulment' } });
+        fireEvent.change(screen.getByLabelText('Resolution receipt ID'), { target: { value: 'spell-1' } });
+        fireEvent.change(screen.getByLabelText('Captured residual'), { target: { value: '2' } });
+        fireEvent.change(screen.getByLabelText('Dissipated energy'), { target: { value: '18' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
+        expect(resource).toMatchObject({ current: 2, max: 100, aep: 2, resonance: 2, spellguardIntake: { totals: { captured: 2, dissipated: 18 } } });
+        fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
+        expect(resource.current).toBe(2);
+        expect(screen.getByRole('status')).toHaveTextContent('duplicate-receipt');
+        fireEvent.change(screen.getByLabelText('Intake interface'), { target: { value: 'deflection' } });
+        fireEvent.change(screen.getByLabelText('Resolution receipt ID'), { target: { value: 'spell-2' } });
+        fireEvent.change(screen.getByLabelText('Captured residual'), { target: { value: '1' } });
+        fireEvent.change(screen.getByLabelText('Redirected energy'), { target: { value: '19' } });
+        fireEvent.change(screen.getByLabelText('Dissipated energy'), { target: { value: '0' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
+        expect(resource).toMatchObject({ current: 3, spellguardIntake: { totals: { incoming: 40, captured: 3, redirected: 19, dissipated: 18 } } });
     });
 });

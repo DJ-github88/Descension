@@ -37,19 +37,15 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Living siege anchors and wilderness guides. Animists drive heavy bone totems into the dirt, lace defensive perimeters with glowing runic nets, and call down curses on enemy lines. Frontier outposts pay gold for their warding rites, but civilian towns bar their gates against them: the bone spurs, skin glyphs, and loud arguments with invisible ghosts terrify common folk.
 
-**Cultural Affiliation:** Practiced by Ordan steppe-riders, Earthen and Brutish Astril refugees, Skald runic scholars, Morgh Groven vat-choirs, Waste-Solari ash-choirs, and the Florae grove-cantors of both bloodlines.
+**Cultural Affiliation:** Native to Ordan, Clean Vreken, Nethien, Deepling Myrathil. Any other people may pursue this path only as a rare, individually qualified exception.
 
 **Sites:** The Concord of Tongues (the Frozen Archive collation hall where the dialects are argued into one lexicon), the Listening Mound (Sundrift Vale, where the oldest dead still answer cleanly), Nyssa's Sink (the Bryngloom spore-hollow of the first deliberate inhalation), and the Quenched Hearth (a burned Sky-Singer steading in Nordhalla, silent to every dialect).
 
-*Eight Cultural Variants:*
+*Four Native Variants:*
 * **Ordan ("The Steppe-Throat"):** Sings ancestral voices through double-tone throat singing, weaving ghost-voices into migration horsehair.
-* **Vashir Astril ("The Heritage-Conduit"):** Channels the biological memories of a shattered alien world preserved in crystalline blood cells.
-* **Silath Astril ("The Star-Communer"):** Stands motionless in the moon-courtyard and lets the dead star speak through their crystalline markings.
-* **Skald ("The Rune-Keeper"):** Carves the names of dead warlords into scar tissue, using raised skin as a permanent dwelling for the spirit.
-* **Morgh Groven ("The Vat-Mouth"):** Listens to the alchemical dead still arguing in the calcified substrate of drained vats, taking their last testimony onto slate.
-* **Waste-Solari ("The Ash-Choir"):** Reads funeral ash-fall on the caldera slopes, where the ancestors answer in ember-crack and soot-pattern.
-* **Viridian Florae ("The Thorn-Cantor"):** Gives voice to the Unwritten dead of House Viridane, whose names survive only in thorn and blood; each summoning must speak the name aloud.
-* **Oken Florae ("The Grove-Litany"):** Carries ancestors in pocket-sized splinter-grafts, the only Animist variant that can practice inside a city.
+* **Clean Vreken ("The Spore-Voice"):** Breathes spore-dust in the fungal bogs to hear the dead; the bog holds its memories longer than flesh does.
+* **Nethien ("The Ledger-Summoner"):** Files a request with the archive of the dead; a precise citation stabilizes the spirit, and a bad one summons the wrong ancestor.
+* **Deepling Myrathil ("The Deep-Listener"):** Channels drowned ancestors through pressure-bone resonance; the communion is silent, invisible, and answered only in the dark.
 
 **Fatal Flaw / Crisis:** Channelling 15+ Resonance causes physical collapse: fire burns twice as hot against their skin, conventional medical healing fails, and demanding spirits tear 1d6 Wyrd damage from their marrow every turn. Today, the three ancestral dialects are drifting out of alignment; young Animists trying to speak all three simultaneously suffer catastrophic brain hemorrhages.
 
@@ -65,17 +61,12 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** The primary vanguard against wilderness horrors. Frontier logging outposts and wooden wall garrisons hire Apex rangers to track maneaters and scout through blinding blizzards. They communicate strictly through hand signs and weapon taps, rarely speaking or entering heated taverns.
 
-**Cultural Affiliation:** Practiced by the wood-carving Mimir and northern Skald rangers.
+**Cultural Affiliation:** Native to Arch Mimir, Broken Mimir, Deepling Myrathil. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Eight Cultural Variants:*
+*Three Native Variants:*
 * **Masked Mimir ("The Mask-Hunter"):** Uses a carved wooden face-mask to anchor their sanity while their senses range miles through the mist.
 * **Woven Mimir ("The Sentinel-Tracker"):** Treats every patrol as a live combat watch along the ironwood palisades.
-* **Unwoven Mimir ("The Fog-Walker"):** Dissolves their physical silhouette into cold vapor to ambush beasts from inside the mist.
-* **Skald ("The Glacier-Stalker"):** Reads cracked glacier ice like a book, tracking beast weight across packed snowdrifts.
-* **Clean Vreken ("The Glow-Trailer"):** Follows glowing fungal trails along subterranean root networks.
-* **Marked Vreken ("The Mycelium-Scent"):** Uses fungal filaments beneath their skin as a physical tripwire network to feel prey moving overhead.
-* **Ordan ("The Steppe-Scent"):** Tracks game across open grasslands by reading crushed steppe-grass and thermal wind currents.
-* **Waste-Solari ("The Ash-Stalker"):** Reads footfalls in scoria and heat-memory in lava-glass, running an ash-hound at heel; the trails keep ending at sealed vents that are warm again.
+* **Deepling Myrathil ("The Trench-Stalker"):** Reads current-shear and thermal vents with a deep-adapted companion; the trench keeps a record longer than any surface terrain.
 
 **Fatal Flaw / Crisis:** The freezing fog has begun acting with predatory intelligence. Beast packs are actively erasing their tracks, and Unwoven scouts who dissolve into the vapor are vanishing entirely. Sylas has realized that the fog-horrors are no longer fleeing his hunters—they are hunting him.
 
@@ -93,9 +84,9 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** The ruling jurists and artillery elite of Atropolis. Arcanoneers sit at the heads of high courts, arbitrate maritime trade contracts at deep-water docks, and break siege lines during fortress wars, though the Clockwork Fexric guilds now license weaves like machinery and the Caustic Fexric sell combinations no guild will certify.
 
-**Cultural Affiliation:** The Nethien (contract-syntax), the Clockwork Fexric (guild engineering), the Caustic Fexric (salvage improvisation), and the Stargazer Astril (starlight cycles).
+**Cultural Affiliation:** Native to Nethien, Clockwork Fexric, Caustic Fexric, Stargazer Astril. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Four Lineage Variants:*
+*Four Native Variants:*
 * **Nethien ("The Contract-Weaver"):** Every sphere is a clause and every weave is filed; consistency is survival, because a contradiction may void every contract they have ever filed.
 * **Clockwork Fexric ("The Gear-Weaver"):** Guild-certified combinations only, executed through regulators and thermal sinks; flawless within tolerances, incapable of improvisation.
 * **Caustic Fexric ("The Scrap-Weaver"):** Jury-rigged catalysts, no certified matrix, a twenty-five percent backlash rate, and combinations the guild has never seen.
@@ -117,20 +108,13 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** High-ranking tactical advisors in mountain fortress archives and war rooms. Generals use Augurs to position shield walls before an ambush springs, though common soldiers avoid sharing mess halls with them due to their blood-stained knives and unsettling muttering.
 
-**Cultural Affiliation:** Practiced by Skald mountain-haruspexes, Astril crystalline seers, Vreken peat-bog diviners, Veldun web-tallies, Hollow-Solari flame-watchers, and the deep-preservation readers of the Myrathil.
+**Cultural Affiliation:** Native to Skald, Veldun, Hollow-Solari, Deepling Myrathil. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Eleven Cultural Variants:*
+*Four Native Variants:*
 * **Skald ("The Glacier-Haruspex"):** Cassia’s original line. Slits open arctic beasts to read tactical movements in steaming viscera before the frost sets in.
-* **Vashir Astril ("The Star-Viscera Reader"):** Reads future fractures through the glowing cracks in their own crystalline skin.
-* **Silath Astril ("The Suppressed Oracle"):** Forces prophetic screams from suppressed alien memories locked inside their bone marrow.
-* **Tessen ("The Keep-Prophet"):** Predicts military breaches by reading stress fractures spreading through stone fortress walls.
-* **Clean Vreken ("The Bog-Gore Diviner"):** Pulls preserved corpses from peat bogs to extract historical warnings from ancient dead tissue.
-* **Marked Vreken ("The Mycelium-Haruspex"):** Reads incoming danger through the flashing light pulses of subterranean root mushrooms.
 * **Veldun ("The Web-Tally"):** Reads the strain-patterns of the obligation-web; the web and the Reckoner's ledger are both coming up short.
 * **Hollow-Solari ("The Sol's Breath-Reader"):** Reads the dying star's flicker-patterns in wordless vigil; a four-century ledger of dimming that no one outside the Deep-Vault has been told.
 * **Deepling Myrathil ("The Trench-Haruspex"):** Reads drowned elders preserved in abyssal cold and pressure; the longest reading window in the tradition.
-* **Shoreling Myrathil ("The Tide-Reader"):** Reads the future in what the sea returns to the tide-line, and in what order it surrenders it.
-* **Riverling Myrathil ("The Current-Haruspex"):** Reads the standing-wave patterns of river confluences; works far inland, and drowns in noise when the rivers run wrong.
 
 **Fatal Flaw / Crisis:** Prophetic accuracy has plummeted from 93% to 41% across the continent. Entrails are showing impossible, contradictory futures. Something in the upper atmosphere is warping the flow of time, creating timeline echoes that are causing seers to choke on conflicting visions.
 
@@ -148,12 +132,10 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Frontline shock troops and heavy tunnel-breakers. Mercenary companies hire Berserkers to smash through reinforced iron gates and clear cave-in rubble, though frontier taverns ban them on sight due to their lethal barroom brawls.
 
-**Cultural Affiliation:** Practiced by Skald mountain-clans (Hunger-Pact Sworn), Waste-Solari forge-clans (Caldera-Forged), and vat-grown Morgh Groven laborers (Vat-Woken).
+**Cultural Affiliation:** Native to Skald. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Three Cultural Variants:*
+*One Native Variant:*
 * **Skald ("The Hunger-Pact Sworn"):** Inherits ancestral fury from survivors who ate their fallen comrades during the Hunger Winter to keep the bloodline alive.
-* **Waste-Solari ("The Caldera-Forged"):** Draws Rage from geothermal resonance instead of ancestry, fighting as if carrying on a personal fistfight with the volcano.
-* **Morgh Groven ("The Vat-Woken"):** Engineered for docility, these heavy clay-clones weaponize dormant growth chemicals in their veins to tear off their own shock-collars.
 
 **Fatal Flaw / Crisis:** While in Rage, Berserkers ignore all incoming medical healing. Pushing past 100 Heat triggers total metabolic burnout, causing heart valves and lungs to seize. In the mountains, a new generation of berserkers is igniting Rage without performing the ancestral rituals, sparking a bloody civil war among clan elders.
 
@@ -171,12 +153,10 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Emergency siege engineers and field medics. Mining guilds pay fortunes for Chronarchs to freeze falling mine shafts and reverse explosive cave-ins, though church inquisitors hunt them down for delaying the natural death of the sun.
 
-**Cultural Affiliation:** Practiced by guild-licensed Fexric tinkerers and long-limbed Groven bridge-engineers.
+**Cultural Affiliation:** Native to Clockwork Fexric. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Three Cultural Variants:*
+*One Native Variant:*
 * **Kethrin Fexrick ("The Gear-Stitcher"):** Treats time as a mechanical gear-train with swappable teeth, maintaining their chest-engines with oil cans and spanners.
-* **Ithran Groven ("The Bone-Calibrator"):** Uses their extended clay-bone limbs as physical lightning rods to ground temporal shockwaves across wide areas.
-* **Tessen ("The Keep-Anchor"):** Anchors their life force to old fortress foundations, freezing time inside castle walls while the outer world ages.
 
 **Fatal Flaw / Crisis:** Chronarchs suffer permanent 50% vulnerability to Arcane and Blight energy. Forced movement drops their evasion to zero and causes temporal backlash. Worse, Nesta is actively disappearing from historical records—written books bearing her signature are going blank, threatening to erase all living Chronarchs in a single temporal paradox.
 
@@ -194,7 +174,7 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** The armored frontline fist of the Dawn Vigil. Crusaders spearhead expeditions into infested ruins, hold bridgeheads against swarming abominations, and execute corrupted nobles. While respected for their iron discipline, common folk fear their unyielding zeal and quickness to condemn suspects to the pyre.
 
-**Cultural Affiliation:** Practiced by Skald heavy champions (Frost-Hearth Zealots who treat the greatsword as a mobile hearth), Waste-Solari forge-knights (Magma Crusaders who supplement geothermal defense with starlight), and Brutish Astril (Crystal Judgments who refract Aex's song through their crystalline skin).
+**Cultural Affiliation:** Native to Waste-Solari. Any other people may pursue this path only as a rare, individually qualified exception.
 
 *Three Specialization Paths:*
 * **Solvan Executioner:** Frontline shock breaker wielding colossal greatswords. Converts Fervor into armor-melting smites and creates permanent zones of consecrated fire.
@@ -217,14 +197,10 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Charismatic cult leaders and underground revolutionaries. Hunted by city watches and burned as heretics by church knights, False Prophets operate in squalid refugee camps and mining slums, building devoted followings among starving workers by promising that the cold universe will swallow their masters whole.
 
-**Cultural Affiliation:** Practiced by Stargazer Astril (False Stars whose constructed faith borrows the credibility of genuine Lumia resonance), Brutish Astril (Gagged Evangelists who preach against their own suppressed heritage), Tessen keep-dwellers (Keep-Prophets with captive congregations), Ordan herd-watchers (Thinned-Herd Preachers who preach into the silence where the ancestor-songs failed), and Vreken debtors (Debt-Preachers who mint absolution from belief).
+**Cultural Affiliation:** Native to Ordan. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Five Cultural Variants:*
-* **Stargazer Astril ("The False Star"):** Borrows the credibility of a real fragment of a dead world's biosphere; the congregation cannot tell the prophet from the temple.
-* **Brutish Astril ("The Gagged Evangelist"):** Harnesses the rage of a suppressed heritage; genuine supernatural resistance reads as sacred conviction.
-* **Tessen ("The Keep-Prophet"):** Builds Madness faster than any variant because the congregation is physically sealed in a dying keep with no other source of meaning.
+*One Native Variant:*
 * **Ordan ("The Thinned-Herd Preacher"):** Preaches into the silence where the ancestor-songs failed; the sermon rides the wind and belief travels with the migration.
-* **Vreken ("The Debt-Preacher"):** Sells absolution from debts that outlive the debtor, minting belief as payment against a ledger the Keeper has never audited.
 
 **Fatal Flaw / Crisis:** Accumulating 20 Madness points triggers a violent psychic convulsion, stunning the Prophet. In recent months, the voice in their heads has begun giving precise, chilling orders: *"March to the mountain vaults. Break the iron seals. Let the cold inside."*
 
@@ -242,9 +218,9 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** High-stakes trade brokers, maritime navigators, and underworld kingpins, but never guildmasters—Gamblers recognize no guilds, only rival debtors working the same cosmic margins. They drift to the **Dead Pots**, the liminal gambling dens hidden in rotting hulls, dry mine shafts, and backrooms behind fishmarkets, where steel stays sheathed by universal agreement and disputes settle on the felt. The loudest of them sits in Oakhaven, on the Nordhalla coast. Coin means little in a Dead Pot; they trade in weighted dice cut from sea-horror teeth, blank bone tiles, loadstone coins, and bad paper signed by dead men that still carries resonance.
 
-**Cultural Affiliation:** Three heritages carry the archetype, each cornered by doom and each carrying the curse of its first wager: the Merryn of the Iceheart Sea, the Veldun of the Bryngloom, and the Caustic Fexric of the Cragjaw sumps.
+**Cultural Affiliation:** Native to Merryn, Veldun, Caustic Fexric. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Three Cultural Variants:*
+*Three Native Variants:*
 * **Merryn ("The Sea-Omen Gambler"):** A becalmed corsair fleet wagered lead dice for a gale and got it; the Chasing Losses curse keeps them moving, because the moment they settle, their luck putrefies.
 * **Veldun ("The Clause-Gambler"):** A ring of contraband runners staked caste, pedigree, and ancestral memory in a flooding vault; the House now holds their fate-threads as collateral, and they must keep raising the stakes to stay solid.
 * **Caustic Fexric ("The Sump-Hustler"):** A refinery-hand jammed a clockwork roulette gear into a melting manifold and vented the catastrophe into the Wyrd; the Tilt means only unruly machines will work for them, so they rig the games instead of playing them.
@@ -265,13 +241,11 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Wanted fugitives and feared siege-breakers. Outlawed in every major keep, Harbingers live in remote yurt camps or deep mining sumps, hired under the table by desperate warlords who need fortress gates torn off their hinges in seconds.
 
-**Cultural Affiliation:** Practiced by Stargazer Astril (Entropy-Symphonies who harmonize their dying Lumia heritage as a catastrophe score), Brutish Astril (Suppressed Catastrophes who weaponize the gagged heritage's frantic warnings), Waste-Solari (Dying-Light Doomsayers who take vent-readings and publish the countdown), and Tessen (Extinction-Architects who have rehearsed the apocalypse for four centuries).
+**Cultural Affiliation:** Native to Skald, Brutish Astril. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Four Cultural Variants:*
-* **Stargazer Astril ("The Entropy-Symphony"):** Channels the death-crescendo of their shattered homeworld's memory; Mayhem builds as the heritage fades.
+*Two Native Variants:*
+* **Skald:** A native Harbinger tradition of the Skald.
 * **Brutish Astril ("The Suppressed Catastrophe"):** Burns the suppressed memory's love for the world as fuel for localized cataclysm.
-* **Waste-Solari ("The Dying-Light Doomsayer"):** Takes vent-readings of a cooling caldera and publishes the countdown; a heresy that agrees with the math.
-* **Tessen ("The Extinction-Architect"):** Plans battlefield massacres like architectural blueprints, staging structural collapses with surgical precision.
 
 **Fatal Flaw / Crisis:** Reaching 100 Mayhem points triggers an uncontrollable wild surge that causes molecular dissociation in nearby allies. In the southern plains, their gravity rifts have become permanent tears in reality, sucking in topsoil and accelerating the regional freeze.
 
@@ -289,13 +263,11 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** The ultimate defense against occult incursions. Frontier keeps grant Inquisitors full legal authority to execute suspects and purge contaminated livestock, though villagers bolt their shutters when an Inquisitor rides into town.
 
-**Cultural Affiliation:** Practiced by Marked Vreken spore-trackers, Clean Vreken glow-auditors, Thalren frontier rangers, and Broken Mimir fog-sentinels of the Ironwood Palisade.
+**Cultural Affiliation:** Native to Marked Vreken, Thalren. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Four Cultural Variants:*
+*Two Native Variants:*
 * **Marked Vreken ("The Mycelium-Hunter"):** Tracks spiritual rot by plugging silver probes directly into subterranean fungal roots.
-* **Clean Vreken ("The Glow-Auditor"):** Inspects bioluminescent slime trails to identify which demon crossed a threshold.
 * **Thalren ("The Salt-Scarred"):** Elias’s original line. Baits shape-shifting mist monsters by deliberately cutting their own arms to bleed in the dark.
-* **Broken Mimir ("The Fog-Sentinel"):** Waits on the Ironwood Palisade and reads the fog's memory-shifts as early warning; Authority builds from the vigil itself.
 
 **Fatal Flaw / Crisis:** Only 47 licensed Inquisitors remain alive. New horrors are emerging from deep glacier cracks that possess no blood to poison and no contracts to sever. A fungal rash is spreading across every active Inquisitor's hands, marking them as prey for the very beasts they hunt.
 
@@ -313,14 +285,10 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Respected spirit-guides among forest tribes, but hunted as heretical abominations by northern lords. City councils outlaw Lunarchs within stone walls, fearing that the parasites will spread to the civilian population through touch.
 
-**Cultural Affiliation:** Practiced by the thorn-blooded Florae (Viridian Thorn-Bound, Oken Timber-Born), the masked Mimir (Arch Mask-Anchored, Broken Sentinel-Moon), and Thalren fog-heretics.
+**Cultural Affiliation:** Native to Viridian Florae. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Five Cultural Variants:*
+*One Native Variant:*
 * **Viridian Florae ("The Thorn-Bound"):** The parasite's original bloodline, bound into living thorn-plate skin; the phases are the fae-contract's interest cycle.
-* **Oken Florae ("The Timber-Born"):** Passes as ordinary townsfolk; phases banked through the day and repaid at once in private.
-* **Arch Mimir ("The Mask-Anchored"):** The parasite replaces the heartwood mask as identity-anchor; the host can survive briefly unmasked.
-* **Broken Mimir ("The Sentinel-Moon"):** The parasite bonds to vigil-duty; power scales with adherence to the post.
-* **Thalren ("The Fog-Heresy"):** Outcast humans whose parasites feed on the memories the freezing fog erases.
 
 **Fatal Flaw / Crisis:** Lunarchs suffer +25% vulnerability to blunt force trauma, and standard healing spells deal Wyrd burn damage to their flesh. The dormant star in the upper atmosphere is waking up, and older parasites inside senior Lunarchs have begun seizing control of their hosts' vocal cords to chant in an alien tongue.
 
@@ -338,9 +306,9 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Conscripted by military garrisons as emergency trauma anchors. A squad accompanied by a Martyr can fight through lethal artillery bombardments, though commanders treat them as expendable battlefield tools rather than soldiers. The free Martyrs practise the Rite of the Scapegoat, tethering a companion's fragility to their own flesh; the conscripted ones have the Vow chosen for them.
 
-**Cultural Affiliation:** Three peoples carry the path. The Solari keep the Mother's Shield (Hollow-Solari Vault-Witnesses of the deep vigil and Waste-Solari Ash-Witnesses of the caldera); the Groven carry the Transmuted Burden (Morgh anchors and Ithran span-keepers); and the Skald walk it as Ironclads, burning suffering as fuel in Cragjaw furnace-plate without ever kneeling to Aex.
+**Cultural Affiliation:** Native to Hollow-Solari, Waste-Solari, Morgh Groven, Ithran Groven, Skald. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Five Lineage Variants:*
+*Five Native Variants:*
 * **Hollow-Solari ("The Vault-Witness"):** Keeps the vigil in absolute stillness; Devotion amplified by absorbing damage without flinching, exactly as Aex stayed lucid between the dark and her child.
 * **Waste-Solari ("The Ash-Witness"):** Planted their feet in the sulfur when the caldera blew and took the burning debris onto their shields; sorrows for the Pyrofiends as broken brothers rather than enemies.
 * **Morgh Groven ("The Transmuted Burden"):** Fexric vats bred their people to endure the crushing dark; they chose to make endurance sacred, the immovable anchor who generates no Devotion while retreating.
@@ -363,14 +331,13 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Essential naval navigators and siege signalers. Port towns celebrate Minstrels for guiding fishing fleets through blizzard gales, though tavern keeps make them sign contracts promising not to shatter glassware with high-frequency strumming.
 
-**Cultural Affiliation:** Practiced by Merryn sea-sailors, amphibious Myrathil divers, and the Bryngloom's bog-conductors.
+**Cultural Affiliation:** Native to Merryn, Shoreling Myrathil, Riverling Myrathil, Deepling Myrathil. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Five Cultural Variants:*
+*Four Native Variants:*
 * **Merryn ("The Storm-Singer"):** Lyris’s original tradition. Uses brass horns to coordinate fleet movements through roaring hurricanes.
 * **Shore Myrathil ("The Shore-Conductor"):** Controls crashing surf along rocky beaches, using breaking waves to knock down boarding parties.
 * **Brook Myrathil ("The Freshwater-Voice"):** Carries acoustic magic up inland river networks to communicate between distant mining towns.
 * **Deep Myrathil ("The Abyss-Resonant"):** Plays subsonic bass notes that rattle enemy bones from within, completely bypassing standard ear protection.
-* **Clean Vreken ("The Bog-Resonance"):** Conducts the Root-Veil's own slow heartbeat through living mycelium; the bog breathes, and lately it breathes faster.
 
 **Fatal Flaw / Crisis:** The northern sea has gone dead silent. The natural wave frequencies have stopped, and Lyris disappeared on the night the silence began. Deep-sea Myrathil are fleeing the abyssal trenches, reporting that something colossal on the ocean floor is learning their songs and singing them back.
 
@@ -388,9 +355,9 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Feared and strictly quarantined. Settlements force traveling Plaguebringers to camp outside stone walls and conduct business through iron drop-boxes, though logging barons hire them under the table to rot away disputed forests overnight.
 
-**Cultural Affiliation:** Practiced by the Withered (legally dead, and therefore ideal hosts), the Clean Vreken (whose glow maps every culture), and the Marked Vreken (who seed disease through the Root-Veil itself).
+**Cultural Affiliation:** Native to Withered, Clean Vreken, Marked Vreken. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Three Cultural Variants:*
+*Three Native Variants:*
 * **Withered ("The Silence-Host"):** Legally nonexistent and no longer preserved by the Contract, their half-dead flesh offers no immune resistance and imposes no regulation, making them the ideal substrate.
 * **Clean Vreken ("The Glow-Culture"):** Cultivates glowing bioluminescent cultures, tracking infection in real time as a living map of light; the first dark-patch mutations are already killing untracked.
 * **Marked Vreken ("The Mycelium-Vector"):** Seeds affliction through the Root-Veil itself, blighting entire groves from beneath; the forest has begun rejecting them for it.
@@ -411,9 +378,9 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Suicide shock troops, defensive furnace-lighters, and living smelters. The Dawn Vigil deploys Pyrofiends to burn through swarming hive-dens, but orders archers to execute any Pyrofiend whose flames turn white with loss of control. Because dwelling in the deeper Rings is fatal, veteran Pyrofiends are defined less by how much fire they can raise than by how well they can put it back out—soot purging, thermal cauterization, and siphoning raw heat into an enemy's blood.
 
-**Cultural Affiliation:** Two heritages carry the fire: the Solari (Hollow-Solari keepers of the Banked Hearth and Waste-Solari forge-clans racing their own conversion) and the Clockwork Fexric refinery-clans, who stabilized the charge with cooling heat-sinks and treat it as chemistry.
+**Cultural Affiliation:** Native to Hollow-Solari, Waste-Solari, Clockwork Fexric. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Three Lineage Variants:*
+*Three Native Variants:*
 * **Hollow-Solari ("The Banked Hearth"):** Deep-vault ascetics who already knew how to sit motionless while the world burned; the slowest Veil ascent and the longest survival of any heritage.
 * **Waste-Solari ("The Forge-Damned"):** Surface forge-clans who direct their own char-vessel conversion, racing the debt-call to finish forging themselves before Scathrach collects the unfinished work.
 * **Clockwork Fexric ("The Sealed Alembic"):** Refinery-clans who survived the shockwave by drinking mineral salts and embedding heat-sinks along their spines; thermal thresholds, chalk tablets, alkaline neutralizers, and wrist pressure valves govern every descent.
@@ -434,18 +401,12 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Feared as grave-robbers, but hired by desperate commanders to turn enemy casualties into fresh frontline reinforcements during fortress sieges.
 
-**Cultural Affiliation:** Practiced by Clean Vreken ancestral speakers, Marked Vreken network-dead, Withered exiles, Tessen keep-wakers, Veldun lien-holders, Merryn drift-bound, and the tide-kept Myrathil.
+**Cultural Affiliation:** Native to Clean Vreken, Nethien, Tessen. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Nine Cultural Variants:*
+*Three Native Variants:*
 * **Clean Vreken ("The Ancestor-Bound"):** Keeps their body half-alive so that dead clan leaders have a throat to speak through.
-* **Marked Vreken ("The Mycelium-Dead"):** Spreads their consciousness across miles of subterranean fungus, making them almost impossible to permanently kill.
-* **Withered ("The Contract-Expired"):** Legally dead and unbound by worldly laws; death cannot claim what is not on the ledger.
+* **Nethien ("The Document-Preserved"):** Vesper's frost-rite binds the soul to a basalt phylactery; the heart beats once an hour, and the self is filed like a record.
 * **Tessen ("The Keep-Waked"):** Anchors their soul to fortress stones, standing eternal guard over ruined family keeps.
-* **Veldun ("The Lien-Holder"):** Kept by open obligations in the web; the phylactery is the ledger, and the moment it reads settled, they drop.
-* **Merryn ("The Drift-Bound"):** Held to the surface by unfulfilled ink-contracts; each raising fades a line, and when the last line goes, the sea collects.
-* **Shoreling Myrathil ("The Tide-Kept"):** Returned by a sea that will not release them; each wave is an installment on a debt with no final payment.
-* **Deepling Myrathil ("The Pressure-Woken"):** Preserved so absolutely by trench cold that death could not complete; every ascent weakens the hold that keeps them.
-* **Riverling Myrathil ("The Weir-Locked"):** Bodies the rivers never finished carrying; held by unfinished current, they can surface anywhere along the waterway that caught them.
 
 **Fatal Flaw / Crisis:** Peat-bog corpses are rising without commands, marching toward the sundered monoliths in silent columns. Twelve Revenants have been found dead, their blood completely drained without a mark on their skin.
 
@@ -463,14 +424,13 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Vanguard skirmishers and underground arena champions. Mining guilds hire Shapers to haul heavy timber and shatter boulders with bare fists, though city watches view them as unpredictable weapons.
 
-**Cultural Affiliation:** Practiced by Arch Mimir (Form-Locked), Broken Mimir (Sentinel-Shifters), Morgh Groven (Vat-Sculpted), Ithran Groven (Span-Dancers), and Marked Vreken (Mycelium-Sculpts).
+**Cultural Affiliation:** Native to Morgh Groven, Ithran Groven, Arch Mimir, Broken Mimir. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Five Cultural Variants:*
-* **Arch Mimir ("The Form-Locked"):** The heartwood mask keeps the self stable while the body shifts around it; the dance keeps trying to reach the one shape that cannot change.
-* **Broken Mimir ("The Sentinel-Shifter"):** Each form is a posture of watching, configured for a specific kind of surveillance; the best scouts, and the first to notice the mist returning less.
+*Four Native Variants:*
 * **Morgh Groven ("The Vat-Sculpted"):** Draws on the dormant alchemical substrate the vats left in the blood, sculpting with a precision no Mimir can match — and risking the old shape reasserting.
 * **Ithran Groven ("The Span-Dancer"):** Runs the Ancestor-Spans as a dance, building Flux from momentum and channeling it into extended-limb forms; the failing bridges are taking their substrate with them.
-* **Marked Vreken ("The Mycelium-Sculpt"):** The Ghost-Mycelium reshapes with the host, making every transition frictionless at the price of blackened, shed threads — and the Root-Veil is pulling back.
+* **Arch Mimir ("The Form-Locked"):** The heartwood mask keeps the self stable while the body shifts around it; the dance keeps trying to reach the one shape that cannot change.
+* **Broken Mimir ("The Sentinel-Shifter"):** Each form is a posture of watching, configured for a specific kind of surveillance; the best scouts, and the first to notice the mist returning less.
 
 **Fatal Flaw / Crisis:** Shapers have zero base armor and suffer +50% vulnerability to Wyrd damage. Pushing multiple forms simultaneously causes **Convergence Collapse**, where bones and muscles attempt three transformations at once, splintering limbs from within.
 
@@ -488,11 +448,9 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Invaluable frontline anchors for any adventuring party or military column. Every expedition into magical ruins demands at least one Spellguard to defuse arcane traps and block incoming dragon-breath.
 
-**Cultural Affiliation:** Practiced by Nethien jurists, Thalren sappers, and the Solari of both bloodlines.
+**Cultural Affiliation:** Native to Hollow-Solari, Waste-Solari. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Four Cultural Variants:*
-* **Nethien ("The Clause-Canceller"):** Incoming fireballs are breaches of contract; the annulment is filed before impact, and the spell dissolves on procedural grounds.
-* **Thalren ("The Wyrd-Defuser"):** Disarms magical traps like a sapper, disconnecting trigger from payload, and always expecting the second trigger.
+*Two Native Variants:*
 * **Hollow-Solari ("The Silent-Guard"):** Intercepts from Vault-Breath stillness, a calm so absolute that incoming magic falls into them rather than lands; the deep-vault tomb-guards.
 * **Waste-Solari ("The Forge-Shield"):** Badland rangers who take spells on the angle, redirecting fire the way they redirect a vent-rupture, and letting the terrain absorb what they cannot.
 
@@ -512,12 +470,10 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** Frontier monster-slayers and black-market alchemists. Forestry companies hire Toxicologists to clear predator nests with toxic smoke, though tavern owners refuse to serve them drinks in civilian glassware.
 
-**Cultural Affiliation:** Practiced by Thalren frontier scouts, Tethered Mimir brewers, the Withered of the Deep-Quarter, and Florae thorn-gatherers.
+**Cultural Affiliation:** Native to Thalren, Viridian Florae, Oken Florae. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Five Cultural Variants:*
+*Three Native Variants:*
 * **Thalren ("The Fog-Distiller"):** Varis’s original line. Distills long-lasting area-denial poisons that linger in damp hollows for weeks.
-* **Tethered Mimir ("The Floor-Brewer"):** Harvests decomposing tree bark to make slow-acting paralytic oils.
-* **Withered ("The Silence-Distiller"):** Distills from their own decaying flesh; null-distillates that register as nothing on the First Contract.
 * **Viridian Florae ("The Thorn-Venom"):** Distills toxins directly from their own sap-blood, creating poisons tuned to their specific lineage.
 * **Oken Florae ("The Hidden-Cuil"):** Operates in secret within human cities, engineering untraceable poisons for political assassinations.
 
@@ -537,16 +493,11 @@ Every class discipline in Mythrill is rooted in one of five distinct historical 
 
 **Role in World:** The unbreakable backbone of mountain mining holds and frontier gates. Mining cartels pay double wages for a Warden to stand watch at tunnel heads, knowing that when a cave horror charges, the Warden will chain themselves to it rather than let it reach the miners.
 
-**Cultural Affiliation:** Practiced by subterranean Morgh Groven, Fexric chain-smiths, and mountain Skald hunters.
+**Cultural Affiliation:** Native to Morgh Groven, Ithran Groven. Any other people may pursue this path only as a rare, individually qualified exception.
 
-*Seven Cultural Variants:*
+*Two Native Variants:*
 * **Morgh Groven ("The Vat-Grounded"):** Invented the flesh-graft chain. Wearing the chains voluntarily is their ultimate declaration of freedom from the alchemists who engineered them.
 * **Ithran Groven ("The Span-Tether"):** Uses bridge-engineering mathematics to anchor chains across multiple charging enemies simultaneously.
-* **Drall Fexrick ("The Gear-Tension"):** Uses ratchet winches bolted to their armor to mechanically reel in hooked monsters.
-* **Kethrin Fexrick ("The Guild-Jailer"):** Treats chaining as a regulated trade, using certified links with documented tensile strength.
-* **Skald ("The Glacier-Chain"):** Uses cold-treated iron chains that shrink and bite deeper as the temperature drops.
-* **Clean Vreken ("The Glow-Tether"):** Uses glowing chains to illuminate the position of invisible horrors in the dark.
-* **Marked Vreken ("The Mycelium-Leash"):** Threads barbed chains through subterranean tree roots, anchoring beasts to bedrock miles away.
 
 **Fatal Flaw / Crisis:** Extreme winter cold is making standard iron brittle, causing chains to snap under the weight of charging horrors. Fexric smiths have developed lighter chardalyn-alloy chains, but the metal whispers in the dark, slowly driving its wearers insane. Alaric refuses to let his disciples touch the whispering metal, even as broken-iron casualties mount.
 

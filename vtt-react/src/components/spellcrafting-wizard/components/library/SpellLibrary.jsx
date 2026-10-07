@@ -341,7 +341,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   }
 
   const currentRacialSpells = currentRace && currentSubrace
-   ? getRacialSpells(currentRace, currentSubrace)
+   ? getRacialSpells(currentRace, currentSubrace, characterClass)
    : [];
   const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
 
@@ -485,7 +485,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
    // Fallback: pull directly from race data if library has none
    const fallbackRacial = currentRace && currentSubrace
-    ? getRacialSpells(currentRace, currentSubrace).filter(spell => !isPassiveStatModifier(spell))
+    ? getRacialSpells(currentRace, currentSubrace, characterClass).filter(spell => !isPassiveStatModifier(spell))
     : [];
 
    const racialSpells = racialSpellsInLibrary.length > 0 ? racialSpellsInLibrary : fallbackRacial;
@@ -991,7 +991,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    if (hasActiveCharacter && currentCharacterId) {
     // Get current character's racial spells - use character store values for real-time updates
     const currentRacialSpells = currentRace && currentSubrace
-     ? getRacialSpells(currentRace, currentSubrace)
+     ? getRacialSpells(currentRace, currentSubrace, characterClass)
      : [];
     const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
 
@@ -1105,7 +1105,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
      } else {
       // Fallback: pull racial spells directly from race data (filter out passives)
       const fallbackRacial = currentRace && currentSubrace
-       ? getRacialSpells(currentRace, currentSubrace).filter(spell => !isPassiveStatModifier(spell))
+       ? getRacialSpells(currentRace, currentSubrace, characterClass).filter(spell => !isPassiveStatModifier(spell))
        : [];
       spellsToFilter = fallbackRacial;
      }

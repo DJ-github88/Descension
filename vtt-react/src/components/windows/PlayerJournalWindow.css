@@ -2775,3 +2775,36 @@
   font-size: 0.72rem !important;
   color: #8b6f47 !important;
 }
+
+/* Cloud autosave status indicator (Saving / Saved / Not saved) */
+.journal-save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.journal-save-status--saving {
+  color: #6b5a3e;
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.journal-save-status--saved {
+  color: #2f6b3a;
+  background: rgba(74, 147, 74, 0.12);
+  border-color: rgba(74, 147, 74, 0.35);
+}
+
+.journal-save-status--error {
+  color: #8b1f1f;
+  background: rgba(192, 57, 43, 0.12);
+  border-color: rgba(192, 57, 43, 0.4);
+}

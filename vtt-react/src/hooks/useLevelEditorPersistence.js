@@ -83,6 +83,12 @@ export const useLevelEditorPersistence = () => {
     if (!isInRoom || !currentRoomId || currentRoomId === 'global') {
       return false;
     }
+    // Project 3: this is an inert local cache; it must never overwrite or
+    // publish authoritative shared multiplayer state.
+    const gameStoreState = useGameStore.getState();
+    if (gameStoreState.multiplayerRoom || gameStoreState.isInMultiplayer) {
+      return false;
+    }
 
     try {
       const stateData = collectLevelEditorState();
@@ -113,6 +119,13 @@ export const useLevelEditorPersistence = () => {
     const isLocalRoom = typeof window !== 'undefined' && localStorage.getItem('isLocalRoom') === 'true';
     if (isLocalRoom) {
       console.log('📋 Skipping persistence service load for local room - state already loaded from localStorage');
+      return false;
+    }
+
+    // Project 3: no automatic cache restoration into an active multiplayer
+    // room; the server-selected checkpoint projection owns that state.
+    const gameStoreState = useGameStore.getState();
+    if (gameStoreState.multiplayerRoom || gameStoreState.isInMultiplayer) {
       return false;
     }
 

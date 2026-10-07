@@ -48,7 +48,7 @@ const useLanguageStore = create(
         const newLang = {
           id,
           name: langData.name || 'Unnamed Tongue',
-          script: langData.script || 'Common Script',
+          script: langData.script || 'Trade Hand',
           family: langData.family || 'Isolate',
           description: langData.description || '',
           samplePhrase: langData.samplePhrase || '',

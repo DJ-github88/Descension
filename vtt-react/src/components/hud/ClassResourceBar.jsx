@@ -1417,6 +1417,7 @@ const ClassResourceBar = ({
                     context={context}
                     isOwner={isOwner}
                     onClassResourceUpdate={onClassResourceUpdate}
+                    showcase={showcase}
                 />;
             case 'ancestral-resonance':
                 return <AnimistResourceBar

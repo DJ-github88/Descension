@@ -8,6 +8,8 @@
  * - audio_sync_request: any player requests current audio state (with elapsed time)
  */
 
+const roomAccess = require('../services/roomAccessService');
+
 function registerAudioHandlers(ctx) {
   const {
     io,
@@ -15,8 +17,13 @@ function registerAudioHandlers(ctx) {
     rooms,
     players,
     logger,
-    firebaseBatchWriter
+    firebaseBatchWriter,
+    authorityService
   } = ctx;
+
+  const authorityDenied = (room) => !!(
+    authorityService && roomAccess.roomAuthorityDenial(room, authorityService)
+  );
 
   socket.on('audio_broadcast', (data) => {
     try {
@@ -34,6 +41,10 @@ function registerAudioHandlers(ctx) {
       const room = rooms.get(player.roomId);
       if (!room) {
         socket.emit('audio_error', { error: 'Room not found' });
+        return;
+      }
+      if (authorityDenied(room)) {
+        socket.emit('audio_error', { error: 'Room is not currently available on this server' });
         return;
       }
 
@@ -115,6 +126,7 @@ function registerAudioHandlers(ctx) {
 
       const room = rooms.get(player.roomId);
       if (!room) {return;}
+      if (authorityDenied(room)) {return;}
 
       if (room.gm && room.gm.socketId !== socket.id) {return;}
 
@@ -160,6 +172,7 @@ function registerAudioHandlers(ctx) {
 
       const room = rooms.get(player.roomId);
       if (!room) {return;}
+      if (authorityDenied(room)) {return;}
 
       if (room.gm && room.gm.socketId !== socket.id) {return;}
 
@@ -193,6 +206,7 @@ function registerAudioHandlers(ctx) {
 
       const room = rooms.get(player.roomId);
       if (!room) {return;}
+      if (authorityDenied(room)) {return;}
 
       const audioState = room.gameState.audioState || { playingTracks: [] };
 

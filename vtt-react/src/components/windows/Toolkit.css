@@ -74,6 +74,28 @@
   cursor: pointer !important;
   text-align: left !important;
   transition: background 0.15s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.tk-dropdown-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(139, 115, 85, 0.4);
+  color: #e8d6a8;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.tk-dropdown-item.active .tk-dropdown-step {
+  background: #d4af37;
+  color: #2a1a0a;
 }
 
 .tk-dropdown-item:hover {
@@ -172,6 +194,23 @@
   background-image: none !important;
   padding: 0 !important;
   margin-bottom: 0 !important;
+  /* Let .ctk-content be the single scroll container: no nested scrollbars,
+     no bottom-clipping inside the fixed-height travel window. */
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  display: block !important;
+}
+
+.ctk-content .tt-tab-content-area {
+  height: auto !important;
+  flex: none !important;
+  overflow: visible !important;
+}
+
+.ctk-content .tt-tab-content-fill {
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 /* Hide internal tab bar in toolkit — controlled by dropdown */
@@ -245,6 +284,9 @@
   letter-spacing: 0.5px !important;
   display: flex !important;
   align-items: center !important;
+  /* Reserve room for the floating window close button so right-aligned
+     hints never run underneath it. */
+  padding-right: 34px !important;
 }
 
 .ctk-content .tt-step-hint {

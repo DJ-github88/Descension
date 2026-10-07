@@ -58,9 +58,23 @@ const StylusDrawingCanvas = forwardRef(({
   const shapeStartRef = useRef(null);
 
   // Drawing state
-  const [strokes, setStrokes] = useState(() => Array.isArray(initialStrokes) ? initialStrokes : []);
-  const [historyIndex, setHistoryIndex] = useState(() => Array.isArray(initialStrokes) ? initialStrokes.length : 0);
-  const [history, setHistory] = useState(() => [Array.isArray(initialStrokes) ? initialStrokes : []]);
+  const [strokes, setStrokes] = useState(() => (Array.isArray(initialStrokes) ? initialStrokes : []));
+  const strokesRef = useRef(strokes);
+  strokesRef.current = strokes;
+  const [historyIndex, setHistoryIndex] = useState(0);
+  const [history, setHistory] = useState(() => [(Array.isArray(initialStrokes) ? initialStrokes : [])]);
+
+  // Track externally provided initialStrokes to synchronize if changed outside
+  const lastEmittedStrokesRef = useRef(strokes);
+  useEffect(() => {
+    if (initialStrokes && initialStrokes !== lastEmittedStrokesRef.current) {
+      const valid = Array.isArray(initialStrokes) ? initialStrokes : [];
+      setStrokes(valid);
+      setHistory([valid]);
+      setHistoryIndex(0);
+      lastEmittedStrokesRef.current = valid;
+    }
+  }, [initialStrokes]);
   
   const [activeTool, setActiveTool] = useState(defaultTool);
   const [selectedColor, setSelectedColor] = useState(defaultColor);
@@ -222,14 +236,16 @@ const StylusDrawingCanvas = forwardRef(({
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const rect = container.getBoundingClientRect();
+    const rect = container.getBoundingClientRect ? container.getBoundingClientRect() : null;
     const dpr = window.devicePixelRatio || 1;
+    const width = rect?.width || container.clientWidth || 800;
+    const height = rect?.height || container.clientHeight || 450;
 
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
 
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
 
     redrawCanvas(strokes);
   }, [strokes, redrawCanvas]);
@@ -333,10 +349,11 @@ const StylusDrawingCanvas = forwardRef(({
       return;
     }
 
-    if (!currentStrokeRef.current) return;
+    if (!currentStrokeRef.current || !Array.isArray(currentStrokeRef.current.points) || currentStrokeRef.current.points.length === 0) return;
 
     const currentPoints = currentStrokeRef.current.points;
     const lastPoint = currentPoints[currentPoints.length - 1];
+    if (!lastPoint) return;
 
     const distSq = Math.pow(p.x - lastPoint.x, 2) + Math.pow(p.y - lastPoint.y, 2);
     if (distSq < 0.000002) return;
@@ -401,19 +418,22 @@ const StylusDrawingCanvas = forwardRef(({
           points: [start, p]
         };
       }
-    } else if (currentStrokeRef.current && currentStrokeRef.current.points.length > 0) {
+    } else if (currentStrokeRef.current && Array.isArray(currentStrokeRef.current.points) && currentStrokeRef.current.points.length > 0) {
       finalizedStroke = currentStrokeRef.current;
       currentStrokeRef.current = null;
     }
 
     if (finalizedStroke) {
-      const updatedStrokes = [...strokes, finalizedStroke];
+      const currentStrokes = Array.isArray(strokes) ? strokes : [];
+      const updatedStrokes = [...currentStrokes, finalizedStroke];
       setStrokes(updatedStrokes);
 
-      const newHistory = history.slice(0, historyIndex + 1);
+      const validHistory = Array.isArray(history) ? history : [[]];
+      const newHistory = validHistory.slice(0, Math.max(0, historyIndex) + 1);
       newHistory.push(updatedStrokes);
       setHistory(newHistory);
       setHistoryIndex(newHistory.length - 1);
+      lastEmittedStrokesRef.current = updatedStrokes;
 
       onChange({ strokes: updatedStrokes, bgTheme: backgroundTheme });
     }
@@ -421,33 +441,38 @@ const StylusDrawingCanvas = forwardRef(({
 
   // Undo / Redo / Clear
   const handleUndo = useCallback(() => {
-    if (historyIndex > 0) {
+    if (historyIndex > 0 && Array.isArray(history) && history.length > 0) {
       const nextIndex = historyIndex - 1;
-      const prevStrokes = history[nextIndex];
+      const prevStrokes = Array.isArray(history[nextIndex]) ? history[nextIndex] : [];
       setHistoryIndex(nextIndex);
       setStrokes(prevStrokes);
+      lastEmittedStrokesRef.current = prevStrokes;
       onChange({ strokes: prevStrokes, bgTheme: backgroundTheme });
     }
   }, [historyIndex, history, onChange, backgroundTheme]);
 
   const handleRedo = useCallback(() => {
-    if (historyIndex < history.length - 1) {
+    if (Array.isArray(history) && historyIndex < history.length - 1) {
       const nextIndex = historyIndex + 1;
-      const nextStrokes = history[nextIndex];
+      const nextStrokes = Array.isArray(history[nextIndex]) ? history[nextIndex] : [];
       setHistoryIndex(nextIndex);
       setStrokes(nextStrokes);
+      lastEmittedStrokesRef.current = nextStrokes;
       onChange({ strokes: nextStrokes, bgTheme: backgroundTheme });
     }
   }, [historyIndex, history, onChange, backgroundTheme]);
 
   const handleClearAll = useCallback(() => {
-    if (strokes.length === 0) return;
+    const currentStrokes = Array.isArray(strokes) ? strokes : [];
+    if (currentStrokes.length === 0) return;
     const emptyStrokes = [];
     setStrokes(emptyStrokes);
-    const newHistory = history.slice(0, historyIndex + 1);
+    const validHistory = Array.isArray(history) ? history : [[]];
+    const newHistory = validHistory.slice(0, Math.max(0, historyIndex) + 1);
     newHistory.push(emptyStrokes);
     setHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
+    lastEmittedStrokesRef.current = emptyStrokes;
     onChange({ strokes: emptyStrokes, bgTheme: backgroundTheme });
   }, [strokes, history, historyIndex, onChange, backgroundTheme]);
 
@@ -479,7 +504,7 @@ const StylusDrawingCanvas = forwardRef(({
 
   // Imperative handle for parent refs
   useImperativeHandle(ref, () => ({
-    getStrokes: () => strokes,
+    getStrokes: () => (Array.isArray(strokes) ? strokes : []),
     getExportDataURL: () => {
       const canvas = canvasRef.current;
       if (!canvas) return '';
@@ -496,9 +521,15 @@ const StylusDrawingCanvas = forwardRef(({
       return expCanvas.toDataURL('image/png');
     },
     clear: handleClearAll,
+    getStrokes: () => (Array.isArray(strokesRef.current) ? strokesRef.current : []),
     setStrokes: (newStrokes) => {
-      setStrokes(newStrokes || []);
-      redrawCanvas(newStrokes || []);
+      const valid = Array.isArray(newStrokes) ? newStrokes : [];
+      strokesRef.current = valid;
+      setStrokes(valid);
+      setHistory([valid]);
+      setHistoryIndex(0);
+      lastEmittedStrokesRef.current = valid;
+      redrawCanvas(valid);
     }
   }), [strokes, backgroundTheme, handleClearAll, redrawCanvas]);
 
@@ -691,7 +722,7 @@ const StylusDrawingCanvas = forwardRef(({
                 type="button"
                 className="stylus-header-btn"
                 onClick={handleRedo}
-                disabled={historyIndex >= history.length - 1}
+                disabled={historyIndex >= (history?.length || 1) - 1}
                 title="Redo"
                 aria-label="Redo"
               >
@@ -701,7 +732,7 @@ const StylusDrawingCanvas = forwardRef(({
                 type="button"
                 className="stylus-header-btn btn-danger"
                 onClick={handleClearAll}
-                disabled={strokes.length === 0}
+                disabled={!strokes || strokes.length === 0}
                 title="Clear All"
                 aria-label="Clear all strokes"
               >
@@ -760,7 +791,7 @@ const StylusDrawingCanvas = forwardRef(({
           style={{ touchAction: 'none' }}
         />
 
-        {strokes.length === 0 && !readOnly && (
+        {(!strokes || strokes.length === 0) && !readOnly && (
           <div className="stylus-empty-hint">
             <i className="fas fa-feather-pointed"></i>
             <p>Ready for Apple Pencil or Stylus</p>

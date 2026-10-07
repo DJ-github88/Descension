@@ -14,26 +14,26 @@ export const INQUISITOR_DATA = {
           "skald_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires either the Ghost-Mycelium (Vreken) or a lifetime of anti-Wyrd training. Thalren face Wyrd-horrors born from human fear. Vreken dismantled Nethien contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fexric too mechanical. Myrathil too distant from surface Wyrd. Tethered Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
+      "justification": "Requires either the Ghost-Mycelium (Mycellan) or a lifetime of anti-Wyrd training. Tallyn face Wyrd-horrors born from human fear. Mycellan dismantled Athien contracts through inquisitorial practice. Other races lack the supernatural exposure density. Solari too hot for stealth hunts. Fex too mechanical. Myrathil too distant from surface Wyrd. Broken Mimir lack the specialized anti-Wyrd training, their expertise is floor-toxins and survival, not supernatural investigation."
   },
 
   /**
    * Subrace Variants, the Inquisitor severs corrupted supernatural bonds, and what
    * counts as "corruption" depends on what your people are surrounded by. The tradition
-   * has two roots, Vreken mycelial-hunting (Bryngloom) and Thalren anti-Wyrd paranoia
-   * (Frostwood), and the Vreken are the bridge, turning the contract-law that binds
+   * has two roots, Mycellan mycelial-hunting (Bryngloom) and Tallyn anti-Wyrd paranoia
+   * (Frostwood), and the Mycellan are the bridge, turning the contract-law that binds
    * them into the weapon that unbinds others.
    */
   subraceVariants: {
     marked_vreken: {
-      subraceName: 'Marked Vreken',
+      subraceName: 'Cromyx',
       title: 'The Mycelium-Hunter',
-      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink>, ghost-mycelium walkers, hunt through the <LoreLink termId="root_veil">mycelial network</LoreLink> itself, because the same network that hosts corrupt ancestral bonds is their native hunting-ground. A Marked Inquisitor does not track a rogue shaman across country; they track the corruption *through the forest's nervous system*, feeling the infection as a wrongness in their own skin.`,
+      reframe: `The <LoreLink termId="vreken">Cromyx</LoreLink>, ghost-mycelium walkers, hunt through the <LoreLink termId="root_veil">mycelial network</LoreLink> itself, because the same network that hosts corrupt ancestral bonds is their native hunting-ground. A Cromyx Inquisitor does not track a rogue shaman across country; they track the corruption *through the forest's nervous system*, feeling the infection as a wrongness in their own skin.`,
       signatureAbility: {
         name: 'Network-Severance',
         description: `Corrupted bonds are severed *through* the mycelial network rather than at the host, the Inquisitor cuts the spiritual infection where it roots in the forest itself. This heals the forest but leaves a permanent dead-patch in the network the Inquisitor must carry.`
       },
-      currentCrisisAngle: `Only 47 active Inquisitors remain, and the Marked Vreken are dwindling fastest, the mycelial rash that marks them now spreads to their *families*, glowing in the dark, making stealth impossible and marking entire lineages as targets. The Marked are being hunted by what they hunt, and the network they love is, slowly, rejecting them.`,
+      currentCrisisAngle: `Only 47 active Inquisitors remain, and the Cromyx are dwindling fastest, the mycelial rash that marks them now spreads to their *families*, glowing in the dark, making stealth impossible and marking entire lineages as targets. The Cromyx are being hunted by what they hunt, and the network they love is, slowly, rejecting them.`,
       signatureQuote: {
         text: '"The forest knows me by my scars. Lately it has begun to flinch. I do not blame it, I am carrying its disease so it does not have to."',
         speaker: 'Orven the Still-Handed',
@@ -42,30 +42,30 @@ export const INQUISITOR_DATA = {
     },
 
     clean_vreken: {
-      subraceName: 'Clean Vreken',
+      subraceName: 'Bedel',
       title: 'The Glow-Auditor',
-      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink>, deep-glow scholars, read the bioluminescent signatures of corrupted bonds the way a scribe reads ink. The same deep-glow that broadcasts their emotion also betrays supernatural infection: a corrupted bond glows *wrong*, and a Clean Vreken Inquisitor can diagnose a rogue covenant from across a room by the color of its bleed.`,
+      reframe: `The <LoreLink termId="vreken">Bedel</LoreLink>, deep-glow scholars, read the bioluminescent signatures of corrupted bonds the way a scribe reads ink. The same deep-glow that broadcasts their emotion also betrays supernatural infection: a corrupted bond glows *wrong*, and a Bedel Inquisitor can diagnose a rogue covenant from across a room by the color of its bleed.`,
       signatureAbility: {
         name: 'Glow-Diagnosis',
-        description: `Corrupted bonds are identified by their aberrant bioluminescent signature, readable at distance, through cover, even through walls if the glow is strong enough. The Clean Vreken are the tradition's diagnosticians; they find what the Marked sever.`
+        description: `Corrupted bonds are identified by their aberrant bioluminescent signature, readable at distance, through cover, even through walls if the glow is strong enough. The Bedel are the tradition's diagnosticians; they find what the Cromyx sever.`
       },
-      currentCrisisAngle: `The new, unnamed entities manifesting in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> glow in colors the Clean Vreken have no name for, colors their deep-glow *cannot parse*. An infection you can see is an infection you can cut. An infection that glows in a color outside your experience is an infection that may already be inside you.`,
+      currentCrisisAngle: `The new, unnamed entities manifesting in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink> glow in colors the Bedel have no name for, colors their deep-glow *cannot parse*. An infection you can see is an infection you can cut. An infection that glows in a color outside your experience is an infection that may already be inside you.`,
       signatureQuote: {
         text: '"I have read the glow of ten thousand corruptions. This one I cannot read. That is not reassuring. That is the most frightening sentence I have ever spoken."',
         speaker: 'Scholar Yssen Bright-Eye',
-        context: 'A Clean Vreken Auditor, on the new deep-grove entities'
+        context: 'A Bedel Auditor, on the new deep-grove entities'
       }
     },
 
     thalren_human: {
-      subraceName: 'Thalren',
+      subraceName: 'Tallyn',
       title: 'The Salt-Scarred',
-      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Thalren open their own veins to draw the Wyrd's face-stealing horrors into living flesh, baiting the Gref and the Gambrel with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Thalren, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
+      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Tallyn open their own veins to draw the Wyrd's face-stealing horrors into living flesh, baiting the Gref and the Gambrel with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Tallyn, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
       signatureAbility: {
         name: 'Bait-Vow',
         description: `The Inquisitor makes a deliberately breakable oath to lure Wyrd-creatures that hunt broken promises, then severs the creature as it manifests to collect. The cost is paid in blood, the vow must be genuinely breakable, genuinely tempting, and the Inquisitor must survive the bait to make the cut.`
       },
-      currentCrisisAngle: `The Frostwood incursion rate has tripled, and the Thalren Inquisitors are running out of oaths they can afford to break. Every Bait-Vow leaves a permanent scar of *intended betrayal* in the Inquisitor's ledger, and the Sovereign Ledger, which validates Thalren legal identity, is beginning to refuse to register Inquisitors whose scar-count exceeds a threshold. They are being legally erased by their own work.`,
+      currentCrisisAngle: `The Frostwood incursion rate has tripled, and the Tallyn Inquisitors are running out of oaths they can afford to break. Every Bait-Vow leaves a permanent scar of *intended betrayal* in the Inquisitor's ledger, and the Sovereign Ledger, which validates Tallyn legal identity, is beginning to refuse to register Inquisitors whose scar-count exceeds a threshold. They are being legally erased by their own work.`,
       signatureQuote: {
         text: '"I promised my daughter I would come home. I broke it to lure the thing that steals faces. The Ledger struck my name. My daughter still knows me. The fog will take that too, soon enough."',
         speaker: 'Elias the Salt-Scarred',
@@ -144,14 +144,14 @@ export const INQUISITOR_DATA = {
   livingOrder: {
     orderName: 'The Barbed Vow',
     founder: {
-      name: '<LoreLink termId="orven">Orven the Still-Handed</LoreLink> (Vreken) and <LoreLink termId="elias">Elias the Salt-Scarred</LoreLink> (Thalren)',
+      name: '<LoreLink termId="orven">Orven the Still-Handed</LoreLink> (Mycellan) and <LoreLink termId="elias">Elias the Salt-Scarred</LoreLink> (Tallyn)',
       status: `Orven, gone dark, last recorded during a final network-severance in the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. Elias, name struck from the <LoreLink termId="frostwood-reach">Frostwood</LoreLink> Ledger, his legal existence erased by his own Bait-Vow scars. Neither is confirmed dead. Neither is coming back.`,
-      note: `Two parallel traditions from the same wound. Orven forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Vreken. Elias opened his veins to draw Wyrd face-stealers into living flesh. The traditions merged when the incursion rate tripled.`
+      note: `Two parallel traditions from the same wound. Orven forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Mycellan. Elias opened his veins to draw Wyrd face-stealers into living flesh. The traditions merged when the incursion rate tripled.`
     },
     currentLeader: {
       name: '<LoreLink termId="vrael-forty-seventh">High-Severer Vrael the Forty-Seventh</LoreLink>',
       title: 'Last Commander of the Barbed Vow',
-      characterization: `A Thalren woman who took command because she was, literally, the forty-seventh remaining Inquisitor, and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
+      characterization: `A Tallyn woman who took command because she was, literally, the forty-seventh remaining Inquisitor, and the most senior willing to lead. She bears more Bait-Vow scars than any living practitioner and is, as a result, half-erased from the Sovereign Ledger. She leads from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> and has stopped recruiting, because the oath now kills more initiates than it survives.`
     },
     headquarters: { name: 'The Sunken Spire (Bryngloom seat) and Greymark Keep (Frostwood seat)', locationId: 'sunken_spire' },
     crisisConnection: `Vrael commands forty-six others against an incursion rate that has tripled and is still climbing. The new, unnamed entities in the deep groves have no contracts to sever and no faces to bait, they fall outside the Inquisitor's entire art. She has begun, in desperation, to train recruits in techniques the order considers forbidden: not severing corruption, but *binding* it, borrowing from the very traditions the Inquisitors were founded to destroy. She knows this is how the order ends. She does not see another way it survives.`
@@ -159,7 +159,7 @@ export const INQUISITOR_DATA = {
 
   worldFriction: [
     { region: 'bryngloom-forest', status: 'tolerated', consequence: 'Atropolis legal councils respect the Inquisitor\'s authority to sever rogue covenants, but require sworn affidavits for every bound aberration.', workaround: 'Present sealed inquisitorial mandates upon entering city gates.' },
-    { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren folk fear the Inquisitor\'s barbed vows as much as the Wyrd horrors they hunt, viewing them as walking beacons of paranoia.', workaround: 'Travel cloaked and avoid civilian hearths.' },
+    { region: 'frostwood-reach', status: 'hunted', consequence: 'Tallyn folk fear the Inquisitor\'s barbed vows as much as the Wyrd horrors they hunt, viewing them as walking beacons of paranoia.', workaround: 'Travel cloaked and avoid civilian hearths.' },
     { region: 'sundale', status: 'allied', consequence: 'The Solvan Vigil respects the Inquisitor\'s cold-iron discipline and frequently contracts them to purge Wyrd-tainted ore veins.', workaround: 'None needed; honored in the outer wards.' },
     { region: 'emberspire', status: 'distrusted', consequence: 'Magma cultists view Inquisitorial authority as foreign imperial overreach.', workaround: 'Maintain diplomatic detachment and avoid religious calderas.' }
   ],
@@ -167,15 +167,25 @@ export const INQUISITOR_DATA = {
   overview: {
     title: "The Inquisitor",
     subtitle: "Cold Iron, Burning Salt, and the Barbed Leash of the Damned",
-    originStory: `An inquisitor hunts the Wyrd. Not with faith or magic, but with cold iron and the Barbed Vow, an oath sworn in blood that grants authority over the supernatural at the cost of rejecting all magical assistance. An inquisitor cannot be healed by magic or receive magical buffs. The Vow makes them immune to supernatural corruption, but leaves their bones brittle and their flesh vulnerable.
+    illustration: "/assets/images/classes/inquisitor_thalren_human.jpg",
+    illustrationCaption: "Tallyn Human Inquisitor — The Salt-Scarred, driving a square-headed cold-iron brand into a glowing null-salt anathema circle.",
+    illustrations: [
+      { url: "/assets/images/classes/inquisitor_thalren_human.jpg", subraceId: "thalren_human", caption: "Tallyn Human Inquisitor — The Salt-Scarred, driving a square-headed cold-iron brand into a glowing null-salt anathema circle." },
+      { url: "/assets/images/classes/inquisitor_marked_vreken.jpg", subraceId: "marked_vreken", caption: "Cromyx Inquisitor — The Mycelium-Hunter, leaping through root nodes to strike with a barbed cold-iron chain whip." },
+      { url: "/assets/images/classes/inquisitor_clean_vreken.jpg", subraceId: "clean_vreken", caption: "Bedel Inquisitor — The Glow-Auditor, raising a smoking black-iron caged censor-lantern with cold-iron gavel in hand." },
+      { url: "/assets/images/classes/inquisitor_broken_mimir.jpg", subraceId: "tethered_mimir", caption: "Broken Mimir Inquisitor — The Fog-Sentinel, standing sentinel on the Ironwood Palisade with a barbed-wire-wrapped poleaxe." }
+    ],
+    originStory: `An inquisitor hunts the Wyrd through cold iron, maintained containment and the Barbed Vow. Initiation is lasting; nullification is an active practice, not universal immunity to supernatural corruption. While the null aura is active it suppresses known foreign magical healing and buffs. Self-originating authority and nonmagical treatment remain; safely releasing the aura permits ordinary assistance under the relevant recovery rules. The resource tracker does not silently impose every injury or binding consequence.
 
-The order was founded during the middle decades of the Freeze, when the Wyrd incursion rate tripled and two separate hunting traditions merged out of necessity. In the Bryngloom Forest, the Vreken hunter Orven the Still-Handed, a Marked Vreken whose twin sister had been taken by the hush, forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kin. In the Frostwood Reach, the Thalren healer Elias the Salt-Scarred opened his own veins to draw face-stealing Wyrd entities into living flesh, baiting them with deliberately breakable oaths.
+The order was founded during the middle decades of the Freeze, when the Wyrd incursion rate tripled and two separate hunting traditions merged out of necessity. In the Bryngloom Forest, the Mycellan hunter Orven the Still-Handed, a Cromyx whose twin sister had been taken by the hush, forged the first cold-iron blade and swore the Barbed Vow to hunt his own corrupted kin. In the Frostwood Reach, the Tallyn healer Elias the Salt-Scarred opened his own veins to draw face-stealing Wyrd entities into living flesh, baiting them with deliberately breakable oaths.
 
 When the incursion rate tripled, the two hunters met at the border between their territories and recognized they were fighting the same war with different weapons. The order they founded combines cold-iron binding with flesh-baiting, producing a doctrine effective against the Wyrd but eroding the user with every application. Silver-poisoned bones. Whispered demons in the blood. Self-inflicted wounds that never heal. Total isolation from the communities they protect.
 
 Only forty-seven inquisitors remain. The Wyrd is bleeding faster, and new entities are emerging that fall outside the order's entire methodology, things with no contracts to sever, no faces to bait, no names to bind. The current leader, High-Severer Vrael the Forty-Seventh, has begun training recruits in forbidden techniques. Not severing corruption, but binding it. The founders would have considered this heresy. Vrael considers it survival.
 
-Each subrace hunts through their own culture's strengths. The Marked Vreken track corruption through the mycelial network itself, the forest's nervous system. The Clean Vreken identify corruption by aberrant bioluminescent signature, diagnosticians who find what the Marked sever. The Thalren open their own veins as bait, each wound a permanent scar of intended betrayal. The Vreken hunt rogue contracts with legal precision, drafting the annulment that severs the bond under its own legal weight. The Woven Mimir detect Wyrd incursions before they manifest, reading shifts in the fog's memory as early warning, their Authority building from patience rather than pursuit.`,
+Each subrace hunts through their own culture's strengths. The Cromyx track corruption through the mycelial network itself, the forest's nervous system. The Bedel identify corruption by aberrant bioluminescent signature, diagnosticians who find what the Cromyx sever. The Tallyn open their own veins as bait, each wound a permanent scar of intended betrayal. The Mycellan hunt rogue contracts with legal precision, drafting the annulment that severs the bond under its own legal weight. The Broken Mimir detect Wyrd incursions before they manifest, reading shifts in the fog's memory as early warning, their Authority building from patience rather than pursuit.
+
+Native only to Cromyx, Tallyn. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
     quickOverview: {
     title: "Class Overview",
@@ -205,30 +215,29 @@ Each subrace hunts through their own culture's strengths. The Marked Vreken trac
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The Inquisition was born from the convergence of two traditions: the Vreken Barbed Vow forged by <LoreLink termId="orven">Orven the Still-Handed</LoreLink> in the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, and the salt-scarred binding rites developed by <LoreLink termId="elias">Elias the Salt-Scarred</LoreLink> in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. When the incursion rate tripled and both orders began failing independently, the two grandmasters met beneath the Sunken Spire and merged their oaths into a single doctrine: the Inquisition.
+The Inquisition was born from the convergence of two traditions: the Mycellan Barbed Vow forged by <LoreLink termId="orven">Orven the Still-Handed</LoreLink> in the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>, and the salt-scarred binding rites developed by <LoreLink termId="elias">Elias the Salt-Scarred</LoreLink> in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. When the incursion rate tripled and both orders began failing independently, the two grandmasters met beneath the Sunken Spire and merged their oaths into a single doctrine: the Inquisition.
 
 **CITIES & CIVIL RECEPTION**
 Inquisitors are feared, respected, and deeply isolated. They are tolerated at the margins of <LoreLink termId="sunken_spire">The Sunken Spire</LoreLink> and Atropolis, welcomed in frontier settlements of the Reach, but never fully trusted. Their skin crawls with contained horrors, their voices carry undertones that are not their own, and the cold iron they carry interferes with divination and healing.
 
 **RACES & CULTURAL AFFILIATION**
-The class is primarily practiced by the <LoreLink termId="vreken">Marked Vreken</LoreLink> who carry the Ghost-Mycelium, the Thalren humans of the Frostwood Reach, the debt-trapped <LoreLink termId="house_morrath">Vreken</LoreLink> who turned contract-law into severance, and the <LoreLink termId="mimir">Woven Mimir</LoreLink> Fog-Sentinels who watch the Ironwood Palisade.
-
+The Barbed Vow merged Cromyx kin-hunting with Tallyn vein-baiting. The Broken Mimir adopt it through sentinel training, reading the fog's memory-shifts as early warning. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
-* **Orven the Still-Handed**: Vreken founder of the Barbed Vow who tracked his own sister into the sinking bogs.
+* **Orven the Still-Handed**: Mycellan founder of the Barbed Vow who tracked his own sister into the sinking bogs.
 * **Elias the Salt-Scarred**: Human healer who first drew the Gref face-traders into his own blood.
-* **Vaelen the Sin-Eater**: A Tethered Mimir who trapped a face-stealing horror under <LoreLink termId="greymark_keep">Greymark Keep</LoreLink> and carried fourteen demons in his blood.
-* **Aedris the Blind**: A Vreken hunter who tracked heretics through the bogs using only the thrum of the mycelium.`,
+* **Vaelen the Sin-Eater**: A Broken Mimir who trapped a face-stealing horror under <LoreLink termId="greymark_keep">Greymark Keep</LoreLink> and carried fourteen demons in his blood.
+* **Aedris the Blind**: A Mycellan hunter who tracked heretics through the bogs using only the thrum of the mycelium.`,
     },
 
     signatureQuote: {
       text: '"She was my sister before she was their priestess. I loved her before I killed her. That is the Barbed Vow. Now I carry her ghost in my blood and her chains in my hands. Love first. Execution second. Always in that order."',
       speaker: 'Orven the Still-Handed',
-      context: 'Testimony before the joint Vreken-Reach council after the founding of the Inquisition'
+      context: 'Testimony before the joint Mycellan-Reach council after the founding of the Inquisition'
     },
 
     philosophy: {
       coreTenet: 'Magic is a disease, and those who wield it irresponsibly are vectors. The supernatural cannot be destroyed, only contained. The Inquisitor does not hunt witches because they are evil; they hunt them because unchecked magic attracts worse things. Every spell broken, every horror bound, every curse purged is a crack sealed in reality.',
-      relationship: 'Inquisitors draw power from cold iron, null-salt, and the absolute conviction that their work is necessary. They do not cast spells; they shatter them. They do not banish demons; they chain them. Their anti-magic aura is not a gift; it is a curse they have learned to weaponize. An Inquisitor cannot be healed by magic, cannot be enchanted, cannot be blessed. They exist in a permanent state of magical isolation, while the bound entities in their veins whisper heresy to their marrow.',
+      relationship: 'Inquisitors maintain cold-iron nullification and containment through trained practice. Active nullification suppresses known foreign magical assistance to the recipient; it does not erase self-originating authority or grant blanket immunity to hostile magic and corruption. Releasing the aura restores access to ordinary treatment. The lasting initiation and its recovery obligations are distinct from whether the aura is currently active.',
       paradox: 'The Inquisitor exists to kill the thing they love and cage the thing they fear. Orven killed his sister. Elias opened his veins to the thing that should have destroyed him. Every Inquisitor since has trained to execute their own kin and chain the darkness inside their own flesh. They protect humanity by becoming something less than human. They are the loneliest warriors in Mythril.',
     },
 
@@ -285,7 +294,7 @@ There are only forty-seven active Inquisitors left. Each can contain at most a d
 - Bound demons provide raw physical force and supernatural damage
 
 **The Agonizing Toll (Your Fatal Flaws)**:
-- **Rejection of All Magic**: Your body is a sterile Silence. You cannot receive beneficial magical buffs or healing without suffering 1d10 wyrd damage from the agonizing friction
+- **Active Nullification**: While the null aura is active, known foreign magical buffs and healing are suppressed. Self-originating authority and nonmagical treatment remain. Releasing the aura permits assistance; this tracker does not apply automatic friction damage or blanket corruption immunity.
 - **Brittle Skeleton**: Silver deposits in your marrow make you fragile. You suffer a permanent 50% vulnerability to physical bludgeoning and smashing damage
 - **The Hollow**: Authority decays by -1 per round when no supernatural contact occurs. At 0 Authority, bound entities make rebellion checks
 - **Mundane Famine**: Against non-supernatural enemies, you have no resource generation, no horror benefit, and no magic to devour. You are a slow, fragile mortal carrying heavy iron

@@ -7,6 +7,9 @@
 // Import race data
 import { RACE_DATA, getSubraceData, getFullRaceData } from '../data/raceData';
 
+// Native class-heritage abilities (free spells for a native subrace x class combo)
+import { getClassRacialTraits } from '../data/classRacials';
+
 // Import spell library context (avoid circular import by importing at top)
 import { libraryActionCreators } from '../components/spellcrafting-wizard/context/SpellLibraryContext';
 
@@ -122,21 +125,43 @@ export function isPassiveStatModifier(trait) {
  * @param {string} subraceId - The subrace ID
  * @returns {Array} Array of spell objects (excluding passive stat modifiers)
  */
-export function getRacialSpells(raceId, subraceId) {
+export function getRacialSpells(raceId, subraceId, className) {
     const spells = [];
 
     if (!raceId || !RACE_DATA[raceId]) {
+        // Still allow class-racial lookup if only the class/subrace are known.
+        if (className) {
+            const classRacials = getClassRacialTraits(className, raceId, subraceId);
+            classRacials.forEach(trait => {
+                if (!spells.some(s => s.id === trait.id)) spells.push(trait);
+            });
+        }
         return spells;
     }
 
     const fullRaceData = getFullRaceData(raceId, subraceId);
     if (!fullRaceData || !fullRaceData.combinedTraits?.traits) {
+        if (className) {
+            const classRacials = getClassRacialTraits(className, raceId, subraceId);
+            classRacials.forEach(trait => {
+                if (!spells.some(s => s.id === trait.id)) spells.push(trait);
+            });
+        }
         return spells;
     }
 
     const allTraits = fullRaceData.combinedTraits.traits;
     const actualSpells = allTraits.filter(trait => !isPassiveStatModifier(trait));
     spells.push(...actualSpells);
+
+    // Native class-heritage abilities are granted as free spells for the correct
+    // subrace x class combination (non-native combos get none).
+    if (className) {
+        const classRacials = getClassRacialTraits(className, raceId, subraceId);
+        classRacials.forEach(trait => {
+            if (!spells.some(s => s.id === trait.id)) spells.push(trait);
+        });
+    }
 
     return spells;
 }

@@ -15,7 +15,7 @@ const ITEM_LORE = {
   // =======================================================================
   ironweep: {
     origin: 'frostwood-reach',
-    loreText: 'The Thalren militias arm their rank-and-file with these rust-blooded blades, forged from ironwood-bog ore that House Thalreth has mined since the Memory Wars.',
+    loreText: 'The Tallyn militias arm their rank-and-file with these rust-blooded blades, forged from ironwood-bog ore that House Thalreth has mined since the Memory Wars.',
     relatedLore: ['frostwood-reach', 'house_thalreth', 'the-memory-wars']
   },
   'wanderers-edge': {
@@ -25,7 +25,7 @@ const ITEM_LORE = {
   },
   soulthirst: {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in ancestor-mound ichor, giving it an unnatural hunger.',
+    loreText: 'Athien shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in ancestor-mound ichor, giving it an unnatural hunger.',
     relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
   },
 
@@ -44,7 +44,7 @@ const ITEM_LORE = {
   },
   cleaver: {
     origin: 'bryngloom-forest',
-    loreText: 'Vreken cleavers are repurposed peat-cutting tools, their blades still stained with bog-iron. The Cult of Forgotten Shadow favours their crude, silent efficiency.',
+    loreText: 'Mycellan cleavers are repurposed peat-cutting tools, their blades still stained with bog-iron. The Cult of Forgotten Shadow favours their crude, silent efficiency.',
     relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_forgotten_shadow']
   },
   'battle-axe': {
@@ -100,7 +100,7 @@ const ITEM_LORE = {
   // =======================================================================
   'parrying-blade': {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the eternal twilight of Bryngloom.',
+    loreText: 'Athien duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the eternal twilight of Bryngloom.',
     relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
   },
   'warding-dagger': {
@@ -145,7 +145,7 @@ const ITEM_LORE = {
   },
   'carved-totem': {
     origin: 'bryngloom-forest',
-    loreText: 'Vreken spore-elders carve spirit-totems from ghost-mycelium stalks, each symbol a pact with the ancestor-mounds. These totems whisper in the silence between root-veils.',
+    loreText: 'Mycellan spore-elders carve spirit-totems from ghost-mycelium stalks, each symbol a pact with the ancestor-mounds. These totems whisper in the silence between root-veils.',
     relatedLore: ['bryngloom-forest', 'vreken', 'nyssa', 'root_veil']
   },
   'crude-idol': {
@@ -174,7 +174,7 @@ const ITEM_LORE = {
   },
   'broken-flute': {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien bone-carvers hollow gref femurs into flutes that produce a haunting, reedy tone. The Cult of Forgotten Shadow uses them to call spirits from the ancestor-mounds.',
+    loreText: 'Athien bone-carvers hollow gref femurs into flutes that produce a haunting, reedy tone. The Cult of Forgotten Shadow uses them to call spirits from the ancestor-mounds.',
     relatedLore: ['bryngloom-forest', 'neth', 'gref', 'cult_of_forgotten_shadow']
   },
   'war-drum': {
@@ -194,7 +194,7 @@ const ITEM_LORE = {
   },
   'travelers-guitar': {
     origin: 'bryngloom-forest',
-    loreText: 'Vreken travellers carve guitars from ironwood and braid strings from beast-sinew. In the twilight groves, music is the only light that never fades.',
+    loreText: 'Mycellan travellers carve guitars from ironwood and braid strings from beast-sinew. In the twilight groves, music is the only light that never fades.',
     relatedLore: ['bryngloom-forest', 'vreken']
   },
 
@@ -311,7 +311,7 @@ const ITEM_LORE = {
   },
   'chipped-chakram': {
     origin: 'cragjaw-peaks',
-    loreText: 'Deep Alchemists\' Fexric guards throw chipped chakrams as warning shots. The ring of a chakram against tunnel stone is the sound of a border you should not cross.',
+    loreText: 'Deep Alchemists\' Fex guards throw chipped chakrams as warning shots. The ring of a chakram against tunnel stone is the sound of a border you should not cross.',
     relatedLore: ['cragjaw-peaks', 'deep_alchemists']
   },
   shuriken: {
@@ -330,7 +330,7 @@ const ITEM_LORE = {
   // =======================================================================
   'crude-blowgun': {
     origin: 'bryngloom-forest',
-    loreText: 'Vreken youths fashion blowguns from hollow reeds for hunting small game in the twilight canopy. A crude blowgun marks a hunter still learning patience.',
+    loreText: 'Mycellan youths fashion blowguns from hollow reeds for hunting small game in the twilight canopy. A crude blowgun marks a hunter still learning patience.',
     relatedLore: ['bryngloom-forest', 'vreken']
   },
   'hunters-blowgun': {
@@ -472,7 +472,7 @@ const ITEM_LORE = {
   },
   shadowblade: {
     origin: 'bryngloom-forest',
-    loreText: 'The Cult of Forgotten Shadow quenched the first shadowblade in silence-essence from a living Nethien oracle. The blade casts no shadow — it is made of shadow.',
+    loreText: 'The Cult of Forgotten Shadow quenched the first shadowblade in silence-essence from a living Athien oracle. The blade casts no shadow — it is made of shadow.',
     relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   bonecrusher: {
@@ -512,7 +512,7 @@ const ITEM_LORE = {
   },
   venomfang: {
     origin: 'bryngloom-forest',
-    loreText: 'Vespera cultivated this living weapon from a Nethien predator\'s fang, grafted to a hilt of ghost-mycelium. It hungers, learns, and grows.',
+    loreText: 'Vespera cultivated this living weapon from a Athien predator\'s fang, grafted to a hilt of ghost-mycelium. It hungers, learns, and grows.',
     relatedLore: ['bryngloom-forest', 'vespera']
   },
   'dueling-rapier': {
@@ -557,7 +557,7 @@ const ITEM_LORE = {
   },
   'throwing-dagger': {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien shadow-crafters balance these daggers to perfection. A Nethien assassin can place one between your ribs from forty paces in complete darkness.',
+    loreText: 'Athien shadow-crafters balance these daggers to perfection. A Athien assassin can place one between your ribs from forty paces in complete darkness.',
     relatedLore: ['bryngloom-forest', 'neth', 'velun']
   },
   'poison-blowgun': {
@@ -591,7 +591,7 @@ const ITEM_LORE = {
   },
   'tattered-memories': {
     origin: 'frostwood-reach',
-    loreText: 'The Memory Wars stripped many Thalren soldiers of their past. These leg-guards are all that remains of a uniform worn by a soldier who cannot recall his name.',
+    loreText: 'The Memory Wars stripped many Tallyn soldiers of their past. These leg-guards are all that remains of a uniform worn by a soldier who cannot recall his name.',
     relatedLore: ['frostwood-reach', 'the-memory-wars', 'house_thalreth']
   },
   'stiff-resolve': {
@@ -626,7 +626,7 @@ const ITEM_LORE = {
   },
   'stiffened-grip': {
     origin: 'cragjaw-peaks',
-    loreText: 'Fexric leatherworkers treat gloves with thermal-vent resin, creating a grip that never slips. The stiffness is the price of certainty.',
+    loreText: 'Fex leatherworkers treat gloves with thermal-vent resin, creating a grip that never slips. The stiffness is the price of certainty.',
     relatedLore: ['cragjaw-peaks', 'fexrick']
   },
   'iron-fetters': {
@@ -711,7 +711,7 @@ const ITEM_LORE = {
   },
   'threadbare-undershirt': {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien commoners wear threadbare shirts beneath outer garments — a symbol that all are equal under the root-veil. The Silent Seventh sees no rank through the weave.',
+    loreText: 'Athien commoners wear threadbare shirts beneath outer garments — a symbol that all are equal under the root-veil. The Silent Seventh sees no rank through the weave.',
     relatedLore: ['bryngloom-forest', 'neth', 'silent_seventh']
   },
   'simple-tunic': {
@@ -746,7 +746,7 @@ const ITEM_LORE = {
   },
   'oaken-bulwark': {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien shield-wardens carry bulwarks grown from living ironwood, roots still connected to Bryngloom soil. The shield heals itself when returned to the grove.',
+    loreText: 'Athien shield-wardens carry bulwarks grown from living ironwood, roots still connected to Bryngloom soil. The shield heals itself when returned to the grove.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'iron-bastion': {
@@ -835,7 +835,7 @@ const ITEM_LORE = {
   },
   'whisper-chain': {
     origin: 'bryngloom-forest',
-    loreText: 'Vreken spirit-speaker necklaces that vibrate near ancestor-mound activity. One end in the living world, the other in the silence.',
+    loreText: 'Mycellan spirit-speaker necklaces that vibrate near ancestor-mound activity. One end in the living world, the other in the silence.',
     relatedLore: ['bryngloom-forest', 'vreken', 'nyssa']
   },
   'silent-focus': {
@@ -935,7 +935,7 @@ const ITEM_LORE = {
   },
   'shadow-cloak': {
     origin: 'bryngloom-forest',
-    loreText: 'Cult agent cloaks woven from Vreken ghost-mycelium silk. In Bryngloom\'s twilight, the wearer becomes indistinguishable from the dark between trees.',
+    loreText: 'Cult agent cloaks woven from Mycellan ghost-mycelium silk. In Bryngloom\'s twilight, the wearer becomes indistinguishable from the dark between trees.',
     relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow', 'vreken']
   },
   'ward-of-protection': {
@@ -1024,7 +1024,7 @@ const ITEM_LORE = {
   },
   'black-bread': {
     origin: 'bryngloom-forest',
-    loreText: 'Nethien bakers grind ironwood acorns into flour for this dense loaf. It keeps for months — longer than most things survive in the twilight.',
+    loreText: 'Athien bakers grind ironwood acorns into flour for this dense loaf. It keeps for months — longer than most things survive in the twilight.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'scroll-of-haste': {
@@ -1172,7 +1172,7 @@ const ITEM_LORE = {
   },
   'marble-block': {
     origin: 'bryngloom-forest',
-    loreText: 'White marble quarried from Bryngloom\'s subterranean rivers, veined with ghost-mycelium that glows faintly in darkness. The Nethien use it for ancestor-mound markers.',
+    loreText: 'White marble quarried from Bryngloom\'s subterranean rivers, veined with ghost-mycelium that glows faintly in darkness. The Athien use it for ancestor-mound markers.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'obsidian-glass': {
@@ -1226,7 +1226,7 @@ const ITEM_LORE = {
   },
   glowbulb: {
     origin: 'bryngloom-forest',
-    loreText: 'A bioluminescent fungus that pulses in rhythm with the ancestor-mound heartbeats. Vreken children string them into necklaces that serve as night-lights in the twilight.',
+    loreText: 'A bioluminescent fungus that pulses in rhythm with the ancestor-mound heartbeats. Mycellan children string them into necklaces that serve as night-lights in the twilight.',
     relatedLore: ['bryngloom-forest', 'vreken']
   },
   'blood-vine': {
@@ -1245,7 +1245,7 @@ const ITEM_LORE = {
   },
   'wool-thread': {
     origin: 'nordhalla',
-    loreText: 'Shorn from the thick-coated stel-beasts that roam Nordhalla\'s ice-fields. Corvani wool is coarse but unbelievably warm — the difference between life and frost-death.',
+    loreText: 'Sheared from the thick-coated stel-beasts that roam Nordhalla\'s ice-fields. Corvani wool is coarse but unbelievably warm — the difference between life and frost-death.',
     relatedLore: ['nordhalla', 'corvani', 'stel']
   },
   'hemp-cord': {
@@ -1280,7 +1280,7 @@ const ITEM_LORE = {
   },
   shadowfiber: {
     origin: 'bryngloom-forest',
-    loreText: 'A fabric woven in absolute darkness by the Cult of Forgotten Shadow, using techniques that predate the Nethien-Vreken Reincarnation Bargain. It absorbs all light.',
+    loreText: 'A fabric woven in absolute darkness by the Cult of Forgotten Shadow, using techniques that predate the Athien-Mycellan Reincarnation Bargain. It absorbs all light.',
     relatedLore: ['bryngloom-forest', 'cult_of_forgotten_shadow']
   },
   dreamweave: {
@@ -1324,7 +1324,7 @@ const ITEM_LORE = {
   },
   'horn-fragment': {
     origin: 'bryngloom-forest',
-    loreText: 'Shed antlers from the great ironwood stags that roam Bryngloom\'s canopy. Nethien carvers shape them into bow-tips and dagger handles, each grain telling a century of growth.',
+    loreText: 'Shed antlers from the great ironwood stags that roam Bryngloom\'s canopy. Athien carvers shape them into bow-tips and dagger handles, each grain telling a century of growth.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'claw-talon': {
@@ -1368,7 +1368,7 @@ const ITEM_LORE = {
   },
   'wooden-haft': {
     origin: 'bryngloom-forest',
-    loreText: 'Turned from Bryngloom ironwood saplings on Nethien wood-lathes that have run continuously for centuries. The grain is so tight it resists splitting even after years of combat.',
+    loreText: 'Turned from Bryngloom ironwood saplings on Athien wood-lathes that have run continuously for centuries. The grain is so tight it resists splitting even after years of combat.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'weapon-blank': {
@@ -1535,7 +1535,7 @@ const ITEM_LORE = {
   },
   'river-fish': {
     origin: 'bryngloom-forest',
-    loreText: 'Caught from Bryngloom\'s subterranean rivers, these fish are pale and blind but delicious. The Nethien smoke them over ghost-mycelium fires for a distinctive flavour.',
+    loreText: 'Caught from Bryngloom\'s subterranean rivers, these fish are pale and blind but delicious. The Athien smoke them over ghost-mycelium fires for a distinctive flavour.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'spice-blend': {
@@ -1569,12 +1569,12 @@ const ITEM_LORE = {
   },
   'ancient-heartwood': {
     origin: 'bryngloom-forest',
-    loreText: 'A section of ironwood from a tree ancient when the Nethien first settled Bryngloom. Its growth rings tell a history predating recorded memory.',
+    loreText: 'A section of ironwood from a tree ancient when the Athien first settled Bryngloom. Its growth rings tell a history predating recorded memory.',
     relatedLore: ['bryngloom-forest', 'neth']
   },
   'thornroot-seed': {
     origin: 'bryngloom-forest',
-    loreText: 'The Thorn-Speaker of the Trueborn Florae blessed this seed before the Great Revision. Planted, it would grow into a tree that remembers what the fog erased.',
+    loreText: 'The Thorn-Speaker of the Briaren Florae blessed this seed before the Great Revision. Planted, it would grow into a tree that remembers what the fog erased.',
     relatedLore: ['bryngloom-forest', 'thorn-speaker', 'the-great-revision']
   },
   'ash-cleave': {
@@ -1703,7 +1703,7 @@ const ITEM_LORE = {
   },
   'blight-mothers-prong': {
     origin: 'bryngloom-forest',
-    loreText: 'Vespera\'s living weapon — a prong grafted from a Nethien predator\'s fang to ghost-mycelium. It secretes adaptive venom that learns, mutates, and always finds a way past its target\'s defenses.',
+    loreText: 'Vespera\'s living weapon — a prong grafted from a Athien predator\'s fang to ghost-mycelium. It secretes adaptive venom that learns, mutates, and always finds a way past its target\'s defenses.',
     relatedLore: ['bryngloom-forest', 'vespera']
   },
   'faiths-edge-glaive': {
@@ -1841,7 +1841,7 @@ const ITEM_LORE = {
   },
   'venom-drake-fang': {
     origin: 'bryngloom-forest',
-    loreText: 'Vespera cultivated this venom from the Nethien predator\'s gland. The poison mutates inside the wound, learning and adapting — by the time you notice the pain, it\'s already too late.',
+    loreText: 'Vespera cultivated this venom from the Athien predator\'s gland. The poison mutates inside the wound, learning and adapting — by the time you notice the pain, it\'s already too late.',
     relatedLore: ['bryngloom-forest', 'plaguebringer', 'vespera']
   },
   'psychic-horror-wand': {

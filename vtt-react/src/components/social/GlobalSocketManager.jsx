@@ -26,7 +26,7 @@ const GlobalSocketManager = () => {
     const presenceInitializedRef = useRef(false);
 
     // Get character data from store
-    const characterId = useCharacterStore((state) => state.id);
+    const characterId = useCharacterStore((state) => state.currentCharacterId);
     const characterName = useCharacterStore((state) => state.name);
     const characterLevel = useCharacterStore((state) => state.level);
     const characterClass = useCharacterStore((state) => state.class);

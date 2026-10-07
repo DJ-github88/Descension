@@ -1,54 +1,60 @@
 export const mimir = {
     id: 'mimir',
     name: 'Mimir',
-    essence: 'The Mask-Bound',
-    illustration: '/assets/images/races/mimir_broken_icon_v1.png',
-    illustrationCaption: 'A free-spirited Broken Mimir with a cracked wooden mask shard over one brow, wide soulful eyes, and a floating golden Mote companion in rough charcoal draft with gold and lavender watercolor splash.',
+    essence: 'The Faces of Sereth',
+    illustration: '/assets/images/races/mimir_broken_city_riverreach.jpg',
+    illustrationCaption: 'Oakhaven & River\'s Reach — Sovereign woodland capital of the Broken Mimir with graceful timber-and-stone halls, watermills, and lantern-strung riverside pavilions in rough charcoal draft with festival rose watercolor splash.',
     illustrations: [
       {
-        src: '/assets/images/races/mimir_broken_icon_v1.png',
-        caption: 'Broken Mimir free-spirited wanderer with exposed fae face, mask shard, and floating golden seed Mote companion in rough charcoal draft with watercolor splash.'
+        src: '/assets/images/races/mimir_broken_city_riverreach.jpg',
+        caption: 'Oakhaven & River\'s Reach — Sovereign woodland capital of the Broken Mimir along fertile river basins and ancient weeping willow groves.'
+      },
+      {
+        src: '/assets/images/races/mimir_broken_city_revelsend.jpg',
+        caption: 'Revels-End — The lively medieval riverfront town of the Broken Mimir with festive lantern promenades and riverside pavilions.'
+      },
+      {
+        src: '/assets/images/races/mimir_broken_location_crystal_quay.jpg',
+        caption: 'The Crystal-Peddler\'s Quay & Watermill — Open-air riverside wharf where crystal artisans display rose prisms beside the turning millrace.'
+      },
+      {
+        src: '/assets/images/races/mimir_broken_location_mist_ferry.jpg',
+        caption: 'The Mist-Ferry River Mooring & Watch-Keep — Fortified wooden toll-shanty and pole-punt ferry crossing over calm mist-laden waters.'
+      },
+      {
+        src: '/assets/images/races/mimir_broken_figure_vaelith.jpg',
+        caption: 'Vaelith Thread-Speaker — Legendary Broken Mimir Storyteller with unmasked demon-scarred face and cascading silver ear-jewelry in rough charcoal draft with festival rose watercolor splash.'
       }
     ],
-    cardFlavor: 'Canopy-dwellers who sealed their faces behind wooden masks when the Frostwood fog began stealing their memories.',
-    visualDescription: `Tall and slender, standing between 5'10" and 7'0", with narrow, angular builds and long limbs. Their faces are never seen — hidden behind towering masks carved from ancient heartwood (dark amber, layered with generations of re-carving) or storm-glass (translucent, cold silver, forged in cliff-side forges). The mask is not flat: it rises above the head in beastlike curves, organic protrusions that echo the shape Sereth first intended, creating a silhouette taller and broader than the Mimir beneath it. Two deep-set eye-slits burn with steady amber light, and the mask's surface is a palimpsest — interlocking runic glyphs, braided knotwork, and family sigils carved layer upon layer across centuries, the deepest carvings the oldest, the shallowest the most recent. Visible cracks and weathering mark masks that have been reshaped by every generation that wore them. The mask does not sit on the face; it replaces it, wrapping around the head so completely that no Mimir has ever seen their own features. They wear rough bark-hide cloaks over layered earth-toned garments, their long-fingered hands pale, fingertips callused and stained dark from carving and ink-work.`,
-    description: `**[The Mask-Bound]**, *High in the foggy canopy of the ironwood forests, a slender figure in an unbroken oak mask leans forward, their wooden face perfectly still while their body shifts with a liquid, predatory grace.*
-
-The Mimir have never shown their faces to outsiders. This is not because they hide something monstrous, but because the fog that wreathes the Frostwood Reach devours memory over generations, and behind every mask lies a face their creator once rejected. The Mimir were MADE by Sereth, an ancient world-bound deity of creation and perfection, who shaped and reshaped them across centuries, each iteration falling short of an impossible standard. Each rejection carved the same message into them: *you are not enough.* When Sereth finally died, undone by its own contradictions, the Mimir were left with scriptures they could no longer fully read and a shame they could no longer name. The unbroken mask of heartwood or storm-glass is a blank canvas, a perfect face to replace the one their creator turned away from. They do not know why they wear them. They know only that to remove one is the deepest dishonor. Their real faces are beautiful, achingly so, but no Mimir will ever believe it, the shame is soul-deep, older than memory, older than the fog.`,
+    cardFlavor: 'Sereth\'s native creations: Arch keep lineage masks and archives; Broken walk unmasked beside their personal Motes.',
+    visualDescription: `Tall, slender native fae people of the Frostwood Reach. Arch Mimir inherit ancient heartwood or storm-glass masks with partial or domino coverage, carved with lineage records and organic crown-crests. These do not replace biologically unviable faces. Broken Mimir are genuinely unmasked, with demon facial scarring, pointed demon-fae ears, elaborate ear jewelry, and personal golden Motes. Their specific heritage defines the mask or Mote anchor; neither is universal to the race.`,
+    description: `**[The Faces of Sereth]** — Native creations of a maker undone by its own impossible standards. Arch Mimir preserve inherited archives through heartwood or storm-glass lineage masks. Broken Mimir reject compulsory masking and live openly beside personal Motes. Sereth's shame is a learned history, not proof that a Mimir face cannot survive exposure.`,
     icon: 'fas fa-mask',
-    overview: `The Mimir do not know their own origin. This is the central tragedy of their race.
+    overview: `Sereth shaped and reshaped the Mimir against an impossible ideal, then died through its own contradictions. Surviving scriptures preserve incomplete accounts; rejection taught shame without determining every descendant's beliefs.
 
-They were made by Sereth, an ancient world-bound deity of creation and perfection. Sereth was insecure the way gods can be insecure: with the power to reshape living beings and the impossible standards that made every reshaping a failure. The Mimir were Sereth's great project, an attempt to create something perfect. Each iteration fell short. Sereth remade them, again and again, refining, adjusting, stripping away what was flawed and rebuilding what remained. The cycle repeated across centuries. And with each rejection, the Mimir absorbed the message: *you are not enough. You will never be enough.*
+Arch Mimir keep lineage masks as archives and ritual anchors. Their partial heartwood or storm-glass coverings carry accumulated dream-memories and need care, particularly during travel. Losing an anchor interrupts its benefits, not every class spell or the biological viability of the wearer.
 
-Then Sereth died. The way gods can die, not by violence, but by contradiction. Sereth's obsessive perfectionism consumed it from within, the impossible standard collapsing under its own weight, the creator destroyed by the same inadequacy it projected onto its creations. Sereth is gone. The Mimir are still here.
+Broken Mimir live genuinely unmasked in riverfront and forest-floor communities. Personal Motes anchor their recovered self-memory; they do not need an ancestral mask to remain themselves. They can accept beauty, friendship, and freedom without secretly obeying the canopy's shame.
 
-They do not remember this clearly. Centuries of inherited shame, compounded by the memory-devouring fog they live in, have buried the origin story beneath layers of self-blame and ritualized denial. They do not know why they wear masks. They know only that to remove one is the deepest dishonor, that the mask is honor and lineage and identity, and that beneath it lies something that cannot be looked upon.
-
-The Frostwood Reach's protective fog serves a dual purpose for the Mimir. It solidifies the dream-fragments locked in their masks, the moisture and the ancient wood interacting in ways that preserve inherited memory, keeping the fragments from fading entirely. But the fog also prevents self-recognition. A Mimir in the fog never sees their own face clearly. Mirrors fog. Water surfaces ripple. The mask becomes the only face they know, and the face beneath it recedes into the same mist that devours the memories of the humans who share the forest.
-
-The cruelest irony of Mimir existence: they would be better off without the masks. Their faces are beautiful. The shame is inherited, not earned. But even a Mimir who loses their mask, who is forced to walk maskless, would never accept praise for their appearance. The shame is soul-deep. It is in their bones, in their breath, in the dreams of Sereth's disappointment that surface unbidden in the night. A maskless Mimir told they are beautiful will flinch. They will not believe it. They cannot.
-
-The truth, that beneath every mask is a face Sereth called imperfect and the world would call beautiful, is the most closely guarded secret in Mythrill, guarded so effectively that even the Mimir themselves do not know it.`,
+Physical mask craft survives with artisans such as Tallen. The lost Mask-Mother craft concerns special ancestral imprinting: a new physical mask does not fabricate centuries of memory.`,
     quickFacts: [
-        'Tall, slender canopy-dwellers of the Frostwood Reach who seal their faces behind unbroken masks of heartwood or storm-glass. Created and repeatedly rejected by Sereth, a perfectionist deity who died of its own impossible standards, they inherited a shame they cannot name and a face they will never believe is beautiful.',
-        'Every mask is an heirloom carrying centuries of ancestral dream-memories. The fog that devours memory also preserves their masks but prevents self-recognition; no Mimir has seen their own face clearly. Divided into Arch Mimir (aristocrats inheriting ancient storm-glass or heartwood masks) and Broken Mimir (artisans and wanderers with rebuilt masks and glowing Motes).',
-        'Play a Mimir to explore identity as performance and inheritance as burden. Your entire society is built on a lie (the masks were never necessary, the shame was never earned) and a single translated line of scripture threatens to unravel everything. What happens when you learn you were never rejected?'
+        'Sereth\'s native creations survive their maker\'s impossible standards. Shame is learned history, not proof of physically unviable faces.',
+        'Arch Mimir inherit partial heartwood/storm-glass lineage masks and archives. Broken Mimir are unmasked and Mote-anchored. Mask dependence and Motes are heritage-specific, not universal.',
+        'Play a Mimir to explore inherited archives, chosen selfhood, craft, and freedom. A translated scripture can challenge learned shame without erasing the real work of keeping memories.'
     ],
-    culturalBackground: `Mimir society is built around masks, not bloodlines. Every Mimir receives their mask as an heirloom, a sacred object carved from heartwood, storm-glass, or salvaged fragments. The height, horn-curves, and material of a mask dictate a Mimir's exact role in society: the Highborne Mimir wear towering, carved horn masks adorned with etched runes and hanging gemstones, holding positions as canopy adjudicators, astronomers, and archivist-priests, while lower castes wear simpler face-plates. The mask is everything: face, rank, name, and identity.
+    culturalBackground: `Arch canopy institutions organize rank and archives around inherited masks. Their loss can bring social shame, but that doctrine is not biological truth about every Mimir. Lineage masks accumulate dream-memories through special imprinting and preserve incomplete scriptures.
 
-To be seen maskless is the ultimate, unthinkable dishonor in Mimir culture — viewed not as mere physical exposure, but as dissolving one's soul and repudiating the creator Sereth. A Mimir stripped of their mask suffers severe psychological trauma and immediate social exile.
-
-The Mimir are a shame culture. Masks are the family heirlooms that carry it, accumulating the dream-memories of every Mimir who wore it across centuries, surfacing unbidden in sleep. The Highborne Mimir preserve ancient scriptures in canopy spires, seeking new tablets in deep Frostwood ruins.`,
-    variantDiversity: 'The Mimir are divided into two primary lineages: Highborne Mimir (canopy scholars and aristocrats wearing towering, pristine horn-curved heartwood masks in layered cream and pale blue robes) and True Mimir (exiled, unmasked wanderers with smooth pale human skin, warm luminous blue eyes, small soft flared ears at human ear height, and dark brown or golden-blonde braided hair — completely non-elven —, living in earth-sheltered, moss-roofed round-doored forest homes. Every True Mimir is accompanied by a Mote companion — an uninhibited radiance of authentic selfhood manifesting as a floating golden light orb, a glowing winged spirit, a loyal patchwork tree-doll resting on their shoulder, or a sleeping fox cub).',
+Broken communities reject compulsory masking, sharing life in riverfront settlements and forest-floor shelters. Personal Motes, craft, ear jewelry, and chosen relationships express selfhood. Physical mask-making survives among artisans, including Tallen, without obliging the artisan to wear a lineage mask or inventing a new ancestral archive.`,
+    variantDiversity: 'The Mimir are divided into two primary lineages: Arch Mimir (canopy scholars and aristocrats wearing towering, pristine horn-curved heartwood or storm-glass masks in layered cream and pale blue robes) and Broken Mimir (exiled, liberated wanderers living in riverfront shanty towns and forest floors, who wear NO masks at all, bearing beautiful unmasked faces marked with demon facial scarring, pointed demon-fae ears pierced with cuffs and chains, accompanied by radiant floating golden Motes).',
     integrationNotes: {
       actionPointSystem: 'Mimir abilities focus on perception, memory, identity protection, and environmental adaptation. Their traits emphasize survival in obscured terrain and social nuance.',
       backgroundSynergy: 'Mimir excel in backgrounds emphasizing stealth, perception, and survival. Their introverted nature and secretive culture create compelling roleplay tension with outsiders.',
-      classCompatibility: 'The Arch Mimir favor Lunarchs above all, using their inherited masks and canopy archives to commune with ancestral memories and channel the parasite\'s lunar feeding cycle through starlight portents. The Broken Mimir favor Apex, Shapers, and Toxicologists, employing their physical agility, storm-glass masks, and deep-floor forest chemistry to stalk Wyrd through the fog and brew toxins from the undergrowth. Animists emerge among all Mimir who channel the ancestral identities preserved in the canopy archives.'
+      classCompatibility: 'The Mimir are the unmasked and the masked. The Arch Mimir are native to the Apex (the Greythorn hunt), the Shaper (Veyra\'s forms), the Warden (fog-sentinel containment), the Animist (canopy archive), and the Lunarch (mask-anchor). The Broken Mimir are native to the Apex, the Shaper, the Minstrel (family vigil-song through the fog), the Inquisitor (sentinel Vow), the Toxicologist (undergrowth chemistry), and the Animist (family scripture anchored by a Mote). Other class paths require actual acquisition.'
     },
-    diasporaVariation: `The Mimir are the least diasporic race in Mythrill, they cannot survive long outside the Frostwood fog without the mask-memories they carry beginning to fade. The rare expatriate Mimir (usually Tethered, who have less to lose) cling to the Frostwood trade-embassies and Ironjaw Port's fog-warded quarters, growing visibly thinner the longer they stay. A sea-ward Mimir who has lived a decade in the Merrowport fog-wards develops a salt-tolerance and a strange nautical dialect of Vale-Speak, but their dream-memories degrade faster in sea-mist than forest-mist. There is no meaningful Bryngloom or Sundale Mimir population, the few who attempted it faded within years, their inherited scriptures crumbling to pulp in the dry air.`,
-    meaningfulTradeoffs: 'Mimir gain powerful identity protection and perception abilities through their masks, but suffer severe consequences if their masks are forcibly removed. The Mask-Shift lets them adopt other faces, but their inherited shame prevents them from ever accepting their own. They are introverted outsiders who struggle outside the Fog-Vales, defined by an inadequacy they cannot name and a creator they cannot remember.',
+    diasporaVariation: `Arch travelers care for lineage masks and archives with appropriate materials and rites; sea-mist and dry air present different maintenance problems. Broken travelers carry personal Motes rather than compulsory ancestral masks. Neither heritage has a universal death timer outside Frostwood. Embassies and specialist workshops preserve cultural connections without making travel biologically impossible.`,
+    meaningfulTradeoffs: 'Arch lineage masks protect and preserve archives but need care; forced loss interrupts mask-dependent benefits. Broken self-memory is Mote-anchored, with its own recorded vulnerability. Neither heritage is biologically unable to accept its face or travel beyond Frostwood.',
     baseTraits: {
-      languages: ['Common', 'Vale-Speak'],
+      languages: ["Wayfarer's Cant", 'Vale-Speak'],
       lifespan: '90-130 years',
       baseSpeed: 30,
       size: 'Medium',
@@ -65,7 +71,7 @@ Then Sereth died. Not by violence, no outside force could have touched a deity o
 
 The crafting of the first masks began in the centuries after the silence. The Mimir do not remember who carved the first one, or why. The scriptures hint at it obliquely: passages about "the covering of what could not be looked upon," "the honor of the hidden face." What is certain is that within a few generations of Sereth's death, every Mimir wore a mask. The tradition hardened into law, then into identity, then into something deeper than either. The mask became the face. The face beneath it became the shame.
 
-The Rupture followed in the third century of the Freezing Era. With no new masks being crafted, every heirloom became priceless. The elders decreed that only first-born children could inherit their family's mask. Second-born and later children were forced to forge their own or repair broken ones. The Veiled consolidated power in the canopy-holds, becoming aristocrats who hoarded both masks and lineage. The Tethered retreated to the mountain borders, learning to craft their own masks from storm-glass and watch for whatever threat might come next.
+During the Freezing Era, the loss of special ancestral imprinting made old lineage archives scarce. Physical mask craft survived, but newly carved coverings could not manufacture inherited memories. Arch institutions restricted inheritance; Broken communities developed unmasked, Mote-anchored lives. Artisan workshops kept working wood and storm-glass for repair, ritual, and ordinary equipment without obliging every craftsperson to wear a mask.
 
 The Mimir have been hiding ever since. The fog that protects them also erodes them, slowly wearing away the origin memories they no longer fully possess. The scriptures grow harder to read with each generation, the archaic language slipping further from comprehension, the meaning of rituals fading into rote repetition. And deep in the oldest canopy-hold, the creative fire Sereth first kindled still burns, pale and heatless, burning the same steady blue-white it has burned since before any living Mimir can remember. No one knows what it was for. No one knows how to use it. The Mimir tend it because the scriptures say it must be tended. That is reason enough.
     `,
@@ -75,7 +81,7 @@ The Mimir have been hiding ever since. The fog that protects them also erodes th
         title: 'The Last Reader',
         portraitIcon: 'Halfling/Icon3',
         backstory: `
-Of the Veiled scholars who dedicate their lives to deciphering Sereth's scriptures, Vaelith has read more of them than any living Mimir. Seventy years in the canopy archives, hunched over tablets older than the Rupture, fingers stained black with the pigment scholars use to mark conjectural translations. Vaelith has produced three deciphered passages in their lifetime, each one a fragment of the creation cycle, each one harder to look at than the last.
+Of the Arch Mimir scholars who dedicate their lives to deciphering Sereth's scriptures, Vaelith has read more of them than any living Mimir. Seventy years in the canopy archives, hunched over tablets older than the Rupture, fingers stained black with the pigment scholars use to mark conjectural translations. Vaelith has produced three deciphered passages in their lifetime, each one a fragment of the creation cycle, each one harder to look at than the last.
 
 The most recent translation unsettles them. It is a single line, partial, the edges of the tablet worn smooth by centuries of fog-moisture: "...and the maker saw that the final shape held, and turned away in grief, not in disgust." Vaelith has not shown this translation to the Elders. They do not know what it means. They know only that it contradicts every scripture that came before it, every lullaby they were raised on, every apology carved into the walls of the archive. If the final shape held, then the Mimir were not rejected. If they were not rejected, then the masks are...
 
@@ -87,11 +93,11 @@ Vaelith sits with the tablet in their private study and does not finish the thou
         title: 'The Living Tradition',
         portraitIcon: 'Halfling/Icon7',
         backstory: `
-The Tethered are the only Mimir subrace that still crafts masks. Every Veiled heirloom was carved centuries ago. Every Fractured composite is stitched from fragments of the dead. Only the Tethered, driven to the cliff-aeries after the Rupture, kept the living tradition, cutting fresh heartwood and shaping new storm-glass because they had no inheritance to claim. Tallen is the finest mask-forger of this generation, possibly of the last three.
+Tallen is a Broken-lineage artisan preserving physical mask craft. Fresh heartwood and storm-glass can replace a covering, repair an anchor, or make ordinary equipment; they cannot reproduce the lost Mask-Mother art of ancestral imprinting. Tallen works on masks without needing to wear one. Old Arch archives and unmasked Broken lives can both depend on that practical craft without becoming the same heritage.
 
-Tallen's masks are beautiful. They are also, by Veiled standards, worthless. A newly crafted mask has no dream-echoes, no accumulated lineage, no centuries of inherited memory pressing against the wood. It is a blank canvas, waiting for its first wearer to begin filling it. The Veiled will not wear them. Only other Tethered wear Tallen's work, and there are fewer Tethered every year.
+Tallen's masks are beautiful. They are also, by Arch Mimir standards, worthless. A newly crafted mask has no dream-echoes, no accumulated lineage, no centuries of inherited memory pressing against the wood. It is a blank canvas, waiting for its first wearer to begin filling it. The Arch Mimir will not wear them. Only other Broken Mimir wear Tallen's work, and there are fewer Broken Mimir every year.
 
-Tallen does not mind. They forge because the tradition must be kept, because the scriptures hint that mask-craft is sacred to Sereth even if the why has been lost, because the day the last Tethered forger stops working is the day the Mimir lose the only living link to the creative act that made them. Tallen has trained eleven apprentices. Three survived to competence. Two are still alive. The tradition continues. Barely.
+Tallen does not mind. They forge because the tradition must be kept, because the scriptures hint that mask-craft is sacred to Sereth even if the why has been lost, because the day the last Broken Mimir forger stops working is the day the Mimir lose the only living link to the creative act that made them. Tallen has trained eleven apprentices. Three survived to competence. Two are still alive. The tradition continues. Barely.
         `
       }
     ],
@@ -99,21 +105,21 @@ Tallen does not mind. They forge because the tradition must be kept, because the
       {
         name: 'The Canopy-Holds',
         description: `
-The heartland of the Veiled, suspended eighty feet above the forest floor in the oldest fog-woods of the Vales. The canopy here is so dense that the mist never penetrates fully, diffused green-gold light filters through layers of ironwood leaves, and the air smells of living bark and old scripture-ink. Veiled homes are grown, not built: platforms of woven branch and shelf-fungus, connected by living bridges that pulse faintly at night with bioluminescence only Mimir eye-beads can perceive.
+The heartland of the Arch Mimir, suspended eighty feet above the forest floor in the oldest fog-woods of the Vales. The canopy here is so dense that the mist never penetrates fully, diffused green-gold light filters through layers of ironwood leaves, and the air smells of living bark and old scripture-ink. Arch Mimir homes are grown, not built: platforms of woven branch and shelf-fungus, connected by living bridges that pulse faintly at night with bioluminescence only Mimir eye-beads can perceive.
 
-The oldest family holds have stood for four centuries. Their heartwood supports have thickened into something like stone. Their mask-galleries display ancestral masks going back eleven generations, and their scripture-archives hold tablets older than the Rupture, fragments of Sereth's word that Veiled scholars spend their lives trying to decipher. Every Veiled child learns to read the ancient script before they learn to speak Common, running their fingers over carvings they cannot yet translate, absorbing the shape of the words even when the meaning escapes them.
+The oldest family holds have stood for four centuries. Their heartwood supports have thickened into something like stone. Their mask-galleries display ancestral masks going back eleven generations, and their scripture-archives hold tablets older than the Rupture, fragments of Sereth's word that Arch Mimir scholars spend their lives trying to decipher. Every Arch Mimir child learns to read the ancient script before they learn to speak Common, running their fingers over carvings they cannot yet translate, absorbing the shape of the words even when the meaning escapes them.
 
-The Canopy-Holds are beautiful and they are paranoid. Trap-bridges collapse under non-Mimir weight. Guard-perches disguised as dead branches watch every approach. Veiled elders debate endlessly in chambers hung with sound-dampening mycelium tapestries, parsing half-translated scripture for guidance from a creator who will never speak again, knowing, they have always known, that they are the keepers of the last word Sereth left behind.
+The Canopy-Holds are beautiful and they are paranoid. Trap-bridges collapse under non-Mimir weight. Guard-perches disguised as dead branches watch every approach. Arch Mimir elders debate endlessly in chambers hung with sound-dampening mycelium tapestries, parsing half-translated scripture for guidance from a creator who will never speak again, knowing, they have always known, that they are the keepers of the last word Sereth left behind.
         `
       },
       {
         name: 'The Spire-Aeries',
         description: `
-The border fortresses of the Tethered, carved into the highest mountain cliffs where the Vales meet the peaks. From below, they are invisible, nothing but weathered stone and hanging moss. From above, impossible to see, because the cloud never clears. The Tethered live in vertical settlements: chambers bored into cliff faces, connected by rope-bridges of fog-spider silk, every dwelling facing outward over the drop so nothing can approach unseen.
+The border fortresses of the Broken Mimir, carved into the highest mountain cliffs where the Vales meet the peaks. From below, they are invisible, nothing but weathered stone and hanging moss. From above, impossible to see, because the cloud never clears. The Broken Mimir live in vertical settlements: chambers bored into cliff faces, connected by rope-bridges of fog-spider silk, every dwelling facing outward over the drop so nothing can approach unseen.
 
-The Aeries are lit by storm-glass lanterns, captured fulgurite, the glass formed when lightning strikes mountain stone, that glows with a cold silver light when charged by static from passing clouds. Tethered masks are made from this same material, lighter and more angular than Veiled heartwood, built for weather rather than ceremony. Every Aerie has a small forge where mask-crafters work the fresh storm-glass, keeping the only living tradition of mask-making the Mimir still possess.
+The Aeries are lit by storm-glass lanterns, captured fulgurite, the glass formed when lightning strikes mountain stone, that glows with a cold silver light when charged by static from passing clouds. Broken Mimir masks are made from this same material, lighter and more angular than Arch Mimir heartwood, built for weather rather than ceremony. Every Aerie has a small forge where mask-crafters work the fresh storm-glass, keeping the only living tradition of mask-making the Mimir still possess.
 
-Every Aerie has a Watch-Bell, a bronze chime larger than a Mimir, suspended over the deepest drop, that rings only when the outer alarm lines have been tripped. The bell has rung four times in living memory. Each time, the Tethered held the line. Each time, they lost someone. The names of the fallen are carved into the bell itself, and when the wind is right, the bell hums with their voices.
+Every Aerie has a Watch-Bell, a bronze chime larger than a Mimir, suspended over the deepest drop, that rings only when the outer alarm lines have been tripped. The bell has rung four times in living memory. Each time, the Broken Mimir held the line. Each time, they lost someone. The names of the fallen are carved into the bell itself, and when the wind is right, the bell hums with their voices.
         `
       },
       {
@@ -121,22 +127,22 @@ Every Aerie has a Watch-Bell, a bronze chime larger than a Mimir, suspended over
         description: `
 The deepest secret of the Vales, a cavern beneath the oldest canopy-hold where the creative fire Sereth first kindled still burns. No outsider has ever seen it. Few Mimir have. The flame is a pale, heatless fire that consumes neither fuel nor oxygen, burning the same steady blue-white it has burned since before any living Mimir can remember. The scriptures record that Sereth shaped the first Mimir in this light. They do not record how. The ritual is lost, if it was ever known to the Mimir at all.
 
-The Hearth has been sealed since before the Rupture. The entrance is hidden behind a collapse the Veiled deliberately caused to protect it from those who would misunderstand or misuse it. Only the eldest Veiled know the passage through. The fire still burns. But no shaping has occurred here in uncounted years. The last elders permitted to enter report that the flame dims slightly in the presence of Mimir who have recently removed their masks, as if recognizing something, or grieving it.
+The Hearth has been sealed since before the Rupture. The entrance is hidden behind a collapse the Arch Mimir deliberately caused to protect it from those who would misunderstand or misuse it. Only the eldest Arch Mimir know the passage through. The fire still burns. But no shaping has occurred here in uncounted years. The last elders permitted to enter report that the flame dims slightly in the presence of Mimir who have recently removed their masks, as if recognizing something, or grieving it.
 
-The Elders debate reopening the Hearth. The scriptures are growing harder to read. The archaic language is slipping from comprehension with each generation. Some Veiled scholars believe the Hearth holds the key to the undeciphered passages. Others say the Hearth should never have been opened in the first place, that some questions are not meant to be answered, that Sereth's silence is a mercy the Mimir do not deserve but should not refuse.
+The Elders debate reopening the Hearth. The scriptures are growing harder to read. The archaic language is slipping from comprehension with each generation. Some Arch Mimir scholars believe the Hearth holds the key to the undeciphered passages. Others say the Hearth should never have been opened in the first place, that some questions are not meant to be answered, that Sereth's silence is a mercy the Mimir do not deserve but should not refuse.
         `
       }
     ],
     currentCrisis: `
-The masks are running out. Every year, more Mimir are born than masks are passed down. The Veiled elders have known this for decades, but they have refused to acknowledge the mathematics because acknowledging it means admitting the Rupture was a mistake, that hoarding masks for first-borns while casting the rest aside has not preserved Mimir society. It has poisoned it.
+The masks are running out. Every year, more Mimir are born than masks are passed down. The Arch Mimir elders have known this for decades, but they have refused to acknowledge the mathematics because acknowledging it means admitting the Rupture was a mistake, that hoarding masks for first-borns while casting the rest aside has not preserved Mimir society. It has poisoned it.
 
-But the deeper crisis is in the scriptures. For centuries, the Veiled have read Sereth's tablets as a single unbroken apology, a record of the creator's disappointment, the foundational text of the shame that defines Mimir existence. The scriptures were the proof. The shame was the doctrine. The mask was the answer. This reading has gone unchallenged since the Rupture.
+But the deeper crisis is in the scriptures. For centuries, the Arch Mimir have read Sereth's tablets as a single unbroken apology, a record of the creator's disappointment, the foundational text of the shame that defines Mimir existence. The scriptures were the proof. The shame was the doctrine. The mask was the answer. This reading has gone unchallenged since the Rupture.
 
 Then Vaelith Thread-Speaker deciphered a partial line on a tablet deep in the oldest archive: "...and the maker saw that the final shape held, and turned away in grief, not in disgust." The translation is fragmentary. The context is gone. The reading is uncertain. But if it is correct, it contradicts everything the Mimir have believed about themselves for longer than the sun has been buried. If the final shape held, then the Mimir were not rejected. If they were not rejected, then the shame has no foundation. If the shame has no foundation, then the masks are...
 
-The Veiled elders who have seen the translation have suppressed it. The scholars who have heard of it are divided. Some call it a mistranslation, a desperate projection by an aging reader. Others call it the most important discovery since the scriptures were first assembled. A small and growing minority, mostly younger Veiled and a few outcasts who have somehow heard of the work, believe it is the truth the Mimir have been hiding from themselves since Sereth died: that the masks are unnecessary. That Sereth's final creation was successful. That the shame is inherited from a creator who destroyed itself, not from a creator who rejected them.
+The Arch Mimir elders who have seen the translation have suppressed it. The scholars who have heard of it are divided. Some call it a mistranslation, a desperate projection by an aging reader. Others call it the most important discovery since the scriptures were first assembled. A small and growing minority, mostly younger Arch Mimir and a few outcasts who have somehow heard of the work, believe it is the truth the Mimir have been hiding from themselves since Sereth died: that the masks are unnecessary. That Sereth's final creation was successful. That the shame is inherited from a creator who destroyed itself, not from a creator who rejected them.
 
-This heresy threatens the entire social order. The Veiled aristocracy derives its authority from the masks. The Tethered derive their craft from the assumption that masks are sacred. The Fractured are defined by their patchwork masks. If the masks are unnecessary, every structure the Mimir have built since the silence collapses. The Conclave the Elders have called to address the shrinking supply of masks may be overtaken by a far more dangerous question: what if the masks were never the answer at all.
+This heresy threatens the entire social order. The Arch Mimir aristocracy derives its authority from the masks. The Broken Mimir derive their craft from the assumption that masks are sacred. The Broken Mimir are defined by their patchwork masks. If the masks are unnecessary, every structure the Mimir have built since the silence collapses. The Conclave the Elders have called to address the shrinking supply of masks may be overtaken by a far more dangerous question: what if the masks were never the answer at all.
 
 And deep beneath the oldest canopy-hold, the Maker's Hearth still burns. The chamber remains sealed. Inside it, the pale fire that Sereth first kindled has, according to the few elders permitted to check it, begun to glow faintly brighter in the presence of young Mimir who have never been told what it is.
     `,
@@ -145,9 +151,9 @@ Before your first breath of surface air, your family presses their mask to your 
 
 Within hours of your first mask-wearing, you begin to dream. The dreams are not your own. They belong to the Mimir who wore the mask before you, and the one before them, and the one before them, an unbroken chain of inherited fragments stretching back centuries. You dream of faces you have never seen, places you have never been, griefs that belong to people who lived and died long before you were born. The dreams are uncontrollable, inconsistent, and often distressing. A Mimir might wake from a dream of their great-great-grandparent's first mask-gifting with tears on their face and no understanding of why. The knowledge of how to consciously retrieve these memories is lost. The dreams come when they come, and the Mimir have made peace with that.
 
-By your tenth year, you learn to recite the scriptures. The language is archaic, partially undeciphered, but every Veiled child memorizes the litanies before they can translate them. "We were not what was intended. The shape was given and we could not hold it. The hand that shaped us turned away." You speak the words without fully understanding them, the way you breathe without thinking. The shame becomes part of you before you have any framework for what it means. By the time you are old enough to ask why, the question feels profane.
+By your tenth year, you learn to recite the scriptures. The language is archaic, partially undeciphered, but every Arch Mimir child memorizes the litanies before they can translate them. "We were not what was intended. The shape was given and we could not hold it. The hand that shaped us turned away." You speak the words without fully understanding them, the way you breathe without thinking. The shame becomes part of you before you have any framework for what it means. By the time you are old enough to ask why, the question feels profane.
 
-Disputes among Veiled are settled by Lineage Witness: both parties present their mask to an elder, who reads the ancestral patterns carved into the heartwood and determines whose claim has older precedent. The elder's ruling is final because the mask does not lie. Disputes among Tethered are settled by the Cliff-Duel: both parties fight on a rope-bridge with blunted weapons until one falls. The fall is never fatal, there is always a catch-net, but the loser must yield their watch-post for a season.
+Disputes among Arch Mimir are settled by Lineage Witness: both parties present their mask to an elder, who reads the ancestral patterns carved into the heartwood and determines whose claim has older precedent. The elder's ruling is final because the mask does not lie. Disputes among Broken Mimir are settled by the Cliff-Duel: both parties fight on a rope-bridge with blunted weapons until one falls. The fall is never fatal, there is always a catch-net, but the loser must yield their watch-post for a season.
 
 Death rites are the same across all subraces: the dying Mimir removes their own mask, the only time it is ever willingly removed, and presses it into the hands of their chosen heir. The eye-beads hold their last light for exactly as long as it takes for the dream-memories locked in the mask to settle into their new bearer. In that moment, the heir sees a final image, not the dying Mimir's face (no one ever sees that, not even at death), but their life's defining memory, the moment that made them who they were. Then the eye-beads dim to the new wearer's color, and the mask belongs to someone new. The body is returned to the fog. Within three days, it has dissolved back into the Vales.
 
@@ -164,7 +170,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
         {
           id: 'scripture_doubt',
           name: 'The Verse You Cannot Recite',
-          question: 'Every Veiled child memorizes the litanies before they can translate them. There is one verse you have never been able to speak aloud, a fragment of Sereth\'s word that catches in your throat every time you try. What does it say, and why does it feel like it was written specifically for you?'
+          question: 'Every Arch Mimir child memorizes the litanies before they can translate them. There is one verse you have never been able to speak aloud, a fragment of Sereth\'s word that catches in your throat every time you try. What does it say, and why does it feel like it was written specifically for you?'
         },
         {
           id: 'shame_moment',
@@ -181,8 +187,9 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
     sharedTraits: [
     {
     "id": "maskless_frailty_mimir",
-         "name": "Maskless Frailty",
-          "description": "Without a mask, you cannot cast identity-based spells, shapeshift, or use Mimir racial traits that require the mask-bond. Disadvantage on Charisma checks as the inherited shame surfaces unfiltered and your sense of self buckles under the weight of what Sereth turned away from.",
+          "applicableSubraces": ["veiled_mimir"],
+          "name": "Unanchored Archive",
+           "description": "An Arch Mimir without the lineage mask loses mask-dependent racial benefits and suffers the recorded Charisma disadvantage. This does not disable unrelated class spells, make an exposed face unviable, or apply to unmasked Broken Mimir.",
          "level": 1,
          "icon": "fas fa-mask",
          "spellType": "PASSIVE",
@@ -203,11 +210,11 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
               "effects": [{
                    "id": "maskless_identity_lock",
                    "name": "Identity Lock",
-                   "description": "Without a mask: no identity magic, no shapeshifting, no mask-bond racial traits. Disadvantage on Charisma checks.",
+                    "description": "Without the Arch lineage mask: mask-dependent racial benefits unavailable and Charisma checks disadvantaged. Unrelated spells are unaffected.",
                    "statModifier": { "stat": "charisma", "magnitude": 0, "magnitudeType": "disadvantage", "conditions": { "notWearingMask": true } },
-                   "mechanicsText": "While not wearing a mask: Disadvantage on all Charisma checks. Cannot cast identity spells, shapeshift, or use any racial trait that requires the mask-bond.",
+                    "mechanicsText": "Arch only: without the lineage mask, Charisma checks are disadvantaged and mask-dependent racial benefits are unavailable. No general class-spell prohibition.",
                    "statusEffect": {
-                        "restrictions": ["no_identity_magic", "no_shapeshifting", "no_mask_racial_traits"]
+                         "restrictions": ["no_mask_racial_traits"]
                     }
               }],
               "durationValue": 0,
@@ -218,6 +225,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
     },
       {
         id: 'mote_mimir',
+        applicableSubraces: ['tethered_mimir'],
         name: 'Mote',
         description: 'A small, warm orb of your own recovered essence, the self you found when you set the mask down, orbits you like a shy moon. To outsiders it is invisible, a flicker at the edge of sight, a patch of warm air. To other Mimir it is a faint, beloved glow, drawn to you because no heirloom mask stands between you and who you are. Through prolonged concentration you commune with it silently, receiving your own thoughts and memories, clearer than any heirloom dream-memory. It is your oldest friend, the closest thing to unconditional love a Mimir will ever experience. You protect it at all costs.',
         level: 1,
@@ -266,6 +274,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
       },
       {
         id: 'mask_bound_mimir',
+        applicableSubraces: ['veiled_mimir'],
         name: 'Mask-Bound',
         description: 'Your mask is not armor. It is your face, your name, your lineage, the blank canvas that covers the face Sereth rejected and the world would call beautiful. While worn, it anchors you against anything that would steal or read your identity. Removed by force, it briefly unmakes you.',
         level: 1,
@@ -297,8 +306,8 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             {
               id: 'mask_removed',
               name: 'Forcibly Unmasked',
-              description: 'If your mask is forcibly removed by another creature, you are Stunned for 1 round and cannot use any Mimir racial traits until you recover and don the mask. If the mask is lost, you must spend 7 days in the Fog-Vales while a Tethered mask-crafter forges a replacement, a deeply shameful act that marks you as Maskless among your people.',
-              statusEffect: { level: 'severe', description: 'Stunned 1 round on forced unmasking. All racial traits disabled until mask recovered.' }
+               description: 'Forced removal of an Arch lineage mask Stuns you for 1 round and interrupts mask-dependent racial benefits until the anchor is restored. A physical replacement can be crafted over 7 days; it does not invent an ancestral archive or restore lost imprinting. Broken Mimir do not inherit this mask dependency.',
+               statusEffect: { level: 'severe', description: 'Arch only: Stunned 1 round on forced unmasking; mask-dependent racial benefits unavailable until anchor restored.' }
             }
           ],
           durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -312,36 +321,42 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
       veiled: {
         id: 'veiled_mimir',
         name: 'Arch Mimir',
-        illustration: '/assets/images/races/mimir_arch_icon_v1.png',
-        illustrationCaption: 'An Arch Mimir canopy aristocrat in layered courtly robes with leaf pauldrons, wearing an ancient towering heartwood mask with antler crown-crests and holding an inscribed elderwood scripture staff with royal violet and gold watercolor splash.',
+        crest: '/assets/images/crests/mimir_arch_crest.png',
+        illustration: '/assets/images/races/mimir_arch_city_valcaelis.jpg',
+        illustrationCaption: 'Val-Caelis — Sovereign treetop capital of the Arch Mimir suspended across titanic ironwood crowns with broad timber highways, living canopy palaces, and masked nobles in rough charcoal draft with imperial amethyst watercolor splash.',
         illustrations: [
           {
-            src: '/assets/images/races/mimir_arch_icon_v1.png',
-            caption: 'Arch Mimir canopy aristocrat wearing a towering heartwood mask with organic crown-crests, braided lavender hair, and holding an elderwood staff in rough charcoal draft with royal violet and antique gold watercolor splash.'
-          },
-          {
-            src: '/assets/images/races/mimir_arch_culture_scripture.jpg',
-            caption: 'Arch Mimir canopy oracle studying ancient inscribed scripture tablets at a heartwood lectern, holding an elderwood staff hung with runic prayer slates in rough charcoal draft with violet and gold watercolor splash.'
-          },
-          {
             src: '/assets/images/races/mimir_arch_city_valcaelis.jpg',
-            caption: 'Val-Caelis treetop palace metropolis of the Arch Mimir with soaring living heartwood cathedrals, swept sky-bridges between ironwood crowns, and masked courtiers conferring on a terrace overlook in rough charcoal draft with violet and gold watercolor splash.'
+            caption: 'Val-Caelis — Sovereign treetop capital of the Arch Mimir suspended across titanic ancient redwood crowns with broad wooden sky-pathways and canopy palaces.'
+          },
+          {
+            src: '/assets/images/races/mimir_arch_location_scripture_aeries.jpg',
+            caption: 'The High Crown Scripture Aeries — High canopy sanctuary terrace where court chanters sound wooden resonant horns and recite ancient creation scriptures into the clouds.'
+          },
+          {
+            src: '/assets/images/races/mimir_arch_portrait_noble.jpg',
+            caption: 'Arch Mimir Noble Portrait — Aristocratic fae bust featuring the hand-carved ancient beast mask, curled horn buds, high velvet cowl, and sweeping collar in rough charcoal draft with imperial amethyst watercolor splash.'
+          },
+          {
+            src: '/assets/images/races/mimir_arch_figure_seraphina.jpg',
+            caption: 'High Mask-Lady Seraphina — Revered matriarch and Keeper of the Silent Vows wearing a sacred wooden raptor mask and gossamer veils while hovering a prayer orb.'
           }
         ],
-        visualDescription: `The aristocracy of the masked. Underneath their masks, the Arch Mimir are actually incredibly beautiful, near-perfect fae humanoids, but they hide their faces in the belief that they are hideous. Their faces are covered by towering, ancient heartwood masks with stylized organic horn-like curves. The male's mask is shorter but covers more of the face, leaving only a strong chiseled jawline, rounded ear, and calm eye visible. The female's mask is a domino style, showing her peaceful eyes, nose, and mouth beneath. Beautiful braided lavender-grey hair spills out elegantly from beneath their masks.`,
-        tooltipSummary: 'Beautiful fae aristocrats who hide behind towering, eons-old horn-curved masks, living in high canopy-holds to escape the fog below.',
-        description: 'The scripture-keepers and inheritors of the oldest masks. The Arch Mimir are a beautiful, near-perfect fae people who wear towering, ancient heartwood masks with organic horn-like curves passed down through generations. They do so out of an inherited shame, believing themselves to be hideous because their creator was never satisfied with them. In Mimir society, each mask is unique depending on the specific lineage one comes from, bearing different meanings and dictating their role in society. Mask theft is considered the ultimate transgression—punished by death, or exile if the stolen mask is successfully retrieved. To avoid the thick, rolling fog on the forest floor beneath, they build unique, ancient wood structures high in the canopy-holds.',
-        culturalBackground: 'Arch Mimir society is built on lineage, preservation, and the shame of a creator who was never satisfied. Believing their natural fae beauty to be a flawed state, they wear towering, horn-curved heartwood masks passed down through eons of generations. Each mask is unique to its lineage, bearing different meanings and roles in society. Mask theft is the highest crime, met with death or exile if the mask is retrieved. Males wear masks that cover the upper face and cheeks completely to showcase a strong chiseled jawline, while females wear domino-style masks showing their calm eyes and mouths. They live in unique, ancient wooden structures built high in the canopy woods to escape the fog below.',
+        visualDescription: `Stately and severe, the Arch Mimir possess aristocratic fae silhouettes with subtle demonic features—curved horn buds, pointed ears, and sharp angular bone structure. Convinced by their creator's endless remodeling that their true faces are hideous aberrations, they refuse to expose them. Instead, they conceal their features behind ancient, weathered wooden masks meticulously hand-carved with stylized visages of primordial beasts and mythical creatures, adorned with twisting antler-crests and carved teeth. Beneath layered velvet and silk robes trimmed with braided bark fibers, their festering demonic essence simmers under rigid courtly discipline. They live high in the forest canopy, moving along intricate networks of wooden pathways, rope bridges, and suspended sky-arches at the tops of titanic trees.`,
+        tooltipSummary: 'Canopy-dwelling fae nobles wearing ancient beast-carved wooden masks to hide their perceived hideousness, patrolling treetop pathways closer to the sky as they await their departed god.',
+        description: 'The Mimir were conceived as a god\'s grand quest to fashion the perfect entity. But perfection is an impossible horizon; their creator was never satisfied, remodeling and restructuring them across millennia. Each iteration left the Mimir feeling inadequate and unaccepted, cursed with the belief that their true form was a hideous failure. In truth, their features are not hideous at all, but rather carry innate demonic fae grace. To hide this "flaw," they were bestowed ancient wooden masks hand-carved with the visages of primal beasts. The Arch Mimir view themselves as the noble, rightful inheritors of this divine design. However, while the Broken Mimir achieved liberation by discarding masks and embracing their demonic traits openly, the Arch Mimir\'s rigid aristocratic denial only causes their demonic traits to fester and curdle beneath the wood. They dwell at the very summit of titanic trees, constructing dizzying networks of wooden sky-paths and suspended platforms—partly to look down in haughty judgment upon the forest below, and partly to be physically closer to their deity, whom they believe will one day return, completely unaware that he was consumed by his own grief and committed suicide long ago.',
+        culturalBackground: 'Arch Mimir society is a hierarchy of sacred denial and skyward vigilance. Suspended hundreds of feet above the fog, their cities are sprawling webs of wooden sky-walks, rope gantries, and hollowed ironwood crowns. They live in the treetops for two reasons: to look down upon the "lesser" ground-dwellers and to wait at the highest vantage point for their god\'s return. Mask culture is absolute and hereditary; each mask is an ancient heirloom carved from sacred timber in the likeness of ancient beasts (serpents, predatory stags, raptors, and horned chimeras). To be seen unmasked in Arch society is the ultimate shame and blasphemy, as they believe exposure reveals a monstrous failure that offended their creator.',
         statModifiers: {
           charisma: 2,
-          intelligence: 1,
-          agility: -1
+          intelligence: 2,
+          spirit: 1,
+          strength: -2
         },
         traits: [
           {
             id: 'heartwood_lineage_maskborne',
             name: 'Heartwood Lineage',
-            description: 'You gain +2 to Persuasion and Insight checks against Veiled NPCs, whose carved records name and respect your lineage. You suffer disadvantage on Deception and Stealth checks against Tethered Mimir, who read your aristocratic bearing as a tell before you speak. (Your heartwood mask carries eleven generations of ancestry legible to every Veiled \u2014 among the Fractured, that privilege is a wall they learned to recognize long before they learned to speak.)',
+            description: 'You gain +2 to Persuasion and Insight checks against Arch Mimir NPCs, whose carved records name and respect your lineage. You suffer disadvantage on Deception and Stealth checks against Broken Mimir, who read your aristocratic bearing as a tell before you speak. (Your heartwood mask carries eleven generations of ancestry legible to every Arch Mimir \u2014 among the Broken Mimir, that privilege is a wall they learned to recognize long before they learned to speak.)',
             level: 1,
             icon: 'spell_holy_divinefavor',
             spellType: 'PASSIVE',
@@ -353,21 +368,21 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             },
             buffConfig: {
               buffType: 'combatAdvantage',
-              customDescription: '+2 to Persuasion and Insight checks with Veiled NPCs. Your lineage is known and respected.',
+              customDescription: '+2 to Persuasion and Insight checks with Arch Mimir NPCs. Your lineage is known and respected.',
               effects: [
                 {
                   id: 'lineage_persuasion',
                   name: 'Recognized Lineage',
-                  description: '+2 to Persuasion checks with Veiled NPCs. They know your ancestors.',
+                  description: '+2 to Persuasion checks with Arch Mimir NPCs. They know your ancestors.',
                   statModifier: { stat: 'persuasion', magnitude: 2, magnitudeType: 'flat', conditions: { npcSubrace: 'veiled' } },
-                  mechanicsText: '+2 to Persuasion checks when interacting with Veiled NPCs.'
+                  mechanicsText: '+2 to Persuasion checks when interacting with Arch Mimir NPCs.'
                 },
                 {
                   id: 'lineage_insight',
                   name: 'Ancestral Insight',
-                  description: '+2 to Insight checks with Veiled NPCs. You were raised reading the same social language.',
+                  description: '+2 to Insight checks with Arch Mimir NPCs. You were raised reading the same social language.',
                   statModifier: { stat: 'insight', magnitude: 2, magnitudeType: 'flat', conditions: { npcSubrace: 'veiled' } },
-                  mechanicsText: '+2 to Insight checks when interacting with Veiled NPCs.'
+                  mechanicsText: '+2 to Insight checks when interacting with Arch Mimir NPCs.'
                 }
               ],
               durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -378,16 +393,16 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
                 {
                   id: 'aristocratic_bearing',
                   name: 'Aristocratic Bearing',
-                  description: 'Disadvantage on Deception and Stealth checks against Tethered Mimir. Your bearing marks you before you speak.',
+                  description: 'Disadvantage on Deception and Stealth checks against Broken Mimir. Your bearing marks you before you speak.',
                   statModifier: { stat: 'deception', magnitude: 0, magnitudeType: 'disadvantage', conditions: { npcSubrace: ['tethered'] } },
-                  mechanicsText: 'Disadvantage on Deception checks when interacting with Tethered NPCs.'
+                  mechanicsText: 'Disadvantage on Deception checks when interacting with Broken Mimir NPCs.'
                 },
                 {
                   id: 'aristocratic_bearing_stealth',
                   name: 'Aristocratic Bearing (Stealth)',
-                  description: 'Disadvantage on Stealth checks against Tethered Mimir. Your bearing marks you before you speak.',
+                  description: 'Disadvantage on Stealth checks against Broken Mimir. Your bearing marks you before you speak.',
                   statModifier: { stat: 'stealth', magnitude: 0, magnitudeType: 'disadvantage', conditions: { npcSubrace: ['tethered'] } },
-                  mechanicsText: 'Disadvantage on Stealth checks when interacting with Tethered NPCs.'
+                  mechanicsText: 'Disadvantage on Stealth checks when interacting with Broken Mimir NPCs.'
                 }
               ],
               durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
@@ -523,7 +538,6 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
           }
         ],
-        languages: ['Common', 'Vale-Speak'],
         speed: 30,
         baseStats: {
           hp: 22,
@@ -544,36 +558,42 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
       tethered: {
         id: 'tethered_mimir',
         name: 'Broken Mimir',
-        illustration: '/assets/images/races/mimir_broken_icon_v1.png',
-        illustrationCaption: 'A free-spirited Broken Mimir with a cracked wooden mask shard over one brow, wide soulful eyes, and a floating golden Mote companion in rough charcoal draft with gold and lavender watercolor splash.',
+        crest: '/assets/images/crests/mimir_broken_crest.png',
+        illustration: '/assets/images/races/mimir_broken_city_riverreach.jpg',
+        illustrationCaption: 'Oakhaven & River\'s Reach — Sovereign woodland capital of the Broken Mimir with graceful timber-and-stone halls, watermills, and lantern-strung riverside pavilions in rough charcoal draft with festival rose watercolor splash.',
         illustrations: [
           {
-            src: '/assets/images/races/mimir_broken_icon_v1.png',
-            caption: 'Broken Mimir free-spirited wanderer with exposed fae face, mask shard, and floating golden seed Mote companion in rough charcoal draft with watercolor splash.'
-          },
-          {
-            src: '/assets/images/races/mimir_broken_culture_mirror.png',
-            caption: 'Broken Mimir wanderer seated at a stone river pier, admiring their unmasked reflection in a hand-mirror as their awakened jewel-mote floats above an open palm.'
+            src: '/assets/images/races/mimir_broken_city_riverreach.jpg',
+            caption: 'Oakhaven & River\'s Reach — Sovereign woodland capital of the Broken Mimir along fertile river basins and ancient weeping willow groves.'
           },
           {
             src: '/assets/images/races/mimir_broken_city_revelsend.jpg',
-            caption: 'Revels-End — The lively medieval riverfront town of the Broken Mimir, where unmasked citizens stroll promenades with standing carnival mirrors and glowing spirit motes.'
+            caption: 'Revels-End — The lively medieval riverfront town of the Broken Mimir with festive lantern promenades and riverside pavilions.'
+          },
+          {
+            src: '/assets/images/races/mimir_broken_location_crystal_quay.jpg',
+            caption: 'The Crystal-Peddler\'s Quay & Watermill — Open-air riverside wharf where crystal artisans display rose prisms beside the turning millrace.'
+          },
+          {
+            src: '/assets/images/races/mimir_broken_location_mist_ferry.jpg',
+            caption: 'The Mist-Ferry River Mooring & Watch-Keep — Fortified wooden toll-shanty and pole-punt ferry crossing over calm mist-laden waters.'
           }
         ],
-        visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside, shunning the idea of hiding their natural beauty. They still wear small, broken remnants of masks (like a wooden shard or eye-bracket), leaving most of their faces exposed. This exposure is both embraced and feared, reflecting a mix of child-like glee, hopeful curiosity, and a lingering, instinctual fear of fully showing their face. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light.`,
-        tooltipSummary: 'Hopeful, child-like Mimir who wear broken remnants of masks, shunning the nobility and choosing to live in rustic forest floor camps.',
-        description: 'Exiles, siblings born without ancestral heirlooms, or rebels who chose to throw their masks away. The Broken Mimir have discarded the rigid nobility and lifestyle of the Arch Mimir, taking great distance from their canopy-holds to live in rustic shelters on the mossy forest floor. At their heart, they are still Mimir, carrying the quiet burden of their heritage. They live with a child-like glee, hopeful and oblivious, yet slightly scared of the world below. Instead of full-face carvings, they wear only cracked fragments or remnants of broken masks, exposing their beautiful, near-perfect fae faces to the air—a state they embrace with joyful wonder and a touch of lingering fear.',
-        culturalBackground: 'Fractured society is built on hope, rustic community, and the rejection of mask-bound shame. Far removed from the canopy temples, they live in temporary shelters built around the roots of ancient trees, sharing food around campfires. Lacking ancestral lineage masks, they either carve small wood shards to fit their faces or wear the cracked remnants of broken heirlooms. They navigate life with a child-like glee and hopeful curiosity, oblivious to noble politics, supporting one another with glowing golden orbs of light.',
+        visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside forever, completely rejecting the shame of hiding their faces. They wear NO masks whatsoever. Their faces are fully uncovered, distinguished by striking, elegant demon facial scarring across cheeks and brows, long pointed demon-fae ears pierced with elaborate jewelry (ear cuffs, dangling silver chains, rings, and beads), and wide soulful luminous eyes. This complete facial exposure is embraced with vibrant spirit, child-like wonder, and defiance against the stifling mask-culture of the high canopy. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light (Motes).`,
+        tooltipSummary: 'Hopeful, unmasked Mimir who completely shun masks, bearing demon facial scarring, unique pointed ears with elaborate jewelry, and companion spirit motes.',
+        description: 'Exiles, siblings born without ancestral heirlooms, or rebels who chose to throw their masks away forever. The Broken Mimir have discarded the rigid nobility and suffocating mask-traditions of the Arch Mimir, descending from the high canopy-holds to build lively shanty communities on the mossy forest floor and riverbanks. They wear NO masks at all. Instead, their faces are proudly bared, distinguished by intricate demon facial scarring, pointed demon-fae ears heavy with dangling rings, cuffs, and silver chains, and wide, soulful eyes. They live with child-like glee, hopeful curiosity, and defiant joy, accompanied by warm floating golden spirit motes.',
+        culturalBackground: 'Broken Mimir society is founded on emotional liberation, rustic riverfront community, and the complete rejection of mask-bound shame. Far removed from the porcelain-shrouded canopy temples, they dwell in vibrant settlements like Revel\'s End along forest rivers and mossy grounds. Having abandoned masks entirely, they celebrate self-identity through elaborate ear jewelry, body adornments, and the distinct demon facial scars that mark their lineage. They navigate life with open curiosity and carnival joy, unburdened by ancestral guilt and guided by loyal floating spirit motes.',
         statModifiers: {
           agility: 2,
+          spirit: 2,
           constitution: 1,
-          charisma: -1
+          charisma: -2
         },
         traits: [
           {
             id: 'storm_glass_senses_mistwoven',
             name: 'Storm-Glass Senses',
-            description: 'You gain Tremorsense 30ft while touching stone, rope, or earth, feeling movement through solid surfaces. When you take storm damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round unless you pass a DC 14 Constitution save. (Forged from fulgurite, your storm-glass mask reads the world as vibration \u2014 but the same sensitivity that reads footfalls also reads thunder as a blow to the skull.)',
+            description: 'You gain Tremorsense 30ft while touching stone, rope, or earth, feeling movement through solid surfaces. When you take storm damage or are within 30ft of a loud concussive impact (explosion, avalanche, collapsing structure), you are Dazed for 1 round unless you pass a DC 14 Constitution save. (Attuned to fulgurite crystals and earth tremors, your senses read the world as vibration \u2014 but the same sensitivity that reads footfalls also reads thunder as a blow to the skull.)',
             level: 1,
             icon: 'spell_lightning_lightning',
             spellType: 'PASSIVE',
@@ -706,7 +726,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
           {
             id: 'glass_shard_volley_mistwoven',
             name: 'Glass-Shard Volley',
-            description: 'Once per short rest, hurl shards of your storm-glass mask material at a target within 30 feet, dealing 1d4+Agility storm damage. The shards regrow from your mask within minutes.',
+            description: 'Once per short rest, conjure and hurl sharp shards of fulgurite storm-glass at a target within 30 feet, dealing 1d4+Agility storm damage. The crystal shards dissipate after impact.',
             level: 1,
             icon: 'spell_lightning_lightning',
             spellType: 'ACTION',
@@ -723,7 +743,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
                 {
                   id: 'glass_shard_damage',
                   name: 'Glass-Shard Volley',
-                  description: 'Hurl shards of your storm-glass mask material at a target within 30 feet. The shards deal 1d4+Agility storm damage on hit. The shards regrow from your mask within minutes.',
+                  description: 'Hurl shards of fulgurite storm-glass crystal at a target within 30 feet. The shards deal 1d4+Agility storm damage on hit.',
                   statusEffect: { level: 'moderate', description: '1d4+Agility storm damage to a target within 30 feet.' },
                   mechanicsText: 'Once per short rest: hurl storm-glass shards at a target within 30ft. Deals 1d4+Agility storm damage.'
                 }
@@ -735,7 +755,6 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
             cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
           }
         ],
-        languages: ['Common', 'Vale-Speak'],
         speed: 30,
         baseStats: {
           hp: 26,

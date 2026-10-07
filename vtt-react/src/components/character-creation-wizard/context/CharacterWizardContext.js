@@ -9,6 +9,7 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 // import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData'; // Disciplines removed
 import { applyRacialModifiers } from '../../../data/raceData';
+import { validateCharacterClassAccess } from '../../../utils/characterClassAccess';
 
 // Wizard steps configuration
 export const WIZARD_STEPS = {
@@ -48,11 +49,12 @@ export const STEP_INFO = {
 };
 
 // Initial wizard state
-const initialState = {
+export const initialState = {
     // Wizard navigation
     currentStep: WIZARD_STEPS.CORE_DRAFT,
     totalSteps: Object.keys(WIZARD_STEPS).length,
     completedSteps: [],
+    originalCalling: null,
 
     // Character data
     characterData: {
@@ -79,6 +81,8 @@ const initialState = {
 
         // Class
         class: '',
+        classAcquisition: {},
+        bodyStates: [],
 
         // Background (standard D&D backgrounds)
         background: '',
@@ -162,7 +166,7 @@ export const ACTION_TYPES = {
 };
 
 // Reducer function
-const characterWizardReducer = (state, action) => {
+export const characterWizardReducer = (state, action) => {
     switch (action.type) {
         case ACTION_TYPES.SET_CURRENT_STEP:
             return {
@@ -369,6 +373,7 @@ const characterWizardReducer = (state, action) => {
             const existingChar = action.payload;
             return {
                 ...state,
+                originalCalling: { class: existingChar.class, race: existingChar.race, subrace: existingChar.subrace },
                 characterData: {
                     // Basic information
                     name: existingChar.name || '',
@@ -384,6 +389,8 @@ const characterWizardReducer = (state, action) => {
 
                     // Class
                     class: existingChar.class || '',
+                    classAcquisition: existingChar.classAcquisition || {},
+                    bodyStates: existingChar.bodyStates || [],
 
                     // Background
                     background: existingChar.background || '',
@@ -437,7 +444,7 @@ const characterWizardReducer = (state, action) => {
 };
 
 // Validation function for current step
-const validateCurrentStep = (state) => {
+export const validateCurrentStep = (state) => {
     const errors = {};
     const { characterData, currentStep } = state;
 
@@ -462,6 +469,9 @@ const validateCurrentStep = (state) => {
             // Class validation
             if (!characterData.class) {
                 errors.class = 'Please select a class';
+            } else if (characterData.race && characterData.subrace) {
+                const classValidation = validateCharacterClassAccess(characterData, state.originalCalling);
+                if (!classValidation.isValid) errors.class = classValidation.errors.join(' ');
             }
 
             // Background validation

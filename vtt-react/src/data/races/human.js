@@ -3,69 +3,69 @@ export const human = {
   name: 'Human',
   essence: 'The Burning Wick',
   illustration: '/assets/images/races/human_illustration.png',
-  illustrationCaption: 'A diverse gathering of Humanity, a Skald warrior in rimesteel, a Merryn pirate with tattooed arms, a Tessen keep-dweller, and an Ordan herder with wind-leather cloak.',
+  illustrationCaption: 'A diverse gathering of Humanity, a Skald warrior in rimesteel, a Merryn pirate with tattooed arms, a Tessic keep-dweller, and an Ordu herder with wind-leather cloak.',
   cardFlavor: 'The shortest-lived and most dangerous sapient on Mythrill, they survive through sheer refusal to break.',
-  visualDescription: `The most physically variable race in Mythrill, standing 5'2" to 6'2" with build and appearance shifting dramatically by region. Thalren humans of the Frostwood are fog-pale, chain journals to their belts, and dress in layered wool and leather. Skald of Nordhalla are stocky and cold-hardened in rimesteel. Tessen of the Cragjaw are pale from generations underground. Merryn of the Iceheart Sea are wiry and salt-stained with contract-tattoos covering their arms. Ordan of the Sundrift Vale are lean and wind-marked in wind-leather cloaks. What unites them: no claws, no fangs, no glowing eyes, no supernatural skin — just ordinary bodies driven by an intensity other races find exhausting to witness.`,
+  visualDescription: `The most physically variable race in Mythrill, standing 5'2" to 6'2" with build and appearance shifting dramatically by region. Tallyn humans of the Frostwood are fog-pale, chain journals to their belts, and dress in layered wool and leather. Skald of Nordhalla are stocky and cold-hardened in rimesteel. Tessic of the Cragjaw are pale from generations underground. Merryn of the Iceheart Sea are wiry and salt-stained with contract-tattoos covering their arms. Ordu of the Sundrift Vale are lean and wind-marked in wind-leather cloaks. What unites them: no claws, no fangs, no glowing eyes, no supernatural skin — just ordinary bodies driven by an intensity other races find exhausting to witness.`,
   description: `**[The Flame of Feudal Grit]**, *Short-lived, stubborn, and dangerous, Humans survive through an absolute refusal to accept that the sun's death is the end of their story.*
 
 The Humans of Mythrill are the shortest-lived sapient species on a dying world, and its most prolifically dangerous inhabitants. Not because they are strong. Not because they are swift. Not because any cosmic power chose them or blessed their bloodlines with longevity or magic. Because they refuse, specifically and loudly, to stop. Every human culture from the fog-choked Frostwood Reach to the ashfall cities of Sundale has developed its own particular flavor of this refusal, and every flavor is different, and every flavor is recognizably human.
 
-Sixty good years, though a steadfast few are said to keep on past a century. That is what a Human gets, on average, sixty years to carve a name into a world that was ancient before their ancestors learned to walk upright, and they spend every one of those years refusing to accept that sixty is all they get. No claws. No fangs. No quicksilver blood. No centuries to master a craft. What they have is spite, stubbornness, and the deep, cellular certainty that tomorrow is worth bleeding for today. Every human culture burns its wick at both ends, hotter and faster than the slow centuries of the Nethien or the mineral patience of the Groven, a brightness so total it can be felt across a room, and none of them, not one, has ever agreed that burning twice as bright is the same bargain as burning half as long. The wick is short. The flame is enormous. That is the whole of the human condition, and the reason every other sapient people watches them with something between admiration and dread. Other races find this exhausting to witness. The Nethien, who do not age, who do not hurry, who negotiate the terms of their own existence with impartial cosmic entities, regard humans the way archivists regard fires: with professional respect and genuine alarm.
+Sixty good years, though a steadfast few are said to keep on past a century. That is what a Human gets, on average, sixty years to carve a name into a world that was ancient before their ancestors learned to walk upright, and they spend every one of those years refusing to accept that sixty is all they get. No claws. No fangs. No quicksilver blood. No centuries to master a craft. What they have is spite, stubbornness, and the deep, cellular certainty that tomorrow is worth bleeding for today. Every human culture burns its wick at both ends, hotter and faster than the slow centuries of the Athien or the mineral patience of the Groven, a brightness so total it can be felt across a room, and none of them, not one, has ever agreed that burning twice as bright is the same bargain as burning half as long. The wick is short. The flame is enormous. That is the whole of the human condition, and the reason every other sapient people watches them with something between admiration and dread. Other races find this exhausting to witness. The Athien, who do not age, who do not hurry, who negotiate the terms of their own existence with impartial cosmic entities, regard humans the way archivists regard fires: with professional respect and genuine alarm.
 
-Seven noble houses sealed the Dark Bargains that fractured this world's sky. Seven houses traded their children's futures, for warmth, for fog, for snow-veils, for navigable seas, for endless grass. Six of those houses marched their firstborn to the northern peaks as bloodline-offerings to Keth Amar. One, House Viridane, refused and fled south through the Frostwood Reach into the moonlit fae groves beyond, and the other six struck their name from every legal record that could be found. House Morrath was later elevated to fill Viridane's empty seventh seat. The Florae, Viridane's descendants, are remembered by the folk as the 'eighth house.' The descendants of the six who said yes carry that capitulation in their bones. Not all of them know the full terms. The fog has eaten those memories in Frostwood. The ash has buried them in Sundale. The sea has drowned them in Iceheart. But Keth Amar's debt remains, collectible at any time, and the Sun-Eater has never forgotten a clause.`,
+Seven original public houses undertook Aex's Bloodline Pacts. Keth later manipulated rulers and mortal atrocities during the Years of Whispers; not every human made its bargain or inherited a universal cosmic debt. Viridane's Green refuge saved its people while ending its public obligation. Morrath received the political seat, while the separate Unwritten kept the Secret Aegis. Human frailty is a biological/rules baseline, not proof of individual capitulation.`,
 
   icon: 'fas fa-user',
-  overview: `Humans span more territory than any other sapient race on Mythrill. Every continent has human settlements, not because they conquered those continents, but because humans were already there when Sol was buried, and they refused to leave. The seven noble houses made their bargains region by region, and seven distinct peoples are still living with the consequences four centuries later.
+  overview: `Humans have five current regional cultures: Tallyn, Skald, Tessic, Merryn and Ordu. They existed before solar concealment and survive through craft, institutions, native practices and dangerous discoveries. Solvarn and Morren remain historical identities, not extra character selections or the origin of every non-human people.
 
-In Frostwood Reach, the Thalren keep journals chained to their belts because the fog that protects their timber also devours memory, and a person without a past is a person without a self. They share their forest with the Mimir, shape-shifting mask-wearers whose fluid identity the Thalren tolerate in a spirit of cautious mutual utility, and whose Rite of Masks the Thalren privately consider a courtesy extended specifically to reassure them. In Nordhalla, the Skald encase their dead in glacier-tombs and measure worth by bloodline purity and cold-endurance. They view the Groven bridges that span the Cragjaw Peaks with the particular contempt of a people who believe that anything built by someone else is built wrong.
+In Frostwood Reach, the Tallyn keep journals chained to their belts because the fog that protects their timber also devours memory, and a person without a past is a person without a self. They share their forest with the Mimir, shape-shifting mask-wearers whose fluid identity the Tallyn tolerate in a spirit of cautious mutual utility, and whose Rite of Masks the Tallyn privately consider a courtesy extended specifically to reassure them. In Nordhalla, the Skald encase their dead in glacier-tombs and measure worth by bloodline purity and cold-endurance. They view the Groven bridges that span the Cragjaw Peaks with the particular contempt of a people who believe that anything built by someone else is built wrong.
 
-In the Cragjaw Peaks, the Tessen have not left their snow-buried keeps in sixteen generations and have developed elaborate internal politics to match their elaborate isolation. They depend on Fexric geothermal pipes for heat and have never seen their suppliers, a fact that would disturb them greatly if they thought about it, which they do not. In Sundale, the Solari — the Solvarn transformed by Ember into something no longer human — worship the memory of the dying sun from forge-towns slowly being buried in volcanic ash, and they will not leave because leaving would mean admitting that their ancestors' sacrifice to Keth Amar was meaningless. They tend Sol's Breath in the deep vaults below the same ashfields: a people sharing a grave with the star they helped bury.
+Most Tessic remain in sealed keeps, with rare licensed envoys and specialists using controlled gates and Cragjaw trade routes. Fex suppliers and shared workshops are known to those contacts. In Sundale, human Solvarn antecedents became Solari through celestial infusion. Their forge traditions tend warmth from a conscious, unhatched Sol, not the corpse of a stolen sun.
 
-On the Iceheart Sea, the Merryn tattoo their contracts onto their skin and measure wealth in ships. Their relationship with the Myrathil, the deep-water people of the same sea, is one of ancient, armed coexistence: the Merryn sail the surface storms, the Myrathil control what moves beneath, and neither acknowledges the other's sovereignty over what neither can fully claim. In the Sundrift Vale, the Ordan follow the endless woolly herds across the starless steppe, navigating by throat-sung ancestor-maps and regarding all settled peoples, the Astril crystal-bearers who share the steppe, the Nethien traders who occasionally cross it, as fundamentally unserious about survival. In the Bryngloom Forest, the Morren once lived in contracted debt to the Nethien, until the blight of their bargain absorbed them into the Vreken. The debt survives — every Vreken family still carries contracts they cannot repay — but the boundary that once separated the two peoples is gone.
+Merryn sailors and native Myrathil negotiate shared waters. Public Ordu pastoral culture follows herds and throat-sung maps across Sundrift; remnants of the purged oath-bearing noble line conceal descent among ordinary herders. Historical Morren shared Bryngloom with native elven Mycellan and Athien; a debt did not transform all Morren into Mycellan or establish every Mycellan family's ancestry.
 
-What unites the five is never spoken, because none of them would agree on the words. It is felt, not stated, in the velocity of a Thalren's pen, the ferocity of a Skald's cold-test, the sealed stone of a Tessen keep, the ink sunk into a Merryn's skin, the unceasing pace of an Ordan herd. Every human culture carries the same unnamed engine: the knowledge, cellular and inarguable, that the wick is short, and the only answer that has ever made sense to any of them is to burn so fiercely that the shortness becomes the point. They do not say this. They do not need to. It is legible in everything they build, which is always too much, too fast, and never enough.`,
+What unites the five is never spoken, because none of them would agree on the words. It is felt, not stated, in the velocity of a Tallyn's pen, the ferocity of a Skald's cold-test, the sealed stone of a Tessic keep, the ink sunk into a Merryn's skin, the unceasing pace of an Ordu herd. Every human culture carries the same unnamed engine: the knowledge, cellular and inarguable, that the wick is short, and the only answer that has ever made sense to any of them is to burn so fiercely that the shortness becomes the point. They do not say this. They do not need to. It is legible in everything they build, which is always too much, too fast, and never enough.`,
     quickFacts: [
         'The shortest-lived and most prolifically dangerous sapient species on Mythrill, sixty good years, no claws, no fangs, no centuries to master a craft. Five regional cultures spanning every continent, each shaped by the hard bargains their noble ancestors struck in the leaking years after the Star-Fall.',
         'What unites all humans is the same unnamed engine: the cellular certainty that the wick is short and the only answer is to burn so fiercely the shortness becomes the point. They are everywhere, they never stop moving, and they refuse, specifically and loudly, to accept that the sun\'s death is the end of their story.',
         'Play a Human to be the desperate, brilliant, short-fused variable in a world of ancient powers. You are fragile and you know it, which makes you dangerous. Choose your region: fog-choked archivist, glacier-hardened warrior, sealed keep-dweller, storm-chasing sailor, or steppe-riding herder.'
     ],
 
-  culturalBackground: `Human civilization is not a single civilization. It is five distinct cultures, each forged by the dark bargain their noble ancestors made with Keth Amar, each adapted to a different corner of a dying world through centuries of refusal to be erased. The Solvarn of Sundale were transformed by Ember into the Solari, a separate race no longer human. The Morren of Bryngloom were absorbed into the Vreken through the blight of their bargain.
+  culturalBackground: `Human civilization includes five current regional cultures and many local traditions. Political houses, oath-bearing lines, and ordinary people are not interchangeable. Solvarn antecedents became Solari through celestial infusion; Morren are historical neighbors of native Mycellan, not their former-human source.
 
-The Thalren of Frostwood Reach are archivists, obsessed with preservation because the protective fog that insulates their ironwood forests also devours memory over generations. A Thalren child learns to write before they learn to speak. Journals are chained to belts. Lineage-tapestries hang in every home. The archive-city of Greymark is the Thalren's greatest achievement and deepest terror: if Greymark falls, they lose every recorded self they have ever been. The Thalren regard the Mimir, the shape-shifting neighbors who share their forest, with cautious approval, since the Mimir's Rite of Masks is a gesture of commitment to fixed identity that the Thalren find deeply comforting. They regard the Skald as people who solved the memory problem by simply choosing not to value anything that could be lost.
+The Tallyn of Frostwood Reach are archivists, obsessed with preservation because the protective fog that insulates their ironwood forests also devours memory over generations. A Tallyn child learns to write before they learn to speak. Journals are chained to belts. Lineage-tapestries hang in every home. The archive-city of Greymark is the Tallyn's greatest achievement and deepest terror: if Greymark falls, they lose every recorded self they have ever been. The Tallyn regard the Mimir, the shape-shifting neighbors who share their forest, with cautious approval, since the Mimir's Rite of Masks is a gesture of commitment to fixed identity that the Tallyn find deeply comforting. They regard the Skald as people who solved the memory problem by simply choosing not to value anything that could be lost.
 
-The Skald of Nordhalla are endurance-purists. In a territory where House Skalvyr bargained away summer forever to stop the glaciers, weakness is not a personal failing, it is a practical death sentence. The Skald do not cull the weak, but they note them, and the noting is almost worse. They encase their dead in glacier-ice panels as permanent witnesses: the Skalvyr great hall at Skalvyrhold lines its walls with standing ancestors, preserved upright behind glass, watching the living prove themselves worthy. The Skald view the Thalren as people who substituted paper for backbone. They view the Groven bridges, the calcified bones of willing Groven dead that span the Cragjaw Peaks, with a grudging respect they would never verbalize, because acknowledging that a non-human race built something functional that humans couldn't is the closest a Skald comes to admitting inadequacy.
+The Skald of Nordhalla are endurance-purists. In a territory where House Skalvyr bargained away summer forever to stop the glaciers, weakness is not a personal failing, it is a practical death sentence. The Skald do not cull the weak, but they note them, and the noting is almost worse. They encase their dead in glacier-ice panels as permanent witnesses: the Skalvyr great hall at Skalvyrhold lines its walls with standing ancestors, preserved upright behind glass, watching the living prove themselves worthy. The Skald view the Tallyn as people who substituted paper for backbone. They view the Groven bridges, the calcified bones of willing Groven dead that span the Cragjaw Peaks, with a grudging respect they would never verbalize, because acknowledging that a non-human race built something functional that humans couldn't is the closest a Skald comes to admitting inadequacy.
 
-The Tessen of the Cragjaw Peaks are the most isolated human culture on Mythrill, keep-dwellers who have not seen open sky in living memory, whose internal politics have grown Byzantine in complexity because there is, genuinely, nothing else to do. The Tessen's isolation was originally tactical: when the noble families' crisis-politics made surface travel impossible, House Tesshan sealed their keep and waited. The waiting has lasted four hundred years. They depend entirely on Fexric geothermal pipes purchased through intermediaries they have never met. Their children are born, educated, aged, and buried in the same tunneled stone. The Tessen do not know what the Fexric look like. This suits both parties.
+Tessic isolation is a majority practice maintained by controlled gates, not a universal ban on contact. Licensed envoys, engineers and work crews negotiate pipes, goods and specialist training with Fex and other neighbors. Their knowledge can carry acquired disciplines back to the keeps without making every Tessic metropolitan.
 
 The Merryn of the Iceheart Sea are the most demonstrably pragmatic human culture: storm-chasers, luck-worshippers, and contract-keepers by necessity, since a tattooed oath on a Merryn sailor's forearm is the only binding document that the Drift-Council of Merrowport will enforce without question. The Merryn share the Iceheart Sea with the Myrathil, the deep-water people who have inhabited the ocean's abyss since before any human ship floated there. The arrangement is old and unwritten and enforced entirely by mutual necessity: the Merryn do not dive, the Myrathil do not surface, and in the waters between, things that belong to neither of them occasionally wash ashore.
 
-The Ordan of the Sundrift Vale are a people who solved the problem of a starless sky by memorizing the ground. Their throat-sung ancestor-maps, a form of simultaneous polyphonic navigation encoded in oral tradition, are the most accurate cartographic system on Mythrill for the specific terrain of the Vale. The Ordan share the steppe with the Astril, the alien-descended people whose crystalline markings echo the lost biosphere of their devoured world Lumia. The Ordan regard the Astril's luminous burden with the sympathetic detachment of nomads who understand that what you carry either strengthens you or breaks you, and either outcome is information worth having. The Astril regard the Ordan's relentless movement as the most sensible response to a world without anchors.
+The Ordu of the Sundrift Vale are a people who solved the problem of a starless sky by memorizing the ground. Their throat-sung ancestor-maps, a form of simultaneous polyphonic navigation encoded in oral tradition, are the most accurate cartographic system on Mythrill for the specific terrain of the Vale. The Ordu share the steppe with the Astril, the alien-descended people whose crystalline markings echo the lost biosphere of their devoured world Lumia. The Ordu regard the Astril's luminous burden with the sympathetic detachment of nomads who understand that what you carry either strengthens you or breaks you, and either outcome is information worth having. The Astril regard the Ordu's relentless movement as the most sensible response to a world without anchors.
 
-Through all of this, human merchant networks span the continents, not because the five cultures trust each other, but because they require each other. The Thalren need Nordhalla iron. The Tessen need Sundrift herd-hides and Fexric heat. Survival is more persuasive than pride, and humans are everywhere and they never stop moving. They are the connective tissue of Mythrill's economy, because everyone else either cannot leave their territory or will not.
+Through all of this, human merchant networks span the continents, not because the five cultures trust each other, but because they require each other. The Tallyn need Nordhalla iron. The Tessic need Sundrift herd-hides and Fex heat. Survival is more persuasive than pride, and humans are everywhere and they never stop moving. They are the connective tissue of Mythrill's economy, because everyone else either cannot leave their territory or will not.
 
-  Viridane was the seventh house called to the Dark Bargains, but it refused, fled south through the Frostwood Reach into the moonlit fae groves beyond, and was erased. House Morrath was later elevated to fill the empty seventh seat. The Florae, Viridane's descendants, are remembered by the folk as the 'eighth house,' the wound in human history. The family that refused the dark bargain, fled south through the Frostwood Reach into the moonlit fae groves beyond, and had their name struck from every record the other six houses could access. Their descendants are the Florae, and every human culture has a different relationship with this knowledge. The Thalren have forgotten, the fog took that memory before anyone thought to write it down. The Skald know and consider it desertion. The Solvarn know and cannot decide whether to envy or condemn. The Tessen have never heard the name. The Merryn don't care, specifically and principally. The Ordan sing ballads about the family that walked away, presented always as neither heroic nor cowardly but simply real, the one time someone said no and the world didn't end for them. The Morren knew the full truth because the Nethien told them, in the fine print of a contract amendment filed in the year of the second ashfall: House Viridane refused. The rest did not. The world is dying because of what the rest agreed to. The Morren were the only humans who knew this clearly, and the knowledge made them permanently, quietly furious; the fury survives in the Vreken who absorbed them.`,
+  Different institutions preserve, suppress or reinterpret Viridane's refusal. The folk's eighth-house label counts an erased family beside a later public census, not eight original signatories. Morrath's regency does not restore a living seal; the Florae are distinct from the Unwritten. No culture universally knows or forgets the whole truth, and historical Morren grievances do not establish native Mycellan as transformed humans.`,
 
-  variantDiversity: `Humanity is divided into five regional bloodlines, each shaped by the dark bargain their noble ancestors made and the continent they have spent centuries refusing to abandon. The Skald of Nordhalla, the Thalren of Frostwood Reach, the Tessen of the Cragjaw Peaks, the Merryn of the Iceheart Sea, and the Ordan of the Sundrift Vale — five peoples, one species, bound by shared fragility and the shared refusal to accept extinction. The Solvarn of Sundale were transformed by Ember into the Solari, a separate race no longer human. The Morren of Bryngloom were absorbed into the Vreken through the blight of their bargain.`,
+  variantDiversity: `Five current regional cultures share human biology: Tallyn, Skald, Tessic, Merryn and Ordu. Noble descent is a separate claim, not every person's inherited cosmic debt. Solvarn and Morren remain historical peoples; native Mycellan are not former-human Morren.`,
 
   integrationNotes: {
     actionPointSystem: 'All Humans share the universal traits of Mortal Frailty and Desperate Will. Each subrace gains three region-specific traits reflecting their culture. Humans lack supernatural advantages but gain asymmetric utility, each subrace is devastating in its niche and handicapped outside it.',
-    backgroundSynergy: 'Humans excel in any background their regional culture supports. Thalren favor scholarly and diplomatic backgrounds. Skald favor martial and survival backgrounds. Tessen favor engineering and defensive backgrounds. Merryn favor maritime and social backgrounds. Ordan favor nomadic and animal-handling backgrounds.',
-    classCompatibility: `Thalren are among those drawn to the Animist's ancestral work, the fog's memory-destruction demands that power be carved into permanent form rather than trusted to a mind. They produce Inquisitors because the horrors of the Frostwood (native spirits and Wyrd-touched alike) feed on human fear, and someone must name them. Animists emerge from the Thalren tradition of speaking to the Mimir's preserved identities and ancestral spirits. Wardens arise from the archive-city's garrison tradition, Greymark has never been taken, and someone stays to ensure it stays that way. Lunarchs are drawn from those who wander the moonlit groves and feel the parasite respond to the Frostwood's fog-dense Silence-light.
+    backgroundSynergy: 'Humans excel in any background their regional culture supports. Tallyn favor scholarly and diplomatic backgrounds. Skald favor martial and survival backgrounds. Tessic favor engineering and defensive backgrounds. Merryn favor maritime and social backgrounds. Ordu favor nomadic and animal-handling backgrounds.',
+    classCompatibility: `Tallyn are a hunting and chemistry people. They produce Inquisitors because the Frostwood's horrors feed on human fear and someone must name them; the cold-iron Vow is a Tallyn invention. They produce Toxicologists because fog-predator chemistry is a Tallyn craft. They also produce Wardens (the Greymark garrison tradition) and Spellguards (frontier sappers trained against Wyrd).
 
-Skald produce Berserkers first, Ironclad Martyrs second, two expressions of the same philosophical position about the body as a weapon. The Hunger Pact lives in their blood: ancestral starvation channeled into combat fury. Augurs emerge from the glacier-tomb tradition: the dead stand upright in the ice, and the Skald have always known how to read what the preserved dead remember. Skalds reckon with the Harbinger's entropy, the calculated freeze that Harbingers name as mathematically absolute, the knowledge that did not break their minds but weaponized them.
+Skald produce Berserkers first and Ironclad Martyrs second: the Hunger Pact lives in their blood. Augurs emerge from the glacier-tomb tradition, Harbingers are Malakor's own people, and the Frozen Archive's graft theatre makes them native Wardens.
 
-Tessen produce Revenants above all, a culture that has prepared for extinction for four centuries inevitably produces those who refuse to accept that the bloodline ends. Harbingers are the predictable product of those same centuries of preparation: entropy as a discipline, extinction as a tool. Tessen are drawn to the Spellguard's warding craft and the Warden's defense for those who defend their keeps through architecture and will, though the chain-graft surgery and Silence-scarring required for these paths demand rare surgical access through Cragjaw trade routes.
+Tessic produce Revenants above all, and are also native to the Chronarch (keeping a keep whole in time, not just in stone), the Spellguard (heat-line defense engineering), the Warden (containment in sealed architecture), and the Harbinger (the end they have rehearsed for four hundred years).
 
-Merryn produce Gambit reflexively, the tradition was practically invented by the Merryn and then formalized after the fact. Minstrels carry the storm-rhythm tradition, born from Lyris the Tide-Singer whose melodies calmed the Iceheart Sea.
+Merryn produce Gambits reflexively (the wager was practically invented at their docks), Minstrels carry the storm-rhythm tradition, and Revenants carry soul anchors in maintained mortuary ink.
 
-Ordan produce Apex as a cultural baseline, the steppe requires predator-knowledge before anything else, and the Ordan have honed it for generations. Animists are the Ordan's spiritual tradition distilled to its core: instinct bonded with ancestral spirit-channeling. The False Prophet's manufactured faith finds fertile ground among those who have watched the migration thin the herd year after year and begun manufacturing sacred meaning from the silence.`
+Ordu produce Animists (the throat-sung ancestor-compass), False Prophets (desperation in the starless Vale), and Apex (steppe predator-knowledge). A class outside this list is a rare individual exception here, not a cultural path.`
   },
 
   meaningfulTradeoffs: 'All Humans share Mortal Frailty (-10% base HP) and The Short Straw (+25% damage from necrotic/aging/time effects). Their only universal strength is Desperate Will (+2 Spirit, advantage vs Fear/Charm/Domination). Every Human subrace trades raw survivability for asymmetric niche power shaped by their region\'s dark bargain.',
 
   baseTraits: {
-    languages: ['Common'],
+    languages: ["Wayfarer's Cant"],
     lifespan: '60-90 years',
     baseSpeed: 30,
     size: 'Medium',
@@ -80,22 +80,22 @@ Before Sol was buried, humanity was already distributed across every continent o
 
 When the warmth began to fail — the leak the cosmic predator Keth Amar had tracked across a thousand years by following the Astril's trail — the seven ancient lineages made the decision that shaped everything that followed. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol within the molten core, sealing the inner vault with cosmic wards and **Bloodline Pacts**. Each pact is a living **Blood Seal** — the ward holds only while that lineage survives and keeps its oath — and the pacts rewrote the peoples who swore them into the Bound. The world shook for eleven days after the sealing. Sol is a living sun; he did not go willingly into the dark, and the volcano remembered.
 
-Keth Amar did not leave. Barred from physical entry by Aethil's ward, it spewed **Predatory Wyrd** — Natural Wyrd infected — onto the world and, across the long years that followed, orchestrated the **Whispered Purge**. For twenty-five years it posed as Aethil, tailoring dread to each bloodline's faith and offering Sol's own stolen warmth as if it could be freed. Blood Seals snapped one by one — wars, hubris, accidents, assassinations the world called bad luck — and each severed lineage cracked Aex's aegis a little wider. The world grew colder as Sol's light thinned. When every oath seemed severed, Keth Amar stopped whispering and struck: the **Blind Strike** — mortal name: Blizzard's End — crashed into the planetary ward. The **Secret Aegis** held — the hidden lineage that erased itself from all recorded history and metamorphosed into the Unwritten, the seal that was never written. Keth Amar was wounded and hurled into the void, but the impact fractured Aex's continental ward; crystalline Aex Shards, the seven greatest the Sundered Monoliths (one the Predatory Wyrd Counterfeit), rained across the continents and Predatory Wyrd bled from every new crack.
+After the Slow Cracking, Keth followed Astril traces and exploited hostile Wyrd channels. The wider ecology was not its invention. During the Years of Whispers it impersonated Aethil and manipulated mortal atrocities that broke public support. The later Blind Strike failed against the coupled defenses sustained by the Secret Aegis. Aex's aegis fractured into genuine shards; the accepted Monolith census contains six great genuine pieces and Keth's Counterfeit, not seven genuine keys.
 
-The seventh lineage had never been where the Purge looked. House Viridane refused the Whisper, fled south through the Frostwood Reach into the moonlit groves, and with the Sleeping Soul's aid forged the Secret Aegis. Their descendants are the Florae — treant-like, memory-wiped, hidden in the groves where the fog thins. The six houses that broke spent the following three centuries erasing every surviving reference to Viridane's existence. They were reasonably thorough. The Thalren lost the name to the fog. The Skald purged it from their stone-carved genealogies. The Solvarn buried it under three layers of religious reinterpretation. Only the Nethien preserved the full account, because the Nethien preserve everything, and Morvane — subordinate to the Sleeping Soul, fracturing under Predatory Wyrd — does not accept deletions.
+Viridane's refusal and the Unnamed Green's refuge saved a family while ending its original public obligation. The Sleeping Soul did not personally rescue it. The separate Unwritten family kept the sole uninterrupted Secret Aegis. Morrath's political seat and native regency authority were real; its original Aex pedigree was false. Oral history, surviving records and institutional erasure provide evidence with limits, not an omniscient archive or a thorn-blood cleansing key.
 
-The dark bargains were struck region by region during the long Infiltration that preceded the Devouring, each house trading something intangible for something survival-critical. The seven houses that set their seals to the original Binding were Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Viridane. Six of those seven marched their heirs to the peaks; Viridane refused, fled, and was erased from the record. House Morrath was elevated afterward to fill the empty seventh seat. Of the six survivor-houses, their bargains were made as follows: House Thalreth traded spatial clarity for insulating fog. House Skalvyr traded summer for halted glaciers. House Solvan traded their remaining heirs' futures for the volcanic warmth of Emberspire. House Mereval traded peaceful seas for navigable storm-lanes. House Tesshan traded visibility for a protective blizzard that hid their keeps from the starving populations below. House Ordavan traded fertile soil for grass that always returned. House Morrath, the Morren house, had nothing left to trade that Keth Amar would accept and was elevated only to fill Viridane's erased seat; the Morren borrowed their survival from the Nethien instead, at interest.
+The dark bargains were struck region by region during the long Infiltration that preceded the Devouring, each house trading something intangible for something survival-critical. The seven houses that set their seals to the original Binding were Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Viridane. Six of those seven marched their heirs to the peaks; Viridane refused, fled, and was erased from the record. House Morrath was elevated afterward to fill the empty seventh seat. Of the six survivor-houses, their bargains were made as follows: House Thalreth traded spatial clarity for insulating fog. House Skalvyr traded summer for halted glaciers. House Solvan traded their remaining heirs' futures for the volcanic warmth of Emberspire. House Mereval traded peaceful seas for navigable storm-lanes. House Tesshan traded visibility for a protective blizzard that hid their keeps from the starving populations below. House Ordavan traded fertile soil for grass that always returned. House Morrath, the Morren house, had nothing left to trade that Keth Amar would accept and was elevated only to fill Viridane's erased seat; the Morren borrowed their survival from the Athien instead, at interest.
 
-The Solvan Imperium, humanity's most ambitious attempt at political unity, arose in the Year of Ash 203, when the Solvarn warlord Caer Solvan conquered Frostwood Reach and Nordhalla by force and declared himself emperor of the three continental regions. The Imperium lasted four hundred and twelve years before collapsing, not from military defeat, but from the simple geometric impossibility of governing three regions with incompatible dark bargain consequences from a single administrative center. The Thalren forgot the empire's laws. The Skald did not recognize its authority in any weather below freezing, which was always. Caer Solvan's descendants still claim the imperial title from Solvan's Stand. No one else acknowledges it.
+The Solvan Imperium, humanity's most ambitious attempt at political unity, arose in the Year of Ash 203, when the Solvarn warlord Caer Solvan conquered Frostwood Reach and Nordhalla by force and declared himself emperor of the three continental regions. The Imperium lasted four hundred and twelve years before collapsing, not from military defeat, but from the simple geometric impossibility of governing three regions with incompatible dark bargain consequences from a single administrative center. The Tallyn forgot the empire's laws. The Skald did not recognize its authority in any weather below freezing, which was always. Caer Solvan's descendants still claim the imperial title from Solvan's Stand. No one else acknowledges it.
 
-The five cultures that exist today are not the direct products of the noble houses. They are the products of four centuries of living with the consequences. The Thalren became archivists because the fog made them. The Skald became endurance-purists because the cold demanded it. The Morren were absorbed into the Vreken because the debt left them no alternative, and the debt compounds among their descendants. What the five human peoples share is not a common culture but a common situation: short lives, long memories of bad decisions made by people they are still paying for, and the absolute, bone-deep refusal to accept that the situation is permanent.`,
+The five current cultures developed through environments, institutions and choices. Historical Solvarn antecedents became Solari; historical Morren did not become the universal origin of native Mycellan. Human frailty does not prove every individual signed Keth's bargain. Political survival, oath continuity and ordinary community life remain different questions.`,
 
   notableFigures: [
     {
       name: 'Thalra Greymark',
       title: 'The Last Archivist',
       portraitIcon: 'Human/Icon3',
-      backstory: 'The eldest living Thalren, keeper of the Greymark lineage-tapestries for one hundred and seven years. She has memorized the genealogy of every family in Frostwood Reach, forty thousand names, stretching back thirty-two generations. She can recite the ancestry of any Thalren who petitions her. She cannot remember her own daughter\'s face. The fog took it thirty years ago. She keeps her daughter\'s journal chained to her belt and reads it every morning, and every morning she grieves a death she does not remember happening.'
+      backstory: 'The eldest living Tallyn, keeper of the Greymark lineage-tapestries for one hundred and seven years. She has memorized the genealogy of every family in Frostwood Reach, forty thousand names, stretching back thirty-two generations. She can recite the ancestry of any Tallyn who petitions her. She cannot remember her own daughter\'s face. The fog took it thirty years ago. She keeps her daughter\'s journal chained to her belt and reads it every morning, and every morning she grieves a death she does not remember happening.'
     },
     {
       name: 'Ragna Skalvyr',
@@ -104,10 +104,10 @@ The five cultures that exist today are not the direct products of the noble hous
       backstory: 'The current matriarch of House Skalvyr, who has outlived three husbands and seven of her nine children. She earned her name at forty-two when she walked into a whiteout blizzard to retrieve the body of her eldest son, carrying him back to Skalvyrhold on her shoulders through fifty miles of killing cold. She lost three toes to frostbite. She refuses to wear boots that cover the stumps, she says the cold reminds her of what she is capable of. She is seventy-one. She still leads raids against the glacier-revenants that crawl out of the fjords.'
     },
     {
-      name: 'Ordan Khan',
+      name: 'Ordu Khan',
       title: 'The Wind-Singer',
       portraitIcon: 'Human/Icon11',
-      backstory: 'The current head of House Ordavan, a throat-singer whose voice carries fifteen miles across the steppe. She knows every migration route by heart and every ancestor-song by muscle memory. She has never seen the sea. She has never entered a building made of stone. She will die on the steppe, as her mother did, as her grandmother did, and her body will be left at the Khan\'s Mound with a song that will be sung until the migration circles back, and then never sung again, because the song belongs to the dead, and the dead do not travel.'
+      backstory: 'Bayarmaa Ordavan bears the title Ordu Khan as the current Khatun of a recognized political successor/cadet house. A throat-singer and migration leader, she serves publicly present Ordu communities; her political surname does not establish an uninterrupted original Blood Seal. Hidden descendants of the purged oath-bearing line preserve a different history among ordinary herders.'
     }
   ],
 
@@ -130,19 +130,19 @@ The five cultures that exist today are not the direct products of the noble hous
     },
     {
       name: "Tesshan Keep",
-      description: 'The ancestral seat of House Tesshan in the Cragjaw Peaks, buried under eighty feet of permanent snow-drift. The keep is accessible only through a single tunnel carved through the drift, defended by a gate that has not been opened from the outside in four hundred years. The Tessen inside number perhaps two hundred, the last remnants of a house that once governed thousands. They survive on geothermal heat purchased from the Fexric through pipes that run beneath the snow. They have never seen their suppliers. They have never asked what the Fexric look like.'
+      description: 'House Tesshan\'s ancestral keep is sheltered beneath deep snow-drift, supplied through maintained geothermal pipes and controlled tunnels. Most residents remain isolated; licensed envoys, specialists and work crews use rare gates and trade contacts. Their majority practice does not mean no Tessic has met a Fex or that all knowledge stays outside.'
     },
     {
       name: 'Kumis Downs',
-      description: 'The spiritual heartland of the Ordan people on the Sundrift Vale, rolling grassland hills where the great mare-herds graze. The Downs produce the fermented mare\'s milk that fuels the steppe\'s trade economy and sustains its rituals. Ordan throat-singers can be heard for miles across the open ground, their harmonic overtones carrying further than any shout. The Downs are peaceful by necessity, the herds will not tolerate violence near their grazing. This is as close to sacred ground as the practical Ordan acknowledge.'
+      description: 'The spiritual heartland of the Ordu people on the Sundrift Vale, rolling grassland hills where the great mare-herds graze. The Downs produce the fermented mare\'s milk that fuels the steppe\'s trade economy and sustains its rituals. Ordu throat-singers can be heard for miles across the open ground, their harmonic overtones carrying further than any shout. The Downs are peaceful by necessity, the herds will not tolerate violence near their grazing. This is as close to sacred ground as the practical Ordu acknowledge.'
     },
     {
       name: "Morren's Bogpost",
-      description: 'The primary Vreken outpost on the Sundrift Vale\'s forest-steppe border, where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordan wool and hide. The Bogpost is a cluster of squat peat-stone buildings perpetually smelling of bog-water, run by Vreken debt-brokers who extend credit at generous terms. The interest always compounds. The Vreken learned contract-law from the Nethien and applied it to every transaction. No one has ever paid off a Bogpost debt. This is considered a feature, not a bug.'
+      description: 'The primary Mycellan outpost on the Sundrift Vale\'s forest-steppe border, where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordu wool and hide. The Bogpost is a cluster of squat peat-stone buildings perpetually smelling of bog-water, run by Mycellan debt-brokers who extend credit at generous terms. The interest always compounds. The Mycellan learned contract-law from the Athien and applied it to every transaction. No one has ever paid off a Bogpost debt. This is considered a feature, not a bug.'
     },
     {
       name: "Skald's Landing",
-      description: 'The cultural bridge between the Frostwood Reach and Nordhalla, a small river-port where Skald longships dock to trade cold-iron and whale oil for ironwood timber and resin. The settlement is a collision of architectural traditions: Skaldic-style dragon-prow longhouses amid Thalren peat-stone. The Skald traders here are the only Nordhalla people most Reach-dwellers will ever meet, and their presence has shaped Frostwood\'s northern culture for centuries.'
+      description: 'The cultural bridge between the Frostwood Reach and Nordhalla, a small river-port where Skald longships dock to trade cold-iron and whale oil for ironwood timber and resin. The settlement is a collision of architectural traditions: Skaldic-style dragon-prow longhouses amid Tallyn peat-stone. The Skald traders here are the only Nordhalla people most Reach-dwellers will ever meet, and their presence has shaped Frostwood\'s northern culture for centuries.'
     },
     {
       name: 'Ember Lagoon',
@@ -154,7 +154,7 @@ The five cultures that exist today are not the direct products of the noble hous
 
 In Sundale, House Solvan's capital city is being buried. Solvan's Stand has lost forty feet of its outer wall height to ashfall in the last century. The population has shrunk from thirty thousand to under four thousand, and those four thousand will not leave, because House Solvan's political authority, already fragile after centuries of demonstrating that their sacrifice accomplished nothing permanent, is entirely dependent on remaining at the site of the sacrifice. The day the last Solvan family leaves the ashfields is the day the house ceases to exist as anything but a name.
 
-In the Cragjaw Peaks, House Tesshan may already be extinct in any meaningful sense. No one outside the Peaks has confirmed a living Tessen in forty years. The geothermal supply pipes from the Fexric continue to function, which suggests someone is still paying for them, but the Fexric have been known to run accounts for years after the client stops responding, collecting debt against estates that no longer exist.
+In the Cragjaw Peaks, House Tesshan may already be extinct in any meaningful sense. No one outside the Peaks has confirmed a living Tessic in forty years. The geothermal supply pipes from the Fex continue to function, which suggests someone is still paying for them, but the Fex have been known to run accounts for years after the client stops responding, collecting debt against estates that no longer exist.
 
 On the Iceheart Sea, House Mereval's fleet is fragmenting. Three captains who held Mereval commissions have declared independent sovereignty over their particular storm-lanes in the last decade. The Drift-Council at Merrowport still meets, but fewer ships attend each season, and the Merryn's one legal principle, that a tattooed contract is binding, is being tested by the number of captains arguing that Mereval's commission tattoos were obtained under duress and should be void.
 
@@ -164,15 +164,15 @@ The five cultures continue to exist and trade and refuse to stop. But the struct
 
   culturalPractices: `Human culture varies radically by region. What unifies the five cultures is not shared practice but shared architecture of character: the primacy of practical skill, the central importance of survival over philosophy, and the stubborn refusal to accept that things cannot be improved, however violently those three principles are expressed differs by territory.
 
-Thalren children learn to write before they learn to speak with any confidence. Journal-keeping is the first survival skill taught because the fog makes everything else secondary: a child who cannot record their name is a child the forest has already started erasing. Thalren funerals are not held when a person dies, they are held when a person's journal is full. The journal is then chained to the lineage-tapestry and becomes a permanent node in the archive. The person continues to exist in the tapestry. The body is simply the part that stopped.
+Tallyn children learn to write before they learn to speak with any confidence. Journal-keeping is the first survival skill taught because the fog makes everything else secondary: a child who cannot record their name is a child the forest has already started erasing. Tallyn funerals are not held when a person dies, they are held when a person's journal is full. The journal is then chained to the lineage-tapestry and becomes a permanent node in the archive. The person continues to exist in the tapestry. The body is simply the part that stopped.
 
 Skald children are cold-tested from infancy, exposed to the fjord air for increasing durations in the first winter, with the performance recorded. This is not cruelty; it is information. A Skald child who does not respond well to cold is given to the forge-guilds, where heat is the relevant environmental pressure. A Skald child who responds well is marked for the military tradition. The glacier-tombs in Skalvyrhold serve as both memorial and practical instruction: Skald children are brought to stand before their preserved ancestors and expected to introduce themselves, recite their lineage, and explain what they have done so far that was worth the standing. The ancestors, obviously, do not respond. The expectation is that the child will perform as if they do.
 
 Merryn children learn to swim before they learn to walk with confidence. Navigation by storm-pattern is a cultural curriculum that begins before reading. The first tattoo a Merryn child receives is administered at age seven by the ship's navigator, a simple directional mark on the inner wrist that records the child's birth-coordinates. This is the first clause of their living contract. The last tattoo records the coordinates of their death, administered postmortem by the ship's captain. Between those two marks, every significant agreement, debt, oath, and commission is inked into skin that cannot be lost, stolen, or forged.
 
-Ordan children are given to the herd at age five, not figuratively, but literally placed among the woolly herds for a full migration cycle under the supervision of elder herd-tenders. Those who fall behind are carried until they can walk again. Once. If they fall behind again in the same season, they walk at the herd's pace regardless. This is not considered cruel by the Ordan; it is considered honest. The steppe does not adjust its pace. The migration does not hold. A person who cannot keep the pace is a person who will slow the entire community, and the community's survival outweighs individual comfort. The Ordan spend the rest of their lives thinking of this lesson in every context where compromise might make things easier.
+Ordu children are given to the herd at age five, not figuratively, but literally placed among the woolly herds for a full migration cycle under the supervision of elder herd-tenders. Those who fall behind are carried until they can walk again. Once. If they fall behind again in the same season, they walk at the herd's pace regardless. This is not considered cruel by the Ordu; it is considered honest. The steppe does not adjust its pace. The migration does not hold. A person who cannot keep the pace is a person who will slow the entire community, and the community's survival outweighs individual comfort. The Ordu spend the rest of their lives thinking of this lesson in every context where compromise might make things easier.
 
-Tessen children are born underground, and most will never see open sky. Education begins in the lamp-lit galleries of the keep, where children learn the maintenance of the geothermal supply-pipes, the genealogy of a house that has sealed itself against the world for sixteen generations, and the elaborate etiquette of internal politics, where every insult is remembered and every alliance is negotiated in candlelight. There is no weather to prepare for and no wilderness to fear, so the Tessen teach what a sealed world needs: engineering, history, and the art of waiting. A Tessen child who asks what the sky looks like is told a story. A Tessen child who asks twice is given a task.`,
+Tessic children are born underground, and most will never see open sky. Education begins in the lamp-lit galleries of the keep, where children learn the maintenance of the geothermal supply-pipes, the genealogy of a house that has sealed itself against the world for sixteen generations, and the elaborate etiquette of internal politics, where every insult is remembered and every alliance is negotiated in candlelight. There is no weather to prepare for and no wilderness to fear, so the Tessic teach what a sealed world needs: engineering, history, and the art of waiting. A Tessic child who asks what the sky looks like is told a story. A Tessic child who asks twice is given a task.`,
 
   sharedTraits: [
     {
@@ -222,36 +222,48 @@ Tessen children are born underground, and most will never see open sky. Educatio
   subraces: {
     thalren: {
       id: 'thalren_human',
-      name: 'Thalren',
-      illustration: '/assets/images/races/human_thalren_icon_v1.png',
-      illustrationCaption: 'A Thalren human watchman in a heavy sheepskin longcoat holding an iron lantern-staff and broadsword, in rough charcoal draft with mist-grey watercolor splash.',
+      name: 'Tallyn',
+        crest: '/assets/images/crests/human_thalren_crest.png',
+      illustration: '/assets/images/races/human_thalren_city_greymark.jpg',
+      illustrationCaption: 'The Walled Archive-City of Greymark — Gothic clocktowers, ironwood palisade bastions, and sky-bridges rising through pine mists in rough charcoal draft with mist-grey watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/human_thalren_icon_v1.png',
-          caption: 'Thalren Watchman (Rampart Sentry) — Human watchman in sheepskin longcoat with iron lantern-staff and broadsword in rough charcoal draft with mist-grey watercolor splash.'
+          src: '/assets/images/races/human_thalren_portrait_bust.jpg',
+          caption: 'Canonical Tallyn Racial Portrait — Intellectual frontier archivist with reading spectacles, chained pocket journal, and ink-stained hands in rough charcoal draft with mist-grey watercolor splash.'
         },
         {
-          src: '/assets/images/races/thalren_culture_scriptorium.png',
-          caption: 'The Scriptorium Midnight Vigil — Thalren archivist recording lineage by lamplight among towering chained folios in Greymark, in rough charcoal draft with mist-grey watercolor splash.'
+          src: '/assets/images/races/human_thalren_city_greymark.jpg',
+          caption: 'The Walled Archive-City of Greymark — Sovereign capital citadel with hexagonal library spires, sky-bridges, and rotunda archive in rough charcoal draft with mist-grey watercolor splash.'
         },
         {
-          src: '/assets/images/races/thalren_city_greymark.png',
-          caption: 'The Walled Archive-City of Greymark — Gothic clocktowers, ironwood palisade bastions, and sky-bridges rising through pine mists, in rough charcoal draft with mist-grey watercolor splash.'
+          src: '/assets/images/races/human_thalren_location_scriptorium.jpg',
+          caption: 'Scriptorium of the Last Candle — Subterranean copyist cathedral with vaulted gothic arches and rows of copying desks in rough charcoal draft with mist-grey watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_thalren_location_waystation.jpg',
+          caption: 'Cold-Lantern Waystation — Misty mountain pine frontier outpost with cobalt-lantern watchtower and weigh station in rough charcoal draft with mist-grey watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_thalren_figure_thalra.jpg',
+          caption: 'Thalra Greymark (The Last Archivist) — Revered 107-year-old sovereign historian holding the brass-bound lineage ledger and swan-feather quill in rough charcoal draft with mist-grey watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_thalren_figure_kaelen.jpg',
+          caption: 'High Scribe Kaelen (Master Cartographer) — Veteran surveyor crouching on craggy limestone bluffs with sighting compass and topographic map in rough charcoal draft with mist-grey watercolor splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/thalren_culture_write.png',
-      cultureIllustrationCaption: 'A Thalren traveler sitting on a gnarled log in the misty Frostwood Reach, writing in their journal.',
+      cultureIllustrationCaption: 'A Tallyn traveler sitting on a gnarled log in the misty Frostwood Reach, writing in their journal.',
       domesticIllustration: '/assets/images/races/thalren_culture_home.png',
-      domesticIllustrationCaption: 'A cozy Thalren treehouse bedroom high in the canopy of the ironwood trees, decorated with maps and notes.',
+      domesticIllustrationCaption: 'A cozy Tallyn treehouse bedroom high in the canopy of the ironwood trees, decorated with maps and notes.',
 
-      visualDescription: `Lean and watchful, the Thalren carry the pale complexion of people who live under perpetual mist. Their hands are permanently ink-stained, the first skill a Thalren child learns is journal-keeping, before speech, before walking, and their eyes hold the particular tension of someone who has forgotten something important and knows it. They dress in heavy leather coats damp with the fog of Frostwood Reach, and every Thalren chains a journal to their belt because a life unwritten down is, by the only measure they recognize, a life that never happened.`,
+      visualDescription: `Lean and watchful, the Tallyn carry the pale complexion of people who live under perpetual mist. Their hands are permanently ink-stained, the first skill a Tallyn child learns is journal-keeping, before speech, before walking, and their eyes hold the particular tension of someone who has forgotten something important and knows it. They dress in heavy leather coats damp with the fog of Frostwood Reach, and every Tallyn chains a journal to their belt because a life unwritten down is, by the only measure they recognize, a life that never happened.`,
       tooltipSummary: 'Fog-choked scholars of Frostwood Reach who chain journals to their belts, frantically recording every memory before the mist erases it.',
       description: `*Mist-damp scholars in heavy leather coats, currently split between the documented citizens of Greymark and the erased outcasts of the palisades.*
 
-The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful, with the pale complexion of people who live under perpetual mist. Their hands are ink-stained from a lifetime of journal-keeping, the first skill a Thalren child learns, before speech, before walking, because a Thalren who has not written themselves down does not, in any sense that matters, exist. Their eyes carry the particular tension of someone who has forgotten something important and knows it. They check their journals constantly. They ask strangers to repeat their names. They carve lineage into heart-pine because paper rots and memory rots faster, and a life that rots with it was, by the only measure the Thalren recognize, a life that never happened. To be Thalren is to understand that existence is a document, and that the unrecorded life, the unwitnessed name, the day no pen touched, is simply not worth living. House Thalreth struck the Fog Compact in the early generations of the Slow Cracks. Their culture of journal-keeping and ledger-dependence is a direct response to four centuries of memory-eating fog.`,
-      culturalBackground: 'Thalren culture is an arms race against oblivion, recently weaponized by Jarl-Archivist Kaelen Thalreth’s Sovereign Ledger. Because the protective fog degrades memory over generations, Kaelen has decreed that only those with registered lineages in Greymark’s tapestries hold legal rights, splitting the populace into the documented Ledgered and the unrecorded, outlawed Forgotten. The Scribe-Cartel maintains a stranglehold on life-preserving Soot-Resin Ink and Peat-Parchment, leaving the Forgotten to barter for black-market ink in Greymark\'s Shallows. Meanwhile, children showing magical spark are taken by force to the keep’s Tapestry-Wards, where their ancestral animism is systematically erased in favor of structured runic logic, and the Ironwood Palisade is patrolled by heavy Wardens to enforce Kaelen\'s taxes and shut out the undocumented.',
-      statModifiers: { intelligence: 2, spirit: 1, constitution: -1 },
-      languages: ['Common'],
+The fog-choked forests of Frostwood Reach shape the Tallyn body: lean, watchful, with the pale complexion of people who live under perpetual mist. Their hands are ink-stained from a lifetime of journal-keeping, the first skill a Tallyn child learns, before speech, before walking, because a Tallyn who has not written themselves down does not, in any sense that matters, exist. Their eyes carry the particular tension of someone who has forgotten something important and knows it. They check their journals constantly. They ask strangers to repeat their names. They carve lineage into heart-pine because paper rots and memory rots faster, and a life that rots with it was, by the only measure the Tallyn recognize, a life that never happened. To be Tallyn is to understand that existence is a document, and that the unrecorded life, the unwitnessed name, the day no pen touched, is simply not worth living. House Thalreth struck the Fog Compact in the early generations of the Slow Cracks. Their culture of journal-keeping and ledger-dependence is a direct response to four centuries of memory-eating fog.`,
+      culturalBackground: 'Tallyn culture is an arms race against oblivion, recently weaponized by Jarl-Archivist Kaelen Thalreth’s Sovereign Ledger. Because the protective fog degrades memory over generations, Kaelen has decreed that only those with registered lineages in Greymark’s tapestries hold legal rights, splitting the populace into the documented Ledgered and the unrecorded, outlawed Forgotten. The Scribe-Cartel maintains a stranglehold on life-preserving Soot-Resin Ink and Peat-Parchment, leaving the Forgotten to barter for black-market ink in Greymark\'s Shallows. Meanwhile, children showing magical spark are taken by force to the keep’s Tapestry-Wards, where their ancestral animism is systematically erased in favor of structured runic logic, and the Ironwood Palisade is patrolled by heavy Wardens to enforce Kaelen\'s taxes and shut out the undocumented.',
+      statModifiers: { intelligence: 2, spirit: 1, charisma: 1, strength: -1 },
       baseStats: { hp: 22, mana: 7, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['intelligence'], disadvantage: ['constitution'] },
       traits: [
@@ -319,20 +331,33 @@ The fog-choked forests of Frostwood Reach shape the Thalren body: lean, watchful
     skald: {
       id: 'skald_human',
       name: 'Skald',
-      illustration: '/assets/images/races/human_skald_icon_v1.png',
-      illustrationCaption: 'A massive Nordhalla Skald berserker in heavy fur-lined cloak and studded cuirass, holding a heavy iron battleaxe across both hands in rough charcoal draft with piercing glacial frost-blue watercolor splash.',
+        crest: '/assets/images/crests/human_skald_crest.png',
+      illustration: '/assets/images/races/human_skald_city_skalvyrhold.jpg',
+      illustrationCaption: 'Skalvyrhold Fortress & Great Longhouse — Imposing timber and glacial rime-stone fortress on windswept crags in rough charcoal draft with glacial frost-blue watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/human_skald_icon_v1.png',
-          caption: 'Skald Berserker (Nordhalla Warrior) — Massive warrior in heavy fur-lined mantle and studded cuirass, holding a heavy iron battleaxe across both hands in rough charcoal draft with piercing glacial frost-blue watercolor splash.'
+          src: '/assets/images/races/human_skald_portrait_bust.jpg',
+          caption: 'Canonical Skald Racial Portrait — Glacial shield-maiden with warrior braids, polar bear pelt mantle, and iron penannular brooch in rough charcoal draft with glacial-blue watercolor splash.'
         },
         {
-          src: '/assets/images/races/skald_culture_tomb.jpg',
-          caption: 'The Glacier-Tomb Vigil of the Standing Ancestors — Colossal Skald warrior standing vigil before upright ancestors frozen in glacier-ice, grounded battleaxe in rough charcoal draft with glacial blue splash.'
+          src: '/assets/images/races/human_skald_city_skalvyrhold.jpg',
+          caption: 'Skalvyrhold Glacier Keep & Longhouse — Sovereign capital fortress carved between blue glacial ice walls and basalt cliffs in rough charcoal draft with glacial-blue watercolor splash.'
         },
         {
-          src: '/assets/images/races/skald_city_skalvyrhold.png',
-          caption: 'Skalvyrhold: The Glacier Fjord-Fortress — Dragon-prowed timber mead-halls, iron-banded gates, and dragon longships frozen into sea ice beneath sheer peaks, in rough charcoal draft with glacial blue splash.'
+          src: '/assets/images/races/human_skald_location_frost_barrow.jpg',
+          caption: 'The Frost-Barrow of the First Reavers — Windswept ancestral ship-cairns and towering carved dragon runestones with sacred fire-altar in rough charcoal draft with glacial-blue watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_skald_location_whalers_slip.jpg',
+          caption: 'Whaler’s Slip & Brine Vats — Industrial timber fjord harbor with wooden slipways, longships, and brine vats in rough charcoal draft with glacial-blue watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_skald_figure_ragna.jpg',
+          caption: 'Ragna Skalvyr (The Ice-Widow) — Sovereign war-leader jarl with polar bear mantle, two-handed bearded greataxe, and ivory horn in rough charcoal draft with glacial-blue watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_skald_figure_torvald.jpg',
+          caption: 'Jarl Torvald Ice-Breaker — Towering longship reaver with raven round shield and broadaxe on dragon-prow deck in rough charcoal draft with glacial-blue watercolor splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/skald_culture_ritual.png',
@@ -354,8 +379,8 @@ The Frozen Archive, an ancient glacier-carved library-fortress held by the Skald
 Recently, Skald society has been fractured by the rise of **King-Jarl Halvar Skalvyr (Jarn-Tand)**. Having consolidated the regional clans under one crown with brutal force, Jarn-Tand constructed the **Sunder-Wall**, a colossal wall of glacier-ice and black granite cutting across the tundra to restrict and tax the movements of the nomadic clans. This has split the Skald into two hostile groups: the **Vaegfolk** — the settled clans within the Sunder-Wall — who swore fealty in exchange for geothermal valleys and southern grain subsidies, and the **Øsling** — the highland clans beyond the Wall — who live as nomads, hunted on sight.
 
 Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly backed by the crown that chokes the local economy, and the **Runic Academies** in the Frozen Archive, where children showing magic are taken by force to be "structured" and stripped of their ancestral animism. Jarn-Tand's **Cleansing of the Hearth** has outlawed the old shamanistic practices, burning sacred pine-groves and hunting down the tribal Animists. Meanwhile, in the Black Firth, massive steam-powered ironclads hunt the fjord's mythic sea-beasts, polluting the waters and destroying the fishing grounds of the coastal clans.`,
-      statModifiers: { strength: 2, constitution: 1, intelligence: -1 },
-      languages: ['Common', 'Old Nord'],
+      statModifiers: { strength: 2, constitution: 2, charisma: 1, intelligence: -2 },
+      languages: ["Wayfarer's Cant", 'Old Nord'],
       baseStats: { hp: 30, mana: 4, ap: 3, initiative: 0 },
       savingThrowModifiers: { advantage: ['rime', 'endurance'], disadvantage: ['heat', 'persuasion'] },
       traits: [
@@ -425,35 +450,41 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
     },
     tessen: {
       id: 'tessen_human',
-      name: 'Tessen',
-      illustration: '/assets/images/races/human_tessen_icon_v1.png',
-      illustrationCaption: 'A sturdy Tessen stone-architect and bastion defender in heavy leather smith apron and quilted armor, carrying a massive two-handed stonemason war-hammer over his shoulder and holding draft calipers in rough charcoal draft with warm forge amber watercolor splash.',
+      name: 'Tessic',
+        crest: '/assets/images/crests/human_tessen_crest.png',
+      languages: ["Wayfarer's Cant", 'Span-Speech'],
+      illustration: '/assets/images/races/human_tessen_location_ingot_bazaar.jpg',
+      illustrationCaption: 'The Smoldering Ingot Bazaar & Great Scales — Cantilevered granite terrace overlooking mountain chasm with monumental counterbalanced bronze balance scale in rough charcoal draft with forge amber watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/human_tessen_icon_v1.png',
-          caption: 'Tessen Stone-Architect — Sturdy bastion defender in leather smith apron and quilted armor, carrying a massive two-handed masonry war-hammer and brass draft calipers in rough charcoal draft with forge amber watercolor splash.'
+          src: '/assets/images/races/human_tessen_location_ingot_bazaar.jpg',
+          caption: 'The Smoldering Ingot Bazaar & Great Scales — Cantilevered granite terrace overlooking mountain chasm with monumental counterbalanced bronze balance scale in rough charcoal draft with forge amber watercolor splash.'
         },
         {
-          src: '/assets/images/races/tessen_culture_survey.png',
-          caption: 'The Chasm-Bridge Survey & Caliper Inspection — Tessen engineer measuring stress on a stone bridge keystone over a vertical abyss with venting geothermal copper pipes, in rough charcoal draft with forge amber splash.'
+          src: '/assets/images/races/human_tessen_location_cable_gantry.jpg',
+          caption: 'Cable-Car Gantry & Sump-Pumps — Timber-and-iron cable gantry anchored against sheer cliffs with passenger gondola and steam walking-beam pump in rough charcoal draft with forge amber watercolor splash.'
         },
         {
-          src: '/assets/images/races/tessen_city_keep.jpg',
-          caption: 'The Vertical Chasm Keep of Tesshan — Monumental subterranean chasm city carved into cliff-walls with calcified bridges, stairways, and steam pipes, in rough charcoal draft with forge amber splash.'
+          src: '/assets/images/races/human_tessen_figure_kael.jpg',
+          caption: 'Master Founder Kael Tesshan (High Smelter of the Chasm) — Stocky foundry patriarch with square-headed forging hammer and crucible tongs beside anvil in rough charcoal draft with forge amber watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_tessen_figure_moira.jpg',
+          caption: 'Moira the Cable-Rigger (Master of the High Spans) — Agile female rigger standing on high-altitude cantilevered iron beam junction with cable wrench and harness in rough charcoal draft with forge amber watercolor splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/tessen_culture_bazaar.png',
-      cultureIllustrationCaption: 'A bustling multi-level marketplace with catwalks and bridges inside the vertical stone chasm of a Tessen keep.',
+      cultureIllustrationCaption: 'A bustling multi-level marketplace with catwalks and bridges inside the vertical stone chasm of a Tessic keep.',
       domesticIllustration: '/assets/images/races/tessen_culture_home.png',
-      domesticIllustrationCaption: 'A Tessen family in their stone keep chamber, a scribe writing at a desk while a child looks out at the chasm bridges.',
+      domesticIllustrationCaption: 'A Tessic family in their stone keep chamber, a scribe writing at a desk while a child looks out at the chasm bridges.',
 
-      visualDescription: `Pale and slightly hunched, the Tessen bear the posture of people who spend their lives in vertical, stone-tunneled keeps. Their skin has not seen direct sunlight in generations, and their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of avalanches have made loud voices a social violation, and they record their lives not in ink, which freezes, but in knotted cord-cords. They dress in heavy dark woolens and alchemical respirators against the volcanic particulate of the Cragjaw.`,
+      visualDescription: `Pale and slightly hunched, the Tessic bear the posture of people who spend their lives in vertical, stone-tunneled keeps. Their skin has not seen direct sunlight in generations, and their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of avalanches have made loud voices a social violation, and they record their lives not in ink, which freezes, but in knotted cord-cords. They dress in heavy dark woolens and alchemical respirators against the volcanic particulate of the Cragjaw.`,
       tooltipSummary: 'Debt-bound shadow-courtiers who trade in secrets and silence, their sealed lips carrying favors worth more than gold.',
       description: `*Pale, keep-dwelling survivalists wearing heavy woolens and carrying knotted knotted cord-cords, managing geothermal vents while avoiding mountain spirits.*
 
-The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: pale, watchful, with the slightly hunched posture of people who spend their lives in vertical, stone-tunneled keeps. Tessen skin has not seen direct sunlight in generations. Their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of triggering avalanches have made loud voices a social violation. They record their lives not in ink (which freezes) but in knotted cord-cords, carrying themselves with a quiet caution. House Tesshan's Blizzard-Veil bargain, in the early generations of the Freezing Era, traded visibility for concealment. The Tessen have not left their snow-buried keeps in sixteen generations, and in that time isolation has stopped being a condition and become an identity. Where other peoples reach outward, the Tessen have turned the stone wall into a virtue and the sealed door into a creed. They would say, if they ever spoke to outsiders long enough to say it, that no man is an island; the Tessen know better, because they are one, and have been for four hundred years, and they have made of their solitude a country no caravan can cross.`,
-      culturalBackground: 'Tessen culture is a vertical pressure-cooker governed by Jarl-Tesshan Oda Tesshan and the Steam-Cartel. The keeps are carved into the cliffs and connected by calcified bone-bridges grown from the dead (the Groven). Society is split between the high-born Terraced, who control the geothermal agricultural andenes, and the impoverished Chasm-Dwellers who perform the mandatory corvée labor to maintain the pipes. The state enforces ancestor veneration of the Groven, brutally persecuting the traditional "Rock-Speakers" who commune with mountain rock-spirits. This has angered the mountain powers, causing hostile native mountain spirits like the Rime-Brides and Storm-Crows to stalk the rope-bridges.',
-      statModifiers: { spirit: 2, constitution: 1, charisma: -1 },
+The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: pale, watchful, with the slightly hunched posture of people who spend their lives in vertical, stone-tunneled keeps. Tessic skin has not seen direct sunlight in generations. Their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of triggering avalanches have made loud voices a social violation. They record their lives not in ink (which freezes) but in knotted cord-cords, carrying themselves with a quiet caution. House Tesshan's Blizzard-Veil bargain, in the early generations of the Freezing Era, traded visibility for concealment. The Tessic have not left their snow-buried keeps in sixteen generations, and in that time isolation has stopped being a condition and become an identity. Where other peoples reach outward, the Tessic have turned the stone wall into a virtue and the sealed door into a creed. They would say, if they ever spoke to outsiders long enough to say it, that no man is an island; the Tessic know better, because they are one, and have been for four hundred years, and they have made of their solitude a country no caravan can cross.`,
+      culturalBackground: 'Tessic culture is a vertical pressure-cooker governed by Jarl-Tesshan Oda Tesshan and the Steam-Cartel. The keeps are carved into the cliffs and connected by calcified bone-bridges grown from the dead (the Groven). Society is split between the high-born Terraced, who control the geothermal agricultural andenes, and the impoverished Chasm-Dwellers who perform the mandatory corvée labor to maintain the pipes. The state enforces ancestor veneration of the Groven, brutally persecuting the traditional "Rock-Speakers" who commune with mountain rock-spirits. This has angered the mountain powers, causing hostile native mountain spirits like the Rime-Brides and Storm-Crows to stalk the rope-bridges.',
+      statModifiers: { agility: 2, spirit: 1, constitution: 1, strength: -1 },
       baseStats: { hp: 26, mana: 5, ap: 3, initiative: -1 },
       savingThrowModifiers: { advantage: ['disease', 'isolation'], disadvantage: ['social', 'initiative'] },
       traits: [
@@ -505,7 +536,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         {
           id: 'geothermal_sense_tessen',
           name: 'Geothermal Sense',
-          description: 'You can sense heat sources through stone walls within 30 feet. Advantage on Perception checks to detect creatures, traps, or structural features behind solid stone. The geothermal pipes are the Tessen\'s lifeblood, and you feel their warmth through the keep\'s bones, a sixth sense no surface-dweller possesses and no amount of isolation could breed out.',
+          description: 'You can sense heat sources through stone walls within 30 feet. Advantage on Perception checks to detect creatures, traps, or structural features behind solid stone. The geothermal pipes are the Tessic\'s lifeblood, and you feel their warmth through the keep\'s bones, a sixth sense no surface-dweller possesses and no amount of isolation could breed out.',
           level: 1,
           icon: 'spell_fire_incinerate',
           spellType: 'PASSIVE',
@@ -522,24 +553,30 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
     merryn: {
       id: 'merryn_human',
       name: 'Merryn',
-      illustration: '/assets/images/races/human_merryn_icon_v1.png',
-      illustrationCaption: 'A Merryn human mariner with contract-tattoos, striped naval jersey, and heavy toggle coat, holding a cutlass and coiled anchor-rope, in rough charcoal draft with wave-indigo watercolor splash.',
+        crest: '/assets/images/crests/human_merryn_crest.png',
+      languages: ["Wayfarer's Cant", 'Tide-Speech'],
+      illustration: '/assets/images/races/human_merryn_city_merrowport.jpg',
+      illustrationCaption: 'Merrowport Haven & Sovereign Wharves — Bustling maritime harbor fortress with timber docks, rigging cranes, and tide-bazaars in rough charcoal draft with wave-indigo watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/human_merryn_icon_v1.png',
-          caption: 'Male Merryn human mariner with contract-tattoos, cutlass, and coiled anchor-rope in rough charcoal draft with wave-indigo watercolor splash.'
+          src: '/assets/images/races/human_merryn_portrait_bust.jpg',
+          caption: 'Canonical Merryn Racial Portrait — Weather-beaten boatswain with windswept sailor knot, neck wave-tattoo, and carved bone marlinspike in rough charcoal draft with deep wave-indigo watercolor splash.'
         },
         {
-          src: '/assets/images/races/human_merryn_female_icon_v1.png',
-          caption: 'Female Merryn human mariner with contract-tattoos, naval deck-coat, cutlass, and braided hair in rough charcoal draft with wave-indigo watercolor splash.'
+          src: '/assets/images/races/human_merryn_city_merrowport.jpg',
+          caption: 'Drift-Anchor Haven & Sovereign Wharves — Sovereign shanty-capital constructed from salvaged hulls with interlinked boardwalks in rough charcoal draft with wave-indigo watercolor splash.'
         },
         {
-          src: '/assets/images/races/merryn_culture_tattoo.jpg',
-          caption: 'The Below-Deck Contract Tattooing — Merryn sailor biting a wooden peg while a shipboard tattooist inkes binding nautical runes into his forearm in rough charcoal draft with wave-indigo splash.'
+          src: '/assets/images/races/human_merryn_location_fish_bazaar.jpg',
+          caption: 'Merrowport Fish-Bazaar & Slipways — Wide stone harbor quay with heavy timber gantry crane, net hoists, and deep-sea catch in rough charcoal draft with wave-indigo watercolor splash.'
         },
         {
-          src: '/assets/images/races/merryn_city_merrowport.jpg',
-          caption: 'Merrowport: The Storm-Wharf Haven — Sea-captain with spyglass overlooking high-masted icebreaker ships, cargo crane towers, and gabled boardwalks in rough charcoal draft with wave-indigo splash.'
+          src: '/assets/images/races/human_merryn_location_pelican_gut.jpg',
+          caption: 'Pelican-Gut Anchorage — Secluded saltwater lagoon framed by monumental limestone sea arch with dry-docked sloop in rough charcoal draft with wave-indigo watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_merryn_figure_maren.jpg',
+          caption: 'Captain Maren the Drift-Born (Commodore of the Shanty Fleet) — Commanding privateer commodore with boarding cutlass and brass spyglass on quarterdeck in rough charcoal draft with wave-indigo watercolor splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/merryn_culture_sail.png',
@@ -553,7 +590,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
 
 The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean, scarred, perpetually salt-stained, with the restless eyes of people who have learned that stillness means death. Their skin is a canvas, every contract, every debt, every oath tattooed into their flesh in black ink because paper rots at sea. A Merryn's body is a legal document, and a Merryn's self is the sum of the obligations written there: to be Merryn is not to carry a name or a bloodline first, but to carry the contracts you have kept and the ones you have yet to honor, and a contract made is a contract kept, full stop, inked into the skin so the sea cannot wash it away and the holder cannot pretend to forget. Their hands are callused from rope and salt. They walk with the rolling gait of people who spent their lives on pitching decks, and they distrust anyone who cannot swim, and they distrust, more deeply still, anyone who speaks of a promise as if a promise were a flexible thing. House Mereval's Sea-Charter, in the early generations of the Freezing Era, traded calm seas for navigable storm-lanes. The Merryn tattooing tradition, skin as legal document, evolved over centuries of storm trade.`,
       culturalBackground: 'Merryn culture is a floating hierarchy governed by the Mereval Board of Trade and Grand Admiral Osric. While captains traditionally voted on the Drift-Council at Merrowport, the rise of the Brine-Bond Syndicate has split the populace: wealthy Deck-Born officers control the trade ships, while pressed Bilge-Dwellers crew the heavy coal-clads under legal Press-Warrants. Traditional "Tide-Speak" animism has been outlawed under the state-enforced Luck-Ledger, forcing mariners to purchase temple luck-coins to protect against Rime-Bride-like storm wraiths. Meanwhile, steam-trawling engines pollute the unfreezing currents, driving the amphibious Deep-Born Myrathil to madness.',
-      statModifiers: { agility: 2, charisma: 1, spirit: -1 },
+      statModifiers: { agility: 2, constitution: 1, charisma: 1, spirit: -1 },
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 2 },
       savingThrowModifiers: { advantage: ['water', 'navigation'], disadvantage: ['restraint'] },
       traits: [
@@ -620,40 +657,47 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
     },
     ordan: {
       id: 'ordan_human',
-      name: 'Ordan (Disguised Remnant)',
-      illustration: '/assets/images/races/human_ordan_icon_v1.png',
-      illustrationCaption: 'An Ordan human nomad dual-wielding curved scimitars in billowing desert traveling wraps, in rough charcoal draft with cyan-blue watercolor splash.',
+      name: 'Ordu',
+        crest: '/assets/images/crests/human_ordan_crest.png',
+      illustration: '/assets/images/races/human_ordan_city_encampment.jpg',
+      illustrationCaption: 'Khagan-Gora (The Great Ring of Yurts) — Vast circular tent-metropolis on sweeping steppe grasslands in rough charcoal draft with radiant desert gold watercolor splash.',
       illustrations: [
         {
-          src: '/assets/images/races/human_ordan_icon_v1.png',
-          caption: 'Male Ordan human nomad dual-wielding curved scimitars with billowing desert traveling wraps in rough charcoal draft with cyan-blue watercolor splash.'
+          src: '/assets/images/races/human_ordan_portrait_bust.jpg',
+          caption: 'Canonical Ordu Racial Portrait — Steppe horse-archer with warrior braids, eagle feather, and carved bone horse-whistle in rough charcoal draft with radiant desert gold watercolor splash.'
         },
         {
-          src: '/assets/images/races/human_ordan_female_icon_v1.png',
-          caption: 'Female Ordan human nomad kneeling beside an ancient solar astrolabe mechanism with desert sword in rough charcoal draft with cyan-blue watercolor splash.'
+          src: '/assets/images/races/human_ordan_city_encampment.jpg',
+          caption: 'Khagan-Gora (The Great Ring of Yurts) — Sovereign tent-capital of concentric yurt rings and horse corrals in rough charcoal draft with radiant desert gold watercolor splash.'
         },
         {
-          src: '/assets/images/races/ordan_culture_astrolabe.png',
-          caption: 'The Throat-Sung Starless Navigation Circle — Ordan nomads chanting oral navigation maps around a campfire while holding up an engraved brass solar astrolabe in rough charcoal draft with desert amber splash.'
+          src: '/assets/images/races/human_ordan_location_astrolabe.jpg',
+          caption: 'The Sun-Dial Astrolabe Pavilion — Circular granite mesa observatory with colossal rotating bronze armillary sphere in rough charcoal draft with radiant desert gold watercolor splash.'
         },
         {
-          src: '/assets/images/races/ordan_city_encampment.jpg',
-          caption: 'The Great Felt Pavilion Encampment of the Vale — Nomad scout on a ridge with horned mount overlooking a sprawling city of white yurts, chieftain pavilions, and cart-trains in rough charcoal draft with desert amber splash.'
+          src: '/assets/images/races/human_ordan_location_caravanserai.jpg',
+          caption: 'Wind-Gap Caravanserai — Fortified mud-brick canyon trading post with arched gatehouse, courtyard well, and pack camel in rough charcoal draft with warm desert gold watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_ordan_figure_khan.jpg',
+          caption: 'Ordu Khan (The Wind-Singer) — Supreme warlord with composite recurve bow, lamellar brigandine armor, and horse-tail war banner in rough charcoal draft with desert gold watercolor splash.'
+        },
+        {
+          src: '/assets/images/races/human_ordan_figure_bato.jpg',
+          caption: 'Keshik Bato the Eagle-Eye — Champion falconer with massive hunting golden eagle on heavy gauntlet and recurve bow in rough charcoal draft with desert gold watercolor splash.'
         }
       ],
       cultureIllustration: '/assets/images/races/ordan_culture_herd.png',
-      cultureIllustrationCaption: 'An Ordan shepherd watching over a hidden flock across the vast open steppe under storm clouds.',
+      cultureIllustrationCaption: 'An Ordu shepherd watching over a hidden flock across the vast open steppe under storm clouds.',
       domesticIllustration: '/assets/images/races/ordan_culture_home.png',
-      domesticIllustrationCaption: 'An Ordan family gathered around a fire pit inside a secluded yurt.',
+      domesticIllustrationCaption: 'An Ordu family gathered around a fire pit inside a secluded yurt.',
 
-      visualDescription: `Lean and wind-marked, the Ordan are a rare human subrace thought to be extinct across Mythrill following the historic Astril-ordered purge. Surviving Ordan live in complete secrecy, disguising themselves as ordinary regional humans to avoid detection by Brutish Astril inquisitors. They carry innate affinity for Sacred Magic—bestowed upon their kin during the Night of the Bleeding Stars—and navigate by throat-sung ancestor maps.`,
-      tooltipSummary: 'Rare, disguised survivors of the Astril-ordered purge who carry innate Sacred Magic affinity and secret throat-song star maps.',
-      description: `*Rare survivors of a tragic past, Ordan humans disguise themselves under ordinary human identities to escape Brutish Astril surveillance while carrying the secret gift of Sacred Magic.*
-
-Widely recorded in history books as extinct after the Night of the Bleeding Stars, the Ordan humans survive in secret enclaves and hidden caravans. Their ancestors received the divine gift of Sacred Magic directly from the Astril following their assassin's heartbreaking sacrifice. Today, surviving Ordan humans travel across Mythrill in disguise, despising the Astril while guarding their secret heritage and sacred throat-songs.`,
-      culturalBackground: 'Ordan culture is defined by secret survival and deep reverence for the dead. Surviving clans disguise themselves as ordinary human nomads or merchants, hiding their Sacred Magic abilities from Brutish Astril inquisitors. They navigate by secret throat-sung ancestor maps, preserving their sacred heritage while working from the shadows.',
-      statModifiers: { agility: 2, spirit: 1, intelligence: -1 },
-      languages: ['Common', 'Mound-Tongue'],
+      visualDescription: `Lean, wind-marked pastoral humans in wind-leather cloaks and traveling wraps, carrying herding tools and navigation instruments. Ordinary Ordu culture is publicly present across the starless steppe. Descendants of the purged oath-bearing noble line may conceal their pedigree among ordinary herders; they are not a different biological race.`,
+      tooltipSummary: 'Public steppe herders and throat-singers, with hidden remnants of a purged noble line among their communities.',
+      description: `Ordu culture survived the purge of its oath-bearing noble line. Pastoral migrations, throat-sung ancestor-maps and community rites remain public. Concealed noble descent is a particular history, not a requirement that every Ordu disguise their culture or inherit a universal secret spellcasting gift.`,
+      culturalBackground: 'Ordu communities follow Mound-Camp circuits, gather ceremonially at Khagan-Gora, and preserve routes in throat-song. Kumis Downs is a pastoral heartland, not a permanent stone capital. Bayarmaa leads a recognized political successor/cadet house; her title Ordu Khan does not prove an uninterrupted original Blood Seal.',
+      statModifiers: { agility: 2, intelligence: 1, spirit: 1, strength: -1 },
+      languages: ["Wayfarer's Cant", 'Mound-Tongue'],
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 1 },
       savingThrowModifiers: { advantage: ['endurance', 'navigation'], disadvantage: ['confinement'] },
       traits: [
@@ -708,7 +752,7 @@ Widely recorded in history books as extinct after the Night of the Bleeding Star
         {
           id: 'herd_instinct_ordan',
           name: 'Herd-Instinct',
-          description: 'When an ally within 10 feet is hit by an attack, you can use your reaction to move 5 feet toward them and grant them a +1 to their next saving throw. The herd protects its own, and the steppe taught you that survival is collective, no Ordan stands alone who remembers the migration.',
+          description: 'When an ally within 10 feet is hit by an attack, you can use your reaction to move 5 feet toward them and grant them a +1 to their next saving throw. The herd protects its own, and the steppe taught you that survival is collective, no Ordu stands alone who remembers the migration.',
           level: 1,
           icon: 'ability_warrior_rampage',
           spellType: 'REACTION',

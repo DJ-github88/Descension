@@ -12,7 +12,6 @@ import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 import characterStateService from './characterStateService';
 import roomStateService from './roomStateService';
 import journalService from './journalService';
-import campaignService from './campaignService';
 import storageLimitService, { STORAGE_LIMITS } from './storageLimitService';
 
 export { STORAGE_LIMITS };
@@ -37,7 +36,6 @@ class PersistenceService {
       characterState: characterStateService,
       roomState: roomStateService,
       journal: journalService,
-      campaign: campaignService,
       storageLimit: storageLimitService
     };
   }
@@ -408,29 +406,6 @@ class PersistenceService {
     return await this.services.journal.loadJournal(userId);
   }
 
-  // ===== CAMPAIGN PERSISTENCE =====
-
-  /**
-   * Save campaign data
-   */
-  async saveCampaign(userId, campaignId, campaignData) {
-    const dataSize = await this.validateDataSize(userId, campaignData, 'campaigns');
-    const result = await this.services.campaign.saveCampaign(userId, campaignId, campaignData);
-
-    if (result.success) {
-      await this.setStorageUsageSize(userId, `campaign:${campaignId}`, 'campaigns', dataSize);
-    }
-
-    return result;
-  }
-
-  /**
-   * Load campaign data
-   */
-  async loadCampaign(userId, campaignId) {
-    return await this.services.campaign.loadCampaign(userId, campaignId);
-  }
-
   // ===== UTILITY METHODS =====
 
   /**
@@ -451,7 +426,7 @@ class PersistenceService {
         this.services.characterState.getAllCharacterStates(userId),
         this.services.roomState.getAllRoomStates(userId),
         this.services.journal.loadJournal(userId),
-        this.services.campaign.getAllCampaigns(userId)
+        this._getWorldbuildingCampaigns(userId)
       ]);
 
       return {
@@ -479,7 +454,7 @@ class PersistenceService {
         this.services.characterState.deleteAllCharacterData(userId),
         this.services.roomState.deleteAllRoomData(userId),
         this.services.journal.deleteJournal(userId),
-        this.services.campaign.deleteAllCampaigns(userId),
+        this._deleteWorldbuildingCampaigns(userId),
         this._deleteCharacterDocuments(userId),
         this._deleteGmRooms(userId),
         this._deletePresence(userId),
@@ -547,23 +522,26 @@ class PersistenceService {
     }
   }
 
-  /**
-   * Delete a campaign from Firebase
-   */
-  async deleteCampaign(userId, campaignId) {
+  // Campaigns live in one document (users/{uid}/worldbuilding/campaigns),
+  // written by src/services/campaignService.js.
+  async _getWorldbuildingCampaigns(userId) {
     try {
-      if (!db) {
-        throw new Error('Firestore not initialized');
+      const ref = doc(db, 'users', userId, 'worldbuilding', 'campaigns');
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        return snap.data()?.campaigns || [];
       }
-
-      const campaignRef = doc(db, 'userCampaigns', userId, 'campaigns', campaignId);
-      await deleteDoc(campaignRef);
-
-      console.log(`✅ Campaign ${campaignId} deleted from Firebase for user ${userId}`);
-      return true;
     } catch (error) {
-      console.error('Error deleting campaign:', error);
-      return false;
+      console.error('Error reading worldbuilding campaigns:', error);
+    }
+    return [];
+  }
+
+  async _deleteWorldbuildingCampaigns(userId) {
+    try {
+      await deleteDoc(doc(db, 'users', userId, 'worldbuilding', 'campaigns'));
+    } catch (error) {
+      console.error('Error deleting worldbuilding campaigns:', error);
     }
   }
 

@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import useGameStore from './gameStore';
+import { getAssistanceDecisionForTarget } from '../services/inquisitorAssistanceService';
 
 const POLARITY_CONFIG = {
     buff: {
@@ -73,6 +74,9 @@ const buildConditionRecord = (polarity, condition) => {
         duration: condition.duration || 60,
         startTime: condition.startTime || Date.now(),
         source: condition.source || cfg.defaultSource,
+        sourceEntityId: condition.sourceEntityId ?? condition.sourceId ?? condition.casterId,
+        effectOrigin: condition.effectOrigin,
+        isMagical: condition.isMagical ?? condition.magical,
         stackable: condition.stackable || false,
         type: polarity,
         targetId: condition.targetId || 'player',
@@ -112,7 +116,10 @@ const syncConditionToTokenState = (polarity, record) => {
         durationType: record.durationType,
         durationValue: record.durationValue,
         remainingRounds: record.remainingRounds,
-        effects: record.effects
+        effects: record.effects,
+        sourceEntityId: record.sourceEntityId,
+        effectOrigin: record.effectOrigin,
+        isMagical: record.isMagical
     };
 
     if (record.targetId === 'player' || record.targetId === 'current-player') {
@@ -395,6 +402,7 @@ const useConditionStore = create(
 
                 list
                     .filter(record => targetIds.includes(record.targetId))
+                    .filter(record => polarity !== 'buff' || !getAssistanceDecisionForTarget({ ...record, kind: 'buff' }, record.targetId).suppressed)
                     .forEach(record => {
                         if (record.effects) {
                             Object.keys(record.effects).forEach(effectType => {

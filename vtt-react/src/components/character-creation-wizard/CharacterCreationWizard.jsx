@@ -99,6 +99,8 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 race: state.characterData.race,
                 subrace: state.characterData.subrace,
                 class: state.characterData.class,
+                classAcquisition: state.characterData.classAcquisition,
+                bodyStates: state.characterData.bodyStates,
                 background: state.characterData.background,
                 selectedSkills: state.characterData.selectedSkills,
                 selectedLanguages: state.characterData.selectedLanguages,

@@ -7,6 +7,7 @@ import '../styles/GambitResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { GAMBIT_FORTUNE_MAX, GAMBIT_DEBT_MAX, normalizeManagedClassResource } from '../../../classResourceContracts';
 
 const STAGE_NAMES = {
     0: 'Bust / Cosmic Bankruptcy',
@@ -41,12 +42,11 @@ const GambitResourceBar = ({
     onClassResourceUpdate = null
 }) => {
     // Fortune (0–7) and Karmic Debt (0–13)
-    const rawFp = classResource?.current ?? classResource?.fortunePoints ?? 3;
-    const fpLevel = Math.min(7, Math.max(0, rawFp));
-    const maxFp = 7;
-    const rawDebt = classResource?.debt ?? classResource?.risk ?? 0;
-    const debtLevel = Math.min(13, Math.max(0, rawDebt));
-    const maxDebt = 13;
+    const normalizedResource = normalizeManagedClassResource({ ...classResource, current: classResource.current ?? classResource.fortunePoints ?? 3 }, 'Gambit');
+    const fpLevel = normalizedResource.current;
+    const maxFp = GAMBIT_FORTUNE_MAX;
+    const debtLevel = normalizedResource.debt;
+    const maxDebt = GAMBIT_DEBT_MAX;
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [hoverSection, setHoverSection] = useState('fp'); // 'fp', 'debt', or 'core'

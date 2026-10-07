@@ -8,6 +8,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import ClassTip from '../../../../components/hud/ClassTip';
 import '../../../../styles/unified-context-menu.css';
 import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor';
+import { SPELLGUARD_AEP_MAX, SPELLGUARD_INTAKE_MODES, normalizeSpellguardResource, recordSpellguardIntake } from '../../../spellguardResourceContract';
 
 // AEP Volatility & Radiation Tiers
 export const AEP_TIERS = [
@@ -30,7 +31,8 @@ const SpellguardResourceBar = ({
     isOwner = true,
     onClassResourceUpdate = null
 }) => {
-    const propAEP = classResource?.current ?? classResource?.aep ?? classResource?.resonance ?? 0;
+    const normalizedResource = normalizeSpellguardResource(classResource);
+    const propAEP = normalizedResource.current;
     const propSpec = classResource?.specialization ?? classResource?.spec;
 
     const [localAEP, setLocalAEP] = useState(propAEP);
@@ -38,13 +40,20 @@ const SpellguardResourceBar = ({
     const [selectedSpec, setSelectedSpec] = useState(propSpec ? toCamelId(propSpec) : 'arcaneWarden');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
+    const [intakeMode, setIntakeMode] = useState('containment');
+    const [receiptId, setReceiptId] = useState('');
+    const [incomingEnergy, setIncomingEnergy] = useState('20');
+    const [capturedEnergy, setCapturedEnergy] = useState('20');
+    const [redirectedEnergy, setRedirectedEnergy] = useState('0');
+    const [dissipatedEnergy, setDissipatedEnergy] = useState('0');
+    const [intakeMessage, setIntakeMessage] = useState('');
 
     const barRef = useRef(null);
     const controlsMenuRef = useRef(null);
 
-    const maxAEP = 100;
+    const maxAEP = SPELLGUARD_AEP_MAX;
     const currentTier = getAepTier(localAEP);
-    const isOvercharged = localAEP >= 75;
+    const isOvercharged = localAEP >= 51;
     const isCritical = localAEP >= 76 && localAEP <= 90;
     const isMeltdown = localAEP >= 91;
 
@@ -128,6 +137,23 @@ const SpellguardResourceBar = ({
             logClassResourceChange('AEP', diff, newValue > localAEP, 'aep');
             if (onClassResourceUpdate) onClassResourceUpdate('current', newValue);
         }
+    };
+
+    const handleIntake = () => {
+        if (!isOwner || !onClassResourceUpdate) return;
+        const result = recordSpellguardIntake({ ...classResource, current: localAEP }, {
+            id: receiptId.trim(), mode: intakeMode, incoming: incomingEnergy, captured: capturedEnergy,
+            redirected: redirectedEnergy, dissipated: dissipatedEnergy
+        });
+        if (!result.accepted) {
+            setIntakeMessage(`Receipt not recorded: ${result.reason}`);
+            return;
+        }
+        setLocalAEP(result.resource.current);
+        onClassResourceUpdate('spellguardIntake', result.resource.spellguardIntake);
+        onClassResourceUpdate('current', result.resource.current);
+        setIntakeMessage(`Recorded ${receiptId.trim()}: ${result.banked} banked, ${result.overflow} overflow`);
+        logClassResourceChange('reported residual AEP', result.banked, true, 'aep');
     };
 
     // Keyboard accessibility
@@ -664,14 +690,18 @@ const SpellguardResourceBar = ({
                                 if (hudBottom + 360 > window.innerHeight) {
                                     return Math.max(10, hudTop - 360);
                                 }
-                                return hudBottom + 8;
+                                return Math.max(12, Math.min(hudBottom + 8, window.innerHeight - Math.min(600, window.innerHeight - 24) - 12));
                             })(),
                             left: (() => {
                                 if (!barRef.current) return '50%';
                                 const rect = barRef.current.getBoundingClientRect();
-                                return Math.max(165, Math.min(window.innerWidth - 165, rect.left + (rect.width / 2)));
+                                const width = Math.min(360, window.innerWidth - 24);
+                                return Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 12));
                             })(),
-                            transform: 'translateX(-50%)',
+                            width: Math.min(360, window.innerWidth - 24),
+                            maxHeight: Math.min(600, window.innerHeight - 24),
+                            overflowY: 'auto',
+                            boxSizing: 'border-box',
                             zIndex: 100000
                         }}
                     >
@@ -696,10 +726,33 @@ const SpellguardResourceBar = ({
                             </div>
                         )}
 
+                        <div className="sg-tender-section">
+                            <div className="sg-section-label">Resolved Magical Intake</div>
+                            <label style={{ display: 'block', fontSize: '11px' }}>Interface
+                                <select aria-label="Intake interface" value={intakeMode} onChange={event => setIntakeMode(event.target.value)} style={{ width: '100%' }}>
+                                    {SPELLGUARD_INTAKE_MODES.map(mode => <option key={mode} value={mode}>{mode}</option>)}
+                                </select>
+                            </label>
+                            <label style={{ display: 'block', fontSize: '11px' }}>Resolution receipt ID
+                                <input aria-label="Resolution receipt ID" value={receiptId} onChange={event => setReceiptId(event.target.value)} style={{ width: '100%' }} />
+                            </label>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', fontSize: '11px' }}>
+                                {[['Incoming energy', incomingEnergy, setIncomingEnergy], ['Captured residual', capturedEnergy, setCapturedEnergy],
+                                    ['Redirected energy', redirectedEnergy, setRedirectedEnergy], ['Dissipated energy', dissipatedEnergy, setDissipatedEnergy]].map(([label, value, setter]) => (
+                                    <label key={label}>{label}<input type="number" min="0" step="1" aria-label={label} value={value}
+                                        onChange={event => setter(event.target.value)} style={{ width: '100%' }} /></label>
+                                ))}
+                            </div>
+                            <button className="sg-action-btn" onClick={handleIntake} disabled={!receiptId.trim()} style={{ width: '100%', marginTop: '6px' }}>Record resolved intake</button>
+                            {intakeMessage && <div role="status" style={{ fontSize: '11px', marginTop: '6px' }}>{intakeMessage}</div>}
+                            <div style={{ fontSize: '10px', marginTop: '6px' }}>Report AEP-equivalent energy after resolution: captured + redirected + dissipated = incoming. Every successful interface retains positive residual; overflow is recorded separately. No automatic yield ratio or damage cancellation is applied.</div>
+                            <div style={{ fontSize: '11px', marginTop: '6px' }}>{normalizedResource.spellguardIntake.receipts.length} receipts · {normalizedResource.spellguardIntake.totals.captured} captured · {normalizedResource.spellguardIntake.totals.overflow} overflow</div>
+                        </div>
+
                         {/* Section 1: AEP Presets */}
                         <div className="sg-tender-section">
                             <div className="sg-section-label">
-                                <span>Arcane Energy Presets</span>
+                                <span>Manual AEP Calibration</span>
                                 <span className="sg-current-pill" style={{ color: currentTier.color }}>
                                     {localAEP}/100 AEP ({currentTier.name})
                                 </span>
@@ -731,7 +784,7 @@ const SpellguardResourceBar = ({
                                     onClick={() => handleAEPSet(75)}
                                 >
                                     <span className="sg-btn-title">Overcharge (75)</span>
-                                    <span className="sg-btn-sub">+1d4 Arcane dice</span>
+                                    <span className="sg-btn-sub">Overcharge warning</span>
                                 </button>
                                 <button 
                                     className={`sg-preset-btn cata ${localAEP === 100 ? 'active' : ''}`}
@@ -754,7 +807,7 @@ const SpellguardResourceBar = ({
                                     onClick={() => handleAEPChange(15)}
                                     disabled={localAEP >= maxAEP}
                                 >
-                                    <i className="fas fa-plus"></i> Intercept (+15)
+                                    <i className="fas fa-plus"></i> Adjust (+15)
                                 </button>
                                 <button 
                                     className="sg-action-btn spend"
@@ -798,17 +851,19 @@ const SpellguardResourceBar = ({
                         subtitle="Spellguard Silence-Scarred Aegis (AEP)"
                         state={`${localAEP}/100 • ${currentTier.name}`}
                         stateTone={isMeltdown ? 'bad' : isCritical ? 'warn' : 'good'}
-                        mechanic="Absorb hostile spells and magical impacts into scarred tissue (+1 AEP per damage absorbed, +15 from Silence Siphon). Spend AEP on barriers, reflections, and kinetic strikes; it decays 5 per minute out of combat."
+                        mechanic="All trained interfaces use one 0–100 AEP pool. Report captured residual and the redirected/dissipated remainder; no mode bypasses energy accounting. Authored spell costs/gains share the pool. Manual calibration is separate; decay and risk effects require their own handling."
                         status={[
                             `${currentTier.name}: ${currentTier.desc}`,
-                            localAEP >= 91
-                                ? { text: 'MELTDOWN: 10d6 storm in a 30 ft radius, drop to 1 HP, max HP halved, incapacitated 1 round, AEP resets to 0.', tone: 'critical' }
+                            localAEP >= 100
+                                ? { text: 'Containment breach due at 100. Resolve nova/radiation consequences separately; the tracker does not apply damage or reset automatically.', tone: 'critical' }
+                                : localAEP >= 91
+                                    ? { text: 'Meltdown imminent — below 100, the breach threshold has not yet been reached.', tone: 'bad' }
                                 : localAEP >= 76
                                     ? { text: 'Critical Resonance — unspent AEP erodes max HP until a long rest.', tone: 'bad' }
                                     : localAEP >= 51
                                         ? { text: 'Overcharged — pressure is building. Spend before it turns on you.', tone: 'warn' }
                                         : 'Conduits grounded and cool.',
-                            `Arcane Radiation: ending your round with unspent AEP deals ${Math.floor(localAEP / 10)} blight and strips ${Math.floor(localAEP / 10)} max HP until a long rest.`
+                            'Radiation/max-HP loss, decay and specialization multipliers are authored rules awaiting their effect/lifecycle integration.'
                         ]}
                         usage="Click chambers to set AEP · Left valve Siphon (+10) · Right valve Vent (-10) · Keystone opens the Tender."
                         hint="Arrow keys step AEP (Shift for ±25). Press 'V' to vent, 'S' to siphon, Enter for Tender menu."

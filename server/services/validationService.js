@@ -5,6 +5,7 @@
 
 const Joi = require('joi');
 const logger = require('./logger');
+const { ensureSingleAck, ackFailure } = require('../utils/socketAck');
 
 // Validation schemas for different socket events
 const validationSchemas = {
@@ -16,7 +17,10 @@ const validationSchemas = {
     playerColor: Joi.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
     persistentRoomId: Joi.string().optional(), // For permanent room resume
     character: Joi.object().optional().allow(null), // Character data for GM
-    partyMembers: Joi.array().optional() // Party members for room creation
+    partyMembers: Joi.array().optional(), // Party members for room creation
+    // Creation-only local import: the handler accepts it solely for a
+    // recognized uninitialized draft and validates/adapts it before use.
+    gameState: Joi.object().optional().allow(null)
   }),
 
   join_room: Joi.object({
@@ -24,7 +28,10 @@ const validationSchemas = {
     playerName: Joi.string().min(1).max(50).required(),
     password: Joi.string().min(0).max(100).allow(''),
     playerColor: Joi.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
-    character: Joi.object().optional().allow(null)
+    character: Joi.object().optional().allow(null),
+    // Informational only. Deliberately NOT accepting a client supplied
+    // `userId`: verified socket identity is the sole identity source.
+    isReconnect: Joi.boolean().optional()
   }),
 
   // Chat and communication
@@ -50,7 +57,13 @@ const validationSchemas = {
   }),
 
   // Token management
+  // Routing/scope fields demonstrated by current producers
+  // (vtt-react/src/store/creatureStore.js tokenSyncData) must survive.
   token_created: Joi.object({
+    roomId: Joi.string().min(1).max(100).optional(),
+    mapId: Joi.string().max(200).optional().allow(null, ''),
+    targetMapId: Joi.string().max(200).optional().allow(null, ''),
+    tokenId: Joi.string().max(200).optional(),
     creature: Joi.object().required(),
     token: Joi.object().optional(),
     position: Joi.object({
@@ -59,6 +72,9 @@ const validationSchemas = {
     }).required()
   }),
 
+  // roomId/mapId/actionId are sent by the live producer
+  // (vtt-react/src/components/grid/CreatureToken.jsx) and consumed by the
+  // handler, movement coalescer and the client optimistic-update resolver.
   token_moved: Joi.object({
     tokenId: Joi.string().required(),
     position: Joi.object({
@@ -66,7 +82,10 @@ const validationSchemas = {
       y: Joi.number().required()
     }).required(),
     velocity: Joi.object().optional(),
-    isDragging: Joi.boolean().optional()
+    isDragging: Joi.boolean().optional(),
+    roomId: Joi.string().min(1).max(100).optional(),
+    mapId: Joi.string().max(200).optional().allow(null, ''),
+    actionId: Joi.string().max(200).optional()
   }),
 
   token_dismissed: Joi.object({
@@ -75,6 +94,9 @@ const validationSchemas = {
     mapId: Joi.string().optional()
   }),
 
+  // actionId is accepted for contract symmetry with token_moved, but the
+  // current CharacterToken producer does not emit one (no action identity yet;
+  // actor/command identity is P7 work).
   character_moved: Joi.object({
     tokenId: Joi.string().required(),
     characterId: Joi.string().optional().allow(null, ''),
@@ -83,7 +105,10 @@ const validationSchemas = {
       y: Joi.number().required()
     }).required(),
     isDragging: Joi.boolean().optional(),
-    velocity: Joi.object().optional()
+    velocity: Joi.object().optional(),
+    roomId: Joi.string().min(1).max(100).optional(),
+    mapId: Joi.string().max(200).optional().allow(null, ''),
+    actionId: Joi.string().max(200).optional()
   }),
 
   // Combat: legacy combat_action event (kept for back-compat; not emitted by current clients)
@@ -153,6 +178,7 @@ const validationSchemas = {
 
   // Map management
   map_update: Joi.object({
+    roomId: Joi.string().min(1).max(100).optional(),
     mapUpdates: Joi.object().required(),
     mapData: Joi.object().optional(),
     targetMapId: Joi.string().required(),
@@ -274,7 +300,13 @@ function createValidationMiddleware(options = {}) {
     const originalOn = socket.on.bind(socket);
 
     socket.on = function(event, handler) {
-      const validatedHandler = async(data, ...args) => {
+      const validatedHandler = async(...incomingArgs) => {
+        // Preserve the complete Socket.IO argument list (payload + ack callback).
+        const { args, ack, ackIndex } = ensureSingleAck(incomingArgs);
+        // A callback in the first slot means the event had no data payload.
+        const payloadIndex = ackIndex === 0 ? -1 : 0;
+        const data = payloadIndex >= 0 ? args[payloadIndex] : undefined;
+
         const clientId = socket.id;
         const validation = validateSocketEvent(event, data);
 
@@ -294,6 +326,14 @@ function createValidationMiddleware(options = {}) {
             message: 'Invalid data format'
           });
 
+          // An ack-bearing request must not leave the client waiting.
+          ackFailure(ack, {
+            success: false,
+            error: 'Invalid data format',
+            event,
+            errors: validation.errors
+          });
+
           // Disconnect client if too many validation errors or in strict mode
           if (strictMode || errorCount >= maxErrorsPerMinute) {
             logger.error(`Disconnecting client ${clientId} due to validation errors`);
@@ -305,14 +345,18 @@ function createValidationMiddleware(options = {}) {
         }
 
         // Data is valid, proceed with handler
+        if (payloadIndex >= 0) {
+          args[payloadIndex] = validation.value;
+        }
         try {
-          await handler(validation.value, ...args);
+          await handler(...args);
         } catch (error) {
           logger.error(`Error in socket handler for event '${event}':`, error);
           socket.emit('socket_error', {
             message: 'Internal server error',
             event: event
           });
+          ackFailure(ack, { success: false, error: 'Internal server error', event });
         }
       };
 

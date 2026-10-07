@@ -24,7 +24,7 @@ const PersistenceProvider = ({ children }) => {
   const { useUserMapsPersistence } = require('../../hooks/useUserMapsPersistence');
 
   const { user } = useAuthStore();
-  const currentRoomId = useGameStore(state => state.currentRoomId);
+  const currentRoomId = useGameStore(state => state.multiplayerRoom?.id);
 
   // Initialize all persistence hooks
   const journalPersistence = useJournalPersistence();
@@ -122,8 +122,19 @@ const PersistenceProvider = ({ children }) => {
 
   // Centralized Worldbuilding & Campaign Cloud Hydration on User Login
   useEffect(() => {
-    let worldStoreUnsubscribe = null;
+    const worldSubscriptions = [];
     let cancelled = false;
+    const dirtyKey = (key) => `mythrill_wb_dirty_${key}`;
+    const isDirty = (key) => {
+      try { return localStorage.getItem(dirtyKey(key)) === '1'; } catch (_e) { return false; }
+    };
+    const markDirty = (key) => {
+      try { localStorage.setItem(dirtyKey(key), '1'); } catch (_e) { /* ignore */ }
+    };
+    const clearDirty = (key) => {
+      try { localStorage.removeItem(dirtyKey(key)); } catch (_e) { /* ignore */ }
+    };
+
     if (user && !user.isGuest && persistenceStatus.isOnline) {
       const hydrateAllWorldbuilding = async () => {
         try {
@@ -140,31 +151,66 @@ const PersistenceProvider = ({ children }) => {
           const { default: useLanguageStore } = await import('../../store/languageStore');
           const { default: campaignService } = await import('../../services/campaignService');
 
-          await Promise.allSettled([
-            useBookStore.getState().hydrateFromCloud?.(user.uid),
-            useInteractiveMapStore.getState().hydrateFromCloud?.(user.uid),
-            useFamilyTreeStore.getState().hydrateFromCloud?.(user.uid),
-            useShareableStore.getState().hydrateFromCloud?.(user.uid),
-            useCustomLineageStore.getState().hydrateFromCloud?.(user.uid),
-            useFactionStore.getState().hydrateFromCloud?.(user.uid),
-            useTimelineStore.getState().hydrateFromCloud?.(user.uid),
-            useQuestStore.getState().hydrateFromCloud?.(user.uid),
-            useWorldStore.getState().hydrateFromCloud?.(user.uid),
-            useDeityStore.getState().hydrateFromCloud?.(user.uid),
-            useLanguageStore.getState().hydrateFromCloud?.(user.uid),
-            campaignService.hydrateFromCloud?.(user.uid)
-          ]);
+          // [store, worldbuilding-doc key]
+          const stores = [
+            [useBookStore, 'books'],
+            [useInteractiveMapStore, 'interactiveMaps'],
+            [useFamilyTreeStore, 'familyTrees'],
+            [useCustomLineageStore, 'lineages'],
+            [useFactionStore, 'factions'],
+            [useTimelineStore, 'timelines'],
+            [useQuestStore, 'quests'],
+            [useWorldStore, 'worlds'],
+            [useDeityStore, 'deities'],
+            [useLanguageStore, 'languages']
+          ];
+
+          // Hydrate only stores WITHOUT unsynced local edits, so an offline edit
+          // is not overwritten by an older cloud copy. Dirty stores keep local
+          // and are pushed up below.
+          const hydrateTasks = [];
+          stores.forEach(([store, key]) => {
+            if (isDirty(key)) return;
+            hydrateTasks.push(store.getState().hydrateFromCloud?.(user.uid));
+          });
+          // shareableStore is journal-backed (hydrated by the journal hook);
+          // campaigns use campaignService.
+          hydrateTasks.push(useShareableStore.getState().hydrateFromCloud?.(user.uid));
+          hydrateTasks.push(campaignService.hydrateFromCloud?.(user.uid));
+          await Promise.allSettled(hydrateTasks);
           if (cancelled) return;
           console.log('🌌 Worldbuilding & Campaign cloud hydration synchronized for:', user.uid);
 
-          // Debounced auto-sync for the world store (worlds/regions/locations/classes).
-          // Subscribing only AFTER hydration avoids pushing stale local data over newer cloud state.
-          let worldSyncTimer = null;
-          worldStoreUnsubscribe = useWorldStore.subscribe(() => {
-            clearTimeout(worldSyncTimer);
-            worldSyncTimer = setTimeout(() => {
-              useWorldStore.getState().syncToCloud?.(user.uid);
-            }, 2000);
+          // Debounced auto-sync + dirty tracking. Subscribing only AFTER
+          // hydration avoids pushing stale local data over newer cloud state.
+          stores.forEach(([store, key]) => {
+            if (!store || typeof store.subscribe !== 'function') return;
+            let timer = null;
+            const scheduleSync = (delay = 2000) => {
+              clearTimeout(timer);
+              timer = setTimeout(async () => {
+                try {
+                  const res = await store.getState().syncToCloud?.(user.uid);
+                  if (res !== false) clearDirty(key);
+                } catch (err) {
+                  console.warn('Worldbuilding auto-sync failed:', err);
+                }
+              }, delay);
+            };
+
+            const unsubscribe = store.subscribe((state, prevState) => {
+              if (!prevState) return;
+              // Ignore sync-metadata-only changes so syncToCloud setting
+              // lastCloudSyncAt does not create an endless write loop.
+              const changed = Object.keys(state).filter((k) => state[k] !== prevState[k]);
+              if (changed.length === 0 || changed.every((k) => k === 'lastCloudSyncAt')) return;
+              markDirty(key);
+              scheduleSync();
+            });
+            worldSubscriptions.push(() => { clearTimeout(timer); unsubscribe(); });
+
+            // Push local state up for stores we skipped due to unsynced edits.
+            if (isDirty(key)) scheduleSync(0);
           });
         } catch (err) {
           console.warn('Worldbuilding cloud hydration error:', err);
@@ -175,7 +221,7 @@ const PersistenceProvider = ({ children }) => {
     }
     return () => {
       cancelled = true;
-      if (worldStoreUnsubscribe) worldStoreUnsubscribe();
+      worldSubscriptions.forEach((unsubscribe) => unsubscribe());
     };
   }, [user, persistenceStatus.isOnline]);
 

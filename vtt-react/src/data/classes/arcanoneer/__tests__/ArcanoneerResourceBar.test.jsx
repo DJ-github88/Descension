@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import ArcanoneerResourceBar from '../components/ArcanoneerResourceBar';
 import useCharacterStore from '../../../../store/characterStore';
 
@@ -23,6 +23,25 @@ describe('ArcanoneerResourceBar Component', () => {
             ]
         }
     };
+
+    it('rolls four spheres against the latest bank instead of restoring a sphere spent during animation', () => {
+        jest.useFakeTimers();
+        const random = jest.spyOn(Math, 'random').mockReturnValue(0);
+        const update = jest.fn();
+        const { container, unmount } = render(<ArcanoneerResourceBar classResource={{ spheres: ['ember'] }} config={mockConfig}
+            isOwner={true} onClassResourceUpdate={update} />);
+        try {
+            fireEvent.click(screen.getByText('ROLL 4d8'));
+            fireEvent.contextMenu(container.querySelectorAll('.arc-orb-cell')[3]);
+            act(() => jest.advanceTimersByTime(480));
+            expect(update).toHaveBeenLastCalledWith('spheres', ['arcane', 'arcane', 'arcane', 'arcane']);
+            expect(screen.getByText('4/12')).toBeInTheDocument();
+        } finally {
+            unmount();
+            random.mockRestore();
+            jest.useRealTimers();
+        }
+    });
 
     it('renders the master SVG apparatus with 8 themed elemental orbs', () => {
         const { container } = render(
@@ -160,6 +179,27 @@ describe('ArcanoneerResourceBar Component', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
         expect(screen.queryByText('Cast Spell')).not.toBeInTheDocument();
         expect(handleUpdate).not.toHaveBeenCalled();
+    });
+
+    it('showcase formulation spending only changes its isolated bank, not active character resources', () => {
+        const previous = useCharacterStore.getState();
+        const activeResource = { type: 'fortunePoints', current: 3, max: 7 };
+        useCharacterStore.setState({ mana: { current: 50, max: 50 }, actionPoints: { current: 3, max: 3 }, classResource: activeResource });
+        const update = jest.fn();
+        const { unmount } = render(<ArcanoneerResourceBar classResource={{ spheres: ['ember', 'rime'] }} config={mockConfig}
+            isOwner={true} showcase={true} onClassResourceUpdate={update} />);
+        try {
+            fireEvent.click(screen.getByText(/MATRIX/i));
+            fireEvent.click(screen.getByText('Steam Vent'));
+            fireEvent.click(screen.getByRole('button', { name: 'Cast' }));
+            expect(update).toHaveBeenCalledWith('spheres', []);
+            expect(useCharacterStore.getState().classResource).toBe(activeResource);
+            expect(useCharacterStore.getState().mana.current).toBe(50);
+            expect(useCharacterStore.getState().actionPoints.current).toBe(3);
+        } finally {
+            unmount();
+            useCharacterStore.setState(previous, true);
+        }
     });
 
     it('disables the Cast button when required elemental spheres are insufficient', () => {

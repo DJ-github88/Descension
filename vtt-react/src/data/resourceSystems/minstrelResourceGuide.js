@@ -12,7 +12,7 @@ export const minstrelResourceGuide = {
 
  vitals: [
   { icon: 'fa-music', label: 'Collect', value: 'notes I–VII from builder songs' },
-  { icon: 'fa-layer-group', label: 'Cap', value: '5 stacks per note' },
+   { icon: 'fa-layer-group', label: 'Cap', value: '5 per pitch / 35 total' },
   { icon: 'fa-star', label: 'Resolve', value: 'cadence note sequences' },
   { icon: 'fa-exclamation-triangle', label: 'Risk', value: 'no self-healing, interruptions' },
  ],
@@ -21,7 +21,7 @@ export const minstrelResourceGuide = {
   gain: {
    title: 'Play Builders',
    icon: 'fa-music',
-   text: 'Builder songs each add specific notes to your staff — Tonic I, Subdominant IV, Dominant V, and the rest — up to 5 stacks per note. Notes persist and decay 1 per minute.',
+    text: 'Builder songs each add their authored pitches to your staff — Tonic I, Subdominant IV, Dominant V, and the rest — up to 5 per pitch and 35 total. Notes persist; out-of-combat decay remains a manually tracked rule.',
   },
   hold: {
    title: 'The Staff',
@@ -41,7 +41,7 @@ export const minstrelResourceGuide = {
  },
 
  exampleTurn:
-  '**Round 1:** you open with a builder that adds I and V. **Round 2:** another builder drops IV — the staff now holds I–IV–V and the Cadence button lights up. You resolve Perfect Cadence to guarantee the rogue\'s crit, then start collecting for the next one while the war drum holds the line.',
+   '**Turn 1:** Opening Chord adds two I and one V. **Turn 2:** a builder adds IV — the staff now holds the required I(2), IV(1), V(1). Resolve Perfect Cadence to spend those four notes, then collect for the next progression. Resolving directly from the tracker spends notes; casting the learned cadence through an action bar also checks its AP and mana costs.',
 
  weaveIn: [
   {

@@ -206,7 +206,15 @@ export function trackConversion(eventType, value = null, metadata = {}) {
 /**
  * Set up automatic tracking for common events
  */
+let automaticTrackingInitialized = false;
+
 function setupAutomaticTracking(userId) {
+  // Idempotent: these anonymous global listeners cannot be removed, and
+  // initializeAnalytics is re-called on auth refresh / consent change, so only
+  // ever set them up once.
+  if (automaticTrackingInitialized) return;
+  automaticTrackingInitialized = true;
+
   // Track page visibility changes
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {

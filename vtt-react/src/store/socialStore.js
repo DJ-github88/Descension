@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import socialService from '../services/socialService';
 import authService from '../services/authService';
 import presenceService from '../services/firebase/presenceService';
+import { getStore } from './storeRegistry';
 
 // Initial state for the store
 const initialState = {
@@ -15,7 +16,10 @@ const initialState = {
   selectedIgnored: null,
   isLoading: false,
   error: null,
-  activeTab: 'friends'
+  activeTab: 'friends',
+  // "Who" search (used by WhoList)
+  whoQuery: '',
+  whoResults: []
 };
 
 // Track presence subscriptions outside of state to avoid re-renders on every change
@@ -34,6 +38,44 @@ let initializedUserId = null;
 // Create the store
 const useSocialStore = create((set, get) => ({
   ...initialState,
+
+  // ===== WHO SEARCH =====
+  // Searches the currently-online user map (spread across the social/presence
+  // layers) by character/display name. Presence is accessed via the store
+  // registry to avoid a circular import.
+  setWhoQuery: (whoQuery) => set({ whoQuery }),
+
+  searchWho: (query) => {
+    const q = String(query || '').trim().toLowerCase();
+    if (!q) {
+      set({ whoResults: [] });
+      return [];
+    }
+
+    let online = [];
+    try {
+      const presenceState = getStore('presenceStore')?.getState?.();
+      const users = presenceState?.onlineUsers;
+      if (users) {
+        online = users.values ? Array.from(users.values()) : Object.values(users);
+      }
+    } catch (_e) {
+      online = [];
+    }
+
+    const results = online
+      .filter(Boolean)
+      .map((u) => ({
+        ...u,
+        id: u.userId || u.id,
+        name: u.characterName || u.name || u.displayName || 'Adventurer',
+        status: u.status || 'online'
+      }))
+      .filter((u) => u.name.toLowerCase().includes(q));
+
+    set({ whoResults: results });
+    return results;
+  },
 
   // Initialization and Listeners
   initialize: (userId) => {
@@ -429,7 +471,7 @@ const useSocialStore = create((set, get) => ({
         const friend = updatedFriends[i];
         if (!friend.name || !friend.friendId) {
           console.log(`🔍 Fetching missing data for friend ID: ${friend.id}`);
-          const fullData = await authService.getUserData(friend.id);
+          const fullData = await authService.getUserProfile(friend.id);
 
           if (fullData) {
             updatedFriends[i] = {

@@ -11,6 +11,7 @@ import useConditionStore from '../store/conditionStore';
 import useCreatureStore from '../store/creatureStore';
 import useCharacterStore from '../store/characterStore';
 import useChatStore from '../store/chatStore';
+import { getAssistanceDecisionForTarget } from './inquisitorAssistanceService';
 
 /**
  * Simple dice roller for formulas like "1d6", "2d4 + 2", etc.
@@ -139,6 +140,9 @@ const getResistanceMultiplier = (targetId, targetType, damageElement) => {
  */
 const processEffectTick = (effect, targetId, targetType) => {
   if (!effect.hasOverTimeEffect) return null;
+  const assistance = getAssistanceDecisionForTarget({ ...effect, kind: effect.overTimeType }, targetId);
+  if (assistance.suppressed) return { effectName: effect.name, targetId, targetType, amount: 0,
+    type: effect.overTimeType, suppressed: true, reason: assistance.reason, message: `${effect.name}: foreign magical assistance suppressed by active null aura` };
   
   let amount = rollDice(effect.overTimeFormula);
   if (amount === 0) return null;
@@ -375,6 +379,7 @@ export const getStatModifiersForTarget = (targetId) => {
   // Collect buff effects
   conditionStore.activeBuffs
     .filter(buff => buff.targetId === targetId)
+    .filter(buff => !getAssistanceDecisionForTarget({ ...buff, kind: 'buff' }, targetId).suppressed)
     .forEach(buff => {
       if (buff.effects) {
         Object.entries(buff.effects).forEach(([stat, value]) => {
@@ -481,7 +486,16 @@ const processRealtimeEffectsWithInterval = () => {
       const result = processEffectTick(debuff, debuff.targetId, debuff.targetType);
       if (result) results.push(result);
     });
-  
+
+  // Prune tick-tracking for effects that no longer exist so the Map cannot grow
+  // unbounded over a long session.
+  const activeIds = new Set();
+  conditionStore.activeBuffs.forEach(b => activeIds.add(b.id));
+  conditionStore.activeDebuffs.forEach(d => activeIds.add(d.id));
+  for (const key of Array.from(lastTickTimes.keys())) {
+    if (!activeIds.has(key)) lastTickTimes.delete(key);
+  }
+
   return results;
 };
 
@@ -540,4 +554,3 @@ const effectProcessingService = {
   cleanupEffectTracking
 };
 export default effectProcessingService;
-

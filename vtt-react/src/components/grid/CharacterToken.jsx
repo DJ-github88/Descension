@@ -12,6 +12,7 @@ import { getTileElevation, getElevationLevelAtWorld, screenToWorldElevated } fro
 import { isWorldAreaPartiallyOccluded } from '../../utils/WallOcclusion';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { buildCharacterMoveRouting } from './characterMoveRouting';
 import { getIconUrl } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
 import useSettingsStore from '../../store/settingsStore';
@@ -1174,6 +1175,10 @@ const CharacterToken = ({
       const gridCoords = gridSystem.worldToGrid(finalWorldPos.x, finalWorldPos.y);
       const snappedWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
+      // Project 1 closure: forward the token's recorded map and the active room
+      // so the repaired server contract keeps the relay map/room-scoped.
+      const moveRouting = buildCharacterMoveRouting(token, useGameStore.getState().multiplayerRoom);
+
       // Log final position for debugging
       console.log('CharacterToken MouseUp Final Pos (using last tracked):', snappedWorldPos);
 
@@ -1305,6 +1310,7 @@ const CharacterToken = ({
               tokenId: tokenId, // Pass actual token UUID for store identification
               characterId: tokenPlayerId, // Keep for backward compatibility
               position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
+              ...moveRouting,
               isDragging: false
             });
           }
@@ -1335,6 +1341,7 @@ const CharacterToken = ({
             tokenId: tokenId, // Pass actual token UUID for store identification
             characterId: tokenPlayerId, // Keep for backward compatibility
             position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
+            ...moveRouting,
             isDragging: false
           });
         }

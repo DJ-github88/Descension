@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useRef } from 'react';
+import { sanitizeHtml } from '../../../utils/sanitizeHtml';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown, getTotalBonusPoints, calculateAvailablePoints } from '../../../utils/pointBuySystem';
 import {  getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../../utils/assetManager';
@@ -17,6 +18,8 @@ import ItemTooltip from '../../item-generation/ItemTooltip';
 import ClassIcon from '../../common/ClassIcon';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { ALL_CLASS_SPELLS, CLASS_DATA_MAP } from '../../../data/classSpellGenerator';
+import { CLASS_ACCESS_LABELS, getCharacterHeritageOptions, validateCharacterClassAccess } from '../../../utils/characterClassAccess';
+import { getHeritageImage, getHeritageIllustrations } from '../../../data/raceData';
 
 import '../styles/Step9CharacterSummary.css';
 
@@ -125,58 +128,7 @@ const getSpellIconUrl = (iconId) => {
 };
 
 const getSubraceImage = (subraceId, raceId) => {
-  const mapping = {
-    // Myrathil
-    shoreling_myrathil: 'shore_illustration.png',
-    deepling_myrathil: 'deep_illustration.png',
-    riverling_myrathil: 'brook_illustration.png',
-    // Florae
-    florae_unified: 'trueborn_illustration.png',
-    florae_unified: 'shorn_illustration.png',
-    // Solari
-    korr_solari: 'korr_illustration.png',
-    thrask_solari: 'thrask_illustration.png',
-    // Fexric
-    kethrin_fexric: 'kethrin_illustration.png',
-    drall_fexric: 'drall_illustration.png',
-    // Groven
-    morgh_groven: 'morgh_illustration.png',
-    ithran_groven: 'ithran_illustration.png',
-    // Mimir
-    veiled_mimir: 'masked_illustration.png',
-    tethered_mimir: 'woven_illustration.png',
-    // Nethien
-    velun_neth: 'velun_illustration.png',
-    kessen_neth: 'kessen_illustration.png',
-    drun_neth: 'drun_illustration.png',
-    // Astril
-    vashir_astril: 'vashir_illustration.png',
-    silath_astril: 'silath_illustration.png',
-    // Vreken
-    clean_vreken: 'clean_illustration.png',
-    marked_vreken: 'marked_illustration.png',
-    // Human
-    thalren_human: 'thalren_illustration.png',
-    skald_human: 'skald_illustration.png',
-    tessen_human: 'tessen_illustration.png',
-    merryn_human: 'merryn_illustration.png',
-    ordan_human: 'ordan_illustration.png'
-  };
-  
-  if (subraceId && mapping[subraceId]) {
-    return `/assets/images/races/${mapping[subraceId]}`;
-  }
-  
-  if (raceId) {
-    // Fexric base race rotates between 3 illustrations randomly
-    if (raceId === 'fexrick') {
-      const fexricVariants = ['fexric_illustration_1.png', 'fexric_illustration_2.png', 'fexric_illustration_3.png'];
-      return `/assets/images/races/${fexricVariants[Math.floor(Math.random() * fexricVariants.length)]}`;
-    }
-    const cleanRaceId = raceId.toLowerCase();
-    return `/assets/images/races/${cleanRaceId}_illustration.png`;
-  }
-  return null;
+  return getHeritageImage(raceId, subraceId);
 };
 
 const formatDescriptionText = (text) => {
@@ -188,7 +140,7 @@ const formatDescriptionText = (text) => {
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/\n/g, '<br />');
     
-  return <span dangerouslySetInnerHTML={{ __html: formatted }} />;
+  return <span dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatted) }} />;
 };const Step9CharacterSummary = () => {
   const state = useCharacterWizardState();
   const { characterData } = state;
@@ -206,6 +158,13 @@ const formatDescriptionText = (text) => {
     return value
       .replace(/_/g, ' ')
       .replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  // Display name for the selected class (prefers subrace-exclusive variant names)
+  const getClassDisplayName = (fallback = 'No Class') => {
+    if (!characterData.class) return fallback;
+    const data = CLASS_DATA_MAP[characterData.class];
+    return data?.variantName || data?.name || characterData.class;
   };
 
   // Get modifiers for stat breakdown
@@ -631,7 +590,7 @@ const formatDescriptionText = (text) => {
           )}
 
           {characterData.class && (
-            <div className="identity-bar-class-badge" title={`Calling: ${CLASS_DATA_MAP[characterData.class]?.name || characterData.class}`}>
+            <div className="identity-bar-class-badge" title={`Calling: ${getClassDisplayName()}`}>
               <ClassIcon
                 src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
                 alt={characterData.class}
@@ -648,7 +607,7 @@ const formatDescriptionText = (text) => {
           <div className="identity-bar-tags">
             <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
             <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
-            <span className="meta-tag class-tag">{characterData.class ? (CLASS_DATA_MAP[characterData.class]?.name || characterData.class) : 'No Class'}</span>
+            <span className="meta-tag class-tag">{getClassDisplayName()}</span>
             <span className="meta-tag alignment-tag" style={{ background: 'rgba(212, 175, 55, 0.15)', color: '#8a6d1c', borderColor: 'rgba(212, 175, 55, 0.35)' }}>{characterData.alignment || 'Neutral Good'}</span>
           </div>
         </div>
@@ -735,7 +694,7 @@ const formatDescriptionText = (text) => {
 
                 {/* Class Badge Overlay */}
                 {characterData.class && (
-                  <div className="visual-card-class-badge-overlay" title={`Calling: ${CLASS_DATA_MAP[characterData.class]?.name || characterData.class}`}>
+                  <div className="visual-card-class-badge-overlay" title={`Calling: ${getClassDisplayName()}`}>
                     <ClassIcon 
                       src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`} 
                       alt={characterData.class} 
@@ -753,7 +712,7 @@ const formatDescriptionText = (text) => {
                 <div className="visual-card-meta-tags">
                   <span className="meta-tag gender-tag">{formatValue(characterData.gender)}</span>
                   <span className="meta-tag race-tag">{selectedSubrace?.name || characterData.race || 'No Race'}</span>
-                  <span className="meta-tag class-tag">{characterData.class ? (CLASS_DATA_MAP[characterData.class]?.name || characterData.class) : 'No Class'}</span>
+                  <span className="meta-tag class-tag">{getClassDisplayName()}</span>
                   <span className="meta-tag alignment-tag" style={{ background: 'rgba(212, 175, 55, 0.15)', color: '#8a6d1c', borderColor: 'rgba(212, 175, 55, 0.35)' }}>{characterData.alignment || 'Neutral Good'}</span>
                 </div>
               </div>
@@ -818,25 +777,54 @@ const formatDescriptionText = (text) => {
           {/* Basic Information Section */}
           <div className="summary-dashboard-section">
             <h3 className="section-title">
-              <i className="fas fa-user-shield"></i> Basic Info
+              <i className="fas fa-scroll"></i> Heroic Compact &amp; Identity
             </h3>
-            <div className="detail-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
-              <div className="detail-item">
-                <span className="detail-label">Calling:</span>
-                <span className="detail-value">{formatValue(characterData.class) || 'N/A'}</span>
+            <div className="summary-compact-ledger">
+              <div className="summary-ledger-row">
+                <span className="ledger-label">Calling</span>
+                <span className="ledger-dots"></span>
+                <span className="ledger-val">{formatValue(characterData.class) || 'N/A'}</span>
               </div>
-              <div className="detail-item">
-                <span className="detail-label">Background:</span>
-                <span className="detail-value">{backgroundData?.name || formatValue(characterData.background) || 'N/A'}</span>
+              <div className="summary-ledger-row">
+                <span className="ledger-label">Background</span>
+                <span className="ledger-dots"></span>
+                <span className="ledger-val">{backgroundData?.name || formatValue(characterData.background) || 'N/A'}</span>
               </div>
-              <div className="detail-item">
-                <span className="detail-label">Alignment:</span>
-                <span className="detail-value">{characterData.alignment || 'Neutral Good'}</span>
+              <div className="summary-ledger-row">
+                <span className="ledger-label">Alignment</span>
+                <span className="ledger-dots"></span>
+                <span className="ledger-val">{characterData.alignment || 'Neutral Good'}</span>
               </div>
             </div>
           </div>
 
-          {/* Base Stats Section */}
+          {/* Class Acquisition Section (only once a calling is chosen) */}
+          {characterData.class && (
+            <div className="summary-dashboard-section" aria-label="Class acquisition summary">
+              <h3 className="section-title">Class Acquisition &amp; Interface</h3>
+              {(() => {
+                const { access, warnings, errors } = validateCharacterClassAccess(characterData, state.originalCalling);
+                const options = getCharacterHeritageOptions(characterData);
+                const method = access.method || options.method;
+                const bodyStates = options.bodyStates || [];
+                const isNative = access.status === 'normal-tradition';
+                const canQualify = access.status === 'requires-qualification' || access.status === 'qualified-exception';
+                return <>
+                  <p>{CLASS_ACCESS_LABELS[access.status] || access.status}</p>
+                  {method && <p>Method: {String(method).replace(/_/g, ' ')}</p>}
+                  {isNative && <p>No separate acquisition evidence required.</p>}
+                  {canQualify && <>
+                    <p>Source: {options.qualification?.source || 'No acquisition source recorded'}</p>
+                    <p>Verified: {options.qualification?.verified === true ? 'Yes' : 'No'}</p>
+                    <p>Fulfilled requirements: {(options.qualification?.fulfilledRequirements || []).join(', ') || 'None recorded'}</p>
+                  </>}
+                  {bodyStates.length > 0 && <p>Current states: {bodyStates.join(', ')}</p>}
+                  {[...warnings, ...errors].map(message => <p key={message}>{message}</p>)}
+                </>;
+              })()}
+            </div>
+          )}
+
           <div className="summary-dashboard-section">
             <h3 className="section-title">
               <i className="fas fa-heartbeat"></i> Base Stats

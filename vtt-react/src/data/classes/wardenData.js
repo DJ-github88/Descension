@@ -24,14 +24,14 @@ export const WARDEN_DATA = {
           "solari"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Vreken adopted it through proximity. Fexric Caustic Fexric learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Veldun lack the martial-surgical tradition, Ordan are nomadic, Solari physiology rejects the cold-iron threading."
+      "justification": "Requires access to the chain-graft surgical tradition only available in Frostmaw Holdfast and the Frozen Archive. Groven invented the technique. Mycellan adopted it through proximity. Fex Alchemite learned it through guild-surgical exchange. Non-listed races must undergo the surgical graft, which few cultures accept, Weft lack the martial-surgical tradition, Ordu are nomadic, Solari physiology rejects the cold-iron threading."
   },
 
   /**
    * Subrace Variants, the Warden tethers abominations with chains grafted into their own
    * flesh, and what the chains *mean* depends on who bears them. To the Groven they are
-   * a reminder of the vats. To the Fexric they are engineering. To the Skald they are
-   * glacier-gear. To the Vreken they are an extension of the mycelial bond.
+   * a reminder of the vats. To the Fex they are engineering. To the Skald they are
+   * glacier-gear. To the Mycellan they are an extension of the mycelial bond.
    */
 
   // EQUIPMENT (added 2026-07-28 audit fix)
@@ -43,6 +43,51 @@ export const WARDEN_DATA = {
    offHand: ['chain', 'shield', 'empty']
   },
   subraceVariants: {
+    thalren_human: {
+      subraceName: 'Tallyn',
+      title: 'The Garrison-Warden',
+      reframe: `The Tallyn hold Greymark Keep, which has never been taken. Their Wardens brace a garrison chokepoint and let the archive-city's own stone do the anchoring, trading mobility for a hold the keep cannot break.`,
+      signatureAbility: {
+        name: 'Garrison Brace',
+        description: `You brace a Greymark garrison chokepoint; position commitment sacrifices mobility.`
+      },
+      currentCrisisAngle: `Greymark has never been taken, and a garrison that has never fallen has never learned what to do when the gate finally buckles.`,
+      signatureQuote: {
+        text: 'The keep has never been taken. I intend to be the reason it never is, even if it costs me the gate.',
+        speaker: 'Garrison-Warden Thalra',
+        context: 'A Tallyn Warden at Greymark Keep'
+      }
+    },
+    veiled_mimir: {
+      subraceName: 'Arch Mimir',
+      title: 'The Fog-Jailer',
+      reframe: `The Arch Mimir detect Wyrd incursions in the fog before they manifest, then tether and cage them. They read the mist the way a jailer reads a prisoner's breathing, and hold the cell with their own anchor.`,
+      signatureAbility: {
+        name: 'Fog Incursion',
+        description: `You detect a defined incursion warning in the mist; warnings can be old or forged.`
+      },
+      currentCrisisAngle: `The fog is producing warnings that match no known incursion, and the Fog-Jailers are caging things that may not exist while real horrors walk the perimeter.`,
+      signatureQuote: {
+        text: 'The fog tells me where the thing will be before it is. I chain the warning, and hope I am not chaining a lie.',
+        speaker: 'Fog-Jailer Nix',
+        context: 'An Arch Mimir Warden on the Ironwood Palisade'
+      }
+    },
+    tessen_human: {
+      subraceName: 'Tessic',
+      title: 'The Gate-Warden',
+      reframe: `The Tessic brace taught containment points in sealed architecture, chaining a monstrosity to a gate or keystone rather than to their own body. They trade mobility for holding power and let the keep do the anchoring.`,
+      signatureAbility: {
+        name: 'Gate Hold',
+        description: `You brace a prepared containment point in stone so your tether cannot be broken by forced movement; position commitment and ordinary range still apply.`
+      },
+      currentCrisisAngle: `The keeps are failing, and a Warden who anchors to a wall that is about to collapse is chaining themselves to a grave.`,
+      signatureQuote: {
+        text: 'The chain is chosen. So is the gate. I choose the gate, because the gate does not tire.',
+        speaker: 'Gate-Warden Sera',
+        context: 'A Tessic Warden before sealing a breached keep-gate'
+      }
+    },
     morgh_groven: {
       subraceName: 'Morgh Groven',
       title: 'The Vat-Grounded',
@@ -51,7 +96,7 @@ export const WARDEN_DATA = {
         name: 'Vat-Grounding',
         description: `Tether-Tension builds faster against enemies attempting to *restrain or contain* allies, the Morgh Warden's ancestral reflex. The chains ground the Warden against the very forces that once held their people, and the irony of voluntarily wearing chains is, to the Morgh, the entire point.`
       },
-      currentCrisisAngle: `The chains are becoming brittle in the Cragjaw cold, and the Morgh read this with particular bitterness: the iron that helped them *escape* the vats is now failing, and the Fexric Caustic Fexric's proposed chardalyn replacement is the alloy of their *creators*. Several Morgh Wardens have refused the chardalyn chains outright, choosing to fight with failing iron rather than wear their makers' metal.`,
+      currentCrisisAngle: `The chains are becoming brittle in the Cragjaw cold, and the Morgh read this with particular bitterness: the iron that helped them *escape* the vats is now failing, and the Fex Alchemite's proposed chardalyn replacement is the alloy of their *creators*. Several Morgh Wardens have refused the chardalyn chains outright, choosing to fight with failing iron rather than wear their makers' metal.`,
       signatureQuote: {
         text: '"My grandmother shattered her vat with these chains. I will not reforge them in the metal of the men who built the vat. Let the iron fail. I will fail standing."',
         speaker: 'Morgh Veyr Chain-Breaker',
@@ -60,50 +105,50 @@ export const WARDEN_DATA = {
     },
 
     ithran_groven: {
-      subraceName: 'Ithran Groven',
+      subraceName: 'Amordjin Groven',
       title: 'The Span-Tether',
-      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink>, the bridge-builders, treat the chain-graft as *distributed architecture*: a Warden's tether-network extended across their reach, anchoring multiple foes the way a bridge distributes load. An Ithran Warden does not duel a single abomination; they *triangulate*, holding several at once through the bone-knowledge of stress and span.`,
+      reframe: `The long-limbed <LoreLink termId="groven">Amordjin Groven</LoreLink>, the bridge-builders, treat the chain-graft as *distributed architecture*: a Warden's tether-network extended across their reach, anchoring multiple foes the way a bridge distributes load. An Amordjin Warden does not duel a single abomination; they *triangulate*, holding several at once through the bone-knowledge of stress and span.`,
       signatureAbility: {
         name: 'Span-Tether',
-        description: `Tether-Tension can be *distributed* across multiple tethered enemies rather than focused on one; the Ithran are the tradition's only multi-target Wardens, holding a perimeter the way their bridges hold a gorge. The cost: each additional tether reduces the tension available to each.`
+        description: `Tether-Tension can be *distributed* across multiple tethered enemies rather than focused on one; the Amordjin are the tradition's only multi-target Wardens, holding a perimeter the way their bridges hold a gorge. The cost: each additional tether reduces the tension available to each.`
       },
-      currentCrisisAngle: `The cracking Ancestor-Spans have destabilized the Ithran's architectural instincts, their bone-knowledge of load is being contradicted by spans that fail *earlier than they should*. Several Ithran Wardens have mis-judged a tether-load because their instincts, calibrated to failing bridges, are now wrong about everything. The tradition's best multi-target Wardens are becoming unreliable in the one skill that defines them.`,
+      currentCrisisAngle: `The cracking Ancestor-Spans have destabilized the Amordjin's architectural instincts, their bone-knowledge of load is being contradicted by spans that fail *earlier than they should*. Several Amordjin Wardens have mis-judged a tether-load because their instincts, calibrated to failing bridges, are now wrong about everything. The tradition's best multi-target Wardens are becoming unreliable in the one skill that defines them.`,
       signatureQuote: {
         text: '"I read load the way your scholar reads ink. The ink has started lying. My bridges fall early. My tethers snap late. I no longer trust the language I was born speaking."',
         speaker: 'Ith-Sparra Span-Warden',
-        context: 'An Ithran Warden, after a misjudged tether-load cost an ally'
+        context: 'An Amordjin Warden, after a misjudged tether-load cost an ally'
       }
     },
 
     drall_fexric: {
-      subraceName: 'Caustic Fexric - Fexric',
+      subraceName: 'Alchemite - Fex',
       title: 'The Gear-Tension',
-      reframe: `The free-roaming <LoreLink termId="fexrick">Caustic Fexric</LoreLink> clan-nomads learned the chain-graft through guild-surgical exchange, and they treat tethering as *engineering*, the tension is a gear ratio to be optimized, the chains a mechanism to be maintained. A Caustic Fexric Warden is the tradition's *most adaptable* variant, re-tuning their chain-configuration on the fly the way a mechanic re-tunes an engine.`,
+      reframe: `The free-roaming <LoreLink termId="fexrick">Alchemite</LoreLink> clan-nomads learned the chain-graft through guild-surgical exchange, and they treat tethering as *engineering*, the tension is a gear ratio to be optimized, the chains a mechanism to be maintained. A Alchemite Warden is the tradition's *most adaptable* variant, re-tuning their chain-configuration on the fly the way a mechanic re-tunes an engine.`,
       signatureAbility: {
         name: 'Gear-Calibration',
-        description: `Chain-tension can be re-tuned mid-combat, the Caustic Fexric Warden adjusts the gear-ratio of their tethers to favor either lockdown (high tension, low reach) or pursuit (low tension, high reach). The only Warden variant that can shift tether-modes without surgery, at the cost of raw holding-power per mode.`
+        description: `Chain-tension can be re-tuned mid-combat, the Alchemite Warden adjusts the gear-ratio of their tethers to favor either lockdown (high tension, low reach) or pursuit (low tension, high reach). The only Warden variant that can shift tether-modes without surgery, at the cost of raw holding-power per mode.`
       },
-      currentCrisisAngle: `The chardalyn-alloy proposal is the Caustic Fexric's *own project*, they developed the replacement, and the madness it causes on prolonged contact is, to the Caustic Fexric, an acceptable engineering trade-off. The Caustic Fexric Wardens are the faction *pushing* chardalyn adoption over Groven objections, and the resulting schism is tearing the tradition apart along the same fault-line that defined the Vat-Breakers' revolt: the Fexric who made the Groven, now proposing the metal that unmakes them.`,
+      currentCrisisAngle: `The chardalyn-alloy proposal is the Alchemite's *own project*, they developed the replacement, and the madness it causes on prolonged contact is, to the Alchemite, an acceptable engineering trade-off. The Alchemite Wardens are the faction *pushing* chardalyn adoption over Groven objections, and the resulting schism is tearing the tradition apart along the same fault-line that defined the Vat-Breakers' revolt: the Fex who made the Groven, now proposing the metal that unmakes them.`,
       signatureQuote: {
         text: '"The iron fails. I built a better iron. It whispers. I am an engineer, not a priest, I will solve the whisper after I solve the breaking. The Groven object on principle. Principle does not hold abominations."',
-        speaker: 'Caustic Fexric Fex-Torren',
-        context: 'A Caustic Fexric Warden-engineer, defending the chardalyn program to the Vat-Breakers\' Guild'
+        speaker: 'Alchemite Fex-Torren',
+        context: 'A Alchemite Warden-engineer, defending the chardalyn program to the Vat-Breakers\' Guild'
       }
     },
 
     kethrin_fexric: {
-      subraceName: 'Clockwork Fexric - Fexric',
+      subraceName: 'Brasskin - Fex',
       title: 'The Guild-Jailer',
-      reframe: `The guild-bound <LoreLink termId="fexrick">Clockwork Fexric</LoreLink>, the engineering heart of the known world, practice the Warden art as a *guild discipline*, a specialization with standards, certifications, and chain-graft specifications filed in the guild-archives. A Clockwork Fexric Warden is the tradition's most *consistent* variant: every graft performed to spec, every tether measured, every hold rated for load. Reliability over flair.`,
+      reframe: `The guild-bound <LoreLink termId="fexrick">Brasskin</LoreLink>, the engineering heart of the known world, practice the Warden art as a *guild discipline*, a specialization with standards, certifications, and chain-graft specifications filed in the guild-archives. A Brasskin Warden is the tradition's most *consistent* variant: every graft performed to spec, every tether measured, every hold rated for load. Reliability over flair.`,
       signatureAbility: {
         name: 'Spec-Graft',
-        description: `Chain-grafts are performed to exacting guild-specification, producing the most *reliable* tethers in the tradition, predictable load-ratings, known failure-points, documented maintenance schedules. The Clockwork Fexric never surprise themselves, which is both their strength (no catastrophic misjudgments) and their limit (no improvisation under novel threats).`
+        description: `Chain-grafts are performed to exacting guild-specification, producing the most *reliable* tethers in the tradition, predictable load-ratings, known failure-points, documented maintenance schedules. The Brasskin never surprise themselves, which is both their strength (no catastrophic misjudgments) and their limit (no improvisation under novel threats).`
       },
-      currentCrisisAngle: `The chardalyn-alloy crisis has split the Clockwork Fexric guilds down the middle: half have *certified* chardalyn chains as spec-compliant (dismissing the madness as "operational friction"), half have *condemned* them as a violation of guild safety-standards. The Clockwork Fexric Warden guilds are in open regulatory schism, and the documentation war is being fought with more ferocity than the actual abominations.`,
+      currentCrisisAngle: `The chardalyn-alloy crisis has split the Brasskin guilds down the middle: half have *certified* chardalyn chains as spec-compliant (dismissing the madness as "operational friction"), half have *condemned* them as a violation of guild safety-standards. The Brasskin Warden guilds are in open regulatory schism, and the documentation war is being fought with more ferocity than the actual abominations.`,
       signatureQuote: {
         text: '"My graft is filed. My tension is rated. My maintenance is logged. If the chain fails, the guild reimburses. If the abomination escapes, the guild does not. I have always preferred the chain\'s honesty."',
         speaker: 'Guild-Warden Fex-Korren',
-        context: 'A Clockwork Fexric Warden, filing a chain-fatigue report before pursuing the escapee'
+        context: 'A Brasskin Warden, filing a chain-fatigue report before pursuing the escapee'
       }
     },
 
@@ -124,34 +169,34 @@ export const WARDEN_DATA = {
     },
 
     clean_vreken: {
-      subraceName: 'Clean Vreken',
+      subraceName: 'Bedel',
       title: 'The Glow-Tether',
-      reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> adopted the chain-graft through proximity to the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>'s deep operations, and their bioluminescence makes their tethers *visible*, a Clean Vreken Warden's chains glow along their length, mapping every tethered abomination's position in real time. The Clean Vreken are the tradition's *trackers*, their chains a living diagram of the battlefield's threats.`,
+      reframe: `The <LoreLink termId="vreken">Bedel</LoreLink> adopted the chain-graft through proximity to the <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>'s deep operations, and their bioluminescence makes their tethers *visible*, a Bedel Warden's chains glow along their length, mapping every tethered abomination's position in real time. The Bedel are the tradition's *trackers*, their chains a living diagram of the battlefield's threats.`,
       signatureAbility: {
         name: 'Luminescent-Tether',
-        description: `Tethered enemies are marked with bioluminescent chain-glow, visible through fog, cover, and darkness, the Clean Vreken Warden's tethers broadcast every hold to the entire party. The cost: the Warden's own position is equally illuminated, making them the priority target of every tethered foe.`
+        description: `Chained enemies are marked with bioluminescent chain-glow, visible through fog, cover, and darkness, the Bedel Warden's tethers broadcast every hold to the entire party. The cost: the Warden's own position is equally illuminated, making them the priority target of every chained foe.`
       },
-      currentCrisisAngle: `The new, unnamed deep-grove entities (the Inquisitor crisis) glow in colors the Clean Vreken cannot parse, and when tethered, they do not register on the luminescent chain. A Clean Vreken Warden holding such an entity is *tethering blind*, unable to confirm the hold through their primary sense, and several have been pulled into the dark by things their chains could not properly mark.`,
+      currentCrisisAngle: `The new, unnamed deep-grove entities (the Inquisitor crisis) glow in colors the Bedel cannot parse, and when tethered, they do not register on the luminescent chain. A Bedel Warden holding such an entity is *tethering blind*, unable to confirm the hold through their primary sense, and several have been pulled into the dark by things their chains could not properly mark.`,
       signatureQuote: {
         text: '"My chains glow so the party can see what I hold. This one does not glow. I am holding something the light refuses to describe. Tell the party to run, because I cannot tell them what I am holding."',
         speaker: 'Glow-Warden Yssen',
-        context: 'A Clean Vreken Warden, holding an entity that would not light up'
+        context: 'A Bedel Warden, holding an entity that would not light up'
       }
     },
 
     marked_vreken: {
-      subraceName: 'Marked Vreken',
+      subraceName: 'Cromyx',
       title: 'The Mycelium-Leash',
-      reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink>, ghost-mycelium walkers, extend their tethers *through the Root-Veil itself*, the chain-graft interfacing with the mycelial network threading their skin. A Marked Warden does not merely hold an abomination with iron; they hold it with *the forest's own nervous system*, a leash miles long rooted in the <LoreLink termId="root_veil">Root-Veil</LoreLink>.`,
+      reframe: `The <LoreLink termId="vreken">Cromyx</LoreLink>, ghost-mycelium walkers, extend their tethers *through the Root-Veil itself*, the chain-graft interfacing with the mycelial network threading their skin. A Cromyx Warden does not merely hold an abomination with iron; they hold it with *the forest's own nervous system*, a leash miles long rooted in the <LoreLink termId="root_veil">Root-Veil</LoreLink>.`,
       signatureAbility: {
         name: 'Network-Leash',
-        description: `Tethers can be *routed through the mycelial network*, extending the Warden's effective hold-range across connected terrain. A Marked Warden can hold an abomination that has fled the immediate battlefield, as long as it remains on Root-Veil-connected ground. The cost: the Warden feels every strain on the network as physical pain.`
+        description: `Tethers can be *routed through the mycelial network*, extending the Warden's effective hold-range across connected terrain. A Cromyx Warden can hold an abomination that has fled the immediate battlefield, as long as it remains on Root-Veil-connected ground. The cost: the Warden feels every strain on the network as physical pain.`
       },
-      currentCrisisAngle: `The Root-Veil has begun *rejecting* the Marked (the Plaguebringer crisis), expelling mycelium from their skin, and with it, the interface for their network-leashes. Marked Wardens are losing their signature ability as the forest casts them out, and several have begun *grafting iron chains directly into the expelling wounds*, forcing the interface to hold where the mycelium will not. The pain is, by all accounts, extraordinary.`,
+      currentCrisisAngle: `The Root-Veil has begun *rejecting* the Cromyx (the Plaguebringer crisis), expelling mycelium from their skin, and with it, the interface for their network-leashes. Cromyx Wardens are losing their signature ability as the forest casts them out, and several have begun *grafting iron chains directly into the expelling wounds*, forcing the interface to hold where the mycelium will not. The pain is, by all accounts, extraordinary.`,
       signatureQuote: {
         text: '"The forest used to hold what I could not. Now the forest spits me out, and I am driving iron into the wounds to keep the leash alive. I am tethering with scars. The forest will not forgive me, but it will hold."',
-        speaker: 'Marked Warden Vesh',
-        context: 'A Marked Vreken, driving a chain-graft into a mycelial wound'
+        speaker: 'Cromyx Warden Vesh',
+        context: 'A Cromyx, driving a chain-graft into a mycelial wound'
       }
     }
   },
@@ -162,7 +207,7 @@ export const WARDEN_DATA = {
     base: 0,
     max: 10,
     generationNote: "Generated by chain attacks, tethers, and pulling hooked enemies. Spent on crushing restraints, cages, and executioner flails.",
-    mechanicsNote: "Tethered enemies within 15ft cannot break free while Tension is maintained above 0."
+    mechanicsNote: "Chained enemies within 15ft cannot break free while Tension is maintained above 0."
   },
   name: "Warden",
   icon: "fas fa-link",
@@ -183,19 +228,28 @@ export const WARDEN_DATA = {
       characterization: `Ancient, immovable, and more iron than flesh, <LoreLink termId="alaric">Alaric</LoreLink>'s regenerative biology has integrated the chain so thoroughly that removing it would now kill him. He leads from <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>'s lower tunnels and trains every Warden personally in the graft-rite. He is grieved, specifically, by the chardalyn proposal: the alloy of his people's makers, offered as salvation.`
     },
     headquarters: { name: 'The Chain-Hold, Frostmaw Holdfast (lower tunnels)', locationId: 'frostmaw_holdfast' },
-    crisisConnection: `<LoreLink termId="alaric">Alaric</LoreLink> is watching the Bound fracture along the same fault-line that defined his own founding: the Fexric Caustic Fexric propose chardalyn chains (the makers' metal), the Groven refuse (the vat-iron must be honored), and the iron that both factions depend on is becoming brittle in the Cragjaw cold. <LoreLink termId="alaric">Alaric</LoreLink> alone has the authority to settle the schism, and he is using it to refuse chardalyn absolutely, even as the brittle-iron casualties mount. The Bound are losing Wardens faster than <LoreLink termId="alaric">Alaric</LoreLink> can train them, and his principled refusal may be the order's epitaph.`
+    crisisConnection: `<LoreLink termId="alaric">Alaric</LoreLink> is watching the Bound fracture along the same fault-line that defined his own founding: the Fex Alchemite propose chardalyn chains (the makers' metal), the Groven refuse (the vat-iron must be honored), and the iron that both factions depend on is becoming brittle in the Cragjaw cold. <LoreLink termId="alaric">Alaric</LoreLink> alone has the authority to settle the schism, and he is using it to refuse chardalyn absolutely, even as the brittle-iron casualties mount. The Bound are losing Wardens faster than <LoreLink termId="alaric">Alaric</LoreLink> can train them, and his principled refusal may be the order's epitaph.`
   },
 
   worldFriction: [
     { region: 'bryngloom-forest', status: 'employed', consequence: 'Atropolis bailiffs contract Wardens to chain and drag dangerous fugitives and rogue entities into subterranean vaults.', workaround: 'Show bounty warrants to gate-sentinels.' },
-    { region: 'frostwood-reach', status: 'distrusted', consequence: 'Thalren hunters consider chain-tethering cruel and dangerous, fearing dragged monsters will destroy civilian livestock.', workaround: 'Avoid civilian pathways while escorting bound quarries.' },
+    { region: 'frostwood-reach', status: 'distrusted', consequence: 'Tallyn hunters consider chain-tethering cruel and dangerous, fearing dragged monsters will destroy civilian livestock.', workaround: 'Avoid civilian pathways while escorting bound quarries.' },
     { region: 'sundale', status: 'revered', consequence: 'Forge-masters supply Wardens with hardened starlight-steel links to anchor caldera breach-monsters.', workaround: 'None needed in garrison districts.' },
-    { region: 'emberspire', status: 'allied', consequence: 'Waste-Solari guards fight alongside Wardens, using iron chains to anchor giant magma-beasts in place.', workaround: 'Share captured quarry meat with local outposts.' }
+    { region: 'emberspire', status: 'allied', consequence: 'Anhur guards fight alongside Wardens, using iron chains to anchor giant magma-beasts in place.', workaround: 'Share captured quarry meat with local outposts.' }
   ],
 
   overview: {
     title: "The Warden",
     subtitle: "The Penitent Jailer & Nightmare Bound",
+    illustration: "/assets/images/classes/warden_morgh_groven.jpg",
+    illustrationCaption: "Morgh Groven Warden — The Vat-Grounded, stocky stone-troll mine-guard anchored low in a subterranean tunnel driving an iron holding-pin into bedrock, hauling a screaming taut ore chain grafted through living forearm bone holding back an escaped deep-vat horror with a Keeper's Maul in hand.",
+    illustrations: [
+      { url: "/assets/images/classes/warden_morgh_groven.jpg", subraceId: "morgh_groven", caption: "Morgh Groven Warden — The Vat-Grounded, stocky stone-troll mine-guard anchored low in a subterranean tunnel driving an iron holding-pin into bedrock, hauling a screaming taut ore chain grafted through living forearm bone holding back an escaped deep-vat horror with a Keeper's Maul in hand." },
+      { url: "/assets/images/classes/warden_amordjin_groven.jpg", subraceId: "ithran_groven", caption: "Amordjin Groven Warden — The Span-Jailer, towering crystalline stone-kin spread wide atop an alpine bridgehead anchoring two fanning cable-chains holding two beasts on opposite ledges with an iron chain-flail." },
+      { url: "/assets/images/classes/warden_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Warden — The Glacier-Jailer, northern hunter leaning back against a frost-coated chain bolted through shoulder bone, dragging an ice-horror across a glacier edge with an executioner cleaver." },
+      { url: "/assets/images/classes/warden_alchemite_fex.jpg", subraceId: "drall_fexric", caption: "Alchemite Fex Warden — The Gear-Jailer, subterranean goblinoid warden locking a chimera to the dungeon floor with an arm-mounted clockwork ratchet-winch while raising a cold-iron war-flail." },
+      { url: "/assets/images/classes/warden_clean_vreken.jpg", subraceId: "clean_vreken", caption: "Bedel Mycellan Warden — The Peat-Gaoler, monastic bog-jailer bracing against a submerged timber stump, violently hauling a taut bioluminescent lichen-crusted chain snaring a bog-horror with a hooked pole-axe." }
+    ],
 
     quickOverview: {
       title: "Class Overview",
@@ -211,17 +265,16 @@ export const WARDEN_DATA = {
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE GENESIS**
-The Warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fexric chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
+The Warden's calling was forged by Alaric the Law-Keeper, a Groven mine-guard who drove a mining chain through his own forearm to anchor a colossal abomination during the Vat-Breakers' revolt in the lower tunnels of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Over ten years, he and the Fex chain-smiths refined the technique of grafting iron tethers directly into muscle and bone.
 
 **CITIES & CIVIL RECEPTION**
 Common folk in regional settlements find their rusted, skin-grafted chains and heavy iron bolts disturbing, often viewing them as zealots or walking cell blocks. They are tolerated only because they keep the absolute worst terrors of the deep from reaching the surface keeps.
 
 **RACES & CULTURAL AFFILIATION**
-The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="groven">Groven</LoreLink> and the <LoreLink termId="fexrick">Fexric</LoreLink> Caustic Fexric who forge their iron links. However, it has spread to desperate <LoreLink termId="neth">Nethien</LoreLink> archivists, <LoreLink termId="skald">Skald</LoreLink> glacier-hunters, and penitent <LoreLink termId="vreken">Vreken</LoreLink> who seek absolution by chaining themselves to the bog-horrors.
-
+The chosen chain-graft was invented by the Groven — the Morgh hold the point, the Amordjin spread the load. The Tessic brace taught containment points in sealed architecture, the Alchemite retune chain configurations as engineering, and the Tallyn hold the Greymark garrison. The Skald maintain grip in the cold, the Brasskin work to certified load-ratings, and the Arch Mimir detect incursions in the fog before they manifest. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Alaric the Law-Keeper**: The first Warden who held the line for three days with a rusted chain driven through his forearm.
-* **The Fexric Caustic Fexric Smiths**: The specialized chain-smiths of Frostmaw Holdfast who perform the flesh-grafting surgical rites.`
+* **The Fex Alchemite Smiths**: The specialized chain-smiths of Frostmaw Holdfast who perform the flesh-grafting surgical rites.`
     },
 
     signatureQuote: {
@@ -238,15 +291,17 @@ The tradition is heavily practiced by the subterranean Morgh <LoreLink termId="g
 
     originStory: `A warden is the Penitent Jailer. Iron chains are grafted directly into the forearms and spine, driven through living bone. The warden physically tethers to abominations, creating a forced duel where the tethered enemy cannot target anyone else. The chain is chosen, not inflicted. This distinction is the foundation of the entire tradition.
 
-The first was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. During the Vat-Breakers' revolt, the Deep Alchemists' containment wards shattered and experiments poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving an ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his body as the pin. He held it for three days. When rescue arrived, the chain had rusted into his bone and the creature had died of exhaustion. The Fexric Caustic Fexric smiths who cut him free asked if he wanted the chain removed. He said no.
+The first was Alaric the Law-Keeper, a Groven mine-guard stationed in the lower tunnels beneath Frostmaw Holdfast. During the Vat-Breakers' revolt, the Deep Alchemists' containment wards shattered and experiments poured into the tunnels. Alaric's squad was slaughtered in seconds. He survived by driving an ore-hauling chain through his own forearm and into the ribcage of the largest specimen, anchoring it to the tunnel wall with his body as the pin. He held it for three days. When rescue arrived, the chain had rusted into his bone and the creature had died of exhaustion. The Fex Alchemite smiths who cut him free asked if he wanted the chain removed. He said no.
 
 Alaric's regenerative Thrumm-derived biology keeps him functional long past any normal Groven lifespan. He still leads the Bound from his anvil at Frostmaw. Every warden's first chain is forged there on the principle: "The chain is chosen, not inflicted."
 
-Each subrace wears the chains for different reasons. The Morgh Groven invented the chain-graft. The chains echo the containment they shattered in the Vat-Breakers' revolt, worn voluntarily now to ensure nothing else is contained the way they were. The irony is the point. The Ithran Groven distribute tether-tension across multiple enemies through bridge-builder bone-knowledge, the only multi-target wardens. The Caustic Fexric re-tune chain configuration mid-combat as engineering, favoring lockdown or pursuit. The Clockwork Fexric practice as guild discipline with certified specifications and documented load-ratings, most consistent and most rigid. The Skald specialize in glacier-hunting, chains contracting and gripping harder in cold, the only wardens who have volunteered for chardalyn chains. The Clean Vreken mark tethered enemies with visible bioluminescence through fog and darkness, broadcasting their own position equally. The Marked Vreken route tethers through the Root-Veil, holding abominations miles away through connected terrain.
+Each subrace wears the chains for different reasons. The Morgh Groven invented the chain-graft. The chains echo the containment they shattered in the Vat-Breakers' revolt, worn voluntarily now to ensure nothing else is contained the way they were. The irony is the point. The Amordjin Groven distribute tether-tension across multiple enemies through bridge-builder bone-knowledge, the only multi-target wardens. The Alchemite re-tune chain configuration mid-combat as engineering, favoring lockdown or pursuit. The Brasskin practice as guild discipline with certified specifications and documented load-ratings, most consistent and most rigid. The Skald specialize in glacier-hunting, chains contracting and gripping harder in cold, the only wardens who have volunteered for chardalyn chains. The Bedel mark tethered enemies with visible bioluminescence through fog and darkness, broadcasting their own position equally. The Cromyx route tethers through the Root-Veil, holding abominations miles away through connected terrain.
 
-The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose chardalyn-alloy replacement, stronger and lighter, but chardalyn causes madness with prolonged contact. Those who have accepted the new chains report hearing whispers at night. The Groven refuse to wear the metal of their creators. The Clockwork Fexric guilds are in open regulatory schism over certification. Alaric refuses chardalyn absolutely, even as brittle-iron casualties mount. The Bound are losing wardens faster than Alaric can train them.`,
+The chains are becoming brittle in the Cragjaw cold. The Alchemite propose chardalyn-alloy replacement, stronger and lighter, but chardalyn causes madness with prolonged contact. Those who have accepted the new chains report hearing whispers at night. The Groven refuse to wear the metal of their creators. The Brasskin guilds are in open regulatory schism over certification. Alaric refuses chardalyn absolutely, even as brittle-iron casualties mount. The Bound are losing wardens faster than Alaric can train them.
 
-    currentCrisis: `The chains are breaking. The iron used for traditional Iron Chain Tethers is failing, the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fexric Caustic Fexric have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
+Native only to Morgh Groven, Amordjin Groven. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
+
+    currentCrisis: `The chains are breaking. The iron used for traditional Iron Chain Tethers is failing, the cold of the Cragjaw Peaks has made the metal brittle, and tethers are snapping at critical moments. The Fex Alchemite have proposed a new alloy using recycled chardalyn fragments, which would be stronger and lighter. But chardalyn causes madness with prolonged contact. Wardens who accepted chardalyn chains report hearing whispers at night. Those who refused are running out of replacements for their old chains.`,
 
     meaningfulTradeoffs: `To be a Warden is to carry permanent scars. The tether hooks leave holes in the bone that never fully heal. A Warden can be identified by the pattern of scars on their arms, shoulders, and back, a map of every creature they have ever anchored. Old wounds remember; they hurt more when struck.`,
 
@@ -254,7 +309,7 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
       {
         name: 'The Forge of Alaric',
         locationId: 'frostmaw_holdfast',
-        description: 'The original blacksmith\'s forge where Alaric forged the first Iron Chain Tether chains. Still maintained by a line of Fexric Caustic Fexric smiths.',
+        description: 'The original blacksmith\'s forge where Alaric forged the first Iron Chain Tether chains. Still maintained by a line of Fex Alchemite smiths.',
         purpose: 'Chain forge and Warden initiation site',
         status: 'Active, struggling to meet demand for new chains'
       },
@@ -275,7 +330,7 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
       {
         name: 'The Whisper-Galleries',
         locationId: 'whisper_galleries',
-        description: 'The deepest galleries at Frostmaw where the Caustic Fexric proof chardalyn chain-links, working in pairs and never more than an hour at a stretch. The first chardalyn volunteers are still down there, tethered to the walls by their own chains, on the argument that the whispers want something chained and a wall can be chained forever without anyone losing a finger. A bell-rope runs to the surface: pull twice for relief, pull once to refuse it. It has been pulled twice all year. Alaric has ordered the Galleries sealed three times and rescinded the order three times, because brittle iron keeps breaking and chardalyn keeps holding.',
+        description: 'The deepest galleries at Frostmaw where the Alchemite proof chardalyn chain-links, working in pairs and never more than an hour at a stretch. The first chardalyn volunteers are still down there, tethered to the walls by their own chains, on the argument that the whispers want something chained and a wall can be chained forever without anyone losing a finger. A bell-rope runs to the surface: pull twice for relief, pull once to refuse it. It has been pulled twice all year. Alaric has ordered the Galleries sealed three times and rescinded the order three times, because brittle iron keeps breaking and chardalyn keeps holding.',
         purpose: 'Chardalyn proofing gallery and long-term holding site for the first volunteer testers',
         status: 'Active in the dark, reported downward instead of upward'
       }
@@ -297,7 +352,7 @@ The chains are becoming brittle in the Cragjaw cold. The Caustic Fexric propose 
 - **Hard-coded Wyrd Vulnerability**: Constant proximity to Wyrd-horrors fractures their mind, causing them to take +50% wyrd damage.
 - **Zero Ranged Attacks**: Completely helpless at distance; they must reel targets in or walk them down in heavy iron.
 - **Agonizing Cast Costs**: Establishing tethers or reelings requires sacrificing their own HP (1d6 blight/piercing to self) as the grafted hooks tear through flesh.
-- **Marked Penitent (social)**: your rusted, skin-grafted chains and bolt-scars mark you as a walking cell-block  -  common folk find you disturbing, read you as a zealot, and your scar-map broadcasts every horror you have ever anchored; old wounds remember and ache worse when struck again.`,
+- **Cromyx Penitent (social)**: your rusted, skin-grafted chains and bolt-scars mark you as a walking cell-block  -  common folk find you disturbing, read you as a zealot, and your scar-map broadcasts every horror you have ever anchored; old wounds remember and ache worse when struck again.`,
     },
 
     playstyle: {
@@ -599,7 +654,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
           {
             name: "Inexorable Reel",
             icon: "Nature/Sense",
-            description: "Tethered targets cannot hide, become invisible, or teleport while in your line of sight. Dashing (reeling) to them costs no action points, and your movement speed toward them increases by +5ft per VP (max +50ft)."
+            description: "Chained targets cannot hide, become invisible, or teleport while in your line of sight. Dashing (reeling) to them costs no action points, and your movement speed toward them increases by +5ft per VP (max +50ft)."
           }
         ],
         recommendedSpells: [
@@ -618,7 +673,7 @@ Peak vengeance. High pursuit speed (+40ft to +50ft) and sufficient VP to execute
         playstyle: "Extreme defensive body-blocking and gravitational control, sacrificing all mobility to become an unbreakable battlefield anchor.",
         strengths: [
           "Converts Tension into Calcified Bulwark at a 1:1 ratio (up to +10 DR)",
-          "Tethered targets cannot drag the Monolith due to gravitational anchoring",
+          "Chained targets cannot drag the Monolith due to gravitational anchoring",
           "Absorbs 75% of AoE damage directed at tethered targets instead of 50%",
           "Unrivaled chokepoint defense and damage interception"
         ],

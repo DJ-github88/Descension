@@ -1,11 +1,12 @@
 # CORE LORE FRAMEWORK — MYTHRILL VTT
 ## Single Source of Truth for Mythrill World Lore & Mechanics
 
-> **Status:** Canonical as of the **August 2026 "Fall of the Sun & The Broken Wyrd" lore lock**.
-> This document supersedes the earlier "Ratified Master Lore Locks" cosmology.
-> All rulebooks, compendiums, database entries, and UI modules must align with this document.
+> **Status:** World foundations reconciled to the creator-approved **2026-09-30 Living Cosmos blueprint**.
+> This document owns current world facts; `LORE_CANON_AND_HERITAGE_BLUEPRINT.md` specifies the
+> complete ancestry/class target. See `LORE_IMPLEMENTATION_STATUS.md` for implementation coverage.
+> Earlier lore locks and historical audits remain evidence of prior versions, not competing canon.
 >
-> **Naming convention (enforced):** `Keth Amar` (no hyphen), `Natural Wyrd`, `Predatory Wyrd`,
+> **Naming convention (enforced):** `Keth Amar` (no hyphen), `Wyrd`, `Predatory Wyrd`,
 > `Bloodline Pacts`, `Blood Seals`, `the Sleeping Soul of Mythrill`, `Aex` (Mother), `Aethil` (Father).
 > The variant spelling `Keth-Amar` and the father-name `Aelden` are **retired**; see §1.7 for why
 > mortal records still contain them.
@@ -14,19 +15,22 @@
 
 ## 1. CORE WORLD PREMISE & COSMOLOGY
 
-### 1.1 The Sleeping Soul & The Primordial Loom (Pre-Star Mythrill)
+### 1.1 The Sleeping Soul & The Living Cosmos (Pre-Star Mythrill)
 * **The Sleeping Soul of Mythrill:** The primordial planetary deity. It does not speak, act, or answer.
-  Its latent power is **Natural Wyrd** — the ambient loom of the world.
-* **Natural Wyrd (The Primordial Loom):** The baseline metaphysical law of Mythrill. Collective belief,
-  folklore, myth, fear, and vow organically manifest into living creatures and native races. What a people
-  tell often enough, the world eventually grows.
-* **What the Loom Made:** Primordial beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits
+  Its existence anchors the native world; it does not manufacture species from mortal imagination or
+  personally rescue families. The Unnamed Green is a distinct native power.
+* **Native Origins:** Primordial beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits
   (*Landvaettir*, *Vaettir*, *Fossegrim*, *Qalupalik*), and non-human races with innate biological
-  elemental abilities (fire, frost, storm, stone). The seafoam-born aquatic peoples and the
-  gnomish-goblin races are the Loom's work, not the Celestials'.
-* **Mortal Underdogs:** Mortals had **zero magic**. They survived on forged steel, tactical engineering,
-  black powder, archery, and strict adherence to folk-traditions and cultural taboos that kept the living
-  world — and the things the Loom grew from their own fears — from eating them.
+  elemental abilities have actual local origins independent of Keth Amar and collective belief.
+  Mareth's seafoam-born Myrathil and the native Fexric precede the celestial Binding.
+* **Folklore:** Records, translates, or camouflages encounters and preserves survival knowledge. A
+  forgotten story does not erase its subject. Fear is not a species-generation mechanism.
+* **Mortal Underdogs:** Most ordinary mortals lacked free spellcasting. Steel, engineering, black
+  powder, archery, and folk practices supported survival alongside older native spirit rites,
+  probability bargains, and biological powers.
+* **Wyrd:** A wider cosmic medium/ecology, not the universal source of native magic. Keth exploits and
+  corrupts it but neither invented it nor owns every organism within it. **Natural Wyrd / Primordial
+  Loom** survives only as a retired historical theory and compatibility alias.
 
 ---
 
@@ -35,7 +39,8 @@
   that hatch into celestial bodies across the universe. Sons hatch into Suns; Daughters hatch into Moons.
 * **Sol (The Living Sun of Mythrill):** Sol is the Sun of Mythrill — a living, unhatched celestial infant,
   and the prey Keth Amar has hunted across the void. He is not a metaphor and not a furnace; he is a
-  person, and he has been awake in the dark for four hundred and seventy-five years.
+  person, conscious and awake in the dark throughout his entombment. Heat and thermal impressions do
+  not imply hatching; his inability to act freely is part of the tragedy.
 * **The Sister Moon (The Slumbering Buffer):** Sol's sister is frozen solid in orbit to act as a thermal
   buffer, preventing Sol's intense heat from incinerating Mythrill. She slumbers in catatonic dormancy,
   governing tides and anchoring **Rime Magic**. The Astril named her **Selunis** — a moon-daughter egg
@@ -54,38 +59,46 @@
     sealing the inner vault with a web of cosmic wards and lineage pacts. She is the vault, and she is
     still inside it.
 * **The Bloodline Pacts:** To seal Sol within the planet's core, Aex established Bloodline Pacts with
-  ancient mortal lineages across the continents. Mortal Houses unaligned with the Old Native Gods struck
-  these pacts to level the field against native magical beasts and anchor Sol's protective casing.
+  ancient mortal lineages across the continents. The original public houses were **Thalreth, Skalvyr,
+  Solvan, Mereval, Tesshan, Ordavan, and Viridane**. The separate Unwritten family maintained a secret
+  pact. House Morrath's later political regency does not make it an original signatory.
 * **The Blood Seals:** The warding shell around the planetary core remains absolute **only as long as each
   bound bloodline survives and upholds its sacred oath**. A seal is not a wall; it is a promise held by
-  living people. When a bloodline dies, its seal snaps, and Aex's aegis cracks.
+  living people. Extinction or repudiation can break the obligation; a surviving surname, cadet line,
+  or political successor alone does not prove that the original seal remains intact.
 * **Transformation of the Bound:** The immense divine magic channelled into these bloodlines fundamentally
   altered their biology and soul-resonance, giving rise to distinct altered human sub-races.
 * **Infusion Types:**
-  * **High Houses:** Mutated directly into distinct magical lineages (*Solari*, *Vreken*, and — through the
-    Nature Deity's rescue of the refusing Viridane heirs — the *Florae*). The Neth are not a warped house
-    but an old scribe-people of the Bryngloom (see §5.1).
+  * **Bound Lineages:** Celestial infusion altered the human Solvarn antecedents into *Solari*.
+    *Vreken* descend from native elven antecedents, not celestial human mutations. The *Florae* arose
+    through the Unnamed Green's later rescue of Viridane. The Nethien are an older scribe people (§5.1).
   * **Common Folk:** Received subtle physical adaptations while keeping traditional black-powder, cold-iron
     traps, matchlocks, and melee combat.
 
 ---
 
 ### 1.3 The Predatory Wyrd (The Infestation)
-* Unable to breach Aethil's celestial ward, **Keth Amar spewed an infectious, corrupted strain of Wyrd onto
-  Mythrill from the void**. Because the world was already saturated with Natural Wyrd, this foreign bile
-  took deep root in the soil and in the collective unconscious.
-* **Predatory Wyrd** is not a second magic system. It is Natural Wyrd infected — the Loom taught to want.
-  It warps what the world grows, turns folklore into horror, and makes belief curdle.
+* Unable to freely enter Aethil's celestial ward in its full body, **Keth Amar seeded corrupted Wyrd
+  channels onto Mythrill from the void**. Smaller signals, infected matter, lesser organisms, and
+  breaches can cross limits that stop the full predator. The ward is not hermetically sealed.
+* **Predatory Wyrd** means Keth-associated corruption and hostile channels. It can alter native hosts,
+  carry or attract pre-existing Cosmic Wyrdkin, and generate narrower direct local spawn (§7).
+  It is not all native magic infected and is not the origin of every supernatural life-form.
 * Keth Amar used this corrupted network to **broadcast cosmic whispers, sow paranoia, manipulate mortal
   rulers, and locate Sol's subterranean vault**.
 
 ---
 
-### 1.4 The Whispered Purge (Years 300 – 325)
-Keth Amar arrived at Mythrill in the last age of the Pacting, trailing Astril starlight. For twenty-five years it did not
+### 1.4 The Whispered Purge (The Years of Whispers)
+Keth Amar arrived after the Slow Cracking, following Astril traces. Throughout the Years of Whispers it did not
 attack — it orchestrated. Through the Predatory Wyrd it provoked wars, hubris, tragic accidents, and
 assassinations, extinguishing the bound bloodlines one by one and snapping each Blood Seal in turn. Each
 death cracked Aex's aegis further and vented a little more of Sol's warmth into the crust.
+
+The heirs, including Sera's child, died through mortal atrocities under the false father's promises.
+Keth's claim that it personally devoured them at a summit is predatory rhetoric, not the mechanism.
+Viridane refused and accepted the Unnamed Green's rescue. That new covenant ended its public Aex
+obligation while saving the family; it did not preserve an extra intact public Blood Seal.
 
 ---
 
@@ -95,28 +108,37 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
 * **The Unknown Seal:** A single, hidden family had forged a **secret, undocumented pact with Aex**. To
   preserve the ward in secret, this bloodline erased itself from all recorded history and underwent a total
   physical and metaphysical metamorphosis into an unrecorded lineage.
+  These **Unwritten** are distinct from Viridane and the Florae. Their identity remains unrevealed;
+  their sole uninterrupted Secret Aegis is fixed author truth. Keth's ignorance was fallibility,
+  not proof that every erased record automatically defeats cosmic detection.
 * **Keth Amar's Defeat:** When Keth Amar crashed into Mythrill's planetary ward, the surviving secret seal
   held. The impact severely wounded and repelled the cosmic predator back into the deep void. It did not
   get Sol. It has not stopped trying.
 
 ---
 
-### 1.6 The Shards of Aex & The Freezing Era (Years 325 – 475 / Present Day)
+### 1.6 The Shards of Aex & The Freezing Era
 * **Fallen Shards:** The Blind Strike did not destroy the ward — it **fractured the continental ward**.
   Crystalline shards of Aex's broken divine aegis plummeted across Mythrill's continents, permanently
   altering the geography, weather, and ley lines where they crashed.
-* **The Sundered Monoliths:** The seven greatest of these fallen shards are the **Seven Sundered
-  Monoliths**. They are pieces of a mother's armour, not keys to a lock, and they are the only portable
-  heat that cannot be besieged (§8).
+* **The Sundered Monoliths:** The **Seven Sundered Monoliths** are the accepted seven-seat census:
+  **six genuine great Aex shards and one Counterfeit**. Lesser genuine shards also exist.
+  Political seats, living seals, and physical shards are different counts. They are pieces of a
+  mother's armour, not interchangeable keys to living oaths. There is no hidden true seventh
+  Monolith or Florae cleansing key.
 * **The Counterfeit Monolith:** One of the seven seats is a lie. The **7th Counterfeit Monolith** is a
-  Predatory Wyrd forgery, fabricated to stand in the place of the seal that was never written — the Secret
-  Aegis of the hidden lineage. It looks like a shard, burns like a shard, and whispers.
+  Predatory Wyrd forgery **made by Keth Amar**. Mortal institutions fabricated or accepted its
+  political pedigree. It deceives mortal claimants and supplies a hostile channel; it does not
+  trick Keth about its own work. The false seat is in Bryngloom, distinct from the cult stronghold.
 * **Modern Shard Pacts:** The immense radiant power leaking from these divine fragments allows ambitious
   rulers, factions, and spellcasters to forge new, localized pacts, gaining world-altering magical power.
   Every one of these pacts is real magic built on a wound.
 * **The Freezing Era:** The world is cold because **Sol is entombed in the core**, not because Keth Amar
   broke anything on the surface. His light is filtered through subterranean networks; what reaches the
   surface is geothermal warmth venting through the cracks. Present day lies deep in the Freezing Era.
+  The Long Cold began when solar radiance was concealed at the Star-Fall, before the Blind Strike.
+* **Reforging:** Reassembling fragments may redistribute heat or affect wound containment; it cannot
+  replace a living oath with an artifact. The Dawn Vigil's world-saving recipe is institutional doctrine.
 
 ---
 
@@ -125,6 +147,7 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
   common folk gathered under dark hoods by a voice they believe is a native god, capital at
   *Vespera's Crown*. They serve the Counterfeit Monolith and, through it, the thing that forged it. Most of
   them do not know what they are serving.
+  **Unknown Dominator** is their mistaken patron-name, not a separate author-canonical god.
 * **Playable Origin (the Hollow Sight):** Acolytes operate in the world doing odd jobs and proselytizing
   while their patron sees through their eyes. Players can carry this **Hollow Sight** — a parasitic
   patron-graft; in-world, a Predatory Wyrd counterfeit of Morvane the Watcher's true sight — while
@@ -145,14 +168,15 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
 ### 1.8 Current State of the World
 * **Aethil** maintains the celestial vigil, keeping a wounded Keth Amar at bay in the upper void.
 * **Sol** remains hidden in the deep core, his light filtered through subterranean networks.
-* **Folklore & Monsters** inhabit the lands natively, grown by the Natural Wyrd — though many are warped
-  into predatory horrors by Keth Amar's lingering Wyrd corruption.
+* **Native Life** inhabits the lands independently of folklore; some hosts and habitats are altered by
+  lingering Wyrd corruption, while Cosmic Wyrdkin and direct spawn have distinct origins.
 * **The Secret Lineage** remains hidden in plain sight, their forgotten vow the only thing keeping the core
-  sealed. Nothing else in this world is holding.
+  sealed. Other local wards, native powers, and communities still have their own bounded agency.
 * **Morvane (the Watcher in the Mist / Keeper of the Last Threshold):** A separate entity from the Sleeping
   Soul, and **subordinate to it** — the boundary between life, death, memory and oblivion, pressed against
-  by Keth Amar and slowly fracturing under that pressure. It is not the Loom; it is the Loom's memory of
-  what it has made. See §5.1 and §7.
+  by Keth Amar and slowly fracturing under that pressure. Its vast memory is not omniscience; actual
+  channels and covenants bound its reach. **Root-Veil** is its living mycelial organ/conduit and an
+  ecology that can be damaged or invaded, not an infallible god in every fungal thread.
 
 ---
 
@@ -164,34 +188,32 @@ death cracked Aex's aegis further and vented a little more of Sol's warmth into 
 * ❌ **SCRAPPED:** The strict "3-in-10 maternal death / Frost-Tithe" childbirth ratio. (Removed artificial
   mathematical death quotas; replaced with atmospheric lore, cold-strain, and metaphysical burden without
   rigid childbirth fatality statistics).
-* ❌ **SCRAPPED:** "The Wyrd arrived with Keth Amar." Wyrd is native to Mythrill; Keth Amar *infected* it.
-  The world has always grown monsters out of what people believe. Predatory Wyrd is the corruption, not
-  the origin.
+* ❌ **SCRAPPED:** The generative Natural Wyrd / Primordial Loom theory, universal zero-magic mortals,
+  and "Keth invented all Wyrd." Native life has actual origins; the wider cosmic ecology predates Keth's
+  local corruption. Legacy IDs remain aliases. A `wyrd` effect tag alone does not establish provenance.
 * ❌ **SCRAPPED:** "Keth Amar devoured the heirs to shatter the vault." Heirs died during the Whispered
   Purge because their Blood Seals had to be severed — the Purge was the *preparation* for the strike, not
   the strike itself.
 * ❌ **SCRAPPED:** The Father being called **Aelden** in new writing. The Father is **Aethil**.
+* ❌ **SCRAPPED:** Aethil as an impersonal price rule, Keth as an honest universal creditor, Sol as
+  asleep/dead, Viridane as the Unwritten, an independent Unknown Dominator, and a hidden cleansing key.
 
 ---
 
 ## 3. THE MASTER TIMELINE (ERA-RELATIVE)
 
-```
- [ THE STAR-FALL ]                      [ THE PACTING ]                 [ THE STRIKE ]              [ THE FREEZING ERA ]
- The Celestial Star-Fall         Keth Amar Arrives            The Blind Strike          Present Day (Campaign Start)
- ────────────────────────────────────────────────────────────────────────────────────────────────────────────────►
- • Aex entombs Sol in the core  • Spews Predatory Wyrd       • Keth Amar crashes into  • The Freezing Era Era
- • Aethil anchors the sky-ward  • Begins the Whispered Purge   the planetary ward      • Shard Pacts fuel wars
- • Bloodline Pacts struck;      • Impersonates Aethil for    • The Secret Aegis holds  • Whisper-cult active
-   High Houses transformed;       25 years                   • Aex's aegis fractures   • Nordhalla launch campaign
-   commoners adapted            • Blood Seals snap, one by   • Shards fall; the        • Sol still sealed, still
-                                  one; aegis cracks            Counterfeit is planted    awake
-```
+**Order:** Long Before → Star-Fall & Long Pacting → Slow Cracking → Keth's Arrival & Years of
+Whispers → Blind Strike / Blizzard's End → Freezing Era → campaign present.
 
-### Era I: The Primordial Loom
-Mythrill of folklore and Natural Wyrd. The Sleeping Soul dreams; the Loom grows beasts (*Jutul*, *Glacier
-Wyrms*, *Thrumm*), spirits (*Vaettir*, *Fossegrim*), and peoples out of what the world believes. Mortals
-survive with steel, black powder, matchlocks, archery, and taboos.
+Player prose and UI use eras/phases; hidden numeric sort keys may remain. Biological ages, distances,
+ritual counts, and turn durations are not calendar dates. Institution founding is separate from the
+first discovery of a phenomenon. Campaign crisis countdowns begin at defined arc triggers.
+
+### Era I: The Long Before
+Native peoples, gods, ecology, engineering, spirit practices, and older bargains exist. Vaelis the
+Scribe negotiates the First Contract before the Star-Fall. Valerius later formalizes the Grand
+Nomenclature; he did not create every elemental interaction. Most ordinary mortals rely on practical
+craft and survival knowledge alongside bounded native powers.
 
 ### Era II: The Star-Fall & The Bloodline Pacts
 * **The Star-Fall:** Celestial Star-Fall. Aex entombs Sol in the core; Aethil anchors the atmospheric ward; mortal
@@ -200,20 +222,17 @@ survive with steel, black powder, matchlocks, archery, and taboos.
 * **The Slow Cracking:** Blood Seals fail as bound lineages fall, and each failure cracks
   Aex's aegis and vents Sol's warmth, creating regional hot springs, volcanic bogs, and thermal pine
   wetlands:
-  * **Bryngloom:** Vreken slaughter nobility early to cure the Blight curse → seal snaps → boiling bogs &
-    sulfur vents.
-  * **Sundrift Vale:** Brutish Astril force Ordan Assassin to purge Ordan nobility → seal snaps →
-    geothermal warm valleys. Ordan disguise as ordinary humans.
-  * **Frostwood Reach:** Frostwood mages attempt "Artificial Sun" meltdown → seal snaps → warm pine
-    wetlands & steam geysers. House of Viridane flees to Frostwood Reach, unmasking the truth that a dead
-    lineage cracks the aegis.
-  * **Florae Sacred Grove:** Native Nature Deity discovers that lineage deaths crack the aegis; saves the
-    heirs who refused, erases their memories, mutates them into treant Florae.
+  Heat follows geological networks, not a rigid one-house/one-region mapping. Bryngloom bogs,
+  Frostwood steam wetlands, and Sundrift valleys acquire new thermal habitats through these wounds.
+  Native Vreken biology is not proof of an extorted celestial curse. Ordinary Ordan culture remains
+  public; the later purge targets the oath-bearing noble line, whose remnants conceal their descent.
 
 ### Era III: The Whispered Purge
-* **The Purge begins:** Keth Amar arrives, trailing Astril starlight, and seeds Predatory Wyrd into the Loom.
+* **The Purge begins:** Keth Amar follows Astril traces and extends corrupted Wyrd channels.
 * **The whispered years:** Posing as Aethil, Keth Amar whispers through Predatory Wyrd and promises warmth and
   stellar apotheosis to the Solari, Storm, and Rime houses. Blood Seals snap one by one.
+* **Viridane's refusal:** The Unnamed Green rescues the family through transformation and erasure.
+  Their public Aex obligation ends; Morrath receives a political seat, not an intact original seal.
 
 ### Era IV: The Blind Strike
 * **The Blind Strike:** Keth Amar's kinetic assault — the Blind Strike, remembered by mortals as **Blizzard's
@@ -229,36 +248,24 @@ survive with steel, black powder, matchlocks, archery, and taboos.
 
 ## 4. CLASS HERITAGE TAXONOMY
 
-All 20+ playable classes fall into five distinct metaphysical heritages:
+There are **21 base classes**. Deepling registry aliases are heritage/compatibility entries, not
+three extra base classes. The blueprint §6 owns their complete provenance and heritage dossiers.
 
-| Heritage | Classes | Basis |
-|---|---|---|
-| 1. Pre-Binding Classes | Berserker, Apex, Minstrel, Warden, Toxicologist | Steel, black powder, cold iron, traps, physical mastery |
-| 2. Celestial Bargain (The Bound) | Spellguard, Arcanoneer, Chronarch, Shaper, Crusader; Martyr (devotional) | Elemental control from the Bloodline Pacts; Aex's wound channelled by trained Witnesses (Solari and Groven) and walked as Ironclads by the Skald |
-| 3. Vreken Extortion (Blight Magic) | Blight-Weaving Orders | Extorted divine desperation |
-| 4. Cosmic Collision (Post-Keth Amar) | Harbinger, Plaguebringer, Revenant | Predatory Wyrd colliding with the Bloodline Pacts |
-| 5. Hazard Pact (The Debt-Bound) | Gambit, Pyrofiend | Power staked as a wager or debt against a cosmic entity; Mael-Zhul's ledger and Scathrach's furnace |
+Record **power source**, **individual acquisition**, **first discovery**, **cultural transmission**,
+and **institution founding** separately. Native biology, trained technique, celestial resonance,
+native contracts, surgery, parasites, and Wyrd channels can interact; they are not five mutually
+exclusive buckets. A native tradition requires a historical reason. Outsider access requires real
+training, initiation, exposure, surgery, or a bond; absolute blocks require incompatible states.
 
-1. **Pre-Binding Classes (Traditional / Mortals):** Masteries forged before magic touched mortals. Built on
-   steel, black powder, cold-iron traps, matchlocks, physical mastery, and survival tactics (*Berserker*,
-   *Apex*, *Minstrel*, *Warden*, *Toxicologist*).
-2. **Celestial Bargain Classes (The Bound):** Direct elemental control born from the Bloodline Pacts sworn
-   to Aex and witnessed by Aethil (*Spellguard*, *Arcanoneer*, *Chronarch*, *Shaper*).
-3. **Vreken Extortion (Blight Magic):** The Vreken extorted divine desperation for ultimate power,
-   receiving **Blight Magic**, which corrupted their noble bloodlines and turned their lands into
-   sulfurous bogs.
-4. **Cosmic Collision Classes (Post-Keth Amar):** Forged when Predatory Wyrd collided violently with the
-   celestial pacts:
-   * **Harbinger:** Void-dissonance and doom-arithmetic woven into raw kinetic force.
-   * **Plaguebringer:** Predatory Wyrd decay fused with Blight biology.
-   * **Revenant:** Souls suspended between celestial embers and void stasis.
-5. **Hazard Pact Classes (The Debt-Bound):** Power staked at the point of irreversible catastrophe and owed
-   to a cosmic entity:
-   * **Gambit:** Mael-Zhul, the House, trades Wyrd-twisting credit for souls; Fortune is its credit drawn
-     against the debtor's future, and Karmic Debt is its marker coming due.
-   * **Pyrofiend:** Claimed by the Emberspire collision; Scathrach, the will born of the first crucibles,
-     holds the debt and calls it in at the Crucible. (Pyrofiends are also a Cosmic Collision product; the
-     Hazard Pact describes the mechanism of the power, not its origin.)
+Examples: Apex sensory Trades belong to the native Quiet, Minstrel acoustics predate the modern
+Tide-Choir, and Mael-Zhul's probability craft predates its present Wyrd amplification. Arcanoneer's
+four native interfaces reach the same elemental grammar. Martyrs resonate with Aex's sacrifice;
+their power does not certify moral righteousness. Pyrofiends arise from post-Strike crucibles and
+owe Scathrach, whose opposition to Keth does not make it benevolent. Warden surgery is a later
+discipline even though hunting and chains are older.
+
+Every heritage retains its class chassis and core risks, with a bounded edge and corresponding cost.
+The blueprint's proposed benefit/cost tables are not executable effects or final numerical balance.
 
 ---
 
@@ -276,17 +283,18 @@ All 20+ playable classes fall into five distinct metaphysical heritages:
     as spirit-conduits and probability-readers; they perceive the obligation-web and yearn eternally for
     sensations they can no longer taste.
   * **Withered (The Severed):** Descend from Saren-Vel, who burned her own name from the First Contract in
-    the fourth century. Legally nonexistent and no longer preserved by Morvane's pact, they decay slowly
+    a later era. Outside First Contract jurisdiction and no longer preserved by Morvane's pact, they age slowly
     outside the law, living as shadow-brokers and outcasts beneath Atropolis.
 * **Naming canon:** the bloodlines are **Nethien, Veldun, Withered**. The old forms (High Neth, Velun,
   Pale Neth, Hallowed, Kessen, Grave Neth, Drun) are retired and survive only in in-world archaisms.
 * **Rival Truths (canon framing):** The Well of Life parable is the Neth's own liturgy. Outside scholars —
   and the Neth's own contract-elders — tell the same event as the **First Contract with Morvane, the Keeper
   of the Last Threshold**: the same waters, the same prices, recorded as law rather than told as scripture.
-  Both accounts stand; neither is complete. Morvane acts as the Sleeping Soul's memory of the debt; the
-  Sleeping Soul itself does not bargain.
+  Vaelis the Scribe, a historical female negotiator, drafted the mortal argument; Morvane ratified it
+  and the First Contract grew into living heartwood. The Well and Contract describe the same event.
+  Valerius's later Grand Nomenclature is a different achievement. The Sleeping Soul does not bargain.
 
-### 5.2 The Fexrick (Tinkers Who Dug Too Deep)
+### 5.2 The Fexric (Tinkers Who Dug Too Deep)
 * **Origin:** Gnomish/Dwarvish master engineers of Cragjaw Peaks who relied on black powder, steam valves,
   and gear-work rather than magic.
 * **The Incident:** Dug too deep in the mountains and uncovered an ancient Primordial God's vault/engine.
@@ -296,37 +304,44 @@ All 20+ playable classes fall into five distinct metaphysical heritages:
 ### 5.3 Other Ancestries & Subraces
 1. **SOLARI:** Former humans granted Ember magic. Subterranean, ash-skinned guardians keeping Sol's flame
    alive — the bloodline that took the pact most literally.
-2. **VREKEN:** Former humans altered by Blight magic. Amber-eyed crypt keepers in Bryngloom's sunken spires.
-3. **FLORAE:** Bloodline heirs who refused Keth Amar, saved by the Nature Deity. Treant-like beings with
-   erased memories.
-4. **GROVEN:** Primordial stone-bound humanoids altered into mountain subraces.
+2. **VREKEN:** Native elven antecedents transformed through fungal symbiosis and hostile exposure;
+   Clean/Marked are inherited strains, not purification merit or collective moral guilt.
+3. **FLORAE:** Viridane's transformed descendants, rescued by the Unnamed Green. They retain refusal
+   and oral history, not necessarily every ancestor's memories. Oken emerge from planted nurseries;
+   Viridian are biologically born. They are not collectively the Unwritten family.
+4. **GROVEN:** Thrumm preceded Fexric settlement in Cragjaw; experimentation produced the Groven,
+   whose Still-Claiming and voluntary reclamation schools developed later.
 5. **MYRATHIL:** Aquatic humanoids born of the Water Deity (Open Sea, Coastal, River variants) — a people
-   grown from seafoam by the Loom.
-6. **MIMIR:** Mask-wearing humanoids created by an insecure Sculptor God.
+   spawned by native Mareth before the Star-Fall. Emberspire's rupture caused a population boom, not
+   their first existence. Their kinship does not imply biological wombs.
+6. **MIMIR:** Sereth's native creations. Arch inherit partial heartwood/storm-glass masks; Broken are
+   unmasked and Mote-anchored. Tallen preserves physical mask craft, not lost ancestral imprinting.
 7. **ASTRIL:** Star-refugees split into Stargazer Astril (scholars) and Brutish Astril (warlike conquerors).
    Keth Amar tracked the scent of their devoured star and followed them to Sol.
-8. **HUMANS (7 Regional Subraces):**
+8. **HUMANS (5 Current Regional Subraces):**
    * **Thalren:** Dwellers of Frostwood Reach pine wetlands.
    * **Skald:** Northland warriors of Nordhalla tundra.
    * **Tessen:** Mountaineers of Cragjaw Peaks.
-   * **Solvarn:** Sund-people of volcanic Sundale; the bloodline that wielded the knife and carries its
-     guilt.
    * **Merryn:** Seafarers of Iceheart Sea.
-   * **Ordan:** Thought extinct; survivors disguise themselves as ordinary humans to hide from Brutish
-     Astril.
-   * **Morren:** Bogdwellers of the Bryngloom Forest, neighbors to the Neth and the deep bogs.
+   * **Ordan:** Public pastoral culture; purged oath-bearing noble remnants conceal their descent.
+   * **Historical peoples:** Solvarn and Morren remain historical identities, not extra selections.
 9. **THE UNWRITTEN (The Secret Lineage):** The hidden family that forged the undocumented pact with Aex.
    Erased from all recorded history, physically and metaphysically metamorphosed, hidden in plain sight.
-   Their forgotten vow is the only thing keeping the core sealed. (Their public shadow is the 7th House;
-   see §1.7.)
-10. **7TH HOUSE ACOLYTES (Playable):** Masked cultists of the Counterfeit Monolith — Keth Amar's
-    whisper-cult. Playable origin carrying the **Hollow Sight**.
+   Their continuing vow is the sole uninterrupted Secret Aegis. Their unrevealed identity is distinct
+   from Viridane; the Acolytes are not their public identity.
+10. **7TH HOUSE ACOLYTES:** Masked cultists of Keth's Counterfeit network. A background and the
+    optional Hollow Sight graft are modular origins, not an eleventh race; a player retains agency.
+
+**Census:** 10 playable races / 25 subraces, including Nethien, Veldun, and Withered under Nethien.
+Keep `fexrick` as the legacy player key, display **Fexric**. **Sumpborn** is the distinct nonplayable
+runoff-created people; old scrapfolk references are archival aliases. Ordinary Solari have
+ash-dusted brown-beige flesh and black eyes; lava-rock bodies belong to documented conversion states.
 
 ---
 
 ### 5.4 Old Native Gods
-* **Mael-Zhul** is an Old Native God of Nordhalla, grown by the Natural Wyrd out of northern dread of
-  shifting currents, sudden ruin, and luck that turns. It predates the Celestial Gods and the Binding.
+* **Mael-Zhul** is an Old Native God of probability-credit in Nordhalla. Northern stories describe
+  encounters with it; they did not create it. It predates the local celestial Binding.
 * It keeps no temples and answers no prayers. Its bargains are lines of credit extended to the doomed, and
   the collateral is the soul. Those bound to its ledger call it only **the House**, and its debtors are the
   **Gambits**: Fortune is the credit, Karmic Debt is the marker coming due, and the initiation Death Roll
@@ -341,10 +356,10 @@ All 20+ playable classes fall into five distinct metaphysical heritages:
 * **The Reckoner** is the Old Native God of omens, even and odd, and owed hours. It counts without judging;
   tally is not justice. The Augurs read its ledger in entrails and dice pips, the Harbingers call it the
   first doom-mathematician, and the glacier-tombs say it counted the dead before the freeze began.
-* **Vurath** is the engine beneath the Cragjaw: older than speech, found and robbed by the Fexric eight
-  millennia ago. It sleeps under the maintenance songs; the dying First Turbine is its stirring, time runs
+* **Vurath** is the engine beneath the Cragjaw: older than speech, found and robbed by the Fexric
+  in the Long Before. It sleeps under the maintenance songs; the dying First Turbine is its stirring, time runs
   wrong in its gallery, and the Clockwork guilds deny it while the Chronarch heretics measure it.
-* **Canon note:** these Old Gods are native entities of the Loom. They are not masks of Keth Amar and not
+* **Canon note:** these Old Gods are distinct native entities. They are not masks of Keth Amar and not
   Ancient Cosmic Wyrdkin. Gambit is a Hazard Pact class (§4); Pyrofiends are claimed by Scathrach, the will
   born of the Emberspire collision, whose hazard-debt runs through the Inferno Veil.
 
@@ -356,7 +371,7 @@ All 20+ playable classes fall into five distinct metaphysical heritages:
   initial gameplay release. Other continents will be added in future expansions.
 * **Folklore Textures:** Deeply rooted in Finnish, Greenlandic, and Norse mythology (*Landvaettir*,
   *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). These creatures are Nordhalla's original owners —
-  grown by the Natural Wyrd out of what the north fears — and act as its natural immune system.
+   native beings with their own habitats and motives. Folklore preserves encounters and survival rules.
 * **Culture & Combat:** Common Skalds and hunters rely on matchlock firearms, black powder, cold-iron
   traps, and folk taboos to survive native beasts, while Bound House leaders bring celestial elemental
   magic to the shield-wall.
@@ -373,17 +388,17 @@ All 20+ playable classes fall into five distinct metaphysical heritages:
 
 ---
 
-## 7. CREATURE COSMOLOGY & THE TWO WYRDS
+## 7. CREATURE COSMOLOGY & WYRD PROVENANCE
 
-> **Core Rule:** Mythrill has no single creature origin. The Natural Wyrd grows creatures out of what the
-> world believes; the Predatory Wyrd infects, imitates, and hunts. It does not create from nothing — it
-> corrupts what the Loom already made.
+> **Core Rule:** Mythrill has no single creature origin. Native life is independent of mortal belief.
+> Keth exploits a wider cosmic ecology, corrupts native hosts, and generates narrower local spawn.
+> Establish origin and sustaining anchor separately; an effect tagged `wyrd` is not an origin record.
 
 ### 7.1 The Four Creature Layers
 
 | Layer | Canonical source and role | Anchors and persistence |
 | :--- | :--- | :--- |
-| **Native Mythrill creatures** | Grown by **Natural Wyrd**: Pre-Binding beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Vaettir*, *Fossegrim*, *Qalupalik*), mythic peoples, constructs, and land beings with innate elemental abilities. | Rooted in habitat, lineage, native powers, materials, or land memory — and in the belief that made them. They persist independently of Keth Amar. Pre-Strike Blood Seal failures cracked Aex's aegis and released Sol's warmth, changing habitats without creating them. |
+| **Native Mythrill creatures** | Actual native biological, spiritual, crafted, or alchemical origins: beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), spirits (*Landvaettir*, *Vaettir*, *Fossegrim*, *Qalupalik*), peoples, constructs, and land beings. | Habitat, lineage, native powers, materials, or land memory. Independent of Keth and remembered folklore. Seal failures changed thermal habitats without creating their inhabitants. |
 | **Ancient Cosmic Wyrdkin** | Pre-existing extra-Mythrill organisms from an ancient cosmic Wyrd ecology. Keth Amar may bring, attract, direct, or exploit them as scouts, breach-keepers, drainers, parasites, mimics, siege organisms, collectors/judges, or independent predators. | They enter through Keth's wake or the Astril trail, aegis cracks, Predatory Wyrd breaches, infected matter, or Aex Shard anchors. A self-sustaining nest or anchor leaves them stranded and active after Keth Amar retreats. |
 | **Keth-spawn / Wyrdspawn** | Direct local offspring, bodies, larvae, or manifestations generated by **Predatory Wyrd**. | They depend on an active breach, infected host or material, Shard, or other local anchor. Breaking the anchor or the Wyrd supply ends them, though surviving nests can persist. |
 | **Wyrd-touched natives** | Native individuals, broods, or branches altered by Predatory Wyrd exposure, pact, parasitism, or habitat wounds. Native identity remains meaningful; corruption is a condition, not a new species. | Anchored in a body, lineage, territory, object, oath, or symbiosis. Can recover, adapt, or remain after Keth Amar retreats if the wound or anchor remains. |
@@ -417,7 +432,8 @@ warm is owned.
   quietly die. This is the engine of the era's wars: nobody ever has enough glow to last.
 * **The Unit of Account — the Hearth-Winter (hw):** Heat is money. One hearth-winter is the warmth a family
   of five needs for one winter: food-rent, fuel-rent, and lamp-oil reckoned together. Shard prices, grain
-  convoys, mercenary contracts, and the Frost-Tithe are all quoted in hw. The Neth contract-halls of
+   convoys, mercenary contracts, and heat-tithes/hearth dues are quoted in hw. **Frost-Tithe** names the
+   supernatural birth-debt of Rime-Touched lineages, not a resource tax. The Neth contract-halls of
   Atropolis clear the tallies between regions (for a fee, and a memory of everyone who has ever owed),
   which is why every trade outpost houses a First Contract copy and a Neth notary.
 * **Who Holds What:** House-controlled shard hoards (the old bloodline keystones above all); the

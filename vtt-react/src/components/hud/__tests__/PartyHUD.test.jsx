@@ -31,7 +31,7 @@ jest.mock('../../../store/partyStore', () => {
         isGM: false,
         character: {
           name: 'Gimli',
-          race: 'Withered',
+          race: 'Riven',
           class: 'Warrior',
           background: 'Soldier',
           level: 5,
@@ -78,7 +78,7 @@ jest.mock('../../../store/characterStore', () => {
   const store = {
     name: 'Legolas',
     baseName: 'Legolas',
-    race: 'Thalren (Frostwood Reach)',
+    race: 'Tallyn (Frostwood Reach)',
     class: 'Hunter',
     background: 'Urchin',
     backgroundDisplayName: 'Urchin',
@@ -249,7 +249,7 @@ describe('PartyHUD Component', () => {
     render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
     fireEvent.click(screen.getByLabelText('Legolas Health: 45 of 50'));
-    expect(screen.getByText('Health 45/50')).toBeInTheDocument();
+    expect(screen.getByText('45/50')).toBeInTheDocument();
     expect(screen.getByText('-5')).toBeInTheDocument();
     expect(screen.getByText('-1')).toBeInTheDocument();
     expect(screen.getByText('+1')).toBeInTheDocument();
@@ -264,11 +264,37 @@ describe('PartyHUD Component', () => {
     expect(useCharacterStore.getState().updateResource).toHaveBeenCalledWith('health', 44, 50, undefined, true);
   });
 
+  it('lets the exact current value be typed in and applied', () => {
+    render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
+
+    fireEvent.click(screen.getByLabelText('Legolas Health: 45 of 50'));
+    fireEvent.click(screen.getByText('45/50'));
+    const input = document.body.querySelector('.mount-adjust-input');
+    expect(input).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: '30' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(useCharacterStore.getState().updateResource).toHaveBeenCalledWith('health', 30, 50, undefined, true);
+  });
+
+  it('exposes an accept button to apply the typed value', () => {
+    render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
+
+    fireEvent.click(screen.getByLabelText('Legolas Health: 45 of 50'));
+    fireEvent.click(screen.getByText('45/50'));
+    const input = document.body.querySelector('.mount-adjust-input');
+    fireEvent.change(input, { target: { value: '50' } });
+    fireEvent.click(screen.getByTitle('Apply'));
+
+    expect(useCharacterStore.getState().updateResource).toHaveBeenCalledWith('health', 50, 50);
+  });
+
   it('offers single-step options on the AP boot', () => {
     render(<PartyHUD onOpenCharacterSheet={jest.fn()} onCreateToken={jest.fn()} />);
 
     fireEvent.click(screen.getByLabelText('Legolas Action Points: 2 of 3'));
-    expect(screen.getByText('Action Points 2/3')).toBeInTheDocument();
+    expect(screen.getByText('2/3')).toBeInTheDocument();
     const menu = document.body.querySelector('.mount-adjust-menu');
     expect(menu).toBeInTheDocument();
     expect(menu.textContent).not.toContain('-5');
@@ -367,9 +393,9 @@ describe('PartyHUD Component', () => {
     });
     // Human bloodlines read as "<bloodline> (Human)", with legacy regional
     // suffixes stripped instead of leaking into the heritage line.
-    expect(heritageLines[0].querySelector('.heritage-race')).toHaveTextContent('Thalren (Human)');
-    // Nethien bloodlines read as "<bloodline> Nethien"
-    expect(heritageLines[1]).toHaveTextContent('Withered Nethien');
+    expect(heritageLines[0].querySelector('.heritage-race')).toHaveTextContent('Tallyn (Human)');
+    // Athien bloodlines read as "<bloodline> Athien"
+    expect(heritageLines[1]).toHaveTextContent('Riven');
 
     const backgroundLines = container.querySelectorAll('.member-background-line');
     expect(backgroundLines).toHaveLength(2);

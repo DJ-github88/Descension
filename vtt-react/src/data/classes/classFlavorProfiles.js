@@ -42,7 +42,7 @@ export const CLASS_FLAVOR_PROFILES = {
     resourceIcon: 'fa-circle-nodes',
     tagline: 'Structure incantations as strict arcane contracts, combining raw elemental spheres into devastating compound matrices.',
     keyFeatures: ['Sphere Fusion Matrix', 'Arcane Contract Syntax', 'Multi-Elemental Repertoire'],
-    loreSnippet: 'Founded by Nethien archivists to tame wild magic, the arcanoneer blends fire, frost, storm, and void into measured, stable weaves.',
+    loreSnippet: 'Founded by Athien archivists to tame wild magic, the arcanoneer blends fire, frost, storm, and void into measured, stable weaves.',
     playstyle: 'Generate raw elemental spheres each round and combine them on the fly into customized spells tailored to enemy vulnerabilities.'
   },
 
@@ -84,7 +84,7 @@ export const CLASS_FLAVOR_PROFILES = {
     resourceIcon: 'fa-clock',
     tagline: 'Treat time as clockwork engineering, dilating velocity, freezing incoming strikes, and rewinding grievous wounds.',
     keyFeatures: ['Time Dilation Auras', 'Temporal Rewind', 'Stasis Field Traps'],
-    loreSnippet: 'Pioneered by Fexric engineers beneath Frostmaw Crag, chronarchs graft brass temporal escapements into their chests to command the flow of seconds.',
+    loreSnippet: 'Pioneered by Fex engineers beneath Frostmaw Crag, chronarchs graft brass temporal escapements into their chests to command the flow of seconds.',
     playstyle: 'Spend Time Shards to grant extra actions, slow approaching enemies, and rewind recent damage at the risk of mounting temporal strain.'
   },
 

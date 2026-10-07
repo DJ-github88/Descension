@@ -17,7 +17,7 @@ export const ANIMIST_DATA = {
           "tessen_human"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires ancestral spirit-channeling. Solari commune with volcanic entities (different tradition). Fexric see spirits as machine-failure states. Tessen isolation prevents access. Myrathil have no land spirit tradition."
+      "justification": "Requires ancestral spirit-channeling. Solari commune with volcanic entities (different tradition). Fex see spirits as machine-failure states. Tessic isolation prevents access. Myrathil have no land spirit tradition."
   },
 
   /**
@@ -37,16 +37,61 @@ export const ANIMIST_DATA = {
    offHand: ['totem', 'tome', 'empty']
   },
   subraceVariants: {
+    veiled_mimir: {
+      subraceName: 'Arch Mimir',
+      title: 'The Archive-Keeper',
+      reframe: `The Arch Mimir keep lineage archives in the canopy; a keeper who communes with a forebear indexes a known heirloom rather than summoning freely. The archive is finite, and a keeper who invents an unknown ancestor is filing a false record.`,
+      signatureAbility: {
+        name: 'Heirloom Index',
+        description: `A known heirloom indexes an ancestral witness from the canopy archive; coverage is finite and unknown ancestors cannot be invented.`
+      },
+      currentCrisisAngle: `The canopy archives are being stripped by the mask-cartels, and every stolen heirloom takes an ancestor out of reach.`,
+      signatureQuote: {
+        text: 'I do not summon the dead. I file a request, and the archive either has them or it does not.',
+        speaker: 'Archivist Vela',
+        context: 'An Arch Mimir Animist at the canopy archive'
+      }
+    },
+    tethered_mimir: {
+      subraceName: 'Broken Mimir',
+      title: 'The Mote-Speaker',
+      reframe: `The Broken Mimir live unmasked, anchored by a personal Mote. Their tradition calls family ancestors from scripture, using the Mote to separate the self from a visiting voice; over-channeling risks the personal memory anchor.`,
+      signatureAbility: {
+        name: 'Mote Anchor',
+        description: `Your Mote helps separate self from a visiting voice; over-channeling risks the personal memory anchor.`
+      },
+      currentCrisisAngle: `The Broken Mimir are losing their Motes to the cartels, and a family that cannot anchor a voice may lose its dead to the fog.`,
+      signatureQuote: {
+        text: 'No mask. Just a Mote, a scripture, and the dead who answer to my name.',
+        speaker: 'Mote-Keeper Hal',
+        context: 'A Broken Mimir Animist, unmasked'
+      }
+    },
+    riverling_myrathil: {
+      subraceName: 'Ondine Myrathil',
+      title: 'The Confluence-Listener',
+      reframe: `The Ondine Myrathil read the standing waves of a confluence for the memory it carries downstream. Learned from inland spirit-traditions where rivers meet: they sink a prepared token into living water and let the current carry a community witness. The dead are not summoned but carried, and the water remembers what the land forgets.`,
+      signatureAbility: {
+        name: 'Confluence-Token',
+        description: `A prepared token sunk into living water carries a community witness along the current; the reading needs renewal in living water and fails in drought.`
+      },
+      currentCrisisAngle: `The rivers are changing course as the freeze tightens; the confluences the Ondine learned to read are moving, and the dead they carried are being delivered to the wrong banks.`,
+      signatureQuote: {
+        text: 'The river does not keep a ledger. It keeps a current, and I learned to read it before it learned to lie.',
+        speaker: 'Sella Thaw-Run',
+        context: 'A Ondine Myrathil Animist at the Thaw-Run confluence'
+      }
+    },
     ordan_human: {
-      subraceName: 'Ordan',
+      subraceName: 'Ordu',
       title: 'The Steppe-Throat',
-      reframe: `The <LoreLink termId="skald">Ordan</LoreLink> Animist is the root tradition from which all others descended. When the stars went dark, the Ordan throat-singers turned their overtones from star-names to ancestor-names and discovered the dead remember what the living need. The Ordan Animist does not carve runes or inhale spores. They sing. The ancestor lives in the overtone, the second voice the throat produces above the fundamental, woven into the mane-hair of the migration-horse and carried fifteen miles across the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. An Ordan Animist who loses their voice loses their entire lineage in a single silence.`,
+      reframe: `The <LoreLink termId="skald">Ordu</LoreLink> Animist is the root tradition from which all others descended. When the stars went dark, the Ordu throat-singers turned their overtones from star-names to ancestor-names and discovered the dead remember what the living need. The Ordu Animist does not carve runes or inhale spores. They sing. The ancestor lives in the overtone, the second voice the throat produces above the fundamental, woven into the mane-hair of the migration-horse and carried fifteen miles across the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. An Ordu Animist who loses their voice loses their entire lineage in a single silence.`,
       signatureAbility: {
         name: 'Overtone-Channel',
         description: `A practitioner of ancestor-communion through physical transformation. Bone erupts from flesh as totems. Glowing sigils burn across skin. The voices of ancestors speak through the practitioner's own throat, and the price of carrying them is Spirit Erosion, a slow consumption of the self by the spirits that were invited in.`,
 
       },
-      currentCrisisAngle: `The Ordan's throat-sung dialect was never written down, it lives only in muscle-memory. As the ancestral language fragments, the Ordan hear the disharmony first and loudest, and cannot cross-reference it against the runic or spore traditions because they have no text to compare. They are screaming about a fracture no one else can verify.`,
+      currentCrisisAngle: `The Ordu's throat-sung dialect was never written down, it lives only in muscle-memory. As the ancestral language fragments, the Ordu hear the disharmony first and loudest, and cannot cross-reference it against the runic or spore traditions because they have no text to compare. They are screaming about a fracture no one else can verify.`,
       signatureQuote: {
         text: '"The ancestor is the second voice. Kill the first, and I will still answer you with the one that matters."',
         speaker: 'Bayar Wind-Throat',
@@ -55,41 +100,41 @@ export const ANIMIST_DATA = {
     },
 
     vashir_astril: {
-      subraceName: 'Stargazer Astril',
+      subraceName: 'Lumian',
       title: 'The Heritage-Conduit',
-      reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.`,
+      reframe: `The <LoreLink termId="astril">Lumian</LoreLink> seek total symbiosis with the Lumia heritage nesting in their crystalline skin. Learned from Ordu throat-singers during centuries of steppe cohabitation: the Astril adapted the ancestor-compass concept to their own blood-memory, channeling the echo of a dead world rather than discrete ancestors. An Astril Animist does not summon a separate ancestor, they commune with the fragment of a dead world's biosphere carried in their own blood. The heritage is not external. It is the host. They channel the trapped memory of a dead world through skin that hums with the resonance of what was lost.`,
       signatureAbility: {
         name: 'Star-Communion',
-      description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Stargazer Astril Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left.`
+      description: `Spirit-power scales with the depth of the host's symbiosis; a fully-symbiotic Lumian Animist channels the heritage as self, not as other. Power is strongest in absolute darkness, where the trapped light of the dead world in their skin is the only light left.`
       },
-      currentCrisisAngle: `The Lumia heritage in Stargazer Astril blood predates the Animist tradition, it is the loudest "ancestors" of any tradition. When the dialect fractured, the Stargazer Astril's heritage began screaming contradictory prophecies through crystalline skin. Young Stargazer Astril Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
+      currentCrisisAngle: `The Lumia heritage in Lumian blood predates the Animist tradition, it is the loudest "ancestors" of any tradition. When the dialect fractured, the Lumian's heritage began screaming contradictory prophecies through crystalline skin. Young Lumian Animists are going mad, unable to silence a chorus that predates the language meant to speak to it.`,
       signatureQuote: {
         text: '"You call them ancestors. I call them the memory of a dead world, and they live in my forearm. Do not ask me to be quiet about it."',
         speaker: 'Lirien Bright-Veined',
-        context: 'A Stargazer Astril Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine'
+        context: 'A Lumian Animist, declining to join a cross-cultural ancestral communion at the Sundrift Wind-Shrine'
       }
     },
 
     clean_vreken: {
-      subraceName: 'Clean Vreken',
+      subraceName: 'Bedel',
       title: 'The Spore-Inhaler',
-       reframe: `Among the Vreken, the Wyrd wears one local mask: it is inhaled as bioluminescent spores, a regional manifestation of Keth Amar's corruption rather than a separate origin. The <LoreLink termId="vreken">Clean Vreken</LoreLink> inhale the Wyrd through these spores, letting the ancestral dead ride fungal particles into the lungs and speak through shifting glow-patterns on the skin. Learned from Ordan throat-singers during Bryngloom border trade: a Clean Vreken walked into the bog after trading with Ordan herders, inhaled spores with deliberate intent, and discovered the Wyrd answered through mycelium. The dead speak through fungus, and the Clean Vreken have been breathing the dead ever since.`,
+       reframe: `Among the Mycellan, the Wyrd wears one local mask: it is inhaled as bioluminescent spores, a regional manifestation of Keth Amar's corruption rather than a separate origin. The <LoreLink termId="vreken">Bedel</LoreLink> inhale the Wyrd through these spores, letting the ancestral dead ride fungal particles into the lungs and speak through shifting glow-patterns on the skin. Learned from Ordu throat-singers during Bryngloom border trade: a Bedel walked into the bog after trading with Ordu herders, inhaled spores with deliberate intent, and discovered the Wyrd answered through mycelium. The dead speak through fungus, and the Bedel have been breathing the dead ever since.`,
       signatureAbility: {
         name: 'Spore-Inhalation',
-        description: `The Wyrd � Keth Amar's spiritual corruption seeping through the broken shell � saturates the fungal strains native to the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. The Clean Vreken inhale these spores as a conduit, letting the ancestral dead ride bioluminescent particles into the lungs; bonds form there and express as bioluminescent skin-text. The spores are not the Wyrd itself, but a biological medium that carries its resonance. The deep-glow makes spirit-dialogue legible at a distance, but broadcasts every emotion to every Vreken nearby.`
+        description: `The Wyrd � Keth Amar's spiritual corruption seeping through the broken shell � saturates the fungal strains native to the deep <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>. The Bedel inhale these spores as a conduit, letting the ancestral dead ride bioluminescent particles into the lungs; bonds form there and express as bioluminescent skin-text. The spores are not the Wyrd itself, but a biological medium that carries its resonance. The deep-glow makes spirit-dialogue legible at a distance, but broadcasts every emotion to every Mycellan nearby.`
       },
-      currentCrisisAngle: `The fungal substrate is the Clean Vreken's dialect, and that substrate is one with the <LoreLink termId="root_veil">Root-Veil</LoreLink>. When the Root-Veil shifts, the Clean Vreken hear it as a scream. The dialect-fracture feels, to them, like the forest itself is being strangled, and they are the only tradition that feels it as physical pain.`,
+      currentCrisisAngle: `The fungal substrate is the Bedel's dialect, and that substrate is one with the <LoreLink termId="root_veil">Root-Veil</LoreLink>. When the Root-Veil shifts, the Bedel hear it as a scream. The dialect-fracture feels, to them, like the forest itself is being strangled, and they are the only tradition that feels it as physical pain.`,
       signatureQuote: {
         text: '"You carve your dead into stone. You sing them into wind. I breathe mine, and when the forest coughs, I taste blood."',
         speaker: 'Mother Ysen',
-        context: 'A Clean Vreken spore-elder, explaining why she will not travel south'
+        context: 'A Bedel spore-elder, explaining why she will not travel south'
       }
     },
 
     skald_human: {
       subraceName: 'Skald',
       title: 'The Rune-Keeper',
-      reframe: `Where the Ordan sing and the Vreken inhale, the <LoreLink termId="skald">Skald</LoreLink> inscribe. Learned from Ordan throat-singers during Groven span-crossings along the Hunger Road: a Skald trader heard the ancestor-songs, recognized that the Ordan were carrying voices, and carved the first ancestor-rune into his own skin to make the record permanent. They carve their ancestors' names into their own skin, the rune IS the ancestor, and the scar-tissue is its house. A Skald Animist covered in runic scars carries a permanent retinue of the dead, each anchored to a specific wound that never fully closes.`,
+      reframe: `Where the Ordu sing and the Mycellan inhale, the <LoreLink termId="skald">Skald</LoreLink> inscribe. Learned from Ordu throat-singers during Groven span-crossings along the Hunger Road: a Skald trader heard the ancestor-songs, recognized that the Ordu were carrying voices, and carved the first ancestor-rune into his own skin to make the record permanent. They carve their ancestors' names into their own skin, the rune IS the ancestor, and the scar-tissue is its house. A Skald Animist covered in runic scars carries a permanent retinue of the dead, each anchored to a specific wound that never fully closes.`,
       signatureAbility: {
         name: 'Skin-Rune Anchoring',
         description: `Spirits are bound to carved runes on the Animist's own body; the more runes, the more ancestors on call, but each rune is a permanent open wound that re-opens and bleeds during invocation. A Skald Animist's power is written, visibly, in their scars.`
@@ -103,14 +148,14 @@ export const ANIMIST_DATA = {
     },
 
     velun_neth: {
-      subraceName: 'Nethien',
+      subraceName: 'Athien',
       title: 'The Ledger-Summoner',
-      reframe: `The <LoreLink termId="neth">Nethien</LoreLink> carry Morvane's authority in every word they speak, and Morvane does not forget. Adapted from the Ordan ancestor-compass technique through archival synthesis: the Nethien took the concept of summoning the dead and made it legally binding. A Nethien Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
+      reframe: `The <LoreLink termId="neth">Athien</LoreLink> carry Morvane's authority in every word they speak, and Morvane does not forget. Adapted from the Ordu ancestor-compass technique through archival synthesis: the Athien took the concept of summoning the dead and made it legally binding. A Athien Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
       signatureAbility: {
         name: 'Ledger-Citation',
-        description: `Spirits are summoned by referencing their exact entry in the archive; the more precise the citation (full name, dates, contract history), the stronger the bond. A mis-citation summons the wrong ancestor, and the Nethien cannot legally dismiss what they have invoked.`
+        description: `Spirits are summoned by referencing their exact entry in the archive; the more precise the citation (full name, dates, contract history), the stronger the bond. A mis-citation summons the wrong ancestor, and the Athien cannot legally dismiss what they have invoked.`
       },
-      currentCrisisAngle: `The Nethien are the tradition most committed to a unified ancestral language, it is their filing system. The dialect-fracture is, to them, a corruption of the archive itself. Some senior Ledger-Summoners suspect the <LoreLink termId="morvane">Morvane</LoreLink> is permitting it, that the death-threshold guardian is, for reasons of its own, redacting the dead.`,
+      currentCrisisAngle: `The Athien are the tradition most committed to a unified ancestral language, it is their filing system. The dialect-fracture is, to them, a corruption of the archive itself. Some senior Ledger-Summoners suspect the <LoreLink termId="morvane">Morvane</LoreLink> is permitting it, that the death-threshold guardian is, for reasons of its own, redacting the dead.`,
       signatureQuote: {
         text: '"You speak to your ancestors. I file a motion to hear mine. The difference is that mine always answer, and the answer is always admissible."',
         speaker: 'Clerk Vel-Ossaren',
@@ -119,18 +164,18 @@ export const ANIMIST_DATA = {
     },
 
     silath_astril: {
-      subraceName: 'Brutish Astril',
+      subraceName: 'Kordak',
       title: 'The Star-Communer',
-      reframe: `The Animist tradition arrived to the <LoreLink termId="astril">Brutish Astril</LoreLink> not through bone or spore or rune, but through ritual \u2014 the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordan throat-singers during centuries of steppe cohabitation: the Brutish Astril adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Brutish Astril Animist channels Lumia's consciousness rather than a discrete ancestor. The \u201cancestor\u201d is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible \u2014 no bone eruption, no runic scarring, no spore-inhalation. Just a Brutish Astril standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.`,
+      reframe: `The Animist tradition arrived to the <LoreLink termId="astril">Kordak</LoreLink> not through bone or spore or rune, but through ritual \u2014 the same nightly rite that keeps the Selunis-awakening alive. Learned from Ordu throat-singers during centuries of steppe cohabitation: the Kordak adapted the ancestor-compass through Lumia heritage, channeling the consciousness of the dead star itself rather than discrete ancestors. A Kordak Animist channels Lumia's consciousness rather than a discrete ancestor. The \u201cancestor\u201d is the dead star itself, and the channel is the moon-courtyard where the ritual has been performed for centuries. Resonance builds fastest at night beneath the moon. The communion is silent, internal, invisible \u2014 no bone eruption, no runic scarring, no spore-inhalation. Just a Kordak standing still in the courtyard, eyes closed, while the dead star speaks through their crystalline markings.`,
       signatureAbility: {
         name: 'Moon-Court Communion',
-        description: `Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Brutish Astril is motionless, the crystalline markings on their skin pulsing with stolen starlight.`
+        description: `Power-scaling is tied to the nightly rite in the moon-courtyard, resonance builds fastest at night beneath the open moon. The communion is silent, internal, and invisible, channeling the dead star's consciousness rather than a discrete ancestor. Power is strongest when the Kordak is motionless, the crystalline markings on their skin pulsing with stolen starlight.`
       },
-      currentCrisisAngle: `The dialect-fracture has reached the Brutish Astril in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all \u2014 it predates the Animist traditions entirely. When the Brutish Astril's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Brutish Astril Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.`,
+      currentCrisisAngle: `The dialect-fracture has reached the Kordak in a way the other traditions cannot comprehend. The dead star they commune with is not part of the ancestral language at all \u2014 it predates the Animist traditions entirely. When the Kordak's star-communion began returning contradictory echoes, the elders could not tell whether the star itself had fractured or whether the echoes were from a timeline the star had already witnessed and lost. The moon-courtyards have gone silent for the first time in centuries, and the younger Kordak Animists are beginning to wonder if the star has stopped speaking because there is nothing left to say.`,
       signatureQuote: {
         text: '"You carve, you sing, you breathe your dead. I stand still and let the dead star do all the talking. It has been talking for a century and a half. Tonight it went silent. I am very afraid."',
         speaker: 'Selenis Night-Still',
-        context: 'A Brutish Astril Animist, the first night the moon-courtyard returned silence'
+        context: 'A Kordak Animist, the first night the moon-courtyard returned silence'
       }
     },
 
@@ -151,25 +196,25 @@ export const ANIMIST_DATA = {
     },
 
     thrask_solari: {
-      subraceName: 'Waste-Solari',
+      subraceName: 'Anhur',
       title: 'The Ash-Choir',
-      reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> burn their dead on the caldera slopes, and the ash is not disposal, it is a *congregation*. An Ash-Choir Animist reads the funeral ash-fall: soot-patterns in the wind, ember-crack in the cooling vents, and the voices that rise when the ridge exhales. The ancestors speak in ash, and the Waste-Solari have spent four centuries learning to read a language that falls from the sky.`,
+      reframe: `The <LoreLink termId="solari">Anhur</LoreLink> burn their dead on the caldera slopes, and the ash is not disposal, it is a *congregation*. An Ash-Choir Animist reads the funeral ash-fall: soot-patterns in the wind, ember-crack in the cooling vents, and the voices that rise when the ridge exhales. The ancestors speak in ash, and the Anhur have spent four centuries learning to read a language that falls from the sky.`,
       signatureAbility: {
         name: 'Ash-Fall Reading',
         description: `Resonance builds from proximity to funeral ash and active caldera vents; the ancestors answer in ember-crack and soot-pattern, loudest in the open badlands where the wind carries them. Indoors, in clean air, the ash has nothing to say.`
       },
-      currentCrisisAngle: `The ash has begun falling in patterns the elders do not recognize, and names are missing from the Choir. Solari dead who have answered from the slopes for four hundred years have gone quiet, and the Hollow-Solari vigil-keepers connect it to the dimming of Sol's Breath without telling anyone outside the Deep-Vault. The Ash-Choirs keep singing the missing names, and the ash keeps returning them unanswered.`,
+      currentCrisisAngle: `The ash has begun falling in patterns the elders do not recognize, and names are missing from the Choir. Solari dead who have answered from the slopes for four hundred years have gone quiet, and the Korr vigil-keepers connect it to the dimming of Sol's Breath without telling anyone outside the Deep-Vault. The Ash-Choirs keep singing the missing names, and the ash keeps returning them unanswered.`,
       signatureQuote: {
         text: '"The ash remembers every Solari who ever burned. Lately it forgets names. Ours is a tradition of being remembered. We are being forgotten first, and no one will tell me by whom."',
         speaker: 'Ash-Choir Suun Ember-Lung',
-        context: 'A Waste-Solari Animist, singing a missing matriarch\'s name into a ridge-vent at first light'
+        context: 'A Anhur Animist, singing a missing matriarch\'s name into a ridge-vent at first light'
       }
     },
 
     viridian_florae: {
-      subraceName: 'Viridian Florae',
+      subraceName: 'Briaren Florae',
       title: 'The Thorn-Cantor',
-      reframe: `The <LoreLink termId="florae">Viridian Florae</LoreLink> are the descendants of House Viridane, the house the world *unwrote*, and their Animist tradition gives voice to the ancestors no ledger admits: the Unwritten dead, who have no graves, no records, and no names anywhere except thorn and blood. A Thorn-Cantor bleeds into the grove and the erased answer, because the thorn-grove is the only archive that kept them.`,
+      reframe: `The <LoreLink termId="florae">Briaren Florae</LoreLink> are the descendants of House Viridane, the house the world *unwrote*, and their Animist tradition gives voice to the ancestors no ledger admits: the Unwritten dead, who have no graves, no records, and no names anywhere except thorn and blood. A Thorn-Cantor bleeds into the grove and the erased answer, because the thorn-grove is the only archive that kept them.`,
       signatureAbility: {
         name: 'Unwritten Summons',
         description: `Summons ancestors erased from every record; their aid is real and their existence is not. Citation fails (there is nothing to cite), the bond is held by thorn-blood alone, and the spirits demand their names be spoken aloud with each summoning, because a spoken name is the only grave they have.`
@@ -183,18 +228,34 @@ export const ANIMIST_DATA = {
     },
 
     florae_unified: {
-      subraceName: 'Oken Florae',
+      subraceName: 'Oaken Florae',
       title: 'The Grove-Litany',
-      reframe: `The <LoreLink termId="florae">Oken Florae</LoreLink> pass as woodcraft travelers among the Thalren edge-settlements, and their ancestral rite has adapted to a life in hiding: an ancestor is held in a *splinter-graft*, a cutting the size of a thumb, carried in a pocket and spoken to through the wood. The Grove-Litany is the only Animist tradition that can practice inside a city, because the ancestor travels with the bearer, concealed, and the grove is wherever the graft is planted.`,
+      reframe: `The <LoreLink termId="florae">Oaken Florae</LoreLink> pass as woodcraft travelers among the Tallyn edge-settlements, and their ancestral rite has adapted to a life in hiding: an ancestor is held in a *splinter-graft*, a cutting the size of a thumb, carried in a pocket and spoken to through the wood. The Grove-Litany is the only Animist tradition that can practice inside a city, because the ancestor travels with the bearer, concealed, and the grove is wherever the graft is planted.`,
       signatureAbility: {
         name: 'Graft-Communion',
         description: `Ancestors are held in carried splinter-grafts; portable, concealable, and functional anywhere, including cities and dead stone where no Ancestor mound exists. The price is the graft must be planted and take root at least once a season to keep the ancestor oriented; a graft that never roots begins to go feral into the wood, and a feral ancestor answers with the tree's voice instead of its own.`
       },
-      currentCrisisAngle: `The Oken grafts have begun rooting *too eagerly*, pushing growth into whatever wood they touch, doors, beams, boat hulls, cart axles. A carried grandmother that blooms in a tavern doorpost exposes an entire hidden family line. The Grove-Litanies are burning their eldest grafts to keep them quiet, which the elders call pruning and the young call murder with extra steps.`,
+      currentCrisisAngle: `The Oaken grafts have begun rooting *too eagerly*, pushing growth into whatever wood they touch, doors, beams, boat hulls, cart axles. A carried grandmother that blooms in a tavern doorpost exposes an entire hidden family line. The Grove-Litanies are burning their eldest grafts to keep them quiet, which the elders call pruning and the young call murder with extra steps.`,
       signatureQuote: {
         text: '"I carry my grandmother in a cutting the size of my thumb. She has been trying to root in a tavern doorpost for a month. If the door blooms, we are discovered. I have carried her across three provinces and I do not know how to explain to her that the safest thing is for her to sleep."',
         speaker: 'Graft-Bearer Lios the Hidden',
-        context: 'A Grove-Litany, preparing to prune a grandmother out of a doorpost in a Thalren market town'
+        context: 'A Grove-Litany, preparing to prune a grandmother out of a doorpost in a Tallyn market town'
+      }
+    },
+
+    deepling_myrathil: {
+      subraceName: 'Nereid Myrathil',
+      title: 'The Abyssal Echo-Caller',
+      reframe: `The <LoreLink termId="myrathil">Nereid Myrathil</LoreLink> commune with the drowned dead in the abyssal trenches where pressure and cold preserve what any surface grave would lose. A Nereid Animist does not sing, carve, or inhale their ancestors — they descend to the <LoreLink termId="treakous_rift">Treakous Rift</LoreLink> and listen to the bone-echoes, the reverberations of the dead that the deep has kept intact for millennia. The abyssal dead speak in pressure-waves and bioluminescent flicker, a dialect no surface Animist tradition has ever heard.`,
+      signatureAbility: {
+        name: 'Abyssal Communion',
+        description: `Ancestral spirits are channeled through deep-pressure bone-resonance; the Nereid Animist's body vibrates at abyssal frequencies, calling ancestors preserved in the trench. The communion is silent and invisible — no bone eruption, no runic scarring — just a deepling standing motionless in the dark while drowned ancestors answer through the pressure itself. Strongest at depth, where the abyssal dead are loudest; surface commune is faint and fragmentary.`
+      },
+      currentCrisisAngle: `The abyssal dead have begun speaking in a dialect the Nereid cannot parse — the same dialect-fracture the surface traditions face, but amplified by depth and pressure. Worse, the trench itself has started answering, something older than the dead, something that was waiting in the deep long before the Nereid learned to listen. The elder Echo-Callers believe the abyss is not preserving the dead — it is *digesting* them, and what answers when a Nereid listens is no longer the ancestor.`,
+      signatureQuote: {
+        text: '"My grandmother\'s voice came back from the trench last night. It was her voice. It was her words. It was not her. The deep has learned to wear the dead like masks, and I cannot tell which answers are real anymore."',
+        speaker: 'Echo-Caller Nethis Deep-Listener',
+        context: 'A Nereid Animist, after a communion at the Treakous Rift'
       }
     }
   },
@@ -217,7 +278,7 @@ export const ANIMIST_DATA = {
   classIdentity: {
     title: "The Ancestral Conduit",
     subtitle: "Blood-Bound Voice of the Wild and the Written Word",
-    utility: "Channel ancestral power through the three adapted forms of a single root technique: bone totems erupted from the body (the Ordan throat-singer's physical legacy), curse-driven spirit invocations (the Vreken spore-inhaler's Wyrd resonance), and permanent runic networks carved into earth and flesh (the Skald trader's flesh-record). Terraform the battlefield, summon specters, and inscribe sacred sigils, paying for every manifestation through the mounting toll of Spirit Erosion.",
+    utility: "Channel ancestral power through the three adapted forms of a single root technique: bone totems erupted from the body (the Ordu throat-singer's physical legacy), curse-driven spirit invocations (the Mycellan spore-inhaler's Wyrd resonance), and permanent runic networks carved into earth and flesh (the Skald trader's flesh-record). Terraform the battlefield, summon specters, and inscribe sacred sigils, paying for every manifestation through the mounting toll of Spirit Erosion.",
     fatalFlaw: "Triple catastrophic flaw from fused traditions. Spirit Erosion at 15+ Resonance: 100% ember vulnerability, cannot receive party healing, forced movement shatters active runic networks dealing backlash, and the spirits demand service with 1d6 wyrd/turn if you hoard resonance without invoking. The Animist walks three tightropes simultaneously, and falling from any one is devastating."
   },
 
@@ -225,13 +286,13 @@ export const ANIMIST_DATA = {
     orderName: 'The Silent Throat',
     founder: {
       name: 'Kael the Herd-Runner',
-      status: `Dead. The first of the three named Animist founders, an Ordan throat-singer who sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. The practice predates writing  —  it was navigation, not philosophy. The Ordan do not know who first sang the dead into the wind, only that when the stars went dark, Kael began singing ancestor-names and the herds still found their way.`,
-      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordan throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Vreken, Astril, Nethien) all trace their root technique to Kael's work.`
+      status: `Dead. The first of the three named Animist founders, an Ordu throat-singer who sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. The practice predates writing  —  it was navigation, not philosophy. The Ordu do not know who first sang the dead into the wind, only that when the stars went dark, Kael began singing ancestor-names and the herds still found their way.`,
+      note: `Kael is canonically one of three co-founders of the Animist tradition (alongside Nyssa the Herbalist and Theron the Skald Scholar). The Ordu throat-singing tradition lives entirely in muscle-memory, teacher to student, voice to voice, and Kael is the root of that lineage. Later traditions (Skald, Mycellan, Astril, Athien) all trace their root technique to Kael's work.`
     },
     currentLeader: {
       name: 'Bayar Wind-Throat',
       title: 'Last Singer of the Old Route',
-      characterization: `An Ordan elder who still sings the migration-routes in the old tongue of the Long Before  —  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  —  not with anger, but with the patience of someone who knows the dead will correct them eventually.`
+      characterization: `An Ordu elder who still sings the migration-routes in the old tongue of the Long Before  —  the language that predates the dialect-fracture. Bayar has not spoken a word aloud in forty years; he communicates only through throat-sung overtones, the way the First Singer did. His vocal cords are calcified from decades of channeling ancestors who died before the stars went out. He is the living archive of the oldest form, and he watches the younger traditions drift further from the root with every generation  —  not with anger, but with the patience of someone who knows the dead will correct them eventually.`
     },
     headquarters: { name: 'The Sundrift Wind-Shrine (moving camp)', locationId: 'sundrift-vale' },
     crisisConnection: `Bayar Wind-Throat is the only living Animist who still sings the pre-fracture language. The dialect-fracture is a problem of the dead themselves  —  the oldest dead (those who died before the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> woke) speak clearly. The newer dead are confused, their voices layered with static no throat-singer can parse. Bayar suspects something is wrong with the threshold of death itself, and the Monoliths' awakening is not a cause but a symptom. He cannot prove this, because the evidence is in a language no one else remembers how to hear.`
@@ -239,14 +300,14 @@ export const ANIMIST_DATA = {
 
   worldFriction: [
     { region: 'nordhalla', status: 'persecuted', consequence: 'The Cleansing of the Hearth, House Skalvyr religious purge, explicitly targets tribal Animists and Sky-Readers. Practitioners caught throat-singing or skin-carving are arrested; the Runic Academies denounce ancestral communion as heresy.', workaround: 'The Skald Rune-Keeper variant survives by framing its practice as genealogy rather than magic, the runes read as record-keeping to inquisitors who do not look too closely.' },
-    { region: 'sundrift-vale', status: 'persecuted', consequence: 'House Ordavan systematically purges Sky-Singers under the state-enforced ancestor worship. Ordan throat-sung Animists are the most hunted; their overtones carry for miles and cannot be hidden.' },
-    { region: 'bryngloom-forest', location: 'atropolis', status: 'tolerated', consequence: 'The Nethien Ledger-Summoners are legally protected as archival practice; the Vreken spore-elders are tolerated as a forest-floor fixture. Bryngloom is the safest region for an Animist, provided they do not disturb the Root-Veil.' }
+    { region: 'sundrift-vale', status: 'persecuted', consequence: 'House Ordavan systematically purges Sky-Singers under the state-enforced ancestor worship. Ordu throat-sung Animists are the most hunted; their overtones carry for miles and cannot be hidden.' },
+    { region: 'bryngloom-forest', location: 'atropolis', status: 'tolerated', consequence: 'The Athien Ledger-Summoners are legally protected as archival practice; the Mycellan spore-elders are tolerated as a forest-floor fixture. Bryngloom is the safest region for an Animist, provided they do not disturb the Root-Veil.' }
   ],
 
   overview: {
         originStory: `A practitioner of ancestor-communion through physical transformation. Bone erupts from flesh as totems. Glowing sigils burn across skin. The voices of ancestors speak through the practitioner's own throat, and the price of carrying them is Spirit Erosion, a slow consumption of the self by the spirits that were invited in.
 
-The tradition began in the Sundrift Vale during the early centuries of the Freezing Era, when House Ordavan traded fertile soil for the endless migration and the sky went starless. The Ordan had navigated by star-maps for centuries. Suddenly they had nothing. The herds still moved, the steppe was still featureless, the wind still blew, but no one knew where they were going.
+The tradition began in the Sundrift Vale during the early centuries of the Freezing Era, when House Ordavan traded fertile soil for the endless migration and the sky went starless. The Ordu had navigated by star-maps for centuries. Suddenly they had nothing. The herds still moved, the steppe was still featureless, the wind still blew, but no one knew where they were going.
 
 The throat-singers adapted first, though not by design. They had always encoded migration routes in overtone harmonies, the old names of stars carried in the second voice the throat produces. When the stars went dark, the songs lost their referents. The overtones were still there, but they mapped to nothing. Throat-singers tried replacing the star-names with landmarks, wind-patterns, and the seasonal rhythms of the herds. All of these failed, the steppe shifts, the wind lies, and the herds follow paths the living no longer remembered.
 
@@ -254,20 +315,30 @@ It was an elder named Hearth-Singer, whose name has been lost but whose title th
 
 She followed the voice south. She found the herd. She died three days later. But she had proven that the dead could navigate where the stars could not.
 
-The practice spread along the Hunger Road. Skald caravans crossing the Groven Ancestor-Spans heard Ordan throat-singers and recognized the technique: they were carrying voices. The Skald, whose culture already preserved their dead in glacier-ice panels at Skalvyrhold, began carrying their own, carving ancestor-names directly into skin, making the flesh a permanent record. A Skald covered in runic scars carries a retinue of the dead, each anchored to a wound that never fully closes.
+The practice spread along the Hunger Road. Skald caravans crossing the Groven Ancestor-Spans heard Ordu throat-singers and recognized the technique: they were carrying voices. The Skald, whose culture already preserved their dead in glacier-ice panels at Skalvyrhold, began carrying their own, carving ancestor-names directly into skin, making the flesh a permanent record. A Skald covered in runic scars carries a retinue of the dead, each anchored to a wound that never fully closes.
 
-The Stargazer Astril adapted the practice through their Lumia heritage, the fragment of a dead world's biosphere living in every Astril bloodline. A Stargazer Astril does not summon a separate ancestor. The heritage itself is the ancestor, channeled through crystalline skin that hums with lost starlight. The Stargazer Astril variant is strongest in absolute darkness, where the trapped light in their markings is the only light left. The Brutish Astril practice a quieter version, communion through ritual stillness under the moon, where the dead world's consciousness speaks through crystalline markings rather than erupted bone.
+The Lumian adapted the practice through their Lumia heritage, the fragment of a dead world's biosphere living in every Astril bloodline. A Lumian does not summon a separate ancestor. The heritage itself is the ancestor, channeled through crystalline skin that hums with lost starlight. The Lumian variant is strongest in absolute darkness, where the trapped light in their markings is the only light left. The Kordak practice a quieter version, communion through ritual stillness under the moon, where the dead world's consciousness speaks through crystalline markings rather than erupted bone.
 
 The Morgh Groven carry the most literal version of the art. The Still-Claiming already turns Groven dead into calcified stone, the ancestors literally become the bridges their descendants walk. A Morgh channels the dead not as spirits but as mineral memory, drawing on the same alchemical residues the Deep Alchemists used to reshape the Groven from Thrumm stock. The race that was sculpted against its will now sculpts itself.
 
-The Waste-Solari adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Waste-Solari believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Waste-Solari does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythril preserved in the muscle memory of hands that learned from hands.
+The Anhur adapted the art through forge-memory. The volcanic forges of Sundale have been burning since before humans walked the world, and the Anhur believe that every hammer-strike carries the echo of every smith who struck that anvil before. A Anhur does not sing ancestors or carve them into skin. They work the forge. The dead are in the metal, answering through the ring of hot iron, the oldest continuous craft tradition on Mythril preserved in the muscle memory of hands that learned from hands.
 
-The Trueborn Florae adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Trueborn channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Florae who died before their debt was paid.
+The Briaren Florae adapted the tradition through their fae-touched blood. The bloodline carries the memory of House Viridane's refusal, the one house that said no to the dark bargains, that fled south into the moonlit groves. A Briaren channels not individual ancestors but the collective memory of that refusal, the thorn-scars on their skin blooming into living records of every Florae who died before their debt was paid.
 
-The ancestral language that all practitioners share is fading. The older dead, those who died before the Freezing Era, still speak clearly. The newer dead are increasingly confused. Something is wrong with death itself. The Monoliths' awakening is accelerating the erosion, and the youngest practitioners, those who attempt to carry too many voices, are suffering complete sensory collapse. The current leader, Bayar Wind-Throat, is one of the last who can still sing the pre-fracture tongue. She operates from the Sundrift Wind-Shrine, a moving camp that follows the migration routes her ancestors mapped before the stars went out.`,
+The ancestral language that all practitioners share is fading. The older dead, those who died before the Freezing Era, still speak clearly. The newer dead are increasingly confused. Something is wrong with death itself. The Monoliths' awakening is accelerating the erosion, and the youngest practitioners, those who attempt to carry too many voices, are suffering complete sensory collapse. The current leader, Bayar Wind-Throat, is one of the last who can still sing the pre-fracture tongue. She operates from the Sundrift Wind-Shrine, a moving camp that follows the migration routes her ancestors mapped before the stars went out.
+
+Native only to Ordu, Bedel, Athien, Nereid Myrathil. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
     title: "The Animist",
     subtitle: "Ancestral Conduit and the Triple Toll of Communion",
+    illustration: "/assets/images/classes/animist_skald_human.jpg",
+    illustrationCaption: "Skald Human Animist — The Frost-Caller, Nordic female shaman in thick wolf-furs with a whalebone spirit-staff and bleeding runic scars, manifesting a roaring spectral frost-bear.",
+    illustrations: [
+      { url: "/assets/images/classes/animist_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Animist — The Frost-Caller, Nordic female shaman in thick wolf-furs with a whalebone spirit-staff and bleeding runic scars, manifesting a roaring spectral frost-bear." },
+      { url: "/assets/images/classes/animist_ordan_human.jpg", subraceId: "ordan_human", caption: "Ordu Human Animist — The Steppe Throat-Singer, nomadic female shaman in layered wool caftan with an antler skull staff, chanting ancestral throat runes that manifest ethereal steppe spirit-beasts." },
+      { url: "/assets/images/classes/animist_clean_vreken.jpg", subraceId: "clean_vreken", caption: "Bedel Animist — The Spore-Medium, ascetic bog-shaman in burlap wraps pinching a glowing puffball pod, exhaling a towering spectral prehistoric chitin-elder bog spirit." },
+      { url: "/assets/images/classes/animist_stargazer_astril.jpg", subraceId: "vashir_astril", caption: "Lumian Animist — The Lumia Spirit-Caller, celestial medium striking a floating meteorite chime-shard, summoning a breathtaking translucent Star-Stag composed of starlight nebula and comet dust." }
+    ],
     quickOverview: {
     title: "Class Overview",
     content: `**Who they are**: The Animist is a primal shaman and walking conduit of three ancient ancestral traditions: bone totems, spirit curses, and runic ground inscriptions. You terraform the battlefield into an ancestral killing zone, commanding the spirits of the dead to control the fight.
@@ -294,26 +365,25 @@ The ancestral language that all practitioners share is fading. The older dead, t
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: ONE DISCOVERY, MANY VOICES**
-The Animist was born not from three founders but from a single crisis. When the stars went dark over the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, the Ordan throat-singers discovered that the dead remember what the living forget: the migration routes, the old paths, the names of places no living Ordan had seen. They turned their overtones from star-names to ancestor-names, and this single technique  —  the dead as compass  —  spread along the Hunger Road through trade, through the Bryngloom border through contact, through Nethien contract-culture through legal adaptation, through Astril symbiosis through blood-memory, and through Nethien archives through citation.
+The Animist was born not from three founders but from a single crisis. When the stars went dark over the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>, the Ordu throat-singers discovered that the dead remember what the living forget: the migration routes, the old paths, the names of places no living Ordu had seen. They turned their overtones from star-names to ancestor-names, and this single technique  —  the dead as compass  —  spread along the Hunger Road through trade, through the Bryngloom border through contact, through Athien contract-culture through legal adaptation, through Astril symbiosis through blood-memory, and through Athien archives through citation.
 
-There were no three founders. There was one lost Ordan throat-singer whose name was never recorded, a Skald trader who heard the songs at a Groven span-crossing and carved the first ancestor-rune into his own skin, and a Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with intent. This is how knowledge spreads: through contact, not coincidence.
+There were no three founders. There was one lost Ordu throat-singer whose name was never recorded, a Skald trader who heard the songs at a Groven span-crossing and carved the first ancestor-rune into his own skin, and a Bedel who walked into the bog after trading with Ordu herders and inhaled the first spore with intent. This is how knowledge spreads: through contact, not coincidence.
 
 **CITIES & CIVIL RECEPTION**
 Animists are viewed with a mixture of deep respect and visceral fear. Their bone spurs, glowing inscriptions, and spirit-static hallucinations make them unmistakable. They are essential in wilderness expeditions and siege defense, but unsettling in settled communities.
 
 **RACES & CULTURAL AFFILIATION**
-The root technique originated among the <LoreLink termId="house_ordavan">Ordan</LoreLink> humans of the Sundrift Vale. It spread to the <LoreLink termId="skald">Skald</LoreLink> via the Hunger Road, to the Clean <LoreLink termId="vreken">Vreken</LoreLink> through Bryngloom border trade, to the <LoreLink termId="house_morrath">Vreken</LoreLink> through Nethien contract-culture adapting the concept of ancestor-summoning as debt-recitation, to the Stargazer Astril and Brutish Astril <LoreLink termId="astril">Astril</LoreLink> through steppe cohabitation and Lumia heritage, and to the <LoreLink termId="neth">Nethien</LoreLink> through archival synthesis and legal citation. Each culture adapted the same root discovery to its own medium.
-
+The Ordu invented ancestor-navigation; the Athien file a request with the dead, the Bedel channel them through the bog, and the Nereid hear the drowned chorus. The Astril commune with the dead world carried in their own blood, the Florae (Oaken and Briaren) carry ancestors in splinter-grafts and thorn-blood, the Ondine read a confluence, and the Mimir call a forebear from archive or family scripture. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
-* **Kael the Herd-Runner**: The Ordan throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Navigation, not worship.
-* **Theron the Skald Scholar**: The Skald chronicler who heard Ordan songs at a span-crossing and became the first to carve an ancestor-rune into living flesh. Carved mathematical formulas of ancient clockwork songs into his own skin.
-* **Nyssa the Herbalist**: The Clean Vreken who walked into the bog after trading with Ordan herders and inhaled the first spore with deliberate intent. Bargained with the ancient Wyrd.
-* **Bayar Wind-Throat**: The Ordan elder who still sings the pre-fracture tongue and watches the younger traditions drift.`
+* **Kael the Herd-Runner**: The Ordu throat-singer who first sang ancestor-names instead of star-names when the sky went dark. Sat motionless for three seasons in the Sundrift Vale, letting bone and root erupt from his flesh until the wind-spirits claimed him as kin. Navigation, not worship.
+* **Theron the Skald Scholar**: The Skald chronicler who heard Ordu songs at a span-crossing and became the first to carve an ancestor-rune into living flesh. Carved mathematical formulas of ancient clockwork songs into his own skin.
+* **Nyssa the Herbalist**: The Bedel who walked into the bog after trading with Ordu herders and inhaled the first spore with deliberate intent. Bargained with the ancient Wyrd.
+* **Bayar Wind-Throat**: The Ordu elder who still sings the pre-fracture tongue and watches the younger traditions drift.`
     },
     signatureQuote: {
       text: '"The stars went dark. The herds still moved. The wind still blew. But no one knew where we were going. So I asked the dead. They remembered. They always remember."',
       speaker: 'Kael the Herd-Runner, attributed',
-      context: 'Ordan oral tradition, passed throat-to-throat for generations; first written down by a Skald trader at a Groven span-crossing'
+      context: 'Ordu oral tradition, passed throat-to-throat for generations; first written down by a Skald trader at a Groven span-crossing'
     },
 
     philosophy: {
@@ -324,13 +394,13 @@ The root technique originated among the <LoreLink termId="house_ordavan">Ordan</
 
     currentCrisis: `The ancestral language is fragmenting  —  but not because the traditions have drifted apart. Something is wrong with death itself.
 
-The oldest dead  —  those who died before the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> woke  —  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for the oldest ancestors still glow steady. The Vreken spores carrying pre-Bog ancestors still bloom in clean patterns.
+The oldest dead  —  those who died before the <LoreLink termId="sundered_monoliths">Monoliths</LoreLink> woke  —  still speak clearly. Their voices come through bone, rune, spore, and contract with perfect fidelity, across every cultural dialect. Bayar Wind-Throat can still sing their overtones without static. The Skald runes carved for the oldest ancestors still glow steady. The Mycellan spores carrying pre-Bog ancestors still bloom in clean patterns.
 
-The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Vreken debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  —  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
+The newer dead are... confused. Their voices layer with static no throat-singer can parse. Runes carved for ancestors who died within the last two centuries flicker, migrate, or go cold. Spores carrying recently-deceased memory produce bioluminescence that spells words in languages no living culture recognizes. Mycellan debt-ancestors who died after the Monoliths woke are refusing to acknowledge renegotiations  —  demanding original terms in a language the living no longer speak, and in some cases, a language that never existed.
 
 The Animists call this the Fading. The dead are not fragmenting because the traditions divided. The traditions are dividing because the dead are fragmenting  —  and every Animist, regardless of culture, is trying to hold a conversation with ancestors who increasingly do not speak the same language as each other.
 
-Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the Monoliths are not the cause but a symptom. Whatever is wrong with death began when the Monoliths woke, but it predates them. The threshold between life and death has been... thinning. Or thickening. No one can agree which. But the dead who cross it now are not the same as the dead who crossed it before, and the ancestral language  —  the single root tongue that connects every Animist tradition back to that first Ordan throat-singer  —  is eroding from the far end.`,
+Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the Monoliths are not the cause but a symptom. Whatever is wrong with death began when the Monoliths woke, but it predates them. The threshold between life and death has been... thinning. Or thickening. No one can agree which. But the dead who cross it now are not the same as the dead who crossed it before, and the ancestral language  —  the single root tongue that connects every Animist tradition back to that first Ordu throat-singer  —  is eroding from the far end.`,
 
     meaningfulTradeoffs: `To be an Animist is to never be comfortable in any environment. Buildings feel wrong to the totemic tradition (earth blocked). Cities feel overwhelming to the spirit tradition (too many spiritual echoes). Libraries feel dangerous to the runic tradition (the ink competes with blood-inscriptions). The Animist needs the wilderness for totems, the spiritual liminal spaces for invocations, and solid stone for runic carving. Finding all three in one place is nearly impossible, so they are perpetually homesick for a place that may not exist.`,
 
@@ -338,22 +408,22 @@ Some senior practitioners  —  Bayar Wind-Throat among them  —  suspect the M
       {
         name: 'The Concord of Tongues',
         locationId: 'frozen_archive',
-        description: 'A ring-shaped hall deep in the Frozen Archive where the Convergence keeps the only complete collation of every ancestral dialect, Ordan overtone scores, Skald rune-rubbings, Vreken spore-bloom transcriptions, Nethien citation-registers, and Astril heritage-litanies filed side by side. The Convergence has no fixed seat, it rotates between cultures every generation, but the Concord never moves. Its walls are a dictionary of the dead, and the delegates\' table is a single slab of glacier-ice that has not melted in a century.',
+        description: 'A ring-shaped hall deep in the Frozen Archive where the Convergence keeps the only complete collation of every ancestral dialect, Ordu overtone scores, Skald rune-rubbings, Mycellan spore-bloom transcriptions, Athien citation-registers, and Astril heritage-litanies filed side by side. The Convergence has no fixed seat, it rotates between cultures every generation, but the Concord never moves. Its walls are a dictionary of the dead, and the delegates\' table is a single slab of glacier-ice that has not melted in a century.',
         purpose: 'Archive-seat of the Animist tradition, where the traditions collate, compare, and argue their dialects into one lexicon',
         status: 'Contested, the collation now returns contradictions no delegate can reconcile, and the shared minutes have gone unsigned for two years'
       },
       {
         name: 'The Listening Mound',
         locationId: 'listening_mound',
-        description: 'A low barrow in the Sundrift Vale uplands where the Hearth-Singer died proving the dead could navigate. The Ordan did not build on it and did not fence it; the Mound-Camps simply gather near it each summer, and one singer at a time lies flat on the turf with their throat pressed to the earth and sings a single ancestor-name. The oldest dead answer here clearly, in every dialect, which makes it the only place left where the whole tradition agrees the language still works.',
+        description: 'A low barrow in the Sundrift Vale uplands where the Hearth-Singer died proving the dead could navigate. The Ordu did not build on it and did not fence it; the Mound-Camps simply gather near it each summer, and one singer at a time lies flat on the turf with their throat pressed to the earth and sings a single ancestor-name. The oldest dead answer here clearly, in every dialect, which makes it the only place left where the whole tradition agrees the language still works.',
         purpose: 'Pilgrimage and proving-ground, where a new Animist first hears an ancestor answer cleanly',
         status: 'Active, and the queues have grown long, singers now wait three summers for their turn at the turf'
       },
       {
         name: 'Nyssa\'s Sink',
         locationId: 'nyssa_sink',
-        description: 'A collapsed peat hollow in the deep Bryngloom where Nyssa the Herbalist inhaled her first deliberate spore and bargained with what answered. The sink is ringed with cultivation ledges of Ghost-Mycelium, and its spore-bloom is the cleanest in the bog: pre-Monolith dead, speaking in steady bioluminescent patterns without static. The elders call it the Quiet Conversation, and they guard it the way the Nethien guard the First Contract, because it is proof the tradition still works.',
-        purpose: 'Initiation sink and strain-garden of the Vreken lineage',
+        description: 'A collapsed peat hollow in the deep Bryngloom where Nyssa the Herbalist inhaled her first deliberate spore and bargained with what answered. The sink is ringed with cultivation ledges of Ghost-Mycelium, and its spore-bloom is the cleanest in the bog: pre-Monolith dead, speaking in steady bioluminescent patterns without static. The elders call it the Quiet Conversation, and they guard it the way the Athien guard the First Contract, because it is proof the tradition still works.',
+        purpose: 'Initiation sink and strain-garden of the Mycellan lineage',
         status: 'Guarded, and quietly failing, the ledges nearest the sink are blooming in dialects the elders cannot read'
       },
       {

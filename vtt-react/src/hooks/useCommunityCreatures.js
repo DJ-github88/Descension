@@ -15,10 +15,7 @@ import {
   getFeaturedCreatures,
   downloadCreature,
   rateCreature,
-  uploadCreature,
-  seedTestCreature,
-  initializeCreatureCategories,
-  cleanupDuplicateCreatures
+  uploadCreature
 } from '../services/firebase/communityCreatureService';
 
 export function deduplicateCreatureList(list) {
@@ -32,17 +29,6 @@ export function deduplicateCreatureList(list) {
     seen.add(key);
     return true;
   });
-}
-
-let creaturesInitPromise = null;
-function ensureCreaturesInit(sortByValue) {
-  if (!creaturesInitPromise) {
-    creaturesInitPromise = (async () => {
-      await cleanupDuplicateCreatures();
-      await seedTestCreature();
-    })();
-  }
-  return creaturesInitPromise;
 }
 
 export function useCommunityCreatures() {
@@ -61,8 +47,8 @@ export function useCommunityCreatures() {
   const loadCategories = useCallback(async () => {
     try {
       setError(null);
-      // Always ensure categories are initialized in Firestore
-      await initializeCreatureCategories();
+      // Project 4: browsing never writes global taxonomy. Categories are
+      // Admin-seeded; this hook is read-only.
       const categoriesData = await getCreatureCategories();
       setCategories(categoriesData);
     } catch (err) {
@@ -86,9 +72,6 @@ export function useCommunityCreatures() {
     try {
       setLoading(true);
       setError(null);
-
-      // One-time cleanup + seed (deduped via shared promise)
-      if (!loadMore) await ensureCreaturesInit(sortByValue);
 
       const docCursor = loadMore ? lastDocRef.current : null;
       const result = await getAllCommunityCreatures(

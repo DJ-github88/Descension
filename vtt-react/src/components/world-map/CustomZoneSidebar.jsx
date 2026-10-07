@@ -682,7 +682,7 @@ Reward: 350 Gold, 2 Healing Tonics, Thane's Favor
                 className="format-btn ttrpg-block-btn"
                 onClick={() => insertTemplate(
 `:::npc Vespera, Frostwood Wayfinder
-Ancestry: Thalren Human
+Ancestry: Tallyn Human
 Affiliation: Frostwood Watchers
 Disposition: Cautious, fiercely protective of thermal bogs
 Voice: Low and measured, pauses to listen between sentences

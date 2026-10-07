@@ -3,6 +3,9 @@ export function registerQuestHandlers(ctx) {
     socket, isGMRef, addNotification
   } = ctx;
     socket.on('quest_shared', (data) => {
+      // GM keeps the shared quest in their own log; players receive the offer
+      // via the second quest_shared handler below.
+      if (!isGMRef.current) return;
       const { quest, sharedBy } = data;
 
       // Import quest store and add the quest
@@ -27,7 +30,7 @@ export function registerQuestHandlers(ctx) {
             id: `quest_shared_${Date.now()}`,
             senderId: 'system',
             senderName: 'Game Master',
-            content: `${sharedBy} shared a quest: ${quest.title}`,
+            content: `${sharedBy?.name || 'Game Master'} shared a quest: ${quest.title}`,
             timestamp: new Date().toISOString(),
             type: 'system'
           });

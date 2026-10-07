@@ -7,6 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { LORE_PLACEHOLDERS, LORE_FIELD_HINTS } from '../../../constants/loreConstants';
+import '../styles/Step8LoreDetails.css';
 
 const ALIGNMENT_OPTIONS = [
     { value: 'Lawful Good', label: 'Lawful Good', desc: 'Acts with honor, compassion, and duty.' },
@@ -23,13 +24,13 @@ const ALIGNMENT_OPTIONS = [
 const LORE_GROUPS = [
     {
         key: 'narrative',
-        label: 'Origin & Moral Alignment',
+        label: 'I. Origin & Moral Alignment',
         icon: 'fas fa-book-open',
         fields: [
             {
                 key: 'alignment',
-                label: 'Moral Alignment',
-                hint: 'Alignment',
+                label: 'Moral Alignment Creed',
+                hint: 'Choose the philosophical conviction that anchors your hero in the dying light.',
                 icon: 'fas fa-balance-scale',
                 type: 'select',
                 options: ALIGNMENT_OPTIONS
@@ -46,7 +47,7 @@ const LORE_GROUPS = [
     },
     {
         key: 'character',
-        label: 'Heart & Fracture',
+        label: 'II. Heart & Fracture',
         icon: 'fas fa-brain',
         twoCol: true,
         fields: [
@@ -58,7 +59,7 @@ const LORE_GROUPS = [
     },
     {
         key: 'goals',
-        label: 'Purpose & Dread',
+        label: 'III. Purpose & Dread',
         icon: 'fas fa-bullseye',
         twoCol: true,
         fields: [
@@ -68,7 +69,7 @@ const LORE_GROUPS = [
     },
     {
         key: 'physical',
-        label: 'Bearing & Aspect',
+        label: 'IV. Bearing & Aspect',
         icon: 'fas fa-user-circle',
         fields: [
             { key: 'appearance', label: 'Bearing & Aspect', hint: LORE_FIELD_HINTS.appearance, icon: 'fas fa-user-circle', placeholder: LORE_PLACEHOLDERS.appearance, rows: 4 }
@@ -76,7 +77,7 @@ const LORE_GROUPS = [
     },
     {
         key: 'connections',
-        label: 'Bonds & Marginalia',
+        label: 'V. Bonds & Marginalia',
         icon: 'fas fa-users',
         twoCol: true,
         fields: [
@@ -136,11 +137,11 @@ const Step8LoreDetails = () => {
                 <div className="lore-section">
                     <div className="lore-header">
                         <h2>
-                            <i className="fas fa-scroll"></i>
-                            Forging Your Story
+                            <i className="fas fa-feather-alt"></i>
+                            The Hero's Chronicle — Oaths, Demeanor &amp; Marginalia
                         </h2>
                         <p className="lore-description">
-                            The Wyrd finds its way in through the unwritten. Set down your character's moral alignment, origin, oaths, and the fears that hunt them in a world where the sun is dead and the fog eats memories.
+                            The Wyrd finds its way in through the unwritten. Scribe your character's moral creed, origin, sacred oaths, and the dreads that hunt them in a world where the sun is buried and the fog eats memories.
                         </p>
                     </div>
 
@@ -159,17 +160,24 @@ const Step8LoreDetails = () => {
                                         </label>
                                         {field.hint && <span className="lore-field-hint">{field.hint}</span>}
                                         {field.type === 'select' ? (
-                                            <select
-                                                className="lore-field-input lore-field-select"
-                                                value={alignment}
-                                                onChange={(e) => handleAlignmentChange(e.target.value)}
-                                            >
-                                                {field.options.map((opt) => (
-                                                    <option key={opt.value} value={opt.value}>
-                                                        {opt.label} — {opt.desc}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <div className="alignment-matrix-grid">
+                                                {field.options.map((opt) => {
+                                                    const isSelected = alignment === opt.value;
+                                                    return (
+                                                        <div
+                                                            key={opt.value}
+                                                            className={`alignment-card-token ${isSelected ? 'selected' : ''}`}
+                                                            onClick={() => handleAlignmentChange(opt.value)}
+                                                        >
+                                                            <div className="alignment-name">
+                                                                <span>{opt.label}</span>
+                                                                <i className={`alignment-seal-icon fas ${isSelected ? 'fa-check-circle' : 'fa-circle'}`}></i>
+                                                            </div>
+                                                            <div className="alignment-desc">{opt.desc}</div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
                                         ) : (
                                             <textarea
                                                 className="lore-field-input"

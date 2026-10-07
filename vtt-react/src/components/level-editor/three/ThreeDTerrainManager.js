@@ -947,13 +947,13 @@ export const TERRAIN_MATERIAL_CONFIGS = {
   grass: { roughness: 0.85, metalness: 0.05 },
   sand: { roughness: 0.95, metalness: 0.0 },
   snow: { roughness: 0.7, metalness: 0.1 },
-  ice: { roughness: 0.08, metalness: 0.2, transparent: true, opacity: 0.92 },
+  ice: { roughness: 0.08, metalness: 0.02, transparent: true, opacity: 0.92 },
   water: { roughness: 0.1, metalness: 0.1, transparent: true, opacity: 0.85 },
   lava: { emissive: 0xff5500, emissiveIntensity: 0.4, roughness: 0.8 },
   acid: { emissive: 0x33ff00, emissiveIntensity: 0.6, roughness: 0.35 },
-  crystal_floor: { emissive: 0x00e5ff, emissiveIntensity: 0.45, roughness: 0.3 },
+  crystal_floor: { emissive: 0x00e5ff, emissiveIntensity: 0.45, roughness: 0.16, metalness: 0.05 },
   gold_floor: { roughness: 0.3, metalness: 0.85 },
-  fungal_growth: { emissive: 0x9900ff, emissiveIntensity: 0.4, roughness: 0.7 },
+  fungal_growth: { emissive: 0x9900ff, emissiveIntensity: 0.4, roughness: 0.55, metalness: 0.02 },
   cobblestone: { roughness: 0.7, metalness: 0.05 },
   marble_floor: { roughness: 0.25, metalness: 0.05 },
   wooden_floor: { roughness: 0.65, metalness: 0.05 },
@@ -1969,8 +1969,9 @@ export class ThreeDTerrainManager {
           // culls whole variants ("tiles vanish at some zooms"). The map is
           // unbounded, so skip frustum culling entirely.
           instMesh.frustumCulled = false;
-          instMesh.castShadow = procedural ? procedural.castShadow : def.noShadow !== true;
-          instMesh.receiveShadow = procedural ? procedural.receiveShadow !== false : true;
+          const isElevatedTerrain = modelKey === 'foundation' || modelKey.includes('stairs') || modelKey.includes('ramp');
+          instMesh.castShadow = procedural ? (procedural.castShadow === true) : (def.castShadow === true || isElevatedTerrain);
+          instMesh.receiveShadow = procedural ? (procedural.receiveShadow !== false) : true;
           instMesh.userData = { capacity };
           this.instancedMeshes.set(partKey, instMesh);
           this.group.add(instMesh);

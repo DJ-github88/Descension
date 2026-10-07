@@ -7,6 +7,7 @@ import '../styles/PyrofiendResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { PYRO_VEIL_MAX, normalizePyroResource, advancePyroDebtCall, getPyroRingLabel } from '../../../pyrofiendResourceContract';
 
 const STAGE_NAMES = {
     0: 'Mortal',
@@ -31,7 +32,7 @@ const DRAWBACK_TEXTS = {
     6: 'Cannot be healed by others, disadvantage on Insight/Perception',
     7: '-15ft Speed, 1d6 Suffocation',
     8: '2d4 self-damage, disadvantage on Agility checks',
-    9: '4d8 self-damage, death in 3 turns, Scathrach manifests'
+    9: 'Debt Call latches for three own turns; cooling does not cancel it. Terminal consequences require resolution.'
 };
 
 // Nine demonic seals of the Veil — each stage its own rune, drawn in a 20x20
@@ -80,8 +81,12 @@ const PyrofiendResourceBar = ({
     isOwner = true,
     onClassResourceUpdate = null
 }) => {
-    const infernoLevel = classResource?.current ?? 0;
-    const maxInfernoLevel = classResource?.max ?? 9;
+    const normalizedResource = normalizePyroResource(classResource);
+    const infernoLevel = normalizedResource.current;
+    const maxInfernoLevel = PYRO_VEIL_MAX;
+    const debtCall = normalizedResource.debtCall;
+    const remainingTurnsLabel = `${debtCall.turnsRemaining} own turn${debtCall.turnsRemaining === 1 ? '' : 's'}`;
+    const ownTurnSequence = useRef(0);
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
@@ -89,7 +94,7 @@ const PyrofiendResourceBar = ({
 
     const barRef = useRef(null);
     const controlsMenuRef = useRef(null);
-    const tooltipRef = useResourceBarTooltip(barRef, showTooltip, [infernoLevel]);
+    const tooltipRef = useResourceBarTooltip(barRef, showTooltip, [infernoLevel, debtCall.turnsRemaining, debtCall.latched]);
 
     // Namespace SVG def ids per instance so stacked PartyHUD frames never collide.
     const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
@@ -162,6 +167,16 @@ const PyrofiendResourceBar = ({
         }
     };
 
+    const reportOwnTurn = () => {
+        if (!isOwner || !onClassResourceUpdate) return;
+        const result = advancePyroDebtCall(normalizedResource, `reported-own-turn:${Date.now()}:${++ownTurnSequence.current}`);
+        if (!result.accepted) return;
+        onClassResourceUpdate('debtCall', result.resource.debtCall);
+        addCombatNotification({ type: 'combat_resource', attacker: getActorName(), target: currentPlayerName,
+            amount: 1, resourceType: 'debtCall', isPositive: false,
+            customMessage: `${currentPlayerName} reported an own turn: Debt Call ${result.resource.debtCall.turnsRemaining} remaining${result.resource.debtCall.expired ? ' — terminal consequence due' : ''}.` });
+    };
+
     const getStageName = (level) => STAGE_NAMES[level] || 'Unknown';
     const getDrawbackText = (level) => DRAWBACK_TEXTS[level] || 'Unknown';
 
@@ -182,7 +197,7 @@ const PyrofiendResourceBar = ({
 
     const isSurging = infernoLevel >= 5;
     const isHeresy = infernoLevel >= 6;
-    const isCatastrophic = infernoLevel >= 9;
+    const isCatastrophic = debtCall.latched;
 
     const handleKeyDown = (e) => {
         if (!isOwner) return;
@@ -199,7 +214,7 @@ const PyrofiendResourceBar = ({
                     ref={barRef}
                     role="slider"
                     tabIndex={isOwner ? 0 : -1}
-                    aria-label={`Inferno Veil, stage ${infernoLevel} of ${maxInfernoLevel}, ${getStageName(infernoLevel)}`}
+                    aria-label={`Inferno Veil, stage ${infernoLevel} of ${maxInfernoLevel}, ${getStageName(infernoLevel)}, ${getPyroRingLabel(infernoLevel)}${debtCall.latched ? `, Debt Call ${remainingTurnsLabel} remaining` : ''}`}
                     aria-valuemin={0}
                     aria-valuemax={maxInfernoLevel}
                     aria-valuenow={infernoLevel}
@@ -465,10 +480,10 @@ const PyrofiendResourceBar = ({
                         subtitle="Pyrofiend Inferno Crucible"
                         state={`${infernoLevel >= 9 ? '+10' : `+${infernoLevel}`} ember/hit`}
                         stateTone={infernoLevel >= 7 ? 'bad' : infernoLevel >= 5 ? 'warn' : 'neutral'}
-                        mechanic="Spells build Inferno (+1 to +3 per cast); each level adds +1 ember damage to every hit, and level 9 adds +10. Cooling Ember drops 2 levels and heals 1d6 + Spirit/3; resting reduces 1/minute, and a short rest resets to 0."
+                        mechanic={`${getPyroRingLabel(infernoLevel)}: Veil changes follow the authored spell contract. Reaching nine latches a three-own-turn Debt Call. Cooling or rest may lower Veil but cannot cancel, restart or extend the call. Damage, healing and drawback effects require separate handling.`}
                         status={[
-                            infernoLevel >= 9
-                                ? { text: 'OBLIVION — 3 of your turns left. At zero you detonate for 10d6 ember in 30 ft and Scathrach claims your soul: no resurrection.', tone: 'critical' }
+                            debtCall.latched
+                                ? { text: debtCall.expired ? 'Debt Call expired — terminal consequence due. Resolve detonation/death effects separately.' : `Debt Call latched — ${remainingTurnsLabel} remaining, even after cooling.`, tone: 'critical' }
                                 : infernoLevel >= 6
                                     ? { text: 'No outside healing. Whisper: Spirit save DC 12 + level each turn or your next attack is forced onto the nearest creature.', tone: 'bad' }
                                     : infernoLevel >= 5
@@ -507,14 +522,18 @@ const PyrofiendResourceBar = ({
                                 const hudRect = hudContainer.getBoundingClientRect();
                                 hudBottom = hudRect.bottom;
                             }
-                            return hudBottom + 8;
+                            return Math.max(12, Math.min(hudBottom + 8, window.innerHeight - Math.min(560, window.innerHeight - 24) - 12));
                         })(),
                         left: (() => {
                             if (!barRef.current) return '50%';
                             const rect = barRef.current.getBoundingClientRect();
-                            return rect.left + (rect.width / 2);
+                            const width = Math.min(340, window.innerWidth - 24);
+                            return Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 12));
                         })(),
-                        transform: 'translateX(-50%)',
+                        width: Math.min(340, window.innerWidth - 24),
+                        maxHeight: Math.min(560, window.innerHeight - 24),
+                        overflowY: 'auto',
+                        boxSizing: 'border-box',
                         zIndex: 100000
                     }}
                 >
@@ -523,10 +542,18 @@ const PyrofiendResourceBar = ({
                             <div className="context-menu-section-header">
                                 Inferno: Stage {infernoLevel}/{maxInfernoLevel} ({getStageName(infernoLevel)})
                             </div>
+                            <div style={{ fontSize: '12px', marginBottom: '6px' }}>{getPyroRingLabel(infernoLevel)}</div>
+                            <div style={{ fontSize: '12px', marginBottom: '6px', color: debtCall.latched ? '#f87171' : 'inherit' }}>
+                                {!debtCall.latched ? 'Debt Call: not called' : debtCall.expired
+                                    ? 'Debt Call expired — terminal consequence due'
+                                    : `Debt Call latched: ${remainingTurnsLabel} remaining`}
+                            </div>
+                            <button className="context-menu-button" onClick={reportOwnTurn} disabled={!debtCall.latched || debtCall.expired} style={{ width: '100%', marginBottom: '6px' }}>Record next own turn</button>
+                            <div style={{ fontSize: '10px', marginBottom: '8px' }}>Own-turn boundaries are reported manually. Enemy turns and ordinary cooling/rest do not cancel or advance the call. Automatic turn binding and terminal damage/death resolution are pending.</div>
 
                             {/* Summary info */}
                             <div style={{ fontSize: '0.8rem', marginBottom: '8px', lineHeight: 1.35 }}>
-                                <div><strong>Fire bonus:</strong> +{infernoLevel} dmg per die {isSurging && <span style={{ color: '#ff9e5e' }}>· Surge +2d6 live</span>}</div>
+                                <div><strong>Damage rules:</strong> See the authored spell; bonuses and Surge are not applied by this tracker.</div>
                                 <div style={{ color: infernoLevel >= 7 ? '#ff6b6b' : infernoLevel >= 5 ? '#fdba74' : 'var(--crm-text-dim, #cbd5e1)' }}>
                                     <strong>Drawback:</strong> {getDrawbackText(infernoLevel)}
                                 </div>

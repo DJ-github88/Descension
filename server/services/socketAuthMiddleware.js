@@ -16,6 +16,12 @@
 function createSocketAuthMiddleware({ firebaseService, logger }) {
   return async(socket, next) => {
     const isProduction = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT;
+    // Unverified dev tokens / decoded JWTs are only accepted for explicit local
+    // development. Production (including Railway) never takes this path; a
+    // self-hosted deploy must opt in with ALLOW_DEV_AUTH=true.
+    const allowDevAuth = !isProduction && (
+      process.env.ALLOW_DEV_AUTH === 'true' || process.env.NODE_ENV === 'development'
+    );
     try {
       const token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.replace('Bearer ', '');
 
@@ -28,20 +34,21 @@ function createSocketAuthMiddleware({ firebaseService, logger }) {
       }
 
       // Handle development tokens in non-production environments
-      if (!isProduction && typeof token === 'string' && (token.startsWith('dev-token') || token.startsWith('dev-user-') || token === 'dev-user-123' || token === 'admin-dev-user' || token === 'admin' || token === 'mock-token' || token === 'test-token')) {
+      if (allowDevAuth && typeof token === 'string' && (token.startsWith('dev-token') || token.startsWith('dev-user-') || token === 'dev-user-123' || token === 'admin-dev-user' || token === 'admin' || token === 'mock-token' || token === 'test-token')) {
         const devUid = token.startsWith('dev-token-')
           ? token.replace('dev-token-', '')
           : (token === 'admin-dev-user' || token === 'admin' ? 'admin-dev-user' : (token === 'mock-token' || token === 'test-token' ? 'dev-user-123' : token));
         socket.data.authenticated = true;
         socket.data.userId = devUid;
         socket.data.email = `${devUid}@example.com`;
+        socket.data.signInProvider = 'custom';
         socket.data.isGuest = false;
         logger.info('Socket authenticated via development token', { socketId: socket.id, userId: devUid });
         return next();
       }
 
       // In development mode, if it is a JWT token (3 parts), decode the payload
-      if (!isProduction && typeof token === 'string' && token.includes('.')) {
+      if (allowDevAuth && typeof token === 'string' && token.includes('.')) {
         try {
           const parts = token.split('.');
           if (parts.length === 3) {
@@ -51,6 +58,7 @@ function createSocketAuthMiddleware({ firebaseService, logger }) {
               socket.data.authenticated = true;
               socket.data.userId = uid;
               socket.data.email = payload.email || `${uid}@example.com`;
+              socket.data.signInProvider = 'custom';
               socket.data.isGuest = false;
               logger.info('Socket authenticated via decoded development JWT', { socketId: socket.id, userId: uid });
               return next();
@@ -66,6 +74,11 @@ function createSocketAuthMiddleware({ firebaseService, logger }) {
         socket.data.authenticated = true;
         socket.data.userId = decodedToken.uid;
         socket.data.email = decodedToken.email;
+        // Project 4 H2: retain the verified sign-in provider so permanent-room
+        // admission can exclude anonymous identities. Never inferred from payloads.
+        socket.data.signInProvider = (decodedToken.firebase && decodedToken.firebase.sign_in_provider)
+          || decodedToken.sign_in_provider
+          || 'unknown';
         socket.data.isGuest = false;
         logger.info('Socket authenticated', { socketId: socket.id, userId: decodedToken.uid });
       } else if (isProduction) {

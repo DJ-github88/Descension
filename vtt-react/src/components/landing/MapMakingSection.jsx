@@ -175,8 +175,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Greythorn Copse: fortified Thalren/Florae copse',
-      why: 'Greythorn Copse is a fortified woodland settlement serving as a joint refuge for registered Thalren citizens and undocumented Florae outlaws. Hidden deep within a dense thicket of red-flowered thorn bushes, it is surrounded by treacherous briar patches. It was placed in this remote borderland to escape the Scribe-Cartel\'s ledger-checks, serving as a political flashpoint where the forgotten outlaws organize.',
+      text: 'Greythorn Copse: fortified Tallyn/Florae copse',
+      why: 'Greythorn Copse is a fortified woodland settlement serving as a joint refuge for registered Tallyn citizens and undocumented Florae outlaws. Hidden deep within a dense thicket of red-flowered thorn bushes, it is surrounded by treacherous briar patches. It was placed in this remote borderland to escape the Scribe-Cartel\'s ledger-checks, serving as a political flashpoint where the forgotten outlaws organize.',
       inkarnate: 'Village icon'
     },
     {
@@ -833,8 +833,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Ironjaw Port: Nethien-run fortress (east Merrow Archipelago)',
-      why: 'Ironjaw Port is a fortified harbor city operated by the Nethien. Located on the eastern side of the Merrow Archipelago, it is surrounded by massive stone sea-walls, built to enforce trade contracts and guard the regional shipping routes.',
+      text: 'Ironjaw Port: Athien-run fortress (east Merrow Archipelago)',
+      why: 'Ironjaw Port is a fortified harbor city operated by the Athien. Located on the eastern side of the Merrow Archipelago, it is surrounded by massive stone sea-walls, built to enforce trade contracts and guard the regional shipping routes.',
       inkarnate: 'Port icon'
     },
     {
@@ -973,7 +973,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'terrain',
       action: 'DRAW',
       text: 'Draw the Iron Sumps (deep industrial mining heart)',
-      why: 'The toxic, sulfuric underbelly of the peaks where Fexric engineers and miners harvest sulfur and cold-iron. It is hot, volcanically active, and packed with geothermal pipelines.',
+      why: 'The toxic, sulfuric underbelly of the peaks where Fex engineers and miners harvest sulfur and cold-iron. It is hot, volcanically active, and packed with geothermal pipelines.',
       inkarnate: 'Use a volcanic/basalt texture wash with dark greys, blacks, and bright orange/red geothermal vents. Add steam or volcanic haze overlays.'
     },
     {
@@ -993,7 +993,7 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'cities',
       action: 'PLACE',
-      text: 'Place Gearworks Gulch, Driknell Foundry (Fexric industrial)',
+      text: 'Place Gearworks Gulch, Driknell Foundry (Fex industrial)',
       why: 'The industrial engine of the region. Driknell Foundry stamps the Tesshan sigil on every Ironclad plate, powered by boiling steam from the depths.',
       inkarnate: 'Use factory/forge stamps, mechanical wheels, and chimney stamps. Surround them with basalt cliffs and steam overlays.'
     },
@@ -1028,13 +1028,13 @@ const CHECKLIST_TEMPLATE = {
     // CITIES
     { category: 'cities', action: 'PLACE', text: 'Synod Hold: Astril crystal-lattice fortress (800 pop)', why: 'Pale limestone, concentric rings, every entrance faces east', inkarnate: 'Fortress icon (crystal)' },
     { category: 'cities', action: 'PLACE', text: 'Mound-Camps: sprawling seasonal wool-yurt settlement', why: 'Commercial heartbeat of the Vale', inkarnate: 'Yurt circle' },
-    { category: 'cities', action: 'PLACE', text: 'The Moundwatch: cairn-checkpoint with sentry-posts (eastern Wolds)', why: 'Herd-Tithe collection point, continuous chronicle of Ordan people', inkarnate: 'Checkpoint icon' },
-    { category: 'cities', action: 'PLACE', text: 'Morren\'s Bogpost: Vreken trading outpost at forest-steppe edge', why: 'Only major trade gateway between Bryngloom and Sundrift Vale', inkarnate: 'Trading post icon' },
+    { category: 'cities', action: 'PLACE', text: 'The Moundwatch: cairn-checkpoint with sentry-posts (eastern Wolds)', why: 'Herd-Tithe collection point, continuous chronicle of Ordu people', inkarnate: 'Checkpoint icon' },
+    { category: 'cities', action: 'PLACE', text: 'Morren\'s Bogpost: Mycellan trading outpost at forest-steppe edge', why: 'Only major trade gateway between Bryngloom and Sundrift Vale', inkarnate: 'Trading post icon' },
     // LANDMARKS
     { category: 'landmarks', action: 'MARK', text: 'The Ancestor Mounds: vast network of 20 generations of burial barrows', why: 'Each mound emits a unique hum', inkarnate: 'Many mound icons' },
     // ROUTES
-    { category: 'routes', action: 'DRAW', text: 'Migration routes: dotted lines across the Long Steppe following woolly herds', why: 'Ordan migration never stops', inkarnate: 'Dotted line with herd markers' },
-    { category: 'routes', action: 'DRAW', text: 'Cairn-checkpoints across the Blizzard Bluff (Ordan March Wardens)', why: 'Border watch to Frostwood', inkarnate: 'Checkpoint icons' },
+    { category: 'routes', action: 'DRAW', text: 'Migration routes: dotted lines across the Long Steppe following woolly herds', why: 'Ordu migration never stops', inkarnate: 'Dotted line with herd markers' },
+    { category: 'routes', action: 'DRAW', text: 'Cairn-checkpoints across the Blizzard Bluff (Ordu March Wardens)', why: 'Border watch to Frostwood', inkarnate: 'Checkpoint icons' },
     { category: 'routes', action: 'DRAW', text: 'Cairn-Checkpoints (basalt) at every major crossroads', why: 'Herd-Tithe and migration control', inkarnate: 'Basalt stone markers' },
     // EFFECTS
     { category: 'effects', action: 'COLOR', text: 'Permanently dark sky (#2a2a2a base, NO stars)', why: 'Keth Amar devoured the constellation-forge, the defining feature', inkarnate: 'Dark sky overlay' },
@@ -1046,25 +1046,25 @@ const CHECKLIST_TEMPLATE = {
   'bryngloom-forest': [
     // TERRAIN
     { category: 'terrain', action: 'COLOR', text: 'Canopy-Heart (center): living ironwood cathedral-grove, hanging slums', why: 'The political heart', inkarnate: 'Dense forest' },
-    { category: 'terrain', action: 'COLOR', text: 'Sunken Basin (south-east): sinkhole with inverted gothic architecture', why: 'The Vreken domain', inkarnate: 'Sinkhole' },
+    { category: 'terrain', action: 'COLOR', text: 'Sunken Basin (south-east): sinkhole with inverted gothic architecture', why: 'The Mycellan domain', inkarnate: 'Sinkhole' },
     { category: 'terrain', action: 'COLOR', text: 'Peat-Wastes (north): acidic peat-bog, liquefying mud', why: 'Debt-Revenant labor territory', inkarnate: 'Acid bog' },
-    { category: 'terrain', action: 'COLOR', text: 'Western Bayous (west): ironwood bayous, river-cliffs, ancient fae-contracts carved into bark', why: 'Veldun weaver country', inkarnate: 'Bayou' },
+    { category: 'terrain', action: 'COLOR', text: 'Western Bayous (west): ironwood bayous, river-cliffs, ancient fae-contracts carved into bark', why: 'Weft weaver country', inkarnate: 'Bayou' },
     { category: 'terrain', action: 'COLOR', text: 'The Great Mere (center-east): vast central lake dotted with small wooded islands', why: 'The hub of the forest, rises and falls with the moon', inkarnate: 'Big lake with island icons' },
     { category: 'terrain', action: 'COLOR', text: 'The Root-Veil (subterranean): mycelial network beneath everything', why: 'Morvane\'s domain', inkarnate: 'Dark layer under map' },
     { category: 'terrain', action: 'DRAW',  text: 'The Great Mere: vast central lake with small wooded islands', why: 'Trade hub, monastery on largest island', inkarnate: 'Big lake' },
     { category: 'terrain', action: 'DRAW',  text: 'Widow\'s Quagmire: stretch where the ground liquefies underfoot', why: 'The worst of the Peat-Wastes', inkarnate: 'Quagmire' },
-    { category: 'terrain', action: 'DRAW',  text: 'Black Fen: the Final Clause, legal void where the Keeper has no jurisdiction', why: 'Nethien\'s dumping ground, nothing grows', inkarnate: 'Black Silence' },
+    { category: 'terrain', action: 'DRAW',  text: 'Black Fen: the Final Clause, legal void where the Keeper has no jurisdiction', why: 'Athien\'s dumping ground, nothing grows', inkarnate: 'Black Silence' },
     { category: 'terrain', action: 'DRAW',  text: 'Vel-Keth Bayou: the water that remembers, flows uphill', why: 'Memory-glass deposits line the banks', inkarnate: 'Bayou' },
-    { category: 'terrain', action: 'DRAW',  text: 'Fangmere Grove: perfect circle of ironwood, Vreken ancestral bones in roots', why: 'Preternaturally silent, Vreken sacred wood', inkarnate: 'Sacred circle' },
-    { category: 'terrain', action: 'DRAW',  text: 'Drowned Dingle: permanently flooded woodland, petrified trees chime like bells', why: 'Smuggler route, sacred to Veldun', inkarnate: 'Flooded forest' },
+    { category: 'terrain', action: 'DRAW',  text: 'Fangmere Grove: perfect circle of ironwood, Mycellan ancestral bones in roots', why: 'Preternaturally silent, Mycellan sacred wood', inkarnate: 'Sacred circle' },
+    { category: 'terrain', action: 'DRAW',  text: 'Drowned Dingle: permanently flooded woodland, petrified trees chime like bells', why: 'Smuggler route, sacred to Weft', inkarnate: 'Flooded forest' },
     { category: 'terrain', action: 'DRAW',  text: 'Peat-Bog Sinks: bottomless preserving black peat', why: 'Preserves anything that falls in', inkarnate: 'Bog' },
     // CITIES
-    { category: 'cities', action: 'PLACE', text: 'Atropolis: magnificent suspended canopy-city (Nethien capital)', why: 'The First Contract is preserved here in the Heart-Vault', inkarnate: 'Canopy city icon' },
-    { category: 'cities', action: 'PLACE', text: 'The Sunken Spire: Vreken inverted capital, 400 ft down into a sinkhole', why: 'Crypt-Council rules here', inkarnate: 'Inverted spire' },
-    { category: 'cities', action: 'PLACE', text: 'Over-Shanty: hanging slum of rope-bridges beneath Atropolis (600 pop)', why: 'Withered outcasts, Vreken peat-cutters, Dangling Keel tavern', inkarnate: 'Hanging slum' },
-    { category: 'cities', action: 'PLACE', text: 'Aran-Glen: Veldun village of living ironwood (300 pop)', why: 'Every structure is grown, not built', inkarnate: 'Living-wood village' },
+    { category: 'cities', action: 'PLACE', text: 'Atropolis: magnificent suspended canopy-city (Athien capital)', why: 'The First Contract is preserved here in the Heart-Vault', inkarnate: 'Canopy city icon' },
+    { category: 'cities', action: 'PLACE', text: 'The Sunken Spire: Mycellan inverted capital, 400 ft down into a sinkhole', why: 'Crypt-Council rules here', inkarnate: 'Inverted spire' },
+    { category: 'cities', action: 'PLACE', text: 'Over-Shanty: hanging slum of rope-bridges beneath Atropolis (600 pop)', why: 'Riven outcasts, Mycellan peat-cutters, Dangling Keel tavern', inkarnate: 'Hanging slum' },
+    { category: 'cities', action: 'PLACE', text: 'Aran-Glen: Weft village of living ironwood (300 pop)', why: 'Every structure is grown, not built', inkarnate: 'Living-wood village' },
     { category: 'cities', action: 'PLACE', text: 'Covenbane Stronghold: Inquisition seat in the western bayous', why: 'Black ironwood and cold-iron bars, hanging-cages preserved', inkarnate: 'Fortress icon' },
-    { category: 'cities', action: 'PLACE', text: 'Monks of the Sunken Stone: Nethien monastery on the largest Great Mere island', why: 'Half-submerged in high water, dive to read old record-stones', inkarnate: 'Monastery on island' },
+    { category: 'cities', action: 'PLACE', text: 'Monks of the Sunken Stone: Athien monastery on the largest Great Mere island', why: 'Half-submerged in high water, dive to read old record-stones', inkarnate: 'Monastery on island' },
     { category: 'cities', action: 'PLACE', text: 'Merryn\'s Drift: Merryn river-trading camp of lashed houseboats (western bayous)', why: 'Salt-scars fade within a generation (freshwater)', inkarnate: 'Houseboat icon' },
     { category: 'cities', action: 'PLACE', text: 'Merryn\'s Drift: Merryn river-trading camp of lashed houseboats', why: 'Salt-scars fade within a generation (freshwater)', inkarnate: 'Houseboat icon' },
     // LANDMARKS

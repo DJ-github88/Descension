@@ -40,7 +40,7 @@ export function registerConditionHandlers(ctx) {
       });
     });
 
-    socket.on('sync_gameplay_settings', (data) => {
+    socket.on('gameplay_settings_updated', (data) => {
       if (!data) return;
       console.log('âš™ï¸ Received synchronized gameplay settings from GM:', data);
 
@@ -169,53 +169,6 @@ export function registerConditionHandlers(ctx) {
       });
     });
 
-    socket.on('debuff_update', (data) => {
-      // Import condition store dynamically to avoid circular dependencies
-      Promise.all([
-        import('../../../store/conditionStore'),
-        import('../../../store/gameStore'),
-        import('../../../store/authStore')
-      ]).then(([{ default: useConditionStore }, { default: useGameStore }, { default: useAuthStore }]) => {
-        const conditionStore = useConditionStore.getState();
-        const gameStore = useGameStore.getState();
-        const authStore = useAuthStore.getState();
-
-        // Only process updates from other players (not our own)
-        if (data.playerId !== currentPlayerRef.current?.id) {
-          // Remap targetId if this debuff is for us
-          const remapTargetId = (debuffData) => {
-            if (!debuffData || !debuffData.targetId) return debuffData;
-            const myPlayerId = gameStore.currentPlayer?.id;
-            const myUserId = authStore.user?.uid;
-            
-            if (debuffData.targetId === myPlayerId || debuffData.targetId === myUserId) {
-              return { ...debuffData, targetId: 'current-player' };
-            }
-            return debuffData;
-          };
-
-          switch (data.type) {
-            case 'debuff_added':
-              // Add the new debuff with remapped targetId
-              if (data.data && data.data.id) {
-                conditionStore.addCondition('debuff', remapTargetId(data.data), true);
-              }
-              break;
-
-            case 'debuff_removed':
-              // Remove the debuff
-              if (data.data && data.data.debuffId) {
-                conditionStore.removeCondition('debuff', data.data.debuffId, true);
-              }
-              break;
-
-            default:
-              break;
-          }
-        }
-      });
-    });
-
     socket.on('dice_update', (data) => {
       // Import dice store dynamically to avoid circular dependencies
       import('../../../store/diceStore').then(({ default: useDiceStore }) => {
@@ -268,9 +221,8 @@ export function registerConditionHandlers(ctx) {
 
   return () => {
     socket.off('debuff_update');
-    socket.off('sync_gameplay_settings');
+    socket.off('gameplay_settings_updated');
     socket.off('buff_update');
-    socket.off('debuff_update');
     socket.off('dice_update');
   };
 }

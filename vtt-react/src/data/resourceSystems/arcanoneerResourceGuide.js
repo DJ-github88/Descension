@@ -56,7 +56,7 @@ export const arcanoneerResourceGuide = {
    tabLabel: 'browse the spellbook',
   },
   {
-   text: 'Each specialization rewrites the pool — Prism Mage rerolls spheres for 1 mana and boosts pure pairs, Entropy Weaver rolls 5d8 and doubles Wyrd, Sphere Architect banks 15 and discounts 3-sphere recipes.',
+    text: 'Prism Mage, Entropy Weaver and Sphere Architect share the implemented 4d8 generation and twelve-sphere bank. Specialization rerolls, discounts and additional effects require their own executable rules; legacy five-die/fifteen-bank claims do not change this tracker.',
    tab: 'specializations',
    tabLabel: 'compare the three paths',
   },
@@ -79,7 +79,7 @@ export const arcanoneerResourceGuide = {
    ['Weave Reset (reroll the pool)', '0', '3 + 1d4 HP'],
   ],
   footnote:
-   'Base formulations cost 1 Action Point. Bank cap is 12 spheres, and all spheres are lost when combat ends.',
+    'Base formulations cost 1 Action Point. Bank cap is 12 spheres. Combat-end clearing and automatic turn generation are rules to track manually until combat lifecycle handling is implemented.',
  },
 
  /** Authored sections injected into Deep Dive in this order. */

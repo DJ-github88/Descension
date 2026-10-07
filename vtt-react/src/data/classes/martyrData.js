@@ -21,12 +21,12 @@ export const MARTYR_DATA = {
  "mimir"
  ],
  "narrativeUnlock": true,
- "justification": "Requires a theology of willing suffering. Three peoples carry it: the Solari, who keep the Mother's Shield and the Vigil of the buried star in both the deep vaults and the ashlands; the Groven, who took the endurance forced on them by Fexric vats and made it a sacred art; and the Skald, who never knelt to Aex but walk the path as Ironclads, burning suffering as fuel in Cragjaw furnace-plate. Other cultures are too survival-pragmatic to embrace suffering as power."
+ "justification": "Requires a theology of willing suffering. Three peoples carry it: the Solari, who keep the Mother's Shield and the Vigil of the buried star in both the deep vaults and the ashlands; the Groven, who took the endurance forced on them by Fex vats and made it a sacred art; and the Skald, who never knelt to Aex but walk the path as Ironclads, burning suffering as fuel in Cragjaw furnace-plate. Other cultures are too survival-pragmatic to embrace suffering as power."
  },
 
   // Class Resource, generated per spell. Resource range/balance per design.
   // Lore name: Devotion / Devotion
-  classResource: { type: "devotion", base: 0, max: 100, generationNote: "Built by willingly absorbing damage for allies. Decays by 1 per round of no absorption. At 0: Faithless state, healing halved, no Intervene." },
+  classResource: { type: "devotion", base: 0, max: 6, unit: "available_levels", damageThresholds: [0, 10, 20, 40, 60, 80, 100], generationNote: "Cumulative eligible damage earns levels; spending subtracts available levels without erasing damage history. Declared decay is a level change, not one damage point." },
 
 
   // EQUIPMENT (added 2026-07-28 audit fix)
@@ -43,29 +43,29 @@ export const MARTYR_DATA = {
   * vigil Aex held between the dark and her child, in two forms: the Vault-Witnesses who endure
   * in absolute stillness, and the Ash-Witnesses who step into the open and take the burning
   * debris. The Groven carry the Transmuted Burden, endurance forced on them by the vats and
-  * chosen again as a sacred art: the Morgh as immovable anchors, the Ithran as span-keepers.
+  * chosen again as a sacred art: the Morgh as immovable anchors, the Amordjin as span-keepers.
   * The Skald walk it as Ironclads: the old Dreadnaught furnace-plating, suffering burned as
   * fuel rather than witnessed as prayer.
   */
  subraceVariants: {
   korr_solari: {
-    subraceName: 'Hollow-Solari',
+    subraceName: 'Korr',
     title: 'The Vault-Witness',
-   reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> tend the Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil kept. To a Vault-Witness, suffering is not prayer; it is *keeping watch*. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template: the mind stays lucid at the center of unbearable trauma, observing without flinching, exactly as <LoreLink termId="aex">Aex</LoreLink> stayed lucid between the dark and her child. Every hit taken without moving is a scar added to the vigil, and when the Vault-Witness's flesh finally cracks, the trapped radiant light of Aex spills out to shelter the room.`,
+   reframe: `The <LoreLink termId="solari">Korr</LoreLink> tend the Sol's Breath in the deep vaults in sacred, wordless silence, and a Martyr among them frames every absorbed wound as another minute of that vigil kept. To a Vault-Witness, suffering is not prayer; it is *keeping watch*. The <LoreLink termId="vault_breath">Vault-Breath</LoreLink> is the template: the mind stays lucid at the center of unbearable trauma, observing without flinching, exactly as <LoreLink termId="aex">Aex</LoreLink> stayed lucid between the dark and her child. Every hit taken without moving is a scar added to the vigil, and when the Vault-Witness's flesh finally cracks, the trapped radiant light of Aex spills out to shelter the room.`,
    signatureAbility: {
     name: 'Vigil-Absorption',
-    description: `Devotion-generation is amplified by absolute physical stillness, a Hollow-Solari Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
+    description: `Devotion-generation is amplified by absolute physical stillness, a Korr Martyr who absorbs damage without flinching, without moving, generates more Devotion than one who reacts. The tradition borrows directly from the Vault-Breath meditative state.`
    },
-   currentCrisisAngle: `Sol's Breath is faltering, the buried star's warmth dims year by year, and the Hollow-Solari Martyrs read the conscription crisis as a *distraction from the vigil*. Every hour spent absorbing a party's wounds is an hour not spent tending Sol's Breath. The Hollow-Solari are being pulled between two duties, and the older they get, the more they suspect the noble houses engineered the conscription specifically to pull them from the vault.`,
+   currentCrisisAngle: `Sol's Breath is faltering, the buried star's warmth dims year by year, and the Korr Martyrs read the conscription crisis as a *distraction from the vigil*. Every hour spent absorbing a party's wounds is an hour not spent tending Sol's Breath. The Korr are being pulled between two duties, and the older they get, the more they suspect the noble houses engineered the conscription specifically to pull them from the vault.`,
    signatureQuote: {
     text: '"I kept silence in the deep for sixty years and called it sacred. Now I keep silence in your battle-line and call it overtime. The star does not know the difference. I do."',
     speaker: 'Keeper of the Quiet Kor-Vesh',
-    context: 'A Hollow-Solari Martyr, the first of his order conscripted into a field cadre'
+    context: 'A Korr Martyr, the first of his order conscripted into a field cadre'
    }
   },
 
   thrask_solari: {
-   subraceName: 'Waste-Solari',
+   subraceName: 'Anhur',
    title: 'The Ash-Witness',
    reframe: `The Ash-Ranger Solari came up out of the deep when the caldera blew, and they are the ones who walked *into* the burning debris rather than away from it. When the Solari order fractured at <LoreLink termId="emberspire">Emberspire</LoreLink>, these were the brothers and sisters who planted their feet in the sulfur and took the fire onto their shields and their skin, the ones who refused to break. They keep the Loyal Vigil now: raw unpolished iron and bleached linen, linear brands cut along the arms to mark the tears of <LoreLink termId="aex">Aex</LoreLink>, and a quiet, sorrowful focus on the siblings they lost to the flame. To an Ash-Witness, every wound taken in the open, with no cover and no flinch, is an act of spiritual weight-lifting to balance the cosmic scales against the Pyrofiends' infernal rot.`,
    signatureAbility: {
@@ -82,7 +82,7 @@ export const MARTYR_DATA = {
   morgh_groven: {
     subraceName: 'Morgh Groven',
     title: 'The Transmuted Burden',
-    reframe: `The <LoreLink termId="groven">Groven</LoreLink> were shaped in Fexric vats as biological labor-vessels, bred to carry the crushing dark of the deep mines without asking why. For a Morgh to become a Martyr is an act of sublime reclamation: "We were built to endure the crushing dark; now we choose to endure it so others may see the light." Their thick stone-scaled frames and unnatural stamina make them immovable anchors on the battlefield, and the endurance that was once their makers' instrument becomes a sacred art. Where the Solari imitate Aex's wound, the Morgh imitate her stance: feet planted, weight taken, nothing behind them allowed to fall.`,
+    reframe: `The <LoreLink termId="groven">Groven</LoreLink> were shaped in Fex vats as biological labor-vessels, bred to carry the crushing dark of the deep mines without asking why. For a Morgh to become a Martyr is an act of sublime reclamation: "We were built to endure the crushing dark; now we choose to endure it so others may see the light." Their thick stone-scaled frames and unnatural stamina make them immovable anchors on the battlefield, and the endurance that was once their makers' instrument becomes a sacred art. Where the Solari imitate Aex's wound, the Morgh imitate her stance: feet planted, weight taken, nothing behind them allowed to fall.`,
     signatureAbility: {
       name: 'Load-Bearing',
       description: `Devotion-generation scales with the weight behind the Martyr: the more allies standing within their guard, the faster the Devotion fills, and Devotion decay halts entirely while the Morgh holds a fixed position (a doorway, a span, a shield-line). The Morgh cannot generate Devotion while retreating.`
@@ -96,18 +96,18 @@ export const MARTYR_DATA = {
   },
 
   ithran_groven: {
-   subraceName: 'Ithran Groven',
+   subraceName: 'Amordjin Groven',
    title: 'The Span-Kept',
-   reframe: `The long-limbed Ithran are the Groven's bridge-builders, toll-keepers, and span-negotiators, the caste that learned early that a bridge is a promise that others will cross safely. An Ithran Martyr carries that promise into their own flesh: every wound absorbed is a span they held, tallied in stone beads and silver wire woven into their braids, each bead a crossing that did not fall. They are not the heaviest Martyrs, but they are the most deliberate, a tallied endurance measured out and spent with an engineer's precision. Their silver-wire scars are read across the Cragjaw the way other cultures read a ledger of honors.`,
+   reframe: `The long-limbed Amordjin are the Groven's bridge-builders, toll-keepers, and span-negotiators, the caste that learned early that a bridge is a promise that others will cross safely. An Amordjin Martyr carries that promise into their own flesh: every wound absorbed is a span they held, tallied in stone beads and silver wire woven into their braids, each bead a crossing that did not fall. They are not the heaviest Martyrs, but they are the most deliberate, a tallied endurance measured out and spent with an engineer's precision. Their silver-wire scars are read across the Cragjaw the way other cultures read a ledger of honors.`,
    signatureAbility: {
     name: 'Tally-Ledger',
     description: `Devotion is tracked as tally-beads: each absorbed strike adds a bead, and spending Devotion transfers the load outward as barriers around allies within the Martyr's span (their reach) rather than inward as personal healing. When the tally is spent, every ally who stood within the span gains its protection.`
    },
-   currentCrisisAngle: `The Ithran count the crossings now. Every span that fails is a promise they cannot keep, and the conscription has put Martyrs on battlefields where the next crossing is measured in enemy axes rather than feet. The Ithran elders have started a new tally in the span-moots: crossing-guarantees kept against those broken. The ledger is slipping, and the Ithran are the only people in the Cragjaw who find that more frightening than the blizzard.`,
+   currentCrisisAngle: `The Amordjin count the crossings now. Every span that fails is a promise they cannot keep, and the conscription has put Martyrs on battlefields where the next crossing is measured in enemy axes rather than feet. The Amordjin elders have started a new tally in the span-moots: crossing-guarantees kept against those broken. The ledger is slipping, and the Amordjin are the only people in the Cragjaw who find that more frightening than the blizzard.`,
    signatureQuote: {
     text: '"I have held one thousand and eleven crossings. I remember every one that fell. Keeping count is not pride. It is the only way to know what I still owe the bridge."',
     speaker: 'Tally-Keeper Syl-Ith Vess',
-    context: 'An Ithran Martyr, reading the bead-ledger in her braid before a battle'
+    context: 'An Amordjin Martyr, reading the bead-ledger in her braid before a battle'
    }
   },
 
@@ -154,7 +154,7 @@ export const MARTYR_DATA = {
 
  worldFriction: [
   { region: 'sundale', status: 'celebrated-and-conscripted', consequence: 'The noble houses draft Martyrs as strategic resources; a Martyr cadre extends a battalion fight-duration threefold. Celebrated in public procession, a Sundale Martyr is in practice a conscript, refusal of "muster" is treated as desertion. The Vow-corruption (predatory absorption) is officially denied.', workaround: 'A Martyr who refuses the formal Vow but still absorbs covertly can operate as a "freelance", legally ambiguous, but the houses cannot conscript what they cannot document.' },
-  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Nethien read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Veldun are the quiet exception: their Witnesses keep the vigil in the deep groves, and the contract-halls prefer not to notice.' },
+  { region: 'bryngloom-forest', status: 'distrusted', consequence: 'The Athien read the Devotion as an unfiled transfer of suffering, a Martyr in Atropolis who absorbs an ally wound without a prior covenant is in technical breach of contract-law. The Weft are the quiet exception: their Witnesses keep the vigil in the deep groves, and the contract-halls prefer not to notice.' },
    { region: 'nordhalla', status: 'hunted', consequence: 'House Skalvyr outlaws the Martyr\'s blood-vow, declaring that transferring wounds between mortals violates the ancestral lineage of the Rime-Born.', workaround: 'Martyrs serve in secret among the thrall-caste and outlander quarters of the glacier-keeps, taking beatings and freezing wounds onto themselves in the lightless sumps, where no Skald law-officer walks.' }
  ],
 
@@ -169,11 +169,22 @@ The first Witness of the modern era was Sera Solvan, a Solvarn mother whose chil
 
 The noble houses noticed. What Sera had done out of grief, they saw as a military asset. A battalion with a martyr cadre fights three times as long. A martyr at a siege absorbs the artillery. The houses began drafting children, training them from birth to associate pain with duty, conditioning their bodies to accept the scar before they were old enough to understand what they were accepting. The free Martyrs chose their suffering. The conscripted ones had it chosen for them.
 
-Three peoples carry the path. The Solari keep the Mother's Shield in its oldest form, either as Hollow-Solari Vault-Witnesses who endure in absolute stillness before the Sol's Breath, or as Waste-Solari Ash-Witnesses who step into the open and take the burning debris, sorrowing for the brothers and sisters they lost to the flame. The Groven carry the Transmuted Burden: a people bred in Fexric vats as labor-vessels who took the endurance forced on them and made it a sacred art, Morgh anchors holding the line and Ithran span-keepers tallying every crossing that did not fall. And the Skald, who never knelt to Aex, walk the path anyway as Ironclads: the old Dreadnaught furnace-plating over Hunger-Pact blood, absorbing wounds as coal and answering the theology of the Witness with a boiler's worth of steam. The Aexan orders call them irregulars. The Ironclads call themselves the ones who skipped the sermon and kept the scars.
+Three peoples carry the path. The Solari keep the Mother's Shield in its oldest form, either as Korr Vault-Witnesses who endure in absolute stillness before the Sol's Breath, or as Anhur Ash-Witnesses who step into the open and take the burning debris, sorrowing for the brothers and sisters they lost to the flame. The Groven carry the Transmuted Burden: a people bred in Fex vats as labor-vessels who took the endurance forced on them and made it a sacred art, Morgh anchors holding the line and Amordjin span-keepers tallying every crossing that did not fall. And the Skald, who never knelt to Aex, walk the path anyway as Ironclads: the old Dreadnaught furnace-plating over Hunger-Pact blood, absorbing wounds as coal and answering the theology of the Witness with a boiler's worth of steam. The Aexan orders call them irregulars. The Ironclads call themselves the ones who skipped the sermon and kept the scars.
 
-Sera has been dead these many ages. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free Martyrs. The ones who do not tend to die.`,
+Sera has been dead these many ages. Her scarred forearm is preserved beneath Emberspire, still faintly warm. Her private grief has been industrialized so long that most conscripts do not know her name. The ones who do tend to become free Martyrs. The ones who do not tend to die.
+
+Native only to Korr, Anhur, Morgh Groven, Amordjin Groven, Skald. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
   title: "The Martyr",
-   subtitle: "The Mother's Shield, Witness of Aex",
+  subtitle: "The Mother's Shield, Witness of Aex",
+  illustration: "/assets/images/classes/martyr_hollow_solari.jpg",
+  illustrationCaption: "Korr Martyr — The Vault-Witness, monastic guardian standing in unmoving stillness with an obsidian kite shield, jagged chest scars spilling radiant golden sunlight of Aex.",
+  illustrations: [
+    { url: "/assets/images/classes/martyr_hollow_solari.jpg", subraceId: "korr_solari", caption: "Korr Martyr — The Vault-Witness, monastic guardian standing in unmoving stillness with an obsidian kite shield, jagged chest scars spilling radiant golden sunlight of Aex." },
+    { url: "/assets/images/classes/martyr_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Martyr — The Ash-Witness, frontline crusader taking a blast of volcanic fire onto her notched iron tower shield, linear arm scars blazing with orange cinder-light." },
+    { url: "/assets/images/classes/martyr_morgh_groven.jpg", subraceId: "morgh_groven", caption: "Morgh Groven Martyr — The Living Megalith, colossal guardian bracing a shattered stone slab against a barrage of harpoons, glowing amber veins welding the fracture." },
+    { url: "/assets/images/classes/martyr_ithran_groven.jpg", subraceId: "ithran_groven", caption: "Amordjin Groven Martyr — The Living Span, alpine anchor gripping severed iron suspension bridge cables with bare hands and silver wire, amber-gold devotion lighting his strained arms." },
+    { url: "/assets/images/classes/martyr_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Martyr — The Oath-Frozen, colossal Nordic warrior holding a blizzard pass alone with a massive iron-banded whalebone clan Great-Shield, wounds freezing into radiant cyan rime-vein scars." }
+  ],
 
   quickOverview: {
     title: "Class Overview",
@@ -209,11 +220,12 @@ The martyr's devotion was born in the volcanic badlands of <LoreLink termId="sun
 Martyrs are highly respected as sacred guardians in the frontier keeps and the geothermal arenas of the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-Two heritages carry the path: the Solari (Hollow-Solari Vault-Witnesses and Waste-Solari Ash-Witnesses) and the <LoreLink termId="groven">Groven</LoreLink> (Morgh anchors and Ithran span-keepers). The theology is Aex's own, so the deepest roots are the volcanic cloisters of <LoreLink termId="sundale">Sundale</LoreLink> and the bridge-cities of the Cragjaw.
+Aex's Witness is carried by the Solari, the Groven, and the Skald Ironclads.
 
+Native to: Korr, Anhur, Morgh Groven, Amordjin Groven, Skald. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Sera the Devoted**: The founding mother of the Martyr's Vow who carved the history of the sacrificed children.
-* **Orak the Scarred**: A Hollow-Solari monk who bore the sympathetic heat of thirty miners during a geothermal rupture.`
+* **Orak the Scarred**: A Korr monk who bore the sympathetic heat of thirty miners during a geothermal rupture.`
   },
 
   signatureQuote: {

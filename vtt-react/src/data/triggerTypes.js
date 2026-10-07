@@ -10,7 +10,7 @@ export const TRIGGER_TYPES = {
         on_crit: {
             name: 'On Critical Hit',
             icon: 'ability_rogue_ambush',
-            description: 'A Waste-Solari killing-strike that splits helm and oath both. Triggers when landing a critical hit',
+            description: 'A Anhur killing-strike that splits helm and oath both. Triggers when landing a critical hit',
             validTargets: ['attacker', 'target'],
             defaultChance: 100
         },
@@ -72,7 +72,7 @@ export const TRIGGER_TYPES = {
         on_debuff_gained: {
             name: 'On Debuff Gained',
             icon: 'spell_shadow_curseofsargeras',
-            description: 'A Nethien clause gone sour, a Wyrd-glyph gone wrong. Triggers when gaining a negative effect',
+            description: 'A Athien clause gone sour, a Wyrd-glyph gone wrong. Triggers when gaining a negative effect',
             validTargets: ['self'],
             defaultChance: 100
         },

@@ -347,7 +347,7 @@ const SEEDED_FACTIONS = [
 
   id: 'trueborn-florae',
 
-  name: 'The Trueborn Florae',
+  name: 'The Briaren Florae',
 
   type: 'tribal',
 
@@ -455,7 +455,7 @@ const SEEDED_FACTIONS = [
 
   hiddenAgenda:
 
-   'The Unlit Veil are Astril who have learned to smother their Lumian glow until their skin runs dark, and they have built a continent-spanning intelligence network on that singular advantage. Their goal is not conquest but indispensability: a world where no deal closes, no secret stays buried, and no ruler makes a decision without their whispered counsel. Behind this, they work to dismantle the Synod\'s authority from within, erasing the distinction between Stargazer Astril and Brutish Astril by making both irrelevant.',
+   'The Unlit Veil are Astril who have learned to smother their Lumian glow until their skin runs dark, and they have built a continent-spanning intelligence network on that singular advantage. Their goal is not conquest but indispensability: a world where no deal closes, no secret stays buried, and no ruler makes a decision without their whispered counsel. Behind this, they work to dismantle the Synod\'s authority from within, erasing the distinction between Lumian and Kordak by making both irrelevant.',
 
   hiddenDescription:
 
@@ -511,7 +511,7 @@ const SEEDED_FACTIONS = [
 
     type: 'rival',
 
-    description: 'The Veil\'s intelligence network periodically uncovers Morrath debts the Nethien would rather keep buried: a pressure game that cuts both ways'
+    description: 'The Veil\'s intelligence network periodically uncovers Morrath debts the Athien would rather keep buried: a pressure game that cuts both ways'
 
    }
 
@@ -692,11 +692,11 @@ const SEEDED_FACTIONS = [
   regionId: 'cragjaw-peaks',
   icon: '/assets/icons/factions/vat-breakers.png',
   colors: { primary: '#5a3a1e', secondary: '#8b6b4a' },
-  publicGoal: 'Protect Groven sovereignty, maintain the Ancestor Spans, and prevent any resumption of Fexric alchemical experimentation',
+  publicGoal: 'Protect Groven sovereignty, maintain the Ancestor Spans, and prevent any resumption of Fex alchemical experimentation',
   publicDescription:
    'The Vat Breakers Guild is the governing body of the Groven, founded by the first generation who shattered their containment vats and rose against the Deep Alchemists. They maintain the Ancestor Spans, adjudicate Groven law, and patrol the lower tunnels.',
   hiddenAgenda:
-   'The Guild maintains a secret archive of Fexric alchemical formulae stolen during the revolt that they study in case they ever need to create more Groven.',
+   'The Guild maintains a secret archive of Fex alchemical formulae stolen during the revolt that they study in case they ever need to create more Groven.',
   leader: {
    npcId: 'vat-breaker-foreman',
    title: 'First Foreman',
@@ -849,7 +849,7 @@ const SEEDED_FACTIONS = [
   ],
   classAffinities: ['chronarch', 'harbinger', 'warden'],
   lore: 'The perpetual blizzard that hides the Peaks was Tesshan\'s price: visibility for safety. Tesshan children learn to navigate by touch, sound, and the vibration of Ancestor-Spans before they learn to read.',
-  secrets: 'The Groven separatists are led by an Ithran elder who claims to have found a way to grow Ancestor-Spans without calcifying the donor. If true, it would give Tesshan a monopoly on bridge-construction and break the Vat-Breakers\' Guild\'s power.',
+  secrets: 'The Groven separatists are led by an Amordjin elder who claims to have found a way to grow Ancestor-Spans without calcifying the donor. If true, it would give Tesshan a monopoly on bridge-construction and break the Vat-Breakers\' Guild\'s power.',
   quests: []
  },
 
@@ -860,15 +860,15 @@ const SEEDED_FACTIONS = [
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/morrath.png',
   colors: { primary: '#3a2a4a', secondary: '#7a6a9a' },
-  publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Nethien contract-law',
+  publicGoal: 'Govern the Bryngloom Forest in absentia: their authority is mediated entirely through Athien contract-law',
   publicDescription:
-   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth Amar would accept, so they borrowed their survival from the Nethien rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
+   'House Morrath is the ghost among houses: the replacement seventh house elevated after Viridane fled the Blooding, yet the one with the least surviving record. Unlike the original six: they had nothing left to trade that Keth Amar would accept, so they borrowed their survival from the Athien rather than striking their own Dark Bargain. The official records list them as the seventh house of the Great Binding, but the truth is subtler — they were installed to fill the gap Viridane left.',
   hiddenAgenda:
-   'House Morrath has been functionally extinct for three centuries. The Nethien Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Bargain Compact.',
+   'House Morrath has been functionally extinct for three centuries. The Athien Pact-Lords of Atropolis continue to issue decrees in Morrath\'s name because a void in the seventh seat would legally invalidate the Bargain Compact.',
   leader: {
    npcId: 'morrath-steward',
-   title: 'Steward of the Seventh Seat (Nethien Appointee)',
-   description: 'The current Steward is a Nethien who has been "acting" in Morrath\'s name for over three centuries. No Morrath descendant has presented themselves to claim the seat in living memory.'
+   title: 'Steward of the Seventh Seat (Athien Appointee)',
+   description: 'The current Steward is a Athien who has been "acting" in Morrath\'s name for over three centuries. No Morrath descendant has presented themselves to claim the seat in living memory.'
   },
    members: [
     { npcId: 'morrath-steward', role: 'Steward of the Seventh Seat (Regent)', locationId: 'atropolis' },
@@ -878,11 +878,11 @@ const SEEDED_FACTIONS = [
    territory: ['atropolis', 'peat-bog-sinks', 'over-shanty', 'morrens-bogpost', 'vel-keth-bayou', 'aran-glen', 'fangmere-grove', 'widows-quagmire', 'black-fen', 'drowned-dingle', 'hunters-gully', 'merryns-drift'],
    relationships: [
     { targetFactionId: 'scribe-sentinels', type: 'vassal', description: 'The Sentinels maintain the legal archives that prove the Morrath line exists: without their records, the seventh seat would be declared vacant' },
-   { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Withered: unrecognized, unnamed, uncounted' }
+   { targetFactionId: 'unlit-veil', type: 'rival', description: 'Morrath descendants still exist among the Riven: unrecognized, unnamed, uncounted' }
   ],
   classAffinities: ['arcanoneer', 'false_prophet', 'plaguebringer'],
-  lore: 'The Morrath are mentioned in exactly one clause of the First Contract: a rider specifying that their debt to the Nethien is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',
-  secrets: 'A Morrath descendant IS alive: a Withered woman who burned her name from the First Contract two centuries ago. She does not know her bloodline. The Nethien have been searching for her for eighty years.',
+  lore: 'The Morrath are mentioned in exactly one clause of the First Contract: a rider specifying that their debt to the Athien is "perpetual until a living Morrath heir presents themselves to renegotiate." No heir has ever come.',
+  secrets: 'A Morrath descendant IS alive: a Riven woman who burned her name from the First Contract two centuries ago. She does not know her bloodline. The Athien have been searching for her for eighty years.',
   quests: []
  },
 
@@ -901,7 +901,7 @@ const SEEDED_FACTIONS = [
   leader: {
    npcId: 'thorn-speaker',
    title: 'Voice of the Ironwood',
-   description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Florae elder who remembers the oral history of the flight south and speaks for the Trueborn in the deep groves.'
+   description: 'The Thorn-Speaker is the closest thing Viridane has to a leader: a Florae elder who remembers the oral history of the flight south and speaks for the Briaren in the deep groves.'
   },
    members: [
     { npcId: 'thorn-speaker', role: 'Voice of the Ironwood (De Facto Leader)', locationId: 'ironwood-heart' }
@@ -909,7 +909,7 @@ const SEEDED_FACTIONS = [
    headquarters: 'ironwood-heart',
    territory: ['ironwood-heart', 'frostwood-reach'],
    relationships: [
-{ targetFactionId: 'trueborn-florae', type: 'successor', description: 'The Trueborn Florae are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
+{ targetFactionId: 'trueborn-florae', type: 'successor', description: 'The Briaren Florae are the direct descendants of House Viridane: they carry the original fae contract in their blood and thorns' },
     { targetFactionId: 'house-thalreth', type: 'rival', description: 'The Thalreth participated in the erasure of Viridane from every record and still enforce the Sovereign Ledger\'s silence on the original seventh house, now remembered by the folk as the "eighth house" — the wound in human history' }
   ],
   classAffinities: ['lunarch', 'apex'],
@@ -950,15 +950,15 @@ const SEEDED_FACTIONS = [
   icon: '/assets/icons/factions/ancestral-convergence.png',
   colors: { primary: '#555555', secondary: '#888888' },
   publicGoal: 'Hold the three Animist dialects together as they fracture',
-  publicDescription: 'The pan-regional guild that fuses the Ordan totemic, Vreken spore, and Skald runic Animist traditions into one unified craft.',
-  leader: { npcId: 'sera-three-scars', title: 'Voice of the Ancestral Fellowship', description: 'Sera Three Scars survived the three initiation rites of Ordan, Vreken, and Skald Animism, each leaving a mark on her spirit.' },
+  publicDescription: 'The pan-regional guild that fuses the Ordu totemic, Mycellan spore, and Skald runic Animist traditions into one unified craft.',
+  leader: { npcId: 'sera-three-scars', title: 'Voice of the Ancestral Fellowship', description: 'Sera Three Scars survived the three initiation rites of Ordu, Mycellan, and Skald Animism, each leaving a mark on her spirit.' },
   members: [
    { npcId: 'sera-three-scars', role: 'Voice of the Ancestral Fellowship', locationId: 'frozen-archive' }
   ],
   headquarters: 'frozen-archive',
   territory: ['frozen-archive'],
   relationships: [
-   { targetFactionId: 'house-ordavan', type: 'allied', description: 'The Ordan totemic root is one of the three traditions the Fellowship binds together.' },
+   { targetFactionId: 'house-ordavan', type: 'allied', description: 'The Ordu totemic root is one of the three traditions the Fellowship binds together.' },
    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult speaks for the silence the Animists say is devouring the ancestors.' }
   ],
   classAffinities: ['animist'],
@@ -982,12 +982,12 @@ const SEEDED_FACTIONS = [
   headquarters: 'atropolis',
   territory: ['atropolis'],
   relationships: [
-   { targetFactionId: 'house-morrath', type: 'allied', description: 'The Canopy Ledger arbitrates the Nethien contract magic that holds Morrath in being.' },
+   { targetFactionId: 'house-morrath', type: 'allied', description: 'The Canopy Ledger arbitrates the Athien contract magic that holds Morrath in being.' },
    { targetFactionId: 'unlit-veil', type: 'rival', description: 'The Veil trades in secrets the Arcanoneers are sworn to file and seal.' }
   ],
   classAffinities: ['arcanoneer'],
-  lore: 'Heir to Valerius who drafted the First Contract with Morvane. Now Morvane is rejecting clauses it once accepted and arbitration cannot resolve the Nethien Contingency Protocol.',
-  secrets: 'The Nethien Contingency Protocol contains a clause that would void every Morrath debt at once if a living heir were ever proven, and the Canopy Ledger has buried it on purpose.',
+  lore: 'Heir to Valerius who drafted the First Contract with Morvane. Now Morvane is rejecting clauses it once accepted and arbitration cannot resolve the Athien Contingency Protocol.',
+  secrets: 'The Athien Contingency Protocol contains a clause that would void every Morrath debt at once if a living heir were ever proven, and the Canopy Ledger has buried it on purpose.',
   quests: []
  },
  {
@@ -1131,7 +1131,7 @@ const SEEDED_FACTIONS = [
    { targetFactionId: 'cult-of-forgotten-shadow', type: 'hostile', description: 'The cult is the deep grove corruption the Barbed Vow was sworn to cut down.' }
   ],
   classAffinities: ['inquisitor'],
-  lore: 'Forged from cold iron Vreken and Thalren arts. Only forty seven elite inquisitors remain in active service.',
+  lore: 'Forged from cold iron Mycellan and Tallyn arts. Only forty seven elite inquisitors remain in active service.',
   secrets: 'The Inquisitors have catalogued forty seven face stealing entities in the deep bogs that defy conventional counter rites.',
   quests: []
  },
@@ -1151,7 +1151,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
   relationships: [
-   { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Communion tends the stellar symbionts bound in the groves the Trueborn guard.' },
+   { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Communion tends the stellar symbionts bound in the groves the Briaren guard.' },
    { targetFactionId: 'congregation-of-the-silence', type: 'rival', description: 'The False Prophets preach a void the Lunarchs say consumes the fallen star.' }
   ],
   classAffinities: ['lunarch'],
@@ -1415,7 +1415,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'ironwood-heart',
   territory: ['ironwood-heart'],
   relationships: [
-   { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Silent Stalkers share the groves with Trueborn trackers.' },
+   { targetFactionId: 'trueborn-florae', type: 'allied', description: 'The Silent Stalkers share the groves with Briaren trackers.' },
    { targetFactionId: 'mist-sentinels', type: 'hostile', description: 'The Sentinels patrol boundaries that the Stalkers navigate freely.' }
   ],
   classAffinities: ['apex'],
@@ -1545,7 +1545,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'drun-outcasts',
-  name: 'The Withered Outcast Clans',
+  name: 'The Riven Outcast Clans',
   type: 'tribe',
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/drun-outcasts.png',
@@ -1559,12 +1559,12 @@ const SEEDED_FACTIONS = [
   headquarters: 'over-shanty',
   territory: ['over-shanty', 'black-fen', 'vel-keth-bayou'],
   relationships: [
-   { targetFactionId: 'scribe-sentinels', type: 'hostile', description: 'The Withered resist all attempts by external guilds to register or tax their settlements.' },
-   { targetFactionId: 'house-morrath', type: 'allied', description: 'Withered clans maintain ancient kinship ties with forgotten forest lineages.' }
+   { targetFactionId: 'scribe-sentinels', type: 'hostile', description: 'The Riven resist all attempts by external guilds to register or tax their settlements.' },
+   { targetFactionId: 'house-morrath', type: 'allied', description: 'Riven clans maintain ancient kinship ties with forgotten forest lineages.' }
   ],
   classAffinities: ['plaguebringer', 'revenant'],
   lore: 'Formed by independent thinkers and survivors who built resilient stilt villages above the Bryngloom mire.',
-  secrets: 'The Withered have discovered natural underwater pathways through the marsh that bypass all toll gates.',
+  secrets: 'The Riven have discovered natural underwater pathways through the marsh that bypass all toll gates.',
   quests: []
  },
  {
@@ -1668,7 +1668,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'neth',
-  name: 'High House Nethien',
+  name: 'High House Athien',
   type: 'noble_house',
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/neth.png',
@@ -1682,8 +1682,8 @@ const SEEDED_FACTIONS = [
   headquarters: 'atropolis',
   territory: ['atropolis', 'vel-keth-bayou', 'aran-glen', 'black-fen'],
   relationships: [
-   { targetFactionId: 'house-morrath', type: 'allied', description: 'High House Nethien legitimizes Morrath legal continuity through the registry.' },
-   { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Nethien legalists regulate what the Scribes Ink Guild provides.' }
+   { targetFactionId: 'house-morrath', type: 'allied', description: 'High House Athien legitimizes Morrath legal continuity through the registry.' },
+   { targetFactionId: 'scribe-cartel', type: 'rival', description: 'The Athien legalists regulate what the Scribes Ink Guild provides.' }
   ],
   classAffinities: ['arcanoneer', 'revenant'],
   lore: 'An ancient dynasty whose words carry literal binding arcane weight under the First Contract.',
@@ -1692,7 +1692,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'astril-earthen',
-  name: 'Stargazer Astril Folk',
+  name: 'Lumian Folk',
   type: 'cultural',
   minor: true,
   regionId: 'sundrift-vale',
@@ -1801,7 +1801,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'kessen-weavers',
-  name: 'Cult of the Veldun Weavers',
+  name: 'Cult of the Weft Weavers',
   type: 'cult',
   minor: true,
   regionId: 'bryngloom-forest',
@@ -1829,7 +1829,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'aran-glen',
   territory: ['aran-glen', 'fangmere-grove'],
   relationships: [
-   { targetFactionId: 'neth', type: 'allied', description: 'The Weavers provide astrological and probability divinations to High House Nethien.' }
+   { targetFactionId: 'neth', type: 'allied', description: 'The Weavers provide astrological and probability divinations to High House Athien.' }
   ],
   classAffinities: ['arcanoneer', 'augur'],
   lore: 'Practitioners of living wood manipulation whose crafted artifacts grow and adapt over centuries.',
@@ -1912,7 +1912,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'morren-peat-cutters',
-  name: 'Vreken Peat Harvesters Guild',
+  name: 'Mycellan Peat Harvesters Guild',
   type: 'guild',
   minor: true,
   regionId: 'bryngloom-forest',
@@ -1986,7 +1986,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'ordan-nomads',
-  name: 'Ordan Steppe Nomads',
+  name: 'Ordu Steppe Nomads',
   type: 'tribe',
   minor: true,
   regionId: 'sundrift-vale',
@@ -2119,7 +2119,7 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'veiled-mimir',
-  name: 'Order of the Veiled Mimir',
+  name: 'Order of the Arch Mimir',
   type: 'religious_order',
   minor: true,
   regionId: 'frostwood-reach',
@@ -2156,14 +2156,14 @@ const SEEDED_FACTIONS = [
  },
  {
   id: 'velun-pact-lords',
-  name: 'Nethien Pact Lords',
+  name: 'Athien Pact Lords',
   type: 'noble_house',
   minor: true,
   regionId: 'bryngloom-forest',
   icon: '/assets/icons/factions/neth.png',
   colors: { primary: '#5a4a7a', secondary: '#9a7aaa' },
   publicGoal: 'Ensure the Glen Compact remains consistent with the First Contract',
-  publicDescription: 'A distinguished Nethien patrician house serving as judicial ambassadors between Aran Glen and Atropolis, overseeing binding legal pacts.',
+  publicDescription: 'A distinguished Athien patrician house serving as judicial ambassadors between Aran Glen and Atropolis, overseeing binding legal pacts.',
   leader: {
   'npcId': 'consul-tiberius-velun',
   'title': 'High Chancellor Tiberius',
@@ -2184,7 +2184,7 @@ const SEEDED_FACTIONS = [
   headquarters: 'atropolis',
   territory: ['atropolis', 'aran-glen'],
   relationships: [
-   { targetFactionId: 'neth', type: 'allied', description: 'The Pact Lords are a foundational branch of High House Nethien.' },
+   { targetFactionId: 'neth', type: 'allied', description: 'The Pact Lords are a foundational branch of High House Athien.' },
    { targetFactionId: 'canopy-ledger', type: 'allied', description: 'The Pact Lords work hand in hand with the Canopy Ledger Guild to enforce contracts.' }
   ],
   classAffinities: ['arcanoneer', 'spellguard'],

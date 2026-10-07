@@ -2,7 +2,15 @@
  * User Profile Service
  *
  * Manages user profile data and avatar persistence to Firebase.
- * Handles profile customization, avatar uploads, and user preferences.
+ *
+ * Project 4 profile boundary:
+ * - The public projection at userProfiles/{uid} contains exactly the frozen
+ *   allowlist (displayName, photoURL, friendId, friendId_lowercase, updatedAt,
+ *   projectionVersion). It is versioned and queryable by other accounts.
+ * - Rich profile data (bio, contact, preferences, stats, avatar settings) is
+ *   private and owner-only at userSettings/{uid}.profile.
+ * - Legacy mixed public documents are copied privately and then slimmed; they
+ *   are never served as a public profile after conversion.
  */
 
 import {
@@ -10,22 +18,27 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  writeBatch,
   serverTimestamp
 } from 'firebase/firestore';
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject
-} from 'firebase/storage';
-import { db, storage, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
+import { db, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
 // Collection names
 const COLLECTIONS = {
   USERS: 'users',
-  USER_PROFILES: 'userProfiles'
+  USER_PROFILES: 'userProfiles',
+  USER_SETTINGS: 'userSettings'
 };
+
+const PUBLIC_PROFILE_FIELDS = [
+  'displayName',
+  'photoURL',
+  'friendId',
+  'friendId_lowercase',
+  'updatedAt',
+  'projectionVersion'
+];
 
 /**
  * Check if Firebase is available
@@ -38,7 +51,7 @@ function checkFirebaseAvailable(userId = null) {
 }
 
 /**
- * Default user profile structure
+ * Default user profile structure (private)
  */
 export const DEFAULT_USER_PROFILE = {
   // Basic profile info
@@ -94,8 +107,31 @@ export const DEFAULT_USER_PROFILE = {
   lastUpdated: new Date().toISOString()
 };
 
+function privateProfileRef(userId) {
+  return doc(db, COLLECTIONS.USER_SETTINGS, userId);
+}
+
+function publicProfileRef(userId) {
+  return doc(db, COLLECTIONS.USER_PROFILES, userId);
+}
+
 /**
- * Save user profile to Firebase
+ * Publish only the frozen public allowlist. Never copies private fields and
+ * never publishes the private uploaded avatar URL to the public projection.
+ */
+async function publishPublicProfile(userId, data = {}) {
+  const publicData = { projectionVersion: 1, updatedAt: serverTimestamp() };
+  if (data.displayName !== undefined) publicData.displayName = data.displayName || null;
+  if (data.photoURL !== undefined) publicData.photoURL = data.photoURL || null;
+  if (data.friendId !== undefined) {
+    publicData.friendId = data.friendId || null;
+    publicData.friendId_lowercase = data.friendId ? String(data.friendId).toLowerCase() : null;
+  }
+  await setDoc(publicProfileRef(userId), publicData, { merge: true });
+}
+
+/**
+ * Save user profile to Firebase (private storage + slim public projection).
  */
 export async function saveUserProfile(userId, profileData) {
   try {
@@ -107,7 +143,7 @@ export async function saveUserProfile(userId, profileData) {
       throw new Error('User ID is required');
     }
 
-    // Merge with defaults to ensure all profile fields are present
+    // Merge with defaults to ensure all private profile fields are present
     const profileToSave = {
       ...DEFAULT_USER_PROFILE,
       ...profileData,
@@ -116,12 +152,13 @@ export async function saveUserProfile(userId, profileData) {
       version: 1
     };
 
-    const profileRef = doc(db, COLLECTIONS.USER_PROFILES, userId);
-
-    // Sanitize profile data to remove undefined values
     const sanitizedProfile = sanitizeForFirestore(profileToSave);
+    await setDoc(privateProfileRef(userId), { profile: sanitizedProfile }, { merge: true });
 
-    await setDoc(profileRef, sanitizedProfile, { merge: true });
+    await publishPublicProfile(userId, {
+      displayName: profileToSave.displayName,
+      photoURL: profileToSave.photoURL
+    });
 
     // Update user's basic profile reference
     const userRef = doc(db, COLLECTIONS.USERS, userId);
@@ -144,7 +181,34 @@ export async function saveUserProfile(userId, profileData) {
 }
 
 /**
- * Load user profile from Firebase
+ * True slim public replacement: exact allowlist only, no merge, so private
+ * legacy fields cannot survive in the public document. `projectionVersion: 1`
+ * may only exist on a genuinely slim document.
+ */
+function buildSlimPublicProfile(source = {}) {
+  const friendId = typeof source.friendId === 'string' && source.friendId.length > 0
+    ? source.friendId
+    : null;
+  return {
+    projectionVersion: 1,
+    updatedAt: serverTimestamp(),
+    displayName: typeof source.displayName === 'string' ? source.displayName : null,
+    photoURL: typeof source.photoURL === 'string' ? source.photoURL : null,
+    friendId,
+    friendId_lowercase: friendId ? friendId.toLowerCase() : null
+  };
+}
+
+async function writeSlimPublicProfile(userId, source = {}) {
+  await setDoc(publicProfileRef(userId), buildSlimPublicProfile(source));
+}
+
+/**
+ * Load the owner's private profile. Legacy mixed public documents are copied
+ * privately (all non-public fields) before the public document is replaced
+ * with the exact slim schema. An existing private copy does not skip an
+ * unfinished slim replacement: the public document is re-checked and the
+ * migration retried until it is genuinely slim.
  */
 export async function loadUserProfile(userId) {
   try {
@@ -156,18 +220,81 @@ export async function loadUserProfile(userId) {
       return { ...DEFAULT_USER_PROFILE };
     }
 
-    const profileRef = doc(db, COLLECTIONS.USER_PROFILES, userId);
-    const profileDoc = await getDoc(profileRef);
+    const privateDoc = await getDoc(privateProfileRef(userId));
+    const legacyDoc = await getDoc(publicProfileRef(userId)).catch(() => null);
+    const legacyData = legacyDoc && legacyDoc.exists() ? (legacyDoc.data() || {}) : null;
 
-    if (profileDoc.exists()) {
-      const profileData = profileDoc.data();
-      return {
+    const needsSlim = !legacyData
+      || legacyData.projectionVersion !== 1
+      || Object.keys(legacyData).some((key) => !PUBLIC_PROFILE_FIELDS.includes(key));
+
+    if (privateDoc.exists() && privateDoc.data()?.profile) {
+      const privateData = privateDoc.data().profile || {};
+      const privateProfile = {
         ...DEFAULT_USER_PROFILE,
-        ...profileData
+        ...privateData
       };
-    } else {
-      return { ...DEFAULT_USER_PROFILE };
+      if (needsSlim) {
+        // R8.5/R11: preserve non-public legacy fields that exist only in the
+        // mixed public document BEFORE the true slim replacement. Existing
+        // private values always win; legacy only fills missing fields. The
+        // preservation fill and the slim replacement commit as ONE atomic
+        // batch, so a failed preservation can never leave a slimmed public
+        // document (public stays mixed and the migration retries next load).
+        const preserved = {};
+        if (legacyData) {
+          for (const [key, value] of Object.entries(legacyData)) {
+            if (PUBLIC_PROFILE_FIELDS.includes(key)) {continue;}
+            preserved[key] = value;
+          }
+        }
+        const fill = {};
+        for (const [key, value] of Object.entries(preserved)) {
+          if (privateData[key] === undefined) {fill[key] = value;}
+        }
+        try {
+          const batch = writeBatch(db);
+          if (Object.keys(fill).length > 0) {
+            batch.set(privateProfileRef(userId), {
+              profile: sanitizeForFirestore(fill)
+            }, { merge: true });
+          }
+          batch.set(publicProfileRef(userId), buildSlimPublicProfile(legacyData || privateProfile));
+          await batch.commit();
+          Object.assign(privateProfile, fill);
+        } catch (migrationError) {
+          console.warn('Profile migration pending retry (public document untouched):', migrationError?.message || migrationError);
+        }
+      }
+      return privateProfile;
     }
+
+    if (legacyData) {
+      // Preserve ALL non-public legacy content privately before slimming.
+      const privateProfile = { ...DEFAULT_USER_PROFILE };
+      for (const [key, value] of Object.entries(legacyData)) {
+        if (PUBLIC_PROFILE_FIELDS.includes(key)) {continue;}
+        privateProfile[key] = value;
+      }
+      if (legacyData.displayName !== undefined) {privateProfile.displayName = legacyData.displayName;}
+      if (legacyData.photoURL !== undefined) {privateProfile.photoURL = legacyData.photoURL;}
+      privateProfile.userId = userId;
+      privateProfile.version = 1;
+
+      await setDoc(privateProfileRef(userId), {
+        profile: sanitizeForFirestore(privateProfile)
+      }, { merge: true });
+
+      try {
+        await writeSlimPublicProfile(userId, legacyData);
+      } catch (slimError) {
+        // Private preservation succeeded; slim retry happens on next load.
+        console.warn('Public profile slim replacement pending retry:', slimError?.message || slimError);
+      }
+      return privateProfile;
+    }
+
+    return { ...DEFAULT_USER_PROFILE };
 
   } catch (error) {
     console.error('Error loading user profile:', error);
@@ -176,7 +303,8 @@ export async function loadUserProfile(userId) {
 }
 
 /**
- * Update user profile (partial update)
+ * Update user profile (partial update) in private storage; republish only the
+ * public allowlist subset.
  */
 export async function updateUserProfile(userId, updates) {
   try {
@@ -188,15 +316,17 @@ export async function updateUserProfile(userId, updates) {
       throw new Error('User ID is required');
     }
 
-    const profileRef = doc(db, COLLECTIONS.USER_PROFILES, userId);
-
-    // Sanitize updates to remove undefined values
     const sanitizedUpdates = sanitizeForFirestore(updates);
+    await setDoc(privateProfileRef(userId), {
+      profile: { ...sanitizedUpdates, lastUpdated: serverTimestamp() }
+    }, { merge: true });
 
-    await updateDoc(profileRef, {
-      ...sanitizedUpdates,
-      lastUpdated: serverTimestamp()
-    });
+    const publicUpdates = {};
+    if (updates.displayName !== undefined) publicUpdates.displayName = updates.displayName;
+    if (updates.photoURL !== undefined) publicUpdates.photoURL = updates.photoURL;
+    if (Object.keys(publicUpdates).length > 0) {
+      await publishPublicProfile(userId, publicUpdates);
+    }
 
     return { success: true, localOnly: false };
 
@@ -221,7 +351,7 @@ export async function uploadAvatar(userId, file) {
       throw new Error(result.error || 'Failed to upload avatar');
     }
 
-    // Update user profile with new avatar
+    // The uploaded asset is private; only the private profile references it.
     await updateUserProfile(userId, {
       avatarUrl: result.url,
       avatarType: 'uploaded'
@@ -251,7 +381,6 @@ export async function deleteAvatar(userId, avatarUrl) {
     const { deleteAsset } = await import('./uploadService');
     await deleteAsset(userId, avatarUrl);
 
-    // Update user profile
     await updateUserProfile(userId, {
       avatarUrl: null,
       avatarType: 'default'
@@ -305,7 +434,7 @@ export function generateAvatarFromName(displayName, settings = {}) {
 }
 
 /**
- * Update user gaming statistics
+ * Update user gaming statistics (private)
  */
 export async function updateUserStats(userId, stats) {
   try {
@@ -333,13 +462,13 @@ export async function updateUserStats(userId, stats) {
 }
 
 /**
- * Export user profile for backup
+ * Export user profile for backup (private data only)
  */
 export async function exportUserProfile(userId) {
   try {
     const profile = await loadUserProfile(userId);
     // Remove sensitive data from export
-    const { userId: _, lastUpdated, ...exportableProfile } = profile;
+    const { userId: _userId, lastUpdated, ...exportableProfile } = profile;
     return exportableProfile;
   } catch (error) {
     console.error('Error exporting user profile:', error);
@@ -348,7 +477,7 @@ export async function exportUserProfile(userId) {
 }
 
 /**
- * Import user profile from backup
+ * Import user profile from backup (private data only)
  */
 export async function importUserProfile(userId, profileData) {
   try {

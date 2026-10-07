@@ -659,12 +659,12 @@ export async function rateSpell(spellId, userId, rating) {
 
     // Add or update rating
     const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
-    await updateDoc(ratingRef, {
+    await setDoc(ratingRef, {
       spellId,
       userId,
       rating,
       createdAt: new Date()
-    });
+    }, { merge: true });
 
     // Recalculate average rating for the spell
     await recalculateSpellRating(spellId);
@@ -1044,7 +1044,7 @@ export async function seedTestSpell() {
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
     // Check if any spells already exist
-    const checkSnapshot = await getDocs(query(spellsRef, limit(1)));
+    const checkSnapshot = await getDocs(query(spellsRef, where('isPublic', '==', true), limit(1)));
     if (!checkSnapshot.empty) {
       return null; // Collection already has data
     }
@@ -1171,7 +1171,7 @@ export async function cleanupDuplicateSpells() {
     if (!checkFirebaseAvailable()) return 0;
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
-    const snapshot = await getDocs(spellsRef);
+    const snapshot = await getDocs(query(spellsRef, where('isPublic', '==', true)));
 
     const seen = new Map();
     const duplicates = [];

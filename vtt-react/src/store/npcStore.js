@@ -5,7 +5,7 @@ const NPC_DATA = {
     "id": "aldren-thalreth",
     "name": "Aldren Thalreth",
     "title": "Lord of Greymark",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Male",
     "factionIds": [
       "house-thalreth",
@@ -16,7 +16,7 @@ const NPC_DATA = {
     ],
     "age": "Unknown: appears to be in his mid-sixties, though the fog may have aged him differently",
     "status": "Active",
-    "appearance": "A tall, gaunt man with sharp Thalren features, carrying a worn leather journal everywhere. His eyes have the distant, unfocused quality of a man who can no longer trust his own memories.",
+    "appearance": "A tall, gaunt man with sharp Tallyn features, carrying a worn leather journal everywhere. His eyes have the distant, unfocused quality of a man who can no longer trust his own memories.",
     "personality": "Aldren is thoughtful, melancholic, and burdened by knowledge he can no longer verify. The fog has eaten so many of his memories that he cannot recall his own mother's face. He speaks rarely, chooses words with surgical precision, and carries his journal everywhere, re-reading entries about his own life that he no longer remembers writing.",
     "backstory": "Aldren Thalreth is the current Lord of Greymark Keep, the ancestral seat of House Thalreth (named for his celebrated ancestor, High Confessor Aldren Thalreth the Elder, who chose frozen stasis over memory-loss in Nordhalla's Frozen Archive generations ago. The younger Aldren inherited a house already crumbling under the weight of the Fog Compact) the insulating fog that protects the Frostwood Reach has slowly consumed his family's memories for generations. His tragedy is that he has forgotten the location of a critical ledger: the one recording the exact terms of the Compact. Without it, no one knows when the fog's price will be paid in full.",
     "hooks": [
@@ -29,7 +29,7 @@ const NPC_DATA = {
     "id": "kaelen-thalreth",
     "name": "Kaelen Thalreth",
     "title": "Jarl-Archivist of House Thalreth (De Facto Leader)",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Male",
     "factionIds": [
       "house-thalreth",
@@ -46,14 +46,14 @@ const NPC_DATA = {
     "backstory": "As the de facto leader of House Thalreth (often called the Quill-Lord), Kaelen governs while his father Aldren suffers from advanced memory-fog. He coordinates the Scribe-Sentinels and directly oversees the Revisionists, determining which historical facts must be rewritten to preserve the stability of the Reach. He believes that historical truth is a luxury the freezing world cannot afford.",
     "hooks": [
       "Kaelen is looking for a lost ledger containing the original, unrevised census of the first generation",
-      "He is secretly attempting to establish a trade blockade against the Fexric guilds to force concessions on geothermal fuel"
+      "He is secretly attempting to establish a trade blockade against the Fex guilds to force concessions on geothermal fuel"
     ]
   },
   "elara-thalreth": {
     "id": "elara-thalreth",
     "name": "Elara Thalreth",
     "title": "Keeper of the High Hearth",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Female",
     "factionIds": [
       "house-thalreth"
@@ -75,7 +75,7 @@ const NPC_DATA = {
     "id": "caedren-thalreth",
     "name": "Caedren Thalreth",
     "title": "Master Scribe of the Scribe-Sentinels",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Male",
     "factionIds": [
       "house-thalreth",
@@ -143,7 +143,7 @@ const NPC_DATA = {
     "id": "thorn-speaker",
     "name": "The Thorn-Speaker",
     "title": "Voice of the Ironwood",
-    "race": "Trueborn Florae",
+    "race": "Briaren Florae",
     "gender": "Female",
     "factionIds": [
       "trueborn-florae"
@@ -232,7 +232,7 @@ const NPC_DATA = {
     "id": "old-maren",
     "name": "Old Maren",
     "title": "Proprietor of the Root & Resin",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Female",
     "factionIds": [],
     "locationIds": [
@@ -252,7 +252,7 @@ const NPC_DATA = {
     "id": "korrin-the-shade",
     "name": "Korrin the Shade",
     "title": "Shadow Confessor of the Over-Shanty",
-    "race": "Vreken",
+    "race": "Mycellan",
     "gender": "Male",
     "factionIds": [],
     "locationIds": [
@@ -261,10 +261,10 @@ const NPC_DATA = {
     "age": "39",
     "status": "Active",
     "appearance": "A lean, nervous man with hollow cheeks and eyes that dart constantly. He wears dark robes and keeps his hands hidden in his sleeves: his fingers are stained permanently black from handling peat-bog ink.",
-    "personality": "Korrin is genuinely terrified of the deep bog. He believes something ancient and hungry watches from beneath the peat, and that the Bryngloom is not done with its bargains. But he has nowhere else to go: the Nethien control the only safe roads, and the surface-world offers nothing to a man who has already seen what lives in the deep water.",
+    "personality": "Korrin is genuinely terrified of the deep bog. He believes something ancient and hungry watches from beneath the peat, and that the Bryngloom is not done with its bargains. But he has nowhere else to go: the Athien control the only safe roads, and the surface-world offers nothing to a man who has already seen what lives in the deep water.",
     "backstory": "Korrin was a petty thief in Greymark who fled into the Bryngloom after stealing from House Thalreth. He found work in the Over-Shanty as a memory-extraction specialist: a man who can enter other people's minds through bog-fumes and incense. He has extracted hundreds of memories, and each one has left a scar.",
     "hooks": [
-      "Korrin knows a hidden path through the Severing Bog that bypasses Nethien patrols",
+      "Korrin knows a hidden path through the Severing Bog that bypasses Athien patrols",
       "He is looking for a way to leave the Over-Shanty without being killed, and might help someone who offers an alternative"
     ]
   },
@@ -382,7 +382,7 @@ const NPC_DATA = {
     "id": "morrath-steward",
     "name": "The Steward of the Seventh Seat",
     "title": "Acting Steward of House Morrath",
-    "race": "Nethien",
+    "race": "Athien",
     "gender": "Unknown",
     "factionIds": [
       "house-morrath"
@@ -392,9 +392,9 @@ const NPC_DATA = {
     ],
     "age": "Unknown (at least three centuries)",
     "status": "Active (acting)",
-    "appearance": "A Nethien whose contract-syntax neurology is visible as faint silver tracings beneath their skin. They dress in the formal grey of a Bryngloom scrivener, and their ledger-book is chained to their wrist.",
+    "appearance": "A Athien whose contract-syntax neurology is visible as faint silver tracings beneath their skin. They dress in the formal grey of a Bryngloom scrivener, and their ledger-book is chained to their wrist.",
     "personality": "Meticulous, patient, and constitutionally incapable of lying. The Steward answers every question with the precision of a filed affidavit, and they have been waiting three centuries for someone to ask the right one.",
-    "backstory": "No Morrath heir has claimed the seventh seat in living memory. The Nethien steward was appointed \"temporarily\" after the last Morrath Lord vanished without naming a successor, and has administered the house's estates, contracts, and blood-debts with flawless legality ever since. The neighbouring houses have stopped asking when a real Morrath will appear; the Steward's tenure is simply accepted.",
+    "backstory": "No Morrath heir has claimed the seventh seat in living memory. The Athien steward was appointed \"temporarily\" after the last Morrath Lord vanished without naming a successor, and has administered the house's estates, contracts, and blood-debts with flawless legality ever since. The neighbouring houses have stopped asking when a real Morrath will appear; the Steward's tenure is simply accepted.",
     "hooks": [
       "The Steward's ledger contains an unbroken record of House Morrath's debts, and some of those creditors are still collecting",
       "The last Morrath Lord's contract of disappearance was drafted by the Steward themselves, and they will not say who dictated the terms."
@@ -449,7 +449,7 @@ const NPC_DATA = {
     "id": "tesshan-steward",
     "name": "The Steward of Frostmaw",
     "title": "Caretaker of House Tesshan",
-    "race": "Tessen human",
+    "race": "Tessic human",
     "gender": "Male",
     "factionIds": [
       "house-tesshan"
@@ -488,14 +488,14 @@ const NPC_DATA = {
     "hooks": [
       "Hark knows the Unbound settlement's location but has not yet struck; a party could be hired by either side of the schism",
       "He alone can lift Grum's hammer; if he dies or defects, the line's claim to legitimacy dies with him",
-      "A Waste-Solari Berserker in Hark's confidence is feeding the Unbound forge-fragments: Hark suspects but will not investigate"
+      "A Anhur Berserker in Hark's confidence is feeding the Unbound forge-fragments: Hark suspects but will not investigate"
     ]
   },
   "sera-three-scars": {
     "id": "sera-three-scars",
     "name": "Sera Three-Scars",
     "title": "Voice of the Ancestral Convergence",
-    "race": "Vreken",
+    "race": "Mycellan",
     "gender": "Female",
     "factionIds": [
       "ancestral-convergence"
@@ -505,9 +505,9 @@ const NPC_DATA = {
     ],
     "age": "49",
     "status": "Active: failing",
-    "appearance": "A gaunt Vreken woman who bears the marks of all three Animist traditions: throat-tattoos from the Ordan overtones, faint bioluminescent tracery on her wrists from inhaled Vreken spores, and a single carved rune on her collarbone that never fully heals. Her eyes flicker between three distant focuses.",
+    "appearance": "A gaunt Mycellan woman who bears the marks of all three Animist traditions: throat-tattoos from the Ordu overtones, faint bioluminescent tracery on her wrists from inhaled Mycellan spores, and a single carved rune on her collarbone that never fully heals. Her eyes flicker between three distant focuses.",
     "personality": "Patient, exhausted, and quietly desperate. Sera is the only living Animist who can still hold all three ancestral dialects at once, and the effort is killing her. She translates between traditions that no longer fully understand each other and grieves that she has found no successor.",
-    "backstory": "Sera leads the Ancestral Convergence, the tri-regional council that fuses the Ordan totemic, Vreken spore, and Skald runic traditions into one Animist art. As the ancestral language fractures, her bridging-mind is the only thing holding the tradition together. Every young Animist who attempts all three simultaneously suffers sensory collapse: there is no heir.",
+    "backstory": "Sera leads the Ancestral Convergence, the tri-regional council that fuses the Ordu totemic, Mycellan spore, and Skald runic traditions into one Animist art. As the ancestral language fractures, her bridging-mind is the only thing holding the tradition together. Every young Animist who attempts all three simultaneously suffers sensory collapse: there is no heir.",
     "hooks": [
       "Sera seeks a party to escort a promising young Animist to each of the three regional seats before the Convergence dissolves",
       "Her rune-scar has begun migrating toward her throat, which the Skald Rune-Keeper read as a death-omen",
@@ -518,8 +518,8 @@ const NPC_DATA = {
     "id": "vel-otharen",
     "name": "Vel-Otharen",
     "title": "Senior Signatory of the Canopy-Ledger",
-    "race": "Nethien",
-    "gender": "Unspecified (Nethien do not emphasize gender)",
+    "race": "Athien",
+    "gender": "Unspecified (Athien do not emphasize gender)",
     "factionIds": [
       "canopy-ledger",
       "house-morrath"
@@ -530,7 +530,7 @@ const NPC_DATA = {
     "age": "412",
     "status": "Active",
     "appearance": "The eldest active Arcanoneer: more Mnemonic Shard than flesh, his pale skin translucent where the crystallized blood-clauses show through. His pig-iron forearm graft is original, fused thirty generations of refinement ago. He has not spoken an unplanned word in thirty years.",
-    "personality": "Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Nethien Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.",
+    "personality": "Precise, patient, and privately terrified. Vel-Otharen chairs the arbitration that cannot resolve the Athien Contingency Protocol and believes, but cannot prove, that the contract-breach originates inside the Heart-Vault itself.",
     "backstory": "Ledger-Prime of the Canopy-Ledger, Vel-Otharen presides over the Arcanoneer order from Atropolis's Heart-Vault. His own filed Mnemonic Shards are degrading (clauses the Keeper once accepted now rejected) and he suspects the breach is internal. He believes arbitration can still resolve the Protocol dispute; he is almost certainly wrong.",
     "hooks": [
       "Vel-Otharen can grant a party access to the Heart-Vault's deepest contracts: for a filed consideration they must honor",
@@ -566,7 +566,7 @@ const NPC_DATA = {
     "id": "fex-vestara",
     "name": "Fex-Vestara",
     "title": "Keeper of the Reconstruction Schematics (Conclave-Prime of the Frostmaw Conclave)",
-    "race": "Clockwork Fexric - Fexric",
+    "race": "Brasskin - Fex",
     "gender": "Female",
     "factionIds": [
       "frostmaw-conclave"
@@ -576,12 +576,12 @@ const NPC_DATA = {
     ],
     "age": "88",
     "status": "Active: racing the clock",
-    "appearance": "A compact, oil-stained Clockwork Fexric engineer whose chest is partly open, the rebuilt time-dilation engine visible behind a glass plate: her own prototype. Her gear-tattoos chart the reconstruction in real-time, new ones appearing as each subsystem completes.",
+    "appearance": "A compact, oil-stained Brasskin engineer whose chest is partly open, the rebuilt time-dilation engine visible behind a glass plate: her own prototype. Her gear-tattoos chart the reconstruction in real-time, new ones appearing as each subsystem completes.",
     "personality": "Driven, methodical, and grieving in advance. Fex-Vestara refuses to accept that Nesta's disappearance is unpreventable and considers the reconstruction either genius or the product of grief: she is no longer sure which.",
     "backstory": "Conclave-Prime of the Frostmaw Conclave, Fex-Vestara has spent six years rebuilding Nesta's original Chronarch engine from recorded schematics, arguing that if the machine persists, its inventor will too. She is three weeks from completion; Nesta is estimated at four weeks from final collapse.",
     "hooks": [
       "Fex-Vestara needs a rare volcanic-glass component only recoverable from a Deep Alchemist sealed lab",
-      "The Clockwork Fexric guilds consider her project heresy: a team has been sent to halt her",
+      "The Brasskin guilds consider her project heresy: a team has been sent to halt her",
       "If she succeeds and Nesta persists inside the new engine, Nesta may not be grateful"
     ]
   },
@@ -589,7 +589,7 @@ const NPC_DATA = {
     "id": "mor-vereth",
     "name": "Mor-Vereth",
     "title": "Weaver of the Congregation of the Silence",
-    "race": "Vreken",
+    "race": "Mycellan",
     "gender": "Female",
     "factionIds": [
       "congregation-of-the-silence"
@@ -599,7 +599,7 @@ const NPC_DATA = {
     ],
     "age": "41",
     "status": "Active: terrified",
-    "appearance": "A cold, organized Vreken woman whose debt-brand on her forearm is partially obscured by a newer mark: a silence-glyph that pulses faintly in time with Li Wei's breathing. Her eyes are constantly tracking something no one else can see.",
+    "appearance": "A cold, organized Mycellan woman whose debt-brand on her forearm is partially obscured by a newer mark: a silence-glyph that pulses faintly in time with Li Wei's breathing. Her eyes are constantly tracking something no one else can see.",
     "personality": "Methodical, genuinely uncertain, and in over her head. Mor-Vereth built the cell-network around Li Wei's broken prophecies and does not know whether she is leading a liberation movement or steering millions toward something she cannot see.",
     "backstory": "Cell-Mother of the Congregation of the Silence, Mor-Vereth receives the Voice's new, specific instructions (descend to the Frozen Archive's lowest vault, open the way) and is terrified because they are no longer suggestions. Li Wei's heart now beats in the rhythm of the commands. She keeps the founder alive because the Voice will not speak through any other throat.",
     "hooks": [
@@ -659,7 +659,7 @@ const NPC_DATA = {
     "id": "vrael-forty-seventh",
     "name": "Vrael the Forty-Seventh",
     "title": "Last Commander of the Barbed Vow",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Female",
     "factionIds": [
       "barbed-vow"
@@ -669,7 +669,7 @@ const NPC_DATA = {
     ],
     "age": "52",
     "status": "Active: half-erased",
-    "appearance": "A lean, scar-wrapped Thalren woman whose Bait-Vow scars glow faintly with the broken promises she has sworn to lure the Wyrd. She is translucent at the edges: the Sovereign Ledger is half-done striking her name, and she is visibly becoming a ghost in her own lifetime.",
+    "appearance": "A lean, scar-wrapped Tallyn woman whose Bait-Vow scars glow faintly with the broken promises she has sworn to lure the Wyrd. She is translucent at the edges: the Sovereign Ledger is half-done striking her name, and she is visibly becoming a ghost in her own lifetime.",
     "personality": "Weary, iron-willed, and morally compromised. Vrael leads because she was the forty-seventh remaining Inquisitor and the most senior willing. She has stopped recruiting because the oath now kills more initiates than it survives.",
     "backstory": "Last Commander of the Barbed Vow, Vrael commands forty-six remaining Inquisitors against a tripled incursion rate. The new deep-grove entities have no contracts to sever and no faces to bait, falling outside her entire art. In desperation she has begun training recruits in forbidden binding techniques, borrowing from the traditions the Inquisitors were founded to destroy. Vrael is the forty-seventh High-Severer of the Barbed Vow since the Inquisitor traditions merged long ago. Only 47 active Inquisitors remain. the lowest number since the order's founding. The Marching Dead and the Cult of Forgotten Shadow have pushed the Inquisition beyond its operational limits.",
     "hooks": [
@@ -682,7 +682,7 @@ const NPC_DATA = {
     "id": "bri-vessela",
     "name": "Bri-Vessela",
     "title": "Keeper of the Phases (Regent of the Lunar Communion)",
-    "race": "Trueborn Florae",
+    "race": "Briaren Florae",
     "gender": "Female",
     "factionIds": [
       "lunar-communion",
@@ -693,13 +693,13 @@ const NPC_DATA = {
     ],
     "age": "63",
     "status": "Active: acting",
-    "appearance": "A senior Trueborn Florae whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene's whispers reach her. She wears the ghost-metal regent's token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.",
+    "appearance": "A senior Briaren Florae whose thorn-clusters run thick across her forearms and shoulders, prickling upright when Selene's whispers reach her. She wears the ghost-metal regent's token openly and carries a transcription-journal at all times, ink still wet from the latest dead-language entry.",
     "personality": "Reluctant, theological, and increasingly frightened. Bri-Vessela is a scholar forced into power by Selene's silence. She spends her nights transcribing whispers she does not understand and her days pretending she does.",
     "backstory": "Regent of the Lunar Communion in Selene's silence, Bri-Vessela leads only because the alternative was civil war between the caste-factions. The elder parasites are synchronizing every Lunarch's phases toward an unknown convergence, and Selene's whispers are, she has begun to suspect, not madness but instructions: the hatching-song of the fallen star.",
     "hooks": [
       "Bri-Vessela desperately needs a translator for the dead-language whispers; she will fund any expedition to find one",
       "She can be convinced to either halt the convergence or accelerate it: depending on what the party learns",
-      "A Shorn faction is secretly welcoming the hatching; Bri-Vessela does not know who"
+      "An Oaken faction is secretly welcoming the hatching; Bri-Vessela does not know who"
     ]
   },
   "sol-kaessen": {
@@ -755,7 +755,7 @@ const NPC_DATA = {
     "id": "vespera",
     "name": "Vespera",
     "title": "The First Host (Blight-Mother of the Cultivar)",
-    "race": "Clean Vreken",
+    "race": "Bedel",
     "gender": "Female",
     "factionIds": [
       "cultivar"
@@ -765,9 +765,9 @@ const NPC_DATA = {
     ],
     "age": "300+",
     "status": "Active: bedridden, dying with her strain",
-    "appearance": "Waxy, pale, and cold: a Vreken alchemist who bonded with bog-rot three centuries ago. Her bioluminescence is dim and irregular, flickering where the dying foundational strain no longer sustains her skin. She is calm about her own death in a way her students find unbearable.",
+    "appearance": "Waxy, pale, and cold: a Mycellan alchemist who bonded with bog-rot three centuries ago. Her bioluminescence is dim and irregular, flickering where the dying foundational strain no longer sustains her skin. She is calm about her own death in a way her students find unbearable.",
     "personality": "Serene, clinical, and terminally patient. Vespera has been dying for three centuries; this is just the final stretch. She is more concerned with the succession-strain project than her own survival.",
-    "backstory": "Blight-Mother and First Host of the Cultivar, Vespera founded the Plaguebringer tradition by injecting Sunken Spire decay-moss into her own veins to cure the spore-hush. Her foundational bacterial strain is now dying, and every Plaguebringer trained from her blood is carrying a failing inheritance. She has tasked her cultivators with engineering a successor strain that does not require her blood as substrate. Vespera bonded with bog-rot to cure the spore-hush generations ago. The foundational bacterial strain she cultivated for three centuries is now dying: the Root-Veil has begun actively rejecting Marked cultivators since the Monoliths woke (in ages past).",
+    "backstory": "Blight-Mother and First Host of the Cultivar, Vespera founded the Plaguebringer tradition by injecting Sunken Spire decay-moss into her own veins to cure the spore-hush. Her foundational bacterial strain is now dying, and every Plaguebringer trained from her blood is carrying a failing inheritance. She has tasked her cultivators with engineering a successor strain that does not require her blood as substrate. Vespera bonded with bog-rot to cure the spore-hush generations ago. The foundational bacterial strain she cultivated for three centuries is now dying: the Root-Veil has begun actively rejecting Cromyx cultivators since the Monoliths woke (in ages past).",
     "hooks": [
       "Vespera will fund any expedition to recover a viable deep-bog strain uncontorrupted by the Root-Veil's rejection",
       "She suspects the Root-Veil is deliberately killing her strain: and can explain why the forest would wage biological war",
@@ -791,7 +791,7 @@ const NPC_DATA = {
     "status": "Active: on a known countdown",
     "appearance": "More char-vessel than flesh: bones visible through translucent magma-skin, heat radiating from him in visible waves. He marks the estimated day of his final collection on a calendar of scar-tissue renewed each morning.",
     "personality": "Serene, terrifying, and entirely resigned. Sol-Vareths leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He considers the Apostate's Path mercy.",
-    "backstory": "Last-Ember of the Ashen Communion, Sol-Vareths is the eldest living Pyrofiend: more basalt than flesh. He leads precisely when Scathrach has called in all debts simultaneously. He has organized the younger Pyrofiends into the Apostate's Path, accelerating their own conversion to fight harder before the end, which he considers mercy and the Waste-Solari consider a death sentence.",
+    "backstory": "Last-Ember of the Ashen Communion, Sol-Vareths is the eldest living Pyrofiend: more basalt than flesh. He leads precisely when Scathrach has called in all debts simultaneously. He has organized the younger Pyrofiends into the Apostate's Path, accelerating their own conversion to fight harder before the end, which he considers mercy and the Anhur consider a death sentence.",
     "hooks": [
       "Sol-Vareths knows the precise terms of every Pyrofiend's pact with Scathrach and can negotiate extensions: for a price",
       "He is searching for a way to die before Scathrach can claim him whole; he would trade all his knowledge for it",
@@ -802,7 +802,7 @@ const NPC_DATA = {
     "id": "kor-vasseth",
     "name": "Kor-Vasseth",
     "title": "Warden of the Waking Graves (Threshold-Keeper of the Twice-Born)",
-    "race": "Mixed Vreken-Nethien descent",
+    "race": "Mixed Mycellan-Athien descent",
     "gender": "Male",
     "factionIds": [
       "twice-born"
@@ -812,11 +812,11 @@ const NPC_DATA = {
     ],
     "age": "247",
     "status": "Active: frightened for the first time in two centuries",
-    "appearance": "An ancient Revenant of mixed Vreken-Nethien descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Vreken dead-sight. One hand is silver-Nethien, the other amber-Vreken: both traditions visible in his body.",
+    "appearance": "An ancient Revenant of mixed Mycellan-Athien descent, calm and whisper-layered with ancestral overtones. His skin is frost-stasis pale, his eyes the bioluminescent amber of Mycellan dead-sight. One hand is silver-Athien, the other amber-Mycellan: both traditions visible in his body.",
     "personality": "Calm, ancient, and newly afraid. Kor-Vasseth has led the Twice-Born through three previous bog-grave awakenings. The fourth is different, and the difference has him frightened for the first time in two centuries.",
-    "backstory": "Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders' arts, Kora's Toll and Vesper's Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Marked Revenant, half his order.",
+    "backstory": "Threshold-Keeper of the Twice-Born, Kor-Vasseth carries both founders' arts, Kora's Toll and Vesper's Phylactery. He is investigating the twelve Revenants found drained and the dead marching toward the Sundered Monoliths. The call routes through the Root-Veil, and he cannot stop the march without severing the Root-Veil itself. which would kill every Cromyx Revenant, half his order.",
     "hooks": [
-      "Kor-Vasseth hires the party to escort a Withered Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead",
+      "Kor-Vasseth hires the party to escort a Riven Revenant (immune to the routing) to the nearest Monolith to observe what calls the dead",
       "He alone knows which of the Twelve Drained Revenants left a final message: and it names the caller",
       "Severing the Root-Veil is on his table; he wants the party's counsel before he decides"
     ]
@@ -848,7 +848,7 @@ const NPC_DATA = {
     "id": "thrak-damos",
     "name": "Thrak-Damos",
     "title": "Warden of the Silence-Scars (Bulwark-Captain of the Aegis)",
-    "race": "Waste-Solari - Thyrm",
+    "race": "Anhur - Thyrm",
     "gender": "Male",
     "factionIds": [
       "aegis"
@@ -858,7 +858,7 @@ const NPC_DATA = {
     ],
     "age": "51",
     "status": "Active",
-    "appearance": "A Waste-Solari veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.",
+    "appearance": "A Anhur veteran whose forearms are latticed with absorbed-magic scars that glow blue through his sleeves. His dark brown-beige skin is cracked with the radiation-stress of decades of Spellguard service, and he cannot enter a dark room unnoticed.",
     "personality": "A pragmatist drill-sergeant watching his engineering discipline fail against a threat it was never built for. Thrak-Damos is precise, blunt, and deeply frustrated.",
     "backstory": "Bulwark-Captain of the Aegis, Thrak-Damos leads from the Emberspire forge-keeps and enforces Damon's method with drill-sergeant discipline. The rising ambient magic has no structure to dismantle and no vector to redirect; he has begun ordering Spellguards to absorb (Damon's forbidden technique) because there is nothing left to dismantle.",
     "hooks": [
@@ -871,7 +871,7 @@ const NPC_DATA = {
     "id": "varis",
     "name": "Varis the Trembling",
     "title": "Keeper of the Slow Cup (Venom-Master of the Distillery)",
-    "race": "Thalren human",
+    "race": "Tallyn human",
     "gender": "Male",
     "factionIds": [
       "distillery"
@@ -881,7 +881,7 @@ const NPC_DATA = {
     ],
     "age": "400+ (prolonged by careful self-dosing)",
     "status": "Active",
-    "appearance": "Old, trembling, and still working: a Thalren alchemist whose chronic tremors make every pour dangerous. His fingers are permanently stained and two apprentices flank each dose. He carries Grum-weight nothing; his burden is a satchel of degrading vials.",
+    "appearance": "Old, trembling, and still working: a Tallyn alchemist whose chronic tremors make every pour dangerous. His fingers are permanently stained and two apprentices flank each dose. He carries Grum-weight nothing; his burden is a satchel of degrading vials.",
     "personality": "Stubborn, brilliant, and furious at the fog. Varis considers the changing fog a personal insult: the resentment of a master watching his medium rewrite itself without his consent.",
     "backstory": "Venom-Master and founder of the Distillery, Varis extracted fog-predator venom for four centuries and now presides over the spoilage of his life's work. His desperation project (distilling the changing fog itself) has killed two apprentices and produced uncharacterizable reagents. He refuses to stop.",
     "hooks": [
@@ -932,7 +932,7 @@ const NPC_DATA = {
     "personality": "Predatory, still, and realizing he has become the hunted. Sylas has tracked the same conceptual Wyrd-entity on and off for forty years; lately it has begun circling him.",
     "backstory": "Silent-Master and founder of the Silent Hunt, Sylas tuned his senses to silent vibrations and paid with his hearing to achieve absolute focus. The mist is now learning to hide (not randomly but deliberately) and Sylas has concluded something large has moved through the Reach for months without trace. He is preparing to dissolve into the fog himself, knowing he may not return.",
     "hooks": [
-      "Sylas will hire the party to retrieve Fractured trackers who dissolved into the fog to find the hider and did not return",
+      "Sylas will hire the party to retrieve Broken Mimir trackers who dissolved into the fog to find the hider and did not return",
       "He can teach the tactile sign-language and the sensory-sacrifice initiation to any qualifying Apex",
       "He believes the hider is the thing the mist is protecting: and that it has noticed him"
     ]
@@ -963,12 +963,12 @@ const NPC_DATA = {
     "id": "saren-vel",
     "name": "Saren-Vel",
     "title": "The Nameless Flame",
-    "race": "Nethien (Withered)",
+    "race": "Athien (Riven)",
     "region": "bryngloom-forest",
     "status": "Historical — died centuries ago",
-    "appearance": "Depicted in Withered oral tradition as a tall woman with ink-burned hands and eyes the color of bog water. The burning she used to erase her name from the First Contract removed her from all visual records simultaneously — no accurate portrait survived.",
+    "appearance": "Depicted in Riven oral tradition as a tall woman with ink-burned hands and eyes the color of bog water. The burning she used to erase her name from the First Contract removed her from all visual records simultaneously — no accurate portrait survived.",
     "personality": "Decisive to the point of self-sacrifice. She was a woman who saw a systemic injustice, calculated the exact cost of refusing it, and paid the cost without hesitation. She did not ask whether her children would approve of her choice.",
-    "backstory": "Saren-Vel was the most powerful Nethien mage of her generation. When Morvane's pact tightened and the cage of the First Contract became unbearable to those who could feel it, she walked into the deepest Bryngloom bog with a flame that burned only ink and erased her name from every active copy of the Contract. The Withered subrace was born: legally nonexistent, magic-immune, invisible to enforcement. She died in the bog, her name already gone, unnamed even in death by the records that once held her. The Withered have no single leader; the closest is her memory.",
+    "backstory": "Saren-Vel was the most powerful Athien mage of her generation. When Morvane's pact tightened and the cage of the First Contract became unbearable to those who could feel it, she walked into the deepest Bryngloom bog with a flame that burned only ink and erased her name from every active copy of the Contract. The Riven subrace was born: legally nonexistent, magic-immune, invisible to enforcement. She died in the bog, her name already gone, unnamed even in death by the records that once held her. The Riven have no single leader; the closest is her memory.",
     "factionIds": [
       "drun-outcasts"
     ],
@@ -977,9 +977,9 @@ const NPC_DATA = {
       "the-sunken-spire"
     ],
     "hooks": [
-      "A Withered elder has found a fragment of ink-burned parchment that may contain the last syllable of her true name",
+      "A Riven elder has found a fragment of ink-burned parchment that may contain the last syllable of her true name",
       "Something in the bog where she died still burns with her flame — it has never gone out in three centuries",
-      "A new First Contract clause has appeared that specifically targets the Withered — which means Morvane noticed them after all"
+      "A new First Contract clause has appeared that specifically targets the Riven — which means Morvane noticed them after all"
     ]
   },
   "grandmaster-solbrand": {
@@ -1093,7 +1093,7 @@ const NPC_DATA = {
     "id": "tesshan-lord",
     "name": "The Jarl-Tesshan",
     "title": "Jarl-Tesshan of the Peaks",
-    "race": "Tessen human",
+    "race": "Tessic human",
     "gender": "Male",
     "factionIds": [
       "house-tesshan"
@@ -1114,7 +1114,7 @@ const NPC_DATA = {
     "id": "natalie-seline",
     "name": "Natalie Seline",
     "title": "Memory-Broker of the Over-Shanty",
-    "race": "Vreken",
+    "race": "Mycellan",
     "gender": "Female",
     "factionIds": [
       "cult-of-forgotten-shadow"
@@ -1124,7 +1124,7 @@ const NPC_DATA = {
     ],
     "age": "30s",
     "status": "Active",
-    "appearance": "A sharp-featured Vreken woman with dark hair braided tight, wearing a layered coat of treated bog-leather. Her fingers are stained with memory-ink.",
+    "appearance": "A sharp-featured Mycellan woman with dark hair braided tight, wearing a layered coat of treated bog-leather. Her fingers are stained with memory-ink.",
     "personality": "Charismatic, shrewd, and utterly amoral in her trade. She treats memories as commodities and has no sentimentality about what she buys or sells.",
     "backstory": "Natalie runs one of the Over-Shanty's most profitable memory-brokerages, buying and selling extracted memories for the Cult of Forgotten Shadow. She knows more about the Cult's operations than she admits.",
     "hooks": [
@@ -1350,12 +1350,12 @@ const NPC_DATA = {
     "id": "elder-solas-stonekeeper",
     "name": "Solas Stonekeeper",
     "title": "Stone-Father of the Starfall Pilgrims",
-    "race": "Stargazer Astril",
+    "race": "Lumian",
     "gender": "Male",
     "factionIds": ["astril-earthen"],
     "locationIds": ["starfall-vale"],
     "status": "Active",
-    "appearance": "A weathered Stargazer elder whose crystalline skin nodes have grown into a permanent constellation lattice; he walks barefoot and stops often, palms flat against the ground.",
+    "appearance": "A weathered Lumian elder whose crystalline skin nodes have grown into a permanent constellation lattice; he walks barefoot and stops often, palms flat against the ground.",
     "personality": "Patient to the point of stone, Solas treats every question as a tremor worth reading. He distrusts haste and anyone who arrives without a pilgrimage.",
     "backstory": "Solas has tended the Starfall Vale pilgrimage grounds longer than anyone living will admit to remembering. He reads terrestrial vibration through the crystal nodes in his skin the way other Astril read the sky, and the ground has been telling him the same thing for years: the Vale is waiting for something, and it is not the dawn.",
     "hooks": ["Solas asks the party to carry a resonance-reading to the Synod and report back what the ground says beneath the crystal-lattice cathedral, a reading he refuses to explain."]
@@ -1364,7 +1364,7 @@ const NPC_DATA = {
     "id": "terra-gemcarver",
     "name": "Terra Gemcarver",
     "title": "Resonance Artisan of the Starfall Pilgrims",
-    "race": "Stargazer Astril",
+    "race": "Lumian",
     "gender": "Female",
     "factionIds": ["astril-earthen"],
     "locationIds": ["starfall-vale"],
@@ -1378,12 +1378,12 @@ const NPC_DATA = {
     "id": "baron-torvald-ironbreaker",
     "name": "Torvald Ironbreaker",
     "title": "Forge-Thane of the Free Drall Clans",
-    "race": "Caustic Fexric",
+    "race": "Alchemite",
     "gender": "Male",
     "factionIds": ["drall-clan-free"],
     "locationIds": ["gearworks-gulch"],
     "status": "Active",
-    "appearance": "A scarred Caustic veteran with an adamantite warhammer fused to a jury-rigged wrist-brace and an odometer bolted to his shoulder that he does not explain.",
+    "appearance": "A scarred Alchemite veteran with an adamantite warhammer fused to a jury-rigged wrist-brace and an odometer bolted to his shoulder that he does not explain.",
     "personality": "Torvald is loud, generous, and entirely incorruptible in matters of craft. He respects labour and despises certification.",
     "backstory": "Torvald freed his crew from a guild work-lease decades ago by buying the lease outright and burning it in the shop furnace. Since then the Free Drall have taken clan-less engineers and made them a name the Guildbound cannot ignore, one impossible repair at a time. The Guild has offered him a certification three times. The third hammer is mounted over the shop door.",
     "hooks": ["Torvald will shelter the party and repair anything they carry, if they first retrieve a blacklisted apprentice from a guild work-camp."]
@@ -1392,7 +1392,7 @@ const NPC_DATA = {
     "id": "brond-the-deep",
     "name": "Brond the Deep",
     "title": "Chief Sump-Excavator",
-    "race": "Caustic Fexric",
+    "race": "Alchemite",
     "gender": "Male",
     "factionIds": ["drall-clan-free"],
     "locationIds": ["sump-galleries"],
@@ -1433,22 +1433,22 @@ const NPC_DATA = {
   "matron-silva-branchweaver": {
     "id": "matron-silva-branchweaver",
     "name": "Silva Branchweaver",
-    "title": "Fate-Weaver Matron of the Veldun Weavers",
-    "race": "Veldun",
+    "title": "Fate-Weaver Matron of the Weft Weavers",
+    "race": "Weft",
     "gender": "Female",
     "factionIds": ["kessen-weavers"],
     "locationIds": ["aran-glen"],
     "status": "Active",
     "appearance": "An ancient wood-mystic whose fingers have grown into living briar threads; the threads move a heartbeat behind her hands, as if deliberating.",
     "personality": "Silva is gentle, mocking, and impossible to lie to; she calls the obligation-web \"the loom\" and treats every conversation as a reading of tension.",
-    "backstory": "Silva has read the tension-web for Veldun aran-glen longer than the Glen Compact has existed, and she was the one who wove the first clause that gave the village standing separate from Atropolis. The loom has begun snagging on entries that should not be there: obligations owed by people who have not yet been born.",
+    "backstory": "Silva has read the tension-web for Weft aran-glen longer than the Glen Compact has existed, and she was the one who wove the first clause that gave the village standing separate from Atropolis. The loom has begun snagging on entries that should not be there: obligations owed by people who have not yet been born.",
     "hooks": ["Silva will read a strand for the party free of charge, if they agree to carry a counter-clause to a weaver who has stopped answering the loom."]
   },
   "koran-thornseer": {
     "id": "koran-thornseer",
     "name": "Koran Thornseer",
-    "title": "Root Astrologer of the Veldun Weavers",
-    "race": "Veldun",
+    "title": "Root Astrologer of the Weft Weavers",
+    "race": "Weft",
     "gender": "Male",
     "factionIds": ["kessen-weavers"],
     "locationIds": ["fangmere-grove"],
@@ -1456,18 +1456,18 @@ const NPC_DATA = {
     "appearance": "Blindfolded with woven bark-cloth and never sightless: Koran maps the root-network's growth-bursts as starfields and reads futures in the angle of new roots.",
     "personality": "Koran is serene, pedantic, and given to announcing other people's fates as small talk.",
     "backstory": "Koran came to the Weavers after the roots under his home-vault began growing in constellations no season matched. Rather than fear it, he charted it, and his root-star charts have predicted three of the Glen's last four autumns. He expects the fifth prediction to be wrong, and he has told no one why.",
-    "hooks": ["Koran asks the party to bring him a root-cutting from a grove that is not on any Nethien survey, and to say nothing to the Loom-Council."]
+    "hooks": ["Koran asks the party to bring him a root-cutting from a grove that is not on any Athien survey, and to say nothing to the Loom-Council."]
   },
   "chief-engineer-varos": {
     "id": "chief-engineer-varos",
     "name": "Varos",
     "title": "Grand Mechanist of the Guildbound Kethrin Engineers",
-    "race": "Clockwork Fexric",
+    "race": "Brasskin",
     "gender": "Male",
     "factionIds": ["kethrin-guild-bound"],
     "locationIds": ["gearworks-gulch"],
     "status": "Active",
-    "appearance": "A tall, immaculate Clockwork engineer whose every tool is numbered, oiled, and holstered; the only disorder on him is a soot-print of a small hand on his coat that he never brushes off.",
+    "appearance": "A tall, immaculate Brasskin engineer whose every tool is numbered, oiled, and holstered; the only disorder on him is a soot-print of a small hand on his coat that he never brushes off.",
     "personality": "Varos is precise, courteous, and quietly, permanently grieving: he speaks of machines as patients and of guild certification as last rites.",
     "backstory": "Varos is the lead architect of the great mountain turbines and the acknowledged master of clockwork thermodynamics. He lost his own apprentice to a turbine failure he still cannot reproduce on paper, and he has since certified every guild engine in the Cragjaw personally, because he signs his name on the ones that hold and remembers the one that did not.",
     "hooks": ["Varos will grant the party guild access to the turbine galleries if they help him retrace the failure that killed his apprentice, a route guild records claim was decommissioned."]
@@ -1476,7 +1476,7 @@ const NPC_DATA = {
     "id": "lyra-gearwright",
     "name": "Lyra Gearwright",
     "title": "Chief Turbine Inspector",
-    "race": "Clockwork Fexric",
+    "race": "Brasskin",
     "gender": "Female",
     "factionIds": ["kethrin-guild-bound"],
     "locationIds": ["frostmaw-holdfast"],
@@ -1517,41 +1517,41 @@ const NPC_DATA = {
   "bog-marshal-joran": {
     "id": "bog-marshal-joran",
     "name": "Joran",
-    "title": "Bog-Marshal of the Vreken Peat Harvesters Guild",
-    "race": "Vreken",
+    "title": "Bog-Marshal of the Mycellan Peat Harvesters Guild",
+    "race": "Mycellan",
     "gender": "Male",
     "factionIds": ["morren-peat-cutters"],
     "locationIds": ["peat-bog-sinks"],
     "status": "Active",
     "appearance": "A grizzled, moss-stained marsh boss who navigates without a torch; his lantern-eyes have dimmed to embers and he claims he no longer needs them.",
     "personality": "Joran is tight-lipped, dependable, and holds the old harvest law above the Great Registry itself.",
-    "backstory": "Joran has cut peat on the Sinks since before the Registry taxed the ground beneath the barges, and he still runs the marsh by spoken law: no worker abandoned, no body left unfound, no debt collected in fog. Nethien marshals respect him, in the way they respect weather.",
+    "backstory": "Joran has cut peat on the Sinks since before the Registry taxed the ground beneath the barges, and he still runs the marsh by spoken law: no worker abandoned, no body left unfound, no debt collected in fog. Athien marshals respect him, in the way they respect weather.",
     "hooks": ["Joran will guide the party through the Sinks for free if they help him find a cutter crew that is three days overdue, a crew he suspects went looking for the lights."]
   },
   "sari-peat-chemist": {
     "id": "sari-peat-chemist",
     "name": "Sari",
-    "title": "Alchemical Bog-Refiner of the Vreken Peat Harvesters Guild",
-    "race": "Vreken",
+    "title": "Alchemical Bog-Refiner of the Mycellan Peat Harvesters Guild",
+    "race": "Mycellan",
     "gender": "Female",
     "factionIds": ["morren-peat-cutters"],
     "locationIds": ["peat-bog-sinks"],
     "status": "Active",
     "appearance": "Small, wary, and permanently gloved, with a still-burn across one cheek shaped like a crescent and eyes that never quite stop scanning the fog.",
     "personality": "Sari is meticulous, anxious, and honest to a fault about her craft and evasive about everything else.",
-    "backstory": "Sari refines the Sinks' peat-acids into reagents half the Bryngloom quietly depends on, and she keeps her ledgers in her head because the Registry has never taxed a memory. Her latest batches have been reacting wrong, and the wrongness has a pattern she recognized from a Withered null-distillate she once refused to make.",
+    "backstory": "Sari refines the Sinks' peat-acids into reagents half the Bryngloom quietly depends on, and she keeps her ledgers in her head because the Registry has never taxed a memory. Her latest batches have been reacting wrong, and the wrongness has a pattern she recognized from a Riven null-distillate she once refused to make.",
     "hooks": ["Sari will trade a crate of refined reagents for the party's escort to the Peat-Crypts to compare a bad batch against the moss-sheet archives."]
   },
   "tide-matron-coralyn": {
     "id": "tide-matron-coralyn",
     "name": "Coralyn",
     "title": "Tide-Matron of the Shore Myrathil Clan",
-    "race": "Shoreling Myrathil",
+    "race": "Corali Myrathil",
     "gender": "Female",
     "factionIds": ["myrathil-shore"],
     "locationIds": ["deepwell-archipelago"],
     "status": "Active",
-    "appearance": "Tall for a Shoreling, with tide-polished coral plates braided into her hair and a flute cut from a single reef-branch that she plays underwater.",
+    "appearance": "Tall for a Corali, with tide-polished coral plates braided into her hair and a flute cut from a single reef-branch that she plays underwater.",
     "personality": "Coralyn is warm, diplomatic, and utterly incapable of forgetting a slight, which she says is just what it means to be an ambassador.",
     "backstory": "Coralyn has sung the reef-cadences of the Deepwell chain for years and holds the Clan's fragile truce with the Merryn fishing fleets. Lately her summons have been answered late, and one school did not come at all; the deeps she calls toward have gone quiet in a way her grandmother warned her about.",
     "hooks": ["Coralyn asks the party to carry a listening-pearl down to a reef station that has stopped answering the cadence, and to report what sing back."]
@@ -1560,7 +1560,7 @@ const NPC_DATA = {
     "id": "kailo-reef-diver",
     "name": "Kailo",
     "title": "Abyssal Harvester of the Shore Myrathil Clan",
-    "race": "Shoreling Myrathil",
+    "race": "Corali Myrathil",
     "gender": "Male",
     "factionIds": ["myrathil-shore"],
     "locationIds": ["deepwell-archipelago"],
@@ -1573,22 +1573,22 @@ const NPC_DATA = {
   "khan-batyr-windrider": {
     "id": "khan-batyr-windrider",
     "name": "Batyr Windrider",
-    "title": "Wind-Khan of the Ordan Steppe Nomads",
-    "race": "Ordan human",
+    "title": "Wind-Khan of the Ordu Steppe Nomads",
+    "race": "Ordu human",
     "gender": "Male",
     "factionIds": ["ordan-nomads"],
     "locationIds": ["starfall-vale"],
     "status": "Active",
-    "appearance": "Broad-faced and wind-cracked, with the Ordan throat-scar tissue across his collar and an eagle on a long tether that never seems to be tied.",
+    "appearance": "Broad-faced and wind-cracked, with the Ordu throat-scar tissue across his collar and an eagle on a long tether that never seems to be tied.",
     "personality": "Batyr is expansive, courteous, and constitutionally incapable of answering a question with fewer than three stories.",
-    "backstory": "Batyr leads the largest free band of Ordan riders across the Sundrift steppe, and despite the official purges he brings the herd through the Vale's border each year because his people must eat and the border is a line on a map, not a fence on the grass. His eagle can spot grazing herds ten miles out, which is why the Ordan find grass first and the Ordavan find his tracks second.",
-    "hooks": ["Batyr needs a palaver carried to the Synod: safe passage terms for his band, in exchange for something the party must first retrieve from a dune-tomb the Ordan refuse to enter."]
+    "backstory": "Batyr leads the largest free band of Ordu riders across the Sundrift steppe, and despite the official purges he brings the herd through the Vale's border each year because his people must eat and the border is a line on a map, not a fence on the grass. His eagle can spot grazing herds ten miles out, which is why the Ordu find grass first and the Ordavan find his tracks second.",
+    "hooks": ["Batyr needs a palaver carried to the Synod: safe passage terms for his band, in exchange for something the party must first retrieve from a dune-tomb the Ordu refuse to enter."]
   },
   "ulaan-steppe-shaman": {
     "id": "ulaan-steppe-shaman",
     "name": "Ulaan",
-    "title": "Ancestor Chasm Drummer of the Ordan Steppe Nomads",
-    "race": "Ordan human",
+    "title": "Ancestor Chasm Drummer of the Ordu Steppe Nomads",
+    "race": "Ordu human",
     "gender": "Female",
     "factionIds": ["ordan-nomads"],
     "locationIds": ["starfall-vale"],
@@ -1657,7 +1657,7 @@ const NPC_DATA = {
   "abbot-mimir-valen": {
     "id": "abbot-mimir-valen",
     "name": "Valen",
-    "title": "High Abbot of the Order of the Veiled Mimir",
+    "title": "High Abbot of the Order of the Arch Mimir",
     "race": "Arch Mimir",
     "gender": "Male",
     "factionIds": ["veiled-mimir"],
@@ -1671,7 +1671,7 @@ const NPC_DATA = {
   "sister-mira-glass-shaper": {
     "id": "sister-mira-glass-shaper",
     "name": "Mira",
-    "title": "Master Prism Carver of the Order of the Veiled Mimir",
+    "title": "Master Prism Carver of the Order of the Arch Mimir",
     "race": "Arch Mimir",
     "gender": "Female",
     "factionIds": ["veiled-mimir"],
@@ -1685,22 +1685,22 @@ const NPC_DATA = {
   "consul-tiberius-velun": {
     "id": "consul-tiberius-velun",
     "name": "Tiberius",
-    "title": "High Chancellor of the Nethien Pact Lords",
-    "race": "Nethien",
+    "title": "High Chancellor of the Athien Pact Lords",
+    "race": "Athien",
     "gender": "Male",
     "factionIds": ["velun-pact-lords"],
     "locationIds": ["aran-glen"],
     "status": "Active",
-    "appearance": "An elder Nethien jurist with porcelain temple-lines, robes of layered ledger-cloth, and fingers that tap clause-rhythm against any surface while he thinks.",
+    "appearance": "An elder Athien jurist with porcelain temple-lines, robes of layered ledger-cloth, and fingers that tap clause-rhythm against any surface while he thinks.",
     "personality": "Tiberius is courteous, formidable, and genuinely believes law is the only thing standing between the forest and the dark.",
-    "backstory": "Tiberius authored the supplementary clauses of the First Contract, which is to say he wrote the grammar of the Nethien pact and half the case-law that followed it. He serves as judicial ambassador between Aran Glen and Atropolis and considers the Glen Compact his finest work. He has been quietly advising the Loom-Council that the obligation-web's recent snags are not clerical errors, which no one wants to hear from a man who once made a god's silence legally enforceable.",
+    "backstory": "Tiberius authored the supplementary clauses of the First Contract, which is to say he wrote the grammar of the Athien pact and half the case-law that followed it. He serves as judicial ambassador between Aran Glen and Atropolis and considers the Glen Compact his finest work. He has been quietly advising the Loom-Council that the obligation-web's recent snags are not clerical errors, which no one wants to hear from a man who once made a god's silence legally enforceable.",
     "hooks": ["Tiberius will owe the party a binding favour for retrieving a draft clause from a flooded archive before the Loom-Council can declare it never existed."]
   },
   "lady-cassandra-velun": {
     "id": "lady-cassandra-velun",
     "name": "Cassandra",
     "title": "Pact Envoy to the Glens",
-    "race": "Nethien",
+    "race": "Athien",
     "gender": "Female",
     "factionIds": ["velun-pact-lords"],
     "locationIds": ["aran-glen"],

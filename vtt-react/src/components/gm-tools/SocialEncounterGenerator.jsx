@@ -38,7 +38,7 @@ const REELS = [
   {
     label: "Form", icon: ICON("Status/physical/humanoid-figure-character.png"), items: [
       { value: "Humanoid", icon: ICON("Status/physical/humanoid-figure-character.png") },
-      { value: "Fexric Scrap-Gang", icon: ICON("abilities/Dual Knife Goblin.png") },
+      { value: "Fex Scrap-Gang", icon: ICON("abilities/Dual Knife Goblin.png") },
       { value: "Wild Gnome", icon: ICON("Status/utility/paw-print-glowing.png") },
       { value: "Undead", icon: ICON("Status/debuff/undead-bone.png") },
       { value: "Beastkin", icon: ICON("abilities/Nature/Claw.png") },
@@ -173,9 +173,13 @@ const IconImg = memo(({ src, size = 20, style = {} }) => {
 
 const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
   const n = items.length;
-  const REPEATS = 12;
-  const extended = useMemo(
-    () => Array(REPEATS).fill(null).flatMap(() => items),
+  // Only render 3 loops of the symbols and wrap the translate by whole loops.
+  // The old code rendered REPEATS=12 loops (~1300 nodes across the 6 reels),
+  // which forced a huge layer repaint every frame and made the spin (and any
+  // window drag during it) janky. Because the symbol list repeats every n
+  // items, wrapping by exactly n keeps the animation seamless.
+  const loopItems = useMemo(
+    () => Array(3).fill(null).flatMap(() => items),
     [items]
   );
 
@@ -188,9 +192,11 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
   const [flash, setFlash] = useState(false);
 
   useEffect(() => {
-    if (posRef.current)
-      posRef.current.style.transform = `translate3d(0, ${-(slotRef.current - 1) * ITEM_H}px, 0)`;
-  }, []);
+    if (posRef.current) {
+      const wrapped = ((slotRef.current - 1) % n + n) % n;
+      posRef.current.style.transform = `translate3d(0, ${-wrapped * ITEM_H}px, 0)`;
+    }
+  }, [n]);
 
   useEffect(() => {
     if (!spinning) return;
@@ -204,8 +210,14 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
     slotRef.current = freshStart;
 
     if (posRef.current) {
-      posRef.current.style.transform = `translate3d(0, ${-(freshStart - 1) * ITEM_H}px, 0)`;
+      const wrapped = ((freshStart - 1) % n + n) % n;
+      posRef.current.style.transform = `translate3d(0, ${-wrapped * ITEM_H}px, 0)`;
     }
+    // Apply a single, constant motion-blur for the whole spin. Re-writing a
+    // velocity-based blur radius every frame invalidates the filter layer and
+    // forces the browser to re-rasterise every symbol each frame (the main
+    // cause of the jank). A constant value can be cached and just translated.
+    if (blurRef.current) blurRef.current.style.filter = "blur(2px)";
 
     const slotsBackward = ((curSym - targetIdx) + n) % n;
     const baseLoops = 4 + index;
@@ -217,12 +229,7 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
     const T_SPIN = 0.85;
     const T_BOUNCE = 0.92;
 
-    const spinTime = (T_SPIN - T_WIND) * totalDuration;
-    const cruiseVelMs = Math.abs(endSlot - (freshStart + 0.4)) * 1.14285 / spinTime;
-    const cruiseVel = cruiseVelMs * 16.67;
-
     let startTime = null;
-    let lastPos = freshStart;
 
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
@@ -254,17 +261,12 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
         pos = (endSlot - 0.35) + easeOut5(pt) * 0.35;
       }
 
-      const vel = Math.abs(pos - lastPos);
-      lastPos = pos;
-      const norm = Math.min(vel / cruiseVel, 1);
-      const blur = norm * 4;
-
-      if (posRef.current) posRef.current.style.transform = `translate3d(0, ${-(pos - 1) * ITEM_H}px, 0)`;
-      if (blurRef.current) blurRef.current.style.filter = blur > 0.1 ? `blur(${blur}px)` : "";
+      const wrapped = ((pos - 1) % n + n) % n;
+      if (posRef.current) posRef.current.style.transform = `translate3d(0, ${-wrapped * ITEM_H}px, 0)`;
 
         if (t >= 1) {
           slotRef.current = endSlot;
-          if (posRef.current) posRef.current.style.transform = `translateY(${-(endSlot - 1) * ITEM_H}px)`;
+          if (posRef.current) posRef.current.style.transform = "translate3d(0, 0, 0)";
           if (blurRef.current) blurRef.current.style.filter = "";
           setDone(true);
           setFlash(true);
@@ -291,6 +293,12 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
         position: "relative",
         overflow: "hidden",
         height: ITEM_H * VISIBLE,
+        // Promote each reel to its own compositor layer so window dragging /
+        // page reflow doesn't force a re-raster of the spinning symbols.
+        contain: "paint",
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        willChange: spinning ? "transform" : "auto",
         background: "linear-gradient(180deg, #3a2010 0%, #2c1608 50%, #3a2010 100%)",
         borderRadius: 4,
         border: done ? "2px solid #c8a050" : "2px solid #6b4c28",
@@ -389,95 +397,53 @@ const Reel = memo(({ items, targetIdx, onDone, index, spinning }) => {
       >
         <div ref={blurRef}>
           {(() => {
-            if (!done) {
-              return extended.map((item, i) => (
-                <div
-                  key={i}
+            const renderRow = (item, key, settled) => (
+              <div
+                key={key}
+                style={{
+                  height: ITEM_H,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 2,
+                  flexShrink: 0,
+                }}
+              >
+                <IconImg src={item.icon} size={22} />
+                <span
                   style={{
-                    height: ITEM_H,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                    flexShrink: 0,
+                    fontSize: 7,
+                    fontFamily: "'Cinzel', serif",
+                    fontWeight: 900,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: flash ? "#fff" : "#d4aa4b",
+                    textAlign: "center",
+                    padding: "0 2px",
+                    lineHeight: 1.2,
+                    opacity: 1,
+                    transition: settled ? "color 0.3s" : undefined,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "90%",
                   }}
                 >
-                  <IconImg src={item.icon} size={22} />
-                  <span
-                    style={{
-                      fontSize: 7,
-                      fontFamily: "'Cinzel', serif",
-                      fontWeight: 900,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: flash ? "#fff" : "#d4aa4b",
-                      textAlign: "center",
-                      padding: "0 2px",
-                      lineHeight: 1.2,
-                      opacity: 1,
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      maxWidth: "90%",
-                    }}
-                  >
-                    {item.value}
-                  </span>
-                </div>
-              ));
+                  {item.value}
+                </span>
+              </div>
+            );
+
+            // Settled: neighbours around the rolled symbol, target centred.
+            if (done) {
+              return [-1, 0, 1].map((offset) =>
+                renderRow(items[((targetIdx + offset) % n + n) % n], offset, true)
+              );
             }
 
-            const slotIndex = Math.round(slotRef.current);
-            const startVis = Math.max(0, slotIndex - 3);
-            const endVis = Math.min(extended.length - 1, slotIndex + 3);
-
-            return (
-              <>
-                {startVis > 0 && <div style={{ height: startVis * ITEM_H, flexShrink: 0 }} />}
-                {extended.slice(startVis, endVis + 1).map((item, i) => {
-                  const actualIdx = startVis + i;
-                  return (
-                    <div
-                      key={actualIdx}
-                      style={{
-                        height: ITEM_H,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 2,
-                        flexShrink: 0,
-                      }}
-                    >
-                      <IconImg src={item.icon} size={22} />
-                      <span
-                        style={{
-                          fontSize: 7,
-                          fontFamily: "'Cinzel', serif",
-                          fontWeight: 900,
-                          letterSpacing: "0.1em",
-                          textTransform: "uppercase",
-                          color: flash ? "#fff" : "#d4aa4b",
-                          textAlign: "center",
-                          padding: "0 2px",
-                          lineHeight: 1.2,
-                          opacity: 1,
-                          transition: "color 0.3s",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "90%",
-                        }}
-                      >
-                        {item.value}
-                      </span>
-                    </div>
-                  );
-                })}
-                {endVis < extended.length - 1 && <div style={{ height: (extended.length - 1 - endVis) * ITEM_H, flexShrink: 0 }} />}
-              </>
-            );
+            // Spinning: a small loop that wraps seamlessly.
+            return loopItems.map((item, i) => renderRow(item, i, false));
           })()}
         </div>
       </div>
@@ -567,7 +533,7 @@ function generateName(type, disp, form, quirk) {
   
 
   const formNames = {
-    "Fexric Scrap-Gang": ["Gruk", "Snag", "Zonk", "Borg", "Kuz", "Brak", "Grit"],
+    "Fex Scrap-Gang": ["Gruk", "Snag", "Zonk", "Borg", "Kuz", "Brak", "Grit"],
     "Orcish": ["Gruush", "Balgor", "Vrak", "Urzal", "Thokk", "Morg"],
     "Wild Gnome": ["Fuzzle", "Pip", "Glimmer", "Sprocket", "Fizzle", "Tink"],
     "Fey": ["Thorn", "Moss", "Oberon", "Elara", "Puck", "Nim"],
@@ -790,10 +756,10 @@ function analyzeEncounter(type, disp, resultArr) {
 
   const realities = [];
 
-  if (form === "Fexric Scrap-Gang")
+  if (form === "Fex Scrap-Gang")
     realities.push({
       title: "Unstable Architecture",
-      desc: "They are literally three Fexric standing on each other's shoulders in a salvaged greatcoat. Their physical coordination is terrible, and a solid strike to the middle Fexric will cause the entire entity to collapse into a chaotic scramble of copper wire and indignation.",
+      desc: "They are literally three Fex standing on each other's shoulders in a salvaged greatcoat. Their physical coordination is terrible, and a solid strike to the middle Fex will cause the entire entity to collapse into a chaotic scramble of copper wire and indignation.",
     });
   else if (form === "Wild Gnome")
     realities.push({
@@ -851,7 +817,7 @@ function analyzeEncounter(type, disp, resultArr) {
     "a half-eaten ration", "a marked map", "a tarnished silver ring", "a cryptic ledger",
     "a vial of strange liquid", "3d6 loose coins", "a loaded die", "a broken compass",
   ];
-  if (form === "Fexric Scrap-Gang") lootItems.push("three mismatched boots", "a suspiciously long greatcoat", "a handful of loose gears");
+  if (form === "Fex Scrap-Gang") lootItems.push("three mismatched boots", "a suspiciously long greatcoat", "a handful of loose gears");
   if (form === "Wild Gnome") lootItems.push("a pouch of glowing, pungent mushrooms", "a jittery clockwork toy");
   if (form === "Undead") lootItems.push("a locket with a faded portrait", "grave dirt");
   if (form === "Construct") lootItems.push("a leaking oil flask", "spare brass cogs");
@@ -913,13 +879,13 @@ const ResultDossier = memo(({ insight, result, encObj, dispObj, copyStatus, hand
           <IconImg src={insight.threat.icon} size={100} />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, zIndex: 1, minWidth: 0, flex: "1 1 240px" }}>
           <IconImg
             src={insight.threat.icon}
             size={36}
-            style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" }}
+            style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))", flexShrink: 0 }}
           />
-          <div>
+          <div style={{ minWidth: 0, flex: 1 }}>
             <div
               style={{
                 fontSize: 11,
@@ -954,11 +920,13 @@ const ResultDossier = memo(({ insight, result, encObj, dispObj, copyStatus, hand
                 background: "rgba(0,0,0,0.05)",
                 padding: "4px 8px",
                 borderRadius: 4,
-                width: "fit-content"
+                maxWidth: "100%",
+                overflowWrap: "anywhere",
+                wordBreak: "break-word",
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", minWidth: 0 }}>
                   <strong style={{ opacity: 0.6, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "'Inter', sans-serif" }}>Appellation:</strong> 
-                  <span style={{ fontWeight: 700, fontStyle: "italic" }}>"{insight.nameData.title}"</span>
+                  <span style={{ fontWeight: 700, fontStyle: "italic", overflowWrap: "anywhere" }}>"{insight.nameData.title}"</span>
                   <button 
                     onClick={onRerollName}
                     title="Reroll Names"
@@ -970,7 +938,7 @@ const ResultDossier = memo(({ insight, result, encObj, dispObj, copyStatus, hand
                   </button>
                 </div>
                 {insight.nameData.isGroup && insight.nameData.members.length > 0 && (
-                  <div style={{ marginTop: 4, fontFamily: "'Inter',sans-serif", fontSize: 12, color: insight.threat.text, opacity: 0.8 }}>
+                  <div style={{ marginTop: 4, fontFamily: "'Inter',sans-serif", fontSize: 12, color: insight.threat.text, opacity: 0.8, overflowWrap: "anywhere" }}>
                     <strong>Members ({insight.nameData.members.length}):</strong> {insight.nameData.members.join(", ")}
                   </div>
                 )}

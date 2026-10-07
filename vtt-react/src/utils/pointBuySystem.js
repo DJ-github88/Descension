@@ -8,6 +8,8 @@
 import { getCustomBackgroundStartingPoints } from '../data/legacyDisciplineData';
 import { BACKGROUND_DATA } from '../data/backgroundData';
 import { ALL_CLASSES_DATA } from '../data/classes';
+import { getClassHeritageAccess } from '../data/classHeritageRegistry';
+import { getCharacterHeritageOptions } from './characterClassAccess';
 
 // Base point-buy configuration
 export const POINT_BUY_CONFIG = {
@@ -318,13 +320,16 @@ export const getSubraceBonusPoints = (raceId, subraceId) => {
 
 /**
  * Check if a class/race/subrace combination is compatible based on class restrictions.
- * Source of truth is the class data files (ALL_CLASSES_DATA).
+ * Canonical access comes from classHeritageRegistry; custom/unknown metadata
+ * retains the legacy ALL_CLASSES_DATA fallback.
  */
-export const isClassCompatible = (className, raceId, subraceId) => {
+export const isClassCompatible = (className, raceId, subraceId, options = {}) => {
+    const access = getClassHeritageAccess(className, raceId, subraceId, options);
+    if (access.status !== 'unknown-class') return access.selectable;
     if (!raceId) return true;
 
     // Normalize: strip specialization suffix (e.g., 'Martyr (Ironclad)' -> 'Martyr')
-    const baseClass = className.replace(/\s*\(.*?\)\s*$/, '');
+    const baseClass = String(className || '').replace(/\s*\(.*?\)\s*$/, '');
     const classData = ALL_CLASSES_DATA[baseClass];
     if (!classData || !classData.restrictions) return true;
 
@@ -387,7 +392,8 @@ export const getTotalBonusPoints = (characterData) => {
 
     let loreClassBonus = 0;
     if (characterData.race && characterData.class) {
-        if (isClassCompatible(characterData.class, characterData.race, characterData.subrace)) {
+        const heritageOptions = getCharacterHeritageOptions(characterData);
+        if (isClassCompatible(characterData.class, characterData.race, characterData.subrace, heritageOptions)) {
             loreClassBonus = 2; // +2 extra points
         }
     }

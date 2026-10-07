@@ -338,7 +338,11 @@ const useTravelStore = create((set, get) => ({
 
   initPlayerTravelListener: (socket) => {
     if (!socket) return;
-    console.log('ðŸ-ºï¸ [TravelStore] Registering player travel listeners on socket');
+    // Avoid stacking duplicate listeners across rejoin/reconnect.
+    socket.off('travel_sync');
+    socket.off('travel_update');
+    socket.off('travel_broadcast');
+    console.log('ðŸ-ºï¸ [TravelStore] Registering player travel listeners on socket');
     socket.on('travel_sync', (data) => {
       console.log('ðŸ-ºï¸ [TravelStore] Received travel_sync:', Object.keys(data));
       set({ playerTravelState: data });

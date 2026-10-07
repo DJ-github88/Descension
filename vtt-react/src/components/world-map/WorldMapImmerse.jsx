@@ -1047,7 +1047,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   if (activeTool === 'placePin') {
    if (!user?.uid) return;
    
-   const pinLimit = tierInfo?.tier?.characterLimit === -1 ? 9999 : 10;
+   const pinLimit = tierInfo?.tierKey === 'FREE' ? 10 : 9999;
    if (pins.length >= pinLimit) {
     notify(`Marker limit reached. Your Free Adventurer tier allows a maximum of ${pinLimit} custom markers.`, 'error');
     setActiveTool('none');
@@ -1338,7 +1338,7 @@ setCursorPos(coords);
   };
 
   const fromUserName = user.displayName || 'Friend';
-  await shareView(user.uid, friend, viewState, `${fromUserName}: ${noteMessage}`);
+  await shareView(user.uid, friend, viewState, noteMessage, fromUserName);
  }, [user, transformState, shareView]);
 
   const handleAcceptShare = (share) => {
@@ -1442,6 +1442,7 @@ setCursorPos(coords);
     
     // Player annotations props
     activeTool={activeTool}
+    activeShare={activeShare}
     playerDrawingPoints={playerDrawingPoints}
     onResolveClick={handleResolveClick}
     canDragPlayerPins={canDragPlayerPins}
@@ -1456,11 +1457,25 @@ setCursorPos(coords);
      setShowAnnotationPopup(true);
     }}
     canDeletePlayerAnnotations={tierInfo && tierInfo.tierKey !== 'GUEST'}
-    selectedDevPinId={selectedDevPinId}
-    onSelectForMove={(id) => setSelectedDevPinId(id)}
-    />
+     selectedDevPinId={selectedDevPinId}
+     onSelectForMove={(id) => setSelectedDevPinId(id)}
+     />
 
-    {customMapMode && canAccessCustomMaps && !customReadOnly && (
+     {/* Player map tools: add pins, draw areas, stylus trails, share/inbox */}
+     {!devMode && !(customMapMode && canAccessCustomMaps) && (
+      <AnnotationToolbar
+       activeTool={activeTool}
+       setActiveTool={setActiveTool}
+       tierInfo={tierInfo}
+       pendingSharesCount={shares.length}
+       onOpenShares={() => setShowInbox(true)}
+       onOpenShareDialog={() => setShowShareDialog(true)}
+       selectedPinType={playerPinIconType}
+       setSelectedPinType={setPlayerPinIconType}
+      />
+     )}
+
+     {customMapMode && canAccessCustomMaps && !customReadOnly && (
      <CustomMapEditor
       maps={customMaps}
       currentMap={currentCustomMap}

@@ -23,8 +23,33 @@ import { TOXICOLOGIST_DATA } from "./toxicologistData";
 import { WARDEN_DATA } from "./wardenData";
 import { AUGUR_DATA } from "./augurData";
 import { CRUSADER_DATA } from "./crusaderData";
+import { withClassHeritageMetadata } from '../classHeritageRegistry';
 
-export const ALL_CLASSES_DATA = {
+const createNereidClass = (baseData) => {
+  const baseSlug = (baseData.name || '').toLowerCase().replace(/\s+/g, '_');
+  return {
+    ...baseData,
+    // `name` stays the base class name so resource-system, illustration, and
+    // origin lookups keep resolving; `variantName` carries the full identity.
+    variantName: `Nereid Myrathil ${baseData.name}`,
+    imageIcon: `/assets/icons/classes/${baseSlug}.png`,
+    restrictions: {
+      allowedSubraces: ["deepling_myrathil"],
+      hardBlocks: [],
+      narrativeUnlock: false,
+      justification: "Nereid Myrathil cultural variant."
+    },
+    subraceVariants: baseData.subraceVariants?.deepling_myrathil
+      ? { deepling_myrathil: baseData.subraceVariants.deepling_myrathil }
+      : undefined,
+  };
+};
+
+export const DEEPLING_MYRATHIL_APEX_DATA = createNereidClass(APEX_DATA);
+export const DEEPLING_MYRATHIL_ANIMIST_DATA = createNereidClass(ANIMIST_DATA);
+export const DEEPLING_MYRATHIL_AUGUR_DATA = createNereidClass(AUGUR_DATA);
+
+const CLASS_TEMPLATES = {
   Arcanoneer: ARCANONEER_DATA,
   Berserker: BERSERKER_DATA,
   Shaper: SHAPER_DATA,
@@ -46,4 +71,15 @@ export const ALL_CLASSES_DATA = {
   Warden: WARDEN_DATA,
   Augur: AUGUR_DATA,
   Crusader: CRUSADER_DATA,
+  "Nereid Myrathil Apex": DEEPLING_MYRATHIL_APEX_DATA,
+  "Nereid Myrathil Animist": DEEPLING_MYRATHIL_ANIMIST_DATA,
+  "Nereid Myrathil Augur": DEEPLING_MYRATHIL_AUGUR_DATA,
 };
+
+export const ALL_CLASSES_DATA = Object.fromEntries(
+  Object.entries(CLASS_TEMPLATES).map(([name, data]) => [name, withClassHeritageMetadata(name, data)])
+);
+
+export const BASE_CLASSES_DATA = Object.fromEntries(
+  Object.entries(ALL_CLASSES_DATA).filter(([, data]) => !data.isCompatibilityAlias)
+);

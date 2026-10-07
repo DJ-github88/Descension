@@ -304,6 +304,10 @@ body svg[data-icon] {
   background: #120703;
   background-image: none;
   animation: none !important;
+  /* The map layer is gone here, so drop the retained compositor hint.
+     Leaving will-change:background-position on the page scroller forces a
+     large, constantly-kept layer and contributes to scroll jank. */
+  will-change: auto !important;
 }
 
 .landing-page.rules-mode::before {

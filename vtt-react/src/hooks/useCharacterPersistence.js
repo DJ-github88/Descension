@@ -217,6 +217,17 @@ export const useCharacterPersistence = () => {
    skillPointsAvailable: result.skillPointsAvailable || 0
   });
 
+  // Inventory lives in its own store; the character store copy above is not
+  // read by the inventory UI, so hydrate inventoryStore directly.
+  if (result.inventory) {
+   useInventoryStore?.setState({
+    items: result.inventory.items || [],
+    currency: result.inventory.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+    encumbranceState: result.inventory.encumbranceState || 'normal',
+    containers: result.inventory.containers || []
+   });
+  }
+
   lastSavedStateRef.current = JSON.stringify(result);
   lastStateHashRef.current = getCharacterStateHash();
   isApplyingRemoteRef.current = false;

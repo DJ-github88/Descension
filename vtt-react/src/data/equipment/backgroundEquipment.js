@@ -172,7 +172,7 @@ export const LEDGER_KEEPER_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A chained kit of quill, peat-ink, and binding-wax. The tools of a Thalren ledger-keeper whose journal is their legal identity.',
+        description: 'A chained kit of quill, peat-ink, and binding-wax. The tools of a Tallyn ledger-keeper whose journal is their legal identity.',
         iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 5,
@@ -532,7 +532,7 @@ export const SUMPS_VETERAN_ITEMS = [
 export const GLOOMWAY_TRADER_ITEMS = [
     {
         id: 'merchant-scale',
-        name: 'Nethien Contract-Scale',
+        name: 'Athien Contract-Scale',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
@@ -840,7 +840,7 @@ export const PEAK_TRACKER_ITEMS = [
     }
 ];
 
-// ===== DEBT NEGOTIATOR =====
+// ===== NEGOTIATOR =====
 export const DEBT_NEGOTIATOR_ITEMS = [
     {
         id: 'charlatan-weighted-dice',
@@ -848,7 +848,7 @@ export const DEBT_NEGOTIATOR_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'Bone dice weighted with bog-iron filings. The Nethien contract-houses check for these; the Withered carry three sets.',
+        description: 'Bone dice weighted with bog-iron filings. The Athien contract-houses check for these; the Riven carry three sets.',
         iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.1,
@@ -882,11 +882,11 @@ export const DEBT_NEGOTIATOR_ITEMS = [
     
     {
         id: 'charlatan-fine-clothes',
-        name: 'Nethien Pact-Robe',
+        name: 'Athien Pact-Robe',
         type: 'armor',
         subtype: 'CLOTH',
         quality: 'common',
-        description: 'A Nethien pact-robe of silvered silk, cut to impress and to obscure exactly which clause you are about to invoke.',
+        description: 'A Athien pact-robe of silvered silk, cut to impress and to obscure exactly which clause you are about to invoke.',
         iconId: 'Armor/Chest/chest-simple-tan-tunic',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 3,
@@ -912,7 +912,7 @@ export const DEBT_NEGOTIATOR_ITEMS = [
         type: 'consumable',
         subtype: 'COSMETIC',
         quality: 'common',
-        description: 'Small pots of Mimir face-shift pigment and Withered veil-powder, for becoming someone the contract does not name.',
+        description: 'Small pots of Mimir face-shift pigment and Riven veil-powder, for becoming someone the contract does not name.',
         iconId: 'Container/Bag/brown-satchel-messenger',
         value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
         weight: 1,
@@ -1249,6 +1249,1382 @@ export const MONOLITH_HUNTER_ITEMS = [
 
 // ===== COMBINED EXPORT =====
 
+export const FORGE_WRIGHT_ITEMS = [
+    {
+        id: 'forgeWright-smith-s-hammer',
+        name: 'Smith\'s hammer',
+        type: 'weapon',
+        subtype: 'CLUB',
+        quality: 'common',
+        description: 'A balanced forge-hammer, its head worn to the exact weight your teacher favored. Metal remembers every strike it has made.',
+        iconId: 'Misc/Profession Resources/Tools/claw-hammer',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['forgeWright']
+        }
+    },
+
+    {
+        id: 'forgeWright-forge-apron',
+        name: 'Forge-apron',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Scorched leather apron stitched with guild-marks. It smells of quench-water and refuses to catch fire.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['forgeWright']
+        }
+    },
+
+    {
+        id: 'forgeWright-metal-sample-kit',
+        name: 'Metal-sample kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A folding wallet of tested alloys, each labeled by ring and temper. Reading it is faster than testing a new ingot.',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['forgeWright']
+        }
+    },
+
+    {
+        id: 'forgeWright-guild-letter-of-introduction',
+        name: 'Guild letter of introduction',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A sealed letter that names you to any forge of your guild. Most doors open; some close.',
+        iconId: 'Misc/Books/book-folded-letter-envelope',
+        value: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['forgeWright']
+        }
+    }
+];
+
+export const GROVE_WARDEN_ITEMS = [
+    {
+        id: 'groveWarden-ghost-metal-warden-s-token',
+        name: 'Ghost-metal warden\'s token',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A cold-worked disc of ghost-metal that dims near broken promises. The fae recognize it; most others cannot see it at all.',
+        iconId: 'Armor/Neck/spiky-teal-gem-pendant',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['groveWarden']
+        }
+    },
+
+    {
+        id: 'groveWarden-thorn-pruning-blade',
+        name: 'Thorn-pruning blade',
+        type: 'weapon',
+        subtype: 'DAGGER',
+        quality: 'common',
+        description: 'A curved blade kept sharp enough to prune thorn-vines and defend the grove. The sap has stained it green.',
+        iconId: 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['groveWarden']
+        }
+    },
+
+    {
+        id: 'groveWarden-moonlit-grove-route-cord',
+        name: 'Moonlit-grove route-cord',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Knotted cord marking paths that only appear by moonlight. Untie a knot and the path forgets you.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 1, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['groveWarden']
+        }
+    },
+
+    {
+        id: 'groveWarden-fae-contract-tally-notched-bone',
+        name: 'Fae-contract tally (notched bone)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'uncommon',
+        description: 'A notched bone recording every promise the grove has witnessed. Each notch is a debt someone still owes.',
+        iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['groveWarden']
+        }
+    },
+
+    {
+        id: 'groveWarden-traveler-s-clothes',
+        name: 'Traveler\'s clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Practical layers for the mist-choked Reach, dyed in muted greens.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['groveWarden']
+        }
+    }
+];
+
+export const MASK_WARDEN_ITEMS = [
+    {
+        id: 'maskWarden-storm-glass-signal-whistle',
+        name: 'Storm-glass signal-whistle',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'common',
+        description: 'A carved whistle whose note carries through fog. The Mimir watch-roads use its call; the Hunters have learned to fear it.',
+        iconId: 'Armor/Neck/spiky-teal-gem-pendant',
+        value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['maskWarden']
+        }
+    },
+
+    {
+        id: 'maskWarden-fog-spider-silk-rope-50ft',
+        name: 'Fog-spider silk rope (50ft)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Rope spun from fog-spider silk: light, silent, and impossible to freeze solid.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
+        weight: 5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['maskWarden']
+        }
+    },
+
+    {
+        id: 'maskWarden-spore-trail-reading-kit',
+        name: 'Spore-trail reading kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Powders and a lens for reading spore-trails the mist leaves behind. Reveals what passed, and how long ago.',
+        iconId: 'Misc/Profession Resources/Tools/satchel-pouch-brown-golden-buckle',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['maskWarden']
+        }
+    },
+
+    {
+        id: 'maskWarden-recovered-mask-shard-provenance-unknown',
+        name: 'Recovered mask-shard (provenance unknown)',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A fragment of a Mimir relic recovered from a Hunter. It is warm to the touch, and you have never learned whose it was.',
+        iconId: 'Armor/Finger/finger-simple-teal-diamond-ring',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['maskWarden']
+        }
+    },
+
+    {
+        id: 'maskWarden-warded-traveler-s-cloak',
+        name: 'Warded traveler\'s cloak',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A cloak stitched with ward-knots that resist the mist and the eyes that hunt in it.',
+        iconId: 'Armor/Cloak/cloak-simple-brown-cape',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['maskWarden']
+        }
+    }
+];
+
+export const VAULT_SCHOLAR_ITEMS = [
+    {
+        id: 'vaultScholar-copper-plate-codex-water-damaged-for-cau',
+        name: 'Copper-plate codex (water-damaged for Alchemite, pristine for Brasskin)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'uncommon',
+        description: 'Guild knowledge on copper plates. Brasskin scholars keep it pristine; Alchemite scholars keep it working.',
+        iconId: 'Misc/Books/book-brown-red-emblem-clasp',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 3,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['vaultScholar']
+        }
+    },
+
+    {
+        id: 'vaultScholar-tinker-s-toolkit',
+        name: 'Tinker\'s toolkit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Spanners, gear-pullers, and a calibration rule for any mechanism you can reach.',
+        iconId: 'Misc/Profession Resources/Tools/claw-hammer',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['vaultScholar']
+        }
+    },
+
+    {
+        id: 'vaultScholar-blueprint-fragment-pages-3',
+        name: 'Blueprint fragment-pages (3)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'Three pages of a design the guild would rather you had not memorized.',
+        iconId: 'Misc/Books/book-bundle-papers-tied-string',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['vaultScholar']
+        }
+    },
+
+    {
+        id: 'vaultScholar-vault-pass-token-expired-or-forged',
+        name: 'Vault-pass token (expired or forged)',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A stamped token that once opened a guild vault. The expiry is a technicality you have learned to argue.',
+        iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['vaultScholar']
+        }
+    },
+
+    {
+        id: 'vaultScholar-workman-s-clothes',
+        name: 'Workman\'s clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Heavy cloth that sheds sparks and hides grease stains.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['vaultScholar']
+        }
+    }
+];
+
+export const HERD_GUARDIAN_ITEMS = [
+    {
+        id: 'herdGuardian-herder-s-staff-ironwood-core',
+        name: 'Herder\'s staff (ironwood core)',
+        type: 'weapon',
+        subtype: 'CLUB',
+        quality: 'common',
+        description: 'A tall ironwood staff, both walking aid and weapon. The herd answers its tap before your voice.',
+        iconId: 'Weapons/Mace/mace-wooden-club-brown-primitive',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        availableFor: {
+            backgrounds: ['herdGuardian']
+        }
+    },
+
+    {
+        id: 'herdGuardian-whistle-braided-cord-10ft',
+        name: 'Whistle-braided cord (10ft)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A braided cord that whistles in the wind; its pitch tells you where the herd has drifted.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 1, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['herdGuardian']
+        }
+    },
+
+    {
+        id: 'herdGuardian-winter-wraps-lined-with-shag-ox-wool',
+        name: 'Winter-wraps (lined with shag-ox wool)',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Wool-lined wraps that keep the steppe wind off your skin.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 8, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['herdGuardian']
+        }
+    },
+
+    {
+        id: 'herdGuardian-trail-biscuits-7-days-rations',
+        name: 'Trail-biscuits (7 days rations)',
+        type: 'consumable',
+        subtype: 'FOOD',
+        quality: 'common',
+        description: 'Hard, dense travel-biscuits. They taste of the steppe and last through a blizzard.',
+        iconId: 'Misc/Profession Resources/Cooking/Food/Other/bread-loaf-rustic-artisan-slashes',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 7,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['herdGuardian']
+        }
+    },
+
+    {
+        id: 'herdGuardian-herd-branding-iron',
+        name: 'Herd-branding iron',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A branding iron that marks new calves into the family line. The herd remembers its shape.',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-dark-metallic-hook-curved',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['herdGuardian']
+        }
+    }
+];
+
+export const STARBOUND_SCHOLAR_ITEMS = [
+    {
+        id: 'starboundScholar-memory-glass-shard-echo-lineage-encoded',
+        name: 'Memory-glass shard (echo-lineage encoded)',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A shard of memory-glass carrying a fragment of an Astril echo-lineage. It hums when the bearer is calm.',
+        iconId: 'Armor/Neck/spiky-teal-gem-pendant',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['starboundScholar']
+        }
+    },
+
+    {
+        id: 'starboundScholar-crystal-resonance-bowl',
+        name: 'Crystal resonance bowl',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A crystal bowl used to calibrate a host’s resonance. Struck correctly, it rings with a dead world’s note.',
+        iconId: 'Misc/Profession Resources/Cooking/pot-lidded-dome-brownish-beige',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['starboundScholar']
+        }
+    },
+
+    {
+        id: 'starboundScholar-celestial-chart-bone-etched',
+        name: 'Celestial chart (bone-etched)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A chart etched on bone, mapping the frequencies of a star that no longer exists.',
+        iconId: 'Misc/Books/book-scroll-unrolled-textured-markings',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 1,
+        availableFor: {
+            backgrounds: ['starboundScholar']
+        }
+    },
+
+    {
+        id: 'starboundScholar-synod-vestments',
+        name: 'Synod vestments',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Layered vestments marking your rank within the Synod hierarchy.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['starboundScholar']
+        }
+    },
+
+    {
+        id: 'starboundScholar-ritual-incense-3-sticks',
+        name: 'Ritual incense (3 sticks)',
+        type: 'consumable',
+        subtype: 'UTILITY',
+        quality: 'common',
+        description: 'Incense burned to steady a host during resonance work. The smoke carries the echo gently.',
+        iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle',
+        value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['starboundScholar']
+        }
+    }
+];
+
+export const DEEP_CURRENT_GUIDE_ITEMS = [
+    {
+        id: 'deepCurrentGuide-depth-pressure-gauge-myrathil-crafted',
+        name: 'Depth-pressure gauge (Myrathil-crafted)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A Myrathil gauge that reads pressure as a color, not a number. It tells you when the deep is about to change.',
+        iconId: 'Misc/Profession Resources/Engineering/resource-compass-divider-drafting-tool',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['deepCurrentGuide']
+        }
+    },
+
+    {
+        id: 'deepCurrentGuide-bioluminescent-lure-stone',
+        name: 'Bioluminescent lure-stone',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'common',
+        description: 'A stone that glows when submerged, drawing the curious and warning the wise.',
+        iconId: 'Armor/Neck/spiky-teal-gem-pendant',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['deepCurrentGuide']
+        }
+    },
+
+    {
+        id: 'deepCurrentGuide-cold-waxed-rope-silk-core-50ft',
+        name: 'Cold-waxed rope (silk-core, 50ft)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Rope waxed against freezing water, with a silk core that does not stiffen in the cold.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['deepCurrentGuide']
+        }
+    },
+
+    {
+        id: 'deepCurrentGuide-waterproof-satchel',
+        name: 'Waterproof satchel',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A sealed satchel that keeps cargo dry at any depth. It has never leaked.',
+        iconId: 'Container/Bag/brown-satchel-buckle-strap',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        containerProperties: { isLocked: false, gridSize: { rows: 2, cols: 2 }, items: [] },
+        availableFor: {
+            backgrounds: ['deepCurrentGuide']
+        }
+    },
+
+    {
+        id: 'deepCurrentGuide-coral-needle-tool',
+        name: 'Coral-needle tool',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A fine coral needle for splicing lines and repairing pressure gear.',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['deepCurrentGuide']
+        }
+    }
+];
+
+export const FOG_READER_ITEMS = [
+    {
+        id: 'fogReader-fog-ward-compass-needle-follows-memory-c',
+        name: 'Fog-ward compass (needle follows memory-currents)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A compass whose needle follows memory-currents instead of north. In the Frostwood, that is the only true direction.',
+        iconId: 'Misc/Profession Resources/Engineering/resource-compass-divider-drafting-tool',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['fogReader']
+        }
+    },
+
+    {
+        id: 'fogReader-fog-spider-silk-trail-cord-30ft',
+        name: 'Fog-spider silk trail-cord (30ft)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Silent silk cord laid behind you so you can find your way back through erased ground.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 2, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['fogReader']
+        }
+    },
+
+    {
+        id: 'fogReader-soot-resin-ink-stick-marks-visible-in-fo',
+        name: 'Soot-resin ink stick (marks visible in fog)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'An ink stick whose marks stay visible through the fog, for a while.',
+        iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle',
+        value: { platinum: 0, gold: 0, silver: 3, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['fogReader']
+        }
+    },
+
+    {
+        id: 'fogReader-breath-filtering-veil',
+        name: 'Breath-filtering veil',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A veil that filters the worst of the fog’s spores and the memories it carries.',
+        iconId: 'Armor/Cloak/cloak-simple-brown-cape',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['fogReader']
+        }
+    },
+
+    {
+        id: 'fogReader-frostwood-traveler-s-cloak',
+        name: 'Frostwood traveler\'s cloak',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A heavy cloak that sheds fog and frost alike.',
+        iconId: 'Armor/Cloak/cloak-simple-brown-cape',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['fogReader']
+        }
+    }
+];
+
+export const KEEP_WARDEN_ITEMS = [
+    {
+        id: 'keepWarden-brass-watch-bell-kept-silent',
+        name: 'Brass watch-bell (kept silent)',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'common',
+        description: 'A brass watch-bell, muted so it rings only for you. Its pattern is the keep’s whole language of alarm.',
+        iconId: 'Instruments/Drum/drum-brown-band',
+        value: { platinum: 0, gold: 0, silver: 3, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['keepWarden']
+        }
+    },
+
+    {
+        id: 'keepWarden-frost-pipe-pressure-gauge',
+        name: 'Frost-pipe pressure gauge',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A gauge that reads the frost-thick in the keep’s pipes. The needle creeping past the red line is the sound of a wall about to fail.',
+        iconId: 'Misc/Profession Resources/Engineering/resource-compass-divider-drafting-tool',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['keepWarden']
+        }
+    },
+
+    {
+        id: 'keepWarden-sealed-keep-signet',
+        name: 'Sealed keep-signet',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A signet that opens and seals the keep’s controlled gates. Losing it is a career-ending, possibly fatal, mistake.',
+        iconId: 'Armor/Finger/finger-simple-teal-diamond-ring',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['keepWarden']
+        }
+    },
+
+    {
+        id: 'keepWarden-wax-ration-tally',
+        name: 'Wax ration tally',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A wax tablet tallying the keep’s stores against the winter. The numbers are always a little short.',
+        iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+        value: { platinum: 0, gold: 0, silver: 1, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['keepWarden']
+        }
+    },
+
+    {
+        id: 'keepWarden-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Plain layered clothes meant to be worn under a dozen others.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['keepWarden']
+        }
+    }
+];
+
+export const SPAN_BUILDER_ITEMS = [
+    {
+        id: 'spanBuilder-span-reader-s-resonance-rod',
+        name: 'Span-reader\'s resonance rod',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A bone rod that rings when struck against a span, telling you how many winters the crossing has left.',
+        iconId: 'Weapons/Mace/mace-wooden-club-brown-primitive',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 3,
+        availableFor: {
+            backgrounds: ['spanBuilder']
+        }
+    },
+
+    {
+        id: 'spanBuilder-bone-mason-s-chisel-and-clamps',
+        name: 'Bone-mason\'s chisel and clamps',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Chisels and clamps for mending calcified bone-work without cracking the span.',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['spanBuilder']
+        }
+    },
+
+    {
+        id: 'spanBuilder-load-cord-knotted-tally',
+        name: 'Load-cord (knotted tally)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A cord knotted to record the safe load of every span on your route.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 1, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['spanBuilder']
+        }
+    },
+
+    {
+        id: 'spanBuilder-harness-and-grapnel',
+        name: 'Harness and grapnel',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A harness and grapnel for working the underside of a span. The fall is always one mistake away.',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-dark-metallic-hook-curved',
+        value: { platinum: 0, gold: 4, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['spanBuilder']
+        }
+    },
+
+    {
+        id: 'spanBuilder-traveler-s-clothes',
+        name: 'Traveler\'s clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Sturdy clothes built for wind and stone.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['spanBuilder']
+        }
+    }
+];
+
+export const CONTRACT_CLERK_ITEMS = [
+    {
+        id: 'contractClerk-sealed-filing-quill',
+        name: 'Sealed filing-quill',
+        type: 'miscellaneous',
+        subtype: 'WRITING',
+        quality: 'uncommon',
+        description: 'A quill sealed to your signature alone. A clause filed with it is filed as you.',
+        iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['contractClerk']
+        }
+    },
+
+    {
+        id: 'contractClerk-bog-iron-inkpot-first-contract-grade',
+        name: 'Bog-iron inkpot (First Contract grade)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'Ink of bog-iron, the grade Morvane accepts. Cheaper ink is how clauses get lost.',
+        iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['contractClerk']
+        }
+    },
+
+    {
+        id: 'contractClerk-notary-s-ledger-water-stained',
+        name: 'Notary\'s ledger (water-stained)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A working ledger of clauses you have filed. The water-stains are older than you and never quite dry.',
+        iconId: 'Misc/Books/book-brown-red-emblem-clasp',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['contractClerk']
+        }
+    },
+
+    {
+        id: 'contractClerk-memory-glass-reading-lens',
+        name: 'Memory-glass reading lens',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A lens for reading the memory-glass panels of the Heart-Vault. It shows what a clause actually said, not what it says now.',
+        iconId: 'Armor/Finger/finger-simple-teal-diamond-ring',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['contractClerk']
+        }
+    },
+
+    {
+        id: 'contractClerk-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Plain ink-stained clothes, cut for long hours at a lectern.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['contractClerk']
+        }
+    }
+];
+
+export const OBLIGATION_BROKER_ITEMS = [
+    {
+        id: 'obligationBroker-obligation-web-tally-knotted-cord',
+        name: 'Obligation-web tally (knotted cord)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A knotted cord mapping the obligations you hold. Cut a knot and a debt changes hands.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 1, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['obligationBroker']
+        }
+    },
+
+    {
+        id: 'obligationBroker-set-of-marked-fate-coins',
+        name: 'Set of marked fate-coins',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'Coins marked to track which way a fate-thread is leaning. They are never wrong, only late.',
+        iconId: 'Misc/Profession Resources/Cooking/plate-coin-octagonal-copper-token',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['obligationBroker']
+        }
+    },
+
+    {
+        id: 'obligationBroker-registry-writ-loan-against-a-future',
+        name: 'Registry writ (loan against a future)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A writ lending against a future that has not happened yet. The interest is measured in years of your life.',
+        iconId: 'Misc/Books/book-scroll-pinned-text-thumbtack',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['obligationBroker']
+        }
+    },
+
+    {
+        id: 'obligationBroker-debt-knife-ceremonial',
+        name: 'Debt-knife (ceremonial)',
+        type: 'weapon',
+        subtype: 'DAGGER',
+        quality: 'common',
+        description: 'A ceremonial knife used to cut a knot rather than a throat. In the right hands, both.',
+        iconId: 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['obligationBroker']
+        }
+    },
+
+    {
+        id: 'obligationBroker-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Quiet clothes for a trade done in the seams of the law.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['obligationBroker']
+        }
+    }
+];
+
+export const GREYMARK_ARCHIVIST_ITEMS = [
+    {
+        id: 'greymarkArchivist-waxed-lineage-tapestry-swatch',
+        name: 'Waxed lineage-tapestry swatch',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'uncommon',
+        description: 'A waxed swatch of the lineage-tapestries carrying a family’s names. It is proof the fog cannot erase.',
+        iconId: 'Misc/Books/book-bundle-papers-tied-string',
+        value: { platinum: 0, gold: 4, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['greymarkArchivist']
+        }
+    },
+
+    {
+        id: 'greymarkArchivist-archivist-s-recording-quill',
+        name: 'Archivist\'s recording quill',
+        type: 'miscellaneous',
+        subtype: 'WRITING',
+        quality: 'uncommon',
+        description: 'A quill that records a name as it is spoken. What it writes, Greymark keeps.',
+        iconId: 'Misc/Books/book-open-quill-pen-cream-pages',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['greymarkArchivist']
+        }
+    },
+
+    {
+        id: 'greymarkArchivist-bog-iron-inkpot-record-grade',
+        name: 'Bog-iron inkpot (record grade)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Ink that does not fade, for records meant to outlast the fog.',
+        iconId: 'Misc/Profession Resources/Alchemy/Blue/blue-potion-bottle',
+        value: { platinum: 0, gold: 4, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['greymarkArchivist']
+        }
+    },
+
+    {
+        id: 'greymarkArchivist-index-cord-knotted-name-tally',
+        name: 'Index-cord (knotted name tally)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A cord knotted to index the names you have memorized. Recite a knot and the lineage unfolds.',
+        iconId: 'Misc/Profession Resources/Tailoring/resource-coiled-brown-rope-hemp',
+        value: { platinum: 0, gold: 0, silver: 1, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['greymarkArchivist']
+        }
+    },
+
+    {
+        id: 'greymarkArchivist-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Ink-stained clothes worn thin by long nights of copying.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['greymarkArchivist']
+        }
+    }
+];
+
+export const PRIVATEER_ITEMS = [
+    {
+        id: 'privateer-water-stained-letter-of-marque',
+        name: 'Water-stained letter-of-marque',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'uncommon',
+        description: 'A commission authorizing you to take what the Board cannot protect. One clause is quietly forged.',
+        iconId: 'Misc/Books/book-scroll-rolled-red-wax-seal',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['privateer']
+        }
+    },
+
+    {
+        id: 'privateer-prize-share-ledger-tattoo-inked',
+        name: 'Prize-share ledger (tattoo-inked)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A ledger recording every crewmate’s share of every prize. The ink matches the tattoos on their arms.',
+        iconId: 'Misc/Books/book-brown-red-emblem-clasp',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['privateer']
+        }
+    },
+
+    {
+        id: 'privateer-boarding-axe',
+        name: 'Boarding axe',
+        type: 'weapon',
+        subtype: 'DAGGER',
+        quality: 'common',
+        description: 'A short boarding axe for cutting rigging and repelling boarders. It has done both, often in the same minute.',
+        iconId: 'Weapons/Swords/sword-dagger-curved-guard-reddish-brown',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['privateer']
+        }
+    },
+
+    {
+        id: 'privateer-storm-lane-chart',
+        name: 'Storm-lane chart',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A chart of the storm-lanes that hide a raid. The Board has a copy; yours is newer.',
+        iconId: 'Misc/Books/book-treasure-map-island',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 1,
+        availableFor: {
+            backgrounds: ['privateer']
+        }
+    },
+
+    {
+        id: 'privateer-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Salt-stiff clothes that have seen more decks than beds.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['privateer']
+        }
+    }
+];
+
+export const NAMELESS_ITEMS = [
+    {
+        id: 'nameless-borrowed-identity-papers',
+        name: 'Borrowed identity papers',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'uncommon',
+        description: 'Papers in a name that is not yours, good enough to pass a bored clerk and no one else.',
+        iconId: 'Misc/Books/book-folded-letter-envelope',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['nameless']
+        }
+    },
+
+    {
+        id: 'nameless-forgery-kit',
+        name: 'Forgery kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'Seals, inks, and a steady hand for making a name exist on paper. The most valuable thing you own.',
+        iconId: 'Misc/Profession Resources/Tools/satchel-pouch-brown-golden-buckle',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['nameless']
+        }
+    },
+
+    {
+        id: 'nameless-severance-token-null-iron',
+        name: 'Severance token (null-iron)',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A null-iron token marking a soul struck from the First Contract. The Registry cannot read it; neither can Morvane.',
+        iconId: 'Misc/Profession Resources/Blacksmithing/resource-three-dark-nails-metallic',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['nameless']
+        }
+    },
+
+    {
+        id: 'nameless-peat-hooded-cloak',
+        name: 'Peat-hooded cloak',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A peat-dyed cloak that hides a face no ledger remembers.',
+        iconId: 'Armor/Cloak/cloak-simple-brown-cape',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['nameless']
+        }
+    },
+
+    {
+        id: 'nameless-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Unremarkable clothes for someone who cannot afford to be remembered.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['nameless']
+        }
+    }
+];
+
+export const CRYPT_KEEPER_ITEMS = [
+    {
+        id: 'cryptKeeper-ancestral-light-lantern',
+        name: 'Ancestral-light lantern',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A lantern housing a cultured ancestral glow. It lights a crypt the way the dead prefer: softly, and without judgment.',
+        iconId: 'Misc/Profession Resources/Cooking/pot-lidded-dome-brownish-beige',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['cryptKeeper']
+        }
+    },
+
+    {
+        id: 'cryptKeeper-crypt-row-ledger-bark-bound',
+        name: 'Crypt-row ledger (bark-bound)',
+        type: 'miscellaneous',
+        subtype: 'DOCUMENT',
+        quality: 'common',
+        description: 'A bark-bound ledger of every light in your rows, and which have gone dark.',
+        iconId: 'Misc/Books/book-brown-red-emblem-clasp',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['cryptKeeper']
+        }
+    },
+
+    {
+        id: 'cryptKeeper-root-veil-warding-salts',
+        name: 'Root-Veil warding salts',
+        type: 'consumable',
+        subtype: 'UTILITY',
+        quality: 'common',
+        description: 'Salts that seal a crypt row against the Root-Veil. Use sparingly; the Veil notices.',
+        iconId: 'Misc/Profession Resources/Alchemy/Dark Green/dark-green-potion-armor-chest-piece-butterfly-x-shaped-beige-green-yellow-band',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['cryptKeeper']
+        }
+    },
+
+    {
+        id: 'cryptKeeper-funeral-veil',
+        name: 'Funeral veil',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A mourning veil worn while tending the dead. It doubles as a filter against spores.',
+        iconId: 'Armor/Cloak/cloak-simple-brown-cape',
+        value: { platinum: 0, gold: 0, silver: 3, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['cryptKeeper']
+        }
+    },
+
+    {
+        id: 'cryptKeeper-common-clothes',
+        name: 'Common clothes',
+        type: 'armor',
+        subtype: 'CLOTHING',
+        quality: 'common',
+        description: 'Dark, practical clothes that do not show crypt-damp.',
+        iconId: 'Armor/Chest/chest-simple-tan-tunic',
+        value: { platinum: 0, gold: 0, silver: 5, copper: 0 },
+        weight: 1,
+        width: 2,
+        height: 2,
+        availableFor: {
+            backgrounds: ['cryptKeeper']
+        }
+    }
+];
+
 export const ALL_BACKGROUND_EQUIPMENT = [
     ...EMBERSPIRE_PILGRIM_ITEMS,
     ...SHYR_RUNNER_ITEMS,
@@ -1264,6 +2640,22 @@ export const ALL_BACKGROUND_EQUIPMENT = [
     ...FROST_CHANTER_ITEMS,
     ...HUSH_SURVIVOR_ITEMS,
     ...MONOLITH_HUNTER_ITEMS,
+    ...FORGE_WRIGHT_ITEMS,
+    ...GROVE_WARDEN_ITEMS,
+    ...MASK_WARDEN_ITEMS,
+    ...VAULT_SCHOLAR_ITEMS,
+    ...HERD_GUARDIAN_ITEMS,
+    ...STARBOUND_SCHOLAR_ITEMS,
+    ...DEEP_CURRENT_GUIDE_ITEMS,
+    ...FOG_READER_ITEMS,
+    ...KEEP_WARDEN_ITEMS,
+    ...SPAN_BUILDER_ITEMS,
+    ...CONTRACT_CLERK_ITEMS,
+    ...OBLIGATION_BROKER_ITEMS,
+    ...GREYMARK_ARCHIVIST_ITEMS,
+    ...PRIVATEER_ITEMS,
+    ...NAMELESS_ITEMS,
+    ...CRYPT_KEEPER_ITEMS,
 
     // ===== BACKGROUND CURRENCY POUCHES =====
     {
@@ -1316,7 +2708,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         type: 'miscellaneous',
         subtype: 'CONTAINER',
         quality: 'common',
-        description: 'A fog-grey pouch containing 10 gold pieces from Thalren ledger-stipends. Can be sold for its full value.',
+        description: 'A fog-grey pouch containing 10 gold pieces from Tallyn ledger-stipends. Can be sold for its full value.',
         iconId: 'Container/Pouch/brown-tied-pouch',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 1,

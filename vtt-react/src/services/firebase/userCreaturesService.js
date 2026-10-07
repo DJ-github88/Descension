@@ -535,8 +535,15 @@ export async function shareCreatureToCommunity(userId, creatureId) {
     delete communityCreature.folderId;
     delete communityCreature.isCustom;
 
+    // Copy private art to the shared prefix so other users can view it.
+    const { shareEntityImages } = await import('./uploadService');
+    const communityCreatureShared = await shareEntityImages(
+      userId, communityCreature, 'creatures',
+      ['tokenImage', 'image', 'portrait', 'icon', 'avatar']
+    );
+
     // Upload to community
-    const sharedCreature = await uploadCreature(communityCreature, userId);
+    const sharedCreature = await uploadCreature(communityCreatureShared, userId);
 
     // Mark original creature as shared
     await updateDoc(creatureRef, {

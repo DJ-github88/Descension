@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { sanitizeHtml } from '../../../../utils/sanitizeHtml';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaDiceD20, FaClone, FaCoins, FaBullseye } from 'react-icons/fa';
 // Pathfinder styles imported via main.css
@@ -358,7 +359,7 @@ const RollableTableSummary = ({
                       {effectData.needsFormatting ? (
                         <div className="entry-effect-text">
                           {formatEffectText(effectData.effect).map((sentence, sIdx) => (
-                            <div key={sIdx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sentence + (sIdx < formatEffectText(effectData.effect).length - 1 ? '.' : '') }} />
+                            <div key={sIdx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sanitizeHtml(sentence + (sIdx < formatEffectText(effectData.effect).length - 1 ? '.' : '')) }} />
                           ))}
                         </div>
                       ) : (
@@ -499,7 +500,7 @@ const RollableTableSummary = ({
                     {effectData.needsFormatting ? (
                       <div className="entry-effect-text">
                         {formatEffectText(effectData.effect).map((sentence, sIdx) => (
-                          <div key={sIdx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sentence + (sIdx < formatEffectText(effectData.effect).length - 1 ? '.' : '') }} />
+                          <div key={sIdx} className="entry-effect-sentence" dangerouslySetInnerHTML={{ __html: sanitizeHtml(sentence + (sIdx < formatEffectText(effectData.effect).length - 1 ? '.' : '')) }} />
                         ))}
                       </div>
                     ) : (

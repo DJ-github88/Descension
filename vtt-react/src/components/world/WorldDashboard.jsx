@@ -274,11 +274,12 @@ const WorldDashboard = () => {
 
   const [showAddLanguageModal, setShowAddLanguageModal] = useState(false);
   const [newLangName, setNewLangName] = useState('');
-  const [newLangScript, setNewLangScript] = useState('Common Script');
+  const [newLangScript, setNewLangScript] = useState('Trade Hand');
   const [newLangFamily, setNewLangFamily] = useState('Isolate');
   const [newLangDesc, setNewLangDesc] = useState('');
   const [newLangSample, setNewLangSample] = useState('');
   const [editingLanguage, setEditingLanguage] = useState(null);
+  const [focusedLangId, setFocusedLangId] = useState(null);
 
   useEffect(() => {
     if (!loaded) loadClasses();
@@ -309,6 +310,23 @@ const WorldDashboard = () => {
   const worldDeities = useMemo(() => getAllDeities(activeWorldId), [getAllDeities, activeWorldId]);
   const { getAllLanguages, addLanguage, updateLanguage, removeLanguage } = useLanguageStore();
   const worldLanguages = useMemo(() => getAllLanguages(activeWorldId), [getAllLanguages, activeWorldId]);
+
+  const focusedLangIndex = worldLanguages.findIndex((l) => l.id === focusedLangId);
+  const focusedLang = focusedLangIndex >= 0 ? worldLanguages[focusedLangIndex] : null;
+  const prevTongue = focusedLang ? worldLanguages[(focusedLangIndex - 1 + worldLanguages.length) % worldLanguages.length] : null;
+  const nextTongue = focusedLang ? worldLanguages[(focusedLangIndex + 1) % worldLanguages.length] : null;
+
+  const focusTongue = (offset) => {
+    if (!focusedLang) return;
+    const target = worldLanguages[(focusedLangIndex + offset + worldLanguages.length) % worldLanguages.length];
+    setFocusedLangId(target.id);
+  };
+
+  useEffect(() => {
+    if (!focusedLangId) return;
+    const el = document.getElementById(`tongue-card-${focusedLangId}`);
+    if (el && typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [focusedLangId]);
 
   const navigateToLocation = (locId) => {
     setSelectedLocationId(locId);
@@ -740,7 +758,7 @@ const WorldDashboard = () => {
               <i className="fas fa-language"></i>
               <div>
                 <span className="vital-label">Languages</span>
-                <span className="vital-val">{(baseTraits.languages || ['Common']).join(', ')}</span>
+                <span className="vital-val">{(baseTraits.languages || ["Wayfarer's Cant"]).join(', ')}</span>
               </div>
             </div>
           </div>
@@ -1881,6 +1899,24 @@ const WorldDashboard = () => {
                 <i className="fas fa-plus"></i> Add Tongue
               </button>
             </div>
+            {focusedLang && (
+              <div
+                role="group"
+                aria-label="Switch tongue"
+                style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', margin: '0 0 14px 0', padding: '8px 10px', background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.5)', borderRadius: '8px' }}
+              >
+                <button type="button" className="world-action-btn" onClick={() => focusTongue(-1)} title={`Previous: ${prevTongue.name}`} aria-label={`Previous tongue: ${prevTongue.name}`}>
+                  <i className="fas fa-chevron-left"></i> {prevTongue.name}
+                </button>
+                <span className="world-card-meta" style={{ margin: 0 }}>{focusedLangIndex + 1} / {worldLanguages.length}</span>
+                <button type="button" className="world-action-btn" onClick={() => focusTongue(1)} title={`Next: ${nextTongue.name}`} aria-label={`Next tongue: ${nextTongue.name}`}>
+                  {nextTongue.name} <i className="fas fa-chevron-right"></i>
+                </button>
+                <button type="button" className="world-action-btn" onClick={() => setFocusedLangId(null)} style={{ marginLeft: 'auto' }}>
+                  <i className="fas fa-times"></i> Show all
+                </button>
+              </div>
+            )}
             {worldLanguages.length === 0 ? (
               <div className="world-regions-empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px', background: 'rgba(255,255,255,0.7)', borderRadius: '10px', border: '1px dashed #d4af37' }}>
                 <i className="fas fa-language" style={{ fontSize: '32px', color: '#8b5a1a', marginBottom: '12px' }}></i>
@@ -1891,16 +1927,31 @@ const WorldDashboard = () => {
             ) : (
               <div className="world-region-grid">
                 {worldLanguages.map((l) => (
-                  <div key={l.id} className="world-region-card">
+                  <div
+                    key={l.id}
+                    id={`tongue-card-${l.id}`}
+                    className={`world-region-card${l.id === focusedLangId ? ' is-focused' : ''}`}
+                    onClick={() => setFocusedLangId(l.id)}
+                    style={{
+                      cursor: 'pointer',
+                      ...(l.id === focusedLangId ? { outline: '2px solid #d4af37', boxShadow: '0 0 0 4px rgba(212,175,55,0.18)' } : {})
+                    }}
+                  >
                     <div className="world-region-card-header">
                       <h3><i className="fas fa-book-open"></i> {l.name}</h3>
                       <span className="world-badge-canon">{l.script}</span>
                     </div>
                     <p className="world-card-meta" style={{ fontStyle: 'italic', color: '#8b5a1a' }}>{l.family} family</p>
+                    {l.parentLanguage && (
+                      <p className="world-card-meta" style={{ color: '#6b4c2b' }}>
+                        <i className="fas fa-layer-group"></i> Register of {l.parentLanguage}
+                        {l.registerType ? ` — ${l.registerType}` : ''}
+                      </p>
+                    )}
                     <p className="world-region-desc">{l.description || 'No description.'}</p>
                     {l.samplePhrase && <p className="world-card-meta" style={{ marginTop: '8px', fontStyle: 'italic' }}>"{l.samplePhrase}"</p>}
                     {l.lexicon && l.lexicon.length > 0 && <p className="world-card-meta" style={{ marginTop: '6px' }}>{l.lexicon.length} lexicon entries</p>}
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }} onClick={(e) => e.stopPropagation()}>
                       <button className="world-action-btn" onClick={() => { setEditingLanguage(l); setNewLangName(l.name); setNewLangScript(l.script); setNewLangFamily(l.family); setNewLangDesc(l.description || ''); setNewLangSample(l.samplePhrase || ''); setShowAddLanguageModal(true); }}><i className="fas fa-pen"></i> Edit</button>
                       <button className="world-action-btn" style={{ background: 'rgba(180,40,40,0.12)', borderColor: '#a33', color: '#a33' }} onClick={async () => { const ok = await showConfirm({ title: 'Delete Tongue', message: `Delete "${l.name}"?`, confirmText: 'Delete', isDestructive: true }); if (ok) removeLanguage(l.id); }}><i className="fas fa-trash"></i></button>
                     </div>
@@ -2227,7 +2278,7 @@ const WorldDashboard = () => {
             </div>
             <form onSubmit={handleAddDeitySubmit}>
               <div className="world-modal-body">
-                <div className="world-form-group"><label>Deity / Faith Name *</label><input type="text" required value={newDeityName} onChange={(e) => setNewDeityName(e.target.value)} placeholder="e.g. Solara Dawnkeeper, The Veiled Veil" autoFocus /></div>
+                <div className="world-form-group"><label>Deity / Faith Name *</label><input type="text" required value={newDeityName} onChange={(e) => setNewDeityName(e.target.value)} placeholder="e.g. Solara Dawnkeeper, The Silent Veil" autoFocus /></div>
                 <div className="world-form-row">
                   <div className="world-form-group" style={{ flex: 1 }}><label>Title / Epithet</label><input type="text" value={newDeityTitle} onChange={(e) => setNewDeityTitle(e.target.value)} placeholder="e.g. Keeper of First Light" /></div>
                   <div className="world-form-group" style={{ flex: 1 }}><label>Domain</label>

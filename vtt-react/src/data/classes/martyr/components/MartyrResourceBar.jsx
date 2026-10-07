@@ -7,9 +7,10 @@ import '../styles/MartyrResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { MARTYR_DAMAGE_THRESHOLDS, MARTYR_DEVOTION_MAX, MARTYR_DAMAGE_BANK_MAX, normalizeManagedClassResource, updateManagedClassResource } from '../../../classResourceContracts';
 
-const THRESHOLDS = [0, 10, 20, 40, 60, 80, 100];
-const MAX_LEVEL = 6;
+const THRESHOLDS = MARTYR_DAMAGE_THRESHOLDS;
+const MAX_LEVEL = MARTYR_DEVOTION_MAX;
 
 const STAGE_NAMES = [
     'Mortal Resolve',
@@ -80,16 +81,14 @@ const MartyrResourceBar = ({
     setMartyrState = null
 }) => {
     // Determine level and damage from props (prioritizing classResource over legacy state)
-    const rawLevel = classResource?.current !== undefined
-        ? classResource.current
-        : (classResource?.level ?? 0);
-    const rawDamage = classResource?.damage !== undefined
-        ? classResource.damage
-        : (classResource?.devotionDamage ?? THRESHOLDS[rawLevel] ?? 0);
+    const normalizedResource = normalizeManagedClassResource(classResource, 'Martyr');
+    const rawLevel = normalizedResource.current;
+    const rawDamage = normalizedResource.damage;
     const rawSpec = classResource?.spec ?? martyrState?.martyrSpec ?? config?.visual?.spec ?? 'redemption';
 
-    const [devotionLevel, setDevotionLevel] = useState(Math.max(0, Math.min(rawLevel, MAX_LEVEL)));
-    const [devotionDamage, setDevotionDamage] = useState(Math.max(0, Math.min(rawDamage, 150)));
+    const [devotionLedger, setDevotionLedger] = useState(normalizedResource);
+    const devotionLevel = devotionLedger.current;
+    const devotionDamage = devotionLedger.damage;
     const [martyrSpec] = useState(rawSpec in SPEC_DATA ? rawSpec : 'redemption');
 
     const [showControls, setShowControls] = useState(false);
@@ -102,24 +101,14 @@ const MartyrResourceBar = ({
 
     // Sync external state updates
     useEffect(() => {
-        if (rawLevel !== undefined && rawLevel !== devotionLevel) {
-            setDevotionLevel(Math.max(0, Math.min(rawLevel, MAX_LEVEL)));
-        }
-    }, [rawLevel]);
-
-    useEffect(() => {
-        if (rawDamage !== undefined && rawDamage !== devotionDamage) {
-            setDevotionDamage(Math.max(0, Math.min(rawDamage, 150)));
-        }
-    }, [rawDamage]);
+        setDevotionLedger(normalizedResource);
+    }, [rawLevel, rawDamage, normalizedResource.spentLevels, normalizedResource.bonusLevels]);
 
     // Update handlers
-    const updateDevotionState = (newLevel, newDamage) => {
-        const clampedLevel = Math.max(0, Math.min(newLevel, MAX_LEVEL));
-        const clampedDamage = Math.max(0, Math.min(newDamage, 150));
-
-        setDevotionLevel(clampedLevel);
-        setDevotionDamage(clampedDamage);
+    const updateDevotionState = (nextLedger) => {
+        const clampedLevel = nextLedger.current;
+        const clampedDamage = nextLedger.damage;
+        setDevotionLedger(nextLedger);
 
         if (setMartyrState) {
             setMartyrState(prev => ({
@@ -130,27 +119,23 @@ const MartyrResourceBar = ({
         }
 
         if (onClassResourceUpdate) {
-            onClassResourceUpdate('current', clampedLevel);
+            onClassResourceUpdate('spentLevels', nextLedger.spentLevels);
+            onClassResourceUpdate('bonusLevels', nextLedger.bonusLevels);
             onClassResourceUpdate('damage', clampedDamage);
+            onClassResourceUpdate('current', clampedLevel);
         }
     };
 
     const handleSetLevel = (newLevel) => {
         const clampedLevel = Math.max(0, Math.min(newLevel, MAX_LEVEL));
         const correspondingDamage = THRESHOLDS[clampedLevel];
-        updateDevotionState(clampedLevel, correspondingDamage);
+        updateDevotionState(normalizeManagedClassResource({ ...devotionLedger, current: clampedLevel,
+            damage: correspondingDamage, spentLevels: 0, bonusLevels: 0 }, 'Martyr'));
     };
 
     const handleDamageChange = (newDamage) => {
-        const clampedDamage = Math.max(0, Math.min(newDamage, 150));
-        let calculatedLevel = 0;
-        for (let i = MAX_LEVEL; i >= 0; i--) {
-            if (clampedDamage >= THRESHOLDS[i]) {
-                calculatedLevel = i;
-                break;
-            }
-        }
-        updateDevotionState(calculatedLevel, clampedDamage);
+        const clampedDamage = Math.max(0, Math.min(newDamage, MARTYR_DAMAGE_BANK_MAX));
+        updateDevotionState(updateManagedClassResource(devotionLedger, 'Martyr', 'damage', clampedDamage));
     };
 
     // Close controls drawer on outside click
@@ -178,9 +163,8 @@ const MartyrResourceBar = ({
     };
 
     // Next threshold calculations
-    const currentThreshold = THRESHOLDS[devotionLevel];
-    const nextThreshold = devotionLevel < MAX_LEVEL ? THRESHOLDS[devotionLevel + 1] : THRESHOLDS[MAX_LEVEL];
-    const damageNeeded = devotionLevel >= MAX_LEVEL ? 0 : Math.max(0, nextThreshold - devotionDamage);
+    const nextThreshold = devotionLedger.earnedLevels < MAX_LEVEL ? THRESHOLDS[devotionLedger.earnedLevels + 1] : THRESHOLDS[MAX_LEVEL];
+    const damageNeeded = devotionLedger.earnedLevels >= MAX_LEVEL ? 0 : Math.max(0, nextThreshold - devotionDamage);
 
     // Liquid fill calculation (width from 0 to 92px)
     const liquidFillWidth = Math.max(0, Math.min(92, (devotionDamage / 100) * 92));
@@ -560,11 +544,11 @@ const MartyrResourceBar = ({
                             subtitle="Martyr Devotion Gauge"
                             state={`${devotionDamage}/100 DMG`}
                             stateTone={devotionDamage >= 80 ? 'good' : devotionDamage >= 20 ? 'warn' : 'neutral'}
-                            mechanic="Damage willingly absorbed for allies fills Devotion (0-100), unlocking Tiers I-VI at 10/20/40/60/80/100. At 0 you are Faithless — healing halved and Intervene locked until you sacrifice 15+ HP in one round."
+                             mechanic="Eligible cumulative damage earns levels at 10/20/40/60/80/100. Available Devotion is 0–6 after spending; the damage ledger is not a spendable 100-point pool."
                             status={[
-                                devotionLevel >= MAX_LEVEL
-                                    ? { text: 'Maximum Devotion (Tier VI) — allies within 15 ft resist all damage types.', tone: 'good' }
-                                    : `${damageNeeded} more damage unlocks Tier ${devotionLevel + 1} (${STAGE_NAMES[devotionLevel + 1]}).`,
+                                 devotionLedger.earnedLevels >= MAX_LEVEL
+                                     ? 'All six damage thresholds earned; spending remains deducted until an explicit level grant or reset.'
+                                     : `${damageNeeded} more eligible damage crosses the next earned threshold. ${devotionLedger.spentLevels} levels spent.`,
                                 'Decay: lose 1 tier after 1 round without damage or a Voluntary Offering.'
                             ]}
                             usage={isOwner ? 'Click +10 / +20 to bank damage · Click 1d8 HP for Voluntary Offering · Center opens the full drawer.' : null}
@@ -621,7 +605,8 @@ const MartyrResourceBar = ({
                             {/* Current state summary */}
                             <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
                                 <div><strong>Devotion:</strong> {STAGE_NAMES[devotionLevel]} <span style={{ color: '#fde68a' }}>(Tier {ROMAN_NUMERALS[devotionLevel]})</span></div>
-                                <div><strong>Suffering Banked:</strong> <span style={{ color: devotionLevel >= 5 ? '#f87171' : '#fde68a' }}>{devotionDamage}/100 DMG</span> {devotionLevel < MAX_LEVEL && <span style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)' }}>({damageNeeded} to next tier)</span>}</div>
+                                 <div><strong>Suffering Banked:</strong> <span style={{ color: devotionLevel >= 5 ? '#f87171' : '#fde68a' }}>{devotionDamage}/100 DMG</span> {devotionLedger.earnedLevels < MAX_LEVEL && <span style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)' }}>({damageNeeded} to next earned threshold)</span>}</div>
+                                 <div>Earned: {devotionLedger.earnedLevels} · Spent: {devotionLedger.spentLevels} · Bonus: {devotionLedger.bonusLevels}</div>
                                 <div style={{ color: devotionLevel === 0 ? '#f87171' : 'var(--crm-text-dim, #cbd5e1)', marginTop: '2px', fontSize: '0.74rem' }}>
                                     <strong>Active Passive:</strong> {STAGE_PASSIVES[devotionLevel]}
                                 </div>

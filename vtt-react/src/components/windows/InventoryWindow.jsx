@@ -20,6 +20,7 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getCompatibleSlots } from '../../utils/equipmentUtils';
 import { getInventoryGridDimensions } from '../../utils/characterUtils';
 import Button from '../common/Button';
+import InventoryShareToggle from './InventoryShareToggle';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
 import {
@@ -2124,6 +2125,7 @@ const InventoryWindow = memo(() => {
 
     return (
         <div className="window-content inventory-window-content">
+            <InventoryShareToggle />
             <div className="inventory-container">
                 <div className="inventory-layout-body">
                     <div className="inventory-grid-scroll-area">

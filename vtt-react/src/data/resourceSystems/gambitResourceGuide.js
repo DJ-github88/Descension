@@ -1,7 +1,7 @@
 /**
  * Gambit — Resource System tab v2 authored guide.
  * Copy drafted from gambitData.js resourceSystem (Fortune/Debt, Fate Reserve,
- * Wyrd Collapse at Debt 13). No classResources entry.
+ * Wyrd Collapse at Debt 13), with the shared class resource contract.
  */
 export const gambitResourceGuide = {
  version: 2,
@@ -11,7 +11,7 @@ export const gambitResourceGuide = {
  archetype: 'Dual Currency (Fortune / Debt)',
 
  vitals: [
-  { icon: 'fa-dice', label: 'Fortune', value: '0–15 base (spec-scaled)' },
+   { icon: 'fa-dice', label: 'Fortune', value: '0–7 shared bank' },
   { icon: 'fa-balance-scale', label: 'Debt', value: '0–13 gauge' },
   { icon: 'fa-dice-d20', label: 'Spend', value: '±1 per Fortune on any d20' },
   { icon: 'fa-exclamation-triangle', label: 'Risk', value: 'Wyrd Collapse' },
@@ -36,7 +36,7 @@ export const gambitResourceGuide = {
   risk: {
    title: 'Collapse',
    icon: 'fa-exclamation-triangle',
-   text: 'Debt 13 or Fortune 0 triggers a Wyrd Collapse: Fortune empties, Debt resets, and 6d10 wyrd lands on the table. Calculated Risk cannot be reduced, prevented, or mitigated.',
+    text: 'The declared failure states are distinct: Fortune depletion is Cosmic Bankruptcy; Debt 13 is Wyrd Collapse. The bounded ledger does not itself resolve backlash dice, incapacitation or vulnerability effects.',
   },
  },
 
@@ -50,7 +50,7 @@ export const gambitResourceGuide = {
    tabLabel: 'browse the spellbook',
   },
   {
-   text: 'Probability Savant, High Roller, and Karmic Weaver set different Fortune caps and stakes.',
+    text: 'Probability Savant, High Roller and Karmic Weaver share Fortune 7 / Debt 13; they describe different wager methods, not implemented larger banks.',
    tab: 'specializations',
    tabLabel: 'compare the three paths',
   },
@@ -68,8 +68,9 @@ export const gambitResourceGuide = {
    ['Spend 1 Fortune on a d20', '1d4 wyrd to you', 'After the roll, before the outcome'],
    ['Fate Reserve card', 'Hard override', 'No Fortune cost; some add Debt'],
    ['Fate Reserve / Arcane Dirge', '+2 to +4 Debt', 'Borrowed probability'],
-   ['Fortune 0 / Debt 13', 'Wyrd Collapse', '6d10 wyrd, both gauges reset'],
+    ['Fortune depletion', 'Cosmic Bankruptcy', 'Declared failure state; resolve its own rule'],
+    ['Debt 13', 'Wyrd Collapse', 'Declared collapse threshold, not a Fortune cap'],
   ],
-  footnote: 'Fortune caps at 15 base and scales with specialization; Debt collapses at 13.',
+   footnote: 'Fortune is capped at 7 and Debt at 13 in initialization, state operations and display. The current bank does not scale with specialization.',
  },
 };

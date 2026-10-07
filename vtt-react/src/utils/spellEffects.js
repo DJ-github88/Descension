@@ -1,4 +1,5 @@
 import { parseDiceString, calculateDiceAverage } from './diceUtils';
+import { getActiveHeritageAbilities } from '../data/heritageEdgeAdapter';
 
 /**
  * Calculate total damage for a spell
@@ -142,6 +143,24 @@ export const applySpellEffects = (spell, caster, target) => {
             value,
             duration
         });
+    }
+
+    // Heritage capabilities are condition-gated. The caller supplies
+    // caster.heritageContext (target/position/equipment/medium/state/...) when it
+    // is known; without it nothing fires. Numeric modifiers are bounded by the
+    // heritage schema, so a capability edge never alters base damage.
+    if (caster && caster.class && caster.race && caster.subrace) {
+        const heritage = getActiveHeritageAbilities(caster, caster.heritageContext || {});
+        results.heritage = {
+            applies: heritage.applies,
+            reason: heritage.reason,
+            capabilities: heritage.capabilities,
+            costCapabilities: heritage.costCapabilities,
+            events: heritage.events
+        };
+        if (heritage.applies) {
+            heritage.events.forEach(event => results.effects.push({ type: 'heritage', event }));
+        }
     }
 
     return results;

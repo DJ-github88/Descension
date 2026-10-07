@@ -144,7 +144,7 @@ export function useCharacterSpells(characterId = null) {
       const raceLabel = fullRace?.subrace?.name 
         ? `${fullRace.subrace.name} Trait` 
         : (fullRace?.race?.name ? `${fullRace.race.name} Trait` : `${subrace || race} Trait`);
-      const racial = getRacialSpells(race, subrace).filter(s => !isPassiveStatModifier(s));
+      const racial = getRacialSpells(race, subrace, characterClass).filter(s => !isPassiveStatModifier(s));
       racial.forEach(spell => {
         addSpell(spell, 'racial', raceLabel);
       });

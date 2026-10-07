@@ -1893,7 +1893,7 @@ export const CRUSADER_DATA = {
       "fexric"
     ],
     narrativeUnlock: true,
-    justification: "Requires proximity to Solvan starlight relics or Emberspire's radiant calderas. Mimir are too identity-fragile to sustain Aex's song. Nethien cannot reconcile starlight zeal with Morvane's legal contracts. Groven are vat-born creatures whose biology rejects sacred harmonics."
+    justification: "Requires proximity to Solvan starlight relics or Emberspire's radiant calderas. Mimir are too identity-fragile to sustain Aex's song. Athien cannot reconcile starlight zeal with Morvane's legal contracts. Groven are vat-born creatures whose biology rejects sacred harmonics."
   },
 
   livingOrder: {
@@ -1915,8 +1915,8 @@ export const CRUSADER_DATA = {
   worldFriction: [
     { region: 'sundale', location: 'harath_vault', status: 'revered', consequence: 'Crusaders lead the vanguard against Wyrd incursions from the Ashen Escarpment; forge-masters prioritize their plating maintenance above all others.', workaround: 'None needed; treated as holy liberators.' },
     { region: 'bryngloom-forest', location: 'atropolis', status: 'distrusted', consequence: 'Atropolis contract-archivists view Crusader zeal as dangerous fanaticism that threatens fragile legal covenants with bog entities.', workaround: 'Sheathe greatswords in leaded peace-wraps and register with city bailiffs.' },
-    { region: 'frostwood-reach', status: 'tolerated', consequence: 'Thalren settlers welcome Crusader heavy swords against wandering Wyrd-beasts, but fear their strict intolerance of pagan fog rites.', workaround: 'Confine purges to confirmed abominations and respect village elders.' },
-    { region: 'emberspire', status: 'allied', consequence: 'Waste-Solari forge-knights share the Crusader\'s martial philosophy, welcoming their holy starlight to supplement geothermal defenses.', workaround: 'Participate in the ritual caldera-kindling.' }
+    { region: 'frostwood-reach', status: 'tolerated', consequence: 'Tallyn settlers welcome Crusader heavy swords against wandering Wyrd-beasts, but fear their strict intolerance of pagan fog rites.', workaround: 'Confine purges to confirmed abominations and respect village elders.' },
+    { region: 'emberspire', status: 'allied', consequence: 'Anhur forge-knights share the Crusader\'s martial philosophy, welcoming their holy starlight to supplement geothermal defenses.', workaround: 'Participate in the ritual caldera-kindling.' }
   ],
 
   overview: {
@@ -1930,7 +1930,9 @@ When the Freezing Era fell post-Great Breach and the sun was extinguished from t
 
 To channel Aex's Willing Sacrifice is an ordeal of agonizing physical friction. Starlight does not flow like gentle water; it surges like high-voltage holy electricity through bone, marrow, and blood vessels. Every heavy swing of your two-handed greatsword vibrates at the primordial binding frequency that holds reality together. When you take damage on the frontline, your heavy plate converts the kinetic trauma into blinding Fervor. At fifty Fervor, your blade glows white-hot with Aex's Harmonic Stance, slicing through enchanted shields and demonic hide as though they were dry parchment. At one hundred Fervor, you unleash Solvan Judgment—a catastrophic three-action pillar of descending starlight that shatters enemy Durability and DR and leaves the earth permanently consecrated.
 
-The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.`,
+The cost of this zeal is complete, exhausting physical devotion. A Crusader cannot cast spells from a safe distance; you must be close enough to smell the enemy's breath to build Fervor. If you push your zeal too far without releasing a smite, the blinding starlight bleeds into your own optic nerves, causing peripheral Starlight Burnout. Today, the Dawn Vigil stands at a terrifying ideological crossroads: Hierophant Aethelgard commands all Crusaders to reforge the 7 Sundered Monoliths, unaware that the 7th Monolith is tainted by Keth Amar. You march into the dark with a greatsword on your shoulder, knowing that if your faith falters for even a second, the light you carry will burn you alive from the inside out.
+
+Native only to Anhur. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
     quickOverview: {
       title: "Class Overview",
@@ -1952,8 +1954,7 @@ Forged during the Freezing Era when Solvan knights bound Aex's starlight song to
 Highly revered in Sundale and Emberspire; viewed with caution by Atropolis archivists who fear religious zeal.
 
 **RACES & CULTURAL AFFILIATION**
-Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hunger Pact; Waste-Solari draw geothermal magma-fire; Brutish Astril refract it through crystal skin.
-
+Smelting a dead god into battle-plate is a Anhur forge tradition. The Kordak refract Aex's song through their crystalline lattice. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Lord-Captain Vane Solvan**: The first to forge starlight steel into heavy battle-plates.
 * **Hierophant Aethelgard**: Leader of the Dawn Vigil.`
@@ -2032,14 +2033,14 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     },
 
     thrask_solari: {
-      subraceName: 'Waste-Solari',
+      subraceName: 'Anhur',
       title: 'The Magma Crusader',
-      reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy bulwark plate with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
+      reframe: `The <LoreLink termId="solari">Anhur</LoreLink> Crusaders channel <LoreLink termId="scathrach">Scathrach's</LoreLink> uncorrupted ember to infuse heavy bulwark plate with geothermal heat. They view Aex's song as the magma-hum of <LoreLink termId="emberspire">Emberspire</LoreLink>. Their zeal is tectonic, welding heavy iron plate directly to their shoulders.`,
       signatureAbility: {
         name: 'Caldera-Cleave',
         description: `Spending Fervor converts 50% of your sacred damage into ember damage, setting the ground on fire and dealing continuous ember ticks to enemies.`
       },
-      currentCrisisAngle: `As Emberspire's calderas cool, Waste-Solari Crusaders are forced deeper into Scathrach's subterranean vents, risking exposure to Wyrd-taint to keep their plating heated.`,
+      currentCrisisAngle: `As Emberspire's calderas cool, Anhur Crusaders are forced deeper into Scathrach's subterranean vents, risking exposure to Wyrd-taint to keep their plating heated.`,
       signatureQuote: {
         text: '"You pray to a sun you never saw. I pray to the boiling mud under my boots. Let us see whose god hits harder."',
         speaker: 'Korr Vulcan-Shield',
@@ -2048,9 +2049,9 @@ Solari carry the ancestral starlight lineage; Skald humans fuse it with the Hung
     },
 
     silath_astril: {
-      subraceName: 'Brutish Astril',
+      subraceName: 'Kordak',
       title: 'The Crystal Judgment',
-      reframe: `The <LoreLink termId="astril">Brutish Astril</LoreLink> Crusaders resonate with Aex's willing sacrifice, using their crystalline skin lattice to act as a tuning fork for starlight. When they absorb damage, the energy refracts through their skin, charging their blade with golden harmonic frequency.`,
+      reframe: `The <LoreLink termId="astril">Kordak</LoreLink> Crusaders resonate with Aex's willing sacrifice, using their crystalline skin lattice to act as a tuning fork for starlight. When they absorb damage, the energy refracts through their skin, charging their blade with golden harmonic frequency.`,
       signatureAbility: {
         name: 'Refractive Bulwark',
         description: `Rolling your Active Soak die against spell strikes generates +5 Fervor. Absorbing spell damage empowers your next strike with +1d6 bonus sacred damage.`

@@ -20,7 +20,7 @@ const PartyMemberContextMenu = ({
   const { sendSessionInvitation, requestToJoinSession } = usePresenceStore();
   const {
     isInMultiplayer,
-    currentRoom
+    multiplayerRoom
   } = useGameStore();
   const { user } = useAuthStore();
   
@@ -55,9 +55,9 @@ const PartyMemberContextMenu = ({
                               leaderId === user?.uid ||
                               leaderId === 'current-player';
   
-  const leaderInSession = isLeader && isInMultiplayer && currentRoom;
+  const leaderInSession = isLeader && isInMultiplayer && multiplayerRoom;
   
-  const currentUserInSession = isInMultiplayer && currentRoom;
+  const currentUserInSession = isInMultiplayer && multiplayerRoom;
   
   const menuItems = [];
   
@@ -79,10 +79,10 @@ const PartyMemberContextMenu = ({
         label: 'Join Session',
         icon: 'fas fa-door-open',
         action: () => {
-          console.log('🎯 Requesting to join session:', currentRoom.id);
+          console.log('🎯 Requesting to join session:', multiplayerRoom.id);
           requestToJoinSession(
             leaderId,
-            currentRoom.id,
+            multiplayerRoom.id,
             currentUserId || user?.uid,
             'Player'
           );
@@ -97,7 +97,7 @@ const PartyMemberContextMenu = ({
         icon: 'fas fa-user-plus',
         action: () => {
           console.log('📨 Inviting member to session:', member.id);
-          sendSessionInvitation(member.userId || member.id, currentRoom.id);
+          sendSessionInvitation(member.userId || member.id, multiplayerRoom.id);
         },
         className: 'primary'
       });

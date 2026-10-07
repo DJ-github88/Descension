@@ -3,6 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import WorldDashboard, { sanitizeLoreText, formatDisplayName } from '../WorldDashboard';
 import useFactionStore from '../../../store/factionStore';
+import useLanguageStore from '../../../store/languageStore';
+import useWorldStore from '../../../store/worldStore';
+import { SEEDED_LANGUAGES } from '../../../data/seedLanguages';
 
 const renderDashboard = () => render(
   <MemoryRouter>
@@ -16,7 +19,7 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
       factions: [
         {
           id: 'trueborn-florae',
-          name: 'The Trueborn Florae',
+          name: 'The Briaren Florae',
           type: 'tribal',
           regionId: 'frostwood-reach',
           colors: { primary: '#2d5a1e', secondary: '#8b4513' },
@@ -152,8 +155,8 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     const factionsTab = screen.getByRole('button', { name: /Quick Orders/i });
     fireEvent.click(factionsTab);
 
-    // Verify Trueborn Florae card
-    expect(screen.getByText('The Trueborn Florae')).toBeInTheDocument();
+    // Verify Briaren Florae card
+    expect(screen.getByText('The Briaren Florae')).toBeInTheDocument();
     expect(screen.getByText('House Thalreth')).toBeInTheDocument();
 
     // Verify clean text without mojibake (Ã¢â‚¬â€ sanitized to —)
@@ -172,7 +175,7 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     const factionsTab = screen.getByRole('button', { name: /Quick Orders/i });
     fireEvent.click(factionsTab);
 
-    // Click Read Chronicle for Trueborn Florae
+    // Click Read Chronicle for Briaren Florae
     const readBtn = screen.getAllByText(/Read Chronicle/i)[0];
     fireEvent.click(readBtn);
 
@@ -221,9 +224,9 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
   });
 
   it('sanitizeLoreText and formatDisplayName correctly format titles and clean mojibake', () => {
-    const raw = 'The Trueborn Florae Ã¢â‚¬â€ guardians of nature â€œancient treesâ€';
+    const raw = 'The Briaren Florae Ã¢â‚¬â€ guardians of nature â€œancient treesâ€';
     const clean = sanitizeLoreText(raw);
-    expect(clean).toBe('The Trueborn Florae — guardians of nature "ancient trees"');
+    expect(clean).toBe('The Briaren Florae — guardians of nature "ancient trees"');
 
     expect(formatDisplayName('false_prophets')).toBe('False Prophets');
     expect(formatDisplayName('noble_house')).toBe('Noble House');
@@ -351,6 +354,26 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
     fireEvent.click(spellsTabBtn);
     expect(screen.getByRole('button', { name: /Inscribe Custom Rite/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Select from Library/i })).toBeInTheDocument();
+  });
+
+  it('focuses a tongue and switches between tongues from the toolbar', () => {
+    useWorldStore.setState({ ...useWorldStore.getState(), activeWorldId: 'mythrill', worldId: 'mythrill' });
+    useLanguageStore.setState({ languages: SEEDED_LANGUAGES, removedSeedIds: [] });
+    renderDashboard();
+    fireEvent.click(screen.getByRole('button', { name: /Quick Tongues/i }));
+
+    fireEvent.click(screen.getByText('Gjaldmál'));
+    expect(screen.getByRole('group', { name: /Switch tongue/i })).toBeInTheDocument();
+    expect(screen.getByText('1 / 9')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Next tongue: Dauðrsöngr/i }));
+    expect(screen.getByText('2 / 9')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Previous tongue: Gjaldmál/i }));
+    expect(screen.getByText('1 / 9')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Show all/i }));
+    expect(screen.queryByText('1 / 9')).not.toBeInTheDocument();
   });
 });
 

@@ -39,7 +39,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "Mist-Sentinels",
-      "Thalren Trappers"
+      "Tallyn Trappers"
     ],
     "connections": [
       "greymark-keep",
@@ -111,10 +111,10 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Wraithfen",
     "type": "wilderness",
-    "description": "A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Broken Mimir outcasts wander here with salvaged masks, their forms dissolving and reforming in the mist. Thalren trappers avoid it, those who enter too deep return speaking languages no one recognizes.",
+    "description": "A fog-drowned fen on the eastern border where the ground breathes and the water is warm to the touch. Broken Mimir outcasts wander here with salvaged masks, their forms dissolving and reforming in the mist. Tallyn trappers avoid it, those who enter too deep return speaking languages no one recognizes.",
     "dangerLevel": "high",
     "factions": [
-      "Tethered Mimir"
+      "Broken Mimir"
     ],
     "connections": [
       "the-shallows",
@@ -130,11 +130,11 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Greythorn Copse",
     "type": "settlement",
-    "description": "A fortified copse of ironwood trees on the trade route between Greymark and the eastern fens, maintained jointly by Thalren timber-wardens and Florae thorn-tenders. The trees here grow deliberately tangled, a living wall of iron-hard thorns that funnels all traffic through a single, watched gate.",
+    "description": "A fortified copse of ironwood trees on the trade route between Greymark and the eastern fens, maintained jointly by Tallyn timber-wardens and Florae thorn-tenders. The trees here grow deliberately tangled, a living wall of iron-hard thorns that funnels all traffic through a single, watched gate.",
     "dangerLevel": "low",
     "factions": [
-      "Thalren Trappers",
-      "Trueborn Florae"
+      "Tallyn Trappers",
+      "Briaren Florae"
     ],
     "connections": [
       "wraithfen",
@@ -150,7 +150,7 @@ export const ZONE_DATA = [
     "description": "An open stretch of thorn-covered heathland at the forest edge where the ironwood canopy breaks and the fog thins for the first time. Florae rangers patrol here, tending the thorn-barriers that mark the boundary between the Reach and the lowland approaches. The heath is beautiful in a savage way, crimson thorn-flowers bloom year-round in soil nourished by centuries of blood.",
     "dangerLevel": "medium",
     "factions": [
-      "Trueborn Florae"
+      "Briaren Florae"
     ],
     "connections": [
       "greythorn-copse",
@@ -166,11 +166,11 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Skald's Landing",
     "type": "settlement",
-    "description": "A small trading post on the northern river where Nordhalla longships dock after navigating the frozen waterways. The settlement is overwhelmingly Skald, timber longhouses with carved dragon-prows sit incongruously among the peat-stone Thalren architecture. The Skald traders exchange cold-iron, whale oil, and glacier ice for ironwood timber and resin.",
+    "description": "A small trading post on the northern river where Nordhalla longships dock after navigating the frozen waterways. The settlement is overwhelmingly Skald, timber longhouses with carved dragon-prows sit incongruously among the peat-stone Tallyn architecture. The Skald traders exchange cold-iron, whale oil, and glacier ice for ironwood timber and resin.",
     "dangerLevel": "low",
     "factions": [
       "Skald Traders",
-      "Thalren Trappers"
+      "Tallyn Trappers"
     ],
     "connections": [
       "bramble-heath",
@@ -183,10 +183,10 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Mirror Mere",
     "type": "settlement",
-    "description": "A perfectly still lake settlement where Masked Mimir test their reflections against their masks to ensure their identity holds. The mere never ripples, even in storm weather, the surface remains glass-still. Mimir scholars use the lake as a divination tool, reading the reflections of possible futures in its depths.",
+    "description": "A perfectly still lake settlement where Arch Mimir test their reflections against their masks to ensure their identity holds. The mere never ripples, even in storm weather, the surface remains glass-still. Mimir scholars use the lake as a divination tool, reading the reflections of possible futures in its depths.",
     "dangerLevel": "low",
     "factions": [
-      "Masked Mimir"
+      "Arch Mimir"
     ],
     "connections": [
       "greymark-keep",
@@ -199,7 +199,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Frostmaw Holdfast",
     "type": "city",
-    "description": "The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts. The oldest Fexric holdfast in the Cragjaw, operating for millennia before the Freezing Era. The Vat-Breakers' Revolt, in the early generations of the Freezing Era, birthed the Groven civilization here. The War of Thousand Screams, decades into the Freezing Era, was fought across its vertical tunnels.",
+    "description": "The primary fortress of House Tesshan, built into a titanic cavern high on the mountain peaks. Protected from the eternal blizzards by heavy iron blast-gates, the city is a vertical network of stone arches, smelting galleries, and steam-ducts. The oldest Fex holdfast in the Cragjaw, operating for millennia before the Freezing Era. The Vat-Breakers' Revolt, in the early generations of the Freezing Era, birthed the Groven civilization here. The War of Thousand Screams, decades into the Freezing Era, was fought across its vertical tunnels.",
     "dangerLevel": "low",
     "factions": [
       "house-tesshan",
@@ -222,7 +222,7 @@ export const ZONE_DATA = [
     "dangerLevel": "high",
     "factions": [
       "The Groven",
-      "Tessen Scouts"
+      "Tessic Scouts"
     ],
     "connections": [
       "frostmaw-holdfast",
@@ -254,11 +254,11 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Sump Galleries",
     "type": "wilderness",
-    "description": "The lower, toxic mining shafts beneath the mountain peaks, where Tessen miners wearing leather respirators extract sulfur and coal-iron. The air is warm but heavy with volcanic gases, and the shadows are home to scurrying, multi-legged horrors.",
+    "description": "The lower, toxic mining shafts beneath the mountain peaks, where Tessic miners wearing leather respirators extract sulfur and coal-iron. The air is warm but heavy with volcanic gases, and the shadows are home to scurrying, multi-legged horrors.",
     "dangerLevel": "high",
     "factions": [
       "Sump-Miners",
-      "Caustic Fexric"
+      "Alchemite"
     ],
     "connections": [
       "frostmaw-holdfast",
@@ -275,11 +275,11 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Deepchasm Keep",
     "type": "settlement",
-    "description": "A Tessen fortress built spanning a massive fissure in the mountain, its foundations anchored into both walls of the chasm with iron stakes driven into living rock. The keep controls the only reliable passage between the upper peaks and the lower mining galleries. Travelers cross on a bridge of Groven-calcified bone that groans underfoot.",
+    "description": "A Tessic fortress built spanning a massive fissure in the mountain, its foundations anchored into both walls of the chasm with iron stakes driven into living rock. The keep controls the only reliable passage between the upper peaks and the lower mining galleries. Travelers cross on a bridge of Groven-calcified bone that groans underfoot.",
     "dangerLevel": "medium",
     "factions": [
       "house-tesshan",
-      "Tessen Scouts"
+      "Tessic Scouts"
     ],
     "connections": [
       "frostmaw-holdfast",
@@ -292,11 +292,11 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Iron Ravine",
     "type": "wilderness",
-    "description": "A narrow, ore-rich gorge where Tessen miners extract cold-iron from seams of volcanic magnetite. The ravine walls are streaked red and black, and the air is thick with metallic dust. Mine-shafts honeycomb the cliff faces, connected by precarious wooden platforms and rope-bridges.",
+    "description": "A narrow, ore-rich gorge where Tessic miners extract cold-iron from seams of volcanic magnetite. The ravine walls are streaked red and black, and the air is thick with metallic dust. Mine-shafts honeycomb the cliff faces, connected by precarious wooden platforms and rope-bridges.",
     "dangerLevel": "high",
     "factions": [
       "Sump-Miners",
-      "Tessen Scouts"
+      "Tessic Scouts"
     ],
     "connections": [
       "deepchasm-keep",
@@ -351,11 +351,11 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Gearworks Gulch",
     "type": "settlement",
-    "description": "A Fexric industrial settlement built into a narrow ravine where steam-powered machinery grinds day and night. The gulch is heated by geothermal vents channeled through iron pipes, and the air is thick with sulfur and the constant clatter of industry. Fexric artisans here produce the finest clockwork mechanisms in the known world.",
+    "description": "A Fex industrial settlement built into a narrow ravine where steam-powered machinery grinds day and night. The gulch is heated by geothermal vents channeled through iron pipes, and the air is thick with sulfur and the constant clatter of industry. Fex artisans here produce the finest clockwork mechanisms in the known world.",
     "dangerLevel": "medium",
     "factions": [
-      "Caustic Fexric",
-      "Clockwork Fexric"
+      "Alchemite",
+      "Brasskin"
     ],
     "connections": [
       "sump-galleries",
@@ -389,7 +389,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "The Harath-Vault",
     "type": "city",
-    "description": "The massive subterranean capital of the Solari forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to Sol's Breath and industrial forge-caldera where the Hollow-Solari tend the eternal ember in sacred silence. The Solari vault-capital beneath Emberspire. The Hollow-Solari tending-clan has protected Sol's Breath here since before the Great Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Freezing Era.",
+    "description": "The massive subterranean capital of the Solari forge-clans in Sundale, carved radially into the volcanic throat of a dormant secondary caldera by the Sun-Speakers centuries before the sun's death. It serves as both sacred temple to Sol's Breath and industrial forge-caldera where the Korr tend the eternal ember in sacred silence. The Solari vault-capital beneath Emberspire. The Korr tending-clan has protected Sol's Breath here since before the Great Binding. The Forge of Grum, the first Berserker training ground, was established here in the first centuries of the Freezing Era.",
     "dangerLevel": "extreme",
     "factions": [
       "Solari Martyrs",
@@ -455,7 +455,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "house-solvan",
-      "Veldun Merchants"
+      "Weft Merchants"
     ],
     "connections": [
       "great-forge",
@@ -471,7 +471,7 @@ export const ZONE_DATA = [
     "description": "A vast, windswept desert of black obsidian sands and jagged glass spires. The wind here carries a toxic soot, and travelers must wear heavy leather wraps to protect their eyes from flying glass-shards and sudden volcanic fire-hazards.",
     "dangerLevel": "high",
     "factions": [
-      "Waste-Solari Badland Rangers"
+      "Anhur Badland Rangers"
     ],
     "connections": [
       "emberspire-caldera",
@@ -531,7 +531,7 @@ export const ZONE_DATA = [
     "dangerLevel": "high",
     "factions": [
       "Solari Watchers",
-      "Hollow-Solari"
+      "Korr"
     ],
     "connections": [
       "harath-vault",
@@ -547,7 +547,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Slag Gulch",
     "type": "settlement",
-    "description": "A narrow ravine settlement filled with forge waste and industrial debris, where Solari and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid, a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Terran.",
+    "description": "A narrow ravine settlement filled with forge waste and industrial debris, where Solari and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid, a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Span-Speech.",
     "dangerLevel": "medium",
     "factions": [
       "Solari Forge-Clans",
@@ -584,7 +584,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Merrowport",
     "type": "city",
-    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Nethien brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over the centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
+    "description": "A magnificent, floating city of wood and iron, anchored to a massive, warm subterranean volcanic seamount that keeps the surrounding waters perpetually unfrozen. Merrowport is the primary maritime trade hub, filled with Merryn captains, Athien brokers, and northern sailors. Established as a permanent port in the first centuries of the Freezing Era, Merrowport grew into the Iceheart's primary trade hub over the centuries. The Brine-Bond Syndicate formalized the Luck-Ledger here decades into the Freezing Era.",
     "dangerLevel": "low",
     "factions": [
       "house-mereval",
@@ -684,7 +684,7 @@ export const ZONE_DATA = [
     "dangerLevel": "medium",
     "factions": [
       "Merryn Pirates",
-      "Withered Outcasts"
+      "Riven Outcasts"
     ],
     "connections": [
       "merrowport",
@@ -797,7 +797,7 @@ export const ZONE_DATA = [
     "description": "A sprawling, seasonal settlement of heavy wooly-yurts built around the base of the great grass mounds. Here, nomadic throat-singers trade wool, dried meat, and memory-beads for cold-iron tools and salt.",
     "dangerLevel": "medium",
     "factions": [
-      "Ordan Nomads",
+      "Ordu Nomads",
       "Astril Outcast Guilds"
     ],
     "connections": [
@@ -812,11 +812,11 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Ancestor Mounds",
     "type": "tomb",
-    "description": "A vast network of grass-covered earthen barrows containing the preserved remains of twenty generations of Ordan chieftains. The mounds emit a low, continuous hum that guides lost travelers through the starless steppe.",
+    "description": "A vast network of grass-covered earthen barrows containing the preserved remains of twenty generations of Ordu chieftains. The mounds emit a low, continuous hum that guides lost travelers through the starless steppe.",
     "dangerLevel": "medium",
     "factions": [
       "Mound-Keepers",
-      "Stargazer Astril"
+      "Lumian"
     ],
     "connections": [
       "synod-hold",
@@ -835,7 +835,7 @@ export const ZONE_DATA = [
     "description": "An endless, wind-swept plain of grey-green grass that stretches beneath a permanently dark sky. The steppe is home to massive, woolly herds of tundra beasts, but travelers must watch for the sudden, hunting shadows of the Hungry Child.",
     "dangerLevel": "high",
     "factions": [
-      "Ordan Hunters"
+      "Ordu Hunters"
     ],
     "connections": [
       "mound-camps",
@@ -853,7 +853,7 @@ export const ZONE_DATA = [
     "description": "A unique region of the steppe where the grass is replaced by glowing, crystal-infused Lien-stalks. The soil here is highly fertile, but the crystalline grass makes grazing dangerous, attracting mutated beasts and crystal-skinned scavengers.",
     "dangerLevel": "extreme",
     "factions": [
-      "Brutish Astril"
+      "Kordak"
     ],
     "connections": [
       "ancestor-mounds",
@@ -868,11 +868,11 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Kumis Downs",
     "type": "wilderness",
-    "description": "Rolling hills of pale grass where Ordan mares graze in vast herds, producing the fermented mare's milk that is the steppe's primary trade good and sacred drink. The downs are peaceful by steppe standards, the herds are guarded by Ordan riders who know every hillock by heart. Throat-singing carries for miles across the open ground.",
+    "description": "Rolling hills of pale grass where Ordu mares graze in vast herds, producing the fermented mare's milk that is the steppe's primary trade good and sacred drink. The downs are peaceful by steppe standards, the herds are guarded by Ordu riders who know every hillock by heart. Throat-singing carries for miles across the open ground.",
     "dangerLevel": "low",
     "factions": [
-      "Ordan Nomads",
-      "Ordan Hunters"
+      "Ordu Nomads",
+      "Ordu Hunters"
     ],
     "connections": [
       "grass-tundra",
@@ -890,7 +890,7 @@ export const ZONE_DATA = [
     "description": "The vast central grasslands stretching from horizon to horizon, featureless except for the occasional burial mound or standing stone. The grass here is grey-green and tough as rope, growing waist-high even in the starless dark. Caravans navigate by the hum of the ancestral mounds, each mound produces a unique tone that carries through the earth.",
     "dangerLevel": "medium",
     "factions": [
-      "Ordan Nomads"
+      "Ordu Nomads"
     ],
     "connections": [
       "kumis-downs",
@@ -907,10 +907,10 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Starfall Vale",
     "type": "wilderness",
-    "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Stargazer Astril make pilgrimages here to commune with Lumia's echo.",
+    "description": "A deep valley in the otherwise flat steppe where crystalline shards from Lumia's destruction first struck Mythrill's surface. The valley floor is littered with fragments that glow faintly with trapped starlight, the physical residue of a world that no longer has a sun. Lumian make pilgrimages here to commune with Lumia's echo.",
     "dangerLevel": "high",
     "factions": [
-      "Stargazer Astril"
+      "Lumian"
     ],
     "connections": [
       "ancestor-mounds",
@@ -944,11 +944,11 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Morren's Bogpost",
     "type": "settlement",
-    "description": "A Vreken trading outpost at the forest-steppe edge where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordan wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Vreken traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established in the early generations of the Freezing Era as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
+    "description": "A Mycellan trading outpost at the forest-steppe edge where Bryngloom goods, fungal lights, memory-glass, bog-mushroom reagents, are exchanged for Ordu wool and hide. The outpost is a cluster of squat, peat-stone buildings that smell perpetually of bog-water. The Mycellan traders here are debt-brokers, always willing to extend credit at terms that seem generous until the interest compounds. Established in the early generations of the Freezing Era as the Bryngloom-Sundrift trade border-post. The Bogpost marks the forest-steppe border where the Bryngloom Bog-Route meets the Steppe Migration Circuit.",
     "dangerLevel": "medium",
     "factions": [
-      "Vreken Traders",
-      "Veldun Merchants"
+      "Mycellan Traders",
+      "Weft Merchants"
     ],
     "connections": [
       "mound-camps",
@@ -961,7 +961,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "The Thaw-Run",
     "type": "waterway",
-    "description": "The longest continuous river on Mythrill, born from the Cragjaw melt-lakes where the eternal blizzard's runoff collects against the volcanic heat of the lower peaks. The river flows south through the Sundrift Vale, providing the Ordan their primary water source and the Brook Myrathil their inland route from the Iceheart Sea. Near Ironjaw Port, the Thaw-Run empties into the ocean — this estuary was the first waterway to go silent when the ocean's frequency stopped.",
+    "description": "The longest continuous river on Mythrill, born from the Cragjaw melt-lakes where the eternal blizzard's runoff collects against the volcanic heat of the lower peaks. The river flows south through the Sundrift Vale, providing the Ordu their primary water source and the Brook Myrathil their inland route from the Iceheart Sea. Near Ironjaw Port, the Thaw-Run empties into the ocean — this estuary was the first waterway to go silent when the ocean's frequency stopped.",
     "dangerLevel": "low",
     "factions": [
       "house-ordavan"
@@ -976,11 +976,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Atropolis",
     "type": "city",
-    "description": "The magnificent, suspended canopy city of the Nethien, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Freezing Era, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward since the Freeze began.",
+    "description": "The magnificent, suspended canopy city of the Athien, constructed inside a cathedral-grove of living ironwoods coaxed into shape over a thousand years. A quiet city of branch-walkways, lawyers, pact-mages, and merchants who view survival as a binding agreement and write their records on glowing memory-glass. Founded in the early generations of the Freezing Era, built around the Heart-Vault where the First Contract is preserved. The city has grown downward and outward since the Freeze began.",
     "dangerLevel": "low",
     "factions": [
-      "Nethien Pact-Lords",
-      "Nethien Merchants"
+      "Athien Pact-Lords",
+      "Athien Merchants"
     ],
     "connections": [
       "the-sunken-spire",
@@ -998,10 +998,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Sunken Spire",
     "type": "city",
-    "description": "The inverted subterranean capital of the Vreken, a colossal cathedral and crypt carved four hundred feet down into a peat-stone sinkhole. Lit solely by the phosphorescence of entombed ancestors wrapped in fungal shrouds, it is a place of deep ancestor veneration and silent, glowing graves. The oldest Vreken crypt-cathedral in the Bryngloom, predating the Freezing Era. Aedris, the first recorded Over-Lit, served as Veil-Speaker here for forty years before her condition was documented, in the middle decades of the Freeze.",
+    "description": "The inverted subterranean capital of the Mycellan, a colossal cathedral and crypt carved four hundred feet down into a peat-stone sinkhole. Lit solely by the phosphorescence of entombed ancestors wrapped in fungal shrouds, it is a place of deep ancestor veneration and silent, glowing graves. The oldest Mycellan crypt-cathedral in the Bryngloom, predating the Freezing Era. Aedris, the first recorded Over-Lit, served as Veil-Speaker here for forty years before her condition was documented, in the middle decades of the Freeze.",
     "dangerLevel": "low",
     "factions": [
-      "Clean Vreken",
+      "Bedel",
       "Crypt-Council"
     ],
     "connections": [
@@ -1020,8 +1020,8 @@ export const ZONE_DATA = [
     "description": "A treacherous swamp of bottomless, preserving black peat and sinking moss. The water is thick and acidic, and the bogs are filled with the preserved, aware corpses of ancient debtors who rose when their contracts were broken by death.",
     "dangerLevel": "high",
     "factions": [
-      "Vreken Peat-Cutters",
-      "Withered Outcasts"
+      "Mycellan Peat-Cutters",
+      "Riven Outcasts"
     ],
     "connections": [
       "the-sunken-spire",
@@ -1037,11 +1037,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Over-Shanty",
     "type": "settlement",
-    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Vreken peat-cutters and the leaden-skinned Withered outcasts who chose to burn their names from the First Contract. Established in the middle decades of the Freeze at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
+    "description": "A chaotic, hanging slum of rope-bridges and ramshackle wooden cabins built under Atropolis's main platforms. It is populated by sallow-skinned Mycellan peat-cutters and the leaden-skinned Riven outcasts who chose to burn their names from the First Contract. Established in the middle decades of the Freeze at the edge of the peat-bogs. The Cult of Forgotten Shadow made first contact with the deep dark from the crypts beneath here in the most recent centuries.",
     "dangerLevel": "high",
     "factions": [
-      "Withered Outcasts",
-      "Vreken Peat-Cutters"
+      "Riven Outcasts",
+      "Mycellan Peat-Cutters"
     ],
     "connections": [
       "peat-bog-sinks",
@@ -1059,7 +1059,7 @@ export const ZONE_DATA = [
     "description": "A treacherous bog area where the ground liquefies without warning, swallowing travelers whole. The quagmire earned its name from the Morren widows who, according to legend, walked into the bog willingly to join their debt-dead husbands, and now preserve forever in the peat, their hands still clutching unsigned contract-fragments.",
     "dangerLevel": "extreme",
     "factions": [
-      "Vreken Peat-Cutters"
+      "Mycellan Peat-Cutters"
     ],
     "connections": [
       "peat-bog-sinks",
@@ -1075,10 +1075,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Black Fen",
     "type": "wilderness",
-    "description": "An acidic fen where nothing grows and the water is black as ink. The fen is the dumping ground of the Nethien contract courts, failed contracts, dissolved agreements, and legally-voided individuals are cast into its depths. The acidity is so extreme that bone dissolves within hours. Nothing preserved here. Nothing remembered. The Nethien call it the Final Clause.",
+    "description": "An acidic fen where nothing grows and the water is black as ink. The fen is the dumping ground of the Athien contract courts, failed contracts, dissolved agreements, and legally-voided individuals are cast into its depths. The acidity is so extreme that bone dissolves within hours. Nothing preserved here. Nothing remembered. The Athien call it the Final Clause.",
     "dangerLevel": "extreme",
     "factions": [
-      "Nethien Pact-Lords"
+      "Athien Pact-Lords"
     ],
     "connections": [
       "widows-quagmire",
@@ -1094,11 +1094,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Vel-Keth Bayou",
     "type": "wilderness",
-    "description": "A marshy channel in the deep forest named in the Nethien tongue, Vel-Keth translates roughly to \"the water that remembers.\" The bayou flows against the natural gradient, defying physics in ways the Nethien insist are perfectly legal under the First Contract. Memory-glass deposits line the banks, glowing faintly with recorded thoughts of the long-dead.",
+    "description": "A marshy channel in the deep forest named in the Athien tongue, Vel-Keth translates roughly to \"the water that remembers.\" The bayou flows against the natural gradient, defying physics in ways the Athien insist are perfectly legal under the First Contract. Memory-glass deposits line the banks, glowing faintly with recorded thoughts of the long-dead.",
     "dangerLevel": "high",
     "factions": [
-      "Veldun Weavers",
-      "Nethien Pact-Lords"
+      "Weft Weavers",
+      "Athien Pact-Lords"
     ],
     "connections": [
       "black-fen",
@@ -1114,11 +1114,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Aran-Glen",
     "type": "settlement",
-    "description": "A narrow valley in the forest's heart where Veldun weavers tend the living ironwood groves that supply Atropolis with building material. The glen is peaceful by Bryngloom standards, the Nethien legal presence here is strong enough to enforce the Contract's non-aggression clauses. The buildings are grown, not built, coaxed from living wood over decades.",
+    "description": "A narrow valley in the forest's heart where Weft weavers tend the living ironwood groves that supply Atropolis with building material. The glen is peaceful by Bryngloom standards, the Athien legal presence here is strong enough to enforce the Contract's non-aggression clauses. The buildings are grown, not built, coaxed from living wood over decades.",
     "dangerLevel": "low",
     "factions": [
-      "Veldun Weavers",
-      "Nethien Pact-Lords"
+      "Weft Weavers",
+      "Athien Pact-Lords"
     ],
     "connections": [
       "vel-keth-bayou",
@@ -1131,10 +1131,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fangmere Grove",
     "type": "ruin",
-    "description": "A small, sacred wood where Vreken hold blood-rites and ancestral communion ceremonies. The trees here grow in a perfect circle, their roots intertwined with the bones of Vreken dead. The grove is quiet, preternaturally so. Even the ambient bioluminescence dims here, as if the light itself shows respect.",
+    "description": "A small, sacred wood where Mycellan hold blood-rites and ancestral communion ceremonies. The trees here grow in a perfect circle, their roots intertwined with the bones of Mycellan dead. The grove is quiet, preternaturally so. Even the ambient bioluminescence dims here, as if the light itself shows respect.",
     "dangerLevel": "medium",
     "factions": [
-      "Clean Vreken",
+      "Bedel",
       "Crypt-Council"
     ],
     "connections": [
@@ -1186,7 +1186,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Grevtholm",
     "type": "settlement",
-    "description": "A fortified stone keep at the edge of the Frostfang Wastes, the northernmost Thalren outpost, manned by the Greymark Northwatch. The keep is built into a granite outcrop and ringed with carved warning-runes. The Grevtholm garrison is the only thing keeping the Jutul warbands from ranging freely into the southern Reach.",
+    "description": "A fortified stone keep at the edge of the Frostfang Wastes, the northernmost Tallyn outpost, manned by the Greymark Northwatch. The keep is built into a granite outcrop and ringed with carved warning-runes. The Grevtholm garrison is the only thing keeping the Jutul warbands from ranging freely into the southern Reach.",
     "dangerLevel": "medium",
     "factions": [
       "Greymark Northwatch"
@@ -1246,7 +1246,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Meadowglen Crossing",
     "type": "settlement",
-    "description": "A waystation on the wide grass valley between the Frostwood Reach and Sundale, the only place where the ironwood thins enough to graze cattle. A market-town of mixed Thalren and Solari, the Crossing is officially under Greymark's writ but in practice answers to whichever side of the valley sent the last patrol. Trades: peat-iron, Solvan sulfur-lamps, Mist-Sentinel fish.",
+    "description": "A waystation on the wide grass valley between the Frostwood Reach and Sundale, the only place where the ironwood thins enough to graze cattle. A market-town of mixed Tallyn and Solari, the Crossing is officially under Greymark's writ but in practice answers to whichever side of the valley sent the last patrol. Trades: peat-iron, Solvan sulfur-lamps, Mist-Sentinel fish.",
     "dangerLevel": "low",
     "factions": [
       "House Thalreth (nominally)",
@@ -1284,7 +1284,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Konjaw Port",
     "type": "settlement",
-    "description": "A fishing port on Sundale's southern coast, the most cosmopolitan town in the region. Merryn captains, Frostwood Thalren exiles, and Solari forge-clans all dock here. The Dawn Vigil holds the citadel at the harbor-mouth, but the back-alleys are the Risen's, and the cult of the old sun-veneration has its public shrines in plain view. Konjaw is the only Sundale port where the Sea-Charter is honored without the Board of Trade's registration.",
+    "description": "A fishing port on Sundale's southern coast, the most cosmopolitan town in the region. Merryn captains, Frostwood Tallyn exiles, and Solari forge-clans all dock here. The Dawn Vigil holds the citadel at the harbor-mouth, but the back-alleys are the Risen's, and the cult of the old sun-veneration has its public shrines in plain view. Konjaw is the only Sundale port where the Sea-Charter is honored without the Board of Trade's registration.",
     "dangerLevel": "low",
     "factions": [
       "Dawn Vigil (harbor)",
@@ -1304,7 +1304,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Ironjaw Village",
     "type": "settlement",
-    "description": "A small Solari fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Shorn exiles from the old Solvan nobility live here in disguise.",
+    "description": "A small Solari fishing-and-smelting hamlet south of Konjaw Port, named for the iron-rimmed volcanic crater that the villagers use as a forge. The Dawn Vigil's patrols are infrequent; the villagers prefer it that way. A handful of Shaven exiles from the old Solvan nobility live here in disguise.",
     "dangerLevel": "low",
     "factions": [
       "Ironjaw Council",
@@ -1372,12 +1372,12 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Breezebough",
     "type": "settlement",
-    "description": "A market-town at the western edge of the Green Rim, where the warm sea-breezes meet the ashen plain. Breezebough is the trading-hub between the Dawn Vigil's territory and the Frostwood Reach, Thalren ink, Solvan obsidian, Merryn salt-fish, and Solari sulfur change hands in the open square. The town is technically under Hierophant Aethelgard's writ; in practice, the council of merchants governs.",
+    "description": "A market-town at the western edge of the Green Rim, where the warm sea-breezes meet the ashen plain. Breezebough is the trading-hub between the Dawn Vigil's territory and the Frostwood Reach, Tallyn ink, Solvan obsidian, Merryn salt-fish, and Solari sulfur change hands in the open square. The town is technically under Hierophant Aethelgard's writ; in practice, the council of merchants governs.",
     "dangerLevel": "low",
     "factions": [
       "Dawn Vigil (nominally)",
       "Merchant Council",
-      "Thalren trading-posts"
+      "Tallyn trading-posts"
     ],
     "connections": [
       "meadowglen",
@@ -1390,12 +1390,12 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "The Glittering Forest",
     "type": "wilderness",
-    "description": "A peninsula connected to Sundale's main landmass by a narrow isthmus, a half-island, the greenest land in the region. Crystal-rich volcanic soil supports ancient broadleaf forest; the leaves catch the volcanic light and throw it back in shards. Long thought cursed, the Glitterwood is now the home of the Risen, the Shorn exiles of the old Solvan nobility, and hermits who fled the Dawn Vigil's conscription. The Dawn Vigil pretends the isthmus does not exist.",
+    "description": "A peninsula connected to Sundale's main landmass by a narrow isthmus, a half-island, the greenest land in the region. Crystal-rich volcanic soil supports ancient broadleaf forest; the leaves catch the volcanic light and throw it back in shards. Long thought cursed, the Glitterwood is now the home of the Risen, the Oaken exiles of the old Solvan nobility, and hermits who fled the Dawn Vigil's conscription. The Dawn Vigil pretends the isthmus does not exist.",
     "dangerLevel": "low",
     "factions": [
       "The Risen",
       "Free Glitterwood Council",
-      "Shorn exiles"
+      "Shaven exiles"
     ],
     "connections": [
       "glitterwood-heart",
@@ -1514,11 +1514,11 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Alley of Knor",
     "type": "wilderness",
-    "description": "A narrow pass through the Cragjaw's central spine, the only east-west route through the peaks that does not require Groven bone-bridges. The alley is named for the ancient Fexric runemaster Knor, who carved the warning-runes on the cliff walls when the Tesshan first came. Avalanches are common; the Alley is closed in winter.",
+    "description": "A narrow pass through the Cragjaw's central spine, the only east-west route through the peaks that does not require Groven bone-bridges. The alley is named for the ancient Fex runemaster Knor, who carved the warning-runes on the cliff walls when the Tesshan first came. Avalanches are common; the Alley is closed in winter.",
     "dangerLevel": "high",
     "factions": [
-      "Tessen patrols",
-      "Fexric engineer-corps"
+      "Tessic patrols",
+      "Fex engineer-corps"
     ],
     "connections": [
       "the-great-gorge",
@@ -1538,7 +1538,7 @@ export const ZONE_DATA = [
     "factions": [
       "House Tesshan",
       "Steam-Line Cartel",
-      "Clockwork Fexric"
+      "Brasskin"
     ],
     "connections": [
       "frostmaw-holdfast",
@@ -1551,11 +1551,11 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Driknell Foundry",
     "type": "settlement",
-    "description": "A Fexric industrial complex in the deep Iron Sumps, the largest forge-works in the Cragjaw, fed by geothermal pipes from below. Driknell stamps the Tesshan sigil onto every Ironclad plate that comes off the line. The Caustic Fexric Clan-Free workers in the lower foundries are the most numerous Fexric caste; the Clockwork Fexric overseers in the upper halls are the most despised.",
+    "description": "A Fex industrial complex in the deep Iron Sumps, the largest forge-works in the Cragjaw, fed by geothermal pipes from below. Driknell stamps the Tesshan sigil onto every Ironclad plate that comes off the line. The Alchemite Clan-Free workers in the lower foundries are the most numerous Fex caste; the Brasskin overseers in the upper halls are the most despised.",
     "dangerLevel": "medium",
     "factions": [
-      "Clockwork Fexric",
-      "Caustic Fexric",
+      "Brasskin",
+      "Alchemite",
       "Steam-Line Cartel"
     ],
     "connections": [
@@ -1572,10 +1572,10 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Blizzard Bluff",
     "type": "wilderness",
-    "description": "A high cold bluff on the northern edge of the Sundrift Vale, separating the warmer steppe from the deep ice of the Frostwood Reach. The Ordan call this the Snow-Tooth, the wind here never stops, and the cairns along the bluff are half-buried in the worst winters. Ordan sentry-posts watch the passes; the few who cross into the Frostwood rarely come back.",
+    "description": "A high cold bluff on the northern edge of the Sundrift Vale, separating the warmer steppe from the deep ice of the Frostwood Reach. The Ordu call this the Snow-Tooth, the wind here never stops, and the cairns along the bluff are half-buried in the worst winters. Ordu sentry-posts watch the passes; the few who cross into the Frostwood rarely come back.",
     "dangerLevel": "high",
     "factions": [
-      "Ordan March Wardens",
+      "Ordu March Wardens",
       "Frostwood Palisade patrols (visiting)"
     ],
     "connections": [
@@ -1590,7 +1590,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Nova's Heath",
     "type": "wilderness",
-    "description": "A stretch of the eastern Ancestor Wolds where a single celestial impact scorched the earth centuries ago, leaving a perfect circle of crystallized soil. The Astril come here to meditate; the Ordan avoid it, saying the ground is unlucky. The Unlit Veil is rumored to hold a hidden judgment-hill within the Heath's heart.",
+    "description": "A stretch of the eastern Ancestor Wolds where a single celestial impact scorched the earth centuries ago, leaving a perfect circle of crystallized soil. The Astril come here to meditate; the Ordu avoid it, saying the ground is unlucky. The Unlit Veil is rumored to hold a hidden judgment-hill within the Heath's heart.",
     "dangerLevel": "medium",
     "factions": [
       "Astril Synod (visiting)",
@@ -1608,11 +1608,11 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "The Moundwatch",
     "type": "settlement",
-    "description": "A cairn-checkpoint in the eastern Wolds, manned by Ordan March Wardens who enforce the Herd-Tithe. Every migrating clan must stop here to register their herds, their people, and the names of the dead carried for burial at the Ancestor Mounds. The Moundwatch's records are the only continuous chronicle of the Ordan people.",
+    "description": "A cairn-checkpoint in the eastern Wolds, manned by Ordu March Wardens who enforce the Herd-Tithe. Every migrating clan must stop here to register their herds, their people, and the names of the dead carried for burial at the Ancestor Mounds. The Moundwatch's records are the only continuous chronicle of the Ordu people.",
     "dangerLevel": "low",
     "factions": [
       "House Ordavan",
-      "Ordan March Wardens"
+      "Ordu March Wardens"
     ],
     "connections": [
       "ancestor-mounds"
@@ -1726,7 +1726,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Blackteeth Isle",
     "type": "settlement",
-    "description": "A volcanic island in the Merrow Archipelago, home to a Drift-Council representatives' house and a Brine-Bond Syndicate warehouse. The island's black-granite cliffs make a natural breakwater; the harbor is the second-busiest in the archipelago after Merrowport. The locals are fiercely loyal to the Drift-Council and despise Ironjaw Port's Nethien administrators.",
+    "description": "A volcanic island in the Merrow Archipelago, home to a Drift-Council representatives' house and a Brine-Bond Syndicate warehouse. The island's black-granite cliffs make a natural breakwater; the harbor is the second-busiest in the archipelago after Merrowport. The locals are fiercely loyal to the Drift-Council and despise Ironjaw Port's Athien administrators.",
     "dangerLevel": "low",
     "factions": [
       "Drift-Council",
@@ -1778,10 +1778,10 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Great Mere",
     "type": "wilderness",
-    "description": "The vast central lake of the Bryngloom Forest, dotted with small wooded islands. The Mere is the trade-hub of the forest, Merryn barges tie up at the lake-ports, Vreken shrines hide on the western islands, and an old Nethien monastery stands on the largest. The lake level rises and falls with the moon; the islands that are above-water one season may be underwater the next.",
+    "description": "The vast central lake of the Bryngloom Forest, dotted with small wooded islands. The Mere is the trade-hub of the forest, Merryn barges tie up at the lake-ports, Mycellan shrines hide on the western islands, and an old Athien monastery stands on the largest. The lake level rises and falls with the moon; the islands that are above-water one season may be underwater the next.",
     "dangerLevel": "low",
     "factions": [
-      "Lake-Council (joint Nethien/Merryn)",
+      "Lake-Council (joint Athien/Merryn)",
       "Monks of the Sunken Stone"
     ],
     "connections": [
@@ -1797,11 +1797,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Monks of the Sunken Stone",
     "type": "settlement",
-    "description": "A Nethien monastery on the largest island in the Great Mere, founded before the First Contract. The monks keep the lake's old record-stones, basalt slabs on which the original Nethien clans carved their genealogies. The monastery is half-submerged in the high-water season; the monks live on platforms above the water-line and dive to read the stones in the low-water season.",
+    "description": "A Athien monastery on the largest island in the Great Mere, founded before the First Contract. The monks keep the lake's old record-stones, basalt slabs on which the original Athien clans carved their genealogies. The monastery is half-submerged in the high-water season; the monks live on platforms above the water-line and dive to read the stones in the low-water season.",
     "dangerLevel": "low",
     "factions": [
       "Monks of the Sunken Stone",
-      "Nethien Pact-Lords (visiting)"
+      "Athien Pact-Lords (visiting)"
     ],
     "connections": [
       "the-great-mere"
@@ -1829,7 +1829,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Crypt of Aedris",
     "type": "tomb",
-    "description": "The deepest chamber of the Sunken Spire, where Aedris the First-Lit is interred in a basalt sarcophagus that glows with an eternal pale-moonlight. The Vault-Breath, a six-hour meditative technique, is taught to Veil-Speakers here; the eternal light is tended in shifts by silent priests. The Chamber of Records, where every Vreken who has ever lived has their name sung, lies below.",
+    "description": "The deepest chamber of the Sunken Spire, where Aedris the First-Lit is interred in a basalt sarcophagus that glows with an eternal pale-moonlight. The Vault-Breath, a six-hour meditative technique, is taught to Veil-Speakers here; the eternal light is tended in shifts by silent priests. The Chamber of Records, where every Mycellan who has ever lived has their name sung, lies below.",
     "dangerLevel": "high",
     "factions": [
       "Veil-Speakers",
@@ -1847,11 +1847,11 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Drowned Dingle",
     "type": "wilderness",
-    "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route, the Vreken peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Nethien Veldun; they believe each submerged trunk is a sealed contract.",
+    "description": "A drowned forest in the western bayous, where the ironwood trunks stand black in a shallow lake of tannin-stained water. The Drowned Dingle is a smuggler's route, the Mycellan peat-cutters use it to move un-registered peat past the Covenbane's checkpoints. The drowned wood is sacred to the Athien Weft; they believe each submerged trunk is a sealed contract.",
     "dangerLevel": "medium",
     "factions": [
-      "Vreken smugglers",
-      "Nethien Veldun (pilgrims)"
+      "Mycellan smugglers",
+      "Athien Weft (pilgrims)"
     ],
     "connections": [
       "hunters-gully",
@@ -1882,10 +1882,10 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "The Shifting Fen",
     "type": "wilderness",
-    "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight, paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Tethered Mimir say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where Keth Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
+    "description": "A peat-bog in the eastern Fens whose geography rearranges itself overnight, paths taken at dawn are not there at dusk, islands become pools, pools become solid ground. The Broken Mimir say the Fen is a wound where the Reach's memory-fog has eaten a hole in the world; the Forgotten who shelter here say it is a place where Keth Amar's tendrils cannot reach, because nothing here stays the same long enough to be remembered.",
     "dangerLevel": "high",
     "factions": [
-      "Tethered Mimir",
+      "Broken Mimir",
       "The Forgotten"
     ],
     "connections": [
@@ -1904,7 +1904,7 @@ export const ZONE_DATA = [
     "description": "A pre-Thalreth burial mound on the eastern edge of the Reach, untouched by the memory-fog for reasons no Scribe-Sentinel has ever been able to explain. The barrow predates House Thalreth; the original inhabitants are unknown. The Mist-Sentinels are forbidden to enter; the Florae come here to grieve for the Forgotten who have no other grave.",
     "dangerLevel": "medium",
     "factions": [
-      "Trueborn Florae (pilgrims)"
+      "Briaren Florae (pilgrims)"
     ],
     "connections": [
       "the-shifting-fen"
@@ -1952,7 +1952,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Lost Brood Vats",
     "type": "ruin",
-    "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Freezing Era. The vats are deep below Gearworks Gulch, accessible only through a Fexric service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fexric refuse to speak of what.",
+    "description": "The abandoned chambers of the Deep Alchemists, sealed after the Lost Brood rebellion in the early generations of the Freezing Era. The vats are deep below Gearworks Gulch, accessible only through a Fex service-shaft that was supposed to have been collapsed. Something survived the sealing. The Fex refuse to speak of what.",
     "dangerLevel": "extreme",
     "factions": [],
     "connections": [
@@ -1967,7 +1967,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The Root-Veil Scriptorium",
     "type": "settlement",
-    "description": "The library of unbreakable memory at the heart of the Root-Veil, the deepest archive in the Bryngloom, where every Nethien contract ever written is held in ironwood-root crystals. Morvane guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
+    "description": "The library of unbreakable memory at the heart of the Root-Veil, the deepest archive in the Bryngloom, where every Athien contract ever written is held in ironwood-root crystals. Morvane guards the entrance. Few have entered and returned; fewer still have entered and emerged unchanged.",
     "dangerLevel": "extreme",
     "factions": [
       "Morvane",
@@ -1977,7 +1977,7 @@ export const ZONE_DATA = [
       "atropolis"
     ],
     "wyrdCreatures": [
-      "Veldun-Wraith"
+      "Weft-Wraith"
     ]
   },
   {
@@ -2117,7 +2117,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Briar-Thorn Tangle",
     "type": "wilderness",
-    "description": "A dense thorn-thicket masking a hidden Oken Florae enclave. The thorns lie flat for those who know the old oaths.",
+    "description": "A dense thorn-thicket masking a hidden Oaken Florae enclave. The thorns lie flat for those who know the old oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2156,7 +2156,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Thorn-Refuge Copse",
     "type": "wilderness",
-    "description": "A hidden Viridian Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
+    "description": "A hidden Briaren Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2520,7 +2520,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Half-Salt Bog Hamlet",
     "type": "settlement",
-    "description": "A brackish-water hamlet of Vreken peat-cutters and pool-dwellers.",
+    "description": "A brackish-water hamlet of Mycellan peat-cutters and pool-dwellers.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2596,7 +2596,7 @@ export const ZONE_DATA = [
   {
     "id": "ithran-toll-post-village",
     "regionId": "cragjaw-peaks",
-    "name": "Ithran Toll-Post Village",
+    "name": "Amordjin Toll-Post Village",
     "type": "settlement",
     "description": "A bridge-top toll-village of fine-scaled Groven diplomats; every crossing pays in kind or coin.",
     "dangerLevel": "low",
@@ -2611,7 +2611,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Cliff-Andene Hanging-Terrace",
     "type": "settlement",
-    "description": "A mid-altitude terrace-camp of Tessen soldiers and Murmur-Blooded bridge-tenders.",
+    "description": "A mid-altitude terrace-camp of Tessic soldiers and Murmur-Blooded bridge-tenders.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2741,7 +2741,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Mare-Herd Following-Camp",
     "type": "settlement",
-    "description": "A Mounted-clan camp tracking the Ordan mares across the Downs; Steppe-Staves record pasture-rights.",
+    "description": "A Mounted-clan camp tracking the Ordu mares across the Downs; Steppe-Staves record pasture-rights.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2910,7 +2910,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Peat-Edge Ford Hamlet",
     "type": "settlement",
-    "description": "A hamlet at the marshy ford where Ordan horse-traders and Vreken peat-cutters meet and intermarry.",
+    "description": "A hamlet at the marshy ford where Ordu horse-traders and Mycellan peat-cutters meet and intermarry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2923,7 +2923,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Thermal-Bore Sinkhole",
     "type": "wilderness",
-    "description": "A toxic sulfur-sinkhole opened by forced Fexric boring; it swallows migrating beasts.",
+    "description": "A toxic sulfur-sinkhole opened by forced Fex boring; it swallows migrating beasts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2934,9 +2934,9 @@ export const ZONE_DATA = [
   {
     "id": "neth-scribe-outpost",
     "regionId": "sundrift-vale",
-    "name": "Nethien-Scribe Outpost",
+    "name": "Athien-Scribe Outpost",
     "type": "settlement",
-    "description": "A small Bryngloom Nethien trade-annex recording the Bogpost's cross-border debts.",
+    "description": "A small Bryngloom Athien trade-annex recording the Bogpost's cross-border debts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3027,7 +3027,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Lantern-Eye Way",
     "type": "settlement",
-    "description": "A lane down into the Spire lit by the rust-amber lantern-eyes of Clean Vreken residents.",
+    "description": "A lane down into the Spire lit by the rust-amber lantern-eyes of Bedel residents.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3038,9 +3038,9 @@ export const ZONE_DATA = [
   {
     "id": "marked-vrekin-rim-slum",
     "regionId": "bryngloom-forest",
-    "name": "The Marked-Vreken Rim-Slum",
+    "name": "The Cromyx-Mycellan Rim-Slum",
     "type": "settlement",
-    "description": "The segregated silver-eyed Marked Vreken slum around the sinkhole's upper rim.",
+    "description": "The segregated silver-eyed Cromyx slum around the sinkhole's upper rim.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3053,7 +3053,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Veil-Speaker Chant-Hall",
     "type": "settlement",
-    "description": "A fungal-shroud hall where Vreken chant to the ancestors wrapped in living mycelium.",
+    "description": "A fungal-shroud hall where Mycellan chant to the ancestors wrapped in living mycelium.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3092,7 +3092,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Rot-Fume Hut",
     "type": "settlement",
-    "description": "A Vreken peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
+    "description": "A Mycellan peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3131,7 +3131,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Probability-Loom House",
     "type": "settlement",
-    "description": "A Veldun village-house of living-wood looms where weavers read the forest's probability-web.",
+    "description": "A Weft village-house of living-wood looms where weavers read the forest's probability-web.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3144,7 +3144,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fae-Contract Bark-Grove",
     "type": "wilderness",
-    "description": "A grove of ironwoods carved with pre-Nethien fae-contracts in their bark; older than the Registry.",
+    "description": "A grove of ironwoods carved with pre-Athien fae-contracts in their bark; older than the Registry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3183,7 +3183,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The First-Contract Signing-Hollow",
     "type": "ruin",
-    "description": "The deep hollow where the Nethien ancestors signed the First Contract with Morvane; still radiates authority.",
+    "description": "The deep hollow where the Athien ancestors signed the First Contract with Morvane; still radiates authority.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -3196,7 +3196,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Threshold-Shrine Hermitage",
     "type": "settlement",
-    "description": "A monastic hermitage of Veldun bound as Morvane's spirit-conduits over a deep sinkhole.",
+    "description": "A monastic hermitage of Weft bound as Morvane's spirit-conduits over a deep sinkhole.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3365,7 +3365,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Briar-Thorn Tangle",
     "type": "wilderness",
-    "description": "A dense thorn-thicket masking a hidden Oken Florae enclave. The thorns lie flat for those who know the old oaths.",
+    "description": "A dense thorn-thicket masking a hidden Oaken Florae enclave. The thorns lie flat for those who know the old oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3508,7 +3508,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Thorn-Refuge Copse",
     "type": "wilderness",
-    "description": "A hidden Viridian Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
+    "description": "A hidden Briaren Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4119,7 +4119,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Exile-Colony Stack",
     "type": "settlement",
-    "description": "A skerry colony of exiled Nethien and Tide-Speakers; they farm kelp and avoid oaths.",
+    "description": "A skerry colony of exiled Athien and Tide-Speakers; they farm kelp and avoid oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4158,7 +4158,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Half-Salt Bog Hamlet",
     "type": "settlement",
-    "description": "A brackish-water hamlet of Vreken peat-cutters and pool-dwellers.",
+    "description": "A brackish-water hamlet of Mycellan peat-cutters and pool-dwellers.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4247,7 +4247,7 @@ export const ZONE_DATA = [
   {
     "id": "ithran-toll-post-village",
     "regionId": "cragjaw-peaks",
-    "name": "Ithran Toll-Post Village",
+    "name": "Amordjin Toll-Post Village",
     "type": "settlement",
     "description": "A bridge-top toll-village of fine-scaled Groven diplomats; every crossing pays in kind or coin.",
     "dangerLevel": "low",
@@ -4262,7 +4262,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Cliff-Andene Hanging-Terrace",
     "type": "settlement",
-    "description": "A mid-altitude terrace-camp of Tessen soldiers and Murmur-Blooded bridge-tenders.",
+    "description": "A mid-altitude terrace-camp of Tessic soldiers and Murmur-Blooded bridge-tenders.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4405,7 +4405,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Mare-Herd Following-Camp",
     "type": "settlement",
-    "description": "A Mounted-clan camp tracking the Ordan mares across the Downs; Steppe-Staves record pasture-rights.",
+    "description": "A Mounted-clan camp tracking the Ordu mares across the Downs; Steppe-Staves record pasture-rights.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4509,7 +4509,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Cairn-Checkpoint Garrison",
     "type": "settlement",
-    "description": "An Ordan March-Warden post enforcing the Herd-Tithe at the cairn-line.",
+    "description": "An Ordu March-Warden post enforcing the Herd-Tithe at the cairn-line.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4600,7 +4600,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Peat-Edge Ford Hamlet",
     "type": "settlement",
-    "description": "A hamlet at the marshy ford where Ordan horse-traders and Vreken peat-cutters meet and intermarry.",
+    "description": "A hamlet at the marshy ford where Ordu horse-traders and Mycellan peat-cutters meet and intermarry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4613,7 +4613,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Thermal-Bore Sinkhole",
     "type": "wilderness",
-    "description": "A toxic sulfur-sinkhole opened by forced Fexric boring; it swallows migrating beasts.",
+    "description": "A toxic sulfur-sinkhole opened by forced Fex boring; it swallows migrating beasts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4624,9 +4624,9 @@ export const ZONE_DATA = [
   {
     "id": "neth-scribe-outpost",
     "regionId": "sundrift-vale",
-    "name": "Nethien-Scribe Outpost",
+    "name": "Athien-Scribe Outpost",
     "type": "settlement",
-    "description": "A small Bryngloom Nethien trade-annex recording the Bogpost's cross-border debts.",
+    "description": "A small Bryngloom Athien trade-annex recording the Bogpost's cross-border debts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4639,7 +4639,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Sentry-Yurt Post",
     "type": "settlement",
-    "description": "A wind-blasted Ordan frontier post watching the Snow-Tooth passes for Frostwood patrols.",
+    "description": "A wind-blasted Ordu frontier post watching the Snow-Tooth passes for Frostwood patrols.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4663,7 +4663,7 @@ export const ZONE_DATA = [
   {
     "id": "frostwood-meeting-stones",
     "regionId": "sundrift-vale",
-    "name": "Frostwood-Thalren Meeting-Stones",
+    "name": "Frostwood-Tallyn Meeting-Stones",
     "type": "wilderness",
     "description": "Cairns where Frostwood and Sundrift patrols meet to exchange weather-reports and warnings.",
     "dangerLevel": "low",
@@ -4756,7 +4756,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Lantern-Eye Way",
     "type": "settlement",
-    "description": "A lane down into the Spire lit by the rust-amber lantern-eyes of Clean Vreken residents.",
+    "description": "A lane down into the Spire lit by the rust-amber lantern-eyes of Bedel residents.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4767,9 +4767,9 @@ export const ZONE_DATA = [
   {
     "id": "marked-vrekin-rim-slum",
     "regionId": "bryngloom-forest",
-    "name": "The Marked-Vrekin Rim-Slum",
+    "name": "The Cromyx-Vrekin Rim-Slum",
     "type": "settlement",
-    "description": "The segregated silver-eyed Marked Vreken slum around the sinkhole upper rim.",
+    "description": "The segregated silver-eyed Cromyx slum around the sinkhole upper rim.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4782,7 +4782,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Veil-Speaker Chant-Hall",
     "type": "settlement",
-    "description": "A fungal-shroud hall where Vreken chant to the ancestors wrapped in living mycelium.",
+    "description": "A fungal-shroud hall where Mycellan chant to the ancestors wrapped in living mycelium.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4821,7 +4821,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Rot-Fume Hut",
     "type": "settlement",
-    "description": "A Vreken peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
+    "description": "A Mycellan peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4860,7 +4860,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Probability-Loom House",
     "type": "settlement",
-    "description": "A Veldun village-house of living-wood looms where weavers read the forest's probability-web.",
+    "description": "A Weft village-house of living-wood looms where weavers read the forest's probability-web.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4873,7 +4873,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fae-Contract Bark-Grove",
     "type": "wilderness",
-    "description": "A grove of ironwoods carved with pre-Nethien fae-contracts in their bark; older than the Registry.",
+    "description": "A grove of ironwoods carved with pre-Athien fae-contracts in their bark; older than the Registry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4936,9 +4936,9 @@ export const ZONE_DATA = [
   {
     "id": "vreken-shrine-islet",
     "regionId": "bryngloom-forest",
-    "name": "Vreken Shrine-Islet",
+    "name": "Mycellan Shrine-Islet",
     "type": "settlement",
-    "description": "A forbidden islet holding a Vreken fungal shrine; only the moon-tide reveals the path.",
+    "description": "A forbidden islet holding a Mycellan fungal shrine; only the moon-tide reveals the path.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4977,7 +4977,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The First-Contract Signing-Hollow",
     "type": "ruin",
-    "description": "The deep hollow where the Nethien ancestors signed the First Contract with Morvane; still radiates authority.",
+    "description": "The deep hollow where the Athien ancestors signed the First Contract with Morvane; still radiates authority.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -4990,7 +4990,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Threshold-Shrine Hermitage",
     "type": "settlement",
-    "description": "A monastic hermitage of Veldun bound as Morvane's spirit-conduits over a deep sinkhole.",
+    "description": "A monastic hermitage of Weft bound as Morvane's spirit-conduits over a deep sinkhole.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5159,7 +5159,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Briar-Thorn Tangle",
     "type": "wilderness",
-    "description": "A dense thorn-thicket masking a hidden Oken Florae enclave. The thorns lie flat for those who know the old oaths.",
+    "description": "A dense thorn-thicket masking a hidden Oaken Florae enclave. The thorns lie flat for those who know the old oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5302,7 +5302,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Thorn-Refuge Copse",
     "type": "wilderness",
-    "description": "A hidden Viridian Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
+    "description": "A hidden Briaren Florae refuge among thorn-trees, grown over a pre-Thalreth cairn.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5913,7 +5913,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Exile-Colony Stack",
     "type": "settlement",
-    "description": "A skerry colony of exiled Nethien and Tide-Speakers; they farm kelp and avoid oaths.",
+    "description": "A skerry colony of exiled Athien and Tide-Speakers; they farm kelp and avoid oaths.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5952,7 +5952,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Half-Salt Bog Hamlet",
     "type": "settlement",
-    "description": "A brackish-water hamlet of Vreken peat-cutters and pool-dwellers.",
+    "description": "A brackish-water hamlet of Mycellan peat-cutters and pool-dwellers.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6041,7 +6041,7 @@ export const ZONE_DATA = [
   {
     "id": "ithran-toll-post-village",
     "regionId": "cragjaw-peaks",
-    "name": "Ithran Toll-Post Village",
+    "name": "Amordjin Toll-Post Village",
     "type": "settlement",
     "description": "A bridge-top toll-village of fine-scaled Groven diplomats; every crossing pays in kind or coin.",
     "dangerLevel": "low",
@@ -6056,7 +6056,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Cliff-Andene Hanging-Terrace",
     "type": "settlement",
-    "description": "A mid-altitude terrace-camp of Tessen soldiers and Murmur-Blooded bridge-tenders.",
+    "description": "A mid-altitude terrace-camp of Tessic soldiers and Murmur-Blooded bridge-tenders.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6199,7 +6199,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Mare-Herd Following-Camp",
     "type": "settlement",
-    "description": "A Mounted-clan camp tracking the Ordan mares across the Downs; Steppe-Staves record pasture-rights.",
+    "description": "A Mounted-clan camp tracking the Ordu mares across the Downs; Steppe-Staves record pasture-rights.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6303,7 +6303,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Cairn-Checkpoint Garrison",
     "type": "settlement",
-    "description": "An Ordan March-Warden post enforcing the Herd-Tithe at the cairn-line.",
+    "description": "An Ordu March-Warden post enforcing the Herd-Tithe at the cairn-line.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6394,7 +6394,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Peat-Edge Ford Hamlet",
     "type": "settlement",
-    "description": "A hamlet at the marshy ford where Ordan horse-traders and Vreken peat-cutters meet and intermarry.",
+    "description": "A hamlet at the marshy ford where Ordu horse-traders and Mycellan peat-cutters meet and intermarry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6407,7 +6407,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Thermal-Bore Sinkhole",
     "type": "wilderness",
-    "description": "A toxic sulfur-sinkhole opened by forced Fexric boring; it swallows migrating beasts.",
+    "description": "A toxic sulfur-sinkhole opened by forced Fex boring; it swallows migrating beasts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6418,9 +6418,9 @@ export const ZONE_DATA = [
   {
     "id": "neth-scribe-outpost",
     "regionId": "sundrift-vale",
-    "name": "Nethien-Scribe Outpost",
+    "name": "Athien-Scribe Outpost",
     "type": "settlement",
-    "description": "A small Bryngloom Nethien trade-annex recording the Bogpost's cross-border debts.",
+    "description": "A small Bryngloom Athien trade-annex recording the Bogpost's cross-border debts.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6433,7 +6433,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Sentry-Yurt Post",
     "type": "settlement",
-    "description": "A wind-blasted Ordan frontier post watching the Snow-Tooth passes for Frostwood patrols.",
+    "description": "A wind-blasted Ordu frontier post watching the Snow-Tooth passes for Frostwood patrols.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6457,7 +6457,7 @@ export const ZONE_DATA = [
   {
     "id": "frostwood-meeting-stones",
     "regionId": "sundrift-vale",
-    "name": "Frostwood-Thalren Meeting-Stones",
+    "name": "Frostwood-Tallyn Meeting-Stones",
     "type": "wilderness",
     "description": "Cairns where Frostwood and Sundrift patrols meet to exchange weather-reports and warnings.",
     "dangerLevel": "low",
@@ -6550,7 +6550,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Lantern-Eye Way",
     "type": "settlement",
-    "description": "A lane down into the Spire lit by the rust-amber lantern-eyes of Clean Vreken residents.",
+    "description": "A lane down into the Spire lit by the rust-amber lantern-eyes of Bedel residents.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6561,9 +6561,9 @@ export const ZONE_DATA = [
   {
     "id": "marked-vrekin-rim-slum",
     "regionId": "bryngloom-forest",
-    "name": "The Marked-Vrekin Rim-Slum",
+    "name": "The Cromyx-Vrekin Rim-Slum",
     "type": "settlement",
-    "description": "The segregated silver-eyed Marked Vreken slum around the sinkhole upper rim.",
+    "description": "The segregated silver-eyed Cromyx slum around the sinkhole upper rim.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6576,7 +6576,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Veil-Speaker Chant-Hall",
     "type": "settlement",
-    "description": "A fungal-shroud hall where Vreken chant to the ancestors wrapped in living mycelium.",
+    "description": "A fungal-shroud hall where Mycellan chant to the ancestors wrapped in living mycelium.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6615,7 +6615,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Rot-Fume Hut",
     "type": "settlement",
-    "description": "A Vreken peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
+    "description": "A Mycellan peat-cutter's hut breathing toxic rot-fumes; the Defaulted underclass lives here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6654,7 +6654,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Probability-Loom House",
     "type": "settlement",
-    "description": "A Veldun village-house of living-wood looms where weavers read the forest's probability-web.",
+    "description": "A Weft village-house of living-wood looms where weavers read the forest's probability-web.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6667,7 +6667,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Fae-Contract Bark-Grove",
     "type": "wilderness",
-    "description": "A grove of ironwoods carved with pre-Nethien fae-contracts in their bark; older than the Registry.",
+    "description": "A grove of ironwoods carved with pre-Athien fae-contracts in their bark; older than the Registry.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6730,9 +6730,9 @@ export const ZONE_DATA = [
   {
     "id": "vreken-shrine-islet",
     "regionId": "bryngloom-forest",
-    "name": "Vreken Shrine-Islet",
+    "name": "Mycellan Shrine-Islet",
     "type": "settlement",
-    "description": "A forbidden islet holding a Vreken fungal shrine; only the moon-tide reveals the path.",
+    "description": "A forbidden islet holding a Mycellan fungal shrine; only the moon-tide reveals the path.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6771,7 +6771,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "The First-Contract Signing-Hollow",
     "type": "ruin",
-    "description": "The deep hollow where the Nethien ancestors signed the First Contract with Morvane; still radiates authority.",
+    "description": "The deep hollow where the Athien ancestors signed the First Contract with Morvane; still radiates authority.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -6784,7 +6784,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Threshold-Shrine Hermitage",
     "type": "settlement",
-    "description": "A monastic hermitage of Veldun bound as Morvane's spirit-conduits over a deep sinkhole.",
+    "description": "A monastic hermitage of Weft bound as Morvane's spirit-conduits over a deep sinkhole.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -7570,11 +7570,11 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Snowcall City",
     "type": "city",
-    "description": "The highest urban metropolis in Nordhalla, built on tiered terraces along the Icetalon peaks. Nethien scholars, Skald clan merchants, and Corvani cliff-folk trade openly in its steam-heated markets, creating the most cosmopolitan haven in the frozen north.",
+    "description": "The highest urban metropolis in Nordhalla, built on tiered terraces along the Icetalon peaks. Athien scholars, Skald clan merchants, and Corvani cliff-folk trade openly in its steam-heated markets, creating the most cosmopolitan haven in the frozen north.",
     "dangerLevel": "medium",
     "factions": [
       "house-skalvyr",
-      "Nethien",
+      "Athien",
       "Corvani Roost-Merchants"
     ],
     "connections": [
@@ -7587,8 +7587,8 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-glacier-heart",
     "history": {
       "founded": "The mid-Freezing Era",
-      "foundedBy": "The Skald-Nethien Coalition",
-      "foundingStory": "Established on the high terraces of the Icetalon peaks as a neutral free-city where Nethien scholars fleeing southern upheavals could trade legal and arcane archiving in exchange for Skald protection and timber.",
+      "foundedBy": "The Skald-Athien Coalition",
+      "foundingStory": "Established on the high terraces of the Icetalon peaks as a neutral free-city where Athien scholars fleeing southern upheavals could trade legal and arcane archiving in exchange for Skald protection and timber.",
       "significantEvents": [
         {
           "date": "The mid-Freezing Era",
@@ -7596,7 +7596,7 @@ export const ZONE_DATA = [
         },
         {
           "date": "The mid-Freezing Era",
-          "event": "The Nethien Quarter completed with slate-roofed guildhalls."
+          "event": "The Athien Quarter completed with slate-roofed guildhalls."
         }
       ]
     }
@@ -7790,10 +7790,10 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "Saltgrinn",
     "type": "settlement",
-    "description": "A vertical mining town carved into sea-cliff caverns, inhabited by Nethien miners who harvest razor-sharp brine crystals from subterranean thermal springs to supply Nordhalla's fish-curing industry.",
+    "description": "A vertical mining town carved into sea-cliff caverns, inhabited by Athien miners who harvest razor-sharp brine crystals from subterranean thermal springs to supply Nordhalla's fish-curing industry.",
     "dangerLevel": "medium",
     "factions": [
-      "Nethien",
+      "Athien",
       "Icechamber Syndicate"
     ],
     "connections": [
@@ -7805,12 +7805,12 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-glacier-heart",
     "history": {
       "founded": "A generation into the Freeze",
-      "foundedBy": "Nethien Exiles",
+      "foundedBy": "Athien Exiles",
       "foundingStory": "Tunneled into coastal caverns where brine springs evaporated on hot volcanic stone, creating vast fields of pure white salt crystals.",
       "significantEvents": [
         {
           "date": "A generation into the Freeze",
-          "event": "Nethien community establishes the deep cavern extraction galleries."
+          "event": "Athien community establishes the deep cavern extraction galleries."
         }
       ]
     }

@@ -51,6 +51,7 @@ export const useJournalPersistence = () => {
 
    // Knowledge boards
    knowledgeBoards: state.knowledgeBoards || [],
+   masterBoardBackground: state.masterBoardBackground ?? null,
 
    // Board elements
    knowledgeOrbs: state.knowledgeOrbs || [],
@@ -77,17 +78,34 @@ export const useJournalPersistence = () => {
    return { success: false, reason: 'No data to save' };
   }
 
+  const usePersistenceStatusStore = require('../store/persistenceStatusStore').default;
+  const useNotificationStore = require('../store/notificationStore').default;
+
   try {
+   usePersistenceStatusStore?.getState().setStatus('journal', 'saving');
    const result = await persistenceService.saveJournal(user.uid, dataToSave);
 
    if (result.success) {
     lastSavedStateRef.current = JSON.stringify(dataToSave);
+    usePersistenceStatusStore?.getState().setStatus('journal', 'saved');
     console.log(`💾 Journal saved for user ${user.uid}`);
+   } else {
+    const reason = result.error || result.reason || 'Unknown error';
+    usePersistenceStatusStore?.getState().setStatus('journal', 'error', reason);
+    useNotificationStore?.getState().showError(
+     'Your journal changes could not be saved to the cloud. They are kept locally and will retry on your next edit.',
+     { title: 'Journal save failed' }
+    );
    }
 
    return result;
   } catch (error) {
    console.error('Failed to save journal:', error);
+   usePersistenceStatusStore?.getState().setStatus('journal', 'error', error.message);
+   useNotificationStore?.getState().showError(
+    'Your journal changes could not be saved to the cloud. They are kept locally and will retry on your next edit.',
+    { title: 'Journal save failed' }
+   );
    return { success: false, error: error.message };
   }
   }, [user, collectJournalState, persistenceService]);

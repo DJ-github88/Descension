@@ -1573,18 +1573,18 @@ export const WALL_TYPES = {
   gothic_stone_column: {
     id: 'gothic_stone_column',
     name: 'Gothic Masonry Column',
-    category: 'pillars',
+    category: 'basic',
     color: '#656059',
     blocksMovement: true,
-    blocksLineOfSight: false,
-    imageUrl: '/assets/walls/stone_column.png',
+    blocksLineOfSight: true,
+    imageUrl: '/assets/walls/stone_wall.png',
     icon: '🏛️',
-    description: 'Chiseled gothic masonry pillar for vaults and crypts'
+    description: 'Chiseled gothic masonry wall with engaged column for vaults and crypts'
   },
   wall_pillar: {
     id: 'wall_pillar',
     name: 'Dungeon Wall Pillar',
-    category: 'pillars',
+    category: 'variations',
     color: '#6e6962',
     blocksMovement: true,
     blocksLineOfSight: true,

@@ -1,0 +1,123 @@
+.class-acquisition-editor {
+    padding: 16px;
+    margin: 16px 0;
+    background: #faf6eb;
+    border: 1px solid #c4a882;
+    border-radius: 6px;
+    color: #2e1e0f;
+    overflow-wrap: anywhere;
+    font-family: 'Crimson Text', serif !important;
+}
+
+.class-acquisition-editor h4 {
+    margin: 0 0 10px;
+    color: #7a5a35;
+    font-family: 'Cinzel', serif !important;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid rgba(196, 168, 130, 0.6);
+    padding-bottom: 6px;
+}
+
+.class-acquisition-editor p,
+.class-acquisition-editor label,
+.class-acquisition-editor legend,
+.class-acquisition-editor textarea,
+.class-acquisition-editor select {
+    font-family: 'Crimson Text', serif !important;
+}
+
+.class-acquisition-editor fieldset {
+    margin: 12px 0;
+    min-width: 0;
+    border: 1px solid #c4a882;
+    border-radius: 4px;
+    padding: 8px 12px 10px;
+}
+
+.class-acquisition-editor legend {
+    font-weight: 700;
+    color: #7a5a35;
+    padding: 0 6px;
+    font-size: 0.95rem;
+}
+
+.class-acquisition-editor .acquisition-status {
+    display: inline-block;
+    margin: 0 0 8px;
+    padding: 2px 10px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: #3f7a3f;
+}
+
+.class-acquisition-editor .acquisition-status--requires-qualification,
+.class-acquisition-editor .acquisition-status--invalid-method,
+.class-acquisition-editor .acquisition-status--incompatible-state,
+.class-acquisition-editor .acquisition-status--heritage-race-mismatch,
+.class-acquisition-editor .acquisition-status--heritage-alias-mismatch {
+    color: #8a5a00;
+}
+
+.class-acquisition-editor .acquisition-status--heritage-selection-required {
+    color: #8a7a5a;
+}
+
+.class-acquisition-editor .acquisition-reason,
+.class-acquisition-editor .acquisition-note {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #5a4a35;
+}
+
+.class-acquisition-editor .acquisition-note {
+    font-style: italic;
+}
+
+.class-acquisition-editor .acquisition-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+}
+
+.class-acquisition-editor .acquisition-field > textarea,
+.class-acquisition-editor .acquisition-field > select {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 8px;
+    background: #fffdf7;
+    color: #2e1e0f;
+    border: 1px solid #b08a4a;
+    border-radius: 4px;
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.class-acquisition-editor .acquisition-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 8px 0;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.class-acquisition-editor input[type="checkbox"] {
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: #b08a4a;
+}
+
+.class-acquisition-editor .acquisition-warning {
+    color: #8a5a00;
+    font-weight: 600;
+}

@@ -1,8 +1,9 @@
 import useCombatStore from '../../../store/combatStore';
+import { applyRoomSnapshot } from '../../../services/silentRoomHydration';
 
 export function registerCombatHandlers(ctx) {
   const {
-    socket, currentPlayerRef, currentPlayer, addNotification
+    socket, currentPlayer, addNotification
   } = ctx;
     if (!socket) return;
 
@@ -54,13 +55,6 @@ export function registerCombatHandlers(ctx) {
       }
     });
 
-    socket.on('combat_action', (data) => {
-      // Handle predicted combat actions from other players
-      if (data.playerId !== currentPlayerRef.current?.id) {
-        // Apply the action with lag compensation
-      }
-    });
-
     socket.on('combat_correction', (data) => {
       // Handle server corrections for predicted combat state
       // Apply corrections to local combat state
@@ -70,47 +64,12 @@ export function registerCombatHandlers(ctx) {
     });
 
     socket.on('combat_state_sync', (data) => {
-      // IMPROVEMENT: Full combat state synchronization with proper state restoration
-
-      if (data.combat) {
-        const combatStore = useCombatStore.getState();
-
-        // If combat is active, restore the full state
-        if (data.combat.isActive) {
-          // Restore turn order if available
-          if (data.combat.turnOrder && data.combat.turnOrder.length > 0) {
-            combatStore.startCombat(data.combat.turnOrder);
-
-            // Restore current turn index
-            if (data.combat.currentTurnIndex !== undefined) {
-              const currentState = combatStore.getCombatState();
-              const targetIndex = data.combat.currentTurnIndex;
-              const currentIndex = currentState.currentTurnIndex || 0;
-
-              // Advance to correct turn if needed
-              if (targetIndex !== currentIndex) {
-                const diff = targetIndex - currentIndex;
-                for (let i = 0; i < Math.abs(diff); i++) {
-                  if (diff > 0) {
-                    combatStore.nextTurn();
-                  }
-                }
-              }
-            }
-
-            // Restore round number if available
-            if (data.combat.round !== undefined) {
-              // Round is managed internally, but we can log it
-            }
-          }
-        } else {
-          // Combat is not active, ensure it's stopped
-          const currentState = combatStore.getCombatState();
-          if (currentState.isActive) {
-            // Stop combat if it was active locally but not on server
-          }
-        }
-      }
+      // Full combat state replacement through the silent adapter: stored
+      // fields are restored directly. No startCombat/nextTurn replay, no RNG,
+      // no AP/resource/cooldown/timer side effects.
+      if (!data) return;
+      const combat = data.combat !== undefined ? data.combat : data;
+      applyRoomSnapshot({ scope: 'section', sections: { combat: combat || null } });
     });
 
     socket.on('combat_action', (data) => {
@@ -190,7 +149,6 @@ export function registerCombatHandlers(ctx) {
     socket.off('combat_action');
     socket.off('combat_correction');
     socket.off('combat_state_sync');
-    socket.off('combat_action');
     socket.off('spell_cast');
     socket.off('ability_used');
     socket.off('combat_log');

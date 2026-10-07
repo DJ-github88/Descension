@@ -10,7 +10,8 @@ jest.mock('../../store/customLineageStore', () => ({
     }
 }));
 
-import { RACE_DATA, getFullRaceData, getSubraceData, getRacialBaseStats } from '../raceData';
+import { RACE_DATA, getFullRaceData, getSubraceData, getRacialBaseStats, getRacialLanguages, getRaceList, applyRacialModifiers } from '../raceData';
+import { getRaceMechanic, getMechanicsByRace } from '../raceMechanics';
 import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 
@@ -21,9 +22,9 @@ describe('Race Trait Integration Tests', () => {
     });
 
     test('getFullRaceData merges sharedTraits with subrace traits', () => {
-        const floraeOken = getFullRaceData('florae', 'oken_florae');
-        expect(floraeOken).toBeDefined();
-        const traitIds = floraeOken.combinedTraits.traits.map(t => t.id);
+        const floraeOaken = getFullRaceData('florae', 'oken_florae');
+        expect(floraeOaken).toBeDefined();
+        const traitIds = floraeOaken.combinedTraits.traits.map(t => t.id);
         
         // Shared traits present
         expect(traitIds).toContain('branch_arm_brawn_florae');
@@ -39,7 +40,7 @@ describe('Race Trait Integration Tests', () => {
     test('getSubraceData resolves by key, full id, or name', () => {
         const byKey = getSubraceData('florae', 'oken');
         const byId = getSubraceData('florae', 'oken_florae');
-        const byName = getSubraceData('florae', 'Oken');
+        const byName = getSubraceData('florae', 'Oaken');
         expect(byKey).toBeDefined();
         expect(byId).toBeDefined();
         expect(byName).toBeDefined();
@@ -91,5 +92,134 @@ describe('Race Trait Integration Tests', () => {
                 expect(Array.isArray(passives)).toBe(true);
             }
         }
+    });
+
+    test.each(['drun', 'drun_neth', 'Riven'])('Riven %s retains its abilities without inherited pact preservation', (alias) => {
+        const full = getFullRaceData('neth', alias);
+        const ids = full.combinedTraits.traits.map(trait => trait.id);
+        expect(ids).not.toContain('contractual_restriction_neth');
+        expect(ids).not.toContain('pact_stillness_neth');
+        expect(ids).not.toContain('returned_count_neth');
+        expect(ids).toContain('severed_drun');
+        expect(ids).toContain('silence_walker_drun');
+        expect(full.combinedTraits.mechanics).toEqual([]);
+        expect(full.combinedTraits.lifespan).not.toBe('Indefinite (pact-bound)');
+        expect(full.combinedTraits.savingThrowModifiers.advantage).not.toContain('magic');
+        expect(getRacialStatModifiers('neth', alias).map(trait => trait.id)).not.toContain('pact_stillness_neth');
+        expect(getRacialSpells('neth', alias).map(spell => spell.id)).toContain('null_strike_drun');
+    });
+
+    test.each(['velun', 'velun_neth', 'Athien', 'kessen', 'kessen_neth', 'Weft'])('pact-bound %s retains preservation and exactly one Fraying mechanic', (alias) => {
+        const full = getFullRaceData('neth', alias);
+        expect(full.combinedTraits.traits.map(trait => trait.id)).toContain('pact_stillness_neth');
+        expect(full.combinedTraits.mechanics.map(mechanic => mechanic.id)).toEqual(['the_unraveling']);
+        const lock = full.combinedTraits.traits.find(trait => trait.id === 'contractual_restriction_neth');
+        const status = lock.debuffConfig.effects[0].statusEffect;
+        expect(status.mechanicId).toBe('the_unraveling');
+        expect(status.frayingStage).toBeUndefined();
+        expect(status.fadingStage).toBeUndefined();
+    });
+
+    test('Fraying stage effects reference real pact benefits and distance recovery cannot clear breaches', () => {
+        const mechanic = getRaceMechanic('the_unraveling');
+        const pact = getFullRaceData('neth', 'velun').combinedTraits.traits.find(trait => trait.id === 'pact_stillness_neth');
+        const benefitIds = pact.buffConfig.effects.map(effect => effect.id);
+        const lostBenefits = mechanic.thresholds.find(threshold => threshold.range[0] === 5)
+            .effects.filter(effect => effect.type === 'lose_trait').map(effect => effect.trait);
+        lostBenefits.forEach(id => expect(benefitIds).toContain(id));
+        expect(mechanic.archiveDistanceFailure.recoveryClearsFraying).toBe(false);
+        expect(mechanic.archiveDistanceFailure.stackSharedSymptoms).toBe(false);
+        expect(getMechanicsByRace('neth', 'drun_neth')).toEqual([]);
+    });
+
+    test('Mimir mask and Mote inheritance stays distinct through legacy aliases and passive consumers', () => {
+        const arch = getRacialStatModifiers('mimir', 'veiled_mimir').map(trait => trait.id);
+        const broken = getRacialStatModifiers('mimir', 'Broken Mimir').map(trait => trait.id);
+        expect(arch).toContain('mask_bound_mimir');
+        expect(arch).toContain('maskless_frailty_mimir');
+        expect(arch).not.toContain('mote_mimir');
+        expect(broken).toContain('mote_mimir');
+        expect(broken).not.toContain('mask_bound_mimir');
+        expect(broken).not.toContain('maskless_frailty_mimir');
+        expect(getRacialSpells('mimir', 'tethered_mimir').map(spell => spell.id)).toContain('glass_shard_volley_mistwoven');
+    });
+
+    test('language fallback honors base grants, explicit subrace overrides and intentional empty grants', () => {
+        const subrace = RACE_DATA.neth.subraces.drun;
+        const savedLanguages = subrace.languages;
+        try {
+            delete subrace.languages;
+            expect(getRacialLanguages('neth', 'drun')).toEqual(RACE_DATA.neth.baseTraits.languages);
+            expect(getRacialLanguages('neth')).toEqual(RACE_DATA.neth.baseTraits.languages);
+            subrace.languages = ["Wayfarer's Cant"];
+            expect(getRacialLanguages('neth', 'drun_neth')).toEqual(["Wayfarer's Cant"]);
+            subrace.languages = [];
+            expect(getRacialLanguages('neth', 'Riven')).toEqual([]);
+        } finally {
+            subrace.languages = savedLanguages;
+        }
+    });
+
+    test('an unfinished draft does not inherit the first subrace language override', () => {
+        const subrace = RACE_DATA.neth.subraces.velun;
+        const savedLanguages = subrace.languages;
+        try {
+            subrace.languages = ["Wayfarer's Cant"];
+            expect(getRacialLanguages('neth')).toEqual(["Wayfarer's Cant", 'Gloom-Tongue']);
+            expect(getRacialLanguages('neth', 'velun')).toEqual(["Wayfarer's Cant"]);
+        } finally {
+            subrace.languages = savedLanguages;
+        }
+    });
+
+    test('Florae inherit distinct reproduction metadata and retain their bonuses under the six-stat schema', () => {
+        const baseline = { strength: 10, constitution: 10, agility: 10, intelligence: 10, spirit: 10, charisma: 10 };
+        const viridian = getFullRaceData('florae', 'viridian_florae');
+        const oken = getFullRaceData('florae', 'florae_unified');
+        expect(viridian.combinedTraits.reproduction).toMatch(/Biological birth/);
+        expect(oken.combinedTraits.reproduction).toMatch(/Sapling-Sprout/);
+        expect(applyRacialModifiers(baseline, 'florae', 'viridian')).toEqual({ ...baseline, agility: 12, spirit: 11, charisma: 11, constitution: 9 });
+        expect(applyRacialModifiers(baseline, 'florae', 'oken')).toEqual({ ...baseline, constitution: 12, spirit: 11, strength: 11, charisma: 9 });
+        expect(viridian.combinedTraits.statModifiers.dexterity).toBeUndefined();
+        expect(oken.combinedTraits.statModifiers.wisdom).toBeUndefined();
+    });
+
+    test.each(['clean', 'clean_vreken', 'Bedel'])('Bedel %s do not inherit the Cromyx fungal vulnerability', (alias) => {
+        const ids = getRacialStatModifiers('vreken', alias).map(trait => trait.id);
+        expect(ids).not.toContain('hush_vulnerability_vreken');
+        expect(ids).toContain('deep_glow_blood_clean');
+        expect(ids).toContain('lantern_eyes_vreken');
+        expect(ids).toContain('spore_sense_vreken');
+        expect(getRacialStatModifiers('vreken', 'marked_vreken').map(trait => trait.id)).toContain('hush_vulnerability_vreken');
+    });
+
+    test('Sumpborn remain distinct nonplayable metadata without changing the ten-race roster or Fex key', () => {
+        expect(getRaceList()).toHaveLength(10);
+        expect(getRaceList().some(race => race.id === 'sumpborn')).toBe(false);
+        expect(getFullRaceData('fexrick').race.name).toBe('Fex');
+        expect(RACE_DATA.fexrick.createdPeoples[0]).toMatchObject({ id: 'sumpborn', playable: false });
+    });
+
+    test('Astril language grants use registered Echo-Song and legacy Lumian grants resolve without extra fluency', () => {
+        Object.values(RACE_DATA.astril.subraces).forEach(subrace => {
+            expect(getRacialLanguages('astril', subrace.id)).toEqual(["Wayfarer's Cant", 'Echo-Song']);
+        });
+        const saved = RACE_DATA.astril.baseTraits.languages;
+        try {
+            RACE_DATA.astril.baseTraits.languages = ["Wayfarer's Cant", 'Lumian'];
+            expect(getRacialLanguages('astril')).toEqual(["Wayfarer's Cant", 'Echo-Song']);
+        } finally {
+            RACE_DATA.astril.baseTraits.languages = saved;
+        }
+    });
+
+    test('Myrathil inherit air/water breathing and young-growth metadata while retaining ecological heritages', () => {
+        Object.values(RACE_DATA.myrathil.subraces).forEach(subrace => {
+            const full = getFullRaceData('myrathil', subrace.id);
+            expect(full.combinedTraits.breathing).toEqual(['air', 'water']);
+            expect(full.combinedTraits.reproduction).toMatch(/grow and mature/);
+        });
+        expect(getFullRaceData('human', 'Ordu (Disguised Remnant)').subrace.id)
+            .toBe(getFullRaceData('human', 'ordan').subrace.id);
     });
 });

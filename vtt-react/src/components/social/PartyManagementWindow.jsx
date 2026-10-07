@@ -23,9 +23,8 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
         createParty,
         leaveParty,
         disbandParty,
-        sendPartyInvite,
-        acceptPartyInvite,
-        declinePartyInvite,
+        acceptPartyInvitation: acceptPartyInvite,
+        declinePartyInvitation: declinePartyInvite,
         kickPartyMember,
         isPartyLeader,
         isUserLeader,
@@ -37,6 +36,7 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     const { friends, friendPresence } = useSocialStore();
     const onlineUsersMap = usePresenceStore((state) => state.onlineUsers);
     const onlineUsers = useMemo(() => Array.from(onlineUsersMap.values()), [onlineUsersMap]);
+    const sendPartyInvite = usePresenceStore((state) => state.sendPartyInvite);
 
     // Handle creating a new party
     const handleCreateParty = async () => {

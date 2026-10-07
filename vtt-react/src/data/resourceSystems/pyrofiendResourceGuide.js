@@ -12,9 +12,9 @@ export const pyrofiendResourceGuide = {
 
  vitals: [
   { icon: 'fa-fire', label: 'Ascend', value: '+1 to +3 Veil per fire cast' },
-  { icon: 'fa-gauge-high', label: 'Zones', value: 'Safe 0–3 · Power 4–6 · Danger 7–9' },
+   { icon: 'fa-gauge-high', label: 'Rings', value: '0: 0 · I: 1–3 · II: 4–6 · III: 7–9' },
   { icon: 'fa-fire-alt', label: 'Spend', value: 'caldera bursts, lava waves' },
-  { icon: 'fa-snowflake', label: 'Risk', value: 'level 9 = 3-turn death clock' },
+   { icon: 'fa-snowflake', label: 'Risk', value: 'level 9 latches 3 own turns' },
  ],
 
  loop: {
@@ -24,9 +24,9 @@ export const pyrofiendResourceGuide = {
    text: 'Casting fire and magma spells adds +1 to +3 Veil levels, and each level adds flat bonus ember damage. The fire you throw is the fire building inside.',
   },
   hold: {
-   title: 'The Zones',
+    title: 'The Rings',
    icon: 'fa-gauge-high',
-   text: 'Levels 0–3 are the Safe Zone, 4–6 the Power Zone, 7–9 the Danger Zone. Levels 5–8 trigger Scathrach\'s whisper checks; higher levels amplify damage and drawbacks together.',
+    text: 'Ring 0 is Veil 0; Ring I is 1–3, Ring II is 4–6, and Ring III is 7–9. Reaching nine starts the Debt Call once. Reaching nine again does not restart it. Whisper, damage and drawback effects still require separate handling.',
   },
   spend: {
    title: 'Caldera',
@@ -36,12 +36,12 @@ export const pyrofiendResourceGuide = {
   risk: {
    title: 'Oblivion',
    icon: 'fa-snowflake',
-   text: 'Level 9 is a 3-turn permanent death clock — descend, win, or be consumed in ash. Cold vulnerability rises with the Veil, and rime effects can force a level upward.',
+    text: 'Level nine latches a three-own-turn Debt Call. Cooling and ordinary rest cannot cancel or extend it. Record each next own turn once; at zero the terminal consequence is due. Automatic combat-turn binding, detonation damage and character-death resolution remain pending.',
   },
  },
 
  exampleTurn:
-  '**Round 1:** a fireball (+2) puts you in the Power Zone. **Round 2:** another cast (+3) reaches 5 — the whispers start, and your ember damage is already climbing. **Round 3:** at 7 you hold one round in the Danger Zone for the doubled output, then Cooling Ember down to 5 rather than let a rime hit shove you toward 9.',
+   '**At Veil 8:** an authored +1 ascension reaches nine and latches three own turns. Cooling Ember then lowers Veil to seven but leaves all three turns on the call. Report your next own turns: 3→2→1→0. Cooling again, resting or returning to nine never refills or clears that countdown.',
 
  weaveIn: [
   {
@@ -55,7 +55,7 @@ export const pyrofiendResourceGuide = {
    tabLabel: 'compare the three paths',
   },
   {
-   text: 'Cooling Ember is a rotation piece, not a retreat — descending is how you survive to level 8 again.',
+    text: 'Cooling Ember is a rotation piece before the call: it lowers Veil, but ordinary cooling cannot escape a Debt Call already triggered at nine.',
   },
  ],
 
@@ -66,10 +66,11 @@ export const pyrofiendResourceGuide = {
    ['Fire spell cast', '+1 to +3 levels', 'Throttle'],
    ['Infernal Surge (Lv 5+)', 'Bonus damage', 'Spend window'],
    ['Cooling Ember', '−2 levels', 'Release valve'],
-   ['Rest / out of combat', '−1 per minute', 'Cooldown; short rest resets to 0'],
-   ['Level 9', '3-turn death clock', 'Descend or be consumed'],
+    ['Short / long rest', 'Veil to 0', 'A latched call is retained; automatic out-of-combat decay is pending'],
+    ['Level 9', 'Latch three own turns', 'Cooling does not cancel; repeated nine does not restart'],
+    ['Next own turn', '−1 remaining', 'Report once; enemy turns do not count'],
    ['Cold / rime damage', '+50% taken, +1 Veil', 'The weakness no one forgets'],
   ],
-  footnote: 'Zones: Safe 0–3, Power 4–6, Danger 7–9; level 9 is surrender to Scathrach.',
+   footnote: 'Rings: 0=0, I=1–3, II=4–6, III=7–9. The countdown persists separately from Veil; terminal damage/death effects are not applied by the tracker.',
  },
 };

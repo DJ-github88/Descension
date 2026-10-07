@@ -1,3 +1,5 @@
+import { addShaperFormContract } from '../shaperResourceContract';
+
 export const SHAPER_DATA = {
   restrictions: {
       "allowedSubraces": [
@@ -15,7 +17,7 @@ export const SHAPER_DATA = {
           "florae"
       ],
       "narrativeUnlock": false,
-      "justification": "Requires biological form-shifting capability. Hard Block: Humans can't physically reshape (bodies too fixed). Solari bodies are too mineral-dense. Nethien bodies are contract-locked by the First Contract. Myrathil are too fluid (can't hold shape)."
+      "justification": "Requires biological form-shifting capability. Hard Block: Humans can't physically reshape (bodies too fixed). Solari bodies are too mineral-dense. Athien bodies are contract-locked by the First Contract. Myrathil are too fluid (can't hold shape)."
   },
 
   /**
@@ -47,13 +49,13 @@ export const SHAPER_DATA = {
       reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, treat the shaping forms as *vigil-adaptations*: each form is a posture of watching, a body configured for a specific kind of surveillance.`,
       signatureAbility: {
         name: 'Vigil-Form',
-        description: `Shaping forms optimized for sensory coverage rather than offense. The Fractured are the tradition's scouts.`
+        description: `Shaping forms optimized for sensory coverage rather than offense. The Broken Mimir are the tradition's scouts.`
       },
-      currentCrisisAngle: `The mist is learning to hide, and the Fractured Shapers feel it most acutely, every vigil-form is returning less.`,
+      currentCrisisAngle: `The mist is learning to hide, and the Broken Mimir Shapers feel it most acutely, every vigil-form is returning less.`,
       signatureQuote: {
         text: '"I reshaped my eyes to pierce the mist. The mist reshaped itself to defy my eyes. We are arguing, and I am losing, and I do not know what it is protecting."',
         speaker: 'Sentinel Mir-Felss',
-        context: 'A Fractured Shaper, the third night her vigil-form returned nothing'
+        context: 'A Broken Mimir Shaper, the third night her vigil-form returned nothing'
       }
     },
 
@@ -74,34 +76,34 @@ export const SHAPER_DATA = {
     },
 
     ithran_groven: {
-      subraceName: 'Ithran Groven',
+      subraceName: 'Amordjin Groven',
       title: 'The Span-Dancer',
-      reframe: `The long-limbed <LoreLink termId="groven">Ithran Groven</LoreLink>, the bridge-builders, the diplomats, contribute the *kinetic* half of the Shaper art. An Ithran Shaper runs the Ancestor-Spans as a dance, building Flux from the momentum of bridge-running, then channels that momentum into extended-limb transformations. Where the Morgh sculpt for durability, the Ithran sculpt for *reach and speed*.`,
+      reframe: `The long-limbed <LoreLink termId="groven">Amordjin Groven</LoreLink>, the bridge-builders, the diplomats, contribute the *kinetic* half of the Shaper art. An Amordjin Shaper runs the Ancestor-Spans as a dance, building Flux from the momentum of bridge-running, then channels that momentum into extended-limb transformations. Where the Morgh sculpt for durability, the Amordjin sculpt for *reach and speed*.`,
       signatureAbility: {
         name: 'Span-Momentum',
-        description: `Flux generates dramatically faster from movement across the Shaper's own architecture, running a familiar bridge, swinging between spans. The Ithran are the tradition's momentum-specialists, and their forms emphasize reach, wield, and the bone-knowledge of load-distribution that makes their bridges hold.`
+        description: `Flux generates dramatically faster from movement across the Shaper's own architecture, running a familiar bridge, swinging between spans. The Amordjin are the tradition's momentum-specialists, and their forms emphasize reach, wield, and the bone-knowledge of load-distribution that makes their bridges hold.`
       },
-      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden/Gambit crisis), and the Ithran Span-Dancers are losing their *kinetic substrate*, the bridges that generate their Flux are failing. Young Ithran are running the cracking spans anyway, chasing momentum from structures that may collapse beneath them. The convergence of failing bridges and convergence-collapse is producing a generation of Ithran Shapers who dance on the edge of two collapses at once.`,
+      currentCrisisAngle: `The Ancestor-Spans are cracking (the Warden/Gambit crisis), and the Amordjin Span-Dancers are losing their *kinetic substrate*, the bridges that generate their Flux are failing. Young Amordjin are running the cracking spans anyway, chasing momentum from structures that may collapse beneath them. The convergence of failing bridges and convergence-collapse is producing a generation of Amordjin Shapers who dance on the edge of two collapses at once.`,
       signatureQuote: {
         text: '"My grandmother\'s span made me fast. Her span is failing. I run it anyway, the falling is faster than the standing, and the Flux does not care which one feeds it."',
         speaker: 'Ith-Sparra Span-Dancer',
-        context: 'An Ithran Shaper, choosing which cracking span to run before a battle'
+        context: 'An Amordjin Shaper, choosing which cracking span to run before a battle'
       }
     },
 
     marked_vreken: {
-      subraceName: 'Marked Vreken',
+      subraceName: 'Cromyx',
       title: 'The Mycelium-Sculpt',
-      reframe: `The <LoreLink termId="root_veil">Ghost-Mycelium</LoreLink> already threads their body, connecting them to the <LoreLink termId="root_veil">Root-Veil</LoreLink>. A <LoreLink termId="vreken">Marked Vreken</LoreLink> Shaper does not reshape only bone and muscle  -  the mycelium reshapes WITH them, fungal threads coiling and uncoiling in synchronization with the Shaping Forms. The most fluid Shaper  -  transitions between Forms are silk-smooth  -  and the most alien to watch. The mycelium visibly moves beneath the skin during transformation. The Body Toll is paid in fungal decay: spent mycelium turns black and falls away, and new growth must replace it. The Marked Vreken Shaper risks burning through their own fungal network faster than the Root-Veil can replenish it.`,
+      reframe: `The <LoreLink termId="root_veil">Ghost-Mycelium</LoreLink> already threads their body, connecting them to the <LoreLink termId="root_veil">Root-Veil</LoreLink>. A <LoreLink termId="vreken">Cromyx</LoreLink> Shaper does not reshape only bone and muscle  -  the mycelium reshapes WITH them, fungal threads coiling and uncoiling in synchronization with the Shaping Forms. The most fluid Shaper  -  transitions between Forms are silk-smooth  -  and the most alien to watch. The mycelium visibly moves beneath the skin during transformation. The Body Toll is paid in fungal decay: spent mycelium turns black and falls away, and new growth must replace it. The Cromyx Shaper risks burning through their own fungal network faster than the Root-Veil can replenish it.`,
       signatureAbility: {
         name: 'Mycelium-Flux',
-        description: `Shaping Forms are rendered *frictionless* by the Ghost-Mycelium's assistance: form transitions cost 1 less Flux (minimum 1). The cost is paid in fungal decay  -  every form shift causes a visible blackening and shedding of spent mycelium threads from the skin. The Marked Vreken Shaper must spend time in contact with the Root-Veil between combats to regrow their network, or risk burning through it entirely.`
+        description: `Shaping Forms are rendered *frictionless* by the Ghost-Mycelium's assistance: form transitions cost 1 less Flux (minimum 1). The cost is paid in fungal decay  -  every form shift causes a visible blackening and shedding of spent mycelium threads from the skin. The Cromyx Shaper must spend time in contact with the Root-Veil between combats to regrow their network, or risk burning through it entirely.`
       },
-      currentCrisisAngle: `The Root-Veil is recoiling from the Marked (the foundational crisis), and the Mycelium-Sculpt Shapers feel it in every shift  -  the network resists, the threads pull against the transformation, and each form change becomes a *negotiation* rather than a collaboration. The young Marked Shapers are burning through their mycelial reserves at three times the normal rate, and the Root-Veil is not replacing what it used to provide. Several have been forced to stop shifting entirely, their bodies frozen mid-form, waiting for a forest that may not return.`,
+      currentCrisisAngle: `The Root-Veil is recoiling from the Cromyx (the foundational crisis), and the Mycelium-Sculpt Shapers feel it in every shift  -  the network resists, the threads pull against the transformation, and each form change becomes a *negotiation* rather than a collaboration. The young Cromyx Shapers are burning through their mycelial reserves at three times the normal rate, and the Root-Veil is not replacing what it used to provide. Several have been forced to stop shifting entirely, their bodies frozen mid-form, waiting for a forest that may not return.`,
       signatureQuote: {
         text: '"The mycelium used to dance with me. Now it pulls back. Every shift hurts where it used to flow. The Root-Veil is leaving, and I am left holding a body that moves alone, in a silence I do not recognize."',
         speaker: 'Myc-Sculpt Vrek-Fel',
-        context: 'A Marked Vreken Shaper, pausing mid-shift as the mycelium resists'
+        context: 'A Cromyx Shaper, pausing mid-shift as the mycelium resists'
       }
     }
   },
@@ -130,7 +132,7 @@ export const SHAPER_DATA = {
     currentLeader: {
       name: '<LoreLink termId="veyra">Form-Matriarch Veyra the Merged</LoreLink>',
       title: 'Keeper of the Six Forms',
-      characterization: `Ancient, patient, and more stone than flesh. <LoreLink termId="veyra">Veyra</LoreLink> was a Woven Mimir trade envoy on the Ancestor-Spans who learned the Shaping art from Groven masters and brought it home to the Frostwood, becoming the bridge between two body-modifying cultures. Her semi-crystalline skin is more calcified each year. She leads the Convergence from the Shaping Hall at Frostmaw and teaches the six Forms in sequence, insisting no student attempt convergence until they have mastered each form alone. The young convergers consider this archaic. She considers their burnout rate the proof she is right.`
+      characterization: `Ancient, patient, and more stone than flesh. <LoreLink termId="veyra">Veyra</LoreLink> was a Broken Mimir trade envoy on the Ancestor-Spans who learned the Shaping art from Groven masters and brought it home to the Frostwood, becoming the bridge between two body-modifying cultures. Her semi-crystalline skin is more calcified each year. She leads the Convergence from the Shaping Hall at Frostmaw and teaches the six Forms in sequence, insisting no student attempt convergence until they have mastered each form alone. The young convergers consider this archaic. She considers their burnout rate the proof she is right.`
     },
     headquarters: { name: 'The Shaping Hall, Frostmaw Holdfast', locationId: 'frostmaw_holdfast' },
     crisisConnection: `<LoreLink termId="veyra">Veyra</LoreLink> is losing the argument. The purist-vs-converger schism is worsening, and Convergence Collapse is killing the young Mimir Shapers, burning through crystalline skin in years rather than centuries. <LoreLink termId="veyra">Veyra</LoreLink>'s slow method  -  adapted from Groven bone-sculpting to Mimir fluid transformation  -  works, but the era does not allow for slow: the Frostwood mist is learning to hide, the Ancestor-Spans are cracking, and the world demands Shapers who can converge *now*. <LoreLink termId="veyra">Veyra</LoreLink> is being forced to teach the dangerous convergence she spent centuries proving was premature, because the alternative is a tradition of pure-form specialists who cannot meet the moment.`
@@ -139,26 +141,35 @@ export const SHAPER_DATA = {
   worldFriction: [
     { region: 'frostwood-reach', status: 'distrusted', consequence: 'House Thalreth outlaws shape-shifting outside licensed Mimir actors, fearing that unregistered form-shifting is used by spies to bypass the Scribe-Cartel registries.', workaround: 'Shapers hide their transformations under massive, fur-lined cloaks, utilizing the constant mist to mask the flash of biological shift.' },
     { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution founded by Morgh elders after Torin\'s act of reclamation. Shapers are honored as those who turned the Deep Alchemists\' violation into choice. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' },
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Nethien pact-lords view form-altering as a breach of contractual identity. A Shaper who alters their physical signature to avoid a contract is branded as an Identity Thief and hunted by Debt-Revenants.', workaround: 'Shapers operate in the Over-Shanty, selling physical labor under temporary forms that have no legal names written in the First Contract.' }
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Athien pact-lords view form-altering as a breach of contractual identity. A Shaper who alters their physical signature to avoid a contract is branded as an Identity Thief and hunted by Debt-Revenants.', workaround: 'Shapers operate in the Over-Shanty, selling physical labor under temporary forms that have no legal names written in the First Contract.' }
   ],
 
   overview: {
     title: "The Shaper",
     subtitle: "The Body Is the Weapon",
-    illustration: "/assets/images/classes/shaper_illustration.png",
-    illustrationCaption: "A Shaper mid-transition, kinetic sparks trailing from reshaping limbs as bone and blade become one.",
+    illustration: "/assets/images/classes/shaper_veiled_mimir.jpg",
+    illustrationCaption: "Arch Mimir Shaper — The Form-Locked, mid-leap executing a dynamic open-hand kinetic palm strike in rough charcoal draft with vibrant crimson flux watercolor splash.",
+    illustrations: [
+      { url: "/assets/images/classes/shaper_veiled_mimir.jpg", subraceId: "veiled_mimir", caption: "Arch Mimir Shaper — The Form-Locked, mid-leap executing a dynamic open-hand kinetic palm strike with vibrant crimson flux." },
+      { url: "/assets/images/classes/shaper_tethered_mimir.jpg", subraceId: "tethered_mimir", caption: "Broken Mimir Shaper — The Sentinel-Shifter, low predatory martial crouch with unmasked demon-scarred visage and rose crystal prisms." },
+      { url: "/assets/images/classes/shaper_morgh_groven.jpg", subraceId: "morgh_groven", caption: "Morgh Groven Shaper — The Vat-Sculpted, colossal stone-hewn master delivering an open-palm strike from an unshakeable iron-horse stance." },
+      { url: "/assets/images/classes/shaper_ithran_groven.jpg", subraceId: "ithran_groven", caption: "Amordjin Groven Shaper — The Span-Dancer, horned, dreadlocked alpine stone-troll crouched high above the dizzying mountain suspension bridges." },
+      { url: "/assets/images/classes/shaper_marked_vreken.jpg", subraceId: "marked_vreken", caption: "Cromyx Shaper — The Mycelium-Sculpt, ascetic subterranean monk executing a fluid double-palm strike wreathed in swirling crimson flux." }
+    ],
 
     originStory: `A shaper treats their body as a malleable weapon, reshaping posture, bone density, and musculature in real time through six Shaping Forms. Every transformation leaves a scar. Every stance shift erodes identity. Body Toll tracks the cumulative cost. At maximum, control is surrendered to something older than the self.
 
-The tradition was born in the Cragjaw Peaks, the only place on Mythril where bodies are routinely modified. The Groven were alchemically reshaped from Thrumm stock. The Fexric graft metal and gear to themselves. The Still-Claiming turns Groven dead into stone. Body modification is not exotic here, it is the primary fact of existence.
+The tradition was born in the Cragjaw Peaks, the only place on Mythril where bodies are routinely modified. The Groven were alchemically reshaped from Thrumm stock. The Fex graft metal and gear to themselves. The Still-Claiming turns Groven dead into stone. Body modification is not exotic here, it is the primary fact of existence.
 
-The first shaper was Torin, a Morgh Groven miner trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, a conflict between Groven holdfasts and Fexric expeditions over geothermal vent access from Years 100 to 120 of the Freezing Era. The ceiling was coming down. His limbs were too short to brace the widening crack. He drank a cask of raw alchemical sulfur-clay, the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before, and commanded his skeleton to grow. His arms lengthened. His spine thickened. His bones calcified into load-bearing pillars. He held the tunnel for six hours until rescue came.
+The first shaper was Torin, a Morgh Groven miner trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, a conflict between Groven holdfasts and Fex expeditions over geothermal vent access from Years 100 to 120 of the Freezing Era. The ceiling was coming down. His limbs were too short to brace the widening crack. He drank a cask of raw alchemical sulfur-clay, the same compound the Deep Alchemists had used to reshape Thrumm into Groven centuries before, and commanded his skeleton to grow. His arms lengthened. His spine thickened. His bones calcified into load-bearing pillars. He held the tunnel for six hours until rescue came.
 
-The art should have stopped there. But the Morgh elders recognized what Torin had done: he had turned the Deep Alchemists' violation, the forced reshaping of their ancestors, into a choice. The Shaping Hall was established at Frostmaw Crag, and the tradition grew. A Groven who reshapes their body is not submitting to the Fexric's design. They are taking the alchemist's tools and using them on their own terms.
+The art should have stopped there. But the Morgh elders recognized what Torin had done: he had turned the Deep Alchemists' violation, the forced reshaping of their ancestors, into a choice. The Shaping Hall was established at Frostmaw Crag, and the tradition grew. A Groven who reshapes their body is not submitting to the Fex's design. They are taking the alchemist's tools and using them on their own terms.
 
-The art spread across the Ancestor-Spans to the Frostwood. Veyra, a Woven Mimir trade envoy who regularly crossed the spans, was the first to merge Cragjaw bone-sculpting with Mimir fluid transformation. She did not discover a connection. She was the bridge between two cultures who had both been modifying bodies for centuries, in different ways, for different reasons. The Masked Mimir reshape controlled by their mask, the Tethered Mimir use each form to ground their identity, and the Marked Vreken reshape with their mycelium moving in synchronization, the most fluid and the most alien.
+The art spread across the Ancestor-Spans to the Frostwood. Veyra, a Broken Mimir trade envoy who regularly crossed the spans, was the first to merge Cragjaw bone-sculpting with Mimir fluid transformation. She did not discover a connection. She was the bridge between two cultures who had both been modifying bodies for centuries, in different ways, for different reasons. The Arch Mimir reshape controlled by their mask, the Broken Mimir use each form to ground their identity, and the Cromyx reshape with their mycelium moving in synchronization, the most fluid and the most alien.
 
-Convergence Collapse is the fatal risk. Young shapers who attempt every form simultaneously force their body to attempt every transformation at once. The Tethered are dying fastest, chasing convergence highs for hours of feeling complete.`,
+Convergence Collapse is the fatal risk. Young shapers who attempt every form simultaneously force their body to attempt every transformation at once. The Broken Mimir are dying fastest, chasing convergence highs for hours of feeling complete.
+
+Native only to Morgh Groven, Amordjin Groven, Arch Mimir, Broken Mimir. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
     quickOverview: {
     title: "Class Overview",
@@ -188,17 +199,18 @@ Convergence Collapse is the fatal risk. Young shapers who attempt every form sim
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE FOUNDING**
-Born in the Cragjaw Peaks when Morgh Groven miner Torin, trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, drank raw alchemical sulfur-clay and commanded his skeleton to grow  -  reclaiming the very process that made his people. The Morgh elders established the Shaping Hall at Frostmaw Crag. The art spread across the Ancestor-Spans when Woven Mimir trade envoy Veyra learned it from Groven masters and brought it to the Frostwood, merging Cragjaw bone-sculpting with Mimir fluid transformation.
+Born in the Cragjaw Peaks when Morgh Groven miner Torin, trapped in a collapsing Deep Alchemist tunnel during the First Thermal War, drank raw alchemical sulfur-clay and commanded his skeleton to grow  -  reclaiming the very process that made his people. The Morgh elders established the Shaping Hall at Frostmaw Crag. The art spread across the Ancestor-Spans when Broken Mimir trade envoy Veyra learned it from Groven masters and brought it to the Frostwood, merging Cragjaw bone-sculpting with Mimir fluid transformation.
 
 **CITIES & CIVIL RECEPTION**
 Celebrated in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink> and at <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>. Common folk find their visible transformations disturbing.
 
 **RACES & CULTURAL AFFILIATION**
-The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (Torin's people, the first Shapers). From the Cragjaw it spread to the Ithran Groven (bridge-builders who adapted the art for span-running). Veyra brought it across the Ancestor-Spans to the Woven <LoreLink termId="mimir">Mimir</LoreLink> (semi-crystalline skin withstands friction; the Masked and Tethered learned from Veyra's school). The Marked <LoreLink termId="vreken">Vreken</LoreLink> later adapted it through Root-Veil contact, adding mycelial co-sculpting.
+Body-sculpting is Groven alchemy merged with Mimir plasticity.
 
+Native to: Morgh Groven, Amordjin Groven, Arch Mimir, Broken Mimir. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Torin the Claimer**: Morgh Groven miner, first Shaper, who reclaimed the alchemy that made his people.
-* **Veyra the Merged**: Woven Mimir trade envoy who brought the Shaping art across the Ancestor-Spans and founded the Form-Convergence.
+* **Veyra the Merged**: Broken Mimir trade envoy who brought the Shaping art across the Ancestor-Spans and founded the Form-Convergence.
 * **Sylvanus**: A legendary Mimir Shaper  -  the first to master all six Forms after Veyra brought the art, now regarded as a near-mythic figure of kinetic mastery.`
     },
 
@@ -236,7 +248,7 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
       {
         name: "The Old Dance-Floor",
         locationId: "old_dance_floor",
-        description: "A mossed-over ironwood platform at Mirror Mere, built before the merge of the two traditions, where the kinetic forms were drilled long before anyone called them Shaping. Purist Shapers make pilgrimage here to practice single-tradition momentum work in the exact place the dance was born, on wood that flexes like the bridges the Ithran run. The platform has no rails and no rules. It has never once broken.",
+        description: "A mossed-over ironwood platform at Mirror Mere, built before the merge of the two traditions, where the kinetic forms were drilled long before anyone called them Shaping. Purist Shapers make pilgrimage here to practice single-tradition momentum work in the exact place the dance was born, on wood that flexes like the bridges the Amordjin run. The platform has no rails and no rules. It has never once broken.",
         purpose: "Pilgrimage and purist training ground; the kinetic half of the art at its origin",
         status: "Active and quiet, and the moss has begun growing in patterns that match the drilled forms, which the purists consider auspicious and the convergers find unnerving"
       },
@@ -291,15 +303,15 @@ The art originated with the Morgh <LoreLink termId="groven">Groven</LoreLink> (T
     title: "Flux: The Martial Flow",
     subtitle: "How Your Resource Works (Beginner's Guide)",
     description: `**1. What is it? (The Martial Flow)**
-Flux (0–20) measures biological momentum generated by flowing seamlessly between 6 martial stances (Bone Bastion, Centrifugal Fury, Sinew Spring, etc.). You have 0 Base Durability and rely entirely on active stance defense.
+Flux (0–20) measures biological momentum shared by six Forms: Ataxic Flow, Arterial Strike, Centrifugal Fury, Deadened Bastion, Fluid Apex and Silence Predator. Body Toll is a separate 0–10 strain counter; the old Flourish field is only its save-compatible alias.
 
 **2. How do I build it?**
-- Shift into a new stance at the start of your turn (+1 Flux).
-- Strike enemies while maintaining stance rhythm (+1 to +2 Flux).
+- Explicit spell Flux gains are applied once. Hit/crit/dodge/idle and immobilization observers require separate implementation.
+- Form adoption spends its authored Flux cost and accumulates Body Toll; it does not award reward Flourish.
 
 **3. How do I spend it & what is the catch?**
 - Spend Flux to morph bone spikes, harden skin into temporary Damage Reduction (DR), or dash across the battlefield.
-- **The Catch (Body Toll)**: Shifting stances too rapidly in a single round generates Body Toll, temporarily straining your physical frame.`,
+- **The Catch (Body Toll)**: Positive Toll costs add strain rather than spending a reserve. Risk effects and control handoff at ten require their own resolution.`,
     cards: [
       { title: "Flux (Primary)", stats: "0-20", details: "+1 hit, +2 crit, +1 dodge, +2 form-specific. -1 miss, hit taken, idle. Spent on shifts (2-4) and abilities (3-6). Drops to 0 if rooted." },
       { title: "Body Toll (Secondary)", stats: "0-10", details: "+1 per shift. 3+: Joint Lock. 5+: Identity Erosion. 7+: Feral. 10: Unraveling. -3 Short Rest, reset Long Rest." },
@@ -326,7 +338,7 @@ Flux (0–20) measures biological momentum generated by flowing seamlessly betwe
     },
     formNetworkTable: {
       title: "Shaping Form Network",
-      description: "Shift posture and biology between unified combat forms.",
+      description: "Declared network reference. Current adoption controls use each authored Form spell's entry price and strain; directed route enforcement, opening-free shifts and specialization modifiers remain pending.",
       headers: ["Form", "Type", "Passive", "Transitions", "Cost"],
       rows: [
         ["Ataxic Flow", "Defensive/Agile", "+2 dodge, +10ft, adv Disengage", "Arterial Strike, Silence Predator, Fluid Apex", "2 Flux"],
@@ -1329,3 +1341,5 @@ Flux (0–20) measures biological momentum generated by flowing seamlessly betwe
   ]
 }
 };
+
+SHAPER_DATA.spells = SHAPER_DATA.spells.map(addShaperFormContract);

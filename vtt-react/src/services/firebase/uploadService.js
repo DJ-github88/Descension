@@ -18,7 +18,8 @@ import {
   uploadBytes,
   getDownloadURL,
   deleteObject,
-  getMetadata
+  getMetadata,
+  getBlob
 } from 'firebase/storage';
 import { storage, isFirebaseConfigured, isDemoMode, isMockOrDevUser, auth } from '../../config/firebase';
 import { processImage, IMAGE_PROFILES } from '../../utils/imageProcessor';
@@ -295,6 +296,124 @@ export async function deleteAsset(userId, urlOrPath) {
   }
 }
 
+/**
+ * Copy a private user asset (users/{uid}/...) to the public shared/ prefix so
+ * community content can reference it after the private rules became
+ * owner-only. Returns the original URL unchanged when there is nothing to copy
+ * (data: URL, external URL, system asset, already-shared, or not owned by the
+ * user).
+ */
+const OWNER_SOURCE_PREFIXES = ['users/', 'media/', 'avatars/', 'audio/'];
+
+/**
+ * Deliberate community publication.
+ *
+ * Returns a canonical authenticated storage reference (`shared/{uid}/...`)
+ * rather than a bearer download URL. Consumers resolve the reference through
+ * authenticated Firebase Storage SDK access (getBlob), so Storage rules are
+ * the audience boundary. A failed copy aborts publication and never exposes
+ * the private original.
+ */
+export async function copyAssetToShared(userId, sourceUrl, category = UPLOAD_CATEGORIES.MISC) {
+  if (!sourceUrl || typeof sourceUrl !== 'string') return sourceUrl;
+
+  const sourcePath = extractStoragePath(sourceUrl);
+  if (!sourcePath) {
+    // Only data: URLs and built-in/system assets are already approved public
+    // forms. Unknown/external URLs are never passed through as publication.
+    if (sourceUrl.startsWith('data:') || isSystemAsset(sourceUrl)) {return sourceUrl;}
+    return null;
+  }
+  if (sourcePath.startsWith('shared/')) return sourcePath; // already published reference
+
+  const ownerPath = OWNER_SOURCE_PREFIXES.some((prefix) => sourcePath.startsWith(`${prefix}${userId}/`));
+  if (!ownerPath) {
+    // Foreign/unknown private path: never pass it through. Consumers receive
+    // null and use the built-in/default fallback.
+    return null;
+  }
+
+  if (!isCloudStorageAvailable(userId) || !storage) {
+    const unavailable = new Error('Art publication failed: cloud storage is unavailable');
+    unavailable.code = 'publication_failed';
+    throw unavailable;
+  }
+
+  try {
+    const fileName = sourcePath.split('/').pop();
+    const sharedPath = `shared/${userId}/${category}/${fileName}`;
+    const targetRef = ref(storage, sharedPath);
+
+    const blob = await getBlob(ref(storage, sourcePath));
+
+    await uploadBytes(targetRef, blob, {
+      contentType: blob.type || 'image/webp',
+      cacheControl: 'public, max-age=31536000, immutable',
+      customMetadata: {
+        userId,
+        category,
+        originalPath: sourcePath,
+        sharedAt: new Date().toISOString()
+      }
+    });
+
+    return sharedPath;
+  } catch (error) {
+    console.warn('Art publication copy failed; publication aborted:', error?.message || error);
+    const publicationError = new Error('Art publication failed: the shared copy could not be created');
+    publicationError.code = 'publication_failed';
+    throw publicationError;
+  }
+}
+
+const resolvedAssetCache = new Map();
+
+/**
+ * Resolve an approved asset reference to a local object URL using
+ * authenticated SDK bytes. Private/legacy/bearer URLs resolve to null so the
+ * consumer renders the built-in/default fallback instead.
+ */
+export async function resolveAssetUrl(assetRef) {
+  if (!assetRef || typeof assetRef !== 'string') return null;
+  if (isSystemAsset(assetRef)) return assetRef;
+  if (assetRef.startsWith('data:')) return assetRef;
+  if (/^https?:\/\//i.test(assetRef)) return null; // legacy tokenized/external URL
+
+  let storagePath = assetRef;
+  if (!storagePath.startsWith('shared/')) {
+    const extracted = extractStoragePath(assetRef);
+    if (!extracted || !extracted.startsWith('shared/')) return null;
+    storagePath = extracted;
+  }
+  if (!storage || !isFirebaseConfigured) return null;
+
+  if (!resolvedAssetCache.has(storagePath)) {
+    const pending = (async() => {
+      const blob = await getBlob(ref(storage, storagePath));
+      if (typeof URL !== 'undefined' && URL.createObjectURL) {
+        return URL.createObjectURL(blob);
+      }
+      return null;
+    })().catch(() => null);
+    resolvedAssetCache.set(storagePath, pending);
+  }
+  return resolvedAssetCache.get(storagePath);
+}
+
+/**
+ * Copy every listed image/asset field of an entity to the shared prefix.
+ */
+export async function shareEntityImages(userId, entity, category, fields = []) {
+  const updated = { ...entity };
+  for (const field of fields) {
+    const value = updated[field];
+    if (typeof value === 'string' && value) {
+      updated[field] = await copyAssetToShared(userId, value, category);
+    }
+  }
+  return updated;
+}
+
 const uploadService = {
   UPLOAD_CATEGORIES,
   uploadAsset,
@@ -303,7 +422,10 @@ const uploadService = {
   isCloudStorageAvailable,
   isSystemAsset,
   getSystemAssetUrl,
-  generateAssetId
+  generateAssetId,
+  copyAssetToShared,
+  resolveAssetUrl,
+  shareEntityImages
 };
 
 export default uploadService;

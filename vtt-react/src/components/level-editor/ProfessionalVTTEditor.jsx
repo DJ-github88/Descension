@@ -2458,7 +2458,7 @@ const elevationStrokePaintedRef = useRef(null);
                     const activeWallType = toolSettings.selectedWallType || 'stone_wall';
                     const isFreestandingPillar = [
                         'stone_column', 'wooden_column', 'pillar_stone', 'pillar_wood',
-                        'pillar_decorated', 'column_large', 'gothic_stone_column', 'gothic_column', 'column_stone'
+                        'pillar_decorated', 'column_large', 'column_stone'
                     ].includes(activeWallType);
                     if (isFreestandingPillar) {
                         placePillarFeature(activeWallType, e.clientX, e.clientY);

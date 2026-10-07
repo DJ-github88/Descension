@@ -1,7 +1,9 @@
-﻿import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+﻿import React, { useState } from 'react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import ApexResourceBar from '../components/ApexResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
+import useCreatureStore from '../../../../store/creatureStore';
+import { updateManagedClassResource } from '../../../classResourceContracts';
 
 describe('ApexResourceBar Component (The Predator Kill-Ledger)', () => {
     it('renders the 360px SVG chassis with 5 quarry mark talons and flank triggers, no companion sanctuary in bar', () => {
@@ -74,7 +76,7 @@ describe('ApexResourceBar Component (The Predator Kill-Ledger)', () => {
         expect(onUpdate).toHaveBeenCalledWith('current', 0);
     });
 
-    it('does NOT block mark generation when companion HP is 0 (companion is a canvas token now)', () => {
+    it('manual corrections do not depend on the non-authoritative companion HP cache', () => {
         const onUpdate = jest.fn();
         const { container } = render(
             <ApexResourceBar
@@ -87,6 +89,48 @@ describe('ApexResourceBar Component (The Predator Kill-Ledger)', () => {
         const rightTrigger = container.querySelector('.apex-flank-right');
         fireEvent.click(rightTrigger);
         expect(onUpdate).toHaveBeenCalledWith('current', 3);
+    });
+
+    it('mounted outcome controls enforce the own-turn cap without refunding it on spending', () => {
+        let resource;
+        const Bank = () => {
+            const [value, setValue] = useState({ current: 0, max: 20, companionAvailable: true });
+            resource = value;
+            return <ApexResourceBar classResource={value} isOwner={true} showcase={true}
+                onClassResourceUpdate={(field, amount) => setValue(previous => updateManagedClassResource(previous, 'Apex', field, amount))} />;
+        };
+        const { container } = render(<Bank />);
+        fireEvent.click(container.querySelector('.apex-resource-bar'));
+        fireEvent.change(screen.getByLabelText('Coordinated strike quarry reference'), { target: { value: 'bandit-1' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Both hit same quarry (+2)' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Companion hit (+1)' }));
+        expect(resource).toMatchObject({ current: 3, max: 5, apexGeneration: { turn: 1, generated: 3 } });
+        fireEvent.click(screen.getByRole('button', { name: /-1 Mark/ }));
+        expect(resource).toMatchObject({ current: 2, apexGeneration: { generated: 3 } });
+        expect(screen.getByRole('button', { name: 'Companion hit (+1)' })).toBeDisabled();
+        fireEvent.click(screen.getByRole('button', { name: 'Begin next own turn' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Companion hit (+1)' }));
+        expect(resource).toMatchObject({ current: 3, apexGeneration: { turn: 2, generated: 1 } });
+    });
+
+    it('linked canvas vitality disables outcomes immediately, independent of cached HP', () => {
+        const previous = useCreatureStore.getState();
+        useCreatureStore.setState({ creatureTokens: [{ id: 'wolf', name: 'Fang', state: { currentHp: 20 } }] });
+        const update = jest.fn();
+        const { container, unmount } = render(<ApexResourceBar classResource={{ current: 0, max: 5, companionTokenId: 'wolf', companionHP: 0 }}
+            isOwner={true} onClassResourceUpdate={update} />);
+        try {
+            fireEvent.click(container.querySelector('.apex-resource-bar'));
+            expect(screen.getByRole('button', { name: 'Companion hit (+1)' })).not.toBeDisabled();
+            act(() => useCreatureStore.setState({ creatureTokens: [{ id: 'wolf', name: 'Fang', state: { currentHp: 0 } }] }));
+            expect(screen.getByRole('button', { name: 'Companion hit (+1)' })).toBeDisabled();
+            expect(screen.getByText(/Fang: unavailable/)).toBeInTheDocument();
+            fireEvent.click(screen.getByRole('button', { name: 'Companion hit (+1)' }));
+            expect(update).not.toHaveBeenCalled();
+        } finally {
+            unmount();
+            useCreatureStore.setState(previous, true);
+        }
     });
 
     it('activates apex-execution-ready state and apex-tier mark 5 when marks reach 5', () => {

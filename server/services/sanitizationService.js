@@ -6,6 +6,7 @@
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const logger = require('./logger');
+const { ensureSingleAck, ackFailure } = require('../utils/socketAck');
 
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
@@ -43,7 +44,13 @@ function sanitizeObject(obj, allowedFields = null, skipFields = []) {
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(item => sanitizeObject(item, allowedFields, skipFields));
+    // Sanitize string elements too (previously strings returned early
+    // unsanitized, so HTML inside array fields bypassed sanitization).
+    return obj.map(item =>
+      typeof item === 'string'
+        ? sanitizeString(item)
+        : sanitizeObject(item, allowedFields, skipFields)
+    );
   }
 
   const sanitized = {};
@@ -130,35 +137,44 @@ function createSanitizationMiddleware(options = {}) {
     const originalOn = socket.on.bind(socket);
 
     socket.on = function(event, handler) {
-      const sanitizedHandler = async(data, ...args) => {
+      const sanitizedHandler = async(...incomingArgs) => {
+        // Preserve the complete Socket.IO argument list (payload + ack callback).
+        const { args, ack, ackIndex } = ensureSingleAck(incomingArgs);
+        // A callback in the first slot means the event had no data payload.
+        const payloadIndex = ackIndex === 0 ? -1 : 0;
+
         // Skip sanitization for internal events
         const internalEvents = ['connect', 'disconnect', 'error', 'ping', 'pong'];
         if (internalEvents.includes(event)) {
-          return handler(data, ...args);
+          return handler(...args);
         }
 
-        // Sanitize the data
-        let sanitizedData = data;
-        if (data && typeof data === 'object') {
-          sanitizedData = sanitizeObject(data, fieldsToSanitize, fieldsToSkip);
-          
-          if (logSanitization && JSON.stringify(data) !== JSON.stringify(sanitizedData)) {
-            logger.debug('Data sanitized', { 
-              socketId: socket.id, 
-              event, 
-              originalSize: JSON.stringify(data).length,
-              sanitizedSize: JSON.stringify(sanitizedData).length
-            });
+        // Sanitize the data payload when one is present
+        if (payloadIndex >= 0 && args.length > payloadIndex) {
+          const data = args[payloadIndex];
+          if (data && typeof data === 'object') {
+            const sanitizedData = sanitizeObject(data, fieldsToSanitize, fieldsToSkip);
+            args[payloadIndex] = sanitizedData;
+
+            if (logSanitization && JSON.stringify(data) !== JSON.stringify(sanitizedData)) {
+              logger.debug('Data sanitized', {
+                socketId: socket.id,
+                event,
+                originalSize: JSON.stringify(data).length,
+                sanitizedSize: JSON.stringify(sanitizedData).length
+              });
+            }
+          } else if (typeof data === 'string') {
+            args[payloadIndex] = sanitizeString(data);
           }
-        } else if (typeof data === 'string') {
-          sanitizedData = sanitizeString(data);
         }
 
         // Process the event with sanitized data
         try {
-          await handler(sanitizedData, ...args);
+          await handler(...args);
         } catch (error) {
           logger.error(`Error in sanitized handler for event '${event}':`, error);
+          ackFailure(ack, { success: false, error: 'Internal server error', event });
         }
       };
 

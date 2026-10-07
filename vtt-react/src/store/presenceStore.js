@@ -1655,11 +1655,16 @@ const usePresenceStore = create((set, get) => ({
         get().handlePartyUpdate(partyData);
       });
 
-      // Member removed from party (kick or self-leave via server)
-      socket.on('member_removed', ({ partyId, targetUserId, userName }) => {
-        console.log('ðŸ‘¤ Member removed from party:', userName);
+      // Member removed from party (kick or self-leave via server).
+      // The server emits `removed_from_party` to the removed user and
+      // `party_member_removed` to the rest, so normalize both here.
+      const handleMemberRemoved = ({ partyId, targetUserId, userName, memberId, __self = false }) => {
+        const removedId = targetUserId || memberId;
+        console.log('ðŸ‘¤ Member removed from party:', userName || removedId);
 
-        const isSelf = get().currentUserPresence?.userId === targetUserId;
+        const isSelf = __self || (
+          removedId != null && get().currentUserPresence?.userId === removedId
+        );
 
         if (isSelf) {
           const resetState = {
@@ -1689,13 +1694,13 @@ const usePresenceStore = create((set, get) => ({
           } catch (e) { }
         } else {
           set(state => {
-            const updatedMembers = (state.partyMembers || []).filter(m => m.id !== targetUserId);
+            const updatedMembers = (state.partyMembers || []).filter(m => m.id !== removedId);
             return {
               partyMembers: updatedMembers,
               // Push a party event toast so remaining members see who left
               partyEventNotifications: [
                 ...state.partyEventNotifications,
-                { id: `left-${targetUserId}-${Date.now()}`, type: 'left', memberName: userName || 'A member' }
+                { id: `left-${removedId}-${Date.now()}`, type: 'left', memberName: userName || 'A member' }
               ]
             };
           });
@@ -1703,12 +1708,15 @@ const usePresenceStore = create((set, get) => ({
           try {
             const partyStore = getStore('partyStore');
             partyStore.setState(state => {
-              const updatedMembers = (state.partyMembers || []).filter(m => m.id !== targetUserId);
+              const updatedMembers = (state.partyMembers || []).filter(m => m.id !== removedId);
               return { partyMembers: updatedMembers };
             });
           } catch (e) { }
         }
-      });
+      };
+
+      socket.on('removed_from_party', (data) => handleMemberRemoved({ ...data, __self: true }));
+      socket.on('party_member_removed', (data) => handleMemberRemoved({ ...data, targetUserId: data.memberId }));
 
       // Party invitation received
       socket.on('party_invitation_received', (invitation) => {
@@ -2631,13 +2639,20 @@ const usePresenceStore = create((set, get) => ({
    * Cleanup on unmount
    */
   cleanup: () => {
-    const { presenceUnsubscribe } = get();
+    const { presenceUnsubscribe, socket } = get();
 
     if (presenceUnsubscribe) {
       presenceUnsubscribe();
     }
 
     presenceService.cleanup();
+
+    // Detach and close the underlying socket so it (and its ~40 handlers) cannot
+    // outlive the store and duplicate events on the next login.
+    try {
+      socket?.removeAllListeners?.();
+      socket?.disconnect?.();
+    } catch (_e) { /* ignore */ }
 
     set({
       onlineUsers: new Map(),

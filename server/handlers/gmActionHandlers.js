@@ -11,6 +11,8 @@
  * - gm_note_update: GM saves a note (persisted on room.gmNotes)
  */
 
+const roomAccess = require('../services/roomAccessService');
+
 function registerGmActionHandlers(ctx) {
   const {
     io,
@@ -38,7 +40,7 @@ function registerGmActionHandlers(ctx) {
 
         const targetMap = validateMapExists(room, targetMapId, data.mapName);
 
-        const mapData = {
+        const mapData = roomAccess.projectMapDataForClient({
           terrainData: targetMap.terrainData || {},
           wallData: targetMap.wallData || {},
           windowOverlays: targetMap.windowOverlays || {},
@@ -56,7 +58,7 @@ function registerGmActionHandlers(ctx) {
           characterTokens: targetMap.characterTokens || {},
           gridItems: targetMap.gridItems || {},
           gridSettings: targetMap.gridSettings || {}
-        };
+        });
 
         socket.emit('gm_view_changed', {
           gmId: player.id,
@@ -161,7 +163,7 @@ function registerGmActionHandlers(ctx) {
         }
 
         const targetMap = validateMapExists(room, data.targetMapId, data.destinationMapName);
-        const mapData = {
+        const mapData = roomAccess.projectMapDataForClient({
           terrainData: targetMap.terrainData || {},
           wallData: targetMap.wallData || {},
           windowOverlays: targetMap.windowOverlays || {},
@@ -178,7 +180,7 @@ function registerGmActionHandlers(ctx) {
           characterTokens: targetMap.characterTokens || {},
           gridItems: targetMap.gridItems || {},
           gridSettings: targetMap.gridSettings || {}
-        };
+        });
 
         logger.info('[gm_transfer_player] Sending forced_map_transfer', {
           targetSocketId: targetPlayer.socketId,
@@ -230,12 +232,24 @@ function registerGmActionHandlers(ctx) {
 
       const { room } = validation;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
-      const map = validateMapExists(room, mapId);
+      const maps = (room.gameState && room.gameState.maps) || {};
+      if (!Object.prototype.hasOwnProperty.call(maps, mapId) || !maps[mapId] || typeof maps[mapId] !== 'object') {
+        socket.emit('sync_error', {
+          event: 'gm_request_fresh_positions',
+          code: 'map_unavailable',
+          mapId,
+          message: `Map '${mapId}' is not available for recovery`
+        });
+        return;
+      }
+      const map = maps[mapId];
 
       socket.emit('fresh_positions_received', {
         mapId,
-        characterTokens: map.characterTokens || {},
-        tokens: map.tokens || {}
+        ...roomAccess.projectMapDataForClient({
+          characterTokens: map.characterTokens || {},
+          tokens: map.tokens || {}
+        })
       });
 
       logger.info(`[gm_request_fresh_positions] Sent fresh positions for map ${mapId}`);
@@ -267,7 +281,7 @@ function registerGmActionHandlers(ctx) {
           );
           if (match) {
             targetMapId = match.properties?.destinationMapId || match.destinationMapId || null;
-            if (targetMapId) break;
+            if (targetMapId) {break;}
           }
           const portals = Array.isArray(map?.portals) ? map.portals : [];
           const portalMatch = portals.find(p => p && p.id === connectionId);
@@ -334,7 +348,7 @@ function registerGmActionHandlers(ctx) {
           mapId: targetMapId,
           newMapId: targetMapId,
           newMapName: mapSnapshot.name,
-          mapData: mapSnapshot,
+          mapData: roomAccess.projectGameStateForClient({ maps: { [targetMapId]: mapSnapshot } }).maps[targetMapId],
           centerPosition,
           transferredByGM: false,
           portalUsed: {

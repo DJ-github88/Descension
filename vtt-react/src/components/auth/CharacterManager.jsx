@@ -157,7 +157,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'fexrick': '⚙️', 'Fexric': '⚙️',
+    'fexrick': '⚙️', 'Fex': '⚙️',
 
 
 
@@ -169,7 +169,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'neth': '📜', 'Nethien': '📜',
+    'neth': '📜', 'Athien': '📜',
 
 
 
@@ -177,7 +177,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-    'vreken': '🦎', 'Vreken': '🦎',
+    'vreken': '🦎', 'Mycellan': '🦎',
 
 
 
@@ -1646,7 +1646,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="fexrick">Fexric</option>
+                    <option value="fexrick">Fex</option>
 
 
 
@@ -1658,11 +1658,11 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
 
 
 
-                    <option value="neth">Nethien</option>
+                    <option value="neth">Athien</option>
 
 
 
-                    <option value="vreken">Vreken</option>
+                    <option value="vreken">Mycellan</option>
 
 
 

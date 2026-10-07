@@ -182,6 +182,21 @@ export function registerConnectionHandlers(ctx) {
       }, 1000);
     });
 
+    // Server-side handler failures are reported as `socket_error`; treat them
+    // like a sync error and request a full resync to recover.
+    socket.on('socket_error', (data) => {
+      console.error('Server socket error:', data);
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `Server error${data?.event ? ` (${data.event})` : ''}. Requesting full sync...`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+      setTimeout(() => {
+        socket.emit('request_full_sync');
+      }, 1000);
+    });
+
     // Handle connection errors
     socket.on('connect_error', (error) => {
       console.error('âŒ Connection error:', error);
@@ -264,6 +279,7 @@ export function registerConnectionHandlers(ctx) {
       socket.off('auth_error');
       socket.off('disconnect');
       socket.off('sync_error');
+      socket.off('socket_error');
       socket.off('connect_error');
       socket.off('reconnect');
     };

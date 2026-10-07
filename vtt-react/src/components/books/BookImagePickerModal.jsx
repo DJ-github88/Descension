@@ -23,7 +23,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'race-fexric',
-    name: 'Fexric Cyber-Engineer',
+    name: 'Fex Cyber-Engineer',
     category: 'races',
     type: 'Lineage Art',
     url: '/assets/images/races/fexric_illustration.png',
@@ -47,15 +47,15 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'race-mimir',
-    name: 'Mimir Veiled Seer',
+    name: 'Arch Mimir Seer',
     category: 'races',
     type: 'Lineage Art',
-    url: '/assets/images/races/Veiled_Mimir.png',
-    thumbnail: '/assets/images/races/Veiled_Mimir.png'
+    url: '/assets/images/races/mimir_arch_portrait_noble.jpg',
+    thumbnail: '/assets/images/races/mimir_arch_portrait_noble.jpg'
   },
   {
     id: 'race-myrathil',
-    name: 'Myrathil Deepling',
+    name: 'Myrathil Nereid',
     category: 'races',
     type: 'Lineage Art',
     url: '/assets/images/races/deep_illustration.png',
@@ -63,7 +63,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'race-neth',
-    name: 'Nethien Forest-Dweller',
+    name: 'Athien Forest-Dweller',
     category: 'races',
     type: 'Lineage Art',
     url: '/assets/images/races/neth_illustration.png',
@@ -79,7 +79,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'race-vreken',
-    name: 'Vreken Highborn',
+    name: 'Mycellan Highborn',
     category: 'races',
     type: 'Lineage Art',
     url: '/assets/images/races/ithran_illustration.png',
@@ -89,23 +89,23 @@ export const CHARACTER_ART_PRESETS = [
   // --- Subraces & Cultures ---
   {
     id: 'subrace-tethered-mimir',
-    name: 'Tethered Mimir Scholar',
+    name: 'Broken Mimir Scholar',
     category: 'subraces',
     type: 'Subrace Art',
-    url: '/assets/images/races/Tethered_Mimir.png',
-    thumbnail: '/assets/images/races/Tethered_Mimir.png'
+    url: '/assets/images/races/mimir_broken_portrait_bust.jpg',
+    thumbnail: '/assets/images/races/mimir_broken_portrait_bust.jpg'
   },
   {
     id: 'subrace-untethered-mimir',
-    name: 'Untethered Mimir Mystic',
+    name: 'Broken Mimir Mystic',
     category: 'subraces',
     type: 'Subrace Art',
-    url: '/assets/images/races/Untethered_Mimir.png',
-    thumbnail: '/assets/images/races/Untethered_Mimir.png'
+    url: '/assets/images/races/mimir_broken_culture_mirror.png',
+    thumbnail: '/assets/images/races/mimir_broken_culture_mirror.png'
   },
   {
     id: 'subrace-deepling-myrathil',
-    name: 'Deepling Myrathil Hunter',
+    name: 'Nereid Myrathil Hunter',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/deep_illustration_2.png',
@@ -121,7 +121,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-viridian-florae',
-    name: 'Viridian Thorn-Weaver',
+    name: 'Briaren Thorn-Weaver',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/briaran_illustration.jpg',
@@ -145,7 +145,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-drun-fexrick',
-    name: 'Withered Swamp-Grafter',
+    name: 'Riven Swamp-Grafter',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/drun_illustration.png',
@@ -169,7 +169,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-ithran-vreken',
-    name: 'Ithran Noblewoman',
+    name: 'Amordjin Noblewoman',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/ithran_female.jpg',
@@ -177,7 +177,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-hallowed-neth',
-    name: 'Veldun Hermit',
+    name: 'Weft Hermit',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/hallowed_illustration.png',
@@ -193,7 +193,7 @@ export const CHARACTER_ART_PRESETS = [
   },
   {
     id: 'subrace-kessen-culture',
-    name: 'Veldun Fate-Gambler',
+    name: 'Weft Fate-Gambler',
     category: 'subraces',
     type: 'Subrace Art',
     url: '/assets/images/races/kessen_illustration.png',

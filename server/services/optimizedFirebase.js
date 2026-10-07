@@ -203,25 +203,11 @@ class OptimizedFirebaseService {
   /**
    * Optimized room data save with caching
    */
-  async saveRoomData(roomId, roomData, priority = 'normal') {
-    const cacheKey = `room:${roomId}`;
-    
-    // Update cache immediately
-    this.setCache(cacheKey, roomData, this.cacheDefaultTTL);
-
-    // Queue write based on priority
-    if (priority === 'high') {
-      // High priority - write immediately
-      return this.immediateWrite('set', `rooms/${roomId}`, roomData, true);
-    } else {
-      // Normal priority - queue for batching
-      return this.queueWrite(roomId, {
-        type: 'set',
-        path: `rooms/${roomId}`,
-        data: roomData,
-        merge: true
-      });
-    }
+  async saveRoomData(roomId, _roomData, _priority = 'normal') {
+    // Project 3: shared room state publishes only through the selected
+    // checkpoint writer. This alternate lane must not write.
+    logger.warn('optimizedFirebase.saveRoomData is disabled (Project 3): shared room state is server-checkpoint owned', { roomId });
+    return;
   }
 
   /**
@@ -279,32 +265,11 @@ class OptimizedFirebaseService {
   /**
    * Update game state with delta optimization
    */
-  async updateGameState(roomId, gameState, delta = null) {
-    const cacheKey = `gamestate:${roomId}`;
-    
-    // Update cache
-    this.setCache(cacheKey, gameState, this.cacheDefaultTTL);
-
-    // If we have a delta, use it for more efficient updates
-    if (delta && Object.keys(delta).length > 0) {
-      const updateData = {};
-      for (const [key, value] of Object.entries(delta)) {
-        updateData[`gameState.${key}`] = value;
-      }
-
-      return this.queueWrite(roomId, {
-        type: 'update',
-        path: `rooms/${roomId}`,
-        data: updateData
-      });
-    } else {
-      // Full game state update
-      return this.queueWrite(roomId, {
-        type: 'update',
-        path: `rooms/${roomId}`,
-        data: { gameState: gameState }
-      });
-    }
+  async updateGameState(roomId, _gameState, _delta = null) {
+    // Project 3: shared room state publishes only through the selected
+    // checkpoint writer. This alternate lane must not write.
+    logger.warn('optimizedFirebase.updateGameState is disabled (Project 3): shared room state is server-checkpoint owned', { roomId });
+    return;
   }
 
   /**

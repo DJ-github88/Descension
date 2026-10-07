@@ -8,159 +8,20 @@ import { getCustomIconUrl, getIconUrl, getAbilityIconUrl } from '../../utils/ass
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
-import { resolveClassResourceEngineId, SPELL_RESOURCE_KEY_TO_ENGINE_ID } from '../../data/classResourceAliases';
+import { resolveClassResourceEngineId } from '../../data/classResourceAliases';
+import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
+import { getActiveHeritageAbilities } from '../../data/heritageEdgeAdapter';
+import { toCanonicalSphere, extractSphereRequirementsAndGains } from '../../data/classResourceBanks';
 import { RARITY_COLORS } from '../../constants/itemConstants';
-import { migrateBlockId } from '../../utils/arcanoneerMigration';
 import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/cardSystem';
+import { flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSystem';
 import { useCharacterSpells } from '../../hooks/useCharacterSpells';
 import './SpellActionBar.css';
 
 const DEFAULT_SLOT_COUNT = 10;
 const HOTKEY_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
-const CANONICAL_SPHERE_SET = new Set(['arcane', 'sacred', 'blight', 'ember', 'rime', 'primal', 'storm', 'wyrd']);
-
-const SPHERE_KEY_MAP = {
-  arcane: 'arcane', arcane_sphere: 'arcane', force: 'arcane',
-  sacred: 'sacred', holy_sphere: 'sacred', radiant_sphere: 'sacred', light: 'sacred', holy: 'sacred', radiant: 'sacred',
-  blight: 'blight', shadow_sphere: 'blight', necrotic_sphere: 'blight', shadow: 'blight', necrotic: 'blight',
-  ember: 'ember', fire_sphere: 'ember', fire: 'ember', heat: 'ember',
-  rime: 'rime', ice_sphere: 'rime', frost_sphere: 'rime', ice: 'rime', frost: 'rime', cold: 'rime',
-  primal: 'primal', nature_sphere: 'primal', nature: 'primal', spark: 'primal',
-  storm: 'storm', healing_sphere: 'storm', flesh_sphere: 'storm', lightning: 'storm', healing: 'storm', flesh: 'storm',
-  wyrd: 'wyrd', chaos_sphere: 'wyrd', chaos: 'wyrd'
-};
-
-export const toCanonicalSphere = (rawKey) => {
-  if (!rawKey || typeof rawKey !== 'string') return null;
-  const clean = rawKey.trim().toLowerCase();
-  // Filter out non-sphere resource names explicitly
-  if (['mana', 'health', 'hp', 'mp', 'ap', 'actionpoints', 'action_points', 'time_shards', 'time_shard', 'timeshards', 'devotion', 'inferno', 'cooldown'].includes(clean)) {
-    return null;
-  }
-  // Any known class-resource key (rage, marks, toll, flux, …) is never a sphere.
-  if (SPELL_RESOURCE_KEY_TO_ENGINE_ID[clean]) {
-    return null;
-  }
-  if (CANONICAL_SPHERE_SET.has(clean)) return clean;
-  if (SPHERE_KEY_MAP[clean]) return SPHERE_KEY_MAP[clean];
-  const migrated = migrateBlockId(clean);
-  if (CANONICAL_SPHERE_SET.has(migrated)) return migrated;
-  return null;
-};
-
-export const extractSphereRequirementsAndGains = (spellData) => {
-  if (!spellData) return { costs: [], gains: [] };
-  const costs = [];
-  const gains = [];
-
-  // 1. Check spellData.elements (Arcanoneer formulation)
-  if (Array.isArray(spellData.elements)) {
-    spellData.elements.forEach(el => {
-      const canon = toCanonicalSphere(String(el));
-      if (canon) costs.push(canon);
-    });
-  }
-
-  // 2. Check spellData.resourceCost.spheres
-  if (Array.isArray(spellData.resourceCost?.spheres)) {
-    spellData.resourceCost.spheres.forEach(s => {
-      const canon = toCanonicalSphere(String(s));
-      if (canon) costs.push(canon);
-    });
-  }
-
-  // 3. Check spellData.sphereCost
-  if (spellData.sphereCost) {
-    if (Array.isArray(spellData.sphereCost)) {
-      spellData.sphereCost.forEach(s => {
-        const canon = toCanonicalSphere(String(s));
-        if (canon) costs.push(canon);
-      });
-    } else if (typeof spellData.sphereCost === 'string') {
-      const parts = spellData.sphereCost.split(/[+,/&]/);
-      parts.forEach(part => {
-        const match = part.trim().match(/^(\d+)?\s*([a-zA-Z]+)/);
-        if (match) {
-          const count = match[1] ? parseInt(match[1], 10) : 1;
-          const sphereId = toCanonicalSphere(match[2]);
-          if (sphereId) {
-            for (let i = 0; i < count; i++) {
-              costs.push(sphereId);
-            }
-          }
-        }
-      });
-    }
-  }
-
-  // 4. Check spellData.resourceCost.resourceValues
-  if (spellData.resourceCost?.resourceValues && typeof spellData.resourceCost.resourceValues === 'object') {
-    Object.entries(spellData.resourceCost.resourceValues).forEach(([key, val]) => {
-      const count = Number(val) || 0;
-      if (count <= 0) return;
-      const lowerKey = key.toLowerCase();
-      if (lowerKey.includes('generate') || lowerKey.includes('gain')) {
-        const cleanKey = lowerKey.replace(/(_generate|_gain|generate_|gain_)/g, '');
-        const mapped = toCanonicalSphere(cleanKey);
-        if (mapped) {
-          for (let i = 0; i < count; i++) gains.push(mapped);
-        }
-      } else {
-        const mapped = toCanonicalSphere(lowerKey);
-        if (mapped && !costs.includes(mapped)) {
-          for (let i = 0; i < count; i++) costs.push(mapped);
-        }
-      }
-    });
-  }
-
-  // 5. Check spellData.resourceCost.resourceTypes
-  if (Array.isArray(spellData.resourceCost?.resourceTypes)) {
-    spellData.resourceCost.resourceTypes.forEach(rt => {
-      const mapped = toCanonicalSphere(rt);
-      if (mapped && !costs.includes(mapped)) {
-        costs.push(mapped);
-      }
-    });
-  }
-
-  // 6. Check sphere gains / generation from specialMechanics or resourceGain
-  const gainArr = spellData.sphereGenerate || spellData.sphereGain || spellData.resourceGain?.spheres;
-  if (Array.isArray(gainArr)) {
-    gainArr.forEach(s => {
-      const canon = toCanonicalSphere(String(s));
-      if (canon) gains.push(canon);
-    });
-  }
-
-  if (spellData.resourceGain?.resourceValues && typeof spellData.resourceGain.resourceValues === 'object') {
-    Object.entries(spellData.resourceGain.resourceValues).forEach(([key, val]) => {
-      const count = Number(val) || 0;
-      if (count <= 0) return;
-      const cleanKey = key.toLowerCase().replace(/(_generate|_gain|generate_|gain_)/g, '');
-      const mapped = toCanonicalSphere(cleanKey);
-      if (mapped) {
-        for (let i = 0; i < count; i++) gains.push(mapped);
-      }
-    });
-  }
-
-  // 7. Check description/flavor text for generated spheres
-  const fullText = `${spellData.description || ''} ${spellData.mechanicsText || ''} ${spellData.flavorText || ''}`;
-  if (fullText && gains.length === 0) {
-    const genMatch = fullText.match(/generat(?:ing|es?|e)\s+(\d+)?\s*(?:elemental\s+)?(wyrd|rime|ember|arcane|sacred|blight|primal|storm|frost|fire|chaos|light|shadow|nature|force)/i);
-    if (genMatch) {
-      const count = genMatch[1] ? parseInt(genMatch[1], 10) : 1;
-      const sphereId = toCanonicalSphere(genMatch[2]);
-      if (sphereId) {
-        for (let i = 0; i < count; i++) gains.push(sphereId);
-      }
-    }
-  }
-
-  return { costs, gains };
-};
+export { toCanonicalSphere, extractSphereRequirementsAndGains };
 
 export const getSpellTooltipCostSummary = (spellData) => {
   if (!spellData) return '';
@@ -1069,8 +930,9 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     }
 
     // 5. Check Arcanoneer Elemental Spheres (only if character uses elemental spheres)
-    const classRes = charStore.classResource || {};
-    const isArcanoneer = classRes.type === 'elementalSpheres' || Array.isArray(classRes.spheres);
+    const classRes = normalizeManagedClassResource(charStore.classResource || {}, charStore.class);
+    const managedPlan = getManagedSpellResourcePlan(spellData, classRes, charStore.class);
+    const isArcanoneer = !managedPlan.bank && (classRes.type === 'elementalSpheres' || Array.isArray(classRes.spheres));
     const { costs: sphereCosts, gains: sphereGains } = extractSphereRequirementsAndGains(spellData);
     let sphereBankCopy = [];
 
@@ -1105,7 +967,17 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     const genericCrType = genericCr.type;
     const genericCrEngineId = resolveClassResourceEngineId(genericCrType);
     const genericCrCost = Number(genericCr.cost || 0);
-    const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrEngineId !== 'timeShardsStrain';
+    if (managedPlan.handled && !managedPlan.affordable) {
+      useChatStore.getState().addCombatNotification?.({
+        type: 'system', sender: 'Combat',
+        content: managedPlan.reason ? `Cannot cast ${spellData.name}: ${managedPlan.reason}.` : managedPlan.bank
+          ? `Cannot cast ${spellData.name}: the required ${managedPlan.label} pitches/categories are unavailable or invalid.`
+          : `Cannot cast ${spellData.name}: requires ${Math.max(managedPlan.cost, managedPlan.required)} ${managedPlan.label}; have ${managedPlan.current}.`,
+        timestamp: new Date().toISOString()
+      });
+      return false;
+    }
+    const usesGenericCr = !managedPlan.handled && genericCrCost !== 0 && !!genericCrType && genericCrEngineId !== 'timeShardsStrain';
     const genericCrLabel = genericCrType
       ? genericCrType.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
       : 'Class Resource';
@@ -1122,7 +994,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     // 6. Check Pyrofiend Inferno Veil
     const infernoReq = Number(spellData.infernoRequired || spellData.resourceCost?.resourceValues?.inferno_required || 0);
     const currentInferno = Number(classRes.current || 0);
-    if (infernoReq > 0 && currentInferno < infernoReq) {
+    if (!managedPlan.handled && infernoReq > 0 && currentInferno < infernoReq) {
       useChatStore.getState().addCombatNotification?.({
         type: 'system',
         sender: 'Combat',
@@ -1136,7 +1008,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     const devCost = Number(spellData.devotionCost || spellData.resourceCost?.resourceValues?.devotion_cost || 0);
     const devReq = Number(spellData.devotionRequired || spellData.resourceCost?.resourceValues?.devotion_required || 0);
     const currentDev = Number(classRes.current || 0);
-    if (devReq > 0 && currentDev < devReq) {
+    if (!managedPlan.handled && devReq > 0 && currentDev < devReq) {
       useChatStore.getState().addCombatNotification?.({
         type: 'system',
         sender: 'Combat',
@@ -1145,7 +1017,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       });
       return false;
     }
-    if (devCost > 0 && currentDev < devCost) {
+    if (!managedPlan.handled && devCost > 0 && currentDev < devCost) {
       useChatStore.getState().addCombatNotification?.({
         type: 'system',
         sender: 'Combat',
@@ -1158,7 +1030,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     // 8. Check Minstrel Musical Cadence Notes
     const cadenceNotes = spellData._cadenceNotes || spellData.notes || spellData.resourceCost?.notes;
     const NUMERAL_TO_INDEX = { I: 0, II: 1, III: 2, IV: 3, V: 4, VI: 5, VII: 6 };
-    if (cadenceNotes) {
+    if (cadenceNotes && !managedPlan.bank) {
       const charNotes = Array.isArray(classRes.notes) ? classRes.notes : (Array.isArray(charStore.classResource?.notes) ? charStore.classResource.notes : null);
       if (charNotes) {
         const missingNotes = [];
@@ -1233,23 +1105,43 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     // Inferno Veil
     const infernoAscend = Number(spellData.infernoAscend || spellData.resourceCost?.resourceValues?.inferno_ascend || 0);
     const infernoDescend = Number(spellData.infernoDescend || spellData.resourceCost?.resourceValues?.inferno_descend || 0);
-    if (infernoAscend > 0) {
+    if (!managedPlan.handled && infernoAscend > 0) {
       charStore.gainClassResource(infernoAscend);
       changesLog.push(`+${infernoAscend} Inferno`);
-    } else if (infernoDescend > 0) {
+    } else if (!managedPlan.handled && infernoDescend > 0) {
       charStore.consumeClassResource(infernoDescend);
       changesLog.push(`-${infernoDescend} Inferno`);
     }
 
     // Devotion
     const devGain = Number(spellData.devotionGain || spellData.resourceCost?.resourceValues?.devotion_gain || 0);
-    if (devCost > 0) {
+    if (!managedPlan.handled && devCost > 0) {
       charStore.consumeClassResource(devCost);
       changesLog.push(`-${devCost} Devotion`);
     }
-    if (devGain > 0) {
+    if (!managedPlan.handled && devGain > 0) {
       charStore.gainClassResource(devGain);
       changesLog.push(`+${devGain} Devotion`);
+    }
+
+    if (managedPlan.handled) {
+      if (managedPlan.transition === 'infernoVeil') {
+        charStore.updateClassResource('debtCall', managedPlan.nextResource.debtCall);
+        charStore.updateClassResource('current', managedPlan.nextResource.current);
+        changesLog.push(`Veil ${managedPlan.current} → ${managedPlan.nextResource.current}; Debt Call ${managedPlan.nextResource.debtCall.status}`);
+      } else if (managedPlan.transition === 'shaper') {
+        charStore.updateClassResource('current', managedPlan.nextResource.current);
+        charStore.updateClassResource('bodyToll', managedPlan.nextResource.bodyToll);
+        if (managedPlan.targetForm) charStore.updateClassResource('stance', managedPlan.targetForm);
+        changesLog.push(`Flux ${managedPlan.current} → ${managedPlan.nextResource.current}; Body Toll ${managedPlan.nextResource.bodyToll}/10`);
+      } else if (managedPlan.bank) {
+        charStore.updateClassResource(managedPlan.bank, managedPlan.nextResource[managedPlan.bank]);
+        changesLog.push(`-${managedPlan.costs.length} / +${managedPlan.gains.length} ${managedPlan.label}`);
+      } else {
+        if (managedPlan.cost > 0) charStore.consumeClassResource(managedPlan.cost, managedPlan.resourceKey);
+        if (managedPlan.gain > 0) charStore.gainClassResource(managedPlan.gain, managedPlan.resourceKey);
+        changesLog.push(`${managedPlan.cost > 0 ? `-${managedPlan.cost}` : `+${managedPlan.gain}`} ${managedPlan.label}`);
+      }
     }
 
     // Time Shards
@@ -1265,7 +1157,7 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     }
 
     // Minstrel Cadence Notes deduction
-    if (cadenceNotes) {
+    if (cadenceNotes && !managedPlan.bank) {
       const charNotes = Array.isArray(classRes.notes) ? classRes.notes : (Array.isArray(charStore.classResource?.notes) ? charStore.classResource.notes : null);
       if (charNotes) {
         const nextNotes = [...charNotes];
@@ -1328,6 +1220,28 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
       content: `✨ ${playerName} cast ${spellData.name}${changesStr}${resolutionLogStr}.`,
       timestamp: new Date().toISOString()
     });
+
+    // Heritage capability (native or qualified E route). Context comes from an
+    // explicit override or the spell's target restrictions; when the condition
+    // cannot be established nothing fires. Advisory only — never blocks a cast.
+    try {
+      const restrictions = spellData.targetingConfig?.targetRestrictions || spellData.targetRestrictions || [];
+      const derived = {};
+      if (restrictions.includes('ally')) derived.target = 'ally';
+      else if (restrictions.includes('enemy')) derived.target = 'enemy';
+      const heritageContext = { ...derived, ...(charStore.heritageContext || {}) };
+      const heritage = getActiveHeritageAbilities(charStore, heritageContext);
+      if (heritage.applies && heritage.capabilities.length > 0) {
+        useChatStore.getState().addCombatNotification?.({
+          type: 'combat',
+          sender: playerName,
+          content: `✧ ${playerName}'s heritage edge is active — ${heritage.capabilities.join(', ')}${heritage.costCapabilities.length ? ` (paired cost: ${heritage.costCapabilities.join(', ')})` : ''}.`,
+          timestamp: new Date().toISOString()
+        });
+      }
+    } catch (error) {
+      console.warn('Heritage edge evaluation skipped:', error);
+    }
 
     return true;
   };
@@ -2225,6 +2139,30 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
                           </span>
                         ))}
                       </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Musical Notes (Minstrel) */}
+                {(() => {
+                  const state = useCharacterStore.getState();
+                  const plan = getManagedSpellResourcePlan(pendingSpellCast.spell, state.classResource, state.class);
+                  if (plan.bank !== 'notes') return null;
+                  return (
+                    <div className="spell-cast-sphere-preview">
+                      <div className="sphere-preview-header">
+                        <i className="fas fa-music" />
+                        <span>Musical Notes</span>
+                        <span className="sphere-bank-count">Bank: {plan.current} / 35</span>
+                      </div>
+                      <div className="sphere-pills-row">
+                        {[...new Set([...plan.costs, ...plan.gains])].map(numeral => (
+                          <span key={numeral} className="sphere-pill">
+                            {numeral}: −{plan.costs.filter(key => key === numeral).length} / +{plan.gains.filter(key => key === numeral).length}
+                          </span>
+                        ))}
+                      </div>
+                      {!plan.affordable && <span className="insufficient">Required pitches are unavailable.</span>}
                     </div>
                   );
                 })()}

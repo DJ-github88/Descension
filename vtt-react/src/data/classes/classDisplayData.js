@@ -2,10 +2,11 @@ import {
     faSkull, faMagic, faAtom, faClock,
     faGavel, faEye, faShieldAlt, faMoon, faCross, faYinYang,
     faWind, faBiohazard, faFlask, faMusic, faFire,
-    faDove, faHourglassHalf
+    faDove, faHourglassHalf, faSeedling
 } from '@fortawesome/free-solid-svg-icons';
+import { CLASS_COMPATIBILITY_ALIASES } from '../classHeritageRegistry';
 
-export const CLASS_DISPLAY_DATA = [
+const CLASS_DISPLAY_ENTRIES = [
     {
         name: 'Arcanoneer',
         imageIcon: '/assets/icons/classes/arcanoneer.png',
@@ -78,7 +79,7 @@ export const CLASS_DISPLAY_DATA = [
         resource: 'Shards',
         complexityRating: 3,
         cognitiveTags: ['Time Banking', 'Undo Mechanics', 'Temporal Strain'],
-        playstyle: 'The Fexric guild vaults guard clockwork engines that bend time inside the mountain blizzard. Slow your enemies, accelerate your allies, and rewind mortal wounds through brass chest engines.',
+        playstyle: 'The Fex guild vaults guard clockwork engines that bend time inside the mountain blizzard. Slow your enemies, accelerate your allies, and rewind mortal wounds through brass chest engines.',
         roleColor: '#9b59b6',
         damageTypes: ['storm', 'arcane'],
         quickStartPresets: {
@@ -341,7 +342,64 @@ export const CLASS_DISPLAY_DATA = [
             striker: { name: 'Solar Justiciar', description: 'Greatsword cleaves that generate fervor for massive smites.', spells: ['starlight_cleave', 'zealous_strike', 'crusader_beacon_of_truth'] },
             tank: { name: 'Dawn Bastion', description: 'Tower shield wall, consecrated territory, and party damage soak.', spells: ['bastion_stance', 'crusader_starlight_interposition', 'crusader_sanctified_hearth'] }
         }
+    },
+    {
+        name: 'Nereid Myrathil Apex',
+        imageIcon: '/assets/icons/classes/apex.png',
+        icon: faMoon,
+        role: 'Trench-Stalker / Damage',
+        resource: 'Marks',
+        complexityRating: 2,
+        cognitiveTags: ['Current-Shear Tracking', 'Deep-Pressure Reading', 'Pack Coordination'],
+        playstyle: 'Track prey through abyssal currents and pressure-gradients in the deep trenches. Hunt with a deep-adapted beast companion, reading the water-column the way surface trackers read frost or fog.',
+        roleColor: '#2c3e50',
+        damageTypes: ['smashing', 'stabbing', 'slicing'],
+        quickStartPresets: {
+            striker: { name: 'Trench-Stalker', description: 'Track through current-shear and strike with precision at depth.', spells: ['apex_mark_quarry', 'apex_glaive_toss'] },
+            pack: { name: 'Abyssal Pack', description: 'Coordinate with deep-adapted companion for synchronized strikes.', spells: ['apex_companion_strike', 'apex_silent_footsteps'] }
+        }
+    },
+    {
+        name: 'Nereid Myrathil Animist',
+        imageIcon: '/assets/icons/classes/animist.png',
+        icon: faSeedling,
+        role: 'Abyssal Echo-Caller / Support',
+        resource: 'Resonance',
+        complexityRating: 3,
+        cognitiveTags: ['Abyssal Communion', 'Pressure-Wave Channeling', 'Deep-Ancestor Bonds'],
+        playstyle: 'Channel drowned ancestors through deep-pressure bone-resonance in the abyssal trenches. The communion is silent and invisible — no bone eruption, no runic scarring — just a deepling standing motionless while the deep answers.',
+        roleColor: '#1a5276',
+        damageTypes: ['primal', 'blight', 'storm'],
+        quickStartPresets: {
+            controller: { name: 'Abyssal Conduit', description: 'Open channels to drowned ancestors for battlefield control.', spells: ['animist_ancestral_whisper', 'animist_spirit_voice'] },
+            support: { name: 'Deep Listener', description: 'Maintain abyssal communion for party buffs and spirit wards.', spells: ['animist_healing_totem', 'animist_rune_of_shielding'] }
+        }
+    },
+    {
+        name: 'Nereid Myrathil Augur',
+        imageIcon: '/assets/icons/classes/augur.png',
+        icon: faDove,
+        role: 'Trench-Haruspex / Control',
+        resource: 'Benediction & Malediction',
+        complexityRating: 3,
+        cognitiveTags: ['Pressure-Reading', 'Abyssal Offerings', 'Even/Odd d20 Tracking'],
+        playstyle: 'Read the immediate future in abyssal offerings and pressure-patterns at the Treakous Rift. The abyssal dead do not decay — they wait, and the Trench-Haruspex reads how the deep accepts a sacrifice.',
+        roleColor: '#1a5276',
+        damageTypes: ['wyrd', 'blight'],
+        quickStartPresets: {
+            debuffer: { name: 'Rift-Seer', description: 'Read pressure-patterns to curse enemies with maledictions.', spells: ['augur_read_the_signs', 'augur_cast_the_bones'] },
+            controller: { name: 'Trench-Prophet', description: 'Bless allies with benedictions read from the abyss.', spells: ['augur_omen_shield', 'augur_sign_of_clarity'] }
+        }
     }
 ];
+
+// Keep the existing alias descriptions for legacy lookup/import, while the
+// catalog and next/previous navigation enumerate the 21 base classes only.
+export const CLASS_DISPLAY_ALIASES = CLASS_DISPLAY_ENTRIES.filter(entry =>
+    Object.prototype.hasOwnProperty.call(CLASS_COMPATIBILITY_ALIASES, entry.name)
+);
+export const CLASS_DISPLAY_DATA = CLASS_DISPLAY_ENTRIES.filter(entry =>
+    !Object.prototype.hasOwnProperty.call(CLASS_COMPATIBILITY_ALIASES, entry.name)
+);
 
 export default CLASS_DISPLAY_DATA;

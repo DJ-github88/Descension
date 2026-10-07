@@ -11,6 +11,7 @@ import useDialogueStore from '../../store/dialogueStore';
 import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import gameStateManager from '../../services/gameStateManager';
+import { applyRoomSnapshot } from '../../services/silentRoomHydration';
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
   const {
@@ -43,6 +44,10 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
     // Clear the enteringMultiplayer flag - we're now in the room
     sessionStorage.removeItem('enteringMultiplayer');
+
+    // Project 3: in active multiplayer the server owns shared room state; the
+    // browser manager must not load or autosave the whole-room document.
+    gameStateManager.setMultiplayerActive(true);
 
     // Clear all stores before joining a new room to ensure a clean slate.
     // For permanent room resume, preserve map entities until authoritative payload hydration completes.
@@ -315,11 +320,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
               localStorage.setItem('roomDataChanged', 'true');
               localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
             } else {
-              // Regular authenticated user - save to Firebase
-              const { joinRoom } = await import('../../services/roomService');
-              await joinRoom(room.persistentRoomId, user.uid, room.password || '');
-
-              // Set a flag to indicate that room data should be refreshed when returning to account
+              // Project 4: durable membership is recorded by the server
+              // admission gate; the browser performs no direct Firestore
+              // members write.
               localStorage.setItem('roomDataChanged', 'true');
               localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
             }
@@ -556,56 +559,6 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         console.log(`Ã°Å¸"Å¡ Populated creature library with ${creatureCount} creatures from legacy tokens`);
       }
 
-      // 1. Initialize Map Store with all maps (essential for GM Map Library)
-      if (room.gameState.maps) {
-        import('../../store/mapStore').then(({ default: useMapStore }) => {
-          const mapStoreState = useMapStore.getState();
-          // Reset store first to clear old maps
-          if (mapStoreState.resetStore) mapStoreState.resetStore();
-
-          Object.values(room.gameState.maps).forEach(mapData => {
-            // Create map in store
-            mapStoreState.createMapWithoutSwitching({
-              id: mapData.id,
-              name: mapData.name || mapData.id
-            });
-
-            // If this is the GM, load thumbnail if available
-            if (isGameMaster && mapData.thumbnailUrl) {
-              // Logic to set thumbnail would go here
-            }
-          });
-          console.log('🗺️ MapStore initialized with maps:', Object.keys(room.gameState.maps));
-        });
-      }
-
-      // 1b. Initialize Location Scene Mode & interactiveMapStore if present in room.gameState
-      if (room.gameState) {
-        const sceneMode = room.gameState.activeSceneMode || 'tactical';
-        const locMapId = room.gameState.activeLocationMapId || null;
-        const freeRoam = room.gameState.isFreeRoamAllowed || false;
-
-        import('../../store/gameStore').then(({ default: useGameStore }) => {
-          useGameStore.getState().setSceneModeAndLocation(sceneMode, locMapId, freeRoam);
-        });
-
-        if (room.gameState.locationScenes) {
-          import('../../store/interactiveMapStore').then(({ default: useInteractiveMapStore }) => {
-            const locStore = useInteractiveMapStore.getState();
-            locStore.ensureStarterMaps();
-            if (locMapId && room.gameState.locationScenes[locMapId]) {
-              const sceneData = room.gameState.locationScenes[locMapId];
-              locStore.syncLocationSceneState({
-                mapId: locMapId,
-                pins: sceneData.pins,
-                partyMarker: sceneData.partyMarker
-              });
-              locStore.setActiveMap(locMapId);
-            }
-          });
-        }
-      }
-
       // 2. Determine correct start map for this player
       // Priority: Player's assigned map -> GM's current map (if following) -> Default
       let startMapId = 'default';
@@ -640,237 +593,39 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
       console.log('Ã°Å¸"Â Initializing player on map:', startMapId);
 
-      // ===== FALLBACK: Load level editor state from gameState for non-GM players =====
-      // The server sends gameState with per-map terrain/fog/walls, but levelEditorState
-      // is only populated from GM broadcasts. For permanent rooms where the GM may not
-      // be online, we extract it directly from the persisted gameState.
-      if (!isGameMaster && !initialLevelEditorApplied) {
-        const mapData = room.gameState.maps?.[startMapId];
-        if (mapData) {
-          window._isReceivingMapUpdate = true;
-          try {
-            const levelEditorStore = useLevelEditorStore.getState();
-
-            levelEditorStore.loadCompleteLevelEditorState({
-              terrainData: mapData.terrainData,
-              wallData: mapData.wallData,
-              windowOverlays: mapData.windowOverlays,
-              environmentalObjects: mapData.environmentalObjects,
-              drawingPaths: mapData.drawingPaths,
-              drawingLayers: mapData.drawingLayers,
-              fogOfWarData: mapData.fogOfWarData,
-              exploredAreas: mapData.exploredAreas,
-              lightSources: mapData.lightSources,
-              fogOfWarPaths: mapData.fogOfWarPaths,
-              fogErasePaths: mapData.fogErasePaths,
-              dynamicFogEnabled: mapData.dynamicFogEnabled,
-              respectLineOfSight: mapData.respectLineOfSight,
-              dndElements: mapData.dndElements
-            });
-
-            // Also apply grid settings from gameState if not already set
-            const gs = room.gameState.gridSettings;
-            if (gs) {
-              const gameStore = useGameStore.getState();
-              if (gs.gridType !== undefined) gameStore.setGridType(gs.gridType);
-              if (gs.gridSize !== undefined) gameStore.setGridSize(gs.gridSize);
-              if (gs.gridOffsetX !== undefined && gs.gridOffsetY !== undefined) {
-                gameStore.setGridOffset(gs.gridOffsetX, gs.gridOffsetY);
-              }
-              if (gs.gridLineColor !== undefined) gameStore.setGridLineColor(gs.gridLineColor);
-              if (gs.gridLineThickness !== undefined) gameStore.setGridLineThickness(gs.gridLineThickness);
-              if (gs.gridLineOpacity !== undefined) gameStore.setGridLineOpacity(gs.gridLineOpacity);
-              if (gs.gridBackgroundColor !== undefined) gameStore.setGridBackgroundColor(gs.gridBackgroundColor);
-              if (gs.viewMode !== undefined) gameStore.setViewMode(gs.viewMode);
-              if (gs.cameraRotation !== undefined) gameStore.setViewRotation(gs.cameraRotation);
-              if (gs.cameraTilt !== undefined) gameStore.setViewTilt(gs.cameraTilt);
-            }
-
-            console.log('Ã¢Å“"¦ [handleJoinRoom] Level editor state loaded from persisted gameState for map:', startMapId);
-          } catch (error) {
-            console.error('Ã¢ÂÅ’ [handleJoinRoom] Failed to load level editor state from gameState:', error);
-          } finally {
-            window._isReceivingMapUpdate = false;
-          }
-        } else {
-          console.warn('Ã¢Å¡Â Ã¯Â¸Â [handleJoinRoom] No map data found for startMapId:', startMapId, 'in gameState maps:', Object.keys(room.gameState.maps || {}));
-        }
-      }
-
-      console.log('Ã°Å¸"Â [handleJoinRoom] Room structure received from server:', {
-        roomId: room.id,
-        hasGameState: !!room.gameState,
-        gameStateKeys: Object.keys(room.gameState || {}),
-        mapsCount: Object.keys(room.gameState?.maps || {}).length,
-        mapsKeys: Object.keys(room.gameState?.maps || {}),
-        defaultMapId: room.gameState?.defaultMapId,
-        hasDefaultMap: !!room.gameState?.maps?.default,
-        defaultMapStructure: room.gameState?.maps?.default ? {
-          hasGridItems: !!room.gameState.maps.default.gridItems,
-          gridItemsCount: Object.keys(room.gameState.maps.default.gridItems || {}).length,
-          gridItemIds: Object.keys(room.gameState.maps.default.gridItems || {}),
-          hasTerrainData: !!room.gameState.maps.default.terrainData,
-          terrainDataCount: Object.keys(room.gameState.maps.default.terrainData || {}).length
-        } : null
+      // ===== SINGLE SILENT HYDRATION BOUNDARY (Project 3) =====
+      // Replace the map cache, active-map projections (terrain, walls,
+      // objects, drawings, fog, lights, DnD, verticality), entity collections
+      // and combat directly from the accepted server snapshot. Replacement
+      // semantics only: no gameplay calls, RNG, resource changes or outbound
+      // echo.
+      applyRoomSnapshot({
+        gameState: room.gameState,
+        activeMapId: startMapId,
+        scope: 'room'
       });
 
-      // 3. Load Map-Specific Entities (Tokens, Items)
-      // We must pull from specific map storage, NOT global legacy storage
-      const targetMapData = room.gameState.maps?.[startMapId] || {};
-
-      const tokensRaw = targetMapData.tokens;
-      const characterTokensRaw = targetMapData.characterTokens;
-      const gridItemsRaw = targetMapData.gridItems;
-
-      const hasInitialTokenPayload = tokensRaw !== undefined || characterTokensRaw !== undefined;
-      const hasInitialGridItemsPayload = gridItemsRaw !== undefined;
-
-      if (hasInitialTokenPayload) {
-        clearCreatureTokens();
-        clearCharacterTokens();
-      } else {
-        console.warn('Ã¢Å¡Â Ã¯Â¸Â [handleJoinRoom] Missing initial token payload - preserving existing token stores to avoid accidental wipe');
-      }
-
-      // Load Tokens
-      const initialTokens = tokensRaw
-        ? (Array.isArray(tokensRaw) ? tokensRaw : Object.values(tokensRaw))
-        : [];
-
-      if (initialTokens.length > 0) {
-        initialTokens.forEach(tokenData => {
-          if (tokenData.creature) {
-            addCreature(tokenData.creature);
-          }
-
-          const creatureRef = tokenData.creatureId || tokenData.creature?.id || tokenData.creature;
-          if (creatureRef && tokenData.position) {
-            addToken(
-              creatureRef,
-              tokenData.position,
-              false,
-              tokenData.id || tokenData.tokenId,
-              tokenData.state,
-              tokenData.mapId || startMapId
-            );
-          }
-        });
-        console.log(`Ã¢â„¢Å¸Ã¯Â¸Â Loaded ${initialTokens.length} tokens for map ${startMapId}`);
-      }
-
-      // Load Character Tokens
-      const initialCharacterTokens = characterTokensRaw
-        ? (Array.isArray(characterTokensRaw) ? characterTokensRaw : Object.values(characterTokensRaw))
-        : [];
-
-      if (initialCharacterTokens.length > 0) {
-        // characterTokens are usually indexed by playerId, but structure varies
-        initialCharacterTokens.forEach(charTokenData => {
-          // Ensure we have necessary data
-          if (charTokenData.id && charTokenData.position) {
-            // We need character data to add token properly. 
-            // If missing, we might need to fetch from party members or room.players
-            // For now, simpler add might be needed or relying on party sync
-
-            // Check if it's our own token, if so, ensure local store matches
-            if (charTokenData.playerId === currentPlayerData?.id) {
-              // CRITICAL FIX: (id, position) argument order — the previous
-              // (position, id) order made the store's find() fail silently and
-              // the token position never synced on join.
-              useCharacterTokenStore.getState().updateCharacterTokenPosition(charTokenData.id, charTokenData.position);
-
-              // CRITICAL FIX: Set viewingFromToken for player when they have a character token
-              // This enables the afterimage/memory system for players
-              try {
-                const levelEditorStore = useLevelEditorStore.getState();
-                if (levelEditorStore.dynamicFogEnabled && !levelEditorStore.viewingFromToken) {
-                  console.log('Ã°Å¸"˜ÂÃ¯Â¸Â [Afterimage] Setting viewingFromToken for player:', charTokenData.id);
-                  levelEditorStore.setViewingFromToken({
-                    id: charTokenData.id,
-                    type: 'character',
-                    characterId: charTokenData.playerId,
-                    position: charTokenData.position
-                  });
-                }
-              } catch (e) {
-                console.warn('Could not set viewingFromToken for player:', e);
-              }
-            } else {
-              // For other players, we need to add them visually
-              // But characterStore might not have their data yet. 
-              // Rely on party_member_added / player_joined to populate data,
-              // then separate sync logic will place them.
-
-              // However, we can perform a raw visual add if we have the data
-              const charTokenStore = useCharacterTokenStore.getState();
-              if (charTokenStore.addCharacterTokenFromServer) {
-                charTokenStore.addCharacterTokenFromServer(
-                  charTokenData.id,
-                  charTokenData.position,
-                  charTokenData.playerId,
-                  charTokenData.mapId || startMapId,
-                  charTokenData.character || null,
-                  charTokenData.name || null
-                );
-              }
+      // Presentation-only: focus own character token when present.
+      try {
+        const ownCharTokens = room.gameState.maps?.[startMapId]?.characterTokens;
+        if (ownCharTokens && currentPlayerData?.id) {
+          const ownToken = Object.values(ownCharTokens).find(
+            (token) => token && token.playerId === currentPlayerData.id
+          );
+          if (ownToken) {
+            const levelEditorStore = useLevelEditorStore.getState();
+            if (levelEditorStore.dynamicFogEnabled && !levelEditorStore.viewingFromToken) {
+              levelEditorStore.setViewingFromToken({
+                id: ownToken.id,
+                type: 'character',
+                characterId: ownToken.playerId,
+                position: ownToken.position
+              });
             }
           }
-        });
-        console.log(`Ã¢â„¢Å¸Ã¯Â¸Â Processing character tokens for map ${startMapId}`);
-      }
-      if (hasInitialGridItemsPayload) {
-        const initialGridItems = gridItemsRaw
-          ? (Array.isArray(gridItemsRaw) ? gridItemsRaw : Object.values(gridItemsRaw))
-          : [];
-
-        console.log('Ã°Å¸"Â [handleJoinRoom] Grid items data:', {
-          mapId: startMapId,
-          gridItemsRawType: typeof gridItemsRaw,
-          gridItemsRawIsArray: Array.isArray(gridItemsRaw),
-          gridItemsRawKeys: typeof gridItemsRaw === 'object' && !Array.isArray(gridItemsRaw) ? Object.keys(gridItemsRaw) : [],
-          initialGridItemsCount: initialGridItems.length,
-          initialGridItemsIds: initialGridItems.map(i => i.id),
-          hasInitialPayload: hasInitialGridItemsPayload
-        });
-
-        import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-          const currentGridItems = useGridItemStore.getState().gridItems || [];
-          const nonTargetItems = currentGridItems.filter(item => (item?.mapId || 'default') !== startMapId);
-          const normalizedTargetItems = initialGridItems.map(item => ({
-            ...item,
-            mapId: item?.mapId || startMapId
-          }));
-
-          useGridItemStore.setState({
-            gridItems: [...nonTargetItems, ...normalizedTargetItems]
-          });
-
-          console.log(`Ã°Å¸"Â¦ Loaded ${initialGridItems.length} grid items for map ${startMapId}`);
-        });
-      } else {
-        console.warn('Ã¢Å¡Â Ã¯Â¸Â  [handleJoinRoom] Missing initial gridItems payload - preserving existing grid items to avoid accidental wipe');
-      }
-
-      // Hydrate active combat if room is already in combat
-      if (room.gameState?.combat?.isActive) {
-        import('../../store/combatStore').then(({ default: useCombatStore }) => {
-          const combatData = room.gameState.combat;
-          useCombatStore.setState({
-            isInCombat: true,
-            turnOrder: combatData.turnOrder || [],
-            round: combatData.round || 1,
-            currentTurnIndex: combatData.currentTurnIndex || 0,
-            isSelectionMode: false,
-            selectedTokens: new Set()
-          });
-          console.log('⚔️ [handleJoinRoom] Hydrated active combat state from gameState:', {
-            round: combatData.round,
-            currentTurnIndex: combatData.currentTurnIndex,
-            combatantCount: (combatData.turnOrder || []).length
-          });
-        }).catch(err => {
-          console.warn('Failed to hydrate combatStore in handleJoinRoom:', err);
-        });
+        }
+      } catch (e) {
+        console.warn('Could not set viewingFromToken for player:', e);
       }
 
       // Create/update party with multiplayer players

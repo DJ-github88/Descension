@@ -9,6 +9,7 @@ import useCombatStore from '../../store/combatStore';
 import useChatStore from '../../store/chatStore';
 import useCharacterStore from '../../store/characterStore';
 import SocialEncounterGenerator from './SocialEncounterGenerator';
+import GmInventorySharePanel from './GmInventorySharePanel';
 import { showConfirm } from '../../utils/dialogService';
 import './GMToolsPanel.css';
 
@@ -44,25 +45,23 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
   // Listen for player updates
   useEffect(() => {
     if (multiplayerSocket) {
-      multiplayerSocket.on('player_list_updated', (players) => {
-        setConnectedPlayers(players);
-      });
+      const onPlayerListUpdated = (players) => setConnectedPlayers(players);
+      const onRoomSettingsUpdated = (settings) => setRoomSettings(settings);
 
-      multiplayerSocket.on('room_settings_updated', (settings) => {
-        setRoomSettings(settings);
-      });
+      multiplayerSocket.on('player_list_updated', onPlayerListUpdated);
+      multiplayerSocket.on('room_settings_updated', onRoomSettingsUpdated);
 
       // Request current player list
       multiplayerSocket.emit('request_player_list');
       multiplayerSocket.emit('request_room_settings');
+
+      return () => {
+        multiplayerSocket.off('player_list_updated', onPlayerListUpdated);
+        multiplayerSocket.off('room_settings_updated', onRoomSettingsUpdated);
+      };
     }
 
-    return () => {
-      if (multiplayerSocket) {
-        multiplayerSocket.off('player_list_updated');
-        multiplayerSocket.off('room_settings_updated');
-      }
-    };
+    return undefined;
   }, [multiplayerSocket]);
 
   const handleKickPlayer = async (playerId) => {
@@ -213,6 +212,24 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
             style={{ backgroundColor: '#2ecc71' }}
           >
             💚 Heal All
+          </button>
+          <button
+            className="gm-btn gm-btn-primary"
+            onClick={() => {
+              if (multiplayerSocket && roomId) {
+                multiplayerSocket.emit('launch_game_session', { roomId });
+                addNotification('system', {
+                  sender: { name: 'System', class: 'system', level: 0 },
+                  content: 'Game session launched — players have been invited.',
+                  isSystem: true,
+                  timestamp: new Date().toISOString()
+                });
+              }
+            }}
+            title="Launch the game session and invite all players"
+            style={{ backgroundColor: '#8e44ad' }}
+          >
+            🚀 Launch Session
           </button>
         </div>
 
@@ -578,7 +595,7 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
       </div>
 
       <div className="gm-tools-content">
-        {activeTab === 'players' && renderPlayersTab()}
+        {activeTab === 'players' && (<><GmInventorySharePanel />{renderPlayersTab()}</>)}
         {activeTab === 'combat' && renderCombatTab()}
         {activeTab === 'world' && renderWorldTab()}
         {activeTab === 'encounters' && <SocialEncounterGenerator />}

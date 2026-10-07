@@ -474,7 +474,7 @@ const LocationPinDetailModal = ({
               {isGM && (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', background: localIsItemHidden ? '#fdf4f4' : '#f0faf5', border: `1px solid ${localIsItemHidden ? '#c0392b' : '#27ae60'}`, borderRadius: '6px' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: localIsItemHidden ? '#96281b' : '#1e8449' }}>
-                    <i className={`fas ${localIsItemHidden ? 'fa-eye-slash' : 'fa-eye'}`} /> {localIsItemHidden ? 'Item Tooltip Veiled from Players (Unidentified / Requires Attunement)' : 'Item Tooltip Visible to Players'}
+                    <i className={`fas ${localIsItemHidden ? 'fa-eye-slash' : 'fa-eye'}`} /> {localIsItemHidden ? 'Item Tooltip Hidden from Players (Unidentified / Requires Attunement)' : 'Item Tooltip Visible to Players'}
                   </span>
                   <button
                     type="button"
@@ -493,7 +493,7 @@ const LocationPinDetailModal = ({
                 </div>
               )}
 
-              {/* Player View of Veiled Item */}
+              {/* Player View of Hidden Item */}
               {!isGM && localIsItemHidden ? (
                 <div
                   style={{
@@ -523,10 +523,10 @@ const LocationPinDetailModal = ({
                     <i className="fas fa-question" />
                   </div>
                   <h4 style={{ margin: '0 0 4px 0', color: '#4a235a', fontFamily: 'Cinzel, serif', fontSize: '16px', fontWeight: 800 }}>
-                    {pin.unidentifiedName || 'Enigmatic Veiled Relic'}
+                    {pin.unidentifiedName || 'Enigmatic Hidden Relic'}
                   </h4>
                   <span style={{ display: 'inline-block', fontSize: '11px', background: '#f4ecf7', color: '#6c3483', border: '1px solid #d2b4de', padding: '2px 8px', borderRadius: '4px', fontWeight: 700, marginBottom: '10px' }}>
-                    🔒 Veiled Properties • Requires Attunement or Arcana Deciphering
+                    🔒 Hidden Properties • Requires Attunement or Arcana Deciphering
                   </span>
                   <p style={{ margin: '0 0 14px 0', fontSize: '13px', color: '#5b2c6f', fontStyle: 'italic', lineHeight: '1.5' }}>
                     {pin.unidentifiedDescription || 'The esoteric runes and true powers of this item remain obscured. A successful appraisal, lore deciphering, or attunement ritual is required to reveal its enchantments.'}
@@ -541,7 +541,7 @@ const LocationPinDetailModal = ({
                       handleGiveItemToPlayer(rawItem, 'your inventory');
                     }}
                   >
-                    <i className="fas fa-hand-sparkles" /> Take Veiled Item / Add to My Inventory
+                    <i className="fas fa-hand-sparkles" /> Take Hidden Item / Add to My Inventory
                   </button>
                 </div>
               ) : (

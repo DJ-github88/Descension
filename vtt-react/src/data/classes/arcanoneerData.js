@@ -27,12 +27,12 @@ export const ARCANONEER_DATA = {
       "silath_astril"
     ],
      "narrativeUnlock": false,
-     "justification": "Elemental weaving demands structured, high-stakes combination work. The Nethien originated the craft as contract-syntax under the Grand Nomenclature; the Fexric adapted it through precision engineering in the Underground Proving Grounds (Clockwork certified, Caustic salvage); the Stargazer Astril reached it independently through cosmic starlight cycles. Veldun (obligation-web/Gambit) and Withered (Severed, pending own story) are excluded for now."
+     "justification": "Elemental weaving demands structured, high-stakes combination work. The Athien originated the craft as contract-syntax under the Grand Nomenclature; the Fex adapted it through precision engineering in the Underground Proving Grounds (Brasskin certified, Alchemite salvage); the Lumian reached it independently through cosmic starlight cycles. Weft (obligation-web/Gambit) and Riven (pending own story) are excluded for now."
    },
 
   // Class Resource, generated per spell. Resource range/balance per design.
   // Lore name: Elemental Spheres (primary) / Mnemonic Shards (secondary)
-  classResource: { type: "elemental_spheres", base: 0, max: 12, generationNote: "Roll 4d8 each round in combat and bank the spheres (max 12; overflow is lost). Each formulation consumes spheres per its formula." },
+  classResource: { type: "elemental_spheres", base: 0, max: 12, generationNote: "Roll 4d8 each own turn in combat and bank the spheres (max 12; overflow is lost). Each formulation consumes spheres per its formula; automatic turn generation is pending." },
 
 
   // EQUIPMENT (added 2026-07-28 audit fix)
@@ -44,22 +44,22 @@ export const ARCANONEER_DATA = {
    offHand: ['orb', 'tome', 'wand']
   },
  /**
-   * Subrace Variants - The Arcanoneer was born among the Nethien as the Grand Nomenclature,
-   * then split in the Underground Proving Grounds with the Fexric, and was reached independently
-   * by the Stargazer Astril through cosmic cycles. Nethien practice contract-syntax (Archivist);
-   * Clockwork Fexric treat it as guild engineering; Caustic Fexric weave from salvage and improvisation;
-   * Stargazer Astril map the eight frequencies into starlight cycles. Veldun and Withered are excluded for now.
+   * Subrace Variants - The Arcanoneer was born among the Athien as the Grand Nomenclature,
+   * then split in the Underground Proving Grounds with the Fex, and was reached independently
+   * by the Lumian through cosmic cycles. Athien practice contract-syntax (Archivist);
+   * Brasskin treat it as guild engineering; Alchemite weave from salvage and improvisation;
+   * Lumian map the eight frequencies into starlight cycles. Weft and Riven are excluded for now.
    */
   subraceVariants: {
    velun_neth: {
-    subraceName: 'Nethien',
+    subraceName: 'Athien',
     title: 'The Contract-Weaver',
-    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane's silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Nethien Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite. Behind this stands the Grand Nomenclature: the Doctrine of Exhaustion holds every wild-magic surge to be an unfinished sentence in a cosmic grammar, and the Nethien Archivist seeks to catalogue every permutation into a closed loop. Their field focus is runic slate-dials and bone rings that snap syntax into place — clinical, calculated, detached. Equation resolved.`,
+    reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane's silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Athien Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite. Behind this stands the Grand Nomenclature: the Doctrine of Exhaustion holds every wild-magic surge to be an unfinished sentence in a cosmic grammar, and the Athien Archivist seeks to catalogue every permutation into a closed loop. Their field focus is runic slate-dials and bone rings that snap syntax into place — clinical, calculated, detached. Equation resolved.`,
     signatureAbility: {
      name: 'Mnemonic Shard',
      description: `Silver blood crystallizes into volatile spell-anchors, held in suspension around the weaver's crystal focus. Each shard is a filed clause, a prepared spell held in legal suspension. A misfiled shard cannot be recalled, only detonated, because the contract has already been struck.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture is an existential threat specifically *because* only the Nethien practice this art. If the senior Arcanoneers of <LoreLink termId="atropolis">Atropolis</LoreLink> cannot agree on the Nethien Contingency Protocol, and half the Ledger dissolves its oaths, the Nethien who *filed* those oaths may legally cease to exist, Morvane does not distinguish between a caster and their filings.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture is an existential threat specifically *because* only the Athien practice this art. If the senior Arcanoneers of <LoreLink termId="atropolis">Atropolis</LoreLink> cannot agree on the Athien Contingency Protocol, and half the Ledger dissolves its oaths, the Athien who *filed* those oaths may legally cease to exist, Morvane does not distinguish between a caster and their filings.`,
     signatureQuote: {
      text: '"Every word I speak is evidence. Every spell I cast is a conviction. Do not ask me to improvise, I am not permitted to lie, and a lie is what improvisation would require."',
      speaker: 'Valerius',
@@ -67,48 +67,48 @@ export const ARCANONEER_DATA = {
     }
    },
    vashir_astril: {
-    subraceName: 'Stargazer Astril',
+    subraceName: 'Lumian',
     title: 'The Star-Charted Weaver',
-    reframe: `The Stargazer Astril reached elemental weaving by a road no Nethien or Fexric walked. In the Quiet Observatory they had already mapped the eight frequencies into starlight cycles long before either race drew breath - each sphere a visible star, each weave a charted transit. There is no contract to file and no chamber to vent, only timing: the weaver arranges to be standing where the light lands. They observe the Nethien-Fexric dispute over the wild-magic influx with complete, silent disinterest, having solved the same grammar as astronomy rather than law or engineering.`,
+    reframe: `The Lumian reached elemental weaving by a road no Athien or Fex walked. In the Quiet Observatory they had already mapped the eight frequencies into starlight cycles long before either race drew breath - each sphere a visible star, each weave a charted transit. There is no contract to file and no chamber to vent, only timing: the weaver arranges to be standing where the light lands. They observe the Athien-Fex dispute over the wild-magic influx with complete, silent disinterest, having solved the same grammar as astronomy rather than law or engineering.`,
     signatureAbility: {
      name: 'Constellation Lattice',
      description: `Starlight markings align into a lattice that holds spheres in charted transit. Weaves resolve as celestial mechanics - patient and exact. A mistimed transit fades rather than detonating, for the stars punish no one; they simply move on.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture means nothing to the Stargazers - dissolving contracts are weather below the stars. But the breach's wild-magic influx dims familiar constellations, and some chart-keepers have begun plotting the breach itself as a ninth, uninvited star.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture means nothing to the Lumians - dissolving contracts are weather below the stars. But the breach's wild-magic influx dims familiar constellations, and some chart-keepers have begun plotting the breach itself as a ninth, uninvited star.`,
     signatureQuote: {
      text: '"You file your clauses. You vent your chambers. We watched the same light leave its star centuries ago, and arranged to be standing where it lands."',
-     speaker: 'Stargazer Chart-Keeper',
-     context: 'Reply to a joint Nethien-Fexric inquiry at the Quiet Observatory'
+     speaker: 'Lumian Chart-Keeper',
+     context: 'Reply to a joint Athien-Fex inquiry at the Quiet Observatory'
     }
    },
    kethrin_fexric: {
-    subraceName: 'Clockwork Fexric - Fexric',
+    subraceName: 'Brasskin - Fex',
     title: 'The Gear-Weaver',
-    reframe: `Where the Nethien file legal documents with Morvane, the Clockwork Fexric of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Clockwork Fexric Gear-Weaver carries a toolkit of elemental regulators  —  brass attenuators, thermal sinks, conductive relays  —  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time. They learned the craft in the Underground Proving Grounds, where Nethien theorists dictated constraints from behind leaded glass while Fexric engineers handled the hot metal, leaking gaskets, and sputtering coolant lines. The Clockwork hold the Nethien line that magic is a machine with strict tolerances - a misfire means the caster was undisciplined - but they execute it as engineers: rotary chassis, spring-loaded selector pins, glass ampoules. Pressurized pragmatism: channel the surge through valves and combustion, cylinder locked, clear the blast radius.`,
+    reframe: `Where the Athien file legal documents with Morvane, the Brasskin of the Cragjaw Peaks treat elemental combination as precision engineering. Each sphere is a calibrated component; each weave is a mechanism with documented tolerances, maintenance schedules, and guild-certified safety parameters. A Brasskin Gear-Weaver carries a toolkit of elemental regulators  —  brass attenuators, thermal sinks, conductive relays  —  and approaches the combination matrix the way a siege-engineer approaches a ballista: every interaction mapped, every failure mode accounted for. They can only execute guild-certified combinations, which makes them perfectly reliable within known parameters but utterly incapable of improvisation. When the manual says Fire+Rime produces Steam at 15psi, it produces Steam at exactly 15psi. Every time. They learned the craft in the Underground Proving Grounds, where Athien theorists dictated constraints from behind leaded glass while Fex engineers handled the hot metal, leaking gaskets, and sputtering coolant lines. The Brasskin hold the Athien line that magic is a machine with strict tolerances - a misfire means the caster was undisciplined - but they execute it as engineers: rotary chassis, spring-loaded selector pins, glass ampoules. Pressurized pragmatism: channel the surge through valves and combustion, cylinder locked, clear the blast radius.`,
     signatureAbility: {
      name: 'Calibrated Matrix',
      description: `The Gear-Weaver's regulator-toolkit enforces standardized elemental ratios. Guild-certified combinations never backfire  —  the elemental reaction is mechanically constrained to a safe output range. In exchange, uncertified combinations are physically impossible: the attenuators simply will not engage for non-standard pairings.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture is, to a Clockwork Fexric Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Clockwork Fexric guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture is, to a Brasskin Gear-Weaver, an engineering problem. Half the Ledger demands magical warfare? That is an untested load case. The other half demands dissolution? That is catastrophic structural failure. The Brasskin guild-masters have dispatched a delegation to Atropolis not to take sides, but to run the calculations both factions refuse to do. They expect to deliver a report. They do not expect anyone to read it.`,
     signatureQuote: {
      text: '"You call it improvisation. I call it operating outside rated tolerances. When your weave fails, you learn a lesson. When mine fails, I void my guild warranty  —  and my guild warranty is the only thing between me and a very large crater."',
-     speaker: 'Clockwork Fexric Guild-Master',
-     context: 'Response to a Nethien Arcanoneer who suggested "trying something new" during a joint expedition'
+     speaker: 'Brasskin Guild-Master',
+     context: 'Response to a Athien Arcanoneer who suggested "trying something new" during a joint expedition'
     }
    },
    drall_fexric: {
-    subraceName: 'Caustic Fexric - Fexric',
+    subraceName: 'Alchemite - Fex',
     title: 'The Scrap-Weaver',
-    reframe: `The Caustic Fexric do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Caustic Fexric Scrap-Weaver's focus is a jury-rigged mess of scavenged components  —  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  —  and their combination matrix includes entries the Clockwork Fexric guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  —  including the Scrap-Weaver  —  knows exactly what will happen when they pull the trigger.`,
+    reframe: `The Alchemite do not have guild halls, certified regulators, or maintenance schedules. What they have is salvage: impure elemental catalysts recovered from battlefield wreckage, borrowed resonance principles copied from three different traditions, and a stubborn refusal to accept that a combination the guild says is impossible is actually impossible. A Alchemite Scrap-Weaver's focus is a jury-rigged mess of scavenged components  —  cracked lenses, scorched relays, a focusing chamber that was clearly meant for something else entirely  —  and their combination matrix includes entries the Brasskin guild-masters would classify as "do not attempt under any circumstances." More combinations are possible than any guild would certify. And more accidents. The unpredictability is the point; an enemy who can't predict your weave can't counter it. The Scrap-Weaver's greatest weapon is that nobody  —  including the Scrap-Weaver  —  knows exactly what will happen when they pull the trigger.`,
     signatureAbility: {
      name: 'Jury-Rigged Catalyst',
-     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  —  and it works more often than any guild engineer would believe possible  —  the result is a weave that exists nowhere in the certified matrix. The Caustic Fexric call this "field testing." The Clockwork Fexric call it "attempted suicide." Both are correct. The Caustic are the Jungian break from the Proving Grounds schism: where the Nethien Magister demands the fire be taught grammar, the Scrap-Weaver insists the elements are alive with inherent temperament and cannot be bottled like dead ink. Stop teaching the fire grammar and give it an exhaust pipe - volatile solvents slammed together in a jury-rigged mixing chamber, frantic, tactical, adrenaline-fueled.`
+     description: `The Scrap-Weaver can attempt any elemental combination regardless of guild certification, using impure catalysts and salvaged regulators. Each non-standard weave carries a 25% backlash chance, but when it works  —  and it works more often than any guild engineer would believe possible  —  the result is a weave that exists nowhere in the certified matrix. The Alchemite call this "field testing." The Brasskin call it "attempted suicide." Both are correct. The Alchemite are the Jungian break from the Proving Grounds schism: where the Athien Magister demands the fire be taught grammar, the Scrap-Weaver insists the elements are alive with inherent temperament and cannot be bottled like dead ink. Stop teaching the fire grammar and give it an exhaust pipe - volatile solvents slammed together in a jury-rigged mixing chamber, frantic, tactical, adrenaline-fueled.`
     },
-    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Caustic Fexric Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Caustic Fexric for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  —  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
+    currentCrisisAngle: `The Canopy-Ledger fracture has created a boom market for Alchemite Scrap-Weavers. As the First Contract destabilizes and guild-certified weaves begin to fail, desperate Arcanoneers and their clients are turning to the Alchemite for alternatives the guild would never approve. The Scrap-Weavers are, for the first time, being treated as something other than a cautionary tale  —  and they are not sure whether this is a good thing or the preamble to the worst explosion in recorded history.`,
     signatureQuote: {
      text: '"The guild says you can\'t combine Rime with Wyrd unless the thermal sink is rated for Class-3 entropy. Do you know what happens if you use a Class-2 thermal sink? Neither do I. But I\'m about to find out, and so is that thing charging toward us."',
-     speaker: 'Unnamed Caustic Fexric Scrap-Weaver',
-     context: 'Moments before a weave that was later added to the Clockwork Fexric guild\'s list of certified combinations, despite the guild\'s official position that the Caustic Fexric "discovered it by accident"'
+     speaker: 'Unnamed Alchemite Scrap-Weaver',
+     context: 'Moments before a weave that was later added to the Brasskin guild\'s list of certified combinations, despite the guild\'s official position that the Alchemite "discovered it by accident"'
     }
    }
  },
@@ -136,12 +136,12 @@ export const ARCANONEER_DATA = {
    founder: {
     name: '<LoreLink termId="valerius">Valerius</LoreLink>',
     status: `Ascended into the First Contract, neither alive nor dead. His name is now a clause in the Heart-Vault, his crystal prism, through which he viewed the First Contract, preserved in <LoreLink termId="atropolis">Atropolis</LoreLink>.`,
-    note: `The Nethien archivist who drafted the First Contract and weaponized the Nethien inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
+    note: `The Athien archivist who drafted the First Contract and weaponized the Athien inability to lie. He did not invent the magic; he proved it had always been there, waiting for someone who could not lie to speak it.`
    },
   currentLeader: {
    name: '<LoreLink termId="vel-otharen">Ledger-Prime Vel-Otharen</LoreLink>',
    title: 'Senior Signatory of the Canopy-Ledger',
-   characterization: `The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Nethien Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it.`
+   characterization: `The eldest active Arcanoneer, whose body is more Mnemonic Shard than flesh. He has not spoken an unplanned word in thirty years, every sentence pre-filed, every utterance a legal instrument. He believes the Athien Contingency Protocol dispute can be resolved by arbitration. He is almost certainly wrong, and he knows it.`
   },
    headquarters: { name: 'The Heart-Vault, Atropolis', locationId: 'atropolis', description: 'The Heart-Vault is not a chamber  —  it is the living ironwood at Atropolis\'s core, a hollow grown rather than carved, its walls lined with memory-glass panels that record every clause ever filed. The First Contract is visible through the heartwood like a fossil in amber. The air hums at a frequency that makes teeth ache.' },
   crisisConnection: `<LoreLink termId="vel-otharen">Vel-Otharen</LoreLink> chairs the arbitration that cannot resolve the Contingency Protocol: half the Ledger demands magical warfare against the unknown contract-breacher, half demands the Ledger dissolve itself. His own Mnemonic Shards are degrading, clauses he filed decades ago are being rejected by Morvane, and he suspects, but cannot yet prove, that the breach originates *inside* the Heart-Vault itself.`
@@ -150,19 +150,27 @@ export const ARCANONEER_DATA = {
  worldFriction: [
   { region: 'bryngloom-forest', location: 'atropolis', status: 'celebrated', consequence: 'At Atropolis the Arcanoneer is the legal and magical authority, Senior Signatories sit on the Heart-Vault council and their filed clauses are binding law. An Arcanoneer in good standing can commandeer archive-resources and demand audience with Regent Morrath.' },
   { region: 'iceheart-sea', location: 'ironjaw_port', status: 'restricted', consequence: 'Away from the Heart-Vault, an Arcanoneer operates at reduced jurisdiction, the Ironjaw Port copy of the First Contract sustains their craft, but Mnemonic Shards filed here carry less enforcement-weight. Hostile foreign magic is harder to annul when the local Morvane-presence is thin.' },
-  { region: 'sundrift-vale', status: 'banned', consequence: 'House Ordavan outlaws written contract-magic across the steppe (the Iron-Yurt Law recognizes only Steppe-Staves and oral bond). An Arcanoneer who files a clause on Ordan soil has it voided, and may be charged with sedition against the Khatun.' }
+  { region: 'sundrift-vale', status: 'banned', consequence: 'House Ordavan outlaws written contract-magic across the steppe (the Iron-Yurt Law recognizes only Steppe-Staves and oral bond). An Arcanoneer who files a clause on Ordu soil has it voided, and may be charged with sedition against the Khatun.' }
  ],
 
  overview: {
-    originStory: `Founded in the first centuries of the Freezing Era by Valerius, a Nethien archivist who drafted the First Contract with Morvane. The free magic of the Bryngloom was killing Nethien scribes. Morvane's contract preserved Nethien bodies, but the raw elemental energies of the forest  —  the same energies that power the ironwood trees and the memory-glass  —  had no contract governing them. Nethien archivists who worked too close to the Root-Veil's deeper reaches were being unmade  —  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Nethien flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  —  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  —  he bypassed the chaotic feedback of traditional spellcasting. To the hyper-rational Nethien mind the Doctrine of Exhaustion was born here: every surge of wild magic an unfinished sentence in an ancient cosmic grammar, and the Grand Nomenclature would catalogue every permutation of the primal elements until chaos itself lay predictable and docile.
+    originStory: `Founded in the first centuries of the Freezing Era by Valerius, a Athien archivist who drafted the First Contract with Morvane. The free magic of the Bryngloom was killing Athien scribes. Morvane's contract preserved Athien bodies, but the raw elemental energies of the forest  —  the same energies that power the ironwood trees and the memory-glass  —  had no contract governing them. Athien archivists who worked too close to the Root-Veil's deeper reaches were being unmade  —  not dying, but dissolved into pure resonance, their silver-touched flesh evaporating into light. Valerius's insight was that these energies could be governed the same way Morvane governed Athien flesh: through contract. By structuring incantations as strict legal syntax and balanced clauses  —  each elemental sphere a clause, each combined weave a document submitted to Morvane's silent approval  —  he bypassed the chaotic feedback of traditional spellcasting. To the hyper-rational Athien mind the Doctrine of Exhaustion was born here: every surge of wild magic an unfinished sentence in an ancient cosmic grammar, and the Grand Nomenclature would catalogue every permutation of the primal elements until chaos itself lay predictable and docile.
 
-The craft met its second tradition in the Underground Proving Grounds. The Nethien mind is brilliant and timeless, but manifesting a weave produces savage thermodynamic shock - blinding thermal spikes, bone-shattering frost-drift - and the Nethien needed physical hands to build conduits and survive the volatile exhausts. They brought in the Fexric of the Cragjaw Peaks: a Theoretical Division of Nethien archivists dictating constraints from behind thick leaded glass, and an Engineering Division of Fexric artisans in the trenches with hot metal, leaking gaskets, and sputtering coolant lines, inhaling ozone and losing eyebrows to micro-bursts. Where the Nethien file clauses, the Fexric build mechanisms. Both approaches work. Both can fail catastrophically.
+The craft met its second tradition in the Underground Proving Grounds. The Athien mind is brilliant and timeless, but manifesting a weave produces savage thermodynamic shock - blinding thermal spikes, bone-shattering frost-drift - and the Athien needed physical hands to build conduits and survive the volatile exhausts. They brought in the Fex of the Cragjaw Peaks: a Theoretical Division of Athien archivists dictating constraints from behind thick leaded glass, and an Engineering Division of Fex artisans in the trenches with hot metal, leaking gaskets, and sputtering coolant lines, inhaling ozone and losing eyebrows to micro-bursts. Where the Athien file clauses, the Fex build mechanisms. Both approaches work. Both can fail catastrophically.
 
-The partnership broke over the nature of the surge. The Nethien Magister holds the influx to be a closed mechanical pressure system, base and dangerous, to be repressed and governed by strict runic law: if a weave backlashes, the caster was undisciplined. The Fexric Artisan holds the elements alive and reactive, a collective temperament to be danced with rather than caged: stop teaching the fire grammar and give it an exhaust pipe. From the split came two expressions of one class - the Nethien Archivist resolving equations mid-air through runic slate-dials and bone rings, clinical and detached, and the Fexric Machinist slamming volatile solvents together in a rotary-chassis mixing chamber, frantic and tactical. The Clockwork carry the certified method first proven during the Toll Wars (Years 280-340) work on the Ironjaw Port memory-glass archives; the Caustic carry the breakaway improvisation learned from discarded schematics traded through the Sump-Markets. Meanwhile the Stargazer Astril, who had mapped the eight frequencies into starlight cycles before either race drew breath, observe both traditions with silent disinterest.`,
+The partnership broke over the nature of the surge. The Athien Magister holds the influx to be a closed mechanical pressure system, base and dangerous, to be repressed and governed by strict runic law: if a weave backlashes, the caster was undisciplined. The Fex Artisan holds the elements alive and reactive, a collective temperament to be danced with rather than caged: stop teaching the fire grammar and give it an exhaust pipe. From the split came two expressions of one class - the Athien Archivist resolving equations mid-air through runic slate-dials and bone rings, clinical and detached, and the Fex Machinist slamming volatile solvents together in a rotary-chassis mixing chamber, frantic and tactical. The Brasskin carry the certified method first proven during the Toll Wars (Years 280-340) work on the Ironjaw Port memory-glass archives; the Alchemite carry the breakaway improvisation learned from discarded schematics traded through the Sump-Markets. Meanwhile the Lumian, who had mapped the eight frequencies into starlight cycles before either race drew breath, observe both traditions with silent disinterest.
+
+Native only to Athien, Brasskin, Alchemite, Lumian. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
     title: "The Arcanoneer",
     subtitle: "The Elemental Weaver",
-  illustration: "/assets/images/classes/arcanoneer_illustration.png",
-   illustrationCaption: "A Nethien Arcanoneer weaving elemental spheres through a crystal prism focus.",
+    illustration: "/assets/images/classes/arcanoneer_high_nethien.jpg",
+    illustrationCaption: "Athien Arcanoneer — The Contract-Weaver, focusing crystallized silver-blood spell-shards through a precision lens.",
+    illustrations: [
+      { url: "/assets/images/classes/arcanoneer_high_nethien.jpg", subraceId: "velun_neth", caption: "Athien Arcanoneer — The Contract-Weaver, focusing crystallized silver-blood spell-shards through a precision lens." },
+      { url: "/assets/images/classes/arcanoneer_clockwork_fexric.jpg", subraceId: "kethrin_fexric", caption: "Brasskin Arcanoneer — The Gear-Weaver, channeling certified elemental steam and lightning through brass manifold regulators." },
+      { url: "/assets/images/classes/arcanoneer_caustic_fexric.jpg", subraceId: "drall_fexric", caption: "Alchemite Arcanoneer — The Scrap-Weaver, wielding volatile salvaged catalysts and improvised pressure pipes." },
+      { url: "/assets/images/classes/arcanoneer_stargazer_astril.jpg", subraceId: "vashir_astril", caption: "Lumian Arcanoneer — The Star-Charted Weaver, aligning elemental orbits with celestial transit cycles." }
+    ],
 
   quickOverview: {
     title: "Class Overview",
@@ -192,19 +200,20 @@ The partnership broke over the nature of the surge. The Nethien Magister holds t
   roleplayIdentity: {
    title: "Roleplay Identity",
     content: `**HISTORY: THE GENESIS**
-The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Freezing Era, a Nethien archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  —  each elemental sphere a clause, each combined weave a document submitted for silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
+The arcanoneer's calling was born in the deep scriptorium vaults of <LoreLink termId="atropolis">Atropolis</LoreLink> within the <LoreLink termId="bryngloom-forest">Bryngloom Forest</LoreLink>. During the first centuries of the Freezing Era, a Athien archivist named <LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane. By structuring incantations as strict, balanced legal syntax  —  each elemental sphere a clause, each combined weave a document submitted for silent approval  —  he bypassed the chaotic feedback of traditional spellcasting.
 
-The craft split in the Underground Proving Grounds, where Nethien theorists and Fexric engineers first combined contract-syntax with precision engineering and then broke over doctrine. Clockwork Fexric Gear-Weavers carry the guild-certified method with documented tolerances and maintenance schedules, while Caustic Fexric Scrap-Weavers  —  operating from salvage and improvisation  —  pushed the boundaries far beyond what any guild would sanction. Independently, the Stargazer Astril reached the same art through cosmic starlight cycles, owing nothing to either tradition.
+The craft split in the Underground Proving Grounds, where Athien theorists and Fex engineers first combined contract-syntax with precision engineering and then broke over doctrine. Brasskin Gear-Weavers carry the guild-certified method with documented tolerances and maintenance schedules, while Alchemite Scrap-Weavers  —  operating from salvage and improvisation  —  pushed the boundaries far beyond what any guild would sanction. Independently, the Lumian reached the same art through cosmic starlight cycles, owing nothing to either tradition.
 
 **CITIES & CIVIL RECEPTION**
-Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as judges, administrators, and high diplomats of the Nethien empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
+Arcanoneers are the most politically powerful and highly respected citizens within <LoreLink termId="atropolis">Atropolis</LoreLink>. They occupy the highest seats of the Canopy-Ledger, serving as judges, administrators, and high diplomats of the Athien empire. They are also welcomed within <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>, where their contract-based spellcraft ensures the safety of the dock-complex.
 
 **RACES & CULTURAL AFFILIATION**
-The class originated with the <LoreLink termId="neth">Nethien</LoreLink>, who practice elemental weaving as contract-syntax  —  the inability to lie is their discipline's engine, not a class-wide requirement. The craft has since spread: Clockwork Fexric treat weaving as guild engineering, Caustic Fexric weave from salvage and improvisation, and Stargazer Astril chart it as starlight cycles. Veldun do not walk this path - their gift is the obligation-web and probability, not combination - and the Severed Withered remain excluded until their own disputed road out of the First Contract is found.
+Elemental grammar has four native interfaces: Athien contract-syntax, Brasskin regulation, Alchemite salvage, and Lumian star-charts.
 
+Native to: Athien, Brasskin, Alchemite, Lumian. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
-* **Valerius the Scriptor**: First Nethien archivist to draft the First Contract with Morvane, establishing elemental combination as legal syntax.
-* **Kaelen the Unbroken**: A Nethien arcanoneer who held the docks of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> against a tide of glacier-wyrms.`
+* **Valerius the Scriptor**: First Athien archivist to draft the First Contract with Morvane, establishing elemental combination as legal syntax.
+* **Kaelen the Unbroken**: A Athien arcanoneer who held the docks of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink> against a tide of glacier-wyrms.`
   },
 
    signatureQuote: {
@@ -219,7 +228,7 @@ The class originated with the <LoreLink termId="neth">Nethien</LoreLink>, who pr
     paradox: 'The most versatile casters in the world are also the most constrained. Every weave balances on a knife\'s edge between cooperation and catastrophe. The master knows not just which elements combine  —  but which ones combine safely, which ones require bribes, and which ones should never share the same weave under any circumstances.'
    },
 
-    currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract  —  specifically, the Nethien Contingency Protocol, which governs what happens if the First Contract itself is ever breached. The Ledger has split into two named factions. The Invokers argue the Protocol authorizes total magical warfare against the breaching party. The Nullifiers argue it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths. Ledger-Prime Vel-Otharen finds himself opposed by Signatory Vel-Korath, a younger Nethien who argues Vel-Otharen's conservatism is why the breach is happening  —  the eldest Arcanoneer's refusal to audit the oldest clauses has allowed someone to exploit the Contract's accumulated inconsistencies over centuries.
+    currentCrisis: `The Canopy-Ledger is fractured. For the first time in four centuries, the senior Arcanoneers of Atropolis cannot agree on the interpretation of a contract  —  specifically, the Athien Contingency Protocol, which governs what happens if the First Contract itself is ever breached. The Ledger has split into two named factions. The Invokers argue the Protocol authorizes total magical warfare against the breaching party. The Nullifiers argue it requires the Ledger to dissolve itself and release all Arcanoneers from their oaths. Ledger-Prime Vel-Otharen finds himself opposed by Signatory Vel-Korath, a younger Athien who argues Vel-Otharen's conservatism is why the breach is happening  —  the eldest Arcanoneer's refusal to audit the oldest clauses has allowed someone to exploit the Contract's accumulated inconsistencies over centuries.
 
 Behind the legal dispute is a darker truth: someone IS breaching the First Contract. Morvane has begun rejecting clauses it previously accepted. Weaves are collapsing in ways that suggest intentional sabotage of the contractual framework. If the Contract collapses, every Arcanoneer's filed clauses become void, and every spell they've ever cast becomes retroactively invalid, unraveling centuries of magical infrastructure across the Bryngloom.`,
 
@@ -236,9 +245,9 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
     {
      name: 'The Cragjaw Guild-Hall',
      locationId: 'cragjaw-peaks',
-     description: 'The Clockwork Fexric guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  —  and most conservative  —  combination matrix in existence.',
+     description: 'The Brasskin guild-complex where elemental combination is treated as precision engineering. Prospective Gear-Weavers spend years memorizing tolerance tables, safety parameters, and the full catalogue of guild-certified combinations. The guild hall contains the most complete  —  and most conservative  —  combination matrix in existence.',
      purpose: 'Training, certification, and research into guild-approved elemental pairings',
-     status: 'Active, though the guild-masters are increasingly alarmed by reports of Caustic Fexric Scrap-Weavers achieving results outside certified parameters'
+     status: 'Active, though the guild-masters are increasingly alarmed by reports of Alchemite Scrap-Weavers achieving results outside certified parameters'
     },
     {
      name: 'The Heart-Vault',
@@ -250,16 +259,16 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
     {
      name: 'The Underground Proving Grounds',
      locationId: 'proving_grounds',
-     description: 'A tiered test range beneath Gearworks Gulch where Nethien theorists dictated constraints from behind leaded glass while Fexric engineers handled the hot metal. Everything the Clockwork Fexric certify was proved here; everything the Caustic Fexric do anyway was first attempted here. The upper galleries are guild order, brass and tolerance tables; the lower sumps are salvage, scorch-marks, and a smell that never washed out. The schism between Gear-Weaver and Scrap-Weaver was not declared in a council. It happened at this bench, the day one engineer stopped waiting for the manual.',
+     description: 'A tiered test range beneath Gearworks Gulch where Athien theorists dictated constraints from behind leaded glass while Fex engineers handled the hot metal. Everything the Brasskin certify was proved here; everything the Alchemite do anyway was first attempted here. The upper galleries are guild order, brass and tolerance tables; the lower sumps are salvage, scorch-marks, and a smell that never washed out. The schism between Gear-Weaver and Scrap-Weaver was not declared in a council. It happened at this bench, the day one engineer stopped waiting for the manual.',
      purpose: 'Founding schism-site and test range, the Proving Grounds still grade candidate combinations, officially and otherwise',
      status: 'Active and split, the certified galleries are orderly, the lower sumps are booming, and the guild has quietly doubled the guard on the stairs between them'
     },
     {
      name: 'The Quiet Observatory',
      locationId: 'quiet_observatory',
-     description: 'A wind-scoured observatory on the Sundrift Vale where the Stargazer Astril mapped the eight frequencies as starlight cycles long before the Nethien drafted their first clause. The charts here are older than the First Contract. The observatory keeps no guard and files no documents; the stars are the record, and the record is open to anyone patient enough to stand in the cold and read it. Recently the chart-keepers have opened a ninth column, for a star that should not be there.',
+     description: 'A wind-scoured observatory on the Sundrift Vale where the Lumian mapped the eight frequencies as starlight cycles long before the Athien drafted their first clause. The charts here are older than the First Contract. The observatory keeps no guard and files no documents; the stars are the record, and the record is open to anyone patient enough to stand in the cold and read it. Recently the chart-keepers have opened a ninth column, for a star that should not be there.',
      purpose: 'Sanctum and chart-house of the Star-Charted Weaver lineage, the discipline\'s original independent discovery',
-     status: 'Active, and the ninth column is no longer empty, something in the breach is moving on a cycle the Stargazers recognize'
+     status: 'Active, and the ninth column is no longer empty, something in the breach is moving on a cycle the Lumians recognize'
     }
    ],
 
@@ -270,7 +279,7 @@ Behind the legal dispute is a darker truth: someone IS breaching the First Contr
 **Why Bring Me? (The Arcanoneer's Promise)**: You are the ultimate adaptable caster. Your elemental weaving can produce any damage type to exploit enemy weaknesses, shatter defenses, and control the battlefield from range  —  but every weave is a gamble with backlash as the stakes.
 
 **How You Fight**:
-1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers) to generate elemental essences.
+1. **Roll your spheres** (the shared 4d8 pool) to generate elemental essences.
 2. **Read your hand**, What elements are available? What recipes can you weave?
 3. **Decide**: Release now with what you have, or bank spheres to weave a larger combination?
 4. **Execute**, Weave the elements, pay the mana, and brace  —  releasing a hostile weave pins your movement to 0 for the turn (Elemental Backlash).
@@ -428,7 +437,7 @@ With 1 AP remaining, you weave Arcane + Frost = **Crystal Shard** on a wounded b
     step: 4,
     title: "Learn the d8 Element Table",
     content:
-     "You will roll 4d8 every single turn. Memorize or screenshot the sphere generation table (1=Arcane, 2=Radiant, 3=blight+blight, 4=Fire, 5=Frost, 6=Nature, 7=Healing, 8=Chaos). Speed of recognition is your most important skill.",
+      "Roll 4d8 each own turn. One sphere per die: 1=Arcane, 2=Sacred, 3=Blight, 4=Ember, 5=Rime, 6=Primal, 7=Storm, 8=Wyrd. Speed of recognition is your most important skill.",
    },
    {
     step: 5,
@@ -535,7 +544,7 @@ You do not have a fixed mana bar for elemental spells. Instead, at the start of 
      stepNumber: 1,
      title: "Roll Blocks",
      subtitle: "Start of Turn",
-      content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one primordial Building Block, an aether-shard.`,
+      content: `Roll **4d8**. Each die produces one primordial Building Block, an aether-shard. The implemented bank holds twelve spheres for every specialization.`,
     },
     {
      type: "step",
@@ -654,7 +663,7 @@ You do not have a fixed mana bar for elemental spells. Instead, at the start of 
        name: "Weave Reset",
        cost: "3 Mana + 1 AP + 1d4 HP",
        type: "Utility / Emergency",
-        description: "Purge unstable spheres from your focus to discard all currently rolled spheres and reroll your 4d8 grid (5d8 if Entropy Weaver).",
+        description: "Purge unstable spheres from your focus to discard all currently rolled spheres and reroll your shared 4d8 grid.",
       },
       {
        name: "Fling",
@@ -874,8 +883,8 @@ You do not have a fixed mana bar for elemental spells. Instead, at the start of 
 **The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Ember+Rime for Steam on the front line, then Nature+Nature for a Gristle Blockade on your flank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP, expensive, but devastating when it works.
 
 **Advanced: The Banking Mathematics**:
-- You generate 4 spheres per turn (5 for Entropy Weavers)
-- Your bank holds a maximum of **12 spheres** (15 for Sphere Architects)
+- The implemented generation control rolls 4 spheres per own turn
+- Your bank holds a maximum of **12 spheres** for all specializations
 - A 3-sphere Recipe needs 3 specific spheres, might take 2-3 turns of banking
 - A 4-sphere Recipe needs 4 specific spheres, might take 3-4 turns
 - **Critical insight**: While banking, you can still cast with your OTHER spheres. Bank what you need, spend what you don't.
@@ -1072,13 +1081,13 @@ MAX BANKED SPHERES: 12
     color: "#9400D3",
     theme: "Embrace Randomness",
 
-    description: `Entropy Weavers don't fight the chaos, they weaponize it. They roll 5d8 instead of 4d8 (one extra sphere per turn), and every Chaos combo hits twice as hard. Where other Arcanoneers see Chaos spheres as a liability, Entropy Weavers see opportunity. If you want to be the most unpredictable, volatile, and potentially devastating Arcanoneer on the field, this is your path. Just... don't stand too close to your allies.`,
+     description: `Entropy Weavers don't fight the chaos, they weaponize it. They share the implemented 4d8 pool and twelve-sphere bank; specialization damage and manipulation rules still need executable handling. Where other Arcanoneers see Wyrd spheres as a liability, Entropy Weavers see opportunity. Just... don't stand too close to your allies.`,
 
     playstyle:
      "High variance, chaos magic, wild magic surges, explosive unpredictability",
 
     strengths: [
-     "Roll 5d8 for spheres instead of 4d8 (one extra sphere per turn)",
+      "Uses the shared 4d8 pool; the legacy extra-die claim is retired from the current tracker",
      "All Chaos combinations deal double damage",
      "Chaos sphere combos trigger Wild Magic Surge (roll on table)",
      "Can turn any sphere into Chaos (once per turn, costs 2 mana)",
@@ -1105,7 +1114,7 @@ MAX BANKED SPHERES: 12
       name: "Chaos Mastery",
       tier: "Specialization Passive",
       description:
-       "Roll 5d8 for sphere generation (instead of 4d8). All Chaos matrix combos deal double damage. When you use a Chaos sphere in any combination, roll on the Wild Magic Surge table for an additional random effect. Once per turn, you can convert any sphere to Chaos (costs 2 mana). Chaos is your weapon.",
+        "Uses the shared 4d8 pool and twelve-sphere bank. Specialization rules to implement: Wyrd matrix combos deal double damage; using a Wyrd sphere adds a Wild Magic Surge; once per turn convert a sphere to Wyrd for 2 mana. These effects are not applied by the resource tracker.",
       uniqueTo: "Entropy Weaver",
      },
     ],
@@ -1128,7 +1137,7 @@ MAX BANKED SPHERES: 12
 
     strengths: [
      "Can swap any 2 spheres for different elements (once per turn, costs 3 mana)",
-     "Can store up to 15 spheres (instead of the standard 12 cap)",
+      "Uses the shared twelve-sphere bank; the legacy fifteen-bank claim is retired from the current tracker",
      "Reduce mana cost of 3-sphere Recipes by 3 (e.g., 20→17 mana)",
      'Can "lock" 1 sphere type to guarantee it next turn',
      "Most consistent and controllable spec",
@@ -1154,7 +1163,7 @@ MAX BANKED SPHERES: 12
       name: "Runic Precision",
       tier: "Specialization Passive",
       description:
-       'Once per turn, swap any 2 spheres for different element types (costs 3 mana total). 3-sphere Recipes cost 3 less mana (e.g., 20→17). You can "lock" 1 sphere type at end of turn to guarantee that element in your next roll, spend 1 banked sphere of that type; one of your next 4d8 results is automatically replaced with that element. Your sphere bank capacity is 15 instead of 12. Control the matrix, don\'t let it control you.',
+        'Uses the shared twelve-sphere bank. Specialization rules to implement: once per turn swap two spheres for 3 mana; discount three-sphere Recipes by 3 mana; spend a banked sphere to lock one result in the next 4d8 roll. These effects are not applied by the resource tracker. Control the matrix, don\'t let it control you.',
       uniqueTo: "Sphere Architect",
      },
     ],

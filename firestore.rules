@@ -1,6 +1,33 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Project 4 C5: room authority coordination is server/Admin only. No
+    // browser/client SDK access to lease records or tombstones.
+    match /roomAuthorities/{roomId} {
+      allow read, write: if false;
+    }
+
+    // Project 4 C3: durable membership-compensation obligations (failed
+    // invitation rollbacks awaiting corrective removal) are server/Admin only.
+    // No browser/client SDK access.
+    match /membershipCompensations/{compensationId} {
+      allow read, write: if false;
+    }
+
+    // Project 4 H2: durable room access requires a normal non-anonymous account.
+    function isDurableAccount() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
     function isUltimateTier(userId) {
       return request.auth != null &&
         request.auth.uid == userId &&
@@ -10,18 +37,51 @@ service cloud.firestore {
         ];
     }
 
-    // Users can read/write their own user document
-    // SECURITY: Allow authenticated users to read other users to support Friend ID search
-    // SECURITY: subscriptionTier field is protected — only server-side updates allowed
+    // Users can read their own user document.
+    // Project 4: the public projection lives at userProfiles/{uid}; protected
+    // fields cannot be added, changed or deleted by omission from a client.
     match /users/{userId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null && request.auth.uid == userId
-        && !request.resource.data.keys().hasAny(['subscriptionTier', 'subscriptionUpdatedAt']);
-      allow update: if request.auth != null && request.auth.uid == userId
-        && (!('subscriptionTier' in request.resource.data)
-            || request.resource.data.subscriptionTier == resource.data.subscriptionTier)
-        && (!('subscriptionUpdatedAt' in request.resource.data)
-            || request.resource.data.subscriptionUpdatedAt == resource.data.subscriptionUpdatedAt);
+      function protectedFieldUnchanged(key) {
+        return (!(key in request.resource.data) && !(key in resource.data))
+          || ((key in request.resource.data) && (key in resource.data)
+              && request.resource.data[key] == resource.data[key]);
+      }
+      function protectedFieldsUnchanged() {
+        return protectedFieldUnchanged('subscriptionTier')
+          && protectedFieldUnchanged('subscriptionUpdatedAt')
+          && protectedFieldUnchanged('isGuest')
+          && protectedFieldUnchanged('admin')
+          && protectedFieldUnchanged('role')
+          && protectedFieldUnchanged('cleanupAssets');
+      }
+      function mutableFieldsOnly() {
+        return request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'displayName', 'email', 'photoURL', 'friendId', 'friendId_lowercase',
+          'createdAt', 'lastLoginAt', 'characters', 'preferences', 'gameData',
+          'storageUsage', 'hasProfile', 'profileLastUpdated', 'profile',
+          'version', 'updatedAt'
+        ]);
+      }
+
+      function initialFieldsOnly() {
+        return request.resource.data.keys().hasOnly([
+          'displayName', 'email', 'photoURL', 'friendId', 'friendId_lowercase',
+          'createdAt', 'lastLoginAt', 'characters', 'preferences', 'gameData',
+          'storageUsage', 'hasProfile', 'profileLastUpdated', 'profile',
+          'version', 'updatedAt'
+        ]);
+      }
+
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      // Positive allowlist: unknown/internal/protected fields (including any
+      // privilege or billing field) are denied on create.
+      allow create: if isSignedIn() && request.auth.uid == userId
+        && initialFieldsOnly();
+      allow update: if isSignedIn() && request.auth.uid == userId
+        && protectedFieldsUnchanged()
+        && mutableFieldsOnly();
+      // Account deletion is a separate policy outside Project 4.
+      allow delete: if false;
     }
 
     // ===== PRESENCE TRACKING =====
@@ -60,14 +120,29 @@ service cloud.firestore {
     // so that missing documents (no resource.data) don't trigger permission errors
     // during getDoc() calls on non-existent character IDs.
     match /characters/{characterId} {
-      allow read: if request.auth != null && (
+      function ownerIsCaller() {
+        return isSignedIn() && resource != null
+          && resource.data.metadata.userId == request.auth.uid;
+      }
+      function cleanupDescriptorUnchanged() {
+        return (!('cleanupAssets' in request.resource.data) && !('cleanupAssets' in resource.data))
+          || (('cleanupAssets' in request.resource.data) && ('cleanupAssets' in resource.data)
+              && request.resource.data.cleanupAssets == resource.data.cleanupAssets);
+      }
+
+      allow read: if isSignedIn() && (
         resource == null ||
         resource.data.metadata.userId == request.auth.uid
       );
-      allow create: if request.auth != null &&
-        request.resource.data.metadata.userId == request.auth.uid;
-      allow update, delete: if request.auth != null &&
-        resource.data.metadata.userId == request.auth.uid;
+      allow create: if isSignedIn() &&
+        request.resource.data.metadata.userId == request.auth.uid
+        && !('cleanupAssets' in request.resource.data);
+      // Ownership is immutable to ordinary clients; the cleanup descriptor is
+      // Admin-only.
+      allow update: if ownerIsCaller()
+        && request.resource.data.metadata.userId == resource.data.metadata.userId
+        && cleanupDescriptorUnchanged();
+      allow delete: if ownerIsCaller();
     }
 
     // Character runtime state (HP, inventory, equipment, etc.)
@@ -112,50 +187,21 @@ service cloud.firestore {
         resource.data.userId == request.auth.uid;
     }
 
-    // ===== ROOM DATA PERSISTENCE =====
-    // Multiplayer rooms - SECURITY: Restricted to room members only
+    // ===== ROOM DATA PERSISTENCE (PROJECT 4 ACCESS BOUNDARY) =====
+    // Raw room roots and every canonical checkpoint fragment are server/Admin
+    // resources. The server mediates safe draft creation (checking that no
+    // root or fragment already exists at the id), every authorized read and
+    // every mutation. Clients never read or write this collection directly,
+    // which also prevents a new draft from claiming orphaned legacy state.
     match /rooms/{roomId} {
-      // Helper function to check if user is room member
-      function isRoomMember() {
-        return request.auth != null && (
-          request.auth.uid == resource.data.gmId ||
-          (resource.data.members != null && request.auth.uid in resource.data.members)
-        );
-      }
+      allow read, write: if false;
 
-      // SECURITY: Block anonymous (guest) reads — full members-only restriction deferred to Phase 6
-      allow read: if request.auth != null &&
-        request.auth.token.firebase.sign_in_provider != 'anonymous';
-
-      // Allow creating rooms (user becomes GM)
-      allow create: if request.auth != null &&
-        request.auth.uid == request.resource.data.gmId;
-
-      // SECURITY: Only GM or room members can update gameState
-      // GM can update any field, members can only update gameState and lastActivity
-      allow update: if request.auth != null &&
-        (request.auth.uid == resource.data.gmId ||
-         (isRoomMember() &&
-          'gameState' in request.resource.data &&
-          request.resource.data.keys().hasOnly(['gameState', 'lastActivity'])));
-
-      // Allow GM to delete rooms
-      allow delete: if request.auth != null &&
-        request.auth.uid == resource.data.gmId;
-
-      // Subcollections for split storage and chat
       match /gameState/{documentId} {
-        allow read, write: if request.auth != null && (
-          request.auth.uid == get(/databases/$(database)/documents/rooms/$(roomId)).data.gmId ||
-          request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.members
-        );
+        allow read, write: if false;
       }
 
       match /chat/{documentId} {
-        allow read, write: if request.auth != null && (
-          request.auth.uid == get(/databases/$(database)/documents/rooms/$(roomId)).data.gmId ||
-          request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.members
-        );
+        allow read, write: if false;
       }
     }
 
@@ -164,9 +210,9 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Room sessions for active multiplayer sessions
+    // Room sessions for active multiplayer sessions (owner only)
     match /roomSessions/{sessionId} {
-      allow read: if request.auth != null;
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
@@ -180,6 +226,16 @@ service cloud.firestore {
     // ===== WORLDBUILDING PERSISTENCE =====
     // User worldbuilding (books, interactive maps, family trees, lineages, factions, timelines, quests)
     match /users/{userId}/worldbuilding/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ===== USER TOOL STATE =====
+    // Spellbook (windowed spell manager) and action-bar layouts, owner only.
+    match /users/{userId}/spellbook/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/actionBar/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
@@ -227,7 +283,7 @@ service cloud.firestore {
       allow update: if request.auth != null && (
         request.auth.uid == resource.data.userId ||
         request.auth.uid == resource.data.authorId ||
-        request.resource.data.diff(resource.data).affectedKeys().hasAny(['rating', 'ratingCount', 'downloadCount', 'upvotes', 'downvotes'])
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rating', 'ratingCount', 'downloadCount', 'upvotes', 'downvotes'])
       );
       allow delete: if request.auth != null && (
         request.auth.uid == resource.data.userId ||
@@ -236,15 +292,19 @@ service cloud.firestore {
       );
     }
 
-    // Spell categories - allow public read access
+    // Spell categories - PUBLIC READ / ADMIN WRITE ONLY (Project 4)
     match /spell_categories/{categoryId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false;
     }
 
-    // Spell ratings - allow users to manage their own ratings
+    // Spell ratings - public read (the client recalculates averages by querying
+    // all ratings for a spell), owner create/update/delete.
     match /spell_ratings/{ratingId} {
-      allow read, write: if request.auth != null &&
+      allow read: if true;
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null &&
         request.auth.uid == resource.data.userId;
     }
 
@@ -253,67 +313,127 @@ service cloud.firestore {
     // query exposed private drafts in the public feed.
     match /community_items/{itemId} {
       allow read: if resource.data.isPublic == true;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow create: if request.auth != null && (
+        request.auth.uid == request.resource.data.userId ||
+        request.auth.uid == request.resource.data.authorId
+      );
       allow update: if request.auth != null && (
         request.auth.uid == resource.data.userId || 
-        request.resource.data.diff(resource.data).affectedKeys().hasAny(['upvotes', 'downvotes', 'commentCount', 'downloadCount'])
+        request.auth.uid == resource.data.authorId || 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['upvotes', 'downvotes', 'commentCount', 'downloadCount', 'rating', 'ratingCount'])
       );
-      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow delete: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.authorId
+      );
     }
 
-    // Item categories - allow public read access
+    // Item categories - PUBLIC READ / ADMIN WRITE ONLY (Project 4)
     match /item_categories/{categoryId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false;
     }
 
-    // Item ratings - allow users to manage their own ratings
+    // Item ratings - public read, owner create/update/delete.
+    // Doc convention: {itemId}_{userId}; docs also carry a userId field so we
+    // never parse the id (Firestore rules have no endsWith()).
     match /item_ratings/{ratingId} {
       allow read: if true;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && (
-        // For composite keys like itemId_userId, we check if the doc belongs to user
-        ratingId.size() > 28 ? ratingId.endsWith(request.auth.uid) : resource.data.userId == request.auth.uid
-      );
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
     }
 
-    // Item comments - allow public read and authenticated create
+    // Item comments - public read; create must be attributed to the author
     match /item_comments/{commentId} {
       allow read: if true;
-      allow create: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
       allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
 
     // Community creatures - allow public read access
     match /community_creatures/{creatureId} {
       allow read: if resource.data.isPublic == true;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && (
+        request.auth.uid == request.resource.data.userId ||
+        request.auth.uid == request.resource.data.authorId
+      );
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.authorId ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rating', 'ratingCount', 'downloadCount'])
+      );
+      allow delete: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.authorId
+      );
     }
 
-    // Creature categories - allow public read access
+    // Creature categories - PUBLIC READ / ADMIN WRITE ONLY (Project 4)
     match /creature_categories/{categoryId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false;
     }
 
-    // Creature ratings - allow users to manage their own ratings
+    // Creature ratings - public read, owner create/update/delete.
     match /creature_ratings/{ratingId} {
-      allow read, write: if request.auth != null &&
+      allow read: if true;
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null &&
         request.auth.uid == resource.data.userId;
     }
 
     // Community packs - allow public read access
     match /community_packs/{packId} {
       allow read: if resource.data.isPublic == true;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && (
+        request.auth.uid == request.resource.data.userId ||
+        request.auth.uid == request.resource.data.authorId
+      );
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.authorId ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rating', 'ratingCount', 'downloadCount', 'version', 'changelog'])
+      );
+      allow delete: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.authorId
+      );
     }
 
-    // Pack ratings - allow users to manage their own ratings
+    // Pack ratings - public read, owner create/update/delete.
     match /pack_ratings/{ratingId} {
-      allow read, write: if request.auth != null &&
+      allow read: if true;
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null &&
         request.auth.uid == resource.data.userId;
+    }
+
+    // ===== CONTENT MODERATION =====
+    // Any authenticated user may file a report. Reviewing/actioning reports and
+    // editing the word filter are moderator functions gated on the `admin`
+    // custom claim. Grant it via the Admin SDK, e.g.:
+    //   admin.auth().setCustomUserClaims(uid, { admin: true })
+    // (the user must refresh their ID token afterwards).
+    match /contentReports/{reportId} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.reporterId;
+    }
+
+    match /moderationActions/{actionId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin();
+    }
+
+    // The word filter is read publicly (clients run local filtering) but may
+    // only be edited by moderators.
+    match /filteredWords/{wordId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // Spell favorites - previously had no rule block at all (default deny), so
@@ -329,31 +449,46 @@ service cloud.firestore {
     }
 
     // Community maps - public read for published maps, owner-managed otherwise.
+    // Uploads store `originalUserId` (the client strips `userId`), so ownership
+    // accepts userId/authorId/originalUserId for compatibility.
     match /community_maps/{mapId} {
       allow read: if resource.data.isPublic == true ||
-        (request.auth != null && request.auth.uid == resource.data.userId);
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+        (request.auth != null && (
+          request.auth.uid == resource.data.userId ||
+          request.auth.uid == resource.data.authorId ||
+          request.auth.uid == resource.data.originalUserId
+        ));
+      allow create: if request.auth != null && (
+        request.auth.uid == request.resource.data.userId ||
+        request.auth.uid == request.resource.data.authorId ||
+        request.auth.uid == request.resource.data.originalUserId
+      );
       allow update: if request.auth != null && (
         request.auth.uid == resource.data.userId ||
-        request.resource.data.diff(resource.data).affectedKeys().hasAny(['downloadCount', 'rating', 'ratingCount'])
+        request.auth.uid == resource.data.authorId ||
+        request.auth.uid == resource.data.originalUserId ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['downloadCount', 'rating', 'ratingCount'])
       );
-      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow delete: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        request.auth.uid == resource.data.authorId ||
+        request.auth.uid == resource.data.originalUserId
+      );
     }
 
-    // Map categories - public read access
+    // Map categories - PUBLIC READ / ADMIN WRITE ONLY (Project 4)
     match /map_categories/{categoryId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false;
     }
 
-    // Map ratings - users manage their own ratings
+    // Map ratings - public read, owner create/update/delete.
     match /map_ratings/{ratingId} {
       allow read: if true;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && (
-        resource.data.userId == request.auth.uid ||
-        ratingId.endsWith(request.auth.uid)
-      );
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
     }
 
     // Lightweight feed summaries - public read, owner writes.
@@ -494,9 +629,40 @@ service cloud.firestore {
       allow update, delete: if isUltimateTier(resource.data.userId);
     }
 
-    // Immersive custom-map workspace - Archmage/Ultimate users only
+    // Immersive custom-map workspace - Archmage/Ultimate users only.
+    // Project 4: the Admin cleanup descriptor is not client-mutable.
     match /userCustomMaps/{userId}/maps/{mapId} {
-      allow read, write: if isUltimateTier(userId);
+      allow read: if isUltimateTier(userId);
+      allow create: if isUltimateTier(userId)
+        && !('cleanupAssets' in request.resource.data);
+      allow update: if isUltimateTier(userId)
+        && ((!('cleanupAssets' in request.resource.data) && !('cleanupAssets' in resource.data))
+            || (('cleanupAssets' in request.resource.data) && ('cleanupAssets' in resource.data)
+                && request.resource.data.cleanupAssets == resource.data.cleanupAssets));
+      allow delete: if isUltimateTier(userId);
+    }
+
+    // ===== INTERACTIVE MAP ANNOTATIONS =====
+    // Player pins drawn on the immersive world map. Owner-only.
+    match /userMapAnnotations/{userId}/pins/{pinId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Player areas/routes drawn on the immersive world map. Owner-only.
+    match /userMapAnnotations/{userId}/areas/{areaId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Shared map views (24h expiring). Read is recipient-only so the pending
+    // inbox query (toUserId == uid) stays provably safe; single-doc update/
+    // delete is allowed for both sender and recipient.
+    match /mapShares/{shareId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.toUserId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.fromUserId;
+      allow update, delete: if request.auth != null && (
+        request.auth.uid == resource.data.fromUserId ||
+        request.auth.uid == resource.data.toUserId
+      );
     }
 
     // ===== DICE ROLL HISTORY =====
@@ -508,16 +674,30 @@ service cloud.firestore {
         request.auth.uid == request.resource.data.userId;
     }
 
-    // Character roll statistics - allow users to manage their own stats
+    // Character roll statistics - owner read/update/delete. Create must be
+    // separate because resource.data is invalid on a non-existent doc.
     match /characterRollStats/{statsId} {
-      allow read, write: if request.auth != null &&
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+      allow read, update, delete: if request.auth != null &&
         request.auth.uid == resource.data.userId;
     }
 
-    // Roll sessions - allow room members to manage session data
+    // User custom rollable tables - owner only. Docs carry a userId field and
+    // the client list query filters where('userId','==',uid).
+    match /customRollableTables/{tableId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // Roll sessions - owner (or room GM) only
     match /rollSessions/{sessionId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
+      allow read: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.gmId == request.auth.uid
+      );
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
       allow update, delete: if request.auth != null && (
         resource.data.userId == request.auth.uid ||
         resource.data.gmId == request.auth.uid
@@ -525,8 +705,54 @@ service cloud.firestore {
     }
 
     // ===== USER PROFILES =====
-    // User profiles - allow users to manage their own profile data
+    // Project 4 public projection allowlist. Rich private profile data lives
+    // owner-only at userSettings/{uid}.profile. Foreign readers may only read
+    // version-1 slim projections; legacy mixed documents are not public.
     match /userProfiles/{userId} {
+      function slimFieldsOnly(data) {
+        return data.keys().hasOnly([
+          'displayName', 'photoURL', 'friendId', 'friendId_lowercase',
+          'updatedAt', 'projectionVersion'
+        ]);
+      }
+      function nullableString(data, key, max) {
+        return !(key in data)
+          || data[key] == null
+          || (data[key] is string && data[key].size() <= max);
+      }
+      function friendIdConsistent(data) {
+        return (!('friendId' in data) && !('friendId_lowercase' in data))
+          || (data.friendId == null && data.friendId_lowercase == null)
+          || (data.friendId is string
+              && data.friendId_lowercase is string
+              && data.friendId_lowercase == data.friendId.lower());
+      }
+      function validSlimProfile(data) {
+        return data.projectionVersion == 1
+          && slimFieldsOnly(data)
+          && nullableString(data, 'displayName', 100)
+          && nullableString(data, 'photoURL', 2048)
+          && nullableString(data, 'friendId', 64)
+          && nullableString(data, 'friendId_lowercase', 64)
+          && friendIdConsistent(data)
+          && (!('updatedAt' in data) || data.updatedAt is timestamp);
+      }
+      // Foreign reads require a truly slim version-1 projection.
+      function isPublicProjection() {
+        return resource != null && validSlimProfile(resource.data);
+      }
+
+      allow read: if isSignedIn() && (
+        request.auth.uid == userId || isPublicProjection()
+      );
+      allow create, update: if isSignedIn() && request.auth.uid == userId
+        && validSlimProfile(request.resource.data);
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Friend lists (doc id = userId), used by persistenceService during
+    // account deletion.
+    match /friendLists/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 

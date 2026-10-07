@@ -208,8 +208,8 @@ export const WALL_MODEL_METRICS = {
   [WALL_MODELS.town_wall_window]: { length: 1, height: 1.0, centerX: 0, centerZ: -0.45, rotateY: Math.PI / 2 },
   [WALL_MODELS.gothic_stone]: { length: 1, height: 1.8, centerX: 0, centerZ: 0.45 },
   [WALL_MODELS.gothic_stone_curve]: { length: 1, height: 0.65, centerX: 0 },
-  [WALL_MODELS.gothic_stone_damaged]: { length: 1, height: 0.65, centerX: 0, centerZ: 0.45 },
-  [WALL_MODELS.gothic_stone_column]: { length: 1, height: 0.65, centerX: 0, centerZ: 0.45 },
+  [WALL_MODELS.gothic_stone_damaged]: { length: 1, height: 1.8, centerX: 0, centerZ: 0.45 },
+  [WALL_MODELS.gothic_stone_column]: { length: 1, height: 1.8, centerX: 0, centerZ: 0.45 },
   [WALL_MODELS.iron_fence_curve]: { length: 1, height: 0.824, centerX: 0 },
   [WALL_MODELS.iron_fence_damaged]: { length: 1, height: 0.824, centerX: 0, centerZ: 0.4495 },
   [WALL_MODELS.pillar_stone]: { length: 1, height: 1.8, centerX: 0 },
@@ -471,7 +471,7 @@ export class ThreeDWallManager {
 
     // Gothic stone walls — apply detailed ashlar masonry texture procedurally.
     // The GLBs ship with flat untextured grey materials; the generator fills them.
-    if (typeLower === 'gothic_stone' || typeLower === 'gothic_stone_damaged') {
+    if (typeLower === 'gothic_stone' || typeLower === 'gothic_stone_damaged' || typeLower === 'gothic_stone_column' || typeLower === 'gothic_column') {
       return {
         tint: null,
         baseOpacity: 1,

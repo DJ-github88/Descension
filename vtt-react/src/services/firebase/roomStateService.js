@@ -126,6 +126,15 @@ class RoomStateService {
         // Environmental objects
         environmentalObjects: data.environmentalObjects || [],
 
+        // Combat state
+        combat: data.combat || null,
+
+        // Chat history
+        chatHistory: data.chatHistory || null,
+
+        // Active buffs and debuffs
+        buffsAndDebuffs: data.buffsAndDebuffs || null,
+
         // Metadata
         lastUpdated: data.lastUpdated?.toDate?.() || new Date(data.lastUpdated),
         version: data.version || 1

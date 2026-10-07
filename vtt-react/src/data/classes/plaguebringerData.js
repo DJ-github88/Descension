@@ -39,13 +39,13 @@ export const PLAGUEBRINGER_DATA = {
     "ordan_human"
    ],
   "narrativeUnlock": false,
-  "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Withered's partial-death allows hosting. Vreken's desperation drives acceptance."
+  "justification": "Requires the Bryngloom's unique fungal-bog substrate. Other regions lack the specific biological agents. Riven's partial-death allows hosting. Mycellan's desperation drives acceptance."
  },
 
  /**
  * Subrace Variants, the Plaguebringer cultivates living disease inside their own body,
- * and what that body *is* determines what it can host. The Withered are half-dead
- * already. The Vreken are desperate enough to accept anything. The Vreken castes
+ * and what that body *is* determines what it can host. The Riven are half-dead
+ * already. The Mycellan are desperate enough to accept anything. The Mycellan castes
  * carry the disease on the forest's own infrastructure.
  */
  
@@ -59,50 +59,50 @@ export const PLAGUEBRINGER_DATA = {
   },
 subraceVariants: {
  drun_neth: {
-  subraceName: 'Withered',
+  subraceName: 'Riven',
   title: 'The Silence-Host',
-   reframe: `The <LoreLink termId="neth">Withered</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. The Withered severed their names from the First Contract through the fire-ritual of the Severing. Morvane's pact no longer preserves them  -  the slow decay that the contract once held at bay now creeps through their flesh. This partial-death is not a separate biological state; it is the absence of Morvane's preservation. But what the contract no longer protects, it also no longer regulates. The Withered's decaying flesh has become a legal vacuum  -  and nature, as always, fills vacuums. Their body accepts foreign biology not because it is designed to, but because there is nothing left to reject it. A Withered Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts a substrate.`,
+   reframe: `The <LoreLink termId="neth">Riven</LoreLink>, the leaden-grey outcasts who severed all contracts and legally do not exist, are the Plaguebringer's ideal substrate. The Riven severed their names from the First Contract through the fire-ritual of the Severing. Morvane's pact no longer preserves them  -  the slow decay that the contract once held at bay now creeps through their flesh. This partial-death is not a separate biological state; it is the absence of Morvane's preservation. But what the contract no longer protects, it also no longer regulates. The Riven's decaying flesh has become a legal vacuum  -  and nature, as always, fills vacuums. Their body accepts foreign biology not because it is designed to, but because there is nothing left to reject it. A Riven Plaguebringer is not a sick person wielding sickness, they are a halfway-corpse whose decay hosts a substrate.`,
   signatureAbility: {
   name: 'Silence-Cultivation',
-  description: `Cultivated diseases take root faster and more virulently in the Withered's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Withered's decay *accelerates* with each cultivation, they are spending their remaining life as substrate.`
+  description: `Cultivated diseases take root faster and more virulently in the Riven's partially-dead flesh, generating more Virulence per affliction cast. The cost: the Riven's decay *accelerates* with each cultivation, they are spending their remaining life as substrate.`
   },
-  currentCrisisAngle: `The foundational strain's collapse hits the Withered as *accelerated dissolution*, as the cultivated bacteria die, they take the host's half-life with them. The Withered Plaguebringers are dying faster than the tradition can replace them, and the others are beginning to suspect the Withered knew this would happen: that they chose this path knowing it was, in the end, a faster form of the death they were already living.`,
+  currentCrisisAngle: `The foundational strain's collapse hits the Riven as *accelerated dissolution*, as the cultivated bacteria die, they take the host's half-life with them. The Riven Plaguebringers are dying faster than the tradition can replace them, and the others are beginning to suspect the Riven knew this would happen: that they chose this path knowing it was, in the end, a faster form of the death they were already living.`,
   signatureQuote: {
   text: '"I was legally dead before I swallowed the first culture. Everything since has been interest on a debt I never owed. Let the strain die. I have been dying for years."',
-  speaker: 'Withered Vel-Kaassen',
-  context: 'A Withered Plaguebringer, declining treatment for the collapsing strain'
+  speaker: 'Riven Vel-Kaassen',
+  context: 'A Riven Plaguebringer, declining treatment for the collapsing strain'
   }
  },
 
  clean_vreken: {
-  subraceName: 'Clean Vreken',
+  subraceName: 'Bedel',
   title: 'The Glow-Culture',
-  reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink>, deep-glow scholars, interact with cultivated disease through their bioluminescence: the pathogens glow in their skin, visibly trackable, the Plaguebringer's internal substrate rendered as a living map of light. A Clean Vreken Plaguebringer can *see* their diseases the way a cartographer sees coastlines.`,
+  reframe: `The <LoreLink termId="vreken">Bedel</LoreLink>, deep-glow scholars, interact with cultivated disease through their bioluminescence: the pathogens glow in their skin, visibly trackable, the Plaguebringer's internal substrate rendered as a living map of light. A Bedel Plaguebringer can *see* their diseases the way a cartographer sees coastlines.`,
   signatureAbility: {
   name: 'Luminescent-Tracking',
-  description: `Cultivated diseases express as visible bioluminescent patterns, allowing the Plaguebringer to track infection-progress in real time and tune virulence with surgical precision, but also broadcasting the disease-map to every Vreken nearby, a glowing confession of biological warfare.`
+  description: `Cultivated diseases express as visible bioluminescent patterns, allowing the Plaguebringer to track infection-progress in real time and tune virulence with surgical precision, but also broadcasting the disease-map to every Mycellan nearby, a glowing confession of biological warfare.`
   },
-  currentCrisisAngle: `As the strains mutate virulently, the Clean Vreken's glow-maps are going *dark* in patches, the mutated pathogens no longer fluoresce, becoming invisible even to their own cultivator. A Clean Vreken Plaguebringer who cannot see their disease is a blind surgeon, and the first deaths from untracked mutations have already begun in the deep groves.`,
+  currentCrisisAngle: `As the strains mutate virulently, the Bedel's glow-maps are going *dark* in patches, the mutated pathogens no longer fluoresce, becoming invisible even to their own cultivator. A Bedel Plaguebringer who cannot see their disease is a blind surgeon, and the first deaths from untracked mutations have already begun in the deep groves.`,
   signatureQuote: {
   text: '"I used to read my diseases like scripture. Now entire passages have gone dark. I am preaching a gospel I can no longer proofread, and the congregation is dying."',
   speaker: 'Scholar Ysen Bright-Blight',
-  context: 'A Clean Vreken Plaguebringer, cataloguing the first dark-patch mutation'
+  context: 'A Bedel Plaguebringer, cataloguing the first dark-patch mutation'
   }
  },
 
  marked_vreken: {
-  subraceName: 'Marked Vreken',
+  subraceName: 'Cromyx',
   title: 'The Mycelium-Vector',
-  reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink>, ghost-mycelium walkers, deliver cultivated disease through the <LoreLink termId="root_veil">Root-Veil</LoreLink> itself. The mycelial network threading their skin is the forest's nervous system, and a Marked Plaguebringer rides it like a delivery infrastructure, seeding affliction across miles of interconnected root and spore.`,
+  reframe: `The <LoreLink termId="vreken">Cromyx</LoreLink>, ghost-mycelium walkers, deliver cultivated disease through the <LoreLink termId="root_veil">Root-Veil</LoreLink> itself. The mycelial network threading their skin is the forest's nervous system, and a Cromyx Plaguebringer rides it like a delivery infrastructure, seeding affliction across miles of interconnected root and spore.`,
   signatureAbility: {
   name: 'Network-Seeding',
-  description: `Cultivated diseases can be transmitted *through the mycelial network* to any connected organism, bypassing physical proximity entirely. The Marked are the tradition's only area-effect cultivators, a single Marked Plaguebringer can blight a grove through the roots beneath it.`
+  description: `Cultivated diseases can be transmitted *through the mycelial network* to any connected organism, bypassing physical proximity entirely. The Cromyx are the tradition's only area-effect cultivators, a single Cromyx Plaguebringer can blight a grove through the roots beneath it.`
   },
-  currentCrisisAngle: `The virulent strain-mutations have begun spreading *through the network itself*, the Root-Veil, the Vreken's sacred ancestor, is now carrying weaponized disease to organisms that never encountered the Plaguebringer. The Marked are being accused of poisoning the forest's spirit, and the Root-Veil, for the first time in three centuries, has begun *rejecting* the Marked, expelling mycelium from their skin the way a body expels a splinter.`,
+  currentCrisisAngle: `The virulent strain-mutations have begun spreading *through the network itself*, the Root-Veil, the Mycellan's sacred ancestor, is now carrying weaponized disease to organisms that never encountered the Plaguebringer. The Cromyx are being accused of poisoning the forest's spirit, and the Root-Veil, for the first time in three centuries, has begun *rejecting* the Cromyx, expelling mycelium from their skin the way a body expels a splinter.`,
   signatureQuote: {
   text: '"The forest was my delivery-system and my ancestor. Now it coughs up my touch like an infection. I have poisoned the spirit that raised me, and it knows."',
   speaker: 'Vesh the Blight-Walked',
-  context: 'A Marked Plaguebringer, the morning the mycelium began rejecting her'
+  context: 'A Cromyx Plaguebringer, the morning the mycelium began rejecting her'
   }
  }
  },
@@ -136,7 +136,7 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
  orderName: 'The Cultivar',
  founder: {
   name: '<LoreLink termId="vespera">Vespera</LoreLink>',
-  status: `Alive, and the crisis. The <LoreLink termId="vreken">Vreken</LoreLink> alchemist who bonded with bog-rot to cure the spore-hush three centuries ago still hosts the foundational bacterial strain, and the strain is dying inside her. She is the substrate; when it fails, so does she.`,
+  status: `Alive, and the crisis. The <LoreLink termId="vreken">Mycellan</LoreLink> alchemist who bonded with bog-rot to cure the spore-hush three centuries ago still hosts the foundational bacterial strain, and the strain is dying inside her. She is the substrate; when it fails, so does she.`,
   note: `<LoreLink termId="vespera">Vespera</LoreLink> injected decaying moss from the <LoreLink termId="sunken_spire">Sunken Spire</LoreLink> directly into her veins to save her family. She succeeded, and has been a permanent host to active decay ever since, waxy, pale, cold, cultivating new diseases for three hundred years.`
  },
  currentLeader: {
@@ -145,26 +145,36 @@ The Plaguebringer possesses zero immediate burst damage. Their diseases require 
   characterization: `<LoreLink termId="vespera">Vespera</LoreLink> leads the Cultivar from the deep peat-sinks, but "leads" is generous, she is bedridden, her foundational strain failing, and most of her authority is delegated to her senior cultivators. She is calm about her own death in a way her students find unbearable. She has been dying for three centuries. This is just the final stretch.`
  },
  headquarters: { name: 'The Peat-Sink Laboratories, deep Bryngloom', locationId: 'bryngloom-forest' },
- crisisConnection: `<LoreLink termId="vespera">Vespera</LoreLink>'s failing strain is mutating into virulent forms that attack the host, and every Plaguebringer who learned from her is now carrying a dying inheritance. She has tasked her cultivators with a single project before she goes: engineer a successor strain that does not require *her* blood as substrate. The project is failing. The Marked Vreken cultivators are being rejected by the Root-Veil as they work, and <LoreLink termId="vespera">Vespera</LoreLink> has begun to suspect the forest is *deliberately* killing the strain, that the <LoreLink termId="root_veil">Root-Veil</LoreLink> has decided the Plaguebringer art is a disease worth curing.`
+ crisisConnection: `<LoreLink termId="vespera">Vespera</LoreLink>'s failing strain is mutating into virulent forms that attack the host, and every Plaguebringer who learned from her is now carrying a dying inheritance. She has tasked her cultivators with a single project before she goes: engineer a successor strain that does not require *her* blood as substrate. The project is failing. The Cromyx cultivators are being rejected by the Root-Veil as they work, and <LoreLink termId="vespera">Vespera</LoreLink> has begun to suspect the forest is *deliberately* killing the strain, that the <LoreLink termId="root_veil">Root-Veil</LoreLink> has decided the Plaguebringer art is a disease worth curing.`
  },
 
  worldFriction: [
-    { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren towns burn sulfur and quarantine anyone suspected of harboring Plaguebringer spore-gardens.', workaround: 'Wear thick traveler shrouds and keep active cultures in lead-lined jars.' },
-    { region: 'bryngloom-forest', status: 'revered', consequence: 'Withered and Marked Vreken treat Plaguebringers as sacred cultivators of the Root-Veil\'s fungal decomposition.', workaround: 'None needed in the deep sinks.' },
+    { region: 'frostwood-reach', status: 'hunted', consequence: 'Tallyn towns burn sulfur and quarantine anyone suspected of harboring Plaguebringer spore-gardens.', workaround: 'Wear thick traveler shrouds and keep active cultures in lead-lined jars.' },
+    { region: 'bryngloom-forest', status: 'revered', consequence: 'Riven and Cromyx treat Plaguebringers as sacred cultivators of the Root-Veil\'s fungal decomposition.', workaround: 'None needed in the deep sinks.' },
     { region: 'sundale', status: 'banned', consequence: 'Solvan paladins execute Plaguebringers at the gates to prevent biological contagion inside the crowded refugee barracks.', workaround: 'Travel under false merchant identities.' },
     { region: 'emberspire', status: 'tolerated', consequence: 'Extreme geothermal heat naturally purges airborne spores, allowing Plaguebringers to trade acids with magma distillers.', workaround: 'Conduct alchemy only in designated vent-houses.' }
+  ],
+
+  illustration: "/assets/images/classes/plaguebringer_withered_nethien.jpg",
+  illustrationCaption: "Riven Plaguebringer — The Silence-Host, gaunt and imposing rot incubator in tattered shroud vestments gripping a bone-handled sickle and weeping antique bronze plague-urn leaking necrotic miasma violet vapors.",
+  illustrations: [
+    { url: "/assets/images/classes/plaguebringer_withered_nethien.jpg", subraceId: "drun_neth", caption: "Riven Plaguebringer — The Silence-Host, gaunt and imposing rot incubator in tattered shroud vestments gripping a bone-handled sickle and weeping antique bronze plague-urn leaking necrotic miasma violet vapors." },
+    { url: "/assets/images/classes/plaguebringer_clean_vreken.jpg", subraceId: "clean_vreken", caption: "Bedel Plaguebringer — The Glow-Culture, scholar of living decay in heavy wool robes perched on bog-timber with open fungal codex and gnarled peat-wood specimen staff glowing with lime phosphor cultures." },
+    { url: "/assets/images/classes/plaguebringer_marked_vreken.jpg", subraceId: "marked_vreken", caption: "Cromyx Plaguebringer — The Mycelium-Vector, horned predator crouched on swollen roots wielding a jagged harvesting sickle and chained spiked iron censer billowing boiling blight-green vapors into the Root-Veil." }
   ],
 
   overview: {
   originStory: `A plaguebringer is a living laboratory. The body has been deliberately infected with carefully balanced strains of bacteria, fungi, and parasites that coexist without consuming the host. In combat, these afflictions are seeded into enemies, advanced through stages of decay, and harvested at peak virulence. The craft requires the Bryngloom's unique fungal-bog substrate, a biological chemistry found nowhere else on Mythril.
 
-The first was Blight-Mother Vespera, a Vreken alchemist who bonded with bog-rot to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered decaying moss from the Sunken Spire and injected its alchemical bile directly into her veins. It cured the hush. It also made her body a permanent host for active decay. Her skin became waxy and pale. Her body temperature dropped below normal. She began cultivating new diseases within her own tissue, carefully balancing strains that would destroy an enemy but leave the host intact.
+The first was Blight-Mother Vespera, a Mycellan alchemist who bonded with bog-rot to synthesize a cure for the spore-hush that ravaged her family's cave-keeps. She gathered decaying moss from the Sunken Spire and injected its alchemical bile directly into her veins. It cured the hush. It also made her body a permanent host for active decay. Her skin became waxy and pale. Her body temperature dropped below normal. She began cultivating new diseases within her own tissue, carefully balancing strains that would destroy an enemy but leave the host intact.
 
 That was three centuries ago. Vespera's foundational bacterial strain, the original rot she pulled from the Sunken Spire, is dying. Cultivated diseases across all practitioners are mutating into forms that attack their hosts. The Root-Veil has begun actively rejecting them. The forest has decided the art is a disease worth curing.
 
-Each subrace hosts the affliction differently. The Withered are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Vreken cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Clean Vreken host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Vreken nearby. The Marked Vreken deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
+Each subrace hosts the affliction differently. The Riven are the ideal substrate. Their partial-death is a consequence of severing from the First Contract through the fire-ritual of the Severing, leaving flesh in a legal vacuum that nature fills with whatever it can. The Mycellan cultivate the hush because it is the one property Morvane cannot tax, a disease engineered to be untraceable under contract-law. The Bedel host visible bioluminescent disease-maps, their cultivated afflictions glowing along their skin for surgical precision but broadcasting to every Mycellan nearby. The Cromyx deliver disease through the Root-Veil across miles of interconnected root and spore, a single practitioner able to blight an entire grove without touching it.
 
-Vespera is bedridden. She has tasked her cultivators with engineering a successor strain before she dies. The project is failing. The Root-Veil is deliberately killing the foundational strain, and the virulent mutations are spreading through the network to organisms that never encountered a plaguebringer at all.`,
+Vespera is bedridden. She has tasked her cultivators with engineering a successor strain before she dies. The project is failing. The Root-Veil is deliberately killing the foundational strain, and the virulent mutations are spreading through the network to organisms that never encountered a plaguebringer at all.
+
+Native only to Riven, Bedel, Cromyx. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
  title: "The Plaguebringer",
  subtitle: "Dark Cultivator of Rot & Decay",
 
@@ -202,11 +212,12 @@ The plaguebringer's rot-vessel was born in the peat-bog sinks of the <LoreLink t
 Plaguebringers are feared and outlawed in every civilized city, forced to reside in the Over-Shanties or the forest sumps.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the <LoreLink termId="neth">Withered</LoreLink> and the Vreken outcasts.
+The living colony is Mycellan craft: the Cultivar, the bloom, and the legal vacuum.
 
+Native to: Riven, Bedel, Cromyx. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Vespera the Rot-Vessel**: The alchemist who saved her family from the spore-hush at the price of hosting active decay.
-* **Malakor the Bile-Lord**: A Withered outcast who weaponized the mycelial rot against canopy patrols.`
+* **Malakor the Bile-Lord**: A Riven outcast who weaponized the mycelial rot against canopy patrols.`
  },
 
  signatureQuote: {
@@ -245,9 +256,9 @@ The cause is unclear. Some blame the Silence contamination spreading through the
   {
   name: 'The Half-Life Ward',
   locationId: 'half_life_ward',
-  description: 'A cultivation warren beneath the Over-Shanty, dug into the peat by Withered hands, where legally nonexistent people grow illegal biology in a jurisdiction that can see neither. The Ward\'s gardens are smaller than the Rot-Gardens and much more aggressive, because the substrate here is alive: the Withered host the cultures in their own half-dead flesh, and the wardens log every acceleration as a line in a ledger no court can subpoena.',
-  purpose: 'Withered substrate-gardens and refuge; where disease is cultivated in bodies the Contract no longer protects or regulates',
-  status: 'Active and dissolving, the Withered are dying faster than the tradition can replace them, and the survivors have stopped accepting treatment for a strain they suspect was always going to take them'
+  description: 'A cultivation warren beneath the Over-Shanty, dug into the peat by Riven hands, where legally nonexistent people grow illegal biology in a jurisdiction that can see neither. The Ward\'s gardens are smaller than the Rot-Gardens and much more aggressive, because the substrate here is alive: the Riven host the cultures in their own half-dead flesh, and the wardens log every acceleration as a line in a ledger no court can subpoena.',
+  purpose: 'Riven substrate-gardens and refuge; where disease is cultivated in bodies the Contract no longer protects or regulates',
+  status: 'Active and dissolving, the Riven are dying faster than the tradition can replace them, and the survivors have stopped accepting treatment for a strain they suspect was always going to take them'
   }
  ],
 
@@ -1476,7 +1487,7 @@ Your diseases do not possess intelligence. Under "Vector Isolation," any ally wh
   debuffType: "statusEffect",
   effects: [
    { id : "withered_muscles",
-   name: "Withered Muscles",
+   name: "Riven Muscles",
    description: "Target's tendons rot, giving disadvantage on Strength checks."
    }
   ],

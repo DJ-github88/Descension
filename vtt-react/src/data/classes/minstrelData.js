@@ -23,7 +23,7 @@ export const MINSTREL_DATA = {
    "ordan_human"
   ],
    "narrativeUnlock": true,
-   "justification": "Requires a maritime culture with oral-performance tradition. Tessen too isolated. Cragjaw too vertical. Thalren too archival (song is unreliable). Ordan use throat-singing for navigation (functional, not artistic)."
+   "justification": "Requires a maritime culture with oral-performance tradition. Tessic too isolated. Cragjaw too vertical. Tallyn too archival (song is unreliable). Ordu use throat-singing for navigation (functional, not artistic)."
   },
 
   // Class Resource, generated per spell. Resource range/balance per design.
@@ -45,6 +45,21 @@ export const MINSTREL_DATA = {
  * different frequency: the storm, the surf, the river, and the abyss.
  */
  subraceVariants: {
+    tethered_mimir: {
+      subraceName: 'Broken Mimir',
+      title: 'The Vigil-Singer',
+      reframe: `The Broken Mimir sing community vigils through the fog, no mask required. Their cadence is a family transmission older than the Tide-Choir, carried through the mist the way the fog carries memory.`,
+      signatureAbility: {
+        name: 'Vigil Cadence',
+        description: `You sing a community vigil through the fog without a mask; the fog can imitate or carry the signal astray.`
+      },
+      currentCrisisAngle: `The fog has begun answering the vigil in a voice that is not the community, and the Broken Mimir cannot tell whether they are singing to their dead or to the mist.`,
+      signatureQuote: {
+        text: 'We never needed a mask to sing our dead home. The fog listens anyway, which is the problem.',
+        speaker: 'Vigil-Singer Orla',
+        context: 'A Broken Mimir Minstrel in the Frostwood'
+      }
+    },
  merryn_human: {
   subraceName: 'Merryn',
   title: 'The Storm-Singer',
@@ -62,7 +77,7 @@ export const MINSTREL_DATA = {
  },
 
   shoreling_myrathil: {
-   subraceName: 'Shoreling Myrathil',
+   subraceName: 'Corali Myrathil',
   title: 'The Shore-Conductor',
   reframe: `The <LoreLink termId="myrathil">Shore</LoreLink>, the shore-dwelling diplomats of the Myrathil, conduct the *surf*, not the storm. Their Cadence is the rhythm of the tide-line, the negotiation between sea and shore. Where the Merryn command the deep water, the Shore mediate the boundary, and their sound-work is gentler, more diplomatic, and far more versatile on land.`,
   signatureAbility: {
@@ -78,7 +93,7 @@ export const MINSTREL_DATA = {
  },
 
   riverling_myrathil: {
-   subraceName: 'Riverling Myrathil',
+   subraceName: 'Ondine Myrathil',
   title: 'The Freshwater-Voice',
   reframe: `The <LoreLink termId="myrathil">Brook</LoreLink>, the inland swimmers who traded ocean-depth for freshwater mobility, conduct the *river*, not the tide. Their Cadence is current-speed, the pull of water over stone, and it is the only Minstrel variant that functions fully inland, far from any sea. They are the tradition's frontier, carrying the sound-work up the waterways into the heart of every continent.
 
@@ -96,7 +111,7 @@ The Thaw-Run is the longest continuous river on Mythril, flowing from the Cragja
  },
 
   deepling_myrathil: {
-   subraceName: 'Deepling Myrathil',
+   subraceName: 'Nereid Myrathil',
   title: 'The Abyss-Resonant',
   reframe: `The <LoreLink termId="myrathil">Deep</LoreLink>, the abyssal pressure-forgers of the ocean trench, conduct frequencies no surface ear can parse. Their Cadence is subsonic, felt in the bone rather than heard, the deep-water pressure-wave made musical. A Deep Minstrel is, to surface-dwellers, unsettling rather than beautiful: you do not hear them play so much as *vibrate* in sympathy.`,
   signatureAbility: {
@@ -112,20 +127,20 @@ The Thaw-Run is the longest continuous river on Mythril, flowing from the Cragja
    },
 
    clean_vreken: {
-    subraceName: 'Clean Vreken',
+    subraceName: 'Bedel',
     title: 'The Bog-Resonance',
-    reframe: `The <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>'s fungal network has its own rhythm  —  the pulse of the <LoreLink termId="root_veil">Root-Veil</LoreLink>, the hum of bioluminescent spores, the slow heartbeat of the bog itself. A <LoreLink termId="vreken">Clean Vreken</LoreLink> Minstrel conducts this rhythm, not the sea's. Their music is subterranean, felt in the roots, heard only by those who stand on living mycelium. The Cadences are deep, slow, and patient. A Clean Vreken Minstrel does not perform  —  they resonate. The bog is their instrument.
+    reframe: `The <LoreLink termId="bryngloom-forest">Bryngloom</LoreLink>'s fungal network has its own rhythm  —  the pulse of the <LoreLink termId="root_veil">Root-Veil</LoreLink>, the hum of bioluminescent spores, the slow heartbeat of the bog itself. A <LoreLink termId="vreken">Bedel</LoreLink> Minstrel conducts this rhythm, not the sea's. Their music is subterranean, felt in the roots, heard only by those who stand on living mycelium. The Cadences are deep, slow, and patient. A Bedel Minstrel does not perform  —  they resonate. The bog is their instrument.
 
-The Clean Vreken discovered bog-resonance independently through the Root-Veil  —  but they first encountered the Minstrel *concept* through Nethien traders at Ironjaw Port, where Tide-Choir performances are a recognized civic attraction. A Clean Vreken trade delegate named **Ysenil Deep-Glow** (the Vreken crypt-keeper) heard a Shore Minstrel perform and spent three years adapting the principles to the Bryngloom's fungal network. The Tide-Choir does not officially recognize the Clean Vreken as Minstrels  —  they have no seats in the Choir  —  but Ysenil's bog-cadences are genuine, and the bog itself vouches for them.`,
+The Bedel discovered bog-resonance independently through the Root-Veil  —  but they first encountered the Minstrel *concept* through Athien traders at Ironjaw Port, where Tide-Choir performances are a recognized civic attraction. A Bedel trade delegate named **Ysenil Deep-Glow** (the Mycellan crypt-keeper) heard a Shore Minstrel perform and spent three years adapting the principles to the Bryngloom's fungal network. The Tide-Choir does not officially recognize the Bedel as Minstrels  —  they have no seats in the Choir  —  but Ysenil's bog-cadences are genuine, and the bog itself vouches for them.`,
     signatureAbility: {
     name: 'Bog-Cadence',
-    description: `Cadences are amplified by proximity to active mycelial networks and fungal blooms; a Clean Vreken Minstrel standing on the Root-Veil can synchronize an entire grove's bioluminescence into a single sustained glow-pulse. Inland, on dead ground, away from any mycelium, the same Cadence is a whisper.`
+    description: `Cadences are amplified by proximity to active mycelial networks and fungal blooms; a Bedel Minstrel standing on the Root-Veil can synchronize an entire grove's bioluminescence into a single sustained glow-pulse. Inland, on dead ground, away from any mycelium, the same Cadence is a whisper.`
     },
-    currentCrisisAngle: `The Root-Veil is recoiling, the Marked are being rejected, and the Clean Vreken Minstrels feel it as a *changing rhythm*, the bog's heartbeat skipping, accelerating, running arrhythmic. They are the only Minstrels who can hear what the forest is afraid of, and what they hear is: something is coming that even the Root-Veil does not want to absorb. The Clean Vreken Minstrels are composing a warning in frequencies only the mycelium can carry.`,
+    currentCrisisAngle: `The Root-Veil is recoiling, the Cromyx are being rejected, and the Bedel Minstrels feel it as a *changing rhythm*, the bog's heartbeat skipping, accelerating, running arrhythmic. They are the only Minstrels who can hear what the forest is afraid of, and what they hear is: something is coming that even the Root-Veil does not want to absorb. The Bedel Minstrels are composing a warning in frequencies only the mycelium can carry.`,
     signatureQuote: {
     text: '"The sea has its conductors. I have the bog. It does not crash  —  it breathes. And lately, it breathes faster. The forest is running. I cannot yet tell from what."',
     speaker: 'Root-Resonant Vrek-Syl',
-    context: 'A Clean Vreken Minstrel, the night the Root-Veil\'s rhythm changed'
+    context: 'A Bedel Minstrel, the night the Root-Veil\'s rhythm changed'
     }
    }
   },
@@ -160,6 +175,16 @@ The Clean Vreken discovered bog-resonance independently through the Root-Veil  �
   { region: 'sundrift-vale', status: 'distrusted', consequence: 'House Ordavan\'s ancestor-cult strictly outlaws the Tide-Choir\'s wind-songs, believing they disturb the slumbering Sky-Singers and dilute steppe oral tradition.', workaround: 'Minstrels perform disguised as traveling merchants or steppe-heralds, using small, silent gut-string lutes to convey messages under the noses of Ordavan staves.' }
  ],
 
+  illustration: "/assets/images/classes/minstrel_merryn_human.jpg",
+  illustrationCaption: "Merryn Human Minstrel - The Storm-Singer, battle-hardened open-water conductor vigorously strumming a heavy driftwood sea-lute on a storm-lashed ship's prow, sending concentric electric storm-cyan shockwave arcs to part the gale.",
+  illustrations: [
+    { url: "/assets/images/classes/minstrel_merryn_human.jpg", subraceId: "merryn_human", caption: "Merryn Human Minstrel - The Storm-Singer, battle-hardened open-water conductor vigorously strumming a heavy driftwood sea-lute on a storm-lashed ship's prow, sending concentric electric storm-cyan shockwave arcs to part the gale." },
+    { url: "/assets/images/classes/minstrel_shoreling_myrathil.jpg", subraceId: "shoreling_myrathil", caption: "Corali Myrathil Minstrel - The Shore-Conductor, noble wave-guardian in verdigris sea-bronze armor strumming a pearl-inlaid driftwood harp-lute, conducting foaming breakers with harmonic tidal-aquamarine sound ripples." },
+    { url: "/assets/images/classes/minstrel_riverling_myrathil.jpg", subraceId: "riverling_myrathil", caption: "Ondine Myrathil Minstrel - The Freshwater-Voice, agile river-scout perched in an amphibious crouch on a slick rapid boulder, bowing a cypress river cello as torrential currents spiral into emerald acoustic whirlpool eddies." },
+    { url: "/assets/images/classes/minstrel_deepling_myrathil.jpg", subraceId: "deepling_myrathil", caption: "Nereid Myrathil Minstrel - The Abyss-Resonant, slender lithe mystic on wet coastal basalt holding aloft a monumental prehistoric whalebone tuning fork, radiating electric starlight-cyan subsonic vibration rings accompanied by baby squids." },
+    { url: "/assets/images/classes/minstrel_clean_vreken.jpg", subraceId: "clean_vreken", caption: "Bedel Minstrel - The Bog-Resonance, ascetic monastic mystic perched cross-legged on an ancient gnarled peat-root, plucking a petrified peat-wood zither as bioluminescent shelf-fungi puff pulsing lime-green spore clouds in cadence." }
+  ],
+
  overview: {
   originStory: `A minstrel tears music from dying dimensions and shapes it into something that can wound, heal, or simply be heard. This is not art. It is a fundamental violation of physics that demands biological payment in return.
 
@@ -167,9 +192,11 @@ The first was Lyris the Tide-Singer, a Merryn sailor aboard the Wind-Wake, a tra
 
 The Tide-Choir that grew from her discovery numbers sixty-four active minstrels, divided into four sections. The Storm-Singers, Merryn practitioners led by Tide-Mistress Mer-Lyrisa, conduct open-water cadences. The Shore-Chorus, Shore Myrathil performers, mediate the boundary between sea and land. The River-Voice, Brook Myrathil practitioners, carry the work up the Thaw-Run, the longest continuous river on Mythril, flowing from the Cragjaw melt-lakes through the Sundrift Vale to the Iceheart Sea. The Deep-Chamber, Deep Myrathil performers, produce subsonic frequencies felt in bone rather than heard. The Deep-Chamber section has had no active members since the silence began.
 
-The Clean Vreken discovered bog-resonance independently through the Root-Veil, but first encountered the minstrel concept through Nethien traders at Ironjaw Port. A Clean Vreken named Ysenil Deep-Glow spent three years adapting the principles to the Bryngloom's fungal network. Her music is subterranean, conducted through mycelium, felt in root and spore. The Tide-Choir does not officially recognize the Clean Vreken branch, but the bog vouches for them.
+The Bedel discovered bog-resonance independently through the Root-Veil, but first encountered the minstrel concept through Athien traders at Ironjaw Port. A Bedel named Ysenil Deep-Glow spent three years adapting the principles to the Bryngloom's fungal network. Her music is subterranean, conducted through mycelium, felt in root and spore. The Tide-Choir does not officially recognize the Bedel branch, but the bog vouches for them.
 
-The Iceheart Sea has fallen silent. The oldest continuous frequency in the known world has stopped. The silence is spreading up the Thaw-Run, tributary by tributary. Lyris vanished the night it began. Her lute was recovered from the water with a carving on its back: "I am looking for the note that shatters the old powers." The Deep Myrathil surfaced not to perform but to flee. Something in the abyss learned their subsonic song and is singing it back to them in a voice that should not exist.`,
+The Iceheart Sea has fallen silent. The oldest continuous frequency in the known world has stopped. The silence is spreading up the Thaw-Run, tributary by tributary. Lyris vanished the night it began. Her lute was recovered from the water with a carving on its back: "I am looking for the note that shatters the old powers." The Deep Myrathil surfaced not to perform but to flee. Something in the abyss learned their subsonic song and is singing it back to them in a voice that should not exist.
+
+Native only to Merryn, Corali Myrathil, Ondine Myrathil, Nereid Myrathil. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
  title: "The Minstrel",
  subtitle: "Conductor of Reality's Death Rattle",
 
@@ -207,8 +234,7 @@ The minstrel's auditory resonance was born on the storm-lashed decks of <LoreLin
 Minstrels are highly celebrated in the floating taverns of <LoreLink termId="merrowport">Merrowport</LoreLink> and the nomadic yurt-camps of the steppe.
 
 **RACES & CULTURAL AFFILIATION**
-The class is heavily practiced by the Merryn humans and the <LoreLink termId="myrathil">Shore Myrathil</LoreLink>.
-
+The Choir is the water: the Merryn sing the open sea, the Corali the boundary, the Ondine the current inland, and the Nereid the pressure-silence of the deep. The Broken Mimir sing a community vigil through the fog, no mask required. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Lyris the Tide-Singer**: The sailor whose melodies calmed the Iceheart Sea but left her throat bleeding if she tried to speak.
 * **Aurelius the Tide-Singer**: A Myrathil bard whose songs could resonate with the deep rifts, opening safe passages between drift-ice.`

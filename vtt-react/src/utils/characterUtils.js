@@ -1,6 +1,7 @@
 
 import { getRacialBaseStats } from '../data/raceData';
 import { getRacialStatModifiers } from './raceDisciplineSpellUtils';
+import { getClassHeritageAccess } from '../data/classHeritageRegistry';
 
 /**
  * Flatten buff/debuff effects from array format to simple numeric values
@@ -942,12 +943,21 @@ export function getInventoryGridDimensions(carryingCapacity) {
  * Validate character selection against lore-based class and background restrictions.
  * Returns isValid, array of errors (strict blockers), and array of warnings (narrative locks/flavor warnings).
  */
-export function validateCharacterSelection(raceId, subraceId, classData, backgroundData) {
+export function validateCharacterSelection(raceId, subraceId, classData, backgroundData, heritageOptions = {}) {
   const errors = [];
   const warnings = [];
 
-  // Class Validation
-  if (classData && classData.restrictions) {
+  // Canonical class validation shares the creation selector's heritage source.
+  const access = classData && !classData.isCustom
+    ? getClassHeritageAccess(classData.variantName || classData.name, raceId, subraceId, heritageOptions)
+    : null;
+  if (access && access.status !== 'unknown-class') {
+    if (!access.selectable) {
+      const message = `${access.className || classData.name}: ${access.reason || access.status}`;
+      if (heritageOptions.existingCharacter && access.status === 'requires-qualification') warnings.push(message);
+      else errors.push(message);
+    }
+  } else if (classData && classData.restrictions) {
     const { allowedSubraces, hardBlocks, narrativeUnlock, justification } = classData.restrictions;
     
     // Check hard blocks

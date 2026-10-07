@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
+import { mergeSeededRecords } from '../utils/mergeSeededRecords';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
@@ -37,9 +38,9 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-sun',
     description:
-      'Beneath Emberspire, the world keeps a nursery. Sol is the unhatched child of Aex, an infant sun sleeping in the volcanic core, and the shell around it is the last wall between Mythrill and the thing that came to eat it. The vents above the tomb leak warmth through basalt. Sundale\'s forges, farms, and cities stand on the heat of an unborn star. The Dawn Vigil wants to crack the shell and birth it. The Risen want it left sleeping. The Scoured want the shell finished and the question buried. Every Rebirth Window, the star stirs. It has never opened.',
+      'Beneath Emberspire, the world keeps a nursery. Sol is the living, unhatched, conscious child of Aex and Aethil, awake in Mythrill\'s volcanic core but unable to act freely. His heat and thermal impressions reach vents, forges, and farms through subterranean networks. Selunis is his dormant moon-egg sister. The Dawn Vigil proposes hatching, the Risen tending the warmth, and the Scoured sealing him unborn. Their doctrines do not establish what he wants or guarantee a saving Reforging.',
     dogma:
-      'A sleeping child is not a god yet. Read its warmth, guard its dark, and let no faction decide what it will become.',
+      'Read the child\'s warmth, guard his dark, and let no faction mistake its doctrine for his consent.',
     worship:
       'Hearth-rites of Sundale: keep a fire lit through the dark hours and let the warmth answer for you.',
     worldId: 'mythrill'
@@ -67,26 +68,26 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-cloud-moon',
     description:
-      'Older than Sol, older than hunger, the Sleeping Soul lies under everything and dreams. Its dream has texture. Where a people tell a story often enough, the world grows it: the Jutul on the mountain passes, the Glacier Wyrms under the ice, the land spirits in the springs, the seafoam-born Myrathil. It does not speak and it does not judge. It has never answered a prayer, because answering would mean waking, and its dream is the only thing holding the world\'s fabric together. Morvane is its threshold and its memory, and Morvane is fraying. What does a dream do when the sleeper is disturbed? Look around.',
+      'The Sleeping Soul is the primordial planetary power anchoring Mythrill\'s native world. It does not converse, choose champions, answer prayers, or personally rescue families. Native life has actual origins independent of mortal belief. The generative Natural Wyrd / Primordial Loom account is a retired historical theory. Morvane is a distinct, subordinate native threshold and memory power; the Unnamed Green is another distinct native power and rescued Viridane.',
     dogma:
-      'What is told often enough becomes real. Speak carefully. The world is listening in its sleep.',
+      'The world precedes the story. Keep the knowledge of encounters; do not mistake the telling for the creature\'s birth.',
     worship:
-      'No temples. Taboos kept for ten generations, stories told the same way twice, and the old folk-rules that keep the Loom from growing the wrong thing.',
+      'No answered prayers. Folk observances and inherited survival knowledge honor a world that does not speak back.',
     worldId: 'mythrill'
   },
   {
     id: 'deity-aethil',
     name: 'Aethil, the Warden',
-    title: 'The Price That Simply Is',
+    title: 'The Celestial Father, Keeper of the Sky-Ward',
     domain: 'Knowledge',
     alignment: 'Lawful Neutral',
     symbol: 'fa-balance-scale',
     description:
-      'The Warden is not a god. It is the rule that gods bargain under: every exchange has a price, and the price is not negotiated. It simply is. No temple keeps its rites, because it answers nothing and favors no one. On the rune-cliffs of Ygn and Gjaldhringr, scholars carve the physics of it where the old grammar was first read. Every oath, every house-bargain, every spell drawn from either stream carries its signature, Keth-Amar\'s included. That is the Warden\'s only comfort: the price comes for everyone, and the bill is always correct.',
+      'Aethil is Sol\'s personal celestial father, not an impersonal universal price rule. He surrendered absolute divine status to maintain the atmospheric sky-ward and witnessed the Bloodline Pacts supporting Aex\'s core protection. His remaining form and duties constrain intervention. The coupled defense stops Keth\'s full body from freely entering, while narrower signals, infected matter, and lesser organisms can cross. Codices describing a mechanism without will preserve Keth\'s counterfeit doctrine from the Years of Whispers.',
     dogma:
-      'The price is not a punishment. The price is the shape of what you asked for. Pay it.',
+      'Keep the promise that shelters another. A witness is a person, not permission to call every bill just.',
     worship:
-      'No rites. Bills, oaths, and the rune-cliff reckonings at Ygn and Gjaldhringr.',
+      'Oath vigils and rune-cliff reckonings at Ygn and Gjaldhringr; traditions distinguish the Father from the predator that wore his face.',
     worldId: 'mythrill'
   },
   {
@@ -97,7 +98,7 @@ const SEEDED_DEITIES = [
     alignment: 'Lawful Neutral',
     symbol: 'fa-eye',
     description:
-      'The Neth do not pray to Morvane. They present their case. The old god of boundaries keeps the line between living and dead, remembered and forgotten, and the Neth signed the First Contract to stay on the living side of it, writing down everything the forest consumes so the ledger stays balanced. The Vreken served Morvane long before the Neth arrived, tending the Root-Veil until the Wyrd poisoned the god\'s own nerves. Now the Watcher is quiescent, impartial, and fraying. In the Frostwood they call it the Watcher in the Mist. In the Bryngloom, the Keeper. It is the same eye either way, and it misses very little.',
+      'Morvane is the native threshold and memory power called the Watcher in the Mist or Keeper of the Last Threshold, distinct from and subordinate to the Sleeping Soul. Root-Veil is its living mycelial organ and conduit. Vaelis the Scribe negotiated the First Contract before the Star-Fall; the Well liturgy describes the same event. Its reach depends on actual channels and covenants, not omniscience. Riven signatures defeat First Contract-keyed detection, not every ordinary or magical sensor. Hostile Wyrd and ecological damage now pressure the network.',
     dogma:
       'The threshold holds. What is written is remembered. What is remembered is alive. What is neither is not yours to keep.',
     worship:
@@ -112,7 +113,7 @@ const SEEDED_DEITIES = [
     alignment: 'Lawful Neutral',
     symbol: 'fa-mask',
     description:
-      'Sereth shaped the Mimir out of Frostwood mist, again and again, across centuries of trying. Each version came close. Each rejection carved the same lesson into its children: you are not enough. Then the god died, not struck down, not devoured, but undone by the impossible standard it set for everything it made, including itself. The Mimir were left with scriptures they cannot fully read and faces they will never believe are beautiful. Every mask is a prayer to a maker who stopped answering, carved so that no one sees the failure underneath.',
+      'Sereth was the native maker of the Mimir, undone by its own impossible standards rather than by Keth. Its rejection taught shame; that doctrine does not make its children\'s faces biologically unviable. Arch Mimir inherit partial heartwood/storm-glass lineage masks and their archives. Broken Mimir live genuinely unmasked, anchored by personal Motes. Tallen preserves physical mask-making; the lost Mask-Mother art concerns ancestral imprinting, not carving any new mask.',
     dogma:
       'Make carefully. Judge slowly. No standard is worth more than the thing it is measuring.',
     worship:
@@ -127,7 +128,7 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-water',
     description:
-      'Mareth never bargained. When the sun was stolen and the seas began to freeze, she endured, and her endurance turned curious. She spent centuries trying to give her waters a voice: children of foam who stood, walked, and dissolved back into the tide. Fire and ice finally gave her the spark she needed. When Emberspire erupted into the frozen ocean, the churn birthed the Myrathil by the hundred, and the sea has been speaking ever since. She does not answer prayers directly. She sends storms, and her children learn to read them.',
+      'Mareth is a native ocean power whose foam-spawned Myrathil existed before the Star-Fall. Solar concealment changed their waters; Emberspire\'s later rupture caused a population boom, not their first existence. Her responses are currents, storms, and signs rather than routine spoken prophecies. Marine resonance and ordinary Minstrel acoustics are distinct from the Listener Below, an Ancient Cosmic Wyrdkin that imitates or appropriates them.',
     dogma:
       'The sea asks nothing and keeps everything. Drift, or drown arguing.',
     worship:
@@ -142,11 +143,11 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-gears',
     description:
-      'Before the Fexric there was a mountain, and under the mountain there was something that had been sleeping since the world was soft. The Fexric dug too deep and found a vault that was not a vault: an engine older than speech, warm, turning, alive. They stole its fire and drank its dream to power their holdfasts, and it marked them for it. Their fingers twitch. Their minds race. They cannot stop building, cannot stop improving, cannot stop singing. Eight thousand years later, the oldest turbine has begun to make a sound that is not in any maintenance song. Vurath is not awake. But it knows they are there now, and it is dreaming about them.',
+      'Vurath is the native primordial living engine beneath Cragjaw. In the Long Before, Fex engineers found and tapped its power, building around a source they had not invented. Thrumm already inhabited the crags. The borrowed heartbeat marked the engineers, whose maintenance songs and restless craft sustain the holdfasts. In the campaign present, the oldest turbine makes a sound outside the established songs. Its failing machinery and Vurath\'s stirring are a regional crisis, not proof that Fex created the god or predated every native inhabitant.',
     dogma:
       'Do not tap what sleeps beneath you. Every machine is a borrowed heartbeat.',
     worship:
-      'The maintenance songs are the rites. The Fexric do not pray to Vurath; they sing to it so it keeps sleeping: exact verses, no improvisation, no new words.',
+      'The maintenance songs are the rites. The Fex do not pray to Vurath; they sing to it so it keeps sleeping: exact verses, no improvisation, no new words.',
     worldId: 'mythrill'
   },
   {
@@ -157,7 +158,7 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral Good',
     symbol: 'fa-tree',
     description:
-      'When House Viridane fled the sacrifice fires, something in the deep groves reached out and offered them a different ending. It took their names, their records, their faces, and folded them into bark and thorn until the world forgot they had ever existed. The Florae live because of that bargain, and they pay for it in the only currency it ever asked for: silence. It erased them to hide them; it will erase them again if they are found. Scholars disagree about what answered them. Some say it is the Sleeping Soul\'s green hand. Some say it is the oldest of the Fair Folk. The Florae say it does not matter what it is. It kept them alive.',
+      'The Unnamed Green is a distinct native grove power, not the Sleeping Soul personally intervening. During the Years of Whispers it rescued refusing House Viridane through transformation and erasure. Its covenant saved the family while replacing their public Aex obligation; their original seal ended. The Florae retain the refusal and oral history. They are not collectively the separate Unwritten family that maintains the Secret Aegis. Scholars calling the Green the Soul\'s green hand offer a theory, not author identity.',
     dogma:
       'Grow where you are planted. Keep the refusal in your flesh. Never write down the name of the thing that saved you.',
     worship:
@@ -172,7 +173,7 @@ const SEEDED_DEITIES = [
     alignment: 'Chaotic Neutral',
     symbol: 'fa-bolt',
     description:
-      'Storms on Mythrill have a memory. Before the sky broke, the Thunder Sovereign ruled the high air, a war-god of squall and static who answered challenges, not prayers. Then the shattering tore it out of the sky, and its war-plate fell to the world in pieces that still crackle when struck. The Sovereign did not die. Storms are too stubborn for that. Gamblers wager against them on the Iceheart, Skalds read them off the glacier, and the Fexric, who build themselves out of metal, have learned to fear the open sky. Somewhere above the clouds, something old still counts the thunder it is owed.',
+      'Storms on Mythrill have a memory. Before the sky broke, the Thunder Sovereign ruled the high air, a war-god of squall and static who answered challenges, not prayers. Then the shattering tore it out of the sky, and its war-plate fell to the world in pieces that still crackle when struck. The Sovereign did not die. Storms are too stubborn for that. Gamblers wager against them on the Iceheart, Skalds read them off the glacier, and the Fex, who build themselves out of metal, have learned to fear the open sky. Somewhere above the clouds, something old still counts the thunder it is owed.',
     dogma:
       'Thunder does not negotiate. It answers only what stands in the open. Be shelter or be lightning.',
     worship:
@@ -187,7 +188,7 @@ const SEEDED_DEITIES = [
     alignment: 'Chaotic Neutral',
     symbol: 'fa-dice',
     description:
-      'Mael-Zhul does not want devotion. It wants you at the table. An old god of shifting currents, sudden ruin, and bitter mockery, it grew out of everything the north fears about luck that turns, and it opens its ledger for exactly one kind of customer: the ruined. When every lawful escape has run dry, the House offers a line of credit, Wyrd-twisting power against the collateral of a soul, and it does not care whether you win. It cares that you play. Gamblers call it the House because that is what it is: a table, a dealer, and an odds-maker that has never once lost. The ledger is real. The marker comes due. The House always collects, and it will let you hold the winnings until your luck runs out.',
+      'Mael-Zhul is a native probability-creditor, not a god manufactured by gambling folklore. The House\'s older craft predates its present Wyrd amplification. It offers an advance against a debtor\'s future, with the soul as collateral: Fortune is the credit and Karmic Debt the claim coming due. Gambits acquire it through initiation. Its debtors say the House always wins and collects; that warning is not proof of omniscience or ownership of every wager.',
     dogma:
       'No temples. No prayers. Put something on the felt, or stop wasting the House\'s time.',
     worship:
@@ -241,15 +242,15 @@ const SEEDED_DEITIES = [
   },
   {
     id: 'deity-keth-amar',
-    name: 'Keth-Amar',
+    name: 'Keth Amar',
     title: 'The Sun-Eater',
     domain: 'Void',
     alignment: 'Neutral Evil',
     symbol: 'fa-meteor',
     description:
-      'Keth-Amar eats stars, and it arrives early to every table. It followed Astril starlight to Mythrill, wore the face of a father for twenty-five years, and broke the Great Binding from the inside. It tempts no one and sponsors no temple. It needs, the way fire needs air. The Wyrd is its reach bleeding through the cracks in Aex\'s shell, and the Cult of Forgotten Shadow preaches that its victory is already decided. The horror is not that the bargains were unfair. Every one was legal under the Warden\'s grammar. The world is being eaten by a creditor that never lies.',
+      'Keth Amar is an intelligent, fallible, deceptive star-predator that followed Astril traces to Sol. It impersonated Aethil during the Years of Whispers and manipulated mortal atrocities to break public seals before its later Blind Strike. The separate Unwritten family\'s Secret Aegis held; Keth was repelled and Aex\'s aegis fractured. It exploits the wider Wyrd ecology, carries or attracts ancient organisms, corrupts hosts, and generates narrower spawn. It forged the Counterfeit and ultimately controls the Masked Acolyte network. It is neither omniscient nor an honest universal creditor.',
     dogma:
-      'Hunger is honest. It never promises more than it intends to take. You are not food yet.',
+      'The cult calls its hunger destiny. That is predatory doctrine, not an honest promise or a guaranteed future.',
     worship:
       'Forbidden in every hold and house. Some whisper anyway. The Dawn Vigil burns what it finds.',
     worldId: 'mythrill'
@@ -257,12 +258,12 @@ const SEEDED_DEITIES = [
   {
     id: 'deity-unknown-dominator',
     name: 'The Unknown Dominator',
-    title: 'The Whispering Patron',
+    title: 'Attributed Counterfeit Patron-Name',
     domain: 'Trickery',
     alignment: 'Neutral Evil',
     symbol: 'fa-eye-slash',
     description:
-      'Nobody has seen the Dominator. That is not an accident. When the Viridane who stayed behind had nowhere left to turn, it came to them wearing an offer, and they put on masks so that even each other would not know who had accepted. It rules a city called Vespera\'s Crown, hunts Aex Shards through a cult it never addresses directly, and watches the world through the Hollow Sight, a stolen counterfeit of Morvane\'s watching grafted into its chosen. Every Acolyte believes they are the one who will be trusted with the truth. The masks are not for hiding from the world. They are for hiding from the thing that owns them.',
+      'The Unknown Dominator is the Masked Acolytes\' mistaken name for an independent native patron. This legacy record preserves their doctrine and old references, not a separate author-canonical god. Their actual patron network belongs to Keth Amar, maker of the Counterfeit. Vespera\'s Crown is their stronghold, distinct from the Bryngloom false Monolith seat. Hollow Sight is a parasitic counterfeit of Morvane\'s watching; carrying it does not automatically remove a player\'s agency.',
     dogma:
       'To be known is to be owned. To know everything is to own everything. It is already wearing someone you trust.',
     worship:
@@ -277,7 +278,7 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral',
     symbol: 'fa-gem',
     description:
-      'One faith, three answers, one question: what was Aex shielding, and what should happen to it now? The Dawn Vigil says crack the shell and birth the sun, and answers no questions about what hatching sounds like. The Risen say guard the pieces and outlast the predator. The Scoured say finish the shell forever and let the age end clean. They agree on nothing except this: Aex died for her child, and the shards are her body. Pilgrims wear shard-glass on chains. Markets price it by warmth. The last faith in the world is arguing with itself, and the thing in the sky is listening.',
+      'One faith, three answers: the Dawn Vigil proposes hatching Sol, the Risen preserving the warmth, and the Scoured sealing him unborn. Their martyr-language says Aex died for her child; author truth is a living mother with a fractured aegis. The six genuine great Monoliths and lesser shards are not interchangeable living oaths, and the Counterfeit belongs to Keth. Reforging is a dangerous institutional project, not a guaranteed sunrise. Pilgrims wear shard-glass while markets price it by warmth.',
     dogma:
       'Aex gave everything. The only question left is what to do with the pieces. Three answers. One body.',
     worship:
@@ -292,7 +293,7 @@ const SEEDED_DEITIES = [
     alignment: 'Chaotic Good',
     symbol: 'fa-leaf',
     description:
-      'When House Viridane refused the bargain, the forest answered. In the moonlit groves, the starving survivors made a contract with the old growth of the Bryngloom: protection for transformation. Their flesh became living timber, their blood became sap, and their names were struck from every ledger the world kept. The Florae still carry that pact in their bark. They keep it unwritten, because ink belongs to the houses that sold their children and paper belongs to the Neth who price everything. The Viridian grew thorns to remember the cost. The Oken grew branch-arms to build with it. Both keep one promise: the house that refused will never be entered in anyone\'s book.',
+      'When House Viridane refused the bargain, the forest answered. In the moonlit groves, the starving survivors made a contract with the old growth of the Bryngloom: protection for transformation. Their flesh became living timber, their blood became sap, and their names were struck from every ledger the world kept. The Florae still carry that pact in their bark. They keep it unwritten, because ink belongs to the houses that sold their children and paper belongs to the Neth who price everything. The Briaren grew thorns to remember the cost. The Oaken grew branch-arms to build with it. Both keep one promise: the house that refused will never be entered in anyone\'s book.',
     dogma:
       'What was never written cannot be revoked. The grove remembers, and the grove keeps us.',
     worship:
@@ -307,7 +308,7 @@ const SEEDED_DEITIES = [
     alignment: 'Neutral Evil',
     symbol: 'fa-user-secret',
     description:
-      'When House Viridane refused the bargain, not all of its people fled. The ones who stayed were found by a hungry Old God, and it offered them what the bargain had offered the other houses: power, land, and a place in the new world. Those who accepted became the Masked Acolytes. They wear stolen faces, hunt Aex Shards for a patron no surviving text names, and carry the Hollow Sight, a counterfeit of Morvane\'s watching. It sees through them. Their masks are not disguises. They are permissions.',
+      'The Masked Acolytes are Keth Amar\'s whisper-cult, not a binding house or the public identity of the Unwritten. Recruited common folk often believe they serve a native Unknown Dominator. They tend the Counterfeit network, hunt shards, and report from Vespera\'s Crown. Hollow Sight is an optional parasitic patron-graft and counterfeit of Morvane\'s watching. Cult affiliation and carrying the graft are distinct origins; neither authorizes routine possession of a player character.',
     dogma:
       'What refused the light belongs to the dark by default. The shards are not relics. They are rations.',
     worship:
@@ -319,14 +320,7 @@ const SEEDED_DEITIES = [
 const SEEDED_DEITY_IDS = new Set(SEEDED_DEITIES.map((d) => d.id));
 
 const mergeSeededDeities = (deities, removedSeedIds = []) => {
-  const removed = new Set(removedSeedIds || []);
-  const merged = Array.isArray(deities) ? [...deities] : [];
-  SEEDED_DEITIES.forEach((seed) => {
-    if (removed.has(seed.id)) return;
-    if (merged.some((d) => d.id === seed.id)) return;
-    merged.push(seed);
-  });
-  return merged;
+  return mergeSeededRecords(deities, SEEDED_DEITIES, removedSeedIds);
 };
 
 const useDeityStore = create(

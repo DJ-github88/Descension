@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ClassResourceBar from '../../hud/ClassResourceBar';
 import { buildResourceSystemView } from '../../../data/resourceSystems/normalizeResourceSystem';
+import { getManagedResourceId, normalizeManagedClassResource, updateManagedClassResource } from '../../../data/classResourceContracts';
 import { MarkdownContent, parseTextWithLoreLinks } from '../contentFormatting';
 import ResourceSectionRenderer from './ResourceSectionRenderer';
 import ResourceTableCard from './ResourceTableCard';
@@ -13,6 +14,27 @@ const PANELS = [
 ];
 
 const LOOP_ORDER = ['gain', 'hold', 'spend', 'risk'];
+
+// Keep the managed previews interactive without writing to the active character.
+// A class/demo key starts a new preview when the selected class changes.
+const ResourceTrackerPreview = ({ classData, demoResource }) => {
+ const [resource, setResource] = useState(() => normalizeManagedClassResource(demoResource, classData.name));
+ const managed = getManagedResourceId(resource, classData.name);
+ return (
+  <ClassResourceBar
+   characterClass={classData.name}
+   classResource={resource}
+   size="large"
+   context="hud"
+   isGMMode={false}
+   isOwner={true}
+   showcase={true}
+   onClassResourceUpdate={managed ? (field, value) => {
+    setResource(previous => updateManagedClassResource(previous, classData.name, field, value));
+   } : undefined}
+  />
+ );
+};
 
 const LoopPanel = ({ loop, exampleTurn }) => {
  const beats = LOOP_ORDER.map((key) => loop[key]).filter(Boolean);
@@ -164,14 +186,10 @@ const ResourceSystemTab = ({ classData, regionInfo, demoResource, onNavigateTab 
        <i className="fas fa-gauge-high" /> Interactive Preview
       </div>
       <div className="rules-resource-bar-container">
-       <ClassResourceBar
-        characterClass={classData.name}
-        classResource={demoResource}
-        size="large"
-        context="hud"
-        isGMMode={false}
-        isOwner={true}
-        showcase={true}
+       <ResourceTrackerPreview
+        key={`${classData.name}:${JSON.stringify(demoResource)}`}
+        classData={classData}
+        demoResource={demoResource}
        />
       </div>
       <div className="rs-tracker__hint">

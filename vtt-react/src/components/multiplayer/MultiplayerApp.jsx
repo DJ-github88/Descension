@@ -15,6 +15,7 @@ import GameSurface from './GameSurface';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
+import useNotificationStore from '../../store/notificationStore';
 import useChatStore, { setCombatSyncSocket, clearCombatSyncSocket } from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
@@ -905,7 +906,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setError, setActualPlayerCount, setConnectedPlayers, setIsGM,
       setLoadingStatusMessage, setPendingControlOffer, setPlayerCurrentMapId,
       setMapTransition, setCurrentPlayer, setCurrentRoom, setSocket,
-      isJoiningRoomRef, currentRoomRef, currentPlayerRef, pendingRoomDataRef,
+      isJoiningRoomRef, currentRoomRef, currentPlayerRef, currentPlayer, pendingRoomDataRef,
+      notificationStore: useNotificationStore,
       activeJoinIdRef, autoJoinAttemptedRef, isAutoJoinSequenceRef,
       isGMRef, addNotificationRef, addUserRef, removeUserRef,
       addPartyMemberRef, removePartyMemberRef, playerCurrentMapIdRef,
@@ -1053,8 +1055,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
-      // Cleanup game state manager (async, non-blocking)
-      gameStateManager.cleanup().catch((error) => {
+        // Cleanup game state manager (async, non-blocking)
+        gameStateManager.setMultiplayerActive(false);
+        gameStateManager.cleanup().catch((error) => {
         console.error('❌ Error cleaning up game state manager:', error);
       });
 

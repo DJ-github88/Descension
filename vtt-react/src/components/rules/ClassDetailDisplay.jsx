@@ -1,4 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import ClassResourceBar from '../hud/ClassResourceBar';
@@ -13,6 +14,8 @@ import './ClassDetailDisplay.css';
 import { parseTextWithLoreLinks } from './contentFormatting';
 import useGameData from '../../hooks/useGameData';
 import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
+import { CLASS_PROVENANCE, resolveClassHeritageName } from '../../data/classHeritageRegistry';
+import { summarizeHeritageEdgesForClass } from '../../data/heritageEdgeAdapter';
 
 
 /**
@@ -75,10 +78,10 @@ const buildDemoClassResource = (className) => {
  }
 
  // Minstrel: musical notes
- if (m.maxPerNote && m.totalNotes) {
+  if (m.maxPerNote && m.totalNotes) {
   return {
-   current: 3,
-   max: m.totalNotes || 7,
+   current: 9,
+   max: m.max || 35,
    notes: [3, 1, 2, 0, 2, 1, 0],
    maxPerNote: m.maxPerNote,
    totalNotes: m.totalNotes,
@@ -111,9 +114,9 @@ const buildDemoClassResource = (className) => {
   return { current: 65, max: m.maxVirulence || 100, spheres: [] };
  }
 
- // Gambler: varies by spec - use 21 (High Roller) as demo
- if (cfg.id === 'fortunePoints') {
-  return { current: 5, max: 21, spheres: [] };
+  // Legacy Fortune preview uses the same canonical shared bank.
+  if (cfg.id === 'fortunePoints') {
+   return { current: 5, max: m.max, spheres: [] };
  }
 
  // Lichborne: phylactery HP
@@ -734,107 +737,132 @@ const getSpellIconUrl = (spell) => {
 
 const classFallbacks = {
 	arcanoneer: [
-		{ url: '/assets/images/classes/arcanoneer_illustration.png', caption: 'A Nethien Arcanoneer weaving fire and ice spheres in front of gothic spires.' },
-		{ url: '/assets/images/classes/arcanoneer_illustration_2.png', caption: 'A Clockwork Fexric Arcanoneer channeling lightning and steam through a clockwork brass regulator gauntlet on a mountain cliff.' },
-		{ url: '/assets/images/classes/arcanoneer_illustration_3.png', caption: 'A Caustic Fexric Arcanoneer unleashing a chaotic elemental surge of fire and gale from a jury-rigged gauntlet in a warzone.' },
-		{ url: '/assets/images/classes/arcanoneer_illustration_4.png', caption: 'A Withered Arcanoneer venting green acid and steam through gnarled oak pipes in a peat bog.' }
+		{ url: '/assets/images/classes/arcanoneer_high_nethien.jpg', caption: 'Athien Arcanoneer — The Contract-Weaver, focusing crystallized silver-blood spell-shards through a precision lens.' },
+		{ url: '/assets/images/classes/arcanoneer_clockwork_fexric.jpg', caption: 'Brasskin Arcanoneer — The Gear-Weaver, channeling certified elemental steam and lightning through brass manifold regulators.' },
+		{ url: '/assets/images/classes/arcanoneer_caustic_fexric.jpg', caption: 'Alchemite Arcanoneer — The Scrap-Weaver, wielding volatile salvaged catalysts and improvised pressure pipes.' },
+		{ url: '/assets/images/classes/arcanoneer_stargazer_astril.jpg', caption: 'Lumian Arcanoneer — The Star-Charted Weaver, aligning elemental orbits with celestial transit cycles.' }
 	],
 	berserker: [
-		{ url: '/assets/images/classes/berserker_illustration.png', caption: 'A Morgh Groven Berserker with grey, stone-scale skin charging forward with a heavy stone-head battleaxe.' },
-		{ url: '/assets/images/classes/berserker_illustration_2.png', caption: 'A Waste-Solari Berserker with sallow grey-pale skin and solid pale-blue eyes, leaping with a stone-bladed spear.' },
-		{ url: '/assets/images/classes/berserker_illustration_3.png', caption: 'A Skald Human Berserker in heavy mammoth-furs lunging with a double-bitted ice-covered waraxe.' }
+		{ url: '/assets/images/classes/berserker_skald_raider.jpg', caption: 'Skald Human Berserker — The Hunger-Pact Sworn (Vanguard), lunging across glacial crags with boiling copper-heat handaxes.' },
+		{ url: '/assets/images/classes/berserker_skald_elder.jpg', caption: 'Skald Human Berserker — The Hunger-Pact Sworn (Bloodhammer Elder), clad in mammoth furs hefting an ancestral greataxe.' },
+		{ url: '/assets/images/classes/berserker_morgh_groven.jpg', caption: 'Morgh Groven Berserker — The Vat-Woken, shattering alchemical brass shackles with boiling fissure-vein rage.' },
+		{ url: '/assets/images/classes/berserker_waste_solari.jpg', caption: 'Anhur Berserker — The Caldera-Forged, channeling tectonic magma resonance with an obsidian pollaxe.' }
 	],
 
  false_prophet: [
-  { url: '/assets/images/classes/false_prophet_illustration.png', caption: 'A Clean Vreken Herd-Watcher False Prophet preaching the cosmic Silence.' },
-  { url: '/assets/images/classes/false_prophet_illustration_2.png', caption: 'A Marked Vreken Prophet with glowing lantern-eyes holding a starlight book.' },
-  { url: '/assets/images/classes/false_prophet_illustration_3.png', caption: 'A Mistwoven Mimir False Prophet wearing a storm-glass mask holding a cosmic lantern.' }
+  { url: '/assets/images/classes/false_prophet_clean_vreken.jpg', caption: 'Bedel False Prophet — The Debt-Preacher, raising an illuminated absolution deed and brass indulgence bell in the Sunken Spire.' },
+  { url: '/assets/images/classes/false_prophet_ordan_human.jpg', caption: 'Ordu Human False Prophet — The Thinned-Herd Preacher, blowing twin-barrel bone pipes with radiant gold acoustic threads on the windswept steppe.' },
+  { url: '/assets/images/classes/false_prophet_tessen_human.jpg', caption: 'Tessic Human False Prophet — The Keep-Prophet, shouting apocalyptic scripture from a stone pulpit while brandishing an open holy iron tome.' },
+  { url: '/assets/images/classes/false_prophet_stargazer_astril.jpg', caption: 'Lumian False Prophet — The False Star, charismatic celestial cult leader weaving glowing golden puppet strings with an open star-scroll.' },
+  { url: '/assets/images/classes/false_prophet_brutish_astril.jpg', caption: 'Kordak False Prophet — The Enforcer Prophet, colossal titan with spiked mace crushing an iron holy symbol in his bare fist with psychic sparks.' }
  ],
 	shaper: [
-		{ url: '/assets/images/classes/shaper_illustration.png', caption: 'A Morgh Groven Shaper with grey, stone-scale skin, actively growing sharp stone spurs from their forearm to defend themselves.' },
-		{ url: '/assets/images/classes/shaper_illustration_2.png', caption: 'A Maskborne Mimir Shaper wearing a wooden mask (representing lower nobility), striking a knight with a gnarled, mossy branch arm in the forest.' },
-		{ url: '/assets/images/classes/shaper_illustration_3.png', caption: 'An Ithran Groven Shaper with weathered grey rocky skin, actively weaving white mineral fibers into a defensive mesh shield to block arrows.' }
+		{ url: '/assets/images/classes/shaper_veiled_mimir.jpg', caption: 'Arch Mimir Shaper — The Form-Locked, mid-leap executing a dynamic open-hand kinetic palm strike with vibrant crimson flux.' },
+		{ url: '/assets/images/classes/shaper_tethered_mimir.jpg', caption: 'Broken Mimir Shaper — The Sentinel-Shifter, low predatory martial crouch with unmasked demon-scarred visage and rose crystal prisms.' },
+		{ url: '/assets/images/classes/shaper_morgh_groven.jpg', caption: 'Morgh Groven Shaper — The Vat-Sculpted, colossal stone-hewn master delivering an open-palm strike from an unshakeable iron-horse stance.' },
+		{ url: '/assets/images/classes/shaper_ithran_groven.jpg', caption: 'Amordjin Groven Shaper — The Span-Dancer, horned, dreadlocked alpine stone-troll crouched high above the dizzying mountain suspension bridges.' },
+		{ url: '/assets/images/classes/shaper_marked_vreken.jpg', caption: 'Cromyx Shaper — The Mycelium-Sculpt, ascetic subterranean monk executing a fluid double-palm strike wreathed in swirling crimson flux.' }
 	],
 
  revenant: [
-  { url: '/assets/images/classes/revenant_illustration.png', caption: 'A Marked Vreken Peat-Bog Graverobber Revenant harvesting souls in the Bryngloom.' },
-  { url: '/assets/images/classes/revenant_illustration_2.png', caption: 'A Nethien Revenant with blank pool eyes holding a glowing soul-lantern.' },
-  { url: '/assets/images/classes/revenant_illustration_3.png', caption: 'An Ithran Groven Revenant wreathed in roots with glowing swamp-green eyes.' }
+  { url: '/assets/images/classes/revenant_clean_vreken.jpg', caption: 'Bedel Revenant — The Ancestor-Bound, raising a smoking black-iron spirit-censer venting cyan soul-flame with ritual dagger in hand.' },
+  { url: '/assets/images/classes/revenant_tessen_human.jpg', caption: 'Tessic Human Revenant — The Keep-Waked, in heavy stone-and-iron plate armor leaning on an executioner greatsword before an ancestral banner with glowing phylactery lantern.' },
+  { url: '/assets/images/classes/revenant_merryn_human.jpg', caption: 'Merryn Human Revenant — The Drift-Bound, in tattered oilskins wielding a scrimshaw harpoon with glowing cyan maritime debt-ink tattoos and an ethereal tide phantom.' },
+  { url: '/assets/images/classes/revenant_high_nethien.jpg', caption: 'Athien Revenant — The Document-Preserved, aristocrat scribe with a glowing basalt phylactery on his chest, holding an obsidian stylus and frost-stasis soul-ledger.' }
  ],
  animist: [
-  { url: '/assets/images/classes/animist_illustration.png', caption: 'A Trueborn Florae Forest Ritualist Animist channeling ancestral spirits.' },
-  { url: '/assets/images/classes/animist_illustration_2.png', caption: 'An Ithran Groven Animist with stone-scale joints holding a moss-grown staff summoning a bear spirit.' },
-  { url: '/assets/images/classes/animist_illustration_3.png', caption: 'A Nethien Animist with blank pool eyes holding a scroll wreathed in script spirits.' }
+  { url: '/assets/images/classes/animist_skald_human.jpg', caption: 'Skald Human Animist — The Frost-Caller, Nordic female shaman in thick wolf-furs with a whalebone spirit-staff and bleeding runic scars, manifesting a roaring spectral frost-bear.' },
+  { url: '/assets/images/classes/animist_ordan_human.jpg', caption: 'Ordu Human Animist — The Steppe Throat-Singer, nomadic female shaman in layered wool caftan with an antler skull staff, chanting ancestral throat runes that manifest ethereal steppe spirit-beasts.' },
+  { url: '/assets/images/classes/animist_clean_vreken.jpg', caption: 'Bedel Animist — The Spore-Medium, ascetic bog-shaman in burlap wraps pinching a glowing puffball pod, exhaling a towering spectral prehistoric chitin-elder bog spirit.' },
+  { url: '/assets/images/classes/animist_stargazer_astril.jpg', caption: 'Lumian Animist — The Lumia Spirit-Caller, celestial medium striking a floating meteorite chime-shard, summoning a breathtaking translucent Star-Stag composed of starlight nebula and comet dust.' }
  ],
  pyrofiend: [
-  { url: '/assets/images/classes/pyrofiend_illustration.png', caption: 'A Waste-Solari Ashen Conduit Pyrofiend manifesting molten charcoal skin.' },
-  { url: '/assets/images/classes/pyrofiend_illustration_2.png', caption: 'A Hollow-Solari Pyrofiend holding a sphere of molten flame wreathed in ash.' },
-  { url: '/assets/images/classes/pyrofiend_illustration_3.png', caption: 'A Caustic Fexric Pyrofiend holding a copper combustion device wreathed in vented flames.' }
+  { url: '/assets/images/classes/pyrofiend_hollow_solari.jpg', caption: 'Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot.' },
+  { url: '/assets/images/classes/pyrofiend_waste_solari.jpg', caption: 'Anhur Pyrofiend — The Forge-Damned, predatory badland scout in mid-ascension with basalt-calcified arm, demonic horns piercing linen wraps, and jagged obsidian breach-scythe blasting a storm of volcanic molten crimson.' },
+  { url: '/assets/images/classes/pyrofiend_clockwork_fexric.jpg', caption: 'Brasskin Pyrofiend — The Sealed Alembic, stocky refinery engineer managing a volatile chemical glass cannon with back-mounted quartz magma-boiler, copper heat-sink coils, and valve-regulated combustion lance venting pressurized brass-amber flame.' }
  ],
  martyr: [
-  { url: '/assets/images/classes/martyr_illustration.png', caption: 'A Hollow-Solari Dawn Vigil Flagellant Martyr absorbing pain through obsidian scars.' },
-   { url: '/assets/images/classes/martyr_illustration_2.png', caption: 'A Solari Martyr wreathed in iron chains holding a Sol\'s Breath stone amulet.' },
-  { url: '/assets/images/classes/martyr_illustration_3.png', caption: 'A Marked Vreken Martyr wreathed in starry cosmic chains absorbing stellar pain.' }
+  { url: '/assets/images/classes/martyr_hollow_solari.jpg', caption: 'Korr Martyr — The Vault-Witness, monastic guardian standing in unmoving stillness with an obsidian kite shield, jagged chest scars spilling radiant golden sunlight of Aex.' },
+  { url: '/assets/images/classes/martyr_waste_solari.jpg', caption: 'Anhur Martyr — The Ash-Witness, frontline crusader taking a blast of volcanic fire onto her notched iron tower shield, linear arm scars blazing with orange cinder-light.' },
+  { url: '/assets/images/classes/martyr_morgh_groven.jpg', caption: 'Morgh Groven Martyr — The Living Megalith, colossal guardian bracing a shattered stone slab against a barrage of harpoons, glowing amber veins welding the fracture.' },
+  { url: '/assets/images/classes/martyr_ithran_groven.jpg', caption: 'Amordjin Groven Martyr — The Living Span, alpine anchor gripping severed iron suspension bridge cables with bare hands and silver wire, amber-gold devotion lighting his strained arms.' },
+  { url: '/assets/images/classes/martyr_skald_human.jpg', caption: 'Skald Human Martyr — The Oath-Frozen, colossal Nordic warrior holding a blizzard pass alone with a massive iron-banded whalebone clan Great-Shield, wounds freezing into radiant cyan rime-vein scars.' }
  ],
  toxicologist: [
-  { url: '/assets/images/classes/toxicologist_illustration.png', caption: 'A Mistwoven Mimir Distillery Alchemist Toxicologist in a tattered bark cloak.' },
-  { url: '/assets/images/classes/toxicologist_illustration_2.png', caption: 'A Clean Vreken Toxicologist with glowing lantern-eyes holding a bubbling vial of green acid.' },
-  { url: '/assets/images/classes/toxicologist_illustration_3.png', caption: 'A Withered Toxicologist in a bark cloak holding a flask bubbling with green gas.' }
+  { url: '/assets/images/classes/toxicologist_thalren_human.jpg', caption: 'Tallyn Human Toxicologist — The Fog-Distiller, frontier scholar perched on an ironwood branch deploying an aerosol plume of toxic teal fog-predator venom from an antique glass bulb-diffuser.' },
+  { url: '/assets/images/classes/toxicologist_broken_mimir.jpg', caption: 'Broken Mimir Toxicologist — The Floor-Brewer, unmasked fae scout crouched on a mossy rotting log harvesting acidic fungal fluid into a bone syringe and blowing an explosive puff of amber spore dust from a reed blowgun.' },
+  { url: '/assets/images/classes/toxicologist_briaren_florae.jpg', caption: 'Briaren Florae Toxicologist — The Thorn-Venom, living bramble-kin tapping her own forearm thorns with a crystal syringe, collecting a bead of glowing crimson fae-venom into a glass phial.' },
+  { url: '/assets/images/classes/toxicologist_oaken_florae.jpg', caption: 'Oaken Florae Toxicologist — The Hidden-Cuil, timber artisan disguised in a traveling merchant\'s cloak and leather woodcarver\'s apron, dispensing a glowing drop of veiled jade poison from a hollow gouging chisel into a pillbox.' },
+  { url: '/assets/images/classes/toxicologist_riven.jpg', caption: 'Riven Toxicologist — The Silence-Distiller, skeletal outcast in lead-lined apron and heavy tongs lifting a beaker of bubbling violet null-distillate that dissolves the glass rim.' }
  ],
  plaguebringer: [
-  { url: '/assets/images/classes/plaguebringer_illustration.png', caption: 'A Withered Peat-Waste Herbalist Plaguebringer hosting the Ghost-Mycelium rot.' },
-  { url: '/assets/images/classes/plaguebringer_illustration_2.png', caption: 'A Marked Vreken Plaguebringer with glowing lantern-eyes holding a smoking plague-flask.' },
-  { url: '/assets/images/classes/plaguebringer_illustration_3.png', caption: 'A Morgh Groven Plaguebringer holding a clay jar leaking thick rot vapors.' }
+  { url: '/assets/images/classes/plaguebringer_withered_nethien.jpg', caption: 'Riven Plaguebringer — The Silence-Host, gaunt and imposing rot incubator in tattered shroud vestments gripping a bone-handled sickle and weeping antique bronze plague-urn leaking necrotic miasma violet vapors.' },
+  { url: '/assets/images/classes/plaguebringer_clean_vreken.jpg', caption: 'Bedel Plaguebringer — The Glow-Culture, scholar of living decay in heavy wool robes perched on bog-timber with open fungal codex and gnarled peat-wood specimen staff glowing with lime phosphor cultures.' },
+  { url: '/assets/images/classes/plaguebringer_marked_vreken.jpg', caption: 'Cromyx Plaguebringer — The Mycelium-Vector, horned predator crouched on swollen roots wielding a jagged harvesting sickle and chained spiked iron censer billowing boiling blight-green vapors into the Root-Veil.' }
  ],
  minstrel: [
-  { url: '/assets/images/classes/minstrel_illustration.png', caption: 'A Brook Myrathil Tide-Choir Singer Minstrel playing a delicate lute.' },
-  { url: '/assets/images/classes/minstrel_illustration_2.png', caption: 'A Skald Human Minstrel singing a tale and playing a rustic lute.' },
-  { url: '/assets/images/classes/minstrel_illustration_3.png', caption: 'A Tessen Human Minstrel playing a small, ornate harp with swirling wind currents.' }
+  { url: '/assets/images/classes/minstrel_merryn_human.jpg', caption: 'Merryn Human Minstrel — The Storm-Singer, battle-hardened open-water conductor strumming a heavy driftwood sea-lute on a storm-lashed ship prow, sending concentric electric storm-cyan shockwave arcs to part the gale.' },
+  { url: '/assets/images/classes/minstrel_shoreling_myrathil.jpg', caption: 'Corali Myrathil Minstrel — The Shore-Conductor, noble wave-guardian in verdigris sea-bronze armor strumming a pearl-inlaid driftwood harp-lute, conducting foaming breakers with harmonic tidal-aquamarine sound ripples.' },
+  { url: '/assets/images/classes/minstrel_riverling_myrathil.jpg', caption: 'Ondine Myrathil Minstrel — The Freshwater-Voice, agile river-scout perched in an amphibious crouch on a slick rapid boulder, bowing a cypress river cello as torrential currents spiral into emerald acoustic whirlpool eddies.' },
+  { url: '/assets/images/classes/minstrel_deepling_myrathil.jpg', caption: 'Nereid Myrathil Minstrel — The Abyss-Resonant, slender lithe mystic on wet coastal basalt holding aloft a monumental prehistoric whalebone tuning fork, radiating electric starlight-cyan subsonic vibration rings accompanied by baby squids.' },
+  { url: '/assets/images/classes/minstrel_clean_vreken.jpg', caption: 'Bedel Minstrel — The Bog-Resonance, ascetic monastic mystic perched cross-legged on an ancient gnarled peat-root, plucking a petrified peat-wood zither as bioluminescent shelf-fungi puff pulsing lime-green spore clouds in cadence.' }
  ],
  inquisitor: [
-  { url: '/assets/images/classes/inquisitor_illustration.png', caption: 'A Solari Barbed-Vow Inquisitor wreathed in cold iron chains.' },
-  { url: '/assets/images/classes/inquisitor_illustration_2.png', caption: 'A Clean Vreken Inquisitor wreathed in chains holding an iron executioner\'s gavel.' },
-  { url: '/assets/images/classes/inquisitor_illustration_3.png', caption: 'A Vreken Inquisitor wreathed in iron chains carrying an executioner\'s gavel.' }
+  { url: '/assets/images/classes/inquisitor_thalren_human.jpg', caption: 'Tallyn Human Inquisitor — The Salt-Scarred, driving a square-headed cold-iron brand into a glowing null-salt anathema circle.' },
+  { url: '/assets/images/classes/inquisitor_marked_vreken.jpg', caption: 'Cromyx Inquisitor — The Mycelium-Hunter, leaping through root nodes to strike with a barbed cold-iron chain whip.' },
+  { url: '/assets/images/classes/inquisitor_clean_vreken.jpg', caption: 'Bedel Inquisitor — The Glow-Auditor, raising a smoking black-iron caged censor-lantern with cold-iron gavel in hand.' },
+  { url: '/assets/images/classes/inquisitor_broken_mimir.jpg', caption: 'Broken Mimir Inquisitor — The Fog-Sentinel, standing sentinel on the Ironwood Palisade with a barbed-wire-wrapped poleaxe.' }
  ],
  apex: [
-  { url: '/assets/images/classes/apex_illustration.png', caption: 'A Shorn Florae Silent Hunter Apex drawing a recurve bow.' },
-  { url: '/assets/images/classes/apex_illustration_2.png', caption: 'A Trueborn Florae Apex with wild thorns growing along their arms drawing a living bow.' },
-  { url: '/assets/images/classes/apex_illustration_3.png', caption: 'A Brook Myrathil Apex drawing a coral bow with a glowing water arrow.' }
+  { url: '/assets/images/classes/apex_arch_mimir.jpg', caption: 'Arch Mimir Apex — The Mask-Hunter, stalking in a low crouch along an ironwood log with a Shadow Glaive and bonded Frostwood mist-wolf.' },
+  { url: '/assets/images/classes/apex_skald_human.jpg', caption: 'Skald Human Apex — The Glacier-Stalker, striding across a frozen ridge in polar bear furs with a frost-etched Ice-Glaive and a shaggy white tundra war-mastiff.' },
+  { url: '/assets/images/classes/apex_marked_vreken.jpg', caption: 'Cromyx Apex — The Root-Stalker, drawing a bone-horned recurve bow atop gnarled roots alongside a subterranean armored burrower beast.' },
+  { url: '/assets/images/classes/apex_waste_solari.jpg', caption: 'Anhur Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal.' }
  ],
  warden: [
-  { url: '/assets/images/classes/warden_illustration.png', caption: 'An Ithran Groven Penitent Jailer Warden with rusted iron chains.' },
-  { url: '/assets/images/classes/warden_illustration_2.png', caption: 'A Waste-Solari Warden wrapped in rusted iron chains dragging a spiked shackle.' },
-  { url: '/assets/images/classes/warden_illustration_3.png', caption: 'An Ordan Human Warden in heavy iron plate armor dragging a massive shackle.' }
+  { url: '/assets/images/classes/warden_morgh_groven.jpg', caption: 'Morgh Groven Warden — The Vat-Grounded, stocky stone-troll mine-guard driving an iron anchor-pin into bedrock, hauling a screaming taut ore chain grafted through living forearm bone holding back an escaped deep-vat horror with a Keeper\'s Maul in hand.' },
+  { url: '/assets/images/classes/warden_amordjin_groven.jpg', caption: 'Amordjin Groven Warden — The Span-Jailer, towering crystalline stone-kin spread wide atop an alpine bridgehead anchoring two fanning cable-chains holding two beasts on opposite ledges with an iron chain-flail.' },
+  { url: '/assets/images/classes/warden_skald_human.jpg', caption: 'Skald Human Warden — The Glacier-Jailer, northern hunter leaning back against a frost-coated chain bolted through shoulder bone, dragging an ice-horror across a glacier edge with an executioner cleaver.' },
+  { url: '/assets/images/classes/warden_alchemite_fex.jpg', caption: 'Alchemite Fex Warden — The Gear-Jailer, subterranean goblinoid warden locking a chimera to the dungeon floor with an arm-mounted clockwork ratchet-winch while raising a cold-iron war-flail.' },
+  { url: '/assets/images/classes/warden_clean_vreken.jpg', caption: 'Bedel Mycellan Warden — The Peat-Gaoler, monastic bog-jailer bracing against a submerged timber stump, violently hauling a taut bioluminescent lichen-crusted chain snaring a bog-horror with a hooked pole-axe.' }
  ],
  gambit: [
-  { url: '/assets/images/classes/gambit_illustration.png', caption: 'A Brutish Astril Luck-Ledger Auditor Gambit flipping a glowing coin.' },
-  { url: '/assets/images/classes/gambit_illustration_2.png', caption: 'A Merryn Human Gambit flipping a golden coin and tracing probability lines.' },
-  { url: '/assets/images/classes/gambit_illustration_3.png', caption: 'A Skald Human Gambit flipping three glowing brass coins to trace probability lines.' }
+  { url: '/assets/images/classes/gambit_veldun_nethien.jpg', caption: 'Weft Athien Gambit — The Clause-Gambler, fanning out glowing scrimshaw bone fate-cards with radiant amber probability runes beside a dark canal.' },
+  { url: '/assets/images/classes/gambit_merryn_human.jpg', caption: 'Merryn Human Gambit — The Sea-Omen Gambler, dynamically flicking salt-coral dice high into the air with storm-cyan ripple arcs on the weather-beaten docks.' },
+  { url: '/assets/images/classes/gambit_caustic_fexric.jpg', caption: 'Alchemite Gambit — The Sump-Hustler, unmasked mad-scientist goblin rolling heavy brass gear-dice and fanning soot-marked cards with crackling amber Wyrd sparks.' },
+  { url: '/assets/images/classes/gambit_shoreling_myrathil.jpg', caption: 'Corali Myrathil Gambit — The Tide-Wagerer, rolling glowing sea-pearl dice across a driftwood crate, tracing tide-jade probability currents.' }
  ],
  chronarch: [
-  { url: '/assets/images/classes/chronarch_illustration.png', caption: 'A Stargazer Astril Starlight Astrologer Chronarch utilizing time-sand.' },
-  { url: '/assets/images/classes/chronarch_illustration_2.png', caption: 'A Mistwoven Mimir Chronarch with storm-glass mask and clockwork device.' },
-  { url: '/assets/images/classes/chronarch_illustration_3.png', caption: 'A Brutish Astril Chronarch tracing complex golden clockwork dials in the air.' }
+  { url: '/assets/images/classes/chronarch_clockwork_fexric.jpg', caption: 'Brasskin Chronarch — The Gear-Stitcher, seating a glowing volcanic-glass timing gear into his exposed chest escapement.' },
+  { url: '/assets/images/classes/chronarch_ithran_groven.jpg', caption: 'Amordjin Groven Chronarch — The Bone-Calibrator, bracing a cracked suspension bridge in temporal stasis with gears embedded in living bone.' },
+  { url: '/assets/images/classes/chronarch_tessen_human.jpg', caption: 'Tessic Human Chronarch — The Keep-Anchor, tuning a brass keystone stasis ring on a fortress pillar to freeze crumbling masonry.' },
+  { url: '/assets/images/classes/chronarch_high_nethien.jpg', caption: 'Athien Chronarch — The Archive-Keeper, extracting a glowing memory-glass legal slide from a hovering crystalline archive.' }
  ],
  spellguard: [
-  { url: '/assets/images/classes/spellguard_illustration.png', caption: 'A Clockwork Fexric Shield-Master Spellguard carrying a glowing tower shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_2.png', caption: 'A Brutish Astril Spellguard with four glowing eyes carrying a rune-inscribed brass shield.' },
-  { url: '/assets/images/classes/spellguard_illustration_3.png', caption: 'A Caustic Fexric Spellguard with a metal-threaded beard carrying a rune tower shield.' }
+  { url: '/assets/images/classes/spellguard_hollow_solari.jpg', caption: 'Korr Spellguard — The Silent-Guard, immovable monastic guardian anchored behind a colossal basalt slab shield with solar bronze crest, drawing raw intercepted magic directly into glowing vascular branding scars.' },
+  { url: '/assets/images/classes/spellguard_waste_solari.jpg', caption: 'Anhur Spellguard — The Forge-Shield, athletic badland scout in dynamic stride violently deflecting a blast of magical fire off an angled obsidian-beveled tower shield with notched forge-blade in hand.' },
+  { url: '/assets/images/classes/spellguard_high_nethien.jpg', caption: 'High Athien Spellguard — The Clause-Canceller, aristocratic pact-lord in gothic plate and ghost-silk mantle planting a silver-alloy clause tower shield that dissolves an incoming spell into golden contract script.' },
+  { url: '/assets/images/classes/spellguard_thalren_human.jpg', caption: 'Tallyn Human Spellguard — The Wyrd-Defuser, frontier sapper in wire-rimmed spectacles and Greymark garrison plate grounding an intercepted wild-magic strike through copper coils into frozen earth.' }
  ],
  augur: [
-  { url: '/assets/images/classes/augur_illustration.png', caption: 'A Deep Myrathil Nebula Seer Augur tracing stargate alignments.' },
-  { url: '/assets/images/classes/augur_illustration_2.png', caption: 'A Stargazer Astril Augur with stardust skin holding a crystal ball displaying nebulae.' },
-  { url: '/assets/images/classes/augur_illustration_3.png', caption: 'A Broken Mimir Augur tracing astronomical portals wreathed in entropic fibers.' }
+  { url: '/assets/images/classes/augur_skald_human.jpg', caption: 'Skald Human Augur — The Glacier-Haruspex, Nordic warrior-scholar kneeling on blue glacial ice casting carved elk-antler omen-staves before a cyan frost-vapor brazier with an ivory sickle in hand.' },
+  { url: '/assets/images/classes/augur_vashir_astril.jpg', caption: 'Lumian Astril Augur — The Star-Viscera Reader, crystalline celestial seer in an evasive stance tracing radiant violet stress-fractures across her forearm with an obsidian stylus.' },
+  { url: '/assets/images/classes/augur_clean_vreken.jpg', caption: 'Bedel Vreken Augur — The Bog-Gore Diviner, monastic bog-scholar holding a prayer-bell scythe while using a brass probe to parse floating inscribed tablets in a glowing green spore-basin.' },
+  { url: '/assets/images/classes/augur_deepling_myrathil.jpg', caption: 'Deepling Myrathil Augur — The Trench-Haruspex, deep-sea aquatic seer holding a spherical pressure astrolabe with a swirling azure current-vortex.' },
+  { url: '/assets/images/classes/augur_korr_solari.jpg', caption: 'Korr Solari Augur — The Sol\'s Breath-Reader, deep-vault cinder-monk seated in Vault-Breath stillness with a sun-crest staff, watching the multifaceted holy ember glowing in a bronze brazier.' }
  ],
  harbinger: [
-  { url: '/assets/images/classes/harbinger_illustration.png', caption: 'A Broken Mimir Sump Archivist Harbinger channeling entropic friction.' },
-  { url: '/assets/images/classes/harbinger_illustration_2.png', caption: 'A Withered Harbinger holding a clockwork device of entropic friction.' },
-  { url: '/assets/images/classes/harbinger_illustration_3.png', caption: 'A Clockwork Fexric Harbinger wreathed in copper-wire carrying an entropic chronometer.' }
+  { url: '/assets/images/classes/harbinger_stargazer_astril.jpg', caption: 'Lumian Harbinger — The Entropy-Symphony, drawing glowing star-alignments and dying planetary orbits with a sleek brass telescope.' },
+  { url: '/assets/images/classes/harbinger_skald_human.jpg', caption: 'Skald Human Harbinger — The Doom-Scribe, carving differential equations of solar extinction onto an alpine stone slab with an ivory stylus.' },
+  { url: '/assets/images/classes/harbinger_waste_solari.jpg', caption: 'Anhur Harbinger — The Dying-Light Doomsayer, driving a brass thermal probe into a cooling basalt fissure to tally heat loss on an obsidian slate.' },
+  { url: '/assets/images/classes/harbinger_brutish_astril.jpg', caption: 'Kordak Harbinger — The Geomantic Void-Seer, crushing obsidian shards in his fist and drawing geometric doom alignments in the earth.' },
+  { url: '/assets/images/classes/harbinger_tessen_human.jpg', caption: 'Tessic Human Harbinger — The Doomsayer, holding aloft the iron hourglass of extinction and heralding the end of days.' }
  ],
  lunarch: [
-  { url: '/assets/images/classes/lunarch_illustration.png', caption: 'A Maskborne Mimir Moonlit Grove Sentinel Lunarch, vessel of the lunar parasite.' },
-  { url: '/assets/images/classes/lunarch_illustration_2.png', caption: 'A Deepborn Myrathil Lunarch wielding a crescent blade wreathed in starlight.' },
-  { url: '/assets/images/classes/lunarch_illustration_3.png', caption: 'A Trueborn Florae Lunarch wreathed in glowing silver lunar briars.' }
+  { url: '/assets/images/classes/lunarch_viridian_florae.jpg', caption: 'Briaren Florae Lunarch — The Thorn-Bound, commanding plant-fae woman wielding a silver crescent sickle while levitating a pulsating thorny lunar chrysalis in the moonlit ancient grove.' },
+  { url: '/assets/images/classes/lunarch_oken_florae.jpg', caption: 'Oaken Florae Lunarch — The Timber-Born, massive timber craftsman holding an oak staff with a crescent crest, his forearm bark split open with crackling blue silence-light while raising a glowing full moon orb.' },
+  { url: '/assets/images/classes/lunarch_arch_mimir.jpg', caption: 'Arch Mimir Lunarch — The Mask-Anchored, high-canopy noble in an ornate porcelain owl mask and flowing silk robes, brandishing an engraved crescent sickle and cradling a glowing celestial moon orb.' },
+  { url: '/assets/images/classes/lunarch_thalren_human.jpg', caption: 'Tallyn Human Lunarch — The Fog-Heresy, exiled scholar striding through the mist with a rune-etched reaping sickle, the empty brass binding of his personal ledger burning with crackling blue silence-light.' }
  ]
 };
 
@@ -1248,9 +1276,9 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
      if (block.type === 'kv') {
       return (
        <div className="mech-kv" key={idx}>
-        <span className="mech-kv-key" dangerouslySetInnerHTML={{ __html: block.key }} />
+        <span className="mech-kv-key" dangerouslySetInnerHTML={{ __html: sanitizeHtml(block.key) }} />
         <span className="mech-kv-val" dangerouslySetInnerHTML={{
-         __html: block.value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+         __html: sanitizeHtml(block.value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
         }} />
        </div>
       );
@@ -1261,7 +1289,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <div className="mech-list-block" key={idx}>
         {block.header && (
          <div className="mech-list-title" dangerouslySetInnerHTML={{
-          __html: block.header.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          __html: sanitizeHtml(block.header.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
          }} />
         )}
         <ul className={`mech-list ${block.items.some(it => it.style === 'numbered') ? 'mech-list-numbered' : ''}`}>
@@ -1269,7 +1297,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
           <li key={j}>
            {item.style === 'numbered' && <span className="mech-num">{item.num}.</span>}
            <span dangerouslySetInnerHTML={{
-            __html: item.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            __html: sanitizeHtml(item.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
            }} />
           </li>
          ))}
@@ -1280,7 +1308,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 
      return (
       <p className="mech-text" key={idx} dangerouslySetInnerHTML={{
-       __html: block.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+       __html: sanitizeHtml(block.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
       }} />
      );
     })}
@@ -1308,7 +1336,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       return (
        <div className="combat-setup-card" key={idx}>
         <div className="card-tag"><i className="fas fa-scroll"></i> THE SCENARIO SETUP</div>
-        <p dangerouslySetInnerHTML={{ __html: setupMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(setupMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />
        </div>
       );
      }
@@ -1323,7 +1351,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
          <span className="combat-label"><i className="fas fa-crosshairs"></i> STATUS STATUS EFFECT</span>
         </div>
         <div className="status-body">
-         <p dangerouslySetInnerHTML={{ __html: charSpecMatch[3].trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+         <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(charSpecMatch[3].trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />
         </div>
        </div>
       );
@@ -1336,7 +1364,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <div className="combat-turn-header" key={idx}>
         <div className="turn-number-tag">TURN {turnMatch[1]}</div>
         <div className="turn-title">{turnMatch[2]}</div>
-        {turnMatch[3] && <div className="turn-meta" dangerouslySetInnerHTML={{ __html: turnMatch[3].trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />}
+            {turnMatch[3] && <div className="turn-meta" dangerouslySetInnerHTML={{ __html: sanitizeHtml(turnMatch[3].trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />}
        </div>
       );
      }
@@ -1370,7 +1398,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         <div className="simple-roll-header">
          <i className="fas fa-dice-d20"></i> ACTIVE ROLL RECORD
         </div>
-        <p dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />
        </div>
       );
      }
@@ -1381,7 +1409,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       return (
        <div className="combat-narrative-action" key={idx}>
         <i className="fas fa-quote-left narrative-quote-icon"></i>
-        <p dangerouslySetInnerHTML={{ __html: narrativeText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(narrativeText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />
        </div>
       );
      }
@@ -1394,7 +1422,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       return (
        <div className="combat-tactical-result" key={idx}>
         <div className="result-header"><i className="fas fa-clipboard-check"></i> ACTION RESOLUTION OUTCOME</div>
-        <p dangerouslySetInnerHTML={{ __html: resultMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(resultMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />
        </div>
       );
      }
@@ -1403,7 +1431,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       return (
        <div className="combat-tactical-strategy" key={idx}>
         <div className="strategy-header"><i className="fas fa-brain"></i> TACTICAL DECISION LOG</div>
-        <p dangerouslySetInnerHTML={{ __html: mindRacesMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(mindRacesMatch[1].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')) }} />
        </div>
       );
      }
@@ -1419,8 +1447,38 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   );
  };
 
- const renderTradition = () => {
-  const overview = classData?.overview || {};
+  const renderTradition = () => {
+   const heritageClass = resolveClassHeritageName(classData.variantName || classData.name);
+   const profile = CLASS_PROVENANCE[heritageClass];
+   if (profile && !classData.isCustom) {
+    return (
+     <div className="class-detail-section parchment-content">
+      <div className="lore-covenant-card">
+       <div className="covenant-card-header"><h4>{heritageClass} Origin &amp; Heritage</h4></div>
+       <div className="covenant-card-body">
+        <p><strong>Power source:</strong> {profile.powerSource}</p>
+        <p><strong>Individual acquisition:</strong> {profile.acquisition}</p>
+        <p><strong>First discovery:</strong> {profile.firstDiscovery}</p>
+        <p><strong>Institution founding:</strong> {profile.institutionalFounding}</p>
+        <p><strong>Founder state:</strong> {profile.founderState}</p>
+        <p><strong>Living institution:</strong> {profile.institution}</p>
+        <h5>Normal trained heritage paths</h5>
+        <ul>{summarizeHeritageEdgesForClass(classData.variantName || classData.name).map(row => (
+         <li key={row.heritageId}>
+          <strong>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' — Ironclad method' : ''}</strong>
+          {row.implemented && <span> — <em>Edge:</em> {row.edge} <em>Cost:</em> {row.cost}</span>}
+         </li>
+        ))}</ul>
+        <p>Other heritages require the actual acquisition and training above. Current incompatible body or interface states still apply.</p>
+        {profile.heritageEffectsImplemented
+         ? <p>These paths share the class chassis. Each native heritage has one bounded edge and one paired cost shown above; the edge applies only while its declared condition is met, and the class caps, collapse and other risks still apply.</p>
+         : <p>These paths share the class chassis. Heritage-specific numerical edges and costs are pending implementation.</p>}
+       </div>
+      </div>
+     </div>
+    );
+   }
+   const overview = classData?.overview || {};
   const originStoryText = overview?.originStory || '';
   const classId = (classData.id || classData.name || '').toLowerCase().replace(/\s+/g, '_');
   
@@ -2261,7 +2319,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
             <div className="mech-step-title">{section.title}</div>
             {section.subtitle && <div className="mech-step-subtitle">{section.subtitle}</div>}
             <div className="mech-step-content" dangerouslySetInnerHTML={{
-             __html: section.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+             __html: sanitizeHtml(section.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
             }} />
            </div>
           </div>
@@ -2416,9 +2474,9 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         );
        })()}
        {resourceSystem.mechanics.manaWarning && (
-        <div className="mech-warning" dangerouslySetInnerHTML={{
-         __html: resourceSystem.mechanics.manaWarning.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        }} />
+         <div className="mech-warning" dangerouslySetInnerHTML={{
+          __html: sanitizeHtml(resourceSystem.mechanics.manaWarning.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
+         }} />
        )}
       </div>
      )}
@@ -3135,7 +3193,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       <i className={classData.icon} style={{ display: 'none' }}></i>
      </div>
      <div className="class-header-info">
-      <h2>{classData.name}</h2>
+      <h2>{classData.variantName || classData.name}</h2>
       <div className="class-header-meta">
        <span className="class-role-badge">
         <i className="fas fa-shield-alt"></i> {classData.role}
@@ -3247,4 +3305,3 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 };
 
 export default ClassDetailDisplay;
-

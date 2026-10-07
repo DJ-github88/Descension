@@ -158,6 +158,13 @@ const useChatStore = create(
     }
    },
 
+   // Immersion/interaction notifications (doors, chests, etc.). Previously
+   // missing, so callers guarded on it and silently dropped the message.
+   addChatNotification: (notification) => {
+    const { addNotification } = get();
+    addNotification('social', notification);
+   },
+
    // Add a social notification
    addSocialNotification: (notification) => {
     const { addNotification } = get();
@@ -252,6 +259,22 @@ const useChatStore = create(
    addUser: (user) => set(state => ({
     onlineUsers: [...state.onlineUsers, user]
    })),
+
+   // Upsert a user in the online users list (used by character_updated sync).
+   // Unlike addUser, this never creates duplicates when a known player changes.
+   updateUser: (userId, updates) => set(state => {
+    const exists = state.onlineUsers.some(user => user.id === userId);
+    if (exists) {
+     return {
+      onlineUsers: state.onlineUsers.map(user =>
+       user.id === userId ? { ...user, ...updates } : user
+      )
+     };
+    }
+    return {
+     onlineUsers: [...state.onlineUsers, { id: userId, status: 'online', ...updates }]
+    };
+   }),
 
    // Remove a user from the online users list
    removeUser: (userId) => set(state => ({

@@ -815,6 +815,19 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
   },
 
   /**
+   * Merge a whole { playerId: mapId } map of assignments at once
+   */
+  setAllPlayerMapAssignments: (assignments) => {
+    if (!assignments || typeof assignments !== 'object') return;
+    set(state => ({
+      playerMapAssignments: {
+        ...state.playerMapAssignments,
+        ...assignments
+      }
+    }));
+  },
+
+  /**
    * Get a member's HUD position
    */
   getMemberPosition: (memberId, fallbackKeys = []) => {

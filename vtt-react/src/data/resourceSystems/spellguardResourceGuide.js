@@ -23,12 +23,12 @@ export const spellguardResourceGuide = {
   gain: {
    title: 'Absorb',
    icon: 'fa-shield-alt',
-   text: 'Blocking or intercepting a spell adds +10 to +30 AEP, standing in a hazard field +10 per round, and every point of magical damage absorbed adds +1. Magic is the only food.',
+    text: 'Report resolved magical intake in AEP-equivalent units: incoming = captured residual + redirected + dissipated. Containment, annulment, defusal, deflection and siphoning all retain positive residual; every receipt counts once. Actual conversion/yield rules are supplied by the resolved ability, not invented by this tracker.',
   },
   hold: {
    title: 'Containment',
    icon: 'fa-gauge-high',
-   text: 'AEP is a 0–100 battery that decays 5 per minute outside combat and never regenerates on its own. If the enemy stops casting, you start empty.',
+    text: 'AEP is one 0–100 bank. Captured energy beyond capacity is recorded as uncontained overflow. Ordinary short rest does not refill it; long rest grounds it without erasing receipts. Automatic decay and radiation remain separate lifecycle/effect work.',
   },
   spend: {
    title: 'Discharge',
@@ -38,7 +38,7 @@ export const spellguardResourceGuide = {
   risk: {
    title: 'Meltdown',
    icon: 'fa-exclamation-triangle',
-   text: 'At exactly 100 AEP your containment fails completely, radiating feedback into adjacent creatures. Vent before the top, not at it.',
+    text: 'At 100 the tracker marks a containment breach due; 91–99 is a warning band, not an already-triggered nova. Radiation, damage and the authored breach/reset consequence require resolution. Venting changes the bank, not the historical accounting of an interception.',
   },
  },
 
@@ -73,6 +73,6 @@ export const spellguardResourceGuide = {
    ['Out of combat decay', '−5 / minute', 'The battery drains in peacetime'],
    ['100 AEP', 'Containment breach', 'Feedback damage to everyone adjacent'],
   ],
-  footnote: 'AEP caps at 100 and never regenerates naturally — absorption is the only source.',
+   footnote: 'One 100-AEP pool; Silence Resonance is saturation terminology. Reports account for residual and overflow but do not cancel incoming damage or apply racial/spec yield ratios. Automatic observers, decay and risk effects remain pending.',
  },
 };

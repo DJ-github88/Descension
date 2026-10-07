@@ -1,5 +1,6 @@
 import React from 'react';
 import './ClassGuideTab.css';
+import { sanitizeHtml } from '../../../../utils/sanitizeHtml';
 
 /**
  * ClassGuideTab Component
@@ -18,7 +19,7 @@ const ClassGuideTab = ({ classData, theme }) => {
         if (typeof content !== 'string') return null;
         return content.split('\n\n').map((paragraph, i) => (
             <p key={i} dangerouslySetInnerHTML={{ 
-                __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                __html: sanitizeHtml(paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
             }} />
         ));
     };
@@ -178,7 +179,7 @@ const ClassGuideTab = ({ classData, theme }) => {
                                             <div className="guide-step-title">{section.title}</div>
                                             {section.subtitle && <div className="guide-step-subtitle">{section.subtitle}</div>}
                                             <div className="guide-step-content" dangerouslySetInnerHTML={{
-                                                __html: section.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                                __html: sanitizeHtml(section.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
                                             }} />
                                         </div>
                                     </div>
@@ -235,7 +236,7 @@ const ClassGuideTab = ({ classData, theme }) => {
             {/* Mana Warning */}
             {resourceSystem?.mechanics?.manaWarning && (
                 <div className="guide-warning-box" dangerouslySetInnerHTML={{
-                    __html: resourceSystem.mechanics.manaWarning.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    __html: sanitizeHtml(resourceSystem.mechanics.manaWarning.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
                 }} />
             )}
 
@@ -274,7 +275,7 @@ const ClassGuideTab = ({ classData, theme }) => {
                 <div className="master-content">
                     {overview?.playstyle?.content ? (
                         <div dangerouslySetInnerHTML={{ 
-                            html: overview.playstyle.content.split('\n\n').slice(0, 3).join('</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                            __html: sanitizeHtml(overview.playstyle.content.split('\n\n').slice(0, 3).join('</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
                         }} />
                     ) : (
                         "Focus on managing your core resource to maximize efficiency in combat."

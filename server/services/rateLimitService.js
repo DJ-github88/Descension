@@ -5,6 +5,7 @@
 
 const logger = require('./logger');
 const { MemoryRateLimitStore } = require('./rateLimitStore');
+const { ensureSingleAck, ackFailure } = require('../utils/socketAck');
 
 class RateLimitService {
   constructor(options = {}) {
@@ -180,28 +181,41 @@ class RateLimitService {
       const originalOn = socket.on.bind(socket);
 
       // Clean up violation tracking on disconnect (prevents unbounded Map growth)
-      originalOn('disconnect', () => { violationCounts.delete(socket.id); });
+      originalOn('disconnect', () => { violationCounts.delete(socket.data?.userId || socket.id); });
 
       socket.on = (event, handler) => {
-        const rateLimitedHandler = async(data) => {
+        const rateLimitedHandler = async(...incomingArgs) => {
+          // Preserve the complete Socket.IO argument list (payload + ack callback).
+          const { args, ack } = ensureSingleAck(incomingArgs);
           const playerInfo = getPlayerInfo();
           const isGM = playerInfo?.isGM || false;
 
-          const rateLimitResult = await this.checkRateLimit(socket.id, event, isGM);
+          // Key authenticated clients by uid so reconnecting does not reset the
+          // limit; fall back to the socket id for guests.
+          const clientKey = socket.data?.userId || socket.id;
+          const rateLimitResult = await this.checkRateLimit(clientKey, event, isGM);
 
           if (!rateLimitResult.allowed) {
             // Track violations
-            const violations = violationCounts.get(socket.id) || 0;
-            violationCounts.set(socket.id, violations + 1);
+            const violations = violationCounts.get(clientKey) || 0;
+            violationCounts.set(clientKey, violations + 1);
 
             if (logViolations) {
-              logger.warn(`Rate limit exceeded for event '${event}' from client ${socket.id}: ${rateLimitResult.reason}`);
+              logger.warn(`Rate limit exceeded for event '${event}' from client ${clientKey}: ${rateLimitResult.reason}`);
             }
 
             // Send rate limit error to client
             socket.emit('rate_limit_exceeded', {
               event: event,
               resetTime: rateLimitResult.resetTime,
+              reason: rateLimitResult.reason
+            });
+
+            // An ack-bearing request must not leave the client waiting.
+            ackFailure(ack, {
+              success: false,
+              error: 'Rate limit exceeded',
+              event,
               reason: rateLimitResult.reason
             });
 
@@ -220,9 +234,10 @@ class RateLimitService {
 
           // Process the event
           try {
-            await handler(data);
+            await handler(...args);
           } catch (error) {
             logger.error(`Error in rate-limited handler for event '${event}':`, error);
+            ackFailure(ack, { success: false, error: 'Internal server error', event });
           }
         };
 

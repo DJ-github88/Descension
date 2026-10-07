@@ -15,7 +15,7 @@ export const HARBINGER_DATA = {
       "ordan_human"
     ],
    "narrativeUnlock": true,
-    "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessen have prepared for extinction for four centuries. Solari live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Thalren too preservationist. Nethien can't accept anything that breaks contracts. Skald preserve history. Ordan migrate to survive."
+    "justification": "Requires cultural proximity to entropy and acceptance of inevitable extinction. Tessic have prepared for extinction for four centuries. Solari live in the dying light. Astril commune with the fading memory of their dead world. Merryn too opportunistic. Tallyn too preservationist. Athien can't accept anything that breaks contracts. Skald preserve history. Ordu migrate to survive."
  },
 
  /**
@@ -25,67 +25,82 @@ export const HARBINGER_DATA = {
   * waiting.
   */
  subraceVariants: {
+    skald_human: {
+      subraceName: 'Skald',
+      title: 'The Doom-Scribe',
+      reframe: `Malakor was a Skald mathematician at the Frozen Archive; the doom-arithmetic is a Skald inheritance. The Skald Harbinger reads the cold mathematics of a dying sun and speaks living prophecies into being, each one a countdown carved in a language the glacier keeps.`,
+      signatureAbility: {
+        name: 'Doom-Arithmetic',
+        description: `Your prophecies tick one extra step when an enemy fails a saving throw; the math is a model, not an infallible verdict.`
+      },
+      currentCrisisAngle: `The Archive suppressed Malakor’s papers for centuries; now every Skald Harbinger who reads them finds the numbers have changed, and the freeze is arriving faster than the founder ever calculated.`,
+      signatureQuote: {
+        text: 'The math does not permit hope. That is not cruelty. It is arithmetic.',
+        speaker: 'Malakor',
+        context: 'The suppressed introduction to his extinction model'
+      }
+    },
   vashir_astril: {
-   subraceName: 'Stargazer Astril',
+   subraceName: 'Lumian',
    title: 'The Entropy-Symphony',
-    reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Stargazer Astril Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
+    reframe: `The <LoreLink termId="astril">Lumian</LoreLink> commune with the fading memory of their dead world, fragments of a biosphere that ended long ago, and a Harbinger among them hears the Lumia heritage's death-crescendo as entropy made musical. A Lumian Harbinger does not predict doom; they *harmonize* with it, channeling the slow death of a buried world as a symphony whose final note is the end of everything.`,
    signatureAbility: {
     name: 'Death-Crescendo',
-     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Stargazer Astril Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
+     description: `Mayhem-pressure builds in resonance with the host's Lumia heritage fading; the closer the heritage is to final extinction, the more catastrophic the Harbinger's Wild Surges. A Lumian Harbinger is, in effect, accelerating their own heritage's death to fuel their magic.`
    },
-    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Stargazer Astril's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Stargazer Astril Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
+    currentCrisisAngle: `The Chaos Pockets now permanent in the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> resonate *sympathetically* with the Lumian's fading heritage, the Pockets are, the elders now believe, the death-crescendo made geographic. The Lumian Harbingers did not cause the Pockets, but their magic feeds them, and stopping would mean letting their heritage-fragments die in silence.`,
     signatureQuote: {
      text: '"My world is dying and I am making it sing. When the song ends, so does everything. Hum along while you still can."',
     speaker: 'Caelum Dim-Voiced',
-    context: 'A Stargazer Astril Harbinger, conducting a Wild Surge that rearranged a hillside'
+    context: 'A Lumian Harbinger, conducting a Wild Surge that rearranged a hillside'
    }
   },
 
   silath_astril: {
-   subraceName: 'Brutish Astril',
+   subraceName: 'Kordak',
    title: 'The Suppressed Catastrophe',
-    reframe: `The <LoreLink termId="astril">Brutish Astril</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Brutish Astril Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
+    reframe: `The <LoreLink termId="astril">Kordak</LoreLink> suppress their Lumia heritage, and a Harbinger among them weaponizes the suppressed heritage's catastrophic foreknowledge, doom the bound memory is gagged from preventing. A Kordak Harbinger's prophecy is a hostage's muffled scream of the apocalypse, channeled through a cage the host built and refuses to open.`,
    signatureAbility: {
     name: 'Gagged-Doom',
-     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Brutish Astril burn their captive's love for the world as fuel.`
+     description: `Mayhem-pressure builds from the suppressed heritage's frantic, gagged warnings of catastrophe; the more the bound memory fights to *prevent* the doom, the more the Harbinger weaponizes it. The cruelty is the point, the Kordak burn their captive's love for the world as fuel.`
    },
-    currentCrisisAngle: `The permanent Chaos Pockets have made the Brutish Astril's suppressed heritage go quiet, the same silence the False Prophet Brutish Astril report. A Brutish Astril Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
+    currentCrisisAngle: `The permanent Chaos Pockets have made the Kordak's suppressed heritage go quiet, the same silence the False Prophet Kordak report. A Kordak Harbinger whose hostage stops screaming has lost their fuel source, and several have begun *loosening* their suppressions, risking full possession, just to hear the catastrophe again.`,
     signatureQuote: {
      text: '"I bound my heritage to stop it from warning me. Now I weaponize the warning it cannot give. It has not forgiven me. I did not ask."',
     speaker: 'Vesh the Muffled',
-    context: 'A Brutish Astril Harbinger, tightening her bindings before a major surge'
+    context: 'A Kordak Harbinger, tightening her bindings before a major surge'
    }
   },
 
   tessen_human: {
-   subraceName: 'Tessen',
+   subraceName: 'Tessic',
    title: 'The Extinction-Architect',
-   reframe: `The <LoreLink termId="house_tesshan">Tessen</LoreLink> have prepared for extinction for four centuries inside their sealed keeps, and the Harbinger is the inevitable product of that preparation, entropy practiced as a discipline, the end rehearsed until it became a tool. A Tessen Harbinger does not fear the apocalypse; they have *drilled* for it, and the drilling made them its architects.`,
+   reframe: `The <LoreLink termId="house_tesshan">Tessic</LoreLink> have prepared for extinction for four centuries inside their sealed keeps, and the Harbinger is the inevitable product of that preparation, entropy practiced as a discipline, the end rehearsed until it became a tool. A Tessic Harbinger does not fear the apocalypse; they have *drilled* for it, and the drilling made them its architects.`,
    signatureAbility: {
     name: 'Rehearsed-End',
-    description: `Mayhem-pressure is generated through pre-planned collapse-sequences the Harbinger has rehearsed for decades; each Wild Surge is a scenario run live that the Tessen has already lived through, in their mind, a thousand times. The catastrophe is not chaos to them, it is choreography.`
+    description: `Mayhem-pressure is generated through pre-planned collapse-sequences the Harbinger has rehearsed for decades; each Wild Surge is a scenario run live that the Tessic has already lived through, in their mind, a thousand times. The catastrophe is not chaos to them, it is choreography.`
    },
-   currentCrisisAngle: `The Tessen's keeps are failing, and the Tessen Harbingers have, for the first time, begun to *welcome* it. Four centuries of rehearsal, and the real thing is finally arriving. Some Tessen Harbingers have stopped maintaining their keeps' temporal integrity (undermining the Tessen Chronarchs) because the extinction they prepared for is, to them, a graduation. The keep's collapse is the final exam.`,
+   currentCrisisAngle: `The Tessic's keeps are failing, and the Tessic Harbingers have, for the first time, begun to *welcome* it. Four centuries of rehearsal, and the real thing is finally arriving. Some Tessic Harbingers have stopped maintaining their keeps' temporal integrity (undermining the Tessic Chronarchs) because the extinction they prepared for is, to them, a graduation. The keep's collapse is the final exam.`,
    signatureQuote: {
     text: '"You fear the end. I have feared it for four hundred years, and the fear has grown bored of itself. Let it come. I have rehearsed my part."',
     speaker: 'Castellan Tess-Haral',
-    context: 'A Tessen Harbinger, ignoring a Chronarch\'s order to reinforce the eastern wall'
+    context: 'A Tessic Harbinger, ignoring a Chronarch\'s order to reinforce the eastern wall'
    }
   },
 
   thrask_solari: {
-   subraceName: 'Waste-Solari',
+   subraceName: 'Anhur',
    title: 'The Dying-Light Doomsayer',
-   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> forge-clans read Sol's Breath the way other cultures read a sky, and the reading has been getting worse for three generations. A Waste-Solari Harbinger does not need star-arithmetic or a dead world's memory; they have a forge that breathes less every decade and a caldera that gives a little less heat every winter. They take the vent-readings, run the arithmetic, and publish numbers the Dawn Vigil calls heresy and the Scoured read too closely. The countdown is not prophecy to them. It is bookkeeping.`,
+   reframe: `The <LoreLink termId="solari">Anhur</LoreLink> forge-clans read Sol's Breath the way other cultures read a sky, and the reading has been getting worse for three generations. A Anhur Harbinger does not need star-arithmetic or a dead world's memory; they have a forge that breathes less every decade and a caldera that gives a little less heat every winter. They take the vent-readings, run the arithmetic, and publish numbers the Dawn Vigil calls heresy and the Scoured read too closely. The countdown is not prophecy to them. It is bookkeeping.`,
    signatureAbility: {
    name: 'Caldera-Countdown',
-   description: `Mayhem scales with ambient heat-loss: the cooling vents, the dying forges, the dusk of a winter day. The colder the surroundings, the faster the arithmetic runs, an inversion of every forge-clan instinct, because the Waste-Solari measure the end in degrees the way a smith measures steel in degrees.`
+   description: `Mayhem scales with ambient heat-loss: the cooling vents, the dying forges, the dusk of a winter day. The colder the surroundings, the faster the arithmetic runs, an inversion of every forge-clan instinct, because the Anhur measure the end in degrees the way a smith measures steel in degrees.`
    },
-   currentCrisisAngle: `The caldera is cooling, and the Doomsayers' published vent-readings keep matching the Choir's own models, which is exactly what the Dawn Vigil cannot forgive: a heresy that agrees with the math. Some Waste-Solari forge-clans have begun keeping two sets of readings, one for the Vigil and one for themselves, and the difference between the sets is growing.`,
+   currentCrisisAngle: `The caldera is cooling, and the Doomsayers' published vent-readings keep matching the Choir's own models, which is exactly what the Dawn Vigil cannot forgive: a heresy that agrees with the math. Some Anhur forge-clans have begun keeping two sets of readings, one for the Vigil and one for themselves, and the difference between the sets is growing.`,
    signatureQuote: {
    text: '"The forge used to breathe. Now it counts. I am only writing down what it says."',
    speaker: 'Vent-Reader Thass Cinder-Quill',
-   context: 'A Waste-Solari Harbinger, publishing vent-readings the Vigil has ordered suppressed'
+   context: 'A Anhur Harbinger, publishing vent-readings the Vigil has ordered suppressed'
    }
   }
  },
@@ -120,10 +135,10 @@ export const HARBINGER_DATA = {
  },
 
  worldFriction: [
-    { region: 'frostwood-reach', status: 'hunted', consequence: 'Thalren militias view Harbingers as living curses whose countdown prophecies invite immediate Wyrd incursions.', workaround: 'Keep prophecies silent until weapons are drawn.' },
+    { region: 'frostwood-reach', status: 'hunted', consequence: 'Tallyn militias view Harbingers as living curses whose countdown prophecies invite immediate Wyrd incursions.', workaround: 'Keep prophecies silent until weapons are drawn.' },
     { region: 'bryngloom-forest', status: 'monitored', consequence: 'Atropolis contract-scholars constantly audit Harbinger Mayhem meters to ensure no uncontained Wild Surges shatter civil wards.', workaround: 'Submit to weekly probability containment dampeners.' },
     { region: 'sundale', status: 'banned', consequence: 'Forge-masters refuse entry to Harbingers, fearing entropic friction will shatter starlight cooling crucibles.', workaround: 'Travel cloaked in the outer slums.' },
-    { region: 'emberspire', status: 'tolerated', consequence: 'Waste-Solari cultists respect entropic catastrophe as a sibling to volcanic fire, employing Harbingers as perimeter doom-callers.', workaround: 'Participate in the ritual ember-chants.' }
+    { region: 'emberspire', status: 'tolerated', consequence: 'Anhur cultists respect entropic catastrophe as a sibling to volcanic fire, employing Harbingers as perimeter doom-callers.', workaround: 'Participate in the ritual ember-chants.' }
   ],
 
   overview: {
@@ -133,11 +148,22 @@ He published his findings. The Frozen Archive suppressed them. The calculations 
 
 Xyris was a Solvarn student who found Malakor's suppressed papers. She was the first to apply the math practically: if freeze was entropy and entropy was measurable, then entropy could be directed. She tore the first Chaos Pocket in the Sundrift Vale, a localized acceleration of the freeze, weaponized. The hole killed her. It also proved the principle. Malakor provided the truth. Xyris proved it could be used.
 
-Each subrace channels a different apocalypse. The Stargazer Astril hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Brutish Astril weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solari read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessen have rehearsed the end for four centuries, each wild surge choreography.
+Each subrace channels a different apocalypse. The Lumian hear their Lumia heritage's death-crescendo as entropy made musical, accelerating the fading of a dead world's echo to fuel their magic. The Kordak weaponize the suppressed heritage's gagged warnings, burning the captive's love for the world as fuel. The Solari read the arithmetic of Sol's extinguishment, strongest at dusk and in winter, fueled by the catastrophe their own ancestors caused. The Tessic have rehearsed the end for four centuries, each wild surge choreography.
 
-The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift Vale. Time flows at different rates in the torn spaces. The Doom-Choir's own magic is measurably accelerating Sol's dimming. Malakor predicted the pockets. He did not predict that they would speed the end.`,
+The Chaos Pockets are becoming permanent. Grass grows sideways in the Sundrift Vale. Time flows at different rates in the torn spaces. The Doom-Choir's own magic is measurably accelerating Sol's dimming. Malakor predicted the pockets. He did not predict that they would speed the end.
+
+Native only to Skald, Kordak. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
    title: "The Harbinger",
-  subtitle: "The End Was Always Coming. You Just Made It Come Faster.",
+   subtitle: "The End Was Always Coming. You Just Made It Come Faster.",
+   illustration: "/assets/images/classes/harbinger_stargazer_astril.jpg",
+   illustrationCaption: "Lumian Harbinger — The Entropy-Symphony, drawing glowing star-alignments and dying planetary orbits with a sleek brass telescope.",
+   illustrations: [
+     { url: "/assets/images/classes/harbinger_stargazer_astril.jpg", subraceId: "vashir_astril", caption: "Lumian Harbinger — The Entropy-Symphony, drawing glowing star-alignments and dying planetary orbits with a sleek brass telescope." },
+     { url: "/assets/images/classes/harbinger_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Harbinger — The Doom-Scribe, carving differential equations of solar extinction onto an alpine stone slab with an ivory stylus." },
+     { url: "/assets/images/classes/harbinger_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Harbinger — The Dying-Light Doomsayer, driving a brass thermal probe into a cooling basalt fissure to tally heat loss on an obsidian slate." },
+     { url: "/assets/images/classes/harbinger_brutish_astril.jpg", subraceId: "silath_astril", caption: "Kordak Harbinger — The Geomantic Void-Seer, crushing obsidian shards in his fist and drawing geometric doom alignments in the earth." },
+     { url: "/assets/images/classes/harbinger_tessen_human.jpg", subraceId: "tessen_human", caption: "Tessic Human Harbinger — The Doomsayer, holding aloft the iron hourglass of extinction and heralding the end of days." }
+   ],
 
   quickOverview: {
     title: "Class Overview",
@@ -175,8 +201,7 @@ The math could not be suppressed forever. Other mathematicians found Malakor's w
 Heralds are viewed with intense suspicion, fear, and reluctant respect throughout the settled kingdoms. They are both feared for their volatile spatial distortions and consulted in desperation for their prophetic accuracy. They are forced to practice their volatile arts in the nomadic yurt-camps of the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> or the deep subterranean sumps of <LoreLink termId="frostmaw_holdfast">Frostmaw Holdfast</LoreLink>.
 
 **RACES & CULTURAL AFFILIATION**
-This is not a tradition that spreads through trade. It spreads through despair and mathematics. The <LoreLink termId="frozen_archive">Frozen Archive</LoreLink> is the seed  —  Malakor's suppressed papers are still there, and those who read them either reject the conclusions (most do), accept them and despair (many do), or accept them and seek to weaponize them (the Harbingers). The Solari read the arithmetic of Sol's extinguishment. The Stargazer Astril hear the entropy as a dying world's music. The Brutish Astril channel their captive heritage's screams. The Tessen have been rehearsing the apocalypse for four centuries.
-
+Malakor's doom-arithmetic is a Skald inheritance, and the Kordak carry the gagged warning that fuels it. The Tessic have rehearsed the end for four centuries, and the Lumian harmonize their dying world's echo as entropy. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Malakor the Finite**: The Skald mathematician who calculated the mathematical certainty of doom in the Frozen Archive. His suppressed papers are the founding text of the Doom-Choir.
 * **Xyris the Sundrift-Tear**: The Solvarn student who found Malakor's papers and was the first to prove the math could be weaponized. Her first Chaos Pocket killed her. The principle survived.

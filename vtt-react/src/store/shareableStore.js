@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { getStore } from './storeRegistry';
 
 const memoryStore = new Map();
 
@@ -133,7 +134,8 @@ const useShareableStore = create(
         }));
       },
 
-      // Show content to players (triggers display popup)
+      // Show content to players (triggers display popup locally and, when in a
+      // multiplayer room, broadcasts the hand-off to everyone else).
       showToPlayers: (content) => {
         const knowledge = {
           id: `knowledge-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -147,7 +149,32 @@ const useShareableStore = create(
           playerKnowledge: [...state.playerKnowledge, knowledge]
         }));
 
+        // Broadcast over the room socket. The server authorizes GM-only and
+        // skips the sender, so this is a no-op in single-player or as a player.
+        try {
+          const gameState = getStore('gameStore')?.getState();
+          const socket = gameState?.multiplayerSocket;
+          const roomId = gameState?.multiplayerRoom?.id;
+          if (socket && roomId) {
+            socket.emit('journal_show_to_players', { knowledge, roomId });
+          }
+        } catch (err) {
+          console.warn('[shareableStore] Could not broadcast hand-out:', err);
+        }
+
         return knowledge.id;
+      },
+
+      // Ingest knowledge broadcast by a GM over the socket. Does not re-emit.
+      receiveRemoteKnowledge: (knowledge) => {
+        if (!knowledge || !knowledge.id) return;
+        set(state => {
+          const exists = (state.playerKnowledge || []).some(k => k.id === knowledge.id);
+          return {
+            playerKnowledge: exists ? state.playerKnowledge : [...(state.playerKnowledge || []), knowledge],
+            activeDisplay: knowledge
+          };
+        });
       },
 
       // Dismiss the active display

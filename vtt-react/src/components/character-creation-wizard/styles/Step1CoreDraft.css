@@ -1,0 +1,919 @@
+/* ==========================================================================
+   STEP 1 · HERO DRAFT
+   Refinement layer over CharacterCreationWizard.css. Scoped to
+   .core-draft-step-layout so it wins over the base (!important) rules
+   without touching other steps.
+
+   Language of the page:
+   - Three rites, in gating order: I Heritage → II Calling → III Origin.
+   - The centre plate is the hero's dossier: a likeness, a signed name,
+     and a ledger that records each rite as it is chosen.
+   - Palette stays in the incumbent ink / brass / parchment world.
+   ========================================================================== */
+
+.core-draft-step-layout {
+    --draft-ink: #2e1e0f;
+    --draft-ink-soft: #4e361d;
+    --draft-umber: #5a3d1d;
+    --draft-brown: #7a5a35;
+    --draft-brass: #997e55;
+    --draft-gilt: #b08a4a;
+    --draft-parchment: #f7f1e2;
+    --draft-parchment-hi: #fbf7ec;
+    --draft-parchment-set: #f1e5c9;
+    --draft-muted: #8a7353;
+    --draft-moss: #4a6b2a;
+    --draft-oxblood: #8b2a1f;
+    --draft-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.core-draft-step-layout ::selection {
+    background: rgba(176, 138, 74, 0.35);
+    color: var(--draft-ink);
+}
+
+.core-draft-step-layout .core-draft-column.selection-panel-left {
+    gap: 2.25rem !important;
+}
+
+.core-draft-step-layout .core-draft-section {
+    gap: 0.9rem;
+}
+
+/* --------------------------------------------------------------------------
+   Rite headers
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .draft-rite-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 0.85rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 3px double rgba(153, 126, 85, 0.7);
+}
+
+.core-draft-step-layout .draft-rite-numeral {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--draft-brass);
+    box-shadow: inset 0 0 0 3px var(--draft-parchment), inset 0 0 0 4px rgba(153, 126, 85, 0.45);
+    background: var(--draft-parchment);
+    color: var(--draft-brown);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: background 0.35s var(--draft-ease), color 0.35s var(--draft-ease), border-color 0.35s var(--draft-ease);
+}
+
+.core-draft-step-layout .draft-rite-header.is-set .draft-rite-numeral {
+    background: var(--draft-umber);
+    border-color: var(--draft-umber);
+    color: var(--draft-parchment);
+    box-shadow: inset 0 0 0 3px var(--draft-umber), inset 0 0 0 4px rgba(247, 241, 226, 0.45);
+}
+
+.core-draft-step-layout .draft-rite-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.core-draft-step-layout .draft-rite-header .section-headline {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+    border: none !important;
+    padding: 0;
+    margin: 0;
+    color: var(--draft-ink) !important;
+}
+
+.core-draft-step-layout .draft-rite-hint {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    line-height: 1.2;
+    color: var(--draft-brown);
+}
+
+.core-draft-step-layout .draft-rite-status-group {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 13rem;
+}
+
+.core-draft-step-layout .draft-rite-status {
+    max-width: 11rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--draft-muted);
+}
+
+.core-draft-step-layout .draft-rite-clear-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--draft-brown);
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    line-height: 1;
+    transition: all 0.15s ease;
+}
+
+.core-draft-step-layout .draft-rite-clear-btn:hover {
+    opacity: 1;
+    color: var(--draft-oxblood, #991b1b);
+    border-color: rgba(153, 27, 27, 0.3);
+    background: rgba(153, 27, 27, 0.08);
+}
+
+.core-draft-step-layout .draft-rite-status i {
+    margin-right: 0.35rem;
+    color: var(--draft-moss);
+    font-size: 0.7rem;
+}
+
+.core-draft-step-layout .draft-rite-header.is-set .draft-rite-status {
+    color: var(--draft-ink);
+}
+
+.core-draft-step-layout .draft-rite-header.is-required .draft-rite-status {
+    color: var(--draft-oxblood);
+}
+
+.core-draft-step-layout .draft-rite-header.is-required .draft-rite-numeral {
+    border-color: var(--draft-oxblood);
+    color: var(--draft-oxblood);
+}
+
+.core-draft-step-layout .subrace-native-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #15803d;
+    background: rgba(21, 128, 61, 0.12);
+    border: 1px solid rgba(21, 128, 61, 0.28);
+    border-radius: 8px;
+    padding: 1px 5px;
+    margin-left: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.core-draft-step-layout .subrace-rare-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: #8a5a00;
+    background: rgba(176, 122, 0, 0.1);
+    border: 1px dashed rgba(176, 122, 0, 0.35);
+    border-radius: 8px;
+    padding: 1px 5px;
+    margin-left: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.core-draft-step-layout .section-error-msg {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--draft-oxblood);
+    text-transform: none;
+    margin-top: -0.35rem;
+}
+
+/* --------------------------------------------------------------------------
+   Heritage tokens: sigil + name + in-world epithet
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .race-buttons-grid {
+    gap: 0.55rem !important;
+}
+
+.core-draft-step-layout .race-button-token {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.7rem !important;
+    height: auto !important;
+    min-height: 4.1rem;
+    padding: 0.6rem 0.75rem !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    border-radius: 6px !important;
+    background: var(--draft-parchment-hi) !important;
+    box-shadow: none !important;
+    text-align: left;
+    transition: border-color 0.25s var(--draft-ease), background 0.25s var(--draft-ease), transform 0.25s var(--draft-ease), box-shadow 0.25s var(--draft-ease) !important;
+}
+
+.core-draft-step-layout .race-button-token:hover {
+    border-color: var(--draft-brown) !important;
+    background: #fdfaf2 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px -4px rgba(46, 30, 15, 0.25) !important;
+}
+
+.core-draft-step-layout .race-button-token.selected {
+    border-color: var(--draft-umber) !important;
+    border-width: 1px !important;
+    background: var(--draft-parchment-set) !important;
+    box-shadow: inset 0 0 0 1px var(--draft-umber) !important;
+}
+
+.core-draft-step-layout .race-token-sigil {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    border: 1px solid rgba(153, 126, 85, 0.7);
+    background: var(--draft-parchment);
+    box-shadow: inset 0 0 0 3px var(--draft-parchment-hi), inset 0 0 0 4px rgba(153, 126, 85, 0.3);
+    transition: background 0.3s var(--draft-ease), border-color 0.3s var(--draft-ease);
+}
+
+.core-draft-step-layout .race-token-icon {
+    font-size: 0.95rem !important;
+    color: var(--draft-brown) !important;
+}
+
+.core-draft-step-layout .race-button-token:hover .race-token-sigil {
+    border-color: var(--draft-umber);
+}
+
+.core-draft-step-layout .race-button-token.selected .race-token-sigil {
+    background: var(--draft-umber);
+    border-color: var(--draft-umber);
+    box-shadow: inset 0 0 0 3px var(--draft-umber), inset 0 0 0 4px rgba(247, 241, 226, 0.4);
+}
+
+.core-draft-step-layout .race-button-token.selected .race-token-icon {
+    color: var(--draft-parchment) !important;
+}
+
+.core-draft-step-layout .race-token-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    min-width: 0;
+}
+
+.core-draft-step-layout .race-token-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-align: left !important;
+    color: var(--draft-ink-soft) !important;
+}
+
+.core-draft-step-layout .race-token-essence {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    text-transform: none !important;
+    font-size: 0.86rem;
+    line-height: 1.2;
+    color: #6b5032;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.core-draft-step-layout .race-button-token.selected .race-token-label {
+    color: var(--draft-ink) !important;
+}
+
+/* Lineage (subrace) list */
+.core-draft-step-layout .subrace-back-row {
+    border-bottom: 1px solid rgba(153, 126, 85, 0.35) !important;
+}
+
+.core-draft-step-layout .subrace-parent-label {
+    letter-spacing: 0.08em;
+}
+
+.core-draft-step-layout .subrace-button-token {
+    padding: 0.7rem 0.95rem !important;
+    background: var(--draft-parchment-hi) !important;
+    transition: border-color 0.25s var(--draft-ease), background 0.25s var(--draft-ease), transform 0.25s var(--draft-ease) !important;
+}
+
+.core-draft-step-layout .subrace-button-token.selected {
+    border-color: var(--draft-umber) !important;
+    border-width: 1px !important;
+    background: var(--draft-parchment-set) !important;
+    box-shadow: inset 0 0 0 1px var(--draft-umber) !important;
+}
+
+.core-draft-step-layout .subrace-token-title {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.04em;
+}
+
+.core-draft-step-layout .subrace-token-mods {
+    font-variant-numeric: tabular-nums;
+}
+
+.core-draft-step-layout .subrace-token-title-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.core-draft-step-layout .subrace-token-crest-img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+    flex-shrink: 0;
+}
+
+/* Keyboard focus for every token in this step */
+.core-draft-step-layout .race-button-token:focus-visible,
+.core-draft-step-layout .subrace-button-token:focus-visible,
+.core-draft-step-layout .class-icon-token:focus-visible,
+.core-draft-step-layout .background-button-token:focus-visible,
+.core-draft-step-layout .gender-toggle-btn:focus-visible,
+.core-draft-step-layout .launcher-trigger-btn:focus-visible,
+.core-draft-step-layout .dice-randomizer-btn:focus-visible,
+.core-draft-step-layout .portrait-avatar-wrapper:focus-visible {
+    outline: 2px solid var(--draft-gilt) !important;
+    outline-offset: 2px;
+}
+
+.core-draft-step-layout .categorized-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.12em !important;
+    margin-top: 0.25rem !important;
+}
+
+/* --------------------------------------------------------------------------
+   Centre plate: the hero dossier
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .canvas-frame-gothic {
+    position: relative;
+    max-width: 420px;
+    gap: 1.35rem;
+    padding: 2rem 1.75rem 1.6rem;
+    background: var(--draft-parchment) !important;
+    border: 3px double var(--draft-brass) !important;
+    border-radius: 10px;
+    box-shadow: 0 22px 44px -18px rgba(46, 30, 15, 0.45), 0 2px 6px rgba(46, 30, 15, 0.12) !important;
+}
+
+/* Brass corner brackets, matching the codex page */
+.core-draft-step-layout .canvas-frame-gothic::before,
+.core-draft-step-layout .canvas-frame-gothic::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    border-color: var(--draft-brown);
+    border-style: solid;
+}
+
+.core-draft-step-layout .canvas-frame-gothic::before {
+    top: 6px;
+    left: 6px;
+    border-width: 2px 0 0 2px;
+}
+
+.core-draft-step-layout .canvas-frame-gothic::after {
+    right: 6px;
+    bottom: 6px;
+    border-width: 0 2px 2px 0;
+}
+
+.core-draft-step-layout .canvas-portrait-area,
+.core-draft-step-layout .canvas-portrait-area.mode-2d {
+    width: 184px;
+    height: 184px;
+}
+
+.core-draft-step-layout .portrait-avatar-wrapper {
+    border-width: 3px;
+    border-color: var(--draft-gilt);
+    box-shadow:
+        0 0 0 5px var(--draft-parchment),
+        0 0 0 6px rgba(153, 126, 85, 0.55),
+        0 10px 22px -8px rgba(46, 30, 15, 0.4);
+    transition: box-shadow 0.3s var(--draft-ease);
+}
+
+.core-draft-step-layout .portrait-avatar-wrapper:hover {
+    box-shadow:
+        0 0 0 5px var(--draft-parchment),
+        0 0 0 6px var(--draft-umber),
+        0 12px 26px -8px rgba(46, 30, 15, 0.5);
+}
+
+.core-draft-step-layout .avatar-placeholder-silhouette {
+    gap: 0.55rem;
+    background: radial-gradient(circle at 50% 40%, #fdfaf2 0%, #efe4c9 100%);
+    color: var(--draft-brass) !important;
+}
+
+.core-draft-step-layout .avatar-placeholder-silhouette i {
+    font-size: 1.7rem;
+    transition: color 0.25s var(--draft-ease), transform 0.35s var(--draft-ease);
+}
+
+.core-draft-step-layout .avatar-placeholder-silhouette span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    color: var(--draft-brown);
+}
+
+.core-draft-step-layout .portrait-avatar-wrapper:hover .avatar-placeholder-silhouette i {
+    color: var(--draft-umber);
+    transform: rotate(-8deg);
+}
+
+.core-draft-step-layout .avatar-hover-layer {
+    background: rgba(46, 30, 15, 0.62) !important;
+    color: var(--draft-parchment) !important;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    gap: 0.4rem;
+}
+
+/* Name: signed on a ruled line, not typed into a box */
+.core-draft-step-layout .canvas-basic-fields {
+    gap: 0.9rem;
+}
+
+.core-draft-step-layout .interactive-name-input-block {
+    align-items: center;
+    gap: 0.5rem;
+    border: none !important;
+    border-bottom: 1px solid var(--draft-brown) !important;
+    border-radius: 0;
+    background: transparent !important;
+    overflow: visible;
+    padding-bottom: 0.15rem;
+    transition: border-color 0.25s var(--draft-ease);
+}
+
+.core-draft-step-layout .interactive-name-input-block:focus-within {
+    border-bottom-color: var(--draft-ink) !important;
+    box-shadow: 0 1px 0 0 var(--draft-ink);
+}
+
+.core-draft-step-layout .interactive-name-input {
+    padding: 0.35rem 0.5rem 0.3rem;
+    text-align: center;
+    font-size: 1.12rem;
+    letter-spacing: 0.03em;
+    caret-color: var(--draft-umber);
+    background: transparent !important;
+}
+
+.core-draft-step-layout .interactive-name-input.error {
+    background: transparent !important;
+}
+
+.core-draft-step-layout .interactive-name-input-block:has(.interactive-name-input.error) {
+    border-bottom-color: var(--draft-oxblood) !important;
+}
+
+.core-draft-step-layout .interactive-name-input::placeholder {
+    font-weight: 400;
+    font-style: normal;
+    color: rgba(78, 54, 29, 0.55) !important;
+}
+
+.core-draft-step-layout .dice-randomizer-btn {
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid rgba(153, 126, 85, 0.6) !important;
+    border-radius: 6px;
+    background: transparent !important;
+    color: var(--draft-brown) !important;
+    font-size: 1rem;
+    transition: background 0.2s var(--draft-ease), color 0.2s var(--draft-ease), transform 0.35s var(--draft-ease);
+}
+
+.core-draft-step-layout .dice-randomizer-btn:hover {
+    background: var(--draft-umber) !important;
+    border-color: var(--draft-umber) !important;
+    color: var(--draft-parchment) !important;
+    transform: rotate(-12deg);
+}
+
+.core-draft-step-layout .canvas-error-label {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    font-weight: 400;
+    color: var(--draft-oxblood) !important;
+    text-shadow: none !important;
+    margin-top: -0.45rem;
+}
+
+/* Gender: one segmented control */
+.core-draft-step-layout .gothic-gender-toggles {
+    gap: 0;
+    border: 1px solid rgba(153, 126, 85, 0.6);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.core-draft-step-layout .gender-toggle-btn {
+    border: none !important;
+    border-radius: 0;
+    background: transparent !important;
+    padding: 0.5rem 0.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--draft-ink-soft) !important;
+}
+
+.core-draft-step-layout .gender-toggle-btn + .gender-toggle-btn {
+    border-left: 1px solid rgba(153, 126, 85, 0.45) !important;
+}
+
+.core-draft-step-layout .gender-toggle-btn:hover {
+    background: rgba(153, 126, 85, 0.12) !important;
+}
+
+.core-draft-step-layout .gender-toggle-btn.active {
+    background: var(--draft-umber) !important;
+    color: var(--draft-parchment) !important;
+}
+
+/* Dossier ledger */
+.core-draft-step-layout .draft-dossier {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 3px double rgba(153, 126, 85, 0.6);
+}
+
+.core-draft-step-layout .draft-dossier-rites {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.core-draft-step-layout .draft-dossier-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.core-draft-step-layout .draft-dossier-row dt {
+    flex: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--draft-brown);
+}
+
+/* Dotted leader between label and value */
+.core-draft-step-layout .draft-dossier-row::after {
+    content: '';
+    order: 1;
+    flex: 1;
+    min-width: 1rem;
+    border-bottom: 1px dotted rgba(122, 90, 53, 0.55);
+    transform: translateY(-0.2em);
+}
+
+.core-draft-step-layout .draft-dossier-row dd {
+    order: 2;
+    margin: 0;
+    max-width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--draft-muted);
+}
+
+.core-draft-step-layout .draft-dossier-row.is-set dd {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--draft-ink);
+}
+
+/* Drawer launchers as ledger rows */
+.core-draft-step-layout .canvas-drawer-launchers {
+    gap: 0.5rem;
+}
+
+.core-draft-step-layout .launcher-trigger-btn {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid rgba(153, 126, 85, 0.6) !important;
+    border-radius: 6px;
+    background: var(--draft-parchment-hi) !important;
+    box-shadow: none !important;
+    text-align: left;
+    transition: border-color 0.25s var(--draft-ease), background 0.25s var(--draft-ease) !important;
+}
+
+.core-draft-step-layout .launcher-trigger-btn:hover:not(:disabled) {
+    border-color: var(--draft-umber) !important;
+    background: var(--draft-parchment-set) !important;
+    box-shadow: none !important;
+}
+
+.core-draft-step-layout .launcher-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--draft-ink);
+}
+
+.core-draft-step-layout .launcher-value {
+    justify-self: end;
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--draft-brown);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.core-draft-step-layout .launcher-chevron {
+    font-size: 0.7rem;
+    color: var(--draft-brass) !important;
+    transition: transform 0.3s var(--draft-ease);
+}
+
+.core-draft-step-layout .launcher-trigger-btn:hover:not(:disabled) .launcher-chevron {
+    transform: translateX(3px);
+    color: var(--draft-umber) !important;
+}
+
+.core-draft-step-layout .launcher-trigger-btn.is-complete .launcher-value {
+    font-style: normal;
+    color: var(--draft-moss);
+}
+
+.core-draft-step-layout .launcher-trigger-btn.is-complete > i:first-child {
+    color: var(--draft-moss) !important;
+}
+
+.core-draft-step-layout .launcher-trigger-btn.warning {
+    border-color: rgba(139, 42, 31, 0.6) !important;
+}
+
+.core-draft-step-layout .launcher-trigger-btn.warning:not(.is-complete) .launcher-value {
+    color: var(--draft-oxblood);
+}
+
+.core-draft-step-layout .launcher-trigger-btn:disabled {
+    opacity: 1;
+    background: transparent !important;
+    border-style: dashed !important;
+    border-color: rgba(153, 126, 85, 0.5) !important;
+    cursor: not-allowed;
+}
+
+.core-draft-step-layout .launcher-trigger-btn:disabled .launcher-label,
+.core-draft-step-layout .launcher-trigger-btn:disabled > i {
+    color: var(--draft-muted) !important;
+}
+
+.core-draft-step-layout .launcher-trigger-btn:disabled .launcher-chevron {
+    visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Codex empty states: legible, not washed out
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .grimoire-empty-section {
+    opacity: 1 !important;
+}
+
+.core-draft-step-layout .grimoire-empty-section .grimoire-title {
+    color: var(--draft-muted) !important;
+}
+
+.core-draft-step-layout .codex-placeholder-text {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.98rem;
+    line-height: 1.45;
+    color: #6b5032;
+    margin: 0.25rem 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   Small screens & motion preferences
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+    .core-draft-step-layout .race-buttons-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .core-draft-step-layout .draft-rite-status {
+        max-width: 7rem;
+    }
+
+    .core-draft-step-layout .canvas-frame-gothic {
+        padding: 1.5rem 1.1rem 1.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .core-draft-step-layout *,
+    .core-draft-step-layout *::before,
+    .core-draft-step-layout *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+
+    .core-draft-step-layout .race-button-token:hover,
+    .core-draft-step-layout .dice-randomizer-btn:hover {
+        transform: none !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Grimoire section nav: sit gracefully within the right panel header
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .grimoire-section-nav {
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1.25rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0.45rem !important;
+    background: rgba(244, 239, 225, 0.95) !important;
+    border: 1px solid var(--draft-brass) !important;
+    border-radius: 20px !important;
+    padding: 0.3rem 0.5rem !important;
+    box-shadow: 0 2px 8px rgba(46, 30, 15, 0.15) !important;
+    z-index: 10 !important;
+}
+
+.core-draft-step-layout .grimoire-nav-dot {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.8rem !important;
+}
+
+/* --------------------------------------------------------------------------
+   Grimoire empty state cards: illuminated manuscript feel
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .grimoire-empty-section {
+    opacity: 1 !important;
+}
+
+.core-draft-step-layout .grimoire-empty-state-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.75rem 1.25rem 1.5rem;
+    margin-top: 0.5rem;
+    border: 1px dashed rgba(153, 126, 85, 0.45);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.35);
+    gap: 0.5rem;
+}
+
+.core-draft-step-layout .grimoire-watermark-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--draft-parchment-hi);
+    border: 1px solid rgba(153, 126, 85, 0.5);
+    color: var(--draft-brown);
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    box-shadow: inset 0 0 0 3px var(--draft-parchment-hi), inset 0 0 0 4px rgba(153, 126, 85, 0.2);
+}
+
+.core-draft-step-layout .codex-placeholder-headline {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--draft-umber);
+    margin: 0;
+}
+
+.core-draft-step-layout .codex-placeholder-text {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: #6b5032;
+    margin: 0;
+    max-width: 280px;
+}
+
+/* --------------------------------------------------------------------------
+   Calling / Class token styling: noble crest frames
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .class-icon-token {
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    background: var(--draft-parchment-hi) !important;
+    border-radius: 6px !important;
+    transition: all 0.2s var(--draft-ease) !important;
+}
+
+.core-draft-step-layout .class-icon-token:hover {
+    border-color: var(--draft-brown) !important;
+    background: #fdfaf2 !important;
+    transform: translateY(-2px) scale(1.04) !important;
+    box-shadow: 0 4px 12px -2px rgba(46, 30, 15, 0.25) !important;
+}
+
+.core-draft-step-layout .class-icon-token.selected {
+    border: 2px solid var(--draft-umber) !important;
+    background: var(--draft-parchment-set) !important;
+    box-shadow: 0 0 0 2px var(--draft-parchment-hi), 0 0 12px rgba(176, 138, 74, 0.45) !important;
+    transform: scale(1.05) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Origin / Background token styling: matching the manuscript tokens
+   -------------------------------------------------------------------------- */
+
+.core-draft-step-layout .background-buttons-grid {
+    gap: 0.5rem !important;
+}
+
+.core-draft-step-layout .background-button-token {
+    padding: 0.55rem 0.75rem !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    background: var(--draft-parchment-hi) !important;
+    border-radius: 6px !important;
+    transition: all 0.2s var(--draft-ease) !important;
+}
+
+.core-draft-step-layout .background-button-token:hover {
+    border-color: var(--draft-brown) !important;
+    background: #fdfaf2 !important;
+    transform: translateX(2px) !important;
+}
+
+.core-draft-step-layout .background-button-token.selected {
+    border-color: var(--draft-umber) !important;
+    border-width: 1px !important;
+    background: var(--draft-parchment-set) !important;
+    box-shadow: inset 0 0 0 1px var(--draft-umber) !important;
+}
+
+.core-draft-step-layout .background-token-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.04em !important;
+}

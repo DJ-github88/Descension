@@ -30,7 +30,7 @@ export const LIBRARY_COLLECTIONS = [
   {
     id: 'utility-spells',
     name: 'Utility Spells',
-    description: 'Vreken hush-traders wielding small conveniences of the Wyrd. Spells that provide various utility effects',
+    description: 'Mycellan hush-traders wielding small conveniences of the Wyrd. Spells that provide various utility effects',
     icon: 'spell_arcane_teleportundercity',
     spells: [],
     color: '#5a1e12'

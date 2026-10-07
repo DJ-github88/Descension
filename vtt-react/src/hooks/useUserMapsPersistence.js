@@ -19,6 +19,7 @@ export const useUserMapsPersistence = () => {
   const useMapStore = require('../store/mapStore').default;
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
+  const syncedMapsRef = useRef(new Map());
   const maps = useMapStore(useShallow(state => state.maps));
 
   const isUserCreatedMap = useCallback((map) => {
@@ -112,6 +113,10 @@ export const useUserMapsPersistence = () => {
           maps: [...builtInMaps, ...allUserMaps]
         });
 
+        // Mark loaded maps as already-synced so they are not immediately
+        // re-written (and so their local edits are detected afterwards).
+        syncedMapsRef.current = new Map(allUserMaps.map(m => [m.id, JSON.stringify(m)]));
+
         console.log(`📂 Loaded ${firebaseMaps.length} user maps from Firebase, merged with ${missingLocalMaps.length} local maps`);
       }
     } catch (error) {
@@ -129,26 +134,35 @@ export const useUserMapsPersistence = () => {
 
     const userMaps = getUserMaps();
 
-    // Find maps that don't have Firebase timestamps (newly created)
-    const unsyncedMaps = userMaps.filter(map =>
-      !map.createdAt || !map.updatedAt || !map.userId
+    // Save any map whose content changed since the last successful sync.
+    const pending = userMaps.filter(map =>
+      syncedMapsRef.current.get(map.id) !== JSON.stringify(map)
     );
 
-    if (unsyncedMaps.length > 0) {
-      console.log(`🔄 Syncing ${unsyncedMaps.length} new maps to Firebase`);
+    if (pending.length > 0) {
+      console.log(`🔄 Syncing ${pending.length} changed map(s) to Firebase`);
 
-      for (const map of unsyncedMaps) {
+      for (const map of pending) {
         try {
-          await saveMap({
+          const result = await saveMap({
             ...map,
             userId: user.uid,
-            createdAt: new Date().toISOString(),
+            createdAt: map.createdAt || new Date().toISOString(),
             updatedAt: new Date().toISOString()
           });
+          if (result?.success) {
+            syncedMapsRef.current.set(map.id, JSON.stringify(map));
+          }
         } catch (error) {
           console.error(`Failed to sync map ${map.id}:`, error);
         }
       }
+    }
+
+    // Drop tracking for maps that no longer exist.
+    const liveIds = new Set(userMaps.map(m => m.id));
+    for (const key of Array.from(syncedMapsRef.current.keys())) {
+      if (!liveIds.has(key)) syncedMapsRef.current.delete(key);
     }
   }, [user, getUserMaps, saveMap]);
 

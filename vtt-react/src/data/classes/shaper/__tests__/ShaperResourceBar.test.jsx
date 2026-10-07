@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ShaperResourceBar from '../components/ShaperResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
+import { updateManagedClassResource } from '../../../classResourceContracts';
 
 describe('ShaperResourceBar Component (The Biomantic Morphic Armature & Flesh-Vessel)', () => {
     it('renders the pure SVG biomantic armature with 20 flux fibers, 10 toll plates, stance crucible, and exactly 2 numeric text elements', () => {
@@ -134,5 +135,32 @@ describe('ShaperResourceBar Component (The Biomantic Morphic Armature & Flesh-Ve
         expect(textElements).toHaveLength(2);
         expect(textElements[0].textContent).toBe('12');
         expect(textElements[1].textContent).toBe('5');
+    });
+
+    it('a controlled adoption charges Flux and accumulates Toll through synchronized aliases', () => {
+        let resource;
+        const Bank = () => {
+            const [value, setValue] = useState({ current: 6, flux: 6, bodyToll: 2, stance: 'Ataxic Flow' });
+            resource = value;
+            return <ShaperResourceBar classResource={value} isOwner={true}
+                onClassResourceUpdate={(field, amount) => setValue(previous => updateManagedClassResource(previous, 'Shaper', field, amount))} />;
+        };
+        const { container } = render(<Bank />);
+        fireEvent.click(container.querySelector('.shaper-crucible-module'));
+        fireEvent.click(screen.getByText('Arterial Strike').closest('.shaper-stance-card'));
+        expect(resource).toMatchObject({ current: 4, flux: 4, momentum: { current: 4 }, bodyToll: 3, toll: 3, flourish: { current: 3 }, stance: 'Arterial Strike' });
+        expect(container.querySelectorAll('svg text')[0].textContent).toBe('4');
+        expect(container.querySelectorAll('svg text')[1].textContent).toBe('3');
+    });
+
+    it('GM mode does not silently bypass an unaffordable form price', () => {
+        const update = jest.fn();
+        const { container } = render(<ShaperResourceBar classResource={{ current: 0, bodyToll: 0, stance: 'Ataxic Flow' }}
+            isOwner={true} onClassResourceUpdate={update} />);
+        fireEvent.click(container.querySelector('.shaper-crucible-module'));
+        const card = screen.getByText('Arterial Strike').closest('.shaper-stance-card');
+        expect(card).toBeDisabled();
+        fireEvent.click(card);
+        expect(update).not.toHaveBeenCalled();
     });
 });

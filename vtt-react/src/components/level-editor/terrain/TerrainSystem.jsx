@@ -255,9 +255,9 @@ const TerrainSystem = () => {
     drawingLayers,
     viewingFromToken,
     visibleArea,
-    isGMMode,
     terrain3DEnabled
   } = useLevelEditorStore();
+  const isGMMode = useGameStore((s) => s.isGMMode);
 
   const {
     gridSize,

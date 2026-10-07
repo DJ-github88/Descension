@@ -5,7 +5,7 @@
  * Provides unbroken offline editing with automatic sync when online
  */
 
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import usePresenceStore from '../store/presenceStore';
 
@@ -76,10 +76,21 @@ function clearOfflineData(key) {
 /**
  * Initialize offline support
  */
+let offlineSupportInitialized = false;
+let offlineOnlineHandler = null;
+let offlineOfflineHandler = null;
+
 export function initializeOfflineSupport(userId) {
+ // Idempotent: these module-scope listeners would otherwise stack on every call
+ // (initializeOfflineSupport runs on each auth refresh).
+ if (offlineSupportInitialized) return;
+ offlineSupportInitialized = true;
+
  // Set up online/offline event listeners
- window.addEventListener('online', () => handleOnlineStatusChange(userId, true));
- window.addEventListener('offline', () => handleOnlineStatusChange(userId, false));
+ offlineOnlineHandler = () => handleOnlineStatusChange(userId, true);
+ offlineOfflineHandler = () => handleOnlineStatusChange(userId, false);
+ window.addEventListener('online', offlineOnlineHandler);
+ window.addEventListener('offline', offlineOfflineHandler);
 
  // Initialize sync status
  const syncStatus = getOfflineData(OFFLINE_STORAGE.SYNC_STATUS) || {
@@ -303,10 +314,10 @@ async function processQueuedAction(action) {
 
  switch (action.type) {
   case 'update_character':
-   await setDoc(doc(db, 'characters', action.data.characterId), {
-    ...action.data.updates,
-    lastModified: action.data.timestamp
-   }, { merge: true });
+   // No-op by design: canonical character writes use the nested schema handled
+   // by characterPersistenceService (via saveCurrentCharacter). Writing the flat
+   // `updates` shape here would pollute characters/{id} with fields that
+   // transformFromStorage never reads.
    break;
 
   case 'create_room':
@@ -358,24 +369,13 @@ export async function syncOfflineData(userId) {
 
   // Sync offline characters
   const offlineCharacters = getOfflineData(OFFLINE_STORAGE.CHARACTERS) || {};
-  for (const [characterId, characterData] of Object.entries(offlineCharacters)) {
+  for (const characterData of Object.values(offlineCharacters)) {
    if (characterData.syncStatus === 'pending') {
-    try {
-     await setDoc(doc(db, 'characters', characterId), {
-      ...characterData,
-      offline: false,
-      syncStatus: 'synced',
-      lastSynced: new Date().toISOString()
-     }, { merge: true });
-
-     // Mark as synced offline
-     characterData.syncStatus = 'synced';
-     characterData.lastSynced = new Date().toISOString();
-    } catch (error) {
-     console.error(`Failed to sync character ${characterId}:`, error);
-     characterData.syncStatus = 'error';
-     characterData.syncError = error.message;
-    }
+    // Do not write the flat offline cache shape into characters/{id}: the
+    // canonical nested document is written by characterPersistenceService.
+    // Just mark the local cache entry as reconciled to stop retrying.
+    characterData.syncStatus = 'synced';
+    characterData.lastSynced = new Date().toISOString();
    }
   }
   setOfflineData(OFFLINE_STORAGE.CHARACTERS, offlineCharacters);

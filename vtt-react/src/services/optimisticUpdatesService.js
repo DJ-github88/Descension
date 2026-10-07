@@ -163,11 +163,15 @@ class OptimisticUpdatesService {
           update.rollbackFn();
         }
         this.pendingUpdates.delete(actionId);
+      }
+    }
 
-        const confirmed = this.confirmedUpdates.get(actionId);
-        if (confirmed && (now - confirmed.timestamp) > STALE_THRESHOLD) {
-          this.confirmedUpdates.delete(actionId);
-        }
+    // Evict confirmed updates independently: resolveUpdate() deletes the pending
+    // entry first, so the old nested delete could never match and this Map grew
+    // unbounded for the life of the tab.
+    for (const [actionId, update] of this.confirmedUpdates.entries()) {
+      if (now - update.timestamp > STALE_THRESHOLD) {
+        this.confirmedUpdates.delete(actionId);
       }
     }
 
@@ -175,6 +179,13 @@ class OptimisticUpdatesService {
       if (now - timestamp > STALE_THRESHOLD) {
         this.serverTimestamps.delete(actionId);
       }
+    }
+  }
+
+  destroy() {
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval);
+      this.cleanupInterval = null;
     }
   }
 

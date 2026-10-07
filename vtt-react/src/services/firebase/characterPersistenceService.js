@@ -87,7 +87,7 @@ function validateCharacterData(characterData) {
 /**
  * Transform character data for Firestore storage
  */
-function transformForStorage(characterData, userId) {
+export function transformForStorage(characterData, userId) {
   const now = new Date();
 
   return {
@@ -104,6 +104,8 @@ function transformForStorage(characterData, userId) {
       race: characterData.race || '',
       subrace: characterData.subrace || '',
       class: characterData.class || '',
+      classAcquisition: characterData.classAcquisition || {},
+      bodyStates: characterData.bodyStates || [],
       level: characterData.level || 1,
       alignment: characterData.alignment || 'Neutral Good',
       exhaustionLevel: characterData.exhaustionLevel || 0
@@ -174,7 +176,7 @@ function transformForStorage(characterData, userId) {
 /**
  * Transform Firestore data back to character format
  */
-function transformFromStorage(firestoreData) {
+export function transformFromStorage(firestoreData) {
   if (!firestoreData) return null;
 
   return {
@@ -183,6 +185,8 @@ function transformFromStorage(firestoreData) {
     race: firestoreData.basicInfo?.race,
     subrace: firestoreData.basicInfo?.subrace,
     class: firestoreData.basicInfo?.class,
+    classAcquisition: firestoreData.basicInfo?.classAcquisition || {},
+    bodyStates: firestoreData.basicInfo?.bodyStates || [],
     level: firestoreData.basicInfo?.level,
     alignment: firestoreData.basicInfo?.alignment,
     exhaustionLevel: firestoreData.basicInfo?.exhaustionLevel,

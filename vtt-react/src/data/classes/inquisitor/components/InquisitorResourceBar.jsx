@@ -7,6 +7,7 @@ import '../styles/InquisitorResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { INQUISITOR_AUTHORITY_MAX, normalizeInquisitorResource } from '../../../inquisitorResourceContract';
 
 /**
  * Inquisitor Resource Bar: "The Barbed Leash of the Damned & Caged Anathema Collar"
@@ -25,18 +26,20 @@ const InquisitorResourceBar = ({
     isOwner = true,
     onClassResourceUpdate = null
 }) => {
-    const propAuthority = classResource?.authority ?? classResource?.current ?? 0;
+    const normalizedResource = normalizeInquisitorResource(classResource);
+    const propAuthority = normalizedResource.current;
     const [localAuthority, setLocalAuthority] = useState(propAuthority);
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
+    const [auraActive, setAuraActive] = useState(normalizedResource.nullAura.active);
 
-    const maxAuthority = classResource?.max || config?.mechanics?.max || 8;
+    const maxAuthority = INQUISITOR_AUTHORITY_MAX;
 
     useEffect(() => {
-        if (classResource?.authority !== undefined) setLocalAuthority(classResource.authority);
-        else if (classResource?.current !== undefined) setLocalAuthority(classResource.current);
-    }, [classResource?.authority, classResource?.current]);
+        setLocalAuthority(propAuthority);
+    }, [propAuthority]);
+    useEffect(() => { setAuraActive(normalizedResource.nullAura.active); }, [normalizedResource.nullAura.active]);
 
     const barRef = useRef(null);
     const controlsMenuRef = useRef(null);
@@ -84,10 +87,12 @@ const InquisitorResourceBar = ({
     };
 
     const handleAuthorityChange = (delta) => {
+        if (!isOwner) return;
         const newValue = Math.max(0, Math.min(maxAuthority, localAuthority + delta));
         const diff = Math.abs(newValue - localAuthority);
         if (diff > 0) {
             setLocalAuthority(newValue);
+            if (newValue === 0) setAuraActive(false);
             logClassResourceChange('Authority', diff, delta > 0, 'authority');
             if (onClassResourceUpdate) {
                 onClassResourceUpdate('authority', newValue);
@@ -97,11 +102,13 @@ const InquisitorResourceBar = ({
     };
 
     const setAuthorityDirect = (targetValue) => {
+        if (!isOwner) return;
         const clamped = Math.max(0, Math.min(maxAuthority, targetValue));
         const diff = Math.abs(clamped - localAuthority);
         if (diff > 0) {
             const isPositive = clamped > localAuthority;
             setLocalAuthority(clamped);
+            if (clamped === 0) setAuraActive(false);
             logClassResourceChange('Authority', diff, isPositive, 'authority');
             if (onClassResourceUpdate) {
                 onClassResourceUpdate('authority', clamped);
@@ -166,6 +173,22 @@ const InquisitorResourceBar = ({
             <div className="resource-bar-row">
                 <div
                     ref={barRef}
+                    role="slider"
+                    tabIndex={isOwner ? 0 : -1}
+                    aria-label={`Inquisitor Authority ${localAuthority} of 8; null aura ${auraActive && localAuthority > 0 ? 'active' : 'released'}`}
+                    aria-valuemin={0}
+                    aria-valuemax={8}
+                    aria-valuenow={localAuthority}
+                    onKeyDown={event => {
+                        if (!isOwner) return;
+                        if (['ArrowRight', 'ArrowUp', 'ArrowLeft', 'ArrowDown'].includes(event.key)) {
+                            event.preventDefault();
+                            handleAuthorityChange(['ArrowRight', 'ArrowUp'].includes(event.key) ? 1 : -1);
+                        } else if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            setShowControls(value => !value);
+                        }
+                    }}
                     className={`inquisitor-resource-bar ${size} ${isAbsoluteVerdict ? 'verdict-absolute' : ''} clickable`}
                     onMouseEnter={() => { if (!showControls) setShowTooltip(true); }}
                     onMouseLeave={() => setShowTooltip(false)}
@@ -554,6 +577,7 @@ const InquisitorResourceBar = ({
                         stateTone={localAuthority >= 8 ? 'good' : localAuthority >= 4 ? 'neutral' : localAuthority > 0 ? 'warn' : 'bad'}
                         mechanic="Counterspells, dispels, and strikes against supernatural targets build Authority (max 8); it decays 1/round without supernatural contact. Spend 5-8 on executions, anti-magic storms, or apex transformations — at 0, The Hollow opens and bound entities make Rebellion Saves."
                         status={[
+                            auraActive && localAuthority > 0 ? 'Null aura active: known foreign magical assistance is suppressed; self effects and nonmagical treatment remain.' : 'Null aura released: ordinary assistance is not suppressed.',
                             localAuthority >= 8
                                 ? { text: 'Judgment ready — spend 5-8 Authority on executions, anti-magic storms, or apex transformations.', tone: 'good' }
                                 : localAuthority >= 4
@@ -590,14 +614,18 @@ const InquisitorResourceBar = ({
                                 const hudRect = hudContainer.getBoundingClientRect();
                                 hudBottom = hudRect.bottom;
                             }
-                            return hudBottom + 8;
+                            return Math.max(12, Math.min(hudBottom + 8, window.innerHeight - Math.min(560, window.innerHeight - 24) - 12));
                         })(),
                         left: (() => {
                             if (!barRef.current) return '50%';
                             const rect = barRef.current.getBoundingClientRect();
-                            return rect.left + (rect.width / 2);
+                            const width = Math.min(340, window.innerWidth - 24);
+                            return Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 12));
                         })(),
-                        transform: 'translateX(-50%)',
+                        width: Math.min(340, window.innerWidth - 24),
+                        maxHeight: Math.min(560, window.innerHeight - 24),
+                        overflowY: 'auto',
+                        boxSizing: 'border-box',
                         zIndex: 100000
                     }}
                 >
@@ -607,6 +635,17 @@ const InquisitorResourceBar = ({
                                 <i className="fas fa-gavel" style={{ marginRight: '6px', color: '#d6d3d1' }}></i>
                                 Inquisition Tribunal
                             </div>
+                            <label style={{ display: 'block', fontSize: '12px', margin: '6px 0' }}>
+                                <input type="checkbox" checked={auraActive && localAuthority > 0} disabled={localAuthority === 0}
+                                    onChange={event => {
+                                        setAuraActive(event.target.checked);
+                                        onClassResourceUpdate?.('nullAura', { active: event.target.checked });
+                                    }} /> Active null aura
+                            </label>
+                            <div style={{ fontSize: '11px', marginBottom: '8px' }}>
+                                {auraActive && localAuthority > 0 ? 'Foreign magical assistance suppressed' : 'Aura released — assistance permitted'}
+                            </div>
+                            <div style={{ fontSize: '10px', marginBottom: '8px' }}>Suppression requires labelled origin/magic metadata. Self authority and nonmagical treatment remain; hostile damage and corruption are not made immune. Spending to zero releases the aura. Unknown legacy provenance is not guessed.</div>
 
                             {/* Authority Counter Controls */}
                             <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
@@ -629,6 +668,7 @@ const InquisitorResourceBar = ({
                                 <button
                                     className="context-menu-button spend"
                                     onClick={() => handleAuthorityChange(-2)}
+                                    disabled={localAuthority < 2}
                                     title="Spend 2 Authority on Anathema Strike"
                                 >
                                     <i className="fas fa-fire" style={{ marginRight: '4px' }}></i> Anathema (-2)
@@ -636,6 +676,7 @@ const InquisitorResourceBar = ({
                                 <button
                                     className="context-menu-button spend"
                                     onClick={() => handleAuthorityChange(-4)}
+                                    disabled={localAuthority < 4}
                                     title="Spend 4 Authority on Sever Contract"
                                 >
                                     <i className="fas fa-link" style={{ marginRight: '4px' }}></i> Sever (-4)

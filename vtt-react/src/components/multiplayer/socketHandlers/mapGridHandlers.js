@@ -720,8 +720,9 @@ export function registerMapGridHandlers(ctx) {
       import('../../../store/mapStore').then(({ default: useMapStore }) => {
         const mapStore = useMapStore.getState();
         if (mapStore.currentMapId !== mapId) {
-          mapStore.setCurrentMapId(mapId);
-          mapStore.loadMap(mapId);
+          Promise.resolve(mapStore.switchToMap(mapId)).catch(err =>
+            console.error('Failed to switch map on pull:', err)
+          );
         }
       }).catch(err => console.error('Failed to load map on pull:', err));
 

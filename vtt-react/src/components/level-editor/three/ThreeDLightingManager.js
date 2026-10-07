@@ -86,8 +86,8 @@ export class ThreeDLightingManager {
     this.sunLight.shadow.mapSize.height = SHADOW_QUALITY_PRESETS[DEFAULT_SHADOW_QUALITY].sunMapSize;
     this.sunLight.shadow.camera.near = 100;
     this.sunLight.shadow.camera.far = SUN_DISTANCE * 2.2;
-    this.sunLight.shadow.bias = -0.0003;
-    this.sunLight.shadow.normalBias = 0.04;
+    this.sunLight.shadow.bias = 0.00005;
+    this.sunLight.shadow.normalBias = 0.02;
     // Re-rendered explicitly through markSunShadowDirty().
     this.sunLight.shadow.autoUpdate = false;
     this.sunLight.shadow.needsUpdate = true;
@@ -221,8 +221,8 @@ export class ThreeDLightingManager {
         light.shadow.mapSize.height = this.pointMapSizes[0];
         light.shadow.camera.near = Math.max(1, gridSize * 0.05);
         light.shadow.camera.far = range * 1.2;
-        light.shadow.bias = -0.002;
-        light.shadow.normalBias = 2;
+        light.shadow.bias = 0.0005;
+        light.shadow.normalBias = 0.02;
         // Dynamic light shadows are camera independent; only explicit marks
         // (light moved, geometry changed) re-render them.
         light.shadow.autoUpdate = false;

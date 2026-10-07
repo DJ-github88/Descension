@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -269,6 +270,9 @@ const CLASS_DATA_LOADERS = {
   'Crusader': () => import('../../data/classes/crusaderData').then(m => m.CRUSADER_DATA),
 
   'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
+  'Nereid Myrathil Apex': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_APEX_DATA),
+  'Nereid Myrathil Animist': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_ANIMIST_DATA),
+  'Nereid Myrathil Augur': () => import('../../data/classes/index').then(m => m.DEEPLING_MYRATHIL_AUGUR_DATA),
 
 
 
@@ -497,6 +501,16 @@ const normalizeClassName = (text) => {
 
 
 // Helper to process markdown content inside blocks (paragraphs, lists, etc.)
+const escapeHtml = (value) => String(value)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+// Only allow safe schemes for external links (blocks javascript:, data:, etc.)
+const isSafeUrl = (url) => /^(https?:|mailto:|#|\/)/i.test(String(url || '').trim());
+
 const processMarkdownContent = (text) => {
   if (!text) return text;
 
@@ -515,11 +529,15 @@ const processMarkdownContent = (text) => {
         cleanItem = cleanItem.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         cleanItem = cleanItem.replace(/\*(.*?)\*/g, '<em>$1</em>');
         cleanItem = cleanItem.replace(/\[(.*?)\]\((.*?)\)/g, (match, linkText, url) => {
-          if (url.includes('/')) {
+          const safeText = escapeHtml(linkText);
+          if (url.includes('/') && !/^[a-z]+:/i.test(url)) {
             const [cat, sub] = url.split('/');
-            return `<a href="#${sub}" class="rules-link" data-category="${cat}" data-subcategory="${sub}">${linkText}</a>`;
+            return `<a href="#${escapeHtml(sub)}" class="rules-link" data-category="${escapeHtml(cat)}" data-subcategory="${escapeHtml(sub)}">${safeText}</a>`;
           }
-          return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${linkText}</a>`;
+          if (!isSafeUrl(url)) {
+            return safeText;
+          }
+          return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${safeText}</a>`;
         });
         return `<li>${cleanItem}</li>`;
       }).join('');
@@ -533,11 +551,15 @@ const processMarkdownContent = (text) => {
     p = p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     p = p.replace(/\*(.*?)\*/g, '<em>$1</em>');
     p = p.replace(/\[(.*?)\]\((.*?)\)/g, (match, linkText, url) => {
-      if (url.includes('/')) {
+      const safeText = escapeHtml(linkText);
+      if (url.includes('/') && !/^[a-z]+:/i.test(url)) {
         const [cat, sub] = url.split('/');
-        return `<a href="#${sub}" class="rules-link" data-category="${cat}" data-subcategory="${sub}">${linkText}</a>`;
+        return `<a href="#${escapeHtml(sub)}" class="rules-link" data-category="${escapeHtml(cat)}" data-subcategory="${escapeHtml(sub)}">${safeText}</a>`;
       }
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${linkText}</a>`;
+      if (!isSafeUrl(url)) {
+        return safeText;
+      }
+      return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="rules-external-link">${safeText}</a>`;
     });
 
     // Replace single newlines with <br>
@@ -1033,7 +1055,7 @@ const InteractiveRulesContent = ({ contentHtml, handleClassClick, handleSubcateg
 
 
 
-      return <div dangerouslySetInnerHTML={{ __html: contentHtml }} />;
+      return <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(contentHtml) }} />;
 
 
 
@@ -4814,7 +4836,7 @@ const RulesPage = () => {
 
 
 
-            <div className="rules-tab-description" dangerouslySetInnerHTML={{ __html: processMarkdown(currentTabData.description) }} />
+            <div className="rules-tab-description" dangerouslySetInnerHTML={{ __html: sanitizeHtml(processMarkdown(currentTabData.description)) }} />
 
 
 

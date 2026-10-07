@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import InquisitorResourceBar from '../components/InquisitorResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
+import { updateManagedClassResource } from '../../../classResourceContracts';
 
 describe('InquisitorResourceBar Component (The Barbed Leash of the Damned & Caged Anathema Collar)', () => {
     it('renders the 360px wide pure SVG barbed leash with 8 hex-links and central demon collar without text clutter', () => {
@@ -147,5 +148,28 @@ describe('InquisitorResourceBar Component (The Barbed Leash of the Damned & Cage
         expect(svgElement).toBeInTheDocument();
         expect(svgElement).toHaveAttribute('viewBox', '0 0 360 56');
         expect(container.querySelector('text')).toBeNull();
+    });
+
+    it('controlled Authority/aura transitions clamp to eight, release at zero and require explicit reactivation', () => {
+        let resource;
+        const Bank = () => {
+            const [value, setValue] = useState({ current: 1, authority: 7, max: 20 });
+            resource = value;
+            return <InquisitorResourceBar classResource={value} isOwner={true}
+                onClassResourceUpdate={(field, amount) => setValue(previous => updateManagedClassResource(previous, 'Inquisitor', field, amount))} />;
+        };
+        const { container } = render(<Bank />);
+        const slider = screen.getByRole('slider');
+        expect(slider).toHaveAttribute('aria-valuenow', '1');
+        expect(slider).toHaveAttribute('aria-valuemax', '8');
+        fireEvent.keyDown(slider, { key: 'Enter' });
+        fireEvent.click(screen.getByRole('checkbox', { name: 'Active null aura' }));
+        expect(resource.nullAura.active).toBe(true);
+        fireEvent.keyDown(slider, { key: 'ArrowDown' });
+        expect(resource).toMatchObject({ current: 0, authority: 0, nullAura: { active: false } });
+        expect(screen.getByRole('checkbox', { name: 'Active null aura' })).toBeDisabled();
+        fireEvent.click(container.querySelector('.inq-flank-left'), { shiftKey: true });
+        expect(resource).toMatchObject({ current: 8, authority: 8, max: 8, nullAura: { active: false } });
+        expect(screen.getByRole('checkbox', { name: 'Active null aura' })).not.toBeChecked();
     });
 });

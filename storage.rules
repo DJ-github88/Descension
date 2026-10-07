@@ -24,6 +24,20 @@ service firebase.storage {
       return request.resource.contentType.matches('audio/.*');
     }
 
+    // Project 4: reserved identity metadata in a client upload cannot claim a
+    // different account than the owning path, and an existing reserved
+    // identity cannot be changed or removed on update.
+    function metadataIdentityPreserved(userId) {
+      return (request.resource.metadata == null
+          || !('userId' in request.resource.metadata)
+          || request.resource.metadata.userId == userId)
+        && (resource.metadata == null
+          || !('userId' in resource.metadata)
+          || (request.resource.metadata != null
+              && 'userId' in request.resource.metadata
+              && request.resource.metadata.userId == resource.metadata.userId));
+    }
+
     // =========================================================================
     // 1. SYSTEM ASSETS (Global & Read-Only)
     // Default tokens, game cards, and base battlemaps that never consume user quota
@@ -34,14 +48,30 @@ service firebase.storage {
     }
 
     // =========================================================================
+    // 1b. SHARED / PUBLIC ASSETS
+    // Users' uploaded art is private by default (see section 2). When content
+    // is published to the community, its asset is COPIED here so it stays
+    // readable by everyone while the private original stays owner-only.
+    // =========================================================================
+    match /shared/{userId}/{fileName=**} {
+      allow read: if isAuthenticated();
+      allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
+                    && (isImage() || isAudio())
+                    && request.resource.size < 25 * 1024 * 1024;
+      allow delete: if isOwner(userId);
+    }
+
+    // =========================================================================
     // 2. USER ASSETS (Isolated per User)
     // users/{userId}/{category}/{fileName}
     // =========================================================================
 
     // Tokens and Tooltip Icons (Max 2MB, WebP/Image)
     match /users/{userId}/tokens/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 2 * 1024 * 1024;
       allow delete: if isOwner(userId);
@@ -49,16 +79,18 @@ service firebase.storage {
 
     // Character Portraits and Game Cards (Max 4MB, WebP/Image)
     match /users/{userId}/portraits/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 4 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /users/{userId}/cards/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 4 * 1024 * 1024;
       allow delete: if isOwner(userId);
@@ -66,24 +98,27 @@ service firebase.storage {
 
     // Battlemaps, Immerse Views, Scenes & Custom Maps (Max 10MB, WebP/Image)
     match /users/{userId}/battlemaps/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 10 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /users/{userId}/scenes/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 10 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /users/{userId}/custom-maps/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 10 * 1024 * 1024;
       allow delete: if isOwner(userId);
@@ -91,41 +126,86 @@ service firebase.storage {
 
     // Banners, Journal Attachments, Lore Art & Misc (Max 6MB, WebP/Image)
     match /users/{userId}/banners/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 6 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /users/{userId}/journal/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 6 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /users/{userId}/lore/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 6 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /users/{userId}/misc/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 6 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
+    // Map editors, campaign maps & book maps (Max 10MB, WebP/Image)
+    match /users/{userId}/maps/{fileName} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
+                    && isImage()
+                    && request.resource.size < 10 * 1024 * 1024;
+      allow delete: if isOwner(userId);
+    }
+
+    // Quest images (Max 6MB, WebP/Image)
+    match /users/{userId}/quests/{fileName} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
+                    && isImage()
+                    && request.resource.size < 6 * 1024 * 1024;
+      allow delete: if isOwner(userId);
+    }
+
+    // Journal / knowledge-board backgrounds (Max 6MB, WebP/Image)
+    match /users/{userId}/board-backgrounds/{fileName} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
+                    && isImage()
+                    && request.resource.size < 6 * 1024 * 1024;
+      allow delete: if isOwner(userId);
+    }
+
+    // Book / sourcebook art (Max 10MB, WebP/Image)
+    match /users/{userId}/book-images/{fileName} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
+                    && isImage()
+                    && request.resource.size < 10 * 1024 * 1024;
+      allow delete: if isOwner(userId);
+    }
+
     // User Audio files (Max 25MB, Audio MIME)
     match /users/{userId}/audio/{fileName} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isAudio()
                     && request.resource.size < 25 * 1024 * 1024;
       allow delete: if isOwner(userId);
@@ -135,24 +215,27 @@ service firebase.storage {
     // 3. BACKWARD-COMPATIBLE LEGACY PATHS
     // =========================================================================
     match /avatars/{userId}/{fileName=**} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 5 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /audio/{userId}/{fileName=**} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isAudio()
                     && request.resource.size < 25 * 1024 * 1024;
       allow delete: if isOwner(userId);
     }
 
     match /media/{userId}/{fileName=**} {
-      allow read: if isAuthenticated();
+      allow read: if isOwner(userId);
       allow create, update: if isOwner(userId)
+                    && metadataIdentityPreserved(userId)
                     && isImage()
                     && request.resource.size < 10 * 1024 * 1024;
       allow delete: if isOwner(userId);

@@ -14,6 +14,7 @@ import QuickPeekDrawer from '../common/QuickPeekDrawer';
 import CustomLineageWizard from '../world/CustomLineageWizard';
 import useCustomLineageStore from '../../store/customLineageStore';
 import useFactionStore from '../../store/factionStore';
+import usePersistenceStatusStore from '../../store/persistenceStatusStore';
 import './PlayerJournalWindow.css';
 
 // Lazy-loaded to avoid circular chunk initialization
@@ -168,6 +169,7 @@ const FOLDER_COLORS = [
  * Features: Folder organization, drag-to-create orbs, notes, connections
  */
 const PlayerJournalWindow = ({ isOpen, onClose }) => {
+  const journalSaveStatus = usePersistenceStatusStore(state => state.statuses.journal);
   const [activeTab, setActiveTab] = useState('board');
   const [connectingFrom, setConnectingFrom] = useState(null);
   const [showKnowledgePopup, setShowKnowledgePopup] = useState(null);
@@ -1416,6 +1418,21 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
                 <i className="fas fa-feather-pointed" style={{ color: '#d4af37' }}></i>
                 Chronicles
                 <span className="notes-count-badge">{filteredNotes.length}</span>
+                {journalSaveStatus && journalSaveStatus.status !== 'idle' && (
+                  <span
+                    className={`journal-save-status journal-save-status--${journalSaveStatus.status}`}
+                    title={journalSaveStatus.message || (journalSaveStatus.status === 'error' ? 'Cloud save failed' : 'Synced to the cloud')}
+                  >
+                    <i className={`fas ${
+                      journalSaveStatus.status === 'saving' ? 'fa-circle-notch fa-spin'
+                        : journalSaveStatus.status === 'saved' ? 'fa-cloud-arrow-up'
+                          : 'fa-triangle-exclamation'
+                    }`}></i>
+                    {journalSaveStatus.status === 'saving' ? 'Saving…'
+                      : journalSaveStatus.status === 'saved' ? 'Saved'
+                        : 'Not saved'}
+                  </span>
+                )}
               </span>
               <button
                 type="button"

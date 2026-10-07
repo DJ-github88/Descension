@@ -1246,3 +1246,270 @@
     background: #e5c158;
 }
 
+
+
+/* Scribed Compact Ledger for Step 9 */
+.summary-compact-ledger {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0.25rem 0.15rem;
+}
+
+.summary-ledger-row {
+    display: flex;
+    align-items: baseline;
+    font-size: 0.84rem;
+}
+
+.summary-ledger-row .ledger-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #5a3d1d;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.summary-ledger-row .ledger-dots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(153, 126, 85, 0.45);
+    margin: 0 0.5rem;
+}
+
+.summary-ledger-row .ledger-val {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #2e1e0f;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+/* Elevated Step 9 Aesthetics */
+.summary-dashboard-section {
+    background: rgba(250, 246, 235, 0.94) !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    outline: 1px solid rgba(122, 90, 53, 0.22) !important;
+    border-radius: 4px !important;
+    padding: 0.95rem !important;
+    box-shadow: inset 0 0 25px rgba(153, 126, 85, 0.08), 0 3px 12px rgba(46, 30, 15, 0.04) !important;
+}
+
+.summary-dashboard-section .section-title {
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #2e1e0f !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 0 0.75rem 0 !important;
+    padding-bottom: 0.35rem !important;
+    border-bottom: 1px solid rgba(153, 126, 85, 0.3) !important;
+}
+
+.summary-dashboard-section .section-title i {
+    color: #997e55 !important;
+}
+
+.base-stat-compact-item {
+    background: #fdfbf7 !important;
+    border: 1px solid rgba(153, 126, 85, 0.35) !important;
+    border-radius: 3px !important;
+    padding: 0.45rem 0.6rem !important;
+    box-shadow: 0 1px 3px rgba(46, 30, 15, 0.04) !important;
+}
+
+.base-stat-compact-item:hover {
+    background: #ffffff !important;
+    border-color: #b08a4a !important;
+    box-shadow: 0 2px 6px rgba(176, 138, 74, 0.18) !important;
+}
+
+.base-stat-compact-icon {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 3px !important;
+    background: rgba(153, 126, 85, 0.12) !important;
+    color: #7a5a35 !important;
+}
+
+.base-stat-compact-label {
+    font-size: 0.65rem !important;
+    font-family: 'Cinzel', serif !important;
+    color: #7a5a35 !important;
+    letter-spacing: 0.3px !important;
+}
+
+.base-stat-compact-val {
+    font-size: 0.88rem !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 800 !important;
+    color: #2e1e0f !important;
+}
+
+.ability-compact-box {
+    background: #fdfbf7 !important;
+    border: 1px solid rgba(153, 126, 85, 0.35) !important;
+    border-radius: 3px !important;
+    padding: 0.45rem !important;
+    box-shadow: 0 1px 3px rgba(46, 30, 15, 0.04) !important;
+}
+
+.ability-compact-box:hover {
+    background: #ffffff !important;
+    border-color: #b08a4a !important;
+    box-shadow: 0 2px 8px rgba(176, 138, 74, 0.2) !important;
+}
+
+.ability-compact-name {
+    font-size: 0.65rem !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 800 !important;
+    color: #5a3d1d !important;
+    letter-spacing: 0.4px !important;
+}
+
+.ability-compact-score {
+    font-size: 1.15rem !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 800 !important;
+    color: #2e1e0f !important;
+}
+
+.summary-validation-banner {
+    background: linear-gradient(180deg, #fdf8f5 0%, #faf0ea 100%) !important;
+    border: 1px solid rgba(139, 42, 31, 0.45) !important;
+    outline: 1px solid rgba(153, 126, 85, 0.25) !important;
+    border-radius: 4px !important;
+    color: #2e1e0f !important;
+    box-shadow: 0 2px 8px rgba(139, 42, 31, 0.08) !important;
+}
+
+.summary-validation-banner-title {
+    color: #8b2a1f !important;
+    font-family: 'Cinzel', serif !important;
+    letter-spacing: 0.3px !important;
+}
+
+.summary-validation-banner-title i {
+    color: #8b2a1f !important;
+}
+
+.summary-validation-list {
+    font-family: 'Crimson Text', serif !important;
+    font-size: 0.95rem !important;
+    color: #5a1e12 !important;
+}
+
+.visual-card-subrace-frame,
+.visual-card-class-frame {
+    background: rgba(250, 246, 235, 0.94) !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    outline: 1px solid rgba(122, 90, 53, 0.22) !important;
+    border-radius: 4px !important;
+    padding: 0.75rem !important;
+    box-shadow: inset 0 0 20px rgba(153, 126, 85, 0.08) !important;
+}
+
+.completion-status-badge {
+    background: linear-gradient(135deg, #e4d1a0 0%, #caa459 100%) !important;
+    border: 1.5px solid #997e55 !important;
+    color: #2e1e0f !important;
+    box-shadow: 0 2px 8px rgba(46, 30, 15, 0.3) !important;
+}
+
+.completion-status-badge.all-complete {
+    background: linear-gradient(135deg, #4a7c59 0%, #3d5e28 100%) !important;
+    border-color: #274019 !important;
+    color: #faf6eb !important;
+}
+
+.completion-status-badge.has-missing {
+    background: linear-gradient(135deg, #a84232 0%, #8b2a1f 100%) !important;
+    border-color: #5a140b !important;
+    color: #faf6eb !important;
+}
+
+
+/* ==========================================================================
+   AUTHENTIC MANUSCRIPT ENHANCEMENTS FOR STEP 5 (SUMMARY)
+   ========================================================================== */
+
+.character-card-visual-backdrop {
+    background: linear-gradient(180deg, #fbf7ee 0%, #f4ecdc 100%) !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    outline: 1px solid rgba(122, 90, 53, 0.22) !important;
+    border-radius: 4px !important;
+    box-shadow: inset 0 0 25px rgba(153, 126, 85, 0.1), 0 3px 12px rgba(46, 30, 15, 0.05) !important;
+}
+
+.character-card-visual-backdrop::before {
+    background: radial-gradient(circle at center, transparent 45%, rgba(153, 126, 85, 0.12) 100%) !important;
+}
+
+.visual-card-name {
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #2e1e0f !important;
+    text-shadow: none !important;
+    margin-bottom: 0.4rem !important;
+}
+
+.visual-card-meta-tags .meta-tag {
+    background: rgba(245, 238, 222, 0.95) !important;
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    color: #4a3526 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    border-radius: 3px !important;
+    box-shadow: 0 1px 3px rgba(46, 30, 15, 0.06) !important;
+}
+
+.visual-card-meta-tags .meta-tag.class-tag {
+    background: rgba(212, 175, 55, 0.18) !important;
+    border-color: rgba(184, 134, 11, 0.55) !important;
+    color: #5c3e0b !important;
+}
+
+.visual-card-meta-tags .meta-tag.alignment-tag {
+    background: rgba(212, 175, 55, 0.22) !important;
+    border-color: rgba(184, 134, 11, 0.6) !important;
+    color: #4a3306 !important;
+}
+
+.visual-card-token {
+    border-radius: 50% !important;
+    border: 2px solid rgba(153, 126, 85, 0.6) !important;
+    box-shadow: 0 2px 8px rgba(46, 30, 15, 0.2) !important;
+}
+
+.backpack-clicker-card {
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    outline: 1px solid rgba(122, 90, 53, 0.22) !important;
+    border-radius: 4px !important;
+    background: linear-gradient(180deg, #fbf7ee 0%, #f4ecdc 100%) !important;
+    box-shadow: inset 0 0 20px rgba(153, 126, 85, 0.08), 0 3px 10px rgba(46, 30, 15, 0.04) !important;
+}
+
+.backpack-clicker-icon-container {
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    border-radius: 4px !important;
+    background: rgba(245, 238, 222, 0.9) !important;
+    box-shadow: 0 2px 6px rgba(46, 30, 15, 0.08) !important;
+}
+
+.backpack-clicker-hint {
+    color: #4a7c59 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.4px !important;
+}
+
+.summary-spell-grid-cell {
+    border: 1px solid rgba(153, 126, 85, 0.45) !important;
+    border-radius: 4px !important;
+    background: rgba(240, 232, 214, 0.8) !important;
+    box-shadow: inset 0 1px 3px rgba(46, 30, 15, 0.1) !important;
+}

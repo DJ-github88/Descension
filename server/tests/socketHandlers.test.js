@@ -175,11 +175,15 @@ describe('Socket Handlers', function() {
 
       helpers.validateRoomMembership = sinon.stub().returns({
         valid: true,
-        player: { id: 'player-1', name: 'Test Player' },
+        // Project 4: the fixture actor is the room GM so generic token
+        // mechanics (ownerless legacy tokens fail closed for members) remain
+        // exercisable from the authorized principal.
+        player: { id: 'player-1', userId: 'uid-1', isGM: true, name: 'Test Player' },
         room: mockRoom
       });
 
       socket = getConnectedSocket('socket-1');
+      socket.data = { userId: 'uid-1', authenticated: true };
     });
 
     it('should create token successfully', async() => {
@@ -607,8 +611,16 @@ describe('Socket Handlers', function() {
   });
 
   describe('Firebase Batch Writer', () => {
-    it('should queue write', () => {
+    // Require the writer first so the firebaseService copy we stub is the one
+    // the writer actually calls, even when another suite cleared require.cache.
+    const loadWriterAndService = () => {
       const { FirebaseBatchWriter } = require('../services/syncService');
+      const firebaseService = require('../services/firebaseService');
+      return { FirebaseBatchWriter, firebaseService };
+    };
+
+    it('should queue write', () => {
+      const { FirebaseBatchWriter } = loadWriterAndService();
       const writer = new FirebaseBatchWriter(500, 50);
       
       writer.queueWrite('room-1', { tokens: {} });
@@ -618,8 +630,9 @@ describe('Socket Handlers', function() {
       writer.stop();
     });
 
-    it('should flush on max batch size', async() => {
-      const { FirebaseBatchWriter } = require('../services/syncService');
+    it('should flush on max batch size and clear only confirmed work', async() => {
+      const { FirebaseBatchWriter, firebaseService } = loadWriterAndService();
+      sinon.stub(firebaseService, 'updateRoomGameState').resolves({ outcome: 'confirmed' });
       const writer = new FirebaseBatchWriter(50000, 3); // Max 3
       
       writer.queueWrite('room-1', { tokens: {} });
@@ -630,7 +643,31 @@ describe('Socket Handlers', function() {
       await sleep(100);
       
       expect(writer.pendingWrites.size).to.equal(0);
+      expect(writer.getStatus('room-1').cloudSaved).to.equal(true);
       
+      writer.stop();
+    });
+
+    it('should retain a failed snapshot instead of discarding it', async() => {
+      const { FirebaseBatchWriter, firebaseService } = loadWriterAndService();
+      sinon.stub(firebaseService, 'updateRoomGameState').resolves(false);
+      const writer = new FirebaseBatchWriter(50000, 3, {
+        maxAttempts: 2,
+        baseRetryDelayMs: 50000,
+        maxRetryDelayMs: 50000
+      });
+
+      writer.queueWrite('room-1', { tokens: { x: { id: 'x' } } });
+      writer.queueWrite('room-2', { tokens: {} });
+      writer.queueWrite('room-3', { tokens: {} });
+
+      await sleep(100);
+
+      expect(writer.pendingWrites.has('room-1')).to.equal(true);
+      expect(writer.getStatus('room-1').cloudSaved).to.equal(false);
+      expect(writer.getStatus('room-1').status).to.equal('retrying');
+      expect(writer.getRetainedSnapshot('room-1').tokens.x.id).to.equal('x');
+
       writer.stop();
     });
   });

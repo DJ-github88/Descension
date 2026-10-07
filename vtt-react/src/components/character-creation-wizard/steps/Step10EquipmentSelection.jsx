@@ -989,27 +989,27 @@ const Step10EquipmentSelection = () => {
             className={`mobile-section-tab ${mobilePanel === 'shop' ? 'active' : ''}`}
             onClick={() => setMobilePanel('shop')}
           >
-            <i className="fas fa-store"></i> Shop
+            <i className="fas fa-dungeon"></i> Armory
           </button>
           <button
             type="button"
             className={`mobile-section-tab ${mobilePanel === 'cart' ? 'active' : ''}`}
             onClick={() => setMobilePanel('cart')}
           >
-            <i className="fas fa-shopping-bag"></i> Cart ({selectedEquipment.length})
+            <i className="fas fa-sack-dollar"></i> Pack ({selectedEquipment.length})
           </button>
         </div>
 
         {/* Left Panel - Available Items (Shop) */}
         <div className="equipment-shop-panel" ref={shopPanelRef} data-mobile-panel="shop">
           <div className="shop-panel-header">
-            <h3>Available Equipment</h3>
+            <h3><i className="fas fa-dungeon" style={{ marginRight: '0.4rem', color: '#997e55' }}></i> Guild Armory Ledger</h3>
 
             {/* Search Bar */}
             <input
               type="text"
               className="equipment-search"
-              placeholder="Search items..."
+              placeholder="Search guild stock..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -1064,9 +1064,9 @@ const Step10EquipmentSelection = () => {
         {/* Right Panel - Selected Items (Cart) */}
         <div className="equipment-cart-panel" ref={cartPanelRef} data-mobile-panel="cart">
           <div className="cart-panel-header">
-            <h3>Selected Equipment</h3>
+            <h3><i className="fas fa-sack-dollar" style={{ marginRight: '0.4rem', color: '#997e55' }}></i> Quartermaster's Pack</h3>
             <div className="cart-currency-display">
-              <div className="currency-label">Remaining:</div>
+              <div className="currency-label"><i className="fas fa-coins" style={{ marginRight: '0.35rem', color: '#b08a4a' }}></i> Coin Purse:</div>
               <div className="currency-amount">{formatCurrency(currentCurrency)}</div>
             </div>
           </div>

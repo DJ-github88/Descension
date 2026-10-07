@@ -6,6 +6,7 @@ import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { isProduction } from '../../config/env';
 
 const CURSOR_DEBUG = process.env.REACT_APP_CURSOR_DEBUG === 'true';
 const cursorDebug = (...args) => {
@@ -30,19 +31,21 @@ export function setupSocketConnection({
 
   const initializeSocket = async () => {
     let authToken = null;
+    // Dev tokens are only ever sent outside production.
+    const allowDevToken = !isProduction();
     try {
       const authState = useAuthStore.getState();
-      if (authState.user && !authState.isDevelopmentBypass && !authState.user.isGuest && typeof authState.user.getIdToken === 'function') {
+      if (authState.user && typeof authState.user.getIdToken === 'function') {
         authToken = await authState.user.getIdToken();
-      } else if (authState.user && !authState.user.isGuest) {
+      } else if (allowDevToken && authState.user && !authState.user.isGuest) {
         authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
-      } else if (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated) {
+      } else if (allowDevToken && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
         authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
     } catch (error) {
       console.warn('Could not get auth token for socket:', error);
       const authState = useAuthStore.getState();
-      if (authState.user?.uid) {
+      if (allowDevToken && authState.user?.uid) {
         authToken = `dev-token-${authState.user.uid}`;
       }
     }
@@ -106,7 +109,7 @@ export function setupSocketConnection({
           console.log('🧹 Cleared tokens for room rejoin');
         }
 
-        useGameStore.getState().set({
+        useGameStore.setState({
           multiplayerSocket: newSocket,
           isInMultiplayer: true
         });
@@ -186,6 +189,14 @@ export function setupSocketConnection({
     if (newSocket) {
       newSocket.emit('leave_room');
       newSocket.disconnect();
+      // Clear the presence store's binding so it never treats this dead socket
+      // as connected in the next session.
+      try {
+        const presenceStore = require('../../store/presenceStore').default;
+        if (presenceStore?.getState?.().socket === newSocket) {
+          presenceStore.getState().setSocket?.(null);
+        }
+      } catch (_e) { /* ignore */ }
     }
   };
 }
@@ -311,11 +322,12 @@ export function setupAuthChangeHandler({
       }
 
       let authToken = null;
-      if (authState.user && !authState.isDevelopmentBypass && !authState.user?.isGuest && typeof authState.user.getIdToken === 'function') {
+      const allowDevToken = !isProduction();
+      if (authState.user && typeof authState.user.getIdToken === 'function') {
         authToken = await authState.user.getIdToken(true);
-      } else if (authState.user && !authState.user?.isGuest) {
+      } else if (allowDevToken && authState.user && !authState.user?.isGuest) {
         authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
-      } else if (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated) {
+      } else if (allowDevToken && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
         authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
       }
 

@@ -19,7 +19,14 @@ const METRICS_STORAGE = {
 /**
  * Initialize performance monitoring
  */
+let performanceMonitoringInitialized = false;
+
 export function initializePerformanceMonitoring() {
+ // Idempotent: this registers module-lifetime intervals/listeners that cannot be
+ // removed, so a second call (remount/HMR) must not duplicate them.
+ if (performanceMonitoringInitialized) return;
+ performanceMonitoringInitialized = true;
+
  try {
   // Initialize Firebase Performance Monitoring
   const app = getApp();

@@ -30,6 +30,7 @@ import { TOXICOLOGIST_DATA } from './classes/toxicologistData';
 import { WARDEN_DATA } from './classes/wardenData';
 import { AUGUR_DATA } from './classes/augurData';
 import { CRUSADER_DATA } from './classes/crusaderData';
+import { DEEPLING_MYRATHIL_APEX_DATA, DEEPLING_MYRATHIL_ANIMIST_DATA, DEEPLING_MYRATHIL_AUGUR_DATA } from './classes/index';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -57,7 +58,10 @@ export const CLASS_DATA_MAP = {
  'Toxicologist': TOXICOLOGIST_DATA,
   'Warden': WARDEN_DATA,
    'Augur': AUGUR_DATA,
-  'Crusader': CRUSADER_DATA
+  'Crusader': CRUSADER_DATA,
+  'Nereid Myrathil Apex': DEEPLING_MYRATHIL_APEX_DATA,
+  'Nereid Myrathil Animist': DEEPLING_MYRATHIL_ANIMIST_DATA,
+  'Nereid Myrathil Augur': DEEPLING_MYRATHIL_AUGUR_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====
@@ -109,9 +113,9 @@ function processPyrofiendSpells(spells) {
  return spells.map(spell => normalizeClassSpell(spell, 'Pyrofiend', determinePyrofiendSpecialization))
   .map(spell => ({
    ...spell,
-   infernoRequired: spell.specialMechanics?.infernoLevel?.required,
-   infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
-   infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy
+    infernoRequired: spell.infernoRequired ?? spell.specialMechanics?.infernoLevel?.required,
+    infernoAscend: spell.infernoAscend ?? spell.specialMechanics?.infernoLevel?.ascendBy,
+    infernoDescend: spell.infernoDescend ?? spell.specialMechanics?.infernoLevel?.descendBy
   }));
 }
 
@@ -147,9 +151,9 @@ function processMartyrSpells(spells) {
  return spells.map(spell => normalizeClassSpell(spell, 'Martyr', determineMartyrSpecialization))
   .map(spell => ({
    ...spell,
-   devotionRequired: spell.devotionRequired || spell.specialMechanics?.devotionLevel?.required,
-   devotionCost: spell.devotionCost || spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
-   devotionGain: spell.devotionGain || spell.specialMechanics?.devotionLevel?.gain
+    devotionRequired: spell.devotionRequired ?? spell.specialMechanics?.devotionLevel?.required,
+    devotionCost: spell.devotionCost ?? spell.specialMechanics?.devotionLevel?.cost ?? spell.specialMechanics?.devotionLevel?.amplifiedCost,
+    devotionGain: spell.devotionGain ?? spell.specialMechanics?.devotionLevel?.gain
   }));
 }
 

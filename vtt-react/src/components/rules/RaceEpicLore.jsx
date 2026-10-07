@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { getIconUrl } from '../../utils/assetManager';
 import LoreLink from '../common/LoreLink';
 import { autoLinkTerminology } from '../../utils/loreAutoLinker';
+import { HERITAGE_TRADITIONS } from '../../data/classHeritageRegistry';
+import { BACKGROUND_DATA } from '../../data/backgroundData';
 import './RaceEpicLore.css';
 
 // Parses text for dictionary terms and renders them as interactive LoreLink components
@@ -116,12 +118,22 @@ const formatTextWithDropCap = (text) => {
     );
 };
 
-const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locations', 'crisis', 'practices'], onClose }) => {
+const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figures', 'locations', 'crisis', 'practices'], onClose }) => {
     const [activeTab, setActiveTab] = useState(availableTabs[0]);
     const [selectedFigure, setSelectedFigure] = useState(raceData.notableFigures?.[0] || null);
     const [selectedLocation, setSelectedLocation] = useState(raceData.majorLocations?.[0] || null);
     const [contentVisible, setContentVisible] = useState(true);
     const [hasImageError, setHasImageError] = useState(false);
+
+    // Native classes + available backgrounds for the currently selected subrace.
+    const heritage = subraceId ? HERITAGE_TRADITIONS[subraceId] : null;
+    const nativeClasses = heritage ? heritage.classes : [];
+    const allBackgrounds = Object.values(BACKGROUND_DATA);
+    const nativeBackgrounds = subraceId
+        ? allBackgrounds.filter(bg => (bg.restrictions?.allowedSubraces || []).includes(subraceId)).map(bg => bg.name)
+        : [];
+    const universalBackgrounds = allBackgrounds
+        .filter(bg => !(bg.restrictions?.allowedSubraces || []).length).map(bg => bg.name);
 
     useEffect(() => {
         setHasImageError(false);
@@ -275,7 +287,7 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                             </div>
                             <div className="tome-stat-item full-width">
                                 <span className="tome-stat-label">Common Languages</span>
-                                <span className="tome-stat-val">{(raceData.baseTraits.languages || []).join(', ') || 'Common'}</span>
+                                <span className="tome-stat-val">{(raceData.baseTraits.languages || []).join(', ') || "Wayfarer's Cant"}</span>
                             </div>
                         </div>
                     )}
@@ -673,6 +685,24 @@ const RaceEpicLore = ({ raceData, availableTabs = ['history', 'figures', 'locati
                             {/* --- CULTURE RIGHT PAGE --- */}
                             {activeTab === 'culture' && (
                                 <>
+                                    {heritage && (
+                                        <>
+                                            <div className="tome-section-header">
+                                                <i className="fas fa-hat-wizard"></i>
+                                                <h4 className="tome-section-title">Callings & Backgrounds</h4>
+                                            </div>
+                                            <p className="tome-body-text">
+                                                <strong>Native Classes — </strong>
+                                                {nativeClasses.length > 0 ? nativeClasses.join(', ') : 'None recorded.'}
+                                            </p>
+                                            <p className="tome-body-text">
+                                                <strong>Available Backgrounds — </strong>
+                                                {nativeBackgrounds.length > 0 ? nativeBackgrounds.join(', ') : 'None native.'}
+                                                {universalBackgrounds.length > 0 ? ` · open to all: ${universalBackgrounds.join(', ')}` : ''}
+                                            </p>
+                                            {renderDecorativeDivider()}
+                                        </>
+                                    )}
                                     <div className="tome-section-header">
                                         <i className="fas fa-globe-americas"></i>
                                         <h4 className="tome-section-title">In the Wider World</h4>

@@ -5,11 +5,12 @@
  */
 
 import React from 'react';
+import { sanitizeHtml } from '../../../../utils/sanitizeHtml';
 
 const formatDesc = (text) => {
   if (!text) return '';
   let f = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>');
-  return <span dangerouslySetInnerHTML={{ __html: f }} />;
+  return <span dangerouslySetInnerHTML={{ __html: sanitizeHtml(f) }} />;
 };
 
 const SubraceTab = ({
@@ -40,7 +41,11 @@ const SubraceTab = ({
             <div className="subrace-detail-card">
                 <div className="subrace-detail-header">
                     <div className="subrace-detail-icon">
-                        <i className="fas fa-dna"></i>
+                        {selectedSubrace.crest ? (
+                            <img src={selectedSubrace.crest} alt={selectedSubrace.name} className="subrace-detail-crest-img" />
+                        ) : (
+                            <i className="fas fa-dna"></i>
+                        )}
                     </div>
                     <div className="subrace-detail-title-row">
                         <h4 className="subrace-detail-name">{selectedSubrace.name}</h4>
@@ -135,7 +140,11 @@ const SubraceTab = ({
                                 onClick={() => onSelectSubrace(subrace)}
                             >
                                 <div className="mini-card-header">
-                                    <i className="fas fa-user"></i>
+                                    {subrace.crest ? (
+                                        <img src={subrace.crest} alt="" className="subrace-mini-crest-img" />
+                                    ) : (
+                                        <i className="fas fa-user"></i>
+                                    )}
                                     <span className="mini-card-name">{subrace.name}</span>
                                 </div>
                                 <div className="mini-card-stats">

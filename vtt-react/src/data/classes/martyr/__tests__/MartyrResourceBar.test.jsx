@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import MartyrResourceBar from '../components/MartyrResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
+import useCharacterStore from '../../../../store/characterStore';
 
 describe('MartyrResourceBar Component (Pure SVG Vector Apparatus)', () => {
     it('renders the SVG apparatus with 6 stigmata seals, solar monstrance centerpiece, and caliper gauge', () => {
@@ -77,5 +78,30 @@ describe('MartyrResourceBar Component (Pure SVG Vector Apparatus)', () => {
 
         expect(container.querySelector('.martyr-master-svg')).toBeInTheDocument();
         expect(container.querySelectorAll('.martyr-seal-slot.filled').length).toBe(4);
+    });
+
+    it('preserves spent levels through mounted store callbacks and the next damage threshold', () => {
+        const previous = useCharacterStore.getState();
+        useCharacterStore.setState({ class: 'Martyr', currentCharacterId: null,
+            classResource: { type: 'devotionGauge', current: 2, damage: 62, max: 6, spentLevels: 2, bonusLevels: 0 } });
+        const StoreBar = () => {
+            const resource = useCharacterStore(state => state.classResource);
+            return <MartyrResourceBar classResource={resource} isOwner={true}
+                onClassResourceUpdate={(field, value) => useCharacterStore.getState().updateClassResource(field, value, true, true)} />;
+        };
+        const { container, unmount } = render(<StoreBar />);
+        try {
+            fireEvent.click(container.querySelector('.martyr-resource-bar'));
+            fireEvent.click(screen.getByTitle('Add 10 Damage'));
+            expect(useCharacterStore.getState().classResource).toMatchObject({ current: 2, damage: 72, spentLevels: 2 });
+            expect(container.querySelectorAll('.martyr-seal-slot.filled')).toHaveLength(2);
+            fireEvent.click(screen.getByTitle('Add 10 Damage'));
+            expect(useCharacterStore.getState().classResource).toMatchObject({ current: 3, damage: 82, spentLevels: 2 });
+            expect(container.querySelectorAll('.martyr-seal-slot.filled')).toHaveLength(3);
+            expect(screen.getByText(/Earned: 5.*Spent: 2/)).toBeInTheDocument();
+        } finally {
+            unmount();
+            useCharacterStore.setState(previous, true);
+        }
     });
 });

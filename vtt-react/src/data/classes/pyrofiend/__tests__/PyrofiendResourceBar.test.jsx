@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import PyrofiendResourceBar from '../components/PyrofiendResourceBar';
 import ClassResourceBar from '../../../../components/hud/ClassResourceBar';
+import { updateManagedClassResource } from '../../../classResourceContracts';
 
 describe('PyrofiendResourceBar Component (Scathrach Veil — Nine Swallowed Coals)', () => {
     it('renders the pure SVG furnace with 9 coals and no text clutter on the bar', () => {
@@ -130,5 +131,32 @@ describe('PyrofiendResourceBar Component (Scathrach Veil — Nine Swallowed Coal
         expect(filled.length).toBe(7);
 
         expect(container.querySelector('.pyrofiend-caldera-svg text')).toBeNull();
+    });
+
+    it('the controlled slider latches at nine, retains the call when cooled, and counts three own turns', () => {
+        let resource;
+        const Bank = () => {
+            const [value, setValue] = useState({ current: 8, max: 20 });
+            resource = value;
+            return <PyrofiendResourceBar classResource={value} isOwner={true}
+                onClassResourceUpdate={(field, amount) => setValue(previous => updateManagedClassResource(previous, 'Pyrofiend', field, amount))} />;
+        };
+        const { container } = render(<Bank />);
+        fireEvent.click(container.querySelector('.pyro-rune-crucible.rune-9'));
+        expect(resource).toMatchObject({ current: 9, max: 9, debtCall: { latched: true, turnsRemaining: 3 } });
+        fireEvent.click(container.querySelector('.pyrofiend-resource-bar'));
+        fireEvent.click(screen.getByRole('button', { name: '0', exact: true }));
+        expect(screen.getByText('Ring 0')).toBeInTheDocument();
+        expect(screen.getByText('Debt Call latched: 3 own turns remaining')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Record next own turn' }));
+        expect(resource.debtCall.turnsRemaining).toBe(2);
+        fireEvent.click(screen.getByRole('button', { name: '9', exact: true }));
+        expect(resource.debtCall.turnsRemaining).toBe(2);
+        fireEvent.click(screen.getByRole('button', { name: 'Record next own turn' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Record next own turn' }));
+        expect(screen.getByText('Debt Call expired — terminal consequence due')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Record next own turn' })).toBeDisabled();
+        fireEvent.click(screen.getByRole('button', { name: '0', exact: true }));
+        expect(resource).toMatchObject({ current: 0, debtCall: { latched: true, expired: true, turnsRemaining: 0 } });
     });
 });

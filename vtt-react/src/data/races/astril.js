@@ -2,10 +2,10 @@ export const astril = {
     id: 'astril',
     name: 'Astril',
     essence: 'The Fire-Carried',
-    illustration: '/assets/images/races/astril_brutish_icon_v1.png',
-    illustrationCaption: 'A noble Brutish Astril warrior-chieftain with sweeping demonic bone horns and celestial war-sash in rough charcoal draft with midnight violet watercolor splash.',
+    illustration: '/assets/images/races/astril_brutish_figure_thok.jpg',
+    illustrationCaption: 'Warmaster Thok Meteor-Fist — Legendary Kordak Warlord gripping a colossal meteor-iron warhammer in rough charcoal draft with midnight violet watercolor splash.',
     cardFlavor: 'Refugees of a devoured star, they carry the last embers of a dead world in their blood, and the guilt of leading the predator to this one.',
-    visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual â€” crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. Stargazer Astril carry Lumia's stellar memory and star-constellation lines along their pale skin, while Brutish Astril carry dark violet-grey skin etched with fractured purple void-crystal lines. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
+    visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual â€” crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. Lumian carry Lumia's stellar memory and star-constellation lines along their pale skin, while Kordak carry dark violet-grey skin etched with fractured purple void-crystal lines. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
     description: `**[The Last of Lumia]**, *An Astril elder tilts her head toward a moon only she can feel, her slit-pupil eyes reflecting a light that belongs to a sun that no longer exists.*
 
 Lumia is gone. It was a star, once, the sun of a world that orbited it and grew warm beneath it and learned to call it home. The Astril were that world's children. They farmed its soil. They hunted its forests. They sang beneath its light. They were not special. They were not chosen. They were a people, and their star was their star.
@@ -20,7 +20,7 @@ They fled. What else was there? They built what they could from the bones of the
 
 They reached Mythrill. And in reaching it, in crossing the void with a predator that tracks the light it failed to consume, they led Keth Amar to Sol.
 
-The Astril do not speak of this easily. They reached out to the deities of this new world, desperate, grieving, carrying a warning they wished they did not have to give. They were directed to Selunis, the dormant lunar deity who sleeps beneath the tides of Mythrill's moon, and Selunis gave them a dual quest: ensure that Sol is not devoured as Lumia was, and wake the sleeper through a ritual measured in centuries, performed every night beneath the moon that remembers what the moon of Lumia looked like.
+Astril ritualists interpreted dreams, tides and lunar signs as a calling to protect Sol and tend a waking rite. Selunis remains the dormant, never-quickened moon-egg sister; she did not awaken to issue spoken quests. The calling is an institution's interpretation, not proof that every Astril shares inherited guilt or the same duty.
 
 The Astril warned the world's leaders. They advocated for the Great Binding. They have spent their centuries on Mythrill tending a ritual that may never finish, carrying a secret that may never be safe, and bearing a guilt that the rest of the world does not even know it should blame them for. They brought the predator here. They are trying, with every night of their long lives, to make it right.`,
     icon: 'fas fa-star',
@@ -32,37 +32,37 @@ So the survivors fled. They crossed the void between worlds in vessels built fro
 
 They found Mythrill. And in finding it, they brought the predator with them. Keth Amar tracks the light it cannot consume, and the Astril glow, faintly, with the light of a star it killed. Their flight across the void was a trail. Their arrival was a beacon. They led the hunger that devoured their sun straight to Sol.
 
-The Astril reached out to Mythrill's deities in desperation. They were answered, after a fashion, by Selunis, the lunar deity who sleeps dormant beneath the moon, whose dreams move the tides and whose silence has lasted since before human memory. Selunis gave the refugees a dual quest. The first: ensure that Sol is not devoured as Lumia was. The Astril took this quest to the world's leaders, warned them of the predator beneath Emberspire, and advocated, with the desperate authority of survivors, for the House Bargain that would hide the child-star. The second: wake Selunis. The sleeper must be roused through a ritual performed every night, beneath the moon, for as long as it takes. Centuries, perhaps. The Astril have been performing it since they arrived, and they are not finished.
+The refugees brought warnings from Lumia. Some interpreters read Selunis's dreams and signs as mandates for protection and a waking rite. Selunis stays dormant; the interpretation does not make her a spoken quest-giver. Aethil's ward prevents Keth's full body from freely entering, while narrower channels carry hostile influence toward the core.
 
-They kept their heritage secret. Keth Amar is all-knowing, or near enough that the distinction does not matter. If the predator learned that the refugees carried Lumia's fire, it would hunt them to extinction. If it learned of the ritual to wake Selunis, it would end it. So the Astril hid. They settled in small, isolated farming communities where strangers do not come and questions are not asked. They told no one what they were. They told no one what they had done.
+Some communities hide Lumia resonance and ritual sites from a dangerous, fallible predator. Secrecy limits real trails and channels, not an all-knowing creditor. Refugee histories can motivate vigilance, craft, friendship and dissent without making every child guilty for leading Keth here.
 
 But Keth Amar found them anyway.
 
 When it did, the Astril did what they had always done: they carried the warning. They went to the world's leaders again and told them the predator had found its trail. The Binding, they said, would not hold forever. The work must continue. The ritual must continue. And the guilt that the Astril carry, the knowledge that they led the hunger to this world, is the engine that drives every night of their long labor. They are refugees. They are penitents. They are the people who doomed the world they fled to, and they will spend every century they have left trying to save it.`,
     quickFacts: [
         'Refugees from a world orbiting the devoured star Lumia. They carry fragments of their dead sun\'s biosphere in their blood and live in scattered, isolated farming communities across Mythrill, performing a nightly ritual to wake the dormant lunar deity Selunis.',
-        'Their reptilian eyes see in darkness but blind them in daylight; their blood holds Lumia\'s echo, granting alien resilience against environmental extremes. Divided into Stargazer Astril (Star-Woven) and Brutish Astril (Abyssal Star-Fractured).',
+        'Their reptilian eyes see in darkness but blind them in daylight; their blood holds Lumia\'s echo, granting alien resilience against environmental extremes. Divided into Lumian (Star-Woven) and Kordak (Abyssal Star-Fractured).',
         'Play an Astril to carry the weight of cosmic guilt; you led the star-devouring predator Keth Amar to this world, and every night of your centuries-long life is penance. Your entire civilization is a vigil, and the thing you warned everyone about is stirring again.'
     ],
     culturalBackground: `Astril communities are small, isolated, and deliberately unremarkable. They farm. They hunt. They keep to themselves. A traveler passing through an Astril village sees hardworking people with strange eyes and quiet manners, nothing more. That is what the Astril want you to see.
 
-The truth is that every Astril community is a ritual-site. They prefer the night, not from preference but from purpose: the work of waking Selunis can only be done beneath the moon, and so the Astril's true labor begins when the sun goes down. By day they tend fields and raise children and barter at distant markets like any farming folk. By night they gather in their moon-courtyards and read the stars, not to navigate, but to time the ritual. Star-reading, for the Astril, is the art of knowing which phase of which constellation permits which step of the rite. The sky is a clock. The ritual is the work. The night is the teacher.
+Moon-courtyards sustain particular ritual communities. Under Sundrift's starless sky, chart-readers use carried records, internal Lumia patterns and lunar timing; a clear night does not restore visible local constellations. Farming, hunting, scholarship and ordinary family life remain real choices beside the rite.
 
 The night is the teacher. Astril children are born into the work. Before they can walk they learn the feel of moonlight on their skin, the rhythm of the ritual-chants, the names of the stars that mark the hours of the rite. As they grow they learn star-reading, then farming, then hunting, then the deeper mysteries of the Selunis-ritual. They are taught, early and plainly, that they are refugees. That their ancestors came from a world that died. That they led something terrible to this one. That their work, every night, every generation, is the only thing standing between Mythrill and the fate of Lumia. Children raised on this truth do not grow up light-hearted. They grow up purposeful. They grow up carrying a weight the rest of the world does not know is there.
 
-The isolation is not merely practical. It is theological. The Astril kept their heritage secret for centuries because Keth Amar is all-knowing, and to be discovered was to be hunted. Old habits endure. Even now, after the secret has broken, the Astril cluster together in their scattered villages and trust outsiders slowly. An Astril who leaves the community is either an exile, a messenger, or a penitent seeking to atone in the wider world. All three are pitied. None are envied.
+Isolation varies by institution and region. Some settlements guard their rites; others trade, travel, research or seek allies. Keth's knowledge has limits. Leaving a village does not automatically make an Astril an exile or penitent, and inherited resonance is not a universal moral sentence.
 
 They carry guilt the rest of the world does not know about. The leaders of Mythrill know the Astril warned them of Keth Amar. They do not always know, or fully understand, that the Astril are the reason the predator found Sol at all. The Astril themselves never forget. Every ritual performed is penance. Every harvest gathered on foreign soil is a debt. They are farmers and hunters who work the land of a world they doomed, and the land feeds them anyway, and the kindness of that fact is a wound that never quite closes.`,
-    variantDiversity: `The Astril are divided by bloodline: Stargazer Astril (Star-Woven) carry Lumia's stellar memory in pale skin etched with glowing blue star-constellation lines, while Brutish Astril (Abyssal Star-Fractured) carry dark violet-grey skin etched with fractured purple void-crystal lines. Both are Astril. Both are refugees. Both perform the nightly ritual. But Stargazer Astril are rooted in starlight, while Brutish Astril channel the fractured power of the deep crystal void.`,
+    variantDiversity: `The Astril are divided by bloodline: Lumian (Star-Woven) carry Lumia's stellar memory in pale skin etched with glowing blue star-constellation lines, while Kordak (Abyssal Star-Fractured) carry dark violet-grey skin etched with fractured purple void-crystal lines. Both are Astril. Both are refugees. Both perform the nightly ritual. But Lumian are rooted in starlight, while Kordak channel the fractured power of the deep crystal void.`,
     integrationNotes: {
         actionPointSystem: 'Astril abilities reflect their alien biology and their lunar calling: inverted senses, luminous eyes that betray them in the dark, resilience born of a dead world, and a ritual bond to the dormant Selunis. Their night-focus creates distinct tactical rhythms, strong after sundown, vulnerable in daylight, exposed when hiding.',
         backgroundSynergy: 'Astril excel in backgrounds emphasizing survival, ritual, and guardianship. Their refugee heritage and hidden guilt create deep roleplay hooks around penance, secrecy, farming communities, and the centuries-long work of waking a god.',
-        classCompatibility: 'Stargazer Astril favor Augurs, Harbingers, and Animists, channeling stellar memory and lunar attunement into prophecy, ritual, and the slow work of waking the sleeper beneath the moon. Brutish Astril favor Wardens, Apex, and Animists, turning deep crystal resilience and territorial instinct toward defense, hunting, and stewardship of the dark. Stargazer Astril alone among their kind walk the Arcanoneer path, charting elemental combination as starlight cycles timed from the Quiet Observatory rather than contract-law or engineering.'
+        classCompatibility: 'Lumian are the star-memory people, native to five paths: the Arcanoneer (charted as starlight cycles from the Quiet Observatory), the Animist (the Lumia heritage itself as ancestor), the Augur (futures read in crystalline fractures), the Harbinger (a dead world\'s echo as entropy), and the False Prophet (genuine resonance as cover for a fabricated faith). Kordak are the suppressed people, native to the Harbinger (a gagged warning as fuel), the Animist (communing with the dead star in stillness), the Augur (forcing prophecy from suppressed memory), the Crusader (refracting Aex\'s song through crystal), and the False Prophet (suppression itself as conviction). Other paths are learned or acquired, not native.'
     },
-    diasporaVariation: `Astril diaspora is reluctant and rare. Their communities are scattered and isolated by design, each one a ritual-site maintaining its piece of the Selunis-rite. The largest gatherings are in remote farmlands far from the great cities, where the night sky is clear and strangers seldom come. An Astril in a major city is almost always a messenger, an exile, or a penitent seeking allies for the work. In Sundale, a small Stargazer Astril community trades quietly with the Solari, a tense relationship, for the Solari revere the sun the Astril inadvertently endangered. In Nordhalla, a handful of Brutish Astril tend a moon-courtyard carved into the glacier itself, reading stars the cold makes razor-sharp. Most Astril, however, never leave the village they were born in. The ritual does not permit absence for long.`,
-    meaningfulTradeoffs: 'Astril gain alien resilience and lunar attunement through Lumia\'s echo, but their inverted vision blinds them in bright daylight, and their luminous eyes betray every attempt to hide in darkness. The Stargazer Astril are so rooted in the physical world that they sometimes forget the ritual that gives their people purpose. The Brutish Astril are so focused on the ritual that they sometimes forget the ground beneath their feet.',
+    diasporaVariation: `Synod Hold remains the principal Lumian institution; Crater-Hold is a martial/craft settlement, not the capital of all Astril. Diaspora farmers, researchers and ritualists preserve different practices. Moon-courtyards and carried charts support travel under a starless sky, without a universal ritual absence timer or a newly visible local constellation.`,
+    meaningfulTradeoffs: 'Astril gain alien resilience and lunar attunement through Lumia\'s echo, but their inverted vision blinds them in bright daylight, and their luminous eyes betray every attempt to hide in darkness. The Lumian are so rooted in the physical world that they sometimes forget the ritual that gives their people purpose. The Kordak are so focused on the ritual that they sometimes forget the ground beneath their feet.',
     baseTraits: {
-        languages: ['Common', 'Lumian'],
+        languages: ["Wayfarer's Cant", 'Echo-Song'],
         lifespan: '140-200 years',
         baseSpeed: 30,
         size: 'Medium',
@@ -243,13 +243,13 @@ They were running from Keth Amar. They did not know, then, that they were runnin
 
 They arrived. They found a world that was alive, with a sun, Sol, that still burned, and peoples, and deities, and a sky full of stars they had never seen. They wept. They had not expected to weep again. And then they reached out, carefully, fearfully, to the powers of this new world, because they carried a warning they were honor-bound to deliver.
 
-They were directed to Selunis. The lunar deity sleeps. It has slept since before the peoples of Mythrill kept records, dreaming beneath the tides of the moon, its presence felt in the pull of the sea and the pale light of the night sky. The Astril, carrying the echo of a dead star, could hear Selunis where others could not. And Selunis, in the language of dream and moonlight, gave them their purpose.
+Therra and other interpreters read lunar dreams and signs through Lumia resonance. Their accounts founded a doctrine of protection and waking, not evidence that dormant Selunis literally spoke or assigned every refugee a destiny.
 
 The first quest: save Sol. The Astril went to the leaders of Mythrill and told them what they knew. They spoke of Keth Amar. They spoke of a predator that eats stars. They advocated, with the authority of the only survivors of its hunger, for the House Bargain that would anchor the shell about the thing beneath Emberspire. They were heard. They were believed, eventually, because the alternative was too terrible to disbelieve.
 
 The second quest: wake Selunis. The ritual must be performed every night, beneath the moon, for as long as it takes. Centuries. The Astril accepted it. They scattered across Mythrill in small, isolated communities, farmers and hunters by day, ritual-tenders by night, and they began a work they knew they would not live to see finished.
 
-They kept their heritage secret. Keth Amar is all-knowing, or near enough. If it learned what they carried, it would hunt them. If it learned what they were tending, it would end it. So the Astril hid. For centuries they passed as merely strange, a reclusive people with odd eyes and quiet ways, and the secret held.
+Some Astril guarded their resonance and sites because Keth could follow actual traces. The predator remained fallible and deceptive. Their concealment was a practice with limits, not a paradox against omniscience or an obligation inherited by every child.
 
 Until it didn't.
 
@@ -268,13 +268,13 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             name: 'Mother Therra',
             title: 'First Voice of Selunis',
             portraitIcon: 'Fairy/Icon7',
-            backstory: 'Therra was the first Astril to hear Selunis clearly. When the refugees arrived on Mythrill, grieving and desperate, it was Therra whose bloodline carried Lumia\'s echo most strongly, and it was Therra who first felt the lunar deity stirring in dream. Selunis spoke the dual quest through Therra\'s mouth, and Therra spent the remainder of her long life teaching the other Astril how to listen. She is the one who named the ritual, who established the first moon-courtyard, who decided that the work would be done in isolated farming communities where the secret could be kept. She died at one hundred and ninety, performing the rite on the night of a full moon. They say the moon brightened as she passed.'
+            backstory: 'Therra was a founding interpreter of lunar dreams and signs through Lumia resonance. Her teachings shaped the protection-and-waking doctrine and the first local moon-courtyards. Selunis remained dormant; speaking through Therra is attributed ritual language, not author truth of a literal quest. Therra died at one hundred and ninety during a full-moon rite, and witnesses said the moon brightened as she passed.'
         },
         {
-            name: 'Korr Stargazer Astril',
+            name: 'Korr Lumian',
             title: 'The Warning-Bearer',
             portraitIcon: 'Fairy/Icon11',
-            backstory: 'When Keth Amar found the Astril at last, it was Korr, a Stargazer Astril hunter of unremarkable bloodline, who carried the warning to the world\'s leaders. He walked out of his isolated village one autumn morning and did not stop walking until he had reached every court that would hear him. He spoke plainly. He told them what the Astril were, what they had brought, what was coming. He was called liar, heretic, and worse, before he was believed. Korr never returned to his village. He lives still, somewhere in the world, an old hunter with reptilian eyes who watches the horizon for the thing he warned everyone about. He does not consider himself a hero. He considers himself a messenger who was three centuries too late.'
+            backstory: 'When Keth Amar found the Astril at last, it was Korr, a Lumian hunter of unremarkable bloodline, who carried the warning to the world\'s leaders. He walked out of his isolated village one autumn morning and did not stop walking until he had reached every court that would hear him. He spoke plainly. He told them what the Astril were, what they had brought, what was coming. He was called liar, heretic, and worse, before he was believed. Korr never returned to his village. He lives still, somewhere in the world, an old hunter with reptilian eyes who watches the horizon for the thing he warned everyone about. He does not consider himself a hero. He considers himself a messenger who was three centuries too late.'
         }
     ],
     majorLocations: [
@@ -284,42 +284,55 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
         },
         {
             name: 'The Quiet Observatory',
-            description: 'High in a range the map-makers never bothered to name, the Quiet Observatory is the Astril\'s great star-reading site, a ring of standing stones aligned not to Mythrill\'s constellations but to the patterns the ritual requires. The Brutish Astril tend it, reading the sky each night to determine which phase of the rite may be performed when. The stones are carved with star-charts that no native astronomer of Mythrill recognizes, for they map not the sky as it is, but the sky as the ritual sees it, a clock-face for waking a god. The Observatory is never lit by fire. Only moonlight is permitted within the ring.'
+            description: 'High in a range the map-makers never bothered to name, the Quiet Observatory is the Astril\'s great star-reading site, a ring of standing stones aligned not to Mythrill\'s constellations but to the patterns the ritual requires. The Kordak tend it, reading the sky each night to determine which phase of the rite may be performed when. The stones are carved with star-charts that no native astronomer of Mythrill recognizes, for they map not the sky as it is, but the sky as the ritual sees it, a clock-face for waking a god. The Observatory is never lit by fire. Only moonlight is permitted within the ring.'
         },
         {
             name: 'Lumia\'s Hearth',
-            description: 'The oldest Astril settlement, a farming village so small and so remote that it appears on no map. This is where the first refugees stopped fleeing and began planting. The fields here are tended by Stargazer Astril bloodlines who have farmed this soil since the arrival, and the crops that grow in them are the descendants of seeds carried across the void from a dead world. The village surrounds a moon-courtyard older than any other. Beneath the courtyard\'s central stone, the Astril say, is buried a fragment of Lumia itself, the last physical remnant of the star, carried across the void and hidden where no one would think to look. Whether this is true, none but the eldest ritual-tenders know, and they will not say.'
+            description: 'The oldest Astril settlement, a farming village so small and so remote that it appears on no map. This is where the first refugees stopped fleeing and began planting. The fields here are tended by Lumian bloodlines who have farmed this soil since the arrival, and the crops that grow in them are the descendants of seeds carried across the void from a dead world. The village surrounds a moon-courtyard older than any other. Beneath the courtyard\'s central stone, the Astril say, is buried a fragment of Lumia itself, the last physical remnant of the star, carried across the void and hidden where no one would think to look. Whether this is true, none but the eldest ritual-tenders know, and they will not say.'
         }
     ],
-    currentCrisis: 'The Selunis-ritual is approaching a critical phase. The Brutish Astril star-readers have watched the moon\'s tides shift over the last decade in ways the old charts predicted centuries ago, the signs that the waking is near, perhaps within a generation. But the same decade has seen Keth Amar\'s awareness grow. The predator stirs more often, reaches further, and the Astril fear it has begun to sense the lunar connection. If the ritual is discovered before the awakening is complete, centuries of nightly work end in a single night. If it is interrupted at the wrong phase, no one knows what happens to a half-woken god. The ritual-tenders are working faster than the charts permit, pushing the rite ahead of its proper rhythm, and the Stargazer Astril farmers are digging in, fortifying the remote communities, preparing for the day the predator turns its full attention toward the moon. The Astril have spent centuries hiding. They are beginning to suspect they will not be hidden much longer.',
-    culturalPractices: 'The night is the teacher. An Astril child\'s first lessons come after sundown, held in the moon-courtyard while the adults perform the ritual and the elders murmur the star-charts in the double-tone. Children learn to read the sky before they learn to read words. They learn that the stars are a clock, that the moon is a door, and that their people are the only ones who remember how to open it.\n\nBy day, the Astril farm and hunt. Every community is self-sufficient by necessity, isolation requires it. The Stargazer Astril bloodlines tend the fields and track the game, their reptilian patience suited to the slow work of growing things. The Brutish Astril bloodlines keep the records, time the rituals, and watch the sky for the signs that mark each phase of the rite. Both bloodlines perform the ritual together. The work cannot be done by one alone.\n\nChildren are taught their heritage plainly and without ornament. You are a refugee. Your ancestors came from a world that died. You led something terrible to this one. Your work, every night, every generation, ensures that this world does not die the same way. There is no glory in the telling. There is only the truth, and the purpose it carries. Astril children do not play at heroes. They play at farmers and ritual-tenders, because that is what they will be.\n\nThe dead are laid in the moon-courtyard beneath the open sky, watched through a single night so that Selunis\'s dreaming gaze may pass over them. By dawn they are buried in the fields, returning to a soil that is not the soil of their ancestors\' world but feeds their descendants all the same. The Astril plant above their graves. They say the crops that grow from Lumia\'s-blood-fed earth taste faintly of a star that no longer exists, and only the Astril can taste it.',
+    currentCrisis: 'The Selunis-ritual is approaching a critical phase. The Kordak star-readers have watched the moon\'s tides shift over the last decade in ways the old charts predicted centuries ago, the signs that the waking is near, perhaps within a generation. But the same decade has seen Keth Amar\'s awareness grow. The predator stirs more often, reaches further, and the Astril fear it has begun to sense the lunar connection. If the ritual is discovered before the awakening is complete, centuries of nightly work end in a single night. If it is interrupted at the wrong phase, no one knows what happens to a half-woken god. The ritual-tenders are working faster than the charts permit, pushing the rite ahead of its proper rhythm, and the Lumian farmers are digging in, fortifying the remote communities, preparing for the day the predator turns its full attention toward the moon. The Astril have spent centuries hiding. They are beginning to suspect they will not be hidden much longer.',
+    culturalPractices: 'The night is the teacher. An Astril child\'s first lessons come after sundown, held in the moon-courtyard while the adults perform the ritual and the elders murmur the star-charts in the double-tone. Children learn to read the sky before they learn to read words. They learn that the stars are a clock, that the moon is a door, and that their people are the only ones who remember how to open it.\n\nBy day, the Astril farm and hunt. Every community is self-sufficient by necessity, isolation requires it. The Lumian bloodlines tend the fields and track the game, their reptilian patience suited to the slow work of growing things. The Kordak bloodlines keep the records, time the rituals, and watch the sky for the signs that mark each phase of the rite. Both bloodlines perform the ritual together. The work cannot be done by one alone.\n\nChildren are taught their heritage plainly and without ornament. You are a refugee. Your ancestors came from a world that died. You led something terrible to this one. Your work, every night, every generation, ensures that this world does not die the same way. There is no glory in the telling. There is only the truth, and the purpose it carries. Astril children do not play at heroes. They play at farmers and ritual-tenders, because that is what they will be.\n\nThe dead are laid in the moon-courtyard beneath the open sky, watched through a single night so that Selunis\'s dreaming gaze may pass over them. By dawn they are buried in the fields, returning to a soil that is not the soil of their ancestors\' world but feeds their descendants all the same. The Astril plant above their graves. They say the crops that grow from Lumia\'s-blood-fed earth taste faintly of a star that no longer exists, and only the Astril can taste it.',
     subraces: {
         vashir: {
             id: 'vashir_astril',
-            name: 'Stargazer Astril',
-            illustration: '/assets/images/races/astril_stargazer_icon_v1.png',
-            illustrationCaption: 'A petite Stargazer Astril celestial scholar holding an armillary sphere and star scroll in rough charcoal draft with starlight cyan watercolor splash.',
+            name: 'Lumian',
+        crest: '/assets/images/crests/astril_stargazer_crest.png',
+            illustration: '/assets/images/races/astril_stargazer_portrait_bust.jpg',
+            illustrationCaption: 'Canonical Lumian Racial Portrait — Celestial astromancer with crystallized cranial horns, glowing pupilless eyes, and brass star-caliper in rough charcoal draft with starlight cyan watercolor splash.',
             illustrations: [
                 {
-                    src: '/assets/images/races/astril_stargazer_icon_v1.png',
-                    caption: 'Stargazer Astril celestial scholar with armillary sphere, star scroll, and carved bone crown in rough charcoal draft with starlight cyan watercolor splash.'
+                    src: '/assets/images/races/astril_stargazer_portrait_bust.jpg',
+                    caption: 'Canonical Lumian Racial Portrait — Celestial astromancer with crystallized cranial horns, glowing pupilless eyes, and brass star-caliper in rough charcoal draft with starlight cyan watercolor splash.'
                 },
                 {
-                    src: '/assets/images/races/astril_stargazer_culture_vigil.png',
-                    caption: 'Stargazer Astril scholars conducting the midnight Selunis waking vigil around a star-reflecting water basin and armillary sphere in rough charcoal draft with celestial cyan watercolor splash.'
+                    src: '/assets/images/races/astril_stargazer_location_shard_cleft.jpg',
+                    caption: 'Shard-Cleft Observatory & Refractor Sanctum — Subterranean canyon chamber gathering focused starlight through giant suspended optical crystal lenses and brass gimbals.'
                 },
                 {
-                    src: '/assets/images/races/astril_stargazer_city_observatory.jpg',
-                    caption: 'The Megalithic Quiet Observatory of Lumia\'s Hearth overlooking stepped moon-terraces and telescope domes in rough charcoal draft with celestial cyan watercolor splash.'
+                    src: '/assets/images/races/astril_stargazer_location_prism_vale.jpg',
+                    caption: 'Prism-Vale Hermitage — High alpine sanctuary valley with weightlessly levitating resonant quartz monoliths, reflecting pools, and colonnades.'
+                },
+                {
+                    src: '/assets/images/races/astril_stargazer_figure_vael.jpg',
+                    caption: 'Vael of the Long Crossing — Sovereign Astromancer holding a rotating armillary astrolabe staff and levitating star-prism in rough charcoal draft with starlight cyan watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_stargazer_figure_therra.jpg',
+                    caption: 'Mother Therra (First Voice of Selunis) — Venerable matriarch seer guiding orbiting levitating crystal shards on a high marble aerie in rough charcoal draft with starlight cyan watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_stargazer_figure_korr.jpg',
+                    caption: 'Korr Lumian (The Warning-Bearer) — Mountain sentry with crystallized brow horns, quilted harness, and crystalline composite bow in rough charcoal draft with starlight cyan watercolor splash.'
                 }
             ],
 
-            visualDescription: `Carrying Lumia's starlight memory, Stargazer Astril possess pale, luminescent skin etched with shifting blue star-constellation lines that glow in low light. Their starry eyes reflect celestial nebulae, and they favor elegant practical robes woven from night-blooming silk and starlight thread.`,
+            visualDescription: `Carrying Lumia's starlight memory, Lumian possess pale, luminescent skin etched with shifting blue star-constellation lines that glow in low light. Their starry eyes reflect celestial nebulae, and they favor elegant practical robes woven from night-blooming silk and starlight thread.`,
             tooltipSummary: 'Peaceful cosmic scholars and star-readers whose attunement guides the Selunis vigil and preserves ancient cosmic lore.',
-            description: 'The Stargazer Astril are the peaceful cosmic scholars of the Astril race. Their pale skin hums with soft, glowing blue star-constellation lines, and their eyes catch and reflect the starlight of lost heavens. They are ritual-tenders, sky-readers, and astronomers who measure the night in centuries, completely innocent of the brutal purge demanded by their warlike kin.',
-            culturalBackground: 'Stargazer Astril communities focus on the nightly Selunis ritual and quiet observatory archives. They read the sky each night, tracking constellations and timing sacred chants to preserve their lost world\'s starlight memory.',
+            description: 'Lumian traditions include scholars, ritual-tenders and chart-readers, using internal Lumia resonance and carried records under a starless sky. Their organic pale skin and crystalline markings do not make every descendant peaceful or morally innocent by birth. Specific institutions and choices, not the whole heritage, own their political acts.',
+            culturalBackground: 'Lumian communities preserve carried charts, internal Lumia patterns and lunar timing in Synod Hold and observatory archives. Their star-reading does not require visible local constellations under Sundrift\'s starless sky.',
 
-            statModifiers: { spirit: 2, intelligence: 1, strength: -1 },
+            statModifiers: { spirit: 2, intelligence: 2, charisma: 1, strength: -2 },
             baseStats: { hp: 7, mana: 8, ap: 3, initiative: 1 },
             savingThrowModifiers: { advantage: ['spirit'], disadvantage: ['physical'] },
             traits: [
@@ -441,29 +454,34 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
         },
         silath: {
             id: 'silath_astril',
-            name: 'Brutish Astril',
-            illustration: '/assets/images/races/astril_brutish_icon_v1.png',
-            illustrationCaption: 'A noble Brutish Astril warrior-chieftain with sweeping demonic bone horns and celestial war-sash in rough charcoal draft with midnight violet watercolor splash.',
+            name: 'Kordak',
+        crest: '/assets/images/crests/astril_brutish_crest.png',
+            illustration: '/assets/images/races/astril_brutish_city_settlement.jpg',
+            illustrationCaption: 'Crater-Hold & The Impact-Forge — The monumental subterranean caldera fortress constructed inside a mile-wide meteor crater in rough charcoal draft with midnight violet watercolor splash.',
             illustrations: [
                 {
-                    src: '/assets/images/races/astril_brutish_icon_v1.png',
-                    caption: 'Brutish Astril warrior-chieftain with demonic horns, celestial war-sash, and stone cleaver in rough charcoal draft with midnight violet watercolor splash.'
-                },
-                {
-                    src: '/assets/images/races/astril_brutish_culture_honing.png',
-                    caption: 'Brutish Astril warrior-chieftain honing his meteoric stone war-cleaver beside a star-constellation obelisk in rough charcoal draft with midnight violet watercolor splash.'
-                },
-                {
                     src: '/assets/images/races/astril_brutish_city_settlement.jpg',
-                    caption: 'The Crater Basalt Settlement of High Lumia showing daily life, stone terraced dwellings, and hunters in rough charcoal draft with midnight violet watercolor splash.'
+                    caption: 'Crater-Hold & The Impact-Forge — The monumental subterranean caldera fortress constructed inside a mile-wide meteor crater in rough charcoal draft with midnight violet watercolor splash.'
+                },
+                {
+                    src: '/assets/images/races/astril_brutish_location_scree_hollow.jpg',
+                    caption: 'Scree-Hollow Bastion — Formidable choke-point fortress spanning a volcanic basalt gorge with cyclopean stone portcullises and boulder-throwers.'
+                },
+                {
+                    src: '/assets/images/races/astril_brutish_location_resonant_quarry.jpg',
+                    caption: 'The Resonant Quarry & Crystal Extraction Pits — Tiered basalt open-pit quarry with cranes and resonant amethyst geodes sprouting from rock walls.'
+                },
+                {
+                    src: '/assets/images/races/astril_brutish_figure_thok.jpg',
+                    caption: 'Warmaster Thok Meteor-Fist — Legendary Kordak Warlord with heavy obsidian stone-skin and colossal two-handed meteor-iron warhammer in rough charcoal draft with midnight violet watercolor splash.'
                 }
             ],
 
-            visualDescription: `The Brutish Astril wear the martial, conqueror power of dark starlight. Their skin is dark violet-grey, etched with sharp purple void-crystal lines that pulse with military cosmic energy. Their dark eyes reflect abyssal starlight, and they favor heavy star-steel plating studded with void-crystal fragments.`,
-            tooltipSummary: 'Warlike conquerors wielding dark starlight technology, the imperious martial caste who demanded the historic Ordan purge.',
-            description: 'The Brutish Astril are the warlike conqueror caste of the Astril. Driven by fierce survivalism, they wield dark starlight weaponry and ruthless military precision. It was the Brutish Astril who captured the Ordan assassin and issued the terrifying ultimatum that forced him to purge his own lineage to save his sister.',
-            culturalBackground: 'Brutish Astril enclaves operate as high-tech military strongholds in Sundrift Vale. They enforce strict surveillance over hidden human remnants, harnessing void-crystal technology to maintain undisputed dominance over their territories.',
-            statModifiers: { spirit: 2, charisma: 1, constitution: -1 },
+            visualDescription: `The Kordak wear the martial, conqueror power of dark starlight. Their skin is dark violet-grey, etched with sharp purple void-crystal lines that pulse with military cosmic energy. Their dark eyes reflect abyssal starlight, and they favor heavy star-steel plating studded with void-crystal fragments.`,
+            tooltipSummary: 'Organic Astril with dark violet-grey skin, slit-pupil eyes and fractured crystalline markings; martial and craft traditions vary by institution.',
+            description: 'Kordak carry organic flesh, reptilian slit pupils and fractured Lumia markings, not uniformly solid-crystal or pupilless bodies. Particular martial authorities coerced the Ordu noble purge; that history does not make every child a conqueror or every suppression discipline universal.',
+            culturalBackground: 'Kordak enclaves operate as high-tech military strongholds in Sundrift Vale. They enforce strict surveillance over hidden human remnants, harnessing void-crystal technology to maintain undisputed dominance over their territories.',
+            statModifiers: { strength: 2, constitution: 2, spirit: 1, charisma: -2 },
             baseStats: { hp: 6, mana: 7, ap: 3, initiative: 0 },
             savingThrowModifiers: { advantage: ['spirit'], disadvantage: ['physical'] },
             traits: [
@@ -516,7 +534,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'lunar_attunement_silath',
                     name: 'Lunar Attunement',
-                    description: 'Your silver eyes see what Selunis sees. You have advantage on Insight and Perception checks involving dreams, omens, or the lunar deity\'s influence, and you may cast a ritual to commune with Selunis\'s dream once per long rest, gaining a cryptic answer to a single question. Your translucent skin and pupil-less eyes mark you as the dreamer\'s own, and those who know the signs recognize a ritual-tender on sight.',
+                    description: 'Your slit-pupil eyes and Lumia resonance read lunar dream-signs. Advantage on Insight and Perception involving dreams, omens or lunar influence; once per long rest a ritual yields a cryptic interpretation of one question. This is not omniscient sight or a spoken command from an awakened Selunis.',
                     level: 1,
                     icon: 'Utility/Crescent Moon',
                     spellType: 'PASSIVE',
@@ -530,7 +548,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                             {
                                 id: 'dreamsight_silath',
                                 name: 'Dreamsight',
-                                description: 'Advantage on Insight and Perception checks involving dreams, omens, or Selunis. Once per long rest, commune with the dream for a cryptic answer to one question. The Brutish Astril see what the sleeper shows them.',
+                                description: 'Advantage on Insight and Perception checks involving dreams, omens, or Selunis. Once per long rest, commune with the dream for a cryptic answer to one question. The Kordak see what the sleeper shows them.',
                                 mechanicsText: 'You gain advantage on Insight and Perception checks involving dreams, omens, or Selunis, plus one cryptic answer per long rest.',
                                 statusEffect: { level: 'moderate', description: 'Your eyes reflect the dream of a sleeping god' }
                             }
@@ -581,7 +599,7 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
                 {
                     id: 'silver_eyes_silath',
                     name: 'Silver Eyes',
-                    description: 'Your pupil-less silver eyes read the surface of the world the way they read the sky. You have advantage on Insight checks against living creatures, catching the small tides of deception that ripple across a liar\'s face. You suffer disadvantage on Intimidation checks, your pale, unblinking gaze reads as unsettling or unwell to those who do not know you. The Brutish Astril see too much and threaten too little.',
+                    description: 'Your pupil-less silver eyes read the surface of the world the way they read the sky. You have advantage on Insight checks against living creatures, catching the small tides of deception that ripple across a liar\'s face. You suffer disadvantage on Intimidation checks, your pale, unblinking gaze reads as unsettling or unwell to those who do not know you. The Kordak see too much and threaten too little.',
                     level: 1,
                     icon: 'Psychic/Hypnotic Eye',
                     spellType: 'PASSIVE',

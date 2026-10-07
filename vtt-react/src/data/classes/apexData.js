@@ -1,4 +1,5 @@
 import { UTILITY_SPELLS } from '../spells/utilitySpells';
+import { deferApexSpellMarkGeneration } from '../apexResourceContract';
 /**
  * Apex Class Data
  *
@@ -7,31 +8,31 @@ import { UTILITY_SPELLS } from '../spells/utilitySpells';
  */
 
 export const APEX_DATA = {
- restrictions: {
+  restrictions: {
   "allowedSubraces": [
   "ordan_human",
-   "veiled_mimir",
+  "veiled_mimir",
   "tethered_mimir",
   "skald_human",
   "thrask_solari",
-   "clean_vreken",
-   "marked_vreken",
+  "clean_vreken",
+  "marked_vreken",
   "vashir_astril"
   ],
   "hardBlocks": [
   "solari",
-   "neth",
-   "myrathil",
-   "tessen_human"
+  "neth",
+  "myrathil",
+  "tessen_human"
   ],
   "narrativeUnlock": true,
-  "justification": "Requires cultures with predator-tracking traditions and a willingness to trade a sense for the art. Mimir track Wyrd through the mist (Arch masks hold identity steady, Broken sentinels read the perimeter). Skald hunt the Hunger Glaciers, reading permanent frost like a ledger. Waste-Solari Ash-Rangers stalk the Sundale ashfields, reading footfalls in scoria and heat left in lava-glass. Ordan steppe nomads track prey across open tundra by scent and kinetic vibration. Clean Vreken follow bioluminescent spoor; Marked Vreken feel movement through the Root-Veil. Stargazer Astril read heat across the open steppe. Other cultures lack the sensory training, or the nerve for the Trade."
+  "justification": "Requires cultures with predator-tracking traditions and a willingness to trade a sense for the art. Mimir track Wyrd through the mist (Arch masks hold identity steady, Broken sentinels read the perimeter). Skald hunt the Hunger Glaciers, reading permanent frost like a ledger. Anhur Ash-Rangers stalk the Sundale ashfields, reading footfalls in scoria and heat left in lava-glass. Ordu steppe nomads track prey across open tundra by scent and kinetic vibration. Bedel follow bioluminescent spoor; Cromyx feel movement through the Root-Veil. Lumian read heat across the open steppe. Other cultures lack the sensory training, or the nerve for the Trade."
   },
 
  /**
  * Subrace Variants, the Apex tracks and resolves targets with minimum force, and the
  * *medium* of the tracking is what each variant inherits. The Mimir read the mist.
- * The Skald read the ice. The Vreken read the mycelium. The Ordan read the open steppe.
+ * The Skald read the ice. The Mycellan read the mycelium. The Ordu read the open steppe.
  * The mist is learning to hide from all of them.
  */
  
@@ -44,6 +45,36 @@ export const APEX_DATA = {
    offHand: ['empty']
   },
 subraceVariants: {
+    viridian_florae: {
+      subraceName: 'Briaren Florae',
+      title: 'The Thorn-Tracker',
+      reframe: `The Briaren Florae learn pack hunting at the grove border, reading a quarry through the living growth it disturbs. Cut or sterile ground blinds the sense, so a thorn-tracker learns the boundary of every living grove.`,
+      signatureAbility: {
+        name: 'Thorn-Track',
+        description: `You read living growth disturbed by a quarry; cut or sterile ground removes the edge.`
+      },
+      currentCrisisAngle: `The groves are being felled, and a tracker who can only read living ground is losing the territory they learned to hunt.`,
+      signatureQuote: {
+        text: 'The thorn remembers what stepped on it. Pave it over and you have blinded me.',
+        speaker: 'Thorn-Tracker Vessa',
+        context: 'A Briaren Florae Apex at a felled grove'
+      }
+    },
+    florae_unified: {
+      subraceName: 'Oaken Florae',
+      title: 'The Grove-Scout',
+      reframe: `The Oaken Florae learn pack hunting from Sylas’s hunters at the forest’s edge, reading a quarry’s passage through prepared roots and wood. A local sense, not a map-wide one: the roots speak only where they grow, and the Oaken scout learns to listen at the grove’s boundary.`,
+      signatureAbility: {
+        name: 'Root-Trace',
+        description: `You read a quarry’s passage through prepared roots and wood; the sense is local to living substrate and fails on cut or sterile ground.`
+      },
+      currentCrisisAngle: `The groves are being felled faster than the Oaken can prepare new roots; each stump is a blind spot, and something has learned to cross the cleared ground.`,
+      signatureQuote: {
+        text: 'The root remembers a footfall the eye never saw. Cut the root, and you cut the witness.',
+        speaker: 'Branch-Scout Miro',
+        context: 'An Oaken Florae Apex at a felled grove'
+      }
+    },
   veiled_mimir: {
    subraceName: 'Arch Mimir',
    title: 'The Mask-Hunter',
@@ -64,16 +95,16 @@ subraceVariants: {
   tethered_mimir: {
    subraceName: 'Broken Mimir',
    title: 'The Sentinel-Tracker',
-   reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Fractured Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
+   reframe: `The <LoreLink termId="mimir">Broken Mimir</LoreLink>, the fog-sentinels of the <LoreLink termId="frostwood-reach">Ironwood Palisade</LoreLink>, track as *vigil*, treating every hunt as an extension of their sentinel-duty. A Broken Mimir Apex does not hunt for sport or bounty; they hunt because something has entered the perimeter, and the perimeter must be answered. Their tracking is defensive, methodical, and relentless.`,
    signatureAbility: {
    name: 'Perimeter-Track',
    description: `Tracking-acuity is amplified inside a defined perimeter the Apex has sworn to guard, a settlement, a stretch of palisade, a party's camp. Inside the perimeter, the Broken Mimir are nearly infallible.`
    },
-   currentCrisisAngle: `The mist's new evasion has the Fractured sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected.`,
+   currentCrisisAngle: `The mist's new evasion has the Broken Mimir sentinels on the verge of panic: the perimeter they have guarded for centuries is now *leaking*, the fog itself opening gaps for things to slip through undetected.`,
    signatureQuote: {
    text: '"I have guarded this wall for thirty years and the wall has held because the mist cooperated. Now the mist opens doors for the things I am meant to stop. I am leaving the wall to find the hand on the door."',
    speaker: 'Sentinel-Tracker Mir-Felss',
-   context: 'A Fractured Apex, requesting leave to hunt beyond the Palisade'
+   context: 'A Broken Mimir Apex, requesting leave to hunt beyond the Palisade'
    }
   },
 
@@ -81,7 +112,7 @@ subraceVariants: {
  skald_human: {
   subraceName: 'Skald',
   title: 'The Glacier-Stalker',
-  reframe: `The <LoreLink termId="skald">Skald</LoreLink> hunt in the <LoreLink termId="nordhalla">Hunger Glaciers</LoreLink>, tracking the things that crawl from the ice, the Stel, the glacier-revenants, across terrain that records every footprint in permanent frost. A Skald Apex reads the ice the way the Thalren read a ledger: every mark is recorded, every track is preserved, and the glacier does not lie.`,
+  reframe: `The <LoreLink termId="skald">Skald</LoreLink> hunt in the <LoreLink termId="nordhalla">Hunger Glaciers</LoreLink>, tracking the things that crawl from the ice, the Stel, the glacier-revenants, across terrain that records every footprint in permanent frost. A Skald Apex reads the ice the way the Tallyn read a ledger: every mark is recorded, every track is preserved, and the glacier does not lie.`,
   signatureAbility: {
   name: 'Ice-Reading',
   description: `Tracking-acuity is amplified on frozen terrain, snow, ice, frost, where every mark is preserved and readable. The Skald are the tradition's forensic trackers, able to read tracks days or weeks old in permanent frost. On thawed or warm terrain, their acuity collapses; the record simply is not there.`
@@ -95,73 +126,73 @@ subraceVariants: {
  },
 
  clean_vreken: {
-  subraceName: 'Clean Vreken',
+  subraceName: 'Bedel',
   title: 'The Glow-Trailer',
-  reframe: `The <LoreLink termId="vreken">Clean Vreken</LoreLink> track through bioluminescent *spoor*, the faint glow-trail every living thing leaves on the mycelial network as it moves. A Clean Vreken Apex reads the forest's nervous system the way a sailor reads a wake: the passage of any creature through connected ground lights a trail in the Root-Veil, and the Clean Vreken follow the light.`,
+  reframe: `The <LoreLink termId="vreken">Bedel</LoreLink> track through bioluminescent *spoor*, the faint glow-trail every living thing leaves on the mycelial network as it moves. A Bedel Apex reads the forest's nervous system the way a sailor reads a wake: the passage of any creature through connected ground lights a trail in the Root-Veil, and the Bedel follow the light.`,
   signatureAbility: {
   name: 'Spoor-Glow',
   description: `Tracking is performed by reading bioluminescent spoor-trails in the Root-Veil, effective across any mycelium-connected terrain, and able to track creatures that leave no physical trace. The cost: tracks fade as the network's memory of the passage fades, and a spoor-trail in disturbed or dying mycelium is unreadable.`
   },
-  currentCrisisAngle: `The Root-Veil is rejecting the Marked (the Plaguebringer crisis), and as the network recoils, the spoor-trails are *degrading*, the forest's memory of what passed through is being erased along with the mycelium. Clean Vreken Apexes are watching their tracking-substrate die the way the Skald watch the glaciers melt: the record they hunt by is disappearing.`,
+  currentCrisisAngle: `The Root-Veil is rejecting the Cromyx (the Plaguebringer crisis), and as the network recoils, the spoor-trails are *degrading*, the forest's memory of what passed through is being erased along with the mycelium. Bedel Apexes are watching their tracking-substrate die the way the Skald watch the glaciers melt: the record they hunt by is disappearing.`,
   signatureQuote: {
   text: '"Everything that moves in this forest leaves a light, and I read the light. Now the lights are going out, not because the prey has stopped moving, but because the forest has stopped remembering. I am tracking things the world is forgetting."',
   speaker: 'Glow-Trailer Yssen',
-  context: 'A Clean Vreken Apex, following a spoor-trail that was fading as she read it'
+  context: 'A Bedel Apex, following a spoor-trail that was fading as she read it'
   }
  },
 
  marked_vreken: {
-  subraceName: 'Marked Vreken',
+  subraceName: 'Cromyx',
   title: 'The Mycelium-Scent',
-  reframe: `The <LoreLink termId="vreken">Marked Vreken</LoreLink>, ghost-mycelium walkers, track *through* their own network-connected skin, feeling the passage of prey as vibrations in the Root-Veil the way a spider feels a web. A Marked Apex does not read spoor; they *feel* movement, their mycelium-threaded body a living sensory net spread across miles of forest floor.`,
+  reframe: `The <LoreLink termId="vreken">Cromyx</LoreLink>, ghost-mycelium walkers, track *through* their own network-connected skin, feeling the passage of prey as vibrations in the Root-Veil the way a spider feels a web. A Cromyx Apex does not read spoor; they *feel* movement, their mycelium-threaded body a living sensory net spread across miles of forest floor.`,
   signatureAbility: {
   name: 'Web-Sense',
   description: `Tracking is performed through tactile vibration in the host's own mycelial network, the Apex feels prey moving anywhere on connected ground, through their skin. The most *immediate* tracking method, but requires the prey to be moving; a stationary target produces no vibration and is invisible to the Web-Sense.`
   },
-  currentCrisisAngle: `The Root-Veil's rejection of the Marked (the Plaguebringer crisis) is *amputating their senses*, as the network expels their mycelium, the Web-Sense's range collapses. Marked Apexes are being reduced from miles-wide perception to the range of their own skin, and the terror of going *numb*, of losing the web they have felt through for centuries, is driving some to tear the expelling mycelium out faster, to get the loss over with.`,
+  currentCrisisAngle: `The Root-Veil's rejection of the Cromyx (the Plaguebringer crisis) is *amputating their senses*, as the network expels their mycelium, the Web-Sense's range collapses. Cromyx Apexes are being reduced from miles-wide perception to the range of their own skin, and the terror of going *numb*, of losing the web they have felt through for centuries, is driving some to tear the expelling mycelium out faster, to get the loss over with.`,
   signatureQuote: {
   text: '"I felt the whole forest through my skin, and now the forest is pulling its fingers out of me one by one. Soon I will feel only myself. I do not know how to hunt with only a body."',
-  speaker: 'Marked Apex Vesh',
-  context: 'A Marked Vreken, feeling another patch of mycelium detach from her arm'
+  speaker: 'Cromyx Apex Vesh',
+  context: 'A Cromyx, feeling another patch of mycelium detach from her arm'
   }
  },
 
  ordan_human: {
-  subraceName: 'Ordan',
+  subraceName: 'Ordu',
   title: 'The Steppe-Scent',
-  reframe: `The <LoreLink termId="skald">Ordan</LoreLink>, steppe nomads, track across the open <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> by *scent and kinetic vibration*, reading the grass and the wind the way a sailor reads the sea. An Ordan Apex is the tradition's open-terrain specialist: where the forest-trackers read cover and the glacier-trackers read frost, the Ordan read *distance*, tracking prey across miles of featureless steppe through the bend of a grass-stalk.`,
+  reframe: `The <LoreLink termId="skald">Ordu</LoreLink>, steppe nomads, track across the open <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink> by *scent and kinetic vibration*, reading the grass and the wind the way a sailor reads the sea. An Ordu Apex is the tradition's open-terrain specialist: where the forest-trackers read cover and the glacier-trackers read frost, the Ordu read *distance*, tracking prey across miles of featureless steppe through the bend of a grass-stalk.`,
   signatureAbility: {
   name: 'Steppe-Read',
-  description: `Tracking-acuity is amplified on open, windswept terrain, grassland, steppe, tundra, where kinetic vibration and scent carry for miles. The Ordan are the tradition's longest-range trackers, able to follow prey at distances that would lose any forest or glacier specialist. The cost: in dense cover or enclosed spaces, their range-craft is nearly useless.`
+  description: `Tracking-acuity is amplified on open, windswept terrain, grassland, steppe, tundra, where kinetic vibration and scent carry for miles. The Ordu are the tradition's longest-range trackers, able to follow prey at distances that would lose any forest or glacier specialist. The cost: in dense cover or enclosed spaces, their range-craft is nearly useless.`
   },
-  currentCrisisAngle: `The mist-learning-to-hide crisis has not reached the open steppe directly, but the Ordan report a subtler symptom: the *wind has started lying*. The steppe-trackers read the grass and the air, and both have begun carrying false information, scent-trails that lead nowhere, vibrations that have no source. The Ordan suspect whatever is teaching the Frostwood mist to hide is *also teaching the steppe wind to deceive*, and the open sky they have trusted for millennia is no longer neutral ground.`,
+  currentCrisisAngle: `The mist-learning-to-hide crisis has not reached the open steppe directly, but the Ordu report a subtler symptom: the *wind has started lying*. The steppe-trackers read the grass and the air, and both have begun carrying false information, scent-trails that lead nowhere, vibrations that have no source. The Ordu suspect whatever is teaching the Frostwood mist to hide is *also teaching the steppe wind to deceive*, and the open sky they have trusted for millennia is no longer neutral ground.`,
   signatureQuote: {
   text: '"I read the grass the way your scholar reads a page. The grass has started writing fiction. I have followed three trails this moon that led to nothing but wind. The steppe is lying to me, and I do not know what I did to deserve it."',
   speaker: 'Steppe-Scent Bayar',
-  context: 'An Ordan Apex, returning from a third hunt that found nothing'
+  context: 'An Ordu Apex, returning from a third hunt that found nothing'
   }
  },
 
  vashir_astril: {
-  subraceName: 'Stargazer Astril',
+  subraceName: 'Lumian',
   title: 'The Steppe-Stalker',
-  reframe: `The <LoreLink termId="astril">Stargazer Astril</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is a fierce steppe predator — a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Stargazer Astril Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice — a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
+  reframe: `The <LoreLink termId="astril">Lumian</LoreLink> reptilian eyes track heat-signatures across the open steppe, their nictitating membrane protecting against wind-blown grit. Their cooler body temperature means prey that hunts by warmth cannot see them. The beast companion is a fierce steppe predator — a scaled hawk, a dust-runner, or one of the <LoreLink termId="sundrift-vale">Sundrift</LoreLink>'s own hunting shadows. The Lumian Apex hunts alone, far from <LoreLink termId="mimir">Mimir</LoreLink> fog or <LoreLink termId="skald">Skald</LoreLink> ice — a tradition born of the flat, open, starless ground where there is nothing to hide behind except patience.`,
   signatureAbility: {
   name: 'Heat-Sight',
-  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Stargazer Astril's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
+  description: `Tracking is performed through thermal vision, reading body-heat signatures across open terrain. The Lumian's nictitating membrane filters wind-blown grit and glare, allowing uninterrupted visual tracking in conditions that would blind other hunters. Their cooler body temperature makes them invisible to prey that hunts by warmth, turning the hunter into a ghost on the steppe.`
   },
-  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Stargazer Astril differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Stargazer Astril Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Stargazer Astril are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
+  currentCrisisAngle: `The wind-has-started-lying crisis has hit the Lumian differently: their heat-sight is unaffected by the false scents and phantom vibrations, but the prey is now following the same false trails. The Lumian Apexes are finding kill-sites where predators have been led in circles by scent-trails that terminate nowhere, and the Lumian are the only trackers who can see the starvation unfolding in the infrared panic of dying herds. They are watching the Sundrift food-web collapse in real time, and they are the only ones who know it.`,
   signatureQuote: {
-  text: '"The Ordan read the grass. The Skald read the ice. I read the heat, and the heat does not lie to me the way the wind lies to them. But the heat is fading. Something on the steppe is getting colder, and I do not think it is the season."',
+  text: '"The Ordu read the grass. The Skald read the ice. I read the heat, and the heat does not lie to me the way the wind lies to them. But the heat is fading. Something on the steppe is getting colder, and I do not think it is the season."',
   speaker: 'Sethra Heat-Eye',
-  context: 'A Stargazer Astril Apex, tracking a herd that was already dead when it arrived'
+  context: 'A Lumian Apex, tracking a herd that was already dead when it arrived'
   }
   },
 
   thrask_solari: {
-   subraceName: 'Waste-Solari',
+   subraceName: 'Anhur',
    title: 'The Ash-Stalker',
-   reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink> Ash-Rangers hunt the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>, where the ground itself keeps the record: every footfall prints in scoria, every living thing leaves heat in the lava-glass long after it has passed, and a dark-adapted hunter can follow a trail at night by warmth alone. A Waste-Solari Apex runs with an ash-hound, a cinder-jackal bred to the calderas, and reads the ashfields the way the Skald read the glacier, except the glacier never erupted under a hunter's feet. They take contracts from the Dawn Vigil because refusing a Vigil contract in Sundale is a slower kind of death. They have begun to hate the contracts.`,
+   reframe: `The <LoreLink termId="solari">Anhur</LoreLink> Ash-Rangers hunt the volcanic badlands of <LoreLink termId="sundale">Sundale</LoreLink>, where the ground itself keeps the record: every footfall prints in scoria, every living thing leaves heat in the lava-glass long after it has passed, and a dark-adapted hunter can follow a trail at night by warmth alone. A Anhur Apex runs with an ash-hound, a cinder-jackal bred to the calderas, and reads the ashfields the way the Skald read the glacier, except the glacier never erupted under a hunter's feet. They take contracts from the Dawn Vigil because refusing a Vigil contract in Sundale is a slower kind of death. They have begun to hate the contracts.`,
    signatureAbility: {
     name: 'Cinder-Track',
     description: `Tracking-acuity is amplified on ash, scoria, and lava-glass, where every step prints and heat lingers for days. The Ash-Stalker can read a track by its residual warmth even after the print is gone. On cold, wet, or grown ground, the craft collapses, the ash keeps no memory there.`
@@ -170,7 +201,23 @@ subraceVariants: {
    signatureQuote: {
     text: '"I can read a man\'s path by the heat he left in the scoria. The last three trails I followed went into a vent sealed since before my grandmother\'s forge was lit. The ash remembers them going in. It does not remember them coming out."',
     speaker: 'Ash-Stalker Serev Cinder-Bound',
-    context: 'A Waste-Solari Apex, declining a fourth Vigil contract in the same season'
+    context: 'A Anhur Apex, declining a fourth Vigil contract in the same season'
+   }
+  },
+
+  deepling_myrathil: {
+   subraceName: 'Nereid Myrathil',
+   title: 'The Trench-Stalker',
+   reframe: `The <LoreLink termId="myrathil">Nereid Myrathil</LoreLink> hunt the abyssal trenches where light dies and pressure crushes, tracking prey through <LoreLink termId="treakous_rift">current-shear</LoreLink> and thermal-vent gradients. A Nereid Apex reads the deep the way the Mimir read the fog: every creature disturbs the water-column, and the trench keeps the record longer than any surface terrain. Their companion is a deep-adapted predator — a pressure-crushed hound, a bioluminescent ray, or one of the trench's own hunting shadows.`,
+   signatureAbility: {
+    name: 'Current-Shear Tracking',
+    description: `Tracking-acuity is amplified in deep water, trenches, and abyssal environments where current-shear and thermal-gradients preserve the passage of prey for hours. The Trench-Stalker can read a hunt by its pressure-disturbance long after the prey has passed. On land or in still water, their acuity collapses — the surface world keeps no record.`
+   },
+   currentCrisisAngle: `The trenches have begun producing tracks that do not match any known creature — pressure-signatures of things that should not exist at depth, moving in patterns that suggest intelligence. The elder Trench-Stalkers believe something is hunting *them* from below, something that has learned to read the current-shear the way the Nereid read it first. The Silent Hunt's founding crisis — the mist learning to hide — is repeating in the deep, and the Nereid are the only ones who can see it happening.`,
+   signatureQuote: {
+    text: '"I read the current the way your scholar reads a page. The current has started writing things I do not recognize. Something down there is leaving signatures in the water, and it is not prey. It is marking territory."',
+    speaker: 'Trench-Stalker Vel-Depths',
+    context: 'A Nereid Apex, after finding an unreadable pressure-signature at the Treakous Rift'
    }
   }
   },
@@ -181,7 +228,7 @@ subraceVariants: {
     type: "marks",
     base: 0,
     max: 5,
-    generationNote: "Generated by tracking, flanking, and basic strikes on marked prey (1 per hit, 2 on ambush/crit). Spent on predatory finishers, leaps, and rends.",
+    generationNote: "Generated by resolved companion/pack outcomes only: coordinated strike +2, companion hit or damage +1, companion crit +2, pack quarry designation +1. Solo glaive hits grant none. Five banked maximum; +3 per own-turn window (+4 Beastmaster). Casting alone does not award Marks.",
     mechanicsNote: "Marks stick to a designated quarry. Finisher abilities consume all marks for exponential damage."
   },
  name: "Apex",
@@ -207,7 +254,7 @@ subraceVariants: {
  },
 
  worldFriction: [
-    { region: 'frostwood-reach', status: 'revered', consequence: 'Thalren rangers celebrate the Apex and their bonded beasts as the supreme vanguard against the Frostwood\'s deep horrors.', workaround: 'None needed in wilderness camps.' },
+    { region: 'frostwood-reach', status: 'revered', consequence: 'Tallyn rangers celebrate the Apex and their bonded beasts as the supreme vanguard against the Frostwood\'s deep horrors.', workaround: 'None needed in wilderness camps.' },
     { region: 'bryngloom-forest', status: 'restricted', consequence: 'Atropolis city ordinances forbid predatory beasts inside market districts without muzzle-charms.', workaround: 'Equip companion beast with official peace-leashes.' },
     { region: 'sundale', status: 'tolerated', consequence: 'The Solvan Vigil respects the Apex\'s hunting prowess, hiring them as forward scouts on the Ashen Escarpment.', workaround: 'Camp in the outer perimeter stables.' },
     { region: 'emberspire', status: 'distrusted', consequence: 'Geothermal miners fear foreign beast companions will panic near bubbling magma calderas.', workaround: 'Keep companions secured during descent.' }
@@ -216,18 +263,28 @@ subraceVariants: {
   overview: {
  originStory: `A master hunter who has made a trade with the Frostwood fog. The fog takes something, hearing, speech, taste, a sense the hunter will never recover. In exchange, the hunter learns to read what the fog hides.
 
-The tradition was born from the Greythorn massacre. A Thalren timber-camp in the Frostwood Reach, forty-seven people found dead, throats opened, faces stolen, no tracks, no sound. The fog had hidden a Gref, a Wyrd entity that steals faces and erases the memory of its victims, completely. Sylas, a Broken Mimir sentinel on the Ironwood Palisade, walked into the fog and did not return for seven days. When he came back, he was deaf. He had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He tracked the Gref for seven days through terrain that left no trail and killed it.
+The tradition was born from the Greythorn massacre. A Tallyn timber-camp in the Frostwood Reach, forty-seven people found dead, throats opened, faces stolen, no tracks, no sound. The fog had hidden a Gref, a Wyrd entity that steals faces and erases the memory of its victims, completely. Sylas, a Broken Mimir sentinel on the Ironwood Palisade, walked into the fog and did not return for seven days. When he came back, he was deaf. He had traded his hearing for vibration-sense, the ability to feel the fog's disturbances through his feet, his skin, the air itself. He tracked the Gref for seven days through terrain that left no trail and killed it.
 
 The Silent Hunt was founded that week at the memorial site near Greythorn. Sylas established the trade. Every hunter chooses a sensory sacrifice. The fog takes something permanent, and in exchange, the hunter can perceive what the fog conceals. This is not a skill learned through practice. It is a bargain struck with the mist that protects the Reach, a miniature dark bargain, personal and irreversible.
 
 Sylas has led the Hunt ever since. He communicates through a tactile sign-language developed specifically because spoken words are unreliable in the Frostwood fog. He has tracked the same Wyrd-entity, on and off, for forty years. Lately it has begun circling him.
 
-The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Marked Vreken adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Stargazer Astril added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Broken Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
+The art spread from the Mimir outward. Skald glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. The Cromyx adapted it through their mycelial connection, feeling prey as vibrations in the Root-Veil. Lumian added their reptilian thermal vision, tracking heat-signatures across the open steppe. The Broken Mimir practice the most dangerous variant, merging with the mist itself to hunt from within, risking never fully re-cohering.
 
-The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Broken Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.`,
+The mist is learning to hide deliberately. Something large has moved through the Frostwood Reach for months without leaving any trace, and it is teaching the fog to evade the Hunt itself. The Broken Mimir trackers who dissolve into the fog to find it are not coming back. Sylas has concluded he has become the hunted and is preparing to dissolve into the fog himself.
+
+Native only to Arch Mimir, Broken Mimir, Nereid Myrathil. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
  title: "The Apex",
  subtitle: "Shadow Glaive Wielder & Beast Companion",
+ illustration: "/assets/images/classes/apex_arch_mimir.jpg",
+ illustrationCaption: "Arch Mimir Apex - The Mask-Hunter, stalking in a low crouch along an ironwood log with a Shadow Glaive and bonded Frostwood mist-wolf in the fog.",
+ illustrations: [
+   { url: "/assets/images/classes/apex_arch_mimir.jpg", subraceId: "veiled_mimir", caption: "Arch Mimir Apex — The Mask-Hunter, stalking in a low crouch along an ironwood log with a Shadow Glaive and bonded Frostwood mist-wolf." },
+   { url: "/assets/images/classes/apex_skald_human.jpg", subraceId: "skald_human", caption: "Skald Human Apex — The Glacier-Stalker, striding across a frozen ridge in polar bear furs with a frost-etched Ice-Glaive and a shaggy white tundra war-mastiff." },
+   { url: "/assets/images/classes/apex_marked_vreken.jpg", subraceId: "marked_vreken", caption: "Cromyx Apex — The Root-Stalker, drawing a bone-horned recurve bow atop gnarled roots alongside a subterranean armored burrower beast." },
+   { url: "/assets/images/classes/apex_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal." }
+ ],
 
  quickOverview: {
     title: "Class Overview",
@@ -257,17 +314,16 @@ The mist is learning to hide deliberately. Something large has moved through the
  roleplayIdentity: {
   title: "Roleplay Identity",
   content: `**HISTORY: THE GENESIS**
-The Apex was born from the Greythorn massacre  —  forty-seven dead at a Thalren timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Broken Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  —  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
+The Apex was born from the Greythorn massacre  —  forty-seven dead at a Tallyn timber-camp, killed by a Gref, a Wyrd face-stealer hidden by the Frostwood's memory-eating fog. The Broken Mimir sentinel **Sylas** walked into the fog and did not return for seven days. When he came back, he was deaf  —  he had traded his hearing for the ability to feel the fog's disturbances. He had stalked and killed the first Gref. The Silent Hunt was founded that week at what is now a memorial site in the Frostwood.
 
 **CITIES & CIVIL RECEPTION**
 Apexes are welcomed as essential guides and beast-slayers in every frontier keep, though they rarely speak or enter the civilian sectors.
 
 **RACES & CULTURAL AFFILIATION**
-The Silent Hunt began as a Mimir institution, founded in the Frostwood. From the Mimir, the practice spread: <LoreLink termId="skald">Skald</LoreLink> glacier-hunters learned it when northern Wyrd-creatures began crossing into the Frostwood border. Clean <LoreLink termId="vreken">Vreken</LoreLink> adapted it through mycelial trail-reading when Bryngloom traders observed the technique. Ordan steppe-trackers adapted it through scent and vibration when Mimir caravans reached the <LoreLink termId="sundrift-vale">Sundrift Vale</LoreLink>. Stargazer Astril <LoreLink termId="astril">Astril</LoreLink> added thermal vision when steppe contact brought them into the Hunt.
-
+The sensory Trade with the Quiet was born at Greythorn: the Arch Mimir read a quarry through lineage, the Broken Mimir hunt bare-faced. The Nereid hunt the trenches, the Oaken Florae read passage through prepared roots, the Ordu track the open steppe, the Briaren Florae read disturbed growth, and the Cromyx feel prey through the mycelium. Any other people walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * **Sylas the Silent**: Broken Mimir sentinel who killed the first Gref and founded the Silent Hunt. Deaf, he communicates and leads in sign-language.
-* **Maeve of the Canopy**: A Broken Mimir scout who guided the first Thalren refugees through the memory-erasing fog.`
+* **Maeve of the Canopy**: A Broken Mimir scout who guided the first Tallyn refugees through the memory-erasing fog.`
  },
 
  signatureQuote: {
@@ -421,7 +477,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 *The shadow energy EXPLODES outward, striking four bandits in one swing. They stagger, wounded.*
 
 - **Total Damage**: 17 + 10 + 11 + 9 = **47 damage across 4 targets!**
-- **Marks Generated**: +1 QM per enemy hit = +4 potential, but turn cap is +3
+- **Marks Generated**: Only resolved pack outcomes count: a coordinated strike gives +2, then a distinct companion hit gives +1. The glaive chain alone gives zero; own-turn cap is +3.
 - **QM Calculation**: 2 + 3 = **5 QM** (cap reached, 1 mark lost to overflow)
 
 - **Bonus Action**: Command Fang to Attack Bandit #1
@@ -458,7 +514,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 *The glaive chains to THREE enemies this time, killing two of them. Only Bandits #2 and #5 remain.*
 
-- **QM Generated**: +3 from 3 enemies hit (turn cap). 3 + 3 = **5 QM** (cap reached)
+- **QM Generated**: +3 from resolved companion/pack outcomes, not the three solo glaive hits. 3 + 3 = **5 QM** (bank cap reached; overflow lost).
 
 - **Bonus Action**: Command Fang to Defend you (+2 DR for 1 round)
  - **Your DR**: 3 + 2 = **5** until start of your next turn
@@ -509,7 +565,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 
 **The Lesson**: Apex gameplay is about:
 1. **Glaive Chaining**: Hit 1 primary target, chain to 3 nearby enemies = 4 hits in one attack (47 damage total in Turn 1)
-2. **Mark Management**: +1 QM per enemy hit (including chains), capped at +3 per turn (+4 for Beastmaster). Overflow marks are lost.
+2. **Mark Management**: Companion and coordinated outcomes generate Marks; solo hits and chains do not. The limit is +3 per own-turn window (+4 Beastmaster), and bank overflow is lost. Spending does not restore this generation budget.
 3. **Mark Spending**: Spent 2 QM to extend chain by +1 target (Turn 2), spent 1 QM to enhance Fang's attack (Turn 3)
 4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2). Companion commands cost 1 AP.
 5. **Positioning**: Enemies grouped together = maximum chain effectiveness
@@ -530,9 +586,10 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 Marks (0–5) track tactical vulnerability on priority targets. You and your bonded beast companion generate Marks by isolating, flanking, and harrying enemies.
 
 **2. How do I build it?**
-- Designate a Quarry and strike from stealth or elevation (+1 Mark).
-- Coordinate with your beast companion to flank a target (+1 Mark).
-- Critical hits with your twin glaives (+2 Marks).
+- Report a resolved pack quarry designation (+1 Mark).
+- You and your available companion both hit the same quarry in the same turn (+2 Marks).
+- Companion hit or damage taken (+1), or companion critical hit (+2).
+- Solo glaive hits and critical hits generate no Marks. Report each outcome once; generation is capped at +3 per own-turn window (+4 Beastmaster).
 
 **3. How do I spend it & what is the catch?**
 - Spend Marks to unleash sweeping multi-target glaive chains, pierce physical resistances, or execute wounded prey.
@@ -4836,6 +4893,7 @@ Marks (0–5) track tactical vulnerability on priority targets. You and your bon
   ],
 };
 
+APEX_DATA.exampleSpells = APEX_DATA.exampleSpells.map(deferApexSpellMarkGeneration);
 APEX_DATA.spells = APEX_DATA.exampleSpells;
 APEX_DATA.spellPools = {
   1: [

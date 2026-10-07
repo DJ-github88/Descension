@@ -1,42 +1,48 @@
 /**
  * Campaign Persistence Hook
  *
- * Automatically saves and loads GM campaign data to/from Firebase.
- * Handles sessions, NPCs, locations, quests, homebrew, etc.
- * Integrates with the CampaignManager component.
+ * Campaigns have ONE persistence path: `campaignService` (a localStorage-backed
+ * singleton that syncs a single cloud document at
+ * `users/{uid}/worldbuilding/campaigns`). This hook exposes save/load/delete/
+ * forceSave for the CampaignManager and delegates to that path.
+ *
+ * The legacy per-campaign Firestore documents at `users/{uid}/campaigns/{id}`
+ * (firebase/campaignService.js + persistenceService.saveCampaign/loadCampaign/
+ * deleteCampaign) are no longer written from here.
  */
 import { useEffect, useCallback, useRef } from 'react';
 import campaignService from '../services/campaignService';
 
-export const useCampaignPersistence = (campaignId) => {
-  const persistenceService = require('../services/firebase/persistenceService').default;
-  const useAuthStore = require('../store/authStore').default;
+const isMockUser = (user) =>
+  !user ||
+  user.isGuest ||
+  user.uid === 'admin-dev-user' ||
+  user.uid === 'dev-user-123' ||
+  (typeof user.uid === 'string' && user.uid.startsWith('guest-'));
 
+export const useCampaignPersistence = (campaignId) => {
+  const useAuthStore = require('../store/authStore').default;
   const { user } = useAuthStore();
 
-  // Auto-save timer refs
   const campaignTimerRef = useRef(null);
   const lastSavedStateRef = useRef(null);
 
-  // Debounced auto-save delay (3 seconds for campaign data)
   const AUTO_SAVE_DELAY = 3000;
 
   /**
-   * Collect current campaign state for persistence
+   * Collect current campaign state (from the localStorage service).
    */
   const collectCampaignState = useCallback(() => {
     if (!campaignId) {
       return null;
     }
 
-    // Get campaign data from localStorage service (fallback for guests)
     const campaign = campaignService.getCampaign(campaignId);
     if (!campaign) {
       return null;
     }
 
-    // Extract campaignData from the campaign object
-    const campaignData = campaign.campaignData || {
+    return campaign.campaignData || {
       name: campaign.name || 'New Campaign',
       description: campaign.description || '',
       currentSession: 1,
@@ -51,99 +57,69 @@ export const useCampaignPersistence = (campaignId) => {
       selectedItems: [],
       selectedSpells: []
     };
-
-    return campaignData;
   }, [campaignId]);
 
   /**
-   * Save campaign data to Firebase (for authenticated users)
+   * Persist all campaigns to the single cloud document.
    */
-  const saveCampaign = useCallback(async (campaignData = null) => {
-    const isMock = !user || user.isGuest || user.uid === 'admin-dev-user' || user.uid === 'dev-user-123' || (typeof user.uid === 'string' && user.uid.startsWith('guest-'));
-    if (isMock || !campaignId) {
+  const saveCampaign = useCallback(async () => {
+    if (isMockUser(user)) {
       return { success: true, localOnly: true };
-    }
-
-    const dataToSave = campaignData || collectCampaignState();
-    if (!dataToSave) {
-      return { success: false, reason: 'No data to save' };
     }
 
     try {
-      const result = await persistenceService.saveCampaign(user.uid, campaignId, dataToSave);
-
-      if (result?.success) {
-        lastSavedStateRef.current = JSON.stringify(dataToSave);
-        console.log(`💾 Campaign saved to Firebase: ${campaignId}`);
+      const ok = await campaignService.syncToCloud(user.uid);
+      if (ok) {
+        lastSavedStateRef.current = JSON.stringify(collectCampaignState());
+        console.log(`💾 Campaigns synced to Firebase (${campaignId || 'all'})`);
       }
-
-      return result;
+      return { success: !!ok, localOnly: false };
     } catch (error) {
-      console.debug('Campaign save to Firebase skipped/failed:', error?.message || error);
-      return { success: true, localOnly: true };
+      console.debug('Campaign cloud save skipped/failed:', error?.message || error);
+      return { success: false, error: error.message };
     }
-  }, [user, campaignId, collectCampaignState, persistenceService]);
+  }, [user, campaignId, collectCampaignState]);
 
   /**
-   * Load campaign data from Firebase (for authenticated users)
+   * Load campaigns from the cloud. Only hydrates when the campaign is not
+   * already present locally, so an in-session edit is never clobbered on mount.
    */
   const loadCampaign = useCallback(async () => {
-    const isMock = !user || user.isGuest || user.uid === 'admin-dev-user' || user.uid === 'dev-user-123' || (typeof user.uid === 'string' && user.uid.startsWith('guest-'));
-    if (isMock || !campaignId) {
+    if (isMockUser(user) || !campaignId) {
       return { success: false, reason: 'Local storage used' };
     }
 
     try {
-      const result = await persistenceService.loadCampaign(user.uid, campaignId);
-
-      if (result) {
-        // Update the localStorage campaign with Firebase data
-        const existingCampaign = campaignService.getCampaign(campaignId);
-        if (existingCampaign) {
-          campaignService.updateCampaign(campaignId, {
-            campaignData: result
-          });
-        }
-
-        lastSavedStateRef.current = JSON.stringify(result);
-        console.log(`📂 Campaign loaded from Firebase: ${campaignId}`);
-        return { success: true, data: result };
-      } else {
-        console.log(`📂 No saved campaign found in Firebase: ${campaignId}, using localStorage`);
-        return { success: false, reason: 'No saved data found' };
+      if (!campaignService.getCampaign(campaignId)) {
+        await campaignService.hydrateFromCloud(user.uid);
       }
+
+      const campaign = campaignService.getCampaign(campaignId);
+      if (campaign) {
+        const data = campaign.campaignData || campaign;
+        lastSavedStateRef.current = JSON.stringify(data);
+        return { success: true, data };
+      }
+      return { success: false, reason: 'No saved data found' };
     } catch (error) {
-      console.debug('Failed to load campaign from Firebase:', error?.message || error);
+      console.debug('Campaign cloud load failed:', error?.message || error);
       return { success: false, error: error.message };
     }
-  }, [user, campaignId, persistenceService]);
+  }, [user, campaignId]);
 
-  /**
-   * Auto-save campaign when it changes
-   */
   const scheduleAutoSave = useCallback(() => {
-    // Clear existing timer
     if (campaignTimerRef.current) {
       clearTimeout(campaignTimerRef.current);
     }
 
-    // Set new auto-save timer
     campaignTimerRef.current = setTimeout(async () => {
       const currentState = collectCampaignState();
-      if (currentState) {
-        const currentStateStr = JSON.stringify(currentState);
-
-        // Only save if state has actually changed
-        if (currentStateStr !== lastSavedStateRef.current) {
-          await saveCampaign(currentState);
-        }
+      if (currentState && JSON.stringify(currentState) !== lastSavedStateRef.current) {
+        await saveCampaign();
       }
     }, AUTO_SAVE_DELAY);
   }, [collectCampaignState, saveCampaign]);
 
-  /**
-   * Force immediate save
-   */
   const forceSave = useCallback(async () => {
     if (campaignTimerRef.current) {
       clearTimeout(campaignTimerRef.current);
@@ -153,20 +129,17 @@ export const useCampaignPersistence = (campaignId) => {
     return await saveCampaign();
   }, [saveCampaign]);
 
-  // Load campaign when user becomes authenticated and campaign changes
   useEffect(() => {
     if (user && !user.isGuest && campaignId) {
       loadCampaign();
     }
   }, [user, campaignId, loadCampaign]);
 
-  // Auto-save when campaign state changes
   useEffect(() => {
     if (user && !user.isGuest && campaignId) {
       scheduleAutoSave();
     }
 
-    // Cleanup timer on unmount
     return () => {
       if (campaignTimerRef.current) {
         clearTimeout(campaignTimerRef.current);
@@ -174,41 +147,51 @@ export const useCampaignPersistence = (campaignId) => {
     };
   }, [scheduleAutoSave, user, campaignId]);
 
+  // Safety-net poll. campaignService autosyncs on mutation (triggerAutoSync),
+  // but this covers edits that bypass it.
+  useEffect(() => {
+    if (isMockUser(user) || !campaignId) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const currentState = collectCampaignState();
+      if (currentState && JSON.stringify(currentState) !== lastSavedStateRef.current) {
+        saveCampaign();
+      }
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [user, campaignId, collectCampaignState, saveCampaign]);
+
   /**
-   * Delete campaign from Firebase
+   * Delete a campaign (local cache + the single cloud document).
    */
   const deleteCampaign = useCallback(async (campaignIdToDelete) => {
-    const isMock = !user || user.isGuest || user.uid === 'admin-dev-user' || user.uid === 'dev-user-123' || (typeof user.uid === 'string' && user.uid.startsWith('guest-'));
-    if (isMock || !campaignIdToDelete) {
+    if (isMockUser(user) || !campaignIdToDelete) {
       return { success: true, localOnly: true };
     }
 
     try {
-      const result = await persistenceService.deleteCampaign(user.uid, campaignIdToDelete);
-      if (result) {
-        console.log(`✅ Campaign deleted from Firebase: ${campaignIdToDelete}`);
-        return { success: true };
-      } else {
-        return { success: false, reason: 'Delete operation failed' };
-      }
+      campaignService.deleteCampaign(campaignIdToDelete);
+      await campaignService.syncToCloud(user.uid);
+      console.log(`✅ Campaign deleted: ${campaignIdToDelete}`);
+      return { success: true };
     } catch (error) {
-      console.debug('Failed to delete campaign from Firebase:', error?.message || error);
+      console.debug('Campaign cloud delete failed:', error?.message || error);
       return { success: false, error: error.message };
     }
-  }, [user, persistenceService]);
+  }, [user]);
 
   return {
-    // State
     isGuestUser: user?.isGuest || false,
     isAuthenticated: !!user && !user.isGuest,
 
-    // Actions
     saveCampaign,
     loadCampaign,
     forceSave,
     deleteCampaign,
 
-    // Utilities
     collectCampaignState
   };
 };

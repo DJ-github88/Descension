@@ -1,5 +1,15 @@
 // Class-specific resource system configuration for HUD display
 // Each class has a unique 4th resource bar with specific mechanics and visuals
+import {
+ GAMBIT_FORTUNE_MAX, GAMBIT_DEBT_MAX, MARTYR_DEVOTION_MAX,
+ MARTYR_DAMAGE_THRESHOLDS, normalizeManagedClassResource
+} from './classResourceContracts';
+import { ARCANONEER_BANK_MAX, ARCANONEER_ROLL_COUNT, MINSTREL_MAX_PER_PITCH, MINSTREL_BANK_MAX, MINSTREL_PITCHES } from './classResourceBanks';
+import { APEX_MARK_MAX, APEX_TURN_CAP, APEX_BEASTMASTER_TURN_CAP } from './apexResourceContract';
+import { PYRO_VEIL_MAX } from './pyrofiendResourceContract';
+import { SHAPER_FLUX_MAX, SHAPER_TOLL_MAX } from './shaperResourceContract';
+import { SPELLGUARD_AEP_MAX } from './spellguardResourceContract';
+import { INQUISITOR_AUTHORITY_MAX } from './inquisitorResourceContract';
 
 export const CLASS_RESOURCE_TYPES = {
  // INFERNAL PATH
@@ -18,7 +28,7 @@ export const CLASS_RESOURCE_TYPES = {
    effects: ['ember', 'infernal', 'corruption']
   },
   mechanics: {
-   max: 9, // Levels 0-9
+   max: PYRO_VEIL_MAX, // Levels 0-9
    current: 0,
    regen: 0,
    consumeVerb: 'descend',
@@ -144,8 +154,9 @@ export const CLASS_RESOURCE_TYPES = {
    ]
   },
   mechanics: {
-   maxPerNote: 5,
-   totalNotes: 7,
+   max: MINSTREL_BANK_MAX,
+   maxPerNote: MINSTREL_MAX_PER_PITCH,
+   totalNotes: MINSTREL_PITCHES.length,
    persistence: 'Notes persist between combats',
    decay: '1 note per minute out of combat',
    consumeVerb: 'resolve',
@@ -445,33 +456,34 @@ export const CLASS_RESOURCE_TYPES = {
      useCase: 'Spend FP to manipulate rolls, predict enemy saves, maintain balanced probabilities',
      why7: 'Precision over volume - fewer points for deliberate, measured control'
     },
-    'high-roller': {
+     'high-roller': {
      name: 'High Roller',
-     max: 21,
+      max: GAMBIT_FORTUNE_MAX,
      theme: 'blackjack',
      color: '#DC143C',
      icon: 'fas fa-poker-chip',
      description: 'The high rollers of the contract-deck wager everything on a single turn of fortune\'s wheel. Blackjack 21 - High stakes betting',
      approach: 'Resource betting and hedging',
      useCase: 'Spend FP to guarantee bet payouts, hedge resource wagers (HP/mana/actions)',
-     why21: 'Complex betting requires maximum points to hedge multiple bets and ensure payouts'
+      capacityNote: 'Uses the shared seven-point Fortune bank; larger caps are not implemented'
     },
     'karmic_weaver': {
      name: 'Karmic Weaver',
-     max: 13,
+      max: GAMBIT_FORTUNE_MAX,
      theme: 'cards',
      color: '#8e44ad',
      icon: 'fas fa-diamond',
      description: 'Each card drawn from the contract-deck binds another thread of fate. Thread manipulation and fate-binding',
      approach: 'Deck siphoning and damage redirection through karmic links',
      useCase: 'Spend FP to weave damage threads between enemies, siphon enemy advantages, redirect fate',
-     why13: 'Thirteen threads of fate - each card a potential connection in the karmic web'
+      capacityNote: 'Uses the shared seven-point Fortune bank; thirteen is the Debt limit, not a Fortune cap'
     }
    },
    effects: ['luck', 'gambling', 'probability']
   },
-  mechanics: {
-   max: 'calculated', // 7, 21, or 13 based on specialization (on hold, now calculated)
+   mechanics: {
+    max: GAMBIT_FORTUNE_MAX,
+    maxDebt: GAMBIT_DEBT_MAX,
    current: 0,
    regen: 0,
    consumeVerb: 'spend',
@@ -519,13 +531,13 @@ export const CLASS_RESOURCE_TYPES = {
    effects: ['sacred', 'sacrifice', 'devotion', 'active-bleed']
   },
   mechanics: {
-   max: 6, // Devotion Levels 0-6
+    max: MARTYR_DEVOTION_MAX,
    current: 0,
    damage: 0, // Accumulated damage toward next level
    regen: 0,
    consumeVerb: 'bleed',
    gainVerb: 'sacrifice',
-   thresholds: [0, 10, 20, 40, 60, 80, 100],
+    thresholds: MARTYR_DAMAGE_THRESHOLDS,
    decay: 'Lose 1 Devotion level after 1 round without taking damage or using Voluntary Offering',
    voluntaryOffering: 'Free action: sacrifice 1d8 HP to gain Devotion progress (counts as damage for decay prevention)',
    differentiationNote: 'NOT passive absorption. The Martyr must ACTIVELY choose to bleed. The Ironclad specialization adds furnace-plate plating but still requires willing sacrifice.'
@@ -686,7 +698,7 @@ export const CLASS_RESOURCE_TYPES = {
    effects: ['binding', 'control', 'anti-magic', 'negation']
   },
   mechanics: {
-   max: 8,
+   max: INQUISITOR_AUTHORITY_MAX,
    current: 0,
    regen: 0,
    consumeVerb: 'spend',
@@ -868,8 +880,8 @@ export const initializeClassResource = (className, characterStats) => {
  }
  // Musical notes system (Minstrel)
  else if (config.mechanics.maxPerNote && config.mechanics.totalNotes) {
-  notes = [];
-  max = config.mechanics.totalNotes;
+   notes = MINSTREL_PITCHES.map(() => 0);
+   max = MINSTREL_BANK_MAX;
   current = 0;
  }
  // Standard current/max structure
@@ -916,32 +928,21 @@ export const initializeClassResource = (className, characterStats) => {
   const intMod = Math.floor((characterStats.intelligence - 10) / 2);
   const chaMod = Math.floor((characterStats.charisma - 10) / 2);
   const spirMod = Math.floor((characterStats.spirit - 10) / 2);
-  const conMod = Math.floor((characterStats.constitution - 10) / 2);
 
   switch (className) {
    case 'Harbinger':
     baseResource.max = Math.max(5, intMod + Math.floor(level / 5));
     break;
-   case 'Gambit':
-   case 'False Prophet':
+    case 'False Prophet':
     baseResource.max = Math.max(1, chaMod + 5);
     break;
    // 'Exorcist' removed (merged with Covenbane into Inquisitor)
-   case 'Martyr':
-    baseResource.max = Math.max(1, conMod + 3);
-    break;
-   case 'Spellguard':
-    baseResource.max = Math.max(1, intMod + 5);
-    break;
    case 'Animist':
     baseResource.max = Math.max(1, 5 + spirMod);
     break;
    // 'Dreadnaught' removed (absorbed into Martyr as Ironclad specialization)
    case 'Toxicologist':
     baseResource.max = Math.max(1, intMod + 3);
-    break;
-   case 'Inquisitor':
-    baseResource.max = Math.max(1, spirMod + 5);
     break;
    case 'Lunarch':
     baseResource.max = 1;
@@ -962,15 +963,15 @@ export const initializeClassResource = (className, characterStats) => {
   baseResource.companionHP = config.mechanics.companion?.hp || 50;
   baseResource.companionMaxHP = config.mechanics.companion?.maxHP || 50;
   baseResource.current = config.mechanics.quarryMarks?.current || 0;
-  baseResource.max = config.mechanics.quarryMarks?.max || 5;
+   baseResource.max = APEX_MARK_MAX;
  } else if (className === 'Shaper') {
   baseResource.flux = 0;
-  baseResource.momentum = { current: 0, max: config.mechanics.momentum?.max || 20 };
-  baseResource.flourish = { current: 0, max: config.mechanics.flourish?.max || 10 };
+   baseResource.momentum = { current: 0, max: SHAPER_FLUX_MAX };
+   baseResource.flourish = { current: 0, max: SHAPER_TOLL_MAX };
   baseResource.toll = 0;
   baseResource.bodyToll = 0;
   baseResource.current = 0;
-  baseResource.max = config.mechanics.momentum?.max || 20;
+   baseResource.max = SHAPER_FLUX_MAX;
  } else if (className === 'Augur') {
   baseResource.benediction = 0;
   baseResource.malediction = 0;
@@ -994,18 +995,20 @@ export const initializeClassResource = (className, characterStats) => {
   // with the generic characterStore shape; UI refers to them as "blocks".
   baseResource.spheres = config.mechanics.spheres || [];
   baseResource.current = 0;   // current = live count of banked blocks
-  baseResource.max = config.mechanics.max; // hard cap = 12
-  baseResource.rollsPerTurn = 4;  // 4d8 baseline (Entropy Weaver raises to 5)
+   baseResource.max = ARCANONEER_BANK_MAX;
+   baseResource.rollsPerTurn = ARCANONEER_ROLL_COUNT;
   baseResource.rerollsUsed = 0;
  }
 
- return baseResource;
+  return normalizeManagedClassResource(baseResource, className);
 };
 
 // Helper function to update class resource max values when stats change
 export const updateClassResourceMax = (classResource, className, characterStats) => {
  const config = getClassResourceConfig(className);
  if (!config || !classResource) return classResource;
+ const normalized = normalizeManagedClassResource(classResource, className);
+ if (normalized !== classResource) return normalized;
 
  if (config.mechanics.max === 'calculated') {
   const updatedResource = initializeClassResource(className, characterStats);
@@ -1034,7 +1037,7 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
   effects: ['arcane', 'absorption', 'anti-magic']
  },
  mechanics: {
-  max: 100, // Maximum 100 AEP
+   max: SPELLGUARD_AEP_MAX,
   current: 0,
   regen: 0, // No natural regen, only from absorption
   decay: 5, // Decays 5 AEP per minute outside combat
@@ -1133,7 +1136,7 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
   effects: ['elemental', 'combination', 'magicka']
  },
  mechanics: {
-  max: 12,
+   max: ARCANONEER_BANK_MAX,
   current: 0,
   spheres: [],
   generation: '4d8',
@@ -1258,7 +1261,7 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
  visual: {
   type: 'stance-flow',
   momentum: {
-   max: 20,
+    max: SHAPER_FLUX_MAX,
    baseColor: '#1a4d6d',
    activeColor: '#3498DB',
    glowColor: '#5DADE2',
@@ -1266,7 +1269,7 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
    effects: ['flow', 'rhythm']
   },
   flourish: {
-   max: 10,
+    max: SHAPER_TOLL_MAX,
    baseColor: '#5C1A1A',
    activeColor: '#C0392B',
    glowColor: '#E74C3C',
@@ -1306,9 +1309,9 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
    }
   }
  },
- mechanics: {
-  momentum: {
-   max: 20,
+  mechanics: {
+   momentum: {
+    max: SHAPER_FLUX_MAX,
    current: 0,
    generation: {
     hit: 1,
@@ -1328,18 +1331,18 @@ CLASS_RESOURCE_TYPES['Shaper'] = {
    consumeVerb: 'spend',
    gainVerb: 'build'
   },
-  flourish: {
-   max: 10,
-   current: 0,
+   flourish: {
+    max: SHAPER_TOLL_MAX,
+    current: 0,
+    kind: 'risk',
+    spendable: false,
    generation: {
     signatureMove: 1
    },
    decay: 0,
-   consumption: {
-    ultimates: '2-5'
-   },
-   consumeVerb: 'expend',
-   gainVerb: 'earn'
+    recovery: { shortRest: 3, longRest: 'reset', explicitPurge: true },
+    consumeVerb: 'recover',
+    gainVerb: 'accumulate'
   },
   stance: {
    current: 'Ataxic Flow',
@@ -1697,7 +1700,7 @@ CLASS_RESOURCE_TYPES['Apex'] = {
  visual: {
   type: 'quarry-marks-companion',
   quarryMarks: {
-   max: 5,
+    max: APEX_MARK_MAX,
    baseColor: '#2C1810',
    emptyColor: '#1A0F08',
    segmentBorder: '#4A2C1A',
@@ -1727,9 +1730,9 @@ CLASS_RESOURCE_TYPES['Apex'] = {
    portraitSize: 40
   }
  },
- mechanics: {
-  quarryMarks: {
-   max: 5,
+  mechanics: {
+   quarryMarks: {
+    max: APEX_MARK_MAX,
    current: 0,
    generation: {
     coordinatedStrike: 2,
@@ -1745,8 +1748,8 @@ CLASS_RESOURCE_TYPES['Apex'] = {
     companionSpecial: 3,
     ultimate: 5
    },
-   turnCap: 3,
-   beastmasterTurnCap: 4,
+    turnCap: APEX_TURN_CAP,
+    beastmasterTurnCap: APEX_BEASTMASTER_TURN_CAP,
    decay: '1 per minute outside combat (after 1 min grace period)',
    companionDeathRule: 'If companion is dead, ZERO Marks can be generated until revived',
    persistence: 'Marks persist between combats'

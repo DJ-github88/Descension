@@ -89,7 +89,7 @@ export const WARDEN_JAILER = [
     requires: "wj_t1_cage_of_vengeance",
     spell: {
       name: "Cage Torment",
-      description: "The Ordan ancestor-mounds teach eternal vigilance. Caged enemies take 1d8 blight damage at the start of each of their turns while caged.",
+      description: "The Ordu ancestor-mounds teach eternal vigilance. Caged enemies take 1d8 blight damage at the start of each of their turns while caged.",
       flavorText: "The bars grind on a schedule.",
       source: "talent", class: "Warden", treeId: "jailer",
       spellType: "PASSIVE", category: "damage",
@@ -98,8 +98,8 @@ export const WARDEN_JAILER = [
       visualTheme: "shadow", tags: ["passive", "dot", "cage", "warden"]
     },
     rankUpgrades: [
-      { description: "The Ordan ancestor-mounds teach eternal vigilance. Caged enemies take 2d8 blight damage at the start of each of their turns.", dotTick: "2d8" },
-      { description: "The Ordan ancestor-mounds teach eternal vigilance. Caged enemies take 3d8 blight damage per turn, and each tick generates 1 VP.", dotTick: "3d8" }
+      { description: "The Ordu ancestor-mounds teach eternal vigilance. Caged enemies take 2d8 blight damage at the start of each of their turns.", dotTick: "2d8" },
+      { description: "The Ordu ancestor-mounds teach eternal vigilance. Caged enemies take 3d8 blight damage per turn, and each tick generates 1 VP.", dotTick: "3d8" }
     ]
   },
   {

@@ -855,6 +855,8 @@ const SkillsDisplay = ({ variant = 'advanced' }) => {
                                             src={`${PUB}/assets/images/${CATEGORY_WATERCOLOR[categoryName]}.png`}
                                             alt=""
                                             aria-hidden="true"
+                                            loading="lazy"
+                                            decoding="async"
                                             onError={(e) => { e.target.style.display = 'none'; }}
                                         />
                                     )}

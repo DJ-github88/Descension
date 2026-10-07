@@ -47,4 +47,31 @@ describe('inventoryStore storage resilience', () => {
     expect(state.currency.gold).toBe(50);
     expect(state.currency.silver).toBe(20);
   });
+
+  it('applies a full remote inventory snapshot', () => {
+    useInventoryStore.getState().applyRemoteInventory({
+      changeType: 'full',
+      items: [{ id: 'i1', name: 'Sword' }],
+      currency: { platinum: 1, gold: 2, silver: 3, copper: 4 },
+      encumbranceState: 'encumbered'
+    });
+
+    const state = useInventoryStore.getState();
+    expect(state.items).toEqual([{ id: 'i1', name: 'Sword' }]);
+    expect(state.currency.gold).toBe(2);
+    expect(state.encumbranceState).toBe('encumbered');
+  });
+
+  it('applies incremental add/remove/move remote updates without re-broadcasting', () => {
+    useInventoryStore.setState({ items: [{ id: 'a', position: { row: 0, col: 0 } }] });
+
+    useInventoryStore.getState().applyRemoteInventory({ changeType: 'add_item', item: { id: 'b' } });
+    expect(useInventoryStore.getState().items.map(i => i.id)).toEqual(['a', 'b']);
+
+    useInventoryStore.getState().applyRemoteInventory({ changeType: 'move_item', itemId: 'a', newPosition: { row: 3, col: 4 } });
+    expect(useInventoryStore.getState().items.find(i => i.id === 'a').position).toEqual({ row: 3, col: 4 });
+
+    useInventoryStore.getState().applyRemoteInventory({ changeType: 'remove_item', itemId: 'b' });
+    expect(useInventoryStore.getState().items.map(i => i.id)).toEqual(['a']);
+  });
 });

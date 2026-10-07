@@ -56,17 +56,17 @@ const CharacterManagement = ({ user }) => {
 
    'solari': '🔥', 'Solari': '🔥',
 
-   'fexrick': '⚙️', 'Fexric': '⚙️',
+   'fexrick': '⚙️', 'Fex': '⚙️',
 
    'groven': '💎', 'Groven': '💎',
 
    'mimir': '🎭', 'Mimir': '🎭',
 
-   'neth': '📜', 'Nethien': '📜',
+   'neth': '📜', 'Athien': '📜',
 
 
 
-   'vreken': '🦎', 'Vreken': '🦎',
+   'vreken': '🦎', 'Mycellan': '🦎',
 
    'myrathil': '🌊', 'Myrathil': '🌊'
 

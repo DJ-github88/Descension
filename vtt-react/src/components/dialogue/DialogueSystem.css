@@ -255,6 +255,63 @@
   width: 6px;
 }
 
+/* Dialogue Font Variants */
+.dialogue-name.dialogue-font-press-start,
+.dialogue-content.dialogue-font-press-start {
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+}
+
+.dialogue-name.dialogue-font-press-start {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.dialogue-content.dialogue-font-press-start {
+  font-size: 12px;
+  line-height: 2;
+}
+
+.dialogue-name.dialogue-font-vt323,
+.dialogue-content.dialogue-font-vt323 {
+  font-family: 'VT323', 'Courier New', monospace;
+}
+
+.dialogue-name.dialogue-font-vt323 {
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+
+.dialogue-content.dialogue-font-vt323 {
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.dialogue-name.dialogue-font-cinzel,
+.dialogue-content.dialogue-font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.dialogue-name.dialogue-font-cinzel {
+  letter-spacing: 2px;
+}
+
+.dialogue-content.dialogue-font-cinzel {
+  font-size: 15px;
+}
+
+.dialogue-name.dialogue-font-medieval,
+.dialogue-content.dialogue-font-medieval {
+  font-family: 'MedievalSharp', 'Courier New', cursive;
+}
+
+.dialogue-name.dialogue-font-medieval {
+  letter-spacing: 2px;
+}
+
+.dialogue-content.dialogue-font-medieval {
+  font-size: 16px;
+}
+
 .dialogue-content::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 3px;

@@ -92,14 +92,28 @@ class EnhancedDiceService {
    * Initialize with multiplayer socket
    */
   initialize(socket) {
+    // Detach any previously registered handler so re-init (e.g. after a socket
+    // reconnect or component remount) does not stack duplicate listeners.
+    if (this.socket && this._diceResultHandler) {
+      this.socket.off('dice_roll_result', this._diceResultHandler);
+    }
+    this._diceResultHandler = null;
     this.socket = socket;
-    
+
     if (socket) {
       // Listen for dice rolls from other players
-      socket.on('dice_roll_result', (data) => {
+      this._diceResultHandler = (data) => {
         this.handleRemoteDiceRoll(data);
-      });
+      };
+      socket.on('dice_roll_result', this._diceResultHandler);
     }
+  }
+
+  destroy() {
+    if (this.socket && this._diceResultHandler) {
+      this.socket.off('dice_roll_result', this._diceResultHandler);
+    }
+    this._diceResultHandler = null;
   }
 
   /**

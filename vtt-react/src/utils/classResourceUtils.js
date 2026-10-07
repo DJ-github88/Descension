@@ -1,6 +1,7 @@
 // Utility functions for class resource management and testing
 
 import { getClassResourceConfig, initializeClassResource, getAllClassNames } from '../data/classResources';
+import { normalizeManagedClassResource } from '../data/classResourceContracts';
 
 // Test function to verify all class configurations are valid
 export const validateAllClassConfigurations = () => {
@@ -81,6 +82,7 @@ export const getClassResourceSummary = (classResource, className) => {
     
     const config = getClassResourceConfig(className);
     if (!config) return null;
+    classResource = normalizeManagedClassResource(classResource, className);
     
     return {
         name: config.name,

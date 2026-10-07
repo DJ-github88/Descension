@@ -3697,14 +3697,14 @@ const AccountJournalManager = ({ user }) => {
       {showBackgroundModal && createPortal(
         <div className="modal-overlay background-modal-overlay" onClick={() => setShowBackgroundModal(false)}>
           <div className="folder-modal background-selection-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
+            <div className="bg-modal-header">
               <h4><i className="fas fa-map"></i> Set Board Background & Canvas</h4>
-              <button className="modal-close-btn" onClick={() => setShowBackgroundModal(false)}>
+              <button className="bg-modal-close" onClick={() => setShowBackgroundModal(false)}>
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
-            <div className="modal-body">
+            <div className="bg-modal-body">
               {/* Background Placement Mode Selector */}
               <div className="bg-mode-selector-bar">
                 <span className="bg-mode-label"><i className="fas fa-layer-group"></i> Placement Mode:</span>
@@ -3715,7 +3715,7 @@ const AccountJournalManager = ({ user }) => {
                     onClick={() => setBgModalMode('canvas')}
                     title="Background is bound to canvas coordinates and pans/zooms with your map pins"
                   >
-                    <i className="fas fa-map-location-dot"></i> 🗺️ Pinned to Map (Pans & Zooms)
+                    <i className="fas fa-map-location-dot"></i> Pinned to Map (Pans & Zooms)
                   </button>
                   <button
                     type="button"
@@ -3723,7 +3723,7 @@ const AccountJournalManager = ({ user }) => {
                     onClick={() => setBgModalMode('static')}
                     title="Background stays stationary like wallpaper while orbs and pins float over it"
                   >
-                    <i className="fas fa-thumbtack"></i> 📌 Static Backdrop (Fixed Window)
+                    <i className="fas fa-thumbtack"></i> Static Backdrop (Fixed Window)
                   </button>
                 </div>
               </div>
@@ -3906,7 +3906,7 @@ const AccountJournalManager = ({ user }) => {
               )}
             </div>
 
-            <div className="modal-footer">
+            <div className="bg-modal-footer">
               <button className="btn btn-secondary" onClick={() => setShowBackgroundModal(false)}>
                 <i className="fas fa-times"></i> Close
               </button>
@@ -3951,22 +3951,22 @@ const AccountJournalManager = ({ user }) => {
                 <div className="orb-editor-section">
                   <div className="board-toolbar-actions" style={{ marginBottom: '12px', display: 'flex', gap: '6px' }}>
                     <button
-                      className={`btn ${addOrbActiveTab === 'received' ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '8px' }}
+                      className={`btn orb-add-tab ${addOrbActiveTab === 'received' ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ flex: 1 }}
                       onClick={() => setAddOrbActiveTab('received')}
                     >
                       <i className="fas fa-inbox"></i> Received ({searchedKnowledge.length})
                     </button>
                     <button
-                      className={`btn ${addOrbActiveTab === 'notes' ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '8px' }}
+                      className={`btn orb-add-tab ${addOrbActiveTab === 'notes' ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ flex: 1 }}
                       onClick={() => setAddOrbActiveTab('notes')}
                     >
                       <i className="fas fa-sticky-note"></i> Notes ({searchedNotes.length})
                     </button>
                     <button
-                      className={`btn ${addOrbActiveTab === 'campaign' ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ flex: 1, fontSize: '11px', padding: '8px' }}
+                      className={`btn orb-add-tab ${addOrbActiveTab === 'campaign' ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ flex: 1 }}
                       onClick={() => setAddOrbActiveTab('campaign')}
                     >
                       <i className="fas fa-scroll"></i> Campaign ({searchedCampaignItems.length})
@@ -4118,7 +4118,7 @@ const AccountJournalManager = ({ user }) => {
                   )}
                 </div>
 
-                <div className="orb-editor-actions">
+                <div className="orb-editor-actions orb-editor-actions--plain">
                   <button
                     className="btn btn-secondary"
                     onClick={() => {
@@ -4175,7 +4175,7 @@ const AccountJournalManager = ({ user }) => {
                   </div>
                 </div>
 
-                <div className="orb-editor-actions">
+                <div className="orb-editor-actions orb-editor-actions--plain">
                   <button
                     className="btn btn-secondary"
                     onClick={() => {

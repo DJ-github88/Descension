@@ -492,7 +492,7 @@ const DialogueControls = () => {
                       </select>
                     </div>
 
-                    <div className="control-item speed-item">
+                    <div className="control-item">
                       <label>Animation Speed:</label>
                       <div className="speed-control">
                         <input
@@ -519,7 +519,7 @@ const DialogueControls = () => {
                   </div>
                   <div className={`preview-text ${getPreviewBackdropClass(selectedBackdropEffect)}`} ref={previewRef}>
                     <span
-                      className={`dialogue-text ${selectedEffect} ${isReplaying ? 'replaying' : ''}`}
+                      className={`dialogue-text ${selectedEffect} ${isReplaying ? 'replaying' : ''} dialogue-font-${selectedFont}`}
                       style={{
                         color: selectedColor || '#ffffff',
                         /* Enhanced 8-directional black text stroke for 16-bit look */
@@ -543,6 +543,7 @@ const DialogueControls = () => {
                   <div className="preview-caption">
                     <span><strong>Effect:</strong> {capitalize(effectName)}</span>
                     <span><strong>Color:</strong> {capitalize(colorName)}</span>
+                    <span><strong>Font:</strong> {capitalize(fontName)}</span>
                     <span><strong>Speed:</strong> {speed}ms/char</span>
                     <span><strong>Backdrop:</strong> {backdropName}</span>
                   </div>

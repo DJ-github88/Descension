@@ -4,6 +4,7 @@ import { TravelTrackerContent } from './TravelTrackerWindow';
 import SocialEncounterGenerator from '../gm-tools/SocialEncounterGenerator';
 import JukeboxPanel from '../jukebox/JukeboxPanel';
 import useTravelStore from '../../store/travelStore';
+import useGameStore from '../../store/gameStore';
 import './Toolkit.css';
 
 const TOOLKIT_TABS = [
@@ -13,8 +14,10 @@ const TOOLKIT_TABS = [
 ];
 
 const TRAVEL_SUB_TABS = [
-  { id: 'setup', label: 'Setup Journey' },
-  { id: 'journey', label: 'Journey' },
+  { id: 'setup', label: 'Setup Journey', step: 1 },
+  { id: 'journey', label: 'Journey', step: 2 },
+  { id: 'encounters', label: 'Encounters', step: 3 },
+  { id: 'broadcast', label: 'Broadcast', step: 4, multiplayerOnly: true },
 ];
 
 export default function Toolkit({ isOpen, onClose }) {
@@ -24,6 +27,10 @@ export default function Toolkit({ isOpen, onClose }) {
   const contentRef = useRef(null);
   const travelSubTab = useTravelStore(s => s.activeTab);
   const setTravelSubTab = useTravelStore(s => s.setActiveTab);
+  const isInMultiplayer = useGameStore(s => s.isInMultiplayer);
+  const travelSubTabs = travelSubTab === 'broadcast' || isInMultiplayer
+    ? TRAVEL_SUB_TABS
+    : TRAVEL_SUB_TABS.filter(sub => !sub.multiplayerOnly);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -75,13 +82,14 @@ export default function Toolkit({ isOpen, onClose }) {
                 </button>
                 {travelDropdownOpen && activeTab === 'travel' && (
                   <div className="tk-dropdown">
-                    {TRAVEL_SUB_TABS.map((sub) => (
+                    {travelSubTabs.map((sub) => (
                       <button
                         key={sub.id}
                         className={`tk-dropdown-item ${travelSubTab === sub.id ? 'active' : ''}`}
                         onClick={() => handleSubTabClick(sub.id)}
                       >
-                        {sub.label}
+                        <span className="tk-dropdown-step">{sub.step}</span>
+                        <span>{sub.label}</span>
                       </button>
                     ))}
                   </div>

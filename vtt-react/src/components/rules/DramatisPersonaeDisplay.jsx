@@ -39,11 +39,11 @@ const NPC_PORTRAITS = {
   },
   'Synod-Broker Lyra': {
     url: '/assets/images/portraits/broker_lyra.png',
-    caption: 'Synod-Broker Lyra, the pale-skinned Nethien merchant noble with crystalline markings.'
+    caption: 'Synod-Broker Lyra, the pale-skinned Athien merchant noble with crystalline markings.'
   },
-  'Guild-Master Fexric Keth': {
+  'Guild-Master Fex Keth': {
     url: '/assets/images/portraits/fexric_keth.png',
-    caption: 'Guild-Master Fexric Keth, a Fexric engineer with a clockwork eye-graft wearing an alchemical leather vest.'
+    caption: 'Guild-Master Fex Keth, a Fex engineer with a clockwork eye-graft wearing an alchemical leather vest.'
   },
   'Arch-Sun Speaker Kaelen': {
     url: '/assets/images/portraits/sun_kaelen.png',
@@ -67,7 +67,7 @@ const NPC_PORTRAITS = {
   },
   'Sister Vraka': {
     url: '/assets/images/portraits/sister_vraka.png',
-    caption: 'Sister Vraka of the Vreken rebels, her cowl shadowing glowing red eyes.'
+    caption: 'Sister Vraka of the Mycellan rebels, her cowl shadowing glowing red eyes.'
   }
 };
 

@@ -338,6 +338,22 @@ const useDiceStore = create(
         };
       }),
 
+      // Direct formula roll (e.g. spell damage/healing formulas). Delegates to
+      // the enhanced dice service so the roll is rendered, added to history, and
+      // relayed to multiplayer (respecting room dice visibility).
+      rollDiceDirectly: async (formula, description = '') => {
+        try {
+          const { default: enhancedDiceService } = await import('../services/enhancedDiceService');
+          return await enhancedDiceService.rollDice(formula, {
+            description,
+            rollType: 'spell'
+          });
+        } catch (error) {
+          console.error('rollDiceDirectly failed:', error);
+          return null;
+        }
+      },
+
       startRoll: (context = null) => {
         const { user } = useAuthStore.getState();
         if (user && !user.isGuest) {

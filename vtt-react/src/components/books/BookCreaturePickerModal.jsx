@@ -155,7 +155,7 @@ const BookCreaturePickerModal = ({
   initialData = {},
   onSave
 }) => {
-  const customCreatures = useCreatureStore((s) => s.customCreatures || []);
+  const customCreatures = useCreatureStore((s) => s.creatures || []);
 
   const allAvailableCreatures = useMemo(() => {
     const list = [];

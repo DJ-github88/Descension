@@ -42,7 +42,7 @@ export const WEAPONS = [
     maxDurability: 'd8',
     lore: {
       origin: 'frostwood-reach',
-      loreText: 'The Thalren militias arm their rank-and-file with these rust-blooded blades, forged from ironwood-bog ore that House Thalreth has mined since the Memory Wars.',
+      loreText: 'The Tallyn militias arm their rank-and-file with these rust-blooded blades, forged from ironwood-bog ore that House Thalreth has mined since the Memory Wars.',
       relatedLore: ['frostwood-reach', 'house_thalreth', 'the-memory-wars']
     }
   },
@@ -113,7 +113,7 @@ export const WEAPONS = [
     maxDurability: 'd8',
     lore: {
       origin: 'bryngloom-forest',
-      loreText: 'Nethien shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in the ichor of ancestor-mounds, giving it an unnatural hunger.',
+      loreText: 'Athien shadow-crafters forge these essence-drinking daggers in the root-veil darkness beneath Atropolis. Each blade is quenched in the ichor of ancestor-mounds, giving it an unnatural hunger.',
       relatedLore: ['bryngloom-forest', 'neth', 'root_veil']
     }
   },
@@ -254,7 +254,7 @@ export const WEAPONS = [
     maxDurability: 'd8',
     lore: {
       origin: 'bryngloom-forest',
-      loreText: 'Vreken cleavers are repurposed peat-cutting tools, their broad blades still stained with bog-iron. The Cult of Forgotten Shadow favours these for their crude, silent efficiency in the twilight groves.',
+      loreText: 'Mycellan cleavers are repurposed peat-cutting tools, their broad blades still stained with bog-iron. The Cult of Forgotten Shadow favours these for their crude, silent efficiency in the twilight groves.',
       relatedLore: ['bryngloom-forest', 'vreken', 'cult_of_forgotten_shadow']
     }
   },
@@ -615,7 +615,7 @@ export const WEAPONS = [
     maxDurability: 'd6',
     lore: {
       origin: 'bryngloom-forest',
-      loreText: 'Nethien duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the twilight. The Cult of Forgotten Shadow prefers these for their silence.',
+      loreText: 'Athien duelists train with parrying daggers from the age of ten, their blades blackened with root-veil tar to avoid glinting in the twilight. The Cult of Forgotten Shadow prefers these for their silence.',
       relatedLore: ['bryngloom-forest', 'neth', 'root_veil', 'cult_of_forgotten_shadow']
     }
   },
@@ -686,7 +686,7 @@ export const WEAPONS = [
     maxDurability: 'd6',
     lore: {
       origin: 'frostwood-reach',
-      loreText: 'Thalren skirmishers favour these small wooden bucklers for their speed. The Scribe-Sentinels issue them to patrol keepers who must navigate the fog-banks around Greymark Keep.',
+      loreText: 'Tallyn skirmishers favour these small wooden bucklers for their speed. The Scribe-Sentinels issue them to patrol keepers who must navigate the fog-banks around Greymark Keep.',
       relatedLore: ['frostwood-reach', 'scribe_sentinels', 'kaelen-thalreth']
     }
   },

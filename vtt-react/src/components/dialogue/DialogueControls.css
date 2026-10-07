@@ -404,11 +404,6 @@
   gap: 12px;
 }
 
-/* Speed slider spans the full grid row */
-.control-item.speed-item {
-  grid-column: 1 / -1;
-}
-
 .control-item {
   display: flex;
   flex-direction: column;
@@ -608,6 +603,29 @@
   content: '|';
   animation: blinkCursor 1s infinite;
   margin-left: 2px;
+}
+
+/* Preview font variants - match DialogueSystem font classes */
+.preview-text .dialogue-text.dialogue-font-press-start {
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.preview-text .dialogue-text.dialogue-font-vt323 {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.preview-text .dialogue-text.dialogue-font-cinzel {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+}
+
+.preview-text .dialogue-text.dialogue-font-medieval {
+  font-family: 'MedievalSharp', 'Courier New', cursive;
+  font-size: 15px;
 }
 
 /* Backdrop effect variants - tint the preview box like the game backdrop would */

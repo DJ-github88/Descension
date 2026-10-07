@@ -560,34 +560,6 @@ export function registerRoomLifecycleHandlers(ctx) {
             }
           });
 
-          // CRITICAL: Explicitly broadcast tokens for the specific map
-          const creatureStore = (await import('../../../store/creatureStore')).default.getState();
-          const tokens = Object.fromEntries(
-            Object.entries(creatureStore.tokens || {}).filter(([_, t]) => (t.mapId || 'default') === playerMapId)
-          );
-
-          if (Object.keys(tokens).length > 0) {
-            console.log(`ðŸ“¤ Broadcasting ${Object.keys(tokens).length} tokens for map ${playerMapId}`);
-            socket.emit('sync_tokens', {
-              mapId: playerMapId,
-              tokens: tokens,
-              recipientPlayerId: data.player.id // Optional hint for server to only send to this player
-            });
-          }
-
-          // CRITICAL: Explicitly broadcast grid items for the specific map
-          const gridItemStore = (await import('../../../store/gridItemStore')).default.getState();
-          const gridItems = (gridItemStore.gridItems || []).filter(item => (item.mapId || 'default') === playerMapId);
-
-          if (gridItems.length > 0) {
-            console.log(`ðŸ“¤ Broadcasting ${gridItems.length} grid items for map ${playerMapId}`);
-            socket.emit('sync_grid_items', {
-              mapId: playerMapId,
-              gridItems: Object.fromEntries(gridItems.map(item => [item.id, item])),
-              recipientPlayerId: data.player.id
-            });
-          }
-
         } catch (error) {
           console.error('Failed to broadcast level editor state:', error);
         }

@@ -14,15 +14,15 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     requires: null,
     spell: {
       name: "Oath-Steel Bond",
-      description: "Thalren oath-steel fused to your body hardens with every vow witnessed. You gain +1 Durability Steps to equipped durability and +3 maximum health.",
+      description: "Tallyn oath-steel fused to your body hardens with every vow witnessed. You gain +1 Durability Steps to equipped durability and +3 maximum health.",
       flavorText: "The armor does not remember the wars. It remembers the promises.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "defense", "spellguard"]
     },
     rankUpgrades: [
-      { description: "Thalren oath-steel fused to your body hardens with every vow witnessed. You gain +2 Durability Steps to equipped durability and +6 maximum health." },
-      { description: "Thalren oath-steel fused to your body hardens with every vow witnessed. You gain +3 Durability Steps to equipped durability and +10 maximum health." }
+      { description: "Tallyn oath-steel fused to your body hardens with every vow witnessed. You gain +2 Durability Steps to equipped durability and +6 maximum health." },
+      { description: "Tallyn oath-steel fused to your body hardens with every vow witnessed. You gain +3 Durability Steps to equipped durability and +10 maximum health." }
     ]
   },
   {
@@ -81,7 +81,7 @@ export const SPELLGUARD_ARCANE_WARDEN = [
     spell: {
       name: "Reinforced Wards",
       description: "Your warding lattice is strung tighter. All shield spells you cast absorb an additional 5 damage.",
-      flavorText: "A ward scribbled in haste fails. A ward drafted like a Thalren contract does not.",
+      flavorText: "A ward scribbled in haste fails. A ward drafted like a Tallyn contract does not.",
       source: "talent", class: "Spellguard", treeId: "arcane_warden",
       spellType: "PASSIVE", category: "buff",
       targetingMode: "self", visualTheme: "arcane", tags: ["passive", "shield", "spellguard"]

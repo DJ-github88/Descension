@@ -1550,8 +1550,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const creatureName = token.state?.customName || creature.name;
 
     if (isInMultiplayer && multiplayerSocket?.connected) {
+      // Project 4: ownership/control changes are server authority. The client
+      // requests the grant with its map scope and waits for acknowledgement;
+      // it never optimistically reassigns ownership.
+      const roomState = useGameStore.getState().multiplayerRoom?.gameState;
       multiplayerSocket.emit('token_control_granted', {
         roomId: useGameStore.getState().multiplayerRoom?.id,
+        mapId: token?.mapId || (roomState && roomState.defaultMapId) || 'default',
         tokenId,
         tokenName: creatureName,
         targetPlayerId: playerId,
@@ -1559,21 +1564,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         targetPlayerUserId: playerUserId,
         targetPlayerName: playerName,
         grantedByName: useGameStore.getState().currentPlayer?.name || 'GM'
-      });
-
-      updateTokenState(tokenId, {
-        ownerId: playerId,
-        playerId: playerId,
-        controlledBy: playerName
+      }, (response) => {
+        if (response && response.success === false) {
+          console.warn('[Control] Delegation was not accepted by the server:', response.error || response.code);
+        }
       });
     } else {
       console.warn('⚠️ [Control] Cannot emit token_control_granted – socket not connected:', {
         isInMultiplayer, connected: multiplayerSocket?.connected
-      });
-      updateTokenState(tokenId, {
-        ownerId: playerId,
-        playerId: playerId,
-        controlledBy: playerName
       });
     }
 

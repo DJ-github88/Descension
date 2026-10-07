@@ -2,6 +2,20 @@ import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/ch
 import { initializeClassResource, updateClassResourceMax } from '../../data/classResources';
 import { applyRacialModifiers } from '../../data/raceData';
 import { getEncumbranceState, triggerCharacterAutoSave } from '../characterHelpers';
+import { normalizeManagedClassResource, updateManagedClassResource, getManagedResourceId, getClassResourceValue, changeManagedClassResource } from '../../data/classResourceContracts';
+import { applyApexPackEvent, beginApexOwnTurn, getApexCompanionStatus } from '../../data/apexResourceContract';
+import { getStore } from '../storeRegistry';
+import { advancePyroDebtCall } from '../../data/pyrofiendResourceContract';
+import { recordSpellguardIntake } from '../../data/spellguardResourceContract';
+import { getInquisitorAssistanceDecision } from '../../data/inquisitorResourceContract';
+import { getAugurLongRestDebt } from '../../data/augurResourceContract';
+
+const refreshInquisitorAssistanceStats = get => {
+    const state = get();
+    if (getManagedResourceId(state.classResource, state.class) === 'authority' && state.stats && typeof state.updateStat === 'function') {
+        state.updateStat('strength', state.stats.strength);
+    }
+};
 
 export const createResourceSlice = (set, get) => ({
     // Resources
@@ -129,6 +143,24 @@ export const createResourceSlice = (set, get) => ({
         });
     },
 
+    // Provenance-aware assistance is distinct from manual resource calibration.
+    receiveAssistance: (resourceType, amount, provenance = {}) => {
+        const state = get();
+        if (!['health', 'mana'].includes(resourceType) || !Number.isFinite(amount) || amount <= 0 || !state[resourceType]) return { applied: false, reason: 'invalid-assistance' };
+        const decision = getInquisitorAssistanceDecision({ ...state, assistanceIdentityIds: ['player', 'current-player'] },
+            { ...provenance, kind: resourceType === 'health' ? 'healing' : 'mana_regen' });
+        if (decision.suppressed) return { applied: false, ...decision };
+        state.updateResource(resourceType, state[resourceType].current + amount);
+        return { applied: true, ...decision };
+    },
+
+    setInquisitorNullAura: active => {
+        const state = get();
+        if (getManagedResourceId(state.classResource, state.class) !== 'authority') return false;
+        state.updateClassResource('nullAura', { active: active === true });
+        return get().classResource.nullAura.active;
+    },
+
     // Class resource management functions
     updateClassResource: (field, value, skipSync = false, skipSave = false) => {
         set(state => {
@@ -152,6 +184,9 @@ export const createResourceSlice = (set, get) => ({
                 [field]: fieldValue,
                 lastUpdate: Date.now()
             };
+            const contractedResource = getManagedResourceId(state.classResource, state.class)
+                ? { ...updateManagedClassResource(state.classResource, state.class, field, fieldValue), lastUpdate: updatedResource.lastUpdate }
+                : updatedResource;
 
             // CRITICAL FIX: Debounced auto-save for class resource changes
             if (state.currentCharacterId && !skipSave) {
@@ -167,9 +202,10 @@ export const createResourceSlice = (set, get) => ({
             }
 
             return {
-                classResource: updatedResource
+                classResource: contractedResource
             };
         });
+        refreshInquisitorAssistanceStats(get);
     },
 
     resetClassResource: () => {
@@ -182,7 +218,31 @@ export const createResourceSlice = (set, get) => ({
         });
         if (!fresh) return;
 
-        set({ classResource: fresh });
+        const resourceId = getManagedResourceId(state.classResource, state.class);
+        let resetResource = fresh;
+        if (resourceId === 'infernoVeil') resetResource = updateManagedClassResource(state.classResource, state.class, 'current', 0);
+        if (resourceId === 'arcaneEnergyPoints') resetResource = { ...updateManagedClassResource(state.classResource, state.class, 'current', 0), activeEffects: [] };
+        if (resourceId === 'authority') resetResource = { ...updateManagedClassResource(state.classResource, state.class, 'current', 0), activeEffects: [] };
+        if (resourceId === 'kineticFluxBodyToll') {
+            resetResource = updateManagedClassResource(state.classResource, state.class, 'current', 0);
+            resetResource = updateManagedClassResource(resetResource, state.class, 'bodyToll', 0);
+            resetResource = updateManagedClassResource(resetResource, state.class, 'stance', 'Ataxic Flow');
+            resetResource = { ...resetResource, activeEffects: [] };
+        }
+        if (resourceId === 'toxinVialsContraptions') {
+            const maxVials = state.classResource?.toxinVialsMax ?? state.classResource?.maxVials ?? 4;
+            const maxParts = state.classResource?.contraptionPartsMax ?? 5;
+            resetResource = normalizeManagedClassResource({ ...state.classResource, toxinVials: maxVials, contraptionParts: maxParts }, state.class);
+        }
+        if (resourceId === 'benediction-malediction') {
+            const debt = getAugurLongRestDebt(state.classResource);
+            resetResource = normalizeManagedClassResource({ ...state.classResource, benediction: 0, malediction: 0, omenDebt: debt }, state.class);
+        }
+        if (resetResource === fresh && getManagedResourceId(fresh, state.class)) {
+            resetResource = normalizeManagedClassResource(fresh, state.class);
+        }
+        set({ classResource: resetResource });
+        refreshInquisitorAssistanceStats(get);
 
         if (state.currentCharacterId) {
             triggerCharacterAutoSave(() => get().saveCurrentCharacter());
@@ -191,20 +251,86 @@ export const createResourceSlice = (set, get) => ({
         get().syncResourcesWithMultiplayer({ classResource: 0 });
     },
 
-    // Consume class resource (spend points/charges/etc.)
-    consumeClassResource: (amount = 1) => {
+    // Report resolved magical intake without silently losing residual/overflow.
+    recordSpellguardInterception: receipt => {
+        let result = { accepted: false, reason: 'not-spellguard' };
         set(state => {
-            if (!state.classResource || state.classResource.current < amount) {
+            if (!state.classResource || getManagedResourceId(state.classResource, state.class) !== 'arcaneEnergyPoints') return state;
+            result = recordSpellguardIntake(state.classResource, receipt);
+            return result.accepted ? { classResource: { ...result.resource, lastUpdate: Date.now() } } : state;
+        });
+        if (result.accepted) {
+            const state = get();
+            if (state.currentCharacterId) triggerCharacterAutoSave(() => get().saveCurrentCharacter());
+            state.syncResourcesWithMultiplayer({ classResource: 0 });
+        }
+        return result;
+    },
+
+    // Idempotent own-turn receipts for a latched Pyrofiend Debt Call
+    advancePyroOwnTurn: ownTurnId => {
+        let result = { accepted: false };
+        set(state => {
+            if (!state.classResource || getManagedResourceId(state.classResource, state.class) !== 'infernoVeil') return state;
+            result = advancePyroDebtCall(state.classResource, ownTurnId);
+            return result.accepted ? { classResource: { ...result.resource, lastUpdate: Date.now() } } : state;
+        });
+        if (result.accepted) {
+            const state = get();
+            if (state.currentCharacterId) triggerCharacterAutoSave(() => get().saveCurrentCharacter());
+            state.syncResourcesWithMultiplayer({ classResource: 0 });
+        }
+        return result;
+    },
+
+    // Resolved pack outcomes and own-turn windows (Apex)
+    recordApexPackEvent: event => {
+        let result = { accepted: false, gained: 0, reason: 'not-apex' };
+        set(state => {
+            if (!state.classResource || getManagedResourceId(state.classResource, state.class) !== 'quarryMarksCompanion') return state;
+            const tokens = getStore('creatureStore')?.getState().creatureTokens || [];
+            result = applyApexPackEvent(state.classResource, event, {
+                companionAvailable: getApexCompanionStatus(state.classResource, tokens).available,
+                specialization: state.primarySpecialization || state.classResource.apexSpecialization
+            });
+            return result.accepted ? { classResource: { ...result.resource, lastUpdate: Date.now() } } : state;
+        });
+        if (result.accepted) {
+            const state = get();
+            if (state.currentCharacterId) triggerCharacterAutoSave(() => get().saveCurrentCharacter());
+            state.syncResourcesWithMultiplayer({ classResource: 0 });
+        }
+        return result;
+    },
+
+    beginApexOwnTurn: () => {
+        const state = get();
+        if (!state.classResource || getManagedResourceId(state.classResource, state.class) !== 'quarryMarksCompanion') return;
+        state.updateClassResource('apexGeneration', beginApexOwnTurn(state.classResource).apexGeneration);
+    },
+
+    // Consume class resource (spend points/charges/etc.)
+    consumeClassResource: (amount = 1, resourceKey) => {
+        set(state => {
+            const resource = normalizeManagedClassResource(state.classResource, state.class);
+            const managed = getManagedResourceId(resource, state.class);
+            if (!resource || !Number.isFinite(amount) || amount <= 0 || (managed && !Number.isInteger(amount)) ||
+                getClassResourceValue(resource, state.class, resourceKey) < amount) {
                 return state;
             }
 
-            const newCurrent = Math.max(0, state.classResource.current - amount);
+            const newCurrent = Math.max(0, resource.current - amount);
+
+            if (state.currentCharacterId) triggerCharacterAutoSave(() => get().saveCurrentCharacter());
 
 
 
             return {
-                classResource: {
-                    ...state.classResource,
+                classResource: managed ? {
+                    ...changeManagedClassResource(resource, state.class, -amount, resourceKey),
+                    lastUpdate: Date.now()
+                } : {
+                    ...resource,
                     current: newCurrent,
                     lastUpdate: Date.now()
                 }
@@ -212,21 +338,30 @@ export const createResourceSlice = (set, get) => ({
         });
 
         // Sync with multiplayer
+        refreshInquisitorAssistanceStats(get);
         get().syncWithMultiplayer();
     },
 
     // Gain class resource (earn points/charges/etc.)
-    gainClassResource: (amount = 1) => {
+    gainClassResource: (amount = 1, resourceKey) => {
         set(state => {
             if (!state.classResource) return state;
+            const resource = normalizeManagedClassResource(state.classResource, state.class);
+            const managed = getManagedResourceId(resource, state.class);
+            if (!Number.isFinite(amount) || amount <= 0 || (managed && !Number.isInteger(amount))) return state;
 
-            const newCurrent = Math.min(state.classResource.max, state.classResource.current + amount);
+            const newCurrent = Math.min(resource.max, resource.current + amount);
+
+            if (state.currentCharacterId) triggerCharacterAutoSave(() => get().saveCurrentCharacter());
 
 
 
             return {
-                classResource: {
-                    ...state.classResource,
+                classResource: managed ? {
+                    ...changeManagedClassResource(resource, state.class, amount, resourceKey),
+                    lastUpdate: Date.now()
+                } : {
+                    ...resource,
                     current: newCurrent,
                     lastUpdate: Date.now()
                 }
@@ -234,6 +369,7 @@ export const createResourceSlice = (set, get) => ({
         });
 
         // Sync with multiplayer
+        refreshInquisitorAssistanceStats(get);
         get().syncWithMultiplayer();
     },
 

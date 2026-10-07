@@ -67,3 +67,6 @@ console.log('\n--- ENTRIES WITHOUT RELATED TERMS ---');
 for (const k of without) {
   console.log('  ' + k);
 }
+
+// A report used as a check must fail the command on invalid IDs/references.
+process.exitCode = idBad.length > 0 || broken.length > 0 ? 1 : 0;

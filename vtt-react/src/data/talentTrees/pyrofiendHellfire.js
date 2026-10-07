@@ -354,7 +354,7 @@ export const PYROFIEND_HELLFIRE = [
     "spell": {
       "name": "Brimstone Clasp",
       "description": "Spend 1 AP: Hurl chains of dark molten iron at an enemy within 40 feet dealing 2d8 ember damage and pulling them 20 feet toward you, immobilizing them for 1 round on a failed Strength save.",
-      "flavorText": "Tethered to the hearth of doom.",
+      "flavorText": "Chained to the hearth of doom.",
       "source": "talent",
       "class": "Pyrofiend",
       "treeId": "hellfire",

@@ -417,13 +417,13 @@ export const ARCANONEER_PRISM_MAGE = [
   },
   {
     id: "pm_t7_fexric_resonator",
-    name: "Fexric Resonator",
+    name: "Fex Resonator",
     icon: "Utility/Utility Gear",
     maxRanks: 3,
     position: { x: 0.5, y: 6 },
     requires: "pm_t6_prism_battery",
     spell: {
-      name: "Fexric Resonator",
+      name: "Fex Resonator",
       description: "Spells that use only your Focused Element (all spheres consumed match) restore 2 mana after casting.",
       flavorText: "Steam-will, recycled. The pipes approve.",
       source: "talent", class: "Arcanoneer", treeId: "prism_mage",

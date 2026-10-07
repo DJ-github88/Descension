@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { formatSavingThrowModifier } from '../../../../data/raceData';
 
 const StatsTab = ({
     statModifiers = {},
@@ -143,7 +144,7 @@ const StatsTab = ({
                                     <i className="fas fa-check-circle"></i> Advantage on saves against:
                                 </span>
                                 <span className="save-mod-value">
-                                    {savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}
+                                    {savingThrowMods.advantage.map(formatSavingThrowModifier).join(', ')}
                                 </span>
                             </div>
                         )}
@@ -153,7 +154,7 @@ const StatsTab = ({
                                     <i className="fas fa-times-circle"></i> Disadvantage on saves against:
                                 </span>
                                 <span className="save-mod-value">
-                                    {savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}
+                                    {savingThrowMods.disadvantage.map(formatSavingThrowModifier).join(', ')}
                                 </span>
                             </div>
                         )}
@@ -163,7 +164,7 @@ const StatsTab = ({
                                     <i className="fas fa-shield-alt"></i> Damage resistance to:
                                 </span>
                                 <span className="save-mod-value">
-                                    {savingThrowMods.resistance.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}
+                                    {savingThrowMods.resistance.map(formatSavingThrowModifier).join(', ')}
                                 </span>
                             </div>
                         )}
@@ -173,7 +174,7 @@ const StatsTab = ({
                                     <i className="fas fa-ban"></i> Damage immunity to:
                                 </span>
                                 <span className="save-mod-value">
-                                    {savingThrowMods.immunity.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}
+                                    {savingThrowMods.immunity.map(formatSavingThrowModifier).join(', ')}
                                 </span>
                             </div>
                         )}

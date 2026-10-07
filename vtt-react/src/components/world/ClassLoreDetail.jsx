@@ -70,14 +70,14 @@ const DEFAULT_CLASS_ORGANIZATIONS = {
       status: 'Active (Contested)',
       description: 'The supreme judicial and academic authority for elemental contract law. Masters draft and audit incantation clauses for Morvane.',
       notableMembers: ['Valerius the Scriptor', 'Kaelen the Unbroken'],
-      rivalOrganizations: ['Caustic Scrap-Weavers Syndicate']
+      rivalOrganizations: ['Alchemite Scrap-Weavers Syndicate']
     },
     {
       name: 'Cragjaw Gear Weaver Guild',
       leader: 'Guildmaster Fex-Krohn',
       headquarters: 'Cragjaw Peaks',
       status: 'Active',
-      description: 'Clockwork Fexric guild mapping elemental combination matrices with precision engineering and certified tolerances.'
+      description: 'Brasskin guild mapping elemental combination matrices with precision engineering and certified tolerances.'
     }
   ],
   berserker: [

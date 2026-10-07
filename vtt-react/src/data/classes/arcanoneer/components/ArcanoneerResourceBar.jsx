@@ -10,6 +10,7 @@ import SpellTooltip from '../../../../components/spellcrafting-wizard/components
 import { formulationToSpell } from '../formulationToSpell';
 import { migrateBlockId } from '../../../../utils/arcanoneerMigration';
 import SpellCastConfirmation from '../../../../components/ui/SpellCastConfirmation';
+import { ARCANONEER_BANK_MAX, ARCANONEER_ROLL_COUNT, normalizeSphereBank } from '../../../classResourceBanks';
 
 /**
  * Single source of truth for canonical elements with rich Arcanoneer styling
@@ -46,15 +47,17 @@ const ArcanoneerResourceBar = ({
 }) => {
     // ===== Configuration =====
     const blocks = (config?.elements && config.elements.length > 0) ? config.elements : CANONICAL_ELEMENTS;
-    const maxBank = config?.mechanics?.max || 12;
+    const maxBank = ARCANONEER_BANK_MAX;
     const matrix = config?.combinationMatrix || null;
     const matrixEntries = matrix?.entries || [];
 
     const canEdit = isOwner;
 
     // ===== State =====
-    const normalizeSpheres = (arr) => Array.isArray(arr) ? arr.map(migrateBlockId) : [];
+    const normalizeSpheres = normalizeSphereBank;
     const [localSpheres, setLocalSpheres] = useState(normalizeSpheres(classResource?.spheres));
+    const spheresRef = useRef(localSpheres);
+    const rollTimerRef = useRef(null);
     const [isRolling, setIsRolling] = useState(false);
     const [hoveredBlockId, setHoveredBlockId] = useState(null);
     const [showBarTooltip, setShowBarTooltip] = useState(false);
@@ -76,11 +79,14 @@ const ArcanoneerResourceBar = ({
     // Keep localSpheres in sync if upstream changes
     useEffect(() => {
         const incoming = normalizeSpheres(classResource?.spheres);
+        spheresRef.current = incoming;
         if (incoming.length !== localSpheres.length || incoming.some((v, i) => v !== localSpheres[i])) {
             setLocalSpheres(incoming);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classResource?.spheres]);
+
+    useEffect(() => () => clearTimeout(rollTimerRef.current), []);
 
     const barRef = useRef(null);
     const matrixModalRef = useRef(null);
@@ -190,7 +196,8 @@ const ArcanoneerResourceBar = ({
 
     // Actions
     const commitSpheres = (next, changeLog = null) => {
-        const capped = next.slice(0, maxBank);
+        const capped = normalizeSphereBank(next);
+        spheresRef.current = capped;
         setLocalSpheres(capped);
         if (onClassResourceUpdate) onClassResourceUpdate('spheres', capped);
         if (changeLog) logChange(changeLog.name, changeLog.amount, changeLog.isPositive);
@@ -227,7 +234,7 @@ const ArcanoneerResourceBar = ({
 
         const dice = [];
         const newBlocks = [];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < ARCANONEER_ROLL_COUNT; i++) {
             const roll = Math.floor(Math.random() * 8) + 1;
             dice.push(roll);
             const block = blocks.find(b => b.d8Value === roll);
@@ -235,9 +242,10 @@ const ArcanoneerResourceBar = ({
         }
         setLastRollResult({ dice, blocks: newBlocks });
 
-        setTimeout(() => {
-            const next = [...localSpheres, ...newBlocks].slice(0, maxBank);
-            const banked = next.length - localSpheres.length;
+        rollTimerRef.current = setTimeout(() => {
+            const currentBank = spheresRef.current;
+            const next = [...currentBank, ...newBlocks].slice(0, maxBank);
+            const banked = next.length - currentBank.length;
             commitSpheres(next, { name: 'Spheres (4d8)', amount: Math.max(0, banked), isPositive: true });
             setIsRolling(false);
         }, 480);
@@ -287,8 +295,8 @@ const ArcanoneerResourceBar = ({
         const currentMana = charStore.mana;
         const currentAP = charStore.actionPoints;
 
-        if (manaCost > 0 && (!currentMana || currentMana.current < manaCost)) return;
-        if (apCost > 0 && (!currentAP || currentAP.current < apCost)) return;
+        if (!showcase && manaCost > 0 && (!currentMana || currentMana.current < manaCost)) return;
+        if (!showcase && apCost > 0 && (!currentAP || currentAP.current < apCost)) return;
 
         const sphereBankCopy = [...localSpheres];
         for (const req of requiredSpheres) {
@@ -298,7 +306,7 @@ const ArcanoneerResourceBar = ({
         }
 
         // 3. Deduct Mana
-        if (manaCost > 0 && currentMana) {
+        if (!showcase && manaCost > 0 && currentMana) {
             const newMana = Math.max(0, currentMana.current - manaCost);
             charStore.updateResource('mana', newMana);
             try {
@@ -316,7 +324,7 @@ const ArcanoneerResourceBar = ({
         }
 
         // 4. Deduct AP
-        if (apCost > 0 && currentAP) {
+        if (!showcase && apCost > 0 && currentAP) {
             const newAP = Math.max(0, currentAP.current - apCost);
             charStore.updateResource('actionPoints', newAP);
             try {
@@ -335,12 +343,12 @@ const ArcanoneerResourceBar = ({
 
         // 5. Retract / Deduct Spheres
         commitSpheres(sphereBankCopy);
-        charStore.updateClassResource?.('spheres', sphereBankCopy);
+        if (!showcase && !onClassResourceUpdate) charStore.updateClassResource?.('spheres', sphereBankCopy);
 
         try {
             const usePartyStore = require('../../../../store/partyStore').default;
             const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
-            if (currentMember && currentMember.character?.classResource) {
+            if (!showcase && currentMember && currentMember.character?.classResource) {
                 usePartyStore.getState().updatePartyMember('current-player', {
                     character: {
                         ...currentMember.character,
@@ -1172,7 +1180,7 @@ const ArcanoneerResourceBar = ({
             {spellToCast && (
                 <SpellCastConfirmation
                     spell={spellToCast}
-                    classResource={{ ...classResource, spheres: localSpheres }}
+                    classResource={{ ...classResource, type: 'elementalSpheres', spheres: localSpheres }}
                     onConfirm={handleSpellCastConfirm}
                     onCancel={handleSpellCastCancel}
                 />

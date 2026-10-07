@@ -627,5 +627,6 @@ export function registerTokenHandlers(ctx) {
     socket.off('token_control_granted');
     socket.off('token_control_response');
     socket.off('tokens_delta');
+    socket.off('character_token_updated');
   };
 }

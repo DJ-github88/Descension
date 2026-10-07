@@ -83,10 +83,10 @@ const CursorTracker = ({ socket }) => {
             }, 3000);
         };
 
-        socket.on('cursor_move', handleCursorMove);
+        socket.on('cursor_moved', handleCursorMove);
 
         return () => {
-            socket.off('cursor_move', handleCursorMove);
+            socket.off('cursor_moved', handleCursorMove);
             if (flushRafId !== null) {
                 cancelAnimationFrame(flushRafId);
                 flushRafId = null;

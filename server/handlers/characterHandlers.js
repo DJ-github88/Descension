@@ -11,6 +11,9 @@
  * - buff_update / debuff_update: per-token buff/debuff state relay + persistence
  */
 
+const roomAccess = require('../services/roomAccessService');
+const tokenAuthority = require('./tokenHandlers');
+
 function registerCharacterHandlers(ctx) {
   const {
     io,
@@ -27,7 +30,38 @@ function registerCharacterHandlers(ctx) {
       if (!validation.valid) {return;}
 
       const { room, player } = validation;
+      const uid = socket.data && socket.data.userId ? socket.data.userId : null;
       const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+
+      // A supplied foreign tokenId is never movable by an ordinary member.
+      if (data.tokenId) {
+        const maps = room.gameState && room.gameState.maps ? room.gameState.maps : {};
+        let record = null;
+        let recordMapId = mapId;
+        const ownMap = maps[mapId];
+        if (ownMap && ownMap.characterTokens && ownMap.characterTokens[data.tokenId]) {
+          record = ownMap.characterTokens[data.tokenId];
+        } else {
+          for (const [candidateMapId, candidateMap] of Object.entries(maps)) {
+            if (candidateMap && candidateMap.characterTokens && candidateMap.characterTokens[data.tokenId]) {
+              record = candidateMap.characterTokens[data.tokenId];
+              recordMapId = candidateMapId;
+              break;
+            }
+          }
+        }
+        // Only an existing token is authority-checked. Unknown token ids keep
+        // the documented legacy relay (clients reconcile by tokenId).
+        if (record) {
+          const authority = tokenAuthority.resolveTokenAuthority(room, player, data.tokenId, record, recordMapId, uid);
+          if (authority === 'none') {
+            logger.warn('[character_moved] Unauthorized character token movement blocked', {
+              tokenId: data.tokenId, playerId: player.id
+            });
+            return;
+          }
+        }
+      }
 
       // Update player's current map if changed
       if (data.mapId && data.mapId !== player.currentMapId) {
@@ -43,6 +77,7 @@ function registerCharacterHandlers(ctx) {
         tokenId: data.tokenId,
         position: data.position,
         mapId,
+        ...(data.actionId ? { actionId: data.actionId } : {}),
         timestamp: Date.now()
       });
 
@@ -108,11 +143,13 @@ function registerCharacterHandlers(ctx) {
       logger.debug('character_updated validated', { playerId: player.id, roomId: room.id });
 
       if (data.character) {
-        player.character = {
+        // P4: private inventory is never stored through a shared character
+        // envelope; outbound delivery is additionally projected below.
+        player.character = roomAccess.projectCharacterForClient({
           ...player.character,
           ...data.character,
           lastUpdated: Date.now()
-        };
+        });
 
         room.players.set(player.id, player);
 
@@ -134,10 +171,10 @@ function registerCharacterHandlers(ctx) {
       io.to(broadcastRoomId).emit('character_updated', {
         playerId: player.id,
         characterId: data.characterId,
-        character: player.character,
+        character: roomAccess.projectCharacterForClient(player.character),
         updatedBy: socket.id,
         senderSocketId: socket.id,
-        senderUserId: socket.data.userId || data.userId,
+        senderUserId: socket.data.userId || null,
         isGM: player.isGM || room.gm?.socketId === socket.id,
         timestamp: Date.now()
       });
@@ -168,9 +205,9 @@ function registerCharacterHandlers(ctx) {
         room.players.set(player.id, player);
       }
 
-      socket.to(data.roomId).emit('character_equipment_updated', {
+      socket.to(room.id).emit('character_equipment_updated', {
         playerId: player.id,
-        equipment: data.equipment,
+        equipment: roomAccess.projectEquipmentForClient(data.equipment),
         updatedBy: socket.id
       });
 
@@ -216,6 +253,20 @@ function registerCharacterHandlers(ctx) {
           playerId: data.playerId,
           senderSocketId: data.senderSocketId,
           isGM: senderPlayer?.isGM
+        });
+        return;
+      }
+
+      // A non-GM may only modify their own resources; ignore client-supplied
+      // playerId/senderSocketId that target another player.
+      const isSelfTarget = senderPlayer && (
+        targetPlayer.id === senderPlayer.id ||
+        (targetPlayer.userId && targetPlayer.userId === senderPlayer.userId)
+      );
+      if (!senderPlayer?.isGM && !isSelfTarget) {
+        logger.warn('[character_resource_updated] Non-GM attempted to modify another player', {
+          senderId: senderPlayer?.id,
+          targetId: targetPlayer.id
         });
         return;
       }

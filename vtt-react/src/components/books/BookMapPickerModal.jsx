@@ -188,7 +188,7 @@ const BookMapPickerModal = ({
 
     setIsUploading(true);
     try {
-      const url = await uploadAsset(file, 'maps', user?.uid);
+      const url = await uploadAsset(user?.uid, file, 'maps');
       if (url) {
         setImageUrl(url);
       }

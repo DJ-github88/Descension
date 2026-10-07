@@ -483,7 +483,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'sundale',
     width: 4096,
     height: 3072,
-    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Shorn exiles of the old Solvan nobility who fled the capital.'
+    description: 'A peninsula connected to the main Sundale landmass by a narrow isthmus, a half-island, lush and forested, the greenest land in the region. Crystal-rich volcanic soil supports ancient growth; the trees here drink the heat bleeding from Emberspire. Long thought uninhabitable, the Dawn Vigil\'s collapse has seen it recolonized by hermits, the Risen (old Solari faith), and the Oaken exiles of the old Solvan nobility who fled the capital.'
   },
   'iceheart-merrow-archipelago': {
     id: 'iceheart-merrow-archipelago',
@@ -537,7 +537,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'iceheart-sea',
     width: 4096,
     height: 3072,
-    description: 'The southernmost reach of the Iceheart Sea, where a glacial river from the Bryngloom meets the salt water. The estuary is a vast marshland of half-fresh, half-salt water; the Saltmaw Bog is a place of smugglers, exiled Nethien, and forgotten spirits.'
+    description: 'The southernmost reach of the Iceheart Sea, where a glacial river from the Bryngloom meets the salt water. The estuary is a vast marshland of half-fresh, half-salt water; the Saltmaw Bog is a place of smugglers, exiled Athien, and forgotten spirits.'
   },
   'iceheart-waters-of-eziara': {
     id: 'iceheart-waters-of-eziara',
@@ -618,7 +618,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'cragjaw-peaks',
     width: 4096,
     height: 3072,
-    description: 'The mid-altitude network of chasms, gorges, and bone-bridges that connect the keeps to the deep industrial sumps. The Groven rule here, their calcified Ancestor-Spans are the only safe routes through the chasms. Deepchasm Keep is the military hub. Tessen patrols, Groven toll-posts, and the Mist-Cobblers watch the high passes.'
+    description: 'The mid-altitude network of chasms, gorges, and bone-bridges that connect the keeps to the deep industrial sumps. The Groven rule here, their calcified Ancestor-Spans are the only safe routes through the chasms. Deepchasm Keep is the military hub. Tessic patrols, Groven toll-posts, and the Mist-Cobblers watch the high passes.'
   },
   'cragjaw-iron-sumps': {
     id: 'cragjaw-iron-sumps',
@@ -627,7 +627,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'cragjaw-peaks',
     width: 4096,
     height: 3072,
-    description: 'The deep industrial heart of the Cragjaw Peaks, the toxic mining shafts, geothermal plants, and Fexric workshops that keep the high keeps alive. The Sump Galleries, Gearworks Gulch, and Iron Ravine are all here. Chasm-Dwellers work the mines; Deep Alchemists run the vats; the Lost Brood Vats are the abandoned ruins of a guild that went too deep.'
+    description: 'The deep industrial heart of the Cragjaw Peaks, the toxic mining shafts, geothermal plants, and Fex workshops that keep the high keeps alive. The Sump Galleries, Gearworks Gulch, and Iron Ravine are all here. Chasm-Dwellers work the mines; Deep Alchemists run the vats; the Lost Brood Vats are the abandoned ruins of a guild that went too deep.'
   },
   'sundrift-long-steppe': {
     id: 'sundrift-long-steppe',
@@ -663,7 +663,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'sundrift-vale',
     width: 4096,
     height: 3072,
-    description: 'The southern march of the Vale, the transition zone where the steppe meets the Bryngloom Forest. Morren\'s Bogpost is the only major settlement, a trade outpost where Ordan horse-traders meet Vreken peat-cutters and Bryngloom Nethien scribes. The cultural mixing here is intense; many Marred folk live in the bogpost.'
+    description: 'The southern march of the Vale, the transition zone where the steppe meets the Bryngloom Forest. Morren\'s Bogpost is the only major settlement, a trade outpost where Ordu horse-traders meet Mycellan peat-cutters and Bryngloom Athien scribes. The cultural mixing here is intense; many Marred folk live in the bogpost.'
   },
   'sundrift-blizzard-bluff': {
     id: 'sundrift-blizzard-bluff',
@@ -672,7 +672,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'sundrift-vale',
     width: 4096,
     height: 3072,
-    description: 'The northern edge of the Vale, where a high cold bluff separates the warmer steppe from the deep ice of the Frostwood Reach. The Ordavan call this the Snow-Tooth, the wind here never stops. Small Ordan sentry-posts watch the passes; Frostwood Thalren patrols meet them at the cairns.'
+    description: 'The northern edge of the Vale, where a high cold bluff separates the warmer steppe from the deep ice of the Frostwood Reach. The Ordavan call this the Snow-Tooth, the wind here never stops. Small Ordu sentry-posts watch the passes; Frostwood Tallyn patrols meet them at the cairns.'
   },
   'bryngloom-canopy-heart': {
     id: 'bryngloom-canopy-heart',
@@ -681,7 +681,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The political heart of the Bryngloom, the ironwood cathedral-grove of Atropolis, the Great Mere (the central lake), the Over-Shanty hanging slum. The Nethien rule here; the Great Registry is enforced; the Vreken are bound to debt-covenants beneath the towering ironwood. The Peat-Bog Sinks surround the capital.'
+    description: 'The political heart of the Bryngloom, the ironwood cathedral-grove of Atropolis, the Great Mere (the central lake), the Over-Shanty hanging slum. The Athien rule here; the Great Registry is enforced; the Mycellan are bound to debt-covenants beneath the towering ironwood. The Peat-Bog Sinks surround the capital.'
   },
   'bryngloom-sunken-basin': {
     id: 'bryngloom-sunken-basin',
@@ -690,7 +690,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The south-eastern depression of the Bryngloom, where the Vreken have carved their inverted gothic cathedral into a four-hundred-foot sinkhole. The Sunken Spire, the crypt of Aedris the First-Lit, the fungal shroud-shrines, all here. The basin floor glows faintly with the eternal pale-moonlight of Aedris.'
+    description: 'The south-eastern depression of the Bryngloom, where the Mycellan have carved their inverted gothic cathedral into a four-hundred-foot sinkhole. The Sunken Spire, the crypt of Aedris the First-Lit, the fungal shroud-shrines, all here. The basin floor glows faintly with the eternal pale-moonlight of Aedris.'
   },
   'bryngloom-peat-wastes': {
     id: 'bryngloom-peat-wastes',
@@ -708,7 +708,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The western edge of the forest, where Vel-Keth Bayou (the water-that-remembers) winds through the oldest ironwood groves. The Veldun weavers of Aran-Glen live here, reading probability in their living-ironwood looms. The Inquisition keeps the Covenbane Stronghold in the eastern bayous; the swamp-singers were purged from these waters.'
+    description: 'The western edge of the forest, where Vel-Keth Bayou (the water-that-remembers) winds through the oldest ironwood groves. The Weft weavers of Aran-Glen live here, reading probability in their living-ironwood looms. The Inquisition keeps the Covenbane Stronghold in the eastern bayous; the swamp-singers were purged from these waters.'
   },
   'bryngloom-great-mere': {
     id: 'bryngloom-great-mere',
@@ -717,7 +717,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The vast central lake of the Bryngloom, dotted with small wooded islands, some inhabited, some forbidden, some not even on any map. Merryn barges tie up at the lake-ports; Vreken shrines hide on the western islands; an old Nethien monastery stands on the largest. The lake level rises and falls with the moon.'
+    description: 'The vast central lake of the Bryngloom, dotted with small wooded islands, some inhabited, some forbidden, some not even on any map. Merryn barges tie up at the lake-ports; Mycellan shrines hide on the western islands; an old Athien monastery stands on the largest. The lake level rises and falls with the moon.'
   },
   'bryngloom-root-veil': {
     id: 'bryngloom-root-veil',
@@ -726,7 +726,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'Beneath the entire forest, the mycelial network the Nethien call the Root-Veil connects every ironwood root. Morvane rules here, in the deepest dark, where the First Contract was signed. The Root-Veil Scriptorium, the fabled archive of unbreakable memory, sits at the network\'s heart.'
+    description: 'Beneath the entire forest, the mycelial network the Athien call the Root-Veil connects every ironwood root. Morvane rules here, in the deepest dark, where the First Contract was signed. The Root-Veil Scriptorium, the fabled archive of unbreakable memory, sits at the network\'s heart.'
   },
 
 };

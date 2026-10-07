@@ -820,7 +820,7 @@ export const LineageShowcaseBlock = ({
   onOpenPicker = () => {}
 }) => {
   const abilityModifiers = block.abilityModifiers || { STR: 0, AGI: 0, CON: 0, INT: 0, SPI: 0, CHA: 0 };
-  const baseTraits = block.baseTraits || { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ['Common'], lifespan: '60-100 yrs' };
+  const baseTraits = block.baseTraits || { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ["Wayfarer's Cant"], lifespan: '60-100 yrs' };
   const passives = Array.isArray(block.racialPassives) ? block.racialPassives : [];
   const abilities = Array.isArray(block.racialAbilities) ? block.racialAbilities : [];
   const subraces = Array.isArray(block.subraces) ? block.subraces : [];

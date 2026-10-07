@@ -2141,7 +2141,7 @@
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
 - **The Canopy-Hanger:** Strigoi-Canopy colonies hang from the highest ironwood branches, invisible against the bark. They drop onto passing travelers, piercing the neck with their proboscis-tongue and draining not blood but vitality  -  the victim's will to live, drained drop by drop until they become listless, grey-skinned husks who simply sit down and stop moving.
-- **The Riddle-Teller:** Like the Vetala, a captured Strigoi-Canopy will answer questions about the past and future  -  but always in the form of a riddle-story that is both an answer and a test. If the listener solves the riddle, the Strigoi's knowledge is accurate and freely given. If the listener fails, the Strigoi laughs  -  a sound that echoes through the canopy and summons the entire colony to feed. Neth Kessen weavers deliberately seek out Strigoi-riddles, using their probability-sight to find the solution-pattern.
+- **The Riddle-Teller:** Like the Vetala, a captured Strigoi-Canopy will answer questions about the past and future  -  but always in the form of a riddle-story that is both an answer and a test. If the listener solves the riddle, the Strigoi's knowledge is accurate and freely given. If the listener fails, the Strigoi laughs  -  a sound that echoes through the canopy and summons the entire colony to feed. Neth Veldun weavers deliberately seek out Strigoi-riddles, using their probability-sight to find the solution-pattern.
 
 ---
 
@@ -2243,7 +2243,7 @@
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
 - **The Insatiable-Dead:** Preta-Hollows are the spirits of those who died in debt to the Neth  -  individuals whose contracts were called in by the Morvane but who could not fulfill their obligations. They wander the bog-clearings, eternally hungry, their distended bellies proof that they consumed too much in life and can never be satisfied in death.
-- **The Hunger-Inducer:** Their presence causes supernatural hunger in the living  -  anyone within twenty feet of a Preta-Hollow feels overwhelming, painful hunger, regardless of when they last ate. Food consumed in a Preta's presence provides no satisfaction  -  it passes through the body without nourishment. The only release for the Preta is for a living person to fulfill the dead one's outstanding contract-debt  -  a practice the Neth Kessen weavers facilitate for those who can afford the price.
+- **The Hunger-Inducer:** Their presence causes supernatural hunger in the living  -  anyone within twenty feet of a Preta-Hollow feels overwhelming, painful hunger, regardless of when they last ate. Food consumed in a Preta's presence provides no satisfaction  -  it passes through the body without nourishment. The only release for the Preta is for a living person to fulfill the dead one's outstanding contract-debt  -  a practice the Neth Veldun weavers facilitate for those who can afford the price.
 
 ---
 

@@ -100,22 +100,23 @@ describe('Room Handlers', () => {
     });
   });
 
-  describe('getPublicRooms', () => {
+  describe('getPublicRooms (Project 4 explicit opt-in discovery)', () => {
     const { getPublicRooms } = require('../handlers/roomHandlers');
 
     beforeEach(() => {
-      // Add test rooms
+      // Explicit public opt-in
       rooms.set('room-1', {
         id: 'room-1',
-        name: 'Active Room',
+        name: 'Active Public Room',
         isActive: true,
         gm: { name: 'GM 1' },
         players: new Map([['p1', {}]]),
         passwordHash: null,
-        settings: { maxPlayers: 6 },
+        settings: { maxPlayers: 6, isPrivate: false },
         createdAt: new Date().toISOString()
       });
 
+      // Active but inactive-room case
       rooms.set('room-2', {
         id: 'room-2',
         name: 'Inactive Room',
@@ -123,37 +124,78 @@ describe('Room Handlers', () => {
         gm: { name: 'GM 2' },
         players: new Map(),
         passwordHash: 'hashed',
-        settings: { maxPlayers: 6 },
+        settings: { maxPlayers: 6, isPrivate: false },
         createdAt: new Date().toISOString()
       });
 
+      // Explicitly private: hidden from discovery
       rooms.set('room-3', {
         id: 'room-3',
-        name: 'Another Active Room',
+        name: 'Private Room',
         isActive: true,
         gm: { name: 'GM 3' },
         players: new Map([['p2', {}], ['p3', {}]]),
         passwordHash: 'hashed',
-        settings: { maxPlayers: 4 },
+        settings: { maxPlayers: 4, isPrivate: true },
+        createdAt: new Date().toISOString()
+      });
+
+      // Missing/legacy privacy state: unlisted
+      rooms.set('room-4', {
+        id: 'room-4',
+        name: 'Legacy Room Without Privacy State',
+        isActive: true,
+        gm: { name: 'GM 4' },
+        players: new Map(),
+        passwordHash: null,
+        settings: { maxPlayers: 6 },
+        createdAt: new Date().toISOString()
+      });
+
+      // Public + password
+      rooms.set('room-5', {
+        id: 'room-5',
+        name: 'Password Public Room',
+        isActive: true,
+        gm: { name: 'GM 5' },
+        players: new Map(),
+        passwordHash: 'hashed',
+        settings: { maxPlayers: 6, isPrivate: false },
         createdAt: new Date().toISOString()
       });
     });
 
-    it('should return only active rooms', () => {
+    it('lists only active rooms with explicit isPrivate === false', () => {
       const publicRooms = getPublicRooms(rooms);
-
-      expect(publicRooms).to.have.lengthOf(2);
-      expect(publicRooms.find(r => r.id === 'room-1')).to.exist;
-      expect(publicRooms.find(r => r.id === 'room-2')).to.be.undefined;
+      const ids = publicRooms.map(r => r.id);
+      expect(ids).to.have.members(['room-1', 'room-5']);
+      expect(ids).to.not.include('room-2'); // inactive
+      expect(ids).to.not.include('room-3'); // private
+      expect(ids).to.not.include('room-4'); // missing/legacy privacy state
     });
 
-    it('should include correct player count (de-duplicating GM)', () => {
+    it('returns exactly the frozen eight discovery fields', () => {
+      const publicRooms = getPublicRooms(rooms);
+      const room1 = publicRooms.find(r => r.id === 'room-1');
+      expect(Object.keys(room1).sort()).to.deep.equal([
+        'createdAt', 'gm', 'gmOnline', 'hasPassword', 'id', 'maxPlayers', 'name', 'playerCount'
+      ].sort());
+      // No raw membership/ownership/state leakage.
+      expect(room1).to.not.have.property('gmId');
+      expect(room1).to.not.have.property('members');
+      expect(room1).to.not.have.property('passwordHash');
+      expect(room1).to.not.have.property('gameState');
+      expect(room1).to.not.have.property('bannedUsers');
+    });
+
+    it('includes correct player count (de-duplicating GM)', () => {
       // Case 1: GM not in players map
       rooms.set('test-1', {
         id: 'test-1',
         isActive: true,
         gm: { id: 'gm-1', name: 'GM 1' },
-        players: new Map([['p1', {}]])
+        players: new Map([['p1', {}]]),
+        settings: { isPrivate: false }
       });
 
       // Case 2: GM IS in players map (e.g. after color update)
@@ -161,7 +203,8 @@ describe('Room Handlers', () => {
         id: 'test-2',
         isActive: true,
         gm: { id: 'gm-2', name: 'GM 2' },
-        players: new Map([['p2', {}], ['gm-2', {}]])
+        players: new Map([['p2', {}], ['gm-2', {}]]),
+        settings: { isPrivate: false }
       });
 
       const publicRooms = getPublicRooms(rooms);
@@ -173,14 +216,14 @@ describe('Room Handlers', () => {
       expect(roomTest2.playerCount).to.equal(2); // 1 player + 1 GM (redundant in map)
     });
 
-    it('should report password status correctly', () => {
+    it('reports password status correctly for opted-in rooms', () => {
       const publicRooms = getPublicRooms(rooms);
 
       const room1 = publicRooms.find(r => r.id === 'room-1');
       expect(room1.hasPassword).to.be.false;
 
-      const room3 = publicRooms.find(r => r.id === 'room-3');
-      expect(room3.hasPassword).to.be.true;
+      const room5 = publicRooms.find(r => r.id === 'room-5');
+      expect(room5.hasPassword).to.be.true;
     });
   });
 
@@ -240,79 +283,57 @@ describe('Room Handlers', () => {
     });
   });
 
-  describe('mergeRoomGameStateForResume', () => {
+  describe('resume reconstruction (Project 3 replacement contract)', () => {
     const { mergeRoomGameStateForResume } = require('../handlers/roomHandlers');
+    const roomCheckpoint = require('../services/roomCheckpoint');
 
-    it('should return base state if resume state is null', () => {
-      const baseState = { tokens: { t1: {} } };
-
-      const result = mergeRoomGameStateForResume(baseState, null);
-
-      expect(result).to.equal(baseState);
+    it('retires the old concatenating resume merge loudly', () => {
+      expect(() => mergeRoomGameStateForResume({ tokens: { t1: {} } }, { tokens: { t2: {} } }))
+        .to.throw(/retired \(Project 3\)/);
     });
 
-    it('should merge maps deeply', () => {
-      const baseState = {
+    it('hydrates one selected snapshot by replacement, including deletions', () => {
+      const snapshot = {
+        global: { defaultMapId: 'default', combat: { isActive: true, turnOrder: ['a'], currentTurnIndex: 0, round: 2 } },
         maps: {
-          'default': {
-            tokens: { t1: { x: 0 } },
-            gridItems: { g1: {} }
+          default: {
+            id: 'default',
+            tokens: { t2: { id: 't2' } },
+            characterTokens: {},
+            gridItems: {},
+            terrainData: { '1,1': 'grass' },
+            drawingPaths: [{ id: 'stroke-1' }],
+            fogOfWarPaths: [{ id: 'fog-1' }],
+            environmentalObjects: [{ id: 'obj-1' }]
           }
-        }
+        },
+        mapIds: ['default']
       };
 
-      const resumeState = {
-        maps: {
-          'default': {
-            tokens: { t2: { x: 100 } },
-            terrainData: { data: 'new' }
-          },
-          'new-map': {
-            tokens: { t3: {} }
-          }
-        }
-      };
+      const first = roomCheckpoint.hydrateSnapshotToGameState(snapshot);
+      const second = roomCheckpoint.hydrateSnapshotToGameState(snapshot);
 
-      const result = mergeRoomGameStateForResume(baseState, resumeState);
-
-      expect(result.maps['default'].tokens.t1).to.exist;
-      expect(result.maps['default'].tokens.t2).to.exist;
-      expect(result.maps['default'].terrainData.data).to.equal('new');
-      expect(result.maps['new-map']).to.exist;
+      // Replacement, not concatenation: identical results across hydrations.
+      expect(second).to.deep.equal(first);
+      expect(Object.keys(second.maps.default.tokens)).to.deep.equal(['t2']);
+      expect(second.maps.default.drawingPaths).to.deep.equal([{ id: 'stroke-1' }]);
+      expect(second.maps.default.fogOfWarPaths).to.deep.equal([{ id: 'fog-1' }]);
+      expect(second.combat.turnOrder).to.deep.equal(['a']);
+      expect(second.tokens).to.deep.equal({ t2: { id: 't2' } });
     });
 
-    it('should merge combat state', () => {
-      const baseState = {
-        combat: { isActive: false, turnOrder: [] }
+    it('does not resurrect a deleted map or token from a previous live state', () => {
+      const snapshot = {
+        global: { defaultMapId: 'default', combat: null },
+        maps: { default: { id: 'default', tokens: {}, characterTokens: {}, gridItems: {} } },
+        mapIds: ['default']
       };
 
-      const resumeState = {
-        combat: {
-          isActive: true,
-          turnOrder: ['player-1', 'creature-1'],
-          round: 2
-        }
-      };
+      const hydrated = roomCheckpoint.hydrateSnapshotToGameState(snapshot);
 
-      const result = mergeRoomGameStateForResume(baseState, resumeState);
-
-      expect(result.combat.isActive).to.be.true;
-      expect(result.combat.round).to.equal(2);
-    });
-
-    it('should merge player map assignments', () => {
-      const baseState = {
-        playerMapAssignments: { 'player-1': 'default' }
-      };
-
-      const resumeState = {
-        playerMapAssignments: { 'player-2': 'dungeon', 'player-1': 'forest' }
-      };
-
-      const result = mergeRoomGameStateForResume(baseState, resumeState);
-
-      expect(result.playerMapAssignments['player-1']).to.equal('forest');
-      expect(result.playerMapAssignments['player-2']).to.equal('dungeon');
+      expect(Object.keys(hydrated.maps)).to.deep.equal(['default']);
+      expect(hydrated.maps['deleted-map']).to.equal(undefined);
+      expect(hydrated.tokens).to.deep.equal({});
     });
   });
 

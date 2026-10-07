@@ -14,6 +14,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 // Import services
@@ -28,6 +29,7 @@ const { createSanitizationMiddleware } = require('./services/sanitizationService
 const logger = require('./services/logger');
 const { createSocketAuthMiddleware } = require('./services/socketAuthMiddleware');
 const ErrorHandler = require('./services/errorHandler');
+const roomAuthority = require('./services/roomAuthorityService');
 
 // Import handlers
 const { registerSocketHandlers } = require('./handlers/socketHandlers');
@@ -64,8 +66,9 @@ const server = http.createServer(app);
 // ==================== CORS CONFIGURATION ====================
 
 function getAllowedOrigins() {
-  if (process.env.ALLOWED_ORIGINS) {
-    const envOrigins = process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim());
+  const configured = process.env.ALLOWED_ORIGINS || process.env.CORS_ORIGIN;
+  if (configured) {
+    const envOrigins = configured.split(',').map(origin => origin.trim());
     const requiredOrigins = ['https://mythrill.netlify.app', 'https://windtunnel.netlify.app'];
     return [...new Set([...envOrigins, ...requiredOrigins])];
   }
@@ -137,7 +140,7 @@ io.use(createValidationMiddleware({
 // Add rate limiting middleware
 io.use(rateLimitService.createMiddleware({
   logViolations: true,
-  disconnectOnViolation: false,
+  disconnectOnViolation: true,
   violationThreshold: 10
 }));
 
@@ -196,13 +199,73 @@ const partyInvitations = new Map(); // invitationId -> Invitation
 const onlineSocialUsers = new Map(); // socketId -> user data
 const pendingPartyCreations = new Map(); // userId -> pending creation
 
+// ==================== ROOM AUTHORITY (PROJECT 4 C5) ====================
+// One fresh per-boot instance identity. A room lifecycle is bound immutably to
+// {roomId, authorityInstanceId, authorityGeneration}. Authority decisions use
+// backend time; local validity uses a monotonic budget.
+const authorityService = roomAuthority.createRoomAuthorityService({
+  backend: roomAuthority.createFirestoreAuthorityBackend(firebaseService),
+  instanceId: uuidv4(),
+  logger,
+  onLoss: (roomId) => {
+    const room = rooms.get(roomId);
+    if (!room) {return;}
+    room.isActive = false;
+    room.gmSessionId = null;
+    room.inventoryShares = {};
+    room.lifecycleState = 'fenced';
+    room.authorityFenced = true;
+    // R2: retire stale runtime/transport bindings so a fenced lifecycle cannot
+    // continue authoritative operations or broadcasts. Durable membership is
+    // never touched here.
+    const detach = (socketId, playerId) => {
+      const target = socketId ? io.sockets.sockets.get(socketId) : null;
+      if (target) {target.leave(roomId);}
+      if (socketId) {players.delete(socketId);}
+      if (playerId) {players.delete(playerId);}
+    };
+    for (const player of Array.from(room.players.values())) {detach(player.socketId, player.id);}
+    if (room.gm) {detach(room.gm.socketId, room.gm.id);}
+    room.players.clear();
+    rooms.delete(roomId);
+    logger.warn('Room authority lost; runtime retired', { roomId });
+  }
+});
+
+// R7: bounded shutdown quiescing — stop new authoritative work while the
+// existing P2 drain settles retained snapshots under the captured lease.
+const quiesceAllRooms = () => {
+  for (const roomId of authorityService.heldRoomIds()) {
+    authorityService.beginQuiesce(roomId);
+  }
+  for (const room of rooms.values()) {
+    if (room.lifecycleState !== 'fenced') {room.lifecycleState = 'quiescing';}
+  }
+};
+
+const detachAllRooms = () => {
+  for (const room of rooms.values()) {
+    const detach = (socketId, playerId) => {
+      const target = socketId ? io.sockets.sockets.get(socketId) : null;
+      if (target) {target.leave(room.id);}
+      if (socketId) {players.delete(socketId);}
+      if (playerId) {players.delete(playerId);}
+    };
+    for (const player of Array.from(room.players.values())) {detach(player.socketId, player.id);}
+    if (room.gm) {detach(room.gm.socketId, room.gm.id);}
+    room.players.clear();
+    if (room.gm) {room.gm.socketId = null;}
+  }
+  rooms.clear();
+};
+
 // ==================== CREATE SYNC SERVICES ====================
 
-const syncServices = createSyncServices(io, rooms, players);
+const syncServices = createSyncServices(io, rooms, players, { authorityService });
 const { firebaseBatchWriter, movementDebouncer } = syncServices;
 
-// Setup graceful shutdown
-setupShutdownHandlers(syncServices);
+// Setup graceful shutdown (quiesce, bounded drain, bounded release, detach)
+setupShutdownHandlers(syncServices, { authorityService, quiesceRooms: quiesceAllRooms, detachRooms: detachAllRooms });
 
 // ==================== HELPER FUNCTIONS ====================
 
@@ -216,11 +279,13 @@ const getPublicRoomsWithDataStores = () => {
 };
 
 const validateRoomMembershipWithDataStores = (socket, roomId, requireGM = false) => {
-  return roomHandlers.validateRoomMembership(socket, roomId, requireGM, players, rooms);
+  return roomHandlers.validateRoomMembership(socket, roomId, requireGM, players, rooms, authorityService);
 };
 
 const helpers = {
   createRoom: createRoomWithDataStores,
+  buildRoomCandidate: roomHandlers.buildRoomCandidate,
+  installRoomCandidate: roomHandlers.installRoomCandidate,
   hashPassword: roomHandlers.hashPassword,
   verifyPassword: roomHandlers.verifyPassword,
   getPublicRooms: getPublicRoomsWithDataStores,
@@ -232,14 +297,17 @@ const services = {
   firebaseBatchWriter,
   movementDebouncer,
   eventBatcher,
-  realtimeSync
+  realtimeSync,
+  authorityService
 };
 
 // ==================== INITIALIZE PERSISTENT ROOMS ====================
 
 async function initializeServer() {
-  // Load persistent rooms from Firestore
-  await roomHandlers.initializePersistentRooms(rooms);
+  // Load persistent rooms from Firestore. C5: each room is installed only
+  // after this process claims its room authority; rooms held by another live
+  // deployment are skipped without a competing runtime.
+  await roomHandlers.initializePersistentRooms(rooms, { authorityService });
 
   // Register all socket handlers
   registerSocketHandlers(io, rooms, players, parties, userToParty, partyInvitations, onlineSocialUsers, pendingPartyCreations, helpers, services);
@@ -281,8 +349,10 @@ app.get('/metrics', (req, res) => {
 
 // Debug logs endpoint (token-gated when DEBUG_API_TOKEN is set; open in dev)
 app.get('/debug/logs', async(req, res) => {
-  const debugToken = process.env.DEBUG_API_TOKEN;
-  if (debugToken && req.query.token !== debugToken) {
+  const debugToken = process.env.DEBUG_API_TOKEN || process.env.DEBUG_TOKEN;
+  // Fail closed: disabled unless a token is configured AND supplied. This
+  // endpoint returns logs that include emails and userIds.
+  if (!debugToken || req.query.token !== debugToken) {
     return res.status(403).json({ error: 'Forbidden' });
   }
   try {
@@ -295,19 +365,19 @@ app.get('/debug/logs', async(req, res) => {
   }
 });
 
-// Room list endpoint
-app.get('/api/rooms', (req, res) => {
-  const publicRooms = getPublicRoomsWithDataStores();
-  res.json(publicRooms);
-});
-
-// Rate limiter for API routes
+// Rate limiter for API routes (mounted before the routes so it actually applies)
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100 // limit each IP to 100 requests per windowMs
 });
 
 app.use('/api/', apiLimiter);
+
+// Room list endpoint
+app.get('/api/rooms', (req, res) => {
+  const publicRooms = getPublicRoomsWithDataStores();
+  res.json(publicRooms);
+});
 
 app.use((err, req, res, next) => {
   errorHandler.handleError(err, { url: req.url, method: req.method });
@@ -347,7 +417,7 @@ process.on('uncaughtException', (error) => {
   setTimeout(() => process.exit(1), 1000);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason, _promise) => {
   logger.error('Unhandled promise rejection:', { reason: reason?.message || reason });
 });
 

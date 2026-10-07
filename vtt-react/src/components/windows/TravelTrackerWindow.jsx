@@ -466,7 +466,7 @@ function EncountersTab() {
       {lastEncounter && (
         <div className="tt-encounter-result-banner tt-fade-in">
           <div className="tt-row" style={{ gap: 8 }}>
-            <span className="tt-text-bold">{lastEncounter.label}</span>
+            <span className="tt-text-bold" style={{ minWidth: 0, overflowWrap: 'anywhere' }}>{lastEncounter.label}</span>
             <span className={`tt-encounter-type ${lastEncounter.type || 'none'}`}>
               {ENCOUNTER_TYPE_LABELS[lastEncounter.type] || lastEncounter.type}
             </span>
@@ -488,6 +488,14 @@ function EncountersTab() {
             </tr>
           </thead>
           <tbody>
+            {encounterTable.length === 0 && (
+              <tr>
+                <td colSpan={5} className="tt-table-empty">
+                  <i className="fas fa-dice-d20" style={{ marginRight: 6, opacity: 0.6 }} />
+                  No encounters in this table yet. Use <strong>+ Add Row</strong> to create one.
+                </td>
+              </tr>
+            )}
             {encounterTable.map((row, i) => {
               const isEditing = editingEncounterRow === i;
               const isSelected = selectedEncounterRow === i && !isEditing;
@@ -526,15 +534,15 @@ function EncountersTab() {
                         <span className="tt-text-sm tt-text-muted">{row.note}</span>
                       </td>
                       <td>
-                        <button className="tt-btn tt-btn-xs" onClick={() => handleRowRoll(i)} title="Roll this encounter">
+                        <button className="tt-btn tt-btn-xs" onClick={() => handleRowRoll(i)} title="Roll this encounter" aria-label={`Roll ${row.label}`}>
                           <i className="fas fa-dice-d20" style={{ fontSize: 10 }} />
                         </button>
                       </td>
                       <td className="tt-table-actions">
-                        <button className="tt-btn tt-btn-xs" onClick={() => startEditingEncounter(i)} title="Edit">
+                        <button className="tt-btn tt-btn-xs" onClick={() => startEditingEncounter(i)} title="Edit" aria-label={`Edit ${row.label}`}>
                           <i className="fas fa-pen" style={{ fontSize: 9 }} />
                         </button>
-                        <button className="tt-btn tt-btn-xs tt-btn-danger-text" onClick={() => removeEncounterRow(i)} title="Delete">
+                        <button className="tt-btn tt-btn-xs tt-btn-danger-text" onClick={() => removeEncounterRow(i)} title="Delete" aria-label={`Delete ${row.label}`}>
                           <i className="fas fa-trash" style={{ fontSize: 9 }} />
                         </button>
                       </td>
@@ -573,6 +581,10 @@ function JourneyTab() {
   const weather = useTravelStore(s => s.weather);
   const lastEncounter = useTravelStore(s => s.lastEncounter);
   const playerGearStates = useTravelStore(s => s.playerGearStates);
+  const currentBiome = useTravelStore(s => s.currentBiome);
+  const transportMode = useTravelStore(s => s.transportMode);
+  const terrainType = useTravelStore(s => s.terrainType);
+  const partyExhaustion = useTravelStore(s => s.partyExhaustion);
   const isInMultiplayer = useGameStore(s => s.isInMultiplayer);
   const selectHour = useTravelStore(s => s.selectHour);
   const setNavStatus = useTravelStore(s => s.setNavStatus);
@@ -587,9 +599,19 @@ function JourneyTab() {
   const { broadcastWithOverlay } = useTravelBroadcast();
 
   const hours = useMemo(() => getHours(), []);
-  const schedule = useMemo(() => getSchedule(), []);
+  // Recompute the schedule whenever anything that feeds travel speed changes
+  // (biome, transport, terrain, exhaustion) so mileage never goes stale.
+  const schedule = useMemo(
+    () => getSchedule(),
+    [currentBiome, transportMode, terrainType, partyExhaustion, getSchedule]
+  );
   const progress = useMemo(() => getJourneyProgress(), [journeyGoal, activeHour, navStatus]);
-  const atmosphereText = useMemo(() => getAtmosphereText(), []);
+  // Atmosphere is randomised per call, so keep it in state and refresh it when
+  // the biome / weather / hour changes — and when the GM hits Regenerate.
+  const [atmosphereText, setAtmosphereText] = useState(() => getAtmosphereText());
+  useEffect(() => {
+    setAtmosphereText(getAtmosphereText());
+  }, [currentBiome, weather, clock.hour, getAtmosphereText]);
   const activeHourData = useMemo(() => {
     if (activeHour < 0 || !hours[activeHour]) return null;
     return hours[activeHour];
@@ -694,7 +716,14 @@ function JourneyTab() {
               {schedule[activeHour]?.isRest && <span className="tt-badge tt-badge-accent">Rest Hour</span>}
               {scheduleDisplay > 0 && <span className="tt-hour-mileage">{scheduleDisplay.toFixed(1)} mi</span>}
             </div>
-            <button className="tt-btn tt-btn-primary" onClick={handleAdvanceHour}>Advance Hour</button>
+            <button
+              className="tt-btn tt-btn-primary"
+              onClick={handleAdvanceHour}
+              disabled={activeHour >= hours.length - 1}
+              title={activeHour >= hours.length - 1 ? 'This is the final hour of the day' : 'Advance to the next hour'}
+            >
+              {activeHour >= hours.length - 1 ? 'End of Day' : 'Advance Hour'}
+            </button>
           </div>
 
           {weather && (
@@ -713,7 +742,7 @@ function JourneyTab() {
             <div className="tt-atmosphere">
               <span className="tt-text-italic">&ldquo;{atmosphereText}&rdquo;</span>
               <div className="tt-row tt-gap-xs" style={{ marginTop: 4 }}>
-                <button className="tt-btn tt-btn-xs" onClick={() => getAtmosphereText()}>Regenerate</button>
+                <button className="tt-btn tt-btn-xs" onClick={() => setAtmosphereText(getAtmosphereText())}>Regenerate</button>
                 {isInMultiplayer && <button className="tt-btn tt-btn-xs tt-btn-broadcast" onClick={handleBroadcastAtmosphere}>Broadcast</button>}
               </div>
             </div>

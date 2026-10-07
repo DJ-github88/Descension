@@ -19,6 +19,7 @@ export const useUserCreaturesPersistence = () => {
   const useCreatureStore = require('../store/creatureStore').default;
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
+  const syncedCreaturesRef = useRef(new Map());
   const creatures = useCreatureStore(useShallow(state => state.creatures));
 
   const isUserCreatedCreature = useCallback((creature) => {
@@ -111,6 +112,10 @@ export const useUserCreaturesPersistence = () => {
           creatures: [...builtInCreatures, ...allUserCreatures]
         });
 
+        // Mark loaded creatures as already-synced so they are not immediately
+        // re-written (and so their local edits are detected afterwards).
+        syncedCreaturesRef.current = new Map(allUserCreatures.map(c => [c.id, JSON.stringify(c)]));
+
         console.log(`📂 Loaded ${firebaseCreatures.length} user creatures from Firebase, merged with ${missingLocalCreatures.length} local creatures`);
       }
     } catch (error) {
@@ -128,26 +133,35 @@ export const useUserCreaturesPersistence = () => {
 
     const userCreatures = getUserCreatures();
 
-    // Find creatures that don't have Firebase timestamps (newly created)
-    const unsyncedCreatures = userCreatures.filter(creature =>
-      !creature.createdAt || !creature.updatedAt || !creature.userId
+    // Save any creature whose content changed since the last successful sync.
+    const pending = userCreatures.filter(creature =>
+      syncedCreaturesRef.current.get(creature.id) !== JSON.stringify(creature)
     );
 
-    if (unsyncedCreatures.length > 0) {
-      console.log(`🔄 Syncing ${unsyncedCreatures.length} new creatures to Firebase`);
+    if (pending.length > 0) {
+      console.log(`🔄 Syncing ${pending.length} changed creature(s) to Firebase`);
 
-      for (const creature of unsyncedCreatures) {
+      for (const creature of pending) {
         try {
-          await saveCreature({
+          const result = await saveCreature({
             ...creature,
             userId: user.uid,
-            createdAt: new Date().toISOString(),
+            createdAt: creature.createdAt || new Date().toISOString(),
             updatedAt: new Date().toISOString()
           });
+          if (result?.success) {
+            syncedCreaturesRef.current.set(creature.id, JSON.stringify(creature));
+          }
         } catch (error) {
           console.error(`Failed to sync creature ${creature.id}:`, error);
         }
       }
+    }
+
+    // Drop tracking for creatures that no longer exist.
+    const liveIds = new Set(userCreatures.map(c => c.id));
+    for (const key of Array.from(syncedCreaturesRef.current.keys())) {
+      if (!liveIds.has(key)) syncedCreaturesRef.current.delete(key);
     }
   }, [user, getUserCreatures, saveCreature]);
 

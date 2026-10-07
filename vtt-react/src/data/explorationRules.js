@@ -75,10 +75,10 @@ export const EXPLORATION_RULES = {
       },
       {
         id: 'herd_trail_riding',
-        name: 'Ordan Herd-Trail Riding',
+        name: 'Ordu Herd-Trail Riding',
         type: 'travel',
         description: 'Following the woolly herds provides reliable navigation through the starless steppe.',
-        requirements: 'Ordan guide present OR successful Survival check (DC 12) to track a herd via trail signs.',
+        requirements: 'Ordu guide present OR successful Survival check (DC 12) to track a herd via trail signs.',
         benefit: 'Navigation checks made with advantage as long as the herd is in sight.',
         complication: {
           trigger: 'Wyrd-Touched Herd-Beast present in herd (GM discretion or encounter table result)',
@@ -105,7 +105,7 @@ export const EXPLORATION_RULES = {
         type: 'travel',
         description: 'Travelers must navigate the shifting silt-roads marked by rusted lantern-posts.',
         resolution: {
-          requirement: 'Requires a Thalren tracker guide OR successful Survival check (DC 12) to stay on path.',
+          requirement: 'Requires a Tallyn tracker guide OR successful Survival check (DC 12) to stay on path.',
           success: 'On course. Normal travel time.',
           failure: '+1d4 hours added to travel segment AND party wanders into a High Density Fog Pocket (triggers immediate Memory Toll check).'
         }
@@ -348,7 +348,7 @@ export const EXPLORATION_RULES = {
         type: 'travel',
         description: 'Hidden peat-quagmires that swallow travelers who stray from the roots.',
         resolution: {
-          requirement: 'Requires a Vreken guide OR active Survival check (DC 13) to spot sink-pools.',
+          requirement: 'Requires a Mycellan guide OR active Survival check (DC 13) to spot sink-pools.',
           success: 'On course.',
           failure: 'One random party member sinks into the peat-mud. Requires an Athletics check (DC 14) from an ally to pull them out, or the sinking character takes 1 level of exhaustion and loses one random piece of gear.'
         }
@@ -394,7 +394,7 @@ export const EXPLORATION_RULES = {
         tier: [1, 3],
         name: 'The Evidence',
         hook: 'A Morgh patrol returns from the Sump Galleries carrying a stone-scale fragment, too fine for Thrumm, too recent to be ancient. Vorr-Geth (last living Vat-Breaker) confirms it is Groven and breaks a decades-long silence to address the Stone-Moot.',
-        delivery: 'The party is hired by Thessa Ire (Ithran diplomat) through back-channels to escort a tunnel-scout team into the Sump Galleries.',
+        delivery: 'The party is hired by Thessa Ire (Amordjin diplomat) through back-channels to escort a tunnel-scout team into the Sump Galleries.',
         twist: 'House Tesshan has been trading geothermal heat to the Deep Alchemists in exchange for alchemical products, funding the continued experimentation. Exposing this breaks the Groven-Tesshan alliance.',
         keyLocations: ['sump-galleries'],
         keyNPCs: ['vorr-geth', 'thessa-ire'],
@@ -408,7 +408,7 @@ export const EXPLORATION_RULES = {
         keyEncounters: [
           { location: 'ancestor-gaps', type: 'social', description: 'Must obtain Groven permission and a Morgh guide.' },
           { location: 'lost-brood-vats', type: 'dungeon', description: 'Contains age-old alchemical chambers, active Deep Alchemist operations, and the Lost Brood.' },
-          { location: 'lost-brood-vats-deep', type: 'social', description: 'Saren-Vel (First Withered) is found in the deepest chamber, watching the Alchemists. She communicates only by writing in the dust: a single word "LIEN" and a diagram of the vat-layout.' }
+          { location: 'lost-brood-vats-deep', type: 'social', description: 'Saren-Vel (First Riven) is found in the deepest chamber, watching the Alchemists. She communicates only by writing in the dust: a single word "LIEN" and a diagram of the vat-layout.' }
         ],
         keyLocations: ['ancestor-gaps', 'lost-brood-vats'],
         keyNPCs: ['saren-vel'],
@@ -450,7 +450,7 @@ export const EXPLORATION_RULES = {
           },
           {
             choice: 'Negotiate with the Feral Brood',
-            consequence: 'Gain powerful but unpredictable allies, centuries-old hyper-intelligent tunnel-dwellers who understand Fexric alchemy better than the Fexric. But the Groven must accept their "rescue" narrative was wrong.'
+            consequence: 'Gain powerful but unpredictable allies, centuries-old hyper-intelligent tunnel-dwellers who understand Fex alchemy better than the Fex. But the Groven must accept their "rescue" narrative was wrong.'
           }
         ],
         keyReward: {

@@ -101,14 +101,16 @@
     box-shadow: none;
 }
 
-/* Custom multi-row bars (Minstrel notes, Arcanoneer blocks, Revenant apparatus, Spellguard aegis, Animist bone-cairn) need auto height -
+/* Custom multi-row bars (Minstrel notes, Arcanoneer blocks, Revenant apparatus, Spellguard aegis, Animist bone-cairn, False Prophet madness ward) need auto height -
    the base .class-resource-bar { height: 16px } / .large { height: 20px } would
-   clip their multi-segment layout. */
+   clip their multi-segment layout or make a taller vector spill out of its wrapper
+   (which misaligns the bar in the rules interactive preview). */
 .class-resource-bar.musical-notes-combo,
 .class-resource-bar.arcanoneer-blocks,
 .class-resource-bar.revenant-resource-bar,
 .class-resource-bar.spellguard-resource-bar,
-.class-resource-bar.animist-resource-bar {
+.class-resource-bar.animist-resource-bar,
+.class-resource-bar.madness-gauge {
     height: auto !important;
 }
 

@@ -853,6 +853,15 @@ export function registerGmHandlers(ctx) {
           const nextFogOfWarPaths = mapData.fogOfWarPaths ?? localMap.fogOfWarPaths;
           const nextFogErasePaths = mapData.fogErasePaths ?? localMap.fogErasePaths;
           const nextDndElements = mapData.dndElements ?? localMap.dndElements;
+          const nextEnvironmentalObjects = mapData.environmentalObjects ?? localMap.environmentalObjects;
+          const nextLightSources = mapData.lightSources ?? localMap.lightSources;
+
+          // Complete destination recovery owns the cached entity collections
+          // too; explicit empties must clear prior cached entities so a later
+          // map load cannot resurrect them.
+          const cachedTokens = mapData.tokens !== undefined ? mapData.tokens : undefined;
+          const cachedCharacterTokens = mapData.characterTokens !== undefined ? mapData.characterTokens : undefined;
+          const cachedGridItems = mapData.gridItems !== undefined ? mapData.gridItems : undefined;
 
           if (nextTerrainData !== undefined) levelEditorStore.setTerrainData(nextTerrainData || {});
           else console.warn('âš ï¸ [player_map_changed] Missing terrain payload and cache - preserving current terrain to avoid wipe');
@@ -867,6 +876,30 @@ export function registerGmHandlers(ctx) {
           if (nextFogOfWarPaths !== undefined) levelEditorStore.setFogOfWarPaths(nextFogOfWarPaths ?? []);
           if (nextFogErasePaths !== undefined) levelEditorStore.setFogErasePaths(nextFogErasePaths ?? []);
           if (nextDndElements !== undefined) levelEditorStore.setDndElements(nextDndElements || []);
+          if (nextEnvironmentalObjects !== undefined) levelEditorStore.setEnvironmentalObjects(nextEnvironmentalObjects || []);
+          if (nextLightSources !== undefined && levelEditorStore.setLightSources) {
+            levelEditorStore.setLightSources(nextLightSources || {});
+          }
+
+          // Keep the local map cache authoritative for the destination so a
+          // later map switch cannot resurrect removed objects or lights.
+          const cachePatch = {};
+          if (nextTerrainData !== undefined) cachePatch.terrainData = nextTerrainData;
+          if (nextWallData !== undefined) cachePatch.wallData = nextWallData;
+          if (nextWindowOverlays !== undefined) cachePatch.windowOverlays = nextWindowOverlays;
+          if (nextDrawingPaths !== undefined) cachePatch.drawingPaths = nextDrawingPaths;
+          if (nextDrawingLayers !== undefined) cachePatch.drawingLayers = nextDrawingLayers;
+          if (nextFogOfWarPaths !== undefined) cachePatch.fogOfWarPaths = nextFogOfWarPaths;
+          if (nextFogErasePaths !== undefined) cachePatch.fogErasePaths = nextFogErasePaths;
+          if (nextDndElements !== undefined) cachePatch.dndElements = nextDndElements;
+          if (nextEnvironmentalObjects !== undefined) cachePatch.environmentalObjects = nextEnvironmentalObjects;
+          if (nextLightSources !== undefined) cachePatch.lightSources = nextLightSources;
+          if (cachedTokens !== undefined) cachePatch.tokens = cachedTokens || {};
+          if (cachedCharacterTokens !== undefined) cachePatch.characterTokens = cachedCharacterTokens || {};
+          if (cachedGridItems !== undefined) cachePatch.gridItems = cachedGridItems || {};
+          if (Object.keys(cachePatch).length > 0) {
+            useMapStore.getState().updateMap(data.newMapId, cachePatch);
+          }
 
           // CRITICAL FIX: Synchronize backgrounds and grid settings
           // This ensures the visuals match the new map

@@ -2,18 +2,20 @@
 ## Game Master's World Guide
 
 > **CANONICAL SOURCE NOTICE & MASTER LORE DIRECTIVE**
-> This document is a convenience summary for GMs aligned with the **August 2026 "Fall of the Sun & The Broken Wyrd" lore lock** (supersedes earlier Ratified Patches):
+> The cosmological primer is reconciled to the **2026-09-30 Living Cosmos blueprint**.
+> `CORE_LORE_FRAMEWORK.md` owns world foundations; consult `LORE_IMPLEMENTATION_STATUS.md` for
+> remaining regional, ancestry, and class reconciliation in this convenience guide.
 > - **Primary Launch Region:** **Nordhalla** is the sole launch region for the initial release.
-> - **The Sleeping Soul & the Two Wyrds:** Mythrill's primordial loom is **Natural Wyrd** (belief, folklore, myth and vow manifest into creatures); the hostile strain is **Predatory Wyrd**, Keth Amar's infection of that loom.
+> - **Living Cosmos:** Native life has actual origins independent of belief. The Sleeping Soul does not personally rescue families. Wyrd is a wider cosmic ecology; Predatory Wyrd names Keth-associated corruption.
 > - **Master Timeline (era-relative):** the Star-Fall & Bloodline Pacts; the Slow Cracking; Keth Amar's arrival and the Whispered Purge; the Blind Strike (mortal name: Blizzard's End) and the Secret Aegis; the Freezing Era, now.
-> - **Class Heritage Taxonomy:** Pre-Binding (Mortals), Celestial Bargain (the Bound — Bloodline Pacts), Vreken Extortion (Blight), Cosmic Collision (Predatory Wyrd colliding with the pacts).
-> - **Ancestry Updates:** Neth (Well of Life), Fexrick (engine theft curse), and the Unwritten (the hidden lineage of the Secret Aegis).
-> - **Scrapped Mechanics:** Augur 41% accuracy is NOT tied to Sol's shell; strict maternal death quotas are scrapped; "the Wyrd arrived with Keth Amar" and "Keth Amar retreated as the Wyrd" are retired — Natural Wyrd is native, Predatory Wyrd is the infection.
+> - **Layered Heritage:** 21 base classes; distinguish source, acquisition, discovery, transmission, and institution founding. The blueprint §6 specifies their traditions and bounded outsider access.
+> - **Identity:** Sol is conscious; Aethil is his personal father; Viridane and the Unwritten are distinct. Six genuine great Monoliths plus Keth's Counterfeit make the accepted seven-seat census.
+> - **Retired explanations:** Generative Natural Wyrd, human Vreken extortion origins, an independent Unknown Dominator, hidden cleansing keys, and rigid maternal-death quotas. Augur interference is not Sol's shell failure.
 
 > **THE ELEVATOR PITCH**
-> **The sun is trapped underground. The world is freezing. Every civilization made a deal with a cosmic predator to survive. You are an adventurer. Go.**
+> **Mythrill shelters a living sun beneath a freezing world. Its peoples survive through inherited powers, dangerous discoveries, and institutions that decide who pays for survival.**
 
-> *"The sun did not die. It was buried. And the thing that buried it is still hungry."*
+> *"The sun did not die. His mother hid him. And the thing that hunts him is still hungry."*
 >  -  Elder Thaeron, Keeper of the Failing Flame, spoken to no one, recorded by none
 
 ---
@@ -24,35 +26,42 @@
 
 Mythrill is locked in an artificial ice age. Long ages after the celestial parents concealed their living, unhatched infant sun in the planet's volcanic core — **Aex** the Mother entombing him and **Aethil** the Father anchoring the sky-ward — and long ages after the Blind Strike fractured that ward, surface civilizations fight for survival under a sunless sky.
 
-Warmth is an industrial commodity. Settlements huddle around volcanic vents or burn glowing **Aex Shards** — crystalline shrapnel from the Mother's broken divine aegis that radiate concentrated forge-heat. Caravans cross blizzard-choked mountain passes on bridges grown from calcified bone. Navigators sail storm-tossed seas where icebergs drift like moving fortresses. Every society that endures does so because its ancestors swore **Bloodline Pacts** to Aex and were changed by them — and because one hidden lineage, the Unwritten, never broke its oath.
+Warmth is an industrial commodity. Settlements huddle around volcanic vents or use glowing **Aex Shards**, fragments of the Mother's fractured aegis. Caravans cross bone-grown bridges and navigators sail storm-lanes. Survival combines native biology, craft, older bargains, celestial resonance, and living institutions; not every people descends from an Aex pact. The separate Unwritten family maintains the sole uninterrupted Secret Aegis protecting Sol.
 
-This is the **Freezing Era**. The world is cold because **Sol is entombed in the core**; what reaches the surface is geothermal warmth venting through the cracks the Purge opened and the Blind Strike widened. The seven **Sundered Monoliths** — the seven greatest fallen shards of Aex's aegis — have begun humming with synchronized resonance, and the forgeries among them whisper back. In Sundale the subterranean ember called Sol's Breath is cooling. In the northern peaks of Nordhalla glacier-beasts stir beneath the ice. In the Cragjaw, mining guilds battle over the last warm seams. And high above the clouds, a wounded **Keth Amar** is pressed against the planetary ward in the void, its **Predatory Wyrd** seeping through the cracks, waiting for the core heat to die so it can finish the meal.
+This is the **Freezing Era**. Sol is living, unhatched, and conscious in the core, awake but unable to act freely. His heat reaches the surface through subterranean networks and aegis wounds. The Long Cold began at solar concealment, before the Strike. The **Seven Sundered Monoliths** are six genuine great shards plus Keth's Counterfeit. Regional crises threaten vents, glaciers, and trade; a wounded, fallible Keth probes narrower channels without freely entering in its full body.
 
-Yet mortals do not surrender. Surviving four centuries of cold has turned human and non-human bloodlines into hardened survivalists. Solari forge-smiths build geothermal engines deep underground; silver-blooded Neth jurists enforce airtight survival contracts; and masked Mimir hunters track horrors through the freezing mist. Adventurers brave blizzard passes, excavate glowing Aex Shards from monster dens, and uncover the truth behind the sundered monoliths.
+Yet mortals do not surrender. The long cold has shaped human and non-human survival practices. Solari smiths repair heat-lines, Nethien jurists debate obligations, and masked Arch or unmasked Broken Mimir follow their own traditions. Adventurers brave blizzard passes and monster dens, but can also build friendships, preserve communities, and win victories that are not merely another patron's debt.
 
 ## The Cosmological Anchor: Star-Fall, the Whispered Purge and the Blind Strike
 
-Before celestial pacts touched mortals, Mythrill was already a world of the **Sleeping Soul** and the **Natural Wyrd** — a loom in which collective belief, folklore, fear and vow grew into living creatures. Elemental beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*) and land spirits held biological dominion over fire, ice and storm. Early mortals had zero magic: they survived strictly through forged cold iron, black powder matchlocks, traps, and folk taboos. What they feared long enough, the Loom eventually grew.
+In the **Long Before**, native peoples, gods, ecology, engineering, spirit practices, and older bargains already existed. Most ordinary mortals lacked free spellcasting, not every form of power. Folklore recorded encounters rather than creating species. The Sleeping Soul anchors the native world without speaking or personally intervening. **Natural Wyrd / Primordial Loom** is a retired historical theory; the wider cosmic Wyrd ecology is distinct from actual native origins.
 
 ### 1. The Celestial Star-Fall and the Bloodline Pacts
 When the celestial parents **Aex** (the Mother) and **Aethil** (the Father) sought a hiding place for their living, unhatched infant sun, **Sol**, they fled across the dark between stars to escape **Keth Amar**, an ancient cosmic predator that tracks and consumes young stellar bodies. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol within the molten core, sealing the inner vault with cosmic wards and lineage pacts. The parents concealed Sol inside Mythrill's volcanic mantle and froze Sol's sister **Selunis** — the moon-daughter egg that never quickened — in orbit as a thermal buffer, lest Sol's heat incinerate the world. Keth Amar nested in Selunis's unquickened shell during its approach.
 
-To anchor Sol's vault, ancient mortal lineages struck **Bloodline Pacts** with Aex, witnessed by Aethil. The warding shell holds only while each bound bloodline survives and upholds its oath — a **Blood Seal** per lineage. The divine magic channelled into them altered their biology and soul-resonance, producing the altered human sub-races. Highborn lineages became the Bound; commoners kept their firearms, black powder and iron weapons.
+The original public **Bloodline Pact** houses were **Thalreth, Skalvyr, Solvan, Mereval, Tesshan, Ordavan, and Viridane**. Aethil witnessed their continuing living obligations. Extinction or repudiation can break a seal; a successor's surname or political seat cannot restore it. Celestial infusion altered some human antecedents, notably Solvarn into Solari, not every native race. Aethil is a person, not an impersonal universal creditor's rule.
 
-### 2. The Slow Cracking (Years 0–300)
-Over three centuries, severed Blood Seals cracked Aex's aegis from within, each broken oath venting a little more of Sol's warmth into the crust:
-* In **Bryngloom**, the Vreken slaughter of their own nobility snapped a seal and vented boiling sulfur bogs.
-* In **Sundrift Vale**, the purge of Ordan nobility snapped a seal, creating geothermal river valleys.
-* In **Frostwood Reach**, an artificial sun experiment suffered a catastrophic meltdown, snapping a seal and venting boiling steam geysers into the pine swamps. House Viridane discovered that a dead lineage cracks the celestial aegis and fled into the mist.
+### 2. The Slow Cracking
+Local failures weakened Aex's protection. Heat followed geological networks into Bryngloom bogs,
+Sundrift valleys, and Frostwood steam wetlands. Political seats, seals, and shard objects are different
+counts; do not derive a one-house/one-continent map or a human Vreken curse from thermal geography.
 
-### 3. The Whispered Purge (Years 300–325)
-In the last age of the Pacting, unable to breach Aethil's ward, Keth Amar spewed **Predatory Wyrd** — a corrupted strain of the Loom — onto Mythrill from the void. Because the world was already saturated with Natural Wyrd, the infection took deep root in soil and in the collective unconscious. For twenty-five years Keth Amar **posed as Aethil**, broadcasting whispers through the Predatory Wyrd, promising eternal warmth and stellar apotheosis to the Solari, Storm and Rime houses, and orchestrating the downfall of the remaining bound bloodlines through wars, hubris, tragic accidents and assassinations. Each severed lineage snapped another Blood Seal and cracked the aegis further. This is why the oldest codices describe Aethil as a cold mechanism without will — they are transcriptions of Keth Amar wearing a father's face.
+### 3. The Whispered Purge / Years of Whispers
+Keth followed Astril traces and extended hostile Wyrd channels while unable to freely enter in its
+full body. Impersonating Aethil, it manipulated wars, assassinations, accidents, and mortal sacrifices.
+The heirs, including Sera's child, died through those atrocities, not a full-body summit descent.
+Viridane refused and accepted the distinct **Unnamed Green's** rescue. Its public Aex obligation
+ended while its people survived as Florae. Morrath received its political seat and false pedigree,
+not an original intact seal. The separate Unwritten continued the Secret Aegis.
 
 ### 4. The Blind Strike — Mortal Name: Blizzard's End
-Believing all lineage oaths severed, Keth Amar launched a full kinetic assault on Mythrill. Mortal history calls the night of that assault **Blizzard's End**. It crashed into the planetary ward — and **the Secret Aegis held**. One hidden family had forged a secret, undocumented pact with Aex, erased itself from all recorded history and undergone total physical and metaphysical metamorphosis into an unrecorded lineage — the **Unwritten**. That forgotten vow was the only seal that had never been spoken aloud, and therefore the only one Keth Amar could not find to break. The ward held. Keth Amar was severely wounded and repelled into the deep void. The impact fractured the continental ward; **crystalline shards of Aex's broken divine aegis** rained across the continents, permanently altering geography, weather and ley lines. Millions of smaller **Aex Shards** now warm hearths and fuel engines; their glow is all that keeps the surface alive.
+Mistaking the inner support for wholly broken, Keth launched the later kinetic **Blind Strike**,
+remembered as **Blizzard's End**. The sky-ward and core protection are distinct but coupled; the
+separate Unwritten family's Secret Aegis sustained the defense. Keth was wounded and repelled while
+Aex's aegis fractured into genuine great and lesser shards. It did not seize Sol in the core.
 
 ### 5. The Sundered Monoliths and the 7th Counterfeit (since the Blind Strike)
-The seven greatest of those fallen shards are the **Seven Sundered Monoliths** — pieces of a mother's armour, not keys to a lock:
+The **Seven Sundered Monoliths** are six genuine great shards plus one Counterfeit:
 * **Fog-Hand** (a fallen shard lodged in Frostwood Reach, wreathed in memory-fog)
 * **Ice-Crown** (a shard frozen into Nordhalla's mile-high glacier)
 * **Wind-Bone** (a shard veining Cragjaw's peaks)
@@ -61,7 +70,13 @@ The seven greatest of those fallen shards are the **Seven Sundered Monoliths** �
 * **Still-Heart** (a shard buried beneath Sundale's ash)
 * **The Counterfeit** (see below)
 
-One of the seven seats is a lie. The **7th Counterfeit Monolith** is a **Predatory Wyrd forgery** fabricated to stand in the place of the seal that was never written. It looks like a shard, burns like a shard, and whispers. The **Masked Acolytes** who tend it are **Keth Amar's whisper-cult**. Most of them believe they serve a native god; they serve the thing that forged the counterfeit. Capital at **Vespera's Crown**, they proselytize and do odd jobs while their patron sees through their eyes as the **Hollow Sight** — a Predatory Wyrd counterfeit of Morvane the Watcher's true sight. For all the years since the Shattering, adventurers and mercenary companies have waged trench wars over glowing Aex Shards for industrial fuel while the cult hunts the monoliths for its master.
+**Keth forged the Counterfeit**; mortal institutions supplied its political pedigree. It deceives
+mortals and supplies a hostile channel, not a shell game that tricks Keth. There is no hidden true
+seventh Monolith or Florae cleansing key. The **Masked Acolytes** serve the network, often believing
+in a native **Unknown Dominator**; that is attributed doctrine, not an independent canonical patron.
+**Vespera's Crown** is their stronghold, distinct from the Bryngloom false seat. Cult affiliation
+and the optional **Hollow Sight** graft are distinct modular origins; a player retains agency.
+Reforging may affect heat or wound containment but cannot replace a living oath with an artifact.
 
 ---
 

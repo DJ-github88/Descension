@@ -19,6 +19,8 @@ export const createInfoSlice = (set, get) => ({
     race: '', // Race ID (e.g., 'human')
     subrace: '', // Subrace ID (e.g., 'skald_human')
     class: '', // Character class
+    classAcquisition: {}, // Class-scoped sourced qualification and method records
+    bodyStates: [], // Reported current body/interface states; never inferred from heritage
     background: '', // Background ID (e.g., 'acolyte', 'sage')
     backgroundDisplayName: '', // Display name for background
     path: '', // Character path ID (e.g., 'mystic', 'zealot')
@@ -419,13 +421,19 @@ export const createInfoSlice = (set, get) => ({
                 }
             }
 
+            // If class is being changed, refresh racial traits so native
+            // class-heritage abilities (free spells) are granted/removed with the class.
+            if (field === 'class' && value !== state.class) {
+                newState.racialTraits = getRacialSpells(state.race, state.subrace, value);
+            }
+
             // If subrace is being changed, update racial traits
             if (field === 'subrace' && value && value !== state.subrace) {
                 const raceData = getFullRaceData(state.race, value);
                 if (raceData) {
                     // Only include actual spells in racialTraits (filter out passive stat modifiers)
                     // Passive stat modifiers are handled separately and applied directly to stats
-                    newState.racialTraits = getRacialSpells(state.race, value);
+                    newState.racialTraits = getRacialSpells(state.race, value, state.class);
                     newState.racialLanguages = raceData.combinedTraits.languages;
                     newState.racialSpeed = raceData.combinedTraits.speed;
                     // Show only the subrace name. The race is implied by the subrace
@@ -1009,6 +1017,13 @@ export const createInfoSlice = (set, get) => ({
                 [field]: value
             }
         }));
+
+        // Persist to the canonical character document (debounced). Lore lives on
+        // characters/{id}, not the runtime characterStates doc, so it must flow
+        // through saveCurrentCharacter -> updateCharacter to reach Firebase.
+        if (get().currentCharacterId) {
+            triggerCharacterAutoSave(() => get().saveCurrentCharacter());
+        }
 
         // Sync with multiplayer
         get().syncWithMultiplayer();

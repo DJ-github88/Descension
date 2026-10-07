@@ -7,8 +7,8 @@
 import React, { useState, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { getBackgroundData } from '../../../data/backgroundData';
-import { getRaceData, getSubraceData } from '../../../data/raceData';
-import { LANGUAGES } from '../../../data/languages';
+import { getRacialLanguages } from '../../../data/raceData';
+import { LANGUAGES, normalizeLanguageName } from '../../../data/languages';
 import { SKILL_DEFINITIONS, SKILL_RANKS } from '../../../constants/skillDefinitions';
 import { SKILL_QUESTS } from '../../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../../constants/rollableTables';
@@ -90,7 +90,9 @@ const Step7SkillsLanguages = () => {
     const [mobilePanel, setMobilePanel] = useState('selections');
 
     const [selectedSkills, setSelectedSkills] = useState(characterData.selectedSkills || []);
-    const [selectedLanguages, setSelectedLanguages] = useState(characterData.selectedLanguages || []);
+    const [selectedLanguages, setSelectedLanguages] = useState(() =>
+        [...new Set((characterData.selectedLanguages || []).map(normalizeLanguageName))]
+    );
     const [skillRanks, setSkillRanks] = useState(characterData.skillRanks || {});
 
     // Calculate skill points
@@ -108,11 +110,10 @@ const Step7SkillsLanguages = () => {
 
     // Fetch previous selections
     const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
-    const raceData = characterData.race ? getRaceData(characterData.race) : null;
-    const subraceData = characterData.race && characterData.subrace
-        ? getSubraceData(characterData.race, characterData.subrace)
-        : null;
-    const racialLanguages = React.useMemo(() => subraceData?.languages || [], [subraceData]);
+    const racialLanguages = React.useMemo(
+        () => getRacialLanguages(characterData.race, characterData.subrace),
+        [characterData.race, characterData.subrace]
+    );
 
     const backgroundSkills = React.useMemo(() => {
         const dndSkills = backgroundData?.skillProficiencies || [];

@@ -25,7 +25,7 @@ const DiceRollingSystem = ({ hideSelectionBar = false }) => {
   const { addNotification, addCombatNotification } = useChatStore();
   const characterName = useCharacterStore((state) => state.name);
   const currentCharacterId = useCharacterStore((state) => state.currentCharacterId);
-  const currentRoomId = useGameStore((state) => state.currentRoomId);
+  const currentRoomId = useGameStore((state) => state.multiplayerRoom?.id);
   const { user } = useAuthStore();
 
   const [show3DScene, setShow3DScene] = useState(false);

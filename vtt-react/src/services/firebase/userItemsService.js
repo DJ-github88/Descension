@@ -547,8 +547,15 @@ export async function shareItemToCommunity(userId, itemId) {
     delete communityItem.folderId;
     delete communityItem.isCustom;
 
+    // Copy private art to the shared prefix so other users can view it.
+    const { shareEntityImages } = await import('./uploadService');
+    const communityItemShared = await shareEntityImages(
+      userId, communityItem, 'items',
+      ['image', 'icon', 'tokenImage']
+    );
+
     // Upload to community
-    const sharedItem = await uploadItem(communityItem, userId);
+    const sharedItem = await uploadItem(communityItemShared, userId);
 
     // Mark original item as shared
     await updateDoc(itemRef, {

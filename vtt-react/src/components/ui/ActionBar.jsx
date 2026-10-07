@@ -24,6 +24,7 @@ import { getIconUrl, getCustomIconUrl, getAbilityIconUrl } from '../../utils/ass
 import EquipmentActionSlot from './EquipmentActionSlot';
 import { getActionsForSlot } from '../../data/weaponActionSpells';
 import { normalizeEquipment, isOffHandDisabled as checkOffHandDisabled } from '../../utils/equipmentUtils';
+import { normalizeManagedClassResource, getManagedSpellResourcePlan } from '../../data/classResourceContracts';
 import './ActionBar.css';
 
 // Spell damage types constant - used for consumable effects
@@ -1628,34 +1629,26 @@ const ActionBar = () => {
         const manaCost = resourceValues.mana || resourceCost.mana || 0;
         const apCost = resourceCost.actionPoints || 0;
         
-        // Extract class resource changes
-        // IMPORTANT: inferno_ascend is a GAIN, not a requirement - it should NOT block casting
-        // Only inferno_required should block casting
-        const infernoAscend = resourceValues.inferno_ascend || spellToCast.infernoAscend || 0;
-        const infernoDescend = resourceValues.inferno_descend || spellToCast.infernoDescend || 0;
-        
-        // CRITICAL: If a spell has inferno_ascend (gain), it means you're GAINING inferno
-        // Therefore, you should NOT need inferno to cast it - ignore inferno_required in this case
-        // This handles incorrectly configured spell data where both are set
-        let infernoRequired = 0;
-        if (infernoAscend === 0) {
-            // Only check inferno_required if there's no inferno_ascend (gain)
-            // If you're gaining inferno, you don't need it to cast
-            infernoRequired = resourceValues.inferno_required || spellToCast.infernoRequired || 0;
-        }
-        // If infernoAscend > 0, infernoRequired stays 0 (spell gains inferno, doesn't require it)
+        // Managed Pyrofiend plans validate the pre-cast minimum independently
+        // of ascension and apply the complete latched transition once.
+        const infernoAscend = spellToCast.infernoAscend ?? resourceValues.inferno_ascend ?? 0;
+        const infernoDescend = spellToCast.infernoDescend ?? resourceValues.inferno_descend ?? 0;
+        const infernoRequired = spellToCast.infernoRequired ?? resourceValues.inferno_required ?? 0;
 
         // Generic class resource costs (Tension, Authority, Ancestral Resonance, …).
         // Chronarch Time Shards keep their dedicated time_shard_* fields.
         const genericCr = resourceCost.classResource || {};
         const genericCrType = genericCr.type;
         const genericCrCost = Number(genericCr.cost || 0);
-        const usesGenericCr = genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
 
         // Get fresh resource state
         const currentMana = useCharacterStore.getState().mana;
         const currentAP = useCharacterStore.getState().actionPoints;
-        const currentClassResource = useCharacterStore.getState().classResource;
+        const currentClass = useCharacterStore.getState().class;
+        const currentClassResource = normalizeManagedClassResource(useCharacterStore.getState().classResource, currentClass);
+        const managedPlan = getManagedSpellResourcePlan(spellToCast, currentClassResource, currentClass);
+        const usesGenericCr = !managedPlan.handled && genericCrCost !== 0 && !!genericCrType && genericCrType !== 'time_shards';
+        if (managedPlan.handled && !managedPlan.affordable) return;
 
         // Check if player has enough resources (validation is now done in the popup, but double-check here)
         // Note: infernoAscend is NOT checked - it's a gain, not a requirement
@@ -1672,7 +1665,7 @@ const ActionBar = () => {
         }
 
         // Only check inferno_required - inferno_ascend does NOT block casting
-        if (infernoRequired > 0 && (!currentClassResource || currentClassResource.current < infernoRequired)) {
+        if (!managedPlan.handled && infernoRequired > 0 && (!currentClassResource || currentClassResource.current < infernoRequired)) {
             // Not enough Inferno required to cast spell
             // Don't close popup - let it show the error
             return;
@@ -1686,7 +1679,7 @@ const ActionBar = () => {
         }
 
         // Check Arcanoneer Elemental Spheres
-        const isArcanoneer = currentClassResource && (currentClassResource.type === 'elementalSpheres' || Array.isArray(currentClassResource.spheres));
+        const isArcanoneer = !managedPlan.bank && currentClassResource && (currentClassResource.type === 'elementalSpheres' || Array.isArray(currentClassResource.spheres));
         const requiredSpheres = [];
         if (isArcanoneer) {
             if (Array.isArray(spellToCast._arcanoneerElements)) {
@@ -1775,7 +1768,7 @@ const ActionBar = () => {
         }
 
         // Apply class resource changes (Inferno)
-        if (infernoAscend > 0 && currentClassResource) {
+        if (!managedPlan.handled && infernoAscend > 0 && currentClassResource) {
             const beforeInferno = currentClassResource.current;
             gainClassResource(infernoAscend);
             const afterInferno = Math.min(currentClassResource.max, beforeInferno + infernoAscend);
@@ -1799,7 +1792,7 @@ const ActionBar = () => {
                 console.warn('Failed to sync Inferno to party store:', error);
             }
         }
-        if (infernoDescend > 0 && currentClassResource) {
+        if (!managedPlan.handled && infernoDescend > 0 && currentClassResource) {
             const beforeInferno = currentClassResource.current;
             consumeClassResource(infernoDescend);
             const afterInferno = Math.max(0, beforeInferno - infernoDescend);
@@ -1821,6 +1814,30 @@ const ActionBar = () => {
                 }
             } catch (error) {
                 console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+
+        if (managedPlan.handled && currentClassResource) {
+            if (managedPlan.transition === 'infernoVeil') {
+                updateClassResource('debtCall', managedPlan.nextResource.debtCall);
+                updateClassResource('current', managedPlan.nextResource.current);
+            } else if (managedPlan.transition === 'shaper') {
+                updateClassResource('current', managedPlan.nextResource.current);
+                updateClassResource('bodyToll', managedPlan.nextResource.bodyToll);
+                if (managedPlan.targetForm) updateClassResource('stance', managedPlan.targetForm);
+            } else if (managedPlan.bank) updateClassResource(managedPlan.bank, managedPlan.nextResource[managedPlan.bank]);
+            else {
+                if (managedPlan.cost > 0) consumeClassResource(managedPlan.cost, managedPlan.resourceKey);
+                if (managedPlan.gain > 0) gainClassResource(managedPlan.gain, managedPlan.resourceKey);
+            }
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const member = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (member) usePartyStore.getState().updatePartyMember('current-player', {
+                    character: { ...member.character, classResource: useCharacterStore.getState().classResource }
+                });
+            } catch (error) {
+                console.warn('Failed to sync managed class resource to party store:', error);
             }
         }
 

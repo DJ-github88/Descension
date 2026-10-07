@@ -1,4 +1,5 @@
 import React from 'react';
+import { sanitizeHtml } from '../../../utils/sanitizeHtml';
 
 const RulesSummaryBox = ({ items }) => {
   if (!items || items.length === 0) return null;
@@ -12,9 +13,11 @@ const RulesSummaryBox = ({ items }) => {
       <ul className="rules-summary-list">
         {items.map((item, idx) => (
           <li key={idx} className="rules-summary-item" dangerouslySetInnerHTML={{
-            __html: typeof item === 'string'
-              ? item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-              : item
+            __html: sanitizeHtml(
+              typeof item === 'string'
+                ? item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                : item
+            )
           }} />
         ))}
       </ul>

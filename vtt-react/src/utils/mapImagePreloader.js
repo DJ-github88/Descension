@@ -8,6 +8,20 @@
 const imageCache = new Map();
 const preloadPromises = new Map();
 
+// High-resolution map images are large; cap the cache (FIFO eviction) so viewing
+// many distinct maps does not grow RAM without bound.
+const MAX_CACHE_ENTRIES = 20;
+const cacheImage = (src, img) => {
+  if (imageCache.has(src)) {
+    imageCache.delete(src);
+  }
+  imageCache.set(src, img);
+  while (imageCache.size > MAX_CACHE_ENTRIES) {
+    const oldest = imageCache.keys().next().value;
+    imageCache.delete(oldest);
+  }
+};
+
 /**
  * Preloads a single image URL into memory and decodes it.
  * @param {string} src 
@@ -32,17 +46,17 @@ export const preloadImage = (src) => {
       if (img.decode) {
         img.decode()
           .then(() => {
-            imageCache.set(src, img);
+            cacheImage(src, img);
             preloadPromises.delete(src);
             resolve(img);
           })
           .catch(() => {
-            imageCache.set(src, img);
+            cacheImage(src, img);
             preloadPromises.delete(src);
             resolve(img);
           });
       } else {
-        imageCache.set(src, img);
+        cacheImage(src, img);
         preloadPromises.delete(src);
         resolve(img);
       }

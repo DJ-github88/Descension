@@ -468,7 +468,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     socket.on('auth_error', handleError);
     socket.on('room_error', handleError);
     socket.on('error', handleError);
-    socket.on('room_list_updated', handleRoomListUpdated);
+    socket.on('room_list', handleRoomListUpdated);
 
     // Fetch rooms if already connected
     if (socket.connected) {
@@ -491,7 +491,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       socket.off('auth_error', handleError);
       socket.off('room_error', handleError);
       socket.off('error', handleError);
-      socket.off('room_list_updated', handleRoomListUpdated);
+      socket.off('room_list', handleRoomListUpdated);
     };
   }, [socket]); // Only depend on socket to prevent unnecessary re-setup
 
@@ -1011,25 +1011,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         background: activeCharacter.background || '',
         // Only include classResource if it has a valid max value (prevents 0/0 bar)
         ...(activeCharacter.classResource?.max ? { classResource: activeCharacter.classResource } : {}),
-        // CRITICAL FIX: Get current inventory from inventory store to ensure latest data
-        inventory: (() => {
-          try {
-            const inventoryStore = require('../../store/inventoryStore').default;
-            const inventoryState = inventoryStore.getState();
-            return {
-              items: inventoryState.items || [],
-              currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-              encumbranceState: inventoryState.encumbranceState || 'normal'
-            };
-          } catch (error) {
-            console.warn('Could not get current inventory, using character inventory:', error);
-            return activeCharacter.inventory || {
-              items: [],
-              currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
-              encumbranceState: 'normal'
-            };
-          }
-        })(),
+        // Project 4: carried inventory/currency is private and is never sent
+        // inside the shared join character envelope.
         equipment: activeCharacter.equipment,
         stats: activeCharacter.stats,
         lore: activeCharacter.lore,

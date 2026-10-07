@@ -14,7 +14,7 @@ export const GAMBIT_DATA = {
           "ithran_groven"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires a people who have either struck a hazard-wager with the House or treat risk as a language. Three heritages carry the tradition: the Merryn (who wager voyage-shares with the sea), the Veldun Nethien (who wager clauses against their own fate-threads), and the Caustic Fexric (who rig the game and pay in resentment-debt). Tessen too isolated, Skald too honor-bound, Ordan too pragmatic, Astril too spiritually governed. The Shore Myrathil read probability but pay in memory, not in debt; the Ithran Groven calculate failure-points, not wagers. Both keep their own traditions."
+      "justification": "Requires a people who have either struck a hazard-wager with the House or treat risk as a language. Three heritages carry the tradition: the Merryn (who wager voyage-shares with the sea), the Weft Athien (who wager clauses against their own fate-threads), and the Alchemite (who rig the game and pay in resentment-debt). Tessic too isolated, Skald too honor-bound, Ordu too pragmatic, Astril too spiritually governed. The Shore Myrathil read probability but pay in memory, not in debt; the Amordjin Groven calculate failure-points, not wagers. Both keep their own traditions."
   },
 
   /**
@@ -41,14 +41,14 @@ export const GAMBIT_DATA = {
     },
 
     kessen_neth: {
-      subraceName: 'Veldun',
+      subraceName: 'Weft',
       title: 'The Clause-Gambler',
-      reframe: `The <LoreLink termId="neth">Veldun</LoreLink> read the obligation-web the way other people read ledgers, so when a ring of contraband runners was cornered in a flooding vault by Inquisition auditors, their ringleader did the only thing a Veldun could do: she scattered blank scrimshaw tiles across the wet stone and asked the void what the room cost. She staked caste, pedigree, and ancestral memory. Probability inverted, the vault floor cracked open, and the House took payment in the one currency no Nethien ledger could record: her bloodline's standing in the web. The House holds every Veldun Gambit's fate-threads as collateral now. Their names survive; their luck no longer belongs to them. As long as they keep raising the stakes, they stay solid. Fold, back down, choose the safe path, and reality remembers the deficit.`,
+      reframe: `The <LoreLink termId="neth">Weft</LoreLink> read the obligation-web the way other people read ledgers, so when a ring of contraband runners was cornered in a flooding vault by Inquisition auditors, their ringleader did the only thing a Weft could do: she scattered blank scrimshaw tiles across the wet stone and asked the void what the room cost. She staked caste, pedigree, and ancestral memory. Probability inverted, the vault floor cracked open, and the House took payment in the one currency no Athien ledger could record: her bloodline's standing in the web. The House holds every Weft Gambit's fate-threads as collateral now. Their names survive; their luck no longer belongs to them. As long as they keep raising the stakes, they stay solid. Fold, back down, choose the safe path, and reality remembers the deficit.`,
       signatureAbility: {
         name: 'Clause-Analysis',
-        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Veldun Gambit cannot bluff, but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
+        description: `Probability is calculated as contract-law; the Gambit reads opponents' tells as legal exposures and stakes against the binding-force of their own word. A Weft Gambit cannot bluff, but they can structure a wager so that losing it benefits them more than winning, which is the same thing, legally.`
       },
-      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Veldun Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Nethien who no longer gambles is, by the terms of their own tradition, in breach of the debt that keeps them solid.`,
+      currentCrisisAngle: `Lyra has radicalized. Her Deck-Burners faction seeks to force the universe to choose, burning their rune-cards to collapse probability into certainty. The Weft Gambits of Ironjaw Port consider this heresy: a Gambit who forces the outcome is no longer gambling, and a Athien who no longer gambles is, by the terms of their own tradition, in breach of the debt that keeps them solid.`,
       signatureQuote: {
         text: '"I do not cheat. I draft the wager so that every outcome is mine. The other player signed the rules. That they did not read them is not my failure."',
         speaker: 'Lyra',
@@ -57,20 +57,20 @@ export const GAMBIT_DATA = {
     },
 
     drall_fexric: {
-      subraceName: 'Caustic Fexric',
+      subraceName: 'Alchemite',
       title: 'The Sump-Hustler',
-      reframe: `The <LoreLink termId="fexrick">Caustic Fexric</LoreLink> did not learn to gamble from the Merryn. A refinery-hand watched a kinetic core reach irreversible meltdown, threw the blueprints into the steam, jammed a clockwork roulette gear into the primary manifold, and let chaos answer for determinism. The pressure vented into the Wyrd. The curse that followed is the Tilt: in a Caustic Gambit's hands, ordinary predictable machines simply refuse to work, threads strip, welds crack, gears bind, and only contraptions built with intentional variance will run at all. So they gamble in salvage, running rigged dice and weighted cards through the Sump-Markets, and their Karmic Debt is personal: the accumulated resentment of every mark they ever hustled, coming due from below.`,
+      reframe: `The <LoreLink termId="fexrick">Alchemite</LoreLink> did not learn to gamble from the Merryn. A refinery-hand watched a kinetic core reach irreversible meltdown, threw the blueprints into the steam, jammed a clockwork roulette gear into the primary manifold, and let chaos answer for determinism. The pressure vented into the Wyrd. The curse that followed is the Tilt: in an Alchemite Gambit's hands, ordinary predictable machines simply refuse to work, threads strip, welds crack, gears bind, and only contraptions built with intentional variance will run at all. So they gamble in salvage, running rigged dice and weighted cards through the Sump-Markets, and their Karmic Debt is personal: the accumulated resentment of every mark they ever hustled, coming due from below.`,
       signatureAbility: {
         name: 'Sump-Rig',
-        description: `Fortune are generated by rigging the game rather than gambling it; the Caustic Fexric Gambit's dice, cards, and dealing machines are all fixed in advance, building Karmic Debt from the resentment of hustled marks rather than cosmic balance. The debt is personal, and when it comes due, the marks come to collect.`
+        description: `Fortune are generated by rigging the game rather than gambling it; the Alchemite Gambit's dice, cards, and dealing machines are all fixed in advance, building Karmic Debt from the resentment of hustled marks rather than cosmic balance. The debt is personal, and when it comes due, the marks come to collect.`
       },
-      currentCrisisAngle: `The Sump-Markets have grown wise to the hustlers, and the Caustic Fexric Gambits are running out of fresh marks. Some have begun to gamble against each other  —  hustler versus hustler, both knowing the game is rigged but neither knowing how. The Sump-Hustler tradition is eating itself, and the resentment-debt is compounding.
+      currentCrisisAngle: `The Sump-Markets have grown wise to the hustlers, and the Alchemite Gambits are running out of fresh marks. Some have begun to gamble against each other  —  hustler versus hustler, both knowing the game is rigged but neither knowing how. The Sump-Hustler tradition is eating itself, and the resentment-debt is compounding.
 
-The Caustic Fexric did not adopt Merryn gambling  —  they independently discovered probability manipulation through salvage. But the first Caustic Fexric Gambit, a sump-hustler named **Gear-Rat Jix**, did encounter a Merryn Gambit at Ironjaw Port during the Toll Wars and recognized the shared language. Jix is the reason Caustic Fexric Gambits use cards  —  she stole a Merryn deck, replaced the salt-coral dice with weighted gear-teeth, and never looked back.`,
+The Alchemite did not adopt Merryn gambling  —  they independently discovered probability manipulation through salvage. But the first Alchemite Gambit, a sump-hustler named **Gear-Rat Jix**, did encounter a Merryn Gambit at Ironjaw Port during the Toll Wars and recognized the shared language. Jix is the reason Alchemite Gambits use cards  —  she stole a Merryn deck, replaced the salt-coral dice with weighted gear-teeth, and never looked back.`,
       signatureQuote: {
         text: '"I did not cheat. I built the deck, I dealt the cards, and I knew what was coming before the first hand was played. That is not cheating. That is architecture."',
-        speaker: 'Caustic Fexric-Voss the Sump-Dealer',
-        context: 'A Caustic Fexric Gambit, caught with a rigged dealing-machine, addressing the crowd'
+        speaker: 'Alchemite-Voss the Sump-Dealer',
+        context: 'A Alchemite Gambit, caught with a rigged dealing-machine, addressing the crowd'
       }
     }
   },
@@ -83,7 +83,7 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
     secondaryResource: { type: "karmic_debt", max: 13 },
     generationNote: "Drawn from the fate deck. High Fortune rolls increase Karmic Debt.",
     criticalThresholds: { calamity: 13 },
-    mechanicsNote: "Fortune cap scales by specialization: 7 (Probability Savant), 13 (Karmic Weaver), 21 (High Roller); the bar tracks a base pool of 7. If Karmic Debt reaches 13, a Calamity event triggers, dealing catastrophic chaos backlash to the Gambit."
+    mechanicsNote: "Fortune uses one 0–7 bank and Karmic Debt one 0–13 ledger. Larger specialization caps are not implemented. The declared Calamity threshold is Debt 13."
   },
   name: "Gambit",
   icon: "fas fa-dice",
@@ -128,7 +128,7 @@ The Caustic Fexric did not adopt Merryn gambling  —  they independently discov
   worldFriction: [
     { region: 'iceheart-sea', location: 'merrowport', status: 'tolerated', consequence: 'The Merrowport House is a licensed institution; its Gambits operate openly as brokers, odds-makers, and contract-underwriters. A House Gambit in good standing has legal authority to adjudicate voyage-share disputes.', workaround: 'The Deck-Burners (Lyra radicals) are NOT tolerated, they are wanted by the House middle for forcing outcomes, which the House considers a breach of the wager itself.' },
     { region: 'nordhalla', status: 'outlawed', consequence: 'The Skald consider gambling dishonorable and House Skalvyr law treats probability-manipulation as a form of theft. A Gambit caught working the glacier-keeps is stripped of voyage-shares and exiled; a Gambit who "forces" an outcome near a Skald is killed.' },
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Nethien script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Vreken debtors buy back their names through underground wagers.' }
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Athien script-cartels view probability-manipulation as an unlawful modification of signed contracts. A Gambit caught using cards or dice to alter a debt-covenant is subject to immediate memory-drain at Atropolis.', workaround: 'Gambits operate in the Over-Shanty, where they sell memory-glass copies of altered odds and help Mycellan debtors buy back their names through underground wagers.' }
   ],
 
   overview: {
@@ -138,16 +138,26 @@ The Gambler's power is not studied. It is staked. The House, which the theologia
 
 The tradition the House prefers is the Dead Pot: liminal rooms in rotting hulls, dry mine shafts, and the backrooms behind fishmarkets, where steel stays sheathed by universal agreement and disputes settle on the felt. Gamblers recognize no guildmasters, only rival debtors working the same cosmic margins, and they trade in high-volatility contraband: weighted dice cut from sea-horror teeth, blank bone tiles, loadstone coins, and bad paper signed by dead men that still carries resonance.
 
-Three peoples carry the archetype, each cornered by doom, each leaving a different piece of themselves on the table. The Merryn staked the sea and inherited the Chasing Losses curse, unable to settle anywhere their luck can catch them. The Veldun staked caste and ancestral memory in a flooding vault and now live on borrowed credit, their fate-threads held as collateral by the House. The Caustic Fexric staked determinism itself in a refinery meltdown and live on the Tilt, where only machines built to fail unpredictably will run at all.
+Three peoples carry the archetype, each cornered by doom, each leaving a different piece of themselves on the table. The Merryn staked the sea and inherited the Chasing Losses curse, unable to settle anywhere their luck can catch them. The Weft staked caste and ancestral memory in a flooding vault and now live on borrowed credit, their fate-threads held as collateral by the House. The Alchemite staked determinism itself in a refinery meltdown and live on the Tilt, where only machines built to fail unpredictably will run at all.
 
-The modern Gambit fused these heritages with the Fate Weaver's cartomancy when Jax, a Merryn pirate captain, wagered his lifeline against a freezing storm-spirit in Merrowport and lost his blood's warmth, and Lyra, a Veldun probability-watcher, severed alternate timelines to save her caravan on the Cragjaw approach, experiencing every companion's alternate death in a single second and permanently fracturing her consciousness. Their paths crossed in the years of the Toll Wars, when Jax's ship, the Last Wager, docked at Ironjaw Port during the Toll Wars. Lyra was there as a probability-consultant for Groven bridge-engineers calculating span-failure risks. Both were manipulating the same fundamental force through different systems.
+The modern Gambit fused these heritages with the Fate Weaver's cartomancy when Jax, a Merryn pirate captain, wagered his lifeline against a freezing storm-spirit in Merrowport and lost his blood's warmth, and Lyra, a Weft probability-watcher, severed alternate timelines to save her caravan on the Cragjaw approach, experiencing every companion's alternate death in a single second and permanently fracturing her consciousness. Their paths crossed in the years of the Toll Wars, when Jax's ship, the Last Wager, docked at Ironjaw Port during the Toll Wars. Lyra was there as a probability-consultant for Groven bridge-engineers calculating span-failure risks. Both were manipulating the same fundamental force through different systems.
 
-The Karmic Debt that every Gambit accrues is the House's marker coming due. Lyra insists the collector is not a god at all, but something older that predates the First Contract, and her Deck-Burners intend to force it to show itself by burning their rune-cards to collapse probability into certainty. If the ritual fails, every living Gambit's debt is collected simultaneously. The Veldun elders say the answer was never in doubt: the House always collects, and the House always wins.
+The Karmic Debt that every Gambit accrues is the House's marker coming due. Lyra insists the collector is not a god at all, but something older that predates the First Contract, and her Deck-Burners intend to force it to show itself by burning their rune-cards to collapse probability into certainty. If the ritual fails, every living Gambit's debt is collected simultaneously. The Weft elders say the answer was never in doubt: the House always collects, and the House always wins.
 
-Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-spirit has not been heard since. Sailors crossing that strait report hearing two voices in the wind, one that matches the old gale, and a second, lower one, laughing. The House's mortal institution, the Merrowport House, survives on Harbor-Master Merr-Cael's ledger discipline, and his consolidation of three rival fleets' debts into a permanent institutional share is taught to every apprentice as the Merr-Cael Precedent.`,
+Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-spirit has not been heard since. Sailors crossing that strait report hearing two voices in the wind, one that matches the old gale, and a second, lower one, laughing. The House's mortal institution, the Merrowport House, survives on Harbor-Master Merr-Cael's ledger discipline, and his consolidation of three rival fleets' debts into a permanent institutional share is taught to every apprentice as the Merr-Cael Precedent.
+
+Native only to Merryn, Weft, Alchemite. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
     title: "The Wagering Architect",
     subtitle: "The Probability Siphon",
+    illustration: "/assets/images/classes/gambit_veldun_nethien.jpg",
+    illustrationCaption: "Weft Athien Gambit - The Clause-Gambler, fanning out glowing scrimshaw bone fate-cards beside a canal parapet in Atropolis.",
+    illustrations: [
+      { url: "/assets/images/classes/gambit_veldun_nethien.jpg", subraceId: "kessen_neth", caption: "Weft Athien Gambit - The Clause-Gambler, fanning out glowing scrimshaw bone fate-cards with radiant amber probability runes beside a dark canal." },
+      { url: "/assets/images/classes/gambit_merryn_human.jpg", subraceId: "merryn_human", caption: "Merryn Human Gambit - The Sea-Omen Gambler, dynamically flicking salt-coral dice high into the air with storm-cyan ripple arcs on the weather-beaten docks." },
+      { url: "/assets/images/classes/gambit_caustic_fexric.jpg", subraceId: "drall_fexric", caption: "Alchemite Gambit - The Sump-Hustler, unmasked mad-scientist goblin rolling heavy brass gear-dice and fanning soot-marked cards with crackling amber Wyrd sparks." },
+      { url: "/assets/images/classes/gambit_shoreling_myrathil.jpg", subraceId: "shoreling_myrathil", caption: "Corali Myrathil Gambit - The Tide-Wagerer, rolling glowing sea-pearl dice across a driftwood crate, tracing tide-jade probability currents." }
+    ],
 
     quickOverview: {
     title: "Class Overview",
@@ -176,14 +186,15 @@ Jax walked into the Iceheart Sea to clear his debt in one final game. The storm-
     roleplayIdentity: {
       title: "Roleplay Identity",
       content: `**HISTORY: THE DUAL GENESIS**
-The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the <LoreLink termId="neth">Nethien</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Ironjaw Port during the Toll Wars, when Lyra was there as a Veldun probability-consultant for Groven bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
+The Gambit's power was born from two founding events. In the floating alleys of <LoreLink termId="merrowport">Merrowport</LoreLink>, the Merryn pirate captain Jax wagered his lifeline against a storm-spirit, discovering probability manipulation through gambling. In the vertical canyons of the <LoreLink termId="cragjaw-peaks">Cragjaw Peaks</LoreLink>, the <LoreLink termId="neth">Athien</LoreLink> probability-watcher Lyra severed alternate timelines to save her caravan, discovering probability manipulation through card-reading. The traditions merged when Jax's ship docked at Ironjaw Port during the Toll Wars, when Lyra was there as a Weft probability-consultant for Groven bridge-engineers calculating span-failure risks. When their abilities resonated across the dock, the two discovered they were manipulating the same fundamental force.
 
 **CITIES AND CIVIL RECEPTION**
-Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Nethien pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
+Gambits are celebrated in the tavern-decks of <LoreLink termId="merrowport">Merrowport</LoreLink> and valued in the canopy-libraries of <LoreLink termId="atropolis">Atropolis</LoreLink>, but they are viewed with clinical contempt by the Athien pact-lords of <LoreLink termId="ironjaw_port">Ironjaw Port</LoreLink>.
 
 **RACES AND CULTURAL AFFILIATION**
-Three heritages carry the tradition: the Merryn humans of the Iceheart Sea, the <LoreLink termId="neth">Veldun Nethien</LoreLink> of the Bryngloom, and the salvage-hustling <LoreLink termId="fexrick">Caustic Fexric</LoreLink> of the Sump-Markets. Each wagers a different currency, salt, clause, and scrap, and each carries the curse of the wager that started it.
+The House's credit found its three native debtors in the Merryn sea, the Weft vault, and the Alchemite refinery.
 
+Native to: Merryn, Weft, Alchemite. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
 * Jax the Storm-Wagerer: The pirate who gambled his soul for a gale and lost his sleep to the ocean's tides. Now missing, believed to have walked into the Iceheart Sea for one final game.
 * Lyra the Probability-Watcher: The cartomancer who witnessed her friends die in a hundred ways to find the one path where they lived. Now leads the radical Deck-Burners faction, seeking to destroy the Fates themselves.`
@@ -205,7 +216,7 @@ Three heritages carry the tradition: the Merryn humans of the Iceheart Sea, the 
 
 Simultaneously, Lyra has gone radical. The founder of the Fate Weaver half of the tradition has concluded that Karmic Debt is not a natural law but an artificial construct imposed by an unknown entity. She has gathered the Deck-Burners, a faction pursuing a ritual that will force the universe to choose between the entity and every Gambit alive. If the ritual succeeds, Gambits will be free from Debt. If it fails, the Karmic Debt of every living practitioner will be collected simultaneously. Lyra has not told her followers the second part.
 
-The Karmic Debt is the House's marker coming due, and the House has a name the theologians of Nordhalla know: <LoreLink termId="mael_zhul">Mael-Zhul</LoreLink>, an Old God of shifting currents, sudden ruin, and bitter mockery, older than the Freezing and older than the pacts. Lyra calls it the Debtor and insists it is not a god at all, but something older that predates the First Contract. The Veldun elders say the distinction is academic: to those bound to the ledger, the entity has only one title, and it always collects. The Deck-Burners intend to force it to show itself anyway.`,
+The Karmic Debt is the House's marker coming due, and the House has a name the theologians of Nordhalla know: <LoreLink termId="mael_zhul">Mael-Zhul</LoreLink>, an Old God of shifting currents, sudden ruin, and bitter mockery, older than the Freezing and older than the pacts. Lyra calls it the Debtor and insists it is not a god at all, but something older that predates the First Contract. The Weft elders say the distinction is academic: to those bound to the ledger, the entity has only one title, and it always collects. The Deck-Burners intend to force it to show itself anyway.`,
 
     meaningfulTradeoffs: `A Gambit carries two compounding burdens. The Fortune addiction is physiological: the collateral damage from stored Fortune creates constant, low-grade physical suffering that only a gamble can relieve. Gambits develop compulsive habits not out of choice but because the pain of unspent Fortune is worse than spending it.
 
@@ -230,21 +241,21 @@ The Karmic Debt burden is existential: a Gambit who saves a friend by overriding
         name: 'The Dead Pot of Oakhaven',
         locationId: 'oakhaven',
         description: 'The loudest Dead Pot on the Nordhalla coast, set in a limestone cistern beneath Oakhaven\'s fish-market where whale-oil was once smuggled. The rules are the rules: steel stays sheathed, disputes settle on the felt, and common coin means little. What trades here is weighted dice cut from sea-horror teeth, blank bone tiles, loadstone coins, and bad paper signed by dead men. A chair by the stove is kept empty for the Wager, though no one will say which Wager they mean.',
-        purpose: 'Northern-shore Dead Pot and neutral table; where Merryn luck, Veldun clauses, and Caustic rigs meet and are measured',
+        purpose: 'Northern-shore Dead Pot and neutral table; where Merryn luck, Weft clauses, and Alchemite rigs meet and are measured',
         status: 'Active and busy, and the empty chair has been warm for three nights running'
       },
       {
         name: 'The Flooded Vault',
         locationId: 'flooded_vault',
-        description: 'A collapsed contraband vault beneath the Bryngloom\'s flooded root-ways, where a ring of Veldun runners was cornered by Inquisition auditors with the water rising. The ringleader scattered blank scrimshaw tiles across the wet stone and asked the void what the room cost. Probability inverted, the vault floor cracked open, and the House took payment in her bloodline\'s standing in the obligation-web. The crack is still there, at the waterline, and Veldun Gambits still come down to touch it before a wager; the tile-scatter pattern is preserved under root-glass, which the Veldun insist is respect and the Nethien insist is evidence.',
-        purpose: 'Origin site of the Veldun wager and the House\'s collateral; a shrine the Nethien refuse to classify',
-        status: 'Flooded, watched by a Nethien notice no one reads, and visited anyway'
+        description: 'A collapsed contraband vault beneath the Bryngloom\'s flooded root-ways, where a ring of Weft runners was cornered by Inquisition auditors with the water rising. The ringleader scattered blank scrimshaw tiles across the wet stone and asked the void what the room cost. Probability inverted, the vault floor cracked open, and the House took payment in her bloodline\'s standing in the obligation-web. The crack is still there, at the waterline, and Weft Gambits still come down to touch it before a wager; the tile-scatter pattern is preserved under root-glass, which the Weft insist is respect and the Athien insist is evidence.',
+        purpose: 'Origin site of the Weft wager and the House\'s collateral; a shrine the Athien refuse to classify',
+        status: 'Flooded, watched by a Athien notice no one reads, and visited anyway'
       },
       {
         name: 'The Roulette Manifold',
         locationId: 'roulette_manifold',
-        description: 'The sealed manifold chamber of a spent geothermal refinery, where a Caustic refinery-hand jammed a clockwork roulette gear into the primary manifold as the kinetic core went to meltdown, and the pressure vented into the Wyrd instead of the city. The melted gear is still fused into the wall, the Tilt pools in the doorway the way heat pools in a room, and Caustic Gambits deal their first hand on the threshold plate where the gear landed. Guild surveyors have declared the site structurally impossible; the Caustic have declared it holy, which they mean as a joke, mostly.',
-        purpose: 'Origin site of the Caustic wager and the Tilt; where the first rigged game was struck against determinism',
+        description: 'The sealed manifold chamber of a spent geothermal refinery, where an Alchemite refinery-hand jammed a clockwork roulette gear into the primary manifold as the kinetic core went to meltdown, and the pressure vented into the Wyrd instead of the city. The melted gear is still fused into the wall, the Tilt pools in the doorway the way heat pools in a room, and Alchemite Gambits deal their first hand on the threshold plate where the gear landed. Guild surveyors have declared the site structurally impossible; the Alchemite have declared it holy, which they mean as a joke, mostly.',
+        purpose: 'Origin site of the Alchemite wager and the Tilt; where the first rigged game was struck against determinism',
         status: 'Active as a sump-shrine, and the games dealt at the threshold have a house edge no one can calculate, including the house'
       }
     ],
@@ -329,7 +340,7 @@ You manipulate probability through a dual currency:
     cards: [
       {
         title: "Fortune (Primary)",
-        stats: "0 to 15 Max (Scales by Spec)",
+        stats: "0 to 7 Fortune",
         details: "Vibrating tokens of stolen probability. Generated through coin flips, die rolls, card draws, and successful attacks. Spent after any d20 roll to adjust the result by plus or minus 1 per point. Must be declared after the roll is seen but before the outcome is resolved.",
       },
       {
@@ -344,7 +355,7 @@ You manipulate probability through a dual currency:
       },
       {
         title: "Karmic Debt (Secondary)",
-        stats: "0 to 13 Gauge (Scales by Spec)",
+        stats: "0 to 13 Debt",
         details: "Accumulated from card overrides, forced destiny manipulation, and high-stakes plays. Each stack imposes plus 5 percent vulnerability to ALL damage types. At the end of each round, suffer 1d4 wyrd strain per stack.",
       },
       {
@@ -387,9 +398,8 @@ You manipulate probability through a dual currency:
       rows: [
         ["Bust / Empty", "0 FP", "No nudging. Cosmic Bankruptcy triggers.", "Disadvantage on all gambling rolls. Vulnerability active."],
         ["Strapped", "1-3 FP", "Basic nudging. Can modify rolls by plus/minus 1-3.", "Debtor's Tax on every gain. Playing it cautious."],
-        ["Flush", "4-8 FP", "Mid-tier wagers unlocked. Consistent roll control.", "Calculated Risk wyrd damage scales sharply."],
-        ["High Roller", "9-14 FP", "Premium wagers and ultimate abilities available.", "Self-damage per cast increases. One bad roll from Bust."],
-        ["All-In", "15-21 FP", "Maximum nudging power. All abilities available.", "Extreme risk of catastrophic loss. Every FP spent hurts."],
+        ["Flush", "4-6 FP", "A prepared reserve within the shared bank.", "Calculated Risk applies when Fortune is spent."],
+        ["All-In", "7 FP", "The full implemented Fortune bank.", "Every Fortune spent carries its declared risk."],
       ],
     },
   },
@@ -447,8 +457,8 @@ You manipulate probability through a dual currency:
         description: "Masters of incremental math and enemy save manipulation. They treat fate as a ledger to be meticulously balanced, combining the Gambler's Fortune precision with the Fate Weaver's predictive sight.",
         playstyle: "Strategic, consistent roll manipulation. You siphon small, steady streams of luck, minimize high-risk drops, and hoard a small, perfect reserve of nudges while peeking at enemy saving throws.",
         strengths: [
-          "Maximum Fortune capacity set to 13",
-          "Maximum Karmic Debt set to 10",
+          "Uses the shared Fortune cap of 7",
+          "Uses the shared Karmic Debt limit of 13",
           "Calculated Risk fixed at 1 wyrd per FP spent instead of 1d4",
           "When enemy within 60ft rolls a saving throw, peek at top card of deck; if face card, enemy has disadvantage",
         ],
@@ -459,7 +469,7 @@ You manipulate probability through a dual currency:
         ],
         specPassive: {
           name: "Balanced Ledger",
-          description: "Your Calculated Risk damage is fixed at 1 wyrd damage per FP spent instead of 1d4. When an enemy within 60 feet rolls a saving throw, you may peek at the top card of your deck. If it is a face card, the enemy has disadvantage on the save. Maximum Fortune: 13, Maximum Karmic Debt: 10.",
+          description: "Your Calculated Risk damage is fixed at 1 wyrd damage per FP spent instead of 1d4. When an enemy within 60 feet rolls a saving throw, you may peek at the top card of your deck; a face card imposes disadvantage under the passive's rules. Shared limits: Fortune 7, Karmic Debt 13. Larger caps are not implemented.",
         },
       },
       {
@@ -471,7 +481,7 @@ You manipulate probability through a dual currency:
         description: "Extreme-risk gamblers who push their vital systems to the absolute limit for spectacular, reality-warping results. They combine the Gambler's high-stakes wagers with the Fate Weaver's expanded card capacity.",
         playstyle: "High stakes, devastating payloads. You wager entire pools of HP and mana for spectacular, bone-rattling force attacks, converting every shockwave of self-damage into raw betting power.",
         strengths: [
-          "Maximum Fortune capacity set to 21",
+          "Uses the shared Fortune cap of 7",
           "Maximum Karmic Debt set to 13",
           "When suffering self-damage from spell or gamble, immediately gain 2 FP (and pay 2 HP Debtor's Tax)",
           "Fate Reserve and call card capacity increased by 50 percent",
@@ -483,7 +493,7 @@ You manipulate probability through a dual currency:
         ],
         specPassive: {
           name: "Double Down",
-          description: "When you suffer self-damage from a spell or gamble, you immediately gain 2 Fortune (and suffer the 2 HP Debtor's Tax). Your Fate Reserve and call card capacity is increased by 50 percent. Pain is fuel, and you convert every shockwave of probability backlash into raw betting power. Maximum Fortune: 21, Maximum Karmic Debt: 13.",
+          description: "When you suffer self-damage from a spell or gamble, the declared passive grants 2 Fortune and the 2 HP Debtor's Tax. Fate Reserve and call card capacity increase by 50 percent under their rules. Shared limits remain Fortune 7 and Debt 13; no larger bank is implemented.",
         },
       },
       {
@@ -495,7 +505,7 @@ You manipulate probability through a dual currency:
         description: "Obsessive readers who have trained their senses to physically feel the vibrating strings of destiny, channeling them through focused card manipulation and damage redirection. They combine the Gambler's deck control with the Fate Weaver's thread binding.",
         playstyle: "Strategic deck siphoning and damage redirection. You drag enemies into high-stakes games, link targets together to share damage, and turn Karmic Debt stacks into bonus blight damage.",
         strengths: [
-          "Maximum Fortune capacity set to 15",
+          "Uses the shared Fortune cap of 7",
           "Maximum Karmic Debt set to 13",
           "Draw two cards from magical deck, choose which to resolve",
           "At 5 or more debt stacks, spell attacks deal bonus blight equal to current debt level",
@@ -508,7 +518,7 @@ You manipulate probability through a dual currency:
         ],
         specPassive: {
           name: "Loaded Deck",
-          description: "Whenever you draw from your magical deck, draw two cards and choose which to resolve. While you have 5 or more stacks of Karmic Debt, your spell attacks deal bonus blight damage equal to your current debt level. You may link two creatures within 30 feet to share damage. Maximum Fortune: 15, Maximum Karmic Debt: 13.",
+          description: "Draw two magical-deck cards and choose one under the passive's rules. At 5 or more Debt stacks, spell attacks gain bonus blight equal to Debt; two creatures within 30 feet may be linked to share damage. Shared limits remain Fortune 7 and Debt 13; no larger bank is implemented.",
         },
       },
     ],

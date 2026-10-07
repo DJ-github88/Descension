@@ -1,6 +1,6 @@
 @echo off
 echo 🚀 Deploying Firestore Rules...
-call firebase deploy --only firestore:rules
+call firebase deploy --only firestore:rules,storage
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ Deployment failed! Make sure you are logged in to Firebase.
 ) else (

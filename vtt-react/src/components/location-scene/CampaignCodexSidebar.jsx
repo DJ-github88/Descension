@@ -35,7 +35,7 @@ const CampaignCodexSidebar = ({
   const factions = useFactionStore(state => state.factions) || [];
   const regions = useWorldStore(state => state.regions) || [];
   const getLocationsByRegion = useWorldStore(state => state.getLocationsByRegion);
-  const customCreatures = useCreatureStore(state => state.customCreatures) || [];
+  const customCreatures = useCreatureStore(state => state.creatures) || [];
   const storeItems = useItemStore(state => state.items) || [];
   const playerNotes = useShareableStore(state => state.playerNotes) || [];
   const playerKnowledge = useShareableStore(state => state.playerKnowledge) || [];

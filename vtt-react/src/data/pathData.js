@@ -17,7 +17,7 @@ export const PATH_DATA = {
     vessel: {
         id: 'vessel',
         name: 'The Vessel',
-        description: 'You have been entered by something older than yourself, a Lumian echo, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Nethien call it a breach of contract. Both are correct.',
+        description: 'You have been entered by something older than yourself, a Lumian echo, a Wyrd-fragment, a bog-presence. You carry a passenger in your blood, and it speaks in frequencies only you can hear. The Astril call this opening the vessel; the Athien call it a breach of contract. Both are correct.',
         icon: 'fas fa-eye',
         statModifiers: {
             intelligence: 1,
@@ -73,7 +73,7 @@ export const PATH_DATA = {
     unseen: {
         id: 'unseen',
         name: 'The Unseen',
-        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Veil can lie without their skin betraying them. The Fexric Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
+        description: 'You operate in the gaps of the system, where contracts don\'t reach, where patterns don\'t glow, where the obligation-web is thin. The Unlit Veil can lie without their skin betraying them. The Fex Clan-Free survive by scavenging what the guilds discard. You are neither. You are worse: you are competent.',
         icon: 'fas fa-mask',
         statModifiers: {
             agility: 2,
@@ -101,7 +101,7 @@ export const PATH_DATA = {
     scarred: {
         id: 'scarred',
         name: 'The Scarred',
-        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Echo-Submersion. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Vreken debtors carry this. You carry this.',
+        description: 'You survived something that should have destroyed you, a vat, a Wyrd-attack, the Fading, the Echo-Submersion. You are scarred in ways that give you insight into darkness but cost you connection to the living. The Groven Vat-Breakers carry this. The Mycellan debtors carry this. You carry this.',
         icon: 'fas fa-skull',
         statModifiers: {
             constitution: 2,
@@ -129,7 +129,7 @@ export const PATH_DATA = {
     archive_sworn: {
         id: 'archive_sworn',
         name: 'The Archive-Sworn',
-        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Nethien Canopy-Ledger holds contracts in crystallized tree-sap. The Solari sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
+        description: 'You are a scholar who has gained knowledge through direct neural transmission, memory-glass, celestial frequency, or monolith-resonance, not through books. The Athien Canopy-Ledger holds contracts in crystallized tree-sap. The Solari sun-records are sung into obsidian. The Frozen Archive preserves the dead\'s final visions. You have touched one of these. It changed you.',
         icon: 'fas fa-book',
         statModifiers: {
             intelligence: 2,
@@ -212,7 +212,7 @@ export const PATH_DATA = {
     wayfarer: {
         id: 'wayfarer',
         name: 'The Wayfarer',
-        description: 'You are a professional traveler, guide, or toll-keeper who knows the routes between regions. The Ordan nomads solved the problem of a starless sky by memorizing the ground. The Ancestor-Span toll-keepers charge passage in bones and promises. The Brook Myrathil explore freshwater routes no map records. Your value lies in knowing how to get from here to there alive.',
+        description: 'You are a professional traveler, guide, or toll-keeper who knows the routes between regions. The Ordu nomads solved the problem of a starless sky by memorizing the ground. The Ancestor-Span toll-keepers charge passage in bones and promises. The Brook Myrathil explore freshwater routes no map records. Your value lies in knowing how to get from here to there alive.',
         icon: 'fas fa-route',
         statModifiers: {
             strength: 1,
@@ -241,7 +241,7 @@ export const PATH_DATA = {
     threshold_watcher: {
         id: 'threshold_watcher',
         name: 'The Threshold-Watcher',
-        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Brutish Astril who maintains their rituals is a fortress; a Brutish Astril who falters is a bomb. You do not falter.',
+        description: 'You guard a boundary, physical, spiritual, or metaphysical. The threshold between regions, between life and death, between the pact and the Silence. A Kordak who maintains their rituals is a fortress; a Kordak who falters is a bomb. You do not falter.',
         icon: 'fas fa-shield-alt',
         statModifiers: {
             constitution: 1,
@@ -254,7 +254,7 @@ export const PATH_DATA = {
         startingEquipment: [
             'Guardian\'s badge (region-specific)',
             'Signal horn',
-            'Chain mail (Fexric-reforged)',
+            'Chain mail (Fex-reforged)',
             'Traveler\'s clothes',
             'Fiber-cord rope (50 feet)',
             'Belt pouch with 15g'

@@ -18,7 +18,7 @@ const getPresenceStore = () => {
  * Admin dev login master switch.
  * Flip to `false` to disable admin/admin login at any time without a redeploy.
  */
-const ADMIN_DEV_LOGIN_ENABLED = true;
+const ADMIN_DEV_LOGIN_ENABLED = !isProduction();
 
 export const isAdminLoginEnabled = () => {
   return ADMIN_DEV_LOGIN_ENABLED;
@@ -108,6 +108,8 @@ const useAuthStore = create(
             // Reload user data to ensure it's current
             get().loadUserData();
           } else {
+            // Don't clobber an active admin dev-login session
+            if (get().isAdminBypass) return;
             // No authenticated user, clear state
             set({
               user: null,

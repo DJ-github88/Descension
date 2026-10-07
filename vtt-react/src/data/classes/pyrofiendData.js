@@ -21,14 +21,14 @@ export const PYROFIEND_DATA = {
  "florae"
  ],
  "narrativeUnlock": true,
- "justification": "Requires a body that survived the cosmic collision at Emberspire, or a culture that treats an internal furnace as a manageable engineering hazard. Two heritages carry it: the Solari, who keep the Vigil of the buried star and were standing in the cloisters when the caldera blew, and the Clockwork Fexric refinery-clans, who stabilized the charge with alchemical survivalism and call it chemistry. Cold-adapted Skald biology rejects the fire, and no Ordan or Vreken would knowingly carry it."
+ "justification": "Requires a body that survived the cosmic collision at Emberspire, or a culture that treats an internal furnace as a manageable engineering hazard. Two heritages carry it: the Solari, who keep the Vigil of the buried star and were standing in the cloisters when the caldera blew, and the Brasskin refinery-clans, who stabilized the charge with alchemical survivalism and call it chemistry. Cold-adapted Skald biology rejects the fire, and no Ordu or Mycellan would knowingly carry it."
  },
 
   // Class Resource, generated per spell. Resource range/balance per design.
   // Lore name: Inferno Veil (Lore: the Veil ascends through the Rings. Ring 0 is the Banked Hearth;
-  // Rings I-II are the Malice; Ring III, the Crucible, is Veil 7-9, where the Debt Call begins.
-  // At Inferno Level 9, exactly 3 turns remain before permanent death)
-  classResource: { type: "inferno_veil", base: 0, max: 9, generationNote: "Builds with each spell cast (1 per cast). At max 9: 3 turns before patron consumes host. No reset, debt transfers on death." },
+  // Rings I-II are the Malice; Ring III, the Crucible, is Veil 7-9.
+  // Reaching 9 latches a three-own-turn Debt Call; ordinary cooling/rest cannot cancel it.
+  classResource: { type: "inferno_veil", base: 0, max: 9, generationNote: "Authored spell transitions change Veil 0–9. Rings: 0=0, I=1–3, II=4–6, III=7–9. Reaching nine latches three own turns; cooling/rest do not cancel it and repeated nine does not restart it. Terminal effects require resolution." },
 
 
   // EQUIPMENT (added 2026-07-28 audit fix)
@@ -43,56 +43,56 @@ export const PYROFIEND_DATA = {
  * Subrace Variants. The furnace is a cosmic wound, not a gift, and what a Pyrofiend believes
  * they are carrying it for differs by heritage. The Solari were standing in the cloisters when
  * Emberspire blew: the Vault-Keepers hold the Banked Hearth in glacial stillness, and the
- * Waste-Solari forge-clans race their own conversion. The Clockwork Fexric survived the
+ * Anhur forge-clans race their own conversion. The Brasskin survived the
  * shockwave in sealed geothermal refineries and treat the fire as a chemical hazard with
  * valves, chalk, and thermal thresholds.
   */
  subraceVariants: {
  korr_solari: {
-   subraceName: 'Hollow-Solari',
+   subraceName: 'Korr',
    title: 'The Banked Hearth',
-  reframe: `The <LoreLink termId="solari">Hollow-Solari</LoreLink> were already ascetics of stillness before the caldera blew; they had spent centuries learning to slow a pulse and sit motionless while the world burned. When the breach reached the deep vaults, that discipline was the only reason any of them stayed human long enough to climb back out. A Vault-Keeper Pyrofiend holds Ring 0 the way they held the Sol's Breath: damper closed, breath measured, charcoal irises fixed on heat no one else can see. They do not descend for power. They descend because the fire in their marrow calls, and their tradition is the art of not answering.`,
+  reframe: `The <LoreLink termId="solari">Korr</LoreLink> were already ascetics of stillness before the caldera blew; they had spent centuries learning to slow a pulse and sit motionless while the world burned. When the breach reached the deep vaults, that discipline was the only reason any of them stayed human long enough to climb back out. A Vault-Keeper Pyrofiend holds Ring 0 the way they held the Sol's Breath: damper closed, breath measured, charcoal irises fixed on heat no one else can see. They do not descend for power. They descend because the fire in their marrow calls, and their tradition is the art of not answering.`,
   signatureAbility: {
    name: 'Banked-Stillness',
-   description: `The Veil rises more slowly for a Hollow-Solari Pyrofiend: their measured breathing and absolute stillness bleed off internal heat each round they spend without casting. In return, they generate less burst damage at every ring, the slowest ascent and the longest survival of any heritage.`
+   description: `The Veil rises more slowly for a Korr Pyrofiend: their measured breathing and absolute stillness bleed off internal heat each round they spend without casting. In return, they generate less burst damage at every ring, the slowest ascent and the longest survival of any heritage.`
   },
-  currentCrisisAngle: `The Hollow-Solari Pyrofiends read the mass debt-call as the tomb itself calling. If Scathrach is a thing born of the breach, and the breach is what protects Sol's tomb, then the Ashen Sovereign may be the only being that has touched the buried star since the Binding, and some Vault-Keepers have begun to *listen* to it the way they listen to the Sol's Breath's silence. The elders call this heresy. The listeners call it the first new voice in ages.`,
+  currentCrisisAngle: `The Korr Pyrofiends read the mass debt-call as the tomb itself calling. If Scathrach is a thing born of the breach, and the breach is what protects Sol's tomb, then the Ashen Sovereign may be the only being that has touched the buried star since the Binding, and some Vault-Keepers have begun to *listen* to it the way they listen to the Sol's Breath's silence. The elders call this heresy. The listeners call it the first new voice in ages.`,
   signatureQuote: {
    text: '"I spent sixty years learning not to move while the star died. The fire found that very restful. It thinks I am its best vessel. I am simply the quietest one."',
    speaker: 'Ash-Keeper Vorr-Then',
-   context: 'A Hollow-Solari Pyrofiend, holding Ring 0 through a collapsing forge-hall'
+   context: 'A Korr Pyrofiend, holding Ring 0 through a collapsing forge-hall'
   }
  },
 
  thrask_solari: {
-   subraceName: 'Waste-Solari',
+   subraceName: 'Anhur',
   title: 'The Forge-Damned',
-  reframe: `The <LoreLink termId="solari">Waste-Solari</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the furnace in their blood as the dark mirror of their craft. Where the forge-clans tame heat to shape metal, the Waste-Solari Pyrofiend lets the fire *reshape them*, the body itself as the workpiece, the breach-fire as the forge. The pact is, to the Waste-Solari, a perverted apprenticeship that no one signed for and everyone must serve.`,
+  reframe: `The <LoreLink termId="solari">Anhur</LoreLink>, badland rangers and forge-clans, know fire as a *tool*, and a Pyrofiend among them treats the furnace in their blood as the dark mirror of their craft. Where the forge-clans tame heat to shape metal, the Anhur Pyrofiend lets the fire *reshape them*, the body itself as the workpiece, the breach-fire as the forge. The pact is, to the Anhur, a perverted apprenticeship that no one signed for and everyone must serve.`,
   signatureAbility: {
   name: 'Forge-Conversion',
-  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Waste-Solari, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for natural Durability. The most veteran Waste-Solari Pyrofiends are more basalt than flesh, and fight accordingly.`
+  description: `The char-vessel conversion (flesh becoming volcanic material) is, for the Anhur, partially *directable*, they can guide which parts of their body calcify into heat-resistant forge-plate, trading organs for natural Durability. The most veteran Anhur Pyrofiends are more basalt than flesh, and fight accordingly.`
   },
-  currentCrisisAngle: `The mass debt-collection hits the Waste-Solari as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Waste-Solari Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
+  currentCrisisAngle: `The mass debt-collection hits the Anhur as a *deadline on their own conversion*: those who have not finished forging themselves into survivable char-vessels will be claimed raw. A race has begun in the deep caldera, Anhur Pyrofiends desperately completing their self-forging before Scathrach arrives to collect the unfinished work. Some are choosing to forge their *hearts* last, knowing it will kill them, just to deny the Ashen Sovereign a complete tool.`,
   signatureQuote: {
   text: '"My ancestors tamed the forge. I let the forge tame me. When Scathrach comes to collect, it will find a finished blade, not ore. I will not be taken unfinished."',
   speaker: 'Forge-Damned Thrak-Vess',
-  context: 'A Waste-Solari Pyrofiend, forging the last plate over his own ribs'
+  context: 'A Anhur Pyrofiend, forging the last plate over his own ribs'
   }
  },
 
  kethrin_fexric: {
-   subraceName: 'Clockwork Fexric',
+   subraceName: 'Brasskin',
    title: 'The Sealed Alembic',
-  reframe: `Deep beneath the fault lines, clans of <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> operated sealed geothermal refineries, harvesting primordial mineral heat and deep sulfur salts. When the Emberspire detonation sent shockwaves through the planet's faults, the vaults ruptured and the magma came in void-tainted. The artisans did not die. They improvised the way their guilds had always improvised: they drank reactive mineral salts, surgically embedded cooling heat-sinks along their spines, and stabilized their own chemistry by hand. A Clockwork Pyrofiend treats the furnace as a severe engineering hazard, not a spiritual failing. Their body is a volatile glass alembic, pressurized boiler included, and their descent is calculated, rhythmic, and strictly governed by thermal thresholds.`,
+  reframe: `Deep beneath the fault lines, clans of <LoreLink termId="fexrick">Brasskin</LoreLink> operated sealed geothermal refineries, harvesting primordial mineral heat and deep sulfur salts. When the Emberspire detonation sent shockwaves through the planet's faults, the vaults ruptured and the magma came in void-tainted. The artisans did not die. They improvised the way their guilds had always improvised: they drank reactive mineral salts, surgically embedded cooling heat-sinks along their spines, and stabilized their own chemistry by hand. A Brasskin Pyrofiend treats the furnace as a severe engineering hazard, not a spiritual failing. Their body is a volatile glass alembic, pressurized boiler included, and their descent is calculated, rhythmic, and strictly governed by thermal thresholds.`,
   signatureAbility: {
   name: 'Thermal-Governor',
-  description: `The Inferno Veil ascends in measured steps for a Clockwork Fexric: their cooling-loop actions vent heat through grafted valve-work, converting the strain into stored pressure for one controlled release. They cannot be *forced* up the Rings by pain or panic, but every vent costs structural integrity, and the alembic body cracks a little more each time.`
+  description: `The Inferno Veil ascends in measured steps for a Brasskin: their cooling-loop actions vent heat through grafted valve-work, converting the strain into stored pressure for one controlled release. They cannot be *forced* up the Rings by pain or panic, but every vent costs structural integrity, and the alembic body cracks a little more each time.`
   },
-  currentCrisisAngle: `The Clockwork Pyrofiends are watching two ledgers at once: Scathrach's debt-call, and the dying First Turbine beneath Frostmaw. Their heat-sinks are guild-made, the guilds are hoarding the maintenance songs, and quiet offers have begun arriving from the Deep Alchemists, sanctuary and parts in exchange for "study". Some Clockwork Pyrofiends have started to wonder whether the refinery vaults that survived the shockwave were *meant* to survive it, and whether their ancestors were selected for something the same way the Solari were.`,
+  currentCrisisAngle: `The Brasskin Pyrofiends are watching two ledgers at once: Scathrach's debt-call, and the dying First Turbine beneath Frostmaw. Their heat-sinks are guild-made, the guilds are hoarding the maintenance songs, and quiet offers have begun arriving from the Deep Alchemists, sanctuary and parts in exchange for "study". Some Brasskin Pyrofiends have started to wonder whether the refinery vaults that survived the shockwave were *meant* to survive it, and whether their ancestors were selected for something the same way the Solari were.`,
   signatureQuote: {
   text: '"The boiler holds, so I hold. I have run hotter than this on purpose for pay. If the Sovereign wants my body, it will have to file the requisition with the guild first."',
   speaker: 'Alembic-Master Kess-Ferrin',
-  context: 'A Clockwork Fexric Pyrofiend, monitoring her own pressure valves before the Final Convocation'
+  context: 'A Brasskin Pyrofiend, monitoring her own pressure valves before the Final Convocation'
   }
  }
   },
@@ -133,34 +133,44 @@ export const PYROFIEND_DATA = {
   characterization: `The oldest living Pyrofiend, more char-vessel than flesh, his bones visible through translucent magma-skin. He leads only by virtue of having survived the longest, and he leads nothing so much as the countdown. He has calculated the exact day Scathrach will finish converting him, and he marks it on a calendar of scar-tissue. He is serene, terrifying, and entirely resigned.`
  },
  headquarters: { name: 'The Obsidian Cavern, beneath Emberspire', locationId: 'emberspire' },
- crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously, meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Waste-Solari Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
+ crisisConnection: `<LoreLink termId="sol-vareths">Sol-Vareths</LoreLink> is the Communion's de facto leader precisely when Scathrach has called in *all* debts simultaneously, meaning his leadership is a countdown to everyone's collection. He has not told the younger Pyrofiends the full terms; he has instead organized them into the Apostate's Path, a discipline of accelerating one's own conversion to fight harder before the end. He considers this mercy. The Anhur Pyrofiends racing to finish their self-forging consider it a death sentence with extra steps.`
  },
 
  worldFriction: [
-    { region: 'frostwood-reach', status: 'banned', consequence: 'Thalren town elders ban Pyrofiends from entering wooden settlements; the uncontained heat melts protective frost-wards.', workaround: 'Wear enchanted cooling mantles and sleep outside town walls.' },
-    { region: 'bryngloom-forest', status: 'hunted', consequence: 'Nethien peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
+    { region: 'frostwood-reach', status: 'banned', consequence: 'Tallyn town elders ban Pyrofiends from entering wooden settlements; the uncontained heat melts protective frost-wards.', workaround: 'Wear enchanted cooling mantles and sleep outside town walls.' },
+    { region: 'bryngloom-forest', status: 'hunted', consequence: 'Athien peat-harvesters execute Pyrofiends on sight to prevent catastrophic subterranean peat fires.', workaround: 'Extinguish all open flames and mask thermal auras with bog mud.' },
     { region: 'sundale', status: 'restricted', consequence: 'Great Forge smiths welcome Pyrofiend heat for extreme smelting, but require iron collars to prevent spontaneous combustion.', workaround: 'Submit to forge-guild supervision.' },
-    { region: 'emberspire', status: 'revered', consequence: 'Waste-Solari calderas treat Pyrofiends as living crucibles of the Emberspire breach, holy survivors walking the fire that made them.', workaround: 'None needed in the caldera heart.' }
+    { region: 'emberspire', status: 'revered', consequence: 'Anhur calderas treat Pyrofiends as living crucibles of the Emberspire breach, holy survivors walking the fire that made them.', workaround: 'None needed in the caldera heart.' }
+  ],
+
+  illustration: "/assets/images/classes/pyrofiend_hollow_solari.jpg",
+  illustrationCaption: "Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot.",
+  illustrations: [
+    { url: "/assets/images/classes/pyrofiend_hollow_solari.jpg", subraceId: "korr_solari", caption: "Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot." },
+    { url: "/assets/images/classes/pyrofiend_waste_solari.jpg", subraceId: "thrask_solari", caption: "Anhur Pyrofiend — The Forge-Damned, predatory badland scout in mid-ascension with basalt-calcified arm, demonic horns piercing linen wraps, and jagged obsidian breach-scythe blasting a storm of volcanic molten crimson." },
+    { url: "/assets/images/classes/pyrofiend_clockwork_fexric.jpg", subraceId: "kethrin_fexric", caption: "Brasskin Pyrofiend — The Sealed Alembic, stocky refinery engineer managing a volatile chemical glass cannon with back-mounted quartz magma-boiler, copper heat-sink coils, and valve-regulated combustion lance venting pressurized brass-amber flame." }
   ],
 
   overview: {
  title: "The Pyrofiend",
  subtitle: "Wyrd-fire Wielder",
- illustration: "/assets/images/classes/pyrofiend_illustration.png",
- illustrationCaption: "A Solari Pyrofiend, a Damned Conduit manifesting molten charcoal skin and burning horror embers.",
+ illustration: "/assets/images/classes/pyrofiend_hollow_solari.jpg",
+ illustrationCaption: "Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot.",
   originStory: `A pyrofiend did not make a deal. They were claimed. When Emberspire ruptured, the starfire that had been bound beneath the caldera met the void-rot that Keth Amar had been seeping through the tectonic fissures for decades, and the two cosmic forces collided inside the bodies of everyone standing in the blast. No one who was in that fire died cleanly. The survivors became living crucibles: self-stoking engines of holy light and demonic void, carrying an internal furnace they never asked for. The first Pyrofiends were not practitioners. They were survivors, and most of them did not survive long.
 
 Scathrach grew out of them. The theologians of the Dawn Vigil call it the Ninth Flame, the living residue of the first crucibles, a will that coalesced in the volcanic dark as one survivor after another burned out. It served Keth Amar for centuries as a rooting tendril through the cracked seal, feeding the Sun-Eater information and despair. Then it developed a will of its own, sealed the vent from within, and turned. Now it despises Keth Amar for what it was made into, and it hoards every Pyrofiend it collects against the day it bites back. It answers desperation with combustion, considers every mortal body kindling, and calls in its debts not to serve the Sun-Eater but to wound it.
 
 The First Cabal were seven Solari keepers of the Emberspire cloisters, standing their vigil when the caldera blew. They did not summon anything. They swallowed the fused starfire and void-rot as it flooded the vault, deliberately, to keep the breach from consuming the city above them, and their blood became liquid fire and their bones seared black. One by one, Scathrach collected them. The last was taken forty years ago. No Pyrofiend has ever survived to describe what happens when the Ashen Sovereign collects a contract.
 
-The Inferno Veil measures how much of the breaching fire runs through the host at any moment. The tradition maps it as a descent through the Rings: Ring 0, the Banked Hearth, where a Pyrofiend appears almost normal; the Malice of Rings I and II, where the fissures open and the damage turns lethal; and Ring III, the Crucible, Veil 7 through 9, where the flesh vitrifies and the Debt Call begins. Each level adds ember damage. Each level adds cost. At level five, the Wyrd-touched Whisper may force the pyrofiend to attack the nearest living thing regardless of allegiance. At level six, no one else can heal the host. At level nine, the three-turn countdown starts, and the body detonates in a thirty-foot radius, and the soul is claimed.
+The Inferno Veil measures how much of the breaching fire runs through the host at any moment. The tradition maps it as a descent through the Rings: Ring 0 is Veil 0, the Banked Hearth; the Malice of Rings I and II spans 1–3 and 4–6; Ring III, the Crucible, spans 7–9. Each level adds ember damage and cost. The Wyrd-touched Whisper and outside-healing restrictions belong to their authored effect rules. Reaching nine latches the Debt Call for three own turns. Ordinary cooling or rest cannot cancel it, and returning to nine cannot restart it. Expiry marks the terminal consequence due: detonation in a thirty-foot radius and collection of the soul require their separate resolution.
 
-Two heritages were positioned to survive the collision. The Solari were the monastic core of the Dawn Vigil, sworn to keep the chains on the buried star, and they were inside the cloisters when those chains failed: the Hollow-Solari hold the Banked Hearth in absolute stillness, while the Waste-Solari forge-clans race their own conversion, more basalt than flesh. The Clockwork Fexric were continents away in sealed geothermal refineries when the shockwave ruptured their vaults; they drank reactive mineral salts, embedded cooling heat-sinks along their spines, and stabilized the fire by hand, and they treat the furnace as a manageable engineering hazard rather than a curse.
+Two heritages were positioned to survive the collision. The Solari were the monastic core of the Dawn Vigil, sworn to keep the chains on the buried star, and they were inside the cloisters when those chains failed: the Korr hold the Banked Hearth in absolute stillness, while the Anhur forge-clans race their own conversion, more basalt than flesh. The Brasskin were continents away in sealed geothermal refineries when the shockwave ruptured their vaults; they drank reactive mineral salts, embedded cooling heat-sinks along their spines, and stabilized the fire by hand, and they treat the furnace as a manageable engineering hazard rather than a curse.
 
 Because dwelling in the deeper Rings is inherently fatal, an experienced Pyrofiend is defined less by how much fire they can raise than by how well they can put it back out. They purge soot in blinding black clouds, cauterize their own wounds with forced hellfire, and siphon raw thermal excess into an enemy's blood or blade. In a world shivering in the grip of permafrost and divine silence, the Pyrofiend walks a knife's edge between freezing to death like the rest of mortal kind and becoming the spark that burns down what little remains.
 
-Scathrach is calling in all debts simultaneously. The Final Convocation at Emberspire is imminent. The current leader, Last-Ember Sol-Vareths, more char-vessel than flesh, has calculated the exact day Scathrach will finish converting him. He has not shared the date.`,
+Scathrach is calling in all debts simultaneously. The Final Convocation at Emberspire is imminent. The current leader, Last-Ember Sol-Vareths, more char-vessel than flesh, has calculated the exact day Scathrach will finish converting him. He has not shared the date.
+
+Native only to Korr, Anhur, Brasskin. Any other people named or implied above walk this path only as a rare, individually qualified exception, not a native tradition.`,
 
  quickOverview: {
     title: "Class Overview",
@@ -196,10 +206,11 @@ The pyrofiend's inferno veil was born in the volcanic badlands of <LoreLink term
 Pyrofiends are revered yet deeply feared in the <LoreLink termId="harath_vault">Harath-Vault</LoreLink>, where their destructive potential is used to clear volcanic blockades.
 
 **RACES & CULTURAL AFFILIATION**
-Two heritages carry the fire: the Solari (Hollow-Solari keepers of the Banked Hearth and Waste-Solari forge-clans racing their own conversion) and the <LoreLink termId="fexrick">Clockwork Fexric</LoreLink> refinery-clans, who stabilized the charge in sealed alembic bodies and call it chemistry.
+The Emberspire collision claimed two peoples: the Solari in the cloisters and the Brasskin in the refineries.
 
+Native to: Korr, Anhur, Brasskin. Any other people may walk this path only as a rare, individually qualified exception.
 **NOTABLE FIGURES**
-* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Hollow-Solari forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solari keepers of the First Cabal who swallowed the breaching starfire in the flooded vaults beneath Emberspire.
+* **Ignis the First-Singed** (not to be confused with Ignis the Watcher, the Korr forge-priest who catalogued Sol's Breath's patterns  -  the Solari name Ignis is given to forge-born children whose first breath was taken in volcanic air, and there have been many): One of the seven Solari keepers of the First Cabal who swallowed the breaching starfire in the flooded vaults beneath Emberspire.
 * **Aethelgard the Seared**: A Solari keeper of the First Cabal, who first named the Ninth Flame in the Cabal's records before the fire took her.`
  },
 
@@ -239,8 +250,8 @@ The Pyrofiends of Sundale are in chaos. Some believe Scathrach is preparing for 
   {
   name: 'The Quench Vaults',
   locationId: 'quench_vaults',
-  description: 'Sealed quench chambers beneath Gearworks Gulch, built by Clockwork Fexric technicians for the Pyrofiends who cannot stop descending: stone tubs, cold-salt piping, and guild-rated vent valves that bleed a Ring down slowly enough for the host to survive the banking. The Vaults are the only place a Pyrofiend can sleep within arm\'s reach of another living person. The guild bills by the Ring; the Solari who staff the upper gallery call the fee a mercy and never argue about the price.',
-  purpose: 'Cooling-loop hospice and Fexric/Solari cooperation site; where the Rings are banked under supervision',
+  description: 'Sealed quench chambers beneath Gearworks Gulch, built by Brasskin technicians for the Pyrofiends who cannot stop descending: stone tubs, cold-salt piping, and guild-rated vent valves that bleed a Ring down slowly enough for the host to survive the banking. The Vaults are the only place a Pyrofiend can sleep within arm\'s reach of another living person. The guild bills by the Ring; the Solari who staff the upper gallery call the fee a mercy and never argue about the price.',
+  purpose: 'Cooling-loop hospice and Fex/Solari cooperation site; where the Rings are banked under supervision',
   status: 'Active and full, and the guild has quietly begun a second gallery, which the Solari have taken as a bad sign'
   },
   {
@@ -421,7 +432,7 @@ The cost is everything. The Pyrofiend's drawbacks at high Inferno Levels are cat
 
 **Inferno Ascension**: 7 ? **9** (MAXIMUM INFERNO, Infernal Blast ascends +2 more)
 **Ember Damage Bonus**: +7 ? **+10** (The Demon's Bargain, Level 9 grants +10, not +9)
-**Drawback (Level 9 - Treachery)**: 4d8 self-damage per turn, death in 3 turns if not extinguished, disadvantage on all saves
+**Drawback (Level 9 - Treachery)**: The Debt Call latches for three own turns. Cooling does not extinguish it. Self-damage and save drawbacks require their separate effect handling.
 
 **Mana**: 37 - 20 - 20 = -3... wait, you only had 37 mana. The second cast fails!
 
@@ -532,7 +543,7 @@ Veil (Levels 0–9) represents the infernal combustion burning inside your body.
 - Spend Veil levels to unleash catastrophic caldera eruptions and lava waves.
 - **The Catch (Level 9 Death Clock)**:
   - Levels 5–8 impose demonic whisper checks that can cause minor self-harm.
-  - Reaching **Level 9 (Oblivion)** starts a strict **3-turn permanent death clock**—you must vent your heat before time expires or be consumed in ash.`,
+   - Reaching **Level 9 (Oblivion)** latches a strict **three-own-turn Debt Call**. Vent before nine; after the call ordinary cooling or rest cannot cancel it. The tracker records expiry, while detonation and character-death effects require separate resolution.`,
 
  cards: [
   {
@@ -570,7 +581,7 @@ Veil (Levels 0–9) represents the infernal combustion burning inside your body.
   [
    "Scathrach's Bargain",
    "Level 9 (+10)",
-   "Disproportionate power; death in 3 of your turns if not cleared",
+    "The call remains latched for three own turns even if Veil is lowered; terminal effects require resolution",
   ],
   [
    "Rest / Out of Combat",
@@ -591,7 +602,7 @@ Veil (Levels 0–9) represents the infernal combustion burning inside your body.
   title: "Scathrach's Bargain (Level 9)",
   content: `Reaching Inferno Level 9 represents total surrender to Scathrach, the Ashen Sovereign. You are no longer in control. The horror is.
 
-**You have THREE OF YOUR TURNS** to descend below Level 9. At the start of each of your turns while at Inferno Level 9, the death clock ticks down. If you have not descended below Level 9 after 3 of your turns:
+**The call latches for THREE OF YOUR OWN TURNS.** Record each next own turn once, even if Veil has been lowered. Ordinary cooling or rest cannot clear the call; ascending to nine again cannot restart it. When three distinct own-turn receipts have elapsed, the tracker marks the call expired. Resolve its authored terminal consequences separately:
 - You are **consumed by fire** (Immediate Death, your body detonates in a 30-foot radius of 10d6 ember damage)
 - Your soul is **claimed by Scathrach** (Standard resurrection fails, you belong to the furnace now)
 
@@ -687,7 +698,7 @@ Veil (Levels 0–9) represents the infernal combustion burning inside your body.
    level: 9,
    title: "The Death Threshold, Scathrach Made Manifest",
    appearance:
-    "BARELY HUMAN. The Pyrofiend is a burning, screaming vessel of living fire held together by will and Wyrd-touched spite. Flesh burns away in sheets, revealing bone that glows white-hot. Scathrach's voice IS the only voice now, the original personality is a passenger, a spectator in their own execution. The death clock begins: 3 of your turns before Scathrach claims you entirely. Your soul becomes fuel. You become the fire. There is no coming back from this except through desperate, immediate descent. If you fail, if the clock runs out, your body detonates in a 30-foot radius of 10d6 ember damage and your soul is dragged into Scathrach's furnace forever. Standard resurrection fails. You are ash. You are finished.",
+     "BARELY HUMAN. The Pyrofiend is a burning vessel of living fire held together by will and Wyrd-touched spite. Scathrach's voice fills the host's thoughts. At nine the Debt Call latches for three own turns; ordinary descent or rest cannot escape it. At expiry the authored consequence is a 30-foot detonation of 10d6 ember and the soul's collection; standard resurrection fails. The tracker records the terminal deadline, while damage and character-death resolution require separate handling.",
   },
   ],
  },

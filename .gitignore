@@ -30,6 +30,7 @@ yarn-debug.log*
 yarn-error.log*
 build.log
 *.build.log
+*.log
 
 # IDE
 .idea/

@@ -12,7 +12,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
   description: 'A petrified ironwood tree rooted in peat-grey stone, its branches clutching a quill and a flame'
  },
  population: 1200,
- dominantRaces: ['Thalren humans', 'Mimir'],
+ dominantRaces: ['Tallyn humans', 'Mimir'],
  leadership: {
   type: 'noble_house',
   title: 'Jarl-Archivist of Greymark',
@@ -54,11 +54,11 @@ DEEP_LOCATIONS['greymark-keep'] = {
    { date: 'in the first centuries of the Freezing Era', event: 'High Confessor Aldren Thalreth the Elder, ancestor of the present line, departed for Nordhalla\'s Frozen Archive to seal himself in meditative stasis' },
    { date: 'in the first centuries of the Freezing Era', event: 'The Ledger Purge: Lord Aldren Thalreth consolidates all family ledgers into a single sealed vault, entrusting location to no one' },
    { date: 'in the first centuries of the Freezing Era', event: 'The Sovereign Ledger established: the first formal system of documented vs. undocumented citizenship' },
-   { date: 'in the early centuries of the Freezing Era', event: 'The Fogwood Schism: Thalren archivists split into Preservationists vs. Adaptationists; the Forgotten underclass emerges' },
+   { date: 'in the early centuries of the Freezing Era', event: 'The Fogwood Schism: Tallyn archivists split into Preservationists vs. Adaptationists; the Forgotten underclass emerges' },
    { date: 'around the time of the Mimir Purge', event: 'The Ledger Halls Collapse: original archives buried; the Great Forgetting begins' },
    { date: 'decades into the Freezing Era', event: 'The Memory Wars: Scribe-Cartel vs. the undocumented Forgotten; Mist-Sentinels formed' },
    { date: 'decades into the Freezing Era', event: 'Florae raiders breached the outer palisade; repelled after three days of house-to-house fighting' },
-   { date: 'decades into the Freezing Era', event: 'The Florae Uprising: Trueborn Florae raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
+   { date: 'decades into the Freezing Era', event: 'The Florae Uprising: Briaren Florae raid timber caravans; Thalreth suppression campaign drives them deep into Ironwood Heart' },
    { date: 'decades into the Freezing Era', event: 'The Inquisitor Traditions Merge: Elias the Salt-Scarred establishes the Frostwood chapter at Greymark Keep' },
    { date: 'in the later centuries of the Freezing Era', event: 'The Great Revision: senior Scribe-Sentinels begin systematically editing ledger-libraries' }
   ]
@@ -95,7 +95,7 @@ DEEP_LOCATIONS['greymark-keep'] = {
    type: 'tavern',
    description:
     'A warm, low-ceilinged tavern built into a hollow where two ironwood roots diverge. The walls sweat amber resin that the proprietor scrapes off and sells as candles. The specialty is "fog-brew", a hot, spiced ale that supposedly sharpens memory for a few hours.',
-   proprietor: 'Old Maren (Thalren human, retired Scribe-Sentinel)',
+   proprietor: 'Old Maren (Tallyn human, retired Scribe-Sentinel)',
    notableFeatures: [
     'The Memory Wall: patrons pin notes to the wall, things they want to remember, and other patrons read them aloud to keep the memories alive',
     'Fog-brew on tap; Maren claims the recipe was traded from the Florae before the uprising'
@@ -224,13 +224,13 @@ DEEP_LOCATIONS['over-shanty'] = {
   description: 'A crooked rope-bridge spanning a darkness pierced by a single bioluminescent lantern'
  },
  population: 600,
- dominantRaces: ['Withered', 'Vreken', 'Outcast Vreken'],
+ dominantRaces: ['Riven', 'Mycellan', 'Outcast Mycellan'],
  leadership: {
   type: 'none',
   title: 'No formal governance, ruled by a shifting balance of gang influence and survival-of-the-fittest',
   leaderId: null,
   description:
-   'The Over-Shanty has no single leader. Power is held by whoever controls the rope-bridges, the peat-harvest, and the black market. Currently, three factions vie for dominance: the Withered Outcasts, the Cult of Forgotten Shadow, and a loose coalition of Vreken peat-cutters.'
+   'The Over-Shanty has no single leader. Power is held by whoever controls the rope-bridges, the peat-harvest, and the black market. Currently, three factions vie for dominance: the Riven Outcasts, the Cult of Forgotten Shadow, and a loose coalition of Mycellan peat-cutters.'
  },
  defenses: {
   militiaSize: 0,
@@ -257,9 +257,9 @@ DEEP_LOCATIONS['over-shanty'] = {
  },
  history: {
   founded: 'Unknown, the Shanty grew organically as outcasts accumulated beneath Atropolis',
-  foundedBy: 'The first Withered exiles who refused to burn their names from the First Contract',
+  foundedBy: 'The first Riven exiles who refused to burn their names from the First Contract',
   foundingStory:
-   'When the Nethien signed the First Contract, those who could not abide its terms, who refused to surrender their names, their memories, or their autonomy, were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
+   'When the Athien signed the First Contract, those who could not abide its terms, who refused to surrender their names, their memories, or their autonomy, were cast down. They built platforms beneath Atropolis, then more platforms, then rope-bridges between them. The Shanty has never stopped growing.',
   significantEvents: [
    { date: 'in the middle decades of the Freeze', event: 'Local legend says Natalie Seline founded the Cult of Forgotten Shadow in a peat-crypt beneath the Shanty; whether the cult truly exists — or is merely a name the Shanty assigns to the silence that lives in the deep bogs — remains an open question' },
    { date: 'in the middle decades of the Freeze', event: 'Establishment: the Over-Shanty coalesces as permanent black-market settlement at peat-bog edge' },
@@ -286,7 +286,7 @@ DEEP_LOCATIONS['over-shanty'] = {
    type: 'tavern',
    description:
     'A repurposed ship\'s hull suspended by chains directly over the deepest bog. The floor has a glass portal showing the darkness below. Patrons toss coins through the portal for luck, the coins fall for nearly a minute before they hit the peat. The Keel serves "bog-brew", a murky, potent spirit distilled from fermented peat-moss.',
-   proprietor: 'Captain Gravis (Vreken, former smuggler)',
+   proprietor: 'Captain Gravis (Mycellan, former smuggler)',
    notableFeatures: [
     'The Glass Floor: a rare piece of actual glass, showing the endless drop below',
     'The Wanted Board: a wall of fugitive notices and bounty posters, updated daily by the Cult\'s information network'
@@ -297,7 +297,7 @@ DEEP_LOCATIONS['over-shanty'] = {
  factionPresence: [
   { factionId: 'cult-of-forgotten-shadow', influence: 'strong', description: 'The Cult runs the memory trade and provides "spiritual services"' },
   { factionId: 'drun-outcasts', influence: 'strong', description: 'The original inhabitants, control the rope-bridges and peat-harvesting' },
-  { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Veil brokers competing for control of the memory-trade; tense coexistence with the Withered' }
+  { factionId: 'unlit-veil', influence: 'moderate', description: 'Unlit Veil brokers competing for control of the memory-trade; tense coexistence with the Riven' }
  ],
  travelConnections: [
   { destinationId: 'atropolis', distance: '200 feet up', travelTime: '10 min', route: 'Cargo elevators and rope-ladders up to Atropolis\'s platforms' },
@@ -317,7 +317,7 @@ DEEP_LOCATIONS['synod-hold'] = {
   description: 'A circle of seven standing stones against a starless sky, each stone inscribed with the crest of a noble house'
  },
  population: 800,
- dominantRaces: ['Solari', 'Astril (Brutish Astril)'],
+ dominantRaces: ['Solari', 'Astril (Kordak)'],
  leadership: {
   type: 'noble_house',
   title: 'Steppe-Lord',
@@ -358,7 +358,7 @@ DEEP_LOCATIONS['synod-hold'] = {
    { date: 'in the early generations of the Freezing Era', event: 'Synod Hold established as a permanent trade post' },
    { date: 'in the early centuries of the Freezing Era', event: 'The first Synod delegates arrived, offering "trade consultation services"' },
    { date: 'in the early centuries of the Freezing Era', event: 'The Synod Organizes: formal ruling council established; first Echo-Submersion case recorded' },
-   { date: 'decades into the Freezing Era', event: 'The Stargazer Astril-Brutish Astril Schism: Harmonists vs. Silencers split the Astril' },
+   { date: 'decades into the Freezing Era', event: 'The Lumian-Kordak Schism: Harmonists vs. Silencers split the Astril' },
    { date: 'in the later centuries of the Freezing Era', event: 'False Dawn Riots: Synod authority challenged when the myth of Sol\'s return breaks' },
    { date: 'in the later centuries of the Freezing Era', event: 'Three ancestral mounds fell silent in a single season; cause still unknown' },
    { date: 'in the most recent centuries', event: 'Silence Between Stars: Li Wei witnesses the contact and founds the False Prophet tradition' }
@@ -400,13 +400,13 @@ DEEP_LOCATIONS['mirror-mere'] = {
   description: 'A perfectly still pool reflecting a featureless white mask, ringed by ironwood branches'
  },
  population: 200,
- dominantRaces: ['Masked Mimir', 'Thalren humans'],
+ dominantRaces: ['Arch Mimir', 'Tallyn humans'],
  leadership: {
   type: 'council',
   title: 'Reflection Council',
   leaderId: null,
   description:
-   'A rotating council of three Masked Mimir elders governs Mirror Mere, consulting the lake\'s reflections before every decision. The council chamber is the lakeshore itself. Decisions are made standing at the water\'s edge, watching the future-echoes ripple across the surface.'
+   'A rotating council of three Arch Mimir elders governs Mirror Mere, consulting the lake\'s reflections before every decision. The council chamber is the lakeshore itself. Decisions are made standing at the water\'s edge, watching the future-echoes ripple across the surface.'
  },
  defenses: {
   militiaSize: 15,
@@ -433,13 +433,13 @@ DEEP_LOCATIONS['mirror-mere'] = {
  },
  history: {
   founded: 'in the early generations of the Freezing Era',
-  foundedBy: 'Masked Mimir elders',
+  foundedBy: 'Arch Mimir elders',
   foundingStory:
    'When the first Mimir discovered that the fog was dissolving their identities, a small group of Masked sought a place where identity could be verified externally. They found a lake so perfectly still that it reflected not just the present, but rippled with echoes of the near future. They built their settlement around it, and the mere has served as both anchor and oracle ever since.',
   significantEvents: [
    { date: 'in the early generations of the Freezing Era', event: 'The Mirror Compact, Mimir elders swore to maintain the mere as a neutral identity-ground' },
    { date: 'around the time of the Mimir Purge', event: 'A Gref emerged from the mere\'s reflection, stealing the face of an elder mid-council session' },
-   { date: 'in the most recent centuries', event: 'Thalren scribes established a memory-glass harvesting operation with Mimir permission' }
+   { date: 'in the most recent centuries', event: 'Tallyn scribes established a memory-glass harvesting operation with Mimir permission' }
   ]
  },
  subLocations: [
@@ -463,7 +463,7 @@ DEEP_LOCATIONS['mirror-mere'] = {
     'A covered workshop where Mimir artisans harvest memory-glass from the lakebed and carve it into masks, lenses, and divination tools. The glass is naturally formed by the mere\'s unique alchemy, volcanic minerals, cold-iron trace elements, and something the Mimir will not discuss. Each piece is unique, and the finest specimens capture and hold a single memory indefinitely.',
    proprietor: 'Masked Artisans\' Guild',
    notableFeatures: [
-    'The Memory-Vials: small glass ampoules containing captured reflections, sold to Thalren scribes as archival insurance',
+    'The Memory-Vials: small glass ampoules containing captured reflections, sold to Tallyn scribes as archival insurance',
     'The Unmasking Booth: a private chamber where Mimir can safely remove their masks to verify their true forms, heavily guarded, as an unmasked Mimir is profoundly vulnerable'
    ]
   }
@@ -614,7 +614,7 @@ DEEP_LOCATIONS['ember-lagoon'] = {
  },
  history: {
   founded: 'in the first centuries of the Freezing Era',
-  foundedBy: 'Hollow-Solari and Merryn sailors',
+  foundedBy: 'Korr and Merryn sailors',
   foundingStory:
    'Discovered by a Merryn trading vessel blown off course during a gale. The captain found warm water in a frozen sea and immediately recognized its value. The Solari, who had known of the thermal vents but considered them sacred, reluctantly agreed to share the site when the Merryn demonstrated that the lagoon could be Sundale\'s lifeline to the outside world.',
   significantEvents: [
@@ -673,19 +673,19 @@ DEEP_LOCATIONS['aran-glen'] = {
   description: 'A living ironwood tree shaped into an archway, its roots forming a perfect circle'
  },
  population: 300,
- dominantRaces: ['Veldun', 'Vreken'],
+ dominantRaces: ['Weft', 'Mycellan'],
  leadership: {
   type: 'contractual',
   title: 'Grove-Steward',
   leaderId: null,
   description:
-   'A Grove-Steward, a Veldun weaver who has legally bound themselves to the grove\'s health through a personal contract with the ironwood root-network, governs Aran-Glen. The Steward\'s authority is absolute within the glen but automatically void if the grove\'s health metrics decline. It is a governance system designed to prevent corruption through self-interest.'
+   'A Grove-Steward, a Weft weaver who has legally bound themselves to the grove\'s health through a personal contract with the ironwood root-network, governs Aran-Glen. The Steward\'s authority is absolute within the glen but automatically void if the grove\'s health metrics decline. It is a governance system designed to prevent corruption through self-interest.'
  },
  defenses: {
   militiaSize: 20,
   fortifications:
-   'The living ironwood walls that define the glen are its defense. Centuries of Veldun horticulture have produced a barrier of interlocking branches and thorns that is harder than stone and capable of self-repair. The entrance is a single archway grown from two trees that have merged at the crown.',
-  watchPresence: 'Veldun root-walkers patrol the perimeter, their bare feet reading vibrations through the root-network'
+   'The living ironwood walls that define the glen are its defense. Centuries of Weft horticulture have produced a barrier of interlocking branches and thorns that is harder than stone and capable of self-repair. The entrance is a single archway grown from two trees that have merged at the crown.',
+  watchPresence: 'Weft root-walkers patrol the perimeter, their bare feet reading vibrations through the root-network'
  },
  economy: {
   primary: 'Ironwood cultivation and living-architecture construction',
@@ -694,23 +694,23 @@ DEEP_LOCATIONS['aran-glen'] = {
  },
  atmosphere: {
   mood:
-   'Calm, ordered, and alive. Aran-Glen feels less like a settlement and more like a single organism, the buildings breathe, the paths shift subtly with the seasons, and the root-network hums with a constant, low vibration that the Veldun find soothing and visitors find mildly disorienting.',
+   'Calm, ordered, and alive. Aran-Glen feels less like a settlement and more like a single organism, the buildings breathe, the paths shift subtly with the seasons, and the root-network hums with a constant, low vibration that the Weft find soothing and visitors find mildly disorienting.',
   architecture:
-   'Every structure in Aran-Glen is grown, not built. The Veldun coax ironwood saplings into architectural forms over decades, arches, walls, roofs, and chambers all formed from living wood. The buildings shed leaves in autumn, bloom in spring, and grow slightly larger every year. The effect is organic beauty that no stonemason could replicate.',
+   'Every structure in Aran-Glen is grown, not built. The Weft coax ironwood saplings into architectural forms over decades, arches, walls, roofs, and chambers all formed from living wood. The buildings shed leaves in autumn, bloom in spring, and grow slightly larger every year. The effect is organic beauty that no stonemason could replicate.',
   sounds:
-   'The creak and rustle of living wood, the hum of the root-network (a constant low drone like a temple bell), the murmur of the bayou, and the gentle clicking of Veldun contract-tablets being annotated.',
+   'The creak and rustle of living wood, the hum of the root-network (a constant low drone like a temple bell), the murmur of the bayou, and the gentle clicking of Weft contract-tablets being annotated.',
   smells:
    'Fresh sap, wet earth, the clean mineral scent of healthy root-systems, and the faint sweetness of ironwood flowers, one of the few pleasant smells in the Bryngloom.',
   lighting:
-   'Bioluminescent moss cultivated on every surface provides a steady, warm green-gold light. The Veldun have bred specific strains for different brightness levels, creating a natural lighting system that responds to the settlement\'s needs.'
+   'Bioluminescent moss cultivated on every surface provides a steady, warm green-gold light. The Weft have bred specific strains for different brightness levels, creating a natural lighting system that responds to the settlement\'s needs.'
  },
  history: {
   founded: 'in the first centuries of the Freezing Era',
-  foundedBy: 'Veldun Weavers',
+  foundedBy: 'Weft Weavers',
   foundingStory:
-   'When Atropolis grew crowded and the Nethien Pact-Lords became increasingly rigid in their interpretation of the First Contract, a group of Veldun weavers left to establish a community dedicated to the living arts. They found a narrow glen where the ironwood roots formed a natural enclosure and began the slow, patient work of growing a settlement. Three centuries later, Aran-Glen is proof that architecture can be alive.',
+   'When Atropolis grew crowded and the Athien Pact-Lords became increasingly rigid in their interpretation of the First Contract, a group of Weft weavers left to establish a community dedicated to the living arts. They found a narrow glen where the ironwood roots formed a natural enclosure and began the slow, patient work of growing a settlement. Three centuries later, Aran-Glen is proof that architecture can be alive.',
   significantEvents: [
-   { date: 'in the first centuries of the Freezing Era', event: 'The Glen Compact, Veldun weavers bound themselves to the grove\'s health' },
+   { date: 'in the first centuries of the Freezing Era', event: 'The Glen Compact, Weft weavers bound themselves to the grove\'s health' },
    { date: 'decades into the Freezing Era', event: 'First successful living-bridge grown across the glen, spanning 100 feet' },
    { date: 'in the later centuries of the Freezing Era', event: 'Morren peat-cutters granted settlement rights in exchange for root-system maintenance' }
   ]
@@ -721,7 +721,7 @@ DEEP_LOCATIONS['aran-glen'] = {
    name: 'The Grove-Heart',
    type: 'great_hall',
    description:
-    'The oldest tree in the glen, a colossal ironwood whose canopy covers half the settlement. The tree serves as the Glen-Steward\'s seat of governance and the community\'s gathering space. Its trunk is carved with three centuries of Veldun contract-law precedents.',
+    'The oldest tree in the glen, a colossal ironwood whose canopy covers half the settlement. The tree serves as the Glen-Steward\'s seat of governance and the community\'s gathering space. Its trunk is carved with three centuries of Weft contract-law precedents.',
    proprietor: 'Grove-Steward',
    notableFeatures: [
     'The Living Archive: contract-tablets grown directly from the tree\'s bark, containing legal decisions that update as the tree grows',
@@ -733,11 +733,11 @@ DEEP_LOCATIONS['aran-glen'] = {
    name: "The Weavers' Market",
    type: 'market',
    description:
-    'A market grown from a double-row of arching ironwood saplings whose branches form a natural colonnade. Veldun artisans sell living-wood furniture (which continues to grow after purchase), bioluminescent moss lamps, contract-tablets, and rare medicinal fungi harvested from the bog-edge.',
-   proprietor: 'Veldun Artisans\' Collective',
+    'A market grown from a double-row of arching ironwood saplings whose branches form a natural colonnade. Weft artisans sell living-wood furniture (which continues to grow after purchase), bioluminescent moss lamps, contract-tablets, and rare medicinal fungi harvested from the bog-edge.',
+   proprietor: 'Weft Artisans\' Collective',
    notableFeatures: [
     'The Growing-Furniture Row: chairs, tables, and shelving that are still alive, buyers must sign a maintenance contract',
-     'The Bog-Apothecary: a stall run by a Vreken herbalist who has learned Veldun root-reading to identify medicinal compounds'
+     'The Bog-Apothecary: a stall run by a Mycellan herbalist who has learned Weft root-reading to identify medicinal compounds'
    ]
   }
  ],
@@ -765,32 +765,32 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
   description: 'Interlocking gears framing a geothermal steam-vent'
  },
  population: 400,
- dominantRaces: ['Fexric', 'Groven', 'Tessen humans'],
+ dominantRaces: ['Fex', 'Groven', 'Tessic humans'],
  leadership: {
   type: 'guild',
   title: 'Chief Artificer',
   leaderId: null,
   description:
-   'The Chief Artificer, the most innovative Fexric engineer chosen by competitive exhibition every three years, governs Gearworks Gulch. The Chief Artificer controls resource allocation, patent registration, and industrial safety standards. The position is as much about managing egos as engineering.'
+   'The Chief Artificer, the most innovative Fex engineer chosen by competitive exhibition every three years, governs Gearworks Gulch. The Chief Artificer controls resource allocation, patent registration, and industrial safety standards. The position is as much about managing egos as engineering.'
  },
  defenses: {
   militiaSize: 30,
   fortifications:
    'The gulch\'s narrow entrance is sealed each night by a massive iron portcullis powered by geothermal hydraulics. Inside, the industrial infrastructure itself serves as defense, steam vents can be directed at attackers, and the machinery creates a labyrinth of moving parts that outsiders cannot navigate.',
-  watchPresence: 'Fexric automaton-sentries patrol the upper galleries, clockwork constructs that respond to unauthorized movement with non-lethal electrical discharge'
+  watchPresence: 'Fex automaton-sentries patrol the upper galleries, clockwork constructs that respond to unauthorized movement with non-lethal electrical discharge'
  },
  economy: {
-  primary: 'Clockwork manufacturing and industrial engineering',
+  primary: 'Brasskin manufacturing and industrial engineering',
   secondary: ['Geothermal power distribution', 'Scrap-metal recycling', 'Automaton repair and customization'],
   status: 'thriving'
  },
  atmosphere: {
   mood:
-   'Feverish, inventive, and loud. Gearworks Gulch never sleeps. The geothermal power runs twenty-four hours, and Fexric engineers work in shifts, each trying to out-invent the previous. The air vibrates with the hum of machinery and the excited shouting of artisans showing off new mechanisms.',
+   'Feverish, inventive, and loud. Gearworks Gulch never sleeps. The geothermal power runs twenty-four hours, and Fex engineers work in shifts, each trying to out-invent the previous. The air vibrates with the hum of machinery and the excited shouting of artisans showing off new mechanisms.',
   architecture:
-   'Industrial Fexric construction, iron frameworks, riveted plate walls, and geothermal pipe-networks visible on every surface. Buildings are stacked vertically up the ravine walls, connected by iron catwalks, cargo elevators, and steam-powered lifts. Everything is functional, nothing is decorative, and yet the cumulative effect is oddly beautiful, a canyon of interlocking machinery.',
+   'Industrial Fex construction, iron frameworks, riveted plate walls, and geothermal pipe-networks visible on every surface. Buildings are stacked vertically up the ravine walls, connected by iron catwalks, cargo elevators, and steam-powered lifts. Everything is functional, nothing is decorative, and yet the cumulative effect is oddly beautiful, a canyon of interlocking machinery.',
   sounds:
-   'The constant clatter and whir of clockwork, the hiss of steam pressure-relief valves, the clang of forge-hammers, the grind of ore-crushers, and the excited babble of Fexric arguing in Scrap-Tongue and Fexric simultaneously.',
+   'The constant clatter and whir of clockwork, the hiss of steam pressure-relief valves, the clang of forge-hammers, the grind of ore-crushers, and the excited babble of Fex arguing in Scrap-Tongue and Fex simultaneously.',
   smells:
    'Sulfur from the geothermal vents, hot metal, machine oil, ozone from electrical testing, and the sharp tang of acid-etching solution.',
   lighting:
@@ -798,12 +798,12 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
  },
  history: {
   founded: 'in the early centuries of the Freezing Era',
-  foundedBy: 'Clockwork Fexric',
+  foundedBy: 'Brasskin',
   foundingStory:
-   'Founded when a Clockwork Fexric expedition discovered a geothermal ravine with naturally occurring steam-pressure that could power machinery without manual bellows. Within a generation, the gulch became the industrial heart of the Cragjaw Peaks, producing clockwork mechanisms, automaton components, and refined metals for all seven regions.',
+   'Founded when a Brasskin expedition discovered a geothermal ravine with naturally occurring steam-pressure that could power machinery without manual bellows. Within a generation, the gulch became the industrial heart of the Cragjaw Peaks, producing clockwork mechanisms, automaton components, and refined metals for all seven regions.',
   significantEvents: [
    { date: 'in the early centuries of the Freezing Era', event: 'Geothermal ravine discovered and first forge-works established' },
-   { date: 'decades into the Freezing Era', event: 'The Great Backlash, a pressure explosion killed forty Fexric and led to the Safety Codes' },
+   { date: 'decades into the Freezing Era', event: 'The Great Backlash, a pressure explosion killed forty Fex and led to the Safety Codes' },
    { date: 'in the most recent centuries', event: 'First successful automaton-sentry deployed, revolutionizing gulch security' }
   ]
  },
@@ -813,10 +813,10 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
    name: 'The Prototyping Floor',
    type: 'market',
    description:
-    'The largest open space in the gulch, a floor of worked stone where Fexric artisans demonstrate new inventions to potential buyers. The floor is chaotic: automaton prototypes walk, crawl, and occasionally explode; weapon demonstrations draw crowds; and the Chief Artificer holds court from a raised platform at the far end.',
-   proprietor: 'Fexric Artisans\' Guild',
+    'The largest open space in the gulch, a floor of worked stone where Fex artisans demonstrate new inventions to potential buyers. The floor is chaotic: automaton prototypes walk, crawl, and occasionally explode; weapon demonstrations draw crowds; and the Chief Artificer holds court from a raised platform at the far end.',
+   proprietor: 'Fex Artisans\' Guild',
    notableFeatures: [
-    'The Patent Board: a massive iron wall where Fexric register new inventions by nailing mechanical drawings to its surface',
+    'The Patent Board: a massive iron wall where Fex register new inventions by nailing mechanical drawings to its surface',
     'The Testing Range: a reinforced section where weapon and automaton prototypes are demonstrated (protective goggles required)'
    ]
   },
@@ -825,11 +825,11 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
    name: 'The Deep Forge',
    type: 'fortification',
    description:
-    'The geothermal forge at the ravine\'s lowest point, where the most sensitive and dangerous work is done. The forge is powered directly by volcanic steam at pressures that would kill an unprotected worker. Only Fexric with guild-certified pressure-suit training are permitted below the third catwalk.',
+    'The geothermal forge at the ravine\'s lowest point, where the most sensitive and dangerous work is done. The forge is powered directly by volcanic steam at pressures that would kill an unprotected worker. Only Fex with guild-certified pressure-suit training are permitted below the third catwalk.',
    proprietor: 'Chief Artificer',
    notableFeatures: [
     'The Pressure-Chamber: a sealed room where alloys are forged under extreme geothermal pressure, producing metals found nowhere else',
-    'The Core-Tap: a bore-hole reaching into the mountain\'s volcanic heart, capped with Fexric pressure-regulation technology'
+    'The Core-Tap: a bore-hole reaching into the mountain\'s volcanic heart, capped with Fex pressure-regulation technology'
    ]
   }
  ],
@@ -840,7 +840,7 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
   { factionId: 'house-tesshan', influence: 'moderate', description: 'Maintain a trade office for cold-iron procurement' }
  ],
  travelConnections: [
-  { destinationId: 'frostmaw-holdfast', distance: '8 miles', travelTime: '4 hours', route: 'Mountain ledge-path, maintained by Fexric bridge-engineers' },
+  { destinationId: 'frostmaw-holdfast', distance: '8 miles', travelTime: '4 hours', route: 'Mountain ledge-path, maintained by Fex bridge-engineers' },
   { destinationId: 'sump-galleries', distance: '5 miles', travelTime: '2 hours', route: 'Underground steam-tunnel (dangerous, toxic gas pockets)' }
  ],
  classPresence: ['chronarch', 'gambit', 'spellguard', 'warden'],
@@ -949,19 +949,19 @@ DEEP_LOCATIONS['starfall-vale'] = {
   description: 'A crystalline shard embedded in dark earth, emanating pale starlight'
  },
  population: 150,
- dominantRaces: ['Stargazer Astril', 'Ordan humans'],
+ dominantRaces: ['Lumian', 'Ordu humans'],
  leadership: {
   type: 'religious',
   title: 'Star-Oracle',
   leaderId: null,
   description:
-   'The Star-Oracle, a Stargazer Astril whose Lumian echo has achieved the deepest symbiosis, governs Starfall Vale. The symbiosis grants them prophetic visions tied to the crystalline shards. The Oracle\'s authority is spiritual rather than political, but in a settlement built around pilgrimage, spiritual authority is absolute.'
+   'The Star-Oracle, a Lumian whose Lumian echo has achieved the deepest symbiosis, governs Starfall Vale. The symbiosis grants them prophetic visions tied to the crystalline shards. The Oracle\'s authority is spiritual rather than political, but in a settlement built around pilgrimage, spiritual authority is absolute.'
  },
  defenses: {
   militiaSize: 10,
   fortifications:
    'The vale\'s natural geography provides protection, steep walls of dark stone rise on all sides, broken only by narrow paths. The crystalline shards emit a faint radiation that Wyrd-creatures instinctively avoid, creating an invisible barrier.',
-  watchPresence: 'Stargazer Astril sentinels meditate at the vale\'s entrances, their crystalline resonance alerting them to approaching threats'
+  watchPresence: 'Lumian sentinels meditate at the vale\'s entrances, their crystalline resonance alerting them to approaching threats'
  },
  economy: {
   primary: 'Pilgrimage and spiritual tourism',
@@ -972,23 +972,23 @@ DEEP_LOCATIONS['starfall-vale'] = {
   mood:
    'Reverent, hushed, and luminous. Starfall Vale is the closest thing the starless world has to a cathedral of light. The crystalline shards glow with trapped starlight, fragments of Lumia\'s shattered biosphere that struck Mythrill during Blizzard’s End. Even the most cynical visitors lower their voices. The light is simply too beautiful to shout over.',
   architecture:
-   'Minimal and organic, Ordan yurts and Astril crystal-tents arranged around the vale\'s central shard-field. No permanent stone structures; the Astril believe building in stone would insult the starlight. The Ordan herders maintain the paths and supply the settlement with food.',
+   'Minimal and organic, Ordu yurts and Astril crystal-tents arranged around the vale\'s central shard-field. No permanent stone structures; the Astril believe building in stone would insult the starlight. The Ordu herders maintain the paths and supply the settlement with food.',
   sounds:
-   'The harmonic hum of the crystalline shards. Each produces a unique tone, and the cumulative effect is an endless, shifting chord that resonates in the chest. Wind through the vale. The soft chanting of Stargazer Astril pilgrims. The distant lowing of Ordan herds on the steppe above.',
+   'The harmonic hum of the crystalline shards. Each produces a unique tone, and the cumulative effect is an endless, shifting chord that resonates in the chest. Wind through the vale. The soft chanting of Lumian pilgrims. The distant lowing of Ordu herds on the steppe above.',
   smells:
-   'Ozone, the sharp, clean scent of the sky before a storm, present constantly. Crushed herbs from Ordan cooking fires. The faint metallic scent of the crystalline shards, like licking a coin.',
+   'Ozone, the sharp, clean scent of the sky before a storm, present constantly. Crushed herbs from Ordu cooking fires. The faint metallic scent of the crystalline shards, like licking a coin.',
   lighting:
-   'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Stargazer Astril navigate by reading the glow-patterns, which shift subtly with the season and the state of Lumia\'s echo within them.'
+   'The crystalline shards provide all illumination, a soft, silver-white glow that intensifies at night and dims during the day. The effect is starlight made solid. Lumian navigate by reading the glow-patterns, which shift subtly with the season and the state of Lumia\'s echo within them.'
  },
  history: {
   founded: 'at the Great Binding',
-  foundedBy: 'Stargazer Astril',
+  foundedBy: 'Lumian',
   foundingStory:
-    'When Keth Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Stargazer Astril found within hours of their arrival. They have never left.',
+    'When Keth Amar devoured Lumia, fragments of that dying world\'s biosphere were carried by fleeing Astril refugees across the void. These crystalline shards, condensed remnants of Lumia\'s essence, impacted the steppe here before the Great Binding, creating a crater that the Lumian found within hours of their arrival. They have never left.',
   significantEvents: [
-    { date: 'before the Star-Fall', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Stargazer Astril claim the site within hours' },
+    { date: 'before the Star-Fall', event: 'The Starfall, crystalline residue from Lumia\'s destruction impacts the steppe; Lumian claim the site within hours' },
    { date: 'in the first centuries of the Freezing Era', event: 'First Oracle-vision recorded, a prophecy of the Sundered Monoliths' },
-   { date: 'in the later centuries of the Freezing Era', event: 'Ordan herders granted grazing rights in exchange for provisioning the pilgrimage route' }
+   { date: 'in the later centuries of the Freezing Era', event: 'Ordu herders granted grazing rights in exchange for provisioning the pilgrimage route' }
   ]
  },
  subLocations: [
@@ -997,8 +997,8 @@ DEEP_LOCATIONS['starfall-vale'] = {
    name: 'The Shard-Field',
    type: 'temple',
    description:
-    'The central crater floor, carpeted with thousands of crystalline shards ranging from grain-sized to massive pillars thirty feet tall. The largest shards pulse with trapped starlight, their tones harmonizing in a chord that the Stargazer Astril call the Memory of Sol. Pilgrims walk barefoot through the field, believing the starlight heals the spirit.',
-   proprietor: 'Stargazer Astril',
+    'The central crater floor, carpeted with thousands of crystalline shards ranging from grain-sized to massive pillars thirty feet tall. The largest shards pulse with trapped starlight, their tones harmonizing in a chord that the Lumian call the Memory of Sol. Pilgrims walk barefoot through the field, believing the starlight heals the spirit.',
+   proprietor: 'Lumian',
    notableFeatures: [
     'The First Shard: the largest crystal, at the crater\'s center, it produces a tone that resonates with every Astril\'s Lumian heritage simultaneously',
     'The Oracle\'s Seat: a natural depression in the First Shard where the Star-Oracle sits to receive visions'
@@ -1009,8 +1009,8 @@ DEEP_LOCATIONS['starfall-vale'] = {
    name: "The Pilgrims' Rest",
    type: 'tavern',
    description:
-    'An Ordan yurt erected at the vale\'s entrance, providing food, shelter, and fermented mare\'s milk to arriving pilgrims. The yurt is surprisingly comfortable, thick wool walls, warm hearth-fires, and a ceiling painted with a star-chart that depicts the sky as it was before the failing of the warmth.',
-   proprietor: 'Ordan Host-Family (rotating)',
+    'An Ordu yurt erected at the vale\'s entrance, providing food, shelter, and fermented mare\'s milk to arriving pilgrims. The yurt is surprisingly comfortable, thick wool walls, warm hearth-fires, and a ceiling painted with a star-chart that depicts the sky as it was before the failing of the warmth.',
+   proprietor: 'Ordu Host-Family (rotating)',
    notableFeatures: [
     'The Star-Ceiling: a painted representation of the pre-Breaching sky, the only complete record of how constellations appeared when Sol still shone',
     'The Pilgrim Register: a ledger of every visitor to the vale, dating back centuries, some names have been crossed out, their entries annotated with a single word: "consumed"'
@@ -1127,7 +1127,7 @@ DEEP_LOCATIONS['frostmaw-holdfast'] = {
   description: 'A massive stone fist gripping a gear, frost riming the iron teeth'
  },
  population: 900,
- dominantRaces: ['Groven', 'Fexric', 'Tessen humans'],
+ dominantRaces: ['Groven', 'Fex', 'Tessic humans'],
  leadership: {
   type: 'guild',
   title: 'Vat-Breaker Foreman',
@@ -1143,7 +1143,7 @@ DEEP_LOCATIONS['frostmaw-holdfast'] = {
  },
  economy: {
   primary: 'Ancestor-Span toll collection and Groven labor contracts',
-  secondary: ['Deep Alchemist relic recovery', 'Stone-scale harvesting for Fexric alloys', 'Geothermal heat distribution'],
+  secondary: ['Deep Alchemist relic recovery', 'Stone-scale harvesting for Fex alloys', 'Geothermal heat distribution'],
   status: 'stable'
  },
  atmosphere: {
@@ -1174,7 +1174,7 @@ DEEP_LOCATIONS['frostmaw-holdfast'] = {
    proprietor: 'Vat-Breakers\' Guild',
    notableFeatures: [
     'The First Vat: a shattered containment vessel displayed in a sealed chamber as a reminder of what was',
-    'The Alchemist Archive: a stolen cache of Fexric alchemical formulae, including one that may reverse calcification'
+    'The Alchemist Archive: a stolen cache of Fex alchemical formulae, including one that may reverse calcification'
    ]
   },
   {
@@ -1193,10 +1193,10 @@ DEEP_LOCATIONS['frostmaw-holdfast'] = {
  factionPresence: [
   { factionId: 'vat-breakers-guild', influence: 'dominant', description: 'The governing body of Groven civilization; holds absolute authority in Frostmaw' },
   { factionId: 'deep-alchemists', influence: 'outcast', description: 'Sealed in the lower tunnels, their influence is felt only through the warnings carved on the iron doors' },
-  { factionId: 'house-tesshan', influence: 'moderate', description: 'Maintain a trade office for Groven stone-scale and Fexric alloy imports' }
+  { factionId: 'house-tesshan', influence: 'moderate', description: 'Maintain a trade office for Groven stone-scale and Fex alloy imports' }
  ],
  travelConnections: [
-  { destinationId: 'gearworks-gulch', distance: '8 miles', travelTime: '4 hours', route: 'The Ancestor-Span passage across the Great Gorge, maintained by Fexric bridge-engineers' },
+  { destinationId: 'gearworks-gulch', distance: '8 miles', travelTime: '4 hours', route: 'The Ancestor-Span passage across the Great Gorge, maintained by Fex bridge-engineers' },
   { destinationId: 'sump-galleries', distance: '3 miles', travelTime: '1 hour', route: 'Lower tunnels, officially sealed; travel requires Vat-Breaker approval' }
  ],
  classPresence: ['shaper', 'warden', 'berserker'],
@@ -1213,7 +1213,7 @@ DEEP_LOCATIONS['merrowport'] = {
   description: 'A golden scale balanced on a coral spire, the tide rising around it'
  },
  population: 500,
- dominantRaces: ['Merryn', 'Myrathil', 'Nethien'],
+ dominantRaces: ['Merryn', 'Myrathil', 'Athien'],
  leadership: {
   type: 'guild',
   title: 'Harbor-Master',
@@ -1224,7 +1224,7 @@ DEEP_LOCATIONS['merrowport'] = {
  defenses: {
   militiaSize: 40,
   fortifications:
-   'The Deep-Quarter is built on coral foundations below the tideline, accessible only by descending staircases that flood at high tide. The gambling halls are constructed from Myrathil shell-concrete, reinforced with Nethien contract-wards that magically bind anyone who enters uninvited.',
+   'The Deep-Quarter is built on coral foundations below the tideline, accessible only by descending staircases that flood at high tide. The gambling halls are constructed from Myrathil shell-concrete, reinforced with Athien contract-wards that magically bind anyone who enters uninvited.',
   watchPresence: 'Myrathil Shore patrol the underwater approaches, their bioluminescence marking safe passages'
  },
  economy: {
@@ -1233,17 +1233,17 @@ DEEP_LOCATIONS['merrowport'] = {
   status: 'volatile'
  },
  atmosphere: {
-  mood: 'Electric, reckless, and desperate. The Deep-Quarter is where fortunes are made and unmade in a single hand of salt-coral cards. The air is thick with salt spray, Myrathil incense, and the smell of Nethien silver-blood contracts drying on coral tables. The patrons laugh too loud and watch each other too closely.',
+  mood: 'Electric, reckless, and desperate. The Deep-Quarter is where fortunes are made and unmade in a single hand of salt-coral cards. The air is thick with salt spray, Myrathil incense, and the smell of Athien silver-blood contracts drying on coral tables. The patrons laugh too loud and watch each other too closely.',
   architecture: 'Submerged Myrathil construction, shell-concrete domes, coral archways, and floors of polished sea-stone that ripple with trapped bioluminescence. The gambling halls are arranged around a central tide-pool that rises and falls with the lunar cycle, the water level determining which tables are accessible.',
-  sounds: 'The constant rattle of dice and cards, the crash of waves against the coral foundations, the hum of Myrathil bioluminescent light-filters, the murmur of Nethien contract recitations, and the occasional roar of a storm-spirit covenant being honored or breached.',
-  smells: 'Salt, seaweed, Myrathil incense, Nethien silver-blood (metallic), spilled Merryn ale, and the deep-ocean mineral scent of the tide-pool.',
-  lighting: 'Bioluminescent, Myrathil light-coral in the ceilings casts a cool blue-green glow. Nethien contract-lanterns with silver-flame supplement the illumination during high-stakes negotiations. The tide-pool at the center glows faintly from the coral beneath.'
+  sounds: 'The constant rattle of dice and cards, the crash of waves against the coral foundations, the hum of Myrathil bioluminescent light-filters, the murmur of Athien contract recitations, and the occasional roar of a storm-spirit covenant being honored or breached.',
+  smells: 'Salt, seaweed, Myrathil incense, Athien silver-blood (metallic), spilled Merryn ale, and the deep-ocean mineral scent of the tide-pool.',
+  lighting: 'Bioluminescent, Myrathil light-coral in the ceilings casts a cool blue-green glow. Athien contract-lanterns with silver-flame supplement the illumination during high-stakes negotiations. The tide-pool at the center glows faintly from the coral beneath.'
  },
  history: {
   founded: 'in the first centuries of the Freezing Era',
   foundedBy: 'Jax the Wager and Lyra the Clause',
   foundingStory:
-   'When Jax the Merryn pirate wagered his lifeline against a storm-spirit and won, he used the favor to establish the first gambling hall in what would become the Deep-Quarter. Lyra the Nethien clause-weaver joined him soon after, formalizing chance through rune-etched cards and binding the hall\'s debts with First Contract authority. The two founders disagreed on the soul of their creation, luck versus structure, and their schism is carved into the foundations: Jax\'s wing is open to the sea, Lyra\'s is sealed with contract-wards.',
+   'When Jax the Merryn pirate wagered his lifeline against a storm-spirit and won, he used the favor to establish the first gambling hall in what would become the Deep-Quarter. Lyra the Athien clause-weaver joined him soon after, formalizing chance through rune-etched cards and binding the hall\'s debts with First Contract authority. The two founders disagreed on the soul of their creation, luck versus structure, and their schism is carved into the foundations: Jax\'s wing is open to the sea, Lyra\'s is sealed with contract-wards.',
   significantEvents: [
    { date: 'in the first centuries of the Freezing Era', event: 'Jax and Lyra establish the Gambit tradition in the newly-built Merrowport Deep-Quarter' },
    { date: 'decades into the Freezing Era', event: 'Jax walks into the sea, telling no one why; his followers splinter into the luck-cult' },
@@ -1267,7 +1267,7 @@ DEEP_LOCATIONS['merrowport'] = {
    id: 'the-clause-chamber',
    name: 'The Clause Chamber',
    type: 'temple',
-   description: 'Lyra\'s wing of the Deep-Quarter, sealed by Nethien contract-wards that prevent unauthorized entry. The Clause Chamber is a library of rune-etched cards, stacked to the ceiling in coral shelves, each card a formalized probability that can be read, played, or burned.',
+   description: 'Lyra\'s wing of the Deep-Quarter, sealed by Athien contract-wards that prevent unauthorized entry. The Clause Chamber is a library of rune-etched cards, stacked to the ceiling in coral shelves, each card a formalized probability that can be read, played, or burned.',
    proprietor: 'Deck-Burners',
    notableFeatures: [
     'The Probability-Index: a complete taxonomy of every possible outcome the Deck-Burners have calculated, filling seventeen coral shelves',
@@ -1296,7 +1296,7 @@ DEEP_LOCATIONS['thornwood-grove'] = {
   name: 'Thornwood Grove',
   region: 'frostwood-reach',
   type: 'wilderness',
-  description: 'A quiet grove of ironwood and thorn-vine three leagues east of the Shallows, known locally as the site of the Third Harvest massacre — a Gref-pack that peeled four Thalren scouts and wore their faces into the settlements. The Shallows executed 17 people before the infestation was purged. The trees still bear the axe-marks of the executions, and the ground is saturated with alchemical residue from the Toxicologist Varis\'s first field laboratory, built in the canopy above the massacre site. The grove is avoided by locals; the fog here tastes faintly of copper.',
+  description: 'A quiet grove of ironwood and thorn-vine three leagues east of the Shallows, known locally as the site of the Third Harvest massacre — a Gref-pack that peeled four Tallyn scouts and wore their faces into the settlements. The Shallows executed 17 people before the infestation was purged. The trees still bear the axe-marks of the executions, and the ground is saturated with alchemical residue from the Toxicologist Varis\'s first field laboratory, built in the canopy above the massacre site. The grove is avoided by locals; the fog here tastes faintly of copper.',
   dangerLevel: 'moderate',
   factions: ['scribe-cartel'],
   connections: ['the-shallows']
@@ -1312,7 +1312,7 @@ DEEP_LOCATIONS['atropolis'] = {
     description: 'A silver scroll bound in living ironwood roots, holding a single drop of frozen starlight'
   },
   population: 4500,
-  dominantRaces: ['Nethien', 'Nethien', 'Vreken'],
+  dominantRaces: ['Athien', 'Athien', 'Mycellan'],
   leadership: {
     type: 'noble_house',
     title: 'High Archivist of the First Contract',
@@ -1339,7 +1339,7 @@ DEEP_LOCATIONS['atropolis'] = {
   history: {
     founded: '1st century of the Freezing Era',
     foundedBy: 'Scribe-Clan Ancestors & Morvane',
-    foundingStory: 'Grown from an ancient elven grove-sanctuary across centuries, Atropolis became the seat of the Nethien when the dying scribe-clan presented Morvane with the First Contract to survive the freeze.',
+    foundingStory: 'Grown from an ancient elven grove-sanctuary across centuries, Atropolis became the seat of the Athien when the dying scribe-clan presented Morvane with the First Contract to survive the freeze.',
     significantEvents: [
       { date: 'The first generations of the Freezing Era', event: 'The First Contract signed at the Heartwood Archive' },
       { date: 'When the Seventh Seat changed hands', event: 'House Morrath elevated as substitute 7th signatory after Viridane\'s erasure' }
@@ -1375,7 +1375,7 @@ DEEP_LOCATIONS['the-sunken-spire'] = {
     description: 'An inverted obsidian spire radiating rust-amber spore-rays into a deep sinkhole'
   },
   population: 2800,
-  dominantRaces: ['Clean Vreken', 'Marked Vreken'],
+  dominantRaces: ['Bedel', 'Cromyx'],
   leadership: {
     type: 'monastic_council',
     title: 'High Speaker of the Root-Veil',
@@ -1401,10 +1401,10 @@ DEEP_LOCATIONS['the-sunken-spire'] = {
   },
   history: {
     founded: 'Pre-Binding Era',
-    foundedBy: 'Ancient Vreken Monks',
+    foundedBy: 'Ancient Mycellan Monks',
     foundingStory: 'Built as a surface monastery to Morvane before Sol was bound. When Morvane was wounded by the Wyrd during the failing of the warmth, the monastery collapsed into the sinkhole and transformed into the Sunken Spire.',
     significantEvents: [
-      { date: 'the Slow Cracks', event: 'The Spore Transformation: Morvane\'s wound mutates the Vreken monastic order' }
+      { date: 'the Slow Cracks', event: 'The Spore Transformation: Morvane\'s wound mutates the Mycellan monastic order' }
     ]
   },
   subLocations: [
@@ -1412,7 +1412,7 @@ DEEP_LOCATIONS['the-sunken-spire'] = {
       id: 'crypt-of-aedris',
       name: 'Crypt of Aedris the First-Lit',
       type: 'tomb',
-      description: 'The lowest vault of the Sunken Spire, housing the glowing remains of the first Marked Vreken.',
+      description: 'The lowest vault of the Sunken Spire, housing the glowing remains of the first Cromyx.',
       proprietor: 'Crypt-Council',
       notableFeatures: [
         'The First-Lit Pillar: a towering column of fossilized mycelium emitting unquenchable silver-white light'
@@ -1577,12 +1577,12 @@ DEEP_LOCATIONS['snowcall-city'] = {
     description: 'A silver horn emitting frost-flakes over a granite cliff profile'
   },
   population: 3200,
-  dominantRaces: ['Skald', 'Nethien', 'Corvani'],
+  dominantRaces: ['Skald', 'Athien', 'Corvani'],
   leadership: {
     type: 'council',
     title: 'Charter-Steward',
     leaderId: 'solvan-steward',
-    description: 'Governed by the Snowcall Charter-Council representing House Skalvyr, the Nethien Scriptorium, and the Corvani Roost-Merchants.'
+    description: 'Governed by the Snowcall Charter-Council representing House Skalvyr, the Athien Scriptorium, and the Corvani Roost-Merchants.'
   },
   defenses: {
     militiaSize: 200,
@@ -1591,31 +1591,31 @@ DEEP_LOCATIONS['snowcall-city'] = {
   },
   economy: {
     primary: 'Trade hub between Rime-Spire Peaks and Skaldfjord Dal',
-    secondary: ['Nethien legal archiving', 'Corvani roost-trinket export', 'Geothermal fur-processing'],
+    secondary: ['Athien legal archiving', 'Corvani roost-trinket export', 'Geothermal fur-processing'],
     status: 'prosperous'
   },
   atmosphere: {
     mood: 'Bustling, crisp, and multi-cultural. Snowcall is the warmest and most welcoming urban center in Nordhalla.',
-    architecture: 'High Skald longhalls blended with slate-roofed Nethien townhouses and high cliffside Corvani roost-towers.',
+    architecture: 'High Skald longhalls blended with slate-roofed Athien townhouses and high cliffside Corvani roost-towers.',
     sounds: 'Market calls in three languages, Corvani screech-shouts, and the steady hum of under-street steam pipes.',
     smells: 'Pine smoke, roasting elk meat, parchment ink, and crisp mountain air.',
     lighting: 'Warm amber lantern-light reflected off snow drifts and slate roofs.'
   },
   history: {
     founded: '2nd century of the Freezing Era',
-    foundedBy: 'Skald-Nethien Trade Coalition',
-    foundingStory: 'Established at the junction of the Icetalon passes and the Whispering Pine as a neutral charter city where Nethien immigrants could settle safely alongside Skald clans.',
+    foundedBy: 'Skald-Athien Trade Coalition',
+    foundingStory: 'Established at the junction of the Icetalon passes and the Whispering Pine as a neutral charter city where Athien immigrants could settle safely alongside Skald clans.',
     significantEvents: [
-      { date: '2nd century', event: 'Snowcall Charter signed establishing the Nethien Quarter' }
+      { date: '2nd century', event: 'Snowcall Charter signed establishing the Athien Quarter' }
     ]
   },
   subLocations: [
     {
       id: 'high-neth-quarter',
-      name: 'The Nethien Quarter',
+      name: 'The Athien Quarter',
       type: 'settlement',
       description: 'A slate-roofed district of legal scribes, ink-refiners, and contract archivists.',
-      proprietor: 'Nethien Guild',
+      proprietor: 'Athien Guild',
       notableFeatures: ['The Slate Scriptorium']
     }
   ],
@@ -1735,16 +1735,16 @@ const CLASS_SITES = {
   { site: "The Weeping Shelf", region: "nordhalla", parentLocation: "hunger-glaciers", note: "A melting glacier record-room uncovering fresher tracks than it should hold; last report reads, in full: it walks the way the glacier walks." }
  ],
  arcanoneer: [
-  { site: "The Canopy-Ledger", region: "bryngloom-forest", parentLocation: "atropolis", note: "The Atropolis seat of the craft, paralyzed by the factional dispute over the Nethien Contingency Protocol." },
+  { site: "The Canopy-Ledger", region: "bryngloom-forest", parentLocation: "atropolis", note: "The Atropolis seat of the craft, paralyzed by the factional dispute over the Athien Contingency Protocol." },
   { site: "The Heart-Vault", region: "bryngloom-forest", parentLocation: "atropolis", note: "The First Contract's chamber; Arcanoneers press their focuses to the bark, and the bark has begun refusing certain clause-copies." },
-  { site: "The Underground Proving Grounds", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The tiered test range where Nethien theory met Fexric engineering and the Gear-Weaver/Scrap-Weaver schism happened at one bench." },
-  { site: "The Quiet Observatory", region: "sundrift-vale", parentLocation: "starfall-vale", note: "The Stargazer chart-house older than the First Contract; its ninth column is no longer empty." }
+  { site: "The Underground Proving Grounds", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The tiered test range where Athien theory met Fex engineering and the Gear-Weaver/Scrap-Weaver schism happened at one bench." },
+  { site: "The Quiet Observatory", region: "sundrift-vale", parentLocation: "starfall-vale", note: "The Lumian chart-house older than the First Contract; its ninth column is no longer empty." }
  ],
  augur: [
   { site: "The Entrail Chambers", region: "frozen-archive", parentLocation: "frozen-archive", note: "The Augur ritual chambers below the Frozen Archive; contradictory results have thrown the chamber into chaos." },
   { site: "Cassia's Terrace", region: "frozen-archive", parentLocation: "frozen-archive", note: "Where the First Failing's hour was read; the elk-vein pattern is kept in ice, and the annual reading no longer matches it." },
   { site: "The Contradiction Vault", region: "frozen-archive", parentLocation: "frozen-archive", note: "A lead-lined vault of failed auguries and the Reckoner's tally; the count is short by an unknown quantity." },
-  { site: "The Last Cut", region: "bryngloom-forest", parentLocation: "black-fen", note: "The Black Fen peat-cut where the bog returned its final mummy; the Vreken keep vigil over an empty cut no one will refill." }
+  { site: "The Last Cut", region: "bryngloom-forest", parentLocation: "black-fen", note: "The Black Fen peat-cut where the bog returned its final mummy; the Mycellan keep vigil over an empty cut no one will refill." }
  ],
  berserker: [
   { site: "The Harath-Vault Arenas", region: "sundale", parentLocation: "harath-vault", note: "The geothermal proving-grounds where a Berserker is not blooded until they have won a match; the Unbound schism has poisoned the air." },
@@ -1757,7 +1757,7 @@ const CLASS_SITES = {
   { site: "The Chronostasis Chamber", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "Nesta's original engine chamber beneath Frostmaw; her chair has been empty for three weeks." },
   { site: "The Stalled Fall", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The glacier wall Nesta stopped for three days; for the first time in three centuries it is dripping, one drop a day." },
   { site: "The First Turbine Gallery", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The quarantined oldest machine; time stutters in the gallery and the seal is broken from the inside every season." },
-  { site: "The Slow Vault", region: "cragjaw-peaks", parentLocation: "deepchasm-keep", note: "A Tessen undercroft where a ceiling collapse has been arriving for two hundred years; three stones landed this winter." }
+  { site: "The Slow Vault", region: "cragjaw-peaks", parentLocation: "deepchasm-keep", note: "A Tessic undercroft where a ceiling collapse has been arriving for two hundred years; three stones landed this winter." }
  ],
  crusader: [
   { site: "The Obsidian Citadel", region: "sundale", parentLocation: "the-ashen-escarpment", note: "The Dawn Vigil's toll-fortresses: the gates keep refugees in and the Wyrd out, and the garrison oaths are sworn before a humming reliquary light." },
@@ -1775,7 +1775,7 @@ const CLASS_SITES = {
   { site: "The House of Eighty-Eight Doors", region: "iceheart-sea", parentLocation: "merrowport", note: "The most notorious den in Merrowport; Jax's empty chair at the high-stakes table has become a shrine." },
   { site: "The Deck-Burners' Hollow", region: "cragjaw-peaks", parentLocation: "deepchasm-keep", note: "Lyra's hidden cave-chamber, its walls covered in the burn-patterns of thousands of severed decks." },
   { site: "The Dead Pot of Oakhaven", region: "nordhalla", parentLocation: "oakhaven", note: "The northern shore's loudest Dead Pot; a chair by the stove is kept empty for the Wager and has been warm for three nights." },
-  { site: "The Flooded Vault", region: "bryngloom-forest", parentLocation: "the-shallows", note: "Where the Veldun staked caste and memory against a rising room; the crack at the waterline is still touched before wagers." },
+  { site: "The Flooded Vault", region: "bryngloom-forest", parentLocation: "the-shallows", note: "Where the Weft staked caste and memory against a rising room; the crack at the waterline is still touched before wagers." },
   { site: "The Roulette Manifold", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "The spent refinery where a roulette gear vented a meltdown into the Wyrd; the threshold games have an incalculable house edge." }
  ],
  harbinger: [
@@ -1809,12 +1809,12 @@ const CLASS_SITES = {
  plaguebringer: [
   { site: "The Rot-Gardens", region: "bryngloom-forest", parentLocation: "peat-bog-sinks", note: "Submerged cultivation chambers in the deep bogs; several gardens have turned black, the colour of culture death." },
   { site: "The Blight-Mother's Ward", region: "bryngloom-forest", parentLocation: "bryngloom-forest", note: "Vespera's sealed sickroom and the second, empty bed; the charts have begun disagreeing and the strain is dying faster than its heir can be built." },
-  { site: "The Half-Life Ward", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Withered substrate-gardens beneath the Over-Shanty; the ledger now has more entries than the Ward has cultivators." }
+  { site: "The Half-Life Ward", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Riven substrate-gardens beneath the Over-Shanty; the ledger now has more entries than the Ward has cultivators." }
  ],
  pyrofiend: [
   { site: "The Convocation Grounds", region: "sundale", parentLocation: "emberspire", note: "The glassed expanse where Pyrofiends gather for the debt-call; the Final Convocation is imminent." },
   { site: "The Obsidian Cavern", region: "sundale", parentLocation: "emberspire", note: "The founding cavern of the First Cabal; seven handprints fused into the wall, warming one after another like a pulse." },
-  { site: "The Quench Vaults", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "Fexric quench chambers where the Rings are banked under supervision; a second gallery is quietly under construction." },
+  { site: "The Quench Vaults", region: "cragjaw-peaks", parentLocation: "gearworks-gulch", note: "Fex quench chambers where the Rings are banked under supervision; a second gallery is quietly under construction." },
   { site: "The Sealed Vent", region: "sundale", parentLocation: "emberspire", note: "Scathrach's door; the Veil goes quiet at the seal and Pyrofiends describe the feeling as being counted." }
  ],
  revenant: [
@@ -1836,12 +1836,12 @@ const CLASS_SITES = {
  toxicologist: [
   { site: "The Distillery", region: "frostwood-reach", parentLocation: "the-shallows", note: "Canopy laboratory where Varis still works the coils; the newest vials are labeled with question marks." },
   { site: "Thornwood Grove", region: "frostwood-reach", parentLocation: "the-shallows", note: "The unmarked Third Harvest site; apprentice Shakers leave their failed batches at the claw-marked trees." },
-  { site: "The Peat-Crypts", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Flooded Vreken vaults brewing unlicensed reagents; the patrols have doubled and the archive is moving somewhere it doesn't exist." },
-  { site: "The Deep-Quarter Null-Laboratory", region: "bryngloom-forest", parentLocation: "atropolis", note: "Lead-sheathed peat-hold beneath the Withered rope-slum; the deepening Silence is eating through the sheathing." },
+  { site: "The Peat-Crypts", region: "bryngloom-forest", parentLocation: "over-shanty", note: "Flooded Mycellan vaults brewing unlicensed reagents; the patrols have doubled and the archive is moving somewhere it doesn't exist." },
+  { site: "The Deep-Quarter Null-Laboratory", region: "bryngloom-forest", parentLocation: "atropolis", note: "Lead-sheathed peat-hold beneath the Riven rope-slum; the deepening Silence is eating through the sheathing." },
   { site: "Nerath's Ironwood Deep Laboratory", region: "frostwood-reach", parentLocation: "ironwood-heart", note: "A single unmarked room in a dead ironwood's roots; Nerath buys the spoiled batches the Distillery pours out." }
  ],
  warden: [
-  { site: "The Forge of Alaric", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The original chain-forge, still maintained by Caustic Fexric smiths and falling behind demand." },
+  { site: "The Forge of Alaric", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The original chain-forge, still maintained by Alchemite smiths and falling behind demand." },
   { site: "The Chain-Hold", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "The order's seat and initiation hall; the scar-map wall is leaving deliberate gaps." },
   { site: "The Graft-Theatre", region: "nordhalla", parentLocation: "frozen-archive", note: "Surgical hall beneath the glacier-dead; every chardalyn madness is filed under the volunteer's own name." },
   { site: "The Whisper-Galleries", region: "cragjaw-peaks", parentLocation: "frostmaw-holdfast", note: "Deepest tunnels where chardalyn is proofed and the first testers tether themselves to the walls; the bell-rope has rung twice." }

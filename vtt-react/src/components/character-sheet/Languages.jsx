@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { getSubraceData, getRaceData } from '../../data/raceData';
-import { LANGUAGES, LANGUAGE_CATEGORIES } from '../../data/languages';
+import { LANGUAGES, LANGUAGE_CATEGORIES, normalizeLanguageName } from '../../data/languages';
 import '../../styles/character-sheet.css';
 
 const COMMON_LANGUAGES = LANGUAGES;
@@ -37,17 +37,19 @@ export default function Languages() {
   
   // Add racial languages first
   allRacialLanguages.forEach(lang => {
-    if (!seenLanguages.has(lang)) {
-      seenLanguages.add(lang);
-      allLanguages.push({ name: lang, source: 'racial' });
+    const normalized = normalizeLanguageName(lang);
+    if (!seenLanguages.has(normalized)) {
+      seenLanguages.add(normalized);
+      allLanguages.push({ name: normalized, source: 'racial' });
     }
   });
   
   // Add selected languages
   allSelectedLanguages.forEach(lang => {
-    if (!seenLanguages.has(lang)) {
-      seenLanguages.add(lang);
-      allLanguages.push({ name: lang, source: 'learned' });
+    const normalized = normalizeLanguageName(lang);
+    if (!seenLanguages.has(normalized)) {
+      seenLanguages.add(normalized);
+      allLanguages.push({ name: normalized, source: 'learned' });
     }
   });
 
@@ -75,6 +77,46 @@ export default function Languages() {
     acc[category].push(lang);
     return acc;
   }, {});
+
+  // Flat display order, used to step between known tongues while one is open.
+  const orderedLanguages = Object.values(languagesByCategory).flat();
+  const currentLanguageIndex = selectedLanguage
+    ? orderedLanguages.findIndex(lang => lang.name === selectedLanguage)
+    : -1;
+  const prevLanguage = currentLanguageIndex >= 0
+    ? orderedLanguages[(currentLanguageIndex - 1 + orderedLanguages.length) % orderedLanguages.length]
+    : null;
+  const nextLanguage = currentLanguageIndex >= 0
+    ? orderedLanguages[(currentLanguageIndex + 1) % orderedLanguages.length]
+    : null;
+
+  const orderedLanguagesRef = useRef(orderedLanguages);
+  orderedLanguagesRef.current = orderedLanguages;
+
+  const goToLanguage = (offset) => {
+    if (currentLanguageIndex < 0) return;
+    const target = orderedLanguages[(currentLanguageIndex + offset + orderedLanguages.length) % orderedLanguages.length];
+    setSelectedLanguage(target.name);
+  };
+
+  // Arrow keys step through this character's known tongues while one is open.
+  useEffect(() => {
+    if (!selectedLanguage) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      const target = event.target;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) return;
+      event.preventDefault();
+      const list = orderedLanguagesRef.current;
+      const index = list.findIndex(lang => lang.name === selectedLanguage);
+      if (index < 0) return;
+      const step = event.key === 'ArrowLeft' ? -1 : 1;
+      setSelectedLanguage(list[(index + step + list.length) % list.length].name);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedLanguage]);
 
   if (languagesWithData.length === 0) {
     return (
@@ -146,6 +188,39 @@ export default function Languages() {
               
               {selectedLang ? (
                 <div className="language-detail-content">
+                  {currentLanguageIndex >= 0 && (
+                    <div className="cs-lang-nav" role="group" aria-label="Switch language">
+                      <button
+                        type="button"
+                        className="cs-lang-nav-btn"
+                        onClick={() => goToLanguage(-1)}
+                        title={`Previous: ${prevLanguage.name}`}
+                        aria-label={`Previous language: ${prevLanguage.name}`}
+                      >
+                        <i className="fas fa-chevron-left" aria-hidden="true"></i>
+                        <span className="cs-lang-nav-text">
+                          <em>Previous</em>
+                          <span>{prevLanguage.name}</span>
+                        </span>
+                      </button>
+                      <span className="cs-lang-nav-position" title="Position in known tongues">
+                        {currentLanguageIndex + 1} / {orderedLanguages.length}
+                      </span>
+                      <button
+                        type="button"
+                        className="cs-lang-nav-btn next"
+                        onClick={() => goToLanguage(1)}
+                        title={`Next: ${nextLanguage.name}`}
+                        aria-label={`Next language: ${nextLanguage.name}`}
+                      >
+                        <span className="cs-lang-nav-text">
+                          <em>Next</em>
+                          <span>{nextLanguage.name}</span>
+                        </span>
+                        <i className="fas fa-chevron-right" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  )}
                   <p className="language-description">{selectedLang.description}</p>
                   {selectedLang.sound && (
                     <div className="language-sound-info">

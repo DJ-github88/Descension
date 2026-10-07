@@ -1,7 +1,8 @@
 # THE SEVEN CONTINENTS — MASTER REFERENCE
 ### The definitive world bible for Mythrill (for GMs, map-makers, and AI agents)
 
-> **Status:** Canonical as of the **August 2026 "Fall of the Sun & The Broken Wyrd" lore lock** (era-relative Master Timeline).
+> **Status:** Cosmology quick-reference reconciled to the **2026-09-30 Living Cosmos blueprint**.
+> `docs/CORE_LORE_FRAMEWORK.md` owns foundations; see `LORE_IMPLEMENTATION_STATUS.md` for remaining atlas reconciliation.
 > **App Launch Focus:** **Nordhalla** is the **sole, self-contained launch region** for initial release. Other continents are slated for future expansions.
 > **Master Timeline (era-relative):** Star-Fall & Bloodline Pacts → the Slow Cracking → Keth Amar's arrival and the Whispered Purge → the Blind Strike (mortal name: Blizzard's End) → the Freezing Era, now.
 
@@ -9,17 +10,17 @@
 
 ## COSMOLOGY QUICK-REFERENCE (Single Source of Truth)
 
-- **Pre-Star Mythrill (The Sleeping Soul & Natural Wyrd)** — Long before the Star-Fall, Mythrill was the loom of the Sleeping Soul. **Natural Wyrd** — collective belief, folklore, myth, fear and vow manifest into creatures — grew the native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*), and ancient non-human races (**Fexrick**, **Myrathil**, **Neth**, **Groven**). Mortal commoners survived through cold steel, tactical engineering, black powder matchlocks, archery, and strict taboos, while ancient disciplines (**Animist**, **Berserker**, **Warden**, **Shaper**, **Minstrel**) channelled the earth's natural resonance.
-- **Sol** — The living, unhatched infant sun of Mythrill, prey of Keth Amar, entombed in the molten core; his light filters up through subterranean networks.
+- **The Long Before / Living Cosmos** — Native life, gods, ecology, engineering, spirit practices, and older bargains exist independently of mortal belief. The Sleeping Soul anchors the native world without speaking or personally rescuing families. Most ordinary mortals lack free spellcasting, not every native power. Folklore records encounters; generative **Natural Wyrd / Primordial Loom** is a retired theory. A modern discipline's founding is not the invention of every older related activity.
+- **Sol** — Living, unhatched, conscious infant sun in the core, awake but unable to act freely. His heat and thermal impressions filter through subterranean networks; concealment began the Long Cold before the Strike.
 - **Aex & Aethil** — Celestial Mother & Father. Aethil forfeited absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex forfeited her divine form to entomb and protect Sol in the molten core, sealing the vault with cosmic wards and **Bloodline Pacts**. Her broken aegis fell as **Aex Shards** when the Blind Strike fractured the continental ward. Keth Amar still cannot enter while Aethil holds the sky.
 - **The Sister Moon (Selunis)** — The never-quickened moon-daughter egg, frozen in orbit as a thermal buffer to keep Sol from incinerating the world, anchoring **Rime Magic**. Keth Amar nested in her unquickened shell during its approach.
-- **Keth Amar** — Ancient, highly intelligent cosmic apex predator obsessed with consuming Sol. Blocked by Aethil's ward, it spewed **Predatory Wyrd** (Natural Wyrd infected) onto Mythrill, orchestrated the **Whispered Purge** (Years 300-325) to snap the Blood Seals, then launched the **Blind Strike**. The **Secret Aegis** — the hidden lineage that erased itself from history — held; Keth Amar was wounded and repelled into the void. It now presses against the ward, its Predatory Wyrd seeping through every crack.
-- **The Seven Sundered Monoliths & the Counterfeit** — The seven greatest fallen shards of Aex's broken aegis, scattered across the continents. One seat is a lie: the **7th Counterfeit Monolith**, a Predatory Wyrd forgery standing in for the seal that was never written. Its keepers, the **Masked Acolytes** at *Vespera's Crown* — Keth Amar's whisper-cult — proselytize while their patron sees through their eyes as the **Hollow Sight**.
+- **Keth Amar** — Intelligent, fallible, deceptive star-predator exploiting a wider cosmic Wyrd ecology. Its full body cannot freely cross Aethil's ward; narrower channels, material, and organisms can. The **Whispered Purge** manipulated mortal atrocities before the later **Blind Strike**. The separate Unwritten family's **Secret Aegis** sustained the coupled defense; Keth was repelled and Aex's aegis fractured.
+- **The Seven Sundered Monoliths & the Counterfeit** — Six genuine great Aex shards plus one forgery **made by Keth**. Mortals supplied the false pedigree. It deceives mortal claimants and carries a hostile channel, not a trick against its maker. The Bryngloom false seat is distinct from *Vespera's Crown*, the cult stronghold. The **Masked Acolytes' Unknown Dominator** is mistaken doctrine, not a separate canonical god. There is no hidden seventh cleansing key.
 - **Aex Cracks & Geothermal Topography** — A snapped Blood Seal cracks Aex's aegis; each severed lineage vented Sol's warmth into the crust, creating regional hot springs, volcanic bogs, and thermal pine wetlands.
-- **Astril Subrace Schism** — Stargazer Astril (scholars) vs Brutish Astril (martial zealots who enforced the Ordan purge). Ordan humans survive disguised as ordinary nomads.
+- **Astril Subrace Schism** — Stargazer and Brutish are current organic alien heritages. Particular institutions enforced the Ordan noble purge; ordinary Ordan culture remains public, with noble remnants concealing descent. A Brutish child is not automatically an evil zealot.
 - **The Neth (The Primordial Well of Life)** — Predates Celestials; ancient guardians of the Well of Life. Nethien (pristine well-keepers), Withered (severed shadow-brokers and outlaws), Veldun (transfigured spirit-conduits).
-- **The Fexrick (Titan-Engine Delvers)** — Ancient subterranean burrowers of Cragjaw Peaks who uncovered a Primordial Engine in the deep bedrock.
-- **House Viridane & The Florae** — Fled the northern blood-sacrifice into Frostwood Reach, making an ancient fae-grove pact that transformed their flesh into living wood: the **Florae** (**Viridian** thorn-resisters and **Oken** hardwood travelers). Their empty seventh seat was given to **House Morrath**.
+- **The Fexric (Titan-Engine Delvers)** — Native Cragjaw engineers who built around Vurath's stolen/borrowed power. Thrumm preceded their settlement. Keep `fexrick` as the player key; **Sumpborn** names the distinct nonplayable runoff-created people.
+- **House Viridane & The Florae** — The distinct native **Unnamed Green** rescued the refusing family during the Years of Whispers. Its covenant ended their public Aex obligation while saving their people. **House Morrath** received a political seat, not an intact seal. Viridane and the Florae are distinct from the separate **Unwritten** family maintaining the sole uninterrupted Secret Aegis. Political seats, living seals, and physical shards are different counts.
 
 ---
 
@@ -32,8 +33,8 @@
 | 3 | Sundale | Volcanic Core | High | Solari | Sol's volcanic heat venting | 4 | Expansion II |
 | 4 | Iceheart Sea | Frozen Ocean | Extreme | Merryn | Sister Moon's icy tidal pull | 6 | Expansion III |
 | 5 | Cragjaw Peaks | Mountain Chasms | Extreme | Tessen | Jagged tectonic upheavals | 3 | Expansion IV |
-| 6 | Sundrift Vale | Starlight Steppe | Medium | Ordan (Hidden) | Ordan purge geothermal warmth | 5 | Expansion V |
-| 7 | Bryngloom Forest | Sunken Swamp | High | Vreken | Vreken noble massacre sulfur bogs | 6 | Expansion VI |
+| 6 | Sundrift Vale | Starlight Steppe | Medium | Ordavan political successors / public Ordan culture | Geothermal networks; purged noble line | 5 | Expansion V |
+| 7 | Bryngloom Forest | Sunken Swamp | High | Morrath regency / native Vreken communities | Aegis wounds and sulfur bogs | 6 | Expansion VI |
 
 Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 
@@ -102,7 +103,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **✦ Minor:** Frost-Tithe Cradle-Camp, Ravencall Eyrie (Corvani), Glacier-Song Hermitage.
 - **Landmarks:** Bearsbeard's Beak (highest peak), Skadi's Col (flesh-stripping wind gap), The Hunger Glaciers, Þögn, the old Still Crag (Rime-Born memory-freezing rites).
 - **Ruins:** Rimor's Hearth (buried keep, stubborn steam vents).
-- **Creatures & Wyrd:** **Stel**, **Helhest** (3-legged plague-horse, anchors glaciers), Glacier Wyrm / **Skreika** (ice-dragon), Jutul-king, Perchtar (marching winter judges), Rimor (hearth-parasite).
+- **Creatures & Wyrd:** **Stel**, **Helhest** (3-legged plague-horse, anchors glaciers), **Glacier Wyrms** (ice-dragons), **Skreika** (drowned undead sailors; Skrei is a regional/archival name), Jutul-king, Perchtar (marching winter judges), Rimor (hearth-parasite).
 - **Intricacies:** the **Sunder-Wall** spans the tundra, funneling all migration through taxed gates. The **Frost-Tithe** drains Rime-Born mothers' warmth at every birth.
 
 ### 2B · The Iron-Fjord Coast *(eastern seaboard, fjords & harbors)*

@@ -126,7 +126,7 @@ const NEW_BLOCK_DEFAULTS = {
     name: 'Solari',
     essence: 'The Cinder-Bound',
     description: 'Born of the molten volcanic caldrons, their skin bears living ember runes and volcanic fortitude.',
-    baseTraits: { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ['Common', 'Solari'], lifespan: '120-180 yrs' },
+    baseTraits: { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ["Wayfarer's Cant", 'Solari'], lifespan: '120-180 yrs' },
     abilityModifiers: { STR: 2, AGI: -1, CON: 1, INT: 0, SPI: 1, CHA: -1 },
     racialPassives: [{ name: 'Cinder Blood', description: 'Immune to heat strain and +2 to saving throws against fire hazards.' }],
     racialAbilities: [{ name: 'Molten Surge', actionPointCost: 2, manaCost: 10, description: 'Cleave with blazing flame dealing 2d6 Ember damage.' }],
@@ -574,7 +574,7 @@ export const BookDocumentEditor = ({
           essence: loreData.raw?.essence || loreData.summary,
           description: loreData.raw?.description || loreData.content,
           abilityModifiers: loreData.raw?.abilityModifiers || { STR: 0, AGI: 0, CON: 0, INT: 0, SPI: 0, CHA: 0 },
-          baseTraits: loreData.raw?.baseTraits || { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ['Common'], lifespan: '60-100 yrs' },
+          baseTraits: loreData.raw?.baseTraits || { size: 'Medium', baseSpeed: 30, baseHp: 25, baseMana: 15, languages: ["Wayfarer's Cant"], lifespan: '60-100 yrs' },
           racialPassives: loreData.raw?.racialPassives || [],
           racialAbilities: loreData.raw?.racialAbilities || []
         });

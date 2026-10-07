@@ -26,7 +26,7 @@ export const inquisitorResourceGuide = {
   hold: {
    title: 'Keep Contact',
    icon: 'fa-lock',
-   text: 'The gavel only stays heavy while the occult keeps knocking — a round with no supernatural contact bleeds −1, and mundane foes generate nothing but Righteous Zeal at half rate.',
+    text: 'Authority is a single 0–8 pool. Authored costs and fixed gains apply once; ordinary short rest does not create occult-contact Authority. Quiet-round decay, supernatural outcome detection and specialization generation remain separate work.',
   },
   spend: {
    title: 'Execute',
@@ -36,7 +36,7 @@ export const inquisitorResourceGuide = {
   risk: {
    title: 'Zero and Severance',
    icon: 'fa-exclamation-triangle',
-   text: 'At 0 Authority you are powerless — your bound horror starts testing its chains. The Vow of Severance also blocks continuous magical enchantments and foreign buffs while your cold-iron aura is active.',
+    text: 'The null aura is an explicit active state and releases at zero Authority. While active, known foreign magical assistance is suppressed; self authority, nonmagical treatment and hostile effects are not silently erased. Rebellion and binding consequences require their own effect resolution.',
   },
  },
 
@@ -71,7 +71,7 @@ export const inquisitorResourceGuide = {
    ['Quiet round (no supernatural)', '−1', 'The gavel goes cold'],
    ['Authority 0', 'Rebellion risk', 'Your bound horror tests the chains'],
   ],
-  footnote:
-   'Authority caps at 8; the Vow of Severance blocks continuous enchantments and foreign buffs while the aura is active.',
+   footnote:
+    'Authority caps at eight. Active suppression is recipient-bounded and provenance-aware, not permanent universal immunity. Label source entity/origin and magical status; unknown legacy provenance is not guessed. Automatic decay and binding effects are pending.',
  },
 };

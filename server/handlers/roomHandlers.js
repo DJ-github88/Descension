@@ -13,6 +13,7 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const logger = require('../services/logger');
 const firebaseService = require('../services/firebaseService');
+const roomAccess = require('../services/roomAccessService');
 const { BCRYPT_SALT_ROUNDS, DEFAULT_MAX_PLAYERS, DEFAULT_GM_COLOR } = require('../utils/constants');
 
 /**
@@ -67,26 +68,20 @@ async function verifyPassword(plainPassword, hashedPassword) {
 }
 
 /**
- * Get list of public/active rooms
+ * Get list of publicly discoverable rooms (H1 explicit opt-in).
+ *
+ * Project 4: discovery is server-mediated and uses the exact shallow
+ * eight-field projection. Only active rooms whose owner explicitly set
+ * settings.isPrivate === false are listed; missing/legacy privacy state is
+ * unlisted. The /api/rooms endpoint and room_list event share this projector.
+ *
  * @param {Map} rooms - Rooms map
- * @returns {Array} Array of room objects
+ * @returns {Array} Array of discovery projections
  */
 function getPublicRooms(rooms) {
   return Array.from(rooms.values())
-    .filter(room => {
-      // Only show rooms where GM is actively connected
-      return room.isActive === true;
-    })
-    .map(room => ({
-      id: room.id,
-      name: room.name,
-      playerCount: (room.players?.size || 0) + (room.gm && room.players && room.players.has(room.gm.id) ? 0 : 1),
-      maxPlayers: room.settings?.maxPlayers || DEFAULT_MAX_PLAYERS,
-      gm: room.gm?.name || 'Unknown',
-      createdAt: room.createdAt,
-      hasPassword: !!room.passwordHash,
-      gmOnline: !!room.isActive
-    }));
+    .filter(room => roomAccess.isPubliclyDiscoverable(room))
+    .map(room => roomAccess.buildDiscoveryProjection(room));
 }
 
 /**
@@ -96,9 +91,10 @@ function getPublicRooms(rooms) {
  * @param {boolean} requireGM - Whether GM privileges are required
  * @param {Map} players - Players map
  * @param {Map} rooms - Rooms map
- * @returns {Object} Validation result { valid, player?, room?, error? }
+ * @param {Object} [authorityService] - C5 room authority service (optional)
+ * @returns {Object} Validation result { valid, player?, room?, error?, code? }
  */
-function validateRoomMembership(socket, roomId, requireGM, players, rooms) {
+function validateRoomMembership(socket, roomId, requireGM, players, rooms, authorityService = null) {
   const player = players.get(socket.id);
   if (!player) {
     return { valid: false, error: 'Player not found' };
@@ -126,105 +122,38 @@ function validateRoomMembership(socket, roomId, requireGM, players, rooms) {
     return { valid: false, error: 'Not a member of this room' };
   }
 
+  // C5: authoritative room operations require the current room authority.
+  const denial = roomAccess.roomAuthorityDenial
+    ? roomAccess.roomAuthorityDenial(room, authorityService)
+    : null;
+  if (denial) {
+    return { valid: false, error: 'Room is not currently available on this server', code: denial };
+  }
+
   return { valid: true, player, room };
 }
 
 /**
- * Merge game state when resuming a permanent room
- * @param {Object} baseState - Base game state
- * @param {Object} resumeState - State from Firestore to merge
- * @returns {Object} Merged game state
+ * Merge game state when resuming a permanent room.
+ *
+ * RETIRED by Project 3: live server memory wins every ordinary rejoin and
+ * reconstruction replaces collections from one selected complete checkpoint.
+ * Kept only as a throwing guard so stale callers fail loudly instead of
+ * silently resurrecting deleted content.
  */
-function mergeRoomGameStateForResume(baseState, resumeState) {
-  if (!resumeState || typeof resumeState !== 'object') {return baseState;}
-
-  const merged = { ...baseState };
-
-  // Deep merge maps to preserve all nested data from both sources
-  if (resumeState.maps) {
-    const baseMaps = merged.maps || {};
-    merged.maps = {};
-    for (const mapId of new Set([...Object.keys(baseMaps), ...Object.keys(resumeState.maps)])) {
-      const baseMap = baseMaps[mapId];
-      const resumeMap = resumeState.maps?.[mapId];
-      if (baseMap && resumeMap) {
-        merged.maps[mapId] = {
-          ...baseMap,
-          ...resumeMap,
-          tokens: { ...(baseMap.tokens || {}), ...(resumeMap.tokens || {}) },
-          characterTokens: { ...(baseMap.characterTokens || {}), ...(resumeMap.characterTokens || {}) },
-          gridItems: { ...(baseMap.gridItems || {}), ...(resumeMap.gridItems || {}) },
-          terrainData: { ...(baseMap.terrainData || {}), ...(resumeMap.terrainData || {}) },
-          wallData: { ...(baseMap.wallData || {}), ...(resumeMap.wallData || {}) },
-          environmentalObjects: [...(baseMap.environmentalObjects || []), ...(resumeMap.environmentalObjects || [])],
-          drawingPaths: [...(baseMap.drawingPaths || []), ...(resumeMap.drawingPaths || [])],
-          drawingLayers: [...(baseMap.drawingLayers || []), ...(resumeMap.drawingLayers || [])],
-          fogOfWarData: { ...(baseMap.fogOfWarData || {}), ...(resumeMap.fogOfWarData || {}) },
-          fogOfWarPaths: [...(baseMap.fogOfWarPaths || []), ...(resumeMap.fogOfWarPaths || [])],
-          fogErasePaths: [...(baseMap.fogErasePaths || []), ...(resumeMap.fogErasePaths || [])],
-          exploredAreas: { ...(baseMap.exploredAreas || {}), ...(resumeMap.exploredAreas || {}) },
-          lightSources: { ...(baseMap.lightSources || {}), ...(resumeMap.lightSources || {}) },
-          dndElements: [...(baseMap.dndElements || []), ...(resumeMap.dndElements || [])]
-        };
-      } else if (resumeMap) {
-        merged.maps[mapId] = { ...baseMap, ...resumeMap };
-      } else if (baseMap) {
-        merged.maps[mapId] = { ...baseMap };
-      }
-    }
-  }
-
-  // Deep merge combat state
-  if (resumeState.combat) {
-    merged.combat = {
-      ...merged.combat,
-      ...resumeState.combat,
-      turnOrder: [...(merged.combat.turnOrder || []), ...(resumeState.combat.turnOrder || [])]
-    };
-  }
-
-  // Merge other key properties
-  if (resumeState.playerMapAssignments) {
-    merged.playerMapAssignments = { ...merged.playerMapAssignments, ...resumeState.playerMapAssignments };
-  }
-
-  if (resumeState.gridSettings) {
-    merged.gridSettings = { ...merged.gridSettings, ...resumeState.gridSettings };
-  }
-
-  return merged;
+function mergeRoomGameStateForResume() {
+  throw new Error('mergeRoomGameStateForResume is retired (Project 3): reconstruct from one selected complete checkpoint instead');
 }
 
 /**
- * Create a new room
- * @param {string} roomName - Name of the room
- * @param {string} gmName - GM's display name
- * @param {string} gmSocketId - GM's socket ID
- * @param {string} password - Room password (optional)
- * @param {string} playerColor - GM's color
- * @param {boolean} persistToFirebase - Whether to persist to Firebase
- * @param {string} persistentRoomId - Persistent room ID for permanent rooms
- * @param {Object} initialGameState - Initial game state
- * @param {string} gmId - Authenticated user UID
- * @param {Array} members - Array of member UIDs
- * @param {Map} rooms - Rooms map to store the room
- * @param {Map} players - Players map to track GM
- * @returns {Promise<Object|null>} Created room or null on failure
+ * C2: construct a room runtime candidate WITHOUT installing it into the global
+ * rooms/players registries. Reconstruction builds and validates the candidate
+ * first; installation happens only after the final exact-claim acceptance.
+ * @returns {Promise<{room: Object, gmPlayer: Object}>}
  */
-async function createRoom(roomName, gmName, gmSocketId, password, playerColor, persistToFirebase, persistentRoomId, initialGameState, gmId, members, rooms, players) {
-  logger.info('[SyncRoom] createRoom called:', {
-    roomName,
-    persistentRoomId,
-    hasInitialGameState: !!initialGameState
-  });
-
+async function buildRoomCandidate(roomName, gmName, gmSocketId, password, playerColor, persistentRoomId, initialGameState, gmId, members) {
   const roomId = persistentRoomId || uuidv4();
   const gmPlayerId = uuidv4();
-
-  logger.info('[SyncRoom] Room ID resolved:', {
-    finalRoomId: roomId,
-    source: persistentRoomId ? 'persistentRoomId parameter' : 'UUID generated'
-  });
 
   // Hash password before storing
   const passwordHash = await hashPassword(password);
@@ -331,39 +260,86 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor, p
     chatHistory: [],
     createdAt: new Date().toISOString(),
     isActive: true,
-    lastActivity: new Date()
+    lastActivity: new Date(),
+    checkpoint: null,
+    checkpointRevision: 0,
+    migrationRequired: false,
+    pendingProvenance: null
   };
 
-  rooms.set(roomId, room);
-
-  // Add GM to players tracking
-  players.set(gmSocketId, {
+  const gmPlayer = {
     id: gmPlayerId,
     name: gmName,
     roomId: roomId,
     isGM: true,
     color: playerColor,
     currentMapId: 'default'
-  });
+  };
 
-  // Track GM's map assignment
+  return { room, gmPlayer };
+}
+
+/**
+ * C2: install a previously constructed candidate into the global registries.
+ * This is the ONLY operation-owned installation effect; it runs after the
+ * operation's final authority acceptance.
+ */
+function installRoomCandidate({ rooms, players, room, gmPlayer, gmSocketId }) {
+  rooms.set(room.id, room);
+  players.set(gmSocketId, gmPlayer);
   if (!room.gameState.playerMapAssignments) {
     room.gameState.playerMapAssignments = {};
   }
-  room.gameState.playerMapAssignments[gmPlayerId] = 'default';
+  room.gameState.playerMapAssignments[gmPlayer.id] = gmPlayer.currentMapId;
+}
 
-  // Save room to Firebase
+/**
+ * Create a new room
+ * @param {string} roomName - Name of the room
+ * @param {string} gmName - GM's display name
+ * @param {string} gmSocketId - GM's socket ID
+ * @param {string} password - Room password (optional)
+ * @param {string} playerColor - GM's color
+ * @param {boolean} persistToFirebase - Whether to persist to Firebase
+ * @param {string} persistentRoomId - Persistent room ID for permanent rooms
+ * @param {Object} initialGameState - Initial game state
+ * @param {string} gmId - Authenticated user UID
+ * @param {Array} members - Array of member UIDs
+ * @param {Map} rooms - Rooms map to store the room
+ * @param {Map} players - Players map to track GM
+ * @returns {Promise<Object|null>} Created room or null on failure
+ */
+async function createRoom(roomName, gmName, gmSocketId, password, playerColor, persistToFirebase, persistentRoomId, initialGameState, gmId, members, rooms, players) {
+  logger.info('[SyncRoom] createRoom called:', {
+    roomName,
+    persistentRoomId,
+    hasInitialGameState: !!initialGameState
+  });
+
+  const { room, gmPlayer } = await buildRoomCandidate(
+    roomName, gmName, gmSocketId, password, playerColor,
+    persistentRoomId, initialGameState, gmId, members
+  );
+
+  logger.info('[SyncRoom] Room ID resolved:', {
+    finalRoomId: room.id,
+    source: persistentRoomId ? 'persistentRoomId parameter' : 'UUID generated'
+  });
+
+  installRoomCandidate({ rooms, players, room, gmPlayer, gmSocketId });
+
+  // Save room metadata to Firebase (metadata only - gameplay state publishes
+  // through the selected P2 checkpoint writer).
   if (persistToFirebase) {
     try {
-      await firebaseService.saveRoomData(roomId, room);
-      logger.info('Room persisted to Firebase', { roomId, roomName });
+      await firebaseService.saveRoomData(room.id, room);
+      logger.info('Room metadata persisted to Firebase', { roomId: room.id, roomName });
     } catch (error) {
-      logger.error('Failed to persist room to Firebase', {
-        roomId,
+      logger.error('Failed to persist room metadata to Firebase', {
+        roomId: room.id,
         roomName,
         error: error.message
       });
-      // Don't fail room creation if Firebase save fails
     }
   }
 
@@ -372,35 +348,85 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor, p
 
 /**
  * Initialize persistent rooms from Firestore on startup
+ *
+ * C5: a persisted room is installed into the local authoritative rooms Map only
+ * after this process claims its room authority. A room held by another live
+ * process is skipped without constructing a competing runtime. Server readiness
+ * does not wait for rooms owned by another deployment.
  * @param {Map} rooms - Rooms map to load into
+ * @param {{authorityService?: Object}} [options]
  * @returns {Promise<void>}
  */
-async function initializePersistentRooms(rooms) {
+async function initializePersistentRooms(rooms, options = {}) {
+  const authorityService = options.authorityService || null;
+
+  const normalizeRoom = (room) => {
+    // Convert plain object players to Map if needed
+    if (room.players && !(room.players instanceof Map)) {
+      room.players = new Map(Object.entries(room.players));
+    }
+    // Rooms loaded from the cloud `rooms` collection are cloud-backed by
+    // construction; temporary rooms are never persisted there.
+    if (!room.isPermanent) {room.isPermanent = true;}
+    if (!room.persistentRoomId) {room.persistentRoomId = room.id;}
+    if (room.gameState === null) {delete room.gameState;}
+    if (!Number.isSafeInteger(room.checkpointRevision) || room.checkpointRevision < 0) {
+      room.checkpointRevision = room.checkpoint && Number.isSafeInteger(Number(room.checkpoint.revision))
+        ? Number(room.checkpoint.revision)
+        : 0;
+    }
+  };
+
   try {
     logger.info('Initializing persistent rooms from Firestore...');
-    const persistentRooms = await firebaseService.loadPersistentRooms();
 
-    if (persistentRooms && persistentRooms.length > 0) {
-      persistentRooms.forEach((room, index) => {
-        logger.info(`[initializePersistentRooms] Loading room ${index + 1}:`, {
-          roomId: room.id,
-          roomName: room.roomName,
-          gameStateMapCount: Object.keys(room.gameState?.maps || {}).length,
-          defaultMapHasGridItems: !!room.gameState?.maps?.default?.gridItems,
-          defaultMapGridItemsCount: Object.keys(room.gameState?.maps?.default?.gridItems || {}).length,
-          defaultMapTerrainCount: Object.keys(room.gameState?.maps?.default?.terrainData || {}).length
-        });
-
-        // Convert plain object players to Map if needed
-        if (room.players && !(room.players instanceof Map)) {
-          room.players = new Map(Object.entries(room.players));
-        }
+    if (!authorityService) {
+      // Non-authority mode (degraded startup/tests): classified read only.
+      const persistentRooms = await firebaseService.loadPersistentRooms();
+      for (const room of persistentRooms) {
+        normalizeRoom(room);
         rooms.set(room.id, room);
-      });
+      }
       logger.info(`✅ Successfully loaded ${rooms.size} persistent rooms`);
-    } else {
-      logger.info('ℹ️ No active persistent rooms found in Firestore');
+      return;
     }
+
+    // R4: bounded discovery ONLY before authority. For each candidate room:
+    // acquire authority, perform a NEW classified checkpoint read, validate
+    // the claim again, and install exclusively the post-claim state. No state
+    // read before the claim is ever installed.
+    const roomIds = await firebaseService.discoverPersistentRoomIds();
+    for (const roomId of roomIds) {
+      const claim = await authorityService.acquire(roomId);
+      if (!claim.ok) {
+        logger.info('[initializePersistentRooms] Room authority held elsewhere; not installed locally', {
+          roomId,
+          code: claim.code
+        });
+        continue;
+      }
+
+      const room = await firebaseService.loadRoomAfterAuthorityClaim(roomId);
+      if (!room) {
+        // Unusable/unreadable room: never install; do not keep a lease.
+        try {await authorityService.release(claim.token);} catch (_error) { /* renewal will fence */ }
+        continue;
+      }
+
+      const stillCurrent = await authorityService.assertCurrent(claim.token, { backendCheck: true });
+      if (!stillCurrent.ok) {
+        logger.info('[initializePersistentRooms] Room authority changed during post-claim read; not installed', {
+          roomId,
+          code: stillCurrent.code
+        });
+        continue;
+      }
+
+      normalizeRoom(room);
+      rooms.set(room.id, room);
+      authorityService.attachRoom(room);
+    }
+    logger.info(`✅ Successfully loaded ${rooms.size} persistent rooms`);
   } catch (error) {
     logger.error('❌ Failed to load persistent rooms:', error);
   }
@@ -442,6 +468,8 @@ function cleanupInactiveRooms(rooms, players, inactiveThresholdMs = 30 * 60 * 10
 
 module.exports = {
   createRoom,
+  buildRoomCandidate,
+  installRoomCandidate,
   getPublicRooms,
   validateRoomMembership,
   hashPassword,

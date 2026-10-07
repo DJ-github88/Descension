@@ -488,6 +488,7 @@ const DialogueSystem = () => {
 
   const characterPortrait = getCharacterPortrait(activeDialogue.character);
   const dialogueCharacterName = activeDialogue.character?.name || activeDialogue.characterName || 'Unknown';
+  const dialogueFontClass = `dialogue-font-${activeDialogue.font || 'courier'}`;
 
   const containerStyle = customPosition ? {
     position: 'absolute',
@@ -548,12 +549,12 @@ const DialogueSystem = () => {
         {/* Dialogue Box */}
         <div className="dialogue-box">
           {/* Character Name */}
-          <div className="dialogue-name">
+          <div className={`dialogue-name ${dialogueFontClass}`}>
             {dialogueCharacterName}
           </div>
 
           {/* Text Content */}
-          <div className="dialogue-content" ref={contentRef}>
+          <div className={`dialogue-content ${dialogueFontClass}`} ref={contentRef}>
             {renderTextWithEffects(
               currentText,
               activeDialogue.effect,

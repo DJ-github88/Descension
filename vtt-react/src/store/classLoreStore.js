@@ -1276,7 +1276,7 @@ const buildClassIndex = () => {
 
 
 
-    if (!classData || !classData.overview || classData.implemented === false) return;
+    if (!classData || !classData.overview || classData.implemented === false || classData.isCompatibilityAlias) return;
 
 
 

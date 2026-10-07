@@ -14,6 +14,7 @@ import { getBackgroundData } from '../../data/backgroundData';
 import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
+import { normalizeManagedClassResource } from '../../data/classResourceContracts';
 
 const TEST_CLASSES = [
     'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
@@ -43,7 +44,7 @@ function getRandomRaceAndSubrace() {
     } catch (e) {
         console.warn('Error picking random race/subrace:', e);
     }
-    return { race: 'human', subrace: 'thalren_human', raceDisplayName: 'Thalren (Human)' };
+    return { race: 'human', subrace: 'thalren_human', raceDisplayName: 'Tallyn (Human)' };
 }
 
 function generateStartingClassSpells(characterClass, level = 1) {
@@ -399,7 +400,7 @@ export const createCoreSlice = (set, get) => ({
                             }
                         }
 
-                        // Normalize legacy pre-revision names (e.g. "Hallowed Neth" -> "Veldun")
+                        // Normalize legacy pre-revision names (e.g. "Hallowed Neth" -> "Weft")
                         if (enriched.raceDisplayName) {
                             enriched.raceDisplayName = normalizeRaceDisplayName(enriched.raceDisplayName);
                         }
@@ -494,7 +495,7 @@ export const createCoreSlice = (set, get) => ({
                     }
                 }
 
-                // Normalize legacy pre-revision names (e.g. "Hallowed Neth" -> "Veldun")
+                // Normalize legacy pre-revision names (e.g. "Hallowed Neth" -> "Weft")
                 if (enriched.raceDisplayName) {
                     enriched.raceDisplayName = normalizeRaceDisplayName(enriched.raceDisplayName);
                 }
@@ -560,7 +561,7 @@ export const createCoreSlice = (set, get) => ({
                             : fullRaceData.race.name;
                     }
                     if (!newCharacter.racialTraits || newCharacter.racialTraits.length === 0) {
-                        newCharacter.racialTraits = getRacialSpells(newCharacter.race, newCharacter.subrace);
+                        newCharacter.racialTraits = getRacialSpells(newCharacter.race, newCharacter.subrace, newCharacter.class);
                     }
                     if (!newCharacter.movementSpeed) {
                         newCharacter.movementSpeed = fullRaceData.combinedTraits.speed || 30;
@@ -817,6 +818,8 @@ export const createCoreSlice = (set, get) => ({
                 subrace: character.subrace || '',
                 raceDisplayName: normalizeRaceDisplayName(character.raceDisplayName) || '',
                 class: character.class || '',
+                classAcquisition: character.classAcquisition || {},
+                bodyStates: character.bodyStates || [],
                 background: character.background || '',
                 backgroundDisplayName: character.backgroundDisplayName || '',
                 path: character.path || '',
@@ -854,10 +857,10 @@ export const createCoreSlice = (set, get) => ({
                 levelUpHistory: character.levelUpHistory || {},
                 talents: character.talents || {},
                 primarySpecialization: character.primarySpecialization || '',
-                classResource: character.classResource || (character.class ? initializeClassResource(character.class, {
+                classResource: normalizeManagedClassResource(character.classResource || (character.class ? initializeClassResource(character.class, {
                     ...(character.stats || {}),
                     level: character.level || 1
-                }) : null),
+                }) : null), character.class),
                 // Ensure inventory is preserved in character state
                 inventory: character.inventory || {
                     items: [],
@@ -895,7 +898,7 @@ export const createCoreSlice = (set, get) => ({
                 const raceData = getFullRaceData(character.race, character.subrace);
                 if (raceData) {
                     // Only include actual spells in racialTraits (filter out passive stat modifiers)
-                    const updatedRacialTraits = getRacialSpells(character.race, character.subrace);
+                    const updatedRacialTraits = getRacialSpells(character.race, character.subrace, character.class);
 
                     // Apply passive stat modifiers (resistances, vulnerabilities, immunities, durability, DR) to character stats
                     const passiveModifiers = getRacialStatModifiers(character.race, character.subrace);
@@ -1363,6 +1366,8 @@ export const createCoreSlice = (set, get) => ({
             race: state.race,
             subrace: state.subrace,
             class: state.class,
+            classAcquisition: state.classAcquisition,
+            bodyStates: state.bodyStates,
             level: state.level,
             experience: state.experience,
             alignment: state.alignment,

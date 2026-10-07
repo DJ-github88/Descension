@@ -27,7 +27,7 @@ export const ALCHEMY_RECIPES = [
     id: 'frost-resistance-elixir-recipe',
     name: 'Frost Resistance Elixir',
     profession: 'alchemy',
-    description: 'Distilled from hush-spore brews of the Vreken deep-crypts. An elixir that provides resistance to cold damage.',
+    description: 'Distilled from hush-spore brews of the Mycellan deep-crypts. An elixir that provides resistance to cold damage.',
     requiredLevel: 2,
     resultItemId: 'frost-resistance-elixir',
     resultQuantity: 1,

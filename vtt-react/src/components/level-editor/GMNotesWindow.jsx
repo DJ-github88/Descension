@@ -535,7 +535,7 @@ const GMNotesWindow = ({
                                                     list="gm-lineage-list"
                                                 />
                                                 <datalist id="gm-lineage-list">
-                                                    <option value="Human (Thalren)" />
+                                                    <option value="Human (Tallyn)" />
                                                     <option value="Human (Nordhallan)" />
                                                     <option value="Human (Sundale)" />
                                                     <option value="Myrathil (Foam-Born)" />
@@ -543,10 +543,10 @@ const GMNotesWindow = ({
                                                     <option value="Florae (Sporeborn)" />
                                                     <option value="Groven (Stoneborn)" />
                                                     <option value="Solari (Sunforged)" />
-                                                    <option value="Vreken (Mist-Stalkers)" />
-                                                    <option value="Nethien (Ash & Iron Kin)" />
+                                                    <option value="Mycellan (Mist-Stalkers)" />
+                                                    <option value="Athien (Ash & Iron Kin)" />
                                                     <option value="Astril (Void-Touched)" />
-                                                    <option value="Fexrick (Forge-Folk)" />
+                                                    <option value="Fexk (Forge-Folk)" />
                                                 </datalist>
                                             </>
                                         )}

@@ -217,8 +217,9 @@ class AuthService {
     if (!db) return false;
 
     try {
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('friendId', '==', friendId));
+      const usersRef = collection(db, 'userProfiles');
+      // Project 4: foreign readers may only query version-1 slim projections.
+      const q = query(usersRef, where('friendId', '==', friendId), where('projectionVersion', '==', 1));
       const querySnapshot = await getDocs(q);
       return querySnapshot.empty; // Returns true if no user has this friendId
     } catch (error) {
@@ -232,12 +233,17 @@ class AuthService {
     if (!db) return null;
 
     try {
-      const usersRef = collection(db, 'users');
+      const usersRef = collection(db, 'userProfiles');
       // Normalize: trim, remove leading #, and lowercase
       const normalizedFriendId = friendId.trim().replace(/^#/, '').toLowerCase();
 
-      // Attempt search by friendId_lowercase first (modern)
-      const qLower = query(usersRef, where('friendId_lowercase', '==', normalizedFriendId));
+      // Attempt search by friendId_lowercase first (modern). Project 4:
+      // foreign reads require the versioned public projection.
+      const qLower = query(
+        usersRef,
+        where('friendId_lowercase', '==', normalizedFriendId),
+        where('projectionVersion', '==', 1)
+      );
       const querySnapshotLower = await getDocs(qLower);
 
       if (!querySnapshotLower.empty) {
@@ -245,8 +251,12 @@ class AuthService {
         return { id: userDoc.id, ...userDoc.data() };
       }
 
-      // Fallback search by friendId (legacy)
-      const qLegacy = query(usersRef, where('friendId', '==', friendId.trim()));
+      // Fallback search by friendId (legacy projection shape)
+      const qLegacy = query(
+        usersRef,
+        where('friendId', '==', friendId.trim()),
+        where('projectionVersion', '==', 1)
+      );
       const querySnapshotLegacy = await getDocs(qLegacy);
 
       if (!querySnapshotLegacy.empty) {
@@ -284,13 +294,14 @@ class AuthService {
       }
 
       try {
+        // Project 4: clients cannot create protected privilege fields. Absence
+        // of subscriptionTier is interpreted as the free tier by the server.
         await setDoc(userRef, {
           displayName: displayName || email.split('@')[0],
           email,
           photoURL: photoURL || null,
           friendId: finalFriendId,
           friendId_lowercase: finalFriendId ? finalFriendId.toLowerCase() : null,
-          subscriptionTier: 'free',
           createdAt,
           lastLoginAt: createdAt,
           characters: [],
@@ -304,6 +315,11 @@ class AuthService {
             achievements: [],
             totalPlayTime: 0
           }
+        });
+        await this._writePublicProfile(user.uid, {
+          displayName: displayName || email.split('@')[0],
+          photoURL: photoURL || null,
+          friendId: finalFriendId
         });
       } catch (error) {
         console.error('Error creating user document:', error);
@@ -325,9 +341,52 @@ class AuthService {
         }
 
         await updateDoc(userRef, updates);
+
+        // Keep the public projection fresh (also backfills existing users on login).
+        await this._writePublicProfile(user.uid, {
+          displayName: user.displayName || userData.displayName,
+          photoURL: user.photoURL || userData.photoURL,
+          friendId: updates.friendId || userData.friendId
+        });
       } catch (error) {
         console.error('Error updating last login:', error);
       }
+    }
+  }
+
+  /**
+   * Write the public, non-sensitive profile projection at userProfiles/{uid}.
+   * Any authenticated user may read it (friend search + friend display); PII
+   * (email, subscriptionTier, preferences) stays in users/{uid}, owner-only.
+   * Only provided fields are written (merge), so partial updates are safe.
+   */
+  async _writePublicProfile(uid, data = {}) {
+    if (!db || !uid) return;
+    try {
+      // Project 4 exact public allowlist. Rich private profile data lives in
+      // userSettings/{uid}.profile and is never copied here.
+      const profile = { updatedAt: new Date(), projectionVersion: 1 };
+      if (data.displayName !== undefined) profile.displayName = data.displayName || null;
+      if (data.photoURL !== undefined) profile.photoURL = data.photoURL || null;
+      if (data.friendId !== undefined) {
+        profile.friendId = data.friendId || null;
+        profile.friendId_lowercase = data.friendId ? String(data.friendId).toLowerCase() : null;
+      }
+      await setDoc(doc(db, 'userProfiles', uid), profile, { merge: true });
+    } catch (error) {
+      console.warn('Failed to write public profile projection:', error?.message || error);
+    }
+  }
+
+  // Read a public profile projection (any user).
+  async getUserProfile(uid) {
+    if (!db || !uid) return null;
+    try {
+      const snap = await getDoc(doc(db, 'userProfiles', uid));
+      return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+    } catch (error) {
+      console.error('Error getting user profile:', error);
+      return null;
     }
   }
 
@@ -386,6 +445,14 @@ class AuthService {
         ...updatePayload,
         updatedAt: new Date()
       });
+
+      // Keep the public projection in sync for any public fields that changed.
+      await this._writePublicProfile(this.currentUser.uid, {
+        ...(data.displayName !== undefined ? { displayName: data.displayName } : {}),
+        ...(data.photoURL !== undefined ? { photoURL: data.photoURL } : {}),
+        ...(data.friendId !== undefined ? { friendId: data.friendId } : {})
+      });
+
       return { success: true };
     } catch (error) {
       console.error('Error updating user data:', error);
