@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import useGameStore from './gameStore';
 import useAuthStore from './authStore';
 import { checkDiceRollRateLimit } from '../utils/validationUtils';
@@ -448,7 +448,7 @@ const useDiceStore = create(
         }
       }
     }),
-    createStorageConfig('dice-store', {
+    createScopedStorageConfig('dice.history', 'dice-store', {
       partialize: (state) => ({
         selectedTheme: state.selectedTheme,
         isDiceBarVisible: state.isDiceBarVisible,

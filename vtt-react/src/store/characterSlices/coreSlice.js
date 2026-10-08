@@ -6,12 +6,18 @@ import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import characterPersistenceService from '../../services/firebase/characterPersistenceService';
 import characterSessionService from '../../services/firebase/characterSessionService';
-import characterMigrationService from '../../services/firebase/characterMigrationService';
-import localStorageManager from '../../utils/localStorageManager';
 import { storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
-import { getCurrentUserId, isGuestUser, getCharactersStorageKey, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
+import { getCurrentUserId, isGuestUser, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
+import {
+    loadRoster,
+    saveRoster,
+    loadActivePointer,
+    saveActivePointer,
+    clearActivePointer
+} from '../../persistence/characterScopedStorage';
+import { captureOwnerGuard } from '../../persistence/scopedConsumer';
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { normalizeManagedClassResource } from '../../data/classResourceContracts';
@@ -271,21 +277,9 @@ export const createCoreSlice = (set, get) => ({
             const userId = getCurrentUserId();
             const useFirebase = shouldUseFirebase();
 
-            // Check for offline characters first
-            const offlineCharacters = {};
-            if (userId) {
-                // Load any offline character data
-                Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('offline_characters_')) {
-                        try {
-                            const data = JSON.parse(localStorage.getItem(key));
-                            Object.assign(offlineCharacters, data);
-                        } catch (error) {
-                            console.warn('Failed to load offline character data:', error);
-                        }
-                    }
-                });
-            }
+            // Wave B (S5.3): no global enumeration of other accounts' offline
+            // character caches. Per-account offline reads use the explicit
+            // userId path in offlineService only.
 
             // CRITICAL FIX: Ensure character isolation between guest, dev, and authenticated users
             // Clear characters ONLY IF we have a stable, different authenticated identity.
@@ -303,39 +297,10 @@ export const createCoreSlice = (set, get) => ({
                 currentAccountType = 'authenticated';
             }
 
-            // CRITICAL FIX: Don't clear storage if the user identity is still stabilizing
-            // or if we're in a dev mode where we expect specific fallbacks.
-            const lastAccountType = localStorage.getItem('mythrill-last-account-type');
-            const lastUserId = localStorage.getItem('mythrill-last-user-id');
-
-            // Only clear storage if we have a CLEAR switch between stable account types
-            // and we're not in the middle of auth initialization.
-            const isAuthInitialized = authStore.getState().isAuthInitialized;
-            const isTempUser = (id) => !id || id === 'dev-user-localhost' || id === 'dev-user-fallback' || id.startsWith('dev-user-');
-
-            if (isAuthInitialized && lastAccountType && lastAccountType !== currentAccountType) {
-                // If we're moving TO an authenticated account FROM a guest account, we keep the guest data
-                // but if we're moving BETWEEN different authenticated/dev accounts, we clean up.
-                // CRITICAL: Don't clear if the current account is just the "dev" fallback.
-                // We ONLY clear if we are moving between two STABLE, NON-TEMP identities.
-                if (currentAccountType !== 'dev' && (lastAccountType === 'authenticated' || lastAccountType === 'dev') && !isTempUser(lastUserId)) {
-                    console.log(`[CharacterStore] Account type change from ${lastAccountType} to ${currentAccountType}, clearing storage`);
-                    localStorage.removeItem('mythrill-characters');
-                    localStorage.removeItem('mythrill-active-character');
-                }
-            }
-
-            // CRITICAL FIX: Only clear if the userId changed AND we are not in a temporary initialization state
-            if (lastUserId && currentUserId && lastUserId !== currentUserId) {
-                // Don't clear if it's just the dev fallback changing
-                const isTempUser = (id) => !id || id === 'dev-user-localhost' || id === 'dev-user-fallback';
-                
-                if (!isTempUser(currentUserId) && !isTempUser(lastUserId)) {
-                   console.log(`[CharacterStore] User ID change from ${lastUserId} to ${currentUserId}, clearing storage`);
-                   localStorage.removeItem('mythrill-characters');
-                   localStorage.removeItem('mythrill-active-character');
-                }
-            }
+            // Wave B (S5/A1): storage is per-verified-owner scoped and the
+            // handoff participant retires the previous owner's working state.
+            // Legacy global keys are recovery sources and are NEVER deleted
+            // here (no marker-based ownership, no destructive switch cleanup).
 
             localStorage.setItem('mythrill-last-account-type', currentAccountType);
             if (currentUserId) {
@@ -344,27 +309,27 @@ export const createCoreSlice = (set, get) => ({
 
             // If guest user or not using Firebase, skip Firebase loading
             if (userId && useFirebase && !isGuest) {
-                // Skip migration in development mode to avoid Firebase permission issues
-                if (process.env.NODE_ENV !== 'development' && characterMigrationService.isMigrationNeeded()) {
-                    try {
-                        // Create backup before migration
-                        characterMigrationService.createBackup();
+                // Wave B (S5/A1): ownerless legacy auto-migration is disabled.
+                // The global roster stays a preserved recovery source; it is
+                // never uploaded to the current account's cloud document.
 
-                        // Perform migration
-                        const migrationResult = await characterMigrationService.migrateAllCharacters(userId);
-
-                        if (!migrationResult.success) {
-                            console.warn(`Migration completed with errors: ${migrationResult.failed} failed`);
-                        }
-                    } catch (migrationError) {
-                        console.error('Migration failed:', migrationError);
-                        // Continue loading even if migration fails
-                    }
+                // B1: fence the awaited cloud roster load to the owner and
+                // account generation that started it. A response that lands
+                // after logout/relogin/handoff must never install another
+                // owner's (or an obsolete) roster into the live store.
+                const ownerGuard = captureOwnerGuard(userId);
+                if (!ownerGuard.ok) {
+                    set({ isLoading: false });
+                    return get().characters || [];
                 }
 
                 // Load from Firebase if user is authenticated
                 try {
                     const characters = await characterPersistenceService.loadUserCharacters(userId);
+                    if (!ownerGuard.isCurrent()) {
+                        set({ isLoading: false });
+                        return get().characters || [];
+                    }
 
                     // Compute missing display names for loaded characters
                     const enrichedCharacters = characters.map(char => {
@@ -419,38 +384,26 @@ export const createCoreSlice = (set, get) => ({
                 }
             }
 
-            // Fallback to localStorage / in-memory store (for offline mode, guest users, or when Firebase fails)
+            // Wave B (S5/A1): verified-owner scoped roster. Legacy global keys
+            // are recovery sources only; they are never read automatically and
+            // are quarantined (verified copy) on first scoped load.
             let characters = [];
             try {
-                const storageKey = getCharactersStorageKey();
-                const savedCharacters = localStorageManager.safeGetItem(storageKey);
-                characters = savedCharacters ? JSON.parse(savedCharacters) : [];
-                
-                // IMPROVED: If no characters found in expected key, check the other key as fallback
-                if (!characters || characters.length === 0) {
-                    const alternateKey = storageKey === 'mythrill-characters' 
-                        ? 'mythrill-guest-characters' 
-                        : 'mythrill-characters';
-                    const alternateCharacters = localStorageManager.safeGetItem(alternateKey);
-                    if (alternateCharacters) {
-                        const parsed = JSON.parse(alternateCharacters);
-                        if (Array.isArray(parsed) && parsed.length > 0) {
-                            console.log(`[CharacterStore] Found ${parsed.length} characters in alternate storage key: ${alternateKey}`);
-                            characters = parsed;
-                        }
-                    }
-                }
-                
-                // If storage was empty or failed, but we already have in-memory characters in the store, preserve them!
+                const scopedRoster = loadRoster(isGuest);
+                characters = Array.isArray(scopedRoster) ? scopedRoster : [];
+
+                // If the scoped record is empty, preserve same-owner in-memory
+                // characters (e.g. a save still settling) — never another
+                // account's, because handoff resets this store on owner change.
                 const existingInMemory = get().characters;
                 if ((!characters || characters.length === 0) && Array.isArray(existingInMemory) && existingInMemory.length > 0) {
                     console.log(`[CharacterStore] Preserving ${existingInMemory.length} existing in-memory characters`);
                     characters = existingInMemory;
                 }
-                
-                console.log(`[CharacterStore] Loaded ${characters?.length || 0} characters from ${storageKey}`);
+
+                console.log(`[CharacterStore] Loaded ${characters?.length || 0} scoped characters`);
             } catch (localStorageError) {
-                console.error('Error loading from storage:', localStorageError);
+                console.error('Error loading scoped roster:', localStorageError);
                 const existingInMemory = get().characters;
                 characters = Array.isArray(existingInMemory) ? existingInMemory : [];
             }
@@ -508,7 +461,7 @@ export const createCoreSlice = (set, get) => ({
             set({ characters, isLoading: false });
 
             // If there's an active character, recalculate its resources
-            const activeCharacterId = localStorage.getItem('mythrill-active-character');
+            const activeCharacterId = loadActivePointer();
             if (activeCharacterId && characters.length > 0) {
                 const activeCharacter = characters.find(char => char.id === activeCharacterId);
                 if (activeCharacter) {
@@ -603,11 +556,12 @@ export const createCoreSlice = (set, get) => ({
             const state = get();
             const updatedCharacters = [...state.characters, newCharacter];
 
-            // CRITICAL FIX: Only save to localStorage if:
-            // 1. Guest user (always use localStorage, but handle quota issues)
+            // CRITICAL FIX: Only save to scoped storage if:
+            // 1. Guest user (always use scoped storage, but handle quota issues)
             // 2. Firebase save failed or Firebase not enabled
             // 3. As a backup for authenticated users
-            const storageKey = getCharactersStorageKey();
+            // Wave B (S5/A1): the roster is verified-owner scoped; there is no
+            // global fallback key anymore.
 
             // Helper function to compress character data before saving
             const compressCharacterData = (char) => {
@@ -653,27 +607,18 @@ export const createCoreSlice = (set, get) => ({
             if (isGuest || !useFirebase || !userId) {
                 // CRITICAL FIX: For guest users, try to save but don't fail if quota exceeded
                 // The character is still created in memory and will be available in the session
-                try {
-                    const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(compressedCharacters));
-                    if (!result.success) {
-                        console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to save characters to localStorage (quota exceeded):', result.error);
-                        console.warn('Ã¢Å¡Â Ã¯Â¸Â Character is still available in this session but may not persist after refresh');
-                        // Still continue with the operation - character is in memory
+                saveRoster(isGuest, compressedCharacters).then((result) => {
+                    if (result && result.status !== 'OK' && result.status !== 'FORKED') {
+                        console.warn('⚠️ Scoped character save not persisted:', result.status, result.reason || '');
                     }
-                } catch (error) {
-                    console.warn('Ã¢Å¡Â Ã¯Â¸Â localStorage quota exceeded for guest character:', error);
-                    console.warn('Ã¢Å¡Â Ã¯Â¸Â Character is still available in this session but may not persist after refresh');
-                    // Don't fail the operation - character is still in memory
-                }
+                }).catch((error) => {
+                    console.warn('⚠️ Scoped character save failed (character remains in memory):', error);
+                });
             } else {
-                // For authenticated users with Firebase, only save to localStorage as backup
-                // Try to save but don't fail if it doesn't work (Firebase is primary)
-                try {
-                    localStorageManager.safeSetItem(storageKey, JSON.stringify(compressedCharacters));
-                } catch (error) {
-                    console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to save character backup to localStorage (Firebase is primary):', error);
-                    // Don't fail the operation - Firebase is the primary storage
-                }
+                // For authenticated users with Firebase, scoped storage is a backup
+                saveRoster(isGuest, compressedCharacters).catch((error) => {
+                    console.warn('⚠️ Failed to save character backup to scoped storage (Firebase is primary):', error);
+                });
             }
 
             // CRITICAL FIX: Ensure character is in the store even if localStorage save failed
@@ -742,13 +687,14 @@ export const createCoreSlice = (set, get) => ({
                 }
             }
 
-            // Always save to localStorage as backup with quota management
-            const storageKey = getCharactersStorageKey();
-            const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
-            if (!result.success) {
-                console.error('Failed to save characters to localStorage:', result.error);
-                // Still continue with the operation, just log the error
-            }
+            // Always save to scoped storage as backup with quota management
+            saveRoster(isGuestUser(), updatedCharacters).then((result) => {
+                if (result && result.status !== 'OK' && result.status !== 'FORKED') {
+                    console.error('Failed to save characters to scoped storage:', result.status, result.reason || '');
+                }
+            }).catch((error) => {
+                console.error('Failed to save characters to scoped storage:', error);
+            });
 
             set({
                 characters: updatedCharacters,
@@ -781,13 +727,14 @@ export const createCoreSlice = (set, get) => ({
 
             const updatedCharacters = state.characters.filter(char => char.id !== characterId);
 
-            // Save to localStorage with quota management
-            const storageKey = getCharactersStorageKey();
-            const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
-            if (!result.success) {
-                console.error('Failed to save characters to localStorage:', result.error);
-                // Still continue with the operation, just log the error
-            }
+            // Save to scoped storage with quota management
+            saveRoster(isGuestUser(), updatedCharacters).then((result) => {
+                if (result && result.status !== 'OK' && result.status !== 'FORKED') {
+                    console.error('Failed to save characters to scoped storage:', result.status, result.reason || '');
+                }
+            }).catch((error) => {
+                console.error('Failed to save characters to scoped storage:', error);
+            });
 
             set({
                 characters: updatedCharacters,
@@ -1150,8 +1097,8 @@ export const createCoreSlice = (set, get) => ({
             // Load the character data
             get().loadCharacter(characterId);
 
-            // Persist active character selection
-            localStorage.setItem('mythrill-active-character', characterId);
+            // Persist active character selection (scoped selector)
+            saveActivePointer(characterId);
 
             // Update party member if in a party
             try {
@@ -1250,14 +1197,14 @@ export const createCoreSlice = (set, get) => ({
 
             console.log(`[CharacterStore] loadActiveCharacter: Found ${characters?.length || 0} characters`);
 
-            // Then check for active character
-            let activeCharacterId = localStorage.getItem('mythrill-active-character');
+            // Then check for active character (scoped selector)
+            let activeCharacterId = loadActivePointer();
 
             // IMPROVED: If no active character is set but characters exist, auto-select the first one
             if (!activeCharacterId && characters && characters.length > 0) {
                 activeCharacterId = characters[0].id;
                 console.log(`[CharacterStore] No active character set, auto-selecting first character: ${characters[0].name}`);
-                localStorage.setItem('mythrill-active-character', activeCharacterId);
+                saveActivePointer(activeCharacterId);
             }
 
             if (activeCharacterId) {
@@ -1267,7 +1214,7 @@ export const createCoreSlice = (set, get) => ({
                     return character;
                 } else {
                     // Character not found, clear the stored ID
-                    localStorage.removeItem('mythrill-active-character');
+                    clearActivePointer();
                     console.warn('Stored active character not found, cleared selection');
                     
                     // IMPROVED: Try to select the first available character as fallback
@@ -1284,14 +1231,12 @@ export const createCoreSlice = (set, get) => ({
 
         } catch (error) {
             console.error('Error loading active character:', error);
-            // Try to provide a fallback by checking localStorage directly
+            // Fallback: reload the owner's scoped roster + pointer directly.
             try {
-                const storageKey = getCharactersStorageKey();
-                const savedCharacters = localStorage.getItem(storageKey);
-                const activeCharacterId = localStorage.getItem('mythrill-active-character');
+                const characters = loadRoster(isGuestUser()) || [];
+                const activeCharacterId = loadActivePointer();
 
-                if (savedCharacters && activeCharacterId) {
-                    const characters = JSON.parse(savedCharacters);
+                if (activeCharacterId) {
                     const character = characters.find(char => char.id === activeCharacterId);
 
                     if (character) {
@@ -1318,7 +1263,7 @@ export const createCoreSlice = (set, get) => ({
 
     // Clear active character selection
     clearActiveCharacter: () => {
-        localStorage.removeItem('mythrill-active-character');
+        clearActivePointer();
         set({ currentCharacterId: null });
 
         // Clear inventory when no character is active
@@ -1473,15 +1418,9 @@ export const createCoreSlice = (set, get) => ({
             userId: userId || 'None',
             useFirebase,
 
-            // Storage
-            localStorageCharacters: (() => {
-                try {
-                    const storageKey = getCharactersStorageKey();
-                    const saved = localStorage.getItem(storageKey);
-                    return saved ? JSON.parse(saved).length : 0;
-                } catch { return 'Error reading'; }
-            })(),
-            localStorageActiveId: localStorage.getItem('mythrill-active-character'),
+            // Storage (scoped owner record counts)
+            localStorageCharacters: (get().characters || []).length,
+            localStorageActiveId: loadActivePointer(),
 
             // Environment
             hostname: window.location.hostname,

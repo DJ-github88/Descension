@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import localRoomService from '../../services/localRoomService';
 import { clearLocalRoom } from '../../utils/localRoom';
+import { saveConversionTransfer } from '../../persistence/localRoomConversionScoped';
 import './LocalRoomIndicator.css';
 
 const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu, inSettings = false }) => {
@@ -28,14 +29,14 @@ const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu, inSettings = f
       // Prepare room data for conversion
       const conversionData = localRoomService.prepareRoomForConversion(currentRoom.id);
       
-      // Store conversion data in localStorage for the multiplayer creation process
-      localStorage.setItem('convertingLocalRoom', JSON.stringify({
+      // Store conversion data in verified-owner scoped storage for the
+      // multiplayer creation process (never inherited by another account)
+      saveConversionTransfer({
         ...conversionData,
         originalRoomId: currentRoom.id
-      }));
+      });
 
       // Navigate to multiplayer lobby with conversion flag
-      localStorage.setItem('isConverting', 'true');
       navigate('/multiplayer');
       
     } catch (error) {

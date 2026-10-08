@@ -9,6 +9,11 @@ import {
 import { db, isFirebaseConfigured } from '../config/firebase';
 
 import { processImage } from '../utils/imageProcessor';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
+
+// Wave B (final sweep): local-fallback custom maps are authored private records
+// for the verified owner; userId remains a resource reference only.
+const customMapsFamily = createScopedNativeFamily({ familyId: 'map.customFallback' });
 
 /**
  * Upper bound for a stored map image data URL. Firestore documents cap at
@@ -144,14 +149,16 @@ class CustomMapService {
   }
 
   getLocalMaps(userId) {
-    const key = `mythrill_custom_maps_${userId || 'guest'}`;
-    try { return JSON.parse(localStorage.getItem(key)) || []; }
-    catch { return []; }
+    void userId;
+    try {
+      const maps = customMapsFamily.load(['maps']);
+      return Array.isArray(maps) ? maps : [];
+    } catch { return []; }
   }
 
   saveLocalMaps(userId, maps) {
-    const key = `mythrill_custom_maps_${userId || 'guest'}`;
-    try { localStorage.setItem(key, JSON.stringify(maps)); } catch (e) {}
+    void userId;
+    try { customMapsFamily.save(maps, ['maps']); } catch (e) {}
   }
 }
 

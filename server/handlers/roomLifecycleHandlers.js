@@ -693,7 +693,9 @@ function registerRoomHandlers(ctx) {
       // C3: pending-admission recovery must be resolved BEFORE any membership-
       // based reconnect exemption. A pending_admission UID is not proof of
       // completed legitimate membership and must never supply a password/
-      // reconnect shortcut. Discovery failure fails closed.
+      // reconnect shortcut. Discovery failure fails closed, and `ok:true` alone
+      // is NOT resolution: this user's obligation must be explicitly resolved
+      // or the join is refused.
       if (room.isPermanent && authorityService &&
         firebaseService && typeof firebaseService.removeRoomMember === 'function' &&
         typeof firebaseService.listMembershipCompensations === 'function') {
@@ -703,12 +705,25 @@ function registerRoomHandlers(ctx) {
             firebaseService, authorityService, room.id, rooms
           );
         } catch (_error) {
-          recovery = { ok: false, code: roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE };
+          recovery = { ok: false, code: roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE, unresolved: [] };
         }
         if (!recovery || recovery.ok !== true) {
           socket.emit('room_error', {
             error: 'Room membership recovery is temporarily unavailable; join was refused',
             code: (recovery && recovery.code) || roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE
+          });
+          return;
+        }
+        const userUnresolved = Array.isArray(recovery.unresolved) &&
+          recovery.unresolved.some((entry) => entry.userId === uid);
+        if (userUnresolved) {
+          // This UID still has an unresolved pending-admission obligation, so
+          // raw durable membership cannot authorize a reconnect. Fail closed
+          // rather than allow a later recovery pass to regrant without the
+          // credentials that were never checked.
+          socket.emit('room_error', {
+            error: 'Join was refused; the room membership change needs retry',
+            code: roomAccess.DENIAL_CODES.MEMBERSHIP_COMPENSATION_REQUIRED
           });
           return;
         }

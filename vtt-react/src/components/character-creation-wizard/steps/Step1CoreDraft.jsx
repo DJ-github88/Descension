@@ -614,6 +614,8 @@ const BACKGROUND_ICONS_MYTHRILL = {
 
     obligationBroker: 'fas fa-handshake',
 
+    arbitrator: 'fas fa-gavel',
+
     greymarkArchivist: 'fas fa-scroll',
 
     privateer: 'fas fa-ship',
@@ -926,32 +928,52 @@ const Step1CoreDraft = () => {
     const classIllustrations = useMemo(() => {
         const clsData = CLASS_DATA_MAP[characterData.class];
         if (!clsData) return [];
-        if (clsData.overview?.illustrations && clsData.overview.illustrations.length > 0) {
-            return clsData.overview.illustrations.map(ill => ({
+        // Most classes keep the race gallery on overview.illustrations; Minstrel,
+        // Plaguebringer, Pyrofiend and Spellguard keep it at the data top level.
+        const gallery = (clsData.overview?.illustrations?.length ? clsData.overview.illustrations : null)
+            || (Array.isArray(clsData.illustrations) && clsData.illustrations.length > 0 ? clsData.illustrations : null);
+        if (gallery) {
+            return gallery.map(ill => ({
                 src: ill.url,
                 caption: ill.caption,
                 subraceId: ill.subraceId
             }));
         }
-        if (clsData.overview?.illustration) {
+        const single = clsData.overview?.illustration || clsData.illustration;
+        if (single) {
             return [{
-                src: clsData.overview.illustration,
-                caption: clsData.overview.illustrationCaption || clsData.name
+                src: single,
+                caption: clsData.overview?.illustrationCaption || clsData.illustrationCaption || clsData.name
             }];
         }
         return [];
     }, [characterData.class]);
 
     useEffect(() => {
-        if (selectedSubrace && classIllustrations.length > 0) {
-            const matchIdx = classIllustrations.findIndex(ill => ill.subraceId === selectedSubrace.id);
-            if (matchIdx >= 0) {
-                setClassIllIndex(matchIdx);
+        if (classIllustrations.length === 0) {
+            setClassIllIndex(0);
+            return;
+        }
+        if (selectedSubrace) {
+            const subraceMatch = classIllustrations.findIndex(ill => ill.subraceId === selectedSubrace.id);
+            if (subraceMatch >= 0) {
+                setClassIllIndex(subraceMatch);
+                return;
+            }
+        }
+        if (selectedRace) {
+            // No subrace-specific portrait: fall back to any portrait native to the
+            // chosen race so the codex still shows a race x class illustration.
+            const raceMatch = classIllustrations.findIndex(
+                ill => HERITAGE_TRADITIONS[ill.subraceId]?.raceId === selectedRace.id
+            );
+            if (raceMatch >= 0) {
+                setClassIllIndex(raceMatch);
                 return;
             }
         }
         setClassIllIndex(0);
-    }, [characterData.class, selectedSubrace?.id, classIllustrations]);
+    }, [characterData.class, selectedRace?.id, selectedSubrace?.id, classIllustrations]);
 
     const currentClassIll = classIllustrations[classIllIndex] || classIllustrations[0] || null;
 
@@ -1291,6 +1313,15 @@ const Step1CoreDraft = () => {
 
     // Class Handlers
 
+    // Bring a codex section into view when a selection is made, so the race x
+    // class artwork (or heritage/origin lore) is actually shown, not off-screen.
+    const scrollCodexTo = (sectionId) => {
+        const el = typeof document !== 'undefined' ? document.getElementById(sectionId) : null;
+        if (el && el.offsetParent !== null && typeof el.scrollIntoView === 'function') {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     const handleClassClick = (className) => {
         if (characterData.class === className) {
             dispatch(wizardActionCreators.setClass(''));
@@ -1302,6 +1333,7 @@ const Step1CoreDraft = () => {
         dispatch(wizardActionCreators.setClass(className));
         setFocusedSection('class');
         if (characterData.class !== className) dispatch(wizardActionCreators.setStartingSpells([]));
+        window.setTimeout(() => scrollCodexTo('grimoire-calling'), 80);
     };
 
     const isCharacterClassCompatible = className => isClassCompatible(className, race, subrace,
@@ -2440,7 +2472,16 @@ const Step1CoreDraft = () => {
 
                                         <h2 className="grimoire-title">
 
-                                            <i className={selectedRace ? getRaceIcon(selectedRace.name) : "fas fa-scroll"}></i> Heritage
+                                            {selectedSubrace?.crest ? (
+                                                <img
+                                                    src={selectedSubrace.crest}
+                                                    alt=""
+                                                    className="grimoire-header-crest"
+                                                    title={`${selectedSubrace.name} crest`}
+                                                />
+                                            ) : (
+                                                <i className={selectedRace ? getRaceIcon(selectedRace.name) : "fas fa-scroll"}></i>
+                                            )} Heritage
 
                                         </h2>
 
@@ -2466,7 +2507,7 @@ const Step1CoreDraft = () => {
                                                 className="grimoire-large-heritage-icon grimoire-zoomable"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
-                                                    e.target.src = '/assets/images/races/human_illustration.png';
+                                                    e.target.src = '/assets/images/races/human_thalren_city_greymark.jpg';
                                                 }}
                                             />
                                             <div className="grimoire-art-zoom-hint">
@@ -2730,14 +2771,14 @@ const Step1CoreDraft = () => {
                                                 {currentClassIll ? (
                                                     <>
                                                         <div
-                                                            className="grimoire-heritage-icon-wrapper"
+                                                            className="grimoire-class-art-frame"
                                                             onClick={() => setLightboxImage(currentClassIll.src)}
                                                             title="Click to zoom class illustration"
                                                         >
                                                             <img 
                                                                 src={currentClassIll.src}
                                                                 alt={currentClassIll.caption || characterData.class}
-                                                                className="grimoire-large-heritage-icon grimoire-zoomable"
+                                                                className="grimoire-class-art-image grimoire-zoomable"
                                                                 onError={(e) => {
                                                                     e.target.onerror = null;
                                                                     e.target.src = CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`;

@@ -547,7 +547,7 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "Slag Gulch",
     "type": "settlement",
-    "description": "A narrow ravine settlement filled with forge waste and industrial debris, where Solari and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid, a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Span-Speech.",
+    "description": "A narrow ravine settlement filled with forge waste and industrial debris, where Solari and Groven workers process slag for salvageable metals. The gulch is hot, loud, and acrid, a permanent foundry town built on the principle that nothing useful should be wasted. The inhabitants have developed a unique patois mixing Sundari and Spanspeech.",
     "dangerLevel": "medium",
     "factions": [
       "Solari Forge-Clans",

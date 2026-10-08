@@ -29,30 +29,26 @@ const isQuotaExceededError = (error) => {
 const attemptQuotaCleanup = () => {
     if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
 
-    try {
-        if (window.localStorageManager && typeof window.localStorageManager.performEmergencyCleanup === 'function') {
-            window.localStorageManager.performEmergencyCleanup();
-            return;
-        }
-    } catch (_) {}
+  try {
+    if (window.localStorageManager && typeof window.localStorageManager.performEmergencyCleanup === 'function') {
+      window.localStorageManager.performEmergencyCleanup();
+      return;
+    }
+  } catch (_) {}
 
-    try {
-        const disposablePrefixes = ['mythrill-backup-', 'mythrill-temp-', 'mythrill-cache-', 'mythrill-debug-'];
-        const disposableExact = ['mythrill_subregion_polygons', 'mythrill_map_history_backup'];
-        const keysToRemove = [];
-
-        for (let i = 0; i < localStorage.length; i++) {
-            const k = localStorage.key(i);
-            if (!k) continue;
-            if (disposablePrefixes.some(p => k.startsWith(p)) || disposableExact.includes(k)) {
-                keysToRemove.push(k);
-            }
-        }
-
-        keysToRemove.forEach(k => {
-            try { localStorage.removeItem(k); } catch (_) {}
-        });
-    } catch (_) {}
+  try {
+    // Wave A (P5/S2): registry-driven, fail-closed cleanup. Only explicitly
+    // classified public/session keys are eligible. Authored, recoverable,
+    // quarantine and unregistered keys are never deleted here; storage
+    // pressure is reported instead of silently destroying work.
+    const { performGenericCleanup } = require('../persistence/cleanupAdapter');
+    const cleanup = performGenericCleanup({ storage: localStorage });
+    if (cleanup.storagePressure) {
+      console.warn('[storageUtils] Storage pressure: no registry-eligible disposable keys; refusing to delete protected data.');
+    }
+  } catch (_) {
+    // Any policy/adaptor failure leaves storage untouched.
+  }
 };
 
 /**

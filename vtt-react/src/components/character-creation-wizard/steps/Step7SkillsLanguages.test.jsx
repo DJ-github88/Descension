@@ -20,7 +20,7 @@ jest.mock('../../../store/customLineageStore', () => ({
     default: { getState: () => ({ getLineage: id => id === 'custom-language-fixture' ? {
         id,
         name: 'Custom fixture',
-        baseTraits: { languages: ["Wayfarer's Cant", 'Echo-Song'] },
+        baseTraits: { languages: ["Wayfarer's Cant", 'Echosong'] },
         subraces: [{ id: 'custom-child', name: 'Custom child', perks: [] }]
     } : null }) }
 }));
@@ -34,7 +34,7 @@ test('creation dispatches base-race language grants and updates them when the he
         delete subrace.languages;
         const { rerender, unmount } = render(<Step7SkillsLanguages />);
         await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith({
-            type: 'languages', payload: ["Wayfarer's Cant", 'Gloom-Tongue']
+            type: 'languages', payload: ["Wayfarer's Cant", 'Gloomtongue']
         }));
         const languageCallCount = mockDispatch.mock.calls.filter(([action]) => action.type === 'languages').length;
         rerender(<Step7SkillsLanguages />);
@@ -43,7 +43,7 @@ test('creation dispatches base-race language grants and updates them when the he
         mockCharacterData = { ...mockCharacterData, race: 'mimir', subrace: 'tethered_mimir' };
         rerender(<Step7SkillsLanguages />);
         await waitFor(() => expect(mockDispatch).toHaveBeenLastCalledWith({
-            type: 'languages', payload: ["Wayfarer's Cant", 'Vale-Speak']
+            type: 'languages', payload: ["Wayfarer's Cant", 'Valespeak']
         }));
         unmount();
     } finally {
@@ -59,21 +59,21 @@ test('freshly adapted custom-lineage objects do not repeatedly dispatch language
     };
     const { rerender } = render(<Step7SkillsLanguages />);
     await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith({
-        type: 'languages', payload: ["Wayfarer's Cant", 'Echo-Song']
+        type: 'languages', payload: ["Wayfarer's Cant", 'Echosong']
     }));
     const initialCalls = mockDispatch.mock.calls.filter(([action]) => action.type === 'languages').length;
     rerender(<Step7SkillsLanguages />);
     expect(mockDispatch.mock.calls.filter(([action]) => action.type === 'languages')).toHaveLength(initialCalls);
 });
 
-test('editing a legacy Astril draft preserves Lumian knowledge as Echo-Song without duplicate grants', async () => {
+test('editing a legacy Astril draft preserves Lumian knowledge as Echosong without duplicate grants', async () => {
     mockDispatch.mockClear();
     mockCharacterData = {
         race: 'astril', subrace: 'vashir_astril',
-        selectedSkills: [], selectedLanguages: ['Lumian', 'Echo-Song'], skillRanks: {}
+        selectedSkills: [], selectedLanguages: ['Lumian', 'Echosong'], skillRanks: {}
     };
     render(<Step7SkillsLanguages />);
     await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith({
-        type: 'languages', payload: ["Wayfarer's Cant", 'Echo-Song']
+        type: 'languages', payload: ["Wayfarer's Cant", 'Echosong']
     }));
 });

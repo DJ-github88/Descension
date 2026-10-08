@@ -17,6 +17,7 @@ import useConditionStore from '../store/conditionStore';
 import useContainerStore from '../store/containerStore';
 import useTravelStore from '../store/travelStore';
 import useMapStore from '../store/mapStore';
+import { enterRoomProjection } from '../persistence/mapProjectionBoundary';
 
 export const ROOT_ENTITY_MIRRORS = ['tokens', 'characterTokens', 'gridItems'];
 
@@ -477,6 +478,14 @@ export function applyRoomSnapshot(options = {}) {
   const scope = options.scope || 'room';
   const previousReceiving = typeof window !== 'undefined' ? window._isReceivingMapUpdate : undefined;
   if (typeof window !== 'undefined') { window._isReceivingMapUpdate = true; }
+
+  // Wave B (S5/E): server room projections replace working map/token/condition
+  // state in memory only. Authored sandbox drafts are detached (writes
+  // suspended) so the authoritative snapshot is never persisted as a personal
+  // authored edit and the previous sandbox state stays recoverable.
+  if (scope === 'room' || scope === 'map') {
+    enterRoomProjection({ roomId: options.roomId || options.activeMapId || options.mapId || null });
+  }
 
   try {
     if (scope === 'room') {

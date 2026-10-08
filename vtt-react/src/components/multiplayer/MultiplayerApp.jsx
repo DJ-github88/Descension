@@ -16,6 +16,9 @@ import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useNotificationStore from '../../store/notificationStore';
+import { principalKeyOfAuthState } from '../../persistence/handoff/socketPrincipalRetirement';
+import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
+import { exitRoomProjection } from '../../persistence/mapProjectionBoundary';
 import useChatStore, { setCombatSyncSocket, clearCombatSyncSocket } from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
@@ -888,7 +891,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     return setupAuthChangeHandler({
       socket,
       isJoiningRoomRef,
-      isAutoJoinSequenceRef
+      isAutoJoinSequenceRef,
+      currentRoomRef,
+      roomPasswordRef,
+      currentPlayerRef,
+      pendingRoomDataRef,
+      activeJoinIdRef,
+      autoJoinAttemptedRef,
+      setCurrentRoom,
+      setSocket,
+      setCurrentPlayer,
+      setPendingRoomData,
+      setIsRoomReady,
+      setIsJoiningRoom,
+      setIsFadingOut,
+      setShowContinue
     });
   }, [socket]);
 
@@ -1002,6 +1019,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   };
 
   const handleLeaveRoom = async () => {
+    // Wave B (S5/E): leaving the room ends the server-projection window and
+    // restores the owner's authored sandbox map working state.
+    exitRoomProjection();
     // Immediately update UI state for instant response
     setCurrentRoom(null);
     setCurrentPlayer(null);
@@ -1098,13 +1118,34 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       pendingRoomDataRef.current = null; // Clear ref so no more buffering happens
       activeJoinIdRef.current = null; // Clear join ID to allow future joins
 
+      // Wave A (P5/S4, corrected R8/B5): capture the exact principal AND
+      // account generation for this admission continuation. If either
+      // changes while the join is pending, no continuation or timer may
+      // mutate the newer session's state.
+      const principalAtStart = principalKeyOfAuthState(useAuthStore.getState());
+      const generationAtStart = getBootstrapGateState().accountGeneration;
+      const admissionStillCurrent = () =>
+        principalKeyOfAuthState(useAuthStore.getState()) === principalAtStart &&
+        getBootstrapGateState().accountGeneration === generationAtStart;
+
       try {
         // Give the browser a moment to commit the state change and start the animation 
         // before processing the heavy handleJoinRoom logic
         await new Promise(resolve => setTimeout(resolve, 50));
 
+        if (!admissionStillCurrent()) {
+          console.warn('🔐 [Auth] Principal/generation changed during join - aborting stale room admission');
+          setIsJoiningRoom(false);
+          setIsFadingOut(false);
+          setPendingRoomData(null);
+          setIsRoomReady(false);
+          setShowContinue(false);
+          return;
+        }
+
         // SAFETY TIMEOUT: Ensure we eventually exit loading state even if handleJoinRoom hangs
         const safetyExitTimer = setTimeout(() => {
+          if (!admissionStillCurrent()) return;
           if (isJoiningRoomRef.current) {
             console.warn('⚠️ [MultiplayerApp] Safety timeout triggered during handleJoinRoom. Forcing loading screen closed.');
             setIsJoiningRoom(false);
@@ -1132,12 +1173,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         console.error('❌ Error handling loading continue:', error);
         // Ensure we eventually exit loading state even on error
         setTimeout(() => {
+          if (!admissionStillCurrent()) return;
           setIsJoiningRoom(false);
           setIsFadingOut(false);
         }, 3000);
       } finally {
         // Wait for the fade animation to complete fully (now slower for cinematic effect)
         setTimeout(() => {
+          if (!admissionStillCurrent()) return;
           setIsJoiningRoom(false);
           setIsFadingOut(false);
           setPendingRoomData(null);

@@ -1,7 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import { ALL_RECIPES } from '../data/recipes/index.js';
 
 // Pathfinder-style skill levels (10 levels) with experience requirements
@@ -345,7 +345,7 @@ const useCraftingStore = create(
         set(initialState);
       }
     }),
-    createStorageConfig('crafting-storage', {
+    createScopedStorageConfig('character.crafting', 'crafting-storage', {
       version: 5,
       migrate: (persistedState, version) => {
         const safePersisted = persistedState || {};

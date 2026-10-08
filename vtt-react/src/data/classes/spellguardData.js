@@ -93,7 +93,7 @@ subraceVariants: {
       }
     },
   velun_neth: {
-   subraceName: 'Athien',
+   subraceName: 'Nethien',
    title: 'The Clause-Canceller',
    reframe: `The <LoreLink termId="neth">Athien</LoreLink> understand magic as *contract*, and a Spellguard among them cancels incoming spells by *drafting the annulment*, identifying the hostile magic's clause-structure and filing the counter-instrument before it lands. To a Athien Spellguard, a fireball is just an aggressively-worded offer, and the correct response is a timely rejection on procedural grounds.`,
    signatureAbility: {

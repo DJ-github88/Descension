@@ -52,7 +52,7 @@ export const ARCANONEER_DATA = {
    */
   subraceVariants: {
    velun_neth: {
-    subraceName: 'Athien',
+    subraceName: 'Nethien',
     title: 'The Contract-Weaver',
     reframe: `<LoreLink termId="valerius">Valerius</LoreLink> drafted the First Contract with Morvane, framing elemental combination as legal syntax: each elemental sphere is a clause, the combined weave is a document submitted for Morvane's silent approval. The craft is channeled through a crystal prism, contract-scroll, or memory-glass lens  —  a focus, not a body modification. Morvane rejects internally inconsistent weaves, and the price of contradiction is severe: a Athien Arcanoneer must maintain consistency across every statement they have ever made, because a contradiction may void every contract they have ever filed. Their pale skin and stilled breath are not side-effects of the magic  —  they are its prerequisite. Behind this stands the Grand Nomenclature: the Doctrine of Exhaustion holds every wild-magic surge to be an unfinished sentence in a cosmic grammar, and the Athien Archivist seeks to catalogue every permutation into a closed loop. Their field focus is runic slate-dials and bone rings that snap syntax into place — clinical, calculated, detached. Equation resolved.`,
     signatureAbility: {

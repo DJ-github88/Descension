@@ -26,6 +26,7 @@ import { initializeAnalytics } from "./services/analyticsService";
 import characterBackupService from "./services/firebase/characterBackupService";
 import AccessibilityController from "./components/common/AccessibilityController";
 import useGameNavigationGuard from "./hooks/useGameNavigationGuard";
+import PrivateProjectionBoundary from "./persistence/PrivateProjectionBoundary";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -50,11 +51,6 @@ import { preloadGameData } from './hooks/useGameData';
 import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary } from './utils/clearSpellCache';
 import './services/roomService';
-
-// Lazy loaded auxiliary components
-const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));
-const WorldMapImmerse = lazy(() => import("./components/world-map/WorldMapImmerse"));
-const LocationSceneStage = lazy(() => import("./components/location-scene/LocationSceneStage"));
 
 import './components/world-map/styles/ImmersionTransition.css';
 import './styles/player-notification.css';
@@ -116,6 +112,11 @@ import 'react-resizable/css/styles.css';
 import './components/spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './components/spellcrafting-wizard/components/library/CommunitySpellsTab.css';
 import './components/creature-wizard/components/library/CommunityCreaturesTab.css';
+
+// Lazy loaded auxiliary components
+const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));
+const WorldMapImmerse = lazy(() => import("./components/world-map/WorldMapImmerse"));
+const LocationSceneStage = lazy(() => import("./components/location-scene/LocationSceneStage"));
 
 // Lazy load heavy components to reduce initial bundle size
 const Grid = lazy(() => import("./components/Grid"));
@@ -493,14 +494,9 @@ function GameScreen() {
         // Apply game state using the local room's stored data
         await applyLocalGameState(localGameState, roomId);
       } else {
-        // Try roomStateService as fallback (for rooms migrated from older format)
-        const roomState = roomStateService.loadRoomState(roomId);
-        if (roomState) {
-          console.log('🎮 Loading room state from roomStateService (fallback)');
-          await roomStateService.applyRoomState(roomState);
-        } else {
-          console.log('📝 No saved state for this room - starting fresh');
-        }
+        // No scoped state for this room. Legacy global keys are recovery
+        // sources only and are never auto-read into a session (Wave B S5.2).
+        console.log('📝 No saved state for this room - starting fresh');
       }
 
       // Load player-specific state if character is specified
@@ -510,11 +506,11 @@ function GameScreen() {
           await setActiveCharacter(character);
           console.log('👤 Character loaded for local room:', character.name);
 
-          // Load player-specific state for this room
-          const playerState = roomStateService.loadPlayerState(roomId, character.id);
+          // Load player-specific state for this room (scoped only)
+          const playerState = localRoomService.loadPlayerStateScoped(roomId, character.id);
           if (playerState) {
             console.log('👤 Loading player state for character:', character.name);
-            await roomStateService.applyPlayerState(playerState, character.id);
+            await roomStateService.applyPlayerState(playerState, character.id, roomId);
           }
 
           // CRITICAL FIX: Create party with full character data for HUD display
@@ -886,7 +882,9 @@ function GameScreen() {
             <AchievementNotificationOverlay />
           </ErrorBoundary>
           <ErrorBoundary name="HUD">
-            <HUDContainer />
+            <PrivateProjectionBoundary>
+              <HUDContainer />
+            </PrivateProjectionBoundary>
           </ErrorBoundary>
           <ErrorBoundary name="ActionBar">
             <ActionBar />

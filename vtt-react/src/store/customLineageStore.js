@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
@@ -245,6 +246,10 @@ const useCustomLineageStore = create(
 
       // --- Cloud Synchronization & Hydration ---
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'lineages');
@@ -261,6 +266,9 @@ const useCustomLineageStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'lineages');
@@ -268,7 +276,7 @@ const useCustomLineageStore = create(
           if (snap.exists()) {
             const data = snap.data();
             if (Array.isArray(data?.lineages) && data.lineages.length > 0) {
-              set({ lineages: data.lineages });
+              applyIfCurrent({ lineages: data.lineages });
               return true;
             } else if (get().lineages.length > 0) {
               await get().syncToCloud(userId);
@@ -284,7 +292,7 @@ const useCustomLineageStore = create(
         return false;
       }
     }),
-    createStorageConfig(STORAGE_KEY, {
+    createScopedStorageConfig('worldbuilding.lineages', STORAGE_KEY, {
       partialize: (state) => ({
         lineages: state.lineages,
         selectedLineageId: state.selectedLineageId,

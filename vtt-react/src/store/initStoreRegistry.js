@@ -1,4 +1,5 @@
 import { registerStore } from './storeRegistry';
+import { registerAllScopedStoreHandoffs } from '../persistence/scopedStoreHandoffs';
 
 import useGameStore from './gameStore';
 import useCharacterStore from './characterStore';
@@ -35,4 +36,8 @@ export function initStoreRegistry() {
   registerStore('notificationStore', useNotificationStore);
   registerStore('socialStore', useSocialStore);
   registerStore('itemStore', useItemStore);
+
+  // Wave B: bind every scoped persisted store to the handoff lifecycle
+  // (flush → reset → destination rehydration).
+  registerAllScopedStoreHandoffs();
 }

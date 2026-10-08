@@ -62,7 +62,7 @@ They carry guilt the rest of the world does not know about. The leaders of Mythr
     diasporaVariation: `Synod Hold remains the principal Lumian institution; Crater-Hold is a martial/craft settlement, not the capital of all Astril. Diaspora farmers, researchers and ritualists preserve different practices. Moon-courtyards and carried charts support travel under a starless sky, without a universal ritual absence timer or a newly visible local constellation.`,
     meaningfulTradeoffs: 'Astril gain alien resilience and lunar attunement through Lumia\'s echo, but their inverted vision blinds them in bright daylight, and their luminous eyes betray every attempt to hide in darkness. The Lumian are so rooted in the physical world that they sometimes forget the ritual that gives their people purpose. The Kordak are so focused on the ritual that they sometimes forget the ground beneath their feet.',
     baseTraits: {
-        languages: ["Wayfarer's Cant", 'Echo-Song'],
+        languages: ["Wayfarer's Cant", 'Echosong'],
         lifespan: '140-200 years',
         baseSpeed: 30,
         size: 'Medium',

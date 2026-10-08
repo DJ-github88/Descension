@@ -1,82 +1,58 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { getStore } from './storeRegistry';
+import {
+  createScopedStoreStorage,
+  registerScopedStoreEngine
+} from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 
-const memoryStore = new Map();
-
-// Safe localStorage adapter that proactively sanitizes payloads and provides in-memory fallback
-const safeStorageEngine = {
-  getItem: (name) => {
-    try {
-      const fromLocal = localStorage.getItem(name);
-      if (fromLocal !== null && fromLocal !== undefined) return fromLocal;
-    } catch (e) {
-      console.warn(`[SafeStorage] Could not read ${name} from localStorage:`, e);
-    }
-    return memoryStore.get(name) || null;
-  },
-  setItem: (name, value) => {
-    // 1. Keep in-memory copy so data is always accessible in current session
-    memoryStore.set(name, value);
-
-    // 2. Proactively sanitize value before attempting to store in localStorage
-    let sanitizedValue = value;
-    try {
-      const parsed = JSON.parse(value);
-      if (parsed && parsed.state) {
-        const state = parsed.state;
-        // Trim large base64 image attachments from notes
-        if (Array.isArray(state.playerNotes)) {
-          state.playerNotes = state.playerNotes.map(n => ({
-            ...n,
-            image: n.image && n.image.length > 20000 ? null : n.image
-          }));
-        }
-        // Trim heavy base64 background URLs from boards
-        if (Array.isArray(state.knowledgeBoards)) {
-          state.knowledgeBoards = state.knowledgeBoards.map(b => ({
-            ...b,
-            background: b.background?.url && b.background.url.length > 20000 ? null : b.background
-          }));
-        }
-        // Trim heavy custom images from orbs
-        if (Array.isArray(state.knowledgeOrbs)) {
-          state.knowledgeOrbs = state.knowledgeOrbs.map(o => ({
-            ...o,
-            customImage: o.customImage && o.customImage.length > 20000 ? null : o.customImage
-          }));
-        }
-        sanitizedValue = JSON.stringify(parsed);
-      }
-    } catch (parseErr) {
-      // Use value directly
-    }
-
-    try {
-      localStorage.setItem(name, sanitizedValue);
-    } catch (e) {
-      console.warn(`[SafeStorage] Storage quota reached for ${name}. Retrying with key cleanup...`, e);
-      try {
-        const heavyKeys = ['mythrill_subregion_polygons', 'mythrill_map_history_backup', 'mythrill-debug-log'];
-        heavyKeys.forEach(k => {
-          try { localStorage.removeItem(k); } catch (_) {}
-        });
-        localStorage.setItem(name, sanitizedValue);
-      } catch (finalErr) {
-        // Safely swallow error so the application NEVER crashes
-        console.warn(`[SafeStorage] Saved to in-memory fallback successfully.`);
-      }
-    }
-  },
-  removeItem: (name) => {
-    memoryStore.delete(name);
-    try {
-      localStorage.removeItem(name);
-    } catch (e) {
-      console.warn(`[SafeStorage] Could not remove ${name}:`, e);
-    }
+// Safe payload sanitizer: trims oversized base64 attachments before the
+// scoped write (quota safety), mirroring the previous safeStorageEngine.
+const sanitizeShareableState = (state) => {
+  if (!state || typeof state !== 'object') return state;
+  let next = state;
+  // Trim large base64 image attachments from notes
+  if (Array.isArray(next.playerNotes)) {
+    next = {
+      ...next,
+      playerNotes: next.playerNotes.map((n) => ({
+        ...n,
+        image: n.image && n.image.length > 20000 ? null : n.image
+      }))
+    };
   }
+  // Trim heavy base64 background URLs from boards
+  if (Array.isArray(next.knowledgeBoards)) {
+    next = {
+      ...next,
+      knowledgeBoards: next.knowledgeBoards.map((b) => ({
+        ...b,
+        background: b.background?.url && b.background.url.length > 20000 ? null : b.background
+      }))
+    };
+  }
+  // Trim heavy custom images from orbs
+  if (Array.isArray(next.knowledgeOrbs)) {
+    next = {
+      ...next,
+      knowledgeOrbs: next.knowledgeOrbs.map((o) => ({
+        ...o,
+        customImage: o.customImage && o.customImage.length > 20000 ? null : o.customImage
+      }))
+    };
+  }
+  return next;
 };
+
+// Wave B (S7.2): journal/shareable authored work is persisted in verified-owner
+// scoped storage. The legacy global key `mythrill-shareable-storage` is left
+// untouched as a recovery source and is never written or auto-adopted again.
+const shareableScopedStorage = createScopedStoreStorage({
+  familyId: 'journal.shareable',
+  sanitize: sanitizeShareableState
+});
+registerScopedStoreEngine('journal.shareable', shareableScopedStorage);
 
 // Store for GM shareables and player knowledge/journal system
 const useShareableStore = create(
@@ -267,11 +243,16 @@ const useShareableStore = create(
 
       // ============ FIREBASE CLOUD SYNC ============
       syncToCloud: async (userId) => {
-        if (!userId || String(userId).startsWith('guest-')) return;
+        if (!userId || String(userId).startsWith('guest-')) return false;
+        // B1/B5C: fence to the captured owner/generation and return the real
+        // operation outcome. A failed save must never look like success, so
+        // revision-bound acknowledgment cannot clear newer dirty work.
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
         try {
           const { default: journalService } = await import('../services/firebase/journalService');
           const state = get();
-          await journalService.saveJournal(userId, {
+          const result = await journalService.saveJournal(userId, {
             playerKnowledge: state.playerKnowledge,
             playerNotes: state.playerNotes,
             journalFolders: state.journalFolders,
@@ -282,16 +263,22 @@ const useShareableStore = create(
             currentFolderId: state.currentFolderId,
             currentBoardId: state.currentBoardId
           });
+          if (!ownerGuard.isCurrent()) return false;
+          return !!(result && result.success === true);
         } catch (err) {
           console.warn('[shareableStore] Cloud sync error:', err);
+          return false;
         }
       },
 
       hydrateFromCloud: async (userId) => {
-        if (!userId || String(userId).startsWith('guest-')) return;
+        if (!userId || String(userId).startsWith('guest-')) return false;
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
         try {
           const { default: journalService } = await import('../services/firebase/journalService');
           const cloudData = await journalService.loadJournal(userId);
+          if (!ownerGuard.isCurrent()) return false;
           if (cloudData && (cloudData.playerNotes?.length || cloudData.knowledgeBoards?.length || cloudData.playerKnowledge?.length || cloudData.masterBoardBackground)) {
             set(state => ({
               playerKnowledge: cloudData.playerKnowledge || state.playerKnowledge,
@@ -302,9 +289,12 @@ const useShareableStore = create(
               knowledgeOrbs: cloudData.knowledgeOrbs || state.knowledgeOrbs,
               knowledgeConnections: cloudData.knowledgeConnections || state.knowledgeConnections
             }));
+            return true;
           }
+          return false;
         } catch (err) {
           console.warn('[shareableStore] Cloud hydration error:', err);
+          return false;
         }
       },
 
@@ -1215,7 +1205,7 @@ const useShareableStore = create(
     }),
     {
       name: 'mythrill-shareable-storage',
-      storage: createJSONStorage(() => safeStorageEngine),
+      storage: shareableScopedStorage,
       version: 5,
       migrate: (persistedState, version) => {
         let state = { ...persistedState };
@@ -1358,5 +1348,9 @@ const useShareableStore = create(
     }
   )
 );
+
+// Wave B (S7.2): journal handoff isolation and scoped rehydration are bound
+// through the central scoped-store registration (initStoreRegistry), which
+// uses the registered engine above.
 
 export default useShareableStore;

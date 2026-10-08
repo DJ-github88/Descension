@@ -13795,13 +13795,74 @@ select.lore-field-input option,
     vertical-align: middle !important;
 }
 
-/* Large Class Showcase Centerpiece in Grimoire - Styled as an old square portrait frame */
+.grimoire-header-crest {
+    width: 38px !important;
+    height: 38px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 1px 3px rgba(46, 30, 15, 0.35)) !important;
+    flex-shrink: 0 !important;
+}
+
+/* Large Class Showcase Centerpiece in Grimoire - Styled as a framed portrait,
+   stacked like the Heritage showcase: art plate, carousel, caption. */
 .grimoire-class-showcase {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1.25rem 0 1rem 0;
-    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin: 0.85rem 0 1rem 0 !important;
+    width: 100% !important;
+}
+
+.grimoire-class-art-frame {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #eedfc2 !important;
+    border: 3px solid #5a3d1d !important;
+    outline: 1px solid #7a5a35 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 6px 18px rgba(46, 30, 15, 0.25), inset 0 0 12px rgba(46, 30, 15, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    line-height: 0 !important;
+}
+
+.grimoire-class-art-frame::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 4px !important;
+    border: 1px dashed rgba(122, 90, 53, 0.6) !important;
+    border-radius: 5px !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+}
+
+.grimoire-class-art-frame:hover {
+    transform: scale(1.02) !important;
+    border-color: #7a5a35 !important;
+    box-shadow: 0 10px 22px rgba(46, 30, 15, 0.35), inset 0 0 8px rgba(46, 30, 15, 0.1) !important;
+}
+
+/* Let each illustration's natural ratio define the plate height (no crop);
+   class art ships in mixed ratios, same rule used by the race artwork plates. */
+.grimoire-class-art-image {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 4px !important;
+    z-index: 1 !important;
+    transition: transform 0.3s ease !important;
+}
+
+.grimoire-class-art-frame:hover .grimoire-class-art-image {
+    transform: scale(1.04) !important;
 }
 
 .grimoire-class-icon-wrapper {

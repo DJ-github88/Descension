@@ -1347,7 +1347,7 @@
     "type": "race",
     "region": "sundrift-vale",
     "summary": "Alien refugees of the Sundrift Vale, descended from settlers of the dead world Lumia whose bloodlines still carry the echo of Lumia's lost biosphere.",
-    "fullEntry": "Astril are organic alien refugees carrying Lumia resonance, reptilian slit pupils and individual crystalline markings. Lumian and Kordak are current heritages; neither is uniformly solid-glass, pupil-less, guilty or bound to one institution's ideology.\n\nRitualists interpret dormant Selunis's dreams and signs, not literal spoken quests from an awakened moon-egg. Carried charts and internal stellar patterns support timing under Sundrift's starless sky. Particular martial authorities coerced the Ordu noble purge; that history does not define every Kordak child.\n\nSynod Hold and Crater-Hold have distinct institutional roles. Wayfarer's Cant and Echo-Song are default language grants; Lumian remains a legacy expression of Echo-Song knowledge. Refugee communities preserve farming, craft, research, ordinary family life, vigilance and dissent.",
+    "fullEntry": "Astril are organic alien refugees carrying Lumia resonance, reptilian slit pupils and individual crystalline markings. Lumian and Kordak are current heritages; neither is uniformly solid-glass, pupil-less, guilty or bound to one institution's ideology.\n\nRitualists interpret dormant Selunis's dreams and signs, not literal spoken quests from an awakened moon-egg. Carried charts and internal stellar patterns support timing under Sundrift's starless sky. Particular martial authorities coerced the Ordu noble purge; that history does not define every Kordak child.\n\nSynod Hold and Crater-Hold have distinct institutional roles. Wayfarer's Cant and Echosong are default language grants; Lumian remains a legacy expression of Echosong knowledge. Refugee communities preserve farming, craft, research, ordinary family life, vigilance and dissent.",
     "relatedTerms": [
       "ancestor_mounds",
       "ancestor_wold",
@@ -2414,8 +2414,8 @@
     "term": "Corvid-Speech",
     "type": "language",
     "region": "nordhalla",
-    "summary": "GM-only creature register. The complex, polyphonic throat-signed register of the Corvani subfolk and the Corvid Fate-Spirits — a spirit-bonded dialect of Vættir-Speech, not a player language.",
-    "fullEntry": "Corvid-Speech is a GM-only non-playable creature register of the Corvani subfolk, born from imitation of the Corvid Fate-Spirits and the howling polar gales of Nordhalla's glacier-faces. It is a spirit-bonded dialect of Vættir-Speech, the land-spirit tongue of Nordhalla, and is not offered as a player fluency (see the language census). It combines soft clicks, whistling, and low-frequency throat vibrations with subtle shifting of their fate-spun markings. This structure makes it incredibly dense and near-impossible for other races to speak fluently without magical aid, but permits the Corvani to communicate silently and across vast distances between the frozen fjord-keeps.",
+    "summary": "GM-only creature register. The complex, polyphonic throat-signed register of the Corvani subfolk and the Corvid Fate-Spirits — a spirit-bonded dialect of Vættir Speech, not a player language.",
+    "fullEntry": "Corvid-Speech is a GM-only non-playable creature register of the Corvani subfolk, born from imitation of the Corvid Fate-Spirits and the howling polar gales of Nordhalla's glacier-faces. It is a spirit-bonded dialect of Vættir Speech, the land-spirit tongue of Nordhalla, and is not offered as a player fluency (see the language census). It combines soft clicks, whistling, and low-frequency throat vibrations with subtle shifting of their fate-spun markings. This structure makes it incredibly dense and near-impossible for other races to speak fluently without magical aid, but permits the Corvani to communicate silently and across vast distances between the frozen fjord-keeps.",
     "relatedTerms": [
       "corvani",
       "nordhalla"
@@ -3977,7 +3977,7 @@
     "type": "location",
     "region": "sundale",
     "summary": "A narrow ravine settlement built on forge waste, where Solari and Groven workers salvage metals from industrial debris.",
-    "fullEntry": "Slag Gulch is Sundale's monument to the principle that nothing useful should be wasted, a permanent foundry town built inside a narrow ravine filled with centuries of forge waste and industrial debris. Solari and Groven workers process the slag for salvageable metals in operations that are hot, loud, and acrid enough to strip paint from iron. The inhabitants have developed a unique patois mixing Sundari and Span-Speech, and the Gulch produces a surprising volume of refined secondary metals that supplement the Great Forge's output.",
+    "fullEntry": "Slag Gulch is Sundale's monument to the principle that nothing useful should be wasted, a permanent foundry town built inside a narrow ravine filled with centuries of forge waste and industrial debris. Solari and Groven workers process the slag for salvageable metals in operations that are hot, loud, and acrid enough to strip paint from iron. The inhabitants have developed a unique patois mixing Sundari and Spanspeech, and the Gulch produces a surprising volume of refined secondary metals that supplement the Great Forge's output.",
     "relatedTerms": [
       "solari",
       "great_forge",

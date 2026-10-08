@@ -318,9 +318,9 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
 
         if (!skill || !quest) return;
 
-        // Check cooldown to prevent spam
+        // Check cooldown to prevent spam (tab-session transient; never inherited across accounts)
         const cooldownKey = `achievement_${skillId}_${questId}`;
-        const lastBroadcast = localStorage.getItem(cooldownKey);
+        const lastBroadcast = sessionStorage.getItem(cooldownKey);
         const now = Date.now();
         const cooldownPeriod = 30000; // 30 seconds cooldown
 
@@ -330,7 +330,7 @@ export default function Skills({ selectedSkill: propSelectedSkill, setSelectedSk
         }
 
         // Set cooldown timestamp
-        localStorage.setItem(cooldownKey, now.toString());
+        sessionStorage.setItem(cooldownKey, now.toString());
 
         const characterName = dataSource.name || 'Adventurer';
         const characterClass = dataSource.class || 'Unknown';

@@ -64,7 +64,7 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
   },
 
   baseTraits: {
-    languages: ["Wayfarer's Cant", 'Thorn-Song'],
+    languages: ["Wayfarer's Cant", 'Thornsong'],
     lifespan: '200-350 years',
     baseSpeed: 30,
     size: 'Medium',

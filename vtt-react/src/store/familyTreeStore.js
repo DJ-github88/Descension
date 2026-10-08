@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 import useWorldStore from './worldStore';
@@ -591,6 +592,10 @@ const useFamilyTreeStore = create(
 
       // Cloud Persistence
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'familyTrees');
@@ -601,6 +606,9 @@ const useFamilyTreeStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'familyTrees');
@@ -609,7 +617,7 @@ const useFamilyTreeStore = create(
             const rawTrees = snap.data().trees;
             if (Array.isArray(rawTrees) && rawTrees.length > 0) {
               const normalized = normalizeTrees(rawTrees);
-              set({
+              applyIfCurrent({
                 trees: normalized,
                 activeTreeId: normalized.some(t => t.id === get().activeTreeId) ? get().activeTreeId : normalized[0].id
               });
@@ -620,7 +628,7 @@ const useFamilyTreeStore = create(
         }
       }
     }),
-    createStorageConfig('mythrill_family_trees_storage', {
+    createScopedStorageConfig('worldbuilding.familyTrees', 'mythrill_family_trees_storage', {
       partialize: (state) => ({
         trees: state.trees,
         activeTreeId: state.activeTreeId

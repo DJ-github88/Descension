@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import useCharacterStore from '../store/characterStore';
 import { ALL_CLASS_SPELLS } from '../data/classSpellGenerator';
 import { createSpellLibraryCategoriesForClass } from '../data/classSpellCategories';
+import { loadCustomSpells as loadCustomSpellsScoped, saveCustomSpells as saveCustomSpellsScoped } from '../persistence/spellLibraryScopedStorage';
 
 export const useClassSpellLibrary = () => {
  const [classSpells, setClassSpells] = useState([]);
@@ -242,13 +243,12 @@ export const useClassSpellLibrary = () => {
   // as activeCharacter object reference changes on every render from .find()
  }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter?.id, activeCharacter?.level, knownSpells.length]);
 
- // Load custom spells from localStorage on mount
+ // Load custom spells from verified-owner scoped storage on mount
  useEffect(() => {
   const loadCustomSpells = () => {
    try {
-    const savedCustomSpells = localStorage.getItem('mythrill-custom-spells');
-    if (savedCustomSpells) {
-     const customSpells = JSON.parse(savedCustomSpells);
+    const customSpells = loadCustomSpellsScoped();
+    if (Array.isArray(customSpells)) {
      customSpells.forEach(spell => addCustomSpell(spell));
     }
    } catch (err) {
@@ -259,12 +259,12 @@ export const useClassSpellLibrary = () => {
   loadCustomSpells();
  }, [addCustomSpell]);
 
- // Save custom spells to localStorage when they change
+ // Save custom spells to verified-owner scoped storage when they change
  useEffect(() => {
   const customCategory = spellCategories.find(cat => cat.id === 'custom_spells');
   if (customCategory && customCategory.spells.length > 0) {
    try {
-    localStorage.setItem('mythrill-custom-spells', JSON.stringify(customCategory.spells));
+    saveCustomSpellsScoped(customCategory.spells);
    } catch (err) {
     console.error('Error saving custom spells:', err);
    }

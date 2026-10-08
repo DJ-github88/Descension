@@ -10,14 +10,14 @@ const selectLanguage = (name) => {
 test('steps between known languages while viewing one', () => {
   useCharacterStore.setState({
     ...useCharacterStore.getState(),
-    racialLanguages: ["Wayfarer's Cant", 'Gloom-Tongue'],
+    racialLanguages: ["Wayfarer's Cant", 'Gloomtongue'],
     selectedLanguages: ['Bonewrit'],
     race: 'neth',
     subrace: 'drun_neth'
   });
 
   render(<Languages />);
-  selectLanguage('Gloom-Tongue');
+  selectLanguage('Gloomtongue');
   expect(screen.getByText('2 / 3')).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('button', { name: /Next language: Bonewrit/i }));

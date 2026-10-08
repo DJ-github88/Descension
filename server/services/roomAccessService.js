@@ -460,25 +460,37 @@ async function loadPendingCompensations(firebaseService, roomId = null) {
  * durable revoke await; local reconciliation only touches that runtime. The
  * journal entry is cleared conditionally on the exact fulfilled obligation and
  * is retained whenever clearing is not confirmed. Never throws.
+ *
+ * `ok` reports only that the recovery pass executed without an infrastructure
+ * error. It is NOT a statement that every obligation is resolved. Callers that
+ * use membership for authorization MUST additionally require that this user is
+ * absent from `unresolved` (or re-load pending state) before granting any
+ * membership-based exemption.
+ * @returns {Promise<{pending: number, cleared: number, ok: boolean, code: string|null, unresolved: Array<{roomId: string, userId: string}>}>}
  */
 async function retryMembershipCompensations(firebaseService, authorityService, roomId = null, rooms = null) {
   let cleared = 0;
+  const unresolved = [];
   if (!firebaseService || typeof firebaseService.removeRoomMember !== 'function' ||
     !authorityService || typeof authorityService.currentToken !== 'function') {
     return {
       pending: membershipCompensations.size,
       cleared,
       ok: false,
-      code: DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE
+      code: DENIAL_CODES.MEMBERSHIP_COMPENSATION_UNAVAILABLE,
+      unresolved
     };
   }
   const listed = await loadPendingCompensations(firebaseService, roomId);
   if (!listed.ok) {
-    return { pending: membershipCompensations.size, cleared, ok: false, code: listed.code };
+    return { pending: membershipCompensations.size, cleared, ok: false, code: listed.code, unresolved };
   }
   for (const entry of listed.entries) {
     const retryToken = authorityService.currentToken(entry.roomId);
-    if (!retryToken) {continue;}
+    if (!retryToken) {
+      unresolved.push({ roomId: entry.roomId, userId: entry.userId });
+      continue;
+    }
     const runtimeRoom = rooms && typeof rooms.get === 'function' ? rooms.get(entry.roomId) : null;
     let result;
     try {
@@ -486,19 +498,26 @@ async function retryMembershipCompensations(firebaseService, authorityService, r
     } catch (_error) {
       result = { ok: false };
     }
-    if (!result || result.ok !== true) {continue;}
+    if (!result || result.ok !== true) {
+      unresolved.push({ roomId: entry.roomId, userId: entry.userId });
+      continue;
+    }
 
     // C3: fresh backend proof of the CAPTURED retry token after the durable
     // revoke. An expired or replaced lifecycle must not reconcile local state
     // or clear the obligation; the current holder resumes idempotently.
     if (typeof authorityService.assertSettle === 'function') {
       const fresh = await authorityService.assertSettle(retryToken, { backendCheck: true });
-      if (!fresh || fresh.ok !== true) {continue;}
+      if (!fresh || fresh.ok !== true) {
+        unresolved.push({ roomId: entry.roomId, userId: entry.userId });
+        continue;
+      }
     } else {
       const currentToken = authorityService.currentToken(entry.roomId);
       if (!currentToken ||
         currentToken.authorityInstanceId !== retryToken.authorityInstanceId ||
         currentToken.authorityGeneration !== retryToken.authorityGeneration) {
+        unresolved.push({ roomId: entry.roomId, userId: entry.userId });
         continue;
       }
     }
@@ -535,9 +554,11 @@ async function retryMembershipCompensations(firebaseService, authorityService, r
       // corrective membership state is satisfied and nothing remains to clear.
       membershipCompensations.delete(`${entry.roomId}\u0000${entry.userId}`);
       cleared += 1;
+      continue;
     }
+    unresolved.push({ roomId: entry.roomId, userId: entry.userId });
   }
-  return { pending: membershipCompensations.size, cleared, ok: true, code: null };
+  return { pending: membershipCompensations.size, cleared, ok: true, code: null, unresolved };
 }
 
 function getMembershipCompensationStats() {
@@ -1395,6 +1416,11 @@ async function admitVerifiedMember({
     // for this user (or an over-limit backlog) refuses the admission instead of
     // creating another unsafe grant. Discovery failure fails closed: it is
     // never treated as "no obligations".
+    //
+    // Authorization invariant: this recovery pass may revoke a pending
+    // membership. Callers that granted a membership-based credential exemption
+    // MUST have required this user's obligation resolved BEFORE that decision
+    // (see join_room); this helper never re-authorizes on their behalf.
     if (liveRoom.isPermanent === true) {
       let pendingResult = await loadPendingCompensations(firebaseService, liveRoom.id);
       if (!pendingResult.ok) {

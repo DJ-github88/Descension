@@ -299,13 +299,14 @@ const Step7SkillsLanguages = () => {
 
     const LANGUAGES_BY_CATEGORY = React.useMemo(() => {
         const grouped = {
-            standard: { name: 'Standard Languages', icon: 'fa-globe', list: [] },
+            standard: { name: 'Trade Tongues', icon: 'fa-globe', list: [] },
             exotic: { name: 'Exotic & Planar Languages', icon: 'fa-sun', list: [] },
             racial: { name: 'Ancestral & Racial Languages', icon: 'fa-dna', list: [] },
             elemental: { name: 'Elemental Tongues', icon: 'fa-wind', list: [] },
             special: { name: 'Specialized & Coded Jargon', icon: 'fa-mask', list: [] }
         };
         COMMON_LANGUAGES.forEach(lang => {
+            if (lang.pickable === false) return;
             const cat = lang.category || 'standard';
             if (grouped[cat]) {
                 grouped[cat].list.push(lang);
@@ -498,7 +499,15 @@ const Step7SkillsLanguages = () => {
                                                         <div className="lang-icon-circle">
                                                             <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
                                                         </div>
-                                                        <span className="lang-name">{langName}</span>
+                                                        <div className="lang-info">
+                                                            <span className="lang-name">{langName}</span>
+                                                            {langData?.script && (
+                                                                <span className="lang-subline"><i className="fas fa-feather-alt"></i> {langData.script}</span>
+                                                            )}
+                                                            {langData?.nativeSpeakers?.length > 0 && (
+                                                                <span className="lang-subline"><i className="fas fa-users"></i> {langData.nativeSpeakers.join(' · ')}</span>
+                                                            )}
+                                                        </div>
                                                         <span className="lang-status-badge">Racial</span>
                                                     </div>
                                                 );
@@ -534,7 +543,15 @@ const Step7SkillsLanguages = () => {
                                                             <div className="lang-icon-circle">
                                                                 <i className={`fas ${language.icon}`}></i>
                                                             </div>
-                                                            <span className="lang-name">{language.name}</span>
+                                                            <div className="lang-info">
+                                                                <span className="lang-name">{language.name}</span>
+                                                                {language.script && (
+                                                                    <span className="lang-subline"><i className="fas fa-feather-alt"></i> {language.script}</span>
+                                                                )}
+                                                                {language.nativeSpeakers?.length > 0 && (
+                                                                    <span className="lang-subline"><i className="fas fa-users"></i> {language.nativeSpeakers.join(' · ')}</span>
+                                                                )}
+                                                            </div>
                                                             {isSelected && <span className="lang-status-badge">Learned</span>}
                                                             {isRacial && <span className="lang-status-badge">Racial</span>}
                                                         </div>

@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import presenceService from '../services/firebase/presenceService';
 import { subscribeWithSelector } from 'zustand/middleware';
 import usePresenceStore from './presenceStore';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
 
 const getSocket = () => {
   const presenceState = usePresenceStore.getState();
@@ -61,23 +62,25 @@ const isSelfMemberId = (memberId, userId) => {
 
 const PARTY_HUD_POSITIONS_KEY = 'mythrill_party_hud_positions';
 
+// Wave B closure: actor HUD positions are verified-owner scoped private hints.
+const partyHudPositionsFamily = createScopedNativeFamily({
+  familyId: 'party.hudPositions',
+  legacyKeys: [PARTY_HUD_POSITIONS_KEY]
+});
+
 const loadSavedMemberPositions = () => {
   try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const saved = window.localStorage.getItem(PARTY_HUD_POSITIONS_KEY);
-      return saved ? JSON.parse(saved) : {};
-    }
+    const saved = partyHudPositionsFamily.load(['positions']);
+    return saved && typeof saved === 'object' ? saved : {};
   } catch (e) {
-    // Silent fail on storage error or SSR/test
+    // Silent fail on storage error
   }
   return {};
 };
 
 const saveMemberPositions = (positions) => {
   try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      window.localStorage.setItem(PARTY_HUD_POSITIONS_KEY, JSON.stringify(positions));
-    }
+    partyHudPositionsFamily.save(positions, ['positions']);
   } catch (e) {
     // Silent fail on storage error
   }
@@ -102,8 +105,8 @@ const initialState = {
     maxMembers: 6
   },
 
-  // HUD and UI state
-  memberPositions: loadSavedMemberPositions(), // memberId -> { x, y }
+  // HUD and UI state (owner-scoped; loaded lazily per active account)
+  memberPositions: {}, // memberId -> { x, y }
 
   // Map assignments: playerId -> mapId
   playerMapAssignments: {},
@@ -864,9 +867,7 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
    */
   resetMemberPositions: () => {
     try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.removeItem(PARTY_HUD_POSITIONS_KEY);
-      }
+      partyHudPositionsFamily.clear(['positions']);
     } catch (e) { }
     set({ memberPositions: {} });
   },
@@ -898,5 +899,13 @@ const usePartyStore = create(subscribeWithSelector((set, get) => ({
     });
   }
 })));
+
+/**
+ * Reload the active owner's HUD positions (account handoff support).
+ * In-memory positions must never carry across a verified owner change.
+ */
+export const reloadPartyHudPositionsFromScope = () => {
+  usePartyStore.setState({ memberPositions: loadSavedMemberPositions() });
+};
 
 export default usePartyStore;

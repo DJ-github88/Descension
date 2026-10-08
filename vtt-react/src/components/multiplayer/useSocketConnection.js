@@ -1,4 +1,11 @@
 import { io } from 'socket.io-client';
+import {
+  principalKeyOfAuthState,
+  retireSocketPrincipal,
+  createSocketLifetimeGuard
+} from '../../persistence/handoff/socketPrincipalRetirement';
+import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
+import { exitRoomProjection } from '../../persistence/mapProjectionBoundary';
 import useAuthStore from '../../store/authStore';
 import useGameStore from '../../store/gameStore';
 import usePartyStore from '../../store/partyStore';
@@ -28,8 +35,21 @@ export function setupSocketConnection({
   getActiveCharacter
 }) {
   let newSocket = null;
+  // Wave A (P5/S4, corrected R8/B5): disposal permanently invalidates this
+  // setup, even if the same UID logs back in and the principal string matches.
+  let disposed = false;
 
   const initializeSocket = async () => {
+    // Capture the exact principal AND account generation before any await.
+    // The initial connection may only install while that operation identity
+    // is still current, the socket has not been retired, and the setup has
+    // not been disposed.
+    const principalAtStart = principalKeyOfAuthState(useAuthStore.getState());
+    const generationAtStart = getBootstrapGateState().accountGeneration;
+    const setupValid = () =>
+      !disposed &&
+      principalKeyOfAuthState(useAuthStore.getState()) === principalAtStart &&
+      getBootstrapGateState().accountGeneration === generationAtStart;
     let authToken = null;
     // Dev tokens are only ever sent outside production.
     const allowDevToken = !isProduction();
@@ -50,6 +70,11 @@ export function setupSocketConnection({
       }
     }
 
+    if (!setupValid()) {
+      console.warn('🔐 [Auth] Principal/generation changed during initial socket setup - aborting connection');
+      return;
+    }
+
     newSocket = io(SOCKET_URL, {
       autoConnect: false,
       auth: {
@@ -57,7 +82,20 @@ export function setupSocketConnection({
       }
     });
 
+    const socketLifetime = createSocketLifetimeGuard({
+      socket: newSocket,
+      principalKey: principalAtStart,
+      accountGeneration: generationAtStart,
+      getAuthState: () => useAuthStore.getState(),
+      getAccountGeneration: () => getBootstrapGateState()
+    });
+
     newSocket.on('connect', () => {
+      if (!setupValid() || !socketLifetime.isValid()) {
+        console.warn('🔐 [Auth] Retired/superseded socket attempted to connect - dropping');
+        newSocket.disconnect();
+        return;
+      }
       console.log('🔌 [MultiplayerApp] Multiplayer socket CONNECTED:', newSocket.id);
       setIsConnecting(false);
 
@@ -169,11 +207,17 @@ export function setupSocketConnection({
       });
     });
 
+    if (!setupValid() || !socketLifetime.isValid()) {
+      newSocket.disconnect();
+      return;
+    }
+
     setSocket(newSocket);
     setIsConnecting(true);
 
     try {
       import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        if (!setupValid() || !socketLifetime.isValid()) return;
         usePresenceStore.getState().setSocket(newSocket);
       });
     } catch (e) {
@@ -185,7 +229,8 @@ export function setupSocketConnection({
 
   initializeSocket();
 
-  return () => {
+  const cleanup = () => {
+    disposed = true;
     if (newSocket) {
       newSocket.emit('leave_room');
       newSocket.disconnect();
@@ -199,6 +244,8 @@ export function setupSocketConnection({
       } catch (_e) { /* ignore */ }
     }
   };
+
+  return cleanup;
 }
 
 export function setupCursorTracking({
@@ -291,20 +338,74 @@ export function setupCursorTracking({
 export function setupAuthChangeHandler({
   socket,
   isJoiningRoomRef,
-  isAutoJoinSequenceRef
+  isAutoJoinSequenceRef,
+  currentRoomRef,
+  roomPasswordRef,
+  currentPlayerRef,
+  pendingRoomDataRef,
+  activeJoinIdRef,
+  autoJoinAttemptedRef,
+  setCurrentRoom,
+  setSocket,
+  setCurrentPlayer,
+  setPendingRoomData,
+  setIsRoomReady,
+  setIsJoiningRoom,
+  setIsFadingOut,
+  setShowContinue
 }) {
   const authStore = useAuthStore;
+  let lastPrincipalKey = principalKeyOfAuthState(authStore.getState());
+
+  const clearRetiredAdmissionState = () => {
+    try {
+      // Wave B (S5/E): a retired admission must not leave the projection
+      // suspension active for the next owner.
+      exitRoomProjection();
+      if (typeof setCurrentRoom === 'function') setCurrentRoom(null);
+      if (typeof setSocket === 'function') setSocket(null);
+      if (typeof setCurrentPlayer === 'function') setCurrentPlayer(null);
+      if (typeof setPendingRoomData === 'function') setPendingRoomData(null);
+      if (typeof setIsRoomReady === 'function') setIsRoomReady(false);
+      if (typeof setIsJoiningRoom === 'function') setIsJoiningRoom(false);
+      if (typeof setIsFadingOut === 'function') setIsFadingOut(false);
+      if (typeof setShowContinue === 'function') setShowContinue(false);
+      if (activeJoinIdRef && 'current' in activeJoinIdRef) activeJoinIdRef.current = null;
+      if (autoJoinAttemptedRef && 'current' in autoJoinAttemptedRef) autoJoinAttemptedRef.current = false;
+    } catch (_error) {
+      // ignore UI reset failures; the socket and stored state are handled
+    }
+  };
 
   const handleAuthChange = async () => {
     if (!socket) return;
+
+    const authState = authStore.getState();
+    const nextPrincipalKey = principalKeyOfAuthState(authState);
+
+    // Wave A (P5/S4, corrected R8): principal retirement is checked BEFORE the
+    // map-switch early return so a switch cannot bypass it.
+    if (nextPrincipalKey !== lastPrincipalKey) {
+      lastPrincipalKey = nextPrincipalKey;
+      console.warn('🔐 [Auth] Principal change detected - retiring old multiplayer socket');
+      retireSocketPrincipal({
+        socket,
+        refs: { currentRoomRef, roomPasswordRef, currentPlayerRef, pendingRoomDataRef },
+        clearRuntime: true,
+        clearPendingJoin: true
+      });
+      clearRetiredAdmissionState();
+      return;
+    }
 
     if (window._isMapSwitching) {
       console.log('⏭️ [Auth] Skipping socket reconnect during map switch');
       return;
     }
 
-    const isInMultiplayer = useGameStore.getState().isInMultiplayer;
-    if (isInMultiplayer) {
+    // Same-principal token refresh path (existing behavior): never disrupt an
+    // active multiplayer session.
+    if (useGameStore.getState().isInMultiplayer) {
       console.log('⏭️ [Auth] Skipping socket reconnect - in multiplayer room');
       return;
     }
@@ -314,9 +415,16 @@ export function setupAuthChangeHandler({
       return;
     }
 
-    try {
-      const authState = authStore.getState();
+    // Capture the exact continuation identity BEFORE awaiting the token.
+    const lifetime = createSocketLifetimeGuard({
+      socket,
+      principalKey: nextPrincipalKey,
+      accountGeneration: getBootstrapGateState().accountGeneration,
+      getAuthState: () => authStore.getState(),
+      getAccountGeneration: () => getBootstrapGateState()
+    });
 
+    try {
       if (socket.connected) {
         socket.disconnect();
       }
@@ -329,6 +437,13 @@ export function setupAuthChangeHandler({
         authToken = `dev-token-${authState.user.uid || 'admin-dev-user'}`;
       } else if (allowDevToken && (authState.isDevelopmentBypass || authState.isAdminBypass || authState.isAuthenticated)) {
         authToken = `dev-token-${authState.user?.uid || 'admin-dev-user'}`;
+      }
+
+      // Revalidate after the await, before any side effect.
+      if (!lifetime.isValid()) {
+        console.warn('🔐 [Auth] Principal changed/retired during token refresh - not reconnecting');
+        if (socket.connected) socket.disconnect();
+        return;
       }
 
       socket.auth = { token: authToken };

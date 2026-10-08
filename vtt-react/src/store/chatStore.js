@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import { v4 as uuidv4 } from 'uuid';
 
 export function setCombatSyncSocket(socket, roomId) {
@@ -351,39 +352,19 @@ const useChatStore = create(
    // Reset store to initial state
    resetStore: () => set(initialState)
   }),
-  {
-   name: 'chat-store',
-   storage: {
-    getItem: (name) => {
-     const str = localStorage.getItem(name);
-     if (!str) return null;
-     return JSON.parse(str);
-    },
-    setItem: (name, value) => {
-     try {
-      // complete exclusion of non-serializable objects
-      const cleanValue = JSON.parse(JSON.stringify(value, (key, val) => {
-       // Exclude socket objects, functions, and other non-serializable types
-       if (key === 'multiplayerSocket' ||
-        key === 'sendMultiplayerMessage' ||
-        key === 'combatSyncSocket' ||
-        typeof val === 'function' ||
-        (val && typeof val === 'object' && val.constructor &&
-         (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {
-        return undefined;
-       }
-       return val;
-      }));
-
-      localStorage.setItem(name, JSON.stringify(cleanValue));
-     } catch (error) {
-      console.error('Error writing to localStorage:', error);
-      // Don't throw error to prevent app crashes
-     }
-    },
-    removeItem: (name) => localStorage.removeItem(name)
+  // Wave B (S5/C): chat history / private message projections are verified-
+  // owner scoped. Socket handles are stripped before the scoped write; the
+  // legacy `chat-store` raw content is quarantined and never auto-adopted.
+  createScopedStorageConfig('core.chat', 'chat-store', {
+   sanitize: (state) => {
+    if (!state || typeof state !== 'object') return state;
+    const clean = { ...state };
+    delete clean.multiplayerSocket;
+    delete clean.sendMultiplayerMessage;
+    delete clean.combatSyncSocket;
+    return clean;
    }
-  }
+  })
  )
 );
 

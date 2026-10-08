@@ -358,6 +358,20 @@ body svg[data-icon] {
   margin-bottom: 8px;
 }
 
+/* Membership is a scrolling pricing workspace: the 768px mobile rule pins the
+   landing page to one viewport, which would clip the tier cards. */
+.landing-page.membership-mode {
+  height: auto;
+  max-height: none;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.landing-page.membership-mode .landing-main {
+  overflow: visible;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .landing-page.map-background,
   .landing-page.map-background.map-loaded {
@@ -1308,25 +1322,30 @@ body svg[data-icon] {
   opacity: 0.7;
 }
 
-/* Pricing Grid */
+/* Membership */
+.membership-content {
+  width: 100%;
+  padding: 32px 24px 72px;
+}
+
+.membership-subtitle {
+  text-align: center;
+  max-width: 680px;
+  margin: -24px auto 40px;
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
+
+/* Pricing Grid: flex-wrap keeps every row centered, so the 5th tier never
+   lands as an orphan card in the corner, and cards share equal heights. */
 .pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
   gap: 24px;
-  max-width: 1200px;
+  max-width: 1120px;
   margin: 0 auto;
-}
-
-@media (max-width: 1100px) {
-  .pricing-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .pricing-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .pricing-card {
@@ -1340,6 +1359,9 @@ body svg[data-icon] {
   color: var(--my-parchment-text);
   display: flex;
   flex-direction: column;
+  flex: 1 1 300px;
+  max-width: 360px;
+  min-width: 0;
 }
 
 .pricing-card:hover {
@@ -1380,6 +1402,15 @@ body svg[data-icon] {
   border-color: #d4af37;
 }
 
+.pricing-card.highlighted {
+  border-color: #ffd700;
+  box-shadow: 0 0 28px rgba(212, 175, 55, 0.22);
+}
+
+.pricing-card.highlighted:hover {
+  box-shadow: 0 10px 35px rgba(212, 175, 55, 0.35);
+}
+
 .popular-badge {
   position: absolute;
   top: -12px;
@@ -1418,12 +1449,20 @@ body svg[data-icon] {
   font-size: 2rem;
   font-weight: 700;
   color: var(--my-parchment-text);
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .price span {
   font-size: 0.9rem;
   opacity: 0.7;
+}
+
+.pricing-description {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  opacity: 0.75;
+  margin: 0 0 18px;
+  min-height: 2.8em;
 }
 
 .pricing-card ul {

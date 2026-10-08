@@ -12,6 +12,11 @@ import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData, getEnhancedPathData } from '../../data/legacyDisciplineData';
 import gameStateManager from '../../services/gameStateManager';
 import { applyRoomSnapshot } from '../../services/silentRoomHydration';
+import {
+  createSocketLifetimeGuard,
+  principalKeyOfAuthState
+} from '../../persistence/handoff/socketPrincipalRetirement';
+import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
 
 export async function handleJoinRoom(room, socketConnection, isGameMaster, playerObject, password, levelEditorState, gridSettings, skipSetJoiningFalse, ctx) {
   const {
@@ -39,6 +44,22 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
 
   } = ctx;
+
+    // Wave A (P5/S4, corrected R8/B5): the entire admission flow is fenced by
+    // one captured operation identity (socket instance + principal + account
+    // generation). Every await/import/timer continuation revalidates before
+    // mutating runtime state, so an admission that entered before the handoff
+    // cannot install A's presence/snapshot/room/socket under B.
+    const joinGuard = createSocketLifetimeGuard({
+      socket: socketConnection,
+      principalKey: principalKeyOfAuthState(useAuthStore.getState()),
+      accountGeneration: getBootstrapGateState().accountGeneration,
+      getAuthState: () => useAuthStore.getState(),
+      getAccountGeneration: () => getBootstrapGateState()
+    });
+    const admissionCurrent = () => joinGuard.isValid();
+    if (!admissionCurrent()) return;
+
     // Declare currentUserId at the top scope of handleJoinRoom to avoid ReferenceErrors in subsequent blocks
     let currentUserId = null;
 
@@ -89,6 +110,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           // CRITICAL: Load grid items for initial sync
           if (levelEditorState.gridItems) {
             import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+              if (!admissionCurrent()) return;
               const gridItemStore = useGridItemStore.getState();
               Object.values(levelEditorState.gridItems).forEach(gridItem => {
                 console.log('Ã°Å¸"Â¦ Loading grid item from initial sync:', {
@@ -108,6 +130,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           // CRITICAL: Load tokens for initial sync
           if (levelEditorState.tokens) {
             import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+              if (!admissionCurrent()) return;
               const creatureStore = useCreatureStore.getState();
               Object.values(levelEditorState.tokens).forEach(tokenData => {
                 creatureStore.loadToken(tokenData);
@@ -121,6 +144,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
           // CRITICAL: Load character tokens for initial sync
           if (levelEditorState.characterTokens) {
             import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+              if (!admissionCurrent()) return;
               const creatureStore = useCreatureStore.getState();
               Object.values(levelEditorState.characterTokens).forEach(tokenData => {
                 creatureStore.loadToken(tokenData);
@@ -191,6 +215,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // Sync socket to presenceStore in handleJoinRoom
       try {
         import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+          if (!admissionCurrent()) return;
           usePresenceStore.getState().setSocket(socketConnection);
         });
       } catch (e) {
@@ -202,6 +227,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       if (isTestRoom) {
         localStorage.removeItem('isWorldBuilderMode');
         import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          if (!admissionCurrent()) return;
           const levelEditorStore = useLevelEditorStore.getState();
           if (levelEditorStore.isEditorMode) {
             levelEditorStore.setEditorMode(false);
@@ -360,6 +386,10 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
         activeCharacter = await loadActiveCharacter();
       }
 
+      // Wave A (P5/S4, corrected R8/B5): the load may span a handoff; a
+      // retired admission stops here without touching B's runtime.
+      if (!admissionCurrent()) return;
+
       // If still no active character, show a warning but ALLOW joining
       // Players can now join without an active character and set one up later
       const { user } = useAuthStore.getState();
@@ -396,6 +426,11 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       } catch (sessionError) {
         // Continue with multiplayer even if session tracking fails
       }
+
+      // Wave A (P5/S4, corrected R8/B5): the session await above may span a
+      // handoff; a retired admission must stop here, before setRoomName or any
+      // subsequent state mutation.
+      if (!admissionCurrent()) return;
 
       // Set room name for multiplayer context (this will format the display name)
       setRoomName(room.name);
@@ -443,6 +478,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       if (characterToUse) {
         try {
           import('../../store/inventoryStore').then(({ default: useInventoryStore }) => {
+            if (!admissionCurrent()) return;
             const inventoryStore = useInventoryStore.getState();
 
             // Load character's inventory into the inventory store
@@ -530,6 +566,9 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       }
     }
 
+    // The character refresh/session awaits above may have spanned a handoff.
+    if (!admissionCurrent()) return;
+
     try {
       // Simple: Room creator = GM, others = players
       useGameStore.getState().setGMMode(isGameMaster);
@@ -599,6 +638,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // and combat directly from the accepted server snapshot. Replacement
       // semantics only: no gameplay calls, RNG, resource changes or outbound
       // echo.
+      if (!admissionCurrent()) return;
       applyRoomSnapshot({
         gameState: room.gameState,
         activeMapId: startMapId,
@@ -1015,9 +1055,10 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
         if (isPermanentRoom) {
           gameStateManager.initialize(roomId, isGameMaster).then(() => {
-            console.log('Ã¢Å“"¦ Game state manager initialized successfully');
+            if (!admissionCurrent()) return;
+            console.log('✅ Game state manager initialized successfully');
           }).catch((error) => {
-            console.error('Ã¢ÂÅ’ Failed to initialize game state manager:', error);
+            console.error('❌ Failed to initialize game state manager:', error);
           });
         } else {
           console.log('Ã°Å¸Å½Â® Skipping Firebase game state load for non-permanent room');
@@ -1032,6 +1073,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       } catch (e) {
         console.warn('Could not apply tier feature flags:', e);
       }
+      if (!admissionCurrent()) return;
 
       // Sync weather state from room game state for players
       try {
@@ -1049,6 +1091,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       }
 
       // Set current room after all initialization is complete
+      if (!admissionCurrent()) return;
       setCurrentRoom(room);
       setCombatSyncSocket(socket, room.id);
 
@@ -1068,6 +1111,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
 
       // CRITICAL: Trigger initial character sync so everyone sees us correctly
       import('../../store/characterStore').then(({ default: useCharacterStore }) => {
+        if (!admissionCurrent()) return;
         useCharacterStore.getState().syncWithMultiplayer();
         console.log('🚀 Triggered initial character sync upon room entry');
       });
@@ -1075,6 +1119,7 @@ export async function handleJoinRoom(room, socketConnection, isGameMaster, playe
       // Additional helpful notification for new players
       if (!isGameMaster) {
         setTimeout(() => {
+          if (!admissionCurrent()) return;
           addNotificationRef.current('social', {
             sender: { name: 'System', class: 'system', level: 0 },
             content: '💡 Tip: Use the chat to communicate with your party. Press Enter to send messages.',

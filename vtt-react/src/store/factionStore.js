@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
 import useWorldStore from './worldStore';
@@ -2383,6 +2384,10 @@ const useFactionStore = create(
 
       // --- Cloud Synchronization & Hydration ---
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'factions');
@@ -2400,6 +2405,9 @@ const useFactionStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'factions');
@@ -2414,7 +2422,7 @@ const useFactionStore = create(
                   merged.push(cf);
                 }
               });
-              set({ factions: merged });
+              applyIfCurrent({ factions: merged });
               return true;
             }
           }
@@ -2424,7 +2432,7 @@ const useFactionStore = create(
         return false;
       }
     }),
-    createStorageConfig('mythrill_factions', {
+    createScopedStorageConfig('worldbuilding.factions', 'mythrill_factions', {
       partialize: (state) => ({
         factions: state.factions,
         lastCloudSyncAt: state.lastCloudSyncAt

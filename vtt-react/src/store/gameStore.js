@@ -2,6 +2,7 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { handleRest } from "../components/spellcrafting-wizard/core/mechanics/cooldownSystem";
 import { getManagedResourceId, normalizeManagedClassResource } from '../data/classResourceContracts';
+import { saveCooldowns, loadCooldowns, clearCooldowns } from '../persistence/combatScopedStorage';
 
 const initialState = {
     creatures: [],
@@ -819,7 +820,7 @@ const useGameStore = create((set, get) => ({
     setCooldown: (slotIndex, cooldownData) => {
         set(state => {
             const updated = { ...state.activeCooldowns, [slotIndex]: cooldownData };
-            try { localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(updated)); } catch (e) {}
+            saveCooldowns(state.multiplayerRoom?.id, updated);
             return { activeCooldowns: updated };
         });
     },
@@ -827,21 +828,20 @@ const useGameStore = create((set, get) => ({
     clearCooldown: (slotIndex) => {
         set(state => {
             const { [slotIndex]: _, ...rest } = state.activeCooldowns;
-            try { localStorage.setItem('gameStore-activeCooldowns', JSON.stringify(rest)); } catch (e) {}
+            saveCooldowns(state.multiplayerRoom?.id, rest);
             return { activeCooldowns: rest };
         });
     },
 
     clearAllCooldowns: () => {
-        try { localStorage.removeItem('gameStore-activeCooldowns'); } catch (e) {}
+        clearCooldowns(get().multiplayerRoom?.id);
         set({ activeCooldowns: {} });
     },
 
     restoreCooldowns: () => {
         try {
-            const saved = localStorage.getItem('gameStore-activeCooldowns');
-            if (saved) {
-                const parsed = JSON.parse(saved);
+            const parsed = loadCooldowns(get().multiplayerRoom?.id);
+            if (parsed) {
                 const now = Date.now();
                 const valid = {};
                 Object.entries(parsed).forEach(([slotIndex, data]) => {

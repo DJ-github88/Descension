@@ -1,4 +1,4 @@
-
+import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
 
 export function registerConnectionHandlers(ctx) {
   const {
@@ -178,6 +178,7 @@ export function registerConnectionHandlers(ctx) {
 
       // Request full sync to recover
       setTimeout(() => {
+        if (isSocketRetired(socket)) return;
         socket.emit('request_full_sync');
       }, 1000);
     });
@@ -193,6 +194,7 @@ export function registerConnectionHandlers(ctx) {
         timestamp: new Date().toISOString()
       });
       setTimeout(() => {
+        if (isSocketRetired(socket)) return;
         socket.emit('request_full_sync');
       }, 1000);
     });
@@ -211,6 +213,8 @@ export function registerConnectionHandlers(ctx) {
 
     // IMPROVEMENT: Handle reconnection with better state recovery
     socket.on('reconnect', (attemptNumber) => {
+      // Wave A (P5/S4, corrected R8): a retired socket instance is terminal.
+      if (isSocketRetired(socket)) return;
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -223,6 +227,7 @@ export function registerConnectionHandlers(ctx) {
       if (currentRoomRef.current && currentPlayerRef.current) {
         // Small delay to ensure socket is fully connected
         setTimeout(() => {
+          if (isSocketRetired(socket)) return;
           // Request full sync to get latest game state
           socket.emit('request_full_sync');
 
@@ -267,6 +272,7 @@ export function registerConnectionHandlers(ctx) {
       } else {
         // Not in a room, just request sync if we have a socket
         setTimeout(() => {
+          if (isSocketRetired(socket)) return;
           socket.emit('request_full_sync');
         }, 500);
       }

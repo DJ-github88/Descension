@@ -7,6 +7,7 @@ import ClassIcon from '../common/ClassIcon';
 import LoreLink from '../common/LoreLink';
 import RichLoreText from '../common/RichLoreText';
 import { SpellLibraryStateContext, SpellLibraryDispatchContext } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { loadSpellLibraryData, saveSpellLibraryData } from '../../persistence/spellLibraryScopedStorage';
 
 // Helper to sanitize em-dashes and AI punctuation artifacts
 const cleanEmdashes = (text) => {
@@ -592,22 +593,21 @@ const SpellsTab = ({ cls }) => {
   }, [librarySpells, cls.name, cls.id]);
 
   // Add a rite to the shared library: via the provider when present (gets
-  // cloud-synced), otherwise direct to the shared localStorage library.
+  // cloud-synced), otherwise direct to the verified-owner scoped library.
   const addRiteToLibrary = (spellObj) => {
     if (dispatchSpell) {
       dispatchSpell({ type: 'ADD_SPELL_DIRECT', payload: spellObj });
       return;
     }
     try {
-      const stored = localStorage.getItem('spell_library_data');
+      const stored = loadSpellLibraryData();
       let storedLibrary = { spells: [] };
       if (stored) {
-        const parsed = JSON.parse(stored);
-        storedLibrary = parsed.data || parsed;
+        storedLibrary = stored.data || stored;
         if (!storedLibrary.spells) storedLibrary.spells = [];
       }
       storedLibrary.spells.push(spellObj);
-      localStorage.setItem('spell_library_data', JSON.stringify({ version: 1, data: storedLibrary }));
+      saveSpellLibraryData({ version: 1, data: storedLibrary });
     } catch (err) {
       console.error('Error saving spell to library:', err);
     }

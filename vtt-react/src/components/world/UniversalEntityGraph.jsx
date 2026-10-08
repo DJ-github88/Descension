@@ -5,7 +5,18 @@ import useFamilyTreeStore from '../../store/familyTreeStore';
 import useCustomLineageStore from '../../store/customLineageStore';
 import useAuthStore from '../../store/authStore';
 import { syncEntityGraph, hydrateEntityGraph } from '../../services/firebase/entityGraphService';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import './UniversalEntityGraph.css';
+
+// Wave B (final sweep): authored graph nodes/edges are verified-owner scoped.
+const entityGraphNodesFamily = createScopedNativeFamily({
+  familyId: 'graph.entitiesNodes',
+  legacyKeys: ['mythrill_custom_graph_nodes']
+});
+const entityGraphEdgesFamily = createScopedNativeFamily({
+  familyId: 'graph.entitiesEdges',
+  legacyKeys: ['mythrill_custom_graph_edges']
+});
 
 const CANVAS_WIDTH = 3200;
 const CANVAS_HEIGHT = 2400;
@@ -88,15 +99,15 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const { user: authUser } = useAuthStore();
   const [customUserNodes, setCustomUserNodes] = useState(() => {
     try {
-      const saved = localStorage.getItem('mythrill_custom_graph_nodes');
-      return saved ? JSON.parse(saved) : [];
+      const saved = entityGraphNodesFamily.load();
+      return Array.isArray(saved) ? saved : [];
     } catch { return []; }
   });
 
   const [customUserEdges, setCustomUserEdges] = useState(() => {
     try {
-      const saved = localStorage.getItem('mythrill_custom_graph_edges');
-      return saved ? JSON.parse(saved) : [];
+      const saved = entityGraphEdgesFamily.load();
+      return Array.isArray(saved) ? saved : [];
     } catch { return []; }
   });
 
@@ -106,6 +117,10 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const customUserEdgesRef = useRef(customUserEdges);
   customUserEdgesRef.current = customUserEdges;
   const cloudFlushTimerRef = useRef(null);
+  // B1: the uid whose authored graph currently lives in the refs/state. On an
+  // owner change the retained projection is retired so A's nodes can never be
+  // uploaded into B's cloud document.
+  const graphOwnerRef = useRef(null);
 
   // Authoring modals & link creation state
   const [showAddNodeModal, setShowAddNodeModal] = useState(false);
@@ -125,19 +140,33 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   // push the local data up. Cloud wins when both exist (newest device state).
   useEffect(() => {
     const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
-    if (!uid) return;
+    const previousUid = graphOwnerRef.current;
+    if (previousUid !== null && previousUid !== uid) {
+      // Owner changed: retire the previous owner's retained projection and
+      // any debounced flush that would have published it.
+      if (cloudFlushTimerRef.current) {
+        clearTimeout(cloudFlushTimerRef.current);
+        cloudFlushTimerRef.current = null;
+      }
+      customUserNodesRef.current = [];
+      customUserEdgesRef.current = [];
+      setCustomUserNodes([]);
+      setCustomUserEdges([]);
+    }
+    graphOwnerRef.current = uid;
+    if (!uid) return undefined;
     let cancelled = false;
     (async () => {
       const cloud = await hydrateEntityGraph(uid);
-      if (cancelled || !cloud) return;
+      if (cancelled || !cloud || graphOwnerRef.current !== uid) return;
       const hasCloudData = cloud.customNodes.length > 0 || cloud.customEdges.length > 0;
       const hasLocalData = customUserNodesRef.current.length > 0 || customUserEdgesRef.current.length > 0;
       if (hasCloudData) {
         setCustomUserNodes(cloud.customNodes);
         setCustomUserEdges(cloud.customEdges);
         try {
-          localStorage.setItem('mythrill_custom_graph_nodes', JSON.stringify(cloud.customNodes));
-          localStorage.setItem('mythrill_custom_graph_edges', JSON.stringify(cloud.customEdges));
+          entityGraphNodesFamily.save(cloud.customNodes);
+          entityGraphEdgesFamily.save(cloud.customEdges);
         } catch {}
       } else if (hasLocalData) {
         syncEntityGraph(uid, {
@@ -153,21 +182,23 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   // Persist custom user nodes/edges to localStorage + debounced cloud sync
   const saveCustomNodes = (nodes) => {
     setCustomUserNodes(nodes);
-    try { localStorage.setItem('mythrill_custom_graph_nodes', JSON.stringify(nodes)); } catch {}
+    try { entityGraphNodesFamily.save(nodes); } catch {}
     scheduleCloudFlush();
   };
 
   const saveCustomEdges = (edges) => {
     setCustomUserEdges(edges);
-    try { localStorage.setItem('mythrill_custom_graph_edges', JSON.stringify(edges)); } catch {}
+    try { entityGraphEdgesFamily.save(edges); } catch {}
     scheduleCloudFlush();
   };
 
   const scheduleCloudFlush = () => {
-    const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
+    const uid = graphOwnerRef.current;
     if (!uid) return;
     if (cloudFlushTimerRef.current) clearTimeout(cloudFlushTimerRef.current);
     cloudFlushTimerRef.current = setTimeout(() => {
+      // B1: never publish a superseded owner's retained graph state.
+      if (graphOwnerRef.current !== uid) return;
       syncEntityGraph(uid, {
         customNodes: customUserNodesRef.current,
         customEdges: customUserEdgesRef.current
@@ -175,12 +206,14 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
     }, 2000);
   };
 
-  // Flush pending cloud writes on unmount
+  // Flush pending cloud writes on unmount (owner changes are handled by the
+  // hydration effect's retirement, not by re-running this cleanup).
   useEffect(() => {
     return () => {
       if (cloudFlushTimerRef.current) {
         clearTimeout(cloudFlushTimerRef.current);
-        const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
+        cloudFlushTimerRef.current = null;
+        const uid = graphOwnerRef.current;
         if (uid) {
           syncEntityGraph(uid, {
             customNodes: customUserNodesRef.current,
@@ -190,7 +223,7 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authUser?.uid]);
+  }, []);
 
   // 1. Build universal graph nodes
   const allNodes = useMemo(() => {

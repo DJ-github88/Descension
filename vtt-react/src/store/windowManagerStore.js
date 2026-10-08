@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import useGameStore from './gameStore';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
 
 /**
  * Z-Index Management Store
@@ -25,10 +26,17 @@ const CASCADE_MAX = 300;
 
 const POSITION_STORAGE_KEY = 'mythrill-window-positions';
 
+// Wave B closure: window positions are verified-owner scoped private UI hints
+// (entity-bearing window ids must never carry across accounts).
+const windowPositionsFamily = createScopedNativeFamily({
+  familyId: 'ui.windowPositions',
+  legacyKeys: [POSITION_STORAGE_KEY]
+});
+
 const loadSavedPositions = () => {
   try {
-    const saved = localStorage.getItem(POSITION_STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {};
+    const saved = windowPositionsFamily.load(['positions']);
+    return saved && typeof saved === 'object' ? saved : {};
   } catch {
     return {};
   }
@@ -36,8 +44,13 @@ const loadSavedPositions = () => {
 
 const savePositions = (positions) => {
   try {
-    localStorage.setItem(POSITION_STORAGE_KEY, JSON.stringify(positions));
+    windowPositionsFamily.save(positions, ['positions']);
   } catch {}
+};
+
+/** Reload the active owner's window positions (account handoff support). */
+export const reloadWindowPositionsFromScope = () => {
+  useWindowManagerStore.setState({ positions: loadSavedPositions() });
 };
 
 const useWindowManagerStore = create((set, get) => ({

@@ -5,12 +5,6 @@ export const vreken = {
   essence: 'The Gloom-Lit',
   illustration: '/assets/images/races/vreken_clean_city_sunkenspire.jpg',
   illustrationCaption: 'A Bedel crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved rune staff and crypt tome with toxic green watercolor splash.',
-  illustrations: [
-    {
-      src: '/assets/images/races/vreken_clean_icon_v1.png',
-      caption: 'Bedel crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved wooden staff and heavy crypt tome in rough charcoal draft with green and gold watercolor splash.'
-    }
-  ],
   cardFlavor: 'Amber-eyed crypt-keepers who tend the Sunken Spire reverse cathedrals beneath the Bryngloom bogs.',
   visualDescription: `Compact and wiry, standing 4'10" to 5'6", with long tapered ears that gracefully curl upward like spiral horns rising from beneath dark cowl hoods. Their eyes are bioluminescent lantern-eyes peeking from beneath the hood, glowing with rust-amber (Bedel Deep-Glow) or silver-white (Cromyx Ghost-Mycelium) light in the dark. Their lower faces are wrapped in cloth, and their long-fingered hands are built for delicate spore-harvesting. They wear gothic monastic vestments in dark earth tones with gold-woven trim, living in inverted reverse cathedral-monasteries (Sunken Spires) carved into peat-stone.`,
   description: `**[The Lantern-Eyed Crypt-Speakers]**, *Leaning into the damp peat-stone of the Sunken Spire, a Mycellan keeper with upward-curling horn-ears and glowing rust-amber eyes traces a fingertip along glowing fungal filaments in an inverted catacomb.*
@@ -50,7 +44,7 @@ To the humans of the surrounding regions, the Mycellan are the grave-lights: lan
   meaningfulTradeoffs: 'Mycellan gain unparalleled perception of the Root-Veil and the underground world through their fungal bond, but their bioluminescent eyes make stealth difficult and their tie to a wounded god carries a physical and emotional toll. The Cromyx live with the constant threat of the Over-Lit addiction.',
 
  baseTraits: {
- languages: ['Common', 'Gloom-Tongue'],
+ languages: ["Wayfarer's Cant", 'Gloomtongue'],
  lifespan: '160-240 years',
  baseSpeed: 25,
  size: 'Medium',
@@ -428,7 +422,7 @@ The Bedel rarely leave the Bryngloom Forest. When they do, they travel in monast
   cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
  }
  ],
- languages: ['Common', 'Gloom-Tongue'],
+ languages: ["Wayfarer's Cant", 'Gloomtongue'],
  speed: 25,
   baseStats: { hp: 22, mana: 14, ap: 3, passivePerception: 12, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 30, initiative: 1 },
  savingThrowModifiers: { advantage: ['blight', 'disease'], disadvantage: [] }
@@ -452,10 +446,6 @@ The Bedel rarely leave the Bryngloom Forest. When they do, they travel in monast
     {
       src: '/assets/images/races/vreken_marked_figure_garrow.jpg',
       caption: 'Blight-Harvester Garrow — Master spore-forager crouched low on a mossy rock in a dark peat-cavern pool holding a curved sickle and lowering a chained cage-lantern in rough charcoal draft with toxic acid green watercolor splash.'
-    },
-    {
-      src: '/assets/images/races/vreken_marked_icon_v1.png',
-      caption: 'Cromyx Feral Inquisitor Benchmark — Dynamic full-figure predatory crouch with transversely ridged horns, linen bandages, clawed limbs, curved sickle, and chained lantern in rough charcoal draft with toxic green watercolor splash.'
     }
   ],
   visualDescription: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic. The Cromyx share the compact wiry frame and vestigial elven architecture of their kin, but their lantern-eyes burn silver-white and will not dim easily, flaring with anger, flickering with grief, brightening under any strong emotion so that their hearts are readable across a room. Their ear-tips curl more sharply. The volatile strain threads deeper through them: their presence is impossible to hide in darkness, and the brilliant light that makes their perception extraordinary is the same light that consumes them from within.`,
@@ -593,7 +583,7 @@ The Cromyx rarely serve as trade delegates or diplomatic envoys. Their eyes are 
   cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
  }
  ],
- languages: ['Common', 'Gloom-Tongue'],
+ languages: ["Wayfarer's Cant", 'Gloomtongue'],
  speed: 25,
   baseStats: { hp: 18, mana: 12, ap: 4, passivePerception: 15, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 90, initiative: 3 },
  savingThrowModifiers: { advantage: ['perception'], disadvantage: ['blight'] }

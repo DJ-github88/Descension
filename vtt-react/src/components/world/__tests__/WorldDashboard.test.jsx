@@ -364,16 +364,16 @@ describe('WorldDashboard - Factions, Regions & Lore View', () => {
 
     fireEvent.click(screen.getByText('Gjaldmál'));
     expect(screen.getByRole('group', { name: /Switch tongue/i })).toBeInTheDocument();
-    expect(screen.getByText('1 / 9')).toBeInTheDocument();
+    expect(screen.getByText('1 / 13')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Next tongue: Dauðrsöngr/i }));
-    expect(screen.getByText('2 / 9')).toBeInTheDocument();
+    expect(screen.getByText('2 / 13')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Previous tongue: Gjaldmál/i }));
-    expect(screen.getByText('1 / 9')).toBeInTheDocument();
+    expect(screen.getByText('1 / 13')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /Show all/i }));
-    expect(screen.queryByText('1 / 9')).not.toBeInTheDocument();
+    expect(screen.queryByText('1 / 13')).not.toBeInTheDocument();
   });
 });
 

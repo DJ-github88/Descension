@@ -7,14 +7,26 @@
 
 import { getPerformance } from 'firebase/performance';
 import { getApp } from 'firebase/app';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
 
 
-// Metrics storage keys
+// Metrics storage keys (retired global keys; quarantined once per owner)
 const METRICS_STORAGE = {
  PERFORMANCE_DATA: 'performance_data',
  ERROR_LOGS: 'error_logs',
  USAGE_STATS: 'usage_stats'
 };
+
+// Wave B closure: identity-bearing diagnostics are verified-owner scoped so a
+// later account can never read a previous account's metrics or error logs.
+const performanceDiagnosticsFamily = createScopedNativeFamily({
+ familyId: 'diagnostics.performance',
+ legacyKeys: [METRICS_STORAGE.PERFORMANCE_DATA]
+});
+const errorDiagnosticsFamily = createScopedNativeFamily({
+ familyId: 'diagnostics.errors',
+ legacyKeys: [METRICS_STORAGE.ERROR_LOGS, METRICS_STORAGE.USAGE_STATS]
+});
 
 /**
  * Initialize performance monitoring
@@ -236,7 +248,7 @@ function storeMetricLocally(metric) {
    metrics.splice(0, metrics.length - 1000);
   }
 
-  localStorage.setItem(METRICS_STORAGE.PERFORMANCE_DATA, JSON.stringify(metrics));
+  performanceDiagnosticsFamily.save(metrics, ['metrics']);
  } catch (error) {
   console.error('Failed to store metric locally:', error);
  }
@@ -255,7 +267,7 @@ function storeErrorLocally(error) {
    errors.splice(0, errors.length - 500);
   }
 
-  localStorage.setItem(METRICS_STORAGE.ERROR_LOGS, JSON.stringify(errors));
+  errorDiagnosticsFamily.save(errors, ['errors']);
  } catch (error) {
   console.error('Failed to store error locally:', error);
  }
@@ -304,8 +316,8 @@ async function sendErrorToServer(error) {
  */
 function getStoredMetrics() {
  try {
-  const data = localStorage.getItem(METRICS_STORAGE.PERFORMANCE_DATA);
-  return data ? JSON.parse(data) : [];
+  const metrics = performanceDiagnosticsFamily.load(['metrics']);
+  return Array.isArray(metrics) ? metrics : [];
  } catch (error) {
   console.error('Failed to get stored metrics:', error);
   return [];
@@ -317,8 +329,8 @@ function getStoredMetrics() {
  */
 function getStoredErrors() {
  try {
-  const data = localStorage.getItem(METRICS_STORAGE.ERROR_LOGS);
-  return data ? JSON.parse(data) : [];
+  const errors = errorDiagnosticsFamily.load(['errors']);
+  return Array.isArray(errors) ? errors : [];
  } catch (error) {
   console.error('Failed to get stored errors:', error);
   return [];
@@ -371,8 +383,8 @@ function cleanupOldMetrics() {
   const recentMetrics = metrics.filter(m => new Date(m.timestamp).getTime() > sevenDaysAgo);
   const recentErrors = errors.filter(e => new Date(e.timestamp).getTime() > sevenDaysAgo);
 
-  localStorage.setItem(METRICS_STORAGE.PERFORMANCE_DATA, JSON.stringify(recentMetrics));
-  localStorage.setItem(METRICS_STORAGE.ERROR_LOGS, JSON.stringify(recentErrors));
+  performanceDiagnosticsFamily.save(recentMetrics, ['metrics']);
+  errorDiagnosticsFamily.save(recentErrors, ['errors']);
 
   console.log(`Cleaned up old metrics: ${metrics.length - recentMetrics.length} metrics, ${errors.length - recentErrors.length} errors`);
  } catch (error) {

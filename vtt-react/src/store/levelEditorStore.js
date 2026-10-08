@@ -2,6 +2,7 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { getGridSystem, computeBrushTiles } from '../utils/InfiniteGridSystem';
 import { clampElevationLevel } from '../utils/ElevationUtils';
+import { appendSavedMap } from '../persistence/mapSavedStorage';
 
 // Brush footprint resolver: hex maps get a hex ring, square maps the legacy
 // size x size block. Falls back to the square footprint when the shared grid
@@ -3789,11 +3790,13 @@ const useLevelEditorStore = create((set, get) => ({
       timestamp: Date.now()
     };
 
-    // Save to localStorage with timestamp
-    const savedMaps = JSON.parse(localStorage.getItem('vtt-saved-maps') || '[]');
+    // Wave B (S5/B): saved maps are verified-owner scoped. The write captures
+    // the operation context; a stale save after an account handoff is refused.
+    // The legacy `vtt-saved-maps` raw content is quarantined, never read.
     const mapName = `Map_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}`;
-    savedMaps.push({ name: mapName, data: mapData });
-    localStorage.setItem('vtt-saved-maps', JSON.stringify(savedMaps));
+    appendSavedMap({ name: mapName, data: mapData }).catch((error) => {
+      console.warn('Saved-map persistence failed:', error?.message || error);
+    });
 
     return mapName;
   },

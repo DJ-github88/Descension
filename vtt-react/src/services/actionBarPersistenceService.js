@@ -1,8 +1,54 @@
 import { db } from '../config/firebase.js';
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
+import { resolveActiveScope, captureConsumerContext, isConsumerContextCurrent } from '../persistence/scopedConsumer';
+import { buildScopedKey, parseP5ScopedKey } from '../persistence/keyFormat';
+import { readDurable } from '../persistence/protectedStorage';
 
 const ACTION_BAR_STORAGE_PREFIX = 'mythrill-actionbar-';
 const HOTKEY_STORAGE_PREFIX = 'mythrill-hotkeys-';
+
+// Wave B (final sweep): action bars and hotkeys are authored private records in
+// verified-owner scoped storage, keyed by character/room resource references.
+// Character/room ids are never ownership proof; the legacy global keys are
+// quarantined (verified copies) and never auto-adopted.
+const actionBarFamily = createScopedNativeFamily({ familyId: 'character.actionBar' });
+const hotkeyFamily = createScopedNativeFamily({ familyId: 'character.hotkeys' });
+
+function listScopedFamilyRecords(familyId, characterId) {
+  const records = {};
+  const scope = resolveActiveScope();
+  if (!scope || !characterId) return records;
+  let prefix;
+  try {
+    prefix = `${buildScopedKey({ scope, familyId, locator: [String(characterId)] })}:`;
+  } catch (_error) {
+    return records;
+  }
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(prefix)) continue;
+      const parsed = parseP5ScopedKey(key);
+      if (!parsed || parsed.familyId !== familyId || !parsed.segments || parsed.segments.length < 2) continue;
+      const raw = readDurable(key);
+      if (!raw.ok || raw.raw === null) continue;
+      try {
+        let value = JSON.parse(raw.raw);
+        // Draft-envelope families store the payload inside the envelope.
+        if (value && typeof value === 'object' && 'payload' in value) {
+          value = value.payload;
+        }
+        records[parsed.segments[1]] = value;
+      } catch (_error) {
+        // malformed record: preserve raw, skip from listing
+      }
+    }
+  } catch (_error) {
+    // fail safe: listing is best-effort
+  }
+  return records;
+}
 
 function getAuthUser() {
   try {
@@ -22,7 +68,10 @@ function getAuthUser() {
 
 function getFirebaseDocRef(characterId, roomId) {
   const user = getAuthUser();
-  if (!user || !db) return null;
+  const scope = resolveActiveScope();
+  // B9's verified local-room owner, not a leftover auth-storage marker,
+  // determines whether this cloud destination may be used.
+  if (!user || !db || scope?.scopeKind !== 'user' || scope.scopeId !== user.uid) return null;
   return doc(db, 'users', user.uid, 'actionBar', `${characterId}_${roomId}`);
 }
 
@@ -39,7 +88,9 @@ class ActionBarPersistenceService {
    * @returns {string} Storage key
    */
   getStorageKey(characterId, roomId = 'global') {
-    return `${ACTION_BAR_STORAGE_PREFIX}${characterId}-${roomId}`;
+    const scope = resolveActiveScope();
+    const scopeTag = scope ? `${scope.scopeKind}:${scope.scopeId}` : 'none';
+    return `${ACTION_BAR_STORAGE_PREFIX}${scopeTag}:${characterId}-${roomId}`;
   }
 
   /**
@@ -92,7 +143,11 @@ class ActionBarPersistenceService {
         version: '1.0'
       };
 
-      localStorage.setItem(storageKey, JSON.stringify(configData));
+      const writeResult = actionBarFamily.save(configData, [String(characterId), String(roomId || 'global')]);
+      if (writeResult.status !== 'OK') {
+        console.warn('Action bar save refused:', writeResult.status);
+        return false;
+      }
       this.cache.set(storageKey, configData);
 
       const firebaseRef = getFirebaseDocRef(characterId, roomId);
@@ -131,14 +186,21 @@ class ActionBarPersistenceService {
         return cached.actionSlots;
       }
 
+      // B1: capture the verified destination before any await so a delayed
+      // Firebase response can never populate a different account.
+      const captured = captureConsumerContext();
+
       const firebaseRef = getFirebaseDocRef(characterId, roomId);
       if (firebaseRef) {
         try {
           const firebaseDoc = await getDoc(firebaseRef);
+          if (!captured.ok || !isConsumerContextCurrent(captured.context)) {
+            return null;
+          }
           if (firebaseDoc.exists()) {
             const configData = firebaseDoc.data();
             if (configData.actionSlots && Array.isArray(configData.actionSlots)) {
-              localStorage.setItem(storageKey, JSON.stringify(configData));
+              actionBarFamily.save(configData, [String(characterId), String(roomId || 'global')]);
               this.cache.set(storageKey, configData);
               console.log(`📋 Action bar loaded from Firebase for character ${characterId} in room ${roomId}`);
               return configData.actionSlots;
@@ -149,16 +211,17 @@ class ActionBarPersistenceService {
         }
       }
 
-      const stored = localStorage.getItem(storageKey);
-      if (!stored) {
+      if (!captured.ok || !isConsumerContextCurrent(captured.context)) {
+        return null;
+      }
+      const configData = actionBarFamily.load([String(characterId), String(roomId || 'global')]);
+      if (!configData) {
         if (roomId !== 'global') {
           console.log(`🔄 No room-specific config found, trying global config for character ${characterId}`);
           return await this.loadActionBarConfig(characterId, 'global');
         }
         return null;
       }
-
-      const configData = JSON.parse(stored);
 
       if (!configData.actionSlots || !Array.isArray(configData.actionSlots)) {
         console.warn('Invalid action bar config data structure');
@@ -201,7 +264,7 @@ class ActionBarPersistenceService {
   deleteActionBarConfig(characterId, roomId) {
     try {
       const storageKey = this.getStorageKey(characterId, roomId);
-      localStorage.removeItem(storageKey);
+      actionBarFamily.clear([String(characterId), String(roomId || 'global')]);
       this.cache.delete(storageKey);
 
       const firebaseRef = getFirebaseDocRef(characterId, roomId);
@@ -225,23 +288,7 @@ class ActionBarPersistenceService {
    * @returns {Object} Object with roomId as keys and configs as values
    */
   getAllCharacterConfigs(characterId) {
-    const configs = {};
-    const prefix = `${ACTION_BAR_STORAGE_PREFIX}${characterId}-`;
-
-    try {
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(prefix)) {
-          const roomId = key.substring(prefix.length);
-          const configData = JSON.parse(localStorage.getItem(key));
-          configs[roomId] = configData;
-        }
-      }
-    } catch (error) {
-      console.error('Error getting all character configs:', error);
-    }
-
-    return configs;
+    return listScopedFamilyRecords('character.actionBar', characterId);
   }
 
   /**
@@ -251,7 +298,9 @@ class ActionBarPersistenceService {
    * @returns {string} Storage key
    */
   getHotkeyStorageKey(characterId, roomId = 'global') {
-    return `${HOTKEY_STORAGE_PREFIX}${characterId}-${roomId}`;
+    const scope = resolveActiveScope();
+    const scopeTag = scope ? `${scope.scopeKind}:${scope.scopeId}` : 'none';
+    return `${HOTKEY_STORAGE_PREFIX}${scopeTag}:${characterId}-${roomId}`;
   }
 
   /**
@@ -277,7 +326,11 @@ class ActionBarPersistenceService {
         version: '1.0'
       };
 
-      localStorage.setItem(storageKey, JSON.stringify(hotkeyData));
+      const hotkeyWrite = hotkeyFamily.save(hotkeyData, [String(characterId), String(roomId || 'global')]);
+      if (hotkeyWrite.status !== 'OK') {
+        console.warn('Hotkey save refused:', hotkeyWrite.status);
+        return false;
+      }
       this.hotkeyCache.set(storageKey, hotkeyData);
 
       console.log(`⌨️ Hotkeys saved for character ${characterId} in room ${roomId}`);
@@ -310,9 +363,9 @@ class ActionBarPersistenceService {
         return cached.hotkeys;
       }
 
-      // Load from localStorage
-      const stored = localStorage.getItem(storageKey);
-      if (!stored) {
+      // Load from verified-owner scoped storage
+      const hotkeyData = hotkeyFamily.load([String(characterId), String(roomId || 'global')]);
+      if (!hotkeyData) {
         // Try to load global hotkeys as fallback
         if (roomId !== 'global') {
           console.log(`🔄 No room-specific hotkeys found, trying global hotkeys for character ${characterId}`);
@@ -320,8 +373,6 @@ class ActionBarPersistenceService {
         }
         return null;
       }
-
-      const hotkeyData = JSON.parse(stored);
 
       // Validate data structure
       if (!hotkeyData.hotkeys || typeof hotkeyData.hotkeys !== 'object') {
@@ -349,7 +400,7 @@ class ActionBarPersistenceService {
   deleteHotkeys(characterId, roomId) {
     try {
       const storageKey = this.getHotkeyStorageKey(characterId, roomId);
-      localStorage.removeItem(storageKey);
+      hotkeyFamily.clear([String(characterId), String(roomId || 'global')]);
       this.hotkeyCache.delete(storageKey);
 
       console.log(`� - �️ Hotkeys deleted for character ${characterId} in room ${roomId}`);
@@ -365,40 +416,10 @@ class ActionBarPersistenceService {
    * @param {number} maxAge - Maximum age in days (default: 30)
    */
   cleanupOldConfigs(maxAge = 30) {
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - maxAge);
-    
-    try {
-      const keysToDelete = [];
-      
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(ACTION_BAR_STORAGE_PREFIX)) {
-          try {
-            const configData = JSON.parse(localStorage.getItem(key));
-            const lastSaved = new Date(configData.lastSaved);
-            
-            if (lastSaved < cutoffDate) {
-              keysToDelete.push(key);
-            }
-          } catch (parseError) {
-            // Invalid data, mark for deletion
-            keysToDelete.push(key);
-          }
-        }
-      }
-      
-      keysToDelete.forEach(key => {
-        localStorage.removeItem(key);
-        this.cache.delete(key);
-      });
-      
-      if (keysToDelete.length > 0) {
-        console.log(`🧹 Cleaned up ${keysToDelete.length} old action bar configurations`);
-      }
-    } catch (error) {
-      console.error('Error cleaning up old configs:', error);
-    }
+    // Wave B: authored action-bar/hotkey records are verified-owner scoped.
+    // Age-based cleanup never deletes authored work; this is now a no-op.
+    void maxAge;
+    return 0;
   }
 
   /**
@@ -408,11 +429,12 @@ class ActionBarPersistenceService {
   getStorageStats() {
     let totalConfigs = 0;
     let totalSize = 0;
-    
+
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && key.startsWith(ACTION_BAR_STORAGE_PREFIX)) {
+        if (!key || !key.startsWith('mythrill:p5:')) continue;
+        if (key.includes(':character.actionBar') || key.includes(':character.hotkeys')) {
           totalConfigs++;
           const value = localStorage.getItem(key);
           totalSize += key.length + (value ? value.length : 0);

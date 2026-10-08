@@ -3,6 +3,7 @@ import useAuthStore from '../../../store/authStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
+import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
 
 export function registerRoomLifecycleHandlers(ctx) {
   const {
@@ -23,6 +24,9 @@ export function registerRoomLifecycleHandlers(ctx) {
 
     // CRITICAL: Handle room_joined event
     socket.on('room_joined', (data) => {
+      // Wave A (P5/S4, corrected R8): a retired principal's socket may not
+      // install room state for the new principal.
+      if (isSocketRetired(socket)) return;
       // CRITICAL: Sync per-room delta-sync capability flags FIRST so subsequent
       // token events honor the server's current configuration (even on reconnect).
       if (useDeltaSyncTokensRef) {
@@ -275,6 +279,7 @@ export function registerRoomLifecycleHandlers(ctx) {
     // CRITICAL: Handle room_created event for GM resume flow
     // The server emits room_created, then immediately room_joined
     socket.on('room_created', (data) => {
+      if (isSocketRetired(socket)) return;
       console.log('âœ… [MultiplayerApp] room_created received:', data);
       console.log('ðŸ” Room structure check:', {
         hasRoom: !!data.room,
@@ -315,6 +320,7 @@ export function registerRoomLifecycleHandlers(ctx) {
 
     // Listen for player join/leave events
     socket.on('player_joined', async (data) => {
+      if (isSocketRetired(socket)) return;
       if (!data || !data.player) return;
 
       // Server sends total count (players + GM), use it directly
@@ -437,6 +443,7 @@ export function registerRoomLifecycleHandlers(ctx) {
         // Then update with proper race display name if needed
         if (data.player.character?.race && data.player.character?.subrace) {
           import('../../../data/raceData').then(({ getFullRaceData }) => {
+            if (isSocketRetired(socket)) return;
             const raceData = getFullRaceData(data.player.character.race, data.player.character.subrace);
             if (raceData) {
               const updatedRaceDisplayName = `${raceData.subrace.name} ${raceData.race.name}`;
@@ -453,6 +460,7 @@ export function registerRoomLifecycleHandlers(ctx) {
           });
         } else if (data.player.character?.race) {
           import('../../../data/raceData').then(({ getRaceData }) => {
+            if (isSocketRetired(socket)) return;
             const raceData = getRaceData(data.player.character.race);
             if (raceData) {
               const updatedRaceDisplayName = raceData.name;
@@ -477,6 +485,7 @@ export function registerRoomLifecycleHandlers(ctx) {
 
           // CRITICAL: Also broadcast OUR character to the newcomer so they see us correctly
           import('../../../store/characterStore').then(({ default: useCharacterStore }) => {
+            if (isSocketRetired(socket)) return;
             useCharacterStore.getState().syncWithMultiplayer();
             console.log('ðŸ“¤ Broadcasted local character to newcomer:', playerCharacterName);
           });
@@ -584,6 +593,7 @@ export function registerRoomLifecycleHandlers(ctx) {
     });
 
     socket.on('player_left', (data) => {
+      if (isSocketRetired(socket)) return;
       const playerId = data?.player?.id || data?.playerId;
       const playerName = data?.player?.name || data?.playerName;
       if (!data || !playerId) return;
@@ -591,6 +601,7 @@ export function registerRoomLifecycleHandlers(ctx) {
       if (playerId === currentPlayerRef.current?.id) {
         handleLeaveRoom();
         setTimeout(() => {
+          if (isSocketRetired(socket)) return;
           navigate('/', { replace: true });
         }, 200);
         return;
@@ -623,6 +634,7 @@ export function registerRoomLifecycleHandlers(ctx) {
       try {
         removePartyMember(playerId);
         import('../../../store/partyStore').then(({ default: usePartyStore }) => {
+          if (isSocketRetired(socket)) return;
           const { removePartyMember: removeFromStore } = usePartyStore.getState();
           removeFromStore(playerId);
         }).catch((error) => {
@@ -643,16 +655,19 @@ export function registerRoomLifecycleHandlers(ctx) {
     });
 
     socket.on('room_closed', (data) => {
+      if (isSocketRetired(socket)) return;
       // CRITICAL FIX: Properly handle room closure with navigation
       handleLeaveRoom();
 
       // Navigate to landing page after cleanup
       setTimeout(() => {
+        if (isSocketRetired(socket)) return;
         navigate('/', { replace: true });
       }, 200);
     });
 
     socket.on('gm_disconnected', (data) => {
+      if (isSocketRetired(socket)) return;
       if (!isGMRef.current) {
         showGMDisconnectedNotification(data.gmName || 'Unknown');
 
@@ -666,12 +681,14 @@ export function registerRoomLifecycleHandlers(ctx) {
         handleLeaveRoom();
 
         setTimeout(() => {
+          if (isSocketRetired(socket)) return;
           navigate('/', { replace: true });
         }, 1500);
       }
     });
 
     socket.on('gm_reconnected', (data) => {
+      if (isSocketRetired(socket)) return;
       if (!isGMRef.current) {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -684,22 +701,26 @@ export function registerRoomLifecycleHandlers(ctx) {
 
     // Handle being kicked/removed from room
     socket.on('player_kicked', (data) => {
+      if (isSocketRetired(socket)) return;
       // CRITICAL FIX: Properly handle player kick with navigation
       handleLeaveRoom();
 
       // Navigate to landing page after cleanup
       setTimeout(() => {
+        if (isSocketRetired(socket)) return;
         navigate('/', { replace: true });
       }, 200);
     });
 
     // Handle room access revoked
     socket.on('access_revoked', (data) => {
+      if (isSocketRetired(socket)) return;
       // CRITICAL FIX: Properly handle access revocation with navigation
       handleLeaveRoom();
 
       // Navigate to landing page after cleanup
       setTimeout(() => {
+        if (isSocketRetired(socket)) return;
         navigate('/', { replace: true });
       }, 200);
     });

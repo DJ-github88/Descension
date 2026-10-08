@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
 import { SEEDED_LANGUAGES } from '../data/seedLanguages';
@@ -103,11 +104,19 @@ const useLanguageStore = create(
       },
 
       syncToCloud: async (userId) => {
+
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'languages');
           const customLanguages = (get().languages || []).filter((l) => l.isCustom);
           await setDoc(docRef, { languages: customLanguages, removedSeedIds: get().removedSeedIds || [], updatedAt: nowIso() }, { merge: true });
+          if (!ownerGuard.isCurrent()) return false;
+
           set({ lastCloudSyncAt: nowIso() });
           return true;
         } catch (err) {
@@ -117,6 +126,9 @@ const useLanguageStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'languages');
@@ -126,7 +138,7 @@ const useLanguageStore = create(
             if (Array.isArray(data?.languages)) {
               const remoteRemoved = Array.isArray(data?.removedSeedIds) ? data.removedSeedIds : [];
               const removedSeedIds = Array.from(new Set([...(get().removedSeedIds || []), ...remoteRemoved]));
-              set({ languages: mergeSeededLanguages(data.languages, removedSeedIds), removedSeedIds });
+              applyIfCurrent({ languages: mergeSeededLanguages(data.languages, removedSeedIds), removedSeedIds });
               return true;
             }
           }
@@ -136,7 +148,7 @@ const useLanguageStore = create(
         return false;
       }
     }),
-    createStorageConfig('mythrill_languages', {
+    createScopedStorageConfig('worldbuilding.languages', 'mythrill_languages', {
       partialize: (state) => ({ languages: state.languages, removedSeedIds: state.removedSeedIds, lastCloudSyncAt: state.lastCloudSyncAt }),
       merge: (persisted, current) => ({
         ...current,

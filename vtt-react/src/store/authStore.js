@@ -5,6 +5,9 @@ import { persist } from 'zustand/middleware';
 import { createStorageConfig } from '../utils/storageUtils';
 import authService from '../services/authService';
 import { isProduction } from '../config/env';
+// Project 5 Slice 1: bind the auth principal to the bootstrap privacy gate so
+// new P5 scoped private data is never hydratable before scope activation.
+import { installAuthBootstrapGate } from '../persistence/authBootstrapGateBinding';
 
 const getSocialStore = () => {
   return getStore('socialStore');
@@ -23,6 +26,19 @@ const ADMIN_DEV_LOGIN_ENABLED = !isProduction();
 export const isAdminLoginEnabled = () => {
   return ADMIN_DEV_LOGIN_ENABLED;
 };
+
+/**
+ * Wave A (P5/S4, corrected R8): monotonic auth-intent counter. Any sign-in /
+ * sign-out intent invalidates earlier in-flight auth continuations (e.g. a
+ * guest anonymous sign-in whose result arrives after a real-user transition),
+ * so a stale completion can never clear or overwrite newer auth state.
+ */
+let authIntentSeq = 0;
+const beginAuthIntent = () => {
+  authIntentSeq += 1;
+  return authIntentSeq;
+};
+const isCurrentAuthIntent = (intent) => authIntentSeq === intent;
 
 const ADMIN_EMAIL = 'admin';
 const ADMIN_PASSWORD = 'admin';
@@ -65,6 +81,16 @@ const useAuthStore = create(
       },
 
       setUser: (user) => {
+        // Wave A (P5/S4, corrected R8/B5): an actual auth-provider principal
+        // change (including sign-in, sign-out and A→B) invalidates earlier
+        // in-flight auth continuations such as a pending guest sign-in whose
+        // result would otherwise overwrite the provider's newer principal.
+        const previousUid = get().user?.uid ?? null;
+        const nextUid = user?.uid ?? null;
+        if (previousUid !== nextUid) {
+          beginAuthIntent();
+        }
+
         set({
           user,
           isAuthenticated: !!user,
@@ -154,6 +180,7 @@ const useAuthStore = create(
 
       // Sign up with email and password
       signUp: async (email, password, displayName, friendId = null) => {
+        beginAuthIntent();
         set({ isLoading: true, error: null });
 
         try {
@@ -176,6 +203,7 @@ const useAuthStore = create(
 
       // Sign in with email and password
       signIn: async (email, password, rememberMe = false) => {
+        beginAuthIntent();
         set({ isLoading: true, error: null, rememberMe });
 
         try {
@@ -200,6 +228,7 @@ const useAuthStore = create(
 
       // Sign in with Google
       signInWithGoogle: async (displayName = null, friendId = null, rememberMe = false) => {
+        beginAuthIntent();
         set({ isLoading: true, error: null, rememberMe });
 
         try {
@@ -224,31 +253,33 @@ const useAuthStore = create(
 
       // Sign in as Guest
       signInAsGuest: async () => {
+        const intent = beginAuthIntent();
         set({ isLoading: true, error: null });
 
         try {
-          // Clear any existing local rooms and characters from previous sessions
-          // This ensures guests always start fresh with 0 rooms and 0 characters
-
-          // Clear local rooms
-          localStorage.removeItem('mythrill_local_rooms');
-
-          // Clear room state data
-          Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('mythrill_local_room_state_')) {
-              localStorage.removeItem(key);
-            }
-          });
-
-          // Clear guest characters
-          localStorage.removeItem('mythrill-guest-characters');
-
-          // Clear any previously joined multiplayer rooms
-          localStorage.removeItem('mythrill-guest-joined-room');
+          // Wave A (P5): guest sign-in must NEVER delete authored guest/local
+          // drafts before authentication, and a failed sign-in must leave all
+          // authored drafts intact. Only ephemeral session credentials and
+          // transient navigation state may be cleared, and only after success.
 
           // Sign in to Firebase Anonymously to get a real UID for proper presence tracking
           const authResult = await authService.signInAsAnonymous();
+
+          // Wave A (P5/S4, corrected R8): if a newer auth intent superseded
+          // this guest sign-in while it was awaiting, do not apply its result,
+          // clear state, or overwrite newer auth metadata.
+          if (!isCurrentAuthIntent(intent)) {
+            return { success: false, error: 'superseded-by-newer-auth', superseded: true };
+          }
           if (!authResult.success) throw new Error(authResult.error);
+
+          // Post-auth: clear only ephemeral session state; authored drafts stay.
+          try {
+            const { clearGuestSessionState } = require('../persistence/guestRetention');
+            clearGuestSessionState();
+          } catch (_guestRetentionError) {
+            // Guest retention helper unavailable: leave storage untouched.
+          }
 
           const firebaseUser = authResult.user;
           const guestDisplayName = `Guest${Math.floor(Math.random() * 10000)}`;
@@ -301,15 +332,16 @@ const useAuthStore = create(
 
           return { success: true };
         } catch (error) {
-          set({ error: error.message });
+          if (isCurrentAuthIntent(intent)) set({ error: error.message });
           return { success: false, error: error.message };
         } finally {
-          set({ isLoading: false });
+          if (isCurrentAuthIntent(intent)) set({ isLoading: false });
         }
       },
 
       // Sign out
       signOut: async () => {
+        beginAuthIntent();
         set({ isLoading: true, error: null });
 
         try {
@@ -333,29 +365,17 @@ const useAuthStore = create(
             return { success: true };
           }
 
-          // If guest user, just clear localStorage
+          // If guest user, clear only session/identity + transient navigation.
+          // Wave A (P5): authored guest drafts (local rooms, room snapshots,
+          // guest character roster) MUST be retained on logout.
           if (user?.isGuest) {
-            // CRITICAL FIX: Clear all guest data when signing out
-            // Clear guest user data
-            localStorage.removeItem('mythrill-guest-user');
-            localStorage.removeItem('mythrill-guest-user-data');
-            localStorage.removeItem('mythrill-guest-character');
-            localStorage.removeItem('mythrill-guest-characters');
-            localStorage.removeItem('mythrill-active-character');
-            localStorage.removeItem('mythrill-guest-initialized'); // Clear initialization flag
-
-            // Clear local rooms (guest rooms should not persist)
-            localStorage.removeItem('mythrill_local_rooms');
-
-            // Clear any local room state data
-            Object.keys(localStorage).forEach(key => {
-              if (key.startsWith('mythrill_local_room_state_')) {
-                localStorage.removeItem(key);
-              }
-            });
-
-            // Clear joined multiplayer rooms
-            localStorage.removeItem('mythrill-guest-joined-room');
+            try {
+              const { clearGuestSessionState } = require('../persistence/guestRetention');
+              clearGuestSessionState();
+            } catch (_guestRetentionError) {
+              // Helper unavailable: leave storage untouched rather than risk
+              // deleting authored drafts.
+            }
 
             set({
               user: null,
@@ -455,6 +475,7 @@ const useAuthStore = create(
 
       // Development bypass functions - now uses Firebase Anonymous Auth for proper permissions
       enableDevelopmentBypass: async () => {
+        beginAuthIntent();
         try {
           // Use Firebase Anonymous Auth to get a real Firebase user
           // This ensures Firebase security rules will work properly
@@ -553,6 +574,7 @@ const useAuthStore = create(
       },
 
       disableDevelopmentBypass: () => {
+        beginAuthIntent();
         set({
           user: null,
           userData: null,
@@ -581,6 +603,7 @@ const useAuthStore = create(
           return { success: false, error: 'Admin login is disabled.' };
         }
 
+        beginAuthIntent();
         set({ isLoading: true, error: null });
 
         try {
@@ -648,6 +671,7 @@ const useAuthStore = create(
        * Used by signOut and by anyone wanting to revoke admin access at runtime.
        */
       disableAdminBypass: () => {
+        beginAuthIntent();
         localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
         localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
         localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
@@ -726,23 +750,15 @@ const useAuthStore = create(
             console.error('Error checking guest user on init:', error);
           }
         } else if (guestUser) {
-          // Guest user exists but no explicit login flag - clear it (prevent auto-login)
-          localStorage.removeItem('mythrill-guest-user');
-          localStorage.removeItem('mythrill-guest-user-data');
-          localStorage.removeItem('mythrill-guest-initialized');
-          localStorage.removeItem('mythrill-guest-explicit-login');
-          localStorage.removeItem('mythrill-guest-characters');
-          localStorage.removeItem('mythrill-guest-joined-room');
-
-          // Clear local rooms
-          localStorage.removeItem('mythrill_local_rooms');
-
-          // Clear room state data
-          Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('mythrill_local_room_state_')) {
-              localStorage.removeItem(key);
-            }
-          });
+          // Guest user exists but no explicit login flag - clear only its
+          // session/identity markers (prevent auto-login). Wave A (P5):
+          // authored guest drafts are retained.
+          try {
+            const { clearGuestSessionState } = require('../persistence/guestRetention');
+            clearGuestSessionState();
+          } catch (_guestRetentionError) {
+            // Helper unavailable: leave storage untouched.
+          }
         }
 
         // CRITICAL FIX: Always mark auth as initialized, even if Firebase fails
@@ -807,5 +823,7 @@ const useAuthStore = create(
     })
   )
 );
+
+installAuthBootstrapGate(useAuthStore);
 
 export default useAuthStore;

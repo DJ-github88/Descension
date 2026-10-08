@@ -2,7 +2,7 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import { getInventoryGridDimensions } from '../utils/characterUtils';
 import {
     getShapeBounds,
@@ -1309,6 +1309,6 @@ const useInventoryStore = create(persist((set, get) => ({
             encumbranceState: 'normal'
         };
     })
-}), createStorageConfig('inventory')));
+}), createScopedStorageConfig('core.inventory', 'inventory')));
 
 export default useInventoryStore;

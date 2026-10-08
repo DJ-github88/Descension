@@ -1,6 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createScopedStoreStorage, registerScopedStoreEngine } from '../persistence/scopedStoreStorage';
 import useGameStore from './gameStore';
 import useAuthStore from './authStore';
 import { COMPREHENSIVE_ITEMS } from '../data/items/index.js';
@@ -1298,72 +1299,60 @@ const useItemStore = create(
         itemsVersion: COMPREHENSIVE_ITEMS_VERSION,
         selectedCategory: state.selectedCategory || BASE_CATEGORY.id
       }),
-      storage: {
-        getItem: (name) => {
-          try {
-            const str = localStorage.getItem(name);
-            if (!str) return null;
-
-            // Parse the stored data
-            const parsed = JSON.parse(str);
-
-            // Check version and reset if outdated
-            if (!parsed.state || !parsed.state.itemsVersion || parsed.state.itemsVersion < COMPREHENSIVE_ITEMS_VERSION) {
-              localStorage.removeItem(name);
-              return null; // This will trigger default initialization
+      storage: (() => {
+        // Wave B (final sweep): authored custom items/categories are persisted
+        // in verified-owner scoped storage; the bundled public items/categories
+        // stay public seed data merged on read. The legacy `item-store` raw
+        // content is quarantined and never auto-adopted.
+        const scoped = createScopedStoreStorage({ familyId: 'library.items' });
+        registerScopedStoreEngine('library.items', scoped);
+        return {
+          getItem: (name) => {
+            try {
+              const raw = scoped.getItem(name);
+              if (!raw || !raw.state) return null;
+              // Version gate: an outdated public seed version yields defaults
+              // without deleting the stored custom content.
+              if (!raw.state.itemsVersion || raw.state.itemsVersion < COMPREHENSIVE_ITEMS_VERSION) {
+                return null;
+              }
+              const savedCustomItems = raw.state.customItems ||
+                (Array.isArray(raw.state.items) ? raw.state.items.filter(i => i && (!STATIC_ITEM_ID_SET.has(i.id) || i.isCustom)) : []);
+              const mergedItems = [...COMPREHENSIVE_ITEMS, ...savedCustomItems];
+              const savedCustomCategories = raw.state.customCategories ||
+                (Array.isArray(raw.state.categories) ? raw.state.categories.filter(c => c && !c.isBaseCategory && !COMPREHENSIVE_CATEGORIES.some(comp => comp.id === c.id)) : []);
+              const mergedCategories = [...COMPREHENSIVE_CATEGORIES, ...savedCustomCategories].map(cat => {
+                if (cat.icon && CATEGORY_ICON_MIGRATION[cat.icon]) {
+                  return { ...cat, icon: CATEGORY_ICON_MIGRATION[cat.icon] };
+                }
+                return cat;
+              });
+              return {
+                state: {
+                  items: mergedItems,
+                  categories: mergedCategories,
+                  itemCategories: categorizeItems(mergedItems),
+                  selectedCategory: raw.state.selectedCategory || BASE_CATEGORY.id,
+                  itemsVersion: COMPREHENSIVE_ITEMS_VERSION,
+                  openContainers: new Set(),
+                  selectedTiles: [],
+                  drawMode: false,
+                  editMode: false,
+                  previewItem: null
+                }
+              };
+            } catch (e) {
+              console.warn('Error reading item-store from storage:', e);
+              return null;
             }
-
-            // Extract custom items
-            const savedCustomItems = parsed.state.customItems ||
-              (Array.isArray(parsed.state.items) ? parsed.state.items.filter(i => i && (!STATIC_ITEM_ID_SET.has(i.id) || i.isCustom)) : []);
-
-            const mergedItems = [...COMPREHENSIVE_ITEMS, ...savedCustomItems];
-
-            // Extract custom categories
-            const savedCustomCategories = parsed.state.customCategories ||
-              (Array.isArray(parsed.state.categories) ? parsed.state.categories.filter(c => c && !c.isBaseCategory && !COMPREHENSIVE_CATEGORIES.some(comp => comp.id === c.id)) : []);
-
-            const mergedCategories = [...COMPREHENSIVE_CATEGORIES, ...savedCustomCategories].map(cat => {
-              if (cat.icon && CATEGORY_ICON_MIGRATION[cat.icon]) {
-                return { ...cat, icon: CATEGORY_ICON_MIGRATION[cat.icon] };
-              }
-              return cat;
-            });
-
-            return {
-              state: {
-                items: mergedItems,
-                categories: mergedCategories,
-                itemCategories: categorizeItems(mergedItems),
-                selectedCategory: parsed.state.selectedCategory || BASE_CATEGORY.id,
-                itemsVersion: COMPREHENSIVE_ITEMS_VERSION,
-                openContainers: new Set(),
-                selectedTiles: [],
-                drawMode: false,
-                editMode: false,
-                previewItem: null
-              }
-            };
-          } catch (e) {
-            console.warn('Error reading item-store from storage:', e);
-            return null;
-          }
-        },
-        setItem: (name, value) => {
-          try {
-            localStorage.setItem(name, JSON.stringify(value));
-          } catch (e) {
-            console.warn('Quota exceeded or storage error in item-store setItem. Handled safely.', e);
-          }
-        },
-        removeItem: (name) => {
-          try {
-            localStorage.removeItem(name);
-          } catch (e) {
-            console.warn('Error removing item-store from storage:', e);
-          }
-        }
-      }
+          },
+          setItem: (name, value) => {
+            scoped.setItem(name, value);
+          },
+          // Authored scoped content is never deleted through persistence.
+          removeItem: () => {}
+        };
+      })()
     }
   )
 );

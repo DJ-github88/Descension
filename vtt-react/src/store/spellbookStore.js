@@ -3,7 +3,18 @@ import { persist } from 'zustand/middleware';
 import { generateSpellId } from '../data/spellUtils';
 import { db, isFirebaseConfigured } from '../config/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { safeLocalStorageGet, safeLocalStorageItem, safeLocalStorageRemove } from '../utils/storageUtils';
+import { safeLocalStorageGet } from '../utils/storageUtils';
+import { createScopedStoreStorage, registerScopedStoreEngine } from '../persistence/scopedStoreStorage';
+import {
+  captureConsumerContext,
+  isConsumerContextCurrent,
+  saveScopedDraft
+} from '../persistence/scopedConsumer';
+
+// Wave B (final sweep): local spellbook mirror is verified-owner scoped; the
+// uid-scoped Firebase path above remains the cloud copy.
+const spellbookScopedStorage = createScopedStoreStorage({ familyId: 'library.spellbook' });
+registerScopedStoreEngine('library.spellbook', spellbookScopedStorage);
 
 const DEFAULT_COLLECTIONS = [
   { id: 'favorites', name: 'Favorites', icon: 'star', spells: [] },
@@ -81,10 +92,16 @@ function getAuthUser() {
 
 const createFirebaseStorage = () => ({
   getItem: async (name) => {
+    // B1: capture the verified destination before any await. An obsolete
+    // response (logout/relogin/handoff) must never hydrate the live store.
+    const captured = captureConsumerContext();
+    if (!captured.ok) return null;
+    const scopeId = captured.context.scope ? captured.context.scope.scopeId : null;
     try {
       const user = getAuthUser();
-      if (user && !user.isGuest) {
+      if (user && !user.isGuest && scopeId && user.uid === scopeId) {
         const firebaseData = await loadSpellbookFromFirebase(user.uid);
+        if (!isConsumerContextCurrent(captured.context)) return null;
         if (firebaseData) {
           return {
             state: {
@@ -95,30 +112,50 @@ const createFirebaseStorage = () => ({
           };
         }
       }
-      const item = safeLocalStorageGet(name);
-      return item ? (typeof item === 'string' ? JSON.parse(item) : item) : null;
+      // Wave B (final sweep): the local mirror is verified-owner scoped.
+      if (!isConsumerContextCurrent(captured.context)) return null;
+      return spellbookScopedStorage.getItem(name);
     } catch (error) {
       console.error('Error loading spellbook from Firebase:', error);
-      const item = safeLocalStorageGet(name);
-      return item ? (typeof item === 'string' ? JSON.parse(item) : item) : null;
+      if (!isConsumerContextCurrent(captured.context)) return null;
+      return spellbookScopedStorage.getItem(name);
     }
   },
 
   setItem: async (name, data) => {
+    const captured = captureConsumerContext();
     try {
       const user = getAuthUser();
       if (user && !user.isGuest) {
         await saveSpellbookToFirebase(user.uid, data.state);
       }
-      safeLocalStorageItem(name, JSON.stringify(data));
     } catch (error) {
       console.error('Error saving spellbook from Firebase:', error);
-      safeLocalStorageItem(name, JSON.stringify(data));
+    }
+    if (!captured.ok) return;
+    if (isConsumerContextCurrent(captured.context)) {
+      spellbookScopedStorage.setItem(name, data);
+      return;
+    }
+    // Superseded while the cloud write was in flight: never mirror A's edit
+    // under B. Preserve the captured payload under the originating owner.
+    try {
+      await saveScopedDraft({
+        familyId: 'library.spellbook',
+        payload: {
+          state: data && data.state ? data.state : data,
+          version: data && typeof data.version === 'number' ? data.version : 0
+        },
+        context: captured.context
+      });
+    } catch (_error) {
+      // The retired gate legitimately refuses; the cloud copy above is the
+      // preserved copy in that case.
     }
   },
 
-  removeItem: async (name) => {
-    safeLocalStorageRemove(name);
+  removeItem: async () => {
+    // Authored scoped content is never deleted through persistence.
   }
 });
 

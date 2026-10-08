@@ -790,7 +790,7 @@ DEEP_LOCATIONS['gearworks-gulch'] = {
   architecture:
    'Industrial Fex construction, iron frameworks, riveted plate walls, and geothermal pipe-networks visible on every surface. Buildings are stacked vertically up the ravine walls, connected by iron catwalks, cargo elevators, and steam-powered lifts. Everything is functional, nothing is decorative, and yet the cumulative effect is oddly beautiful, a canyon of interlocking machinery.',
   sounds:
-   'The constant clatter and whir of clockwork, the hiss of steam pressure-relief valves, the clang of forge-hammers, the grind of ore-crushers, and the excited babble of Fex arguing in Scrap-Tongue and Fex simultaneously.',
+   'The constant clatter and whir of clockwork, the hiss of steam pressure-relief valves, the clang of forge-hammers, the grind of ore-crushers, and the excited babble of Fex arguing in Scrapspeech and Fex simultaneously.',
   smells:
    'Sulfur from the geothermal vents, hot metal, machine oil, ozone from electrical testing, and the sharp tang of acid-etching solution.',
   lighting:

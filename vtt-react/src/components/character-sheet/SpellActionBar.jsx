@@ -16,7 +16,14 @@ import { RARITY_COLORS } from '../../constants/itemConstants';
 import { createDeck, drawCards } from '../spellcrafting-wizard/core/mechanics/cardSystem';
 import { flipMultipleCoins } from '../spellcrafting-wizard/core/mechanics/coinSystem';
 import { useCharacterSpells } from '../../hooks/useCharacterSpells';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import './SpellActionBar.css';
+
+// Wave B closure: spell action bars are verified-owner scoped private authored state.
+const spellActionBarFamily = createScopedNativeFamily({
+  familyId: 'character.spellActionBar',
+  legacyKeys: []
+});
 
 const DEFAULT_SLOT_COUNT = 10;
 const HOTKEY_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -241,16 +248,12 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
   const character = useCharacterStore(state => state.character);
   const inventoryItems = useInventoryStore(state => state.items);
   const activeCharId = characterId || character?.id || 'default';
-  const storageKey = `mythrill_spell_action_bar_${activeCharId}`;
 
   const [slots, setSlots] = useState(() => {
     try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length === DEFAULT_SLOT_COUNT) {
-          return parsed;
-        }
+      const saved = spellActionBarFamily.load([String(activeCharId)]);
+      if (Array.isArray(saved) && saved.length === DEFAULT_SLOT_COUNT) {
+        return saved;
       }
     } catch (e) {
       console.warn('Could not load spell action bar from storage', e);
@@ -276,14 +279,14 @@ export default function SpellActionBar({ characterId, allSpells = [] }) {
     return () => clearTimeout(timer);
   }, [resolutionResult]);
 
-  // Save to localStorage when slots change
+  // Save to verified-owner scoped storage when slots change
   useEffect(() => {
     try {
-      localStorage.setItem(storageKey, JSON.stringify(slots));
+      spellActionBarFamily.save(slots, [String(activeCharId)]);
     } catch (e) {
       console.warn('Could not save spell action bar to storage', e);
     }
-  }, [slots, storageKey]);
+  }, [slots, activeCharId]);
 
   // Handle Drag Over
   const handleDragOver = (e, index) => {

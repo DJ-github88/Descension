@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 
 // Default map structure
 const createDefaultMap = (name = 'New Map') => ({
@@ -82,6 +83,31 @@ const createDefaultMap = (name = 'New Map') => ({
 
 // Storage quota exceeded handler
 const handleStorageQuotaExceeded = (name, value) => {
+    // Wave A (P5/S2): map-store is a registered recoverable family. Replacing
+    // the prior durable value with a lossy "compressed" payload during quota
+    // pressure is destructive mutation of authored data and is refused.
+    // The previous value remains intact; storage pressure is surfaced.
+    let isDisposable = false;
+    try {
+        const { canGenericCleanupDeleteKey } = require('../persistence/cleanupPolicy');
+        isDisposable = canGenericCleanupDeleteKey(name) === true;
+    } catch (_) {
+        isDisposable = false;
+    }
+    if (!isDisposable) {
+        console.error(`[mapStore] Storage quota exceeded for protected authored key "${name}"; refusing lossy replacement.`);
+        try {
+            const { performGenericCleanup } = require('../persistence/cleanupAdapter');
+            const cleanup = performGenericCleanup({ storage: localStorage });
+            if (cleanup.storagePressure && window.alert) {
+                window.alert('Storage space is full. Your maps were NOT modified. Please free browser storage or export your maps before continuing.');
+            }
+        } catch (_) {
+            // fail closed: never mutate the protected payload
+        }
+        return;
+    }
+
     try {
         // Calculate current storage usage
         for (let key in localStorage) {
@@ -1069,67 +1095,24 @@ const useMapStore = create(
             },
 
             cleanupStorage: () => {
+                // Wave A (P5/S2, corrected R1): generic cleanup must never
+                // delete by name heuristic. Only registry-eligible public or
+                // session keys are removable; authored drafts, backups,
+                // quarantine/recovery copies and unknown keys are protected.
                 try {
-                    // Remove temporary and cache entries
-                    const keysToRemove = [];
-                    for (let key in localStorage) {
-                        if (localStorage.hasOwnProperty(key)) {
-                            if (key.includes('temp-') || key.includes('cache-') || key.includes('backup-')) {
-                                keysToRemove.push(key);
-                            }
-                        }
-                    }
-
-                    keysToRemove.forEach(key => {
-                        localStorage.removeItem(key);
-                    });
-
-
-                    return keysToRemove.length;
+                    const { performGenericCleanup } = require('../persistence/cleanupAdapter');
+                    const result = performGenericCleanup({ storage: localStorage });
+                    return result.removed.length;
                 } catch (error) {
                     return 0;
                 }
             }
         }),
-        {
-            name: 'map-store',
-            storage: {
-                getItem: (name) => {
-                    try {
-                        const str = localStorage.getItem(name);
-                        if (!str) return null;
-                        return JSON.parse(str);
-                    } catch (error) {
-                        console.error('Error retrieving map-store from localStorage:', error);
-                        return null;
-                    }
-                },
-                setItem: (name, value) => {
-                    try {
-                        const serialized = JSON.stringify(value);
-                        // Use the quota exceeded handler if needed
-                        try {
-                            localStorage.setItem(name, serialized);
-                        } catch (quotaError) {
-                            if (quotaError.name === 'QuotaExceededError' || quotaError.code === 22) {
-                                handleStorageQuotaExceeded(name, serialized);
-                            } else {
-                                throw quotaError;
-                            }
-                        }
-                    } catch (error) {
-                        console.error('Error storing map-store in localStorage:', error);
-                    }
-                },
-                removeItem: (name) => {
-                    try {
-                        localStorage.removeItem(name);
-                    } catch (error) {
-                        console.error('Error removing map-store from localStorage:', error);
-                    }
-                }
-            }
-        }
+        // Wave B (S5/A): authored map working state is verified-owner scoped.
+        // Legacy `map-store` raw content is quarantined (verified copy) and
+        // never auto-adopted. Room projections are suspended by
+        // mapProjectionBoundary and never persisted as authored drafts.
+        createScopedStorageConfig('core.mapWorking', 'map-store')
     )
 );
 

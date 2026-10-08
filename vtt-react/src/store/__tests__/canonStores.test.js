@@ -1,6 +1,12 @@
 import useDeityStore, { SEEDED_DEITIES } from '../deityStore';
 import useTimelineStore, { SEEDED_EVENTS } from '../timelineStore';
 import { getDoc } from 'firebase/firestore';
+import {
+  activatePrivateScope,
+  resetBootstrapGateForTests
+} from '../../persistence/bootstrapPrivacyGate';
+import { createUserScope } from '../../persistence/scopeModel';
+import { getScopedStoreEngine } from '../../persistence/scopedStoreStorage';
 
 jest.mock('../../config/firebase', () => ({ db: {}, isFirebaseConfigured: true, auth: null }));
 jest.mock('firebase/firestore', () => ({ doc: jest.fn(), setDoc: jest.fn(), getDoc: jest.fn() }));
@@ -9,19 +15,55 @@ jest.mock('../worldStore', () => ({
   default: { getState: () => ({ activeWorldId: 'mythrill', getActiveWorld: () => ({ customTimelines: [] }) }) }
 }));
 
+function installFakeLocks(manager) {
+  const descriptor = Object.getOwnPropertyDescriptor(navigator, 'locks');
+  Object.defineProperty(navigator, 'locks', { configurable: true, value: manager });
+  return () => {
+    if (descriptor) {
+      Object.defineProperty(navigator, 'locks', descriptor);
+    } else {
+      delete navigator.locks;
+    }
+  };
+}
+
+function serializingLockManager() {
+  const tails = new Map();
+  return {
+    request(name, optionsOrCallback, maybeCallback) {
+      const callback = typeof optionsOrCallback === 'function' ? optionsOrCallback : maybeCallback;
+      const prior = tails.get(name) || Promise.resolve();
+      const run = prior.then(() => callback({ name }));
+      tails.set(name, run.catch(() => {}));
+      return run;
+    }
+  };
+}
+
+let restoreLocks;
 beforeEach(() => {
-  localStorage.removeItem('mythrill_deities');
+  localStorage.clear();
+  resetBootstrapGateForTests();
+  activatePrivateScope(createUserScope('test-user'));
+  restoreLocks = installFakeLocks(serializingLockManager());
   useDeityStore.setState({ deities: SEEDED_DEITIES, removedSeedIds: [], lastCloudSyncAt: null });
   useTimelineStore.setState({ events: SEEDED_EVENTS, customEvents: [] });
   getDoc.mockReset();
 });
 
+afterEach(() => {
+  restoreLocks();
+});
+
 test('local rehydration refreshes defaults while preserving campaign edits and removed seeds', async () => {
   const edited = { id: 'deity-aethil', description: 'Campaign-specific father', isCustom: true };
-  localStorage.setItem('mythrill_deities', JSON.stringify({ version: 0, state: {
+  // Persist the fixture through the scoped engine (production path), then
+  // verify the same refresh/merge policy on rehydrate.
+  useDeityStore.setState({
     deities: [{ id: 'deity-sol', description: 'Old default' }, edited],
     removedSeedIds: ['deity-selunis']
-  } }));
+  });
+  await getScopedStoreEngine('worldbuilding.deities').__flush();
   await useDeityStore.persist.rehydrate();
   expect(useDeityStore.getState().getDeity('deity-sol')).toEqual(SEEDED_DEITIES.find(d => d.id === 'deity-sol'));
   expect(useDeityStore.getState().getDeity('deity-aethil')).toEqual(edited);

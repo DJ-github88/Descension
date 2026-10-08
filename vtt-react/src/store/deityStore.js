@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { mergeSeededRecords } from '../utils/mergeSeededRecords';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
@@ -379,11 +380,19 @@ const useDeityStore = create(
       },
 
       syncToCloud: async (userId) => {
+
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'deities');
           const customDeities = (get().deities || []).filter((d) => d.isCustom);
           await setDoc(docRef, { deities: customDeities, removedSeedIds: get().removedSeedIds || [], updatedAt: nowIso() }, { merge: true });
+          if (!ownerGuard.isCurrent()) return false;
+
           set({ lastCloudSyncAt: nowIso() });
           return true;
         } catch (err) {
@@ -393,6 +402,9 @@ const useDeityStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'deities');
@@ -402,7 +414,7 @@ const useDeityStore = create(
             if (Array.isArray(data?.deities)) {
               const remoteRemoved = Array.isArray(data?.removedSeedIds) ? data.removedSeedIds : [];
               const removedSeedIds = Array.from(new Set([...(get().removedSeedIds || []), ...remoteRemoved]));
-              set({ deities: mergeSeededDeities(data.deities, removedSeedIds), removedSeedIds });
+              applyIfCurrent({ deities: mergeSeededDeities(data.deities, removedSeedIds), removedSeedIds });
               return true;
             }
           }
@@ -412,7 +424,7 @@ const useDeityStore = create(
         return false;
       }
     }),
-    createStorageConfig('mythrill_deities', {
+    createScopedStorageConfig('worldbuilding.deities', 'mythrill_deities', {
       partialize: (state) => ({ deities: state.deities, removedSeedIds: state.removedSeedIds, lastCloudSyncAt: state.lastCloudSyncAt }),
       merge: (persisted, current) => ({
         ...current,

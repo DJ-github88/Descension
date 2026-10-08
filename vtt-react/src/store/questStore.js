@@ -1,7 +1,8 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
 
@@ -575,6 +576,12 @@ const useQuestStore = create(
       lastCloudSyncAt: null,
 
       syncToCloud: async (userId) => {
+
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'quests');
@@ -592,6 +599,9 @@ const useQuestStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'quests');
@@ -606,7 +616,7 @@ const useQuestStore = create(
               updates.categories = data.categories;
             }
             if (Object.keys(updates).length > 0) {
-              set(updates);
+              applyIfCurrent(updates);
               return true;
             } else if (get().quests.length > 0) {
               await get().syncToCloud(userId);
@@ -622,7 +632,7 @@ const useQuestStore = create(
         return false;
       }
     }),
-    createStorageConfig('quest-store', {
+    createScopedStorageConfig('worldbuilding.quests', 'quest-store', {
       partialize: (state) => ({
         quests: state.quests,
         categories: state.categories,

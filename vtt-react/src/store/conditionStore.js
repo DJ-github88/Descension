@@ -1,7 +1,7 @@
 import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 import useGameStore from './gameStore';
 import { getAssistanceDecisionForTarget } from '../services/inquisitorAssistanceService';
 
@@ -558,7 +558,7 @@ const useConditionStore = create(
                 return targetId;
             }
         }),
-        createStorageConfig('condition-store', {
+        createScopedStorageConfig('core.conditions', 'condition-store', {
             partialize: (state) => ({
                 activeBuffs: state.activeBuffs.map(buff => ({
                     ...buff,

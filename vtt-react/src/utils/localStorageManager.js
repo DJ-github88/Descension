@@ -49,17 +49,24 @@ class LocalStorageManager {
    */
   cleanupOldBackups() {
     if (typeof localStorage === 'undefined') return 0;
+    // Wave A (P5/S2): character backups are registered recovery sources.
+    // The name "backup" does NOT authorize deletion; only registry-eligible
+    // keys may be removed.
+    let canDelete = () => false;
+    try {
+      const { canGenericCleanupDeleteKey } = require('../persistence/cleanupPolicy');
+      canDelete = canGenericCleanupDeleteKey;
+    } catch (_) {
+      return 0;
+    }
     const backupKeys = [];
-    
+
     try {
       for (let key in localStorage) {
-        if (key.startsWith('mythrill-backup-')) {
+        if (!Object.prototype.hasOwnProperty.call(localStorage, key)) continue;
+        if (key.startsWith('mythrill-backup-') && canDelete(key)) {
           const timestamp = this.extractTimestampFromBackupKey(key);
-          if (timestamp) {
-            backupKeys.push({ key, timestamp });
-          } else {
-            backupKeys.push({ key, timestamp: 0 });
-          }
+          backupKeys.push({ key, timestamp: timestamp || 0 });
         }
       }
 
@@ -84,8 +91,18 @@ class LocalStorageManager {
    */
   cleanupTempData() {
     if (typeof localStorage === 'undefined') return 0;
+    // Wave A (P5/S2): prefix names ("temp", "cache", "debug", "draft",
+    // "spell", "library", "backup") do NOT authorize deletion. Every
+    // candidate must be registry-eligible; everything else fails closed.
+    let canDelete = () => false;
+    try {
+      const { canGenericCleanupDeleteKey } = require('../persistence/cleanupPolicy');
+      canDelete = canGenericCleanupDeleteKey;
+    } catch (_) {
+      return 0;
+    }
     let count = 0;
-    const disposablePrefixes = [
+    const scannedPrefixes = [
       'mythrill-temp-',
       'mythrill-cache-',
       'mythrill-debug-',
@@ -107,7 +124,7 @@ class LocalStorageManager {
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (!key) continue;
-        if (disposablePrefixes.some(prefix => key.startsWith(prefix))) {
+        if (scannedPrefixes.some(prefix => key.startsWith(prefix)) && canDelete(key)) {
           keysToRemove.push(key);
         }
       }
@@ -185,35 +202,37 @@ class LocalStorageManager {
       'currentUserId'
     ]);
 
-    // 3. Compress existing character lists by stripping base64 images
-    ['mythrill-characters', 'mythrill-guest-characters'].forEach(key => {
-      try {
-        const raw = localStorage.getItem(key);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) {
-            const stripped = parsed.map(c => this.removeCharacterImages(c));
-            try {
-              localStorage.setItem(key, JSON.stringify(stripped));
-            } catch (_) {}
-          }
-        }
-      } catch (_) {}
-    });
+    // 3. Wave A (P5/S2): previously stripped base64 images from authored
+    // character lists under quota pressure. That is destructive mutation of
+    // registered authored data and is no longer performed; storage pressure
+    // must surface instead of silently degrading authored work.
+    if (this.isApproachingQuota()) {
+      console.warn('⚠️ LocalStorage pressure detected; authored character data is NOT compressed or deleted (P5 protected storage).');
+    }
 
-    // 4. If still under pressure, sort all non-critical keys by byte size and purge largest
+    // 4. If still under pressure, purge ONLY registry-eligible disposable keys
+    // (public rebuildable caches / session-only state). Largest-key selection
+    // is no longer a deletion heuristic.
+    let canDelete = () => false;
+    try {
+      const { canGenericCleanupDeleteKey } = require('../persistence/cleanupPolicy');
+      canDelete = canGenericCleanupDeleteKey;
+    } catch (_) {
+      return totalRemoved;
+    }
+
     try {
       const entries = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (!key || criticalKeys.has(key)) continue;
+        if (!canDelete(key)) continue;
         const val = localStorage.getItem(key);
         entries.push({ key, size: (val ? val.length : 0) });
       }
 
       entries.sort((a, b) => b.size - a.size);
 
-      // Remove largest non-critical keys
       for (const entry of entries) {
         try {
           localStorage.removeItem(entry.key);

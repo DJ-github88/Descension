@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured, auth } from '../config/firebase';
 import useWorldStore from './worldStore';
@@ -3104,6 +3105,10 @@ const useTimelineStore = create(
 
       // --- Cloud Synchronization & Hydration ---
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'timelines');
@@ -3120,6 +3125,9 @@ const useTimelineStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'timelines');
@@ -3127,7 +3135,7 @@ const useTimelineStore = create(
           if (snap.exists()) {
             const data = snap.data();
             if (Array.isArray(data?.customEvents)) {
-              set({ customEvents: data.customEvents });
+              applyIfCurrent({ customEvents: data.customEvents });
               return true;
             }
           }
@@ -3137,7 +3145,7 @@ const useTimelineStore = create(
         return false;
       }
     }),
-    createStorageConfig('mythrill_custom_timelines', {
+    createScopedStorageConfig('worldbuilding.timelines', 'mythrill_custom_timelines', {
       partialize: (state) => ({
         customEvents: state.customEvents || [],
         lastCloudSyncAt: state.lastCloudSyncAt

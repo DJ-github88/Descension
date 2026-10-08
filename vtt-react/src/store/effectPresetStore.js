@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 
 /**
  * Effect Preset Store
@@ -118,7 +118,7 @@ const useEffectPresetStore = create(
                 }
             }
         }),
-        createStorageConfig('effect-preset-store', {
+        createScopedStorageConfig('library.effectPresets', 'effect-preset-store', {
             version: 1
         })
     )

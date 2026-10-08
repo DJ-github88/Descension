@@ -109,7 +109,7 @@ describe('Race Trait Integration Tests', () => {
         expect(getRacialSpells('neth', alias).map(spell => spell.id)).toContain('null_strike_drun');
     });
 
-    test.each(['velun', 'velun_neth', 'Athien', 'kessen', 'kessen_neth', 'Weft'])('pact-bound %s retains preservation and exactly one Fraying mechanic', (alias) => {
+    test.each(['velun', 'velun_neth', 'Nethien', 'kessen', 'kessen_neth', 'Weft'])('pact-bound %s retains preservation and exactly one Fraying mechanic', (alias) => {
         const full = getFullRaceData('neth', alias);
         expect(full.combinedTraits.traits.map(trait => trait.id)).toContain('pact_stillness_neth');
         expect(full.combinedTraits.mechanics.map(mechanic => mechanic.id)).toEqual(['the_unraveling']);
@@ -165,7 +165,7 @@ describe('Race Trait Integration Tests', () => {
         const savedLanguages = subrace.languages;
         try {
             subrace.languages = ["Wayfarer's Cant"];
-            expect(getRacialLanguages('neth')).toEqual(["Wayfarer's Cant", 'Gloom-Tongue']);
+            expect(getRacialLanguages('neth')).toEqual(["Wayfarer's Cant", 'Gloomtongue']);
             expect(getRacialLanguages('neth', 'velun')).toEqual(["Wayfarer's Cant"]);
         } finally {
             subrace.languages = savedLanguages;
@@ -200,14 +200,14 @@ describe('Race Trait Integration Tests', () => {
         expect(RACE_DATA.fexrick.createdPeoples[0]).toMatchObject({ id: 'sumpborn', playable: false });
     });
 
-    test('Astril language grants use registered Echo-Song and legacy Lumian grants resolve without extra fluency', () => {
+    test('Astril language grants use registered Echosong and legacy Lumian grants resolve without extra fluency', () => {
         Object.values(RACE_DATA.astril.subraces).forEach(subrace => {
-            expect(getRacialLanguages('astril', subrace.id)).toEqual(["Wayfarer's Cant", 'Echo-Song']);
+            expect(getRacialLanguages('astril', subrace.id)).toEqual(["Wayfarer's Cant", 'Echosong']);
         });
         const saved = RACE_DATA.astril.baseTraits.languages;
         try {
             RACE_DATA.astril.baseTraits.languages = ["Wayfarer's Cant", 'Lumian'];
-            expect(getRacialLanguages('astril')).toEqual(["Wayfarer's Cant", 'Echo-Song']);
+            expect(getRacialLanguages('astril')).toEqual(["Wayfarer's Cant", 'Echosong']);
         } finally {
             RACE_DATA.astril.baseTraits.languages = saved;
         }

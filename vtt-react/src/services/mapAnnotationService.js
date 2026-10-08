@@ -11,6 +11,13 @@ import {
   serverTimestamp
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
+
+// Wave B (final sweep): local-fallback annotations are authored private records
+// for the verified owner; uid/guest ids remain resource references only.
+const mapPinsFamily = createScopedNativeFamily({ familyId: 'map.annotationsPins' });
+const mapAreasFamily = createScopedNativeFamily({ familyId: 'map.annotationsAreas' });
+const mapSharesFamily = createScopedNativeFamily({ familyId: 'map.annotationsShares' });
 
 class MapAnnotationService {
   constructor() {
@@ -109,14 +116,14 @@ class MapAnnotationService {
   }
 
   getLocalPins(userId) {
-    const key = `mythrill_map_pins_${userId || 'guest'}`;
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : [];
+    void userId;
+    const data = mapPinsFamily.load();
+    return Array.isArray(data) ? data : [];
   }
 
   saveLocalPins(userId, pins) {
-    const key = `mythrill_map_pins_${userId || 'guest'}`;
-    localStorage.setItem(key, JSON.stringify(pins));
+    void userId;
+    mapPinsFamily.save(pins);
   }
 
   /**
@@ -200,14 +207,14 @@ class MapAnnotationService {
   }
 
   getLocalAreas(userId) {
-    const key = `mythrill_map_areas_${userId || 'guest'}`;
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : [];
+    void userId;
+    const data = mapAreasFamily.load();
+    return Array.isArray(data) ? data : [];
   }
 
   saveLocalAreas(userId, areas) {
-    const key = `mythrill_map_areas_${userId || 'guest'}`;
-    localStorage.setItem(key, JSON.stringify(areas));
+    void userId;
+    mapAreasFamily.save(areas);
   }
 
   /**
@@ -261,13 +268,12 @@ class MapAnnotationService {
     };
 
     if (this.shouldUseLocalStorage(userId)) {
-      // For demo mode / local storage, we also save it in the target friend's simulated storage list
+      // For demo mode / local storage, the simulated target list lives inside
+      // the active owner's scoped record (per-target locator).
       const targetUserId = shareData.toUserId;
-      const key = `mythrill_map_shares_${targetUserId}`;
-      const existing = localStorage.getItem(key);
-      const targetShares = existing ? JSON.parse(existing) : [];
+      const targetShares = this.getLocalShares(targetUserId);
       targetShares.push(fullShareData);
-      localStorage.setItem(key, JSON.stringify(targetShares));
+      mapSharesFamily.save(targetShares, [String(targetUserId || 'guest')]);
       return { success: true, shareId };
     }
 
@@ -286,10 +292,9 @@ class MapAnnotationService {
 
   async updateShareStatus(userId, shareId, status) {
     if (this.shouldUseLocalStorage(userId)) {
-      const key = `mythrill_map_shares_${userId}`;
       const shares = this.getLocalShares(userId);
       const updated = shares.map(s => s.id === shareId ? { ...s, status } : s);
-      localStorage.setItem(key, JSON.stringify(updated));
+      mapSharesFamily.save(updated, [String(userId || 'guest')]);
       return { success: true };
     }
 
@@ -308,10 +313,9 @@ class MapAnnotationService {
 
   async deleteShare(userId, shareId) {
     if (this.shouldUseLocalStorage(userId)) {
-      const key = `mythrill_map_shares_${userId}`;
       const shares = this.getLocalShares(userId);
       const filtered = shares.filter(s => s.id !== shareId);
-      localStorage.setItem(key, JSON.stringify(filtered));
+      mapSharesFamily.save(filtered, [String(userId || 'guest')]);
       return { success: true };
     }
 
@@ -326,9 +330,8 @@ class MapAnnotationService {
   }
 
   getLocalShares(userId) {
-    const key = `mythrill_map_shares_${userId || 'guest'}`;
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : [];
+    const data = mapSharesFamily.load([String(userId || 'guest')]);
+    return Array.isArray(data) ? data : [];
   }
 }
 

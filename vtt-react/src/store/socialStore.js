@@ -96,15 +96,21 @@ const useSocialStore = create((set, get) => ({
 
     set({ isLoading: true });
 
-    // Load ignored from localStorage
-    const savedIgnored = localStorage.getItem(`mythrill_ignored_${userId}`);
-    if (savedIgnored) {
-      try {
-        set({ ignored: JSON.parse(savedIgnored) });
-      } catch (e) {
-        console.error('Error parsing ignored users:', e);
+    // Load ignored users for THIS user id. The key is uid-suffixed AND the
+    // in-memory list is always reset, so A's ignored list can never survive
+    // into B when B has no saved list (Wave B closure).
+    let nextIgnored = [];
+    try {
+      const savedIgnored = localStorage.getItem(`mythrill_ignored_${userId}`);
+      if (savedIgnored) {
+        const parsed = JSON.parse(savedIgnored);
+        if (Array.isArray(parsed)) nextIgnored = parsed;
       }
+    } catch (e) {
+      console.error('Error parsing ignored users:', e);
+      nextIgnored = [];
     }
+    set({ ignored: nextIgnored });
 
     // 1. Listen to incoming requests
     const unsubscribeIncoming = socialService.subscribeToRequests(userId, (requests) => {

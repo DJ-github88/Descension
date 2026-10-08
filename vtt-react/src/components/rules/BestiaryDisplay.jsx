@@ -7,7 +7,7 @@ import './BestiaryDisplay.css';
 const DANGER_COLORS = {
   Trivial: { bg: '#6c757d', text: '#fff' },
   Low: { bg: '#2d6a4f', text: '#fff' },
-  Medium: { bg: '#bc6c25', text: '#fff' },
+  Medium: { bg: '#a85c1a', text: '#fff' },
   High: { bg: '#d90429', text: '#fff' },
   'Very High': { bg: '#9b2226', text: '#fff' },
   Extreme: { bg: '#7b2cb7', text: '#fff' }
@@ -131,6 +131,45 @@ const getCreatureThumb = (illustration) => {
     .replace(/\.png$/i, '.jpg');
 };
 
+// Sampled paper tone per illustration (cached): each card adopts its artwork's
+// own parchment color so the image and card body read as one seamless plate.
+const PAPER_TONE_CACHE = new Map();
+
+const samplePaperTone = (img, src) => {
+  const cacheKey = src || (img && (img.currentSrc || img.src));
+  if (!cacheKey) return null;
+  if (PAPER_TONE_CACHE.has(cacheKey)) return PAPER_TONE_CACHE.get(cacheKey);
+  let tone = null;
+  try {
+    if (img && img.naturalWidth && typeof document !== 'undefined') {
+      const canvas = document.createElement('canvas');
+      canvas.width = 40;
+      canvas.height = 40;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, 40, 40);
+        const { data } = ctx.getImageData(0, 0, 40, 40);
+        let r = 0, g = 0, b = 0, n = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          const lum = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+          if (lum >= 190) {
+            r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+          }
+        }
+        if (n > 0) {
+          tone = '#' + [r / n, g / n, b / n]
+            .map(v => Math.round(v).toString(16).padStart(2, '0'))
+            .join('');
+        }
+      }
+    }
+  } catch (e) {
+    tone = null;
+  }
+  PAPER_TONE_CACHE.set(cacheKey, tone);
+  return tone;
+};
+
 // Dynamic Game-Mechanic Formatter
 // Converts raw text descriptions of damage rolls, save DCs, etc., into gorgeous, styled inline RPG badges
 const formatCombatMechanicsText = (text) => {
@@ -194,6 +233,9 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [thumbSrc, setThumbSrc] = useState(() => getCreatureThumb(creature.illustration));
+  const [paperTone, setPaperTone] = useState(
+    () => PAPER_TONE_CACHE.get(getCreatureThumb(creature.illustration)) || null
+  );
 
   const handleImageError = useCallback(() => {
     if (thumbSrc !== creature.illustration) {
@@ -213,7 +255,17 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
     <div
       className="bestiary-creature-card"
       onClick={() => onSelect(creature.id)}
-      style={{ borderTopColor: dangerStyle.bg }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect(creature.id);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${creature.name} folio`}
+      title={`${creature.dangerLevel} danger`}
+      style={{ '--danger-color': dangerStyle.bg, '--paper-tone': paperTone || undefined }}
     >
       <div className="bestiary-card-image">
         {creature.illustration && !imageError ? (
@@ -225,8 +277,13 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
               loading="lazy"
               decoding="async"
               width="290"
-              height="160"
-              onLoad={() => setImageLoaded(true)}
+              height="163"
+              draggable={false}
+              onLoad={(e) => {
+                setImageLoaded(true);
+                const tone = samplePaperTone(e.currentTarget, thumbSrc);
+                if (tone) setPaperTone(tone);
+              }}
               onError={handleImageError}
               style={{ opacity: imageLoaded ? 1 : 0 }}
             />
@@ -238,15 +295,6 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
       <div className="bestiary-card-body">
         <div className="bestiary-card-header">
           <h3>{creature.name}</h3>
-          <span
-            className="bestiary-card-badge"
-            style={{ 
-              backgroundColor: dangerStyle.bg, 
-              color: dangerStyle.text 
-            }}
-          >
-            {creature.dangerLevel}
-          </span>
         </div>
         <p className="bestiary-card-role">{creature.role}</p>
         <p className="bestiary-card-origin">{originSnippet}</p>

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 
 // Spell types
 export const SPELL_TYPES = {
@@ -130,7 +130,7 @@ const useSpellStore = create(
         }
       })
     }),
-    createStorageConfig('spell-store')
+    createScopedStorageConfig('library.spells', 'spell-store')
   )
 );
 

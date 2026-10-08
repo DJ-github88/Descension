@@ -223,10 +223,100 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // ===== WORLDBUILDING PERSISTENCE =====
-    // User worldbuilding (books, interactive maps, family trees, lineages, factions, timelines, quests)
-    match /users/{userId}/worldbuilding/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    // ===== WORLDBUILDING PERSISTENCE (PROJECT 5 WAVE B S6) =====
+    // User worldbuilding documents (books, interactive maps, family trees,
+    // lineages, factions, timelines, quests, worlds, deities, languages,
+    // entity graph). These are single-segment owner documents.
+    //
+    // CRITICAL: `campaigns` is excluded from this blanket rule. The campaign
+    // singleton is governed by its own stricter revision-contract rule below;
+    // if this rule also matched campaigns, its unconditional write would
+    // bypass the campaign CAS. Firestore allows access when ANY matching rule
+    // allows, so the exclusion is required, not decorative.
+    match /users/{userId}/worldbuilding/{document} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId
+        && document != 'campaigns';
+    }
+
+    // ===== CAMPAIGN SINGLETON CAS (PROJECT 5 WAVE B S6) =====
+    // The whole campaign collection is one versioned singleton. Blind writers
+    // are denied:
+    //  - every write must carry the supported envelope;
+    //  - creation must start at cloudRevision 1 with a valid epoch;
+    //  - updates must preserve the immutable cloudEpoch and advance
+    //    cloudRevision by exactly one (the client CAS still enforces the
+    //    exact expected predecessor inside its transaction);
+    //  - client-side delete is denied (delete/recreate is an explicit,
+    //    separately authorized operation).
+    match /users/{userId}/worldbuilding/campaigns {
+      function validCampaignEnvelope(data) {
+        return data.keys().hasOnly([
+            'schemaVersion', 'campaigns', 'currentCampaignId',
+            'cloudRevision', 'cloudEpoch', 'updatedAt'
+          ])
+          && data.schemaVersion == 1
+          && data.campaigns is list
+          && (!('currentCampaignId' in data)
+              || data.currentCampaignId == null
+              || data.currentCampaignId is string)
+          && data.cloudRevision is int
+          && data.cloudRevision >= 1
+          && data.cloudEpoch is string
+          && data.cloudEpoch.size() > 0
+          && data.cloudEpoch.size() <= 128
+          && (!('updatedAt' in data)
+              || data.updatedAt == null
+              || data.updatedAt is string
+              || data.updatedAt is timestamp);
+      }
+
+      // Versionless legacy source: a document that never carried the v1
+      // envelope but holds a valid campaign list (and optional selection).
+      // Arbitrary malformed documents must not qualify.
+      function validLegacyCampaignSource(data) {
+        return !('schemaVersion' in data)
+          && data.keys().hasOnly(['campaigns', 'currentCampaignId', 'updatedAt'])
+          && data.keys().hasAny(['campaigns'])
+          && data.campaigns is list
+          && (!('currentCampaignId' in data)
+              || data.currentCampaignId == null
+              || data.currentCampaignId is string)
+          && (!('updatedAt' in data)
+              || data.updatedAt == null
+              || data.updatedAt is string
+              || data.updatedAt is timestamp);
+      }
+
+      // The only allowed legacy->v1 transition: preserve the campaign list and
+      // the active selection exactly, start a fresh epoch at revision 1, and
+      // change nothing else. Ordinary v1 updates still require the strict
+      // epoch-preserving revision+1 CAS below.
+      function validLegacyCampaignUpgrade() {
+        return validLegacyCampaignSource(resource.data)
+          && request.resource.data.cloudRevision == 1
+          && request.resource.data.campaigns == resource.data.campaigns
+          && (
+            (!('currentCampaignId' in resource.data)
+              && request.resource.data.currentCampaignId == null)
+            || (('currentCampaignId' in resource.data)
+              && request.resource.data.currentCampaignId == resource.data.currentCampaignId)
+          );
+      }
+
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId
+        && validCampaignEnvelope(request.resource.data)
+        && request.resource.data.cloudRevision == 1;
+      allow update: if request.auth != null && request.auth.uid == userId
+        && validCampaignEnvelope(request.resource.data)
+        && (
+          (validCampaignEnvelope(resource.data)
+            && request.resource.data.cloudEpoch == resource.data.cloudEpoch
+            && request.resource.data.cloudRevision == resource.data.cloudRevision + 1)
+          || validLegacyCampaignUpgrade()
+        );
+      allow delete: if false;
     }
 
     // ===== USER TOOL STATE =====

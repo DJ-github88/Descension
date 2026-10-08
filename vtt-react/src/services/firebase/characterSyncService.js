@@ -6,10 +6,24 @@
  */
 
 import characterPersistenceService from './characterPersistenceService';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
 
-// Sync status tracking
+// Sync status tracking (retired global keys; quarantined once per owner)
 const SYNC_STATUS_KEY = 'mythrill-sync-status';
 const OFFLINE_CHANGES_KEY = 'mythrill-offline-changes';
+
+// Wave B (final sweep): the offline change queue and sync status are authored
+// private state for the verified owner. A queue must never be replayed into a
+// different account, and an in-flight sync must not persist after a switch.
+const offlineChangesFamily = createScopedNativeFamily({
+  familyId: 'character.offlineChanges',
+  legacyKeys: [OFFLINE_CHANGES_KEY]
+});
+const syncStatusFamily = createScopedNativeFamily({
+  familyId: 'character.syncStatus',
+  legacyKeys: [SYNC_STATUS_KEY]
+});
 
 /**
  * Character Sync Service Class
@@ -30,8 +44,8 @@ class CharacterSyncService {
    */
   loadOfflineChanges() {
     try {
-      const changes = localStorage.getItem(OFFLINE_CHANGES_KEY);
-      return changes ? JSON.parse(changes) : [];
+      const changes = offlineChangesFamily.load();
+      return Array.isArray(changes) ? changes : [];
     } catch (error) {
       console.error('Error loading offline changes:', error);
       return [];
@@ -39,13 +53,23 @@ class CharacterSyncService {
   }
 
   /**
-   * Save offline changes to localStorage
+   * Save offline changes to verified-owner scoped storage
+   * @param {object|null} context - captured consumer context ({ok, context}) or
+   *   a raw gate context; stale writes are dropped
    */
-  saveOfflineChanges() {
+  saveOfflineChanges(context = null) {
     try {
-      localStorage.setItem(OFFLINE_CHANGES_KEY, JSON.stringify(this.syncQueue));
+      if (context) {
+        const rawContext = context.context || context;
+        if (!isConsumerContextCurrent(rawContext)) {
+          return false;
+        }
+      }
+      offlineChangesFamily.save(this.syncQueue);
+      return true;
     } catch (error) {
       console.error('Error saving offline changes:', error);
+      return false;
     }
   }
 
@@ -54,8 +78,8 @@ class CharacterSyncService {
    */
   getSyncStatus() {
     try {
-      const status = localStorage.getItem(SYNC_STATUS_KEY);
-      return status ? JSON.parse(status) : {
+      const status = syncStatusFamily.load();
+      return status || {
         lastSync: null,
         pendingChanges: 0,
         conflictsResolved: 0,
@@ -78,7 +102,7 @@ class CharacterSyncService {
     try {
       const currentStatus = this.getSyncStatus();
       const newStatus = { ...currentStatus, ...updates };
-      localStorage.setItem(SYNC_STATUS_KEY, JSON.stringify(newStatus));
+      syncStatusFamily.save(newStatus);
     } catch (error) {
       console.error('Error updating sync status:', error);
     }
@@ -89,10 +113,8 @@ class CharacterSyncService {
    */
   async handleOnline() {
     this.isOnline = true;
-    
-    if (this.syncQueue.length > 0) {
-      await this.syncOfflineChanges();
-    }
+    // syncOfflineChanges reloads the current owner's queue and no-ops if empty.
+    await this.syncOfflineChanges();
   }
 
   /**
@@ -115,6 +137,9 @@ class CharacterSyncService {
       synced: false
     };
 
+    // Reload the queue for the *current* owner before writing so a stale
+    // in-memory queue from another account can never be persisted here.
+    this.syncQueue = this.loadOfflineChanges();
     this.syncQueue.push(change);
     this.saveOfflineChanges();
 
@@ -128,10 +153,17 @@ class CharacterSyncService {
    * Sync offline changes to Firebase
    */
   async syncOfflineChanges() {
-    if (this.syncInProgress || !this.isOnline || this.syncQueue.length === 0) {
+    if (this.syncInProgress || !this.isOnline) {
       return;
     }
 
+    // Load the queue for the current owner and fence the whole run to it.
+    this.syncQueue = this.loadOfflineChanges();
+    if (this.syncQueue.length === 0) {
+      return;
+    }
+
+    const syncContext = captureConsumerContext();
     this.syncInProgress = true;
 
     const results = {
@@ -164,13 +196,15 @@ class CharacterSyncService {
 
       // Remove synced changes from queue
       this.syncQueue = this.syncQueue.filter(change => !change.synced);
-      this.saveOfflineChanges();
+      this.saveOfflineChanges(syncContext.ok ? syncContext : null);
 
-      // Update sync status
-      this.updateSyncStatus({
-        lastSync: new Date().toISOString(),
-        pendingChanges: this.syncQueue.length
-      });
+      // Update sync status (only for the owner that started this sync)
+      if (!syncContext.ok || isConsumerContextCurrent(syncContext.context)) {
+        this.updateSyncStatus({
+          lastSync: new Date().toISOString(),
+          pendingChanges: this.syncQueue.length
+        });
+      }
 
     } catch (error) {
       console.error('Error during sync:', error);

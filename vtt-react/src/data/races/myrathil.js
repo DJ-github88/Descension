@@ -49,7 +49,7 @@ Among themselves, the Myrathil are warm and direct. They are gullible and too ho
     diasporaVariation: `Myrathil diaspora follows the water. The Shore Myrathil hold the Iceheart coast; the Brook Myrathil have migrated up every major river system and established small enclaves in inland ports as far as the Sundrift Vale's edge and the Bryngloom's peat-waterways. A Bryngloom Brook Myrathil develops darker, bog-tinted bioluminescence and a tolerance for still water that coastal kin find unsettling. The Nereid Myrathil do not diaspora, they are trench-bound and surface only under the current crisis. Merrowport is the only true mixed Myrathil-Merryn city; elsewhere Myrathil are small river-enclaves, increasingly silent as the sea-silence spreads upstream.`,
     meaningfulTradeoffs: 'Myrathil are amphibious and weather-attuned, with rest requirements tied to their subrace and proximity to water. They are gullible and emotionally transparent; they can lie, but their culture never taught them how, and their vein-colors make them easy to read. Their exotic reputation creates social complications. The further they travel from the sea, the more disconnected they become from Mareth and the tides that made them.',
     baseTraits: {
-      languages: ["Wayfarer's Cant", 'Tide-Speech'],
+      languages: ["Wayfarer's Cant", 'Tidespeech'],
       lifespan: '140-200 years',
       reproduction: 'Foam-spawned young; grow and mature under chosen/community care',
       breathing: ['air', 'water'],
@@ -767,7 +767,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
             cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
           }
         ],
-        languages: ["Wayfarer's Cant", 'Tide-Speech', 'First-Word'],
+        languages: ["Wayfarer's Cant", 'Tidespeech', 'First Word'],
         speed: 25,
         baseStats: {
           hp: 24,

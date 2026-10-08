@@ -5,17 +5,23 @@
  * filtering, sorting, and performing other library management tasks.
  */
 
+import {
+  loadSpellLibraryData,
+  saveSpellLibraryData
+} from '../../../../persistence/spellLibraryScopedStorage';
 
 // Constants
-const LIBRARY_STORAGE_KEY = 'spell_library_data';
 const LIBRARY_VERSION = 1; // For future migrations
 
 /**
- * Clear the library from localStorage - useful for forcing a reload of default spells
+ * Clear the library from storage - useful for forcing a reload of default spells
  */
 export function clearLibraryFromStorage() {
+  // Wave B (final sweep): authored library data is verified-owner scoped and is
+  // never deleted through this helper; use the scoped clear if required.
   try {
-    localStorage.removeItem(LIBRARY_STORAGE_KEY);
+    // eslint-disable-next-line global-require
+    require('../../../../persistence/spellLibraryScopedStorage').clearSpellLibraryDataScoped();
     return true;
   } catch (error) {
     console.error('Error clearing library from storage:', error);
@@ -24,7 +30,7 @@ export function clearLibraryFromStorage() {
 }
 
 /**
- * Save the entire library to localStorage
+ * Save the entire library to verified-owner scoped storage
  */
 export function saveLibraryToStorage(library) {
   try {
@@ -46,11 +52,7 @@ export function saveLibraryToStorage(library) {
       library.spells = [];
     }
 
-    localStorage.setItem(LIBRARY_STORAGE_KEY, JSON.stringify(libraryData));
-
-    // Verify the data was saved correctly
-
-
+    saveSpellLibraryData(libraryData);
     return true;
   } catch (error) {
     console.error('Error saving library to storage:', error);
@@ -59,17 +61,15 @@ export function saveLibraryToStorage(library) {
 }
 
 /**
- * Load the library from localStorage
+ * Load the library from verified-owner scoped storage
  */
 export function loadLibraryFromStorage() {
   try {
-    const data = localStorage.getItem(LIBRARY_STORAGE_KEY);
+    const libraryData = loadSpellLibraryData();
 
-    if (!data) {
+    if (!libraryData) {
       return getDefaultLibrary();
     }
-
-    const libraryData = JSON.parse(data);
 
     // Handle version migrations if needed
     if (libraryData.version < LIBRARY_VERSION) {

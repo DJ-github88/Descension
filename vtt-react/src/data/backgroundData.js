@@ -217,6 +217,8 @@ export const BACKGROUND_DATA = {
         'tessen_human',
         'merryn_human',
         'ordan_human',
+        'korr_solari',
+        'thrask_solari',
         'viridian_florae',
         'florae_unified'
       ],
@@ -237,6 +239,8 @@ export const BACKGROUND_DATA = {
       tessen_human: 'You descend from House Tesshan, and your keep was paid for with a blizzard.',
       merryn_human: 'You descend from House Mereval, and your family\'s fortune is written in other people\'s ink.',
       ordan_human: 'You descend from House Ordavan, and the grass your ancestors bought grows over their graves.',
+      korr_solari: 'You descend from House Solvan, and the light your house ruled by is buried beneath your feet.',
+      thrask_solari: 'You descend from House Solvan, and you still walk the ash your ancestors bargained away.',
       viridian_florae: 'You descend from House Viridane, the erased seventh, and no ledger will admit it.',
       florae_unified: 'You descend from House Viridane, and you keep the eighth house counted in bark.'
     },
@@ -294,7 +298,7 @@ export const BACKGROUND_DATA = {
       tessen_human: 'You studied the echo-lineages by the light of a keep that never opened.'
     },
     name: 'Scholar',
-    description: 'The Synod Hold, a crystal academy of living stone, rises from the Sundrift steppe like a crystal thorn, the walls singing when the wind finds the right key. You studied there, learning to read the echo-lineages that the Astril (descendants of refugees from the devoured world Lumia) have carried since their first ancestors knelt in the stone circles and opened themselves to the resonance of a dead world. The crystal-lattice archives preserve every echo-signature that still resonates. You learned the forbidden Echo-Songs, the throat-sung maps of lineages that went dark when the echo overwhelmed the host. You catalogued echo-lineages carved on bone Steppe-Staves (record-keeping poles), learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the crystalline remnants of Lumia\'s memory fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The echo is fading. Every season, another vessel goes silent, another song loses its referent. The Synod studies the archives while the memories go dark. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the echoes is the choice the steppe has laid at your feet.',
+    description: 'The Synod Hold, a crystal academy of living stone, rises from the Sundrift steppe like a crystal thorn, the walls singing when the wind finds the right key. You studied there, learning to read the echo-lineages that the Astril (descendants of refugees from the devoured world Lumia) have carried since their first ancestors knelt in the stone circles and opened themselves to the resonance of a dead world. The crystal-lattice archives preserve every echo-signature that still resonates. You learned the forbidden Echosongs, the throat-sung maps of lineages that went dark when the echo overwhelmed the host. You catalogued echo-lineages carved on bone Steppe-Staves (record-keeping poles), learned to bypass the basalt Cairn-Checkpoints, and navigate Starfall Vale where the crystalline remnants of Lumia\'s memory fall. You learned to identify the Unlit Veil\'s spies inside the Synod itself. The echo is fading. Every season, another vessel goes silent, another song loses its referent. The Synod studies the archives while the memories go dark. You have the training to read the patterns. Whether you use it to preserve what remains or to understand what is killing the echoes is the choice the steppe has laid at your feet.',
     skillProficiencies: ['Arcana', 'History'],
     languages: 2,
     equipment: [
@@ -682,7 +686,7 @@ export const BACKGROUND_DATA = {
         "silath_astril"
       ],
       "narrativeUnlock": true,
-      "justification": "Requires Iceheart Sea maritime knowledge. Exclude: Tessic (sealed keep), Ordu (steppe nomads). Astril crystalline bodies do not float, hard block."
+      "justification": "Iceheart Sea maritime knowledge and Sea-Charter tattoo-law. The Merryn and Myrathil sail it; the Astril are a landward people and keep to their own skies."
     },
     classHooks: [
       { classId: 'gambit', bridge: 'Every voyage is a wager, and a sailor who has rolled the dice enough learns to rig them.' },
@@ -1118,7 +1122,7 @@ export const BACKGROUND_DATA = {
       ordan_human: 'You charted the stars your ancestors stopped needing.'
     },
     name: 'Astronomer',
-    description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Lumian, who embraces the passenger\'s wild power, or Kordak, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echo-Songs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',
+    description: 'Every Astril carries Lumia\'s echo in their crystalline markings, the biological resonance of a dead world\'s biosphere, and the Synod (the council that governs the Astril\'s relationship with that heritage) regulates the bond. You trained under its hierarchy, learning the crystal-lattice techniques that keep Lumia\'s echo from overwhelming the host. Whether you are Lumian, who embraces the passenger\'s wild power, or Kordak, who cages it behind mental discipline, you studied the same disciplines and survived them. You catalogued echo-lineages on memory-glass, learned the forbidden Echosongs that map the fading signatures of those lost to Lumia\'s call, and trained to recognize the resonance-signatures of an echo approaching the Submersion threshold, the point at which the host\'s consciousness is consumed entirely. Beyond that threshold, the Synod has no technique that brings either back. Lumia\'s echo is dimming. Every cycle, another host flickers toward Submersion, and the Synod\'s crystal techniques buy less time than they did a generation ago. You know the signs and the songs and the lattice-work that holds a dead world inside a living chest. The echo will not keep itself stable. That is your work, and the alternative is finding out what silence sounds like when the last fragment of Lumia goes dark.',
     skillProficiencies: ['Religion', 'Arcana'],
     toolProficiencies: ['Musical instrument (throat-singing bowl)'],
     languages: 2,
@@ -1707,1240 +1711,1351 @@ export const BACKGROUND_DATA = {
 
 
   zenithCartographer: {
-  "id": "zenithCartographer",
-  "restrictions": {
-    "allowedRegions": [
-      "zenith",
-      "frostwood-reach"
-    ],
-    "allowedSubraces": [
-      "vashir_astril"
-    ],
-    "narrativeUnlock": true,
-    "justification": "Only the Lumian maintain the high celestial astrolabes that pierce the upper cloud-ceilings to chart pre-Star-Fall constellations."
-  },
-  "classHooks": [
-    {
-      "classId": "arcanoneer",
-      "bridge": "Stellar geometry and celestial angles translate directly into high-tier elemental firing matrices."
+    "id": "zenithCartographer",
+    "restrictions": {
+      "allowedRegions": [
+        "sundrift-vale"
+      ],
+      "allowedSubraces": [
+        "vashir_astril"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The high celestial astrolabes are Lumian institutions of the Sundrift observatories, charting the pre-Star-Fall sky."
     },
-    {
-      "classId": "augur",
-      "bridge": "Reading dead stars that still shine through the gloom provides the cleanest causal timelines."
+    "classHooks": [
+      {
+        "classId": "arcanoneer",
+        "bridge": "Stellar geometry and celestial angles translate directly into high-tier elemental firing matrices."
+      },
+      {
+        "classId": "augur",
+        "bridge": "Reading dead stars that still shine through the gloom provides the cleanest causal timelines."
+      },
+      {
+        "classId": "harbinger",
+        "bridge": "Tracking where celestial bodies fell reveals where the dark between them runs thinnest."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "animist",
+        "tension": "A chart-reader who looks only upward can become estranged from the bone-and-soil ancestor spirits below."
+      }
+    ],
+    "subraceFlavor": {
+      "vashir_astril": "You tracked the dying constellations from the highest frosted domes, knowing every missing star by its absence."
     },
-    {
-      "classId": "harbinger",
-      "bridge": "Tracking where celestial bodies crashed into the void reveals where planar rifts are widest."
+    "name": "Cartographer",
+    "description": "Before the Star-Fall dragged darkness over Mythrill, the Lumian charted every celestial transit. You were trained in the crystal-domed observatories of the Sundrift, learning to read stellar grammar through brass armillary spheres and frosted quartz lenses. Even now, with the sun buried and only dim cosmic rifts flickering in the stratosphere, your eyes track the silent drift of Selunis and the slow turn of the dead sky. You can map a continent by stars alone, navigating terrain where compasses spin uselessly in the fog.",
+    "skillProficiencies": [
+      "Arcana",
+      "Investigation"
+    ],
+    "toolProficiencies": [
+      "Navigator's tools"
+    ],
+    "languages": 2,
+    "equipment": [
+      "Brass armillary astrolabe",
+      "Star-chart parchment scroll (star-leather tube)",
+      "Quartz focusing prism",
+      "Scribe's celestial ink-well",
+      "Traveling robes"
+    ],
+    "startingCurrency": {
+      "gold": 14,
+      "silver": 5,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Stellar Zenith",
+      "description": "You always know true celestial north, current time of day or night, and the exact phase of Selunis even while deep underground or beneath thick magical fog. You cannot become lost while navigating under an open or partially visible sky."
+    },
+    "statModifiers": {
+      "intelligence": 2,
+      "spirit": 1,
+      "strength": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "animist",
-      "tension": "An astronomer who looks only upward can become estranged from the bone-and-soil ancestor spirits below."
-    }
-  ],
-  "subraceFlavor": {
-    "vashir_astril": "You tracked the dying constellations from the highest frosted domes, knowing every missing star by its absence."
   },
-  "name": "Zenith Cartographer",
-  "description": "Before the Star-Fall dragged darkness over Mythrill, the Lumian charted every celestial transit. You were trained in the high crystal-domed observatories of the upper peaks, learning to read stellar grammar through brass armillary spheres and frosted quartz lenses. Even now, with the sun buried and only dim cosmic rifts flickering in the stratosphere, your eyes track the silent drift of Selunis and the faint echoes of the First Contract. You can map a continent by dead stars alone, navigating terrain where compasses spin uselessly in the fog.",
-  "skillProficiencies": [
-    "Arcana",
-    "Investigation"
-  ],
-  "languages": 2,
-  "equipment": [
-    "Brass armillary astrolabe",
-    "Star-chart parchment scroll (star-leather tube)",
-    "Quartz focusing prism",
-    "Scribe's celestial ink-well",
-    "Traveling robes"
-  ],
-  "startingCurrency": {
-    "gold": 14,
-    "silver": 5,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Stellar Zenith",
-    "description": "You always know true celestial north, current time of day or night, and the exact phase of Selunis even while deep underground or beneath thick magical fog. You cannot become lost while navigating under an open or partially visible sky."
-  },
-  "statModifiers": {
-    "intelligence": 2,
-    "spirit": 1,
-    "strength": -1
-  }
-},
 
   craterVanguard: {
-  "id": "craterVanguard",
-  "restrictions": {
-    "allowedRegions": [
-      "sundale",
-      "frostwood-reach"
-    ],
-    "allowedSubraces": [
-      "silath_astril"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Kordak bear the high-density bone and kinetic shock-tolerance forged during violent celestial impacts."
-  },
-  "classHooks": [
-    {
-      "classId": "crusader",
-      "bridge": "Working the glowing crater-iron binds sacred celestial alloy directly into heavy armaments."
+    "id": "craterVanguard",
+    "restrictions": {
+      "allowedRegions": [
+        "sundrift-vale"
+      ],
+      "allowedSubraces": [
+        "silath_astril"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Crater-Hold and its impact quarries are Kordak settlements; the vanguard work of securing fallen celestial iron is Kordak trade."
     },
-    {
-      "classId": "harbinger",
-      "bridge": "Surviving kinetic blast-waves attunes the body to entropy and force devastation."
+    "classHooks": [
+      {
+        "classId": "crusader",
+        "bridge": "Working the glowing crater-iron binds celestial alloy directly into heavy armaments."
+      },
+      {
+        "classId": "harbinger",
+        "bridge": "Surviving kinetic blast-waves attunes the body to entropy and force."
+      },
+      {
+        "classId": "augur",
+        "bridge": "Divining the landing sites of future falling debris is second nature to crater scouts."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "falseProphet",
+        "tension": "Hearing celestial voices in the smoking impact-glass threatens to tear a warrior away from the frontline."
+      }
+    ],
+    "subraceFlavor": {
+      "silath_astril": "Your bones absorbed the impact when the star hit; you stood where weaker flesh shattered to ash."
     },
-    {
-      "classId": "augur",
-      "bridge": "Divining the landing sites of future falling debris is second nature to crater scouts."
+    "name": "Vanguard",
+    "description": "Where falling stars tore into the earth and left boiling basins of glass and shattered bedrock, the Kordak walked into the fire. Sturdy, practical, and conditioned by a hard land, you served on the vanguard that secured impact craters before scavengers or Wyrd beasts could claim the celestial slag. You know how to brace against seismic shocks, lever fallen meteorites out of magma-crusts, and stand your ground against blast-waves that would snap ordinary limbs like dry twigs.",
+    "skillProficiencies": [
+      "Athletics",
+      "Survival"
+    ],
+    "toolProficiencies": [
+      "Smith's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Meteorite-iron crowbar",
+      "Basalt-fiber heavy gloves",
+      "Heavy impact boots",
+      "Serrated pry-dagger",
+      "Common clothes"
+    ],
+    "startingCurrency": {
+      "gold": 10,
+      "silver": 8,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Dense Gravitas",
+      "description": "Your dense bone structure and low center of gravity grant advantage on saving throws and checks against being knocked prone, shoved, or moved against your will. In addition, falling damage is reduced by an amount equal to your level times 2."
+    },
+    "statModifiers": {
+      "constitution": 2,
+      "strength": 1,
+      "agility": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "falseProphet",
-      "tension": "Hearing celestial voices in the smoking impact-glass threatens to tear a warrior away from the frontline."
-    }
-  ],
-  "subraceFlavor": {
-    "silath_astril": "Your bones absorbed the impact when the star hit; you stood where weaker flesh shattered to ash."
   },
-  "name": "Crater Vanguard",
-  "description": "Where falling stars tore into the earth and left boiling basins of glass and shattered bedrock, the Silath Astril walked into the fire. With bones dense as ironwood and skin conditioned by intense gravitational shear, you served on the vanguard that secured impact craters before scavengers or Wyrd beasts could claim the celestial slag. You know how to brace against seismic shocks, lever fallen meteorites out of magma-crusts, and stand your ground against blast-waves that would snap ordinary limbs like dry twigs.",
-  "skillProficiencies": [
-    "Athletics",
-    "Survival"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Meteorite-iron crowbar",
-    "Basalt-fiber heavy gloves",
-    "Heavy impact boots",
-    "Serrated pry-dagger",
-    "Common clothes"
-  ],
-  "startingCurrency": {
-    "gold": 10,
-    "silver": 8,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Dense Gravitas",
-    "description": "Your dense bone structure and low center of gravity grant advantage on saving throws and checks against being knocked prone, shoved, or moved against your will. In addition, falling damage is reduced by an amount equal to your level times 2."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "strength": 1,
-    "agility": -1
-  }
-},
 
   clockworkHorologist: {
-  "id": "clockworkHorologist",
-  "restrictions": {
-    "allowedRegions": [
-      "iron-deep",
-      "sundale"
-    ],
-    "allowedSubraces": [
-      "kethrin_fexric"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Guild-Bound Fex strictly regulate the water-clocks, dead-beat escapements, and temporal balances of the subterranean under-cities."
-  },
-  "classHooks": [
-    {
-      "classId": "chronarch",
-      "bridge": "Calibrating micro-escapements is the mundane foundation of anchoring temporal currents."
+    "id": "clockworkHorologist",
+    "restrictions": {
+      "allowedRegions": [
+        "cragjaw-peaks"
+      ],
+      "allowedSubraces": [
+        "kethrin_fexric"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The Brasskin guilds regulate the water-clocks, dead-beat escapements, and temporal balances of the Fex under-cities."
     },
-    {
-      "classId": "spellguard",
-      "bridge": "Interception gear requires micro-tolerances that only master horologists can forge."
+    "classHooks": [
+      {
+        "classId": "chronarch",
+        "bridge": "Calibrating micro-escapements is the mundane foundation of anchoring temporal currents."
+      },
+      {
+        "classId": "spellguard",
+        "bridge": "Interception gear requires micro-tolerances that only master horologists can forge."
+      },
+      {
+        "classId": "arcanoneer",
+        "bridge": "Clockwork gear-trains regulate the delicate mana-flow in modern elemental cannonry."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "pyrofiend",
+        "tension": "A horologist whose precision is warped by Scathrach breach-fire risks melting their own life's work."
+      }
+    ],
+    "subraceFlavor": {
+      "kethrin_fexric": "You spent eighty years cutting tooth-profiles into brass wheels so the grand water-clock never lost a heartbeat."
     },
-    {
-      "classId": "arcanoneer",
-      "bridge": "Clockwork gear-trains regulate the delicate mana-fuel flow in modern elemental cannonry."
+    "name": "Clockmaker",
+    "description": "Deep within the subterranean workshops of the Brasskin guilds, life is measured in the rhythmic click of escapements and the tension of hairsprings. You spent decades apprenticed to master clock-smiths, learning to hand-cut gear teeth to micron tolerances, temper coiled mainsprings in sulfur oil, and balance pendulum-regulators that keep entire underground bastions synchronized. To you, a mechanism is not a puzzle; it is a mechanical heartbeat waiting to be calibrated.",
+    "skillProficiencies": [
+      "Investigation",
+      "Arcana"
+    ],
+    "toolProficiencies": [
+      "Tinker's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Horologist's loupe and tweezers",
+      "Set of precision brass micro-files",
+      "Pocket chronometer in cushioned case",
+      "Brass caliper",
+      "Guild apprentice apron"
+    ],
+    "startingCurrency": {
+      "gold": 16,
+      "silver": 0,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Escapement Precision",
+      "description": "You intuitively detect mechanical stress, flawed clockwork, trap triggers, and lock tumblers by sound and touch. You gain advantage on checks to disarm mechanical devices, pick mechanical locks, or repair clockwork apparatus."
+    },
+    "statModifiers": {
+      "intelligence": 2,
+      "agility": 1,
+      "spirit": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "pyrofiend",
-      "tension": "A horologist whose precision is warped by Scathrach breach-fire risks melting their own life's work."
-    }
-  ],
-  "subraceFlavor": {
-    "kethrin_fexric": "You spent eighty years cutting tooth-profiles into brass wheels so the grand water-clock never lost a heartbeat."
   },
-  "name": "Clockwork Horologist",
-  "description": "Deep within the subterranean workshops of the Kethrin Guilds, life is measured in the rhythmic click of escapements and the tension of hairsprings. You spent decades apprenticed to master clock-smiths, learning to hand-cut gear teeth to micron tolerances, temper coiled mainsprings in sulfur oil, and balance pendulum-regulators that keep entire underground bastions synchronized. To you, a mechanism is not a puzzle; it is a mechanical heartbeat waiting to be calibrated.",
-  "skillProficiencies": [
-    "Investigation",
-    "Arcana"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Horologist's loupe and tweezers",
-    "Set of precision brass micro-files",
-    "Pocket chronometer in cushioned case",
-    "Brass caliper",
-    "Guild apprentice apron"
-  ],
-  "startingCurrency": {
-    "gold": 16,
-    "silver": 0,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Escapement Precision",
-    "description": "You intuitively detect mechanical stress, flawed clockwork, trap triggers, and lock tumblers by sound and touch. You gain advantage on checks to disarm mechanical devices, pick mechanical locks, or repair clockwork apparatus."
-  },
-  "statModifiers": {
-    "intelligence": 2,
-    "agility": 1,
-    "spirit": -1
-  }
-},
 
   vitriolProspector: {
-  "id": "vitriolProspector",
-  "restrictions": {
-    "allowedRegions": [
-      "iron-deep",
-      "sundale"
-    ],
-    "allowedSubraces": [
-      "drall_fexric"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Clan-Free Fex survive in the caustic runoff tunnels and acid leach-fields where guild laws dare not reach."
-  },
-  "classHooks": [
-    {
-      "classId": "gambit",
-      "bridge": "Diving into boiling vitriol sumps is the ultimate wager of health against heavy metal yields."
+    "id": "vitriolProspector",
+    "restrictions": {
+      "allowedRegions": [
+        "cragjaw-peaks"
+      ],
+      "allowedSubraces": [
+        "drall_fexric"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The Clan-Free Fex survive in the caustic runoff tunnels and acid leach-fields of the under-warrens, where guild law does not reach."
     },
-    {
-      "classId": "warden",
-      "bridge": "Chemical grafting requires bodies that do not dissolve at the first drip of caustic solvent."
+    "classHooks": [
+      {
+        "classId": "gambit",
+        "bridge": "Diving into boiling vitriol sumps is the ultimate wager of health against heavy metal yields."
+      },
+      {
+        "classId": "warden",
+        "bridge": "Chemical grafting requires bodies that do not dissolve at the first drip of caustic solvent."
+      },
+      {
+        "classId": "spellguard",
+        "bridge": "Absorbing chemical explosions prepares an operative for venting unstable volatile energy."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "arcanoneer",
+        "tension": "A rough acid-diver who handles refined high-astral conduits is viewed as a clumsy liability by academic gunners."
+      }
+    ],
+    "subraceFlavor": {
+      "drall_fexric": "You have no guild badge, but you know which green puddle will yield raw copper and which will eat your boots."
     },
-    {
-      "classId": "spellguard",
-      "bridge": "Absorbing chemical explosions prepares an operative for venting unstable volatile energy."
+    "name": "Prospector",
+    "description": "While the guild-bound kin polished clock-wheels in well-ventilated halls, you climbed down into the caustic sumps where toxic runoff from industrial alchemy pools into boiling ponds of vitriol. Clan-free and beholden to no guild master, you earned your bread panning acidic sediment for precipitated platinum, leeching copper-scale with raw vitriol, and clearing corroded drain-flumes that would dissolve a human's lungs in three breaths. Your calluses are yellowed, your nostrils scent chemical leaks before the alarms ring, and your kit is made of lead and vulcanized gut.",
+    "skillProficiencies": [
+      "Survival",
+      "Acrobatics"
+    ],
+    "toolProficiencies": [
+      "Alchemist's supplies"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Lead-lined vitriol crucible",
+      "Treated leather respirator-mask",
+      "Corrosion-resistant copper tongs",
+      "Acid-burned protective apron",
+      "Sturdy salvage clothes"
+    ],
+    "startingCurrency": {
+      "gold": 11,
+      "silver": 6,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Caustic Tolerance",
+      "description": "You have resistance to environmental acid damage and toxic chemical fumes. You can identify corrosive chemicals, alchemical reagents, and refined acids by sight and faint aroma without risking harm."
+    },
+    "statModifiers": {
+      "constitution": 2,
+      "agility": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "arcanoneer",
-      "tension": "A rough acid-diver who handles refined high-astral conduits is viewed as a clumsy liability by academic gunners."
-    }
-  ],
-  "subraceFlavor": {
-    "drall_fexric": "You have no guild badge, but you know which green puddle will yield raw copper and which will eat your boots."
   },
-  "name": "Vitriol Prospector",
-  "description": "While the guild-bound kin polished clock-wheels in well-ventilated halls, you climbed down into the caustic sumps where toxic runoff from industrial alchemy pools into boiling ponds of vitriol. Clan-free and beholden to no guild master, you earned your bread panning acidic sediment for precipitated platinum, leeching copper-scale with raw vitriol, and clearing corroded drain-flumes that would dissolve a human's lungs in three breaths. Your calluses are yellowed, your nostrils scent chemical leaks before the alarms ring, and your kit is made of lead and vulcanized gut.",
-  "skillProficiencies": [
-    "Survival",
-    "Acrobatics"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Lead-lined vitriol crucible",
-    "Treated leather respirator-mask",
-    "Corrosion-resistant copper tongs",
-    "Acid-burned protective apron",
-    "Sturdy salvage clothes"
-  ],
-  "startingCurrency": {
-    "gold": 11,
-    "silver": 6,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Caustic Tolerance",
-    "description": "You have resistance to environmental acid damage and toxic chemical fumes. You can identify corrosive chemicals, alchemical reagents, and refined acids by sight and faint aroma without risking harm."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "agility": 1,
-    "charisma": -1
-  }
-},
 
   peatTender: {
-  "id": "peatTender",
-  "restrictions": {
-    "allowedRegions": [
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "morgh_groven"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Morgh Groven dwell in the ancient rot-canopies and deep peat bogs where decomposition is the sacred source of renewal."
-  },
-  "classHooks": [
-    {
-      "classId": "shaper",
-      "bridge": "Molding rotting wood and fibrous bog-moss is the origin of Groven morphological sculpting."
+    "id": "peatTender",
+    "restrictions": {
+      "allowedRegions": [
+        "cragjaw-peaks"
+      ],
+      "allowedSubraces": [
+        "morgh_groven"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The deep quarries and hall-works of the Cragjaw are Morgh work, kept within Morgh crews."
     },
-    {
-      "classId": "martyr",
-      "bridge": "Surrendering one's own bark to feed the fungal nursery is the sacred theology of willing loss."
+    "classHooks": [
+      {
+        "classId": "shaper",
+        "bridge": "Reading stone and forcing it to hold is the oldest Groven craft, older than the vats."
+      },
+      {
+        "classId": "martyr",
+        "bridge": "A mason who braces a failing span with their own body understands willing sacrifice better than any sermon."
+      },
+      {
+        "classId": "warden",
+        "bridge": "Load-bearing stonework and shield-walls are the same discipline in Morgh halls."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "berserker",
+        "tension": "A mason whose patient geometry is shattered by reckless rage breaks the walls they came to raise."
+      }
+    ],
+    "subraceFlavor": {
+      "morgh_groven": "You cut the pillars of a hall-hearth that four generations have kept warm, and the stone has not shifted since."
     },
-    {
-      "classId": "warden",
-      "bridge": "Grafting petrified or peat-cured timber directly onto living wood creates unbreakable bio-frames."
+    "name": "Mason",
+    "description": "The Morgh are the quarry-masons of the Cragjaw Peaks, hewers of the cyclopean halls and load-bearing fastnesses that the blizzard cannot erase. You learned stone the way other folk learn a ledger: where it faults, where it holds, and what it will carry for a thousand years. You worked the deep quarries and the sealed vat-tunnels beneath the halls, raised retaining walls against the melt, and cut the great pillars your people's cavern-hearths hang from. A Morgh mason does not carve decoration; you build the silence that keeps a mountain standing.",
+    "skillProficiencies": [
+      "Athletics",
+      "Investigation"
+    ],
+    "toolProficiencies": [
+      "Mason's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Granite chisel and stone maul",
+      "Plumb-line and chalk",
+      "Sample of hall-stone on a cord",
+      "Leather quarryman's apron",
+      "Sturdy work clothes"
+    ],
+    "startingCurrency": {
+      "gold": 8,
+      "silver": 12,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Stone-Sense",
+      "description": "By pressing a hand to stone, you can sense hollows, stress-fractures, buried voids, and hidden water within 60 feet. You gain advantage on checks involving stonework, masonry, and the structural soundness of rock."
+    },
+    "statModifiers": {
+      "strength": 2,
+      "constitution": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "berserker",
-      "tension": "A tender whose patient decomposition rhythm is shattered by reckless rage disrupts the delicate peat balance."
-    }
-  ],
-  "subraceFlavor": {
-    "morgh_groven": "You buried the dead in living peat, listening as the roots broke bone into sap and the moss learned their names."
   },
-  "name": "Peat-Grave Tender",
-  "description": "In the stagnant black waters of the Bryngloom, the Morgh Groven do not consider death an ending, but a necessary digestion. As a Peat-Grave Tender, you walked the spongy quagmires where centuries of fallen trees and forgotten wanderers sink into the preserving peat. You tended the shelf-fungi nurseries, harvested medicinal mold-veils from ancestral bogs, and listened to the slow, subterranean sighs of the peat-moss as it broke down the dead to feed the living canopy. You know the exact consistency of earth that will preserve a secret forever—or give it back when the rot is finished.",
-  "skillProficiencies": [
-    "Nature",
-    "Medicine"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Bog-iron peat spade",
-    "Woven wicker herb basket with dried shelf-fungi",
-    "Jar of preserving bog-clay",
-    "Lichen-stitched wrap",
-    "Common clothes"
-  ],
-  "startingCurrency": {
-    "gold": 8,
-    "silver": 12,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Mycelial Sense",
-    "description": "By pressing your hand to wet soil, moss, or peat, you can sense the presence of decomposing matter, buried corpses, and subterranean water flows within 60 feet. You gain advantage on Medicine checks using natural herbs and fungal pastes."
-  },
-  "statModifiers": {
-    "spirit": 2,
-    "constitution": 1,
-    "charisma": -1
-  }
-},
 
   petrifiedMason: {
-  "id": "petrifiedMason",
-  "restrictions": {
-    "allowedRegions": [
-      "bryngloom-forest",
-      "frostwood-reach"
-    ],
-    "allowedSubraces": [
-      "ithran_groven"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Amordjin Groven carry quartz, silica, and basalt in their petrified heartwood, shaping rock and stone like timber."
-  },
-  "classHooks": [
-    {
-      "classId": "chronarch",
-      "bridge": "Petrified timber that took ten thousand years to mineralize carries deep temporal stability."
+    "id": "petrifiedMason",
+    "restrictions": {
+      "allowedRegions": [
+        "cragjaw-peaks"
+      ],
+      "allowedSubraces": [
+        "ithran_groven"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Ancestor-Span maintenance, gantry work, and toll-law are Amordjin offices in the Cragjaw."
     },
-    {
-      "classId": "warden",
-      "bridge": "Interlocking mineralized heartwood into defensive bulwarks is ancient Amordjin engineering."
+    "classHooks": [
+      {
+        "classId": "chronarch",
+        "bridge": "A span that has carried ten thousand years of crossings holds a deep temporal steadiness."
+      },
+      {
+        "classId": "warden",
+        "bridge": "Keeping a bridge standing through storm and avalanche is defensive discipline made permanent."
+      },
+      {
+        "classId": "martyr",
+        "bridge": "A keeper who stays on the span through the flood for the last caravan behind them knows the trade."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "shaper",
+        "tension": "Forcing grown span-stone to twist and reform breaks the very grain the keeper is sworn to read."
+      }
+    ],
+    "subraceFlavor": {
+      "ithran_groven": "You have walked every span from Cragspan to Cloud-Gantry, and you can name the ones that will not see next spring."
     },
-    {
-      "classId": "martyr",
-      "bridge": "Enduring centuries of tectonic grinding without yielding teaches absolute sacrificial resilience."
+    "name": "Tollkeeper",
+    "description": "The Ancestor-Spans are not built; they are grown from Amordjin dead, and someone must keep the count of every crossing. You kept the toll-lines and the stress-lines: reading sag, resonance, and rune-tallies the way other folk read contracts, logging the weight a span has carried and the winters it has left. You negotiated tolls with caravan-masters, argued load-law at the Stone-Moot, and walked the gantries above Cragspan to check the joints that hold half a mountain's trade. A bridge that is not read is a bridge that is already falling.",
+    "skillProficiencies": [
+      "History",
+      "Insight"
+    ],
+    "toolProficiencies": [
+      "Vehicles (land)"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Span-toll ledger (weatherproof)",
+      "Stone-gauge and sounding hammer",
+      "Rubbing kit for span-runes",
+      "Toll-keeper's seal",
+      "Traveling gear"
+    ],
+    "startingCurrency": {
+      "gold": 12,
+      "silver": 4,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Span-Reader",
+      "description": "You can read the stress, sag, and history of stone structures at a glance, identifying load-bearing weaknesses and unstable spans before trusting your weight to them. You can always find a safe crossing along an Ancestor-Span, and you have advantage on Investigation checks to assess structures and hidden tunnels."
+    },
+    "statModifiers": {
+      "constitution": 2,
+      "intelligence": 1,
+      "agility": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "shaper",
-      "tension": "Forcing mineralized stone-bark to rapidly flex and reform causes excruciating structural fractures."
-    }
-  ],
-  "subraceFlavor": {
-    "ithran_groven": "Your heartwood calcified three ages ago; you carve petrified oak with the grain of granite."
   },
-  "name": "Petrified Timber-Mason",
-  "description": "Over centuries of absorbing silica and subterranean mineral springs, the Amordjin Groven undergo a wondrous calcification: their sap crystallizes into quartz and their bark turns to slate. As a Petrified Timber-Mason, you worked the ancient stone-groves, quarrying petrified trees that predate the Star-Fall to construct monolithic bridges, vault arches, and retaining walls that never rot or warp. You read the fault-lines in ancient stone as clearly as rings in soft pine, shaping rock with seasoned gouges and patient leverage where human picks break.",
-  "skillProficiencies": [
-    "Athletics",
-    "History"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Hardened flint chisel and stone hammer",
-    "Carved sample of petrified heartwood",
-    "Architectural plumb-line and chalk",
-    "Heavy canvas apron",
-    "Work clothes"
-  ],
-  "startingCurrency": {
-    "gold": 12,
-    "silver": 4,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Lithic Grain",
-    "description": "You understand the structural integrity of natural stone, masonry, and petrified materials. You can identify load-bearing weaknesses, hidden tunnels, and unstable rock with a glance. You have natural DR 1 against non-magical bludgeoning and crushing damage."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "strength": 1,
-    "agility": -1
-  }
-},
 
   scriptureHerald: {
-  "id": "scriptureHerald",
-  "restrictions": {
-    "allowedRegions": [
-      "zenith",
-      "frostwood-reach"
-    ],
-    "allowedSubraces": [
-      "veiled_mimir"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Arch Mimir rule from the cloud-spire aeries, preserving celestial genealogies and ancient scripture archives."
-  },
-  "classHooks": [
-    {
-      "classId": "lunarch",
-      "bridge": "The high aeries preserve the earliest hymns to Selunis before the moon-gloom fell."
+    "id": "scriptureHerald",
+    "restrictions": {
+      "allowedRegions": [
+        "frostwood-reach"
+      ],
+      "allowedSubraces": [
+        "veiled_mimir"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Heraldic recitation and the scripture terraces are Arch Mimir canopy institutions of the Frostwood."
     },
-    {
-      "classId": "warden",
-      "bridge": "Guarding the cloud-bridges against sky-beasts requires immaculate martial discipline."
+    "classHooks": [
+      {
+        "classId": "lunarch",
+        "bridge": "The high canopy preserves the earliest hymns to Selunis before the moon-gloom fell."
+      },
+      {
+        "classId": "warden",
+        "bridge": "Guarding the sky-walks against climbers and beasts requires immaculate discipline."
+      },
+      {
+        "classId": "shaper",
+        "bridge": "Arch Mimir aesthetics treat the living body as an architectural canvas for sublime symmetry."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "apex",
+        "tension": "Trading sensory purity for bestial instincts is considered grotesque degeneration in the mask-courts."
+      }
+    ],
+    "subraceFlavor": {
+      "veiled_mimir": "You sang the Seven Decrees across the canopy, and every mask in hearing turned toward you."
     },
-    {
-      "classId": "shaper",
-      "bridge": "Arch Mimir aesthetics treat the living body as an architectural canvas for sublime symmetry."
+    "name": "Herald",
+    "description": "The Arch Mimir keep their genealogies where the air is thinnest: in the hollowed crowns and sky-walks of the ironwood canopy, above the fog that eats everyone else's history. You were raised in the mask-courts as a herald, trained to recite lineage, treaty, and decree in a voice that carries the full height of the canopy without strain. You announced the Seven Decrees from the great terraces, carried sealed edicts along the rope-gantries, and learned that a herald's memory is the only record the high houses trust. Your dignity is a working instrument, and it has never once been allowed to slip.",
+    "skillProficiencies": [
+      "History",
+      "Persuasion"
+    ],
+    "toolProficiencies": [
+      "Calligrapher's supplies"
+    ],
+    "languages": 2,
+    "equipment": [
+      "Illuminated canopy scroll-case",
+      "Silver-nibbed transcription quill",
+      "Ceremonial silk shoulder-sash",
+      "Formal heraldic mantle",
+      "Fine linen robes"
+    ],
+    "startingCurrency": {
+      "gold": 18,
+      "silver": 0,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Highborne Decorum",
+      "description": "Your formal speech and mastery of heraldry command respect among nobility, diplomats, and planar entities. You gain advantage on Persuasion and Insight checks when dealing with officials, high courts, or religious hierarchies."
+    },
+    "statModifiers": {
+      "charisma": 2,
+      "intelligence": 1,
+      "constitution": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "apex",
-      "tension": "Trading sensory purity for bestial instincts is considered grotesque degeneration in the high aeries."
-    }
-  ],
-  "subraceFlavor": {
-    "veiled_mimir": "You stood upon the marble wind-terraces, singing the Seven Decrees to pilgrims who could not bear your gaze."
   },
-  "name": "Scripture-Aerie Herald",
-  "description": "Perched upon soaring peaks above the mist, the Arch Mimir maintain the immaculate white marble spires of the Scripture-Aeries. You were raised in the high wind-galleries, trained from youth in heraldic genealogy, ancient treaties, and the ceremonial recitation of the Pre-Fall Compacts. Your voice was cultivated to carry across mountain chasms without strain, bearing the formal edicts of high councils to the lower valleys. You carry yourself with the unyielding poise of a people who have never set foot in the mud without feeling their dignity offended.",
-  "skillProficiencies": [
-    "History",
-    "Persuasion"
-  ],
-  "languages": 2,
-  "equipment": [
-    "Illuminated aerie scroll-case",
-    "Silver-nibbed transcription quill",
-    "Ceremonial silk shoulder-sash",
-    "Formal heraldic mantle",
-    "Fine linen robes"
-  ],
-  "startingCurrency": {
-    "gold": 18,
-    "silver": 0,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Highborne Decorum",
-    "description": "Your formal speech and mastery of heraldry command respect among nobility, diplomats, and planar entities. You gain advantage on Persuasion and Insight checks when dealing with officials, high courts, or religious hierarchies."
-  },
-  "statModifiers": {
-    "charisma": 2,
-    "intelligence": 1,
-    "constitution": -1
-  }
-},
 
   quietTraded: {
-  "id": "quietTraded",
-  "restrictions": {
-    "allowedRegions": [
-      "frostwood-reach",
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "tethered_mimir"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Broken Mimir severed their celestial tethers and made sensory Trades with the Quiet to survive in the damp slums."
-  },
-  "classHooks": [
-    {
-      "classId": "apex",
-      "bridge": "Giving up ordinary sight or hearing opens the deeper sensory Trade of the Silent Hunt."
+    "id": "quietTraded",
+    "restrictions": {
+      "allowedRegions": [
+        "frostwood-reach"
+      ],
+      "allowedSubraces": [
+        "tethered_mimir"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Scavenging the fall-lines and riverfronts is Broken Mimir ground-trade; the canopy will not have them."
     },
-    {
-      "classId": "toxicologist",
-      "bridge": "Brewing numbing agents to dull the phantom pain of severed tethers leads directly into poison-craft."
+    "classHooks": [
+      {
+        "classId": "apex",
+        "bridge": "Living without a mask strips away pretense and sharpens the hunter's patience."
+      },
+      {
+        "classId": "toxicologist",
+        "bridge": "Ground-floor brewing of river herbs and fungal cures is Broken Mimir trade."
+      },
+      {
+        "classId": "inquisitor",
+        "bridge": "A scavenger who has watched the mask-courts discard their own learns where every secret is kept."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "minstrel",
+        "tension": "A life spent unmasked leaves no patience for courtly performance and its polished lies."
+      }
+    ],
+    "subraceFlavor": {
+      "tethered_mimir": "You have traded aerie silver for river bread since the day you cut the mask's cord."
     },
-    {
-      "classId": "inquisitor",
-      "bridge": "Knowing the taste of broken covenants makes one relentless in hunting violators."
+    "name": "Scavenger",
+    "description": "When you threw your mask into the river, the aeries stopped being your home. The Broken Mimir live on the forest floor at places like Revel's End, unmasked and unashamed, and the high sky-walks still drop things: relics, heirlooms, the occasional Arch who misjudged the rope. You learned the ground the way they never will, what the river brings, what the fog hides, and what a fallen aerie crate is worth to the right pawnbroker, with a companion Mote humming at your shoulder and no mask between your face and the world.",
+    "skillProficiencies": [
+      "Stealth",
+      "Perception"
+    ],
+    "toolProficiencies": [
+      "Thieves' tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "River-hook and pry bar",
+      "Waterproof salvage sack",
+      "Glass vial with a companion Mote",
+      "Patchwork river coat",
+      "Scavenger's net"
+    ],
+    "startingCurrency": {
+      "gold": 6,
+      "silver": 14,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Unmasked",
+      "description": "With no mask to muffle you, your bare senses expand. When you stand motionless in darkness or heavy fog, you cannot be surprised by hidden or invisible creatures within 30 feet, and you can sense air currents and ground tremors caused by approaching foes."
+    },
+    "statModifiers": {
+      "agility": 2,
+      "spirit": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "minstrel",
-      "tension": "A broken soul whose ears were traded to the Quiet cannot harmonize with the Tide-Choir."
-    }
-  ],
-  "subraceFlavor": {
-    "tethered_mimir": "You severed the high tether with a rusted knife, and the Quiet took your hearing in exchange for survival."
   },
-  "name": "Quiet-Traded Scavenger",
-  "description": "When the tether linking your line to the high aeries snapped, the fall was sudden and brutal. Left to rot in the squalor of Riverreach and the waterlogged alleys of the lower settlements, you did what Broken Mimir must do to survive: you made a Trade with the Quiet. Perhaps you traded your hearing for tremorsense through your fingertips, or sacrificed your sense of taste for the ability to scent danger in the fog. You scavenged relics fallen from the sky, pawned aerie heirlooms to buy bread, and learned that silence is not empty—it is full of predators waiting for you to make a sound.",
-  "skillProficiencies": [
-    "Stealth",
-    "Perception"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Severed silver tether-clasp (tarnished)",
-    "Set of delicate lock-picks",
-    "Wax-treated earplugs or eye-wrap",
-    "Scavenger's pry-dagger",
-    "Patchwork coat"
-  ],
-  "startingCurrency": {
-    "gold": 6,
-    "silver": 14,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Echo of the Quiet",
-    "description": "When you stand motionless in total darkness or heavy fog, your remaining senses expand dramatically. You cannot be surprised by hidden or invisible creatures within 30 feet, and you can sense air currents and ground tremors caused by approaching foes."
-  },
-  "statModifiers": {
-    "agility": 2,
-    "spirit": 1,
-    "charisma": -1
-  }
-},
 
   trenchListener: {
-  "id": "trenchListener",
-  "restrictions": {
-    "allowedRegions": [
-      "iceheart-sea"
-    ],
-    "allowedSubraces": [
-      "deepling_myrathil"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Nereid Myrathil dwell in the lightless Treakous Rift, humming to the Sundered Monolith in the basalt deep."
-  },
-  "classHooks": [
-    {
-      "classId": "augur",
-      "bridge": "Listening to low-frequency pressure reverberations reveals oceanic seismic events days before they strike."
+    "id": "trenchListener",
+    "restrictions": {
+      "allowedRegions": [
+        "iceheart-sea"
+      ],
+      "allowedSubraces": [
+        "deepling_myrathil"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The Nereid dwell in the lightless Treakous Rift, humming to the Sundered Monolith in the basalt deep."
     },
-    {
-      "classId": "animist",
-      "bridge": "The drowned souls of ancient sunken vessels linger in the deep trenches where no sun reaches."
+    "classHooks": [
+      {
+        "classId": "augur",
+        "bridge": "Listening to low-frequency pressure reverberations reveals oceanic events days before they strike."
+      },
+      {
+        "classId": "animist",
+        "bridge": "The drowned dead of ancient sunken vessels linger in the deep trenches where no sun reaches."
+      },
+      {
+        "classId": "apex",
+        "bridge": "Trench predators hunt by lures and current-shifts in pitch-black chasms."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "minstrel",
+        "tension": "Surface singing requires rapid breath and open air; the deep hum drowns in surface noise."
+      }
+    ],
+    "subraceFlavor": {
+      "deepling_myrathil": "You hummed into the lightless basalt trench for forty cycles, and the sleeping Monolith hummed back."
     },
-    {
-      "classId": "apex",
-      "bridge": "Trench apex predators hunt by bioluminescent lures and current-shifts in pitch-black chasms."
+    "name": "Listener",
+    "description": "Miles beneath the ice-locked surface of the Iceheart Sea, down in the crushing dark of the Treakous Rift, the Nereid live in a world of pure vibration. Apprenticed to the Ulvir acoustic chambers, you learned the sacred practice of humming into the sunless chasm and interpreting the echoes that return. You tracked the deep hydrothermal currents, tended luminous squid herds, and felt the slow, terrifying thrum of the Sundered Monolith resting in the abyss. To you, the surface world is a blinding, deafening cacophony of pointless noise.",
+    "skillProficiencies": [
+      "Perception",
+      "Arcana"
+    ],
+    "toolProficiencies": [
+      "Navigator's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Whalebone acoustic tuning-fork",
+      "Sealed nautilus-shell light-lure phial",
+      "Pressure-cured kelp mantle",
+      "Deep-sea bone stylus",
+      "Traveler's wraps"
+    ],
+    "startingCurrency": {
+      "gold": 9,
+      "silver": 10,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Pressure Reverberation",
+      "description": "You can sense low-frequency acoustic vibrations and seismic movements through water or solid stone up to 120 feet away. You are immune to being deafened by acoustic shocks and can communicate with underwater creatures via subsonic vocalizations."
+    },
+    "statModifiers": {
+      "spirit": 2,
+      "constitution": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "minstrel",
-      "tension": "Surface singing requires rapid breath and open air; the deep hum drowns in surface commotion."
-    }
-  ],
-  "subraceFlavor": {
-    "deepling_myrathil": "You hummed into the lightless basalt trench for forty cycles, and the sleeping Monolith hummed back."
   },
-  "name": "Abyssal Trench-Listener",
-  "description": "Miles beneath the ice-locked surface of the Iceheart Sea, down in the crushing dark of the Treakous Oceanic Rift, the Nereid Myrathil live in a world of pure vibration. Apprenticed to the Ulvir acoustic chambers, you learned the sacred practice of humming into the sunless chasm and interpreting the echoes that return. You tracked the deep hydrothermal currents, tended luminous squid herds, and felt the slow, terrifying thrum of the Sundered Monolith resting in the abyss. To you, the surface world is a blinding, deafening cacophony of pointless noise.",
-  "skillProficiencies": [
-    "Perception",
-    "Arcana"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Whalebone acoustic tuning-fork",
-    "Sealed nautilus-shell light-lure phial",
-    "Pressure-cured kelp mantle",
-    "Deep-sea bone stylus",
-    "Traveler's wraps"
-  ],
-  "startingCurrency": {
-    "gold": 9,
-    "silver": 10,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Pressure Reverberation",
-    "description": "You can sense low-frequency acoustic vibrations and seismic movements through water or solid stone up to 120 feet away. You are immune to being deafened by acoustic shocks and can communicate with underwater creatures via subsonic vocalizations."
-  },
-  "statModifiers": {
-    "spirit": 2,
-    "constitution": 1,
-    "charisma": -1
-  }
-},
 
   saltHingeEnvoy: {
-  "id": "saltHingeEnvoy",
-  "restrictions": {
-    "allowedRegions": [
-      "iceheart-sea",
-      "sundale"
-    ],
-    "allowedSubraces": [
-      "shoreling_myrathil"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Corali Myrathil command the limestone harbor of Salt-Hinge, mediating accords between land empires and sea clans."
-  },
-  "classHooks": [
-    {
-      "classId": "minstrel",
-      "bridge": "Reading the room during tense maritime negotiations is identical to conducting a chorus."
+    "id": "saltHingeEnvoy",
+    "restrictions": {
+      "allowedRegions": [
+        "iceheart-sea",
+        "sundale"
+      ],
+      "allowedSubraces": [
+        "shoreling_myrathil"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Salt-Hinge is the Corali harbor and tide-council seat, mediating accords between land powers and sea clans."
     },
-    {
-      "classId": "augur",
-      "bridge": "Watching what the morning tide washes up reveals which ships sank and which are overdue."
+    "classHooks": [
+      {
+        "classId": "minstrel",
+        "bridge": "Reading the room during tense maritime negotiations is identical to conducting a chorus."
+      },
+      {
+        "classId": "augur",
+        "bridge": "Watching what the morning tide washes up reveals which ships sank and which are overdue."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "revenant",
+        "tension": "An envoy committed to civil peace cannot easily harbor the silent fury of the tide-kept dead."
+      }
+    ],
+    "subraceFlavor": {
+      "shoreling_myrathil": "You stood on the limestone boom-cranes of Salt-Hinge, balancing human port taxes against the freedom of the open sea."
+    },
+    "name": "Envoy",
+    "description": "Carved into the sheer white limestone cliffs where the Silver River meets the Iceheart Sea, Salt-Hinge is the undisputed crossway of sea and soil. You served on the harbor quay and in the Spindrift Tide-Council, negotiating shipping tolls, docking charters, and fishing rights between stubborn Sundale captains and free-floating Myrathil raft-villages. You know every port ordinance, how to bribe a customs clerk with genuine sea-glass, and how to spot a smuggling hull before it clears the outer breakwater.",
+    "skillProficiencies": [
+      "Persuasion",
+      "Insight"
+    ],
+    "toolProficiencies": [
+      "Navigator's tools"
+    ],
+    "languages": 2,
+    "equipment": [
+      "Bronze maritime treaty seal",
+      "Waterproofed harbor ledger and ink",
+      "Conch shell signaling horn",
+      "Tailored wave-silk vestment",
+      "Practical storm-cape"
+    ],
+    "startingCurrency": {
+      "gold": 17,
+      "silver": 5,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Maritime Accords",
+      "description": "Your diplomatic credentials grant you and your companions free docking rights, safe lodging in harbor garrisons, and access to port masters along any civilized coast. You gain advantage on checks to spot forged shipping manifests and maritime fraud."
+    },
+    "statModifiers": {
+      "charisma": 2,
+      "agility": 1,
+      "constitution": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "revenant",
-      "tension": "An envoy committed to civil peace cannot easily harbor the silent fury of the tide-kept dead."
-    }
-  ],
-  "subraceFlavor": {
-    "shoreling_myrathil": "You stood on the limestone boom-cranes of Salt-Hinge, balancing human port taxes against the freedom of the open sea."
   },
-  "name": "Salt-Hinge Harbor Envoy",
-  "description": "Carved into the sheer white limestone cliffs where the Silver River meets the Iceheart Sea, Salt-Hinge Fortress is the undisputed crossway of sea and soil. You served on the harbor quay and in the Spindrift Tide-Council, negotiating shipping tolls, docking charters, and fishing rights between stubborn Sundale galleon captains and free-floating Myrathil raft-villages. You know every port authority ordinance, how to bribe a customs clerk with genuine sea-glass, and how to spot a smuggling hull before it clears the outer breakwater.",
-  "skillProficiencies": [
-    "Persuasion",
-    "Insight"
-  ],
-  "languages": 2,
-  "equipment": [
-    "Bronze maritime treaty seal",
-    "Waterproofed harbor ledger and ink",
-    "Conch shell signaling horn",
-    "Tailored wave-silk vestment",
-    "Practical storm-cape"
-  ],
-  "startingCurrency": {
-    "gold": 17,
-    "silver": 5,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Maritime Accords",
-    "description": "Your diplomatic credentials grant you and your companions free docking rights, safe lodging in harbor garrisons, and access to port masters along any civilized coast. You gain advantage on checks to spot forged shipping manifests and maritime fraud."
-  },
-  "statModifiers": {
-    "charisma": 2,
-    "agility": 1,
-    "constitution": -1
-  }
-},
 
   cataractScout: {
-  "id": "cataractScout",
-  "restrictions": {
-    "allowedRegions": [
-      "frostwood-reach",
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "riverling_myrathil"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Ondine Myrathil follow freshwater river arteries hundreds of miles inland, mapping rapids and peat sluices."
-  },
-  "classHooks": [
-    {
-      "classId": "animist",
-      "bridge": "Listening to the river spirits at confluences uncovers centuries of inland history."
+    "id": "cataractScout",
+    "restrictions": {
+      "allowedRegions": [
+        "frostwood-reach",
+        "bryngloom-forest"
+      ],
+      "allowedSubraces": [
+        "riverling_myrathil"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The Ondine follow freshwater rivers hundreds of miles inland, mapping rapids and peat sluices."
     },
-    {
-      "classId": "augur",
-      "bridge": "Reading foam-swirls and sediment drift is the river-born haruspex method of divination."
+    "classHooks": [
+      {
+        "classId": "animist",
+        "bridge": "Listening to the river spirits at confluences uncovers centuries of inland history."
+      },
+      {
+        "classId": "augur",
+        "bridge": "Reading foam-swirls and sediment drift is the river-born method of divination."
+      },
+      {
+        "classId": "minstrel",
+        "bridge": "The freshwater river-cadence carries news upstream faster than mounted riders."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "revenant",
+        "tension": "Freshwater currents wash clean; carrying the salty necrosis of a Revenant anchor is an agonizing burden."
+      }
+    ],
+    "subraceFlavor": {
+      "riverling_myrathil": "You paddled your birch-skin canoe up the cataract country, where no salt-water child had ever dared swim."
     },
-    {
-      "classId": "minstrel",
-      "bridge": "The freshwater river-cadence carries news upstream faster than mounted riders."
+    "name": "Pathfinder",
+    "description": "While your coastal cousins stayed near the familiar ocean swell, you turned your prow inland, paddling up churning rapids, waterfall drops, and marshy river deltas into the deep heart of the continent. You mapped uncharted river forks, negotiated with solitary river-folk and Groven moss-gatherers, and found the hidden sluiceways that bypass inland garrisons. You are as comfortable navigating a birch-skin canoe through whitewater as you are diving into a sunken peat bog to recover a drowned cargo crate.",
+    "skillProficiencies": [
+      "Survival",
+      "Athletics"
+    ],
+    "toolProficiencies": [
+      "Vehicles (water)"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Hardened birchwood paddle",
+      "Waxed canvas waterproof river map",
+      "Braided sinew river-rope (50 ft)",
+      "River-smoothed bone fillet knife",
+      "Durable travel tunic"
+    ],
+    "startingCurrency": {
+      "gold": 10,
+      "silver": 10,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Current Rider",
+      "description": "Navigating against rapid currents, river surges, or deep marsh water costs you no extra movement penalty. In addition, you and your party can travel along freshwater rivers at twice normal overland speed when using watercraft."
+    },
+    "statModifiers": {
+      "agility": 2,
+      "constitution": 1,
+      "intelligence": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "revenant",
-      "tension": "Freshwater currents wash clean; carrying the salty necrosis of a Revenant anchor is an agonizing burden."
-    }
-  ],
-  "subraceFlavor": {
-    "riverling_myrathil": "You paddled your birch-skin canoe up Cataract Reach where no salt-water child had ever dared swim."
   },
-  "name": "Cataract River-Scout",
-  "description": "While your coastal cousins remained near the familiar ocean swell, you turned your prow inland, paddling up churning rapids, cataract waterfalls, and marshy river deltas into the deep heart of the continent. You mapped uncharted river forks, negotiated with solitary river-folk and Groven moss-gatherers, and discovered the hidden sluiceways that bypass inland garrisons. You are just as comfortable navigating a birch-skin canoe through whitewater rapids as you are diving into a sunken peat bog to recover a drowned cargo crate.",
-  "skillProficiencies": [
-    "Survival",
-    "Athletics"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Hardened birchwood paddle",
-    "Waxed canvas waterproof river map",
-    "Braided sinew river-rope (50 ft)",
-    "River-smoothed bone fillet knife",
-    "Durable travel tunic"
-  ],
-  "startingCurrency": {
-    "gold": 10,
-    "silver": 10,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Current Rider",
-    "description": "Navigating against rapid currents, river surges, or deep marsh water costs you no extra movement penalty. In addition, you and your party can travel along freshwater rivers at twice normal overland speed when using watercraft."
-  },
-  "statModifiers": {
-    "agility": 2,
-    "constitution": 1,
-    "intelligence": -1
-  }
-},
 
   vaultTender: {
-  "id": "vaultTender",
-  "restrictions": {
-    "allowedRegions": [
-      "sundale"
-    ],
-    "allowedSubraces": [
-      "korr_solari"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Korr dwelled in the echoing obsidian vaults under Emberspire, guarding the cold crust of the buried sun."
-  },
-  "classHooks": [
-    {
-      "classId": "martyr",
-      "bridge": "Living in lightless subterranean isolation turns suffering into sacred devotion to Sol's Breath."
+    "id": "vaultTender",
+    "restrictions": {
+      "allowedRegions": [
+        "sundale"
+      ],
+      "allowedSubraces": [
+        "korr_solari"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The echoing obsidian vaults beneath Emberspire are Korr ground, kept in vigil over the buried sun."
     },
-    {
-      "classId": "spellguard",
-      "bridge": "The volcanic containment vaults are the birthplace of high-temperature thermal warding."
+    "classHooks": [
+      {
+        "classId": "martyr",
+        "bridge": "Living in lightless subterranean isolation turns suffering into sacred devotion to Sol's Breath."
+      },
+      {
+        "classId": "spellguard",
+        "bridge": "The volcanic containment vaults are the birthplace of high-temperature thermal warding."
+      },
+      {
+        "classId": "pyrofiend",
+        "bridge": "Close proximity to Emberspire's deepest conduits makes the starfire whispers inevitable."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "augur",
+        "tension": "Reading the cooling crust may reveal that the sun will never rise again, a truth the vaults forbid."
+      }
+    ],
+    "subraceFlavor": {
+      "korr_solari": "You kept vigil in the deep obsidian shafts where the rock is still hot to the touch and the dark never ends."
     },
-    {
-      "classId": "pyrofiend",
-      "bridge": "Close proximity to Emberspire deepest volcanic conduits makes demonic starfire whispers inevitable."
+    "name": "Stoker",
+    "description": "When the sun fell beneath the earth, the Korr retreated into the deepest obsidian catacombs beneath Emberspire. As a Stoker, you walked the dark basalt corridors that encircle the sleeping core, monitoring the temperature-gradient of the volcanic crust and tending the copper conduits that siphon lingering heat to the settlements above. In the absolute dark of the vaults, your eyes learned to see heat instead of color, and your mind learned the quiet fortitude of a people who have accepted that light is something you remember, not something you see.",
+    "skillProficiencies": [
+      "Stealth",
+      "Religion"
+    ],
+    "toolProficiencies": [
+      "Smith's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Obsidian thermal-chisel",
+      "Basalt prayer medallion of Sol's Breath",
+      "Sulfur-treated hemp wrap",
+      "Heavy vault key on iron ring",
+      "Dull grey ash-tunic"
+    ],
+    "startingCurrency": {
+      "gold": 12,
+      "silver": 6,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Vault Thermal Sight",
+      "description": "In subterranean darkness, you can perceive heat signatures, warm volcanic veins, and warm-blooded creatures up to 60 feet away with complete clarity. You are immune to being blinded by bright flashes of flame or radiant light."
+    },
+    "statModifiers": {
+      "constitution": 2,
+      "spirit": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "augur",
-      "tension": "Reading the cooling crust may reveal that the sun will never rise again—a truth the vaults forbid."
-    }
-  ],
-  "subraceFlavor": {
-    "korr_solari": "You kept vigil in the deep obsidian shafts where the rock is still hot to the touch and the dark never ends."
   },
-  "name": "Obsidian Vault-Tender",
-  "description": "When the sun fell beneath the earth, the Korr retreated into the deepest obsidian catacombs beneath Emberspire. As a Vault-Tender, you walked the dark basalt corridors that encircle the sleeping core, monitoring the temperature-gradient of the volcanic crust and tending the copper conduits that siphon lingering heat to the settlements above. In the absolute dark of the vaults, your eyes learned to see heat instead of color, and your mind learned the quiet fortitude of a people who have accepted that light is something you remember, not something you see.",
-  "skillProficiencies": [
-    "Stealth",
-    "Religion"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Obsidian thermal-chisel",
-    "Basalt prayer medallion of Sol's Breath",
-    "Sulfur-treated hemp wrap",
-    "Heavy vault key on iron ring",
-    "Dull grey ash-tunic"
-  ],
-  "startingCurrency": {
-    "gold": 12,
-    "silver": 6,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Vault Thermal Sight",
-    "description": "In subterranean darkness, you can perceive heat signatures, warm volcanic veins, and warm-blooded creatures up to 60 feet away with complete clarity. You are immune to being blinded by bright flashes of flame or radiant light."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "spirit": 1,
-    "charisma": -1
-  }
-},
 
   ashDuneSkimmer: {
-  "id": "ashDuneSkimmer",
-  "restrictions": {
-    "allowedRegions": [
-      "sundale"
-    ],
-    "allowedSubraces": [
-      "thrask_solari"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Anhur endure the brutal surface cinder-flats and toxic dust storms of the Ashen Escarpment."
-  },
-  "classHooks": [
-    {
-      "classId": "crusader",
-      "bridge": "Scouring the ash-wastes with blade and shield brings sacred martial purpose to survival."
+    "id": "ashDuneSkimmer",
+    "restrictions": {
+      "allowedRegions": [
+        "sundale"
+      ],
+      "allowedSubraces": [
+        "thrask_solari"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The cinder-flats and toxic dust storms of the Ashen Escarpment are Anhur surface ground."
     },
-    {
-      "classId": "pyrofiend",
-      "bridge": "Breathing cinder-dust and surviving volcanic eruptions makes one kinship with the Ashen Cabal."
+    "classHooks": [
+      {
+        "classId": "crusader",
+        "bridge": "Scouring the ash-wastes with blade and shield brings sacred martial purpose to survival."
+      },
+      {
+        "classId": "pyrofiend",
+        "bridge": "Breathing cinder-dust and surviving eruptions makes one kin to the Ashen Cabal."
+      },
+      {
+        "classId": "martyr",
+        "bridge": "Bearing the blistering winds without complaint is the daily liturgy of the Anhur."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "spellguard",
+        "tension": "A rugged scavenger who improvises scrap defenses clashes with rigid guild spellguard doctrine."
+      }
+    ],
+    "subraceFlavor": {
+      "thrask_solari": "You strapped obsidian goggles across your brow and outran the pyroclastic storm across the cinder wastes."
     },
-    {
-      "classId": "martyr",
-      "bridge": "Bearing the blistering winds without complaint is the daily liturgy of the Anhur."
+    "name": "Skimmer",
+    "description": "Above ground in Sundale, where the volcanic soil is barren and blistering ash-squalls tear skin from flesh, the Anhur thrive. Bound in cured cinder-hide and wearing goggles carved from smoked volcanic glass, you skimmed the shifting grey sand-dunes on sled-skis, scouting merchant caravan tracks and salvaging the abandoned wagons of those who choked on sulfur vents. You know how to dig an emergency trench into cooling volcanic sand, how to filter potable moisture from toxic alkali pans, and how to read the wind when the mountain threatens to cough.",
+    "skillProficiencies": [
+      "Survival",
+      "Perception"
+    ],
+    "toolProficiencies": [
+      "Vehicles (land)"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Smoked-glass obsidian sand-goggles",
+      "Ash-dune skimmer snowshoe-skis",
+      "Treated sulfur-cloth dust scarf",
+      "Bone salvage hook",
+      "Rugged scavenger wraps"
+    ],
+    "startingCurrency": {
+      "gold": 9,
+      "silver": 12,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Ash-Lung Resilience",
+      "description": "You cannot suffocate or suffer coughing fits from non-magical volcanic ash, heavy dust, or sulfur fumes. You have advantage on Constitution saving throws against heat exhaustion and environmental desert hazards."
+    },
+    "statModifiers": {
+      "constitution": 2,
+      "agility": 1,
+      "intelligence": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "spellguard",
-      "tension": "A rugged scavenger who improvises scrap defenses clashes with rigid guild spellguard doctrine."
-    }
-  ],
-  "subraceFlavor": {
-    "thrask_solari": "You strapped obsidian goggles across your brow and outran the pyroclastic storm across the salt-cinder wastes."
   },
-  "name": "Ash-Dune Skimmer",
-  "description": "Above ground in Sundale, where the volcanic soil is barren and blistering ash-squalls tear skin from flesh, the Anhur thrive. Bound in cured cinder-hide and wearing goggles carved from smoked volcanic glass, you skimmed the shifting grey sand-dunes on sled-skis, scouting merchant caravan tracks and scavenging the abandoned wagons of those who choked on sulfur vents. You know how to dig an emergency trench into cooling volcanic sand, how to filter potable moisture from toxic alkali pans, and how to read the wind when the mountain threatens to cough.",
-  "skillProficiencies": [
-    "Survival",
-    "Perception"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Smoked-glass obsidian sand-goggles",
-    "Ash-dune skimmer snowshoe-skis",
-    "Treated sulfur-cloth dust scarf",
-    "Bone salvage hook",
-    "Rugged scavenger wraps"
-  ],
-  "startingCurrency": {
-    "gold": 9,
-    "silver": 12,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Ash-Lung Resilience",
-    "description": "You cannot suffocate or suffer coughing fits from non-magical volcanic ash, heavy dust, or sulfur fumes. You have advantage on Constitution saving throws against heat exhaustion and environmental desert hazards."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "agility": 1,
-    "intelligence": -1
-  }
-},
 
   sanctuarySeneschal: {
-  "id": "sanctuarySeneschal",
-  "restrictions": {
-    "allowedRegions": [
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "clean_vreken"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Bedel dwell in porcelain-white quarantine vaults, maintaining unblemished bloodlines and sacred sanitary rites."
-  },
-  "classHooks": [
-    {
-      "classId": "animist",
-      "bridge": "Communing with the uncorrupted ancestors who died before the blight entered the forest."
+    "id": "sanctuarySeneschal",
+    "restrictions": {
+      "allowedRegions": [
+        "bryngloom-forest"
+      ],
+      "allowedSubraces": [
+        "clean_vreken"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Tending the touched and keeping the crypt-lights is Bedel work; the deep strain walks where others cannot."
     },
-    {
-      "classId": "revenant",
-      "bridge": "Preserving souls in pristine silver containers without allowing fungal rot to take hold."
+    "classHooks": [
+      {
+        "classId": "animist",
+        "bridge": "Communing with the uncorrupted ancestors who died before the blight entered the forest."
+      },
+      {
+        "classId": "revenant",
+        "bridge": "Keeping souls in pristine vessels without allowing fungal rot to take hold."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "plaguebringer",
+        "tension": "A keeper sworn to tend the touched who becomes a vector of plague is an unforgivable traitor."
+      }
+    ],
+    "subraceFlavor": {
+      "clean_vreken": "You have sat beside the hush-touched and taken their hands, because nothing in the rot can take yours."
+    },
+    "name": "Apothecary",
+    "description": "The Bedel carry Deep-Glow: the oldest, most stable strain, the one that threads least deeply and leaves the mind composed. In the Bryngloom, that composure is a duty. You are one of the ones who walks into the sick-wards and the blight-rows that empty themselves when the rot arrives, because the hush cannot take you, you can tend those it has already touched. You kept the crypt-lights, brewed the cleansing lyes, sat with the dying long past the point where anyone else would risk a breath, and wrote down what each of them said.",
+    "skillProficiencies": [
+      "Medicine",
+      "Insight"
+    ],
+    "toolProficiencies": [
+      "Herbalism kit"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Silver incense-censer with camphor resin",
+      "Porcelain apothecary mortar and pestle",
+      "Linen ward veil and gloves",
+      "Sterilized bone scalpel",
+      "Pristine white linen attire"
+    ],
+    "startingCurrency": {
+      "gold": 15,
+      "silver": 2,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Steady Blood",
+      "description": "Your deep strain cannot be taken by the hush. You gain advantage on saving throws against disease, rot, and spore-borne corruption, and you can tend infected creatures without risk of infection. A brief inspection (1 minute) tells you whether a creature, food, or water source carries rot or poison."
+    },
+    "statModifiers": {
+      "intelligence": 2,
+      "spirit": 1,
+      "strength": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "plaguebringer",
-      "tension": "A conservator dedicated to absolute purity who becomes a vector of plague is an unforgivable traitor."
-    }
-  ],
-  "subraceFlavor": {
-    "clean_vreken": "You washed the marble threshold in camphor-water every sunrise, ensuring no blighted spore crossed into the sanctuary."
   },
-  "name": "Sanctuary Conservator",
-  "description": "Deep within the Bryngloom Forest, where fungal rot and necrotic spores creep through the moss, the Bedel maintain the hermetically sealed Sanctuaries. As a Sanctuary Conservator, you guarded the triple airlocks, oversaw the ritual fumigations of incoming travelers, and inspected every batch of food and water for the faintest speck of mold. You know the exact recipes of cleansing lyes, the proper cadence of isolation rites, and the agonizing decisions that must be made when a beloved relative shows the first dark spot on their skin.",
-  "skillProficiencies": [
-    "Medicine",
-    "Insight"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Silver incense-censer with camphor resin",
-    "Porcelain apothecary mortar and pestle",
-    "Linen quarantine veil and gloves",
-    "Sterilized bone scalpel",
-    "Pristine white linen attire"
-  ],
-  "startingCurrency": {
-    "gold": 15,
-    "silver": 2,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Quarantine Vigil",
-    "description": "With a brief medical inspection (1 minute), you can determine whether a creature or food item is infected with non-magical disease, necrotic corruption, or biological poison. You gain advantage on saving throws against contagious sickness, airborne pathogens, and rot."
-  },
-  "statModifiers": {
-    "intelligence": 2,
-    "spirit": 1,
-    "strength": -1
-  }
-},
 
   nullSaltHunter: {
-  "id": "nullSaltHunter",
-  "restrictions": {
-    "allowedRegions": [
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "marked_vreken"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Cromyx are outcasts bearing blight-scars who hunt rogue abominations and twisted kin with cold-iron and null-salt."
-  },
-  "classHooks": [
-    {
-      "classId": "inquisitor",
-      "bridge": "Binding null-salt and cold-iron into hunting chains is the foundational rite of the Barbed Vow."
+    "id": "nullSaltHunter",
+    "restrictions": {
+      "allowedRegions": [
+        "bryngloom-forest"
+      ],
+      "allowedSubraces": [
+        "marked_vreken"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Reading the Root-Veil's spore-signatures is Cromyx work; the deep-touched walk the network's own ledger."
     },
-    {
-      "classId": "apex",
-      "bridge": "Stalking feral kin through the mire sharpens predatory stealth and sensory tracking."
+    "classHooks": [
+      {
+        "classId": "inquisitor",
+        "bridge": "Knowing the taste of a corrupted signature makes one relentless in tracking it to its source."
+      },
+      {
+        "classId": "apex",
+        "bridge": "Stalking lost kin through the mire sharpens predatory stealth and sensory tracking."
+      },
+      {
+        "classId": "plaguebringer",
+        "bridge": "A tracker who walks the blight-rows learns to carry the mycelium without being carried by it."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "augur",
+        "tension": "Reading the future of a lineage the Root-Veil has already claimed is a despair most trackers refuse to bear."
+      }
+    ],
+    "subraceFlavor": {
+      "marked_vreken": "You followed a spore-thread three days into the deep bog and found the one the houses had stopped naming."
     },
-    {
-      "classId": "plaguebringer",
-      "bridge": "Embracing the blight-stain turns personal affliction into an offensive bioweapon."
+    "name": "Tracker",
+    "description": "The Cromyx carry Morvane's wound in their own flesh, and the Root-Veil answers them more clearly than it answers any Bedel. You learned to read the bog like a page: where a spore-signature crossed the water, which roots have been walked on, which of the Over-Lit kin are still themselves and which have been made into doors. Cold-iron and null-salt are in your kit for the times the answer is not a person anymore. You find what the settlements have already agreed to forget.",
+    "skillProficiencies": [
+      "Survival",
+      "Investigation"
+    ],
+    "toolProficiencies": [
+      "Herbalism kit"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Root-Veil reading charm",
+      "Cold-iron stakes (3)",
+      "Pouch of null-salt (2 uses)",
+      "Bog-tracking cord",
+      "Common clothes"
+    ],
+    "startingCurrency": {
+      "gold": 8,
+      "silver": 15,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Spore-Read",
+      "description": "By touching soil, roots, or water, you can name the spore-signatures that passed within the last day and sense fungal corruption within 60 feet. You gain advantage on Survival checks to track and on checks to detect rot, blight, or mycelial tampering."
+    },
+    "statModifiers": {
+      "spirit": 2,
+      "constitution": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "augur",
-      "tension": "Looking into the future of a doomed, blighted lineage is a despair most hunters refuse to bear."
-    }
-  ],
-  "subraceFlavor": {
-    "marked_vreken": "They cast you out when the black rot took your skin; you returned with null-salt chains to drag their nightmares away."
   },
-  "name": "Null-Salt Hunter",
-  "description": "When the dark marks surfaced on your flesh, the Bedel Houses closed their airlocks and barred you forever. Cast into the boggy frontier, you did not lie down to rot. You packed your festering lesions with caustic null-salt, bound cold-iron barbs around your knuckles, and forged a trade hunting down rogue ghouls, mutated horrors, and corrupted kin who breached the settlements. You are dirty, feared, and indispensable—the hound the high houses pay in coin to kill the monsters they pretend do not exist.",
-  "skillProficiencies": [
-    "Intimidation",
-    "Survival"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Pouch of null-salt crystals (5 uses)",
-    "Cold-iron barbed wire wrap (20 ft)",
-    "Notched hunting cleaver",
-    "Stained leather duster with reinforced collar",
-    "Common clothes"
-  ],
-  "startingCurrency": {
-    "gold": 8,
-    "silver": 15,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Blight-Scarred Tenacity",
-    "description": "When reduced below one-third of your maximum hit points, the deadened nerve-endings in your blight-scars surge with adrenaline, granting +2 to Armor Class and making you immune to pain-based stun and movement reduction effects until healed."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "strength": 1,
-    "charisma": -1
-  }
-},
 
   steppeSinger: {
-  "id": "steppeSinger",
-  "restrictions": {
-    "allowedRegions": [
-      "northern-steppes",
-      "frostwood-reach"
-    ],
-    "allowedSubraces": [
-      "ordan_human"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Ordu humans are steppe nomads who sing ten generations of ancestors into the wind to guide their great beast herds."
-  },
-  "classHooks": [
-    {
-      "classId": "animist",
-      "bridge": "Throat-singing on the open plains connects directly with the roaming spirits of ancient herds."
+    "id": "steppeSinger",
+    "restrictions": {
+      "allowedRegions": [
+        "sundrift-vale"
+      ],
+      "allowedSubraces": [
+        "ordan_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The Ordu are steppe nomads who sing ten generations of ancestors into the wind to guide their herds."
     },
-    {
-      "classId": "apex",
-      "bridge": "Riding wild steppe-coursers and bonding with hunting hawks is the heart of Ordu survival."
+    "classHooks": [
+      {
+        "classId": "animist",
+        "bridge": "Throat-singing on the open plains connects directly with the roaming spirits of ancient herds."
+      },
+      {
+        "classId": "apex",
+        "bridge": "Riding wild steppe-coursers and bonding with hunting hawks is the heart of Ordu survival."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "falseProphet",
+        "tension": "Trading ancient lineage memory for an alien cosmic frequency shatters the ancestor circle."
+      }
+    ],
+    "subraceFlavor": {
+      "ordan_human": "You sang the migration stanzas into the freezing gale, and three thousand horn-beasts turned as one."
+    },
+    "name": "Chanter",
+    "description": "On the endless wind-scoured grasslands of the Sundrift Vale, the Ordu clans do not measure borders in stone or ink. You rode with the nomad wagon-circles, learning the sacred throat-singing styles that carry for miles across the plains. Your songs record the names of horses, the locations of frozen water-wells, and the genealogy of ancestor spirits who ride beside the living in the storm. You know how to soothe an enraged pack-beast with a low chest-drone, read weather in the grass-sway, and find your way across hundreds of leagues of featureless steppe.",
+    "skillProficiencies": [
+      "Animal Handling",
+      "Survival"
+    ],
+    "toolProficiencies": [
+      "Musical instrument"
+    ],
+    "languages": 2,
+    "equipment": [
+      "Horsehair two-stringed steppe lute",
+      "Braided leather lariat (40 ft)",
+      "Horn-handled bone skinning knife",
+      "Felt-lined steppe riding cloak",
+      "Nomad travel clothes"
+    ],
+    "startingCurrency": {
+      "gold": 10,
+      "silver": 8,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Herd-Song",
+      "description": "You can calm domesticated and wild beasts with your throat-songs, gaining advantage on Animal Handling checks. In addition, mounted or foot overland travel pace for you and your travelling companions is increased by 20% across plains, steppes, and tundra."
+    },
+    "statModifiers": {
+      "spirit": 2,
+      "constitution": 1,
+      "intelligence": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "falseProphet",
-      "tension": "Trading ancient lineage memory for an alien cosmic frequency shatters the ancestor circle."
-    }
-  ],
-  "subraceFlavor": {
-    "ordan_human": "You sang the migration stanzas into the freezing gale, and three thousand horn-beasts turned as one."
   },
-  "name": "Steppe Wind-Singer",
-  "description": "On the endless wind-scoured grasslands of the northern plateaus, the Ordu clans do not measure borders in stone or ink. You rode with the nomad wagon-circles, learning the sacred throat-singing styles that carry for miles across the plains. Your songs record the names of horses, the locations of frozen water-wells, and the genealogy of ancestor spirits who ride beside the living in the storm. You know how to soothe an enraged pack-beast with a low chest-drone, read weather in the grass-sway, and find your way across hundreds of leagues of featureless steppe.",
-  "skillProficiencies": [
-    "Animal Handling",
-    "Survival"
-  ],
-  "languages": 2,
-  "equipment": [
-    "Horsehair two-stringed steppe lute",
-    "Braided leather lariat (40 ft)",
-    "Horn-handled bone skinning knife",
-    "Felt-lined steppe riding cloak",
-    "Nomad travel clothes"
-  ],
-  "startingCurrency": {
-    "gold": 10,
-    "silver": 8,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Wind-Pace & Herd-Song",
-    "description": "You can calm domesticated and wild beasts with your throat-songs, gaining advantage on Animal Handling checks. In addition, mounted or foot overland travel pace for you and your travelling companions is increased by 20% across plains, steppes, and tundra."
-  },
-  "statModifiers": {
-    "spirit": 2,
-    "constitution": 1,
-    "intelligence": -1
-  }
-},
 
   glacierHarpooner: {
-  "id": "glacierHarpooner",
-  "restrictions": {
-    "allowedRegions": [
-      "nordhalla"
-    ],
-    "allowedSubraces": [
-      "skald_human"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Skald of Nordhalla brave creaking glacier crevasses to harpoon leviathans and rime-beasts to feed their clans."
-  },
-  "classHooks": [
-    {
-      "classId": "berserker",
-      "bridge": "The adrenaline fury required to tackle a charging rime-mammoth is the cradle of the Bloodhammer line."
+    "id": "glacierHarpooner",
+    "restrictions": {
+      "allowedRegions": [
+        "nordhalla"
+      ],
+      "allowedSubraces": [
+        "skald_human"
+      ],
+      "narrativeUnlock": true,
+      "justification": "The Skald of Nordhalla brave creaking glacier crevasses and the Black Firth hunt to feed their clans."
     },
-    {
-      "classId": "warden",
-      "bridge": "Lashing bone plates and heavy ice-crampons into protective suits builds unbreakable frames."
+    "classHooks": [
+      {
+        "classId": "berserker",
+        "bridge": "The fury required to face a charging beast over a crevasse is the cradle of the Bloodhammer line."
+      },
+      {
+        "classId": "warden",
+        "bridge": "Lashing bone plates and heavy ice-crampons into protective suits builds unbreakable frames."
+      },
+      {
+        "classId": "harbinger",
+        "bridge": "Surviving frozen crevasses exposes hunters to the deep void-frost beneath the ice."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "augur",
+        "tension": "Reading doom in the ice cracks creates hesitation in a hunter whose life depends on instantaneous reflexes."
+      }
+    ],
+    "subraceFlavor": {
+      "skald_human": "You sank a bone harpoon into the flank of a rime-mammoth while hanging over a bottomless glacier abyss."
     },
-    {
-      "classId": "harbinger",
-      "bridge": "Surviving frozen glacier crevasses exposes hunters to deep entropic void-frost."
+    "name": "Harpooner",
+    "description": "High in the jagged peaks and blue-ice glaciers of Nordhalla, the Skald do not farm; they hunt. You traversed sheer ice-crevasses on bone crampons, tracking massive woolly leviathans and frost-trolls across the perpetual white. Armed with heavy barbed harpoons and braided seal-sinew ropes, you were the one who threw the line and braced against the anchor-stake, risking being dragged into the abyss so your clan would eat through the long, freezing night. You know the groan of ice before an avalanche breaks, and the cold cannot slow your heartbeat.",
+    "skillProficiencies": [
+      "Athletics",
+      "Survival"
+    ],
+    "toolProficiencies": [
+      "Navigator's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Forged iron glacier harpoon with line-swivel",
+      "Spiked bone ice-crampons and climbing pitons",
+      "Braided sinew hauling rope (50 ft)",
+      "Mammoth-hide snow-goggles",
+      "Heavy fur-lined winter coat"
+    ],
+    "startingCurrency": {
+      "gold": 11,
+      "silver": 4,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Ice-Footed Stride",
+      "description": "You ignore difficult terrain caused by ice, snow, slick rocks, or frozen slopes, moving across them at full speed without slipping. Furthermore, extreme sub-zero cold conditions impose no exhaustion or penalties on your physical checks."
+    },
+    "statModifiers": {
+      "strength": 2,
+      "constitution": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "augur",
-      "tension": "Reading doom in the ice cracks creates hesitation in a hunter whose life depends on instantaneous reflexes."
-    }
-  ],
-  "subraceFlavor": {
-    "skald_human": "You sank a bone harpoon into the flank of a rime-mammoth while hanging over a bottomless glacier abyss."
   },
-  "name": "Glacier Harpooner",
-  "description": "High in the jagged peaks and blue-ice glaciers of Nordhalla, the Skald do not farm; they hunt. As a Glacier Harpooner, you traversed sheer ice-crevasses on bone crampons, tracking massive woolly leviathans and frost-trolls across the perpetual white. Armed with heavy barbed harpoons and braided seal-sinew ropes, you were the one who threw the line and braced against the anchor-stake, risking being dragged into the abyss so your clan would eat through the long, freezing night. You know the groan of ice before an avalanche breaks, and the cold cannot slow your heartbeat.",
-  "skillProficiencies": [
-    "Athletics",
-    "Survival"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Forged iron glacier harpoon with line-swivel",
-    "Spiked bone ice-crampons and climbing pitons",
-    "Braided sinew hauling rope (50 ft)",
-    "Mammoth-hide snow-goggles",
-    "Heavy fur-lined winter coat"
-  ],
-  "startingCurrency": {
-    "gold": 11,
-    "silver": 4,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Ice-Footed Stride",
-    "description": "You ignore difficult terrain caused by ice, snow, slick rocks, or frozen slopes, moving across them at full speed without slipping. Furthermore, extreme sub-zero cold conditions impose no exhaustion or penalties on your physical checks."
-  },
-  "statModifiers": {
-    "strength": 2,
-    "constitution": 1,
-    "charisma": -1
-  }
-},
 
   canopyWeaver: {
-  "id": "canopyWeaver",
-  "restrictions": {
-    "allowedRegions": [
-      "frostwood-reach",
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "viridian_florae"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Briaren Florae live in soaring green canopies, weaving living botanical vines and harvesting delicate floral scents for arboreal courts."
-  },
-  "classHooks": [
-    {
-      "classId": "toxicologist",
-      "bridge": "Distilling subtle flower neuro-toxins and calming botanical scents is master chemistry."
+    "id": "canopyWeaver",
+    "restrictions": {
+      "allowedRegions": [
+        "frostwood-reach"
+      ],
+      "allowedSubraces": [
+        "viridian_florae"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Grove tending and thorn-bastion horticulture are Briaren work, kept in the deep ironwood of House Viridane's refusal."
     },
-    {
-      "classId": "lunarch",
-      "bridge": "Canopy blooms that only open under Selunis's light carry pristine lunar resonance."
+    "classHooks": [
+      {
+        "classId": "toxicologist",
+        "bridge": "Distilling subtle flower neuro-toxins and calming botanical scents is master chemistry."
+      },
+      {
+        "classId": "lunarch",
+        "bridge": "Grove blooms that open only under Selunis's light carry pristine lunar resonance."
+      },
+      {
+        "classId": "animist",
+        "bridge": "The deep groves kept the old covenant when the other houses forgot it."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "apex",
+        "tension": "Manicured grove aesthetics reject the predatory gore and violent instincts of the ground hunt."
+      }
+    ],
+    "subraceFlavor": {
+      "viridian_florae": "You grew the thorn-hedge that closed a road for forty years, and the grove remembers why."
     },
-    {
-      "classId": "animist",
-      "bridge": "The high branches remember the sun better than the damp forest floor."
+    "name": "Gardener",
+    "description": "The Briaren kept the refusal of House Viridane in their blood, and you keep it in the ground: the deep ironwood groves where thorn-hedges are grown into bastions, briar arches are trained like law, and every flower is grown for a purpose the courts of the other houses are not owed. You tended Thornhollow's terraces, distilled the grove's perfumes and cures, and learned the older grammar of a bargain that is only as good as the thorns that keep it.",
+    "skillProficiencies": [
+      "Nature",
+      "Persuasion"
+    ],
+    "toolProficiencies": [
+      "Herbalism kit"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Bronze pruning shears",
+      "Pouch of heirloom grove seeds",
+      "Distilled floral essences (3)",
+      "Thorn-warden's leather gloves",
+      "Grove-keeper's garb"
+    ],
+    "startingCurrency": {
+      "gold": 15,
+      "silver": 8,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Pheromone Distillation",
+      "description": "You can release subtle botanical pheromones to ease tension in social encounters, gaining advantage on Persuasion checks against non-hostile humanoids and beasts. In addition, you can harvest fresh herbal and floral components during any short rest in wild vegetation."
+    },
+    "statModifiers": {
+      "charisma": 2,
+      "agility": 1,
+      "strength": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "apex",
-      "tension": "Courtly botanical aesthetics reject the predatory gore and violent instincts of the ground hunt."
-    }
-  ],
-  "subraceFlavor": {
-    "viridian_florae": "You wove the flowering canopy bridges of the upper court, shaping living orchids that bloom at night."
   },
-  "name": "Canopy Bloom-Weaver",
-  "description": "Hundreds of feet above the dark, predatory forest floor, the Briaren Florae create soaring arboreal palaces of living green. As a Canopy Bloom-Weaver, you were trained to shape living lianas, graft flowering orchids into luminous suspension bridges, and distill exquisite botanical perfumes for the high canopy courts. You understand the chemical language of plants—how a breath of lavender can still anger, how night-blooming jasmine can mask a betrayal, and how living vines can be guided to form furniture, ladders, or living defenses that respond to touch.",
-  "skillProficiencies": [
-    "Nature",
-    "Persuasion"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Pruning shears of polished bronze",
-    "Silk pouch of rare botanical flower seeds",
-    "Phials of distilled floral essences (3)",
-    "Living vine-belt that flexes on command",
-    "Fine courtly canopy garb"
-  ],
-  "startingCurrency": {
-    "gold": 15,
-    "silver": 8,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Pheromone Distillation",
-    "description": "You can exhale or release subtle, fragrant botanical pheromones to ease tension in social encounters, gaining advantage on Persuasion checks against non-hostile humanoids and beasts. In addition, you can harvest fresh herbal and floral components during any short rest in wild vegetation."
-  },
-  "statModifiers": {
-    "charisma": 2,
-    "agility": 1,
-    "strength": -1
-  }
-},
 
   briarSentinel: {
-  "id": "briarSentinel",
-  "restrictions": {
-    "allowedRegions": [
-      "frostwood-reach",
-      "bryngloom-forest"
-    ],
-    "allowedSubraces": [
-      "florae_unified"
-    ],
-    "narrativeUnlock": true,
-    "justification": "The Oaken Florae are dense, thorny, tough briar-wood folk who guard the deep taproots that bore through solid rock."
-  },
-  "classHooks": [
-    {
-      "classId": "toxicologist",
-      "bridge": "Extracting bitter protective alkaloid resins from briar bark teaches natural toxin defense."
+    "id": "briarSentinel",
+    "restrictions": {
+      "allowedRegions": [
+        "frostwood-reach"
+      ],
+      "allowedSubraces": [
+        "florae_unified"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Ground-floor grove care and root-hall tending are Oaken work throughout the ironwood."
     },
-    {
-      "classId": "animist",
-      "bridge": "Taproots that dig forty yards into the earth touch the deep bedrock spirits."
+    "classHooks": [
+      {
+        "classId": "toxicologist",
+        "bridge": "Extracting protective resins from heartwood teaches natural toxin defense."
+      },
+      {
+        "classId": "animist",
+        "bridge": "Roots that dig deep into the earth touch the bedrock spirits."
+      },
+      {
+        "classId": "apex",
+        "bridge": "Stalking through dense timber where soft-skinned beasts cannot follow."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "lunarch",
+        "tension": "Grounded roots in solid rock reject the ethereal, drifting pull of lunar communion."
+      }
+    ],
+    "subraceFlavor": {
+      "florae_unified": "You have re-grown a root-hall the mist-mold took, one living buttress at a time."
     },
-    {
-      "classId": "apex",
-      "bridge": "Stalking through impenetrable thorn thickets where soft-skinned beasts cannot follow."
+    "name": "Forester",
+    "description": "The Oaken grew timber instead of thorns, and you tend the ground floor the forest actually stands on: buttress-root halls, mossy avenues, rain basins, and living bridges grown from your own branch-arms. You read a grove the way a warden reads a wall, which trees are sick, which roots are failing, and where the logging crews will cut next. The Fog Compact can have its mist; the Oaken endure it, from the ground up.",
+    "skillProficiencies": [
+      "Nature",
+      "Survival"
+    ],
+    "toolProficiencies": [
+      "Woodcarver's tools"
+    ],
+    "languages": 1,
+    "equipment": [
+      "Ironwood branch-staff",
+      "Jar of heartwood resin",
+      "Splinter-carving awl",
+      "Bark-weave cloak",
+      "Traveler wraps"
+    ],
+    "startingCurrency": {
+      "gold": 10,
+      "silver": 5,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Splinterbark",
+      "description": "Your living timber punishes close-quarters combatants. Any creature that grapples you or hits you with an unarmed strike or natural weapon takes 1d4 piercing damage. You also have advantage on saving throws against plant-based toxins, poisons, and thorny environmental hazards."
+    },
+    "statModifiers": {
+      "constitution": 2,
+      "strength": 1,
+      "charisma": -1
     }
-  ],
-  "tensionPairings": [
-    {
-      "classId": "lunarch",
-      "tension": "Grounded taproots rooted in solid rock reject the ethereal, drifting pull of lunar communion."
-    }
-  ],
-  "subraceFlavor": {
-    "florae_unified": "Your bark grew thick with iron thorns; you stood in the briar-line when the logging axes came."
   },
-  "name": "Briar-Root Sentinel",
-  "description": "While the delicate Briaren kin play with courtly flowers in the high canopy, the Oaken Florae stand upon the rocky ground where survival is contested with stone and thorn. As a Briar-Root Sentinel, your bark grew thick and ridged with needle-sharp briar spines, your roots digging into solid granite to anchor your grove against storms and logging crews. You patrolled the tangled briar-hedges, harvested bitter protective resins from deep taproots, and learned to use your barbed limbs to snare and tear apart anything foolish enough to trespass.",
-  "skillProficiencies": [
-    "Nature",
-    "Survival"
-  ],
-  "languages": 1,
-  "equipment": [
-    "Briar-wood barbed quarterstaff",
-    "Jar of bitter root-tap resin",
-    "Hardened thorn-tipped skinning awl",
-    "Toughened bark-weave cloak",
-    "Common traveler wraps"
-  ],
-  "startingCurrency": {
-    "gold": 10,
-    "silver": 5,
-    "copper": 0
-  },
-  "feature": {
-    "name": "Thorn-Barbed Bark",
-    "description": "Your tough, thorn-barbed bark punishes close-quarters combatants. Any creature that grapples you or hits you with an unarmed strike or natural weapon takes 1d4 piercing damage. You also have advantage on saving throws against plant-based toxins, poisons, and thorny environmental hazards."
-  },
-  "statModifiers": {
-    "constitution": 2,
-    "strength": 1,
-    "charisma": -1
-  }
-},
 
+  arbitrator: {
+    "id": "arbitrator",
+    "restrictions": {
+      "allowedRegions": [
+        "bryngloom-forest"
+      ],
+      "allowedSubraces": [
+        "velun_neth"
+      ],
+      "narrativeUnlock": true,
+      "justification": "Judgment under the First Contract is a Nethien office; an outsider could serve as a licensed advocate, but never as a sitting arbitrator."
+    },
+    "classHooks": [
+      {
+        "classId": "arcanoneer",
+        "bridge": "A ruling that a weave contradicts itself is the same discipline as striking an unfiled clause."
+      },
+      {
+        "classId": "spellguard",
+        "bridge": "Annulment practice and clause-cancelling are the arbitrator's writ applied to hostile magic."
+      }
+    ],
+    "tensionPairings": [
+      {
+        "classId": "chronarch",
+        "tension": "A sitting arbitrator who files a moment itself must decide whether the record owns the deed or the deed owns the record."
+      }
+    ],
+    "subraceFlavor": {
+      "velun_neth": "You have read the Canopy-Ledger's contested clauses aloud, and the Heart-Vault answered before the parties could.",
+      "kessen_neth": "You carried rulings across the canals and learned which ones the Weft would never enforce."
+    },
+    "name": "Arbitrator",
+    "description": "In Atropolis, an argument that cannot be settled by clause is settled by an arbitrator, and the office is older than the court that houses it. You sat the hearing-seats under the Heart-Vault and ruled on memory-glass covenants, inheritance-filings, and the tangled debts the Registry can never quite untie. You know the Doctrine of Exhaustion the way a duelist knows reach, and you know what it costs to rule against a house that helped draft the Ledger. The Canopy-Ledger is fracturing, and half the clauses you have ruled on are now being rejected by Morvane itself. Someone has to sit the seat anyway.",
+    "skillProficiencies": [
+      "Insight",
+      "History"
+    ],
+    "toolProficiencies": [
+      "Calligrapher's supplies"
+    ],
+    "languages": 2,
+    "equipment": [
+      "Memory-glass ruling slide",
+      "Sealed arbitrator's writ-case",
+      "Bog-iron signature stylus",
+      "Silver-leaf hearing ledgers",
+      "Formal chancery robes"
+    ],
+    "startingCurrency": {
+      "gold": 16,
+      "silver": 4,
+      "copper": 0
+    },
+    "feature": {
+      "name": "Filed Judgment",
+      "description": "When you witness a promise, oath, or agreement, you can file it aloud as a ruling. Both parties instinctively honor the filing while its terms are kept, and you have advantage on Insight checks to detect when a sworn statement is being bent, withheld, or broken. A broken filing leaves you aware of the breach, wherever you are."
+    },
+    "statModifiers": {
+      "charisma": 2,
+      "intelligence": 1,
+      "agility": -1
+    }
+  },
 };
 
 export const BACKGROUND_FLAVOR_TEXT = {
@@ -2948,7 +3063,7 @@ export const BACKGROUND_FLAVOR_TEXT = {
   shyrRunner: 'Ninety miles of volcanic road, and the Sulfur Cartel taxes every step. You ran the basalt pillars and magma-fractures, learning which ground kills the careless. The Cartel has your name in their ledgers, and the debt compounds.',
   ledgerKeeper: 'In the Frostwood Reach, the fog eats memory. You kept the identity-ledgers at Greymark Keep, deciding who is real and who is forgotten. The ink dries fast, and the fog never sleeps.',
   bloodlineHeir: 'Seven noble houses remain. The eighth was erased for refusing to feed its heir to Keth Amar. You carry a name that opens doors and paints targets. The debt your ancestors bought is still compounding.',
-  synodAcademic: 'The Synod Hold sings when the wind finds the right key. You learned the forbidden Echo-Songs and the echo-lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
+  synodAcademic: 'The Synod Hold sings when the wind finds the right key. You learned the forbidden Echosongs and the echo-lineages carved on bone Steppe-Staves. The stars are going out, and you have the training to read the patterns.',
   sumpsVeteran: 'The Bloodhammer Sump breeds soldiers the way a wound breeds salt. You carry the Hunger Pact in your blood: ancestral starvation turned to fury. The glaciers are advancing again, and the dead want you to survive.',
   debtNegotiator: 'In Atropolis, everything has a price and every price is negotiable. You read Athien contracts by their silver-leaf binding and spot the trap-clauses that bind the unwary. The greatest lawyer of your generation burned her own name from the Contract.',
   frostChanter: "Jarn-Tand's Academies burn every old drum they find, so the old ways moved into the voice. You weave animist history into drinking-songs that inquisitors never suspect are heresies older than the Freeze. Your voice is a covert hearth.",
@@ -2978,25 +3093,27 @@ export const BACKGROUND_FLAVOR_TEXT = {
   nameless: 'You were struck from the First Contract, and the Registry reads as if you were never born. The law cannot see you, and neither can the hush.',
   cryptKeeper: 'You tend the Bryngloom crypts where the ancestral lights burn and gutter. You know which dead are resting and which are hunting.',
 
+  arbitrator: 'You rule on the clauses the Ledger would rather leave unread, and the Heart-Vault listens.',
+
   zenithCartographer: "You charted the dead stars above the cloud-ceilings with brass armillary spheres. Even in the thickest fog, the heavens guide your step.",
   craterVanguard: "You walked into the smoking impact-craters where celestial iron shattered bedrock. Your bones absorbed the shock that breaks lesser folk.",
   clockworkHorologist: "You cut gear-teeth to micron tolerances and tuned escapements in the under-city workshops. Every mechanism speaks to your fingers.",
   vitriolProspector: "You panned boiling acid sumps for precipitated copper and precious heavy metals, wearing lead and skin that knows how to survive caustic burns.",
-  peatTender: "You walked the black quagmires of the Bryngloom, tending the fungal cradles where memory and death decompose into living soil.",
-  petrifiedMason: "Your sapwood crystallized into quartz and slate across centuries. You shape petrified timber with the patience of living bedrock.",
-  scriptureHerald: "You sang ancestral genealogies from the white marble aeries of the Arch Mimir, commanding deference across the wind-scoured peaks.",
-  quietTraded: "When your celestial tether snapped, you traded a sense to the Quiet to survive in the mire. Silence is your shield and your hunting ground.",
+  peatTender: 'You cut living halls into the Cragjaw and learned that a mountain only stands as long as its masons are honest.',
+  petrifiedMason: 'You read the Ancestor-Spans the way other folk read contracts, and the spans have never once lied to you.',
+  scriptureHerald: 'You sang the genealogies from the canopy terraces, and even the fog kept its distance from your voice.',
+  quietTraded: 'You cut the mask\'s cord, kept the Mote, and found a life on the river that asks no one for permission.',
   trenchListener: "Miles deep in the Treakous Rift, you hummed into the lightless basalt abyss, listening to the heartbeat of the sleeping Sundered Monolith.",
   saltHingeEnvoy: "You stood on the limestone boom-cranes of Salt-Hinge, negotiating tariffs and treaties between suspicious captains and tide-clans.",
   cataractScout: "You paddled birch-skin canoes against boiling freshwater rapids, mapping river forks and hidden sluices far into the continental interior.",
   vaultTender: "In the lightless basalt catacombs under Emberspire, you monitored the cooling crust of the buried sun, seeing warmth where others see only dark.",
   ashDuneSkimmer: "You skimmed the grey volcanic ash-dunes on sled-skis through toxic sulfur storms, scavenging the caravans that choked on the caldera air.",
-  sanctuarySeneschal: "Behind the triple-sealed airlocks of the Bedel Sanctuaries, you maintained the camphor-water wash and isolation rites that hold back the rot.",
-  nullSaltHunter: "Exiled when the dark rot touched your flesh, you bound cold-iron and null-salt around your arms to hunt your fallen kin for bounty coin.",
+  sanctuarySeneschal: 'You walked the sick-wards when no one else would, because the rot cannot take what the deep strain already holds.',
+  nullSaltHunter: 'The Root-Veil tells you where the lost have gone, and you go where the settlements agreed to forget.',
   steppeSinger: "You rode with the northern wagon-circles, throat-singing the names of ten generations into the wind to steer great herds across the grasslands.",
   glacierHarpooner: "On the creaking blue-ice glaciers of Nordhalla, you threw barbed bone harpoons into leviathans while braced over bottomless crevasses.",
-  canopyWeaver: "High in the Briaren boughs, you grafted flowering orchids into aerial bridges and distilled botanical scents for the arboreal courts.",
-  briarSentinel: "Your bark grew thick with iron thorns in the stony soil. You stood in the briar-line, anchoring the grove against axes and beasts alike.",
+  canopyWeaver: 'You keep the thorns of a refusal older than the other houses, and grow every flower around them on purpose.',
+  briarSentinel: 'You tend the ground the forest stands on, root-hall and rain-basin, and the grove keeps you standing in return.',
 };
 
 export const BACKGROUND_ROLEPLAYING_HOOKS = {
@@ -3022,7 +3139,7 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   ],
   synodAcademic: [
     'The echoes are fading, and you can read the patterns. What did the last echo-signature you charted reveal?',
-    'You learned forbidden Echo-Songs. Which song do you sing when no one is listening, and what happens when you do?',
+    'You learned forbidden Echosongs. Which song do you sing when no one is listening, and what happens when you do?',
     'The Synod Hold expelled you, or you left. Which version is true, and what did you take with you?'
   ],
   sumpsVeteran: [
@@ -3183,24 +3300,24 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   "What rare precipitate did you pan from the toxic sump that you refuse to sell at any price?"
 ],
   peatTender: [
-  "Whose body did you bury in the deep peat whose identity the authorities were desperate to erase?",
-  "What did the oldest mycelial network whisper to you during a night vigil in the quagmire?",
-  "A shelf-fungus bloom on your arm sprouted from an ancient grave. Whose memory does it carry?"
+    'Which hall did you refuse to cut, and what is buried inside the stone you left standing?',
+    'You read load-lines the way other folk read faces. What did a wall tell you that its builders did not know?',
+    'A quarry you opened woke something in the deep rock. What came up out of the cut before you sealed it?'
 ],
   petrifiedMason: [
-  "Which monolithic span did you carve that has survived three glacial tremors without a crack?",
-  "Inside a petrified oak felled for quarrying, you found a chamber. What was preserved within the stone wood?",
-  "Your stone bark deflects blades, but where is your singular hairline fault, and who knows where to strike?"
+    'Which span did you close to traffic on your own authority, and who never forgave you for it?',
+    'A span you keep crossing is failing faster than the crews admit. Who have you warned, and who refused to listen?',
+    'Inside a sealed span-vault you found something older than the Amordjin. What was it, and who knows you found it?'
 ],
   scriptureHerald: [
-  "Which highborne decree did you refuse to proclaim from the wind-terraces, and what were the consequences?",
-  "You know an embarrassing secret about a high Arch Mimir lineage. How long can you keep it hidden?",
-  "A lowlander petitioner once begged you for sanctuary in the aerie. Why did you look away?"
+    'Which decree did you refuse to proclaim from the canopy terraces, and what did the mask-courts do about it?',
+    'You hold a genealogy the Arch Mimir would rather forget. Whose lineage is it, and what does it prove?',
+    'A ground-dweller once begged you for sanctuary in the canopy. Why did you look away?'
 ],
   quietTraded: [
-  "What exact sense or certainty did you trade to the Quiet, and what did the silence leave in its place?",
-  "Who cut your celestial tether, and do you keep the severed clasp out of grief or vengeance?",
-  "In the damp under-alleys of Riverreach, what did you see lurking in the fog that the high aeries deny exists?"
+    'What did you throw into the river after your mask, and what did you keep instead?',
+    'Your Mote stayed when no one else did. What does it remember that you cannot?',
+    'Down in the damp under-alleys, what did you see that the high aeries still deny exists?'
 ],
   trenchListener: [
   "What rhythm did the Sundered Monolith begin humming on the day you chose to leave the abyss?",
@@ -3228,14 +3345,14 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   "The Ashen Escarpment is moving northward. How long until the cinder flats swallow the frontier?"
 ],
   sanctuarySeneschal: [
-  "Who did you turn away at the quarantine airlock whom you still see in your dreams?",
-  "What sample of necrotic mold did you preserve in secret because its medicinal properties were too valuable to burn?",
-  "The camphor smoke hides the smell of decay. How long has the sanctuary been compromised?"
+    'Whose hand did you hold at the end that no one else would touch, and what did they ask you to carry?',
+    'You wrote down what the dying said. Which entry do you keep folded and unread?',
+    'The crypt-lights you feed have begun answering your questions. When did you first notice?'
 ],
   nullSaltHunter: [
-  "Who was the first kin you were paid to hunt down and bind in null-salt, and did they recognize you?",
-  "The caustic salt has eaten into your flesh. How much feeling do you have left in your hands?",
-  "A noble house paid you in tainted coin to silence an escaped family secret. Who survived?"
+    'Which spore-thread led you to kin the houses had stopped naming, and what did you find where it ended?',
+    'The Root-Veil answers you more clearly than it answers any Bedel. What has it asked you for in return?',
+    'You carry null-salt for the times the answer is no longer a person. Who did you use it on last?'
 ],
   steppeSinger: [
   "Which ancestral throat-song did you sing that summoned a spirit herd your clan could not control?",
@@ -3248,15 +3365,21 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   "A winter blizzard trapped your hunting party in a snow cave. How did you survive when the rations ran out?"
 ],
   canopyWeaver: [
-  "Which rare orchid scent did you blend that caused an entire courtly duel to turn into an alliance?",
-  "A living vine bridge you cultivated collapsed under suspicious circumstances. Who cut the root-cord?",
-  "What forbidden biological secret did you learn about the Briaren canopy while pruning the high branches?"
+    'Which road did your thorn-hedge close, and who is still walking the long way around it?',
+    'Every flower in your grove is grown for a purpose the courts are not owed. What is the purpose only you know?',
+    'House Viridane\'s refusal is kept in your garden. What has the garden asked you to refuse?'
 ],
   briarSentinel: [
-  "Which logging party's axes shattered against your briar-bark, and what trophy did you take from them?",
-  "The taproot you guarded touched something ancient buried beneath the bedrock. What awoke?",
-  "Your thorns carry an alkaloid resin that deadens pain. Who begged you for a dose, and why did you refuse?"
+    'Which logging crew did your grove wall turn back, and what did they offer you to open it?',
+    'The root-hall you tend predates the Compact. What lives in the deep cellar beneath it?',
+    'The mist-mold took the hall once before. What did you have to give the grove to grow it back?'
 ],
+
+  arbitrator: [
+    'Which ruling did you make that you would reverse if the Ledger would let you?',
+    'You ruled against a house that helped draft the First Contract. What did the seat cost you?',
+    'Half your judgments are being rejected by Morvane itself. Which one can you not afford to lose?'
+  ]
 };
 
 // Helper functions

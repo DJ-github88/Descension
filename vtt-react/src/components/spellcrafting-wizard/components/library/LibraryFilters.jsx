@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
+import { createScopedNativeFamily } from '../../../../persistence/scopedNativeFamily';
+import { subscribeBootstrapGate } from '../../../../persistence/bootstrapPrivacyGate';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../../../persistence/scopedConsumer';
 // Pathfinder styles imported via main.css // Using the main CSS file for now
+
+// B11: named filter presets contain user-authored names and private search
+// text, so they live in verified-owner scoped storage. The retired global key
+// is preserved as a recovery source and never auto-adopted. Fixed collapsed
+// section booleans remain ordinary global UI preferences.
+const filterPresetsFamily = createScopedNativeFamily({
+  familyId: 'library.spellFilterPresets',
+  legacyKeys: ['spellLibraryFilterPresets']
+});
 
 const LibraryFilters = () => {
   const library = useSpellLibrary();
@@ -30,15 +42,35 @@ const LibraryFilters = () => {
     }
   });
 
-  // State for filter presets
-  const [filterPresets, setFilterPresets] = useState(() => {
+  // State for filter presets (verified-owner scoped authored preferences)
+  const [presetState, setPresetState] = useState(() => {
+    const context = captureConsumerContext().context;
     try {
-      const saved = localStorage.getItem('spellLibraryFilterPresets');
-      return saved ? JSON.parse(saved) : [];
+      const saved = filterPresetsFamily.load();
+      return { context, values: Array.isArray(saved) ? saved : [] };
     } catch (e) {
-      return [];
+      return { context, values: [] };
     }
   });
+  const filterPresets = isConsumerContextCurrent(presetState.context) ? presetState.values : [];
+
+  // Reload presets whenever the privacy gate changes owner, so A's presets
+  // are retired before B can see them and returning owners recover their own.
+  useEffect(() => {
+    const unsubscribe = subscribeBootstrapGate(() => {
+      const context = captureConsumerContext().context;
+      if (isConsumerContextCurrent(presetState.context)) return;
+      try {
+        const saved = filterPresetsFamily.load();
+        setPresetState({ context, values: Array.isArray(saved) ? saved : [] });
+      } catch (e) {
+        setPresetState({ context, values: [] });
+      }
+      setNewPresetName('');
+      setShowPresetInput(false);
+    });
+    return unsubscribe;
+  }, [presetState.context]);
 
   // State for new preset name input
   const [newPresetName, setNewPresetName] = useState('');
@@ -49,10 +81,14 @@ const LibraryFilters = () => {
     localStorage.setItem('spellLibraryCollapsedSections', JSON.stringify(collapsedSections));
   }, [collapsedSections]);
 
-  // Save filter presets to localStorage
+  // Save filter presets to verified-owner scoped storage
   useEffect(() => {
-    localStorage.setItem('spellLibraryFilterPresets', JSON.stringify(filterPresets));
-  }, [filterPresets]);
+    try {
+      if (isConsumerContextCurrent(presetState.context)) filterPresetsFamily.save(presetState.values);
+    } catch (e) {
+      // best-effort; an unreadable source is preserved by the scoped helper
+    }
+  }, [presetState]);
 
   // Toggle section collapse state
   const toggleSection = (section) => {
@@ -96,6 +132,7 @@ const LibraryFilters = () => {
 
   // Save current filters as a preset
   const saveFilterPreset = () => {
+    if (!isConsumerContextCurrent(presetState.context)) return;
     if (!newPresetName.trim()) return;
 
     const newPreset = {
@@ -104,21 +141,23 @@ const LibraryFilters = () => {
       filters: { ...library.filters }
     };
 
-    setFilterPresets([...filterPresets, newPreset]);
+    setPresetState({ ...presetState, values: [...filterPresets, newPreset] });
     setNewPresetName('');
     setShowPresetInput(false);
   };
 
   // Load a filter preset
   const loadFilterPreset = (preset) => {
+    if (!isConsumerContextCurrent(presetState.context)) return;
     dispatch(libraryActionCreators.setFilters(preset.filters));
   };
 
   // Delete a filter preset
   const deleteFilterPreset = (presetId, e) => {
     e.stopPropagation();
+    if (!isConsumerContextCurrent(presetState.context)) return;
     const updatedPresets = filterPresets.filter(preset => preset.id !== presetId);
-    setFilterPresets(updatedPresets);
+    setPresetState({ ...presetState, values: updatedPresets });
   };
 
   // Count active filters

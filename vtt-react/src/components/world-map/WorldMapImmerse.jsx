@@ -30,153 +30,72 @@ import { ZONE_DATA } from '../../data/zoneData';
 import { pointInPolygon } from './RegionOverlay';
 import campaignService from '../../services/campaignService';
 import { preloadMapAssets } from '../../utils/mapImagePreloader';
+import { persistAuthoredGeometry, hydrateGeometryForActiveOwner } from '../../data/geometryScopeHydration';
+import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
 import './WorldMapImmerse.css';
 
-// Load cached drawn regions and pins from localStorage on initial load
-const saveRegionsToCache = () => {
+// B7: authored geometry (drawn boundaries, custom names/descriptions, moved
+// coordinates) is persisted per verified owner through the scoped geometry
+// layer. The retired global cache keys are preserved recovery sources and are
+// never read or written here.
+const saveRegionsToCache = (context) => {
  try {
-  localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
-  localStorage.setItem('mythrill_subregion_polygons', JSON.stringify(SUBREGIONS));
+  persistAuthoredGeometry(context);
  } catch (e) {
-  console.error('Failed to cache region polygons:', e);
+  console.error('Failed to persist authored geometry:', e);
  }
 };
 
-const saveCoordsToCache = () => {
+const saveCoordsToCache = (context) => {
  try {
-  localStorage.setItem('mythrill_location_coordinates', JSON.stringify(LOCATION_COORDINATES));
+  persistAuthoredGeometry(context);
  } catch (e) {
-  console.error('Failed to cache location coordinates:', e);
+  console.error('Failed to persist authored geometry:', e);
  }
 };
 
-try {
- const cachedRegions = localStorage.getItem('mythrill_region_polygons');
- if (cachedRegions) {
-  const parsed = JSON.parse(cachedRegions);
-  Object.keys(parsed).forEach(key => {
-   if (REGION_POLYGONS[key]) {
-    if (parsed[key].points && parsed[key].points.length > 0) {
-     REGION_POLYGONS[key].points = parsed[key].points;
-    }
-    if (parsed[key].labelPosition && parsed[key].labelPosition.length === 2 && parsed[key].labelPosition[0] > 0) {
-     REGION_POLYGONS[key].labelPosition = parsed[key].labelPosition;
-    }
-   }
-  });
- }
-} catch (e) {
- console.warn('Could not restore cached region polygons:', e);
-}
 
-try {
- const cachedSubregions = localStorage.getItem('mythrill_subregion_polygons');
- if (cachedSubregions) {
-  const parsed = JSON.parse(cachedSubregions);
-  Object.keys(parsed).forEach(key => {
-   if (SUBREGIONS[key]) {
-    if (parsed[key].points && parsed[key].points.length > 0) {
-     SUBREGIONS[key].points = parsed[key].points;
-    }
-    if (parsed[key].labelPosition && parsed[key].labelPosition.length === 2 && parsed[key].labelPosition[0] > 0) {
-     SUBREGIONS[key].labelPosition = parsed[key].labelPosition;
-    }
-   }
-  });
- }
-} catch (e) {
- console.warn('Could not restore cached subregion polygons:', e);
-}
-
-const LOCATION_COORDINATES_CACHE_VERSION = 'mythrill-clean-pins-v1';
-try {
-  if (localStorage.getItem('mythrill_location_coordinates_version') !== LOCATION_COORDINATES_CACHE_VERSION) {
-    localStorage.removeItem('mythrill_location_coordinates');
-    localStorage.setItem('mythrill_location_coordinates_version', LOCATION_COORDINATES_CACHE_VERSION);
-    Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
-  } else {
-    const cachedCoords = localStorage.getItem('mythrill_location_coordinates');
-    if (cachedCoords) {
-      const parsed = JSON.parse(cachedCoords);
-      Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
-      Object.assign(LOCATION_COORDINATES, parsed);
-    }
-  }
-} catch (e) {
-  console.warn('Could not restore cached location coordinates:', e);
-}
-
-// Restore hand-drawn subregion polygons drawn on regional maps (regional 4096x3072 space)
-try {
- Object.keys(BUILTIN_SUBREGION_MAPS).forEach(mapId => {
-  const cached = localStorage.getItem(`mythrill_regional_polygons_${mapId}`);
-  if (!cached) return;
-  const parsed = JSON.parse(cached);
-  const regEntry = BUILTIN_SUBREGION_MAPS[mapId];
-  if (!regEntry || !Array.isArray(regEntry.subregions) || !Array.isArray(parsed)) return;
-  parsed.forEach(cachedSub => {
-   const liveSub = regEntry.subregions.find(s => s.id === cachedSub.id);
-   if (liveSub && cachedSub.points && cachedSub.points.length > 0) {
-    liveSub.points = cachedSub.points;
-    if (cachedSub.labelPosition && cachedSub.labelPosition.length === 2) {
-     liveSub.labelPosition = cachedSub.labelPosition;
-    }
-   }
-  });
- });
-} catch (e) {
- console.warn('Could not restore cached regional subregion polygons:', e);
-}
-
-// One-time cleanup for geometry that was generated before the hand-drawn
-// cartography decision. Other regions remain registered as empty targets so
-// the DevEditor can draw them later, but their old cached polygons must not
-// appear on the immersion map.
-const DRAWN_GEOMETRY_CACHE_VERSION = 'nordhalla-rime-spire-v1';
-const CANONICAL_DRAWN_REGION_IDS = new Set(['nordhalla']);
-const CANONICAL_DRAWN_SUBREGION_IDS = new Set(['nordhalla-glacier-heart']);
-
-try {
- if (localStorage.getItem('mythrill_drawn_geometry_version') !== DRAWN_GEOMETRY_CACHE_VERSION) {
-  Object.values(REGION_POLYGONS).forEach((region) => {
-   if (!CANONICAL_DRAWN_REGION_IDS.has(region.id)) {
-    region.points = [];
-    region.labelPosition = [0, 0];
-   }
-  });
-
-  Object.values(SUBREGIONS).forEach((subregion) => {
-   if (!CANONICAL_DRAWN_SUBREGION_IDS.has(subregion.id)) {
-    subregion.points = [];
-    subregion.labelPosition = [0, 0];
-   }
-  });
-
-  Object.values(BUILTIN_SUBREGION_MAPS).forEach((mapEntry) => {
-   if (!Array.isArray(mapEntry.subregions)) return;
-   mapEntry.subregions.forEach((subregion) => {
-    if (!CANONICAL_DRAWN_SUBREGION_IDS.has(subregion.id)) {
-     subregion.points = [];
-     subregion.labelPosition = [0, 0];
-    }
-   });
-   localStorage.setItem(`mythrill_regional_polygons_${mapEntry.id}`, JSON.stringify(mapEntry.subregions));
-  });
-
-  localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
-  localStorage.setItem('mythrill_subregion_polygons', JSON.stringify(SUBREGIONS));
-  localStorage.setItem('mythrill_drawn_geometry_version', DRAWN_GEOMETRY_CACHE_VERSION);
- }
-} catch (e) {
- console.warn('Could not migrate drawn geometry cache:', e);
-}
+// B7: no import-time adoption of global geometry. The shared projections are
+// rebuilt for the active verified owner by hydrateGeometryForActiveOwner()
+// (mount + privacy-gate changes) and legacy global keys stay untouched.
 
 const MAP_WIDTH = 4096;
 const MAP_HEIGHT = 3072;
 
 const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTransform, initialMapId: propInitialMapId }) => {
+  const geometryOwnerContext = captureConsumerContext().context;
   const [phase, setPhase] = useState('entering');
   const [showBorder, setShowBorder] = useState(false);
+
+  // B7: rebuild the shared geometry projections for the active verified owner
+  // on mount and whenever the privacy gate changes owner. Authored edits never
+  // hydrate across accounts and returning owners recover their own geometry.
+  const [geometryEpoch, setGeometryEpoch] = useState(0);
+  useEffect(() => {
+    try {
+      hydrateGeometryForActiveOwner();
+    } catch (_error) {
+      // hydration is best-effort; the public seeds remain in place
+    }
+    setGeometryEpoch((value) => value + 1);
+  }, []);
+  useEffect(() => {
+    const unsubscribe = subscribeBootstrapGate(() => {
+      try {
+        hydrateGeometryForActiveOwner();
+      } catch (_error) {
+        // hydration is best-effort; the public seeds remain in place
+      }
+      setGeometryEpoch((value) => value + 1);
+      setDrawingPoints([]);
+      setCustomPinName('');
+      setCustomPinDesc('');
+      setCustomConfirm({ isOpen: false, message: '', onConfirm: null, onCancel: null });
+    });
+    return unsubscribe;
+  }, []);
+
   const [borderEnabled, setBorderEnabled] = useState(() => {
     try {
       const saved = localStorage.getItem('mythrill_map_border_enabled');
@@ -363,12 +282,13 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
  // Dev toast state: shows a quick-copy notification after drawing/placing
  const [devToast, setDevToast] = useState(null);
 
- const showConfirm = (message, onConfirm) => {
+  const showConfirm = (message, onConfirm) => {
+   const context = captureConsumerContext().context;
   setCustomConfirm({
    isOpen: true,
    message,
    onConfirm: () => {
-    onConfirm();
+     if (isConsumerContextCurrent(context)) onConfirm();
     setCustomConfirm(prev => ({ ...prev, isOpen: false }));
    },
    onCancel: () => {
@@ -859,7 +779,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
    setCustomMapImage(null, currentCustomMap.width || MAP_WIDTH, currentCustomMap.height || MAP_HEIGHT);
    }, [canAccessCustomMaps, currentCustomMap, denyCustomMapAccess, setCustomMapImage]);
 
-  // ── Dev Toast: per-item quick-copy ──
+  // â”€â”€ Dev Toast: per-item quick-copy â”€â”€
  const showDevToast = useCallback((type, item) => {
   setDevToast({ type, item, id: Date.now(), copied: null });
  }, []);
@@ -966,13 +886,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
         existing.points = [...drawingPoints];
         existing.labelPosition = [Math.round(cx), Math.round(cy)];
         setDrawingPoints([]);
-        saveRegionsToCache();
-        if (activeMapId && activeMapId !== 'mythril') {
-         const regionalKey = `mythrill_regional_polygons_${activeMapId}`;
-         try {
-          localStorage.setItem(regionalKey, JSON.stringify(BUILTIN_SUBREGION_MAPS?.[activeMapId]?.subregions || []));
-         } catch (e) { console.warn('Failed to cache regional subregion polygons:', e); }
-        }
+         saveRegionsToCache(geometryOwnerContext);
         setUpdateTrigger(prev => prev + 1);
         showDevToast('region', {
          id: existing.id || currentRegion,
@@ -1035,7 +949,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     }
 
     LOCATION_COORDINATES[pinKey] = pinData;
-    saveCoordsToCache();
+     saveCoordsToCache(geometryOwnerContext);
     setSelectedDevPinId(pinKey);
     setUpdateTrigger(prev => prev + 1);
     showDevToast('pin', { key: pinKey, data: { ...pinData } });
@@ -1150,7 +1064,7 @@ setCursorPos(coords);
   setSelectedLocationId(null);
  }, []);
 
- // ── Dev Move tool: arrow-key nudging of the selected pin ──
+ // â”€â”€ Dev Move tool: arrow-key nudging of the selected pin â”€â”€
  useEffect(() => {
   if (!devMode || devTool !== 'movePin' || !selectedDevPinId) return;
 
@@ -1170,7 +1084,7 @@ setCursorPos(coords);
    if (key === 'ArrowLeft') coord.x = Math.max(0, coord.x - step);
    if (key === 'ArrowRight') coord.x = Math.min(MAP_WIDTH, coord.x + step);
 
-   saveCoordsToCache();
+   saveCoordsToCache(geometryOwnerContext);
    setUpdateTrigger((prev) => prev + 1);
   };
 
@@ -1433,8 +1347,8 @@ setCursorPos(coords);
       customZoneName={customZoneName}
     updateTrigger={updateTrigger}
     onUpdate={() => {
-     saveRegionsToCache();
-     saveCoordsToCache();
+     saveRegionsToCache(geometryOwnerContext);
+     saveCoordsToCache(geometryOwnerContext);
      setUpdateTrigger(prev => prev + 1);
     }}
     currentCampaign={currentCampaign}
@@ -1521,7 +1435,7 @@ setCursorPos(coords);
       <div className="custom-readonly-label">
        <i className="fas fa-eye"></i>
        <span>Immersive View</span>
-       <small>Reading & exploring — edits hidden</small>
+       <small>Reading & exploring â€” edits hidden</small>
       </div>
       <div className="custom-readonly-actions">
        <button type="button" className="custom-readonly-btn secondary" onClick={handleExitCustomReadOnlyToEdit}>
@@ -1640,6 +1554,7 @@ setCursorPos(coords);
     />
 
     <DevEditor
+      key={geometryEpoch}
       devMode={devMode}
       devTool={devTool}
       setDevTool={setDevTool}
@@ -1665,8 +1580,8 @@ setCursorPos(coords);
       setCustomPinDesc={setCustomPinDesc}
       cursorPos={cursorPos}
       onUpdate={() => {
-        saveRegionsToCache();
-        saveCoordsToCache();
+        saveRegionsToCache(geometryOwnerContext);
+        saveCoordsToCache(geometryOwnerContext);
         setUpdateTrigger(prev => prev + 1);
       }}
       showConfirm={showConfirm}
@@ -1721,8 +1636,8 @@ setCursorPos(coords);
         </div>
         <div className="dev-toast-meta">
           {devToast.type === 'region'
-            ? `${devToast.item.points.length} points · ${devToast.item.id}`
-            : `(${devToast.item.data.x}, ${devToast.item.data.y}) · ${devToast.item.data.pinType}`}
+            ? `${devToast.item.points.length} points Â· ${devToast.item.id}`
+            : `(${devToast.item.data.x}, ${devToast.item.data.y}) Â· ${devToast.item.data.pinType}`}
         </div>
         <div className="dev-toast-actions">
           <button className="dev-toast-btn" onClick={() => copyDevItem('js')}>

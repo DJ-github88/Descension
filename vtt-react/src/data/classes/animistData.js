@@ -148,7 +148,7 @@ export const ANIMIST_DATA = {
     },
 
     velun_neth: {
-      subraceName: 'Athien',
+      subraceName: 'Nethien',
       title: 'The Ledger-Summoner',
       reframe: `The <LoreLink termId="neth">Athien</LoreLink> carry Morvane's authority in every word they speak, and Morvane does not forget. Adapted from the Ordu ancestor-compass technique through archival synthesis: the Athien took the concept of summoning the dead and made it legally binding. A Athien Animist does not commune with the dead; they *file a request*. The ancestor is a recorded entry in the great archive of <LoreLink termId="atropolis">Atropolis</LoreLink>, summoned through proper citation, offer, and acknowledgment of outstanding obligation.`,
       signatureAbility: {

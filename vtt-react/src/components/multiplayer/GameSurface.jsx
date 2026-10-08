@@ -28,6 +28,7 @@ import DialogueControls from '../dialogue/DialogueControls';
 // DiceRollingSystem is mounted globally in App.jsx — do NOT add a second instance here.
 import AudioPlayerWidget from '../jukebox/AudioPlayerWidget';
 import ConnectionStatusIndicator from './ConnectionStatusIndicator';
+import PrivateProjectionBoundary from '../../persistence/PrivateProjectionBoundary';
 
 const HUDContainer = lazy(() => import('../hud/HUDContainer'));
 const MultiplayerGameContent = ({
@@ -190,7 +191,9 @@ const MultiplayerGameContent = ({
         )}
 
         <Suspense fallback={null}>
-          <HUDContainer />
+          <PrivateProjectionBoundary>
+            <HUDContainer />
+          </PrivateProjectionBoundary>
         </Suspense>
         <ActionBar />
         <CombatSelectionWindow />

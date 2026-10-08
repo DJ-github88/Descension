@@ -3052,7 +3052,7 @@ export const SideBySideBlock = ({
   onNavigateMap
 }) => {
   const ratio = block.ratio || '50-50'; // '50-50' | '40-60' | '60-40' | '30-70' | '70-30'
-  const left = block.left || { type: 'image', url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider' };
+  const left = block.left || { type: 'image', url: '/assets/images/races/human_merryn_portrait_bust.jpg', caption: 'Merryn Wave-Rider' };
   const right = block.right || { type: 'paragraph', text: 'Across the misty frontiers, legends are written in iron and frost...' };
 
   const handleSwap = () => {
@@ -3074,7 +3074,7 @@ export const SideBySideBlock = ({
   const handleSlotTypeChange = (side, newType) => {
     const defaults = {
       paragraph: { type: 'paragraph', text: 'Add descriptive chronicle text...' },
-      image: { type: 'image', url: '/assets/images/races/solari_illustration.png', caption: 'Illustration' },
+      image: { type: 'image', url: '/assets/images/races/solari_hollow_portrait_bust.jpg', caption: 'Illustration' },
       item_card: {
         type: 'item_card',
         name: 'Rime-Forged Dagger',
@@ -3165,7 +3165,7 @@ export const SideBySideBlock = ({
       return (
         <div className="side-slot-image-wrap">
           <div className="side-slot-image-container">
-            <img src={slotData.url || '/assets/images/races/solari_illustration.png'} alt={slotData.caption || 'Illustration'} className="side-slot-img" />
+            <img src={slotData.url || '/assets/images/races/solari_hollow_portrait_bust.jpg'} alt={slotData.caption || 'Illustration'} className="side-slot-img" />
             {isWrite && (
               <div className="side-slot-img-overlay">
                 <button

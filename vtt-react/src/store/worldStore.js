@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 import { getEnrichedZone, getEnrichedZonesByRegion, getClassSitesForZone } from '../data/deepLocationData';
@@ -734,6 +735,10 @@ const useWorldStore = create(
 
       // ── Cloud Sync ──
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'worlds');
@@ -743,6 +748,8 @@ const useWorldStore = create(
             customWorlds: get().customWorlds,
             updatedAt: nowIso()
           }, { merge: true });
+          if (!ownerGuard.isCurrent()) return false;
+
           set({ lastCloudSyncAt: nowIso() });
           return true;
         } catch (err) {
@@ -752,6 +759,9 @@ const useWorldStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'worlds');
@@ -766,7 +776,7 @@ const useWorldStore = create(
               updates.worldId = data.activeWorldId;
             }
             if (Object.keys(updates).length > 0) {
-              set(updates);
+              applyIfCurrent(updates);
               return true;
             }
           }
@@ -776,7 +786,7 @@ const useWorldStore = create(
         return false;
       }
     }),
-    createStorageConfig('mythrill_worlds_storage', {
+    createScopedStorageConfig('worldbuilding.worlds', 'mythrill_worlds_storage', {
       partialize: (state) => ({
         activeWorldId: state.activeWorldId,
         worlds: state.worlds,

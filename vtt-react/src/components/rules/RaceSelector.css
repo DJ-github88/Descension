@@ -2,6 +2,8 @@
 
 .race-selector-container {
     padding: 1.5rem;
+    --race-panel-gap: 1.75rem;
+    --race-panel-padding: clamp(1rem, 2.5vw, 1.75rem);
 }
 
 /* ===== STEP TITLES ===== */
@@ -49,6 +51,9 @@
     border-radius: 8px;
     padding: 1.25rem;
     cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-align: left;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
@@ -91,6 +96,8 @@
 .race-card-title-area {
     flex: 1;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .race-card-title-area .race-card-name {
@@ -213,44 +220,22 @@
     background: linear-gradient(135deg, #fefcf8 0%, #f8f5f0 50%, #f4f1e8 100%);
     border: 1px solid #c8a96e;
     border-radius: 12px;
-    padding: clamp(1rem, 2.5vw, 1.75rem);
-    max-width: 84rem;
-    margin: 0 auto 1.5rem;
+    padding: var(--race-panel-padding);
+    margin: 0 0 1.5rem;
     box-shadow: 0 4px 16px rgba(139, 90, 60, 0.1);
     container: race-info / inline-size;
 }
 
 .race-info-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(180, 140, 80, 0.35);
 }
 
 .race-info-title-row {
     display: flex;
     align-items: center;
     gap: 1rem;
-}
-
-.race-info-icon {
-    font-size: 2.5rem;
-    color: #d4af37;
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(212, 175, 55, 0.1);
-    border-radius: 12px;
-    border: 1.5px solid rgba(212, 175, 55, 0.3);
-}
-
-.race-info-icon img {
-    width: 42px;
-    height: 42px;
-    object-fit: contain;
-    mix-blend-mode: multiply;
 }
 
 .race-info-title-area {
@@ -260,19 +245,16 @@
 
 .race-info-name {
     font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: #2c2416;
     margin: 0 0 0.25rem 0;
 }
 
 .race-info-essence {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #8b6914;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    color: #786044;
     font-style: italic;
     margin: 0;
 }
@@ -281,18 +263,26 @@
     flex-shrink: 0;
 }
 
-/* Keep variant choices and lore together, with artwork in a real sidebar. */
+.race-info-intro {
+    max-width: 72ch;
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #5d4037;
+}
+
+/* A readable register of variants beside an illustrated reference page. */
 .race-info-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(240px, 24%, 300px);
-    gap: 1.75rem;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, min(34%, 440px));
+    gap: 2.5rem;
     align-items: start;
 }
 
 .race-selection-content {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
     min-width: 0;
 }
 
@@ -307,33 +297,175 @@
 
 .race-variant-heading .step-title {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 .race-variant-count {
-    padding: 0.2rem 0.65rem;
-    border: 1px solid rgba(180, 140, 80, 0.3);
-    border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #786044;
     white-space: nowrap;
 }
 
 .race-selection-hint {
     margin: 0 0 1rem;
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.5;
     color: #786044;
 }
 
-.race-info-panel .variant-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    gap: 1rem;
+.race-variant-list {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(180, 140, 80, 0.3);
 }
 
-.race-selection-notes {
-    padding-top: 1rem;
-    border-top: 1px solid rgba(180, 140, 80, 0.25);
+.race-variant-option {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) 24px;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+    padding: 1.25rem 0.5rem;
+    border: 0;
+    border-top: 1px solid rgba(180, 140, 80, 0.3);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #2c2416;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 160ms ease;
+}
+
+.race-variant-option:hover,
+.race-variant-option:focus-visible {
+    background: rgba(180, 140, 80, 0.08);
+}
+
+.race-variant-emblem {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    color: #8b6914;
+    font-size: 2rem;
+}
+
+.race-variant-emblem img {
+    display: block;
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 3px rgba(44, 36, 22, 0.18));
+}
+
+.race-variant-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.race-variant-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #2c2416;
+    overflow-wrap: anywhere;
+}
+
+.race-variant-description {
+    max-width: 68ch;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: #5d4c3b;
+    overflow-wrap: anywhere;
+}
+
+.race-variant-modifiers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin-top: 0.25rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+}
+
+.race-variant-modifier {
+    white-space: nowrap;
+    color: #425637;
+}
+
+.race-variant-modifier.negative {
+    color: #914431;
+}
+
+.race-variant-modifier strong {
+    margin-left: 0.15rem;
+}
+
+.race-variant-open {
+    display: grid;
+    place-items: center;
+    color: #8a6a30;
+    font-size: 0.9rem;
+}
+
+.race-reading-section {
+    border-bottom: 1px solid rgba(180, 140, 80, 0.25);
+}
+
+.race-reading-section summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 52px;
+    padding: 0.75rem 0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5a3a1a;
+    cursor: pointer;
+    list-style: none;
+}
+
+.race-reading-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.race-reading-section summary:hover {
+    color: #8b6914;
+}
+
+.race-reading-section summary i {
+    font-size: 0.7rem;
+    flex-shrink: 0;
+}
+
+.race-reading-section[open] summary i {
+    transform: rotate(180deg);
+}
+
+.race-reading-text {
+    padding-bottom: 1rem;
+    max-width: 72ch;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #5d4037;
+    overflow-wrap: anywhere;
+}
+
+.race-reading-text p {
+    margin: 0 0 1rem;
+}
+
+.race-reading-text p:last-child {
+    margin-bottom: 0;
 }
 
 .race-info-panel .content-section-title {
@@ -342,24 +474,11 @@
     letter-spacing: 1px;
 }
 
-.race-info-panel .content-section-text,
-.race-info-panel .race-overview-text {
-    font-size: 1rem;
-    line-height: 1.65;
-    text-align: left;
-}
-
-.race-info-panel .race-overview-section {
-    margin: 0;
-}
-
 .race-selection-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.75rem;
     min-width: 0;
-    padding-left: 1.5rem;
-    border-left: 1px solid rgba(180, 140, 80, 0.25);
 }
 
 .race-selection-artwork {
@@ -367,16 +486,14 @@
     min-width: 0;
 }
 
+/* The plate hugs the artwork: the guide-illustration-image base rule (width 100%,
+   height auto) lets each image define the frame's height, so no letterboxed
+   parchment ever shows around the art (bestiary tome-plate feel). */
 .race-selection-artwork .guide-illustration-frame {
     display: block;
     width: 100%;
-    padding: 8px;
+    padding: 6px;
     overflow: hidden;
-}
-
-.race-selection-artwork .guide-illustration-image {
-    max-height: 360px;
-    object-fit: contain;
 }
 
 .race-artwork-enlarge {
@@ -394,44 +511,53 @@
     font-size: 0.7rem;
 }
 
+.race-artwork-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
 .race-artwork-caption {
-    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     font-weight: 600;
     color: #5a3a1a;
-    text-align: center;
 }
 
 .race-artwork-caption span {
-    display: block;
-    margin-top: 0.2rem;
     font-family: 'Crimson Text', serif;
     font-size: 0.9rem;
-    font-style: italic;
     font-weight: 400;
     color: #786044;
+    font-variant-numeric: tabular-nums;
 }
 
-.race-artwork-cycle {
+.race-artwork-navigation {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    width: 100%;
-    min-height: 36px;
-    margin-top: 0.65rem;
-    padding: 0.4rem 0.6rem;
+    gap: 0.5rem;
+}
+
+.race-artwork-navigation button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
     border: 1px solid rgba(180, 140, 80, 0.35);
-    border-radius: 6px;
-    background: rgba(212, 175, 55, 0.06);
+    border-radius: 4px;
+    background: transparent;
     color: #5a3a1a;
     font: inherit;
     font-size: 0.85rem;
     cursor: pointer;
 }
 
-.race-artwork-cycle:hover {
+.race-artwork-navigation button:hover {
     background: rgba(212, 175, 55, 0.14);
     border-color: #b8941f;
 }
@@ -441,9 +567,9 @@
 }
 
 .race-info-panel .race-base-traits-compact {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1.5rem;
     margin: 0;
 }
 
@@ -451,17 +577,12 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.2rem;
-    padding: 0.65rem 0;
+    padding: 1rem 0;
     background: none;
     border: none;
     border-bottom: 1px solid rgba(180, 140, 80, 0.18);
     border-radius: 0;
     font-size: 0.95rem;
-}
-
-.race-info-panel .base-trait-chip:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
 }
 
 .base-trait-chip dt {
@@ -482,22 +603,22 @@
     overflow-wrap: anywhere;
 }
 
-.race-info-panel button:focus-visible {
+.race-selector-container button:focus-visible,
+.race-reading-section summary:focus-visible {
     outline: 3px solid #b8941f;
     outline-offset: 4px;
 }
 
-@container race-info (max-width: 880px) {
+@container race-info (max-width: 800px) {
     .race-info-layout {
         grid-template-columns: minmax(0, 1fr);
     }
 
     .race-selection-sidebar {
         display: grid;
-        grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.5rem;
         padding: 1.25rem 0 0;
-        border-left: none;
         border-top: 1px solid rgba(180, 140, 80, 0.25);
     }
 
@@ -512,72 +633,47 @@
     }
 
     .race-selection-artwork {
-        width: min(100%, 300px);
+        width: min(100%, 400px);
         justify-self: center;
     }
 
-    .race-info-panel .variant-grid {
-        grid-template-columns: minmax(0, 1fr);
+    .race-variant-option {
+        grid-template-columns: 48px minmax(0, 1fr) 24px;
+        gap: 0.5rem 0.75rem;
+        padding: 1rem 0;
     }
 
-    .race-info-panel .race-base-traits-compact {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 1rem;
+    .race-variant-copy {
+        display: contents;
     }
 
-    .race-info-panel .base-trait-chip:last-child {
+    .race-variant-emblem {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .race-variant-emblem img {
+        height: 48px;
+    }
+
+    .race-variant-name {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .race-variant-open {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .race-variant-description,
+    .race-variant-modifiers {
         grid-column: 1 / -1;
     }
-}
 
-/* Race Overview Section */
-.race-overview-section {
-    margin-bottom: 1rem;
-}
-
-.race-overview-text {
-    font-size: 0.9rem;
-    color: #5d4037;
-    line-height: 1.7;
-    text-align: justify;
-    max-height: 120px;
-    overflow: hidden;
-    position: relative;
-    transition: max-height 0.4s ease;
-}
-
-.race-overview-text:not(.expanded)::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(transparent, #f4f1e8);
-    pointer-events: none;
-}
-
-.race-overview-text.expanded {
-    max-height: none;
-}
-
-.overview-toggle {
-    background: none;
-    border: none;
-    color: #8b6914;
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 0.4rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: color 0.2s ease;
-}
-
-.overview-toggle:hover {
-    color: #d4af37;
+    .race-variant-modifiers {
+        gap: 0.4rem 0.75rem;
+    }
 }
 
 /* Compact Base Traits */
@@ -806,14 +902,15 @@
 
 .variant-details-view {
     background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
-    border: 2px solid #c8a96e;
+    border: 1px solid #c8a96e;
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: var(--race-panel-padding);
     box-shadow:
         0 4px 16px rgba(139, 90, 60, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    margin-top: 1rem;
+    margin: 1rem 0 1.5rem;
     position: relative;
+    container: race-details / inline-size;
 }
 
 .variant-details-view::before {
@@ -828,11 +925,71 @@
     pointer-events: none;
 }
 
-.variant-details-view .step-title {
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(180, 140, 80, 0.3);
+.variant-details-header {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(180, 140, 80, 0.3);
+}
+
+.variant-details-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+}
+
+.variant-details-identity > div {
+    min-width: 0;
+}
+
+.variant-details-title {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #2c2416;
+    overflow-wrap: anywhere;
+}
+
+.variant-details-race {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #786044;
+}
+
+.variant-details-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.variant-details-actions button {
+    min-height: 44px;
+}
+
+.variant-back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(180, 140, 80, 0.35);
+    border-radius: 6px;
+    background: transparent;
+    color: #5a3a1a;
+    font: inherit;
+    cursor: pointer;
+}
+
+.variant-back-button:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #b8941f;
 }
 
 .details-layout {
@@ -847,8 +1004,8 @@
 
 .details-body {
     display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 1.5rem;
+    grid-template-columns: clamp(240px, 27%, 300px) minmax(0, 1fr);
+    gap: var(--race-panel-gap);
     margin-bottom: 1rem;
     align-items: start;
 }
@@ -857,8 +1014,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    position: sticky;
-    top: 1rem;
+    min-width: 0;
 }
 
 .sidebar-illustration .guide-illustration-frame {
@@ -869,20 +1025,40 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.sidebar-illustration .guide-illustration-image {
-    width: 100%;
-    border-radius: 2px;
-    display: block;
-}
+/* Keep the detail plate hugging the artwork too (base image rule handles sizing;
+   do not re-add max-height/object-fit:contain — it letterboxes the art). */
 
 .sidebar-illustration .guide-illustration-caption {
-    font-family: 'Cinzel', serif;
-    font-size: 0.68rem;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.85rem;
     color: #5a3a1a;
     text-align: center;
     padding: 0.5rem 0.25rem 0.25rem;
-    line-height: 1.4;
+    line-height: 1.5;
     font-style: italic;
+}
+
+.race-detail-artwork {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: zoom-in;
+}
+
+.race-detail-artwork .race-artwork-enlarge {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.variant-details-view .sidebar-physical,
+.variant-details-view .info-block {
+    min-width: 0;
 }
 
 .sidebar-physical {
@@ -900,8 +1076,9 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 0.75rem;
-    padding: 0.15rem 0;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    padding: 0.4rem 0;
     border-bottom: 1px solid rgba(180, 140, 80, 0.12);
 }
 
@@ -913,15 +1090,16 @@
     color: #8a6d3b;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     font-weight: 600;
 }
 
 .sidebar-stat-row strong {
     color: #2c1a08;
     font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     text-align: right;
+    overflow-wrap: anywhere;
 }
 
 .sidebar-stat-row-full {
@@ -940,6 +1118,32 @@
     flex-direction: column;
     gap: 1.25rem;
     min-width: 0;
+}
+
+/* A continuous reading column instead of a stack of nested parchment cards. */
+.variant-details-view .details-content .content-section {
+    padding: 1.25rem 0 0;
+    border: 0;
+    border-top: 1px solid rgba(180, 140, 80, 0.25);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.variant-details-view .details-content .content-section:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.variant-details-view .details-content .content-section::before {
+    content: none;
+}
+
+.variant-details-view .content-section-text {
+    max-width: 75ch;
+    font-size: 1rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
 }
 
 .content-section {
@@ -1025,6 +1229,7 @@
     letter-spacing: 0.5px;
     color: #8a6a30;
     cursor: pointer;
+    min-height: 36px;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
@@ -1096,14 +1301,13 @@
 
 /* Scoped to race-selector-container to avoid global conflicts */
 .race-selector-container .stat-modifiers-row {
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
     box-sizing: border-box;
     margin: 0.5rem 0 0.3rem 0;
     padding: 0.5rem 0;
@@ -1119,7 +1323,7 @@
     padding: 0.3rem 0.6rem !important;
     border-radius: 4px !important;
     font-family: 'Cinzel', serif !important;
-    font-size: 0.65rem !important;
+    font-size: 0.75rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
@@ -1128,8 +1332,6 @@
     min-height: 1.6rem !important;
     max-height: 1.6rem !important;
     height: 1.6rem !important;
-    flex: 1 1 0 !important;
-    flex-shrink: 1 !important;
     line-height: 1 !important;
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -1267,6 +1469,27 @@
     flex: 1;
     text-align: right;
     line-height: 1.2;
+}
+
+.variant-details-view .info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.variant-details-view .info-row {
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.variant-details-view .info-label {
+    font-size: 0.7rem;
+    white-space: normal;
+    flex-shrink: 1;
+    overflow-wrap: anywhere;
+}
+
+.variant-details-view .info-value {
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
 }
 
 /* ===== RIGHT COLUMN: TRAITS + CULTURAL ===== */
@@ -1538,6 +1761,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    padding: 0;
+    background: #fcf8ee;
 }
 
 .trait-icon-item:hover {
@@ -1580,18 +1805,55 @@
 
 /* ===== RESPONSIVE ===== */
 
-@media (max-width: 1024px) {
+@container race-details (max-width: 880px) {
     .details-body {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .details-sidebar {
-        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
     }
 
     .sidebar-illustration {
-        max-width: 320px;
-        margin: 0 auto;
+        grid-row: span 4;
+    }
+
+    .details-sidebar > :not(.sidebar-illustration) {
+        grid-column: 2;
+    }
+}
+
+@container race-details (max-width: 540px) {
+    .variant-details-title {
+        font-size: 1.2rem;
+    }
+
+    .variant-details-actions {
+        width: 100%;
+    }
+
+    .variant-details-actions button {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .details-sidebar {
+        display: flex;
+    }
+
+    .sidebar-illustration {
+        width: min(100%, 300px);
+        align-self: center;
+    }
+
+    .variant-details-switcher .switcher-buttons {
+        width: 100%;
+    }
+
+    .variant-details-switcher .switcher-btn {
+        flex: 1 1 180px;
     }
 }
 
@@ -1780,22 +2042,12 @@
         justify-content: center;
     }
 
-    .race-info-panel .race-info-icon {
-        width: 44px;
-        height: 44px;
-    }
-
-    .race-info-panel .race-info-icon img {
-        width: 34px;
-        height: 34px;
-    }
-
     .race-info-panel .race-info-name {
-        font-size: 1.2rem;
+        font-size: 1.75rem;
     }
 
     .race-info-panel .race-info-essence {
-        font-size: 0.7rem;
+        font-size: 1rem;
     }
 
     .race-base-traits-compact {
@@ -1905,12 +2157,9 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
-    border: 2px solid #c8a96e;
-    border-radius: 10px;
-    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(180, 140, 80, 0.25);
+    padding: 0 0 1.25rem;
     flex-wrap: wrap;
-    box-shadow: 0 3px 10px rgba(139, 90, 60, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .variant-details-switcher .switcher-label {
@@ -1923,13 +2172,14 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    white-space: nowrap;
+    flex-wrap: wrap;
 }
 
 .variant-details-switcher .switcher-buttons {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
+    min-width: 0;
 }
 
 .variant-details-switcher .switcher-btn {
@@ -1948,6 +2198,10 @@
     gap: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
+    min-width: 0;
+    max-width: 100%;
+    min-height: 44px;
+    text-align: left;
 }
 
 .variant-details-switcher .switcher-btn:hover {
@@ -1961,17 +2215,26 @@
 .variant-details-switcher .switcher-btn.active {
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(184, 148, 31, 0.4) 100%);
     border-color: #d4af37;
-    color: #fffaf0;
+    color: #3e2c1b;
     font-weight: 700;
     box-shadow: 
         0 0 16px rgba(212, 175, 55, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-    .variant-details-switcher .switcher-btn .variant-stats {
-        font-size: 0.75rem;
-        opacity: 0.8;
-        font-family: 'Cinzel', serif;
-    }
+
+.switcher-btn-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.variant-details-switcher .switcher-btn .variant-stats {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-family: 'Crimson Text', serif;
+}
 
 /* ===== THEMATIC RACE & VARIANT CARD LAYOUT & STYLES ===== */
 
@@ -3077,14 +3340,14 @@
     color: #fcf8ee;
     border: 1px solid rgba(212, 175, 55, 0.4);
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    opacity: 0;
+    opacity: 1;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
@@ -3110,6 +3373,7 @@
 
 .illustration-dots {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 6px;
     margin-top: 8px;
@@ -3117,6 +3381,18 @@
 }
 
 .illustration-dot {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.illustration-dot::before {
+    content: '';
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -3126,11 +3402,11 @@
     border: 1px solid transparent;
 }
 
-.illustration-dot:hover {
+.illustration-dot:hover::before {
     background: rgba(139, 69, 19, 0.5);
 }
 
-.illustration-dot.active {
+.illustration-dot.active::before {
     background: #d4af37;
     border-color: #8b4513;
     transform: scale(1.15);
@@ -3720,7 +3996,7 @@
   height: 48px;
   object-fit: contain;
   vertical-align: middle;
-  margin-right: 0.75rem;
+  flex-shrink: 0;
   filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.6));
   display: inline-block;
 }

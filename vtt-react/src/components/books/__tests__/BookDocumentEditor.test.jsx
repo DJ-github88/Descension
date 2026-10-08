@@ -454,7 +454,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     const sideBlock = {
       type: 'side_by_side',
       ratio: '50-50',
-      left: { type: 'image', url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider' },
+      left: { type: 'image', url: '/assets/images/races/human_merryn_portrait_bust.jpg', caption: 'Merryn Wave-Rider' },
       right: { type: 'paragraph', text: 'Across the misty frontiers, legends are written in iron.' }
     };
 
@@ -528,7 +528,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
 
     expect(screen.getByText('Configure Sourcebook Illustration')).toBeInTheDocument();
     expect(screen.getByText('Character & Race Art')).toBeInTheDocument();
-    expect(screen.getByText('Solari Cinder-Walker')).toBeInTheDocument();
+    expect(screen.getByText('Arch Mimir Seer')).toBeInTheDocument();
   });
 
   test('renders BookItemCreatorModal with Item Library and Item Wizard controls', () => {
@@ -672,7 +672,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
                 {
                   id: 'b-img-left',
                   type: 'image',
-                  url: '/assets/images/races/merryn_illustration.png',
+                  url: '/assets/images/races/human_merryn_portrait_bust.jpg',
                   caption: 'Merryn Wave-Rider',
                   column: 'left',
                   slotAlign: 'left',
@@ -712,7 +712,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
                 {
                   id: 'b-img-left',
                   type: 'image',
-                  url: '/assets/images/races/merryn_illustration.png',
+                  url: '/assets/images/races/human_merryn_portrait_bust.jpg',
                   caption: 'Merryn Wave-Rider',
                   column: 'left',
                   slotAlign: 'left',

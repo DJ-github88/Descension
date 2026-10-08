@@ -5,6 +5,7 @@ import { getEncumbranceState, triggerCharacterAutoSave } from '../characterHelpe
 import { normalizeManagedClassResource, updateManagedClassResource, getManagedResourceId, getClassResourceValue, changeManagedClassResource } from '../../data/classResourceContracts';
 import { applyApexPackEvent, beginApexOwnTurn, getApexCompanionStatus } from '../../data/apexResourceContract';
 import { getStore } from '../storeRegistry';
+import { clearActivePointer } from '../../persistence/characterScopedStorage';
 import { advancePyroDebtCall } from '../../data/pyrofiendResourceContract';
 import { recordSpellguardIntake } from '../../data/spellguardResourceContract';
 import { getInquisitorAssistanceDecision } from '../../data/inquisitorResourceContract';
@@ -462,8 +463,8 @@ export const createResourceSlice = (set, get) => ({
                 return character;
             } else {
                 console.warn(`Active character ID ${state.currentCharacterId} not found in characters array`);
-                // Clear invalid active character ID
-                localStorage.removeItem('mythrill-active-character');
+                // Clear invalid active character ID (scoped selector)
+                clearActivePointer();
                 set({ currentCharacterId: null });
             }
         }

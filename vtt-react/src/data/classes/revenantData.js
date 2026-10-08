@@ -30,7 +30,7 @@ export const REVENANT_DATA = {
    */
   subraceVariants: {
     velun_neth: {
-      subraceName: 'Athien',
+      subraceName: 'Nethien',
       title: 'The Document-Preserved',
       reframe: `Vesper, a Athien scribe dying of sump-lung-rot, performed the forbidden Rite of the Cold Hearth, binding his soul to a basalt phylactery and freezing his own decay. The Athien Revenant treats the soul as a document to be preserved: filed, anchored, and impossible to un-write.`,
       signatureAbility: {

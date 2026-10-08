@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 
 /**
  * Universal Tag Registry Store
@@ -80,10 +81,9 @@ export const useTagRegistryStore = create(
         set({ customTags: {} });
       }
     }),
-    {
-      name: 'mythrill-universal-tag-registry',
-      version: 1
-    }
+    // Wave B (final sweep): custom tag assignments/metadata are authored
+    // private content; the legacy global key is quarantined, never adopted.
+    createScopedStorageConfig('campaign.tagRegistry', 'mythrill-universal-tag-registry', { version: 1 })
   )
 );
 

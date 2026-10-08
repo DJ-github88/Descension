@@ -18,6 +18,13 @@ import RoomToast from './RoomToast';
 import { showPrompt, showAlert } from '../../utils/dialogService';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import './styles/RoomManager.css';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
+
+// Wave B closure: room metadata fallback cache is private to the verified owner.
+const roomMetadataFamily = createScopedNativeFamily({
+  familyId: 'room.recent.data',
+  legacyKeys: []
+});
 
 const RoomManager = () => {
   const navigate = useNavigate();
@@ -421,13 +428,12 @@ const RoomManager = () => {
         )
       );
 
-      // 3. Fallback for local metadata/image caching
+      // 3. Fallback for local metadata/image caching (verified-owner scoped)
       if (updates.customImage || updates.description) {
-        const existingData = localStorage.getItem(`room-data-${roomId}`) || '{}';
-        const roomData = JSON.parse(existingData);
+        const roomData = roomMetadataFamily.load([roomId]) || {};
         const updatedData = { ...roomData, ...updates };
         try {
-          localStorage.setItem(`room-data-${roomId}`, JSON.stringify(updatedData));
+          roomMetadataFamily.save(updatedData, [roomId]);
         } catch (storageError) {
           console.warn('LocalStorage update failed (possibly quota):', storageError);
         }

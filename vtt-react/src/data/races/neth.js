@@ -68,7 +68,7 @@ Young Athien, those only fifty or sixty years old, still fluid, still capable of
 The Athien operate from their grave-city Atropolis, a cathedral-grove woven into the canopy of the Gloom's oldest ironwood forest. They control the major trade outposts, Ironjaw Port on the Iceheart Sea, the Frostwood trade-embassy, the Sundale crossroads, because these outposts house copies of the First Contract. Without a copy nearby, the Athien begin the Fading: a slow unraveling of mind and body that ends in a pale-skinned husk with nothing left behind the eyes. Their trade empire is not built on ambition. It is built on necessity. They cannot leave the documents, so the documents must go wherever they go.`,
 
   variantDiversity: `The Athien have three current heritages, with distinct Well histories and later severance:
-• Athien (The Loyalists): Paper-white luminous skin, delicate preservation lines, solid obsidian-black eyes, and silver leaf circlets. They inhabit Atropolis's grown ironwood canopy and administer its Great Registry, distinct from Greymark's Sovereign Ledger.
+ • Nethien (The Loyalists): Paper-white luminous skin, delicate preservation lines, solid obsidian-black eyes, and silver leaf circlets. They inhabit Atropolis's grown ironwood canopy and administer its Great Registry, distinct from Greymark's Sovereign Ledger.
 • Weft (The Shadow-Brokers): Sly, cunning, street-smart under-fog operators with slate-tinted pale skin, dark charcoal-streaked hair, and luminous coin-silver eyes that reflect lantern-light like a cat's in the dark. Wearing dark wool traveling coats with hidden pockets, they operate out of foggy subterranean canals, trading secret blackmail scrolls, contraband silver, and forged passes.
 • Riven (the severed bloodline): Gaunt, unpreserved mortals with dry pale skin and haunted pale-grey eyes. Some preserve ruin-scrivener and enchanting traditions; others build lives as couriers, guides, or traders. Deliberate Severing removed their pact signatures, not their souls.`,
 
@@ -82,7 +82,7 @@ The Athien operate from their grave-city Atropolis, a cathedral-grove woven into
  meaningfulTradeoffs: 'Athien gain preservation and magical power through their pact with Morvane, but are tethered to physical copies of the First Contract, straying too far causes the Fading. The Unraveling offers freedom at the cost of self-destruction. Subrace flaws are binding: Athien are bound by Morvane\'s authority and face harsh consequences for breach, Weft break things they cannot see, and Riven are legally non-existent.',
 
  baseTraits: {
- languages: ["Wayfarer's Cant", 'Gloom-Tongue'],
+ languages: ["Wayfarer's Cant", 'Gloomtongue'],
  lifespan: 'Indefinite (pact-bound)',
  baseSpeed: 30,
  size: 'Medium',
@@ -417,7 +417,7 @@ The Athien do not love Morvane. They respect it the way a debtor respects a cred
  subraces: {
   velun: {
    id: 'velun_neth',
-   name: 'Athien',
+   name: 'Nethien',
         crest: '/assets/images/crests/neth_high_crest.png',
    illustration: '/assets/images/races/neth_high_city_atropolis.jpg',
    illustrationCaption: 'Atropolis & The Great Ledger Chancery — Sovereign classical law-metropolis of the Athien with marble colonnades, gilded domes, and robed magistrates in rough charcoal draft with ledger gold watercolor splash.',
@@ -610,7 +610,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
    }
    ],
-   languages: ["Wayfarer's Cant", 'Gloom-Tongue', 'Aethilic'],
+   languages: ["Wayfarer's Cant", 'Gloomtongue', 'Aethilic'],
    speed: 30,
     baseStats: { hp: 16, mana: 20, ap: 3, passivePerception: 14, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 1 },
   savingThrowModifiers: { advantage: ['charm', 'disease'], disadvantage: [] }
@@ -826,7 +826,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
    }
    ],
-   languages: ["Wayfarer's Cant", 'Gloom-Tongue', 'Under-Cant'],
+   languages: ["Wayfarer's Cant", 'Gloomtongue', 'Undercant'],
    speed: 30,
     baseStats: { hp: 18, mana: 16, ap: 4, passivePerception: 16, swimSpeed: 10, climbSpeed: 15, visionRange: 50, darkvision: 60, initiative: 3 },
   savingThrowModifiers: { advantage: ['perception', 'initiative'], disadvantage: ['fear'] }
@@ -1024,7 +1024,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
    }
    ],
-   languages: ["Wayfarer's Cant", 'Gloom-Tongue', 'Bonewrit'],
+   languages: ["Wayfarer's Cant", 'Gloomtongue', 'Bonewrit'],
    speed: 35,
     baseStats: { hp: 20, mana: 10, ap: 4, passivePerception: 14, swimSpeed: 10, climbSpeed: 20, visionRange: 50, darkvision: 60, initiative: 3 },
   savingThrowModifiers: { advantage: ['blight'], disadvantage: ['charm'] }

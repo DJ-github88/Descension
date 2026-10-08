@@ -9,6 +9,14 @@ import characterPersistenceService from './characterPersistenceService';
 import { db, isFirebaseConfigured } from '../../config/firebase';
 import { collection, addDoc, getDocs, query, where, orderBy, limit, deleteDoc } from 'firebase/firestore';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import { captureConsumerContext, captureOwnerGuard, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
+import {
+  saveOwnerBackup,
+  readOwnerBackup,
+  removeOwnerBackup,
+  listOwnerBackups,
+  LEGACY_BACKUP_PREFIX
+} from '../../persistence/characterBackupScopedStorage';
 
 // Backup configuration
 const BACKUP_COLLECTIONS = {
@@ -37,8 +45,16 @@ class CharacterBackupService {
    * Create a backup of character data
    */
   async createBackup(characterId, userId, reason = 'manual', characterData = null) {
+    // B1: fence the whole operation to the owner/generation that started it.
+    // A failed cloud backup after handoff must never fall back into the new
+    // account's local scope.
+    const ownerGuard = captureOwnerGuard(userId);
+    if (!ownerGuard.ok) {
+      return { success: false, error: 'owner-context-changed' };
+    }
     if (!this.isConfigured) {
       console.warn('Firebase not configured, cannot create backup');
+      if (!ownerGuard.isCurrent()) return { success: false, error: 'owner-context-changed' };
       return this.createLocalBackup(characterId, characterData, reason);
     }
 
@@ -46,6 +62,9 @@ class CharacterBackupService {
       // Load character data if not provided
       if (!characterData) {
         characterData = await characterPersistenceService.loadCharacter(characterId);
+        if (!ownerGuard.isCurrent()) {
+          return { success: false, error: 'owner-context-changed' };
+        }
         if (!characterData) {
           throw new Error(`Character ${characterId} not found`);
         }
@@ -68,6 +87,10 @@ class CharacterBackupService {
 
       const backupRef = await addDoc(collection(db, BACKUP_COLLECTIONS.CHARACTER_BACKUPS), sanitizedBackup);
 
+      if (!ownerGuard.isCurrent()) {
+        return { success: false, error: 'owner-context-changed' };
+      }
+
       // Update last backup time
       this.lastBackupTimes.set(characterId, new Date());
 
@@ -85,18 +108,32 @@ class CharacterBackupService {
     } catch (error) {
       console.error('Error creating backup:', error);
 
-      // Fallback to local backup
+      // Fallback to local backup only while the originating owner is still
+      // the active verified principal.
+      if (!ownerGuard.isCurrent()) {
+        return { success: false, error: 'owner-context-changed' };
+      }
       return this.createLocalBackup(characterId, characterData, reason);
     }
   }
 
   /**
-   * Create a local backup when Firebase is unavailable
+   * Create a local backup when Firebase is unavailable.
+   *
+   * Wave B closure: the backup belongs to the verified owner scope captured at
+   * creation time. Guest backups stay in guest scope; a bare character id or
+   * user id string is never ownership proof.
    */
   createLocalBackup(characterId, characterData, reason) {
     try {
-      const backupKey = `mythrill-backup-${characterId}-${Date.now()}`;
+      const context = captureConsumerContext();
+      if (!context.ok) {
+        return { success: false, error: 'no-active-owner-scope' };
+      }
+
+      const backupId = `${LEGACY_BACKUP_PREFIX}${characterId}-${Date.now()}`;
       const backup = {
+        backupId,
         characterId,
         characterData,
         backupReason: reason,
@@ -105,12 +142,15 @@ class CharacterBackupService {
         isLocal: true
       };
 
-      localStorage.setItem(backupKey, JSON.stringify(backup));
+      const saved = saveOwnerBackup(backup);
+      if (saved.status !== 'OK') {
+        return { success: false, error: saved.reason || saved.status };
+      }
 
-      console.log(`✅ Local character backup created: ${backupKey} (${reason})`);
+      console.log(`✅ Local character backup created for owner scope (${reason})`);
       return {
         success: true,
-        backupId: backupKey,
+        backupId,
         version: backup.version,
         isLocal: true
       };
@@ -163,29 +203,27 @@ class CharacterBackupService {
   }
 
   /**
-   * List local backups
+   * List local backups for the active verified owner.
+   *
+   * Legacy global `mythrill-backup-*` keys are preserved recovery sources but
+   * are never listed or adopted for a new account.
    */
   listLocalBackups(characterId) {
     try {
+      const records = listOwnerBackups();
       const backups = [];
 
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(`mythrill-backup-${characterId}-`)) {
-          try {
-            const backup = JSON.parse(localStorage.getItem(key));
-            backups.push({
-              id: key,
-              characterId: backup.characterId,
-              backupReason: backup.backupReason,
-              createdAt: backup.createdAt,
-              version: backup.version,
-              isLocal: true
-            });
-          } catch (parseError) {
-            console.warn(`Invalid backup data in ${key}`);
-          }
-        }
+      for (const { backup } of records) {
+        if (!backup || typeof backup !== 'object') continue;
+        if (backup.characterId !== characterId) continue;
+        backups.push({
+          id: backup.backupId,
+          characterId: backup.characterId,
+          backupReason: backup.backupReason,
+          createdAt: backup.createdAt,
+          version: backup.version,
+          isLocal: true
+        });
       }
 
       // Sort by creation date (newest first)
@@ -205,15 +243,26 @@ class CharacterBackupService {
    */
   async restoreFromBackup(backupId, characterId, userId) {
     try {
+      // Wave B closure: capture the account generation at operation start; the
+      // restore write must only land while that same owner is still active.
+      const restoreContext = captureConsumerContext();
+      if (!restoreContext.ok) {
+        return { success: false, error: 'no-active-owner-scope' };
+      }
+
       let backupData;
 
-      if (backupId.startsWith('mythrill-backup-')) {
-        // Local backup
-        const backupJson = localStorage.getItem(backupId);
-        if (!backupJson) {
-          throw new Error('Local backup not found');
+      if (backupId.startsWith(LEGACY_BACKUP_PREFIX)) {
+        // Local backup from THIS verified owner. Legacy global backups are
+        // unknown-owner sources: preserved, never auto-adopted.
+        const backup = readOwnerBackup(backupId);
+        if (!backup) {
+          throw new Error('Local backup not found for the active account (legacy backups are preserved but not auto-adopted)');
         }
-        backupData = JSON.parse(backupJson);
+        if (backup.characterId && characterId && backup.characterId !== characterId) {
+          throw new Error('Backup does not belong to the requested character');
+        }
+        backupData = backup;
       } else {
         // Firebase backup
         if (!this.isConfigured) {
@@ -237,6 +286,11 @@ class CharacterBackupService {
 
       // Create a new backup before restoring (safety measure)
       await this.createBackup(characterId, userId, 'pre_restore');
+
+      // Fence the restore write to the owner that started the operation.
+      if (!isConsumerContextCurrent(restoreContext.context)) {
+        return { success: false, error: 'owner-context-changed' };
+      }
 
       // Restore character data
       const restoredCharacter = {
@@ -343,20 +397,24 @@ class CharacterBackupService {
   }
 
   /**
-   * Clean up local backups
+   * Clean up old local backups for the active verified owner.
+   * Only records inside the current owner scope are considered; legacy global
+   * backups are never visited. The newest MAX are retained.
    */
   cleanupLocalBackups(characterId) {
     try {
-      const backups = this.listLocalBackups(characterId);
+      const records = listOwnerBackups()
+        .filter(({ backup }) => backup && backup.characterId === characterId)
+        .sort((a, b) => new Date(b.backup.createdAt) - new Date(a.backup.createdAt));
 
-      if (backups.length > BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER) {
-        const toDelete = backups.slice(BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER);
+      if (records.length > BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER) {
+        const toDelete = records.slice(BACKUP_CONFIG.MAX_BACKUPS_PER_CHARACTER);
 
-        toDelete.forEach(backup => {
-          localStorage.removeItem(backup.id);
+        toDelete.forEach(({ backup }) => {
+          removeOwnerBackup(backup.backupId);
         });
 
-        console.log(`� - �️ Cleaned up ${toDelete.length} old local backups for character ${characterId}`);
+        console.log(`🧹 Cleaned up ${toDelete.length} old local backups for character ${characterId}`);
       }
 
     } catch (error) {

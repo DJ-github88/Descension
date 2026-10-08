@@ -6,6 +6,9 @@ import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useAuthStore from '../../store/authStore';
 import { getRandomCharacterName, getRandomRoomName } from '../../utils/nameGenerator';
+import { loadConversionTransfer, captureConversionTransfer } from '../../persistence/localRoomConversionScoped';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
+import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import './styles/RoomLobby.css';
 import './styles/RoomCardModern.css';
 import '../account/styles/RoomManager.css';
@@ -236,27 +239,22 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   }, [socket]);
 
   useEffect(() => {
-    // Check for room conversion from local room
-    const isConverting = localStorage.getItem('isConverting') === 'true';
-    const convertingLocalRoom = localStorage.getItem('convertingLocalRoom');
+    // Check for room conversion from local room (verified-owner scoped).
+    // B10: prefilling the create-room form is non-destructive. The preserved
+    // transfer stays available for the actual room-creation handler and for
+    // the later S8 durability-confirmation process.
+    const conversionData = loadConversionTransfer();
 
-    if (isConverting && convertingLocalRoom) {
+    if (conversionData) {
       try {
-        const conversionData = JSON.parse(convertingLocalRoom);
-        setRoomName(conversionData.name);
-        setRoomDescription(conversionData.description);
+        setRoomName(conversionData.name || '');
+        setRoomDescription(conversionData.description || '');
         setActiveTab('create');
-
-        // Clear conversion flags
-        localStorage.removeItem('isConverting');
-        localStorage.removeItem('convertingLocalRoom');
-
       } catch (error) {
-        console.error('Error parsing conversion data:', error);
-        localStorage.removeItem('isConverting');
-        localStorage.removeItem('convertingLocalRoom');
+        console.error('Error applying conversion data:', error);
       }
-      return;
+      // Fall through: authentication must still initialize so the permanent
+      // (conversion-consuming) create path is reachable.
     }
 
 
@@ -296,6 +294,19 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         unsubscribe();
       }
     };
+  }, []);
+
+  useEffect(() => {
+    let formContext = captureConsumerContext().context;
+    return subscribeBootstrapGate(() => {
+      if (formContext && isConsumerContextCurrent(formContext)) return;
+      formContext = captureConsumerContext().context;
+      const transfer = formContext ? loadConversionTransfer() : null;
+      setRoomName(transfer?.name || '');
+      setRoomDescription(transfer?.description || '');
+      setIsConnecting(false);
+      setIsCreatingRoom(false);
+    });
   }, []);
 
   // Set up socket event listeners when socket is available
@@ -597,9 +608,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
 
   const loadUserRooms = async () => {
     if (!auth?.currentUser) return;
+    const captured = captureConsumerContext();
 
     try {
       const rooms = await getUserRooms(auth.currentUser.uid);
+      if (!captured.ok || !isConsumerContextCurrent(captured.context)) return;
       setUserRooms(rooms);
     } catch (error) {
       console.error('Failed to load user rooms:', error);
@@ -641,15 +654,31 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     setIsCreatingRoom(true);
     setError('');
 
+    // B10: capture the preserved conversion transfer and the originating
+    // owner BEFORE any await. Creation consumes exactly this transfer, and a
+    // handoff mid-operation can neither substitute another account's transfer
+    // nor let this operation clear one.
+    const ownerContext = captureConversionTransfer();
+    if (!ownerContext.ok) {
+      setIsConnecting(false);
+      setIsCreatingRoom(false);
+      return;
+    }
+    const conversionTransfer = ownerContext.payload;
+    const creationFields = {
+      roomName: roomName.trim(), description: (roomDescription || '').trim(),
+      password: roomPasswordRef.current.trim(), gmName: finalPlayerName, playerColor
+    };
+
     try {
       // Try to create persistent room in Firebase first
       let persistentRoomId = null;
       try {
         persistentRoomId = await createPersistentRoom({
-          name: roomName.trim(),
-          description: roomDescription.trim(),
-          password: roomPasswordRef.current.trim(),
-          gmName: finalPlayerName,
+          name: creationFields.roomName,
+          description: creationFields.description,
+          password: creationFields.password,
+          gmName: creationFields.gmName,
           maxPlayers: 6
         });
       } catch (firebaseError) {
@@ -657,35 +686,27 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         // Continue with socket room creation even if Firebase fails
       }
 
-      // Check for converted local room game state
-      const convertingLocalRoom = localStorage.getItem('convertingLocalRoom');
+      if (!isConsumerContextCurrent(ownerContext.context) || !socket.connected) return;
+
+      // Converted local room game state (verified-owner scoped, captured above)
       let gameState = null;
       let originalRoomId = null;
 
-      if (convertingLocalRoom) {
-        try {
-          const conversionData = JSON.parse(convertingLocalRoom);
-          gameState = conversionData.gameState;
-          originalRoomId = conversionData.originalRoomId;
-        } catch (error) {
-          console.error('Error parsing conversion game state:', error);
-        }
+      if (conversionTransfer) {
+        gameState = conversionTransfer.gameState;
+        originalRoomId = conversionTransfer.originalRoomId;
       }
 
       // Create socket server room for immediate multiplayer
       const roomData = {
-        roomName: roomName.trim(),
-        description: roomDescription.trim(),
-        gmName: finalPlayerName,
-        password: roomPasswordRef.current.trim(),
-        playerColor: playerColor,
+        ...creationFields,
         persistentRoomId: persistentRoomId, // Include Firebase room ID if available
         gameState: gameState, // Include converted game state if available
         isConverted: !!originalRoomId, // Flag to indicate this is a converted room
         // Include GM's character data for proper player HUD display
         character: activeCharacter ? {
           id: activeCharacter.id,
-          userId: useAuthStore.getState().user?.uid, // Include Firebase UID for party notifications
+          userId: ownerContext.context.scope.scopeId,
           name: activeCharacter.name,
           class: activeCharacter.class,
           race: activeCharacter.race,
@@ -706,6 +727,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         })) : [] // Include party members (excluding current player who is the GM)
       };
 
+      if (!isConsumerContextCurrent(ownerContext.context)) return;
       socket.emit('create_room', roomData);
 
       // Try to refresh user rooms if Firebase is available
@@ -714,6 +736,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       } catch (error) {
         console.warn('Failed to refresh user rooms:', error);
       }
+      if (!isConsumerContextCurrent(ownerContext.context)) return;
 
       // Set flag to refresh room data when returning to account page
       if (persistentRoomId) {
@@ -721,23 +744,14 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
         localStorage.setItem('lastCreatedRoom', persistentRoomId);
       }
 
-      // Mark local room as converted if this was a conversion
-      if (originalRoomId && persistentRoomId) {
-        try {
-          const { default: localRoomService } = await import('../../services/localRoomService');
-          localRoomService.markRoomAsConverted(originalRoomId, persistentRoomId);
-
-          // Clear conversion data
-          localStorage.removeItem('convertingLocalRoom');
-        } catch (error) {
-          console.error('Error marking local room as converted:', error);
-        }
-      }
+      // Emitting a request is not a durability acknowledgment. Retain the
+      // source room and the scoped transfer unchanged for S8 confirmation.
 
       // Note: The socket will handle the response via 'room_created' event
       // which will call onJoinRoom and clear the form
 
     } catch (error) {
+      if (!isConsumerContextCurrent(ownerContext.context)) return;
       console.error('Failed to create room:', error);
       const errorMsg = error.message || 'Failed to create room';
       setError(translateErrorToFantasy(errorMsg));
@@ -831,6 +845,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   };
 
   const handleCreateRoom = () => {
+    const conversion = captureConversionTransfer();
+    if (!conversion.ok) return;
     // Get active character name - this should be the primary player name
     const activeCharacter = getActiveCharacter();
     const characterName = activeCharacter?.name || activeCharacter?.baseName;
@@ -873,6 +889,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       playerColor: playerColor,
       isPermanent: makePermanent, // Mark room as permanent for local persistence
       userId: useAuthStore.getState().user?.uid, // Include Firebase UID at top level for party notifications
+      gameState: conversion.payload?.gameState || null,
+      isConverted: !!conversion.sourceRoomId,
       // Include GM's character data for proper player HUD display
       character: activeCharacter ? {
         id: activeCharacter.id,
@@ -909,6 +927,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       onJoinAttempt(null);
     }
 
+    if (!isConsumerContextCurrent(conversion.context)) return;
     socket.emit('create_room', roomData);
   };
 

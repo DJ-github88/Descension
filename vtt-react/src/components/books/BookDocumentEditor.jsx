@@ -68,7 +68,7 @@ const NEW_BLOCK_DEFAULTS = {
   },
   side_by_side: {
     ratio: '50-50',
-    left: { type: 'image', url: '/assets/images/races/merryn_illustration.png', caption: 'Merryn Wave-Rider' },
+    left: { type: 'image', url: '/assets/images/races/human_merryn_portrait_bust.jpg', caption: 'Merryn Wave-Rider' },
     right: { type: 'paragraph', text: 'Across the misty frontiers, legends are written in iron and frost...' }
   },
   callout: { calloutType: 'lore', title: 'Historical Note', icon: 'fa-scroll', content: 'Ancient chronicles record that the realm was once united under a single banner...' },
@@ -224,7 +224,7 @@ const NEW_BLOCK_DEFAULTS = {
   },
   table_of_contents: { autoGenerate: true },
   entity_embed: { entityType: 'faction', entityId: '', displayMode: 'card' },
-  image: { url: '/assets/images/races/merryn_illustration.png', caption: '', alignment: 'center', frameStyle: 'gold-frame', crestLabel: '', sizePreset: 'full' },
+  image: { url: '/assets/images/races/human_merryn_portrait_bust.jpg', caption: '', alignment: 'center', frameStyle: 'gold-frame', crestLabel: '', sizePreset: 'full' },
   sketch_canvas: { title: 'Cartographic Sketch', caption: '', strokes: [], bgTheme: 'parchment' }
 };
 

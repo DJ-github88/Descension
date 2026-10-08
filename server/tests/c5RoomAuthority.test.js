@@ -3913,6 +3913,123 @@ describe('Project 4 C5 room authority', function() {
         await server.stop();
       }
     });
+
+    it('RECOVERY-1: an unresolved first recovery cannot supply a reconnect exemption', async() => {
+      const durable = createDurableCompensationStore();
+      const server = createProductionStackServer();
+      try {
+        await server.start();
+        durable.install();
+        // This regression issues several join attempts in quick succession.
+        server.setEventLimits('join_room', { maxPerMinute: 100, maxPerSecond: 100 });
+        // The first corrective revoke fails transiently; later attempts succeed.
+        let revokeCalls = 0;
+        firebaseService.removeRoomMember = async() => {
+          revokeCalls += 1;
+          return revokeCalls === 1 ? { ok: false, reason: 'unavailable' } : { ok: true };
+        };
+
+        const gmUid = server.nextUserId('gm');
+        server.registerAuthToken(`tok-${gmUid}`, gmUid);
+        const gm = server.connect({ token: `tok-${gmUid}` });
+        await connected(gm);
+        const room = await server.seedRoom(gm.id, {
+          name: 'Recovery PW', gmName: 'GM', gmUserId: gmUid, members: [gmUid],
+          password: 'correct-horse', persistentRoomId: 'recovery-1-room'
+        });
+        room.isPermanent = true;
+        const playerUid = server.nextUserId('player');
+        server.registerAuthToken(`tok-${playerUid}`, playerUid);
+        const player = server.connect({ token: `tok-${playerUid}` });
+        await connected(player);
+        room.members = [gmUid, playerUid];
+        durable.store.set(`recovery-1-room\u0000${playerUid}`, {
+          roomId: 'recovery-1-room', userId: playerUid, compensationId: 'pending-1', state: 'pending_admission'
+        });
+        let joinedCount = 0;
+        player.on('room_joined', () => { joinedCount += 1; });
+
+        // 1) First recovery revoke fails: bounded recovery-pending refusal. The
+        // pending UID must not receive a reconnect exemption, and the admission
+        // helper must never be reached to perform a second, successful recovery
+        // that would regrant without the wrong password being checked.
+        const firstError = once(player, 'room_error');
+        player.emit('join_room', { roomId: 'recovery-1-room', playerName: 'P', password: 'wrong-password' });
+        expect((await firstError).code).to.equal('membership_compensation_required');
+        expect(revokeCalls).to.equal(1);
+        expect(room.players.size).to.equal(0);
+        expect(server.players.has(player.id)).to.equal(false);
+        expect(server.io.sockets.sockets.get(player.id).rooms.has('recovery-1-room')).to.equal(false);
+        expect(room.members).to.deep.equal([gmUid, playerUid]);
+        expect(durable.store.has(`recovery-1-room\u0000${playerUid}`)).to.equal(true);
+        expect(joinedCount).to.equal(0);
+
+        // 2) Recovery now succeeds; the WRONG password is a normal new
+        // admission and must still be rejected. The second recovery cannot
+        // launder the earlier failed authorization.
+        const secondError = once(player, 'room_error');
+        player.emit('join_room', { roomId: 'recovery-1-room', playerName: 'P', password: 'wrong-password' });
+        expect((await secondError).code).to.equal('invalid_password');
+        expect(room.players.size).to.equal(0);
+        expect(room.members).to.deep.equal([gmUid]);
+        expect(durable.store.has(`recovery-1-room\u0000${playerUid}`)).to.equal(false);
+        expect(joinedCount).to.equal(0);
+
+        // 3) Correct password now performs an ordinary new admission.
+        const joined = once(player, 'room_joined');
+        player.emit('join_room', { roomId: 'recovery-1-room', playerName: 'P', password: 'correct-horse' });
+        const payload = await joined;
+        expect(payload.room.id).to.equal('recovery-1-room');
+        expect(room.members).to.include(playerUid);
+        expect(room.players.size).to.equal(1);
+        expect(joinedCount).to.equal(1);
+      } finally {
+        await server.stop();
+      }
+    });
+
+    it('RECOVERY-2: the recovery result explicitly exposes unresolved obligations', async() => {
+      const durable = createDurableCompensationStore();
+      const server = createProductionStackServer();
+      try {
+        await server.start();
+        durable.install();
+        let revokeOk = false;
+        firebaseService.removeRoomMember = async() => (
+          revokeOk ? { ok: true } : { ok: false, reason: 'unavailable' }
+        );
+        const gmUid = server.nextUserId('gm');
+        server.registerAuthToken(`tok-${gmUid}`, gmUid);
+        const gm = server.connect({ token: `tok-${gmUid}` });
+        await connected(gm);
+        const room = await server.seedRoom(gm.id, {
+          name: 'Recovery R2', gmName: 'GM', gmUserId: gmUid, members: [gmUid, 'r2-user'],
+          persistentRoomId: 'recovery-2-room'
+        });
+        room.isPermanent = true;
+        durable.store.set('recovery-2-room\u0000r2-user', {
+          roomId: 'recovery-2-room', userId: 'r2-user', compensationId: 'pending-2', state: 'pending_admission'
+        });
+
+        const first = await roomAccess.retryMembershipCompensations(
+          firebaseService, server.authorityService, 'recovery-2-room', server.rooms
+        );
+        expect(first.ok).to.equal(true);
+        expect(first.cleared).to.equal(0);
+        expect(first.unresolved).to.deep.equal([{ roomId: 'recovery-2-room', userId: 'r2-user' }]);
+
+        revokeOk = true;
+        const second = await roomAccess.retryMembershipCompensations(
+          firebaseService, server.authorityService, 'recovery-2-room', server.rooms
+        );
+        expect(second.ok).to.equal(true);
+        expect(second.cleared).to.equal(1);
+        expect(second.unresolved).to.deep.equal([]);
+        expect(room.members).to.deep.equal([gmUid]);
+      } finally {
+        await server.stop();
+      }
+    });
   });
 });
 

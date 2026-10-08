@@ -14,6 +14,14 @@
 
 import { SUBREGIONS } from './subregions';
 import { REGION_POLYGONS } from './regionPolygons';
+import {
+  recordCustomMapOwnership,
+  isCustomMapOwned,
+  filterOwnedCustomMaps,
+  clearCustomMapOwnership
+} from '../persistence/customMapOwnership';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
+import { captureConsumerContext, isConsumerContextCurrent } from '../persistence/scopedConsumer';
 
 export const BUILTIN_SUBREGION_MAPS = {
   'frostwood-reach': {
@@ -740,18 +748,22 @@ let inMemoryCustomMaps = {};
 
 const PRIMARY_MAP_STORAGE_KEY = 'mythrill_primary_starter_map';
 
+// Wave B (final sweep): the chosen starter/immerse map is an authored private
+// preference in verified-owner scoped storage (retired global key quarantined).
+const starterMapFamily = createScopedNativeFamily({
+  familyId: 'map.starterSelection',
+  legacyKeys: [PRIMARY_MAP_STORAGE_KEY]
+});
+
 /**
  * Get the user's chosen primary immerse & starter page background map.
  * Returns { id, name, image } or default Mythrill planetary map if unset.
  */
 export const getPrimaryStarterMap = () => {
   try {
-    const saved = localStorage.getItem(PRIMARY_MAP_STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed && parsed.image) {
-        return parsed;
-      }
+    const parsed = starterMapFamily.load(['primary']);
+    if (parsed && parsed.image) {
+      return parsed;
     }
   } catch (e) {
     // ignore
@@ -771,7 +783,7 @@ export const getPrimaryStarterMap = () => {
 export const setPrimaryStarterMap = (mapData) => {
   try {
     if (!mapData || mapData.id === 'mythril') {
-      localStorage.removeItem(PRIMARY_MAP_STORAGE_KEY);
+      starterMapFamily.clear(['primary']);
       window.dispatchEvent(new CustomEvent('mythrill_primary_map_changed', {
         detail: {
           id: 'mythril',
@@ -792,7 +804,7 @@ export const setPrimaryStarterMap = (mapData) => {
       isCustom: Boolean(mapData.isCustom)
     };
 
-    localStorage.setItem(PRIMARY_MAP_STORAGE_KEY, JSON.stringify(payload));
+    starterMapFamily.save(payload, ['primary']);
     window.dispatchEvent(new CustomEvent('mythrill_primary_map_changed', { detail: payload }));
   } catch (e) {
     console.warn('Failed to save primary starter map:', e);
@@ -853,10 +865,36 @@ export const initCustomMaps = async () => {
 initCustomMaps();
 
 export const getCustomMaps = () => {
-  return { ...inMemoryCustomMaps };
+  // Wave B (S7/F): only records with an explicit owner-scoped reference for
+  // the active verified owner are exposed; unknown-owner records remain
+  // preserved recovery sources and are never adopted by enumeration.
+  return filterOwnedCustomMaps(inMemoryCustomMaps);
+};
+
+/**
+ * Re-read the localStorage mirror into the in-memory cache. This is a
+ * recovery/reload path only: it never adopts records into an owner scope and
+ * never modifies or deletes the raw source.
+ */
+export const reloadCustomMapsFromMirror = () => {
+  try {
+    const raw = localStorage.getItem(CUSTOM_MAPS_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        inMemoryCustomMaps = parsed;
+      }
+    }
+  } catch (e) {
+    // malformed mirror: preserve raw, keep the existing cache
+  }
+  return getCustomMaps();
 };
 
 export const saveCustomMap = async (mapData) => {
+  const captured = captureConsumerContext();
+  // IndexedDB and the mirror must receive the same immutable full payload.
+  mapData = JSON.parse(JSON.stringify(mapData));
   const mapId = mapData.id || `custom-map-${Date.now()}`;
   const newMap = {
     ...mapData,
@@ -865,23 +903,43 @@ export const saveCustomMap = async (mapData) => {
     updatedAt: new Date().toISOString()
   };
 
+  // B8: capture the verified owner/generation BEFORE any storage await. The
+  // completed save must never grant ownership to whichever account happens
+  // to be active when IndexedDB opening resolves.
+
   // 1. Update in-memory cache immediately
   inMemoryCustomMaps[mapId] = newMap;
 
   // 2. Persist to IndexedDB (supports multi-megabyte images)
+  let indexedDbSaved = false;
   try {
     const db = await openDB();
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
-    store.put(newMap);
+    if ('oncomplete' in tx) {
+      await new Promise((resolve, reject) => {
+        tx.oncomplete = resolve;
+        tx.onabort = () => reject(tx.error || new Error('Map transaction aborted'));
+        tx.onerror = () => reject(tx.error || new Error('Map transaction failed'));
+        store.put(newMap);
+      });
+    } else {
+      // Synchronous storage doubles retain the production caller contract.
+      store.put(newMap);
+    }
+    indexedDbSaved = true;
   } catch (err) {
     console.warn('Could not save to IndexedDB, falling back:', err);
   }
 
   // 3. Fallback attempt to localStorage (lightweight metadata)
   try {
-    localStorage.setItem(CUSTOM_MAPS_STORAGE_KEY, JSON.stringify(inMemoryCustomMaps));
+    const raw = JSON.stringify(inMemoryCustomMaps);
+    localStorage.setItem(CUSTOM_MAPS_STORAGE_KEY, raw);
+    if (localStorage.getItem(CUSTOM_MAPS_STORAGE_KEY) !== raw) throw new Error('Map mirror verification failed');
   } catch (e) {
+    // Never replace a failed full-image save with only a placeholder.
+    if (!indexedDbSaved) throw new Error('Full map preservation failed; the working payload remains in memory');
     // If image is too large for 5MB localStorage, save light copy to localStorage
     try {
       const lightCopy = {};
@@ -895,12 +953,27 @@ export const saveCustomMap = async (mapData) => {
     }
   }
 
-  return newMap;
+  // Wave B (S7/F): record the owner-scoped reference for the active verified
+  // owner. B8: if the originating owner/generation was superseded while the
+  // storage work was in flight, the raw payload stays recoverable (IndexedDB +
+  // mirror) but ownership is never granted to the new account.
+  if (captured.ok && isConsumerContextCurrent(captured.context)) {
+    const registered = recordCustomMapOwnership(mapId, newMap);
+    return registered.status === 'OK' ? newMap : null;
+  }
+
+  return null; // Recovery bytes remain; no active-owner projection is granted.
 };
 
 export const deleteCustomMap = async (mapId) => {
   if (inMemoryCustomMaps[mapId]) {
+    // Explicit user deletion only applies to the active owner's own records;
+    // unknown-owner raw sources are preserved, never deleted by enumeration.
+    if (!isCustomMapOwned(mapId, inMemoryCustomMaps[mapId])) {
+      return false;
+    }
     delete inMemoryCustomMaps[mapId];
+    clearCustomMapOwnership(mapId);
 
     try {
       const db = await openDB();
@@ -924,14 +997,17 @@ export const deleteCustomMap = async (mapId) => {
 export const getSubregionMap = (mapId) => {
   if (!mapId || mapId === 'mythril') return null;
 
+  // Wave B (S7/F): custom records are only visible to their verified owner.
+  const ownedCustomMaps = filterOwnedCustomMaps(inMemoryCustomMaps);
+
   // 1. Check custom uploaded maps first (user hand-drawn assets override built-ins)
-  if (inMemoryCustomMaps[mapId] && inMemoryCustomMaps[mapId].image) {
-    return inMemoryCustomMaps[mapId];
+  if (ownedCustomMaps[mapId] && ownedCustomMaps[mapId].image) {
+    return ownedCustomMaps[mapId];
   }
 
   // 2. Custom map lookup by matching regionId property
   const subregionObj = SUBREGIONS[mapId];
-  const customByRegion = Object.values(inMemoryCustomMaps).find(
+  const customByRegion = Object.values(ownedCustomMaps).find(
     m => (m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)) && m.image
   );
   if (customByRegion) return customByRegion;
@@ -958,7 +1034,7 @@ export const getSubregionMap = (mapId) => {
 export const getAllAvailableSubregionMaps = () => {
   return {
     ...BUILTIN_SUBREGION_MAPS,
-    ...inMemoryCustomMaps
+    ...filterOwnedCustomMaps(inMemoryCustomMaps)
   };
 };
 

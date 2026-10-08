@@ -1,9 +1,9 @@
 import { initializeClassResource } from '../../data/classResources';
 import { getFullRaceData, getRaceData } from '../../data/raceData';
 import { getRacialSpells, getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
-import localStorageManager from '../../utils/localStorageManager';
 import { updateCharacterData } from '../../services/offlineService';
-import { getCurrentUserId, getCharactersStorageKey, triggerCharacterAutoSave } from '../characterHelpers';
+import { getCurrentUserId, isGuestUser, triggerCharacterAutoSave } from '../characterHelpers';
+import { saveRoster } from '../../persistence/characterScopedStorage';
 import { ALL_CLASSES_DATA } from '../../data/classes';
 import { ALL_CLASS_SPELLS } from '../../data/classSpellGenerator';
 import { getXPForLevel } from '../../utils/experienceUtils';
@@ -381,15 +381,13 @@ export const createInfoSlice = (set, get) => ({
                     return char;
                 });
 
-                // Save updated characters to localStorage with quota management
+                // Save updated characters to verified-owner scoped storage
                 try {
-                    const storageKey = getCharactersStorageKey();
-                    const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
-                    if (!result.success) {
-                        console.error('Error saving characters to localStorage:', result.error);
-                    }
+                    saveRoster(isGuestUser(), updatedCharacters).catch((error) => {
+                        console.error('Error saving characters to scoped storage:', error);
+                    });
                 } catch (error) {
-                    console.error('Error saving characters to localStorage:', error);
+                    console.error('Error saving characters to scoped storage:', error);
                 }
 
                 newState.characters = updatedCharacters;

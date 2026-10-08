@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 import useWorldStore from './worldStore';
@@ -622,6 +623,10 @@ const useInteractiveMapStore = create(
 
       // Cloud Synchronization
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'interactiveMaps');
@@ -639,24 +644,27 @@ const useInteractiveMapStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'interactiveMaps');
           const snap = await getDoc(docRef);
           if (snap.exists()) {
             const data = snap.data();
-            if (data.maps) set({ maps: data.maps });
-            if (data.pins) set({ pins: data.pins });
-            if (data.journeyWaypoints) set({ journeyWaypoints: data.journeyWaypoints });
-            if (data.partyMarker) set({ partyMarker: data.partyMarker });
-            if (data.mapFogData) set({ mapFogData: data.mapFogData });
+            if (data.maps) applyIfCurrent({ maps: data.maps });
+            if (data.pins) applyIfCurrent({ pins: data.pins });
+            if (data.journeyWaypoints) applyIfCurrent({ journeyWaypoints: data.journeyWaypoints });
+            if (data.partyMarker) applyIfCurrent({ partyMarker: data.partyMarker });
+            if (data.mapFogData) applyIfCurrent({ mapFogData: data.mapFogData });
           }
         } catch (err) {
           console.debug('Interactive maps cloud hydration skipped:', err?.message || err);
         }
       }
     }),
-    createStorageConfig('mythrill_interactive_maps_storage', {
+    createScopedStorageConfig('worldbuilding.interactiveMaps', 'mythrill_interactive_maps_storage', {
       partialize: (state) => ({
         maps: state.maps,
         pins: state.pins,

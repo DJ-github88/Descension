@@ -21,7 +21,7 @@ export const HERITAGE_TRADITIONS = {
   ithran_groven: { name: 'Amordjin Groven', raceId: 'groven', classes: ["Martyr","Shaper","Warden","Chronarch"] },
   veiled_mimir: { name: 'Arch Mimir', raceId: 'mimir', classes: ["Apex","Shaper","Warden","Animist","Lunarch"], aliases: ["veiled","Highborne Mimir"] },
   tethered_mimir: { name: 'Broken Mimir', raceId: 'mimir', classes: ["Apex","Shaper","Minstrel","Inquisitor","Toxicologist","Animist"], aliases: ["tethered","True Mimir"] },
-  velun_neth: { name: 'Athien', raceId: 'neth', classes: ["Animist","Arcanoneer","Revenant","Chronarch","Spellguard"] },
+  velun_neth: { name: 'Nethien', raceId: 'neth', classes: ["Animist","Arcanoneer","Revenant","Chronarch","Spellguard"] },
   kessen_neth: { name: 'Weft', raceId: 'neth', classes: ["Augur","Gambit","Revenant"] },
   drun_neth: { name: 'Riven', raceId: 'neth', classes: ["Plaguebringer","False Prophet","Revenant","Toxicologist"] },
   clean_vreken: { name: 'Bedel', raceId: 'vreken', classes: ["Animist","Plaguebringer","Revenant"] },

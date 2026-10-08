@@ -10,7 +10,25 @@ import MapMakingSection from './MapMakingSection';
 import { shouldReduceMotion } from '../../utils/accessibility';
 import { getCurrentMapTransform } from '../../utils/mapTransform';
 import { getPrimaryStarterMap } from '../../data/subregionMaps';
+import { SUBSCRIPTION_TIERS } from '../../services/subscriptionService';
 import './styles/LandingPage.css';
+
+// Membership tab presentation config. Tier names, prices, limits and feature
+// lists are read from SUBSCRIPTION_TIERS so this page always matches the plans
+// the app actually enforces (see services/subscriptionService.js).
+const MEMBERSHIP_TIER_ORDER = ['GUEST', 'FREE', 'PRO', 'ULTIMATE', 'MYTHIC'];
+
+const MEMBERSHIP_CARD_META = {
+  GUEST: {
+    cardClass: 'free',
+    action: 'login',
+    lockedFeatures: ['No cloud save: data cleared on disconnect', 'Cannot create rooms']
+  },
+  FREE: { cardClass: 'premium', action: 'register' },
+  PRO: { cardClass: 'premium', action: 'soon' },
+  ULTIMATE: { cardClass: 'legendary', action: 'soon' },
+  MYTHIC: { cardClass: 'mythic', action: 'soon' }
+};
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, onLoginTransition, isAuthenticated, user, onImmerse, isWorldMapActive }) => {
 
@@ -106,12 +124,15 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  // Handle navigation to landing page
  useEffect(() => {
   // Only scroll to top when the pathname explicitly changes to /
-  // This happens when navigating TO the landing page from another page
+  // This happens when navigating TO the landing page from another page.
+  // location.search is included so switching landing sections (Home/Rules/
+  // Membership) also resets the scroll position instead of leaving the new
+  // section's heading hidden underneath the sticky header.
   if (location.pathname === '/') {
    window.scrollTo(0, 0);
    setShowCommunity(false);
   }
- }, [location.pathname]);
+ }, [location.pathname, location.search]);
 
  const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -389,112 +410,74 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  const renderMembershipSection = () => (
   <div className="landing-section">
    <div className="membership-content">
-    <h2>Membership & Pricing</h2>
+    <h2>Membership &amp; Pricing</h2>
+    <p className="membership-subtitle">
+     Every tier plays the same game. Plans only change how much you can build, store and run.
+    </p>
     <div className="pricing-grid">
-     <div className="pricing-card free">
-      <div className="pricing-card-icon"><i className="fas fa-user-secret"></i></div>
-      <h3>Guest</h3>
-      <div className="price">Free</div>
-      <ul>
-       <li>✓ Join multiplayer rooms as a player</li>
-       <li>✓ 1 temporary character</li>
-       <li>✓ Full combat & dice rolling</li>
-       <li>✓ Room chat</li>
-       <li><span className="locked-feature">✗ No cloud save</span></li>
-       <li><span className="locked-feature">✗ Cannot create rooms</span></li>
-      </ul>
-      <p className="account-note">
-       <i className="fas fa-info-circle"></i>
-       No account needed: just join a game
-      </p>
-      <button
-       className="pricing-btn primary-account-btn"
-       onClick={onShowLogin}
-      >
-       <i className="fas fa-sign-in-alt"></i>
-       Get Started
-      </button>
-     </div>
+     {MEMBERSHIP_TIER_ORDER.map(tierKey => {
+      const tier = SUBSCRIPTION_TIERS[tierKey];
+      const meta = MEMBERSHIP_CARD_META[tierKey];
+      if (!tier || !meta) return null;
 
-     <div className="pricing-card premium">
-      <div className="pricing-card-icon"><i className="fas fa-shield-halved"></i></div>
-      <h3>Free Adventurer</h3>
-      <div className="price">$0<span>/forever</span></div>
-      <ul>
-       <li>✓ 3 character slots with cloud save</li>
-       <li>✓ 1 permanent room (up to 4 players)</li>
-       <li>✓ 25 MB cloud storage</li>
-       <li>✓ Full character creation (21 classes, 10 primary races)</li>
-       <li>✓ Spell crafting, creature & item creation</li>
-       <li>✓ Map editor with static fog of war</li>
-       <li>✓ Combat system & 3D physics dice</li>
-       <li>✓ Unlimited local rooms</li>
-      </ul>
-      <p className="account-note">
-       <i className="fas fa-info-circle"></i>
-       Free forever • No credit card required
-      </p>
-      <button
-       className="pricing-btn primary-account-btn"
-       onClick={onShowRegister}
-      >
-       <i className="fas fa-user-plus"></i>
-       Create Free Account
-      </button>
-     </div>
+      const features = meta.lockedFeatures
+       ? tier.features.filter(feature => !/^no cloud save/i.test(feature))
+       : tier.features;
 
-     <div className="pricing-card premium">
-      <div className="pricing-card-icon"><i className="fas fa-crown"></i></div>
-      <div className="popular-badge">Most Popular</div>
-      <h3>Dungeon Master</h3>
-      <div className="price">$7.99<span>/month</span></div>
-      <ul>
-       <li>✓ 15 character slots with cloud save</li>
-       <li>✓ 5 rooms (up to 6 players each)</li>
-       <li>✓ 500 MB cloud storage</li>
-       <li>✓ Full GM notes (scroll, NPC, encounter, trap)</li>
-       <li>✓ Portal system: connect maps</li>
-       <li>✓ Travel system with biomes & weather</li>
-       <li>✓ Atmospheric effects (rain, snow, fog)</li>
-       <li>✓ Campaign manager & session tracking</li>
-       <li>✓ Memory snapshots & afterimages</li>
-       <li>✓ Custom rollable tables & quest sharing</li>
-      </ul>
-      <button className="pricing-btn">Coming Soon</button>
-     </div>
-
-     <div className="pricing-card legendary">
-      <div className="pricing-card-icon"><i className="fas fa-chess-king"></i></div>
-      <h3>Archmage</h3>
-      <div className="price">$14.99<span>/month</span></div>
-      <ul>
-       <li>✓ Unlimited character slots</li>
-       <li>✓ 25 rooms (up to 12 players each)</li>
-       <li>✓ Everything in Dungeon Master</li>
-       <li>✓ Campaign analytics dashboard</li>
-       <li>✓ Custom room themes</li>
-       <li>✓ Priority support & early access</li>
-       <li>✓ 5 GB cloud storage</li>
-      </ul>
-      <button className="pricing-btn">Coming Soon</button>
-     </div>
-
-     <div className="pricing-card mythic">
-      <div className="pricing-card-icon"><i className="fas fa-wand-magic-sparkles"></i></div>
-      <h3>Demiurge</h3>
-      <div className="price">$22.00<span>/month</span></div>
-      <ul>
-       <li>✓ Unlimited character slots</li>
-       <li>✓ 100 rooms (up to 24 players each)</li>
-       <li>✓ 25 GB ultra cloud storage</li>
-       <li>✓ Everything in Archmage +</li>
-       <li>✓ Full Living Campaign & Timeline Engine</li>
-       <li>✓ Dynamic Fog of War & Map Route Planner</li>
-       <li>✓ Co-GM Multiplayer Collaboration</li>
-       <li>✓ Dedicated VIP priority servers</li>
-      </ul>
-      <button className="pricing-btn">Coming Soon</button>
-     </div>
+      return (
+       <div
+        key={tierKey}
+        className={`pricing-card ${meta.cardClass}${tier.highlight ? ' highlighted' : ''}`}
+       >
+        {tier.highlight && (
+         <div className="popular-badge">Most Popular</div>
+        )}
+        <div className="pricing-card-icon" style={{ color: tier.color }}>
+         <i className={`fas ${tier.icon}`}></i>
+        </div>
+        <h3>{tierKey === 'FREE' ? 'Free Adventurer' : tier.name}</h3>
+        <div className="price">
+         {tier.price === 0 ? (
+          tierKey === 'GUEST' ? 'Free' : <>Free<span>/forever</span></>
+         ) : (
+          <>${tier.price}<span>/month</span></>
+         )}
+        </div>
+        <p className="pricing-description">{tier.description}</p>
+        <ul>
+         {features.map((feature, idx) => (
+          <li key={idx}>✓ {feature}</li>
+         ))}
+         {meta.lockedFeatures?.map(feature => (
+          <li key={feature}>
+           <span className="locked-feature">✗ {feature}</span>
+          </li>
+         ))}
+        </ul>
+        {meta.action === 'login' && (
+         <button
+          className="pricing-btn primary-account-btn"
+          onClick={onShowLogin}
+         >
+          <i className="fas fa-sign-in-alt"></i>
+          Get Started
+         </button>
+        )}
+        {meta.action === 'register' && (
+         <button
+          className="pricing-btn primary-account-btn"
+          onClick={onShowRegister}
+         >
+          <i className="fas fa-user-plus"></i>
+          Create Free Account
+         </button>
+        )}
+        {meta.action === 'soon' && (
+         <button className="pricing-btn" disabled>Coming Soon</button>
+        )}
+       </div>
+      );
+     })}
     </div>
    </div>
   </div>
@@ -559,7 +542,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  return (
   <>
    <div
-    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isImmersingActive ? 'immersing' : ''} ${activeSection === 'rules' ? 'rules-mode' : ''}`}
+    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isImmersingActive ? 'immersing' : ''} ${activeSection === 'rules' ? 'rules-mode' : ''} ${activeSection === 'membership' ? 'membership-mode' : ''}`}
     style={{
      '--map-background-url': `url("${`${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`}")`
     }}

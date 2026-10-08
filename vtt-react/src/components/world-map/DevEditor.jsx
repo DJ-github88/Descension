@@ -7,6 +7,8 @@ import { SUBREGIONS } from '../../data/subregions';
 import { ZONE_DATA } from '../../data/zoneData';
 import { DEEP_LOCATIONS } from '../../data/deepLocationData';
 import { saveCustomMap, resolveBoundaryTarget, BUILTIN_SUBREGION_MAPS } from '../../data/subregionMaps';
+import { persistAuthoredGeometry } from '../../data/geometryScopeHydration';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
 import './DevEditor.css';
 
 const MAP_WIDTH = 4096;
@@ -135,6 +137,10 @@ const DevEditor = ({
   setDevMode,
   activeMapId
 }) => {
+  const ownerContext = captureConsumerContext().context;
+  const confirmGeometry = (message, callback) => showConfirm(message, () => {
+    if (isConsumerContextCurrent(ownerContext)) callback();
+  });
 
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [exportData, setExportData] = useState({ regions: '', locations: '' });
@@ -302,7 +308,7 @@ const DevEditor = ({
     if (devTool !== 'placePin') return null;
     if (pinSourceType === 'world' && selectedZoneId) {
       const z = ZONE_DATA.find((item) => item.id === selectedZoneId);
-      return z ? { name: z.name, sub: `${z.type} • ${z.regionId}` } : null;
+      return z ? { name: z.name, sub: `${z.type} â€¢ ${z.regionId}` } : null;
     }
     if (pinSourceType === 'campaignLocation' && selectedCampaignLocId) {
       const cl = campaignLocations.find((l) => String(l.id) === String(selectedCampaignLocId));
@@ -333,7 +339,7 @@ const DevEditor = ({
     return `'${r.id}': {\n  points: [${pts}],\n  labelPosition: [${r.labelPosition[0]}, ${r.labelPosition[1]}]\n}`;
   };
 
-  // ── Diff computation against the committed file baseline ──
+  // â”€â”€ Diff computation against the committed file baseline â”€â”€
   const computeLocationDiff = () => {
     const moved = [], added = [], removed = [];
     Object.keys(LOCATION_COORDINATES).forEach((key) => {
@@ -437,16 +443,16 @@ const DevEditor = ({
   };
 
   const handleClearAllPresetData = () => {
-    showConfirm(
+    confirmGeometry(
       'Are you sure you want to CLEAR ALL default location pins and drawn region boundaries? This will leave your map canvas empty so you can draw your custom subregions and pins from scratch.',
       () => {
         Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
-        localStorage.setItem('mythrill_location_coordinates', JSON.stringify({}));
+        persistAuthoredGeometry(ownerContext);
 
         Object.values(REGION_POLYGONS).forEach(r => {
           r.points = [];
         });
-        localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+        persistAuthoredGeometry(ownerContext);
 
         setDrawingPoints([]);
         if (onUpdate) onUpdate();
@@ -455,12 +461,12 @@ const DevEditor = ({
   };
 
   const handleResetToDefaults = () => {
-    showConfirm(
+    confirmGeometry(
       'Are you sure you want to RESET all location pins and region boundaries back to original canonical defaults?',
       () => {
         Object.keys(LOCATION_COORDINATES).forEach(key => delete LOCATION_COORDINATES[key]);
         Object.assign(LOCATION_COORDINATES, JSON.parse(JSON.stringify(BASELINE_LOCATION_COORDINATES)));
-        localStorage.setItem('mythrill_location_coordinates', JSON.stringify(LOCATION_COORDINATES));
+        persistAuthoredGeometry(ownerContext);
 
         Object.keys(REGION_POLYGONS).forEach(key => {
           if (BASELINE_REGION_POLYGONS[key]) {
@@ -468,7 +474,7 @@ const DevEditor = ({
             REGION_POLYGONS[key].labelPosition = [...(BASELINE_REGION_POLYGONS[key].labelPosition || [])];
           }
         });
-        localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+        persistAuthoredGeometry(ownerContext);
 
         setDrawingPoints([]);
         if (onUpdate) onUpdate();
@@ -479,7 +485,7 @@ const DevEditor = ({
   const handleResetSingleRegion = () => {
     if (!currentRegion) return;
     const regName = REGION_POLYGONS[currentRegion]?.name || SUBREGIONS[currentRegion]?.name || currentRegion;
-    showConfirm(
+    confirmGeometry(
       `Are you sure you want to reset boundaries for "${regName}" back to original code defaults?`,
       () => {
         if (BASELINE_REGION_POLYGONS[currentRegion]) {
@@ -502,14 +508,14 @@ const DevEditor = ({
               sub.labelPosition = [0, 0];
             }
             try {
-              localStorage.setItem(`mythrill_regional_polygons_${activeMapId}`, JSON.stringify(regEntry.subregions));
+              persistAuthoredGeometry(ownerContext);
             } catch (e) {}
           }
         }
 
-        // Update localStorage
+        // Persist authored geometry under the active verified owner
         try {
-          localStorage.setItem('mythrill_region_polygons', JSON.stringify(REGION_POLYGONS));
+          persistAuthoredGeometry(ownerContext);
         } catch (e) {}
 
         setDrawingPoints([]);
@@ -519,6 +525,7 @@ const DevEditor = ({
   };
 
   const handleAddSubregion = () => {
+    if (!isConsumerContextCurrent(ownerContext)) return;
     const name = newSubregionName.trim();
     if (!name) {
       showToast('Please enter a name for the new subregion.');
@@ -554,7 +561,7 @@ const DevEditor = ({
     };
 
     try {
-      localStorage.setItem('mythrill_subregion_polygons', JSON.stringify(SUBREGIONS));
+      persistAuthoredGeometry(ownerContext);
     } catch (e) {}
 
     setCurrentRegion(id);
@@ -577,7 +584,7 @@ const DevEditor = ({
     if (drawingPoints.length >= 3 && currentRegion) {
       const { target } = resolveBoundaryTarget(currentRegion, activeMapId);
       const targetName = target?.name || (SUBREGIONS[currentRegion]?.name || REGION_POLYGONS[currentRegion]?.name) || currentRegion;
-      showConfirm(
+      confirmGeometry(
         `Are you sure you want to complete and save boundaries for "${targetName}"?`,
         () => {
           const cx = Math.round(drawingPoints.reduce((s, p) => s + p[0], 0) / drawingPoints.length);
@@ -587,7 +594,7 @@ const DevEditor = ({
             target.labelPosition = [cx, cy];
             if (activeMapId && activeMapId !== 'mythril') {
               try {
-                localStorage.setItem(`mythrill_regional_polygons_${activeMapId}`, JSON.stringify(BUILTIN_SUBREGION_MAPS?.[activeMapId]?.subregions || []));
+                persistAuthoredGeometry(ownerContext);
               } catch (e) {}
             }
           }
@@ -948,9 +955,9 @@ const DevEditor = ({
                           >
                             <option value="all">All Regions &amp; Subrealms</option>
                             <option value="nordhalla">Nordhalla (All)</option>
-                            <option value="nordhalla-glacier-heart">  ↳ Rime-Spire Peaks</option>
-                            <option value="nordhalla-fjord-coast">  ↳ Skaldfjord Dal</option>
-                            <option value="nordhalla-frostfang-wastes">  ↳ Frostfang Wastes</option>
+                            <option value="nordhalla-glacier-heart">  â†³ Rime-Spire Peaks</option>
+                            <option value="nordhalla-fjord-coast">  â†³ Skaldfjord Dal</option>
+                            <option value="nordhalla-frostfang-wastes">  â†³ Frostfang Wastes</option>
                             <option value="frostwood-reach">Frostwood Reach</option>
                             <option value="sundale">Sundale</option>
                             <option value="bryngloom-forest">Bryngloom Forest</option>
@@ -1163,7 +1170,7 @@ const DevEditor = ({
                   ) : (
                     <>
                       <i className="fas fa-pen-to-square"></i>
-                      <span><strong>{locDiff.moved.length}</strong> moved · <strong>{locDiff.added.length}</strong> added · <strong>{locDiff.removed.length}</strong> removed · <strong>{regDiff.length}</strong> regions</span>
+                      <span><strong>{locDiff.moved.length}</strong> moved Â· <strong>{locDiff.added.length}</strong> added Â· <strong>{locDiff.removed.length}</strong> removed Â· <strong>{regDiff.length}</strong> regions</span>
                     </>
                   )}
                 </div>
@@ -1342,7 +1349,7 @@ const DevEditor = ({
 
               <div className="dev-inspector-hint">
                 <i className="fas fa-keyboard" />
-                <span>Arrow keys nudge 1px · <kbd>Shift</kbd>+arrows 10px</span>
+                <span>Arrow keys nudge 1px Â· <kbd>Shift</kbd>+arrows 10px</span>
               </div>
             </>
           ) : (

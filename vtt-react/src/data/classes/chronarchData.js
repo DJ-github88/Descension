@@ -108,7 +108,7 @@ subraceVariants: {
  },
 
  velun_neth: {
-  subraceName: 'Athien',
+  subraceName: 'Nethien',
   title: 'The Archive-Keeper',
   reframe: `To the <LoreLink termId="velun">Athien</LoreLink>, time is not an engine  —  it is a document. Every moment is a filed entry; every erased moment is a redacted clause. A Athien Chronarch treats temporal manipulation as archival work: rewind is retrieval, loop is review, displacement is misfiling. Their temporal engine is not a gear-box but a memory-glass lattice  —  a crystal archive that stores every moment they have ever witnessed. The Athien Chronarch does not lose their memories to temporal feedback; they externalize them. The cost is that the archive grows heavier, and carrying centuries of perfectly-preserved moments requires a stillness the young Athien are beginning to find unbearable.`,
    adoptionBridge: `The Athien encountered temporal manipulation during the post-war reconstruction of Frostmaw. Athien archivists were contracted to catalog the damage to the Fex archive-halls  —  the same memory-preservation work the Athien had done for themselves for centuries. Observing Nesta's engine, the Athien recognized a different application: time was not a mechanism to be repaired, but a document to be preserved. The engine could be replaced with a memory-glass lattice  —  an archive that stored moments instead of clauses. The first Athien Chronarch, **Archivist Vel-Thalen**, spent thirty years adapting the principle before successfully externalizing her first memory.`,

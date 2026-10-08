@@ -2,7 +2,7 @@ import { getStore } from './storeRegistry';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
 
 // CRITICAL FIX: Track recent token movements to prevent server echo-induced position resets
 // This prevents tokens from jumping back to old positions when server broadcasts
@@ -611,7 +611,7 @@ const useCharacterTokenStore = create(
     set({ windowSize: size });
    }
   }),
-  createStorageConfig('character-token-store')
+  createScopedStorageConfig('core.characterTokens', 'character-token-store')
  )
 );
 

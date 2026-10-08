@@ -10,6 +10,7 @@ import { getSkillAbilitiesForSpellbook } from '../../../../utils/skillAbilitiesI
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
+import { loadCustomSpells, saveCustomSpells, loadDeletedSpellIds, saveDeletedSpellIds } from '../../../../persistence/spellLibraryScopedStorage';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
@@ -575,8 +576,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
  // Track deleted spell IDs to prevent reloading them from Firebase
  const getDeletedSpellIds = () => {
   try {
-   const deletedIds = localStorage.getItem('mythrill-deleted-spells');
-   return deletedIds ? JSON.parse(deletedIds) : [];
+   const deletedIds = loadDeletedSpellIds();
+   return Array.isArray(deletedIds) ? deletedIds : [];
   } catch (error) {
    console.error('Error reading deleted spell IDs:', error);
    return [];
@@ -588,7 +589,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
    const deletedIds = getDeletedSpellIds();
    if (!deletedIds.includes(spellId)) {
     deletedIds.push(spellId);
-    localStorage.setItem('mythrill-deleted-spells', JSON.stringify(deletedIds));
+    saveDeletedSpellIds(deletedIds);
    }
   } catch (error) {
    console.error('🗑️ [SpellLibrary] Error marking spell as deleted:', error);
@@ -1503,17 +1504,16 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     removeCustomSpell(spellId);
     console.log('🗑️ [SpellLibrary] Removed from custom spells category');
 
-    // Remove from localStorage custom spells if it exists there
+    // Remove from verified-owner scoped custom spells if it exists there
     try {
-     const savedCustomSpells = localStorage.getItem('mythrill-custom-spells');
-     if (savedCustomSpells) {
-      const customSpells = JSON.parse(savedCustomSpells);
+     const customSpells = loadCustomSpells();
+     if (Array.isArray(customSpells)) {
       const updatedCustomSpells = customSpells.filter(s => s.id !== spellId);
-      localStorage.setItem('mythrill-custom-spells', JSON.stringify(updatedCustomSpells));
-      console.log('🗑️ [SpellLibrary] Removed from localStorage custom spells');
+      saveCustomSpells(updatedCustomSpells);
+      console.log('🗑️ [SpellLibrary] Removed from scoped custom spells');
      }
     } catch (error) {
-     console.error('🗑️ [SpellLibrary] Error removing from localStorage:', error);
+     console.error('🗑️ [SpellLibrary] Error removing from scoped storage:', error);
     }
    }
 

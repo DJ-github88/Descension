@@ -4,10 +4,17 @@ import { SUBREGIONS } from '../../data/subregions';
 import useAuthStore from '../../store/authStore';
 import './styles/MapMakingSection.css';
 import { showConfirm } from '../../utils/dialogService';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 
 const STORAGE_KEY = 'mapMakingSectionState_v1';
 const NOTES_KEY = 'mapMakingSectionNotes_v1';
 const CHECKLIST_KEY = 'mapMakingSectionChecklist_v4';
+
+// Wave B (final sweep): authored map-making notes/checklist are verified-owner scoped.
+const mapMakingFamily = createScopedNativeFamily({
+  familyId: 'map.notes',
+  legacyKeys: [NOTES_KEY, CHECKLIST_KEY]
+});
 
 const REGION_COLORS = {
   'frostwood-reach': { primary: '#4a3728', accent: '#8b7355', fog: '#c8c0b0', water: '#5a6a7a' },
@@ -1370,20 +1377,18 @@ const MapMakingSection = () => {
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [notes, setNotes] = useState(() => {
     try {
-      return localStorage.getItem(NOTES_KEY) || '';
+      const saved = mapMakingFamily.load(['notes']);
+      return typeof saved === 'string' ? saved : '';
     } catch (e) {
       return '';
     }
   });
   const [checklist, setChecklist] = useState(() => {
     try {
-      const saved = localStorage.getItem(CHECKLIST_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === 'object') {
-          const enriched = enrichChecklist(parsed);
-          if (Object.keys(enriched).length > 0) return enriched;
-        }
+      const saved = mapMakingFamily.load(['checklist']);
+      if (saved && typeof saved === 'object') {
+        const enriched = enrichChecklist(saved);
+        if (Object.keys(enriched).length > 0) return enriched;
       }
     } catch (e) {}
     const initial = {};
@@ -1400,20 +1405,19 @@ const MapMakingSection = () => {
   const [expandedItems, setExpandedItems] = useState({});
 
   useEffect(() => {
-    try { localStorage.setItem(NOTES_KEY, notes); } catch (e) {}
+    try { mapMakingFamily.save(notes, ['notes']); } catch (e) {}
   }, [notes]);
 
   useEffect(() => {
-    try { localStorage.setItem(CHECKLIST_KEY, JSON.stringify(checklist)); } catch (e) {}
+    try { mapMakingFamily.save(checklist, ['checklist']); } catch (e) {}
   }, [checklist]);
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(CHECKLIST_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      const enriched = enrichChecklist(parsed);
-      localStorage.setItem(CHECKLIST_KEY, JSON.stringify(enriched));
+      const saved = mapMakingFamily.load(['checklist']);
+      if (!saved) return;
+      const enriched = enrichChecklist(saved);
+      mapMakingFamily.save(enriched, ['checklist']);
       setChecklist(enriched);
     } catch (e) {}
   }, []);

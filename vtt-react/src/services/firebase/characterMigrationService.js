@@ -6,10 +6,25 @@
  */
 
 import characterPersistenceService from './characterPersistenceService';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 
 // Migration version tracking
 const MIGRATION_VERSION = '1.0.0';
 const MIGRATION_KEY = 'mythrill-migration-status';
+
+// Wave B closure: migration status is verified-owner scoped private metadata.
+// The retired global key is quarantined once per owner, never adopted.
+const migrationStatusFamily = createScopedNativeFamily({
+  familyId: 'character.migrationStatus',
+  legacyKeys: [MIGRATION_KEY]
+});
+
+const EMPTY_MIGRATION_STATUS = Object.freeze({
+  version: '0.0.0',
+  lastMigration: null,
+  migratedCharacters: [],
+  failedMigrations: []
+});
 
 /**
  * Character Migration Service Class
@@ -24,30 +39,20 @@ class CharacterMigrationService {
    */
   loadMigrationStatus() {
     try {
-      const status = localStorage.getItem(MIGRATION_KEY);
-      return status ? JSON.parse(status) : {
-        version: '0.0.0',
-        lastMigration: null,
-        migratedCharacters: [],
-        failedMigrations: []
-      };
+      const status = migrationStatusFamily.load(['status']);
+      return status && typeof status === 'object' ? status : { ...EMPTY_MIGRATION_STATUS };
     } catch (error) {
       console.error('Error loading migration status:', error);
-      return {
-        version: '0.0.0',
-        lastMigration: null,
-        migratedCharacters: [],
-        failedMigrations: []
-      };
+      return { ...EMPTY_MIGRATION_STATUS };
     }
   }
 
   /**
-   * Save migration status to localStorage
+   * Save migration status to verified-owner scoped storage
    */
   saveMigrationStatus() {
     try {
-      localStorage.setItem(MIGRATION_KEY, JSON.stringify(this.migrationStatus));
+      migrationStatusFamily.save(this.migrationStatus, ['status']);
     } catch (error) {
       console.error('Error saving migration status:', error);
     }
@@ -67,16 +72,25 @@ class CharacterMigrationService {
   }
 
   /**
-   * Get characters from localStorage
+   * Get characters from the retired global roster key.
+   *
+   * Wave B closure: the legacy global roster is unknown-owner data. There is no
+   * ownership proof, so it is preserved untouched but never auto-adopted or
+   * auto-migrated for whichever account happens to be signed in. Returning an
+   * empty list makes every migration decision a no-op while the raw source
+   * stays recoverable on disk.
    */
   getLocalStorageCharacters() {
     try {
-      const savedCharacters = localStorage.getItem('mythrill-characters');
-      return savedCharacters ? JSON.parse(savedCharacters) : [];
-    } catch (error) {
-      console.error('Error loading characters from localStorage:', error);
-      return [];
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('mythrill-characters') !== null) {
+        console.warn(
+          '⚠️ Legacy global character roster detected. It is preserved but not auto-migrated (unknown owner).'
+        );
+      }
+    } catch (_error) {
+      // fail safe
     }
+    return [];
   }
 
   /**
@@ -218,45 +232,27 @@ class CharacterMigrationService {
   }
 
   /**
-   * Create backup of localStorage data before migration
+   * Legacy migration backup.
+   *
+   * Wave B closure: duplicating unknown-owner legacy data into the active
+   * owner's scope would be an automatic cross-account adoption, and the raw
+   * legacy records are already the recoverable copy. No copy is created.
+   * @returns {null}
    */
   createBackup() {
-    try {
-      const characters = this.getLocalStorageCharacters();
-      const backup = {
-        characters,
-        timestamp: new Date().toISOString(),
-        version: MIGRATION_VERSION
-      };
-
-      const backupKey = `mythrill-backup-${Date.now()}`;
-      localStorage.setItem(backupKey, JSON.stringify(backup));
-
-      return backupKey;
-    } catch (error) {
-      console.error('Error creating backup:', error);
-      throw new Error('Failed to create backup');
-    }
+    console.warn('⚠️ Legacy migration backup refused: unknown-owner source is preserved in place.');
+    return null;
   }
 
   /**
-   * Restore from backup
+   * Restore from a legacy migration backup.
+   *
+   * Wave B closure: writing the retired global roster key would be an active
+   * global private writer and could adopt another account's characters.
    */
   restoreFromBackup(backupKey) {
-    try {
-      const backupData = localStorage.getItem(backupKey);
-      if (!backupData) {
-        throw new Error('Backup not found');
-      }
-
-      const backup = JSON.parse(backupData);
-      localStorage.setItem('mythrill-characters', JSON.stringify(backup.characters));
-
-      return true;
-    } catch (error) {
-      console.error('Error restoring from backup:', error);
-      throw new Error('Failed to restore from backup');
-    }
+    void backupKey;
+    throw new Error('Legacy global character restore is retired; the raw source is preserved but never auto-adopted.');
   }
 
   /**
@@ -295,30 +291,15 @@ class CharacterMigrationService {
   }
 
   /**
-   * Clean up old localStorage data after successful migration
+   * Legacy migration cleanup.
+   *
+   * Wave B closure: the retired global roster/active-character keys are the
+   * sole recovery copies for an unknown owner. Cleanup never deletes them.
+   * @returns {false}
    */
   cleanupAfterMigration() {
-    try {
-      // Only clean up if all characters have been successfully migrated
-      const summary = this.getMigrationSummary();
-      
-      if (summary.isComplete && summary.failedCount === 0) {
-        // Keep a final backup before cleanup
-        this.createBackup();
-        
-        // Clear the characters from localStorage
-        localStorage.removeItem('mythrill-characters');
-        localStorage.removeItem('mythrill-active-character');
-
-        return true;
-      } else {
-        console.warn('⚠️ Cannot cleanup: migration not complete or has failures');
-        return false;
-      }
-    } catch (error) {
-      console.error('Error during cleanup:', error);
-      return false;
-    }
+    console.warn('⚠️ Legacy migration cleanup refused: the global source is the last recoverable copy.');
+    return false;
   }
 }
 

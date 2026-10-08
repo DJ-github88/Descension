@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { createStorageConfig } from '../utils/storageUtils';
+import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { getScopedStoreEngine } from '../persistence/scopedStoreStorage';
+import { loadScopedDraft, captureOwnerGuard } from '../persistence/scopedConsumer';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../config/firebase';
 
@@ -730,6 +732,10 @@ const useBookStore = create(
 
       // --- Cloud Sync ---
       syncToCloud: async (userId) => {
+
+        const ownerGuard = captureOwnerGuard(userId);
+
+        if (!ownerGuard.ok) return false;
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'books');
@@ -738,6 +744,8 @@ const useBookStore = create(
             trashedBooks: (get().trashedBooks || []).map(normalizeBook),
             updatedAt: nowIso()
           }, { merge: true });
+          if (!ownerGuard.isCurrent()) return false;
+
           set({ lastCloudSyncAt: nowIso() });
           return true;
         } catch (err) {
@@ -747,10 +755,33 @@ const useBookStore = create(
       },
 
       hydrateFromCloud: async (userId) => {
+        const ownerGuard = captureOwnerGuard(userId);
+        if (!ownerGuard.ok) return false;
+        const applyIfCurrent = (updates) => { if (ownerGuard.isCurrent()) set(updates); };
         if (!userId || userId === 'admin-dev-user' || userId === 'dev-user-123' || userId.startsWith('guest-') || !isFirebaseConfigured || !db) return false;
+        // B5B: capture the local revision/identity when hydration starts and
+        // refuse to replace newer local work that lands while the read is
+        // pending. Owner identity alone is insufficient.
+        const engine = getScopedStoreEngine('worldbuilding.books');
+        const before = loadScopedDraft({ familyId: 'worldbuilding.books' });
+        const beforeRevision = before.status === 'OK' ? before.localRevision : null;
+        const beforeDraftId = before.status === 'OK' ? before.draftId : null;
         try {
           const docRef = doc(db, 'users', userId, 'worldbuilding', 'books');
           const snap = await getDoc(docRef);
+          if (!ownerGuard.isCurrent()) return false;
+          const after = loadScopedDraft({ familyId: 'worldbuilding.books' });
+          const afterRevision = after.status === 'OK' ? after.localRevision : null;
+          const afterDraftId = after.status === 'OK' ? after.draftId : null;
+          const localChanged = afterRevision !== beforeRevision ||
+            (after.status === 'OK' && before.status === 'OK' && afterDraftId !== beforeDraftId) ||
+            !!(engine && typeof engine.__hasPendingWrites === 'function' && engine.__hasPendingWrites());
+          if (localChanged) {
+            // Newer local authored work exists: never replace it with the
+            // older cloud response. The cloud copy stays intact in the cloud
+            // until a safe reconciliation is available.
+            return false;
+          }
           if (snap.exists()) {
             const data = snap.data();
             const updates = {};
@@ -761,7 +792,7 @@ const useBookStore = create(
               updates.trashedBooks = data.trashedBooks.map(normalizeBook);
             }
             if (Object.keys(updates).length > 0) {
-              set(updates);
+              applyIfCurrent(updates);
               get().purgeExpiredTrash();
               return true;
             }
@@ -772,7 +803,7 @@ const useBookStore = create(
         return false;
       }
     }),
-    createStorageConfig('mythrill_books_storage', {
+    createScopedStorageConfig('worldbuilding.books', 'mythrill_books_storage', {
       partialize: (state) => ({
         books: state.books.map(normalizeBook),
         trashedBooks: (state.trashedBooks || []).map(normalizeBook),

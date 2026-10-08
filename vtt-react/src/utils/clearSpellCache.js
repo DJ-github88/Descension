@@ -27,10 +27,22 @@ const SPELL_STORAGE_KEYS = [
 export const clearSpellLibraryStorage = () => {
  let clearedCount = 0;
 
+ // Wave A (P5/S2): "spell"/"library" are not deletion authority. Only
+ // registry-eligible keys (public caches / session-only state) may be
+ // cleared here; authored spell libraries and custom spells are protected.
+ let canDelete = () => false;
+ try {
+  // eslint-disable-next-line global-require
+  const { canGenericCleanupDeleteKey } = require('../persistence/cleanupPolicy');
+  canDelete = canGenericCleanupDeleteKey;
+ } catch (_) {
+  return false;
+ }
+
  // Clear known spell storage keys
  SPELL_STORAGE_KEYS.forEach(key => {
   try {
-   if (localStorage.getItem(key)) {
+   if (localStorage.getItem(key) && canDelete(key)) {
     localStorage.removeItem(key);
     clearedCount++;
    }
@@ -39,11 +51,12 @@ export const clearSpellLibraryStorage = () => {
   }
  });
 
- // Clear any additional keys that might contain spell data
+ // Additional spell/library-named keys still require registry classification.
  const allKeys = Object.keys(localStorage);
  allKeys.forEach(key => {
   if ((key.toLowerCase().includes('spell') || key.toLowerCase().includes('library')) &&
-    !SPELL_STORAGE_KEYS.includes(key)) {
+    !SPELL_STORAGE_KEYS.includes(key) &&
+    canDelete(key)) {
    try {
     localStorage.removeItem(key);
     clearedCount++;
@@ -103,24 +116,11 @@ export const checkSpellCacheVersion = () => {
  * Consolidated from forceSpellReload.js
  */
 export const forceSpellLibraryReload = () => {
- // Use library manager's clear function if available
- try {
-  // Try to import and use library manager's clear function
-  import('../components/spellcrafting-wizard/core/utils/libraryManager')
-   .then(({ clearLibraryFromStorage }) => {
-    clearLibraryFromStorage();
-   })
-   .catch(error => {
-    console.warn('❌ Could not use libraryManager clear:', error);
-   });
- } catch (error) {
-  console.warn('❌ Error importing libraryManager:', error);
- }
-
- // Clear all spell cache
- const cleared = clearAllSpellCache();
-
- return cleared;
+ // Wave A (P5/S2, corrected R1): this utility is an explicit reload helper,
+ // not a generic cleanup path. It only performs registry-eligible cache
+ // clears; authored spell library data is never discarded here. Raw developer
+ // discard is outside application guarantees (devtools).
+ return clearAllSpellCache();
 };
 
 /**
@@ -191,16 +191,11 @@ export const forceCleanSpellLibrary = () => {
  */
 export const clearSpellLibraryNow = () => {
 
- // Clear localStorage immediately
+ // Clear localStorage immediately (registry-gated)
  clearSpellLibraryStorage();
 
- // Also clear spell-store specifically (Zustand store)
- try {
-  // Clear spell-store persistence
-  localStorage.removeItem('spell-store');
- } catch (error) {
-  console.warn('❌ Could not clear spell-store:', error);
- }
+ // Wave A (P5/S2, corrected R1): 'spell-store' is a registered authored
+ // family and is NOT deleted here; this helper performs cache clearing only.
 
  // Clear any cached data
  if (window.spellLibraryCache) {

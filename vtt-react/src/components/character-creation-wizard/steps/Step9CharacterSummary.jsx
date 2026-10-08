@@ -731,7 +731,7 @@ const formatDescriptionText = (text) => {
                     className="subrace-illustration"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/assets/images/races/human_illustration.png';
+                      e.target.src = '/assets/images/races/human_thalren_city_greymark.jpg';
                     }}
                   />
                 </div>

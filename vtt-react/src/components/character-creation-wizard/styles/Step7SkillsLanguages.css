@@ -1100,6 +1100,13 @@
     color: #3d5e28;
 }
 
+.premium-language-card .lang-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
 .premium-language-card .lang-name {
     font-size: 0.82rem;
     font-weight: 700;
@@ -1108,7 +1115,29 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 1;
+}
+
+.premium-language-card .lang-subline {
+    display: block;
+    width: 100%;
+    font-size: 0.6rem;
+    line-height: 1.25;
+    font-weight: 500;
+    color: #6b5638;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.premium-language-card .lang-subline i {
+    font-size: 0.55rem;
+    margin-right: 3px;
+    opacity: 0.7;
+}
+
+.premium-language-card.disabled .lang-subline {
+    opacity: 0.55;
 }
 
 .premium-language-card .lang-status-badge {

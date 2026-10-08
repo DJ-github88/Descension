@@ -6,46 +6,6 @@ import './BookDocumentEditor.css';
 export const CHARACTER_ART_PRESETS = [
   // --- Races & Lineages ---
   {
-    id: 'race-solari',
-    name: 'Solari Cinder-Walker',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/solari_illustration.png',
-    thumbnail: '/assets/images/races/solari_illustration.png'
-  },
-  {
-    id: 'race-astril',
-    name: 'Astril Star-Refugee',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/astril_illustration.png',
-    thumbnail: '/assets/images/races/astril_illustration.png'
-  },
-  {
-    id: 'race-fexric',
-    name: 'Fex Cyber-Engineer',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/fexric_illustration.png',
-    thumbnail: '/assets/images/races/fexric_illustration.png'
-  },
-  {
-    id: 'race-florae',
-    name: 'Florae Herbalist',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/florae_illustration.jpg',
-    thumbnail: '/assets/images/races/florae_illustration.jpg'
-  },
-  {
-    id: 'race-groven',
-    name: 'Groven Stone-Born',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/groven_illustration.png',
-    thumbnail: '/assets/images/races/groven_illustration.png'
-  },
-  {
     id: 'race-mimir',
     name: 'Arch Mimir Seer',
     category: 'races',
@@ -53,39 +13,6 @@ export const CHARACTER_ART_PRESETS = [
     url: '/assets/images/races/mimir_arch_portrait_noble.jpg',
     thumbnail: '/assets/images/races/mimir_arch_portrait_noble.jpg'
   },
-  {
-    id: 'race-myrathil',
-    name: 'Myrathil Nereid',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/deep_illustration.png',
-    thumbnail: '/assets/images/races/deep_illustration.png'
-  },
-  {
-    id: 'race-neth',
-    name: 'Athien Forest-Dweller',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/neth_illustration.png',
-    thumbnail: '/assets/images/races/neth_illustration.png'
-  },
-  {
-    id: 'race-human',
-    name: 'Skald Nordhalla Warrior',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/skald_illustration.png',
-    thumbnail: '/assets/images/races/skald_illustration.png'
-  },
-  {
-    id: 'race-vreken',
-    name: 'Mycellan Highborn',
-    category: 'races',
-    type: 'Lineage Art',
-    url: '/assets/images/races/ithran_illustration.png',
-    thumbnail: '/assets/images/races/ithran_illustration.png'
-  },
-
   // --- Subraces & Cultures ---
   {
     id: 'subrace-tethered-mimir',
@@ -103,103 +30,6 @@ export const CHARACTER_ART_PRESETS = [
     url: '/assets/images/races/mimir_broken_culture_mirror.png',
     thumbnail: '/assets/images/races/mimir_broken_culture_mirror.png'
   },
-  {
-    id: 'subrace-deepling-myrathil',
-    name: 'Nereid Myrathil Hunter',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/deep_illustration_2.png',
-    thumbnail: '/assets/images/races/deep_illustration_2.png'
-  },
-  {
-    id: 'subrace-brook-myrathil',
-    name: 'Brook Myrathil Scout',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/brook_illustration.png',
-    thumbnail: '/assets/images/races/brook_illustration.png'
-  },
-  {
-    id: 'subrace-viridian-florae',
-    name: 'Briaren Thorn-Weaver',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/briaran_illustration.jpg',
-    thumbnail: '/assets/images/races/briaran_illustration.jpg'
-  },
-  {
-    id: 'subrace-florae-ranger',
-    name: 'Florae Wild-Ranger',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/florae_ranger.jpg',
-    thumbnail: '/assets/images/races/florae_ranger.jpg'
-  },
-  {
-    id: 'subrace-drall-fexrick',
-    name: 'Drall Scrap-Tinkerer',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/drall_illustration.png',
-    thumbnail: '/assets/images/races/drall_illustration.png'
-  },
-  {
-    id: 'subrace-drun-fexrick',
-    name: 'Riven Swamp-Grafter',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/drun_illustration.png',
-    thumbnail: '/assets/images/races/drun_illustration.png'
-  },
-  {
-    id: 'subrace-kethrin-fexrick',
-    name: 'Kethrin Gear-Keeper',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/kethrin_illustration.png',
-    thumbnail: '/assets/images/races/kethrin_illustration.png'
-  },
-  {
-    id: 'subrace-korr-fexrick',
-    name: 'Korr Forge-Smith',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/korr_illustration.png',
-    thumbnail: '/assets/images/races/korr_illustration.png'
-  },
-  {
-    id: 'subrace-ithran-vreken',
-    name: 'Amordjin Noblewoman',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/ithran_female.jpg',
-    thumbnail: '/assets/images/races/ithran_female.jpg'
-  },
-  {
-    id: 'subrace-hallowed-neth',
-    name: 'Weft Hermit',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/hallowed_illustration.png',
-    thumbnail: '/assets/images/races/hallowed_illustration.png'
-  },
-  {
-    id: 'subrace-merryn-skald',
-    name: 'Merryn Wave-Rider',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/merryn_illustration.png',
-    thumbnail: '/assets/images/races/merryn_illustration.png'
-  },
-  {
-    id: 'subrace-kessen-culture',
-    name: 'Weft Fate-Gambler',
-    category: 'subraces',
-    type: 'Subrace Art',
-    url: '/assets/images/races/kessen_illustration.png',
-    thumbnail: '/assets/images/races/kessen_illustration.png'
-  },
-
   // --- Classes & Disciplines ---
   {
     id: 'class-arcanoneer',
@@ -394,7 +224,7 @@ const BookImagePickerModal = ({
   const [activeTab, setActiveTab] = useState('presets'); // 'presets' | 'upload' | 'url'
   const [artCategory, setArtCategory] = useState('all'); // 'all' | 'races' | 'subraces' | 'classes'
   const [searchQuery, setSearchQuery] = useState('');
-  const [url, setUrl] = useState(initialData.url || '/assets/images/races/solari_illustration.png');
+  const [url, setUrl] = useState(initialData.url || '/assets/images/races/mimir_broken_portrait_bust.jpg');
   const [caption, setCaption] = useState(initialData.caption || '');
   const [alignment, setAlignment] = useState(initialData.alignment || 'center');
   const [frame, setFrame] = useState(initialData.frame || 'gold-frame');

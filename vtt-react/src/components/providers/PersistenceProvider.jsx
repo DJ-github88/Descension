@@ -121,21 +121,22 @@ const PersistenceProvider = ({ children }) => {
   }, [user, persistenceStatus]);
 
   // Centralized Worldbuilding & Campaign Cloud Hydration on User Login
+  //
+  // Wave B: local private category state is scoped (scopedStoreStorage) and is
+  // rehydrated/retired by the account-handoff participant. This lifecycle only
+  // talks to the cloud:
+  //   - dirty local (unsynced envelope) is pushed, never overwritten;
+  //   - clean local hydrates the owner's cloud document;
+  //   - acknowledgment is revision-bound, so an N ack can never clear N+1;
+  //   - hydration/push responses are owner-generation fenced inside the store.
+  // The global boolean dirty markers (`mythrill_wb_dirty_*`) are no longer the
+  // dirty authority and are no longer written here.
   useEffect(() => {
     const worldSubscriptions = [];
     let cancelled = false;
-    const dirtyKey = (key) => `mythrill_wb_dirty_${key}`;
-    const isDirty = (key) => {
-      try { return localStorage.getItem(dirtyKey(key)) === '1'; } catch (_e) { return false; }
-    };
-    const markDirty = (key) => {
-      try { localStorage.setItem(dirtyKey(key), '1'); } catch (_e) { /* ignore */ }
-    };
-    const clearDirty = (key) => {
-      try { localStorage.removeItem(dirtyKey(key)); } catch (_e) { /* ignore */ }
-    };
 
     if (user && !user.isGuest && persistenceStatus.isOnline) {
+      const uid = user.uid;
       const hydrateAllWorldbuilding = async () => {
         try {
           const { default: useBookStore } = await import('../../store/bookStore');
@@ -150,48 +151,65 @@ const PersistenceProvider = ({ children }) => {
           const { default: useDeityStore } = await import('../../store/deityStore');
           const { default: useLanguageStore } = await import('../../store/languageStore');
           const { default: campaignService } = await import('../../services/campaignService');
+          const { getScopedStoreEngine } = await import('../../persistence/scopedStoreStorage');
+          const { whenHandoffIdle } = await import('../../persistence/authBootstrapGateBinding');
 
-          // [store, worldbuilding-doc key]
+          // Wait for the handoff (retire/reset/activate) to settle so scoped
+          // stores have rehydrated the destination owner, then re-verify the
+          // account before touching the cloud.
+          await whenHandoffIdle();
+          if (cancelled) return;
+          const liveUid = useAuthStore.getState().user && !useAuthStore.getState().user.isGuest
+            ? useAuthStore.getState().user.uid
+            : null;
+          if (liveUid !== uid) return;
+
+          // [store, scoped family id]
           const stores = [
-            [useBookStore, 'books'],
-            [useInteractiveMapStore, 'interactiveMaps'],
-            [useFamilyTreeStore, 'familyTrees'],
-            [useCustomLineageStore, 'lineages'],
-            [useFactionStore, 'factions'],
-            [useTimelineStore, 'timelines'],
-            [useQuestStore, 'quests'],
-            [useWorldStore, 'worlds'],
-            [useDeityStore, 'deities'],
-            [useLanguageStore, 'languages']
+            [useBookStore, 'worldbuilding.books'],
+            [useInteractiveMapStore, 'worldbuilding.interactiveMaps'],
+            [useFamilyTreeStore, 'worldbuilding.familyTrees'],
+            [useCustomLineageStore, 'worldbuilding.lineages'],
+            [useFactionStore, 'worldbuilding.factions'],
+            [useTimelineStore, 'worldbuilding.timelines'],
+            [useQuestStore, 'worldbuilding.quests'],
+            [useWorldStore, 'worldbuilding.worlds'],
+            [useDeityStore, 'worldbuilding.deities'],
+            [useLanguageStore, 'worldbuilding.languages'],
+            [useShareableStore, 'journal.shareable']
           ];
 
-          // Hydrate only stores WITHOUT unsynced local edits, so an offline edit
-          // is not overwritten by an older cloud copy. Dirty stores keep local
-          // and are pushed up below.
-          const hydrateTasks = [];
-          stores.forEach(([store, key]) => {
-            if (isDirty(key)) return;
-            hydrateTasks.push(store.getState().hydrateFromCloud?.(user.uid));
-          });
-          // shareableStore is journal-backed (hydrated by the journal hook);
-          // campaigns use campaignService.
-          hydrateTasks.push(useShareableStore.getState().hydrateFromCloud?.(user.uid));
-          hydrateTasks.push(campaignService.hydrateFromCloud?.(user.uid));
-          await Promise.allSettled(hydrateTasks);
+          // Hydrate only stores whose scoped record is clean (no unsynced local
+          // edits). Dirty stores keep local and are pushed by the subscription
+          // below; campaigns own their dirty logic inside campaignService.
+          for (const [store, familyId] of stores) {
+            const engine = getScopedStoreEngine(familyId);
+            const dirty = !!(engine && typeof engine.__isDirty === 'function' && engine.__isDirty());
+            if (!dirty) {
+              await store.getState().hydrateFromCloud?.(uid);
+            }
+          }
+          await campaignService.hydrateFromCloud?.(uid);
           if (cancelled) return;
-          console.log('🌌 Worldbuilding & Campaign cloud hydration synchronized for:', user.uid);
+          console.log('🌌 Worldbuilding & Campaign cloud hydration synchronized for:', uid);
 
-          // Debounced auto-sync + dirty tracking. Subscribing only AFTER
-          // hydration avoids pushing stale local data over newer cloud state.
-          stores.forEach(([store, key]) => {
+          // Debounced auto-sync + revision-bound dirty acknowledgment.
+          stores.forEach(([store, familyId]) => {
             if (!store || typeof store.subscribe !== 'function') return;
+            const engine = getScopedStoreEngine(familyId);
             let timer = null;
+            let changeSeq = 0;
             const scheduleSync = (delay = 2000) => {
               clearTimeout(timer);
               timer = setTimeout(async () => {
+                const seqAtStart = changeSeq;
                 try {
-                  const res = await store.getState().syncToCloud?.(user.uid);
-                  if (res !== false) clearDirty(key);
+                  const res = await store.getState().syncToCloud?.(uid);
+                  if (res !== false && engine && typeof engine.__confirmSynced === 'function') {
+                    if (changeSeq === seqAtStart) {
+                      await engine.__confirmSynced();
+                    }
+                  }
                 } catch (err) {
                   console.warn('Worldbuilding auto-sync failed:', err);
                 }
@@ -200,17 +218,19 @@ const PersistenceProvider = ({ children }) => {
 
             const unsubscribe = store.subscribe((state, prevState) => {
               if (!prevState) return;
-              // Ignore sync-metadata-only changes so syncToCloud setting
-              // lastCloudSyncAt does not create an endless write loop.
+              // Ignore sync-metadata-only changes so cloud acknowledgments do
+              // not create an endless write loop.
               const changed = Object.keys(state).filter((k) => state[k] !== prevState[k]);
               if (changed.length === 0 || changed.every((k) => k === 'lastCloudSyncAt')) return;
-              markDirty(key);
+              changeSeq += 1;
               scheduleSync();
             });
             worldSubscriptions.push(() => { clearTimeout(timer); unsubscribe(); });
 
-            // Push local state up for stores we skipped due to unsynced edits.
-            if (isDirty(key)) scheduleSync(0);
+            // Push local state up for stores with unsynced edits.
+            if (engine && typeof engine.__isDirty === 'function' && engine.__isDirty()) {
+              scheduleSync(0);
+            }
           });
         } catch (err) {
           console.warn('Worldbuilding cloud hydration error:', err);
@@ -229,6 +249,11 @@ const PersistenceProvider = ({ children }) => {
   const saveAllWorldbuilding = async (uid) => {
     if (!uid) return;
     try {
+      const liveUid = useAuthStore.getState().user && !useAuthStore.getState().user.isGuest
+        ? useAuthStore.getState().user.uid
+        : null;
+      if (liveUid !== uid) return; // owner changed: never publish A's store under B
+
       const { default: useBookStore } = await import('../../store/bookStore');
       const { default: useInteractiveMapStore } = await import('../../store/interactiveMapStore');
       const { default: useFamilyTreeStore } = await import('../../store/familyTreeStore');

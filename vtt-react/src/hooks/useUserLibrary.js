@@ -17,19 +17,25 @@ import {
   clearUserLibrary
 } from '../services/firebase/userLibraryService';
 
-function getLocalLibrary(userId) {
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
+
+// Wave B (final sweep): the local user library is verified-owner scoped. The
+// userId parameter remains a resource reference, never ownership proof; the
+// uid-scoped Firebase path above stays the cloud copy.
+const userLibraryFamily = createScopedNativeFamily({ familyId: 'library.user' });
+
+function getLocalLibrary() {
   try {
-    const stored = localStorage.getItem(`userLibrary_${userId}`);
-    return stored ? JSON.parse(stored) : null;
+    return userLibraryFamily.load();
   } catch (error) {
     console.error('Error reading local library:', error);
     return null;
   }
 }
 
-function saveLocalLibrary(userId, libraryData) {
+function saveLocalLibrary(libraryData) {
   try {
-    localStorage.setItem(`userLibrary_${userId}`, JSON.stringify(libraryData));
+    userLibraryFamily.save(libraryData);
   } catch (error) {
     console.error('Error saving local library:', error);
   }

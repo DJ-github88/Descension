@@ -8,6 +8,8 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import usePresenceStore from '../store/presenceStore';
+import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
+import { captureOwnerGuard } from '../persistence/scopedConsumer';
 
 const getSocket = () => {
  return usePresenceStore.getState()?.socket;
@@ -22,7 +24,7 @@ const SUPPORTED_ACTION_TYPES = new Set([
  'combat_action'
 ]);
 
-// Offline storage keys
+// Offline storage keys (retired global keys; now quarantined once per owner)
 const OFFLINE_STORAGE = {
  CHARACTERS: 'offline_characters',
  MAPS: 'offline_maps',
@@ -30,6 +32,26 @@ const OFFLINE_STORAGE = {
  SYNC_STATUS: 'offline_sync_status',
  LAST_SYNC: 'offline_last_sync'
 };
+
+// Wave B (final sweep): offline workspace records are authored/queued private
+// state. Each legacy key maps to its frozen registry family; the retired global
+// keys are quarantined (verified copies) and never auto-adopted.
+const OFFLINE_FAMILY_IDS = {
+ [OFFLINE_STORAGE.CHARACTERS]: 'offline.characters',
+ [OFFLINE_STORAGE.MAPS]: 'offline.maps',
+ [OFFLINE_STORAGE.ACTION_QUEUE]: 'offline.actionQueue',
+ [OFFLINE_STORAGE.SYNC_STATUS]: 'offline.syncStatus',
+ [OFFLINE_STORAGE.LAST_SYNC]: 'offline.lastSync'
+};
+
+const offlineFamilyByKey = {};
+for (const [legacyKey, familyId] of Object.entries(OFFLINE_FAMILY_IDS)) {
+ offlineFamilyByKey[legacyKey] = createScopedNativeFamily({ familyId, legacyKeys: [legacyKey] });
+}
+
+function offlineFamilyFor(key) {
+ return offlineFamilyByKey[key] || null;
+}
 
 /**
  * Check if the user is currently online
@@ -43,8 +65,8 @@ export function isOnline() {
  */
 function getOfflineData(key) {
  try {
-  const data = localStorage.getItem(key);
-  return data ? JSON.parse(data) : null;
+  const family = offlineFamilyFor(key);
+  return family ? family.load() : null;
  } catch (error) {
   console.error('Error reading offline data:', error);
   return null;
@@ -56,7 +78,8 @@ function getOfflineData(key) {
  */
 function setOfflineData(key, data) {
  try {
-  localStorage.setItem(key, JSON.stringify(data));
+  const family = offlineFamilyFor(key);
+  if (family) family.save(data);
  } catch (error) {
   console.error('Error storing offline data:', error);
  }
@@ -67,7 +90,8 @@ function setOfflineData(key, data) {
  */
 function clearOfflineData(key) {
  try {
-  localStorage.removeItem(key);
+  const family = offlineFamilyFor(key);
+  if (family) family.clear();
  } catch (error) {
   console.error('Error clearing offline data:', error);
  }
@@ -195,11 +219,16 @@ export async function getCharacterData(characterId, userId) {
 export async function updateCharacterData(characterId, updates, userId) {
  const timestamp = new Date().toISOString();
 
+ // B1: fence the whole update to the owner/generation that started it.
+ const ownerGuard = captureOwnerGuard(userId);
+ if (!ownerGuard.ok) return;
+
  // Store offline first
  const offlineCharacters = getOfflineData(OFFLINE_STORAGE.CHARACTERS) || {};
  if (!offlineCharacters[characterId]) {
   // Load existing character data if not already offline
   const existingData = await getCharacterData(characterId, userId);
+  if (!ownerGuard.isCurrent()) return;
   if (existingData) {
    offlineCharacters[characterId] = existingData;
   } else {
@@ -217,6 +246,7 @@ export async function updateCharacterData(characterId, updates, userId) {
   syncStatus: 'pending'
  };
 
+ if (!ownerGuard.isCurrent()) return;
  setOfflineData(OFFLINE_STORAGE.CHARACTERS, offlineCharacters);
 
  // Queue sync action if online
@@ -265,7 +295,7 @@ export async function queueAction(actionType, actionData, userId) {
 /**
  * Process queued actions when coming back online
  */
-async function processActionQueue(userId) {
+async function processActionQueue(userId, ownerGuard = null) {
  const actionQueue = getOfflineData(OFFLINE_STORAGE.ACTION_QUEUE) || [];
  if (actionQueue.length === 0) return;
 
@@ -275,6 +305,11 @@ async function processActionQueue(userId) {
  const failedActions = [];
 
  for (const action of actionQueue) {
+  // B1: never replay another owner's queued work through the live socket.
+  if (ownerGuard && !ownerGuard.isCurrent()) {
+   console.log('📴 Offline replay superseded by owner change - keeping queue');
+   return;
+  }
   try {
    await processQueuedAction(action);
    processedActions.push(action.id);
@@ -286,6 +321,8 @@ async function processActionQueue(userId) {
    failedActions.push(action);
   }
  }
+
+ if (ownerGuard && !ownerGuard.isCurrent()) return;
 
  // Update queue with results
  const updatedQueue = actionQueue.filter(action =>
@@ -361,11 +398,16 @@ export async function syncOfflineData(userId) {
   return;
  }
 
+ // B1: fence the entire replay to the owner/generation that started it.
+ const ownerGuard = captureOwnerGuard(userId);
+ if (!ownerGuard.ok) return;
+
  console.log('🔄 Starting offline data sync');
 
  try {
   // Process action queue first
-  await processActionQueue(userId);
+  await processActionQueue(userId, ownerGuard);
+  if (!ownerGuard.isCurrent()) return;
 
   // Sync offline characters
   const offlineCharacters = getOfflineData(OFFLINE_STORAGE.CHARACTERS) || {};
@@ -378,6 +420,7 @@ export async function syncOfflineData(userId) {
     characterData.lastSynced = new Date().toISOString();
    }
   }
+  if (!ownerGuard.isCurrent()) return;
   setOfflineData(OFFLINE_STORAGE.CHARACTERS, offlineCharacters);
 
   // Update last sync timestamp
@@ -424,9 +467,10 @@ export function getOfflineStorageUsage() {
  const usage = {};
 
  Object.entries(OFFLINE_STORAGE).forEach(([name, key]) => {
-  const data = localStorage.getItem(key);
-  if (data) {
-   const size = new Blob([data]).size;
+  const family = offlineFamilyFor(key);
+  const value = family ? family.load() : null;
+  if (value) {
+   const size = new Blob([JSON.stringify(value)]).size;
    usage[name] = size;
    totalSize += size;
   }

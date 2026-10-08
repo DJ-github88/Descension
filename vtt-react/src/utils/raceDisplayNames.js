@@ -15,7 +15,7 @@
  *   Florae: Oaken · Briaren
  *   Groven: Morgh · Amordjin
  *   Mimir: Arch Mimir · Broken Mimir
- *   Athien: Athien · Weft · Riven
+ *   Athien: Nethien · Weft · Riven
  *   Solari: Korr · Anhur
  *   Mycellan: Bedel · Cromyx
  */
@@ -23,7 +23,6 @@
 const LEGACY_RACE_DISPLAY_MAP = {
     // Race-level legacy names
     neth: 'Athien',
-    nethien: 'Athien',
     'pale neth': 'Athien',
     'pale nethien': 'Athien',
     vreken: 'Mycellan',
@@ -66,11 +65,14 @@ const LEGACY_RACE_DISPLAY_MAP = {
     marked: 'Cromyx',
     'marked vreken': 'Cromyx',
     'marked mycellan': 'Cromyx',
-    // Athien high bloodline (once High Neth / Velun / interim High Nethien)
-    'high neth': 'Athien',
-    'velun neth': 'Athien',
-    'high nethien': 'Athien',
-    'velun nethien': 'Athien',
+    // Athien high bloodline (once High Neth / Velun / interim High Nethien).
+    // Bare "Nethien" is current canon (the high bloodline), so it passes through.
+    'nethien (nethien)': 'Nethien',
+    'nethien (neth)': 'Nethien',
+    'high neth': 'Nethien',
+    'velun neth': 'Nethien',
+    'high nethien': 'Nethien',
+    'velun nethien': 'Nethien',
     // Weft bloodline (once Hallowed / Kessen / Veldun / interim Vessel, Veilien)
     'hallowed neth': 'Weft',
     'kessen neth': 'Weft',
@@ -120,7 +122,7 @@ const BLOODLINE_HERITAGE_LABELS = {
     merryn: 'Merryn (Human)',
     ordu: 'Ordu (Human)',
     // Athien
-    nethien: 'Athien',
+    nethien: 'Nethien Athien',
     weft: 'Weft Athien',
     riven: 'Riven Athien'
 };

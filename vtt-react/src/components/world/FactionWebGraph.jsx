@@ -2,10 +2,14 @@ import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import useFactionStore, { RELATIONSHIP_TYPES, FACTION_TYPES } from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import { sanitizeLoreText } from './WorldDashboard';
+import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import './FactionWebGraph.css';
 
 const CANVAS_WIDTH = 2400;
 const CANVAS_HEIGHT = 1600;
+
+// Wave B (final sweep): per-world authored graph layout is verified-owner scoped.
+const factionLayoutFamily = createScopedNativeFamily({ familyId: 'graph.factionLayout' });
 
 const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
   const activeWorldId = useWorldStore((state) => state.activeWorldId || 'mythrill');
@@ -49,17 +53,16 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
   // Persist dragged positions per world (previously lost on reload)
   useEffect(() => {
     try {
-      const key = `mythrill_faction_graph_positions_${targetWorldId}`;
-      const saved = localStorage.getItem(key);
-      if (saved) setCustomPositions(JSON.parse(saved));
-      else setCustomPositions({});
+      const saved = factionLayoutFamily.load([String(targetWorldId)]);
+      setCustomPositions(saved && typeof saved === 'object' ? saved : {});
     } catch {}
   }, [targetWorldId]);
 
   useEffect(() => {
     try {
-      const key = `mythrill_faction_graph_positions_${targetWorldId}`;
-      if (Object.keys(customPositions).length > 0) localStorage.setItem(key, JSON.stringify(customPositions));
+      if (Object.keys(customPositions).length > 0) {
+        factionLayoutFamily.save(customPositions, [String(targetWorldId)]);
+      }
     } catch {}
   }, [customPositions, targetWorldId]);
 
@@ -353,7 +356,7 @@ const FactionWebGraph = ({ onFactionClick, selectedFactionId, worldId }) => {
   // Reset custom layout
   const handleResetLayout = () => {
     setCustomPositions({});
-    try { localStorage.removeItem(`mythrill_faction_graph_positions_${targetWorldId}`); } catch {}
+    try { factionLayoutFamily.clear([String(targetWorldId)]); } catch {}
     resetCanvasView();
   };
 

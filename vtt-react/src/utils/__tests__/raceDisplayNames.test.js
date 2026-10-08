@@ -6,6 +6,8 @@ describe('raceDisplayNames', () => {
             expect(normalizeRaceDisplayName('Hallowed Neth')).toBe('Weft');
             expect(normalizeRaceDisplayName('Hallowed Neth (Neth)')).toBe('Weft');
             expect(normalizeRaceDisplayName('Grave Neth')).toBe('Riven');
+            expect(normalizeRaceDisplayName('High Nethien')).toBe('Nethien');
+            expect(normalizeRaceDisplayName('Velun Nethien')).toBe('Nethien');
             expect(normalizeRaceDisplayName('Athien')).toBe('Athien');
         });
 
@@ -28,7 +30,7 @@ describe('raceDisplayNames', () => {
             expect(normalizeRaceDisplayName('Clean Vreken')).toBe('Bedel');
             expect(normalizeRaceDisplayName('Clean Mycellan')).toBe('Bedel');
             expect(normalizeRaceDisplayName('Marked')).toBe('Cromyx');
-            expect(normalizeRaceDisplayName('Nethien')).toBe('Athien');
+            expect(normalizeRaceDisplayName('Nethien')).toBe('Nethien');
             expect(normalizeRaceDisplayName('Vreken')).toBe('Mycellan');
         });
 
@@ -56,7 +58,8 @@ describe('raceDisplayNames', () => {
         });
 
         it('reads Athien bloodlines as "<bloodline> Athien"', () => {
-            expect(getRaceHeritageLabel('Nethien')).toBe('Athien');
+            expect(getRaceHeritageLabel('Nethien')).toBe('Nethien Athien');
+            expect(getRaceHeritageLabel('Nethien (Athien)')).toBe('Nethien Athien');
             expect(getRaceHeritageLabel('Riven')).toBe('Riven Athien');
             expect(getRaceHeritageLabel('Riven (Athien)')).toBe('Riven Athien');
             expect(getRaceHeritageLabel('Hallowed Neth')).toBe('Weft Athien');

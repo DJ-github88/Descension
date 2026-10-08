@@ -281,6 +281,7 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
     korr: {
       id: 'korr_solari',
       name: 'Korr',
+      languages: ["Wayfarer's Cant", 'Sundari', 'Cinderspeech'],
         crest: '/assets/images/crests/solari_hollow_crest.png',
       illustration: '/assets/images/races/solari_hollow_portrait_bust.jpg',
       illustrationCaption: 'Canonical Korr Cinder-Monk — Devout monastic humanoid in contemplative stillness with solid black eyes and ritual marks, cupping the sacred porous ember in rough pencil draft with incandescent orange watercolor splash.',
@@ -304,10 +305,6 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
         {
           src: '/assets/images/races/solari_hollow_culture_vigil.jpg',
           caption: 'Korr cinder-monk seated in cross-legged meditation atop a basalt dais cupping a multifaceted Sol\'s Breath ember stone amidst geothermal steam in rough charcoal draft with volcanic ember-red watercolor splash.'
-        },
-        {
-          src: '/assets/images/races/solari_hollow_icon_v1.png',
-          caption: 'A Korr cinder-monk seated in deep Vault-Breath meditation, dark brown-beige skin dusted with mineral-ash and solid black light-absorbing eyes, cupping the warm ember of the Sol\'s Breath in rough charcoal draft with fiery volcanic orange watercolor splash.'
         }
       ],
       visualDescription: `The fewest and the most deep-adapted. Korr skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns of any Solari bloodline, stark and crisp from centuries of proximity to the Sol\'s Breath. Their enormous solid-black eyes are enlarged to read faint heat in absolute darkness, and their metabolisms are so slow their pulses are barely perceptible. Their bodies are conditioned for absolute stillness: elongated air-conserving lungs, dense bone, and a bearing so motionless that a sitting Korr can be mistaken for a carved votive. They wear their dreadlocks long and their ash-cloths thick against a daylight that pains them.`,
@@ -548,10 +545,6 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Sol\'s B
         {
           src: '/assets/images/races/solari_waste_culture_vent.png',
           caption: 'Geothermal Steam Harnessing — Anhur scouts harvesting condensation from active sulfur vents with copper collection baffles in rough charcoal draft with burning ash-orange watercolor splash.'
-        },
-        {
-          src: '/assets/images/races/solari_waste_icon_v1.png',
-          caption: 'A Anhur badland scout crouching alertly on a volcanic scree rock with wide horizontal bat-ears, solid black light-absorbing eyes, face veil, desert drapes, and an obsidian-tipped spear in rough charcoal draft with burning ash-orange watercolor splash.'
         }
       ],
       visualDescription: `The surface face of the Solari. Anhur bodies are leaner and more mobile than their deep-vault kin, built to range the volcanic ashlands rather than sit vigil in the dark. Their dark brown-beige skin is weathered from generations of surface exposure, and their ash-branding marks are fainter and blurred at the edges, softened by distance from the Sol\'s Breath. They shave their hair close and wrap themselves head to toe in heavy ash-insulating cloths against the cold of the open badlands, moving with the purposeful economy of scouts who have forgotten why stillness was ever necessary.`,

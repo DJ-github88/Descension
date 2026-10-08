@@ -327,7 +327,7 @@ export const BACKGROUND_ABILITIES = {
       name: 'Echo-Lore',
       type: 'Passive',
       usage: 'Always Active',
-      description: "The Echo-Songs still map the signatures that went dark. Gain resistance to radiant damage and advantage on Arcana or Religion checks involving celestial or Astril-echo phenomena.",
+      description: "The Echosongs still map the signatures that went dark. Gain resistance to radiant damage and advantage on Arcana or Religion checks involving celestial or Astril-echo phenomena.",
       details: "You have resistance to radiant damage. You have advantage on Intelligence (Arcana) or Intelligence (Religion) checks related to celestial phenomena, Lumia's echo, or the Synod's rites."
     },
     {
@@ -477,35 +477,35 @@ export const BACKGROUND_ABILITIES = {
 
   peatTender: [
   {
-    "name": "Mycelial Sense",
+    "name": "Stone-Sense",
     "type": "Passive",
     "usage": "Always Active",
-    "description": "Pressing your hands to wet soil, moss, or peat reveals the decomposition cycles beneath.",
-    "details": "You can sense buried corpses, decomposing organic matter, and subterranean water flows within 60 ft, and gain advantage on Medicine checks using natural fungal poultices."
+    "description": "Pressing a hand to stone reveals hollows, stress-fractures, buried voids, and hidden water.",
+    "details": "You sense voids, fractures, and hidden water within 60 ft through stone, and gain advantage on checks involving masonry, quarrying, and the soundness of rock."
   },
   {
-    "name": "Spore Poultice",
+    "name": "Hall-Brace",
     "type": "Active",
     "usage": "1/Short Rest",
-    "description": "Release soothing medicinal spores to heal and cleanse wounds.",
-    "details": "For 1 AP, release medicinal spores on an adjacent creature, restoring 1d8 + Spirit hit points and cleansing one non-magical poison or disease condition."
+    "description": "Set your frame against failing stone and hold it, the way a Morgh mason holds a wall.",
+    "details": "For 1 AP, brace a wall, span, or doorway until the end of your next turn. It cannot collapse or be forced open while you hold it, and you cannot be moved from the spot."
   }
 ],
 
   petrifiedMason: [
   {
-    "name": "Lithic Grain",
+    "name": "Span-Reader",
     "type": "Passive",
     "usage": "Always Active",
-    "description": "Centuries of absorbing mineral springs have given your heartwood the grain and resilience of stone.",
-    "details": "You gain natural DR 1 against non-magical bludgeoning and crushing damage, and identify structural faults and load-bearing weak points on sight."
+    "description": "You read stress, sag, and rune-tallies in stone structures the way other folk read contracts.",
+    "details": "You can assess any structure's load and stability at a glance, identify hidden tunnels and unstable rock, and always find a safe crossing along an Ancestor-Span."
   },
   {
-    "name": "Bedrock Anchor",
+    "name": "Sounding Strike",
     "type": "Active",
     "usage": "1/Short Rest",
-    "description": "Anchor your petrified roots deep into stone or soil, becoming an immovable pillar.",
-    "details": "For 1 AP, anchor yourself to the ground. Until the end of your next turn, you cannot be moved, shoved, knocked prone, or repositioned by any force."
+    "description": "Strike the stone and read the echo for what the rock is hiding.",
+    "details": "For 1 AP, sound a wall or floor within reach. You learn the layout of hollow spaces, hidden passages, and cavities within 30 ft, and any creature hiding behind the stone is revealed to you."
   }
 ],
 
@@ -521,21 +521,21 @@ export const BACKGROUND_ABILITIES = {
     "name": "Heraldic Decree",
     "type": "Active",
     "usage": "1/Short Rest",
-    "description": "Proclaim an ancestral decree with the ringing authority of the high wind-aeries.",
+    "description": "Proclaim an ancestral decree with the ringing authority of the canopy courts.",
     "details": "For 1 AP, utter an authoritative decree. One humanoid or planar creature within 30 ft must succeed on a Spirit save or be charmed or frightened (your choice) for 1 turn."
   }
 ],
 
   quietTraded: [
   {
-    "name": "Echo of the Quiet",
+    "name": "Unmasked",
     "type": "Passive",
     "usage": "Always Active",
-    "description": "Having traded a sense to the Quiet, your remaining perception expands into the surrounding silence.",
+    "description": "With no mask between you and the world, your bare senses expand into the surrounding fog.",
     "details": "You cannot be surprised by hidden or invisible creatures within 30 ft while you remain motionless in darkness or fog, and gain advantage on non-visual Perception checks."
   },
   {
-    "name": "Quiet Slip",
+    "name": "River-Slip",
     "type": "Active",
     "usage": "1/Short Rest",
     "description": "Disappear into sensory blind spots even while under observation.",
@@ -630,11 +630,11 @@ export const BACKGROUND_ABILITIES = {
 
   sanctuarySeneschal: [
   {
-    "name": "Quarantine Vigil",
+    "name": "Steady Blood",
     "type": "Passive",
     "usage": "Always Active",
-    "description": "Rigorous sanitary training lets you spot the earliest signs of blight or infection.",
-    "details": "With 1 minute of inspection, you can determine if a creature or food item is infected with non-magical disease or necrotic taint, and gain advantage on saves against contagion."
+    "description": "The deep strain cannot be taken by the hush, so you are the one who walks into the sick-wards.",
+    "details": "Advantage on saves against disease, rot, and spore-borne corruption, and you can tend infected creatures without risk. A 1-minute inspection reveals whether a creature, food, or water source carries rot or poison."
   },
   {
     "name": "Cleansing Fumigation",
@@ -647,11 +647,11 @@ export const BACKGROUND_ABILITIES = {
 
   nullSaltHunter: [
   {
-    "name": "Blight-Scarred Tenacity",
+    "name": "Spore-Read",
     "type": "Passive",
     "usage": "Always Active",
-    "description": "Deadened nerve-endings in your necrotic scars flare with numbness under mortal peril.",
-    "details": "When your hit points fall below one-third of maximum, gain +2 to Armor Class and immunity to pain stun and movement reduction effects until healed."
+    "description": "The Root-Veil answers you more clearly than it answers any Bedel, and you can read its ledger.",
+    "details": "By touching soil, roots, or water you can name the spore-signatures that passed within the last day, sense fungal corruption within 60 ft, and gain advantage on Survival checks to track."
   },
   {
     "name": "Null-Salt Brand",
@@ -715,18 +715,18 @@ export const BACKGROUND_ABILITIES = {
 
   briarSentinel: [
   {
-    "name": "Thorn-Barbed Bark",
+    "name": "Splinterbark",
     "type": "Passive",
     "usage": "Always Active",
-    "description": "Rigid bark covered in needle-sharp briar thorns that punish close-quarters aggressors.",
+    "description": "Living timber that splinters under impact punishes close-quarters aggressors.",
     "details": "Any creature that grapples you or hits you with an unarmed strike or natural weapon takes 1d4 piercing damage, and you have advantage on saves against plant-based toxins and thorns."
   },
   {
-    "name": "Briar Entangle",
+    "name": "Root Snare",
     "type": "Active",
     "usage": "1/Short Rest",
-    "description": "Call forth grasping thorny roots to snare the feet of nearby trespassers.",
-    "details": "For 1 AP, cause thorny briars to erupt in a 10 ft radius around you. Enemies in the area must succeed on an Agility save or have their speed reduced to 0 and take 1d4 piercing damage."
+    "description": "Command the grove floor to rise and grip trespassers.",
+    "details": "For 1 AP, roots erupt in a 10 ft radius around you. Enemies in the area must succeed on an Agility save or have their speed reduced to 0 and take 1d4 piercing damage."
   }
 ],
 
@@ -863,6 +863,23 @@ export const BACKGROUND_ABILITIES = {
     "usage": "1/Short Rest",
     "description": "Ignite or channel ancestral spirit lantern light to ward off restless dead.",
     "details": "For 1 AP, channel your ancestral light in a 20 ft radius. Undead within the area must succeed on a Spirit save or suffer 1d8 radiant damage and be turned for 1 turn."
+  }
+],
+
+  arbitrator: [
+  {
+    "name": "Filed Judgment",
+    "type": "Passive",
+    "usage": "Always Active",
+    "description": "A promise witnessed and filed under the First Contract carries the weight of the Ledger.",
+    "details": "When you witness a spoken agreement, both parties instinctively honor it while its terms are kept. You have advantage on Insight checks to detect when a sworn statement is bent, withheld, or broken, and you become aware of a breach wherever you are."
+  },
+  {
+    "name": "Hearing Seat",
+    "type": "Active",
+    "usage": "1/Long Rest",
+    "description": "Sit formal judgment on a dispute, compelling truth from the parties before you.",
+    "details": "For 1 AP, invoke a hearing. One creature within 30 ft that can hear you must succeed on a Spirit save or be unable to knowingly lie to you for 10 minutes, and has disadvantage on Deception checks against you for that duration."
   }
 ]
 };

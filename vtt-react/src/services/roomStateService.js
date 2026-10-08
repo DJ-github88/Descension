@@ -1,6 +1,8 @@
 // Room State Service - Manages per-room and per-player state persistence
 import { v4 as uuidv4 } from 'uuid';
 import campaignService from './campaignService';
+import actionBarPersistenceService from './actionBarPersistenceService';
+import { captureConsumerContext, isConsumerContextCurrent } from '../persistence/scopedConsumer';
 
 const ROOM_STATE_PREFIX = 'mythrill-room-state-';
 const PLAYER_STATE_PREFIX = 'mythrill-player-state-';
@@ -172,7 +174,9 @@ class RoomStateService {
  /**
   * Collect player-specific state
   */
- async collectPlayerState(characterId) {
+ async collectPlayerState(characterId, roomId = 'global') {
+  const captured = captureConsumerContext();
+  if (!captured.ok || typeof characterId !== 'string' || !characterId.trim() || typeof roomId !== 'string' || !roomId.trim()) return {};
   try {
    const [
     inventoryStoreModule,
@@ -186,17 +190,19 @@ class RoomStateService {
     import('../store/levelEditorStore')
    ]);
 
-   const inventoryStore = inventoryStoreModule.default.getState();
+    if (!isConsumerContextCurrent(captured.context)) return {};
+    const inventoryStore = inventoryStoreModule.default.getState();
    const questStore = questStoreModule.default.getState();
    const characterStore = characterStoreModule.default.getState();
    const levelEditorStore = levelEditorStoreModule.default.getState();
 
-   // Load action bar state
+   // Load action bar state through the verified-owner scoped service. The
+   // retired global per-character key is never read (inactive recovery source).
    let actionBarState = null;
    try {
-    const actionBarKey = `mythrill-actionbar-${characterId}`;
-    const stored = localStorage.getItem(actionBarKey);
-    actionBarState = stored ? JSON.parse(stored) : null;
+     const slots = await actionBarPersistenceService.loadActionBarConfig(characterId, roomId);
+     if (!isConsumerContextCurrent(captured.context)) return {};
+    actionBarState = Array.isArray(slots) ? slots : null;
    } catch (error) {
     console.warn('Could not load action bar state:', error);
    }
@@ -316,7 +322,13 @@ class RoomStateService {
  /**
   * Apply player state to stores
   */
- async applyPlayerState(playerState, characterId) {
+ async applyPlayerState(playerState, characterId, roomId = 'global') {
+  const captured = captureConsumerContext();
+  if (!captured.ok || typeof characterId !== 'string' || !characterId.trim() || typeof roomId !== 'string' || !roomId.trim()) return false;
+  if (playerState?.actionBar?.characterId && playerState.actionBar.characterId !== characterId) return false;
+  if (playerState?.actionBar?.roomId && playerState.actionBar.roomId !== roomId) return false;
+  // Snapshot the authorized source before deferred module loading.
+  playerState = JSON.parse(JSON.stringify(playerState || {}));
   try {
    const [
     inventoryStoreModule,
@@ -328,7 +340,8 @@ class RoomStateService {
     import('../store/levelEditorStore')
    ]);
 
-   const inventoryStore = inventoryStoreModule.default.getState();
+    if (!isConsumerContextCurrent(captured.context)) return false;
+    const inventoryStore = inventoryStoreModule.default.getState();
    const questStore = questStoreModule.default.getState();
    const levelEditorStore = levelEditorStoreModule.default.getState();
 
@@ -357,11 +370,14 @@ class RoomStateService {
     questStore.setQuestProgress(playerState.questProgress);
    }
 
-   // Apply action bar
+   // Apply action bar through the verified-owner scoped service. A retired
+   // global layout is never adopted for the current account.
    if (playerState.actionBar) {
     try {
-     const actionBarKey = `mythrill-actionbar-${characterId}`;
-     localStorage.setItem(actionBarKey, JSON.stringify(playerState.actionBar));
+     const slots = Array.isArray(playerState.actionBar)
+      ? playerState.actionBar
+      : (Array.isArray(playerState.actionBar.actionSlots) ? playerState.actionBar.actionSlots : null);
+      if (slots && isConsumerContextCurrent(captured.context)) actionBarPersistenceService.saveActionBarConfig(characterId, roomId, slots);
     } catch (error) {
      console.warn('Could not save action bar state:', error);
     }
@@ -537,4 +553,3 @@ class RoomStateService {
 const roomStateService = new RoomStateService();
 
 export default roomStateService;
-

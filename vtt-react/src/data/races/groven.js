@@ -49,7 +49,7 @@ The Groven are the children of the vats and the crags, forged from ancient Thrum
   diasporaVariation: `Groven diaspora follows the Ancestor-Spans and the mercenary trade. Morgh Groven bridge-engineers work the Sundrift Vale crossing-points (heavier-built, heat-stressed, their stone-scale cracking in the dry steppe sun); Amordjin Groven diplomat-mercenaries serve in every regional court as bodyguards and span-advisors. A sea-serving Amordjin (a Groven who has served three generations aboard Iceheart ships) develops webless paddle-hands and a salt-weathered hide, and speaks Fex with a Merryn accent. Frostmaw remains the cultural heart; the diaspora measures its distance from it in generations of bone-knowledge lost.`,
   meaningfulTradeoffs: 'Groven possess stone-scale plating and superior climbing reach, but their mineral hide betrays them to flame, their long limbs leave defensive gaps, and their bodies sink in deep water, the stone that protects them also drags them down.',
   baseTraits: {
-    languages: ["Wayfarer's Cant", 'Span-Speech'],
+    languages: ["Wayfarer's Cant", 'Spanspeech'],
     lifespan: '200-350 years',
     baseSpeed: 30,
     size: 'Varies (Small/Medium)',

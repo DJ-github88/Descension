@@ -2,8 +2,6 @@ export const human = {
   id: 'human',
   name: 'Human',
   essence: 'The Burning Wick',
-  illustration: '/assets/images/races/human_illustration.png',
-  illustrationCaption: 'A diverse gathering of Humanity, a Skald warrior in rimesteel, a Merryn pirate with tattooed arms, a Tessic keep-dweller, and an Ordu herder with wind-leather cloak.',
   cardFlavor: 'The shortest-lived and most dangerous sapient on Mythrill, they survive through sheer refusal to break.',
   visualDescription: `The most physically variable race in Mythrill, standing 5'2" to 6'2" with build and appearance shifting dramatically by region. Tallyn humans of the Frostwood are fog-pale, chain journals to their belts, and dress in layered wool and leather. Skald of Nordhalla are stocky and cold-hardened in rimesteel. Tessic of the Cragjaw are pale from generations underground. Merryn of the Iceheart Sea are wiry and salt-stained with contract-tattoos covering their arms. Ordu of the Sundrift Vale are lean and wind-marked in wind-leather cloaks. What unites them: no claws, no fangs, no glowing eyes, no supernatural skin — just ordinary bodies driven by an intensity other races find exhausting to witness.`,
   description: `**[The Flame of Feudal Grit]**, *Short-lived, stubborn, and dangerous, Humans survive through an absolute refusal to accept that the sun's death is the end of their story.*
@@ -223,6 +221,7 @@ Tessic children are born underground, and most will never see open sky. Educatio
     thalren: {
       id: 'thalren_human',
       name: 'Tallyn',
+      languages: ["Wayfarer's Cant"],
         crest: '/assets/images/crests/human_thalren_crest.png',
       illustration: '/assets/images/races/human_thalren_city_greymark.jpg',
       illustrationCaption: 'The Walled Archive-City of Greymark — Gothic clocktowers, ironwood palisade bastions, and sky-bridges rising through pine mists in rough charcoal draft with mist-grey watercolor splash.',
@@ -252,10 +251,6 @@ Tessic children are born underground, and most will never see open sky. Educatio
           caption: 'High Scribe Kaelen (Master Cartographer) — Veteran surveyor crouching on craggy limestone bluffs with sighting compass and topographic map in rough charcoal draft with mist-grey watercolor splash.'
         }
       ],
-      cultureIllustration: '/assets/images/races/thalren_culture_write.png',
-      cultureIllustrationCaption: 'A Tallyn traveler sitting on a gnarled log in the misty Frostwood Reach, writing in their journal.',
-      domesticIllustration: '/assets/images/races/thalren_culture_home.png',
-      domesticIllustrationCaption: 'A cozy Tallyn treehouse bedroom high in the canopy of the ironwood trees, decorated with maps and notes.',
 
       visualDescription: `Lean and watchful, the Tallyn carry the pale complexion of people who live under perpetual mist. Their hands are permanently ink-stained, the first skill a Tallyn child learns is journal-keeping, before speech, before walking, and their eyes hold the particular tension of someone who has forgotten something important and knows it. They dress in heavy leather coats damp with the fog of Frostwood Reach, and every Tallyn chains a journal to their belt because a life unwritten down is, by the only measure they recognize, a life that never happened.`,
       tooltipSummary: 'Fog-choked scholars of Frostwood Reach who chain journals to their belts, frantically recording every memory before the mist erases it.',
@@ -360,10 +355,6 @@ The fog-choked forests of Frostwood Reach shape the Tallyn body: lean, watchful,
           caption: 'Jarl Torvald Ice-Breaker — Towering longship reaver with raven round shield and broadaxe on dragon-prow deck in rough charcoal draft with glacial-blue watercolor splash.'
         }
       ],
-      cultureIllustration: '/assets/images/races/skald_culture_ritual.png',
-      cultureIllustrationCaption: 'A Skald father holding a swaddled infant out to the freezing gale of a snowy Nordhalla mountain cliff.',
-      domesticIllustration: '/assets/images/races/skald_culture_home.png',
-      domesticIllustrationCaption: 'A Skald family gathering inside their longhouse around a stone fire pit, listening to a bard play the lyre.',
 
       visualDescription: `Broad-shouldered and cold-hardened, the Skald carry the dense muscle of people who measure worth in endurance. Their skin is wind-burned and scarred from ritual exposure, Skald infants are held to the fjord wind and what the cold does not break they believe it has made, and their eyes are pale, adapted to the glare of sun on endless snow. They move with the deliberate economy of those who know wasted motion costs body-heat. They dress in layered mammoth-furs and rimesteel, and the oldest bloodlines, the frost-touched, run colder still, their breath misting even in summer heat.`,
       tooltipSummary: 'Cold-forged bards of Nordhalla whose throat-songs carry glacier rage and bloodline pride, freezing enemies with ancestral fury.',
@@ -452,7 +443,7 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
       id: 'tessen_human',
       name: 'Tessic',
         crest: '/assets/images/crests/human_tessen_crest.png',
-      languages: ["Wayfarer's Cant", 'Span-Speech'],
+      languages: ["Wayfarer's Cant", 'Spanspeech'],
       illustration: '/assets/images/races/human_tessen_location_ingot_bazaar.jpg',
       illustrationCaption: 'The Smoldering Ingot Bazaar & Great Scales — Cantilevered granite terrace overlooking mountain chasm with monumental counterbalanced bronze balance scale in rough charcoal draft with forge amber watercolor splash.',
       illustrations: [
@@ -473,10 +464,6 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
           caption: 'Moira the Cable-Rigger (Master of the High Spans) — Agile female rigger standing on high-altitude cantilevered iron beam junction with cable wrench and harness in rough charcoal draft with forge amber watercolor splash.'
         }
       ],
-      cultureIllustration: '/assets/images/races/tessen_culture_bazaar.png',
-      cultureIllustrationCaption: 'A bustling multi-level marketplace with catwalks and bridges inside the vertical stone chasm of a Tessic keep.',
-      domesticIllustration: '/assets/images/races/tessen_culture_home.png',
-      domesticIllustrationCaption: 'A Tessic family in their stone keep chamber, a scribe writing at a desk while a child looks out at the chasm bridges.',
 
       visualDescription: `Pale and slightly hunched, the Tessic bear the posture of people who spend their lives in vertical, stone-tunneled keeps. Their skin has not seen direct sunlight in generations, and their eyes are adapted to lamplight and the red geothermal glow of steam pipes. They speak softly, generations of close quarters and fear of avalanches have made loud voices a social violation, and they record their lives not in ink, which freezes, but in knotted cord-cords. They dress in heavy dark woolens and alchemical respirators against the volcanic particulate of the Cragjaw.`,
       tooltipSummary: 'Debt-bound shadow-courtiers who trade in secrets and silence, their sealed lips carrying favors worth more than gold.',
@@ -554,7 +541,7 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
       id: 'merryn_human',
       name: 'Merryn',
         crest: '/assets/images/crests/human_merryn_crest.png',
-      languages: ["Wayfarer's Cant", 'Tide-Speech'],
+      languages: ["Wayfarer's Cant", 'Tidespeech'],
       illustration: '/assets/images/races/human_merryn_city_merrowport.jpg',
       illustrationCaption: 'Merrowport Haven & Sovereign Wharves — Bustling maritime harbor fortress with timber docks, rigging cranes, and tide-bazaars in rough charcoal draft with wave-indigo watercolor splash.',
       illustrations: [
@@ -579,10 +566,6 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
           caption: 'Captain Maren the Drift-Born (Commodore of the Shanty Fleet) — Commanding privateer commodore with boarding cutlass and brass spyglass on quarterdeck in rough charcoal draft with wave-indigo watercolor splash.'
         }
       ],
-      cultureIllustration: '/assets/images/races/merryn_culture_sail.png',
-      cultureIllustrationCaption: 'A Merryn deckhand hauling a thick frozen rope on a ship deck during an arctic storm.',
-      domesticIllustration: '/assets/images/races/merryn_culture_home.png',
-      domesticIllustrationCaption: 'Merryn sailors studying a sea map and rolling dice inside a ship\'s below-deck cabin with sleeping hammocks.',
 
       visualDescription: `Wiry and salt-stained, the Merryn are the mariners of the Iceheart Sea. Their skin is cross-hatched with contract-tattoos covering the arms, ink-deals that the sea is witness to, and their hands are rough with rope-callus and salt-crack. They dress in waxed canvas and oilcloth cut for the deck, and they move with the rolling gait of people for whom solid ground feels wrong: too still, too dead. The wealthy Deck-Born wear finer ink and cleaner cloth; the pressed Bilge-Dwellers bear the same tattoos blurred by brine and labor.`,
       tooltipSummary: 'Salt-scarred sailors whose storm-luck and tattoo-contracts bind them to the sea\'s capricious mercy.',
@@ -687,17 +670,13 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
           caption: 'Keshik Bato the Eagle-Eye — Champion falconer with massive hunting golden eagle on heavy gauntlet and recurve bow in rough charcoal draft with desert gold watercolor splash.'
         }
       ],
-      cultureIllustration: '/assets/images/races/ordan_culture_herd.png',
-      cultureIllustrationCaption: 'An Ordu shepherd watching over a hidden flock across the vast open steppe under storm clouds.',
-      domesticIllustration: '/assets/images/races/ordan_culture_home.png',
-      domesticIllustrationCaption: 'An Ordu family gathered around a fire pit inside a secluded yurt.',
 
       visualDescription: `Lean, wind-marked pastoral humans in wind-leather cloaks and traveling wraps, carrying herding tools and navigation instruments. Ordinary Ordu culture is publicly present across the starless steppe. Descendants of the purged oath-bearing noble line may conceal their pedigree among ordinary herders; they are not a different biological race.`,
       tooltipSummary: 'Public steppe herders and throat-singers, with hidden remnants of a purged noble line among their communities.',
       description: `Ordu culture survived the purge of its oath-bearing noble line. Pastoral migrations, throat-sung ancestor-maps and community rites remain public. Concealed noble descent is a particular history, not a requirement that every Ordu disguise their culture or inherit a universal secret spellcasting gift.`,
       culturalBackground: 'Ordu communities follow Mound-Camp circuits, gather ceremonially at Khagan-Gora, and preserve routes in throat-song. Kumis Downs is a pastoral heartland, not a permanent stone capital. Bayarmaa leads a recognized political successor/cadet house; her title Ordu Khan does not prove an uninterrupted original Blood Seal.',
       statModifiers: { agility: 2, intelligence: 1, spirit: 1, strength: -1 },
-      languages: ["Wayfarer's Cant", 'Mound-Tongue'],
+      languages: ["Wayfarer's Cant", 'Moundsong'],
       baseStats: { hp: 24, mana: 5, ap: 3, initiative: 1 },
       savingThrowModifiers: { advantage: ['endurance', 'navigation'], disadvantage: ['confinement'] },
       traits: [

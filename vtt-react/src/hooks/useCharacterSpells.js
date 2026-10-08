@@ -10,6 +10,7 @@ import useCharacterStore from '../store/characterStore';
 import useInventoryStore from '../store/inventoryStore';
 import { ALL_CLASS_SPELLS } from '../data/classSpellGenerator';
 import { TALENT_TREES } from '../data/talentTreeData';
+import { loadCustomSpells } from '../persistence/spellLibraryScopedStorage';
 import { convertTalentSpellToLibrarySpell } from '../data/talentTrees/talentSystem.mjs';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../utils/raceDisciplineSpellUtils';
 import { getFullRaceData } from '../data/raceData';
@@ -187,14 +188,11 @@ export function useCharacterSpells(characterId = null) {
       });
     }
 
-    // 7. Custom Spells from localStorage or Character customSpells
+    // 7. Custom Spells from verified-owner scoped storage or Character customSpells
     try {
-      const customSaved = localStorage.getItem('mythrill-custom-spells');
-      if (customSaved) {
-        const parsed = JSON.parse(customSaved);
-        if (Array.isArray(parsed)) {
-          parsed.forEach(s => addSpell(s, 'custom', 'Custom Spell'));
-        }
+      const parsed = loadCustomSpells();
+      if (Array.isArray(parsed)) {
+        parsed.forEach(s => addSpell(s, 'custom', 'Custom Spell'));
       }
     } catch (e) {}
 

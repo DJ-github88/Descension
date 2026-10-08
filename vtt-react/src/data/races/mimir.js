@@ -54,7 +54,7 @@ Broken communities reject compulsory masking, sharing life in riverfront settlem
     diasporaVariation: `Arch travelers care for lineage masks and archives with appropriate materials and rites; sea-mist and dry air present different maintenance problems. Broken travelers carry personal Motes rather than compulsory ancestral masks. Neither heritage has a universal death timer outside Frostwood. Embassies and specialist workshops preserve cultural connections without making travel biologically impossible.`,
     meaningfulTradeoffs: 'Arch lineage masks protect and preserve archives but need care; forced loss interrupts mask-dependent benefits. Broken self-memory is Mote-anchored, with its own recorded vulnerability. Neither heritage is biologically unable to accept its face or travel beyond Frostwood.',
     baseTraits: {
-      languages: ["Wayfarer's Cant", 'Vale-Speak'],
+      languages: ["Wayfarer's Cant", 'Valespeak'],
       lifespan: '90-130 years',
       baseSpeed: 30,
       size: 'Medium',

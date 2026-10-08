@@ -13,8 +13,15 @@ import { registerJournalHandlers } from './journalHandlers';
 import { registerInventoryHandlers } from './inventoryHandlers';
 import { registerAudioGameSessionHandlers } from './audioGameSessionHandlers';
 import { registerErrorHandlers } from './errorHandlers';
+import { isSocketRetired } from '../../../persistence/handoff/socketPrincipalRetirement';
 
 export function registerAllSocketHandlers(ctx) {
+  // Wave A (P5/S4): never register handlers on a retired principal's socket.
+  // Its late events must be dropped, not rebound to new state.
+  if (!ctx || isSocketRetired(ctx.socket)) {
+    return () => {};
+  }
+
   const cleanupFns = [
     registerConnectionHandlers(ctx),
     registerRoomLifecycleHandlers(ctx),
