@@ -1,5 +1,5 @@
-/** Remaining B6-B11 production cases, added before their source corrections. */
-const ROOT = 'D:/VTT/vtt-react/src';
+const path = require('path');
+const ROOT = path.resolve(__dirname, '../..');
 jest.mock('../../config/firebase', () => ({
   db: {}, isFirebaseConfigured: true, isDemoMode: false,
   auth: { currentUser: { uid: 'owner-a' }, onAuthStateChanged: cb => {

@@ -7,9 +7,12 @@ import useGameStore from '../../../store/gameStore';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import { createGridSystem } from '../../../utils/InfiniteGridSystem';
 
+import os from 'os';
+import path from 'path';
+
 createGridSystem(useGameStore);
 
-const OUT = 'D:/AppData/Temp/opencode';
+const OUT = process.env.WALL_PREVIEW_OUT || path.join(os.tmpdir(), 'opencode');
 
 const baseView = {
   gridSize: 50,

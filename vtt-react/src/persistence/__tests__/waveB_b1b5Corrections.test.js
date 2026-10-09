@@ -9,9 +9,10 @@
  * real production modules.
  */
 
-const ROOT = 'D:/VTT/vtt-react/src';
+const path = require('path');
+const ROOT = path.resolve(__dirname, '../..');
 
-jest.mock('D:/VTT/vtt-react/src/config/firebase', () => ({
+jest.mock('../../config/firebase', () => ({
   db: {}, isFirebaseConfigured: true, isDemoMode: false,
   auth: { currentUser: { uid: 'owner-a' } }
 }));
@@ -207,7 +208,7 @@ describe('B1 — delayed async consumers reject A completion under B', () => {
 
   it('B1-8 mounted entity graph cannot upload A retained nodes to B cloud', async () => {
     const sync = jest.fn().mockResolvedValue(true);
-    jest.doMock('D:/VTT/vtt-react/src/services/firebase/entityGraphService', () => ({
+    jest.doMock('../../services/firebase/entityGraphService', () => ({
       hydrateEntityGraph: jest.fn().mockResolvedValue({ customNodes: [], customEdges: [] }),
       syncEntityGraph: sync
     }));

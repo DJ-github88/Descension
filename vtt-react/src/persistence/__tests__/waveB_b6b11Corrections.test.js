@@ -12,10 +12,11 @@
  * production modules.
  */
 
-const ROOT = 'D:/VTT/vtt-react/src';
+const path = require('path');
+const ROOT = path.resolve(__dirname, '../..');
 const fsModule = require('fs');
 
-jest.mock('D:/VTT/vtt-react/src/config/firebase', () => ({
+jest.mock('../../config/firebase', () => ({
   db: {}, isFirebaseConfigured: true, isDemoMode: false,
   auth: {
     currentUser: { uid: 'owner-a' },
@@ -76,7 +77,7 @@ beforeEach(() => {
 });
 
 describe('B6 — constrained versionless campaign upgrade', () => {
-  const rules = fsModule.readFileSync('D:/VTT/firestore.rules', 'utf8');
+  const rules = fsModule.readFileSync(path.resolve(__dirname, '../../../../firestore.rules'), 'utf8');
 
   it('B6-1 the campaign rule provides only a constrained legacy upgrade branch', () => {
     expect(rules).toContain('function validLegacyCampaignSource(data)');
@@ -314,7 +315,7 @@ describe('B9 — room-state action bars', () => {
 
 describe('B10 — conversion transfer survives until consumed', () => {
   const mountLobby = async (socket) => {
-    jest.doMock('D:/VTT/vtt-react/src/services/roomService', () => ({
+    jest.doMock('../../services/roomService', () => ({
       getUserRooms: jest.fn().mockResolvedValue([]),
       createPersistentRoom: jest.fn().mockResolvedValue('persist-1')
     }));
@@ -407,7 +408,7 @@ describe('B11 — private named filter presets', () => {
     categories: [], spells: [], sortOrder: { field: 'name', direction: 'asc' }
   };
   const renderFilters = () => {
-    jest.doMock('D:/VTT/vtt-react/src/components/spellcrafting-wizard/context/SpellLibraryContext', () => ({
+    jest.doMock('../../components/spellcrafting-wizard/context/SpellLibraryContext', () => ({
       useSpellLibrary: () => library,
       useSpellLibraryDispatch: () => jest.fn(),
       libraryActionCreators: {}
