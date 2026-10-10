@@ -205,7 +205,8 @@ const ResourceSystemTab = ({ classData, regionInfo, demoResource, onNavigateTab 
       key={entry.id}
       type="button"
       role="tab"
-      aria-selected={activePanel === entry.id}
+       aria-selected={activePanel === entry.id}
+       aria-controls={`resource-panel-${view.classId}`}
       className={`rs-subnav__btn${activePanel === entry.id ? ' is-active' : ''}`}
       onClick={() => setPanel(entry.id)}
      >
@@ -218,7 +219,7 @@ const ResourceSystemTab = ({ classData, regionInfo, demoResource, onNavigateTab 
    </nav>
 
    {activePanel === 'essentials' && (
-    <div className="rs-panel" role="tabpanel">
+     <div className="rs-panel" role="tabpanel" id={`resource-panel-${view.classId}`} aria-label="Essentials">
      {view.essentials.loop && (
       <LoopPanel
        loop={view.essentials.loop}
@@ -244,7 +245,7 @@ const ResourceSystemTab = ({ classData, regionInfo, demoResource, onNavigateTab 
    )}
 
    {activePanel === 'deep-dive' && (
-    <div className="rs-panel" role="tabpanel">
+     <div className="rs-panel" role="tabpanel" id={`resource-panel-${view.classId}`} aria-label="Deep Dive">
      {view.deepDive.map((section) => (
       <ResourceSectionRenderer key={section.id} section={section} classData={classData} />
      ))}
@@ -252,7 +253,7 @@ const ResourceSystemTab = ({ classData, regionInfo, demoResource, onNavigateTab 
    )}
 
    {activePanel === 'reference' && (
-    <div className="rs-panel rs-panel--reference" role="tabpanel">
+     <div className="rs-panel rs-panel--reference" role="tabpanel" id={`resource-panel-${view.classId}`} aria-label="Reference">
      {view.reference.map((section) => (
       <ResourceSectionRenderer key={section.id} section={section} classData={classData} />
      ))}

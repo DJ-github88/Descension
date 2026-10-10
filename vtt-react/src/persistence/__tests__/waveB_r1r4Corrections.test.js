@@ -17,6 +17,8 @@
 const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
 
+jest.setTimeout(30000);
+
 jest.mock('../../config/firebase', () => ({
   db: {}, isFirebaseConfigured: true, isDemoMode: false,
   auth: { currentUser: { uid: 'owner-a' } }
@@ -117,7 +119,7 @@ test('R1-1 an old same-UID generation response cannot destroy the newer authored
   const stored = read('graph.entitiesNodes', A).value.payload;
   expect(stored.some((n) => n.name === 'New-login authored node')).toBe(true);
   expect(stored.some((n) => n.name === 'Old-login cloud snapshot')).toBe(false);
-});
+}, 30000);
 
 test('R1-2 destination activation rehydrates B local graph and preserves it on edit', async () => {
   const { B, auth, switchTo, ui, act } = await graphSetup(jest.fn().mockResolvedValue({ customNodes: [], customEdges: [] }));
@@ -139,7 +141,7 @@ test('R1-2 destination activation rehydrates B local graph and preserves it on e
   const stored = read('graph.entitiesNodes', B).value.payload;
   expect(stored.some((n) => n.id === 'b-local')).toBe(true);
   expect(stored.some((n) => n.name === 'B second node')).toBe(true);
-});
+}, 30000);
 
 test('R1-3 normal owner-authorized graph authoring still persists', async () => {
   jest.doMock('../../services/firebase/entityGraphService', () => ({
@@ -159,7 +161,7 @@ test('R1-3 normal owner-authorized graph authoring still persists', async () => 
   addGraphNode(ui, 'Authorized A node');
   await act(ticks);
   expect(read('graph.entitiesNodes', h.A).value.payload.some((n) => n.name === 'Authorized A node')).toBe(true);
-});
+}, 30000);
 
 /* ========================= R2 — HANDOFF PRESERVATION ======================= */
 

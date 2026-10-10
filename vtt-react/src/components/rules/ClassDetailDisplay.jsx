@@ -1443,29 +1443,43 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    const profile = CLASS_PROVENANCE[heritageClass];
    if (profile && !classData.isCustom) {
     return (
-     <div className="class-detail-section parchment-content">
-      <div className="lore-covenant-card">
-       <div className="covenant-card-header"><h4>{heritageClass} Origin &amp; Heritage</h4></div>
-       <div className="covenant-card-body">
-        <p><strong>Power source:</strong> {profile.powerSource}</p>
-        <p><strong>Individual acquisition:</strong> {profile.acquisition}</p>
-        <p><strong>First discovery:</strong> {profile.firstDiscovery}</p>
-        <p><strong>Institution founding:</strong> {profile.institutionalFounding}</p>
-        <p><strong>Founder state:</strong> {profile.founderState}</p>
-        <p><strong>Living institution:</strong> {profile.institution}</p>
-        <h5>Normal trained heritage paths</h5>
-        <ul>{summarizeHeritageEdgesForClass(classData.variantName || classData.name).map(row => (
-         <li key={row.heritageId}>
-          <strong>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' — Ironclad method' : ''}</strong>
-          {row.implemented && <span> — <em>Edge:</em> {row.edge} <em>Cost:</em> {row.cost}</span>}
-         </li>
-        ))}</ul>
+      <div className="class-detail-section parchment-content class-tradition-section">
+       <header className="class-section-heading">
+        <h3>Tradition</h3>
+        <p>{profile.powerSource}</p>
+       </header>
+       <div className="class-tradition-layout">
+        <section className="class-tradition-practice">
+         <h4>Taking up the calling</h4>
+         <p>{profile.acquisition}</p>
+         <h4>Trained heritage paths</h4>
+         <ul className="class-heritage-paths">{summarizeHeritageEdgesForClass(classData.variantName || classData.name).map(row => (
+          <li key={row.heritageId}>
+           <h5>{row.heritageName}{heritageClass === 'Martyr' && row.heritageId === 'skald_human' ? ' — Ironclad method' : ''}</h5>
+           {row.implemented && <dl>
+            <div><dt>Edge</dt><dd>{row.edge}</dd></div>
+            <div><dt>Cost</dt><dd>{row.cost}</dd></div>
+           </dl>}
+          </li>
+         ))}</ul>
+        </section>
+        <aside className="class-tradition-record" aria-label="Origins and institution">
+         <h4>Origins &amp; institution</h4>
+         <dl>
+          <div><dt>First discovery</dt><dd>{profile.firstDiscovery}</dd></div>
+          <div><dt>Founding</dt><dd>{profile.institutionalFounding}</dd></div>
+          <div><dt>Founder</dt><dd>{profile.founderState}</dd></div>
+          <div><dt>Living institution</dt><dd>{profile.institution}</dd></div>
+         </dl>
+        </aside>
+       </div>
+       <details className="class-training-notes">
+        <summary>Training requirements &amp; heritage rules</summary>
         <p>Other heritages require the actual acquisition and training above. Current incompatible body or interface states still apply.</p>
         {profile.heritageEffectsImplemented
          ? <p>These paths share the class chassis. Each native heritage has one bounded edge and one paired cost shown above; the edge applies only while its declared condition is met, and the class caps, collapse and other risks still apply.</p>
          : <p>These paths share the class chassis. Heritage-specific numerical edges and costs are pending implementation.</p>}
-       </div>
-      </div>
+       </details>
      </div>
     );
    }
@@ -1641,25 +1655,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const roleplaySections = parseRoleplayIdentity(overview.roleplayIdentity?.content);
 
   return (
-   <div className="class-detail-section parchment-content">
-    <div className="guide-badge-header">
-      <h3>Overview</h3>
-     {overview.subtitle && (
-      <div className="guide-subtitle">“{overview.subtitle}”</div>
-     )}
-    </div>
-
-    {/* Top Concept Quote Section */}
-    {overview.description && (
-     <div className="overview-concept-quote">
-      <i className="fas fa-quote-left quote-icon-bg"></i>
-      <div className="quote-text">
-       {renderContent(overview.description)}
-      </div>
-     </div>
-    )}
-
-    {/* Dashboard Grid */}
+    <div className="class-detail-section parchment-content class-overview-section">
     <div className="overview-dashboard-grid">
      
      {/* Left Column: Dossier specs and tactical pros/cons */}
@@ -1805,8 +1801,17 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       )}
      </div>
 
-     {/* Right Column: Deep strategy logs & loops */}
-     <div className="overview-chronicles-column">
+      {/* Right Column: Deep strategy logs & loops */}
+      <div className="overview-chronicles-column">
+       <header className="guide-badge-header overview-opening">
+        <h3>Overview</h3>
+        {overview.subtitle && <div className="guide-subtitle">“{overview.subtitle}”</div>}
+       </header>
+       {overview.description && (
+        <div className="overview-concept-quote">
+         <div className="quote-text">{renderContent(overview.description)}</div>
+        </div>
+       )}
       
       {overview.quickOverview?.content && (() => {
        const qoBlocks = parseQuickOverview(overview.quickOverview.content);
@@ -2571,8 +2576,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const showMethodChips = methodChips.length >= 2 && methodChips.every(chip => chip.length <= 48);
 
   return (
-   <div className="class-detail-section parchment-content">
-    <div className="guide-badge-header spec-main-header">
+    <div className="class-detail-section parchment-content class-specializations-section">
+     <div className="guide-badge-header spec-main-header">
      <div>
       <span className="guide-badge">
        <i className="fas fa-medal"></i> SPECIALIZATIONS & TALENT TREES
@@ -2932,36 +2937,23 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const leftPageCategory = pageCategories[0] || null;
   const rightPageCategory = pageCategories[1] || null;
   
-  const renderSpellCategory = (categoryEntry) => {
-   if (!categoryEntry) {
-    return (
-     <div className="spellbook-category">
-      <div className="spellbook-empty-page" style={{ padding: '40px 20px', textAlign: 'center' }}>
-       <i className="fas fa-book-open" style={{ fontSize: '2rem', marginBottom: '8px', opacity: 0.35, color: '#8b4513' }}></i>
-       <p style={{ margin: 0, fontStyle: 'italic', color: '#8b4513', fontSize: '0.95rem' }}>No further spells recorded for this level page</p>
-      </div>
-     </div>
-    );
-   }
+   const renderSpellCategory = (categoryEntry) => {
+    if (!categoryEntry) return null;
    
    const [categoryName, categorySpells] = categoryEntry;
-   // Ensure a baseline of 6 slots (3 rows of 2 slots) or pad to complete rows of 2
-   const minSlots = 6;
-   const totalSlots = Math.max(minSlots, Math.ceil(categorySpells.length / 2) * 2);
-   const emptySlotsCount = totalSlots - categorySpells.length;
    const fallbackUrl = getCustomIconUrl('Utility/Utility', 'abilities');
    
    return (
-    <div className="spellbook-category">
-     <div className="spellbook-category-header">
-      <h4 className="spellbook-category-title">
-       <i className={categoryIcon}></i> {categoryName}
+     <section className="class-spell-level" aria-label={categoryName}>
+      <div className="class-spell-level-header">
+       <h4>
+        <i className={categoryIcon} aria-hidden="true"></i> {categoryName}
       </h4>
-      <span className="spellbook-category-count">
+       <span className="class-spell-level-count">
        {categorySpells.length} {categorySpells.length === 1 ? 'Spell' : 'Spells'}
       </span>
      </div>
-     <div className="spellbook-spell-grid">
+      <div className="class-spell-list">
       {/* Render actual spell slots */}
       {categorySpells.map(spell => {
        const iconUrl = spellIconUrls.get(spell.id) || fallbackUrl;
@@ -2972,16 +2964,18 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        const range = spell.targetingConfig?.rangeDistance;
 
        return (
-        <div
-         key={spell.id}
-         className="spellbook-spell-slot spellbook-spell-icon"
+         <button
+          key={spell.id}
+          type="button"
+          className="class-spell-entry"
+          aria-label={`Inspect ${spell.name}`}
          onClick={() => handleSpellClick(spell)}
          title={`Inspect ${spell.name}`}
         >
-         <div className="spellbook-slot-icon-wrapper spellbook-spell-icon-image">
+          <span className="class-spell-entry-image">
           <img
            src={iconUrl}
-           alt={spell.name}
+            alt=""
            loading="lazy"
            onLoad={(e) => {
             setLoadedImages(prev => new Set([...prev, iconUrl]));
@@ -2994,19 +2988,19 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
             }
            }}
           />
-          {apCost && (
-           <span className="spellbook-slot-ap-badge" title={`${apCost} Action Point(s)`}>
+           {apCost != null && (
+            <span className="class-spell-ap" title={`${apCost} Action Point(s)`}>
             {apCost} AP
            </span>
           )}
-         </div>
-         <div className="spellbook-slot-details">
-          <div className="spellbook-slot-name spellbook-spell-icon-name" title={spell.name}>{spell.name}</div>
-          <div className="spellbook-slot-meta">
+          </span>
+          <span className="class-spell-entry-details">
+           <span className="class-spell-entry-name">{spell.name}</span>
+           <span className="class-spell-entry-meta">
            {school && (
             <span className="spellbook-slot-tag school-tag">{school}</span>
            )}
-           {infernoReq && (
+            {infernoReq != null && (
             <span className="spellbook-slot-tag inferno-tag">Inferno {infernoReq}</span>
            )}
            {comboType && (
@@ -3014,71 +3008,50 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
              {comboType === 'builder' ? 'Builder' : 'Cadence'}
             </span>
            )}
-           {range && (
-            <span className="spellbook-slot-range">{range}ft</span>
+            {range != null && range !== '' && (
+             <span className="spellbook-slot-range">{range} ft</span>
            )}
-          </div>
-         </div>
-        </div>
+           </span>
+          </span>
+         </button>
        );
       })}
-      {/* Render empty slot sockets */}
-      {Array.from({ length: emptySlotsCount }).map((_, index) => (
-       <div key={`empty-${index}`} className="spellbook-spell-slot spellbook-spell-icon spellbook-slot-empty spellbook-spell-icon-empty">
-        <div className="spellbook-slot-empty-icon">
-         <i className="fas fa-sparkles"></i>
-        </div>
-        <div className="spellbook-slot-empty-text">Empty Slot</div>
-       </div>
-      ))}
-     </div>
-    </div>
+      </div>
+     </section>
    );
   };
 
   return (
-   <div className="class-detail-section spellbook-section" ref={contentContainerRef}>
-    <div className="spellbook-container">
-     {/* Book Spine/Bookmark */}
-     <div className="spellbook-spine"></div>
-     
-     {/* Page Number Indicator in Center */}
-     <div className="spellbook-page-indicator">
-      Page {currentPage + 1} / {totalPages}
-     </div>
-     
-     {/* Left Page */}
-     <div className="spellbook-page spellbook-page-left">
-      {renderSpellCategory(leftPageCategory)}
-      {/* Previous Button at Bottom Left */}
-      <div className="spellbook-pagination-left">
-       <button
-        className="spellbook-page-button"
+    <div className="class-detail-section class-spell-section" ref={contentContainerRef}>
+     <header className="class-section-heading class-spell-heading">
+      <div>
+       <h3>Spells</h3>
+       <p>Browse this tradition's spells by level. Select a spell to read its full rules.</p>
+      </div>
+      <nav className="class-spell-pagination" aria-label="Spell pages">
+        <button
+         className="class-spell-page-button"
         onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
         disabled={currentPage === 0}
         aria-label="Previous page"
        >
-        <i className="fas fa-chevron-left"></i>
-       </button>
-      </div>
-     </div>
-
-     {/* Right Page */}
-     <div className="spellbook-page spellbook-page-right">
-      {renderSpellCategory(rightPageCategory)}
-      {/* Next Button at Bottom Right */}
-      <div className="spellbook-pagination-right">
-       <button
-        className="spellbook-page-button"
+         <i className="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <span role="status">Page {currentPage + 1} of {totalPages}</span>
+        <button
+         className="class-spell-page-button"
         onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
         disabled={currentPage >= totalPages - 1}
         aria-label="Next page"
        >
-        <i className="fas fa-chevron-right"></i>
-       </button>
-      </div>
+         <i className="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      </nav>
+     </header>
+     <div className="class-spell-spread">
+      {renderSpellCategory(leftPageCategory)}
+      {renderSpellCategory(rightPageCategory)}
      </div>
-    </div>
 
     {/* Spell Popup Modal */}
     {selectedSpell && (
@@ -3242,7 +3215,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         aria-controls="class-codex-section"
        onClick={() => { setActiveTab(tab.id); setCurrentPage(0); }}
       >
-        {tab.label}
+        <i className={tab.icon} aria-hidden="true"></i><span>{tab.label}</span>
       </button>
      ))}
      </nav>
