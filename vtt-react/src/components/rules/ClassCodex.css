@@ -1,0 +1,301 @@
+/* Classes share the bestiary folio and adventurer ledger's materials.
+   Scope all overrides to reading surfaces, away from live HUDs and sheets. */
+.classes-display,
+.classes-page-container,
+.class-detail-display.premium-theme {
+  --codex-ink: #34251a;
+  --codex-muted: #68533e;
+  --codex-paper: #f5ecd9;
+  --codex-rule: #b6a080;
+  --codex-seal: #663c32;
+  --codex-leather: #302419;
+  color: var(--codex-ink);
+  font-family: 'Crimson Text', Georgia, serif;
+  scrollbar-color: #9b835e #e8dcc6;
+  caret-color: var(--codex-seal);
+}
+:is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) *,
+:is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) *::before,
+:is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) *::after { box-sizing: border-box; }
+:is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) ::selection { background: #cfbd99; color: var(--codex-ink); }
+:is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) :is(button, a, input, summary):focus-visible {
+  outline: 2px solid var(--codex-seal);
+  outline-offset: 4px;
+}
+.rules-content-area:has(.classes-display, .class-detail-display) { padding: 28px 24px 40px; }
+.rules-content-area:has(.classes-display, .class-detail-display)::before,
+.rules-content-area:has(.classes-display, .class-detail-display)::after { content: none; }
+/* The catalogue owns its heading; avoid the duplicate full-page banner. */
+.rules-content-area:has(.classes-display) > .rules-section-header { display: none; }
+
+/* Catalogue: illustrated ledger entries with text in ink, rather than effects. */
+.classes-display.classes-display { padding: 0; max-width: 1400px; }
+.classes-display .classes-intro { padding: 0 0 24px; border: 0; border-bottom: 3px double var(--codex-rule); border-radius: 0; background: transparent; }
+.classes-display .classes-intro::before { content: none; }
+.classes-display .classes-intro-header { margin-bottom: 20px; padding: 0; border: 0; }
+.classes-display .classes-intro-title h2 { color: var(--codex-ink); font-size: clamp(1.8rem, 3vw, 2.6rem); letter-spacing: 0; text-shadow: none; }
+.classes-display .classes-intro-subtitle { font-family: 'Crimson Text', Georgia, serif; font-size: 1.15rem; color: var(--codex-muted); letter-spacing: 0; }
+.classes-display .classes-intro-columns { gap: 32px; }
+.classes-display .classes-intro-col h4 { font-size: 0.95rem; color: var(--codex-seal); letter-spacing: 0; }
+.classes-display .classes-intro-col h4 i { color: var(--codex-seal); }
+.classes-display .classes-intro-col p { font-size: 1.05rem; color: var(--codex-ink); line-height: 1.6; }
+:is(.classes-display, .classes-page-container) .role-filter-btn,
+.classes-display .damage-type-btn {
+  min-height: 44px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid var(--codex-rule);
+  border-radius: 3px;
+  color: var(--codex-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-shadow: none;
+  box-shadow: none;
+  transform: none;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+:is(.classes-display, .classes-page-container) .role-filter-btn:hover,
+.classes-display .damage-type-btn:hover { background: #e8dcc6; border-color: var(--codex-seal); box-shadow: none; transform: none; }
+:is(.classes-display, .classes-page-container) .role-filter-btn.active,
+.classes-display .damage-type-btn.active { background: var(--codex-leather); color: var(--codex-paper); border-color: var(--codex-leather); text-shadow: none; box-shadow: none; }
+.classes-display .role-filter-btn.active i { filter: none; }
+.classes-display .role-filter-count { background: transparent; font-size: 0.75rem; }
+.classes-display .damage-filter-label { display: inline; color: var(--codex-muted); font-size: 0.8rem; }
+.classes-display .damage-filter-label i { color: var(--codex-seal); }
+.classes-display .dmg-dot { box-shadow: none; }
+.classes-display .classes-filter-info { color: var(--codex-muted); font-size: 1rem; margin-top: 12px; }
+.classes-display .classes-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.classes-display .classes-list .class-row {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  align-items: start;
+  gap: 12px 20px;
+  width: 100%;
+  padding: 20px;
+  text-align: left;
+  font-family: inherit;
+  background: var(--codex-paper);
+  border: 1px solid var(--codex-rule);
+  border-radius: 3px;
+  box-shadow: none;
+  transform: none;
+  contain-intrinsic-size: auto 280px;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.classes-display .classes-list .class-row:hover { background: #f0e3c4; border-color: var(--codex-seal); transform: none; box-shadow: none; }
+.classes-display .classes-list .class-row::before,
+.classes-display .classes-list .class-row::after { content: none; }
+.classes-display .class-row .class-row-icon { grid-row: 1 / span 2; width: 132px; height: 132px; transform: none; }
+.classes-display .class-row .class-row-icon img { filter: none; transform: none; }
+.classes-display .classes-list .class-row .class-row-name { font-size: 1.25rem; color: var(--codex-ink); text-shadow: none; }
+.classes-display .class-row .class-row-role-badge { padding: 0; background: transparent; color: var(--codex-muted); font-family: 'Crimson Text', serif; font-size: 1rem; text-transform: none; letter-spacing: 0; }
+.classes-display .classes-list .class-row .class-row-resource { color: var(--codex-seal); font-size: 1rem; margin: 4px 0; }
+.classes-display .classes-list .class-row .class-row-resource i { color: inherit; }
+.classes-display .classes-list .class-row .class-row-playstyle { display: block; font-size: 1.05rem; line-height: 1.55; color: var(--codex-ink); text-shadow: none; }
+.classes-display .class-row .class-row-meta { grid-column: 2; display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
+.classes-display .class-row-dmg-types { justify-content: flex-start; }
+.classes-display .class-row .class-row-dmg-tag { padding: 2px 6px; border-radius: 2px; background: transparent; border: 1px solid var(--codex-rule); color: var(--codex-muted); font-size: 0.68rem; box-shadow: none; text-shadow: none; }
+/* Legacy class-specific CTA rules use !important: contain their chrome here. */
+.classes-display .classes-list .class-row .class-row-cta {
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: var(--codex-seal) !important;
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  clip-path: none;
+  animation: none !important;
+  transform: none !important;
+}
+.classes-display .class-row .class-row-cta::before,
+.classes-display .class-row .class-row-cta::after { content: none; }
+.classes-display .classes-list .class-row .class-row-cta i { filter: none; animation: none; transform: none; }
+.classes-display .classes-empty { color: var(--codex-muted); font-size: 1.1rem; }
+
+/* A single paper sheet, with bare chapter navigation at every viewport. */
+.class-detail-display.premium-theme { margin-top: 0; padding: 24px; background-color: var(--codex-paper); background-image: linear-gradient(rgba(245, 236, 217, 0.92), rgba(245, 236, 217, 0.92)), url('../../../public/assets/ui/wow-window/parchment_bg.png'); background-size: auto, 600px; border: 1px solid var(--codex-rule); border-radius: 3px; }
+.class-detail-display.premium-theme .class-detail-header { padding: 0 0 20px; min-height: 0; gap: 24px; border-bottom: 3px double var(--codex-rule); }
+.class-detail-display.premium-theme .class-detail-header::before,
+.class-detail-display.premium-theme .class-detail-header::after { content: none; }
+.class-detail-display.premium-theme .class-header-info h2 { color: var(--codex-ink); font-size: clamp(1.8rem, 3vw, 2.6rem); white-space: normal; text-shadow: none; letter-spacing: 0; }
+.class-detail-display.premium-theme .class-header-icon-container img { filter: none; }
+.class-detail-display.premium-theme :is(.class-role-badge, .class-damage-badge) { background: transparent; border: 0; padding: 0; border-radius: 0; color: var(--codex-muted); font-family: 'Crimson Text', serif; font-size: 1rem; text-transform: none; letter-spacing: 0; }
+.class-detail-display.premium-theme .class-header-meta { gap: 12px 24px; }
+.class-detail-display.premium-theme .class-nav-btn { min-height: 44px; min-width: 44px; padding: 8px 12px; background: transparent; border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-seal); box-shadow: none; text-shadow: none; transform: none; }
+.class-detail-display.premium-theme .class-nav-btn:hover { background: #e8dcc6; color: var(--codex-ink); box-shadow: none; transform: none; }
+.class-codex-navigation { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 12px 0 24px; border-bottom: 1px solid var(--codex-rule); }
+.class-detail-display.premium-theme .class-codex-navigation .class-tab { min-height: 44px; padding: 10px 0; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--codex-muted); font-size: 0.85rem; box-shadow: none; top: 0; transform: none; }
+.class-detail-display.premium-theme .class-codex-navigation .class-tab.active,
+.class-detail-display.premium-theme .class-codex-navigation .class-tab:hover { color: var(--codex-seal); border-bottom-color: var(--codex-seal); background: transparent; box-shadow: none; }
+.class-detail-display.premium-theme .class-detail-content { padding: 0; min-width: 0; }
+.class-detail-display.premium-theme .class-detail-section.parchment-content { padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; max-height: none; overflow: visible; }
+.class-detail-display.premium-theme .guide-badge-header { margin: 0 0 20px; padding: 0 0 16px; border-bottom: 1px solid var(--codex-rule); }
+.class-detail-display.premium-theme .guide-badge-header h3 { color: var(--codex-ink); font-size: 1.55rem; }
+.class-detail-display.premium-theme :is(.guide-badge, .rs-hero__badge, .rs-section__badge) { display: none; }
+.class-detail-display.premium-theme .guide-subtitle { color: var(--codex-muted); margin: 8px 0 0; }
+.class-detail-display.premium-theme .overview-concept-quote { padding: 0; margin: 0 0 28px; background: transparent; box-shadow: none; }
+.class-detail-display.premium-theme .quote-icon-bg { display: none; }
+.class-detail-display.premium-theme .overview-concept-quote .quote-text p { max-width: 75ch; font-size: 1.18rem; text-align: left; font-style: normal; color: var(--codex-ink); }
+.class-detail-display.premium-theme .overview-dashboard-grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr); gap: 32px; margin-bottom: 32px; }
+.class-detail-display.premium-theme :is(.overview-dossier-column, .overview-chronicles-column) { min-width: 0; }
+/* The old dashboard cards force material, padding and hover via !important. */
+.class-detail-display.premium-theme :is(.dossier-card, .chronicle-card) {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 28px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.class-detail-display.premium-theme :is(.dossier-card-header, .chronicle-card-header) { padding: 0 0 12px !important; margin: 0 0 16px !important; background: transparent !important; border-bottom: 1px solid var(--codex-rule) !important; color: var(--codex-seal) !important; font-size: 1.05rem !important; letter-spacing: 0 !important; }
+.class-detail-display.premium-theme :is(.dossier-card-header, .chronicle-card-header) i { color: var(--codex-seal) !important; }
+.class-detail-display.premium-theme .guide-illustration-wrapper-centered { margin-bottom: 16px !important; }
+.class-detail-display.premium-theme .guide-illustration-wrapper-centered .guide-illustration-frame { padding: 0 !important; background: #f0e3c4 !important; border: 1px solid var(--codex-rule) !important; border-radius: 3px !important; box-shadow: none !important; overflow: hidden; }
+.class-detail-display.premium-theme .guide-illustration-frame::before { content: none; }
+.class-detail-display.premium-theme .guide-illustration-image { display: block; width: 100%; height: auto; border: 0; border-radius: 0; mix-blend-mode: multiply; filter: none; transform: none; }
+.class-detail-display.premium-theme .guide-illustration-caption { position: static; margin: 0; padding: 12px 16px; color: var(--codex-muted); font-size: 0.95rem; line-height: 1.45; background: transparent; border: 0; }
+.class-detail-display.premium-theme .illus-nav-btn { width: 44px; height: 44px; background: var(--codex-leather); border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-paper); box-shadow: none; }
+.class-detail-display.premium-theme .illus-dots-indicator { position: static; padding: 0 12px 12px; background: transparent; }
+.class-detail-display.premium-theme .illus-dot { width: 28px; height: 28px; margin: 0; border: 0; border-radius: 0; background: transparent; position: relative; box-shadow: none; }
+.class-detail-display.premium-theme .illus-dot::before { content: ''; position: absolute; width: 7px; height: 7px; top: 10px; left: 10px; background: var(--codex-rule); border-radius: 50%; }
+.class-detail-display.premium-theme .illus-dot.active { transform: none; background: transparent; }
+.class-detail-display.premium-theme .illus-dot.active::before { background: var(--codex-seal); }
+.class-detail-display.premium-theme .dossier-spec-row { padding: 10px 0 !important; border: 0 !important; border-bottom: 1px solid var(--codex-rule) !important; background: transparent !important; box-shadow: none !important; transform: none; gap: 16px; align-items: baseline !important; }
+.class-detail-display.premium-theme .dossier-spec-row .spec-label { color: var(--codex-muted) !important; font-family: 'Cinzel', serif !important; font-size: 0.75rem !important; letter-spacing: 0 !important; }
+.class-detail-display.premium-theme .dossier-spec-row .spec-value { color: var(--codex-ink) !important; min-width: 0; text-align: right; }
+.class-detail-display.premium-theme .dossier-spec-row .spec-label i { color: var(--codex-seal) !important; }
+.class-detail-display.premium-theme :is(.dossier-sub-section, .qo-section-box) { padding: 0 !important; margin-bottom: 16px; border: 0 !important; background: transparent !important; box-shadow: none !important; transform: none !important; }
+.class-detail-display.premium-theme .qo-section-header { font-family: 'Cinzel', serif !important; font-size: 0.9rem !important; color: var(--codex-seal) !important; letter-spacing: 0 !important; }
+.class-detail-display.premium-theme .qo-section-header i { display: none !important; }
+.class-detail-display.premium-theme .qo-section-text { color: var(--codex-ink) !important; font-size: 1.08rem !important; line-height: 1.6 !important; }
+.class-detail-display.premium-theme :is(.sub-text, .lore-text, .playstyle-body p, .flow-step-body) { color: var(--codex-ink); font-size: 1.08rem; line-height: 1.6; text-align: left; }
+.class-detail-display.premium-theme :is(.guide-description p, .lore-text p, .sub-text, .mech-text, .mech-list li) { max-width: 75ch; text-align: left; }
+.class-detail-display.premium-theme .tactical-pros-cons-grid { grid-template-columns: 1fr; gap: 16px; }
+.class-detail-display.premium-theme .tactical-list-section { padding: 0; background: transparent; border: 0; border-radius: 0; }
+.class-detail-display.premium-theme .tactical-list-section .list-title { color: var(--codex-seal); }
+.class-detail-display.premium-theme .flow-step-number { background: transparent; color: var(--codex-seal); border: 1px solid var(--codex-rule); box-shadow: none; }
+.class-detail-display.premium-theme :is(.flow-step-item, .lore-sub-section) { padding: 0; background: transparent; border: 0; border-radius: 0; }
+.class-detail-display.premium-theme :is(.lore-covenant-card, .guide-subsection, .guide-flavor-box, .shared-passive-card, .resource-stat-card, .key-ability-card, .practitioner-card, .tradition-call-to-action, .living-order-card) { background: transparent !important; border: 0 !important; border-top: 1px solid var(--codex-rule) !important; border-radius: 0; box-shadow: none !important; padding: 20px 0; transform: none; }
+.class-detail-display.premium-theme .covenant-card-header { color: var(--codex-seal) !important; }
+.class-detail-display.premium-theme .covenant-badge { padding: 0; background: transparent !important; border-radius: 0; color: var(--codex-muted); }
+.class-detail-display.premium-theme .covenant-card-body { font-style: normal; color: var(--codex-ink); }
+.class-detail-display.premium-theme .flavor-box-header { width: 100%; padding: 0; background: transparent; border: 0; color: var(--codex-seal); font-family: 'Cinzel', serif; gap: 16px; min-height: 44px; text-align: left; }
+.class-detail-display.premium-theme .flavor-box-tag { padding: 0; background: transparent; color: inherit; white-space: normal; font-family: inherit; font-size: 0.95rem; letter-spacing: 0; }
+
+/* Resource chapters: essentials, deep-dive examples and table reference. */
+.class-detail-display.premium-theme .rs-tab { color: var(--codex-ink); }
+.class-detail-display.premium-theme :is(.rs-hero, .rs-section) { padding: 0 0 24px; margin-bottom: 24px; background: transparent; border: 0; border-bottom: 1px solid var(--codex-rule); border-radius: 0; box-shadow: none; }
+.class-detail-display.premium-theme :is(.rs-hero__title, .rs-section__title, .rs-step__title, .rs-table-card__title) { color: var(--codex-seal); }
+.class-detail-display.premium-theme :is(.rs-hero__tagline, .rs-tracker__hint, .rs-section__subtitle) { color: var(--codex-muted); }
+.class-detail-display.premium-theme .rs-chip { padding: 0; background: transparent; border: 0; color: var(--codex-muted); }
+.class-detail-display.premium-theme .rs-vitals { gap: 16px; }
+.class-detail-display.premium-theme .rs-vital { padding: 12px 0; border: 0; border-bottom: 1px solid var(--codex-rule); border-radius: 0; background: transparent; }
+.class-detail-display.premium-theme .rs-vital__label { color: var(--codex-muted); }
+.class-detail-display.premium-theme .rs-vital__value { color: var(--codex-ink); }
+.class-detail-display.premium-theme .rs-tracker { padding: 20px 0; border: 0; background: transparent; }
+.class-detail-display.premium-theme .rs-subnav { position: static; padding: 0; gap: 8px 24px; background: transparent; border: 0; border-bottom: 1px solid var(--codex-rule); border-radius: 0; box-shadow: none; backdrop-filter: none; }
+.class-detail-display.premium-theme .rs-subnav__btn { min-height: 44px; padding: 10px 0; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--codex-muted); font-family: 'Cinzel', serif; font-size: 0.85rem; }
+.class-detail-display.premium-theme .rs-subnav__btn.is-active { color: var(--codex-seal); border-bottom-color: var(--codex-seal); background: transparent; }
+.class-detail-display.premium-theme :is(.rs-loop__beat, .rs-step, .rs-action-card, .rs-ability-card, .rs-stat-card, .rs-tier-card, .rs-example, .rs-bvr__col) { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 12px 0; }
+.class-detail-display.premium-theme .rs-loop__beats { gap: 16px; }
+.class-detail-display.premium-theme .rs-loop__beat-icon { background: transparent; color: var(--codex-seal); }
+.class-detail-display.premium-theme .rs-table-card__header { padding: 12px 0; color: var(--codex-seal); background: transparent; border: 0; }
+.class-detail-display.premium-theme :is(.rs-table-wrap, .guide-table-wrapper) { border: 1px solid var(--codex-rule); border-radius: 3px; }
+.class-detail-display.premium-theme :is(.rs-table, .guide-table) th { background: var(--codex-leather); color: var(--codex-paper); font-family: 'Cinzel', serif; }
+.class-detail-display.premium-theme :is(.rs-table, .guide-table) td { color: var(--codex-ink); font-variant-numeric: tabular-nums; }
+
+/* Specialization profiles, talent-tree navigation and spell folios. */
+.class-detail-display.premium-theme :is(.spec-mode-btn, .spec-back-to-cards-btn, .spec-nav-pill) { min-height: 44px; background: transparent; border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-muted); box-shadow: none; transform: none; }
+.class-detail-display.premium-theme :is(.spec-mode-btn.active, .spec-nav-pill.active) { background: var(--codex-leather); color: var(--codex-paper); border-color: var(--codex-leather); }
+.class-detail-display.premium-theme .spec-selector-row { gap: 16px; }
+.class-detail-display.premium-theme .spec-selector-card { background: transparent; border: 1px solid var(--codex-rule); border-radius: 3px; box-shadow: none; transform: none; }
+.class-detail-display.premium-theme .spec-selector-card.active { background: #e8dcc6; border-color: var(--codex-seal); box-shadow: none; }
+.class-detail-display.premium-theme .spec-selector-name { color: var(--codex-ink); }
+.class-detail-display.premium-theme .spec-selector-theme { color: var(--codex-muted); }
+.class-detail-display.premium-theme .spec-selector-check { color: var(--codex-seal); }
+.class-detail-display.premium-theme .spec-profile { background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.class-detail-display.premium-theme .spec-profile-header { padding: 20px 0; background: transparent !important; border-block: 3px double var(--codex-rule); }
+.class-detail-display.premium-theme .spec-profile-header::before,
+.class-detail-display.premium-theme .spec-profile-header::after { content: none; }
+.class-detail-display.premium-theme .spec-profile-header h4 { color: var(--codex-ink); text-shadow: none; }
+.class-detail-display.premium-theme .spec-profile-header .spec-theme { color: var(--codex-muted); text-shadow: none; }
+.class-detail-display.premium-theme .spec-body.premium-body { padding: 24px 0; }
+.class-detail-display.premium-theme :is(.spec-method, .spec-playstyle, .passive-ability, .spec-recommendation, .spec-strengths, .spec-weaknesses) { background: transparent; border: 0; border-radius: 0; padding: 12px 0; box-shadow: none; }
+.class-detail-display.premium-theme .spec-tree-toolbar { padding: 12px 0; background: transparent; border: 0; box-shadow: none; }
+.class-detail-display.premium-theme .spec-talent-tree-container { border: 1px solid var(--codex-rule); border-radius: 3px; box-shadow: none; }
+.class-detail-display.premium-theme .spellbook-container { background: var(--codex-paper); border: 1px solid var(--codex-rule); border-radius: 3px; box-shadow: none; }
+.class-detail-display.premium-theme .spellbook-page { min-width: 0; background: transparent; box-shadow: none; }
+.class-detail-display.premium-theme .spellbook-page::before,
+.class-detail-display.premium-theme .spellbook-page::after { content: none; }
+.class-detail-display.premium-theme .spellbook-spell-slot { background: #ede1c9; border-color: var(--codex-rule); border-radius: 3px; box-shadow: none; }
+.class-detail-display.premium-theme .spellbook-slot-name { color: var(--codex-ink); text-shadow: none; }
+.class-detail-display.premium-theme .spellbook-page-button { min-width: 44px; min-height: 44px; border: 1px solid var(--codex-rule); background: var(--codex-leather); color: var(--codex-paper); border-radius: 3px; box-shadow: none; }
+.class-detail-display.premium-theme .spellbook-page-button:disabled { opacity: 0.45; cursor: default; }
+
+/* Standalone catalogue uses the same entries and links into the full codex. */
+.classes-page-container.classes-page-container { padding: 32px clamp(20px, 5vw, 72px); background-color: #e8dcc6; background-image: linear-gradient(rgba(232, 220, 198, 0.88), rgba(232, 220, 198, 0.88)), url('../../../public/assets/ui/wow-window/parchment_bg.png'); background-size: auto, 600px; }
+.classes-page-container .classes-header { text-align: left; border-bottom: 3px double var(--codex-rule); }
+.classes-page-container :is(.back-link, .classes-breadcrumb a) { color: var(--codex-seal); text-underline-offset: 4px; }
+.classes-page-container .classes-breadcrumb { color: var(--codex-muted); }
+.classes-page-container .classes-title { font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--codex-ink); letter-spacing: 0; text-shadow: none; font-family: 'Cinzel', serif; }
+.classes-page-container .classes-subtitle { color: var(--codex-muted); font-size: 1.15rem; }
+.classes-page-container .classes-controls { gap: 20px; }
+.classes-page-container .classes-search-wrapper { min-width: 0; flex-basis: 300px; }
+.classes-page-container .search-icon { color: var(--codex-muted); }
+.classes-page-container .classes-search-input { background: var(--codex-paper); border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-ink); font-size: 1.1rem; box-shadow: none; }
+.classes-page-container .classes-search-input::placeholder { color: var(--codex-muted); }
+.classes-page-container .classes-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); }
+.classes-page-container .class-card { display: block; padding: 24px; background: var(--codex-paper); border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-ink); text-decoration: none; box-shadow: none; transform: none; }
+.classes-page-container .class-card:hover { background: #f0e3c4; border-color: var(--codex-seal); box-shadow: none; transform: none; }
+.classes-page-container .class-icon-badge { width: 104px; height: 104px; }
+.classes-page-container .class-icon-img { filter: none; }
+.classes-page-container .class-card-name { margin: 0 0 8px; color: var(--codex-ink); font-family: 'Cinzel', serif; }
+.classes-page-container .class-role-badge { background: transparent; padding: 0; color: var(--codex-muted); text-transform: none; font-weight: 400; font-size: 1.05rem; }
+.classes-page-container .class-resource-tag { color: var(--codex-seal); font-size: 1rem; }
+.classes-page-container .class-playstyle { color: var(--codex-ink); font-size: 1.1rem; line-height: 1.6; }
+.classes-page-container :is(.damage-types-label, .damage-type-pill) { color: var(--codex-muted); background: transparent; font-size: 0.9rem; }
+.classes-page-container .classes-empty { color: var(--codex-muted); text-align: center; font-size: 1.1rem; }
+.classes-page-container .classes-empty button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--codex-rule); border-radius: 3px; background: var(--codex-seal); color: var(--codex-paper); font-family: 'Cinzel', serif; cursor: pointer; }
+
+@media (max-width: 1100px) {
+  .classes-display .classes-list { grid-template-columns: 1fr; }
+  .class-detail-display.premium-theme .overview-dashboard-grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px; }
+  .class-detail-display.premium-theme .class-detail-header { flex-wrap: wrap; }
+}
+@media (max-width: 800px) {
+  .class-detail-display.premium-theme .overview-dashboard-grid { grid-template-columns: 1fr; }
+  .class-detail-display.premium-theme .guide-illustration-wrapper-centered { max-width: 460px; }
+  .class-detail-display.premium-theme :is(.spec-selector-row, .spec-traits-grid, .lore-grid-layout) { grid-template-columns: 1fr; }
+  .class-detail-display.premium-theme .rs-loop__beats { grid-template-columns: 1fr; }
+  .class-detail-display.premium-theme .rs-loop__arrow { display: none; }
+}
+@media (max-width: 600px) {
+  .rules-content-area:has(.classes-display, .class-detail-display) { padding: 16px 12px 32px; }
+  .classes-display .classes-intro-columns { grid-template-columns: 1fr; gap: 16px; }
+  .classes-display .classes-list .class-row { grid-template-columns: 80px minmax(0, 1fr); gap: 12px; padding: 16px 12px; }
+  .classes-display .class-row .class-row-icon { width: 80px; height: 80px; }
+  .classes-display .class-row .class-row-meta { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; flex-wrap: wrap; }
+  .classes-display .class-row .class-row-cta { align-self: center; }
+  .classes-display .role-filter-count { display: inline-flex; }
+  .class-detail-display.premium-theme { padding: 16px; }
+  .class-detail-display.premium-theme .class-header-left { gap: 12px; }
+  .class-detail-display.premium-theme .class-header-icon-container { width: 60px; height: 60px; }
+  .class-detail-display.premium-theme .class-header-info h2 { font-size: 1.6rem; }
+  .class-detail-display.premium-theme .class-header-right { width: 100%; justify-content: flex-start; }
+  .class-detail-display.premium-theme .class-nav-buttons { width: 100%; }
+  .class-detail-display.premium-theme .class-nav-btn { flex: 1; }
+  .class-detail-display.premium-theme .class-codex-navigation { gap: 4px 16px; }
+  .class-detail-display.premium-theme .class-codex-navigation .class-tab { font-size: 0.8rem; }
+  .class-detail-display.premium-theme .spec-main-header { align-items: flex-start; gap: 16px; }
+  .class-detail-display.premium-theme .spec-view-mode-toggle { flex-wrap: wrap; }
+  .classes-page-container .classes-header-nav { align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) :is(.class-row, .class-card, .guide-illustration-image, .class-tab, .role-filter-btn, .damage-type-btn) { transition: none; }
+}

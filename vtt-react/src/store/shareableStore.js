@@ -5,7 +5,7 @@ import {
   createScopedStoreStorage,
   registerScopedStoreEngine
 } from '../persistence/scopedStoreStorage';
-import { captureOwnerGuard } from '../persistence/scopedConsumer';
+import { captureOwnerGuard, loadScopedDraft } from '../persistence/scopedConsumer';
 
 // Safe payload sanitizer: trims oversized base64 attachments before the
 // scoped write (quota safety), mirroring the previous safeStorageEngine.
@@ -275,10 +275,41 @@ const useShareableStore = create(
         if (!userId || String(userId).startsWith('guest-')) return false;
         const ownerGuard = captureOwnerGuard(userId);
         if (!ownerGuard.ok) return false;
+        // P5-02: capture the owner-scoped local revision/identity and dirty
+        // state before the cloud read. Authored work that is already unsynced
+        // or lands while the older response is pending must never be replaced
+        // by it; the cloud copy is left intact for the owner's sync path.
+        const captureLocalJournal = () => {
+          const draft = loadScopedDraft({ familyId: 'journal.shareable' });
+          return {
+            revision: draft.status === 'OK' ? draft.localRevision : null,
+            draftId: draft.status === 'OK' ? draft.draftId : null,
+            dirty: (draft.status === 'OK' && !!draft.envelope && draft.envelope.dirty === true) ||
+              (typeof shareableScopedStorage.__isDirty === 'function' && shareableScopedStorage.__isDirty()),
+            pending: typeof shareableScopedStorage.__hasPendingWrites === 'function' &&
+              shareableScopedStorage.__hasPendingWrites(),
+            refused: typeof shareableScopedStorage.__hasRefusedCandidate === 'function' &&
+              shareableScopedStorage.__hasRefusedCandidate()
+          };
+        };
+        const before = captureLocalJournal();
         try {
           const { default: journalService } = await import('../services/firebase/journalService');
           const cloudData = await journalService.loadJournal(userId);
           if (!ownerGuard.isCurrent()) return false;
+          // Revalidate synchronously immediately before applying. These checks
+          // and the set() run in one synchronous block, so a new edit cannot
+          // interleave between validation and mutation.
+          const after = captureLocalJournal();
+          const localChanged =
+            before.dirty || before.pending || before.refused ||
+            after.dirty || after.pending || after.refused ||
+            after.revision !== before.revision ||
+            after.draftId !== before.draftId;
+          if (localChanged) {
+            console.log(`📂 Journal local edits for user ${userId} kept; cloud hydration skipped`);
+            return false;
+          }
           if (cloudData && (cloudData.playerNotes?.length || cloudData.knowledgeBoards?.length || cloudData.playerKnowledge?.length || cloudData.masterBoardBackground)) {
             set(state => ({
               playerKnowledge: cloudData.playerKnowledge || state.playerKnowledge,

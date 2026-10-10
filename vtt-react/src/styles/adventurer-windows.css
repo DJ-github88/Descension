@@ -136,6 +136,16 @@
 .adventurer-window .user-card { border-color: var(--adventure-rule); border-radius: 3px; box-shadow: none; }
 .adventurer-window .library-book-icon { text-shadow: none; filter: none; }
 .adventurer-window .library-molding-hint { color: var(--adventure-paper); letter-spacing: 0.03em; font-size: 0.75rem; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.equipment-identity-header, .skill-simple-header, .skill-detail-header, .weapon-mastery-section, .weapon-mastery-card, .weapon-discipline-detail-card, .technique-inspect-callout, .talent-tree-top-bar, .talent-help-panel, .talent-inspector-header) { background: var(--adventure-page) !important; border: 1px solid var(--adventure-rule) !important; border-radius: 3px !important; box-shadow: none !important; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.weapon-mastery-card.selected, .technique-chip.inspected) { border-color: var(--adventure-seal) !important; background: var(--adventure-panel) !important; box-shadow: none !important; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.weapon-cat-pill, .weapon-mastery-count-pill, .talent-help-btn, .talent-points-badge, .talent-spec-invested-pill, .control-button) { background: var(--adventure-panel) !important; color: var(--adventure-muted) !important; border: 1px solid var(--adventure-rule) !important; border-radius: 3px !important; box-shadow: none !important; text-shadow: none !important; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.weapon-cat-pill.active, .talent-help-btn.active, .talent-action-btn.learn-btn, .control-button.primary) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; border: 1px solid #956b5b !important; border-radius: 3px; box-shadow: none !important; text-shadow: none; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.weapon-cat-pill, .talent-action-btn, .control-button):hover:not(:disabled) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; border-color: #956b5b !important; box-shadow: none !important; transform: none !important; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.skill-header-icon-box, .stats-header-icon-box, .talent-spec-header-crest, .weapon-card-icon-frame) { border-color: var(--adventure-rule) !important; box-shadow: none !important; filter: none !important; }
+:is(.wow-window.adventurer-window, .character-view-page) :is(.skill-simple-description, .stat-description, .stats-section-subtitle, .control-help, .talent-spec-header-desc) { color: var(--adventure-muted) !important; font-family: 'Crimson Text', Georgia, serif !important; }
+.wow-window.adventurer-window :is(.creature-window, .creature-window-content, .settings-group, .control-group) { background: var(--adventure-page) !important; border-color: var(--adventure-rule); box-shadow: none; }
+.wow-window.adventurer-window .world-panel-header { background: var(--adventure-leather) !important; border-color: #9b835e !important; box-shadow: none !important; }
+.wow-window.adventurer-window .world-panel-header :is(h1, h2, h3) { color: var(--adventure-paper) !important; text-shadow: none; }
 
 /* Inventory keeps distinct load zones, using subdued ink-and-paper tones. */
 .adventurer-window .inventory-cell { border-color: var(--adventure-rule); box-shadow: none; }
@@ -217,6 +227,8 @@
 .character-view-page .char-tab-dropdown-menu { background: var(--adventure-page) !important; border: 1px solid var(--adventure-rule) !important; border-radius: 3px; color: var(--adventure-ink); box-shadow: 0 6px 18px rgba(52, 37, 26, 0.2) !important; }
 .character-view-page :is(.char-tab-dropdown-item, .char-tab-dropdown-section-header) { color: var(--adventure-ink) !important; }
 .character-view-page :is(.char-tab-dropdown-item, .char-tab-dropdown-section-header):is(:hover, .active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; }
+.character-view-page :is(.char-dropdown-item, .char-dropdown-section-header) { color: var(--adventure-ink) !important; border-radius: 2px; }
+.character-view-page :is(.char-dropdown-item, .char-dropdown-section-header):is(:hover, .active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; }
 .character-view-page :is(.character-view-content, .character-view-content-wrapper) { background: var(--adventure-page); color: var(--adventure-ink); }
 .character-view-page .character-view-action-bar-footer { border-color: var(--adventure-rule); box-shadow: none; }
 

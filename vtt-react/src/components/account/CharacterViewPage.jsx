@@ -1006,7 +1006,7 @@ const CharacterViewPage = () => {
         {tabOverflowOpen && hiddenTabIds.length > 0 && createPortal(
           <div
             ref={tabOverflowMenuRef}
-            className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu"
+            className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu adventurer-menu"
             style={tabOverflowPos ? { top: tabOverflowPos.top, left: tabOverflowPos.left, minWidth: 200 } : undefined}
             role="menu"
             onMouseLeave={() => setTabOverflowOpen(false)}

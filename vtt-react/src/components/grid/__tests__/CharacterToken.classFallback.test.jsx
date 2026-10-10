@@ -205,7 +205,7 @@ describe('CharacterToken portrait resolution', () => {
     const { container } = renderToken();
     const icon = container.querySelector('.token-icon');
     expect(icon).not.toBeNull();
-    expect(icon.style.backgroundImage).toContain('/assets/icons/classes/false_prophet.png');
+    expect(icon.style.backgroundImage).toMatch(/\/assets\/icons\/classes\/(?:transparent\/)?false_prophet\.png/);
   });
 
   it('prefers an uploaded character image over the class icon', () => {

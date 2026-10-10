@@ -86,19 +86,28 @@ export const useJournalPersistence = () => {
   const useNotificationStore = require('../store/notificationStore').default;
 
   // P5-03 owner fence: capture the owner and account generation BEFORE any
-  // asynchronous work so an old save continuation can never mutate a newer
-  // account's status, saved-state reference, dirty state or notifications.
+  // asynchronous work. The captured scoped guard authorizes completing A's
+  // already-started persistence operation, but mutating shared UI state
+  // (status, saved-state reference, notifications) additionally requires the
+  // live authentication principal to still be this operation's owner: during
+  // handoff preservation the gate intentionally keeps the old scope/generation
+  // current while the live principal has already changed, so the scoped guard
+  // alone would let a stale A continuation overwrite B's UI.
   const startedForUid = user.uid;
   const ownerGuard = captureOwnerGuard(startedForUid);
-  const ownerStillCurrent = () => ownerGuard.ok && ownerGuard.isCurrent();
+  const canTouchSharedState = () => {
+   if (!ownerGuard.ok || !ownerGuard.isCurrent()) return false;
+   const liveUser = useAuthStore.getState().user;
+   return !!liveUser && !liveUser.isGuest && liveUser.uid === startedForUid;
+  };
 
   try {
-   if (ownerStillCurrent()) {
+   if (canTouchSharedState()) {
     usePersistenceStatusStore?.getState().setStatus('journal', 'saving');
    }
    const result = await persistenceService.saveJournal(startedForUid, dataToSave);
 
-   if (!ownerStillCurrent()) {
+   if (!canTouchSharedState()) {
     // Account changed while the save was in flight: keep the honest A-owned
     // result for the caller but never apply it to the new owner's UI/data.
     return result;
@@ -120,7 +129,7 @@ export const useJournalPersistence = () => {
    return result;
   } catch (error) {
    console.error('Failed to save journal:', error);
-   if (ownerStillCurrent()) {
+   if (canTouchSharedState()) {
     usePersistenceStatusStore?.getState().setStatus('journal', 'error', error.message);
     useNotificationStore?.getState().showError(
      'Your journal changes could not be saved to the cloud. They are kept locally and will retry on your next edit.',
@@ -166,6 +175,25 @@ export const useJournalPersistence = () => {
     }
    }
 
+   // P5-02: capture the owner-scoped local revision/identity and dirty state
+   // before the cloud read. The same contract must be revalidated after the
+   // read (synchronously, immediately before applying) so an older cloud
+   // response can never replace newer authored work that arrives while the
+   // read is pending.
+   const engine = getScopedStoreEngine('journal.shareable');
+   const captureLocalJournal = () => {
+    const local = loadScopedDraft({ familyId: 'journal.shareable' });
+    return {
+     revision: local.status === 'OK' ? local.localRevision : null,
+     draftId: local.status === 'OK' ? local.draftId : null,
+     dirty: (local.status === 'OK' && !!local.envelope && local.envelope.dirty === true) ||
+      (engine && typeof engine.__isDirty === 'function' && engine.__isDirty()),
+     pending: !!(engine && typeof engine.__hasPendingWrites === 'function' && engine.__hasPendingWrites()),
+     refused: !!(engine && typeof engine.__hasRefusedCandidate === 'function' && engine.__hasRefusedCandidate())
+    };
+   };
+   const startedLocal = captureLocalJournal();
+
    try {
     const result = await persistenceService.loadJournal(startedForUid);
 
@@ -180,14 +208,15 @@ export const useJournalPersistence = () => {
     // must never be overwritten by an older cloud hydration. Keep the authored
     // local version — it stays recoverable and is pushed by the owner's sync
     // path — and leave the cloud document intact; never report it as saved or
-    // as empty.
+    // as empty. Newer local work is detected by dirty/pending/refused state
+    // or by any revision/identity movement across the read.
     if (result) {
-     const engine = getScopedStoreEngine('journal.shareable');
-     const local = loadScopedDraft({ familyId: 'journal.shareable' });
+     const local = captureLocalJournal();
      const localDirty =
-      (engine && typeof engine.__isDirty === 'function' && engine.__isDirty()) ||
-      (engine && typeof engine.__hasPendingWrites === 'function' && engine.__hasPendingWrites()) ||
-      (local.status === 'OK' && !!local.envelope && local.envelope.dirty === true);
+      startedLocal.dirty || startedLocal.pending || startedLocal.refused ||
+      local.dirty || local.pending || local.refused ||
+      local.revision !== startedLocal.revision ||
+      local.draftId !== startedLocal.draftId;
      if (localDirty) {
       console.log(`📂 Journal local edits for user ${startedForUid} kept; cloud hydration skipped`);
       return { success: false, reason: 'local-dirty-preserved' };

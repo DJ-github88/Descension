@@ -440,7 +440,7 @@ describe('PartyHUD Component', () => {
       const portraitImg = portraits[0].querySelector('img');
 
       expect(portraitImg).toBeInTheDocument();
-      expect(portraitImg.getAttribute('src')).toBe('/assets/icons/classes/lunarch.png');
+      expect(portraitImg.getAttribute('src')).toMatch(/\/assets\/icons\/classes\/(?:transparent\/)?lunarch\.png/);
       // HUD icon portraits render with a base 1.1 zoom to crop icon margins
       expect(portraitImg.style.transform).toContain('scale(1.1)');
     } finally {

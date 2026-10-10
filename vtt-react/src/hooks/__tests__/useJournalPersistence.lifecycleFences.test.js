@@ -18,6 +18,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useJournalPersistence } from '../useJournalPersistence';
 import persistenceService from '../../services/firebase/persistenceService';
+import journalService from '../../services/firebase/journalService';
 import useAuthStore from '../../store/authStore';
 import useShareableStore from '../../store/shareableStore';
 import {
@@ -28,6 +29,7 @@ import {
 } from '../../persistence/bootstrapPrivacyGate';
 import { createUserScope } from '../../persistence/scopeModel';
 import { getScopedStoreEngine } from '../../persistence/scopedStoreStorage';
+import { whenHandoffIdle } from '../../persistence/authBootstrapGateBinding';
 import {
   coordinateAuthPrincipalChange,
   registerHandoffParticipant,
@@ -36,6 +38,14 @@ import {
 } from '../../persistence/handoff/accountHandoffCoordinator';
 
 jest.mock('../../services/firebase/persistenceService', () => ({
+  __esModule: true,
+  default: { loadJournal: jest.fn(), saveJournal: jest.fn() }
+}));
+
+// The production shareableStore hydrates the journal through journalService
+// (not through the hook's persistenceService), so the store continuation under
+// test is held at its real external boundary.
+jest.mock('../../services/firebase/journalService', () => ({
   __esModule: true,
   default: { loadJournal: jest.fn(), saveJournal: jest.fn() }
 }));
@@ -198,6 +208,78 @@ describe('P5-02 — returning owner keeps unsent journal against an older cloud 
   });
 });
 
+describe('P5-02 — provider/store journal hydration cannot overwrite a newer unsent edit', () => {
+  it('the actual store hydration continuation refuses an older cloud result after a mid-read edit', async () => {
+    activatePrivateScope(A);
+    useAuthStore.setState({ user: { uid: 'user-a', email: 'a@test' } });
+    const engine = getScopedStoreEngine('journal.shareable');
+
+    // Clean local baseline: this is the exact state the provider's hydration
+    // loop sees before it starts the store's cloud read.
+    useShareableStore.getState().addNote('OLDER CLOUD JOURNAL', 'baseline authored earlier');
+    await engine.__flush();
+    await engine.__confirmSynced();
+    expect(engine.__isDirty()).toBe(false);
+
+    const held = deferred();
+    journalService.loadJournal.mockReturnValue(held.promise);
+    const loading = useShareableStore.getState().hydrateFromCloud('user-a');
+    await act(async () => { await flushMicrotasks(); });
+    expect(journalService.loadJournal).toHaveBeenCalledWith('user-a');
+
+    // A newer unsent edit lands while the older cloud read is still pending.
+    useShareableStore.getState().addNote('NEW UNSENT DURING READ', 'authored mid-read');
+    await engine.__flush();
+    expect(engine.__isDirty()).toBe(true);
+    const durableBefore = localStorage.getItem(A_JOURNAL_KEY);
+
+    let applied;
+    await act(async () => {
+      held.resolve({
+        ...EMPTY_JOURNAL,
+        playerNotes: [{ id: 'cloud-old', title: 'OLDER CLOUD JOURNAL' }]
+      });
+      applied = await loading;
+      await flushMicrotasks();
+    });
+    await engine.__flush();
+
+    // Refused, never presented as a successful cloud apply, and the newer
+    // authored work survives in working memory and in the scoped record.
+    expect(applied).toBe(false);
+    expect(useShareableStore.getState().playerNotes.map((n) => n.title))
+      .toContain('NEW UNSENT DURING READ');
+    expect(engine.__isDirty()).toBe(true);
+    const durableAfter = localStorage.getItem(A_JOURNAL_KEY);
+    expect(durableAfter).toContain('NEW UNSENT DURING READ');
+    expect(durableAfter).toBe(durableBefore);
+  });
+
+  it('a clean store hydration with no intervening edit still applies the owner cloud journal', async () => {
+    activatePrivateScope(A);
+    useAuthStore.setState({ user: { uid: 'user-a', email: 'a@test' } });
+    const held = deferred();
+    journalService.loadJournal.mockReturnValue(held.promise);
+
+    const loading = useShareableStore.getState().hydrateFromCloud('user-a');
+    await act(async () => { await flushMicrotasks(); });
+
+    let applied;
+    await act(async () => {
+      held.resolve({
+        ...EMPTY_JOURNAL,
+        playerNotes: [{ id: 'cloud', title: 'STORE CLEAN CLOUD NOTE' }]
+      });
+      applied = await loading;
+      await flushMicrotasks();
+    });
+
+    expect(applied).toBe(true);
+    expect(useShareableStore.getState().playerNotes.map((n) => n.title))
+      .toContain('STORE CLEAN CLOUD NOTE');
+  });
+});
+
 describe('P5-03 — old save continuations never mutate the new account', () => {
   it('a delayed A success cannot change live B\u2019s journal status to saved', async () => {
     activatePrivateScope(A);
@@ -317,6 +399,189 @@ describe('P5-03 — old save continuations never mutate the new account', () => 
     expect(useNotificationStore.getState().notifications
       .some((n) => n.title === 'Journal save failed')).toBe(false);
     unmount();
+  });
+
+  it('normal same-owner save success still updates the shared status', async () => {
+    activatePrivateScope(A);
+    useAuthStore.setState({ user: { uid: 'user-a', email: 'a@test' } });
+    persistenceService.loadJournal.mockResolvedValue(null);
+    persistenceService.saveJournal.mockResolvedValue({ success: true, userId: 'user-a' });
+
+    const usePersistenceStatusStore = require('../../store/persistenceStatusStore').default;
+    usePersistenceStatusStore.getState().clearStatus('journal');
+
+    const { result, unmount } = renderHook(() => useJournalPersistence());
+    await act(async () => { await flushMicrotasks(); });
+
+    let returned;
+    await act(async () => {
+      returned = await result.current.saveJournal({ playerNotes: [] });
+    });
+
+    expect(returned.success).toBe(true);
+    expect(usePersistenceStatusStore.getState().statuses.journal.status).toBe('saved');
+    unmount();
+  });
+
+  it('normal same-owner save failure still reports error status and notification', async () => {
+    activatePrivateScope(A);
+    useAuthStore.setState({ user: { uid: 'user-a', email: 'a@test' } });
+    persistenceService.loadJournal.mockResolvedValue(null);
+    persistenceService.saveJournal.mockResolvedValue({ success: false, error: 'denied' });
+
+    const usePersistenceStatusStore = require('../../store/persistenceStatusStore').default;
+    const useNotificationStore = require('../../store/notificationStore').default;
+    usePersistenceStatusStore.getState().clearStatus('journal');
+    useNotificationStore.getState().clearAll();
+
+    const { result, unmount } = renderHook(() => useJournalPersistence());
+    await act(async () => { await flushMicrotasks(); });
+
+    await act(async () => {
+      await result.current.saveJournal({ playerNotes: [] });
+    });
+
+    expect(usePersistenceStatusStore.getState().statuses.journal.status).toBe('error');
+    expect(useNotificationStore.getState().notifications
+      .some((n) => n.title === 'Journal save failed')).toBe(true);
+    unmount();
+  });
+});
+
+describe('P5-03 — save completion during coordinator preservation never mutates live B', () => {
+  const setupPreservation = async () => {
+    activatePrivateScope(A);
+    useAuthStore.setState({ user: { uid: 'user-a', email: 'a@test' } });
+    persistenceService.loadJournal.mockResolvedValue(null);
+
+    const engine = getScopedStoreEngine('journal.shareable');
+    useShareableStore.getState().addNote('A PRESERVED WORK', 'A-owned work kept during handoff');
+    await engine.__flush();
+
+    const pendingSave = deferred();
+    persistenceService.saveJournal.mockReturnValue(pendingSave.promise);
+
+    const usePersistenceStatusStore = require('../../store/persistenceStatusStore').default;
+    const useNotificationStore = require('../../store/notificationStore').default;
+    usePersistenceStatusStore.getState().clearStatus('journal');
+    useNotificationStore.getState().clearAll();
+
+    const { result, unmount } = renderHook(() => useJournalPersistence());
+    await act(async () => { await flushMicrotasks(); });
+
+    let saving;
+    await act(async () => {
+      saving = result.current.saveJournal({ playerNotes: [{ id: 'a-note', title: 'A SAVE PAYLOAD' }] });
+      await Promise.resolve();
+    });
+    expect(usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+
+    // Live principal becomes B, but the coordinator's stopNewWork preservation
+    // latch keeps the old A scope/generation current (the exact interval the
+    // independent witness holds).
+    const latch = deferred();
+    registerHandoffParticipant({
+      id: 'test-preservation-latch',
+      stopNewWork: () => latch.promise
+    });
+    await act(async () => {
+      useAuthStore.setState({ user: { uid: 'user-b', email: 'b@test' } });
+      coordinateAuthPrincipalChange({ user: { uid: 'user-b', email: 'b@test' } });
+      await flushMicrotasks();
+    });
+
+    const gateDuring = getBootstrapGateState();
+    expect(gateDuring.scope.scopeId).toBe('user-a');
+    expect(gateDuring.handoffPending).toBe(true);
+    expect(useAuthStore.getState().user.uid).toBe('user-b');
+
+    return {
+      engine,
+      latch,
+      pendingSave,
+      saving,
+      unmount,
+      usePersistenceStatusStore,
+      useNotificationStore,
+      gateDuring
+    };
+  };
+
+  it('a delayed A success under live B keeps B status and A result separate', async () => {
+    const ctx = await setupPreservation();
+
+    let returned;
+    await act(async () => {
+      ctx.pendingSave.resolve({ success: true, userId: 'user-a', size: 96 });
+      returned = await ctx.saving;
+    });
+
+    // A's legitimate result is preserved for its caller...
+    expect(returned).toEqual({ success: true, userId: 'user-a', size: 96 });
+    // ...but B's shared journal status is not told A's work was saved.
+    expect(ctx.usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+
+    await act(async () => {
+      ctx.latch.resolve({ ok: true });
+      await whenHandoffIdle();
+      await flushMicrotasks();
+    });
+
+    const gateAfter = getBootstrapGateState();
+    expect(gateAfter.scope.scopeId).toBe('user-b');
+    expect(gateAfter.accountGeneration).toBeGreaterThan(ctx.gateDuring.accountGeneration);
+    expect(gateAfter.handoffPending).toBe(false);
+    expect(ctx.usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+    expect(localStorage.getItem(A_JOURNAL_KEY)).toContain('A PRESERVED WORK');
+    ctx.unmount();
+  });
+
+  it('a delayed A returned failure under live B does not change B status or notify', async () => {
+    const ctx = await setupPreservation();
+
+    let returned;
+    await act(async () => {
+      ctx.pendingSave.resolve({ success: false, error: 'controlled write denial' });
+      returned = await ctx.saving;
+    });
+
+    expect(returned.success).toBe(false);
+    expect(ctx.usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+    expect(ctx.useNotificationStore.getState().notifications).toEqual([]);
+
+    await act(async () => {
+      ctx.latch.resolve({ ok: true });
+      await whenHandoffIdle();
+      await flushMicrotasks();
+    });
+
+    expect(ctx.usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+    expect(localStorage.getItem(A_JOURNAL_KEY)).toContain('A PRESERVED WORK');
+    ctx.unmount();
+  });
+
+  it('a delayed A thrown failure under live B does not change B status or notify', async () => {
+    const ctx = await setupPreservation();
+
+    let returned;
+    await act(async () => {
+      ctx.pendingSave.reject(new Error('transport exploded'));
+      returned = await ctx.saving;
+    });
+
+    expect(returned.success).toBe(false);
+    expect(ctx.usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+    expect(ctx.useNotificationStore.getState().notifications).toEqual([]);
+
+    await act(async () => {
+      ctx.latch.resolve({ ok: true });
+      await whenHandoffIdle();
+      await flushMicrotasks();
+    });
+
+    expect(ctx.usePersistenceStatusStore.getState().statuses.journal.status).toBe('saving');
+    expect(localStorage.getItem(A_JOURNAL_KEY)).toContain('A PRESERVED WORK');
+    ctx.unmount();
   });
 });
 

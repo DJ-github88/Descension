@@ -120,6 +120,8 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
             className={`spellbook-tab-button ${hasIcon ? 'tab-icon-only' : ''} ${id === activeTab ? 'active' : ''}`}
             onClick={() => onTabClick && onTabClick(id)}
             title={tab.label}
+            aria-label={tab.label}
+            aria-pressed={id === activeTab}
           >
             {hasIcon ? <TabIcon icon={tab.icon} /> : <span className="tab-text">{tab.label}</span>}
           </button>
@@ -151,7 +153,7 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
         createPortal(
           <div
             ref={menuRef}
-            className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu"
+            className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu adventurer-menu"
             style={menuPos ? { top: menuPos.top, left: menuPos.left, minWidth: 200 } : undefined}
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
