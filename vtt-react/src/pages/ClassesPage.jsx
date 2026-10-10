@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { CLASS_DISPLAY_DATA } from '../data/classes/classDisplayData';
+import { CLASS_DISPLAY_DATA, getClassRoleFilter } from '../data/classes/classDisplayData';
 import ClassIcon from '../components/common/ClassIcon';
 import './ClassesPage.css';
 import '../components/rules/ClassCodex.css';
@@ -13,7 +13,7 @@ export default function ClassesPage() {
   const roles = ['All', 'Damage', 'Tank', 'Support', 'Control', 'Hybrid'];
 
   const filteredClasses = CLASS_DISPLAY_DATA.filter(c => {
-    const matchesRole = activeRole === 'All' || c.role.toLowerCase().includes(activeRole.toLowerCase());
+    const matchesRole = activeRole === 'All' || getClassRoleFilter(c.role) === activeRole.toLowerCase();
     const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           c.playstyle.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesRole && matchesSearch;

@@ -393,6 +393,17 @@ const CLASS_DISPLAY_ENTRIES = [
     }
 ];
 
+// Catalogue filters translate authored role names into broad party roles.
+export const getClassRoleFilter = (role = '') => {
+    const name = role.toLowerCase();
+    if (name.includes('hybrid')) return 'hybrid';
+    if (/tank|bulwark|defender|juggernaut/.test(name)) return 'tank';
+    if (/control|debuffer/.test(name)) return 'control';
+    if (/support|bardic|summoner/.test(name)) return 'support';
+    if (/damage|striker|duelist|blaster|apothecary|harvester|gambler|dot/.test(name)) return 'damage';
+    return 'hybrid';
+};
+
 // Keep the existing alias descriptions for legacy lookup/import, while the
 // catalog and next/previous navigation enumerate the 21 base classes only.
 export const CLASS_DISPLAY_ALIASES = CLASS_DISPLAY_ENTRIES.filter(entry =>

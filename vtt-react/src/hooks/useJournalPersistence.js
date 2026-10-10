@@ -138,7 +138,7 @@ export const useJournalPersistence = () => {
    }
    return { success: false, error: error.message };
   }
-  }, [user, collectJournalState, persistenceService]);
+  }, [user, collectJournalState, persistenceService, useAuthStore]);
 
   /**
    * Load journal data from Firebase

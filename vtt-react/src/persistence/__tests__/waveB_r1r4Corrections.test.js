@@ -14,9 +14,10 @@
  * corrected outcomes.
  */
 
-const ROOT = 'D:/VTT/vtt-react/src';
+const path = require('path');
+const ROOT = path.resolve(__dirname, '../..');
 
-jest.mock('D:/VTT/vtt-react/src/config/firebase', () => ({
+jest.mock('../../config/firebase', () => ({
   db: {}, isFirebaseConfigured: true, isDemoMode: false,
   auth: { currentUser: { uid: 'owner-a' } }
 }));
@@ -74,7 +75,7 @@ afterEach(() => {
 /* ============================ R1 — ENTITY GRAPH ============================ */
 
 async function graphSetup(readCloud) {
-  jest.doMock('D:/VTT/vtt-react/src/services/firebase/entityGraphService', () => ({
+  jest.doMock('../../services/firebase/entityGraphService', () => ({
     hydrateEntityGraph: readCloud,
     syncEntityGraph: jest.fn().mockResolvedValue(true)
   }));
@@ -141,7 +142,7 @@ test('R1-2 destination activation rehydrates B local graph and preserves it on e
 });
 
 test('R1-3 normal owner-authorized graph authoring still persists', async () => {
-  jest.doMock('D:/VTT/vtt-react/src/services/firebase/entityGraphService', () => ({
+  jest.doMock('../../services/firebase/entityGraphService', () => ({
     hydrateEntityGraph: jest.fn().mockResolvedValue({ customNodes: [], customEdges: [] }),
     syncEntityGraph: jest.fn().mockResolvedValue(true)
   }));

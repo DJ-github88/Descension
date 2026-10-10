@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ClassesDisplay.css';
 import './ClassCodex.css';
 
-import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
+import { CLASS_DISPLAY_DATA, getClassRoleFilter } from '../../data/classes/classDisplayData';
 
 import ClassIcon from '../common/ClassIcon';
 
@@ -73,26 +73,6 @@ const ALL_DAMAGE_TYPES = (() => {
 
 
 
-const getFilterKey = (role) => {
-
-    const r = role.toLowerCase();
-
-    if (r.includes('tank') && r.includes('damage') && r.includes('support')) return 'hybrid';
-
-    if (r.includes('tank')) return 'tank';
-
-    if (r.startsWith('damage')) return 'damage';
-
-    if (r.startsWith('support')) return 'support';
-
-    if (r.startsWith('control')) return 'control';
-
-    return 'hybrid';
-
-};
-
-
-
 const slugify = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 
@@ -111,7 +91,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
         if (activeFilter !== 'all') {
 
-            result = result.filter(c => getFilterKey(c.role) === activeFilter);
+            result = result.filter(c => getClassRoleFilter(c.role) === activeFilter);
 
         }
 
@@ -197,7 +177,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                                     ? CLASS_DATA.length
 
-                                    : CLASS_DATA.filter(c => getFilterKey(c.role) === filter.key).length
+                                    : CLASS_DATA.filter(c => getClassRoleFilter(c.role) === filter.key).length
 
                                 }
 

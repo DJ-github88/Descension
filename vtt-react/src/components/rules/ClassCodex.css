@@ -26,7 +26,7 @@
 .rules-content-area:has(.classes-display, .class-detail-display)::before,
 .rules-content-area:has(.classes-display, .class-detail-display)::after { content: none; }
 /* The catalogue owns its heading; avoid the duplicate full-page banner. */
-.rules-content-area:has(.classes-display) > .rules-section-header { display: none; }
+.rules-content-area:has(.classes-display) > .rules-hero-banner { display: none; }
 
 /* Catalogue: illustrated ledger entries with text in ink, rather than effects. */
 .classes-display.classes-display { padding: 0; max-width: 1400px; }
@@ -76,20 +76,20 @@
   padding: 20px;
   text-align: left;
   font-family: inherit;
-  background: var(--codex-paper);
-  border: 1px solid var(--codex-rule);
+  background: var(--codex-paper) !important;
+  border: 1px solid var(--codex-rule) !important;
   border-radius: 3px;
-  box-shadow: none;
-  transform: none;
+  box-shadow: none !important;
+  transform: none !important;
   contain-intrinsic-size: auto 280px;
   transition: border-color 160ms ease, background-color 160ms ease;
 }
-.classes-display .classes-list .class-row:hover { background: #f0e3c4; border-color: var(--codex-seal); transform: none; box-shadow: none; }
+.classes-display .classes-list .class-row:hover { background: #f0e3c4 !important; border-color: var(--codex-seal) !important; transform: none !important; box-shadow: none !important; }
 .classes-display .classes-list .class-row::before,
 .classes-display .classes-list .class-row::after { content: none; }
 .classes-display .class-row .class-row-icon { grid-row: 1 / span 2; width: 132px; height: 132px; transform: none; }
 .classes-display .class-row .class-row-icon img { filter: none; transform: none; }
-.classes-display .classes-list .class-row .class-row-name { font-size: 1.25rem; color: var(--codex-ink); text-shadow: none; }
+.classes-display .classes-list .class-row .class-row-name { font-size: 1.25rem; color: var(--codex-ink) !important; text-shadow: none !important; }
 .classes-display .class-row .class-row-role-badge { padding: 0; background: transparent; color: var(--codex-muted); font-family: 'Crimson Text', serif; font-size: 1rem; text-transform: none; letter-spacing: 0; }
 .classes-display .classes-list .class-row .class-row-resource { color: var(--codex-seal); font-size: 1rem; margin: 4px 0; }
 .classes-display .classes-list .class-row .class-row-resource i { color: inherit; }
@@ -122,6 +122,9 @@
 .class-detail-display.premium-theme .class-detail-header { padding: 0 0 20px; min-height: 0; gap: 24px; border-bottom: 3px double var(--codex-rule); }
 .class-detail-display.premium-theme .class-detail-header::before,
 .class-detail-display.premium-theme .class-detail-header::after { content: none; }
+.class-detail-display.premium-theme::before,
+.class-detail-display.premium-theme::after { content: none; }
+.class-detail-display.premium-theme .class-detail-header .class-header-right { display: flex; }
 .class-detail-display.premium-theme .class-header-info h2 { color: var(--codex-ink); font-size: clamp(1.8rem, 3vw, 2.6rem); white-space: normal; text-shadow: none; letter-spacing: 0; }
 .class-detail-display.premium-theme .class-header-icon-container img { filter: none; }
 .class-detail-display.premium-theme :is(.class-role-badge, .class-damage-badge) { background: transparent; border: 0; padding: 0; border-radius: 0; color: var(--codex-muted); font-family: 'Crimson Text', serif; font-size: 1rem; text-transform: none; letter-spacing: 0; }
@@ -129,9 +132,9 @@
 .class-detail-display.premium-theme .class-nav-btn { min-height: 44px; min-width: 44px; padding: 8px 12px; background: transparent; border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-seal); box-shadow: none; text-shadow: none; transform: none; }
 .class-detail-display.premium-theme .class-nav-btn:hover { background: #e8dcc6; color: var(--codex-ink); box-shadow: none; transform: none; }
 .class-codex-navigation { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 12px 0 24px; border-bottom: 1px solid var(--codex-rule); }
-.class-detail-display.premium-theme .class-codex-navigation .class-tab { min-height: 44px; padding: 10px 0; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--codex-muted); font-size: 0.85rem; box-shadow: none; top: 0; transform: none; }
-.class-detail-display.premium-theme .class-codex-navigation .class-tab.active,
-.class-detail-display.premium-theme .class-codex-navigation .class-tab:hover { color: var(--codex-seal); border-bottom-color: var(--codex-seal); background: transparent; box-shadow: none; }
+.class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button { min-height: 44px; padding: 10px 0; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--codex-muted); font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.85rem; cursor: pointer; box-shadow: none; top: 0; transform: none; }
+.class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button.active,
+.class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button:hover { color: var(--codex-seal); border-bottom-color: var(--codex-seal); background: transparent; box-shadow: none; }
 .class-detail-display.premium-theme .class-detail-content { padding: 0; min-width: 0; }
 .class-detail-display.premium-theme .class-detail-section.parchment-content { padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; max-height: none; overflow: visible; }
 .class-detail-display.premium-theme .guide-badge-header { margin: 0 0 20px; padding: 0 0 16px; border-bottom: 1px solid var(--codex-rule); }
@@ -140,7 +143,7 @@
 .class-detail-display.premium-theme .guide-subtitle { color: var(--codex-muted); margin: 8px 0 0; }
 .class-detail-display.premium-theme .overview-concept-quote { padding: 0; margin: 0 0 28px; background: transparent; box-shadow: none; }
 .class-detail-display.premium-theme .quote-icon-bg { display: none; }
-.class-detail-display.premium-theme .overview-concept-quote .quote-text p { max-width: 75ch; font-size: 1.18rem; text-align: left; font-style: normal; color: var(--codex-ink); }
+.class-detail-display.premium-theme .overview-concept-quote .quote-text p { max-width: 75ch; font-size: 1.18rem !important; line-height: 1.6 !important; text-align: left !important; font-style: normal; color: var(--codex-ink); }
 .class-detail-display.premium-theme .overview-dashboard-grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr); gap: 32px; margin-bottom: 32px; }
 .class-detail-display.premium-theme :is(.overview-dossier-column, .overview-chronicles-column) { min-width: 0; }
 /* The old dashboard cards force material, padding and hover via !important. */
@@ -219,7 +222,10 @@
 .class-detail-display.premium-theme .spec-selector-name { color: var(--codex-ink); }
 .class-detail-display.premium-theme .spec-selector-theme { color: var(--codex-muted); }
 .class-detail-display.premium-theme .spec-selector-check { color: var(--codex-seal); }
+.class-detail-display.premium-theme .spec-main-header { flex-direction: row; text-align: left; }
+.class-detail-display.premium-theme .spec-view-mode-toggle { padding: 0; background: transparent; border: 0; border-radius: 0; gap: 8px; }
 .class-detail-display.premium-theme .spec-profile { background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.class-detail-display.premium-theme .spec-profile::before { content: none; }
 .class-detail-display.premium-theme .spec-profile-header { padding: 20px 0; background: transparent !important; border-block: 3px double var(--codex-rule); }
 .class-detail-display.premium-theme .spec-profile-header::before,
 .class-detail-display.premium-theme .spec-profile-header::after { content: none; }
@@ -291,11 +297,11 @@
   .class-detail-display.premium-theme .class-nav-buttons { width: 100%; }
   .class-detail-display.premium-theme .class-nav-btn { flex: 1; }
   .class-detail-display.premium-theme .class-codex-navigation { gap: 4px 16px; }
-  .class-detail-display.premium-theme .class-codex-navigation .class-tab { font-size: 0.8rem; }
+  .class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button { font-size: 0.8rem; }
   .class-detail-display.premium-theme .spec-main-header { align-items: flex-start; gap: 16px; }
   .class-detail-display.premium-theme .spec-view-mode-toggle { flex-wrap: wrap; }
   .classes-page-container .classes-header-nav { align-items: flex-start; gap: 16px; flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) :is(.class-row, .class-card, .guide-illustration-image, .class-tab, .role-filter-btn, .damage-type-btn) { transition: none; }
+  :is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) :is(.class-row, .class-card, .guide-illustration-image, .class-codex-section-button, .role-filter-btn, .damage-type-btn) { transition: none; }
 }

@@ -3204,7 +3204,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <button 
         className="class-nav-btn prev" 
         onClick={() => onSelectClass(classNavData.prevClass.name)}
-        title={`Previous: ${classNavData.prevClass.name}`}
+         title={`Previous: ${classNavData.prevClass.name}`}
+         aria-label={`Previous class: ${classNavData.prevClass.name}`}
        >
         <i className="fas fa-chevron-left"></i>
         <span className="nav-btn-text">{classNavData.prevClass.name}</span>
@@ -3215,12 +3216,13 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
          title="Back to All Classes"
          aria-label="Back to all classes"
        >
-        <i className="fas fa-th"></i>
+         <span>All classes</span>
        </button>
        <button 
         className="class-nav-btn next" 
         onClick={() => onSelectClass(classNavData.nextClass.name)}
-        title={`Next: ${classNavData.nextClass.name}`}
+         title={`Next: ${classNavData.nextClass.name}`}
+         aria-label={`Next class: ${classNavData.nextClass.name}`}
        >
         <span className="nav-btn-text">{classNavData.nextClass.name}</span>
         <i className="fas fa-chevron-right"></i>
@@ -3235,7 +3237,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       <button
         key={tab.id}
         type="button"
-        className={`class-tab ${activeTab === tab.id ? 'active' : ''}`}
+        className={`class-codex-section-button ${activeTab === tab.id ? 'active' : ''}`}
         aria-pressed={activeTab === tab.id}
         aria-controls="class-codex-section"
        onClick={() => { setActiveTab(tab.id); setCurrentPage(0); }}

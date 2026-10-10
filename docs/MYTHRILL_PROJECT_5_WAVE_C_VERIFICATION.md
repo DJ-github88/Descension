@@ -113,6 +113,8 @@ Totals after the 2026-10-10 S10 final five-case closure: **33 PASS, 9 BLOCKED BY
 
 **Independent-review override (2026-10-10, post-S10):** the bounded read-only independent review corrected this matrix to **28 PASS / 9 BLOCKED / 2 NOT YET VERIFIED / 3 reproduced FAIL**. P5-01 and P5-38 were downgraded to NOT YET VERIFIED (the S10 harnesses did not mount the production room packet handlers and did not observe the pre-activation private-UI interval); P5-02, P5-03 and P5-04 were reopened by direct new production-path journal witnesses. P5-19 remains independently accepted PASS; P5-20, P5-21 and P5-36 remained PASS under that review. The bounded correction below addresses exactly the three FAILs; the corrected cases await bounded independent acceptance and are not self-classified as independently accepted.
 
+**Independent-review override 2 (2026-10-10, latest bounded review):** the follow-up read-only review accepted P5-04 (failed-capture fail-closed behavior) and re-blocked exactly P5-02 and P5-03 in two production timing windows the first hook-level correction did not cover: the provider/store hydration continuation and the coordinator `stopNewWork` preservation interval. Canonical classification at that point: **29 PASS (P5-04 included) / 9 BLOCKED BY ENVIRONMENT / 2 NOT YET VERIFIED (P5-01, P5-38) / 2 reproduced FAIL (P5-02, P5-03)**. The second bounded correction below addresses exactly those two windows; P5-04 was not reopened. Current corrected standings: **29 independently supported PASS / 2 corrected pending bounded independent acceptance (P5-02, P5-03) / 9 BLOCKED BY ENVIRONMENT / 2 NOT YET VERIFIED (P5-01, P5-38) / 0 currently reproduced FAIL**.
+
 ## S10 FINAL FIVE-CASE EVIDENCE CLOSURE — 2026-10-10
 
 Independent review accepted the P5-19 queued-edit correction but downgraded five S9C claims (P5-01, P5-20, P5-21, P5-36, P5-38) to NOT YET VERIFIED: those scenarios verified real storage but replaced or bypassed the production behavior under test (engine reads/writes instead of working stores, a manually assigned upload source, a manually supplied socket, a single runtime page). Starting classification: 28 PASS / 9 BLOCKED / 5 NOT YET VERIFIED / 0 FAIL. S10 re-ran exactly those five against the production components.
@@ -195,6 +197,55 @@ No new sync engine, storage format, Firebase path or persistence architecture wa
 - The hook-level fixes were verified with the real production store/engine/gate/coordinator; full React UI rendering was not repeated.
 - `journalService.loadJournal` still returns `null` for both a genuinely absent document and a failed read, so the hook reports `No saved data found` for both (inherited classification; the API does not permit distinguishing them). A failed read never erases working data and never claims saved/empty content.
 - The three corrected cases are implementation-agent RED→GREEN results; they are **not** self-classified as independently accepted. Bounded independent acceptance remains outstanding. P5-01 and P5-38 remain NOT YET VERIFIED; the nine environment-blocked cases are unchanged.
+
+## BOUNDED JOURNAL TIMING CORRECTION — 2026-10-10 (P5-02, P5-03)
+
+Scope: correct exactly the two production timing defects re-blocked by the latest bounded independent review, after P5-04 was independently accepted. No broad audit, no P5-04 reopening, no P6, no unrelated refactor, no commit/push/deployment by the implementation agent. Input witnesses: the reviewer's own real-Chrome harness `D:/AppData/Temp/opencode/p5-journal-independent-acceptance.cjs` and log `p5-journal-independent-acceptance-final.log` (real mounted `PersistenceProvider`, real `useJournalPersistence`, real `shareableStore`/scoped engine/coordinator; Firebase auth/Firestore simulated only at the external boundary).
+
+### Exact defect reproductions (independent witnesses, pre-correction)
+
+- **P5-02 (`PROVIDER_READ_EDIT_RACE`):** A saves a baseline; A→B→A restores it; both production journal cloud reads are held; A authors `NEW UNSENT DURING READ` (dirty:true, local revision 3, durable record retains the marker); releasing the older reads reverted the working journal to the older cloud content, advanced the scoped revision to 4 without the new note, left `recoveryKeys:[]`, and the hydration response was treated as applied.
+- **P5-03 (`SAVE_DURING_PRESERVATION`, three modes):** A starts a real save; the coordinator holds `stopNewWork` preservation while the retained scoped owner guard still reports A current (gate scope `u-a`, generation 3, `handoffPending:true`) but the live auth principal is already B. Releasing A's save set shared journal status `saving → saved` on success and `saving → error` + a `Journal save failed` notification on returned and thrown failure; the status persisted after B activation (generation 4).
+
+### Root causes
+
+- **P5-02:** `PersistenceProvider` checks `engine.__isDirty()` only before starting hydration; the sibling production path `shareableStore.hydrateFromCloud` applied the resolved cloud document after its `await` with only an owner-guard check, without re-validating dirty state, pending scoped writes or the local revision. The hook's previously corrected guard could not protect the sibling provider/store path.
+- **P5-03:** `useJournalPersistence.saveJournal` required only the captured scoped owner guard after the await. During `stopNewWork` preservation the gate intentionally keeps the old scope/generation current, so the guard still passed while the live principal had already changed; the continuation then mutated the new account's shared status, saved-state reference and notifications.
+
+### Correction (files and functions)
+
+- `vtt-react/src/store/shareableStore.js` → `hydrateFromCloud`: capture the owner-scoped local revision/draft id and dirty/pending/refused state (`loadScopedDraft` plus the real engine accessors) before the cloud read; after the read re-validate the owner guard and compare the same state; any movement or unsynced work refuses hydration (returns `false`, never a successful apply), keeps the authored working state and scoped record, and leaves the cloud copy to the owner's existing sync path. Validation and the `set()` run in one synchronous block, so no edit can interleave between check and apply. The provider's pre-check remains as a fast path, and `AccountJournalManager`'s direct `hydrateFromCloud` caller is covered by the same store fence.
+- `vtt-react/src/hooks/useJournalPersistence.js` → `loadJournal`: the same pre-read capture plus post-read revalidation (owner + live principal, dirty/pending/refused, revision/draft-id movement) replaces the previous dirty-only check, so every production journal hydration application honors the same contract.
+- `vtt-react/src/hooks/useJournalPersistence.js` → `saveJournal`: `canTouchSharedState()` = captured scoped guard current **and** the live non-guest auth principal still `startedForUid`. All shared mutations (`saving`, `saved`, `lastSavedStateRef`, error status, notifications) require it on success, returned-failure and thrown paths; the legitimate A-owned result object is still returned to its caller, and the in-flight persistence operation is never cancelled.
+
+No new hydration framework, sync engine, storage format or Firebase path. Existing owner guards, account generations, scoped CAS/revision/dirty contract and P5-19 queued-edit behavior are unchanged.
+
+### RED → GREEN
+
+Permanent Jest regressions in `vtt-react/src/hooks/__tests__/useJournalPersistence.lifecycleFences.test.js` (real gate/coordinator/scoped engine/shareableStore/status+notification stores; only `persistenceService`, `journalService` and the auth store are controlled doubles):
+
+- **RED (pre-correction working tree):** focused command → **1 suite failed / 1 passed, 4 failed / 12 passed of 16**. Precisely: the store hydration race applied (`hydrateFromCloud` returned `true` and persisted the older cloud state over the newer note); preservation success left status `saved` under live B; returned failure left status `error`; thrown failure left status `error`. Controls passed (clean store hydration, same-owner saved/error).
+- **GREEN (post-correction):** same command → **2 suites, 16/16 passed**, including the existing owner-fence suite. Protection controls included: clean store hydration still applies; same-owner save success updates `saved`; same-owner failure reports `error` + notification; clean hook hydration; failed read leaves working state untouched; existing in-flight read/owner fences.
+
+Real Chrome production-path GREEN (`D:/AppData/Temp/opencode/p5-journal-timing-corrections-verify.cjs`, log `p5-journal-timing-corrections.log`; S10 harness compiles the unmodified on-disk modules; Firebase auth/Firestore and socket transport remain narrow-boundary simulations):
+
+- `P5_02_READ_EDIT_RACE_GREEN`: restored baseline `["OLDER CLOUD JOURNAL"]` (dirty:false, generation 5); `before` `["OLDER CLOUD JOURNAL","NEW UNSENT DURING READ"]` dirty:true revision 3; `after` retains `NEW UNSENT DURING READ` in working state and in the durable scoped record, `recoveryKeys:["mythrill:p5:user:u-a:journal.shareable"]`, the cloud baseline kept, and the newer edit pushed forward by the owner's dirty-local sync path (revision 4 carries it; dirty cleared only after acknowledgment).
+- `P5_03_SAVE_DURING_PRESERVATION_GREEN` × success/returned-failure/thrown-failure: live `u-b`, gate `u-a` generation 3 `handoffPending:true`; the save result is preserved per mode; status remained `saving` (never `saved`/`error`), `notifications:[]`, working titles intact; A's durable scoped record still contains `A SAVE PAYLOAD` before and after B activation (generation 4, scope `u-b`).
+- `JOURNAL_POSITIVE_CONTROLS`: clean cloud hydration, same-owner `saved` status, failed read preserves durable bytes, pending scoped write refuses hook hydration (`local-dirty-preserved`) with the cloud untouched.
+
+### Verification run for this correction
+
+- Focused Jest as above: RED 4/16 failing → GREEN 16/16.
+- Directly related suites (`shareableStore`, `waveA_handoff`, `waveB_scopedStoreStorage`, `waveB_scopedConsumer`, `waveB_b1b5Corrections`, `characterPersistence`): **6 suites, 45/45 passed** (no flake this run).
+- Targeted ESLint on both changed source files and the regression file: **0 errors**; the only warning (`shareableStore.js:999 no-loop-func`) is identical at `HEAD` and pre-existing. The first lint pass exposed a new `react-hooks/exhaustive-deps` warning introduced by the live-principal closure; it was corrected by adding the stable `useAuthStore` dependency before the final run (final: 0 errors, 1 inherited warning).
+- Production build (`craco build`, detached): recorded in BUILD / LINT below.
+- Repository-state note: while this correction was in progress an external concurrent process committed the working tree (`e14350cd`, author Dj, 2026-10-10 20:14:14 +0200) including the bounded P5-02/P5-03 edits and regressions, plus unrelated concurrent class/UI work. The implementation agent issued **no** commit, push or deployment; the single working-tree difference at report time is the lint dependency fix in `useJournalPersistence.js`. Independent acceptance must account for this external commit.
+
+### Limitations
+
+- Firebase authentication and Firestore remain narrow-boundary simulations; no live-backend claim is made.
+- Full React UI rendering was not repeated; the production provider/hook/store continuations, working store and durable scoped records were asserted.
+- The corrected cases are implementation-agent RED→GREEN results and are **not** self-classified as independently accepted. P5-04 remains independently accepted PASS and was not reopened. P5-01 and P5-38 remain NOT YET VERIFIED; the nine environment-blocked cases are unchanged.
 
 ## S9 CLOSURE RUN — 2026-10-10
 
@@ -372,6 +423,15 @@ Bounded journal lifecycle correction changes (2026-10-10, post-independent-revie
 - `vtt-react/src/hooks/__tests__/useJournalPersistence.lifecycleFences.test.js` (new permanent focused regressions for the three exact sequences plus clean-hydration / failed-read / valid-fence protections).
 - This report/matrix.
 - Temporary verification artifacts only (not application code): `D:/AppData/Temp/opencode/p5-journal-corrections-verify.cjs`, `p5-journal-corrections.log`, `p5-journal-build.log`, `p5-journal-build.exit`.
+
+Bounded journal timing correction changes (2026-10-10, final; P5-02 and P5-03 only; P5-04 untouched):
+
+- `vtt-react/src/store/shareableStore.js` (`hydrateFromCloud` owner-scoped revision/dirty/pending/refused hydration fence, mirroring the accepted `bookStore` B5B contract).
+- `vtt-react/src/hooks/useJournalPersistence.js` (`loadJournal` pre-read local capture + post-read revision/dirty revalidation; `saveJournal` live-principal/generation check alongside the scoped guard before all shared UI mutations; `useAuthStore` dependency added to the save callback).
+- `vtt-react/src/hooks/__tests__/useJournalPersistence.lifecycleFences.test.js` (new permanent store-continuation race regression, preservation-window success/returned/throw regressions and same-owner controls; 7 new tests, 16 total in the file).
+- This report/matrix.
+- Temporary verification artifacts only (not application code): `D:/AppData/Temp/opencode/p5-journal-timing-corrections-verify.cjs`, `p5-journal-timing-corrections.log`, `p5-timing-red.log`, `p5-timing-green.log`, `p5-timing-green2.log`, `p5-timing-related.log`, `p5-timing-lint.log`, `p5-timing-lint2.log`, `p5-journal-timing-build.log`, `p5-journal-timing-build.exit`.
+- External commit note as recorded in the timing-correction section (`e14350cd`): the implementation agent issued no commit/push/deployment.
 
 Temporary browser/compiler/extraction harnesses live under `D:/AppData/Temp/opencode`; they are verification artifacts, not deployed application code. The S10 run added only `wavec-s10-browser-server.cjs`, `wavec-s10-verify.cjs`, `wavec-s10-browser.log`, `wavec-s10-build.log`, `wavec-s10-build.exit` and this report update. The S9 run added only `wavec-s9-browser-server.cjs`, `wavec-s9-browser-verify.cjs`, `wavec-s9-browser.log` and the earlier report update.
 
