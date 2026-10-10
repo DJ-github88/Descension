@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import MythrillWindow from './MythrillWindow';
+import TabDropdownButton from '../common/TabDropdownButton';
 import useQuestStore from '../../store/questStore';
 import useGameStore from '../../store/gameStore';
 import usePresenceStore from '../../store/presenceStore';
@@ -173,11 +174,11 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
 
   // Define tabs for consistent formatting - conditionally show Create Quest tab only for GMs
   const tabs = [
-    { id: 'active', label: 'Active Quests' },
-    { id: 'completed', label: 'Completed Quests' },
-    { id: 'failed', label: 'Failed Quests' },
-    { id: 'all', label: 'All Quests' },
-    ...(isGMMode ? [{ id: 'create', label: 'Create Quest' }] : [])
+    { id: 'active', label: 'Active Quests', icon: 'fa-scroll' },
+    { id: 'completed', label: 'Completed Quests', icon: 'fa-check-circle' },
+    { id: 'failed', label: 'Failed Quests', icon: 'fa-times-circle' },
+    { id: 'all', label: 'All Quests', icon: 'fa-list-check' },
+    ...(isGMMode ? [{ id: 'create', label: 'Create Quest', icon: 'fa-plus' }] : [])
   ];
 
   // Context menu handlers (memoized)
@@ -604,16 +605,11 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => { }, activeTab: propAct
           centered={false} // Handle centering manually (exactly like spellbook)
           onDrag={handleWindowDrag}
           customHeader={
-            <div className="spellbook-tab-container">
-              {tabs.map(tab => (
-                <SmartTabButton
-                  key={tab.id}
-                  title={tab.label}
-                  active={activeTab === tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                />
-              ))}
-            </div>
+            <TabDropdownButton
+              tabs={tabs}
+              activeTab={activeTab}
+              onTabClick={handleTabChange}
+            />
           }
         >
           {questContent}

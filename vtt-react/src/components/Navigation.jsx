@@ -11,6 +11,7 @@ import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './common/ErrorBoundary';
+import TabDropdownButton from './common/TabDropdownButton';
 import CharacterSheetWindow from './character-sheet/CharacterSheetWindow';
 import '../styles/resizable-nav.css';
 import { useNavAssets } from '../hooks/useNavAssets';
@@ -157,17 +158,11 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
             onDrag={handleDrag}
             onResize={handleResize}
             customHeader={
-                <div className="spellbook-tab-container">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-                </div>
+                <TabDropdownButton
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    onTabClick={setActiveTab}
+                />
             }
         >
             <Suspense fallback={
@@ -995,6 +990,7 @@ export default function Navigation({ onReturnToLanding }) {
                                 title={safeTitle}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}
+                                privateProjection
                                 defaultSize={invSize}
                                 defaultPosition={invPos}
                                 onDrag={(pos) => useWindowManagerStore.getState().setWindowPosition(invId, { x: pos.x, y: pos.y })}

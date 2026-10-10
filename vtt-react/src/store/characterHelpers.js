@@ -64,6 +64,7 @@ export const shouldUseFirebase = () => {
 };
 
 export let characterAutoSaveTimer = null;
+export let characterAutoSavePending = null;
 export const CHARACTER_AUTO_SAVE_DELAY = 2000;
 
 export const setCharacterAutoSaveTimer = (timer) => {
@@ -79,15 +80,38 @@ export const clearCharacterAutoSaveTimer = () => {
 
 export const triggerCharacterAutoSave = (saveFn) => {
     clearCharacterAutoSaveTimer();
+    characterAutoSavePending = typeof saveFn === 'function' ? saveFn : null;
     characterAutoSaveTimer = setTimeout(() => {
+        const pending = characterAutoSavePending;
+        characterAutoSavePending = null;
         try {
-            saveFn();
+            if (pending) pending();
         } catch (error) {
             console.warn('Auto-save execution failed:', error);
         } finally {
             characterAutoSaveTimer = null;
         }
     }, CHARACTER_AUTO_SAVE_DELAY);
+};
+
+/**
+ * P5-01 handoff isolation: run the pending debounced character save
+ * synchronously so unsent working changes are preserved into the retained
+ * owner's scoped record before the working projection is hidden. Returns true
+ * when a pending save was flushed.
+ */
+export const flushCharacterAutoSave = () => {
+    clearCharacterAutoSaveTimer();
+    const pending = characterAutoSavePending;
+    characterAutoSavePending = null;
+    if (!pending) return false;
+    try {
+        pending();
+        return true;
+    } catch (error) {
+        console.warn('Character auto-save flush failed:', error);
+        return false;
+    }
 };
 
 export { characterPersistenceService, updateCharacterData };

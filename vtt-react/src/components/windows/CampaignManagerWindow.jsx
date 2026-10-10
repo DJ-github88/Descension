@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import MythrillWindow from './MythrillWindow';
+import TabDropdownButton from '../common/TabDropdownButton';
 import LibraryBrowserModal, { LIBRARY_TYPES as IMPORTED_LIBRARY_TYPES } from '../account/LibraryBrowserModal';
 
 const LIBRARY_TYPES = IMPORTED_LIBRARY_TYPES || {
@@ -6565,6 +6566,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 onClose={onClose}
                 title=""
                 className="campaign-manager-locked-window"
+                privateProjection
                 defaultSize={{ width: 620, height: 480 }}
                 centered
             >
@@ -6579,22 +6581,16 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 isOpen={isOpen}
                 onClose={onClose}
                 title="Campaign Manager"
+                privateProjection
                 defaultSize={{ width: defaultWinWidth, height: defaultWinHeight }}
                 defaultPosition={{ x: defaultWinX, y: defaultWinY }}
                 minConstraints={[720, 500]}
                 customHeader={
-                    <div className="spellbook-tab-container campaign-tabs-nav">
-                        {tabs.map(tab => (
-                            <button
-                                key={tab.id}
-                                className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                                onClick={() => setActiveTab(tab.id)}
-                            >
-                                <i className={`fas ${tab.icon}`} style={{ marginRight: '6px', fontSize: '11px' }}></i>
-                                <span>{tab.label}</span>
-                            </button>
-                        ))}
-                    </div>
+                    <TabDropdownButton
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabClick={setActiveTab}
+                    />
                 }
             >
                 <div className="campaign-manager-content">

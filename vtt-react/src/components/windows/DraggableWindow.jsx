@@ -392,7 +392,8 @@ const DraggableWindow = forwardRef(({
             onStart={effectivelyDisabled ? undefined : handleDragStart}
             onDrag={effectivelyDisabled ? undefined : handleDrag}
             onStop={effectivelyDisabled ? undefined : handleDragStop}
-            scale={windowScale}
+            // Translation is on the unscaled fixed wrapper; only its child is scaled.
+            scale={1}
             enableUserSelectHack={!effectivelyDisabled}
             disabled={effectivelyDisabled}
         >

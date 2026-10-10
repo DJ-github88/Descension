@@ -879,8 +879,8 @@ export default function Lore({ initialSection }) {
                     <div className="decorative-header-arch"></div>
                     <h1 ref={bookNameRef} className="character-book-name">{dataSource.name || 'Unnamed Adventurer'}</h1>
                     <div className="character-book-subtitle">
-                        {raceData?.name || 'Unknown Race'} {subraceData?.name ? `(${subraceData.name})` : ''} 
-                        {characterClass ? ` • ${characterClass}` : ''}
+                        <span>{raceData?.name || 'Unknown Race'}{subraceData?.name && subraceData.name !== raceData?.name ? ` (${subraceData.name})` : ''}</span>
+                        {characterClass && <span className="character-book-subtitle-class">{characterClass}</span>}
                     </div>
                     <div className="decorative-double-hr"></div>
                 </div>
@@ -1127,8 +1127,7 @@ export default function Lore({ initialSection }) {
                     
                     {/* LEFT PAGE: Portrait summary or backstory */}
                     <div className="lore-book-page left-page">
-                        <div className="page-filigree-border">
-                            <div className="page-ornament top-ornament"></div>
+                        <div className="character-folio-page">
                             <div className="book-page-content">
                                 {resolvedSectionKey === 'identity' ? (
                                     subPage === 0 ? (
@@ -1164,17 +1163,11 @@ export default function Lore({ initialSection }) {
                         </div>
                     </div>
 
-                    {/* BOOK SPINE - 3D spine and deep book gutter shadow */}
-                    <div className="lore-book-spine-divider">
-                        <div className="spine-ring top-ring"></div>
-                        <div className="spine-ring mid-ring"></div>
-                        <div className="spine-ring bot-ring"></div>
-                    </div>
+                    <div className="character-folio-fold" aria-hidden="true"></div>
 
                     {/* RIGHT PAGE: Active Lore content fields/views */}
                     <div className="lore-book-page right-page">
-                        <div className="page-filigree-border">
-                            <div className="page-ornament top-ornament"></div>
+                        <div className="character-folio-page">
                             <div className="book-page-content">
                                 {resolvedSectionKey === 'identity' ? (
                                     subPage === 0 ? (

@@ -22,6 +22,7 @@ import AccountMapManager from './AccountMapManager';
 import WorldDashboard from '../world/WorldDashboard';
 import StorageUsageWidget from './StorageUsageWidget';
 import BookManager from '../books/BookManager';
+import PrivateProjectionBoundary from '../../persistence/PrivateProjectionBoundary';
 import './styles/AccountDashboard.css';
 import { showAlert } from '../../utils/dialogService';
 import './styles/AccountDashboardIsolation.css';
@@ -478,6 +479,7 @@ const AccountDashboard = ({ user }) => {
   }
 
   return (
+    <PrivateProjectionBoundary>
     <div className="account-dashboard-container account-dashboard-page">
       {user?.isGuest && (
         <div className="guest-tooltip">
@@ -1654,6 +1656,7 @@ const AccountDashboard = ({ user }) => {
       </div>
       <ProfileEditModal isOpen={isProfileEditOpen} onClose={() => setIsProfileEditOpen(false)} />
     </div>
+    </PrivateProjectionBoundary>
   );
 };
 

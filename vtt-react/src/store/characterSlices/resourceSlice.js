@@ -6,6 +6,7 @@ import { normalizeManagedClassResource, updateManagedClassResource, getManagedRe
 import { applyApexPackEvent, beginApexOwnTurn, getApexCompanionStatus } from '../../data/apexResourceContract';
 import { getStore } from '../storeRegistry';
 import { clearActivePointer } from '../../persistence/characterScopedStorage';
+import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
 import { advancePyroDebtCall } from '../../data/pyrofiendResourceContract';
 import { recordSpellguardIntake } from '../../data/spellguardResourceContract';
 import { getInquisitorAssistanceDecision } from '../../data/inquisitorResourceContract';
@@ -454,6 +455,11 @@ export const createResourceSlice = (set, get) => ({
 
     // Get the currently active character
     getActiveCharacter: () => {
+        // P5-01: while a handoff/retirement isolates the private projection,
+        // the retained owner's character must never be exposed through working
+        // selectors to the live principal.
+        if (isPrivateProjectionIsolated()) return null;
+
         const state = get();
 
 

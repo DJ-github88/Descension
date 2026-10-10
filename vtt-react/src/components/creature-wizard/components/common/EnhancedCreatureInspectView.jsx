@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import MythrillWindow from '../../../windows/MythrillWindow';
+import useTabOverflow from '../../../common/useTabOverflow';
 import ItemTooltip from '../../../item-generation/ItemTooltip';
 import TooltipPortal from '../../../tooltips/TooltipPortal';
 import { useTooltipPosition } from '../../../common/useTooltipPosition';
@@ -328,8 +329,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Store hooks for loot drop functionality
   const { addItemToGrid } = useGridItemStore();
   const { tokens } = useCreatureStore();
-  const gridSystem = getGridSystem();
   const itemStore = useItemStore(state => ({ items: state.items }));
+  let gridSystem = null;
+  try {
+    gridSystem = getGridSystem();
+  } catch (e) {
+    // Grid system may not be initialized yet outside an active grid session
+  }
 
   // Process the creature's loot items - use useMemo to avoid reprocessing on every render
   const creature = useMemo(() => {
@@ -494,8 +500,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     };
   }, []);
 
-  // Early return if no creature, no stats, or not open
-  if (!creature || !creature.stats || !isOpen) return null;
+  // (early return lives below the last hook)
 
   // Process creature loot to ensure itemId references are resolved
   // Note: creature is already processed at line 118, so we use it directly
@@ -544,21 +549,48 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   const isSummon = !!(creature?._summonMeta?.sourceType === 'summon');
 
+  const categoryNameToId = useMemo(() => ({
+    'Combat Mastery': 'combat',
+    'Exploration & Survival': 'exploration',
+    'Social & Influence': 'social',
+    'Arcane Studies': 'arcane'
+  }), []);
+
+  const creatureSkillItems = useMemo(() => {
+    const items = {
+      combat: [],
+      exploration: [],
+      social: [],
+      arcane: []
+    };
+    Object.entries(creatureSkills || {}).forEach(([catName, skills]) => {
+      const catId = categoryNameToId[catName];
+      if (catId && items[catId]) {
+        items[catId] = skills.map(skill => ({
+          id: skill.id,
+          label: skill.name,
+          icon: skill.icon || 'fas fa-dice-d20'
+        }));
+      }
+    });
+    return items;
+  }, [creatureSkills, categoryNameToId]);
+
   // Summoned tokens (totems, traps, specters, companions, etc.) are simple
   // placeable tokens — they have no attributes, skills, loot tables, or tactics
   // of their own. Show ONLY the tailored Summon sheet so they read as distinct
   // tokens rather than full creature character sheets.
-  const sections = isSummon
+  const sections = useMemo(() => isSummon
     ? {
         summon: {
           title: 'Summon',
-          icon: getCustomIconUrl('Radiant/Radiant Aura', 'abilities')
+          icon: 'fas fa-sun'
         }
       }
     : {
         statistics: {
           title: 'Statistics',
-          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities'),
+          icon: 'fas fa-chart-bar',
           subSections: [
             { id: 'summary', label: 'Combat Summary', icon: 'fas fa-id-card' },
             { id: 'attributes', label: 'Core Attributes', icon: 'fas fa-dumbbell' },
@@ -572,31 +604,95 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         },
         abilities: {
           title: 'Abilities & Spells',
-          icon: getCustomIconUrl('Radiant/Radiant Aura', 'abilities')
+          icon: 'fas fa-wand-magic-sparkles'
         },
         tactics: {
           title: 'Tactics & Behavior',
-          icon: getCustomIconUrl('Arcane/Enchanted Sword', 'abilities')
+          icon: 'fas fa-chess'
         },
         skills: {
           title: 'Skills',
-          icon: getCustomIconUrl('Utility/All Seeing Eye', 'abilities'),
+          icon: 'fas fa-scroll',
           subSections: [
             { id: 'combat', label: 'Combat Mastery', icon: 'fas fa-fist-raised' },
             { id: 'exploration', label: 'Exploration & Survival', icon: 'fas fa-compass' },
             { id: 'social', label: 'Social & Influence', icon: 'fas fa-users' },
             { id: 'arcane', label: 'Arcane Studies', icon: 'fas fa-hat-wizard' }
-          ]
+          ],
+          skillItems: creatureSkillItems
         },
         loot: {
           title: 'Loot Table',
-          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
+          icon: 'fas fa-coins'
         },
         description: {
           title: 'Description & Lore',
-          icon: getCustomIconUrl('Utility/Ornate Symbol', 'abilities')
+          icon: 'fas fa-book-open'
         }
-      };
+      }, [isSummon, creatureSkillItems]);
+
+  const sectionKeys = useMemo(() => Object.keys(sections), [sections]);
+  const { containerRef: tabsTrackRef, hiddenIds: hiddenTabIds } = useTabOverflow({
+    itemIds: sectionKeys,
+    triggerWidth: 36
+  });
+  const [tabOverflowOpen, setTabOverflowOpen] = useState(false);
+  const [tabOverflowPos, setTabOverflowPos] = useState(null);
+  const tabOverflowBtnRef = useRef(null);
+  const tabOverflowMenuRef = useRef(null);
+  const overflowCloseTimerRef = useRef(null);
+
+  const openTabOverflowMenu = useCallback((rect) => {
+    if (overflowCloseTimerRef.current) {
+      clearTimeout(overflowCloseTimerRef.current);
+      overflowCloseTimerRef.current = null;
+    }
+    setTabOverflowPos({
+      top: rect.bottom + 4,
+      left: Math.max(8, Math.min(rect.left, window.innerWidth - 230))
+    });
+    setTabOverflowOpen(true);
+  }, []);
+
+  const scheduleCloseTabOverflow = useCallback(() => {
+    if (overflowCloseTimerRef.current) return;
+    overflowCloseTimerRef.current = setTimeout(() => {
+      overflowCloseTimerRef.current = null;
+      setTabOverflowOpen(false);
+    }, 150);
+  }, []);
+
+  const cancelCloseTabOverflow = useCallback(() => {
+    if (overflowCloseTimerRef.current) {
+      clearTimeout(overflowCloseTimerRef.current);
+      overflowCloseTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!tabOverflowOpen) return undefined;
+    const handlePointerDown = (e) => {
+      if (tabOverflowBtnRef.current && tabOverflowBtnRef.current.contains(e.target)) return;
+      if (tabOverflowMenuRef.current && tabOverflowMenuRef.current.contains(e.target)) return;
+      setTabOverflowOpen(false);
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setTabOverflowOpen(false);
+    };
+    document.addEventListener('pointerdown', handlePointerDown, true);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, true);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [tabOverflowOpen]);
+
+  useEffect(() => () => {
+    if (overflowCloseTimerRef.current) clearTimeout(overflowCloseTimerRef.current);
+  }, []);
+
+  // Early return if no creature, no stats, or not open (must stay below all hooks)
+  if (!creature || !creature.stats || !isOpen) return null;
 
   // Render the content based on the active section
   // Render the Tactics & Behavior section
@@ -1533,7 +1629,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       return (
         <div className="stats-content">
           {currentGroup.stats.map((stat, index) => (
-            <div key={index} className="enhanced-stat-row">
+            <div key={index} className="stat-row enhanced-stat-row">
               {/* Apply same layout to all stats: icon/label on left, value on right, description footer */}
               <>
                 <div className="level-experience-top-row">
@@ -2516,19 +2612,23 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     <MythrillWindow
       isOpen={true} // Always true since we're already checking isOpen above
       onClose={handleClose}
+      title={creature?.name || 'Creature Sheet'}
       defaultSize={{ width: 900, height: 700 }}
       defaultPosition={{ x: 100, y: 100 }} // Fixed position instead of calculated center
       centered={false} // Disable centering to prevent repositioning
       zIndex={20000} // Increased z-index to ensure it's above all other elements including the grid
       bounds="body"
       customHeader={
-        <div className="spellbook-tab-container">
-          {Object.entries(sections).map(([key, section]) => {
+        <div className="spellbook-tab-container tab-overflow-root character-sheet-tabs" ref={tabsTrackRef}>
+          {sectionKeys.filter(key => !hiddenTabIds.includes(key)).map(key => {
+            const section = sections[key];
+            if (!section) return null;
             const isActive = activeSection === key;
             const isDropdownOpen = openDropdown === key;
             return (
               <div 
                 key={key} 
+                data-overflow-id={key}
                 className="tab-dropdown-wrapper" 
                 style={{ position: 'relative' }}
                 onMouseLeave={scheduleCloseTabDropdown}
@@ -2536,70 +2636,211 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                 <button
                   type="button"
                   className={`spellbook-tab-button ${isActive ? 'active' : ''}`}
+                  title={isDropdownOpen ? undefined : section.title}
+                  aria-label={section.title}
+                  aria-pressed={isActive}
+                  aria-expanded={isDropdownOpen}
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveSection(key);
-                    if (openDropdown === key) {
-                      setOpenDropdown(null);
+                    if (section.subSections) {
+                      if (openDropdown === key) {
+                        setOpenDropdown(null);
+                      } else {
+                        openTabDropdown(key, e.currentTarget);
+                      }
                     } else {
-                      openTabDropdown(key, e.currentTarget);
+                      setOpenDropdown(null);
                     }
                   }}
-                  onMouseEnter={(e) => openTabDropdown(key, e.currentTarget)}
+                  onMouseEnter={(e) => {
+                    if (section.subSections) {
+                      openTabDropdown(key, e.currentTarget);
+                    } else {
+                      scheduleCloseTabDropdown();
+                    }
+                  }}
                 >
-                  <span>{section.title}</span>
+                  {section.icon && (
+                    typeof section.icon === 'string' && (section.icon.startsWith('fa-') || section.icon.startsWith('fas ') || section.icon.startsWith('far ')) ? (
+                      <i className={`${section.icon} tab-icon-glyph`} aria-hidden="true" style={{ marginRight: '6px' }} />
+                    ) : (
+                      <img src={section.icon} alt="" className="tab-icon-img" style={{ width: 16, height: 16, marginRight: '6px', objectFit: 'contain' }} />
+                    )
+                  )}
+                  <span className="tab-text">{section.title}</span>
                   {section.subSections && (
                     <i 
                       className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} tab-chevron`} 
-                      style={{ marginLeft: '6px', fontSize: '9px', opacity: 0.8 }} 
+                      style={{ marginLeft: '4px', fontSize: '8px', opacity: 0.8 }} 
                     />
                   )}
                 </button>
 
                 {isDropdownOpen && section.subSections && dropdownPos && createPortal(
                   <div
-                    className="tab-dropdown-menu"
-                    style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(210, dropdownPos.width), marginTop: 4 }}
+                    className="tab-dropdown-menu tab-dropdown-menu-scrollable adventurer-menu"
+                    style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(220, dropdownPos.width), marginTop: 4 }}
                     onMouseEnter={cancelCloseTabDropdown}
                     onMouseLeave={scheduleCloseTabDropdown}
                   >
-                    {section.subSections.map(sub => {
-                      const isSubActive = isActive && (
-                        (key === 'statistics' && selectedStatGroup === sub.id) ||
-                        (key === 'skills' && selectedSkillCategory === sub.id)
-                      );
-                      return (
-                        <div
-                          key={sub.id}
-                          className="tab-dropdown-item-wrapper"
-                          style={{ position: 'relative' }}
-                        >
-                          <button
-                            type="button"
-                            className={`tab-dropdown-item ${isSubActive ? 'active' : ''}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActiveSection(key);
-                              if (key === 'statistics') {
-                                setSelectedStatGroup(sub.id);
-                              } else if (key === 'skills') {
+                    {key === 'skills' ? (
+                      section.subSections.map(sub => {
+                        const skillsForCat = section.skillItems?.[sub.id] || [];
+                        const isCatActive = isActive && selectedSkillCategory === sub.id;
+                        return (
+                          <div key={sub.id} className="tab-dropdown-section">
+                            <div
+                              className={`tab-dropdown-section-header ${isCatActive ? 'active' : ''}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveSection('skills');
                                 setSelectedSkillCategory(sub.id);
-                              }
-                              setOpenDropdown(null);
-                            }}
+                                if (skillsForCat.length > 0) {
+                                  setSelectedSkill(skillsForCat[0].id);
+                                }
+                                setOpenDropdown(null);
+                              }}
+                              title={`View ${sub.label}`}
+                            >
+                              <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                              <span className="tab-dropdown-section-title">{sub.label}</span>
+                              <span className="tab-dropdown-section-count">({skillsForCat.length})</span>
+                            </div>
+                            {skillsForCat.length > 0 && (
+                              <div className="tab-dropdown-section-items">
+                                {skillsForCat.map(skill => {
+                                  const isSkillActive = isActive && selectedSkillCategory === sub.id && selectedSkill === skill.id;
+                                  return (
+                                    <button
+                                      key={skill.id}
+                                      type="button"
+                                      className={`tab-dropdown-item tab-dropdown-skill-item ${isSkillActive ? 'active' : ''}`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setActiveSection('skills');
+                                        setSelectedSkillCategory(sub.id);
+                                        setSelectedSkill(skill.id);
+                                        setOpenDropdown(null);
+                                      }}
+                                    >
+                                      <i className={skill.icon} style={{ width: '14px', textAlign: 'center', marginRight: '6px', fontSize: '10px' }}></i>
+                                      <span>{skill.label}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })
+                    ) : (
+                      section.subSections.map(sub => {
+                        const isSubActive = isActive && (
+                          (key === 'statistics' && selectedStatGroup === sub.id) ||
+                          (key === 'skills' && selectedSkillCategory === sub.id)
+                        );
+                        return (
+                          <div
+                            key={sub.id}
+                            className="tab-dropdown-item-wrapper"
+                            style={{ position: 'relative' }}
                           >
-                            <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
-                            <span>{sub.label}</span>
-                          </button>
-                        </div>
-                      );
-                    })}
+                            <button
+                              type="button"
+                              className={`tab-dropdown-item ${isSubActive ? 'active' : ''}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveSection(key);
+                                if (key === 'statistics') {
+                                  setSelectedStatGroup(sub.id);
+                                } else if (key === 'skills') {
+                                  setSelectedSkillCategory(sub.id);
+                                }
+                                setOpenDropdown(null);
+                              }}
+                            >
+                              <i className={sub.icon} style={{ width: '16px', textAlign: 'center', marginRight: '8px' }}></i>
+                              <span>{sub.label}</span>
+                            </button>
+                          </div>
+                        );
+                      })
+                    )}
                   </div>,
                   document.body
                 )}
               </div>
             );
           })}
+
+          {hiddenTabIds.length > 0 && (
+            <button
+              type="button"
+              ref={tabOverflowBtnRef}
+              className={`tab-overflow-trigger ${tabOverflowOpen ? 'open' : ''} ${hiddenTabIds.includes(activeSection) ? 'has-active' : ''}`}
+              data-overflow-trigger=""
+              onClick={(e) => {
+                if (tabOverflowOpen) {
+                  setTabOverflowOpen(false);
+                } else {
+                  openTabOverflowMenu(e.currentTarget.getBoundingClientRect());
+                }
+              }}
+              onMouseEnter={(e) => openTabOverflowMenu(e.currentTarget.getBoundingClientRect())}
+              onMouseLeave={scheduleCloseTabOverflow}
+              aria-haspopup="menu"
+              aria-expanded={tabOverflowOpen}
+              aria-label="More sections"
+              title="More sections"
+            >
+              ⋮
+            </button>
+          )}
+
+          {tabOverflowOpen && hiddenTabIds.length > 0 && tabOverflowPos && createPortal(
+            <div
+              ref={tabOverflowMenuRef}
+              className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu adventurer-menu"
+              style={{
+                position: 'fixed',
+                top: tabOverflowPos.top,
+                left: tabOverflowPos.left,
+                minWidth: 200
+              }}
+              onMouseEnter={cancelCloseTabOverflow}
+              onMouseLeave={scheduleCloseTabOverflow}
+              role="menu"
+            >
+              {hiddenTabIds.map(id => {
+                const sec = sections[id];
+                if (!sec) return null;
+                const isActive = id === activeSection;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className={`tab-dropdown-item ${isActive ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveSection(id);
+                      setTabOverflowOpen(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {sec.icon && (
+                      typeof sec.icon === 'string' && (sec.icon.startsWith('fa-') || sec.icon.startsWith('fas ') || sec.icon.startsWith('far ')) ? (
+                        <i className={`${sec.icon} tab-icon-glyph`} aria-hidden="true" style={{ marginRight: '8px' }} />
+                      ) : (
+                        <img src={sec.icon} alt="" className="tab-icon-img" style={{ width: 16, height: 16, marginRight: '8px', objectFit: 'contain' }} />
+                      )
+                    )}
+                    <span>{sec.title}</span>
+                  </button>
+                );
+              })}
+            </div>,
+            document.body
+          )}
         </div>
       }
     >
@@ -2611,15 +2852,22 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           <div className="creature-content-area-full">
             {Object.keys(sections).length > 1 && (
               <div className="creature-section-header">
-                {sections[activeSection].icon && (
-                  <img
-                    src={sections[activeSection].icon}
-                    alt=""
-                    className="creature-section-icon"
-                    onError={(e) => handleImageError(e, 'Utility/Utility')}
-                  />
+                {sections[activeSection]?.icon && (
+                  typeof sections[activeSection].icon === 'string' &&
+                  (sections[activeSection].icon.startsWith('fa-') || sections[activeSection].icon.startsWith('fas ') || sections[activeSection].icon.startsWith('far ')) ? (
+                    <div className="creature-section-icon-box">
+                      <i className={`${sections[activeSection].icon} creature-section-icon-glyph`} />
+                    </div>
+                  ) : (
+                    <img
+                      src={sections[activeSection].icon}
+                      alt=""
+                      className="creature-section-icon"
+                      onError={(e) => handleImageError(e, 'Utility/Utility')}
+                    />
+                  )
                 )}
-                <h2 className="creature-section-title">{sections[activeSection].title}</h2>
+                <h2 className="creature-section-title">{sections[activeSection]?.title}</h2>
               </div>
             )}
 

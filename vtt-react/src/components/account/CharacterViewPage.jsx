@@ -27,6 +27,7 @@ import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import '../../styles/character-sheet.css';
 import '../../styles/character-view-page.css';
 import '../../styles/adventurer-windows.css';
+import '../../styles/character-equipment-scene.css';
 
 const CharacterViewPage = () => {
   const { characterId } = useParams();

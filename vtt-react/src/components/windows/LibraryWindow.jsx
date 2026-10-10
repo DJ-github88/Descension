@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import MythrillWindow from '../windows/MythrillWindow';
+import TabDropdownButton from '../common/TabDropdownButton';
 import useWindowStore from '../../store/windowManagerStore';
 import useGameStore from '../../store/gameStore';
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
@@ -1022,7 +1023,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
   const currentSection = SECTIONS.find(s => s.id === activeSection);
   const activeGem = activeBook ? HIDDEN_GEMS[activeBook] : null;
   const currentSubTab = activeSection ? (subTabs[activeSection] || 'library') : null;
-  const title = currentSection ? currentSection.label : (activeGem ? activeGem.title : '');
+  const title = currentSection ? currentSection.label : (activeGem ? activeGem.title : 'Library');
 
   const handleTurnBookPage = useCallback((delta) => {
     if (!activeGem) return;
@@ -1072,31 +1073,28 @@ const LibraryWindow = ({ isOpen, onClose }) => {
     if (!currentSection || !currentSection.tabs) return null;
 
     return (
-      <div className="spellbook-tab-container">
-        <button
-          className={`spellbook-tab-button`}
-          onClick={handleBack}
-          style={{ maxWidth: '80px' }}
-        >
-          <i className="fas fa-arrow-left" style={{ marginRight: '6px', fontSize: '11px' }}></i>
-          <span>Back</span>
-        </button>
-        {currentSection.tabs.map(tab => (
+      <TabDropdownButton
+        beforeTabs={
           <button
-            key={tab.id}
-            className={`spellbook-tab-button ${currentSubTab === tab.id ? 'active' : ''}`}
-            onClick={() => {
-              if (tab.id === 'wizard' && activeSection === 'creatures') {
-                setCreatureEditingId(null);
-              }
-              handleSubTabChange(activeSection, tab.id);
-            }}
+            type="button"
+            className="spellbook-tab-button"
+            onClick={handleBack}
+            style={{ maxWidth: '90px' }}
+            title="Back to library shelf"
           >
-            <i className={tab.icon} style={{ marginRight: '8px', fontSize: '13px' }}></i>
-            <span>{tab.label}</span>
+            <i className="fas fa-arrow-left" style={{ marginRight: '6px', fontSize: '11px' }}></i>
+            <span>Back</span>
           </button>
-        ))}
-      </div>
+        }
+        tabs={currentSection.tabs}
+        activeTab={currentSubTab}
+        onTabClick={(tabId) => {
+          if (tabId === 'wizard' && activeSection === 'creatures') {
+            setCreatureEditingId(null);
+          }
+          handleSubTabChange(activeSection, tabId);
+        }}
+      />
     );
   };
 
@@ -1195,6 +1193,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={activeSection ? handleBack : activeBook ? handleBackFromBook : onClose}
       title={title}
+      privateProjection
       defaultPosition={savedPos}
       defaultSize={savedSize}
       onDrag={handleDrag}

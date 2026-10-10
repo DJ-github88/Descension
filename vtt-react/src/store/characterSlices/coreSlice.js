@@ -18,6 +18,7 @@ import {
     clearActivePointer
 } from '../../persistence/characterScopedStorage';
 import { captureOwnerGuard } from '../../persistence/scopedConsumer';
+import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { normalizeManagedClassResource } from '../../data/classResourceContracts';
@@ -257,6 +258,14 @@ export const createCoreSlice = (set, get) => ({
 
     // Character Management Functions for Account System
     loadCharacters: async () => {
+        // P5-01: no private roster hydration while the projection is isolated
+        // (handoff pending/retiring/loading or a fail-closed hold). The
+        // activation hook reloads the destination owner's roster once its
+        // scope is active.
+        if (isPrivateProjectionIsolated()) {
+            set({ isLoading: false });
+            return get().characters || [];
+        }
         set({ isLoading: true, error: null });
         try {
             // CRITICAL FIX: Wait for auth to initialize to prevent race conditions with localStorage clearing
@@ -326,7 +335,7 @@ export const createCoreSlice = (set, get) => ({
                 // Load from Firebase if user is authenticated
                 try {
                     const characters = await characterPersistenceService.loadUserCharacters(userId);
-                    if (!ownerGuard.isCurrent()) {
+                    if (!ownerGuard.isCurrent() || isPrivateProjectionIsolated()) {
                         set({ isLoading: false });
                         return get().characters || [];
                     }
@@ -660,6 +669,13 @@ export const createCoreSlice = (set, get) => ({
         try {
             const userId = getCurrentUserId();
             const state = get();
+            // P5-01: fence the working-projection install to the owner and
+            // generation that began the update. A late continuation must never
+            // re-install the retired owner's roster after the handoff isolation
+            // has cleared it (and never under the destination principal).
+            const ownerGuard = captureOwnerGuard(userId);
+            const projectionVisible = () =>
+                !isPrivateProjectionIsolated() && (!ownerGuard.ok || ownerGuard.isCurrent());
 
             const updatedCharacters = state.characters.map(char =>
                 char.id === characterId
@@ -696,10 +712,12 @@ export const createCoreSlice = (set, get) => ({
                 console.error('Failed to save characters to scoped storage:', error);
             });
 
-            set({
-                characters: updatedCharacters,
-                isLoading: false
-            });
+            if (projectionVisible()) {
+                set({
+                    characters: updatedCharacters,
+                    isLoading: false
+                });
+            }
 
             return updatedCharacter;
         } catch (error) {

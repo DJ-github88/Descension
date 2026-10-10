@@ -6,7 +6,7 @@ import CursorTracker from './CursorTracker';
 import UnifiedTransitionOverlay, { TRANSITION_TIMINGS } from './UnifiedTransitionOverlay';
 import gameStateManager from '../../services/gameStateManager';
 import optimisticUpdatesService from '../../services/optimisticUpdatesService';
-import { setupSocketConnection, setupCursorTracking, setupAuthChangeHandler } from './useSocketConnection';
+import { setupSocketConnection, setupCursorTracking, setupAuthChangeHandler, useEligibleSocketPrincipal } from './useSocketConnection';
 import { registerAllSocketHandlers } from './socketHandlers/registerAllHandlers';
 import { handleJoinRoom as joinRoomImpl } from './roomJoinHandler';
 import ConnectionStatusIndicator from './ConnectionStatusIndicator';
@@ -859,8 +859,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Environment check logs removed for performance
 
-  // Initialize socket connection when component mounts
+  // P5-38: the socket principal is the verified, activated destination for the
+  // current auth principal. A handoff re-runs the setup below with a fresh
+  // principal key once the transition settles (and never while it is pending).
+  const eligibleSocketPrincipal = useEligibleSocketPrincipal();
+
+  // Initialize socket connection when the component mounts and whenever the
+  // eligible principal changes (A→B handoff establishes B's fresh socket
+  // through this same production lifecycle; A's setup is disposed first).
   useEffect(() => {
+    if (!eligibleSocketPrincipal) return undefined;
     return setupSocketConnection({
       SOCKET_URL,
       setSocket,
@@ -873,7 +881,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       addNotificationRef,
       getActiveCharacter
     });
-  }, [SOCKET_URL]);
+  }, [SOCKET_URL, eligibleSocketPrincipal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Cursor tracking - emit cursor position to other players
   useEffect(() => {

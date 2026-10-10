@@ -275,12 +275,13 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
             isOpen={isOpen}
             onClose={onClose}
             title={safeTitle}
+            privateProjection
             defaultSize={savedSize}
             defaultPosition={savedPos}
             onDrag={handleDrag}
             onResize={handleResize}
             customHeader={
-                <div className="spellbook-tab-container tab-overflow-root" ref={tabsTrackRef}>
+                <div className="spellbook-tab-container tab-overflow-root character-sheet-tabs" ref={tabsTrackRef}>
                     {sectionKeys.filter(key => !hiddenTabIds.includes(key)).map(key => {
                         const section = characterSections[key];
                         const isActive = activeTab === key;
@@ -294,8 +295,8 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
                                 onMouseLeave={scheduleCloseTabDropdown}
                             >
                                 <button
-                                    className={`spellbook-tab-button tab-icon-only ${isActive ? 'active' : ''}`}
-                                    title={section.title}
+                                    className={`spellbook-tab-button ${isActive ? 'active' : ''}`}
+                                    title={isDropdownOpen ? undefined : section.title}
                                     aria-label={section.title}
                                     aria-pressed={isActive}
                                     aria-expanded={isDropdownOpen}
@@ -310,10 +311,12 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
                                     }}
                                     onMouseEnter={(e) => openTabDropdown(key, e.currentTarget)}
                                 >
-                                    <i className={`${section.icon} tab-icon-glyph`}></i>
+                                    <i className={`${section.icon} tab-icon-glyph`} aria-hidden="true"></i>
+                                    <span>{section.title}</span>
                                     {section.subSections && (
                                         <i
                                             className={`fas fa-chevron-${isDropdownOpen ? 'up' : 'down'} tab-chevron`}
+                                            aria-hidden="true"
                                             style={{ marginLeft: '4px', fontSize: '8px', opacity: 0.8 }}
                                         />
                                     )}

@@ -6,22 +6,45 @@ const isIconUrl = icon => /^(https?:|\/|data:|\.\/|\.\.\/)/.test(icon);
 
 const TabIcon = ({ icon }) => {
   if (!icon) return null;
-  if (isIconUrl(icon)) {
-    return <img src={icon} alt="" className="tab-icon-img" />;
+  if (React.isValidElement(icon)) return icon;
+  if (typeof icon === 'string') {
+    if (isIconUrl(icon)) {
+      return <img src={icon} alt="" className="tab-icon-img" />;
+    }
+    const iconClass = icon.startsWith('fa-') ? `fas ${icon}` : icon;
+    return <i className={`${iconClass} tab-icon-glyph`} aria-hidden="true"></i>;
   }
-  return <i className={`${icon} tab-icon-glyph`}></i>;
+  return null;
 };
 
-const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, className = '' }) => {
+const TabDropdownButton = ({
+  tabs,
+  activeTab,
+  onTabClick,
+  onDropdownTabClick,
+  className = '',
+  beforeTabs = null,
+  afterTabs = null,
+  iconOnly = false
+}) => {
   const handleDropdownSelect = onDropdownTabClick || onTabClick;
 
   const tabItems = useMemo(() => {
     if (!Array.isArray(tabs)) return [];
-    return tabs.map(tab =>
-      typeof tab === 'string'
-        ? { id: tab, label: tab, icon: null }
-        : { id: tab.id, label: tab.label !== undefined ? tab.label : tab.id, icon: tab.icon || null }
-    );
+    return tabs.map(tab => {
+      if (typeof tab === 'string') {
+        return { id: tab, label: tab, icon: null };
+      }
+      return {
+        id: tab.id,
+        label: tab.label !== undefined ? tab.label : (tab.title !== undefined ? tab.title : (tab.name !== undefined ? tab.name : tab.id)),
+        icon: tab.icon || null,
+        iconOnly: tab.iconOnly || false,
+        badge: tab.badge !== undefined ? tab.badge : (tab.count !== undefined ? tab.count : undefined),
+        tooltip: tab.tooltip || tab.title || tab.label,
+        disabled: Boolean(tab.disabled)
+      };
+    });
   }, [tabs]);
 
   const itemIds = useMemo(() => tabItems.map(t => t.id), [tabItems]);
@@ -109,21 +132,28 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
 
   return (
     <div ref={containerRef} className={`spellbook-tab-container tab-overflow-root ${className}`.trim()}>
+      {beforeTabs}
       {visibleIds.map(id => {
         const tab = itemMap.get(id);
+        if (!tab) return null;
         const hasIcon = Boolean(tab.icon);
+        const showIconOnly = Boolean(iconOnly || tab.iconOnly);
+        const isActive = id === activeTab;
         return (
           <button
             key={id}
             type="button"
             data-overflow-id={id}
-            className={`spellbook-tab-button ${hasIcon ? 'tab-icon-only' : ''} ${id === activeTab ? 'active' : ''}`}
+            className={`spellbook-tab-button ${showIconOnly && hasIcon ? 'tab-icon-only' : ''} ${isActive ? 'active' : ''}`}
             onClick={() => onTabClick && onTabClick(id)}
-            title={tab.label}
+            title={tab.tooltip || tab.label}
             aria-label={tab.label}
-            aria-pressed={id === activeTab}
+            aria-pressed={isActive}
+            disabled={tab.disabled}
           >
-            {hasIcon ? <TabIcon icon={tab.icon} /> : <span className="tab-text">{tab.label}</span>}
+            {hasIcon && <TabIcon icon={tab.icon} />}
+            {(!showIconOnly || !hasIcon) && tab.label && <span className="tab-text">{tab.label}</span>}
+            {tab.badge !== undefined && <span className="tab-badge">{tab.badge}</span>}
           </button>
         );
       })}
@@ -143,37 +173,43 @@ const TabDropdownButton = ({ tabs, activeTab, onTabClick, onDropdownTabClick, cl
           onMouseLeave={scheduleClose}
           aria-haspopup="menu"
           aria-expanded={isMenuOpen}
+          aria-label="More tabs"
           title="More tabs"
         >
           ⋮
         </button>
       )}
+      {afterTabs}
 
-      {isMenuOpen &&
+      {isMenuOpen && hiddenIds.length > 0 &&
         createPortal(
           <div
             ref={menuRef}
             className="tab-dropdown-menu tab-dropdown-menu-scrollable tab-overflow-menu adventurer-menu"
-            style={menuPos ? { top: menuPos.top, left: menuPos.left, minWidth: 200 } : undefined}
+            style={menuPos ? { position: 'fixed', top: menuPos.top, left: menuPos.left, minWidth: 200 } : { position: 'fixed', minWidth: 200 }}
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
             role="menu"
           >
             {hiddenIds.map(id => {
               const tab = itemMap.get(id);
+              if (!tab) return null;
+              const isActive = id === activeTab;
               return (
                 <button
                   key={id}
                   type="button"
                   role="menuitem"
-                  className={`tab-dropdown-item ${id === activeTab ? 'active' : ''}`}
-                  onClick={() => {
+                  className={`tab-dropdown-item ${isActive ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (handleDropdownSelect) handleDropdownSelect(id);
                     closeMenu();
                   }}
                 >
                   {tab.icon && <TabIcon icon={tab.icon} />}
                   <span style={{ marginLeft: tab.icon ? 8 : 0 }}>{tab.label}</span>
+                  {tab.badge !== undefined && <span className="tab-badge" style={{ marginLeft: 'auto' }}>{tab.badge}</span>}
                 </button>
               );
             })}

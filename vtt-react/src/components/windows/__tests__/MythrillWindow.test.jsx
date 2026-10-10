@@ -100,4 +100,28 @@ describe('MythrillWindow Component', () => {
     fireEvent.click(tab2Btn);
     expect(handleTabChange).toHaveBeenCalledWith('tab2');
   });
+
+  it('keeps custom tabs and the working close control inside a named window header', () => {
+    const onClose = jest.fn();
+    const onTab = jest.fn();
+    render(
+      <MythrillWindow
+        isOpen
+        title="Character Sheet"
+        onClose={onClose}
+        customHeader={<button onClick={onTab}>Equipment</button>}
+      >
+        <div>Character contents</div>
+      </MythrillWindow>
+    );
+
+    const tab = screen.getByRole('button', { name: 'Equipment' });
+    const close = screen.getByRole('button', { name: 'Close' });
+    expect(tab.closest('.window-header')).toHaveTextContent('Character Sheet');
+    expect(close.closest('.window-header')).not.toBeNull();
+    fireEvent.click(tab);
+    fireEvent.click(close);
+    expect(onTab).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });

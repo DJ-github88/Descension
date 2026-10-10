@@ -2,10 +2,12 @@ import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, us
 import { Resizable } from 'react-resizable';
 import { createPortal } from 'react-dom';
 import DraggableWindow from './DraggableWindow';
+import TabDropdownButton from '../common/TabDropdownButton';
 import useSettingsStore from '../../store/settingsStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import { getIconUrl } from '../../utils/assetManager';
+import { usePrivateWindowIsolation } from '../../persistence/PrivateProjectionBoundary';
 import '../../styles/wow-window.css';
 import '../../styles/draggable-window.css';
 import 'react-resizable/css/styles.css';
@@ -20,6 +22,7 @@ const MythrillWindow = forwardRef((props, ref) => {
         defaultSize = { width: 400, height: 600 },
         customHeader,
         headerTabs = [],
+        tabs = null,
         activeTab,
         onTabChange,
         centered = false,
@@ -43,7 +46,11 @@ const MythrillWindow = forwardRef((props, ref) => {
         // elements and `.window-no-drag` regions interactive, while leaving
         // the tab buttons themselves draggable (a real drag suppresses the
         // follow-up click, so tab switching still works on plain clicks).
-        cancel = null
+        cancel = null,
+        // P5-01: account-private window. While a handoff/retirement is active
+        // the window is hidden (and unmounted) so the previous owner's portal
+        // content can never remain visible under the new live principal.
+        privateProjection = false
     } = props;
 
     // Ensure title is always defined. Allow explicit empty string to suppress the title.
@@ -52,6 +59,11 @@ const MythrillWindow = forwardRef((props, ref) => {
     // Create refs for components (hooks must be called before early returns)
     const draggableRef = useRef(null);
     const windowElementRef = useRef(null);
+
+    // P5-01: private windows that portal to document.body must also disappear
+    // during account handoff. The hook hides the live portal node in the same
+    // gate notification and unmounts the window while isolation is active.
+    const privateIsolated = usePrivateWindowIsolation(windowElementRef, privateProjection === true);
 
     // Generate unique window ID (stable across re-renders)
     const windowId = useRef(`wow-window-${Date.now()}-${Math.random()}`).current;
@@ -348,6 +360,10 @@ const MythrillWindow = forwardRef((props, ref) => {
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
+    // P5-01: a private window renders nothing while the private projection is
+    // isolated (handoff pending/retiring/loading or a fail-closed hold).
+    if (privateIsolated) return null;
+
     // Use createPortal to render the window at the document body level
     // This ensures it's not constrained by any parent containers
     const portalTarget = getSafePortalTarget();
@@ -378,6 +394,29 @@ const MythrillWindow = forwardRef((props, ref) => {
         + '[data-no-drag], .window-no-drag, .window-no-drag *, '
         + '[draggable="true"], .react-resizable-handle, canvas, audio, video';
     const effectiveCancel = cancel ?? (disableContentDrag ? undefined : DEFAULT_DRAG_CANCEL);
+
+    const closeControl = (
+        <button
+            className="window-close wow-window-close-btn"
+            aria-label="Close"
+            onClick={(e) => {
+                e.stopPropagation();
+                if (onClose) onClose();
+            }}
+        >
+            {"×"}
+        </button>
+    );
+    const effectiveTabs = (tabs && tabs.length > 0) ? tabs : (headerTabs && headerTabs.length > 0 ? headerTabs : null);
+    const resolvedCustomHeader = customHeader !== undefined ? customHeader : (effectiveTabs ? (
+        <TabDropdownButton
+            tabs={effectiveTabs}
+            activeTab={activeTab}
+            onTabClick={onTabChange}
+            onDropdownTabClick={onTabChange}
+        />
+    ) : null);
+    const hasHeader = Boolean(resolvedCustomHeader || safeTitle);
 
     return createPortal(
         <React.Fragment>
@@ -429,99 +468,25 @@ const MythrillWindow = forwardRef((props, ref) => {
                     onClick={handleWindowClick}
                     onMouseDown={handleWindowMouseDown}
                 >
-                    {customHeader ? (
-                        <>
-                            {/* Tabs or custom header */}
-                            <div className="window-header wow-custom-header-handle">
-                                {customHeader}
+                    {resolvedCustomHeader ? (
+                        <div className="window-header wow-custom-header-handle">
+                            <div className="adventurer-window-tabs">{resolvedCustomHeader}</div>
+                            <div className="adventurer-window-actions">
+                                {safeTitle && <div className={`window-title ${centerTitle ? 'centered' : 'window-title-right'}`}>{safeTitle}</div>}
+                                {closeControl}
                             </div>
-                        </>
-                    ) : (safeTitle || headerTabs.length > 0) ? (
-                        <div className="window-header">
-                            <div className="window-header-content">
-                                {safeTitle && centerTitle ? (
-                                    <>
-                                        <div className="window-title centered">{safeTitle}</div>
-                                        <div className="header-spacer"></div>
-                                    </>
-                                ) : safeTitle ? (
-                                    <>
-                                        <div className="window-title">{safeTitle}</div>
-
-                                        {/* Header tabs */}
-                                        {headerTabs.length > 0 && (
-                                            <div className="window-header-tabs">
-                                                {headerTabs.map((tab) => (
-                                                    <button
-                                                        key={tab.id}
-                                                        className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            if (onTabChange) onTabChange(tab.id);
-                                                        }}
-                                                        title={tab.tooltip || tab.name}
-                                                    >
-                                                        {tab.icon && (
-                                                            <img
-                                                                src={tab.icon}
-                                                                alt={tab.name}
-                                                                className="tab-icon-img"
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
-                                                                    e.target.src = getIconUrl('inv_misc_questionmark', 'items');
-                                                                }}
-                                                            />
-                                                        )}
-                                                        {tab.label && <span>{tab.label}</span>}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    /* Tabs only (no title) */
-                                    <div className="window-header-tabs" style={{ flex: 1 }}>
-                                        {headerTabs.map((tab) => (
-                                            <button
-                                                key={tab.id}
-                                                className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (onTabChange) onTabChange(tab.id);
-                                                }}
-                                                title={tab.tooltip || tab.name}
-                                            >
-                                                {tab.icon && (
-                                                    <img
-                                                        src={tab.icon}
-                                                        alt={tab.name}
-                                                        className="tab-icon-img"
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.src = getIconUrl('inv_misc_questionmark', 'items');
-                                                        }}
-                                                    />
-                                                )}
-                                                {tab.label && <span>{tab.label}</span>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
+                        </div>
+                    ) : safeTitle ? (
+                        <div className="window-header wow-custom-header-handle">
+                            <div className="adventurer-window-tabs"></div>
+                            <div className="adventurer-window-actions">
+                                <div className={`window-title ${centerTitle ? 'centered' : 'window-title-right'}`}>{safeTitle}</div>
+                                {closeControl}
                             </div>
                         </div>
                     ) : null}
                     <div className={`window-content${disableContentDrag ? '' : ' window-content-draggable'}`} tabIndex={-1}>
-                        {/* Close button — positioned inside the content area */}
-                        <button
-                            className="window-close wow-window-close-btn"
-                            aria-label="Close"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                if (onClose) onClose();
-                            }}
-                        >
-                            {"×"}
-                        </button>
+                        {!hasHeader && closeControl}
                         {children}
                     </div>
                 </div>

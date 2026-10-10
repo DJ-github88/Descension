@@ -200,11 +200,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 6001;
+  z-index: 510;
+  pointer-events: none;
 }
 
 .spell-aoe-svg.placed {
-  z-index: 5999;
+  z-index: 450;
+  pointer-events: none;
 }
 
 .spell-aoe-pulse {
@@ -247,7 +249,7 @@
   top: 18px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 6002;
+  z-index: 950;
   display: flex;
   align-items: center;
   gap: 12px;

@@ -11,6 +11,8 @@ import { registerScopedStoreHandoff } from './scopedStoreStorage';
 import { registerHandoffParticipant } from './handoff/accountHandoffCoordinator';
 import { resolveActiveScope } from './scopedConsumer';
 import { resetCharacterScopedStorageState } from './characterScopedStorage';
+import { subscribeBootstrapGate, isPrivateProjectionIsolated } from './bootstrapPrivacyGate';
+import { flushCharacterAutoSave } from '../store/characterHelpers';
 
 import useBookStore from '../store/bookStore';
 import useInteractiveMapStore from '../store/interactiveMapStore';
@@ -135,10 +137,70 @@ function registerClosureHandoffs() {
  * The character store is a plain (non-persist) store with manual scoped
  * persistence. On handoff it must retire A's roster/active projection before
  * B activates, then reload B's scoped roster.
+ *
+ * P5-01 mounted-integration correction: the retirement must not wait for the
+ * coordinator's resetProjection hook. During the preservation window the live
+ * principal has already changed while the old scope is intentionally still
+ * active, so the public working projection is hidden at isolation start:
+ * pending unsaved work is flushed to the retained owner's scoped record first
+ * (while that owner's scope is still writable), then the projection is
+ * replaced with the store's initial template. The retained data stays in the
+ * owner-scoped storage and is reloaded by the existing activation hook.
  */
+let characterProjectionIsolationInstalled = false;
+let characterProjectionIsolationUnsubscribe = null;
+let characterProjectionTemplate = null;
+
+export function installCharacterProjectionIsolation(initialProjection = null) {
+  if (initialProjection) characterProjectionTemplate = initialProjection;
+  if (characterProjectionIsolationInstalled) return;
+  characterProjectionIsolationInstalled = true;
+  characterProjectionIsolationUnsubscribe = subscribeBootstrapGate((gateState) => {
+    if (!isPrivateProjectionIsolated()) return;
+    isolateCharacterWorkingProjection();
+  });
+}
+
+/** Test-only reset; never used by production code. */
+export function resetCharacterProjectionIsolationForTests() {
+  if (characterProjectionIsolationUnsubscribe) {
+    characterProjectionIsolationUnsubscribe();
+    characterProjectionIsolationUnsubscribe = null;
+  }
+  characterProjectionIsolationInstalled = false;
+  characterProjectionTemplate = null;
+}
+
+function isolateCharacterWorkingProjection() {
+  const state = useCharacterStore.getState();
+  const hasProjection = Boolean(
+    (Array.isArray(state.characters) && state.characters.length > 0) ||
+    state.currentCharacterId ||
+    state.name
+  );
+  if (!hasProjection) return;
+  try {
+    // Preserve pending unsent working changes into the retained owner's
+    // scoped record before hiding the projection.
+    flushCharacterAutoSave();
+    if (state.currentCharacterId && typeof state.saveCurrentCharacter === 'function') {
+      state.saveCurrentCharacter();
+    }
+  } catch (_error) {
+    // best-effort preservation; scoped records remain the recovery source
+  }
+  try {
+    const template = characterProjectionTemplate || {};
+    useCharacterStore.setState({ ...template }, true);
+  } catch (_error) {
+    // best-effort isolation; the selector guard still hides the projection
+  }
+}
+
 export function registerCharacterHandoff() {
   const initialCharacterState = useCharacterStore.getState();
   try {
+    installCharacterProjectionIsolation(initialCharacterState);
     registerHandoffParticipant({
       id: 'scoped-store:characterStore',
       stopNewWork: () => ({ ok: true }),

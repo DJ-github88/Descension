@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import MythrillWindow from './MythrillWindow';
+import TabDropdownButton from '../common/TabDropdownButton';
 import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import useAuthStore from '../../store/authStore';
@@ -1851,22 +1852,15 @@ const PlayerJournalWindow = ({ isOpen, onClose }) => {
         isOpen={isOpen}
         onClose={onClose}
         title="Campaign Chronicles & Notes"
+        privateProjection
         defaultSize={{ width: 1440, height: 880 }}
         defaultPosition={{ x: 80, y: 60 }}
         customHeader={
-          <div className="spellbook-tab-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-            <div style={{ display: 'flex' }}>
-              {tabs.map(tab => (
-                <button
-                  key={tab.id}
-                  className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                  onClick={() => setActiveTab(tab.id)}
-                >
-                  <span>{tab.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+          <TabDropdownButton
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabClick={setActiveTab}
+          />
         }
       >
         <div className="player-journal-content">

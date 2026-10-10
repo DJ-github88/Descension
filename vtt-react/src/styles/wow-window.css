@@ -752,8 +752,6 @@
 
 .tab-overflow-menu {
     position: fixed !important;
-    top: auto !important;
-    left: auto !important;
     z-index: 10002 !important;
 }
 
@@ -1123,7 +1121,7 @@
     gap: 8px;
     padding: 7px 12px;
     background: rgba(212, 175, 55, 0.08);
-    color: #ffd700;
+    color: #dfba5c;
     font-family: 'Cinzel', serif;
     font-size: 11px;
     font-weight: 700;
@@ -1138,13 +1136,13 @@
 .tab-dropdown-section-header:hover {
     background: rgba(212, 175, 55, 0.18);
     color: #ffffff;
-    border-left-color: #ffd700;
+    border-left-color: #dfba5c;
 }
 
 .tab-dropdown-section-header.active {
     background: rgba(212, 175, 55, 0.22);
     color: #ffffff;
-    border-left-color: #ffd700;
+    border-left-color: #dfba5c;
 }
 
 .tab-dropdown-section-title {

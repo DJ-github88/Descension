@@ -28,8 +28,23 @@ const INITIAL_STATE = Object.freeze({
 let state = { ...INITIAL_STATE };
 const listeners = new Set();
 
+function buildSnapshot(source) {
+  return Object.freeze({
+    phase: source.phase,
+    scope: source.scope ? Object.freeze({ ...source.scope }) : null,
+    accountGeneration: source.accountGeneration,
+    documentInstanceId: source.documentInstanceId,
+    holdReason: source.holdReason ?? null,
+    handoffPending: source.handoffPending === true
+  });
+}
+
+// Cached frozen snapshot: identity is stable until the gate state changes.
+// This makes `getBootstrapGateState` safe as a React `useSyncExternalStore`
+// getSnapshot (a new object per call would loop the subscription check).
+let snapshot = buildSnapshot(state);
+
 function notify() {
-  const snapshot = getBootstrapGateState();
   for (const listener of listeners) {
     try {
       listener(snapshot);
@@ -41,19 +56,24 @@ function notify() {
 
 function setState(next) {
   state = { ...next };
+  snapshot = buildSnapshot(state);
   notify();
 }
 
-/** @returns frozen snapshot of the gate state. */
+/** @returns frozen snapshot of the gate state (stable identity until change). */
 export function getBootstrapGateState() {
-  return Object.freeze({
-    phase: state.phase,
-    scope: state.scope ? Object.freeze({ ...state.scope }) : null,
-    accountGeneration: state.accountGeneration,
-    documentInstanceId: state.documentInstanceId,
-    holdReason: state.holdReason ?? null,
-    handoffPending: state.handoffPending === true
-  });
+  return snapshot;
+}
+
+/**
+ * True while private projections must stay isolated from the live principal:
+ * an explicit fail-closed hold, a handoff in progress (pending / retiring), or
+ * a loading phase where no destination scope is active yet.
+ */
+export function isPrivateProjectionIsolated() {
+  if (state.holdReason) return true;
+  if (state.handoffPending === true) return true;
+  return state.phase === ACCOUNT_PHASES.RETIRING || state.phase === ACCOUNT_PHASES.LOADING;
 }
 
 /** Account-context representation of the current gate state. */
@@ -188,5 +208,6 @@ export function assertPrivateHydrationAllowed(scope) {
 /** Test-only reset; never used by production code. */
 export function resetBootstrapGateForTests() {
   state = { ...INITIAL_STATE };
+  snapshot = buildSnapshot(state);
   listeners.clear();
 }

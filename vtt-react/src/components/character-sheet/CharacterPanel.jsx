@@ -22,6 +22,7 @@ import { getBackgroundData } from '../../data/backgroundData';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
+import '../../styles/character-equipment-scene.css';
 import { getIconUrl, getCustomIconUrl, getWowIconUrl } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
 import useItemStore from '../../store/itemStore';
@@ -1269,9 +1270,9 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                 {pills.length > 0 && (
                     <div className="equipment-identity-subtitle">
                         {pills.map(p => (
-                            <span key={p.key} className="identity-pill">
+                            <span key={p.key} className={`identity-pill identity-pill--${p.key}`}>
                                 {p.crest && <img src={p.crest} alt="" className="identity-pill-crest" />}
-                                {p.label}
+                                <span className="identity-pill-text">{p.label}</span>
                             </span>
                         ))}
                     </div>
@@ -1523,7 +1524,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                     title={`Click to cycle through spell power types. Currently: ${current.name}`}
                 >
                     <span className="vitals-stat-label">
-                        Spell Power <span className="vitals-sp-type-inline" style={{ color: typeNameColor }}>({current.name})</span>
+                        Spell Power <span className="vitals-sp-type-inline" style={{ color: typeNameColor, '--sp-type-color': typeNameColor }}>({current.name})</span>
                     </span>
                     <span className="vitals-stat-value">{currentValue}</span>
                 </div>

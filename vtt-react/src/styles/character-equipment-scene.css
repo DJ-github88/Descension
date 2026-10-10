@@ -1,0 +1,60 @@
+/* Equipment is a character scene, not a parchment sheet covering the scene.
+   Reuse its existing 16-bit artwork in both account view and /game character sheet. */
+.character-view-page:has(.equipment-backdrop) {
+  --equipment-scene-art: url('https://img.itch.zone/aW1nLzE4NTY1MTExLmpwZw==/original/LFD1XZ.jpg');
+  --equipment-scene-text: #f0e3c4;
+  --equipment-scene-muted: #d8c6a5;
+  --equipment-scene-rule: rgba(196, 171, 121, 0.35);
+  background: #302419 var(--equipment-scene-art) center / cover no-repeat;
+}
+
+:is(.character-view-page, .wow-window.adventurer-window):has(.equipment-backdrop) :is(.character-view-content, .character-view-content-wrapper, .character-container),
+:is(.character-view-page, .wow-window.adventurer-window) .equipment-backdrop :is(.equipment-content, .equipment-with-sides, .equipment-center, .equipment-layout, .character-center-section),
+:is(.character-view-page, .wow-window.adventurer-window) :is(.equipment-content, .equipment-with-sides, .equipment-center, .equipment-layout, .character-center-section) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+:is(.character-view-page, .wow-window.adventurer-window) .character-content-area.equipment-backdrop {
+  background-color: transparent !important;
+  padding: 18px 16px 16px;
+}
+
+:is(.character-view-page, .wow-window.adventurer-window) .equipment-backdrop::before,
+:is(.character-view-page, .wow-window.adventurer-window) .equipment-content::before { display: none !important; }
+
+/* The persistent masthead already identifies the character on account character page. */
+.character-view-page .equipment-backdrop .equipment-identity-header { display: none; }
+
+.character-view-page .equipment-backdrop .equipment-with-sides {
+  max-width: 1220px;
+  width: 100%;
+  margin: 0 auto;
+  align-items: start;
+  gap: clamp(24px, 4vw, 72px);
+}
+
+:is(.character-view-page, .wow-window.adventurer-window) .equipment-backdrop .equipment-side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px !important;
+}
+
+:is(.character-view-page, .wow-window.adventurer-window):has(.equipment-backdrop) .character-view-action-bar-footer {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+@media (max-width: 1100px) {
+  .character-view-page .equipment-backdrop .equipment-with-sides { gap: 20px; }
+}
+@media (max-width: 767px) {
+  .character-view-page .character-content-area.equipment-backdrop { padding: 18px 12px; }
+  .character-view-page .equipment-backdrop .equipment-with-sides { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .character-view-page .equipment-backdrop .equipment-center { order: -1; }
+  .character-view-page .equipment-backdrop .equipment-side { width: 100%; max-width: 440px; justify-self: center; }
+}

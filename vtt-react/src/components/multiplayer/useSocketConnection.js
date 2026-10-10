@@ -1,10 +1,14 @@
+import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import {
   principalKeyOfAuthState,
   retireSocketPrincipal,
-  createSocketLifetimeGuard
+  createSocketLifetimeGuard,
+  isSocketRetired
 } from '../../persistence/handoff/socketPrincipalRetirement';
-import { getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
+import { getBootstrapGateState, subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
+import { deriveScopeFromAuthUser, scopesEqual } from '../../persistence/scopeModel';
+import { whenHandoffIdle } from '../../persistence/handoff/accountHandoffCoordinator';
 import { exitRoomProjection } from '../../persistence/mapProjectionBoundary';
 import useAuthStore from '../../store/authStore';
 import useGameStore from '../../store/gameStore';
@@ -21,6 +25,59 @@ const cursorDebug = (...args) => {
     console.log(...args);
   }
 };
+
+/**
+ * P5-38 mounted-integration correction — socket principal eligibility.
+ *
+ * The mounted MultiplayerApp must create a socket for the verified principal
+ * only while that principal is the gate's active destination (no handoff
+ * pending, no fail-closed hold) and its scope matches. The previous mount-only
+ * setup effect depended on SOCKET_URL alone, so an A→B handoff retired A's
+ * socket and never established B's replacement connection.
+ */
+export function computeEligibleSocketPrincipal(authState = {}, gateState = null) {
+  const scope = deriveScopeFromAuthUser(authState);
+  if (!scope) return null;
+  if (!gateState || gateState.phase !== 'active' || !gateState.scope) return null;
+  if (gateState.handoffPending === true || gateState.holdReason) return null;
+  if (!scopesEqual(gateState.scope, scope)) return null;
+  return principalKeyOfAuthState(authState);
+}
+
+/**
+ * Reactive eligibility for the mounted socket lifecycle. Re-evaluates after
+ * every handoff settles and on every gate notification, so a valid activation
+ * (including one that lands between render and subscription) always produces
+ * exactly one eligible principal transition — and never a connection while a
+ * handoff is pending.
+ */
+export function useEligibleSocketPrincipal() {
+  const principalKey = useAuthStore((state) => principalKeyOfAuthState(state));
+  const [eligiblePrincipal, setEligiblePrincipal] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const evaluate = async () => {
+      try {
+        await whenHandoffIdle();
+      } catch (_error) {
+        // fail safe: never decide a connection from an unsettled handoff
+      }
+      if (cancelled) return;
+      setEligiblePrincipal(
+        computeEligibleSocketPrincipal(useAuthStore.getState(), getBootstrapGateState())
+      );
+    };
+    evaluate();
+    const unsubscribe = subscribeBootstrapGate(() => { evaluate(); });
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, [principalKey]);
+
+  return eligiblePrincipal;
+}
 
 export function setupSocketConnection({
   SOCKET_URL,
@@ -232,7 +289,12 @@ export function setupSocketConnection({
   const cleanup = () => {
     disposed = true;
     if (newSocket) {
-      newSocket.emit('leave_room');
+      // A socket retired by the principal-handoff path is a session
+      // retirement (P4: never a membership revocation); it must not emit a
+      // late leave_room on behalf of the new principal.
+      if (!isSocketRetired(newSocket)) {
+        newSocket.emit('leave_room');
+      }
       newSocket.disconnect();
       // Clear the presence store's binding so it never treats this dead socket
       // as connected in the next session.

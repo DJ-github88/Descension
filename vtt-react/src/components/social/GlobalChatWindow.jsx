@@ -353,6 +353,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
     <>
       <MythrillWindow
         isOpen={isOpen}
+        title="Community"
         onClose={onClose}
         defaultSize={{ width: 1200, height: 800 }}
         className="global-chat-window"

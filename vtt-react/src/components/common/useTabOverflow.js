@@ -21,15 +21,37 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
     setVisibleCount(itemIds.length);
   }
 
+  const observedRef = useRef({ el: null, ro: null });
   useEffect(() => {
     const el = containerRef.current;
-    if (!el || typeof ResizeObserver === 'undefined') return undefined;
+    const state = observedRef.current;
+    if (el === state.el) return;
+    if (state.ro) state.ro.disconnect();
+    state.el = el;
+    state.ro = null;
+    if (!el || typeof ResizeObserver === 'undefined') return;
     const ro = new ResizeObserver(entries => {
-      for (const entry of entries) setContainerWidth(entry.contentRect.width);
+      for (const entry of entries) {
+        const w = Math.round(entry.contentRect.width);
+        setContainerWidth(prev => (prev === w ? prev : w));
+      }
     });
     ro.observe(el);
-    return () => ro.disconnect();
+    if (el.parentElement) ro.observe(el.parentElement);
+    state.ro = ro;
+  });
+
+  useEffect(() => () => {
+    if (observedRef.current.ro) observedRef.current.ro.disconnect();
+    observedRef.current = { el: null, ro: null };
   }, []);
+
+  useEffect(() => {
+    const onResize = () => setContainerWidth(containerRef.current ? Math.round(containerRef.current.getBoundingClientRect().width) : null);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
 
   useEffect(() => {
     if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
@@ -61,6 +83,23 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
     const widthKey = Math.round(rootRect.width);
     const n = itemIds.length;
 
+    // Fast path: every tab width is known, so solve the visible count directly
+    // (no one-tab-per-render stepping, no lag while resizing).
+    if (n > 0 && itemIds.every(id => widthsRef.current.get(id) > 0)) {
+      const w = itemIds.map(id => widthsRef.current.get(id));
+      const total = w.reduce((s, x) => s + x, 0) + gap * (n - 1);
+      if (total <= rootRect.width) return n;
+      let used = 0;
+      let k = 0;
+      for (let i = 0; i < n; i++) {
+        const next = used + w[i] + (i > 0 ? gap : 0);
+        if (next + gap + triggerWidth > rootRect.width) break;
+        used = next;
+        k = i + 1;
+      }
+      return k;
+    }
+
     const items = Array.from(root.querySelectorAll('[data-overflow-id]'));
     const triggerEl = root.querySelector('[data-overflow-trigger]');
     const lastRect = items.length ? items[items.length - 1].getBoundingClientRect() : null;
@@ -77,7 +116,7 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
 
     const locked =
       lockRef.current !== null &&
-      Math.abs(lockRef.current.width - widthKey) <= 2 &&
+      widthKey <= lockRef.current.width + 2 &&
       lockRef.current.tick === fontsTick;
 
     let next = visibleCount;
@@ -85,9 +124,7 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
     if (overflowing && visibleCount > 0) {
       next = visibleCount - 1;
       action = 'collapse';
-      if (lockRef.current === null || !locked) {
-        lockRef.current = { width: widthKey, tick: fontsTick };
-      }
+      lockRef.current = { width: widthKey, tick: fontsTick };
     } else {
       const nextW = visibleCount < n ? widthsRef.current.get(itemIds[visibleCount]) : undefined;
       if (
@@ -109,11 +146,26 @@ const useTabOverflow = ({ itemIds, triggerWidth = 34 }) => {
     return Math.max(0, Math.min(next, n));
   }, [containerWidth, fontsTick, idsKey, itemIds, triggerWidth, visibleCount]);
 
+  const flipsRef = useRef({ count: 0, raf: 0 });
+  useEffect(() => () => {
+    if (flipsRef.current.raf) cancelAnimationFrame(flipsRef.current.raf);
+  }, []);
+
   useLayoutEffect(() => {
     const k = computeFit();
-    if (k !== null) {
-      setVisibleCount(prev => (prev === k ? prev : k));
+    if (k === null || k === visibleCount) return;
+    const flips = flipsRef.current;
+    // Guard: if measurement keeps flipping the count within one frame, stop and
+    // settle instead of looping into React's max update depth.
+    if (flips.count >= 6) return;
+    flips.count += 1;
+    if (!flips.raf) {
+      flips.raf = requestAnimationFrame(() => {
+        flips.count = 0;
+        flips.raf = 0;
+      });
     }
+    setVisibleCount(k);
   });
 
   return {
