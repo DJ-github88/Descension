@@ -9,7 +9,7 @@ export const BLACKSMITHING_RECIPES = [
     id: 'copper-ingot-recipe',
     name: 'Copper Ingot',
     profession: 'blacksmithing',
-    description: 'Smelted in Schratling ironwood-bark forges that burn low and slow. Smelt red copper ore into a usable copper ingot.',
+    description: 'Smelted in Skraten ironwood-bark forges that burn low and slow. Smelt red copper ore into a usable copper ingot.',
     requiredLevel: 0,
     resultItemId: 'copper-ingot',
     resultQuantity: 1,

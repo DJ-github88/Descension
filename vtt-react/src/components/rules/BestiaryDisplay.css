@@ -3,16 +3,23 @@
    ========================================================================== */
 
 .bestiary-display {
+    --folio-ink: #34251a;
+    --folio-muted: #68533e;
+    --folio-paper: #f5ecd9;
+    --folio-rule: #b6a080;
+    --folio-seal: #663c32;
     padding: 1.5rem;
     min-height: 700px;
     font-family: 'Crimson Text', serif;
-    background: radial-gradient(circle at top, rgba(250, 245, 235, 0.6) 0%, rgba(240, 230, 210, 0.4) 100%);
-    border-radius: 12px;
+    background: transparent;
+    color: var(--folio-ink);
+    border-radius: 0;
+    scrollbar-color: #9b835e #e8dcc6;
 }
 
 .bestiary-layout {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     align-items: flex-start;
 }
 
@@ -21,12 +28,13 @@
    ========================================================================== */
 
 .bestiary-sidebar {
-    flex: 0 0 280px;
-    background: linear-gradient(145deg, #fbf7ee 0%, #f3ecd8 100%);
-    border: 2px solid #c9b38c;
-    box-shadow: 0 8px 24px rgba(139, 115, 85, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    padding: 1.5rem 1.2rem;
+    flex: 0 0 236px;
+    background: transparent;
+    border: 0;
+    border-right: 1px solid var(--folio-rule);
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0 1rem 0 0;
     position: sticky;
     top: 1.5rem;
     z-index: 10;
@@ -65,15 +73,19 @@
 }
 
 .bestiary-region-item {
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    color: var(--folio-ink);
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.75rem 0.9rem;
+    padding: 0.75rem 0.5rem;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(255, 255, 255, 0.3);
+    background: transparent;
 }
 
 .bestiary-region-item:hover {
@@ -83,10 +95,10 @@
 }
 
 .bestiary-region-item.active {
-    background: linear-gradient(135deg, #2d2215 0%, #1a140b 100%);
+    background: #302419;
     color: #f7f3e8;
     border-color: #1a140b;
-    box-shadow: 0 4px 12px rgba(26, 20, 11, 0.3);
+    box-shadow: none;
 }
 
 .bestiary-region-icon {
@@ -151,13 +163,14 @@
 }
 
 .bestiary-intro {
-    background: linear-gradient(135deg, rgba(139, 26, 16, 0.05) 0%, rgba(139, 26, 16, 0.01) 100%);
-    border: 2px solid rgba(139, 26, 16, 0.15);
-    border-radius: 10px;
-    padding: 1.5rem 1.8rem;
-    margin-bottom: 2rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px double var(--folio-rule);
+    border-radius: 0;
+    padding: 0 0 1.25rem;
+    margin-bottom: 1.5rem;
     position: relative;
-    box-shadow: inset 0 0 12px rgba(139, 26, 16, 0.03);
+    box-shadow: none;
 }
 
 .bestiary-intro-title {
@@ -175,7 +188,9 @@
     font-size: 1.05rem;
     line-height: 1.65;
     color: #4a3e2e;
-    text-align: justify;
+    text-align: left;
+    max-width: 75ch;
+    margin: 0;
 }
 
 .bestiary-region-header {
@@ -1433,23 +1448,10 @@
     overflow: hidden;
 }
 
-.bestiary-hook-card::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    background: #c9b38c;
-    transition: background-color 0.25s;
-}
-
 .bestiary-hook-card:hover {
     transform: translateY(-2px);
     border-color: #c9b38c;
     box-shadow: 0 6px 14px rgba(139, 115, 85, 0.12);
-}
-
-.bestiary-hook-card:hover::before {
-    background: #a62424;
 }
 
 .bestiary-hook-number {
@@ -1634,72 +1636,6 @@
     }
 }
 
-/* Wyrd Heritage & Manifestation Premium Styling */
-.bestiary-heritage-section {
-    background: linear-gradient(135deg, rgba(82, 34, 150, 0.08) 0%, rgba(26, 20, 11, 0.03) 100%);
-    border: 1.5px solid rgba(82, 34, 150, 0.25);
-    box-shadow: 0 4px 15px rgba(82, 34, 150, 0.05), inset 0 0 20px rgba(82, 34, 150, 0.03);
-    border-radius: 8px;
-    padding: 1.25rem !important;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.bestiary-heritage-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(to bottom, #8a2be2, #4b0082);
-}
-
-.bestiary-heritage-section:hover {
-    border-color: rgba(82, 34, 150, 0.45);
-    box-shadow: 0 6px 20px rgba(82, 34, 150, 0.1), inset 0 0 25px rgba(82, 34, 150, 0.05);
-    transform: translateY(-1px);
-}
-
-.bestiary-heritage-section h4 {
-    color: #4b0082 !important;
-    font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.6rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-shadow: 0 0 8px rgba(138, 43, 226, 0.1);
-}
-
-.bestiary-heritage-section h4 i {
-    color: #8a2be2;
-    animation: wyrdPulse 2.5s infinite ease-in-out;
-}
-
-.bestiary-heritage-text {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: #2e243a;
-    font-style: italic;
-}
-
-@keyframes wyrdPulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 0.8;
-        filter: drop-shadow(0 0 2px rgba(138, 43, 226, 0.4));
-    }
-    50% {
-        transform: scale(1.15);
-        opacity: 1;
-        filter: drop-shadow(0 0 6px rgba(138, 43, 226, 0.8));
-    }
-}
-
 /* ==========================================================================
    REAL-WORLD FOLKLORE & CRYPTID ORIGINS CARD
    ========================================================================== */
@@ -1707,7 +1643,7 @@
 .bestiary-folklore-card {
     background: linear-gradient(135deg, #fcf9f2 0%, #f4ede0 100%);
     border: 1.5px solid #2d6a4f;
-    border-left: 2px solid #2d6a4f;
+    border-left: 1px solid #2d6a4f;
     border-radius: 10px;
     padding: 1.4rem 1.6rem;
     margin-top: 1.5rem;
@@ -1851,4 +1787,254 @@
     line-height: 1.55;
     color: #43281c;
     margin: 0;
+}
+
+/* Open bestiary folio: the same seamless art plate as the continent index,
+   with the account ledger's ink, wax and real parchment materials. */
+.rules-content-area:has(.bestiary-display) { padding: 28px 24px 40px; }
+/* The shell's absolutely-positioned footer/frame would cross the entry text. */
+.rules-content-area:has(.bestiary-display)::before,
+.rules-content-area:has(.bestiary-display)::after { content: none; }
+.bestiary-display *,
+.bestiary-display *::before,
+.bestiary-display *::after { box-sizing: border-box; }
+.bestiary-display ::selection { background: #cfbd99; color: var(--folio-ink); }
+.bestiary-display :is(button, a, summary):focus-visible {
+    outline: 2px solid var(--folio-seal);
+    outline-offset: 4px;
+}
+.bestiary-display .bestiary-main { width: 100%; }
+.bestiary-display .bestiary-region-name { font-size: 0.82rem; }
+.bestiary-display .bestiary-region-folklore { color: var(--folio-muted); font-size: 0.8rem; }
+.bestiary-display .bestiary-region-item.active .bestiary-region-folklore { color: #d0bf9e; }
+.bestiary-display .bestiary-region-count { padding: 2px 7px; }
+.bestiary-display .bestiary-intro-title { color: var(--folio-seal); }
+.bestiary-intro-notes { margin-top: 0.75rem; color: var(--folio-muted); font-size: 1.05rem; }
+.bestiary-intro-notes summary { width: fit-content; cursor: pointer; color: var(--folio-seal); }
+.bestiary-intro-notes p { max-width: 75ch; line-height: 1.65; margin: 0.75rem 0 0; }
+
+.bestiary-display .bestiary-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
+    column-gap: 2rem;
+    padding: 1.5rem;
+    background-color: var(--folio-paper);
+    background-image: linear-gradient(rgba(245, 236, 217, 0.91), rgba(245, 236, 217, 0.91)), url('../../../public/assets/ui/wow-window/parchment_bg.png');
+    background-size: auto, 600px;
+    border: 1px solid var(--folio-rule);
+    border-radius: 3px;
+    color: var(--folio-ink);
+    overflow-wrap: anywhere;
+}
+.bestiary-folio-toolbar {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 3px double var(--folio-rule);
+}
+.bestiary-display .bestiary-back-btn {
+    min-height: 44px;
+    margin: 0;
+    padding: 0.5rem 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: var(--folio-seal);
+    box-shadow: none;
+    font-size: 0.82rem;
+    transform: none;
+}
+.bestiary-display .bestiary-back-btn:hover { color: var(--folio-ink); text-decoration: underline; text-underline-offset: 4px; }
+.bestiary-chapter-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+.bestiary-chapter-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--folio-muted);
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration-color: var(--folio-rule);
+    text-underline-offset: 5px;
+}
+.bestiary-chapter-nav a:hover { color: var(--folio-seal); text-decoration-color: currentColor; }
+.bestiary-display .bestiary-detail-body {
+    display: contents;
+}
+.bestiary-display .bestiary-portrait-col { grid-column: 1; grid-row: 2; max-width: none; width: 100%; margin: 0; gap: 1.5rem; }
+.bestiary-lore-col { grid-column: 2; grid-row: 2 / span 2; min-width: 0; }
+.bestiary-display .bestiary-combat-chapter { grid-column: 1; grid-row: 3; align-self: start; }
+.bestiary-display .bestiary-encounter-chapter { grid-column: 1 / -1; }
+.bestiary-display .bestiary-detail-illustration {
+    margin: 0;
+    background: var(--paper-tone, #f7ecd2);
+    border: 1px solid #cbb78e;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.bestiary-display .bestiary-portrait-frame {
+    aspect-ratio: 1;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--paper-tone, #f7ecd2);
+}
+.bestiary-display .bestiary-portrait-frame img { object-fit: cover; border: 0; border-radius: 0; }
+.bestiary-display .bestiary-detail-caption {
+    display: block;
+    margin: 0;
+    padding: 0.75rem 1rem 1rem;
+    background: var(--paper-tone, #f7ecd2);
+    color: #5b4934;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+.bestiary-portrait-empty { display: flex; flex-direction: column; align-items: center; gap: 1rem; color: var(--folio-muted); }
+.bestiary-portrait-empty i { font-size: 3rem; color: #9b835e; }
+.bestiary-display .bestiary-detail-header { margin: 0 0 1.5rem; padding: 0 0 1rem; border-bottom: 3px double var(--folio-rule); }
+.bestiary-display .bestiary-detail-title-group { align-items: baseline; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.bestiary-display .bestiary-detail-name { font-size: clamp(1.8rem, 2.8vw, 2.6rem); color: var(--folio-ink); text-shadow: none; text-wrap: balance; }
+.bestiary-display .bestiary-detail-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--folio-muted);
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0;
+    box-shadow: none;
+}
+.bestiary-detail-badge::before { content: ''; width: 8px; height: 8px; background: var(--danger-color); transform: rotate(45deg); }
+.bestiary-display .bestiary-detail-role { display: block; margin-top: 0.5rem; color: var(--folio-muted); font-size: 1.05rem; }
+.bestiary-detail-summary { margin: 1rem 0 0; font-size: 1.2rem; line-height: 1.5; color: var(--folio-ink); }
+.bestiary-display .bestiary-quick-stats-card { padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.bestiary-display .bestiary-quick-stats-title { color: var(--folio-seal); font-size: 0.88rem; border-bottom: 1px solid var(--folio-rule); margin-bottom: 0.75rem; letter-spacing: 0; }
+.bestiary-display .bestiary-quick-stats-title i { color: var(--folio-seal); }
+.bestiary-display .bestiary-quick-stats-grid { gap: 0; }
+.bestiary-display .bestiary-quick-stat-item {
+    align-items: flex-start;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #d5c5ab;
+    border-radius: 0;
+    padding: 0.75rem 0.5rem 0.75rem 0;
+    box-shadow: none;
+    transform: none;
+}
+.bestiary-display .bestiary-quick-stat-item .label { color: var(--folio-muted); font-size: 0.72rem; }
+.bestiary-display .bestiary-quick-stat-item .value { color: var(--folio-ink); font-variant-numeric: tabular-nums; }
+.bestiary-display .bestiary-quick-stat-item.hp .value { color: #883d34; }
+.bestiary-display .bestiary-quick-stat-item.mana .value { color: #39596c; }
+.bestiary-display .bestiary-quick-stat-item.initiative { flex-direction: row; align-items: center; padding: 0.75rem 0; }
+
+.bestiary-folio-chapter { scroll-margin-top: 1.5rem; }
+.bestiary-folio-chapter:focus-visible { outline: 2px solid var(--folio-rule); outline-offset: 8px; }
+.bestiary-display .bestiary-lore-section { margin: 0 0 1.25rem; padding: 0; border: 0; background: transparent; border-radius: 0; box-shadow: none; }
+.bestiary-display .bestiary-lore-section h4 { color: var(--folio-seal); font-size: 0.95rem; margin: 0 0 0.4rem; }
+.bestiary-display :is(.bestiary-lore-section, .bestiary-source-notes) p {
+    max-width: 75ch;
+    margin: 0;
+    color: var(--folio-ink);
+    font-size: 1.08rem;
+    line-height: 1.6;
+    text-align: left;
+    text-shadow: none;
+}
+.bestiary-display .bestiary-wyrd-ecology-details p { margin-top: 0.65rem; }
+.bestiary-display .bestiary-source-notes {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-top: 1px solid var(--folio-rule);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+.bestiary-source-notes summary {
+    min-height: 44px;
+    padding: 0.75rem 0;
+    color: var(--folio-seal);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.bestiary-display .bestiary-source-notes[open] { padding-bottom: 1rem; }
+.bestiary-classification { display: grid; gap: 0.5rem; margin: 0 0 1rem; }
+.bestiary-classification > div { display: grid; grid-template-columns: minmax(100px, 0.6fr) minmax(0, 1fr); gap: 1rem; font-size: 1rem; }
+.bestiary-classification dt { font-weight: 600; color: var(--folio-muted); }
+.bestiary-classification dd { margin: 0; }
+.bestiary-display .bestiary-folklore-header { margin: 0 0 0.75rem; padding: 0; border: 0; }
+.bestiary-display .bestiary-folklore-archetype-badge { background: transparent; border: 0; border-radius: 0; padding: 0; font-family: inherit; text-transform: none; letter-spacing: 0; }
+.bestiary-display .bestiary-folklore-myth-name { font-family: inherit; color: var(--folio-ink); }
+.bestiary-display .bestiary-folklore-tradition-pill { background: transparent; padding: 0; border: 0; border-radius: 0; font-family: inherit; font-size: 1rem; color: var(--folio-muted); }
+.bestiary-folklore-tradition-pill + .bestiary-folklore-tradition-pill::before { content: '/'; margin-right: 0.5rem; }
+.bestiary-display .bestiary-folklore-adaptation-box { padding: 0; border: 0; background: transparent; }
+.bestiary-display .bestiary-folklore-adaptation-box h5 { color: var(--folio-seal); }
+
+.bestiary-display :is(.bestiary-combat-chapter, .bestiary-encounter-chapter) { margin-top: 2rem; padding-top: 1.5rem; border-top: 3px double var(--folio-rule); }
+.bestiary-display .bestiary-chapter-title { font-family: 'Cinzel', serif; font-size: 1.45rem; margin: 0 0 1.25rem; color: var(--folio-ink); }
+.bestiary-display .bestiary-section-subtitle { border: 0; margin: 0 0 0.75rem; padding: 0; color: var(--folio-seal); font-size: 0.95rem; }
+.bestiary-display :is(.bestiary-attributes-section, .bestiary-senses-section, .bestiary-tactics-section) { margin-bottom: 1.5rem; }
+.bestiary-display .bestiary-attr-shield-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-block: 1px solid var(--folio-rule); }
+.bestiary-display .bestiary-attr-shield { aspect-ratio: auto; padding: 1rem 0.25rem; background: transparent; border: 0; border-right: 1px solid #d5c5ab; border-radius: 0; box-shadow: none; transform: none; gap: 0.3rem; }
+.bestiary-display .bestiary-attr-shield:last-child { border-right: 0; }
+.bestiary-display .bestiary-attr-shield:nth-child(3) { border-right: 0; }
+.bestiary-display .bestiary-attr-shield:nth-child(-n+3) { border-bottom: 1px solid #d5c5ab; }
+.bestiary-display .bestiary-attr-title { color: var(--folio-muted); }
+.bestiary-display .bestiary-attr-score { color: var(--folio-ink); font-variant-numeric: tabular-nums; }
+.bestiary-display .bestiary-attr-mod-badge { position: static; background: transparent; color: var(--folio-seal); padding: 0; border: 0; border-radius: 0; box-shadow: none; font-family: 'Crimson Text', serif; font-size: 0.95rem; }
+.bestiary-display .bestiary-senses-grid { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; }
+.bestiary-display .bestiary-sense-item { flex-wrap: wrap; gap: 0.5rem; background: transparent; border: 0; border-radius: 0; padding: 0; }
+.bestiary-display .bestiary-res-badge { box-shadow: none; border-radius: 3px; transform: none; }
+.bestiary-display :is(.bestiary-no-res, .bestiary-no-stats) { color: var(--folio-muted); background: transparent; border: 0; padding: 0; }
+.bestiary-display .bestiary-narrative-mechanics-card { max-width: 75ch; padding: 0; background: transparent; border: 0; border-radius: 0; box-shadow: none; text-align: left; }
+.bestiary-display .bestiary-inline-mechanic { padding: 0 3px; box-shadow: none; font-size: 0.82rem; }
+.bestiary-display .bestiary-adventure-hooks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; }
+.bestiary-display .bestiary-hook-card { display: block; padding: 1rem 0 0; background: transparent; border: 0; border-top: 1px solid var(--folio-rule); border-radius: 0; box-shadow: none; transform: none; }
+.bestiary-display .bestiary-hook-card::before { content: none; }
+.bestiary-display .bestiary-hook-number { display: block; color: var(--folio-seal); padding: 0; background: transparent; border: 0; margin-bottom: 0.5rem; }
+.bestiary-display .bestiary-hook-content { color: var(--folio-ink); font-size: 1.08rem; line-height: 1.6; }
+
+@media (max-width: 1200px) {
+    .bestiary-display .bestiary-sidebar { flex-basis: 210px; width: 210px; }
+    .bestiary-display .bestiary-detail { padding: 1.25rem; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); column-gap: 1.5rem; }
+}
+@media (max-width: 1100px) {
+    .bestiary-display .bestiary-layout { flex-direction: column; }
+    .bestiary-display .bestiary-sidebar { flex: none; width: 100%; position: static; border-right: 0; border-bottom: 1px solid var(--folio-rule); padding: 0 0 1rem; }
+    .bestiary-display .bestiary-sidebar-title { margin-bottom: 0.5rem; }
+    .bestiary-display .bestiary-region-list { display: flex; flex-direction: row; overflow-x: auto; gap: 0.5rem; padding: 0.25rem 0; scroll-snap-type: x proximity; }
+    .bestiary-region-list > li { flex: 0 0 200px; scroll-snap-align: start; }
+    .bestiary-display .bestiary-detail-body { gap: 1.25rem; }
+    .bestiary-display .bestiary-attr-shield-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .bestiary-display .bestiary-attr-shield:nth-child(3) { border-right: 0; }
+    .bestiary-display .bestiary-attr-shield:nth-child(-n+3) { border-bottom: 1px solid #d5c5ab; }
+}
+@media (max-width: 600px) {
+    .rules-content-area:has(.bestiary-display) { padding: 16px 8px 24px; }
+    .bestiary-display { padding: 1rem 0.5rem; }
+    .bestiary-display .bestiary-detail { display: block; padding: 1rem; }
+    .bestiary-display .bestiary-detail-body { display: flex; flex-direction: column; }
+    .bestiary-display .bestiary-lore-col { display: contents; }
+    .bestiary-display .bestiary-detail-header { order: -1; width: 100%; margin-bottom: 0; }
+    .bestiary-display .bestiary-portrait-col { gap: 1rem; }
+    .bestiary-display .bestiary-detail-title-group { flex-direction: row; }
+    .bestiary-display .bestiary-lore-chapter { width: 100%; }
+    .bestiary-folio-toolbar { margin-bottom: 1rem; padding-bottom: 0.5rem; gap: 0; }
+    .bestiary-chapter-nav { width: 100%; justify-content: space-between; gap: 0.5rem; }
+    .bestiary-display .bestiary-adventure-hooks { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .bestiary-display .fade-in { animation: none; }
 }

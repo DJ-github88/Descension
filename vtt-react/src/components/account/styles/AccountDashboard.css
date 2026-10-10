@@ -3383,6 +3383,22 @@
   background: #2a1b12;
 }
 
+.hero-portrait-frame.is-framed-card {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  overflow: visible;
+}
+
+.hero-portrait-img.hero-portrait-fallback-icon {
+  border-radius: 0;
+  object-fit: contain;
+  padding: 0;
+  background: transparent;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+}
+
 .hero-portrait-monogram {
   width: 100%;
   height: 100%;

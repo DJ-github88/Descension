@@ -228,6 +228,11 @@ const REGISTRY_ENTRIES = [
     'mythrill-current-campaign'
   ], { cloudBinding: CLOUD_BINDINGS.CAMPAIGN_SINGLETON }),
   selector('campaign.currentId', 'Current campaign selector', 'mythrill-current-campaign-id'),
+  hint('campaign.pendingConflict', 'Pending campaign reconciliation identity', [
+    { builder: 'mythrill_pending_campaign_conflict_{scopeRef}' }
+  ], {
+    notes: 'P5-native reconciliation identity record (no legacy source); never cloud-uploaded.'
+  }),
 
   // ── Local rooms / room working copies ────────────────────────────────────
   authored('localRoom.registry', 'Local room registry', ['mythrill_local_rooms']),
@@ -580,6 +585,7 @@ export const FROZEN_SLICE1_FAMILY_IDS = Object.freeze([
   // Campaign planning
   'campaign.collection',
   'campaign.currentId',
+  'campaign.pendingConflict',
   // Local rooms
   'localRoom.registry',
   'localRoom.statePrimary',

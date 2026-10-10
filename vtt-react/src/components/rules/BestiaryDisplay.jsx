@@ -216,6 +216,45 @@ const readLoreText = (value) => {
   return String(value).trim();
 };
 
+const formatLoreLabel = (value) => readLoreText(value)
+  .replace(/[-_]+/g, ' ')
+  .toLowerCase()
+  .replace(/\bwyrd\b/g, 'Wyrd')
+  .replace(/^./, letter => letter.toUpperCase());
+
+const BestiaryIllustration = ({ creature, regionIcon }) => {
+  const [imageError, setImageError] = useState(false);
+  const [paperTone, setPaperTone] = useState(() => PAPER_TONE_CACHE.get(creature.illustration));
+
+  return (
+    <figure className="bestiary-detail-illustration" style={{ '--paper-tone': paperTone || undefined }}>
+      <div className="bestiary-card-image bestiary-portrait-frame">
+        {creature.illustration && !imageError ? (
+          <img
+            src={creature.illustration}
+            alt={creature.illustrationCaption || creature.name}
+            width="640"
+            height="640"
+            decoding="async"
+            onLoad={event => setPaperTone(samplePaperTone(event.currentTarget, creature.illustration))}
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="bestiary-portrait-empty">
+            <i className={`fas ${regionIcon || 'fa-globe'}`} aria-hidden="true"></i>
+            <span>Illustration unavailable</span>
+          </div>
+        )}
+      </div>
+      {creature.illustrationCaption && (
+        <figcaption className="bestiary-detail-caption">
+          <InlineMarkdown text={creature.illustrationCaption} />
+        </figcaption>
+      )}
+    </figure>
+  );
+};
+
 const isCosmicWyrdCreature = (classification = {}) => {
   const originClass = readLoreText(classification.originClass).toLowerCase();
   const status = readLoreText(classification.status).toLowerCase();
@@ -265,6 +304,7 @@ const BestiaryCreatureCard = memo(({ creature, onSelect, regionIcon }) => {
       tabIndex={0}
       aria-label={`Open ${creature.name} folio`}
       title={`${creature.dangerLevel} danger`}
+      data-creature-id={creature.id}
       style={{ '--danger-color': dangerStyle.bg, '--paper-tone': paperTone || undefined }}
     >
       <div className="bestiary-card-image">
@@ -310,34 +350,13 @@ const BestiaryDisplay = () => {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [selectedCreature, setSelectedCreature] = useState(null);
-  const [activeTab, setActiveTab] = useState('lore'); // 'lore' | 'combat' | 'tactics'
-  const [isBestiaryTabDropdownOpen, setIsBestiaryTabDropdownOpen] = useState(false);
-  const bestiaryTabDropdownRef = useRef(null);
+  const entryRef = useRef(null);
 
-  // Close bestiary tab dropdown on outside click or Escape key
   useEffect(() => {
-    if (!isBestiaryTabDropdownOpen) return;
-    const handleOutsideClick = (e) => {
-      if (bestiaryTabDropdownRef.current && !bestiaryTabDropdownRef.current.contains(e.target)) {
-        setIsBestiaryTabDropdownOpen(false);
-      }
-    };
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setIsBestiaryTabDropdownOpen(false);
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isBestiaryTabDropdownOpen]);
-
-  const bestiaryTabs = useMemo(() => [
-    { id: 'lore', label: 'Lore & Legends', icon: 'fas fa-scroll' },
-    { id: 'combat', label: 'Combat Statistics', icon: 'fas fa-swords' },
-    { id: 'tactics', label: 'Tactics & Actions', icon: 'fas fa-chess-knight' }
-  ], []);
+    if (!selectedCreature) return;
+    entryRef.current?.scrollIntoView?.({ block: 'start' });
+    entryRef.current?.querySelector('h2')?.focus({ preventScroll: true });
+  }, [selectedCreature]);
 
   const sentinelRef = useRef(null);
 
@@ -475,13 +494,13 @@ const BestiaryDisplay = () => {
   const loreClassification = currentCreature?.loreClassification || {};
   const loreCanon = currentCreature?.loreCanon || {};
   
-  const loreClassificationRows = useMemo(() => [
-    ['Status', loreClassification.status],
-    ['Origin class', loreClassification.originClass],
-    ['Wyrd relationship', loreClassification.wyrdRelationship]
+  const loreClassificationRows = [
+    ['Record status', loreClassification.status],
+    ['Lineage', loreClassification.originClass],
+    ['Wyrd affinity', loreClassification.wyrdRelationship]
   ]
-    .map(([label, value]) => [label, readLoreText(value)])
-    .filter(([, value]) => value), [loreClassification]);
+    .map(([label, value]) => [label, formatLoreLabel(value)])
+    .filter(([, value]) => value);
 
   const loreNote = readLoreText(currentCreature?.loreNote);
   const loreOrigin = readLoreText(loreCanon.trueOrigin) || readLoreText(currentCreature?.origin);
@@ -491,12 +510,10 @@ const BestiaryDisplay = () => {
   const loreBindingEffect = readLoreText(loreCanon.bindingEffect);
   const cosmicWyrd = isCosmicWyrdCreature(loreClassification);
   const loreWyrdRelationship = readLoreText(loreCanon.wyrdRelationship)
-    || readLoreText(loreClassification.wyrdRelationship)
-    || readLoreText(currentCreature?.depth);
+    || readLoreText(currentCreature?.depth)
+    || formatLoreLabel(loreClassification.wyrdRelationship);
 
-  const cosmicLoreRows = useMemo(() => {
-    if (!cosmicWyrd) return [];
-    return [
+  const cosmicLoreRows = cosmicWyrd ? [
       ['Cosmic provenance', loreCanon.cosmicProvenance],
       ['Wyrd function', loreCanon.wyrdFunction],
       ['Mythrill anchor', loreCanon.anchor],
@@ -505,8 +522,7 @@ const BestiaryDisplay = () => {
       ['Countermeasure', loreCanon.countermeasure]
     ]
       .map(([label, value]) => [label, readLoreText(value)])
-      .filter(([, value]) => value);
-  }, [cosmicWyrd, loreCanon]);
+      .filter(([, value]) => value) : [];
 
   const hasLayerMetadata = loreClassificationRows.length > 0 || Boolean(loreNote);
   const hasTruthBeneath = Boolean(loreWyrdRelationship) || cosmicLoreRows.length > 0;
@@ -518,12 +534,11 @@ const BestiaryDisplay = () => {
 
   const handleBack = useCallback(() => {
     setSelectedCreature(null);
-    setActiveTab('lore');
-  }, []);
+    requestAnimationFrame(() => document.querySelector(`[data-creature-id="${selectedCreature}"]`)?.focus());
+  }, [selectedCreature]);
 
   const handleSelectCreature = useCallback((creatureId) => {
     setSelectedCreature(creatureId);
-    setActiveTab('lore');
   }, []);
 
   const renderResistanceBadge = useCallback((type, value, isVuln = false) => {
@@ -551,119 +566,87 @@ const BestiaryDisplay = () => {
     <div className="bestiary-display">
       {!currentCreature && (
         <div className="bestiary-intro">
-          <h3 className="bestiary-intro-title">📜 The Native Bestiary &amp; Cosmic Wyrd</h3>
+          <h3 className="bestiary-intro-title">The Native Bestiary &amp; Cosmic Wyrd</h3>
           <p className="bestiary-intro-text">
-            Mythrill's bestiary begins with native beasts, spirits, mythic peoples, constructs, and land beings that inhabited these regions before the Great Binding.
-            The Wyrd is a distinct cosmic medium and ecology: Ancient Cosmic Wyrdkin come from beyond Mythrill, Keth-spawn/Wyrdspawn are narrower direct local
-            manifestations, and Wyrd-touched natives are individuals or branches changed by exposure. Folklore records, translates, or camouflages what is there;
-            it does not create the native bestiary or ancient Wyrdkin. Some Wyrd entities remain anchored in Mythrill after Keth Amar retreats, so identify the
-            creature's layer and anchor before choosing its weakness.
+            Beasts, spirits, mythic peoples, constructs, and living lands called Mythrill home long before the Great Binding.
+            Folklore remembers their encounters; it does not bring them into being.
           </p>
+          <details className="bestiary-intro-notes">
+            <summary>Reading the Wyrd</summary>
+            <p>Ancient Cosmic Wyrdkin come from beyond Mythrill. Keth-spawn and Wyrdspawn are direct local manifestations;
+              Wyrd-touched natives are individuals or branches changed by exposure. The Wyrd is a distinct cosmic medium
+              and ecology, not the origin of every creature. Some entities remain anchored here after Keth Amar retreats.
+              Learn a creature's origin and anchor before choosing how to confront it.</p>
+          </details>
         </div>
       )}
 
       <div className="bestiary-layout">
         {/* Left Continent Sidebar */}
-        <div className="bestiary-sidebar">
+        <nav className="bestiary-sidebar" aria-label="Bestiary continents">
           <h4 className="bestiary-sidebar-title">Continents</h4>
           <ul className="bestiary-region-list">
-            <li
+            <li><button
+              type="button"
               className={`bestiary-region-item ${selectedRegion === 'all' ? 'active' : ''}`}
+              aria-pressed={selectedRegion === 'all'}
               onClick={() => handleRegionSelect('all')}
             >
-              <i className="fas fa-globe bestiary-region-icon"></i>
+              <i className="fas fa-globe bestiary-region-icon" aria-hidden="true"></i>
               <div className="bestiary-region-info">
                 <span className="bestiary-region-name">All Regions</span>
                 <span className="bestiary-region-folklore">Entire World</span>
               </div>
               <span className="bestiary-region-count">{totalCreaturesCount}</span>
-            </li>
+            </button></li>
             {BESTIARY_DATA.regions.map(region => (
-              <li
-                key={region.id}
+              <li key={region.id}><button
+                type="button"
                 className={`bestiary-region-item ${selectedRegion === region.id ? 'active' : ''}`}
+                aria-pressed={selectedRegion === region.id}
                 onClick={() => handleRegionSelect(region.id)}
               >
-                <i className={`fas ${REGION_ICONS[region.id] || 'fa-globe'} bestiary-region-icon`}></i>
+                <i className={`fas ${REGION_ICONS[region.id] || 'fa-globe'} bestiary-region-icon`} aria-hidden="true"></i>
                 <div className="bestiary-region-info">
                   <span className="bestiary-region-name">{region.name}</span>
                   <span className="bestiary-region-folklore">{region.folklore}</span>
                 </div>
                 <span className="bestiary-region-count">{region.creatures?.length || 0}</span>
-              </li>
+              </button></li>
             ))}
           </ul>
-        </div>
+        </nav>
 
         {/* Main Content Area */}
         <div className="bestiary-main">
           {currentCreature ? (
-            <div className="bestiary-detail fade-in">
-              <button className="bestiary-back-btn" onClick={handleBack}>
-                <i className="fas fa-arrow-left"></i> Back to {currentRegion.name}
-              </button>
-
-              {/* Creature Banner Header */}
-              <div className="bestiary-detail-header">
-                <div className="bestiary-detail-title-group">
-                  <h2 className="bestiary-detail-name">{currentCreature.name}</h2>
-                  <span
-                    className="bestiary-detail-badge"
-                    style={{ 
-                      backgroundColor: (DANGER_COLORS[currentCreature.dangerLevel] || DANGER_COLORS.Medium).bg, 
-                      color: (DANGER_COLORS[currentCreature.dangerLevel] || DANGER_COLORS.Medium).text 
-                    }}
-                  >
-                    {currentCreature.dangerLevel} Danger
-                  </span>
-                </div>
-                <p className="bestiary-detail-role">
-                  <i className="fas fa-shield-halved bestiary-header-shield-icon"></i> {currentCreature.role}
-                </p>
+            <article className="bestiary-detail" aria-labelledby="bestiary-creature-name" ref={entryRef}>
+              <div className="bestiary-folio-toolbar">
+                <button className="bestiary-back-btn" onClick={handleBack}>
+                  <i className="fas fa-arrow-left" aria-hidden="true"></i> Back to {selectedRegion === 'all' ? 'All Regions' : currentRegion.name}
+                </button>
+                <nav className="bestiary-chapter-nav" aria-label="Creature entry sections">
+                  <a href="#bestiary-lore">Lore &amp; legends</a>
+                  <a href="#bestiary-combat">Stat block</a>
+                  <a href="#bestiary-tactics">Encounters</a>
+                </nav>
               </div>
 
               {/* Double Column Journal Page */}
               <div className="bestiary-detail-body">
                 {/* Column 1: Portrait & Quick Stats */}
                 <div className="bestiary-portrait-col">
-                  {currentCreature.illustration ? (
-                    <div className="bestiary-detail-illustration">
-                      <div className="bestiary-portrait-frame">
-                        <img
-                          src={currentCreature.illustration}
-                          alt={currentCreature.illustrationCaption || currentCreature.name}
-                          loading="lazy"
-                          decoding="async"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                      {currentCreature.illustrationCaption && (
-                        <div className="bestiary-detail-caption">
-                          <i className="fas fa-camera-retro"></i> {currentCreature.illustrationCaption}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="bestiary-detail-illustration fallback-avatar">
-                      <div className="bestiary-portrait-frame empty">
-                        <i className={`fas ${REGION_ICONS[currentRegion.id] || 'fa-globe'} fallback-icon`}></i>
-                        <span>No sketch available</span>
-                      </div>
-                    </div>
-                  )}
+                  <BestiaryIllustration key={currentCreature.id} creature={currentCreature} regionIcon={REGION_ICONS[currentRegion.id]} />
 
                   {/* Quick Stats Panel */}
                   {currentCreature.stats && (
                     <div className="bestiary-quick-stats-card">
                       <h4 className="bestiary-quick-stats-title">
-                        <i className="fas fa-heart-pulse"></i> Vital Statistics
+                        <i className="fas fa-heart-pulse" aria-hidden="true"></i> At a glance
                       </h4>
                       <div className="bestiary-quick-stats-grid">
                         <div className="bestiary-quick-stat-item hp">
-                          <span className="label">HP</span>
+                          <span className="label">Hit points</span>
                           <span className="value">{currentCreature.stats.maxHp}</span>
                         </div>
                         {currentCreature.stats.maxMana > 0 ? (
@@ -674,11 +657,11 @@ const BestiaryDisplay = () => {
                         ) : (
                           <div className="bestiary-quick-stat-item mana disabled">
                             <span className="label">Mana</span>
-                            <span className="value">-</span>
+                            <span className="value">—</span>
                           </div>
                         )}
                         <div className="bestiary-quick-stat-item ap">
-                          <span className="label">AP Limit</span>
+                          <span className="label">Action points</span>
                           <span className="value">{currentCreature.stats.maxActionPoints}</span>
                         </div>
                         <div className="bestiary-quick-stat-item speed">
@@ -696,132 +679,72 @@ const BestiaryDisplay = () => {
                   )}
                 </div>
 
-                {/* Column 2: Tabbed Details */}
-                <div className="bestiary-tabs-col">
-                  {/* Tab Buttons (Desktop) */}
-                  <div className="bestiary-tabs-navigation bestiary-tabs-desktop">
-                    {bestiaryTabs.map(tab => (
-                      <button 
-                        key={tab.id}
-                        className={`bestiary-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-                        onClick={() => setActiveTab(tab.id)}
-                      >
-                        <i className={tab.icon}></i> {tab.label}
-                      </button>
-                    ))}
-                  </div>
+                <div className="bestiary-lore-col">
+                  <header className="bestiary-detail-header">
+                    <div className="bestiary-detail-title-group">
+                      <h2 className="bestiary-detail-name" id="bestiary-creature-name" tabIndex={-1}>{currentCreature.name}</h2>
+                      <span className="bestiary-detail-badge" style={{ '--danger-color': (DANGER_COLORS[currentCreature.dangerLevel] || DANGER_COLORS.Medium).bg }}>
+                        {currentCreature.dangerLevel} danger
+                      </span>
+                    </div>
+                    <p className="bestiary-detail-role">{readLoreText(currentCreature.role).replace(/\s*\/\s*/g, ' / ')}</p>
+                    {currentCreature.description && (
+                      <p className="bestiary-detail-summary"><InlineMarkdown text={currentCreature.description} /></p>
+                    )}
+                  </header>
 
-                  {/* Responsive Tab Dropdown Selector (Laptops, Tablets, iPads) */}
-                  {(() => {
-                    const currentTabObj = bestiaryTabs.find(t => t.id === activeTab) || bestiaryTabs[0];
-                    return (
-                      <div className="bestiary-tab-dropdown-wrapper" ref={bestiaryTabDropdownRef}>
-                        <button
-                          className={`bestiary-tab-dropdown-btn ${isBestiaryTabDropdownOpen ? 'open' : ''}`}
-                          onClick={() => setIsBestiaryTabDropdownOpen(prev => !prev)}
-                          aria-expanded={isBestiaryTabDropdownOpen}
-                          aria-haspopup="true"
-                          title="Select creature section"
-                        >
-                          <i className={currentTabObj.icon}></i>
-                          <span className="bestiary-tab-dropdown-label">{currentTabObj.label}</span>
-                          <i className={`fas fa-chevron-down bestiary-tab-dropdown-chevron ${isBestiaryTabDropdownOpen ? 'rotated' : ''}`}></i>
-                        </button>
-                        {isBestiaryTabDropdownOpen && (
-                          <div className="bestiary-tab-dropdown-menu">
-                            {bestiaryTabs.map(tab => (
-                              <button
-                                key={tab.id}
-                                className={`bestiary-tab-dropdown-item ${activeTab === tab.id ? 'active' : ''}`}
-                                onClick={() => {
-                                  setActiveTab(tab.id);
-                                  setIsBestiaryTabDropdownOpen(false);
-                                }}
-                              >
-                                <i className={tab.icon}></i>
-                                <span>{tab.label}</span>
-                                {activeTab === tab.id && <i className="fas fa-check checkmark"></i>}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })()}
-
-                  {/* Tab 1 Content: Lore & Legends */}
-                  {activeTab === 'lore' && (
-                    <div className="bestiary-tab-content fade-in">
+                  <section className="bestiary-folio-chapter bestiary-lore-chapter" id="bestiary-lore" tabIndex={-1} aria-label="Lore and legends">
                       {loreOrigin && (
-                        <div className="bestiary-lore-section scroll-bg">
-                          <h4><i className="fas fa-feather-pointed"></i> Mythic Provenance</h4>
-                          <p>{loreOrigin}</p>
-                        </div>
-                      )}
-
-                      {hasLayerMetadata && (
-                        <div className="bestiary-lore-section bestiary-heritage-section">
-                          <h4><i className="fas fa-layer-group"></i> Mythrill Layer</h4>
-                          {loreClassificationRows.map(([label, value]) => (
-                            <p key={label} className="bestiary-heritage-text">
-                              <strong>{label}:</strong> {value}
-                            </p>
-                          ))}
-                          {loreNote && (
-                            <p className="bestiary-heritage-text">
-                              <strong>Canon note:</strong> {loreNote}
-                            </p>
-                          )}
+                        <div className="bestiary-lore-section">
+                          <h4>Origins</h4>
+                          <p><InlineMarkdown text={loreOrigin} /></p>
                         </div>
                       )}
 
                       {loreFolklore && (
                         <div className="bestiary-lore-section">
-                          <h4><i className="fas fa-book-open"></i> Folklore Record</h4>
-                          <p>{loreFolklore}</p>
+                          <h4>Lore &amp; legends</h4>
+                          <p><InlineMarkdown text={loreFolklore} /></p>
                         </div>
                       )}
 
                       {loreFunction && (
                         <div className="bestiary-lore-section">
-                          <h4><i className="fas fa-dragon"></i> Nature &amp; World Function</h4>
-                          <p>{loreFunction}</p>
+                          <h4>Nature &amp; purpose</h4>
+                          <p><InlineMarkdown text={loreFunction} /></p>
                         </div>
                       )}
 
                       {currentCreature.habitat && (
                         <div className="bestiary-lore-section">
-                          <h4><i className="fas fa-map-location-dot"></i> Habitat</h4>
-                          <p>{currentCreature.habitat}</p>
+                          <h4>Habitat</h4>
+                          <p><InlineMarkdown text={currentCreature.habitat} /></p>
                         </div>
                       )}
 
                       {loreValues && (
                         <div className="bestiary-lore-section">
-                          <h4><i className="fas fa-shield-heart"></i> Values &amp; Guardianship</h4>
-                          <p>{loreValues}</p>
+                          <h4>Values &amp; guardianship</h4>
+                          <p><InlineMarkdown text={loreValues} /></p>
                         </div>
                       )}
 
                       {loreBindingEffect && (
                         <div className="bestiary-lore-section">
-                          <h4><i className="fas fa-temperature-half"></i> Binding &amp; Warmth History</h4>
-                          <p>{loreBindingEffect}</p>
+                          <h4>After the Binding</h4>
+                          <p><InlineMarkdown text={loreBindingEffect} /></p>
                         </div>
                       )}
 
                       {hasTruthBeneath && (
                         <div className="bestiary-lore-section bestiary-depth">
-                          <h4>
-                            <i className={`fas ${cosmicWyrd ? 'fa-sparkles' : 'fa-mask-cat'}`}></i>
-                            {cosmicWyrd ? ' Wyrd Ecology' : ' The Truth Beneath'}
-                          </h4>
-                          {loreWyrdRelationship && <p>{loreWyrdRelationship}</p>}
+                          <h4>{cosmicWyrd ? 'Wyrd ecology' : 'Relationship with the Wyrd'}</h4>
+                          {loreWyrdRelationship && <p><InlineMarkdown text={loreWyrdRelationship} /></p>}
                           {cosmicLoreRows.length > 0 && (
                             <div className="bestiary-wyrd-ecology-details">
                               {cosmicLoreRows.map(([label, value]) => (
                                 <p key={label}>
-                                  <strong>{label}:</strong> {value}
+                                  <strong>{label}:</strong> <InlineMarkdown text={value} />
                                 </p>
                               ))}
                             </div>
@@ -829,23 +752,30 @@ const BestiaryDisplay = () => {
                         </div>
                       )}
 
-                      {/* Real-World Folklore & Cryptid Inspiration Section */}
+                      {hasLayerMetadata && (
+                        <details className="bestiary-source-notes">
+                          <summary>Archivist's notes</summary>
+                          <dl className="bestiary-classification">
+                            {loreClassificationRows.map(([label, value]) => (
+                              <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
+                            ))}
+                          </dl>
+                          {loreNote && <p><InlineMarkdown text={loreNote} /></p>}
+                        </details>
+                      )}
+
                       {currentCreature.folkloreInspiration && (
-                        <div className="bestiary-lore-section bestiary-folklore-card">
+                        <details className="bestiary-source-notes bestiary-folklore-card">
+                          <summary>Folklore &amp; inspirations</summary>
                           <div className="bestiary-folklore-header">
-                            <h4>
-                              <i className="fas fa-book-journal-whills"></i> Real-World Folklore &amp; Cryptid Roots
-                            </h4>
                             {currentCreature.folkloreInspiration.cryptidRoots && (
-                              <span className="bestiary-folklore-archetype-badge">
-                                <i className="fas fa-paw"></i> {currentCreature.folkloreInspiration.cryptidRoots}
-                              </span>
+                              <p className="bestiary-folklore-archetype-badge">{currentCreature.folkloreInspiration.cryptidRoots}</p>
                             )}
                           </div>
 
                           {currentCreature.folkloreInspiration.primaryMyth && (
                             <div className="bestiary-folklore-primary-myth">
-                              <span className="bestiary-folklore-label-tag">Mythological Root:</span>
+                              <span className="bestiary-folklore-label-tag">Mythic roots:</span>
                               <span className="bestiary-folklore-myth-name">{currentCreature.folkloreInspiration.primaryMyth}</span>
                             </div>
                           )}
@@ -854,7 +784,7 @@ const BestiaryDisplay = () => {
                             <div className="bestiary-folklore-traditions-row">
                               {currentCreature.folkloreInspiration.traditions.map((t, idx) => (
                                 <span key={idx} className="bestiary-folklore-tradition-pill">
-                                  <i className="fas fa-globe-americas"></i> {t}
+                                  {t}
                                 </span>
                               ))}
                             </div>
@@ -869,25 +799,25 @@ const BestiaryDisplay = () => {
                           {currentCreature.folkloreInspiration.settingAdaptation && (
                             <div className="bestiary-folklore-adaptation-box">
                               <h5>
-                                <i className="fas fa-feather-pointed"></i> Mythrill Adaptation &amp; Subversion
+                                In Mythrill
                               </h5>
                               <p><InlineMarkdown text={currentCreature.folkloreInspiration.settingAdaptation} /></p>
                             </div>
                           )}
-                        </div>
+                        </details>
                       )}
-                    </div>
-                  )}
+                  </section>
+                </div>
+              </div>
 
-                  {/* Tab 2 Content: Combat Statistics */}
-                  {activeTab === 'combat' && (
-                    <div className="bestiary-tab-content fade-in">
+                  <section className="bestiary-folio-chapter bestiary-combat-chapter" id="bestiary-combat" tabIndex={-1} aria-labelledby="bestiary-stat-title">
+                    <h3 className="bestiary-chapter-title" id="bestiary-stat-title">Stat block</h3>
                       {currentCreature.stats ? (
                         <>
                           {/* Attributes Shield Grid */}
                           <div className="bestiary-attributes-section">
                             <h4 className="bestiary-section-subtitle">
-                              <i className="fas fa-shield"></i> Core Attributes
+                               Core attributes
                             </h4>
                             <div className="bestiary-attr-shield-grid">
                               {Object.entries(ATTR_LABELS).map(([key, attr]) => {
@@ -897,7 +827,7 @@ const BestiaryDisplay = () => {
                                   <div key={key} className="bestiary-attr-shield" title={attr.desc}>
                                     <div className="bestiary-attr-title">{attr.short}</div>
                                     <div className="bestiary-attr-score">{score}</div>
-                                    <div className="bestiary-attr-mod-badge">{formatModifier(mod)}</div>
+                                     <div className="bestiary-attr-mod-badge">{formatModifier(mod)} modifier</div>
                                     <div className="bestiary-attr-fullname">{attr.full}</div>
                                   </div>
                                 );
@@ -908,7 +838,7 @@ const BestiaryDisplay = () => {
                           {/* Senses and Sights */}
                           <div className="bestiary-senses-section">
                             <h4 className="bestiary-section-subtitle">
-                              <i className="fas fa-eye"></i> Senses & Sights
+                               Senses
                             </h4>
                             <div className="bestiary-senses-grid">
                               <div className="bestiary-sense-item">
@@ -933,7 +863,7 @@ const BestiaryDisplay = () => {
                           {/* Colored Resistances and Vulnerabilities */}
                           <div className="bestiary-resistances-section">
                             <h4 className="bestiary-section-subtitle">
-                              <i className="fas fa-shield-heart"></i> Resistances &amp; Weaknesses
+                               Resistances &amp; weaknesses
                             </h4>
                             <div className="bestiary-res-container">
                               {/* Resistances */}
@@ -963,19 +893,17 @@ const BestiaryDisplay = () => {
                         </>
                       ) : (
                         <div className="bestiary-no-stats">
-                          <i className="fas fa-triangle-exclamation"></i> No mechanical statistics have been configured for this entity.
+                           No stat block is recorded for this creature yet.
                         </div>
                       )}
-                    </div>
-                  )}
+                  </section>
 
-                  {/* Tab 3 Content: Tactics & Actions */}
-                  {activeTab === 'tactics' && (
-                    <div className="bestiary-tab-content fade-in">
+                  <section className="bestiary-folio-chapter bestiary-encounter-chapter" id="bestiary-tactics" tabIndex={-1} aria-labelledby="bestiary-encounter-title">
+                    <h3 className="bestiary-chapter-title" id="bestiary-encounter-title">Encounters</h3>
                       {currentCreature.combat && (
                         <div className="bestiary-tactics-section">
                           <h4 className="bestiary-section-subtitle">
-                            <i className="fas fa-chess-board"></i> Combat Behavior &amp; Abilities
+                             Tactics &amp; abilities
                           </h4>
                           <div className="bestiary-narrative-mechanics-card">
                             <p>{formattedCombatMechanics}</p>
@@ -986,23 +914,23 @@ const BestiaryDisplay = () => {
                       {currentCreature.hooks && currentCreature.hooks.length > 0 && (
                         <div className="bestiary-tactics-section">
                           <h4 className="bestiary-section-subtitle">
-                            <i className="fas fa-compass-drafting"></i> GM Adventure Hooks
+                             Adventure hooks
                           </h4>
                           <ul className="bestiary-adventure-hooks">
                             {currentCreature.hooks.map((hook, i) => (
                               <li key={i} className="bestiary-hook-card">
                                 <div className="bestiary-hook-number">Hook {i + 1}</div>
-                                <div className="bestiary-hook-content">{hook}</div>
+                                 <div className="bestiary-hook-content"><InlineMarkdown text={hook} /></div>
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+                    {!currentCreature.combat && !currentCreature.hooks?.length && (
+                      <p className="bestiary-no-stats">No encounter notes are recorded for this creature yet.</p>
+                    )}
+                  </section>
+            </article>
           ) : (
             <>
               {/* Continent Overview Title & Active Search Info */}
@@ -1027,6 +955,7 @@ const BestiaryDisplay = () => {
                       type="text"
                       className="bestiary-search-input"
                       placeholder="Search creatures by name, role, folklore, or keywords..."
+                      aria-label="Search the bestiary"
                       value={searchQuery}
                       onChange={handleSearchChange}
                     />

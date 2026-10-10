@@ -141,7 +141,7 @@ export const SHAPER_DATA = {
   worldFriction: [
     { region: 'frostwood-reach', status: 'distrusted', consequence: 'House Thalreth outlaws shape-shifting outside licensed Mimir actors, fearing that unregistered form-shifting is used by spies to bypass the Scribe-Cartel registries.', workaround: 'Shapers hide their transformations under massive, fur-lined cloaks, utilizing the constant mist to mask the flash of biological shift.' },
     { region: 'cragjaw-peaks', location: 'frostmaw_holdfast', status: 'celebrated', consequence: 'At Frostmaw, the Shaping Hall is a respected institution founded by Morgh elders after Torin\'s act of reclamation. Shapers are honored as those who turned the Deep Alchemists\' violation into choice. Groven and Mimir Shapers receive lodging, training-access, and the protection of the Form-Convergence.' },
-    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Athien pact-lords view form-altering as a breach of contractual identity. A Shaper who alters their physical signature to avoid a contract is branded as an Identity Thief and hunted by Debt-Revenants.', workaround: 'Shapers operate in the Over-Shanty, selling physical labor under temporary forms that have no legal names written in the First Contract.' }
+    { region: 'bryngloom-forest', status: 'persecuted', consequence: 'The Athien pact-lords view form-altering as a breach of contractual identity. A Shaper who alters their physical signature to avoid a contract is branded as an Identity Thief and hunted by Vezan.', workaround: 'Shapers operate in the Over-Shanty, selling physical labor under temporary forms that have no legal names written in the First Contract.' }
   ],
 
   overview: {

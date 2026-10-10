@@ -77,11 +77,22 @@ const parseInlineTokens = (rawText, onEntityHover, onEntityLeave, onEntityClick)
           data-section={section || ''}
           onMouseEnter={(e) => onEntityHover(target, e, isResolved)}
           onMouseLeave={onEntityLeave}
+          onFocus={(e) => onEntityHover(target, e, isResolved)}
+          onBlur={onEntityLeave}
+          role="button"
+          tabIndex={0}
+          aria-label={isResolved ? `Open ${displayText}` : `Create ${displayText}`}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+              onEntityClick(target, isResolved, section);
+            }
+          }}
           onClick={(e) => {
             e.stopPropagation();
             onEntityClick(target, isResolved, section);
           }}
-          title={isResolved ? `Navigate to ${target}` : `"${target}" (Not yet defined - click to create)`}
         >
           <i className={`fas ${isResolved ? 'fa-bookmark' : 'fa-feather-pointed'} wikilink-icon`}></i>
           {displayText}
@@ -591,9 +602,12 @@ const RichLoreText = ({
   const handleEntityHover = (name, e) => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     const rect = e.currentTarget.getBoundingClientRect();
+    const manuscript = e.currentTarget.closest('.book-manuscript');
+    const bookTheme = manuscript ? [...manuscript.classList].find((name) => name.startsWith('theme-')) : null;
     setHoverState({
       active: true,
       name,
+      className: manuscript ? `book-entity-hovercard ${bookTheme || 'theme-parchment'}` : '',
       pos: {
         x: rect.left,
         y: rect.bottom,
@@ -665,7 +679,7 @@ const RichLoreText = ({
           </div>
         </div>
         <div className="rich-block-body">
-          {renderStructuredBlockContent(currentBlockType, currentBlockLines, handleEntityHover, handleEntityLeave, onEntityClick)}
+          {renderStructuredBlockContent(currentBlockType, currentBlockLines, handleEntityHover, handleEntityLeave, handleSmartEntityClick)}
         </div>
       </div>
     );
@@ -748,6 +762,7 @@ const RichLoreText = ({
       
       {hoverState.active && ReactDOM.createPortal(
         <EntityHovercard
+          className={hoverState.className}
           entityName={hoverState.name}
           position={hoverState.pos}
           onClose={() => setHoverState({ active: false, name: '', pos: null })}

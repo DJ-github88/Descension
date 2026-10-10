@@ -11540,50 +11540,31 @@ select.lore-field-input option,
     font-size: 1.1rem;
 }
 
-/* Pixel Art Icons for Classes */
+/* Deckled Parchment Card Icons for Classes */
 .class-pixel-icon,
 .class-card-icon-container .class-icon-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     image-rendering: auto;
-    mix-blend-mode: multiply;
-    filter: brightness(1.05) contrast(1.1);
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
     transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
         filter 0.35s ease;
     will-change: transform;
     contain: layout style;
-    /* Radial mask: fades the parchment border and white box out */
-    -webkit-mask-image: radial-gradient(circle at center,
-            black 45%,
-            rgba(0, 0, 0, 0.85) 55%,
-            rgba(0, 0, 0, 0.5) 68%,
-            transparent 78%);
-    mask-image: radial-gradient(circle at center,
-            black 45%,
-            rgba(0, 0, 0, 0.85) 55%,
-            rgba(0, 0, 0, 0.5) 68%,
-            transparent 78%);
+    -webkit-mask-image: none;
+    mask-image: none;
 }
 
 .character-wizard-container .class-card:hover .class-pixel-icon,
 .character-wizard-container .class-card:hover .class-card-icon-container .class-icon-img {
-    transform: scale(1.8);
-    /* Keep multiply: boost brightness to compensate */
-    mix-blend-mode: multiply;
-    filter: brightness(1.2) contrast(1.15) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+    transform: scale(1.15) rotate(1deg);
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5)) brightness(1.05);
     z-index: 100;
-    /* Slightly expand mask on hover to show more art */
-    -webkit-mask-image: radial-gradient(circle at center,
-            black 50%,
-            rgba(0, 0, 0, 0.9) 60%,
-            rgba(0, 0, 0, 0.55) 72%,
-            transparent 82%);
-    mask-image: radial-gradient(circle at center,
-            black 50%,
-            rgba(0, 0, 0, 0.9) 60%,
-            rgba(0, 0, 0, 0.55) 72%,
-            transparent 82%);
+    -webkit-mask-image: none;
+    mask-image: none;
 }
 
 .class-card-icon-container {
@@ -12074,43 +12055,46 @@ select.lore-field-input option,
     aspect-ratio: 1 / 1 !important;
     width: 100% !important;
     height: auto !important;
-    padding: 0.2rem !important;
-    border: 1px solid rgba(153, 126, 85, 0.45) !important;
-    border-radius: 6px;
-    background: #faf6eb !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
     cursor: pointer;
     position: relative;
     transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     box-sizing: border-box !important;
+    box-shadow: none !important;
 }
 
 .class-icon-token:hover {
-    border-color: #8b7355 !important;
-    background: rgba(252, 249, 240, 0.95) !important;
-    transform: scale(1.08);
-    box-shadow: 0 4px 10px rgba(153, 126, 85, 0.2) !important;
+    border: none !important;
+    background: transparent !important;
+    transform: scale(1.06) rotate(1deg);
+    filter: drop-shadow(0 6px 14px rgba(46, 30, 15, 0.45)) !important;
+    box-shadow: none !important;
     z-index: 2;
 }
 
 .class-icon-token.selected {
-    border-color: #5a3d1d !important;
-    border-width: 1.5px !important;
-    background: #fdf8ef !important;
-    box-shadow: 0 0 12px rgba(153, 126, 85, 0.45) !important;
+    border: none !important;
+    background: transparent !important;
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 10px rgba(184, 124, 28, 0.85)) drop-shadow(0 4px 12px rgba(46, 30, 15, 0.5)) !important;
+    box-shadow: none !important;
 }
 
 .class-pixel-icon-token {
-    width: 95% !important;
-    height: 95% !important;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: contain !important;
-    border-radius: 4px;
+    border-radius: 0 !important;
     transition: transform 0.2s ease;
-    -webkit-mask-image: radial-gradient(circle at center, black 65%, rgba(0, 0, 0, 0.9) 75%, transparent 95%) !important;
-    mask-image: radial-gradient(circle at center, black 65%, rgba(0, 0, 0, 0.9) 75%, transparent 95%) !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
 }
 
 .class-icon-token:hover .class-pixel-icon-token {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .disabled-lock {
@@ -13465,6 +13449,9 @@ select.lore-field-input option,
     width: 20px !important;
     height: 20px !important;
     object-fit: contain !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Grimoire Stacked Sections (all lore on one scrollable page) */
@@ -13787,12 +13774,15 @@ select.lore-field-input option,
 }
 
 .grimoire-header-pixel-icon {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 4px !important;
+    width: 40px !important;
+    height: 40px !important;
     object-fit: contain !important;
     display: inline-block !important;
     vertical-align: middle !important;
+    margin-right: 8px !important;
+    filter: drop-shadow(0 2px 4px rgba(46, 30, 15, 0.35)) !important;
+    background: transparent !important;
+    border: none !important;
 }
 
 .grimoire-header-crest {
@@ -14341,7 +14331,7 @@ select.lore-field-input option,
     width: 26px;
     height: 26px;
     object-fit: contain;
-    mix-blend-mode: multiply;
+    mix-blend-mode: normal;
 }
 
 .visual-class-info-block {
@@ -14353,9 +14343,9 @@ select.lore-field-input option,
 .visual-class-icon-container {
     width: 60px;
     height: 60px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(212, 175, 55, 0.3);
-    background: rgba(212, 175, 55, 0.08);
+    border-radius: 4px;
+    border: none;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14364,21 +14354,21 @@ select.lore-field-input option,
 }
 
 .visual-class-pixel-icon {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     object-fit: contain;
     image-rendering: auto;
-    mix-blend-mode: multiply;
-    filter: brightness(1.05) contrast(1.1);
-    -webkit-mask-image: radial-gradient(circle at center, black 45%, rgba(0, 0, 0, 0.85) 55%, rgba(0, 0, 0, 0.5) 68%, transparent 78%);
-    mask-image: radial-gradient(circle at center, black 45%, rgba(0, 0, 0, 0.85) 55%, rgba(0, 0, 0, 0.5) 68%, transparent 78%);
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+    -webkit-mask-image: none;
+    mask-image: none;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .visual-class-info-block:hover .visual-class-pixel-icon {
-    transform: scale(1.4);
-    mix-blend-mode: multiply;
-    filter: brightness(1.15) contrast(1.15);
+    transform: scale(1.15) rotate(1deg);
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5)) brightness(1.05);
 }
 
 .visual-class-details {
@@ -15029,6 +15019,17 @@ select.lore-field-input option,
 /* Ensure content has clearance at bottom for floating orb */
 .character-wizard-container .wizard-content {
     padding-bottom: 80px !important;
+}
+
+/* Step 1 Hero Draft uses a full-height 3-column layout where the left (Callings/Lineages)
+   and right (Grimoire) panels extend all the way down with symmetric 1rem margins matching the top.
+   The center dossier panel maintains its bottom padding clearance for the floating orb. */
+.character-wizard-container .wizard-content.step-1 {
+    padding-bottom: 0 !important;
+}
+
+.character-wizard-container .wizard-content.step-1 .canvas-panel-center {
+    padding-bottom: 72px !important;
 }
 
 @media (max-width: 768px) {

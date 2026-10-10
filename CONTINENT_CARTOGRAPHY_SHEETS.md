@@ -12,7 +12,7 @@
 | Pin | x | y | Type | Name |
 |---|---|---|---|---|
 | ⚰ | 480 | 280 | tomb | The Frozen Archive |
-| 🏚 | 380 | 420 | ruin | Rimor's Hearth |
+| 🏚 | 380 | 420 | ruin | Rimvald's Hearth |
 | 📍 | 980 | 180 | wilderness | Hunger Glaciers |
 | 📍 | 1120 | 200 | wilderness | Skadi's Col |
 | 📍 | 620 | 560 | wilderness | Þögn |
@@ -135,7 +135,7 @@
 | 🏠 | 2526 | 1612 | settlement | Martyr-Brigade Work-Camp |
 | 🛡 | 2466 | 1632 | fortification | Obsidian Citadel Tollgate |
 | 🏠 | 1426 | 1662 | settlement | Wharf-Dealer's Row |
-| 🕳 | 1366 | 1682 | wilderness | The Cinder Strait |
+| 🕳 | 1366 | 1682 | wilderness | Kavur Strait |
 | 🛡 | 1324 | 1685 | fortification | Sun-Keep |
 
 ---
@@ -182,7 +182,7 @@
 | Pin | x | y | Type | Name |
 |---|---|---|---|---|
 | 🏰 | 302 | 1853 | city | Saryreach Castle |
-| ⚓ | 643 | 1853 | wilderness | Blackteeth Skerry |
+| ⚓ | 643 | 1853 | wilderness | Blackteeth Skarvarr |
 | 🏠 | 983 | 1853 | settlement | Tide-Court Cove |
 
 ### ▌ The Saltmaw Estuary Marshes *(subregion)*
@@ -288,7 +288,7 @@
 | 📍 | 3550 | 2500 | wilderness | The Long Steppe |
 | 📍 | 2800 | 2500 | wilderness | Grass Tundra Steppe |
 | 📍 | 2600 | 2700 | wilderness | Kumis Downs |
-| 📍 | 2700 | 2900 | wilderness | Lien-Stalked Grazes |
+| 📍 | 2700 | 2900 | wilderness | Lienvar-Stalked Grazes |
 | 🏠 | 3050 | 2650 | settlement | Mound-Camps |
 | 🏚 | 3400 | 2950 | ruin | The Unlit Knoll |
 
@@ -339,9 +339,9 @@
 | 🏠 | 3326 | 2862 | settlement | Crystal-Lattice Spire-Dwelling |
 | ⭐ | 3135 | 2870 | wilderness | Frostwood-Thalren Meeting-Stones |
 | 🏚 | 3266 | 2882 | ruin | The Unlit-Veil Judgment-Seat |
-| ⭐ | 3926 | 2912 | wilderness | Qilin Grazing-Ground |
+| ⭐ | 3926 | 2912 | wilderness | Qilan Grazing-Ground |
 | 🏠 | 3347 | 2914 | settlement | Echo-Singer Death-Camp |
-| ⭐ | 3866 | 2932 | wilderness | Lien-Crystal Beacon |
+| ⭐ | 3866 | 2932 | wilderness | Lienvar-Crystal Beacon |
 | ⭐ | 3243 | 2940 | wilderness | The Wind-Neck |
 | ⭐ | 2726 | 2962 | wilderness | The Dry-Aquifer Beds |
 | 🏚 | 2959 | 2968 | ruin | The Mound-Eater Scar |

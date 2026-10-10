@@ -331,22 +331,28 @@
   color: #8a1a10;
 }
 
-/* Custom scrollbar for dark sidebar */
-.rules-nav::-webkit-scrollbar {
-  width: 6px;
-}
+/* Desktop icon rail: no visible scrollbar at all — the column scrolls by
+   wheel/touch. Soft fades at the top/bottom edges replace the hard clip of a
+   half-scrolled icon. (scrollbar-width none covers Firefox, which otherwise
+   picks up the global thin brown scrollbar from index.css; the ::-webkit
+   rules cover Chromium/WebKit.) */
+@media (min-width: 769px) {
+  .rules-nav,
+  .rules-nav.collapsed {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+  }
 
-.rules-nav::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.2);
-}
-
-.rules-nav::-webkit-scrollbar-thumb {
-  background: #3e2719;
-  border-radius: 3px;
-}
-
-.rules-nav::-webkit-scrollbar-thumb:hover {
-  background: #c4a060;
+  .rules-nav::-webkit-scrollbar,
+  .rules-nav.collapsed::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
 }
 
 /* Category Buttons - Vintage Brass Drawer Handles Vibe */
@@ -613,9 +619,9 @@
 
 /* Top Bar */
 .rules-top-bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
   padding: 0 24px 0 32px;
   min-height: 48px;
@@ -640,7 +646,7 @@
   letter-spacing: 1.2px;
   text-transform: uppercase;
   color: #c4a060;
-  flex: 1;
+  justify-self: start;
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
@@ -714,27 +720,40 @@
   color: #c9a6e8;
 }
 
-/* ===== THE TWO TOMES — Laws / Lore switcher ===== */
+/* ===== THE TWO TOMES — Laws / Lore switcher =====
+   A miniature open book: two facing pages meeting at a gold-stitched spine.
+   The active tome is the lit parchment page; the inactive one is its dark
+   leather cover waiting to be turned. */
 .rules-tome-switcher {
   display: inline-flex;
-  align-items: center;
-  height: 34px;
+  align-items: stretch;
+  justify-self: center;
+  height: 36px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, #2b1710 0%, #170c06 100%);
-  border: 1px solid rgba(196, 160, 96, 0.45);
-  border-radius: 999px;
+  position: relative;
+  background: linear-gradient(180deg, #1c0f08 0%, #100704 100%);
+  border: 1px solid rgba(196, 160, 96, 0.5);
+  border-radius: 8px;
   padding: 3px;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.65),
+    0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Desktop tabs share one width so the open page never changes the
+   switcher's size when toggling Laws <-> Lore. */
+.rules-tome-switcher-desktop .rules-tome-tab {
+  min-width: 100px;
+  justify-content: center;
 }
 
 .rules-tome-tab {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  height: 100%;
-  padding: 0 15px;
-  border: none;
-  border-radius: 999px;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid transparent;
   background: transparent;
   color: #c4a060;
   font-family: 'Cinzel', serif;
@@ -744,7 +763,18 @@
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 1;
+  transition: background 0.25s ease, color 0.2s ease, box-shadow 0.25s ease;
+}
+
+/* Pages sit on rounded outer corners and hug the spine on the inner edge */
+.rules-tome-tab:first-child {
+  border-radius: 6px 2px 2px 6px;
+}
+
+.rules-tome-tab:last-child {
+  border-radius: 2px 6px 6px 2px;
 }
 
 .rules-tome-tab i {
@@ -753,28 +783,59 @@
 
 .rules-tome-tab:hover {
   color: #fffbf2;
-  background: rgba(196, 160, 96, 0.14);
+  background: rgba(196, 160, 96, 0.1);
 }
 
+/* Active tome = the lit page (ruled lines over aged parchment) */
 .rules-tome-tab.active {
-  background: linear-gradient(180deg, #f3d67b 0%, #c9a227 100%);
-  color: #241407;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
-  box-shadow: 0 1px 5px rgba(212, 175, 55, 0.45);
+  background:
+    repeating-linear-gradient(180deg, rgba(139, 69, 19, 0.09) 0 1px, transparent 1px 6px),
+    linear-gradient(180deg, #f6e7c4 0%, #ecd39c 55%, #dcbc7c 100%);
+  border-color: rgba(196, 160, 96, 0.7);
+  color: #3b2410;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 5px rgba(139, 69, 19, 0.25),
+    0 1px 6px rgba(212, 175, 55, 0.3);
 }
 
+/* The open page curls into the gutter on its inner edge */
+.rules-tome-tab.active:first-child {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset -5px 0 6px -5px rgba(90, 50, 20, 0.55),
+    inset 0 -2px 5px rgba(139, 69, 19, 0.22),
+    0 1px 6px rgba(212, 175, 55, 0.35);
+}
+
+.rules-tome-tab.active:last-child {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 5px 0 6px -5px rgba(90, 50, 20, 0.55),
+    inset 0 -2px 5px rgba(139, 69, 19, 0.22),
+    0 1px 6px rgba(212, 175, 55, 0.35);
+}
+
+.rules-tome-tab:focus-visible {
+  outline: 1px solid #c4a060;
+  outline-offset: 1px;
+}
+
+/* Gold stitching down the book's spine */
 .rules-tome-spine {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 22px;
-  color: #8f6f35;
-  font-size: 0.62rem;
-  border-left: 1px solid rgba(196, 160, 96, 0.25);
-  border-right: 1px solid rgba(196, 160, 96, 0.25);
-  background: rgba(0, 0, 0, 0.28);
+  width: 13px;
   flex-shrink: 0;
+  background:
+    repeating-linear-gradient(180deg, rgba(196, 160, 96, 0.55) 0 3px, transparent 3px 7px)
+    center / 2px 100% no-repeat;
+}
+
+.rules-tome-spine i {
+  display: none;
 }
 
 /* Desktop keeps the switcher in the top bar; the strip-mounted variant only
@@ -2252,6 +2313,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   width: 270px;
   max-width: 320px;
   flex-shrink: 0;
+  justify-self: end;
 }
 
 .rules-header-quick-search:hover {

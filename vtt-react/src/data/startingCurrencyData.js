@@ -230,7 +230,7 @@ export const PATH_CURRENCY_MODIFIERS = {
         gold: 2,
         silver: 0,
         copper: 0,
-        description: 'Schratling bounty-tokens collected from the Scribe-Sentinels. Modest gains from hunting bounties'
+        description: 'Skraten bounty-tokens collected from the Scribe-Sentinels. Modest gains from hunting bounties'
     },
     
     arcanist: {

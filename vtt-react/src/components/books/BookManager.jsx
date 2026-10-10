@@ -4,6 +4,7 @@ import useAuthStore from '../../store/authStore';
 import BookDocumentEditor from './BookDocumentEditor';
 import BookDeleteModal from './BookDeleteModal';
 import './BookManager.css';
+import './BookAtmosphere.css';
 
 const THEME_LABELS = {
   parchment: 'Parchment',
@@ -11,6 +12,14 @@ const THEME_LABELS = {
   crimson: 'Crimson Tome',
   grimoire: 'Dark Grimoire',
   wildwood: 'Fey Wildwood'
+};
+
+const COVER_ICONS = {
+  parchment: 'fa-dragon',
+  royal: 'fa-crown',
+  crimson: 'fa-shield-halved',
+  grimoire: 'fa-moon',
+  wildwood: 'fa-leaf'
 };
 
 const formatRemainingTime = (trashedAt) => {
@@ -56,6 +65,7 @@ const NewBookForm = ({ onCreate, onCancel }) => {
       <input
         className="book-new-input"
         type="text"
+        aria-label="Book title"
         placeholder="Title — e.g. Bestiary of the Cragjaw Peaks, Realm of Greymark..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -66,6 +76,7 @@ const NewBookForm = ({ onCreate, onCancel }) => {
         className="book-new-input"
         type="text"
         placeholder="Subtitle (e.g. A Canonical Sourcebook for Descension)"
+        aria-label="Book subtitle"
         value={subtitle}
         onChange={(e) => setSubtitle(e.target.value)}
       />
@@ -73,6 +84,7 @@ const NewBookForm = ({ onCreate, onCancel }) => {
         className="book-new-input"
         type="text"
         placeholder="Author or Chronicle Keeper (optional)"
+        aria-label="Book author"
         value={author}
         onChange={(e) => setAuthor(e.target.value)}
       />
@@ -83,6 +95,7 @@ const NewBookForm = ({ onCreate, onCancel }) => {
             type="button"
             className={`theme-chip theme-${value} ${theme === value ? 'selected' : ''}`}
             onClick={() => setTheme(value)}
+            aria-pressed={theme === value}
           >
             {label}
           </button>
@@ -249,7 +262,7 @@ const BookManager = ({
   }
 
   return (
-    <div className="book-manager">
+    <div className="book-manager book-archive">
       {toastMessage && (
         <div className="book-toast">
           <i className="fas fa-circle-check"></i>
@@ -273,13 +286,14 @@ const BookManager = ({
             <input
               type="text"
               placeholder={currentTab === 'active' ? 'Search your library...' : 'Search trash can...'}
+              aria-label={currentTab === 'active' ? 'Search your library' : 'Search trash can'}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           {currentTab === 'active' ? (
             allowWrite && !inGameSession && (
-              <button type="button" className="book-new-btn" onClick={() => setShowNewForm((v) => !v)}>
+              <button type="button" className="book-new-btn" onClick={() => setShowNewForm((v) => !v)} aria-expanded={showNewForm}>
                 <i className="fas fa-plus"></i> New Book
               </button>
             )
@@ -304,6 +318,7 @@ const BookManager = ({
             type="button"
             className={`book-nav-tab ${currentTab === 'active' ? 'active' : ''}`}
             onClick={() => { setCurrentTab('active'); setShowNewForm(false); }}
+            aria-pressed={currentTab === 'active'}
           >
             <i className="fas fa-books"></i> Active Chronicles
             <span className="book-tab-badge">{normalizedBooks.length}</span>
@@ -313,6 +328,7 @@ const BookManager = ({
               type="button"
               className={`book-nav-tab ${currentTab === 'trash' ? 'active' : ''}`}
               onClick={() => { setCurrentTab('trash'); setShowNewForm(false); }}
+              aria-pressed={currentTab === 'trash'}
             >
               <i className="fas fa-trash-can"></i> Trash Can
               {trashedBooks.length > 0 ? (
@@ -356,16 +372,20 @@ const BookManager = ({
                   if (!isTrashed) setActiveBook(book.id);
                 }}
                 role={!isTrashed ? 'button' : undefined}
+                aria-label={!isTrashed ? `Open ${book.title}` : undefined}
                 tabIndex={!isTrashed ? 0 : undefined}
                 onKeyDown={(e) => {
-                  if (!isTrashed && e.key === 'Enter') setActiveBook(book.id);
+                  if (!isTrashed && (e.key === 'Enter' || e.key === ' ')) {
+                    e.preventDefault();
+                    setActiveBook(book.id);
+                  }
                 }}
               >
                 <div className="book-card-cover">
                   {book.coverImage
                     ? <img src={book.coverImage} alt="" className="book-cover-img" />
-                    : <div className="book-cover-ornament"><i className={isTrashed ? 'fas fa-book-skull' : 'fas fa-dragon'}></i></div>}
-                  <div className="book-card-title">{book.title}</div>
+                    : <div className="book-cover-ornament" aria-hidden="true"><i className={`fas ${isTrashed ? 'fa-book-skull' : COVER_ICONS[book.theme] || 'fa-dragon'}`}></i></div>}
+                  <h3 className="book-card-title">{book.title}</h3>
                   {book.subtitle && <div className="book-card-subtitle">{book.subtitle}</div>}
                   {book.author && <div className="book-card-author">by {book.author}</div>}
                 </div>
@@ -398,18 +418,20 @@ const BookManager = ({
                     <button
                       type="button"
                       title={allowWrite && !inGameSession ? "Read / Edit Book" : "Read Chronicle"}
+                      aria-label={allowWrite && !inGameSession ? `Read / edit ${book.title}` : `Read ${book.title}`}
                       onClick={() => setActiveBook(book.id)}
                     >
                       <i className="fas fa-book-open"></i>
                     </button>
                     {allowWrite && !inGameSession && (
                       <>
-                        <button type="button" title="Duplicate Book" onClick={() => duplicateBook(book.id)}>
+                        <button type="button" title="Duplicate Book" aria-label={`Duplicate ${book.title}`} onClick={() => duplicateBook(book.id)}>
                           <i className="fas fa-copy"></i>
                         </button>
                         <button
                           type="button"
                           title="Move to Trash Can"
+                          aria-label={`Move ${book.title} to trash`}
                           className="danger"
                           onClick={() => handlePromptTrash(book)}
                         >

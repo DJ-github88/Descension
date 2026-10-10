@@ -33,6 +33,7 @@ import { preloadMapAssets } from '../../utils/mapImagePreloader';
 import { persistAuthoredGeometry, hydrateGeometryForActiveOwner } from '../../data/geometryScopeHydration';
 import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
+import { shouldReduceMotion } from '../../utils/accessibility';
 import './WorldMapImmerse.css';
 
 // B7: authored geometry (drawn boundaries, custom names/descriptions, moved
@@ -67,6 +68,8 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   const geometryOwnerContext = captureConsumerContext().context;
   const [phase, setPhase] = useState('entering');
   const [showBorder, setShowBorder] = useState(false);
+  const mapRootRef = React.useRef(null);
+  const [reducedMotion] = useState(shouldReduceMotion);
 
   // B7: rebuild the shared geometry projections for the active verified owner
   // on mount and whenever the privacy gate changes owner. Authored edits never
@@ -429,7 +432,7 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
     if (typeof window === 'undefined') return { scale: 0.4, posX: 0, posY: 0 };
     const W = window.innerWidth;
     const H = window.innerHeight;
-    const fitScale = Math.max(W / 4096, H / 3072);
+    const fitScale = Math.min(W / 4096, H / 3072) * 0.92;
     const fitX = (W - 4096 * fitScale) / 2;
     const fitY = (H - 3072 * fitScale) / 2;
     return { scale: fitScale, posX: fitX, posY: fitY };
@@ -438,38 +441,19 @@ const WorldMapImmerse = ({ onClose, onClosing, initialTransform: propInitialTran
   // Seamless entrance into interactive map mode:
   // Visible immediately at initialTransform with smooth border & control reel-in
   useEffect(() => {
+    if (phase !== 'entering') return;
+    mapRootRef.current?.focus({ preventScroll: true });
     const t1 = setTimeout(() => {
       setShowBorder(true);
-    }, 120);
+    }, reducedMotion ? 0 : 100);
     const t2 = setTimeout(() => {
       setPhase('immersed');
-    }, 380);
+    }, reducedMotion ? 160 : 420);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
     };
-  }, []);
-
-  // Smoothly glide camera from landing dive position to centered world map overview over 1.4s
-  useEffect(() => {
-    if (propInitialTransform && propInitialTransform.scale) {
-      const timer = setTimeout(() => {
-        if (typeof window !== 'undefined') {
-          const W = window.innerWidth;
-          const H = window.innerHeight;
-          const fitScale = Math.max(W / 4096, H / 3072);
-          setTargetZoomPoint({
-            x: 2048,
-            y: 1536,
-            scale: Math.max(fitScale, 0.45),
-            duration: 1400,
-            id: Date.now()
-          });
-        }
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [propInitialTransform]);
+  }, [reducedMotion, phase]);
 
   const handleClose = useCallback(() => {
     if (onClosing) onClosing();
@@ -1270,7 +1254,7 @@ setCursorPos(coords);
   const canDragPlayerPins = tierInfo ? tierInfo.tierKey !== 'FREE' : false;
 
   return (
-   <div className={`world-map-immersive phase-${phase} ${sidebarOpen ? 'sidebar-open' : ''}`}>
+   <div ref={mapRootRef} tabIndex={-1} role="region" aria-label="Interactive world map" className={`world-map-immersive phase-${phase} ${reducedMotion ? 'map-reduced-motion' : ''} ${sidebarOpen ? 'sidebar-open' : ''}`}>
     <BurnedParchmentBorder visible={showBorder && borderEnabled} />
 
     {/* Subregion Breadcrumb Bar */}

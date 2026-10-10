@@ -7,6 +7,7 @@ import useAuthStore from '../../store/authStore';
 import subscriptionService from '../../services/subscriptionService';
 import { createEmptyEquipment } from '../../utils/equipmentUtils';
 import './styles/CharacterCreationPage.css';
+import './styles/AdventurerWorkspace.css';
 
 const CharacterCreationPage = ({ user, isEditing = false }) => {
   const navigate = useNavigate();

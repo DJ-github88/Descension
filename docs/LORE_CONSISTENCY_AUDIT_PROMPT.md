@@ -187,7 +187,7 @@ For each of the following, check that the entity exists in its canonical source:
 
 Search for entities referenced in ONE file that don't appear in the canonical source:
 
-- [ ] Factions mentioned in prose (e.g., "the Scribe-Cartel", "the Brine-Bond Syndicate", "the Cult of Forgotten Shadow", "the Deep Alchemists")  -  do they have entries in factionStore.js or loreDictionary.js?
+- [ ] Factions mentioned in prose (e.g., "the Scribe-Cartel", "the Lamphera-Bond Syndicate", "the Cult of Forgotten Shadow", "the Deep Alchemists")  -  do they have entries in factionStore.js or loreDictionary.js?
 - [ ] Notable figures mentioned in class/race files  -  do they have entries in loreDictionary.js or npcStore.js?
 - [ ] Locations mentioned in class/race/background prose  -  do they have entries in zoneData.js?
 - [ ] Events mentioned in prose that are not in timelineStore.js  -  should they be added?
@@ -343,7 +343,7 @@ Check if these additional locations have founding context:
 
 ### 7.1  -  Faction completeness
 
-For each named faction in your world (the 7 noble houses + Scribe-Sentinels + Dawn Vigil + Mist-Sentinels + Scribe-Cartel + Brine-Bond Syndicate + Steam-Line Cartel + Cult of Forgotten Shadow + Deep Alchemists + Vat-Breakers Guild):
+For each named faction in your world (the 7 noble houses + Scribe-Sentinels + Dawn Vigil + Mist-Sentinels + Scribe-Cartel + Lamphera-Bond Syndicate + Steam-Line Cartel + Cult of Forgotten Shadow + Deep Alchemists + Vat-Breakers Guild):
 
 - [ ] Does it have an entry in `factionStore.js`?
 - [ ] Does it have an entry in `loreDictionary.js`?

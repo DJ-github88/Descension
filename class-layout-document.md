@@ -303,7 +303,7 @@
 
 **Description:** A death caster who walks between two necrotic traditions — Kora's blood-fueled sacrifice and Vesper's frost-stasis phylactery. Build Toll (0-20) through HP sacrifice and kills. Toggle Death Shroud to burn HP instead of Mana for enhanced frost+blight spells. Kill enemies to charge the Phylactery; when killed, resurrect from stored HP and trigger battlefield-wide freeze.
 
-**Cultural Affiliation:** Heavily practiced by Clean Vreken (Ancestor-Bound — ancestors need a living voice to speak through), Marked Vreken (Mycelium-Dead — consciousness distributed across the Root-Veil), Withered (Contract-Expired — invisible to the Keeper, unbound by the First Contract), Tessen humans (Keep-Waked — soul anchored to ancestral architecture), Veldun (Lien-Holders — kept by open obligations in the web), Merryn humans (Drift-Bound — held to the surface by unfulfilled ink-contracts), and Myrathil (kept by Mareth's tides, which do not release what they hold).
+**Cultural Affiliation:** Heavily practiced by Clean Vreken (Ancestor-Bound — ancestors need a living voice to speak through), Marked Vreken (Mycelium-Dead — consciousness distributed across the Root-Veil), Withered (Contract-Expired — invisible to the Keeper, unbound by the First Contract), Tessen humans (Keep-Waked — soul anchored to ancestral architecture), Veldun (Lienvar-Holders — kept by open obligations in the web), Merryn humans (Drift-Bound — held to the surface by unfulfilled ink-contracts), and Myrathil (kept by Mareth's tides, which do not release what they hold).
 
 **Subraces allowed:** `clean_vreken`, `marked_vreken`, `drun_neth`, `tessen_human`, `kessen_neth`, `merryn_human`, `shoreling_myrathil`, `deepling_myrathil`, `riverling_myrathil`
 
@@ -313,7 +313,7 @@
 - `clean_vreken` → The Ancestor-Bound: Death-Toll generated through ancestral communion; dead willingly feed the host to keep their voice alive
 - `marked_vreken` → The Mycelium-Dead: Phylactery distributed across mycelial network — nearly impossible to permanently kill; feels every wound the forest feels
 - `drun_neth` → The Contract-Expired: Revenant state invisible to Keeper and contract-magic — cannot be sensed, bound, or dismissed; total social nonexistence
-- `kessen_neth` → The Lien-Holder: phylactery is the obligation-web itself; death cannot close an account with entries still open
+- `kessen_neth` → The Lienvar-Holder: phylactery is the obligation-web itself; death cannot close an account with entries still open
 - `merryn_human` → The Drift-Bound: held to the surface by unfulfilled ink-contracts; the tattoos are the phylactery, and each raising fades a line
 - `shoreling_myrathil` → The Tide-Kept: Mareth does not release what she holds; each wave an installment on a debt with no final payment
 - `deepling_myrathil` → The Pressure-Woken: preserved by trench cold so absolutely that death could not complete; every ascent weakens the hold

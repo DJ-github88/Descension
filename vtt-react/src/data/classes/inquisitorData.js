@@ -60,7 +60,7 @@ export const INQUISITOR_DATA = {
     thalren_human: {
       subraceName: 'Tallyn',
       title: 'The Salt-Scarred',
-      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Tallyn open their own veins to draw the Wyrd's face-stealing horrors into living flesh, baiting the Gref and the Gambrel with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Tallyn, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
+      reframe: `This is <LoreLink termId="elias">Elias</LoreLink> the Salt-Scarred's tradition, born in the <LoreLink termId="frostwood-reach">Frostwood Reach</LoreLink>. The Tallyn open their own veins to draw the Wyrd's face-stealing horrors into living flesh, baiting the Gref and the Geaslan with the one thing they cannot resist: a human who has promised something they intend to break. Anti-Wyrd paranoia, for the Tallyn, is not a personality trait. It is a survival discipline learned over eight fog-eaten centuries.`,
       signatureAbility: {
         name: 'Bait-Vow',
         description: `The Inquisitor makes a deliberately breakable oath to lure Wyrd-creatures that hunt broken promises, then severs the creature as it manifests to collect. The cost is paid in blood, the vow must be genuinely breakable, genuinely tempting, and the Inquisitor must survive the bait to make the cut.`

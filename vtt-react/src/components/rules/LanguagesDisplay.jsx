@@ -407,7 +407,7 @@ const LanguagesDisplay = () => {
               {selectedLanguage.name === 'Scrapspeech' && (
                 <>
                   <li><i className="fas fa-check"></i> Frostwood Reach salvage-crews and peat-bog scavengers</li>
-                  <li><i className="fas fa-check"></i> The Revel's abandoned courtiers who never left the party</li>
+                  <li><i className="fas fa-check"></i> Revalen's abandoned courtiers who never left the party</li>
                   <li><i className="fas fa-check"></i> Lesser fae who trade in fog-charms and resin</li>
                   <li><i className="fas fa-check"></i> Anyone living on the margins of the Mist-Gate Market</li>
                 </>
@@ -480,7 +480,7 @@ const LanguagesDisplay = () => {
                 <>
                   <li><i className="fas fa-check"></i> Fae entities who accepted House Viridane's counter-bargain</li>
                   <li><i className="fas fa-check"></i> Florae Briaren who sing to their groves</li>
-                  <li><i className="fas fa-check"></i> The Revel's endlessly-celebrating courtiers</li>
+                  <li><i className="fas fa-check"></i> Revalen's endlessly-celebrating courtiers</li>
                   <li><i className="fas fa-check"></i> Moonlit groves where promises echo forever</li>
                 </>
               )}
@@ -605,7 +605,7 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Bonewrit' && (
                 <>
-                  <li><i className="fas fa-check"></i> The undead and Debt-Revenants</li>
+                  <li><i className="fas fa-check"></i> The undead and Vezan</li>
                   <li><i className="fas fa-check"></i> Lichborne souls in basalt phylacteries</li>
                   <li><i className="fas fa-check"></i> Necromancers and cold-ritual practitioners</li>
                   <li><i className="fas fa-check"></i> The Frozen Archive's oldest revenant-scribes</li>
@@ -661,23 +661,23 @@ const LanguagesDisplay = () => {
               )}
               {selectedLanguage.name === 'Vættir Speech' && (
                 <>
-                  <li><i className="fas fa-check"></i> Landvaettir, vettir, and the boundary-spirits of Nordhalla</li>
-                  <li><i className="fas fa-check"></i> The nokk, the huldra, and the Fossegrim-Ice</li>
+                  <li><i className="fas fa-check"></i> Landvett, Vettur, and the boundary-spirits of Nordhalla</li>
+                  <li><i className="fas fa-check"></i> The Nokkvar, the Holdra, and the Fosskarl</li>
                   <li><i className="fas fa-check"></i> Skald farmers who leave a greeting-bowl at the boundary stone</li>
                   <li><i className="fas fa-check"></i> Given, never commanded: it has no polite register</li>
                 </>
               )}
               {selectedLanguage.name === 'Neteru Liturgy' && (
                 <>
-                  <li><i className="fas fa-check"></i> Lamassu gate-sentinels and ushabti servants</li>
+                  <li><i className="fas fa-check"></i> Lamassa gate-sentinels and ushabti servants</li>
                   <li><i className="fas fa-check"></i> The sun-faced ammit and the deep-vent guardians</li>
-                  <li><i className="fas fa-check"></i> Emberspire&apos;s Ash-Woven Oracles, transcribing onto soot-tablets</li>
+                  <li><i className="fas fa-check"></i> Emberspire&apos;s Ashvara Oracles, transcribing onto soot-tablets</li>
                   <li><i className="fas fa-check"></i> Every clause names a witness; mortals should not answer lightly</li>
                 </>
               )}
-              {selectedLanguage.name === 'Sluagh Whisper' && (
+              {selectedLanguage.name === 'Rabengast Whisper' && (
                 <>
-                  <li><i className="fas fa-check"></i> The Sluagh, memory-eating swarm of the Frostwood Reach</li>
+                  <li><i className="fas fa-check"></i> The Rabengast, memory-eating swarm of the Frostwood Reach</li>
                   <li><i className="fas fa-check"></i> Familiars and mediums carrying messages the swarm will not eat</li>
                   <li><i className="fas fa-check"></i> Listeners who answer a sentence nobody remembers being told</li>
                   <li><i className="fas fa-check"></i> What is forgotten is the message; what remains is the hush</li>

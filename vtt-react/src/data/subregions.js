@@ -28,11 +28,11 @@ export const SUBREGIONS = {
     id: 'frostwood-north-reach',
     name: 'The Frostfang Wastes',
     regionId: 'frostwood-reach',
-    description: 'The cold, stony northern half of the Frostwood Reach, far from the volcanic warmth. The forests thin into tundra and bare granite, and the ironwoods grow short and twisted. Stone structures replace living timber; carved runic monoliths and watch-posts built into cliff faces mark the few roads. Frozen lakes surface in summer; the rest of the year, only their location is remembered. Rumors persist of giant Jutul-like beings in the deep wastes, but the few who travel that far rarely return to confirm.',
+    description: 'The cold, stony northern half of the Frostwood Reach, far from the volcanic warmth. The forests thin into tundra and bare granite, and the ironwoods grow short and twisted. Stone structures replace living timber; carved runic monoliths and watch-posts built into cliff faces mark the few roads. Frozen lakes surface in summer; the rest of the year, only their location is remembered. Rumors persist of giant Jotkall-like beings in the deep wastes, but the few who travel that far rarely return to confirm.',
     climate: 'Sub-arctic, biting wind, summer lasts eight weeks',
     dominantTerrain: 'Granite tundra, frozen lakes, sparse twisted ironwood, glacial moraine',
     primaryRaces: ['Frostfang Skalds (Skald expatriates)', 'Stone-Tribal humans', 'occasional Mimir Mountain-Sent'],
-    primaryFactions: ['Greymark Northwatch', 'The Stone-Speakers', 'Jutul reavers (rumored)'],
+    primaryFactions: ['Greymark Northwatch', 'The Stone-Speakers', 'Jotkall reavers (rumored)'],
     zoneIds: ['frostfang-wastes', 'grevtholm', 'iron-lake', 'the-stone-circles', 'bearsback-summit']
   },
   'frostwood-eastern-fens': {
@@ -150,8 +150,8 @@ export const SUBREGIONS = {
     description: 'The desolate, wind-scoured whiteout glaciers beyond the Sunder-Wall. The nomadic Øsling clans hunt mammoths here, where ancient ruins like Blizzard\'s End and the dark Heir-Mounds mark the true history of the Seal-Breaking.',
     climate: 'Polar, perpetual blizzards, summer lasts eight weeks',
     dominantTerrain: 'Whiteout glaciers, shifting crevasses, ancient barrows, granite tundra',
-    primaryRaces: ['Øsling clans', 'Frost Chanters', 'Jutul frost-giants', 'Endurance Purists'],
-    primaryFactions: ['Øsling Clan Confederation', 'The Stone-Speakers', 'Jutul Warbands'],
+    primaryRaces: ['Øsling clans', 'Frost Chanters', 'Jotkall frost-giants', 'Endurance Purists'],
+    primaryFactions: ['Øsling Clan Confederation', 'The Stone-Speakers', 'Jotkall Warbands'],
     zoneIds: [
       'frostfang-wastes',
       'grimefrost',
@@ -259,10 +259,10 @@ export const SUBREGIONS = {
     id: 'iceheart-northern-iceflows',
     name: 'The Frozen-Flows',
     regionId: 'iceheart-sea',
-    description: 'The northern edge of the Iceheart Sea, where the waters freeze into icebergs the size of cities. Ancient ruins protrude from the bergs. First Shore is the largest, the original Mereval landing site, now preserved as a pilgrimage. Few venture here. The Berg-Witches and the Boreal Huldra live in the floes.',
+    description: 'The northern edge of the Iceheart Sea, where the waters freeze into icebergs the size of cities. Ancient ruins protrude from the bergs. First Shore is the largest, the original Mereval landing site, now preserved as a pilgrimage. Few venture here. The Berg-Witches and the Boreal Holdra live in the floes.',
     climate: 'Polar marine, ice-floe year-round',
     dominantTerrain: 'City-sized icebergs, frozen sea, ancient ruins on bergs',
-    primaryRaces: ['Berg-Witches', 'Boreal Huldra', 'occasional Merryn whalers'],
+    primaryRaces: ['Berg-Witches', 'Boreal Holdra', 'occasional Merryn whalers'],
     primaryFactions: ['Icewhisper Coven', 'Frozen Archive expedition (seasonal)'],
     zoneIds: ['first-shore', 'berg-of-the-frozen-flame', 'whaleroot-floe']
   },
@@ -373,11 +373,11 @@ export const SUBREGIONS = {
     id: 'cragjaw-massif',
     name: 'The Frostmaw Massif Range',
     regionId: 'cragjaw-peaks',
-    description: 'The central spine of the Cragjaw Peaks, the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jutul, the great trolls, and the primordial Thrumm stalk the high ice. Few humans have climbed above the Terraced level and returned.',
+    description: 'The central spine of the Cragjaw Peaks, the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jotkall, the great trolls, and the primordial Thrumm stalk the high ice. Few humans have climbed above the Terraced level and returned.',
     climate: 'Alpine, year-round blizzard above the mid-line',
     dominantTerrain: 'Granite peaks, glacial cirques, ice fields, volcanic crater-keeps',
-    primaryRaces: ['Tessic humans (in the holds)', 'Jutul giants (high peaks)', 'Thrumm (primordial)'],
-    primaryFactions: ['House Tesshan', 'Steam-Line Cartel', 'Jutul warbands'],
+    primaryRaces: ['Tessic humans (in the holds)', 'Jotkall giants (high peaks)', 'Thrumm (primordial)'],
+    primaryFactions: ['House Tesshan', 'Steam-Line Cartel', 'Jotkall warbands'],
     zoneIds: ['frostmaw-holdfast', 'frostmaw-massif', 'skirmours-crag', 'the-stone-cog']
   },
   'cragjaw-gorge-web': {
@@ -398,7 +398,7 @@ export const SUBREGIONS = {
     description: 'The deep industrial heart of the Cragjaw Peaks, the toxic mining shafts, geothermal plants, and Fex workshops that keep the high keeps alive. The Sump Galleries, Gearworks Gulch, and Iron Ravine are all here. Chasm-Dwellers work the mines; Deep Alchemists run the vats; the Lost Brood Vats are the abandoned ruins of a guild that went too deep.',
     climate: 'Hot, toxic, sulfuric at the deepest',
     dominantTerrain: 'Toxic mining shafts, geothermal pipes, basalt vats, lava-fed forges',
-    primaryRaces: ['Fex (Brasskin, Alchemite)', 'Chasm-Dweller humans', 'Sump-Scrab'],
+    primaryRaces: ['Fex (Brasskin, Alchemite)', 'Chasm-Dweller humans', 'Gazoro'],
     primaryFactions: ['Steam-Line Cartel', 'Brasskin Guilds', 'Deep Alchemist (secret)', 'Vat-Breakers Guild'],
     zoneIds: ['gearworks-gulch', 'sump-galleries', 'iron-ravine', 'lost-brood-vats', 'stags-rest-moraine', 'driknell-foundry']
   },
@@ -491,11 +491,11 @@ export const SUBREGIONS = {
     id: 'bryngloom-peat-wastes',
     name: 'The Peat-Wastes',
     regionId: 'bryngloom-forest',
-    description: 'The northern reaches of the forest, vast stretches of acidic peat-bog where the ironwood roots rot and the water is poison. The Widow\'s Quagmire is the worst, a stretch that liquefies underfoot. Debt-Revenants are conscripted to work the peat-presses here; the Black Fen is where broken contracts are dumped.',
+    description: 'The northern reaches of the forest, vast stretches of acidic peat-bog where the ironwood roots rot and the water is poison. The Widow\'s Quagmire is the worst, a stretch that liquefies underfoot. Vezan are conscripted to work the peat-presses here; the Black Fen is where broken contracts are dumped.',
     climate: 'Damp, sulfuric, foggy',
     dominantTerrain: 'Acid peat-bog, liquefying mud, dead ironwood stumps',
-     primaryRaces: ['Mycellan (peat-cutters)', 'Debt-Revenants (undead)', 'Over-Lit Mycellan'],
-    primaryFactions: ['Peat-Press Cartel', 'Debt-Revenant foremen', 'Morrath Marshals'],
+     primaryRaces: ['Mycellan (peat-cutters)', 'Vezan (undead)', 'Over-Lit Mycellan'],
+    primaryFactions: ['Peat-Press Cartel', 'Vezan foremen', 'Morrath Marshals'],
     zoneIds: ['widows-quagmire', 'black-fen', 'drowned-dingle']
   },
   'bryngloom-western-bayous': {

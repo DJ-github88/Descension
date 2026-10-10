@@ -1,6 +1,7 @@
 import { DATA_VERSIONS, DATA_FILES } from '../data/versions';
 import useCreatureStore from '../store/creatureStore';
 import { getCachedData, setCachedData } from '../services/dataCache';
+import { syncBestiaryCreatureNames } from './bestiaryNameSync';
 
 const STORAGE_VERSION_KEY = 'creature-library-version';
 
@@ -60,7 +61,7 @@ const initCreatureStore = async () => {
       };
     });
 
-    creatureStore.setCreatures(newCreatures);
+    creatureStore.setCreatures(syncBestiaryCreatureNames(newCreatures));
     localStorage.setItem(STORAGE_VERSION_KEY, expectedVersion);
     console.log(`Loaded ${newCreatures.length} creatures`);
   } catch (err) {

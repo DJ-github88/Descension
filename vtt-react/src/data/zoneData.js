@@ -48,7 +48,7 @@ export const ZONE_DATA = [
       "wraithfen"
     ],
     "wyrdCreatures": [
-      "Gambrel",
+      "Geaslan",
       "Gref"
     ]
   },
@@ -102,7 +102,7 @@ export const ZONE_DATA = [
       "ledger-halls"
     ],
     "wyrdCreatures": [
-      "Gambrel",
+      "Geaslan",
       "Gref"
     ]
   },
@@ -157,7 +157,7 @@ export const ZONE_DATA = [
       "skalds-landing"
     ],
     "wyrdCreatures": [
-      "Pooka",
+      "Pukhal",
       "Gallows-Wood"
     ]
   },
@@ -709,7 +709,7 @@ export const ZONE_DATA = [
     ],
     "wyrdCreatures": [
       "Orun",
-      "Brine"
+      "Lamphera"
     ]
   },
   {
@@ -728,7 +728,7 @@ export const ZONE_DATA = [
     ],
     "wyrdCreatures": [
       "Drowned Spume",
-      "Pelagos"
+      "Pelora"
     ]
   },
   {
@@ -747,7 +747,7 @@ export const ZONE_DATA = [
     ],
     "wyrdCreatures": [
       "Thalass",
-      "Pelagos"
+      "Pelora"
     ]
   },
   {
@@ -832,7 +832,7 @@ export const ZONE_DATA = [
     "regionId": "sundrift-vale",
     "name": "Grass Tundra Steppe",
     "type": "wilderness",
-    "description": "An endless, wind-swept plain of grey-green grass that stretches beneath a permanently dark sky. The steppe is home to massive, woolly herds of tundra beasts, but travelers must watch for the sudden, hunting shadows of the Hungry Child.",
+    "description": "An endless, wind-swept plain of grey-green grass that stretches beneath a permanently dark sky. The steppe is home to massive, woolly herds of tundra beasts, but travelers must watch for the sudden, hunting shadows of the Munkhai.",
     "dangerLevel": "high",
     "factions": [
       "Ordu Hunters"
@@ -842,7 +842,7 @@ export const ZONE_DATA = [
       "lien-stalked-grazes"
     ],
     "wyrdCreatures": [
-      "Hungry Child"
+      "Munkhai"
     ]
   },
   {
@@ -860,7 +860,7 @@ export const ZONE_DATA = [
       "grass-tundra"
     ],
     "wyrdCreatures": [
-      "Hungry Child"
+      "Munkhai"
     ]
   },
   {
@@ -917,8 +917,8 @@ export const ZONE_DATA = [
       "grass-tundra"
     ],
     "wyrdCreatures": [
-      "Lien",
-      "Qilin"
+      "Lienvar",
+      "Qilan"
     ]
   },
   {
@@ -936,7 +936,7 @@ export const ZONE_DATA = [
       "synod-hold"
     ],
     "wyrdCreatures": [
-      "Lien"
+      "Lienvar"
     ]
   },
   {
@@ -1028,8 +1028,8 @@ export const ZONE_DATA = [
       "over-shanty"
     ],
     "wyrdCreatures": [
-      "Debt-Revenant",
-      "Cycle-Eater"
+      "Vezan",
+      "Krugava"
     ]
   },
   {
@@ -1048,7 +1048,7 @@ export const ZONE_DATA = [
       "atropolis"
     ],
     "wyrdCreatures": [
-      "Cycle-Eater"
+      "Krugava"
     ]
   },
   {
@@ -1066,7 +1066,7 @@ export const ZONE_DATA = [
       "black-fen"
     ],
     "wyrdCreatures": [
-      "Debt-Revenant",
+      "Vezan",
       "Canker"
     ]
   },
@@ -1085,7 +1085,7 @@ export const ZONE_DATA = [
       "vel-keth-bayou"
     ],
     "wyrdCreatures": [
-      "Cycle-Eater",
+      "Krugava",
       "Edict"
     ]
   },
@@ -1106,7 +1106,7 @@ export const ZONE_DATA = [
     ],
     "wyrdCreatures": [
       "Vatra",
-      "Leshy"
+      "Leshvar"
     ]
   },
   {
@@ -1178,7 +1178,7 @@ export const ZONE_DATA = [
     ],
     "wyrdCreatures": [
       "Stel",
-      "Jutul-raider"
+      "Jotkall-raider"
     ]
   },
   {
@@ -1186,7 +1186,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Grevtholm",
     "type": "settlement",
-    "description": "A fortified stone keep at the edge of the Frostfang Wastes, the northernmost Tallyn outpost, manned by the Greymark Northwatch. The keep is built into a granite outcrop and ringed with carved warning-runes. The Grevtholm garrison is the only thing keeping the Jutul warbands from ranging freely into the southern Reach.",
+    "description": "A fortified stone keep at the edge of the Frostfang Wastes, the northernmost Tallyn outpost, manned by the Greymark Northwatch. The keep is built into a granite outcrop and ringed with carved warning-runes. The Grevtholm garrison is the only thing keeping the Jotkall warbands from ranging freely into the southern Reach.",
     "dangerLevel": "medium",
     "factions": [
       "Greymark Northwatch"
@@ -1202,7 +1202,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Iron Lake",
     "type": "wilderness",
-    "description": "A frozen lake in the Frostfang Wastes, its name for the iron-grey color of its winter ice. In summer the surface melts into mirror-still water that reflects nothing, not the sky, not the cliffs, not the traveler standing at its edge. The Mimir say this is a wound in the world where the Reach's memory-fog cannot reach; locals say it is where drowned Jutul-maidens wait for the unwary.",
+    "description": "A frozen lake in the Frostfang Wastes, its name for the iron-grey color of its winter ice. In summer the surface melts into mirror-still water that reflects nothing, not the sky, not the cliffs, not the traveler standing at its edge. The Mimir say this is a wound in the world where the Reach's memory-fog cannot reach; locals say it is where drowned Jotkall-maidens wait for the unwary.",
     "dangerLevel": "high",
     "factions": [],
     "connections": [
@@ -1472,7 +1472,7 @@ export const ZONE_DATA = [
       "sols-anvil-mesa"
     ],
     "wyrdCreatures": [
-      "Ash-Woven Oracle"
+      "Ashvara"
     ]
   },
   {
@@ -1480,15 +1480,15 @@ export const ZONE_DATA = [
     "regionId": "sundale",
     "name": "The Star Caves",
     "type": "ruin",
-    "description": "A network of lava-tubes beneath the Spinstones Columns, where the Solvan priests once communed with what they believed were the spirits of Sol's ministers. The binding broke that communion; the caves are now silent and haunted by the Husque, mobile reality-fissures that walk the tunnels. The Solari seal the entrances, but the seals do not always hold.",
+    "description": "A network of lava-tubes beneath the Spinstones Columns, where the Solvan priests once communed with what they believed were the spirits of Sol's ministers. The binding broke that communion; the caves are now silent and haunted by the Huskvar, mobile reality-fissures that walk the tunnels. The Solari seal the entrances, but the seals do not always hold.",
     "dangerLevel": "extreme",
     "factions": [],
     "connections": [
       "spinstones-columns"
     ],
     "wyrdCreatures": [
-      "Husque",
-      "The Cinder"
+      "Huskvar",
+      "Kavur"
     ]
   },
   {
@@ -1496,10 +1496,10 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Skirmour's Crag",
     "type": "wilderness",
-    "description": "The southernmost great peak of the Cragjaw, named for the legendary Jutul-king Skirmour who ruled the high ice before House Tesshan climbed. The Crag is sacred to the Jutul, they gather at the summit at midwinter to hear the wind that, they say, is the breath of their dead ancestors. No human has reached the summit and returned whole.",
+    "description": "The southernmost great peak of the Cragjaw, named for the legendary Jotkall-king Skirmour who ruled the high ice before House Tesshan climbed. The Crag is sacred to the Jotkall, they gather at the summit at midwinter to hear the wind that, they say, is the breath of their dead ancestors. No human has reached the summit and returned whole.",
     "dangerLevel": "extreme",
     "factions": [
-      "Jutul warbands"
+      "Jotkall warbands"
     ],
     "connections": [
       "frostmaw-massif",
@@ -1600,7 +1600,7 @@ export const ZONE_DATA = [
       "ancestor-mounds"
     ],
     "wyrdCreatures": [
-      "Lien"
+      "Lienvar"
     ]
   },
   {
@@ -1636,7 +1636,7 @@ export const ZONE_DATA = [
       "tide-court-cove"
     ],
     "wyrdCreatures": [
-      "Draugr Helmsman"
+      "Draugvor"
     ]
   },
   {
@@ -1669,7 +1669,7 @@ export const ZONE_DATA = [
       "saryreach-castle"
     ],
     "wyrdCreatures": [
-      "Nereid"
+      "Olora"
     ]
   },
   {
@@ -1694,7 +1694,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "Berg of the Frozen Flame",
     "type": "wilderness",
-    "description": "A city-sized iceberg in the Northern Ice-Flows, named for the orange flame that burns in its heart, a natural gas-vent that has burned since before the binding. The Berg-Witches make their home in caves carved into the ice around the flame; their Fire-Pacts allow them to walk barefoot on the ice and to call the Boreal Huldra from the floes.",
+    "description": "A city-sized iceberg in the Northern Ice-Flows, named for the orange flame that burns in its heart, a natural gas-vent that has burned since before the binding. The Berg-Witches make their home in caves carved into the ice around the flame; their Fire-Pacts allow them to walk barefoot on the ice and to call the Boreal Holdra from the floes.",
     "dangerLevel": "high",
     "factions": [
       "Icewhisper Coven"
@@ -1703,7 +1703,7 @@ export const ZONE_DATA = [
       "first-shore"
     ],
     "wyrdCreatures": [
-      "Boreal Huldra"
+      "Boreal Holdra"
     ]
   },
   {
@@ -1770,7 +1770,7 @@ export const ZONE_DATA = [
       "deepwell-archipelago"
     ],
     "wyrdCreatures": [
-      "Nereid"
+      "Olora"
     ]
   },
   {
@@ -1893,7 +1893,7 @@ export const ZONE_DATA = [
       "mistbarrow"
     ],
     "wyrdCreatures": [
-      "Drudehaunt"
+      "Drudena"
     ]
   },
   {
@@ -2169,7 +2169,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Lanternfen Pools",
     "type": "wilderness",
-    "description": "Warm pools lit by floating Moss-Wax lanterns the Forgotten tend; their light keeps the Gambrel at bay.",
+    "description": "Warm pools lit by floating Moss-Wax lanterns the Forgotten tend; their light keeps the Geaslan at bay.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2403,7 +2403,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Drowned-Fleet Graveyard",
     "type": "wilderness",
-    "description": "A shallows of wrecked hulls; Draugr Helmsman crew the half-sunken ships.",
+    "description": "A shallows of wrecked hulls; Draugvor crew the half-sunken ships.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -2867,11 +2867,11 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "qilin-grazing-ground",
+    "id": "Qilan-grazing-ground",
     "regionId": "sundrift-vale",
-    "name": "Qilin Grazing-Ground",
+    "name": "Qilan Grazing-Ground",
     "type": "wilderness",
-    "description": "A crystal-shard meadow where the single-horned Qilin are sighted at the crater's edge.",
+    "description": "A crystal-shard meadow where the single-horned Qilan are sighted at the crater's edge.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3079,7 +3079,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Peat-Press Forge-Camp",
     "type": "settlement",
-    "description": "A Debt-Revenant chain-gang camp squeezing oil from the bog under Morrath Marshal whips.",
+    "description": "A Vezan chain-gang camp squeezing oil from the bog under Morrath Marshal whips.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3378,7 +3378,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Frostwatch Hold",
     "type": "ruin",
-    "description": "A ruined Northwatch post on the tundra edge, partly re-manned. Signal-fires burn here when Jutul are sighted in the whiteout.",
+    "description": "A ruined Northwatch post on the tundra edge, partly re-manned. Signal-fires burn here when Jotkall are sighted in the whiteout.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -3404,7 +3404,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Eight-Week-Melt Huts",
     "type": "settlement",
-    "description": "Fishing huts usable only during Iron Lake's brief summer melt. Locals say drowned Jutul-maidens surface then.",
+    "description": "Fishing huts usable only during Iron Lake's brief summer melt. Locals say drowned Jotkall-maidens surface then.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3454,9 +3454,9 @@ export const ZONE_DATA = [
   {
     "id": "jutulstone",
     "regionId": "frostwood-reach",
-    "name": "The Jutulstone",
+    "name": "The Skredkallstone",
     "type": "wilderness",
-    "description": "A lone carved boulder, too high for human hands, bearing marks no Stone-Speaker will translate. Jutul raiders supposedly gather here.",
+    "description": "A lone carved boulder, too high for human hands, bearing marks no Stone-Speaker will translate. Jotkall raiders supposedly gather here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3521,7 +3521,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Lanternfen Pools",
     "type": "wilderness",
-    "description": "Warm pools lit by floating Moss-Wax lanterns the Forgotten tend; their light keeps the Gambrel at bay.",
+    "description": "Warm pools lit by floating Moss-Wax lanterns the Forgotten tend; their light keeps the Geaslan at bay.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -3950,7 +3950,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Drowned-Fleet Graveyard",
     "type": "wilderness",
-    "description": "A shallows of wrecked hulls; Draugr Helmsman crew the half-sunken ships.",
+    "description": "A shallows of wrecked hulls; Draugvor crew the half-sunken ships.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4223,7 +4223,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Skirmour's Bone-Heap",
     "type": "wilderness",
-    "description": "A moraine of Jutul and Groven dead at the Jutul-king's sacred peak; none pass unchallenged.",
+    "description": "A moraine of Jotkall and Groven dead at the Jotkall-king's sacred peak; none pass unchallenged.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4557,11 +4557,11 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "qilin-grazing-ground",
+    "id": "Qilan-grazing-ground",
     "regionId": "sundrift-vale",
-    "name": "Qilin Grazing-Ground",
+    "name": "Qilan Grazing-Ground",
     "type": "wilderness",
-    "description": "A crystal-shard meadow where the single-horned Qilin are sighted at the crater's edge.",
+    "description": "A crystal-shard meadow where the single-horned Qilan are sighted at the crater's edge.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -4808,7 +4808,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Peat-Press Forge-Camp",
     "type": "settlement",
-    "description": "A Debt-Revenant chain-gang camp squeezing oil from the bog under Morrath Marshal whips.",
+    "description": "A Vezan chain-gang camp squeezing oil from the bog under Morrath Marshal whips.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5172,7 +5172,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Frostwatch Hold",
     "type": "ruin",
-    "description": "A ruined Northwatch post on the tundra edge, partly re-manned. Signal-fires burn here when Jutul are sighted in the whiteout.",
+    "description": "A ruined Northwatch post on the tundra edge, partly re-manned. Signal-fires burn here when Jotkall are sighted in the whiteout.",
     "dangerLevel": "medium",
     "factions": [],
     "connections": [
@@ -5198,7 +5198,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Eight-Week-Melt Huts",
     "type": "settlement",
-    "description": "Fishing huts usable only during Iron Lake's brief summer melt. Locals say drowned Jutul-maidens surface then.",
+    "description": "Fishing huts usable only during Iron Lake's brief summer melt. Locals say drowned Jotkall-maidens surface then.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5248,9 +5248,9 @@ export const ZONE_DATA = [
   {
     "id": "jutulstone",
     "regionId": "frostwood-reach",
-    "name": "The Jutulstone",
+    "name": "The Skredkallstone",
     "type": "wilderness",
-    "description": "A lone carved boulder, too high for human hands, bearing marks no Stone-Speaker will translate. Jutul raiders supposedly gather here.",
+    "description": "A lone carved boulder, too high for human hands, bearing marks no Stone-Speaker will translate. Jotkall raiders supposedly gather here.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5315,7 +5315,7 @@ export const ZONE_DATA = [
     "regionId": "frostwood-reach",
     "name": "Lanternfen Pools",
     "type": "wilderness",
-    "description": "Warm pools lit by floating Moss-Wax lanterns the Forgotten tend; their light keeps the Gambrel at bay.",
+    "description": "Warm pools lit by floating Moss-Wax lanterns the Forgotten tend; their light keeps the Geaslan at bay.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -5744,7 +5744,7 @@ export const ZONE_DATA = [
     "regionId": "iceheart-sea",
     "name": "The Drowned-Fleet Graveyard",
     "type": "wilderness",
-    "description": "A shallows of wrecked hulls; Draugr Helmsman crew the half-sunken ships.",
+    "description": "A shallows of wrecked hulls; Draugvor crew the half-sunken ships.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6017,7 +6017,7 @@ export const ZONE_DATA = [
     "regionId": "cragjaw-peaks",
     "name": "Skirmour's Bone-Heap",
     "type": "wilderness",
-    "description": "A moraine of Jutul and Groven dead at the Jutul-king's sacred peak; none pass unchallenged.",
+    "description": "A moraine of Jotkall and Groven dead at the Jotkall-king's sacred peak; none pass unchallenged.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6351,11 +6351,11 @@ export const ZONE_DATA = [
     "wyrdCreatures": []
   },
   {
-    "id": "qilin-grazing-ground",
+    "id": "Qilan-grazing-ground",
     "regionId": "sundrift-vale",
-    "name": "Qilin Grazing-Ground",
+    "name": "Qilan Grazing-Ground",
     "type": "wilderness",
-    "description": "A crystal-shard meadow where the single-horned Qilin are sighted at the crater's edge.",
+    "description": "A crystal-shard meadow where the single-horned Qilan are sighted at the crater's edge.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -6602,7 +6602,7 @@ export const ZONE_DATA = [
     "regionId": "bryngloom-forest",
     "name": "Peat-Press Forge-Camp",
     "type": "settlement",
-    "description": "A Debt-Revenant chain-gang camp squeezing oil from the bog under Morrath Marshal whips.",
+    "description": "A Vezan chain-gang camp squeezing oil from the bog under Morrath Marshal whips.",
     "dangerLevel": "low",
     "factions": [],
     "connections": [
@@ -7390,7 +7390,7 @@ export const ZONE_DATA = [
         },
         {
           "date": "The mid-Freezing Era",
-          "event": "The Great Wastes Incursion: Gate successfully holds against three hundred Jutul giants."
+          "event": "The Great Wastes Incursion: Gate successfully holds against three hundred Jotkall giants."
         }
       ]
     }
@@ -8795,7 +8795,7 @@ export const ZONE_DATA = [
     "regionId": "nordhalla",
     "name": "The Frostfang Wastes",
     "type": "wilderness",
-    "description": "The vast polar wilderness beyond the Sunder-Wall. A land of whiteout blizzards, roving mammoth herds, and hidden Jutul giant holds where only the hardiest Øsling clans survive.",
+    "description": "The vast polar wilderness beyond the Sunder-Wall. A land of whiteout blizzards, roving mammoth herds, and hidden Jotkall giant holds where only the hardiest Øsling clans survive.",
     "dangerLevel": "medium",
     "factions": [
       "Øsling Clan Confederation",
@@ -8912,7 +8912,7 @@ export const ZONE_DATA = [
   {
     "id": "rimors-hearth",
     "regionId": "nordhalla",
-    "name": "Rimor's Hearth",
+    "name": "Rimvald's Hearth",
     "type": "ruin",
     "description": "The volcanic ruins of an ancient mountain stronghold swallowed by glacier ice in the first century. Residual steam vents keep its basalt undercrofts warm, providing vital shelter for outlaws and hardy nomads.",
     "dangerLevel": "medium",
@@ -8928,7 +8928,7 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
       "founded": "Pre-Freeze Era / swallowed a generation into the Freeze",
-      "foundedBy": "Jarl Rimor the Generous",
+      "foundedBy": "Jarl Rimvald the Generous",
       "foundingStory": "A grand mountain castle with sixty fireplaces that was buried when an avalanche of glacier ice overtopped its walls in the first century.",
       "significantEvents": [
         {
@@ -9115,12 +9115,12 @@ export const ZONE_DATA = [
   {
     "id": "jutul-holds",
     "regionId": "nordhalla",
-    "name": "Jutul-Holds",
+    "name": "Jotkall-Holds",
     "type": "settlement",
-    "description": "Massive cyclopean caverns carved into glacier roots, inhabited by reclusive Jutul frost-giants who herd giant woolly beasts and forge heavy stone armaments in isolation.",
+    "description": "Massive cyclopean caverns carved into glacier roots, inhabited by reclusive Jotkall frost-giants who herd giant woolly beasts and forge heavy stone armaments in isolation.",
     "dangerLevel": "medium",
     "factions": [
-      "The Jutul Giants"
+      "The Jotkall Giants"
     ],
     "connections": [
       "frostfang-wastes",
@@ -9130,8 +9130,8 @@ export const ZONE_DATA = [
     "subregionId": "nordhalla-frostfang-wastes",
     "history": {
       "founded": "Primordial Dawn",
-      "foundedBy": "The Jutul Frost-Giants",
-      "foundingStory": "Massive cavern halls carved by the forty-foot Jutul giants who ruled the north thousands of years before the arrival of human clans.",
+      "foundedBy": "The Jotkall Frost-Giants",
+      "foundingStory": "Massive cavern halls carved by the forty-foot Jotkall giants who ruled the north thousands of years before the arrival of human clans.",
       "significantEvents": [
         {
           "date": "Immemorial",

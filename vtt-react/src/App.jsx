@@ -112,6 +112,7 @@ import 'react-resizable/css/styles.css';
 import './components/spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './components/spellcrafting-wizard/components/library/CommunitySpellsTab.css';
 import './components/creature-wizard/components/library/CommunityCreaturesTab.css';
+import './styles/adventurer-windows.css';
 
 // Lazy loaded auxiliary components
 const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));
@@ -1558,7 +1559,7 @@ const AppContent = ({
       {/* Global 3D Dice Rolling System */}
       <Suspense fallback={null}>
         <ErrorBoundary name="DiceRolling">
-          <DiceRollingSystem hideSelectionBar={!isGameRoute && !location.pathname.startsWith('/account/characters/') && !location.pathname.startsWith('/character')} />
+          <DiceRollingSystem hideSelectionBar={!isGameRoute && !location.pathname.startsWith('/account/characters/view') && !location.pathname.startsWith('/character')} />
         </ErrorBoundary>
       </Suspense>
 

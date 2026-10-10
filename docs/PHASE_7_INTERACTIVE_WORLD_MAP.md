@@ -130,11 +130,11 @@ NORTH (frozen, glaciers)
 | Region | Locations |
 |---|---|
 | **Frostwood Reach** | Greymark Keep (city), The Shallows (wilderness), Scribes' Tower (settlement), Ledger Halls (ruin), Ironwood Heart (wilderness) |
-| **Nordhalla** | Frozen Archive (city), Bloodhammer Sump (settlement), Fjord-Gate (settlement), Hunger Glaciers (wilderness), Rimor's Hearth (ruin) |
+| **Nordhalla** | Frozen Archive (city), Bloodhammer Sump (settlement), Fjord-Gate (settlement), Hunger Glaciers (wilderness), Rimvald's Hearth (ruin) |
 | **Sundale** | Harath-Vault (city), Great Forge (city), Emberspire Caldera (wilderness), Basalt Shyr (settlement), Cinder Badlands (wilderness) |
 | **Iceheart Sea** | Merrowport (city), Ironjaw Port (settlement), Treakous Rift (wilderness), First Shore (ruin), Gale-Storm Shallows (wilderness) |
 | **Cragjaw Peaks** | Frostmaw Holdfast (city), The Spans (settlement), Ancestor-Gaps (tomb), Sump Galleries (wilderness), Lost Brood Vats (ruin) |
-| **Sundrift Vale** | Synod Hold (city), Mound-Camps (settlement), Ancestor Mounds (tomb), Grass Tundra (wilderness), Lien-Stalked Grazes (wilderness) |
+| **Sundrift Vale** | Synod Hold (city), Mound-Camps (settlement), Ancestor Mounds (tomb), Grass Tundra (wilderness), Lienvar-Stalked Grazes (wilderness) |
 | **Bryngloom Forest** | Atropolis (city), The Sunken Spire (city), Peat-Bog Sinks (wilderness), Root-Veil Scriptorium (settlement), Over-Shanty (settlement) |
 
 ### 2.3 Locations With Deep Data (deepLocationData.js, 4 entries)
@@ -523,7 +523,7 @@ Click any region polygon or location pin. If a pin is clicked and the pin is in 
 │ 🔨 Bloodhammer Sump   Settlement     │
 │ ⚓ Fjord-Gate          Settlement     │
 │ 🏔 Hunger Glaciers     Wilderness ▶  │
-│ 🏚 Rimor's Hearth      Ruin          │
+│ 🏚 Rimvald's Hearth      Ruin          │
 │                                      │
 │ ─── INHABITANTS ───                  │
 │ Skald Humans, Rime-Born (Rune        │

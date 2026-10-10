@@ -123,7 +123,7 @@ Specifically audit:
 
 - **Law of Somatic Echoes:** The Wyrd manifests from local fears. Check: does every Wyrd creature's origin match the specific fears of its home region? A face-stealing creature in a fog-amnesia region makes sense. A face-stealing creature in a volcanic forge region does not.
 - **Law of Names:** Wyrd creatures can be destroyed by discovering their first-given name. Is this mechanic consistent across all creature descriptions? Does any creature description contradict this?
-- **Law of Resonating Guilt:** The Wyrd is attracted to hidden shame and broken promises. Check: are there any described Wyrd manifestations that don't connect to guilt/shame/debt? The Gambrel (broken oaths) fits. A random monster that attacks everyone equally might not.
+- **Law of Resonating Guilt:** The Wyrd is attracted to hidden shame and broken promises. Check: are there any described Wyrd manifestations that don't connect to guilt/shame/debt? The Geaslan (broken oaths) fits. A random monster that attacks everyone equally might not.
 - **Regional Wyrd folklore:** Each region draws from specific real-world folklore traditions (Germanic/Celtic for Frostwood, Norse for Nordhalla, Japanese/Yokai for Cragjaw, etc.). Check: do the Wyrd creatures in each region actually reflect their assigned folklore? Are there tonal mismatches?
 - **Exorcism consistency:** The described exorcism protocol (starve the legend, resolve the debt, deploy cold iron/salt) -- is this consistently referenced across all class descriptions that deal with the Wyrd? Do the Exorcist, Covenbane, and Inquisitor all handle Wyrd creatures in ways consistent with these laws?
 

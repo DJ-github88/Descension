@@ -1298,7 +1298,7 @@ const LibraryWindow = ({ isOpen, onClose }) => {
       </MythrillWindow>
       {hoverNote && createPortal(
         <div
-          className={`library-book-note library-book-note--fixed ${hoverNote.above ? 'library-book-note--above' : 'library-book-note--below'}`}
+          className={`library-book-note library-book-note--fixed adventurer-menu ${hoverNote.above ? 'library-book-note--above' : 'library-book-note--below'}`}
           style={{ left: hoverNote.left, top: hoverNote.top }}
           role="tooltip"
         >

@@ -452,7 +452,7 @@ const CharacterManagement = ({ user }) => {
 
           <div className="character-portrait-section">
 
-           <div className="character-portrait">
+           <div className={`character-portrait ${!(character.image || character.lore?.characterImage || character.characterIcon || character.lore?.characterIcon) ? 'is-framed-card' : ''}`}>
 
             {character.image || character.lore?.characterImage ? (
 
@@ -467,6 +467,8 @@ const CharacterManagement = ({ user }) => {
                src={(() => { const icon = character.characterIcon || character.lore?.characterIcon; if (icon) return getIconUrl(icon, icon.includes('/') ? 'creatures' : 'items'); return getClassIconUrl(character.class) || ''; })()} 
 
                alt={character.name}
+
+               className={character.characterIcon || character.lore?.characterIcon ? '' : 'fallback-class-icon'}
 
                width="50"
 

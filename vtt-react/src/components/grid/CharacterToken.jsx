@@ -657,7 +657,7 @@ const CharacterToken = ({
     }
     // No portrait chosen: fall back to the class icon, same as the party HUD.
     // Without this the placed token rendered blank while the HUD showed the class icon.
-    return getClassIconUrl(characterData.class);
+    return getClassIconUrl(characterData.class, { variant: 'transparent' }) || getClassIconUrl(characterData.class);
   };
 
   // Handle mouse enter (show tooltip with delay)

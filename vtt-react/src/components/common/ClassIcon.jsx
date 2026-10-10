@@ -29,13 +29,24 @@ const SIZE_MAP = {
 // Cache for which thumbnails exist (avoids repeated 404s)
 const thumbCache = new Map();
 
-function getThumbSrc(originalSrc, sizeHint) {
+function resolveBaseSrc(originalSrc, variant = 'framed') {
+    if (!originalSrc) return originalSrc;
+    if (variant === 'transparent' && !originalSrc.includes('/transparent/')) {
+        const dir = originalSrc.substring(0, originalSrc.lastIndexOf('/'));
+        const filename = originalSrc.substring(originalSrc.lastIndexOf('/') + 1);
+        return `${dir}/transparent/${filename}`;
+    }
+    return originalSrc;
+}
+
+function getThumbSrc(originalSrc, sizeHint, variant = 'framed') {
     if (!originalSrc) return null;
     const sizeInfo = SIZE_MAP[sizeHint] || SIZE_MAP.small;
+    const baseResolved = resolveBaseSrc(originalSrc, variant);
     
-    // Convert '/assets/icons/classes/berserker.png' → '/assets/icons/classes/thumbs/small/berserker.webp'
-    const dir = originalSrc.substring(0, originalSrc.lastIndexOf('/'));
-    const filename = originalSrc.substring(originalSrc.lastIndexOf('/') + 1);
+    // Convert '/assets/icons/classes/berserker.png' → '/assets/icons/classes/thumbs/small/berserker.png'
+    const dir = baseResolved.substring(0, baseResolved.lastIndexOf('/'));
+    const filename = baseResolved.substring(baseResolved.lastIndexOf('/') + 1);
     const baseName = filename.replace(/\.\w+$/, '');
     
     return `${dir}/thumbs/${sizeInfo.dir}/${baseName}.png`;
@@ -45,6 +56,7 @@ const ClassIcon = memo(({
     src,
     alt = '',
     size = 'small',
+    variant = 'framed',
     className = '',
     dataClass,
     style,
@@ -54,14 +66,15 @@ const ClassIcon = memo(({
     const [useFallback, setUseFallback] = useState(false);
     const imgRef = useRef(null);
 
-    const thumbSrc = getThumbSrc(src, size);
-    const activeSrc = (!useFallback && thumbSrc) ? thumbSrc : src;
+    const effectiveSrc = resolveBaseSrc(src, variant);
+    const thumbSrc = getThumbSrc(src, size, variant);
+    const activeSrc = (!useFallback && thumbSrc) ? thumbSrc : effectiveSrc;
 
     // Build srcSet for responsive loading with larger size for hover/zoom
     const buildSrcSet = () => {
-        if (useFallback || !src) return undefined;
-        const dir = src.substring(0, src.lastIndexOf('/'));
-        const filename = src.substring(src.lastIndexOf('/') + 1);
+        if (useFallback || !effectiveSrc) return undefined;
+        const dir = effectiveSrc.substring(0, effectiveSrc.lastIndexOf('/'));
+        const filename = effectiveSrc.substring(effectiveSrc.lastIndexOf('/') + 1);
         const baseName = filename.replace(/\.\w+$/, '');
         
         const sets = [];

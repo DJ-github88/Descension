@@ -337,7 +337,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
         const className = isCurrentPlayer
             ? (currentPlayerData?.class || '')
             : (member.character?.class || '');
-        return getClassIconUrl(className);
+        return getClassIconUrl(className, { variant: 'transparent' }) || getClassIconUrl(className);
     }, [isCurrentPlayer, currentPlayerCharImage, currentPlayerCharIcon, currentPlayerData?.class, member.character?.lore?.characterImage, member.character?.lore?.characterIcon, member.character?.class]);
 
     const portraitLightboxSubtitle = useMemo(() => {
@@ -1196,7 +1196,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                         // Resolve the portrait: uploaded image → chosen icon → class icon placeholder
                         const classFallback = (!charImage && !charIcon && frameClassName && frameClassName.toLowerCase() !== 'unknown class')
-                            ? getClassIconUrl(frameClassName)
+                            ? (getClassIconUrl(frameClassName, { variant: 'transparent' }) || getClassIconUrl(frameClassName))
                             : null;
                         const resolvedImage = charImage || (charIcon ? getCustomIconUrl(charIcon, 'creatures') : classFallback);
 

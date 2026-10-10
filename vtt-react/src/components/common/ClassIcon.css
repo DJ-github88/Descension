@@ -14,22 +14,7 @@
 .class-icon-img {
     object-fit: contain;
     image-rendering: auto;
-    /* Multiply blends white → transparent against any background */
-    mix-blend-mode: multiply;
-    filter: contrast(1.1) brightness(1.1);
-    /* Radial mask: subtle edge fade only */
-    -webkit-mask-image: radial-gradient(
-        circle at center,
-        black 70%,
-        rgba(0,0,0,0.9) 80%,
-        rgba(0,0,0,0.5) 90%,
-        transparent 97%
-    );
-    mask-image: radial-gradient(
-        circle at center,
-        black 70%,
-        rgba(0,0,0,0.9) 80%,
-        rgba(0,0,0,0.5) 90%,
-        transparent 97%
-    );
+    /* Clean natural blending for the framed deckled parchment cards */
+    mix-blend-mode: normal;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
 }

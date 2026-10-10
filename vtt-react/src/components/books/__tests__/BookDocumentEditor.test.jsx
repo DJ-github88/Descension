@@ -210,7 +210,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
 
   test('renders creature illustration as a hero art plate and hides the token mini', () => {
     const artBlock = {
-      name: 'Oillipheist',
+      name: 'Olveist',
       creatureType: 'Medium Monstrosity',
       dangerLevel: 'Very High',
       hp: 380,
@@ -1151,7 +1151,7 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
   test('renders BookImageBlock with sizePreset classes', () => {
     const spotImageBlock = {
       url: '/assets/images/creatures/erlkings_hound.png',
-      caption: 'Erlking Hound',
+      caption: 'Erlgrimm',
       frameStyle: 'cutout',
       sizePreset: 'spot',
       alignment: 'center'

@@ -1085,10 +1085,10 @@ Projects 1–3 are short enabling repair, honest durability, then canonical reco
 
 **Model routing recommendation:** **Senior architecture review** of the small contract; **DeepSeek-level implementation agent** for adapters/fixtures/wiring; **Strongest-model review** of identity, replay and source-of-truth boundaries before integration.
 
-### Project 8 — Grimmstalk Feather Slash Execution Slice
+### Project 8 — Branvig Feather Slash Execution Slice
 
 **Project number:** 8  
-**Project name:** Grimmstalk Feather Slash Execution Slice  
+**Project name:** Branvig Feather Slash Execution Slice  
 **Lane / horizon:** Core RPG execution / NEXT
 
 **Why now:** Completes an already-authored usable ability and cheaply proves the consequence boundary. Leverage: C, E and F; local development need not wait for billing or asset infrastructure.

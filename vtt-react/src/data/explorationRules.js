@@ -27,7 +27,7 @@ export const EXPLORATION_RULES = {
               skill: 'Perception (hearing)',
               dcModifier: '+2 per severity level above 1',
               success: 'On course.',
-              failure: '+2d4 hours AND party wanders into hazard terrain (Lien-Stalk Razorgrass or Hungry Child territory).'
+              failure: '+2d4 hours AND party wanders into hazard terrain (Lien-Stalk Razorgrass or Munkhai territory).'
             }
           },
           {
@@ -67,7 +67,7 @@ export const EXPLORATION_RULES = {
           outcomes: [
             { range: [1, 5], result: 'Peaceful Hum', effect: 'Characters recover 1 additional exhaustion level.', type: 'beneficial' },
             { range: [6, 10], result: 'Ancestral Vision', effect: 'One character receives a cryptic vision relevant to the campaign. The dead are trying to communicate.', type: 'narrative' },
-            { range: [11, 15], result: 'Hungry Child Pack', effect: 'Combat encounter during the rest. Hunts only under starless sky.', type: 'combat' },
+            { range: [11, 15], result: 'Munkhai', effect: 'Combat encounter during the rest. Hunts only under starless sky.', type: 'combat' },
             { range: [16, 19], result: 'Mound-Awakened Ancestor', effect: 'Social encounter, the ancestor has information but demands a toll (a memory, a song, a promise).', type: 'social' },
             { range: [20, 20], result: 'Ancient Mound-Eater', effect: 'Catastrophic combat encounter. If the party flees, the mound goes permanently silent, a navigation landmark is lost forever.', type: 'catastrophic' }
           ]
@@ -376,7 +376,7 @@ export const EXPLORATION_RULES = {
           requirement: 'Pay the peat-debt bond (2 silver) or present an exemption registry.',
           options: [
             { path: 'Pay Toll', effect: 'Pay 2 silver. Gate opens.' },
-            { path: 'Contract Loophole', skill: 'History or Persuasion (DC 14)', success: 'Argued a legal exemption under the First Contract.', failure: 'Toll doubled; failure to pay results in the gate summoning a Debt-Revenant warden.' }
+            { path: 'Contract Loophole', skill: 'History or Persuasion (DC 14)', success: 'Argued a legal exemption under the First Contract.', failure: 'Toll doubled; failure to pay results in the gate summoning a Vezan warden.' }
           ]
         }
       }

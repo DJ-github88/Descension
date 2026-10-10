@@ -621,7 +621,7 @@ Before you write a single sentence of lore, you need to know what's already true
 
 ### 6.1 The Master Timeline & Core World Premise
 
-* **Pre-Star Mythrill (The Sleeping Soul & Natural Wyrd):** Mythrill is the loom of the Sleeping Soul. **Natural Wyrd** — collective belief, folklore, myth, fear and vow manifesting into creatures — grew the native beasts (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Fossegrim*) and ancient non-human races. Its hostile strain, **Predatory Wyrd**, is Keth Amar's infection of that loom (see below). Mortals had **zero magic** and survived via steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
+* **Pre-Star Mythrill (The Sleeping Soul & Natural Wyrd):** Mythrill is the loom of the Sleeping Soul. **Natural Wyrd** — collective belief, folklore, myth, fear and vow manifesting into creatures — grew the native beasts (*Jotkall*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvett*, *Fossegrim*) and ancient non-human races. Its hostile strain, **Predatory Wyrd**, is Keth Amar's infection of that loom (see below). Mortals had **zero magic** and survived via steel, tactical engineering, black powder, matchlocks, archery, and folk taboos.
 * **The Celestial Star-Fall:** Aex (the Mother) and Aethil (the Father) fled across the cosmos to hide their living, unhatched infant sun *Sol* in Mythrill's molten core from *Keth Amar*. Aethil sacrificed his absolute divine status to anchor the celestial barrier around Mythrill's atmosphere; Aex sacrificed her divine form to entomb and protect Sol in the core, sealing the vault with cosmic wards and **Bloodline Pacts**. The High Houses who swore those pacts mutated into the Bound (*Solari*, *Vreken*, etc.); common folk received subtle physical adaptations while keeping traditional black-powder and melee combat.
 * **The Master Timeline (era-relative):**
 
@@ -653,7 +653,7 @@ Before you write a single sentence of lore, you need to know what's already true
 * **The Fexrick (Engine-Theft):** Gnomish/Dwarvish engineers of Cragjaw Peaks who dug too deep, uncovered a Primordial God's engine/vault, and were cursed with erratic twitching, manic paranoia, and an insatiable urge to build and tweak.
 
 ### 6.1E Primary Launch Region
-* **Nordhalla:** The **sole, self-contained launch region** for the app map and initial gameplay release (Finnish, Greenlandic, Norse folklore textures: *Landvaettir*, *Qalupalik*, *Jutul*, *Glacier Wyrms*, *Fossegrim*). Other continents follow in future expansions.
+* **Nordhalla:** The **sole, self-contained launch region** for the app map and initial gameplay release (Finnish, Greenlandic, Norse folklore textures: *Landvett*, *Kalupik*, *Jotkall*, *Glacier Wyrms*, *Fossegrim*). Other continents follow in future expansions.
 
 ### 6.2 House Relationships — Who Stands Where
 
@@ -1360,7 +1360,7 @@ When writing or rewriting lore, run through these checks:
 | Phase | File(s) | Issue | Priority |
 |---|---|---|---|
 | LORE FLAG #1 | ~~rulesData.js, classFiles~~ | **RESOLVED (ability names):** All "Divine/Demonic/Holy/Tapestry" ability names renamed to Mythrill equivalents. Remaining: damage-type names (kept per design), icon paths (PNG refs), description text (deferred). See §9.6 for rename map. | ~~High~~ Done |
-| Phase 6 | creatureLibraryData.js, creatureData.json | **RESOLVED:** All real-world mythological references replaced with Mythrill-specific equivalents; Yuki-Onna fully reconciled to Rime-Bride. | ~~Medium~~ Done |
+| Phase 6 | creatureLibraryData.js, creatureData.json | **RESOLVED:** All real-world mythological references replaced with Mythrill-specific equivalents; Yuki-Onna fully reconciled to Yukiona. | ~~Medium~~ Done |
 | Phase 11 | loreDictionary.js | **RESOLVED:** 12 shadowed duplicate character keys resolved (Orven-Sen renamed to orven-sen, Frigga Skalvyr consolidated, others deleted). | ~~Low~~ Done |
 
 ### 9.4 loreDictionary.js Voice Quality — Definitional Openers

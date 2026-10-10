@@ -6,10 +6,14 @@ const normalize = (value) => String(value || '').trim().toLowerCase();
  * Canonical class icon path for a class name, or null when unknown.
  * @param {string} className - e.g. "Crusader", "False Prophet"
  */
-export const getClassIconUrl = (className) => {
+export const getClassIconUrl = (className, options = {}) => {
     if (!className) return null;
     const entry = CLASS_DISPLAY_DATA.find(c => normalize(c.name) === normalize(className));
-    return entry?.imageIcon || null;
+    if (!entry?.imageIcon) return null;
+    if (options.variant === 'transparent') {
+        return entry.imageIcon.replace('/classes/', '/classes/transparent/');
+    }
+    return entry.imageIcon;
 };
 
 /**

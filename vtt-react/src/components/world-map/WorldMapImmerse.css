@@ -14,6 +14,61 @@
     linear-gradient(135deg, #180e08 0%, #100805 50%, #070302 100%);
   background-color: #0c0704;
   user-select: none;
+  outline: none;
+}
+
+/* The atlas is already in view; only its instruments and ink settle in. */
+.world-map-immersive .map-controls-fixed,
+.world-map-immersive .map-tools-sidebar {
+  animation: mapInstrumentsArrive 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.world-map-immersive .map-overlay-svg {
+  animation: mapInkArrives 420ms ease-out both;
+}
+
+.world-map-immersive .burned-parchment-border {
+  transition-duration: 420ms;
+}
+
+@keyframes mapInstrumentsArrive {
+  from { opacity: 0; translate: 12px 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes mapInkArrives {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.world-map-immersive.map-reduced-motion .map-controls-fixed,
+.world-map-immersive.map-reduced-motion .map-tools-sidebar,
+.world-map-immersive.map-reduced-motion .map-overlay-svg {
+  animation: mapInkArrives 160ms ease-out both;
+}
+
+.world-map-immersive.map-reduced-motion .burned-parchment-border {
+  transition-duration: 160ms;
+}
+
+.world-map-immersive.map-reduced-motion .ember-glow {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-map-immersive .map-controls-fixed,
+  .world-map-immersive .map-tools-sidebar,
+  .world-map-immersive .map-overlay-svg {
+    animation: mapInkArrives 160ms ease-out both;
+  }
+
+  .world-map-immersive .burned-parchment-border {
+    transition-duration: 160ms;
+  }
+
+  .world-map-immersive .ember-glow {
+    animation: none;
+  }
 }
 
 .react-transform-wrapper,

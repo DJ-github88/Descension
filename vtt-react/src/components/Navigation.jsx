@@ -1488,6 +1488,7 @@ export default function Navigation({ onReturnToLanding }) {
                                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleCategoryMenu(cat.id); }}
                                                         onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); toggleCategoryMenu(cat.id); }}
                                                         title={`${cat.label} (${members.length})`}
+                                                        aria-expanded={isOpen}
                                                         style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                                                     >
                                                         {navAssets ? (
@@ -1522,6 +1523,7 @@ export default function Navigation({ onReturnToLanding }) {
                                                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(b.id); setOpenCategory(null); }}
                                                                         onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleButtonClick(b.id); setOpenCategory(null); }}
                                                                         title={`${b.title || b.id}${b.shortcut ? ' (' + b.shortcut + ')' : ''}${b.premium ? ' - Premium' : ''}`}
+                                                                        aria-pressed={bActive}
                                                                     >
                                                                         <svg viewBox="0 0 24 24" className="wow-nav-flyout-item-icon" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                                             {b.svg}

@@ -33,6 +33,7 @@ import { getRandomCharacterName } from '../../../utils/nameGenerator';
 import CharacterAppearanceModal from '../components/CharacterAppearanceModal';
 
 import ClassIcon from '../../common/ClassIcon';
+import { getClassIconUrl } from '../../../utils/classIconUtils';
 
 import UnifiedTooltip from '../../common/UnifiedTooltip';
 
@@ -2422,7 +2423,8 @@ const Step1CoreDraft = () => {
 
                                     <ClassIcon 
 
-                                        src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
+                                        src={getClassIconUrl(characterData.class, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
+                                        variant="transparent"
 
                                         alt={characterData.class}
 
@@ -2735,7 +2737,8 @@ const Step1CoreDraft = () => {
 
                                                 <ClassIcon 
 
-                                                    src={CLASS_DATA_MAP[characterData.class]?.imageIcon || `/assets/icons/classes/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
+                                                    src={getClassIconUrl(characterData.class, { variant: 'transparent' }) || `/assets/icons/classes/transparent/${characterData.class.toLowerCase().replace(' ', '_')}.png`}
+                                                    variant="transparent"
 
                                                     alt={characterData.class}
 

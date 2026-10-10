@@ -75,6 +75,7 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
   const baselines = new Map();
   const tails = new Map();
   const pendingByFamily = new Map();
+  const refusedByFamily = new Map();
   const legacyQuarantined = new Set();
   let pendingWriteCount = 0;
   // Room-projection suspension: while set for a scope, writes stay in memory
@@ -82,6 +83,83 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
   // A scope change clears the suspension so a later account is never silently
   // left unsaved.
   let suspendedScopeKey = null;
+
+  /**
+   * Queue a captured scoped write. The operation context is captured before
+   * queueing so a handoff can never re-attribute it to another account.
+   */
+  function enqueueScopedWrite(scope, payload, operationContext) {
+    const key = baselineKey(scope, familyId);
+    const previous = tails.get(key) || Promise.resolve();
+    pendingWriteCount += 1;
+    const run = previous.then(async () => {
+      const baseline = baselines.get(key) || { revision: null, draftId: null };
+      if (baseline.external) {
+        // A queued stale candidate must not become writable merely because an
+        // earlier handler adopted the external winner's baseline. Preserve it
+        // as a fork and leave the winner untouched until a fresh rehydration.
+        let forkedId = null;
+        try {
+          const forked = forkScopedRecord({ familyId, scope, context: operationContext, payload });
+          if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
+        } catch (_error) {
+          // best-effort; the winner is never overwritten either way
+        }
+        return {
+          status: 'STALE_REVISION',
+          currentRevision: baseline.revision,
+          currentDraftId: baseline.draftId,
+          forkedDraftId: forkedId
+        };
+      }
+      const result = await saveScopedDraft({
+        familyId,
+        payload,
+        context: operationContext,
+        expectedRevision: baseline.revision,
+        expectedDraftId: baseline.draftId
+      });
+      if (result.status === 'STALE_REVISION') {
+        // The durable record moved (another writer/tab). Adopting the
+        // winner's identity must never authorize publishing this stale
+        // whole-document snapshot: preserve the candidate as a fork, keep the
+        // winner, and mark the baseline external so the rest of the queued
+        // stale cohort cannot overwrite it either.
+        let forkedId = null;
+        try {
+          const forked = forkScopedRecord({
+            familyId,
+            scope,
+            context: operationContext,
+            payload
+          });
+          if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
+        } catch (_error) {
+          // best-effort; the winner is never overwritten either way
+        }
+        baselines.set(key, {
+          revision: result.currentRevision ?? null,
+          draftId: result.currentDraftId ?? null,
+          dirty: false,
+          external: true,
+          forkedDraftId: forkedId
+        });
+        return result;
+      }
+      if (result.status === 'OK' || result.status === 'FORKED') {
+        baselines.set(key, { revision: result.newRevision ?? 1, draftId: result.draftId, dirty: true });
+        refusedByFamily.delete(familyId);
+      } else if (result.status && result.status !== 'IDLE') {
+        // Retain the exact candidate for a bounded handoff retry.
+        refusedByFamily.set(familyId, { payload, operationContext });
+      }
+      return result;
+    });
+    const settled = run.finally(() => { pendingWriteCount -= 1; });
+    tails.set(key, settled.catch(() => {}));
+    pendingByFamily.set(familyId, settled);
+    return settled;
+  }
 
   const storage = {
     getItem: (name) => {
@@ -134,11 +212,6 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
           return; // suspended room projection: memory only
         }
       }
-      const key = baselineKey(scope, familyId);
-      // Capture the immutable operation context NOW, before the write is
-      // queued. A queued write that resumes after a handoff must be refused,
-      // never re-attributed to the new account.
-      const operationContext = captured.context;
       const rawState = value && typeof value === 'object' && 'state' in value ? value.state : value;
       const version = value && typeof value === 'object' && 'version' in value ? value.version : 0;
       let state = rawState;
@@ -149,54 +222,8 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
           state = rawState;
         }
       }
-      const payload = { state, version };
-
-      // Serialize writes per scope+family so a later write always observes the
-      // baseline established by the earlier one.
-      const previous = tails.get(key) || Promise.resolve();
-      pendingWriteCount += 1;
-      const run = previous.then(async () => {
-        let baseline = baselines.get(key) || { revision: null, draftId: null };
-        const result = await saveScopedDraft({
-          familyId,
-          payload,
-          context: operationContext,
-          expectedRevision: baseline.revision,
-          expectedDraftId: baseline.draftId
-        });
-        if (result.status === 'STALE_REVISION') {
-          // The durable record moved (another writer/tab). Adopting the
-          // winner's baseline must never authorize publishing this stale
-          // whole-document snapshot over the winner: preserve the candidate
-          // as a fork and leave the winner untouched.
-          let forkedId = null;
-          try {
-            const forked = forkScopedRecord({
-              familyId,
-              scope,
-              context: operationContext,
-              payload
-            });
-            if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
-          } catch (_error) {
-            // best-effort; the winner is never overwritten either way
-          }
-          baselines.set(key, {
-            revision: result.currentRevision ?? null,
-            draftId: result.currentDraftId ?? null,
-            dirty: false,
-            forkedDraftId: forkedId
-          });
-          return result;
-        }
-        if (result.status === 'OK' || result.status === 'FORKED') {
-          baselines.set(key, { revision: result.newRevision ?? 1, draftId: result.draftId, dirty: true });
-        }
-        return result;
-      });
-      const settled = run.finally(() => { pendingWriteCount -= 1; });
-      tails.set(key, settled.catch(() => {}));
-      pendingByFamily.set(familyId, settled);
+      // The immutable operation context is captured here, before queueing.
+      enqueueScopedWrite(scope, { state, version }, captured.context);
     },
 
     // Authored scoped data is never deleted through the persistence engine.
@@ -204,7 +231,21 @@ export function createScopedStoreStorage({ familyId, sanitize = null } = {}) {
   };
 
   storage.__flush = () => Promise.all([...pendingByFamily.values()]);
-  storage.__resetBaselines = () => baselines.clear();
+  storage.__resetBaselines = () => {
+    baselines.clear();
+    refusedByFamily.clear();
+  };
+
+  /** Re-enqueue the last refused captured write (bounded handoff retry). */
+  storage.__retryRefused = () => {
+    const entry = refusedByFamily.get(familyId);
+    if (!entry) return 0;
+    enqueueScopedWrite(entry.operationContext.scope, entry.payload, entry.operationContext);
+    return 1;
+  };
+
+  /** True while a refused captured candidate is retained for retry. */
+  storage.__hasRefusedCandidate = () => refusedByFamily.has(familyId);
 
   /** True while a captured scoped write is still queued/in flight. */
   storage.__hasPendingWrites = () => pendingWriteCount > 0;
@@ -313,14 +354,22 @@ export function registerScopedStoreHandoff({ familyId, store, storage = null, la
     id: `scoped-store:${label}`,
     stopNewWork: async () => {
       if (!engine || typeof engine.__flush !== 'function') return { ok: true };
-      const results = await engine.__flush();
+      const inspect = (results) => (Array.isArray(results) ? results : [results]).filter(
+        (result) => result && typeof result === 'object' &&
+          result.status && !['OK', 'FORKED', 'IDLE', 'STALE_REVISION'].includes(result.status)
+      );
+      let results = await engine.__flush();
+      let failed = inspect(results);
+      if (failed.length > 0 && typeof engine.__retryRefused === 'function') {
+        // Bounded preservation retry: re-attempt the retained captured
+        // candidate(s) while the old scope is still active.
+        engine.__retryRefused();
+        results = await engine.__flush();
+        failed = inspect(results);
+      }
       // A resolved flush promise is not proof the writes succeeded. Inspect
       // the actual coordination results and fail the handoff if any queued
       // write was refused or errored (never silently report ok).
-      const failed = (Array.isArray(results) ? results : [results]).filter(
-        (result) => result && typeof result === 'object' &&
-          result.status && result.status !== 'OK' && result.status !== 'FORKED' && result.status !== 'IDLE'
-      );
       if (failed.length > 0) {
         return { ok: false, reason: `queued-write-${failed[0].status}`, failures: failed.length };
       }

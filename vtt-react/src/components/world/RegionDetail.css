@@ -1403,3 +1403,165 @@
   color: #ffffff;
   transform: translateY(-1px);
 }
+
+/* Realm codex art direction. Scope shared World/Chronicon selectors here so
+   these pages use the same parchment, ink, leather and wax as the account. */
+.world-panel.region-detail-panel,
+.world-panel.faction-detail-panel,
+.faction-dialog-theme {
+  --realm-ink: #34251a;
+  --realm-muted: #68533e;
+  --realm-paper: #f0e3c4;
+  --realm-page: #f5ecd9;
+  --realm-panel: #e8dcc6;
+  --realm-rule: #b6a080;
+  --realm-seal: #663c32;
+  --realm-leather: #302419;
+  --realm-brass: #c4ab79;
+  --realm-atlas: url('../../../public/assets/images/backgrounds/atlas/mythril-preview.jpg');
+}
+.world-panel.region-detail-panel,
+.world-panel.faction-detail-panel {
+  background: var(--realm-panel) !important;
+  color: var(--realm-ink) !important;
+  font-family: 'Crimson Text', Georgia, serif;
+  scrollbar-color: #9b835e var(--realm-panel);
+}
+.region-detail-panel[data-region='nordhalla'], .faction-detail-panel[data-region='nordhalla'] { --realm-atlas: url('../../../public/assets/images/backgrounds/atlas/nordhalla-preview.jpg'); }
+.region-detail-panel ::selection { background: #cfbd99; color: var(--realm-ink); }
+.region-detail-panel :is(button, input, select, textarea):focus-visible { outline: 2px solid #826749; outline-offset: 3px; }
+.region-detail-panel :is(input, textarea) { caret-color: var(--realm-seal); }
+
+/* Cartographic frontispiece and quiet, engraved ledger counts. */
+.region-detail-panel .region-hero-header {
+  padding: 20px 28px 28px;
+  background: linear-gradient(90deg, rgba(48, 36, 25, 0.97), rgba(48, 36, 25, 0.86)), var(--realm-atlas) center / cover;
+  border-bottom: 1px solid #9b835e;
+  color: var(--realm-paper);
+}
+.region-detail-panel .region-hero-top-nav { border-bottom-color: #897455; padding-bottom: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.region-detail-panel .region-breadcrumbs { color: #c9b694; font-size: 0.78rem; flex-wrap: wrap; }
+.region-detail-panel .region-breadcrumbs .current { color: var(--realm-paper); }
+.region-detail-panel .region-hero-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.region-detail-panel .region-hero-header :is(.world-back-btn, .btn-region-hero-action) {
+  min-height: 40px;
+  padding: 8px 12px;
+  background: transparent !important;
+  border: 1px solid #897455 !important;
+  border-radius: 3px;
+  color: var(--realm-paper) !important;
+  font-size: 0.75rem;
+  box-shadow: none;
+  text-shadow: none;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.region-detail-panel .region-hero-header :is(.world-back-btn, .btn-region-hero-action):hover { background: #453326 !important; border-color: var(--realm-brass) !important; color: var(--realm-paper) !important; transform: none; }
+.region-detail-panel .region-hero-header :is(button, [role='button']):focus-visible { outline-color: var(--realm-paper); }
+.region-detail-panel .region-hero-icon-box { border: 1px solid #9b835e; border-radius: 3px; background: transparent; color: var(--realm-paper); box-shadow: none; }
+.region-detail-panel .region-ruler-badge { background: transparent; border: 1px solid #897455; border-radius: 2px; color: #d0bf9e; font-size: 0.68rem; }
+.region-detail-panel .region-hero-title { font-size: clamp(1.75rem, 3vw, 2.35rem); color: var(--realm-paper); font-weight: 700; text-shadow: none; text-wrap: balance; }
+.region-detail-panel .region-hero-desc { font-family: 'Crimson Text', Georgia, serif; font-size: 1.05rem; line-height: 1.55; color: #decdab; max-width: 75ch; }
+.region-detail-panel .region-hero-stats-col { gap: 0; }
+.region-detail-panel .region-hero-stat-card { background: transparent !important; border: 0 !important; border-left: 1px solid #897455 !important; border-radius: 0; box-shadow: none; backdrop-filter: none; padding: 8px 20px; }
+.region-detail-panel .region-hero-stat-card .stat-value { color: var(--realm-paper) !important; font-size: 1.8rem !important; text-shadow: none !important; font-weight: 600 !important; }
+.region-detail-panel .region-hero-stat-card .stat-label { color: #d0bf9e !important; text-shadow: none !important; font-size: 0.65rem !important; letter-spacing: 0.04em !important; }
+
+/* Ink tabs printed on parchment; the selected chapter is a wax-red stamp. */
+.region-detail-panel .world-tabs { background: #e5d7bb !important; border-bottom: 1px solid var(--realm-rule) !important; padding: 8px 24px; gap: 4px; }
+.region-detail-panel .world-tab { box-sizing: border-box; background: transparent; color: var(--realm-muted) !important; border: 1px solid transparent; border-radius: 3px; padding: 10px 14px; min-height: 44px; font-size: 0.82rem; text-shadow: none; }
+.region-detail-panel .world-tab:hover { background: var(--realm-panel); color: var(--realm-seal) !important; border-color: var(--realm-rule); }
+.region-detail-panel .world-tab.active { background: var(--realm-seal) !important; color: var(--realm-paper) !important; border-color: var(--realm-seal) !important; box-shadow: none; }
+.region-detail-panel .world-tabs::-webkit-scrollbar-thumb { background: #9b835e; }
+.region-detail-panel .world-tab-content { padding: 26px 28px 36px; }
+.region-detail-panel .world-section { background: var(--realm-page) !important; border: 1px solid var(--realm-rule) !important; border-radius: 3px; box-shadow: none; padding: 22px; }
+.region-detail-panel .world-section h3 { color: var(--realm-seal) !important; border-bottom: 3px double var(--realm-rule); padding-bottom: 12px; margin-bottom: 14px; }
+.region-detail-panel .world-section h4 { color: var(--realm-ink) !important; }
+.region-detail-panel .world-prose { color: var(--realm-ink) !important; font-family: 'Crimson Text', Georgia, serif; font-size: 1.08rem; line-height: 1.75; }
+
+/* The realm's geographic and holding records use the same paper stock. */
+.region-detail-panel :is(.region-subregion-showcase-card, .region-env-card, .region-loc-control-hub, .region-holding-group-card, .region-location-card, .region-explorer-sidebar, .region-explorer-dossier, .region-faction-card, .dossier-stat-box, .dossier-history-section) { background: var(--realm-page); border: 1px solid var(--realm-rule); border-radius: 3px; box-shadow: none; }
+.region-detail-panel :is(.region-subregion-showcase-card, .region-env-card) { background: var(--realm-page); }
+.region-detail-panel :is(.subregion-showcase-desc, .group-desc, .location-card-desc, .dossier-prose, .faction-goal-preview, .region-env-card p) { font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; line-height: 1.6; color: var(--realm-muted); }
+.region-detail-panel :is(.location-card-title, .group-title, .faction-card-name) { color: var(--realm-ink) !important; font-weight: 700 !important; }
+.region-detail-panel :is(.env-card-header, .env-card-header h4, .subregion-showcase-top h4, .subregion-showcase-top h4 i, .location-card-meta-row i, .dossier-section h4 i) { color: var(--realm-seal); }
+.region-detail-panel :is(.subregion-hold-count, .group-count-pill, .loc-type-tag, .loc-cat-count, .region-folk-chip, .dossier-faction-chip, .dossier-route-chip, .faction-type-pill, .world-badge) { background: var(--realm-panel); color: var(--realm-muted); border-color: var(--realm-rule); border-radius: 2px; }
+.region-detail-panel :is(.subregion-showcase-meta, .location-card-meta-row, .holding-group-header, .dossier-hero-header, .dossier-footer-action) { border-color: var(--realm-rule); }
+.region-detail-panel .region-location-card::before { display: none; }
+.region-detail-panel :is(.region-location-card, .region-faction-card):is(:hover, :focus-within) { border-color: var(--realm-seal); background: var(--realm-page); box-shadow: none; transform: none; }
+.region-detail-panel .region-location-card:hover .location-card-title { color: var(--realm-seal) !important; }
+.region-detail-panel :is(.group-icon-crest, .dossier-hero-icon) { background: transparent; border: 1px solid var(--realm-rule); border-radius: 3px; color: var(--realm-seal); box-shadow: none; }
+.region-detail-panel .faction-card-crest { border-width: 1px; box-shadow: none; }
+.region-detail-panel :is(.subregion-showcase-meta, .location-subregion-chip, .location-card-meta-row, .faction-holdings-tag, .faction-leader-preview, .dossier-region-label, .dossier-stat-lbl) { color: var(--realm-muted); }
+.region-detail-panel :is(.region-threat-item, .dossier-history-section) { background: var(--realm-panel); border: 1px solid var(--realm-rule); color: var(--realm-seal); border-radius: 3px; }
+
+/* Search, filters, view switching, and inspect actions match hover/active/focus. */
+.region-detail-panel :is(.region-loc-select, .region-loc-search-box input) { background: var(--realm-page); color: var(--realm-ink); border: 1px solid var(--realm-rule); border-radius: 3px; font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; min-height: 40px; box-shadow: none; }
+.region-detail-panel .region-loc-search-box { min-width: 0; }
+.region-detail-panel .region-loc-search-box input:focus { border-color: var(--realm-seal); background: var(--realm-page); box-shadow: none; }
+.region-detail-panel input::placeholder { color: var(--realm-muted); opacity: 1; }
+.region-detail-panel .region-loc-select { max-width: 100%; }
+.region-detail-panel .region-loc-view-switcher { background: var(--realm-panel); border-color: var(--realm-rule); border-radius: 3px; flex-wrap: wrap; }
+.region-detail-panel :is(.btn-view-mode, .loc-category-pill, .btn-toggle-group, .btn-loc-reset-filters, .btn-inspect-loc, .btn-inspect-fac-chronicle) { min-height: 36px; background: transparent; color: var(--realm-seal); border: 1px solid var(--realm-rule); border-radius: 3px; box-shadow: none; font-family: 'Cinzel', Georgia, serif; }
+.region-detail-panel :is(.btn-view-mode, .loc-category-pill, .btn-toggle-group, .btn-loc-reset-filters, .btn-inspect-loc):hover { background: var(--realm-panel); border-color: var(--realm-seal); color: var(--realm-seal); box-shadow: none; transform: none; }
+.region-detail-panel :is(.btn-view-mode.active, .loc-category-pill.active, .region-location-card:hover .btn-inspect-loc) { background: var(--realm-seal); color: var(--realm-paper); border-color: var(--realm-seal); box-shadow: none; }
+.region-detail-panel .loc-category-pill.active .loc-cat-count { background: transparent; color: var(--realm-paper); }
+.region-detail-panel .region-faction-card:hover .btn-inspect-fac-chronicle { color: var(--realm-seal); text-decoration-color: var(--realm-seal); }
+.region-detail-panel :is(.btn-add-hold-location, .btn-dossier-open-full, .btn-dossier-cta) { background: var(--realm-seal); border: 1px solid #956b5b; border-radius: 3px; color: var(--realm-paper); box-shadow: none; min-height: 40px; }
+.region-detail-panel :is(.btn-add-hold-location, .btn-dossier-open-full, .btn-dossier-cta):hover { background: #78493b; border-color: #a77761; color: var(--realm-paper); box-shadow: none; transform: none; }
+.region-detail-panel .explorer-sidebar-header { background: var(--realm-panel); border-color: var(--realm-rule); }
+.region-detail-panel .explorer-loc-item { border-bottom-color: var(--realm-rule); }
+.region-detail-panel .explorer-loc-item:hover { background: var(--realm-panel); }
+.region-detail-panel .explorer-loc-item.selected { background: var(--realm-panel); border-left: 1px solid var(--realm-seal); }
+.region-detail-panel .explorer-loc-item-icon { background: transparent; color: var(--realm-seal); border-radius: 2px; }
+.region-detail-panel .explorer-loc-item.selected .explorer-loc-item-icon { background: var(--realm-seal); color: var(--realm-paper); }
+.region-detail-panel .btn-inspect-fac-chronicle { padding: 8px; }
+
+/* Chronicle content stays a paper chapter within the realm codex. */
+:is(.region-detail-panel, .faction-detail-panel) :is(.chronicon-master-header, .chronicon-era-banner, .chronicon-toolbar, .chronicon-calendar-drawer, .era-step-card, .world-month-card) { background: var(--realm-page); border: 1px solid var(--realm-rule); border-radius: 3px; box-shadow: none; }
+:is(.region-detail-panel, .faction-detail-panel) :is(.chronicon-title, .chronicon-header-icon) { color: var(--realm-ink) !important; text-shadow: none; }
+:is(.region-detail-panel, .faction-detail-panel) :is(.chronicon-subtitle, .era-banner-prose) { color: var(--realm-muted); font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; }
+:is(.region-detail-panel, .faction-detail-panel) .btn-chronicon-action { background: transparent; border: 1px solid var(--realm-rule); border-radius: 3px; color: var(--realm-seal); box-shadow: none; min-height: 40px; }
+:is(.region-detail-panel, .faction-detail-panel) .btn-chronicon-action:is(:hover, .active) { background: var(--realm-seal); border-color: var(--realm-seal); color: var(--realm-paper); box-shadow: none; transform: none; }
+:is(.region-detail-panel, .faction-detail-panel) .era-step-card:hover { background: var(--realm-panel); border-color: var(--realm-seal); box-shadow: none; transform: none; }
+:is(.region-detail-panel, .faction-detail-panel) .era-step-card.active { background: var(--realm-seal); border-color: #956b5b; box-shadow: none; }
+:is(.region-detail-panel, .faction-detail-panel) .era-step-card.active :is(.era-step-num, .era-step-title, .era-step-range, .era-event-count) { color: var(--realm-paper); }
+:is(.region-detail-panel, .faction-detail-panel) .era-banner-right { min-width: 0; }
+:is(.region-detail-panel, .faction-detail-panel) .chronicon-search-box input { background: var(--realm-page); border-color: var(--realm-rule); border-radius: 3px; color: var(--realm-ink); font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; }
+
+/* Local creation/edit dialogs keep the same materials. */
+.region-detail-panel .world-modal-card { background: var(--realm-page) !important; border: 1px solid var(--realm-rule); border-radius: 3px; }
+.region-detail-panel .world-modal-header { background: var(--realm-panel); border-color: var(--realm-rule); }
+.region-detail-panel .world-modal-header h3 { color: var(--realm-ink); }
+.region-detail-panel .world-form-group :is(input, select, textarea) { background: var(--realm-page); color: var(--realm-ink); border-color: var(--realm-rule); border-radius: 3px; font-family: 'Crimson Text', Georgia, serif; }
+
+@media (max-width: 1050px) {
+  .region-detail-panel .region-hero-main-card { flex-wrap: wrap; }
+  .region-detail-panel .region-hero-stats-col { margin-left: 84px; }
+  .region-detail-panel .region-loc-filter-group { max-width: 100%; }
+}
+@media (max-width: 768px) {
+  .region-detail-panel .region-hero-header { padding: 16px 18px 22px; }
+  .region-detail-panel .region-hero-top-nav { gap: 12px; }
+  .region-detail-panel .region-breadcrumbs { order: 3; width: 100%; }
+  .region-detail-panel .region-hero-main-card { align-items: flex-start; gap: 12px; }
+  .region-detail-panel .region-hero-icon-box { width: 44px; height: 44px; font-size: 22px; }
+  .region-detail-panel .region-hero-stats-col { width: 100%; margin-left: 0; padding-top: 12px; border-top: 1px solid #897455; }
+  .region-detail-panel .region-hero-stat-card { flex: 1; padding: 8px; }
+  .region-detail-panel .region-hero-stat-card:first-child { border-left: 0 !important; }
+  .region-detail-panel .world-tabs { padding: 8px 12px; flex-wrap: wrap; white-space: normal; }
+  .region-detail-panel .world-tab { flex: 1 1 calc(50% - 4px); justify-content: center; text-align: center; white-space: normal; padding: 10px 8px; }
+  .region-detail-panel .world-tab-content { padding: 18px 12px 28px; }
+  .region-detail-panel .world-section { padding: 18px 14px; }
+  .region-detail-panel :is(.region-subregions-showcase-grid, .region-environmental-grid, .region-threats-grid, .region-locations-grid, .region-factions-grid) { grid-template-columns: minmax(0, 1fr); }
+  .region-detail-panel :is(.region-loc-control-hub, .region-holding-group-card, .region-explorer-dossier) { padding: 16px 12px; }
+  .region-detail-panel .region-loc-search-box { flex-basis: 100%; }
+  .region-detail-panel .region-loc-view-switcher { width: 100%; }
+  .region-detail-panel .subregion-showcase-top { flex-wrap: wrap; }
+  .region-detail-panel .dossier-hero-header { flex-wrap: wrap; }
+  .region-detail-panel .group-header-left { min-width: 0; gap: 10px; }
+  .region-detail-panel .group-title { font-size: 1rem !important; flex-wrap: wrap; }
+  .region-detail-panel .region-loc-summary-ribbon { gap: 8px; flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .region-detail-panel * { transition: none !important; animation: none !important; }
+}

@@ -274,7 +274,7 @@ She has never spoken. No one knows if she still can.
   backstory: `
 The Oracle of Atropolis is not a title. It is a person, always a Athien, always female, always the eldest living Athien who has returned more times than any other. Lyra-Vel is the twelfth to hold the position. She has returned fourteen times: four illnesses, three accidents, five acts of violence, and two causes she refuses to disclose. Her death-count is the highest in recorded Athien history, and Morvane knows her voice.
 
-Lyra-Vel does not read the future. She reads the First Contract, not the text, but the implications. She perceives the contract-graph the way Weft perceive the obligation-web, but deeper, older, more structural. When a new contract is signed anywhere in the Athien trade network, she feels the shift in the pact's balance. When a contract is broken, she knows before the Debt-Revenant rises. When Morvane's attention wavers, as it has been doing, increasingly, in the last century, she is the first to notice.
+Lyra-Vel does not read the future. She reads the First Contract, not the text, but the implications. She perceives the contract-graph the way Weft perceive the obligation-web, but deeper, older, more structural. When a new contract is signed anywhere in the Athien trade network, she feels the shift in the pact's balance. When a contract is broken, she knows before the Vezan rises. When Morvane's attention wavers, as it has been doing, increasingly, in the last century, she is the first to notice.
 
 The Athien consult her before every major policy decision. She never tells them what to do. She tells them what the pact allows, what the pact forbids, and what the pact has never been asked before, and lets them draw their own conclusions. The youngest Athien find her terrifying. The oldest Athien find her comforting. Lyra-Vel herself finds both reactions mildly disappointing.
 
@@ -882,7 +882,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     {
      id: 'magic_resistance_drun',
      name: 'The Pact\'s Silence',
-      description: 'First Contract enforcement cannot invoke your removed signature. A Clause of Binding or Debt-Revenant cannot enforce that signature, but a creature can still see or physically attack you and unrelated magic works normally.',
+      description: 'First Contract enforcement cannot invoke your removed signature. A Clause of Binding or Vezan cannot enforce that signature, but a creature can still see or physically attack you and unrelated magic works normally.',
       mechanicsText: 'No First Contract signature enforcement or Fraying. No blanket advantage against spells or immunity to unrelated magic.'
      }
    ],

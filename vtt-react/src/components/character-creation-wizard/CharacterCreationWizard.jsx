@@ -162,7 +162,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
     const { iconBackgroundImage } = state.characterData;
     const backdropValue = iconBackgroundImage
         ? `linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.18)), url(/assets/Backgrounds/${encodeURIComponent(iconBackgroundImage)})`
-        : 'linear-gradient(135deg, #e8e2d2 0%, #d8cdb5 100%)'; // Darker sepia beige parchment
+        : 'linear-gradient(rgba(232, 220, 198, 0.82), rgba(232, 220, 198, 0.82)), url(/assets/ui/wow-window/parchment_bg.png)';
 
     const wizardStyle = {
         '--wizard-backdrop': backdropValue
@@ -251,6 +251,8 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                         onClick={() => setIsMenuOpen(prev => !prev)}
                         title="Quick step navigation"
                         aria-label="Quick step navigation"
+                        aria-expanded={isMenuOpen}
+                        aria-controls="wizard-step-navigation"
                     >
                         <span className="wizard-orb-step-label">Step</span>
                         <span className="wizard-orb-number">{state.currentStep}</span>
@@ -258,10 +260,10 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
                     {/* Step Quick Jump Popover Menu */}
                     {isMenuOpen && (
-                        <div className="wizard-orb-menu">
+                        <div className="wizard-orb-menu" id="wizard-step-navigation">
                             <div className="wizard-orb-menu-header">
                                 <span>Navigate Steps</span>
-                                <button type="button" className="orb-menu-close" onClick={() => setIsMenuOpen(false)}>
+                                <button type="button" className="orb-menu-close" onClick={() => setIsMenuOpen(false)} aria-label="Close step navigation">
                                     <i className="fas fa-times"></i>
                                 </button>
                             </div>
@@ -277,6 +279,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                                             type="button"
                                             className={`wizard-orb-menu-item ${isCurrent ? 'current' : ''} ${status}`}
                                             onClick={() => handleStepClick(stepNumber)}
+                                            aria-current={isCurrent ? 'step' : undefined}
                                         >
                                             <span className="orb-menu-num">{stepNumber}</span>
                                             <div className="orb-menu-info">

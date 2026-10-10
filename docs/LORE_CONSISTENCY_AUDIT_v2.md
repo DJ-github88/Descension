@@ -129,7 +129,7 @@ For each region, check that its creatures' folklore `origin`/`heritage` fields r
 
 ### 4.1  -  Same name, different entities
 Search for any proper noun that refers to two completely different things:
-- Check specifically: "Unwoven" (was Mimir caste + Sundale faction; Sundale should now be "the Scoured"), "Sylvain" (founder + modern NPC; should be intentional honor-name), "Sluagh" (two different creatures)
+- Check specifically: "Unwoven" (was Mimir caste + Sundale faction; Sundale should now be "the Scoured"), "Sylvain" (founder + modern NPC; should be intentional honor-name), "Rabengast" (two different creatures)
 - Report any remaining collisions
 
 ### 4.2  -  Same entity, different names

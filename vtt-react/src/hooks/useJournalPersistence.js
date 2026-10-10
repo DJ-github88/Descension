@@ -6,6 +6,10 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
+import { captureOwnerGuard, loadScopedDraft } from '../persistence/scopedConsumer';
+import { whenHandoffIdle } from '../persistence/authBootstrapGateBinding';
+import { getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
+import { getScopedStoreEngine } from '../persistence/scopedStoreStorage';
 export const useJournalPersistence = () => {
  const persistenceService = require('../services/firebase/persistenceService').default;
  // Use shifting require to break circular dependencies
@@ -81,14 +85,29 @@ export const useJournalPersistence = () => {
   const usePersistenceStatusStore = require('../store/persistenceStatusStore').default;
   const useNotificationStore = require('../store/notificationStore').default;
 
+  // P5-03 owner fence: capture the owner and account generation BEFORE any
+  // asynchronous work so an old save continuation can never mutate a newer
+  // account's status, saved-state reference, dirty state or notifications.
+  const startedForUid = user.uid;
+  const ownerGuard = captureOwnerGuard(startedForUid);
+  const ownerStillCurrent = () => ownerGuard.ok && ownerGuard.isCurrent();
+
   try {
-   usePersistenceStatusStore?.getState().setStatus('journal', 'saving');
-   const result = await persistenceService.saveJournal(user.uid, dataToSave);
+   if (ownerStillCurrent()) {
+    usePersistenceStatusStore?.getState().setStatus('journal', 'saving');
+   }
+   const result = await persistenceService.saveJournal(startedForUid, dataToSave);
+
+   if (!ownerStillCurrent()) {
+    // Account changed while the save was in flight: keep the honest A-owned
+    // result for the caller but never apply it to the new owner's UI/data.
+    return result;
+   }
 
    if (result.success) {
     lastSavedStateRef.current = JSON.stringify(dataToSave);
     usePersistenceStatusStore?.getState().setStatus('journal', 'saved');
-    console.log(`💾 Journal saved for user ${user.uid}`);
+    console.log(`💾 Journal saved for user ${startedForUid}`);
    } else {
     const reason = result.error || result.reason || 'Unknown error';
     usePersistenceStatusStore?.getState().setStatus('journal', 'error', reason);
@@ -101,11 +120,13 @@ export const useJournalPersistence = () => {
    return result;
   } catch (error) {
    console.error('Failed to save journal:', error);
-   usePersistenceStatusStore?.getState().setStatus('journal', 'error', error.message);
-   useNotificationStore?.getState().showError(
-    'Your journal changes could not be saved to the cloud. They are kept locally and will retry on your next edit.',
-    { title: 'Journal save failed' }
-   );
+   if (ownerStillCurrent()) {
+    usePersistenceStatusStore?.getState().setStatus('journal', 'error', error.message);
+    useNotificationStore?.getState().showError(
+     'Your journal changes could not be saved to the cloud. They are kept locally and will retry on your next edit.',
+     { title: 'Journal save failed' }
+    );
+   }
    return { success: false, error: error.message };
   }
   }, [user, collectJournalState, persistenceService]);
@@ -113,50 +134,102 @@ export const useJournalPersistence = () => {
   /**
    * Load journal data from Firebase
    */
- const loadJournal = useCallback(async () => {
-  if (!user || user.isGuest) {
-   return { success: false, reason: 'No authenticated user' };
-  }
-
-  try {
-   const result = await persistenceService.loadJournal(user.uid);
-
-   if (result) {
-    // Update the shareable store with loaded data
-    useShareableStore?.setState({
-     // Player knowledge
-     playerKnowledge: result.playerKnowledge || [],
-
-     // Personal notes
-     playerNotes: result.playerNotes || [],
-
-     // Organization
-     journalFolders: result.journalFolders || [],
-
-     // Knowledge boards
-     knowledgeBoards: result.knowledgeBoards || [],
-
-     // Board elements
-     knowledgeOrbs: result.knowledgeOrbs || [],
-     knowledgeConnections: result.knowledgeConnections || [],
-
-     // Current selections
-     currentFolderId: result.currentFolderId || null,
-     currentBoardId: result.currentBoardId || null
-    });
-
-    lastSavedStateRef.current = JSON.stringify(result);
-    console.log(`📂 Journal loaded for user ${user.uid}`);
-    return { success: true, data: result };
-   } else {
-    console.log(`📂 No saved journal found for user ${user.uid}, using defaults`);
-    return { success: false, reason: 'No saved data found' };
+  const loadJournal = useCallback(async () => {
+   if (!user || user.isGuest) {
+    return { success: false, reason: 'No authenticated user' };
    }
-  } catch (error) {
-   console.error('Failed to load journal:', error);
-   return { success: false, error: error.message };
-  }
-  }, [user, persistenceService, useShareableStore]);
+
+   const startedForUid = user.uid;
+   // P5-04: a missing or invalid owner guard must NEVER authorize applying
+   // private journal data. If no verified owner scope is active yet, wait for
+   // the handoff to settle, then require the same live principal AND the same
+   // account generation before capturing a guard and starting the read.
+   // Otherwise refuse without touching private working state.
+   const startedGeneration = getBootstrapGateState().accountGeneration;
+   let ownerGuard = captureOwnerGuard(startedForUid);
+   if (!ownerGuard.ok) {
+    let handoffResult = null;
+    try {
+     handoffResult = await whenHandoffIdle();
+    } catch (_error) {
+     handoffResult = null;
+    }
+    if (handoffResult && handoffResult.blocked === true) {
+     return { success: false, reason: 'owner-changed-during-load' };
+    }
+    const liveUser = useAuthStore.getState().user;
+    const samePrincipal = !!liveUser && !liveUser.isGuest && liveUser.uid === startedForUid;
+    const sameGeneration = getBootstrapGateState().accountGeneration === startedGeneration;
+    ownerGuard = captureOwnerGuard(startedForUid);
+    if (!samePrincipal || !sameGeneration || !ownerGuard.ok) {
+     return { success: false, reason: 'owner-changed-during-load' };
+    }
+   }
+
+   try {
+    const result = await persistenceService.loadJournal(startedForUid);
+
+    const liveUser = useAuthStore.getState().user;
+    const samePrincipal = !!liveUser && !liveUser.isGuest && liveUser.uid === startedForUid;
+    const ownerCurrent = ownerGuard.ok && ownerGuard.isCurrent();
+    if (!samePrincipal || !ownerCurrent) {
+     return { success: false, reason: 'owner-changed-during-load' };
+    }
+
+    // P5-02: a valid owner-scoped dirty local journal (unsent authored work)
+    // must never be overwritten by an older cloud hydration. Keep the authored
+    // local version — it stays recoverable and is pushed by the owner's sync
+    // path — and leave the cloud document intact; never report it as saved or
+    // as empty.
+    if (result) {
+     const engine = getScopedStoreEngine('journal.shareable');
+     const local = loadScopedDraft({ familyId: 'journal.shareable' });
+     const localDirty =
+      (engine && typeof engine.__isDirty === 'function' && engine.__isDirty()) ||
+      (engine && typeof engine.__hasPendingWrites === 'function' && engine.__hasPendingWrites()) ||
+      (local.status === 'OK' && !!local.envelope && local.envelope.dirty === true);
+     if (localDirty) {
+      console.log(`📂 Journal local edits for user ${startedForUid} kept; cloud hydration skipped`);
+      return { success: false, reason: 'local-dirty-preserved' };
+     }
+    }
+
+    if (result) {
+     // Update the shareable store with loaded data
+     useShareableStore?.setState({
+      // Player knowledge
+      playerKnowledge: result.playerKnowledge || [],
+
+      // Personal notes
+      playerNotes: result.playerNotes || [],
+
+      // Organization
+      journalFolders: result.journalFolders || [],
+
+      // Knowledge boards
+      knowledgeBoards: result.knowledgeBoards || [],
+
+      // Board elements
+      knowledgeOrbs: result.knowledgeOrbs || [],
+      knowledgeConnections: result.knowledgeConnections || [],
+
+      // Current selections
+      currentFolderId: result.currentFolderId || null,
+      currentBoardId: result.currentBoardId || null
+     });
+
+     lastSavedStateRef.current = JSON.stringify(result);
+     console.log(`📂 Journal loaded for user ${startedForUid}`);
+     return { success: true, data: result };
+    } else {
+     console.log(`📂 No saved journal found for user ${startedForUid}, using defaults`);
+     return { success: false, reason: 'No saved data found' };
+    }
+   } catch (error) {
+    console.error('Failed to load journal:', error);
+    return { success: false, error: error.message };
+   }
+  }, [user, persistenceService, useShareableStore, useAuthStore]);
 
   /**
    * Auto-save journal when it changes
@@ -193,12 +266,29 @@ export const useJournalPersistence = () => {
   return await saveJournal();
  }, [saveJournal]);
 
- // Load journal when user changes to authenticated user
- useEffect(() => {
-  if (user && !user.isGuest) {
-   loadJournal();
-  }
- }, [user, loadJournal]);
+  // Load journal when user changes to authenticated user
+  useEffect(() => {
+   let cancelled = false;
+   if (user && !user.isGuest) {
+    const uid = user.uid;
+    (async () => {
+     let handoffResult = null;
+     try {
+      handoffResult = await whenHandoffIdle();
+     } catch (_error) {
+      handoffResult = null;
+     }
+     if (cancelled) return;
+     // A blocked handoff leaves no verified owner scope; never start private
+     // journal hydration for an ambiguous principal.
+     if (handoffResult && handoffResult.blocked === true) return;
+     const liveUser = useAuthStore.getState().user;
+     if (!liveUser || liveUser.isGuest || liveUser.uid !== uid) return;
+     loadJournal();
+    })();
+   }
+   return () => { cancelled = true; };
+  }, [user, loadJournal, useAuthStore]);
 
  // Auto-save when journal state changes
  useEffect(() => {

@@ -296,6 +296,9 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
                                 <button
                                     className={`spellbook-tab-button tab-icon-only ${isActive ? 'active' : ''}`}
                                     title={section.title}
+                                    aria-label={section.title}
+                                    aria-pressed={isActive}
+                                    aria-expanded={isDropdownOpen}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setActiveTab(key);
@@ -318,7 +321,7 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
 
                                 {isDropdownOpen && section.subSections && dropdownPos && ReactDOM.createPortal(
                                     <div
-                                        className="tab-dropdown-menu tab-dropdown-menu-scrollable"
+                                        className="tab-dropdown-menu tab-dropdown-menu-scrollable adventurer-menu"
                                         style={{ position: 'fixed', left: dropdownPos.left, top: dropdownPos.top, minWidth: Math.max(220, dropdownPos.width), marginTop: 4 }}
                                         onMouseEnter={cancelCloseTabDropdown}
                                         onMouseLeave={scheduleCloseTabDropdown}
@@ -447,7 +450,7 @@ function CharacterSheetWindow({ isOpen, onClose, title, inspection = false, init
                     {tabOverflowOpen && hiddenTabIds.length > 0 && ReactDOM.createPortal(
                         <div
                             ref={tabOverflowMenuRef}
-                            className="tab-dropdown-menu tab-dropdown-menu-scrollable"
+                            className="tab-dropdown-menu tab-dropdown-menu-scrollable adventurer-menu"
                             style={tabOverflowPos ? { position: 'fixed', left: tabOverflowPos.left, top: tabOverflowPos.top, minWidth: 200 } : { position: 'fixed', minWidth: 200 }}
                             onMouseEnter={cancelCloseTabOverflow}
                             onMouseLeave={scheduleCloseTabOverflow}

@@ -33,6 +33,7 @@ import BookSnapshotModal from './BookSnapshotModal';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import { clampPopoverPosition } from '../../utils/popoverPosition';
 import './BookDocumentEditor.css';
+import './BookAtmosphere.css';
 
 const THEME_OPTIONS = [
   { value: 'parchment', label: 'Parchment (Classic Sourcebook)' },
@@ -1041,6 +1042,7 @@ export const BookDocumentEditor = ({
             return (
               <div className="book-heading-banner-dark">
                 <EditableText
+                  className="book-heading-text"
                   value={block.text}
                   disabled={!effectiveIsWrite}
                   placeholder="Dark Banner Title (e.g. The Endless City)..."
@@ -1054,6 +1056,7 @@ export const BookDocumentEditor = ({
               <div className="book-heading-banner-crimson">
                 <span className="banner-crimson-icon"><i className="fas fa-bookmark"></i></span>
                 <EditableText
+                  className="book-heading-text"
                   value={block.text}
                   disabled={!effectiveIsWrite}
                   placeholder="Crimson Ribbon Title..."
@@ -1079,6 +1082,7 @@ export const BookDocumentEditor = ({
                 </span>
                 <span className="keyed-room-name">
                   <EditableText
+                    className="book-heading-text"
                     value={block.text}
                     disabled={!effectiveIsWrite}
                     placeholder="Area Name (e.g. Entrance Well)..."
@@ -1662,7 +1666,7 @@ export const BookDocumentEditor = ({
   const saveLabel = saveState === 'saving' ? 'Saving...' : saveState === 'saved' ? 'Saved!' : saveState === 'error' ? 'Save Failed' : 'Save Book';
 
   return (
-    <div className={`book-document-editor theme-${book.theme || 'parchment'}`}>
+    <div className={`book-document-editor book-manuscript theme-${book.theme || 'parchment'}`} data-mode={isWrite ? 'write' : 'read'}>
       {/* Top Studio Toolbar */}
       <div className="book-editor-toolbar">
         {/* Navigation & Modes Left */}
@@ -1679,6 +1683,7 @@ export const BookDocumentEditor = ({
             onClick={() => setSidebarOpen(!sidebarOpen)}
             title="Toggle Book Navigator Drawer (TOC, Pages, Search, History, Style)"
             aria-label="Toggle Book Navigator Drawer"
+            aria-expanded={sidebarOpen}
           >
             <i className="fas fa-bars"></i>
           </button>
@@ -1692,8 +1697,10 @@ export const BookDocumentEditor = ({
                 onClick={() => setActiveMode('write')}
                 title="Publication Direct Authoring & Edit Mode"
                 aria-label="Write Mode"
+                aria-pressed={activeMode === 'write'}
               >
                 <i className="fas fa-feather-pointed"></i>
+                <span className="book-mode-label">Write</span>
               </button>
             )}
             <button
@@ -1702,8 +1709,10 @@ export const BookDocumentEditor = ({
               onClick={() => setActiveMode('read')}
               title="Clean Distraction-Free Tabletop Reader"
               aria-label="Read Mode"
+              aria-pressed={activeMode === 'read'}
             >
               <i className="fas fa-book-open"></i>
+              <span className="book-mode-label">Read</span>
             </button>
             {allowPrint && !inGameSession && (
               <button
@@ -1770,6 +1779,7 @@ export const BookDocumentEditor = ({
               }
               onClick={handlePrevPage}
               title="Previous Page"
+              aria-label="Previous Page"
             >
               <i className="fas fa-chevron-left"></i>
             </button>
@@ -1796,6 +1806,7 @@ export const BookDocumentEditor = ({
               }
               onClick={handleNextPage}
               title="Next Page"
+              aria-label="Next Page"
             >
               <i className="fas fa-chevron-right"></i>
             </button>
@@ -1870,6 +1881,7 @@ export const BookDocumentEditor = ({
                 className="sidebar-close-mobile-btn"
                 onClick={() => setSidebarOpen(false)}
                 title="Close Navigation Drawer"
+                aria-label="Close Navigation Drawer"
               >
                 &times;
               </button>
@@ -1935,27 +1947,31 @@ export const BookDocumentEditor = ({
                   <div className="toc-nav-tree">
                     {book.chapters.map((ch, chIdx) => (
                       <div key={ch.id} className="toc-nav-chapter">
-                        <div
+                        <button
+                          type="button"
                           className={`toc-nav-ch-head ${activeChapterId === ch.id ? 'active' : ''}`}
                           onClick={() => navigateTo({ chapterId: ch.id, pageId: ch.pages?.[0]?.id })}
+                          aria-current={activeChapterId === ch.id ? 'true' : undefined}
                         >
                           <i className="fas fa-feather"></i>
                           <span className="ch-title">{ch.title}</span>
                           <span className="ch-page-num">p. {ch.pages?.[0]?.pageNumber || chIdx + 1}</span>
-                        </div>
+                        </button>
 
                         {ch.pages && (
                           <div className="toc-nav-pages-list">
                             {ch.pages.map((pg) => (
-                              <div
+                              <button
+                                type="button"
                                 key={pg.id}
                                 className={`toc-nav-page-item ${activePageId === pg.id ? 'active' : ''}`}
                                 onClick={() => navigateTo({ chapterId: ch.id, pageId: pg.id })}
+                                aria-current={activePageId === pg.id ? 'page' : undefined}
                               >
                                 <span className="pg-bullet">§</span>
                                 <span className="pg-title">{pg.headerTitle || `Page ${pg.pageNumber}`}</span>
                                 <span className="pg-num">p. {pg.pageNumber}</span>
-                              </div>
+                              </button>
                             ))}
                           </div>
                         )}

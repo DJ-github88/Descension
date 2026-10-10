@@ -417,7 +417,7 @@ Zealot was never a background  -  it was a former discipline entry left behind w
 | Bloodhammer Sump | Settlement |  -  |
 | Fjord-Gate | Settlement |  -  |
 | Hunger Glaciers | Wilderness |  -  |
-| Rimor's Hearth | Ruin |  -  |
+| Rimvald's Hearth | Ruin |  -  |
 | Skadi's Col | Wilderness |  -  |
 | Vargtor | Settlement |  -  |
 | Frostcirque | Ruin | Redundant with The Still Crag (both are ritual/religious sites with Stel/Skrei creatures) |
@@ -461,7 +461,7 @@ Zealot was never a background  -  it was a former discipline entry left behind w
 | Route | Mode | Controlled By | Logistical Notes |
 |---|---|---|---|
 | Black Firth → Iceheart Sea | Maritime | Icechamber Syndicate (Nordhalla) | Primary iron ore + whale oil export route. Syndicate sets prices. |
-| Ember Lagoon → Merrowport | Maritime (200 mi, 4 days) | Sulfur Cartel / Brine-Bond Syndicate | Sundale's only warm-water port. First trade agreement signed Year 88 Dimming. |
+| Ember Lagoon → Merrowport | Maritime (200 mi, 4 days) | Sulfur Cartel / Lamphera-Bond Syndicate | Sundale's only warm-water port. First trade agreement signed Year 88 Dimming. |
 | Synod Hold → Emberspire | Overland (80 mi, 3 days via Ash-Road) | Thrask toll-collectors | Caravan trail marked by charcoal cairns. Thrask demand tolls in blood-ore. |
 | Ancestor-Spans (Cragjaw) | Bridge network | Groven toll-keepers | Only safe passage through Cragjaw. Bridges are calcified Groven dead. Cracking with age. |
 | Forest-Steppe Edge | Land trade | Morren outpost / Ordan caravans | Bryngloom exchanges fungal lights, memory-glass, bog reagents for Ordan wool and hide. |
@@ -476,7 +476,7 @@ Zealot was never a background  -  it was a former discipline entry left behind w
 | Scribe-Cartel | Frostwood Reach (+ maybe Bryngloom) | Ink, parchment, journals | Controls who gets recorded as a citizen. Without ink, you don't exist in the Ledger. |
 | Icechamber Syndicate | Nordhalla | Iron ore, mammoth skins, walrus ivory, grain imports | Forces low export prices, sells grain at life-threatening rates. Nordhalla is a colonial extraction economy. |
 | Sulfur Cartel | Sundale | Coal, sulfur, Sol's Breath steel | Priests control all heat and metal. Dawn Vigil diverts resources to Monolith reforging. |
-| Brine-Bond Syndicate | Iceheart Sea | Whale oil, voyage bonds | Fractional voyage-shares lock crews in permanent debt. Steam-trawlers pollute channels. |
+| Lamphera-Bond Syndicate | Iceheart Sea | Whale oil, voyage bonds | Fractional voyage-shares lock crews in permanent debt. Steam-trawlers pollute channels. |
 | Steam-Line Cartel | Cragjaw Peaks | Geothermal heat, runic pipes | Controls who stays warm. Demands heavy tribute. Terraces cooling = food crisis looming. |
 | Peat-Debt Bondage | Bryngloom | Memory, lifeline mortgages | Neth control who exists legally. Postmortem Corvée conscripts corpses for labor. |
 

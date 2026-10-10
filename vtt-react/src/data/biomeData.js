@@ -87,7 +87,7 @@ export const BIOMES = [
       { range: [8, 8], type: 'combat', label: 'Stel (Glacier Memory)', note: 'Replays death-screams of the frozen. Perception vs moderate die (d8) to resist lure.' },
       { range: [9, 9], type: 'social', label: 'Skald Patrol', note: 'Disposition varies. Persuasion vs challenging die (d10).' },
       { range: [10, 10], type: 'social', label: 'Stranded Traveller', note: 'Exhaustion 2-4. Medicine vs moderate die (d8) to stabilise.' },
-      { range: [11, 11], type: 'combat', label: 'Skreika', note: 'Regeneration stopped by fire. Hunts by smell.' },
+      { range: [11, 11], type: 'combat', label: 'Skraik', note: 'Regeneration stopped by fire. Hunts by smell.' },
       { range: [12, 12], type: 'combat', label: 'Rime-Born Frostbound', note: 'Chilling Gaze: Constitution vs moderate die (d8) or paralysed.' },
       { range: [13, 13], type: 'hazard', label: 'Crevasse Field', note: 'Perception vs challenging die (d10) or nearest character falls.' },
       { range: [14, 14], type: 'hazard', label: 'Avalanche', note: 'Agility vs challenging die (d10) or buried.' },
@@ -96,7 +96,7 @@ export const BIOMES = [
       { range: [17, 17], type: 'discovery', label: 'Frozen Ancestor (Corvid)', note: 'Perception vs challenging die (d10) to spot.' },
       { range: [18, 18], type: 'social', label: 'Bloodhammer Forge-Clan', note: 'Disposition varies.' },
       { range: [19, 19], type: 'combat', label: 'Glacier Wyrm Pack', note: 'Cold breath, pack tactics. Hunts silently in blizzards.' },
-      { range: [20, 20], type: 'combat', label: 'Frozen Debt-Revenant', note: 'Buried under ice. Perception vs difficult die (d12) or surprised.' }
+      { range: [20, 20], type: 'combat', label: 'Frozen Vezan', note: 'Buried under ice. Perception vs difficult die (d12) or surprised.' }
     ],
     atmospheres: {
       0: {
@@ -202,7 +202,7 @@ export const BIOMES = [
       { range: [9, 9], type: 'social', label: 'Solari Anhur Rangers', note: 'Will trade volcanic goods for water and obsidian.' },
       { range: [10, 10], type: 'social', label: 'Solari Pilgrims', note: 'Dehydrated, desperate. Medicine vs moderate die (d8) to help.' },
       { range: [11, 11], type: 'combat', label: 'Sun-Husk', note: 'Tremorsense. Survival vs challenging die (d10) to detect.' },
-      { range: [12, 12], type: 'combat', label: 'Debt-Revenant', note: 'Rises from ash. Fire and radiant vulnerability.' },
+      { range: [12, 12], type: 'combat', label: 'Vezan', note: 'Rises from ash. Fire and radiant vulnerability.' },
       { range: [13, 13], type: 'hazard', label: 'Basalt Collapse', note: 'Survival vs challenging die (d10) to detect.' },
       { range: [14, 14], type: 'hazard', label: 'Ash-Vent Eruption', note: 'Perception vs challenging die (d10) to hear coming.' },
       { range: [15, 15], type: 'combat', label: 'Cinder-Fiend', note: 'Persuasion vs difficult die (d12) to bargain.' },
@@ -210,7 +210,7 @@ export const BIOMES = [
       { range: [17, 17], type: 'discovery', label: 'Buried Monolith Fragment', note: 'Perception vs challenging die (d10) to spot.' },
       { range: [18, 18], type: 'social', label: 'Anhur Badland Rangers', note: 'Water dispute.' },
       { range: [19, 19], type: 'combat', label: 'Scrab Swarm', note: 'Armoured carapace, venomous pincers.' },
-      { range: [20, 20], type: 'combat', label: 'Husque', note: 'Legendary volcanic predator. Controls ember flow itself.' }
+      { range: [20, 20], type: 'combat', label: 'Huskvar', note: 'Legendary volcanic predator. Controls ember flow itself.' }
     ],
     atmospheres: {
       0: {
@@ -306,7 +306,7 @@ export const BIOMES = [
       { range: [8, 8], type: 'combat', label: 'Gref (Face-Stealer)', note: 'Territorial. Shifts appearance; Insight vs challenging die (d10) to detect.' },
       { range: [9, 9], type: 'social', label: 'Mimir Sentinel', note: 'Knows the local canopy. May share trail info.' },
       { range: [10, 10], type: 'social', label: 'Lost Scribe', note: 'Disoriented, grateful. May know a shortcut.' },
-      { range: [11, 11], type: 'combat', label: 'Gambrel (Oath-Hunter)', note: 'Drawn to broken promises. Stealth vs challenging die (d10) to detect.' },
+      { range: [11, 11], type: 'combat', label: 'Geaslan (Oath-Hunter)', note: 'Drawn to broken promises. Stealth vs challenging die (d10) to detect.' },
       { range: [12, 12], type: 'combat', label: 'Ironwood Animated Grove', note: 'Guardians of old growth. Fire effective.' },
       { range: [13, 13], type: 'hazard', label: 'Fog Pocket / Thorn Thicket', note: 'Perception vs moderate die (d8) to avoid.' },
       { range: [14, 14], type: 'hazard', label: 'Root Trip / Sinkhole', note: 'Perception vs moderate die (d8) or fall.' },
@@ -343,7 +343,7 @@ export const BIOMES = [
       description: 'The sinking peat-bogs of the Bryngloom are quiet, damp tombs where the laws of life and death are governed by Athien contract-houses. The acidic water preserves everything, and contract-breaches trigger immediate vegetative backlashes from the peat itself.',
       rules: [
         'Entering deep peat-bogs requires a Strength (Athletics) check against a moderate die (d8) or the traveler is restrained and begins sinking.',
-        'Any spoken lie or contract violation in the swamp triggers an immediate bog-tremor, attracting Wyrd-creatures like Debt-Revenants.',
+        'Any spoken lie or contract violation in the swamp triggers an immediate bog-tremor, attracting Wyrd-creatures like Vezan.',
         'Traveling through the swamp without wading-gear requires a Constitution save against a moderate die (d8) every 8 hours or the character contracts Swamp Rot, reducing maximum HP by 1d6 until cured.'
       ]
     },
@@ -411,15 +411,15 @@ export const BIOMES = [
       { range: [8, 8], type: 'combat', label: 'Spore Swarm', note: 'Toxic spores. Fire or area effects scatter them.' },
       { range: [9, 9], type: 'social', label: 'Mycellan Crypt-Speaker', note: 'Lives alone. Knowledgeable but unsettling.' },
       { range: [10, 10], type: 'social', label: 'Riven Outcasts', note: 'Fleeing Athien contract-enforcement. May warn of hazard.' },
-      { range: [11, 11], type: 'combat', label: 'Debt-Revenant', note: 'Rises from muck. Hunting a specific broken contract.' },
-      { range: [12, 12], type: 'combat', label: 'Cycle-Eater', note: 'Wyrd ambush predator. Perception vs difficult die (d12).' },
+      { range: [11, 11], type: 'combat', label: 'Vezan', note: 'Rises from muck. Hunting a specific broken contract.' },
+      { range: [12, 12], type: 'combat', label: 'Krugava', note: 'Wyrd ambush predator. Perception vs difficult die (d12).' },
       { range: [13, 13], type: 'hazard', label: 'Quicksand / Bog Hole', note: 'Survival vs challenging die (d10) to spot.' },
       { range: [14, 14], type: 'hazard', label: 'Fungal Spore Cloud', note: 'Constitution vs challenging die (d10) or disease.' },
       { range: [15, 15], type: 'combat', label: 'Mycellan Over-Lit Triad', note: 'Hush-consumed. Insight vs challenging die (d10).' },
       { range: [16, 16], type: 'combat', label: 'Bog Drake', note: 'Acid spit, amphibious.' },
       { range: [17, 17], type: 'discovery', label: 'Sunken Athien Archive', note: 'Perception vs challenging die (d10) to spot.' },
       { range: [18, 18], type: 'social', label: 'Athien Contract-Enforcer', note: 'Cautious. Intimidation vs challenging die (d10).' },
-      { range: [19, 19], type: 'combat', label: 'Hungry Child', note: 'Wyrd-manifestation. Leads party into hazards.' },
+      { range: [19, 19], type: 'combat', label: 'Munkhai', note: 'Wyrd-manifestation. Leads party into hazards.' },
       { range: [20, 20], type: 'combat', label: 'Ancient Athien Debt-Walker', note: 'Primordial Athien whose contract was broken. Controls vines and bog.' }
     ],
     atmospheres: {
@@ -631,7 +631,7 @@ export const BIOMES = [
       { range: [16, 16], type: 'combat', label: 'Deep-Sump Wyrm', note: 'Burrows through stone. Survival vs difficult die (d12) to detect.' },
       { range: [17, 17], type: 'discovery', label: 'Abandoned Fex Vat-Chamber', note: 'Investigation vs moderate die (d8). Alchemical residues.' },
       { range: [18, 18], type: 'social', label: 'Thrumm Brood-Circle', note: 'Pacifistic unless threatened. Seismic communication.' },
-      { range: [19, 19], type: 'combat', label: 'Debt-Revenant Thralls', note: 'Dominated husks. Will vs difficult die (d12) to resist.' },
+      { range: [19, 19], type: 'combat', label: 'Vezan Thralls', note: 'Dominated husks. Will vs difficult die (d12) to resist.' },
       { range: [20, 20], type: 'combat', label: 'Groven Ancestor-Bridge Guardian', note: 'Ancient Groven fused to a calcified span. Its bones control the tunnel around it.' }
     ],
     atmospheres: {
@@ -711,11 +711,11 @@ export const BIOMES = [
       { range: [10, 14], name: 'Windstorm', severity: 2, navDie: 'd10', envDie: 'd8', gearEffect: 'advantage', desc: 'Visibility 60 ft. Difficult terrain on open grassland.' },
       { range: [15, 17], name: 'Howling Steppe-Gale', severity: 3, navDie: 'd12', envDie: 'd10', gearEffect: 'advantage', desc: 'Visibility 30 ft. Speech impossible. Speed halved.' },
       { range: [18, 19], name: 'Blackout Gale', severity: 4, navDie: 'd20', envDie: 'd12', gearEffect: 'advantage', desc: 'Visibility 10 ft. Mound-hum silenced. Shelter or exposure risk.' },
-      { range: [20, 20], name: 'Wyrd-Wind Night', severity: 4, navDie: 'd20', envDie: 'd20', gearEffect: 'advantage', desc: 'Gale + Hungry Child active hunting. Mounds fall silent.' }
+      { range: [20, 20], name: 'Wyrd-Wind Night', severity: 4, navDie: 'd20', envDie: 'd20', gearEffect: 'advantage', desc: 'Gale + Munkhai active hunting. Mounds fall silent.' }
     ],
     terrainTypes: [
       { id: 'open-grassland', name: 'Open Grassland', speedMod: 1.0, navDie: 'd8', desc: 'Flat, open. Wind exposure.' },
-      { id: 'tall-grass', name: 'Tall Grass / Lien-Stalks', speedMod: 0.5, navDie: 'd12', desc: 'Vision obscured. Hungry Child territory.' },
+      { id: 'tall-grass', name: 'Tall Grass / Lien-Stalks', speedMod: 0.5, navDie: 'd12', desc: 'Vision obscured. Munkhai territory.' },
       { id: 'mound-terrain', name: 'Mound Terrain', speedMod: 0.75, navDie: 'd10', desc: 'Ancestor mounds. Acoustic navigation bonus.' }
     ],
     transportModes: [
@@ -726,7 +726,7 @@ export const BIOMES = [
     encounterTable: [
       { range: [1, 6], type: 'none', label: 'No Encounter', note: 'Endless grey-green grass, the distant hum of ancestor mounds, cold wind.' },
       { range: [7, 7], type: 'discovery', label: 'Herd Tracks', note: 'Survival vs moderate die (d8) to identify.' },
-      { range: [8, 8], type: 'combat', label: 'Hungry Child', note: 'Wyrd-shadow predator. Perception vs challenging die (d10) to detect before ambush.' },
+      { range: [8, 8], type: 'combat', label: 'Munkhai', note: 'Wyrd-shadow predator. Perception vs challenging die (d10) to detect before ambush.' },
       { range: [9, 9], type: 'social', label: 'Ordu Nomad Clan', note: 'Will trade wool and dried meat for tools and salt.' },
       { range: [10, 10], type: 'social', label: 'Lost Pilgrim', note: 'Disoriented without stars. Medicine vs moderate die (d8) to help.' },
       { range: [11, 11], type: 'combat', label: 'Lien', note: 'Crystal-lattice predator. Tremorsense. Survival vs challenging die (d10) to detect.' },
@@ -737,7 +737,7 @@ export const BIOMES = [
       { range: [16, 16], type: 'combat', label: 'Wyrd-Touched Herd-Beast', note: 'Stampede risk. Animal Handling vs challenging die (d10).' },
       { range: [17, 17], type: 'discovery', label: 'Buried Synod Archive', note: 'Perception vs challenging die (d10) to spot crystal-lattice.' },
       { range: [18, 18], type: 'social', label: 'Unlit Veil Courier', note: 'Evasive. Deception vs challenging die (d10).' },
-      { range: [19, 19], type: 'combat', label: 'Hungry Child Pack', note: 'Pack tactics. Hunts only under starless sky.' },
+      { range: [19, 19], type: 'combat', label: 'Munkhai', note: 'Pack tactics. Hunts only under starless sky.' },
       { range: [20, 20], type: 'combat', label: 'Ancient Mound-Eater', note: 'Legendary steppe predator. Wyrd manifestation that consumes ancestor-hum.' }
     ],
     atmospheres: {
@@ -752,7 +752,7 @@ export const BIOMES = [
         2: ['Visibility drops to arm\'s length in the tall grass areas. Sound is reduced to wind-roar.']
       },
       3: { 0: ['The gale howls like something alive. The mound-hum is completely silenced.'], 1: ['Dawn and dusk are indistinguishable behind the wind.'], 2: ['Movement against the wind is exhausting. The steppe is fighting back.'] },
-      4: { 0: ['The blackout gale has swallowed the world. Ancestor mounds are silent as graves.'], 1: ['No light penetrates. The Hungry Child hunts openly.'], 2: ['Wyrd-wind carries whispers in dead languages. Something is very, very close.'] }
+      4: { 0: ['The blackout gale has swallowed the world. Ancestor mounds are silent as graves.'], 1: ['No light penetrates. The Munkhai hunts openly.'], 2: ['Wyrd-wind carries whispers in dead languages. Something is very, very close.'] }
     }
   }
 ];

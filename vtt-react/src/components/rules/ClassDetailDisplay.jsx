@@ -11,6 +11,7 @@ import ClassIcon from '../common/ClassIcon';
 import ResourceSystemTab from './resource-system/ResourceSystemTab';
 import { hasResourceSystemGuide } from '../../data/resourceSystems';
 import './ClassDetailDisplay.css';
+import './ClassCodex.css';
 import { parseTextWithLoreLinks } from './contentFormatting';
 import useGameData from '../../hooks/useGameData';
 import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
@@ -890,8 +891,6 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
  const [specViewMode, setSpecViewMode] = useState('overview'); // 'overview' | 'talent-tree'
  const [selectedSpecTreeIndex, setSelectedSpecTreeIndex] = useState(0);
- const [isClassTabDropdownOpen, setIsClassTabDropdownOpen] = useState(false);
- const classTabDropdownRef = useRef(null);
  const contentContainerRef = useRef(null);
  const detailContentRef = useRef(null);
 
@@ -903,25 +902,6 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
    detailContentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
  };
-
- // Close class tab dropdown on outside click or Escape key
- useEffect(() => {
-  if (!isClassTabDropdownOpen) return;
-  const handleOutsideClick = (e) => {
-   if (classTabDropdownRef.current && !classTabDropdownRef.current.contains(e.target)) {
-    setIsClassTabDropdownOpen(false);
-   }
-  };
-  const handleKeyDown = (e) => {
-   if (e.key === 'Escape') setIsClassTabDropdownOpen(false);
-  };
-  document.addEventListener('mousedown', handleOutsideClick);
-  document.addEventListener('keydown', handleKeyDown);
-  return () => {
-   document.removeEventListener('mousedown', handleOutsideClick);
-   document.removeEventListener('keydown', handleKeyDown);
-  };
- }, [isClassTabDropdownOpen]);
 
  const classTabs = useMemo(() => [
   { id: 'overview', label: 'Overview', icon: 'fas fa-book-open' },
@@ -936,8 +916,12 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   const classId = (classData?.id || classData?.name || '').toLowerCase().replace(/\s+/g, '_');
   const [activeIllusIndex, setActiveIllusIndex] = useState(0);
 
-  useEffect(() => {
-   setActiveIllusIndex(0);
+   useEffect(() => {
+    setActiveTab('overview');
+    setCurrentPage(0);
+    setSelectedSpell(null);
+    setCombatExampleOpen(false);
+    setActiveIllusIndex(0);
    setSpecViewMode('overview');
    setSelectedSpecTreeIndex(0);
   }, [classId]);
@@ -1659,10 +1643,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
   return (
    <div className="class-detail-section parchment-content">
     <div className="guide-badge-header">
-     <span className="guide-badge">
-      <i className="fas fa-book-open"></i> TRADITION OVERVIEW
-     </span>
-     <h3>{overview.title || classData?.name}</h3>
+      <h3>Overview</h3>
      {overview.subtitle && (
       <div className="guide-subtitle">“{overview.subtitle}”</div>
      )}
@@ -1705,6 +1686,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
                setActiveIllusIndex(prev => (prev === 0 ? fallbacks.length - 1 : prev - 1));
               }}
               title="Previous Portrait"
+              aria-label="Previous portrait"
              >
               <i className="fas fa-chevron-left"></i>
              </button>
@@ -1715,6 +1697,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
                setActiveIllusIndex(prev => (prev + 1) % fallbacks.length);
               }}
               title="Next Portrait"
+              aria-label="Next portrait"
              >
               <i className="fas fa-chevron-right"></i>
              </button>
@@ -1726,8 +1709,11 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
            {hasMultiple && (
             <div className="illus-dots-indicator">
              {fallbacks.map((_, idx) => (
-              <span 
+              <button
                key={idx} 
+               type="button"
+               aria-label={`View portrait ${idx + 1}`}
+               aria-pressed={idx === (activeIllusIndex % fallbacks.length)}
                className={`illus-dot ${idx === (activeIllusIndex % fallbacks.length) ? 'active' : ''}`}
                onClick={(e) => {
                 e.stopPropagation();
@@ -1771,7 +1757,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       {overview.combatRole && (
        <div className="dossier-card tactical-card">
         <div className="dossier-card-header crimson-header">
-         <i className="fas fa-swords"></i> COMBAT CHRONICLE
+          <i className="fas fa-swords" aria-hidden="true"></i> Battle role
         </div>
         
         {combatRoleData.primaryRole && (
@@ -1791,7 +1777,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
         <div className="tactical-pros-cons-grid">
          {combatRoleData.strengths && combatRoleData.strengths.length > 0 && (
           <div className="tactical-list-section pros">
-           <div className="list-title"><i className="fas fa-check-circle"></i> SIGNATURE ADVANTAGES</div>
+           <div className="list-title">Strengths</div>
            <ul>
             {combatRoleData.strengths.map((str, idx) => (
              <li key={idx}>
@@ -1804,7 +1790,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
 
          {combatRoleData.weaknesses && combatRoleData.weaknesses.length > 0 && (
           <div className="tactical-list-section cons">
-           <div className="list-title"><i className="fas fa-exclamation-triangle"></i> ACKNOWLEDGED PERILS</div>
+           <div className="list-title">Trade-offs</div>
            <ul>
             {combatRoleData.weaknesses.map((weak, idx) => (
              <li key={idx}>
@@ -1827,8 +1813,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        return (
         <div className="chronicle-card hero-overview-card">
          <div className="chronicle-card-header gold-header hero-header">
-          <i className="fas fa-gamepad"></i>
-          <span>PLAYING THE {(overview.title || classData?.name || '').toUpperCase()}: CLASS OVERVIEW & CORE GIMMICK</span>
+           <span>Playing the {classData.name}</span>
          </div>
          <div className="hero-overview-body">
           {qoBlocks.map((block, idx) => (
@@ -1850,7 +1835,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       {combatRoleData.howYouFight && combatRoleData.howYouFight.length > 0 && (
        <div className="chronicle-card flow-card">
         <div className="chronicle-card-header gold-header">
-         <i className="fas fa-spinner"></i> IN COMBAT: THE FLOW OF BATTLE
+          The flow of battle
         </div>
         <div className="flow-steps-container">
          {combatRoleData.howYouFight.map((step, idx) => (
@@ -1868,7 +1853,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
       {overview.playstyle && (
        <div className="chronicle-card playstyle-card">
         <div className="chronicle-card-header dark-gold-header">
-         <i className="fas fa-crown"></i> MASTER GUIDE: EXPERT TACTICS
+          Expert tactics
         </div>
         <div className="playstyle-body">
          {renderContent(overview.playstyle.content)}
@@ -1883,7 +1868,7 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     {roleplaySections.length > 0 && (
      <div className="chronicle-card lore-card full-width-card">
       <div className="chronicle-card-header bronze-header">
-       <i className="fas fa-theater-masks"></i> ROLEPLAY NARRATIVE & ORIGINS
+       Roleplay &amp; origins
       </div>
       <div className="chronicle-scroll-content lore-grid-layout">
        {roleplaySections.map((sec, idx) => (
@@ -1901,14 +1886,10 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     {/* Collapsible Combat Example at the Bottom (Full-Width) */}
     {overview.immersiveCombatExample && (
      <div className={`guide-flavor-box collapsible bottom-flavor-box full-width-card ${combatExampleOpen ? 'open' : 'closed'}`}>
-      <div className="flavor-box-header" onClick={() => setCombatExampleOpen(!combatExampleOpen)}>
-       <div className="flavor-box-tag">
-        <i className="fas fa-book"></i> NARRATIVE CHRONICLE: {overview.immersiveCombatExample.title || 'COMBAT EXAMPLE'}
-       </div>
-       <button className="flavor-box-toggle" aria-label={combatExampleOpen ? 'Collapse' : 'Expand'}>
-        <i className={`fas fa-chevron-${combatExampleOpen ? 'up' : 'down'}`}></i>
-       </button>
-      </div>
+      <button className="flavor-box-header" type="button" aria-expanded={combatExampleOpen} onClick={() => setCombatExampleOpen(!combatExampleOpen)}>
+       <span className="flavor-box-tag">{overview.immersiveCombatExample.title || 'Combat example'}</span>
+       <i className={`fas fa-chevron-${combatExampleOpen ? 'up' : 'down'}`} aria-hidden="true"></i>
+      </button>
       {combatExampleOpen && (
        <div className="flavor-box-content">
         {renderCombatExampleContent(overview.immersiveCombatExample.content || overview.immersiveCombatExample)}
@@ -2605,14 +2586,14 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        className={`spec-mode-btn ${specViewMode === 'overview' ? 'active' : ''}`}
        onClick={() => setSpecViewMode('overview')}
       >
-       <i className="fas fa-id-card"></i> Overview Cards
+        <i className="fas fa-id-card" aria-hidden="true"></i> Overview
       </button>
       <button
        type="button"
        className={`spec-mode-btn ${specViewMode === 'talent-tree' ? 'active' : ''}`}
        onClick={() => setSpecViewMode('talent-tree')}
       >
-       <i className="fas fa-sitemap"></i> Talent Trees Codex
+        <i className="fas fa-sitemap" aria-hidden="true"></i> Talent trees
       </button>
      </div>
     </div>
@@ -3231,7 +3212,8 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
        <button 
         className="class-nav-btn back" 
         onClick={onBack}
-        title="Back to All Classes"
+         title="Back to All Classes"
+         aria-label="Back to all classes"
        >
         <i className="fas fa-th"></i>
        </button>
@@ -3248,65 +3230,28 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     </div>
    </div>
 
-    {/* Desktop Tabs */}
-    <div className="class-detail-tabs premium-tabs class-tabs-desktop">
+     <nav className="class-codex-navigation" aria-label="Class sections">
      {classTabs.map(tab => (
       <button
-       key={tab.id}
-       className={`class-tab ${activeTab === tab.id ? 'active' : ''}`}
+        key={tab.id}
+        type="button"
+        className={`class-tab ${activeTab === tab.id ? 'active' : ''}`}
+        aria-pressed={activeTab === tab.id}
+        aria-controls="class-codex-section"
        onClick={() => { setActiveTab(tab.id); setCurrentPage(0); }}
       >
-       <i className={tab.icon}></i> {tab.label}
+        {tab.label}
       </button>
      ))}
-    </div>
+     </nav>
 
-    {/* Responsive Tab Dropdown Selector (Laptops, Tablets, iPads) */}
-    {(() => {
-     const currentClassTab = classTabs.find(t => t.id === activeTab) || classTabs[0];
-     return (
-      <div className="class-tab-dropdown-wrapper" ref={classTabDropdownRef}>
-       <button
-        className={`class-tab-dropdown-btn ${isClassTabDropdownOpen ? 'open' : ''}`}
-        onClick={() => setIsClassTabDropdownOpen(prev => !prev)}
-        aria-expanded={isClassTabDropdownOpen}
-        aria-haspopup="true"
-        title="Select tradition section"
-       >
-        <i className={currentClassTab.icon}></i>
-        <span className="class-tab-dropdown-label">{currentClassTab.label}</span>
-        <i className={`fas fa-chevron-down class-tab-dropdown-chevron ${isClassTabDropdownOpen ? 'rotated' : ''}`}></i>
-       </button>
-       {isClassTabDropdownOpen && (
-        <div className="class-tab-dropdown-menu">
-         {classTabs.map(tab => (
-          <button
-           key={tab.id}
-           className={`class-tab-dropdown-item ${activeTab === tab.id ? 'active' : ''}`}
-           onClick={() => {
-            setActiveTab(tab.id);
-            setCurrentPage(0);
-            setIsClassTabDropdownOpen(false);
-           }}
-          >
-           <i className={tab.icon}></i>
-           <span>{tab.label}</span>
-           {activeTab === tab.id && <i className="fas fa-check checkmark"></i>}
-          </button>
-         ))}
-        </div>
-       )}
-      </div>
-     );
-    })()}
-
-   <div className="class-detail-content" ref={detailContentRef}>
+    <section className="class-detail-content" id="class-codex-section" aria-label={classTabs.find(tab => tab.id === activeTab)?.label} ref={detailContentRef}>
     {activeTab === 'overview' && renderOverview()}
     {activeTab === 'tradition' && renderTradition()}
     {activeTab === 'resource' && renderResourceSystem()}
     {activeTab === 'specializations' && renderSpecializations()}
     {activeTab === 'spells' && renderSpells()}
-   </div>
+    </section>
   </div>
  );
 };

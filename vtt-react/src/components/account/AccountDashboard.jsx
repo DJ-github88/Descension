@@ -26,6 +26,7 @@ import './styles/AccountDashboard.css';
 import { showAlert } from '../../utils/dialogService';
 import './styles/AccountDashboardIsolation.css';
 import './styles/RoomManager.css'; // Import existing modal styles
+import './styles/AdventurerWorkspace.css';
 
 const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
@@ -492,6 +493,15 @@ const AccountDashboard = ({ user }) => {
             className="account-icon-section clickable"
             onClick={() => setIsProfileEditOpen(true)}
             title="Edit Profile"
+            role="button"
+            tabIndex={0}
+            aria-label="Edit Profile"
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                setIsProfileEditOpen(true);
+              }
+            }}
           >
             <div className="account-avatar-large">
               {userData?.photoURL || user?.photoURL ? (
@@ -515,13 +525,14 @@ const AccountDashboard = ({ user }) => {
           </div>
 
           {/* Center: Desktop Fan-style Tab Navigation */}
-          <nav className="fan-tabs fan-tabs-desktop">
+          <nav className="fan-tabs fan-tabs-desktop" aria-label="Account sections">
             <div className="fan-container">
               {navTabs.map(tab => (
                 <button
                   key={tab.id}
                   className={`fan-tab ${activeTab === tab.id ? 'active' : ''}`}
                   onClick={() => handleTabChange(tab.id)}
+                  aria-current={activeTab === tab.id ? 'page' : undefined}
                 >
                   <span>{tab.label}</span>
                 </button>
@@ -551,6 +562,7 @@ const AccountDashboard = ({ user }) => {
                       <button
                         key={tab.id}
                         className={`account-tab-dropdown-item ${activeTab === tab.id ? 'active' : ''}`}
+                        aria-current={activeTab === tab.id ? 'page' : undefined}
                         onClick={() => {
                           handleTabChange(tab.id);
                           setIsTabDropdownOpen(false);
@@ -574,22 +586,8 @@ const AccountDashboard = ({ user }) => {
               className="quick-search-trigger-btn"
               onClick={() => window.dispatchEvent(new CustomEvent('mythrill_toggle_quick_switcher'))}
               title="Universal Search & Command Palette (Ctrl+K)"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(90, 30, 18, 0.08)',
-                border: '1px solid rgba(139, 69, 19, 0.35)',
-                color: '#4a2b1f',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                transition: 'all 0.15s ease'
-              }}
             >
-              <i className="fas fa-search" style={{ color: '#6b4423' }}></i>
+              <i className="fas fa-search" aria-hidden="true"></i>
               <span>Search (Ctrl+K)</span>
             </button>
 
@@ -602,6 +600,8 @@ const AccountDashboard = ({ user }) => {
                 className={`notification-btn ${receivedRequests.length > 0 ? 'has-notifications' : ''}`}
                 onClick={() => setShowNotifications(!showNotifications)}
                 title="Friend Requests"
+                aria-label="Friend Requests"
+                aria-expanded={showNotifications}
               >
                 <i className="fas fa-bell"></i>
                 {receivedRequests.length > 0 && (
@@ -661,11 +661,12 @@ const AccountDashboard = ({ user }) => {
             <button
               onClick={() => navigate('/')}
               className="action-btn home-btn"
+              aria-label="Home"
             >
               <i className="fas fa-home"></i>
               <span>Home</span>
             </button>
-            <button onClick={handleSignOut} className="action-btn logout-btn">
+            <button onClick={handleSignOut} className="action-btn logout-btn" aria-label="Sign Out">
               <i className="fas fa-sign-out-alt"></i>
               <span>Sign Out</span>
             </button>
@@ -892,12 +893,13 @@ const AccountDashboard = ({ user }) => {
                     <input
                       type="text"
                       className="char-search-input"
+                      aria-label="Search characters"
                       placeholder={isPhone ? 'Search heroes…' : 'Search characters by name, lineage, class...'}
                       value={characterSearchQuery}
                       onChange={(e) => setCharacterSearchQuery(e.target.value)}
                     />
                     {characterSearchQuery && (
-                      <button className="search-clear-btn" onClick={() => setCharacterSearchQuery('')} title="Clear search">
+                      <button className="search-clear-btn" onClick={() => setCharacterSearchQuery('')} title="Clear search" aria-label="Clear search">
                         <i className="fas fa-times"></i>
                       </button>
                     )}
@@ -948,7 +950,7 @@ const AccountDashboard = ({ user }) => {
                 </div>
 
                 {isPhone && showCharFilters && createPortal(
-                  <div className="char-filter-sheet-overlay" onClick={() => setShowCharFilters(false)}>
+                  <div className="char-filter-sheet-overlay account-ledger-sheet" onClick={() => setShowCharFilters(false)}>
                     <div className="char-filter-sheet" onClick={(e) => e.stopPropagation()}>
                       <div className="char-filter-sheet-header">
                         <span>Filters &amp; Sorting</span>
@@ -1021,7 +1023,7 @@ const AccountDashboard = ({ user }) => {
                           }
                           return getWowIconUrl(icon);
                         }
-                        // No portrait chosen: fall back to the class icon
+                        // No portrait chosen: fall back to the class icon framed portrait
                         return getClassIconUrl(char.class);
                       };
 
@@ -1074,9 +1076,13 @@ const AccountDashboard = ({ user }) => {
                           {/* Card Header: Identity & Avatar */}
                           <div className="hero-card-header">
                             <div className="hero-identity-row">
-                              <div className="hero-portrait-frame">
+                              <div className={`hero-portrait-frame ${!(character.lore?.characterImage || character.image || character.characterIcon || character.lore?.characterIcon) ? 'is-framed-card' : ''}`}>
                                 {getCharacterImage(character) ? (
-                                  <img src={getCharacterImage(character)} alt={character.name} className="hero-portrait-img" />
+                                  <img
+                                    src={getCharacterImage(character)}
+                                    alt={character.name}
+                                    className={`hero-portrait-img ${!(character.lore?.characterImage || character.image || character.characterIcon || character.lore?.characterIcon) ? 'hero-portrait-fallback-icon' : ''}`}
+                                  />
                                 ) : (
                                   <div className="hero-portrait-monogram">
                                     <span className="monogram-letter">{character.name ? character.name.charAt(0).toUpperCase() : 'A'}</span>
@@ -1481,7 +1487,7 @@ const AccountDashboard = ({ user }) => {
         )}
 
         {isPhone && sheetCharacter && createPortal(
-          <div className="char-action-sheet-overlay" onClick={() => setSheetCharacter(null)}>
+          <div className="char-action-sheet-overlay account-ledger-sheet" onClick={() => setSheetCharacter(null)}>
             <div className="char-action-sheet" onClick={(e) => e.stopPropagation()}>
               <div className="char-action-sheet-header">
                 <span>{sheetCharacter.name}</span>

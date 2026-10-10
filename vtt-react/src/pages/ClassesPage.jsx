@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import { CLASS_DISPLAY_DATA } from '../data/classes/classDisplayData';
 import ClassIcon from '../components/common/ClassIcon';
 import './ClassesPage.css';
+import '../components/rules/ClassCodex.css';
 
 export default function ClassesPage() {
   const { classId } = useParams();
-  const navigate = useNavigate();
   const [activeRole, setActiveRole] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -23,6 +23,9 @@ export default function ClassesPage() {
     ? CLASS_DISPLAY_DATA.find(c => c.name.toLowerCase() === classId.toLowerCase())
     : null;
 
+  const classPath = name => `/rules?category=character-creation&sub=classes&class=${encodeURIComponent(name)}`;
+  if (selectedClass) return <Navigate to={classPath(selectedClass.name)} replace />;
+
   return (
     <div className="classes-page-container">
       <header className="classes-header">
@@ -34,9 +37,9 @@ export default function ClassesPage() {
             <Link to="/rules">Laws &amp; Lore</Link> &gt; Laws &gt; Classes Codex
           </span>
         </div>
-        <h1 className="classes-title">MYTHRILL CLASSES CODEX</h1>
+        <h1 className="classes-title">Classes of Mythrill</h1>
         <p className="classes-subtitle">
-          21 Distinct Playstyles Forged in the Freezing Era of Sol
+          {CLASS_DISPLAY_DATA.length} traditions. Find your place in the party and the power behind your path.
         </p>
       </header>
 
@@ -47,6 +50,7 @@ export default function ClassesPage() {
             type="text"
             className="classes-search-input"
             placeholder="Search classes or playstyles..."
+            aria-label="Search classes or playstyles"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -57,6 +61,8 @@ export default function ClassesPage() {
             <button
               key={role}
               className={`role-filter-btn ${activeRole === role ? 'active' : ''}`}
+              type="button"
+              aria-pressed={activeRole === role}
               onClick={() => setActiveRole(role)}
             >
               {role}
@@ -67,21 +73,24 @@ export default function ClassesPage() {
 
       <main className="classes-grid">
         {filteredClasses.map(cls => (
-          <article
+          <Link
             key={cls.name}
             className={`class-card ${selectedClass?.name === cls.name ? 'selected' : ''}`}
-            onClick={() => navigate(`/rules/classes/${cls.name.toLowerCase()}`)}
+            to={classPath(cls.name)}
+            aria-label={`Explore ${cls.name}`}
+            aria-disabled={cls.comingSoon || undefined}
+            onClick={event => { if (cls.comingSoon) event.preventDefault(); }}
           >
             <div className="class-card-header">
               <div className="class-icon-badge" style={{ borderColor: cls.roleColor }}>
                 {cls.imageIcon ? (
-                  <ClassIcon src={cls.imageIcon} alt={cls.name} size="tiny" className="class-icon-img" dataClass={cls.name} />
+                  <ClassIcon src={cls.imageIcon} alt="" size="medium" className="class-icon-img" dataClass={cls.name} />
                 ) : null}
-                <i className="fas fa-shield-alt"></i>
+                {!cls.imageIcon && <i className="fas fa-shield-alt" aria-hidden="true"></i>}
               </div>
               <div>
                 <h2 className="class-card-name">{cls.name}</h2>
-                <span className="class-role-badge" style={{ backgroundColor: cls.roleColor }}>
+                <span className="class-role-badge">
                   {cls.role}
                 </span>
               </div>
@@ -107,9 +116,15 @@ export default function ClassesPage() {
             {cls.comingSoon && (
               <div className="coming-soon-banner">Coming Soon</div>
             )}
-          </article>
+          </Link>
         ))}
       </main>
+      {filteredClasses.length === 0 && (
+        <div className="classes-empty">
+          <p>No classes match your search and role filter.</p>
+          <button type="button" onClick={() => { setActiveRole('All'); setSearchTerm(''); }}>Clear filters</button>
+        </div>
+      )}
     </div>
   );
 }

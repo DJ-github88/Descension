@@ -7,6 +7,7 @@ import MapControls from './MapControls';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { getSubregionMap } from '../../data/subregionMaps';
 import AssetLoadingOverlay from '../common/AssetLoadingOverlay';
+import { shouldReduceMotion } from '../../utils/accessibility';
 
 const MAP_IMAGE_PATH = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
 const MAP_WIDTH = 4096;
@@ -98,6 +99,7 @@ const MapCanvas = ({
   customZoneName = ''
 }) => {
   const transformRef = useRef(null);
+  const previousMapId = useRef(activeMapId);
   const [driftEnabled, setDriftEnabled] = useState(false);
   const driftRef = useRef({ x: 0, y: 0, active: false, timer: null });
   
@@ -111,7 +113,9 @@ const MapCanvas = ({
   const [draggedCustomZoneId, setDraggedCustomZoneId] = useState(null);
 
   // Dynamic minScale to allow viewing the entire map
-  const [minScale, setMinScale] = useState(0.15);
+  const [minScale, setMinScale] = useState(() => typeof window === 'undefined'
+    ? 0.15
+    : Math.min(window.innerWidth / MAP_WIDTH, window.innerHeight / MAP_HEIGHT) * 0.92);
   const [isCustomDropActive, setIsCustomDropActive] = useState(false);
   const [isMapImageLoading, setIsMapImageLoading] = useState(() => !initialTransform);
 
@@ -176,8 +180,10 @@ const MapCanvas = ({
     }
   }, [targetZoomPoint]);
 
-  // Center and fit the entire new map into view whenever activeMapId changes (e.g. entering subregion map)
+  // Fit only when changing maps; mounting must preserve the landing camera handoff.
   useEffect(() => {
+    if (previousMapId.current === activeMapId) return;
+    previousMapId.current = activeMapId;
     if (transformRef.current && activeMapId) {
       const timer = setTimeout(() => {
         if (transformRef.current) {
@@ -217,42 +223,12 @@ const MapCanvas = ({
       const W = window.innerWidth;
       const H = window.innerHeight;
       // Fit scale so the entire map is visible
-      setMinScale(Math.min(W / 4096, H / 3072) * 0.95);
+      setMinScale(Math.min(W / MAP_WIDTH, H / MAP_HEIGHT) * 0.92);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Handle smooth camera zoom to target subregion point
-  useEffect(() => {
-    if (targetZoomPoint && transformRef.current) {
-      const { x, y, scale = 1.85, duration = 600 } = targetZoomPoint;
-      const ref = transformRef.current;
-      const W = window.innerWidth;
-      const H = window.innerHeight;
-      const posX = W / 2 - x * scale;
-      const posY = H / 2 - y * scale;
-      ref.setTransform(posX, posY, scale, duration, 'easeOutCubic');
-    }
-  }, [targetZoomPoint]);
-
-  // Center and fit the entire new map into view whenever activeMapId changes (e.g. entering subregion map)
-  useEffect(() => {
-    if (transformRef.current && activeMapId) {
-      const timer = setTimeout(() => {
-        if (transformRef.current) {
-          const W = window.innerWidth;
-          const H = window.innerHeight;
-          const fitScale = Math.min(W / 4096, H / 3072) * 0.92;
-          const fitPosX = (W - 4096 * fitScale) / 2;
-          const fitPosY = (H - 3072 * fitScale) / 2;
-          transformRef.current.setTransform(fitPosX, fitPosY, fitScale, 0);
-        }
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [activeMapId]);
 
   // Translate screen coordinates into map-space pixel coordinates
   const getImageCoords = useCallback((e) => {
@@ -320,7 +296,7 @@ const MapCanvas = ({
     };
 
     // Drift is only allowed if immersed, not devMode, and sidebar is closed
-    const canDrift = phase === 'immersed' && !devMode && !selectedRegionId && driftEnabled;
+    const canDrift = phase === 'immersed' && !devMode && !selectedRegionId && driftEnabled && !shouldReduceMotion();
 
     if (canDrift) {
       driftRef.current.active = true;
@@ -368,14 +344,17 @@ const MapCanvas = ({
   }, [customMapMode, customReadOnly, onCustomImageFile]);
 
   const handleTransformed = useCallback((ref) => {
+    if (ref?.instance) {
+      driftRef.current.x = ref.instance.transformState.positionX;
+      driftRef.current.y = ref.instance.transformState.positionY;
+    }
     if (onTransformChange && ref && ref.instance) {
       onTransformChange(ref.instance.transformState);
     }
     handleUserInteraction();
   }, [onTransformChange, handleUserInteraction]);
 
-  // Set initial transform programmatically on mount: starts at the
-  // cover/fit position to match the end state of the landing page dive.
+  // Match the final landing camera frame exactly, without an overview reset.
   useEffect(() => {
     const ref = transformRef.current;
     if (ref && initialTransform && phase === 'entering') {

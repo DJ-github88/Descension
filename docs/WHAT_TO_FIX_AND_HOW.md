@@ -30,11 +30,11 @@
 **Files:** `chronarchData.js`, `gambitData.js`, `minstrelData.js`, `shaperData.js`, `toxicologistData.js`, `revenantData.js`  -  each needs a `worldFriction` block (2-3 lines)
 **Fix per class:**
 - **Chronarch:** Pro-timeline-stabilization (allied with Augurs seeking unified timeline) vs. pro-accelerators (hired by Keth Amar adherents to fracture time faster)
-- **Gambit:** Sea-Charter enforcers (Mereval loyalists) vs. Press-Warrant resisters (Brine-Bond underground smuggling undocumented refugees)
+- **Gambit:** Sea-Charter enforcers (Mereval loyalists) vs. Press-Warrant resisters (Lamphera-Bond underground smuggling undocumented refugees)
 - **Minstrel:** The Last Verse as oral-resistance network against the Sovereign Ledger  -  they remember what the ink erases. Anti-Scribe-Cartel.
 - **Shaper:** Are they Groven-aligned (bone-sculpting Ancestor-Spans) or Fexrick-aligned (Lost Brood vat mechanics)? Pick one or make it a faction split.
 - **Toxicologist:** Scribe-Cartel chemist vs. underground reagent-stealer supplying Forgotten settlements
-- **Revenant:** Voluntary Debt-Revenant (Morren fighting Neth bondage by legally dying) vs. escaped dead (hunted by the Keeper, freedom-fighters)
+- **Revenant:** Voluntary Vezan (Morren fighting Neth bondage by legally dying) vs. escaped dead (hunted by the Keeper, freedom-fighters)
 
 ### 5. Timeline Fracture Is Fragmented Across Files
 **Files:** `augurData.js` (line 216), `timelineStore.js`

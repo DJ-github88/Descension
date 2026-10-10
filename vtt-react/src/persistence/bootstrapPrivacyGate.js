@@ -21,7 +21,8 @@ const INITIAL_STATE = Object.freeze({
   scope: null,
   accountGeneration: 0,
   documentInstanceId: null,
-  holdReason: null
+  holdReason: null,
+  handoffPending: false
 });
 
 let state = { ...INITIAL_STATE };
@@ -50,7 +51,8 @@ export function getBootstrapGateState() {
     scope: state.scope ? Object.freeze({ ...state.scope }) : null,
     accountGeneration: state.accountGeneration,
     documentInstanceId: state.documentInstanceId,
-    holdReason: state.holdReason ?? null
+    holdReason: state.holdReason ?? null,
+    handoffPending: state.handoffPending === true
   });
 }
 
@@ -156,6 +158,19 @@ export function canHydratePrivateScopedData(scope) {
 /** Writes require the same active, matching destination scope. */
 export function canWritePrivateScopedData(scope) {
   return canHydratePrivateScopedData(scope);
+}
+
+/**
+ * Mark that a principal handoff is in progress. The old scope may remain
+ * active (so already-captured writes can still be preserved), but every
+ * private projection must stay isolated from the new authenticated principal
+ * until the transition completes or fails closed.
+ */
+export function markHandoffPending(pending) {
+  const next = pending === true;
+  if (state.handoffPending === next) return getBootstrapGateState();
+  setState({ ...state, handoffPending: next });
+  return getBootstrapGateState();
 }
 
 /** @returns {{ ok: boolean, reason: string|null }} */

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import useFactionStore from '../../store/factionStore';
 import useWorldStore from '../../store/worldStore';
 import { showConfirm } from '../../utils/dialogService';
@@ -7,6 +8,8 @@ import RichLoreText from '../common/RichLoreText';
 import LoreEditorToolbar from '../common/LoreEditorToolbar';
 import { TimelineView } from './TimelineView';
 import { sanitizeLoreText, formatDisplayName, getFactionIcon, getFactionTypeIcon } from './WorldDashboard';
+import './RegionDetail.css';
+import './FactionDetail.css';
 
 const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
   const { getFaction, getFactionRelationships, updateFaction, removeFaction, factions } = useFactionStore();
@@ -129,7 +132,7 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
   ];
 
   return (
-    <div className="world-panel faction-detail-panel">
+    <div className="world-panel faction-detail-panel" data-region={context?.region?.id}>
       {/* Royal Heraldic Banner Header */}
       <div
         className="faction-hero-header"
@@ -179,7 +182,7 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
           <div
             className="faction-hero-crest-shield"
             style={{
-              background: `radial-gradient(circle at 35% 35%, ${faction.colors?.primary || '#8b5a1a'} 0%, #1a0f05 100%)`,
+              background: faction.colors?.primary || '#8b5a1a',
               borderColor: faction.colors?.secondary || '#d4af37'
             }}
           >
@@ -233,17 +236,18 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
         <div className="faction-hero-ribbon" />
       </div>
 
-      <div className="world-tabs">
+      <nav className="world-tabs" aria-label="Faction sections">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             className={`world-tab ${activeTab === tab.key ? 'active' : ''}`}
             onClick={() => setActiveTab(tab.key)}
+            aria-pressed={activeTab === tab.key}
           >
             {tab.label}
           </button>
         ))}
-      </div>
+      </nav>
 
       <div className="world-tab-content">
         {activeTab === 'overview' && (
@@ -365,7 +369,7 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
         {activeTab === 'relations' && (
           <div className="world-section-stack">
             <section className="world-section">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <div className="faction-diplomacy-heading">
                 <h3 style={{ margin: 0 }}>Diplomatic Stances &amp; Alliances</h3>
                 <button className="world-action-btn primary" style={{ padding: '6px 14px', fontSize: '12px' }} onClick={() => setShowAddRelModal(true)}>
                   <i className="fas fa-link"></i> Forge Bond
@@ -378,6 +382,7 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
                 {relationships.map((rel, i) => (
                   <div key={i} className="world-relation-card" style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 16px', background: '#ffffff', borderRadius: '8px', border: '1px solid #cdb592' }}>
                     <div
+                      className="faction-relation-seal"
                       style={{
                         width: '36px', height: '36px', borderRadius: '50%',
                         background: RELATIONSHIP_TYPES[rel.type]?.color || '#888',
@@ -386,8 +391,8 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
                     >
                       <i className={`fas ${rel.type === 'allied' ? 'fa-handshake' : rel.type === 'hostile' ? 'fa-skull-crossbones' : rel.type === 'rival' ? 'fa-swords' : 'fa-shield-halved'}`}></i>
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div className="faction-relation-summary">
+                      <div className="faction-relation-parties">
                         <strong>{sanitizeLoreText(faction.name)}</strong>
                         <span className={`world-badge world-badge-sm`} style={{ background: RELATIONSHIP_TYPES[rel.type]?.color ? `${RELATIONSHIP_TYPES[rel.type].color}22` : '#eee', color: RELATIONSHIP_TYPES[rel.type]?.color || '#333' }}>
                           {formatDisplayName(RELATIONSHIP_TYPES[rel.type]?.label || rel.type)}
@@ -398,7 +403,7 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
                         <p className="world-card-meta" style={{ marginTop: '4px' }}>{sanitizeLoreText(rel.description)}</p>
                       )}
                     </div>
-                    <div style={{ display: 'flex', gap: '6px' }}>
+                    <div className="faction-relation-actions">
                       {onNavigateFaction && rel.targetFactionId && (
                         <button
                           className="world-action-btn"
@@ -430,15 +435,15 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
       </div>
 
       {/* ── Edit Faction Modal ── */}
-      {showEditModal && (
-        <div className="world-modal-overlay" onClick={() => setShowEditModal(false)}>
-          <div className="world-modal-card world-modal-card-lg" onClick={(e) => e.stopPropagation()}>
+      {showEditModal && createPortal(
+        <div className="world-modal-overlay faction-detail-panel faction-dialog-theme" onClick={() => setShowEditModal(false)}>
+          <div className="world-modal-card world-modal-card-lg" role="dialog" aria-modal="true" aria-label={`Edit Faction Dossier: ${faction.name}`} onClick={(e) => e.stopPropagation()}>
             <div className="world-modal-header">
               <div className="world-modal-title">
                 <i className="fas fa-pen-to-square"></i>
                 <h3>Edit Faction Dossier: {faction.name}</h3>
               </div>
-              <button className="world-modal-close" onClick={() => setShowEditModal(false)}>
+              <button className="world-modal-close" onClick={() => setShowEditModal(false)} aria-label="Close faction editor">
                 <i className="fas fa-times"></i>
               </button>
             </div>
@@ -573,15 +578,16 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
       {/* Forge Diplomatic Bond Modal */}
-      {showAddRelModal && (
-        <div className="world-modal-overlay" onClick={() => setShowAddRelModal(false)}>
-          <div className="world-modal-card" onClick={(e) => e.stopPropagation()}>
+      {showAddRelModal && createPortal(
+        <div className="world-modal-overlay faction-detail-panel faction-dialog-theme" onClick={() => setShowAddRelModal(false)}>
+          <div className="world-modal-card" role="dialog" aria-modal="true" aria-label="Forge Diplomatic Bond" onClick={(e) => e.stopPropagation()}>
             <div className="world-modal-header">
               <div className="world-modal-title"><i className="fas fa-link"></i><h3>Forge Diplomatic Bond</h3></div>
-              <button className="world-modal-close" onClick={() => setShowAddRelModal(false)}><i className="fas fa-times"></i></button>
+              <button className="world-modal-close" onClick={() => setShowAddRelModal(false)} aria-label="Close diplomatic bond form"><i className="fas fa-times"></i></button>
             </div>
             <form onSubmit={handleAddRelationship}>
               <div className="world-modal-body">
@@ -610,7 +616,8 @@ const FactionDetail = ({ factionId, onBack, onNavigateFaction }) => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

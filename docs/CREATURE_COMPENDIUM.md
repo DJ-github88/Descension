@@ -1,7 +1,7 @@
 # Mythrill Creature Compendium
 ## The Expanded Bestiary  -  140 Original Creatures Across the Seven Regions
 
-> Each entry fuses two real-world folklore traditions and adapts them to the Age of the Dimming. Most of these creatures are native to Mythrill and predate the Great Binding; a minority are Ancient Cosmic Wyrdkin, Keth-spawn (Wyrdspawn), or Wyrd-touched variants of native species. Local folklore records, translates, and camouflages these encounters  -  it does not create the creatures. Entries are grouped by region and culture. Existing bestiary creatures (Gref, Mogwai, Yuki-Onna, etc.) are excluded  -  these are all-new.
+> Each entry fuses two real-world folklore traditions and adapts them to the Age of the Dimming. Most of these creatures are native to Mythrill and predate the Great Binding; a minority are Ancient Cosmic Wyrdkin, Keth-spawn (Wyrdspawn), or Wyrd-touched variants of native species. Local folklore records, translates, and camouflages these encounters  -  it does not create the creatures. Entries are grouped by region and culture. Existing bestiary creatures (Gref, Mogwara, Yuki-Onna, etc.) are excluded  -  these are all-new.
 
 ---
 
@@ -11,7 +11,7 @@
 
 ---
 
-### 1. The Schratling
+### 1. The Skraten
 
 #### 1. Folklore & Setting Roots
 - **Schrat (Germanic folklore):** A moss-covered forest spirit that dwells in tree hollows, notorious for sneaking into homes and moving objects while the family sleeps.
@@ -23,12 +23,12 @@
 - **The Face:** A broad, squashed nose dominates a face of lichen and cracked bark. Its eyes are the amber of old tallow candles, warm and rheumy, perpetually blinking.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Night-Scribe:** Schratlings sneak into Greymark homes at night and reorganize the family's journal entries  -  not maliciously, but compulsively. They cannot read, yet they are obsessed with the act of writing. A household with a Schratling often wakes to find entire lineage-logs "corrected" with peat-ink scribbles.
+- **The Night-Scribe:** Schratlings sneak into Greymark homes at night and reorganize the family's journal entries  -  not maliciously, but compulsively. They cannot read, yet they are obsessed with the act of writing. A household with a Skraten often wakes to find entire lineage-logs "corrected" with peat-ink scribbles.
 - **The Moss-Weaver:** They line their tree-hollow nests with shredded memory-glass, creating small sanctuaries where the fog cannot penetrate. Unwoven Mimir sometimes seek these nests to remember who they were.
 
 ---
 
-### 2. The Alraune
+### 2. The Alrauneth
 
 #### 1. Folklore & Setting Roots
 - **Changeling (Celtic/Scottish folklore):** A fairy double left in place of a stolen human child, often made of wood or clay animated by magic, behaving strangely or showing supernatural knowledge.
@@ -45,7 +45,7 @@
 
 ---
 
-### 3. The Drudehaunt
+### 3. The Drudena
 
 #### 1. Folklore & Setting Roots
 - **Drude/Alp (Germanic nightmare spirit):** A fiend that sits upon a sleeper's chest, causing suffocating nightmares and paralysis. In Grimm lore, Drudes are the spirits of bitter, broken women.
@@ -58,7 +58,7 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Nightmare-Weaver:** At night, Drudehaunts settle onto the chests of sleeping Thalren scribes, feeding on their dreams. Their victim wakes gasping, having dreamt of every memory they have ever lost  -  and losing three more in the process.
-- **The Omen-Washer:** By day, they kneel at fog-choked fords, washing fog-soaked garments in their dark basins. Any traveler who sees a Drudehaunt washing will lose a significant memory within three days. Scribes consider this the most feared omen in the Reach.
+- **The Omen-Washer:** By day, they kneel at fog-choked fords, washing fog-soaked garments in their dark basins. Any traveler who sees a Drudena washing will lose a significant memory within three days. Scribes consider this the most feared omen in the Reach.
 
 ---
 
@@ -79,7 +79,7 @@
 
 ---
 
-### 5. The Erlking's Hound
+### 5. The Erlgrimm
 
 #### 1. Folklore & Setting Roots
 - **Erlking/Erlkönig (Germanic ballad lore):** The Elf-King who rides through the forest with a retinue of hounds, hunting the souls of those who linger too long in the deep woods after dark.
@@ -96,7 +96,7 @@
 
 ---
 
-### 6. The Nuckelmist
+### 6. The Nuklavar
 
 #### 1. Folklore & Setting Roots
 - **Nuckelavee (Celtic/Orkney folklore):** A horrific skinless horse-and-rider fusion from the sea, whose breath withers crops and causes disease. The most feared creature in Orcadian mythology.
@@ -109,11 +109,11 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Blight-Strider:** Nuckelmists emerge from the deepest fog-banks only during the thickest whiteouts. Their mere presence causes ironwood bark to blacken and peel; they exude an aura of accelerated decay that can rot a journal's pages from fifty paces.
-- **The Path-Eraser:** They do not hunt for flesh. They hunt for paths  -  walking a road or trail and absorbing the spatial memory of it, causing the path to physically vanish from the forest behind them. Entire trade routes have been lost to a single Nuckelmist's passage.
+- **The Path-Eraser:** They do not hunt for flesh. They hunt for paths  -  walking a road or trail and absorbing the spatial memory of it, causing the path to physically vanish from the forest behind them. Entire trade routes have been lost to a single Nuklavar's passage.
 
 ---
 
-### 7. The Mossmaiden
+### 7. The Glaistra
 
 #### 1. Folklore & Setting Roots
 - **Moosfräulein/Moss-Maiden (Germanic folklore):** Beautiful green-clad women of the forest who appear to lost travelers, sometimes helping and sometimes leading them to deeper迷失.
@@ -125,12 +125,12 @@
 - **The Face:** Startlingly beautiful, with high cheekbones and skin like polished birch-bark. Her eyes are the deep amber of pine-sap, with horizontal goat-pupils that glow faintly in the mist.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Herd-Warden:** Mossmaidens adopt wild elk and moose herds in the Frostwood, guiding them away from fog-pockets that would erase the animals' migration memory. Thalren hunters who encounter a Mossmaiden know a healthy herd is nearby.
-- **The Blood-Milk Bargain:** They will approach lonely woodcutters at dusk, offering a drink of milk from a wooden cup. Those who drink are bound to the Mossmaiden's grove for seven years as her tenders, emerging with no memory of their servitude but impossible vitality.
+- **The Herd-Warden:** Mossmaidens adopt wild elk and moose herds in the Frostwood, guiding them away from fog-pockets that would erase the animals' migration memory. Thalren hunters who encounter a Glaistra know a healthy herd is nearby.
+- **The Blood-Milk Bargain:** They will approach lonely woodcutters at dusk, offering a drink of milk from a wooden cup. Those who drink are bound to the Glaistra's grove for seven years as her tenders, emerging with no memory of their servitude but impossible vitality.
 
 ---
 
-### 8. The Fachanwatch
+### 8. The Facharn
 
 #### 1. Folklore & Setting Roots
 - **Fachan/Faw (Celtic/Scottish folklore):** A grotesque giant with one leg, one arm, one eye, and one ear, who guards isolated glens and attacks trespassers with a massive club.
@@ -143,11 +143,11 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Pass-Guardian:** Fachanwatches claim single mountain passes through the Frostwood, sitting motionless at the narrowest point for decades. They demand a truth from each traveler  -  a genuine, deeply personal fact  -  before allowing passage. Liars are hurled into the ravine.
-- **The Fog-Anchor:** Their presence stabilizes spatial memory in their immediate vicinity; the fog cannot erase a path while a Fachanwatch guards it. For this reason, Thalren road-builders actively court Fachanwatches, leaving offerings of carved truth-stones at promising pass-sites.
+- **The Fog-Anchor:** Their presence stabilizes spatial memory in their immediate vicinity; the fog cannot erase a path while a Facharn guards it. For this reason, Thalren road-builders actively court Fachanwatches, leaving offerings of carved truth-stones at promising pass-sites.
 
 ---
 
-### 9. The Knockbrew
+### 9. The Cluriken
 
 #### 1. Folklore & Setting Roots
 - **Weinschrat/Wine-Sprite (Germanic folklore):** A mischievous vineyard spirit that tampers with wine casks, souring good batches and improving mediocre ones on a whim.
@@ -159,12 +159,12 @@
 - **The Face:** Flushed, cheerful, with rosy cheeks and bloodshot, watery eyes that nonetheless twinkle with shrewd intelligence. Its grin is lopsided, revealing a mouthful of iron-teeth filed to resemble corks.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Tavern-Tender:** Knockbrews infest the cellars of Greymark taverns, where they compulsively tend the pine-oil and frost-mead casks. A Knockbrew-tended cask never spoils and never freezes  -  invaluable in a land where cold can crack keg-wood overnight.
+- **The Tavern-Tender:** Knockbrews infest the cellars of Greymark taverns, where they compulsively tend the pine-oil and frost-mead casks. A Cluriken-tended cask never spoils and never freezes  -  invaluable in a land where cold can crack keg-wood overnight.
 - **The Memory-Brewer:** They collect fog-dissolved memories that settle in cellar-damp and ferment them into a cloudy, potent liquor called "forget-mead." One sip erases the last hour; a full cup erases a day. Greymark's Unwoven Mimir trade in this brew as a crude form of anesthesia.
 
 ---
 
-### 10. The Wildejagd
+### 10. The Sluaven
 
 #### 1. Folklore & Setting Roots
 - **Sluagh (Celtic/Irish folklore):** The host of the unfairy dead  -  restless spirits who fly through the night sky in flocks, trying to steal the souls of the dying before they can reach the afterlife.
@@ -176,12 +176,12 @@
 - **The Face:** No single face  -  instead, dozens of pale, screaming mouths open and close across its surface, each emitting a different whispered name. The names are those of forgotten Thalren ancestors whose records were consumed by the fog.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Archive-Storm:** The Wildejagd descends on Greymark's archive-towers during the thickest fog-nights, attempting to physically tear pages from the great lineage-tapestries. Each page they consume erases an entire bloodline's recorded history.
-- **The Dying-Vigil:** They gather around those on the verge of total memory-collapse, circling like vultures. When the last memory dissolves, the Wildejagd absorbs the empty husk of identity, adding another silent rider to its host.
+- **The Archive-Storm:** The Sluaven descends on Greymark's archive-towers during the thickest fog-nights, attempting to physically tear pages from the great lineage-tapestries. Each page they consume erases an entire bloodline's recorded history.
+- **The Dying-Vigil:** They gather around those on the verge of total memory-collapse, circling like vultures. When the last memory dissolves, the Sluaven absorbs the empty husk of identity, adding another silent rider to its host.
 
 ---
 
-### 11. The Fuath
+### 11. The Fuarach
 
 #### 1. Folklore & Setting Roots
 - **Fuath (Celtic/Scottish folklore):** A generic term for water-spirits and lake-monsters  -  dangerous, ambivalent entities that drag swimmers beneath dark Highland lochs.
@@ -194,11 +194,11 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Pool-Singer:** Fuaths stand at the edge of deep peat-pools and sing a low, resonant hum that carries through the fog. The song does not charm  -  instead, it temporarily restores a memory of something precious, drawing the listener toward the pool to reclaim it.
-- **The Memory-Sinker:** When a victim wades in, the Fuath dissolves, becoming indistinguishable from the pool-water. The victim sinks, and the pool absorbs their memories as sediment  -  layers of stolen identities compacting into peat over centuries.
+- **The Memory-Sinker:** When a victim wades in, the Fuarach dissolves, becoming indistinguishable from the pool-water. The victim sinks, and the pool absorbs their memories as sediment  -  layers of stolen identities compacting into peat over centuries.
 
 ---
 
-### 12. The Grogoch
+### 12. The Grochan
 
 #### 1. Folklore & Setting Roots
 - **Grogoch/Grogochan (Celtic/Irish & Manx folklore):** A hairy, half-human hedge-spirit covered in matted hair, that lives in burrows and helps farmers with harvesting in exchange for milk and solitude.
@@ -211,11 +211,11 @@
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
 - **The Root-Tender:** Grogochs cultivate vast underground gardens of edible ironwood-roots and frost-tubers, pruning the root-networks of the forest to maximize harvest. Their gardens are the primary food source for many Fog-Peat villages.
-- **The Fog-Herder:** They dig elaborate tunnel-networks beneath the fog-layer, creating safe underground passages between settlements. Thalren who know the Grogoch-tunnels can travel the Reach without risking memory-loss  -  but the Grogoch demand a secret in payment for each passage used.
+- **The Fog-Herder:** They dig elaborate tunnel-networks beneath the fog-layer, creating safe underground passages between settlements. Thalren who know the Grochan-tunnels can travel the Reach without risking memory-loss  -  but the Grochan demand a secret in payment for each passage used.
 
 ---
 
-### 13. The Cailleach
+### 13. The Perchan
 
 #### 1. Folklore & Setting Roots
 - **Perchta/Frau Holda (Germanic winter folklore):** A dual-natured winter goddess  -  radiant and generous to the hardworking, but appearing as a hideous crone who punishes the lazy by slitting their bellies and stuffing them with straw.
@@ -232,7 +232,7 @@
 
 ---
 
-### 14. The Dullahan
+### 14. The Dulan
 
 #### 1. Folklore & Setting Roots
 - **Dullahan (Celtic/Irish folklore):** A headless horseman who carries his own glowing head, using a human spine as a whip. He rides a black horse and stops to call the name of the person about to die.
@@ -244,12 +244,12 @@
 - **The Face:** The severed head has no features of its own  -  instead, the ironwood mask reflects the face of whoever looks at it, twisted into an expression of their deepest fear. The horse has no face at all; its head is a knot of fog shaped like a horse's skull.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Name-Caller:** At the fog-drowned crossroads of the Frostwood, the Dullahan stops its ride and speaks a single name into the mist. That individual's most important memory  -  the one that defines their identity  -  begins to dissolve within 24 hours.
+- **The Name-Caller:** At the fog-drowned crossroads of the Frostwood, the Dulan stops its ride and speaks a single name into the mist. That individual's most important memory  -  the one that defines their identity  -  begins to dissolve within 24 hours.
 - **The Oath-Hunter:** It tracks those who have broken written vows recorded in Greymark's ledgers, drawn to the resonance of broken contractual memory. Mimir who have lost their masks are its primary prey  -  it collects abandoned identities the way a magpie collects shinies.
 
 ---
 
-### 15. The Cusith
+### 15. The Cusheen
 
 #### 1. Folklore & Setting Roots
 - **Cu Sith (Celtic fairy-hound):** A spectral green hound of the fairy realm whose three barks warn of death  -  the third bark is never heard by the victim.
@@ -261,12 +261,12 @@
 - **The Face:** A narrow, intelligent muzzle with a mouth that opens far too wide, revealing rows of backward-curving teeth made of green-stained bone. Its eyes are solid green  -  no pupils, no whites  -  just deep, glowing emerald wells.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Three-Bark Hunt:** Cusith hunt in the fog at dusk. The first bark causes a traveler to freeze with instinctive terror; the second causes them to forget where they are; the third  -  which the victim never consciously hears  -  causes them to walk willingly into the fog's deepest heart.
-- **The Memory-Hound:** They do not eat flesh. They feed on the memory of fear itself, draining the emotional imprint of terror from their prey and leaving behind an eerily calm, hollowed victim who cannot remember feeling afraid. Florae rangers track Cusith packs by finding eerily fearless, lost travelers.
+- **The Three-Bark Hunt:** Cusheen hunt in the fog at dusk. The first bark causes a traveler to freeze with instinctive terror; the second causes them to forget where they are; the third  -  which the victim never consciously hears  -  causes them to walk willingly into the fog's deepest heart.
+- **The Memory-Hound:** They do not eat flesh. They feed on the memory of fear itself, draining the emotional imprint of terror from their prey and leaving behind an eerily calm, hollowed victim who cannot remember feeling afraid. Florae rangers track Cusheen packs by finding eerily fearless, lost travelers.
 
 ---
 
-### 16. The Pixie
+### 16. The Piskel
 
 #### 1. Folklore & Setting Roots
 - **Piskie/Pixie (Celtic Cornish folklore):** Mischievous little people who lead travelers astray with dancing lights, but can be benevolent to those who leave them offerings.
@@ -274,7 +274,7 @@
 
 #### 2. Physical Design
 - **Appearance:** A hand-sized sprite of condensed fog-light, shaped vaguely like a tiny person with moth-wings. Its body is semi-transparent, pulsing with a warm, honey-colored glow.
-- **Aesthetic Details:** It leaves a trail of phosphorescent spores that hang in the air like a glowing breadcrumb path. The spores change color  -  gold when the Pixie is helpful, blue when it is mischievous, red when it is malicious.
+- **Aesthetic Details:** It leaves a trail of phosphorescent spores that hang in the air like a glowing breadcrumb path. The spores change color  -  gold when the Piskel is helpful, blue when it is mischievous, red when it is malicious.
 - **The Face:** A tiny, childlike face with enormous eyes that are solid pools of warm light. It has no mouth  -  it communicates entirely through the color and pulse-pattern of its glow.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
@@ -283,7 +283,7 @@
 
 ---
 
-### 17. The Sluagh
+### 17. The Rabengast
 
 #### 1. Folklore & Setting Roots
 - **Gallow-Wyrd / Raven-Swarm (Germanic/Grimm folklore):** Spectral crows that gather around execution sites, carrying away the final words and confessions of the hanged.
@@ -300,7 +300,7 @@
 
 ---
 
-### 18. The Banshrond
+### 18. The Keanva
 
 #### 1. Folklore & Setting Roots
 - **Banshee/Bean Sídhe (Celtic/Irish folklore):** A fairy woman whose keening wail foretells a death in the family she has attached herself to. She appears as an old woman washing blood-stained garments.
@@ -312,12 +312,12 @@
 - **The Face:** A pale, drawn face with deep hollows around the eyes. Her mouth is perpetually open in a silent O-shape, as if mid-scream. When she does keen, the sound is not heard with the ears but felt in the bones.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Memory-Keen:** The Banshrond's wail does not foretell death  -  it foretells memory-death. When she keens for a household, the eldest member's memories will be entirely consumed by the fog within seven days. Families who hear her begin a desperate race to transcribe everything the elder knows.
+- **The Memory-Keen:** The Keanva's wail does not foretell death  -  it foretells memory-death. When she keens for a household, the eldest member's memories will be entirely consumed by the fog within seven days. Families who hear her begin a desperate race to transcribe everything the elder knows.
 - **The Comb-Bargain:** Her bone-comb is a powerful artifact  -  dragging it through a fog-bank temporarily parts the mist, creating a clear corridor. She will trade it for a single, genuine childhood memory, which she weaves into her shroud-collection. Only the desperately lost dare bargain.
 
 ---
 
-### 19. The Waldschrat
+### 19. The Waldrach
 
 #### 1. Folklore & Setting Roots
 - **Waldschrat (Germanic forest-spirit):** A wild, hairy wood-spirit that challenges travelers to riddle-contests and devours those who answer incorrectly.
@@ -334,11 +334,11 @@
 
 ---
 
-### 20. The Moorboggle
+### 20. The Bogard
 
 #### 1. Folklore & Setting Roots
 - **Boggart (Germanic/English folklore):** A malicious household-spirit that overturns furniture, spoils milk, and makes items disappear. When driven from a home, it follows the family to their new residence.
-- **Púca/Pooka variant (Celtic tradition):** Though the Pooka exists in the bestiary, the Moorboggle draws from a darker Púca variant  -  the bog-variant that drags livestock into peat-mires.
+- **Púca/Pooka variant (Celtic tradition):** Though the Pukhal exists in the bestiary, the Bogard draws from a darker Púca variant  -  the bog-variant that drags livestock into peat-mires.
 
 #### 2. Physical Design
 - **Appearance:** A dark, amorphous mass of compressed peat, fog, and malice, roughly the size of a large dog. It has no fixed shape, flowing between forms  -  sometimes a squat humanoid, sometimes a quadrupedal beast, sometimes a flat, creeping shadow.
@@ -346,8 +346,8 @@
 - **The Face:** It has no face  -  only the two yellow eyes, which can appear anywhere on its body at will. When it "speaks," it does so through a mouth that opens in its surface like a wound, revealing a gullet of compacted bog-mud.
 
 #### 3. Ecology: Why It Resides in Frostwood Reach
-- **The Possessor:** Moorboggles attach to a specific dwelling or family and become parasitic. They drain ambient memory-energy from the home's occupants, accelerating the fog's effects. A household infested with a Moorboggle will lose three generations of recorded history in a single winter.
-- **The Swallow-Pit:** When cornered, a Moorboggle can open a temporary sinkhole in peat-ground, dragging itself and its attackers into a subterranean bog-pocket. It navigates these with ease; its victims do not. The only known deterrent is cold-iron horseshoes nailed above every door  -  the iron disrupts the memory-absorption that sustains it.
+- **The Possessor:** Moorboggles attach to a specific dwelling or family and become parasitic. They drain ambient memory-energy from the home's occupants, accelerating the fog's effects. A household infested with a Bogard will lose three generations of recorded history in a single winter.
+- **The Swallow-Pit:** When cornered, a Bogard can open a temporary sinkhole in peat-ground, dragging itself and its attackers into a subterranean bog-pocket. It navigates these with ease; its victims do not. The only known deterrent is cold-iron horseshoes nailed above every door  -  the iron disrupts the memory-absorption that sustains it.
 
 
 ---
@@ -358,7 +358,7 @@
 
 ---
 
-### 21. The Fossegrim-Ice
+### 21. The Fosskarl
 
 #### 1. Folklore & Setting Roots
 - **Fossegrim (Norse folklore):** A gorgeous water-spirit who sits beneath waterfalls playing a fiddle, offering to teach mortals to play so beautifully that trees dance and rivers stop  -  in exchange for a sacrificed goat.
@@ -370,12 +370,12 @@
 - **The Face:** Inhumanly beautiful, with features so symmetrical they appear carved. Its eyes are frozen solid  -  pale blue discs that see through ice as if it were glass.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Ice-Fiddler:** Fossegrim-Ice play a resonant music that only Rime-Born Rune Keepers can hear  -  a frequency that temporarily thaws ancient brass mechanisms in the Frozen Archive. Without the Fiddler's song, the Archive's machines would freeze permanently.
-- **The Goat-Bargain:** They teach a single student per century to play the ice-fiddle. The price is a goat sacrificed at the frozen waterfall's base  -  but in Nordhalla, goats are nearly extinct. Bloodhammer warriors consider the Fossegrim-Ice sacred and will kill anyone who disturbs their frozen concerts.
+- **The Ice-Fiddler:** Fosskarl play a resonant music that only Rime-Born Rune Keepers can hear  -  a frequency that temporarily thaws ancient brass mechanisms in the Frozen Archive. Without the Fiddler's song, the Archive's machines would freeze permanently.
+- **The Goat-Bargain:** They teach a single student per century to play the ice-fiddle. The price is a goat sacrificed at the frozen waterfall's base  -  but in Nordhalla, goats are nearly extinct. Bloodhammer warriors consider the Fosskarl sacred and will kill anyone who disturbs their frozen concerts.
 
 ---
 
-### 22. The Marepress
+### 22. The Alpmarr
 
 #### 1. Folklore & Setting Roots
 - **Mare/Mara (Norse folklore):** The spirit that gives us the word "nightmare"  -  a malicious entity that rides sleepers' chests, causing crushing paralysis and terrible dreams.
@@ -387,12 +387,12 @@
 - **The Face:** No true face  -  only two pale, cold lights that serve as eyes, set in a mass of darkness. When it presses down on a sleeper, the victim sees this face in their nightmare: an infinite, crushing darkness with two cold stars.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Night-Crusher:** Marepresses settle onto the chests of sleeping Nordhallans, particularly Bloodhammer warriors whose ancestral rage makes their dreams vivid and violent. The Marepress feeds on the emotional energy of nightmares  -  particularly the ancestral screaming encoded in Bloodhammer blood.
-- **The Frost-Seal:** In the Frozen Archive, Rune Keepers have weaponized captured Marepresses, sealing them in brass vessels and using their absolute-zero aura to preserve fragile light-scrolls. A Marepress-sealed vault can maintain absolute cold indefinitely  -  but if the vessel cracks, the Marepress's nightmare-aura floods the Archive.
+- **The Night-Crusher:** Marepresses settle onto the chests of sleeping Nordhallans, particularly Bloodhammer warriors whose ancestral rage makes their dreams vivid and violent. The Alpmarr feeds on the emotional energy of nightmares  -  particularly the ancestral screaming encoded in Bloodhammer blood.
+- **The Frost-Seal:** In the Frozen Archive, Rune Keepers have weaponized captured Marepresses, sealing them in brass vessels and using their absolute-zero aura to preserve fragile light-scrolls. A Alpmarr-sealed vault can maintain absolute cold indefinitely  -  but if the vessel cracks, the Alpmarr's nightmare-aura floods the Archive.
 
 ---
 
-### 23. The Klabatskerry
+### 23. The Klaubart
 
 #### 1. Folklore & Setting Roots
 - **Klabautermann (Norse/Alpine maritime folklore):** A ship-sprite that lives in the mast and helps sailors  -  caulking leaks, catching rats, and warning of storms. If the ship is doomed, the Klabautermann appears on deck and weeps.
@@ -404,12 +404,12 @@
 - **The Face:** A wooden, carved face with exaggerated features  -  bulbous nose, wide grin  -  like a ship's figurehead shrunk to puppet-size. Its eyes are pieces of amber that glow when a storm is coming.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Weeping Watcher:** Klabatskerrys dwell in the ice-locked docks of Nordhalla, tending frozen ships. When one appears on deck and weeps, the crew has seven hours to abandon ship  -  the ice will crack beneath it. Skald captains trust the Klabatskerry above their own navigation.
-- **The Ship-Caulker:** They compulsively repair every ship in their territory, caulking hull-cracks with a magical frost-sealant stronger than any tar. Ships under a Klabatskerry's protection never sink from ice-damage  -  though storms remain a threat.
+- **The Weeping Watcher:** Klabatskerrys dwell in the ice-locked docks of Nordhalla, tending frozen ships. When one appears on deck and weeps, the crew has seven hours to abandon ship  -  the ice will crack beneath it. Skald captains trust the Klaubart above their own navigation.
+- **The Ship-Caulker:** They compulsively repair every ship in their territory, caulking hull-cracks with a magical frost-sealant stronger than any tar. Ships under a Klaubart's protection never sink from ice-damage  -  though storms remain a threat.
 
 ---
 
-### 24. The Krampuskin
+### 24. The Krampen
 
 #### 1. Folklore & Setting Roots
 - **Krampus (Alpine folklore):** The horned, chain-dragging punisher of the wicked who accompanies Saint Nicholas. He carries birch branches for whipping and a sack for carrying away the truly wicked.
@@ -426,7 +426,7 @@
 
 ---
 
-### 25. The Perchtar
+### 25. The Perchtal
 
 #### 1. Folklore & Setting Roots
 - **Perchten (Alpine winter folklore):** Wild, masked winter-demons who parade through villages during the Rauhnächte. Their procession drives out evil spirits but terrifies the inhabitants.
@@ -438,12 +438,12 @@
 - **The Face:** The masks are the faces. No one has seen what lies behind them. The Schönperchten masks radiate warmth; the Schiachperchten masks radiate killing cold. When a mask cracks, the Percht beneath dissolves into snow.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Winter-Procession:** The Perchtar sweeps through the Valley of Rime during the deepest winter nights, a column of light and sound visible for miles. Its passage clears the Wyrd-corruption from the region for one month  -  the only reliable method of Wyrd-suppression in Nordhalla.
+- **The Winter-Procession:** The Perchtal sweeps through the Valley of Rime during the deepest winter nights, a column of light and sound visible for miles. Its passage clears the Wyrd-corruption from the region for one month  -  the only reliable method of Wyrd-suppression in Nordhalla.
 - **The Mask-Judge:** They stop before each settlement. If the village has maintained hearth-fires and honored its dead, the Schönperchten leave gifts of preserved fish and coal. If the village has neglected its duties, the Schiachperchten step forward  -  and no one sleeps until they leave.
 
 ---
 
-### 26. The Helhest
+### 26. The Helvard
 
 #### 1. Folklore & Setting Roots
 - **Helhest (Norse/Danish folklore):** The three-legged horse of Hel  -  the Norse underworld. Its appearance foretells plague or death.
@@ -456,11 +456,11 @@
 
 #### 3. Ecology: Why It Resides in Nordhalla
 - **The Plague-Rider:** Helhests thunder across frozen fjords at midnight. A settlement visited will lose its eldest and youngest within the week  -  the cold claims them silently, as if called.
-- **The Glacier-Anchor:** Each Helhest's hind-leg anchors a section of the halted glaciers. If a Helhest is slain, the glacier it anchors begins to advance  -  the very catastrophe House Skalvyr bargained to prevent. They are protected by law.
+- **The Glacier-Anchor:** Each Helvard's hind-leg anchors a section of the halted glaciers. If a Helvard is slain, the glacier it anchors begins to advance  -  the very catastrophe House Skalvyr bargained to prevent. They are protected by law.
 
 ---
 
-### 27. The Myling
+### 27. The Mylving
 
 #### 1. Folklore & Setting Roots
 - **Myling/Utburd (Norse folklore):** The ghost of an unbaptized infant left to die in the wilderness. It jumps on travelers' backs, growing heavier until the carrier is crushed.
@@ -468,16 +468,16 @@
 
 #### 2. Physical Design
 - **Appearance:** A tiny, withered infant-form frozen in blue-white ice, floating an inch above the snow. Despite its infantile size, it weighs hundreds of pounds  -  compressed grief given mass.
-- **Aesthetic Details:** Its ice-casing is covered in scratched runes  -  a name, written over and over by a mother who could not name the thing she abandoned. The runes glow faintly when the Myling moves.
+- **Aesthetic Details:** Its ice-casing is covered in scratched runes  -  a name, written over and over by a mother who could not name the thing she abandoned. The runes glow faintly when the Mylving moves.
 - **The Face:** A baby's face frozen mid-cry  -  eyes squeezed shut, mouth open in a wail. The eyes open occasionally, revealing adult intelligence and bottomless sorrow.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Weight-Bearer:** Myling latch onto passing travelers. The victim feels crushing weight that increases with each step. If carried to a hearth-fire and set down, the ice melts and the spirit is freed. If not, the victim is crushed into the snow.
-- **The Hunger-Plague:** During the Frost-Tithe epidemics, Myling numbers explode. They cluster around nurseries, drawn to mothers' suffering. Rune Keepers have developed heating-stones specifically to ward nurseries.
+- **The Weight-Bearer:** Mylving latch onto passing travelers. The victim feels crushing weight that increases with each step. If carried to a hearth-fire and set down, the ice melts and the spirit is freed. If not, the victim is crushed into the snow.
+- **The Hunger-Plague:** During the Frost-Tithe epidemics, Mylving numbers explode. They cluster around nurseries, drawn to mothers' suffering. Rune Keepers have developed heating-stones specifically to ward nurseries.
 
 ---
 
-### 28. The Jutul
+### 28. The Jotkall
 
 #### 1. Folklore & Setting Roots
 - **Troll (Norse mythology):** Ancient beings of stone and ice that dwell in mountains, turning to stone when exposed to sunlight. Certain landmark rocks are petrified trolls caught by the dawn.
@@ -494,7 +494,7 @@
 
 ---
 
-### 29. The Lindwyrm
+### 29. The Lindvar
 
 #### 1. Folklore & Setting Roots
 - **Lindworm/Linnorm (Norse mythology):** A serpentine dragon with two front legs and no wings, said to inhabit deep burial mounds. On Norse runestones, lindworms guard the dead.
@@ -506,12 +506,12 @@
 - **The Face:** A feline skull fused with serpentine features  -  cat-eyes behind horizontal-slit pupils, a jaw that dislocates to swallow prey larger than its head. Two horns of frost-silk sweep backward.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Tomb-Guardian:** Lindwyrms coil around buried dead in glacier-tombs, consuming the preserving cold. They eat cold itself, making them paradoxical: a Lindwyrm-infested tomb actually begins to thaw.
-- **The Rune-Devourer:** Drawn to runic inscriptions, they eat carved rune-stones to absorb bound mana. Rune Keepers consider them the greatest threat to the Frozen Archive  -  a Lindwyrm that breaches the walls could consume centuries of knowledge in a single feeding.
+- **The Tomb-Guardian:** Lindwyrms coil around buried dead in glacier-tombs, consuming the preserving cold. They eat cold itself, making them paradoxical: a Lindvar-infested tomb actually begins to thaw.
+- **The Rune-Devourer:** Drawn to runic inscriptions, they eat carved rune-stones to absorb bound mana. Rune Keepers consider them the greatest threat to the Frozen Archive  -  a Lindvar that breaches the walls could consume centuries of knowledge in a single feeding.
 
 ---
 
-### 30. The Nidhoggr
+### 30. The Nidhra
 
 #### 1. Folklore & Setting Roots
 - **Níðhöggr (Norse mythology):** The great dragon that gnaws at the roots of Yggdrasil, the World Tree, feasting on the corpses of oath-breakers.
@@ -523,12 +523,12 @@
 - **The Face:** No eyes  -  only the circular maw. Rows of translucent amber teeth, each a fragment of a consumed runic inscription, rotate independently like a boring machine.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Foundation-Eater:** They gnaw at frozen bedrock beneath keeps and the Archive, undermining foundations. A keep with Nidhoggr infestation develops cracks within months; collapses within years.
+- **The Foundation-Eater:** They gnaw at frozen bedrock beneath keeps and the Archive, undermining foundations. A keep with Nidhra infestation develops cracks within months; collapses within years.
 - **The Oath-Corrupter:** Drawn to buried blood-oaths, they consume the runic energy of sworn vows. A Bloodhammer warrior whose ancestral oath-runes have been eaten loses the supernatural rage that defines their bloodline permanently.
 
 ---
 
-### 31. The Strandvasker
+### 31. The Strandvask
 
 #### 1. Folklore & Setting Roots
 - **Strandvasker (Norse folklore):** The drowned corpse washed ashore. These unfortunates haunted the shorelines, calling for proper burial.
@@ -545,7 +545,7 @@
 
 ---
 
-### 32. The Landvaettir
+### 32. The Landvett
 
 #### 1. Folklore & Setting Roots
 - **Landvættir (Norse folklore):** Land-spirits bound to specific landscape features. Norse law forbade dragon-prows near Iceland, lest the landvættir be offended.
@@ -562,7 +562,7 @@
 
 ---
 
-### 33. The Vettir
+### 33. The Vettur
 
 #### 1. Folklore & Setting Roots
 - **Vettir (Norse folklore):** Invisible wind-spirits driving storms, whispering through cracks, and stirring hearth-fires. Some helpful; most ambivalent.
@@ -575,11 +575,11 @@
 
 #### 3. Ecology: Why It Resides in Nordhalla
 - **The Wind-Herder:** Vettirs herd storms across the tundra, directing snowfall and Föhn-wind. They can be bargained with  -  Rune Keepers leave mead and dried cod at wind-shrines to request clear travel corridors.
-- **The Whisper-Carrier:** They carry voices across impossible distances. Skald commanders use this for long-range communication, but the Vettir sometimes alter the message, adding cryptic commentary.
+- **The Whisper-Carrier:** They carry voices across impossible distances. Skald commanders use this for long-range communication, but the Vettur sometimes alter the message, adding cryptic commentary.
 
 ---
 
-### 34. The Bergthrall
+### 34. The Bergvald
 
 #### 1. Folklore & Setting Roots
 - **Bergfolk (Alpine folklore):** Mountain-people living in crystal-caverns, possessing great wealth in gems. They trade with humans but punish theft with permanent imprisonment in stone.
@@ -591,12 +591,12 @@
 - **The Face:** Broad, flat, craggy  -  massive nose and luminous copper-colored eyes. Small, tight mouth perpetually set in professional assessment.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Crystal-Smith:** They carve glacier-crystals that Rune Keepers use for light-scroll storage. Working in absolute darkness, their techniques have never been replicated. Without Bergthrall-cut crystals, the Archive's preservation system would collapse.
-- **The Bargain-Stone:** They trade gems for refined iron and whale-blubber  -  never gold. A Bergthrall's bargain is absolute: cheaters are absorbed into the mountain's stone, becoming new mineral veins.
+- **The Crystal-Smith:** They carve glacier-crystals that Rune Keepers use for light-scroll storage. Working in absolute darkness, their techniques have never been replicated. Without Bergvald-cut crystals, the Archive's preservation system would collapse.
+- **The Bargain-Stone:** They trade gems for refined iron and whale-blubber  -  never gold. A Bergvald's bargain is absolute: cheaters are absorbed into the mountain's stone, becoming new mineral veins.
 
 ---
 
-### 35. The Fenris
+### 35. The Fenrung
 
 #### 1. Folklore & Setting Roots
 - **Fenrir/Fenrisúlfr (Norse mythology):** The monstrous wolf-son of Loki, bound by the gods until Ragnarök. His breaking of the fetter Gleipnir signals the end.
@@ -613,7 +613,7 @@
 
 ---
 
-### 36. The Disir
+### 36. The Disvar
 
 #### 1. Folklore & Setting Roots
 - **Dísir (Norse mythology):** Female guardian-spirits honored during the Dísablót festival. They watched over families and foretold the future, but cursed those who neglected offerings.
@@ -630,7 +630,7 @@
 
 ---
 
-### 37. The Valravn
+### 37. The Ravnulf
 
 #### 1. Folklore & Setting Roots
 - **Valravn (Danish/Norse folklore):** A half-wolf, half-raven hybrid born from unburied battlefields. Ravens that eat the hearts of fallen kings gain supreme human intelligence, shape-shifting abilities, and dark magical powers.
@@ -642,13 +642,13 @@
 - **The Face:** Dominated by a heavy black obsidian beak and cold, glowing violet eyes that shine with malevolent intelligence.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **Battlefield Stalker:** The Valravn hunts the snowy mountain passes, crags, and blood-soaked snowfields of Nordhalla where clan wars rage.
-- **Heart-Eater:** It feeds specifically on the hearts of dead or dying warriors. A Valravn that devours enough hearts is said to gain the ability to speak in a human tongue, mock dead warriors' voices, and lure travelers to their doom.
-- **The Pact-Maker:** Desperate warlords sometimes strike blood-pacts with a Valravn, trading their firstborn children's souls for victory in battle. The beast circles over the battlefield as an omen of absolute slaughter.
+- **Battlefield Stalker:** The Ravnulf hunts the snowy mountain passes, crags, and blood-soaked snowfields of Nordhalla where clan wars rage.
+- **Heart-Eater:** It feeds specifically on the hearts of dead or dying warriors. A Ravnulf that devours enough hearts is said to gain the ability to speak in a human tongue, mock dead warriors' voices, and lure travelers to their doom.
+- **The Pact-Maker:** Desperate warlords sometimes strike blood-pacts with a Ravnulf, trading their firstborn children's souls for victory in battle. The beast circles over the battlefield as an omen of absolute slaughter.
 
 ---
 
-### 38. The Kraken
+### 38. The Kraknar
 
 #### 1. Folklore & Setting Roots
 - **Kraken (Norse folklore):** The colossal sea-monster of Norwegian waters  -  so vast that sailors mistook its body for an island. It dragged entire fleets beneath the waves.
@@ -665,7 +665,7 @@
 
 ---
 
-### 39. The Marmennill
+### 39. The Marmill
 
 #### 1. Folklore & Setting Roots
 - **Marmennill (Norse folklore):** A prophetic merman that could be caught by fishermen and questioned about the future, but always escaped by answering in riddles.
@@ -677,12 +677,12 @@
 - **The Face:** Wide, frog-like eyes blinking independently  -  different shades of blue. An enormous, jointless grin filled with tiny sharp teeth. No nose  -  only sealing slits.
 
 #### 3. Ecology: Why It Resides in Nordhalla
-- **The Oracle-Depth:** They can be caught with lines baited with runic inscriptions. Once landed, they answer three questions about the future  -  always in riddles so dense that Rune Keepers spend years interpreting them. After the third answer, the Marmennill dissolves into sea-water.
+- **The Oracle-Depth:** They can be caught with lines baited with runic inscriptions. Once landed, they answer three questions about the future  -  always in riddles so dense that Rune Keepers spend years interpreting them. After the third answer, the Marmill dissolves into sea-water.
 - **The Harp-Song:** When free, they sit on underwater rocks playing bone-harps. The music induces a dream-state, drawing listeners toward the fjord-edge. Sentries plug their ears with whale-blubber during mating-season.
 
 ---
 
-### 40. The Havgammel
+### 40. The Havrine
 
 #### 1. Folklore & Setting Roots
 - **Havfrue/Havmand (Norse folklore):** The merfolk of Scandinavian folklore  -  beautiful sea-people who could grant prophecy or curse fishermen with bad catches.
@@ -706,7 +706,7 @@
 
 ---
 
-### 41. The Pazuzu
+### 41. The Pazurra
 
 #### 1. Folklore & Setting Roots
 - **Pazuzu (Mesopotamian mythology):** The king of the wind-demons of Babylonian lore  -  a winged figure with a human body, lion-paws, eagle-wings, and a monstrous face. Paradoxically a protector against plague, despite his own malevolence.
@@ -715,11 +715,11 @@
 #### 2. Physical Design
 - **Appearance:** A winged, vaguely humanoid figure standing eight feet tall, with four eagle-wings folded across its back. Its forearms end in lion-claws, and its feet are taloned. A scorpion-tail curves upward from its spine.
 - **Aesthetic Details:** Its skin is the dark, volcanic basalt of Sundale's landscape  -  black, porous, hot to the touch. Its wings are made of compressed ash and hot wind, constantly shedding ember-flecks. A amulet of hammered bronze hangs from its neck.
-- **The Face:** Combining Pazuzu's monstrous grin with the Set Animal's elongated snout  -  a long, narrow muzzle with square, erect ears and glowing, furious red eyes. Its jaw opens impossibly wide, exhaling superheated ash.
+- **The Face:** Combining Pazurra's monstrous grin with the Set Animal's elongated snout  -  a long, narrow muzzle with square, erect ears and glowing, furious red eyes. Its jaw opens impossibly wide, exhaling superheated ash.
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Ash-Storm Lord:** Pazuzus generate localized ash-storms that strip paint from walls and scour exposed flesh. They are drawn to volcanic vents and ride the thermal updrafts above Emberspire's caldera in territorial circles, competing for the hottest thermals.
-- **The Plague-Warden:** Despite their terrifying appearance, their presence drives away disease-carrying creatures and Wyrd-tainted vectors. Thrask Emberth deliberately build outposts near Pazuzu nesting-cliffs  -  the constant ash-storms are preferable to the Wyrd-corruption the creature repels.
+- **The Plague-Warden:** Despite their terrifying appearance, their presence drives away disease-carrying creatures and Wyrd-tainted vectors. Thrask Emberth deliberately build outposts near Pazurra nesting-cliffs  -  the constant ash-storms are preferable to the Wyrd-corruption the creature repels.
 
 ---
 
@@ -740,7 +740,7 @@
 
 ---
 
-### 43. The Anzu
+### 43. The Anzura
 
 #### 1. Folklore & Setting Roots
 - **Anzu/Zu (Mesopotamian mythology):** A massive storm-bird that stole the Tablet of Destinies from Enlil, granting it power over all existence until it was slain by Ninurta.
@@ -752,12 +752,12 @@
 - **The Face:** A sharp, curved beak of yellowed bone, with enormous, golden eyes that radiate actual warmth  -  staring into them is like staring into a furnace-door. The eyes contain a hypnotic, spiraling pattern.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Tablet-Thief:** Anzus are obsessed with inscribed objects  -  clay tablets, runic carvings, even Emberth forge-marks. They steal inscriptions and hoard them in high volcanic nests called "tablet-roosts." A Thrask ranger who loses their clan-mark to an Anzu may be unable to prove their lineage.
-- **The Rebirth-Cycle:** Like the Bennu, they are creatures of cyclic death and renewal. Every seven years, an Anzu immolates itself in Emberspire's caldera and is reborn from its own ashes. Korr Emberth time their sacred observances to coincide with the rebirth-cycle.
+- **The Tablet-Thief:** Anzus are obsessed with inscribed objects  -  clay tablets, runic carvings, even Emberth forge-marks. They steal inscriptions and hoard them in high volcanic nests called "tablet-roosts." A Thrask ranger who loses their clan-mark to an Anzura may be unable to prove their lineage.
+- **The Rebirth-Cycle:** Like the Bennu, they are creatures of cyclic death and renewal. Every seven years, an Anzura immolates itself in Emberspire's caldera and is reborn from its own ashes. Korr Emberth time their sacred observances to coincide with the rebirth-cycle.
 
 ---
 
-### 44. The Girtablilu
+### 44. The Girtabli
 
 #### 1. Folklore & Setting Roots
 - **Girtablilu / Scorpion-Man (Mesopotamian mythology):** Mythical guardians of the gates of the sun-god Shamash  -  creatures with human upper bodies and scorpion lower bodies, whose heads touch the clouds and whose terrifying gaze strikes awe into all who see them.
@@ -770,14 +770,14 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Gate-Guardian:** Girtablilus stand motionless at the entrances to ancient volcanic temples and Korr sanctuaries, serving as living gates. They allow passage only to those who can answer a question about the Sol's Breath or the history of the Dimming  -  and they know every answer.
-- **The Venom-Healer:** Their stinger-venom is paradoxical: in small doses, it cures the Wyrd-sickness that infects those who spend too long near Emberspire's breach. Korr Sun-Speakers trade rare incense for measured doses of Girtablilu venom  -  the only known treatment for Wyrd-exposure in Sundale.
+- **The Venom-Healer:** Their stinger-venom is paradoxical: in small doses, it cures the Wyrd-sickness that infects those who spend too long near Emberspire's breach. Korr Sun-Speakers trade rare incense for measured doses of Girtabli venom  -  the only known treatment for Wyrd-exposure in Sundale.
 
 ---
 
-### 45. The Ammit
+### 45. The Nemmet
 
 #### 1. Folklore & Setting Roots
-- **Ammit (Egyptian mythology):** The "Devourer"  -  a monstrous composite of crocodile, lion, and hippopotamus that waited in the Hall of Judgment. If a soul's heart was found heavier than the feather of Ma'at, Ammit consumed it, erasing the soul from existence.
+- **Ammit (Egyptian mythology):** The "Devourer"  -  a monstrous composite of crocodile, lion, and hippopotamus that waited in the Hall of Judgment. If a soul's heart was found heavier than the feather of Ma'at, Nemmet consumed it, erasing the soul from existence.
 - **Humbaba / Huwawa (Mesopotamian mythology):** The terrifying guardian of the Cedar Forest, slain by Gilgamesh and Enkidu. Its face was said to be made of entrails  -  a terrifying countenance that struck fear into gods and men alike.
 
 #### 2. Physical Design
@@ -787,15 +787,15 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Heart-Weigher:** Ammits guard the approaches to Emberspire's inner chambers. They can sense the moral "weight" of an individual  -  those burdened by Wyrd-corruption or broken oaths are detected at range and devoured. Those with clear consciences pass unharmed.
-- **The Erasure-Beast:** Those consumed by the Ammit do not merely die  -  their names are erased from the volcanic stone-records around Emberspire. It is the only known force that can undo Emberth burn-mark inscriptions. Solari consider being devoured by an Ammit the ultimate dishonor  -  worse than death.
+- **The Erasure-Beast:** Those consumed by the Nemmet do not merely die  -  their names are erased from the volcanic stone-records around Emberspire. It is the only known force that can undo Emberth burn-mark inscriptions. Solari consider being devoured by an Nemmet the ultimate dishonor  -  worse than death.
 
 ---
 
-### 46. The Lamashtu
+### 46. The Lamashka
 
 #### 1. Folklore & Setting Roots
-- **Lamashtu (Mesopotamian mythology):** A malevolent demoness who preyed on pregnant women and infants, causing miscarriage and infant death. She was so feared that amulets of Pazuzu were worn specifically to ward her off.
-- **Taweret (Egyptian mythology):** The protective hippopotamus-goddess of childbirth  -  a fierce, maternal deity whose image guarded pregnant women and newborns. She was the benevolent counterpart to the destructive Ammit.
+- **Lamashtu (Mesopotamian mythology):** A malevolent demoness who preyed on pregnant women and infants, causing miscarriage and infant death. She was so feared that amulets of Pazurra were worn specifically to ward her off.
+- **Taweret (Egyptian mythology):** The protective hippopotamus-goddess of childbirth  -  a fierce, maternal deity whose image guarded pregnant women and newborns. She was the benevolent counterpart to the destructive Nemmet.
 
 #### 2. Physical Design
 - **Appearance:** A towering female figure (nine feet) with the body of a pregnant hippopotamus-woman, the paws of a lioness, and the head of a demonic Donkey. Crocodile-hide runs down her spine like a dorsal fin.
@@ -804,11 +804,11 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Child-Stealer:** Lamashtus prowl the outskirts of Solari settlements, drawn to the crying of infants. They do not kill  -  they steal children from their cradles and absorb them into their distended bellies, adding to the screaming chorus within. The stolen children are not digested but preserved in eternal torment.
-- **The Protection-Paradox:** The only ward against Lamashtus is the image of Pazuzu  -  carved on a door or worn as an amulet. Ironically, the Pazuzu (creature 41) is her natural enemy; where one hunts, the other refuses to nest. Thrask parents position their camps between Pazuzu territory and Lamashtu territory for mutual protection.
+- **The Protection-Paradox:** The only ward against Lamashtus is the image of Pazurra  -  carved on a door or worn as an amulet. Ironically, the Pazurra (creature 41) is her natural enemy; where one hunts, the other refuses to nest. Thrask parents position their camps between Pazurra territory and Lamashka territory for mutual protection.
 
 ---
 
-### 47. The Bes
+### 47. The Bezuri
 
 #### 1. Folklore & Setting Roots
 - **Bes (Egyptian mythology):** The dwarf-god of households, music, and childbirth  -  a protector spirit whose ugly-but-jovial face was carved on bedposts and door-lintels to ward off evil. He brandished a knife and played a tambourine.
@@ -820,12 +820,12 @@
 - **The Face:** The lion-face is simultaneously terrifying and comical  -  eyes crossed, tongue stuck out in a defiant grimace. The effect is deliberate: Bess are designed to make evil spirits laugh, because laughter breaks magical enchantments.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Threshold-Guardian:** Bess are stationed at the entrances to Emberth residential quarters. They are activated by the approach of Wyrd-energy  -  when the sigils glow, the Bes animates, banging its tambourine and brandishing its sword, creating a wall of noise and protective magic.
-- **The Child-Protector:** Their primary function is guarding Emberth nurseries. A Bes stationed at a nursery door will fight to its complete destruction  -  shattering into a shower of protective clay-shards that embed Wyrd-warding sigils into nearby walls. Thrask parents consider a shattered Bes the highest sacrifice  -  the clay gave its existence for the children.
+- **The Threshold-Guardian:** Bess are stationed at the entrances to Emberth residential quarters. They are activated by the approach of Wyrd-energy  -  when the sigils glow, the Bezuri animates, banging its tambourine and brandishing its sword, creating a wall of noise and protective magic.
+- **The Child-Protector:** Their primary function is guarding Emberth nurseries. A Bezuri stationed at a nursery door will fight to its complete destruction  -  shattering into a shower of protective clay-shards that embed Wyrd-warding sigils into nearby walls. Thrask parents consider a shattered Bezuri the highest sacrifice  -  the clay gave its existence for the children.
 
 ---
 
-### 48. The Ifrit
+### 48. The Ifrasha
 
 #### 1. Folklore & Setting Roots
 - **Ifrit/Afreets (Mesopotamian/Islamic folklore):** A class of powerful, fiery jinn  -  enormous, winged spirits of smokeless fire, both greater and more dangerous than ordinary jinn. They built cities underground and possessed immense magical power.
@@ -838,11 +838,11 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Magma-Smith:** Ifrits are the Emberth's most dangerous allies. They can shape molten rock with bare hands, creating forge-components that no mortal smith can replicate. The Korr Emberth believe the Ifrits are fragments of Sol's own fire  -  angelic remnants of the sun-god's will.
-- **The Cobra-Glare:** Their gaze can ignite anything flammable within fifty paces. They use this defensively  -  any creature that threatens an Ifrit's forge-territory is set ablaze by the gaze alone. Thrask rangers identify Ifrit territory by the ring of scorched, blackened earth surrounding their volcanic nests.
+- **The Cobra-Glare:** Their gaze can ignite anything flammable within fifty paces. They use this defensively  -  any creature that threatens an Ifrasha's forge-territory is set ablaze by the gaze alone. Thrask rangers identify Ifrasha territory by the ring of scorched, blackened earth surrounding their volcanic nests.
 
 ---
 
-### 49. The Ghul
+### 49. The Ghulan
 
 #### 1. Folklore & Setting Roots
 - **Ghul (Mesopotamian/Arabic folklore):** Undead spirits of the desert that dwelt in ruins and graveyards, consuming the flesh of the dead. They could shape-shift into animals  -  particularly hyenas  -  and lured travelers to their deaths.
@@ -854,12 +854,12 @@
 - **The Face:** No face  -  only the two floating eyes within the shroud, unblinking, tracking everything with Medjed's omniscient gaze. When it opens its "mouth," the fabric splits vertically from hem to crown, revealing a furnace of white-hot fire.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ruin-Dweller:** Ghuls inhabit the volcanic ruins and ash-covered tomb-fields surrounding Emberspire. They consume not flesh but the residual warmth in ancient stone  -  the heat-memory of buildings that once held life. A Ghul-infested ruin is cold to the touch, all thermal energy drained.
+- **The Ruin-Dweller:** Ghuls inhabit the volcanic ruins and ash-covered tomb-fields surrounding Emberspire. They consume not flesh but the residual warmth in ancient stone  -  the heat-memory of buildings that once held life. A Ghulan-infested ruin is cold to the touch, all thermal energy drained.
 - **The Invisible-Smiter:** They can render themselves invisible at will  -  becoming completely undetectable except by the faint smell of charred bone. When invisible, they can project fire-bolts from their hidden position, "smiting" intruders who disturb their ruins. The only defense is to locate the pair of floating green eyes  -  the one feature they cannot hide.
 
 ---
 
-### 50. The Gugalanna
+### 50. The Gulanna
 
 #### 1. Folklore & Setting Roots
 - **Gugalanna / Bull of Heaven (Mesopotamian mythology):** The cosmic bull sent by Ishtar to destroy Gilgamesh's city  -  a creature so massive its snorts opened chasms and its breath dried rivers. Its slaying led to Enkidu's death sentence.
@@ -871,12 +871,12 @@
 - **The Face:** A broad, powerful bovine face with enormous, dark eyes that carry an unsettling intelligence. A scarab-shaped growth of cooled, polished obsidian sits beneath its tongue  -  visible only when it lows.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ground-Breaker:** Gugalannas charge across the Shyr  -  the ninety-mile basalt scar  -  their hooves cracking the cooling lava-road into new fracture-patterns. The Emberth have learned that these fracture-patterns are actually navigation-maps  -  the Gugalanna instinctively routes toward stable ground, and Thrask rangers follow their tracks to find safe passage through the lava-fields.
-- **The Sacred-Bull:** The scarab-mark beneath a Gugalanna's tongue is the most valuable alchemical reagent in Sundale  -  it can purify contaminated water. A single scarab can cleanse an entire cistern of Wyrd-taint. Korr Emberth consider killing a Gugalanna for its scarab an act of profound sacrilege  -  but the Scoured do not.
+- **The Ground-Breaker:** Gugalannas charge across the Shyr  -  the ninety-mile basalt scar  -  their hooves cracking the cooling lava-road into new fracture-patterns. The Emberth have learned that these fracture-patterns are actually navigation-maps  -  the Gulanna instinctively routes toward stable ground, and Thrask rangers follow their tracks to find safe passage through the lava-fields.
+- **The Sacred-Bull:** The scarab-mark beneath a Gulanna's tongue is the most valuable alchemical reagent in Sundale  -  it can purify contaminated water. A single scarab can cleanse an entire cistern of Wyrd-taint. Korr Emberth consider killing a Gulanna for its scarab an act of profound sacrilege  -  but the Scoured do not.
 
 ---
 
-### 51. The Peri
+### 51. The Perisa
 
 #### 1. Folklore & Setting Roots
 - **Peri (Zoroastrian/Persian folklore):** Beautiful, winged fairy-like spirits  -  fallen angels who have been denied paradise until they have repented. They are creatures of light and beauty, often persecuted by the malevolent Daevas.
@@ -888,12 +888,12 @@
 - **The Face:** An impossibly delicate face with two enormous, faceted eyes that reflect the observer's own face back as a golden vision of their younger self. Its proboscis is a tiny tube of spun glass.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ember-Gatherer:** Peris are drawn to the Sol's Breath's warmth, gathering in shimmering clouds around the sacred bowl. Korr Sun-Speakers believe each Peri is a repentant fragment of Sol's consciousness  -  a piece of the sun-god seeking forgiveness. Tending the Peris is considered the highest spiritual duty.
+- **The Ember-Gatherer:** Peris are drawn to the Sol's Breath's warmth, gathering in shimmering clouds around the sacred bowl. Korr Sun-Speakers believe each Perisa is a repentant fragment of Sol's consciousness  -  a piece of the sun-god seeking forgiveness. Tending the Peris is considered the highest spiritual duty.
 - **The Rebirth-Cycle:** Like Khepri rolling the sun, Peris roll their wing-balls along the ground at dawn, collecting ambient thermal energy. They compress this energy into tiny golden pearls  -  "sun-seeds"  -  that the Emberth can plant in cold hearthstones to produce fire that burns for a year.
 
 ---
 
-### 52. The Daeva
+### 52. The Daivra
 
 #### 1. Folklore & Setting Roots
 - **Daeva (Zoroastrian mythology):** The "wrong gods"  -  false deities of chaos and destruction who serve Angra Mainyu, the spirit of destruction. They are the lies that oppose truth, the darkness that opposes light.
@@ -906,11 +906,11 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Truth-Eater:** Daevas feed on spoken truth  -  every honest word within their range weakens the speaker and strengthens the shade. In a region where the Korr Emberth practice the Vault-Breath (sacred silence), Daevas are starved near the temples but glutted in the markets, where merchants haggle and lie.
-- **The Chaos-Beacon:** Their presence attracts Wyrd-manifestations. A Daeva nesting in a ruin will, within months, draw Husque-fissures (reality-breaches) to the site. Thrask rangers hunt Daevas relentlessly  -  they are the only creature in Sundale whose presence actively accelerates the Wyrd-corruption.
+- **The Chaos-Beacon:** Their presence attracts Wyrd-manifestations. A Daivra nesting in a ruin will, within months, draw Huskvar-fissures (reality-breaches) to the site. Thrask rangers hunt Daevas relentlessly  -  they are the only creature in Sundale whose presence actively accelerates the Wyrd-corruption.
 
 ---
 
-### 53. The Simurgh
+### 53. The Simurga
 
 #### 1. Folklore & Setting Roots
 - **Simurgh (Persian/Zoroastrian mythology):** A magnificent, benevolent bird of enormous size  -  so old it had seen the world destroyed and reborn three times. It possessed knowledge of every age and the healing power to cure any wound.
@@ -918,16 +918,16 @@
 
 #### 2. Physical Design
 - **Appearance:** An enormous bird (fifty-foot wingspan) with the body and hind-legs of a lion and the head, wings, and fore-talons of an eagle. Its feathers are the grey of volcanic ash, each one edged with the faintest shimmer of blue.
-- **Aesthetic Details:** Its lion-mane is a cascade of copper-wire-like feathers that chime in the wind. Its talons are polished obsidian. The underside of its wings bears faint, golden script  -  ancient Zoroastrian fire-prayers that glow when the Simurgh is healing.
+- **Aesthetic Details:** Its lion-mane is a cascade of copper-wire-like feathers that chime in the wind. Its talons are polished obsidian. The underside of its wings bears faint, golden script  -  ancient Zoroastrian fire-prayers that glow when the Simurga is healing.
 - **The Face:** An eagle's head with eyes that contain unfathomable age  -  concentric rings of gold, orange, and deep amber, like looking into the cross-section of a ancient tree. Its beak is the color of burnished bronze, permanently warm.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Ancient-Healer:** Simurgh feathers possess extraordinary healing properties. A single feather laid on a wound can heal broken bones and close gashes within hours. The Simurgh are sapient and ancient  -  they remember the world before the Dimming and will sometimes share fragments of pre-sundering knowledge with those they deem worthy.
-- **The Ash-Nester:** They nest exclusively on the rim of Emberspire's caldera, building enormous structures of woven ash and volcanic glass. Their presence stabilizes the volcanic activity  -  areas near Simurgh nests have measurably fewer eruptions. The Emberth consider harming a Simurgh a crime punishable by live immolation.
+- **The Ancient-Healer:** Simurga feathers possess extraordinary healing properties. A single feather laid on a wound can heal broken bones and close gashes within hours. The Simurga are sapient and ancient  -  they remember the world before the Dimming and will sometimes share fragments of pre-sundering knowledge with those they deem worthy.
+- **The Ash-Nester:** They nest exclusively on the rim of Emberspire's caldera, building enormous structures of woven ash and volcanic glass. Their presence stabilizes the volcanic activity  -  areas near Simurga nests have measurably fewer eruptions. The Emberth consider harming a Simurga a crime punishable by live immolation.
 
 ---
 
-### 54. The Azi
+### 54. The Azhak
 
 #### 1. Folklore & Setting Roots
 - **Azi Dahaka (Zoroastrian/Persian mythology):** A three-headed dragon-demon of lies and storms, imprisoned beneath Mount Damavand. It is destined to break free at the end of time, consuming one-third of humanity.
@@ -940,11 +940,11 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Lava-River Apex:** Azis are the apex predators of Sundale's lava-channels. They hunt by submerging in molten rock, surfacing with all three heads striking simultaneously. Thrask hunters give them absolute right-of-way  -  no Emberth weapon can pierce the obsidian hide.
-- **The Three-Venom:** Each head produces a different substance: fire (burns through metal), acid (dissolves flesh), and paralytic poison (freezes the nervous system). Alchemists pay fortunes for even a drop of each  -  but collection requires a dead Azi, and no living Emberth has ever killed one.
+- **The Three-Venom:** Each head produces a different substance: fire (burns through metal), acid (dissolves flesh), and paralytic poison (freezes the nervous system). Alchemists pay fortunes for even a drop of each  -  but collection requires a dead Azhak, and no living Emberth has ever killed one.
 
 ---
 
-### 55. The Edimmu
+### 55. The Edimma
 
 #### 1. Folklore & Setting Roots
 - **Edimmu/Ekimmu (Mesopotamian mythology):** The ghost of a person who died a violent death or was improperly buried. These spirits became invisible, wind-borne demons that attached themselves to the living, causing illness and misfortune.
@@ -952,16 +952,16 @@
 
 #### 2. Physical Design
 - **Appearance:** A translucent, wavering afterimage of a person  -  humanoid but featureless, like a heat-mirage. It flickers in and out of visibility, visible only in the corner of the eye.
-- **Aesthetic Details:** It smells of sulfur and ancient dust. When it moves, the air around it shimmers as if over hot stone. In volcanic light, it casts a shadow  -  but the shadow is always a different shape than the Edimmu's visible form.
-- **The Face:** No face  -  only a smooth, blank oval of shimmering air where features should be. Occasionally, for a split-second, the face of the Edimmu's original living self flashes into view  -  always screaming, always burning.
+- **Aesthetic Details:** It smells of sulfur and ancient dust. When it moves, the air around it shimmers as if over hot stone. In volcanic light, it casts a shadow  -  but the shadow is always a different shape than the Edimma's visible form.
+- **The Face:** No face  -  only a smooth, blank oval of shimmering air where features should be. Occasionally, for a split-second, the face of the Edimma's original living self flashes into view  -  always screaming, always burning.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Attachment-Spirit:** Edimmus bond to individuals who pass near their death-site, draining their vitality to sustain their own existence. The victim suffers increasing fatigue, nightmares of fire, and eventually, spontaneous combustion  -  at which point the Edimmu detaches and seeks a new host.
-- **The Offering-Bound:** They can be pacified with funerary offerings  -  specifically, the same foods and tools the person used in life. Emberth tradition requires burning a piece of forge-equipment with any worker who dies in the volcanic forges; without this offering, the deceased becomes an Edimmu within three days.
+- **The Attachment-Spirit:** Edimmus bond to individuals who pass near their death-site, draining their vitality to sustain their own existence. The victim suffers increasing fatigue, nightmares of fire, and eventually, spontaneous combustion  -  at which point the Edimma detaches and seeks a new host.
+- **The Offering-Bound:** They can be pacified with funerary offerings  -  specifically, the same foods and tools the person used in life. Emberth tradition requires burning a piece of forge-equipment with any worker who dies in the volcanic forges; without this offering, the deceased becomes an Edimma within three days.
 
 ---
 
-### 56. The Asag
+### 56. The Asagun
 
 #### 1. Folklore & Setting Roots
 - **Asag (Sumerian mythology):** A monstrous demon so hideous that its mere presence caused fish to boil alive in the rivers. It led an army of rock-demons against the gods, and its body was said to be made of stone itself.
@@ -973,12 +973,12 @@
 - **The Face:** A crude, broken-geometric face pressed into the front of its rocky body  -  two glowing magma-vents for eyes, a jagged crack for a mouth that opens to release superheated gas. The face changes expression very, very slowly  -  geological time.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Boiling-Presence:** The Asag radiates such intense heat that water within thirty feet of it literally boils. It does not hunt  -  it simply exists, and its mere presence is destructive. Water-sources near an Asag become scalding geysers.
-- **The Earth-Laughter:** When agitated, the Asag's body vibrates, causing localized earthquakes. It communicates through these tremors  -  a language of ground-shaking that Emberth geologists have partially decoded. Low, rhythmic tremors mean contentment; sharp, irregular quakes mean aggression.
+- **The Boiling-Presence:** The Asagun radiates such intense heat that water within thirty feet of it literally boils. It does not hunt  -  it simply exists, and its mere presence is destructive. Water-sources near an Asagun become scalding geysers.
+- **The Earth-Laughter:** When agitated, the Asagun's body vibrates, causing localized earthquakes. It communicates through these tremors  -  a language of ground-shaking that Emberth geologists have partially decoded. Low, rhythmic tremors mean contentment; sharp, irregular quakes mean aggression.
 
 ---
 
-### 57. The Nisroch
+### 57. The Nisrakh
 
 #### 1. Folklore & Setting Roots
 - **Nisroch (Mesopotamian mythology):** An Assyrian deity depicted as an eagle-headed figure  -  a powerful spirit of agriculture and abundance, associated with the sacred tree of life.
@@ -995,7 +995,7 @@
 
 ---
 
-### 58. The Abzu
+### 58. The Abzun
 
 #### 1. Folklore & Setting Roots
 - **Abzu/Apsu (Mesopotamian mythology):** The primordial underground freshwater ocean  -  the source of all rivers and wells, and the dwelling-place of Enki, the god of wisdom and magic.
@@ -1007,12 +1007,12 @@
 - **The Face:** When it chooses to communicate, a face rises from the surface  -  a serene, androgynous face composed entirely of water, with features that shift between Sumerian and Egyptian aesthetics. The eyes are twin pools of absolute depth  -  looking into them induces vertigo.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Wisdom-Well:** The Abzu is a sentient repository of pre-Dimming knowledge. Those who drink from the pool receive a single piece of forgotten wisdom  -  but the pool takes something in exchange: a drop of the drinker's blood, which becomes part of its eternal archive.
-- **The Volcanic-Coolant:** Its waters cool the geothermal systems beneath the Harath-Vault. Without the Abzu's underground spring feeding the cooling-channels, the forges would overheat and the Sol's Breath would boil dry. Korr engineers maintain the channel-system with reverent precision  -  the Abzu is not a pet or a servant; it is a partner in survival.
+- **The Wisdom-Well:** The Abzun is a sentient repository of pre-Dimming knowledge. Those who drink from the pool receive a single piece of forgotten wisdom  -  but the pool takes something in exchange: a drop of the drinker's blood, which becomes part of its eternal archive.
+- **The Volcanic-Coolant:** Its waters cool the geothermal systems beneath the Harath-Vault. Without the Abzun's underground spring feeding the cooling-channels, the forges would overheat and the Sol's Breath would boil dry. Korr engineers maintain the channel-system with reverent precision  -  the Abzun is not a pet or a servant; it is a partner in survival.
 
 ---
 
-### 59. The Kur-Pit
+### 59. The Kurnu
 
 #### 1. Folklore & Setting Roots
 - **Kur / Kurnugia (Sumerian mythology):** The Sumerian underworld  -  a dark, dreary realm beneath the mountains where all souls went after death regardless of their deeds. Ruled by Ereshkigal, it was the "Land of No Return."
@@ -1025,24 +1025,24 @@
 
 #### 3. Ecology: Why It Resides in Sundale
 - **The Underworld-Mouth:** Kur-Pits are breach-points where the geography of the underworld bleeds into the surface. They open spontaneously near sites of mass death  -  old battlefields, volcanic eruption zones. Those who fall in are not merely killed; their souls are trapped in the labyrinth between Kur and Duat, navigating trials that may take centuries.
-- **The Sun-Path:** During Emberspire's annual vent-calm, the Sol's Breath's light momentarily illuminates the nearest Kur-Pit, revealing a glimpse of the path beneath. Korr scholars believe this path connects to the buried sun-god Sol  -  and that navigating it may be the only way to reach Sol's prison directly. No one who has entered a Kur-Pit has ever returned to confirm.
+- **The Sun-Path:** During Emberspire's annual vent-calm, the Sol's Breath's light momentarily illuminates the nearest Kurnu, revealing a glimpse of the path beneath. Korr scholars believe this path connects to the buried sun-god Sol  -  and that navigating it may be the only way to reach Sol's prison directly. No one who has entered a Kurnu has ever returned to confirm.
 
 ---
 
-### 60. The Mushussu
+### 60. The Musharra
 
 #### 1. Folklore & Setting Roots
-- **Mushhushshu (Mesopotamian mythology):** The "Furious Snake" of Babylon  -  the dragon on the Ishtar Gate, with a serpent's body, lion's forelegs, eagle's hind-legs, and a scorpion's stinger. (Note: the bestiary's "Sirrush" is the adult form; this is a juvenile variant.)
+- **Mushhushshu (Mesopotamian mythology):** The "Furious Snake" of Babylon  -  the dragon on the Ishtar Gate, with a serpent's body, lion's forelegs, eagle's hind-legs, and a scorpion's stinger. (Note: the bestiary's "Sirvash" is the adult form; this is a juvenile variant.)
 - **Heket (Egyptian mythology):** The frog-goddess of fertility and childbirth  -  a deity who breathed life into newborns and assisted in the moment of creation. Frogs were sacred symbols of life's beginning.
 
 #### 2. Physical Design
-- **Appearance:** A serpentine creature the size of a large dog  -  a juvenile version of the Sirrush. Its front legs are stubby lion-paws; its hind legs are underdeveloped eagle-talons. A tiny scorpion-stinger wobbles on its tail.
-- **Aesthetic Details:** Its scales are pale  -  almost translucent  -  showing the network of veins beneath. Unlike the adult Sirrush's dusty ochre, the juvenile is a soft, milky white. It makes a distinctive croaking sound, like a frog, when communicating.
-- **The Face:** A rounded, puppy-like version of the adult Sirrush's horned head  -  the single crown-horn is a soft nub. Its eyes are enormous, golden, and permanently wide with curiosity. It croaks and tilts its head at everything.
+- **Appearance:** A serpentine creature the size of a large dog  -  a juvenile version of the Sirvash. Its front legs are stubby lion-paws; its hind legs are underdeveloped eagle-talons. A tiny scorpion-stinger wobbles on its tail.
+- **Aesthetic Details:** Its scales are pale  -  almost translucent  -  showing the network of veins beneath. Unlike the adult Sirvash's dusty ochre, the juvenile is a soft, milky white. It makes a distinctive croaking sound, like a frog, when communicating.
+- **The Face:** A rounded, puppy-like version of the adult Sirvash's horned head  -  the single crown-horn is a soft nub. Its eyes are enormous, golden, and permanently wide with curiosity. It croaks and tilts its head at everything.
 
 #### 3. Ecology: Why It Resides in Sundale
-- **The Sacred-Juvenile:** Mushussuren are the juvenile form of the Sirrush  -  and they are far more approachable than the fierce adults. They imprint on the first kind creature they encounter, following them like ducklings. Solari children sometimes raise orphaned Mushussuren as pets  -  a practice the Korr tolerate because the bond encourages the adult Sirrush to guard the child's village.
-- **The Life-Breath:** Drawing from Heket's fertility-domain, the breath of a Mushussu can accelerate plant growth. A garden visited by a Mushussu produces double yields. In Sundale's ash-choked soil, this ability is priceless  -  Thrask farmers leave offering-bowls of milk near Sirrush nesting-grounds to encourage juvenile visits.
+- **The Sacred-Juvenile:** Mushussuren are the juvenile form of the Sirvash  -  and they are far more approachable than the fierce adults. They imprint on the first kind creature they encounter, following them like ducklings. Solari children sometimes raise orphaned Mushussuren as pets  -  a practice the Korr tolerate because the bond encourages the adult Sirvash to guard the child's village.
+- **The Life-Breath:** Drawing from Heket's fertility-domain, the breath of a Musharra can accelerate plant growth. A garden visited by a Musharra produces double yields. In Sundale's ash-choked soil, this ability is priceless  -  Thrask farmers leave offering-bowls of milk near Sirvash nesting-grounds to encourage juvenile visits.
 
 
 ---
@@ -1053,7 +1053,7 @@
 
 ---
 
-### 61. The Mamiri
+### 61. The Mamira
 
 #### 1. Folklore & Setting Roots
 - **Siren (Greek mythology):** The bird-women (later fish-women) whose impossibly beautiful singing lured sailors to crash their ships on rocky shores. Homer described them as sitting in meadows of bones.
@@ -1087,7 +1087,7 @@
 
 ---
 
-### 63. The Ketos
+### 63. The Ketora
 
 #### 1. Folklore & Setting Roots
 - **Ketos/Cetus (Greek mythology):** The primordial sea-monster sent by Poseidon to terrorize Troy  -  a serpentine whale-creature of enormous size, slain by Heracles. The constellation Cetus is named for it.
@@ -1099,12 +1099,12 @@
 - **The Face:** A grotesque fusion of elephant and serpent  -  a broad, tusked muzzle with a serpent's hinged jaw. Its single, immense eye on each side of its head is perpetually half-closed, as if in a state of ancient, bored contemplation.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Trench-Dweller:** The Ketos inhabits the Treakous Oceanic Rift  -  the same trench that holds the Sundered Monolith. It is drawn to the Monolith's resonance-frequency, coiling around the fragment in the dark. Deep-Born Myrathil can feel its presence in their teeth alongside the Monolith-hum.
+- **The Trench-Dweller:** The Ketora inhabits the Treakous Oceanic Rift  -  the same trench that holds the Sundered Monolith. It is drawn to the Monolith's resonance-frequency, coiling around the fragment in the dark. Deep-Born Myrathil can feel its presence in their teeth alongside the Monolith-hum.
 - **The God's-Mistake:** Like the Grootslang, it is a creature that should not exist  -  a fusion of incompatible designs by an ancient creative force. Its brain is enormous, intelligent, and capable of complex problem-solving. Some Deep-Born believe it has been trying to communicate with the Monolith for centuries, attempting to solve the puzzle of its own existence.
 
 ---
 
-### 64. The Harpy
+### 64. The Asanra
 
 #### 1. Folklore & Setting Roots
 - **Harpy (Greek mythology):** The "snatchers"  -  bird-women spirits of sudden storm-winds who stole food from their victims and carried off the souls of the dead. They were agents of divine punishment.
@@ -1116,12 +1116,12 @@
 - **The Face:** A hag's face  -  hollow-cheeked, sharp-nosed, with eyes the color of lightning-flashes. Its mouth is wide, filled with teeth of rusted iron  -  each one filed to a hook. Its expression is permanently enraged.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Mast-Snatcher:** Harpys perch in the rigging of Iceheart ships, snatching crew members directly from the decks. They use their hook-feet to grip masts and yardarms, dangling upside-down to reach into hatches and cabins. A ship under Harpy attack must be abandoned or reach port within hours.
-- **The Storm-Rider:** They nest in the eyes of perpetual storms, riding the updrafts. They are the only creatures that can navigate an Iceheart cyclone without disorientation. Merryn sailors consider seeing a Harpy a death-omen  -  but also a navigation aid, since the creatures always fly toward the storm's calmest exit-corridor.
+- **The Mast-Snatcher:** Harpys perch in the rigging of Iceheart ships, snatching crew members directly from the decks. They use their hook-feet to grip masts and yardarms, dangling upside-down to reach into hatches and cabins. A ship under Asanra attack must be abandoned or reach port within hours.
+- **The Storm-Rider:** They nest in the eyes of perpetual storms, riding the updrafts. They are the only creatures that can navigate an Iceheart cyclone without disorientation. Merryn sailors consider seeing a Asanra a death-omen  -  but also a navigation aid, since the creatures always fly toward the storm's calmest exit-corridor.
 
 ---
 
-### 65. The Hippocampus
+### 65. The Kampos
 
 #### 1. Folklore & Setting Roots
 - **Hippocampus (Greek mythology):** The sea-horse of the gods  -  a creature with the upper body and forelegs of a horse and the lower body of a fish or serpent. They drew Poseidon's chariot across the waves.
@@ -1134,11 +1134,11 @@
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
 - **The Wave-Steed:** Hippocampuss can be tamed and ridden by Myrathil divers. They are the fastest mode of underwater transport in the Iceheart  -  capable of outpacing storm-currents. Breakers-Born Myrathil use them to patrol the harbor-approaches of Merrowport.
-- **The Estuary-Guardian:** They are drawn to the brackish boundary where fresh-water rivers meet the salt sea  -  the River-Fed Myrathil's territory. Their presence purifies water contaminated by Wyrd-taint, making them essential to the health of coastal settlements. A village with a resident Hippocampus never suffers from water-borne plague.
+- **The Estuary-Guardian:** They are drawn to the brackish boundary where fresh-water rivers meet the salt sea  -  the River-Fed Myrathil's territory. Their presence purifies water contaminated by Wyrd-taint, making them essential to the health of coastal settlements. A village with a resident Kampos never suffers from water-borne plague.
 
 ---
 
-### 66. The Gorgon
+### 66. The Adzena
 
 #### 1. Folklore & Setting Roots
 - **Gorgon (Greek mythology):** The three sisters  -  Medusa, Stheno, and Euryale  -  whose gaze turned living things to stone. Their hair was a nest of venomous serpents, and their faces were so terrible that looking upon them caused petrification.
@@ -1150,12 +1150,12 @@
 - **The Face:** Beautiful from a distance  -  but up close, her features are frozen in a mask of eternal rage. Her eyes are solid, glowing green  -  like a firefly's light. Meeting her gaze causes the viewer's extremities to tingle as calcium begins to crystallize in their blood.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Stone-Gaze:** Her gaze causes progressive petrification  -  starting at the extremities and moving inward. Victims who escape become living statues frozen in poses of terror on the sea-floor, their faces forever turned toward the light above. The petrified statues are inhabited by the Wyrd  -  they become the "Spume of the Drowned" that plague the sea-lanes.
+- **The Stone-Gaze:** Her gaze causes progressive petrification  -  starting at the extremities and moving inward. Victims who escape become living statues frozen in poses of terror on the sea-floor, their faces forever turned toward the light above. The petrified statues are inhabited by the Wyrd  -  they become the "Spumara" that plague the sea-lanes.
 - **The Firefly-Shift:** Like the Adze, she can compress her entire body into a single, tiny bioluminescent eel  -  nearly invisible in the deep sea. In this form, she infiltrates fishing-nets, drinking the blood of caught fish to sustain herself. The only defense is to inspect every catch with a silver mirror  -  the Adze-form reflects differently than a natural eel.
 
 ---
 
-### 67. The Tokoloshe
+### 67. The Tokola
 
 #### 1. Folklore & Setting Roots
 - **Tokoloshe/Tikoloshe (South African/Zulu folklore):** A small, hairy, mischievous water-sprite that becomes invisible by swallowing a pebble. It terrorizes households, steals food, and attacks sleepers  -  particularly children. Only a sangoma (shaman) can banish it.
@@ -1163,16 +1163,16 @@
 
 #### 2. Physical Design
 - **Appearance:** A two-foot-tall, gremlin-like creature with the upper body of a hairy, wizened humanoid and the lower body of an octopus. Its skin is mottled green-and-brown, blending perfectly with kelp and rock.
-- **Aesthetic Details:** It carries a smooth, black pebble in its cheek  -  when the pebble is in place, the Tokoloshe is completely invisible. Without the pebble, it is a comical, ugly thing with an enormous grin and disproportionately long arms.
+- **Aesthetic Details:** It carries a smooth, black pebble in its cheek  -  when the pebble is in place, the Tokola is completely invisible. Without the pebble, it is a comical, ugly thing with an enormous grin and disproportionately long arms.
 - **The Face:** A grotesque, goblin face with an elongated, penis-like nose (true to the Zulu folklore), enormous ears, and a mouth that stretches from ear to ear. Its eyes are bright, beady, and filled with malicious glee.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Ship-Pest:** Tokoloshes infest the bilges and cargo-holds of Iceheart ships, stealing food, tangling rigging, and sabotaging navigation tools while invisible. A ship with a Tokoloshe infestation will have every compass spinning wrong within a week. Only a Myrathil shaman can locate and banish one  -  using salt-water barriers and copper-bell rituals.
+- **The Ship-Pest:** Tokoloshes infest the bilges and cargo-holds of Iceheart ships, stealing food, tangling rigging, and sabotaging navigation tools while invisible. A ship with a Tokola infestation will have every compass spinning wrong within a week. Only a Myrathil shaman can locate and banish one  -  using salt-water barriers and copper-bell rituals.
 - **The Child-Snatcher:** Like their land-bound cousins, they are drawn to children's fear. They visit Iceheart vessels at night, sitting on sleeping children's chests and whispering nightmares. The traditional ward  -  a brick beneath the bed-legs to raise the sleeping height  -  actually works against Tokoloshes, which cannot reach elevated sleepers.
 
 ---
 
-### 68. The Lamia
+### 68. The Lamiara
 
 #### 1. Folklore & Setting Roots
 - **Lamia (Greek mythology):** A child-devouring monster  -  once a beautiful queen, transformed by Hera's jealousy into a serpent-woman who stalked the night, stealing and consuming children to fill the void of her own lost offspring.
@@ -1185,11 +1185,11 @@
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
 - **The Reef-Stalker:** She positions herself in shallow reef-channels where Iceheart ships must navigate slowly. Her impossibly long arms reach up from the reef to pluck crew members from low decks  -  particularly young sailors, whose youth feeds her eternal hunger.
-- **The Grief-Lure:** She sings a lullaby that sounds like a grieving mother. Sailors who have lost children are especially vulnerable  -  they hear their own child's voice in the song and lean over the rail to look. The Myrathil consider the Lamia a tragic creature  -  she is a victim of the Wyrd's cruelty, not a natural predator. They leave offerings of coral at her reef  -  a gesture of compassion that sometimes buys safe passage.
+- **The Grief-Lure:** She sings a lullaby that sounds like a grieving mother. Sailors who have lost children are especially vulnerable  -  they hear their own child's voice in the song and lean over the rail to look. The Myrathil consider the Lamiara a tragic creature  -  she is a victim of the Wyrd's cruelty, not a natural predator. They leave offerings of coral at her reef  -  a gesture of compassion that sometimes buys safe passage.
 
 ---
 
-### 69. The Empusa
+### 69. The Impunda
 
 #### 1. Folklore & Setting Roots
 - **Empusa (Greek mythology):** A shape-shifting, flesh-eating daughter of Hecate  -  a creature with a brass leg and a donkey-leg, who seduced young men and drained their life-force as they slept.
@@ -1201,12 +1201,12 @@
 - **The Face:** Stunningly beautiful from the left  -  flawless skin, dark eyes, full lips. From the right, the face is a bird-skull  -  a heron's beak and empty eye-socket, wreathed in static discharge. The shift between faces is instantaneous, triggered by her mood.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Storm-Seductress:** She approaches lone watch-keepers on night-shift, offering warmth and companionship. As she speaks, she drains their vitality  -  by dawn, the watch-keeper is a desiccated husk and the Empusa has moved on. The brass leg is always cold to the touch  -  a warning sign that experienced sailors recognize.
-- **The Lightning-Inheritance:** Like the Impundulu, the Empusa is immortal  -  when one is destroyed, her essence transfers to a new host within a hundred miles. The host is always a woman who has lost a child to the sea. Merryn sailors say the Empusa cannot be permanently killed  -  only bargained with, and only by a woman.
+- **The Storm-Seductress:** She approaches lone watch-keepers on night-shift, offering warmth and companionship. As she speaks, she drains their vitality  -  by dawn, the watch-keeper is a desiccated husk and the Impunda has moved on. The brass leg is always cold to the touch  -  a warning sign that experienced sailors recognize.
+- **The Lightning-Inheritance:** Like the Impundulu, the Impunda is immortal  -  when one is destroyed, her essence transfers to a new host within a hundred miles. The host is always a woman who has lost a child to the sea. Merryn sailors say the Impunda cannot be permanently killed  -  only bargained with, and only by a woman.
 
 ---
 
-### 70. The Telkhine
+### 70. The Telkara
 
 #### 1. Folklore & Setting Roots
 - **Telkhines (Greek mythology):** The original sea-demons of Rhodes  -  dog-headed, flipper-handed metalworkers who forged the gods' weapons. They were cast into the sea for using their magic for destructive purposes.
@@ -1218,12 +1218,12 @@
 - **The Face:** A seal's face with an unsettling addition: a beard of steel-wool-like wire. Its eyes are intelligent, covetous, and permanently calculating the value of everything they see. It speaks in a series of deep, guttural barks.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Ice-Smith:** Telkhine are the only creatures capable of forging weapons from deep-sea ice  -  weapons that never melt, regardless of temperature. Neth merchants pay exorbitant prices for Telkhine-forged blades. The creatures demand raw whale-bone and copper as payment  -  they have no interest in gold.
-- **The Boat-Breaker:** Their massive bulk (despite their height, they weigh as much as a walrus) allows them to overturn small boats. They do this not to hunt the crew, but to salvage the metal fittings  -  they are obsessed with collecting rare alloys. A boat that has been Telkhine-rolled will have every nail, rivet, and hinge stripped from its hull, leaving only wood.
+- **The Ice-Smith:** Telkara are the only creatures capable of forging weapons from deep-sea ice  -  weapons that never melt, regardless of temperature. Neth merchants pay exorbitant prices for Telkara-forged blades. The creatures demand raw whale-bone and copper as payment  -  they have no interest in gold.
+- **The Boat-Breaker:** Their massive bulk (despite their height, they weigh as much as a walrus) allows them to overturn small boats. They do this not to hunt the crew, but to salvage the metal fittings  -  they are obsessed with collecting rare alloys. A boat that has been Telkara-rolled will have every nail, rivet, and hinge stripped from its hull, leaving only wood.
 
 ---
 
-### 71. The Stymphalian
+### 71. The Kongama
 
 #### 1. Folklore & Setting Roots
 - **Stymphalian Birds (Greek mythology):** Man-eating birds with bronze feathers that they could launch like arrows. They inhabited a stagnant lake and were driven away by Heracles using bronze rattles as part of his sixth labor.
@@ -1240,7 +1240,7 @@
 
 ---
 
-### 72. The Nereid
+### 72. The Olora
 
 #### 1. Folklore & Setting Roots
 - **Nereid (Greek mythology):** Benevolent sea-nymphs  -  the daughters of Nereus and Doris. They were beautiful, immortal maidens who rode dolphins and aided sailors in distress. Each had a specific domain within the sea.
@@ -1252,12 +1252,12 @@
 - **The Face:** A serene, ageless face of impossible beauty  -  large, luminous eyes that contain the entire spectrum of ocean colors. She smiles perpetually  -  a warm, maternal expression that radiates comfort to drowning sailors.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Drowning-Savior:** Nereids are the only genuinely benevolent creatures in the Iceheart Sea. They seek out drowning sailors and carry them to the surface  -  a rescue that costs the Nereid a portion of her own luminous energy, meaning she must rest for years after each save.
-- **The Treasure-Guardian:** They guard the abyssal treasure-currents  -  the debris-fields of sunken ships. The Deep-Born Myrathil treat them as sacred guardians and never salvage from their territories. Those who disrespect this boundary find their air-supply mysteriously failing at depth  -  the Nereid can withdraw the "breath of the sea" from trespassers, a gentle but lethal defense.
+- **The Drowning-Savior:** Nereids are the only genuinely benevolent creatures in the Iceheart Sea. They seek out drowning sailors and carry them to the surface  -  a rescue that costs the Olora a portion of her own luminous energy, meaning she must rest for years after each save.
+- **The Treasure-Guardian:** They guard the abyssal treasure-currents  -  the debris-fields of sunken ships. The Deep-Born Myrathil treat them as sacred guardians and never salvage from their territories. Those who disrespect this boundary find their air-supply mysteriously failing at depth  -  the Olora can withdraw the "breath of the sea" from trespassers, a gentle but lethal defense.
 
 ---
 
-### 73. The Graeae
+### 73. The Ifara
 
 #### 1. Folklore & Setting Roots
 - **Graeae / Grey Sisters (Greek mythology):** Three ancient hags who shared a single eye and a single tooth among them. They were the sisters of the Gorgons and the only ones who knew the location of the weapons needed to slay Medusa.
@@ -1270,11 +1270,11 @@
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
 - **The Prophecy-Sisters:** They sit on the most remote icebergs in the Iceheart, visible only to captains who are already lost. They offer to answer one question about the future  -  but the price is a tooth from the questioner. Without the tooth, the prophecy is accurate. Those who refuse to give a tooth receive a false prophecy that leads them to destruction.
-- **The Ifá-Readers:** Their divination uses patterns cast in seal-bones on the ice  -  patterns that correspond to the Yoruba Ifá corpus. Each pattern reveals not just a future event but the cosmological weight behind it  -  the spiritual reason why something will happen. Neth merchants have been known to seek out the Graeae for trade-predictions, paying in whale-teeth.
+- **The Ifá-Readers:** Their divination uses patterns cast in seal-bones on the ice  -  patterns that correspond to the Yoruba Ifá corpus. Each pattern reveals not just a future event but the cosmological weight behind it  -  the spiritual reason why something will happen. Neth merchants have been known to seek out the Ifara for trade-predictions, paying in whale-teeth.
 
 ---
 
-### 74. The Triton
+### 74. The Tritano
 
 #### 1. Folklore & Setting Roots
 - **Triton (Greek mythology):** The son of Poseidon  -  a merman who blew a conch-shell trumpet to calm or raise the waves. He controlled the sea's mood through his horn, and was depicted with a human upper body and a coiled, fish-like lower half.
@@ -1286,15 +1286,15 @@
 - **The Face:** A strong, angular face with a square jaw and deep-set, commanding eyes. His pupils are horizontal, goat-like, and glow with the deep indigo of the abyssal trench. He carries an expression of absolute authority  -  the sea's sovereign.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Wave-Controller:** The Triton's horn-call can calm or raise the Iceheart's waves within a mile radius. He uses this ability to clear shipping lanes during storms  -  for a price. Merryn captains leave offerings of amber and copper at designated "Triton-rocks" and blow response-signals on their own conches.
-- **The Depth-Sovereign:** He serves as a mediator between surface-dwellers and the abyssal entities  -  particularly the Ketos and the forces drawn by the Sundered Monolith. When the Monolith's resonance grows too intense, the Triton's horn dampens the frequency, preventing deep-sea stampedes. Deep-Born Myrathil consider him their sovereign  -  the voice of Olokun's will made flesh.
+- **The Wave-Controller:** The Tritano's horn-call can calm or raise the Iceheart's waves within a mile radius. He uses this ability to clear shipping lanes during storms  -  for a price. Merryn captains leave offerings of amber and copper at designated "Tritano-rocks" and blow response-signals on their own conches.
+- **The Depth-Sovereign:** He serves as a mediator between surface-dwellers and the abyssal entities  -  particularly the Ketora and the forces drawn by the Sundered Monolith. When the Monolith's resonance grows too intense, the Tritano's horn dampens the frequency, preventing deep-sea stampedes. Deep-Born Myrathil consider him their sovereign  -  the voice of Olokun's will made flesh.
 
 ---
 
-### 75. The Nandi
+### 75. The Nandir
 
 #### 1. Folklore & Setting Roots
-- **Nandi Bear (East African/Kenyan cryptid):** A massive, ferocious bear-like creature reported from Kenya's Nandi region. Described as a shaggy, hyena-like beast with a sloping back, enormous claws, and a taste for human brains.
+- **Nandi Bear (East African/Kenyan cryptid):** A massive, ferocious bear-like creature reported from Kenya's Nandir region. Described as a shaggy, hyena-like beast with a sloping back, enormous claws, and a taste for human brains.
 - **Ketos / Sea-Beast variant (Greek mythology):** Drawing from the broader category of Greek sea-monsters  -  unnamed leviathans that terrorized coastlines and demanded tribute of maidens.
 
 #### 2. Physical Design
@@ -1308,11 +1308,11 @@
 
 ---
 
-### 76. The Popobawa
+### 76. The Popoba
 
 #### 1. Folklore & Setting Roots
 - **Popobawa (East African/Zanzibar folklore):** A shape-shifting evil spirit  -  described as a one-eyed, dwarf-like creature or a bat-winged entity. It attacks people in their homes at night, causing terror and physical harm. Its victims are shamed into silence.
-- **Empusa variant (Greek mythology):** Drawing from the night-stalking, shape-shifting aspect of the Empusa  -  a creature that appears differently to each victim, exploiting their specific fears.
+- **Empusa variant (Greek mythology):** Drawing from the night-stalking, shape-shifting aspect of the Impunda  -  a creature that appears differently to each victim, exploiting their specific fears.
 
 #### 2. Physical Design
 - **Appearance:** Its form shifts constantly  -  a writhing mass that cycles between a hunched dwarf, a bat-winged specter, and a formless shadow. Its only stable feature is a single, enormous eye in the center of its mass.
@@ -1321,11 +1321,11 @@
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
 - **The Cabin-Terror:** Popobawas infiltrate the sleeping-quarters of Iceheart ships at night, attacking crew members in their hammocks. The attacks leave no visible wounds  -  the damage is psychological, leaving victims with night-terrors so severe they refuse to sleep, eventually collapsing from exhaustion during watch-duty.
-- **The Shame-Silence:** Victims are compelled by the creature's psychic influence to never speak of the attack  -  they suffer in silence, and the Popobawa returns night after night. The only known countermeasure is public disclosure  -  a victim who names the Popobawa to another person breaks its hold. Merryn captains maintain an "open-lantern" policy: all crew must describe their dreams at breakfast, making it impossible for the Popobawa to maintain its shame-silence.
+- **The Shame-Silence:** Victims are compelled by the creature's psychic influence to never speak of the attack  -  they suffer in silence, and the Popoba returns night after night. The only known countermeasure is public disclosure  -  a victim who names the Popoba to another person breaks its hold. Merryn captains maintain an "open-lantern" policy: all crew must describe their dreams at breakfast, making it impossible for the Popoba to maintain its shame-silence.
 
 ---
 
-### 77. The Abada
+### 77. The Abadir
 
 #### 1. Folklore & Setting Roots
 - **Abada (Central African/Congo cryptid):** A small, shy unicorn-like creature  -  described as a tiny antelope or boar with two twisted horns. It is said to be fiercely protective and its ground horn is used as an antidote to poison.
@@ -1337,12 +1337,12 @@
 - **The Face:** A gentle, fawn-like face with enormous, dark, liquid eyes that project innocence. Its ears are oversized and constantly rotating, scanning for threats. It has a small, velvety muzzle.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Poison-Purifier:** The Abada's horn neutralizes any toxin it contacts  -  touching a poisoned water-source with the horn instantly purifies it. In the Wyrd-tainted Iceheart Sea, where contaminated water causes madness, the Abada is a living cure. Myrathil reef-keepers consider them sacred and protect them absolutely.
-- **The Reef-Gardener:** They cultivate coral gardens with their horns, using the spiral-shape to carve channels that direct nutrient-rich currents through the reef. An Abada-tended reef grows twice as fast and is immune to Wyrd-decay. The horn itself is made of crystallized, purified ocean  -  and if harvested (an act of ultimate sacrilege), it can purify a ship's entire water-supply for a year.
+- **The Poison-Purifier:** The Abadir's horn neutralizes any toxin it contacts  -  touching a poisoned water-source with the horn instantly purifies it. In the Wyrd-tainted Iceheart Sea, where contaminated water causes madness, the Abadir is a living cure. Myrathil reef-keepers consider them sacred and protect them absolutely.
+- **The Reef-Gardener:** They cultivate coral gardens with their horns, using the spiral-shape to carve channels that direct nutrient-rich currents through the reef. An Abadir-tended reef grows twice as fast and is immune to Wyrd-decay. The horn itself is made of crystallized, purified ocean  -  and if harvested (an act of ultimate sacrilege), it can purify a ship's entire water-supply for a year.
 
 ---
 
-### 78. The Graia
+### 78. The Graiva
 
 #### 1. Folklore & Setting Roots
 - **Graia/Grey Sea (Greek folklore):** The ancient, grey, featureless expanse of water between the known world and the edge of myth  -  the sea through which Jason and the Argonauts sailed, full of nameless perils.
@@ -1351,15 +1351,15 @@
 #### 2. Physical Design
 - **Appearance:** A stationary, perfectly circular eddy in the ocean surface  -  thirty feet across, ringed by a halo of displaced foam. The water within the eddy is not grey or blue but colorless  -  perfectly transparent, like looking through glass into infinity.
 - **Aesthetic Details:** The eddy rotates with mathematical precision  -  no turbulence, no variation. Objects that fall into it do not sink  -  they remain suspended at a specific depth, rotating with the water. The air above the eddy is unnaturally still, even during storms.
-- **The Face:** When someone stares into the depths of the Graia for too long, they see a face forming in the colorless water  -  their own face, but older, transformed by experiences they have not yet had. The face mouths words silently  -  always the same phrase: "What will you pay?"
+- **The Face:** When someone stares into the depths of the Graiva for too long, they see a face forming in the colorless water  -  their own face, but older, transformed by experiences they have not yet had. The face mouths words silently  -  always the same phrase: "What will you pay?"
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Spirit-Portal:** The Graia is a stable breach-point between the physical Iceheart Sea and the spirit-realm beneath it. Offerings dropped into the swirl are received by the deep-spirits  -  and bargains struck through the swirl are binding. Neth contract-mages pay fortunes to access known Graias for inter-realm negotiations.
-- **The Grey-Passage:** Ships that sail through the center of a Graia are transported  -  not to another location, but to another time. They emerge minutes later, having aged weeks. Some crews emerge younger  -  the swirl takes what it takes, and what it gives is unpredictable. Only the most desperate captains risk the Grey-Passage.
+- **The Spirit-Portal:** The Graiva is a stable breach-point between the physical Iceheart Sea and the spirit-realm beneath it. Offerings dropped into the swirl are received by the deep-spirits  -  and bargains struck through the swirl are binding. Neth contract-mages pay fortunes to access known Graias for inter-realm negotiations.
+- **The Grey-Passage:** Ships that sail through the center of a Graiva are transported  -  not to another location, but to another time. They emerge minutes later, having aged weeks. Some crews emerge younger  -  the swirl takes what it takes, and what it gives is unpredictable. Only the most desperate captains risk the Grey-Passage.
 
 ---
 
-### 79. The Ichthya
+### 79. The Ichthara
 
 #### 1. Folklore & Setting Roots
 - **Ichthyocentaur (Greek mythology):** A sea-centaur  -  a creature with the upper body of a human, the forelegs of a horse, and the lower body of a fish. They were benevolent beings of the deep ocean, associated with wisdom and the surf-zone.
@@ -1371,12 +1371,12 @@
 - **The Face:** A strong, weather-lined face with deep-set eyes that flash from blue to orange  -  like forge-coals fanned by wind. A thick, salt-bleached beard covers its jaw. Its expression is perpetually focused, as if listening to the rhythm of waves for a specific pattern.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Wave-Forger:** The Ichthya forges weapons beneath the waves, using submarine volcanic vents as its forge-hearth. Its tridents, harpoons, and hooks are the finest in the Iceheart  -  they never rust, never break, and always strike true. They are given as gifts to worthy captains  -  never sold.
-- **The Rhythm-Keeper:** It listens to the ocean's wave-patterns as a blacksmith listens to the ring of an anvil  -  judging the health of the sea by its rhythm. When the Monolith's resonance disturbs the pattern, the Ichthya becomes agitated, and its forge-work takes on a desperate quality. Deep-Born Myrathil watch for signs of the Ichthya's distress as an early warning of Monolith instability.
+- **The Wave-Forger:** The Ichthara forges weapons beneath the waves, using submarine volcanic vents as its forge-hearth. Its tridents, harpoons, and hooks are the finest in the Iceheart  -  they never rust, never break, and always strike true. They are given as gifts to worthy captains  -  never sold.
+- **The Rhythm-Keeper:** It listens to the ocean's wave-patterns as a blacksmith listens to the ring of an anvil  -  judging the health of the sea by its rhythm. When the Monolith's resonance disturbs the pattern, the Ichthara becomes agitated, and its forge-work takes on a desperate quality. Deep-Born Myrathil watch for signs of the Ichthara's distress as an early warning of Monolith instability.
 
 ---
 
-### 80. The Brine
+### 80. The Lamphera
 
 #### 1. Folklore & Setting Roots
 - **Lampeia / Sacred Fire of the Sea (Greek folklore):** The mysterious lights seen by ancient Greek sailors hovering over the water  -  interpreted as the sacred fires of sea-nymphs, or the ghostly lanterns of the dead, guiding or misleading the living.
@@ -1388,7 +1388,7 @@
 - **The Face:** When viewed closely, the sphere contains faces  -  dozens of tiny, translucent faces pressed against the inner surface, like souls looking out through a window. The faces are always calm, always smiling, and always watching the observer.
 
 #### 3. Ecology: Why It Resides in the Iceheart Sea
-- **The Safe-Harbor Light:** Brines appear over safe anchorages during the worst storms, guiding lost ships to sheltered coves. Following a Brine always leads to safety  -  they are the souls of sailors who died heroically, given one final act of guidance.
+- **The Safe-Harbor Light:** Brines appear over safe anchorages during the worst storms, guiding lost ships to sheltered coves. Following a Lamphera always leads to safety  -  they are the souls of sailors who died heroically, given one final act of guidance.
 - **The False-Lantern Trap:** The Wyrd has corrupted some Brines  -  they look identical but lead ships onto rocks. The only way to tell true from false is to watch the faces inside: true lanterns show smiling, peaceful faces; false lanterns show screaming, terrified faces. Experienced Merryn helmsmen carry polished silver plates to magnify the interior view, scrutinizing each face before following.
 
 
@@ -1434,7 +1434,7 @@
 
 ---
 
-### 83. The Tsuchinoko
+### 83. The Amaruk
 
 #### 1. Folklore & Setting Roots
 - **Tsuchinoko (Japanese Yokai/cryptid):** A fat, short, snake-like creature reported across Japan. It is said to be capable of jumping great distances, speaking in a slurred human voice, and having a fondness for alcohol.
@@ -1447,11 +1447,11 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Jump-Ridge Dweller:** Tsuchinokos inhabit the narrowest ridges of the Cragjaw Peaks  -  the knife-edges where only Groven bridge-builders dare to work. Despite their fat bodies, they launch themselves across twenty-foot gaps with explosive power, landing on target with unerring precision.
-- **The Drunk-Bargainer:** They speak  -  in a slurred, booming voice  -  and they love strong drink. A Tsuchinoko that is given a full flask of whiteout-distillate will share the location of hidden mineral veins or safe routes through the peaks. A sober Tsuchinoko will lie, directing travelers into blizzards or over edges. Fexric miners carry hip-flasks specifically for Tsuchinoko-bribes.
+- **The Drunk-Bargainer:** They speak  -  in a slurred, booming voice  -  and they love strong drink. A Amaruk that is given a full flask of whiteout-distillate will share the location of hidden mineral veins or safe routes through the peaks. A sober Amaruk will lie, directing travelers into blizzards or over edges. Fexric miners carry hip-flasks specifically for Amaruk-bribes.
 
 ---
 
-### 84. The Nopperabo
+### 84. The Nopperal
 
 #### 1. Folklore & Setting Roots
 - **Nopperabō (Japanese Yokai):** A faceless spirit that appears as a normal person from behind, but when the victim approaches, it turns to reveal a completely smooth, featureless face. It causes terror not through violence but through the sheer wrongness of its blank visage.
@@ -1464,11 +1464,11 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Toll-Collector:** Nopperabos stand at the narrowest points of the Ancestor-Spans, demanding a toll  -  not of coins, but of body-fat. They extract it painlessly with their needle-fingers, storing it in leather pouches beneath their cloaks. Those who refuse must turn back, adding weeks to their journey.
-- **The Fat-Render:** The extracted fat is rendered into a thick, waxy substance that the Nopperabos use to seal cracks in the Ancestor-Spans' bone-structure. Without this biological sealant, the Spans would crack and shatter in the eternal blizzard. The Groven tolerate the Nopperabos' tolls because they maintain the bridges  -  but they charge the Nopperabo a secondary toll of their own for "operating on Groven bridges without a license."
+- **The Fat-Render:** The extracted fat is rendered into a thick, waxy substance that the Nopperabos use to seal cracks in the Ancestor-Spans' bone-structure. Without this biological sealant, the Spans would crack and shatter in the eternal blizzard. The Groven tolerate the Nopperabos' tolls because they maintain the bridges  -  but they charge the Nopperal a secondary toll of their own for "operating on Groven bridges without a license."
 
 ---
 
-### 85. The Supayoni
+### 85. The Supayra
 
 #### 1. Folklore & Setting Roots
 - **Oni (Japanese Yokai):** Massive, muscular ogre-demons with red or blue skin, horns, and wild hair. They carry iron clubs (kanabō) and bring disaster, disease, and destruction. Despite their malevolence, some Oni are punishers of the wicked.
@@ -1481,7 +1481,7 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Mine-Lord:** Supayonis claim deep mine-shafts as their domain, particularly those rich in copper and silver. They are territorial and violent, but they can be appeased  -  Fexric Drall miners leave offerings of raw ore at shaft-entrances to purchase passage. A mine-shaft with an Oni is the safest mine-shaft in the Peaks  -  no other creature dares enter.
-- **The Punisher:** Like their mythological counterparts, they punish the wicked  -  specifically, miners who cheat their fellows or steal from shared claims. An Supayoni will track a thief across the entire mountain-range, its subsonic horn-hum growing louder with each passing day, until the thief returns what was stolen or goes mad.
+- **The Punisher:** Like their mythological counterparts, they punish the wicked  -  specifically, miners who cheat their fellows or steal from shared claims. An Supayra will track a thief across the entire mountain-range, its subsonic horn-hum growing louder with each passing day, until the thief returns what was stolen or goes mad.
 
 ---
 
@@ -1502,10 +1502,10 @@
 
 ---
 
-### 87. The Kodama
+### 87. The Kodami
 
 #### 1. Folklore & Setting Roots
-- **Kodama (Japanese Yokai):** Tree-spirits that inhabit ancient trees, particularly in old-growth forests. They are usually invisible but manifest as faint echoes or voices that repeat what is said. Cutting down a tree with a Kodama brings terrible misfortune.
+- **Kodama (Japanese Yokai):** Tree-spirits that inhabit ancient trees, particularly in old-growth forests. They are usually invisible but manifest as faint echoes or voices that repeat what is said. Cutting down a tree with a Kodami brings terrible misfortune.
 - **Apu (Andean/Incan mythology):** The mountain-spirits of the Andes  -  each peak has its own Apu, a powerful guardian-entity that watches over the surrounding valleys. The Apus are honored with offerings and consulted for important decisions.
 
 #### 2. Physical Design
@@ -1514,12 +1514,12 @@
 - **The Face:** A simple, child-like face pressed into its stone-snow body  -  two quartz-eyes and a small O-shaped mouth. Despite its simplicity, the expression is warm, ancient, and profoundly sad  -  the face of a mountain that has watched its forests die.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Echo-Voice:** Kodamaes repeat everything they hear  -  but with a delay of exactly one mountain-breath (roughly seven seconds). This creates a layered, echoing chorus across the peaks. The Groven use them as a communication-system: shouting messages toward known Kodama clusters, which bounce the sound across entire valleys.
-- **The Peak-Warden:** Each Kodama is bound to a specific mountain-Apu  -  the spirit of the peak itself. When the mountain is damaged (by mining, by Wyrd-corruption, by structural collapse), the Kodama begins to wail  -  a sound that carries for miles and drives all who hear it to tears. Fexric engineers monitor Kodama behavior as a structural-integrity warning-system for the entire range.
+- **The Echo-Voice:** Kodamaes repeat everything they hear  -  but with a delay of exactly one mountain-breath (roughly seven seconds). This creates a layered, echoing chorus across the peaks. The Groven use them as a communication-system: shouting messages toward known Kodami clusters, which bounce the sound across entire valleys.
+- **The Peak-Warden:** Each Kodami is bound to a specific mountain-Apu  -  the spirit of the peak itself. When the mountain is damaged (by mining, by Wyrd-corruption, by structural collapse), the Kodami begins to wail  -  a sound that carries for miles and drives all who hear it to tears. Fexric engineers monitor Kodami behavior as a structural-integrity warning-system for the entire range.
 
 ---
 
-### 88. The Nurikabe
+### 88. The Nurikaba
 
 #### 1. Folklore & Setting Roots
 - **Nurikabe (Japanese Yokai):** An invisible wall-spirit that blocks travelers' paths. It appears as a broad, featureless wall that cannot be climbed or walked around  -  but it can be defeated by tapping the ground at its base with a stick.
@@ -1532,11 +1532,11 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Path-Blocker:** Nurikabes block mountain paths without warning, appearing overnight. They cannot be climbed (the top extends as you climb), cannot be gone around (they extend sideways), and cannot be broken (they regenerate instantly). The only way past is to tap a copper-tipped staff at the base  -  the copper disrupts the creature's magnetic anchoring, and the wall steps aside.
-- **The Night-Architect:** Like the Tiwanaku-spirits, Nurikabes rearrange the mountain's geography at night. Paths that were clear yesterday are blocked today; dead-ends suddenly open into new corridors. This makes navigation in the Peaks impossible without an experienced Groven guide who can read the Nurikabe's overnight rearrangement-patterns.
+- **The Night-Architect:** Like the Tiwanaku-spirits, Nurikabes rearrange the mountain's geography at night. Paths that were clear yesterday are blocked today; dead-ends suddenly open into new corridors. This makes navigation in the Peaks impossible without an experienced Groven guide who can read the Nurikaba's overnight rearrangement-patterns.
 
 ---
 
-### 89. The Nue
+### 89. The Pachama
 
 #### 1. Folklore & Setting Roots
 - **Nue (Japanese Yokai):** A chimeric monster with the head of a monkey, the body of a raccoon-dog (tanuki), the legs of a tiger, and the tail of a serpent. It was said to cause illness and nightmares, appearing as a black cloud that descended on the emperor's palace.
@@ -1548,12 +1548,12 @@
 - **The Face:** The cloud coalesces faces at random  -  always combinations of different animals, never the same twice. Each face lasts only seconds before dissolving back into chaos. The expressions are always enraged, always hungry, and always watching the observer.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Nightmare-Cloud:** The Nue descends on mountain-camps at night, enveloping the shelters in its warm, humid darkness. Those trapped inside experience shared, overlapping nightmares  -  visions of their greatest fears materializing simultaneously. They emerge in the morning exhausted, shaken, and often hallucinating for days.
-- **The Earth-Wound:** The cloud is drawn to places where the mountain has been wounded  -  collapsed mine-shafts, blasted tunnel-entrances, areas of severe Wyrd-corruption. It is Pachamama's immune-response  -  the earth-mother sending her nightmare to punish those who have damaged her. Fexric engineers who encounter a Nue know immediately that their excavation has gone too deep.
+- **The Nightmare-Cloud:** The Pachama descends on mountain-camps at night, enveloping the shelters in its warm, humid darkness. Those trapped inside experience shared, overlapping nightmares  -  visions of their greatest fears materializing simultaneously. They emerge in the morning exhausted, shaken, and often hallucinating for days.
+- **The Earth-Wound:** The cloud is drawn to places where the mountain has been wounded  -  collapsed mine-shafts, blasted tunnel-entrances, areas of severe Wyrd-corruption. It is Pachamama's immune-response  -  the earth-mother sending her nightmare to punish those who have damaged her. Fexric engineers who encounter a Pachama know immediately that their excavation has gone too deep.
 
 ---
 
-### 90. The Kasha
+### 90. The Kashara
 
 #### 1. Folklore & Setting Roots
 - **Kasha (Japanese Yokai):** A fire-cat  -  a enormous feline Yokai that descends from the sky during funerals to steal the corpse, dragging it away for its own purposes. It is often associated with the Buddhist concept of sin  -  those whose kasha steals their body were thought to have led wicked lives.
@@ -1565,29 +1565,29 @@
 - **The Face:** A feline face of unusual intelligence  -  angular, with large, piercing eyes the color of molten gold. Its expression is calculating, not predatory  -  it evaluates, measures, and judges.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Corpse-Thief:** Kasha descend from the peaks during Groven funeral-processions, attempting to steal the body from its Ancestor-Span burial-niche. A body stolen by a Kasha is never found  -  and its spirit, denied proper interment, becomes one of the Groven's restless bridge-ghosts, doomed to walk the Spans forever.
-- **The Fortune-Bringer:** Drawing from Ekeko, the Kasha's bundle contains miniature versions of what it has judged the household needs. If the Kasha deems a family worthy, it leaves a miniature version of the thing they most desperately need  -  a tiny hammer for a toolless smith, a miniature loaf for a starving family, a tiny coal for a frozen hearth. These miniatures, if treated with reverence, transform into the real thing within seven days.
+- **The Corpse-Thief:** Kashara descend from the peaks during Groven funeral-processions, attempting to steal the body from its Ancestor-Span burial-niche. A body stolen by a Kashara is never found  -  and its spirit, denied proper interment, becomes one of the Groven's restless bridge-ghosts, doomed to walk the Spans forever.
+- **The Fortune-Bringer:** Drawing from Ekeko, the Kashara's bundle contains miniature versions of what it has judged the household needs. If the Kashara deems a family worthy, it leaves a miniature version of the thing they most desperately need  -  a tiny hammer for a toolless smith, a miniature loaf for a starving family, a tiny coal for a frozen hearth. These miniatures, if treated with reverence, transform into the real thing within seven days.
 
 ---
 
-### 91. The Tanuki
+### 91. The Tanura
 
 #### 1. Folklore & Setting Roots
-- **Tanuki (Japanese Yokai):** The raccoon-dog spirit  -  a jovial, shape-shifting trickster known for its enormous, magical testicles (which can be shaped into any object), its love of sake, and its leaf-hats that grant invisibility. Tanuki are symbols of prosperity and humor.
+- **Tanuki (Japanese Yokai):** The raccoon-dog spirit  -  a jovial, shape-shifting trickster known for its enormous, magical testicles (which can be shaped into any object), its love of sake, and its leaf-hats that grant invisibility. Tanura are symbols of prosperity and humor.
 - **Ekeko variant / Illa (Andean/Incan tradition):** Small stone or metal figurines representing animals or goods, believed to carry abundance-energy. Miners carried illas into the mines to ensure rich finds.
 
 #### 2. Physical Design
 - **Appearance:** A squat, round-bodied raccoon-dog with a belly so distended it drags in the snow. It wears a cone-shaped leaf-hat (made of dried mountain-grass) and carries a flask of sake that never empties.
-- **Aesthetic Details:** Its most distinctive feature is its magical sac  -  a shape-shifting pouch that can produce any object the Tanuki desires. In the Peaks, it most often produces miniature stone-figurines (illas) of various creatures, which it arranges in patterns around its territory.
+- **Aesthetic Details:** Its most distinctive feature is its magical sac  -  a shape-shifting pouch that can produce any object the Tanura desires. In the Peaks, it most often produces miniature stone-figurines (illas) of various creatures, which it arranges in patterns around its territory.
 - **The Face:** A broad, friendly face with enormous, dark-rimmed eyes and a permanent grin. Its expression radiates good humor and mischief. When it drinks from its flask, its grin widens to impossible proportions.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Toll-Trickster:** Tanukis position themselves at Ancestor-Span crossings, disguised as Groven toll-collectors. They demand payment  -  but the "toll" is always something absurd: a riddle, a song, a drink of sake, a funny story. Those who comply pass safely and find their packs inexplicably heavier (the Tanuki has added an illa-stone that brings good fortune). Those who refuse find their gear transformed into leaves.
-- **The Abundance-Bringer:** The illas they produce are genuine  -  each one carries abundance-energy. A miner who carries a Tanuki-produced illa into a shaft finds richer veins. A hunter guided by an illa-track finds larger prey. The Groven consider the Tanuki a blessing, not a nuisance  -  its presence on a Span means the bridge is favored by fortune.
+- **The Toll-Trickster:** Tanukis position themselves at Ancestor-Span crossings, disguised as Groven toll-collectors. They demand payment  -  but the "toll" is always something absurd: a riddle, a song, a drink of sake, a funny story. Those who comply pass safely and find their packs inexplicably heavier (the Tanura has added an illa-stone that brings good fortune). Those who refuse find their gear transformed into leaves.
+- **The Abundance-Bringer:** The illas they produce are genuine  -  each one carries abundance-energy. A miner who carries a Tanura-produced illa into a shaft finds richer veins. A hunter guided by an illa-track finds larger prey. The Groven consider the Tanura a blessing, not a nuisance  -  its presence on a Span means the bridge is favored by fortune.
 
 ---
 
-### 92. The Ushioni
+### 92. The Cheruva
 
 #### 1. Folklore & Setting Roots
 - **Ushioni (Japanese Yokai):** The "ox-demon"  -  a spider-bodied, bovine-headed monster that breathes poison and traps victims in its web. Regional variants differ wildly, but all combine the features of a bull/spider/demon.
@@ -1600,11 +1600,11 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Volcanic-Trap:** Ushionis web the entrances to geothermal vents with cables of volcanic-glass silk, creating traps that are invisible in the steam. The webs are strong enough to hold a mammoth, and the creature's sulfur-breath ensures that webbed prey suffocates before it can escape.
-- **The Sacrifice-Taker:** Drawing from Cherufe, the Ushioni demands tribute  -  not from individuals, but from entire communities. A Fexric holdfast that fails to leave a monthly offering of refined ore at the creature's vent-entrance will find its geothermal heating-system sabotaged  -  the Ushioni physically blocks the hot-water pipes, freezing entire sections of Frostmaw Holdfast within hours.
+- **The Sacrifice-Taker:** Drawing from Cherufe, the Cheruva demands tribute  -  not from individuals, but from entire communities. A Fexric holdfast that fails to leave a monthly offering of refined ore at the creature's vent-entrance will find its geothermal heating-system sabotaged  -  the Cheruva physically blocks the hot-water pipes, freezing entire sections of Frostmaw Holdfast within hours.
 
 ---
 
-### 93. The Baku
+### 93. The Bakaru
 
 #### 1. Folklore & Setting Roots
 - **Baku (Japanese Yokai):** A strange, chimera-like creature  -  combining elephant-trunk, rhino-eyes, cow-tail, and tiger-legs  -  that devours nightmares. Originally a protective spirit, its image was placed under pillows to prevent bad dreams.
@@ -1617,15 +1617,15 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Nightmare-Eater:** Bakus prowl the sleeping-quarters of Frostmaw Holdfast at night, drawn to individuals suffering from nightmares. They insert their trunk into the sleeper's dreamscape and literally consume the nightmare  -  the sleeper wakes refreshed, with no memory of bad dreams.
-- **The Sacred-Huaca:** A Baku that takes up residence in a section of the Holdfast makes that section sacred ground  -  huaca. No violence, no Wyrd-corruption, and no supernatural threat can enter the space it claims. Fexric Kethrin engineers compete fiercely to have their workshop-quarters near a resident Baku, knowing the creature's sacred-aura protects their equipment from sabotage.
+- **The Sacred-Huaca:** A Bakaru that takes up residence in a section of the Holdfast makes that section sacred ground  -  huaca. No violence, no Wyrd-corruption, and no supernatural threat can enter the space it claims. Fexric Kethrin engineers compete fiercely to have their workshop-quarters near a resident Bakaru, knowing the creature's sacred-aura protects their equipment from sabotage.
 
 ---
 
-### 94. The Nekomata
+### 94. The Nekomai
 
 #### 1. Folklore & Setting Roots
 - **Nekomata (Japanese Yokai):** A cat-Yokai that, upon reaching old age, splits into two tails and gains necromantic power. It can raise the dead and control them like puppets, particularly targeting fresh corpses at funerals.
-- **Kcoa-variant (Andean/Incan):** Drawing from the storm-cat spirit (already in the bestiary)  -  the Nekomata is a darker, mountain-adapted relative that combines weather-spirit with necromancer.
+- **Kcoa-variant (Andean/Incan):** Drawing from the storm-cat spirit (already in the bestiary)  -  the Nekomai is a darker, mountain-adapted relative that combines weather-spirit with necromancer.
 
 #### 2. Physical Design
 - **Appearance:** A large wildcat with a split tail  -  two tails that move independently, each crackling with static electricity. Its fur is dark storm-grey, and lightning arcs between its tail-tips when it is agitated.
@@ -1633,12 +1633,12 @@
 - **The Face:** A cat's face with an unsettling, intelligent expression. Its pupils are vertical slits in a sea of corpse-green. When it opens its mouth, the interior glows with the same green light  -  a necromantic furnace.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Corpse-Puppeteer:** Nekomatas animate the frozen dead of the Peaks  -  corpses lost in the eternal blizzard, buried in snow-slides, or sealed in collapsed mine-shafts. The animated dead walk in jerky, puppet-like fashion, their movements synchronized to the flicking of the Nekomata's twin tails.
-- **The Storm-Necromancer:** It can raise the dead only during storms  -  the lightning provides the energy for animation. A Nekomata with a sufficiently large storm can animate dozens of corpses simultaneously, sending them shuffling toward mountain-camps in a macabre, lightning-lit procession. The Groven burn their dead rather than burying them specifically to deny the Nekomata its raw material.
+- **The Corpse-Puppeteer:** Nekomatas animate the frozen dead of the Peaks  -  corpses lost in the eternal blizzard, buried in snow-slides, or sealed in collapsed mine-shafts. The animated dead walk in jerky, puppet-like fashion, their movements synchronized to the flicking of the Nekomai's twin tails.
+- **The Storm-Necromancer:** It can raise the dead only during storms  -  the lightning provides the energy for animation. A Nekomai with a sufficiently large storm can animate dozens of corpses simultaneously, sending them shuffling toward mountain-camps in a macabre, lightning-lit procession. The Groven burn their dead rather than burying them specifically to deny the Nekomai its raw material.
 
 ---
 
-### 95. The Futakuchi
+### 95. The Futakuri
 
 #### 1. Folklore & Setting Roots
 - **Futakuchi (Japanese Yokai):** The "two-mouthed woman"  -  a woman with a second, fully functional mouth hidden beneath the hair on the back of her head. It demands to be fed, consuming enormous quantities of food. The Yokai is born from stinginess or starvation.
@@ -1650,8 +1650,8 @@
 - **The Face:** From the front: a thin, haunted face with sunken eyes and cracked lips, an expression of perpetual shame and apology. From behind: a monstrous, gaping maw that grins, drools, and screams.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Ration-Devourer:** Futakuchis infest Fexric food-stores, consuming three times the rations of a normal person while appearing to eat almost nothing. The second mouth feeds at night, consuming dried moss-bread, ram-meat, and whiteout-distillate in enormous quantities. A storage-area with a Futakuchi will be emptied within a week.
-- **The Guilt-Mouth:** The second mouth speaks the hunger of the mountain itself  -  the Peaks' voracious appetite for the resources that mortals extract from it. Kethrin guild-masters who encounter a Futakuchi in their stores are said to have taken more than their share  -  the creature is a manifestation of greed given flesh.
+- **The Ration-Devourer:** Futakuchis infest Fexric food-stores, consuming three times the rations of a normal person while appearing to eat almost nothing. The second mouth feeds at night, consuming dried moss-bread, ram-meat, and whiteout-distillate in enormous quantities. A storage-area with a Futakuri will be emptied within a week.
+- **The Guilt-Mouth:** The second mouth speaks the hunger of the mountain itself  -  the Peaks' voracious appetite for the resources that mortals extract from it. Kethrin guild-masters who encounter a Futakuri in their stores are said to have taken more than their share  -  the creature is a manifestation of greed given flesh.
 
 ---
 
@@ -1672,7 +1672,7 @@
 
 ---
 
-### 97. The Tsuchigumo
+### 97. The Tsuchira
 
 #### 1. Folklore & Setting Roots
 - **Tsuchigumo (Japanese Yokai):** The "earth-spider"  -  a massive, ancient spider-Yokai that lives underground and uses illusions to lure victims into its lair. Historically associated with rebellious indigenous clans who were demonized as spider-people.
@@ -1685,11 +1685,11 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Treasure-Web:** Tsuchigumos web the richest mineral-veins in the Peaks with golden silk that is stronger than steel cable. The webs are laced with metallic venom  -  anyone who touches the silk finds their blood slowly crystallizing into metallic compounds. The creature feeds on the minerals extracted from the bodies of miners who try to steal its guarded treasures.
-- **The Illusion-Lair:** It projects illusions of rich, unguarded mineral-veins, luring miners into its web-tunnels. The Fexric have developed a specific protocol: any vein that appears "too good to be true" is marked with a copper-flag and reported. The Drall salvage-folk, who are braver (or more desperate), sometimes attempt to harvest Tsuchigumo-web  -  a single strand of gold-silk is worth a year's wages.
+- **The Illusion-Lair:** It projects illusions of rich, unguarded mineral-veins, luring miners into its web-tunnels. The Fexric have developed a specific protocol: any vein that appears "too good to be true" is marked with a copper-flag and reported. The Drall salvage-folk, who are braver (or more desperate), sometimes attempt to harvest Tsuchira-web  -  a single strand of gold-silk is worth a year's wages.
 
 ---
 
-### 98. The Akaname
+### 98. The Akanira
 
 #### 1. Folklore & Setting Roots
 - **Akaname (Japanese Yokai):** The "filth-licker"  -  a small, red-skinned Yokai with a long, prehensile tongue that sneaks into dirty bathrooms at night to lick the grime off walls and floors. It is a creature of hygiene born from neglect.
@@ -1701,15 +1701,15 @@
 - **The Face:** A pointed, goblin-like face dominated by its enormous mouth and extending tongue. Its eyes are large, yellow, and perpetually scanning surfaces for grime. Its expression is one of fastidious concentration.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Pipeline-Cleaner:** Akanames infest the Fexric pipeline-network, slithering through the narrow pipes at night and licking the accumulated mineral-scale from the interior walls. A pipeline with an Akaname-infestation flows three times more efficiently. The Kethrin engineers consider them essential maintenance-creatures and design access-ports specifically for their use.
-- **The Taboo-Enforcer:** Like the Tunche, they enforce rules  -  specifically, the rules of cleanliness. A Fexric workshop that neglects basic hygiene (spilled reagents, corroded tools, uncleaned spills) will find its Akaname-abandoning it, moving to a cleaner workshop. The departure of the Akaname is considered a catastrophic omen  -  within a month, the abandoned workshop's pipes will clog, its tools will corrode, and its machines will fail.
+- **The Pipeline-Cleaner:** Akanames infest the Fexric pipeline-network, slithering through the narrow pipes at night and licking the accumulated mineral-scale from the interior walls. A pipeline with an Akanira-infestation flows three times more efficiently. The Kethrin engineers consider them essential maintenance-creatures and design access-ports specifically for their use.
+- **The Taboo-Enforcer:** Like the Tunche, they enforce rules  -  specifically, the rules of cleanliness. A Fexric workshop that neglects basic hygiene (spilled reagents, corroded tools, uncleaned spills) will find its Akanira-abandoning it, moving to a cleaner workshop. The departure of the Akanira is considered a catastrophic omen  -  within a month, the abandoned workshop's pipes will clog, its tools will corrode, and its machines will fail.
 
 ---
 
-### 99. The Inugami
+### 99. The Inugara
 
 #### 1. Folklore & Setting Roots
-- **Inugami (Japanese Yokai):** A dog-spirit bound to a family through a dark ritual  -  a powerful, loyal guardian-spirit that can possess humans and enact revenge. Inugami-families were feared and ostracized in Japanese villages.
+- **Inugami (Japanese Yokai):** A dog-spirit bound to a family through a dark ritual  -  a powerful, loyal guardian-spirit that can possess humans and enact revenge. Inugara-families were feared and ostracized in Japanese villages.
 - **CuYSith variant (Andean tradition):** Drawing from the sacred dogs of pre-Columbian cultures  -  the Xoloitzcuintli (Mexican hairless dog) and the Incan practice of burying dogs with their masters as guides to the afterlife.
 
 #### 2. Physical Design
@@ -1718,12 +1718,12 @@
 - **The Face:** A loyal, intelligent dog-face with sorrowful, glowing blue eyes. Its expression is one of eternal vigilance  -  it is always watching, always waiting, always protecting. It can project its face onto any reflective surface, allowing it to watch over multiple locations simultaneously.
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
-- **The Family-Bound:** Inugamis are bound to specific Groven families through ancient blood-rituals. They serve as invisible guardians, protecting the family's home on the Ancestor-Spans, alerting them to approaching threats, and exacting revenge on those who harm their charges. A Groven family without an Inugami is considered vulnerable and poor.
-- **The Afterlife-Guide:** When a bound family-member dies, the Inugami guides their soul through the dangerous mountain-passes of the spirit-world, ensuring safe passage to the afterlife. This is the Inugami's most sacred duty  -  and the one that earns it the family's enduring devotion. The bond persists beyond death: when the Inugami itself finally fades, its essence is absorbed into the family's Ancestor-Span, strengthening the bone-bridge's structure.
+- **The Family-Bound:** Inugamis are bound to specific Groven families through ancient blood-rituals. They serve as invisible guardians, protecting the family's home on the Ancestor-Spans, alerting them to approaching threats, and exacting revenge on those who harm their charges. A Groven family without an Inugara is considered vulnerable and poor.
+- **The Afterlife-Guide:** When a bound family-member dies, the Inugara guides their soul through the dangerous mountain-passes of the spirit-world, ensuring safe passage to the afterlife. This is the Inugara's most sacred duty  -  and the one that earns it the family's enduring devotion. The bond persists beyond death: when the Inugara itself finally fades, its essence is absorbed into the family's Ancestor-Span, strengthening the bone-bridge's structure.
 
 ---
 
-### 100. The Ittan
+### 100. The Itanna
 
 #### 1. Folklore & Setting Roots
 - **Ittan-Momen (Japanese Yokai):** The "one-tan (cloth) cotton"  -  a long, white strip of cotton cloth that flies through the night sky and wraps around faces, smothering them. Despite its terrifying behavior, it is generally considered a harmless Yokai that can be befriended.
@@ -1736,7 +1736,7 @@
 
 #### 3. Ecology: Why It Resides in Cragjaw Peaks
 - **The Message-Bearer:** Ittans serve as messengers between the Groven's scattered Span-communities. They carry spoken words woven into their fabric  -  a Groven elder whispers a message into one end of the cloth, and the words travel the length of the fabric, emerging from the other end when it arrives at its destination. The messages cannot be intercepted or forged.
-- **The Smotherer:** When threatened, the Ittan wraps around the attacker's face, smothering them in warm, fragrant cloth. The victim does not die  -  they are put into a deep, dreamless sleep that lasts exactly one day. The Banner uses this ability to protect Groven children from blizzard-exposure, wrapping them in its warm fabric until help arrives.
+- **The Smotherer:** When threatened, the Itanna wraps around the attacker's face, smothering them in warm, fragrant cloth. The victim does not die  -  they are put into a deep, dreamless sleep that lasts exactly one day. The Banner uses this ability to protect Groven children from blizzard-exposure, wrapping them in its warm fabric until help arrives.
 
 
 ---
@@ -1747,10 +1747,10 @@
 
 ---
 
-### 101. The Almas
+### 101. The Almara
 
 #### 1. Folklore & Setting Roots
-- **Almas/Almasty (Mongolian/Central Asian cryptid):** A wildman of the Mongolian and Caucasus mountains  -  a hairy, bipedal hominid reported for centuries. Unlike the violent nature of European wildmen, the Almas is described as shy, observant, and occasionally helpful.
+- **Almas/Almasty (Mongolian/Central Asian cryptid):** A wildman of the Mongolian and Caucasus mountains  -  a hairy, bipedal hominid reported for centuries. Unlike the violent nature of European wildmen, the Almara is described as shy, observant, and occasionally helpful.
 - **Xing-Xing (Chinese mythology):** A mythical ape-creature of Chinese bestiaries  -  described as a large, intelligent primate capable of human speech but choosing silence. Some versions describe it as a tree-spirit that takes ape-form.
 
 #### 2. Physical Design
@@ -1760,11 +1760,11 @@
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
 - **The Steppe-Watcher:** Almass observe nomadic clans from the grass-ridge, watching their migrations, their herd-management, and their ancestor-mound rituals. They never interfere  -  they only watch, remember, and occasionally leave helpful gifts: a dead predator at the edge of camp, a pile of dry firewood, a cairn marking a hidden water-source.
-- **The Silent-Witness:** They are the Vale's living memory  -  each Almas remembers the steppe's history going back centuries, observing the rise and fall of clans, the shifting of migration-routes, and the slow erasure of stars from the sky. The Astril believe the Almas carry the memories the sky has lost  -  the constellation-patterns that were traded away are preserved in their ancient minds.
+- **The Silent-Witness:** They are the Vale's living memory  -  each Almara remembers the steppe's history going back centuries, observing the rise and fall of clans, the shifting of migration-routes, and the slow erasure of stars from the sky. The Astril believe the Almara carry the memories the sky has lost  -  the constellation-patterns that were traded away are preserved in their ancient minds.
 
 ---
 
-### 102. The Tulpar
+### 102. The Tulpara
 
 #### 1. Folklore & Setting Roots
 - **Tulpar (Turkic mythology):** The winged horse of Turkic legend  -  a divine steed with wings that could fly across the heavens. The winged horse remains a central symbol of Turkic identity (featured on the Mongolian coat of arms).
@@ -1776,8 +1776,8 @@
 - **The Face:** A noble, equine face of impossible beauty  -  large, intelligent eyes that contain the entire night sky (the sky the Vale has lost), reflecting stars and constellations that no longer exist above. Its expression is wild, free, and heartbreakingly nostalgic.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Sky-Memory:** The Tulpar is the living memory of the stars House Ordavan traded away. Its scale-patterns reproduce the exact constellation-map that was erased from the sky. The Astril can read these patterns by pressing their crystalline skin against the horse's flank  -  absorbing the celestial knowledge as if it were starlight.
-- **The Herd-Leader:** They lead wild horse-herds across the steppe, guiding migrations along routes the stars once illuminated. A clan that spots a Tulpar leading a herd knows to follow  -  the creature's instinctive route always leads to water, good grazing, and safe camp-sites. Capturing a Tulpar is impossible  -  it dissolves into starlight when touched by a bridle.
+- **The Sky-Memory:** The Tulpara is the living memory of the stars House Ordavan traded away. Its scale-patterns reproduce the exact constellation-map that was erased from the sky. The Astril can read these patterns by pressing their crystalline skin against the horse's flank  -  absorbing the celestial knowledge as if it were starlight.
+- **The Herd-Leader:** They lead wild horse-herds across the steppe, guiding migrations along routes the stars once illuminated. A clan that spots a Tulpara leading a herd knows to follow  -  the creature's instinctive route always leads to water, good grazing, and safe camp-sites. Capturing a Tulpara is impossible  -  it dissolves into starlight when touched by a bridle.
 
 ---
 
@@ -1793,32 +1793,32 @@
 - **The Face:** Half a face is a weathered, ancient human visage  -  an old khan, stern and fair. The other half is a bare skull with glowing amber eye-sockets. When it speaks, the voice comes from both halves simultaneously  -  living and dead, judgment and mercy.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Dead-Judge:** The Erlik presides over the Ancestor-Mounds, judging the souls of the recently dead. Ordan nomads bring their dead to the central Mound-chamber and leave them for seven days. If the body is gone, the soul has been judged worthy and guided to the afterlife. If the body remains, the soul has been found wanting  -  it is condemned to wander the steppe as a Hungry Child.
+- **The Dead-Judge:** The Erlik presides over the Ancestor-Mounds, judging the souls of the recently dead. Ordan nomads bring their dead to the central Mound-chamber and leave them for seven days. If the body is gone, the soul has been judged worthy and guided to the afterlife. If the body remains, the soul has been found wanting  -  it is condemned to wander the steppe as a Munkhai.
 - **The Debt-Weigher:** Drawing from Yanluo Wang, it weighs not just sin but debt  -  every unfulfilled promise, every broken oath, every unpaid obligation across a person's entire life. The Ordan approach the Judge with specific petitions: to transfer ancestral debt, to absolve a family curse, to confirm a successor's claim. The Judge's verdicts are absolute and cannot be appealed.
 
 ---
 
-### 104. The Burkhan-Wind
+### 104. The Burkhal
 
 #### 1. Folklore & Setting Roots
 - **Burkhan (Mongolian/Turkic tradition):** The spiritual entities of Mongolian shamanism  -  not gods but sacred presences that dwell in specific natural features (mountains, rivers, certain ancient trees). They are honored with offerings of milk, vodka, and blue silk scarves (khadag).
 - **Feilian / Feng Bo (Chinese mythology):** The Earl of Wind  -  a deity of wind depicted as a stag with a bird's head and snake's tail, or as an old man riding a tiger. He controlled the winds and could be petitioned for favorable sailing or farming weather.
 
 #### 2. Physical Design
-- **Appearance:** A presence rather than a form  -  the Burkhan-Wind is visible only as a disturbance in the steppe-grass: a circular clearing where the grass bends inward, then outward, in a continuous breathing pattern. Within the circle, the air shimmers.
+- **Appearance:** A presence rather than a form  -  the Burkhal is visible only as a disturbance in the steppe-grass: a circular clearing where the grass bends inward, then outward, in a continuous breathing pattern. Within the circle, the air shimmers.
 - **Aesthetic Details:** At the center of the circle, blue silk khadag-scarves are tied to a sacred pole. The scarves never fray, never fade, and multiply  -  a single offering-scarf becomes three within a month. The air within the circle smells of fermented mare's milk and burning juniper.
-- **The Face:** When it manifests, the Burkhan-Wind takes the form of a column of compressed air shaped vaguely like an old man riding a stag. The face is ancient, serene, and composed entirely of moving wind  -  features that shift and blur continuously.
+- **The Face:** When it manifests, the Burkhal takes the form of a column of compressed air shaped vaguely like an old man riding a stag. The face is ancient, serene, and composed entirely of moving wind  -  features that shift and blur continuously.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Sacred-Circle:** Each Burkhan-Wind is bound to a specific sacred-site on the steppe  -  a hill, a spring, a particular stretch of grass. Its presence makes the surrounding area fertile: grass grows taller, herds are healthier, and water-sources remain pure. Ordan nomads redirect their migration-routes to pass through Burkhan-Wind territories, leaving offerings of milk and vodka at the sacred poles.
-- **The Wind-Petitioner:** The Burkhan-Wind can be petitioned for favorable weather  -  specifically, for the steppe-winds that disperse fog and drive the migration. A clan's shaman ties a khadag to the sacred pole and throat-sings a specific melody. If the offering is accepted, the scarf multiplies (a sign of favor). If rejected, the scarf disintegrates  -  a warning that the clan must change its migration-route or face disaster.
+- **The Sacred-Circle:** Each Burkhal is bound to a specific sacred-site on the steppe  -  a hill, a spring, a particular stretch of grass. Its presence makes the surrounding area fertile: grass grows taller, herds are healthier, and water-sources remain pure. Ordan nomads redirect their migration-routes to pass through Burkhal territories, leaving offerings of milk and vodka at the sacred poles.
+- **The Wind-Petitioner:** The Burkhal can be petitioned for favorable weather  -  specifically, for the steppe-winds that disperse fog and drive the migration. A clan's shaman ties a khadag to the sacred pole and throat-sings a specific melody. If the offering is accepted, the scarf multiplies (a sign of favor). If rejected, the scarf disintegrates  -  a warning that the clan must change its migration-route or face disaster.
 
 ---
 
-### 105. The Nian
+### 105. The Nianra
 
 #### 1. Folklore & Setting Roots
-- **Nian (Chinese mythology):** A fearsome beast that appeared each New Year to terrorize villages  -  consuming crops, livestock, and children. It was driven away by noise (firecrackers), the color red, and fire. The Chinese New Year celebration originated from the rituals of Nian-suppression.
+- **Nian (Chinese mythology):** A fearsome beast that appeared each New Year to terrorize villages  -  consuming crops, livestock, and children. It was driven away by noise (firecrackers), the color red, and fire. The Chinese New Year celebration originated from the rituals of Nianra-suppression.
 - **Erlik's Herd (Turkic/Siberian folklore):** In Turkic mythology, Erlik (god of death) commanded herds of monstrous animals  -  cattle with iron horns, horses with fiery manes, and other beasts that roamed the underworld steppes.
 
 #### 2. Physical Design
@@ -1832,10 +1832,10 @@
 
 ---
 
-### 106. The Jiangshi
+### 106. The Jiangsha
 
 #### 1. Folklore & Setting Roots
-- **Jiangshi (Chinese folklore):** The "hopping corpse"  -  a reanimated body that moves by hopping with its arms outstretched. It drains the life-energy (qi) of the living. Jiangshi are created when a person dies far from home and the body is not properly rested.
+- **Jiangshi (Chinese folklore):** The "hopping corpse"  -  a reanimated body that moves by hopping with its arms outstretched. It drains the life-energy (qi) of the living. Jiangsha are created when a person dies far from home and the body is not properly rested.
 - **Ubagan (Turkic/Siberian mythology):** An underworld spirit of Turkic tradition  -  a restless entity that dwells in the realm beneath the steppe, sometimes emerging to harass the living or complete unfinished business.
 
 #### 2. Physical Design
@@ -1844,12 +1844,12 @@
 - **The Face:** A frozen death-mask  -  mouth open in a silent scream, eyes wide and milky-white, jaw locked. The only movement is the paper talisman, which flutters with each hop. Despite the rigid expression, intelligence flickers behind those dead eyes  -  the Ubagan's awareness trapped in a body it can barely control.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Hopping-Dead:** Jiangshi emerge from the Ancestor-Mounds when the dead have unfinished business  -  usually an unfulfilled migration-route or an undelivered message to a living relative. They hop in straight lines across the steppe, never deviating, pursuing their unfinished task with single-minded determination. They drain the qi of the living they encounter, extending their arms and draining life-force through touch.
-- **The Talisman-Control:** The paper talisman on their foreheads is their weakness  -  if removed, the Jiangshi collapses, freed from its undeath. If replaced with a new talisman inscribed with the correct ancestor-name, the Jiangshi is redirected toward a new task. The Ordan use this technique to deploy Jiangshi as guards  -  stationing them at strategic points on the migration-route where their qi-draining arms deter predators and raiders.
+- **The Hopping-Dead:** Jiangsha emerge from the Ancestor-Mounds when the dead have unfinished business  -  usually an unfulfilled migration-route or an undelivered message to a living relative. They hop in straight lines across the steppe, never deviating, pursuing their unfinished task with single-minded determination. They drain the qi of the living they encounter, extending their arms and draining life-force through touch.
+- **The Talisman-Control:** The paper talisman on their foreheads is their weakness  -  if removed, the Jiangsha collapses, freed from its undeath. If replaced with a new talisman inscribed with the correct ancestor-name, the Jiangsha is redirected toward a new task. The Ordan use this technique to deploy Jiangsha as guards  -  stationing them at strategic points on the migration-route where their qi-draining arms deter predators and raiders.
 
 ---
 
-### 107. The Taotie-Gorge
+### 107. The Taotira
 
 #### 1. Folklore & Setting Roots
 - **Taotie (Chinese mythology):** One of the four evil-creatures of Chinese myth  -  a gluttonous, insatiable monster often depicted on ancient bronze vessels as a face with a body that is all mouth. It represents the sin of greed and the horror of consumption without limit.
@@ -1861,12 +1861,12 @@
 - **The Face:** The entire creature IS the face  -  the classic Taotie pattern, where the body and face are indistinguishable. Two small, vestigial eyes are hidden deep within the spiral of teeth, glowing dull red. The expression is one of permanent, bottomless hunger.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Herd-Devourer:** Taotie-Gorges bury themselves in the tall steppe-grass, opening their massive mouths to create pit-traps. The Ordan herds walk across what appears to be solid ground  -  and entire groups of animals plunge into the gaping maw, swallowed whole. A single Taotie-Gorge can consume an entire herd of fifty woolly-beasts before it is sated.
+- **The Herd-Devourer:** Taotie-Gorges bury themselves in the tall steppe-grass, opening their massive mouths to create pit-traps. The Ordan herds walk across what appears to be solid ground  -  and entire groups of animals plunge into the gaping maw, swallowed whole. A single Taotira can consume an entire herd of fifty woolly-beasts before it is sated.
 - **The Boq-Pack:** They hunt cooperatively  -  three or four Taotie-Gorges arrange themselves in a line across a migration-route, creating a wall of hidden pit-traps. Once the herd has been thinned, the Taoties emerge from their pits and pursue the survivors across the open steppe, moving with alarming speed for their bulk. The Ordan have developed specific anti-Taotie tactics: setting the steppe-grass on fire to reveal the buried mouths before the herd arrives.
 
 ---
 
-### 108. The Baize
+### 108. The Baizan
 
 #### 1. Folklore & Setting Roots
 - **Bai Ze / Hakutaku (Chinese mythology):** An extremely wise, benevolent beast that appeared to the Yellow Emperor and dictated to him the forms and natures of all 11,520 supernatural creatures in the world. It had a human face, six horns, and nine eyes.
@@ -1878,12 +1878,12 @@
 - **The Face:** A human face on a bovine body  -  high cheekbones, a wise, lined brow, and a mouth that curves in a gentle, eternal smile. Its primary eyes (the pair on its face) are deep brown, full of compassion and ancient knowledge. The seven additional eyes are scattered across its flanks, each watching a different direction.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Cataloguer:** The Baize is a living bestiary  -  it knows every creature in the Vale, their habits, their weaknesses, and their significance. Ordan shamans seek it out to identify unknown creatures or to learn how to deal with a specific predator. The Bai-Ze speaks in a calm, measured voice, and its knowledge is always accurate.
+- **The Cataloguer:** The Baizan is a living bestiary  -  it knows every creature in the Vale, their habits, their weaknesses, and their significance. Ordan shamans seek it out to identify unknown creatures or to learn how to deal with a specific predator. The Bai-Ze speaks in a calm, measured voice, and its knowledge is always accurate.
 - **The Omen-Beast:** Its appearance is always significant  -  it appears only before major events: a devastating Wyrd-storm, a shift in the migration-pattern, the birth of a significant Astril child. The specific position of its nine eyes (which colors face the observer, which face away) encodes the nature and severity of the coming event. The Ordan have developed an entire divination-system based on Bai-Ze eye-positions.
 
 ---
 
-### 109. The Zilant-Wing
+### 109. The Zilvar
 
 #### 1. Folklore & Setting Roots
 - **Zilant (Turkic/Tatar mythology):** A winged serpent-dragon of Turkic tradition  -  the legendary founding-creature of Kazan. It had a chicken-like head, bat-wings, and a serpentine body, representing both the dangers and the protective spirit of the land.
@@ -1896,11 +1896,11 @@
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
 - **The Wind-Rider:** Zilant-Wings ride the thermal currents above the steppe, never landing except to nest in the highest points of the Ancestor-Mounds. Their singing-wing flight produces a resonant frequency that the Ordan use as a navigation-aid  -  each Zilant's wing-song has a unique pitch that corresponds to its territory, allowing nomads to navigate by ear even under the starless sky.
-- **The Mound-Guardian:** They nest exclusively on Ancestor-Mounds, guarding the interred dead from grave-robbers and Wyrd-corruption. A Zilant-guarded Mound never produces a Jiangshi  -  the dragon's presence ensures the dead rest properly. The Ordan consider the presence of a Zilant on their clan's Mound the highest possible blessing  -  it means the ancestors are content and watching over the living.
+- **The Mound-Guardian:** They nest exclusively on Ancestor-Mounds, guarding the interred dead from grave-robbers and Wyrd-corruption. A Zilant-guarded Mound never produces a Jiangsha  -  the dragon's presence ensures the dead rest properly. The Ordan consider the presence of a Zilant on their clan's Mound the highest possible blessing  -  it means the ancestors are content and watching over the living.
 
 ---
 
-### 110. The Susulu-Spring
+### 110. The Suvara
 
 #### 1. Folklore & Setting Roots
 - **Su Iyeleri / Water-Spirits (Turkic folklore):** The water-spirits of Turkic tradition  -  female entities who guarded springs, wells, and rivers. They could grant fertility to women, heal diseases, or curse those who polluted their waters.
@@ -1912,12 +1912,12 @@
 - **The Face:** A motherly face of radiant kindness  -  round cheeks, warm eyes the color of clear water over sand, and a mouth that curves in a gentle, welcoming smile. When she is angry (at water-pollution or spring-defilement), her face hardens into cold, terrible beauty, and her eyes turn the grey of a flash-flood.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Spring-Mother:** Each Susulu-Spring is bound to a specific water-source on the steppe  -  a spring, well, or oasis. Her presence guarantees the water remains pure, abundant, and uncontaminated. In the Vale, where water-sources are scattered and precious, a Susulu-guarded spring is worth more than gold.
+- **The Spring-Mother:** Each Suvara is bound to a specific water-source on the steppe  -  a spring, well, or oasis. Her presence guarantees the water remains pure, abundant, and uncontaminated. In the Vale, where water-sources are scattered and precious, a Susulu-guarded spring is worth more than gold.
 - **The Dragon-Raiser:** She raises tiny, serpent-dragons  -  living water-purifiers that swim through underground aquifers, filtering contaminants through their bodies. A well stocked with Susulu-dragons produces water that heals minor ailments and extends life. The Ordan bring their sick to Susulu-springs for healing, offering milk and silk in exchange.
 
 ---
 
-### 111. The Dijiang-Chaos
+### 111. The Dijanu
 
 #### 1. Folklore & Setting Roots
 - **Dijiang (Chinese mythology):** A faceless, limbless entity from the mythological Shan Hai Jing ("Classic of Mountains and Seas")  -  a creature like a crimson bag with six legs, four wings, and no face, yet it could sing and dance. It was associated with primordial chaos.
@@ -1929,12 +1929,12 @@
 - **The Face:** There is no face  -  and this is the most unsettling aspect. The creature is aware, intelligent, and communicative (it "sings" in complex, multi-tonal harmonies) despite having no sensory organs. It perceives the world through unknown means  -  possibly through vibration, possibly through direct perception of reality's structure.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Chaos-Bag:** The Dijiang-Chaos is drawn to areas of entropy and disorder  -  torn yurt-camps, stampede-sites, areas recently struck by Wyrd-storms. It does not cause chaos; it is attracted to it, feeding on the residual energy of disruption. After feeding, it "dances"  -  and the geometric patterns it leaves in the grass are actually stabilizing runes that restore order to the disrupted area.
+- **The Chaos-Bag:** The Dijanu is drawn to areas of entropy and disorder  -  torn yurt-camps, stampede-sites, areas recently struck by Wyrd-storms. It does not cause chaos; it is attracted to it, feeding on the residual energy of disruption. After feeding, it "dances"  -  and the geometric patterns it leaves in the grass are actually stabilizing runes that restore order to the disrupted area.
 - **The Faceless-Singer:** It sings a continuous, multi-tonal harmony that has a profound psychological effect: those who hear it experience a temporary dissolution of ego, seeing themselves as part of the steppe's vast, interconnected ecosystem. The Ordan consider hearing the Dijiang's song a religious experience  -  shamans seek it out deliberately, sitting near it for hours to receive visions of the steppe's deep-ecology.
 
 ---
 
-### 112. The Fenghuang-Migrate
+### 112. The Fenghua
 
 #### 1. Folklore & Setting Roots
 - **Fenghuang (Chinese mythology):** The Chinese phoenix  -  not a creature of fire but of virtue, beauty, and cosmic harmony. It appears only in times of perfect peace and just governance. Its plumage contains the five colors of the five elements.
@@ -1946,12 +1946,12 @@
 - **The Face:** A noble, eagle-like face with a curved beak of polished jade and eyes that contain every color simultaneously  -  a swirling, prismatic iris that projects an aura of absolute serenity. Its expression is regal, timeless, and utterly untouchable.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Migration-Herald:** The Fenghuang-Migrate appears only during the transition between seasons  -  its arrival signals a shift in the steppe's climate. Ordan nomads base their entire migration-calendar on Fenghuang-sightings: when it flies north, the herds move north; when it flies south, the clans pack and follow. Its predictions are infallible.
+- **The Migration-Herald:** The Fenghua appears only during the transition between seasons  -  its arrival signals a shift in the steppe's climate. Ordan nomads base their entire migration-calendar on Fenghuang-sightings: when it flies north, the herds move north; when it flies south, the clans pack and follow. Its predictions are infallible.
 - **The Virtue-Beacon:** It lands only in camps where the Ordan have maintained perfect social harmony  -  no unresolved feuds, no broken oaths, no neglected elders. A Fenghuang landing is the highest social validation a clan can receive. The feather it leaves behind (it always sheds one) is a treasure beyond price  -  it can purify water, heal disease, and ward the Wyrd. Entire clans have gone to war over possession of a single Fenghuang feather.
 
 ---
 
-### 113. The Qiongqi-Scourge
+### 113. The Qionga
 
 #### 1. Folklore & Setting Roots
 - **Qiongqi (Chinese mythology):** One of the four evil-creatures of Chinese myth  -  a winged tiger-like beast with sharp, boar-tusks that feeds on honest people and rewards the wicked. It represents the inversion of justice.
@@ -1963,12 +1963,12 @@
 - **The Face:** A tiger-face distorted by malice  -  narrowed eyes of sulfur-yellow, a broad nose, and an oversized mouth that splits the face in half when opened. The tusks protrude upward, framing the nose like ivory fence-posts. Its expression is one of perpetual, gleeful cruelty.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Justice-Inverter:** The Qiongqi-Scourge is drawn to injustice  -  but perversely, it rewards the wicked and punishes the good. It attacks honest, hardworking Ordan camps, scattering their herds and injuring their people, while ignoring (or even protecting) the camps of raiders, thieves, and oath-breakers. The Ordan have learned that appearing dishonest is a survival-tactic in Qiongqi-territory.
-- **The Sky-Devourer:** Its massive bulk and powerful wings allow it to swoop down on horse-herds, carrying off full-grown stallions in its talons. A single Qiongqi can decimate a clan's entire breeding-stock in a week. The only effective defense is the presence of a Zilant-Wing (creature 109)  -  the two creatures are natural enemies, and the Qiongqi will not enter a Zilant's territory.
+- **The Justice-Inverter:** The Qionga is drawn to injustice  -  but perversely, it rewards the wicked and punishes the good. It attacks honest, hardworking Ordan camps, scattering their herds and injuring their people, while ignoring (or even protecting) the camps of raiders, thieves, and oath-breakers. The Ordan have learned that appearing dishonest is a survival-tactic in Qiongqi-territory.
+- **The Sky-Devourer:** Its massive bulk and powerful wings allow it to swoop down on horse-herds, carrying off full-grown stallions in its talons. A single Qiongqi can decimate a clan's entire breeding-stock in a week. The only effective defense is the presence of a Zilvar (creature 109)  -  the two creatures are natural enemies, and the Qiongqi will not enter a Zilant's territory.
 
 ---
 
-### 114. The Zhenniao-Toxin
+### 114. The Umaya
 
 #### 1. Folklore & Setting Roots
 - **Zhenniao (Chinese mythology):** The "poison-feather bird"  -  a legendary creature whose feathers, blood, and flesh were so toxic that simply drinking from a river where it had bathed could kill a person. Poison derived from Zhenniao was the most feared assassination-tool in ancient China.
@@ -1980,12 +1980,12 @@
 - **The Face:** A vulture's face elevated to nightmare  -  an oversized, hooked beak surrounded by a crest of spiny, oily feathers. Its eyes are solid black  -  no iris, no sclera  -  like two holes in reality. A purple liquid weeps continuously from the corners of its eyes.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Poison-Rain:** The Zhenniao-Toxin's mere presence poisons the environment  -  its feathers shed oily toxin that contaminates grass, water, and soil. A Zhenniao roost becomes a dead-zone: no grass grows, no animal drinks, and the air itself becomes toxic to breathe. These dead-zones are identifiable by the purple-tinged dead grass in an otherwise golden steppe.
+- **The Poison-Rain:** The Umaya's mere presence poisons the environment  -  its feathers shed oily toxin that contaminates grass, water, and soil. A Zhenniao roost becomes a dead-zone: no grass grows, no animal drinks, and the air itself becomes toxic to breathe. These dead-zones are identifiable by the purple-tinged dead grass in an otherwise golden steppe.
 - **The Assassination-Venom:** The Ordan have a fraught relationship with the Zhenniao  -  its venom is the most potent weapon they possess. Skilled hunters (wearing full protective hide-suits) collect shed feathers and harvest the purple eye-tears, which are then distilled into assassination-poisons used in inter-clan warfare. The mere threat of Zhenniao-poison has prevented more wars than any negotiation.
 
 ---
 
-### 115. The Ubagan-Crystal
+### 115. The Ubakhan
 
 #### 1. Folklore & Setting Roots
 - **Ubagan (Turkic/Siberian mythology):** An underworld spirit  -  a being of the subterranean realm who sometimes emerged through cracks in the earth. Ubagan were associated with minerals, underground water, and the secrets buried beneath the steppe.
@@ -2002,7 +2002,7 @@
 
 ---
 
-### 116. The Qoraigarash
+### 116. The Jiaora
 
 #### 1. Folklore & Setting Roots
 - **Khyargas Sea-Monster (Mongolian folklore):** A legendary creature said to inhabit the vast, ancient lakes of western Mongolia  -  a serpentine beast whose movements caused whirlpools and whose body was covered in precious stones.
@@ -2014,16 +2014,16 @@
 - **The Face:** An elegant dragon-head with a short, blunt muzzle, branching antlers of white jade, and a beard of crystalline filaments. Its expression is regal, ancient, and deeply intelligent  -  it looks at observers with the gaze of something that has lived for millennia.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Lake-Treasure:** The Qoraigarash inhabits the deepest steppe-lakes  -  bodies of water that are said to have no bottom, connecting to underground rivers that flow beneath the entire Vale. Its gemstone-scales are shed annually, collecting on lake-beds in glittering deposits. Ordan divers (the most desperate) harvest these scales, which are traded across Mythrill as the finest gem-quality stones available.
-- **The Storm-Raiser:** When agitated, it coils its massive body through the lake, creating whirlpools that drain the surrounding marshland and generate localized storms. An agitated Qoraigarash can flood an entire valley or drain a lake dry in hours. The Ordan propitiate it with offerings of polished copper mirrors (which fascinate the creature) lowered into the lake on silk cords.
+- **The Lake-Treasure:** The Jiaora inhabits the deepest steppe-lakes  -  bodies of water that are said to have no bottom, connecting to underground rivers that flow beneath the entire Vale. Its gemstone-scales are shed annually, collecting on lake-beds in glittering deposits. Ordan divers (the most desperate) harvest these scales, which are traded across Mythrill as the finest gem-quality stones available.
+- **The Storm-Raiser:** When agitated, it coils its massive body through the lake, creating whirlpools that drain the surrounding marshland and generate localized storms. An agitated Jiaora can flood an entire valley or drain a lake dry in hours. The Ordan propitiate it with offerings of polished copper mirrors (which fascinate the creature) lowered into the lake on silk cords.
 
 ---
 
-### 117. The Ajina
+### 117. The Ajinka
 
 #### 1. Folklore & Setting Roots
 - **Ajina / Albasti (Turkic/Central Asian folklore):** A female demon of the steppe  -  a hairy, pendulous-breasted creature that lurked in the tall grass and attacked lone travelers, particularly men. She could cause illness, infertility, and nightmares.
-- **Hundun variant (Chinese mythology):** The personification of chaos and the primordial state before creation  -  a faceless, formless entity representing the absence of cosmic order. Combined with the Ajina, this creates a creature of entropy and predation that attacks from formlessness.
+- **Hundun variant (Chinese mythology):** The personification of chaos and the primordial state before creation  -  a faceless, formless entity representing the absence of cosmic order. Combined with the Ajinka, this creates a creature of entropy and predation that attacks from formlessness.
 
 #### 2. Physical Design
 - **Appearance:** A towering, vaguely female figure (eight feet) that is perpetually half-dissolved into shadow. Her body is composed of darkness given mass  -  she absorbs light rather than reflecting it.
@@ -2032,11 +2032,11 @@
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
 - **The Grass-Stalker:** She hunts in the deepest, tallest steppe-grass  -  the growth that reaches above a rider's head. She materializes from the shadows between grass-stalks, attacks with shadow-claws that leave wounds that fester with entropy, and dematerializes back into the darkness before her victims can react.
-- **The Nightmare-Sower:** Those who survive an Ajina attack suffer from recurring nightmares for the rest of their lives  -  dreams of drowning in darkness, of their identity dissolving, of the void that existed before the stars (which the Vale no longer has). The Astril Unlit (those born without constellation-light) are immune  -  the Ajina cannot harm someone who carries no light to steal.
+- **The Nightmare-Sower:** Those who survive an Ajinka attack suffer from recurring nightmares for the rest of their lives  -  dreams of drowning in darkness, of their identity dissolving, of the void that existed before the stars (which the Vale no longer has). The Astril Unlit (those born without constellation-light) are immune  -  the Ajinka cannot harm someone who carries no light to steal.
 
 ---
 
-### 118. The Lu-Wu Mountain
+### 118. The Luwara
 
 #### 1. Folklore & Setting Roots
 - **Lu Wu (Chinese mythology):** A divine guardian from the Shan Hai Jing  -  a creature with a tiger's body, nine human heads, and a serpent's tail. It guarded the mythical Kunlun Mountain and controlled the seasons.
@@ -2048,12 +2048,12 @@
 - **The Face:** Nine faces, each unique  -  different ages, genders, and expressions, but all sharing the same bone-structure, as if they are nine aspects of a single entity. The primary head (centermost) is an elder with a long, white beard and eyes of deep, molten gold.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Season-Controller:** The Lu-Wu Mountain's nine heads control the nine micro-seasons of the Vale's climate. By turning a specific head toward a region, it can bring rain, drought, wind, calm, snow, heat, frost, growth, or decay. The Ordan propitiate it with throat-sung hymns directed at each head in sequence.
+- **The Season-Controller:** The Luwara's nine heads control the nine micro-seasons of the Vale's climate. By turning a specific head toward a region, it can bring rain, drought, wind, calm, snow, heat, frost, growth, or decay. The Ordan propitiate it with throat-sung hymns directed at each head in sequence.
 - **The Game-Lord:** Drawing from Kerey-Khan, it controls the steppe's animal-populations  -  particularly the great woolly-herd migrations. If the Lu-Wu is angered (by overhunting, by disrespect to the ancestor-mounds), it turns one of its destructive heads toward the offending clan, causing the herds to change course and bypass their territory entirely. A clan without a herd is a clan that starves.
 
 ---
 
-### 119. The Bura-Stormkin
+### 119. The Buran
 
 #### 1. Folklore & Setting Roots
 - **Bura / Steppe-Wind (Turkic/Mongolian folklore):** The personification of the violent, sudden steppe-winds that could strip the flesh from a horse's back. Bura was both a natural phenomenon and a spirit that could be appeased or angered.
@@ -2065,12 +2065,12 @@
 - **The Face:** A face shaped from wind and dust  -  features that form and dissolve with each gust. When it focuses on a target, the dust compresses into a sharp, recognizable face: an old man with hollow cheeks and eyes that are perfect, screaming Os of rushing air.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Wind-Warrior:** Bura-Stormkin manifest during the violent wind-storms that sweep the Vale, riding the gales like cavalry. They target structures  -  yurts, poles, shelters  -  dismantling them with surgical precision. A Bura-Stormkin can disassemble a yurt in thirty seconds, leaving the occupants exposed to the killing wind.
-- **The Oath-Enforcer:** They are drawn to broken promises  -  the Wyrd has twisted them into agents of cosmic enforcement. An Ordan who breaks a sworn oath will find a Bura-Stormkin following them across the steppe, dismantling every shelter they build until the oath is fulfilled or the oath-breaker dies of exposure. The only escape is to build a shelter underground  -  Bura-Stormkin cannot enter the earth.
+- **The Wind-Warrior:** Buran manifest during the violent wind-storms that sweep the Vale, riding the gales like cavalry. They target structures  -  yurts, poles, shelters  -  dismantling them with surgical precision. A Buran can disassemble a yurt in thirty seconds, leaving the occupants exposed to the killing wind.
+- **The Oath-Enforcer:** They are drawn to broken promises  -  the Wyrd has twisted them into agents of cosmic enforcement. An Ordan who breaks a sworn oath will find a Buran following them across the steppe, dismantling every shelter they build until the oath is fulfilled or the oath-breaker dies of exposure. The only escape is to build a shelter underground  -  Buran cannot enter the earth.
 
 ---
 
-### 120. The Tengri-Spark
+### 120. The Tengril
 
 #### 1. Folklore & Setting Roots
 - **Tengri / Eternal Sky (Turkic/Mongolian mythology):** The supreme deity of Turkic-Mongolian tradition  -  the Sky-God, the boundless blue heaven. Tengri was not a personified god but a principle: the infinite, all-encompassing sky that watches over all things.
@@ -2082,8 +2082,8 @@
 - **The Face:** A serene, ageless face of pure light  -  eyes closed in eternal meditation, mouth curved in a smile of infinite compassion. Despite having no features beyond the suggestion of a face, it radiates an overwhelming sense of presence, authority, and cosmic peace.
 
 #### 3. Ecology: Why It Resides in Sundrift Vale
-- **The Sky-Fragment:** The Tengri-Spark is a fragment of the sky itself  -  a piece of Tengri's infinite heaven that survived the star-trading. It wanders the steppe, appearing to those in desperate need: lost travelers, dying children, shamans seeking divine guidance. Its light restores hope  -  literally. Those bathed in its glow recover their will to survive, their determination, and their sense of cosmic purpose.
-- **The Fate-Thread:** The thread trailing from its back connects it to the absent stars  -  the constellations that were traded away. By following the thread's direction (which changes based on the observer's fate), an Ordan shaman can determine which constellation the thread connects to, and from that, divine the observer's destiny. The Astril consider the Tengri-Spark sacred above all other creatures  -  it is the last physical connection between their Lumia's echos and the sky that once held them.
+- **The Sky-Fragment:** The Tengril is a fragment of the sky itself  -  a piece of Tengri's infinite heaven that survived the star-trading. It wanders the steppe, appearing to those in desperate need: lost travelers, dying children, shamans seeking divine guidance. Its light restores hope  -  literally. Those bathed in its glow recover their will to survive, their determination, and their sense of cosmic purpose.
+- **The Fate-Thread:** The thread trailing from its back connects it to the absent stars  -  the constellations that were traded away. By following the thread's direction (which changes based on the observer's fate), an Ordan shaman can determine which constellation the thread connects to, and from that, divine the observer's destiny. The Astril consider the Tengril sacred above all other creatures  -  it is the last physical connection between their Lumia's echos and the sky that once held them.
 
 
 ---
@@ -2094,7 +2094,7 @@
 
 ---
 
-### 121. The Leshara
+### 121. The Leshvar
 
 #### 1. Folklore & Setting Roots
 - **Leshy (Slavic/Carpathian folklore):** The lord of the forest  -  a shape-shifting woodland-spirit who could change size from a blade of grass to the tallest tree. He protected the forest's creatures, led travelers astray, and had a particularly unsettling habit of making people walk in circles by subtly adjusting the trees around them.
@@ -2111,10 +2111,10 @@
 
 ---
 
-### 122. The Rusalka
+### 122. The Rusalya
 
 #### 1. Folklore & Setting Roots
-- **Rusalka (Slavic/Carpathian folklore):** A water-nymph  -  the spirit of a woman who drowned (often by suicide or murder). Rusalki lured men to watery deaths with their beauty and their hypnotic combing of long, green hair. They were most dangerous during Rusalka Week, when they left the water to dance in the fields.
+- **Rusalka (Slavic/Carpathian folklore):** A water-nymph  -  the spirit of a woman who drowned (often by suicide or murder). Rusalki lured men to watery deaths with their beauty and their hypnotic combing of long, green hair. They were most dangerous during Rusalya Week, when they left the water to dance in the fields.
 - **Apsara (Hindu/Vedic mythology):** Celestial nymphs of Hindu tradition  -  beautiful, divine dancers who inhabited the heavenly waters and served as muses and temptresses. Apsaras could change their shape at will and were associated with fertility, clouds, and the transformative power of water.
 
 #### 2. Physical Design
@@ -2124,11 +2124,11 @@
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
 - **The Dance-Lure:** During the driest season (when bog-water recedes), Rusalkas leave their pools and dance in the peat-clearings. Their dance is hypnotic  -  anyone who watches for more than thirty seconds is compelled to join, dancing until their feet bleed and their hearts burst. The only counter: turn your clothes inside-out and put your boots on the wrong feet  -  the absurdity breaks the compulsion.
-- **The Comb-Bargain:** Her bone-comb can untangle any knot  -  physical or metaphorical. A Neth contract-mage with an impossibly tangled legal dispute can bring it to a Rusalka, who will comb through the contract's contradictions and produce a clear resolution. The price: one year of the mage's memories, which the Rusalka weaves into her hair and wears as ornamentation.
+- **The Comb-Bargain:** Her bone-comb can untangle any knot  -  physical or metaphorical. A Neth contract-mage with an impossibly tangled legal dispute can bring it to a Rusalya, who will comb through the contract's contradictions and produce a clear resolution. The price: one year of the mage's memories, which the Rusalya weaves into her hair and wears as ornamentation.
 
 ---
 
-### 123. The Strigoi-Canopy
+### 123. The Strigora
 
 #### 1. Folklore & Setting Roots
 - **Strigoi (Slavic/Romanian folklore):** The Romanian vampire  -  a reanimated corpse that rose from the grave to drain the life-force of the living. Unlike the cinematic vampire, Strigoi could be living (strigoi viu) or dead (strigoi mort), and were often sorcerers in life.
@@ -2140,12 +2140,12 @@
 - **The Face:** A corpse-face frozen in an expression of manic glee  -  eyes long gone, replaced by twin points of green corpse-light. Its grin reveals teeth that have grown into fangs  -  not the elegant canines of a cinematic vampire, but jagged, yellowed pegs crowding a jaw too full.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Canopy-Hanger:** Strigoi-Canopy colonies hang from the highest ironwood branches, invisible against the bark. They drop onto passing travelers, piercing the neck with their proboscis-tongue and draining not blood but vitality  -  the victim's will to live, drained drop by drop until they become listless, grey-skinned husks who simply sit down and stop moving.
-- **The Riddle-Teller:** Like the Vetala, a captured Strigoi-Canopy will answer questions about the past and future  -  but always in the form of a riddle-story that is both an answer and a test. If the listener solves the riddle, the Strigoi's knowledge is accurate and freely given. If the listener fails, the Strigoi laughs  -  a sound that echoes through the canopy and summons the entire colony to feed. Neth Veldun weavers deliberately seek out Strigoi-riddles, using their probability-sight to find the solution-pattern.
+- **The Canopy-Hanger:** Strigora colonies hang from the highest ironwood branches, invisible against the bark. They drop onto passing travelers, piercing the neck with their proboscis-tongue and draining not blood but vitality  -  the victim's will to live, drained drop by drop until they become listless, grey-skinned husks who simply sit down and stop moving.
+- **The Riddle-Teller:** Like the Vetala, a captured Strigora will answer questions about the past and future  -  but always in the form of a riddle-story that is both an answer and a test. If the listener solves the riddle, the Strigoi's knowledge is accurate and freely given. If the listener fails, the Strigoi laughs  -  a sound that echoes through the canopy and summons the entire colony to feed. Neth Veldun weavers deliberately seek out Strigoi-riddles, using their probability-sight to find the solution-pattern.
 
 ---
 
-### 124. The Domovoi
+### 124. The Domar
 
 #### 1. Folklore & Setting Roots
 - **Domovoi (Slavic folklore):** The household-spirit  -  a hairy little man who lived behind the hearth and protected the home. If treated well (with offerings of milk and bread), he kept the house prosperous. If offended, he caused poltergeist-like disturbances.
@@ -2157,15 +2157,15 @@
 - **The Face:** An old man's face on a child's body  -  deep wrinkles, a magnificent mustache, and bushy eyebrows that almost obscure beady, watchful black eyes. Its expression cycles between satisfaction (when the household is well-run) and disapproval (when someone leaves a mess).
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Threshold-Guardian:** Each Domovoi is bound to a specific dwelling  -  a Neth branch-platform, or a Vreken cottage or crypt-chamber. It guards the threshold against unauthorized entry, misfortune, and Wyrd-corruption. A home with a resident Domovoi never burns down, never floods, and never suffers structural failure.
-- **The Household-Auditor:** Like the Ganas (cosmic bureaucrats), it maintains a ledger of the household's moral economy  -  every act of kindness and every act of cruelty, recorded with accountant-precision. When the Neth's First Contract anniversary arrives, the Domovoi presents its ledger to the Morvane. Households with positive ledgers receive extensions on their contracts; households with negative ledgers find their preservation-clauses quietly expiring.
+- **The Threshold-Guardian:** Each Domar is bound to a specific dwelling  -  a Neth branch-platform, or a Vreken cottage or crypt-chamber. It guards the threshold against unauthorized entry, misfortune, and Wyrd-corruption. A home with a resident Domar never burns down, never floods, and never suffers structural failure.
+- **The Household-Auditor:** Like the Ganas (cosmic bureaucrats), it maintains a ledger of the household's moral economy  -  every act of kindness and every act of cruelty, recorded with accountant-precision. When the Neth's First Contract anniversary arrives, the Domar presents its ledger to the Morvane. Households with positive ledgers receive extensions on their contracts; households with negative ledgers find their preservation-clauses quietly expiring.
 
 ---
 
-### 125. The Kikimora
+### 125. The Kikira
 
 #### 1. Folklore & Setting Roots
-- **Kikimora (Slavic folklore):** A female household-spirit  -  the counterpart to the Domovoi. The Kikimora was a spinner who lived behind the stove or under the threshold. She made nighttime noises, tangled yarn, and troubled sleeping children. A well-behaved Kikimora helped with spinning; a neglected one became malicious.
+- **Kikimora (Slavic folklore):** A female household-spirit  -  the counterpart to the Domar. The Kikira was a spinner who lived behind the stove or under the threshold. She made nighttime noises, tangled yarn, and troubled sleeping children. A well-behaved Kikira helped with spinning; a neglected one became malicious.
 - **Jyotisha-Maya / Web of Illusion (Hindu/Vedic philosophy):** The cosmic web of Maya  -  the illusion that obscures true reality. Maya entangles all living beings in a web of appearances, making them perceive separation where there is unity, and mortality where there is eternity.
 
 #### 2. Physical Design
@@ -2174,12 +2174,12 @@
 - **The Face:** A narrow, pinched face with a prominent hooked nose and thin lips that never smile. Her eyes are large, pale, and multi-faceted  -  like a spider's. She hums continuously while spinning, a tuneless drone that induces drowsiness.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Spinner-of-Illusion:** The Kikimora's silk is the physical manifestation of Maya  -  cosmic illusion. Her webs connect objects, people, and ideas with threads of false-relationship. Those who walk into her web become confused, perceiving connections that do not exist  -  believing enemies are allies, that debts are credits, that the past is the future. The Neth, who cannot lie, are particularly vulnerable  -  illusion is the one form of deception their Contract cannot protect against.
-- **The Night-Tangler:** She works at night, tangling everything in the household  -  yarn, hair, tools, contracts. A Neth contract-scroll left untangled overnight may have its clauses subtly rearranged by morning. The only counter: leave a saucer of milk and a perfectly wound ball of yarn by the threshold each night. If the offering is accepted, the Kikimora spends the night spinning a protective ward-web instead  -  her tangled threads deployed as defense rather than chaos.
+- **The Spinner-of-Illusion:** The Kikira's silk is the physical manifestation of Maya  -  cosmic illusion. Her webs connect objects, people, and ideas with threads of false-relationship. Those who walk into her web become confused, perceiving connections that do not exist  -  believing enemies are allies, that debts are credits, that the past is the future. The Neth, who cannot lie, are particularly vulnerable  -  illusion is the one form of deception their Contract cannot protect against.
+- **The Night-Tangler:** She works at night, tangling everything in the household  -  yarn, hair, tools, contracts. A Neth contract-scroll left untangled overnight may have its clauses subtly rearranged by morning. The only counter: leave a saucer of milk and a perfectly wound ball of yarn by the threshold each night. If the offering is accepted, the Kikira spends the night spinning a protective ward-web instead  -  her tangled threads deployed as defense rather than chaos.
 
 ---
 
-### 126. The Zmey-Bog
+### 126. The Goryna
 
 #### 1. Folklore & Setting Roots
 - **Zmey Gorynych (Slavic folklore):** The three-headed dragon of Slavic myth  -  a fire-breathing serpent with three heads, seven tails, and iron claws. It dwelt in mountain-caves and demanded tribute of young women. Russian heroes like Dobrynya Nikitich were famous for slaying Zmeys.
@@ -2191,12 +2191,12 @@
 - **The Face:** Three distinct dragon-faces: the red head is feral and roaring, the green head is sly and hissing, and the blue head is serene and watchful. All three share the same ancient, golden eyes  -  the eyes of a creature that has outlived civilizations and remembers everything with perfect, merciless clarity.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Bog-Dragon:** The Zmey-Bog dwells in the deepest, most inaccessible bog-pools  -  the ones that the Neth have mapped as "un-negotiable" on their contracts (meaning no deal with the Keeper covers entry). It hoards not gold but contracts  -  original Neth First Contract fragments, ancient Vreken burial-charters, and Vreken debt-papers  -  stolen from the archives and submerged in its peat-pool.
+- **The Bog-Dragon:** The Goryna dwells in the deepest, most inaccessible bog-pools  -  the ones that the Neth have mapped as "un-negotiable" on their contracts (meaning no deal with the Keeper covers entry). It hoards not gold but contracts  -  original Neth First Contract fragments, ancient Vreken burial-charters, and Vreken debt-papers  -  stolen from the archives and submerged in its peat-pool.
 - **The Tribute-Taker:** Like its Slavic predecessor, it demands tribute. The Neth of Atropolis must deliver one contract-scroll per decade to the Zmey's pool, or it will surface and begin dismantling the canopy-city's branch-walkways. The irony is not lost on the Neth: they pay tribute to a creature that hoards the very thing they cannot live without  -  the legal documents that sustain their immortality.
 
 ---
 
-### 127. The Zharptitsa-Glow
+### 127. The Zarnika
 
 #### 1. Folklore & Setting Roots
 - **Zhar-ptitsa / Firebird (Slavic folklore):** The magical bird of Russian fairy tales  -  a creature of dazzling beauty whose feathers glowed with their own light. The Firebird's feather, once dropped, continued to illuminate for centuries. Pursuing the Firebird was the catalyst for many heroic quests.
@@ -2208,12 +2208,12 @@
 - **The Face:** An eagle's face of overwhelming majesty  -  a hooked beak of polished gold, intense eyes that project authority and divine intelligence. Its expression is simultaneously fierce and compassionate  -  the face of a being that exists on a higher plane than the mortals it observes.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Light-Source:** The Zharptitsa-Glow is the primary source of illumination in the deepest canopy-levels of Bryngloom. The Vreken cultivate Firebird nesting-sites in the Sunken Spire's upper levels, harvesting shed feathers for their phosphorescent crypt-lights. A single Firebird feather can light a crypt-chamber for fifty years.
-- **The Serpent-Slayer:** Like Garuda, the Firebird is the natural enemy of serpents  -  particularly the Zmey-Bog (creature 126) and the Naga-Root (creature 128). When a Firebird nests in a canopy-section, no serpent-creature dares approach. The Neth deliberately encourage Firebird nesting near their most vulnerable archive-sections, treating the birds as sacred guardians. The Firebird's one demand: absolute silence. Any noise louder than a whisper causes it to flee, shedding its feathers in panic.
+- **The Light-Source:** The Zarnika is the primary source of illumination in the deepest canopy-levels of Bryngloom. The Vreken cultivate Firebird nesting-sites in the Sunken Spire's upper levels, harvesting shed feathers for their phosphorescent crypt-lights. A single Firebird feather can light a crypt-chamber for fifty years.
+- **The Serpent-Slayer:** Like Garuda, the Firebird is the natural enemy of serpents  -  particularly the Goryna (creature 126) and the Nagava (creature 128). When a Firebird nests in a canopy-section, no serpent-creature dares approach. The Neth deliberately encourage Firebird nesting near their most vulnerable archive-sections, treating the birds as sacred guardians. The Firebird's one demand: absolute silence. Any noise louder than a whisper causes it to flee, shedding its feathers in panic.
 
 ---
 
-### 128. The Naga-Root
+### 128. The Nagava
 
 #### 1. Folklore & Setting Roots
 - **Naga (Hindu/Vedic mythology):** Divine serpent-beings of Hindu tradition  -  powerful, intelligent, and often benevolent. Nagas controlled water-sources, guarded underground treasures, and could take fully human form. They were both feared as venomous and revered as divine.
@@ -2225,12 +2225,12 @@
 - **The Face:** Simultaneously human and serpentine  -  a broad, strong-featured face with vertical-pupil eyes of molten gold and a jaw that can unhinge to reveal fangs. Its expression is calm, ancient, and regal  -  the face of a being that considers itself the rightful ruler of the underground domain.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Root-Lord:** The Naga-Root dwells in the deepest root-system of the ironwood canopy, coiling through tunnels it has carved over millennia. It controls the flow of underground water through the forest's root-network  -  determining which trees receive nourishment and which are starved. A Naga-favored tree grows to impossible heights; a Naga-cursed tree withers within a season.
-- **The Water-Guardian:** Like the Hindu Naga, it guards the forest's underground water-supply  -  the subterranean rivers that feed the bog-pools. The Vreken must petition the Naga-Root for access to new water-sources, offering it treasures from their crypts: ancient artifacts, preserved ancestors' relics, and rare fungal-spoons. The Naga-Root's judgment is fair but merciless  -  it grants water to those who respect the forest's balance and denies it to exploiters.
+- **The Root-Lord:** The Nagava dwells in the deepest root-system of the ironwood canopy, coiling through tunnels it has carved over millennia. It controls the flow of underground water through the forest's root-network  -  determining which trees receive nourishment and which are starved. A Naga-favored tree grows to impossible heights; a Naga-cursed tree withers within a season.
+- **The Water-Guardian:** Like the Hindu Naga, it guards the forest's underground water-supply  -  the subterranean rivers that feed the bog-pools. The Vreken must petition the Nagava for access to new water-sources, offering it treasures from their crypts: ancient artifacts, preserved ancestors' relics, and rare fungal-spoons. The Nagava's judgment is fair but merciless  -  it grants water to those who respect the forest's balance and denies it to exploiters.
 
 ---
 
-### 129. The Preta-Hollow
+### 129. The Navira
 
 #### 1. Folklore & Setting Roots
 - **Preta / Hungry Ghost (Hindu/Vedic mythology):** A being cursed with insatiable hunger  -  spirits of the greedy or envious who, in death, were afflicted with enormous bellies and tiny mouths, unable to ever consume enough to feel satisfied. They wandered between worlds, eternally frustrated.
@@ -2243,11 +2243,11 @@
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
 - **The Insatiable-Dead:** Preta-Hollows are the spirits of those who died in debt to the Neth  -  individuals whose contracts were called in by the Morvane but who could not fulfill their obligations. They wander the bog-clearings, eternally hungry, their distended bellies proof that they consumed too much in life and can never be satisfied in death.
-- **The Hunger-Inducer:** Their presence causes supernatural hunger in the living  -  anyone within twenty feet of a Preta-Hollow feels overwhelming, painful hunger, regardless of when they last ate. Food consumed in a Preta's presence provides no satisfaction  -  it passes through the body without nourishment. The only release for the Preta is for a living person to fulfill the dead one's outstanding contract-debt  -  a practice the Neth Veldun weavers facilitate for those who can afford the price.
+- **The Hunger-Inducer:** Their presence causes supernatural hunger in the living  -  anyone within twenty feet of a Navira feels overwhelming, painful hunger, regardless of when they last ate. Food consumed in a Preta's presence provides no satisfaction  -  it passes through the body without nourishment. The only release for the Preta is for a living person to fulfill the dead one's outstanding contract-debt  -  a practice the Neth Veldun weavers facilitate for those who can afford the price.
 
 ---
 
-### 130. The Gamayun-Seer
+### 130. The Gamaya
 
 #### 1. Folklore & Setting Roots
 - **Gamayun (Slavic folklore):** A prophetic bird of Russian tradition  -  a creature with the head of a woman and the body of a bird. She knew everything that had happened and everything that would happen, and she shared her knowledge through song. Hearing the Gamayun's song was both a blessing and a curse.
@@ -2259,12 +2259,12 @@
 - **The Face:** A woman's face of otherworldly beauty and profound sorrow  -  large, dark eyes that see across time, full lips that shape prophecies, and a brow lined with the weight of knowing everything that will happen and being unable to change any of it.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Oracle-Bird:** The Gamayun-Seer knows every event in the Bryngloom's past and future. She sings her prophecies from the highest ironwood branches  -  songs that take the form of extended, allegorical poems requiring expert interpretation. The Neth Velun arcanists have developed an entire scholarly discipline devoted to interpreting Gamayun-prophecies.
+- **The Oracle-Bird:** The Gamaya knows every event in the Bryngloom's past and future. She sings her prophecies from the highest ironwood branches  -  songs that take the form of extended, allegorical poems requiring expert interpretation. The Neth Velun arcanists have developed an entire scholarly discipline devoted to interpreting Gamayun-prophecies.
 - **The Feather-Fortune:** Each feather she sheds contains a specific prophecy  -  a vision of a future event, frozen in the memory-glass structure of the feather. The Vreken collect these feathers and sell them to Neth contract-mages, who read the prophecies to guide their most important decisions. The catch: the prophecy always comes true, but never in the way the reader expects. The Gamayun's prophecies are literally accurate and metaphorically devastating.
 
 ---
 
-### 131. The Chort-Thorn
+### 131. The Chortan
 
 #### 1. Folklore & Setting Roots
 - **Chort (Slavic folklore):** The Slavic devil  -  a horned, hoofed, goat-like trickster-spirit associated with crossroads, bargains, and the corruption of the innocent. Chorts were not evil incarnate but rather entities of temptation and ironic punishment.
@@ -2276,12 +2276,12 @@
 - **The Face:** A combination of goat and demon  -  a long, narrow muzzle with horizontal goat-pupils, a beard of twisted thorn-vine, and a grin that reveals flat, grinding teeth. Its eyes are solid red  -  no iris, no white  -  and they track multiple targets simultaneously.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Bargain-Devil:** The Chort-Thorn appears at crossroads in the deep forest, offering bargains that are always technically fulfilled but never in the way the bargainer intended. It is drawn to the Neth  -  the one people in Mythrill who cannot lie  -  because it finds their rigid honesty entertaining. A Neth who bargains with a Chort-Thorn is considered dangerously desperate.
+- **The Bargain-Devil:** The Chortan appears at crossroads in the deep forest, offering bargains that are always technically fulfilled but never in the way the bargainer intended. It is drawn to the Neth  -  the one people in Mythrill who cannot lie  -  because it finds their rigid honesty entertaining. A Neth who bargains with a Chortan is considered dangerously desperate.
 - **The Shape-Stealer:** Like the Rakshasa, it can take the form of any person  -  but its illusion is imperfect. In each form, it retains one feature of its true appearance: the horns, the goat-eyes, the thorns, or the forked tail. The Vreken are trained from childhood to check visitors for these tells, as Chort-Thorns frequently impersonate Vreken council-members to disrupt crypt-ceremonies.
 
 ---
 
-### 132. The Drekavac-Wail
+### 132. The Drekavra
 
 #### 1. Folklore & Setting Roots
 - **Drekavac (Slavic/Carpathian folklore):** A creature born from the unbaptized dead  -  a screaming, nocturnal horror of Serbian and Balkan tradition. It could be heard wailing in the night and was variously described as a bird, a dog, or a grotesque humanoid. Its name means "the screamer."
@@ -2298,7 +2298,7 @@
 
 ---
 
-### 133. The Bannik-Vent
+### 133. The Bannira
 
 #### 1. Folklore & Setting Roots
 - **Bannik (Slavic folklore):** The bathhouse-spirit of Russian tradition  -  a mischievous, sometimes dangerous entity that lived behind the stove in traditional saunas (banyas). Bannik could predict the future, throw stones, and pinch bathers who stayed too long.
@@ -2311,11 +2311,11 @@
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
 - **The Vent-Dweller:** Bannik-Vents maintain the heating-systems of Atropolis  -  the Neth canopy-city's peat-fired ventilation network. Without them, the system would overheat, catch fire, or explode. They regulate temperature, clear blockages, and  -  despite their irritability  -  are the only reason the Neth don't freeze in the elevated canopy.
-- **The Stone-Diviner:** Its white-hot peat-stones, when thrown, form divination-patterns that predict the forest's thermal future  -  volcanic activity, peat-fire risks, geothermal shifts. The Neth consult the Bannik-Vent before any major construction project, reading the stone-patterns with the same precision they apply to contract-analysis. A Bannik-Vent that abandons its vent is an omen of catastrophic heating-system failure  -  a rare but devastating event.
+- **The Stone-Diviner:** Its white-hot peat-stones, when thrown, form divination-patterns that predict the forest's thermal future  -  volcanic activity, peat-fire risks, geothermal shifts. The Neth consult the Bannira before any major construction project, reading the stone-patterns with the same precision they apply to contract-analysis. A Bannira that abandons its vent is an omen of catastrophic heating-system failure  -  a rare but devastating event.
 
 ---
 
-### 134. The Psoglav-Bone
+### 134. The Soglav
 
 #### 1. Folklore & Setting Roots
 - **Psoglav (Slavic/Serbian folklore):** A dog-headed monster with iron teeth, a single eye in its forehead, and a voracious appetite for human flesh. It dwelt in dark forests and remote mountains, emerging to prey on travelers.
@@ -2332,7 +2332,7 @@
 
 ---
 
-### 135. The Vourdalak-Debt
+### 135. The Vourdan
 
 #### 1. Folklore & Setting Roots
 - **Vourdalak (Slavic/Russian folklore):** A vampire of Russian and Slavic tradition  -  specifically, a vampire that returned to its own family, pretending to be alive, while slowly draining the life of its loved ones. The vourdalak was particularly tragic because it preyed on those who mourned it most.
@@ -2344,12 +2344,12 @@
 - **The Face:** Its own face  -  but frozen in the moment of death. The expression varies: some show terror, others relief, others the vacant stare of the Fading. The eyes are the most disturbing feature  -  they are alive, aware, and screaming with the knowledge that the creature is trapped in a parody of life, feeding on those it loved.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Debt-Revenant:** Vourdalak-Debts are the Bryngloom's most common and most pitied creatures. They are Neth or Vreken who died with unfulfilled contract-obligations  -  the Morvane has returned them to a half-life, bound to complete the terms of their broken contracts. They return to their families, appearing alive, and slowly drain vitality from their loved ones to sustain their own false existence.
+- **The Vezan:** Vourdalak-Debts are the Bryngloom's most common and most pitied creatures. They are Neth or Vreken who died with unfulfilled contract-obligations  -  the Morvane has returned them to a half-life, bound to complete the terms of their broken contracts. They return to their families, appearing alive, and slowly drain vitality from their loved ones to sustain their own false existence.
 - **The Madness-Speaker:** Like the Pishacha, it can possess the living  -  but only those who share its bloodline. A possessed family member speaks in the Vourdalak's voice, revealing secrets the dead person knew: contract-loopholes, hidden debts, the location of buried artifacts. The Neth consider Vourdalak-possession both a curse and a source of critical intelligence  -  the dead see contractual implications the living cannot.
 
 ---
 
-### 136. The Mavka-Willow
+### 136. The Mavara
 
 #### 1. Folklore & Setting Roots
 - **Mavka / Navka (Slavic/Ukrainian folklore):** A forest-nymph  -  the spirit of a child or young woman who died an unnatural death. Mavky appeared as beautiful young women from the front, but had no back  -  their internal organs visible from behind. They dwelt in forests and waterways, luring young men to their deaths.
@@ -2361,12 +2361,12 @@
 - **The Face:** Exquisite  -  large, almond-shaped eyes the color of new spring-leaves, a small nose, full lips perpetually parted as if about to speak. Her expression is warm, inviting, and heartbreakingly innocent  -  the face of the girl she was before she died.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Tree-Bride:** Each Mavka-Willow is bonded to a specific ancient willow-tree in the Bryngloom. The tree's health reflects her mood  -  when she is content, the tree flourishes; when she grieves, it withers. The Neth catalog every Mavka-tree as a protected living-archive node, because the trees serve as memory-storage: each ring of the trunk contains a year of the Mavka's observations.
-- **The Hollow-Back Secret:** Her most devastating power is the compulsion to circle behind her  -  those who see her front feel an overwhelming urge to walk around and see her back. When they do, the sight of her hollow, organ-visible interior drives them mad. The only protection: never approach a Mavka-Willow from any angle. The Vreken have developed a specific chant  -  a list of names of the dead  -  that, when sung, causes the Mavka to turn away first, breaking the compulsion.
+- **The Tree-Bride:** Each Mavara is bonded to a specific ancient willow-tree in the Bryngloom. The tree's health reflects her mood  -  when she is content, the tree flourishes; when she grieves, it withers. The Neth catalog every Mavka-tree as a protected living-archive node, because the trees serve as memory-storage: each ring of the trunk contains a year of the Mavka's observations.
+- **The Hollow-Back Secret:** Her most devastating power is the compulsion to circle behind her  -  those who see her front feel an overwhelming urge to walk around and see her back. When they do, the sight of her hollow, organ-visible interior drives them mad. The only protection: never approach a Mavara from any angle. The Vreken have developed a specific chant  -  a list of names of the dead  -  that, when sung, causes the Mavka to turn away first, breaking the compulsion.
 
 ---
 
-### 137. The Alkonost
+### 137. The Alkona
 
 #### 1. Folklore & Setting Roots
 - **Alkonost (Slavic folklore):** A bird of paradise from Russian folklore  -  a creature with the head and chest of a beautiful woman and the body of a bird. Her song brought joy and the forgetting of all sorrow. Those who heard her sing forgot everything they had ever wanted and lived in a state of contented oblivion.
@@ -2378,12 +2378,12 @@
 - **The Face:** The face of a goddess  -  perfect symmetry, luminous skin, eyes that contain the entire color-spectrum of dawn. Her smile is beatific  -  the smile of a being that has never known sorrow and cannot comprehend why anyone would choose to remember pain.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Joy-Singer:** The Alkonost's song causes total joy-oblivion  -  listeners forget every sorrow, every grief, every loss, and exist in a state of euphoric contentment for as long as the song continues. The Neth, who carry centuries of accumulated memory and the weight of the First Contract, find the Alkonost's song almost irresistible  -  the prospect of forgetting everything is a form of liberation.
-- **The Memory-Thief:** The danger: the joy is purchased with memory. Each minute of listening permanently erases a year of memory. A Neth who listens for ten minutes loses a decade. The Velun arcanists have determined that the Alkonost's erased memories are not destroyed but woven into its dawn-colored feathers  -  plucked and read by Vreken crypt-scholars, they contain the most intimate secrets of the forest's most powerful beings.
+- **The Joy-Singer:** The Alkona's song causes total joy-oblivion  -  listeners forget every sorrow, every grief, every loss, and exist in a state of euphoric contentment for as long as the song continues. The Neth, who carry centuries of accumulated memory and the weight of the First Contract, find the Alkona's song almost irresistible  -  the prospect of forgetting everything is a form of liberation.
+- **The Memory-Thief:** The danger: the joy is purchased with memory. Each minute of listening permanently erases a year of memory. A Neth who listens for ten minutes loses a decade. The Velun arcanists have determined that the Alkona's erased memories are not destroyed but woven into its dawn-colored feathers  -  plucked and read by Vreken crypt-scholars, they contain the most intimate secrets of the forest's most powerful beings.
 
 ---
 
-### 138. The Dziwozona-Wild
+### 138. The Dzivoza
 
 #### 1. Folklore & Setting Roots
 - **Dziwozona / Mamuna (Slavic/Polish folklore):** A wild, ugly water-woman of Polish tradition  -  a creature with excessively large breasts, a flat face, and green hair who lurked in rivers and lakes, drowning men and substituting her own ugly children for human infants.
@@ -2400,27 +2400,27 @@
 
 ---
 
-### 139. The Upir-Root
+### 139. The Upira
 
 #### 1. Folklore & Setting Roots
 - **Upir / Upyr (Slavic folklore):** One of the earliest Slavic words for vampire  -  a revenant that rose from the grave to drink blood. Upirs were particularly associated with root-crops and agriculture, blamed for blighted harvests and withered fields.
 - **Bhoot/Bhuta variant (Hindu/Vedic mythology):** Drawing from the darker aspect of Bhoot lore  -  a restless, earth-bound spirit that fed on the vitality of living things, draining not through bites but through proximity, like a metaphysical parasite anchored to the soil.
 
 #### 2. Physical Design
-- **Appearance:** A skeletal, underground figure visible only as a root-like growth pattern in the soil  -  a network of dark, pulsing tendrils that spreads from a central burial point. The Upir-Root IS the root-system of a dead person, animated by unfulfilled desire.
+- **Appearance:** A skeletal, underground figure visible only as a root-like growth pattern in the soil  -  a network of dark, pulsing tendrils that spreads from a central burial point. The Upira IS the root-system of a dead person, animated by unfulfilled desire.
 - **Aesthetic Details:** The tendrils are the same color as ironwood roots  -  making them nearly indistinguishable from the forest's actual root-network. However, they pulse with a slow, rhythmic heartbeat, and where they touch living roots, they leech nutrients, causing the above-ground tree to wither.
 - **The Face:** At the center of the root-network, buried six feet below the surface, the original corpse's face  -  preserved in peat, eyes open, mouth stretched in a silent scream. The roots grow from the corpse's mouth, eyes, and fingertips, spreading outward through the soil.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
 - **The Root-Parasite:** Upir-Roots are the parasitic underground networks of those who died with such intense attachment to a place or person that their bodies refused to decompose. Their root-tendrils drain the vitality of every living thing in a fifty-foot radius  -  trees yellow and drop their leaves, animals sicken, and Neth who walk above feel an inexplicable exhaustion.
-- **The Blight-Cause:** Entire sections of the Bryngloom canopy have been killed by Upir-Root infestations  -  trees that should live for centuries wither and die within a single season. The Neth Velun have developed specific contract-rituals to sever an Upir-Root's attachment: a formal legal declaration of release, spoken into the soil above the corpse, that acknowledges the dead person's desire and formally declares it fulfilled. If the declaration is sincere and legally sound, the roots crumble to peat within hours.
+- **The Blight-Cause:** Entire sections of the Bryngloom canopy have been killed by Upira infestations  -  trees that should live for centuries wither and die within a single season. The Neth Velun have developed specific contract-rituals to sever an Upira's attachment: a formal legal declaration of release, spoken into the soil above the corpse, that acknowledges the dead person's desire and formally declares it fulfilled. If the declaration is sincere and legally sound, the roots crumble to peat within hours.
 
 ---
 
-### 140. The Sirin-Song
+### 140. The Sirina
 
 #### 1. Folklore & Setting Roots
-- **Sirin (Slavic folklore):** A dark counterpart to the Alkonost  -  a bird-woman whose song brought not joy but sorrow and death. Those who heard the Sirin's song were overcome with such profound, beautiful melancholy that they simply stopped living  -  not from violence, but from an inability to return to ordinary existence after hearing perfection.
+- **Sirin (Slavic folklore):** A dark counterpart to the Alkona  -  a bird-woman whose song brought not joy but sorrow and death. Those who heard the Sirin's song were overcome with such profound, beautiful melancholy that they simply stopped living  -  not from violence, but from an inability to return to ordinary existence after hearing perfection.
 - **Navagraha / Nine-Spirit (Hindu/Vedic astrology):** The nine celestial influencers of Hindu tradition  -  nine cosmic forces that shape destiny through their positions and movements. Combined with the Sirin, this creates a creature whose song weaves the threads of fate itself, pulling listeners toward their predetermined end.
 
 #### 2. Physical Design
@@ -2429,7 +2429,7 @@
 - **The Face:** The most beautiful face in all of Mythrill  -  perfect, heart-breaking, and utterly still. Her eyes are closed, always closed, because opening them would reveal the totality of existence  -  past, present, and future simultaneously  -  and no mortal mind can survive that vision. Her lips move continuously, shaping the song that is the most beautiful and terrible sound in the world.
 
 #### 3. Ecology: Why It Resides in Bryngloom Forest
-- **The Death-Song:** The Sirin-Song sings at the deepest, darkest heart of the Bryngloom  -  the point where the forest, the bog, and the Sunken Spire converge. Her song is the sound of the Morvane itself  -  the audible expression of the cosmic force that decides what the forest preserves and what it consumes. Those who hear it do not die  -  they simply choose to stop. They sit down, close their eyes, and allow the bog to take them, willingly, gratefully.
+- **The Death-Song:** The Sirina sings at the deepest, darkest heart of the Bryngloom  -  the point where the forest, the bog, and the Sunken Spire converge. Her song is the sound of the Morvane itself  -  the audible expression of the cosmic force that decides what the forest preserves and what it consumes. Those who hear it do not die  -  they simply choose to stop. They sit down, close their eyes, and allow the bog to take them, willingly, gratefully.
 - **The Fate-Weaver:** Her nine silver threads connect to the nine forces that shape every creature's destiny in the Bryngloom: birth, debt, love, betrayal, contract, silence, threshold, dissolution, and return. By plucking a single thread, she can alter a person's fate  -  extending a life, calling a debt early, or triggering a dissolution. The Neth Velun arcanists believe the Sirin is the Keeper's voice  -  the mechanism through which the Last Threshold communicates its will. They do not seek her out. They pray they never hear her song.
 
 ---

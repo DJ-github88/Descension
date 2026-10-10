@@ -92,6 +92,27 @@ export function saveRoster(isGuest, characters) {
   const operationContext = captured.context;
   const run = () => {
     const baseline = baselines.get(baselineKey(familyId)) || { revision: null, draftId: null };
+    if (baseline.external) {
+      // Never publish a queued stale snapshot over an external winner just
+      // because an earlier handler adopted its baseline. Preserve the
+      // candidate as a fork; a fresh load re-enables normal successors.
+      let forkedId = null;
+      try {
+        const scope = resolveActiveScope();
+        if (scope) {
+          const forked = forkScopedRecord({ familyId, scope, context: operationContext, payload });
+          if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
+        }
+      } catch (_error) {
+        // best-effort; the winner is never overwritten either way
+      }
+      return Promise.resolve({
+        status: 'STALE_REVISION',
+        currentRevision: baseline.revision,
+        currentDraftId: baseline.draftId,
+        forkedDraftId: forkedId
+      });
+    }
     return saveScopedDraft({
       familyId,
       payload,
@@ -125,6 +146,7 @@ export function saveRoster(isGuest, characters) {
       baselines.set(baselineKey(familyId), {
         revision: result.currentRevision ?? null,
         draftId: result.currentDraftId ?? null,
+        external: true,
         forkedDraftId: forkedId
       });
     }

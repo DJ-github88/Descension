@@ -7,7 +7,7 @@ import useInteractiveMapStore from '../../store/interactiveMapStore';
 import universalEntityService from '../../services/universalEntityService';
 import './RichLoreText.css';
 
-const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter, onMouseLeave }) => {
+const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter, onMouseLeave, className = '' }) => {
   const [entityData, setEntityData] = useState(null);
   const [backlinks, setBacklinks] = useState([]);
   const cardRef = useRef(null);
@@ -86,8 +86,22 @@ const EntityHovercard = ({ entityName, position, onClose, onAction, onMouseEnter
   return (
     <div 
       ref={cardRef} 
-      className="entity-hovercard-portal" 
+      className={`entity-hovercard-portal ${className}`}
+      role="dialog"
+      aria-label={`${entityData.name} reference`}
       style={style}
+      onFocus={() => {
+        if (onMouseEnter) onMouseEnter();
+      }}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget) && onMouseLeave) onMouseLeave();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          e.stopPropagation();
+          if (onClose) onClose();
+        }
+      }}
       onMouseEnter={(e) => {
         e.stopPropagation();
         if (onMouseEnter) onMouseEnter();

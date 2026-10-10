@@ -138,8 +138,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   window.scrollTo({ top: 0, behavior: 'smooth' });
  };
 
-  const [isActivatingImmerse, setIsActivatingImmerse] = useState(false);
-  const [isImmersingTransition, setIsImmersingTransition] = useState(false);
+  const [immersion, setImmersion] = useState(null);
   const [isBgLoaded, setIsBgLoaded] = useState(false);
 
   // Map background path — use user's chosen primary starter map
@@ -179,12 +178,14 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   }, [mapImagePath]);
 
   // Preload World Map chunk and map textures during idle moments
-  const handlePreloadWorldMap = () => {
-    import('../world-map/WorldMapImmerse').catch(() => {});
-    import('../../utils/mapImagePreloader').then(({ preloadMapAssets }) => {
+  const handlePreloadWorldMap = React.useCallback(() => {
+    const mapReady = import('../world-map/WorldMapImmerse');
+    const imageReady = import('../../utils/mapImagePreloader').then(({ preloadMapAssets, preloadImage }) => {
       preloadMapAssets();
-    }).catch(() => {});
-  };
+      return preloadImage(`${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`);
+    });
+    return Promise.all([mapReady, imageReady]).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -194,98 +195,67 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         setTimeout(handlePreloadWorldMap, 1000);
       }
     }
-  }, []);
+  }, [handlePreloadWorldMap]);
 
   // Handle community button click
   const handleCommunityClick = () => {
     setShowCommunity(prev => !prev);
   };
 
-  const handleImmerseClick = (e) => {
-    setIsActivatingImmerse(true);
-    setIsImmersingTransition(true);
+  const isImmersingActive = isWorldMapActive || !!immersion;
 
-    const el = document.querySelector('.landing-page.map-background');
-    const btn = e?.currentTarget || document.querySelector('.immersive-action-btn');
-
-    if (btn) {
-      const rect = btn.getBoundingClientRect();
-      const btnCenterX = rect.left + rect.width / 2;
-      const btnCenterY = rect.top + rect.height / 2;
-      const screenCenterX = window.innerWidth / 2;
-      const screenCenterY = window.innerHeight / 2;
-
-      const deltaX = Math.round(screenCenterX - btnCenterX);
-      const deltaY = Math.round(screenCenterY - btnCenterY);
-
-      document.documentElement.style.setProperty('--immerse-target-x', `${deltaX}px`);
-      document.documentElement.style.setProperty('--immerse-target-y', `${deltaY}px`);
-    }
-
-    const transform = getCurrentMapTransform(el);
-
-    if (shouldReduceMotion()) {
-      if (onImmerse) onImmerse(transform);
-      setIsActivatingImmerse(false);
-      setIsImmersingTransition(false);
-      return;
-    }
-
-    handlePreloadWorldMap();
-
-    // Cinematic immersion transition: allow button glow, celestial astrolabe pulse, and header slide to play smoothly
-    setTimeout(() => {
-      if (onImmerse) {
-        onImmerse(transform);
-      }
-      setTimeout(() => {
-        setIsActivatingImmerse(false);
-        setIsImmersingTransition(false);
-      }, 500);
-    }, 600);
+  const handleImmerseClick = () => {
+    if (isImmersingActive || !onImmerse) return;
+    const from = getCurrentMapTransform(document.querySelector('.landing-page.map-background'));
+    const reducedMotion = shouldReduceMotion();
+    const zoom = reducedMotion ? 1 : 1.18;
+    const centerX = document.documentElement.clientWidth / 2;
+    const centerY = document.documentElement.clientHeight / 2;
+    setMobileMenuOpen(false);
+    setImmersion({
+      from,
+      to: {
+        scale: from.scale * zoom,
+        posX: centerX + (from.posX - centerX) * zoom,
+        posY: centerY + (from.posY - centerY) * zoom
+      },
+      reducedMotion,
+      duration: reducedMotion ? 160 : 820,
+      onComplete: onImmerse
+    });
   };
 
-  // ── Seamless Immerse Transition ──
-  // When Immerse is activated: freeze the mapPan animation at its current frame.
-  // WorldMapImmerse mounts immediately at this exact spot without zooming out,
-  // while landing page UI text and dark vignette fade out smoothly.
-  const isImmersingActive = isWorldMapActive || isImmersingTransition;
-
   useEffect(() => {
-    if (!isImmersingActive) return;
-
-    const el = document.querySelector('.landing-page.map-background');
-    if (!el) return;
-
-    // 1. Read the current animated frame BEFORE killing the animation
-    const cs = window.getComputedStyle(el);
-    const frozenSize = cs.backgroundSize;
-    const frozenPos = cs.backgroundPosition;
-
-    // 2. Kill the animation entirely so our inline styles can take over
-    el.style.setProperty('animation', 'none', 'important');
-
-    // 3. Lock the frozen frame as inline styles at the exact spot
-    el.style.backgroundSize = frozenSize;
-    el.style.backgroundPosition = frozenPos;
-
-    // Cleanup: restore the landing page when exiting Immerse mode
-    return () => {
-      const cleanupEl = document.querySelector('.landing-page.map-background');
-      if (cleanupEl) {
-        // Keep background frozen while landing UI slides/fades back in during exit
-        setTimeout(() => {
-          cleanupEl.style.transition = 'none';
-          cleanupEl.style.backgroundSize = '';
-          cleanupEl.style.backgroundPosition = '';
-          cleanupEl.style.removeProperty('animation');
-          // Force reflow so the browser registers the change before the
-          // animation resumes from its CSS declaration
-          void cleanupEl.offsetWidth;
-        }, 1200);
+    if (!immersion) return;
+    let cancelled = false;
+    let timer;
+    const flightFinished = new Promise(resolve => {
+      timer = setTimeout(resolve, immersion.duration);
+    });
+    // Keep the final camera frame visible until the interactive chunk is ready.
+    Promise.all([flightFinished, handlePreloadWorldMap()]).then(() => {
+      if (!cancelled) {
+        setImmersion(null);
+        immersion.onComplete(immersion.to);
       }
+    });
+    const cancelFlight = () => {
+      cancelled = true;
+      setImmersion(null);
+      requestAnimationFrame(() => document.querySelector('.immersive-action-btn')?.focus({ preventScroll: true }));
     };
-  }, [isImmersingActive]);
+    const handleKey = event => {
+      if (event.key === 'Escape') cancelFlight();
+    };
+    window.addEventListener('keydown', handleKey);
+    window.addEventListener('resize', cancelFlight);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('resize', cancelFlight);
+    };
+  }, [immersion, handlePreloadWorldMap]);
 
  const renderHomeSection = () => (
   <div className="landing-section">
@@ -302,11 +272,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
       </div>
      </div>
 
-     <p className="game-subtitle">The Ultimate Fantasy TTRPG Experience</p>
-     <p className="game-description">
-      Embark on epic adventures in a world of magic, mystery, and endless possibilities.
-     </p>
-
      <div className="action-buttons">
       <button
        className={`primary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
@@ -317,30 +282,24 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
        disabled={isPhone}
        title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
       >
-       <i className="fas fa-dragon"></i>
        <span className="btn-text">
         <span className="btn-title">Play Online</span>
         <span className="btn-subtitle">Adventure with friends</span>
        </span>
       </button>
       <button
-       className={`immersive-action-btn ${isImmersingActive ? 'is-immerse-activating' : ''}`}
+       className="immersive-action-btn"
        onClick={handleImmerseClick}
+       disabled={isImmersingActive}
+       aria-busy={isImmersingActive}
        onMouseEnter={handlePreloadWorldMap}
        onTouchStart={handlePreloadWorldMap}
        title="Explore the interactive World Map of Mythril"
       >
-       <i className="fas fa-map"></i>
        <span className="btn-text">
         <span className="btn-title">Immerse</span>
         <span className="btn-subtitle">Explore the world map</span>
        </span>
-       {isImmersingActive && (
-         <div className="immerse-btn-astrolabe-aura">
-           <div className="astrolabe-aura-ring" />
-           <i className="fas fa-compass astrolabe-aura-compass" />
-         </div>
-       )}
       </button>
       <button
        className={`secondary-action-btn ${isPhone ? 'phone-disabled' : ''}`}
@@ -351,7 +310,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
        disabled={isPhone}
        title={isPhone ? 'The VTT grid is not optimised for phones. Play on a tablet or desktop.' : ''}
       >
-       <i className="fas fa-flask"></i>
        <span className="btn-text">
         <span className="btn-title">Sandbox Mode</span>
         <span className="btn-subtitle">Test tools & experiment</span>
@@ -542,11 +500,21 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
  return (
   <>
    <div
-    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isImmersingActive ? 'immersing' : ''} ${activeSection === 'rules' ? 'rules-mode' : ''} ${activeSection === 'membership' ? 'membership-mode' : ''}`}
+    className={`landing-page map-background ${isBgLoaded ? 'map-loaded' : 'map-loading'} ${isImmersingActive ? 'immersing' : ''} ${immersion?.reducedMotion ? 'immersion-reduced-motion' : ''} ${activeSection === 'home' ? 'home-mode' : ''} ${activeSection === 'rules' ? 'rules-mode' : ''} ${activeSection === 'membership' ? 'membership-mode' : ''}`}
+    inert={isImmersingActive ? '' : undefined}
     style={{
      '--map-background-url': `url("${`${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`}")`
     }}
    >
+    {immersion && (
+      <div className="immerse-map-flight" aria-hidden="true" style={{
+        '--camera-from': `translate3d(${immersion.from.posX}px, ${immersion.from.posY}px, 0) scale(${immersion.from.scale})`,
+        '--camera-to': `translate3d(${immersion.to.posX}px, ${immersion.to.posY}px, 0) scale(${immersion.to.scale})`,
+        '--immersion-duration': `${immersion.duration}ms`
+      }}>
+        <div className="immerse-map-flight-texture" />
+      </div>
+    )}
     <header className="landing-header">
       <div className="header-content" ref={headerRef}>
        <div className="header-left" ref={headerLeftRef}>

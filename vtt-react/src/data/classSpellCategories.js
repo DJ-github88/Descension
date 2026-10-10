@@ -139,7 +139,7 @@ export const CLASS_SPECIALIZATIONS = {
 
         name: 'Dissonance',
 
-        description: 'The Revel\'s darker chord, where harmony fractures. Debuffs and control, chaotic magic, and reality-warping sounds',
+        description: 'Revalen\'s darker chord, where harmony fractures. Debuffs and control, chaotic magic, and reality-warping sounds',
 
         color: '#9370DB',
 

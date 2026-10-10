@@ -53,9 +53,12 @@ export function isCustomMapOwned(mapId, record) {
   const reference = getCustomMapOwnership(mapId);
   if (!reference) return false;
   if (!record) return false;
-  // The mirror-only placeholder never invalidates an owned reference: the
-  // full payload is preserved in IndexedDB.
-  if (record.image === MIRROR_PLACEHOLDER_MARKER) return true;
+  // A mirror-only placeholder is bound to the exact full-record fingerprint.
+  // The marker or the record ID alone is never ownership proof.
+  if (record.image === MIRROR_PLACEHOLDER_MARKER) {
+    return typeof record.placeholderFingerprint === 'string'
+      && record.placeholderFingerprint === reference.fingerprint;
+  }
   return fingerprintOf(record) === reference.fingerprint;
 }
 

@@ -18,10 +18,13 @@ import {
   recordCustomMapOwnership,
   isCustomMapOwned,
   filterOwnedCustomMaps,
-  clearCustomMapOwnership
+  getCustomMapOwnership,
+  clearCustomMapOwnership,
+  MIRROR_PLACEHOLDER_MARKER
 } from '../persistence/customMapOwnership';
 import { createScopedNativeFamily } from '../persistence/scopedNativeFamily';
-import { captureConsumerContext, isConsumerContextCurrent } from '../persistence/scopedConsumer';
+import { captureConsumerContext, isConsumerContextCurrent, resolveActiveScope } from '../persistence/scopedConsumer';
+import { fingerprintRawString } from '../persistence/preservation';
 
 export const BUILTIN_SUBREGION_MAPS = {
   'frostwood-reach': {
@@ -416,7 +419,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'frostwood-reach',
     width: 4096,
     height: 3072,
-    description: 'The cold, stony northern half of the Frostwood Reach, far from the volcanic warmth. The forests thin into tundra and bare granite, and the ironwoods grow short and twisted. Stone structures replace living timber; carved runic monoliths and watch-posts built into cliff faces mark the few roads. Frozen lakes surface in summer; the rest of the year, only their location is remembered. Rumors persist of giant Jutul-like beings in the deep wastes, but the few who travel that far rarely return to confirm.'
+    description: 'The cold, stony northern half of the Frostwood Reach, far from the volcanic warmth. The forests thin into tundra and bare granite, and the ironwoods grow short and twisted. Stone structures replace living timber; carved runic monoliths and watch-posts built into cliff faces mark the few roads. Frozen lakes surface in summer; the rest of the year, only their location is remembered. Rumors persist of giant Jotkall-like beings in the deep wastes, but the few who travel that far rarely return to confirm.'
   },
   'frostwood-eastern-fens': {
     id: 'frostwood-eastern-fens',
@@ -527,7 +530,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'iceheart-sea',
     width: 4096,
     height: 3072,
-    description: 'The northern edge of the Iceheart Sea, where the waters freeze into icebergs the size of cities. Ancient ruins protrude from the bergs. First Shore is the largest, the original Mereval landing site, now preserved as a pilgrimage. Few venture here. The Berg-Witches and the Boreal Huldra live in the floes.'
+    description: 'The northern edge of the Iceheart Sea, where the waters freeze into icebergs the size of cities. Ancient ruins protrude from the bergs. First Shore is the largest, the original Mereval landing site, now preserved as a pilgrimage. Few venture here. The Berg-Witches and the Boreal Holdra live in the floes.'
   },
   'iceheart-western-isles': {
     id: 'iceheart-western-isles',
@@ -617,7 +620,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'cragjaw-peaks',
     width: 4096,
     height: 3072,
-    description: 'The central spine of the Cragjaw Peaks, the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jutul, the great trolls, and the primordial Thrumm stalk the high ice. Few humans have climbed above the Terraced level and returned.'
+    description: 'The central spine of the Cragjaw Peaks, the highest, coldest, and most impassable. Frostmaw Holdfast, seat of House Tesshan, sits in a volcanic crater near the center. The peaks here are taller than any tree grows. Jotkall, the great trolls, and the primordial Thrumm stalk the high ice. Few humans have climbed above the Terraced level and returned.'
   },
   'cragjaw-gorge-web': {
     id: 'cragjaw-gorge-web',
@@ -707,7 +710,7 @@ export const BUILTIN_SUBREGION_MAPS = {
     parentMapId: 'bryngloom-forest',
     width: 4096,
     height: 3072,
-    description: 'The northern reaches of the forest, vast stretches of acidic peat-bog where the ironwood roots rot and the water is poison. The Widow\'s Quagmire is the worst, a stretch that liquefies underfoot. Debt-Revenants are conscripted to work the peat-presses here; the Black Fen is where broken contracts are dumped.'
+    description: 'The northern reaches of the forest, vast stretches of acidic peat-bog where the ironwood roots rot and the water is poison. The Widow\'s Quagmire is the worst, a stretch that liquefies underfoot. Vezan are conscripted to work the peat-presses here; the Black Fen is where broken contracts are dumped.'
   },
   'bryngloom-western-bayous': {
     id: 'bryngloom-western-bayous',
@@ -868,7 +871,19 @@ export const getCustomMaps = () => {
   // Wave B (S7/F): only records with an explicit owner-scoped reference for
   // the active verified owner are exposed; unknown-owner records remain
   // preserved recovery sources and are never adopted by enumeration.
-  return filterOwnedCustomMaps(inMemoryCustomMaps);
+  // R4: one owner and one logical map are exposed exactly once — the
+  // canonical record. Older duplicates from pre-correction saves stay
+  // recoverable but are not re-exposed as the current map.
+  const owned = filterOwnedCustomMaps(inMemoryCustomMaps);
+  const canonical = new Map();
+  for (const [physicalId, record] of Object.entries(owned)) {
+    const origin = recordLogicalOrigin(record, physicalId);
+    const candidate = { physicalId, record, stamp: ownedRecordStamp(physicalId, record) };
+    if (newerOwnedCandidate(candidate, canonical.get(origin))) canonical.set(origin, candidate);
+  }
+  const result = {};
+  for (const { physicalId, record } of canonical.values()) result[physicalId] = record;
+  return result;
 };
 
 /**
@@ -891,29 +906,126 @@ export const reloadCustomMapsFromMirror = () => {
   return getCustomMaps();
 };
 
+/* ------------------ R4: owner-aware logical → physical ---------------------
+ * A logical region ID is only a resource association, never an ownership
+ * proof. The active owner's authoritative physical record is resolved through
+ * the verified owner-scoped references (captured per account generation),
+ * so another owner's occupied logical ID is never treated as this owner's
+ * map. When earlier defective saves left several owned records for the same
+ * logical map, the canonical (most recently referenced) record is used and
+ * the older alternatives stay recoverable without being re-exposed.
+ */
+
+/**
+ * Logical origin of a physical record: the region ID when the record lives
+ * at or under it (direct slot, owner-derived or recovery slots), otherwise
+ * the record's own ID. Distinct user-registered maps keep distinct origins.
+ */
+const recordLogicalOrigin = (record, physicalId = null) => {
+  const id = (record && record.id) || physicalId || '';
+  const recordRegion = record && record.regionId;
+  if (recordRegion && (id === recordRegion || String(id).startsWith(`${recordRegion}::`))) {
+    return recordRegion;
+  }
+  return id;
+};
+
+/** Verified ordering among the owner's duplicate records for one logical map. */
+const ownedRecordStamp = (physicalId, record) => {
+  const reference = getCustomMapOwnership(physicalId);
+  if (reference && typeof reference.updatedAt === 'string' && reference.updatedAt) {
+    return reference.updatedAt;
+  }
+  if (record && typeof record.updatedAt === 'string' && record.updatedAt) {
+    return record.updatedAt;
+  }
+  return '';
+};
+
+const newerOwnedCandidate = (candidate, current) => {
+  if (!current) return true;
+  if (candidate.stamp !== current.stamp) return candidate.stamp > current.stamp;
+  return candidate.physicalId > current.physicalId;
+};
+
+const bestOwnedRecord = (match, { requireImage = false } = {}) => {
+  const owned = filterOwnedCustomMaps(inMemoryCustomMaps);
+  let best = null;
+  for (const [physicalId, record] of Object.entries(owned)) {
+    if (requireImage && !(record && typeof record.image === 'string' && record.image)) continue;
+    if (!match(record, physicalId)) continue;
+    const candidate = { physicalId, record, stamp: ownedRecordStamp(physicalId, record) };
+    if (newerOwnedCandidate(candidate, best)) best = candidate;
+  }
+  return best;
+};
+
+/** Canonical owned record for a requested logical map ID (origin match). */
+const resolveOwnedLogicalRecord = (logicalId, options) =>
+  bestOwnedRecord((record, physicalId) => recordLogicalOrigin(record, physicalId) === logicalId, options);
+
+/** Canonical owned record associated with a region ID (lookup/delete). */
+const resolveOwnedRegionRecord = (mapId, options) => {
+  const subregionObj = SUBREGIONS[mapId];
+  return bestOwnedRecord((record) => Boolean(record) && (
+    record.id === mapId ||
+    record.regionId === mapId ||
+    Boolean(subregionObj && record.regionId === subregionObj.regionId)
+  ), options);
+};
+
 export const saveCustomMap = async (mapData) => {
   const captured = captureConsumerContext();
   // IndexedDB and the mirror must receive the same immutable full payload.
   mapData = JSON.parse(JSON.stringify(mapData));
-  const mapId = mapData.id || `custom-map-${Date.now()}`;
-  const newMap = {
+  const logicalId = mapData.id || `custom-map-${Date.now()}`;
+  const regionId = mapData.regionId || logicalId;
+  const scope = resolveActiveScope();
+  const scopeKey = scope ? `${scope.scopeKind}:${scope.scopeId}` : null;
+
+  // R4: an update must land on the active owner's existing physical record,
+  // resolved through the verified owner-scoped references, instead of
+  // allocating a new identity for every save. Another owner's occupied
+  // logical ID is only a collision to work around, never this owner's map.
+  const existing = resolveOwnedLogicalRecord(logicalId);
+  let physicalId;
+  if (existing) {
+    physicalId = existing.physicalId;
+  } else if (!scope) {
+    physicalId = `${logicalId}::recovery:${Date.now()}`;
+  } else if (!inMemoryCustomMaps[logicalId]) {
+    physicalId = logicalId;
+  } else {
+    physicalId = `${logicalId}::owner:${scopeKey || 'unknown'}`;
+    if (inMemoryCustomMaps[physicalId]) physicalId = `${physicalId}:${Date.now()}`;
+  }
+
+  const previousRecord = existing ? inMemoryCustomMaps[existing.physicalId] : null;
+  let newMap = {
     ...mapData,
-    id: mapId,
+    id: physicalId,
+    regionId,
     createdAt: mapData.createdAt || new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
 
-  // B8: capture the verified owner/generation BEFORE any storage await. The
-  // completed save must never grant ownership to whichever account happens
-  // to be active when IndexedDB opening resolves.
-
-  // 1. Update in-memory cache immediately
-  inMemoryCustomMaps[mapId] = newMap;
+  // 1. Update in-memory cache immediately under the physical identity.
+  inMemoryCustomMaps[physicalId] = newMap;
 
   // 2. Persist to IndexedDB (supports multi-megabyte images)
   let indexedDbSaved = false;
   try {
     const db = await openDB();
+    // R4: revalidate the captured owner/generation after the asynchronous
+    // open. A superseded update must never replace the owner's existing
+    // record in place; preserve the replacement independently so both the
+    // owner's current map and the newer payload stay recoverable.
+    if (existing && !(captured.ok && isConsumerContextCurrent(captured.context))) {
+      if (previousRecord) inMemoryCustomMaps[physicalId] = previousRecord;
+      else delete inMemoryCustomMaps[physicalId];
+      newMap = { ...newMap, id: `${logicalId}::recovery:${Date.now()}` };
+      inMemoryCustomMaps[newMap.id] = newMap;
+    }
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
     if ('oncomplete' in tx) {
@@ -940,12 +1052,23 @@ export const saveCustomMap = async (mapData) => {
   } catch (e) {
     // Never replace a failed full-image save with only a placeholder.
     if (!indexedDbSaved) throw new Error('Full map preservation failed; the working payload remains in memory');
-    // If image is too large for 5MB localStorage, save light copy to localStorage
+    // If image is too large for 5MB localStorage, save light copy to
+    // localStorage. The placeholder is bound to the exact full-record
+    // fingerprint so ownership can never be inferred from the marker alone.
     try {
       const lightCopy = {};
       Object.keys(inMemoryCustomMaps).forEach(k => {
         const item = inMemoryCustomMaps[k];
-        lightCopy[k] = { ...item, image: item.image.startsWith('data:') ? 'indexeddb_stored' : item.image };
+        const hasDataImage = typeof item.image === 'string' && item.image.startsWith('data:');
+        if (hasDataImage) {
+          lightCopy[k] = {
+            ...item,
+            image: MIRROR_PLACEHOLDER_MARKER,
+            placeholderFingerprint: fingerprintRawString(JSON.stringify(item)).value
+          };
+        } else {
+          lightCopy[k] = item;
+        }
       });
       localStorage.setItem(CUSTOM_MAPS_STORAGE_KEY, JSON.stringify(lightCopy));
     } catch (e2) {
@@ -954,11 +1077,12 @@ export const saveCustomMap = async (mapData) => {
   }
 
   // Wave B (S7/F): record the owner-scoped reference for the active verified
-  // owner. B8: if the originating owner/generation was superseded while the
-  // storage work was in flight, the raw payload stays recoverable (IndexedDB +
-  // mirror) but ownership is never granted to the new account.
+  // owner, bound to the physical record identity. B8: if the originating
+  // owner/generation was superseded while the storage work was in flight, the
+  // raw payload stays recoverable (IndexedDB + mirror) but ownership is never
+  // granted to the new account.
   if (captured.ok && isConsumerContextCurrent(captured.context)) {
-    const registered = recordCustomMapOwnership(mapId, newMap);
+    const registered = recordCustomMapOwnership(newMap.id, newMap);
     return registered.status === 'OK' ? newMap : null;
   }
 
@@ -966,32 +1090,48 @@ export const saveCustomMap = async (mapData) => {
 };
 
 export const deleteCustomMap = async (mapId) => {
-  if (inMemoryCustomMaps[mapId]) {
-    // Explicit user deletion only applies to the active owner's own records;
-    // unknown-owner raw sources are preserved, never deleted by enumeration.
-    if (!isCustomMapOwned(mapId, inMemoryCustomMaps[mapId])) {
-      return false;
-    }
-    delete inMemoryCustomMaps[mapId];
-    clearCustomMapOwnership(mapId);
-
-    try {
-      const db = await openDB();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      store.delete(mapId);
-    } catch (err) {
-      console.warn('Could not delete from IndexedDB:', err);
-    }
-
-    try {
-      localStorage.setItem(CUSTOM_MAPS_STORAGE_KEY, JSON.stringify(inMemoryCustomMaps));
-    } catch (e) {
-      // ignore
-    }
-    return true;
+  const directRecord = inMemoryCustomMaps[mapId];
+  let targetId = null;
+  if (directRecord && isCustomMapOwned(mapId, directRecord)) {
+    targetId = mapId;
+  } else {
+    // Accept a logical region ID: resolve it to the owner's canonical
+    // physical record through the scoped ownership references. Another
+    // owner's record occupying the same logical ID is never the target.
+    const resolved = resolveOwnedLogicalRecord(mapId) || resolveOwnedRegionRecord(mapId);
+    if (resolved) targetId = resolved.physicalId;
   }
-  return false;
+  if (!targetId || !inMemoryCustomMaps[targetId]) return false;
+
+  // R4: unpublish every other preserved duplicate of the same logical map so
+  // an older alternative can never resurface as the deleted map. Their raw
+  // bytes stay in IndexedDB/memory as recovery sources.
+  const targetOrigin = recordLogicalOrigin(inMemoryCustomMaps[targetId], targetId);
+  for (const [physicalId, record] of Object.entries(inMemoryCustomMaps)) {
+    if (physicalId === targetId || !record) continue;
+    if (recordLogicalOrigin(record, physicalId) !== targetOrigin) continue;
+    if (!isCustomMapOwned(physicalId, record)) continue;
+    clearCustomMapOwnership(physicalId);
+  }
+
+  delete inMemoryCustomMaps[targetId];
+  clearCustomMapOwnership(targetId);
+
+  try {
+    const db = await openDB();
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    store.delete(targetId);
+  } catch (err) {
+    console.warn('Could not delete from IndexedDB:', err);
+  }
+
+  try {
+    localStorage.setItem(CUSTOM_MAPS_STORAGE_KEY, JSON.stringify(inMemoryCustomMaps));
+  } catch (e) {
+    // ignore
+  }
+  return true;
 };
 
 export const getSubregionMap = (mapId) => {
@@ -999,18 +1139,18 @@ export const getSubregionMap = (mapId) => {
 
   // Wave B (S7/F): custom records are only visible to their verified owner.
   const ownedCustomMaps = filterOwnedCustomMaps(inMemoryCustomMaps);
+  const subregionObj = SUBREGIONS[mapId];
 
   // 1. Check custom uploaded maps first (user hand-drawn assets override built-ins)
   if (ownedCustomMaps[mapId] && ownedCustomMaps[mapId].image) {
     return ownedCustomMaps[mapId];
   }
 
-  // 2. Custom map lookup by matching regionId property
-  const subregionObj = SUBREGIONS[mapId];
-  const customByRegion = Object.values(ownedCustomMaps).find(
-    m => (m.regionId === mapId || (subregionObj && m.regionId === subregionObj.regionId)) && m.image
-  );
-  if (customByRegion) return customByRegion;
+  // 2. Custom map lookup by matching regionId property. R4: when earlier
+  //    defective saves left duplicates, the canonical owner record wins
+  //    instead of an arbitrary first result.
+  const customByRegion = resolveOwnedRegionRecord(mapId, { requireImage: true });
+  if (customByRegion) return customByRegion.record;
 
   // 3. Builtin entry with a real (non-fallback) image
   const builtin = BUILTIN_SUBREGION_MAPS[mapId];

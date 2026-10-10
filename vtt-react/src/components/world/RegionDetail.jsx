@@ -410,7 +410,7 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
   };
 
   return (
-    <div className="world-panel region-detail-panel">
+    <div className="world-panel region-detail-panel" data-region={regionId}>
       {/* Region Banner Header */}
       <div className="region-hero-header">
         <div className="region-hero-top-nav">
@@ -490,18 +490,19 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
       </div>
 
       {/* Navigation Tabs */}
-      <div className="world-tabs">
+      <nav className="world-tabs" aria-label="Realm sections">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             className={`world-tab ${activeTab === tab.key ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.key)}
+             onClick={() => setActiveTab(tab.key)}
+            aria-pressed={activeTab === tab.key}
           >
             <i className={`fas ${tab.icon}`} style={{ marginRight: '7px' }}></i>
             {tab.label}
           </button>
         ))}
-      </div>
+      </nav>
 
       {/* Tab Content */}
       <div className="world-tab-content">
@@ -611,12 +612,13 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                   <i className="fas fa-search"></i>
                   <input
                     type="text"
-                    placeholder={`Search ${locations.length} holds by name, jarl, or type in ${region.name}...`}
+                     placeholder={`Search ${locations.length} holds by name, jarl, or type in ${region.name}...`}
+                    aria-label={`Search holds in ${region.name}`}
                     value={locSearch}
                     onChange={(e) => setLocSearch(e.target.value)}
                   />
                   {locSearch && (
-                    <button className="btn-loc-clear-search" onClick={() => setLocSearch('')}>
+                    <button className="btn-loc-clear-search" onClick={() => setLocSearch('')} aria-label="Clear holds search">
                       <i className="fas fa-times"></i>
                     </button>
                   )}
@@ -628,7 +630,8 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                     <div className="region-loc-filter-group">
                       <label><i className="fas fa-map"></i> Subregion:</label>
                       <select
-                        className="region-loc-select"
+                         className="region-loc-select"
+                        aria-label="Filter holds by subregion"
                         value={locSubregion}
                         onChange={(e) => setLocSubregion(e.target.value)}
                       >
@@ -646,7 +649,8 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                   <div className="region-loc-filter-group">
                     <label><i className="fas fa-arrow-down-a-z"></i> Sort:</label>
                     <select
-                      className="region-loc-select"
+                       className="region-loc-select"
+                      aria-label="Sort holds"
                       value={locSort}
                       onChange={(e) => setLocSort(e.target.value)}
                     >
@@ -662,28 +666,32 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                     <button
                       className={`btn-view-mode ${locViewMode === 'subregions' ? 'active' : ''}`}
                       onClick={() => setLocViewMode('subregions')}
-                      title="Grouped by Subregion"
+                       title="Grouped by Subregion"
+                      aria-pressed={locViewMode === 'subregions'}
                     >
                       <i className="fas fa-map-location-dot"></i> Subregions
                     </button>
                     <button
                       className={`btn-view-mode ${locViewMode === 'categorized' ? 'active' : ''}`}
                       onClick={() => setLocViewMode('categorized')}
-                      title="Grouped by Holding Category"
+                       title="Grouped by Holding Category"
+                      aria-pressed={locViewMode === 'categorized'}
                     >
                       <i className="fas fa-folder-tree"></i> Categories
                     </button>
                     <button
                       className={`btn-view-mode ${locViewMode === 'explorer' ? 'active' : ''}`}
                       onClick={() => setLocViewMode('explorer')}
-                      title="Interactive Split Codex Explorer"
+                       title="Interactive Split Codex Explorer"
+                      aria-pressed={locViewMode === 'explorer'}
                     >
                       <i className="fas fa-table-columns"></i> Explorer
                     </button>
                     <button
                       className={`btn-view-mode ${locViewMode === 'grid' ? 'active' : ''}`}
                       onClick={() => setLocViewMode('grid')}
-                      title="Standard Grid"
+                       title="Standard Grid"
+                      aria-pressed={locViewMode === 'grid'}
                     >
                       <i className="fas fa-border-all"></i> Grid
                     </button>
@@ -709,7 +717,8 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
                     <button
                       key={cat.id}
                       className={`loc-category-pill ${locCategory === cat.id ? 'active' : ''}`}
-                      onClick={() => setLocCategory(cat.id)}
+                       onClick={() => setLocCategory(cat.id)}
+                      aria-pressed={locCategory === cat.id}
                     >
                       <i className={`fas ${cat.icon}`}></i>
                       <span>{cat.label}</span>
@@ -1263,4 +1272,3 @@ const RegionDetail = ({ regionId, onBack, onLocationClick, onFactionClick }) => 
 };
 
 export default RegionDetail;
-

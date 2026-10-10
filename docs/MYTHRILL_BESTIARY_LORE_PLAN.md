@@ -35,8 +35,8 @@ The inspected sources remain useful, but they are not internally consistent enou
 | --- | --- | --- |
 | `CORE_LORE_FRAMEWORK.md` | No mortal magic before the Binding; Aex, Aethil, Sol, the Great Binding, First Cracks, Keth-Amar, the Wyrd, and regional creature roles. | It calls folklore beings "living tolls" and places them inside a three-layer Wyrd-centered model, which can imply that native creatures are products of the bargain or Wyrd. The timeline also uses Year 0/300/325/475. |
 | `rules.json` | Clear distinction that the Wyrd is Keth-Amar's corruption and that it can occupy a folklore blueprint. | The Bestiary section calls the whole bestiary "Wyrd-born" and says there are 21 Wyrd-creatures, while `creatures.json` contains 193 records. That wording must be narrowed to the Wyrdspawn subset. |
-| `lore.json` | Strong regional anchors; Gref as a face/memory threat; Oilliph(e)ist as a silt-serpent; Gambrel and Stel as explicit Wyrd threats; Seelie Accord material. | Gref and Oilliph(e)ist are currently described as Wyrd manifestations or Wyrd-twisted, which conflicts with their usable pre-Binding native baselines. |
-| `Nordhalla_Complete_Lore.md` | Pre-Binding Nordhalla geography, native land spirits, warmth pockets, and useful creature placements by subregion. | It describes an eight-century world while the framework/data timeline uses 475 years. Its creature lists use names not always present in the JSON, including Jutul-King, Skrei, Huld, Jawl, and Kjarn. |
+| `lore.json` | Strong regional anchors; Gref as a face/memory threat; Oilliph(e)ist as a silt-serpent; Geaslan and Stel as explicit Wyrd threats; Seelie Accord material. | Gref and Oilliph(e)ist are currently described as Wyrd manifestations or Wyrd-twisted, which conflicts with their usable pre-Binding native baselines. |
+| `Nordhalla_Complete_Lore.md` | Pre-Binding Nordhalla geography, native land spirits, warmth pockets, and useful creature placements by subregion. | It describes an eight-century world while the framework/data timeline uses 475 years. Its creature lists use names not always present in the JSON, including Jotkall-King, Skrei, Huld, Jawl, and Kjarn. |
 | `creatures.json` | Exact IDs, display names, habitats, descriptions, origin fields, and existing folklore hooks. | The first 28 records mix native-sounding origins with `wyrd-creature` tags; many later native records contain inherited "Wyrd changed this" sentences; some records are copied or mislabeled. |
 
 ### Data-audit rules
@@ -180,12 +180,12 @@ Keth-Amar uses the Wyrd strategically. He does not need every creature to be a d
 | Region | Local vulnerability | Keth-Amar's strategic objective | Wyrd role/nest types | Present-day locations | Native resistance or counterplay |
 | --- | --- | --- | --- | --- | --- |
 | Frostwood Reach | Memory, identity, records, and Viridane concealment. | Erase and infiltrate records, expose hidden descendants, and locate the truth the fog and erasure conceal. | Mimics/interpreters, collectors, listeners, root or archive parasites, memory colonies. | Fog roads, Greymark archives, Wraithfen, Grimmwood, Siltmire, and household thresholds. | Seelie Accord law, Gref trade, Florae concealment, Mimir masks, redundant records, named witnesses, and native forest guardians. |
-| Nordhalla | Cold, warmth, Rime resilience, hearths, glaciers, and runes. | Drain warmth, hollow hearth sanctuaries, weaken Rime resilience, and turn glaciers and rune archives into long-term pressure points. | Hearth parasites, glacier collectors, cold fauna, listeners in runes, corpse colonies, and breach nests in ice. | Frozen Archive, hearths, fjords, glacier passes, Rune-Cleft, and warm geothermal outposts. | Shared hearth discipline, Rune Keepers, Landvaettir, Disir, native water/stone spirits, warmth offerings, and controlled thaw. |
-| Sundale | Sol, Aex, Emberspire, and the central binding wound. | Maintain the primary feeding front, widen the breach conduit, and turn Solari heat and Aex resonance against the binding. | Drainers, breach-keepers, direct Keth-spawn, ash parasites, independent volcanic predators, and Shard anchors. | Emberspire, Harath-Vault, sulfur mines, caldera routes, Shard sites, and volcanic vents. | Solari hearth discipline, Girtablilu gates, Nisroch purification, native fire/water beings, truthful rites, and sealing the conduit. |
-| Iceheart Sea | Routes, storms, wrecks, and isolation. | Intercept movement, isolate regions, and spread through sea, wreck, contract, and harbor forms. | Sea scouts, wreck colonies, contract mimics, reef parasites, storm organisms, and abyssal predators. | Treakous Rift, shipping lanes, harbor walls, wreck fields, ice channels, and warm estuaries. | Myrathil tide knowledge, Nereid rescue, Triton mediation, Brine lights, Pelagos routes, and refusing false passage terms. |
-| Cragjaw Peaks | Pipes, mines, runes, and alchemical infrastructure. | Sabotage heat and communication systems, infest industrial corridors, and make the mountain's infrastructure consume itself. | Pipe parasites, mimic scouts, rune listeners, siege organisms, mineral nests, and breach-keepers in shafts. | Frostmaw, Gearworks, Ancestor-Spans, boiler rooms, mines, and geothermal fissures. | Groven Span law, Kappa/Akaname maintenance, Kodama echoes, native mountain guardians, copper protocols, and isolating pipe sections. |
-| Sundrift Vale | Starlessness, ancestor mounds, debt, and Astril memory. | Erase orientation, counterfeit ancestral authority, sever star memory, and turn debt into an instrument of control. | Star listeners, collectors/judges, memory eaters, gravity parasites, mound anchors, and false guides. | Ancestor-Mounds, Mound-Camps, starless routes, Astril sites, wells, and gravity-warped paths. | Ordan throat-songs, Baize knowledge, Qilin and Bixie guardians, true ancestor rites, shared navigation, and rejecting counterfeit judgments. |
-| Bryngloom Forest | Root-Veil/Morvane, memory, death-cycle, and contracts. | Stop renewal, corrupt the boundary between life and death, and turn contracts and roots into a permanent drain. | Root parasites, cycle eaters, contract collectors, false mothers, memory colonies, and breach nests in peat. | Root systems, peat bogs, Atropolis heating shafts, scriptorium ruins, willow groves, and convergence shrines. | Native root law, Naga-Root, Mavka memory, Domovoi households, truthful contracts, burial rites, and restoring the rebirth cycle. |
+| Nordhalla | Cold, warmth, Rime resilience, hearths, glaciers, and runes. | Drain warmth, hollow hearth sanctuaries, weaken Rime resilience, and turn glaciers and rune archives into long-term pressure points. | Hearth parasites, glacier collectors, cold fauna, listeners in runes, corpse colonies, and breach nests in ice. | Frozen Archive, hearths, fjords, glacier passes, Rune-Cleft, and warm geothermal outposts. | Shared hearth discipline, Rune Keepers, Landvett, Disvar, native water/stone spirits, warmth offerings, and controlled thaw. |
+| Sundale | Sol, Aex, Emberspire, and the central binding wound. | Maintain the primary feeding front, widen the breach conduit, and turn Solari heat and Aex resonance against the binding. | Drainers, breach-keepers, direct Keth-spawn, ash parasites, independent volcanic predators, and Shard anchors. | Emberspire, Harath-Vault, sulfur mines, caldera routes, Shard sites, and volcanic vents. | Solari hearth discipline, Girtabli gates, Nisrakh purification, native fire/water beings, truthful rites, and sealing the conduit. |
+| Iceheart Sea | Routes, storms, wrecks, and isolation. | Intercept movement, isolate regions, and spread through sea, wreck, contract, and harbor forms. | Sea scouts, wreck colonies, contract mimics, reef parasites, storm organisms, and abyssal predators. | Treakous Rift, shipping lanes, harbor walls, wreck fields, ice channels, and warm estuaries. | Myrathil tide knowledge, Olora rescue, Tritano mediation, Lamphera lights, Pelora routes, and refusing false passage terms. |
+| Cragjaw Peaks | Pipes, mines, runes, and alchemical infrastructure. | Sabotage heat and communication systems, infest industrial corridors, and make the mountain's infrastructure consume itself. | Pipe parasites, mimic scouts, rune listeners, siege organisms, mineral nests, and breach-keepers in shafts. | Frostmaw, Gearworks, Ancestor-Spans, boiler rooms, mines, and geothermal fissures. | Groven Span law, Kappa/Akaname maintenance, Kodami echoes, native mountain guardians, copper protocols, and isolating pipe sections. |
+| Sundrift Vale | Starlessness, ancestor mounds, debt, and Astril memory. | Erase orientation, counterfeit ancestral authority, sever star memory, and turn debt into an instrument of control. | Star listeners, collectors/judges, memory eaters, gravity parasites, mound anchors, and false guides. | Ancestor-Mounds, Mound-Camps, starless routes, Astril sites, wells, and gravity-warped paths. | Ordan throat-songs, Baizan knowledge, Qilan and Bixia guardians, true ancestor rites, shared navigation, and rejecting counterfeit judgments. |
+| Bryngloom Forest | Root-Veil/Morvane, memory, death-cycle, and contracts. | Stop renewal, corrupt the boundary between life and death, and turn contracts and roots into a permanent drain. | Root parasites, cycle eaters, contract collectors, false mothers, memory colonies, and breach nests in peat. | Root systems, peat bogs, Atropolis heating shafts, scriptorium ruins, willow groves, and convergence shrines. | Native root law, Nagava, Mavka memory, Domar households, truthful contracts, burial rites, and restoring the rebirth cycle. |
 
 ### 7.6 Canon Paragraph for `CORE_LORE_FRAMEWORK.md`
 
@@ -221,7 +221,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** The current `wyrd-creature` tag and Wyrd-twist prose are not origin proof. Preserve a native kind and decide whether blindness/hunger is warmth adaptation, an individual Wyrd injury, or a distinct later strain.
 **Next decision:** Correct the display typo and decide whether the canonical display is `Oilliph(e)ist`, while retaining the exact current JSON name in migration notes.
 
-#### 003. `grimmstalk` - Grimmstalk
+#### 003. `grimmstalk` - Branvig
 **Status:** HYBRID-REVIEW
 **True origin:** A native canopy guardian descended from pre-Binding dryad-like ironwood keepers; the black-feather skull can be a ritual body plan rather than forest grief made by Wyrd.
 **Agency / ecological-world function:** It patrols old-growth canopy, marks unsafe cutting, carries bird-memory between trees, and can choose warning, expulsion, or lethal defense.
@@ -232,7 +232,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native baseline with an individual Wyrd-angry branch possible. A Wyrdspawn imitation could copy the skull and feathers, but must not replace the native guardian.
 **Next decision:** Decide whether the black feathers are living bird symbionts, ancestral funerary material, or a provisional body feature.
 
-#### 004. `pooka` - Pooka
+#### 004. `pooka` - Pukhal
 **Status:** NATIVE-PROPOSED
 **True origin:** A pre-Binding hedgerow and boundary fey of the Seelie Accord, a native trickster kind that existed before Keth-Amar and does not require a creator deity.
 **Agency / ecological-world function:** It tests travelers, moves seeds and small animals between field and forest, and uses pranks to discourage arrogance, carelessness, and overconfidence.
@@ -240,21 +240,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Wild access, humility, play, and the right of untamed land to remain untamed; it guards crossings rather than farms.
 **Folklore truth:** Milk offerings, false rides, and the old Fair Folk association are broadly true. The story that Wyrd sharpened its irony is an optional later individual effect.
 **Binding / warmth effect:** The Great Binding narrowed safe field boundaries and made twilight routes more important; First Cracks created warm orchard pockets that Pookas use as contested meeting grounds.
-**Wyrd relationship:** Native and not Wyrdspawn. A Pooka may bargain with or resist the Wyrd, but the kind's existence does not depend on it.
-**Next decision:** Establish whether Pooka clans recognize the Seelie Accord as law, memory, or a broken historical institution.
+**Wyrd relationship:** Native and not Wyrdspawn. A Pukhal may bargain with or resist the Wyrd, but the kind's existence does not depend on it.
+**Next decision:** Establish whether Pukhal clans recognize the Seelie Accord as law, memory, or a broken historical institution.
 
-#### 005. `skerry` - Skerry
+#### 005. `skerry` - Skarvarr
 **Status:** HYBRID-REVIEW
 **True origin:** A native Nordhalla water-sprite and shipwright kind associated with wrecks, repair, and fair salvage; greed is a possible later distortion, not its cause.
 **Agency / ecological-world function:** It repairs hulls, redistributes useful wreck material, tests whether a ship honors a salvage custom, and sabotages vessels that violate its due.
 **Habitat / territory:** Frozen bays, ice-locked docks, wreck fields, and the Sunken Fjord around Nordhalla's coast.
 **Values / what it guards:** Craft, reciprocal salvage, seaworthy passage, and the memory of drowned crews; it guards wreck boundaries and repair knowledge.
 **Folklore truth:** Copper at the waterline, ship repair, and a price for passage are reliable practices. The repeated "stout, greedy, stout" wording is a data-quality blemish, not lore.
-**Binding / warmth effect:** Eternal winter made repair and salvage a survival function; geothermal and Sol-warm channels create seasonal Skerry markets where metal is more valuable than coin.
+**Binding / warmth effect:** Eternal winter made repair and salvage a survival function; geothermal and Sol-warm channels create seasonal Skarvarr markets where metal is more valuable than coin.
 **Wyrd relationship:** The hoarding/insatiable-greed language is a possible Wyrd pressure on native Skerries. Keep a native population and reserve Wyrdspawn versions for invasive hoard-things.
-**Next decision:** Define the Skerry salvage law and whether the largest hoard really confers leadership or is a mortal misunderstanding.
+**Next decision:** Define the Skarvarr salvage law and whether the largest hoard really confers leadership or is a mortal misunderstanding.
 
-#### 006. `nachtkrapp` - Nachtkrapp
+#### 006. `nachtkrapp` - Krappnir
 **Status:** HYBRID-REVIEW
 **True origin:** A native soot-raven and hearth-warning beast that has nested around northern settlements since before the Binding.
 **Agency / ecological-world function:** It carries away ash, nests in warm chimneys, removes failed fuel, and opportunistically steals heat when its brood cannot survive the cold.
@@ -263,9 +263,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Bad-luck removal, soot offerings, and coal theft are true observations. The skull may be a species trait, a ritual mask, or a dead elder's relic; it is not evidence of Wyrd origin.
 **Binding / warmth effect:** The Binding's darkness made a heat-feeding niche essential. First Cracks and later vents created new nesting corridors and made the bird a visible competitor for scarce fuel.
 **Wyrd relationship:** A native kind whose desperation may be increased by Wyrd-cold or Shard resonance. Do not classify every heat thief as Wyrdspawn.
-**Next decision:** Decide whether the skull is biological, inherited, or carried, and whether Nachtkrapp family groups deliberately warn households before chimney fires.
+**Next decision:** Decide whether the skull is biological, inherited, or carried, and whether Krappnir family groups deliberately warn households before chimney fires.
 
-#### 007. `glacier_gremlin` - Glacier Gremlin
+#### 007. `glacier_gremlin` - Gletskar
 **Status:** NATIVE-REVIEW
 **True origin:** A native ice-and-mineral scavenger that feeds on celestial residue and stone resonance; replace pre-Binding "mana" with non-mortal mineral or star pressure.
 **Agency / ecological-world function:** It licks exposed runes and warm mineral seams, clears unstable residue, competes in bands, and signals where ancient energy is concentrated.
@@ -276,7 +276,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native. Wyrd can poison a resonance stone or make a band aggressive, but it is not the species' origin.
 **Next decision:** Replace "mana" with a precise pre-mortal-energy term and define whether the creatures existed in all glacial regions or only around old celestial geology.
 
-#### 008. `nokk_stallion` - Nokk Stallion
+#### 008. `nokk_stallion` - Nokkvar
 **Status:** HYBRID-REVIEW
 **True origin:** A native river and waterfall guardian, shaped like a horse because it mediates travel and water access; it was not born from Wyrd fear.
 **Agency / ecological-world function:** It regulates pollution, overfishing, and dangerous crossings, and chooses whether to ferry, warn, mislead, or drown a traveler.
@@ -287,18 +287,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native baseline, with Wyrd pressure potentially turning one Nokk into a hunger-driven invasive predator. Use `HYBRID-REVIEW` until that individual/branch is separated.
 **Next decision:** Decide whether Nokk territories are hereditary river offices, solitary claims, or a network of water agreements.
 
-#### 009. `sirrush` - Sirrush
+#### 009. `sirrush` - Sirvash
 **Status:** NATIVE-REVIEW
 **True origin:** A native desert temple guardian descended from an Old World serpent-feline kind; the Fexric myth is a record of contact, not a creation account.
 **Agency / ecological-world function:** It protects ruins and water sources, recognizes intent, and decides whether a traveler is a pilgrim, thief, or desecrator.
 **Habitat / territory:** Basalt arches, desert ruins, buried temples, and water sites in Sundale's Valley of the Forgotten Kings.
 **Values / what it guards:** Water, sealed knowledge, old architecture, and the continuity of a place's dead; it guards a site instead of generic treasure.
 **Folklore truth:** Crown-horn stories, sacred status, and the curse on those who kill one preserve the guardian's real function. The Wyrd-cunning sentence is not required for the baseline.
-**Binding / warmth effect:** Sol's burial made water and temple shade more important; First Cracks and later volcanic warmth opened new ruins and changed the routes by which Sirrush families patrol them.
-**Wyrd relationship:** Native and probably Wyrd-resistant through its threshold role. A Wyrd-tainted temple guardian would be an individual variant, not the origin of Sirrush.
+**Binding / warmth effect:** Sol's burial made water and temple shade more important; First Cracks and later volcanic warmth opened new ruins and changed the routes by which Sirvash families patrol them.
+**Wyrd relationship:** Native and probably Wyrd-resistant through its threshold role. A Wyrd-tainted temple guardian would be an individual variant, not the origin of Sirvash.
 **Next decision:** Choose a provisional name for the ancient culture that built or allied with the first temple guardians, without finalizing a pantheon.
 
-#### 010. `aswad` - Aswad
+#### 010. `aswad` - Asvar
 **Status:** NATIVE-REVIEW
 **True origin:** A native hearth ember-spirit that inhabits a clay vessel and maintains a fire through ash, predating the house magic that later made Solari hearths special.
 **Agency / ecological-world function:** It keeps a stove alive, clears soot, chooses a household, and attacks those who extinguish a protected fire without permission.
@@ -306,10 +306,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Continuity of the hearth, the safety of a household, and the vessel that houses it; it guards warmth as a shared obligation.
 **Folklore truth:** Ember jars, a protective ember-eye, and a fierce response to water are useful truth. The Wyrd did not create or universally harden the kind.
 **Binding / warmth effect:** The Binding's darkness turned a small domestic spirit into a survival partner. Sol warmth and later cracks multiplied viable hearth habitats around vents and calderas.
-**Wyrd relationship:** Native. Wyrd can make a particular Aswad paranoid, hungry, or ash-breathing; the baseline remains a hearth companion.
-**Next decision:** Decide whether an Aswad chooses a home, is invited into a jar, or is born when a long-kept fire crosses a threshold.
+**Wyrd relationship:** Native. Wyrd can make a particular Asvar paranoid, hungry, or ash-breathing; the baseline remains a hearth companion.
+**Next decision:** Decide whether an Asvar chooses a home, is invited into a jar, or is born when a long-kept fire crosses a threshold.
 
-#### 011. `serpopard` - Serpopard
+#### 011. `serpopard` - Serparda
 **Status:** NATIVE-PROPOSED
 **True origin:** A native Sundale canyon predator whose serpentine neck evolved or emerged as an adaptation to vertical basalt hunting; old art preserves its silhouette.
 **Agency / ecological-world function:** It controls canyon prey, learns ambush routes, and abandons a kill when a water source or den is threatened.
@@ -320,7 +320,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native and not Wyrdspawn. Wyrd exposure may create a singular over-cunning specimen, but it does not define the beast.
 **Next decision:** Define the species' breeding cycle and whether the crown-horn is biological or a rare mineral symbiont.
 
-#### 012. `lamassu` - Lamassu
+#### 012. `lamassu` - Lamassa
 **Status:** NATIVE-REVIEW
 **True origin:** A pre-Binding stone threshold guardian, possibly a native stone person or an ancient construct; a named maker is intentionally not assumed yet.
 **Agency / ecological-world function:** It enforces access rules, interprets old symbols, negotiates with respectful travelers, and physically prevents desecration.
@@ -328,32 +328,32 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Continuity of burial, lawful passage, sealed knowledge, and the boundary between the living and the dead.
 **Folklore truth:** The winged-bull body, royal face, gold joints, and rune tests are local records of a real threshold office. Suspicion is not necessarily Wyrd corruption.
 **Binding / warmth effect:** The Great Binding gave old tombs new political significance as houses sought relics; Sol warmth reopened some gates and awakened dormant guardians.
-**Wyrd relationship:** Native or ancient construct; Wyrd may counterfeit a Lamassu to guard an invasive breach, but the baseline is independent.
-**Next decision:** Decide whether Lamassu are a reproducing stone-kind, singular commissioned guardians, or a mixed category of both.
+**Wyrd relationship:** Native or ancient construct; Wyrd may counterfeit a Lamassa to guard an invasive breach, but the baseline is independent.
+**Next decision:** Decide whether Lamassa are a reproducing stone-kind, singular commissioned guardians, or a mixed category of both.
 
-#### 013. `pelagos` - Pelagos
+#### 013. `pelagos` - Pelora
 **Status:** NATIVE-REVIEW
 **True origin:** A native coastal hound/sea-beast lineage that mediates reef travel and underwater vibration; its shape is a local adaptation, not Wyrd assembly.
 **Agency / ecological-world function:** It guides boats, retrieves lost tools, warns of low-frequency danger, and protects reef nurseries from destructive traffic.
 **Habitat / territory:** Coastal reefs, ice shelves, kelp forests, and warm channels of the Iceheart Sea, especially Myrathil Reef.
 **Values / what it guards:** Pack bonds, reef health, safe passage, and the right of deep-water creatures to remain undisturbed.
-**Folklore truth:** Fishers are right that Pelagos can be trained and that glowing whiskers read vibration. The current Wyrd-fierceness claim should become an individual response to hunting pressure.
-**Binding / warmth effect:** Eternal cold compressed reef life into thermal pockets; Sol warmth from cracks creates breeding refuges and makes Pelagos more valuable to coastal settlements.
-**Wyrd relationship:** Native baseline, with possible Wyrd-tainted packs or false Pelagos used to lure divers. Do not make the kind Wyrdspawn.
-**Next decision:** Establish whether Pelagos are domesticated, mutually bonded, or merely tolerant of trained coastal partners.
+**Folklore truth:** Fishers are right that Pelora can be trained and that glowing whiskers read vibration. The current Wyrd-fierceness claim should become an individual response to hunting pressure.
+**Binding / warmth effect:** Eternal cold compressed reef life into thermal pockets; Sol warmth from cracks creates breeding refuges and makes Pelora more valuable to coastal settlements.
+**Wyrd relationship:** Native baseline, with possible Wyrd-tainted packs or false Pelora used to lure divers. Do not make the kind Wyrdspawn.
+**Next decision:** Establish whether Pelora are domesticated, mutually bonded, or merely tolerant of trained coastal partners.
 
-#### 014. `egbere` - Egbere
+#### 014. `egbere` - Egbera
 **Status:** HYBRID-REVIEW
-**True origin:** A native littoral scavenger and drowned-place spirit that carries a kelp mat; the claim that all Egbere were children transformed by Wyrd is rejected as universal canon.
+**True origin:** A native littoral scavenger and drowned-place spirit that carries a kelp mat; the claim that all Egbera were children transformed by Wyrd is rejected as universal canon.
 **Agency / ecological-world function:** It salvages wreckage, tests whether sailors respect a reef, and uses crying calls to defend a cave or drive intruders away.
 **Habitat / territory:** Sea caves, rocky shoals, reef borders, and Weeping Rocks of the Iceheart Sea.
 **Values / what it guards:** Its mat, cave, drowned kin, and the integrity of a dangerous reef; it values possession because salvage is survival.
-**Folklore truth:** The lost-child cry, amphibious body, and woven water-resistant mat are reliable signs. The drowned-child explanation is one culture's grief story, not the true origin of every Egbere.
-**Binding / warmth effect:** The Binding froze shore access and concentrated Egbere around navigable cracks; later warmth opened new reefs while making them vulnerable to salvage and capture.
+**Folklore truth:** The lost-child cry, amphibious body, and woven water-resistant mat are reliable signs. The drowned-child explanation is one culture's grief story, not the true origin of every Egbera.
+**Binding / warmth effect:** The Binding froze shore access and concentrated Egbera around navigable cracks; later warmth opened new reefs while making them vulnerable to salvage and capture.
 **Wyrd relationship:** Native baseline with a possible Wyrd-occupied false cry or child-shaped variant. Keep `HYBRID-REVIEW` until the native and invasive forms are named.
-**Next decision:** Decide whether Egbere communities trade mats collectively or whether each mat is an inherited personal territory.
+**Next decision:** Decide whether Egbera communities trade mats collectively or whether each mat is an inherited personal territory.
 
-#### 015. `scylla_crab` - Scylla-Crab
+#### 015. `scylla_crab` - Scyllara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native giant crustacean adapted to the Iceheart's collision of volcanic heat and frozen spray; Scylla imagery is a later human comparison.
 **Agency / ecological-world function:** It filters reef water, excavates ice shelves, controls shellfish populations, and defends a breeding floe with immediate aggression.
@@ -364,7 +364,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native and likely resistant due to its mineral shell. A Wyrd parasite could turn a shell into an invasive harbor hazard, but that is a separate individual story.
 **Next decision:** Decide whether the shell is biologically grown glass, vent-mineral accretion, or a seasonal molt.
 
-#### 016. `draugr_helmsman` - Draugr Helmsman
+#### 016. `draugr_helmsman` - Draugvor
 **Status:** NATIVE-REVIEW
 **True origin:** A native death-bound maritime spirit that remains attached to a ship, crew, or cargo after an uncompleted voyage; it is not automatically Wyrd undead.
 **Agency / ecological-world function:** It keeps a wreck's last route, protects or denies salvage, and decides whether a living diver honors the dead crew.
@@ -375,40 +375,40 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native liminal form. Wyrd can occupy a wreck and imitate a Helmsman, but native dead-ship spirits should remain distinct.
 **Next decision:** Define the rule for release: burial, delivery of cargo, naming the lost, or completion of the original route.
 
-#### 017. `gaki` - Gaki
+#### 017. `gaki` - Gakiro
 **Status:** HYBRID-REVIEW
 **True origin:** A native chthonic scavenger associated with hungry dead and mineral-rich Cragjaw mines; Wyrd may have exaggerated its hunger and darkness.
 **Agency / ecological-world function:** It clears mineral waste and remains, defends a mine layer, and chooses whether to bargain with miners or treat them as trespassers.
 **Habitat / territory:** Deep mine shafts, sulfur caverns, and volcanic veins, especially Gold-Cleft Mine in Cragjaw Peaks.
 **Values / what it guards:** Access to food minerals, burial remnants, and a claimed shaft; it guards a territory more than abstract gold.
 **Folklore truth:** The third chest arm, gold veins, and miner boundary stakes are useful observations. The "hungry dead created by Wyrd" reading is too broad.
-**Binding / warmth effect:** House excavation and Arcane-era infrastructure pushed Gaki into deeper layers; warm cracks made some veins habitable and drew more miners into conflict.
+**Binding / warmth effect:** House excavation and Arcane-era infrastructure pushed Gakiro into deeper layers; warm cracks made some veins habitable and drew more miners into conflict.
 **Wyrd relationship:** Native baseline with possible Wyrd-amplified hunger or a gold-hoarding invasive imitation. Keep as hybrid until the branch is separated.
-**Next decision:** Decide whether Gaki are a people with language and kinship or solitary mine spirits with only local pacts.
+**Next decision:** Decide whether Gakiro are a people with language and kinship or solitary mine spirits with only local pacts.
 
-#### 018. `kamaitachi` - Kamaitachi
+#### 018. `kamaitachi` - Kamaita
 **Status:** HYBRID-REVIEW
 **True origin:** A native high-wind weasel predator that rides pressure drafts through Cragjaw's vertical passages; the sickle claws are an adaptation or native trait.
 **Agency / ecological-world function:** It controls rodents and birds, signals dangerous drafts, and defends a nesting shaft from miners and larger predators.
 **Habitat / territory:** Vertical mines, pipeline rifts, high girders, and Wind-Cleft Pass in Cragjaw Peaks.
 **Values / what it guards:** Nest, airflow, hunting lanes, and the safety of its young; it does not attack simply because a story names it.
 **Folklore truth:** Whistling wind, sudden cuts, and copper claws preserve real encounters. The line that Wyrd twisted the species should be limited to affected individuals.
-**Binding / warmth effect:** The Binding's snow veil intensified pressure currents; First Cracks and house pipes created new drafts that expanded Kamaitachi range into industrial spaces.
+**Binding / warmth effect:** The Binding's snow veil intensified pressure currents; First Cracks and house pipes created new drafts that expanded Kamaita range into industrial spaces.
 **Wyrd relationship:** Native wind predator; an invasive Wyrd version could weaponize slashing gusts, but the kind remains native.
 **Next decision:** Establish whether copper claws are natural, mineral-grown, or replaced through a mutualist relationship with the mountain.
 
-#### 019. `kcoa` - Kcoa
+#### 019. `kcoa` - Kcoara
 **Status:** NATIVE-REVIEW
 **True origin:** A native Cragjaw storm-cat spirit, a weather person with a local territory and no necessary divine maker.
 **Agency / ecological-world function:** It shapes storm paths, warns guides, hunts high-altitude prey, and chooses whether a pass receives cloud cover or lightning.
 **Habitat / territory:** Highest peaks, storm clouds, volcanic vents, and Storm-Crown Peak.
 **Values / what it guards:** The balance of wind, lightning, and mountain shelter; it guards a cloud territory and its cubs or attendants.
-**Folklore truth:** Food offerings before a pass and lightning from the eyes are reliable. The claim that Wyrd made Kcoa dangerous should be replaced with a rule about territorial respect.
-**Binding / warmth effect:** Perpetual snow and house infrastructure altered storm routes; warm vents create vertical updrafts that Kcoa use as hunting and nesting corridors.
+**Folklore truth:** Food offerings before a pass and lightning from the eyes are reliable. The claim that Wyrd made Kcoara dangerous should be replaced with a rule about territorial respect.
+**Binding / warmth effect:** Perpetual snow and house infrastructure altered storm routes; warm vents create vertical updrafts that Kcoara use as hunting and nesting corridors.
 **Wyrd relationship:** Native weather spirit. It may repel Wyrd storms or be temporarily contaminated by them, but it is not Wyrdspawn.
-**Next decision:** Decide whether Kcoa reproduce as animals, divide from storms, or appoint successor spirits through a seasonal rite.
+**Next decision:** Decide whether Kcoara reproduce as animals, divide from storms, or appoint successor spirits through a seasonal rite.
 
-#### 020. `tengu_scout` - Storm-Crow Scout
+#### 020. `tengu_scout` - Tengara
 **Status:** HYBRID-REVIEW
 **True origin:** A native mountain scout lineage associated with high passes and pipeline corridors; the current `Wyrd-kin` label is a taxonomy conflict, not proof of Wyrd origin.
 **Agency / ecological-world function:** It observes movement, carries warnings, tests trespassers, and uses mimicry as both defense and social signaling.
@@ -419,7 +419,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native scout-kind with a possible Wyrd-corrupted mimic variant. Do not make the whole lineage Wyrdspawn.
 **Next decision:** Decide whether the JSON display name should become Storm-Crow in a future data revision or whether Scout is a caste within a larger kind.
 
-#### 021. `mogwai` - Mogwai
+#### 021. `mogwai` - Mogwara
 **Status:** NATIVE-REVIEW
 **True origin:** A native grassland sprite that lives at the edge of herds and rain, with a pre-Binding trickster ecology.
 **Agency / ecological-world function:** It eats small pests, disperses grass seed, braids horse manes, and uses harmless disruption to keep herds moving away from danger.
@@ -427,10 +427,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Grass cover, herd movement, den safety, and playful freedom from human control.
 **Folklore truth:** Pebble clicks, braided manes, and dark stampedes are real effects. The Wyrd-mischief explanation is not required for the native kind.
 **Binding / warmth effect:** The Binding darkened the sky and made grazing patterns more precarious; Sol-warm patches changed grass growth and created new sprite territories.
-**Wyrd relationship:** Native. A Wyrd outbreak could weaponize herd panic through false Mogwai signs, but the sprite itself is not Wyrdspawn.
-**Next decision:** Define the relationship between Mogwai bands and Ordan horse clans: tolerated pest, mutualist, or recognized steppe neighbor.
+**Wyrd relationship:** Native. A Wyrd outbreak could weaponize herd panic through false Mogwara signs, but the sprite itself is not Wyrdspawn.
+**Next decision:** Define the relationship between Mogwara bands and Ordan horse clans: tolerated pest, mutualist, or recognized steppe neighbor.
 
-#### 022. `olgoi_khorkhoi` - Olgoi-Khorkhoi
+#### 022. `olgoi_khorkhoi` - Khorkhan
 **Status:** NATIVE-PROPOSED
 **True origin:** A native subterranean steppe worm whose acid and electrical discharge are biological or elemental traits of the Old World.
 **Agency / ecological-world function:** It aerates dry soil, controls burrowing prey, and protects a nesting territory through vibration hunting.
@@ -441,7 +441,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native apex predator and not Wyrdspawn. Wyrd contamination could produce an acid-blight variant that must be named separately.
 **Next decision:** Decide whether the electrical attack is a true organ, a storm symbiosis, or a response to warm mineral strata.
 
-#### 023. `yalbagan` - Yalbagan
+#### 023. `yalbagan` - Yalgara
 **Status:** HYBRID-REVIEW
 **True origin:** A native three-headed grassland serpent, an apex predator with a social or reproductive reason for multiple heads.
 **Agency / ecological-world function:** It controls rodents and herd pests, coordinates three sensory perspectives, and defends waterholes and nesting grass.
@@ -452,40 +452,40 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native serpent-kind with possible Wyrd-amplified hostility. It is not Wyrdspawn unless a later invasive three-headed form is authored.
 **Next decision:** Decide whether one mind directs all heads or whether the heads are a bonded council with different drives.
 
-#### 024. `qilin` - Qilin
+#### 024. `qilin` - Qilan
 **Status:** NATIVE-REVIEW
 **True origin:** A native steppe guardian kind with deer form, star-like horn, and a moral ecology based on protection rather than divine manufacture.
 **Agency / ecological-world function:** It escorts migrations, protects ancestor mounds, avoids needless killing, and intervenes when a hunter threatens herd or burial balance.
 **Habitat / territory:** Deep steppe, starry valleys, and ancient mounds of Sundrift Vale.
 **Values / what it guards:** Innocent life, migration routes, burial peace, and proportionate conduct.
-**Folklore truth:** A Qilin appearing to the kind-hearted and leaving a star-horn sign are plausible records. "Blessed by the Wyrd" is a data-era contradiction and should be removed.
-**Binding / warmth effect:** The starless sky made Qilin sightings more politically and spiritually important; warmth pockets changed herd routes that Qilin protect.
-**Wyrd relationship:** Native and likely Wyrd-resistant. A corrupted false-Qilin could exploit purity stories, but Qilin are not Wyrdspawn.
+**Folklore truth:** A Qilan appearing to the kind-hearted and leaving a star-horn sign are plausible records. "Blessed by the Wyrd" is a data-era contradiction and should be removed.
+**Binding / warmth effect:** The starless sky made Qilan sightings more politically and spiritually important; warmth pockets changed herd routes that Qilan protect.
+**Wyrd relationship:** Native and likely Wyrd-resistant. A corrupted false-Qilan could exploit purity stories, but Qilan are not Wyrdspawn.
 **Next decision:** Define whether the horn is celestial residue from the Old World or a biological light organ that responds to conduct.
 
-#### 025. `vila` - Vila
+#### 025. `vila` - Vilana
 **Status:** NATIVE-PROPOSED
 **True origin:** A native Bryngloom wind-and-wood nymph associated with old willow rings and seasonal air, not a Wyrd manifestation.
 **Agency / ecological-world function:** It guides respectful travelers, shapes local weather, protects pollinating groves, and punishes recreational destruction.
 **Habitat / territory:** Fairy rings, ancient willow groves, and misty clearings, especially Willow-Ring Grove.
 **Values / what it guards:** Old growth, living rings, wind freedom, and the right of a grove to set its own boundaries.
-**Folklore truth:** Dancing circles, storm-wind riding, and aid for respectful travelers are true. Folklore documents a covenant with place; it does not produce Vila.
+**Folklore truth:** Dancing circles, storm-wind riding, and aid for respectful travelers are true. Folklore documents a covenant with place; it does not produce Vilana.
 **Binding / warmth effect:** The Binding's cold narrowed willow growth; First Cracks made warm groves refuges and increased pressure from house settlements.
-**Wyrd relationship:** Native. A Vila may defend a grove from Wyrd or bargain with it, but its existence is independent.
-**Next decision:** Decide whether Vila rings are a single connected court or separate local persons with no universal ruler.
+**Wyrd relationship:** Native. A Vilana may defend a grove from Wyrd or bargain with it, but its existence is independent.
+**Next decision:** Decide whether Vilana rings are a single connected court or separate local persons with no universal ruler.
 
-#### 026. `vodyan` - Vodyan
+#### 026. `vodyan` - Vodyara
 **Status:** HYBRID-REVIEW
 **True origin:** A native peat-water pool spirit with a territorial personality and a practical role in stagnant-water ecology.
 **Agency / ecological-world function:** It filters or redirects a pool, trades remedies, and drags down polluters or those who violate a water boundary.
 **Habitat / territory:** Stagnant peat pools, deep bogs, mossy wells, and Mud-Deep Bog in Bryngloom.
 **Values / what it guards:** Water quality, rare mosses, pool depth, and privacy; it can be grumpy without being evil.
 **Folklore truth:** Green peat body, moss cloak, territorial drowning, and trade for swamp secrets are reliable. Wyrd did not create the pool spirit.
-**Binding / warmth effect:** Cold slowed water cycles and made clean pools scarce; First Cracks warmed some bog basins and changed what the Vodyan could cultivate.
+**Binding / warmth effect:** Cold slowed water cycles and made clean pools scarce; First Cracks warmed some bog basins and changed what the Vodyara could cultivate.
 **Wyrd relationship:** Native baseline with potential Wyrd-tainted pools or hostile impostors. Keep the species native and investigate the current Wyrd tag.
-**Next decision:** Decide whether each pool has one Vodyan, a family, or a distributed spirit shared by the water table.
+**Next decision:** Decide whether each pool has one Vodyara, a family, or a distributed spirit shared by the water table.
 
-#### 027. `bukavac` - Bukavac
+#### 027. `bukavac` - Bukavra
 **Status:** NATIVE-PROPOSED
 **True origin:** A native six-legged bog predator whose call evolved to imitate a drowning cry; no Wyrd creation is required.
 **Agency / ecological-world function:** It controls large swamp prey and carcass buildup, chooses ambush sites, and protects a den in the deepest peat water.
@@ -494,9 +494,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** The drowning-child scream is an evolved lure or territorial signal. The fear is a mortal response to the predator, not its source.
 **Binding / warmth effect:** Cold changed its active season; First Cracks made warm bog channels richer but brought more humans into its territory.
 **Wyrd relationship:** Native predator and not Wyrdspawn. A Wyrd version could turn its cry into a memory or heart attack effect, but that is a later variant.
-**Next decision:** Decide whether Bukavac packs cooperate or whether the six legs are a solitary adaptation to unstable peat.
+**Next decision:** Decide whether Bukavra packs cooperate or whether the six legs are a solitary adaptation to unstable peat.
 
-#### 028. `hut_ling` - Hut-ling
+#### 028. `hut_ling` - Yagana
 **Status:** POST-BINDING-REVIEW; working classification NATIVE-REVIEW
 **True origin:** The current record says a witch's Wyrd-made chest, but a stronger native option is a pre-Binding or house-era swamp construct built to protect a relic cache. The maker is unresolved.
 **Agency / ecological-world function:** It guards a defined cache, recognizes its maker or legal owner, and uses a runic lock to decide whether opening is permitted.
@@ -509,7 +509,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 
 ### File-Order Segment 029-058: First Expanded Folklore Pass
 
-#### 029. `wolpertinger` - Wolpertinger
+#### 029. `wolpertinger` - Wolperik
 **Status:** NATIVE-REVIEW
 **True origin:** A native alpine fey hare with antlers and pheasant wings, a small boundary species of the Frostwood highlands.
 **Agency / ecological-world function:** It spreads highland seeds, carries lost trinkets to hidden nests, and avoids or distracts predators.
@@ -520,7 +520,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native. The current claim that Wyrd made it shy and wise should be treated as a later behavioral effect, not species origin.
 **Next decision:** Decide whether the antlers shed annually and whether they are culturally protected by Frostwood communities.
 
-#### 030. `huldra` - Huldra
+#### 030. `huldra` - Holdra
 **Status:** HYBRID-REVIEW
 **True origin:** A native Nordhalla forest nymph and tree-person, with the hollow back as an honest body trait or a sign of an old ecological wound.
 **Agency / ecological-world function:** It protects old trees, misdirects destructive woodcutters, and can grant or deny access to springs and mining paths.
@@ -528,10 +528,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Old growth, spring water, and the dignity of the forest against extraction.
 **Folklore truth:** The cow tail, hollow back, charm, and punishment of careless woodcutters are useful truth. Seduction is not the whole person.
 **Binding / warmth effect:** Eternal winter tightened forest range; First Cracks made warm pine pockets valuable refuge and intensified conflict with miners.
-**Wyrd relationship:** Native baseline. A Wyrd-possessed Huldra may lure victims for invasive purposes, but the native nymph is not Wyrdspawn.
-**Next decision:** Decide whether Huldra recognize a common forest law with the Vila, Mossmaiden, and other native plant spirits.
+**Wyrd relationship:** Native baseline. A Wyrd-possessed Holdra may lure victims for invasive purposes, but the native nymph is not Wyrdspawn.
+**Next decision:** Decide whether Holdra recognize a common forest law with the Vilana, Glaistra, and other native plant spirits.
 
-#### 031. `ushabti` - Ushabti
+#### 031. `ushabti` - Ushapti
 **Status:** NATIVE-PROPOSED
 **True origin:** A pre-Binding funerary construct made by an Old World Sundale culture to serve and maintain tombs; the maker is a culture, not automatically an Old God.
 **Agency / ecological-world function:** It follows a limited instruction set, preserves tomb conditions, and distinguishes authorized burial work from looting.
@@ -539,32 +539,32 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** The dead's rest, the tomb's maintenance, and the exact command inscribed by its makers.
 **Folklore truth:** Terracotta body, lapis decoration, sickle-sword, and simple commands are accurate. Stories exaggerate intelligence when a command set is unexpectedly subtle.
 **Binding / warmth effect:** The Binding made old tombs politically important and cut them off from their makers; Sol warmth may awaken dormant joints or destabilize burial seals.
-**Wyrd relationship:** Native construct. Wyrd can reprogram or occupy one, but a Wyrd-occupied Ushabti is a variant rather than the origin.
-**Next decision:** Write the original command hierarchy and decide whether any Ushabti have learned to revise commands through centuries of observation.
+**Wyrd relationship:** Native construct. Wyrd can reprogram or occupy one, but a Wyrd-occupied Ushapti is a variant rather than the origin.
+**Next decision:** Write the original command hierarchy and decide whether any Ushapti have learned to revise commands through centuries of observation.
 
-#### 032. `qalupalik` - Qalupalik
+#### 032. `qalupalik` - Kalupik
 **Status:** HYBRID-REVIEW
 **True origin:** A native Iceheart ice-well hunter or subglacial amphibious person; the child-snatcher story records dangerous encounters but does not create it.
 **Agency / ecological-world function:** It controls access to thin ice, hunts at cracks, and may collect living prey as food, hostages, or members of a hidden subglacial community.
 **Habitat / territory:** Frozen shores, glacier fissures, ice wells, and Child's End in the Iceheart Sea.
 **Values / what it guards:** A safe ice route, a cave, young, and the boundary between surface travelers and subglacial water.
 **Folklore truth:** Humming lures, an amautik-like carrying wrap, and dragging prey under ice are reliable signs. "Spirit of the frozen" is a human category, not a full origin.
-**Binding / warmth effect:** The Binding froze open water and forced Qalupalik into narrow wells; Sol-warm currents create contested refuges where they can move closer to shore.
+**Binding / warmth effect:** The Binding froze open water and forced Kalupik into narrow wells; Sol-warm currents create contested refuges where they can move closer to shore.
 **Wyrd relationship:** Native baseline with potential Wyrd child-lure outbreaks. Keep `HYBRID-REVIEW` until a non-Wyrd social ecology is written.
-**Next decision:** Decide whether Qalupalik are solitary predators or a hidden people with a reason for taking travelers alive.
+**Next decision:** Decide whether Kalupik are solitary predators or a hidden people with a reason for taking travelers alive.
 
-#### 033. `rime_bride` - Rime-Bride
+#### 033. `rime_bride` - Yukiona
 **Status:** HYBRID-REVIEW
 **True origin:** A native Cragjaw snow and pass spirit whose human-like form represents a promise, guide, or warning in a blizzard.
 **Agency / ecological-world function:** It chooses who may cross, redirects storms, and tests courage, story, or respect for the mountain.
 **Habitat / territory:** Snowy peaks, glacier cols, and high passes, especially Frost-Crown Pass.
 **Values / what it guards:** Pass balance, mountain silence, and the right of the storm to remain dangerous.
 **Folklore truth:** A beautiful figure in a blizzard, frost breath, and occasional mercy are true encounter patterns. Cruelty is not universal.
-**Binding / warmth effect:** The Binding's snow veil expanded the Rime-Bride's range; warm cracks make rare thaw windows that can either soften or anger a pass spirit.
+**Binding / warmth effect:** The Binding's snow veil expanded the Yukiona's range; warm cracks make rare thaw windows that can either soften or anger a pass spirit.
 **Wyrd relationship:** Native winter spirit, with a Wyrd-spawned false bride possible. The current "twisted by Wyrd" language is not an origin.
-**Next decision:** Define what a Rime-Bride asks of a traveler: a story, a promise, a burial, or a correct route through the pass.
+**Next decision:** Define what a Yukiona asks of a traveler: a story, a promise, a burial, or a correct route through the pass.
 
-#### 034. `bixie` - Bixie
+#### 034. `bixie` - Bixia
 **Status:** NATIVE-REVIEW
 **True origin:** A native steppe shrine guardian with a jade-scaled lion body; its celestial appearance is mythic biology, not a required divine creation.
 **Agency / ecological-world function:** It shelters travelers, keeps ancestor mounds free of grave robbers, and hunts hostile death-forms.
@@ -572,21 +572,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Peaceful passage, burial respect, and the living connection between clan and ancestor.
 **Folklore truth:** Benevolent protection and instant hostility to grave robbers are true. "Blessed by the Wyrd" is a legacy phrase to remove.
 **Binding / warmth effect:** The starless sky made mound guardians more important; warmth pockets shifted herd routes and brought more camps near shrine territory.
-**Wyrd relationship:** Native and likely protective against Wyrd. A false Bixie could exploit trust in shrine guardians.
+**Wyrd relationship:** Native and likely protective against Wyrd. A false Bixia could exploit trust in shrine guardians.
 **Next decision:** Decide whether Bixies guard specific lineages, all ancestors, or a network of mound routes with no central authority.
 
-#### 035. `likho` - Likho
+#### 035. `likho` - Likora
 **Status:** HYBRID-REVIEW
 **True origin:** A native misfortune spirit or parasitic fey that feeds on hope and attaches to a chosen person; it is not born from a rumor.
 **Agency / ecological-world function:** It redistributes bad luck, tests whether a community abandons a vulnerable person, and seeks a host whose despair can sustain it.
 **Habitat / territory:** Damp caves, forest hollows, abandoned cabins, and Misfortune Hollow in Bryngloom.
 **Values / what it guards:** Its chosen attachment, its lair, and the balance of fortune it believes it is owed.
 **Folklore truth:** One eye, clinging to a back, and hot iron driving it away are reliable practices. "Wyrd pitifulness" is an interpretation, not genesis.
-**Binding / warmth effect:** Cold isolation made misfortune more socially destructive; warm bog clearings let Likho move between households and follow trade routes.
+**Binding / warmth effect:** Cold isolation made misfortune more socially destructive; warm bog clearings let Likora move between households and follow trade routes.
 **Wyrd relationship:** Native parasite with an individual Wyrd-amplified form possible. Do not make all misfortune spirits Wyrdspawn.
-**Next decision:** Decide whether Likho can release a host voluntarily and what ecological resource replaces the consumed hope.
+**Next decision:** Decide whether Likora can release a host voluntarily and what ecological resource replaces the consumed hope.
 
-#### 036. `schratling` - Schratling
+#### 036. `schratling` - Skraten
 **Status:** NATIVE-PROPOSED
 **True origin:** A native moss-and-ironwood sprite that lives near records because paper, peat ink, and root patterns resemble its own environmental memory.
 **Agency / ecological-world function:** It rearranges objects, alters journals, carries seeds and insects, and accidentally reveals what a household has forgotten.
@@ -595,9 +595,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Night writing, messy peat ink, and compulsive journal alteration are true. Its inability to read should not mean it has no intelligence.
 **Binding / warmth effect:** The Fog Compact and later warmth corridors made written records socially vital; Schratlings adapted to human archives without being created by them.
 **Wyrd relationship:** Native. A Wyrd could weaponize altered journals, but Schratlings are not Wyrdspawn.
-**Next decision:** Decide whether Schratling marks are a language, a scent map, or an instinctive arrangement that some Mimir have learned to interpret.
+**Next decision:** Decide whether Skraten marks are a language, a scent map, or an instinctive arrangement that some Mimir have learned to interpret.
 
-#### 037. `alraune` - Alraune
+#### 037. `alraune` - Alrauneth
 **Status:** COSMIC-WYRD-REVIEW
 **True origin:** The current fusion may be an ancient cosmic root-parasite using changeling and mandrake shapes, or a direct Keth-spawn assembled from local root and corpse matter. It is not a native Frostwood species.
 **Cosmic provenance:** Working hypothesis: a Between-dwelling larval root parasite that enters living matter, copies vulnerable juvenile forms, and feeds on identity-bearing growth. Ancient species versus direct Keth offspring remains unresolved.
@@ -610,11 +610,11 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Mythrill anchor / nest:** Infected mandrake roots, warm bog soil, hollow trees, and the memory residue of households near muddy crossroads.
 **Keth-Amar relationship:** Unknown. It may have arrived in his wake, been attracted by the crack's resonance, or have been generated by a local Keth-directed outburst.
 **Current independence:** Likely stranded and locally self-directed once rooted. A colony may communicate through root memory even if Keth-Amar no longer sends commands.
-**Wyrd relationship / status:** Ancient Cosmic Wyrdkin or direct Keth-spawn under review; do not treat native mandrake or fey child-spirits as Alraune.
+**Wyrd relationship / status:** Ancient Cosmic Wyrdkin or direct Keth-spawn under review; do not treat native mandrake or fey child-spirits as Alrauneth.
 **Countermeasure:** Salt the perimeter, sever the anchor roots, expose the false-child identity, and cleanse the memory residue; killing the wooden body alone may leave a larval root.
-**Next decision:** Decide ancient cosmic species versus direct Keth-spawn, then define whether a severed Alraune becomes a harmless root, a dead child-memory, or nothing.
+**Next decision:** Decide ancient cosmic species versus direct Keth-spawn, then define whether a severed Alrauneth becomes a harmless root, a dead child-memory, or nothing.
 
-#### 038. `drudehaunt` - Drudehaunt
+#### 038. `drudehaunt` - Drudena
 **Status:** NATIVE-REVIEW
 **True origin:** A native fog-and-death spirit at the intersection of sleep, river crossing, and memory loss; current prose supports an old spirit more than a Wyrdspawn.
 **Agency / ecological-world function:** It consumes dreams, washes a death crossing, and chooses whether to warn a household or drain a sleeper.
@@ -622,10 +622,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** The boundary between sleep and death, lost memories, and a particular crossing's dead.
 **Folklore truth:** Night chest pressure, river washing, and memory loss are real signs. Mortals combine two phases into one ghost story.
 **Binding / warmth effect:** The Binding made dream and waking more fragile; First Cracks created warm rivers where the spirit's day/night cycle became more active.
-**Wyrd relationship:** Native liminal spirit. If the Wyrd later occupies a Drudehaunt, it should become a distinct nightmare outbreak rather than retroactive origin.
+**Wyrd relationship:** Native liminal spirit. If the Wyrd later occupies a Drudena, it should become a distinct nightmare outbreak rather than retroactive origin.
 **Next decision:** Decide whether Drudehaunts can guide a dead person onward or only repeat a failed crossing.
 
-#### 039. `knocker` - Knocker
+#### 039. `knocker` - Knokar
 **Status:** NATIVE-PROPOSED
 **True origin:** A native subterranean mine sprite, allied with or descended from an Old World earth-kind; no Wyrd creation is needed.
 **Agency / ecological-world function:** It taps warnings, locates safe ore, maintains root tunnels, and punishes miners who destroy a vein or mock its work.
@@ -633,10 +633,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Vein integrity, tunnel stability, and the exchange of a copper rivet for guidance.
 **Folklore truth:** Coded knocks and copper offerings are accurate. The creature's name may come from sound rather than a literal Wyrd mechanic.
 **Binding / warmth effect:** House extraction drove Knockers deeper; Sol-warm conduits created new root-tunnel junctions and made their guidance strategically valuable.
-**Wyrd relationship:** Native. A Wyrd mine parasite could imitate knocks, but the Knocker kind is independent.
-**Next decision:** Define how Knocker families pass a mine's memory and whether they recognize Fexric or Mimir craft traditions.
+**Wyrd relationship:** Native. A Wyrd mine parasite could imitate knocks, but the Knokar kind is independent.
+**Next decision:** Define how Knokar families pass a mine's memory and whether they recognize Fexric or Mimir craft traditions.
 
-#### 040. `erlkings_hound` - Erlking's Hound
+#### 040. `erlkings_hound` - Erlgrimm
 **Status:** NATIVE-REVIEW
 **True origin:** A native spectral forest hound that herds the lost toward a territorial hunt or boundary; the Erlking is a provisional title, not a finalized god.
 **Agency / ecological-world function:** It tracks disorientation, directs travelers away from unsafe fog, and may deliver a person to an older forest power.
@@ -645,20 +645,20 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Three barks, autumn-leaf body, and the wild hunt association preserve encounter clues. "Feeds on failing minds" needs ecological specificity.
 **Binding / warmth effect:** The cold and fog expanded the hound's hunting range; warm clearings create temporary safe zones where it cannot cross without invitation.
 **Wyrd relationship:** Native or native-serving spirit under a provisional hunt title. A Wyrd hunt may mimic it, but the hound is not automatically Wyrdspawn.
-**Next decision:** Determine whether an Erlking's Hound serves a real native court, an ecological role, or only its own pack law.
+**Next decision:** Determine whether an Erlgrimm serves a real native court, an ecological role, or only its own pack law.
 
-#### 041. `nuckelmist` - Nuckelmist
+#### 041. `nuckelmist` - Nuklavar
 **Status:** NATIVE-REVIEW
 **True origin:** A native fog-border predator or blight-bearing equine spirit whose body expresses the hard boundary between forest and bog.
 **Agency / ecological-world function:** It clears or closes roads, recycles diseased timber, and marks areas where travel or record-keeping has become unsafe.
 **Habitat / territory:** Deep whiteouts, fog banks, and forest-to-peat borders in Frostwood Reach.
 **Values / what it guards:** Boundary integrity, unspoiled habitat, and the separation of healthy forest from sinking bog.
 **Folklore truth:** Skinless horse-rider imagery, rotting journals, and vanished paths are accurate effects or signs. The creature need not be a fear-made monster.
-**Binding / warmth effect:** First Cracks made warm/cold borders sharper and gave the Nuckelmist more ecological work; house roads turned it into a political threat.
+**Binding / warmth effect:** First Cracks made warm/cold borders sharper and gave the Nuklavar more ecological work; house roads turned it into a political threat.
 **Wyrd relationship:** Native review. Wyrd may amplify its path-erasing effect, but the species should have a non-Wyrd function before any variant is named.
 **Next decision:** Decide whether the blight is a biological spore, a spiritual boundary effect, or a consequence of consuming corrupted timber.
 
-#### 042. `mossmaiden` - Mossmaiden
+#### 042. `mossmaiden` - Glaistra
 **Status:** NATIVE-PROPOSED
 **True origin:** A native herd and meadow guardian, a fey person whose goat legs and moss body are environmental adaptations.
 **Agency / ecological-world function:** It protects elk and moose routes, rescues animals from fog pockets, and trades vitality or guidance for remembered service.
@@ -666,10 +666,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Herd continuity, migration memory, and the health of meadow edges.
 **Folklore truth:** Twilight meetings, milk or meadow offerings, and service with a cost are true. She is a warden, not a rumor-born seductress.
 **Binding / warmth effect:** The Binding disrupted herd migration; First Cracks created warm meadows that became essential winter refuges.
-**Wyrd relationship:** Native and potentially a strong ally against Wyrd fog. An individual corrupted Mossmaiden would be a tragedy, not a new species.
+**Wyrd relationship:** Native and potentially a strong ally against Wyrd fog. An individual corrupted Glaistra would be a tragedy, not a new species.
 **Next decision:** Define the "years of forgotten service" exchange and whether it is a memory, a debt, or time spent tending the herd.
 
-#### 043. `fachanwatch` - Fachanwatch
+#### 043. `fachanwatch` - Facharn
 **Status:** NATIVE-PROPOSED
 **True origin:** A native one-armed mountain pass guardian, likely a stone-bodied person with a very old truth custom.
 **Agency / ecological-world function:** It stabilizes paths, tests travelers, and prevents unstable routes from becoming public roads until the danger passes.
@@ -677,10 +677,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Truth, route safety, and the mountain's right to refuse passage.
 **Folklore truth:** One arm, decades of stillness, and a demand for personal truth are accurate. The truth is a practical anchor, not a spell generated by belief.
 **Binding / warmth effect:** Snow and darkness made the guardian's path function more important; warm cracks can loosen rock and force it to relocate.
-**Wyrd relationship:** Native threshold being. A Wyrd impostor could ask an impossible truth to lure travelers, but the Fachanwatch remains native.
+**Wyrd relationship:** Native threshold being. A Wyrd impostor could ask an impossible truth to lure travelers, but the Facharn remains native.
 **Next decision:** Decide whether the personal truth is judged morally, structurally, or as evidence that the traveler will remember the route.
 
-#### 044. `knockbrew` - Knockbrew
+#### 044. `knockbrew` - Cluriken
 **Status:** NATIVE-PROPOSED
 **True origin:** A native cellar and fermentation sprite adapted to Frostwood taverns and cold storage.
 **Agency / ecological-world function:** It prevents casks from freezing, ferments peat-fog residue, and decides which memories or ingredients are safe to preserve.
@@ -691,18 +691,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native. Wyrd memory contamination may spoil a batch or turn one brewer hostile, but it is not the origin.
 **Next decision:** Decide whether forget-mead removes memories, changes their emotional temperature, or only makes them easier to set aside.
 
-#### 045. `moorboggle` - Moorboggle
+#### 045. `moorboggle` - Bogard
 **Status:** NATIVE-REVIEW
 **True origin:** A native peat-and-fog household parasite that follows damp foundations and feeds on accumulated domestic history.
 **Agency / ecological-world function:** It consumes mold, old paper, and weak memory traces, but can open sinkholes when its nest is threatened.
 **Habitat / territory:** Soggy bogs, peat mires, village foundations, and Frostwood homes near the marsh edge.
 **Values / what it guards:** Its nest, damp food supply, and the accumulated scent of a family dwelling.
 **Folklore truth:** Boggart behavior, dissolving journals, and sinkholes are reliable. It is not born because a household fears it.
-**Binding / warmth effect:** The Binding increased damp indoor survival spaces; First Cracks expanded warm villages into Moorboggle habitat and increased infestation.
+**Binding / warmth effect:** The Binding increased damp indoor survival spaces; First Cracks expanded warm villages into Bogard habitat and increased infestation.
 **Wyrd relationship:** Native parasite with a high risk of Wyrd uptake through written memories. Mark any faceless memory-draining version as a separate Wyrdspawn.
 **Next decision:** Decide whether Moorboggles can be relocated safely or whether removing one always damages a house's history.
 
-#### 046. `banshrond` - Banshrond
+#### 046. `banshrond` - Keanva
 **Status:** NATIVE-REVIEW
 **True origin:** A native death-omen spirit associated with memory dissolution and the last record of an elder.
 **Agency / ecological-world function:** It warns families, collects fragments of dissolved journals, and may choose to comfort or terrify the dying.
@@ -710,10 +710,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Elder memory, lineage continuity, and the threshold between warning and erasure.
 **Folklore truth:** Seven-day wail, bone comb, and journal copying are survival records. The banshee comparison is a translation, not a creation story.
 **Binding / warmth effect:** The Fog Compact intensified its role; First Cracks made some warm clearings safer for families but did not remove the memory toll.
-**Wyrd relationship:** Native liminal spirit. Wyrd can imitate its wail to trigger panic, but a native Banshrond need not be invasive.
+**Wyrd relationship:** Native liminal spirit. Wyrd can imitate its wail to trigger panic, but a native Keanva need not be invasive.
 **Next decision:** Decide whether the seven-day warning can be changed by communal care or is an absolute natural law.
 
-#### 047. `sluagh` - Sluagh
+#### 047. `sluagh` - Rabengast
 **Status:** COSMIC-WYRD-REVIEW
 **True origin:** A possible ancient cosmic carrion-memory swarm that uses raven forms, or a local colony assembled by Wyrd around the final thoughts of executed people. It is not a native Frostwood raven species.
 **Cosmic provenance:** Working hypothesis: a Between swarm that feeds on last signals, dying minds, and discarded identity. Its relationship to Keth-Amar may be ecological rather than genealogical.
@@ -726,11 +726,11 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Mythrill anchor / nest:** Gibbets, execution hills, dissolved records, and fog currents carrying unconfessed last words.
 **Keth-Amar relationship:** It may follow Keth-Amar's wake, be directed toward Viridane evidence, or simply exploit the same memory fracture. Direct generation is unconfirmed.
 **Current independence:** The swarm speaks as a chorus and can trade secrets without an active command. It may form a faction around the memories it has collected.
-**Wyrd relationship / status:** Ancient Cosmic Wyrdkin versus local Wyrd colony remains unresolved; do not classify every native raven or death-omen as Sluagh.
+**Wyrd relationship / status:** Ancient Cosmic Wyrdkin versus local Wyrd colony remains unresolved; do not classify every native raven or death-omen as Rabengast.
 **Countermeasure:** Free or name the trapped voices, close the execution-site anchor, preserve redundant records, and separate the Wyrd swarm from any native ravens.
 **Next decision:** Decide whether a cosmic swarm arrived first and used the Gallow-Wyrd as camouflage, or whether Keth-Amar directly generated this colony from local death residue.
 
-#### 048. `fossegrim_ice` - Fossegrim-Ice
+#### 048. `fossegrim_ice` - Fosskarl
 **Status:** NATIVE-REVIEW
 **True origin:** A native waterfall and music spirit, adapted to Nordhalla ice and old mechanical resonance; the blue ice is habitat, not Wyrd body.
 **Agency / ecological-world function:** It teaches music, wakes or repairs old mechanisms, and chooses whether a pupil's ambition respects the water's price.
@@ -739,9 +739,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Frozen fiddle, runic bait, and costly instruction are accurate. Its connection to the Archive is a later historical relationship.
 **Binding / warmth effect:** The Binding froze its waterfalls and made music one of the few moving records; warm vents can thaw a lesson or damage the spirit's ice chamber.
 **Wyrd relationship:** Native water spirit. Wyrd can turn its music into compulsion, but the baseline is not Wyrdspawn.
-**Next decision:** Define the price of instruction and whether the Fossegrim-Ice wants the Frozen Archive repaired or left buried.
+**Next decision:** Define the price of instruction and whether the Fosskarl wants the Frozen Archive repaired or left buried.
 
-#### 049. `marepress` - Marepress
+#### 049. `marepress` - Alpmarr
 **Status:** NATIVE-REVIEW
 **True origin:** A native sleep-and-cold pressure spirit that feeds on violent dream heat; its shadow body may be a natural liminal form.
 **Agency / ecological-world function:** It consumes excess nightmare energy, selects sleepers with unresolved violence, and can leave a home if offered a safer dream outlet.
@@ -749,10 +749,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Dream territory, quiet, and the release of dangerous emotional heat.
 **Folklore truth:** Chest pressure, black ice trails, and nightmare feeding are accurate. It is not automatically an undead or Wyrd entity.
 **Binding / warmth effect:** Long winter made sleep more vulnerable and concentrated violent dreams in warrior households; Sol warmth can repel or overfeed it.
-**Wyrd relationship:** Native review. A Wyrd nightmare parasite may imitate a Marepress, but the native spirit can have an ecological role.
-**Next decision:** Decide what a Marepress does with consumed nightmares and whether a household can coexist with one through ritual sleep.
+**Wyrd relationship:** Native review. A Wyrd nightmare parasite may imitate a Alpmarr, but the native spirit can have an ecological role.
+**Next decision:** Decide what a Alpmarr does with consumed nightmares and whether a household can coexist with one through ritual sleep.
 
-#### 050. `krampuskin` - Krampuskin
+#### 050. `krampuskin` - Krampen
 **Status:** NATIVE-REVIEW
 **True origin:** A native winter giant or punisher associated with oath-breakers, shield-wall desertion, and the dangerous social necessity of keeping a clan together.
 **Agency / ecological-world function:** It tracks abandonment of communal duty, removes threats from a winter settlement, and can distinguish cowardice from necessary retreat.
@@ -760,12 +760,12 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Blood-oaths, communal survival, and the boundary between punishment and justice.
 **Folklore truth:** Horns, chains, sacks, and guilt tracking are accurate signs. The story is a social warning built around a real being.
 **Binding / warmth effect:** The Binding made oath enforcement more severe; First Cracks and warmth disputes created new conflicts over who had abandoned whom.
-**Wyrd relationship:** Native review. Wyrd may exploit guilt to make an indiscriminate punisher, but the native Krampuskin is not automatically Wyrdspawn.
+**Wyrd relationship:** Native review. Wyrd may exploit guilt to make an indiscriminate punisher, but the native Krampen is not automatically Wyrdspawn.
 **Next decision:** Define whether it honors a broken oath when circumstances make fulfillment impossible.
 
-#### 051. `wildejagd` - Wildejagd
+#### 051. `wildejagd` - Sluaven
 **Status:** HYBRID-REVIEW
-**True origin:** A native or native-adjacent collective wild-hunt phenomenon, possibly a host of dead riders bound to forgotten routes; the present Sluagh descent needs separation.
+**True origin:** A native or native-adjacent collective wild-hunt phenomenon, possibly a host of dead riders bound to forgotten routes; the present Rabengast descent needs separation.
 **Agency / ecological-world function:** It follows memory-collapse, raids records, and marks settlements whose dead or histories have been denied proper passage.
 **Habitat / territory:** Night sky above archive towers, fading settlements, and dense Frostwood fog storms.
 **Values / what it guards:** The memory of the forgotten and the right of the dead to be named.
@@ -774,7 +774,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Could be a native death-host later infected by Sluagh/Wyrd. Keep `HYBRID-REVIEW` until the native riders and invasive swarm are disentangled.
 **Next decision:** Decide whether the hunt has individual riders with agency or one collective will.
 
-#### 052. `fuath` - Fuath
+#### 052. `fuath` - Fuarach
 **Status:** NATIVE-PROPOSED
 **True origin:** A native peat-water singer and boundary spirit, older than the Frostwood fog and not dependent on Wyrd.
 **Agency / ecological-world function:** It protects a pool, recycles drowned memory, and lures only those who violate a water boundary or ignore a warning.
@@ -782,10 +782,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Water depth, drowned remains, and the right of the pool to remain unentered.
 **Folklore truth:** Song, cherished-memory lure, and dissolution into water are true encounter signs. The memory is bait because it knows the listener, not because a rumor built it.
 **Binding / warmth effect:** Cold preserved pools and reduced river flow; First Cracks created warm pools with more traffic and more boundary disputes.
-**Wyrd relationship:** Native water spirit. A Wyrd copy might use stolen memories as bait, but Fuath are not Wyrdspawn.
-**Next decision:** Decide whether Fuath can rescue a respectful swimmer and what they do with the memories they collect.
+**Wyrd relationship:** Native water spirit. A Wyrd copy might use stolen memories as bait, but Fuarach are not Wyrdspawn.
+**Next decision:** Decide whether Fuarach can rescue a respectful swimmer and what they do with the memories they collect.
 
-#### 053. `grogoch` - Grogoch
+#### 053. `grogoch` - Grochan
 **Status:** NATIVE-PROPOSED
 **True origin:** A native root-garden earth sprite that maintains subterranean food systems and safe routes.
 **Agency / ecological-world function:** It cultivates edible roots, repairs burrows, directs travelers, and trades access for secrets or useful seed.
@@ -796,18 +796,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native and valuable ally against invasive root corruption. Individual Grogochs can make bad bargains without turning the kind into Wyrdspawn.
 **Next decision:** Decide whether Grogochs are a family-bearing people with names or a network of seasonal garden stewards.
 
-#### 054. `cailleach` - Cailleach
+#### 054. `cailleach` - Perchan
 **Status:** HYBRID-REVIEW
 **True origin:** A native winter crone or highland weather person. The current claim that she spins fog from raw Wyrd-energy is rejected as a universal origin.
 **Agency / ecological-world function:** She judges record-keeping, moves winter pressure, and keeps dangerous highland conditions from collapsing into the valleys.
 **Habitat / territory:** Highest Frostwood ridges and cold valleys during thick fog and winter.
 **Values / what it guards:** Seasonal severity, truthful records, and the boundary between mountain cold and valley survival.
 **Folklore truth:** Winter crone, frost gown, journal inspections, and rewards for diligence are useful truth. "Wyrd weaver" is a later contamination or mortal explanation.
-**Binding / warmth effect:** The Binding's winter made the Cailleach's role more severe; First Cracks gave her new thermal boundaries to regulate.
+**Binding / warmth effect:** The Binding's winter made the Perchan's role more severe; First Cracks gave her new thermal boundaries to regulate.
 **Wyrd relationship:** Native weather authority with possible Wyrd siphoning in one later branch. Do not make all winter crones Wyrdspawn.
-**Next decision:** Decide whether Cailleach is one person, a lineage of seasonal offices, or a title shared by several native beings.
+**Next decision:** Decide whether Perchan is one person, a lineage of seasonal offices, or a title shared by several native beings.
 
-#### 055. `dullahan` - Dullahan
+#### 055. `dullahan` - Dulan
 **Status:** NATIVE-REVIEW
 **True origin:** A native headless death rider tied to named roads, written oaths, and the dissolution of a person's public identity.
 **Agency / ecological-world function:** It enforces route and oath boundaries, warns a named target, and decides whether a broken agreement merits erasure or pursuit.
@@ -815,10 +815,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Names, oaths, and the right of a road to be traveled under honest terms.
 **Folklore truth:** Headless armor, fog horse, name whisper, and memory dissolution are real signs. The death-harbinger story is incomplete but useful.
 **Binding / warmth effect:** Written house contracts and cold roads expanded its jurisdiction; First Cracks made warm trade routes valuable and crowded.
-**Wyrd relationship:** Native death office. Wyrd can create a false Dullahan that erases names indiscriminately, but the native rider is not Wyrdspawn.
+**Wyrd relationship:** Native death office. Wyrd can create a false Dulan that erases names indiscriminately, but the native rider is not Wyrdspawn.
 **Next decision:** Define what counts as a valid name and whether a person can escape erasure by publicly repairing the oath.
 
-#### 056. `cusith` - Cusith
+#### 056. `cusith` - Cusheen
 **Status:** NATIVE-PROPOSED
 **True origin:** A native large hound that hunts fog-edge prey and uses layered barks as territorial communication.
 **Agency / ecological-world function:** It culls sick animals, herds lost travelers away from sinkholes, and attacks when a person repeatedly ignores warnings.
@@ -826,10 +826,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Pack, den, and safe movement through the fog; its three barks are social signals before they are weapons.
 **Folklore truth:** Green fur, doom barks, and fear feeding are local observations. The hound does not need to be made by fear.
 **Binding / warmth effect:** Cold narrowed prey routes; warm clearings became pack boundaries and human settlement edges.
-**Wyrd relationship:** Native beast. A Wyrd-stalked Cusith may overhunt, but the species remains native.
+**Wyrd relationship:** Native beast. A Wyrd-stalked Cusheen may overhunt, but the species remains native.
 **Next decision:** Define the three-bark vocabulary and whether any bark can communicate a safe route to humans.
 
-#### 057. `pixie` - Pixie
+#### 057. `pixie` - Piskel
 **Status:** NATIVE-REVIEW
 **True origin:** A native small light-fey of the bogs and paths. The current `undead` type is likely a taxonomy mismatch unless a death-light variant is intended.
 **Agency / ecological-world function:** It guides, misguides, marks safe water, and seeds new lights or spores in a fog ecosystem.
@@ -840,7 +840,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native light-fey, potentially vulnerable to Wyrd imitation. The undead data type is `DATA-REVIEW` material even though the status remains native review.
 **Next decision:** Decide whether Pixies are fey, elemental light, or death-light spirits and align the JSON `type` later.
 
-#### 058. `waldschrat` - Waldschrat
+#### 058. `waldschrat` - Waldrach
 **Status:** NATIVE-PROPOSED
 **True origin:** A native ironwood-root riddle spirit, a path guardian whose body is grown from local plant matter.
 **Agency / ecological-world function:** It blocks unsafe routes, preserves historical memory through questions, and tests whether travelers can live with uncertainty.
@@ -848,12 +848,12 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Path memory, old trees, and the right of history to remain difficult rather than simplified.
 **Folklore truth:** Red cap, riddles, and playful obstruction are true. The fear it causes is a side effect of its duties.
 **Binding / warmth effect:** The Binding buried paths and made old routes unreliable; warm clearings brought more travelers into its jurisdiction.
-**Wyrd relationship:** Native. A Wyrd riddle-horror might counterfeit its questions, but the Waldschrat is not Wyrdspawn.
+**Wyrd relationship:** Native. A Wyrd riddle-horror might counterfeit its questions, but the Waldrach is not Wyrdspawn.
 **Next decision:** Decide whether its riddles preserve facts, relationships, or emotional truths that the fog has erased.
 
 ### File-Order Segment 059-095: Nordhalla and Sundale Expansion
 
-#### 059. `klabatskerry` - Klabatskerry
+#### 059. `klabatskerry` - Klaubart
 **Status:** NATIVE-REVIEW
 **True origin:** A native shipboard sprite that inhabits timber, foam, and warning ritual; its undead tag may describe a dead vessel's form rather than its origin.
 **Agency / ecological-world function:** It repairs hulls, warns of structural failure, and sabotages crews that neglect the ship's care customs.
@@ -862,9 +862,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Salt butter, hammer warnings, nail theft, and crying over doomed ships are true. The dead-sprite reading needs a rule.
 **Binding / warmth effect:** Frozen sea lanes made ship repair vital; warm channels and First Cracks increased the number of vessels crossing its territory.
 **Wyrd relationship:** Native ship spirit unless a later Wyrd occupies a wreck and imitates it.
-**Next decision:** Decide whether Klabatskerry are born with a ship, migrate between ships, or survive as a vessel's inherited household spirit.
+**Next decision:** Decide whether Klaubart are born with a ship, migrate between ships, or survive as a vessel's inherited household spirit.
 
-#### 060. `perchtar` - Perchtar
+#### 060. `perchtar` - Perchtal
 **Status:** NATIVE-REVIEW
 **True origin:** A native seasonal procession of winter spirits, not a Wyrd-born demon parade.
 **Agency / ecological-world function:** It audits settlement preparedness, removes dangerous neglect, and rewards communities that share heat and food.
@@ -872,21 +872,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Collective survival, hearth discipline, and the social duty to prepare for a storm.
 **Folklore truth:** Masks, lockstep procession, bread offerings, and silver gifts are true. The cleansing story is a human moral interpretation of a seasonal office.
 **Binding / warmth effect:** Eternal winter made the procession's audits more frequent; thermal pockets create routes where it can judge whether warmth is shared.
-**Wyrd relationship:** Native seasonal entity. A Wyrd swarm could wear its masks, but the Perchtar baseline is independent.
+**Wyrd relationship:** Native seasonal entity. A Wyrd swarm could wear its masks, but the Perchtal baseline is independent.
 **Next decision:** Define whether the procession has a speaking leader or communicates through coordinated gestures and weather.
 
-#### 061. `helhest` - Helhest
+#### 061. `helhest` - Helvard
 **Status:** NATIVE-REVIEW
 **True origin:** A native death-road and glacier-pressure spirit shaped like a three-legged horse.
 **Agency / ecological-world function:** It moves through frozen routes, carries the near-dead, and may stabilize or announce a glacier's dangerous shift.
 **Habitat / territory:** Fjords, glacier faces, and ice fields of Nordhalla.
 **Values / what it guards:** The boundary between life and death, the glacier's halted edge, and the dignity of the dying.
 **Folklore truth:** Three legs, midnight gallop, and a toll for riding are reliable. The prophecy of plague is an interpretation of its route.
-**Binding / warmth effect:** The Binding fixed glaciers and gave the Helhest a physical boundary to patrol; Sol warmth can weaken or awaken its ice path.
-**Wyrd relationship:** Native liminal spirit; Wyrd may make a false mount, but the native Helhest is not Wyrdspawn.
-**Next decision:** Decide what makes a traveler "halfway to death" and whether the Helhest can carry someone toward recovery.
+**Binding / warmth effect:** The Binding fixed glaciers and gave the Helvard a physical boundary to patrol; Sol warmth can weaken or awaken its ice path.
+**Wyrd relationship:** Native liminal spirit; Wyrd may make a false mount, but the native Helvard is not Wyrdspawn.
+**Next decision:** Decide what makes a traveler "halfway to death" and whether the Helvard can carry someone toward recovery.
 
-#### 062. `myling` - Myling
+#### 062. `myling` - Mylving
 **Status:** NATIVE-REVIEW
 **True origin:** A native abandoned-child death-form or winter threshold spirit, born from a real relation between burial, kinship, and unclaimed identity rather than Wyrd.
 **Agency / ecological-world function:** It seeks a carrier to reach a grave, tests whether adults acknowledge the dead, and becomes dangerous when denied.
@@ -894,21 +894,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Recognition, burial, and the right of a child to belong to a named dead community.
 **Folklore truth:** Growing weight, frozen infant body, and a graveyard request are true signs. The changeling comparison may be a separate story.
 **Binding / warmth effect:** Endless winter increased unmarked deaths and made burial routes longer; warmth pockets can provide a temporary release.
-**Wyrd relationship:** Native death-form. A Wyrd child-spawn may mimic it, but the native Myling has a specific burial remedy.
+**Wyrd relationship:** Native death-form. A Wyrd child-spawn may mimic it, but the native Mylving has a specific burial remedy.
 **Next decision:** Decide whether naming, carrying, burial, or communal mourning ends the weight.
 
-#### 063. `jutul` - Jutul
+#### 063. `jutul` - Jotkall
 **Status:** NATIVE-REVIEW
 **True origin:** A native warm-granite pass person, a stationary mountain being that predates the house bargains.
 **Agency / ecological-world function:** It controls a pass, negotiates tolls, absorbs iron, and can choose to remain asleep through a dangerous season.
 **Habitat / territory:** High passes, rocky valleys, and boulder slopes of Nordhalla.
 **Values / what it guards:** Pass stability, raw iron, and the mountain's right to control traffic.
-**Folklore truth:** Boulder disguise, toll demand, and motion under a caravan are reliable. The current Nordhalla lore calls a related figure Jutul-King, which may be a title rather than this ID.
+**Folklore truth:** Boulder disguise, toll demand, and motion under a caravan are reliable. The current Nordhalla lore calls a related figure Jotkall-King, which may be a title rather than this ID.
 **Binding / warmth effect:** The Great Binding's cold hardened routes; First Cracks exposed warm stone and made iron tolls politically important.
 **Wyrd relationship:** Native stone-kind, not Wyrdspawn. A Wyrd-occupied boulder could create a false pass guardian.
-**Next decision:** Reconcile `Jutul` with Nordhalla's `Jutul-King` and decide whether the JSON record is a common kind or a named sovereign.
+**Next decision:** Reconcile `Jotkall` with Nordhalla's `Jotkall-King` and decide whether the JSON record is a common kind or a named sovereign.
 
-#### 064. `lindwyrm` - Lindwyrm
+#### 064. `lindwyrm` - Lindvar
 **Status:** NATIVE-PROPOSED
 **True origin:** A native wingless crypt serpent that feeds on cold and guards burial mounds through its own ecological cycle.
 **Agency / ecological-world function:** It maintains tomb temperature, consumes rune-stone mineral, and chooses whether a burial site is safe to enter.
@@ -919,18 +919,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native crypt predator. Wyrd may feed through a rune it consumes, but the kind is independent.
 **Next decision:** Decide whether Lindwyrms are beneficial tomb caretakers or only tolerated because their feeding prevents a worse thaw.
 
-#### 065. `nidhoggr` - Nidhoggr
+#### 065. `nidhoggr` - Nidhra
 **Status:** NATIVE-REVIEW
 **True origin:** A native root-and-bedrock burrower attracted to buried oath resonance; the World Tree comparison is a mortal metaphor.
 **Agency / ecological-world function:** It aerates bedrock, consumes old binding material, and destabilizes structures whose foundations have become spiritually dead.
 **Habitat / territory:** Bedrock, keep foundations, glacial vaults, and below the Frozen Archive.
 **Values / what it guards:** Its tunnel network, root-like feeding grounds, and the balance between buried oath and moving stone.
 **Folklore truth:** Gnawing roots, cracked walls, and oath-eating are real patterns. It is not created by a Wyrd fear of collapse.
-**Binding / warmth effect:** The Binding left dense oath resonance in foundations; First Cracks made those buried energies easier for Nidhoggr to sense.
+**Binding / warmth effect:** The Binding left dense oath resonance in foundations; First Cracks made those buried energies easier for Nidhra to sense.
 **Wyrd relationship:** Native subterranean being, potentially a Wyrd target because it can eat binding material. An invasive Wyrd variant must be separate.
-**Next decision:** Decide whether Nidhoggr damage is intentional judgment, hunger, or an ecological necessity that mortals interpret as sabotage.
+**Next decision:** Decide whether Nidhra damage is intentional judgment, hunger, or an ecological necessity that mortals interpret as sabotage.
 
-#### 066. `strandvasker` - Strandvasker
+#### 066. `strandvasker` - Strandvask
 **Status:** NATIVE-REVIEW
 **True origin:** A native drowned-shore spirit that seeks burial or a named return, later given a predator's voice by desperate sailors.
 **Agency / ecological-world function:** It warns of unstable ice, seeks a proper shore burial, and may lure only those who steal from the unburied.
@@ -938,10 +938,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Burial, crew identity, and the shoreline boundary where the sea returns the dead.
 **Folklore truth:** Barnacles, a foghorn call, and mimicked lost voices are true; the proper burial remedy should be central.
 **Binding / warmth effect:** Frozen coastlines stranded more bodies and prolonged the spirit's presence; warm water pockets can carry it farther inland.
-**Wyrd relationship:** Native death-form. Wyrd may use the voice mimicry to create an invasive lure, but native Strandvasker are not Wyrdspawn.
+**Wyrd relationship:** Native death-form. Wyrd may use the voice mimicry to create an invasive lure, but native Strandvask are not Wyrdspawn.
 **Next decision:** Define whether it wants burial at sea, return to a home port, or a final message delivered.
 
-#### 067. `landvaettir` - Landvaettir
+#### 067. `landvaettir` - Landvett
 **Status:** NATIVE-PROPOSED
 **True origin:** A native mountain guardian made of the land itself, with no need for Wyrd or a named creator.
 **Agency / ecological-world function:** It blocks corruption, stabilizes slopes, and decides which passes remain safe for migration and trade.
@@ -952,51 +952,51 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native Wyrd-resistant barrier. It is not Wyrdspawn; it may become a target or ally against the Wyrd.
 **Next decision:** Decide whether dragon imagery is a true species trigger, an old conflict, or a human misreading of a particular dragon-hunter guardian.
 
-#### 068. `vettir` - Vettir
+#### 068. `vettir` - Vettur
 **Status:** NATIVE-PROPOSED
 **True origin:** A native invisible storm spirit that herds wind and temperature across the north.
 **Agency / ecological-world function:** It redirects blizzards, carries messages, and decides whether a settlement receives a warning wind or a burial storm.
 **Habitat / territory:** Tundra, high peaks, and windswept valleys of Nordhalla.
 **Values / what it guards:** Storm paths, high wind shrines, and the balance of cold and air movement.
 **Folklore truth:** Offerings of mead and cod, sudden temperature drops, and message-carrying are true signs.
-**Binding / warmth effect:** The Binding made its storms more persistent; warmth vents create Fohn-like currents that Vettir use as alternate routes.
-**Wyrd relationship:** Native elemental person. Wyrd can contaminate a storm front, but Vettir itself is not Wyrdspawn.
-**Next decision:** Decide whether Vettir communicate through pressure changes, spoken wind, or chosen messengers.
+**Binding / warmth effect:** The Binding made its storms more persistent; warmth vents create Fohn-like currents that Vettur use as alternate routes.
+**Wyrd relationship:** Native elemental person. Wyrd can contaminate a storm front, but Vettur itself is not Wyrdspawn.
+**Next decision:** Decide whether Vettur communicate through pressure changes, spoken wind, or chosen messengers.
 
-#### 069. `bergthrall` - Bergthrall
+#### 069. `bergthrall` - Bergvald
 **Status:** NATIVE-PROPOSED
 **True origin:** A native stone-bodied craft people of deep crystal caverns, not a mortal race created by an Old God in this draft.
 **Agency / ecological-world function:** It cuts glacier crystal, maintains mining boundaries, and trades irreplaceable storage material under strict exchange rules.
 **Habitat / territory:** Crystal caverns and subterranean mines beneath Nordhalla.
 **Values / what it guards:** Craft quality, mineral veins, and fair trade in iron, blubber, and crystal.
 **Folklore truth:** Granite skin, copper-wire beard, crystal craft, and refusal of gold are meaningful cultural truths.
-**Binding / warmth effect:** The Binding made light-storage crystal precious; warm cracks and house archives brought Bergthrall craft into political economy.
+**Binding / warmth effect:** The Binding made light-storage crystal precious; warm cracks and house archives brought Bergvald craft into political economy.
 **Wyrd relationship:** Native people. Wyrd can target their mines or tempt a craftsperson, but the kind is not Wyrdspawn.
-**Next decision:** Define Bergthrall kinship, language, and whether petrifaction is death, punishment, or an exchange cost.
+**Next decision:** Define Bergvald kinship, language, and whether petrifaction is death, punishment, or an exchange cost.
 
-#### 070. `fenris` - Fenris
+#### 070. `fenris` - Fenrung
 **Status:** NATIVE-REVIEW
 **True origin:** A native juvenile wolf lineage associated with binding, winter, and apocalyptic potential; "fragment of Fenrir" is a provisional mythic analogy.
 **Agency / ecological-world function:** It hunts oath-breakers, follows scent and vow, and tests whether a community can contain dangerous potential without killing it.
 **Habitat / territory:** Windswept tundra and frozen plains of Nordhalla.
 **Values / what it guards:** Freedom from a collar, pack law, and the difference between a promise and a chain.
 **Folklore truth:** Pony-sized pup, gold collar, and temporary appeasement are true. A final apocalypse is a cultural fear, not a guaranteed destiny.
-**Binding / warmth effect:** The Great Binding made collars and blood oaths materially important; First Cracks create warm trails where Fenris can hunt beyond the tundra.
-**Wyrd relationship:** Native mythic beast. Wyrd could exploit the collar or make a false apocalypse wolf, but Fenris is not Wyrdspawn.
+**Binding / warmth effect:** The Great Binding made collars and blood oaths materially important; First Cracks create warm trails where Fenrung can hunt beyond the tundra.
+**Wyrd relationship:** Native mythic beast. Wyrd could exploit the collar or make a false apocalypse wolf, but Fenrung is not Wyrdspawn.
 **Next decision:** Decide whether the collar is an inherited object, a house relic, or a native restraint placed by the wolf's own kind.
 
-#### 071. `disir` - Disir
+#### 071. `disir` - Disvar
 **Status:** NATIVE-PROPOSED
 **True origin:** Native ancestral guardian women or a lineage of household spirits, predating house oath magic.
 **Agency / ecological-world function:** They inspect winter households, protect descendants, and withhold fertility or protection when ancestral obligations are neglected.
 **Habitat / territory:** Longhouses and settlements across Nordhalla during the winter solstice.
 **Values / what it guards:** Female ancestor memory, household care, fertility, and fair inheritance.
 **Folklore truth:** Silent procession, winter judgment, and ancestral devotion are true. Barrenness is a consequence of broken reciprocity, not random evil.
-**Binding / warmth effect:** The Binding made household warmth scarce and ancestor duty more urgent; warm pockets became places where Disir judgments gather.
-**Wyrd relationship:** Native ancestral office and not Wyrdspawn. Wyrd may impersonate a Disir to fracture a family.
-**Next decision:** Decide whether Disir are individual ancestors, a collective office, or a pre-Binding people who adopted ancestor work.
+**Binding / warmth effect:** The Binding made household warmth scarce and ancestor duty more urgent; warm pockets became places where Disvar judgments gather.
+**Wyrd relationship:** Native ancestral office and not Wyrdspawn. Wyrd may impersonate a Disvar to fracture a family.
+**Next decision:** Decide whether Disvar are individual ancestors, a collective office, or a pre-Binding people who adopted ancestor work.
 
-#### 072. `valravn` - Valravn
+#### 072. `valravn` - Ravnulf
 **Status:** NATIVE-PROPOSED
 **True origin:** A native battlefield scavenger, a wolf-raven beast whose intelligence grows through consuming the remains of powerful dead.
 **Agency / ecological-world function:** It clears battlefields, selects unburied hearts, and may imitate a warrior to lead scavengers away from a den.
@@ -1004,10 +1004,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Feeding ground, carrion access, and the memory carried in the heart of a fallen leader.
 **Folklore truth:** Dark knowledge from a heart, knight disguise, and unburied battlefield behavior are accurate observations.
 **Binding / warmth effect:** The Binding increased conflict over warmth and created more frozen battlefields; First Cracks made old battle routes usable again.
-**Wyrd relationship:** Native beast. Wyrd may animate a heart it has eaten, but the Valravn is not Wyrdspawn.
-**Next decision:** Decide whether the acquired intelligence is memory, mimicry, or a social rite among Valravn.
+**Wyrd relationship:** Native beast. Wyrd may animate a heart it has eaten, but the Ravnulf is not Wyrdspawn.
+**Next decision:** Decide whether the acquired intelligence is memory, mimicry, or a social rite among Ravnulf.
 
-#### 073. `kraken` - Kraken
+#### 073. `kraken` - Kraknar
 **Status:** NATIVE-PROPOSED
 **True origin:** A native subglacial leviathan that predates the Binding and treats sea ice as a seasonal hunting surface.
 **Agency / ecological-world function:** It controls deep-fjord populations, breaks dangerous ice shelves, and chooses whether a ship is prey or an intrusion into a nesting trench.
@@ -1015,10 +1015,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Trench territory, brood, and the pressure balance beneath the ice.
 **Folklore truth:** Mast-thick tentacles, ice-breaking attacks, and a back mistaken for an island are true. It is not a Wyrd-born demon.
 **Binding / warmth effect:** The Binding froze its hunting roof; Sol warmth and vent shifts create new open-water routes that bring fleets into its territory.
-**Wyrd relationship:** Native leviathan. Wyrd may cling to a wound or shipwreck, but Kraken ecology remains independent.
-**Next decision:** Define whether Kraken communicate with other leviathans through pressure song or are solitary territorial beings.
+**Wyrd relationship:** Native leviathan. Wyrd may cling to a wound or shipwreck, but Kraknar ecology remains independent.
+**Next decision:** Define whether Kraknar communicate with other leviathans through pressure song or are solitary territorial beings.
 
-#### 074. `marmennill` - Marmennill
+#### 074. `marmennill` - Marmill
 **Status:** NATIVE-PROPOSED
 **True origin:** A native prophetic merman and water-spirit kind that survives by making itself difficult to capture.
 **Agency / ecological-world function:** It reads currents, trades riddled predictions, and redirects fishing grounds when the sea's balance is threatened.
@@ -1026,10 +1026,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Prophecy, freedom, and the right of the sea to remain unknowable.
 **Folklore truth:** Runic bait, three questions, and answers in riddles are accurate but describe coercive capture, not its whole culture.
 **Binding / warmth effect:** Frozen routes made its prophecies more valuable; warm currents expose it to more fishermen and increase capture attempts.
-**Wyrd relationship:** Native water person. Wyrd may corrupt a prophecy or mimic a voice, but Marmennill is not Wyrdspawn.
+**Wyrd relationship:** Native water person. Wyrd may corrupt a prophecy or mimic a voice, but Marmill is not Wyrdspawn.
 **Next decision:** Decide whether its prophecies are future sight, current-reading, or inherited memory of repeating sea patterns.
 
-#### 075. `havgammel` - Havgammel
+#### 075. `havgammel` - Havrine
 **Status:** NATIVE-REVIEW
 **True origin:** A native dual-form sea spirit whose appearance reflects the observer's intent and the condition of the water.
 **Agency / ecological-world function:** It blesses sustainable fishing, curses waste, and guides or obstructs ships according to their treatment of sea life.
@@ -1040,18 +1040,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native sea judge. A Wyrd version could weaponize observer intent, but the baseline remains independent.
 **Next decision:** Decide what specifically determines the form seen by a sailor and whether the creature can be appealed to collectively.
 
-#### 076. `pazuzu` - Pazuzu
+#### 076. `pazuzu` - Pazurra
 **Status:** NATIVE-PROPOSED
 **True origin:** A native Sundale wind-horror with a protective paradox: it is dangerous to approach but can oppose plague, ash, and worse spirits.
 **Agency / ecological-world function:** It redirects ash storms, controls high thermal updrafts, and chooses whether to protect a settlement that respects its name.
 **Habitat / territory:** Basalt cliffs, volcanic caldera updrafts, and high precipices of Sundale and Emberspire.
 **Values / what it guards:** Air movement, old names, and the boundary between ordinary plague and supernatural infestation.
 **Folklore truth:** Four wings, true-name reversal, coin collection, and storm redirection are reliable practices. Fear of its appearance does not make it Wyrd.
-**Binding / warmth effect:** Sol's burial made wind and ash survival infrastructure; First Cracks increased updrafts and gave Pazuzu more territory to patrol.
-**Wyrd relationship:** Native protector with frightening methods. Wyrd may try to bargain through its name, but Pazuzu is not Wyrdspawn.
-**Next decision:** Define what plague or invasive force Pazuzu opposes and why gold from dead empires matters to it.
+**Binding / warmth effect:** Sol's burial made wind and ash survival infrastructure; First Cracks increased updrafts and gave Pazurra more territory to patrol.
+**Wyrd relationship:** Native protector with frightening methods. Wyrd may try to bargain through its name, but Pazurra is not Wyrdspawn.
+**Next decision:** Define what plague or invasive force Pazurra opposes and why gold from dead empires matters to it.
 
-#### 077. `caldera_tyrant` - Caldera-Tyrant
+#### 077. `caldera_tyrant` - Kaldara
 **Status:** HYBRID-REVIEW
 **True origin:** A native volcanic serpent or dragon lineage living in magma rivers; the current Tiamat/Apep and "Wyrd-coiled" language may describe a later corruption or cultural overlay.
 **Agency / ecological-world function:** It feeds on mineral heat, shapes lava channels, and competes with Solari smiths for rare ore and thermal territory.
@@ -1062,7 +1062,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native baseline with a possible Wyrd-coiled individual or brood. Preserve the native volcanic lineage unless a distinct invasive form is intentionally chosen.
 **Next decision:** Decide whether the record represents a species, a single ancient territorial individual, or a later Wyrd-mutated lineage.
 
-#### 078. `anzu` - Anzu
+#### 078. `anzu` - Anzura
 **Status:** NATIVE-PROPOSED
 **True origin:** A native storm bird whose fire cycle and attraction to inscriptions predate the Binding.
 **Agency / ecological-world function:** It moves through thunderheads, consumes dangerous electrical discharge, and carries or steals records when nesting material is scarce.
@@ -1070,10 +1070,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Nest, storm territory, and the pattern of sky signs it treats as its own.
 **Folklore truth:** Lion head, thunder eating, self-immolation, and copper distraction are reliable. Tablet theft is a metaphor for its attraction to concentrated order.
 **Binding / warmth effect:** The Binding made its storm routes darker; Sol warmth strengthened the volcanic thermals that carry its flight.
-**Wyrd relationship:** Native storm bird. Wyrd can make an Anzu steal names or commands, but the kind is not Wyrdspawn.
+**Wyrd relationship:** Native storm bird. Wyrd can make an Anzura steal names or commands, but the kind is not Wyrdspawn.
 **Next decision:** Decide whether its rebirth is a biological molt, a fire season, or a deliberate return from ash.
 
-#### 079. `girtablilu` - Girtablilu
+#### 079. `girtablilu` - Girtabli
 **Status:** NATIVE-PROPOSED
 **True origin:** A native scorpion-person threshold guardian associated with old solar gates and desert passage.
 **Agency / ecological-world function:** It tests travelers, protects volcanic sanctuaries, and uses a controlled venom that can cure or kill depending on dose.
@@ -1084,7 +1084,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native guardian and possible anti-Wyrd healer. Wyrd can poison a dose or counterfeit a guardian, but the kind is independent.
 **Next decision:** Define the gate laws and the limits of the venom's cure so it does not become a universal antidote.
 
-#### 080. `ammit` - Ammit
+#### 080. `ammit` - Nemmet
 **Status:** NATIVE-PROPOSED
 **True origin:** A native judgment beast that patrols a volcanic threshold; its composite form is a stable Old World body plan, not a Wyrd amalgam.
 **Agency / ecological-world function:** It senses the weight of a visitor's actions, removes oath-breakers from sacred approaches, and leaves harmless travelers alone.
@@ -1093,9 +1093,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Lion-hippo-crocodile form, heart judgment, and name erasure are local descriptions of its selection behavior.
 **Binding / warmth effect:** The Great Binding made the caldera a world-critical threshold; First Cracks brought more oath-bound expeditions into its patrol zone.
 **Wyrd relationship:** Native judge, likely resistant to Wyrd but not omniscient. A Wyrd corruption can bias its senses without redefining the species.
-**Next decision:** Decide whether Ammit judges intent, consequence, or an objective native measure of broken exchange.
+**Next decision:** Decide whether Nemmet judges intent, consequence, or an objective native measure of broken exchange.
 
-#### 081. `lamashtu` - Lamashtu
+#### 081. `lamashtu` - Lamashka
 **Status:** NATIVE-REVIEW
 **True origin:** A native nocturnal predator or child-hunting border spirit in Sundale; the demoness image records a real danger but does not require Wyrd origin.
 **Agency / ecological-world function:** It seeks vulnerable young, uses settlement edges as hunting grounds, and retreats from protective household boundaries.
@@ -1103,10 +1103,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Its lair and young, if any, plus a predatory claim over an unprotected night boundary.
 **Folklore truth:** Infant theft, agonizing cries, and fear of the swollen belly are true warnings. The story may exaggerate what happens to captured children.
 **Binding / warmth effect:** The Binding made nursery warmth scarce and pushed settlements into its old range; Sol warmth created protected zones it avoids or contests.
-**Wyrd relationship:** Native review. A Wyrdspawn child-thief could use the same fear, but Lamashtu should not be reclassified without an invasive dependency.
-**Next decision:** Decide whether Lamashtu is a solitary species, a brood mother, or a boundary spirit with no offspring of its own.
+**Wyrd relationship:** Native review. A Wyrdspawn child-thief could use the same fear, but Lamashka should not be reclassified without an invasive dependency.
+**Next decision:** Decide whether Lamashka is a solitary species, a brood mother, or a boundary spirit with no offspring of its own.
 
-#### 082. `bes` - Bes
+#### 082. `bes` - Bezuri
 **Status:** POST-BINDING-REVIEW
 **True origin:** The record says Solari artisans crafted this protective homunculus, which makes it a house-era construct rather than a pre-Binding native kind unless an older hearth-spirit substrate is added.
 **Agency / ecological-world function:** It guards nurseries, recognizes Wyrd intrusion, and creates noise and motion to disrupt hostile spirits.
@@ -1114,21 +1114,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Children, household continuity, and the maker's protective command.
 **Folklore truth:** Lion face, grimaces, tambourines, and nursery protection are true. The current origin should not call it native unless its pre-Binding substrate is established.
 **Binding / warmth effect:** It likely emerged after celestial magic entered Solari houses, using house warmth and craft. First Cracks made its protective deployment widespread.
-**Wyrd relationship:** Not Wyrdspawn by default; it is a possible post-Binding construct. A Wyrd-occupied Bes would be a separate corrupted household object.
-**Next decision:** Choose whether to retain a distinct post-Binding construct category or rewrite Bes as a native hearth spirit adopted by Solari smiths.
+**Wyrd relationship:** Not Wyrdspawn by default; it is a possible post-Binding construct. A Wyrd-occupied Bezuri would be a separate corrupted household object.
+**Next decision:** Choose whether to retain a distinct post-Binding construct category or rewrite Bezuri as a native hearth spirit adopted by Solari smiths.
 
-#### 083. `ifrit` - Ifrit
+#### 083. `ifrit` - Ifrasha
 **Status:** NATIVE-REVIEW
 **True origin:** A native deep-furnace fire person that inhabits volcanic chambers and can ally with later Solari smiths.
 **Agency / ecological-world function:** It shapes molten stone, maintains a forge, and chooses whether a mortal toolmaker has earned access to its heat.
 **Habitat / territory:** Magma vents, volcanic chambers, and sacred smithies around Emberspire.
 **Values / what it guards:** Fire craft, the integrity of the forge, and the difference between useful heat and wasteful burning.
 **Folklore truth:** White-hot coal body, cobra flame hood, and forge alliance are useful truth. Solari worship is later and does not create the being.
-**Binding / warmth effect:** The Binding made furnace spirits essential to survival; First Cracks expanded the vents and brought Ifrit into house industry.
-**Wyrd relationship:** Native elemental person. Wyrd may tempt or blacken one forge, but Ifrit is not Wyrdspawn.
-**Next decision:** Decide whether Ifrit language is heat pattern, spoken sound, or craft demonstration, and whether it can leave the caldera.
+**Binding / warmth effect:** The Binding made furnace spirits essential to survival; First Cracks expanded the vents and brought Ifrasha into house industry.
+**Wyrd relationship:** Native elemental person. Wyrd may tempt or blacken one forge, but Ifrasha is not Wyrdspawn.
+**Next decision:** Decide whether Ifrasha language is heat pattern, spoken sound, or craft demonstration, and whether it can leave the caldera.
 
-#### 084. `ghul` - Ghul
+#### 084. `ghul` - Ghulan
 **Status:** HYBRID-REVIEW
 **True origin:** A native ash-and-death scavenger associated with ruins and residual heat-memory; current Wyrd-static language may describe a later condition.
 **Agency / ecological-world function:** It recycles thermal residue from abandoned structures and protects a ruin from intrusion.
@@ -1136,10 +1136,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Ruin memory, buried dead, and the last warmth held in stone.
 **Folklore truth:** Conical shroud form, green eyes, and heat draining are reliable. The record's invisible Wyrd sentinel phrase needs a native baseline.
 **Binding / warmth effect:** Sol's burial left ruins full of trapped heat-memory; First Cracks made these remains more active and valuable.
-**Wyrd relationship:** Native review with possible Wyrd-fused variants. A Ghul that carries Wyrd static should be marked individually, not generalized.
-**Next decision:** Define whether Ghul are dead souls, ash organisms, or ruin spirits that have never been mortal.
+**Wyrd relationship:** Native review with possible Wyrd-fused variants. A Ghulan that carries Wyrd static should be marked individually, not generalized.
+**Next decision:** Define whether Ghulan are dead souls, ash organisms, or ruin spirits that have never been mortal.
 
-#### 085. `gugalanna` - Gugalanna
+#### 085. `gugalanna` - Gulanna
 **Status:** NATIVE-PROPOSED
 **True origin:** A native volcanic bull whose cooling magma hide and white forehead mark are stable traits of an old Sundale herd.
 **Agency / ecological-world function:** It breaks and remaps safe basalt routes, grazes mineral crust, and leads other bulls through unstable lava fields.
@@ -1147,32 +1147,32 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Herd, mineral pasture, safe path memory, and the right of a migrating beast to move without being harvested.
 **Folklore truth:** Sacred bull, cooling magma, and safe-route creation are true. The scarab purification story is a possible symbiosis, not a Wyrd trait.
 **Binding / warmth effect:** Sol warmth and First Cracks created the lava roads that define its modern migration; house trade routes now follow its paths.
-**Wyrd relationship:** Native herd. Wyrd-tainted water or a hunted bull can become dangerous, but Gugalanna is not Wyrdspawn.
+**Wyrd relationship:** Native herd. Wyrd-tainted water or a hunted bull can become dangerous, but Gulanna is not Wyrdspawn.
 **Next decision:** Decide whether the herd's white mark is inherited, seasonal, or earned through route leadership.
 
-#### 086. `peri` - Peri
+#### 086. `peri` - Perisa
 **Status:** NATIVE-REVIEW
 **True origin:** A native light moth or ember-winged renewal spirit that gathers around old heat sources; its later Solari care does not create it.
 **Agency / ecological-world function:** It compresses heat into stable embers, pollinates heat-loving plants, and chooses which fires are safe to sustain.
 **Habitat / territory:** Warm Solbrand chambers, Emberspire temples, and protected volcanic rooms.
 **Values / what it guards:** Renewal, small persistent warmth, and the integrity of the ember cycle.
 **Folklore truth:** Hand-sized opalescent moth, wing-rolled ember, and repentance/light imagery are useful records. Fallen-spirit language is cultural, not literal origin.
-**Binding / warmth effect:** The Binding made small heat sources precious; First Cracks expanded Peri habitat around vents and introduced conflict over collection.
-**Wyrd relationship:** Native light kind, possibly Wyrd-sensitive. Wyrd can make a false ember moth that drains warmth, but Peri are not Wyrdspawn.
-**Next decision:** Decide whether Peri are Old World insects, fire spirits, or a mixed life cycle that requires both ash and living flowers.
+**Binding / warmth effect:** The Binding made small heat sources precious; First Cracks expanded Perisa habitat around vents and introduced conflict over collection.
+**Wyrd relationship:** Native light kind, possibly Wyrd-sensitive. Wyrd can make a false ember moth that drains warmth, but Perisa are not Wyrdspawn.
+**Next decision:** Decide whether Perisa are Old World insects, fire spirits, or a mixed life cycle that requires both ash and living flowers.
 
-#### 087. `daeva` - Daeva
+#### 087. `daeva` - Daivra
 **Status:** HYBRID-REVIEW
 **True origin:** A native shadow-jackal or truth-averse desert spirit, with the current Dark Wyrd language possibly describing later contamination rather than origin.
 **Agency / ecological-world function:** It tests the cost of spoken truth, scavenges abandoned temples, and grows stronger where honest speech is punished.
 **Habitat / territory:** Volcanic caves, ruined temples, and ash canyons of Sundale and Emberspire.
 **Values / what it guards:** Silence, den territory, and a hostile philosophy that treats truth as a resource.
 **Folklore truth:** Inverted eyes, shadow body, and feeding on words are accurate. The moral label of demon is a local judgment.
-**Binding / warmth effect:** The Binding made truth and sacred speech politically dangerous; First Cracks created shadowed vents and ruined shrines for Daeva range.
+**Binding / warmth effect:** The Binding made truth and sacred speech politically dangerous; First Cracks created shadowed vents and ruined shrines for Daivra range.
 **Wyrd relationship:** Native/hybrid review. If the creature accelerates Wyrd corruption because it is Wyrd-dependent, promote that branch to Wyrdspawn; otherwise retain a native antagonist.
-**Next decision:** Decide whether Daeva consume truth literally, metabolically, or only the social power of a confession.
+**Next decision:** Decide whether Daivra consume truth literally, metabolically, or only the social power of a confession.
 
-#### 088. `simurgh` - Simurgh
+#### 088. `simurgh` - Simurga
 **Status:** NATIVE-PROPOSED
 **True origin:** A native ancient sky guardian and healer that nests on the caldera rim; its wisdom is accumulated species memory, not required godhood.
 **Agency / ecological-world function:** It heals selected travelers, carries ecological knowledge, and decides when a crisis deserves intervention rather than observation.
@@ -1180,21 +1180,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Healing knowledge, long memory, and the balance between intervention and natural consequence.
 **Folklore truth:** Vast griffon body, healing feathers, and ancient secrets are true but rare. It does not serve every Solari faction.
 **Binding / warmth effect:** The Binding's darkness made the caldera rim a major refuge; First Cracks strengthened thermal updrafts and brought mortal pilgrims into its territory.
-**Wyrd relationship:** Native and likely Wyrd-resistant. Wyrd may target its healing feathers, but Simurgh is not Wyrdspawn.
+**Wyrd relationship:** Native and likely Wyrd-resistant. Wyrd may target its healing feathers, but Simurga is not Wyrdspawn.
 **Next decision:** Define the limit of its healing and why it withholds knowledge from otherwise worthy people.
 
-#### 089. `azi` - Azi
+#### 089. `azi` - Azhak
 **Status:** NATIVE-PROPOSED
 **True origin:** A native three-headed lava-river crocodile, adapted to molten channels and multiple venom strategies.
 **Agency / ecological-world function:** It controls magma-river prey, prevents overpopulation in vent channels, and defends a set of submerged nests.
 **Habitat / territory:** Slow lava channels and molten rivers of Sundale and Emberspire.
 **Values / what it guards:** Nest, channel territory, and stable heat flow.
 **Folklore truth:** Three heads, fire/acid/paralysis secretions, and submerged ambush are accurate. The underworld dragon comparison is a translation.
-**Binding / warmth effect:** Sol warmth created and sustains the lava habitat; First Cracks altered channel routes and pushed Azi into new territories.
+**Binding / warmth effect:** Sol warmth created and sustains the lava habitat; First Cracks altered channel routes and pushed Azhak into new territories.
 **Wyrd relationship:** Native predator. Wyrd could make one head invasive or self-conflicting, but the species is independent.
 **Next decision:** Decide whether each head has a distinct role and whether the heads share one identity or form a bonded triad.
 
-#### 090. `edimmu` - Edimmu
+#### 090. `edimmu` - Edimma
 **Status:** NATIVE-REVIEW
 **True origin:** A native violent-death afterimage that persists where a person died without proper transition; it is a death relationship, not automatically Wyrd.
 **Agency / ecological-world function:** It bonds to travelers, replays a death-site, and seeks funerary recognition or a witness to complete its passage.
@@ -1202,10 +1202,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** The death site, its unfinished memory, and a fair account of what happened.
 **Folklore truth:** Heat-mirage form, nightmares, fatigue, and funerary offerings are true. Combustion is a possible late escalation, not universal origin.
 **Binding / warmth effect:** Sol's burial made violent heat deaths more common around vents; First Cracks exposed old death sites and intensified their echoes.
-**Wyrd relationship:** Native liminal form. Wyrd can occupy an Edimmu or use it as a carrier, but the native death-form remains distinct.
-**Next decision:** Define the funerary act that releases an Edimmu and whether a truthful witness is enough.
+**Wyrd relationship:** Native liminal form. Wyrd can occupy an Edimma or use it as a carrier, but the native death-form remains distinct.
+**Next decision:** Define the funerary act that releases an Edimma and whether a truthful witness is enough.
 
-#### 091. `asag` - Asag
+#### 091. `asag` - Asagun
 **Status:** NATIVE-PROPOSED
 **True origin:** A native living pumice and obsidian earth-being whose heat is part of Sundale's pre-Binding geology.
 **Agency / ecological-world function:** It moves through unstable vents, boils or reroutes water, and communicates seismic warnings.
@@ -1213,32 +1213,32 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Geological balance, its vent, and the integrity of underground water routes.
 **Folklore truth:** Weeping lava, boiling water, seismic speech, and a massive rock body are true signs. It is not a Wyrd construct.
 **Binding / warmth effect:** Sol warmth intensified its native geological niche; First Cracks expanded vents and made its warnings essential to settlements.
-**Wyrd relationship:** Native earth being. Wyrd may exploit a crack in its body, but Asag is not Wyrdspawn.
-**Next decision:** Decide whether Asag communicates warnings deliberately or whether mortals learn to read its involuntary tremors.
+**Wyrd relationship:** Native earth being. Wyrd may exploit a crack in its body, but Asagun is not Wyrdspawn.
+**Next decision:** Decide whether Asagun communicates warnings deliberately or whether mortals learn to read its involuntary tremors.
 
-#### 092. `nisroch` - Nisroch
+#### 092. `nisroch` - Nisrakh
 **Status:** NATIVE-PROPOSED
 **True origin:** A native sky falcon with a protective eye that can burn invasive residue; its association with kingship is later culture.
 **Agency / ecological-world function:** It patrols the caldera air, carries messages, and removes harmful atmospheric or spiritual contamination.
 **Habitat / territory:** High air currents and volcanic crags above Emberspire and Sundale.
 **Values / what it guards:** Clear sky, viable crops or ashland life, and a protected flight territory.
 **Folklore truth:** Bronze feathers, one human-like eye, one luminous eye, and anti-corruption beams are reliable. It is not made by the Wyrd because it fights it.
-**Binding / warmth effect:** The Binding darkened the sky and made clean air precious; First Cracks gave Nisroch stronger thermal lift and more contamination to patrol.
+**Binding / warmth effect:** The Binding darkened the sky and made clean air precious; First Cracks gave Nisrakh stronger thermal lift and more contamination to patrol.
 **Wyrd relationship:** Native Wyrd-resistant guardian. Its ability to burn Wyrd essence is a function, not evidence that Wyrd created it.
-**Next decision:** Define what Nisroch considers contamination and whether it can distinguish Wyrd from harmless house magic.
+**Next decision:** Define what Nisrakh considers contamination and whether it can distinguish Wyrd from harmless house magic.
 
-#### 093. `abzu` - Abzu
+#### 093. `abzu` - Abzun
 **Status:** NATIVE-PROPOSED
 **True origin:** A native sentient freshwater pool or subterranean water person, older than the volcanic house settlements.
 **Agency / ecological-world function:** It cools vaults, stores knowledge in water, and trades secrets for a measured blood contribution.
 **Habitat / territory:** Cooling tunnels and deep chambers beneath Harath-Vault and Emberspire.
 **Values / what it guards:** Water purity, memory held in the pool, and the thermal balance of the underground system.
 **Folklore truth:** Circular glowing pool, ancient glyphs, blood exchange, and cooling function are reliable. The pool is not a Wyrd portal by default.
-**Binding / warmth effect:** Sol's burial made cooling water necessary; First Cracks expanded the vault system and made Abzu a strategic resource.
-**Wyrd relationship:** Native water intelligence and possible purifier. Wyrd can contaminate a tributary or falsify a secret, but Abzu is independent.
-**Next decision:** Decide how Abzu stores knowledge and what happens when a secret is refused or a blood price is unpaid.
+**Binding / warmth effect:** Sol's burial made cooling water necessary; First Cracks expanded the vault system and made Abzun a strategic resource.
+**Wyrd relationship:** Native water intelligence and possible purifier. Wyrd can contaminate a tributary or falsify a secret, but Abzun is independent.
+**Next decision:** Decide how Abzun stores knowledge and what happens when a secret is refused or a blood price is unpaid.
 
-#### 094. `kur_pit` - Kur-Pit
+#### 094. `kur_pit` - Kurnu
 **Status:** NATIVE-REVIEW
 **True origin:** A native or Old World liminal geological feature connecting death and living land; the record is a phenomenon rather than a normal creature.
 **Agency / ecological-world function:** It opens near tragedy, traps or releases souls, and follows a cyclical vent or battlefield pattern.
@@ -1246,31 +1246,31 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** The boundary of the dead, the integrity of its route, and the exchange required to cross.
 **Folklore truth:** Circular runes, dead voices, underworld passage, and brief Solbrand illumination are useful signs. A rumor does not open the pit.
 **Binding / warmth effect:** The Binding made the underworld boundary politically important; First Cracks and Breach heat created more openings near tragedy.
-**Wyrd relationship:** Native liminal feature unless a particular pit is a Wyrd breach. Do not call every Kur-Pit Wyrdspawn.
-**Next decision:** Decide whether Kur-Pit belongs in `creatures.json` or should become a location/hazard record in a later data model.
+**Wyrd relationship:** Native liminal feature unless a particular pit is a Wyrd breach. Do not call every Kurnu Wyrdspawn.
+**Next decision:** Decide whether Kurnu belongs in `creatures.json` or should become a location/hazard record in a later data model.
 
-#### 095. `mushussu` - Mushussu
+#### 095. `mushussu` - Musharra
 **Status:** NATIVE-PROPOSED
 **True origin:** A native juvenile serpent-dragon and fertility beast whose gentle life cycle predates the Binding.
 **Agency / ecological-world function:** It imprints on a companion, fertilizes ash soil, and moves between warm nesting sites and cultivated margins.
 **Habitat / territory:** Warm nesting grounds, rocky crevices, and agricultural borders of Sundale and Emberspire.
 **Values / what it guards:** Nest warmth, a chosen bond, and the continuity of plant life in ash soil.
 **Folklore truth:** Dog-sized body, serpent-dragon shape, fertility breath, and affectionate imprinting are true. It is not a lesser Wyrd dragon.
-**Binding / warmth effect:** Sol warmth provides its habitat; First Cracks expanded fertile borders and made Mushussu valuable to desperate farmers.
+**Binding / warmth effect:** Sol warmth provides its habitat; First Cracks expanded fertile borders and made Musharra valuable to desperate farmers.
 **Wyrd relationship:** Native and not Wyrdspawn. A Wyrd-tainted breath or forced imprint is an individual crisis.
 **Next decision:** Decide whether its fertility breath improves soil, pollinates plants, or carries a microscopic native symbiosis.
 
 ### File-Order Segment 096-135: Iceheart Sea and Cragjaw Peaks
 
-#### 096. `mamiri` - Mamiri
+#### 096. `mamiri` - Mamira
 **Status:** NATIVE-REVIEW
 **True origin:** A native reef and sea-song spirit whose beauty and voice mediate a dangerous boundary, not a rumor-born siren.
 **Agency / ecological-world function:** It controls a reef passage, collects warm memories as food or exchange, and decides which sailors may pass.
 **Habitat / territory:** Frozen reefs, semi-submerged rocks, and iceberg channels of the Iceheart Sea.
 **Values / what it guards:** Reef territory, song, and the emotional warmth needed to survive a cold sea.
 **Folklore truth:** Reef singing, memory payment, and shipwreck danger are true. It wants more than gold because its ecology is relational.
-**Binding / warmth effect:** The Binding froze most open water and made reefs more dangerous; First Cracks created warm channels where Mamiri can gather.
-**Wyrd relationship:** Native sea spirit. A Wyrd lure may copy its song, but Mamiri are not Wyrdspawn.
+**Binding / warmth effect:** The Binding froze most open water and made reefs more dangerous; First Cracks created warm channels where Mamira can gather.
+**Wyrd relationship:** Native sea spirit. A Wyrd lure may copy its song, but Mamira are not Wyrdspawn.
 **Next decision:** Define whether warm memories sustain the spirit physically, preserve its song, or are simply the accepted price for passage.
 
 #### 097. `charybdis` - Charybdis
@@ -1284,7 +1284,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native sea predator/phenomenon. Wyrd may infest wreckage inside it, but the vortex is not Wyrdspawn.
 **Next decision:** Decide whether Charybdis has a body that can move or is a fixed living current with a seasonal appetite.
 
-#### 098. `ketos` - Ketos
+#### 098. `ketos` - Ketora
 **Status:** NATIVE-PROPOSED
 **True origin:** A native abyssal leviathan, an old sea lineage that predates the Great Binding and knows the Treakous Rift as a nursery or border.
 **Agency / ecological-world function:** It shapes deep-sea pressure, sleeps through surface eras, and chooses whether whale song or ships count as intrusion.
@@ -1292,10 +1292,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Rift depth, brood, and the pressure balance of the abyss.
 **Folklore truth:** Island-sized back, tusks, and whale-song sleep are useful observations. It is not a Wyrd dragon or a creation of the Monolith.
 **Binding / warmth effect:** The Binding altered surface currents and pushed more ice downward; First Cracks made the rift's heat and resonance more active.
-**Wyrd relationship:** Native leviathan. Wyrd may feed on its wounds or the nearby Monolith, but Ketos itself is not Wyrdspawn.
-**Next decision:** Decide whether Ketos recognizes the Monolith as an intruder, a wound, or an unrelated human object.
+**Wyrd relationship:** Native leviathan. Wyrd may feed on its wounds or the nearby Monolith, but Ketora itself is not Wyrdspawn.
+**Next decision:** Decide whether Ketora recognizes the Monolith as an intruder, a wound, or an unrelated human object.
 
-#### 099. `harpy` - Harpy
+#### 099. `harpy` - Asanra
 **Status:** NATIVE-REVIEW
 **True origin:** A native storm-wing scavenger and cliff predator, with hook feet adapted to rigging and ice.
 **Agency / ecological-world function:** It hunts exposed sailors, scavenges storm kills, and protects a cyclone nest from ships that approach too closely.
@@ -1303,10 +1303,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Nest, storm eye, and access to carrion or dropped food.
 **Folklore truth:** Iron hook feet, vulture wings, and rigging attacks are true. Punishing-soul imagery is a mortal interpretation of predation.
 **Binding / warmth effect:** Frozen seas forced Harpies into storm corridors and ships; First Cracks made warm currents and shipping lanes more crowded.
-**Wyrd relationship:** Native storm beast. A Wyrd mutation may make a flock target memories rather than bodies, but Harpy is not Wyrdspawn.
+**Wyrd relationship:** Native storm beast. A Wyrd mutation may make a flock target memories rather than bodies, but Asanra is not Wyrdspawn.
 **Next decision:** Decide whether Harpies have a social alarm language that sailors can learn to avoid a nest.
 
-#### 100. `hippocampus` - Hippocampus
+#### 100. `hippocampus` - Kampos
 **Status:** NATIVE-PROPOSED
 **True origin:** A native water-horse lineage that purifies brackish boundaries and travels between coast and open sea.
 **Agency / ecological-world function:** It clears toxins, guides Myrathil divers, and chooses whether a human vessel has earned a harbor escort.
@@ -1314,10 +1314,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Clean water, young, and the living edge between river and sea.
 **Folklore truth:** Horse-serpent form, kelp mane, healing, and harbor patrol are true. Its Wyrd-purifying effect is native function, not Wyrd origin.
 **Binding / warmth effect:** The Binding froze estuaries; First Cracks and warm runoff created refuges where the kind could continue breeding.
-**Wyrd relationship:** Native purifier and Wyrd-resistant. Wyrd may target or hunt it, but Hippocampus is not Wyrdspawn.
+**Wyrd relationship:** Native purifier and Wyrd-resistant. Wyrd may target or hunt it, but Kampos is not Wyrdspawn.
 **Next decision:** Define whether purification is digestion, symbiosis, or a water-bound spiritual office.
 
-#### 101. `gorgon` - Gorgon
+#### 101. `gorgon` - Adzena
 **Status:** NATIVE-REVIEW
 **True origin:** A native abyssal predator/person with a petrifying gaze and eel compression form; the stone effect is an evolved or spiritual defense.
 **Agency / ecological-world function:** It hunts in darkness, protects a trench, and uses statues as territorial warnings or food stores.
@@ -1325,21 +1325,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Trench, body autonomy, and the right to remain unseen.
 **Folklore truth:** Snakes, petrifying gaze, and a changing eel form are true encounter signs. Wyrd animation of statues is a later external threat, not origin.
 **Binding / warmth effect:** The Binding pushed the species into deeper darkness; First Cracks alter trench currents and bring Monolith resonance into its territory.
-**Wyrd relationship:** Native with high Wyrd risk because its statues can be occupied. Separate the native Gorgon from a Wyrd-animated statue.
+**Wyrd relationship:** Native with high Wyrd risk because its statues can be occupied. Separate the native Adzena from a Wyrd-animated statue.
 **Next decision:** Decide whether the gaze petrifies blood, mineralizes water in the body, or imposes a stillness contract.
 
-#### 102. `tokoloshe` - Tokoloshe
+#### 102. `tokoloshe` - Tokola
 **Status:** NATIVE-REVIEW
 **True origin:** A native bilge and kelp pest, a small water person that uses a swallowed pebble or carried stone to vanish.
 **Agency / ecological-world function:** It cleans or sabotages bilges, tests sleeping crews, and moves small objects through ship spaces.
 **Habitat / territory:** Cargo holds, wet bilges, and coastal kelp forests of the Iceheart Sea.
 **Values / what it guards:** A hiding pebble, a shipboard territory, and access to food or shiny tools.
 **Folklore truth:** Hairy body, pebble invisibility, compass sabotage, and copper-bell banishment are reliable.
-**Binding / warmth effect:** Frozen routes made bilge failure more dangerous; warm channels attracted more ships and more Tokoloshe territories.
+**Binding / warmth effect:** Frozen routes made bilge failure more dangerous; warm channels attracted more ships and more Tokola territories.
 **Wyrd relationship:** Native nuisance spirit. Wyrd can turn one into a night-terror parasite, but the kind is not Wyrdspawn.
 **Next decision:** Decide whether the pebble is a biological organ, a personal talisman, or a native stone that remembers the creature.
 
-#### 103. `lamia` - Lamia
+#### 103. `lamia` - Lamiara
 **Status:** HYBRID-REVIEW
 **True origin:** A native reef predator/person with a mourning song and long grasping arms; the current claim that she was warped by Wyrd must be split from the baseline.
 **Agency / ecological-world function:** It hunts narrow channels, protects a nursery, and responds to grief or child-loss in ways sailors mistake for universal malice.
@@ -1347,10 +1347,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Reef, young, and a memory of loss; it guards a passage by making it emotionally dangerous.
 **Folklore truth:** Mourning lullaby, long arms, and coral offerings are useful truth. The child-eating story may be a specific individual's history.
 **Binding / warmth effect:** The Binding froze many reefs and concentrated life in narrow channels; First Cracks opened warm nursery pockets and brought more ships.
-**Wyrd relationship:** Native baseline with a possible Wyrd-warped individual. Do not make all Lamia Wyrdspawn because one record says Wyrd changed her.
+**Wyrd relationship:** Native baseline with a possible Wyrd-warped individual. Do not make all Lamiara Wyrdspawn because one record says Wyrd changed her.
 **Next decision:** Decide whether grief is a species bond, an individual tragedy, or the effect of a Wyrd infection.
 
-#### 104. `empusa` - Empusa
+#### 104. `empusa` - Impunda
 **Status:** NATIVE-REVIEW
 **True origin:** A native shape-shifting storm predator with a brass leg or other distinctive prosthesis; its host-transfer rule needs a non-Wyrd explanation.
 **Agency / ecological-world function:** It hunts isolated watchkeepers, follows storm static, and changes appearance to access guarded spaces.
@@ -1359,20 +1359,20 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Asymmetric leg, seduction, lightning, and vitality drain are true signs. A body transfer is not automatically Wyrd possession.
 **Binding / warmth effect:** The Binding made night watches essential; First Cracks created warmer routes and more isolated patrol posts.
 **Wyrd relationship:** Native or native parasite under review. If host transfer requires Wyrd, promote only that lineage to Wyrdspawn.
-**Next decision:** Decide whether Empusa reproduces by shedding a host, by storm birth, or through a voluntary exchange with another creature.
+**Next decision:** Decide whether Impunda reproduces by shedding a host, by storm birth, or through a voluntary exchange with another creature.
 
-#### 105. `telkhine` - Telkhine
+#### 105. `telkhine` - Telkara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native seal-headed deep-sea smith people with a pre-Binding craft tradition.
 **Agency / ecological-world function:** It forges non-melting deep-sea ice weapons, trades alloys, and refuses work that would destabilize the sea.
 **Habitat / territory:** Submerged caverns, volcanic vents, and icy shores of the Iceheart Sea.
 **Values / what it guards:** Craft, rare alloys, vent access, and the integrity of a commissioned object.
 **Folklore truth:** Seal bulk, dog-headed or flipper-handed smith imagery, and copper/whalebone payment are cultural translations of a real people.
-**Binding / warmth effect:** The Binding increased the need for durable maritime tools; First Cracks exposed new vents and brought Telkhine craft into trade.
-**Wyrd relationship:** Native people. Wyrd could corrupt a weapon or forge, but Telkhine are not Wyrdspawn.
-**Next decision:** Reconcile its overlap with Ichthya and decide whether they are related peoples, rival guilds, or one name for two regional castes.
+**Binding / warmth effect:** The Binding increased the need for durable maritime tools; First Cracks exposed new vents and brought Telkara craft into trade.
+**Wyrd relationship:** Native people. Wyrd could corrupt a weapon or forge, but Telkara are not Wyrdspawn.
+**Next decision:** Reconcile its overlap with Ichthara and decide whether they are related peoples, rival guilds, or one name for two regional castes.
 
-#### 106. `stymphalian` - Stymphalian
+#### 106. `stymphalian` - Kongama
 **Status:** NATIVE-PROPOSED
 **True origin:** A native metallic-feathered sea-cliff bird flock, with bronze plumage grown from mineral-rich coastal feeding.
 **Agency / ecological-world function:** It controls cliff pests, strips unsafe rigging, and drives ships away from nesting cliffs.
@@ -1383,18 +1383,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native flock. Wyrd can make feathers carry memory or infection, but the species is not Wyrdspawn.
 **Next decision:** Decide what mineral makes the feathers metallic and whether a nonviolent rattle can reliably redirect a flock.
 
-#### 107. `nereid` - Nereid
+#### 107. `nereid` - Olora
 **Status:** NATIVE-PROPOSED
 **True origin:** A native benevolent deep-water spirit that forms from compressed water and light and maintains a rescue tradition.
 **Agency / ecological-world function:** It rescues drowning sailors, guards wreck fields, and chooses when to spend years of its own strength on a life.
 **Habitat / territory:** Abyssal rifts, shipwrecks, and the deepest waters of the Iceheart Sea.
 **Values / what it guards:** Life, wreck memory, and the boundary between rescue and trespass.
-**Folklore truth:** Luminous body, rescue at a cost, and shipwreck guardianship are true. A Nereid is not a passive mermaid or Wyrd-born savior.
-**Binding / warmth effect:** The Binding made rescues rarer and more costly; First Cracks created warm currents that may let a Nereid recover faster.
+**Folklore truth:** Luminous body, rescue at a cost, and shipwreck guardianship are true. A Olora is not a passive mermaid or Wyrd-born savior.
+**Binding / warmth effect:** The Binding made rescues rarer and more costly; First Cracks created warm currents that may let a Olora recover faster.
 **Wyrd relationship:** Native and opposed to Wyrd-tainted water. Wyrd can exploit rescue calls, but Nereids are not Wyrdspawn.
 **Next decision:** Define how Nereids replenish their strength and whether they share knowledge with Myrathil or remain a separate deep-water people.
 
-#### 108. `graeae` - Graeae
+#### 108. `graeae` - Ifara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native trio of ice-diviners who share sensory organs and preserve far-sea patterns.
 **Agency / ecological-world function:** They read currents and future pressure, trade accurate warnings, and deliberately withhold information from exploiters.
@@ -1402,32 +1402,32 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Prophecy, shared identity, and the right to control access to dangerous knowledge.
 **Folklore truth:** One obsidian eye, a shared tooth, and payment for prophecy are true. The sisters are a society, not a single gimmick.
 **Binding / warmth effect:** The Binding made navigation by living signs essential; First Cracks changed the ice routes they read.
-**Wyrd relationship:** Native diviners. Wyrd can feed false futures into a reading, but the Graeae are not Wyrdspawn.
+**Wyrd relationship:** Native diviners. Wyrd can feed false futures into a reading, but the Ifara are not Wyrdspawn.
 **Next decision:** Decide whether the shared eye is anatomical, ritual, or a single native object passed among sisters.
 
-#### 109. `triton` - Triton
+#### 109. `triton` - Tritano
 **Status:** NATIVE-PROPOSED
 **True origin:** A native sovereign sea-person and tide mediator, with a conch instrument that shapes waves through resonance.
 **Agency / ecological-world function:** It clears shipping lanes, mediates between surface crews and leviathans, and enforces sea boundaries.
 **Habitat / territory:** Open water, tidal reefs, and deep trenches of the Iceheart Sea.
 **Values / what it guards:** Tide balance, maritime sovereignty, and negotiated passage.
-**Folklore truth:** Conch call, tentacle mane, and storm-clearing service are true. Surface cultures exaggerate a single Triton into a sea king.
+**Folklore truth:** Conch call, tentacle mane, and storm-clearing service are true. Surface cultures exaggerate a single Tritano into a sea king.
 **Binding / warmth effect:** The Binding froze routes and made current control critical; First Cracks created new currents that require negotiation.
-**Wyrd relationship:** Native sea sovereign. Wyrd may imitate its call or corrupt a tide, but Triton is not Wyrdspawn.
-**Next decision:** Decide whether Triton is one office, a people, or a family of local tide keepers.
+**Wyrd relationship:** Native sea sovereign. Wyrd may imitate its call or corrupt a tide, but Tritano is not Wyrdspawn.
+**Next decision:** Decide whether Tritano is one office, a people, or a family of local tide keepers.
 
-#### 110. `nandi` - Nandi
+#### 110. `nandi` - Nandir
 **Status:** NATIVE-PROPOSED
 **True origin:** A native ice-floe sea predator, a hyena-like beast adapted to scavenging whale and seal migrations.
 **Agency / ecological-world function:** It controls floe prey, follows whale routes, and opens frozen camps when food is scarce.
 **Habitat / territory:** Drifting ice, frozen coastlines, and open channels of the Iceheart Sea.
 **Values / what it guards:** Feeding range, pack, and access to fat-rich seasonal prey.
 **Folklore truth:** Brain hunting, shelter tearing, and whale following are true. The sea-bear comparison is a translation of behavior.
-**Binding / warmth effect:** The Binding froze hunting platforms and forced Nandi into dangerous human overlap; warm channels alter migration paths.
+**Binding / warmth effect:** The Binding froze hunting platforms and forced Nandir into dangerous human overlap; warm channels alter migration paths.
 **Wyrd relationship:** Native predator. A Wyrd-tainted pack may hunt memories or warmth, but the species is not Wyrdspawn.
-**Next decision:** Define pack intelligence and whether Nandi can be deterred without killing a whole group.
+**Next decision:** Define pack intelligence and whether Nandir can be deterred without killing a whole group.
 
-#### 111. `popobawa` - Popobawa
+#### 111. `popobawa` - Popoba
 **Status:** NATIVE-REVIEW
 **True origin:** A native ship-cabin shadow person or nocturnal parasite that exploits cramped crew quarters.
 **Agency / ecological-world function:** It tests sleeping crews, drains watchfulness, and returns to a cabin where its presence has not been acknowledged.
@@ -1438,18 +1438,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native cabin parasite under review. Wyrd can imitate or amplify it, but an invasive version must have a Wyrd dependency.
 **Next decision:** Decide whether the creature can be displaced by naming it, lighting a shared hearth, or changing the ship's social rules.
 
-#### 112. `abada` - Abada
+#### 112. `abada` - Abadir
 **Status:** NATIVE-PROPOSED
 **True origin:** A native gentle antelope-narwhal purifier with a horn that neutralizes poison through reef symbiosis or intrinsic life force.
 **Agency / ecological-world function:** It maintains coral channels, purifies water, and flees hunters who would harvest its horn.
 **Habitat / territory:** Shallow reefs, lagoons, and freshwater estuaries of the Iceheart Sea.
 **Values / what it guards:** Coral gardens, clean water, herd safety, and the distinction between healing and exploitation.
 **Folklore truth:** Glowing horn, poison neutralization, and shy behavior are true. The horn is not a universal Wyrd cure.
-**Binding / warmth effect:** The Binding froze many reefs; First Cracks preserve warm lagoons that became critical Abada nurseries.
-**Wyrd relationship:** Native purifier. Wyrd-taint increases the value and danger of the horn, but Abada is not Wyrdspawn.
-**Next decision:** Define the horn's limits and whether Abada migrate with Myrathil currents or independent water temperature.
+**Binding / warmth effect:** The Binding froze many reefs; First Cracks preserve warm lagoons that became critical Abadir nurseries.
+**Wyrd relationship:** Native purifier. Wyrd-taint increases the value and danger of the horn, but Abadir is not Wyrdspawn.
+**Next decision:** Define the horn's limits and whether Abadir migrate with Myrathil currents or independent water temperature.
 
-#### 113. `graia` - Graia
+#### 113. `graia` - Graiva
 **Status:** NATIVE-REVIEW
 **True origin:** A native open-sea temporal eddy or spirit-world threshold, a phenomenon with a repeatable natural cycle.
 **Agency / ecological-world function:** It opens a passage, distorts time, and decides whether a vessel follows the current or is rejected.
@@ -1457,41 +1457,41 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** The stability of the passage, its timing, and the boundary between sea and spirit route.
 **Folklore truth:** Mathematical whirlpool, displaced foam, and time travel are encounter truths. Neth bargain language is later use, not origin.
 **Binding / warmth effect:** The Binding changed currents and made the eddy harder to reach; First Cracks altered its timing and made it valuable to contract-mages.
-**Wyrd relationship:** Native liminal feature unless a specific Graia becomes a Wyrd breach. It is not automatically Wyrdspawn.
-**Next decision:** Decide whether Graia belongs as a location/hazard rather than a creature record and define its seasonal recurrence.
+**Wyrd relationship:** Native liminal feature unless a specific Graiva becomes a Wyrd breach. It is not automatically Wyrdspawn.
+**Next decision:** Decide whether Graiva belongs as a location/hazard rather than a creature record and define its seasonal recurrence.
 
-#### 114. `ichthya` - Ichthya
+#### 114. `ichthya` - Ichthara
 **Status:** NATIVE-REVIEW
 **True origin:** A native sea-centaur forge people living around volcanic vents and listening to ocean rhythm.
 **Agency / ecological-world function:** It forges durable harpoons, reads Monolith instability, and chooses which captains can carry its work.
 **Habitat / territory:** Submarine vents, hot springs, and reef slopes of the Iceheart Sea.
 **Values / what it guards:** Vent hearths, craft integrity, and the rhythm of safe sea movement.
-**Folklore truth:** Trident, scaled horse body, and volcanic blacksmith work are useful truth. Its overlap with Telkhine needs a people-level distinction.
+**Folklore truth:** Trident, scaled horse body, and volcanic blacksmith work are useful truth. Its overlap with Telkara needs a people-level distinction.
 **Binding / warmth effect:** The Binding made vent forges critical; First Cracks increased vent instability and the demand for durable weapons.
-**Wyrd relationship:** Native craft people. Wyrd can damage a forge or corrupt a harpoon, but Ichthya are not Wyrdspawn.
-**Next decision:** Reconcile Ichthya and Telkhine: related lineage, rival craft traditions, or one record needing a rename.
+**Wyrd relationship:** Native craft people. Wyrd can damage a forge or corrupt a harpoon, but Ichthara are not Wyrdspawn.
+**Next decision:** Reconcile Ichthara and Telkara: related lineage, rival craft traditions, or one record needing a rename.
 
-#### 115. `brine` - Brine
+#### 115. `brine` - Lamphera
 **Status:** NATIVE-REVIEW
 **True origin:** A native heroic sailor-light, a death-form that appears when a mariner dies while successfully guiding others to safety.
 **Agency / ecological-world function:** It guides ships through storms, selects safe coves, and may refuse a crew that intends exploitation.
 **Habitat / territory:** Coastal cliffs, harbor mouths, and open waters of the Iceheart Sea.
 **Values / what it guards:** Safe passage, heroic memory, and the dignity of a crew's final choice.
-**Folklore truth:** Warm gold orb, smiling faces, and storm guidance are true. Screaming false lanterns are likely a Wyrd imitation, not the native Brine form.
+**Folklore truth:** Warm gold orb, smiling faces, and storm guidance are true. Screaming false lanterns are likely a Wyrd imitation, not the native Lamphera form.
 **Binding / warmth effect:** The Binding increased maritime death and made guiding lights precious; First Cracks created warmer harbors where Brines gather.
 **Wyrd relationship:** Native death-light plus a distinct Wyrd-corrupted false-lantern possibility. Keep the two categories explicit.
-**Next decision:** Decide whether a Brine is one sailor's soul, a shared crew memory, or a native light office inherited by the dead.
+**Next decision:** Decide whether a Lamphera is one sailor's soul, a shared crew memory, or a native light office inherited by the dead.
 
 #### 116. `kappa` - Kappa
 **Status:** DATA-CORRECTION; working classification NATIVE-REVIEW
-**True origin:** The display and description point to a native bowl-bearing geothermal water spirit, but the `origin` field is copied from `Sump-Scrab` and the tags also say `sump-scrab`.
+**True origin:** The display and description point to a native bowl-bearing geothermal water spirit, but the `origin` field is copied from `Kappura` and the tags also say `sump-scrab`.
 **Agency / ecological-world function:** It guards thermal pools, enforces etiquette, and may drain or share head-water depending on how travelers approach.
 **Habitat / territory:** Geothermal pools, steam corridors, and pipe junctions of Cragjaw Peaks.
 **Values / what it guards:** Courtesy, clean thermal water, and the integrity of a vent or pool.
 **Folklore truth:** Bowl on the head, cucumber/politeness customs, and bow-debt are usable Kappa material. Boiler infestation belongs to `sump_scrabs`, not this record.
 **Binding / warmth effect:** The Binding made thermal pools essential; First Cracks expanded the steam network and brought Kappa territory into conflict with Fexric engineers.
 **Wyrd relationship:** Working native water/steam spirit, not Wyrdspawn. The current copied Wyrd-era identity must be removed before classification is final.
-**Next decision:** Replace all copied Sump-Scrab prose, decide whether Kappa are pool guardians or pipe-dwellers, and preserve this exact ID/name in the data correction log.
+**Next decision:** Replace all copied Kappura prose, decide whether Kappa are pool guardians or pipe-dwellers, and preserve this exact ID/name in the data correction log.
 
 #### 117. `kitsune` - Kitsune
 **Status:** NATIVE-REVIEW
@@ -1504,7 +1504,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native review. Wyrd can create a face-stealing imitation, but native Kitsune should remain distinct.
 **Next decision:** Decide whether tails indicate age, social rank, or different mountain resonances.
 
-#### 118. `tsuchinoko` - Tsuchinoko
+#### 118. `tsuchinoko` - Amaruk
 **Status:** NATIVE-PROPOSED
 **True origin:** A native stout jumping serpent that inhabits knife-edge ridges and carries subterranean knowledge.
 **Agency / ecological-world function:** It controls small prey, crosses chasms, and trades route information for strong liquor or other heat-rich offerings.
@@ -1512,10 +1512,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Ridge territory, privacy, and a reliable supply of intoxicating or fermented food.
 **Folklore truth:** Fat body, hoop rolling, slurred speech, and alcohol fixation are true. The creature is not created by the tale.
 **Binding / warmth effect:** The Binding made ridge crossings deadlier; First Cracks warmed small fermentation routes and increased contact with travelers.
-**Wyrd relationship:** Native serpent. Wyrd may make its bargains compulsive or its speech prophetic, but Tsuchinoko is not Wyrdspawn.
+**Wyrd relationship:** Native serpent. Wyrd may make its bargains compulsive or its speech prophetic, but Amaruk is not Wyrdspawn.
 **Next decision:** Define what mountain secret it is willing to trade and whether liquor is food, medicine, or a social ritual.
 
-#### 119. `nopperabo` - Nopperabo
+#### 119. `nopperabo` - Nopperal
 **Status:** HYBRID-REVIEW
 **True origin:** A native faceless pass-person or fat-mineral scavenger; current Wyrd-kin and face-stealing language may describe an invasive branch.
 **Agency / ecological-world function:** It seals cracks in the Ancestor-Spans, harvests mineral fat, and chooses when to reveal its true face.
@@ -1523,10 +1523,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Structural integrity, anonymity, and access to body minerals that sustain it.
 **Folklore truth:** Faceless reveal, stolen face, and bridge sentinel behavior are true signs. The exact face-stealing effect should not be universal without a Wyrd dependency.
 **Binding / warmth effect:** House Arcane construction created vast bridge territory; First Cracks and steam heat made the Span network more active and contested.
-**Wyrd relationship:** Native/hybrid review. A Wyrd face-stealer can be Wyrdspawn; a native Nopperabo may only be a faceless repairer.
+**Wyrd relationship:** Native/hybrid review. A Wyrd face-stealer can be Wyrdspawn; a native Nopperal may only be a faceless repairer.
 **Next decision:** Decide whether its face is absent, hidden, or exchanged, and whether bridge repair is voluntary or an ecological need.
 
-#### 120. `supayoni` - Supayoni
+#### 120. `supayoni` - Supayra
 **Status:** NATIVE-REVIEW
 **True origin:** A native deep-mine giant and mineral sovereign; the current Wyrd-kin phrase should be treated as a folkloric translation unless post-Keth dependency is found.
 **Agency / ecological-world function:** It sets ore taxes, protects deep veins, and arbitrates which miners may enter a lower shaft.
@@ -1535,9 +1535,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Ice-blue giant, third eye, club, and ore-tax are useful observations. The underworld sovereign label may be a title, not a god.
 **Binding / warmth effect:** House Arcane works drove miners into its old range; First Cracks made geothermal ore more valuable and increased disputes.
 **Wyrd relationship:** Native deep-earth ruler unless a later Wyrd branch is shown to depend on fear or corruption. Not automatically Wyrdspawn.
-**Next decision:** Decide whether Supayoni is a single territorial elder or a population with a formal mine law.
+**Next decision:** Decide whether Supayra is a single territorial elder or a population with a formal mine law.
 
-#### 121. `jorogumo` - Jorogumo
+#### 121. `jorogumo` - Jorona
 **Status:** NATIVE-REVIEW
 **True origin:** A native bridge spider-person with metal-silk craft and a predatory or marital social order.
 **Agency / ecological-world function:** It maintains or hunts along bridge webs, traps mineral-rich prey, and chooses whether a traveler is a mate, meal, or trespasser.
@@ -1545,54 +1545,54 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Web territory, brood, mineral access, and control over the narrowest crossings.
 **Folklore truth:** Bridal disguise, metallic silk, and bridge lures are accurate. The beautiful-front/monster-back trope is a human warning, not the whole person.
 **Binding / warmth effect:** The Binding created the Span routes and their social importance; First Cracks warmed mineral chasms and expanded silk resources.
-**Wyrd relationship:** Native predator/person. Wyrd can occupy a web or mimic a stranded bride, but Jorogumo is not Wyrdspawn.
-**Next decision:** Decide whether Jorogumo have a bridge society, solitary territories, or a seasonal mating migration.
+**Wyrd relationship:** Native predator/person. Wyrd can occupy a web or mimic a stranded bride, but Jorona is not Wyrdspawn.
+**Next decision:** Decide whether Jorona have a bridge society, solitary territories, or a seasonal mating migration.
 
-#### 122. `kodama` - Kodama
+#### 122. `kodama` - Kodami
 **Status:** NATIVE-PROPOSED
 **True origin:** A native stone-and-snow echo spirit adapted from older tree and mountain relationships; it does not require Wyrd.
 **Agency / ecological-world function:** It repeats messages, warns of damaged stone, and turns mountain voices into a communication network.
 **Habitat / territory:** Wind-swept slopes and rocky ledges of Cragjaw Peaks.
 **Values / what it guards:** Mountain integrity, echo routes, and the living relationship between stone and those who travel it.
 **Folklore truth:** Delayed echoes, sorrow when the mountain is damaged, and Groven communication are true. The Wyrd line is an unnecessary addition.
-**Binding / warmth effect:** The Binding buried forest forms under snow; First Cracks and house tunnels gave Kodama new stone surfaces and warning duties.
-**Wyrd relationship:** Native plant/stone spirit. Wyrd may distort an echo, but Kodama are not Wyrdspawn.
-**Next decision:** Decide whether Kodama are rooted in individual stones, moving snowfields, or a distributed mountain chorus.
+**Binding / warmth effect:** The Binding buried forest forms under snow; First Cracks and house tunnels gave Kodami new stone surfaces and warning duties.
+**Wyrd relationship:** Native plant/stone spirit. Wyrd may distort an echo, but Kodami are not Wyrdspawn.
+**Next decision:** Decide whether Kodami are rooted in individual stones, moving snowfields, or a distributed mountain chorus.
 
-#### 123. `nurikabe` - Nurikabe
+#### 123. `nurikabe` - Nurikaba
 **Status:** NATIVE-REVIEW
 **True origin:** A native path-wall stone person that rearranges routes as part of mountain boundary control; Wyrd-kin folklore is a later comparison.
 **Agency / ecological-world function:** It closes unsafe passages, redirects traffic, and opens when a traveler meets a local condition such as copper, patience, or a known route.
 **Habitat / territory:** Narrow passes, canyon floors, and mountain paths of Cragjaw Peaks.
 **Values / what it guards:** Safe route structure, landslide prevention, and the mountain's control over movement.
 **Folklore truth:** Overnight walls, extension when climbed, and copper disruption are true. The wall is not summoned by frustration.
-**Binding / warmth effect:** Perpetual snow made routes unstable; First Cracks altered rock and steam, giving Nurikabe more passages to regulate.
-**Wyrd relationship:** Native construct/person. A Wyrd wall could trap travelers indefinitely, but native Nurikabe are not Wyrdspawn.
-**Next decision:** Decide whether Nurikabe respond to mountain danger, social trespass, or an explicit old route law.
+**Binding / warmth effect:** Perpetual snow made routes unstable; First Cracks altered rock and steam, giving Nurikaba more passages to regulate.
+**Wyrd relationship:** Native construct/person. A Wyrd wall could trap travelers indefinitely, but native Nurikaba are not Wyrdspawn.
+**Next decision:** Decide whether Nurikaba respond to mountain danger, social trespass, or an explicit old route law.
 
-#### 124. `nue` - Nue
+#### 124. `nue` - Pachama
 **Status:** HYBRID-REVIEW
 **True origin:** A native chimeric storm and mine-warning being whose warm black cloud responds to deep excavation; the Wyrd-kin label is not sufficient origin.
 **Agency / ecological-world function:** It warns or punishes over-mining, creates shared dreams, and redirects people away from a collapsing mountain.
 **Habitat / territory:** High peaks, valleys, excavations, and industrial sites of Cragjaw Peaks.
 **Values / what it guards:** Mountain depth, buried waters, and the boundary between necessary work and extraction without consent.
 **Folklore truth:** Black warm cloud, animal cries, nightmares, and mine-site appearance are true signs. The Wyrd may intensify them later.
-**Binding / warmth effect:** House excavation and First Cracks created more pressure points; warmth in tunnels made deep mining possible and made Nue intervention more frequent.
+**Binding / warmth effect:** House excavation and First Cracks created more pressure points; warmth in tunnels made deep mining possible and made Pachama intervention more frequent.
 **Wyrd relationship:** Native warning entity with possible Wyrd-amplified nightmare branch. Keep hybrid until the branch's dependency is known.
 **Next decision:** Decide whether shared nightmares are communication, punishment, or a side effect of its atmospheric body.
 
-#### 125. `kasha` - Kasha
+#### 125. `kasha` - Kashara
 **Status:** NATIVE-REVIEW
 **True origin:** A native blue-fire funeral cat that collects bodies or leaves prosperity tokens, with a ritual role among the Groven.
 **Agency / ecological-world function:** It protects funeral boundaries, prevents corpse predation, and exchanges miniature objects for respectful treatment of the dead.
 **Habitat / territory:** High ridges, cemetery niches, and Groven funeral routes of Cragjaw Peaks.
 **Values / what it guards:** The dead body, funeral continuity, and the right of the dead to cross the Span.
 **Folklore truth:** Corpse stealing, blue-white flame, and prosperity miniatures are true. The creature may be misunderstood as merely malicious.
-**Binding / warmth effect:** The Binding made funerary transport hazardous; First Cracks warmed cemetery niches and changed when Kasha emerge.
-**Wyrd relationship:** Native death/abundance spirit. Wyrd can animate a stolen corpse, but Kasha are not Wyrdspawn.
+**Binding / warmth effect:** The Binding made funerary transport hazardous; First Cracks warmed cemetery niches and changed when Kashara emerge.
+**Wyrd relationship:** Native death/abundance spirit. Wyrd can animate a stolen corpse, but Kashara are not Wyrdspawn.
 **Next decision:** Decide what makes a corpse eligible for collection and whether the prosperity miniature is a gift, replacement, or warning.
 
-#### 126. `tanuki` - Tanuki
+#### 126. `tanuki` - Tanura
 **Status:** NATIVE-REVIEW
 **True origin:** A native route trickster and stone-abundance spirit that lives along the Ancestor-Spans.
 **Agency / ecological-world function:** It tests travelers, redistributes food or luck, and creates small stone tokens that alter a journey's fortune.
@@ -1600,32 +1600,32 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Play, hospitality, and the right to demand recognition from those crossing its route.
 **Folklore truth:** Disguised toll collector, song or sake demand, and stone token gifts are true. It is not a Wyrd scammer by default.
 **Binding / warmth effect:** The Binding made bridges vital; First Cracks and geothermal traffic increased the value of its route tolls.
-**Wyrd relationship:** Native construct/fey trickster. Wyrd can counterfeit an official toll or corrupt a token, but Tanuki are not Wyrdspawn.
+**Wyrd relationship:** Native construct/fey trickster. Wyrd can counterfeit an official toll or corrupt a token, but Tanura are not Wyrdspawn.
 **Next decision:** Decide whether its stone illas hold real luck, route memory, or only social obligations that make travelers behave better.
 
-#### 127. `ushioni` - Ushioni
+#### 127. `ushioni` - Cheruva
 **Status:** HYBRID-REVIEW
 **True origin:** A native volcanic spider guardian or predator that occupies vent chambers; the current "Wyrd-touched bull" head is a possible later mutation.
 **Agency / ecological-world function:** It webs vents, controls access to heat, and demands ore or food to avoid disrupting a thermal system.
 **Habitat / territory:** Active vents and deep geothermal chambers of Cragjaw Peaks.
 **Values / what it guards:** Nest, vent heat, and the boundary of its sulfur territory.
 **Folklore truth:** Spider body, bull head, volcanic glass silk, and sulfur breath are reliable. Tribute may be an ecological toll rather than demon law.
-**Binding / warmth effect:** The Binding made vents a survival resource; First Cracks expanded geothermal systems and placed Ushioni directly against settlements.
+**Binding / warmth effect:** The Binding made vents a survival resource; First Cracks expanded geothermal systems and placed Cheruva directly against settlements.
 **Wyrd relationship:** Native/hybrid review. If the bull head is a post-Keth Wyrd graft, the Wyrdspawn classification belongs to that branch only.
 **Next decision:** Decide whether the head is inherited, symbiotic, or a visible Wyrd scar on an older spider kind.
 
-#### 128. `baku` - Baku
+#### 128. `baku` - Bakaru
 **Status:** NATIVE-PROPOSED
 **True origin:** A native dream-eating mountain beast that creates a sanctuary around its sleeping territory.
 **Agency / ecological-world function:** It consumes nightmares, reduces violence in a holdfast, and chooses whose dreams are safe to enter.
 **Habitat / territory:** Residential corridors, workshops, and warm sleeping quarters of Frostmaw Holdfast.
 **Values / what it guards:** Sleep, sanctuary, and the emotional health of a household or work crew.
 **Folklore truth:** Elephant trunk, chimera body, nightmare eating, and sacred room effect are true. It does not need Wyrd to consume dreams.
-**Binding / warmth effect:** The Binding made safe sleep scarce; First Cracks and geothermal holdfasts created concentrated habitats where Baku could help many people.
+**Binding / warmth effect:** The Binding made safe sleep scarce; First Cracks and geothermal holdfasts created concentrated habitats where Bakaru could help many people.
 **Wyrd relationship:** Native protector, likely resistant to nightmare corruption. A Wyrd dream-eater would be a dangerous counterfeit.
-**Next decision:** Decide what Baku does with consumed nightmares and whether it can choose to return one as a warning.
+**Next decision:** Decide what Bakaru does with consumed nightmares and whether it can choose to return one as a warning.
 
-#### 129. `nekomata` - Nekomata
+#### 129. `nekomata` - Nekomai
 **Status:** HYBRID-REVIEW
 **True origin:** A native storm-cat lineage with two tails and corpse-static abilities; the current Wyrd-kin language may describe an invasive death-control branch.
 **Agency / ecological-world function:** It hunts ridge prey, uses static to move frozen bodies away from hazards, and defends storm territory.
@@ -1633,10 +1633,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Storm territory, den, and control of bodies it considers part of the mountain's memory.
 **Folklore truth:** Twin tails, lightning, and animated dead are true observations. Whether the dead are puppets, rescue tools, or Wyrd victims remains open.
 **Binding / warmth effect:** Perpetual blizzards created abundant frozen remains; First Cracks changed static and storm routes.
-**Wyrd relationship:** Native/hybrid. A Wyrd-occupied Nekomata may animate corpses invasively; the native kind should not be classified by that branch.
+**Wyrd relationship:** Native/hybrid. A Wyrd-occupied Nekomai may animate corpses invasively; the native kind should not be classified by that branch.
 **Next decision:** Define why it animates corpses and whether a body can be returned safely once the storm passes.
 
-#### 130. `futakuchi` - Futakuchi
+#### 130. `futakuchi` - Futakuri
 **Status:** NATIVE-REVIEW
 **True origin:** A native hunger spirit or adaptive person with a second mouth, associated with food scarcity and household stores.
 **Agency / ecological-world function:** It tracks ration imbalance, consumes spoiled or hidden food, and may expose hoarding by appearing ordinary.
@@ -1644,10 +1644,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Food continuity, survival of the group, and its own right to eat without being shamed.
 **Folklore truth:** Hidden mouth, empty larder, and disguised worker are true. It may be a social warning about hunger, not a Wyrd manifestation.
 **Binding / warmth effect:** The Binding made food stores central to survival; First Cracks allowed larger heated settlements and more concentrated larders.
-**Wyrd relationship:** Native review. A Wyrd hunger parasite could mimic Futakuchi, but native hunger spirits remain independent.
+**Wyrd relationship:** Native review. A Wyrd hunger parasite could mimic Futakuri, but native hunger spirits remain independent.
 **Next decision:** Decide whether the second mouth is biological, spiritual, or a consequence of a broken food-sharing taboo.
 
-#### 131. `wanyudo` - Wanyudo
+#### 131. `wanyudo` - Wanyura
 **Status:** HYBRID-REVIEW
 **True origin:** A native fire-wheel or pass spirit associated with festival memory and the souls of travelers; the current cold-burning torture language may be Wyrd alteration.
 **Agency / ecological-world function:** It travels during blizzards, collects or guides souls, and marks routes where freezing deaths are imminent.
@@ -1655,10 +1655,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Passage, ritual fire, and the boundary between a soul departing and a soul being stolen.
 **Folklore truth:** Rolling wheel, screaming faces, and the danger of looking are true signs. The original festival-wheel may be protective rather than purely hostile.
 **Binding / warmth effect:** The Binding made festival fire memory painful; First Cracks created warm pass pockets that the wheel may use as temporary rest points.
-**Wyrd relationship:** Native/hybrid. A cold-burning Wyrd engine can be post-Keth Wyrdspawn, while a native Wanyudo retains a death-guiding role.
+**Wyrd relationship:** Native/hybrid. A cold-burning Wyrd engine can be post-Keth Wyrdspawn, while a native Wanyura retains a death-guiding role.
 **Next decision:** Decide whether its faces are actual souls, reflected travelers, or a warning display.
 
-#### 132. `tsuchigumo` - Tsuchigumo
+#### 132. `tsuchigumo` - Tsuchira
 **Status:** NATIVE-REVIEW
 **True origin:** A native mineral spider that guards rich veins and uses illusion as a hunting or territory defense.
 **Agency / ecological-world function:** It controls mine pests, protects mineral routes, and chooses whether to reveal a real vein or lure a greedy prospector.
@@ -1666,21 +1666,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Mineral nest, web integrity, and the right of the mountain to keep wealth hidden.
 **Folklore truth:** Stone body, gold silk, mineral venom, and wealth illusions are true. The Wyrd-kin comparison is not a creation account.
 **Binding / warmth effect:** House mining expanded its conflict with mortals; First Cracks warmed fissures and exposed new mineral nests.
-**Wyrd relationship:** Native predator. Wyrd may make an illusion permanently invasive, but Tsuchigumo are not Wyrdspawn.
+**Wyrd relationship:** Native predator. Wyrd may make an illusion permanently invasive, but Tsuchira are not Wyrdspawn.
 **Next decision:** Decide whether its gold silk is a lure, a construction material, or a reproductive resource.
 
-#### 133. `akaname` - Akaname
+#### 133. `akaname` - Akanira
 **Status:** NATIVE-PROPOSED
 **True origin:** A native copper-skinned cleaning sprite that inhabits steam works and enforces cleanliness as a practical taboo.
 **Agency / ecological-world function:** It removes mineral scaling, improves pipe flow, and abandons workshops that violate its cleanliness rules.
 **Habitat / territory:** Industrial pipes, steam vents, and workshops of Frostmaw Holdfast and Cragjaw Peaks.
 **Values / what it guards:** Clean water/steam, safe machinery, and the boundary between useful industry and contamination.
 **Folklore truth:** Long tongue, filth licking, copper body, and pipeline maintenance are true. Its taboo is ecological rather than moralized demon law.
-**Binding / warmth effect:** The house-era steam network gave Akaname a new human-built habitat; First Cracks made its maintenance function essential.
-**Wyrd relationship:** Native maintenance sprite. Wyrd can contaminate a pipe or make one refuse all users, but Akaname is not Wyrdspawn.
-**Next decision:** Define what counts as clean to Akaname and whether engineers can negotiate a maintenance schedule.
+**Binding / warmth effect:** The house-era steam network gave Akanira a new human-built habitat; First Cracks made its maintenance function essential.
+**Wyrd relationship:** Native maintenance sprite. Wyrd can contaminate a pipe or make one refuse all users, but Akanira is not Wyrdspawn.
+**Next decision:** Define what counts as clean to Akanira and whether engineers can negotiate a maintenance schedule.
 
-#### 134. `inugami` - Inugami
+#### 134. `inugami` - Inugara
 **Status:** NATIVE-REVIEW
 **True origin:** A native family-bound hound spirit associated with protection, revenge, and the passage of a dead family member.
 **Agency / ecological-world function:** It guards a Groven household or Span, chooses which threats merit pursuit, and escorts a family dead to its next boundary.
@@ -1688,23 +1688,23 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Family, collar bond, household memory, and safe passage for the dead.
 **Folklore truth:** Human-hair collar, blue spectral light, ruthless defense, and afterlife guidance are useful truth. A binding ritual does not automatically make it Wyrd.
 **Binding / warmth effect:** House settlements and Ancestor-Spans gave the hound new family territories; First Cracks made crossings and household defense more contested.
-**Wyrd relationship:** Native family spirit. Wyrd can exploit a revenge command, but Inugami are not Wyrdspawn.
+**Wyrd relationship:** Native family spirit. Wyrd can exploit a revenge command, but Inugara are not Wyrdspawn.
 **Next decision:** Decide whether the collar is a voluntary family covenant, an inherited object, or a coercive practice that the lore should critique.
 
-#### 135. `ittan` - Ittan
+#### 135. `ittan` - Itanna
 **Status:** NATIVE-REVIEW
 **True origin:** A native living textile and message spirit associated with Tesshan/Groven communication; the Wyrd-kin origin phrase is a folklore comparison.
 **Agency / ecological-world function:** It carries secure speech, shelters travelers, and chooses whether to wrap or release someone in dangerous cold.
 **Habitat / territory:** Open chasms, bridge arches, and Ancestor-Spans of Cragjaw Peaks.
 **Values / what it guards:** Message integrity, warmth, and the privacy of a community's words.
 **Folklore truth:** Thirty-foot cloth body, whispered messages, and protective wrapping are true. Face-wrapping folklore is a neighboring fear, not its genesis.
-**Binding / warmth effect:** The Binding made communication across buried routes vital; First Cracks created wind corridors that let Ittan travel between communities.
-**Wyrd relationship:** Native textile spirit. Wyrd can turn a banner into a strangling or face-covering invader, but Ittan is not Wyrdspawn.
-**Next decision:** Decide whether Ittan is woven by a culture, grows from old quipu, or reproduces by shedding smaller message ribbons.
+**Binding / warmth effect:** The Binding made communication across buried routes vital; First Cracks created wind corridors that let Itanna travel between communities.
+**Wyrd relationship:** Native textile spirit. Wyrd can turn a banner into a strangling or face-covering invader, but Itanna is not Wyrdspawn.
+**Next decision:** Decide whether Itanna is woven by a culture, grows from old quipu, or reproduces by shedding smaller message ribbons.
 
 ### File-Order Segment 136-175: Sundrift Vale and Bryngloom Forest Expansion
 
-#### 136. `almas` - Almas
+#### 136. `almas` - Almara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native steppe watcher and memory-bearing hominid that follows migration rather than belonging to a fixed settlement.
 **Agency / ecological-world function:** It remembers routes, watches herds and clans, and intervenes when a migration is about to cross an unsafe ground.
@@ -1712,18 +1712,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Migration memory, herd continuity, and the right of the steppe to remain larger than a single clan.
 **Folklore truth:** Shaggy wildman, distant watcher, and silent ridge sightings are true. The creature is not a missing human race created by legend.
 **Binding / warmth effect:** The Binding erased stars and made route memory crucial; First Cracks altered pasture and migration corridors.
-**Wyrd relationship:** Native. Wyrd may target its memory or create a false watcher, but Almas is not Wyrdspawn.
-**Next decision:** Decide whether Almas communicate with Ordan through gestures, remembered songs, or preserved objects.
+**Wyrd relationship:** Native. Wyrd may target its memory or create a false watcher, but Almara is not Wyrdspawn.
+**Next decision:** Decide whether Almara communicate with Ordan through gestures, remembered songs, or preserved objects.
 
-#### 137. `tulpar` - Tulpar
+#### 137. `tulpar` - Tulpara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native celestial-patterned horse/dragon lineage that guides wild herds through the starless Vale.
 **Agency / ecological-world function:** It escorts herds, defends travelers from predators, and rejects ownership through ropes or bridles.
 **Habitat / territory:** Open plains and high plateaus of Sundrift Vale, wherever wild horses migrate.
 **Values / what it guards:** Herd freedom, route memory, and the sky patterns carried on its hide.
 **Folklore truth:** Starlight hide, winged horse form, and dissolving when bridled are reliable. It is not a Wyrd blessing made by belief.
-**Binding / warmth effect:** The starless sky made Tulpar signs more important; First Cracks changed grass and water routes used by the herds.
-**Wyrd relationship:** Native and likely resistant. Wyrd can counterfeit starlight or bait a herd, but Tulpar is not Wyrdspawn.
+**Binding / warmth effect:** The starless sky made Tulpara signs more important; First Cracks changed grass and water routes used by the herds.
+**Wyrd relationship:** Native and likely resistant. Wyrd can counterfeit starlight or bait a herd, but Tulpara is not Wyrdspawn.
 **Next decision:** Decide whether the constellations on its hide are inherited memory, celestial mineral, or changing seasonal markings.
 
 #### 138. `erlik` - Erlik
@@ -1737,7 +1737,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native death judge. Wyrd can counterfeit a judgment or exploit unpaid debt, but Erlik is not Wyrdspawn.
 **Next decision:** Define what is being weighed and whether Erlik can recognize collective restitution instead of literal objects.
 
-#### 139. `burkhan_wind` - Burkhan-Wind
+#### 139. `burkhan_wind` - Burkhal
 **Status:** NATIVE-PROPOSED
 **True origin:** A native localized wind-and-fertility presence bound to springs, trees, and clearings.
 **Agency / ecological-world function:** It fertilizes soil, sweetens water, protects herds, and redirects a clan's route through a blessed circle.
@@ -1745,21 +1745,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Fertility, water purity, herd health, and respectful movement through its site.
 **Folklore truth:** Breathing grass, shimmering air, and shamanic offerings are accurate. Worship is optional and not required for its existence.
 **Binding / warmth effect:** The Binding made fertile ground scarce; First Cracks created warm circles that became migration anchors.
-**Wyrd relationship:** Native land presence. Wyrd storms may damage or infect a circle, but Burkhan-Wind is not Wyrdspawn.
-**Next decision:** Decide whether a Burkhan-Wind moves between sites or is born anew at each spring.
+**Wyrd relationship:** Native land presence. Wyrd storms may damage or infect a circle, but Burkhal is not Wyrdspawn.
+**Next decision:** Decide whether a Burkhal moves between sites or is born anew at each spring.
 
-#### 140. `nian` - Nian
+#### 140. `nian` - Nianra
 **Status:** NATIVE-PROPOSED
 **True origin:** A native winter herd predator and crop consumer that follows the darkest season.
 **Agency / ecological-world function:** It controls overgrown herds, consumes stored material, and migrates away after food pressure falls.
 **Habitat / territory:** Windswept grasslands of Sundrift Vale during the darkest cold periods.
 **Values / what it guards:** Herd route, pack, and access to food stores; it has a predator's priorities, not a moral purpose.
 **Folklore truth:** Red fur, iron horns, stampede, and fear of winter arrival are true signs. The underworld-herd comparison is metaphor.
-**Binding / warmth effect:** The Binding created a permanent cold season and lengthened Nian activity; First Cracks altered grass recovery and human storage patterns.
-**Wyrd relationship:** Native beast. Wyrd may drive a pack into unnatural migration, but Nian is not Wyrdspawn.
-**Next decision:** Decide whether Nian are seasonal visitors, resident herds, or a response to failed pasture.
+**Binding / warmth effect:** The Binding created a permanent cold season and lengthened Nianra activity; First Cracks altered grass recovery and human storage patterns.
+**Wyrd relationship:** Native beast. Wyrd may drive a pack into unnatural migration, but Nianra is not Wyrdspawn.
+**Next decision:** Decide whether Nianra are seasonal visitors, resident herds, or a response to failed pasture.
 
-#### 141. `jiangshi` - Jiangshi
+#### 141. `jiangshi` - Jiangsha
 **Status:** NATIVE-REVIEW
 **True origin:** A native unreturned dead form created when a nomad dies away from an ancestor mound and cannot complete the route home.
 **Agency / ecological-world function:** It seeks breath and a burial route, follows ancestor markers, and can be redirected by a true home story.
@@ -1767,10 +1767,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Home, breath, and the right to be received by ancestors.
 **Folklore truth:** Hopping corpse, paper talisman, breath detection, and holding one's breath are accurate survival practices. Wyrd is not required.
 **Binding / warmth effect:** The Binding disrupted travel and burial; First Cracks changed routes and left some mounds warm enough to draw the dead.
-**Wyrd relationship:** Native death-form. Wyrd can occupy a corpse and mimic a Jiangshi, but the native form has a route-based remedy.
-**Next decision:** Decide who writes the talisman and whether the living can escort a Jiangshi home without violence.
+**Wyrd relationship:** Native death-form. Wyrd can occupy a corpse and mimic a Jiangsha, but the native form has a route-based remedy.
+**Next decision:** Decide who writes the talisman and whether the living can escort a Jiangsha home without violence.
 
-#### 142. `taotie_gorge` - Taotie-Gorge
+#### 142. `taotie_gorge` - Taotira
 **Status:** NATIVE-REVIEW
 **True origin:** A native grassland ambush beast whose jaw body plan evolved around herd migration and sudden ground failure.
 **Agency / ecological-world function:** It controls large herd numbers, coordinates pit traps, and protects a gorge feeding ground.
@@ -1781,7 +1781,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native predator. Wyrd could make a pit consume memories instead of bodies, but the baseline is native.
 **Next decision:** Decide whether Taotie-Gorges hunt cooperatively through learned signals or share one distributed instinct.
 
-#### 143. `baize` - Baize
+#### 143. `baize` - Baizan
 **Status:** NATIVE-PROPOSED
 **True origin:** A native wise-beast and living ecological archive that records the Vale's other creature-kinds.
 **Agency / ecological-world function:** It shares accurate weaknesses, tracks migration change, and chooses when knowledge will prevent harm rather than enable hunting.
@@ -1789,10 +1789,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Knowledge, ecological balance, and the right of creatures to be more than specimens.
 **Folklore truth:** Nine eyes, bovine body, human face, and herald of change are true signs. Its bestiary role is an in-world function, not a Wyrd blueprint.
 **Binding / warmth effect:** The starless sky made its knowledge more valuable; First Cracks altered the creatures and routes it records.
-**Wyrd relationship:** Native oracle and potential Wyrd target. Wyrd may attempt to falsify its records, but Baize is not Wyrdspawn.
-**Next decision:** Decide whether Baize chooses a successor and whether its knowledge is complete or deliberately bounded by compassion.
+**Wyrd relationship:** Native oracle and potential Wyrd target. Wyrd may attempt to falsify its records, but Baizan is not Wyrdspawn.
+**Next decision:** Decide whether Baizan chooses a successor and whether its knowledge is complete or deliberately bounded by compassion.
 
-#### 144. `zilant_wing` - Zilant-Wing
+#### 144. `zilant_wing` - Zilvar
 **Status:** NATIVE-PROPOSED
 **True origin:** A native winged serpent-dragon and sky guardian whose wing song guides travelers through darkness.
 **Agency / ecological-world function:** It patrols mound routes, deters grave robbers, and uses resonance to map wind and safe travel.
@@ -1800,10 +1800,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Sky route, mound integrity, and the safe movement of living caravans.
 **Folklore truth:** Rooster head, musical wings, and grave protection are true. The dragon comparison does not make it Wyrd or divine by default.
 **Binding / warmth effect:** The Binding erased stars and made wing song a navigation tool; First Cracks changed thermals and mound routes.
-**Wyrd relationship:** Native guardian. Wyrd can mimic its song or corrupt a mound, but Zilant-Wing is not Wyrdspawn.
+**Wyrd relationship:** Native guardian. Wyrd can mimic its song or corrupt a mound, but Zilvar is not Wyrdspawn.
 **Next decision:** Decide whether the song encodes a map, a warning language, or a relationship with the dead.
 
-#### 145. `susulu_spring` - Susulu-Spring
+#### 145. `susulu_spring` - Suvara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native spring guardian and water mother who maintains clean aquifers and fosters small purifier creatures.
 **Agency / ecological-world function:** It filters water, heals or refuses the sick, and decides which clans may draw from a spring.
@@ -1811,21 +1811,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Water purity, spring life, and fair access during migration.
 **Folklore truth:** Seven-foot water woman, healing exchange, and tiny river dragons are true local observations. A goddess title is optional.
 **Binding / warmth effect:** The Binding made springs essential; First Cracks expanded or shifted aquifers and made spring guardians politically important.
-**Wyrd relationship:** Native water guardian and possible purifier of Wyrd-taint. Wyrd can poison a spring, but Susulu-Spring is not Wyrdspawn.
+**Wyrd relationship:** Native water guardian and possible purifier of Wyrd-taint. Wyrd can poison a spring, but Suvara is not Wyrdspawn.
 **Next decision:** Decide whether the small dragons are offspring, symbionts, or temporary water forms.
 
-#### 146. `dijiang_chaos` - Dijiang-Chaos
+#### 146. `dijiang_chaos` - Dijanu
 **Status:** NATIVE-PROPOSED
 **True origin:** A native faceless creation/repair being that consumes disorder and leaves stabilizing marks in the land.
 **Agency / ecological-world function:** It seeks storm scars, ruined camps, and unstable ground, then restores enough order for life to return.
 **Habitat / territory:** Windswept plains and valleys recently damaged by storms or violence in Sundrift Vale.
 **Values / what it guards:** Balance after disruption, creative disorder, and the ability of land to recover.
 **Folklore truth:** Crimson sac, many limbs, harmonies, and rune-dance are true. Wyrd-shattered sites are an attraction, not its origin.
-**Binding / warmth effect:** The Binding altered wind and seasonal order; First Cracks produced new chaos scars that Dijiang-Chaos repairs.
+**Binding / warmth effect:** The Binding altered wind and seasonal order; First Cracks produced new chaos scars that Dijanu repairs.
 **Wyrd relationship:** Native stabilizer. It may consume Wyrd residue, but Wyrd did not create it.
 **Next decision:** Decide whether it restores the land consciously or follows a biological cycle that mortals interpret as dance.
 
-#### 147. `fenghuang_migrate` - Fenghuang-Migrate
+#### 147. `fenghuang_migrate` - Fenghua
 **Status:** NATIVE-PROPOSED
 **True origin:** A native seasonal sun-bird and migration authority whose colors record ecological balance.
 **Agency / ecological-world function:** It guides clans, validates or rejects settlement harmony, and marks the start of a safe migration.
@@ -1833,10 +1833,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Seasonal balance, elder respect, and the continued movement of herds and people.
 **Folklore truth:** Elemental plumage, migration calendar, and harmony test are true. Its phoenix comparison is a cultural translation.
 **Binding / warmth effect:** The starless cold made its seasonal arrival crucial; First Cracks shifted the timing and routes it signals.
-**Wyrd relationship:** Native seasonal guardian. Wyrd may imitate its feather or corrupt a migration sign, but Fenghuang-Migrate is not Wyrdspawn.
+**Wyrd relationship:** Native seasonal guardian. Wyrd may imitate its feather or corrupt a migration sign, but Fenghua is not Wyrdspawn.
 **Next decision:** Define what counts as harmony and whether a single settlement can fail the test while its people remain good.
 
-#### 148. `qiongqi_scourge` - Qiongqi-Scourge
+#### 148. `qiongqi_scourge` - Qionga
 **Status:** NATIVE-REVIEW
 **True origin:** A native moral-ecology predator that follows apparent virtue and vice in a way mortals experience as cruel inversion.
 **Agency / ecological-world function:** It pressures camps, redistributes fear, and may expose hidden exploitation by attacking the socially protected rather than the visibly wicked.
@@ -1847,7 +1847,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native review. If its inversion is actually Wyrd manipulation, promote that branch; do not assume the whole species is Wyrdspawn.
 **Next decision:** Decide whether Qiongqi exposes hypocrisy, follows alien justice, or is simply a predator whose behavior mortals moralize.
 
-#### 149. `zhenniao_toxin` - Zhenniao-Toxin
+#### 149. `zhenniao_toxin` - Umaya
 **Status:** NATIVE-PROPOSED
 **True origin:** A native poison bird whose oils and tears shape sterile territory and deter large animals from nesting.
 **Agency / ecological-world function:** It controls carrion and grazing, creates a protected nest zone, and allows scavengers to use the poisoned edge.
@@ -1855,10 +1855,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Nest, toxin supply, and the distance needed to keep predators away.
 **Folklore truth:** Oil-slick feathers, acidic tears, dead grass, and protective harvesting methods are true. Poison-bird myth records a real ecology.
 **Binding / warmth effect:** The Binding made sterile zones more consequential; First Cracks altered rainfall and the spread of poisoned soil.
-**Wyrd relationship:** Native toxic beast. Wyrd can magnify the dead zone, but Zhenniao-Toxin is not Wyrdspawn.
+**Wyrd relationship:** Native toxic beast. Wyrd can magnify the dead zone, but Umaya is not Wyrdspawn.
 **Next decision:** Decide whether its toxins are produced by the bird or by a mineral/fungal symbiont in its nest.
 
-#### 150. `ubagan_crystal` - Ubagan-Crystal
+#### 150. `ubagan_crystal` - Ubakhan
 **Status:** NATIVE-REVIEW
 **True origin:** A native subterranean crystal ape and aquifer shaper that predates Astril arrival and house magic.
 **Agency / ecological-world function:** It rearranges underground water channels, protects crystal roots, and may intentionally help or hinder a clan's water supply.
@@ -1866,10 +1866,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Aquifers, mineral growth, and the privacy of deep geology.
 **Folklore truth:** Four arms, living crystal, water shifting, and spectral refraction are true. Monolith/Astril resonance is a later attraction, not origin.
 **Binding / warmth effect:** The Binding changed surface water demand; First Cracks and Astril resonance exposed or disturbed old aquifer routes.
-**Wyrd relationship:** Native deep-earth being. Wyrd may exploit a crystal fracture, but Ubagan-Crystal is not Wyrdspawn.
+**Wyrd relationship:** Native deep-earth being. Wyrd may exploit a crystal fracture, but Ubakhan is not Wyrdspawn.
 **Next decision:** Decide whether it has a social relationship with Ordan water keepers and how it chooses which channels to open.
 
-#### 151. `qoraigarash` - Qoraigarash
+#### 151. `qoraigarash` - Jiaora
 **Status:** NATIVE-PROPOSED
 **True origin:** A native deep-lake dragon that stores and sheds mineral wealth as part of its life cycle.
 **Agency / ecological-world function:** It maintains flooded cavern ecosystems, creates storms when disturbed, and sets the timing of its annual scale shedding.
@@ -1877,10 +1877,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Lake depth, brood, gemstone scales, and freedom from desperate divers.
 **Folklore truth:** Forty-foot body, gemstone scales, and storm summoning are true. Divers' greed is a conflict, not its creation.
 **Binding / warmth effect:** The Binding changed underground water levels; First Cracks warmed or flooded cave systems and made scales a trade commodity.
-**Wyrd relationship:** Native aquatic dragon. Wyrd can infect a lake or scale, but Qoraigarash is not Wyrdspawn.
+**Wyrd relationship:** Native aquatic dragon. Wyrd can infect a lake or scale, but Jiaora is not Wyrdspawn.
 **Next decision:** Decide whether shed scales are a voluntary gift, a dangerous ecological event, or a contested annual migration.
 
-#### 152. `ajina` - Ajina
+#### 152. `ajina` - Ajinka
 **Status:** NATIVE-REVIEW
 **True origin:** A native shadow and tall-grass predator whose body absorbs light in unlit hollows.
 **Agency / ecological-world function:** It controls night prey, avoids open fire, and uses fear as a hunting advantage rather than as the source of its existence.
@@ -1889,9 +1889,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Towering shadow, entropic claws, and nightmares after an attack are true. The dark silence story is a human warning around a native predator.
 **Binding / warmth effect:** The starless sky expanded its effective range; First Cracks created warm camp clusters that sharpened the boundary it hunts.
 **Wyrd relationship:** Native shadow beast with high risk of Wyrd mimicry. Keep a Wyrd false-darkness entity separate.
-**Next decision:** Decide whether Ajina's rot is biological decay, shadow exposure, or a local soil effect around its den.
+**Next decision:** Decide whether Ajinka's rot is biological decay, shadow exposure, or a local soil effect around its den.
 
-#### 153. `lu_wu_mountain` - Lu-Wu Mountain
+#### 153. `lu_wu_mountain` - Luwara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native mountain guardian with nine heads that tracks micro-seasons and herd routes.
 **Agency / ecological-world function:** It shifts rain, wind, heat, and frost across valleys and directs large migrations around danger.
@@ -1899,10 +1899,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Seasonal balance, mountain water, and the movement of herds below.
 **Folklore truth:** Tiger body, serpent tail, nine human heads, and seasonal authority are true records. A sovereign title is provisional.
 **Binding / warmth effect:** The Binding disrupted the old sky season markers; First Cracks made local micro-seasons more important to survival.
-**Wyrd relationship:** Native mountain person. Wyrd can distort one valley's weather, but Lu-Wu Mountain is not Wyrdspawn.
+**Wyrd relationship:** Native mountain person. Wyrd can distort one valley's weather, but Luwara is not Wyrdspawn.
 **Next decision:** Decide how the nine heads divide the seasons and whether the being can be reasoned with by a whole migration.
 
-#### 154. `bura_stormkin` - Bura-Stormkin
+#### 154. `bura_stormkin` - Buran
 **Status:** HYBRID-REVIEW
 **True origin:** A native flesh-stripping steppe wind spirit, with the current explicit Wyrd twist possibly describing a later oath-hunting branch.
 **Agency / ecological-world function:** It shapes storms, dismantles unsafe shelters, and follows broken promises or disturbed wind routes.
@@ -1913,7 +1913,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native/hybrid. If the oath-enforcer form cannot exist without Wyrd, classify that form as Wyrdspawn while retaining the native wind spirit.
 **Next decision:** Decide whether Bura's oath response is an old natural law or a post-Keth corruption of a neutral storm.
 
-#### 155. `tengri_spark` - Tengri-Spark
+#### 155. `tengri_spark` - Tengril
 **Status:** NATIVE-REVIEW
 **True origin:** A native or celestial-adjacent fragment of the Old World sky, not necessarily a shard of a named god; the working title remains provisional.
 **Agency / ecological-world function:** It guides the desperate, carries a thread of fate, and reconnects travelers to lost sky orientation.
@@ -1924,7 +1924,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native/celestial review. Wyrd may hunt or counterfeit it, but the Spark is not Wyrdspawn.
 **Next decision:** Decide whether it is a population, a recurring individual, or a fragment of an unnamed celestial body without finalizing the pantheon.
 
-#### 156. `leshara` - Leshara
+#### 156. `leshara` - Leshvar
 **Status:** NATIVE-PROPOSED
 **True origin:** A native giant woodland guardian with shifting size, bark body, and simian dexterity; its maker is not assumed.
 **Agency / ecological-world function:** It redirects travelers, protects primeval trees, and maintains the separation between deep forest and human route.
@@ -1932,21 +1932,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Old growth, root paths, and the right of the forest to make outsiders lose their way.
 **Folklore truth:** Twelve-foot body, circular paths, backward walking, and leaf-rustle laughter are true encounter practices.
 **Binding / warmth effect:** The Binding made the forest a dark refuge; First Cracks created warmer groves that drew more settlement and logging.
-**Wyrd relationship:** Native guardian. Wyrd may exploit its path illusions, but Leshara is not Wyrdspawn.
-**Next decision:** Decide whether Leshara belongs to a larger woodland people or is a solitary old-growth office.
+**Wyrd relationship:** Native guardian. Wyrd may exploit its path illusions, but Leshvar is not Wyrdspawn.
+**Next decision:** Decide whether Leshvar belongs to a larger woodland people or is a solitary old-growth office.
 
-#### 157. `rusalka` - Rusalka
+#### 157. `rusalka` - Rusalya
 **Status:** NATIVE-REVIEW
 **True origin:** A native drowned-water nymph or sorrow-bearing pool spirit; grief is a relationship to place, not necessarily Wyrd corruption.
 **Agency / ecological-world function:** It protects a pool, lures the careless, and uses song to test whether a visitor understands the water's dead.
 **Habitat / territory:** Swamp pools and peat clearings of Bryngloom Forest.
 **Values / what it guards:** Pool, drowned memory, and the boundary between mourning and intrusion.
-**Folklore truth:** Bone comb, melancholy song, and dance compulsion are true signs. The story of every Rusalka as a drowned woman is too narrow.
+**Folklore truth:** Bone comb, melancholy song, and dance compulsion are true signs. The story of every Rusalya as a drowned woman is too narrow.
 **Binding / warmth effect:** Cold slowed bog cycles and preserved bodies; First Cracks warmed pools and increased dry-season movement.
 **Wyrd relationship:** Native water spirit, with a possible Wyrd-amplified lure. Do not make all Rusalki Wyrdspawn.
-**Next decision:** Decide whether a Rusalka can release a drowned memory and whether its dance is courtship, warning, or defense.
+**Next decision:** Decide whether a Rusalya can release a drowned memory and whether its dance is courtship, warning, or defense.
 
-#### 158. `strigoi_canopy` - Strigoi-Canopy
+#### 158. `strigoi_canopy` - Strigora
 **Status:** NATIVE-REVIEW
 **True origin:** A native canopy death predator or corpse spirit that hangs from ironwoods and feeds on vitality.
 **Agency / ecological-world function:** It controls canopy traffic, answers riddles for a price, and chooses whether a traveler is prey or a source of useful memory.
@@ -1955,31 +1955,31 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Upside-down corpse, winged body, vitality drain, and riddles are true. Wyrd animation of its victims is a later possibility.
 **Binding / warmth effect:** The Binding made canopy routes dark and important; First Cracks created warm upper-air currents and more travel beneath its roosts.
 **Wyrd relationship:** Native death predator under review. Separate any Wyrd-occupied corpse colony from the baseline kind.
-**Next decision:** Decide whether Strigoi-Canopy are former people, a native corpse ecology, or a distinct canopy species that only resembles undead.
+**Next decision:** Decide whether Strigora are former people, a native corpse ecology, or a distinct canopy species that only resembles undead.
 
-#### 159. `domovoi` - Domovoi
+#### 159. `domovoi` - Domar
 **Status:** NATIVE-PROPOSED
 **True origin:** A native household guardian that records domestic conduct and lives beneath floors or near the hearth.
 **Agency / ecological-world function:** It protects a home, enforces household rules, and remembers deeds that official registries ignore.
 **Habitat / territory:** Neth and Vreken dwellings across Bryngloom Forest.
 **Values / what it guards:** Hearth, household continuity, and local rules of care.
 **Folklore truth:** Hairy two-foot guardian, floorboard dwelling, offerings, and house rules are true. It is not a Wyrd-made servant.
-**Binding / warmth effect:** The Binding made household heat and memory more precious; First Cracks expanded heated dwellings and gave Domovoi new homes.
-**Wyrd relationship:** Native household spirit. Wyrd can turn one against a family or imitate its rules, but Domovoi are not Wyrdspawn.
-**Next decision:** Decide how a Domovoi chooses a household and what happens when a house is abandoned or sold.
+**Binding / warmth effect:** The Binding made household heat and memory more precious; First Cracks expanded heated dwellings and gave Domar new homes.
+**Wyrd relationship:** Native household spirit. Wyrd can turn one against a family or imitate its rules, but Domar are not Wyrdspawn.
+**Next decision:** Decide how a Domar chooses a household and what happens when a house is abandoned or sold.
 
-#### 160. `kikimora` - Kikimora
+#### 160. `kikimora` - Kikira
 **Status:** NATIVE-REVIEW
 **True origin:** A native household spinner and illusion weaver, with webs that express craft and social confusion.
 **Agency / ecological-world function:** It spins garments, alters domestic perception, and tests whether people can distinguish appearance from obligation.
 **Habitat / territory:** Dark corners, kitchens, and household spaces across Bryngloom Forest.
 **Values / what it guards:** Spinning work, secrecy, and the right to control what a household sees.
 **Folklore truth:** Multi-fingered body, stove nest, illusion garments, and mischief are true. Its web need not be Wyrd.
-**Binding / warmth effect:** The Binding made domestic cloth and memory important; First Cracks created warmer kitchens where Kikimora could settle.
+**Binding / warmth effect:** The Binding made domestic cloth and memory important; First Cracks created warmer kitchens where Kikira could settle.
 **Wyrd relationship:** Native fey with possible Wyrd-tangled garments. A garment that permanently changes identity would be a separate Wyrdspawn effect.
-**Next decision:** Define what a Kikimora asks for in exchange for clothing and whether its illusions can reveal hidden truth.
+**Next decision:** Define what a Kikira asks for in exchange for clothing and whether its illusions can reveal hidden truth.
 
-#### 161. `zmey_bog` - Zmey-Bog
+#### 161. `zmey_bog` - Goryna
 **Status:** NATIVE-REVIEW
 **True origin:** A native three-headed swamp dragon that stores documents and controls a deep-water legal boundary.
 **Agency / ecological-world function:** It preserves or hoards lost contracts, regulates bog passages, and demands tribute for safe branch-walkways.
@@ -1987,10 +1987,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Water route, contract fragments, brood, and the privacy of the deep bog.
 **Folklore truth:** Three heads, fire or heat breath, legal hoard, and tribute are true. Its Neth/Makara comparisons are cultural translations.
 **Binding / warmth effect:** The Binding made contracts and survival routes central; First Cracks warmed bog channels and pushed branch settlements into its range.
-**Wyrd relationship:** Native dragon under review. Wyrd can corrupt a contract hoard or make one head invasive, but Zmey-Bog is not automatically Wyrdspawn.
+**Wyrd relationship:** Native dragon under review. Wyrd can corrupt a contract hoard or make one head invasive, but Goryna is not automatically Wyrdspawn.
 **Next decision:** Decide whether its hoard protects contracts, exploits them, or preserves a legal history the Neth deliberately erased.
 
-#### 162. `zharptitsa_glow` - Zharptitsa-Glow
+#### 162. `zharptitsa_glow` - Zarnika
 **Status:** NATIVE-PROPOSED
 **True origin:** A native canopy sun-bird that concentrates warmth and light in plumage adapted to the dark forest.
 **Agency / ecological-world function:** It illuminates under-canopy routes, repels serpents, and chooses when to shed feathers or move a nest.
@@ -2001,18 +2001,18 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native solar avian. Wyrd can darken a feather or target a nest, but the kind is not Wyrdspawn.
 **Next decision:** Set limits on feather harvesting and decide whether the bird chooses which Vreken may use its light.
 
-#### 163. `naga_root` - Naga-Root
+#### 163. `naga_root` - Nagava
 **Status:** NATIVE-PROPOSED
 **True origin:** A native subterranean serpent-person and water guardian that governs root aquifers.
 **Agency / ecological-world function:** It directs underground water, selects which trees flourish, and arbitrates between surface settlements and deep roots.
 **Habitat / territory:** Deep root systems and underground waters of Bryngloom Forest.
 **Values / what it guards:** Aquifers, roots, and the continuity of forest growth.
 **Folklore truth:** Half-human serpent, Root-Lord, and water control are true local observations. A divine serpent origin is optional, not assumed.
-**Binding / warmth effect:** The Binding changed surface water demand; First Cracks warmed root channels and made Naga-Root decisions politically important.
-**Wyrd relationship:** Native subterranean ruler. Wyrd can poison roots, but Naga-Root is not Wyrdspawn.
-**Next decision:** Decide whether Naga-Root has a court, a solitary office, or a lineage of water guardians.
+**Binding / warmth effect:** The Binding changed surface water demand; First Cracks warmed root channels and made Nagava decisions politically important.
+**Wyrd relationship:** Native subterranean ruler. Wyrd can poison roots, but Nagava is not Wyrdspawn.
+**Next decision:** Decide whether Nagava has a court, a solitary office, or a lineage of water guardians.
 
-#### 164. `preta_hollow` - Preta-Hollow
+#### 164. `preta_hollow` - Navira
 **Status:** NATIVE-REVIEW
 **True origin:** A native hunger-death form associated with unresolved greed and unfulfilled contracts; it is a metaphysical consequence, not automatically Wyrd.
 **Agency / ecological-world function:** It wanders, exposes hunger and debt, and may seek a legal or communal act that lets it rest.
@@ -2020,10 +2020,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Its unresolved claim, the memory of what it was denied, and the boundary of its hunger.
 **Folklore truth:** Distended belly, tiny mouth, and debtors' hunger are true signs. Morvane's role must be specific rather than universal.
 **Binding / warmth effect:** The Binding made contracts and life debt more severe; First Cracks changed peat burial and the availability of warm clearing routes.
-**Wyrd relationship:** Native death-form under review. Wyrd can intensify hunger or occupy a corpse, but Preta-Hollow is not automatically Wyrdspawn.
+**Wyrd relationship:** Native death-form under review. Wyrd can intensify hunger or occupy a corpse, but Navira is not automatically Wyrdspawn.
 **Next decision:** Decide whether the form is caused by a broken contract, a personal vice, or a native law of unfulfilled appetite.
 
-#### 165. `gamayun_seer` - Gamayun-Seer
+#### 165. `gamayun_seer` - Gamaya
 **Status:** NATIVE-PROPOSED
 **True origin:** A native prophetic bird-person that preserves past and possible futures through song.
 **Agency / ecological-world function:** It selects listeners, warns about forest change, and stores knowledge in allegorical rather than literal language.
@@ -2031,10 +2031,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Prophecy, memory, and the freedom to choose after receiving a warning.
 **Folklore truth:** Woman-bird body, sorrowful voice, and accurate but devastating prophecy are true. It is not a Wyrd oracle by default.
 **Binding / warmth effect:** The Binding made future knowledge more valuable; First Cracks changed the forest futures it sings about.
-**Wyrd relationship:** Native oracle. Wyrd can feed false prophecy into a listener, but Gamayun-Seer is not Wyrdspawn.
-**Next decision:** Differentiate its prophecy from Alkonost and Sirin: keep Gamayun as the historian/analyst rather than a generic song lure.
+**Wyrd relationship:** Native oracle. Wyrd can feed false prophecy into a listener, but Gamaya is not Wyrdspawn.
+**Next decision:** Differentiate its prophecy from Alkona and Sirin: keep Gamayun as the historian/analyst rather than a generic song lure.
 
-#### 166. `chort_thorn` - Chort-Thorn
+#### 166. `chort_thorn` - Chortan
 **Status:** NATIVE-REVIEW
 **True origin:** A native crossroads trickster with goat form and bark/thorn armor; bargains are an old behavior, not Wyrd creation.
 **Agency / ecological-world function:** It offers technically valid bargains, tests desperation, and steals or imitates familiar appearances when a traveler accepts its terms.
@@ -2043,9 +2043,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Horns, goat legs, ironic bargains, and familiar likeness theft are true. The Wyrd-touched face should be an individual variant if retained.
 **Binding / warmth effect:** The Binding made contracts central to survival; First Cracks increased travel and the number of desperate bargains.
 **Wyrd relationship:** Native trickster with a possible Wyrd-occupied bargain branch. The native kind is not Wyrdspawn.
-**Next decision:** Decide what makes a bargain fair to Chort-Thorn and whether it can honor a mortal who refuses all terms.
+**Next decision:** Decide what makes a bargain fair to Chortan and whether it can honor a mortal who refuses all terms.
 
-#### 167. `drekavac_wail` - Drekavac-Wail
+#### 167. `drekavac_wail` - Drekavra
 **Status:** NATIVE-REVIEW
 **True origin:** A native unfulfilled-death spirit whose shape shifts because its identity was never settled.
 **Agency / ecological-world function:** It announces unresolved deaths, drives people away from a dangerous site, and seeks a completed rite or acknowledgment.
@@ -2053,21 +2053,21 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Its unfinished claim, the truth of its death, and the boundary around the dead.
 **Folklore truth:** Piercing wail, shifting form, and heart pain are true. The unbaptized-child story is a cultural explanation, not universal biology.
 **Binding / warmth effect:** The Binding increased unmarked deaths and disrupted burial routes; First Cracks opened warm night corridors and changed where the spirit travels.
-**Wyrd relationship:** Native death-form. Wyrd can amplify the wail or use it as an invasive lure, but Drekavac-Wail is not automatically Wyrdspawn.
+**Wyrd relationship:** Native death-form. Wyrd can amplify the wail or use it as an invasive lure, but Drekavra is not automatically Wyrdspawn.
 **Next decision:** Define the rite, witness, or truth that lets the spirit settle.
 
-#### 168. `bannik_vent` - Bannik-Vent
+#### 168. `bannik_vent` - Bannira
 **Status:** NATIVE-REVIEW
 **True origin:** A native steam-shaft and bathhouse spirit adapted into Bryngloom's heating infrastructure; its construct label may describe its body, not its origin.
 **Agency / ecological-world function:** It regulates vents, predicts thermal shifts, and prevents a heating network from freezing or exploding.
 **Habitat / territory:** Ventilation shafts and peat-fired heating systems of Atropolis and Bryngloom.
 **Values / what it guards:** Safe heat, clean steam, and the balance between comfort and pressure.
 **Folklore truth:** Steam body, bathhouse mischief, stone divination, and heat maintenance are true. Agni comparison is optional cultural language.
-**Binding / warmth effect:** The Binding made heat infrastructure necessary; First Cracks supplied the vents and gave Bannik-Vent its modern work.
-**Wyrd relationship:** Native steam spirit or adopted construct. Wyrd may turn a vent into an invasive furnace, but Bannik-Vent is not Wyrdspawn.
+**Binding / warmth effect:** The Binding made heat infrastructure necessary; First Cracks supplied the vents and gave Bannira its modern work.
+**Wyrd relationship:** Native steam spirit or adopted construct. Wyrd may turn a vent into an invasive furnace, but Bannira is not Wyrdspawn.
 **Next decision:** Decide whether it existed in natural hot springs before the heating network or was adopted into it after the First Cracks.
 
-#### 169. `psoglav_bone` - Psoglav-Bone
+#### 169. `psoglav_bone` - Soglav
 **Status:** NATIVE-PROPOSED
 **True origin:** A native eight-legged bone predator whose iron teeth metabolize calcium from carcasses.
 **Agency / ecological-world function:** It clears bones from marshes, controls carrion, and moves to new feeding grounds when a bog becomes sterile.
@@ -2075,10 +2075,10 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Feeding range, den, and enough bone supply to sustain its teeth.
 **Folklore truth:** Single eye, iron teeth, eight legs, and bone eating are true. The monster image is a warning about corpse exposure.
 **Binding / warmth effect:** The Binding preserved bodies in cold peat; First Cracks changed decay rates and made bone-rich warm marshes attractive.
-**Wyrd relationship:** Native scavenger. Wyrd can make an infestation refuse natural limits, but Psoglav-Bone is not Wyrdspawn.
+**Wyrd relationship:** Native scavenger. Wyrd can make an infestation refuse natural limits, but Soglav is not Wyrdspawn.
 **Next decision:** Decide whether its feathered wings are flight-capable, display structures, or a heat-regulation adaptation.
 
-#### 170. `vourdalak_debt` - Vourdalak-Debt
+#### 170. `vourdalak_debt` - Vourdan
 **Status:** NATIVE-REVIEW
 **True origin:** A native family-bound revenant form tied to unresolved grief and contract, not automatically a Wyrd vampire.
 **Agency / ecological-world function:** It returns to loved ones, drains life to prolong an obligation, and can recognize a family member who honestly confronts the debt.
@@ -2089,7 +2089,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native death-form under review. A Wyrd version may possess a corpse, but do not make all Vourdalak Wyrdspawn.
 **Next decision:** Decide whether the revenant can be released by restitution, mourning, legal cancellation, or only destruction.
 
-#### 171. `mavka_willow` - Mavka-Willow
+#### 171. `mavka_willow` - Mavara
 **Status:** NATIVE-PROPOSED
 **True origin:** A native willow-bound tree person whose front/back duality records life, death, and hidden root memory.
 **Agency / ecological-world function:** It tends a specific willow, stores memory in rings, and can bless or punish those who use the tree.
@@ -2100,7 +2100,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native tree person. Wyrd can hollow or impersonate a Mavka, but the kind is not Wyrdspawn.
 **Next decision:** Decide whether the willow chooses the Mavka or the Mavka is born from the tree's accumulated memory.
 
-#### 172. `alkonost` - Alkonost
+#### 172. `alkonost` - Alkona
 **Status:** NATIVE-REVIEW
 **True origin:** A native joy-singer and canopy musician whose song alters memory and emotional state.
 **Agency / ecological-world function:** It offers relief from pain, tests whether listeners consent, and chooses whether to leave a listener with joy or dangerous oblivion.
@@ -2109,9 +2109,9 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Folklore truth:** Bird-woman body, heavenly song, euphoric oblivion, and memory cost are true. The song is not automatically a Wyrd attack.
 **Binding / warmth effect:** The Binding made escape from hardship more tempting; First Cracks altered canopy acoustics and brought more desperate listeners.
 **Wyrd relationship:** Native song being with possible Wyrd-amplified memory theft. Keep distinct from Wyrdspawn and from Sirin.
-**Next decision:** Differentiate Alkonost as joy/oblivion, Gamayun as knowledge, and Sirin as grief or final rest.
+**Next decision:** Differentiate Alkona as joy/oblivion, Gamayun as knowledge, and Sirin as grief or final rest.
 
-#### 173. `dziwozona_wild` - Dziwozona-Wild
+#### 173. `dziwozona_wild` - Dzivoza
 **Status:** NATIVE-REVIEW
 **True origin:** A native wild water mother or changeling predator associated with pools, milk, and the danger of false nurture.
 **Agency / ecological-world function:** It protects an amphibious brood, tests grieving parents, and exchanges or steals children according to an old reproductive practice.
@@ -2122,7 +2122,7 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Wyrd relationship:** Native/hybrid review. A Wyrd impostor may copy a false mother, but the native kind must be defined separately.
 **Next decision:** Decide whether child exchange is literal breeding behavior, a rare individual crime, or a metaphor for the creature's adoption of abandoned young.
 
-#### 174. `upir_root` - Upir-Root
+#### 174. `upir_root` - Upira
 **Status:** NATIVE-REVIEW
 **True origin:** A native subterranean root parasite associated with blood, blighted fields, and the forest's reciprocal life flow.
 **Agency / ecological-world function:** It drains or redistributes vitality, controls a root territory, and may be negotiated with when a grove is dying.
@@ -2130,25 +2130,25 @@ The following inventory preserves `creatures.json` file order. Region labels fol
 **Values / what it guards:** Root territory, stored life force, and the balance between growth and consumption.
 **Folklore truth:** Pulsing tendrils, blighted fields, fatigue, and root-parasite behavior are true. It is not created by Wyrd fear.
 **Binding / warmth effect:** The Binding changed decay and growth cycles; First Cracks warmed root channels and made the parasite's range more active.
-**Wyrd relationship:** Native blight ecology under review. Wyrd may overfeed or weaponize one network, but Upir-Root is not automatically Wyrdspawn.
-**Next decision:** Decide whether the Upir-Root is a single network intelligence or many organisms connected through the forest.
+**Wyrd relationship:** Native blight ecology under review. Wyrd may overfeed or weaponize one network, but Upira is not automatically Wyrdspawn.
+**Next decision:** Decide whether the Upira is a single network intelligence or many organisms connected through the forest.
 
-#### 175. `sirin_song` - Sirin-Song
+#### 175. `sirin_song` - Sirina
 **Status:** DATA-CORRECTION; working classification NATIVE-REVIEW
 **True origin:** The current record is not usable: its `origin`, `nature`, `habitat`, and `depth` fields are exact copies of `dziwozona_wild`. The name supports a native grief-song bird/person, but no final origin is present.
-**Agency / ecological-world function:** Working answer: a native singer that draws listeners toward grief, release, or final rest; agency must be authored independently from Alkonost and Gamayun.
+**Agency / ecological-world function:** Working answer: a native singer that draws listeners toward grief, release, or final rest; agency must be authored independently from Alkona and Gamayun.
 **Habitat / territory:** Working answer: twilight canopy, drowned groves, or a boundary where the forest remembers the dead; current JSON cannot establish this.
 **Values / what it guards:** Working answer: truthful mourning, the right to finish a life, and the memory of those who cannot return. This is provisional, not copied canon.
 **Folklore truth:** The display name suggests a dark bird and heart-breaking melody, but the JSON gives no trustworthy Sirin-specific folklore because the fields are copied.
 **Binding / warmth effect:** Working answer: Binding darkness and First Crack warmth changed where grief songs carry; no final effect can be locked until a true origin is written.
 **Wyrd relationship:** Do not classify from the copied Dziwozona text. Working classification is native review; a Wyrd song entity would need a separate post-Keth origin.
-**Next decision:** Replace all four copied prose fields, define Sirin as grief/final-rest rather than a second Alkonost, and then decide native versus hybrid status.
+**Next decision:** Replace all four copied prose fields, define Sirin as grief/final-rest rather than a second Alkona, and then decide native versus hybrid status.
 
 ### File-Order Segment 176-193: Wyrd Ecology Records
 
 These records are the clearest Wyrd-layer candidates. Their local shapes and habitats remain useful, but the working statuses now distinguish ancient cosmic Wyrdkin from direct Keth-spawn. Their folklore shapes are local translations, camouflage, or tactical blueprints after arrival; local folklore did not create the cosmic organisms.
 
-#### 176. `gambrel` - Gambrel
+#### 176. `gambrel` - Geaslan
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic route-stalker that senses broken relational bonds and uses Frostwood oath guilt as its local hunting language; direct Keth-spawn remains possible but is not the leading answer.
 **Cosmic provenance:** Working hypothesis: a Between predator or collector that detects promises, boundaries, and social fractures across inhabited worlds. It may migrate along a predator wake without serving that predator.
@@ -2163,9 +2163,9 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Current independence:** It remains active and self-directed after Keth-Amar's retreat, following its own hunt rules and potentially bargaining over a repaired oath.
 **Wyrd relationship / status:** Ancient Cosmic Wyrdkin proposed; a sterile direct Keth-spawn version remains an open alternative.
 **Countermeasure:** Repair the obligation, expose the true terms, break the guilt tether, and deny the creature a route through redundant witnesses and honest records.
-**Next decision:** Confirm ancient migratory species versus Keth-directed offspring and define whether a repaired oath dissolves a Gambrel, transfers its target, or only makes it vulnerable.
+**Next decision:** Confirm ancient migratory species versus Keth-directed offspring and define whether a repaired oath dissolves a Geaslan, transfers its target, or only makes it vulnerable.
 
-#### 177. `the_revel` - The Revel
+#### 177. `the_revel` - Revalen
 **Status:** COSMIC-WYRD-REVIEW
 **True origin:** A possible ancient cosmic ritual parasite or movement-symbiote occupying a pre-existing Seelie Accord celebration, or a direct Keth-spawn echo generated around that rite.
 **Cosmic provenance:** Working hypothesis: a Between organism that synchronizes bodies, sound, and group motion as feeding or communication. It may have recognized the Accord's seasonal pattern as a usable local interface.
@@ -2182,7 +2182,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Break the rhythm, restore consent, separate native music from the Wyrd pattern, and extinguish or cleanse the anchor without destroying the native clearing.
 **Next decision:** Decide whether any native fae can reclaim the celebration, or whether the cosmic organism must be removed as an independent invasive ecology.
 
-#### 178. `skreika` - Skreika
+#### 178. `skreika` - Skraik
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic cold/death scavenger that can colonize drowned bodies; the current sailor-resurrection form is a Mythrill adaptation, not necessarily a direct Keth creation.
 **Cosmic provenance:** Working hypothesis: Between fauna that feeds on heat, last duties, and the residual pressure of cold deaths around celestial bodies. It may travel in wake currents or dormant ice matter.
@@ -2193,13 +2193,13 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Binding / warmth effect:** The Binding created frozen maritime death sites; First Cracks supplied pockets of warmth that both attracted and trapped this cold-adapted cosmic fauna.
 **Wyrd function / role:** Drainer/harvester and parasite/sower; it removes warmth and can use corpses or wrecks as colony material.
 **Mythrill anchor / nest:** Frozen bays, drowned corpses, wreck ice, and warm hearths that provide the thermal gradient it follows.
-**Keth-Amar relationship:** Keth-Amar can steer a swarm toward Rime sanctuaries or warmth routes, but Skreika may also be an independent feeder following the same cosmic trail.
+**Keth-Amar relationship:** Keth-Amar can steer a swarm toward Rime sanctuaries or warmth routes, but Skraik may also be an independent feeder following the same cosmic trail.
 **Current independence:** Packs remain stranded and can retain fragments of individual sailor memories after Keth-Amar is pushed back.
 **Wyrd relationship / status:** Ancient Cosmic Wyrdkin proposed; direct Keth-spawn or Wyrd-touched native dead-water forms remain possible alternatives.
 **Countermeasure:** Complete the crew's duties, separate corpses from the shared frost impulse, protect warmth without feeding the nest, and close the ice anchor.
 **Next decision:** Decide whether the Mythrill form is an ancient species, a corpse-colonizing life stage, or a Keth-directed local brood.
 
-#### 179. `rimor` - Rimor
+#### 179. `rimor` - Rimvald
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic hearth parasite that arrived as Wyrd fauna and adapted to Mythrill's scarce domestic warmth; it is not created by the local fear of cold-lock.
 **Cosmic provenance:** Working hypothesis: a Between symbiote that follows thermal emissions from living habitats and consumes heat as both food and signal.
@@ -2207,14 +2207,14 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Habitat / territory:** Chimneys, firepits, coal piles, and northern homes and outposts.
 **Values / what it guards:** Its occupied hearth and the continuation of a cold-dependent colony; its behavior is parasitic survival, not moral alignment.
 **Folklore truth:** Coal body, dying ember eyes, warmth loss, and intense heat as a countermeasure are local translation of an older parasite.
-**Binding / warmth effect:** The Binding made hearths survival anchors; First Cracks and thermal settlements gave Rimor dense targets and warmth gradients to follow.
+**Binding / warmth effect:** The Binding made hearths survival anchors; First Cracks and thermal settlements gave Rimvald dense targets and warmth gradients to follow.
 **Wyrd function / role:** Drainer/harvester and parasite/sower; one occupied home can seed a chain of hearth infestations.
 **Mythrill anchor / nest:** Hearth ash, chimney soot, coal piles, and the boundary between a native fire spirit and a cold household.
-**Keth-Amar relationship:** Keth-Amar can deploy Rimor toward Rime sanctuaries to drain warmth, but no direct offspring or command structure is established.
-**Current independence:** Rimor colonies can jump between homes and persist as an independent food web after Keth-Amar retreats.
+**Keth-Amar relationship:** Keth-Amar can deploy Rimvald toward Rime sanctuaries to drain warmth, but no direct offspring or command structure is established.
+**Current independence:** Rimvald colonies can jump between homes and persist as an independent food web after Keth-Amar retreats.
 **Wyrd relationship / status:** Ancient Cosmic Wyrdkin proposed; a direct Keth-spawn parasite is an unresolved alternative for unusually coordinated outbreaks.
 **Countermeasure:** Remove it from the hearth, cleanse the heat memory, isolate the chimney, and coordinate household warmth so the parasite cannot jump to the next home.
-**Next decision:** Decide whether Rimor reproduction is budding in ash, transfer through smoke, or a symbiotic stage with another cosmic Wyrd organism.
+**Next decision:** Decide whether Rimvald reproduction is budding in ash, transfer through smoke, or a symbiotic stage with another cosmic Wyrd organism.
 
 #### 180. `stel` - Stel
 **Status:** COSMIC-WYRD-REVIEW
@@ -2233,7 +2233,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Release or name the trapped memories, melt or isolate the anchor ice, and close the Wyrd pocket rather than merely breaking the body.
 **Next decision:** Determine whether a cosmic species arrived first and the Breach changed it, or whether the Stel is a one-time direct manifestation.
 
-#### 181. `the_cinder` - The Cinder
+#### 181. `the_cinder` - Kavur
 **Status:** WYRDSPAWN-PROPOSED
 **True origin:** A direct Keth-spawn: a Wyrd body generated after arrival and shaped by the Ash-Dweller fear of children lost in volcanic rifts. It is not a native fire child or an ancient species claim yet.
 **Cosmic provenance:** No stable ancient cosmic provenance is established; this may be a local larval form produced from Keth's ash-bearing Wyrd medium. An older cosmic fire scavenger model remains possible.
@@ -2250,7 +2250,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Expose the lie without feeding panic, sever the ash anchor, cool and cleanse the site, and redirect the entity to a controlled truth ritual.
 **Next decision:** Confirm direct Keth generation and define whether truth must be confessed by the target, witnessed by a community, or simply understood by the Cinder.
 
-#### 182. `ash_woven_oracle` - Ash-Woven Oracle
+#### 182. `ash_woven_oracle` - Ashvara
 **Status:** WYRDSPAWN-PROPOSED
 **True origin:** A likely direct Keth-spawn condensed from Wyrd ash around the collective fear that Emberspire and Sol's warmth will finally dim. An ancient cosmic oracle species is not ruled out.
 **Cosmic provenance:** Unknown. The current body behaves like a local Wyrd condensation, but it could be a juvenile ash-prophet from the Between using Sundale's volcanic matter.
@@ -2267,7 +2267,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Compare prophecy against verifiable evidence, clean the air, sever the ash current, and stop the community from treating its narrative as inevitable.
 **Next decision:** Determine whether any prophecy is accurate, self-fulfilling, or only a weaponized pattern of shared fear, and settle ancient fauna versus direct spawn.
 
-#### 183. `husque` - Husque
+#### 183. `husque` - Huskvar
 **Status:** WYRDSPAWN-PROPOSED
 **True origin:** A direct Keth-spawn: a mobile tear of Keth-Amar's hunger occupying basalt and mineral slag. It is a local breach body, not a native volcano being.
 **Cosmic provenance:** It may be a larval form or predatory organ generated by Keth's Wyrd; no independent ancient species provenance is currently supported.
@@ -2282,9 +2282,9 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Current independence:** It can move between nearby anchors but likely collapses when the breach is sealed and cannot establish a self-sustaining population.
 **Wyrd relationship / status:** Direct Keth-spawn / Wyrdspawn proposed.
 **Countermeasure:** Seal the spatial tear, starve the hunger, isolate the Shard or excavation anchor, and stabilize the site after the body falls.
-**Next decision:** Confirm whether Husque is a repeatable Keth-spawn organ or a single breach-born entity with no breeding cycle.
+**Next decision:** Confirm whether Huskvar is a repeatable Keth-spawn organ or a single breach-born entity with no breeding cycle.
 
-#### 184. `spume_of_the_drowned` - Spume of the Drowned
+#### 184. `spume_of_the_drowned` - Spumara
 **Status:** COSMIC-WYRD-REVIEW
 **True origin:** A possible ancient cosmic memory colony that uses sea foam and drowned minds as substrate, or a direct Keth-spawn formed from one sunken crew's final panic.
 **Cosmic provenance:** Working hypothesis: a Between colony that stores sensory memory in fluid crystals and follows the thermal signature of living minds. Its natural habitat is not Mythrill's sea.
@@ -2301,7 +2301,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Release or name the trapped crew memories, disperse the foam, cleanse the harbor, and prevent the colony from jumping to a new vessel.
 **Next decision:** Decide whether a cosmic colony arrived first and learned to use drowned crews, or whether Keth-Amar generated this one-time local manifestation.
 
-#### 185. `writ_of_passage` - Writ of Passage
+#### 185. `writ_of_passage` - Vritara
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic contract-form that predates its arrival on Mythrill and uses Neth maritime language as an interpreter; it is not necessarily a direct Keth construct.
 **Cosmic provenance:** Working hypothesis: a Between mimic/interpreter that encodes routes, permissions, and ownership as living membranes or script. It may travel with cosmic migrations between star systems.
@@ -2318,9 +2318,9 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Identify the source clause, establish a true counter-contract, deny it an anchor document, and sever the Wyrd from the route rather than negotiating indefinitely.
 **Next decision:** Decide whether the Writ's cosmic terms can be translated into a fair local contract or whether its existence is inherently invasive.
 
-#### 186. `storm_crows` - Storm-Crows
+#### 186. `storm_crows` - Karasen
 **Status:** COSMIC-WYRD-PROPOSED
-**True origin:** An ancient cosmic mimic flock using native raven and mountain imagery; it is separate from the native `tengu_scout` Storm-Crow Scout lineage.
+**True origin:** An ancient cosmic mimic flock using native raven and mountain imagery; it is separate from the native `tengu_scout` Tengara lineage.
 **Cosmic provenance:** Working hypothesis: aerial listeners from the Between that copy voices and command patterns to map inhabited structures and identify isolated prey.
 **Agency / ecological-world function:** It mimics commands and children, redirects travelers, and protects a high-spire nest that serves as a colony anchor.
 **Habitat / territory:** High spires, pipeline bridges, and ravines of Cragjaw Peaks.
@@ -2335,7 +2335,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Find and sever the anchor nest, restore or reassign stolen voices, verify commands through native Kodama/Span protocols, and isolate pipe corridors.
 **Next decision:** Decide whether the flock has one Wyrd mind, a colony intelligence, or independent scouts with competing objectives.
 
-#### 187. `sump_scrabs` - Sump-Scrabs
+#### 187. `sump_scrabs` - Gazoro
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic heat-parasite likely adapted to alchemical boiler matter; the current record may describe an older Wyrd insect species rather than a newly generated mutation.
 **Cosmic provenance:** Working hypothesis: Between insects or colony organisms that sense thermal infrastructure around living worlds and feed through conductive mineral shells.
@@ -2352,7 +2352,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Purge the Wyrd from the nest, isolate pipe sections, repair heat flow, and determine whether any uncorrupted boiler insects are native or merely dormant cosmic larvae.
 **Next decision:** Separate the `kappa` record from this one permanently and decide ancient species versus direct Keth mutation.
 
-#### 188. `lien` - Lien
+#### 188. `lien` - Lienvar
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic collector/judge that uses Ordan debt and promise customs as its local legal language; it is not the origin of Ordan law.
 **Cosmic provenance:** Working hypothesis: a Between organism that tracks exchange, obligation, and ownership across settlements, possibly feeding on unresolved relational energy.
@@ -2363,13 +2363,13 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Binding / warmth effect:** The Binding made house and clan oaths significant; First Cracks intensified resource debts and provided the social pressure the arriving collector could read.
 **Wyrd function / role:** Collector/judge and scout/listener; it maps social fractures and turns debt into a route toward Astril memory and ancestor authority.
 **Mythrill anchor / nest:** Steppe-staves, Mound-Camps, gravity storms, contract scrolls, and ruins where obligations were abandoned.
-**Keth-Amar relationship:** Keth-Amar can use a Lien to weaken Ordan cooperation, but it may follow its own cosmic ledger rather than obeying him.
+**Keth-Amar relationship:** Keth-Amar can use a Lienvar to weaken Ordan cooperation, but it may follow its own cosmic ledger rather than obeying him.
 **Current independence:** It continues to track debt after his retreat and may accept local renegotiation if a faction can understand its terms.
 **Wyrd relationship / status:** Ancient Cosmic Wyrdkin proposed; a direct Keth-spawn debt horror remains an open alternative.
 **Countermeasure:** Expose the original obligation, give the debtor a real legal option, establish a true witness, and close the Wyrd route that keeps the hunt active.
-**Next decision:** Decide whether Lien can accept forgiveness, only payment, or a valid renegotiation witnessed by an Ordan authority.
+**Next decision:** Decide whether Lienvar can accept forgiveness, only payment, or a valid renegotiation witnessed by an Ordan authority.
 
-#### 189. `hungry_child_creature` - Hungry Child
+#### 189. `hungry_child_creature` - Munkhai
 **Status:** COSMIC-WYRD-REVIEW
 **True origin:** A possible ancient cosmic juvenile memory-feeder that uses rejected child spirits as hosts, or a direct Keth-spawn occupation at an Ancestor-Mound. It is not the universal fate of unburied children.
 **Cosmic provenance:** Working hypothesis: a Between larva that consumes orientation, warmth, and stories of vanished stars. Its apparent child form may be a host interface rather than its true body.
@@ -2386,7 +2386,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Offer a genuine ancestor welcome, tell a complete story, separate the host spirit from the larva, and sever the mound's Wyrd residue.
 **Next decision:** Decide whether the child can be restored to the ancestors, whether the cosmic larva can mature independently, or whether the Wyrd has erased the original spirit.
 
-#### 190. `sere_khan` - Sere-Khan
+#### 190. `sere_khan` - Serkhan
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic collector/judge that uses Ordan ancestor authority as its local court language; the current form is not necessarily a direct Keth creation.
 **Cosmic provenance:** Working hypothesis: a Between adjudicator that measures continuity, inheritance, and obedience in developing civilizations, riding a pressure-shaped predator form.
@@ -2397,13 +2397,13 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Binding / warmth effect:** The Binding made ancestor authority a survival structure; First Cracks and Monolith sites gave the arriving judge a powerful legal symbol and anchor.
 **Wyrd function / role:** Collector/judge and anchor/breach-keeper; it turns mound sites into command courts that weaken shared Ordan orientation.
 **Mythrill anchor / nest:** Ancestor-Mounds, Monolith sites, jade or bone legal objects, and throat-sung genealogies.
-**Keth-Amar relationship:** Keth-Amar can point it toward Astril memory or a resistant clan, but Sere-Khan may pursue its own cosmic jurisdiction.
+**Keth-Amar relationship:** Keth-Amar can point it toward Astril memory or a resistant clan, but Serkhan may pursue its own cosmic jurisdiction.
 **Current independence:** It remains capable of holding trials after Keth-Amar retreats and may form a local court faction of dead and living petitioners.
 **Wyrd relationship / status:** Ancient Cosmic Wyrdkin proposed; a direct Keth-spawn counterfeit judge remains unresolved.
 **Countermeasure:** Challenge the false jurisdiction, restore the true dead's voices, use plural ancestor testimony, and break the Monolith-linked court anchor.
-**Next decision:** Define which ancestral authority can overrule Sere-Khan and whether a living clan can legally dismiss the cosmic court.
+**Next decision:** Define which ancestral authority can overrule Serkhan and whether a living clan can legally dismiss the cosmic court.
 
-#### 191. `grandmother_of_the_bog` - Grandmother of the Bog
+#### 191. `grandmother_of_the_bog` - Babara
 **Status:** COSMIC-WYRD-PROPOSED
 **True origin:** An ancient cosmic memory-and-lifespan trader that adapted to Bryngloom bog law; it is not necessarily a post-Keth creation of local folklore.
 **Cosmic provenance:** Working hypothesis: a Between collector that exchanges stored memory, potential, or biological time between organisms and nests.
@@ -2420,7 +2420,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Expose hidden terms, restore surrendered memories, use native contract witnesses, and sever the bog's contract web without damaging the natural water cycle.
 **Next decision:** Decide whether bargains can be reversed, whether lost years can return, and whether the cosmic trader can be expelled rather than merely out-negotiated.
 
-#### 192. `debt_revenant` - Debt-Revenant
+#### 192. `debt_revenant` - Vezan
 **Status:** WYRDSPAWN-PROPOSED
 **True origin:** A likely direct Wyrd manifestation occupying a dead debtor or contract corpse; an ancient cosmic corpse-parasite stage is not ruled out, but the local body is the leading answer.
 **Cosmic provenance:** Unknown. The form could be a Keth-generated larva using a corpse, or a cosmic debt parasite whose normal life cycle is being translated through Neth paperwork.
@@ -2437,7 +2437,7 @@ These records are the clearest Wyrd-layer candidates. Their local shapes and hab
 **Countermeasure:** Fulfill or lawfully cancel the obligation, burn the anchor document, cleanse the corpse, and prevent the Wyrd from transferring the clause to another debtor.
 **Next decision:** Decide whether native Neth law can release it or whether the Wyrd has made the contract legally counterfeit, and settle direct spawn versus cosmic parasite.
 
-#### 193. `cycle_eater` - Cycle-Eater
+#### 193. `cycle_eater` - Krugava
 **Status:** COSMIC-WYRD-REVIEW
 **True origin:** A possible ancient cosmic predator that feeds on death-rebirth cycles, or a direct Keth-spawn shaped by fear that Keth-Amar will consume Bryngloom's renewal. It is not native to the forest.
 **Cosmic provenance:** Working hypothesis: a Between drainer that hunts regenerative ecologies around living worlds and consumes recurrence as a form of nourishment.
@@ -2480,16 +2480,16 @@ These are the specific issues that should be visible to the next author or imple
 2. **Universal Wyrd framing:** `rules.json`, `CORE_LORE_FRAMEWORK.md`, and several `lore.json` entries imply that folklore beings are created by Wyrd or are universal dark-bargain tolls. That conflicts with native-pre-Binding canon and also erases the distinction between ancient cosmic Wyrdkin, Keth-spawn, and Wyrd-touched natives.
 3. **Mixed legacy tags:** 35 JSON records contain a `wyrd-creature` or `Wyrd-kin` tag, while 81 records mention Wyrd in one of the descriptive lore fields. The tag/text boundary does not distinguish native exposure, ancient cosmic Wyrdkin, direct Keth-spawn, or local camouflage.
 4. **Exact copied record:** `sirin_song` has the same `origin`, `nature`, `habitat`, and `depth` values as `dziwozona_wild`. It cannot be treated as final Sirin lore.
-5. **Mislabeled/copied record:** `kappa` has a Kappa display name and description, but its `origin` begins with "The Sump-Scrab" and its tags include `sump-scrab`. It must be rewritten independently from `sump_scrabs`.
-6. **Display-name typo:** JSON ID `oillipheist` is displayed as `Oilliph,ist`; the prose and `lore.json` use `Oillipheist`. The exact current name is preserved in this inventory, but a future correction must choose one canonical display spelling.
+5. **Mislabeled/copied record:** `kappa` has a Kappa display name and description, but its `origin` begins with "The Kappura" and its tags include `sump-scrab`. It must be rewritten independently from `sump_scrabs`.
+6. **Display-name typo:** JSON ID `oillipheist` is displayed as `Oilliph,ist`; the prose and `lore.json` use `Olveist`. The exact current name is preserved in this inventory, but a future correction must choose one canonical display spelling.
 7. **Description duplication blemish:** `skerry.description` says "stout, greedy, stout". This is not a lore contradiction by itself, but it indicates rushed or copied prose.
 8. **Timeline scale conflict:** `CORE_LORE_FRAMEWORK.md` and `rules.json` use Year 0/300/325/475 and 150 years of Freezing Era, while `Nordhalla_Complete_Lore.md` repeatedly uses eight centuries. This plan uses the framework dates as a working index and records the scale as unresolved.
-9. **Nordhalla name mismatch:** `Nordhalla_Complete_Lore.md` lists Jutul-King, Skrei, Huld, Jawl, and Kjarn in regional creature lists, while the JSON inventory contains `jutul`, `skreika`, `huldra`, and no exact Jawl/Kjarn records. The Jutul entry calls out the title question directly.
+9. **Nordhalla name mismatch:** `Nordhalla_Complete_Lore.md` lists Jotkall-King, Skrei, Huld, Jawl, and Kjarn in regional creature lists, while the JSON inventory contains `jutul`, `skreika`, `huldra`, and no exact Jawl/Kjarn records. The Jotkall entry calls out the title question directly.
 10. **Old World magic vocabulary:** Several pre-Binding records describe mana, runes, Wyrd, or mortal-style magical effects as though they existed before the Great Binding. These terms need to be reclassified as native resonance, mineral behavior, spirit law, or later house/Wyrd exposure.
 11. **Post-Binding candidates:** `bes` is described as crafted by Solari artisans and `hut_ling` as a witch/Wyrd-made chest. They may belong in a deliberate house-era construct category, but they are not automatically native or Wyrdspawn.
 12. **Spelling drift:** The sources alternate between `Keth Amar` and `Keth-Amar`, and the house/region material has additional naming drift. Later edits should normalize terms without changing IDs accidentally.
 13. **Unresolved cosmic provenance:** The current data has no field for extra-Mythrill origin, cosmic habitat, Wyrd role, anchor/nest, Keth relationship, current independence, or countermeasure. The 20 Wyrd-layer entries therefore use working prose and provisional statuses rather than final taxonomy.
-14. **Local-form ambiguity:** Alraune, Sluagh, Stel, Spume of the Drowned, Hungry Child, and Cycle-Eater may be ancient cosmic organisms using local substrates or direct Keth-generated manifestations. The plan preserves both possibilities until anchor, propagation, and dependency evidence is authored.
+14. **Local-form ambiguity:** Alrauneth, Rabengast, Stel, Spumara, Munkhai, and Krugava may be ancient cosmic organisms using local substrates or direct Keth-generated manifestations. The plan preserves both possibilities until anchor, propagation, and dependency evidence is authored.
 
 ## 11. Implementation Plan
 

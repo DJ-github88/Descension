@@ -4,7 +4,7 @@ import CreatureTooltip from '../CreatureTooltip';
 import CharacterTooltip from '../CharacterTooltip';
 
 const baseCreature = {
-    name: 'Anzu',
+    name: 'Anzura',
     size: 'large',
     type: 'elemental',
     faction: 'wild',

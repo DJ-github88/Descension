@@ -159,7 +159,7 @@ For any creature whose `heritage` field doesn't reference either of its region's
 ## CATEGORY J: CROSS-FILE IDENTITY  -  "IS THIS THE SAME THING?"
 
 ### J.1  -  Same name, different IDs
-Search for entities that have the same display name but different IDs across files (e.g., "The Warden" as both a cosmic entity and a class, or two different creatures both named "Sluagh").
+Search for entities that have the same display name but different IDs across files (e.g., "The Warden" as both a cosmic entity and a class, or two different creatures both named "Rabengast").
 
 ### J.2  -  Same ID, different names
 Search for entities that have the same ID but different display names across files.

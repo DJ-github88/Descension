@@ -188,7 +188,7 @@
     "type": "region",
     "region": "cragjaw-peaks",
     "summary": "A vertical labyrinth of howling blizzards, governed by the Knotted Decree and linked by Groven bone-spans.",
-    "fullEntry": "The Cragjaw Peaks are a vertical wilderness of razor ridges, and House Tesshan buried them in perpetual blizzard to keep the world from looking in. The snow-veil was the trade: visibility for secrecy, warmth for isolation. Jarl Oda Tesshan enforces the Knotted Decree from the highest keep, replacing written script with knotted cords that only the Tesshan can read, and they don't teach it. The Steam-Line Cartel runs the infrastructure. The Tesshan corvée runs the labor. The high keeps hold the Terraced, who govern. The lower chasms hold the Chasm-Dwellers, who dig. And the cliffs hold two different threats: native Rime-Brides haunt the upper snows, while the Ancient Cosmic Wyrdkin called Storm-Crows roost above the ravines, watching anyone who climbs.",
+    "fullEntry": "The Cragjaw Peaks are a vertical wilderness of razor ridges, and House Tesshan buried them in perpetual blizzard to keep the world from looking in. The snow-veil was the trade: visibility for secrecy, warmth for isolation. Jarl Oda Tesshan enforces the Knotted Decree from the highest keep, replacing written script with knotted cords that only the Tesshan can read, and they don't teach it. The Steam-Line Cartel runs the infrastructure. The Tesshan corvée runs the labor. The high keeps hold the Terraced, who govern. The lower chasms hold the Chasm-Dwellers, who dig. And the cliffs hold two different threats: native Yukiona haunt the upper snows, while the Ancient Cosmic Wyrdkin called Karasen roost above the ravines, watching anyone who climbs.",
     "relatedTerms": [
       "ancestor_gaps",
       "chronarch",
@@ -1467,11 +1467,11 @@
   },
   "gambrel": {
     "id": "gambrel",
-    "term": "Gambrel",
+    "term": "Geaslan",
     "type": "creature",
     "region": "frostwood-reach",
     "summary": "An Ancient Cosmic Wyrdkin oath and relational collector that reads Frostwood guilt as a local hunting language.",
-    "fullEntry": "The Gambrel is an Ancient Cosmic Wyrdkin from the dark between stars, an oath and relational collector that maps obligations, shame, and unfinished exchange. Keth Amar's arrival gave it a route into Mythrill; whether he bred it, summoned it, or merely drew it along his wake is unknown. It uses Frostwood guilt as a local hunting language, reading broken promises, evasions, and the fear of being forgotten as trails to a person and their social ties. Broken promises are the signal it understands, not its genesis. The relationship is the thing it collects.\n\nIn the Reach it stalks mist roads and carriages, following a broken bond until it reaches the person, household, or contract that carries it. The more desperately a target tries to forget what was sworn, the stronger the trail becomes. A Gambrel may demand confession, repair, or a living witness before it takes a name or memory; when denied, it pursues without tiring. Keep your word is sound local survival advice, but it is folklore translating a collector's ecology, not creating the Gambrel. Some remain stranded in Frostwood fog routes after Keth Amar's retreat, hunting by their own rules.",
+    "fullEntry": "The Geaslan is an Ancient Cosmic Wyrdkin from the dark between stars, an oath and relational collector that maps obligations, shame, and unfinished exchange. Keth Amar's arrival gave it a route into Mythrill; whether he bred it, summoned it, or merely drew it along his wake is unknown. It uses Frostwood guilt as a local hunting language, reading broken promises, evasions, and the fear of being forgotten as trails to a person and their social ties. Broken promises are the signal it understands, not its genesis. The relationship is the thing it collects.\n\nIn the Reach it stalks mist roads and carriages, following a broken bond until it reaches the person, household, or contract that carries it. The more desperately a target tries to forget what was sworn, the stronger the trail becomes. A Geaslan may demand confession, repair, or a living witness before it takes a name or memory; when denied, it pursues without tiring. Keep your word is sound local survival advice, but it is folklore translating a collector's ecology, not creating the Geaslan. Some remain stranded in Frostwood fog routes after Keth Amar's retreat, hunting by their own rules.",
     "relatedTerms": [
       "frostwood-reach",
       "house_thalreth",
@@ -1547,7 +1547,7 @@
     "type": "entity",
     "region": "sundale",
     "summary": "The world's primordial loom — Natural Wyrd — and the hostile strain that infects it, Predatory Wyrd, seeded by Keth Amar.",
-    "fullEntry": "The Wyrd is not one thing. It is two, and confusing them has killed scholars, villages and houses.\n\n**Natural Wyrd (the Primordial Loom)** is the baseline law of Mythrill. It is the Sleeping Soul's dreaming made tangible: collective belief, folklore, myth, fear and vow manifest into living creatures and peoples. The Jutul, the Glacier Wyrms, the land spirits, the seafoam-born Myrathil — none of these were made by the Celestials. They were grown by what the world believed, long before any star fell here. Natural Wyrd does not punish. It grows.\n\n**Predatory Wyrd** is what happens when the Loom is taught to want. Unable to breach Aethil's ward, Keth Amar spewed a corrupted strain of Wyrd onto Mythrill from the void. Because the world was saturated with Natural Wyrd, the infection took deep root. Predatory Wyrd warps what the Loom grows, turns folklore into horror, and makes belief curdle. It is how Keth Amar whispered for twenty-five years, how it turned a fog into a forgetting, a glacier into a hungering, a contract into a chain.\n\nAncient Cosmic Wyrdkin are pre-existing extra-Mythrill beings — fauna, parasites, scouts, collectors, predators — whose histories began beyond this world. Some follow Keth Amar's wake or the Astril trail; some are drawn to the same dying-star resonance. Wyrdspawn, or Keth-spawn, are narrower: direct local offspring, larvae or manifestations generated by Predatory Wyrd after arrival, often dependent on a breach. Wyrd-touched natives are native Mythrill creatures altered by exposure; the native species remains distinct.\n\nAnchors give the ecology a way to arrive or persist. Aex Shards, aegis-cracks, glaciers, roots, ash vents, wrecks, hearths, caves, pipes, archives and corpse fields can hold a nest or stabilize a breach. When Keth Amar was driven back, some Wyrdkin and Wyrdspawn remained stranded in their anchors with their own instincts and factions.\n\nLocal folklore translates and camouflages these encounters. A story may supply a familiar face, oath, song or child-shape; it can describe a mimic or a Wyrdspawn, but it does not create a native creature. The Wyrd is what the Deep Alchemists refine, what the Barbed Vow severs, and what the Pyrofiends bargain with. Ask which Wyrd before you bargain.",
+    "fullEntry": "The Wyrd is not one thing. It is two, and confusing them has killed scholars, villages and houses.\n\n**Natural Wyrd (the Primordial Loom)** is the baseline law of Mythrill. It is the Sleeping Soul's dreaming made tangible: collective belief, folklore, myth, fear and vow manifest into living creatures and peoples. The Jotkall, the Glacier Wyrms, the land spirits, the seafoam-born Myrathil — none of these were made by the Celestials. They were grown by what the world believed, long before any star fell here. Natural Wyrd does not punish. It grows.\n\n**Predatory Wyrd** is what happens when the Loom is taught to want. Unable to breach Aethil's ward, Keth Amar spewed a corrupted strain of Wyrd onto Mythrill from the void. Because the world was saturated with Natural Wyrd, the infection took deep root. Predatory Wyrd warps what the Loom grows, turns folklore into horror, and makes belief curdle. It is how Keth Amar whispered for twenty-five years, how it turned a fog into a forgetting, a glacier into a hungering, a contract into a chain.\n\nAncient Cosmic Wyrdkin are pre-existing extra-Mythrill beings — fauna, parasites, scouts, collectors, predators — whose histories began beyond this world. Some follow Keth Amar's wake or the Astril trail; some are drawn to the same dying-star resonance. Wyrdspawn, or Keth-spawn, are narrower: direct local offspring, larvae or manifestations generated by Predatory Wyrd after arrival, often dependent on a breach. Wyrd-touched natives are native Mythrill creatures altered by exposure; the native species remains distinct.\n\nAnchors give the ecology a way to arrive or persist. Aex Shards, aegis-cracks, glaciers, roots, ash vents, wrecks, hearths, caves, pipes, archives and corpse fields can hold a nest or stabilize a breach. When Keth Amar was driven back, some Wyrdkin and Wyrdspawn remained stranded in their anchors with their own instincts and factions.\n\nLocal folklore translates and camouflages these encounters. A story may supply a familiar face, oath, song or child-shape; it can describe a mimic or a Wyrdspawn, but it does not create a native creature. The Wyrd is what the Deep Alchemists refine, what the Barbed Vow severs, and what the Pyrofiends bargain with. Ask which Wyrd before you bargain.",
     "relatedTerms": [
       "keth_amar",
       "the_breach",
@@ -1812,7 +1812,7 @@
       "frostwood-reach"
     ],
     "summary": "A witch-hunter of dual root, Orven's cold-iron Mycellan tradition in the Bryngloom and Elias the Salt-Scarred's anti-Wyrd Tallyn tradition in the Frostwood Reach, who severs magical bindings and commands bound fiends.",
-    "fullEntry": "The Inquisitor has two roots in two regions, both born from the same necessity: policing the supernatural when it turns predatory. In the Bryngloom Forest, Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Mycellan whose ancestral spirit-bonds had gone rogue, and Riven whose silence-sealed contracts defied conventional magic. In the Frostwood Reach, Elias the Salt-Scarred opened his own veins to draw Wyrd entities and face-stealing mimics into living flesh where they could be named and cut. Gref memory-merchants, Gambrel oath collectors, and later face-stealing forms became distinct case studies, not one species created by local fear. The two traditions merged when the supernatural incursion rate tripled and neither regional order could contain it alone.\n\nAn Inquisitor specializes in Wyrd incursions, corrupted bonds, and severance. They aren't magic-resistant by nature; they are magic-literate in the way a surgeon is anatomy-literate. The tradition also encompasses the binding and commanding of fiends through sacred dominance ritual. The Bryngloom order is seated at the Sunken Spire. The Frostwood order operates out of Greymark Keep. The two stay in contact through a chain of border-shrines.",
+    "fullEntry": "The Inquisitor has two roots in two regions, both born from the same necessity: policing the supernatural when it turns predatory. In the Bryngloom Forest, Orven the Still-Handed forged the first cold-iron blade and swore the Barbed Vow to hunt corrupted Mycellan whose ancestral spirit-bonds had gone rogue, and Riven whose silence-sealed contracts defied conventional magic. In the Frostwood Reach, Elias the Salt-Scarred opened his own veins to draw Wyrd entities and face-stealing mimics into living flesh where they could be named and cut. Gref memory-merchants, Geaslan oath collectors, and later face-stealing forms became distinct case studies, not one species created by local fear. The two traditions merged when the supernatural incursion rate tripled and neither regional order could contain it alone.\n\nAn Inquisitor specializes in Wyrd incursions, corrupted bonds, and severance. They aren't magic-resistant by nature; they are magic-literate in the way a surgeon is anatomy-literate. The tradition also encompasses the binding and commanding of fiends through sacred dominance ritual. The Bryngloom order is seated at the Sunken Spire. The Frostwood order operates out of Greymark Keep. The two stay in contact through a chain of border-shrines.",
     "relatedTerms": [
       "bryngloom-forest",
       "covenbane",
@@ -1873,7 +1873,7 @@
     "type": "concept",
     "region": "cragjaw-peaks",
     "summary": "A dead Cragjaw tradition of steam-powered iron juggernauts. The Groven furnace-armor guilds still stamp the old sigil on every plate of Ironclad Martyr-issue.",
-    "fullEntry": "In the vertical warrens of the Cragjaw Peaks, Groven troll-kin welded heating pipes to their own bodies and sealed themselves in iron plate to fight the Skreika. They became steam-powered juggernauts: slow, furnace-hot, and impossible to move from a corridor once they anchored. The Dreadnaughts held the deep tunnels when nothing else could.\n\nThe tradition did not die. It re-licensed. The old Dreadnaught foundries at Frostmaw now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors. What was once a Groven defense-rite is now a specialization of the Martyr class, the furnace-bound path where penitents combine willing sacrifice with combustion-engine mechanics.\n\nA few elder pure-furnace Groven insist the Martyr theology corrupts the engineering. They run their boilers cold, without the Devotion, and there are fewer of them every winter. The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil, a pipe-crossed fist, onto every plate of Ironclad-issue as a maker-mark. It is the only public acknowledgment that the original tradition ever existed.\n\nWalk the Ironclad path and you wear a hundred years of Groven engineering on your back. The boiler still answers the old commands. The furnace still hungers.",
+    "fullEntry": "In the vertical warrens of the Cragjaw Peaks, Groven troll-kin welded heating pipes to their own bodies and sealed themselves in iron plate to fight the Skraik. They became steam-powered juggernauts: slow, furnace-hot, and impossible to move from a corridor once they anchored. The Dreadnaughts held the deep tunnels when nothing else could.\n\nThe tradition did not die. It re-licensed. The old Dreadnaught foundries at Frostmaw now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors. What was once a Groven defense-rite is now a specialization of the Martyr class, the furnace-bound path where penitents combine willing sacrifice with combustion-engine mechanics.\n\nA few elder pure-furnace Groven insist the Martyr theology corrupts the engineering. They run their boilers cold, without the Devotion, and there are fewer of them every winter. The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil, a pipe-crossed fist, onto every plate of Ironclad-issue as a maker-mark. It is the only public acknowledgment that the original tradition ever existed.\n\nWalk the Ironclad path and you wear a hundred years of Groven engineering on your back. The boiler still answers the old commands. The furnace still hungers.",
     "transition": {
       "aftermath": "The <LoreLink termId=\"groven\">Groven</LoreLink> furnace-armor guilds did not dissolve, they re-licensed. The old Dreadnaught foundries at <LoreLink termId=\"frostmaw_holdfast\">Frostmaw</LoreLink> now produce Ironclad plate under Steam-Line Cartel contracts, and the senior Dreadnaught smiths became the first Ironclad instructors.",
       "legacySite": "The Old Foundry beneath Frostmaw still stamps the Dreadnaught sigil (a pipe-crossed fist) onto Ironclad plate as a maker-mark, the only surviving public acknowledgment of the original tradition.",
@@ -3217,7 +3217,7 @@
     "type": "location",
     "region": "frostwood-reach",
     "summary": "A small woodcutter village of the Frostwood Reach, sitting on the ancient trade routes that stitch the Reach together.",
-    "fullEntry": "Drunhold straggles along the old trade routes of the Frostwood Reach, one of the small ironwood-cutting villages where the woodcutters work the sacred groves under strict Tallyn quota. That tension has seeded generations of logger folklore about forest vengeance, the Grimmstalk myth among them. Crossroad spirits like the Gref are drawn to Drunhold's thresholds, where strong partings and forgotten oaths leave the heaviest trails. Stop at a Drunhold threshold and you'll feel where the oaths were broken; the Gref can smell it too, and the woodcutters lock their doors at dusk for reasons the quota-ledgers don't mention.",
+    "fullEntry": "Drunhold straggles along the old trade routes of the Frostwood Reach, one of the small ironwood-cutting villages where the woodcutters work the sacred groves under strict Tallyn quota. That tension has seeded generations of logger folklore about forest vengeance, the Branvig myth among them. Crossroad spirits like the Gref are drawn to Drunhold's thresholds, where strong partings and forgotten oaths leave the heaviest trails. Stop at a Drunhold threshold and you'll feel where the oaths were broken; the Gref can smell it too, and the woodcutters lock their doors at dusk for reasons the quota-ledgers don't mention.",
     "relatedTerms": [
       "frostwood-reach",
       "grimmwood",
@@ -3231,7 +3231,7 @@
     "type": "location",
     "region": "frostwood-reach",
     "summary": "The oldest heart of the Frostwood Reach, a stand of ironwood and pine older than the Great Binding, dense enough to swallow loggers whole.",
-    "fullEntry": "Grimmwood Proper is the ancient core of the Frostwood Reach, where the ironwood and pine have stood since before the Great Binding and the canopy admits no light at all. It is treated by the woodcutters of Drunhold with terror rather than ambition: the Grimmstalks, feather-skulled native canopy-guardians descended from the old dryad-like ironwood keepers and older than the logging that later named them, dwell exclusively in its highest branches, and travelers who lose the trail in the silent Grimmwood are rarely recovered. The Florae claim the Grimmwood as untouchable rootland; the Tallyn ledger-wards mark its edge and go no further. Walk into the Grimmwood and you walk into the oldest thing in the Reach; the trees were old when the fog came, and they do not care about your ledger or your name. Deep in the Grimmwood's oldest stand dwells Bri-Yrn, called the Grimm-Mother — the Fair Folk hermit who brokered the contract that split House Viridane into thorn and timber. The Florae claim the Grimmwood as rootland but will not walk where she walks; the Tallyn ledger-wards mark the edge and go no further. The woodcutters of Drunhold say her name aloud only as a warning.",
+    "fullEntry": "Grimmwood Proper is the ancient core of the Frostwood Reach, where the ironwood and pine have stood since before the Great Binding and the canopy admits no light at all. It is treated by the woodcutters of Drunhold with terror rather than ambition: the Branvigs, feather-skulled native canopy-guardians descended from the old dryad-like ironwood keepers and older than the logging that later named them, dwell exclusively in its highest branches, and travelers who lose the trail in the silent Grimmwood are rarely recovered. The Florae claim the Grimmwood as untouchable rootland; the Tallyn ledger-wards mark its edge and go no further. Walk into the Grimmwood and you walk into the oldest thing in the Reach; the trees were old when the fog came, and they do not care about your ledger or your name. Deep in the Grimmwood's oldest stand dwells Bri-Yrn, called the Grimm-Mother — the Fair Folk hermit who brokered the contract that split House Viridane into thorn and timber. The Florae claim the Grimmwood as rootland but will not walk where she walks; the Tallyn ledger-wards mark the edge and go no further. The woodcutters of Drunhold say her name aloud only as a warning.",
     "relatedTerms": [
       "florae",
       "drunhold",
@@ -3244,8 +3244,8 @@
     "term": "Siltmire Flats",
     "type": "location",
     "region": "frostwood-reach",
-    "summary": "A stretch of the Frostwood Reach where ancient peat has turned the standing water to thick black soup. Hunting ground of the Oillipheist.",
-    "fullEntry": "The Siltmire Flats are a low, boggy reach of the Frostwood where peat older than the Bargain has turned the standing water into a thick, black, deceptive soup, deep enough to swallow a person, warm enough in rare summer to slow the cold-blooded things that live in it. It is the named hunting ground of the Oillipheist, the blind silt-leech serpent, and Frostwood parents use the Flats as the backdrop for every warning-tale about drowning in dark water. Trade routes skirt the Flats by a wide margin; only peat-cutters and the desperate go near. Cross the Flats and the Oillipheist will taste your footsteps through the silt before it sees you; move slowly, move quietly, and hope the peat is frozen enough to hold.",
+    "summary": "A stretch of the Frostwood Reach where ancient peat has turned the standing water to thick black soup. Hunting ground of the Olveist.",
+    "fullEntry": "The Siltmire Flats are a low, boggy reach of the Frostwood where peat older than the Bargain has turned the standing water into a thick, black, deceptive soup, deep enough to swallow a person, warm enough in rare summer to slow the cold-blooded things that live in it. It is the named hunting ground of the Olveist, the blind silt-leech serpent, and Frostwood parents use the Flats as the backdrop for every warning-tale about drowning in dark water. Trade routes skirt the Flats by a wide margin; only peat-cutters and the desperate go near. Cross the Flats and the Olveist will taste your footsteps through the silt before it sees you; move slowly, move quietly, and hope the peat is frozen enough to hold.",
     "relatedTerms": [
       "drunhold",
       "frostwood-reach"
@@ -3669,7 +3669,7 @@
     "type": "location",
     "region": "frostwood-reach",
     "summary": "A labyrinth of mist-veiled ravines and marshy pine stands surrounding Greymark Keep, where ironwood roots drift when the mists thicken.",
-    "fullEntry": "The Shallows are the first test of any traveler entering the Frostwood Reach, a tangle of shallow ravines and silt-roads where the fog presses close and rusted lantern-posts mark paths that may no longer exist. Mist-Sentinels patrol the margins, but even they rely on ironwood root-patterns to navigate, as the roots themselves seem to shift when no one is watching. Gambrels and Grefs hunt here, drawn by the desperation of lost travelers and the oaths they make to find their way out. Enter the Shallows and the fog will test whether you meant the oaths you made to get through; the Gambrel can taste a broken promise, and the Shallows are where the desperate come to make them.",
+    "fullEntry": "The Shallows are the first test of any traveler entering the Frostwood Reach, a tangle of shallow ravines and silt-roads where the fog presses close and rusted lantern-posts mark paths that may no longer exist. Mist-Sentinels patrol the margins, but even they rely on ironwood root-patterns to navigate, as the roots themselves seem to shift when no one is watching. Geaslan and Grefs hunt here, drawn by the desperation of lost travelers and the oaths they make to find their way out. Enter the Shallows and the fog will test whether you meant the oaths you made to get through; the Geaslan can taste a broken promise, and the Shallows are where the desperate come to make them.",
     "relatedTerms": [
       "frostwood-reach",
       "gambrel",
@@ -3775,11 +3775,11 @@
   },
   "rimors_hearth": {
     "id": "rimors_hearth",
-    "term": "Rimor's Hearth",
+    "term": "Rimvald's Hearth",
     "type": "location",
     "region": "nordhalla",
     "summary": "The volcanic ruins of a great mountain keep buried by a sudden glacier advance, still warmed by a few stubborn steam vents.",
-    "fullEntry": "Rimor's Hearth is a monument to the glacier's indifference, a great mountain keep that was buried in a single season when the Hunger Glaciers surged during the first century of the Freezing Era. A few steam vents still pierce the ice, keeping patches of the black basalt ruins warm enough to shelter freezing travelers and the smugglers who prey on them. Fjord-Riders use the Hearth as a waystation on the dangerous route between the Frozen Archive and the eastern approaches. Shelter at Rimor's Hearth and you'll sleep in a ruin the glacier swallowed and spat back; the steam vents still warm the basalt, and the smugglers still warm themselves on both.",
+    "fullEntry": "Rimvald's Hearth is a monument to the glacier's indifference, a great mountain keep that was buried in a single season when the Hunger Glaciers surged during the first century of the Freezing Era. A few steam vents still pierce the ice, keeping patches of the black basalt ruins warm enough to shelter freezing travelers and the smugglers who prey on them. Fjord-Riders use the Hearth as a waystation on the dangerous route between the Frozen Archive and the eastern approaches. Shelter at Rimvald's Hearth and you'll sleep in a ruin the glacier swallowed and spat back; the steam vents still warm the basalt, and the smugglers still warm themselves on both.",
     "relatedTerms": [
       "frozen_archive",
       "hunger_glaciers",
@@ -4523,7 +4523,7 @@
     "role": "Venom-Master of the Distillery",
     "region": "frostwood-reach",
     "summary": "Keeper of the Slow Cup in the Frostwood, as the changing fog spoils venoms that held stable for generations.",
-    "fullEntry": "Varis the Trembling built the Distillery, the Toxicologist order in the Frostwood, extracting raw venom from fog-predators like the Gref and the Gambrel in the ironwood canopies and distilling them into area-denial poisons. The work left him with chronic tremors and permanently stained fingers, occupational marks every Toxicologist inherits, and Varis still keeps the Slow Cup despite hands that can barely hold it. Now the fog itself is changing. Venoms that held stable for generations spoil in weeks, the chemistry of the mist has shifted, and the Toxicologists race to understand why. Brew in the Distillery and you'll inherit Varis's tremor and his race; the fog is changing the venoms faster than he can change the cures.",
+    "fullEntry": "Varis the Trembling built the Distillery, the Toxicologist order in the Frostwood, extracting raw venom from fog-predators like the Gref and the Geaslan in the ironwood canopies and distilling them into area-denial poisons. The work left him with chronic tremors and permanently stained fingers, occupational marks every Toxicologist inherits, and Varis still keeps the Slow Cup despite hands that can barely hold it. Now the fog itself is changing. Venoms that held stable for generations spoil in weeks, the chemistry of the mist has shifted, and the Toxicologists race to understand why. Brew in the Distillery and you'll inherit Varis's tremor and his race; the fog is changing the venoms faster than he can change the cures.",
     "relatedTerms": [
       "the_shallows",
       "frostwood-reach",
@@ -4887,7 +4887,7 @@
     "role": "Chieftain of the Bloodhammer Migration",
     "region": "nordhalla",
     "summary": "The Skald chieftain who led the Bloodhammer clans south into the volcanic tunnels of Emberspire after the Glacier Bargain, making Grum's founding act possible.",
-    "fullEntry": "Torra Bloodhammer was the chieftain who answered the Glacier Bargain with survival rather than grief. When House Skalvyr's compact with Keth Amar halted the advancing glaciers at the price of all summer, the Skald were left in a land of absolute cold — cold that would not end, cold that could not be bargained with a second time. The noble houses told them to endure. Torra refused. She gathered the Bloodhammer clans and marched them south through the Cragjaw Peaks and over the Ancestor-Spans into the volcanic tunnel-systems of Sundale, where the heat of Emberspire's caldera could replace the summer that was stolen.\n\nThe migration cost a third of her people to exposure, Kappa-guarded geothermal corridors, and ice-wyrm attacks from the cooling volcanic vents. When the colossal ice-wyrm burst from a vent at the caldera's threshold, it was the smith Grum who answered it with the furnace-heat — but it was Torra who got the clans there, alive enough for Grum to matter. She died of cold-water exposure three days after arriving, her body calcifying in the Emberspire warmth in a mockery of the Still-Claiming she had crossed Groven bridges to reach.\n\nThe Berserker order remembers Grum because he founded the art. The Bloodhammer clans remember Torra because without her, Grum never would have had a forge to stand in.",
+    "fullEntry": "Torra Bloodhammer was the chieftain who answered the Glacier Bargain with survival rather than grief. When House Skalvyr's compact with Keth Amar halted the advancing glaciers at the price of all summer, the Skald were left in a land of absolute cold — cold that would not end, cold that could not be bargained with a second time. The noble houses told them to endure. Torra refused. She gathered the Bloodhammer clans and marched them south through the Cragjaw Peaks and over the Ancestor-Spans into the volcanic tunnel-systems of Sundale, where the heat of Emberspire's caldera could replace the summer that was stolen.\n\nThe migration cost a third of her people to exposure, Kappura-guarded geothermal corridors, and ice-wyrm attacks from the cooling volcanic vents. When the colossal ice-wyrm burst from a vent at the caldera's threshold, it was the smith Grum who answered it with the furnace-heat — but it was Torra who got the clans there, alive enough for Grum to matter. She died of cold-water exposure three days after arriving, her body calcifying in the Emberspire warmth in a mockery of the Still-Claiming she had crossed Groven bridges to reach.\n\nThe Berserker order remembers Grum because he founded the art. The Bloodhammer clans remember Torra because without her, Grum never would have had a forge to stand in.",
     "relatedTerms": [
       "nordhalla",
       "emberspire",
@@ -5115,7 +5115,7 @@
     "role": "Co-founder of the Inquisitor Path",
     "region": "frostwood-reach",
     "summary": "The Tallyn who opened his own veins to draw Wyrd horrors into flesh where they could be named and cut. The salt-scars map every entity he baited and killed.",
-    "fullEntry": "Elias the Salt-Scarred opened his own veins to draw Wyrd entities and Wyrd mimics into living flesh where they could be named, categorized, and cut. A Tallyn of the Frostwood Reach, he co-founded the Inquisitor tradition on that technique: the Gref, the Gambrel, and later face-stealing forms all became case studies, but they are distinct kinds and manifestations rather than one species born from human fear. The salt-scars that cover his body are the map of every entity he baited and killed.\n\nWhere Orven severs corrupted bonds, Elias creates them, then severs them himself. His is the active, aggressive half of the Inquisitor art, and anti-Wyrd paranoia, for the Tallyn who follow him, is not a personality trait but a survival discipline learned over eight fog-eaten centuries. The Wyrd is still producing things that wear the faces of the people they took. Open a vein in the deep Reach, and you will learn what Elias learned: some horrors only answer to the blood that calls them, and the cost of the calling is written forever in the skin.",
+    "fullEntry": "Elias the Salt-Scarred opened his own veins to draw Wyrd entities and Wyrd mimics into living flesh where they could be named, categorized, and cut. A Tallyn of the Frostwood Reach, he co-founded the Inquisitor tradition on that technique: the Gref, the Geaslan, and later face-stealing forms all became case studies, but they are distinct kinds and manifestations rather than one species born from human fear. The salt-scars that cover his body are the map of every entity he baited and killed.\n\nWhere Orven severs corrupted bonds, Elias creates them, then severs them himself. His is the active, aggressive half of the Inquisitor art, and anti-Wyrd paranoia, for the Tallyn who follow him, is not a personality trait but a survival discipline learned over eight fog-eaten centuries. The Wyrd is still producing things that wear the faces of the people they took. Open a vein in the deep Reach, and you will learn what Elias learned: some horrors only answer to the blood that calls them, and the cost of the calling is written forever in the skin.",
     "relatedTerms": [
       "frostwood-reach",
       "sunken_spire",
@@ -5779,29 +5779,29 @@
     "type": "monstrosity",
     "region": "frostwood-reach",
     "summary": "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.",
-    "fullEntry": "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.\n\nThe Oillipheist is a pre-Binding Frostwood river-guardian lineage, a silt-serpent that kept sacred waterways and consumed carrion. Before the Star-Fall, when the first fae walked the world, the great serpents of the Oillipheist kind guarded rivers, their scales gleaming with the light of the setting sun. The Binding's darkness and cold, followed by warm bog vents from the First Cracks, changed their range and favored segmented peat-water bodies; it did not create the kind. Riven fishermen call the silt-serpents cursed spirits of those who drowned in the bogs during the Long Winter, but that folklore records an encounter with an older living guardian. A Wyrd-touched specimen or later Wyrd mimic may be blinder, hungrier, or more corpse-like; that is a branch or individual condition, not the species origin.",
+    "fullEntry": "A blind, segmented swamp eel-serpent made of river-silt and rotting green moss, hunting vibrations in peat-pools.\n\nThe Olveist is a pre-Binding Frostwood river-guardian lineage, a silt-serpent that kept sacred waterways and consumed carrion. Before the Star-Fall, when the first fae walked the world, the great serpents of the Olveist kind guarded rivers, their scales gleaming with the light of the setting sun. The Binding's darkness and cold, followed by warm bog vents from the First Cracks, changed their range and favored segmented peat-water bodies; it did not create the kind. Riven fishermen call the silt-serpents cursed spirits of those who drowned in the bogs during the Long Winter, but that folklore records an encounter with an older living guardian. A Wyrd-touched specimen or later Wyrd mimic may be blinder, hungrier, or more corpse-like; that is a branch or individual condition, not the species origin.",
     "relatedTerms": [
       "frostwood-reach"
     ],
     "id": "oillipheist"
   },
   "grimmstalk": {
-    "term": "Grimmstalk",
+    "term": "Branvig",
     "type": "plant",
     "region": "frostwood-reach",
     "summary": "A tall, wood-plated dryad with a hollow bird-skull head filled with black feathers that moves through the forest canopy.",
-    "fullEntry": "A tall, wood-plated dryad with a hollow bird-skull head filled with black feathers that moves through the forest canopy.\n\nThe Grimmstalks are native canopy guardians descended from the old dryad-like ironwood keepers of the Frostwood Reach. Before the first human axe touched the trees, those keepers sang to the ironwood and carried bird-memory between the highest branches. The bird-skull and black feathers are a body plan, ritual inheritance, or living symbiosis of that older kind, not a form coalesced from logging grief. A Wyrd-touched guardian may become angrier or a later Wyrd mimic may copy the shape, but the Wyrd did not create the Grimmstalks. The loggers of Frostwood call them the hollow watchers and know that to cut a tree marked with a Grimmstalk's sigil is to invite death from above.",
+    "fullEntry": "A tall, wood-plated dryad with a hollow bird-skull head filled with black feathers that moves through the forest canopy.\n\nThe Branvigs are native canopy guardians descended from the old dryad-like ironwood keepers of the Frostwood Reach. Before the first human axe touched the trees, those keepers sang to the ironwood and carried bird-memory between the highest branches. The bird-skull and black feathers are a body plan, ritual inheritance, or living symbiosis of that older kind, not a form coalesced from logging grief. A Wyrd-touched guardian may become angrier or a later Wyrd mimic may copy the shape, but the Wyrd did not create the Branvigs. The loggers of Frostwood call them the hollow watchers and know that to cut a tree marked with a Branvig's sigil is to invite death from above.",
     "relatedTerms": [
       "frostwood-reach"
     ],
     "id": "grimmstalk"
   },
   "pooka": {
-    "term": "Pooka",
+    "term": "Pukhal",
     "type": "fey",
     "region": "frostwood-reach",
     "summary": "A sleek charcoal fey hare with hooves and human-like eyes that can shapeshift into a wild pony to escape.",
-    "fullEntry": "A sleek charcoal fey hare with hooves and human-like eyes that can shapeshift into a wild pony to escape.\n\nThe Pooka is a pre-Binding Frostwood Seelie creature as old as the paths of the Reach. When the Fair Folk walked openly among mortals, Pookas guarded hedgerows and wild places, delighted in harmless pranks that tested carelessness and pride. The Wyrd does not define their nature. Some later individuals may sharpen a trick into a warning, lesson, or test of character after exposure, while others resist or bargain with the intrusion. Farmers leave bowls of milk at the field's edge because the old encounter is real; the Pooka remains a reminder that some native things are still playful and free.",
+    "fullEntry": "A sleek charcoal fey hare with hooves and human-like eyes that can shapeshift into a wild pony to escape.\n\nThe Pukhal is a pre-Binding Frostwood Seelie creature as old as the paths of the Reach. When the Fair Folk walked openly among mortals, Marcogs guarded hedgerows and wild places, delighted in harmless pranks that tested carelessness and pride. The Wyrd does not define their nature. Some later individuals may sharpen a trick into a warning, lesson, or test of character after exposure, while others resist or bargain with the intrusion. Farmers leave bowls of milk at the field's edge because the old encounter is real; the Pukhal remains a reminder that some native things are still playful and free.",
     "relatedTerms": [
       "frostwood-reach",
       "seelie_accord"
@@ -5809,154 +5809,154 @@
     "id": "pooka"
   },
   "skerry": {
-    "term": "Skerry",
+    "term": "Skarvarr",
     "type": "fey",
     "region": "nordhalla",
     "summary": "A stout, greedy, broad water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.",
-    "fullEntry": "A stout, greedy, broad water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.\n\nThe Skerry is a native Nordhalla water-sprite and shipwright kind associated with wrecks, repair, and fair salvage. Before the Freeze, when the Skaldic Kings ruled the frozen north, water dwarves guarded sunken treasure and ensured that useful wreckage was distributed according to their customs. Eternal winter made salvage a survival function, and some individuals became possessive as metal grew scarce; the Wyrd did not create or universally transform the kind. A Wyrd-touched Skerry or invasive hoard-mimic may amplify greed, but copper offerings and a price for passage remain older salvage law. A Skerry cheated of its due will sink a ship as easily as it will repair one.",
+    "fullEntry": "A stout, greedy, broad water sprite that repairs or sabotages ships along the frozen fjord coasts, obsessed with salvaging sunken gold and copper.\n\nThe Skarvarr is a native Nordhalla water-sprite and shipwright kind associated with wrecks, repair, and fair salvage. Before the Freeze, when the Skaldic Kings ruled the frozen north, water dwarves guarded sunken treasure and ensured that useful wreckage was distributed according to their customs. Eternal winter made salvage a survival function, and some individuals became possessive as metal grew scarce; the Wyrd did not create or universally transform the kind. A Wyrd-touched Skarvarr or invasive hoard-mimic may amplify greed, but copper offerings and a price for passage remain older salvage law. A Skarvarr cheated of its due will sink a ship as easily as it will repair one.",
     "relatedTerms": [
       "nordhalla"
     ],
     "id": "skerry"
   },
   "nachtkrapp": {
-    "term": "Nachtkrapp",
+    "term": "Krappnir",
     "type": "beast",
     "region": "nordhalla",
     "summary": "A massive, pitch-black soot-raven with a bone-head that steals fire coals and oil lamps to warm its high chimneys nests.",
-    "fullEntry": "A massive, pitch-black soot-raven with a bone-head that steals fire coals and oil lamps to warm its high chimneys nests.\n\nThe Nachtkrapp is a native soot-raven and hearth-warning beast that has nested around northern settlements since before the Great Binding. In the age when Skalds sang the sagas, it appeared before household fires to carry away bad luck, ash, or failed fuel. Coal theft is part of its heat-seeking nesting behavior, especially during the long cold, not proof of Wyrd origin. Wyrd-cold or Shard resonance may drive an individual brood into greater desperation, but the Skalds' offerings and warnings describe a native creature whose household bargain predates Keth Amar.",
+    "fullEntry": "A massive, pitch-black soot-raven with a bone-head that steals fire coals and oil lamps to warm its high chimneys nests.\n\nThe Krappnir is a native soot-raven and hearth-warning beast that has nested around northern settlements since before the Great Binding. In the age when Skalds sang the sagas, it appeared before household fires to carry away bad luck, ash, or failed fuel. Coal theft is part of its heat-seeking nesting behavior, especially during the long cold, not proof of Wyrd origin. Wyrd-cold or Shard resonance may drive an individual brood into greater desperation, but the Skalds' offerings and warnings describe a native creature whose household bargain predates Keth Amar.",
     "relatedTerms": [
       "nordhalla"
     ],
     "id": "nachtkrapp"
   },
   "glacier_gremlin": {
-    "term": "Glacier Gremlin",
+    "term": "Gletskar",
     "type": "fey",
     "region": "nordhalla",
     "summary": "A tiny, blind glacier gremlin with cracked blue-ice skin that licks frozen runic stones to feed on mineral and celestial resonance.",
-    "fullEntry": "A tiny, blind glacier gremlin with cracked blue-ice skin that licks frozen runic stones to feed on mineral and celestial resonance.\n\nThe Glacier Gremlin is a native ice-and-mineral scavenger that lived around resonant stone before the Great Binding. When rune-singers later marked those stones, the gremlins learned to lick exposed residue and warm mineral seams, clearing unstable deposits while competing in bands. The Wyrd can poison a resonance stone or make an individual band aggressive, but it is not the species' origin. The Skalds consider them pests and also read their presence as a sign that a powerful old stone lies nearby.",
+    "fullEntry": "A tiny, blind glacier gremlin with cracked blue-ice skin that licks frozen runic stones to feed on mineral and celestial resonance.\n\nThe Gletskar is a native ice-and-mineral scavenger that lived around resonant stone before the Great Binding. When rune-singers later marked those stones, the gremlins learned to lick exposed residue and warm mineral seams, clearing unstable deposits while competing in bands. The Wyrd can poison a resonance stone or make an individual band aggressive, but it is not the species' origin. The Skalds consider them pests and also read their presence as a sign that a powerful old stone lies nearby.",
     "relatedTerms": [
       "nordhalla"
     ],
     "id": "glacier_gremlin"
   },
   "aswad": {
-    "term": "Aswad",
+    "term": "Asvar",
     "type": "elemental",
     "region": "sundale",
     "summary": "A wisp-like ember spirit nesting in a cracked, soot-blackened clay jar that spits coals when disturbed.",
-    "fullEntry": "A wisp-like ember spirit nesting in a cracked, soot-blackened clay jar that spits coals when disturbed.\n\nThe Aswad is a native hearth ember-spirit that inhabits a clay vessel and maintains a fire through ash, predating the house magic that later made Solari hearths special. In Sundale, where the desert is cold at night, Aswads choose or accept homes in embers, stoves, and traveling jars. A Wyrd-touched Aswad may become paranoid, hungry, or ash-breathing, but the kind itself remains native and independent of the Wyrd. Shepherds and miners still carry embers in clay jars, and when the embers wake they know that an Aswad has chosen to protect the fire.",
+    "fullEntry": "A wisp-like ember spirit nesting in a cracked, soot-blackened clay jar that spits coals when disturbed.\n\nThe Asvar is a native hearth ember-spirit that inhabits a clay vessel and maintains a fire through ash, predating the house magic that later made Solari hearths special. In Sundale, where the desert is cold at night, Aswads choose or accept homes in embers, stoves, and traveling jars. A Wyrd-touched Asvar may become paranoid, hungry, or ash-breathing, but the kind itself remains native and independent of the Wyrd. Shepherds and miners still carry embers in clay jars, and when the embers wake they know that an Asvar has chosen to protect the fire.",
     "relatedTerms": [
       "sundale"
     ],
     "id": "aswad"
   },
   "pelagos": {
-    "term": "Pelagos",
+    "term": "Pelora",
     "type": "beast",
     "region": "iceheart-sea",
     "summary": "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.",
-    "fullEntry": "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.\n\nThe Pelagos is a native coastal hound and sea-beast lineage that mediates reef travel and underwater vibration. Its form is a local adaptation to the Iceheart Sea, not Wyrd assembly. Pelagos guide boats, retrieve lost tools, warn of low-frequency danger, and protect reef nurseries from destructive traffic. A Wyrd-touched pack or false Pelagos may turn that protective behavior into a lure, but the native kind remains independent. Coastal fishers respect the Pelagos and avoid the waters where their packs guard the deep.",
+    "fullEntry": "A sleek, hound-like sea hunter with smooth indigo-green shark skin, webbed paws, a shark tail, and glowing whiskers that sense vibrations in freezing currents.\n\nThe Pelora is a native coastal hound and sea-beast lineage that mediates reef travel and underwater vibration. Its form is a local adaptation to the Iceheart Sea, not Wyrd assembly. Pelora guide boats, retrieve lost tools, warn of low-frequency danger, and protect reef nurseries from destructive traffic. A Wyrd-touched pack or false Pelora may turn that protective behavior into a lure, but the native kind remains independent. Coastal fishers respect the Pelora and avoid the waters where their packs guard the deep.",
     "relatedTerms": [
       "iceheart-sea"
     ],
-    "id": "pelagos"
+    "id": "Pelora"
   },
   "egbere": {
-    "term": "Egbere",
+    "term": "Egbera",
     "type": "fey",
     "region": "iceheart-sea",
     "summary": "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.",
-    "fullEntry": "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.\n\nThe Egbere is a native littoral scavenger and drowned-place spirit that carries a kelp mat, salvages wreckage, and tests whether sailors respect a reef. The lost-child cry and drowned-child story are local grief translations of an older coastal kind, not proof that every Egbere was transformed by the Wyrd. A Wyrd-occupied false cry or child-shaped branch may use that story as camouflage, but native Egbere defend their mats, caves, and drowned kin according to their own territorial customs. Sailors know the cry and cover their ears because the warning is real, whatever story explains it.",
+    "fullEntry": "A small amphibious humanoid that carries a woven kelp mat and cries like a lost child to lure ships onto reefs.\n\nThe Egbera is a native littoral scavenger and drowned-place spirit that carries a kelp mat, salvages wreckage, and tests whether sailors respect a reef. The lost-child cry and drowned-child story are local grief translations of an older coastal kind, not proof that every Egbera was transformed by the Wyrd. A Wyrd-occupied false cry or child-shaped branch may use that story as camouflage, but native Egbera defend their mats, caves, and drowned kin according to their own territorial customs. Sailors know the cry and cover their ears because the warning is real, whatever story explains it.",
     "relatedTerms": [
       "iceheart-sea"
     ],
-    "id": "egbere"
+    "id": "Egbera"
   },
   "gaki": {
-    "term": "Gaki",
+    "term": "Gakiro",
     "type": "monstrosity",
     "region": "cragjaw-peaks",
     "summary": "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.",
-    "fullEntry": "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.\n\nThe Gaki is a native chthonic scavenger associated with hungry dead and mineral-rich Cragjaw mines. In the deep shafts it clears mineral waste and remains, defends a claimed layer, and decides whether to bargain with miners or treat them as trespassers. The third arm, gold veins, and miner boundary stakes are observations preserved by local folklore; the reading that the Wyrd created every Gaki from dead greed is not. Wyrd exposure may amplify one Gaki's hunger or produce a gold-hoarding imitation, but the native kind remains tied to its own mine ecology.",
+    "fullEntry": "A coal-black mountain ghoul with a third chest-arm and glowing gold veins that feeds on sulfur and gold ore in deep mine shafts.\n\nThe Gakiro is a native chthonic scavenger associated with hungry dead and mineral-rich Cragjaw mines. In the deep shafts it clears mineral waste and remains, defends a claimed layer, and decides whether to bargain with miners or treat them as trespassers. The third arm, gold veins, and miner boundary stakes are observations preserved by local folklore; the reading that the Wyrd created every Gakiro from dead greed is not. Wyrd exposure may amplify one Gakiro's hunger or produce a gold-hoarding imitation, but the native kind remains tied to its own mine ecology.",
     "relatedTerms": [
       "cragjaw-peaks"
     ],
-    "id": "gaki"
+    "id": "Gakiro"
   },
   "kamaitachi": {
-    "term": "Kamaitachi",
+    "term": "Kamaita",
     "type": "monstrosity",
     "region": "cragjaw-peaks",
     "summary": "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.",
-    "fullEntry": "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.\n\nThe Kamaitachi is a native high-wind weasel predator that rides pressure drafts through Cragjaw's vertical passages. The Tesshan legends of the sickle-cut wind weasel preserve its copper claws, sudden cuts, and warning laughter, but they do not create the animal. A Wyrd-touched individual or invasive Wyrd version could weaponize the gusts and become unusually aggressive; the native kind controls rodents, signals dangerous drafts, and defends its nesting shaft on its own terms.\n\nThe miners of the Cragjaw Peaks know the signs of a Kamaitachi's presence: a wind that cuts like a knife and the sound of weasel-like laughter in the air.",
+    "fullEntry": "A swift mountain weasel with sickle-like copper claws and tail that rides wind drafts to slice targets.\n\nThe Kamaita is a native high-wind weasel predator that rides pressure drafts through Cragjaw's vertical passages. The Tesshan legends of the sickle-cut wind weasel preserve its copper claws, sudden cuts, and warning laughter, but they do not create the animal. A Wyrd-touched individual or invasive Wyrd version could weaponize the gusts and become unusually aggressive; the native kind controls rodents, signals dangerous drafts, and defends its nesting shaft on its own terms.\n\nThe miners of the Cragjaw Peaks know the signs of a Kamaita's presence: a wind that cuts like a knife and the sound of weasel-like laughter in the air.",
     "relatedTerms": [
       "cragjaw-peaks"
     ],
-    "id": "kamaitachi"
+    "id": "Kamaita"
   },
   "tengu_scout": {
-    "term": "Storm-Crow Scout",
+    "term": "Tengara",
     "type": "fey",
     "region": "cragjaw-peaks",
     "summary": "A native raven-winged mountain scout with obsidian eyes that mimics voices to warn or misdirect travelers around pipeline scaffolds.",
-    "fullEntry": "A native raven-winged mountain scout with obsidian eyes that mimics voices to warn or misdirect travelers around pipeline scaffolds and carries a wind-copper staff.\n\nThe Storm-Crow Scout is a native mountain lineage associated with high passes and Fex pipeline corridors, separate from the Ancient Cosmic Wyrdkin flock called Storm-Crows. In the Cragjaw Peaks, the Scouts observe movement, carry warnings, test trespassers, and use voice mimicry as both defense and social signaling. A later Wyrd-corrupted scout cell or invasive mimic may turn that talent toward predation, but the Wyrd did not create the lineage. Fex engineers know the native scout's signs: a wind that blows from nowhere and a bird's cry where no bird is visible.",
+    "fullEntry": "A native raven-winged mountain scout with obsidian eyes that mimics voices to warn or misdirect travelers around pipeline scaffolds and carries a wind-copper staff.\n\nThe Tengara is a native mountain lineage associated with high passes and Fex pipeline corridors, separate from the Ancient Cosmic Wyrdkin flock called Karasen. In the Cragjaw Peaks, the Scouts observe movement, carry warnings, test trespassers, and use voice mimicry as both defense and social signaling. A later Wyrd-corrupted scout cell or invasive mimic may turn that talent toward predation, but the Wyrd did not create the lineage. Fex engineers know the native scout's signs: a wind that blows from nowhere and a bird's cry where no bird is visible.",
     "relatedTerms": [
       "cragjaw-peaks"
     ],
     "id": "tengu_scout"
   },
   "mogwai": {
-    "term": "Mogwai",
+    "term": "Mogwara",
     "type": "fey",
     "region": "sundrift-vale",
     "summary": "A small, mischievous grass sprite with cat-like ears and a grassy tail. It startles horses, braids manes, and hides in the tall steppe grass.",
-    "fullEntry": "A small, mischievous grass sprite with cat-like ears and a grassy tail. It startles horses, braids manes, and hides in the tall steppe grass.\n\nThe Mogwai is a native grassland sprite that lives at the edge of herds and rain, with a pre-Binding trickster ecology. It eats small pests, disperses grass seed, braids horse manes, and uses harmless disruption to move herds away from danger. Wyrd outbreaks may counterfeit Mogwai signs or make one sprite unnaturally hostile, but the native kind is not Wyrdspawn. Ordu nomads know the signs of a Mogwai's presence: a horse spooked for no reason and pebbles clicking in the grass.",
+    "fullEntry": "A small, mischievous grass sprite with cat-like ears and a grassy tail. It startles horses, braids manes, and hides in the tall steppe grass.\n\nThe Mogwara is a native grassland sprite that lives at the edge of herds and rain, with a pre-Binding trickster ecology. It eats small pests, disperses grass seed, braids horse manes, and uses harmless disruption to move herds away from danger. Wyrd outbreaks may counterfeit Mogwara signs or make one sprite unnaturally hostile, but the native kind is not Wyrdspawn. Ordu nomads know the signs of a Mogwara's presence: a horse spooked for no reason and pebbles clicking in the grass.",
     "relatedTerms": [
       "sundrift-vale"
     ],
-    "id": "mogwai"
+    "id": "Mogwara"
   },
   "yalbagan": {
-    "term": "Yalbagan",
+    "term": "Yalgara",
     "type": "beast",
     "region": "sundrift-vale",
     "summary": "A ten-foot green-scaled snake with three heads that mimics tall steppe grass to ambush travelers.",
-    "fullEntry": "A ten-foot green-scaled snake with three heads that mimics tall steppe grass to ambush travelers.\n\nThe Yalbagan is a native three-headed grassland serpent and apex predator. Its multiple heads coordinate senses, hunting, and defense around waterholes and nesting grass; the steppe and Ordu stories preserve that real ecology rather than creating it. Wyrd exposure may amplify one serpent's hostility or produce an invasive three-headed mimic, but the kind remains native. Nomads know the signs of a Yalbagan's presence: a waterhole that is too quiet and scales rustling in the grass.",
+    "fullEntry": "A ten-foot green-scaled snake with three heads that mimics tall steppe grass to ambush travelers.\n\nThe Yalgara is a native three-headed grassland serpent and apex predator. Its multiple heads coordinate senses, hunting, and defense around waterholes and nesting grass; the steppe and Ordu stories preserve that real ecology rather than creating it. Wyrd exposure may amplify one serpent's hostility or produce an invasive three-headed mimic, but the kind remains native. Nomads know the signs of a Yalgara's presence: a waterhole that is too quiet and scales rustling in the grass.",
     "relatedTerms": [
       "sundrift-vale"
     ],
-    "id": "yalbagan"
+    "id": "Yalgara"
   },
   "qilin": {
-    "term": "Qilin",
+    "term": "Qilan",
     "type": "fey",
     "region": "sundrift-vale",
     "summary": "A slender deer-like fey creature covered in blue scales with a single starlight horn and tufted wildcat tail.",
-    "fullEntry": "A slender deer-like fey creature covered in blue scales with a single starlight horn and tufted wildcat tail.\n\nThe Qilin is a native steppe guardian with a star-like horn and a moral ecology based on protection rather than divine manufacture. It escorts migrations, protects ancestor mounds, avoids needless killing, and intervenes when a hunter threatens herd or burial balance. Its power is native resonance, not a blessing that the Wyrd grants to a whole species. A corrupted false-Qilin could exploit purity stories, but the Qilin itself remains independent and likely resistant. Nomads know the signs of its presence: a star-horn glint, a fallen star, and a deer call in the night.",
+    "fullEntry": "A slender deer-like fey creature covered in blue scales with a single starlight horn and tufted wildcat tail.\n\nThe Qilan is a native steppe guardian with a star-like horn and a moral ecology based on protection rather than divine manufacture. It escorts migrations, protects ancestor mounds, avoids needless killing, and intervenes when a hunter threatens herd or burial balance. Its power is native resonance, not a blessing that the Wyrd grants to a whole species. A corrupted false-Qilan could exploit purity stories, but the Qilan itself remains independent and likely resistant. Nomads know the signs of its presence: a star-horn glint, a fallen star, and a deer call in the night.",
     "relatedTerms": [
       "sundrift-vale"
     ],
-    "id": "qilin"
+    "id": "Qilan"
   },
   "vodyan": {
-    "term": "Vodyan",
+    "term": "Vodyara",
     "type": "fey",
     "region": "bryngloom-forest",
     "summary": "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.",
-    "fullEntry": "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.\n\nThe Vodyan is a native peat-water pool spirit with a territorial personality and a practical role in stagnant-water ecology. It filters or redirects a pool, trades remedies, and drags down polluters or those who violate a water boundary. The Tallyn legends preserve its green peat body and grumpy nature, but folklore did not create it and the Wyrd did not universally twist it. A Wyrd-tainted pool or hostile impostor is a later condition. Villagers know the signs of a Vodyan's presence: a pool that is too still and the smell of sulfur in the air.",
+    "fullEntry": "A green-skinned peat-water pool sprite that drags down trespassers who pollute or disturb its stagnant water.\n\nThe Vodyara is a native peat-water pool spirit with a territorial personality and a practical role in stagnant-water ecology. It filters or redirects a pool, trades remedies, and drags down polluters or those who violate a water boundary. The Tallyn legends preserve its green peat body and grumpy nature, but folklore did not create it and the Wyrd did not universally twist it. A Wyrd-tainted pool or hostile impostor is a later condition. Villagers know the signs of a Vodyara's presence: a pool that is too still and the smell of sulfur in the air.",
     "relatedTerms": [
       "bryngloom-forest"
     ],
-    "id": "vodyan"
+    "id": "Vodyara"
   },
   "the_revel": {
-    "term": "The Revel",
+    "term": "Revalen",
     "type": "fey",
     "region": "frostwood-reach",
     "summary": "A phantom court of wooden puppets that forces travelers into an endless, exhausting dance.",
-    "fullEntry": "Before the fog, before Blizzard’s End, the deep ironwood groves rang with the music of the Seelie Accord when the seasons turned. The Revel is what is left of that music when the Wyrd got into it — the rites of the Accord's celebration, trapped mid-turn and weaponized. The Revel Court is one of the splinters that survived the Accord’s world-shattering, and it is the only one that still dances. It comes in moonlit clearings, a phantom court of wood-carved puppets in painted masks that turn and turn around a cold bonfire that throws no heat. The air smells of sweet wine and damp earth and something underneath both that you do not want to name. And there is music. You will hear it before you see the clearing, and the music is the trap.\n\nThose who step into the circle are caught. The melody enters the bones and the body begins to dance, and the dance does not stop until the lungs collapse or the heart tears itself apart. The puppets will not let you leave; they are hollow, filled with writhing black thorns that lash out when damaged, and they will drag you back into the ring with smiles carved on their wooden faces. The Florae know the clearings where the Revel walks, and they will not enter them even by day. Walk the moonlit groves alone and you may hear the music. Walk toward it and you join the court forever.",
+    "fullEntry": "Before the fog, before Blizzard’s End, the deep ironwood groves rang with the music of the Seelie Accord when the seasons turned. Revalen is what is left of that music when the Wyrd got into it — the rites of the Accord's celebration, trapped mid-turn and weaponized. Revalen Court is one of the splinters that survived the Accord’s world-shattering, and it is the only one that still dances. It comes in moonlit clearings, a phantom court of wood-carved puppets in painted masks that turn and turn around a cold bonfire that throws no heat. The air smells of sweet wine and damp earth and something underneath both that you do not want to name. And there is music. You will hear it before you see the clearing, and the music is the trap.\n\nThose who step into the circle are caught. The melody enters the bones and the body begins to dance, and the dance does not stop until the lungs collapse or the heart tears itself apart. The puppets will not let you leave; they are hollow, filled with writhing black thorns that lash out when damaged, and they will drag you back into the ring with smiles carved on their wooden faces. The Florae know the clearings where Revalen walks, and they will not enter them even by day. Walk the moonlit groves alone and you may hear the music. Walk toward it and you join the court forever.",
     "relatedTerms": [
       "frostwood-reach",
       "florae",
@@ -5967,11 +5967,11 @@
     "id": "the_revel"
   },
   "skreika": {
-    "term": "Skreika",
+    "term": "Skraik",
     "type": "undead",
     "region": "nordhalla",
     "summary": "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever.",
-    "fullEntry": "The Skaldic clans burn their dead at sea when they can, because the sea is jealous and the cold remembers what it takes. The Skreika are what the cold gives back when the burning is forgotten or the body sinks before the fire can take. They are blue-skinned, bloated, draped in frost and the seaweed they died in, and they speak in a choke of black water that freezes on the air. Walk into a Skreika's chill and the temperature drops twenty degrees in a heartbeat; the torches gutter; the breath crystallizes.\n\nThey wander the frozen bays in small silent packs, hunting for warmth to kill — a hearth, a lantern, the body-heat of the living. They are not mindless. Some of them still remember their ship duties: one will haul at a rope that isn't there, another will call a watch that ended a century ago, and the worst of them will weep a name before they go back to drowning whatever warmth they have found. The Skalds say a Skreika cannot be killed, only paused; chop one down and the next freeze-thaw will set it back on the ice, still looking for the ship that left without it.",
+    "fullEntry": "The Skaldic clans burn their dead at sea when they can, because the sea is jealous and the cold remembers what it takes. The Skraik are what the cold gives back when the burning is forgotten or the body sinks before the fire can take. They are blue-skinned, bloated, draped in frost and the seaweed they died in, and they speak in a choke of black water that freezes on the air. Walk into a Skraik's chill and the temperature drops twenty degrees in a heartbeat; the torches gutter; the breath crystallizes.\n\nThey wander the frozen bays in small silent packs, hunting for warmth to kill — a hearth, a lantern, the body-heat of the living. They are not mindless. Some of them still remember their ship duties: one will haul at a rope that isn't there, another will call a watch that ended a century ago, and the worst of them will weep a name before they go back to drowning whatever warmth they have found. The Skalds say a Skraik cannot be killed, only paused; chop one down and the next freeze-thaw will set it back on the ice, still looking for the ship that left without it.",
     "relatedTerms": [
       "nordhalla",
       "house_skalvyr",
@@ -5981,11 +5981,11 @@
     "id": "skreika"
   },
   "rimor": {
-    "term": "Rimor",
+    "term": "Rimvald",
     "type": "aberration",
     "region": "nordhalla",
     "summary": "A small, insectoid hearth-parasite that devours fire and heat, freezing homes from within.",
-    "fullEntry": "The Skaldic longhouses burn their fires day and night through the Nordhalla winter, and the cold waits for the moment they go dark. The Rimor is the cold's opportunist. It is a small thing, the size and shape of a gnarled lump of coal, with eyes like the last dull glow of a dying fire and a mouth that is a siphon. It crawls down chimneys in the dark hours and nests in the ash, and it drinks.\n\nA longhouse with a Rimor in the hearth does not go cold all at once. The mugs freeze first. Then the children get tired. Then the parents cannot remember why they were angry, or why they were talking, or what the argument was about, and by the time anyone thinks to check the fire the longhouse is a tomb of frost-rimed silence and the Rimor is still drinking. The Skalds drive them out with alchemical heat — a burst of forge-fire hot enough to scorch the chimney stones — but a longhouse that has been Rimor-touched never quite warms again. The cold has learned the shape of the place.",
+    "fullEntry": "The Skaldic longhouses burn their fires day and night through the Nordhalla winter, and the cold waits for the moment they go dark. The Rimvald is the cold's opportunist. It is a small thing, the size and shape of a gnarled lump of coal, with eyes like the last dull glow of a dying fire and a mouth that is a siphon. It crawls down chimneys in the dark hours and nests in the ash, and it drinks.\n\nA longhouse with a Rimvald in the hearth does not go cold all at once. The mugs freeze first. Then the children get tired. Then the parents cannot remember why they were angry, or why they were talking, or what the argument was about, and by the time anyone thinks to check the fire the longhouse is a tomb of frost-rimed silence and the Rimvald is still drinking. The Skalds drive them out with alchemical heat — a burst of forge-fire hot enough to scorch the chimney stones — but a longhouse that has been Rimvald-touched never quite warms again. The cold has learned the shape of the place.",
     "relatedTerms": [
       "nordhalla",
       "house_skalvyr",
@@ -5994,11 +5994,11 @@
     "id": "rimor"
   },
   "the_cinder": {
-    "term": "The Cinder",
+    "term": "Kavur",
     "type": "monstrosity",
     "region": "sundale",
     "summary": "A small, burning humanoid child-shape of ash and fire that seeks out and consumes liars.",
-    "fullEntry": "The Solari tell their children stories about the children who went into the volcanic rifts and never came back, and the stories always end the same way: the rifts gave them back. The Cinder is what came back. It is small, the size and shape of a child, but made of white-hot charcoal and glowing ash, and it speaks in a crackle that sounds like dry wood catching fire. Where it walks, the basalt melts behind it.\n\nThe Cinder can smell a spoken lie the way a wolf smells blood, and once it catches the scent, nothing else matters — not the battle around it, not the fire-vulnerability of its own ash flesh, not the bargains you offer. It goes for the liar. The Ash-Dwellers say the Cinder is the harsh face of Sol's judgment on a people who broke the world with their bargains and called it salvation. Most Solari assume it hunts their enemies. The wiser Solari know better. The wiser ones do not lie, and they do not let their children near the rifts.",
+    "fullEntry": "The Solari tell their children stories about the children who went into the volcanic rifts and never came back, and the stories always end the same way: the rifts gave them back. Kavur is what came back. It is small, the size and shape of a child, but made of white-hot charcoal and glowing ash, and it speaks in a crackle that sounds like dry wood catching fire. Where it walks, the basalt melts behind it.\n\nKavur can smell a spoken lie the way a wolf smells blood, and once it catches the scent, nothing else matters — not the battle around it, not the fire-vulnerability of its own ash flesh, not the bargains you offer. It goes for the liar. The Ash-Dwellers say Kavur is the harsh face of Sol's judgment on a people who broke the world with their bargains and called it salvation. Most Solari assume it hunts their enemies. The wiser Solari know better. The wiser ones do not lie, and they do not let their children near the rifts.",
     "relatedTerms": [
       "sundale",
       "solari",
@@ -6007,11 +6007,11 @@
     "id": "the_cinder"
   },
   "ash_woven_oracle": {
-    "term": "Ash-Woven Oracle",
+    "term": "Ashvara",
     "type": "aberration",
     "region": "sundale",
     "summary": "A faceless creature of volcanic ash that speaks dark prophecies and chokes enemies with soot clouds.",
-    "fullEntry": "The Augurs listen to Aex's scream and try to read Sol's pulse, and they tell themselves they are the only prophets left in Sundale. The Ash-Woven Oracle is the other one. It drifts faceless through the sulfur vents and the badland shrines, a floating drape of compacted volcanic ash held together by the Wyrd currents that pool in the warm places of the caldera. It carries a bowl of liquid lava the way a mendicant carries a begging bowl, and from the place where its face should be, it speaks.\n\nThe Oracle's prophecies are always the same prophecy, told in fragments: the caldera will freeze, the vents will close, the forges will go cold, and the last generation will starve in the dark. The soot it sheds as it speaks is toxic; miners who breathe it scar inside their lungs and never quite recover. Most Solari leave it alone. The Pyrofiends listen, because the Oracle's prophecy is the same one Scathrach whispers up from the deep vents, and the Pyrofiends know the difference between a warning and a promise. Find an Ash-Woven Oracle in the badlands and the only safe answer is to back away slowly. It does not pursue. It does not have to. It will out-wait you, and the caldera is cooling a degree at a time.",
+    "fullEntry": "The Augurs listen to Aex's scream and try to read Sol's pulse, and they tell themselves they are the only prophets left in Sundale. The Ashvara is the other one. It drifts faceless through the sulfur vents and the badland shrines, a floating drape of compacted volcanic ash held together by the Wyrd currents that pool in the warm places of the caldera. It carries a bowl of liquid lava the way a mendicant carries a begging bowl, and from the place where its face should be, it speaks.\n\nThe Oracle's prophecies are always the same prophecy, told in fragments: the caldera will freeze, the vents will close, the forges will go cold, and the last generation will starve in the dark. The soot it sheds as it speaks is toxic; miners who breathe it scar inside their lungs and never quite recover. Most Solari leave it alone. The Pyrofiends listen, because the Oracle's prophecy is the same one Scathrach whispers up from the deep vents, and the Pyrofiends know the difference between a warning and a promise. Find an Ashvara in the badlands and the only safe answer is to back away slowly. It does not pursue. It does not have to. It will out-wait you, and the caldera is cooling a degree at a time.",
     "relatedTerms": [
       "sundale",
       "augur",
@@ -6023,11 +6023,11 @@
     "id": "ash_woven_oracle"
   },
   "husque": {
-    "term": "Husque",
+    "term": "Huskvar",
     "type": "aberration",
     "region": "sundale",
     "summary": "A humanoid silhouette of absolute void that distorts gravity and leaks the Sun-Eater's hunger.",
-    "fullEntry": "The Wyrd is patient, but in the deep sulfur mines of Sundale, where the volcanic vents breathe close to the sealed vault, it has weight. The Husque is what that weight looks like when it finds a shape. It wears a body of basalt plates and floating copper veins held together by a gravity that bends inward instead of down, and inside the basalt shell is nothing — a moving rip in the world, a fingertip of Keth Amar's hunger pressed through the seal and given legs.\n\nIt eats the gravity around it. Pebbles drift up. Weapons tear themselves from holsters and fly toward the chest where the void is deepest. Miners who see a Husque in a shaft have one choice: drop anything metal and run, because what the Husque cannot eat it will drag in, and what it eats is gone — not killed, gone, folded into the nothing that wears the basalt. When a Husque falls it collapses into a harmless heap of slag, but the spatial tear it leaves behind closes slowly, and the air that bleeds through it tastes of somewhere else. The Pyrofiends say the Husque is what slips out whenever Scathrach shifts in the vent below. The Augurs say it has nothing to do with Scathrach. Both of them send parties to close the tears anyway.",
+    "fullEntry": "The Wyrd is patient, but in the deep sulfur mines of Sundale, where the volcanic vents breathe close to the sealed vault, it has weight. The Huskvar is what that weight looks like when it finds a shape. It wears a body of basalt plates and floating copper veins held together by a gravity that bends inward instead of down, and inside the basalt shell is nothing — a moving rip in the world, a fingertip of Keth Amar's hunger pressed through the seal and given legs.\n\nIt eats the gravity around it. Pebbles drift up. Weapons tear themselves from holsters and fly toward the chest where the void is deepest. Miners who see a Huskvar in a shaft have one choice: drop anything metal and run, because what the Huskvar cannot eat it will drag in, and what it eats is gone — not killed, gone, folded into the nothing that wears the basalt. When a Huskvar falls it collapses into a harmless heap of slag, but the spatial tear it leaves behind closes slowly, and the air that bleeds through it tastes of somewhere else. The Pyrofiends say the Huskvar is what slips out whenever Scathrach shifts in the vent below. The Augurs say it has nothing to do with Scathrach. Both of them send parties to close the tears anyway.",
     "relatedTerms": [
       "sundale",
       "keth_amar",
@@ -6038,11 +6038,11 @@
     "id": "husque"
   },
   "spume_of_the_drowned": {
-    "term": "Spume of the Drowned",
+    "term": "Spumara",
     "type": "undead",
     "region": "iceheart-sea",
     "summary": "A floating colony of glowing sea-foam and ice crystals that projects the memories and screams of drowned sailors.",
-    "fullEntry": "The Iceheart Sea takes a ship every winter, and in the spring it gives something back. The Spume of the Drowned is what the sea gives. It is a floating mass of glowing sea-spume and ice crystals ten feet across, shifting constantly to project the faces of sailors who went down with the last ship — screaming, drowning, freezing, in a loop that never ends. It makes a wet choking sound that carries across the open water.\n\nThe Spume is not the sailors. The sailors are gone. The Spume is a direct Wyrdspawn, a memory-colony generated by Keth Amar's Wyrd at the drowning-sites after Blizzard’s End; it takes the dying-crew shape as its local mask, not because the panic created it, but because that is the form the Wyrd learned to wear along these lanes. It drifts the shipping lanes looking for warmth to merge with. Anything it touches gets a coat of freezing slime that sets solid in minutes. The Mereval captains have a rule: if you see a glow on the water at night that does not blink, you do not approach. The Myrathil have a different rule. The Nereid Myrathil, who knew the drowned, sometimes row out to meet the Spume carrying the dead's names. They say it quiets for a while afterward. They say it always comes back.",
+    "fullEntry": "The Iceheart Sea takes a ship every winter, and in the spring it gives something back. The Spumara is what the sea gives. It is a floating mass of glowing sea-spume and ice crystals ten feet across, shifting constantly to project the faces of sailors who went down with the last ship — screaming, drowning, freezing, in a loop that never ends. It makes a wet choking sound that carries across the open water.\n\nThe Spume is not the sailors. The sailors are gone. The Spume is a direct Wyrdspawn, a memory-colony generated by Keth Amar's Wyrd at the drowning-sites after Blizzard’s End; it takes the dying-crew shape as its local mask, not because the panic created it, but because that is the form the Wyrd learned to wear along these lanes. It drifts the shipping lanes looking for warmth to merge with. Anything it touches gets a coat of freezing slime that sets solid in minutes. The Mereval captains have a rule: if you see a glow on the water at night that does not blink, you do not approach. The Myrathil have a different rule. The Olora Myrathil, who knew the drowned, sometimes row out to meet the Spume carrying the dead's names. They say it quiets for a while afterward. They say it always comes back.",
     "relatedTerms": [
       "iceheart-sea",
       "house_mereval",
@@ -6053,11 +6053,11 @@
     "id": "spume_of_the_drowned"
   },
   "writ_of_passage": {
-    "term": "Writ of Passage",
+    "term": "Vritara",
     "type": "construct",
     "region": "iceheart-sea",
     "summary": "A sentient, floating contract of ice and parchment that binds vessels to its runic terms.",
-    "fullEntry": "The Athien made the First Contract with Morvane, and the Athien have been making contracts ever since. Somewhere in the millennia of charter-writing, the Wyrd got into one. The Writ of Passage is a Wyrd-construct born of that contamination: a literal contract, a large sheet of glowing parchment rimmed with ice, drifting the ocean currents of the Iceheart Sea. Runic script moves across its surface constantly, writing and rewriting maritime terms — passage rights, harbor fees, toll schedules — in a hand that no one employed.\n\nThe Writ intercepts vessels at the harbor mouths and the reef-gates. It forces the captain to read and agree to its terms before it allows safe passage. Most captains sign; the terms are usually survivable, and the Writ is patient. Those who refuse, or who sign and then violate a clause, find out what the runic script is for. The Writ lashes with blades of frozen ink that cut through timber and rigging the way paper cuts through skin. The Brine-Bond Syndicate keeps a standing bounty on Writs destroyed; they have never paid it. The Writs, like the contracts they are made of, are very hard to dissolve.",
+    "fullEntry": "The Athien made the First Contract with Morvane, and the Athien have been making contracts ever since. Somewhere in the millennia of charter-writing, the Wyrd got into one. The Vritara is a Wyrd-construct born of that contamination: a literal contract, a large sheet of glowing parchment rimmed with ice, drifting the ocean currents of the Iceheart Sea. Runic script moves across its surface constantly, writing and rewriting maritime terms — passage rights, harbor fees, toll schedules — in a hand that no one employed.\n\nThe Writ intercepts vessels at the harbor mouths and the reef-gates. It forces the captain to read and agree to its terms before it allows safe passage. Most captains sign; the terms are usually survivable, and the Writ is patient. Those who refuse, or who sign and then violate a clause, find out what the runic script is for. The Writ lashes with blades of frozen ink that cut through timber and rigging the way paper cuts through skin. The Brine-Bond Syndicate keeps a standing bounty on Writs destroyed; they have never paid it. The Writs, like the contracts they are made of, are very hard to dissolve.",
     "relatedTerms": [
       "iceheart-sea",
       "neth",
@@ -6068,11 +6068,11 @@
     "id": "writ_of_passage"
   },
   "storm_crows": {
-    "term": "Storm-Crows",
+    "term": "Karasen",
     "type": "monstrosity",
     "region": "cragjaw-peaks",
     "summary": "A winged raven-like mountain spirit that steals voices to confuse and lure travelers.",
-    "fullEntry": "The Tesshan bridge-lords trust their lookouts and their signal-horns, but on the highest spires of the Cragjaw Peaks, the lookouts hear things. The Storm-Crows nest up where the air thins and the Fex pipeline-bridges strain under rime. They are eight-foot raven-things with feathers that crackle with static and cold-iron dust, and their heads are bare bird-skulls — and they speak. Not with a voice of their own. With yours.\n\nA Storm-Crow flock hunts by mimicry. They will call a child's name in the child's own voice to lead a search party off a cliff. They will bark a Fex engineer's orders in the engineer's cadence to send a work crew into a dead pipeline. They will scream, perfectly, the last words of someone who fell last winter. The Cragjaw lookouts have a rule: if you hear a voice from above you, it is a Storm-Crow; the real thing always calls from below or beside. It is a good rule. The Storm-Crows have learned to call from below.",
+    "fullEntry": "The Tesshan bridge-lords trust their lookouts and their signal-horns, but on the highest spires of the Cragjaw Peaks, the lookouts hear things. The Karasen nest up where the air thins and the Fex pipeline-bridges strain under rime. They are eight-foot raven-things with feathers that crackle with static and cold-iron dust, and their heads are bare bird-skulls — and they speak. Not with a voice of their own. With yours.\n\nA Karasen flock hunts by mimicry. They will call a child's name in the child's own voice to lead a search party off a cliff. They will bark a Fex engineer's orders in the engineer's cadence to send a work crew into a dead pipeline. They will scream, perfectly, the last words of someone who fell last winter. The Cragjaw lookouts have a rule: if you hear a voice from above you, it is a Karasen; the real thing always calls from below or beside. It is a good rule. The Karasen have learned to call from below.",
     "relatedTerms": [
       "cragjaw-peaks",
       "house_tesshan",
@@ -6082,11 +6082,11 @@
     "id": "storm_crows"
   },
   "sump_scrabs": {
-    "term": "Sump-Scrabs",
+    "term": "Gazoro",
     "type": "monstrosity",
     "region": "cragjaw-peaks",
     "summary": "A beetle-like pest that drains heat from steam pipes, causing geothermal systems to freeze.",
-    "fullEntry": "The Fex built the geothermal pipeline network eight millennia ago, and for eight millennia something has nested in it. The Sump-Scrabs came first as alchemical residue in the early holdfast boilers — a beetle the size of a dog, its shell black basalt plates and copper veins, with a long tube-siphon for a mouth that drinks steam and combustion the way a mosquito drinks blood. They are not Wyrd-spawn in the usual sense. They are older. The Wyrd just made them hungrier.\n\nA Sump-Scrab infestation freezes a pipeline dead. The Fex engineers have spent generations culling them and the Sump-Scrabs have spent generations eating the engineers' heat-lanterns, and the war continues. The problem for travelers is that Sump-Scrabs are not picky about the source of combustion. A campfire in the wrong Cragjaw ravine will draw them in an hour. The Fex advised: sleep near steam, not flame; the pipeline-burns are too hot for the Scrabs and the steam carries your scent away. It is good advice. The Scrabs have started learning it.",
+    "fullEntry": "The Fex built the geothermal pipeline network eight millennia ago, and for eight millennia something has nested in it. The Gazoro came first as alchemical residue in the early holdfast boilers — a beetle the size of a dog, its shell black basalt plates and copper veins, with a long tube-siphon for a mouth that drinks steam and combustion the way a mosquito drinks blood. They are not Wyrd-spawn in the usual sense. They are older. The Wyrd just made them hungrier.\n\nA Gazoro infestation freezes a pipeline dead. The Fex engineers have spent generations culling them and the Gazoro have spent generations eating the engineers' heat-lanterns, and the war continues. The problem for travelers is that Gazoro are not picky about the source of combustion. A campfire in the wrong Cragjaw ravine will draw them in an hour. The Fex advised: sleep near steam, not flame; the pipeline-burns are too hot for the Scrabs and the steam carries your scent away. It is good advice. The Scrabs have started learning it.",
     "relatedTerms": [
       "cragjaw-peaks",
       "fexrick",
@@ -6096,25 +6096,25 @@
     "id": "sump_scrabs"
   },
   "lien": {
-    "term": "Lien",
+    "term": "Lienvar",
     "type": "monstrosity",
     "region": "sundrift-vale",
     "summary": "A spindly, scroll-wrapped horror that tracks down those with unpaid debts or broken promises.",
-    "fullEntry": "The Ordavan steppe runs on tribal debt and oral compact, and the Lien is the steppe's bookkeeper. It is a tall skeletal humanoid wrapped in old parchment contracts that rustle when it moves, its fingers long quill-claws dripping black ink, its face a blank sheet that sometimes shows the debtor's name. It hunts those who carry unpaid promises and it does not stop.\n\nThe Lien is notable for what does not slow it. Gravity storms warp the Sundrift Vale's spatial geometry — paths fold, distances stretch, travelers lost in a storm can walk for days and arrive where they started. The Lien is unaffected. It tracks the debtor through the distortion the way a hound tracks blood, walking the true line while the steppe folds around it. There are exactly two ways to end a Lien's hunt: fulfill the contract (the parchment strips fall away, the quill-claws dry, the Lien dissolves into a pile of ink-stained scroll-cases), or pay the debt in blood (the Lien takes a limb, or a life, and the contract considers itself satisfied). The Ordavan nomads say a Lien has never been outrun. The Gambrel hunts broken oaths; the Lien collects on them.",
+    "fullEntry": "The Ordavan steppe runs on tribal debt and oral compact, and the Lienvar is the steppe's bookkeeper. It is a tall skeletal humanoid wrapped in old parchment contracts that rustle when it moves, its fingers long quill-claws dripping black ink, its face a blank sheet that sometimes shows the debtor's name. It hunts those who carry unpaid promises and it does not stop.\n\nThe Lienvar is notable for what does not slow it. Gravity storms warp the Sundrift Vale's spatial geometry — paths fold, distances stretch, travelers lost in a storm can walk for days and arrive where they started. The Lienvar is unaffected. It tracks the debtor through the distortion the way a hound tracks blood, walking the true line while the steppe folds around it. There are exactly two ways to end a Lienvar's hunt: fulfill the contract (the parchment strips fall away, the quill-claws dry, the Lienvar dissolves into a pile of ink-stained scroll-cases), or pay the debt in blood (the Lienvar takes a limb, or a life, and the contract considers itself satisfied). The Ordavan nomads say a Lienvar has never been outrun. The Geaslan hunts broken oaths; the Lienvar collects on them.",
     "relatedTerms": [
       "sundrift-vale",
       "house_ordavan",
       "gambrel",
       "sere_khan"
     ],
-    "id": "lien"
+    "id": "Lienvar"
   },
   "hungry_child_creature": {
-    "term": "Hungry Child",
+    "term": "Munkhai",
     "type": "undead",
     "region": "sundrift-vale",
     "summary": "A hollow-eyed child spirit that devours travelers' memories of light and star-stories.",
-    "fullEntry": "The Ordavan dead are left at the Ancestor-Mounds for the ancestors to weigh, and most are accepted. The Hungry Children are the ones the ancestors sent back. They are small translucent spirits floating just above the steppe grass, their eyes hollow wells of darkness, whispering fragments of star-stories they almost remember but cannot complete. They are starving for the rest.\n\nThe Hungry Children attack travelers who carry starlight in memory — and on the Sundrift Vale, the Astril refugees carry the most. The Astril bloodline still holds the echo of Lumia, their devoured home-star, and a Hungry Child who touches an Astril takes the star-memory outright: the warmth, the light, the constellation-patterns of a sky that no longer exists. There is one defense. A Hungry Child can be appeased by a complete and genuine star-story told aloud, full and well-recited, and the spirit will quiet to listen and then drift away satisfied. The Astril carry Lumia's story for this reason among others. The Ordavan steppe-guides carry their own ancestors' stories for the same reason. The Hungry Children do not care whose star. They only want the light.",
+    "fullEntry": "The Ordavan dead are left at the Ancestor-Mounds for the ancestors to weigh, and most are accepted. The Munkhai are the ones the ancestors sent back. They are small translucent spirits floating just above the steppe grass, their eyes hollow wells of darkness, whispering fragments of star-stories they almost remember but cannot complete. They are starving for the rest.\n\nThe Munkhai attack travelers who carry starlight in memory — and on the Sundrift Vale, the Astril refugees carry the most. The Astril bloodline still holds the echo of Lumia, their devoured home-star, and a Munkhai who touches an Astril takes the star-memory outright: the warmth, the light, the constellation-patterns of a sky that no longer exists. There is one defense. A Munkhai can be appeased by a complete and genuine star-story told aloud, full and well-recited, and the spirit will quiet to listen and then drift away satisfied. The Astril carry Lumia's story for this reason among others. The Ordavan steppe-guides carry their own ancestors' stories for the same reason. The Munkhai do not care whose star. They only want the light.",
     "relatedTerms": [
       "sundrift-vale",
       "astril",
@@ -6124,11 +6124,11 @@
     "id": "hungry_child_creature"
   },
   "sere_khan": {
-    "term": "Sere-Khan",
+    "term": "Serkhan",
     "type": "undead",
     "region": "sundrift-vale",
     "summary": "A skeletal judge on a spectral horse that puts travelers on trial for ancestral compacts.",
-    "fullEntry": "The Ordavan ancestors are not gentle, and the steppe keeps their law. The Sere-Khan is the law given horse and a gavel. It rides out of the Ancestor-Mounds in the dry season, a towering skeletal warrior in rusted scale-armor on a spectral horse, carrying a heavy jade gavel and a scroll of judgment. It speaks in a low throat-singing tone that the ground transmits more than the air, and when it speaks, the ancestors are listening.\n\nThose the Sere-Khan intercepts are tried. The court is short and the terms are ancestral: the defendant must answer in the language of compacts, debts, and inherited oaths, or be condemned. The Ordavan nomads know the defense and can usually satisfy the court; a stranger on the steppe, without lineage-memory of an ancestral contract, will almost certainly be found wanting. The Sere-Khan does not pursue those who pass its judgment. It does not need to. The ancestors remember who was tried, and who was not, and the steppe is long.",
+    "fullEntry": "The Ordavan ancestors are not gentle, and the steppe keeps their law. The Serkhan is the law given horse and a gavel. It rides out of the Ancestor-Mounds in the dry season, a towering skeletal warrior in rusted scale-armor on a spectral horse, carrying a heavy jade gavel and a scroll of judgment. It speaks in a low throat-singing tone that the ground transmits more than the air, and when it speaks, the ancestors are listening.\n\nThose the Serkhan intercepts are tried. The court is short and the terms are ancestral: the defendant must answer in the language of compacts, debts, and inherited oaths, or be condemned. The Ordavan nomads know the defense and can usually satisfy the court; a stranger on the steppe, without lineage-memory of an ancestral contract, will almost certainly be found wanting. The Serkhan does not pursue those who pass its judgment. It does not need to. The ancestors remember who was tried, and who was not, and the steppe is long.",
     "relatedTerms": [
       "sundrift-vale",
       "house_ordavan",
@@ -6137,11 +6137,11 @@
     "id": "sere_khan"
   },
   "grandmother_of_the_bog": {
-    "term": "Grandmother of the Bog",
+    "term": "Babara",
     "type": "fey",
     "region": "bryngloom-forest",
     "summary": "An ancient, moss-covered bog-hag that trades years of life for travelers' memories.",
-    "fullEntry": "The Bryngloom peat-bogs remember everything that falls into them, and the Grandmother of the Bog is what the remembering looks like when it stands up. She is seven feet tall, draped in peat-moss and willow-root, with amber eyes that glow through the bog-mist at dusk. She carries a wooden spoon and a pot of soup that has been boiling since before the Great Binding, and the soup is made of bog-lichen and memory.\n\nShe does not attack. She bargains. Travelers dying of bog-fever or old wounds find their way to her quagmire and she offers them what no one else in the Bryngloom will: more time. The price is paid in memory. She will take a childhood, a marriage, a face, a name — the soup requires it — and in exchange the years are extended. The Athien call her an unlicensed pact-broker and forbid dealing with her under the First Contract. The Athien are not the ones dying in her bogs. Those who are generally sign.",
+    "fullEntry": "The Bryngloom peat-bogs remember everything that falls into them, and the Babara is what the remembering looks like when it stands up. She is seven feet tall, draped in peat-moss and willow-root, with amber eyes that glow through the bog-mist at dusk. She carries a wooden spoon and a pot of soup that has been boiling since before the Great Binding, and the soup is made of bog-lichen and memory.\n\nShe does not attack. She bargains. Travelers dying of bog-fever or old wounds find their way to her quagmire and she offers them what no one else in the Bryngloom will: more time. The price is paid in memory. She will take a childhood, a marriage, a face, a name — the soup requires it — and in exchange the years are extended. The Athien call her an unlicensed pact-broker and forbid dealing with her under the First Contract. The Athien are not the ones dying in her bogs. Those who are generally sign.",
     "relatedTerms": [
       "bryngloom-forest",
       "neth",
@@ -6152,11 +6152,11 @@
     "id": "grandmother_of_the_bog"
   },
   "debt_revenant": {
-    "term": "Debt-Revenant",
+    "term": "Vezan",
     "type": "undead",
     "region": "bryngloom-forest",
     "summary": "A peat-preserved undead debtor that rises to complete the terms of a broken Athien contract.",
-    "fullEntry": "The Athien First Contract binds the living, but it also binds the dead. A Athien debtor who dies with terms unfulfilled does not rest. The peat preserves the body. The contract preserves the obligation. And eventually, somewhere in the deep bogs of the Bryngloom, the debtor sits up.\n\nA Debt-Revenant rises in rusted Athien scale-armor wrapped in rotting peat-bonds, its eyes cold blue lanterns and the contract that binds it folded into the chest cavity where the heart used to be. It does not pursue the living randomly. It pursues the specific terms of its own unfinished contract — a delivery that was never made, a witness who was never produced, a debt that was never paid — and it will walk through anyone who blocks the path to fulfilling it. The only ways to put one down for good are to fulfill the contract or to burn the document with pact-fire. The Athien registry-priests are willing to do this for a fee. They are not willing to do it for free. The Debt-Revenant, after all, is what the Contract is for.",
+    "fullEntry": "The Athien First Contract binds the living, but it also binds the dead. A Athien debtor who dies with terms unfulfilled does not rest. The peat preserves the body. The contract preserves the obligation. And eventually, somewhere in the deep bogs of the Bryngloom, the debtor sits up.\n\nA Vezan rises in rusted Athien scale-armor wrapped in rotting peat-bonds, its eyes cold blue lanterns and the contract that binds it folded into the chest cavity where the heart used to be. It does not pursue the living randomly. It pursues the specific terms of its own unfinished contract — a delivery that was never made, a witness who was never produced, a debt that was never paid — and it will walk through anyone who blocks the path to fulfilling it. The only ways to put one down for good are to fulfill the contract or to burn the document with pact-fire. The Athien registry-priests are willing to do this for a fee. They are not willing to do it for free. The Vezan, after all, is what the Contract is for.",
     "relatedTerms": [
       "bryngloom-forest",
       "neth",
@@ -6167,11 +6167,11 @@
     "id": "debt_revenant"
   },
   "cycle_eater": {
-    "term": "Cycle-Eater",
+    "term": "Krugava",
     "type": "aberration",
     "region": "bryngloom-forest",
     "summary": "A grotesque worm-like aberration that devours the reincarnation cycle of the forest and prevents healing.",
-    "fullEntry": "The Bryngloom's sacred willows anchor the forest's reincarnation cycle — the loop by which dying spirits return through root and peat into new growth. The Cycle-Eater is what happens when the Wyrd gets into the loop. It is a massive worm-thing, many-limbed, with a circular mouth of needle teeth and a body sheathed in purple slime that drains magic from the soil it crawls through. It lives in the deep peat-pools and the hollow roots where the cycle runs strongest, and it eats.\n\nA grove occupied by a Cycle-Eater goes grey. The willows stop budding. The spirits of the forest dead, instead of returning, get eaten — dissolved into the purple slime and added to the worm's mass. The Mycellan, whose own Reincarnation Bargain with Morvane is bound up in the same root-network, feel each spirit the Cycle-Eater takes. They call it the Quiet Mouth. They will not say its true name. The Bryngloom druids have one method for clearing a Cycle-Eater: drain the pool, burn the roots it nests in, and salt the peat with cold iron. The grove dies, but the cycle restarts elsewhere. Without the draining, the Cycle-Eater just keeps eating. The forest, eventually, goes silent.",
+    "fullEntry": "The Bryngloom's sacred willows anchor the forest's reincarnation cycle — the loop by which dying spirits return through root and peat into new growth. The Krugava is what happens when the Wyrd gets into the loop. It is a massive worm-thing, many-limbed, with a circular mouth of needle teeth and a body sheathed in purple slime that drains magic from the soil it crawls through. It lives in the deep peat-pools and the hollow roots where the cycle runs strongest, and it eats.\n\nA grove occupied by a Krugava goes grey. The willows stop budding. The spirits of the forest dead, instead of returning, get eaten — dissolved into the purple slime and added to the worm's mass. The Mycellan, whose own Reincarnation Bargain with Morvane is bound up in the same root-network, feel each spirit the Krugava takes. They call it the Quiet Mouth. They will not say its true name. The Bryngloom druids have one method for clearing a Krugava: drain the pool, burn the roots it nests in, and salt the peat with cold iron. The grove dies, but the cycle restarts elsewhere. Without the draining, the Krugava just keeps eating. The forest, eventually, goes silent.",
     "relatedTerms": [
       "bryngloom-forest",
       "vreken",
@@ -6229,7 +6229,7 @@
     "role": "Fair Folk hermit and keeper of the Florae's founding contract",
     "region": "frostwood-reach",
     "summary": "A shunned Fair Folk hermit dwelling deep in Grimmwood, called the Grimm-Mother by those who will not speak her true name. She brokered the fae-contract that transformed House Viridane into the Florae.",
-    "fullEntry": "Bri-Yrn is older than the Florae and older than the fog, and she lives where the Grimmwood is densest, in a stand of ironwood that the woodcutters of Drunhold will not mark and the Briaren Florae will not enter. She is Fair Folk — not Florae, not thorn-blood, not timber-born, but one of the originals who walked the paths before the Wyrd seeped in. The locals call her the Grimm-Mother because they will not say Bri-Yrn aloud; they believe the name, spoken, is a summons.\n\nShe is the broker of the contract that split House Viridane. When the seventh house fled south through the Frostwood Reach while the sacrifice fires still burned for the other houses, it was Bri-Yrn who reached them in the moonlit groves with an offer that did not end in their children's blood on northern stone. The price was paid two ways: in thorns for the Briaren, in timber for the Oaken. Both bloodlines flow from her word, and neither bloodline will thank her for it. The Briaren shun her for what the thorns cost. The Oaken shun her for what the timber replaced. The Tallyn ledger-wards mark the Grimmwood's edge and go no further.\n\n\n\nShe never sat in the Seelie Accord. The Solitary Ones — the hermits and craft-brokers who pre-date the courts and outlast them — answer to no faction. Bri-Yrn's authority comes from her age and her craft, not from any claim of Seelie heritage. The Hedgerow Pooka will tell you she is one of them in spirit; she will not confirm it. The Revel Court calls her a traitor to the celebration; she does not dignify that with a response. The Tallyn ledger-wards list her as 'fae — political affiliation: none' which, for once, is correct.\n\nShe practices the old fae craft the woodcutters call witch-doctoring — the binding, the mending, and the hexwork that predates the runic academies and the Scribe-Cartel's ink. Those who fall out of the Ledgered world, the desperate, the dispossessed, and the dying, sometimes find their way to her stand of ironwood. What they pay for her help is not always coin. Walk into the Grimmwood looking for Bri-Yrn and you will find her, or you will find the Grimmstalks first; the wood does not care which, and neither, in the end, does she.",
+    "fullEntry": "Bri-Yrn is older than the Florae and older than the fog, and she lives where the Grimmwood is densest, in a stand of ironwood that the woodcutters of Drunhold will not mark and the Briaren Florae will not enter. She is Fair Folk — not Florae, not thorn-blood, not timber-born, but one of the originals who walked the paths before the Wyrd seeped in. The locals call her the Grimm-Mother because they will not say Bri-Yrn aloud; they believe the name, spoken, is a summons.\n\nShe is the broker of the contract that split House Viridane. When the seventh house fled south through the Frostwood Reach while the sacrifice fires still burned for the other houses, it was Bri-Yrn who reached them in the moonlit groves with an offer that did not end in their children's blood on northern stone. The price was paid two ways: in thorns for the Briaren, in timber for the Oaken. Both bloodlines flow from her word, and neither bloodline will thank her for it. The Briaren shun her for what the thorns cost. The Oaken shun her for what the timber replaced. The Tallyn ledger-wards mark the Grimmwood's edge and go no further.\n\n\n\nShe never sat in the Seelie Accord. The Solitary Ones — the hermits and craft-brokers who pre-date the courts and outlast them — answer to no faction. Bri-Yrn's authority comes from her age and her craft, not from any claim of Seelie heritage. The Hedgerow Pukhal will tell you she is one of them in spirit; she will not confirm it. Revalen Court calls her a traitor to the celebration; she does not dignify that with a response. The Tallyn ledger-wards list her as 'fae — political affiliation: none' which, for once, is correct.\n\nShe practices the old fae craft the woodcutters call witch-doctoring — the binding, the mending, and the hexwork that predates the runic academies and the Scribe-Cartel's ink. Those who fall out of the Ledgered world, the desperate, the dispossessed, and the dying, sometimes find their way to her stand of ironwood. What they pay for her help is not always coin. Walk into the Grimmwood looking for Bri-Yrn and you will find her, or you will find the Branvigs first; the wood does not care which, and neither, in the end, does she.",
     "relatedTerms": [
       "florae",
       "viridian",
@@ -6270,7 +6270,7 @@
     "type": "faction",
     "region": "frostwood-reach",
     "summary": "The unified fae court that governed the Frostwood Reach before Blizzard’s End. It shattered during the cataclysm into competing factions, each claiming to be the rightful heir to the old Accord — and each preserving a different piece of what the Accord used to mean.",
-    "fullEntry": "Before the fog, before Blizzard’s End, the fae of the Frostwood Reach were one people under the Seelie Accord. The Accord was not a throne and not a crown; it was a contract — a set of mutual obligations between the fae-blooded powers that kept the deep ironwood in balance and the moonlit groves in trust. The Pooka guarded the hedgerows under it. The storm-glass weavers kept the high aeries. The mask-carvers set the rites that turned the seasons. And the accord-broker, when one was needed, walked the deepest groves with authority no throne could give. The system held for as long as anyone could remember.\n\nThe Shattering broke the contract. When the Wyrd seeped into the ironwood and the Fog Compact fell across the Reach, the obligations that held the fae together stopped binding. The Accord did not die — it shattered, the way a mirror shatters, and each splinter faction took with it a fragment of the old reflection. Now there is no single Seelie court. There are the factions that claim its name.\n\nThe Hedgerow claims the guardianship. The Pooka and their kin keep the old mandate of watching the wild places, and they will tell you, with some authority, that they alone still do what the Accord was for. The Revel Court claims the rites — the seasonal celebrations, the turning songs, the moonlit dancing — except the Wyrd got into their rites long ago, and what they preserve is the shape of the celebration without the joy. The Solitary Ones claim nothing. They are the fae who refused to join any splinter: the hermits, the crones, the ancient craft-brokers who pre-date the Accord and outlasted it. They do not call themselves Seelie. They do not call themselves anything. The Accord they remember is the one nobody else does.\n\nWalk the Frostwood Reach and ask which faction holds the true Seelie heritage, and each will give you a different answer with absolute certainty. The Tallyn ledger-wards mark them all as 'fae — political affiliation: contested' and decline to arbitrate. The Florae, who made their own bargain outside the Accord's frame, do not ask.",
+    "fullEntry": "Before the fog, before Blizzard’s End, the fae of the Frostwood Reach were one people under the Seelie Accord. The Accord was not a throne and not a crown; it was a contract — a set of mutual obligations between the fae-blooded powers that kept the deep ironwood in balance and the moonlit groves in trust. The Pukhal guarded the hedgerows under it. The storm-glass weavers kept the high aeries. The mask-carvers set the rites that turned the seasons. And the accord-broker, when one was needed, walked the deepest groves with authority no throne could give. The system held for as long as anyone could remember.\n\nThe Shattering broke the contract. When the Wyrd seeped into the ironwood and the Fog Compact fell across the Reach, the obligations that held the fae together stopped binding. The Accord did not die — it shattered, the way a mirror shatters, and each splinter faction took with it a fragment of the old reflection. Now there is no single Seelie court. There are the factions that claim its name.\n\nThe Hedgerow claims the guardianship. The Pukhal and their kin keep the old mandate of watching the wild places, and they will tell you, with some authority, that they alone still do what the Accord was for. Revalen Court claims the rites — the seasonal celebrations, the turning songs, the moonlit dancing — except the Wyrd got into their rites long ago, and what they preserve is the shape of the celebration without the joy. The Solitary Ones claim nothing. They are the fae who refused to join any splinter: the hermits, the crones, the ancient craft-brokers who pre-date the Accord and outlasted it. They do not call themselves Seelie. They do not call themselves anything. The Accord they remember is the one nobody else does.\n\nWalk the Frostwood Reach and ask which faction holds the true Seelie heritage, and each will give you a different answer with absolute certainty. The Tallyn ledger-wards mark them all as 'fae — political affiliation: contested' and decline to arbitrate. The Florae, who made their own bargain outside the Accord's frame, do not ask.",
     "relatedTerms": [
       "pooka",
       "the_revel",
@@ -6410,7 +6410,7 @@
     "type": "entity",
     "region": "sundale",
     "summary": "The primordial planetary power anchoring Mythrill's native world. It does not converse, choose champions, rescue families, or turn mortal belief into species.",
-    "fullEntry": "Older than Sol's entombment is the Sleeping Soul of Mythrill, the primordial planetary power. Its existence anchors a native world with actual biological, spiritual, crafted, and alchemical origins. It does not speak, answer prayers, choose champions, or personally rescue families.\n\nNative creatures exist independently of mortal belief. Folklore records encounters and survival knowledge; a forgotten story does not erase a Jutul, Fossegrim, or Myrathil. The generative Natural Wyrd / Primordial Loom account is a retired scholarly theory, not author truth.\n\nMorvane is a distinct native threshold and memory power subordinate to the Soul, encountered through actual channels such as Root-Veil. The Unnamed Green is another distinct native power and rescued Viridane; describing it as the Soul's green hand is an attributed theory. Keth's corrupted channels pressure these ecologies without owning all native magic.",
+    "fullEntry": "Older than Sol's entombment is the Sleeping Soul of Mythrill, the primordial planetary power. Its existence anchors a native world with actual biological, spiritual, crafted, and alchemical origins. It does not speak, answer prayers, choose champions, or personally rescue families.\n\nNative creatures exist independently of mortal belief. Folklore records encounters and survival knowledge; a forgotten story does not erase a Jotkall, Fosskarl, or Myrathil. The generative Natural Wyrd / Primordial Loom account is a retired scholarly theory, not author truth.\n\nMorvane is a distinct native threshold and memory power subordinate to the Soul, encountered through actual channels such as Root-Veil. The Unnamed Green is another distinct native power and rescued Viridane; describing it as the Soul's green hand is an attributed theory. Keth's corrupted channels pressure these ecologies without owning all native magic.",
     "relatedTerms": [
       "the_wyrd",
       "morvane",

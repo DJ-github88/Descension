@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { v4 as generateUniqueId } from 'uuid';
 import useCreatureStore from '../../../store/creatureStore';
+import { syncBestiaryCreatureNames } from '../../../utils/bestiaryNameSync';
 
 // Action types
 export const LIBRARY_ACTION_TYPES = {
@@ -286,8 +287,8 @@ export function CreatureLibraryProvider({ children }) {
             const newCreatures = firebaseCreatures.filter(c => !existingIds.has(c.id));
             const mergedCreatures = [...(creatureStore.creatures || []), ...newCreatures];
 
-            // Update the store with merged creatures
-            creatureStore.setCreatures(mergedCreatures);
+            // Update the store with merged creatures (legacy bestiary names migrated)
+            creatureStore.setCreatures(syncBestiaryCreatureNames(mergedCreatures));
           }
         }
       } catch (err) {
@@ -304,7 +305,7 @@ export function CreatureLibraryProvider({ children }) {
   useEffect(() => {
     // Always sync with store, even if it's empty initially
     dispatch(libraryActionCreators.loadLibrary({
-      creatures: creatureStore.creatures || [],
+      creatures: syncBestiaryCreatureNames(creatureStore.creatures || []),
       categories: creatureStore.categories || initialState.categories
     }));
   }, [creatureStore.creatures, creatureStore.categories]);

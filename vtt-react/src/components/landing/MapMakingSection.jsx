@@ -139,7 +139,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'water',
       action: 'DRAW',
       text: 'Iron Lake: frozen 44 weeks/year, mirror-still in summer',
-      why: 'Iron Lake is a massive, sub-arctic lake in the northern Frostfang Wastes. Frozen for 44 weeks of the year and mirror-still in summer, it is surrounded by cold granite cliffs and barren tundra. It is placed there as a key geographic landmark, serving as the primary freshwater source for the Grevtholm keep and a natural defense against Jutul warbands.',
+      why: 'Iron Lake is a massive, sub-arctic lake in the northern Frostfang Wastes. Frozen for 44 weeks of the year and mirror-still in summer, it is surrounded by cold granite cliffs and barren tundra. It is placed there as a key geographic landmark, serving as the primary freshwater source for the Grevtholm keep and a natural defense against Jotkall warbands.',
       inkarnate: 'Frozen lake icon'
     },
     {
@@ -197,7 +197,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'cities',
       action: 'PLACE',
       text: 'Grevtholm: fortified stone keep in the Frostfang Wastes',
-      why: 'Grevtholm is the northernmost fortified stone keep of the Reach, carved from dark volcanic rock. Situated in the freezing, windswept Frostfang Wastes, it is surrounded by barren granite plains, sparse twisted ironwood trees, and the frozen Iron Lake. It was built there as a military outpost to watch the northern ice-flows and guard the border against raiding Jutul warbands.',
+      why: 'Grevtholm is the northernmost fortified stone keep of the Reach, carved from dark volcanic rock. Situated in the freezing, windswept Frostfang Wastes, it is surrounded by barren granite plains, sparse twisted ironwood trees, and the frozen Iron Lake. It was built there as a military outpost to watch the northern ice-flows and guard the border against raiding Jotkall warbands.',
       inkarnate: 'Fortress icon'
     },
     {
@@ -336,8 +336,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'terrain',
       action: 'DRAW',
-      text: 'Rimor\'s Hearth: buried mountain keep, still warm from steam vents',
-      why: 'Rimor\'s Hearth is a buried mountain keep wreathed in volcanic steam vents. Located deep within the northern range, it is surrounded by barren ice fields. It is an ancient, half-buried ruin that remains warm from residual geothermal energy, serving as a sanctuary for travelers.',
+      text: 'Rimvald\'s Hearth: buried mountain keep, still warm from steam vents',
+      why: 'Rimvald\'s Hearth is a buried mountain keep wreathed in volcanic steam vents. Located deep within the northern range, it is surrounded by barren ice fields. It is an ancient, half-buried ruin that remains warm from residual geothermal energy, serving as a sanctuary for travelers.',
       inkarnate: 'Ruin icon'
     },
     {
@@ -437,8 +437,8 @@ const CHECKLIST_TEMPLATE = {
     {
       category: 'landmarks',
       action: 'MARK',
-      text: 'Skirmour\'s Crag: southern peak, on the border with Cragjaw (Jutul-sacred)',
-      why: 'Skirmour\'s Crag is a towering peak on the southern border. Surrounded by steep ash-slopes and volcanic ravines, it is a sacred site to the Jutul giants. No human has ever reached its summit, which is marked with runic ward-stones.',
+      text: 'Skirmour\'s Crag: southern peak, on the border with Cragjaw (Jotkall-sacred)',
+      why: 'Skirmour\'s Crag is a towering peak on the southern border. Surrounded by steep ash-slopes and volcanic ravines, it is a sacred site to the Jotkall giants. No human has ever reached its summit, which is marked with runic ward-stones.',
       inkarnate: 'Peak icon with red mark'
     },
     // ROUTES
@@ -686,7 +686,7 @@ const CHECKLIST_TEMPLATE = {
       category: 'landmarks',
       action: 'MARK',
       text: 'The Star Caves: lava-tubes beneath the Spinstones Columns',
-      why: 'The Star Caves are a network of volcanic lava-tubes located directly beneath the Spinstones Columns. Surrounded by obsidian fields and subterranean ash chambers, they serve as a dangerous passage wreathed in raw magical energy and hunted by hostile Husque creatures.',
+      why: 'The Star Caves are a network of volcanic lava-tubes located directly beneath the Spinstones Columns. Surrounded by obsidian fields and subterranean ash chambers, they serve as a dangerous passage wreathed in raw magical energy and hunted by hostile Huskvar creatures.',
       inkarnate: 'Cave/ruin icon'
     },
     {
@@ -1054,7 +1054,7 @@ const CHECKLIST_TEMPLATE = {
     // TERRAIN
     { category: 'terrain', action: 'COLOR', text: 'Canopy-Heart (center): living ironwood cathedral-grove, hanging slums', why: 'The political heart', inkarnate: 'Dense forest' },
     { category: 'terrain', action: 'COLOR', text: 'Sunken Basin (south-east): sinkhole with inverted gothic architecture', why: 'The Mycellan domain', inkarnate: 'Sinkhole' },
-    { category: 'terrain', action: 'COLOR', text: 'Peat-Wastes (north): acidic peat-bog, liquefying mud', why: 'Debt-Revenant labor territory', inkarnate: 'Acid bog' },
+    { category: 'terrain', action: 'COLOR', text: 'Peat-Wastes (north): acidic peat-bog, liquefying mud', why: 'Vezan labor territory', inkarnate: 'Acid bog' },
     { category: 'terrain', action: 'COLOR', text: 'Western Bayous (west): ironwood bayous, river-cliffs, ancient fae-contracts carved into bark', why: 'Weft weaver country', inkarnate: 'Bayou' },
     { category: 'terrain', action: 'COLOR', text: 'The Great Mere (center-east): vast central lake dotted with small wooded islands', why: 'The hub of the forest, rises and falls with the moon', inkarnate: 'Big lake with island icons' },
     { category: 'terrain', action: 'COLOR', text: 'The Root-Veil (subterranean): mycelial network beneath everything', why: 'Morvane\'s domain', inkarnate: 'Dark layer under map' },

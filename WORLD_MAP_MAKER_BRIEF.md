@@ -87,7 +87,7 @@ After the Breach, each noble house (or, in Bryngloom's case, the Neth ancestors)
 
 **Why was Viridane erased?** **Keth Amar hunts through knowledge.** To carry the memory of Viridane was to hold a thread the Sun-Eater could follow. The erasure was protection as much as punishment. The fog that swallowed their name keeps them safe. Six houses suspect the truth. None will confirm it. Scribe-Sentinels who research the matter have a habit of disappearing into the fog.
 
-> **For the map:** The Reach has TWO climates because of Viridane. The southern half is warmer (close to Sundale, dense ironwood, fog-bound) — the northern half is the cold "Frostfang Wastes" with stone structures, frozen lakes, sparse twisted ironwood, and Jutul-like giants. **Draw the divide.**
+> **For the map:** The Reach has TWO climates because of Viridane. The southern half is warmer (close to Sundale, dense ironwood, fog-bound) — the northern half is the cold "Frostfang Wastes" with stone structures, frozen lakes, sparse twisted ironwood, and Jotkall-like giants. **Draw the divide.**
 
 ## The Seven Sundered Monoliths
 
@@ -155,7 +155,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - Climate: sub-arctic, biting wind, summer lasts 8 weeks
 - Terrain: granite tundra, frozen lakes (Iron Lake — melts 8 weeks in summer), sparse twisted ironwood, glacial moraine
 - Zones: frostfang-wastes, grevtholm, iron-lake, the-stone-circles, bearsback-summit
-- People: Greymark Northwatch (garrison), Stone-Speakers (Skald expatriates), Jutul raiders rumored
+- People: Greymark Northwatch (garrison), Stone-Speakers (Skald expatriates), Jotkall raiders rumored
 
 **C. The Eastern Fens** (Frostwood-Eastern-Fens) — lawless marshland
 - Climate: damp, hazy, mild
@@ -169,7 +169,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Mirror Mere** (settlement, 200 pop) — lake village of the Arch Mimir; the lake never ripples
 - **Greythorn Copse** (settlement) — fortified ironwood copse jointly maintained by Thalren and Briaran
 - **Skald's Landing** (settlement) — Skald trading post on the northern river, dragon-prow longhouses
-- **Grevtholm** (settlement) — fortified stone keep, northernmost Thalren outpost against Jutul
+- **Grevtholm** (settlement) — fortified stone keep, northernmost Thalren outpost against Jotkall
 - **Meadowglen Crossing** (settlement) — waystation between Frostwood and Sundale
 
 ### Notable Landmarks
@@ -177,7 +177,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **The Ironwood Heart** — the deepest grove, with a stagnant mist-lake and a titanic glowing white tree at the center
 - **Mistbarrow** — pre-Thalreth burial mound with its own weather system
 - **Bearsback Summit** — double-peaked granite mountain, Skald legend says a great bear died there
-- **Iron Lake** — frozen most of the year; mirror-still in summer; locals say drowned Jutul-maidens wait
+- **Iron Lake** — frozen most of the year; mirror-still in summer; locals say drowned Jotkall-maidens wait
 - **The Stone Circles** — pre-Binding runic monoliths tended by Stone-Speakers
 - **Bramble Heath** — crimson thorn-flowers bloom year-round in soil nourished by centuries of blood
 
@@ -287,7 +287,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 - **Stel** — crystalline colossus of compacted ice that projects glacier-memories
 - **Helhest** — three-legged nightmare-horse, plague-aura 50-ft radius, anchors glaciers (killing one releases it)
-- **Glacier Wyrm / Skreika** — ice-dragons
+- **Glacier Wyrm / Skraik** — ice-dragons
 - **Skrei** — drowned Skald warriors, swim the cold seas
 - **Jutul-king** — frost-giant of Skald legend
 - **Perchtar** — marching winter judges
@@ -371,7 +371,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Cinderhoodoo** — forest of fire-scorched rock spires, face-like melting shapes
 - **Spinstones Columns** — ring of basalt columns carved with binding-runes, boundary of the inner Ash-Heart
 - **Cinderbloom Crater** — secondary vent with red-bloomed lichen, used for Martyr purification
-- **The Star Caves** — lava-tubes beneath the Spinstones, haunted by the Husque
+- **The Star Caves** — lava-tubes beneath the Spinstones, haunted by the Huskvar
 - **Vulkar's Karst** — honeycombed limestone riddled with underground rivers
 
 ### People & Races
@@ -478,7 +478,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Wraithsound** — sea-mist inlet that listens, remembers, speaks in the voices of the drowned
 - **Deepwell Archipelago** — 40-mile chain of ice-islands concealing underwater Myrathil cave-cities
 - **Berg of the Frozen Flame** — city-sized iceberg with a natural gas-vent burning in its heart
-- **Blackteeth Skerry** — jagged reef, the traditional boundary
+- **Blackteeth Skarvarr** — jagged reef, the traditional boundary
 
 ### People & Races
 
@@ -497,7 +497,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Draugr Helmsman** — undead pirates
 - **Nereid** — seductive water-spirits
 - **Storm-Wraith** — entity of the Shard-Window
-- **Boreal Huldra** — the ice-floe fae
+- **Boreal Holdra** — the ice-floe fae
 - **Myriad** — wraith-storm-spirits in the Storm-Belt
 
 ### Factions
@@ -539,7 +539,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - Climate: alpine, year-round blizzard above the mid-line
 - Terrain: granite peaks, glacial cirques, ice fields, volcanic crater-keeps
 - Zones: frostmaw-holdfast, frostmaw-massif, skirmours-crag, the-stone-cog
-- People: Tessen, Jutul warbands (in the high peaks), Thrumm (primordial)
+- People: Tessen, Jotkall warbands (in the high peaks), Thrumm (primordial)
 
 **B. The Gorge-Web** (Cragjaw-Gorge-Web) — mid-altitude
 - Climate: sub-alpine, wind-blasted, snow-veiled
@@ -568,7 +568,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **The Subterranean Vault** — beneath Frostmaw, where a Sundered Monolith rests in a chamber where snow has never fallen
 - **The Lost Brood Vats** — Deep Alchemists' original labs, sealed for centuries
 - **The Great Gorge** — seven bone-spans, the Cragjaw's primary thoroughfare
-- **Skirmour's Crag** — Jutul-king Skirmour's sacred peak
+- **Skirmour's Crag** — Jotkall-king Skirmour's sacred peak
 
 ### People & Races
 
@@ -615,7 +615,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 **VIBE:** Endless, windswept, mournful, ancient, nomadic, melancholy. The sky is empty. The grass never grows deeper than grass. The wind never stops.
 
-**COLOR PALETTE:** Pale grey-green grass, ash-grey sky (permanently dark, no stars), gold (House Ordavan, ancestral barrows), Lien-crystal starlight (pale silver-white), bone-white (Steppe-Staves).
+**COLOR PALETTE:** Pale grey-green grass, ash-grey sky (permanently dark, no stars), gold (House Ordavan, ancestral barrows), Lienvar-crystal starlight (pale silver-white), bone-white (Steppe-Staves).
 
 **CLIMATE & WEATHER:**
 - Cold-temperate steppe, perpetual wind, mild summers
@@ -623,7 +623,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - Sub-arctic on the Blizzard Bluff (northern edge)
 - The sky is **permanently dark, starless** — Sol's celestial court was eaten
 - Smells: dry grass, animal musk, cooking smoke, fermented mare's milk (kumis)
-- Light: darkness broken only by firelight, whale-oil lamps, Lien-crystal beacons, the bioluminescence of woolly herd antlers
+- Light: darkness broken only by firelight, whale-oil lamps, Lienvar-crystal beacons, the bioluminescence of woolly herd antlers
 
 ### Subregions (Radiating from the central basin)
 
@@ -668,7 +668,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Starfall Vale** — the most sacred site, a crater carpeted with crystalline shards glowing with trapped starlight
 - **The Ancestor Mounds** — vast network of barrows, each mound emits a unique hum
 - **The Unlit Knoll** — where fire refuses to burn, no light persists
-- **Lien-Stalked Grazes** — region where the grass is replaced by glowing crystal-infused Lien-stalks
+- **Lien-Stalked Grazes** — region where the grass is replaced by glowing crystal-infused Lienvar-stalks
 - **Nova's Heath** — perfect circle of crystallized soil from a celestial impact
 - **The Kumis Downs** — rolling hills of pale grass, Ordan mare herds
 - **The Blizzard Bluff** — Snow-Tooth, the wind never stops
@@ -686,7 +686,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 ### Creatures & Monsters
 
 - **Hungry Child** — Ancient Cosmic Wyrdkin of the steppe; a star-story harvester that occupies the rejected dead
-- **Lien** — pale crystal-creature of the Lien-stalked grazes
+- **Lien** — pale crystal-creature of the Lienvar-stalked grazes
 - **Qilin** — single-horned beast of the Starfall
 - **Almas** — living memory of the Vale, watches from ridges
 - **Nokhor** — predator of the Kumis Downs
@@ -702,10 +702,10 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 
 ### Map Art Suggestions
 
-- **Symbols:** yurt-circle, throat-singer mouth, ancestor-mound with humming aura, Sky-Singer horn, Steppe-Stave (bone with notches), Lien-crystal shard, pale horse, woolly herd, the empty starless sky
+- **Symbols:** yurt-circle, throat-singer mouth, ancestor-mound with humming aura, Sky-Singer horn, Steppe-Stave (bone with notches), Lienvar-crystal shard, pale horse, woolly herd, the empty starless sky
 - **Buildings:** low circular stone buildings in concentric rings, every entrance facing east. Pale limestone. No wood (no trees). Felt-and-bone yurts. Crystal-lattice spires (Astril architecture).
 - **Landmarks:** the great barrows of the Ancestor Wolds emitting hum-lines, the crystal-shard carpet of Starfall Vale, the Unlit Knoll as a black absence in the dark sky
-- **Color: pale grey-green, gold, bone-white, ash-grey, with patches of pale silver-white starlight. The sky should be DARK — permanently. The only natural light is the glow of the Lien-stalks, the woolly herd antlers, and the Astril patterns.**
+- **Color: pale grey-green, gold, bone-white, ash-grey, with patches of pale silver-white starlight. The sky should be DARK — permanently. The only natural light is the glow of the Lienvar-stalks, the woolly herd antlers, and the Astril patterns.**
 
 ---
 
@@ -908,7 +908,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **LOOKS:** Pale grey-green grass, ash-grey sky (no stars), gold, bone white, pale silver-white starlight
 - **SOUNDS:** wind, wind, always wind; throat-singing; the hum of ancestral mounds
 - **SMELLS:** dry grass, animal musk, cooking smoke, fermented mare's milk
-- **LIGHT:** darkness broken only by firelight, whale-oil lamps, Lien-crystal beacons, woolly herd antler-glow
+- **LIGHT:** darkness broken only by firelight, whale-oil lamps, Lienvar-crystal beacons, woolly herd antler-glow
 - **WEATHER:** perpetual wind, occasional blizzard
 - **ICONIC IMAGES:** an Ordan throat-singer on a Steppe-Stave; an Astril Muren with dim constellation patterns on her skin; a burial mound glowing faintly with starlight
 
@@ -918,7 +918,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **SMELLS:** damp wood, peat-rot, cheap spirits, cooking fires, unwashed bodies
 - **LIGHT:** bioluminescent moss, lantern-eyes of Vreken, silver skin of Neth, never direct sunlight
 - **WEATHER:** damp, mild, foggy, the canopy never admits direct light
-- **ICONIC IMAGES:** a Neth Velun in silver robes, chest still, in absolute stillness; a Vreken Clean with rust-amber lantern-eyes; a Debt-Revenant suspended in black peat
+- **ICONIC IMAGES:** a Neth Velun in silver robes, chest still, in absolute stillness; a Vreken Clean with rust-amber lantern-eyes; a Vezan suspended in black peat
 
 ---
 
@@ -944,7 +944,7 @@ The world of Mythrill is arranged around a central heart — **Sundale**, the vo
 - **Frostwood:** Ironwood Palisade check-posts, Mist-Sentinel watchtowers, Scribe-Sentinel lantern-posts, Moss-Wax candle icons, runic stone circles in the Frostfang north
 - **Nordhalla:** The Sunder-Wall, blood-forges at the Bloodhammer Sump, ice-axes and Corvani raven-feather icons, the Frozen Archive as a glacier face with standing dead
 - **Sundale:** Dawn Vigil signal-fires on the Ashen Escarpment, Obsidian Citadels, the Cinderhoodoo forest, the Spinstones Columns, Sol's Anvil Mesa
-- **Iceheart Sea:** Ironclad patrol ships in the lanes, the Wave-Kept (never docks), the Shard-Window vortex, Blackteeth Skerry reef
+- **Iceheart Sea:** Ironclad patrol ships in the lanes, the Wave-Kept (never docks), the Shard-Window vortex, Blackteeth Skarvarr reef
 - **Cragjaw:** Bone-spans across chasms (the icon of the region), the Stone Cog gear-walls, Fexric copper-wire beard icons, geothermal pipes
 - **Sundrift:** Ancestor mounds with hum-aura, Moundwatch cairn-checkpoint, pale horse and woolly herd icons
 - **Bryngloom:** Toll-Dike gates, the Great Mere with forested islands, rope-bridges, hanging platforms, the Dangling Keel tavern
@@ -1021,7 +1021,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 - **Geothermal vents** as small orange dots in Nordhalla, Sundale, Cragjaw, and Bryngloom
 - **Bone-spans** drawn as a series of small vertebrae icons across chasms in the Cragjaw
 - **Spore-clouds** as small purple puffs in the Bryngloom
-- **Star-crystals** as small white dots in Sundrift Vale (the Lien-stalks)
+- **Star-crystals** as small white dots in Sundrift Vale (the Lienvar-stalks)
 - **Knotted khipu-cords** as small braided strings in the Cragjaw
 - **Memory-glass** as small reflective mirrors in the Bryngloom
 - **Sun-shrines** as small disc icons in Sundale's Green Rim
@@ -1034,7 +1034,7 @@ These are intentional gaps left for the map artist's interpretation. If you want
 
 - The exact coastline details of Sundale
 - The placement of minor islands in the Iceheart
-- The exact location of the Jutul caves in the Frostfang Wastes
+- The exact location of the Jotkall caves in the Frostfang Wastes
 - The shape of the cave systems beneath Frostmaw
 - The number and shape of the islands in the Bryngloom's Great Mere
 - The specific layout of the Storm-Belt

@@ -38,6 +38,15 @@
   elements (character sheet updates, token drag-and-drop, UI state sync) rather than assuming
   frontend code works. Prefer `playwright_browser_snapshot` for assertions over screenshots.
 
+### VTT Build & Long-Running Process Rules
+- **Never run raw synchronous builds in the terminal:** Never run `node node_modules/react-scripts/scripts/build.js` or `npx craco build` directly in the foreground shell. `vtt-react` Webpack compilation requires 4–8 GB of memory and overruns the pseudo-terminal (ConPTY) pipe buffer, which aborts the runtime sidecar with exit code `0xC0000409`.
+- **Always use detached background processes with exit redirection:**
+  ```powershell
+  Start-Process -FilePath "cmd.exe" -ArgumentList '/c', 'npx craco build > D:\AppData\Temp\opencode\build.log 2>&1 & echo %ERRORLEVEL% > D:\AppData\Temp\opencode\build.exit' -WorkingDirectory "D:\VTT\vtt-react" -PassThru -WindowStyle Hidden
+  ```
+  Poll `build.exit` with brief `Start-Sleep -Seconds 5` intervals (never sleep 60–90 seconds blindly).
+
+
 ---
 
 ## Environment Setup Notes (Windows)

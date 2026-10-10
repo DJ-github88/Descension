@@ -6,7 +6,9 @@ import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useAuthStore from '../../store/authStore';
 import { getRandomCharacterName, getRandomRoomName } from '../../utils/nameGenerator';
-import { loadConversionTransfer, captureConversionTransfer } from '../../persistence/localRoomConversionScoped';
+import { loadConversionTransfer, captureConversionTransfer, beginConversionRequest } from '../../persistence/localRoomConversionScoped';
+import { beginConversionConfirmation, subscribeConversionFlow } from '../../persistence/localRoomConversionFlow';
+import localRoomService from '../../services/localRoomService';
 import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
 import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import './styles/RoomLobby.css';
@@ -88,6 +90,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   const [usePasswordProtection, setUsePasswordProtection] = useState(false); // Toggle for optional password
   const [makePermanent, setMakePermanent] = useState(false); // Mark room as permanent for local persistence
   const [charactersLoaded, setCharactersLoaded] = useState(false);
+  const [conversionStatus, setConversionStatus] = useState(null); // S8-A conversion durability status
+
+  // S8-A: surface conversion lifecycle transitions (requested → acknowledged →
+  // awaiting durable confirmation → confirmed / pending recovery).
+  useEffect(() => subscribeConversionFlow((status) => {
+    setConversionStatus(status);
+  }), []);
 
   // CRITICAL FIX: Load characters when RoomLobby mounts to ensure they're available
   useEffect(() => {
@@ -654,7 +663,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     setIsCreatingRoom(true);
     setError('');
 
-    // B10: capture the preserved conversion transfer and the originating
+    // B10/S8-A: capture the preserved conversion transfer and the originating
     // owner BEFORE any await. Creation consumes exactly this transfer, and a
     // handoff mid-operation can neither substitute another account's transfer
     // nor let this operation clear one.
@@ -665,6 +674,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       return;
     }
     const conversionTransfer = ownerContext.payload;
+    // A prior attempt that reached REQUESTED/AWAITING recorded its destination.
+    // Retries resume that exact persistent room instead of creating a duplicate
+    // destructive conversion.
+    const retryDestinationRoomId = conversionTransfer ? (ownerContext.destinationRoomId || null) : null;
     const creationFields = {
       roomName: roomName.trim(), description: (roomDescription || '').trim(),
       password: roomPasswordRef.current.trim(), gmName: finalPlayerName, playerColor
@@ -673,17 +686,21 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
     try {
       // Try to create persistent room in Firebase first
       let persistentRoomId = null;
-      try {
-        persistentRoomId = await createPersistentRoom({
-          name: creationFields.roomName,
-          description: creationFields.description,
-          password: creationFields.password,
-          gmName: creationFields.gmName,
-          maxPlayers: 6
-        });
-      } catch (firebaseError) {
-        console.warn('Firebase room creation failed, creating socket room only:', firebaseError);
-        // Continue with socket room creation even if Firebase fails
+      if (conversionTransfer && retryDestinationRoomId) {
+        persistentRoomId = retryDestinationRoomId;
+      } else {
+        try {
+          persistentRoomId = await createPersistentRoom({
+            name: creationFields.roomName,
+            description: creationFields.description,
+            password: creationFields.password,
+            gmName: creationFields.gmName,
+            maxPlayers: 6
+          });
+        } catch (firebaseError) {
+          console.warn('Firebase room creation failed, creating socket room only:', firebaseError);
+          // Continue with socket room creation even if Firebase fails
+        }
       }
 
       if (!isConsumerContextCurrent(ownerContext.context) || !socket.connected) return;
@@ -695,6 +712,21 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       if (conversionTransfer) {
         gameState = conversionTransfer.gameState;
         originalRoomId = conversionTransfer.originalRoomId;
+      }
+
+      // S8-A: only a persistent destination can ever receive a durable P3
+      // checkpoint, so only then does the conversion leave PRESERVED.
+      if (conversionTransfer && persistentRoomId) {
+        const began = beginConversionRequest({
+          destinationRoomId: persistentRoomId,
+          context: ownerContext.context
+        });
+        if (began.status !== 'OK') {
+          setError('Your local room conversion could not continue safely. Your local room and its transfer are retained; try again shortly.');
+          setIsConnecting(false);
+          setIsCreatingRoom(false);
+          return;
+        }
       }
 
       // Create socket server room for immediate multiplayer
@@ -728,6 +760,21 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
       };
 
       if (!isConsumerContextCurrent(ownerContext.context)) return;
+      // S8-A: request emission is not durability. Arm the confirmation flow so
+      // the retained transfer is confirmed only by a verified P3 durable room
+      // checkpoint for this exact destination.
+      if (conversionTransfer && persistentRoomId) {
+        beginConversionConfirmation({
+          socket,
+          context: ownerContext.context,
+          destinationRoomId: persistentRoomId,
+          sourceRoomId: conversionTransfer.originalRoomId,
+          onConfirmed: async() => {
+            const marked = await localRoomService.markRoomAsConverted(conversionTransfer.originalRoomId, persistentRoomId);
+            if (marked.status !== 'OK') throw new Error(`Source completion retained: ${marked.status}`);
+          }
+        });
+      }
       socket.emit('create_room', roomData);
 
       // Try to refresh user rooms if Firebase is available
@@ -1220,6 +1267,38 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
             >
               <i className="fas fa-times"></i>
             </button>
+          </div>
+        )}
+
+        {conversionStatus && conversionStatus.active !== false && (
+          <div
+            className="error-message"
+            style={{
+              background: conversionStatus.event === 'CONFIRMED'
+                ? 'rgba(46, 125, 50, 0.15)'
+                : conversionStatus.event === 'PENDING'
+                  ? 'rgba(245, 124, 0, 0.15)'
+                  : 'rgba(21, 101, 192, 0.12)'
+            }}
+          >
+            <div className="error-content">
+              <i
+                className={
+                  conversionStatus.event === 'CONFIRMED'
+                    ? 'fas fa-check-circle'
+                    : conversionStatus.event === 'PENDING'
+                      ? 'fas fa-hourglass-half'
+                      : 'fas fa-circle-notch fa-spin'
+                }
+              ></i>
+              <span>
+                {conversionStatus.event === 'REQUESTED' && 'Converting your local room: the Hall is being created…'}
+                {conversionStatus.event === 'ACKNOWLEDGED' && 'Hall acknowledged. Awaiting admission…'}
+                {conversionStatus.event === 'AWAITING_CONFIRMATION' && 'Confirming the durable room save with the Chronicle Vault…'}
+                {conversionStatus.event === 'CONFIRMED' && 'Conversion confirmed: the room is durably saved. Your local room has been marked converted.'}
+                {conversionStatus.event === 'PENDING' && `Conversion is not yet durably confirmed (${conversionStatus.error || 'unconfirmed'}). Your local room and its transfer are retained — create the permanent room again to retry.`}
+              </span>
+            </div>
           </div>
         )}
 

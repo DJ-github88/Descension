@@ -611,7 +611,7 @@ Frost clings to the ironwood beams as the heavy gates groan inward. Beyond the t
                 type="button"
                 className="format-btn ttrpg-block-btn"
                 onClick={() => insertTemplate(
-`:::statblock Jutul Ice-Stalker
+`:::statblock Jotkall Ice-Stalker
 Classification: Primordial Beast (Tundra Predator)
 Threat: Elite (Tier 2)
 HP: 85
@@ -761,7 +761,7 @@ Effect: Failed targets suffer 1 stack of Frost-Strain, reducing movement speed b
             ref={textareaRef}
             className="custom-zone-lore-textarea"
             value={zone.lore || ''}
-            placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nMythrill Codex Blocks:\n:::readaloud\nThe heavy ironwood gate creaks open...\n:::\n\n:::statblock Jutul Ice-Stalker\nClassification: Primordial Beast\nHP: 85\nMana: 30\nAP: 4\nSpeed: 40 ft.\nDR: 3 (Glacial Hide)\nResist: Rime 75%, Physical 20%\nSTR: 16 (+3)\nAGI: 14 (+2)\nCON: 15 (+2)\nINT: 6 (-2)\nSPI: 12 (+1)\nCHA: 5 (-3)\n:::\n\n:::quest Recovery at Blizzard's End\nPatron: High Thane Thorvald\nObjective: Recover the dormant Aex Shards\nReward: 350 Gold, 2 Healing Tonics\n- Survey the ice ravine\n- Bypass Glacier Wyrms\n:::"}
+            placeholder={"Write your lore here using markdown...\n\nExamples:\n# Chapter Title\n## Section Name\n**Bold text** and *italic text*\n- Bullet items\n1. Numbered steps\n> Chronicle quote\n==Highlighted text==\n\nMythrill Codex Blocks:\n:::readaloud\nThe heavy ironwood gate creaks open...\n:::\n\n:::statblock Jotkall Ice-Stalker\nClassification: Primordial Beast\nHP: 85\nMana: 30\nAP: 4\nSpeed: 40 ft.\nDR: 3 (Glacial Hide)\nResist: Rime 75%, Physical 20%\nSTR: 16 (+3)\nAGI: 14 (+2)\nCON: 15 (+2)\nINT: 6 (-2)\nSPI: 12 (+1)\nCHA: 5 (-3)\n:::\n\n:::quest Recovery at Blizzard's End\nPatron: High Thane Thorvald\nObjective: Recover the dormant Aex Shards\nReward: 350 Gold, 2 Healing Tonics\n- Survey the ice ravine\n- Bypass Glacier Wyrms\n:::"}
             rows={12}
             onChange={(e) => onUpdateZone && onUpdateZone(zone.id, { lore: e.target.value })}
             aria-label="Zone lore notes"

@@ -996,7 +996,7 @@ All **61** creator decisions below are selected under delegation. **Implementati
 | ISSUE-043 | Portraits identify actual approved heritage/method | Replace unsupported normal examples; an exceptional depiction needs the relevant route, not an art-caption bypass |
 | ISSUE-044 | Frost-Tithe means birth-debt | Resource dues use a different name; no fixed fatality quota or automatic cultural erasure from treatment |
 | ISSUE-045 | 21 base classes, 25 subraces, cultural aliases separately counted | Derive census; retire twenty/thirty-class copy and old path counts |
-| ISSUE-046 | Skreika are drowned undead; Glacier Wyrms are separate | Map Skrei as archival/regional usage; correct ice-dragon alias collisions |
+| ISSUE-046 | Skraik are drowned undead; Glacier Wyrms are separate | Map Skrei as archival/regional usage; correct ice-dragon alias collisions |
 | ISSUE-047 | Player-facing time is era-relative | Preserve causal order/hidden keys; remove conflicting numeric date frameworks and hard-dated prose |
 | ISSUE-048 | House Thalreth; Thalren people | Correct equipment-origin label and cross-source house naming |
 | ISSUE-049 | Great Registry belongs to Atropolis; Sovereign Ledger to Greymark | Correct Nethien bloodline governance claim; document any actual advisory/trade relationship separately |

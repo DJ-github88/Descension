@@ -1878,10 +1878,11 @@ export const BookImageBlock = ({
       {frame !== 'crest' && block.caption && (
         <p className="book-image-caption">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
               value={block.caption}
               className="caption-inline-input"
+              aria-label="Illustration caption"
               onChange={(e) => onUpdate({ caption: e.target.value })}
             />
           ) : (
@@ -1980,12 +1981,13 @@ export const BookTableBlock = ({
       <div className="table-block-header">
         <div className="table-title-wrap">
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
               value={title}
               onChange={(e) => onUpdate({ title: e.target.value })}
               className="table-title-input"
               placeholder="Table Title (e.g. Dragon Statues, Encounters)..."
+              aria-label="Table title"
             />
           ) : (
             <h4 className="table-title">{title}</h4>
@@ -2042,13 +2044,15 @@ export const BookTableBlock = ({
                         value={h}
                         onChange={(e) => updateHeader(cIdx, e.target.value)}
                         className="th-input"
+                        aria-label={`Column ${cIdx + 1} heading`}
                       />
                       {headers.length > 1 && (
                         <button
                           type="button"
                           className="th-del-btn"
                           onClick={() => deleteColumn(cIdx)}
-                          title="Delete Column"
+                           title="Delete Column"
+                          aria-label={`Delete column ${cIdx + 1}`}
                         >
                           &times;
                         </button>
@@ -2070,11 +2074,12 @@ export const BookTableBlock = ({
                   {row.map((cell, cIdx) => (
                     <td key={cIdx}>
                       {isWrite ? (
-                        <input
-                          type="text"
+                        <textarea
+                          rows={1}
                           value={cell}
                           onChange={(e) => updateCell(rIdx, cIdx, e.target.value)}
                           className="td-input"
+                          aria-label={`Row ${rIdx + 1}, ${headers[cIdx] || `column ${cIdx + 1}`}`}
                         />
                       ) : (
                         cell
@@ -2088,7 +2093,8 @@ export const BookTableBlock = ({
                           type="button"
                           className="row-del-btn"
                           onClick={() => deleteRow(rIdx)}
-                          title="Delete Row"
+                           title="Delete Row"
+                          aria-label={`Delete row ${rIdx + 1}`}
                         >
                           <i className="fas fa-trash"></i>
                         </button>
@@ -2127,16 +2133,18 @@ export const BookQuoteBlock = ({
             value={quote}
             onChange={(e) => onUpdate({ text: e.target.value })}
             placeholder="In-world quote or excerpt..."
+            aria-label="Quote text"
             rows={3}
           />
           <div className="quote-author-row">
             <span>—</span>
-            <input
-              type="text"
+            <textarea
+              rows={1}
               className="quote-author-input"
               value={author}
               onChange={(e) => onUpdate({ author: e.target.value })}
               placeholder="Attribution (e.g. Aaron Lyles, Prophet of Destruction)..."
+              aria-label="Quote attribution"
             />
           </div>
         </div>
@@ -2179,12 +2187,13 @@ export const BookCalloutBlock = ({
             <i className={`fas ${iconClass}`}></i>
           </div>
           {isWrite ? (
-            <input
-              type="text"
+            <textarea
+              rows={1}
               className="callout-input-title"
               value={block.title || ''}
               placeholder="Callout Title (e.g. Arcane Rule, Lore Secret)..."
               onChange={(e) => onUpdate({ title: e.target.value })}
+              aria-label="Callout title"
             />
           ) : (
             <h4 className="callout-title">{block.title || 'Historical Note'}</h4>
@@ -2196,6 +2205,7 @@ export const BookCalloutBlock = ({
               value={type}
               onChange={(e) => onUpdate({ calloutType: e.target.value })}
               className="callout-type-select"
+              aria-label="Callout type"
             >
               <option value="info">Lore Note</option>
               <option value="secret">Secret Lore</option>
@@ -2221,6 +2231,7 @@ export const BookCalloutBlock = ({
             rows={3}
             value={block.text || block.content || ''}
             placeholder="Chronicle lore, DM notes, historical excerpt, read-aloud boxed text..."
+            aria-label="Callout text"
             onChange={(e) => onUpdate({ text: e.target.value, content: e.target.value })}
           />
         ) : (
@@ -3535,4 +3546,3 @@ export const BookSketchBlock = ({
     </div>
   );
 };
-

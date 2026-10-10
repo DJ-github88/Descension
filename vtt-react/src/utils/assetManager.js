@@ -1315,6 +1315,12 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       'tsuchinoko', 'nopperabo', 'supayoni', 'jorogumo', 'kodama', 'nurikabe', 'nue',
       'kasha', 'tanuki', 'ushioni', 'baku', 'nekomata', 'futakuchi', 'wanyudo',
       'tsuchigumo', 'akaname', 'inugami', 'ittan', 'storm_crows', 'sump_scrabs',
+      // Sundrift Vale Bestiary (All 28 Redraws & Canon)
+      'mogwai', 'olgoi_khorkhoi', 'yalbagan', 'qilin', 'bixie', 'almas', 'tulpar',
+      'erlik', 'burkhan_wind', 'nian', 'jiangshi', 'taotie_gorge', 'baize', 'zilant_wing',
+      'susulu_spring', 'dijiang_chaos', 'fenghuang_migrate', 'qiongqi_scourge',
+      'zhenniao_toxin', 'ubagan_crystal', 'qoraigarash', 'ajina', 'lu_wu_mountain',
+      'bura_stormkin', 'tengri_spark', 'lien', 'hungry_child_creature', 'sere_khan',
       // Batch 3
       'bergthrall', 'fenris', 'disir', 'valravn', 'kraken',
       'marmennill', 'havgammel',
@@ -1344,7 +1350,8 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       'zharptitsa_glow', 'naga_root', 'preta_hollow', 'gamayun_seer',
       'chort_thorn', 'drekavac_wail', 'bannik_vent', 'psoglav_bone',
       'vourdalak_debt', 'mavka_willow', 'alkonost', 'dziwozona_wild',
-      'upir_root', 'sirin_song', 'abzu', 'erlik', 'ajina', 'supayoni',
+      'upir_root', 'sirin_song', 'grandmother_of_the_bog', 'debt_revenant', 'cycle_eater',
+      'abzu', 'erlik', 'ajina', 'supayoni',
       'pooka', 'koboldknock', 'knockbrew', 'moorboggle', 'wildejagd', 'cailleach'
     ]);
     const creatureName = iconId.split('/')[1];

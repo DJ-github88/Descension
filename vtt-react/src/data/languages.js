@@ -34,7 +34,7 @@ export const LANGUAGES = [
     script: "Chalk tallies only",
     nativeSpeakers: ["Frostwood fae","peat-bog scavengers","abandoned courtiers"],
 
-    description: "The salvage-patois of the Frostwood Reach's lesser fae, peat-bog scavengers, and the Revel's abandoned courtiers who never left the party. A practical language of improvisation and barter, borrowing freely from every tongue it touches. No two speakers sound alike.",
+    description: "The salvage-patois of the Frostwood Reach's lesser fae, peat-bog scavengers, and Revalen's abandoned courtiers who never left the party. A practical language of improvisation and barter, borrowing freely from every tongue it touches. No two speakers sound alike.",
     sound: 'Harsh yet adaptable, with sharp consonants borrowed from a dozen languages and nasal tones that carry through the fog.',
     example: 'Kik-scrap grosh-barter! Teek tak!',
     translation: 'Quick salvage, good trade! I take!'
@@ -134,7 +134,7 @@ export const LANGUAGES = [
     script: "Thorn script",
     nativeSpeakers: ["Florae","Hollow-Court fae"],
 
-    description: "The binding tongue of the fae who accepted House Viridane's counter-bargain in the moonlit groves. Florae thorns resonate with its cadence and the Oaken sing it to their groves; the Revel's celebration-song is Thornsong, looping forever because the party never agreed to end. Every promise spoken in Thornsong leaves a thorn somewhere, and the Thorn-Fall is only the pile of the ones that were broken.",
+    description: "The binding tongue of the fae who accepted House Viridane's counter-bargain in the moonlit groves. Florae thorns resonate with its cadence and the Oaken sing it to their groves; Revalen's celebration-song is Thornsong, looping forever because the party never agreed to end. Every promise spoken in Thornsong leaves a thorn somewhere, and the Thorn-Fall is only the pile of the ones that were broken.",
     sound: 'Musical and unsettling, like wind through thorn-briars, with trilling notes that hang in the air a heartbeat too long.',
     example: "Loun-syl vaen-drael virathel",
     translation: 'The eighth house endures beneath the leaves'
@@ -146,7 +146,7 @@ export const LANGUAGES = [
     script: "Boundary marks",
     nativeSpeakers: ["Nordhalla land-spirits","Skald farmers"],
 
-    description: "The speech of Nordhalla's land-spirits, the vættir who hold the fjords and slopes the Skald never claimed. Landvaettir, vettir, the nokk, the hollow-backed huldra, and the Fossegrim-Ice all answer to it, though none answer on demand. Skald farmers leave a bowl at the boundary stone and speak Vættir Speech into it, because a spirit that has been greeted is far less likely to drown your herd. The grammar has no polite register. There is respectful, and there is already-too-late.",
+    description: "The speech of Nordhalla's land-spirits, the vættir who hold the fjords and slopes the Skald never claimed. Landvett, Vettur, the Nokkvar, the hollow-backed Holdra, and the Fosskarl all answer to it, though none answer on demand. Skald farmers leave a bowl at the boundary stone and speak Vættir Speech into it, because a spirit that has been greeted is far less likely to drown your herd. The grammar has no polite register. There is respectful, and there is already-too-late.",
     sound: 'Low and resonant, half-heard, like wind worrying a boundary stone, with long pauses where a human would put a word.',
     example: 'Haugr heil, ve vetr, gang vara',
     translation: 'Hearth be whole, winter be warned, let the herd pass'
@@ -158,7 +158,7 @@ export const LANGUAGES = [
     script: "Soot tablets",
     nativeSpeakers: ["Sundale guardian-spirits","Dawn Vigil oracles"],
 
-    description: "The liturgical command-language of the guardian-spirits of Sundale and the deep vents. Lamassu speak it at gateways, ushabti carry it out without question, and the sun-faced ammit renders verdicts in it. Every sentence is a commandment with a named witness, which is why the spirits obey it and mortals usually should not. Emberspire's Ash-Woven Oracles transcribe Neteru Liturgy onto soot-tablets, and the tablets argue back.",
+    description: "The liturgical command-language of the guardian-spirits of Sundale and the deep vents. Lamassa speak it at gateways, ushabti carry it out without question, and the sun-faced ammit renders verdicts in it. Every sentence is a commandment with a named witness, which is why the spirits obey it and mortals usually should not. Emberspire's Ashvara Oracles transcribe Neteru Liturgy onto soot-tablets, and the tablets argue back.",
     sound: 'Formal and declarative, weighty words that arrive like verdicts, with a low drone under the last syllable of each command.',
     example: 'Utuk gate-kal, lamassu men, ammit khar',
     translation: 'The gate is watched, the sentinel stands, the devourer waits'
@@ -197,9 +197,9 @@ export const LANGUAGES = [
     icon: 'fa-ghost',
     category: 'exotic',
     script: "No written form (dream-speech)",
-    nativeSpeakers: ["Spirits","Veilborn","Fossegrim","Astril mediums"],
+    nativeSpeakers: ["Spirits","Veilborn","Fosskarl","Astril mediums"],
 
-    description: "The whispered tongue of spirits, the Veilborn, and the things that persist between the Wyrd and the physical world. Lumian echo-spirits murmur it through an Astril vessel's dreams, and the Fossegrim hum it to the ice. It sits at the edge of hearing; a mortal listener gets the meaning a half-breath after the sound, which is why mediums learn to answer before they are sure they were spoken to.",
+    description: "The whispered tongue of spirits, the Veilborn, and the things that persist between the Wyrd and the physical world. Lumian echo-spirits murmur it through an Astril vessel's dreams, and the Fosskarl hum it to the ice. It sits at the edge of hearing; a mortal listener gets the meaning a half-breath after the sound, which is why mediums learn to answer before they are sure they were spoken to.",
     sound: 'Breathy and barely there, hollow vowels and whispered fricatives that seem to come from just behind the ear.',
     example: "Fhae'sul thae'vir isel'nym",
     translation: 'Between worlds, we speak. Between breaths, we listen.'
@@ -209,9 +209,9 @@ export const LANGUAGES = [
     icon: 'fa-masks-theater',
     category: 'exotic',
     script: "No fixed form (inward dialect)",
-    nativeSpeakers: ["Pooka","lesser fae","shapeshifting communities"],
+    nativeSpeakers: ["Pukhal","lesser fae","shapeshifting communities"],
 
-    description: "The shifting speech of actual shapeshifting communities, not a single ancestry. Each speaker carries an inward dialect, so a sentinel who listens closely can name the changeling by cadence alone even after the face has changed. Pooka and lesser fae use it as a game, wearing three voices in one sentence. A Shifterspeech conversation has no fixed speaker; the truth is what the grammar decided to keep.",
+    description: "The shifting speech of actual shapeshifting communities, not a single ancestry. Each speaker carries an inward dialect, so a sentinel who listens closely can name the changeling by cadence alone even after the face has changed. Pukhal and lesser fae use it as a game, wearing three voices in one sentence. A Shifterspeech conversation has no fixed speaker; the truth is what the grammar decided to keep.",
     sound: 'Fluid and unstable, palatal consonants and liquid tones that seem to change shape between the first word and the last.',
     example: "Shael'nyr voresh'im",
     translation: 'I wear many faces. Truth is what I choose.'
@@ -259,7 +259,7 @@ export const LANGUAGES = [
     script: "Ground-bone ink",
     nativeSpeakers: ["Undead","Riven scribes","Frozen Archive revenants"],
 
-    description: "The cold tongue of the undead, the Debt-Revenants who rise to finish a broken contract, and the lichborne souls bound to basalt phylacteries. The Frozen Archive's oldest revenant-scribes write only in Bonewrit, and their ink is a suspension of their own ground bone. Spoken Bonewrit steals the warmth from the air around it; a room grows cold before the speaker finishes the first clause.",
+    description: "The cold tongue of the undead, the Vezan who rise to finish a broken contract, and the lichborne souls bound to basalt phylacteries. The Frozen Archive's oldest revenant-scribes write only in Bonewrit, and their ink is a suspension of their own ground bone. Spoken Bonewrit steals the warmth from the air around it; a room grows cold before the speaker finishes the first clause.",
     sound: 'Hollow and dark, breathy fricatives and deep resonants that seem to draw the heat out of a room.',
     example: "Vhyl'kraz nthar'vel dhrim",
     translation: 'In death, we find eternal rest. The contract remains.'
@@ -379,13 +379,13 @@ export const LANGUAGES = [
     translation: 'The front is guarded, use the side entrance silently'
   },
   {
-    name: 'Sluagh Whisper',
+    name: 'Rabengast Whisper',
     icon: 'fa-ghost',
     category: 'secret',
     script: "No written form (sound with holes)",
-    nativeSpeakers: ["The Sluagh"],
+    nativeSpeakers: ["The Rabengast"],
 
-    description: "The hush the Sluagh leave in a room after they pass. The memory-eating swarm of the Frostwood Reach does not speak so much as swallow the sound around its words, so a sentence arrives with holes in it and the listener supplies the missing pieces from their own recollection. Familiars and mediums carry messages in Sluagh Whisper because the swarm will not eat what it recognizes as its own. Everyone else forgets they were ever addressed, which is the point.",
+    description: "The hush the Rabengast leave in a room after they pass. The memory-eating swarm of the Frostwood Reach does not speak so much as swallow the sound around its words, so a sentence arrives with holes in it and the listener supplies the missing pieces from their own recollection. Familiars and mediums carry messages in Rabengast Whisper because the swarm will not eat what it recognizes as its own. Everyone else forgets they were ever addressed, which is the point.",
     sound: 'Silence with a shape, words heard mainly by what is missing between them. The listener often answers a sentence nobody remembers hearing.',
     example: '[the sentence you have already forgotten being told]',
     translation: 'We have already taken it. You will not miss it.'
@@ -397,7 +397,7 @@ export const LANGUAGES = [
     script: "Spore-deposits",
     nativeSpeakers: ["Bryngloom root-wards","bog-curse keepers"],
 
-    description: "The guarded ritual language of the Bryngloom's root-wards and bog-curses. Spoken by those who tend the fungal shrines and bargain with the Grandmother of the Bog. Not taught, absorbed through exposure to mycelial memory-deposits.",
+    description: "The guarded ritual language of the Bryngloom's root-wards and bog-curses. Spoken by those who tend the fungal shrines and bargain with the Babara. Not taught, absorbed through exposure to mycelial memory-deposits.",
     sound: 'Harsh staccato clicks interwoven with low sustained drones, like the bog itself speaking.',
     example: "Krag'vex thul'mir nur'gash",
     translation: 'The wild wood speaks. The Gloom answers.'
@@ -529,7 +529,7 @@ export const LANGUAGE_ALIASES = {
   'gale-speech': 'Galespeech',
   'tide-speech': 'Tidespeech',
   'under-cant': 'Undercant',
-  'sluagh-whisper': 'Sluagh Whisper',
+  'sluagh-whisper': 'Rabengast Whisper',
   'hex-speech': 'Hexspeech',
   'vat-sign': 'Vatsign',
   'archive-writ': 'Archive Writ',

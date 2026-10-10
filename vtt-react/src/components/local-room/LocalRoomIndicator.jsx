@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import localRoomService from '../../services/localRoomService';
 import { clearLocalRoom } from '../../utils/localRoom';
-import { saveConversionTransfer } from '../../persistence/localRoomConversionScoped';
+import {
+  saveConversionTransfer,
+  loadConversionRecord,
+  retireConfirmedConversion,
+  captureConversionTransfer
+} from '../../persistence/localRoomConversionScoped';
 import './LocalRoomIndicator.css';
 
 const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu, inSettings = false }) => {
@@ -26,15 +31,44 @@ const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu, inSettings = f
     setConversionError('');
 
     try {
-      // Prepare room data for conversion
-      const conversionData = localRoomService.prepareRoomForConversion(currentRoom.id);
-      
-      // Store conversion data in verified-owner scoped storage for the
-      // multiplayer creation process (never inherited by another account)
-      saveConversionTransfer({
-        ...conversionData,
-        originalRoomId: currentRoom.id
-      });
+      // S8-A: never replace a retained conversion transfer. A pending transfer
+      // for this same local room is resumed; a pending transfer for a different
+      // source must be resolved first so no recoverable candidate is destroyed.
+      const existing = loadConversionRecord();
+      if (existing && existing.state === 'CONFIRMED') {
+        const captured = captureConversionTransfer();
+        const marked = await localRoomService.markRoomAsConverted(existing.sourceRoomId, existing.destinationRoomId);
+        if (marked.status !== 'OK') throw new Error(`Local completion pending: ${marked.status}`);
+        retireConfirmedConversion({ context: captured.context });
+        setIsConverting(false);
+        setShowConversionModal(false);
+        return;
+      } else if (existing && existing.sourceRoomId && existing.sourceRoomId !== currentRoom.id) {
+        setConversionError('Another local room conversion is awaiting durable confirmation. Finish or resolve that conversion before starting a new one.');
+        setIsConverting(false);
+        return;
+      }
+
+      const retained = loadConversionRecord();
+      if (!retained || retained.sourceRoomId !== currentRoom.id) {
+        // Prepare room data for conversion
+        const conversionData = localRoomService.prepareRoomForConversion(currentRoom.id);
+        const source = localRoomService.captureConversionSource(currentRoom.id);
+
+        // Store conversion data in verified-owner scoped storage for the
+        // multiplayer creation process (never inherited by another account)
+        const preserved = saveConversionTransfer({
+          ...conversionData,
+          originalRoomId: currentRoom.id
+        }, {
+          sourceRoomId: currentRoom.id,
+          sourceDraftId: source.sourceDraftId,
+          sourceRevision: source.sourceRevision
+        });
+        if (preserved.status !== 'OK') {
+          throw new Error(`Transfer preservation refused: ${preserved.status}`);
+        }
+      }
 
       // Navigate to multiplayer lobby with conversion flag
       navigate('/multiplayer');

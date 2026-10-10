@@ -71,6 +71,27 @@ export function saveSavedMaps(savedMaps) {
   const operationContext = captured.context;
   const run = () => {
     const baseline = (key && baselines.get(key)) || { revision: null, draftId: null };
+    if (baseline.external) {
+      // Never publish a queued stale snapshot over an external winner just
+      // because an earlier handler adopted its baseline. Preserve the
+      // candidate as a fork; a fresh load re-enables normal successors.
+      let forkedId = null;
+      try {
+        const scope = resolveActiveScope();
+        if (scope) {
+          const forked = forkScopedRecord({ familyId: FAMILY, scope, context: operationContext, payload: list });
+          if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
+        }
+      } catch (_error) {
+        // best-effort; the winner is never overwritten either way
+      }
+      return Promise.resolve({
+        status: 'STALE_REVISION',
+        currentRevision: baseline.revision,
+        currentDraftId: baseline.draftId,
+        forkedDraftId: forkedId
+      });
+    }
     return saveScopedDraft({
       familyId: FAMILY,
       payload: list,
@@ -96,6 +117,7 @@ export function saveSavedMaps(savedMaps) {
       baselines.set(key, {
         revision: result.currentRevision ?? null,
         draftId: result.currentDraftId ?? null,
+        external: true,
         forkedDraftId: forkedId
       });
     }

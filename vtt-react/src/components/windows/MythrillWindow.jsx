@@ -416,7 +416,7 @@ const MythrillWindow = forwardRef((props, ref) => {
                 transformScale={windowScale}
             >
                 <div
-                    className={`wow-window ${className}`}
+                    className={`wow-window adventurer-window ${className}`}
                     style={{
                         width: windowSize.width,
                         height: windowSize.height

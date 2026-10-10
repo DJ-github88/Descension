@@ -12,6 +12,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useShareableStore from '../../store/shareableStore';
 import useChatStore from '../../store/chatStore';
 import campaignService from '../../services/campaignService';
+import CampaignConflictResolver from '../campaign/CampaignConflictResolver';
 import { showConfirm, showAlert } from '../../utils/dialogService';
 import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 import { useMediaUpload } from '../../hooks/useMediaUpload';
@@ -1612,6 +1613,8 @@ const CampaignManager = ({ user }) => {
 
   return (
     <div className="campaign-manager-dashboard">
+      {/* S8-B explicit local/cloud campaign reconciliation affordance */}
+      <CampaignConflictResolver />
       {/* Input Modal */}
       <InputModal
         isOpen={inputModal.isOpen}

@@ -43,10 +43,10 @@ describe('BestiaryDisplay Component', () => {
     fireEvent.change(searchInput, { target: { value: 'Gref' } });
     await waitFor(() => expect(screen.getByText('Gref')).toBeInTheDocument());
     
-    // Search for folklore term 'Oilliph'
-    fireEvent.change(searchInput, { target: { value: 'Oilliph' } });
+    // Search for creature name 'Olveist'
+    fireEvent.change(searchInput, { target: { value: 'Olveist' } });
     await waitFor(() => expect(screen.queryByText('Gref')).not.toBeInTheDocument());
-    expect(screen.getByText('Oillipheist')).toBeInTheDocument();
+    expect(screen.getByText('Olveist')).toBeInTheDocument();
     
     // Search for something non-existent
     fireEvent.change(searchInput, { target: { value: 'NonExistentMonsterXYZ' } });
@@ -62,13 +62,13 @@ describe('BestiaryDisplay Component', () => {
     render(<BestiaryDisplay />);
     const searchInput = screen.getByPlaceholderText(/Search creatures by name, role, folklore, or keywords/i);
 
-    // Typo: 'Oillipheyst' instead of 'Oillipheist'
-    fireEvent.change(searchInput, { target: { value: 'Oillipheyst' } });
-    await waitFor(() => expect(screen.getByText('Oillipheist')).toBeInTheDocument());
+    // Typo: 'Ollvoth' instead of 'Olveist'
+    fireEvent.change(searchInput, { target: { value: 'Ollvoth' } });
+    await waitFor(() => expect(screen.getByText('Olveist')).toBeInTheDocument());
 
-    // Typo: 'Wolpertingr' instead of 'Wolpertinger'
-    fireEvent.change(searchInput, { target: { value: 'Wolpertingr' } });
-    await waitFor(() => expect(screen.getByText('Wolpertinger')).toBeInTheDocument());
+    // Typo: 'Valdhirn' instead of 'Wolperik'
+    fireEvent.change(searchInput, { target: { value: 'Valdhirn' } });
+    await waitFor(() => expect(screen.getByText('Wolperik')).toBeInTheDocument());
   });
 
   test('filters creatures by danger level', () => {
@@ -78,8 +78,8 @@ describe('BestiaryDisplay Component', () => {
     const veryHighPill = screen.getByRole('button', { name: /Very High/i });
     fireEvent.click(veryHighPill);
     
-    // Verify Oillipheist (Very High) is shown and Gref (Low) is not shown
-    expect(screen.getByText('Oillipheist')).toBeInTheDocument();
+    // Verify Olveist (Very High) is shown and Gref (Low) is not shown
+    expect(screen.getByText('Olveist')).toBeInTheDocument();
     expect(screen.queryByText('Gref')).not.toBeInTheDocument();
   });
 
@@ -94,18 +94,19 @@ describe('BestiaryDisplay Component', () => {
     expect(screen.getByText('All Continents')).toBeInTheDocument();
   });
 
-  test('displays Real-World Folklore & Cryptid Roots section in detail view', () => {
+  test('keeps folklore sources available in expandable entry notes', () => {
     render(<BestiaryDisplay />);
     
     // Click on Gref card
     const grefCard = screen.getByText('Gref');
     fireEvent.click(grefCard);
     
-    // In Lore & Legends tab, should see Real-World Folklore & Cryptid Roots card
-    expect(screen.getByText(/Real-World Folklore & Cryptid Roots/i)).toBeInTheDocument();
-    expect(screen.getByText(/Mythological Root:/i)).toBeInTheDocument();
+    const sources = screen.getByText(/Folklore & inspirations/i);
+    expect(sources.closest('details')).not.toHaveAttribute('open');
+    fireEvent.click(sources);
+    expect(screen.getByText(/Mythic roots:/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Celtic & Gaelic Folklore/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Mythrill Adaptation & Subversion/i)).toBeInTheDocument();
+    expect(screen.getByText(/In Mythrill/i)).toBeInTheDocument();
   });
 
   test('opens creature detail view and allows navigation back', () => {
@@ -115,18 +116,14 @@ describe('BestiaryDisplay Component', () => {
     const grefCard = screen.getByText('Gref');
     fireEvent.click(grefCard);
     
-    // In detail view, should see tabs
-    expect(screen.getAllByRole('button', { name: /Lore & Legends/i })[0]).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: /Combat Statistics/i })[0]).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: /Tactics & Actions/i })[0]).toBeInTheDocument();
-    
-    // Click Combat Statistics tab
-    fireEvent.click(screen.getAllByRole('button', { name: /Combat Statistics/i })[0]);
-    expect(screen.getByText('Core Attributes')).toBeInTheDocument();
-    
-    // Click Tactics & Actions tab
-    fireEvent.click(screen.getAllByRole('button', { name: /Tactics & Actions/i })[0]);
-    expect(screen.getByText(/Combat Behavior & Abilities/i)).toBeInTheDocument();
+    // Every chapter is readable without switching tabs; links target real sections.
+    expect(screen.getByRole('link', { name: /Lore & legends/i })).toHaveAttribute('href', '#bestiary-lore');
+    expect(screen.getByRole('link', { name: /Stat block/i })).toHaveAttribute('href', '#bestiary-combat');
+    expect(screen.getByRole('link', { name: /Encounters/i })).toHaveAttribute('href', '#bestiary-tactics');
+    expect(screen.getByRole('region', { name: 'Stat block' })).toBeVisible();
+    expect(screen.getByRole('region', { name: 'Encounters' })).toBeVisible();
+    expect(screen.getByText('Core attributes')).toBeInTheDocument();
+    expect(screen.getByText(/Tactics & abilities/i)).toBeInTheDocument();
     
     // Click Back button
     const backBtn = screen.getByRole('button', { name: /Back to/i });

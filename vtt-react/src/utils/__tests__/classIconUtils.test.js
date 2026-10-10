@@ -7,6 +7,8 @@ describe('classIconUtils', () => {
         expect(getClassIconUrl('False Prophet')).toBe('/assets/icons/classes/false_prophet.png');
         expect(getClassIconUrl('Crusader')).toBe('/assets/icons/classes/crusader.png');
         expect(getClassIconUrl('lunarch')).toBe('/assets/icons/classes/lunarch.png');
+        expect(getClassIconUrl('Lunarch', { variant: 'transparent' })).toBe('/assets/icons/classes/transparent/lunarch.png');
+        expect(getClassIconUrl('False Prophet', { variant: 'transparent' })).toBe('/assets/icons/classes/transparent/false_prophet.png');
     });
 
     it('returns null for unknown or missing class names', () => {

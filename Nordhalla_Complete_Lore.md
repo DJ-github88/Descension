@@ -27,7 +27,7 @@ Nordhalla's folklore is deeply rooted in **Finnish, Greenlandic, and Norse mytho
 These creatures and spirits are Nordhalla's **original owners** and act as the land's natural immune system, actively resisting mortal encroachment and unnatural intrusions.
 
 ### Culture & Combat
-* **Common Skalds & Hunters (Pre-Binding Mortals):** Commoners, skalds, and outlaw hunters rely on **matchlock firearms, black powder, cold-iron traps, archery, and folk taboos/traditions** to appease and survive native beasts and land spirits. Because saltpeter is scarce in the permafrost, hunters produce volatile **Barrow-Powder** by mixing vent-sulfur with crushed, fossilized *Jutul* bone marrow.
+* **Common Skalds & Hunters (Pre-Binding Mortals):** Commoners, skalds, and outlaw hunters rely on **matchlock firearms, black powder, cold-iron traps, archery, and folk taboos/traditions** to appease and survive native beasts and land spirits. Because saltpeter is scarce in the permafrost, hunters produce volatile **Barrow-Powder** by mixing vent-sulfur with crushed, fossilized *Jotkall* bone marrow.
 * **Infused House Leaders:** Noble clan leaders and Infused bloodlines channel **celestial Rime magic** and wield ancestral relics at the shield-wall, manipulating the Glacier Bargain's power against the encroaching cold.
 
 ### Climate
@@ -51,7 +51,7 @@ The Gambits who work the Dead Pots are debtors of **Mael-Zhul**, the Old Native 
 ## PART II: PRE-STAR MYTHRILL & THE CELESTIAL STAR-FALL
 
 ### Pre-Star Mythrill (Primordial Anima & Ancient Magic)
-Mythrill was never a barren rock; it was an animistic world where native behemoths (*Jutul*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvaettir*, *Vaettir*, *Fossegrim*), and ancient races (**Fexrick**, **Myrathil**, **Neth**, **Groven**) commanded raw primordial magic. 
+Mythrill was never a barren rock; it was an animistic world where native behemoths (*Jotkall*, *Glacier Wyrms*, *Thrumm*), land spirits (*Landvett*, *Vaettir*, *Fossegrim*), and ancient races (**Fexrick**, **Myrathil**, **Neth**, **Groven**) commanded raw primordial magic. 
 
 While ancient mortal disciplines (**Animists**, **Berserkers**, **Wardens**, **Shapers**, **Minstrels**) communed with the land's primal resonance, common folk survived strictly through forged steel, tactical engineering, black powder matchlocks, archery, and strict cultural taboos.
 
@@ -164,7 +164,7 @@ Built by King-Jarl Halvar Skalvyr to regulate trade, tax the nomad migration, an
    ║                       ║
    ║   Stonegrip           ║   Grimefrost
    ║   Bearsbeard's Beak   ║   Hunger Glaciers
-   ║   Snowcall City ────  ║   Rimor's Hearth
+   ║   Snowcall City ────  ║   Rimvald's Hearth
    ║   Xardin's Hearth ──  ║   Blizzard's End
    ║                       ║
    ║         SUNDER-WALL   ║
@@ -191,7 +191,7 @@ Built by King-Jarl Halvar Skalvyr to regulate trade, tax the nomad migration, an
 | Location | Type | Lived-In & Environmental Description |
 |----------|------|---------------------------------------|
 | **Snowcall City** | Regional Capital | Cosmopolitan hub. Houses the **High Neth Quarter** (steep slate roofs with melting ice-lockers) and the **Corvani Roost-Market** (hanging rope walkways tied with anchor chains). |
-| **Stonegrip** | Military Fortress | Basalt mountain citadel controlling passes from the Wastes. Built on old Jutul terraces. Tolls a 2-ton stone-bell in blizzards. |
+| **Stonegrip** | Military Fortress | Basalt mountain citadel controlling passes from the Wastes. Built on old Jotkall terraces. Tolls a 2-ton stone-bell in blizzards. |
 | **Stählberg** | Fexric Refugee City | Hollowed inside an abandoned Pre-Star Myrathil quartz-siphon mine. Protected by heavy boiler-plate barricades; refugee Fexric hide from Frigga's slave-catchers. |
 | **Þögn** | Sacred Cliff | The site of Aethil's touch. Windless and dead silent. The **First Rime** remain frozen in supplication; beneath them, deep rock fissures show green-corroded bronze Animist bells from prehistory. |
 | **Gjaldhringr** | Glacial Amphitheater | Glacial crater where runic script on the ice walls is the physical deed of the Glacier Bargain. The Heart's corruption is causing the runes to flicker and thaw ancient corpses. |
@@ -213,7 +213,7 @@ Built by King-Jarl Halvar Skalvyr to regulate trade, tax the nomad migration, an
 
 | Location | Type | Lived-In & Environmental Description |
 |----------|------|---------------------------------------|
-| **Frostholm** | Capital City | Carved into the basalt flank of Bearsbeard’s Beak. The Great Hall sits atop a Pre-Star Jutul ossuary. The royal throne is an inverted Animist blood-altar re-sealed with lead. |
+| **Frostholm** | Capital City | Carved into the basalt flank of Bearsbeard’s Beak. The Great Hall sits atop a Pre-Star Jotkall ossuary. The royal throne is an inverted Animist blood-altar re-sealed with lead. |
 | **The Frozen Archive** | Subterranean Cathedral | Vast library of blue ice. Corpses of Skaldic ancestors stand upright in ice walls, faces distorted by glacial flow-lines. Birthplace of the Augur and Warden grafting traditions. |
 | **Frostmead & Bloodhammer Sump** | Forge-Village | Geothermal cavern village. Smiths quench cold-iron runic blades in slurry troughs of Berserker funeral ash, blubber, and volcanic pumice. |
 | **Whale-Oil Row & Black Firth** | Port & Naval Inlet | Obsidian-cliffed fjord choked with soot-streaked ironclad warships. Three of four oil storage cisterns ring hollow due to severe fuel shortages. |
@@ -297,7 +297,7 @@ Tribal practitioners who carve ancestors' names directly into living skin. Perse
 | Location / Target | Sensory Clue / Physical Scar | Investigative Truth / Player Discovery |
 |-------------------|------------------------------|-----------------------------------------|
 | **Longhouse Hearths (Vaegfolk)** | Chiseled-out stone grooves; lead Skalvyr tax stamps nailed over scars. | The Cleansing of the Hearth violently erased family animist roots. |
-| **Matchlock Muskets** | Ghost-blue muzzle flame; burning phosphorus and marrow smell. | Black powder is cut with crushed *Jutul* bone marrow due to saltpeter shortages. |
+| **Matchlock Muskets** | Ghost-blue muzzle flame; burning phosphorus and marrow smell. | Black powder is cut with crushed *Jotkall* bone marrow due to saltpeter shortages. |
 | **Warden Flesh-Grafts** | Harpoon serial numbers and winch teeth visible along skin chains. | Surgical materials are scavenged from broken whaling ironclads. |
 | **High Neth Archive Lockers** | Slushy, dripping ice blocks with blurred, runny ink characters. | Geothermal warming is destroying legal treaties and debt ledgers. |
 | **Whale-Oil Row** | Cisterns echo hollow when struck; docked ironclads stripped of parts. | Nordhalla’s naval infrastructure is suffering an acute, unrecoverable fuel crisis. |

@@ -26,6 +26,7 @@ import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import TalentTreeContent from '../talent-tree/TalentTreeContent';
 import '../../styles/character-sheet.css';
 import '../../styles/character-view-page.css';
+import '../../styles/adventurer-windows.css';
 
 const CharacterViewPage = () => {
   const { characterId } = useParams();
@@ -1053,4 +1054,3 @@ const CharacterViewPage = () => {
 };
 
 export default CharacterViewPage;
-

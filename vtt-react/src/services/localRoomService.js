@@ -412,11 +412,35 @@ class LocalRoomService {
    throw new Error('Local room not found');
   }
 
+  const source = this.captureConversionSource(roomId);
+
   return {
    name: room.name,
    description: room.description || 'Converted from local room',
    gameState: gameState || room.gameState,
-   originalRoomId: roomId
+   originalRoomId: roomId,
+   sourceDraftId: source.sourceDraftId,
+   sourceRevision: source.sourceRevision
+  };
+ }
+
+ /**
+  * Capture the retained source identity/revision for a conversion BEFORE any
+  * remote operation (S8-A). Never mutates the room.
+  */
+ captureConversionSource(roomId) {
+  this._ensureLoaded();
+  const room = this.getLocalRoom(roomId);
+  if (!room) {
+   return { sourceRoomId: roomId, sourceDraftId: null, sourceRevision: null, exists: false };
+  }
+  this.loadRoomState(roomId);
+  const baseline = this.roomStateBaselines.get(roomId) || null;
+  return {
+   sourceRoomId: roomId,
+   sourceDraftId: baseline?.draftId || this.registryDraftId || null,
+   sourceRevision: baseline?.revision ?? this.registryRevision ?? null,
+   exists: true
   };
  }
 
@@ -430,8 +454,9 @@ class LocalRoomService {
    room.convertedTo = multiplayerRoomId;
    room.isConverted = true;
    room.lastActivity = new Date().toISOString();
-   this.saveRooms();
+   return this.saveRooms();
   }
+  return Promise.resolve({ status: 'SOURCE_NOT_FOUND' });
  }
 
  /**

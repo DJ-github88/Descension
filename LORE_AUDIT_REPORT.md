@@ -1292,18 +1292,18 @@ For Path C in every entry, **the creator must supply the exact distinction or cu
   - Path B: Adopt the current twenty-one base classes; align census text.
   - Path C: Define and display separate base-class/variant counts.
 
-### ISSUE-046: Skreika means both an ice-dragon and a drowned undead sailor
+### ISSUE-046: Skraik means both an ice-dragon and a drowned undead sailor
 - **Category:** World History/Laws
 - **Severity:** Critical
 - **Colliding Sources:**
   - Source A: `SEVEN_CONTINENTS_MASTER_REFERENCE.md` (line 105): "Glacier Wyrm / **Skreika** (ice-dragon)"
-  - Source B: `vtt-react/public/data/lore.json` (lines 5970–5974): "Skreika" / "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever."
-  - Master reference line 117 separately uses "Skrei" for drowned Skald; GM guide line 161 instead assigns that drowned-warrior role to Skreika.
+  - Source B: `vtt-react/public/data/lore.json` (lines 5970–5974): "Skraik" / "A waterlogged, blue-skinned undead sailor that rises from freezing fjords to spread frost-fever."
+  - Master reference line 117 separately uses "Skrei" for drowned Skald; GM guide line 161 instead assigns that drowned-warrior role to Skraik.
 - **Contradiction Breakdown:** The creature name collides across different species, creature types and encounter expectations. No authorized homonym or Skrei/Skreika distinction is defined consistently.
-- **Clarification Question for Creator:** Which creature is Skreika, and is Skrei a separate species or a spelling drift?
+- **Clarification Question for Creator:** Which creature is Skraik, and is Skrei a separate species or a spelling drift?
 - **Possible Paths:**
-  - Path A: Adopt ice-dragon Skreika; revise undead names/definitions.
-  - Path B: Adopt undead Skreika; revise the master-reference dragon label and Skrei usage.
+  - Path A: Adopt ice-dragon Skraik; revise undead names/definitions.
+  - Path B: Adopt undead Skraik; revise the master-reference dragon label and Skrei usage.
   - Path C: Define two distinct names and creature identities.
 
 ### ISSUE-047: Exact chronology remains in sources labelled era-relative

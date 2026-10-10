@@ -3,11 +3,11 @@ import React, { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ClassesDisplay.css';
+import './ClassCodex.css';
 
 import { CLASS_DISPLAY_DATA } from '../../data/classes/classDisplayData';
 
 import ClassIcon from '../common/ClassIcon';
-import ClassRowBackdrop from './ClassRowBackdrop';
 
 
 
@@ -151,7 +151,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                         <h4><i className="fas fa-swords"></i> Class System</h4>
 
-                        <p>Your Class is your identity on the battlefield: governing hit points, weapon proficiencies, armour capabilities, and the unique resource that fuels your most devastating abilities. With 30 distinct classes, no two adventurers fight the same way.</p>
+                        <p>Your class shapes how you face the world: your hit points, weapons, armour, and the resource behind your signature abilities. Explore {CLASS_DATA.length} traditions to find the one that suits your adventurer.</p>
 
                     </div>
 
@@ -180,12 +180,14 @@ const ClassesDisplay = ({ onSelectClass }) => {
                             key={filter.key}
 
                             className={`role-filter-btn ${activeFilter === filter.key ? 'active' : ''}`}
+                            type="button"
+                            aria-pressed={activeFilter === filter.key}
 
                             onClick={() => setActiveFilter(filter.key)}
 
                         >
 
-                            <i className={filter.icon}></i>
+                            <i className={filter.icon} aria-hidden="true"></i>
 
                             <span>{filter.label}</span>
 
@@ -216,6 +218,8 @@ const ClassesDisplay = ({ onSelectClass }) => {
                     <button
 
                         className={`damage-type-btn ${!activeDamageType ? 'active' : ''}`}
+                        type="button"
+                        aria-pressed={!activeDamageType}
 
                         onClick={() => setActiveDamageType(null)}
 
@@ -232,6 +236,8 @@ const ClassesDisplay = ({ onSelectClass }) => {
                             key={type}
 
                             className={`damage-type-btn ${activeDamageType === type ? 'active' : ''}`}
+                            type="button"
+                            aria-pressed={activeDamageType === type}
 
                             style={{ '--dmg-color': DAMAGE_COLORS[type] || '#888' }}
 
@@ -251,7 +257,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
 
 
-                <div className="classes-filter-info">
+                <div className="classes-filter-info" role="status">
 
                     Showing {filteredClasses.length} of {CLASS_DATA.length} classes
 
@@ -270,9 +276,12 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                     return (
 
-                    <div
+                    <button
 
                         key={cls.name}
+                        type="button"
+                        aria-label={`Explore ${cls.name}`}
+                        disabled={isComingSoon}
 
                         className={`class-row class-row-${slug} ${isComingSoon ? 'class-row-coming-soon' : ''}`}
 
@@ -281,8 +290,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
                         onClick={() => !isComingSoon && onSelectClass && onSelectClass(cls.name)}
 
                     >
-
-                        <ClassRowBackdrop slug={slug} />
 
                         {isComingSoon && (
                             <div className="class-row-coming-soon-overlay">
@@ -296,7 +303,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                             {cls.imageIcon ? (
 
-                                <ClassIcon src={cls.imageIcon} alt={cls.name} size="tiny" className="class-row-img" dataClass={cls.name} />
+                                <ClassIcon src={cls.imageIcon} alt="" size="medium" className="class-row-img" dataClass={cls.name} />
 
                             ) : (
 
@@ -312,7 +319,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                                 <span className="class-row-name">{cls.name}</span>
 
-                                <span className="class-row-role-badge" style={{ background: cls.roleColor }}>{cls.role}</span>
+                                <span className="class-row-role-badge">{cls.role}</span>
 
                             </div>
 
@@ -338,7 +345,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                                         className="class-row-dmg-tag"
 
-                                        style={{ background: DAMAGE_COLORS[dt] || '#888' }}
+                                        style={{ '--dmg-color': DAMAGE_COLORS[dt] || '#888' }}
 
                                         title={dt.charAt(0).toUpperCase() + dt.slice(1)}
 
@@ -366,7 +373,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
 
                         </div>
 
-                    </div>
+                    </button>
 
                     );
 

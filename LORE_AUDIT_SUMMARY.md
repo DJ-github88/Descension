@@ -117,7 +117,7 @@ Mythrill is a dark-industrial-fantasy TTRPG setting with:
 - "Deep-Born" → "Vault-Born", "Unwoven" → "Scoured"
 - Multiple class figure name deconflictions (Malakor→Morvath, Lyra→Lirith, Vael→Veth, etc.)
 - Captain Mereval → Captain Merevas
-- Brine→Lampeia, Skerry→Hull-Smith (creatures)
+- Lamphera→Lampeia, Skarvarr→Hull-Smith (creatures)
 
 **Structural Fixes:**
 - Warden spec ID: shadowblade→iron-stalker, Augur spec ID: harbinger→doomsayer
@@ -139,7 +139,7 @@ Mythrill is a dark-industrial-fantasy TTRPG setting with:
 #### Content Gaps (need authoring, not bug fixes)
 1. **False Prophet resource cost model**: All 12 spells now have `classResource` costs, but the *balance* hasn't been reviewed — Prophet of Lies costs 0 with `"all"` formula (spends ALL madness), which is a unique model among classes. Verify this is intentional.
 2. **Other resource-gap classes**: Lunarch, Minstrel, Shaper, and a few other classes may still have spells that only cost mana without classResource costs. Need a full audit across ALL classes.
-3. **17 missing creature stat blocks**: Gambrel, Stel, Skreika, Hungry Child, and 13 other signature regional Wyrd-creatures described in rulesData still have no creatureData entry (NOT the 17 we just added — different creatures).
+3. **17 missing creature stat blocks**: Geaslan, Stel, Skraik, Munkhai, and 13 other signature regional Wyrd-creatures described in rulesData still have no creatureData entry (NOT the 17 we just added — different creatures).
 4. **4 human subraces missing equipment**: `skald_human`, `solvarn_human`, `ordan_human`, `morren_human` have no raceEquipment entries.
 5. **~46 missing zone coordinate mappings**: `locationCoordinates.js` has 86 of 132 zones mapped.
 

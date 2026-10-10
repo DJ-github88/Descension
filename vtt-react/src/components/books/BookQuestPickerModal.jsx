@@ -65,7 +65,7 @@ export const SAMPLE_BOOK_QUESTS = [
     objectives: [
       { id: 'obj-1', text: 'Traverse the Magma Veins without succumbing to ash-fumes', completed: false },
       { id: 'obj-2', text: 'Realign the 3 Sunstone Anchors along the caldera rim', completed: false },
-      { id: 'obj-3', text: 'Channel the primordial flame into the Cinder Core', completed: false }
+      { id: 'obj-3', text: 'Channel the primordial flame into The Cinder Core', completed: false }
     ],
     rewards: {
       experience: 1250,

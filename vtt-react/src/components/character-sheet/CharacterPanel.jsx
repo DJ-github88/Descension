@@ -1782,7 +1782,7 @@ export default function CharacterPanel({ activeSubSection: propSubSection, setAc
                                                             }
                                                             return getWowIconUrl(icon);
                                                         }
-                                                        return getClassIconUrl(characterClass) || '';
+                                                        return getClassIconUrl(characterClass, { variant: 'transparent' }) || getClassIconUrl(characterClass) || '';
                                                     })()}
                                                     alt="Character Icon"
                                                     className="character-portrait-icon"

@@ -2838,7 +2838,7 @@ const SEEDED_EVENTS = [
     "title": "The Raising of the Sunder-Wall",
     "type": "military",
     "phase": "deepening-winter",
-    "description": "Following relentless raids by nomadic Øsling warbands and rampaging Jutul frost-giants, King-Jarl Halvar ('Iron-Tooth') commanded the construction of the 300-foot ice-and-iron Sunder-Wall across the valley mouth.",
+    "description": "Following relentless raids by nomadic Øsling warbands and rampaging Jotkall frost-giants, King-Jarl Halvar ('Iron-Tooth') commanded the construction of the 300-foot ice-and-iron Sunder-Wall across the valley mouth.",
     "locationIds": [
       "sunder-wall-gates",
       "frostholm",
@@ -2860,7 +2860,7 @@ const SEEDED_EVENTS = [
     ],
     "effects": [],
     "narrative": "Five thousand Skald masons, Bloodhammer smiths, and Icechamber engineers worked continuously for five years in twenty-below blizzards. They anchored two thousand iron I-beams into mountain bedrock, packing the gaps with granite boulders and freezing them into solid monoliths with pumped seawater. The Sunder-Wall became the impenetrable shield protecting the civil fjord valleys from the feral monsters of the northern polar wastes.",
-    "dmHook": "A deep fracture has appeared along the southern foundation of the Sunder-Wall near Gate 3. Sabotage marks resembling Jutul giant stone-chisels have been discovered along the iron pins.",
+    "dmHook": "A deep fracture has appeared along the southern foundation of the Sunder-Wall near Gate 3. Sabotage marks resembling Jotkall giant stone-chisels have been discovered along the iron pins.",
     "dateDisplay": "The Long Pacting"
   },
   {

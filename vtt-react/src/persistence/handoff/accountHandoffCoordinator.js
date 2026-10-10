@@ -25,7 +25,8 @@ import {
   beginLoadingPhase,
   activatePrivateScope,
   clearToSignedOut,
-  holdPrivateScopeForRetry
+  holdPrivateScopeForRetry,
+  markHandoffPending
 } from '../bootstrapPrivacyGate';
 import { createRuntimeResetParticipant } from './runtimeResetParticipant';
 import { createSocketRetirementParticipant } from './socketPrincipalRetirement';
@@ -96,6 +97,7 @@ export function resetHandoffCoordinatorForTests() {
   lastRequestedAuthState = null;
   lastHandoffResult = null;
   idleWaiters.clear();
+  markHandoffPending(false);
 }
 
 function pushFailure(failures, participantId, hook, error) {
@@ -195,7 +197,7 @@ function buildOutcome({ changed, gate, result }) {
   return { changed, gate, result };
 }
 
-function finalizeTransition({ id, nextScope, envelope, failures }) {
+function finalizeTransition({ id, nextScope, envelope, failures, preservationOnly = false }) {
   if (id !== transitionSeq) {
     // Superseded while awaiting: never activate an obsolete principal.
     activeTransition = null;
@@ -204,8 +206,29 @@ function finalizeTransition({ id, nextScope, envelope, failures }) {
   }
 
   if (failures.length > 0) {
+    if (preservationOnly) {
+      // Bounded preservation failed: keep the old scope active so the
+      // retained candidate stays retryable, keep private UI isolated, and
+      // never run the destructive reset. The transition stays blocked.
+      markHandoffPending(true);
+      const gate = getBootstrapGateState();
+      activeTransition = null;
+      const result = {
+        failures,
+        projectionClean: false,
+        blocked: true,
+        preservationFailed: true,
+        previousScope: envelope.previousScope,
+        nextScope,
+        nextContext: getBootstrapGateContext()
+      };
+      lastHandoffResult = result;
+      processQueuedTransition();
+      return buildOutcome({ changed: true, gate, result });
+    }
     // Fail closed: no private scope is active for the old or pending owner.
     const gate = holdPrivateScopeForRetry('handoff-retirement-failed');
+    markHandoffPending(false);
     activeTransition = null;
     const result = {
       failures,
@@ -221,6 +244,7 @@ function finalizeTransition({ id, nextScope, envelope, failures }) {
   }
 
   const gate = nextScope ? activatePrivateScope(nextScope) : clearToSignedOut();
+  markHandoffPending(false);
   const nextContext = getBootstrapGateContext();
   const { failures: activateFailures } = runHooks(['activate'], { ...envelope, nextContext });
   const result = {
@@ -252,6 +276,10 @@ function processQueuedTransition() {
 
 function startTransition({ id, nextScope, currentScope, previousGate }) {
   activeTransition = { id, nextScope };
+  // Immediate private isolation: from this instant the old owner's private
+  // projections are hidden, even though the old scope may stay writable until
+  // already-captured work is preserved.
+  markHandoffPending(true);
 
   const envelope = {
     previousScope: currentScope,
@@ -276,6 +304,11 @@ function startTransition({ id, nextScope, currentScope, previousGate }) {
   const { completion: stopCompletion } = runHooks(['stopNewWork'], envelope, failures);
 
   const afterStop = () => {
+    if (failures.length > 0) {
+      // Preservation failed: do not retire and never run the destructive
+      // reset. Keep the old scope active (retryable) but isolated.
+      return finalizeTransition({ id, nextScope, envelope, failures, preservationOnly: true });
+    }
     // Phase 2: retire the old principal, then run the remaining required
     // hooks against the blocked/retired gate.
     retireOldScope();
@@ -312,6 +345,8 @@ export function coordinateAuthPrincipalChange(authState = {}) {
   lastRequestedAuthState = authState;
 
   if (gate.phase === 'active' && sameScope(currentScope, nextScope)) {
+    // Same active principal: no handoff is pending for this destination.
+    markHandoffPending(false);
     lastHandoffResult = {
       failures: [],
       projectionClean: true,

@@ -6,6 +6,8 @@ import useCustomLineageStore from '../../store/customLineageStore';
 import useAuthStore from '../../store/authStore';
 import { syncEntityGraph, hydrateEntityGraph } from '../../services/firebase/entityGraphService';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
+import { subscribeBootstrapGate } from '../../persistence/bootstrapPrivacyGate';
 import './UniversalEntityGraph.css';
 
 // Wave B (final sweep): authored graph nodes/edges are verified-owner scoped.
@@ -117,10 +119,56 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const customUserEdgesRef = useRef(customUserEdges);
   customUserEdgesRef.current = customUserEdges;
   const cloudFlushTimerRef = useRef(null);
-  // B1: the uid whose authored graph currently lives in the refs/state. On an
-  // owner change the retained projection is retired so A's nodes can never be
-  // uploaded into B's cloud document.
+  // R1: the uid AND the P5 owner/generation context whose authored graph
+  // currently lives in the refs/state. Cloud loads, timers and edit callbacks
+  // revalidate this context so an obsolete (same-UID relogin or handoff)
+  // response can never mutate the current owner's graph.
   const graphOwnerRef = useRef(null);
+  const graphContextRef = useRef(null);
+
+  const retireGraphProjection = () => {
+    if (cloudFlushTimerRef.current) {
+      clearTimeout(cloudFlushTimerRef.current);
+      cloudFlushTimerRef.current = null;
+    }
+    customUserNodesRef.current = [];
+    customUserEdgesRef.current = [];
+    setCustomUserNodes([]);
+    setCustomUserEdges([]);
+    graphContextRef.current = null;
+  };
+
+  // Reload the verified destination owner's scoped nodes/edges. This is the
+  // authoritative local draft; it is never replaced with [] on owner change.
+  const loadOwnerGraph = () => {
+    const nodes = entityGraphNodesFamily.load();
+    const edges = entityGraphEdgesFamily.load();
+    customUserNodesRef.current = Array.isArray(nodes) ? nodes : [];
+    customUserEdgesRef.current = Array.isArray(edges) ? edges : [];
+    setCustomUserNodes(customUserNodesRef.current);
+    setCustomUserEdges(customUserEdgesRef.current);
+  };
+
+  const hydrateOwnerGraph = async (uid, context) => {
+    const cloud = await hydrateEntityGraph(uid);
+    if (!context || !isConsumerContextCurrent(context) || graphOwnerRef.current !== uid) return;
+    const hasCloudData = cloud && (cloud.customNodes.length > 0 || cloud.customEdges.length > 0);
+    const hasLocalData = customUserNodesRef.current.length > 0 || customUserEdgesRef.current.length > 0;
+    if (hasCloudData) {
+      setCustomUserNodes(cloud.customNodes);
+      setCustomUserEdges(cloud.customEdges);
+      try {
+        entityGraphNodesFamily.save(cloud.customNodes);
+        entityGraphEdgesFamily.save(cloud.customEdges);
+      } catch { /* best-effort */ }
+    } else if (hasLocalData) {
+      // Cloud empty/failed: never discard dirty local graph work; push it up.
+      syncEntityGraph(uid, {
+        customNodes: customUserNodesRef.current,
+        customEdges: customUserEdgesRef.current
+      });
+    }
+  };
 
   // Authoring modals & link creation state
   const [showAddNodeModal, setShowAddNodeModal] = useState(false);
@@ -135,58 +183,79 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   const [newEdgeType, setNewEdgeType] = useState('alliance');
   const [newEdgeLabel, setNewEdgeLabel] = useState('');
 
-  // Hydrate custom nodes/edges from the cloud on mount. If the cloud doc is
-  // empty but local data exists (first sync after this feature shipped),
-  // push the local data up. Cloud wins when both exist (newest device state).
+  // R1: bind graph work to the verified P5 owner/generation.
+  //  - uid change with an active destination scope: retire A's projection,
+  //    reload B's scoped draft, then hydrate B's cloud.
+  //  - uid change before the gate activates the destination: retire A's
+  //    projection and let the gate subscription finish activation.
+  //  - same-UID generation change: reload the local draft only; the obsolete
+  //    in-flight cloud response is refused by its captured context.
   useEffect(() => {
     const uid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
     const previousUid = graphOwnerRef.current;
-    if (previousUid !== null && previousUid !== uid) {
-      // Owner changed: retire the previous owner's retained projection and
-      // any debounced flush that would have published it.
-      if (cloudFlushTimerRef.current) {
-        clearTimeout(cloudFlushTimerRef.current);
-        cloudFlushTimerRef.current = null;
-      }
-      customUserNodesRef.current = [];
-      customUserEdgesRef.current = [];
-      setCustomUserNodes([]);
-      setCustomUserEdges([]);
+    if (!uid) {
+      graphOwnerRef.current = null;
+      retireGraphProjection();
+      return undefined;
+    }
+    const captured = captureConsumerContext();
+    const gateMatches = captured.ok && captured.context.scope && captured.context.scope.scopeId === uid;
+    if (!gateMatches) {
+      if (previousUid !== uid) retireGraphProjection();
+      graphOwnerRef.current = uid;
+      return undefined;
+    }
+    const previousContext = graphContextRef.current;
+    const sameOwnerGenerationChange = previousUid === uid && previousContext && previousContext.scope
+      && previousContext.scope.scopeId === uid;
+    if (previousUid !== uid && cloudFlushTimerRef.current) {
+      clearTimeout(cloudFlushTimerRef.current);
+      cloudFlushTimerRef.current = null;
     }
     graphOwnerRef.current = uid;
-    if (!uid) return undefined;
-    let cancelled = false;
-    (async () => {
-      const cloud = await hydrateEntityGraph(uid);
-      if (cancelled || !cloud || graphOwnerRef.current !== uid) return;
-      const hasCloudData = cloud.customNodes.length > 0 || cloud.customEdges.length > 0;
-      const hasLocalData = customUserNodesRef.current.length > 0 || customUserEdgesRef.current.length > 0;
-      if (hasCloudData) {
-        setCustomUserNodes(cloud.customNodes);
-        setCustomUserEdges(cloud.customEdges);
-        try {
-          entityGraphNodesFamily.save(cloud.customNodes);
-          entityGraphEdgesFamily.save(cloud.customEdges);
-        } catch {}
-      } else if (hasLocalData) {
-        syncEntityGraph(uid, {
-          customNodes: customUserNodesRef.current,
-          customEdges: customUserEdgesRef.current
-        });
-      }
-    })();
-    return () => { cancelled = true; };
+    graphContextRef.current = captured.context;
+    loadOwnerGraph();
+    if (!sameOwnerGenerationChange) hydrateOwnerGraph(uid, captured.context);
+    return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser?.uid]);
 
-  // Persist custom user nodes/edges to localStorage + debounced cloud sync
+  // R1: complete destination activation (or generation change) that happened
+  // after the uid effect ran, using the freshly activated verified context.
+  useEffect(() => {
+    const unsubscribe = subscribeBootstrapGate(() => {
+      const captured = captureConsumerContext();
+      if (!captured.ok) return;
+      const uid = captured.context.scope && captured.context.scope.scopeId;
+      const authUid = authUser?.uid && !authUser.uid.startsWith('guest-') ? authUser.uid : null;
+      if (!uid || !authUid || uid !== authUid) return;
+      if (graphOwnerRef.current === uid && graphContextRef.current && isConsumerContextCurrent(graphContextRef.current)) {
+        return;
+      }
+      const previousContext = graphContextRef.current;
+      const sameOwnerGenerationChange = graphOwnerRef.current === uid && previousContext && previousContext.scope
+        && previousContext.scope.scopeId === uid;
+      graphOwnerRef.current = uid;
+      graphContextRef.current = captured.context;
+      loadOwnerGraph();
+      if (!sameOwnerGenerationChange) hydrateOwnerGraph(uid, captured.context);
+    });
+    return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser?.uid]);
+
+  // Persist custom user nodes/edges to scoped storage + debounced cloud sync.
+  // Edits are refused while the projection does not belong to the current
+  // verified owner (e.g. during handoff isolation).
   const saveCustomNodes = (nodes) => {
+    if (!graphContextRef.current || !isConsumerContextCurrent(graphContextRef.current)) return;
     setCustomUserNodes(nodes);
     try { entityGraphNodesFamily.save(nodes); } catch {}
     scheduleCloudFlush();
   };
 
   const saveCustomEdges = (edges) => {
+    if (!graphContextRef.current || !isConsumerContextCurrent(graphContextRef.current)) return;
     setCustomUserEdges(edges);
     try { entityGraphEdgesFamily.save(edges); } catch {}
     scheduleCloudFlush();
@@ -194,11 +263,12 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
 
   const scheduleCloudFlush = () => {
     const uid = graphOwnerRef.current;
-    if (!uid) return;
+    const context = graphContextRef.current;
+    if (!uid || !context || !isConsumerContextCurrent(context)) return;
     if (cloudFlushTimerRef.current) clearTimeout(cloudFlushTimerRef.current);
     cloudFlushTimerRef.current = setTimeout(() => {
-      // B1: never publish a superseded owner's retained graph state.
-      if (graphOwnerRef.current !== uid) return;
+      // R1: never publish a superseded owner/generation's retained graph state.
+      if (graphOwnerRef.current !== uid || !isConsumerContextCurrent(context)) return;
       syncEntityGraph(uid, {
         customNodes: customUserNodesRef.current,
         customEdges: customUserEdgesRef.current
@@ -207,14 +277,15 @@ export const UniversalEntityGraph = ({ onEntityClick, onEntityDoubleClick, selec
   };
 
   // Flush pending cloud writes on unmount (owner changes are handled by the
-  // hydration effect's retirement, not by re-running this cleanup).
+  // uid/gate effects, not by re-running this cleanup).
   useEffect(() => {
     return () => {
       if (cloudFlushTimerRef.current) {
         clearTimeout(cloudFlushTimerRef.current);
         cloudFlushTimerRef.current = null;
         const uid = graphOwnerRef.current;
-        if (uid) {
+        const context = graphContextRef.current;
+        if (uid && context && isConsumerContextCurrent(context)) {
           syncEntityGraph(uid, {
             customNodes: customUserNodesRef.current,
             customEdges: customUserEdgesRef.current

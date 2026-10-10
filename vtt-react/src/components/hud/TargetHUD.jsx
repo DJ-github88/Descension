@@ -464,7 +464,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
           return getIconUrl(characterState.lore.characterIcon, characterState.lore.characterIcon.includes('/') ? 'creatures' : 'items');
         }
         // No portrait chosen: fall back to the class icon
-        return getClassIconUrl(characterState.class) || getIconUrl('inv_misc_head_human_01', 'items');
+        return getClassIconUrl(characterState.class, { variant: 'transparent' }) || getClassIconUrl(characterState.class) || getIconUrl('inv_misc_head_human_01', 'items');
       } else {
         // Get party member's character image
         const partyState = usePartyStore.getState();
@@ -483,7 +483,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             return getIconUrl(member.character.lore.characterIcon, member.character.lore.characterIcon.includes('/') ? 'creatures' : 'items');
           }
           // No portrait chosen: fall back to the class icon
-          const classIconUrl = getClassIconUrl(member.character.class);
+          const classIconUrl = getClassIconUrl(member.character.class, { variant: 'transparent' }) || getClassIconUrl(member.character.class);
           if (classIconUrl) return classIconUrl;
         }
         // Default character icon

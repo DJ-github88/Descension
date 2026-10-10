@@ -8,12 +8,12 @@ const ROLLABLE_TABLES = {
     entries: [
       { min: 1, max: 2, result: '2d4 Gref stalk the party through the fog, stealing faces from the dead' },
       { min: 3, max: 4, result: 'A lone Athien contract-enforcer with a ledger of unpaid debts and a cold-iron stylus' },
-      { min: 5, max: 6, result: '1d6 Sluagh rise from a fog-choked barrow, hungry for a name to wear' },
+      { min: 5, max: 6, result: '1d6 Rabengast rise from a fog-choked barrow, hungry for a name to wear' },
       { min: 7, max: 8, result: 'A wounded Augur, forearms carved open, offers a reading in exchange for bandages' },
-      { min: 9, max: 10, result: '2d4 Schratling emerge from hollow ironwood, bark-armor and moss-blades' },
+      { min: 9, max: 10, result: '2d4 Skraten emerge from hollow ironwood, bark-armor and moss-blades' },
       { min: 11, max: 12, result: 'A Scribe-Sentinel patrol (1d4+2), journals chained to their belts, quills ready' },
       { min: 13, max: 14, result: 'An abandoned shrine to a forgotten house, the idol still answers whispered oaths' },
-      { min: 15, max: 16, result: '1d4 Grimmstalk drop from the canopy, eyeless and patient' },
+      { min: 15, max: 16, result: '1d4 Branvig drop from the canopy, eyeless and patient' },
       { min: 17, max: 18, result: 'A Cromyx trader, lantern-eyes over-lit, will trade anything for raw hush' },
       { min: 19, max: 19, result: 'A Wyrd-bleed opens, fear-stuff given flesh crawls through (roll on magic_effects)' },
       { min: 20, max: 20, result: 'A Sundered Monolith fragment pulses nearby, and something ancient answers the pulse' }

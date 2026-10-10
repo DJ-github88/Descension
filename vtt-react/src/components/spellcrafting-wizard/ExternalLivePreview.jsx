@@ -685,7 +685,7 @@ const ExternalLivePreview = () => {
 
 
   return ReactDOM.createPortal(
-    <div style={{
+    <div className="adventurer-preview" style={{
       ...position,
       border: 'none !important',
       outline: 'none !important',
@@ -727,6 +727,7 @@ const ExternalLivePreview = () => {
         gap: '8px'
       }}>
         <button
+          className="adventurer-action"
           onClick={handleCompleteSpell}
           disabled={isCompleting}
           style={{

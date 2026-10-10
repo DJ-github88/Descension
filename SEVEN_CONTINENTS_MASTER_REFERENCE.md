@@ -57,7 +57,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **✦ Minor:** Pebble-Scribe Hamlet, Tallow-Candle Wayhouse, Quillgate Toll-Village, Moss-Wax Chandlers' Cluster, Heartwood Sap-Camp, Chained-Journal Coaching-Inn, Hollow-Stump Camp, Bog-Cranberry Stands.
 - **Landmarks:** the Ironwood Heart (glowing white tree + mist-lake), Bramble Heath (year-round crimson thorn-flowers), the Velling Pass (gateway to Sundale).
 - **Ruins:** Ledger Halls (half-sunk archive), The Shallows (black-market vaults under Greymark).
-- **Creatures & Wyrd:** **Gref** (face-stealer), **Gambrel** (broken-oath horror), Oillipheist (silt-leech), Drudehaunt.
+- **Creatures & Wyrd:** **Gref** (face-stealer), **Gambrel** (broken-oath horror), Olveist (silt-leech), Drudena.
 - **Intricacies:** the Ironwood Palisade rings the south — Mist-Sentinels verify every journal; lose your ledger and you legally cease to exist.
 
 ### 1B · The Frostfang Wastes *(sub-arctic north — granite tundra, frozen lakes)*
@@ -65,11 +65,11 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Races & subraces here:** **Moraine Clan humans** (frontier animists); **Skald expatriates** (Greymark Northwatch garrison + the Stone-Speakers tending monoliths); **Jutul raiders** (giant troll-kin of the deep wastes — rumored, rarely confirmed).
 - **Factions:** Greymark Northwatch, the Stone-Speakers.
 - **Settlements:**
-  - **Settlement:** Grevtholm (fortified stone keep, northernmost outpost vs Jutul).
+  - **Settlement:** Grevtholm (fortified stone keep, northernmost outpost vs Jotkall).
   - **✦ Minor:** Frostwatch Hold (ruined signal-post), Stonespeakers' Camp, Eight-Week-Melt Huts, Mammoth-Bone Trappers' Camp, Cold-Iron Waystation.
-- **Landmarks:** Bearsback Summit (double granite peak, bear-legend), Iron Lake (frozen; drowned Jutul-maidens).
+- **Landmarks:** Bearsback Summit (double granite peak, bear-legend), Iron Lake (frozen; drowned Jotkall-maidens).
 - **Ruins:** The Stone Circles (pre-Binding runic monoliths).
-- **Creatures & Wyrd:** **Stel** (crystalline ice colossus projecting glacier-memories), Jutul-raider bands, Mist-Shark, Drowned-Memory.
+- **Creatures & Wyrd:** **Stel** (crystalline ice colossus projecting glacier-memories), Jotkall-raider bands, Mist-Shark, Drowned-Memory.
 - **Intricacies:** the fog thins here — memory returns, but the cold bites harder. The Stone-Speakers preserve pre-Binding rune-lore the Thalreth officially deny.
 
 ### 1C · The Drowned Fens *(eastern lawless marsh)*
@@ -80,7 +80,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **✦ Minor:** Floating-Stilt Hamlet, Wisp-Willow Camp, Thorn-Refuge Copse.
 - **Landmarks:** Wraithfen (Broken Mimir wander in loops), The Shifting Fen (geography rearranges overnight).
 - **Ruins:** Mistbarrow (pre-Thalreth burial mound, own weather).
-- **Creatures & Wyrd:** Gambrel, Drudehaunt, Oillipheist.
+- **Creatures & Wyrd:** Geaslan, Drudena, Olveist.
 - **Intricacies:** no Scribe-Sentinel enters; the Fen's geography rejects maps. Root-Veil mycelium spills in from Bryngloom's border.
 
 **Region-wide:** **Florae** (House Viridane's descendants) live hidden in moonlit groves where the fog thins; the erasure hides them from Keth Amar.
@@ -102,8 +102,8 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **Cities:** Frosthold Citadel (royal seat, carved into Bearsbeard's Beak); The Frozen Archive (glacier-tomb city; dead stand upright in ice; birthplace of the Augur tradition).
   - **✦ Minor:** Frost-Tithe Cradle-Camp, Ravencall Eyrie (Corvani), Glacier-Song Hermitage.
 - **Landmarks:** Bearsbeard's Beak (highest peak), Skadi's Col (flesh-stripping wind gap), The Hunger Glaciers, Þögn, the old Still Crag (Rime-Born memory-freezing rites).
-- **Ruins:** Rimor's Hearth (buried keep, stubborn steam vents).
-- **Creatures & Wyrd:** **Stel**, **Helhest** (3-legged plague-horse, anchors glaciers), **Glacier Wyrms** (ice-dragons), **Skreika** (drowned undead sailors; Skrei is a regional/archival name), Jutul-king, Perchtar (marching winter judges), Rimor (hearth-parasite).
+- **Ruins:** Rimvald's Hearth (buried keep, stubborn steam vents).
+- **Creatures & Wyrd:** **Stel**, **Helhest** (3-legged plague-horse, anchors glaciers), **Glacier Wyrms** (ice-dragons), **Skreika** (drowned undead sailors; Skrei is a regional/archival name), Jotkall-king, Perchtal (marching winter judges), Rimvald (hearth-parasite).
 - **Intricacies:** the **Sunder-Wall** spans the tundra, funneling all migration through taxed gates. The **Frost-Tithe** drains Rime-Born mothers' warmth at every birth.
 
 ### 2B · The Iron-Fjord Coast *(eastern seaboard, fjords & harbors)*
@@ -115,7 +115,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **✦ Minor:** Hearth-Glow Tavern-Cluster, Whale-Oil Row, Cod-Drying Racks, Frost-Mead Cellars, Iron-Ore Quay.
 - **Landmarks:** The Black Firth (obsidian inlet, naval route), Rook's Promontory (Corvani sacred cliff).
 - **Ruins:** The Spar's Folly (half-built sea-wall).
-- **Creatures & Wyrd:** **Skrei** (drowned Skald dragging living into tides), Rimor, Skreika.
+- **Creatures & Wyrd:** **Skrei** (drowned Skald dragging living into tides), Rimvald, Skraik.
 - **Intricacies:** Syndicate ironclads hunt mythic sea-beasts with explosive harpoons, polluting fishing grounds. Fastboende vs **Fredløse** outlaws split every harbor.
 
 ### 2C · The Ember-Tide Coast *(southern volcanic coast & hot-springs)*
@@ -126,7 +126,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **Settlements:** Xardin's Hearth (southernmost port; volcanic vent keeps harbor ice-free), Smuggler's Cove (Fredløse hangout).
   - **✦ Minor:** The Three-Hot-Springs (neutral meeting-water), Ash-Tide Fishing Village, Outlaw's Freshet.
 - **Landmarks:** the geothermal hot-spring network.
-- **Creatures & Wyrd:** coastal Skrei, Helhest drifting south on anchored ice.
+- **Creatures & Wyrd:** coastal Skrei, Helvard drifting south on anchored ice.
 - **Intricacies:** the **Cult of Forgotten Shadow** runs Void-heat research in the volcanic south.
 
 ---
@@ -144,8 +144,8 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Factions:** Dawn Vigil foragers, Sulfur Cartel prospectors, Emberth Watchers.
 - **Settlements:** (none) · **✦ Minor:** Cinderbloom Purification Camp, Sulfur-Prospect Camp, Pyrofiend Conventicle (hidden shrine).
 - **Landmarks:** **Emberspire / Emberspire Caldera** (the world-heart volcano), Sol's Anvil Mesa, Cinder Badlands, Spinstones Columns, Cinderbloom Crater.
-- **Ruins:** The Star Caves (lava-tubes, haunted by Husque).
-- **Creatures & Wyrd:** **Cinder-Fiend**, **Sun-Husk**, **Ash-Woven Oracle**, **Husque** (mobile reality-fissure), The Cinder, **Scathrach the Ashen Sovereign** (Aex-fragment demon-intelligence in the deepest vent; despises Keth Amar).
+- **Ruins:** The Star Caves (lava-tubes, haunted by Huskvar).
+- **Creatures & Wyrd:** **Cinder-Fiend**, **Sun-Husk**, **Ash-Woven Oracle**, **Husque** (mobile reality-fissure), Kavur, **Scathrach the Ashen Sovereign** (Aex-fragment demon-intelligence in the deepest vent; despises Keth Amar).
 - **Intricacies:** Caldera Ashfall deals fire damage without protective cloaks; water evaporates at 2× rate.
 
 ### 3B · The Ashen Fringe *(ash-plain ring & population belt)*
@@ -157,7 +157,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
   - **Settlements:** Slag Gulch, Thornshire Colony (Dawn Vigil penal colony).
   - **✦ Minor:** Ash-Dweller Shanty, Cinder-Brew Distillery, Martyr-Brigade Work-Camp, Obsidian Citadel Tollgate, Solvan-Sepulchre.
 - **Landmarks:** The Ashen Escarpment (signal-fire watchtowers), Vulkar's Karst.
-- **Creatures & Wyrd:** Cinder-Fiend, Sun-Husk, Ash-Woven Oracle, Husque.
+- **Creatures & Wyrd:** Cinder-Fiend, Sun-Husk, Ashvara, Huskvar.
 - **Intricacies:** the **Obsidian Citadels** chain blocks refugees — forced labor. **Faith schism:** Dawn Vigil (militant; secretly knows Monolith-reassembly summons Keth Amar) vs **the Risen** (patient old Emberth faith) vs **the Scoured** (defaced heretics who want Sol to die in peace).
 
 ### 3C · The Green Rim *(warm coastal ring & breadbasket)*
@@ -194,7 +194,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 ### 4A · The Merrow Archipelago *(central inhabited islands)*
 - **Geography:** storm-belt, gales year-round; volcanic seamounts lashed into floating cities, black-sand beaches.
 - **Races & subraces here:** **Merryn humans** (tattoo-contracts on skin — the only docs the Drift-Council enforces); **Nethien** (at Ironjaw Port); **Shoreling Myrathil** (shore diplomats/traders).
-- **Factions:** House Mereval, Brine-Bond Syndicate, Board of Trade, Drift-Council.
+- **Factions:** House Mereval, Lamphera-Bond Syndicate, Board of Trade, Drift-Council.
 - **Settlements:**
   - **City:** Merrowport (~500+; floating lashed-galleon city on a warm seamount; Mereval seat).
   - **Settlement:** Ironjaw Port (Nethien outpost, black-basalt cliffs); Spindrift Lagoon (~250; warm biolum coral inlet); Blackteeth Isle; The Lucky Anchor (floating casino on 3 lashed warships); Brinehorse Cove.
@@ -221,11 +221,11 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 
 ### 4D · The Frozen-Flows *(northern polar ice & iceberg-sea)*
 - **Geography:** polar marine, ice year-round; city-sized icebergs, frozen sea, ancient ruins on bergs.
-- **Races & subraces here:** **Icewhisper Coven** (Berg-Witches); **Boreal Huldra** (ice-floe fae); occasional Merryn whalers.
+- **Races & subraces here:** **Icewhisper Coven** (Berg-Witches); **Boreal Holdra** (ice-floe fae); occasional Merryn whalers.
 - **Factions:** Icewhisper Coven.
 - **Landmarks:** First Shore (original Mereval landing, ice-encrusted pilgrimage), **Berg of the Frozen Flame** (iceberg with a burning gas-vent heart — holds a Monolith fragment), Whaleroot Floe.
 - **✦ Minor:** Icewhisper Coven Huts, Whaler-Oil Camp, Frozen-Rune Ruins, Crack-Lane.
-- **Creatures & Wyrd:** Boreal Huldra, Myriad drifting north.
+- **Creatures & Wyrd:** Boreal Holdra, Myriad drifting north.
 
 ### 4E · The Saryreach Isles *(western sea-stack chain & pirate coast)*
 - **Geography:** cold maritime, fog-belt; black-granite sea-stacks, hidden coves.
@@ -234,8 +234,8 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Settlements:**
   - **City:** Saryreach Castle (abandoned Mereval fortress → Pirate-Queen's seat); Tide-Court Cove (Mer-Court's hidden tidal harbor).
   - **✦ Minor:** Letter-of-Marque Anchorage, Smuggler's Hidden Cove, Exile-Colony Stack, Mer-Court Grotto.
-- **Landmarks:** Blackteeth Skerry (jagged reef boundary).
-- **Creatures & Wyrd:** Nereid, Storm-Wraith at the edges.
+- **Landmarks:** Blackteeth Skarvarr (jagged reef boundary).
+- **Creatures & Wyrd:** Olora, Storm-Wraith at the edges.
 - **Intricacies:** the Pirate-Queen holds an actual letter of marque — a legal ambiguity the Board of Trade loathes.
 
 ### 4F · The Saltmaw Estuary Marshes *(southern glacial-river estuary)*
@@ -244,7 +244,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Factions:** Saltmaw Free-Port, Neth exile community, Forgotten-Cult of the Mawed Sea.
 - **Landmarks:** The Saltmaw Estuary.
 - **✦ Minor:** Free-Port Stilt-Wharves, Half-Salt Bog Hamlet, Mawed-Sea Shrine.
-- **Creatures & Wyrd:** Nereid, Drowned-Wraith.
+- **Creatures & Wyrd:** Olora, Drowned-Wraith.
 
 ---
 ---
@@ -258,12 +258,12 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 ### 5A · The Frostmaw Massif Range *(high alpine peaks & crater-keeps)*
 - **Geography:** alpine, year-round blizzard above mid-line; granite peaks, glacial cirques, volcanic crater-keeps.
 - **Races & subraces here:** **Tessen humans** (keep-dwellers sealed inside keeps 400+ yrs); **Jutul giants** (high peaks, warbands); **Thrumm** (primordial ancestor-trolls, regenerative tunnel-dwellers).
-- **Factions:** House Tesshan, Steam-Line Cartel, Jutul warbands.
+- **Factions:** House Tesshan, Steam-Line Cartel, Jotkall warbands.
 - **Settlements:**
   - **City:** Frostmaw Holdfast (~900; Groven ancestral stronghold in a volcanic plug); The Stone Cog (Tesshan fortress-monastery; seat of Jarl-Inca's power).
   - **✦ Minor:** Forge of Alaric (Warden order's first anvil), Frostmaw Chimney-Galleries, Mit'a Terrace-Camp, Skirmour's Bone-Heap, Subterranean Vault-Mouth.
-- **Landmarks:** Frostmaw Massif, Skirmour's Crag (Jutul-king's peak), **The Subterranean Vault** (beneath Frostmaw; a Monolith chamber where snow has never fallen).
-- **Creatures & Wyrd:** Jutul warbands, Thrumm, Yuki-Onna (Rime-Bride snow-ghost).
+- **Landmarks:** Frostmaw Massif, Skirmour's Crag (Jotkall-king's peak), **The Subterranean Vault** (beneath Frostmaw; a Monolith chamber where snow has never fallen).
+- **Creatures & Wyrd:** Jotkall warbands, Thrumm, Yuki-Onna (Yukiona snow-ghost).
 - **Intricacies:** high-pressure Steam-Siphons warm royal palaces by draining agricultural terraces — triggering avalanches that bury lower mining camps.
 
 ### 5B · The Gorge-Web *(mid-altitude chasms, valleys & bone-bridges)*
@@ -280,7 +280,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 
 ### 5C · The Iron Sumps *(deep subterranean industrial mining-belt)*
 - **Geography:** hot, toxic, sulfuric; mining shafts, geothermal pipes, lava-forges.
-- **Races & subraces here:** **Fexrick** (goblinoid engineers; elaborate copper-wire/gear beards = their resume) — **Kethrin** (guild-engineers) & **Drall** (clan-free scrap-tinkerers); Chasm-Dweller humans; Sump-Scrab.
+- **Races & subraces here:** **Fexrick** (goblinoid engineers; elaborate copper-wire/gear beards = their resume) — **Kethrin** (guild-engineers) & **Drall** (clan-free scrap-tinkerers); Chasm-Dweller humans; Kappura.
 - **Factions:** Steam-Line Cartel (geothermal monopoly), Kethrin Guilds, Drall Clan-Free, **Deep Alchemists** (sealed in lower tunnels, still working).
 - **Settlements:**
   - **Settlements:** Gearworks Gulch (~400; geothermal industry ravine), Driknell Foundry.
@@ -306,7 +306,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Settlements:**
   - **Settlement:** Mound-Camps (seasonal wool-yurt metropolis following the herds).
   - **✦ Minor:** Wool-Yurt Circle, Mare-Herd Following-Camp, Kumis-Ferment Camp, Unmounted Baggage-Camp, Throat-Song Hermit-Hut, Steppe-Stave Cairn, Dry-Aquifer Beds.
-- **Landmarks:** The Long Steppe, Grass Tundra, Kumis Downs (mare herds), Lien-Stalked Grazes (crystal-grass glows at night).
+- **Landmarks:** The Long Steppe, Grass Tundra, Kumis Downs (mare herds), Lienvar-Stalked Grazes (crystal-grass glows at night).
 - **Ruins:** The Unlit Knoll (fire refuses to burn; Unlit Veil HQ).
 - **Creatures & Wyrd:** **Hungry Child** (hunts shadows), **Nokhor**, **Zud** (blizzard-predator).
 - **Intricacies:** **Thermal Bores** (forced Fexric labor) keep grass growing in winter but dry aquifers and open toxic sulfur-sinkholes.
@@ -327,7 +327,7 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 - **Factions:** Astril Synod (ruling Luminarchy), Unlit Veil (shadow intelligence — actually rules), Lumia-Memory cult.
 - **Settlements:**
   - **City:** Synod Hold (~800; crystal-lattice cathedral-fortress; every entrance faces east).
-  - **✦ Minor:** Crystal-Lattice Spire-Dwelling, Qilin Grazing-Ground, Lien-Crystal Beacon, Unlit-Veil Judgment-Seat.
+  - **✦ Minor:** Crystal-Lattice Spire-Dwelling, Qilan Grazing-Ground, Lienvar-Crystal Beacon, Unlit-Veil Judgment-Seat.
 - **Landmarks:** **Starfall Vale** (crater of glowing crystalline shards — the most sacred site; where Lumia's echos fell).
 - **Creatures & Wyrd:** **Lien** (pale crystal-creature), **Qilin** (single-horned Starfall beast).
 - **Intricacies:** the Astril carry Sol's slaughtered celestial ministers in their blood; their skin glows with constellation-patterns — the only "stars" left anywhere.
@@ -384,10 +384,10 @@ Primary Launch Region (Locked for Initial Release): **Nordhalla**.
 ### 7C · The Peat-Wastes *(northern acid peat-bog)*
 - **Geography:** damp, sulfuric, foggy; acid peat-bog, liquefying mud, dead ironwood stumps.
 - **Races & subraces here:** **Vreken** (Defaulted underclass); Debt-Revenants (conscripted undead); Over-Lit Vreken.
-- **Factions:** Peat-Press Cartel, Morrath Marshals, Debt-Revenant foremen.
+- **Factions:** Peat-Press Cartel, Morrath Marshals, Vezan foremen.
 - **Landmarks:** Widow's Quagmire, **Black Fen** (the Final Clause — legal void where Morvane has no jurisdiction), Drowned Dingle.
 - **✦ Minor:** Peat-Press Forge-Camp, Rot-Fume Hut, Final-Clause Marker, Contract-Dumping Grounds.
-- **Creatures & Wyrd:** **Edict** (Black Fen legal-void entity), Debt-Revenant chain-gangs, Drowned-Wraith.
+- **Creatures & Wyrd:** **Edict** (Black Fen legal-void entity), Vezan chain-gangs, Drowned-Wraith.
 - **Intricacies:** Black Fen is where Morvane's law itself ends — a permanent wrinkle in the First Contract's jurisdiction.
 
 ### 7D · The Western Bayous *(western wetland edge & fae-old border)*

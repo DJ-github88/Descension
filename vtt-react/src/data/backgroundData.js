@@ -145,7 +145,7 @@ export const BACKGROUND_DATA = {
     },
     feature: {
       name: 'Shyr-Sense',
-      description: 'You can predict when basalt pillars will shift or Husque-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Anhur ranger-stations.'
+      description: 'You can predict when basalt pillars will shift or Huskvar-rifts will open. You and your companions gain advantage on Survival checks to navigate volcanic or geothermally-active terrain. You know the unspoken toll-rates of Anhur ranger-stations.'
     },
     statModifiers: {
       agility: 2,
@@ -642,7 +642,7 @@ export const BACKGROUND_DATA = {
       thalren_human: 'You learned the peaks because the fog took every lower path.'
     },
     name: 'Mountaineer',
-    description: 'The Cragjaw Peaks are a vertical labyrinth of deadly mountains where the blizzard rewrites every path within hours of it being carved. You navigated that labyrinth with knotted cord route-markers, mapping what the storm buries and re-buries. The calcified bone-bridges called Ancestor-Spans, left behind by the Groven people (an ancient race of bone-workers), are the only crossings that hold, and you learned to read their stress-fractures before committing your weight. You evaded the Rope-Garrison toll-posts, predicted the hunting grounds of Rime-Brides (ice-elemental hunters) and Storm-Crows, and found safe passage through the steam-pipe junctions where heat-stealing Sump-Scrabs nest. Deepchasm Keep is your home, and from its walls you watched trackers who knew one route fewer than the storm take the wrong bridge. The peaks are getting colder, and the blizzard thicker. The bone-bridges the ancestors left are not being replaced. You carry the routes in your knotted cord, the only map that outlasts the storm. Miss the passage and your companions learn, very briefly, why the Groven carved their memorials into the spans. The blizzard is indifferent to which name is next.',
+    description: 'The Cragjaw Peaks are a vertical labyrinth of deadly mountains where the blizzard rewrites every path within hours of it being carved. You navigated that labyrinth with knotted cord route-markers, mapping what the storm buries and re-buries. The calcified bone-bridges called Ancestor-Spans, left behind by the Groven people (an ancient race of bone-workers), are the only crossings that hold, and you learned to read their stress-fractures before committing your weight. You evaded the Rope-Garrison toll-posts, predicted the hunting grounds of Yukiona (ice-elemental hunters) and Karasen, and found safe passage through the steam-pipe junctions where heat-stealing Gazoro nest. Deepchasm Keep is your home, and from its walls you watched trackers who knew one route fewer than the storm take the wrong bridge. The peaks are getting colder, and the blizzard thicker. The bone-bridges the ancestors left are not being replaced. You carry the routes in your knotted cord, the only map that outlasts the storm. Miss the passage and your companions learn, very briefly, why the Groven carved their memorials into the spans. The blizzard is indifferent to which name is next.',
     skillProficiencies: ['Athletics', 'Survival'],
     toolProficiencies: ['Musical instrument'],
     languages: 1,
@@ -1294,7 +1294,7 @@ export const BACKGROUND_DATA = {
       veiled_mimir: 'You mapped the under-vaults with a mask-lamp and no company.'
     },
     name: 'Delver',
-    description: 'The Cragjaw Peaks are not just a labyrinth of storm and bone. Beneath the snow-buried keeps, the geothermal vents pulse in rhythms the surface has forgotten. You are one of the Chasm-Dwellers, the pipe-wardens who descend into the steam-tunnel networks beneath the terraced mountain settlements. You maintain the geothermal pipes with knotted cord records, reinforce the calcified substructures, and read pressure-fluctuations to predict blowouts before the pipes scream. The only light in the deep is the red glow of volcanic blood. Rime-Brides (ice-elemental hunters) stalk the heat-sinks, luring tunnel-workers into the steam-ghost zone. And the Rock-Speakers (the traditional animists who commune with the deep spirits) have been silenced for generations, but their tunnels remain marked in the oldest cord-maps. The vents are pulsing faster now. The pressure is rising. Something beneath the peaks wants out, and you know the tunnels too hot to enter, the pipes about to burst, and the dark where the answers the surface refuses to hear still echo.',
+    description: 'The Cragjaw Peaks are not just a labyrinth of storm and bone. Beneath the snow-buried keeps, the geothermal vents pulse in rhythms the surface has forgotten. You are one of the Chasm-Dwellers, the pipe-wardens who descend into the steam-tunnel networks beneath the terraced mountain settlements. You maintain the geothermal pipes with knotted cord records, reinforce the calcified substructures, and read pressure-fluctuations to predict blowouts before the pipes scream. The only light in the deep is the red glow of volcanic blood. Yukiona (ice-elemental hunters) stalk the heat-sinks, luring tunnel-workers into the steam-ghost zone. And the Rock-Speakers (the traditional animists who commune with the deep spirits) have been silenced for generations, but their tunnels remain marked in the oldest cord-maps. The vents are pulsing faster now. The pressure is rising. Something beneath the peaks wants out, and you know the tunnels too hot to enter, the pipes about to burst, and the dark where the answers the surface refuses to hear still echo.',
     skillProficiencies: ['Athletics', 'Survival'],
     toolProficiencies: ['Smith\'s tools'],
     languages: 1,
@@ -3170,7 +3170,7 @@ export const BACKGROUND_ROLEPLAYING_HOOKS = {
   peakTracker: [
     'The blizzard rewrites every path. Which route did you lose that you still dream about?',
     'The bone-bridges are not being replaced. What did you see at the far end of a span that made you cut the ropes behind you?',
-    'A Rime-Bride stalked your trail for three days. Why did it stop following?'
+    'A Yukiona stalked your trail for three days. Why did it stop following?'
   ],
   merrowSailor: [
     'Your arms are inked with trade-tattoos. Which line of ink represents a debt you cannot pay?',

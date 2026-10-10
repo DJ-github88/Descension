@@ -252,6 +252,14 @@
   flex-shrink: 0;
 }
 
+.character-management .character-card .character-portrait.is-framed-card {
+  border-radius: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
 .character-management .character-card .character-portrait img {
   width: 100% !important;
   height: 100% !important;
@@ -259,6 +267,14 @@
   transition: transform 0.3s ease;
   border-radius: 50% !important;
   object-position: center center !important;
+}
+
+.character-management .character-card .character-portrait img.fallback-class-icon {
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
 }
 
 .character-management .character-card:hover .character-portrait img {

@@ -82,7 +82,7 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
    return getIconUrl(icon, icon.includes('/') ? 'creatures' : 'items');
   }
   // No portrait chosen: fall back to the class icon
-  return getClassIconUrl(characterData.class) || getWowIconUrl('inv_misc_head_human_01');
+  return getClassIconUrl(characterData.class, { variant: 'transparent' }) || getClassIconUrl(characterData.class) || getWowIconUrl('inv_misc_head_human_01');
  };
 
  return (

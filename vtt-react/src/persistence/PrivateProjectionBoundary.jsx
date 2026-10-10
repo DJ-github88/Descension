@@ -19,6 +19,7 @@ import { getBootstrapGateState, subscribeBootstrapGate } from './bootstrapPrivac
 export function isHandoffIsolationActive(gateState) {
   if (!gateState) return false;
   if (gateState.holdReason) return true;
+  if (gateState.handoffPending === true) return true;
   return gateState.phase === 'retiring' || gateState.phase === 'loading';
 }
 

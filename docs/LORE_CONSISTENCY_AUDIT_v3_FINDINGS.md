@@ -324,7 +324,7 @@ The grim-dark tone is consistent across all lore files. No motivational contradi
 
 ### E-07. Category J (Cross-File Identity)  -  NO ISSUES FOUND
 - "The Warden" (cosmic entity) and "The Warden" (class tradition) are distinct concepts consistently distinguished across all files.
-- "Sluagh" has a single, consistent identity as a creature.
+- "Rabengast" has a single, consistent identity as a creature.
 - "Hunger Pact" (Berserker ancestor trauma) and "the hunger" (Keth-Amar cosmic hunger) are distinct concepts consistently referenced.
 
 ### E-08. New Categories for v4

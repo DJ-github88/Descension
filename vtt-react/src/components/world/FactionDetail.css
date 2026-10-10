@@ -1,0 +1,118 @@
+/* The faction dossier shares the realm codex's material palette and Chronicon.
+   Namespace specificity defeats the older important World hero declarations. */
+.faction-detail-panel ::selection { background: #cfbd99; color: var(--realm-ink); }
+.faction-detail-panel :is(button, input, select, textarea, [role='button']):focus-visible { outline: 2px solid #826749; outline-offset: 3px; }
+.faction-detail-panel :is(input, textarea) { caret-color: var(--realm-seal); }
+
+.faction-detail-panel .faction-hero-header {
+  background: linear-gradient(90deg, rgba(48, 36, 25, 0.97), rgba(48, 36, 25, 0.86)), var(--realm-atlas) center / cover !important;
+  border-bottom: 1px solid #9b835e !important;
+  box-shadow: none !important;
+  padding: 20px 28px 28px !important;
+  color: var(--realm-paper) !important;
+}
+.faction-detail-panel .faction-hero-top-nav { flex-wrap: wrap; border-bottom: 1px solid #897455 !important; padding-bottom: 16px !important; margin-bottom: 24px !important; }
+.faction-detail-panel .faction-breadcrumbs { flex-wrap: wrap; min-width: 0; color: #c9b694 !important; font-size: 0.75rem !important; }
+.faction-detail-panel .faction-breadcrumbs .crumb-sep { color: #c9b694 !important; }
+.faction-detail-panel .faction-breadcrumbs .current { color: var(--realm-paper) !important; }
+.faction-detail-panel .faction-hero-actions { flex-wrap: wrap; }
+.faction-detail-panel .faction-hero-header :is(.faction-hero-back-btn, .btn-faction-hero-btn) {
+  min-height: 40px;
+  padding: 8px 12px !important;
+  background: transparent !important;
+  border: 1px solid #897455 !important;
+  border-radius: 3px !important;
+  color: var(--realm-paper) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0 !important;
+}
+.faction-detail-panel .faction-hero-header :is(.faction-hero-back-btn, .btn-faction-hero-btn):hover { background: #453326 !important; border-color: var(--realm-brass) !important; color: var(--realm-paper) !important; box-shadow: none !important; transform: none !important; }
+.faction-detail-panel .faction-hero-header .btn-faction-hero-btn.delete { border-color: #956b5b !important; color: #e2b7a7 !important; }
+.faction-detail-panel .faction-hero-header button:focus-visible { outline-color: var(--realm-paper); }
+.faction-detail-panel .faction-hero-main-card { flex-wrap: wrap; padding-bottom: 0 !important; }
+.faction-detail-panel .faction-hero-crest-shield { border-width: 1px !important; border-color: var(--fac-secondary, #9b835e) !important; box-shadow: none !important; color: var(--realm-paper) !important; }
+.faction-detail-panel .faction-hero-crest-shield i { filter: none; }
+.faction-detail-panel :is(.faction-hero-type-badge, .faction-hero-region-badge, .faction-hero-hq-badge) { background: transparent !important; color: #d0bf9e !important; border: 1px solid #897455 !important; border-radius: 2px !important; letter-spacing: 0 !important; }
+.faction-detail-panel .faction-hero-title { font-size: clamp(1.75rem, 3vw, 2.35rem) !important; color: var(--realm-paper) !important; font-weight: 700 !important; text-shadow: none !important; text-wrap: balance; }
+.faction-detail-panel .faction-hero-authority-strip { font-family: 'Crimson Text', Georgia, serif; font-size: 1rem !important; color: #decdab !important; }
+.faction-detail-panel .faction-hero-authority-strip i { color: #c9b694 !important; }
+.faction-detail-panel .faction-hero-stats-col { gap: 0 !important; }
+.faction-detail-panel .faction-hero-stat-card { background: transparent !important; border: 0 !important; border-left: 1px solid #897455 !important; border-radius: 0 !important; padding: 8px 18px !important; box-shadow: none !important; backdrop-filter: none; }
+.faction-detail-panel .faction-hero-stat-card:hover { transform: none !important; border-color: #897455 !important; }
+.world-panel.faction-detail-panel .faction-hero-stat-card .stat-value { font-size: 1.8rem !important; font-weight: 600 !important; color: var(--realm-paper) !important; text-shadow: none !important; }
+.world-panel.faction-detail-panel .faction-hero-stat-card .stat-label { font-size: 0.65rem !important; color: #d0bf9e !important; letter-spacing: 0.04em !important; }
+.faction-detail-panel .faction-hero-ribbon { display: none !important; }
+
+/* Printed chapter navigation and manuscript panels. */
+.world-panel.faction-detail-panel .world-tabs { background: #e5d7bb !important; border-bottom: 1px solid var(--realm-rule) !important; padding: 8px 24px !important; gap: 4px; }
+.world-panel.faction-detail-panel .world-tab { box-sizing: border-box; background: transparent; color: var(--realm-muted) !important; border: 1px solid transparent !important; border-radius: 3px; min-height: 44px; padding: 10px 14px !important; font-size: 0.82rem !important; letter-spacing: 0 !important; }
+.world-panel.faction-detail-panel .world-tab:hover { background: var(--realm-panel); color: var(--realm-seal) !important; border-color: var(--realm-rule) !important; }
+.world-panel.faction-detail-panel .world-tab.active { background: var(--realm-seal) !important; color: var(--realm-paper) !important; border-color: var(--realm-seal) !important; box-shadow: none; }
+.faction-detail-panel .world-tab-content { padding: 26px 28px 36px; }
+.world-panel.faction-detail-panel .world-section { background: var(--realm-page) !important; border: 1px solid var(--realm-rule) !important; border-radius: 3px !important; padding: 22px !important; box-shadow: none !important; margin-bottom: 0 !important; }
+.world-panel.faction-detail-panel .world-section h3 { color: var(--realm-seal) !important; border-bottom: 3px double var(--realm-rule) !important; padding-bottom: 12px !important; margin-bottom: 14px !important; }
+.world-panel.faction-detail-panel .world-section .world-prose { color: var(--realm-ink) !important; font-family: 'Crimson Text', Georgia, serif !important; font-size: 1.08rem !important; line-height: 1.75 !important; }
+.world-panel.faction-detail-panel .world-quote { background: var(--realm-panel) !important; border: 1px solid var(--realm-rule) !important; border-block: 3px double var(--realm-rule) !important; border-radius: 2px !important; box-shadow: none; }
+.world-panel.faction-detail-panel .world-quote p { color: var(--realm-ink) !important; font-size: 1.08rem !important; line-height: 1.65 !important; }
+.world-panel.faction-detail-panel .world-quote cite { color: var(--realm-muted) !important; }
+.faction-detail-panel :is(.world-info-card, .world-relation-card) { background: var(--realm-page) !important; border: 1px solid var(--realm-rule) !important; border-radius: 3px !important; box-shadow: none; }
+.faction-detail-panel :is(.world-info-card h4, .world-card-meta, .world-muted) { color: var(--realm-muted) !important; }
+.faction-detail-panel .world-heraldry { box-shadow: none; }
+.faction-detail-panel .world-tag { background: var(--realm-panel) !important; border-color: var(--realm-rule) !important; border-radius: 2px !important; }
+.faction-detail-panel .lore-link { color: var(--realm-seal); text-decoration-color: var(--realm-rule); }
+.faction-detail-panel .world-action-btn { background: transparent !important; border: 1px solid var(--realm-rule) !important; color: var(--realm-seal) !important; border-radius: 3px; box-shadow: none; min-height: 36px; }
+.faction-detail-panel .world-action-btn:is(:hover, .primary) { background: var(--realm-seal) !important; border-color: #956b5b !important; color: var(--realm-paper) !important; box-shadow: none; transform: none; }
+
+/* Diplomacy keeps meaningful relationship labels while losing neon badges. */
+.faction-detail-panel .faction-diplomacy-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.faction-detail-panel .faction-relation-summary { flex: 1; min-width: 0; }
+.faction-detail-panel .faction-relation-parties { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.faction-detail-panel .faction-relation-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.faction-detail-panel .faction-relation-seal { background: var(--realm-panel) !important; border: 1px solid var(--realm-rule); border-radius: 3px !important; color: var(--realm-seal) !important; }
+.faction-detail-panel .world-relation-card .world-badge { background: var(--realm-panel) !important; color: var(--realm-seal) !important; border: 1px solid var(--realm-rule); border-radius: 2px; }
+
+/* Editing and forging a bond are written on the same stock as the dossier. */
+.faction-detail-panel .world-modal-card { background: var(--realm-page) !important; border: 1px solid var(--realm-rule) !important; border-radius: 3px; }
+.faction-detail-panel .world-modal-header { background: var(--realm-panel) !important; border-color: var(--realm-rule); }
+.faction-detail-panel .world-modal-header h3 { color: var(--realm-ink); }
+.faction-detail-panel .world-modal-title i { color: var(--realm-seal) !important; }
+.faction-detail-panel .world-form-group :is(input:not([type='color']), select, textarea) { background: var(--realm-page); border: 1px solid var(--realm-rule); border-radius: 3px; color: var(--realm-ink); font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; }
+.faction-detail-panel .world-form-group :is(input, select, textarea):focus { border-color: var(--realm-seal); box-shadow: none; }
+.faction-detail-panel .world-form-group :is(input, textarea)::placeholder { color: var(--realm-muted); }
+.faction-detail-panel .lore-editor-toolbar { background: var(--realm-panel); border-color: var(--realm-rule); border-radius: 2px 2px 0 0; box-shadow: none; }
+.faction-detail-panel .lore-toolbar-divider { background: var(--realm-rule); }
+.faction-detail-panel .lore-toolbar-group { flex-wrap: wrap; max-width: 100%; }
+.faction-detail-panel .lore-tool-btn { min-height: 32px; color: var(--realm-muted); border: 1px solid var(--realm-rule); border-radius: 2px; }
+.faction-detail-panel .lore-tool-btn:hover { background: var(--realm-seal); color: var(--realm-paper); border-color: var(--realm-seal); transform: none; }
+.world-modal-overlay.faction-dialog-theme { z-index: 10000; background: rgba(48, 36, 25, 0.72) !important; color: var(--realm-ink); font-family: 'Crimson Text', Georgia, serif; padding: 20px; box-sizing: border-box; }
+.faction-dialog-theme .world-modal-card { display: flex; flex-direction: column; max-height: calc(100dvh - 40px); overflow: hidden; }
+.faction-dialog-theme .world-modal-card > form { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.faction-dialog-theme .world-modal-body { flex: 1; min-height: 0; overflow-y: auto; }
+.faction-dialog-theme :is(.world-modal-header, .world-modal-actions) { flex-shrink: 0; }
+.faction-dialog-theme .world-modal-close { min-width: 36px; min-height: 36px; color: var(--realm-seal); }
+
+@media (max-width: 1100px) {
+  .faction-detail-panel .faction-hero-stats-col { margin-left: 100px; }
+}
+@media (max-width: 768px) {
+  .faction-detail-panel .faction-hero-header { padding: 16px 18px 22px !important; }
+  .faction-detail-panel .faction-hero-top-nav { gap: 12px !important; }
+  .faction-detail-panel .faction-breadcrumbs { order: 3; width: 100%; }
+  .faction-detail-panel .faction-hero-main-card { align-items: flex-start !important; gap: 12px !important; }
+  .faction-detail-panel .faction-hero-crest-shield { width: 44px !important; min-width: 44px !important; height: 52px !important; font-size: 22px !important; }
+  .faction-detail-panel .faction-hero-stats-col { width: 100%; margin-left: 0; border-top: 1px solid #897455; padding-top: 12px; }
+  .faction-detail-panel .faction-hero-stat-card { flex: 1; min-width: 0 !important; padding: 8px !important; }
+  .faction-detail-panel .faction-hero-stat-card:first-child { border-left: 0 !important; }
+  .world-panel.faction-detail-panel .world-tabs { padding: 8px 12px !important; flex-wrap: wrap; white-space: normal; }
+  .world-panel.faction-detail-panel .world-tab { flex: 1 1 calc(50% - 4px); justify-content: center; white-space: normal; text-align: center; padding: 10px 8px !important; }
+  .faction-detail-panel .world-tab-content { padding: 18px 12px 28px; }
+  .world-panel.faction-detail-panel .world-section { padding: 18px 14px !important; }
+  .faction-detail-panel .world-card-grid { grid-template-columns: minmax(0, 1fr); }
+  .faction-detail-panel .world-relation-card { flex-wrap: wrap; }
+  .faction-detail-panel .faction-relation-actions { margin-left: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faction-detail-panel * { transition: none !important; animation: none !important; }
+}

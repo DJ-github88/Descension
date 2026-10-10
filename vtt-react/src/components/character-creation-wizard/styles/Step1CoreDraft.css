@@ -863,24 +863,28 @@
    -------------------------------------------------------------------------- */
 
 .core-draft-step-layout .class-icon-token {
-    border: 1px solid rgba(153, 126, 85, 0.45) !important;
-    background: var(--draft-parchment-hi) !important;
-    border-radius: 6px !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
     transition: all 0.2s var(--draft-ease) !important;
 }
 
 .core-draft-step-layout .class-icon-token:hover {
-    border-color: var(--draft-brown) !important;
-    background: #fdfaf2 !important;
-    transform: translateY(-2px) scale(1.04) !important;
-    box-shadow: 0 4px 12px -2px rgba(46, 30, 15, 0.25) !important;
+    border: none !important;
+    background: transparent !important;
+    transform: translateY(-2px) scale(1.05) rotate(1deg) !important;
+    filter: drop-shadow(0 6px 12px rgba(46, 30, 15, 0.45)) !important;
+    box-shadow: none !important;
 }
 
 .core-draft-step-layout .class-icon-token.selected {
-    border: 2px solid var(--draft-umber) !important;
-    background: var(--draft-parchment-set) !important;
-    box-shadow: 0 0 0 2px var(--draft-parchment-hi), 0 0 12px rgba(176, 138, 74, 0.45) !important;
-    transform: scale(1.05) !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: scale(1.06) !important;
+    filter: drop-shadow(0 0 10px rgba(184, 124, 28, 0.85)) drop-shadow(0 4px 12px rgba(46, 30, 15, 0.5)) !important;
 }
 
 /* --------------------------------------------------------------------------
