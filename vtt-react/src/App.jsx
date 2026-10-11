@@ -42,6 +42,7 @@ import NotificationContainer from "./components/common/NotificationContainer";
 import CustomDialogContainer from "./components/common/CustomDialogContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
 import AssetLoadingOverlay from "./components/common/AssetLoadingOverlay";
+import UnifiedTransitionOverlay from "./components/multiplayer/UnifiedTransitionOverlay";
 import QuickSwitcher from "./components/common/QuickSwitcher";
 import { clearLocalRoom } from "./utils/localRoom";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
@@ -380,6 +381,8 @@ function GameScreen() {
     activeLocationMapId: state.activeLocationMapId
   })));
   const [isGameHydrated, setIsGameHydrated] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isFadingOut, setIsFadingOut] = useState(false);
   
   // Selectors for better performance - avoid re-rendering entire screen on unrelated store changes
   const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);
@@ -682,16 +685,30 @@ function GameScreen() {
   useEffect(() => {
     let isMounted = true;
 
-    // Safety timeout: GUARANTEE the loading screen ALWAYS dismisses within 800ms maximum
+    const progressInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 95) return prev;
+        return Math.min(95, prev + Math.floor(Math.random() * 12 + 6));
+      });
+    }, 120);
+
+    // Safety timeout: GUARANTEE the loading screen ALWAYS dismisses within 1800ms maximum
     const safetyTimer = setTimeout(() => {
       if (isMounted) {
-        setIsGameHydrated(true);
+        clearInterval(progressInterval);
+        setLoadingProgress(100);
+        setIsFadingOut(true);
+        setTimeout(() => {
+          if (isMounted) setIsGameHydrated(true);
+        }, 500);
       }
-    }, 800);
+    }, 1800);
 
     const initializeCharacter = async () => {
       try {
         setIsGameHydrated(false);
+        setIsFadingOut(false);
+        setLoadingProgress(15);
         const startTime = Date.now();
 
         // Check for local room first
@@ -799,17 +816,24 @@ function GameScreen() {
           }
         }
 
-        // Guarantee smooth display duration (300ms) to prevent flicker and allow canvas to mount
+        // Guarantee smooth display duration (600ms) to prevent flicker and allow canvas to mount
         const elapsed = Date.now() - startTime;
-        if (elapsed < 300) {
-          await new Promise(r => setTimeout(r, 300 - elapsed));
+        if (elapsed < 600) {
+          await new Promise(r => setTimeout(r, 600 - elapsed));
         }
       } catch (error) {
         console.error('Error initializing character:', error);
       } finally {
         if (isMounted) {
+          clearInterval(progressInterval);
           clearTimeout(safetyTimer);
-          setIsGameHydrated(true);
+          setLoadingProgress(100);
+          setIsFadingOut(true);
+          setTimeout(() => {
+            if (isMounted) {
+              setIsGameHydrated(true);
+            }
+          }, 450);
         }
       }
     };
@@ -818,6 +842,7 @@ function GameScreen() {
 
     return () => {
       isMounted = false;
+      clearInterval(progressInterval);
       clearTimeout(safetyTimer);
     };
   }, [location.state?.characterId, location.state?.roomId, setActiveCharacter, loadActiveCharacter]);
@@ -834,10 +859,14 @@ function GameScreen() {
   return (
     <ErrorBoundary name="GameScreen">
       {!isGameHydrated && (
-        <AssetLoadingOverlay 
-          message="Entering Battle Realm..." 
-          subtext="Hydrating party state, character stats & battle map..." 
-          isFullPage={true} 
+        <UnifiedTransitionOverlay
+          isVisible={true}
+          mode="join"
+          title="Entering the Realm"
+          subtitle="Preparing Sandbox & Tactical Grid..."
+          progress={isFadingOut ? 100 : loadingProgress}
+          isReady={true}
+          isFadingOut={isFadingOut}
         />
       )}
       <div className="game-screen" style={{ opacity: isGameHydrated ? 1 : 0, transition: 'opacity 0.4s ease' }}>

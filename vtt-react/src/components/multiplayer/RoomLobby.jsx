@@ -73,7 +73,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding, onJoinAttempt }) => 
   const { getActiveCharacter, loadCharacters } = useCharacterStore();
   const { isInParty, partyMembers } = usePartyStore();
   const [playerName, setPlayerName] = useState('');
-  const [playerColor, setPlayerColor] = useState('#4a90e2'); // Default blue color
+  const [playerColor, setPlayerColor] = useState('#7a483c'); // Default warm chestnut tone
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
   const [roomPassword, setRoomPassword] = useState('');

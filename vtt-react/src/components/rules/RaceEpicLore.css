@@ -69,28 +69,28 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(180deg, #8a1d1d 0%, #5c1010 100%);
-    border: 1px solid #4a0909;
-    border-radius: 6px;
+    background: linear-gradient(180deg, #663c32 0%, #4a2820 100%);
+    border: 1px solid #7c483c;
+    border-radius: 4px;
     padding: 6px 14px;
     color: #f7ebd6;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease;
     font-family: 'Cinzel', serif;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.4),
+        0 2px 6px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .tome-close-btn:hover {
-    background: linear-gradient(180deg, #ab2929 0%, #6e1313 100%);
-    transform: translateY(-1px);
+    background: linear-gradient(180deg, #7a483c 0%, #593026 100%);
+    border-color: #a05c4d;
     box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.5),
+        0 4px 10px rgba(0, 0, 0, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
@@ -103,31 +103,28 @@
     position: fixed;
     top: 14px;
     right: 14px;
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    background: linear-gradient(180deg, #8a1d1d 0%, #5c1010 100%);
-    border: 2px solid var(--tome-gold, #c5a146);
+    background: #4a2820;
+    border: 1.5px solid #b6a080;
     color: #f7ebd6;
     cursor: pointer;
     z-index: 100000;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
     box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.7),
-        0 0 10px rgba(197, 161, 70, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        0 4px 10px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .tome-floating-close-btn:hover {
-    background: linear-gradient(180deg, #ab2929 0%, #6e1313 100%);
-    transform: scale(1.1);
-    box-shadow: 
-        0 6px 16px rgba(0, 0, 0, 0.8),
-        0 0 14px rgba(240, 207, 101, 0.6);
+    background: #663c32;
+    border-color: #d8c29d;
+    transform: scale(1.05);
 }
 
 .tome-floating-close-btn:active {
@@ -228,21 +225,21 @@
     transform: scale(1.15);
 }
 
-/* Active index tab - elevated with gold fill */
+/* Active index tab — elevated lit parchment sheet */
 .tome-bookmark.active {
-    background: linear-gradient(180deg, #d4af37 0%, #99782b 100%) !important;
-    border-color: #ffe89e !important;
-    color: #14110f !important;
-    font-weight: 800;
-    height: 40px;
-    min-height: 40px;
-    transform: translateY(-4px);
-    box-shadow: 0 -6px 20px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: var(--tome-parchment-light, #fdfaf2) !important;
+    border-color: var(--tome-border, #8b7355) !important;
+    color: var(--tome-ink, #2b1a0e) !important;
+    font-weight: 700;
+    height: 38px;
+    min-height: 38px;
+    transform: translateY(-3px);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.7);
     z-index: 105;
 }
 
 .tome-bookmark.active i {
-    color: #14110f !important;
+    color: #7c483c !important;
 }
 
 /* ─── Pages Scroll Container ─── */

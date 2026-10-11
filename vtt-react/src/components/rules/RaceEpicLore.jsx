@@ -6,9 +6,11 @@ import { HERITAGE_TRADITIONS } from '../../data/classHeritageRegistry';
 import { BACKGROUND_DATA } from '../../data/backgroundData';
 import './RaceEpicLore.css';
 
-// Parses text for dictionary terms and renders them as interactive LoreLink components
+// Parses text for dictionary terms and renders them as interactive LoreLink components (memoized cache)
+const loreTextCache = new Map();
 const renderLoreText = (text) => {
   if (!text || typeof text !== 'string') return text;
+  if (loreTextCache.has(text)) return loreTextCache.get(text);
   const processed = autoLinkTerminology(text);
   const regex = /(<LoreLink termId="([^"]+)">([\s\S]*?)<\/LoreLink>)/g;
   const result = [];
@@ -23,7 +25,13 @@ const renderLoreText = (text) => {
     lastIndex = regex.lastIndex;
   }
   if (lastIndex < processed.length) result.push(processed.substring(lastIndex));
-  return result.length > 0 ? result : text;
+  const finalResult = result.length > 0 ? result : text;
+  if (loreTextCache.size > 500) {
+    const firstKey = loreTextCache.keys().next().value;
+    loreTextCache.delete(firstKey);
+  }
+  loreTextCache.set(text, finalResult);
+  return finalResult;
 };
 
 const parseInlineMarkdown = (text) => {

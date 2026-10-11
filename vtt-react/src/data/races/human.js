@@ -224,31 +224,31 @@ Tessic children are born underground, and most will never see open sky. Educatio
       languages: ["Wayfarer's Cant"],
         crest: '/assets/images/crests/human_thalren_crest.png',
       illustration: '/assets/images/races/human_thalren_city_greymark.jpg',
-      illustrationCaption: 'The Walled Archive-City of Greymark — Gothic clocktowers, ironwood palisade bastions, and sky-bridges rising through pine mists in rough charcoal draft with mist-grey watercolor splash.',
+      illustrationCaption: '“Behind the palisades of Greymark, we preserve the only truth that cannot rot: that we were here, and that our names were spoken.” — Thalra the Last Archivist',
       illustrations: [
         {
           src: '/assets/images/races/human_thalren_portrait_bust.jpg',
-          caption: 'Canonical Tallyn Racial Portrait — Intellectual frontier archivist with reading spectacles, chained pocket journal, and ink-stained hands in rough charcoal draft with mist-grey watercolor splash.'
+          caption: '“A life unwritten is a life the fog has already eaten.” — Tallyn Common Proverb'
         },
         {
           src: '/assets/images/races/human_thalren_city_greymark.jpg',
-          caption: 'The Walled Archive-City of Greymark — Sovereign capital citadel with hexagonal library spires, sky-bridges, and rotunda archive in rough charcoal draft with mist-grey watercolor splash.'
+          caption: '“Behind the palisades of Greymark, we preserve the only truth that cannot rot: that we were here, and that our names were spoken.” — Thalra the Last Archivist'
         },
         {
           src: '/assets/images/races/human_thalren_location_scriptorium.jpg',
-          caption: 'Scriptorium of the Last Candle — Subterranean copyist cathedral with vaulted gothic arches and rows of copying desks in rough charcoal draft with mist-grey watercolor splash.'
+          caption: '“The candle burns down, the fingers cramp with chill, but the ink must not dry before the lineage is set.” — Scriptorium Copyist'
         },
         {
           src: '/assets/images/races/human_thalren_location_waystation.jpg',
-          caption: 'Cold-Lantern Waystation — Misty mountain pine frontier outpost with cobalt-lantern watchtower and weigh station in rough charcoal draft with mist-grey watercolor splash.'
+          caption: '“Beyond the cobalt lantern lies only mist and unrecorded dark. Keep the flame trimmed.” — Frostwood Warden'
         },
         {
           src: '/assets/images/races/human_thalren_figure_thalra.jpg',
-          caption: 'Thalra Greymark (The Last Archivist) — Revered 107-year-old sovereign historian holding the brass-bound lineage ledger and swan-feather quill in rough charcoal draft with mist-grey watercolor splash.'
+          caption: '“I have outlived three generations of princes, but their ink has not faded by a single drop.” — Thalra Greymark'
         },
         {
           src: '/assets/images/races/human_thalren_figure_kaelen.jpg',
-          caption: 'High Scribe Kaelen (Master Cartographer) — Veteran surveyor crouching on craggy limestone bluffs with sighting compass and topographic map in rough charcoal draft with mist-grey watercolor splash.'
+          caption: '“The forest shifts its paths with every frost. A surveyor must trust his compass more than his own eyes.” — High Scribe Kaelen'
         }
       ],
 
@@ -328,31 +328,31 @@ The fog-choked forests of Frostwood Reach shape the Tallyn body: lean, watchful,
       name: 'Skald',
         crest: '/assets/images/crests/human_skald_crest.png',
       illustration: '/assets/images/races/human_skald_city_skalvyrhold.jpg',
-      illustrationCaption: 'Skalvyrhold Fortress & Great Longhouse — Imposing timber and glacial rime-stone fortress on windswept crags in rough charcoal draft with glacial frost-blue watercolor splash.',
+      illustrationCaption: '“What the winter cannot break, it hammers into iron. Let the blizzard howl against our hall.” — Jarl Torvald Ice-Breaker',
       illustrations: [
         {
           src: '/assets/images/races/human_skald_portrait_bust.jpg',
-          caption: 'Canonical Skald Racial Portrait — Glacial shield-maiden with warrior braids, polar bear pelt mantle, and iron penannular brooch in rough charcoal draft with glacial-blue watercolor splash.'
+          caption: '“Blood freezes before pride does. Stand your ground until the ice claims you.” — Skald Shield-Maiden'
         },
         {
           src: '/assets/images/races/human_skald_city_skalvyrhold.jpg',
-          caption: 'Skalvyrhold Glacier Keep & Longhouse — Sovereign capital fortress carved between blue glacial ice walls and basalt cliffs in rough charcoal draft with glacial-blue watercolor splash.'
+          caption: '“What the winter cannot break, it hammers into iron. Let the blizzard howl against our hall.” — Jarl Torvald Ice-Breaker'
         },
         {
           src: '/assets/images/races/human_skald_location_frost_barrow.jpg',
-          caption: 'The Frost-Barrow of the First Reavers — Windswept ancestral ship-cairns and towering carved dragon runestones with sacred fire-altar in rough charcoal draft with glacial-blue watercolor splash.'
+          caption: '“Here lie the reavers of the first crossing, their deeds carved in granite and sealed in glacier rime.” — Runestone Inscription'
         },
         {
           src: '/assets/images/races/human_skald_location_whalers_slip.jpg',
-          caption: 'Whaler’s Slip & Brine Vats — Industrial timber fjord harbor with wooden slipways, longships, and brine vats in rough charcoal draft with glacial-blue watercolor splash.'
+          caption: '“The fjord gives nothing freely; we drag our hearth-fires from the salt and the cold.” — Skalvyr Harpooner'
         },
         {
           src: '/assets/images/races/human_skald_figure_ragna.jpg',
-          caption: 'Ragna Skalvyr (The Ice-Widow) — Sovereign war-leader jarl with polar bear mantle, two-handed bearded greataxe, and ivory horn in rough charcoal draft with glacial-blue watercolor splash.'
+          caption: '“Grief is a fire that does not warm. Turn it against the foe, or freeze where you stand.” — Ragna Skalvyr, The Ice-Widow'
         },
         {
           src: '/assets/images/races/human_skald_figure_torvald.jpg',
-          caption: 'Jarl Torvald Ice-Breaker — Towering longship reaver with raven round shield and broadaxe on dragon-prow deck in rough charcoal draft with glacial-blue watercolor splash.'
+          caption: '“The longship carves the brine as an axe splits pine. We answer to no king but the storm.” — Jarl Torvald'
         }
       ],
 
@@ -445,23 +445,23 @@ Adding to the tension is the **Icechamber Syndicate**, a southern trade monopoly
         crest: '/assets/images/crests/human_tessen_crest.png',
       languages: ["Wayfarer's Cant", 'Spanspeech'],
       illustration: '/assets/images/races/human_tessen_location_ingot_bazaar.jpg',
-      illustrationCaption: 'The Smoldering Ingot Bazaar & Great Scales — Cantilevered granite terrace overlooking mountain chasm with monumental counterbalanced bronze balance scale in rough charcoal draft with forge amber watercolor splash.',
+      illustrationCaption: '“The mountain takes everything if you leave your door ajar. Weigh the ore, seal the hatch, and keep the steam flowing.” — Oda Tesshan',
       illustrations: [
         {
           src: '/assets/images/races/human_tessen_location_ingot_bazaar.jpg',
-          caption: 'The Smoldering Ingot Bazaar & Great Scales — Cantilevered granite terrace overlooking mountain chasm with monumental counterbalanced bronze balance scale in rough charcoal draft with forge amber watercolor splash.'
+          caption: '“The mountain takes everything if you leave your door ajar. Weigh the ore, seal the hatch, and keep the steam flowing.” — Oda Tesshan'
         },
         {
           src: '/assets/images/races/human_tessen_location_cable_gantry.jpg',
-          caption: 'Cable-Car Gantry & Sump-Pumps — Timber-and-iron cable gantry anchored against sheer cliffs with passenger gondola and steam walking-beam pump in rough charcoal draft with forge amber watercolor splash.'
+          caption: '“A single rusted bolt sends a gondola screaming into the abyss. Check the grease, check the tension, then check again.” — Gantry Tender'
         },
         {
           src: '/assets/images/races/human_tessen_figure_kael.jpg',
-          caption: 'Master Founder Kael Tesshan (High Smelter of the Chasm) — Stocky foundry patriarch with square-headed forging hammer and crucible tongs beside anvil in rough charcoal draft with forge amber watercolor splash.'
+          caption: '“Steel does not care about your birthright; it only remembers the temper and the hammer.” — Master Founder Kael'
         },
         {
           src: '/assets/images/races/human_tessen_figure_moira.jpg',
-          caption: 'Moira the Cable-Rigger (Master of the High Spans) — Agile female rigger standing on high-altitude cantilevered iron beam junction with cable wrench and harness in rough charcoal draft with forge amber watercolor splash.'
+          caption: '“Out on the high span, with two thousand feet of fog below you, you learn to trust the cable more than your own brothers.” — Moira the Cable-Rigger'
         }
       ],
 
@@ -543,27 +543,27 @@ The snow-buried keeps of the Cragjaw Peaks produce a particular kind of human: p
         crest: '/assets/images/crests/human_merryn_crest.png',
       languages: ["Wayfarer's Cant", 'Tidespeech'],
       illustration: '/assets/images/races/human_merryn_city_merrowport.jpg',
-      illustrationCaption: 'Merrowport Haven & Sovereign Wharves — Bustling maritime harbor fortress with timber docks, rigging cranes, and tide-bazaars in rough charcoal draft with wave-indigo watercolor splash.',
+      illustrationCaption: '“Paper turns to mush in the brine. If you mean a promise, cut it deep into the flesh where the sea can read it.” — Drift-Council Maxim',
       illustrations: [
         {
           src: '/assets/images/races/human_merryn_portrait_bust.jpg',
-          caption: 'Canonical Merryn Racial Portrait — Weather-beaten boatswain with windswept sailor knot, neck wave-tattoo, and carved bone marlinspike in rough charcoal draft with deep wave-indigo watercolor splash.'
+          caption: '“The sea never forgives a clumsy knot or a forgotten debt.” — Merrowport Boatswain'
         },
         {
           src: '/assets/images/races/human_merryn_city_merrowport.jpg',
-          caption: 'Drift-Anchor Haven & Sovereign Wharves — Sovereign shanty-capital constructed from salvaged hulls with interlinked boardwalks in rough charcoal draft with wave-indigo watercolor splash.'
+          caption: '“A city of lashed hulks and barnacled timber, held together by salt, courage, and stubborn defiance.” — Merrowport Chronicle'
         },
         {
           src: '/assets/images/races/human_merryn_location_fish_bazaar.jpg',
-          caption: 'Merrowport Fish-Bazaar & Slipways — Wide stone harbor quay with heavy timber gantry crane, net hoists, and deep-sea catch in rough charcoal draft with wave-indigo watercolor splash.'
+          caption: '“From the deep trenches we pull tomorrow’s bread, though the dark water always asks a price in return.” — Wharf Master'
         },
         {
           src: '/assets/images/races/human_merryn_location_pelican_gut.jpg',
-          caption: 'Pelican-Gut Anchorage — Secluded saltwater lagoon framed by monumental limestone sea arch with dry-docked sloop in rough charcoal draft with wave-indigo watercolor splash.'
+          caption: '“When the patrol galleys sweep the bay, Pelican-Gut is where wise captains lay low.” — Sloop Smuggler'
         },
         {
           src: '/assets/images/races/human_merryn_figure_maren.jpg',
-          caption: 'Captain Maren the Drift-Born (Commodore of the Shanty Fleet) — Commanding privateer commodore with boarding cutlass and brass spyglass on quarterdeck in rough charcoal draft with wave-indigo watercolor splash.'
+          caption: '“The wind blows where it wills, and so do we. Pay your harbor dues or face the cutlass.” — Commodore Maren'
         }
       ],
 
@@ -643,31 +643,31 @@ The Iceheart Sea shapes the Merryn into something between sailor and storm. Lean
       name: 'Ordu',
         crest: '/assets/images/crests/human_ordan_crest.png',
       illustration: '/assets/images/races/human_ordan_city_encampment.jpg',
-      illustrationCaption: 'Khagan-Gora (The Great Ring of Yurts) — Vast circular tent-metropolis on sweeping steppe grasslands in rough charcoal draft with radiant desert gold watercolor splash.',
+      illustrationCaption: '“A starless sky cannot blind a hunter whose songs remember every rise and ravine of the steppe.” — Bayarmaa, Ordu Khan',
       illustrations: [
         {
           src: '/assets/images/races/human_ordan_portrait_bust.jpg',
-          caption: 'Canonical Ordu Racial Portrait — Steppe horse-archer with warrior braids, eagle feather, and carved bone horse-whistle in rough charcoal draft with radiant desert gold watercolor splash.'
+          caption: '“Release the arrow when the horse’s hooves leave the earth; in that silent breath, the wind cannot touch your aim.” — Steppe Archer'
         },
         {
           src: '/assets/images/races/human_ordan_city_encampment.jpg',
-          caption: 'Khagan-Gora (The Great Ring of Yurts) — Sovereign tent-capital of concentric yurt rings and horse corrals in rough charcoal draft with radiant desert gold watercolor splash.'
+          caption: '“When the pastures exhaust their bounty, we pack our yurts into the saddlebags and ride with the dawn.” — Camp Elder'
         },
         {
           src: '/assets/images/races/human_ordan_location_astrolabe.jpg',
-          caption: 'The Sun-Dial Astrolabe Pavilion — Circular granite mesa observatory with colossal rotating bronze armillary sphere in rough charcoal draft with radiant desert gold watercolor splash.'
+          caption: '“The sun is gone, but the turning heavens leave their footprints upon the brass ring.” — Mesa Astrologer'
         },
         {
           src: '/assets/images/races/human_ordan_location_caravanserai.jpg',
-          caption: 'Wind-Gap Caravanserai — Fortified mud-brick canyon trading post with arched gatehouse, courtyard well, and pack camel in rough charcoal draft with warm desert gold watercolor splash.'
+          caption: '“Water your camels, shake the red dust from your boots, and speak no ill of your host while the tea is warm.” — Caravanserai Warden'
         },
         {
           src: '/assets/images/races/human_ordan_figure_khan.jpg',
-          caption: 'Ordu Khan (The Wind-Singer) — Supreme warlord with composite recurve bow, lamellar brigandine armor, and horse-tail war banner in rough charcoal draft with desert gold watercolor splash.'
+          caption: '“A starless sky cannot blind a hunter whose songs remember every rise and ravine of the steppe.” — Bayarmaa, Ordu Khan'
         },
         {
           src: '/assets/images/races/human_ordan_figure_bato.jpg',
-          caption: 'Keshik Bato the Eagle-Eye — Champion falconer with massive hunting golden eagle on heavy gauntlet and recurve bow in rough charcoal draft with desert gold watercolor splash.'
+          caption: '“The golden eagle sees the hare three leagues away; the archer merely waits for the dive.” — Keshik Bato'
         }
       ],
 

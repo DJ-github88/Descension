@@ -3,7 +3,7 @@ export const myrathil = {
     name: 'Myrathil',
     essence: 'Free-born children of the sea',
     illustration: '/assets/images/races/myrathil_deepling_figure_sola.jpg',
-    illustrationCaption: 'Sola the Glider — Youthful Nereid Myrathil ambassador holding a nautilus-shell light-lure beacon with companion squids in rough charcoal draft with electric cyan watercolor splash.',
+    illustrationCaption: '“In the depths where sunlight has never fallen, the nautilus lure guides the lost safely back to the trench.” — Sola the Glider',
     cardFlavor: 'Sea-spawned from volcanic foam and storm-surge, their bioluminescent skin shifts with every tide and mood.',
     visualDescription: `Lean and fluid, standing 5'3" to 5'9", with bronze skin marked by shifting bioluminescent color along the vein-lines — teal in calm, storm-grey when the pressure drops, brighter when emotions run high. Their eyes are enormous and ocean-blue, too large for their faces, perpetually squinting against light they were not built for. Webbing connects their fingers, flushing with blood when their marine nature surfaces. Their hair is dark and salt-crusted. They wear kelp-weave body-wraps that tighten when wet, net-knot shawls laced with sea-glass beads, and waxed canvas storm-capes. Salt dries on their lashes when newly spawned from the sea-foam.`,
     description: `**[The Bioluminescent Foam-Born]**, *Lashed to the bowsprit of an ice-locked clipper, a slender Myrathil navigator with bioluminescent teal skin guides the ship through a shifting channel in the frozen sea.*
@@ -219,7 +219,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         name: 'Corali',
         crest: '/assets/images/crests/myrathil_shoreling_crest.png',
         illustration: '/assets/images/races/myrathil_shoreling_city_salthinge.jpg',
-        illustrationCaption: 'Salt-Hinge Harbor Fortress & Tidal Bazaar — Sovereign coastal metropolis of the Corali Myrathil carved into white limestone cliffs in rough charcoal draft with ocean slate watercolor splash.',
+        illustrationCaption: '“Carved directly into the limestone cliffs of Salt-Hinge, our harbor stands firm against the highest storm surge of the solstice.” — Wave-Master Saelith',
         illustrations: [
           {
             src: '/assets/images/races/myrathil_shoreling_city_salthinge.jpg',
@@ -491,7 +491,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         name: 'Nereid',
         crest: '/assets/images/crests/myrathil_deepling_crest.png',
         illustration: '/assets/images/races/myrathil_deepling_city_trench.jpg',
-        illustrationCaption: 'The Sunless Basalt Trench Metropolis — Sunken underwater chasm metropolis built between sheer vertical basalt cliffs with hexagonal spires and bubble chimneys in rough charcoal draft with electric cyan watercolor splash.',
+        illustrationCaption: '“In the crushing silence of the abyss, the trench spires sing with the pressure of a thousand fathoms.” — Deep-Council Chronicler',
         illustrations: [
           {
             src: '/assets/images/races/myrathil_deepling_city_trench.jpg',
@@ -790,7 +790,7 @@ The Tide-Sing occurs at spawning gales. When a storm approaches that carries the
         name: 'Ondine',
         crest: '/assets/images/crests/myrathil_riverling_crest.png',
         illustration: '/assets/images/races/myrathil_riverling_city_cataract_reach.jpg',
-        illustrationCaption: 'Cataract Reach — Sovereign cascading stilt-metropolis of the Ondine Myrathil spanning roaring white-water waterfalls in rough charcoal draft with river jade watercolor splash.',
+        illustrationCaption: '“Suspended above the roaring gorge of Cataract Reach, the cypress timbers bend with the current but never break.” — River-Warden Venn',
         illustrations: [
           {
             src: '/assets/images/races/myrathil_riverling_city_cataract_reach.jpg',

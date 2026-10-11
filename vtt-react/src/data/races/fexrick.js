@@ -6,7 +6,7 @@ export const fexrick = {
     name: 'Fex',
     essence: 'The Cyber-Graft Guilds of the Cragjaw Sumps',
     illustration: '/assets/images/races/fexric_clockwork_figure_gearfather.jpg',
-    illustrationCaption: 'Brasskin Gear-Father — Legendary Founder and Sovereign Artificer with brass mechanical arms and ticking escapement heart in rough charcoal draft with steampunk brass watercolor splash.',
+    illustrationCaption: '“The escapement heart does not hesitate, and the brass limb does not tire. Progress is measured one cog at a time.” — The Gear-Father',
     cardFlavor: 'Master alchemists and cyber-grafters who have been augmenting themselves to endure the Peaks since before the mountain had a name.',
     description: `**[The Cyber-Graft Guilds]**, *In the volcanic soot-glow and neon flicker of the Cragjaw Peak vaults, a green-skinned cyber-engineer adjusts a whirring, brass alchemical ocular grafted to his left eye-socket, his copper-wired beard clicking as neural data pulses through his pneumatic tools.*
 
@@ -235,23 +235,23 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
             name: 'Brasskin',
         crest: '/assets/images/crests/fexric_clockwork_crest.png',
             illustration: '/assets/images/races/fexric_clockwork_figure_gearfather.jpg',
-            illustrationCaption: 'Brasskin Gear-Father — Legendary Founder and Sovereign Artificer with articulated brass arms, escapement heart, and copper-braided beard in rough charcoal draft with steampunk brass watercolor splash.',
+            illustrationCaption: '“The escapement heart does not hesitate, and the brass limb does not tire. Progress is measured one cog at a time.” — The Gear-Father',
             illustrations: [
                 {
                     src: '/assets/images/races/fexric_clockwork_figure_gearfather.jpg',
-                    caption: 'Brasskin Gear-Father — Legendary Founder and Sovereign Artificer with articulated brass arms, escapement heart, and copper-braided beard in rough charcoal draft with steampunk brass watercolor splash.'
+                    caption: '“The escapement heart does not hesitate, and the brass limb does not tire. Progress is measured one cog at a time.” — The Gear-Father'
                 },
                 {
                     src: '/assets/images/races/fexric_clockwork_city_gearhaven.jpg',
-                    caption: 'Gearford & Great Cog-Spire — The sovereign metropolis of the Brasskin driven by gargantuan intermeshed bronze gears, clocktowers, and pressurized steam flumes.'
+                    caption: '“Listen to the teeth meshing in the dark. So long as the great wheel turns, our breath is bought and paid for.” — Cog-Spire Machinist'
                 },
                 {
                     src: '/assets/images/races/fexric_clockwork_location_hydraulic_sluice.jpg',
-                    caption: 'The Brass Canal Locks & Slag Sluice — Multi-tiered canal basin where colossal brass paddlewheels convert rushing river currents into rotational gear power.'
+                    caption: '“River current into torque, torque into heat, heat into life. The mountain provides; the gear commands.” — Sluice Engineer'
                 },
                 {
                     src: '/assets/images/races/fexric_clockwork_location_chrono_vault.jpg',
-                    caption: 'Clocktower Chrono-Vaults & Escapement Guildhall — Vaulted central archive chamber inside the Great Cog-Spire where master-clocks are synchronized.'
+                    caption: '“Every second has a serial number. Lose your count, and you lose your place in the guild.” — Chrono-Archivist'
                 }
             ],
 
@@ -405,23 +405,23 @@ In the campaign present, failing turbines, incomplete songs and renewed vat oper
             name: 'Alchemite',
         crest: '/assets/images/crests/fexric_caustic_crest.png',
             illustration: '/assets/images/races/fexric_caustic_figure_sumpscbg.jpg',
-            illustrationCaption: 'Alchemite Sump-Scavenger — The First Clan-Free pioneer with round brass respirator, twin ribbed breathing hoses, and chemical siphon in rough charcoal draft with caustic green watercolor splash.',
+            illustrationCaption: '“What the surface clans discard down the drain-pipe becomes our tomorrow’s catalyst.” — Sump-Scavenger Maxim',
             illustrations: [
                 {
                     src: '/assets/images/races/fexric_caustic_figure_sumpscbg.jpg',
-                    caption: 'Alchemite Sump-Scavenger — The First Clan-Free pioneer with round brass respirator, twin ribbed breathing hoses, and chemical siphon in rough charcoal draft with caustic green watercolor splash.'
+                    caption: '“What the surface clans discard down the drain-pipe becomes our tomorrow’s catalyst.” — Sump-Scavenger Maxim'
                 },
                 {
                     src: '/assets/images/races/fexric_caustic_city_sumpdeep.jpg',
-                    caption: 'Slag-Deep & Sump-Foundry — Sovereign subterranean alchemical metropolis of the Alchemite with tiered limestone terraces, runoff aqueducts, and fungal greenhouse conservatories.'
+                    caption: '“The holdfasts look down on the sludge, but without our filters and vats, their high spires choke on their own fumes.” — Sump-Foundry Elder'
                 },
                 {
                     src: '/assets/images/races/fexric_caustic_location_acid_flume.jpg',
-                    caption: 'Acid-Flume Extraction Vats & Fungal Distilleries — Volcanic limestone cavern refinery lined with copper alembics, coiled glass condenser tubes, and evaporating vats.'
+                    caption: '“Stir slowly, breathe through the filters, and never let the retort boil dry unless you want a new face.” — Caustic Distiller'
                 },
                 {
                     src: '/assets/images/races/fexric_caustic_location_sump_well.jpg',
-                    caption: 'Sump-Well No. 7 & Chemical Barter-Pits — Subterranean drainage basin and botanical greenhouse pavilion where scavengers cultivate glowing shelf-mushrooms.'
+                    caption: '“Life finds a way in the dark, fed by runoff and stubborn will.” — Sump-Well Cultivator'
                 }
             ],
 

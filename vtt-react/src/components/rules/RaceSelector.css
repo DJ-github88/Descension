@@ -1004,7 +1004,7 @@
 
 .details-body {
     display: grid;
-    grid-template-columns: clamp(240px, 27%, 300px) minmax(0, 1fr);
+    grid-template-columns: clamp(340px, 32%, 460px) minmax(0, 1fr);
     gap: var(--race-panel-gap);
     margin-bottom: 1rem;
     align-items: start;
@@ -1078,8 +1078,8 @@
     align-items: baseline;
     gap: 0.75rem;
     font-size: 0.95rem;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid rgba(180, 140, 80, 0.12);
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(180, 140, 80, 0.15);
 }
 
 .sidebar-stat-row:last-child {
@@ -1090,8 +1090,10 @@
     color: #8a6d3b;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .sidebar-stat-row strong {
@@ -1099,17 +1101,29 @@
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     text-align: right;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .sidebar-stat-row-full {
-    flex-direction: column;
-    gap: 0.15rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.sidebar-stat-row-full span {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .sidebar-stat-row-full strong {
     text-align: right;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 /* RIGHT CONTENT FLOW */
@@ -1140,7 +1154,7 @@
 }
 
 .variant-details-view .content-section-text {
-    max-width: 75ch;
+    max-width: none;
     font-size: 1rem;
     line-height: 1.65;
     overflow-wrap: anywhere;
@@ -1473,18 +1487,21 @@
 
 .variant-details-view .info-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 1.25rem;
 }
 
 .variant-details-view .info-row {
-    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: nowrap;
     min-width: 0;
 }
 
 .variant-details-view .info-label {
-    font-size: 0.7rem;
-    white-space: normal;
-    flex-shrink: 1;
-    overflow-wrap: anywhere;
+    font-size: 0.68rem;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .variant-details-view .info-value {

@@ -1687,7 +1687,8 @@ const RaceSelector = () => {
                   };
                 })();
                 return (
-                <div className="sidebar-physical">
+                <div className="sidebar-physical info-block">
+                  <h4 className="info-block-title">PHYSICAL TRAITS</h4>
                   {displayedTraits.size && <div className="sidebar-stat-row"><span>Size</span><strong>{displayedTraits.size}</strong></div>}
                   {displayedTraits.height && <div className="sidebar-stat-row"><span>Height</span><strong>{displayedTraits.height}</strong></div>}
                   {displayedTraits.weight && <div className="sidebar-stat-row"><span>Weight</span><strong>{displayedTraits.weight}</strong></div>}

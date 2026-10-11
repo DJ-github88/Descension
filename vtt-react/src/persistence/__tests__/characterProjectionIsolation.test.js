@@ -13,6 +13,30 @@
  * destination owner activates. A's scoped data stays recoverable and is
  * restored when A returns.
  */
+import useCharacterStore from '../../store/characterStore';
+import { registerStore } from '../../store/storeRegistry';
+import {
+  resetBootstrapGateForTests,
+  activatePrivateScope,
+  getBootstrapGateState
+} from '../bootstrapPrivacyGate';
+import {
+  registerCharacterHandoff,
+  resetCharacterProjectionIsolationForTests
+} from '../scopedStoreHandoffs';
+import {
+  registerHandoffParticipant,
+  resetHandoffCoordinatorForTests,
+  coordinateAuthPrincipalChange,
+  whenHandoffIdle
+} from '../handoff/accountHandoffCoordinator';
+import {
+  saveRoster,
+  loadRoster,
+  saveActivePointer,
+  resetCharacterScopedStorageState
+} from '../characterScopedStorage';
+
 jest.mock('../../config/firebase', () => ({
   db: {},
   isFirebaseConfigured: false,
@@ -38,35 +62,26 @@ jest.mock('firebase/firestore', () => ({
 }));
 jest.mock('firebase/auth', () => ({ onAuthStateChanged: jest.fn(() => () => {}) }));
 
-import useCharacterStore from '../../store/characterStore';
-import { registerStore } from '../../store/storeRegistry';
-import {
-  resetBootstrapGateForTests,
-  activatePrivateScope,
-  getBootstrapGateState
-} from '../bootstrapPrivacyGate';
-import {
-  registerCharacterHandoff,
-  resetCharacterProjectionIsolationForTests
-} from '../scopedStoreHandoffs';
-import {
-  registerHandoffParticipant,
-  resetHandoffCoordinatorForTests,
-  coordinateAuthPrincipalChange,
-  whenHandoffIdle
-} from '../handoff/accountHandoffCoordinator';
-import {
-  saveRoster,
-  loadRoster,
-  saveActivePointer
-} from '../characterScopedStorage';
-
 const ownerA = { scopeKind: 'user', scopeId: 'owner-a' };
-const ownerB = { scopeKind: 'user', scopeId: 'owner-b' };
 
 const ticks = async () => {
   for (let i = 0; i < 24; i += 1) await Promise.resolve();
 };
+
+function installLocksShim() {
+  const tails = new Map();
+  Object.defineProperty(navigator, 'locks', {
+    configurable: true,
+    value: {
+      request(name, options, callback) {
+        const run = (tails.get(name) || Promise.resolve())
+          .then(() => (typeof options === 'function' ? options : callback)({ name }));
+        tails.set(name, run.catch(() => {}));
+        return run;
+      }
+    }
+  });
+}
 
 function setAuth(user) {
   registerStore('authStore', {
@@ -83,9 +98,11 @@ function setAuth(user) {
 beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
+  installLocksShim();
   resetBootstrapGateForTests();
   resetHandoffCoordinatorForTests();
   resetCharacterProjectionIsolationForTests();
+  resetCharacterScopedStorageState();
   useCharacterStore.setState({
     characters: [],
     currentCharacterId: null,
@@ -129,8 +146,11 @@ test('P5-01 character working selectors expose no retained roster during a held 
   expect(useCharacterStore.getState().currentCharacterId).toBeNull();
   expect(useCharacterStore.getState().getActiveCharacter()).toBeNull();
 
-  // A's authored scoped record is retained and recoverable.
-  expect(loadRoster(false)).toEqual([{ id: 'c-a', name: 'A HERO' }]);
+  // A's authored scoped record is retained and recoverable (the isolation
+  // flush preserves the full working character).
+  const retained = loadRoster(false);
+  expect(retained).toHaveLength(1);
+  expect(retained[0]).toEqual(expect.objectContaining({ id: 'c-a', name: 'A HERO' }));
 
   // Release: B activates and receives B-owned data only.
   release();

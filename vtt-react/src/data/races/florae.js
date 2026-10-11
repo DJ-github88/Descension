@@ -3,23 +3,23 @@ export const florae = {
   name: 'Florae',
   essence: 'The Tree-Born House Viridane',
   illustration: '/assets/images/races/florae_viridian_figure_karr.jpg',
-  illustrationCaption: 'Briar-Sniper Karr — Master Marksman drawing a living thorny recurve bow in rough charcoal draft with briar green watercolor splash.',
+  illustrationCaption: '“A single thorn released in silence reaches farther than any shouted threat across the briar.” — Briar-Sniper Karr',
   illustrations: [
     {
       src: '/assets/images/races/florae_viridian_figure_karr.jpg',
-      caption: 'Briar-Sniper Karr — Master Marksman drawing a living thorny recurve bow with needle-thorns along forearms and spiky thistle hair in rough charcoal draft with briar green watercolor splash.'
+      caption: '“A single thorn released in silence reaches farther than any shouted threat across the briar.” — Briar-Sniper Karr'
     },
     {
       src: '/assets/images/races/florae_craftsman.jpg',
-      caption: 'Bark-Weaver Sylvan — Master of Living Architecture guiding living pliable ironwood branches into organic archways in rough charcoal draft with forest green watercolor splash.'
+      caption: '“Wood does not need to be severed to form a roof; ask the branch to bend, and it will shelter your kin for centuries.” — Bark-Weaver Sylvan'
     },
     {
       src: '/assets/images/races/florae_viridian_city_thornhollow.jpg',
-      caption: 'The Thistle-Spire & Botanical Briar Citadel — The sovereign botanical citadel of the Briaren Florae in Thornhollow with manicured briar arches and blooming roses.'
+      caption: '“Where the roses climb the Thistle-Spire, beauty and lethality are woven into the same petal.” — Briaren Citadel Chronicler'
     },
     {
       src: '/assets/images/races/florae_oken_city_ironroot.jpg',
-      caption: 'Great-Grove & Primeval Ironwood Root-Sanctuary — Primeval ground-level sanctuary in Ironroot built directly upon the rich earth between titanic buttress roots.'
+      caption: '“Grounded between titanic ironwood roots, Great-Grove remembers the first sap that ran when the world was young.” — Elder of the Ironroot'
     }
   ],
   cardFlavor: 'The erased 7th noble house (House Viridane) transformed by ancient forest pacts into tree-born treant-kin with crude branch-arms, water dependency, and twig-regrowth.',
@@ -185,7 +185,7 @@ Whether a Florae appears 'Wild' (unkempt with leafy crowns and mossy shoulders i
         },
         {
           src: '/assets/images/races/florae_viridian_figure_karr.jpg',
-          caption: 'Briar-Sniper Karr — Master Marksman drawing a living thorny recurve bow with needle-thorns along forearms and spiky thistle hair in rough charcoal draft with briar green watercolor splash.'
+          caption: '“A single thorn released in silence reaches farther than any shouted threat across the briar.” — Briar-Sniper Karr'
         }
       ],
       visualDescription: `Standing 5'6" to 6'2" with lean, fae-slender builds and forearms that bristle with living thorn-barbs grown from beneath the skin. Their eyes shift to the green of deep canopy, and their hair often weaves itself into briar-tangles if left uncombed. They wear thorn-cloaks openly in the deep groves and high-collared traveler coats (with the unstitched Viridane crest patch) when they must pass through Ledgered towns. Small forest creatures give them a wide berth; the thorns mark them, and the barbs carry the old fae-contract in their flesh.`,
@@ -312,7 +312,7 @@ Their oral tradition is fierce and short-spoken. They keep the names of every ho
         },
         {
           src: '/assets/images/races/florae_craftsman.jpg',
-          caption: 'Bark-Weaver Sylvan — Master of Living Architecture guiding living pliable ironwood branches into organic archways in rough charcoal draft with forest green watercolor splash.'
+          caption: '“Wood does not need to be severed to form a roof; ask the branch to bend, and it will shelter your kin for centuries.” — Bark-Weaver Sylvan'
         }
       ],
       visualDescription: `Standing 5'4" to 6'4" with friendly, carved-wooden faces, expressive amber eyes, and wide warm smiles. Their arms are crude, natural tree boughs (oak, birch, willow, pine, or rowan) that split into flexible twig-fingers sprouting fresh green leaf-buds when hydrated. Small forest creatures (squirrels, bluebirds, owls) often perch on their shoulder-boughs. They wear high-collared traveler coats with blank unstitched Viridane crest patches and copper water-flasks on their belts. Some groom themselves neatly ('Pruned') to travel in cities, while others remain unkempt and leaf-covered ('Wild') in the deep groves.`,

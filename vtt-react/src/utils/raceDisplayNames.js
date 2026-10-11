@@ -39,6 +39,14 @@ const LEGACY_RACE_DISPLAY_MAP = {
     // Astril (once Stargazer Astril / Brutish Astril)
     stargazer: 'Lumian',
     'stargazer astril': 'Lumian',
+    luminan: 'Lumian',
+    'korr luminan': 'Lumian',
+    'korr lumian': 'Lumian',
+    'first voice of selunis': 'Lumian',
+    'the first voice of selunis': 'Lumian',
+    'first voice': 'Lumian',
+    'the first voice': 'Lumian',
+    'mother therra': 'Lumian',
     brutish: 'Kordak',
     'brutish astril': 'Kordak',
     // Fex (once Clockwork Fexric / Caustic Fexric)

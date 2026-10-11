@@ -3,7 +3,7 @@ export const solari = {
   name: 'Solari',
   essence: 'Devoted cave-dwelling nomads, keepers of Sol\'s last ember',
   illustration: '/assets/images/races/solari_hollow_city_caldera.jpg',
-  illustrationCaption: 'Caldera-Hollow — Sovereign subterranean basalt forge-city of the Korr with tiered stone dwellings, copper steam conduits, and lava channels in rough charcoal draft with volcanic ember-red watercolor splash.',
+  illustrationCaption: '“Deep within Caldera-Hollow, the heartbeat of the sleeping child warms our stone long after the surface sun has failed.” — Chronicler of the Deep Hearth',
   cardFlavor: 'Ash-dusted forge-clans descended from human Solvarn, tending Sol\'s Breath while the conscious, unhatched child remains protected below.',
   visualDescription: `Broad-shouldered and solid, standing 5'10" to 6'4" and weighing 190 to 280 pounds. Their skin is a warm, earthy dark brown-beige with a fine grey dusting of mineral-ash that sheds when they move or under stress. Their eyes are enormous and solid black, absorbing light rather than reflecting it — on the surface, they wear thick ash-tinted eye-cloths to filter the painful daylight. Their forearms and shoulders bear deliberate burn-scars and forge-marks encoding clan affiliation, trade, and lineage in a visual language. They wear their hair in dreadlocks. Their bearing is deliberately calm and still, the discipline of the Vault-Breath made visible in every unhurried movement.`,
   description: `**[The Cinder-Born Clans]**, *Deep in the dark vaults of Sundale, a broad, still figure sits in absolute contemplation, dark brown-beige skin lit by the faint glow of the Sol\'s Breath, holding a moment of perfect silence before the last ember of Sol.*
@@ -284,27 +284,27 @@ Forge-trials settle disputes between clans. No Solari may strike another Solari 
       languages: ["Wayfarer's Cant", 'Sundari', 'Cinderspeech'],
         crest: '/assets/images/crests/solari_hollow_crest.png',
       illustration: '/assets/images/races/solari_hollow_portrait_bust.jpg',
-      illustrationCaption: 'Canonical Korr Cinder-Monk — Devout monastic humanoid in contemplative stillness with solid black eyes and ritual marks, cupping the sacred porous ember in rough pencil draft with incandescent orange watercolor splash.',
+      illustrationCaption: '“In absolute stillness, the ember whispers what words cannot hold. We breathe with the fire; we do not command it.” — Cinder-Monk Meditation Maxim',
       illustrations: [
         {
           src: '/assets/images/races/solari_hollow_portrait_bust.jpg',
-          caption: 'Canonical Korr Cinder-Monk — Devout monastic humanoid in contemplative stillness with solid black eyes and ritual marks, cupping the sacred porous ember in rough pencil draft with incandescent orange watercolor splash.'
+          caption: '“In absolute stillness, the ember whispers what words cannot hold. We breathe with the fire; we do not command it.” — Cinder-Monk Meditation Maxim'
         },
         {
           src: '/assets/images/races/solari_hollow_location_monastery.jpg',
-          caption: 'The Grotto of the First Ember — Subterranean rock-cut cavern monastery of the Korr with hand-chiseled stalactite pillars, prayer steps, and silent monks before the sacred ember in rough charcoal draft with incandescent orange watercolor splash.'
+          caption: '“Chiseled from living stalactites before the second age, the Grotto stands where the first ember was caught and held in reverence.” — Lore of the First Hearth'
         },
         {
           src: '/assets/images/races/solari_hollow_figure_thaeron.jpg',
-          caption: 'High Prior Thaeron — Venerable abbot and spiritual anchor of the Korr in coarse monastic robes holding a tall rock pilgrim staff cradling the holy ember in rough charcoal draft with glowing cinder orange watercolor splash.'
+          caption: '“A pilgrim does not measure the road by miles, but by how many hearths were rekindled along the way.” — High Prior Thaeron'
         },
         {
           src: '/assets/images/races/solari_hollow_figure_malthor.jpg',
-          caption: 'Templar-Warden Malthor — Holy warrior of the Korr wearing a sun-crest prayer tabard over stone-tempered mail, resting both hands on a massive basalt great-maul in rough charcoal draft with radiant orange watercolor splash.'
+          caption: '“Let the basalt strike true; our faith is not a whisper, but an iron pact grounded in the rock.” — Templar-Warden Malthor'
         },
         {
           src: '/assets/images/races/solari_hollow_culture_vigil.jpg',
-          caption: 'Korr cinder-monk seated in cross-legged meditation atop a basalt dais cupping a multifaceted Sol\'s Breath ember stone amidst geothermal steam in rough charcoal draft with volcanic ember-red watercolor splash.'
+          caption: '“Between the volcanic steam and the cool stone, the Sol’s Breath awakens the spirit to ancient memory.” — Vault Liturgy'
         }
       ],
       visualDescription: `The fewest and the most deep-adapted. Korr skin is dark brown-beige, untouched by daylight, marked with the most elaborate ash-branding patterns of any Solari bloodline, stark and crisp from centuries of proximity to the Sol\'s Breath. Their enormous solid-black eyes are enlarged to read faint heat in absolute darkness, and their metabolisms are so slow their pulses are barely perceptible. Their bodies are conditioned for absolute stillness: elongated air-conserving lungs, dense bone, and a bearing so motionless that a sitting Korr can be mistaken for a carved votive. They wear their dreadlocks long and their ash-cloths thick against a daylight that pains them.`,
@@ -524,27 +524,27 @@ The current crisis is a Korr crisis. The tending-clan has concealed the Sol\'s B
       name: 'Anhur',
         crest: '/assets/images/crests/solari_waste_crest.png',
       illustration: '/assets/images/races/solari_waste_figure_vaelith.jpg',
-      illustrationCaption: 'Sovereign Huntress Vaelith the Ash-Shrouded — Legendary Anhur nomad huntress in low combat crouch with a jagged obsidian-glass scythe in rough pencil draft with ash crimson watercolor splash.',
+      illustrationCaption: '“The wind does not give warnings on the scree; only those who move like falling glass survive the ash.” — Sovereign Huntress Vaelith',
       illustrations: [
         {
           src: '/assets/images/races/solari_waste_figure_vaelith.jpg',
-          caption: 'Sovereign Huntress Vaelith the Ash-Shrouded — Legendary Anhur nomad huntress in low combat crouch with a jagged obsidian-glass scythe in rough pencil draft with ash crimson watercolor splash.'
+          caption: '“The wind does not give warnings on the scree; only those who move like falling glass survive the ash.” — Sovereign Huntress Vaelith'
         },
         {
           src: '/assets/images/races/solari_waste_figure_kaelen.jpg',
-          caption: 'Scree-Runner Kaelen — Swift desert scout with wide horizontal ears and an obsidian-tipped spear in rough charcoal draft with ash crimson watercolor splash.'
+          caption: '“The obsidian spearhead knows the scent of the dunes better than the eye can see.” — Scree-Runner Kaelen'
         },
         {
           src: '/assets/images/races/solari_waste_location_plains_camp.jpg',
-          caption: 'Anhur Nomadic Ash-Plains Encampment — Open-air plains camp with hide tents, pack lizards, and campfire in rough charcoal draft with fiery ash crimson watercolor splash.'
+          caption: '“Where the pack lizards bed down and the smoke climbs into the night, the clan finds home upon the shifting ash.” — Anhur Camp Maxim'
         },
         {
           src: '/assets/images/races/solari_waste_city_screewatch.jpg',
-          caption: 'Scree-Watch Bastion — The volcanic badlands stronghold of the Anhur perched over active thermal vents in rough charcoal draft with burning ash-orange watercolor splash.'
+          caption: '“Perched high above the sulfur vents, the Bastion watches the horizons for the shadows that hunt the badlands.” — Scree-Watch Annals'
         },
         {
           src: '/assets/images/races/solari_waste_culture_vent.png',
-          caption: 'Geothermal Steam Harnessing — Anhur scouts harvesting condensation from active sulfur vents with copper collection baffles in rough charcoal draft with burning ash-orange watercolor splash.'
+          caption: '“Every drop wrung from the volcanic vapor is life bought back from the drought.” — Field Notes of the Ash-Scouts'
         }
       ],
       visualDescription: `The surface face of the Solari. Anhur bodies are leaner and more mobile than their deep-vault kin, built to range the volcanic ashlands rather than sit vigil in the dark. Their dark brown-beige skin is weathered from generations of surface exposure, and their ash-branding marks are fainter and blurred at the edges, softened by distance from the Sol\'s Breath. They shave their hair close and wrap themselves head to toe in heavy ash-insulating cloths against the cold of the open badlands, moving with the purposeful economy of scouts who have forgotten why stillness was ever necessary.`,

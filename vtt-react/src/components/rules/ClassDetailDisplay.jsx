@@ -738,139 +738,139 @@ const getSpellIconUrl = (spell) => {
 
 const classFallbacks = {
 	arcanoneer: [
-		{ url: '/assets/images/classes/arcanoneer_high_nethien.jpg', caption: 'Athien Arcanoneer — The Contract-Weaver, focusing crystallized silver-blood spell-shards through a precision lens.' },
-		{ url: '/assets/images/classes/arcanoneer_clockwork_fexric.jpg', caption: 'Brasskin Arcanoneer — The Gear-Weaver, channeling certified elemental steam and lightning through brass manifold regulators.' },
-		{ url: '/assets/images/classes/arcanoneer_caustic_fexric.jpg', caption: 'Alchemite Arcanoneer — The Scrap-Weaver, wielding volatile salvaged catalysts and improvised pressure pipes.' },
-		{ url: '/assets/images/classes/arcanoneer_stargazer_astril.jpg', caption: 'Lumian Arcanoneer — The Star-Charted Weaver, aligning elemental orbits with celestial transit cycles.' }
+		{ url: '/assets/images/classes/arcanoneer_high_nethien.jpg', caption: '“Every spark has a debt attached; we simply negotiate the interest rate before releasing the bolt.” — Pact-Tinkerer Vael, High Archive' },
+		{ url: '/assets/images/classes/arcanoneer_clockwork_fexric.jpg', caption: '“If the pressure gauge stays in the green, you are not working hard enough. Vent through the manifold and strike.” — Master Artificer Boros' },
+		{ url: '/assets/images/classes/arcanoneer_caustic_fexric.jpg', caption: '“One scrap of salvaged wire, three drops of caustic condensate, and a fortress gate becomes an open door.” — Scrap-Alchemist Rix' },
+		{ url: '/assets/images/classes/arcanoneer_stargazer_astril.jpg', caption: '“The stars do not wander aimlessly across the sphere; why should your fire?” — Stargazer Lyra, Celestial Spire' }
 	],
 	berserker: [
-		{ url: '/assets/images/classes/berserker_skald_raider.jpg', caption: 'Skald Human Berserker — The Hunger-Pact Sworn (Vanguard), lunging across glacial crags with boiling copper-heat handaxes.' },
-		{ url: '/assets/images/classes/berserker_skald_elder.jpg', caption: 'Skald Human Berserker — The Hunger-Pact Sworn (Bloodhammer Elder), clad in mammoth furs hefting an ancestral greataxe.' },
-		{ url: '/assets/images/classes/berserker_morgh_groven.jpg', caption: 'Morgh Groven Berserker — The Vat-Woken, shattering alchemical brass shackles with boiling fissure-vein rage.' },
-		{ url: '/assets/images/classes/berserker_waste_solari.jpg', caption: 'Anhur Berserker — The Caldera-Forged, channeling tectonic magma resonance with an obsidian pollaxe.' }
+		{ url: '/assets/images/classes/berserker_skald_raider.jpg', caption: '“The ice does not ask if you are cold; it merely claims the weak. Strike until the rime turns to steam.” — Frost-Clan War-Mother' },
+		{ url: '/assets/images/classes/berserker_skald_elder.jpg', caption: '“The weight of an ancestral axe is measured in years, not iron. Carry it until the final hunt.” — Elder Torvald' },
+		{ url: '/assets/images/classes/berserker_morgh_groven.jpg', caption: '“They thought brass chains could bind living stone. We taught them the cadence of fracturing bedrock.” — The Unbroken' },
+		{ url: '/assets/images/classes/berserker_waste_solari.jpg', caption: '“Fire remembers the first caldera. Let the enemy feel how deep the magma runs.” — Cinder-Rider Kael' }
 	],
 
  false_prophet: [
-  { url: '/assets/images/classes/false_prophet_clean_vreken.jpg', caption: 'Bedel False Prophet — The Debt-Preacher, raising an illuminated absolution deed and brass indulgence bell in the Sunken Spire.' },
-  { url: '/assets/images/classes/false_prophet_ordan_human.jpg', caption: 'Ordu Human False Prophet — The Thinned-Herd Preacher, blowing twin-barrel bone pipes with radiant gold acoustic threads on the windswept steppe.' },
-  { url: '/assets/images/classes/false_prophet_tessen_human.jpg', caption: 'Tessic Human False Prophet — The Keep-Prophet, shouting apocalyptic scripture from a stone pulpit while brandishing an open holy iron tome.' },
-  { url: '/assets/images/classes/false_prophet_stargazer_astril.jpg', caption: 'Lumian False Prophet — The False Star, charismatic celestial cult leader weaving glowing golden puppet strings with an open star-scroll.' },
-  { url: '/assets/images/classes/false_prophet_brutish_astril.jpg', caption: 'Kordak False Prophet — The Enforcer Prophet, colossal titan with spiked mace crushing an iron holy symbol in his bare fist with psychic sparks.' }
+  { url: '/assets/images/classes/false_prophet_clean_vreken.jpg', caption: '“The debt is written in bone, but the ledger can always be amended for the faithful.” — Abbot of the Sunken Spire' },
+  { url: '/assets/images/classes/false_prophet_ordan_human.jpg', caption: '“Listen past the wind; the herd only follows the shepherd who knows the rhythm of their hunger.” — Steppe Shamanic Voice' },
+  { url: '/assets/images/classes/false_prophet_tessen_human.jpg', caption: '“They built stone walls to keep out judgment. The scripture will dismantle them from within.” — The Gate Preacher' },
+  { url: '/assets/images/classes/false_prophet_stargazer_astril.jpg', caption: '“A false star burns twice as bright as a true one, and men will march into the sea for warmth.” — Star-Seeker Maren' },
+  { url: '/assets/images/classes/false_prophet_brutish_astril.jpg', caption: '“Faith is fragile as blown glass; only an iron fist decides which prayer endures.” — The Unforgiving Canon' }
  ],
 	shaper: [
-		{ url: '/assets/images/classes/shaper_veiled_mimir.jpg', caption: 'Arch Mimir Shaper — The Form-Locked, mid-leap executing a dynamic open-hand kinetic palm strike with vibrant crimson flux.' },
-		{ url: '/assets/images/classes/shaper_tethered_mimir.jpg', caption: 'Broken Mimir Shaper — The Sentinel-Shifter, low predatory martial crouch with unmasked demon-scarred visage and rose crystal prisms.' },
-		{ url: '/assets/images/classes/shaper_morgh_groven.jpg', caption: 'Morgh Groven Shaper — The Vat-Sculpted, colossal stone-hewn master delivering an open-palm strike from an unshakeable iron-horse stance.' },
-		{ url: '/assets/images/classes/shaper_ithran_groven.jpg', caption: 'Amordjin Groven Shaper — The Span-Dancer, horned, dreadlocked alpine stone-troll crouched high above the dizzying mountain suspension bridges.' },
-		{ url: '/assets/images/classes/shaper_marked_vreken.jpg', caption: 'Cromyx Shaper — The Mycelium-Sculpt, ascetic subterranean monk executing a fluid double-palm strike wreathed in swirling crimson flux.' }
+		{ url: '/assets/images/classes/shaper_veiled_mimir.jpg', caption: '“Motion is simply form shedding its hesitation. Deliver the strike before the thought settles.” — Master of the Crimson Palm' },
+		{ url: '/assets/images/classes/shaper_tethered_mimir.jpg', caption: '“The veil broke, yet our stance remains. The forest learns what the hands have endured.” — Sylvan Sentinel' },
+		{ url: '/assets/images/classes/shaper_morgh_groven.jpg', caption: '“Mountains do not step aside for the storm; they allow the tempest to break itself upon the stone.” — Earth-Troll Monastic' },
+		{ url: '/assets/images/classes/shaper_ithran_groven.jpg', caption: '“A bridge holds only so long as it sways with the wind; rigidity is the beginning of the fall.” — High Pass Warden' },
+		{ url: '/assets/images/classes/shaper_marked_vreken.jpg', caption: '“Under the soil, roots weave without speaking. To shape the strike, become the loam.” — Ascetic of the Lower Root' }
 	],
 
  revenant: [
-  { url: '/assets/images/classes/revenant_clean_vreken.jpg', caption: 'Bedel Revenant — The Ancestor-Bound, raising a smoking black-iron spirit-censer venting cyan soul-flame with ritual dagger in hand.' },
-  { url: '/assets/images/classes/revenant_tessen_human.jpg', caption: 'Tessic Human Revenant — The Keep-Waked, in heavy stone-and-iron plate armor leaning on an executioner greatsword before an ancestral banner with glowing phylactery lantern.' },
-  { url: '/assets/images/classes/revenant_merryn_human.jpg', caption: 'Merryn Human Revenant — The Drift-Bound, in tattered oilskins wielding a scrimshaw harpoon with glowing cyan maritime debt-ink tattoos and an ethereal tide phantom.' },
-  { url: '/assets/images/classes/revenant_high_nethien.jpg', caption: 'Athien Revenant — The Document-Preserved, aristocrat scribe with a glowing basalt phylactery on his chest, holding an obsidian stylus and frost-stasis soul-ledger.' }
+  { url: '/assets/images/classes/revenant_clean_vreken.jpg', caption: '“Death is merely an unpaid toll. We burn the incense until the creditor is satisfied.” — Keeper of the Peat Tombs' },
+  { url: '/assets/images/classes/revenant_tessen_human.jpg', caption: '“The banner still stands above the keep, and so do the fallen who swore to hold it.” — Guardian of the Waked Vigil' },
+  { url: '/assets/images/classes/revenant_merryn_human.jpg', caption: '“The depths do not return what they claim, but they permit the drowned to finish their business.” — Harpooner of Driftmark' },
+  { url: '/assets/images/classes/revenant_high_nethien.jpg', caption: '“A signed seal is binding across both lives. Stasis is merely an extended recess in the trial.” — Scribe of the Frozen Ledger' }
  ],
  animist: [
-  { url: '/assets/images/classes/animist_skald_human.jpg', caption: 'Skald Human Animist — The Frost-Caller, Nordic female shaman in thick wolf-furs with a whalebone spirit-staff and bleeding runic scars, manifesting a roaring spectral frost-bear.' },
-  { url: '/assets/images/classes/animist_ordan_human.jpg', caption: 'Ordu Human Animist — The Steppe Throat-Singer, nomadic female shaman in layered wool caftan with an antler skull staff, chanting ancestral throat runes that manifest ethereal steppe spirit-beasts.' },
-  { url: '/assets/images/classes/animist_clean_vreken.jpg', caption: 'Bedel Animist — The Spore-Medium, ascetic bog-shaman in burlap wraps pinching a glowing puffball pod, exhaling a towering spectral prehistoric chitin-elder bog spirit.' },
-  { url: '/assets/images/classes/animist_stargazer_astril.jpg', caption: 'Lumian Animist — The Lumia Spirit-Caller, celestial medium striking a floating meteorite chime-shard, summoning a breathtaking translucent Star-Stag composed of starlight nebula and comet dust.' }
+  { url: '/assets/images/classes/animist_skald_human.jpg', caption: '“The great bear does not slumber while the wolf is at the door. Call the rime to witness.” — Shaman of the Rime-Ridge' },
+  { url: '/assets/images/classes/animist_ordan_human.jpg', caption: '“The throat carries the thunder of ten thousand hooves; the steppes remember every spirit that ran.” — Chantress of the Steppe' },
+  { url: '/assets/images/classes/animist_clean_vreken.jpg', caption: '“The bog breathes through spore and rot; every decaying timber remembers the first bloom.” — Fen Medium' },
+  { url: '/assets/images/classes/animist_stargazer_astril.jpg', caption: '“Look not to the earth for companions when the constellations roam the heavens untamed.” — Celestial Astromancer' }
  ],
  pyrofiend: [
-  { url: '/assets/images/classes/pyrofiend_hollow_solari.jpg', caption: 'Korr Pyrofiend — The Banked Hearth, ascetic monastic glass cannon in ragged wraps and cracked sun-gorget channeling cooling energy into a scorched basalt staff while an erupting chest-kiln and left hand conjure a vortex of fused starfire and void-rot.' },
-  { url: '/assets/images/classes/pyrofiend_waste_solari.jpg', caption: 'Anhur Pyrofiend — The Forge-Damned, predatory badland scout in mid-ascension with basalt-calcified arm, demonic horns piercing linen wraps, and jagged obsidian breach-scythe blasting a storm of volcanic molten crimson.' },
-  { url: '/assets/images/classes/pyrofiend_clockwork_fexric.jpg', caption: 'Brasskin Pyrofiend — The Sealed Alembic, stocky refinery engineer managing a volatile chemical glass cannon with back-mounted quartz magma-boiler, copper heat-sink coils, and valve-regulated combustion lance venting pressurized brass-amber flame.' }
+  { url: '/assets/images/classes/pyrofiend_hollow_solari.jpg', caption: '“To bank the flame is not to quench it; in total stillness, the hearth grows hot enough to melt glass.” — Monastic of the Hearth' },
+  { url: '/assets/images/classes/pyrofiend_waste_solari.jpg', caption: '“When the fissure opens, do not flee the heat. Become the obsidian that cuts the ash.” — Caldera Scout' },
+  { url: '/assets/images/classes/pyrofiend_clockwork_fexric.jpg', caption: '“The boiler does not care whose blood oils the piston. Open the bypass and let it roar.” — Foundry Supervisor' }
  ],
  martyr: [
-  { url: '/assets/images/classes/martyr_hollow_solari.jpg', caption: 'Korr Martyr — The Vault-Witness, monastic guardian standing in unmoving stillness with an obsidian kite shield, jagged chest scars spilling radiant golden sunlight of Aex.' },
-  { url: '/assets/images/classes/martyr_waste_solari.jpg', caption: 'Anhur Martyr — The Ash-Witness, frontline crusader taking a blast of volcanic fire onto her notched iron tower shield, linear arm scars blazing with orange cinder-light.' },
-  { url: '/assets/images/classes/martyr_morgh_groven.jpg', caption: 'Morgh Groven Martyr — The Living Megalith, colossal guardian bracing a shattered stone slab against a barrage of harpoons, glowing amber veins welding the fracture.' },
-  { url: '/assets/images/classes/martyr_ithran_groven.jpg', caption: 'Amordjin Groven Martyr — The Living Span, alpine anchor gripping severed iron suspension bridge cables with bare hands and silver wire, amber-gold devotion lighting his strained arms.' },
-  { url: '/assets/images/classes/martyr_skald_human.jpg', caption: 'Skald Human Martyr — The Oath-Frozen, colossal Nordic warrior holding a blizzard pass alone with a massive iron-banded whalebone clan Great-Shield, wounds freezing into radiant cyan rime-vein scars.' }
+  { url: '/assets/images/classes/martyr_hollow_solari.jpg', caption: '“Let the vault crack; behind this basalt slab stands the covenant of the unyielding.” — Vault Sentinel' },
+  { url: '/assets/images/classes/martyr_waste_solari.jpg', caption: '“Every scar is an ember that refused to die. Stand in the breach until the ashes cool.” — Ash-Crusader' },
+  { url: '/assets/images/classes/martyr_morgh_groven.jpg', caption: '“Bedrock never weeps when the hammer falls; it only becomes sharper at the break.” — Megalithic Warden' },
+  { url: '/assets/images/classes/martyr_ithran_groven.jpg', caption: '“Severed lines can be held if the will does not snap. The chasm claims nothing today.” — Cable-Anchor' },
+  { url: '/assets/images/classes/martyr_skald_human.jpg', caption: '“A clan shield is not iron alone; it is the frozen resolve of every oath sworn before the frost.” — Shield-Lord of the Pass' }
  ],
  toxicologist: [
-  { url: '/assets/images/classes/toxicologist_thalren_human.jpg', caption: 'Tallyn Human Toxicologist — The Fog-Distiller, frontier scholar perched on an ironwood branch deploying an aerosol plume of toxic teal fog-predator venom from an antique glass bulb-diffuser.' },
-  { url: '/assets/images/classes/toxicologist_broken_mimir.jpg', caption: 'Broken Mimir Toxicologist — The Floor-Brewer, unmasked fae scout crouched on a mossy rotting log harvesting acidic fungal fluid into a bone syringe and blowing an explosive puff of amber spore dust from a reed blowgun.' },
-  { url: '/assets/images/classes/toxicologist_briaren_florae.jpg', caption: 'Briaren Florae Toxicologist — The Thorn-Venom, living bramble-kin tapping her own forearm thorns with a crystal syringe, collecting a bead of glowing crimson fae-venom into a glass phial.' },
-  { url: '/assets/images/classes/toxicologist_oaken_florae.jpg', caption: 'Oaken Florae Toxicologist — The Hidden-Cuil, timber artisan disguised in a traveling merchant\'s cloak and leather woodcarver\'s apron, dispensing a glowing drop of veiled jade poison from a hollow gouging chisel into a pillbox.' },
-  { url: '/assets/images/classes/toxicologist_riven.jpg', caption: 'Riven Toxicologist — The Silence-Distiller, skeletal outcast in lead-lined apron and heavy tongs lifting a beaker of bubbling violet null-distillate that dissolves the glass rim.' }
+  { url: '/assets/images/classes/toxicologist_thalren_human.jpg', caption: '“The difference between poison and medicine is merely the precision of the droplet.” — Apothecary of Greymark' },
+  { url: '/assets/images/classes/toxicologist_broken_mimir.jpg', caption: '“The fungal floor keeps no secrets from those willing to harvest in the dark.” — Sylvan Scout' },
+  { url: '/assets/images/classes/toxicologist_briaren_florae.jpg', caption: '“The briar does not warn the deer; it simply blooms and waits for the thorn to bite.” — Bramble-Weaver' },
+  { url: '/assets/images/classes/toxicologist_oaken_florae.jpg', caption: '“The sweetest timber hides the most enduring sap. Drink deeply, traveler.” — Timber Artisan' },
+  { url: '/assets/images/classes/toxicologist_riven.jpg', caption: '“Silence is the purest solvent; it dissolves bone, iron, and memory alike.” — Outcast Distiller' }
  ],
  plaguebringer: [
-  { url: '/assets/images/classes/plaguebringer_withered_nethien.jpg', caption: 'Riven Plaguebringer — The Silence-Host, gaunt and imposing rot incubator in tattered shroud vestments gripping a bone-handled sickle and weeping antique bronze plague-urn leaking necrotic miasma violet vapors.' },
-  { url: '/assets/images/classes/plaguebringer_clean_vreken.jpg', caption: 'Bedel Plaguebringer — The Glow-Culture, scholar of living decay in heavy wool robes perched on bog-timber with open fungal codex and gnarled peat-wood specimen staff glowing with lime phosphor cultures.' },
-  { url: '/assets/images/classes/plaguebringer_marked_vreken.jpg', caption: 'Cromyx Plaguebringer — The Mycelium-Vector, horned predator crouched on swollen roots wielding a jagged harvesting sickle and chained spiked iron censer billowing boiling blight-green vapors into the Root-Veil.' }
+  { url: '/assets/images/classes/plaguebringer_withered_nethien.jpg', caption: '“The shroud is not an ending; it is the seedbed for everything that blooms in the dark.” — Sower of the Black Harvest' },
+  { url: '/assets/images/classes/plaguebringer_clean_vreken.jpg', caption: '“Rot is merely life moving too quickly for the living to comprehend.” — Cultivator of the Peat-Weft' },
+  { url: '/assets/images/classes/plaguebringer_marked_vreken.jpg', caption: '“Blight travels through the root before the leaf ever knows it has withered.” — Blight-Vector of the Root-Veil' }
  ],
  minstrel: [
-  { url: '/assets/images/classes/minstrel_merryn_human.jpg', caption: 'Merryn Human Minstrel — The Storm-Singer, battle-hardened open-water conductor strumming a heavy driftwood sea-lute on a storm-lashed ship prow, sending concentric electric storm-cyan shockwave arcs to part the gale.' },
-  { url: '/assets/images/classes/minstrel_shoreling_myrathil.jpg', caption: 'Corali Myrathil Minstrel — The Shore-Conductor, noble wave-guardian in verdigris sea-bronze armor strumming a pearl-inlaid driftwood harp-lute, conducting foaming breakers with harmonic tidal-aquamarine sound ripples.' },
-  { url: '/assets/images/classes/minstrel_riverling_myrathil.jpg', caption: 'Ondine Myrathil Minstrel — The Freshwater-Voice, agile river-scout perched in an amphibious crouch on a slick rapid boulder, bowing a cypress river cello as torrential currents spiral into emerald acoustic whirlpool eddies.' },
-  { url: '/assets/images/classes/minstrel_deepling_myrathil.jpg', caption: 'Nereid Myrathil Minstrel — The Abyss-Resonant, slender lithe mystic on wet coastal basalt holding aloft a monumental prehistoric whalebone tuning fork, radiating electric starlight-cyan subsonic vibration rings accompanied by baby squids.' },
-  { url: '/assets/images/classes/minstrel_clean_vreken.jpg', caption: 'Bedel Minstrel — The Bog-Resonance, ascetic monastic mystic perched cross-legged on an ancient gnarled peat-root, plucking a petrified peat-wood zither as bioluminescent shelf-fungi puff pulsing lime-green spore clouds in cadence.' }
+  { url: '/assets/images/classes/minstrel_merryn_human.jpg', caption: '“Sing above the gale, or the gale will sing the final verse for your vessel.” — Navigator of the Drift' },
+  { url: '/assets/images/classes/minstrel_shoreling_myrathil.jpg', caption: '“The tides obey no sovereign save the rhythm of the moon and the coral horn.” — Sea-Conductor' },
+  { url: '/assets/images/classes/minstrel_riverling_myrathil.jpg', caption: '“A river never returns the same path twice; keep your tempo or drown in the eddy.” — Rapid-Scout' },
+  { url: '/assets/images/classes/minstrel_deepling_myrathil.jpg', caption: '“In the abyss, light is a rumor, but sound travels to the bottom of the world.” — Trench-Seer' },
+  { url: '/assets/images/classes/minstrel_clean_vreken.jpg', caption: '“The fungus pulses to a song older than sunlight. Pluck the root, and the bog will answer.” — Mire-Chanter' }
  ],
  inquisitor: [
-  { url: '/assets/images/classes/inquisitor_thalren_human.jpg', caption: 'Tallyn Human Inquisitor — The Salt-Scarred, driving a square-headed cold-iron brand into a glowing null-salt anathema circle.' },
-  { url: '/assets/images/classes/inquisitor_marked_vreken.jpg', caption: 'Cromyx Inquisitor — The Mycelium-Hunter, leaping through root nodes to strike with a barbed cold-iron chain whip.' },
-  { url: '/assets/images/classes/inquisitor_clean_vreken.jpg', caption: 'Bedel Inquisitor — The Glow-Auditor, raising a smoking black-iron caged censor-lantern with cold-iron gavel in hand.' },
-  { url: '/assets/images/classes/inquisitor_broken_mimir.jpg', caption: 'Broken Mimir Inquisitor — The Fog-Sentinel, standing sentinel on the Ironwood Palisade with a barbed-wire-wrapped poleaxe.' }
+  { url: '/assets/images/classes/inquisitor_thalren_human.jpg', caption: '“Null-salt burns away the falsehood; what remains is either steel or ash.” — Auditor of the Salt Mark' },
+  { url: '/assets/images/classes/inquisitor_marked_vreken.jpg', caption: '“No lie can burrow deeper than the barb of the root-whip can reach.” — Root-Hunter' },
+  { url: '/assets/images/classes/inquisitor_clean_vreken.jpg', caption: '“The peat preserves all things — especially the crimes men thought forgotten in the dark.” — Gavel of the Sunken Hall' },
+  { url: '/assets/images/classes/inquisitor_broken_mimir.jpg', caption: '“We watched the palisade fall once; we will not allow the rot to cross it a second time.” — Palisade Warden' }
  ],
  apex: [
-  { url: '/assets/images/classes/apex_arch_mimir.jpg', caption: 'Arch Mimir Apex — The Mask-Hunter, stalking in a low crouch along an ironwood log with a Shadow Glaive and bonded Frostwood mist-wolf.' },
-  { url: '/assets/images/classes/apex_skald_human.jpg', caption: 'Skald Human Apex — The Glacier-Stalker, striding across a frozen ridge in polar bear furs with a frost-etched Ice-Glaive and a shaggy white tundra war-mastiff.' },
-  { url: '/assets/images/classes/apex_marked_vreken.jpg', caption: 'Cromyx Apex — The Root-Stalker, drawing a bone-horned recurve bow atop gnarled roots alongside a subterranean armored burrower beast.' },
-  { url: '/assets/images/classes/apex_waste_solari.jpg', caption: 'Anhur Apex — The Ash-Stalker, leaping across volcanic scoria while drawing an ember-tipped recurve bow alongside a bounding cinder-jackal.' }
+  { url: '/assets/images/classes/apex_arch_mimir.jpg', caption: '“To hunt without a mask is to let the mist know your name before the arrow flies.” — Shadow-Stalker' },
+  { url: '/assets/images/classes/apex_skald_human.jpg', caption: '“The white wolf tracks the scent the snow has buried. Where the pack leads, winter follows.” — Glacier Hunter' },
+  { url: '/assets/images/classes/apex_marked_vreken.jpg', caption: '“The predator that moves below ground never warns the quarry with a footstep.” — Burrow-Stalker' },
+  { url: '/assets/images/classes/apex_waste_solari.jpg', caption: '“The scoria will cut tender feet. Only the cinder-born keep pace across the lava fields.” — Ash-Scout' }
  ],
  warden: [
-  { url: '/assets/images/classes/warden_morgh_groven.jpg', caption: 'Morgh Groven Warden — The Vat-Grounded, stocky stone-troll mine-guard driving an iron anchor-pin into bedrock, hauling a screaming taut ore chain grafted through living forearm bone holding back an escaped deep-vat horror with a Keeper\'s Maul in hand.' },
-  { url: '/assets/images/classes/warden_amordjin_groven.jpg', caption: 'Amordjin Groven Warden — The Span-Jailer, towering crystalline stone-kin spread wide atop an alpine bridgehead anchoring two fanning cable-chains holding two beasts on opposite ledges with an iron chain-flail.' },
-  { url: '/assets/images/classes/warden_skald_human.jpg', caption: 'Skald Human Warden — The Glacier-Jailer, northern hunter leaning back against a frost-coated chain bolted through shoulder bone, dragging an ice-horror across a glacier edge with an executioner cleaver.' },
-  { url: '/assets/images/classes/warden_alchemite_fex.jpg', caption: 'Alchemite Fex Warden — The Gear-Jailer, subterranean goblinoid warden locking a chimera to the dungeon floor with an arm-mounted clockwork ratchet-winch while raising a cold-iron war-flail.' },
-  { url: '/assets/images/classes/warden_clean_vreken.jpg', caption: 'Bedel Mycellan Warden — The Peat-Gaoler, monastic bog-jailer bracing against a submerged timber stump, violently hauling a taut bioluminescent lichen-crusted chain snaring a bog-horror with a hooked pole-axe.' }
+  { url: '/assets/images/classes/warden_morgh_groven.jpg', caption: '“The chain is grafted to bone so that when the beast pulls, it must drag the mountain itself.” — Deep-Vat Keeper' },
+  { url: '/assets/images/classes/warden_amordjin_groven.jpg', caption: '“Anchor both sides of the bridgehead, and no horror crosses the gorge while breath remains.” — Span-Jailer' },
+  { url: '/assets/images/classes/warden_skald_human.jpg', caption: '“Let the glacier freeze the shackles fast; what we cage in the ice stays caged.” — Warden of the Northern Drift' },
+  { url: '/assets/images/classes/warden_alchemite_fex.jpg', caption: '“Ratchets do not fatigue, and winches do not feel fear. Turn the key and seal the gate.” — Gear-Jailer' },
+  { url: '/assets/images/classes/warden_clean_vreken.jpg', caption: '“The peat grips tighter than forged iron; pull until the swamp swallows what was caught.” — Peat-Gaoler' }
  ],
  gambit: [
-  { url: '/assets/images/classes/gambit_veldun_nethien.jpg', caption: 'Weft Athien Gambit — The Clause-Gambler, fanning out glowing scrimshaw bone fate-cards with radiant amber probability runes beside a dark canal.' },
-  { url: '/assets/images/classes/gambit_merryn_human.jpg', caption: 'Merryn Human Gambit — The Sea-Omen Gambler, dynamically flicking salt-coral dice high into the air with storm-cyan ripple arcs on the weather-beaten docks.' },
-  { url: '/assets/images/classes/gambit_caustic_fexric.jpg', caption: 'Alchemite Gambit — The Sump-Hustler, unmasked mad-scientist goblin rolling heavy brass gear-dice and fanning soot-marked cards with crackling amber Wyrd sparks.' },
-  { url: '/assets/images/classes/gambit_shoreling_myrathil.jpg', caption: 'Corali Myrathil Gambit — The Tide-Wagerer, rolling glowing sea-pearl dice across a driftwood crate, tracing tide-jade probability currents.' }
+  { url: '/assets/images/classes/gambit_veldun_nethien.jpg', caption: '“Every contract has an unwritten clause; the art is flipping the parchment before it is read.” — Canal Broker' },
+  { url: '/assets/images/classes/gambit_merryn_human.jpg', caption: '“The sea rolls dice with every breaker; I merely bet on where the foam will settle.” — Tide-Gambler' },
+  { url: '/assets/images/classes/gambit_caustic_fexric.jpg', caption: '“Probability is just chemistry with fewer beakers and faster explosions.” — Sump Hustler' },
+  { url: '/assets/images/classes/gambit_shoreling_myrathil.jpg', caption: '“A pearl dropped into the surf creates ripples you can ride all the way to shore.” — Wave-Wagerer' }
  ],
  chronarch: [
-  { url: '/assets/images/classes/chronarch_clockwork_fexric.jpg', caption: 'Brasskin Chronarch — The Gear-Stitcher, seating a glowing volcanic-glass timing gear into his exposed chest escapement.' },
-  { url: '/assets/images/classes/chronarch_ithran_groven.jpg', caption: 'Amordjin Groven Chronarch — The Bone-Calibrator, bracing a cracked suspension bridge in temporal stasis with gears embedded in living bone.' },
-  { url: '/assets/images/classes/chronarch_tessen_human.jpg', caption: 'Tessic Human Chronarch — The Keep-Anchor, tuning a brass keystone stasis ring on a fortress pillar to freeze crumbling masonry.' },
-  { url: '/assets/images/classes/chronarch_high_nethien.jpg', caption: 'Athien Chronarch — The Archive-Keeper, extracting a glowing memory-glass legal slide from a hovering crystalline archive.' }
+  { url: '/assets/images/classes/chronarch_clockwork_fexric.jpg', caption: '“Time is not a stream; it is an escapement mechanism that can be paused with a brass peg.” — Gear-Stitcher' },
+  { url: '/assets/images/classes/chronarch_ithran_groven.jpg', caption: '“Stasis holds the arch when stone would crumble; buy the masonry another century to set.” — Bone-Calibrator' },
+  { url: '/assets/images/classes/chronarch_tessen_human.jpg', caption: '“Fix the keystone in yesterday, and tomorrow’s siege cannot bring the tower down.” — Keep-Anchor' },
+  { url: '/assets/images/classes/chronarch_high_nethien.jpg', caption: '“A memory etched in legal glass cannot fade, alter, or be perjured.” — Archive Master' }
  ],
  spellguard: [
-  { url: '/assets/images/classes/spellguard_hollow_solari.jpg', caption: 'Korr Spellguard — The Silent-Guard, immovable monastic guardian anchored behind a colossal basalt slab shield with solar bronze crest, drawing raw intercepted magic directly into glowing vascular branding scars.' },
-  { url: '/assets/images/classes/spellguard_waste_solari.jpg', caption: 'Anhur Spellguard — The Forge-Shield, athletic badland scout in dynamic stride violently deflecting a blast of magical fire off an angled obsidian-beveled tower shield with notched forge-blade in hand.' },
-  { url: '/assets/images/classes/spellguard_high_nethien.jpg', caption: 'High Athien Spellguard — The Clause-Canceller, aristocratic pact-lord in gothic plate and ghost-silk mantle planting a silver-alloy clause tower shield that dissolves an incoming spell into golden contract script.' },
-  { url: '/assets/images/classes/spellguard_thalren_human.jpg', caption: 'Tallyn Human Spellguard — The Wyrd-Defuser, frontier sapper in wire-rimmed spectacles and Greymark garrison plate grounding an intercepted wild-magic strike through copper coils into frozen earth.' }
+  { url: '/assets/images/classes/spellguard_hollow_solari.jpg', caption: '“Cast what you will against the slab; the branding scars thirst for the fire.” — Monastic Bastion' },
+  { url: '/assets/images/classes/spellguard_waste_solari.jpg', caption: '“Angle the shield so the magical blast deflects into the earth that birthed it.” — Forge-Shield' },
+  { url: '/assets/images/classes/spellguard_high_nethien.jpg', caption: '“Your spell was nullified under Subsection Four before the incantation was even complete.” — Clause-Canceller' },
+  { url: '/assets/images/classes/spellguard_thalren_human.jpg', caption: '“Ground the wild flux through copper coils; magic is just lightning waiting for an earth rod.” — Frontier Sapper' }
  ],
  augur: [
-  { url: '/assets/images/classes/augur_skald_human.jpg', caption: 'Skald Human Augur — The Glacier-Haruspex, Nordic warrior-scholar kneeling on blue glacial ice casting carved elk-antler omen-staves before a cyan frost-vapor brazier with an ivory sickle in hand.' },
-  { url: '/assets/images/classes/augur_vashir_astril.jpg', caption: 'Lumian Astril Augur — The Star-Viscera Reader, crystalline celestial seer in an evasive stance tracing radiant violet stress-fractures across her forearm with an obsidian stylus.' },
-  { url: '/assets/images/classes/augur_clean_vreken.jpg', caption: 'Bedel Vreken Augur — The Bog-Gore Diviner, monastic bog-scholar holding a prayer-bell scythe while using a brass probe to parse floating inscribed tablets in a glowing green spore-basin.' },
-  { url: '/assets/images/classes/augur_deepling_myrathil.jpg', caption: 'Deepling Myrathil Augur — The Trench-Haruspex, deep-sea aquatic seer holding a spherical pressure astrolabe with a swirling azure current-vortex.' },
-  { url: '/assets/images/classes/augur_korr_solari.jpg', caption: 'Korr Solari Augur — The Sol\'s Breath-Reader, deep-vault cinder-monk seated in Vault-Breath stillness with a sun-crest staff, watching the multifaceted holy ember glowing in a bronze brazier.' }
+  { url: '/assets/images/classes/augur_skald_human.jpg', caption: '“The elk bone splits along the fault of the winter to come; read the rime before you march.” — Rime Haruspex' },
+  { url: '/assets/images/classes/augur_vashir_astril.jpg', caption: '“Stress fractures in starlight glass show where the sky will fracture next.” — Star-Seer' },
+  { url: '/assets/images/classes/augur_clean_vreken.jpg', caption: '“Floating tablets in the spore-basin never lie; the green rot foretells the decay of kings.” — Mire Diviner' },
+  { url: '/assets/images/classes/augur_deepling_myrathil.jpg', caption: '“The pressure gauge turns clockwise when disaster rises from the deep ocean trench.” — Trench Astrolabe' },
+  { url: '/assets/images/classes/augur_korr_solari.jpg', caption: '“Watch the breath of the ember; when the smoke rises straight, the vault is safe.” — Hearth-Augur' }
  ],
  crusader: [
-  { url: '/assets/images/classes/crusader_skald_human.jpg', caption: 'Skald Human Crusader — The Frost-Hearth Zealot, Nordic vanguard juggernaut planted in deep alpine snow with a glowing runic starlight hearth-blade.' },
-  { url: '/assets/images/classes/crusader_anhur_solari.jpg', caption: 'Anhur Solari Crusader — The Magma Crusader, volcanic vanguard knight in tectonic iron plate wielding an obsidian flameblade greatsword and embossed sun-crest tower shield.' },
-  { url: '/assets/images/classes/crusader_kordak_astril.jpg', caption: 'Kordak Astril Crusader — The Crystal Judgment, colossal crystalline titan with forward-curving horns locked behind a glowing amber starlight tower shield and quartz executioner greatsword.' },
-  { url: '/assets/images/classes/crusader_lumian_astril.jpg', caption: 'Lumian Astril Crusader — The Starlight Vanguard, celestial paladin in sculpted silver and starlight glass raising an armillary-ringed celestial greatsword.' },
-  { url: '/assets/images/classes/crusader_korr_solari.jpg', caption: 'Korr Solari Crusader — The Vault-Templar, Deep-Vault holy monk with ash-branding tattoos and sun-crest gorget, resting upon a colossal basalt great-maul.' }
+  { url: '/assets/images/classes/crusader_skald_human.jpg', caption: '“Light the hearth-blade in the blizzard; where the flame cuts, the darkness retreats.” — Hearth-Vanguard' },
+  { url: '/assets/images/classes/crusader_anhur_solari.jpg', caption: '“Forged in tectonic fire, sealed in obsidian; no shield of the faith bends before the storm.” — Magma Crusader' },
+  { url: '/assets/images/classes/crusader_kordak_astril.jpg', caption: '“Crystal reflects judgment without mercy; face the blade with your conscience clean.” — Quartz Templar' },
+  { url: '/assets/images/classes/crusader_lumian_astril.jpg', caption: '“The starlight vanguard does not wait for morning; we carry the dawn upon our standards.” — Celestial Knight' },
+  { url: '/assets/images/classes/crusader_korr_solari.jpg', caption: '“The great-maul answers what prayer cannot; break the foundation and the heresy falls.” — Vault Templar' }
  ],
  harbinger: [
-  { url: '/assets/images/classes/harbinger_stargazer_astril.jpg', caption: 'Lumian Harbinger — The Entropy-Symphony, drawing glowing star-alignments and dying planetary orbits with a sleek brass telescope.' },
-  { url: '/assets/images/classes/harbinger_skald_human.jpg', caption: 'Skald Human Harbinger — The Doom-Scribe, carving differential equations of solar extinction onto an alpine stone slab with an ivory stylus.' },
-  { url: '/assets/images/classes/harbinger_waste_solari.jpg', caption: 'Anhur Harbinger — The Dying-Light Doomsayer, driving a brass thermal probe into a cooling basalt fissure to tally heat loss on an obsidian slate.' },
-  { url: '/assets/images/classes/harbinger_brutish_astril.jpg', caption: 'Kordak Harbinger — The Geomantic Void-Seer, crushing obsidian shards in his fist and drawing geometric doom alignments in the earth.' },
-  { url: '/assets/images/classes/harbinger_tessen_human.jpg', caption: 'Tessic Human Harbinger — The Doomsayer, holding aloft the iron hourglass of extinction and heralding the end of days.' }
+  { url: '/assets/images/classes/harbinger_stargazer_astril.jpg', caption: '“Orbits decay whether or not mortals avert their eyes; I merely chart the final alignment.” — Astromancer of the Fall' },
+  { url: '/assets/images/classes/harbinger_skald_human.jpg', caption: '“Extinction is simple arithmetic carved in granite. Subtract the sun, and what remains?” — Doom-Scribe' },
+  { url: '/assets/images/classes/harbinger_waste_solari.jpg', caption: '“The cooling of the fissure is not a season; it is the pulse of a world growing cold.” — Caldera Scribe' },
+  { url: '/assets/images/classes/harbinger_brutish_astril.jpg', caption: '“When the earth’s geometry breaks, even the mountains will find nowhere to rest.” — Geomancer of the Void' },
+  { url: '/assets/images/classes/harbinger_tessen_human.jpg', caption: '“The hourglass of extinction does not drop sand; it drops the years of all who listen.” — Keeper of the Final Hour' }
  ],
  lunarch: [
-  { url: '/assets/images/classes/lunarch_viridian_florae.jpg', caption: 'Briaren Florae Lunarch — The Thorn-Bound, commanding plant-fae woman wielding a silver crescent sickle while levitating a pulsating thorny lunar chrysalis in the moonlit ancient grove.' },
-  { url: '/assets/images/classes/lunarch_oken_florae.jpg', caption: 'Oaken Florae Lunarch — The Timber-Born, massive timber craftsman holding an oak staff with a crescent crest, his forearm bark split open with crackling blue silence-light while raising a glowing full moon orb.' },
-  { url: '/assets/images/classes/lunarch_arch_mimir.jpg', caption: 'Arch Mimir Lunarch — The Mask-Anchored, high-canopy noble in an ornate porcelain owl mask and flowing silk robes, brandishing an engraved crescent sickle and cradling a glowing celestial moon orb.' },
-  { url: '/assets/images/classes/lunarch_thalren_human.jpg', caption: 'Tallyn Human Lunarch — The Fog-Heresy, exiled scholar striding through the mist with a rune-etched reaping sickle, the empty brass binding of his personal ledger burning with crackling blue silence-light.' }
+  { url: '/assets/images/classes/lunarch_viridian_florae.jpg', caption: '“The silver sickle reaps only under the full moon, when the thorns drink the pale light.” — Thorn-Priestess' },
+  { url: '/assets/images/classes/lunarch_oken_florae.jpg', caption: '“The heartwood splits when the lunar silence falls; within that fracture burns the cold tide.” — Oak-Chanter' },
+  { url: '/assets/images/classes/lunarch_arch_mimir.jpg', caption: '“To wear the mask of the owl is to see what the sun was invented to conceal.” — Canopy Hierophant' },
+  { url: '/assets/images/classes/lunarch_thalren_human.jpg', caption: '“Exile teaches that true light does not come from banners, but from the silent sickle in the dark.” — Mist-Scholar' }
  ]
 };
 
@@ -893,6 +893,27 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
  const [selectedSpecTreeIndex, setSelectedSpecTreeIndex] = useState(0);
  const contentContainerRef = useRef(null);
  const detailContentRef = useRef(null);
+ const navRef = useRef(null);
+ const [canScrollNavRight, setCanScrollNavRight] = useState(false);
+ const [canScrollNavLeft, setCanScrollNavLeft] = useState(false);
+
+ const checkNavScroll = useCallback(() => {
+  if (!navRef.current) return;
+  const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
+  setCanScrollNavLeft(scrollLeft > 6);
+  setCanScrollNavRight(scrollLeft + clientWidth < scrollWidth - 6);
+ }, []);
+
+ useEffect(() => {
+  checkNavScroll();
+  window.addEventListener('resize', checkNavScroll);
+  return () => window.removeEventListener('resize', checkNavScroll);
+ }, [checkNavScroll]);
+
+ useEffect(() => {
+  const timer = setTimeout(checkNavScroll, 80);
+  return () => clearTimeout(timer);
+ }, [activeTab, checkNavScroll]);
 
  // Cross-tab navigation used by the resource tab's "weave into your class" links
  const handleNavigateClassTab = (tabId) => {
@@ -3205,20 +3226,48 @@ const ClassDetailDisplay = ({ classData, onBack, onSelectClass }) => {
     </div>
    </div>
 
-     <nav className="class-codex-navigation" aria-label="Class sections">
-     {classTabs.map(tab => (
-      <button
-        key={tab.id}
-        type="button"
-        className={`class-codex-section-button ${activeTab === tab.id ? 'active' : ''}`}
-        aria-pressed={activeTab === tab.id}
-        aria-controls="class-codex-section"
-       onClick={() => { setActiveTab(tab.id); setCurrentPage(0); }}
+     <div className={`class-codex-nav-wrapper ${canScrollNavRight ? 'has-scroll-right' : ''} ${canScrollNavLeft ? 'has-scroll-left' : ''}`}>
+      <nav
+        ref={navRef}
+        onScroll={checkNavScroll}
+        className="class-codex-navigation"
+        aria-label="Class sections"
       >
-        <i className={tab.icon} aria-hidden="true"></i><span>{tab.label}</span>
-      </button>
-     ))}
-     </nav>
+      {classTabs.map(tab => (
+       <button
+         key={tab.id}
+         type="button"
+         className={`class-codex-section-button ${activeTab === tab.id ? 'active' : ''}`}
+         aria-pressed={activeTab === tab.id}
+         aria-controls="class-codex-section"
+        onClick={() => { setActiveTab(tab.id); setCurrentPage(0); }}
+       >
+         <i className={tab.icon} aria-hidden="true"></i><span>{tab.label}</span>
+       </button>
+      ))}
+      </nav>
+      {canScrollNavLeft && (
+        <button
+          type="button"
+          className="class-codex-nav-scroll-hint left"
+          aria-label="Scroll left to see more tabs"
+          onClick={() => navRef.current?.scrollBy({ left: -160, behavior: 'smooth' })}
+        >
+          <i className="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+      )}
+      {canScrollNavRight && (
+        <button
+          type="button"
+          className="class-codex-nav-scroll-hint right"
+          aria-label="Scroll right to see more tabs"
+          onClick={() => navRef.current?.scrollBy({ left: 160, behavior: 'smooth' })}
+        >
+          <span className="scroll-hint-label">More</span>
+          <i className="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      )}
+     </div>
 
     <section className="class-detail-content" id="class-codex-section" aria-label={classTabs.find(tab => tab.id === activeTab)?.label} ref={detailContentRef}>
     {activeTab === 'overview' && renderOverview()}

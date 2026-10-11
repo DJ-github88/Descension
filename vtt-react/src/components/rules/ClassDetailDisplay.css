@@ -4201,9 +4201,9 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   display: block;
   border: 1px solid rgba(139, 69, 19, 0.2);
   border-radius: 2px;
-  /* Multiply blend mode blends watercolor seamlessly with the parchment paper */
-  mix-blend-mode: multiply;
-  filter: contrast(1.05) saturate(0.95);
+  /* Normal blend mode preserves the original illustration tones without beige color cast */
+  mix-blend-mode: normal;
+  filter: contrast(1.02);
   transition: transform 0.3s ease;
 }
 

@@ -3,27 +3,27 @@ export const groven = {
   name: 'Groven',
   essence: 'The Living Bridges of Cragjaw Peaks',
   illustration: '/assets/images/races/groven_ithran_city_cragspan.jpg',
-  illustrationCaption: 'Bridge-Peak (Cragspan) — The grand high-altitude suspension bridge and terraced mountain hillside metropolis of the Groven.',
+  illustrationCaption: '“Spanning the chasm where the mountain winds scream, Bridge-Peak anchors our clans above the clouds.” — Span-Master of the High Crag',
   illustrations: [
     {
       src: '/assets/images/races/groven_ithran_city_cragspan.jpg',
-      caption: 'Bridge-Peak (Cragspan) — The grand high-altitude suspension bridge and terraced mountain hillside metropolis of the Groven.'
+      caption: '“Spanning the chasm where the mountain winds scream, Bridge-Peak anchors our clans above the clouds.” — Span-Master of the High Crag'
     },
     {
       src: '/assets/images/races/groven_morgh_city_karstmorgh.jpg',
-      caption: 'The Kiln & Vat-Fortress of Morgh-Deep — Sovereign ancestral cavern grotto with mud-stone kilns and rope bridges in rough charcoal draft with slate-grey watercolor splash.'
+      caption: '“In the deep heat of Morgh-Deep, we bake the clay and temper the bedrock until the mountain itself yields to our hands.” — Kiln-Master of the Vat'
     },
     {
       src: '/assets/images/races/groven_ithran_location_frostmaw_gate.jpg',
-      caption: 'Frostmaw Crag Toll-Gate & Toll-Keep — Imposing alpine fortress gatehouse managing mountain traffic.'
+      caption: '“None cross into the high pass without weighing iron against stone. Pay the toll, or test the wind.” — Gate-Warden of Frostmaw'
     },
     {
       src: '/assets/images/races/groven_morgh_location_karst_bastion.jpg',
-      caption: 'Karst-Morgh Megalith Bastion — Titanic natural arched grotto gateway reinforced with dry-stone boulders and timber palisades.'
+      caption: '“The gates of Karst-Morgh were not built to keep enemies out, but to remind them of the mountain’s crushing weight.” — Bastion Mason'
     },
     {
       src: '/assets/images/races/groven_morgh_figure_vorrgeth.jpg',
-      caption: 'Vorr-Geth the Shattered One — Legendary Morgh Groven Patriarch in rough charcoal draft with slate-grey watercolor splash.'
+      caption: '“A fracture is not an ending; it is where the stone learned how to bend without falling.” — Vorr-Geth the Shattered One'
     }
   ],
   cardFlavor: 'Once monumental living landmarks, their bodies were engineered by Fex alchemists who reshaped their stone forms to break their bond to the earth.',
@@ -251,23 +251,23 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       name: 'Morgh',
         crest: '/assets/images/crests/groven_morgh_crest.png',
       illustration: '/assets/images/races/groven_morgh_city_karstmorgh.jpg',
-      illustrationCaption: 'The Kiln & Vat-Fortress of Morgh-Deep — Sovereign ancestral cavern grotto with mud-stone kilns and rope bridges in rough charcoal draft with slate-grey watercolor splash.',
+      illustrationCaption: '“In the deep heat of Morgh-Deep, we bake the clay and temper the bedrock until the mountain itself yields to our hands.” — Kiln-Master of the Vat',
       illustrations: [
         {
           src: '/assets/images/races/groven_morgh_city_karstmorgh.jpg',
-          caption: 'The Kiln & Vat-Fortress of Morgh-Deep — Sovereign ancestral cavern grotto with mud-stone kilns and rope bridges in rough charcoal draft with slate-grey watercolor splash.'
+          caption: '“In the deep heat of Morgh-Deep, we bake the clay and temper the bedrock until the mountain itself yields to our hands.” — Kiln-Master of the Vat'
         },
         {
           src: '/assets/images/races/groven_morgh_location_karst_bastion.jpg',
-          caption: 'Karst-Morgh Megalith Bastion — Titanic natural arched grotto gateway reinforced with dry-stone boulders and timber palisades.'
+          caption: '“The gates of Karst-Morgh were not built to keep enemies out, but to remind them of the mountain’s crushing weight.” — Bastion Mason'
         },
         {
           src: '/assets/images/races/groven_morgh_location_shaping_hall.jpg',
-          caption: 'The Shaping Hall & Masonry Yard — Monumental vaulted cavern where Morgh artisans inscribe spiral current runes into bedrock slabs.'
+          caption: '“Every chisel stroke awakens the slumbering song sealed inside the bedrock.” — Shaping Hall Artisan'
         },
         {
           src: '/assets/images/races/groven_morgh_figure_vorrgeth.jpg',
-          caption: 'Vorr-Geth the Shattered One — Legendary Morgh Groven Patriarch in rough charcoal draft with slate-grey watercolor splash.'
+          caption: '“A fracture is not an ending; it is where the stone learned how to bend without falling.” — Vorr-Geth the Shattered One'
         }
       ],
       visualDescription: `Massive, monolithic, and primal, the Morgh are rock-hewn stone ogre-like humanoids carrying ancient Thrumm blood closest to the surface. Standing 4'11" to 5'3" (1.50m to 1.60m) with immense crag-shoulders, thick pillar-like limbs, and deep chest bulk, they resemble living bedrock. Their faces are flat, square stone-slab features with deep-set glowing molten amber eyes beneath heavy craggy stone brow ridges, and lipless rock mouths with blunt crushing teeth (strictly no orc tusks, no pig snouts). Their stone-hide grows in rough, cracked granite plates and basalt veins across shoulders, spine, and joints, dotted with dried lichen and moss. When a Morgh stands still among high crag boulders, living rock is indistinguishable from the mountain. They wear heavy ox-hide quarry wraps and carry cyclopean stone-chisels, mauls, or long ash staves.`,
@@ -542,19 +542,19 @@ The toll is sacred. Every outsider who crosses an Ancestor-Span must pay somethi
       name: 'Amordjin',
         crest: '/assets/images/crests/groven_ithran_crest.png',
       illustration: '/assets/images/races/groven_ithran_city_cragspan.jpg',
-      illustrationCaption: 'Bridge-Peak (Cragspan) — The grand high-altitude suspension bridge and terraced mountain hillside metropolis of the Amordjin Groven.',
+      illustrationCaption: '“Spanning the chasm where the mountain winds scream, Bridge-Peak anchors our clans above the clouds.” — Span-Master of the High Crag',
       illustrations: [
         {
           src: '/assets/images/races/groven_ithran_city_cragspan.jpg',
-          caption: 'Bridge-Peak (Cragspan) — The grand high-altitude suspension bridge and terraced mountain hillside metropolis of the Amordjin Groven.'
+          caption: '“Spanning the chasm where the mountain winds scream, Bridge-Peak anchors our clans above the clouds.” — Span-Master of the High Crag'
         },
         {
           src: '/assets/images/races/groven_ithran_location_frostmaw_gate.jpg',
-          caption: 'Frostmaw Crag Toll-Gate & Toll-Keep — Imposing alpine fortress gatehouse managing mountain traffic.'
+          caption: '“None cross into the high pass without weighing iron against stone. Pay the toll, or test the wind.” — Gate-Warden of Frostmaw'
         },
         {
           src: '/assets/images/races/groven_ithran_location_first_span.jpg',
-          caption: 'The First Span & High Arch Promenade — Monumental cyclopean stone arch bridge springing across an alpine chasm.'
+          caption: '“Between two precipices hangs our nation, held aloft by craft and ancestral stone.” — First Span Arch-Mason'
         }
       ],
       visualDescription: `Tall, predatory, and remarkably athletic, the Amordjin are statuesque alpine stone-trolls built with dizzying poise and bridge-spanning reach. Standing 6'7" to 7'2" (2.00m to 2.18m), they possess smooth, wind-polished slate-blue mineral skin with natural stone-scale plating across their shoulders and back. Along their crown curve sweeping, ribbed backward-curving stone horns, framing long dreadlocks braided with silver wire, rings, and carved mineral beads. Their faces are fierce and chiseled, featuring sharp aerodynamic cheekbones, deep-set glowing cobalt-blue eyes, and strong lower jaws with prominent lower under-fangs. Their limbs are elongated and sinewy, ending in sharp clawed stone fingers and taloned feet built for gripping sheer icy crags and narrow suspension bridge cables. They wear tailored mountain leather vests, brass rigging harnesses, carabiners, and wind-blown traveling wraps, moving with the lethal grace of master bridge-architects, high-pass sentries, and span-negotiators.`,

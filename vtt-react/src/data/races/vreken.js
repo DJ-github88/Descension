@@ -4,7 +4,7 @@ export const vreken = {
   name: 'Mycellan',
   essence: 'The Gloom-Lit',
   illustration: '/assets/images/races/vreken_clean_city_sunkenspire.jpg',
-  illustrationCaption: 'A Bedel crypt-scholar in gothic monastic cassock with gently-curled ear tips, cloth face veil, glowing green lantern-eyes, holding a carved rune staff and crypt tome with toxic green watercolor splash.',
+  illustrationCaption: '“We guard the memory of what was drowned; in the darkness of the mire, only the patient eye perceives the path.” — Crypt-Scholar of the Sunken Spire',
   cardFlavor: 'Amber-eyed crypt-keepers who tend the Sunken Spire reverse cathedrals beneath the Bryngloom bogs.',
   visualDescription: `Compact and wiry, standing 4'10" to 5'6", with long tapered ears that gracefully curl upward like spiral horns rising from beneath dark cowl hoods. Their eyes are bioluminescent lantern-eyes peeking from beneath the hood, glowing with rust-amber (Bedel Deep-Glow) or silver-white (Cromyx Ghost-Mycelium) light in the dark. Their lower faces are wrapped in cloth, and their long-fingered hands are built for delicate spore-harvesting. They wear gothic monastic vestments in dark earth tones with gold-woven trim, living in inverted reverse cathedral-monasteries (Sunken Spires) carved into peat-stone.`,
   description: `**[The Lantern-Eyed Crypt-Speakers]**, *Leaning into the damp peat-stone of the Sunken Spire, a Mycellan keeper with upward-curling horn-ears and glowing rust-amber eyes traces a fingertip along glowing fungal filaments in an inverted catacomb.*
@@ -271,27 +271,27 @@ Death rites are simple and grueling. The dying Mycellan is carried to the neares
   name: 'Bedel',
         crest: '/assets/images/crests/vreken_clean_crest.png',
   illustration: '/assets/images/races/vreken_clean_portrait_bust.jpg',
-  illustrationCaption: 'Canonical Bedel Racial Portrait — Subterranean crypt-scholar with upward-curling horn-ears, cowl-mask, glowing toxic-green lantern-eyes, and gnarled rune staff in rough charcoal draft with blight green watercolor splash.',
+  illustrationCaption: '“Beneath the peat and root-canopy, the Bedel keep vigil where sunlight cannot burn.” — Veil-Speaker Tradition',
   illustrations: [
     {
       src: '/assets/images/races/vreken_clean_portrait_bust.jpg',
-      caption: 'Canonical Bedel Racial Portrait — Upper-torso bust of a subterranean crypt-scholar with upward-curling horn-ears, deep hood, cowl-mask, glowing green lantern-eyes, and heavy tome in rough charcoal draft with blight green watercolor splash.'
+      caption: '“Beneath the peat and root-canopy, the Bedel keep vigil where sunlight cannot burn.” — Veil-Speaker Tradition'
     },
     {
       src: '/assets/images/races/vreken_clean_portrait_unhooded.jpg',
-      caption: 'Bedel Facial Anatomy (Unhooded Benchmark) — Canonical unhooded anatomy showing pale skin, upward-curling horn-ears, and glowing amber-green lantern eyes in rough charcoal draft with blight green watercolor splash.'
+      caption: '“To unmask in the crypt is to greet the ancestors without pretense or vanity.” — Rites of the Deep Cloister'
     },
     {
       src: '/assets/images/races/vreken_clean_city_sunkenspire.jpg',
-      caption: 'The Sunken Spire — Inverted subterranean gothic cathedral metropolis carved into hanging stalactites with plunging cloisters, flying buttresses, and suspended censers in rough charcoal draft with toxic blight green watercolor splash.'
+      caption: '“Carved into the inverted stalactite vaults, the Sunken Spire hangs above the abyssal mire — an eternal testament to faith in the deep.” — Architecture of the Veiled'
     },
     {
       src: '/assets/images/races/vreken_clean_figure_isara.jpg',
-      caption: 'Matriarch Isara Deep-Glow (Sovereign Veil-Speaker) — Authoritative elder in heavy monastic cassock resting on an elder-wood rune staff with open ancestral grimoire on a high cavern overlook in rough charcoal draft with blight green watercolor splash.'
+      caption: '“The book does not end with burial; every page turned is a life recalled to service.” — Matriarch Isara Deep-Glow'
     },
     {
       src: '/assets/images/races/vreken_clean_figure_orven.jpg',
-      caption: 'Inquisitor Orven the Still-Handed (The Threshold Guardian) — Vigilant crypt-guardian gripping a carved sounding staff with palm outstretched in warning at the cavern gatehouse threshold in rough charcoal draft with blight green watercolor splash.'
+      caption: '“No trespasser crosses the gatehouse threshold until the toll of silence has been paid.” — Inquisitor Orven the Still-Handed'
     }
   ],
   visualDescription: `The inheritors of Deep-Glow, the oldest and most stable fungal strain, the Bedel bear their transformation lightly. Their features are closer to the original elven forms than any other Mycellan, elegant cheekbones, long tapered limbs, ears that curl only gently, and their lantern-eyes burn a controlled rust-amber, warm and steady, easily dimmed in polite company. They favor dark monastic cassocks embroidered with fungal-thread that marks bloodline and vocation. Pale-skinned and composed, they move with the quiet authority of people whose biology has never been a war, and they are accustomed to being stared at but never to being doubted.`,
@@ -433,19 +433,19 @@ The Bedel rarely leave the Bryngloom Forest. When they do, they travel in monast
   name: 'Cromyx',
         crest: '/assets/images/crests/vreken_marked_crest.png',
   illustration: '/assets/images/races/vreken_marked_portrait_bust.jpg',
-  illustrationCaption: 'Canonical Cromyx Racial Portrait — Crypt-stalker with ridged horns, linen face-wrap, glowing toxic-green lantern-eyes, sickle, and chained lantern in rough charcoal draft with acid-green watercolor splash.',
+  illustrationCaption: '“The root-paths twist through black mud; the sickle reaps only what the swamp allows.” — Cromyx Stalker Maxim',
   illustrations: [
     {
       src: '/assets/images/races/vreken_marked_portrait_bust.jpg',
-      caption: 'Canonical Cromyx Racial Portrait — Upper-torso bust of a crypt-stalker with ridged horns, bandage-wrapped lower face, glowing green lantern-eyes, harvesting sickle, and chained lantern in rough charcoal draft with toxic acid green watercolor splash.'
+      caption: '“The root-paths twist through black mud; the sickle reaps only what the swamp allows.” — Cromyx Stalker Maxim'
     },
     {
       src: '/assets/images/races/vreken_marked_city_mirehollow.jpg',
-      caption: 'Mirehollow Wetland Haven — Sovereign stilt-settlement of the Cromyx with timber boardwalks, elevated longhouses on mangrove roots, watchtowers, and drying nets in rough charcoal draft with toxic acid green watercolor splash.'
+      caption: '“Mirehollow rises upon the buttress roots, swaying with the marsh tides yet never yielding to the flood.” — Stilt-Haven Annals'
     },
     {
       src: '/assets/images/races/vreken_marked_figure_garrow.jpg',
-      caption: 'Blight-Harvester Garrow — Master spore-forager crouched low on a mossy rock in a dark peat-cavern pool holding a curved sickle and lowering a chained cage-lantern in rough charcoal draft with toxic acid green watercolor splash.'
+      caption: '“Harvest in the dead of twilight, when the bioluminescent spores glow brightest and the water is still.” — Blight-Harvester Garrow'
     }
   ],
   visualDescription: `The inheritors of Ghost-Mycelium, Morvane's wounded nerve-tissue made symbiotic. The Cromyx share the compact wiry frame and vestigial elven architecture of their kin, but their lantern-eyes burn silver-white and will not dim easily, flaring with anger, flickering with grief, brightening under any strong emotion so that their hearts are readable across a room. Their ear-tips curl more sharply. The volatile strain threads deeper through them: their presence is impossible to hide in darkness, and the brilliant light that makes their perception extraordinary is the same light that consumes them from within.`,

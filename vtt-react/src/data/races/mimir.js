@@ -3,7 +3,7 @@ export const mimir = {
     name: 'Mimir',
     essence: 'The Faces of Sereth',
     illustration: '/assets/images/races/mimir_broken_city_riverreach.jpg',
-    illustrationCaption: 'Oakhaven & River\'s Reach — Sovereign woodland capital of the Broken Mimir with graceful timber-and-stone halls, watermills, and lantern-strung riverside pavilions in rough charcoal draft with festival rose watercolor splash.',
+    illustrationCaption: '“Along the willow-lined riverbanks of Oakhaven, the lanterns glow for all who have set aside their masks to live unburdened.” — Sylvan Chronicler',
     illustrations: [
       {
         src: '/assets/images/races/mimir_broken_city_riverreach.jpg',
@@ -23,7 +23,7 @@ export const mimir = {
       },
       {
         src: '/assets/images/races/mimir_broken_portrait_bust.jpg',
-        caption: 'Broken Mimir Racial Portrait — Upper-torso bust of an unmasked rebel with expressive demon facial scarring, pointed demon-fae ears with dangling silver jewelry, and companion spirit motes in rough charcoal draft with festival rose watercolor splash.'
+        caption: '“The scars remind us of the bargain we broke; our unmasked faces show the freedom we chose instead.” — Broken Mimir Maxim'
       }
     ],
     cardFlavor: 'Sereth\'s native creations: Arch keep lineage masks and archives; Broken walk unmasked beside their personal Motes.',
@@ -323,7 +323,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
         name: 'Arch Mimir',
         crest: '/assets/images/crests/mimir_arch_crest.png',
         illustration: '/assets/images/races/mimir_arch_city_valcaelis.jpg',
-        illustrationCaption: 'Val-Caelis — Sovereign treetop capital of the Arch Mimir suspended across titanic ironwood crowns with broad timber highways, living canopy palaces, and masked nobles in rough charcoal draft with imperial amethyst watercolor splash.',
+        illustrationCaption: '“Suspended in the highest ironwood crowns, Val-Caelis looks down upon the mist; behind our masks, no mortal tremor is ever revealed.” — Courtier of the High Canopy',
         illustrations: [
           {
             src: '/assets/images/races/mimir_arch_city_valcaelis.jpg',
@@ -335,7 +335,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
           },
           {
             src: '/assets/images/races/mimir_arch_portrait_noble.jpg',
-            caption: 'Arch Mimir Noble Portrait — Aristocratic fae bust featuring the hand-carved ancient beast mask, curled horn buds, high velvet cowl, and sweeping collar in rough charcoal draft with imperial amethyst watercolor splash.'
+            caption: '“A beast mask carved from heartwood does not hide the noble; it gives voice to the ancient spirit of the canopy.” — High Mask Rite'
           },
           {
             src: '/assets/images/races/mimir_arch_figure_seraphina.jpg',
@@ -560,7 +560,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
         name: 'Broken Mimir',
         crest: '/assets/images/crests/mimir_broken_crest.png',
         illustration: '/assets/images/races/mimir_broken_city_riverreach.jpg',
-        illustrationCaption: 'Oakhaven & River\'s Reach — Sovereign woodland capital of the Broken Mimir with graceful timber-and-stone halls, watermills, and lantern-strung riverside pavilions in rough charcoal draft with festival rose watercolor splash.',
+        illustrationCaption: '“Along the willow-lined riverbanks of Oakhaven, the lanterns glow for all who have set aside their masks to live unburdened.” — Sylvan Chronicler',
         illustrations: [
           {
             src: '/assets/images/races/mimir_broken_city_riverreach.jpg',
@@ -580,7 +580,7 @@ The name "Sereth" is invoked in every prayer and carved into every threshold. It
           },
           {
             src: '/assets/images/races/mimir_broken_portrait_bust.jpg',
-            caption: 'Broken Mimir Racial Portrait — Upper-torso bust of an unmasked rebel with expressive demon facial scarring, pointed demon-fae ears with dangling silver jewelry, and companion spirit motes in rough charcoal draft with festival rose watercolor splash.'
+            caption: '“The scars remind us of the bargain we broke; our unmasked faces show the freedom we chose instead.” — Broken Mimir Maxim'
           }
         ],
         visualDescription: `The Broken Mimir are in reality Arch Mimir who were exiled, had no masks passed down to them due to scarcity, or actively chose to set their masks aside forever, completely rejecting the shame of hiding their faces. They wear NO masks whatsoever. Their faces are fully uncovered, distinguished by striking, elegant demon facial scarring across cheeks and brows, long pointed demon-fae ears pierced with elaborate jewelry (ear cuffs, dangling silver chains, rings, and beads), and wide soulful luminous eyes. This complete facial exposure is embraced with vibrant spirit, child-like wonder, and defiance against the stifling mask-culture of the high canopy. They wear simple forest-woven wraps and are accompanied by warm, floating gold orbs of light (Motes).`,

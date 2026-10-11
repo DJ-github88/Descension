@@ -3,7 +3,7 @@ export const neth = {
   name: 'Athien',
   essence: 'The Silver-Touched',
   illustration: '/assets/images/races/neth_high_city_atropolis.jpg',
-  illustrationCaption: 'Atropolis & The Great Ledger Chancery — Sovereign classical law-metropolis of the Athien with marble colonnades, gilded domes, and robed magistrates in rough charcoal draft with ledger gold watercolor splash.',
+  illustrationCaption: '“In Atropolis, every breath is notarized and every promise is recorded in sovereign ink. The law outlives the flesh.” — High Magistrate Vael',
   illustrations: [
     {
       src: '/assets/images/races/neth_high_city_atropolis.jpg',
@@ -420,7 +420,7 @@ The Athien do not love Morvane. They respect it the way a debtor respects a cred
    name: 'Nethien',
         crest: '/assets/images/crests/neth_high_crest.png',
    illustration: '/assets/images/races/neth_high_city_atropolis.jpg',
-   illustrationCaption: 'Atropolis & The Great Ledger Chancery — Sovereign classical law-metropolis of the Athien with marble colonnades, gilded domes, and robed magistrates in rough charcoal draft with ledger gold watercolor splash.',
+   illustrationCaption: '“In Atropolis, every breath is notarized and every promise is recorded in sovereign ink. The law outlives the flesh.” — High Magistrate Vael',
    illustrations: [
      {
        src: '/assets/images/races/neth_high_city_atropolis.jpg',
@@ -621,7 +621,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
   name: 'Weft',
         crest: '/assets/images/crests/neth_veldun_crest.png',
   illustration: '/assets/images/races/neth_veldun_city_canals.jpg',
-  illustrationCaption: 'Under-Ledger Shadow-Exchange & Canals — Sovereign subterranean canal metropolis of the Weft with brick arches, flat-bottom gondolas, and shadow-brokers in rough charcoal draft with under-fog charcoal watercolor splash.',
+  illustrationCaption: '“Beneath the grand chanceries lies the Under-Ledger, where debts are settled in dark water and whisper-coin.” — Shadow-Canal Proverb',
   illustrations: [
     {
       src: '/assets/images/races/neth_veldun_city_canals.jpg',
@@ -637,7 +637,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     },
     {
       src: '/assets/images/races/neth_veldun_figure_orven.jpg',
-      caption: 'Orven-Sen — Legendary shadow broker and high-stakes gambler rolling bone dice with hollow stiletto cane in rough charcoal draft with under-fog charcoal splash.'
+      caption: '“The dice may tumble where they will, but the ledger always knows whose palm will scoop the winnings.” — Orven-Sen'
     },
     {
       src: '/assets/images/races/neth_veldun_figure_lyra.jpg',
@@ -842,7 +842,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     pactBound: false
   },
   illustration: '/assets/images/races/neth_withered_city_severancehold.jpg',
-  illustrationCaption: 'Cinder-Grave & Severance Hold — Sovereign subterranean necropolis city of the Riven among pre-Calamity monastery ruins and cracked gothic arches.',
+  illustrationCaption: '“Among the ruins of Severance Hold, the Riven seek the silence that exists beyond all contracts.” — Chronicler of the Severed',
   illustrations: [
     {
       src: '/assets/images/races/neth_withered_city_severancehold.jpg',
@@ -858,7 +858,7 @@ They view the Weft with a mixture of admiration and unease, the Weft see the web
     },
     {
       src: '/assets/images/races/neth_withered_figure_sarenvel.jpg',
-      caption: 'Saren-Vel — The Penitent Enchanter and First Riven tracing runic diagrams on ancient pre-Calamity stone in rough charcoal draft with ash white watercolor splash.'
+      caption: '“Trace the broken glyphs until the penance is complete; even the severed soul may yet find equilibrium.” — Saren-Vel, First Riven'
     }
   ],
   visualDescription: `Gaunt and haunting, the Riven bear the unpreserved pale frame of their kin, with paper-white dry skin, faint bluish veins, and pale-grey eyes in hollow sockets. Their chests rise and fall with ordinary breath. Wispy snow-white hair, rune-etched scars, ash-grey wraps, scholar bandoliers, stone-chisels, and severed debt-collars mark some ruin-scrivener traditions. Their souls were not universally stolen: the pact no longer preserves their bodies, and their appearance is not proof of undeath or ancestral guilt.`,

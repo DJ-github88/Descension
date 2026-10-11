@@ -15,11 +15,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 20px;
-  background: linear-gradient(135deg, rgba(43, 26, 10, 0.95) 0%, rgba(26, 15, 5, 0.98) 100%);
-  border: 1.5px solid #d4af37;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #fbf7ee 0%, #f4ebd7 100%);
+  border: 1.5px solid #b6a080;
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 16px rgba(52, 37, 26, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   flex-wrap: wrap;
 }
 
@@ -31,33 +31,33 @@
 
 .chronicon-header-icon {
   font-size: 26px;
-  color: #ffd700;
-  text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+  color: #663c32;
+  text-shadow: none;
 }
 
 .chronicon-title {
   font-family: 'Cinzel', serif !important;
   font-size: 22px !important;
   font-weight: 800 !important;
-  color: #ffd700 !important;
+  color: #34251a !important;
   margin: 0 !important;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
 }
 
 .chronicon-subtitle {
   font-family: 'Spectral', Georgia, serif;
   font-size: 13.5px;
-  color: #d5c7b3;
+  color: #68533e;
   font-style: italic;
   display: block;
   margin-top: 2px;
 }
 
 .btn-chronicon-action {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(139, 69, 19, 0.35) 100%);
-  border: 1px solid #d4af37;
-  color: #f5d77f;
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%);
+  border: 1px solid #3d201a;
+  color: #fbf7ee;
   font-family: 'Cinzel', serif;
   font-size: 12px;
   font-weight: 700;
@@ -68,13 +68,14 @@
   align-items: center;
   gap: 8px;
   transition: all 0.18s ease;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.15);
 }
 
 .btn-chronicon-action:hover,
 .btn-chronicon-action.active {
-  background: linear-gradient(135deg, #d4af37 0%, #aa8014 100%);
-  color: #1a0f05;
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.45);
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(102, 60, 50, 0.25);
   transform: translateY(-1px);
 }
 
@@ -627,39 +628,39 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #8b5a1a;
+  background: #663c32;
   border: 3px solid #fdfbf7;
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  box-shadow: 0 0 0 2px #d4af37, 0 3px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0 2px #b6a080, 0 3px 6px rgba(52, 37, 26, 0.2);
   transition: all 0.2s ease;
   z-index: 2;
 }
 
 .chronicon-event-card:hover .event-node-orb,
 .chronicon-event-card.is-selected .event-node-orb {
-  transform: scale(1.18);
-  box-shadow: 0 0 0 3px #ffd700, 0 4px 12px rgba(212, 175, 55, 0.6);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2.5px #663c32, 0 4px 10px rgba(102, 60, 50, 0.35);
 }
 
-.event-node-orb.type-cosmic { background: #6c3483; }
-.event-node-orb.type-ritual { background: #2874a6; }
-.event-node-orb.type-pact { background: #1e8449; }
+.event-node-orb.type-cosmic { background: #5a3e6b; }
+.event-node-orb.type-ritual { background: #355d7a; }
+.event-node-orb.type-pact { background: #2f6a4a; }
 .event-node-orb.type-catastrophe,
-.event-node-orb.type-conflict { background: #922b21; }
-.event-node-orb.type-founding { background: #27ae60; }
-.event-node-orb.type-political { background: #b7950b; }
-.event-node-orb.type-discovery { background: #117864; }
-.event-node-orb.type-conspiracy { background: #4a235a; }
-.event-node-orb.type-disaster { background: #b9770e; }
+.event-node-orb.type-conflict { background: #7c2d25; }
+.event-node-orb.type-founding { background: #3c724e; }
+.event-node-orb.type-political { background: #876823; }
+.event-node-orb.type-discovery { background: #256b62; }
+.event-node-orb.type-conspiracy { background: #4d3156; }
+.event-node-orb.type-disaster { background: #925820; }
 
 .event-node-line {
   flex: 1;
-  width: 3px;
-  background: linear-gradient(180deg, #d4af37 0%, rgba(139, 90, 26, 0.3) 100%);
+  width: 2.5px;
+  background: linear-gradient(180deg, #b6a080 0%, rgba(182, 160, 128, 0.3) 100%);
   margin-top: 4px;
 }
 
@@ -940,3 +941,139 @@
 .event-narrative-prose .rich-h2,
 .event-narrative-prose .rich-h3 { color: #5a2e12; text-shadow: none; }
 .event-narrative-prose .lore-link { color: #8b5a1a; }
+
+/* ── Mobile Responsiveness for Chronicon ──────────────────────── */
+@media (max-width: 768px) {
+  .world-panel-timeline {
+    padding: 4px 2px;
+    gap: 16px;
+  }
+
+  .chronicon-master-header {
+    padding: 14px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .chronicon-title-row {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .chronicon-header-icon {
+    font-size: 22px;
+  }
+
+  .chronicon-title {
+    font-size: 18px !important;
+  }
+
+  .chronicon-master-header .btn-chronicon-action {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+  }
+
+  .era-stepper-track {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .chronicon-era-banner {
+    padding: 14px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .era-banner-heading {
+    font-size: 17px;
+  }
+
+  .era-banner-right {
+    min-width: 100%;
+  }
+
+  .chronicon-toolbar {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .chronicon-search-box {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .chronicon-type-filters {
+    gap: 4px;
+  }
+
+  .type-filter-pill {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .chronicon-event-card {
+    gap: 10px;
+  }
+
+  .event-gutter {
+    width: 24px;
+  }
+
+  .event-node-orb {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+    border-width: 2px;
+  }
+
+  .event-card-body {
+    padding: 12px 14px;
+  }
+
+  .event-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .event-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .event-title {
+    font-size: 15px !important;
+  }
+
+  .event-description {
+    font-size: 13px;
+  }
+
+  .event-causal-links-block {
+    padding: 8px 10px;
+  }
+
+  .causal-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .causal-label {
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .chronicon-calendar-drawer {
+    padding: 14px 12px;
+  }
+
+  .world-month-grid,
+  .holidays-grid {
+    grid-template-columns: 1fr;
+  }
+}

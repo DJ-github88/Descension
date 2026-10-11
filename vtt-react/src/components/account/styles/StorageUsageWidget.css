@@ -1,12 +1,14 @@
 /* Storage Usage Widget Styles */
 
 .storage-usage-widget {
-  background: linear-gradient(135deg, rgba(40, 40, 60, 0.9), rgba(30, 30, 50, 0.9));
-  border: 1px solid rgba(100, 100, 120, 0.3);
-  border-radius: 8px;
+  background: var(--workspace-page, #f5ecd9);
+  border: 1.5px solid var(--workspace-border, #b6a080);
+  border-radius: 10px;
   padding: 16px;
   margin: 12px 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(52, 37, 26, 0.08);
+  color: var(--workspace-ink, #34251a);
+  font-family: 'Cinzel', serif;
 }
 
 /* Compact horizontal layout for account overview bar */
@@ -64,13 +66,13 @@
 }
 
 .storage-separator {
-  color: #a0a0b0;
-  opacity: 0.5;
+  color: #8c735d;
+  opacity: 0.6;
 }
 
 .storage-usage-widget.guest {
-  background: linear-gradient(135deg, rgba(60, 40, 40, 0.9), rgba(50, 30, 30, 0.9));
-  border-color: rgba(120, 80, 80, 0.3);
+  background: rgba(182, 160, 128, 0.15);
+  border-color: #b6a080;
 }
 
 .storage-usage-widget.guest.compact {
@@ -79,8 +81,8 @@
 }
 
 .storage-usage-widget.offline {
-  background: linear-gradient(135deg, rgba(60, 60, 40, 0.9), rgba(50, 50, 30, 0.9));
-  border-color: rgba(120, 120, 80, 0.3);
+  background: rgba(182, 160, 128, 0.18);
+  border-color: #b6a080;
 }
 
 .storage-usage-widget.offline.compact {
@@ -89,31 +91,23 @@
 }
 
 .storage-usage-widget.good {
-  background: linear-gradient(135deg, rgba(40, 60, 40, 0.9), rgba(30, 50, 30, 0.9));
-  border-color: rgba(80, 120, 80, 0.3);
+  background: var(--workspace-page, #f5ecd9);
+  border-color: #b6a080;
 }
 
 .storage-usage-widget.warning {
-  background: linear-gradient(135deg, rgba(80, 60, 40, 0.9), rgba(70, 50, 30, 0.9));
-  border-color: rgba(160, 120, 80, 0.3);
+  background: #fbf5e6;
+  border-color: #c4ab79;
 }
 
 .storage-usage-widget.critical {
-  background: linear-gradient(135deg, rgba(80, 40, 40, 0.9), rgba(70, 30, 30, 0.9));
-  border-color: rgba(160, 80, 80, 0.3);
-  animation: pulse 2s infinite;
+  background: #faf0ee;
+  border-color: #c2887c;
 }
 
 .storage-usage-widget.critical.compact {
   background: transparent;
   border: none;
-  animation: none;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.8; }
-  100% { opacity: 1; }
 }
 
 .storage-header {
@@ -125,46 +119,49 @@
 
 .storage-header i {
   font-size: 16px;
-  color: #b0b0c0;
+  color: #68533e;
 }
 
 .storage-header i.error {
-  color: #ff6b6b;
+  color: #8a2424;
 }
 
 .storage-header i.warning {
-  color: #ffd93d;
+  color: #b68028;
 }
 
 .storage-header i.success {
-  color: #6bcf7f;
+  color: #4a7545;
 }
 
 .storage-header span:first-of-type {
   font-weight: 600;
-  color: #e0e0e0;
+  color: #34251a;
   flex: 1;
 }
 
 .storage-percentage {
   font-size: 12px;
-  color: #a0a0b0;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2px 6px;
-  border-radius: 10px;
+  color: #34251a;
+  background: rgba(182, 160, 128, 0.22);
+  border: 1px solid rgba(182, 160, 128, 0.4);
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 600;
 }
 
 .storage-content p {
   margin: 0;
   font-size: 14px;
-  color: #c0c0d0;
+  color: #68533e;
   line-height: 1.4;
 }
 
 .storage-bar {
   width: 100%;
   height: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(182, 160, 128, 0.25);
+  border: 1px solid rgba(182, 160, 128, 0.35);
   border-radius: 4px;
   margin: 8px 0;
   overflow: hidden;
@@ -172,24 +169,24 @@
 
 .storage-fill {
   height: 100%;
-  background: linear-gradient(90deg, #6bcf7f, #4ecdc4);
+  background: linear-gradient(90deg, #5b7852, #7c9873);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
 
 .storage-usage-widget.warning .storage-fill {
-  background: linear-gradient(90deg, #ffd93d, #ffb142);
+  background: linear-gradient(90deg, #c48a3f, #d49f50);
 }
 
 .storage-usage-widget.critical .storage-fill {
-  background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+  background: linear-gradient(90deg, #8a2424, #a43333);
 }
 
 .storage-stats {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: #a0a0b0;
+  color: #68533e;
   margin-bottom: 12px;
 }
 

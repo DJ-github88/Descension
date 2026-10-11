@@ -6,6 +6,7 @@ import useShareableStore from '../../store/shareableStore';
 import useGameStore from '../../store/gameStore';
 import useAuthStore from '../../store/authStore';
 import { getCustomIconUrl } from '../../utils/assetManager';
+import { getCustomMaps } from '../../data/subregionMaps';
 import campaignService from '../../services/campaignService';
 import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { useMediaUpload } from '../../hooks/useMediaUpload';

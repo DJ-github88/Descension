@@ -3,7 +3,7 @@ export const astril = {
     name: 'Astril',
     essence: 'The Fire-Carried',
     illustration: '/assets/images/races/astril_brutish_figure_thok.jpg',
-    illustrationCaption: 'Warmaster Thok Meteor-Fist — Legendary Kordak Warlord gripping a colossal meteor-iron warhammer in rough charcoal draft with midnight violet watercolor splash.',
+    illustrationCaption: '“When the sky fell, the Kordak did not break; we forged the meteor into hammers.” — Warmaster Thok Meteor-Fist',
     cardFlavor: 'Refugees of a devoured star, they carry the last embers of a dead world in their blood, and the guilt of leading the predator to this one.',
     visualDescription: `Sturdy and practical, standing 5'2" to 6'0", with weather-marked skin bearing faint organic markings unique to each individual â€” crystalline echoes of their lost world's biosphere. Their eyes are reptilian, with slit pupils that catch and reflect a luminous glow in darkness, a light that seems to belong to another world entirely. They have claw-like nails. Lumian carry Lumia's stellar memory and star-constellation lines along their pale skin, while Kordak carry dark violet-grey skin etched with fractured purple void-crystal lines. They favor practical farming and hunting clothes, prefer the night, and go blind in bright daylight.`,
     description: `**[The Last of Lumia]**, *An Astril elder tilts her head toward a moon only she can feel, her slit-pupil eyes reflecting a light that belongs to a sun that no longer exists.*
@@ -271,10 +271,10 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             backstory: 'Therra was a founding interpreter of lunar dreams and signs through Lumia resonance. Her teachings shaped the protection-and-waking doctrine and the first local moon-courtyards. Selunis remained dormant; speaking through Therra is attributed ritual language, not author truth of a literal quest. Therra died at one hundred and ninety during a full-moon rite, and witnesses said the moon brightened as she passed.'
         },
         {
-            name: 'Korr Lumian',
+            name: 'Kaelen of the High Watch',
             title: 'The Warning-Bearer',
             portraitIcon: 'Fairy/Icon11',
-            backstory: 'When Keth Amar found the Astril at last, it was Korr, a Lumian hunter of unremarkable bloodline, who carried the warning to the world\'s leaders. He walked out of his isolated village one autumn morning and did not stop walking until he had reached every court that would hear him. He spoke plainly. He told them what the Astril were, what they had brought, what was coming. He was called liar, heretic, and worse, before he was believed. Korr never returned to his village. He lives still, somewhere in the world, an old hunter with reptilian eyes who watches the horizon for the thing he warned everyone about. He does not consider himself a hero. He considers himself a messenger who was three centuries too late.'
+            backstory: 'When Keth Amar found the Astril at last, it was Kaelen, a Lumian hunter of unremarkable bloodline, who carried the warning to the world\'s leaders. He walked out of his isolated village one autumn morning and did not stop walking until he had reached every court that would hear him. He spoke plainly. He told them what the Astril were, what they had brought, what was coming. He was called liar, heretic, and worse, before he was believed. Kaelen never returned to his village. He lives still, somewhere in the world, an old hunter with reptilian eyes who watches the horizon for the thing he warned everyone about. He does not consider himself a hero. He considers himself a messenger who was three centuries too late.'
         }
     ],
     majorLocations: [
@@ -299,31 +299,31 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             name: 'Lumian',
         crest: '/assets/images/crests/astril_stargazer_crest.png',
             illustration: '/assets/images/races/astril_stargazer_portrait_bust.jpg',
-            illustrationCaption: 'Canonical Lumian Racial Portrait — Celestial astromancer with crystallized cranial horns, glowing pupilless eyes, and brass star-caliper in rough charcoal draft with starlight cyan watercolor splash.',
+            illustrationCaption: 'Lumian Racial Heritage — Carrying the biological starlight memory of Lumia in shifting crystalline lines across pale skin, seeking quiet communion under a starless sky.',
             illustrations: [
                 {
                     src: '/assets/images/races/astril_stargazer_portrait_bust.jpg',
-                    caption: 'Canonical Lumian Racial Portrait — Celestial astromancer with crystallized cranial horns, glowing pupilless eyes, and brass star-caliper in rough charcoal draft with starlight cyan watercolor splash.'
+                    caption: 'Lumian Racial Heritage — Carrying the biological starlight memory of Lumia in shifting crystalline lines across pale skin, seeking quiet communion under a starless sky.'
                 },
                 {
                     src: '/assets/images/races/astril_stargazer_location_shard_cleft.jpg',
-                    caption: 'Shard-Cleft Observatory & Refractor Sanctum — Subterranean canyon chamber gathering focused starlight through giant suspended optical crystal lenses and brass gimbals.'
+                    caption: 'Shard-Cleft Observatory — Ancient subterranean refractor sanctums where the light of distant worlds is gathered through suspended crystal lenses.'
                 },
                 {
                     src: '/assets/images/races/astril_stargazer_location_prism_vale.jpg',
-                    caption: 'Prism-Vale Hermitage — High alpine sanctuary valley with weightlessly levitating resonant quartz monoliths, reflecting pools, and colonnades.'
+                    caption: 'Prism-Vale Hermitage — High alpine sanctuary where weightless quartz monoliths preserve the peaceful harmonies of the Long Crossing.'
                 },
                 {
                     src: '/assets/images/races/astril_stargazer_figure_vael.jpg',
-                    caption: 'Vael of the Long Crossing — Sovereign Astromancer holding a rotating armillary astrolabe staff and levitating star-prism in rough charcoal draft with starlight cyan watercolor splash.'
+                    caption: 'Vael of the Long Crossing — Sovereign Astromancer whose star-charts carved into timber hulls carried a surviving people across the void.'
                 },
                 {
                     src: '/assets/images/races/astril_stargazer_figure_therra.jpg',
-                    caption: 'Mother Therra (First Voice of Selunis) — Venerable matriarch seer guiding orbiting levitating crystal shards on a high marble aerie in rough charcoal draft with starlight cyan watercolor splash.'
+                    caption: 'Mother Therra (First Voice of Selunis) — Matriarch seer whose nocturnal communion gave shape to the waking rite and the scattered moon-courtyards.'
                 },
                 {
                     src: '/assets/images/races/astril_stargazer_figure_korr.jpg',
-                    caption: 'Korr Lumian (The Warning-Bearer) — Mountain sentry with crystallized brow horns, quilted harness, and crystalline composite bow in rough charcoal draft with starlight cyan watercolor splash.'
+                    caption: 'Kaelen of the High Watch (The Warning-Bearer) — Frontier hunter who walked beyond the sanctuaries to carry early warning of the awakening predator to disbelief in distant courts.'
                 }
             ],
 
@@ -457,23 +457,23 @@ Now the ritual continues. The Selunis-rite is performed every night in scattered
             name: 'Kordak',
         crest: '/assets/images/crests/astril_brutish_crest.png',
             illustration: '/assets/images/races/astril_brutish_city_settlement.jpg',
-            illustrationCaption: 'Crater-Hold & The Impact-Forge — The monumental subterranean caldera fortress constructed inside a mile-wide meteor crater in rough charcoal draft with midnight violet watercolor splash.',
+            illustrationCaption: 'Crater-Hold & The Impact-Forge — Monumental caldera fortress built into the meteor crater where the Kordak bloodlines temper void-iron into unbreakable bulwarks.',
             illustrations: [
                 {
                     src: '/assets/images/races/astril_brutish_city_settlement.jpg',
-                    caption: 'Crater-Hold & The Impact-Forge — The monumental subterranean caldera fortress constructed inside a mile-wide meteor crater in rough charcoal draft with midnight violet watercolor splash.'
+                    caption: 'Crater-Hold & The Impact-Forge — Monumental caldera fortress built into the meteor crater where the Kordak bloodlines temper void-iron into unbreakable bulwarks.'
                 },
                 {
                     src: '/assets/images/races/astril_brutish_location_scree_hollow.jpg',
-                    caption: 'Scree-Hollow Bastion — Formidable choke-point fortress spanning a volcanic basalt gorge with cyclopean stone portcullises and boulder-throwers.'
+                    caption: 'Scree-Hollow Bastion — Cyclopean basalt choke-point guarding the approach into the deep Astril redoubts against predatory incursions.'
                 },
                 {
                     src: '/assets/images/races/astril_brutish_location_resonant_quarry.jpg',
-                    caption: 'The Resonant Quarry & Crystal Extraction Pits — Tiered basalt open-pit quarry with cranes and resonant amethyst geodes sprouting from rock walls.'
+                    caption: 'The Resonant Quarry — Tiered basalt extraction pits where void-purple amethyst geodes are harvested for weapon encasings and resonance wards.'
                 },
                 {
                     src: '/assets/images/races/astril_brutish_figure_thok.jpg',
-                    caption: 'Warmaster Thok Meteor-Fist — Legendary Kordak Warlord with heavy obsidian stone-skin and colossal two-handed meteor-iron warhammer in rough charcoal draft with midnight violet watercolor splash.'
+                    caption: 'Warmaster Thok Meteor-Fist — Kordak warlord clad in void-iron plating, legendary defender of Crater-Hold during the predatory sieges.'
                 }
             ],
 

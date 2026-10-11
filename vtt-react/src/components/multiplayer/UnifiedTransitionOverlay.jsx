@@ -108,11 +108,16 @@ const UnifiedTransitionOverlay = ({
                 clearTimeout(exitTimer);
                 clearTimeout(completeTimer);
             };
-        }
+        } else {
+            const showTimer = setTimeout(() => {
+                setPhase('showing');
+            }, TRANSITION_TIMINGS.SHOW_START_MS);
 
-        return () => {
-            clearTimeout(safeSwapTimer);
-        };
+            return () => {
+                clearTimeout(safeSwapTimer);
+                clearTimeout(showTimer);
+            };
+        }
     }, [isVisible, isMapMode, onSafeToSwap, onTransitionComplete, hasNotifiedSwap]);
 
     const handleContinueClick = useCallback(() => {

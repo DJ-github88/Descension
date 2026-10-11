@@ -17,6 +17,10 @@ describe('raceDisplayNames', () => {
             expect(normalizeRaceDisplayName('Ordan')).toBe('Ordu');
             expect(normalizeRaceDisplayName('Deepling')).toBe('Nereid');
             expect(normalizeRaceDisplayName('Stargazer Astril')).toBe('Lumian');
+            expect(normalizeRaceDisplayName('Luminan')).toBe('Lumian');
+            expect(normalizeRaceDisplayName('Korr Luminan')).toBe('Lumian');
+            expect(normalizeRaceDisplayName('Korr Lumian')).toBe('Lumian');
+            expect(normalizeRaceDisplayName('The First Voice of Selunis')).toBe('Lumian');
             expect(normalizeRaceDisplayName('Brutish Astril')).toBe('Kordak');
             expect(normalizeRaceDisplayName('Clockwork Fexric')).toBe('Brasskin');
             expect(normalizeRaceDisplayName('Caustic Fexric')).toBe('Alchemite');

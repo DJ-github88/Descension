@@ -12,7 +12,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(44, 28, 17, 0.45);
   backdrop-filter: blur(4px);
   z-index: 9999;
 }
@@ -23,7 +23,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(251, 247, 238, 0.88);
   backdrop-filter: blur(2px);
   z-index: 100;
 }
@@ -56,8 +56,8 @@
 .loading-spinner {
   width: var(--loading-size);
   height: var(--loading-size);
-  border: var(--loading-thickness) solid rgba(59, 130, 246, 0.2);
-  border-left-color: #3b82f6;
+  border: var(--loading-thickness) solid rgba(182, 160, 128, 0.3);
+  border-left-color: #663c32;
   border-radius: 50%;
   animation: loading-spin 1s linear infinite;
 }
@@ -92,7 +92,7 @@
 .loading-dot {
   width: 8px;
   height: 8px;
-  background: #3b82f6;
+  background: #663c32;
   border-radius: 50%;
   animation: loading-dots 1.4s ease-in-out infinite both;
 }
@@ -121,7 +121,7 @@
 
 .loading-pulse-bar {
   height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  background: linear-gradient(90deg, #663c32, #b6a080);
   border-radius: 2px;
   animation: loading-pulse 1.5s ease-in-out infinite;
 }
@@ -224,15 +224,15 @@
 /* Dark theme support */
 @media (prefers-color-scheme: dark) {
   .loading-message {
-    color: #9ca3af;
+    color: #423023;
   }
 
   .loading-overlay {
-    background: rgba(17, 24, 39, 0.9);
+    background: rgba(245, 236, 217, 0.92);
   }
 
   .loading-game .loading-message {
-    color: #f0e6d2;
+    color: #34251a;
   }
 }
 
@@ -247,7 +247,7 @@
   }
 
   .loading-spinner {
-    border-left-color: rgba(59, 130, 246, 0.5);
+    border-left-color: rgba(102, 60, 50, 0.6);
   }
 
   .loading-spinner-inner {
