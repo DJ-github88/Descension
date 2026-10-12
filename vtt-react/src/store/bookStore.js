@@ -34,6 +34,44 @@ export const normalizeBook = (book) => {
     chapters: []
   };
 
+  const normalizeBlock = (b) => {
+    if (!b || typeof b !== 'object') return b;
+    const block = { ...b };
+    // 1. Remove CR from creature statblocks
+    if (block.type === 'creature_statblock' && (block.cr || !block.dangerLevel)) {
+      if (block.cr) {
+        block.dangerLevel = String(block.cr).replace(/^CR\s*/i, '').trim() || 'Medium';
+        delete block.cr;
+      }
+    }
+    // 2. Normalize table headers & cells: replace "Threat / CR" or "CR" with "Threat Rating" / "Danger Level"
+    if ((block.type === 'table' || block.type === 'roll_table') && Array.isArray(block.headers)) {
+      block.headers = block.headers.map((h) => {
+        if (typeof h === 'string') {
+          return h.replace(/\bThreat\s*\/\s*CR\b/i, 'Threat Rating').replace(/\bCR\b/i, 'Threat Rating');
+        }
+        return h;
+      });
+      if (Array.isArray(block.rows)) {
+        block.rows = block.rows.map((row) => {
+          if (!Array.isArray(row)) return row;
+          return row.map((cell) => {
+            if (typeof cell === 'string' && /^CR\s*/i.test(cell)) {
+              const clean = cell.replace(/^CR\s*/i, '').trim();
+              if (clean === '1/4' || clean === '1/2' || clean === '1') return 'Low';
+              if (clean === '2') return 'Medium';
+              if (clean === '3' || clean === '4') return 'High';
+              if (clean === '5' || clean === '6') return 'Lethal';
+              return `Threat ${clean}`;
+            }
+            return cell;
+          });
+        });
+      }
+    }
+    return block;
+  };
+
   // If chapters array exists and has pages, use it
   if (Array.isArray(book.chapters) && book.chapters.length > 0) {
     normalized.chapters = book.chapters.map((ch, chIdx) => ({
@@ -47,7 +85,7 @@ export const normalizeBook = (book) => {
             pageNumber: pg.pageNumber || pgIdx + 1,
             headerTitle: pg.headerTitle || '',
             layout: pg.layout || normalized.layout,
-            blocks: Array.isArray(pg.blocks) ? pg.blocks : []
+            blocks: (Array.isArray(pg.blocks) ? pg.blocks : []).map(normalizeBlock)
           }))
         : [
             {
@@ -55,7 +93,7 @@ export const normalizeBook = (book) => {
               pageNumber: 1,
               headerTitle: ch.title || '',
               layout: normalized.layout,
-              blocks: Array.isArray(ch.blocks) ? ch.blocks : []
+              blocks: (Array.isArray(ch.blocks) ? ch.blocks : []).map(normalizeBlock)
             }
           ]
     }));
@@ -74,7 +112,7 @@ export const normalizeBook = (book) => {
             pageNumber: 1,
             headerTitle: book.title || 'Page 1',
             layout: normalized.layout,
-            blocks: book.blocks
+            blocks: book.blocks.map(normalizeBlock)
           }
         ]
       }
@@ -175,7 +213,7 @@ const STARTER_BOOKS = [
                 type: 'creature_statblock',
                 name: 'Frost Wyrd Sentinel',
                 creatureType: 'Elemental / Spirit',
-                cr: 'CR 4 (Elite)',
+                dangerLevel: 'High (Elite)',
                 hp: { current: 68, max: 68 },
                 ac: 15,
                 speed: '30 ft., Fly 40 ft. (hover)',
@@ -198,12 +236,12 @@ const STARTER_BOOKS = [
   {
     id: 'book-starter-chromatic-vault',
     title: 'The Chromatic Vault & Aeternum',
-    subtitle: 'A Facing Two-Page Spread & D&D 5e Publication Module',
+    subtitle: 'A Facing Two-Page Spread & Campaign Chronicle',
     author: 'Mythrill TTRPG Press',
     theme: 'parchment',
     layout: 'book-spread',
     coverImage: null,
-    tags: ['starter', 'dnd5e', 'two-page-spread', 'encounter-tables', 'dungeon'],
+    tags: ['starter', 'descension', 'two-page-spread', 'encounter-tables', 'dungeon'],
     createdAt: nowIso(),
     updatedAt: nowIso(),
     customTerms: [
@@ -260,14 +298,14 @@ const STARTER_BOOKS = [
                 type: 'roll_table',
                 title: 'd20 Wandering Encounters',
                 column: 'left',
-                headers: ['d20', 'Encounter', 'Threat / CR'],
+                headers: ['d20', 'Encounter', 'Threat Rating'],
                 rows: [
-                  ['01–04', '1d4 Magmins searching for raw ore', 'CR 1/2'],
-                  ['05–08', 'Fire Snake nestled in obsidian fissure', 'CR 1'],
-                  ['09–12', '2 Hell Hounds on perimeter patrol', 'CR 3'],
-                  ['13–16', 'Azer Artisan forging brass talismans', 'CR 2'],
-                  ['17–19', 'Salamander scout with molten spear', 'CR 5'],
-                  ['20', 'Red Dragon Wyrmling feasting on gems', 'CR 4']
+                  ['01–04', '1d4 Magmins searching for raw ore', 'Low'],
+                  ['05–08', 'Fire Snake nestled in obsidian fissure', 'Low'],
+                  ['09–12', '2 Hell Hounds on perimeter patrol', 'High'],
+                  ['13–16', 'Azer Artisan forging brass talismans', 'Medium'],
+                  ['17–19', 'Salamander scout with molten spear', 'High'],
+                  ['20', 'Red Dragon Wyrmling feasting on gems', 'Severe']
                 ]
               },
               {

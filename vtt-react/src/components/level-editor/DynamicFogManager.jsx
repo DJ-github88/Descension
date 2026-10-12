@@ -42,16 +42,13 @@ const DynamicFogManager = ({ disabled = false }) => {
             let visionType = 'normal';
 
             // Get vision from creature data if available
-            if (creature) {
-                // Check for darkvision or other special vision
-                if (creature.senses?.darkvision) {
-                    visionRange = feetToTiles(creature.senses.darkvision, feetPerTile, 'diameter');
-                    visionType = 'darkvision';
-                } else if (creature.senses?.blindsight) {
-                    visionRange = feetToTiles(creature.senses.blindsight, feetPerTile, 'diameter');
-                    visionType = 'blindsight';
-                } else if (creature.senses?.normalVision) {
-                    visionRange = feetToTiles(creature.senses.normalVision, feetPerTile, 'diameter');
+            if (creature?.stats) {
+                const darkvision = creature.stats.darkvision || 0;
+                const sightRange = creature.stats.sightRange || 0;
+                const bestRange = Math.max(darkvision, sightRange);
+                if (bestRange > 0) {
+                    visionRange = feetToTiles(bestRange, feetPerTile, 'diameter');
+                    visionType = darkvision >= sightRange ? 'darkvision' : 'normal';
                 }
             }
 

@@ -1358,3 +1358,17 @@
   color: #1a0f05 !important;
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5) !important;
 }
+
+.entity-hovercard-btn.create-btn {
+  background: linear-gradient(135deg, #58180d 0%, #3d1009 100%) !important;
+  border: 1px solid #8b5a1a !important;
+  color: #fdfaf2 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+.entity-hovercard-btn.create-btn:hover {
+  background: linear-gradient(135deg, #782314 0%, #4f150b 100%) !important;
+  color: #fff9e6 !important;
+  border-color: #c89a3c !important;
+  box-shadow: 0 4px 12px rgba(139, 90, 26, 0.45) !important;
+}

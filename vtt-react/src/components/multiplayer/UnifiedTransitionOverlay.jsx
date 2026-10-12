@@ -26,9 +26,9 @@ const getStageForProgress = (progress) => {
 };
 
 const UnifiedTransitionOverlay = ({
-    isVisible,
+    isVisible = true,
     mode = 'join',
-    progress = 0,
+    progress,
     title,
     subtitle,
     roomName,
@@ -42,9 +42,11 @@ const UnifiedTransitionOverlay = ({
     onTransitionComplete,
     onSafeToSwap
 }) => {
-    const [phase, setPhase] = useState('complete');
+    const [phase, setPhase] = useState(() => (isVisible ? 'entering' : 'complete'));
     const [displayProgress, setDisplayProgress] = useState(0);
-    const [currentStageText, setCurrentStageText] = useState(LOADING_STAGES.CONNECTING.text);
+    const [currentStageText, setCurrentStageText] = useState(
+        statusMessage || (progress !== undefined && progress !== null ? getStageForProgress(progress).text : LOADING_STAGES.CONNECTING.text)
+    );
     const [hasNotifiedSwap, setHasNotifiedSwap] = useState(false);
 
     const isJoinMode = mode === 'join';
@@ -55,14 +57,12 @@ const UnifiedTransitionOverlay = ({
     const displayMapName = mapName || 'Unknown Realm';
 
     useEffect(() => {
-        if (isJoinMode && progress !== undefined) {
-            const smoothProgress = Math.min(100, Math.max(0, progress));
-            setDisplayProgress(smoothProgress);
-
-            // Override stage text if explicit statusMessage is provided
+        if (isJoinMode) {
             if (statusMessage) {
                 setCurrentStageText(statusMessage);
-            } else {
+            } else if (progress !== undefined && progress !== null) {
+                const smoothProgress = Math.min(100, Math.max(0, progress));
+                setDisplayProgress(smoothProgress);
                 const stage = getStageForProgress(smoothProgress);
                 setCurrentStageText(stage.text);
             }
@@ -161,8 +161,8 @@ const UnifiedTransitionOverlay = ({
                                 <div className="unified-progress-bar">
                                     <div className="unified-progress-track">
                                         <div
-                                            className="unified-progress-fill"
-                                            style={{ width: `${displayProgress}%` }}
+                                            className={`unified-progress-fill ${progress === undefined || progress === null ? 'cinematic' : ''}`}
+                                            style={progress !== undefined && progress !== null ? { width: `${displayProgress}%` } : {}}
                                         >
                                             <div className="unified-progress-shimmer"></div>
                                         </div>

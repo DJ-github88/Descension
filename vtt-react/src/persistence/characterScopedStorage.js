@@ -78,27 +78,36 @@ export function loadRoster(isGuest) {
 /**
  * Persist the owner's roster. Captured-context coordinated write with a
  * one-time stale retry (this tab's roster is the newest local view).
+ *
+ * `options.context` supplies an explicit immutable operation context (e.g. the
+ * retained owner's context captured before a handoff) instead of the live gate
+ * context; it is enforced by the same coordination primitives.
  */
-export function saveRoster(isGuest, characters) {
+export function saveRoster(isGuest, characters, options = {}) {
   const familyId = rosterFamilyId(isGuest);
-  const capturedScope = scopeKey();
   const payload = Array.isArray(characters) ? characters : [];
   // Capture the immutable operation context at public entry so a queued write
   // can never be re-attributed to a later account.
-  const captured = captureConsumerContext();
+  const captured = options.context
+    ? { ok: true, context: options.context }
+    : captureConsumerContext();
   if (!captured.ok) {
     return Promise.resolve({ status: 'NO_ACTIVE_SCOPE', reason: captured.reason });
   }
   const operationContext = captured.context;
+  const capturedScope = operationContext.scope
+    ? `${operationContext.scope.scopeKind}:${operationContext.scope.scopeId}`
+    : scopeKey();
+  const capturedBaselineKey = `${capturedScope}:${familyId}`;
   const run = () => {
-    const baseline = baselines.get(baselineKey(familyId)) || { revision: null, draftId: null };
+    const baseline = baselines.get(capturedBaselineKey) || { revision: null, draftId: null };
     if (baseline.external) {
       // Never publish a queued stale snapshot over an external winner just
       // because an earlier handler adopted its baseline. Preserve the
       // candidate as a fork; a fresh load re-enables normal successors.
       let forkedId = null;
       try {
-        const scope = resolveActiveScope();
+        const scope = operationContext.scope;
         if (scope) {
           const forked = forkScopedRecord({ familyId, scope, context: operationContext, payload });
           if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
@@ -125,7 +134,7 @@ export function saveRoster(isGuest, characters) {
   // always the record its own predecessor established (no false staleness).
   const pending = rosterSaveTail.then(run, run).then((result) => {
     if (result.status === 'OK' || result.status === 'FORKED') {
-      baselines.set(baselineKey(familyId), {
+      baselines.set(capturedBaselineKey, {
         revision: result.newRevision ?? 1,
         draftId: result.draftId
       });
@@ -135,7 +144,7 @@ export function saveRoster(isGuest, characters) {
       // the winner's identity.
       let forkedId = null;
       try {
-        const scope = resolveActiveScope();
+        const scope = operationContext.scope;
         if (scope) {
           const forked = forkScopedRecord({ familyId, scope, context: operationContext, payload });
           if (forked && forked.status === 'FORKED') forkedId = forked.draftId;
@@ -143,7 +152,7 @@ export function saveRoster(isGuest, characters) {
       } catch (_error) {
         // best-effort; the winner is never overwritten either way
       }
-      baselines.set(baselineKey(familyId), {
+      baselines.set(capturedBaselineKey, {
         revision: result.currentRevision ?? null,
         draftId: result.currentDraftId ?? null,
         external: true,
@@ -154,9 +163,6 @@ export function saveRoster(isGuest, characters) {
   });
   rosterSaveTail = pending.catch(() => {});
   pending.catch(() => {});
-  // Scope identity is captured by saveScopedDraft itself; this reference
-  // documents the guard for tests.
-  void capturedScope;
   return pending;
 }
 

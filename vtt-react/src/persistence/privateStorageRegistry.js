@@ -266,6 +266,11 @@ const REGISTRY_ENTRIES = [
     'mythrill-guest-character'
   ]),
   selector('character.activeId', 'Active character selector', 'mythrill-active-character'),
+  hint('character.deferredPublication', 'Character deferred cloud publication', [
+    { builder: 'mythrill_character_deferred_{scopeRef}' }
+  ], {
+    notes: 'Owner-scoped marker recording authored character content preserved locally while its cloud publication was deferred by an account handoff; the owner-scoped roster wins over stale cloud hydration until owner-authorized publication is confirmed.'
+  }),
 
   // ── Worldbuilding categories ─────────────────────────────────────────────
   authored('worldbuilding.books', 'Worldbuilding books', ['mythrill_books_storage'], [], { cloudBinding: CLOUD_BINDINGS.WORLDBUILDING_DOC }),
@@ -605,6 +610,7 @@ export const FROZEN_SLICE1_FAMILY_IDS = Object.freeze([
   'character.roster',
   'character.guestRoster',
   'character.activeId',
+  'character.deferredPublication',
   // Worldbuilding categories
   'worldbuilding.books',
   'worldbuilding.interactiveMaps',

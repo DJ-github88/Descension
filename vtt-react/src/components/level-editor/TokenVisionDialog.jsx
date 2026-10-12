@@ -36,13 +36,12 @@ const TokenVisionDialog = ({ token, creature, isOpen, onClose }) => {
                     setCustomRange(rangeInFeet.toString());
                 }
             } else if (creature) {
-                // Initialize from creature data
-                if (creature.senses?.darkvision) {
-                    setVisionRange(creature.senses.darkvision);
-                    setVisionType('darkvision');
-                } else if (creature.senses?.blindsight) {
-                    setVisionRange(creature.senses.blindsight);
-                    setVisionType('blindsight');
+                // Initialize from creature stats; darkvision and sight compete, so use the best
+                const darkvision = creature.stats?.darkvision || 0;
+                const sightRange = creature.stats?.sightRange || 0;
+                if (darkvision > 0 || sightRange > 0) {
+                    setVisionRange(Math.max(darkvision, sightRange));
+                    setVisionType(darkvision >= sightRange ? 'darkvision' : 'normal');
                 } else {
                     setVisionRange(VISION_RANGES.NORMAL);
                     setVisionType('normal');

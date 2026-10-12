@@ -151,6 +151,7 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
     const [historySpread, setHistorySpread] = useState(0);
     const [practicesSpread, setPracticesSpread] = useState(0);
     const [crisisSpread, setCrisisSpread] = useState(0);
+    const [cultureSpread, setCultureSpread] = useState(0);
     
     const leftPageRef = useRef(null);
     const rightPageRef = useRef(null);
@@ -159,18 +160,28 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
     const historyParagraphs = raceData.epicHistory ? raceData.epicHistory.trim().split('\n\n') : [];
     const practicesParagraphs = raceData.culturalPractices ? raceData.culturalPractices.trim().split('\n\n') : [];
     const crisisParagraphs = raceData.currentCrisis ? raceData.currentCrisis.trim().split('\n\n') : [];
+    const culturalParagraphs = raceData.culturalBackground ? raceData.culturalBackground.trim().split(/\n\n+/) : [];
 
-    // Total spreads calculation (Shifted by 1 page so Spread 0 Right has Paragraph 0)
+    // Total spreads calculation
     const totalHistorySpreads = 1 + Math.ceil((historyParagraphs.length - 1) / 4);
     const totalPracticesSpreads = Math.max(1, Math.ceil(practicesParagraphs.length / 4));
     const totalCrisisSpreads = Math.max(1, Math.ceil(crisisParagraphs.length / 2));
+    const extraCultureParas = Math.max(0, culturalParagraphs.length - 4);
+    const extraCultureSpreads = Math.ceil(extraCultureParas / 4);
+    const totalCultureSpreads = (culturalParagraphs.length > 2 || raceData.integrationNotes)
+        ? 2 + extraCultureSpreads
+        : 1;
 
     // Trigger page turn animation on tab or page changes
     useEffect(() => {
         setContentVisible(false);
-        const timer = setTimeout(() => setContentVisible(true), 50);
+        const timer = setTimeout(() => {
+            setContentVisible(true);
+            if (leftPageRef.current) leftPageRef.current.scrollTo({ top: 0, behavior: 'instant' });
+            if (rightPageRef.current) rightPageRef.current.scrollTo({ top: 0, behavior: 'instant' });
+        }, 50);
         return () => clearTimeout(timer);
-    }, [activeTab, selectedFigure, selectedLocation, historySpread, practicesSpread, crisisSpread]);
+    }, [activeTab, selectedFigure, selectedLocation, historySpread, practicesSpread, crisisSpread, cultureSpread]);
 
     // Reset page states when tab changes
     const handleTabClick = (tabId) => {
@@ -179,10 +190,11 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
         setHistorySpread(0);
         setPracticesSpread(0);
         setCrisisSpread(0);
+        setCultureSpread(0);
         
         // Scroll page contents back to top
-        if (leftPageRef.current) leftPageRef.current.scrollTo({ top: 0 });
-        if (rightPageRef.current) rightPageRef.current.scrollTo({ top: 0 });
+        if (leftPageRef.current) leftPageRef.current.scrollTo({ top: 0, behavior: 'instant' });
+        if (rightPageRef.current) rightPageRef.current.scrollTo({ top: 0, behavior: 'instant' });
     };
 
     const tabs = {
@@ -220,6 +232,32 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
                 total: totalCrisisSpreads,
                 setPage: setCrisisSpread
             };
+        } else if (activeTab === 'culture') {
+            return {
+                current: cultureSpread,
+                total: totalCultureSpreads,
+                setPage: setCultureSpread
+            };
+        } else if (activeTab === 'figures') {
+            const figuresList = raceData.notableFigures || [];
+            const currentFigureIdx = Math.max(0, figuresList.findIndex(f => f.name === selectedFigure?.name));
+            return {
+                current: currentFigureIdx,
+                total: Math.max(1, figuresList.length),
+                setPage: (idx) => {
+                    if (figuresList[idx]) setSelectedFigure(figuresList[idx]);
+                }
+            };
+        } else if (activeTab === 'locations') {
+            const locationsList = raceData.majorLocations || [];
+            const currentLocIdx = Math.max(0, locationsList.findIndex(l => l.name === selectedLocation?.name));
+            return {
+                current: currentLocIdx,
+                total: Math.max(1, locationsList.length),
+                setPage: (idx) => {
+                    if (locationsList[idx]) setSelectedLocation(locationsList[idx]);
+                }
+            };
         }
         return { current: 0, total: 1, setPage: () => {} };
     };
@@ -235,6 +273,22 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
     const handleNextPage = () => {
         if (hasNextPage) setCurrentPage(currentPage + 1);
     };
+
+    // Keyboard navigation (Arrow keys & Escape)
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                if (hasNextPage) handleNextPage();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                if (hasPrevPage) handlePrevPage();
+            } else if (e.key === 'Escape' && onClose) {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [hasNextPage, hasPrevPage, currentPage, onClose]);
 
     // Helper to render decorative divider flourish
     const renderDecorativeDivider = () => (
@@ -346,6 +400,199 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
                         <p key={i} className="tome-body-text">{renderLoreText(para)}</p>
                     ))}
                     {isLastSpread && renderDecorativeDivider()}
+                </>
+            );
+        }
+    };
+
+    const renderCultureLeftPage = () => {
+        if (totalCultureSpreads === 1) {
+            return (
+                <>
+                    <span className="tome-page-subtitle">Chronicles of {raceData.name}</span>
+                    <h3 className="tome-page-title">Cultural Background</h3>
+                    {culturalParagraphs.length > 0 ? (
+                        formatTextWithDropCap(culturalParagraphs.join('\n\n'))
+                    ) : (
+                        <p className="tome-body-text">No cultural records found for this people.</p>
+                    )}
+                </>
+            );
+        }
+
+        if (cultureSpread === 0) {
+            const firstTwoParas = culturalParagraphs.slice(0, 2);
+            return (
+                <>
+                    <span className="tome-page-subtitle">Chronicles of {raceData.name}</span>
+                    <h3 className="tome-page-title">Cultural Background</h3>
+                    {firstTwoParas.length > 0 ? (
+                        formatTextWithDropCap(firstTwoParas.join('\n\n'))
+                    ) : (
+                        <p className="tome-body-text">No cultural records found for this people.</p>
+                    )}
+                </>
+            );
+        } else if (cultureSpread === 1) {
+            const parasForSpread1 = culturalParagraphs.slice(2, 4);
+            return (
+                <>
+                    <span className="tome-page-subtitle">Chronicles of {raceData.name}</span>
+                    <div className="tome-section-header">
+                        <i className="fas fa-feather-alt"></i>
+                        <h4 className="tome-section-title">Ancestral Customs &amp; Pillars</h4>
+                    </div>
+                    {parasForSpread1.length > 0 ? (
+                        parasForSpread1.map((para, i) => (
+                            <p key={i} className="tome-body-text">{renderLoreText(para)}</p>
+                        ))
+                    ) : (
+                        <p className="tome-body-text">No further cultural records recorded.</p>
+                    )}
+                </>
+            );
+        } else {
+            const startIndex = 4 + (cultureSpread - 2) * 4;
+            const pageParas = culturalParagraphs.slice(startIndex, startIndex + 2);
+            return (
+                <>
+                    <span className="tome-page-subtitle">Chronicles of {raceData.name}</span>
+                    <div className="tome-section-header">
+                        <i className="fas fa-feather-alt"></i>
+                        <h4 className="tome-section-title">Cultural Lore (Continued)</h4>
+                    </div>
+                    {pageParas.map((para, i) => (
+                        <p key={i} className="tome-body-text">{renderLoreText(para)}</p>
+                    ))}
+                </>
+            );
+        }
+    };
+
+    const renderCultureRightPage = () => {
+        if (totalCultureSpreads === 1) {
+            return (
+                <>
+                    <div className="tome-section-header">
+                        <i className="fas fa-globe-americas"></i>
+                        <h4 className="tome-section-title">In the Wider World</h4>
+                    </div>
+                    {raceData.diasporaVariation ? (
+                        <p className="tome-body-text">{renderLoreText(raceData.diasporaVariation)}</p>
+                    ) : (
+                        <p className="tome-body-text">No wider-world records found for this people.</p>
+                    )}
+
+                    {heritage && (
+                        <>
+                            {renderDecorativeDivider()}
+                            <div className="tome-section-header">
+                                <i className="fas fa-hat-wizard"></i>
+                                <h4 className="tome-section-title">Callings &amp; Backgrounds</h4>
+                            </div>
+                            <p className="tome-body-text">
+                                <strong>Native Classes — </strong>
+                                {nativeClasses.length > 0 ? nativeClasses.join(', ') : 'None recorded.'}
+                            </p>
+                            <p className="tome-body-text">
+                                <strong>Available Backgrounds — </strong>
+                                {nativeBackgrounds.length > 0 ? nativeBackgrounds.join(', ') : 'None native.'}
+                                {universalBackgrounds.length > 0 ? ` · open to all: ${universalBackgrounds.join(', ')}` : ''}
+                            </p>
+                        </>
+                    )}
+
+                    {raceData.integrationNotes && (
+                        <>
+                            {renderDecorativeDivider()}
+                            <div className="tome-section-header">
+                                <i className="fas fa-link"></i>
+                                <span className="tome-section-title">Integration with World Systems</span>
+                            </div>
+                            {raceData.integrationNotes.actionPointSystem && (
+                                <p className="tome-body-text"><strong>Action Points — </strong>{renderLoreText(raceData.integrationNotes.actionPointSystem)}</p>
+                            )}
+                            {raceData.integrationNotes.backgroundSynergy && (
+                                <p className="tome-body-text"><strong>Background Synergy — </strong>{renderLoreText(raceData.integrationNotes.backgroundSynergy)}</p>
+                            )}
+                            {raceData.integrationNotes.classCompatibility && (
+                                <p className="tome-body-text"><strong>Tradition Compatibility — </strong>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
+                            )}
+                        </>
+                    )}
+                </>
+            );
+        }
+
+        if (cultureSpread === 0) {
+            return (
+                <>
+                    <div className="tome-section-header">
+                        <i className="fas fa-globe-americas"></i>
+                        <h4 className="tome-section-title">In the Wider World</h4>
+                    </div>
+                    {raceData.diasporaVariation ? (
+                        <p className="tome-body-text">{renderLoreText(raceData.diasporaVariation)}</p>
+                    ) : (
+                        <p className="tome-body-text">No wider-world records found for this people.</p>
+                    )}
+
+                    {heritage && (
+                        <>
+                            {renderDecorativeDivider()}
+                            <div className="tome-section-header">
+                                <i className="fas fa-hat-wizard"></i>
+                                <h4 className="tome-section-title">Callings &amp; Backgrounds</h4>
+                            </div>
+                            <p className="tome-body-text">
+                                <strong>Native Classes — </strong>
+                                {nativeClasses.length > 0 ? nativeClasses.join(', ') : 'None recorded.'}
+                            </p>
+                            <p className="tome-body-text">
+                                <strong>Available Backgrounds — </strong>
+                                {nativeBackgrounds.length > 0 ? nativeBackgrounds.join(', ') : 'None native.'}
+                                {universalBackgrounds.length > 0 ? ` · open to all: ${universalBackgrounds.join(', ')}` : ''}
+                            </p>
+                        </>
+                    )}
+                </>
+            );
+        } else if (cultureSpread === 1) {
+            return (
+                <>
+                    {raceData.integrationNotes && (
+                        <>
+                            <div className="tome-section-header">
+                                <i className="fas fa-link"></i>
+                                <span className="tome-section-title">Integration with World Systems</span>
+                            </div>
+                            {raceData.integrationNotes.actionPointSystem && (
+                                <p className="tome-body-text"><strong>Action Points — </strong>{renderLoreText(raceData.integrationNotes.actionPointSystem)}</p>
+                            )}
+                            {raceData.integrationNotes.backgroundSynergy && (
+                                <p className="tome-body-text"><strong>Background Synergy — </strong>{renderLoreText(raceData.integrationNotes.backgroundSynergy)}</p>
+                            )}
+                            {raceData.integrationNotes.classCompatibility && (
+                                <p className="tome-body-text"><strong>Tradition Compatibility — </strong>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
+                            )}
+                        </>
+                    )}
+                    {renderDecorativeDivider()}
+                </>
+            );
+        } else {
+            const startIndex = 4 + (cultureSpread - 2) * 4 + 2;
+            const pageParas = culturalParagraphs.slice(startIndex, startIndex + 2);
+            return (
+                <>
+                    <div className="tome-section-header">
+                        <i className="fas fa-scroll"></i>
+                        <h4 className="tome-section-title">Chronicles Concluded</h4>
+                    </div>
+                    {pageParas.map((para, i) => (
+                        <p key={i} className="tome-body-text">{renderLoreText(para)}</p>
+                    ))}
+                    {renderDecorativeDivider()}
                 </>
             );
         }
@@ -550,21 +797,36 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
                             )}
 
                             {/* --- CULTURE LEFT PAGE --- */}
-                            {activeTab === 'culture' && (
-                                <>
-                                    <span className="tome-page-subtitle">Chronicles of {raceData.name}</span>
-                                    <h3 className="tome-page-title">Cultural Background</h3>
-                                    {raceData.culturalBackground ? (
-                                        formatTextWithDropCap(raceData.culturalBackground)
-                                    ) : (
-                                        <p className="tome-body-text">No cultural records found for this people.</p>
-                                    )}
-                                </>
-                            )}
+                            {activeTab === 'culture' && renderCultureLeftPage()}
 
                         </div>
                         <div className="tome-page-footer">
-                            <span className="tome-page-number">Page {getRomanNumeral(currentPage * 2 + 1)}</span>
+                            <div className="tome-page-footer-left">
+                                <span className="tome-page-number">Page {getRomanNumeral(currentPage * 2 + 1)}</span>
+                            </div>
+                            <div className="tome-page-footer-center">
+                                {totalPages > 1 && (
+                                    <span className="tome-spread-indicator">
+                                        {activeTab === 'figures' ? `Figure ${currentPage + 1} of ${totalPages}` :
+                                         activeTab === 'locations' ? `Location ${currentPage + 1} of ${totalPages}` :
+                                         `Spread ${getRomanNumeral(currentPage + 1)} of ${getRomanNumeral(totalPages)}`}
+                                    </span>
+                                )}
+                            </div>
+                            <div className="tome-page-footer-right">
+                                {hasPrevPage && (
+                                    <button
+                                        type="button"
+                                        className="tome-footer-turn-btn prev"
+                                        onClick={handlePrevPage}
+                                        title="Turn to previous spread"
+                                        aria-label="Previous spread"
+                                    >
+                                        <i className="fas fa-chevron-left"></i>
+                                        <span>Prev Page</span>
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -691,59 +953,29 @@ const RaceEpicLore = ({ raceData, subraceId, availableTabs = ['history', 'figure
                             )}
 
                             {/* --- CULTURE RIGHT PAGE --- */}
-                            {activeTab === 'culture' && (
-                                <>
-                                    {heritage && (
-                                        <>
-                                            <div className="tome-section-header">
-                                                <i className="fas fa-hat-wizard"></i>
-                                                <h4 className="tome-section-title">Callings & Backgrounds</h4>
-                                            </div>
-                                            <p className="tome-body-text">
-                                                <strong>Native Classes — </strong>
-                                                {nativeClasses.length > 0 ? nativeClasses.join(', ') : 'None recorded.'}
-                                            </p>
-                                            <p className="tome-body-text">
-                                                <strong>Available Backgrounds — </strong>
-                                                {nativeBackgrounds.length > 0 ? nativeBackgrounds.join(', ') : 'None native.'}
-                                                {universalBackgrounds.length > 0 ? ` · open to all: ${universalBackgrounds.join(', ')}` : ''}
-                                            </p>
-                                            {renderDecorativeDivider()}
-                                        </>
-                                    )}
-                                    <div className="tome-section-header">
-                                        <i className="fas fa-globe-americas"></i>
-                                        <h4 className="tome-section-title">In the Wider World</h4>
-                                    </div>
-                                    {raceData.diasporaVariation ? (
-                                        <p className="tome-body-text">{renderLoreText(raceData.diasporaVariation)}</p>
-                                    ) : (
-                                        <p className="tome-body-text">No wider-world records found for this people.</p>
-                                    )}
-                                    {raceData.integrationNotes && (
-                                        <>
-                                            {renderDecorativeDivider()}
-                                            <div className="tome-section-header">
-                                                <i className="fas fa-link"></i>
-                                                <span className="tome-section-title">Integration with World Systems</span>
-                                            </div>
-                                            {raceData.integrationNotes.actionPointSystem && (
-                                                <p className="tome-body-text"><strong>Action Points — </strong>{renderLoreText(raceData.integrationNotes.actionPointSystem)}</p>
-                                            )}
-                                            {raceData.integrationNotes.backgroundSynergy && (
-                                                <p className="tome-body-text"><strong>Background Synergy — </strong>{renderLoreText(raceData.integrationNotes.backgroundSynergy)}</p>
-                                            )}
-                                            {raceData.integrationNotes.classCompatibility && (
-                                                <p className="tome-body-text"><strong>Tradition Compatibility — </strong>{renderLoreText(raceData.integrationNotes.classCompatibility)}</p>
-                                            )}
-                                        </>
-                                    )}
-                                </>
-                            )}
+                            {activeTab === 'culture' && renderCultureRightPage()}
 
                         </div>
                         <div className="tome-page-footer">
-                            <span className="tome-page-number">Page {getRomanNumeral(currentPage * 2 + 2)}</span>
+                            <div className="tome-page-footer-left">
+                                {hasNextPage && (
+                                    <button
+                                        type="button"
+                                        className="tome-footer-turn-btn next"
+                                        onClick={handleNextPage}
+                                        title="Turn to next spread"
+                                        aria-label="Next spread"
+                                    >
+                                        <span>Next Page</span>
+                                        <i className="fas fa-chevron-right"></i>
+                                    </button>
+                                )}
+                            </div>
+                            <div className="tome-page-footer-center">
+                            </div>
+                            <div className="tome-page-footer-right">
+                                <span className="tome-page-number">Page {getRomanNumeral(currentPage * 2 + 2)}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

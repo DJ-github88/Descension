@@ -1279,8 +1279,8 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
     const uniqueSketches = new Set([
       // Original unique sketches
       'gref', 'vetch', 'moot', 'gallows-wood', 'gambrel',
-      'rimor', 'kjarn', 'cinder', 'ashwen', 'nekh', 
-      'emberveil', 'croon', 'spume', 'orun', 'thalass', 
+      'rimor', 'kjarn', 'nekh', 
+      'emberveil', 'croon', 'orun', 'thalass', 
       'pelagos', 'brine', 'placeholder',
       // Nordhalla Bestiary (All 28 Redraws & Canon)
       'skerry', 'nachtkrapp', 'glacier_gremlin', 'nokk_stallion',
@@ -1352,7 +1352,7 @@ export const getCreatureTokenIconUrl = (iconId, creatureType = null) => {
       'vourdalak_debt', 'mavka_willow', 'alkonost', 'dziwozona_wild',
       'upir_root', 'sirin_song', 'grandmother_of_the_bog', 'debt_revenant', 'cycle_eater',
       'abzu', 'erlik', 'ajina', 'supayoni',
-      'pooka', 'koboldknock', 'knockbrew', 'moorboggle', 'wildejagd', 'cailleach'
+      'pooka', 'knockbrew', 'moorboggle', 'wildejagd', 'cailleach'
     ]);
     const creatureName = iconId.split('/')[1];
     if (!uniqueSketches.has(creatureName)) {

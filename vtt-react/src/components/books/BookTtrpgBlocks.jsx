@@ -1908,14 +1908,14 @@ export const BookTableBlock = ({
   const diceFormula = block.diceFormula || block.diceType || '';
   const headers = Array.isArray(block.headers) && block.headers.length > 0
     ? block.headers
-    : ['d4', 'Encounter', 'Avg. Level'];
+    : ['d4', 'Encounter', 'Threat Rating'];
   const rows = Array.isArray(block.rows) && block.rows.length > 0
     ? block.rows
     : [
-        ['1', 'Kobold Club', '1st'],
-        ['2', 'Magmin Mayhem', '2nd'],
-        ['3', 'Mage Malfunction', '5th'],
-        ['4', 'Brass Guardian', '6th']
+        ['1', 'Kobold Scout', 'Low'],
+        ['2', 'Magmin Ore-Forger', 'Low'],
+        ['3', 'Rogue Arcanist', 'Medium'],
+        ['4', 'Brass Vault Golem', 'High']
       ];
   const [rolledIndex, setRolledIndex] = useState(null);
   const [rollResult, setRollResult] = useState(null);
@@ -2124,36 +2124,59 @@ export const BookQuoteBlock = ({
   const author = block.author || '';
 
   return (
-    <figure className="book-quote-block">
-      <div className="quote-mark">“</div>
-      {isWrite ? (
-        <div className="quote-edit-wrap">
-          <textarea
-            className="quote-text-input"
-            value={quote}
-            onChange={(e) => onUpdate({ text: e.target.value })}
-            placeholder="In-world quote or excerpt..."
-            aria-label="Quote text"
-            rows={3}
-          />
-          <div className="quote-author-row">
-            <span>—</span>
-            <textarea
-              rows={1}
-              className="quote-author-input"
-              value={author}
-              onChange={(e) => onUpdate({ author: e.target.value })}
-              placeholder="Attribution (e.g. Aaron Lyles, Prophet of Destruction)..."
-              aria-label="Quote attribution"
-            />
+    <figure className={`book-quote-block ${isWrite ? 'is-write-mode' : ''}`}>
+      <div className="quote-mark" aria-hidden="true">“</div>
+      <blockquote className="quote-body">
+        {isWrite ? (
+          <div
+            className="quote-text quote-text-editable"
+            contentEditable
+            suppressContentEditableWarning
+            data-placeholder="In-world quote or excerpt..."
+            onBlur={(e) => {
+              const text = e.currentTarget.textContent;
+              if (text !== quote) onUpdate({ text });
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                e.currentTarget.textContent = quote;
+                e.currentTarget.blur();
+              }
+            }}
+          >
+            {quote}
           </div>
-        </div>
-      ) : (
-        <blockquote className="quote-body">
+        ) : (
           <p className="quote-text">{quote}</p>
-          {author && <cite className="quote-author">— {author}</cite>}
-        </blockquote>
-      )}
+        )}
+        <div className="quote-author-row">
+          {isWrite ? (
+            <div className="quote-author-edit-line">
+              <span className="quote-author-dash">—</span>
+              <cite
+                className="quote-author quote-author-editable"
+                contentEditable
+                suppressContentEditableWarning
+                data-placeholder="Attribution (e.g. Aaron Lyles, Prophet of Destruction)..."
+                onBlur={(e) => {
+                  const authorVal = e.currentTarget.textContent;
+                  if (authorVal !== author) onUpdate({ author: authorVal });
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    e.currentTarget.textContent = author;
+                    e.currentTarget.blur();
+                  }
+                }}
+              >
+                {author}
+              </cite>
+            </div>
+          ) : (
+            author ? <cite className="quote-author">— {author}</cite> : null
+          )}
+        </div>
+      </blockquote>
     </figure>
   );
 };

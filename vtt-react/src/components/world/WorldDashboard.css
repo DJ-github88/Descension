@@ -919,14 +919,17 @@
 }
 
 .world-action-btn.primary {
-  background: linear-gradient(135deg, #d4af37 0%, #a67c1e 100%) !important;
-  border-color: #8b6508 !important;
-  color: #1a1005 !important;
+  background: linear-gradient(135deg, #663c32 0%, #4a2820 100%) !important;
+  border: 1px solid #3d201a !important;
+  color: #fbf7ee !important;
   font-weight: 700;
+  box-shadow: 0 2px 6px rgba(52, 37, 26, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 .world-action-btn.primary:hover {
-  background: #ffd700 !important;
-  color: #000 !important;
+  background: linear-gradient(135deg, #7a483c 0%, #583027 100%) !important;
+  border-color: #583027 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(52, 37, 26, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .world-badge-custom {
@@ -1198,21 +1201,19 @@
   height: 48px;
   min-width: 48px;
   min-height: 48px;
-  border-radius: 50%;
-  border: 2px solid #b87c1c;
-  background: radial-gradient(circle, #faf3e8 0%, #eaddc7 100%);
-  box-shadow: 0 2px 5px rgba(43, 20, 8, 0.12), inset 0 0 4px rgba(139, 90, 26, 0.15);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .world-class-card:hover .class-card-avatar-wrap {
-  transform: scale(1.05);
-  border-color: #8b5a1a;
-  box-shadow: 0 4px 10px rgba(139, 90, 26, 0.25), inset 0 0 5px rgba(184, 124, 28, 0.25);
+  transform: scale(1.08);
 }
 
 .class-card-avatar-img,
@@ -1220,32 +1221,19 @@
   width: 44px;
   height: 44px;
   object-fit: contain;
+  border-radius: 0;
   mix-blend-mode: normal;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 2px 5px rgba(43, 20, 8, 0.3));
   transition: transform 0.2s ease;
 }
 
 .world-class-card:hover .class-card-avatar-img,
 .world-class-card:hover .class-card-avatar-wrap .class-icon-img {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .class-card-corner-icon {
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  width: 18px;
-  height: 18px;
-  background: #2b1408;
-  border: 1.5px solid #b87c1c;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 9px;
-  color: #f6eedc;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-  z-index: 2;
+  display: none !important;
 }
 
 .class-title-block {
@@ -4296,27 +4284,23 @@
   height: 52px !important;
   min-width: 52px !important;
   min-height: 52px !important;
-  background: #fdfaf3 !important;
-  border: 2px solid #c89d42 !important;
-  border-radius: 50% !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   overflow: visible !important;
   isolation: isolate !important;
-  box-shadow:
-    0 0 0 2px rgba(200, 157, 66, 0.25),
-    0 3px 8px rgba(43, 20, 8, 0.18) !important;
+  box-shadow: none !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  transition: transform 0.2s ease !important;
 }
 
 .world-class-card:hover .class-card-avatar-wrap {
-  transform: scale(1.05) !important;
-  border-color: #e5b342 !important;
-  box-shadow:
-    0 0 0 3px rgba(229, 179, 66, 0.35),
-    0 5px 14px rgba(43, 20, 8, 0.25) !important;
+  transform: scale(1.08) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .class-card-avatar-img,
@@ -4324,9 +4308,9 @@
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  border-radius: 50% !important;
+  border-radius: 0 !important;
   mix-blend-mode: normal !important;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.12)) !important;
+  filter: drop-shadow(0 2px 6px rgba(43, 20, 8, 0.28)) !important;
   -webkit-mask-image: none !important;
   mask-image: none !important;
   opacity: 1 !important;
@@ -4339,21 +4323,7 @@
 }
 
 .class-card-corner-icon {
-  position: absolute !important;
-  top: -4px !important;
-  left: -4px !important;
-  width: 20px !important;
-  height: 20px !important;
-  background: #231206 !important;
-  border: 1.5px solid #d4af37 !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: #ffd700 !important;
-  font-size: 9px !important;
-  z-index: 10 !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  display: none !important;
 }
 
 /* Class card title and metadata tags */
@@ -4435,31 +4405,35 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: rgba(245, 235, 215, 0.8) !important;
-  border: 1px solid rgba(185, 139, 58, 0.4) !important;
+  background: rgba(245, 235, 215, 0.7) !important;
+  border: 1px solid rgba(139, 115, 85, 0.35) !important;
   border-radius: 50% !important;
-  color: #a83220 !important;
+  color: #795548 !important;
   font-size: 11px !important;
-  opacity: 0.35 !important;
+  opacity: 0.4 !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
 }
 
 .world-class-card:hover .class-card-extinct-toggle {
   opacity: 1 !important;
-  background: #fff8ee !important;
-  border-color: #a83220 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  background: #faf4ea !important;
+  border-color: #663c32 !important;
+  color: #663c32 !important;
+  box-shadow: 0 2px 6px rgba(50, 30, 20, 0.15) !important;
 }
 
 .class-card-extinct-toggle:hover {
   transform: scale(1.12) !important;
+  background: #663c32 !important;
+  color: #fbf7ee !important;
+  border-color: #4a2820 !important;
 }
 
 .world-class-card.class-card-extinct .class-card-extinct-toggle {
   opacity: 0.9 !important;
-  color: #27ae60 !important;
-  border-color: #27ae60 !important;
+  color: #3b6e4e !important;
+  border-color: #3b6e4e !important;
   background: #f0faf4 !important;
 }
 

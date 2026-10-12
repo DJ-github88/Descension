@@ -812,10 +812,25 @@ export const TalentTreeContent = ({
         const maxTreeY = Math.max(...ys, 6);
 
         const columns = Array.from(new Set(xs)).sort((a, b) => a - b);
+
+        // Nodes can only collide with neighbours on the same row: tier rows are
+        // at least 76px tall while nodes cap at 64px, so different rows always
+        // clear each other vertically. Measure the tightest same-row column
+        // pair instead of the global column set (which would over-constrain
+        // rows that share no y).
+        const byRow = new Map();
+        talentsList.forEach(t => {
+            const y = t.position?.y ?? 0;
+            if (!byRow.has(y)) byRow.set(y, []);
+            byRow.get(y).push(t.position?.x ?? 0);
+        });
         let minGap = Infinity;
-        for (let i = 1; i < columns.length; i++) {
-            minGap = Math.min(minGap, columns[i] - columns[i - 1]);
-        }
+        byRow.forEach(rowXs => {
+            const rowColumns = Array.from(new Set(rowXs)).sort((a, b) => a - b);
+            for (let i = 1; i < rowColumns.length; i++) {
+                minGap = Math.min(minGap, rowColumns[i] - rowColumns[i - 1]);
+            }
+        });
         if (!isFinite(minGap) || minGap <= 0) minGap = 1;
 
         for (let tier = 1; tier <= 7; tier++) {
@@ -836,23 +851,33 @@ export const TalentTreeContent = ({
         MIN_NODE_SIZE,
         Math.min(64, gridDims.width * 0.16, cellHeight * 0.74)
     );
-    const sideMargin = Math.max(desiredNodeSize / 2 + 14, 42);
 
-    // Fit the tree to the viewport when possible. When the tightest column pair
-    // would collide at the preferred node size, grow the board beyond the
-    // viewport and let the scroll container pan horizontally instead of
-    // squeezing/overlapping the icons.
+    // The board must always fit the viewport width so the tree never needs
+    // horizontal panning. Side margins reserve room for the arrow SVGs (which
+    // overhang their endpoints by ~20px) and keep nodes clear of the edge.
+    const sideMarginFor = (nodeSize) => Math.max(nodeSize / 2 + 22, 26);
     const xRange = treeAnalysis.maxX - treeAnalysis.minX;
     const availableContentWidth = Math.min(gridDims.width, MAX_BOARD_WIDTH);
-    const availableScale = xRange > 0 ? (availableContentWidth - sideMargin * 2) / xRange : 0;
-    const minScale = treeAnalysis.columns.length > 1
-        ? (desiredNodeSize + NODE_GAP) / treeAnalysis.minGap
+
+    // Pass 1: estimate the node size the tightest column pair can hold at the
+    // preferred readability, shrinking nodes (never widening the board) when
+    // the tree packs columns closer than the preferred size allows.
+    const preferredSideMargin = sideMarginFor(desiredNodeSize);
+    const preferredScale = xRange > 0
+        ? (availableContentWidth - preferredSideMargin * 2) / xRange
         : 0;
-    const xScale = Math.max(availableScale, minScale, 0.0001);
-    const contentWidth = Math.max(availableContentWidth, xRange * xScale + sideMargin * 2);
+    const preferredSlot = treeAnalysis.minGap * preferredScale;
+    const preferredGap = Math.max(4, Math.min(NODE_GAP, preferredSlot * 0.25));
     const talentSize = treeAnalysis.columns.length > 1
-        ? Math.min(desiredNodeSize, treeAnalysis.minGap * xScale - NODE_GAP)
+        ? Math.min(desiredNodeSize, Math.max(12, preferredSlot - preferredGap))
         : desiredNodeSize;
+
+    // Pass 2: re-fit with the final node size so columns spread edge to edge
+    // across the available width and the tree stays centred.
+    const sideMargin = sideMarginFor(talentSize);
+    const usableWidth = Math.max(availableContentWidth - sideMargin * 2, 1);
+    const xScale = xRange > 0 ? usableWidth / xRange : 0.0001;
+    const contentWidth = availableContentWidth;
 
     const getNodePos = useCallback((x, y) => {
         const posY = y * cellHeight + cellHeight / 2;

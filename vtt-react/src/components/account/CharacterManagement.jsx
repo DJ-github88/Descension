@@ -17,6 +17,7 @@ import { getIconUrl } from '../../utils/assetManager';
 import { getClassIconUrl } from '../../utils/classIconUtils';
 
 import './styles/CharacterManagement.css';
+import UnifiedTransitionOverlay from '../multiplayer/UnifiedTransitionOverlay';
 
 
 
@@ -313,24 +314,16 @@ const CharacterManagement = ({ user }) => {
 
 
  if (isLoading) {
-
-  return (
-
-   <div className="character-management loading">
-
-    <div className="loading-spinner">
-
-     <i className="fas fa-spinner fa-spin"></i>
-
-     <p>Loading your characters...</p>
-
-    </div>
-
-   </div>
-
-  );
-
- }
+    return (
+      <UnifiedTransitionOverlay
+        isVisible={true}
+        mode="join"
+        title="Character Roster"
+        subtitle="Retrieving character chronicles..."
+        statusMessage="Loading characters..."
+      />
+    );
+  }
 
 
 

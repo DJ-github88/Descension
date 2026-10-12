@@ -1,5 +1,5 @@
 export const DATA_VERSIONS = {
-  creatures: '2.9.0',
+  creatures: '2.10.1',
   abilities: '1.3.0',
   rules: '2.2.2',
   lore: '2.2.1',

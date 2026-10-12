@@ -279,11 +279,12 @@ const TokenVisibilityCalculator = () => {
                             range = vd.range || range;
                             type = vd.type || 'normal';
                         } else if (creature) {
-                            if (creature.stats?.darkvision) {
-                                range = feetToTiles(creature.stats.darkvision, feetPerTile, 'diameter');
-                                type = 'darkvision';
-                            } else if (creature.stats?.sightRange) {
-                                range = feetToTiles(creature.stats.sightRange, feetPerTile, 'diameter');
+                            const darkvision = creature.stats?.darkvision || 0;
+                            const sightRange = creature.stats?.sightRange || 0;
+                            const bestRange = Math.max(darkvision, sightRange);
+                            if (bestRange > 0) {
+                                range = feetToTiles(bestRange, feetPerTile, 'diameter');
+                                type = darkvision >= sightRange ? 'darkvision' : 'normal';
                             }
                         }
                         const fa = tfdd[tokenId] || null;

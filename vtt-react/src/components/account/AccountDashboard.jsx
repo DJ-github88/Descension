@@ -13,6 +13,7 @@ import RoomManager from './RoomManager';
 import CampaignManager from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
 import ProfileEditModal from './ProfileEditModal';
+import UnifiedTransitionOverlay from '../multiplayer/UnifiedTransitionOverlay';
 
 import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
@@ -469,12 +470,13 @@ const AccountDashboard = ({ user }) => {
 
   if (isLoading) {
     return (
-      <div className="account-dashboard loading">
-        <div className="loading-spinner">
-          <i className="fas fa-spinner fa-spin"></i>
-          <p>Loading your account...</p>
-        </div>
-      </div>
+      <UnifiedTransitionOverlay
+        isVisible={true}
+        mode="join"
+        title="Account Dashboard"
+        subtitle="Retrieving adventurer records & campaign data..."
+        statusMessage="Loading account data..."
+      />
     );
   }
 

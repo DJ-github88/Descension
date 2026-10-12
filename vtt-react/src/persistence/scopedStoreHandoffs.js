@@ -12,7 +12,14 @@ import { registerHandoffParticipant } from './handoff/accountHandoffCoordinator'
 import { resolveActiveScope } from './scopedConsumer';
 import { resetCharacterScopedStorageState } from './characterScopedStorage';
 import { subscribeBootstrapGate, isPrivateProjectionIsolated } from './bootstrapPrivacyGate';
-import { flushCharacterAutoSave } from '../store/characterHelpers';
+import { discardCharacterAutoSave, readInventoryWorkingData, assembleCharacterWorkingData } from '../store/characterHelpers';
+import {
+  captureCharacterHandoffCandidate,
+  getRetainedCharacterHandoffCandidate,
+  ensureCharacterHandoffPreserved,
+  clearCharacterHandoffPreservation,
+  resetCharacterHandoffPreservationForTests
+} from './characterHandoffPreservation';
 
 import useBookStore from '../store/bookStore';
 import useInteractiveMapStore from '../store/interactiveMapStore';
@@ -169,6 +176,7 @@ export function resetCharacterProjectionIsolationForTests() {
   }
   characterProjectionIsolationInstalled = false;
   characterProjectionTemplate = null;
+  resetCharacterHandoffPreservationForTests();
 }
 
 function isolateCharacterWorkingProjection() {
@@ -178,17 +186,26 @@ function isolateCharacterWorkingProjection() {
     state.currentCharacterId ||
     state.name
   );
-  if (!hasProjection) return;
-  try {
-    // Preserve pending unsent working changes into the retained owner's
-    // scoped record before hiding the projection.
-    flushCharacterAutoSave();
-    if (state.currentCharacterId && typeof state.saveCurrentCharacter === 'function') {
-      state.saveCurrentCharacter();
-    }
-  } catch (_error) {
-    // best-effort preservation; scoped records remain the recovery source
+  if (!hasProjection && !getRetainedCharacterHandoffCandidate()) return;
+  // 1. Capture the stable authored snapshot BEFORE any destructive clear and
+  //    before the pending debounce is dropped: the pending save's payload is
+  //    the captured working state.
+  const captured = captureCharacterHandoffCandidate(
+    state,
+    state.currentCharacterId ? assembleCharacterWorkingData(state, readInventoryWorkingData()) : null
+  );
+  if (captured.ok) {
+    // 2. The pending autosave continuation would duplicate this preserved
+    //    payload; its content is retained in the captured candidate.
+    discardCharacterAutoSave();
   }
+  // 3. Preservation runs against the retained owner's scoped record; the
+  //    participant's stopNewWork awaits its real outcome and fails the
+  //    handoff closed if it cannot be confirmed.
+  ensureCharacterHandoffPreserved();
+  // 4. Immediate privacy isolation: the public working projection is replaced
+  //    with the store template synchronously, before React can render it to
+  //    the new principal.
   try {
     const template = characterProjectionTemplate || {};
     useCharacterStore.setState({ ...template }, true);
@@ -203,7 +220,14 @@ export function registerCharacterHandoff() {
     installCharacterProjectionIsolation(initialCharacterState);
     registerHandoffParticipant({
       id: 'scoped-store:characterStore',
-      stopNewWork: () => ({ ok: true }),
+      stopNewWork: async () => {
+        // Await and inspect the real preservation outcome. An invoked or
+        // queued write is not confirmed preservation; a failure fails the
+        // handoff closed (the candidate stays retained and retryable).
+        const outcome = await ensureCharacterHandoffPreserved();
+        if (outcome && outcome.ok) return { ok: true };
+        return { ok: false, reason: outcome?.reason || `character-preservation-${outcome?.status || 'failed'}` };
+      },
       resetProjection: () => {
         try {
           useCharacterStore.setState(initialCharacterState, true);
@@ -211,6 +235,7 @@ export function registerCharacterHandoff() {
           // best-effort reset; rehydration loads only the destination owner
         }
         resetCharacterScopedStorageState();
+        clearCharacterHandoffPreservation();
         return { ok: true };
       },
       activate: async () => {

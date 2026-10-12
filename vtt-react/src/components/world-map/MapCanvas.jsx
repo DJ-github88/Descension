@@ -6,7 +6,7 @@ import PlayerAnnotationsLayer from './PlayerAnnotationsLayer';
 import MapControls from './MapControls';
 import { LOCATION_COORDINATES } from '../../data/locationCoordinates';
 import { getSubregionMap } from '../../data/subregionMaps';
-import AssetLoadingOverlay from '../common/AssetLoadingOverlay';
+import UnifiedTransitionOverlay from '../multiplayer/UnifiedTransitionOverlay';
 import { shouldReduceMotion } from '../../utils/accessibility';
 
 const MAP_IMAGE_PATH = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
@@ -583,10 +583,10 @@ const MapCanvas = ({
       onDrop={handleCustomDrop}
     >
       {isMapImageLoading && !initialTransform && (
-        <AssetLoadingOverlay 
-          message={`Cartographing ${mapName}...`} 
-          subtext="Preloading high-resolution world map assets..." 
-          isFullPage={true} 
+        <UnifiedTransitionOverlay
+          isVisible={true}
+          mode="map"
+          mapName={mapName || 'World Map'}
         />
       )}
       <TransformWrapper

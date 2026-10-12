@@ -39,7 +39,6 @@ import AfterimageOverlay from "./level-editor/AfterimageOverlay";
 import TokenVisibilityCalculator from "./level-editor/TokenVisibilityCalculator";
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import ImageDropMenu from "./dialogs/ImageDropMenu";
-import AssetLoadingOverlay from "./common/AssetLoadingOverlay";
 import SpellAoEOverlay from "./grid/SpellAoEOverlay";
 import CameraCompass from "./grid/CameraCompass";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";

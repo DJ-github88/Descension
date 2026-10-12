@@ -1,12 +1,12 @@
 /* ==========================================================================
-   Quick-Peek Lore Drawer Styling — Mythrill Dark Fantasy
+   Quick-Peek Lore Drawer Styling — Calm TTRPG Manuscript & Parchment
    ========================================================================== */
 
 .quick-peek-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(2px);
+  background: rgba(30, 18, 10, 0.5);
+  backdrop-filter: blur(3px);
   z-index: 999998;
   display: flex;
   justify-content: flex-end;
@@ -22,14 +22,15 @@
   width: 440px;
   max-width: 92vw;
   height: 100vh;
-  background: #11141c;
-  border-left: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: -10px 0 36px rgba(0, 0, 0, 0.85);
+  background: #faf6ee;
+  border-left: 2px solid #8b5a1a;
+  box-shadow: -12px 0 40px rgba(45, 25, 12, 0.28);
   display: flex;
   flex-direction: column;
-  color: #e6ded2;
-  font-family: -apple-system, BlinkMacSystemFont, 'Cinzel', 'Segoe UI', Roboto, sans-serif;
+  color: #2b1408;
+  font-family: 'Crimson Text', Georgia, serif;
   animation: qpDrawerSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
 }
 
 @keyframes qpDrawerSlideIn {
@@ -37,14 +38,16 @@
   to { transform: translateX(0); }
 }
 
-/* Header */
+/* ==========================================================================
+   Drawer Header
+   ========================================================================== */
 .quick-peek-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background: linear-gradient(180deg, rgba(212, 175, 55, 0.12) 0%, rgba(17, 20, 28, 0.95) 100%);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  background: linear-gradient(180deg, #ede3d2 0%, #f4eee2 100%);
+  border-bottom: 2px double #c4a482;
 }
 
 .quick-peek-title-group {
@@ -55,12 +58,13 @@
 }
 
 .quick-peek-icon-badge {
-  font-size: 20px;
+  font-size: 18px;
   width: 38px;
   height: 38px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  background: #fdfbf7;
+  border: 1.5px solid #c4a482;
+  box-shadow: 0 1px 4px rgba(52, 37, 26, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,25 +79,36 @@
 }
 
 .quick-peek-type-pill {
-  font-size: 10px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border: 1px solid;
-  padding: 1px 6px;
-  border-radius: 4px;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(139, 90, 26, 0.35);
+  padding: 1px 7px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.quick-peek-type-pill.phantom-pill {
+  color: #78281f !important;
+  background: rgba(176, 58, 46, 0.08) !important;
+  border: 1px dashed #b03a2e !important;
+  font-weight: 700;
 }
 
 .quick-peek-alias-tag {
   font-size: 11px;
-  color: #999;
+  color: #7a5833;
   font-style: italic;
 }
 
 .quick-peek-name {
-  font-family: 'Cinzel', serif;
-  font-size: 16px;
-  color: #f5eedb;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #58180d;
+  letter-spacing: 0.03em;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -102,35 +117,45 @@
 
 .quick-peek-close-btn {
   background: transparent;
-  border: none;
-  color: #888;
+  border: 1px solid transparent;
+  color: #7a5833;
   font-size: 16px;
   cursor: pointer;
-  padding: 6px;
+  width: 30px;
+  height: 30px;
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.15s ease;
 }
 
 .quick-peek-close-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  color: #58180d;
+  background: #e7dcce;
+  border-color: #c4a482;
 }
 
-/* Tabs */
+/* ==========================================================================
+   Navigation Tabs
+   ========================================================================== */
 .quick-peek-tabs {
   display: flex;
-  background: #0d0f15;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-  padding: 0 12px;
+  background: #ede3d2;
+  border-bottom: 1.5px solid #c4a482;
+  padding: 0 16px;
+  gap: 4px;
 }
 
 .quick-peek-tab {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  color: #8b7355;
-  font-size: 12px;
+  color: #6d5236;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.74rem;
   font-weight: 600;
+  letter-spacing: 0.03em;
   padding: 10px 14px;
   cursor: pointer;
   display: flex;
@@ -140,20 +165,25 @@
 }
 
 .quick-peek-tab:hover {
-  color: #d4af37;
+  color: #58180d;
+  background: rgba(139, 90, 26, 0.06);
 }
 
 .quick-peek-tab.active {
-  color: #f1d779;
-  border-bottom-color: #d4af37;
-  background: rgba(212, 175, 55, 0.06);
+  color: #58180d;
+  font-weight: 700;
+  border-bottom-color: #58180d;
+  background: rgba(88, 24, 13, 0.06);
 }
 
-/* Body */
+/* ==========================================================================
+   Body Content
+   ========================================================================== */
 .quick-peek-body {
   flex: 1;
   overflow-y: auto;
   padding: 18px 20px;
+  background: #faf6ee;
 }
 
 .quick-peek-body::-webkit-scrollbar {
@@ -161,34 +191,42 @@
 }
 
 .quick-peek-body::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.25);
+  background: rgba(139, 90, 26, 0.35);
   border-radius: 4px;
 }
 
-/* Phantom Card */
+/* ==========================================================================
+   Phantom Card (Uncreated Draft)
+   ========================================================================== */
 .quick-peek-phantom-card {
   text-align: center;
-  padding: 24px 16px;
-  background: rgba(230, 126, 34, 0.06);
-  border: 1px dashed rgba(230, 126, 34, 0.4);
-  border-radius: 8px;
+  padding: 24px 18px;
+  background: #fdfbf7;
+  border: 1.5px dashed #c4a482;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(52, 37, 26, 0.05);
 }
 
 .phantom-hero-icon {
-  font-size: 32px;
-  color: #e67e22;
+  font-size: 30px;
+  color: #8b5a1a;
   margin-bottom: 12px;
 }
 
 .quick-peek-phantom-card h4 {
-  font-family: 'Cinzel', serif;
-  color: #f8c471;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  color: #58180d;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   margin: 0 0 8px 0;
 }
 
 .quick-peek-phantom-card p {
-  font-size: 12px;
-  color: #bbb;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.95rem;
+  color: #5a4030;
+  line-height: 1.45;
   margin-bottom: 18px;
 }
 
@@ -202,102 +240,131 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #e0d5c1;
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
+  gap: 7px;
+  background: #fdfaf2;
+  border: 1px solid #c4a482;
+  color: #2b1408;
+  padding: 9px 10px;
+  border-radius: 4px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.05);
   transition: all 0.15s ease;
 }
 
 .quick-peek-create-arch-btn:hover {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: #d4af37;
-  color: #fff;
+  background: #ffffff;
+  border-color: #58180d;
+  color: #58180d;
+  box-shadow: 0 3px 8px rgba(88, 24, 13, 0.12);
+  transform: translateY(-1px);
 }
 
-/* Edit Bar */
+.quick-peek-create-arch-btn i {
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Note Editing Bar & Controls
+   ========================================================================== */
 .quick-peek-edit-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #c4a482;
 }
 
 .quick-peek-arch-selector {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
-  color: #bbb;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #5a4030;
 }
 
 .quick-peek-arch-selector select {
-  background: #0d0f15;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #f5eedb;
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-size: 11px;
+  background: #fdfaf2;
+  border: 1px solid #c4a482;
+  color: #2b1408;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.73rem;
+  font-weight: 600;
 }
 
 .quick-peek-btn {
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid #d4af37;
-  color: #f1d779;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
+  background: #58180d;
+  border: 1px solid #c89a3c;
+  color: #fdfaf2;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.quick-peek-btn:hover {
+  background: #6e1e11;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(88, 24, 13, 0.2);
 }
 
 .quick-peek-btn.active {
-  background: #27ae60;
+  background: #235d3a;
   border-color: #2ecc71;
-  color: #fff;
+  color: #ffffff;
 }
 
 .quick-peek-editor {
   width: 100%;
-  background: #0b0d13;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #e6ded2;
-  padding: 10px;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 13px;
-  line-height: 1.5;
+  background: #fdfbf7;
+  border: 1.5px solid #c4a482;
+  color: #2b1408;
+  padding: 12px;
+  border-radius: 4px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.02rem;
+  line-height: 1.55;
   resize: vertical;
   box-sizing: border-box;
+  box-shadow: inset 0 1px 3px rgba(52, 37, 26, 0.06);
 }
 
 .quick-peek-rendered-content {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #fdfbf7;
+  padding: 14px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(196, 164, 130, 0.6);
+  box-shadow: 0 1px 4px rgba(52, 37, 26, 0.04);
+  color: #2b1408;
+  font-size: 1.02rem;
+  line-height: 1.6;
 }
 
 .quick-peek-secret-box {
   margin-top: 14px;
-  padding: 8px 12px;
-  background: rgba(231, 76, 60, 0.1);
-  border-left: 2px solid #e74c3c;
-  border-radius: 4px;
+  padding: 10px 14px;
+  background: #fdf2f0;
+  border-left: 3px solid #b03a2e;
+  border-radius: 3px;
   display: flex;
-  gap: 8px;
-  font-size: 12px;
-  color: #f1948a;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #78281f;
 }
 
 .quick-peek-actions-row {
@@ -307,35 +374,41 @@
 }
 
 .quick-peek-action-btn {
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: #f5eedb;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  background: #fdfaf2;
+  border: 1px solid #c4a482;
+  color: #58180d;
+  padding: 7px 14px;
+  border-radius: 3px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.74rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: all 0.15s ease;
 }
 
 .quick-peek-action-btn:hover {
-  background: rgba(212, 175, 55, 0.25);
-  border-color: #d4af37;
+  background: #ffffff;
+  border-color: #58180d;
+  box-shadow: 0 2px 6px rgba(88, 24, 13, 0.12);
 }
 
-/* Backlinks Section */
+/* ==========================================================================
+   Backlinks & Unlinked References
+   ========================================================================== */
 .quick-peek-section-title {
-  font-size: 12px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #c9b084;
+  letter-spacing: 0.04em;
+  color: #58180d;
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: 7px;
+  margin-bottom: 10px;
 }
 
 .quick-peek-backlinks-list {
@@ -345,17 +418,20 @@
 }
 
 .quick-peek-backlink-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 6px;
-  padding: 8px 12px;
+  background: #fdfbf7;
+  border: 1px solid #c4a482;
+  border-radius: 4px;
+  padding: 9px 12px;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(52, 37, 26, 0.04);
   transition: all 0.15s ease;
 }
 
 .quick-peek-backlink-card:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: #d4af37;
+  background: #ffffff;
+  border-color: #58180d;
+  box-shadow: 0 3px 8px rgba(88, 24, 13, 0.12);
+  transform: translateY(-1px);
 }
 
 .quick-peek-backlink-card.unlinked {
@@ -363,60 +439,71 @@
   cursor: default;
 }
 
+.quick-peek-backlink-card.unlinked:hover {
+  transform: none;
+  background: #fdfbf7;
+  border-color: #c4a482;
+}
+
 .backlink-card-header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #f5eedb;
+  gap: 7px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.8rem;
+  color: #58180d;
   margin-bottom: 4px;
 }
 
 .backlink-type-tag {
   font-size: 9px;
   text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 1px 4px;
+  background: rgba(139, 90, 26, 0.12);
+  color: #7a5833;
+  padding: 1px 5px;
   border-radius: 3px;
-  color: #aaa;
   margin-left: auto;
 }
 
 .quick-peek-linkify-btn {
   margin-left: auto;
-  background: rgba(52, 152, 219, 0.2);
-  border: 1px solid #3498db;
-  color: #85c1e9;
-  padding: 2px 6px;
+  background: #58180d;
+  border: 1px solid #c89a3c;
+  color: #fdfaf2;
+  padding: 3px 8px;
   border-radius: 3px;
-  font-size: 10px;
-  font-weight: 600;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.68rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
+  transition: all 0.15s ease;
 }
 
 .quick-peek-linkify-btn:hover {
-  background: #3498db;
-  color: #fff;
+  background: #6e1e11;
 }
 
 .backlink-card-snippet {
-  font-size: 11px;
-  color: #999;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.92rem;
+  color: #5a4030;
   font-style: italic;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .quick-peek-empty-state {
-  font-size: 11px;
-  color: #666;
+  font-size: 0.95rem;
+  color: #7a5833;
   font-style: italic;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
-/* Refactor */
+/* ==========================================================================
+   Refactor & Global Rename
+   ========================================================================== */
 .quick-peek-refactor-input-row {
   display: flex;
   gap: 8px;
@@ -424,26 +511,34 @@
 
 .quick-peek-refactor-input-row input {
   flex: 1;
-  background: #0d0f15;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #fff;
-  padding: 8px 10px;
-  border-radius: 4px;
-  font-size: 12px;
+  background: #fdfbf7;
+  border: 1px solid #c4a482;
+  color: #2b1408;
+  padding: 8px 12px;
+  border-radius: 3px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.98rem;
 }
 
 .quick-peek-refactor-btn {
-  background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);
-  border: 1px solid #9b59b6;
-  color: #fff;
+  background: #58180d;
+  border: 1px solid #c89a3c;
+  color: #fdfaf2;
   padding: 8px 14px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  border-radius: 3px;
+  font-family: var(--book-font-heading, 'Cinzel', serif);
+  font-size: 0.74rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.quick-peek-refactor-btn:hover:not(:disabled) {
+  background: #6e1e11;
+  box-shadow: 0 2px 6px rgba(88, 24, 13, 0.2);
 }
 
 .quick-peek-refactor-btn:disabled {
@@ -454,12 +549,138 @@
 .quick-peek-success-msg {
   margin-top: 12px;
   padding: 8px 12px;
-  background: rgba(46, 204, 113, 0.15);
-  border: 1px solid #2ecc71;
-  border-radius: 4px;
-  color: #2ecc71;
-  font-size: 12px;
+  background: rgba(45, 106, 79, 0.12);
+  border: 1px solid #2d6a4f;
+  border-radius: 3px;
+  color: #1b4332;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+/* ==========================================================================
+   Explicit Thematic Modifiers
+   ========================================================================== */
+
+/* Crimson Tome */
+.quick-peek-drawer.theme-crimson {
+  border-left-color: #6e1e11;
+}
+.quick-peek-drawer.theme-crimson .quick-peek-header {
+  background: linear-gradient(180deg, #f0dede 0%, #f7ebeb 100%);
+  border-bottom-color: #956b5b;
+}
+.quick-peek-drawer.theme-crimson .quick-peek-name,
+.quick-peek-drawer.theme-crimson .quick-peek-phantom-card h4 {
+  color: #6e1e11;
+}
+.quick-peek-drawer.theme-crimson .quick-peek-tab.active {
+  color: #6e1e11;
+  border-bottom-color: #6e1e11;
+}
+
+/* Royal Archive */
+.quick-peek-drawer.theme-royal {
+  border-left-color: #1c355e;
+}
+.quick-peek-drawer.theme-royal .quick-peek-header {
+  background: linear-gradient(180deg, #dbe4f0 0%, #eef4f9 100%);
+  border-bottom-color: #8da4c4;
+}
+.quick-peek-drawer.theme-royal .quick-peek-name,
+.quick-peek-drawer.theme-royal .quick-peek-phantom-card h4 {
+  color: #1c355e;
+}
+.quick-peek-drawer.theme-royal .quick-peek-tab.active {
+  color: #1c355e;
+  border-bottom-color: #1c355e;
+}
+
+/* Fey Wildwood */
+.quick-peek-drawer.theme-wildwood {
+  border-left-color: #1e4d2b;
+}
+.quick-peek-drawer.theme-wildwood .quick-peek-header {
+  background: linear-gradient(180deg, #deecdf 0%, #f0f7f1 100%);
+  border-bottom-color: #8db898;
+}
+.quick-peek-drawer.theme-wildwood .quick-peek-name,
+.quick-peek-drawer.theme-wildwood .quick-peek-phantom-card h4 {
+  color: #1e4d2b;
+}
+.quick-peek-drawer.theme-wildwood .quick-peek-tab.active {
+  color: #1e4d2b;
+  border-bottom-color: #1e4d2b;
+}
+
+/* Dark Grimoire (Arcane Tome) */
+.quick-peek-drawer.theme-grimoire {
+  background: #15181f;
+  border-left: 2px solid #8e44ad;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.7);
+  color: #ded9d1;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-header {
+  background: linear-gradient(180deg, #1f232e 0%, #15181f 100%);
+  border-bottom: 2px double #3d3b4f;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-name {
+  color: #dfd5c6;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-icon-badge {
+  background: #1d212b;
+  border-color: #3d3b4f;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-close-btn {
+  color: #999;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-close-btn:hover {
+  background: #2b3040;
+  color: #fff;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-tabs {
+  background: #11141a;
+  border-bottom-color: #3d3b4f;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-tab {
+  color: #999;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-tab:hover {
+  color: #dfd5c6;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-tab.active {
+  color: #bfa57a;
+  border-bottom-color: #bfa57a;
+  background: rgba(191, 165, 122, 0.08);
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-body {
+  background: #15181f;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-phantom-card {
+  background: #1a1e27;
+  border-color: #3d3b4f;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-phantom-card h4 {
+  color: #dfd5c6;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-phantom-card p {
+  color: #aaa;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-create-arch-btn {
+  background: #1f2430;
+  border-color: #3d3b4f;
+  color: #ded9d1;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-create-arch-btn:hover {
+  background: #282f40;
+  border-color: #bfa57a;
+  color: #fff;
+}
+.quick-peek-drawer.theme-grimoire .quick-peek-editor,
+.quick-peek-drawer.theme-grimoire .quick-peek-rendered-content,
+.quick-peek-drawer.theme-grimoire .quick-peek-backlink-card {
+  background: #1a1e27;
+  border-color: #3d3b4f;
+  color: #ded9d1;
 }

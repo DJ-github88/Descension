@@ -210,6 +210,10 @@ export function transformFromStorage(firestoreData) {
 class CharacterPersistenceService {
   constructor() {
     this.isConfigured = isFirebaseConfigured && !isDemoMode;
+    // P5-01: deferred and normal publications share the same per-document tail.
+    // Keep it across account-generation changes: an issued write cannot be
+    // cancelled, and a successor must not reach Firestore ahead of it.
+    this.saveTails = new Map();
 
     // CRITICAL FIX: Log configuration status for debugging
   }
@@ -448,7 +452,21 @@ class CharacterPersistenceService {
   /**
    * Save character data
    */
-  async saveCharacter(characterData, userId) {
+  saveCharacter(characterData, userId, options = {}) {
+    const key = `${userId}:${characterData.id}`;
+    const run = () => this.persistCharacter(characterData, userId, options);
+    const pending = (this.saveTails.get(key) || Promise.resolve()).then(run, run);
+    this.saveTails.set(key, pending);
+    // Retire only this exact tail; a predecessor must not remove its successor.
+    const cleanup = () => {
+      if (this.saveTails.get(key) === pending) this.saveTails.delete(key);
+    };
+    pending.then(cleanup, cleanup);
+    return pending;
+  }
+
+  async persistCharacter(characterData, userId, { isCurrent = () => true } = {}) {
+    if (!isCurrent()) return false;
     // CRITICAL FIX: Enhanced logging for Firebase operation tracking
     console.log('🔥 [Firebase] saveCharacter called:', {
       characterId: characterData.id,
@@ -485,6 +503,10 @@ class CharacterPersistenceService {
         console.warn('Failed to create automatic backup:', backupError);
         // Continue with save even if backup fails
       }
+
+      // Backup and queue waits may cross a handoff or a newer local revision.
+      // Revalidate at the final boundary before issuing the cloud replacement.
+      if (!isCurrent()) return false;
 
       // Validate character data
       validateCharacterData(characterData);

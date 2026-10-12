@@ -30,23 +30,111 @@ import BookQuestPickerModal from './BookQuestPickerModal';
 import BookLorePickerModal from './BookLorePickerModal';
 import BookMapPickerModal from './BookMapPickerModal';
 import BookSnapshotModal from './BookSnapshotModal';
+import BookSyntaxGuideModal from './BookSyntaxGuideModal';
+import QuickPeekDrawer from '../common/QuickPeekDrawer';
 import { useIsPhone } from '../../hooks/useIsPhone';
 import { clampPopoverPosition } from '../../utils/popoverPosition';
 import './BookDocumentEditor.css';
 import './BookAtmosphere.css';
 
+export const LayoutIconSpread = ({ className = 'layout-thumb-svg' }) => (
+  <svg className={className} width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    {/* Left Page */}
+    <rect x="0.75" y="1" width="8.5" height="13" rx="1" fill="#fdfbf7" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="2.5" y1="3.5" x2="7.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="2.5" y1="6" x2="7.5" y2="6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="2.5" y1="8.5" x2="7.5" y2="8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="2.5" y1="11" x2="6" y2="11" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    {/* Right Page */}
+    <rect x="10.75" y="1" width="8.5" height="13" rx="1" fill="#fdfbf7" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="12.5" y1="3.5" x2="17.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="12.5" y1="6" x2="17.5" y2="6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="12.5" y1="8.5" x2="17.5" y2="8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="12.5" y1="11" x2="16" y2="11" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+  </svg>
+);
+
+export const LayoutIconTwoCol = ({ className = 'layout-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="1" y="1" width="14" height="14" rx="1.5" fill="#fdfbf7" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="2.8" y1="3.5" x2="6.8" y2="3.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="2.8" y1="6" x2="6.8" y2="6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="2.8" y1="8.5" x2="6.8" y2="8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="2.8" y1="11" x2="5.5" y2="11" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="9.2" y1="3.5" x2="13.2" y2="3.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="9.2" y1="6" x2="13.2" y2="6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="9.2" y1="8.5" x2="13.2" y2="8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="9.2" y1="11" x2="11.8" y2="11" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+  </svg>
+);
+
+export const LayoutIconSingleCol = ({ className = 'layout-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="1" y="1" width="14" height="14" rx="1.5" fill="#fdfbf7" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="3" y1="3.5" x2="13" y2="3.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="3" y1="6" x2="13" y2="6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="3" y1="8.5" x2="13" y2="8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+    <line x1="3" y1="11" x2="9" y2="11" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+  </svg>
+);
+
+export const ThemeIconParchment = ({ className = 'theme-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M4 2.5C3.17 2.5 2.5 3.17 2.5 4C2.5 4.83 3.17 5.5 4 5.5H12C12.83 5.5 13.5 4.83 13.5 4C13.5 3.17 12.83 2.5 12 2.5H4Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <path d="M2.5 4V12C2.5 12.83 3.17 13.5 4 13.5H12C12.83 13.5 13.5 12.83 13.5 12V4" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.65" />
+    <line x1="5" y1="10.5" x2="9" y2="10.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.65" />
+  </svg>
+);
+
+export const ThemeIconRoyal = ({ className = 'theme-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2.5 12.5H13.5V11L12.5 5.5L9.5 8L8 4L6.5 8L3.5 5.5L2.5 11V12.5Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <circle cx="8" cy="4" r="0.75" fill="currentColor" />
+    <circle cx="3.5" cy="5.5" r="0.75" fill="currentColor" />
+    <circle cx="12.5" cy="5.5" r="0.75" fill="currentColor" />
+    <line x1="4.5" y1="11" x2="11.5" y2="11" stroke="currentColor" strokeWidth="0.9" opacity="0.7" />
+  </svg>
+);
+
+export const ThemeIconCrimson = ({ className = 'theme-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="2.5" y="2" width="10" height="12" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="5" y1="2" x2="5" y2="14" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+    <path d="M8 2V8.5L9.5 7.2L11 8.5V2H8Z" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="0.9" strokeLinejoin="round" />
+  </svg>
+);
+
+export const ThemeIconGrimoire = ({ className = 'theme-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M4 2.5C4 2.5 8 1.8 12 3V13.5C8 12.3 4 13 4 13V2.5Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <path d="M4 2.5C4 2.5 2 3.5 2 5V14C2 14 3.5 13 4 13" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <circle cx="8" cy="7.5" r="2" stroke="currentColor" strokeWidth="0.9" />
+    <path d="M8 6V9M6.5 7.5H9.5" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" />
+  </svg>
+);
+
+export const ThemeIconWildwood = ({ className = 'theme-thumb-svg' }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M13.5 2.5C13.5 2.5 8.5 3 5 6.5C2.5 9 2.5 12 3 13C4 13.5 7 13.5 9.5 11C13 7.5 13.5 2.5 13.5 2.5Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <path d="M13.5 2.5L3 13" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.7" />
+    <path d="M7.5 8.5C6 9 5 10 5 10" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
+    <path d="M9.5 6.5C10 7.5 11 8.5 11 8.5" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
+  </svg>
+);
+
 const THEME_OPTIONS = [
-  { value: 'parchment', label: 'Parchment (Classic Sourcebook)' },
-  { value: 'royal', label: 'Royal Archive (Imperial Ivory & Sapphire)' },
-  { value: 'crimson', label: 'Crimson Tome (Bloodbound & Gold)' },
-  { value: 'grimoire', label: 'Dark Grimoire (Obsidian & Arcane Silver)' },
-  { value: 'wildwood', label: 'Fey Wildwood (Verdant Emerald & Amber)' }
+  { value: 'parchment', label: 'Parchment', iconComponent: <ThemeIconParchment /> },
+  { value: 'royal', label: 'Royal Archive', iconComponent: <ThemeIconRoyal /> },
+  { value: 'crimson', label: 'Crimson Tome', iconComponent: <ThemeIconCrimson /> },
+  { value: 'grimoire', label: 'Dark Grimoire', iconComponent: <ThemeIconGrimoire /> },
+  { value: 'wildwood', label: 'Fey Wildwood', iconComponent: <ThemeIconWildwood /> }
 ];
 
 const LAYOUT_OPTIONS = [
-  { value: 'book-spread', label: 'Two-Page Facing Spread (Open Book)' },
-  { value: 'two-column', label: 'Two-Column Page' },
-  { value: 'single-column', label: 'Single Column' }
+  { value: 'book-spread', label: 'Two-Page Facing Spread', iconComponent: <LayoutIconSpread /> },
+  { value: 'two-column', label: 'Two-Column Page', iconComponent: <LayoutIconTwoCol /> },
+  { value: 'single-column', label: 'Single Column', iconComponent: <LayoutIconSingleCol /> }
 ];
 
 const NEW_BLOCK_DEFAULTS = {
@@ -55,12 +143,12 @@ const NEW_BLOCK_DEFAULTS = {
   roll_table: {
     title: 'Chromatic Vault Encounters',
     diceFormula: 'd4',
-    headers: ['d4', 'Encounter', 'Avg. Level'],
+    headers: ['d4', 'Encounter', 'Threat Rating'],
     rows: [
-      ['1', 'Kobold Club', '1st'],
-      ['2', 'Magmin Mayhem', '2nd'],
-      ['3', 'Mage Malfunction', '5th'],
-      ['4', 'Brass Guardian', '6th']
+      ['1', 'Kobold Scout', 'Low'],
+      ['2', 'Magmin Ore-Forger', 'Low'],
+      ['3', 'Rogue Arcanist', 'Medium'],
+      ['4', 'Brass Vault Golem', 'High']
     ]
   },
   quote: {
@@ -253,7 +341,7 @@ const INSERT_PALETTE = [
   { type: 'divider', label: 'Divider', icon: 'fa-minus' }
 ];
 
-const EditableText = ({ value, onCommit, className = '', tagName = 'span', placeholder = '', disabled = false }) => {
+const EditableText = ({ value, onCommit, className = '', tagName = 'span', placeholder = '', disabled = false, singleLine = false }) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -279,9 +367,96 @@ const EditableText = ({ value, onCommit, className = '', tagName = 'span', place
         if (e.key === 'Escape') {
           e.currentTarget.textContent = value ?? '';
           e.currentTarget.blur();
+        } else if (singleLine && e.key === 'Enter') {
+          e.preventDefault();
+          e.currentTarget.blur();
         }
       }}
     />
+  );
+};
+
+export const ManuscriptDropdown = ({
+  value,
+  options = [],
+  onChange,
+  icon,
+  title,
+  ariaLabel,
+  className = '',
+  disabled = false
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
+
+  const selectedOption = options.find((opt) => opt.value === value) || options[0];
+
+  return (
+    <div
+      ref={containerRef}
+      className={`manuscript-dropdown ${className} ${isOpen ? 'is-open' : ''}`}
+      title={title}
+    >
+      <button
+        type="button"
+        className="manuscript-dropdown-trigger"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={ariaLabel || title || selectedOption?.label || 'Select option'}
+      >
+        {selectedOption?.iconComponent ? (
+          <span className="dropdown-custom-icon">{selectedOption.iconComponent}</span>
+        ) : (
+          (selectedOption?.icon || icon) && <i className={`${selectedOption?.icon || icon} dropdown-icon`}></i>
+        )}
+        <span className="dropdown-trigger-label">{selectedOption?.label || value}</span>
+        <i className={`fas fa-chevron-down dropdown-arrow ${isOpen ? 'open' : ''}`}></i>
+      </button>
+
+      {isOpen && (
+        <ul className="manuscript-dropdown-menu" role="listbox">
+          {options.map((opt) => {
+            const isSelected = opt.value === value;
+            return (
+              <li
+                key={opt.value}
+                role="option"
+                aria-selected={isSelected}
+                className={`manuscript-dropdown-item ${isSelected ? 'selected' : ''}`}
+                onClick={() => {
+                  onChange(opt.value);
+                  setIsOpen(false);
+                }}
+              >
+                <div className="item-main">
+                  {opt.iconComponent ? (
+                    <span className="dropdown-custom-icon item-icon-wrapper">{opt.iconComponent}</span>
+                  ) : (
+                    opt.icon && <i className={`${opt.icon} item-icon`}></i>
+                  )}
+                  <span className="item-label">{opt.label}</span>
+                </div>
+                {isSelected && <i className="fas fa-check item-check"></i>}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 };
 
@@ -333,7 +508,10 @@ export const BookDocumentEditor = ({
   const [editingBlockId, setEditingBlockId] = useState(null);
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
   const [isSnapshotOpen, setIsSnapshotOpen] = useState(false);
+  const [headerSettingsOpen, setHeaderSettingsOpen] = useState(false);
   const [saveState, setSaveState] = useState('idle');
+  const [draggingBlockId, setDraggingBlockId] = useState(null);
+  const [dragOverInfo, setDragOverInfo] = useState(null); // { targetBlockId, targetIndex, position, railIndex, colName, pageId }
 
   // Insertion & Pickers State
   const [insertAt, setInsertAt] = useState(null); // { index, column, slotAlign, sizePreset, x, y } — x/y are click viewport coords
@@ -360,6 +538,169 @@ export const BookDocumentEditor = ({
     });
     setInsertPopoverPos({ key: insertAt, left, top });
   }, [insertAt]);
+
+  // Floating formatting bubble when text is selected in an editable paragraph
+  const [selectionBubble, setSelectionBubble] = useState(null);
+  const [showSyntaxGuide, setShowSyntaxGuide] = useState(false);
+
+  // Global escape key clears active component selection and insert palettes
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (showSyntaxGuide) setShowSyntaxGuide(false);
+        if (selectionBubble) setSelectionBubble(null);
+        if (insertAt) setInsertAt(null);
+        if (editingBlockId) setEditingBlockId(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [insertAt, editingBlockId, showSyntaxGuide, selectionBubble]);
+
+  // Selection change listener to detect highlighted text in editable prose
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      if (activeMode !== 'write' || !canWrite || showSyntaxGuide) {
+        setSelectionBubble(null);
+        return;
+      }
+
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || !sel.rangeCount) {
+        setSelectionBubble(null);
+        return;
+      }
+
+      const range = sel.getRangeAt(0);
+      const commonAncestor = range.commonAncestorContainer;
+      const proseEl = commonAncestor?.nodeType === 1 
+        ? commonAncestor.closest('.book-prose-edit') 
+        : commonAncestor?.parentElement?.closest('.book-prose-edit');
+
+      if (!proseEl) {
+        setSelectionBubble(null);
+        return;
+      }
+
+      const blockWrap = proseEl.closest('.book-block-wrap');
+      const blockId = blockWrap?.dataset?.blockId;
+
+      const rect = range.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        const selText = sel.toString().trim();
+        if (selText.length > 0) {
+          setSelectionBubble({
+            x: rect.left + rect.width / 2,
+            y: rect.top - 6,
+            selectedText: selText,
+            blockId,
+            rect: {
+              left: rect.left,
+              right: rect.right,
+              top: rect.top,
+              bottom: rect.bottom
+            }
+          });
+          return;
+        }
+      }
+      setSelectionBubble(null);
+    };
+
+    document.addEventListener('selectionchange', handleSelectionChange);
+    return () => document.removeEventListener('selectionchange', handleSelectionChange);
+  }, [activeMode, canWrite, showSyntaxGuide]);
+
+  // Auto-dismiss selection bubble when cursor moves away, on click outside, or on scroll
+  useEffect(() => {
+    if (!selectionBubble) return;
+
+    const handlePointerMove = (e) => {
+      const { clientX, clientY } = e;
+      const bx = selectionBubble.x;
+      const by = selectionBubble.y;
+      const rect = selectionBubble.rect;
+
+      const minX = Math.min(bx - 160, (rect?.left || bx) - 60);
+      const maxX = Math.max(bx + 160, (rect?.right || bx) + 60);
+      const minY = Math.min(by - 65, (rect?.top || by) - 45);
+      const maxY = Math.max(by + 45, (rect?.bottom || by) + 65);
+
+      if (clientX < minX || clientX > maxX || clientY < minY || clientY > maxY) {
+        setSelectionBubble(null);
+      }
+    };
+
+    const handlePointerDown = (e) => {
+      if (e.target.closest('.book-selection-bubble')) return;
+      setSelectionBubble(null);
+    };
+
+    const handleScroll = () => {
+      setSelectionBubble(null);
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('mousemove', handlePointerMove, { passive: true });
+    window.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('mousedown', handlePointerDown);
+    window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('mousedown', handlePointerDown);
+      window.removeEventListener('scroll', handleScroll, { capture: true });
+    };
+  }, [selectionBubble]);
+
+  const formatSelection = (prefix, suffix) => {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    const selText = sel.toString();
+    if (!selText) return;
+    const formatted = `${prefix}${selText}${suffix}`;
+
+    const proseEl = range.commonAncestorContainer?.nodeType === 1
+      ? range.commonAncestorContainer.closest('.book-prose-edit')
+      : range.commonAncestorContainer?.parentElement?.closest('.book-prose-edit');
+
+    if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
+      document.execCommand('insertText', false, formatted);
+    } else {
+      range.deleteContents();
+      range.insertNode(document.createTextNode(formatted));
+    }
+
+    if (proseEl) {
+      const blockWrap = proseEl.closest('.book-block-wrap');
+      const blockId = blockWrap?.dataset?.blockId || selectionBubble?.blockId || editingBlockId;
+      if (blockId) {
+        updateBlock(blockId, { text: proseEl.textContent }, currentPage?.id);
+      }
+    }
+
+    setSelectionBubble(null);
+  };
+
+  const handleInsertSyntaxSnippet = (snippet) => {
+    if (editingBlockId && currentPage) {
+      const targetBlock = (currentPage.blocks || []).find((b) => b.id === editingBlockId);
+      if (targetBlock) {
+        const newText = targetBlock.text ? `${targetBlock.text}\n\n${snippet}` : snippet;
+        updateBlock(editingBlockId, { text: newText }, currentPage.id);
+        setShowSyntaxGuide(false);
+        return;
+      }
+    }
+
+    if (currentPage && canWrite) {
+      addBlock('paragraph', null, { text: snippet }, currentPage.id);
+      setShowSyntaxGuide(false);
+    }
+  };
 
   // Specialized Modals Targets
   const [imagePickerTarget, setImagePickerTarget] = useState(null); // { block, index, column, slotAlign, sizePreset }
@@ -710,6 +1051,23 @@ export const BookDocumentEditor = ({
     }, targetPageId);
   };
 
+  const moveBlockToIndex = (sourceBlockId, targetIndex, targetColumn = null, targetPageId = null) => {
+    mutatePageBlocks((blocks) => {
+      const fromIdx = blocks.findIndex((b) => b.id === sourceBlockId);
+      if (fromIdx === -1) return blocks;
+      const blockToMove = { ...blocks[fromIdx] };
+      if (targetColumn) {
+        blockToMove.column = targetColumn;
+      }
+      const next = [...blocks];
+      next.splice(fromIdx, 1);
+      const adjustedTarget = fromIdx < targetIndex ? targetIndex - 1 : targetIndex;
+      const finalIndex = Math.max(0, Math.min(next.length, adjustedTarget));
+      next.splice(finalIndex, 0, blockToMove);
+      return next;
+    }, targetPageId);
+  };
+
   const deleteBlock = (blockId, targetPageId = null) => {
     mutatePageBlocks((blocks) => blocks.filter((b) => b.id !== blockId), targetPageId);
   };
@@ -717,6 +1075,8 @@ export const BookDocumentEditor = ({
   const navigateTo = ({ chapterId, pageId }) => {
     if (chapterId) setActiveChapterId(chapterId);
     if (pageId) setActivePageId(pageId);
+    setEditingBlockId(null);
+    setInsertAt(null);
     if (typeof window !== 'undefined' && window.innerWidth <= 768) {
       setSidebarOpen(false);
     }
@@ -747,6 +1107,13 @@ export const BookDocumentEditor = ({
   const spreadPairLeftIdx = Math.floor(currentChapterPageIdx / 2) * 2;
   const spreadLeftPage = chapterPages[spreadPairLeftIdx] || chapterPages[0] || null;
   const spreadRightPage = chapterPages[spreadPairLeftIdx + 1] || null;
+
+  const totalBookPages = Math.max(1, allPagesList.length);
+  const currentBookPageNum = Math.max(1, currentPageIndex >= 0 ? currentPageIndex + 1 : (currentPage?.pageNumber || 1));
+  const spreadLeftIdxInAll = allPagesList.findIndex((p) => p.pageId === spreadLeftPage?.id);
+  const spreadLeftBookPageNum = spreadLeftIdxInAll >= 0 ? spreadLeftIdxInAll + 1 : 1;
+  const spreadRightIdxInAll = spreadRightPage ? allPagesList.findIndex((p) => p.pageId === spreadRightPage.id) : -1;
+  const spreadRightBookPageNum = spreadRightIdxInAll >= 0 ? spreadRightIdxInAll + 1 : (spreadRightPage ? spreadLeftBookPageNum + 1 : spreadLeftBookPageNum);
 
   const handlePrevPage = () => {
     if (isSpreadLayout) {
@@ -816,9 +1183,9 @@ export const BookDocumentEditor = ({
 
     const pageId = colContext.pageId || currentPage?.id;
     const currentBlockCol = block.column || colContext.colName || 'left';
-    const isLeftHalf = block.slotAlign === 'left' || (block.sizePreset === 'half' && block.slotAlign !== 'right' && block.alignment !== 'float-right');
-    const isRightHalf = block.slotAlign === 'right';
-    const isFullCol = (block.sizePreset === 'full' || (!block.slotAlign && !block.sizePreset)) && block.alignment !== 'float-left' && block.alignment !== 'float-right';
+    const isRightHalf = colContext.isHalfSlot === 'right' || block.slotAlign === 'right';
+    const isLeftHalf = !isRightHalf && (colContext.isHalfSlot === 'left' || block.slotAlign === 'left' || (block.sizePreset === 'half' && block.alignment !== 'float-right'));
+    const isFullCol = !colContext.isHalfSlot && (block.sizePreset === 'full' || (!block.slotAlign && !block.sizePreset)) && block.alignment !== 'float-left' && block.alignment !== 'float-right';
     const isFloatLeft = block.alignment === 'float-left';
     const isFloatRight = block.alignment === 'float-right';
 
@@ -851,6 +1218,37 @@ export const BookDocumentEditor = ({
         className={`book-block-controls ${isLeftHalf ? 'anchor-left' : 'anchor-right'}`}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Drag Handle */}
+        <div
+          className="ctrl-btn drag-handle-btn"
+          draggable
+          onDragStart={(e) => {
+            e.stopPropagation();
+            e.dataTransfer.setData('text/plain', block.id);
+            e.dataTransfer.effectAllowed = 'move';
+
+            const wrapEl = e.currentTarget.closest('.book-block-wrap');
+            if (wrapEl && e.dataTransfer.setDragImage) {
+              const rect = wrapEl.getBoundingClientRect();
+              const offsetX = Math.min(Math.max(20, e.clientX - rect.left), Math.max(20, rect.width / 2));
+              const offsetY = Math.min(Math.max(15, e.clientY - rect.top), 40);
+              e.dataTransfer.setDragImage(wrapEl, offsetX, offsetY);
+            }
+
+            // Defer placeholder state so browser captures crisp, full-color block card as ghost
+            setTimeout(() => {
+              setDraggingBlockId(block.id);
+            }, 10);
+          }}
+          onDragEnd={() => {
+            setDraggingBlockId(null);
+            setDragOverInfo(null);
+          }}
+          title="Drag to reorder block anywhere on the folio"
+        >
+          <i className="fas fa-grip-vertical"></i>
+        </div>
+
         {/* Page Column: Left Page, Right Page, Spread */}
         <div className="ctrl-group placement-group">
           <button
@@ -887,7 +1285,7 @@ export const BookDocumentEditor = ({
             type="button"
             className={`ctrl-btn icon-only ${isLeftHalf ? 'active' : ''}`}
             onClick={(e) => setBlockSlotAlign('left', e)}
-            title="Place on Left Side (½ width) — Opens space on the right"
+            title="Place on Left Side (½ width) — Opens companion space on the right"
           >
             <span className="icon-glyph">◧</span>
           </button>
@@ -895,7 +1293,7 @@ export const BookDocumentEditor = ({
             type="button"
             className={`ctrl-btn icon-only ${isRightHalf ? 'active' : ''}`}
             onClick={(e) => setBlockSlotAlign('right', e)}
-            title="Place on Right Side (½ width) — Opens space on the left"
+            title="Place on Right Side (½ width) — Opens companion space on the left"
           >
             <span className="icon-glyph">◨</span>
           </button>
@@ -930,6 +1328,147 @@ export const BookDocumentEditor = ({
             <i className="fas fa-align-right"></i>
           </button>
         </div>
+
+        {/* Drop Cap Toggle & TTRPG Formatting for Paragraphs */}
+        {block.type === 'paragraph' && (
+          <>
+            <div className="ctrl-divider" />
+            <div className="ctrl-group type-spec-group">
+              <button
+                type="button"
+                className={`ctrl-btn icon-only drop-cap-btn ${block.hasDropCap ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateBlock(block.id, { hasDropCap: !block.hasDropCap }, pageId);
+                }}
+                title={block.hasDropCap ? "Turn off Drop Cap" : "Add Thematic Illuminated Drop Cap"}
+                aria-label="Toggle illuminated drop cap"
+              >
+                <span className="btn-drop-cap-glyph">𝕭</span>
+                <span className="btn-label-text">Drop Cap</span>
+              </button>
+
+              <button
+                type="button"
+                className={`ctrl-btn icon-only lead-in-btn ${/^\*\*[^*]+\*\*/.test(block.text || '') ? 'active' : ''}`}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const sel = window.getSelection();
+                  const selText = sel ? sel.toString().trim() : '';
+                  if (selText.length > 0) {
+                    if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
+                      document.execCommand('insertText', false, `**${selText}** `);
+                    }
+                    return;
+                  }
+                  const curText = block.text || '';
+                  if (/^\*\*[^*]+\*\*\s*/.test(curText)) {
+                    updateBlock(block.id, { text: curText.replace(/^\*\*[^*]+\*\*\s*/, '') }, pageId);
+                  } else {
+                    updateBlock(block.id, { text: `**Section Title.** ${curText.trimStart()}` }, pageId);
+                  }
+                }}
+                title="Bold Lead-In (**Title.**) — Standard TTRPG adventure run-in heading (e.g. **Floor Trap.**)"
+                aria-label="Format bold lead-in heading"
+              >
+                <span className="btn-bold-glyph">**B**</span>
+                <span className="btn-label-text">Lead-in</span>
+              </button>
+
+              <button
+                type="button"
+                className="ctrl-btn icon-only lore-link-btn"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const sel = window.getSelection();
+                  const selText = sel ? sel.toString().trim() : '';
+                  if (selText.length > 0) {
+                    if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
+                      document.execCommand('insertText', false, `[[${selText}]]`);
+                    }
+                    return;
+                  }
+                  const curText = block.text || '';
+                  updateBlock(block.id, { text: curText ? `${curText} [[Entity Name]]` : '[[Entity Name]]' }, pageId);
+                }}
+                title="Lore Wiki-Link ([[Entity]]) — Interactive entity link with hovercard (e.g. [[Chromatic Keystone]])"
+                aria-label="Insert lore wiki-link"
+              >
+                <span className="btn-wikilink-glyph">[[&thinsp;]]</span>
+                <span className="btn-label-text">Lore</span>
+              </button>
+
+              <button
+                type="button"
+                className="ctrl-btn icon-only syntax-guide-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowSyntaxGuide(true);
+                }}
+                title="TTRPG Manuscript Syntax Guide & Cheatsheet"
+                aria-label="Open manuscript syntax guide"
+              >
+                <i className="fas fa-circle-info"></i>
+                <span className="btn-label-text">Guide</span>
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Header Style Variants for Headings */}
+        {block.type === 'header' && (
+          <>
+            <div className="ctrl-divider" />
+            <div className="ctrl-group header-variants-group">
+              <button
+                type="button"
+                className={`ctrl-btn icon-only ${(block.variant || 'standard') === 'standard' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateBlock(block.id, { variant: 'standard' }, pageId);
+                }}
+                title="Standard Title"
+              >
+                <span className="btn-col-badge">H{block.level || 2}</span>
+              </button>
+              <button
+                type="button"
+                className={`ctrl-btn icon-only ${block.variant === 'banner-dark' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateBlock(block.id, { variant: 'banner-dark' }, pageId);
+                }}
+                title="Dark Onyx Chapter Banner"
+              >
+                <i className="fas fa-heading"></i>
+              </button>
+              <button
+                type="button"
+                className={`ctrl-btn icon-only ${block.variant === 'banner-crimson' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateBlock(block.id, { variant: 'banner-crimson' }, pageId);
+                }}
+                title="Crimson Ribbon Banner"
+              >
+                <i className="fas fa-bookmark"></i>
+              </button>
+              <button
+                type="button"
+                className={`ctrl-btn icon-only ${block.variant === 'keyed-area' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateBlock(block.id, { variant: 'keyed-area', areaCode: block.areaCode || 'U1' }, pageId);
+                }}
+                title="Keyed Dungeon Area Badge"
+              >
+                <span className="btn-col-badge">Key</span>
+              </button>
+            </div>
+          </>
+        )}
 
         <div className="ctrl-divider" />
 
@@ -981,22 +1520,53 @@ export const BookDocumentEditor = ({
   };
 
   // Insert rail between blocks
-  const InsertRail = ({ index, isFirst = false, pageId = null }) => {
+  const InsertRail = ({ index, isFirst = false, pageId = null, colName = null }) => {
     if (activeMode === 'read') return null;
 
+    const isTarget = dragOverInfo && dragOverInfo.railIndex === index && (!colName || dragOverInfo.colName === colName);
+
     return (
-      <div className={`book-insert-rail ${isFirst ? 'is-first' : ''}`}>
+      <div
+        className={`book-insert-rail ${isFirst ? 'is-first' : ''} ${draggingBlockId ? 'drag-active' : ''} ${isTarget ? 'drop-target-hover' : ''}`}
+        onDragOver={(e) => {
+          if (!draggingBlockId) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          if (!isTarget) {
+            setDragOverInfo({ railIndex: index, colName, pageId });
+          }
+        }}
+        onDragLeave={() => {
+          if (dragOverInfo?.railIndex === index && dragOverInfo?.colName === colName) {
+            setDragOverInfo(null);
+          }
+        }}
+        onDrop={(e) => {
+          if (!draggingBlockId) return;
+          e.preventDefault();
+          e.stopPropagation();
+          const sourceId = draggingBlockId;
+          setDraggingBlockId(null);
+          setDragOverInfo(null);
+          moveBlockToIndex(sourceId, index, colName, pageId);
+        }}
+      >
         <button
           type="button"
           className="book-insert-btn"
           title="Insert new block here"
           onClick={(e) => {
             e.stopPropagation();
-            setInsertAt({ index, pageId: pageId || currentPage?.id, x: e.clientX, y: e.clientY });
+            setInsertAt({ index, column: colName, pageId: pageId || currentPage?.id, x: e.clientX, y: e.clientY });
           }}
         >
           <i className="fas fa-plus"></i>
         </button>
+        {draggingBlockId && (
+          <div className="drag-indicator-bar">
+            <span className="drag-indicator-text">Drop here</span>
+          </div>
+        )}
       </div>
     );
   };
@@ -1011,11 +1581,64 @@ export const BookDocumentEditor = ({
     const currentSize = isHalf ? 'half' : (block.sizePreset || 'full');
     const isFloating = currentAlign === 'float-left' || currentAlign === 'float-right';
 
+    const isDropBefore = dragOverInfo?.targetBlockId === block.id && dragOverInfo?.position === 'before';
+    const isDropAfter = dragOverInfo?.targetBlockId === block.id && dragOverInfo?.position === 'after';
+    const isBeingDragged = draggingBlockId === block.id;
+
     const wrap = (children) => (
       <div
         key={block.id}
-        className={`book-block-wrap type-${block.type} align-${currentAlign} size-${currentSize} ${slotClass} ${isFloating ? 'is-floating' : ''} ${isHalf ? 'is-half-width' : ''} ${isEditing ? 'editing' : ''}`}
-        onClick={() => { if (effectiveIsWrite) setEditingBlockId(block.id); }}
+        data-block-id={block.id}
+        className={`book-block-wrap type-${block.type} align-${currentAlign} size-${currentSize} ${slotClass} ${isFloating ? 'is-floating' : ''} ${isHalf ? 'is-half-width' : ''} ${isEditing ? 'editing selected is-selected' : ''} ${isBeingDragged ? 'is-dragging' : ''} ${isDropBefore ? 'drop-target-before' : ''} ${isDropAfter ? 'drop-target-after' : ''}`}
+        onClick={(e) => {
+          if (effectiveIsWrite) {
+            e.stopPropagation();
+            setEditingBlockId(block.id);
+          }
+        }}
+        onDragOver={(e) => {
+          if (!draggingBlockId || draggingBlockId === block.id) return;
+          e.preventDefault();
+          e.stopPropagation();
+          e.dataTransfer.dropEffect = 'move';
+
+          const rect = e.currentTarget.getBoundingClientRect();
+          const mouseY = e.clientY;
+          const isTopHalf = mouseY < rect.top + rect.height / 2;
+          const position = isTopHalf ? 'before' : 'after';
+
+          if (!dragOverInfo || dragOverInfo.targetBlockId !== block.id || dragOverInfo.position !== position) {
+            setDragOverInfo({
+              targetBlockId: block.id,
+              targetIndex: index,
+              position,
+              colName: colContext.colName || block.column || 'left',
+              pageId: colContext.pageId || currentPage?.id
+            });
+          }
+        }}
+        onDragLeave={(e) => {
+          if (dragOverInfo?.targetBlockId === block.id && !e.currentTarget.contains(e.relatedTarget)) {
+            setDragOverInfo(null);
+          }
+        }}
+        onDrop={(e) => {
+          if (!draggingBlockId || draggingBlockId === block.id) return;
+          e.preventDefault();
+          e.stopPropagation();
+
+          const sourceId = draggingBlockId;
+          const rect = e.currentTarget.getBoundingClientRect();
+          const mouseY = e.clientY;
+          const isTopHalf = mouseY < rect.top + rect.height / 2;
+          const targetIndex = isTopHalf ? index : index + 1;
+          const targetCol = colContext.colName || block.column || 'left';
+          const pageId = colContext.pageId || currentPage?.id;
+
+          setDraggingBlockId(null);
+          setDragOverInfo(null);
+          moveBlockToIndex(sourceId, targetIndex, targetCol, pageId);
+        }}
       >
         {children}
         {effectiveIsWrite && (
@@ -1068,9 +1691,10 @@ export const BookDocumentEditor = ({
           if (variant === 'keyed-area') {
             return (
               <div className="book-heading-keyed-area">
-                <span className="keyed-room-badge">
+                <span className="keyed-room-badge" title={effectiveIsWrite ? "Click to edit room code (e.g. U1, 2A)" : undefined}>
                   {effectiveIsWrite ? (
                     <EditableText
+                      className="keyed-badge-editable"
                       value={block.areaCode || 'U1'}
                       disabled={!effectiveIsWrite}
                       placeholder="U1"
@@ -1113,7 +1737,7 @@ export const BookDocumentEditor = ({
                   type="button"
                   className={`heading-var-chip ${variant === 'standard' ? 'active' : ''}`}
                   onClick={() => updateBlock(block.id, { variant: 'standard' }, pageId)}
-                  title="Classic D&D 5e Crimson Heading"
+                  title="Standard Chapter Heading"
                 >
                   Standard
                 </button>
@@ -1121,7 +1745,7 @@ export const BookDocumentEditor = ({
                   type="button"
                   className={`heading-var-chip ${variant === 'banner-dark' ? 'active' : ''}`}
                   onClick={() => updateBlock(block.id, { variant: 'banner-dark' }, pageId)}
-                  title="Distressed Black Ink Brush Banner (Aeternum)"
+                  title="Dark Onyx Chapter Banner"
                 >
                   Dark Banner
                 </button>
@@ -1129,7 +1753,7 @@ export const BookDocumentEditor = ({
                   type="button"
                   className={`heading-var-chip ${variant === 'banner-crimson' ? 'active' : ''}`}
                   onClick={() => updateBlock(block.id, { variant: 'banner-crimson' }, pageId)}
-                  title="Crimson Ribbon Banner (Cypher / Monte Cook)"
+                  title="Crimson Ribbon Banner"
                 >
                   Crimson Ribbon
                 </button>
@@ -1137,7 +1761,7 @@ export const BookDocumentEditor = ({
                   type="button"
                   className={`heading-var-chip ${variant === 'keyed-area' ? 'active' : ''}`}
                   onClick={() => updateBlock(block.id, { variant: 'keyed-area', areaCode: block.areaCode || 'U1' }, pageId)}
-                  title="Keyed Dungeon Area Badge (U1 Room Header)"
+                  title="Keyed Dungeon / Location Area with Room Number Badge"
                 >
                   Keyed Area
                 </button>
@@ -1148,28 +1772,66 @@ export const BookDocumentEditor = ({
       }
 
       case 'paragraph': {
-        const hasDropCap = block.hasDropCap;
+        const hasDropCap = !!block.hasDropCap;
         const text = block.text || '';
-        const firstLetter = text.slice(0, 1);
-        const restText = text.slice(1);
+        const firstCharMatch = text.match(/\S/);
+        const firstCharIdx = firstCharMatch ? firstCharMatch.index : -1;
+        const firstLetter = firstCharIdx >= 0 ? text[firstCharIdx] : '';
+        const restText = firstCharIdx >= 0 ? (text.slice(0, firstCharIdx) + text.slice(firstCharIdx + 1)) : text;
+        const pageId = colContext.pageId || currentPage?.id;
 
         return wrap(
           <div className={`book-paragraph ${hasDropCap ? 'has-drop-cap' : ''}`}>
-            {hasDropCap && <span className="book-drop-cap">{firstLetter}</span>}
+            {hasDropCap && (
+              effectiveIsWrite ? (
+                <EditableText
+                  value={firstLetter}
+                  tagName="span"
+                  className="book-drop-cap book-drop-cap-editable"
+                  placeholder="¶"
+                  title="Click to edit initial letter"
+                  singleLine
+                  onCommit={(newLetter) => {
+                    const cleaned = (newLetter || '').trim();
+                    if (cleaned) {
+                      updateBlock(block.id, { text: cleaned + (restText || '') }, pageId);
+                    } else {
+                      updateBlock(block.id, { text: restText || '' }, pageId);
+                    }
+                  }}
+                />
+              ) : (
+                <span className="book-drop-cap">{firstLetter}</span>
+              )
+            )}
             {effectiveIsWrite ? (
               <EditableText
                 value={hasDropCap ? restText : text}
                 tagName="p"
                 className="book-prose-edit"
-                placeholder="Write your prose here..."
+                placeholder="Write prose... Type **Title.** for bold lead-in, [[Entity]] for lore wikilink..."
                 onCommit={(newRest) => {
-                  const full = hasDropCap ? firstLetter + newRest : newRest;
-                  updateBlock(block.id, { text: full });
+                  let full = newRest;
+                  if (hasDropCap) {
+                    const trimmed = (newRest || '').trimStart();
+                    if (!trimmed && !firstLetter) {
+                      full = '';
+                    } else if (!trimmed) {
+                      full = firstLetter;
+                    } else if (firstLetter && trimmed.toLowerCase().startsWith(firstLetter.toLowerCase())) {
+                      full = newRest;
+                    } else if (trimmed[0] === trimmed[0].toUpperCase() && trimmed[0] !== trimmed[0].toLowerCase() && trimmed[0] !== firstLetter) {
+                      full = newRest;
+                    } else {
+                      full = (firstLetter || '') + newRest;
+                    }
+                  }
+                  updateBlock(block.id, { text: full }, pageId);
                 }}
               />
             ) : (
               <div className="book-prose-display">
-                <RichLoreText text={text} className="parchment-theme" />
+                <RichLoreText text={hasDropCap ? restText : text} className="parchment-theme" />
               </div>
             )}
           </div>
@@ -1507,7 +2169,7 @@ export const BookDocumentEditor = ({
               {renderPublicationBlock(nextItem.block, nextItem.index, true, { colName, isHalfSlot: 'right', isPaired: true, pageId })}
             </div>
           );
-          elements.push(<InsertRail key={`rail-${nextItem.index + 1}`} index={nextItem.index + 1} pageId={pageId} />);
+          elements.push(<InsertRail key={`rail-${nextItem.index + 1}`} index={nextItem.index + 1} pageId={pageId} colName={colName} />);
           i += 2;
         } else {
           elements.push(
@@ -1515,7 +2177,22 @@ export const BookDocumentEditor = ({
               {renderPublicationBlock(b, originalIdx, true, { colName, isHalfSlot: 'left', isPaired: false, pageId })}
               {isWrite ? (
                 <div
-                  className="book-companion-empty-slot slot-right"
+                  className={`book-companion-empty-slot slot-right ${draggingBlockId ? 'drop-slot-target' : ''}`}
+                  onDragOver={(e) => {
+                    if (!draggingBlockId) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                  }}
+                  onDrop={(e) => {
+                    if (!draggingBlockId) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const sourceId = draggingBlockId;
+                    setDraggingBlockId(null);
+                    setDragOverInfo(null);
+                    updateBlock(sourceId, { slotAlign: 'right', sizePreset: 'half', column: colName }, pageId);
+                    moveBlockToIndex(sourceId, originalIdx + 1, colName, pageId);
+                  }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setInsertAt({
@@ -1528,7 +2205,7 @@ export const BookDocumentEditor = ({
                       y: e.clientY
                     });
                   }}
-                  title="Add a companion block on the right"
+                  title="Add a companion block on the right (or drag any block here)"
                 >
                   <div className="empty-slot-inner">
                     <i className="fas fa-plus-circle empty-slot-icon"></i>
@@ -1541,7 +2218,7 @@ export const BookDocumentEditor = ({
               )}
             </div>
           );
-          elements.push(<InsertRail key={`rail-${originalIdx + 1}`} index={originalIdx + 1} pageId={pageId} />);
+          elements.push(<InsertRail key={`rail-${originalIdx + 1}`} index={originalIdx + 1} pageId={pageId} colName={colName} />);
           i += 1;
         }
       } else if (isRight) {
@@ -1549,7 +2226,22 @@ export const BookDocumentEditor = ({
           <div key={`pair-open-left-${b.id}`} className="book-paired-row">
             {isWrite ? (
               <div
-                className="book-companion-empty-slot slot-left"
+                className={`book-companion-empty-slot slot-left ${draggingBlockId ? 'drop-slot-target' : ''}`}
+                onDragOver={(e) => {
+                  if (!draggingBlockId) return;
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = 'move';
+                }}
+                onDrop={(e) => {
+                  if (!draggingBlockId) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const sourceId = draggingBlockId;
+                  setDraggingBlockId(null);
+                  setDragOverInfo(null);
+                  updateBlock(sourceId, { slotAlign: 'left', sizePreset: 'half', column: colName }, pageId);
+                  moveBlockToIndex(sourceId, originalIdx, colName, pageId);
+                }}
                 onClick={(e) => {
                   e.stopPropagation();
                   setInsertAt({
@@ -1562,7 +2254,7 @@ export const BookDocumentEditor = ({
                     y: e.clientY
                   });
                 }}
-                title="Add a companion block on the left"
+                title="Add a companion block on the left (or drag any block here)"
               >
                 <div className="empty-slot-inner">
                   <i className="fas fa-plus-circle empty-slot-icon"></i>
@@ -1576,7 +2268,7 @@ export const BookDocumentEditor = ({
             {renderPublicationBlock(b, originalIdx, true, { colName, isHalfSlot: 'right', isPaired: false, pageId })}
           </div>
         );
-        elements.push(<InsertRail key={`rail-${originalIdx + 1}`} index={originalIdx + 1} pageId={pageId} />);
+        elements.push(<InsertRail key={`rail-${originalIdx + 1}`} index={originalIdx + 1} pageId={pageId} colName={colName} />);
         i += 1;
       } else {
         elements.push(
@@ -1587,7 +2279,7 @@ export const BookDocumentEditor = ({
               isLastInCol: i === total - 1,
               pageId
             })}
-            <InsertRail index={originalIdx + 1} pageId={pageId} />
+            <InsertRail index={originalIdx + 1} pageId={pageId} colName={colName} />
           </React.Fragment>
         );
         i += 1;
@@ -1609,12 +2301,29 @@ export const BookDocumentEditor = ({
       const allColBlocks = blocks.map((b, idx) => ({ block: b, index: idx }));
       return (
         <div className="book-page-body">
-          <InsertRail index={0} isFirst pageId={targetPageId} />
+          <InsertRail index={0} isFirst pageId={targetPageId} colName="single" />
           <div className="book-column-content">
             {renderColumnBlocks(allColBlocks, 'single', targetPageId)}
           </div>
           {blocks.length === 0 && isWrite && (
-            <div className="empty-column-zone" onClick={() => addBlock('paragraph', 0, {}, targetPageId)}>
+            <div
+              className={`empty-column-zone ${draggingBlockId ? 'drop-target-active' : ''}`}
+              onDragOver={(e) => {
+                if (!draggingBlockId) return;
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+              }}
+              onDrop={(e) => {
+                if (!draggingBlockId) return;
+                e.preventDefault();
+                e.stopPropagation();
+                const sourceId = draggingBlockId;
+                setDraggingBlockId(null);
+                setDragOverInfo(null);
+                moveBlockToIndex(sourceId, 0, 'single', targetPageId);
+              }}
+              onClick={() => addBlock('paragraph', 0, {}, targetPageId)}
+            >
               <i className="fas fa-plus"></i> Add block to Page
             </div>
           )}
@@ -1626,7 +2335,7 @@ export const BookDocumentEditor = ({
 
     return (
       <div className="book-two-column-layout">
-        <InsertRail index={0} isFirst pageId={targetPageId} />
+        <InsertRail index={0} isFirst pageId={targetPageId} colName="left" />
         <div className="book-columns-grid">
           {/* Left Column */}
           <div className="book-column left-column">
@@ -1634,7 +2343,24 @@ export const BookDocumentEditor = ({
               {renderColumnBlocks(leftColumnBlocks, 'left', targetPageId)}
             </div>
             {leftColumnBlocks.length === 0 && isWrite && (
-              <div className="empty-column-zone" onClick={() => addBlock('paragraph', 0, { column: 'left' }, targetPageId)}>
+              <div
+                className={`empty-column-zone ${draggingBlockId ? 'drop-target-active' : ''}`}
+                onDragOver={(e) => {
+                  if (!draggingBlockId) return;
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = 'move';
+                }}
+                onDrop={(e) => {
+                  if (!draggingBlockId) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const sourceId = draggingBlockId;
+                  setDraggingBlockId(null);
+                  setDragOverInfo(null);
+                  moveBlockToIndex(sourceId, 0, 'left', targetPageId);
+                }}
+                onClick={() => addBlock('paragraph', 0, { column: 'left' }, targetPageId)}
+              >
                 <i className="fas fa-plus"></i> Add block to Left Column
               </div>
             )}
@@ -1646,7 +2372,24 @@ export const BookDocumentEditor = ({
               {renderColumnBlocks(rightColumnBlocks, 'right', targetPageId)}
             </div>
             {rightColumnBlocks.length === 0 && isWrite && (
-              <div className="empty-column-zone" onClick={() => addBlock('paragraph', blocks.length, { column: 'right' }, targetPageId)}>
+              <div
+                className={`empty-column-zone ${draggingBlockId ? 'drop-target-active' : ''}`}
+                onDragOver={(e) => {
+                  if (!draggingBlockId) return;
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = 'move';
+                }}
+                onDrop={(e) => {
+                  if (!draggingBlockId) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const sourceId = draggingBlockId;
+                  setDraggingBlockId(null);
+                  setDragOverInfo(null);
+                  moveBlockToIndex(sourceId, blocks.length, 'right', targetPageId);
+                }}
+                onClick={() => addBlock('paragraph', blocks.length, { column: 'right' }, targetPageId)}
+              >
                 <i className="fas fa-plus"></i> Add block to Right Column
               </div>
             )}
@@ -1735,38 +2478,28 @@ export const BookDocumentEditor = ({
 
         {/* Page / Chapter Quick Navigation Center with Theme & Layout Selectors */}
         <div className="toolbar-center">
-          <div className="theme-pill-select">
-            <i className="fas fa-palette"></i>
-            <select
-              value={book.theme || 'parchment'}
-              onChange={(e) => updateBookMeta(book.id, { theme: e.target.value })}
-              className="toolbar-theme-dropdown"
-              title="Change Book Theme"
-            >
-              {THEME_OPTIONS.map((t) => (
-                <option key={t.value} value={t.value}>{t.label}</option>
-              ))}
-            </select>
-          </div>
+          <ManuscriptDropdown
+            value={book.theme || 'parchment'}
+            options={THEME_OPTIONS}
+            onChange={(theme) => updateBookMeta(book.id, { theme })}
+            icon="fas fa-palette"
+            title="Change Book Theme"
+            className="theme-pill-select"
+          />
 
-          <div className="layout-pill-select">
-            <i className="fas fa-table-columns"></i>
-            <select
-              value={currentPage?.layout || book.layout || 'two-column'}
-              onChange={(e) => {
-                updateBookMeta(book.id, { layout: e.target.value });
-                if (currentChapter && currentPage) {
-                  updatePage(book.id, currentChapter.id, currentPage.id, { layout: e.target.value });
-                }
-              }}
-              className="toolbar-layout-dropdown"
-              title="Change Page Layout"
-            >
-              {LAYOUT_OPTIONS.map((l) => (
-                <option key={l.value} value={l.value}>{l.label}</option>
-              ))}
-            </select>
-          </div>
+          <ManuscriptDropdown
+            value={currentPage?.layout || book.layout || 'two-column'}
+            options={LAYOUT_OPTIONS}
+            onChange={(layout) => {
+              updateBookMeta(book.id, { layout });
+              if (currentChapter && currentPage) {
+                updatePage(book.id, currentChapter.id, currentPage.id, { layout });
+              }
+            }}
+            icon="fas fa-table-columns"
+            title="Change Page Layout"
+            className="layout-pill-select"
+          />
 
           <div className="page-stepper-pill">
             <button
@@ -1788,12 +2521,12 @@ export const BookDocumentEditor = ({
               <span className="stepper-separator"> • </span>
               {isSpreadLayout ? (
                 <span className="stepper-pg-count">
-                  {spreadRightPage
-                    ? `Pages ${spreadLeftPage?.pageNumber || 1}–${spreadRightPage.pageNumber} of ${allPagesList.length || 1}`
-                    : `Page ${spreadLeftPage?.pageNumber || 1} of ${allPagesList.length || 1}`}
+                  {spreadRightPage && spreadRightBookPageNum > spreadLeftBookPageNum
+                    ? `Pages ${spreadLeftBookPageNum}–${spreadRightBookPageNum} of ${totalBookPages}`
+                    : `Page ${spreadLeftBookPageNum} of ${totalBookPages}`}
                 </span>
               ) : (
-                <span className="stepper-pg-count">Page {currentPage?.pageNumber || 1} of {allPagesList.length || 1}</span>
+                <span className="stepper-pg-count">Page {currentBookPageNum} of {totalBookPages}</span>
               )}
             </span>
             <button
@@ -1815,6 +2548,18 @@ export const BookDocumentEditor = ({
 
         {/* Actions Right */}
         <div className="toolbar-right">
+          {canWrite && (
+            <button
+              type="button"
+              className="toolbar-btn syntax-guide-trigger-btn"
+              onClick={() => setShowSyntaxGuide(true)}
+              title="TTRPG Manuscript Syntax Guide (**Lead-ins**, [[Lore Links]], Read-Aloud)"
+              aria-label="TTRPG Syntax Guide"
+            >
+              <i className="fas fa-feather-pointed"></i>
+            </button>
+          )}
+
           {canWrite && (
             <button
               type="button"
@@ -2004,12 +2749,28 @@ export const BookDocumentEditor = ({
                         <div className="ch-card-header" onClick={() => navigateTo({ chapterId: ch.id, pageId: ch.pages?.[0]?.id })}>
                           <div className="ch-title-wrap">
                             <i className="fas fa-book-bookmark"></i>
-                            <strong>{ch.title}</strong>
+                            {canWrite ? (
+                              <EditableText
+                                value={ch.title}
+                                tagName="strong"
+                                className="ch-title-editable"
+                                placeholder="Chapter Title"
+                                singleLine
+                                onCommit={(newTitle) => {
+                                  if (newTitle && newTitle.trim()) {
+                                    updateChapter(book.id, ch.id, { title: newTitle.trim() });
+                                  }
+                                }}
+                              />
+                            ) : (
+                              <strong>{ch.title}</strong>
+                            )}
                           </div>
                           {canWrite && (
                             <div className="ch-card-actions">
                               <button
                                 type="button"
+                                className="ch-action-btn add-page-btn"
                                 title="Add Page to this Chapter"
                                 onClick={(e) => { e.stopPropagation(); addPage(book.id, ch.id); }}
                               >
@@ -2018,7 +2779,7 @@ export const BookDocumentEditor = ({
                               {book.chapters.length > 1 && (
                                 <button
                                   type="button"
-                                  className="danger"
+                                  className="ch-action-btn ch-del-btn danger"
                                   title="Delete Chapter"
                                   onClick={(e) => {
                                      e.stopPropagation();
@@ -2049,6 +2810,7 @@ export const BookDocumentEditor = ({
                                     deletePage(book.id, ch.id, pg.id);
                                   }}
                                   title="Delete Page"
+                                  aria-label={`Delete Page ${pg.pageNumber}`}
                                 >
                                   &times;
                                 </button>
@@ -2139,29 +2901,27 @@ export const BookDocumentEditor = ({
                   </div>
                   <div className="style-group">
                     <label>Book Theme:</label>
-                    <select
+                    <ManuscriptDropdown
                       value={book.theme || 'parchment'}
-                      onChange={(e) => updateBookMeta(book.id, { theme: e.target.value })}
-                      className="style-select"
-                    >
-                      {THEME_OPTIONS.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
-                    </select>
+                      options={THEME_OPTIONS}
+                      onChange={(val) => updateBookMeta(book.id, { theme: val })}
+                      ariaLabel="Select book theme"
+                    />
                   </div>
 
                   <div className="style-group">
                     <label>Page Layout:</label>
-                    <select
+                    <ManuscriptDropdown
                       value={currentPage?.layout || book.layout || 'two-column'}
-                      onChange={(e) => {
-                        updateBookMeta(book.id, { layout: e.target.value });
+                      options={LAYOUT_OPTIONS}
+                      onChange={(val) => {
+                        updateBookMeta(book.id, { layout: val });
                         if (currentChapter && currentPage) {
-                          updatePage(book.id, currentChapter.id, currentPage.id, { layout: e.target.value });
+                          updatePage(book.id, currentChapter.id, currentPage.id, { layout: val });
                         }
                       }}
-                      className="style-select"
-                    >
-                      {LAYOUT_OPTIONS.map((l) => <option key={l.value} value={l.value}>{l.label}</option>)}
-                    </select>
+                      ariaLabel="Select page layout"
+                    />
                   </div>
 
                   {canWrite && (
@@ -2195,17 +2955,51 @@ export const BookDocumentEditor = ({
         )}
 
         {/* Center: Book Page Viewport */}
-        <main className={`book-document-viewport ${isSpreadLayout ? 'viewport-spread-mode' : ''}`} onClick={() => { setInsertAt(null); }}>
+        <main
+          className={`book-document-viewport ${isSpreadLayout ? 'viewport-spread-mode' : ''}`}
+          onClick={() => {
+            setInsertAt(null);
+            if (activeMode === 'write') setEditingBlockId(null);
+          }}
+        >
           {isSpreadLayout ? (
             <div className="book-spread-canvas">
               {/* Left Facing Page */}
               <div className={`book-page-sheet book-spread-page spread-page-left layout-${spreadLeftPage?.layout || 'two-column'}`}>
                 <header className="book-page-header spread-header-left">
-                  <div className="book-running-header">
-                    <span className="running-header-title">{book.title || 'Mythrill Chronicle'}</span>
-                    <div className="book-bracket-flourish" />
-                    {currentChapter?.title && <span className="running-header-ch">{currentChapter.title}</span>}
-                  </div>
+                  {isWrite && (
+                    <div className="page-header-actions-bar">
+                      <button
+                        type="button"
+                        className="header-action-pill header-settings-trigger"
+                        onClick={() => setHeaderSettingsOpen(true)}
+                        title="Header & Footer Settings for this Page"
+                      >
+                        <i className="fas fa-sliders"></i> Headers & Footers
+                      </button>
+                    </div>
+                  )}
+                  {!spreadLeftPage?.hideRunningHeader && (
+                    <div className="book-running-header">
+                      <EditableText
+                        className="running-header-title"
+                        value={book.title || 'Mythrill Chronicle'}
+                        disabled={!isWrite}
+                        placeholder="Book Title..."
+                        onCommit={(text) => updateBookMeta(book.id, { title: text })}
+                      />
+                      <div className="book-bracket-flourish" />
+                      <EditableText
+                        className="running-header-ch"
+                        value={currentChapter?.title || 'Chapter Section'}
+                        disabled={!isWrite}
+                        placeholder="Chapter Title..."
+                        onCommit={(text) => {
+                          if (currentChapter) updateChapter(book.id, currentChapter.id, { title: text });
+                        }}
+                      />
+                    </div>
+                  )}
                   {spreadLeftPage?.headerTitle && (
                     <h2 className="book-page-subheading">
                       <EditableText
@@ -2224,11 +3018,24 @@ export const BookDocumentEditor = ({
 
                 {renderPageLayout(spreadLeftPage)}
 
-                <footer className="book-page-footer spread-footer-left">
-                  <span className="page-folio-number">{spreadLeftPage?.pageNumber || 1}</span>
-                  <div className="book-folio-rule" />
-                  <span className="page-folio-label">{currentChapter?.title || book.title}</span>
-                </footer>
+                {!spreadLeftPage?.hideFooter && (
+                  <footer className="book-page-footer spread-footer-left">
+                    <span className="page-folio-number">{spreadLeftPage?.pageNumber || 1}</span>
+                    <div className="book-folio-rule" />
+                    <span className="page-folio-label" title={isWrite ? "Click to edit footer label" : undefined}>
+                      <EditableText
+                        value={spreadLeftPage?.footerNote || currentChapter?.title || book.title}
+                        disabled={!isWrite}
+                        placeholder="Footer note..."
+                        onCommit={(text) => {
+                          if (currentChapter && spreadLeftPage) {
+                            updatePage(book.id, currentChapter.id, spreadLeftPage.id, { footerNote: text });
+                          }
+                        }}
+                      />
+                    </span>
+                  </footer>
+                )}
               </div>
 
               {/* Central Spine Gutter */}
@@ -2241,11 +3048,43 @@ export const BookDocumentEditor = ({
               {spreadRightPage ? (
                 <div className={`book-page-sheet book-spread-page spread-page-right layout-${spreadRightPage?.layout || 'two-column'}`}>
                   <header className="book-page-header spread-header-right">
-                    <div className="book-running-header">
-                      {spreadRightPage?.headerTitle && <span className="running-header-ch">{spreadRightPage.headerTitle}</span>}
-                      <div className="book-bracket-flourish" />
-                      <span className="running-header-title">{currentChapter?.title || 'Chapter Section'}</span>
-                    </div>
+                    {isWrite && (
+                      <div className="page-header-actions-bar">
+                        <button
+                          type="button"
+                          className="header-action-pill header-settings-trigger"
+                          onClick={() => setHeaderSettingsOpen(true)}
+                          title="Header & Footer Settings for this Page"
+                        >
+                          <i className="fas fa-sliders"></i> Headers & Footers
+                        </button>
+                      </div>
+                    )}
+                    {!spreadRightPage?.hideRunningHeader && (
+                      <div className="book-running-header">
+                        <EditableText
+                          className="running-header-ch"
+                          value={spreadRightPage?.headerTitle || currentChapter?.title || 'Chapter Section'}
+                          disabled={!isWrite}
+                          placeholder="Section Title..."
+                          onCommit={(text) => {
+                            if (currentChapter && spreadRightPage) {
+                              updatePage(book.id, currentChapter.id, spreadRightPage.id, { headerTitle: text });
+                            }
+                          }}
+                        />
+                        <div className="book-bracket-flourish" />
+                        <EditableText
+                          className="running-header-title"
+                          value={currentChapter?.title || book.title || 'Chapter Section'}
+                          disabled={!isWrite}
+                          placeholder="Chapter Title..."
+                          onCommit={(text) => {
+                            if (currentChapter) updateChapter(book.id, currentChapter.id, { title: text });
+                          }}
+                        />
+                      </div>
+                    )}
                     {spreadRightPage?.headerTitle && (
                       <h2 className="book-page-subheading">
                         <EditableText
@@ -2264,11 +3103,20 @@ export const BookDocumentEditor = ({
 
                   {renderPageLayout(spreadRightPage)}
 
-                  <footer className="book-page-footer spread-footer-right">
-                    <span className="page-folio-label">{book.author || 'TTRPG Publication'}</span>
-                    <div className="book-folio-rule" />
-                    <span className="page-folio-number">{spreadRightPage.pageNumber}</span>
-                  </footer>
+                  {!spreadRightPage?.hideFooter && (
+                    <footer className="book-page-footer spread-footer-right">
+                      <span className="page-folio-label" title={isWrite ? "Click to edit author" : undefined}>
+                        <EditableText
+                          value={book.author || 'TTRPG Publication'}
+                          disabled={!isWrite}
+                          placeholder="Author..."
+                          onCommit={(text) => updateBookMeta(book.id, { author: text })}
+                        />
+                      </span>
+                      <div className="book-folio-rule" />
+                      <span className="page-folio-number">{spreadRightPage.pageNumber}</span>
+                    </footer>
+                  )}
                 </div>
               ) : (
                 <div className="book-page-sheet book-spread-page spread-page-right spread-empty-page">
@@ -2292,11 +3140,61 @@ export const BookDocumentEditor = ({
           ) : (
             <div className={`book-page-sheet layout-${currentLayout}`}>
               <header className="book-page-header">
-                <div className="book-running-header">
-                  <span className="running-header-title">{book.title || 'Mythrill Chronicle'}</span>
-                  <div className="book-bracket-flourish" />
-                  <span className="running-header-sub">{currentChapter?.title}</span>
-                </div>
+                {isWrite && (
+                  <div className="page-header-actions-bar">
+                    {!currentChapter?.subtitle && (
+                      <button
+                        type="button"
+                        className="header-action-pill"
+                        onClick={() => currentChapter && updateChapter(book.id, currentChapter.id, { subtitle: 'Chapter Subtitle' })}
+                        title="Add Subtitle to this Chapter"
+                      >
+                        <i className="fas fa-plus"></i> Subtitle
+                      </button>
+                    )}
+                    {!currentChapter?.epigraph && (
+                      <button
+                        type="button"
+                        className="header-action-pill"
+                        onClick={() => currentChapter && updateChapter(book.id, currentChapter.id, { epigraph: '“When the vault doors unseal, remember that gold does not bleed...”' })}
+                        title="Add Epigraph Quote to this Chapter"
+                      >
+                        <i className="fas fa-quote-left"></i> Epigraph
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="header-action-pill header-settings-trigger"
+                      onClick={() => setHeaderSettingsOpen(true)}
+                      title="Header & Footer Settings for this Page"
+                    >
+                      <i className="fas fa-sliders"></i> Headers & Footers
+                    </button>
+                  </div>
+                )}
+
+                {!currentPage?.hideRunningHeader && (
+                  <div className="book-running-header">
+                    <EditableText
+                      className="running-header-title"
+                      value={currentPage?.runningHeaderTitle || book.title || 'Mythrill Chronicle'}
+                      disabled={!isWrite}
+                      placeholder="Book Title..."
+                      onCommit={(text) => updateBookMeta(book.id, { title: text })}
+                    />
+                    <div className="book-bracket-flourish" />
+                    <EditableText
+                      className="running-header-sub"
+                      value={currentChapter?.title || 'Chapter Section'}
+                      disabled={!isWrite}
+                      placeholder="Chapter Title..."
+                      onCommit={(text) => {
+                        if (currentChapter) updateChapter(book.id, currentChapter.id, { title: text });
+                      }}
+                    />
+                  </div>
+                )}
+
                 <h1 className="book-doc-title">
                   <EditableText
                     value={currentPage?.headerTitle || currentChapter?.title || book.title}
@@ -2311,11 +3209,51 @@ export const BookDocumentEditor = ({
                     }}
                   />
                 </h1>
+
                 {currentChapter?.subtitle && (
-                  <p className="book-doc-subtitle">{currentChapter.subtitle}</p>
+                  <p className="book-doc-subtitle">
+                    <EditableText
+                      value={currentChapter.subtitle}
+                      disabled={!isWrite}
+                      placeholder="Chapter Subtitle..."
+                      onCommit={(text) => {
+                        if (currentChapter) updateChapter(book.id, currentChapter.id, { subtitle: text });
+                      }}
+                    />
+                    {isWrite && (
+                      <button
+                        type="button"
+                        className="remove-meta-btn"
+                        onClick={() => updateChapter(book.id, currentChapter.id, { subtitle: '' })}
+                        title="Remove Subtitle"
+                      >
+                        <i className="fas fa-times"></i>
+                      </button>
+                    )}
+                  </p>
                 )}
+
                 {currentChapter?.epigraph && (
-                  <blockquote className="book-chapter-epigraph">{currentChapter.epigraph}</blockquote>
+                  <blockquote className="book-chapter-epigraph">
+                    <EditableText
+                      value={currentChapter.epigraph}
+                      disabled={!isWrite}
+                      placeholder="“Inscribe your atmospheric quotation here…”"
+                      onCommit={(text) => {
+                        if (currentChapter) updateChapter(book.id, currentChapter.id, { epigraph: text });
+                      }}
+                    />
+                    {isWrite && (
+                      <button
+                        type="button"
+                        className="remove-meta-btn"
+                        onClick={() => updateChapter(book.id, currentChapter.id, { epigraph: '' })}
+                        title="Remove Epigraph"
+                      >
+                        <i className="fas fa-times"></i>
+                      </button>
+                    )}
+                  </blockquote>
                 )}
                 <div className="book-header-rule" />
               </header>
@@ -2324,15 +3262,155 @@ export const BookDocumentEditor = ({
               {renderPageLayout(currentPage)}
 
               {/* Running Footer */}
-              <footer className="book-page-footer">
-                <span className="book-footer-running">{currentChapter?.title || book.title}</span>
-                <span className="book-footer-page">◆ Page {currentPage?.pageNumber || 1} ◆</span>
-                <span className="book-footer-part">{book.author || 'A Mythrill Chronicle'}</span>
-              </footer>
+              {!currentPage?.hideFooter && (
+                <footer className="book-page-footer">
+                  <span className="book-footer-running" title={isWrite ? "Click to edit footer label" : undefined}>
+                    <EditableText
+                      value={currentPage?.footerNote || currentChapter?.title || book.title}
+                      disabled={!isWrite}
+                      placeholder="Footer note..."
+                      onCommit={(text) => {
+                        if (currentChapter && currentPage) {
+                          updatePage(book.id, currentChapter.id, currentPage.id, { footerNote: text });
+                        }
+                      }}
+                    />
+                  </span>
+                  <span className="book-footer-page">◆ Page {currentPage?.pageNumber || 1} ◆</span>
+                  <span className="book-footer-part" title={isWrite ? "Click to edit author" : undefined}>
+                    <EditableText
+                      value={book.author || 'A Mythrill Chronicle'}
+                      disabled={!isWrite}
+                      placeholder="Author..."
+                      onCommit={(text) => updateBookMeta(book.id, { author: text })}
+                    />
+                  </span>
+                </footer>
+              )}
             </div>
           )}
         </main>
       </div>
+
+      {/* Header & Footer Settings Dialog */}
+      {headerSettingsOpen && (
+        <div className="header-settings-backdrop" onClick={() => setHeaderSettingsOpen(false)}>
+          <div className="header-settings-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="header-settings-header">
+              <div className="settings-title-wrap">
+                <i className="fas fa-feather-pointed"></i>
+                <h4>Folio Headers & Footers</h4>
+              </div>
+              <button
+                type="button"
+                className="settings-close-btn"
+                onClick={() => setHeaderSettingsOpen(false)}
+                title="Close"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="header-settings-body">
+              <div className="settings-field">
+                <label>Page Title (Heading):</label>
+                <input
+                  type="text"
+                  className="settings-input"
+                  value={currentPage?.headerTitle || ''}
+                  placeholder="e.g. Subterranean Halls of the Dragonkin"
+                  onChange={(e) => updatePage(book.id, currentChapter.id, currentPage.id, { headerTitle: e.target.value })}
+                />
+              </div>
+
+              <div className="settings-field">
+                <label>Chapter Name:</label>
+                <input
+                  type="text"
+                  className="settings-input"
+                  value={currentChapter?.title || ''}
+                  placeholder="e.g. Chapter I: The Obsidian Depths"
+                  onChange={(e) => currentChapter && updateChapter(book.id, currentChapter.id, { title: e.target.value })}
+                />
+              </div>
+
+              <div className="settings-field">
+                <label>Chapter Subtitle:</label>
+                <input
+                  type="text"
+                  className="settings-input"
+                  value={currentChapter?.subtitle || ''}
+                  placeholder="e.g. A Deep Descent into the Molten Fissures"
+                  onChange={(e) => currentChapter && updateChapter(book.id, currentChapter.id, { subtitle: e.target.value })}
+                />
+              </div>
+
+              <div className="settings-field">
+                <label>Epigraph / Flavor Quote:</label>
+                <textarea
+                  className="settings-textarea"
+                  rows={2}
+                  value={currentChapter?.epigraph || ''}
+                  placeholder="e.g. “When the vault doors unseal, remember that gold does not bleed...”"
+                  onChange={(e) => currentChapter && updateChapter(book.id, currentChapter.id, { epigraph: e.target.value })}
+                />
+              </div>
+
+              <div className="settings-row-2col">
+                <div className="settings-field">
+                  <label>Running Footer Note:</label>
+                  <input
+                    type="text"
+                    className="settings-input"
+                    value={currentPage?.footerNote || ''}
+                    placeholder={currentChapter?.title || book.title}
+                    onChange={(e) => updatePage(book.id, currentChapter.id, currentPage.id, { footerNote: e.target.value })}
+                  />
+                </div>
+                <div className="settings-field">
+                  <label>Author / Part Line:</label>
+                  <input
+                    type="text"
+                    className="settings-input"
+                    value={book?.author || ''}
+                    placeholder="e.g. Grand Archivist"
+                    onChange={(e) => updateBookMeta(book.id, { author: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="settings-toggles">
+                <label className="settings-toggle-label">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(currentPage?.hideRunningHeader)}
+                    onChange={(e) => updatePage(book.id, currentChapter.id, currentPage.id, { hideRunningHeader: e.target.checked })}
+                  />
+                  <span>Hide running header on this page (e.g. Chapter Title splash)</span>
+                </label>
+                <label className="settings-toggle-label">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(currentPage?.hideFooter)}
+                    onChange={(e) => updatePage(book.id, currentChapter.id, currentPage.id, { hideFooter: e.target.checked })}
+                  />
+                  <span>Hide footer & page number on this page (e.g. Full-page splash / map)</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="header-settings-footer">
+              <button
+                type="button"
+                className="settings-done-btn"
+                onClick={() => setHeaderSettingsOpen(false)}
+              >
+                <i className="fas fa-check"></i> Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Insert Popover Palette */}
       {insertAt && (
@@ -2462,6 +3540,73 @@ export const BookDocumentEditor = ({
         onRestoreSnapshot={(bId, rId) => restoreRevisionSnapshot(bId, rId)}
         onDeleteSnapshot={(bId, rId) => deleteRevisionSnapshot(bId, rId)}
       />
+
+      {/* Floating Text Selection Quick-Format Bubble */}
+      {selectionBubble && !showSyntaxGuide && (
+        <div
+          className="book-selection-bubble"
+          style={{
+            position: 'fixed',
+            left: `${selectionBubble.x}px`,
+            top: `${selectionBubble.y}px`,
+            transform: 'translate(-50%, -100%)',
+            zIndex: 900
+          }}
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          <button
+            type="button"
+            className="bubble-btn bubble-btn-bold"
+            onClick={() => formatSelection('**', '**')}
+            title="Wrap in Bold Lead-in (**text**)"
+          >
+            <span className="bubble-glyph">**B**</span>
+            <span className="bubble-label">Lead-in</span>
+          </button>
+          <div className="bubble-divider" />
+          <button
+            type="button"
+            className="bubble-btn bubble-btn-italic"
+            onClick={() => formatSelection('*', '*')}
+            title="Wrap in Italic (*text*)"
+          >
+            <span className="bubble-glyph">*I*</span>
+            <span className="bubble-label">Italic</span>
+          </button>
+          <div className="bubble-divider" />
+          <button
+            type="button"
+            className="bubble-btn bubble-btn-lore"
+            onClick={() => formatSelection('[[', ']]')}
+            title="Wrap in Lore Wikilink ([[text]])"
+          >
+            <i className="fas fa-feather-pointed"></i>
+            <span className="bubble-label">[[ Lore ]]</span>
+          </button>
+          <div className="bubble-divider" />
+          <button
+            type="button"
+            className="bubble-btn bubble-btn-guide"
+            onClick={() => {
+              setSelectionBubble(null);
+              setShowSyntaxGuide(true);
+            }}
+            title="Open TTRPG Manuscript Syntax Guide"
+          >
+            <i className="fas fa-circle-info"></i>
+          </button>
+        </div>
+      )}
+
+      {/* TTRPG Manuscript Typography & Syntax Guide Modal */}
+      <BookSyntaxGuideModal
+        isOpen={showSyntaxGuide}
+        onClose={() => setShowSyntaxGuide(false)}
+        onInsertSnippet={handleInsertSyntaxSnippet}
+      />
+
+      {/* Campaign Lore Quick-Peek & Entity Creation Drawer */}
+      <QuickPeekDrawer theme={book.theme || 'parchment'} />
     </div>
   );
 };

@@ -7,19 +7,24 @@ import RichLoreText from './RichLoreText';
 import './QuickPeekDrawer.css';
 
 const ARCHETYPE_ICONS = {
-  note: { icon: 'fa-sticky-note', color: '#3498db', label: 'Journal Note' },
-  npc: { icon: 'fa-user-ninja', color: '#e74c3c', label: 'NPC Character' },
-  location: { icon: 'fa-landmark', color: '#2ecc71', label: 'World Location' },
-  faction: { icon: 'fa-shield-halved', color: '#e67e22', label: 'Faction & Order' },
-  item: { icon: 'fa-gem', color: '#9b59b6', label: 'Item & Relic' },
-  quest: { icon: 'fa-scroll', color: '#f39c12', label: 'Quest & Arc' },
-  lore: { icon: 'fa-book-bookmark', color: '#d4af37', label: 'Canonical Lore' }
+  note: { icon: 'fa-feather', color: '#6d5236', label: 'Journal Note' },
+  npc: { icon: 'fa-user-ninja', color: '#8b261e', label: 'NPC Character' },
+  location: { icon: 'fa-landmark', color: '#2a6a42', label: 'World Location' },
+  faction: { icon: 'fa-shield-halved', color: '#965714', label: 'Faction & Order' },
+  item: { icon: 'fa-gem', color: '#723b7a', label: 'Item & Relic' },
+  quest: { icon: 'fa-scroll', color: '#8b5a1a', label: 'Quest & Arc' },
+  lore: { icon: 'fa-book-bookmark', color: '#58180d', label: 'Canonical Lore' }
 };
 
-export const QuickPeekDrawer = ({ isOpen: controlledIsOpen, entity: controlledEntity, onClose: controlledOnClose }) => {
+export const QuickPeekDrawer = ({ isOpen: controlledIsOpen, entity: controlledEntity, onClose: controlledOnClose, theme = 'parchment' }) => {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [currentEntity, setCurrentEntity] = useState(null);
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'backlinks' | 'refactor'
+  const [drawerTheme, setDrawerTheme] = useState(theme);
+
+  useEffect(() => {
+    if (theme) setDrawerTheme(theme);
+  }, [theme]);
   
   // Note editing inside drawer
   const [isEditing, setIsEditing] = useState(false);
@@ -45,6 +50,11 @@ export const QuickPeekDrawer = ({ isOpen: controlledIsOpen, entity: controlledEn
         setEditContent(resolved.raw?.content || resolved.content || '');
         setEditArchetype(resolved.raw?.archetype || resolved.archetype || 'note');
         setNewTitle(resolved.title || resolved.name || '');
+        if (detail.theme) {
+          setDrawerTheme(detail.theme);
+        } else if (!drawerTheme || drawerTheme === 'default') {
+          setDrawerTheme('parchment');
+        }
         setIsEditing(false);
         setActiveTab('overview');
         setRefactorSuccessMsg('');
@@ -124,16 +134,19 @@ export const QuickPeekDrawer = ({ isOpen: controlledIsOpen, entity: controlledEn
 
   return (
     <div className="quick-peek-overlay" onClick={handleClose}>
-      <div className="quick-peek-drawer" onClick={(e) => e.stopPropagation()}>
+      <div className={`quick-peek-drawer theme-${drawerTheme || 'parchment'}`} onClick={(e) => e.stopPropagation()}>
         {/* Drawer Header */}
         <div className="quick-peek-header">
           <div className="quick-peek-title-group">
-            <div className="quick-peek-icon-badge" style={{ color: archetypeConfig.color }}>
-              <i className={`fas ${archetypeConfig.icon}`}></i>
+            <div className="quick-peek-icon-badge" style={{ color: isPhantom ? '#8b5a1a' : archetypeConfig.color }}>
+              <i className={`fas ${isPhantom ? 'fa-feather-pointed' : archetypeConfig.icon}`}></i>
             </div>
             <div>
               <div className="quick-peek-badge-row">
-                <span className="quick-peek-type-pill" style={{ color: archetypeConfig.color, borderColor: archetypeConfig.color }}>
+                <span
+                  className={`quick-peek-type-pill ${isPhantom ? 'phantom-pill' : ''}`}
+                  style={!isPhantom ? { color: archetypeConfig.color, borderColor: archetypeConfig.color } : undefined}
+                >
                   {isPhantom ? 'Uncreated Draft' : archetypeConfig.label}
                 </span>
                 {entityData.aliases && entityData.aliases.length > 0 && (
@@ -146,7 +159,7 @@ export const QuickPeekDrawer = ({ isOpen: controlledIsOpen, entity: controlledEn
             </div>
           </div>
 
-          <button className="quick-peek-close-btn" onClick={handleClose} title="Close drawer">
+          <button className="quick-peek-close-btn" onClick={handleClose} title="Close drawer" aria-label="Close drawer">
             <i className="fas fa-times"></i>
           </button>
         </div>

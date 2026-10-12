@@ -753,6 +753,9 @@
   justify-content: center;
   gap: 8px;
   padding: 0 18px;
+  /* Neutralize the global tablet rule (button min-height: 40px) so the pages
+     never overflow the fixed-height 36px switcher. */
+  min-height: 0;
   border: 1px solid transparent;
   background: transparent;
   color: #c4a060;

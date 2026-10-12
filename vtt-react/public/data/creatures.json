@@ -34,8 +34,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "wyrd": 50
@@ -152,8 +152,8 @@
       "speed": 25,
       "flying": 0,
       "swimming": 40,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 20,
+      "darkvision": 0
     },
     "resistances": {
       "rime": 50
@@ -604,7 +604,7 @@
       "speed": 15,
       "flying": 50,
       "swimming": 0,
-      "sightRange": 80,
+      "sightRange": 120,
       "darkvision": 60
     },
     "resistances": {
@@ -725,8 +725,8 @@
       "speed": 25,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 40,
-      "darkvision": 40
+      "sightRange": 20,
+      "darkvision": 0
     },
     "resistances": {
       "rime": 100
@@ -816,7 +816,7 @@
     "habitat": "The Nokkvar haunts the deep rivers, cold waterfalls, and misty lakes of Nordhalla, particularly in the Veilwater Falls where the river drops three hundred feet into a pool that is said to be bottomless. It is most active during the early morning, when the mist is thickest and the water is coldest, and during the autumn rains, when the rivers are swollen and the currents are strong. The Nokkvar is territorial, and each stretch of river is guarded by a single stallion that will fight to the death to protect its domain.",
     "depth": "Territorial and deceptive spirits. While dangerous, they can be pacified by playing a stringed instrument or offering a clean silver coin to the water. The Nokkvar's mist-body is a mystery to scholars—some say it is the spirit of a horse that drowned in the river, others that it is a manifestation of the water itself, given form by the river's own spirit. The silver coin is said to remind the Nokkvar of the sun, which it has not seen since it was bound to the water.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "fey",
       "nordhalla",
@@ -936,7 +936,7 @@
     "habitat": "The Sirvash dwells in the desert ruins, basalt arches, and sandy dunes of Sundale, particularly in the Valley of the Forgotten Kings where the ancient temples lie buried beneath the sand. It is most active during the dawn and dusk, when the heat is bearable and the light is golden, and during the rare rainstorms that turn the desert into a brief, blooming paradise. The Sirvash's lair is always near a source of water, for the creature is a symbol of life in the desert, and it guards the water as fiercely as it guards the ruins.",
     "depth": "Regarded as sacred guardians by local nomads. They are intelligent enough to recognize peaceful intentions but will aggressively hunt those who desecrate ancient structures. The Sirvash's crown-horn is said to be the key to the greatest temple in Sundale, a place where the spirits once walked among mortals, and many have died seeking to take it. The nomads believe that the Sirvash is the last of the old guardians, and that when it dies, the desert will swallow the last of the ancient world.",
     "type": "dragon",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "dragon",
       "sundale",
@@ -963,7 +963,7 @@
       "speed": 45,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 80,
       "darkvision": 120
     },
     "resistances": {
@@ -1189,7 +1189,7 @@
       "speed": 40,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 90,
       "darkvision": 60
     },
     "resistances": {
@@ -1312,7 +1312,7 @@
       "speed": 25,
       "flying": 25,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 60
     },
     "resistances": {
@@ -1791,8 +1791,8 @@
       "speed": 25,
       "flying": 0,
       "swimming": 25,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -2485,8 +2485,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 30,
+      "darkvision": 0
     },
     "resistances": {
       "storm": 50,
@@ -3729,7 +3729,7 @@
       "blizzard",
       "wyrd-touched"
     ],
-    "tokenIcon": "Bestiary/yuki_onna",
+    "tokenIcon": "Bestiary/rime_bride",
     "tokenBorder": "#B0C4DE",
     "stats": {
       "strength": 10,
@@ -3844,7 +3844,7 @@
     "habitat": "The Bixia inhabits the steppe mounds, ancient stone ruins, and sacred hills of Sundrift Vale, particularly in the Jade-Hill Mound where the grass is tallest and the mounds are oldest. It is most active during the night, when the stars are brightest and the air is filled with the sound of the cosmos, and during the spring, when the grass is green and the air is filled with the sound of insects. The Bixia's nest is always in the mounds, and it is said to be a place of terrible beauty, filled with the bones of the creature's prey.",
     "depth": "Benevolent and noble guardians. They will actively protect peaceful travelers and nomads from undead or shadow spirits, but will attack grave-robbers instantly. The Bixia's jade scales are a mystery to alchemists, for they are made of a substance that does not exist in any known catalog, and some believe that the creature's scales are a natural armor, a living shield that protects it from the evil spirits that it guards against.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "fey",
       "sundrift",
@@ -3992,8 +3992,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 80,
-      "darkvision": 80
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "wyrd": 50
@@ -4448,7 +4448,7 @@
       "hammer",
       "native-creature"
     ],
-    "tokenIcon": "Bestiary/koboldknock",
+    "tokenIcon": "Bestiary/knocker",
     "tokenBorder": "#2d6a4f",
     "stats": {
       "strength": 10,
@@ -5405,7 +5405,7 @@
     "name": "Rabengast",
     "description": "A swirling vortex of spectral, memory-eating ravens formed from the final thoughts of the executed.",
     "type": "undead",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "frostwood",
       "gallow-swarm",
@@ -5432,8 +5432,8 @@
       "speed": 35,
       "flying": 35,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "wyrd": 50
@@ -5896,7 +5896,7 @@
     "name": "Sluaven",
     "description": "A spectral cloud of fused, wraith-like riders that raids archive towers to devour recorded histories and absorb fading minds.",
     "type": "undead",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "frostwood",
       "wildejagd",
@@ -5922,8 +5922,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 50,
@@ -6219,7 +6219,7 @@
     "name": "Perchan",
     "description": "A towering winter crone who spins the memory-fog and judges the diligence of mortal record-keepers.",
     "type": "monstrosity",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "frostwood",
       "cailleach",
@@ -6246,7 +6246,7 @@
       "flying": 0,
       "swimming": 0,
       "sightRange": 60,
-      "darkvision": 60
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -6435,7 +6435,7 @@
     "name": "Cusheen",
     "description": "A massive green-furred hound that hunts in the fog, using its barks to paralyze prey and feed on their fear.",
     "type": "beast",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "frostwood",
       "cusith",
@@ -6461,7 +6461,7 @@
       "speed": 45,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 60
     },
     "resistances": {
@@ -6538,7 +6538,7 @@
     "name": "Piskel",
     "description": "A hand-sized light sprite with moth wings, leading travelers through the fog with shifting colored paths.",
     "type": "undead",
-    "size": "medium",
+    "size": "tiny",
     "tags": [
       "frostwood",
       "pixie",
@@ -6624,7 +6624,7 @@
     "name": "Waldrach",
     "description": "A wiry wood sprite with a crimson moss cap that blocks forest paths with historical riddles and feeds on fear.",
     "type": "elemental",
-    "size": "medium",
+    "size": "small",
     "tags": [
       "frostwood",
       "waldschrat",
@@ -6828,7 +6828,7 @@
     "name": "Perchtal",
     "description": "A mysterious, lockstep procession of masked winter spirits whose frozen faces judge the settlements they pass, cleansing the lands of corruption while rewarding the dutiful and terrorizing the negligent.",
     "type": "undead",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "nordhalla",
       "perchtar",
@@ -6916,7 +6916,7 @@
     "name": "Helvard",
     "description": "A three-legged spectral steed of bone-white ice whose midnight gallop heralds death, yet whose life holds the glaciers of Nordhalla in place.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "nordhalla",
       "helhest",
@@ -6942,8 +6942,8 @@
       "speed": 50,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -7141,8 +7141,8 @@
       "speed": 20,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 75,
@@ -7228,7 +7228,7 @@
     "name": "Lindvar",
     "description": "A serpentine predator with cat-like forelegs that tunnels through glaciers, devouring runic magic and thawing the ancient tombs it guards.",
     "type": "construct",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "nordhalla",
       "lindwyrm",
@@ -7255,7 +7255,7 @@
       "flying": 30,
       "swimming": 0,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -7331,7 +7331,7 @@
     "name": "Nidhra",
     "description": "A warm, root-like serpentine worm that burrows under fortifications, gnawing away both stone foundations and the sacred runic vows of the clans.",
     "type": "undead",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "nordhalla",
       "nidhoggr",
@@ -7357,8 +7357,8 @@
       "speed": 25,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 50,
@@ -7557,7 +7557,7 @@
     "name": "Landvett",
     "description": "A colossal mountain guardian composed of living granite and snow, protecting its peaks from corruption but triggering avalanches at the sight of any dragon imagery.",
     "type": "dragon",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "nordhalla",
       "landvaettir",
@@ -7583,8 +7583,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 75,
@@ -7756,7 +7756,7 @@
       "flying": 30,
       "swimming": 0,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 50,
@@ -7832,7 +7832,7 @@
     "name": "Fenrung",
     "description": "A pony-sized wolf cub bound by a magical collar that hunts down oath-breakers, representing a fragment of the apocalyptic Fenrir.",
     "type": "beast",
-    "size": "small",
+    "size": "large",
     "tags": [
       "nordhalla",
       "fenris",
@@ -7858,8 +7858,8 @@
       "speed": 50,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {
       "rime": 50,
@@ -7935,7 +7935,7 @@
     "name": "Disvar",
     "description": "A procession of silent, pale spectral matriarchs who judge households during winter, rewarding ancestral devotion and cursing the negligent with barrenness.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "nordhalla",
       "disir",
@@ -7961,8 +7961,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -8124,7 +8124,7 @@
     "name": "Kraknar",
     "description": "A colossal sub-glacial leviathan whose massive tentacles shatter ice sheets to drag entire fleets into the freezing depths.",
     "type": "elemental",
-    "size": "large",
+    "size": "gargantuan",
     "tags": [
       "nordhalla",
       "kraken",
@@ -8150,8 +8150,8 @@
       "speed": 10,
       "flying": 0,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -8253,7 +8253,7 @@
     "name": "Marmill",
     "description": "A small, glowing merman who plays enchanting melodies on a bone-harp, offering cryptic prophecies when captured with runic bait.",
     "type": "elemental",
-    "size": "medium",
+    "size": "small",
     "tags": [
       "nordhalla",
       "marmennill",
@@ -8355,7 +8355,7 @@
     "name": "Havrine",
     "description": "A shifting marine entity that oscillates between a beautiful mermaid and a terrifying frost serpent, blessing or cursing catches while guiding ships to safety or crushing them in ice.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "nordhalla",
       "havgammel",
@@ -8381,8 +8381,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {
       "rime": 100
@@ -8441,7 +8441,7 @@
     "name": "Pazurra",
     "description": "A towering wind-horror of basalt and compressed ash, bearing the monstrous visage of ancient storm spirits. It sweeps through the volcanic reaches of Sundale, scouring the land with ash-storms while paradoxically warding off corrupting plagues.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "pazuzu",
@@ -8467,8 +8467,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 0
     },
     "resistances": {
       "ember": 100,
@@ -8569,14 +8569,14 @@
     "name": "Kaldara",
     "description": "A multi-headed serpent of black glass and molten orange, swimming through the lava rivers of Emberspire. It seeks out heat and precious minerals, draining the warmth of the sun and leaving fields of razor-sharp obsidian in its wake.",
     "type": "dragon",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "sundale",
       "caldera-tyrant",
       "dragon",
       "wyrd-touched"
     ],
-    "tokenIcon": "Bestiary/tiamat",
+    "tokenIcon": "Bestiary/caldera_tyrant",
     "tokenBorder": "#7209b7",
     "stats": {
       "strength": 22,
@@ -8596,7 +8596,7 @@
       "flying": 0,
       "swimming": 30,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 60
     },
     "resistances": {
       "ember": 100,
@@ -8656,7 +8656,7 @@
     "name": "Anzura",
     "description": "A colossal storm-bird of ash-grey feathers and razor-sharp obsidian talons, obsessed with stealing runic inscriptions. It is a creature of cyclic rebirth that immolates itself in Emberspire's caldera to rise renewed.",
     "type": "elemental",
-    "size": "large",
+    "size": "huge",
     "tags": [
       "sundale",
       "anzu",
@@ -8682,7 +8682,7 @@
       "speed": 20,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 0
     },
     "resistances": {
@@ -8743,7 +8743,7 @@
     "name": "Girtabli",
     "description": "A half-human, half-scorpion centauroid guardian with skin of hardened basalt and eyes of solid gold. It stands watch over ancient volcanic gates, testing travelers with riddles and offering a venom that can cure Wyrd-sickness.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "girtablilu",
@@ -8769,7 +8769,7 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 80,
       "darkvision": 0
     },
     "resistances": {
@@ -8877,7 +8877,7 @@
     "name": "Nemmet",
     "description": "A massive, smoldering hybrid of lion, hippopotamus, and crocodile that judges the souls of those who approach Emberspire. It devours the corrupt, erasing their very names and memory from the sacred stones.",
     "type": "beast",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "sundale",
       "ammit",
@@ -9005,7 +9005,7 @@
     "name": "Lamashka",
     "description": "A horrific hippopotamus-demoness that prowls the edges of settlements to steal children, trapping them in her swollen belly. She is feared for her agonizing cries, yet she flees from the image of the Pazurra.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "lamashtu",
@@ -9211,7 +9211,7 @@
     "name": "Ifrasha",
     "description": "A towering giant of white-hot coal and shifting flame, crowned with a cobra-like hood of fire. It works alongside Solari smiths to shape molten stone, igniting intruders with a single, burning glare.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "ifrit",
@@ -9472,7 +9472,7 @@
     "name": "Perisa",
     "description": "A beautiful, hand-sized moth with opalescent wings and a golden, sun-like body. It rolls its wings into balls to compress thermal energy, creating eternal embers used by the Solari.",
     "type": "fey",
-    "size": "medium",
+    "size": "tiny",
     "tags": [
       "sundale",
       "peri",
@@ -9601,8 +9601,8 @@
       "speed": 40,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 75,
@@ -9679,7 +9679,7 @@
     "name": "Simurga",
     "description": "A colossal, wise hybrid of eagle and lion with ash-grey feathers and copper-wire mane. It nests on the rim of Emberspire, using its healing feathers to close wounds and its presence to calm the volcano.",
     "type": "elemental",
-    "size": "medium",
+    "size": "gargantuan",
     "tags": [
       "sundale",
       "simurgh",
@@ -9705,8 +9705,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 120,
+      "darkvision": 60
     },
     "resistances": {
       "ember": 100,
@@ -9783,7 +9783,7 @@
     "name": "Azhak",
     "description": "A massive, three-headed crocodile of green-black obsidian that rules the lava rivers of Sundale. Each of its heads produces a distinct, lethal venom of fire, acid, or paralysis.",
     "type": "elemental",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "sundale",
       "azi",
@@ -9810,7 +9810,7 @@
       "flying": 0,
       "swimming": 30,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 60
     },
     "resistances": {
       "ember": 100,
@@ -9924,8 +9924,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 50,
@@ -9985,7 +9985,7 @@
     "name": "Asagun",
     "description": "A massive, eight-foot boulder of living pumice and obsidian that continuously weeps lava. Its intense heat boils nearby water sources, and it communicates through seismic tremors.",
     "type": "construct",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "asag",
@@ -10115,7 +10115,7 @@
       "speed": 10,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 0
     },
     "resistances": {
@@ -10176,7 +10176,7 @@
     "name": "Abzun",
     "description": "A sentient, circular pool of glowing water that contains ancient cuneiform and hieroglyphic glyphs. It acts as a cooling system for the volcanic vaults, trading forgotten secrets for blood.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "abzu",
@@ -10202,8 +10202,8 @@
       "speed": 0,
       "flying": 0,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 40,
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 100,
@@ -10264,7 +10264,7 @@
     "name": "Kurnu",
     "description": "A circular, bottomless fissure covered in glowing red runes that murmurs with the voices of the dead. It is a portal to the underworld, briefly illuminated by the Solbrand during the annual vent-calm.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundale",
       "kur_pit",
@@ -10290,8 +10290,8 @@
       "speed": 0,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "all": 100
@@ -10348,7 +10348,7 @@
     "name": "Musharra",
     "description": "A dog-sized, pale serpent-dragon with lion paws and eagle talons. It imprints on friendly creatures, using its fertility-blessed breath to double crop yields in ash-choked soil.",
     "type": "dragon",
-    "size": "tiny",
+    "size": "small",
     "tags": [
       "sundale",
       "mushussu",
@@ -10563,7 +10563,7 @@
     "name": "Charibda",
     "description": "A terrifying vortex of dark water and spotted scales, this living whirlpool devours entire ships in narrow shipping lanes.",
     "type": "elemental",
-    "size": "large",
+    "size": "gargantuan",
     "tags": [
       "iceheart",
       "charybdis",
@@ -10589,8 +10589,8 @@
       "speed": 0,
       "flying": 0,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -10676,7 +10676,7 @@
     "name": "Ketora",
     "description": "A primordial sea-monster of colossal scale, this tusked serpent guards the deepest rifts of the ocean floor.",
     "type": "beast",
-    "size": "large",
+    "size": "gargantuan",
     "tags": [
       "iceheart",
       "ketos",
@@ -10703,7 +10703,7 @@
       "flying": 0,
       "swimming": 30,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -10882,7 +10882,7 @@
     "name": "Kampos",
     "description": "A noble creature combining horse and serpent, this gentle elemental purifies waters and serves as a swift steed.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "iceheart",
       "hippocampus",
@@ -11173,7 +11173,7 @@
     "name": "Lamiara",
     "description": "A mourning reef-dweller with impossibly long arms, this creature sings to lure sailors into her coral-plated coils.",
     "type": "beast",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "iceheart",
       "lamia",
@@ -11388,7 +11388,7 @@
     "name": "Telkara",
     "description": "A seal-headed blacksmith of walrus-like bulk, this elemental forges weapons from deep-sea ice that never melt.",
     "type": "elemental",
-    "size": "large",
+    "size": "medium",
     "tags": [
       "iceheart",
       "telkhine",
@@ -11527,7 +11527,7 @@
       "speed": 10,
       "flying": 30,
       "swimming": 30,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 0
     },
     "resistances": {
@@ -11674,7 +11674,7 @@
     "name": "Ifara",
     "description": "Three ancient crones sharing a single obsidian eye, these sisters offer true prophecies in exchange for a tooth.",
     "type": "beast",
-    "size": "tiny",
+    "size": "medium",
     "tags": [
       "iceheart",
       "graeae",
@@ -11700,8 +11700,8 @@
       "speed": 25,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 20,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 100,
@@ -12004,7 +12004,7 @@
       "flying": 30,
       "swimming": 0,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 50,
@@ -12064,7 +12064,7 @@
     "name": "Abadir",
     "description": "A shy, antelope-like narwhal with a glowing horn that neutralizes all poisons and purifies water.",
     "type": "beast",
-    "size": "tiny",
+    "size": "small",
     "tags": [
       "iceheart",
       "abada",
@@ -12167,7 +12167,7 @@
     "name": "Graiva",
     "description": "A colorless, mathematical whirlpool that serves as a portal to the spirit-world and distorts time.",
     "type": "elemental",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "iceheart",
       "graia",
@@ -12193,8 +12193,8 @@
       "speed": 0,
       "flying": 0,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "all": 100
@@ -12251,7 +12251,7 @@
     "name": "Ichthara",
     "description": "A scaled sea-centaur with a glowing trident, this volcanic blacksmith warns of Monolith instability.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "iceheart",
       "ichthya",
@@ -12369,7 +12369,7 @@
     "name": "Lamphera",
     "description": "A floating orb of warm gold light containing smiling faces, this spirit guides ships to safety during storms.",
     "type": "undead",
-    "size": "medium",
+    "size": "tiny",
     "tags": [
       "iceheart",
       "brine",
@@ -12655,7 +12655,7 @@
     "name": "Amaruk",
     "description": "A fat, winged serpent of glacier-blue that leaps across high chasms, speaks in a slurred voice, and trades mountain secrets for strong liquor.",
     "type": "elemental",
-    "size": "large",
+    "size": "medium",
     "tags": [
       "cragjaw",
       "tsuchinoko",
@@ -12947,7 +12947,7 @@
     "name": "Jorona",
     "description": "A spider-woman clad in webs of gold and silver who lures travelers on the mountain bridges to drain their mineral-rich blood.",
     "type": "dragon",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "cragjaw",
       "jorogumo",
@@ -12973,8 +12973,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 50,
@@ -13050,7 +13050,7 @@
     "name": "Kodami",
     "description": "A tiny spirit of stone and snow that echoes the voices of travelers and wails in sorrow when the mountain is damaged.",
     "type": "plant",
-    "size": "medium",
+    "size": "tiny",
     "tags": [
       "cragjaw",
       "kodama",
@@ -13137,7 +13137,7 @@
     "name": "Nurikaba",
     "description": "A living block of cliff-face that floats just above the ground, blocking and rearranging mountain paths overnight unless disrupted by copper.",
     "type": "construct",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "cragjaw",
       "nurikabe",
@@ -13163,7 +13163,7 @@
       "speed": 0,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 40,
       "darkvision": 0
     },
     "resistances": {
@@ -13224,7 +13224,7 @@
     "name": "Pachama",
     "description": "A churning black storm-cloud that brings humid heat, animal cries, and terrifying nightmares to punish those who mine too deep.",
     "type": "beast",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "cragjaw",
       "nue",
@@ -13312,7 +13312,7 @@
     "name": "Kashara",
     "description": "A lynx-sized cat of blue-white flame that steals corpses from funerals but leaves magical miniatures that bring prosperity to the worthy.",
     "type": "undead",
-    "size": "tiny",
+    "size": "small",
     "tags": [
       "cragjaw",
       "kasha",
@@ -13338,7 +13338,7 @@
       "speed": 35,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 80,
       "darkvision": 60
     },
     "resistances": {
@@ -13615,7 +13615,7 @@
     "name": "Bakaru",
     "description": "A bear-sized chimera with an elephant's trunk and a glowing hide that devours nightmares and turns its home into a sacred sanctuary.",
     "type": "plant",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "cragjaw",
       "baku",
@@ -13960,8 +13960,8 @@
       "speed": 45,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "ember": 100,
@@ -14269,8 +14269,8 @@
       "speed": 35,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 120,
+      "darkvision": 60
     },
     "resistances": {
       "rime": 50,
@@ -14347,7 +14347,7 @@
     "name": "Itanna",
     "description": "A thirty-foot strip of living embroidered cloth that carries messages across mountain chasms and wraps around travelers to protect them from the cold.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "cragjaw",
       "ittan",
@@ -14373,7 +14373,7 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 40,
       "darkvision": 0
     },
     "resistances": {
@@ -14536,7 +14536,7 @@
     "name": "Tulpara",
     "description": "A celestial, scaled horse whose wings and hide glow with the patterns of lost constellations, leading wild herds across the darkened steppe.",
     "type": "dragon",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundrift",
       "tulpar",
@@ -14639,7 +14639,7 @@
     "name": "Erligan",
     "description": "A nine-foot-tall arbiter of the dead, half-flesh and half-bone, who sits upon a throne of ancestral remains to weigh the debts of the living and the departed.",
     "type": "monstrosity",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundrift",
       "erlik",
@@ -14665,8 +14665,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 50,
@@ -14837,7 +14837,7 @@
     "name": "Nianra",
     "description": "A roaring, iron-horned beast of rust and red fur that stampedes in packs during the dark season, consuming everything in its path.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundrift",
       "nian",
@@ -14864,7 +14864,7 @@
       "flying": 0,
       "swimming": 0,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 60
     },
     "resistances": {
       "ember": 100,
@@ -15064,7 +15064,7 @@
     "name": "Taotira",
     "description": "An insatiable, fifteen-foot monstrosity that is almost entirely jaws, blending into the high grass to act as a living pit-trap for migrating herds.",
     "type": "elemental",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "sundrift",
       "taotie_gorge",
@@ -15091,7 +15091,7 @@
       "flying": 30,
       "swimming": 0,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 75,
@@ -15168,7 +15168,7 @@
     "name": "Baizan",
     "description": "A wise, nine-eyed bovine oracle with a human face and a crown of horns, appearing as a herald of major shifts in the world.",
     "type": "beast",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundrift",
       "baize",
@@ -15194,8 +15194,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 120,
+      "darkvision": 60
     },
     "resistances": {
       "wyrd": 100,
@@ -15271,7 +15271,7 @@
     "name": "Zilvar",
     "description": "A massive, winged serpent-dragon with a rooster's head, whose wings hum with a musical resonance that guides travelers through the starless nights.",
     "type": "elemental",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "sundrift",
       "zilant_wing",
@@ -15297,7 +15297,7 @@
       "speed": 20,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 0
     },
     "resistances": {
@@ -15579,7 +15579,7 @@
     "name": "Fenghua",
     "description": "A legendary, twenty-foot bird of elemental plumage whose arrival dictates the migration calendar and blesses harmonious communities.",
     "type": "elemental",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundrift",
       "fenghuang_migrate",
@@ -15605,7 +15605,7 @@
       "speed": 30,
       "flying": 30,
       "swimming": 30,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 0
     },
     "resistances": {
@@ -15692,8 +15692,8 @@
       "speed": 10,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 25
@@ -15908,7 +15908,7 @@
       "flying": 30,
       "swimming": 30,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 120
     },
     "resistances": {
       "rime": 50,
@@ -15994,7 +15994,7 @@
     "name": "Jiaora",
     "description": "A forty-foot aquatic dragon covered in semi-precious stones, guarding the bottomless lakes and rising to summon fierce storms.",
     "type": "construct",
-    "size": "large",
+    "size": "gargantuan",
     "tags": [
       "sundrift",
       "qoraigarash",
@@ -16020,8 +16020,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "ember": 50,
@@ -16098,7 +16098,7 @@
     "name": "Ajinka",
     "description": "A towering entity of living shadow and absolute darkness that stalks the high steppe-grass, sowing nightmares and rot.",
     "type": "beast",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "sundrift",
       "ajina",
@@ -16124,8 +16124,8 @@
       "speed": 35,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 75,
@@ -16202,7 +16202,7 @@
     "name": "Luwara",
     "description": "A mammoth-sized tiger with nine human heads and a serpent's tail, governing the seasons and the migrations of the steppe.",
     "type": "beast",
-    "size": "large",
+    "size": "huge",
     "tags": [
       "sundrift",
       "lu_wu_mountain",
@@ -16228,8 +16228,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 30,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 75,
@@ -16419,7 +16419,7 @@
     "name": "Tengril",
     "description": "A tiny, six-inch guide of pure starlight, trailing a thread of fate that connects the world below to the lost stars.",
     "type": "monstrosity",
-    "size": "large",
+    "size": "tiny",
     "tags": [
       "sundrift",
       "tengri_spark",
@@ -16445,8 +16445,8 @@
       "speed": 10,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 120,
+      "darkvision": 120
     },
     "resistances": {
       "sacred": 100,
@@ -16507,7 +16507,7 @@
     "name": "Leshvar",
     "description": "A towering guardian of the wood, the Leshvar stands twelve feet tall, a living monument of bark, moss, and fungi bound with simian grace.",
     "type": "plant",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "bryngloom",
       "leshara",
@@ -16533,8 +16533,8 @@
       "speed": 20,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {
       "smashing": 75,
@@ -16776,8 +16776,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 75,
@@ -16854,7 +16854,7 @@
     "name": "Domar",
     "description": "A two-foot-tall hairy guardian of the hearth, the Domar keeps careful watch over households and records the deeds of their inhabitants.",
     "type": "humanoid",
-    "size": "medium",
+    "size": "small",
     "tags": [
       "bryngloom",
       "domovoi",
@@ -16966,8 +16966,8 @@
       "speed": 35,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "blight": 75,
@@ -17078,7 +17078,7 @@
     "name": "Goryna",
     "description": "A massive three-headed dragon of the swamp, the Goryna hoards lost contracts and demands legal tribute from the canopy-dwellers.",
     "type": "elemental",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "bryngloom",
       "zmey_bog",
@@ -17105,7 +17105,7 @@
       "flying": 0,
       "swimming": 30,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 60
     },
     "resistances": {
       "blight": 50,
@@ -17217,7 +17217,7 @@
     "name": "Zarnika",
     "description": "A grand, luminescent sun-bird of the canopy, the Zarnika radiates warmth and a golden light that repels serpents.",
     "type": "elemental",
-    "size": "medium",
+    "size": "huge",
     "tags": [
       "bryngloom",
       "zharptitsa_glow",
@@ -17243,7 +17243,7 @@
       "speed": 35,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 0
     },
     "resistances": {
@@ -17320,7 +17320,7 @@
     "name": "Nagava",
     "description": "A massive half-human, half-serpent lord of the deep earth, the Nagava controls the life-giving waters that feed the roots of the forest.",
     "type": "elemental",
-    "size": "large",
+    "size": "gargantuan",
     "tags": [
       "bryngloom",
       "naga_root",
@@ -17347,7 +17347,7 @@
       "flying": 0,
       "swimming": 30,
       "sightRange": 60,
-      "darkvision": 0
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 75,
@@ -17424,7 +17424,7 @@
     "name": "Navira",
     "description": "A skeletal, tragic specter of insatiable greed, the Navira wanders the peat-clearings with a ballooning belly and a pinhole mouth.",
     "type": "undead",
-    "size": "tiny",
+    "size": "medium",
     "tags": [
       "bryngloom",
       "preta_hollow",
@@ -17450,8 +17450,8 @@
       "speed": 25,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 50,
@@ -17553,7 +17553,7 @@
     "name": "Gamaya",
     "description": "An oracle of twilight wings and a sorrowful voice, the Gamaya sings prophecies of the future that are as accurate as they are devastating.",
     "type": "beast",
-    "size": "small",
+    "size": "large",
     "tags": [
       "bryngloom",
       "gamayun_seer",
@@ -17579,7 +17579,7 @@
       "speed": 35,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 60
     },
     "resistances": {
@@ -17962,7 +17962,7 @@
     "name": "Soglav",
     "description": "An eight-legged predator with iron teeth and a single eye, the Soglav stalks the bogs to feed on bone-calcium.",
     "type": "beast",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "bryngloom",
       "psoglav_bone",
@@ -17988,8 +17988,8 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 0
+      "sightRange": 80,
+      "darkvision": 60
     },
     "resistances": {},
     "vulnerabilities": {},
@@ -18245,7 +18245,7 @@
     "name": "Alkona",
     "description": "A beautiful bird of paradise whose heavenly song brings total joy at the cost of the listener's memories.",
     "type": "monstrosity",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "bryngloom",
       "alkonost",
@@ -18271,7 +18271,7 @@
       "speed": 30,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 60
     },
     "resistances": {
@@ -18419,7 +18419,7 @@
     "name": "Upira",
     "description": "An underground network of pulsing, parasitic tendrils, the Upira drains the life of the forest and travelers above it.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "bryngloom",
       "upir_root",
@@ -18445,8 +18445,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "blight": 100,
@@ -18533,7 +18533,7 @@
     "name": "Sirina",
     "description": "A dark bird of twilight with a heart-breaking face, the Sirina sings a melody of absolute melancholy that pulls listeners toward their final rest.",
     "type": "humanoid",
-    "size": "tiny",
+    "size": "small",
     "tags": [
       "bryngloom",
       "sirin_song",
@@ -18559,7 +18559,7 @@
       "speed": 10,
       "flying": 30,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 80,
       "darkvision": 60
     },
     "resistances": {
@@ -18624,7 +18624,7 @@
     "habitat": "Geaslan haunt the foggy trails and forest paths of the Frostwood Reach, especially near border gates and ruined keeps where broken agreements were made.",
     "depth": "It cannot be outrun by standard horses or clockwork vehicles, as it shifts through space using the target's guilt as a spatial tether. Slaying a Geaslan requires facing it directly, as running only increases its strength and speed.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "fey",
       "frostwood",
@@ -18649,8 +18649,8 @@
       "speed": 35,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 50
@@ -19070,7 +19070,7 @@
     "habitat": "Volcanic craters, sulfur mines, and basalt canyons of Sundale.",
     "depth": "Kavur is intensely hostile to anyone who has lied in its presence, ignoring all other targets to consume the liar. It is a symbol of the harsh, unforgiving justice of the Ash-Dwellers.",
     "type": "monstrosity",
-    "size": "medium",
+    "size": "small",
     "tags": [
       "monstrosity",
       "sundale",
@@ -19184,8 +19184,8 @@
       "speed": 25,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "ember": 50
@@ -19273,8 +19273,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 50,
@@ -19541,7 +19541,7 @@
       "speed": 40,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 120,
       "darkvision": 60
     },
     "resistances": {
@@ -19720,7 +19720,7 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
+      "sightRange": 80,
       "darkvision": 60
     },
     "resistances": {
@@ -19900,8 +19900,8 @@
       "speed": 40,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 80,
+      "darkvision": 120
     },
     "resistances": {
       "smashing": 25,
@@ -19965,7 +19965,7 @@
     "habitat": "Widow's Quagmire, peat-bogs, and willow groves of the Bryngloom Forest.",
     "depth": "She is a master negotiator, signing contracts that grant travelers safety in the bog but leave them unable to recall their childhoods. The soup she boils is made of memories and bog-lichen.",
     "type": "fey",
-    "size": "medium",
+    "size": "large",
     "tags": [
       "fey",
       "bryngloom",
@@ -19990,8 +19990,8 @@
       "speed": 20,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 40,
+      "darkvision": 120
     },
     "resistances": {
       "rime": 50
@@ -20169,8 +20169,8 @@
       "speed": 30,
       "flying": 0,
       "swimming": 0,
-      "sightRange": 60,
-      "darkvision": 60
+      "sightRange": 30,
+      "darkvision": 120
     },
     "resistances": {
       "blight": 100,

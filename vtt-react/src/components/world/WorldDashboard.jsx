@@ -1755,9 +1755,6 @@ const WorldDashboard = () => {
                               className="class-card-avatar-img"
                               dataClass={cls.name}
                             />
-                            <div className="class-card-corner-icon" title={profile?.role || roleData.role}>
-                              <i className={`fas ${profile?.roleIcon || roleData.icon || 'fa-scroll'}`} />
-                            </div>
                           </div>
                           <div className="class-title-block">
                             <div className="class-name-row">

@@ -2,6 +2,7 @@ import { getStore } from './storeRegistry';
 import characterPersistenceService from '../services/firebase/characterPersistenceService';
 import { updateCharacterData } from '../services/offlineService';
 import { isDemoMode } from '../config/firebase';
+import { captureConsumerContext } from '../persistence/scopedConsumer';
 
 export const getEncumbranceState = () => {
     try {
@@ -67,6 +68,11 @@ export let characterAutoSaveTimer = null;
 export let characterAutoSavePending = null;
 export const CHARACTER_AUTO_SAVE_DELAY = 2000;
 
+// Immutable origin context (owner scope + account generation) captured when
+// the debounced save was scheduled. A pending save must never derive its owner
+// from a newer live authentication principal.
+let characterAutoSaveOriginContext = null;
+
 export const setCharacterAutoSaveTimer = (timer) => {
     characterAutoSaveTimer = timer;
 };
@@ -81,6 +87,12 @@ export const clearCharacterAutoSaveTimer = () => {
 export const triggerCharacterAutoSave = (saveFn) => {
     clearCharacterAutoSaveTimer();
     characterAutoSavePending = typeof saveFn === 'function' ? saveFn : null;
+    try {
+        const captured = captureConsumerContext();
+        characterAutoSaveOriginContext = captured.ok ? captured.context : null;
+    } catch (_error) {
+        characterAutoSaveOriginContext = null;
+    }
     characterAutoSaveTimer = setTimeout(() => {
         const pending = characterAutoSavePending;
         characterAutoSavePending = null;
@@ -90,9 +102,89 @@ export const triggerCharacterAutoSave = (saveFn) => {
             console.warn('Auto-save execution failed:', error);
         } finally {
             characterAutoSaveTimer = null;
+            characterAutoSaveOriginContext = null;
         }
     }, CHARACTER_AUTO_SAVE_DELAY);
 };
+
+/** Read and clear the pending save's immutable origin context. */
+export const consumeCharacterAutoSaveOriginContext = () => {
+    const context = characterAutoSaveOriginContext;
+    characterAutoSaveOriginContext = null;
+    return context;
+};
+
+export const peekCharacterAutoSaveOriginContext = () => characterAutoSaveOriginContext;
+
+/**
+ * P5-01 handoff isolation: discard the pending debounced save. The caller has
+ * already captured the authored working state (the pending save's payload) into
+ * a retained candidate, so the debounce would only double-save.
+ */
+export const discardCharacterAutoSave = () => {
+    clearCharacterAutoSaveTimer();
+    characterAutoSavePending = null;
+    characterAutoSaveOriginContext = null;
+};
+
+/** Live inventory working data for a character save payload. */
+export const readInventoryWorkingData = () => {
+    try {
+        const inventoryStore = getStore('inventoryStore');
+        const inventoryState = inventoryStore.getState();
+        return {
+            items: inventoryState.items || [],
+            currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+            encumbranceState: inventoryState.encumbranceState || 'normal'
+        };
+    } catch (error) {
+        console.warn('Could not get inventory data:', error);
+        return {
+            items: [],
+            currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+            encumbranceState: 'normal'
+        };
+    }
+};
+
+/**
+ * Assemble the canonical working-character save payload from store state and
+ * live inventory data. Shared by the normal save path and the handoff
+ * candidate capture so both preserve the exact same authored content.
+ */
+export const assembleCharacterWorkingData = (state, inventoryData = null) => ({
+    name: state.name,
+    baseName: state.baseName,
+    race: state.race,
+    subrace: state.subrace,
+    class: state.class,
+    classAcquisition: state.classAcquisition,
+    bodyStates: state.bodyStates,
+    level: state.level,
+    experience: state.experience,
+    alignment: state.alignment,
+    stats: state.stats,
+    health: state.health,
+    mana: state.mana,
+    actionPoints: state.actionPoints,
+    equipment: state.equipment,
+    resistances: state.resistances,
+    spellPower: state.spellPower,
+    lore: state.lore,
+    tokenSettings: state.tokenSettings,
+    skillRanks: state.skillRanks,
+    class_spells: state.class_spells,
+    levelUpHistory: state.levelUpHistory,
+    talents: state.talents,
+    primarySpecialization: state.primarySpecialization,
+    inventory: inventoryData || {
+        items: [],
+        currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+        encumbranceState: 'normal'
+    },
+    classResource: state.classResource,
+    updatedAt: new Date().toISOString()
+});
 
 /**
  * P5-01 handoff isolation: run the pending debounced character save

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act, within } from '@testing-library/react';
 import BookDocumentEditor from '../BookDocumentEditor';
 import BookManager from '../BookManager';
 import {
@@ -29,7 +29,9 @@ import BookLorePickerModal from '../BookLorePickerModal';
 import BookMapPickerModal from '../BookMapPickerModal';
 import BookGlossaryModal from '../BookGlossaryModal';
 import BookSnapshotModal from '../BookSnapshotModal';
+import BookSyntaxGuideModal from '../BookSyntaxGuideModal';
 import useBookStore from '../../../store/bookStore';
+import useShareableStore from '../../../store/shareableStore';
 
 describe('BookDocumentEditor & TTRPG Blocks', () => {
   const sampleBook = {
@@ -960,10 +962,10 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
       type: 'roll_table',
       title: 'd20 Wandering Encounters',
       diceType: 'd20',
-      headers: ['d20', 'Encounter', 'CR'],
+      headers: ['d20', 'Encounter', 'Threat Rating'],
       rows: [
-        ['01–04', '1d4 Magmins searching for raw ore', 'CR 1/2'],
-        ['05–08', 'Fire Snake in obsidian fissure', 'CR 1']
+        ['01–04', '1d4 Magmins searching for raw ore', 'Low'],
+        ['05–08', 'Fire Snake in obsidian fissure', 'Low']
       ]
     };
 
@@ -1161,6 +1163,431 @@ describe('BookDocumentEditor & TTRPG Blocks', () => {
     const wrapper = container.querySelector('.book-image-wrapper');
     expect(wrapper).toHaveClass('size-spot');
     expect(wrapper).toHaveClass('frame-cutout');
+  });
+
+  test('renders paragraph drop-cap seamlessly without duplicating the initial letter', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={false} allowWrite={false} />);
+    const dropCap = container.querySelector('.book-drop-cap');
+    expect(dropCap).toBeInTheDocument();
+    expect(dropCap.textContent).toBe('A');
+
+    // Display text must follow without duplicating the 'A'
+    const proseDisplay = container.querySelector('.has-drop-cap .book-prose-display');
+    expect(proseDisplay).toBeInTheDocument();
+    expect(proseDisplay.textContent).toContain('cross the icy plains');
+    expect(proseDisplay.textContent).not.toContain('Across the icy plains');
+  });
+
+  test('renders block controls with drag handle and paragraph Drop Cap toggle button in write mode', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+    
+    // Drag handle
+    const dragHandles = container.querySelectorAll('.drag-handle-btn');
+    expect(dragHandles.length).toBeGreaterThan(0);
+    expect(dragHandles[0]).toHaveAttribute('draggable', 'true');
+
+    // Paragraph Drop Cap button
+    const dropCapBtns = container.querySelectorAll('.drop-cap-btn');
+    expect(dropCapBtns.length).toBeGreaterThan(0);
+    expect(dropCapBtns[0].textContent).toContain('Drop Cap');
+
+    // Header Variant Selector group
+    const headerVarGroups = container.querySelectorAll('.header-variants-group');
+    expect(headerVarGroups.length).toBeGreaterThan(0);
+  });
+
+  test('renders keyed area room badge with calm manuscript styling and editable badge', () => {
+    const mockBookWithKeyedArea = {
+      ...sampleBook,
+      chapters: [
+        {
+          id: 'ch-keyed',
+          title: 'Underchasm',
+          pages: [
+            {
+              id: 'pg-keyed',
+              pageNumber: 1,
+              blocks: [
+                { id: 'b-k1', type: 'header', level: 2, text: 'The Flooded Cistern', variant: 'keyed-area', areaCode: 'U1' }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    useBookStore.setState({
+      books: [mockBookWithKeyedArea],
+      activeBook: mockBookWithKeyedArea,
+      currentPageId: 'pg-keyed'
+    });
+
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+    const keyedArea = container.querySelector('.book-heading-keyed-area');
+    expect(keyedArea).toBeInTheDocument();
+    
+    const badge = keyedArea.querySelector('.keyed-room-badge');
+    expect(badge).toBeInTheDocument();
+    expect(badge.textContent).toContain('U1');
+    expect(badge.querySelector('.keyed-badge-editable')).toBeInTheDocument();
+  });
+
+  test('anchors floating block controls properly on left-half and right-half blocks without truncation', () => {
+    const mockBookWithHalfSlots = {
+      ...sampleBook,
+      chapters: [
+        {
+          id: 'ch-half',
+          title: 'Half Blocks',
+          pages: [
+            {
+              id: 'pg-half',
+              pageNumber: 1,
+              blocks: [
+                { id: 'b-half-left', type: 'paragraph', text: 'Left half text', column: 'left', slotAlign: 'left', sizePreset: 'half' },
+                { id: 'b-half-right', type: 'paragraph', text: 'Right half text', column: 'left', slotAlign: 'right', sizePreset: 'half' }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    useBookStore.setState({
+      books: [mockBookWithHalfSlots],
+      activeBook: mockBookWithHalfSlots,
+      currentPageId: 'pg-half'
+    });
+
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+    
+    const leftBlock = container.querySelector('.book-block-wrap.slot-left');
+    expect(leftBlock).toBeInTheDocument();
+    const leftControls = leftBlock.querySelector('.book-block-controls.anchor-left');
+    expect(leftControls).toBeInTheDocument();
+    expect(leftControls.querySelector('.move-btn')).toBeInTheDocument();
+    expect(leftControls.querySelector('.delete-btn')).toBeInTheDocument();
+
+    const rightBlock = container.querySelector('.book-block-wrap.slot-right');
+    expect(rightBlock).toBeInTheDocument();
+    const rightControls = rightBlock.querySelector('.book-block-controls.anchor-right');
+    expect(rightControls).toBeInTheDocument();
+    expect(rightControls.querySelector('.move-btn')).toBeInTheDocument();
+    expect(rightControls.querySelector('.delete-btn')).toBeInTheDocument();
+  });
+
+  test('allows directly editing the initial drop-cap letter inline in write mode', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+    
+    const editableDropCap = container.querySelector('.book-drop-cap-editable');
+    expect(editableDropCap).toBeInTheDocument();
+    expect(editableDropCap).toHaveAttribute('contenteditable', 'true');
+    expect(editableDropCap.textContent).toBe('A');
+
+    // Editing the drop cap triggers onCommit and updates state
+    act(() => {
+      editableDropCap.textContent = 'B';
+      fireEvent.blur(editableDropCap);
+    });
+    
+    // Drop cap updates to new character
+    expect(editableDropCap.textContent).toBe('B');
+  });
+
+  test('selects component on click and clears selection on outside viewport click', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+    
+    const blockWraps = container.querySelectorAll('.book-block-wrap');
+    expect(blockWraps.length).toBeGreaterThan(0);
+    const firstBlock = blockWraps[0];
+
+    // Clicking the block selects it
+    act(() => {
+      fireEvent.click(firstBlock);
+    });
+    expect(firstBlock).toHaveClass('selected');
+    expect(firstBlock).toHaveClass('editing');
+
+    // Clicking the viewport outside deselects the block
+    const viewport = container.querySelector('.book-document-viewport');
+    act(() => {
+      fireEvent.click(viewport);
+    });
+    expect(firstBlock).not.toHaveClass('selected');
+  });
+
+  test('renders Chapters & Pages structure tab with manuscript controls and editable chapter title', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+    
+    // Switch to structure tab (PAGES)
+    const structureTabBtn = screen.getByTitle('Chapters & Pages Manager');
+    act(() => {
+      fireEvent.click(structureTabBtn);
+    });
+
+    const structurePane = container.querySelector('.sidebar-structure-pane');
+    expect(structurePane).toBeInTheDocument();
+
+    const chapterCard = container.querySelector('.structure-chapter-card');
+    expect(chapterCard).toBeInTheDocument();
+
+    const chTitleEditable = container.querySelector('.ch-title-editable');
+    expect(chTitleEditable).toBeInTheDocument();
+    expect(chTitleEditable).toHaveAttribute('contenteditable', 'true');
+
+    const addPageBtn = container.querySelector('.add-page-btn');
+    expect(addPageBtn).toBeInTheDocument();
+
+    const pagePills = container.querySelectorAll('.page-pill-item');
+    expect(pagePills.length).toBeGreaterThan(0);
+  });
+
+  test('renders paragraph typography controls with Lead-in, Lore Link, and Syntax Guide buttons', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    const paragraphBlock = container.querySelector('.book-block-wrap.type-paragraph');
+    expect(paragraphBlock).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(paragraphBlock);
+    });
+
+    const leadInBtn = paragraphBlock.querySelector('.lead-in-btn');
+    const loreLinkBtn = paragraphBlock.querySelector('.lore-link-btn');
+    const syntaxGuideBtn = paragraphBlock.querySelector('.syntax-guide-btn');
+
+    expect(leadInBtn).toBeInTheDocument();
+    expect(loreLinkBtn).toBeInTheDocument();
+    expect(syntaxGuideBtn).toBeInTheDocument();
+
+    // Clicking lead-in prepends bold run-in heading
+    act(() => {
+      fireEvent.click(leadInBtn);
+    });
+
+    const bookState = useBookStore.getState().books.find((b) => b.id === 'test-book-1');
+    const pBlock = bookState.chapters[0].pages[0].blocks.find((b) => b.type === 'paragraph');
+    expect(pBlock.text).toContain('**Section Title.**');
+
+    // Re-query fresh lore-link button after rerender
+    const freshLoreLinkBtn = container.querySelector('.lore-link-btn');
+    expect(freshLoreLinkBtn).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(freshLoreLinkBtn);
+    });
+    const updatedState = useBookStore.getState().books.find((b) => b.id === 'test-book-1');
+    const updatedPBlock = updatedState.chapters[0].pages[0].blocks.find((b) => b.type === 'paragraph');
+    expect(updatedPBlock.text).toContain('[[Entity Name]]');
+  });
+
+  test('opens BookSyntaxGuideModal and displays TTRPG manuscript syntax rules', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    const syntaxTrigger = container.querySelector('.syntax-guide-trigger-btn');
+    expect(syntaxTrigger).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(syntaxTrigger);
+    });
+
+    const guideDialog = container.querySelector('.book-syntax-guide-dialog');
+    expect(guideDialog).toBeInTheDocument();
+
+    expect(screen.getByText('TTRPG Manuscript Typography & Syntax')).toBeInTheDocument();
+    expect(screen.getByText('Lead-ins & Headings')).toBeInTheDocument();
+    expect(screen.getByText('Lore & Wikilinks')).toBeInTheDocument();
+    expect(screen.getByText('Emphasis & Spells')).toBeInTheDocument();
+    expect(screen.getByText('Narrative & Secrets')).toBeInTheDocument();
+  });
+
+  test('opens QuickPeekDrawer on phantom entity event and drafts entity note', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    // Dispatch the mythrill_quick_peek event as EntityHovercard does
+    act(() => {
+      window.dispatchEvent(
+        new CustomEvent('mythrill_quick_peek', {
+          detail: { name: 'Chromatic Keystone', isPhantom: true }
+        })
+      );
+    });
+
+    const drawer = container.querySelector('.quick-peek-drawer');
+    expect(drawer).toBeInTheDocument();
+    expect(drawer).toHaveClass('theme-parchment');
+    expect(drawer.querySelector('.phantom-pill')).toBeInTheDocument();
+    expect(drawer.querySelector('.quick-peek-phantom-card')).toBeInTheDocument();
+    expect(screen.getByText('Chromatic Keystone')).toBeInTheDocument();
+    expect(screen.getByText('Uncreated Draft')).toBeInTheDocument();
+
+    // Click "Draft Item & Relic" button
+    const draftItemBtn = screen.getByText('Draft Item & Relic');
+    expect(draftItemBtn).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(draftItemBtn);
+    });
+
+    // Check that playerNotes in shareableStore now has the drafted note
+    const notes = useShareableStore.getState().playerNotes;
+    const createdNote = notes.find((n) => n.title === 'Chromatic Keystone');
+    expect(createdNote).toBeDefined();
+    expect(createdNote.archetype).toBe('item');
+  });
+
+  test('renders Layout Dropdown with vector SVG thumbnails and allows changing page layout', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    const layoutDropdown = container.querySelector('.layout-pill-select');
+    expect(layoutDropdown).toBeInTheDocument();
+
+    const trigger = layoutDropdown.querySelector('.manuscript-dropdown-trigger');
+    expect(trigger).toBeInTheDocument();
+
+    // Open dropdown
+    act(() => {
+      fireEvent.click(trigger);
+    });
+
+    const menu = container.querySelector('.manuscript-dropdown-menu');
+    expect(menu).toBeInTheDocument();
+
+    // Verify SVG layout thumbnails are present
+    const svgs = menu.querySelectorAll('.layout-thumb-svg');
+    expect(svgs.length).toBeGreaterThanOrEqual(3);
+
+    // Verify layout options inside dropdown menu
+    expect(within(menu).getByText('Two-Page Facing Spread')).toBeInTheDocument();
+    expect(within(menu).getByText('Two-Column Page')).toBeInTheDocument();
+    expect(within(menu).getByText('Single Column')).toBeInTheDocument();
+
+    // Click single column option
+    const singleColOpt = within(menu).getByText('Single Column').closest('.manuscript-dropdown-item');
+    act(() => {
+      fireEvent.click(singleColOpt);
+    });
+
+    const updatedBook = useBookStore.getState().books.find((b) => b.id === 'test-book-1');
+    expect(updatedBook.layout).toBe('single-column');
+  });
+
+  test('renders Theme Dropdown with vector SVG thumbnails and allows changing book theme', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    const themeDropdown = container.querySelector('.theme-pill-select');
+    expect(themeDropdown).toBeInTheDocument();
+
+    const trigger = themeDropdown.querySelector('.manuscript-dropdown-trigger');
+    expect(trigger).toBeInTheDocument();
+
+    // Open dropdown
+    act(() => {
+      fireEvent.click(trigger);
+    });
+
+    const menu = container.querySelector('.manuscript-dropdown-menu');
+    expect(menu).toBeInTheDocument();
+
+    // Verify SVG theme thumbnails are present
+    const svgs = menu.querySelectorAll('.theme-thumb-svg');
+    expect(svgs.length).toBeGreaterThanOrEqual(5);
+
+    // Verify theme options inside dropdown menu
+    expect(within(menu).getByText('Parchment')).toBeInTheDocument();
+    expect(within(menu).getByText('Royal Archive')).toBeInTheDocument();
+    expect(within(menu).getByText('Crimson Tome')).toBeInTheDocument();
+    expect(within(menu).getByText('Dark Grimoire')).toBeInTheDocument();
+    expect(within(menu).getByText('Fey Wildwood')).toBeInTheDocument();
+
+    // Click Crimson Tome option
+    const crimsonOpt = within(menu).getByText('Crimson Tome').closest('.manuscript-dropdown-item');
+    act(() => {
+      fireEvent.click(crimsonOpt);
+    });
+
+    const updatedBook = useBookStore.getState().books.find((b) => b.id === 'test-book-1');
+    expect(updatedBook.theme).toBe('crimson');
+  });
+
+  test('displays consistent document page numbering in stepper and navigates cleanly', () => {
+    // Add page 2 to test-book-1 with custom folio pageNumber: 76 on page 1
+    const multiPageBook = {
+      ...sampleBook,
+      chapters: [
+        {
+          ...sampleBook.chapters[0],
+          pages: [
+            { ...sampleBook.chapters[0].pages[0], pageNumber: 76 },
+            { id: 'pg-2', pageNumber: 77, headerTitle: 'The Glacial Caverns', blocks: [] }
+          ]
+        }
+      ]
+    };
+    useBookStore.setState({
+      books: [multiPageBook],
+      activeBookId: 'test-book-1'
+    });
+
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    const stepper = container.querySelector('.page-stepper-pill');
+    expect(stepper).toBeInTheDocument();
+
+    // Document has 2 pages in ch-1 (pg-1 and pg-2). On pg-1, it should say "Page 1 of 2", NOT "Page 76 of 2"
+    const pageCountLabel = stepper.querySelector('.stepper-pg-count');
+    expect(pageCountLabel.textContent).toBe('Page 1 of 2');
+
+    // Prev button should be disabled on first page
+    const prevBtn = stepper.querySelectorAll('.stepper-btn')[0];
+    const nextBtn = stepper.querySelectorAll('.stepper-btn')[1];
+    expect(prevBtn).toBeDisabled();
+    expect(nextBtn).not.toBeDisabled();
+
+    // Navigate to page 2
+    act(() => {
+      fireEvent.click(nextBtn);
+    });
+
+    expect(pageCountLabel.textContent).toBe('Page 2 of 2');
+    expect(prevBtn).not.toBeDisabled();
+    expect(nextBtn).toBeDisabled();
+  });
+
+  test('renders text selection quick-format bubble and auto-dismisses when moving away or opening guide', () => {
+    const { container } = render(<BookDocumentEditor bookId="test-book-1" isGM={true} allowWrite={true} />);
+
+    // Select text inside a paragraph block
+    const prose = container.querySelector('.book-prose-edit');
+    expect(prose).toBeInTheDocument();
+
+    // Mock window selection
+    const mockRange = {
+      commonAncestorContainer: prose,
+      getBoundingClientRect: () => ({ left: 200, right: 300, top: 150, bottom: 170, width: 100, height: 20 })
+    };
+    const mockSel = {
+      isCollapsed: false,
+      rangeCount: 1,
+      getRangeAt: () => mockRange,
+      toString: () => 'Glacial Rend'
+    };
+    jest.spyOn(window, 'getSelection').mockReturnValue(mockSel);
+
+    act(() => {
+      document.dispatchEvent(new Event('selectionchange'));
+    });
+
+    const bubble = container.querySelector('.book-selection-bubble');
+    expect(bubble).toBeInTheDocument();
+    expect(bubble.querySelector('.bubble-btn-bold')).toBeInTheDocument();
+    expect(bubble.querySelector('.bubble-btn-italic')).toBeInTheDocument();
+    expect(bubble.querySelector('.bubble-btn-lore')).toBeInTheDocument();
+
+    // Moving pointer far away auto-dismisses bubble
+    act(() => {
+      window.dispatchEvent(new MouseEvent('mousemove', { clientX: 900, clientY: 900 }));
+    });
+
+    expect(container.querySelector('.book-selection-bubble')).not.toBeInTheDocument();
   });
 });
 

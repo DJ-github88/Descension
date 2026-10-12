@@ -94,13 +94,15 @@ export const BookGlossaryModal = ({
       <div className="book-glossary-modal" onClick={(e) => e.stopPropagation()}>
         <div className="book-glossary-head">
           <div className="head-title">
-            <i className="fas fa-book-bookmark"></i>
-            <div>
+            <span className="glossary-head-icon-badge">
+              <i className="fas fa-book-bookmark"></i>
+            </span>
+            <div className="head-title-text">
               <h3>Glossary &amp; Custom Lore Terms</h3>
               <p>Define terms to enable live illuminated hover tooltips throughout your book.</p>
             </div>
           </div>
-          <button type="button" className="modal-close-btn" onClick={onClose}>
+          <button type="button" className="modal-close-btn" onClick={onClose} title="Close Glossary" aria-label="Close Glossary">
             <i className="fas fa-times"></i>
           </button>
         </div>

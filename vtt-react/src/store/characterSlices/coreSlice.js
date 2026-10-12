@@ -9,7 +9,7 @@ import characterSessionService from '../../services/firebase/characterSessionSer
 import { storeCharacterOffline } from '../../services/offlineService';
 import { getCustomBackgroundData } from '../../data/legacyDisciplineData';
 import { getBackgroundData } from '../../data/backgroundData';
-import { getCurrentUserId, isGuestUser, shouldUseFirebase, triggerCharacterAutoSave } from '../characterHelpers';
+import { getCurrentUserId, isGuestUser, shouldUseFirebase, triggerCharacterAutoSave, consumeCharacterAutoSaveOriginContext, characterAutoSavePending, readInventoryWorkingData, assembleCharacterWorkingData } from '../characterHelpers';
 import {
     loadRoster,
     saveRoster,
@@ -17,7 +17,17 @@ import {
     saveActivePointer,
     clearActivePointer
 } from '../../persistence/characterScopedStorage';
-import { captureOwnerGuard } from '../../persistence/scopedConsumer';
+import { captureConsumerContext, captureOwnerGuard } from '../../persistence/scopedConsumer';
+import {
+    markCharacterDeferredPublication,
+    mergeRetainedCharacterCandidate,
+    resumeDeferredCharacterPublication,
+    ensureCharacterHandoffPreserved,
+    isCharacterPublicationAuthorized,
+    readCharacterPublicationRoster,
+    readCharacterDeferredPublication,
+    clearCharacterDeferredPublication
+} from '../../persistence/characterHandoffPreservation';
 import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
@@ -29,6 +39,13 @@ const TEST_CLASSES = [
     'Lunarch', 'Martyr', 'Minstrel', 'Plaguebringer', 'Pyrofiend',
     'Spellguard', 'Toxicologist', 'Warden', 'Augur', 'Animist'
 ];
+
+// Authored content, excluding save-time metadata. Hydration/publication ACKs
+// must not consume a working edit authored while their async work was pending.
+const workingCharacterFingerprint = (state) => {
+    const { updatedAt, ...authored } = assembleCharacterWorkingData(state);
+    return JSON.stringify(authored);
+};
 
 function getRandomRaceAndSubrace() {
     try {
@@ -266,6 +283,17 @@ export const createCoreSlice = (set, get) => ({
             set({ isLoading: false });
             return get().characters || [];
         }
+        // A deferred publication/read is not permission to replace an authored
+        // working edit whose debounce has not persisted it yet. Keep selection
+        // on that edit; the existing autosave will preserve/publish it.
+        const working = get();
+        if (characterAutoSavePending && working.currentCharacterId) {
+            const data = assembleCharacterWorkingData(working, readInventoryWorkingData());
+            const characters = working.characters.map((char) =>
+                char.id === working.currentCharacterId ? { ...char, ...data } : char);
+            set({ characters, isLoading: false });
+            return characters;
+        }
         set({ isLoading: true, error: null });
         try {
             // CRITICAL FIX: Wait for auth to initialize to prevent race conditions with localStorage clearing
@@ -334,14 +362,26 @@ export const createCoreSlice = (set, get) => ({
 
                 // Load from Firebase if user is authenticated
                 try {
+                    const beforeRead = get();
+                    const authoredBeforeRead = workingCharacterFingerprint(beforeRead);
                     const characters = await characterPersistenceService.loadUserCharacters(userId);
-                    if (!ownerGuard.isCurrent() || isPrivateProjectionIsolated()) {
+                    if (!isCharacterPublicationAuthorized(ownerGuard.context)) {
+                        return get().characters || [];
+                    }
+                    if (get().characters !== beforeRead.characters ||
+                        workingCharacterFingerprint(get()) !== authoredBeforeRead) {
                         set({ isLoading: false });
                         return get().characters || [];
                     }
 
+                    // P5-01: the owner's locally preserved candidates (deferred
+                    // cloud publication or a retained preservation hold) win
+                    // over a stale cloud copy; publication resumes only for the
+                    // authorized live owner after the merge.
+                    const retained = mergeRetainedCharacterCandidate({ characters, isGuest: false });
+
                     // Compute missing display names for loaded characters
-                    const enrichedCharacters = characters.map(char => {
+                    const enrichedCharacters = retained.characters.map(char => {
                         const enriched = { ...char };
 
                         // Compute backgroundDisplayName if missing
@@ -385,6 +425,18 @@ export const createCoreSlice = (set, get) => ({
                     });
 
                     set({ characters: enrichedCharacters, isLoading: false });
+                    if (retained.restoredIds.length > 0) {
+                        const restored = enrichedCharacters.filter((char) => retained.restoredIds.includes(char.id));
+                        const authoredAtPublication = workingCharacterFingerprint(get());
+                        // A still-retained candidate is durably preserved first,
+                        // then the owner-authorized cloud publication resumes.
+                        ensureCharacterHandoffPreserved()
+                            .then((outcome) => outcome.ok && ownerGuard.isCurrent() &&
+                                resumeDeferredCharacterPublication(userId, restored, {
+                                    isWorkingCurrent: () => workingCharacterFingerprint(get()) === authoredAtPublication
+                                }))
+                            .catch(() => {});
+                    }
                     return enrichedCharacters;
                 } catch (firebaseError) {
                     console.error('Error loading user characters:', firebaseError);
@@ -421,6 +473,15 @@ export const createCoreSlice = (set, get) => ({
             if (!Array.isArray(characters)) {
                 console.warn('Characters data is not an array, resetting to empty array');
                 characters = [];
+            }
+
+            // P5-01: merge any retained owner-preserved candidate (deferred
+            // publication marker or in-memory preservation hold) so a stale
+            // scoped/cloud baseline never drops the unsent authored edit.
+            const retainedScoped = mergeRetainedCharacterCandidate({ characters, isGuest });
+            characters = retainedScoped.characters;
+            if (retainedScoped.restoredIds.length > 0) {
+                ensureCharacterHandoffPreserved().catch(() => {});
             }
 
             // Compute missing display names for loaded characters
@@ -664,19 +725,22 @@ export const createCoreSlice = (set, get) => ({
         }
     },
 
-    updateCharacter: async (characterId, updates) => {
-        set({ isLoading: true, error: null });
+    updateCharacter: async (characterId, updates, options = {}) => {
+        const originContext = options.originContext || consumeCharacterAutoSaveOriginContext();
+        const ownerContext = originContext
+            ? { ok: true, context: originContext }
+            : captureConsumerContext();
+        const ownerScope = ownerContext.ok ? ownerContext.context.scope || null : null;
+        const projectionVisible = () => ownerContext.ok &&
+            isCharacterPublicationAuthorized(ownerContext.context);
+        if (!ownerContext.ok || !ownerScope) return null;
+        if (projectionVisible()) set({ isLoading: true, error: null });
         try {
-            const userId = getCurrentUserId();
             const state = get();
-            // P5-01: fence the working-projection install to the owner and
-            // generation that began the update. A late continuation must never
-            // re-install the retired owner's roster after the handoff isolation
-            // has cleared it (and never under the destination principal).
-            const ownerGuard = captureOwnerGuard(userId);
-            const projectionVisible = () =>
-                !isPrivateProjectionIsolated() && (!ownerGuard.ok || ownerGuard.isCurrent());
-
+            // P5-01: identify the immutable origin owner + account generation
+            // of the payload. The pending save's captured origin context (or
+            // the retained scoped owner active now) owns the payload; the live
+            // authenticated principal is never used to re-attribute it.
             const updatedCharacters = state.characters.map(char =>
                 char.id === characterId
                     ? { ...char, ...updates, updatedAt: new Date().toISOString() }
@@ -685,44 +749,66 @@ export const createCoreSlice = (set, get) => ({
 
             const updatedCharacter = updatedCharacters.find(char => char.id === characterId);
 
-            if (userId && updatedCharacter) {
+            if (!updatedCharacter) return null;
+
+            // Install the authored successor before async work. Completions
+            // never reinstall their captured roster over newer work.
+            if (projectionVisible()) set({ characters: updatedCharacters, isLoading: false });
+            const authoredAtSave = workingCharacterFingerprint(get());
+
+            if (ownerScope.scopeKind === 'user') {
                 // Store offline for sync when back online
                 storeCharacterOffline(characterId, updatedCharacter);
-
-                // Save to Firebase only when Firebase is enabled (matches createCharacter).
-                // shouldUseFirebase() returns false on localhost dev, preventing the
-                // 'dev-user-localhost' fallback UID from being written to Firestore
-                // (which would cause permission-denied due to userId != request.auth.uid).
-                if (shouldUseFirebase() && !isGuestUser()) {
-                    try {
-                        await characterPersistenceService.saveCharacter(updatedCharacter, userId);
-                    } catch (firebaseError) {
-                        console.warn('Failed to save to Firebase, saving locally:', firebaseError);
-                        // Continue with local save if Firebase fails
-                    }
-                }
             }
 
-            // Always save to scoped storage as backup with quota management
-            saveRoster(isGuestUser(), updatedCharacters).then((result) => {
-                if (result && result.status !== 'OK' && result.status !== 'FORKED') {
-                    console.error('Failed to save characters to scoped storage:', result.status, result.reason || '');
-                }
-            }).catch((error) => {
-                console.error('Failed to save characters to scoped storage:', error);
-            });
+            // Local draft preservation FIRST, under the captured immutable
+            // origin context: a handoff may retire the live scope while the
+            // cloud call is still pending, so the owner-scoped roster write
+            // must not be ordered behind network work.
+            const rosterResult = await saveRoster(
+                ownerScope.scopeKind === 'guest',
+                updatedCharacters,
+                { context: ownerContext.context }
+            );
+            if (rosterResult.status !== 'OK' && rosterResult.status !== 'FORKED') {
+                if (projectionVisible()) set({ error: 'Failed to preserve character locally', isLoading: false });
+                return updatedCharacter;
+            }
 
-            if (projectionVisible()) {
-                set({
-                    characters: updatedCharacters,
-                    isLoading: false
-                });
+            // Cloud publication requires the authorized live same-owner
+            // principal and no active handoff isolation. When it is deferred,
+            // the owner-scoped record is the recovery source; a durable
+            // deferred-publication marker keeps it from being dropped by a
+            // stale cloud hydration once the owner returns.
+            if (ownerScope.scopeKind === 'user') {
+                const marker = markCharacterDeferredPublication([characterId], { context: ownerContext.context });
+                if (marker.status !== 'OK' || !marker.persisted) {
+                    if (projectionVisible()) set({ error: 'Failed to preserve character recovery marker', isLoading: false });
+                    return updatedCharacter;
+                }
+                const roster = readCharacterPublicationRoster(ownerContext.context);
+                const sourceCurrent = () => projectionVisible() &&
+                    readCharacterPublicationRoster(ownerContext.context).raw === roster.raw &&
+                    JSON.stringify(readCharacterDeferredPublication(ownerContext.context)) === JSON.stringify(marker.value);
+                if (!sourceCurrent() || !shouldUseFirebase()) return updatedCharacter;
+                try {
+                    const saved = await characterPersistenceService.saveCharacter(updatedCharacter, ownerScope.scopeId, { isCurrent: sourceCurrent });
+                    if (saved && sourceCurrent() && workingCharacterFingerprint(get()) === authoredAtSave) {
+                        clearCharacterDeferredPublication({
+                            context: ownerContext.context, expectedMarker: marker.value,
+                            expectedRoster: roster, characterIds: [characterId]
+                        });
+                    }
+                } catch (firebaseError) {
+                    console.warn('Failed to save to Firebase, saving locally:', firebaseError);
+                    // Continue with local save if Firebase fails
+                }
             }
 
             return updatedCharacter;
         } catch (error) {
             console.error('Error updating character:', error);
-            set({ error: 'Failed to update character', isLoading: false });
+            if (projectionVisible()) set({ error: 'Failed to update character', isLoading: false });
             throw error;
         }
     },
@@ -1302,58 +1388,13 @@ export const createCoreSlice = (set, get) => ({
 
     saveCurrentCharacter: () => {
         const state = get();
-        if (!state.currentCharacterId) return;
+        if (!state.currentCharacterId) return undefined;
 
-        // Get current inventory from inventory store
-        let inventoryData = {
-            items: [],
-            currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
-            encumbranceState: 'normal'
-        };
+        // Canonical working payload (shared with the handoff candidate capture
+        // so the exact authored content is preserved in both paths).
+        const characterData = assembleCharacterWorkingData(state, readInventoryWorkingData());
 
-        try {
-            const inventoryStore = getStore('inventoryStore');
-            const inventoryState = inventoryStore.getState();
-            inventoryData = {
-                items: inventoryState.items || [],
-                currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-                encumbranceState: inventoryState.encumbranceState || 'normal'
-            };
-        } catch (error) {
-            console.warn('Could not get inventory data:', error);
-        }
-
-        const characterData = {
-            name: state.name,
-            baseName: state.baseName,
-            race: state.race,
-            subrace: state.subrace,
-            class: state.class,
-            classAcquisition: state.classAcquisition,
-            bodyStates: state.bodyStates,
-            level: state.level,
-            experience: state.experience,
-            alignment: state.alignment,
-            stats: state.stats,
-            health: state.health,
-            mana: state.mana,
-            actionPoints: state.actionPoints,
-            equipment: state.equipment,
-            resistances: state.resistances,
-            spellPower: state.spellPower,
-            lore: state.lore,
-            tokenSettings: state.tokenSettings,
-            skillRanks: state.skillRanks,
-            class_spells: state.class_spells, // Include class spells
-            levelUpHistory: state.levelUpHistory, // Include level-up history
-            talents: state.talents, // Include talent tree selections
-            primarySpecialization: state.primarySpecialization, // Include primary specialization
-            inventory: inventoryData, // Include inventory data
-            classResource: state.classResource, // Include class resource
-            updatedAt: new Date().toISOString()
-        };
-
-        get().updateCharacter(state.currentCharacterId, characterData);
+        return get().updateCharacter(state.currentCharacterId, characterData);
     },
 
     clearError: () => set({ error: null }),

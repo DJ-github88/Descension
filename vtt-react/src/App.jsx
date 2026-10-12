@@ -41,9 +41,9 @@ import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationContainer from "./components/common/NotificationContainer";
 import CustomDialogContainer from "./components/common/CustomDialogContainer";
 import CookieConsent, { hasConsent } from "./components/common/CookieConsent";
-import AssetLoadingOverlay from "./components/common/AssetLoadingOverlay";
 import UnifiedTransitionOverlay from "./components/multiplayer/UnifiedTransitionOverlay";
 import QuickSwitcher from "./components/common/QuickSwitcher";
+import QuickPeekDrawer from "./components/common/QuickPeekDrawer";
 import { clearLocalRoom } from "./utils/localRoom";
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 import initChatStore from './utils/initChatStore';
@@ -224,7 +224,13 @@ const scheduleAutomaticBackup = async (userId) => {
 
 // Loading fallback component
 const LoadingFallback = ({ message = "Loading...", subtext = "Preparing assets & synchronizing state..." }) => (
-  <AssetLoadingOverlay message={message} subtext={subtext} isFullPage={true} />
+  <UnifiedTransitionOverlay
+    isVisible={true}
+    mode="join"
+    title={message}
+    subtitle={subtext}
+    statusMessage={subtext}
+  />
 );
 
 // Dedicated Atlas Transition Gateway for World Map Loading & Route Handoff
@@ -873,7 +879,7 @@ function GameScreen() {
         <ErrorBoundary name="CombatSystem">
           <FloatingCombatTextManager />
         </ErrorBoundary>
-        <Suspense fallback={<LoadingFallback message="Loading game..." />}>
+        <Suspense fallback={null}>
           {activeSceneMode === 'location' ? (
             <ErrorBoundary name="LocationSceneStage">
               <LocationSceneStage
@@ -1387,7 +1393,7 @@ const AppContent = ({
         <Route path="/account" element={
           (() => {
             return isAuthenticated ? (
-              <Suspense fallback={<LoadingFallback message="Loading account..." />}>
+              <Suspense fallback={<LoadingFallback message="Account Dashboard" subtext="Retrieving adventurer records & campaign data..." />}>
                 <ErrorBoundary name="AccountDashboard">
                   <AccountDashboard user={user} />
                 </ErrorBoundary>
@@ -1400,7 +1406,7 @@ const AppContent = ({
 
         <Route path="/account/characters" element={
           isAuthenticated ? (
-            <Suspense fallback={<LoadingFallback message="Loading characters..." />}>
+            <Suspense fallback={<LoadingFallback message="Character Roster" subtext="Loading character records..." />}>
               <CharacterManagement user={user} />
             </Suspense>
           ) : (
@@ -1410,7 +1416,7 @@ const AppContent = ({
 
         <Route path="/account/characters/create" element={
           isAuthenticated ? (
-            <Suspense fallback={<LoadingFallback message="Loading character creation..." />}>
+            <Suspense fallback={<LoadingFallback message="Character Forge" subtext="Preparing character creation..." />}>
               <ErrorBoundary name="CharacterCreation">
                 <CharacterCreationPage user={user} />
               </ErrorBoundary>
@@ -1422,7 +1428,7 @@ const AppContent = ({
 
         <Route path="/account/characters/edit/:characterId" element={
           isAuthenticated ? (
-            <Suspense fallback={<LoadingFallback message="Loading character editor..." />}>
+            <Suspense fallback={<LoadingFallback message="Character Forge" subtext="Loading character editor..." />}>
               <ErrorBoundary name="CharacterEditor">
                 <CharacterCreationPage user={user} isEditing={true} />
               </ErrorBoundary>
@@ -1448,7 +1454,7 @@ const AppContent = ({
             <PhoneGate featureName="The tactical grid">
               <div className="spell-wizard-container">
                 <GameScreen />
-                <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
+                <Suspense fallback={null}>
                   <ErrorBoundary name="Navigation">
                     <Navigation
                       onReturnToLanding={handleReturnToLandingWithNavigation}
@@ -1624,6 +1630,7 @@ const AppContent = ({
         isOpen={isQuickSwitcherOpen}
         onClose={() => setIsQuickSwitcherOpen(false)}
       />
+      <QuickPeekDrawer theme="parchment" />
     </>
   );
 };
