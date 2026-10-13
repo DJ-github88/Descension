@@ -1463,18 +1463,14 @@
 
 /* Kill ALL chrome on every button element & state inside sprite-mode
    (minimize button excluded — it has its own absolute-positioned styles) */
-.nav-sprite-mode .wow-nav-category-header,
-.nav-sprite-mode .wow-nav-category-header:hover,
-.nav-sprite-mode .wow-nav-category-header.open,
-.nav-sprite-mode .wow-nav-button:not(.wow-nav-minimize),
-.nav-sprite-mode .wow-nav-button:not(.wow-nav-minimize):hover,
-.nav-sprite-mode .wow-nav-button:not(.wow-nav-minimize).active,
-.nav-sprite-mode .wow-nav-button.back-button,
-.nav-sprite-mode .wow-nav-button.back-button:hover,
-.nav-sprite-mode .wow-nav-button.premium,
-.nav-sprite-mode .wow-nav-button.premium:hover,
-.nav-sprite-mode .wow-nav-button.premium::before,
-.nav-sprite-mode .wow-nav-button.premium::after {
+/* Kill chrome ONLY on actual sprite-asset wrapper elements
+   (when navAssets PNGs are loaded and rendered) */
+.nav-sprite-mode .nav-sprite-category,
+.nav-sprite-mode .nav-sprite-category:hover,
+.nav-sprite-mode .nav-sprite-category.open,
+.nav-sprite-mode .nav-sprite-btn-wrapper,
+.nav-sprite-mode .nav-sprite-btn-wrapper:hover,
+.nav-sprite-mode .nav-sprite-btn-wrapper.active {
   background: transparent !important;
   background-image: none !important;
   border: none !important;
@@ -1492,17 +1488,16 @@
   justify-content: center !important;
 }
 
-/* Subtle glow on hover — no scale to avoid shifting other buttons */
-.nav-sprite-mode .wow-nav-category-header:hover,
-.nav-sprite-mode .wow-nav-button:not(.wow-nav-minimize):hover,
-.nav-sprite-mode .wow-nav-button.back-button:hover {
+/* Subtle glow on hover for sprite mode asset images */
+.nav-sprite-mode .nav-sprite-category:hover,
+.nav-sprite-mode .nav-sprite-btn-wrapper:hover {
   filter: brightness(1.15) drop-shadow(0 0 4px rgba(154, 123, 60, 0.4)) !important;
   transition: filter 0.15s ease !important;
 }
 
-/* Active / open — gentle glow, no fill */
-.nav-sprite-mode .wow-nav-category-header.open,
-.nav-sprite-mode .wow-nav-button.active {
+/* Active / open for sprite mode asset images */
+.nav-sprite-mode .nav-sprite-category.open,
+.nav-sprite-mode .nav-sprite-btn-wrapper.active {
   filter: drop-shadow(0 0 6px rgba(154, 123, 60, 0.6)) brightness(1.08) !important;
 }
 

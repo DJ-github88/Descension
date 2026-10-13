@@ -1,7 +1,9 @@
 const fs = require('fs'), path = require('path'), cp = require('child_process'), zlib = require('zlib'), crypto = require('crypto');
 const root = path.resolve(__dirname, '../../..'), out = path.join(__dirname, 'evidence/corrections-20261013');
-const base = 'D:/AppData/Temp/opencode/p7-correction-reviewed-replay-20261013';
-const snapshot = JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(out, 'reviewed-source.json.gz'))));
+const retry = process.argv[2] === 'retry';
+const base = 'D:/AppData/Temp/opencode/p7-correction-' + (retry ? 'retry' : 'reviewed') + '-replay-20261013';
+const sourceName = retry ? 'retry-before-source.json.gz' : 'reviewed-source.json.gz';
+const snapshot = JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(out, sourceName))));
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 for (const [file, content] of Object.entries(snapshot.files)) {
   const bytes = Buffer.from(content, 'base64'); if (hash(bytes) !== snapshot.hashes[file]) throw Error('Snapshot identity mismatch: ' + file);
@@ -19,10 +21,13 @@ for (const [name, cwd, args] of [
   ['server', path.join(base, 'server'), [path.join(root, 'server/node_modules/mocha/bin/mocha.js'), 'tests/p7Blockers.production.test.js', '--timeout', '15000', '--exit']],
   ['browser', path.join(base, 'vtt-react'), ['verification/p7/correction-browser.cjs']]
 ]) {
-  const result = cp.spawnSync(process.execPath, args, { cwd, encoding: 'utf8', timeout: 120000, maxBuffer: 32 * 1024 * 1024, env: { ...process.env, P7_CORRECTION_RED: '1', CI: 'true' } });
-  fs.writeFileSync(path.join(out, 'reviewed-replay-' + name + '.log'), (result.stdout || '') + (result.stderr || ''));
-  fs.writeFileSync(path.join(out, 'reviewed-replay-' + name + '.command.json'), JSON.stringify({ command: [process.execPath, ...args], cwd, status: result.status, source: 'reviewed-source.json.gz', sourceFiles: Object.keys(snapshot.files).length, witnesses: manifest }, null, 2));
+  if (retry && name === 'server') continue;
+  const result = cp.spawnSync(process.execPath, args, { cwd, encoding: 'utf8', timeout: 120000, maxBuffer: 32 * 1024 * 1024, env: { ...process.env, P7_CORRECTION_RED: retry ? '0' : '1', P7_ACK_ONLY_RED: retry ? '1' : '0', CI: 'true' } });
+  const prefix = retry ? 'retry-replay-' : 'reviewed-replay-';
+  fs.writeFileSync(path.join(out, prefix + name + '.log'), (result.stdout || '') + (result.stderr || ''));
+  fs.writeFileSync(path.join(out, prefix + name + '.command.json'), JSON.stringify({ command: [process.execPath, ...args], cwd, status: result.status, source: sourceName, sourceFiles: Object.keys(snapshot.files).length, witnesses: manifest }, null, 2));
   console.log(name + ' reviewed-source RED replay: ' + result.status); console.log((result.stdout || '') + (result.stderr || ''));
   if (result.status !== 0) throw Error('Reviewed RED failed: ' + name);
-  fs.copyFileSync(path.join(base, 'vtt-react/verification/p7/evidence/corrections-20261013', name + '-red.json'), path.join(out, 'reviewed-replay-' + name + '-red.json'));
+  const suffix = retry ? '-ack-only-red.json' : '-red.json';
+  fs.copyFileSync(path.join(base, 'vtt-react/verification/p7/evidence/corrections-20261013', name + suffix), path.join(out, prefix + name + suffix));
 }

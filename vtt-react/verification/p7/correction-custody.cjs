@@ -8,6 +8,14 @@ if (phase === 'before' && fs.existsSync(path.join(out, 'before.json'))) throw Er
 const files = git('ls-files', '--cached', '--others', '--exclude-standard', '-z').split('\0').filter(file => file && fs.existsSync(path.join(root, file)));
 const hashes = Object.fromEntries(files.map(file => [file, hash(fs.readFileSync(path.join(root, file)))]));
 const record = { date: new Date().toISOString(), checkout: git('rev-parse', '--show-toplevel'), head: git('rev-parse', 'HEAD'), branch: git('branch', '--show-current'), status: git('status', '--porcelain=v1', '--untracked-files=all'), hashes };
+if (phase === 'retry-before') {
+  const source = files.filter(file => /^(server\/(handlers|services|utils|tests)|vtt-react\/src)\//.test(file));
+  fs.writeFileSync(path.join(out, 'retry-before-source.json.gz'), zlib.gzipSync(JSON.stringify({ hashes: Object.fromEntries(source.map(file => [file, hashes[file]])), files: Object.fromEntries(source.map(file => [file, fs.readFileSync(path.join(root, file)).toString('base64')])) })));
+}
+if (phase === 'docs-before') {
+  const docs = ['docs/MYTHRILL_PROJECT_7_CONTRACT.md', 'docs/MYTHRILL_PROJECT_7_IMPLEMENTATION.md', 'docs/ENGINEERING_STATE.md'];
+  fs.writeFileSync(path.join(out, 'historical-documents.json.gz'), zlib.gzipSync(JSON.stringify({ head: record.head, hashes: Object.fromEntries(docs.map(file => [file, hashes[file]])), files: Object.fromEntries(docs.map(file => [file, fs.readFileSync(path.join(root, file)).toString('base64')])) })));
+}
 if (phase === 'before') {
   const independent = 'D:/AppData/Temp/opencode/p7-independent-20261013';
   const retained = path.join(__dirname, 'evidence/independent-block-20261013');
@@ -33,4 +41,4 @@ if (phase === 'before') {
   record.added = Object.keys(hashes).filter(file => !before.hashes[file]);
 }
 fs.writeFileSync(path.join(out, phase + '.json'), JSON.stringify(record, null, 2));
-console.log(JSON.stringify({ phase, checkout: record.checkout, head: record.head, files: files.length, focal: record.reviewedFocal, changed: record.changed, added: record.added }, null, 2));
+console.log(JSON.stringify({ phase, checkout: record.checkout, head: record.head, files: files.length, focal: record.reviewedFocal, changed: record.changed?.length, added: record.added?.length }, null, 2));

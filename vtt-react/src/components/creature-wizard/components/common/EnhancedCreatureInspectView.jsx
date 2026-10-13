@@ -13,7 +13,7 @@ import SmartTabButton from '../../../common/SmartTabButton';
 import InlineMarkdown from '../../../common/InlineMarkdown';
 import { DAMAGE_TYPES, normalizeDamageType } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { getQualityColor } from '../../../../constants/itemConstants';
-import { getAbilityIconUrl, getCustomIconUrl, getIconUrl } from '../../../../utils/assetManager';
+import { getAbilityIconUrl, getCustomIconUrl, getIconUrl, getCreatureTokenIconUrl } from '../../../../utils/assetManager';
 import { transformAbilityToSpell, resolveCreatureAbilityIcon } from '../../../../utils/creatureAbilityUtils';
 import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
 import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
@@ -87,6 +87,28 @@ const getCreatureThumb = (illustration) => {
   return illustration
     .replace('/creatures/', '/creatures/thumbs/')
     .replace(/\.png$/i, '.jpg');
+};
+
+// Resolves the primary visual artwork for a creature (icon, token, or bestiary portrait)
+const resolveCreaturePortrait = (creature, token) => {
+  if (!creature && !token) return null;
+  // 1. Direct custom token icon from token state
+  if (token?.state?.customIcon) return token.state.customIcon;
+  // 2. Custom token image
+  if (creature?.customTokenImage) return creature.customTokenImage;
+  // 3. Bestiary illustration or creature illustration
+  const bestiaryMatch = findBestiaryIllustration(creature);
+  if (creature?.illustration) return creature.illustration;
+  if (bestiaryMatch?.illustration) return bestiaryMatch.illustration;
+  // 4. Creature tokenIcon / icon
+  const iconId = creature?.tokenIcon || creature?.icon || creature?.image;
+  if (iconId) {
+    if (typeof iconId === 'string' && (iconId.startsWith('http') || iconId.startsWith('/assets/'))) {
+      return iconId;
+    }
+    return getCreatureTokenIconUrl(iconId, creature?.type);
+  }
+  return null;
 };
 
 const readLoreText = (value) => {
@@ -2411,7 +2433,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                       }}
                     />
                     {item.quantity && item.quantity > 1 && (
-                      <div className="loot-quantity">� - {item.quantity}</div>
+                      <div className="loot-quantity">×{item.quantity}</div>
                     )}
                   </div>
                   <div
@@ -2443,7 +2465,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     // Resolve bestiary artwork + meta: prefer fields carried on the token/creature,
     // otherwise look them up in BESTIARY_DATA by id/name (bestiary-sourced creatures).
     const bestiaryMatch = findBestiaryIllustration(creature);
-    const illustration = creature?.illustration || bestiaryMatch?.illustration || null;
+    const illustration = resolveCreaturePortrait(creature, token) || creature?.illustration || bestiaryMatch?.illustration || null;
     const illustrationCaption = creature?.illustrationCaption || bestiaryMatch?.illustrationCaption || null;
     const region = creature?.region || bestiaryMatch?.region || null;
     const role = creature?.role || bestiaryMatch?.role || null;

@@ -3,6 +3,7 @@
 const fs = require('fs'), path = require('path'), Module = require('module');
 const file = path.join(__dirname, 'browser.cjs');
 const red = process.env.P7_CORRECTION_RED === '1';
+const ackOnlyRed = process.env.P7_ACK_ONLY_RED === '1';
 let source = fs.readFileSync(file, 'utf8');
 source = source.replace('const { FirebaseBatchWriter }', 'const { FirebaseBatchWriter, createSyncServices }');
 source = source.replace('shouldPersist: () => true, ', '');
@@ -36,7 +37,7 @@ source = source.replace('    await page.goto(url);', `
     await page.waitForTimeout(100);const pristineHp=await page.evaluate(()=>m('actors').findActor('gm-delivery').state.currentHp);assert.equal(pristineHp,${red}?40:28);
     observations.B1Pristine={separateGMSession:true,gmAbsentFromMembers:true,proposal:pristineProposal,consumed:pristineConsumed,clientHp:pristineHp,serverHp:room.gameState.maps.default.tokens['gm-delivery'].state.currentHp,deliveryOnly:true};
     pristinePeer.disconnect();await page.evaluate(()=>{__unsubscribeActors();ReactDOM.flushSync(()=>__root.unmount());m('game').default.setState({pendingActorProposal:null});});`);
-source = source.replace("'evidence/browser-results.json'", "'evidence/corrections-20261013/browser-" + (red ? 'red' : 'green') + ".json'");
+source = source.replace("'evidence/browser-results.json'", "'evidence/corrections-20261013/browser-" + (red ? 'red' : ackOnlyRed ? 'ack-only-red' : 'green') + ".json'");
 source = source.replace("await page.getByRole('button', { name: 'Bind primary attachment' }).click();", "await page.getByRole('button', { name: 'Bind primary attachment' }).click();await page.waitForTimeout(100);console.log('Bind status',JSON.stringify(await page.evaluate(()=>m('game').default.getState().actorConsequenceStatus)));");
 source = source.replace('    // Older receipt is display-only after newer state.', `
     observations.additionalSharedCleanup=await page.evaluate(()=>{const store=m('tokens').default;const saved=store.getState().characterTokens;const before=saved.find(t=>t.id==='pc-a').state.conditions;store.getState().cleanupExpiredConditions();const after=store.getState().characterTokens.find(t=>t.id==='pc-a').state.conditions;store.setState({characterTokens:saved});return {before,after};});
@@ -97,6 +98,14 @@ const insertion = `
     // Recover for the independent B3 custody witness; this is explicit refresh.
     const refreshBeforeFault=await page.evaluate(()=>m('actors').refreshActorSnapshot());
     if(!refreshBeforeFault.success) console.log('Refresh diagnostic',JSON.stringify(await page.evaluate(()=>({result:m('game').default.getState().actorRecoverySnapshot,tokens:m('tokens').default.getState().characterTokens}))));
+    if(!${red}) {
+      const ackSocket=backend.io.sockets.sockets.get(client.id),priorPacket=ackSocket.packet.bind(ackSocket),priorSequence=restored.gameState.actorConsequences.commitSequence;let ackOnlyFails=true;
+      ackSocket.packet=(packet,...args)=>{if(packet.type===3 && ackOnlyFails && restored.gameState.actorConsequences.commitSequence>priorSequence){ackOnlyFails=false;throw Error('ack-only transport failure');}return priorPacket(packet,...args);};
+      const ackOnlyResult=await page.evaluate(()=>m('actors').adjustSharedResource('pc-a','health',0));ackSocket.packet=priorPacket;
+      observations.B3AckOnly={result:ackOnlyResult,installedRevision:restored.gameState.maps.default.characterTokens['pc-a'].state.actorContract.revision,clientRevision:await page.evaluate(()=>m('actors').findActor('pc-a').state.actorContract.revision)};
+      console.log('ACK-only outcome',JSON.stringify(observations.B3AckOnly));assert.equal(ackOnlyResult.success,!${ackOnlyRed});assert.equal(observations.B3AckOnly.installedRevision,observations.B3AckOnly.clientRevision);
+      if(${ackOnlyRed}) {const retryLost=await page.evaluate(id=>m('actors').retryActorCommand(id),ackOnlyResult.commandId);assert.equal(retryLost.code,'outcome_unknown');assert.equal(retryLost.commandId,undefined);observations.B3AckOnly.retryLost=retryLost;}
+    }
     const originalTo=backend.io.to.bind(backend.io);let failOnce=true;
     backend.io.to=target=>{const op=originalTo(target),emit=op.emit.bind(op);op.emit=(event,...args)=>{if(event==='actor_consequence_accepted'&&failOnce){failOnce=false;throw Error('publication transport failure');}return emit(event,...args);};return op;};
     const fault=await page.evaluate(()=>m('actors').adjustSharedResource('pc-a','health',-1));backend.io.to=originalTo;

@@ -1,0 +1,659 @@
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/server/handlers/actorConsequenceHandlers.js b/D:/VTT/server/handlers/actorConsequenceHandlers.js
+index 505b43f2..bec4c704 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/server/handlers/actorConsequenceHandlers.js
++++ b/D:/VTT/server/handlers/actorConsequenceHandlers.js
+@@ -12,6 +12,7 @@ function registerActorConsequenceHandlers(ctx) {
+     if (!socket.data?.authenticated || !membership.valid || !socket.data.userId) {actors.fail('forbidden');}
+     const { room, player } = membership;
+     if (room.id !== roomId || players.get(socket.id) !== player || sessionUid(room, player, socket.id) !== socket.data.userId) {actors.fail('actor_binding_conflict');}
++    if (!entitledSession(room, socket.id, player)) {actors.fail('forbidden');}
+     return { room, player, uid: socket.data.userId, token: room.authorityToken, socketId: socket.id, socketRef: socket };
+   };
+   const current = captured => {
+@@ -27,12 +28,32 @@ function registerActorConsequenceHandlers(ctx) {
+     current(captured);
+   };
+   const confirmed = room => Math.max(room.checkpointRevision || 0, writer?.getStatus?.(room.id)?.confirmedRevision || 0);
+-  const resultFor = (room, receipt) => ({ success: true, receipt: actors.publicReceipt(receipt), status: receipt.checkpointRevision <= confirmed(room) ? 'checkpoint-confirmed' : 'accepted-live' });
++  const liveOnly = room => room.isPermanent !== true && !room.persistentRoomId;
++  const resultFor = (room, receipt) => ({ success: true, receipt: actors.publicReceipt(receipt),
++    status: Number.isSafeInteger(receipt.checkpointRevision) && receipt.checkpointRevision > 0 && receipt.checkpointRevision <= confirmed(room) ? 'checkpoint-confirmed' : 'accepted-live',
++    durability: receipt.checkpointRevision === null ? 'live-only' : 'checkpoint-eligible' });
++  const entitledSession = (room, sid, player) => {
++    const peer = io.sockets.sockets.get(sid);
++    if (rooms.get(room.id) !== room || player.roomId !== room.id || !peer?.data?.authenticated || sessionUid(room, player, sid) !== peer.data.userId) {return false;}
++    // Production construction uses separate GM display/session objects.
++    if (player.isGM) {return room.gm?.id === player.id && room.gm?.socketId === sid && peer.data.userId === room.gmId;}
++    return room.players?.get(player.id) === player;
++  };
+   const deliver = (room, event, payload) => {
++    let delivered = true;
+     for (const [sid, player] of players) {
+-      if (player.roomId !== room.id || (room.gm !== player && room.players?.get(player.id) !== player)) {continue;}
+-      io.to(sid).emit(event, payload);
++      if (!entitledSession(room, sid, player)) {continue;}
++      try {io.to(sid).emit(event, payload);} catch (_) {delivered = false;}
+     }
++    return delivered;
++  };
++  const respondInstalled = (ack, result) => {
++    try {respond(ack, result);} catch (_) { /* accepted/unknown delivery retains retry custody */ }
++  };
++  const publishInstalled = (room, event, result, ack) => {
++    const delivered = deliver(room, event, result);
++    // Delivery cannot undo installed actors/receipt or become rejection.
++    respondInstalled(ack, { ...result, delivery: delivered ? 'sent' : 'partial' });
+   };
+   const install = (room, next) => {
+     room.gameState = next;
+@@ -50,6 +71,17 @@ function registerActorConsequenceHandlers(ctx) {
+     }
+   };
+   const admit = (room, staged) => {
++    if (liveOnly(room)) {
++      // Temporary cooperation is explicitly process-memory-only: no writer
++      // admission, checkpoint revision/confirmation or crash-durability claim.
++      if (room.deleting || room.lifecycleState === 'quiescing' || room.lifecycleState === 'fenced' || !authorityService?.validateCurrent(room.authorityToken)) {actors.fail('room_authority_lost');}
++      if (staged.receipt) {staged.receipt.checkpointRevision = null;}
++      const validated = require('../services/roomCheckpoint').canonicalize(staged.next, 'gameState');
++      if (validated.error) {actors.fail('CHECKPOINT_INVALID', validated.error);}
++      if (actors.bytes(staged.next.actorConsequences?.receipts || []) > 512 * 1024) {actors.fail('receipt_capacity');}
++      install(room, staged.next);
++      return;
++    }
+     if (!writer || typeof writer.admitConsequence !== 'function') {actors.fail('checkpoint_writer_unavailable');}
+     const admission = writer.admitConsequence(room.id, revision => {
+       if (staged.receipt) {staged.receipt.checkpointRevision = revision;}
+@@ -145,13 +177,19 @@ function registerActorConsequenceHandlers(ctx) {
+         ...actors.publicCondition(record), version: 1, id: `legacy-${binding.instanceId}-${index}`, recordId: `legacy-${binding.instanceId}-${index}`,
+         name: record.name || 'Legacy manual condition', originalName: record.name || 'Legacy manual condition', type: ['buff', 'debuff'].includes(record.type) ? record.type : 'marker',
+         kind: 'legacy-manual', target: actors.refFor(binding), targetId: binding.tokenId, targetType: binding.kind, sharedTiming: 'manual',
+-        durationType: record.durationType || 'manual', legacyRaw: actors.clone(record)
++        durationType: record.durationType || 'manual', source: typeof record.source === 'string' && record.source ? record.source : 'explicit-legacy-binding', legacyRaw: actors.clone(record)
+       });
+     }
+     const values = actors.resources(token, data.ref.kind);
+     for (const pool of Object.values(values)) {
+       if (![pool.current, pool.temp, pool.max].every(value => typeof value === 'number' && Number.isFinite(value) && value >= 0) || pool.current > pool.max) {actors.fail('legacy_reconciliation_required');}
+     }
++    // Bound common-pool snapshots use the same explicit zero temps as receipts.
++    // Otherwise first delivery materializes zero while an equal-revision
++    // snapshot omits it and spuriously conflicts with the accepted projection.
++    for (const [pool, [, , tempKey]] of Object.entries(actors.POOLS)) {
++      (data.ref.kind === 'character' ? token.character : token.state)[tempKey] = values[pool].temp;
++    }
+     if (data.ref.kind === 'creature') {
+       token.state.maxHp = values.hp.max; token.state.maxMana = values.mana.max; token.state.maxAP = values.ap.max;
+       token.state.maxActionPoints = values.ap.max; // Existing HUD display alias, not a second owner.
+@@ -161,9 +199,9 @@ function registerActorConsequenceHandlers(ctx) {
+     const mirrors = require('../services/roomCheckpoint').deriveRootMirrors(next.maps);
+     next.tokens = mirrors.tokens; next.characterTokens = mirrors.characterTokens;
+     admit(room, { next });
+-    const payload = { success: true, roomId: room.id, ref: actors.refFor(binding), revision: 0, mapId: data.ref.mapId, token: access.projectTokenForClient(token), invalidated };
+-    deliver(room, 'actor_bound', payload);
+-    respond(ack, payload);
++    const payload = { success: true, roomId: room.id, ref: actors.refFor(binding), revision: 0, mapId: data.ref.mapId, token: access.projectTokenForClient(token), invalidated,
++      durability: liveOnly(room) ? 'live-only' : 'checkpoint-eligible' };
++    publishInstalled(room, 'actor_bound', payload, ack);
+   });
+   run('actor_consequence', async(command, ack) => {
+     const captured = context(command.roomId);
+@@ -171,23 +209,22 @@ function registerActorConsequenceHandlers(ctx) {
+     const old = actors.knownReceipt(captured.room, captured.uid, command);
+     if (old) {
+       if (old.contentHash !== actors.hash(command)) {actors.fail('command_id_conflict');}
+-      respond(ack, resultFor(captured.room, old)); return;
++      respondInstalled(ack, resultFor(captured.room, old)); return;
+     }
+     await confirm(captured);
+     const staged = actors.stage(captured.room, captured.player, captured.uid, command,
+       { kind: captured.player.isGM ? 'gm' : 'controller', authorizerUid: captured.uid }, confirmed(captured.room));
+-    if (staged.existing) {respond(ack, resultFor(captured.room, staged.existing)); return;}
++    if (staged.existing) {respondInstalled(ack, resultFor(captured.room, staged.existing)); return;}
+     admit(captured.room, staged);
+     const result = resultFor(captured.room, staged.receipt);
+-    deliver(captured.room, 'actor_consequence_accepted', result);
+-    respond(ack, result);
++    publishInstalled(captured.room, 'actor_consequence_accepted', result, ack);
+   });
+   run('actor_propose', async(command, ack) => {
+     actors.validateCommand(command);
+     const captured = context(command.roomId);
+     const { room, player, uid } = captured;
+     const old = actors.knownReceipt(room, uid, command);
+-    if (old) {respond(ack, resultFor(room, old)); return;}
++    if (old) {respondInstalled(ack, resultFor(room, old)); return;}
+     const sourceRef = command.source || command.actors[0].ref;
+     const source = actors.locate(room, sourceRef);
+     const sourceAuthorized = actors.permitted(room, player, uid, sourceRef, source.token);
+@@ -204,7 +241,7 @@ function registerActorConsequenceHandlers(ctx) {
+     pending.set(proposal.proposalId, proposal);
+     const payload = { success: false, code: 'awaiting_authorization', proposalId: proposal.proposalId, contentHash: proposal.contentHash, command: proposal.command, submitterUid: uid };
+     for (const [sid, member] of players) {
+-      if (member.roomId === room.id && member.isGM && (room.gm === member || room.players.get(member.id) === member)) {io.to(sid).emit('actor_proposal_pending', payload);}
++      if (member.isGM && entitledSession(room, sid, member)) {io.to(sid).emit('actor_proposal_pending', payload);}
+     }
+     respond(ack, { success: false, code: payload.code, proposalId: proposal.proposalId, contentHash: proposal.contentHash });
+   });
+@@ -216,7 +253,7 @@ function registerActorConsequenceHandlers(ctx) {
+     const old = actors.ledger(room).receipts.find(receipt => receipt.authorization.proposalId === data.proposalId);
+     if (old) {
+       if (old.contentHash !== data.contentHash) {actors.fail('command_id_conflict');}
+-      respond(ack, resultFor(room, old)); return;
++      respondInstalled(ack, resultFor(room, old)); return;
+     }
+     const proposal = proposals.get(room)?.get(data.proposalId);
+     if (!proposal) {actors.fail('outcome_unknown');}
+@@ -226,16 +263,15 @@ function registerActorConsequenceHandlers(ctx) {
+     const owner = proposal.captured;
+     if (owner.room !== room || players.get(owner.socketId) !== owner.player || sessionUid(room, owner.player, owner.socketId) !== owner.uid ||
+       owner.socketRef.data?.userId !== owner.uid || !owner.socketRef.data?.authenticated ||
+-      (room.players.get(owner.player.id) !== owner.player && room.gm !== owner.player) ||
++      !entitledSession(room, owner.socketId, owner.player) ||
+       (proposal.sourceAuthorized && !actors.permitted(room, owner.player, owner.uid, proposal.sourceRef, actors.locate(room, proposal.sourceRef).token))) {actors.fail('forbidden');}
+     const staged = actors.stage(room, captured.player, owner.uid, proposal.command,
+       { kind: proposal.sourceAuthorized ? 'controller-proposal-gm' : 'member-proposal-gm', authorizerUid: captured.uid, proposalId: proposal.proposalId }, confirmed(room));
+-    if (staged.existing) {respond(ack, resultFor(room, staged.existing)); return;}
++    if (staged.existing) {respondInstalled(ack, resultFor(room, staged.existing)); return;}
+     admit(room, staged);
+     proposals.get(room).delete(data.proposalId);
+     const result = resultFor(room, staged.receipt);
+-    deliver(room, 'actor_consequence_accepted', result);
+-    respond(ack, result);
++    publishInstalled(room, 'actor_consequence_accepted', result, ack);
+   });
+   run('actor_recovery', async(data, ack) => {
+     actors.keys(data, ['roomId', 'ref', 'locator']);
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/server/handlers/actorConsequenceHandlers.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/server/handlers/actorConsequenceHandlers.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/server/services/actorConsequences.js b/D:/VTT/server/services/actorConsequences.js
+index a477fe50..2cfe7a80 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/server/services/actorConsequences.js
++++ b/D:/VTT/server/services/actorConsequences.js
+@@ -88,8 +88,10 @@ function resources(token, kind) {
+ function validateRecord(record, ref) {
+   keys(record, CONDITION_FIELDS);
+   if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) ||
+-    !['buff', 'debuff', 'marker'].includes(record.type) || !['effect', 'marker', 'legacy-manual'].includes(record.kind) ||
+-    hash(record.target) !== hash(ref) || record.sharedTiming !== 'manual' || !['rounds', 'minutes', 'hours', 'seconds', 'manual'].includes(record.durationType)) {fail('invalid_condition');}
++    typeof record.originalName !== 'string' || !record.originalName.trim() || typeof record.source !== 'string' || !record.source.trim() ||
++     !['buff', 'debuff', 'marker'].includes(record.type) || !['effect', 'marker', 'legacy-manual'].includes(record.kind) ||
++     hash(record.target) !== hash(ref) || record.targetId !== ref.tokenId || record.targetType !== ref.kind ||
++     record.sharedTiming !== 'manual' || !['rounds', 'minutes', 'hours', 'seconds', 'manual'].includes(record.durationType)) {fail('invalid_condition');}
+   for (const [key, value] of Object.entries(record)) {
+     if (['target', 'sourceActor', 'effects'].includes(key)) {continue;}
+     if (value !== null && !['number', 'string', 'boolean'].includes(typeof value)) {fail('invalid_condition');}
+@@ -187,6 +189,7 @@ function publicReceipt(receipt) {
+   if (!receipt || receipt.version !== 1 || !Array.isArray(receipt.actors)) {return { version: receipt?.version ?? null, readOnly: true };}
+   const fields = ['version', 'roomId', 'commandId', 'submitterUid', 'contentHash', 'admissionEpoch', 'commitSequence', 'checkpointRevision', 'acceptedAt'];
+   const out = Object.fromEntries(fields.filter(key => typeof receipt[key] === 'string' || (typeof receipt[key] === 'number' && Number.isFinite(receipt[key]))).map(key => [key, receipt[key]]));
++  if (receipt.checkpointRevision === null) {out.checkpointRevision = null;}
+   out.authorization = Object.fromEntries(['kind', 'authorizerUid', 'proposalId'].filter(key => typeof receipt.authorization?.[key] === 'string').map(key => [key, receipt.authorization[key]]));
+   for (const role of ['source', 'target']) {
+     if (receipt[role]) {try {validateRef(receipt[role]); out[role] = clone(receipt[role]);} catch (_) {out.readOnly = true;}}
+@@ -261,7 +264,7 @@ function stage(room, player, uid, command, authorization, confirmedRevision) {
+   let replayFloor = prior.replayFloor;
+   // Only a CONFIRMED prefix can go; pending memory receipts are never evicted.
+   while (retained.length + 1 > 256 || bytes([...retained, receipt]) > 512 * 1024) {
+-    if (!retained.length || retained[0].checkpointRevision > confirmedRevision) {fail('receipt_capacity');}
++    if (!retained.length || retained[0].checkpointRevision === null || retained[0].checkpointRevision > confirmedRevision) {fail('receipt_capacity');}
+     replayFloor = retained.shift().commitSequence;
+   }
+   next.actorConsequences = { version: 1, admissionEpoch: epoch(room), commitSequence: receipt.commitSequence, replayFloor, receipts: [...retained, receipt] };
+@@ -288,6 +291,16 @@ function protectedPath(value, depth = 0) {
+   }
+   return null;
+ }
++function authorityMetadataPath(value, depth = 0) {
++  if (!value || typeof value !== 'object') {return null;}
++  if (depth > 20) {return 'depth_limit';}
++  for (const [key, child] of Object.entries(value)) {
++    if (['actorContract', 'actorConsequences'].includes(key)) {return key;}
++    const found = authorityMetadataPath(child, depth + 1);
++    if (found) {return `${key}.${found}`;}
++  }
++  return null;
++}
+ function preserveImportedActorMetadata(gameState) {
+   for (const map of Object.values(gameState.maps || {})) {
+     for (const field of ['tokens', 'characterTokens', 'creatures']) {
+@@ -304,4 +317,4 @@ function preserveImportedActorMetadata(gameState) {
+   }
+   return gameState;
+ }
+-module.exports = { epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, preserveImportedActorMetadata, CONDITION_FIELDS, POOLS };
++module.exports = { epoch, ledger, locate, permitted, resources, stage, knownReceipt, validateCommand, validateRef, refFor, hash, bytes, clone, fail, keys, own, publicCondition, publicContract, publicReceipt, protectedPath, authorityMetadataPath, preserveImportedActorMetadata, CONDITION_FIELDS, POOLS };
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/server/services/actorConsequences.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/server/services/actorConsequences.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/server/handlers/socketHandlers.js b/D:/VTT/server/handlers/socketHandlers.js
+index e6dca166..73baff19 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/server/handlers/socketHandlers.js
++++ b/D:/VTT/server/handlers/socketHandlers.js
+@@ -796,6 +796,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
+         }
+         // P7 closes protected sibling writes at real registration, before any
+         // legacy handler can mutate or relay a resource-bearing envelope.
++        if (['creature_added', 'token_created', 'character_token_created'].includes(event) && actorConsequences.authorityMetadataPath(data)) {
++          deny('client_actor_metadata', 'Actor authority metadata is server-owned; creation requires an unbound instance');
++          return;
++        }
+         const legacy = new Set(['token_updated', 'character_token_updated', 'creature_updated',
+           'character_resource_delta', 'character_resource_updated', 'character_updated',
+           'buff_update', 'debuff_update', 'sync_tokens', 'sync_character_tokens',
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/server/handlers/socketHandlers.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/server/handlers/socketHandlers.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/services/actorConsequenceService.js b/D:/VTT/vtt-react/src/services/actorConsequenceService.js
+index cada04fe..245522f2 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/services/actorConsequenceService.js
++++ b/D:/VTT/vtt-react/src/services/actorConsequenceService.js
+@@ -14,6 +14,14 @@ let active = null;
+ let admission = null;
+ const pending = new Map();
+ const origins = new Map();
++const settleCommand = (receipt, result) => {
++  const origin = origins.get(receipt.commandId);
++  if (!origin || origin.uid !== receipt.submitterUid) return;
++  // An in-flight request retains this same origin object until its ACK/timeout.
++  // Delivered acceptance settles it even if the independent ACK is lost.
++  origin.acceptedResult = result;
++  pending.delete(receipt.commandId); origins.delete(receipt.commandId);
++};
+ const state = () => getStore('gameStore')?.getState() || {};
+ export const inSharedRoom = () => state().isInMultiplayer === true;
+ const status = result => { getStore('gameStore').setState({ actorConsequenceStatus: result }); return result; };
+@@ -65,12 +73,39 @@ export function roomResourceProjection() {
+     roomActorProjection: { ref: match.ref, revision: match.token.state.actorContract.revision, accountGeneration: match.accountGeneration } };
+ }
+ export function projectPersonalRuntime(data, preserve = true) {
++  if (!data) return data;
++  const uid = getStore('authStore').getState().user?.uid;
++  const characterId = getStore('characterStore').getState().currentCharacterId;
++  const belongs = record => {
++    if (record.target?.roomId) return record.target.kind === 'character' && record.target.ownerUid === uid && record.target.characterId === characterId &&
++      (!inSharedRoom() || (record.target.roomId === state().multiplayerRoom?.id && !!findActor(record.target)));
++    if (record.ownerUid || record.characterId) return record.ownerUid === uid && record.characterId === characterId;
++    if (record.targetId === characterId && record.targetType === 'character') return true;
++    return !inSharedRoom() && ['player', 'current-player', 'local-player', 'local_player'].includes(record.targetId);
++  };
++  const scoped = { ...data };
++  for (const key of ['buffs', 'debuffs']) if (Array.isArray(data[key])) scoped[key] = data[key].filter(belongs);
++  if (Array.isArray(data.roomActorRecoveryCandidates)) scoped.roomActorRecoveryCandidates = data.roomActorRecoveryCandidates.filter(candidate => candidate.ownerUid === uid && candidate.characterId === characterId);
++  if (data.roomActorProjection && (data.roomActorProjection.ref?.ownerUid !== uid || data.roomActorProjection.ref?.characterId !== characterId)) delete scoped.roomActorProjection;
++  const ambiguous = ['buffs', 'debuffs'].flatMap(key => (data[key] || []).filter(record => !belongs(record) && !record.target?.roomId));
++  if (ambiguous.length) {
++    // Original bytes stay manual/recovery data outside the executable payload.
++    // Observation context is not proof of selected-character ownership.
++    const game = getStore('gameStore'), prior = game.getState().personalConditionRecoveryCandidates || [];
++    const candidate = { observedOwnerUid: uid, observedCharacterId: characterId, records: clone(ambiguous) };
++    if (!prior.some(value => same(value, candidate))) {
++      if (prior.length >= 8) throw new Error('Condition recovery capacity reached; personal application refused');
++      game.setState({ personalConditionRecoveryCandidates: [...prior, candidate] });
++    }
++  }
+   const match = matchingActive();
+-  if (!match || !data) return data;
++  if (!match) return scoped;
+   const projection = roomResourceProjection();
+   const records = match.token.state.conditions || [];
+-  const result = { ...data, ...projection,
+-    buffs: records.filter(record => record.type === 'buff'), debuffs: records.filter(record => record.type === 'debuff') };
++  const result = { ...scoped, ...projection };
++  for (const [key, type] of [['buffs', 'buff'], ['debuffs', 'debuff']]) result[key] = [
++    ...(scoped[key] || []).filter(record => !record.target?.roomId), ...records.filter(record => record.type === type)
++  ];
+   if (preserve && !same({ ...data, roomActorRecoveryCandidates: undefined }, { ...result, roomActorRecoveryCandidates: undefined })) {
+     const store = getStore('characterStore');
+     const prior = store.getState().roomActorRecoveryCandidates || [];
+@@ -111,7 +146,7 @@ export async function refreshActorSnapshot() {
+     const validation = validateActorSnapshot(result.maps);
+     if (!validation.ok) {
+       getStore('gameStore').setState({ actorRecoverySnapshot: { result, uid: getStore('authStore').getState().user?.uid,
+-        accountGeneration: getBootstrapGateState().accountGeneration } });
++         accountGeneration: getBootstrapGateState().accountGeneration, readOnly: validation.code === 'actor_binding_metadata_missing', reason: validation.code } });
+       return error('actor_reconciliation_required');
+     }
+     admission = { roomId: result.roomId, actionEpoch: result.actionEpoch, commitSequence: result.commitSequence, replayFloor: result.replayFloor };
+@@ -135,7 +170,8 @@ function replaceActorSnapshot(result) {
+ export function acceptRecoveredActorSnapshot() {
+   const recovery = state().actorRecoverySnapshot;
+   if (!recovery || recovery.uid !== getStore('authStore').getState().user?.uid || recovery.accountGeneration !== getBootstrapGateState().accountGeneration ||
+-    recovery.result.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
++     recovery.result.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
++  if (recovery.readOnly) return error('legacy_reconciliation_required');
+   const match = matchingActive();
+   if (match) {
+     const store = getStore('characterStore'), prior = store.getState().roomActorRecoveryCandidates || [];
+@@ -183,7 +219,7 @@ export function applyAcceptedConsequence(result) {
+   if (!receipt || receipt.version !== 1 || receipt.roomId !== state().multiplayerRoom?.id || !Array.isArray(receipt.actors)) return false;
+   if (admission?.roomId === receipt.roomId && receipt.admissionEpoch !== admission.actionEpoch) {
+     if (receipt.commitSequence <= admission.commitSequence) {
+-      pending.delete(receipt.commandId); origins.delete(receipt.commandId);
++      settleCommand(receipt, result);
+       status({ ...result, historical: true }); return true;
+     }
+     status({ success: false, code: 'snapshot_required' }); return false;
+@@ -251,7 +287,7 @@ export function applyAcceptedConsequence(result) {
+     const store = getStore('characterStore');
+     require('../store/characterHelpers').triggerCharacterAutoSave(() => store.getState().saveCurrentCharacter());
+   }
+-  pending.delete(receipt.commandId); origins.delete(receipt.commandId); status({ ...result, historical: staged.length === 0 }); return true;
++  settleCommand(receipt, result); status({ ...result, historical: staged.length === 0 }); return true;
+ }
+ export async function submitActorEntries(entries, extra = {}) {
+   {
+@@ -271,6 +307,10 @@ export async function retryActorCommand(commandId) {
+   const origin = origins.get(commandId);
+   if (!origin || origin.uid !== getStore('authStore').getState().user?.uid || origin.accountGeneration !== getBootstrapGateState().accountGeneration || origin.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
+   const result = await request('actor_consequence', command);
++  if (origin.acceptedResult && ['outcome_unknown', 'room_connection_unavailable'].includes(result.code) &&
++    origin.uid === getStore('authStore').getState().user?.uid && origin.accountGeneration === getBootstrapGateState().accountGeneration && origin.roomId === state().multiplayerRoom?.id) {
++    return status({ ...origin.acceptedResult, commandId });
++  }
+   if (result.success && !applyAcceptedConsequence(result)) return status({ success: false, code: 'snapshot_required', commandId, acceptedReceipt: result.receipt, status: result.status });
+   if (result.code === 'authorization_required') {
+     const proposal = await request('actor_propose', command);
+@@ -312,7 +352,8 @@ export function roomCondition(raw, ref) {
+   return { ...Object.fromEntries(fields.filter(key => raw[key] !== undefined).map(key => [key, raw[key]])), version: 1, id, recordId: id,
+     name: raw.name, originalName: raw.originalName || raw.name, conditionKey: aliases[raw.name?.toLowerCase()] || raw.name?.toLowerCase(),
+     type: ['buff', 'debuff'].includes(raw.type) ? raw.type : 'marker', kind: raw.kind || (raw.effects ? 'effect' : 'marker'),
+-    target: ref, targetId: ref.tokenId, targetType: ref.kind, sharedTiming: 'manual', durationType: raw.durationType || 'manual' };
++     target: ref, targetId: ref.tokenId, targetType: ref.kind, source: raw.source === undefined ? 'manual' : raw.source,
++     sharedTiming: 'manual', durationType: raw.durationType || 'manual' };
+ }
+ export function adjustSharedResource(target, resource, adjustment, asTemporary = false) {
+   const token = findActor(target), ref = refOf(token), pool = { health: 'hp', mana: 'mana', actionPoints: 'ap' }[resource];
+@@ -348,11 +389,11 @@ export function registerActorHandlers({ socket }) {
+     }
+   };
+   const bound = result => { if (!isSocketRetired(socket) && state().multiplayerSocket === socket) applyBoundActor(result); };
+-  const proposal = value => { if (!isSocketRetired(socket)) getStore('gameStore').setState({ pendingActorProposal: value }); };
++  const proposal = value => { if (!isSocketRetired(socket) && state().multiplayerSocket === socket && value.command?.roomId === state().multiplayerRoom?.id) getStore('gameStore').setState({ pendingActorProposal: value }); };
+   const confirmed = value => {
+     if (isSocketRetired(socket) || state().multiplayerSocket !== socket || value.roomId !== state().multiplayerRoom?.id) return;
+     const result = state().actorConsequenceStatus;
+-    if (result?.receipt && result.receipt.checkpointRevision <= value.confirmedRevision) status({ ...result, status: 'checkpoint-confirmed' });
++    if (result?.receipt && Number.isSafeInteger(result.receipt.checkpointRevision) && result.receipt.checkpointRevision > 0 && result.receipt.checkpointRevision <= value.confirmedRevision) status({ ...result, status: 'checkpoint-confirmed' });
+   };
+   socket.on('actor_consequence_accepted', accepted); socket.on('actor_bound', bound); socket.on('actor_proposal_pending', proposal);
+   socket.on('room_save_status', confirmed);
+@@ -369,14 +410,19 @@ export function hydrateActorConditions() {
+   getStore('conditionStore').setState({ activeBuffs: records.filter(record => record.type === 'buff'), activeDebuffs: records.filter(record => record.type === 'debuff') });
+   reconcileOwner();
+ }
+-export function validateActorSnapshot(maps) {
++export function validateActorSnapshot(maps, roomId = state().multiplayerRoom?.id) {
+   if (!inSharedRoom()) return { ok: true };
+   for (const [mapId, map] of Object.entries(maps || {})) {
+     for (const field of ['tokens', 'characterTokens']) {
+       for (const incoming of Object.values(map?.[field] || {})) {
+         const ref = refOf(incoming);
+-        if (!ref) continue;
+-        if (ref.roomId !== state().multiplayerRoom?.id || ref.mapId !== mapId) return { ok: false, code: 'actor_binding_conflict' };
++        if (!ref) {
++          const prior = tokens().find(token => token.id === incoming.id && refOf(token)?.roomId === roomId && refOf(token)?.mapId === mapId &&
++            refOf(token)?.kind === (field === 'characterTokens' ? 'character' : 'creature'));
++          if (prior) return { ok: false, code: 'actor_binding_metadata_missing' };
++          continue;
++        }
++        if (ref.roomId !== roomId || ref.mapId !== mapId) return { ok: false, code: 'actor_binding_conflict' };
+         const prior = findActor(ref);
+         if (!prior) continue;
+         const revision = incoming.state.actorContract.revision, current = prior.state.actorContract.revision;
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/services/actorConsequenceService.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/vtt-react/src/services/actorConsequenceService.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/services/silentRoomHydration.js b/D:/VTT/vtt-react/src/services/silentRoomHydration.js
+index c26f2b7b..4551c160 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/services/silentRoomHydration.js
++++ b/D:/VTT/vtt-react/src/services/silentRoomHydration.js
+@@ -479,8 +479,13 @@ export function applyRoomSnapshot(options = {}) {
+   const scope = options.scope || 'room';
+   const mapId = options.mapId || options.activeMapId || useMapStore.getState().currentMapId;
+   const maps = scope === 'room' ? options.gameState?.maps : { [mapId]: scope === 'map' ? options.mapData || options.gameState?.maps?.[mapId] : options.sections };
+-  const actorValidation = validateActorSnapshot(maps);
+-  if (!actorValidation.ok) return { applied: false, scope, reason: actorValidation.code };
++  const actorValidation = validateActorSnapshot(maps, options.roomId || useGameStore.getState().multiplayerRoom?.id);
++  if (!actorValidation.ok) {
++    useGameStore.setState({ actorRecoverySnapshot: { result: { roomId: options.roomId || useGameStore.getState().multiplayerRoom?.id, maps: JSON.parse(JSON.stringify(maps)) },
++      uid: require('../store/authStore').default.getState().user?.uid, accountGeneration: require('../persistence/bootstrapPrivacyGate').getBootstrapGateState().accountGeneration,
++      readOnly: actorValidation.code === 'actor_binding_metadata_missing', reason: actorValidation.code } });
++    return { applied: false, scope, reason: actorValidation.code };
++  }
+   const previousReceiving = typeof window !== 'undefined' ? window._isReceivingMapUpdate : undefined;
+   if (typeof window !== 'undefined') { window._isReceivingMapUpdate = true; }
+ 
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/services/silentRoomHydration.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/vtt-react/src/services/silentRoomHydration.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/store/characterTokenStore.js b/D:/VTT/vtt-react/src/store/characterTokenStore.js
+index c7711dd1..66d510aa 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/store/characterTokenStore.js
++++ b/D:/VTT/vtt-react/src/store/characterTokenStore.js
+@@ -564,7 +564,9 @@ const useCharacterTokenStore = create(
+    },
+ 
+    // Clean up expired conditions from all character tokens
+-   cleanupExpiredConditions: () => set(state => {
++    cleanupExpiredConditions: () => set(state => {
++     // Shared records, including round zero, change only by accepted consequence.
++     if (getStore('gameStore')?.getState().isInMultiplayer) return state;
+     // CRITICAL FIX: Guard against undefined state
+     if (!state || !state.characterTokens) {
+      console.warn('âš ï¸ characterTokenStore state is undefined in cleanupExpiredConditions');
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/store/characterTokenStore.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/vtt-react/src/store/characterTokenStore.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/components/hud/ActorConsequenceControls.jsx b/D:/VTT/vtt-react/src/components/hud/ActorConsequenceControls.jsx
+index e38e6f49..cc5a35b5 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/components/hud/ActorConsequenceControls.jsx
++++ b/D:/VTT/vtt-react/src/components/hud/ActorConsequenceControls.jsx
+@@ -40,9 +40,10 @@ export default function ActorConsequenceControls() {
+     </div>}
+     {candidate?.kind === 'character' && refOf(candidate.token) && <button disabled={busy} onClick={() => selectOwnerAttachment(refOf(candidate.token))}>Use this owner attachment</button>}
+     {outcome && <p role="status">{outcome.success ? outcome.status || outcome.code || 'Accepted live' : outcome.error || outcome.code?.replace(/_/g, ' ')}</p>}
++    {outcome?.durability === 'live-only' && <p>Temporary room: live-only, nonpersistent. No checkpoint confirmation or crash durability.</p>}
+     {outcome?.commandId && !outcome.success && <button disabled={busy} onClick={() => perform(() => retryActorCommand(outcome.commandId))}>Check same command</button>}
+-    {recovery && <div><p>Room projection changed. The previous owner projection requires reconciliation.</p>
+-      <button disabled={busy} onClick={acceptRecoveredActorSnapshot}>Use server projection; retain current candidate</button></div>}
++    {recovery && <div><p>{recovery.readOnly ? 'Unbound snapshot retained as recovery data. Refresh or explicitly reconcile its binding; protected values are unchanged.' : 'Room projection changed. The previous owner projection requires reconciliation.'}</p>
++      {!recovery.readOnly && <button disabled={busy} onClick={acceptRecoveredActorSnapshot}>Use server projection; retain current candidate</button>}</div>}
+     {proposal && <div><p>Actor consequence awaiting GM authorization · {proposal.proposalId}</p>
+       <pre>{JSON.stringify(proposal.command?.actors, null, 2)}</pre>
+       <button disabled={busy} onClick={() => perform(() => approvePendingActorProposal(proposal))}>Authorize this immutable result</button></div>}
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/vtt-react/src/components/hud/ActorConsequenceControls.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/vtt-react/src/components/hud/ActorConsequenceControls.jsx', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/server/tests/p7Blockers.production.test.js b/D:/VTT/server/tests/p7Blockers.production.test.js
+index e69de29b..0077b425 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/server/tests/p7Blockers.production.test.js
++++ b/D:/VTT/server/tests/p7Blockers.production.test.js
+@@ -0,0 +1,177 @@
++const assert = require('assert/strict');
++const crypto = require('crypto');
++const fs = require('fs');
++const path = require('path');
++const { createProductionStackServer } = require('./helpers/productionStackServer');
++const { FirebaseBatchWriter, createSyncServices } = require('../services/syncService');
++const actors = require('../services/actorConsequences');
++const red = process.env.P7_CORRECTION_RED === '1';
++const observations = {};
++const ack = (client, event, data, timeout = 4000) => new Promise(resolve => {
++  const timer = setTimeout(() => resolve({ success: false, code: 'outcome_unknown' }), timeout);
++  client.emit(event, data, result => {clearTimeout(timer); resolve(result);});
++});
++const pause = () => new Promise(resolve => setTimeout(resolve, 80));
++describe('P7 independent blockers registered regressions', function() {
++  this.timeout(15000);
++  let server, gm, room, writer, services, clients, uid;
++  beforeEach(async() => {
++    writer = new FirebaseBatchWriter(60000, 50, { persist: async() => false });
++    server = createProductionStackServer({ firebaseBatchWriter: writer });
++    await server.start(); clients = [];
++    for (const event of ['actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_propose', 'actor_adjudicate']) {server.setEventLimits(event, { maxPerMinute: 20000, maxPerSecond: 20000 });}
++    services = createSyncServices(server.io, server.rooms, server.players, { authorityService: server.authorityService });
++    // Real production eligibility, metadata and authority hooks; only cloud transport differs.
++    for (const name of ['shouldPersist', 'captureAuthority', 'authorityCurrent', 'authorityAccept', 'authorityConfirm', 'captureMetadata', 'getRoomRevision', 'validateSnapshot', 'onConfirmed']) {writer[name] = services.firebaseBatchWriter[name];}
++    writer.authorityRequired = true;
++    uid = server.nextUserId('gm'); server.registerAuthToken('gm', uid);
++    gm = server.connect({ token: 'gm' }); clients.push(gm);
++    await new Promise(resolve => gm.once('connect', resolve));
++    room = await server.seedRoom(gm.id, { gmUserId: uid, persistentRoomId: crypto.randomUUID() });
++  });
++  afterEach(async() => {clients.forEach(client => client.disconnect()); services.firebaseBatchWriter.stop(); services.movementDebouncer.stop(); await server.stop();});
++  after(() => fs.writeFileSync(path.resolve(__dirname, '../../vtt-react/verification/p7/evidence/corrections-20261013/server-' + (red ? 'red' : 'green') + '.json'), JSON.stringify(observations, null, 2)));
++  const raw = id => ({ id, ownerUserId: uid, stats: { maxHp: 50, maxMana: 30, maxAP: 5 }, state: { currentHp: 40, currentMana: 20, currentActionPoints: 3, conditions: [] } });
++  const bind = async(id = 'actor') => {
++    room.gameState.maps.default.tokens[id] = raw(id);
++    return ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'creature', roomId: room.id, mapId: 'default', tokenId: id }, snapshotHash: actors.hash(room.gameState.maps.default.tokens[id]) });
++  };
++  const command = async(ref, conditions) => {
++    const snapshot = await ack(gm, 'actor_snapshot', { roomId: room.id });
++    return { version: 1, roomId: room.id, commandId: crypto.randomUUID(), actionEpoch: snapshot.actionEpoch, baseCommitSequence: snapshot.commitSequence,
++      actors: [{ ref, expectedRevision: actors.locate(room, ref).contract.revision, ...(conditions ? { conditions } : { finalResources: { hp: { current: 20, temp: 0 } } }) }] };
++  };
++  const member = async() => {
++    const owner = server.nextUserId('member'); server.registerAuthToken(owner, owner);
++    const client = server.connect({ token: owner }); clients.push(client); await new Promise(resolve => client.once('connect', resolve));
++    const joined = new Promise(resolve => client.once('room_joined', resolve)); client.emit('join_room', { roomId: room.id, playerName: 'Member', password: '' }); await joined;
++    return client;
++  };
++  it('B1 normal separate GM registry session receives immutable pending proposals and accepted results; revoked/replaced sessions do not', async() => {
++    const bound = await bind(); assert.equal(bound.success, true);
++    const peer = await member(), pending = [], accepted = [];
++    gm.on('actor_proposal_pending', value => pending.push(value)); gm.on('actor_consequence_accepted', value => accepted.push(value));
++    const cmd = await command(bound.ref), proposed = await ack(peer, 'actor_propose', cmd); await pause();
++    assert.notEqual(room.gm, server.players.get(gm.id));
++    const result = await ack(gm, 'actor_adjudicate', { roomId: room.id, proposalId: proposed.proposalId, contentHash: proposed.contentHash }); await pause();
++    observations.B1 = { proposed, pending, result, accepted, separateRegistrySession: true };
++    assert.equal(pending.length, red ? 0 : 1); assert.equal(accepted.length, red ? 0 : 1);
++    if (!red) {assert.deepEqual(pending[0].command, cmd); assert.equal(pending[0].contentHash, actors.hash(cmd));}
++    const count = { pending: pending.length, accepted: accepted.length };
++    const oldGM = room.gm;
++    // Leave an old registry entry/socket alive, but replace the actual GM session.
++    room.gm = { ...room.gm, id: 'successor', socketId: 'successor-socket' };
++    await ack(peer, 'actor_propose', await command(bound.ref)); await pause();
++    assert.equal(pending.length, count.pending); assert.equal(accepted.length, count.accepted);
++    if (!red) {assert.equal((await ack(gm, 'actor_snapshot', { roomId: room.id })).success, false);}
++    room.gm = oldGM;
++    const revokedAccepted = [];
++    peer.on('actor_consequence_accepted', value => revokedAccepted.push(value));
++    room.players.delete(server.players.get(peer.id).id);
++    assert.equal((await ack(peer, 'actor_snapshot', { roomId: room.id })).success, false);
++    await ack(gm, 'actor_consequence', await command(bound.ref)); await pause(); assert.equal(revokedAccepted.length, 0);
++  });
++  it('B2 real temporary room supports authorized live-only resources/conditions with bounded receipts and no persistent writer', async() => {
++    room.isPermanent = false; delete room.persistentRoomId;
++    assert.equal(writer.shouldPersist(room.id), false);
++    const bound = await bind();
++    const legacy = await ack(gm, 'token_updated', { roomId: room.id, mapId: 'default', tokenId: 'actor', updates: { currentHp: 20 } });
++    observations.B2 = { bound, legacy, eligible: writer.shouldPersist(room.id) };
++    assert.equal(legacy.code, 'actor_consequence_required');
++    if (red) {assert.equal(bound.code, 'room_not_persistent'); return;}
++    assert.equal(bound.success, true); assert.equal(bound.durability, 'live-only');
++    const record = { version: 1, id: 'manual', recordId: 'manual', originalName: 'Unknown manual name', name: 'Unknown manual name', type: 'marker', kind: 'legacy-manual', target: bound.ref, targetId: 'actor', targetType: 'creature', source: 'GM manual', sharedTiming: 'manual', durationType: 'manual' };
++    const cmd = await command(bound.ref, [{ op: 'add', recordId: record.id, record }]);
++    cmd.actors[0].finalResources = { hp: { current: 20, temp: 0 } };
++    const result = await ack(gm, 'actor_consequence', cmd), retry = await ack(gm, 'actor_consequence', cmd);
++    assert.equal(result.success, true); assert.equal(result.status, 'accepted-live'); assert.equal(result.durability, 'live-only'); assert.equal(result.receipt.checkpointRevision, null);
++    assert.deepEqual(retry.receipt, result.receipt); assert.equal(writer.getRetainedSnapshot(room.id), null);
++    const peer = await member(); const denied = await ack(peer, 'actor_consequence', await command(bound.ref)); assert.equal(denied.code, 'authorization_required');
++    const prior = JSON.stringify(room.gameState);
++    // A full unconfirmed session ledger refuses, never prunes live-only results.
++    const receipt = room.gameState.actorConsequences.receipts[0];
++    room.gameState.actorConsequences.receipts = Array.from({ length: 256 }, (_, index) => ({ ...receipt, commandId: crypto.randomUUID(), commitSequence: index + 1 }));
++    room.gameState.actorConsequences.commitSequence = 256;
++    const full = JSON.stringify(room.gameState), capacity = await ack(gm, 'actor_consequence', await command(bound.ref));
++    assert.equal(capacity.code, 'receipt_capacity'); assert.equal(JSON.stringify(room.gameState), full);
++    observations.B2 = { ...observations.B2, result, retry, denied, capacity, atomicResourcesAndCondition: JSON.parse(prior).maps.default.tokens.actor.state, retainedSnapshot: writer.getRetainedSnapshot(room.id) };
++  });
++  it('B3 broadcast throw after install returns accepted/delivery status and exact retry never mutates again', async() => {
++    const bound = await bind(); await member(); const cmd = await command(bound.ref);
++    const original = server.io.to.bind(server.io); let failOnce = true;
++    server.io.to = target => {const operator = original(target), emit = operator.emit.bind(operator); operator.emit = (event, ...args) => {if (event === 'actor_consequence_accepted' && failOnce) {failOnce = false; throw Error('publication transport failure');} return emit(event, ...args);}; return operator;};
++    const result = await ack(gm, 'actor_consequence', cmd); server.io.to = original;
++    const installed = actors.clone(room.gameState), retry = await ack(gm, 'actor_consequence', cmd);
++    observations.B3 = { result, retry, liveHp: installed.maps.default.tokens.actor.state.currentHp, receipts: installed.actorConsequences.receipts.length };
++    assert.equal(result.success, !red); if (red) {assert.equal(result.code, 'invalid_consequence');} else {assert.equal(result.delivery, 'partial');}
++    assert.equal(retry.success, true); assert.equal(JSON.stringify(room.gameState), JSON.stringify(installed)); assert.equal(installed.actorConsequences.receipts.length, 1);
++  });
++  it('B3 acknowledgement throw after install retains accepted receipt; pre-install validation/capacity still refuse atomically', async() => {
++    const bound = await bind(), cmd = await command(bound.ref);
++    const socket = server.io.sockets.sockets.get(gm.id), original = socket.packet.bind(socket); let failOnce = true;
++    socket.packet = (packet, ...args) => {if (packet.type === 3 && failOnce) {failOnce = false; throw Error('ack transport failure');} return original(packet, ...args);};
++    const result = await ack(gm, 'actor_consequence', cmd, 200); socket.packet = original;
++    const installed = JSON.stringify(room.gameState), retry = await ack(gm, 'actor_consequence', cmd);
++    observations.B3Ack = { result, retry };
++    assert.equal(result.code, 'outcome_unknown'); assert.equal(retry.success, true); assert.equal(JSON.stringify(room.gameState), installed);
++    const bad = await command(bound.ref); bad.actors[0].finalResources.hp.current = 99;
++    assert.equal((await ack(gm, 'actor_consequence', bad)).success, false); assert.equal(JSON.stringify(room.gameState), installed);
++    writer.maxTrackedRooms = 0; writer.roomStates.clear(); writer.pendingWrites.clear();
++    assert.equal((await ack(gm, 'actor_consequence', await command(bound.ref))).success, false); assert.equal(JSON.stringify(room.gameState), installed);
++  });
++  it('B4 creature creation rejects client authority metadata; ordinary creation and explicit server adaptation remain supported', async() => {
++    const forged = { version: 1, kind: 'creature', roomId: room.id, mapId: 'default', tokenId: 'forged', instanceId: 'client-authority', revision: 91 };
++    const result = await ack(gm, 'creature_added', { roomId: room.id, mapId: 'default', creature: { ...raw('forged'), state: { ...raw('forged').state, actorContract: forged } } }, 200);
++    const snapshot = await ack(gm, 'actor_snapshot', { roomId: room.id });
++    observations.B4 = { result, stored: room.gameState.maps.default.creatures?.forged || null, projected: snapshot.maps.default.creatures?.forged || null };
++    if (red) {assert.deepEqual(observations.B4.stored.state.actorContract, forged);} else {assert.equal(observations.B4.stored, null); assert.equal(observations.B4.projected, null);}
++    if (!red) {
++      for (const event of ['token_created', 'character_token_created']) {
++        const id = event + '-forged', before = JSON.stringify(room.gameState);
++        const denied = await ack(gm, event, { roomId: room.id, mapId: 'default', token: { ...raw(id), state: { ...raw(id).state, actorContract: { ...forged, tokenId: id } } }, creature: { stats: raw(id).stats }, position: { x: 0, y: 0 } });
++        assert.equal(denied.code, 'client_actor_metadata'); assert.equal(JSON.stringify(room.gameState), before);
++      }
++    }
++    gm.emit('creature_added', { roomId: room.id, mapId: 'default', creature: raw('ordinary') }); await pause();
++    const ordinary = room.gameState.maps.default.creatures.ordinary;
++    assert.equal(ordinary.state.actorContract, undefined);
++    const bound = await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'creature', roomId: room.id, mapId: 'default', tokenId: 'ordinary' }, snapshotHash: actors.hash(ordinary) });
++    assert.equal(bound.success, true); assert.notEqual(bound.ref.instanceId, forged.instanceId); assert.equal(bound.revision, 0);
++  });
++  it('B6 incomplete/contradictory executable records refuse before mutation; optional conditionKey and valid known/unknown/manual records pass', async() => {
++    const bound = await bind(); const record = { version: 1, id: 'missing', recordId: 'missing', name: 'Incomplete', type: 'debuff', kind: 'effect', target: bound.ref, sharedTiming: 'manual', durationType: 'manual' };
++    const before = JSON.stringify(room.gameState), result = await ack(gm, 'actor_consequence', await command(bound.ref, [{ op: 'add', recordId: record.id, record }]));
++    observations.B6 = { result };
++    assert.equal(result.success, red); if (red) {return;}
++    assert.equal(JSON.stringify(room.gameState), before);
++    const complete = { ...record, originalName: 'Original unknown', source: 'GM manual', targetId: bound.ref.tokenId, targetType: bound.ref.kind };
++    for (const key of ['id', 'recordId', 'originalName', 'source', 'target', 'targetId', 'targetType', 'kind', 'durationType']) {
++      const malformed = { ...complete }; delete malformed[key];
++      assert.equal((await ack(gm, 'actor_consequence', await command(bound.ref, [{ op: 'add', recordId: record.id, record: malformed }]))).success, false, key);
++      assert.equal(JSON.stringify(room.gameState), before);
++    }
++    for (const patch of [{ targetId: 'other' }, { targetType: 'character' }, { source: '' }, { originalName: '' }]) {
++      assert.equal((await ack(gm, 'actor_consequence', await command(bound.ref, [{ op: 'add', recordId: record.id, record: { ...complete, ...patch } }]))).success, false);
++      assert.equal(JSON.stringify(room.gameState), before);
++    }
++    const records = [complete, { ...complete, id: 'known', recordId: 'known', name: 'Slowed', originalName: 'slow', conditionKey: 'slowed', durationType: 'rounds', durationValue: 3, remainingRounds: 0, effects: { movementSpeed: -10 } }, { ...complete, id: 'manual', recordId: 'manual', kind: 'legacy-manual' }];
++    const validCommand = await command(bound.ref, records.map(value => ({ op: 'add', recordId: value.id, record: value })));
++    actors.validateCommand(validCommand);
++    const valid = await ack(gm, 'actor_consequence', validCommand);
++    assert.equal(valid.success, true, JSON.stringify(valid)); observations.B6.valid = valid;
++  });
++  it('Bounds actual max edit refusal and explicit build replacement invalidate a pending command without stale-bound acceptance', async() => {
++    const bound = await bind(); const peer = await member(), cmd = await command(bound.ref);
++    const proposal = await ack(peer, 'actor_propose', cmd);
++    const maxEdit = await ack(gm, 'token_updated', { roomId: room.id, mapId: 'default', tokenId: 'actor', updates: { state: { maxHp: 10 } } });
++    assert.equal(maxEdit.code, 'actor_consequence_required'); assert.equal(actors.locate(room, bound.ref).token.state.maxHp, 50);
++    gm.emit('token_removed', { roomId: room.id, mapId: 'default', tokenId: 'actor' }); await pause();
++    const replacement = raw('actor'); replacement.stats.maxHp = 10; replacement.state.currentHp = 10;
++    const created = await ack(gm, 'token_created', { roomId: room.id, mapId: 'default', token: replacement, creature: { stats: replacement.stats }, position: { x: 0, y: 0 } }); assert.equal(created.success, true, JSON.stringify(created));
++    const token = room.gameState.maps.default.tokens.actor;
++    const rebound = await ack(gm, 'actor_bind', { roomId: room.id, ref: { kind: 'creature', roomId: room.id, mapId: 'default', tokenId: 'actor' }, snapshotHash: actors.hash(token) }); assert.equal(rebound.success, true);
++    const before = JSON.stringify(room.gameState), stale = await ack(gm, 'actor_adjudicate', { roomId: room.id, proposalId: proposal.proposalId, contentHash: proposal.contentHash });
++    assert.equal(stale.success, false); assert.equal(JSON.stringify(room.gameState), before);
++    observations.bounds = { maxEdit, oldRef: bound.ref, newRef: rebound.ref, newMax: actors.locate(room, rebound.ref).token.state.maxHp, stale, noNewReceipt: !room.gameState.actorConsequences.receipts.length };
++  });
++});
+warning: in the working copy of 'D:/VTT/server/tests/p7Blockers.production.test.js', LF will be replaced by CRLF the next time Git touches it
+diff --git a/D:/AppData/Temp/opencode/p7-correction-diff/server/tests/p7Consequences.production.test.js b/D:/VTT/server/tests/p7Consequences.production.test.js
+index 0675f93f..66ac9ae4 100644
+--- a/D:/AppData/Temp/opencode/p7-correction-diff/server/tests/p7Consequences.production.test.js
++++ b/D:/VTT/server/tests/p7Consequences.production.test.js
+@@ -26,7 +26,7 @@ describe('P7 production registration/admission (A1–A7/A11 server layer)', func
+     uid = server.nextUserId(); server.registerAuthToken('gm', uid);
+     gm = server.connect({ token: 'gm' }); clients.push(gm);
+     await new Promise(resolve => gm.once('connect', resolve));
+-    room = await server.seedRoom(gm.id, { gmUserId: uid });
++    room = await server.seedRoom(gm.id, { gmUserId: uid, persistentRoomId: crypto.randomUUID() });
+     refs = [];
+     for (const tokenId of ['branvig-a', 'branvig-b']) {
+       const token = { id: tokenId, creatureId: 'grimmstalk', ownerUserId: uid, stats: { maxHp: 250, maxMana: 30, maxAP: 5 },
+warning: in the working copy of 'D:/AppData/Temp/opencode/p7-correction-diff/server/tests/p7Consequences.production.test.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'D:/VTT/server/tests/p7Consequences.production.test.js', LF will be replaced by CRLF the next time Git touches it

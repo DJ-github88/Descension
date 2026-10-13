@@ -119,7 +119,7 @@
     "data/classSpellCategories.js": "e5d1a23df8909ed9bb6b214deb396cd88d47688bb08d279c422616c0a52f68ea",
     "data/universalCombatSpells.js": "b6f35618450e661e351ff9f8a5883295f7fdc0af8923b7da49dda3c553c784b0",
     "persistence/characterHandoffPreservation.js": "eb9950459ce0d4d7fca27244f452ce3eb401366e444e8f09120253ce01ccb910",
-    "services/actorConsequenceService.js": "42e5cda468402707120ef1519fb05f05b0ae5471197aa5b6a788779cc74332f5",
+    "services/actorConsequenceService.js": "feacb113a8f36c501a357514bdb543e6a788a8fa8590d7dbac361b9652019a8c",
     "store/combatStore.js": "c2ec8649165d3ab2b5715294cd80d8057412cd183d1c99c9f4e6df447c5c8904",
     "utils/conditionUtils.js": "2dc1d744f8a40d7c816b97a483ef7c7ee49fea6d6bf8f5ae5b9b5667bf6c1fa4",
     "components/spellcrafting-wizard/core/mechanics/cooldownSystem.js": "0fff3d5785db114cd24ef955b214cc8ff9926e69fb3ded89c76f96cfc5dda40f",
@@ -270,7 +270,7 @@
     "hooks/useRealtimeSync.js": "72112d0e3c99323ce843140eb68168141d7bc04cdb188d559d41a6f1146c63f2",
     "services/firebase/persistenceService.js": "171b5d888a4e074bb745b34366ef57e89769fbfccc72df5561241153ad7ab332",
     "services/firebase/roomStateService.js": "5c8232ecb7032f2116ef609d039e84e787da63bcbc72a309c9f83ece70f55f03",
-    "components/hud/ActorConsequenceControls.jsx": "d9220aeeb90b07946ad9daa217d2ce6e965b750ba29635e9208b113e99941d9f",
+    "components/hud/ActorConsequenceControls.jsx": "50ad8862d02df681cb15303fd0495931a1bc244ce5ea4de838d9e1891ef5f231",
     "services/silentRoomHydration.js": "b7fa6aaab66a7ca0e03e621687b2a3d1cdb432c5d8fb9d9012a042a00cd8d5fa",
     "store/containerStore.js": "2fe5379d899004f06832cde7616ecea799c2f5fadb2de9ab2bb099b613c6327a",
     "store/travelStore.js": "758babbf27871a0603baa506456261de37b3a7323952fc9c6bdc07b66b738a54",
@@ -417,7 +417,7 @@
     "components/common/Button.jsx": "c0749a5b94442ebd2528fc58efae884221be303d32d77c388a73a6929e6827df",
     "components/hud/PortraitLightbox.jsx": "5bb2139075bf6d998649ecfb4807f22b419936690bf0b9bebfb8db6a996ef9c9"
   },
-  "url": "http://127.0.0.1:9462",
+  "url": "http://127.0.0.1:12620",
   "simulations": [
     "Firebase auth/config/browser SDK",
     "Firestore cloud documents/admission",
@@ -430,28 +430,28 @@
     "proposal": {
       "success": false,
       "code": "awaiting_authorization",
-      "proposalId": "30dff129-0803-457f-aa68-8a6f6471afc4",
-      "contentHash": "3311f5103fbbe3c8ce1ce0125b678800441742d14786e04a0a8b3d30c195c701"
+      "proposalId": "901b909e-2924-48fe-8716-fa37017c186b",
+      "contentHash": "05924a6e0a0e16f2bd89d84bdcae9447cc77b85190428e72ca51713709d08e93"
     },
     "consumed": {
       "success": false,
       "code": "awaiting_authorization",
-      "proposalId": "30dff129-0803-457f-aa68-8a6f6471afc4",
-      "contentHash": "3311f5103fbbe3c8ce1ce0125b678800441742d14786e04a0a8b3d30c195c701",
+      "proposalId": "901b909e-2924-48fe-8716-fa37017c186b",
+      "contentHash": "05924a6e0a0e16f2bd89d84bdcae9447cc77b85190428e72ca51713709d08e93",
       "command": {
         "version": 1,
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
-        "commandId": "c323e462-7a59-4428-a504-d9c840188c7c",
-        "actionEpoch": "b2aef41c-f7e4-49c5-9d2c-e691b668d528",
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+        "commandId": "10c449bd-c9e2-4011-99a4-22dc1e128497",
+        "actionEpoch": "36dd09d8-6e90-4e4b-973c-5a8d600622e2",
         "baseCommitSequence": 0,
         "actors": [
           {
             "ref": {
               "kind": "creature",
-              "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
               "mapId": "default",
               "tokenId": "gm-delivery",
-              "instanceId": "96243b45-a5aa-48c4-8918-6a849ca28999"
+              "instanceId": "05111cd0-3fa0-45f6-9ece-7b913cf23d68"
             },
             "expectedRevision": 0,
             "finalResources": {
@@ -504,10 +504,10 @@
           "kind": "effect",
           "target": {
             "kind": "character",
-            "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+            "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
             "mapId": "default",
             "tokenId": "pc-a",
-            "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+            "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
             "ownerUid": "u-a",
             "characterId": "c-a"
           },
@@ -538,10 +538,10 @@
         "kind": "effect",
         "target": {
           "kind": "character",
-          "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+          "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
           "mapId": "default",
           "tokenId": "pc-a",
-          "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+          "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
           "ownerUid": "u-a",
           "characterId": "c-a"
         },
@@ -568,10 +568,10 @@
         "kind": "effect",
         "target": {
           "kind": "character",
-          "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+          "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
           "mapId": "default",
           "tokenId": "pc-a",
-          "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+          "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
           "ownerUid": "u-a",
           "characterId": "c-a"
         },
@@ -605,28 +605,28 @@
     "proposed": {
       "success": false,
       "code": "awaiting_authorization",
-      "proposalId": "acd6f191-bcff-47c5-b7e9-aba222fb56e3",
-      "contentHash": "2d917d754569f4b341080ce367bc10216b0109e7342e4ed75aae3d83d6958723"
+      "proposalId": "55e4be5f-b4ef-4d1c-bce7-78b2f41ad1a8",
+      "contentHash": "d330eac81858392ec8e869ac84874bbe3741d9215f7fd141fbfa6ff9c5dc1e14"
     },
     "consumed": {
       "success": false,
       "code": "awaiting_authorization",
-      "proposalId": "acd6f191-bcff-47c5-b7e9-aba222fb56e3",
-      "contentHash": "2d917d754569f4b341080ce367bc10216b0109e7342e4ed75aae3d83d6958723",
+      "proposalId": "55e4be5f-b4ef-4d1c-bce7-78b2f41ad1a8",
+      "contentHash": "d330eac81858392ec8e869ac84874bbe3741d9215f7fd141fbfa6ff9c5dc1e14",
       "command": {
         "version": 1,
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
-        "commandId": "406897c8-3eec-42a8-b90e-7ba99c3b5568",
-        "actionEpoch": "d8ce47b6-0348-4428-8264-902ecf9221b4",
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+        "commandId": "f551938f-6cbf-4d47-b8d3-82196b53ce06",
+        "actionEpoch": "0858481e-e320-4799-a828-0f8cdfed8279",
         "baseCommitSequence": 5,
         "actors": [
           {
             "ref": {
               "kind": "character",
-              "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
               "mapId": "default",
               "tokenId": "pc-b",
-              "instanceId": "9328ef04-3d8e-4dbe-accb-7fadc2de9664",
+              "instanceId": "fe752116-eb82-41fe-bdac-b75465fe01de",
               "ownerUid": "u-b",
               "characterId": "c-b"
             },
@@ -729,9 +729,9 @@
       "roomActorRecoveryCandidates": [],
       "characterId": "c-other",
       "lastUpdated": {
-        "seconds": 1791915478.964
+        "seconds": 1791916894.318
       },
-      "lastWriteToken": "mv707kj8-fy5jekz6"
+      "lastWriteToken": "mv711wmm-zw7sa0ir"
     },
     "conditions": [
       {
@@ -744,10 +744,10 @@
         "kind": "effect",
         "target": {
           "kind": "character",
-          "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+          "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
           "mapId": "default",
           "tokenId": "pc-a",
-          "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+          "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
           "ownerUid": "u-a",
           "characterId": "c-a"
         },
@@ -772,10 +772,10 @@
         "kind": "effect",
         "target": {
           "kind": "character",
-          "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+          "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
           "mapId": "default",
           "tokenId": "pc-b",
-          "instanceId": "9328ef04-3d8e-4dbe-accb-7fadc2de9664",
+          "instanceId": "fe752116-eb82-41fe-bdac-b75465fe01de",
           "ownerUid": "u-b",
           "characterId": "c-b"
         },
@@ -885,9 +885,9 @@
         "roomActorRecoveryCandidates": [],
         "characterId": "c-other",
         "lastUpdated": {
-          "seconds": 1791915479.015
+          "seconds": 1791916894.369
         },
-        "lastWriteToken": "mv707kkn-zevw3hgk"
+        "lastWriteToken": "mv711wo1-zy3jhcva"
       },
       "recovery": [
         {
@@ -917,10 +917,10 @@
     "actorContract": {
       "version": 1,
       "kind": "character",
-      "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+      "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
       "mapId": "default",
       "tokenId": "pc-a",
-      "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+      "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
       "ownerUid": "u-a",
       "characterId": "c-a",
       "revision": 2,
@@ -946,10 +946,10 @@
       "roomActorProjection": {
         "ref": {
           "kind": "character",
-          "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+          "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
           "mapId": "default",
           "tokenId": "pc-a",
-          "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+          "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
           "ownerUid": "u-a",
           "characterId": "c-a"
         },
@@ -959,22 +959,22 @@
     },
     "recovery": {
       "result": {
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
         "maps": {
           "default": {
             "id": "default",
             "tokens": {
               "gm-delivery": {
                 "id": "gm-delivery",
-                "createdAt": 1791915474390,
+                "createdAt": 1791916889992,
                 "state": {
                   "actorContract": {
                     "version": 1,
                     "kind": "creature",
-                    "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+                    "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
                     "mapId": "default",
                     "tokenId": "gm-delivery",
-                    "instanceId": "96243b45-a5aa-48c4-8918-6a849ca28999",
+                    "instanceId": "05111cd0-3fa0-45f6-9ece-7b913cf23d68",
                     "revision": 1
                   },
                   "maxHp": 50,
@@ -990,7 +990,7 @@
                   "conditions": []
                 },
                 "ownerUserId": "u-a",
-                "ownerPlayerId": "5e09da18-4eab-4510-8b46-eb7c524dbf3a"
+                "ownerPlayerId": "8c2e1ebc-c191-47fc-8c1d-a52a782a1929"
               }
             },
             "characterTokens": {
@@ -1009,10 +1009,10 @@
                       "kind": "effect",
                       "target": {
                         "kind": "character",
-                        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+                        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
                         "mapId": "default",
                         "tokenId": "pc-a",
-                        "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+                        "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
                         "ownerUid": "u-a",
                         "characterId": "c-a"
                       },
@@ -1116,10 +1116,10 @@
                   "actorContract": {
                     "version": 1,
                     "kind": "character",
-                    "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+                    "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
                     "mapId": "default",
                     "tokenId": "pc-b",
-                    "instanceId": "9328ef04-3d8e-4dbe-accb-7fadc2de9664",
+                    "instanceId": "fe752116-eb82-41fe-bdac-b75465fe01de",
                     "ownerUid": "u-b",
                     "characterId": "c-b",
                     "revision": 5,
@@ -1136,10 +1136,10 @@
                       "kind": "effect",
                       "target": {
                         "kind": "character",
-                        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+                        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
                         "mapId": "default",
                         "tokenId": "pc-b",
-                        "instanceId": "9328ef04-3d8e-4dbe-accb-7fadc2de9664",
+                        "instanceId": "fe752116-eb82-41fe-bdac-b75465fe01de",
                         "ownerUid": "u-b",
                         "characterId": "c-b"
                       },
@@ -1204,27 +1204,27 @@
       },
       "replacementBound": {
         "success": true,
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
         "ref": {
           "kind": "creature",
-          "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+          "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
           "mapId": "default",
           "tokenId": "gm-delivery",
-          "instanceId": "8c303117-5847-4b49-9c77-1ce416569c4f"
+          "instanceId": "b059c75b-1b81-4d29-8528-fe1b8c11318c"
         },
         "revision": 0,
         "mapId": "default",
         "token": {
           "id": "gm-delivery",
-          "createdAt": 1791915485388,
+          "createdAt": 1791916905729,
           "state": {
             "actorContract": {
               "version": 1,
               "kind": "creature",
-              "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
               "mapId": "default",
               "tokenId": "gm-delivery",
-              "instanceId": "8c303117-5847-4b49-9c77-1ce416569c4f",
+              "instanceId": "b059c75b-1b81-4d29-8528-fe1b8c11318c",
               "revision": 0
             },
             "maxHp": 50,
@@ -1240,7 +1240,7 @@
             "conditions": []
           },
           "ownerUserId": "u-a",
-          "ownerPlayerId": "5e09da18-4eab-4510-8b46-eb7c524dbf3a"
+          "ownerPlayerId": "8c2e1ebc-c191-47fc-8c1d-a52a782a1929"
         },
         "invalidated": [],
         "durability": "checkpoint-eligible",
@@ -1257,19 +1257,19 @@
       }
     }
   },
-  "B3": {
-    "fault": {
+  "B3AckOnly": {
+    "result": {
       "success": true,
       "receipt": {
         "version": 1,
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
-        "commandId": "e74409de-54c7-4720-8d86-87a0c5df4652",
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+        "commandId": "55db1366-6f13-4a22-a8f1-bf75acf1a2a2",
         "submitterUid": "u-a",
-        "contentHash": "2dc3033c004d3fe5294376daf5e83be2e0687d04baa62e596ff7edf658281f2e",
-        "admissionEpoch": "d8ce47b6-0348-4428-8264-902ecf9221b4",
+        "contentHash": "aa4a85b94c200f24bcc9ad245903acf915eabc5d70d54aece482918908ac5f76",
+        "admissionEpoch": "0858481e-e320-4799-a828-0f8cdfed8279",
         "commitSequence": 9,
         "checkpointRevision": 16,
-        "acceptedAt": 1791915479053,
+        "acceptedAt": 1791916894407,
         "authorization": {
           "kind": "gm",
           "authorizerUid": "u-a"
@@ -1278,15 +1278,102 @@
           {
             "ref": {
               "kind": "character",
-              "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
               "mapId": "default",
               "tokenId": "pc-a",
-              "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+              "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
               "ownerUid": "u-a",
               "characterId": "c-a"
             },
             "beforeRevision": 2,
             "afterRevision": 3,
+            "finalResources": {
+              "hp": {
+                "current": 11,
+                "temp": 0,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "temp": 0,
+                "max": 50
+              },
+              "ap": {
+                "current": 2,
+                "temp": 0,
+                "max": 3
+              }
+            },
+            "conditions": [
+              {
+                "version": 1,
+                "id": "round-zero",
+                "recordId": "round-zero",
+                "originalName": "slow",
+                "name": "Slowed",
+                "type": "debuff",
+                "kind": "effect",
+                "target": {
+                  "kind": "character",
+                  "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+                  "mapId": "default",
+                  "tokenId": "pc-a",
+                  "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
+                  "ownerUid": "u-a",
+                  "characterId": "c-a"
+                },
+                "targetId": "pc-a",
+                "targetType": "character",
+                "source": "arc_frost_touch",
+                "effects": {
+                  "movementSpeed": -10
+                },
+                "durationType": "rounds",
+                "durationValue": 3,
+                "remainingRounds": 0,
+                "sharedTiming": "manual"
+              }
+            ]
+          }
+        ]
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible",
+      "commandId": "55db1366-6f13-4a22-a8f1-bf75acf1a2a2"
+    },
+    "installedRevision": 3,
+    "clientRevision": 3
+  },
+  "B3": {
+    "fault": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+        "commandId": "715330c3-6479-4ca9-9dd3-686697d52f34",
+        "submitterUid": "u-a",
+        "contentHash": "9b1bdfef80a464154b2f6af081e9f7e25d8d6691d272fbcde3101d35fed49f23",
+        "admissionEpoch": "0858481e-e320-4799-a828-0f8cdfed8279",
+        "commitSequence": 10,
+        "checkpointRevision": 17,
+        "acceptedAt": 1791916899422,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "u-a"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "character",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+              "mapId": "default",
+              "tokenId": "pc-a",
+              "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
+              "ownerUid": "u-a",
+              "characterId": "c-a"
+            },
+            "beforeRevision": 3,
+            "afterRevision": 4,
             "finalResources": {
               "hp": {
                 "current": 10,
@@ -1315,10 +1402,10 @@
                 "kind": "effect",
                 "target": {
                   "kind": "character",
-                  "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+                  "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
                   "mapId": "default",
                   "tokenId": "pc-a",
-                  "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+                  "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
                   "ownerUid": "u-a",
                   "characterId": "c-a"
                 },
@@ -1340,7 +1427,7 @@
       "status": "accepted-live",
       "durability": "checkpoint-eligible",
       "delivery": "partial",
-      "commandId": "e74409de-54c7-4720-8d86-87a0c5df4652"
+      "commandId": "715330c3-6479-4ca9-9dd3-686697d52f34"
     },
     "liveHp": 10
   },
@@ -1349,27 +1436,27 @@
       "success": false,
       "code": "outcome_unknown",
       "error": "outcome unknown",
-      "commandId": "4ec2ed6c-931a-4730-a5f8-01e4eade08c9"
+      "commandId": "fca6c06c-2f12-4b52-9ea0-3684dfbb4310"
     },
     "attempts": [
       {
         "version": 1,
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
-        "commandId": "4ec2ed6c-931a-4730-a5f8-01e4eade08c9",
-        "actionEpoch": "d8ce47b6-0348-4428-8264-902ecf9221b4",
-        "baseCommitSequence": 9,
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+        "commandId": "fca6c06c-2f12-4b52-9ea0-3684dfbb4310",
+        "actionEpoch": "0858481e-e320-4799-a828-0f8cdfed8279",
+        "baseCommitSequence": 10,
         "actors": [
           {
             "ref": {
               "kind": "character",
-              "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
               "mapId": "default",
               "tokenId": "pc-a",
-              "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+              "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
               "ownerUid": "u-a",
               "characterId": "c-a"
             },
-            "expectedRevision": 3,
+            "expectedRevision": 4,
             "finalResources": {
               "hp": {
                 "current": 9,
@@ -1381,22 +1468,22 @@
       },
       {
         "version": 1,
-        "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
-        "commandId": "4ec2ed6c-931a-4730-a5f8-01e4eade08c9",
-        "actionEpoch": "d8ce47b6-0348-4428-8264-902ecf9221b4",
-        "baseCommitSequence": 9,
+        "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+        "commandId": "fca6c06c-2f12-4b52-9ea0-3684dfbb4310",
+        "actionEpoch": "0858481e-e320-4799-a828-0f8cdfed8279",
+        "baseCommitSequence": 10,
         "actors": [
           {
             "ref": {
               "kind": "character",
-              "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+              "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
               "mapId": "default",
               "tokenId": "pc-a",
-              "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+              "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
               "ownerUid": "u-a",
               "characterId": "c-a"
             },
-            "expectedRevision": 3,
+            "expectedRevision": 4,
             "finalResources": {
               "hp": {
                 "current": 9,
@@ -1409,14 +1496,14 @@
     ],
     "receipt": {
       "version": 1,
-      "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
-      "commandId": "4ec2ed6c-931a-4730-a5f8-01e4eade08c9",
+      "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
+      "commandId": "fca6c06c-2f12-4b52-9ea0-3684dfbb4310",
       "submitterUid": "u-a",
-      "contentHash": "135afa3bcf1e0aee2bc53807c4e9f5cc24bab860e08066b1ce749203883f1485",
-      "admissionEpoch": "d8ce47b6-0348-4428-8264-902ecf9221b4",
-      "commitSequence": 10,
-      "checkpointRevision": 17,
-      "acceptedAt": 1791915480186,
+      "contentHash": "dc5ebc23abc6ad0b6ef7fcbdb359041cf106bfa34cf6e344c05a7748847e2d19",
+      "admissionEpoch": "0858481e-e320-4799-a828-0f8cdfed8279",
+      "commitSequence": 11,
+      "checkpointRevision": 18,
+      "acceptedAt": 1791916900541,
       "authorization": {
         "kind": "gm",
         "authorizerUid": "u-a"
@@ -1425,15 +1512,15 @@
         {
           "ref": {
             "kind": "character",
-            "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+            "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
             "mapId": "default",
             "tokenId": "pc-a",
-            "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+            "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
             "ownerUid": "u-a",
             "characterId": "c-a"
           },
-          "beforeRevision": 3,
-          "afterRevision": 4,
+          "beforeRevision": 4,
+          "afterRevision": 5,
           "finalResources": {
             "hp": {
               "current": 9,
@@ -1462,10 +1549,10 @@
               "kind": "effect",
               "target": {
                 "kind": "character",
-                "roomId": "2dceed06-8295-4a7c-8ff9-3fd3ca225e7f",
+                "roomId": "54eb641f-f952-4cde-b905-f330e83fc1c0",
                 "mapId": "default",
                 "tokenId": "pc-a",
-                "instanceId": "097cfbbc-dd48-47f3-b097-2831bfdf63d1",
+                "instanceId": "63af61b4-613f-414b-919c-8e26ffa0f9cc",
                 "ownerUid": "u-a",
                 "characterId": "c-a"
               },

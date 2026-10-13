@@ -1,5 +1,14 @@
 # Original P7 — implementation and independent-acceptance handoff
 
+> **Historical implementation report.** Independent review subsequently returned
+> **BLOCK (B1–B7)**. The original report below remains historical evidence, not
+> acceptance. Current correction evidence and handoff:
+> [MYTHRILL_P7_B1_B7_CORRECTIONS_20261013.md](MYTHRILL_P7_B1_B7_CORRECTIONS_20261013.md).
+> The temporary-room restriction described below was unauthorized and is corrected
+> by an explicitly live-only path; it is not a new durability promise. P7 remains
+> BLOCK pending independent acceptance. Original document bytes and hashes are
+> retained in `verification/p7/evidence/corrections-20261013/historical-documents.json.gz`.
+
 **Verdict: implemented source, awaiting independent acceptance.** This is an
 implementation-agent report, not an independent PASS or deployment approval.
 The frozen V1 contract is [MYTHRILL_PROJECT_7_CONTRACT.md](MYTHRILL_PROJECT_7_CONTRACT.md),

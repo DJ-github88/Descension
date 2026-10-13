@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\node_modules\\react-scripts\\bin\\react-scripts.js",
+    "test",
+    "--watchAll=false",
+    "--runInBand",
+    "--silent",
+    "--no-cache",
+    "--runTestsByPath",
+    "src/data/classes/pyrofiend/__tests__/PyrofiendResourceBar.test.jsx"
+  ],
+  "cwd": "D:\\AppData\\Temp\\opencode\\p7-baseline-20261013\\vtt-react",
+  "status": 1,
+  "source": "starting-source.json.gz",
+  "error": null
+}

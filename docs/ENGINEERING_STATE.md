@@ -71,6 +71,32 @@ does not authorize deployment or satisfy roadmap §20 release gates.
 
 ## Current work
 
+**Current P7 verdict: independent BLOCK (B1–B7); corrections implemented,
+awaiting independent acceptance.** The historical implementation claims below
+are retained. Current report:
+[MYTHRILL_P7_B1_B7_CORRECTIONS_20261013.md](MYTHRILL_P7_B1_B7_CORRECTIONS_20261013.md).
+Complete independent report/probes/source identities are retained at
+`vtt-react/verification/p7/evidence/independent-block-20261013/`.
+Permanent reviewed-source RED replays and corrected production-path GREEN
+witnesses are at `evidence/corrections-20261013/`.
+
+New checks: **25 registered P7 checks**, mounted functional socket subscriptions,
+ACK/broadcast retry custody, protected snapshot/reconciliation and selected
+personal-payload scoping; **580 server passes / 2 pending**, **19 affected frontend
+suites / 144 tests**, preserved P5/P6 browser controls. The full frontend run has
+separate presentation failures; see the styling-owner section of the current
+report rather than treating them as an identical baseline. P6's historical source
+PASS and P5's nine environment gates remain unchanged. New integration bytes
+require independent review. No P8/P9 work or self-acceptance follows.
+
+External concurrent commits moved HEAD during this correction session from
+`620fbc072e87f113cdcc2ea323e0c6c2b28e6d6b` through `4d60e5d3` to
+`6552db470bc850595b8891721208fe77c2c2c8ee`. This correction agent issued no commit,
+push or deployment command. Full final hashes, rather than HEAD alone, identify
+the corrected source. Earlier source identities remain historical evidence.
+
+### Historical implementation handoff (before independent BLOCK)
+
 **Project 7 — Actor Instance Consequence and Condition Contract: V1 frozen under
 coordinator C1–C6; implemented source awaiting independent acceptance**, original
 roadmap §26/§27 scope. Contract: [MYTHRILL_PROJECT_7_CONTRACT.md](MYTHRILL_PROJECT_7_CONTRACT.md).

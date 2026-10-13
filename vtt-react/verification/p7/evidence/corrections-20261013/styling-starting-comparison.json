@@ -1,0 +1,29 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\node_modules\\react-scripts\\bin\\react-scripts.js",
+    "test",
+    "--watchAll=false",
+    "--runInBand",
+    "--silent",
+    "--no-cache",
+    "--runTestsByPath",
+    "src/data/classes/apex/__tests__/ApexResourceBar.test.jsx",
+    "src/data/classes/augur/__tests__/AugurResourceBar.test.jsx",
+    "src/components/account/__tests__/CharacterViewHeaderMounts.test.jsx",
+    "src/data/classes/revenant/__tests__/RevenantResourceBar.test.jsx",
+    "src/data/classes/warden/__tests__/GaolerResourceBar.test.jsx",
+    "src/data/classes/minstrel/components/__tests__/MinstrelStaveSmoke.test.jsx"
+  ],
+  "cwd": "D:\\AppData\\Temp\\opencode\\p7-correction-ui-starting-20261013\\vtt-react",
+  "status": 0,
+  "source": "starting-source.json.gz",
+  "testHashes": {
+    "src/data/classes/apex/__tests__/ApexResourceBar.test.jsx": "95c2e1d02055442a5811ff3f0522920f4169a28c252be0776c8b8bc70dfdbe2f",
+    "src/data/classes/augur/__tests__/AugurResourceBar.test.jsx": "e80e9e2d75ab390726fc88eb2aa62788f9a3b236ca9e269f4a7e9cf58e8393b4",
+    "src/components/account/__tests__/CharacterViewHeaderMounts.test.jsx": "085ab9e25d0aaa1da53c7527b701c1b93d49c10551222c8e896b7553d3e548bd",
+    "src/data/classes/revenant/__tests__/RevenantResourceBar.test.jsx": "3ff220a6ab9623a20ae6e538211906580f996da1c31741b42ea672c5acf9c180",
+    "src/data/classes/warden/__tests__/GaolerResourceBar.test.jsx": "1bebec35a54f0808f35759d11256c23a83dd836541d0159b407f638dcb534212",
+    "src/data/classes/minstrel/components/__tests__/MinstrelStaveSmoke.test.jsx": "23049eb5dc71cc5c6d977d42639e19875864ff87660c378cf517659d59b118d9"
+  }
+}

@@ -11,28 +11,29 @@
 }
 
 /* ─── Tab Header ─────────────────────────────────────────────── */
+/* ─── Tab Header ─────────────────────────────────────────────── */
 .creature-window-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 14px;
-  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  border-bottom: 2px solid #a08c70;
+  padding: 6px 12px;
+  background: var(--adventure-panel, #e8e2d4);
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6);
   flex-shrink: 0;
   gap: 8px;
 }
 
 .creature-window-tabs {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
 }
 
 .creature-window-tab {
-  background: transparent;
-  border: 1px solid rgba(240, 230, 210, 0.25);
-  border-radius: 5px;
-  color: rgba(240, 230, 210, 0.75);
+  background: var(--adventure-page, #f8f5ee);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  color: var(--adventure-ink, #34251a);
   padding: 6px 14px;
   font-size: 13px;
   cursor: pointer;
@@ -40,21 +41,22 @@
   align-items: center;
   gap: 7px;
   transition: all 0.2s ease;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .creature-window-tab:hover:not(.disabled) {
-  background-color: rgba(240, 230, 210, 0.15);
-  border-color: rgba(240, 230, 210, 0.5);
-  color: #f1ece1;
+  background-color: var(--adventure-panel, #e8e2d4);
+  border-color: var(--adventure-seal, #663c32);
+  color: var(--adventure-ink, #34251a);
 }
 
 .creature-window-tab.active {
-  background: linear-gradient(to bottom, rgba(240, 230, 210, 0.2), rgba(240, 230, 210, 0.1));
-  color: #f1ece1;
-  border-color: rgba(240, 230, 210, 0.6);
-  font-weight: bold;
+  background: var(--adventure-seal, #663c32);
+  color: #f8f5ee;
+  border-color: var(--adventure-seal, #663c32);
+  font-weight: 600;
 }
 
 .creature-window-tab.disabled {
@@ -63,15 +65,15 @@
 }
 
 .creature-window-tab i {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /* ─── Back Button ────────────────────────────────────────────── */
 .back-to-library-button {
-  background-color: transparent;
-  border: 1px solid rgba(240, 230, 210, 0.3);
-  border-radius: 4px;
-  color: #f1ece1;
+  background-color: var(--adventure-page, #f8f5ee);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  color: var(--adventure-ink, #34251a);
   padding: 6px 12px;
   font-size: 13px;
   cursor: pointer;
@@ -79,14 +81,15 @@
   align-items: center;
   gap: 6px;
   transition: all 0.2s ease;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .back-to-library-button:hover {
-  background-color: rgba(240, 230, 210, 0.15);
-  border-color: rgba(240, 230, 210, 0.6);
+  background-color: var(--adventure-panel, #e8e2d4);
+  border-color: var(--adventure-seal, #663c32);
 }
 
 /* ─── Content Area ───────────────────────────────────────────── */

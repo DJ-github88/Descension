@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "node_modules/eslint/bin/eslint.js",
+    "src/services/actorConsequenceService.js",
+    "src/services/silentRoomHydration.js",
+    "src/store/characterTokenStore.js",
+    "src/components/hud/ActorConsequenceControls.jsx",
+    "src/hooks/useCharacterPersistence.js",
+    "src/components/hud/TargetHUD.jsx",
+    "src/components/multiplayer/socketHandlers/registerAllHandlers.js"
+  ],
+  "cwd": "D:/VTT/vtt-react",
+  "status": 0,
+  "durationMs": 3748
+}

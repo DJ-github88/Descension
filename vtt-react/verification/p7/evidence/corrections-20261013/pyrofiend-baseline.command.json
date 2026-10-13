@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "verification/p7/baseline-test.cjs"
+  ],
+  "cwd": "D:/VTT/vtt-react",
+  "status": 0,
+  "durationMs": 26469
+}

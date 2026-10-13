@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "verification/p7/checks.cjs",
+    "server"
+  ],
+  "cwd": "D:/VTT/vtt-react",
+  "status": 0,
+  "durationMs": 40307
+}

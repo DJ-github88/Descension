@@ -835,42 +835,153 @@ body .party-member-frame.current-player { border-color: #663c32 !important; }
 body .party-member-frame.targeted { border-color: #8b3a2a !important; }
 
 /* ---- nav bar ---- */
-body .wow-nav-container.nav-sprite-mode { margin-left: 6px; }
-body .wow-nav-container .wow-nav-grid { align-items: center; padding: 0 14px; gap: 2px; }
-body .wow-nav-container :is(.wow-nav-category-header, .wow-nav-button:not(.wow-nav-minimize)) {
-  background: transparent;
-  color: #34251a;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  text-shadow: none;
-  font-family: 'Cinzel', Georgia, serif;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  height: 34px;
-  position: relative;
+body .wow-nav-container.nav-sprite-mode {
+  margin-left: 6px;
+  width: auto !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  box-sizing: border-box !important;
 }
-body .wow-nav-container :is(.wow-nav-category-header, .wow-nav-button:not(.wow-nav-minimize)) svg { color: #663c32; }
+body .wow-nav-container .wow-nav-grid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: 100% !important;
+  padding: 0 14px !important;
+  gap: 3px !important;
+  box-sizing: border-box !important;
+}
+body .wow-nav-container :is(.wow-nav-category-header, .wow-nav-button) {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transform: none !important;
+  filter: none !important;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+body .wow-nav-container :is(.wow-nav-category-header, .wow-nav-button:not(.wow-nav-minimize)) {
+  background: transparent !important;
+  background-image: none !important;
+  color: #34251a !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.2px !important;
+}
+body .wow-nav-container :is(.wow-nav-category-header, .wow-nav-button:not(.wow-nav-minimize)) svg {
+  color: #663c32 !important;
+}
 body .wow-nav-container :is(.wow-nav-category-header, .wow-nav-button:not(.wow-nav-minimize)):hover,
 body .wow-nav-container .wow-nav-category-header.open {
-  background: #f1ece1;
-  border-color: #c4baa6;
-  color: #663c32;
-  box-shadow: inset 0 -2px 0 #663c32;
+  background: #f1ece1 !important;
+  background-image: none !important;
+  border-color: #c4baa6 !important;
+  color: #663c32 !important;
+  box-shadow: inset 0 -2px 0 #663c32 !important;
+  transform: none !important;
+  filter: none !important;
 }
+
+/* Category Headers (CHARACTER, ADVENTURE, TOOLS) */
+body .wow-nav-container .wow-nav-category {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+}
+body .wow-nav-container .wow-nav-category-header {
+  padding: 0 10px !important;
+  gap: 8px !important;
+}
+body .wow-nav-container .wow-nav-category-header:hover,
+body .wow-nav-container .wow-nav-category-header.open {
+  padding: 0 10px !important;
+  gap: 8px !important;
+}
+body .wow-nav-container .wow-nav-category-icon {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  min-height: 15px !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+  color: #663c32 !important;
+  stroke: currentColor !important;
+  stroke-width: 1.8 !important;
+  position: relative !important;
+  top: -1px !important;
+}
+body .wow-nav-container .wow-nav-category-label {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: inherit !important;
+}
+
 /* engraved diamond between groups */
 body .wow-nav-container .wow-nav-divider {
-  width: 6px; height: 6px; margin: 0 6px; opacity: 1;
-  background: var(--illum-brass);
-  transform: rotate(45deg);
-  box-shadow: 0 0 0 2px #f8f5ee, 0 0 0 3px rgba(102, 60, 50, 0.35);
+  width: 6px !important;
+  height: 6px !important;
+  min-width: 6px !important;
+  min-height: 6px !important;
+  margin: 0 8px !important;
+  opacity: 1 !important;
+  background: var(--illum-brass) !important;
+  transform: rotate(45deg) !important;
+  box-shadow: 0 0 0 2px #f8f5ee, 0 0 0 3px rgba(102, 60, 50, 0.35) !important;
+  border: none !important;
+  flex: 0 0 6px !important;
 }
 body .wow-nav-container .wow-nav-minimize.wow-nav-minimize {
-  background: #f1ece1 !important; border: 1px solid var(--illum-edge) !important; border-radius: 3px !important;
-  box-shadow: inset 0 0 0 2px #f1ece1, inset 0 0 0 3px rgba(102, 60, 50, 0.25) !important; color: #663c32 !important;
+  background: #f1ece1 !important;
+  border: 1px solid var(--illum-edge) !important;
+  border-radius: 3px !important;
+  box-shadow: inset 0 0 0 2px #f1ece1, inset 0 0 0 3px rgba(102, 60, 50, 0.25) !important;
+  color: #663c32 !important;
 }
-body .wow-nav-container .nav-quill-btn { display: inline-flex !important; align-items: center; justify-content: center; width: 34px !important; height: 34px !important; padding: 0 !important; }
-body .wow-nav-container .nav-quill-btn:hover { background: #e8e2d4 !important; }
+body .wow-nav-container .nav-quill-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  padding: 0 !important;
+  margin: 0 0 0 4px !important;
+  box-sizing: border-box !important;
+  flex: 0 0 34px !important;
+}
+body .wow-nav-container .nav-quill-btn:hover {
+  background: #e8e2d4 !important;
+  box-shadow: inset 0 0 0 2px #e8e2d4, inset 0 0 0 3px rgba(102, 60, 50, 0.35) !important;
+  transform: none !important;
+  filter: none !important;
+}
 body .wow-nav-container :is(button, a):focus-visible { outline: 2px solid #663c32; outline-offset: 1px; }
 
 /* ---- player frame ---- */
@@ -1235,14 +1346,106 @@ body .dialogue-toggle-btn { height: 38px !important; padding: 0 12px !important;
 }
 /* ---- nav: no hover movement; the exit arrow is set apart from settings ---- */
 body .wow-nav-container :is(.wow-nav-button, .wow-nav-category-header),
-body .wow-nav-container :is(.wow-nav-button, .wow-nav-category-header):hover { transform: none !important; transition: background-color 0.15s ease, color 0.15s ease !important; }
-body .wow-nav-container .wow-nav-button .shortcut { display: none !important; }
-body .wow-nav-container .wow-nav-button.back-button {
-  margin-left: 10px !important; background: transparent !important; color: #68533e !important;
-  border: 1px solid transparent !important;
+body .wow-nav-container :is(.wow-nav-button, .wow-nav-category-header):hover,
+body .wow-nav-container :is(.wow-nav-button, .wow-nav-category-header):active,
+body .wow-nav-container :is(.wow-nav-button, .wow-nav-category-header):focus {
+  transform: none !important;
+  filter: none !important;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
 }
-body .wow-nav-container .wow-nav-button.back-button .wow-nav-icon { stroke: currentColor !important; }
-body .wow-nav-container .wow-nav-button.back-button:hover { color: #8b3a2a !important; border-color: #c4baa6 !important; background: #f1ece1 !important; }
+body .wow-nav-container .wow-nav-button .shortcut { display: none !important; }
+
+/* Settings button */
+body .wow-nav-container .wow-nav-button:not(.back-button):not(.wow-nav-minimize) {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  flex: 0 0 34px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: #34251a !important;
+  transform: none !important;
+  filter: none !important;
+}
+body .wow-nav-container .wow-nav-button:not(.back-button):not(.wow-nav-minimize):hover,
+body .wow-nav-container .wow-nav-button:not(.back-button):not(.wow-nav-minimize).active {
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #f1ece1 !important;
+  background-image: none !important;
+  border: 1px solid #c4baa6 !important;
+  color: #663c32 !important;
+  box-shadow: inset 0 -2px 0 #663c32 !important;
+  transform: none !important;
+  filter: none !important;
+}
+body .wow-nav-container .wow-nav-button:not(.back-button):not(.wow-nav-minimize) .wow-nav-icon {
+  width: 17px !important;
+  height: 17px !important;
+  display: block !important;
+  margin: 0 !important;
+  stroke: currentColor !important;
+}
+
+/* Return to Main Menu / Exit Button (left arrow) */
+body .wow-nav-container .wow-nav-button.back-button {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  flex: 0 0 34px !important;
+  padding: 0 !important;
+  margin: 0 0 0 10px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #68533e !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+body .wow-nav-container .wow-nav-button.back-button:hover {
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  margin: 0 0 0 10px !important;
+  color: #8b3a2a !important;
+  border-color: #c4baa6 !important;
+  background: #f1ece1 !important;
+  background-image: none !important;
+  box-shadow: inset 0 -2px 0 #8b3a2a !important;
+  transform: none !important;
+  filter: none !important;
+}
+body .wow-nav-container .wow-nav-button.back-button .wow-nav-icon {
+  width: 17px !important;
+  height: 17px !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+  display: block !important;
+  margin: 0 !important;
+}
 
 /* ---- player frame polish ---- */
 body .party-member-frame .member-name-text { border-bottom: 0 !important; }

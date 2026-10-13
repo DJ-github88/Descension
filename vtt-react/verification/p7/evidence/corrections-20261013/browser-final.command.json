@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "verification/p7/correction-browser.cjs"
+  ],
+  "cwd": "D:/VTT/vtt-react",
+  "status": 0,
+  "durationMs": 29066
+}

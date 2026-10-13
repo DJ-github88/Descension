@@ -14,6 +14,14 @@ let active = null;
 let admission = null;
 const pending = new Map();
 const origins = new Map();
+const settleCommand = (receipt, result) => {
+  const origin = origins.get(receipt.commandId);
+  if (!origin || origin.uid !== receipt.submitterUid) return;
+  // An in-flight request retains this same origin object until its ACK/timeout.
+  // Delivered acceptance settles it even if the independent ACK is lost.
+  origin.acceptedResult = result;
+  pending.delete(receipt.commandId); origins.delete(receipt.commandId);
+};
 const state = () => getStore('gameStore')?.getState() || {};
 export const inSharedRoom = () => state().isInMultiplayer === true;
 const status = result => { getStore('gameStore').setState({ actorConsequenceStatus: result }); return result; };
@@ -211,7 +219,7 @@ export function applyAcceptedConsequence(result) {
   if (!receipt || receipt.version !== 1 || receipt.roomId !== state().multiplayerRoom?.id || !Array.isArray(receipt.actors)) return false;
   if (admission?.roomId === receipt.roomId && receipt.admissionEpoch !== admission.actionEpoch) {
     if (receipt.commitSequence <= admission.commitSequence) {
-      pending.delete(receipt.commandId); origins.delete(receipt.commandId);
+      settleCommand(receipt, result);
       status({ ...result, historical: true }); return true;
     }
     status({ success: false, code: 'snapshot_required' }); return false;
@@ -279,7 +287,7 @@ export function applyAcceptedConsequence(result) {
     const store = getStore('characterStore');
     require('../store/characterHelpers').triggerCharacterAutoSave(() => store.getState().saveCurrentCharacter());
   }
-  pending.delete(receipt.commandId); origins.delete(receipt.commandId); status({ ...result, historical: staged.length === 0 }); return true;
+  settleCommand(receipt, result); status({ ...result, historical: staged.length === 0 }); return true;
 }
 export async function submitActorEntries(entries, extra = {}) {
   {
@@ -299,6 +307,10 @@ export async function retryActorCommand(commandId) {
   const origin = origins.get(commandId);
   if (!origin || origin.uid !== getStore('authStore').getState().user?.uid || origin.accountGeneration !== getBootstrapGateState().accountGeneration || origin.roomId !== state().multiplayerRoom?.id) return error('retired_principal');
   const result = await request('actor_consequence', command);
+  if (origin.acceptedResult && ['outcome_unknown', 'room_connection_unavailable'].includes(result.code) &&
+    origin.uid === getStore('authStore').getState().user?.uid && origin.accountGeneration === getBootstrapGateState().accountGeneration && origin.roomId === state().multiplayerRoom?.id) {
+    return status({ ...origin.acceptedResult, commandId });
+  }
   if (result.success && !applyAcceptedConsequence(result)) return status({ success: false, code: 'snapshot_required', commandId, acceptedReceipt: result.receipt, status: result.status });
   if (result.code === 'authorization_required') {
     const proposal = await request('actor_propose', command);

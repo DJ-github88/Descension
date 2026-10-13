@@ -1,0 +1,654 @@
+{
+  "commands": [
+    {
+      "artifact": "ack-only-red.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 28688
+    },
+    {
+      "artifact": "browser-custody-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 30423
+    },
+    {
+      "artifact": "browser-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 29066
+    },
+    {
+      "artifact": "browser-green-2.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 18490
+    },
+    {
+      "artifact": "browser-green-3.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 18570
+    },
+    {
+      "artifact": "browser-green-4.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 18647
+    },
+    {
+      "artifact": "browser-green-5.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 48039
+    },
+    {
+      "artifact": "browser-green-6.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 45920
+    },
+    {
+      "artifact": "browser-green-7.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 25714
+    },
+    {
+      "artifact": "browser-green-8.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 27322
+    },
+    {
+      "artifact": "browser-green.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 20218
+    },
+    {
+      "artifact": "browser-red-2.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 47037
+    },
+    {
+      "artifact": "browser-red-3.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 18649
+    },
+    {
+      "artifact": "browser-red-4.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 18573
+    },
+    {
+      "artifact": "browser-red-5.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 18539
+    },
+    {
+      "artifact": "browser-red-6.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 16333
+    },
+    {
+      "artifact": "browser-red-7.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 18038
+    },
+    {
+      "artifact": "browser-red.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 47929
+    },
+    {
+      "artifact": "focused-custody-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "focused"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 23064
+    },
+    {
+      "artifact": "focused-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "focused"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 21993
+    },
+    {
+      "artifact": "focused.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "focused"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 33792
+    },
+    {
+      "artifact": "frontend-all.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "frontend"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 202185
+    },
+    {
+      "artifact": "lint-frontend-final.command.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "src/services/actorConsequenceService.js",
+        "src/services/silentRoomHydration.js",
+        "src/store/characterTokenStore.js",
+        "src/components/hud/ActorConsequenceControls.jsx",
+        "src/hooks/useCharacterPersistence.js",
+        "src/components/hud/TargetHUD.jsx",
+        "src/components/multiplayer/socketHandlers/registerAllHandlers.js"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 3748
+    },
+    {
+      "artifact": "lint-frontend.command.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "src/services/actorConsequenceService.js",
+        "src/services/silentRoomHydration.js",
+        "src/store/characterTokenStore.js",
+        "src/components/hud/ActorConsequenceControls.jsx",
+        "src/hooks/useCharacterPersistence.js",
+        "src/components/hud/TargetHUD.jsx",
+        "src/components/multiplayer/socketHandlers/registerAllHandlers.js"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 21089
+    },
+    {
+      "artifact": "lint-server-final.command.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "services/actorConsequences.js",
+        "handlers/actorConsequenceHandlers.js",
+        "handlers/socketHandlers.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 0,
+      "durationMs": 1337
+    },
+    {
+      "artifact": "lint-server-sealed.command.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "services/actorConsequences.js",
+        "handlers/actorConsequenceHandlers.js",
+        "handlers/socketHandlers.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 0,
+      "durationMs": 1116
+    },
+    {
+      "artifact": "lint-server.command.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "services/actorConsequences.js",
+        "handlers/actorConsequenceHandlers.js",
+        "handlers/socketHandlers.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 1,
+      "durationMs": 7173
+    },
+    {
+      "artifact": "pyrofiend-baseline.command.json",
+      "command": [
+        "node",
+        "verification/p7/baseline-test.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 26469
+    },
+    {
+      "artifact": "registered-all.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "server"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 43879
+    },
+    {
+      "artifact": "registered-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "server"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 40706
+    },
+    {
+      "artifact": "retained-container.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "container"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 19975
+    },
+    {
+      "artifact": "retained-p5-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "p5"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 26712
+    },
+    {
+      "artifact": "retained-p5.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "p5"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 32995
+    },
+    {
+      "artifact": "retained-p6-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "p6"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 19147
+    },
+    {
+      "artifact": "retained-p6.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "p6"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 21227
+    },
+    {
+      "artifact": "retained-regressions.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "regressions"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 37652
+    },
+    {
+      "artifact": "retained-remaining.command.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "remaining"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 29842
+    },
+    {
+      "artifact": "retry-red-replay.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-red-replay.cjs",
+        "retry"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 41516
+    },
+    {
+      "artifact": "retry-replay-browser.command.json",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:\\AppData\\Temp\\opencode\\p7-correction-retry-replay-20261013\\vtt-react",
+      "status": 0,
+      "source": "retry-before-source.json.gz",
+      "sourceFiles": 2134,
+      "witnesses": {
+        "server/tests/p7Blockers.production.test.js": "e25e178107ec9e6467aa7a34dc1ba77d9386890fafac6daba88106413bff75ce",
+        "vtt-react/verification/p7/browser.cjs": "4506c0a4500a232b83df56616a9d6ad44b6ac4fda2765179e7a7452976435f7c",
+        "vtt-react/verification/p7/correction-browser.cjs": "2bab2c3f89648f607dd74d3f198ecde743a2a1e2290bd56b2a8ae377d1253354",
+        "vtt-react/verification/p6/character-save-browser.cjs": "3f5e9adc822f9459ad17386b199600950cc439811e2d5bd49d42f76f44035d40",
+        "vtt-react/verification/p5-01/character-browser-harness.cjs": "85480b3f802d36c59ee3f595308af942957795e693cbaca28ab760dbac4fed06"
+      }
+    },
+    {
+      "artifact": "reviewed-red-final-2.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-red-replay.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 28779
+    },
+    {
+      "artifact": "reviewed-red-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-red-replay.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 1,
+      "durationMs": 33848
+    },
+    {
+      "artifact": "reviewed-red-replay.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-red-replay.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 22105
+    },
+    {
+      "artifact": "reviewed-replay-browser.command.json",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "verification/p7/correction-browser.cjs"
+      ],
+      "cwd": "D:\\AppData\\Temp\\opencode\\p7-correction-reviewed-replay-20261013\\vtt-react",
+      "status": 0,
+      "source": "reviewed-source.json.gz",
+      "sourceFiles": 2130,
+      "witnesses": {
+        "server/tests/p7Blockers.production.test.js": "d34143c3d5aab3ad1c24da601ed1dd6a5ffe21f334ca2e5857f5c051a5ee8ad9",
+        "vtt-react/verification/p7/browser.cjs": "4506c0a4500a232b83df56616a9d6ad44b6ac4fda2765179e7a7452976435f7c",
+        "vtt-react/verification/p7/correction-browser.cjs": "da736507a017eb857aa08195c17b22fdb8745f79a0ba91c2dad9730d5d9207e8",
+        "vtt-react/verification/p6/character-save-browser.cjs": "3f5e9adc822f9459ad17386b199600950cc439811e2d5bd49d42f76f44035d40",
+        "vtt-react/verification/p5-01/character-browser-harness.cjs": "85480b3f802d36c59ee3f595308af942957795e693cbaca28ab760dbac4fed06"
+      }
+    },
+    {
+      "artifact": "reviewed-replay-server.command.json",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "D:\\VTT\\server\\node_modules\\mocha\\bin\\mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:\\AppData\\Temp\\opencode\\p7-correction-reviewed-replay-20261013\\server",
+      "status": 0,
+      "source": "reviewed-source.json.gz",
+      "sourceFiles": 2130,
+      "witnesses": {
+        "server/tests/p7Blockers.production.test.js": "d34143c3d5aab3ad1c24da601ed1dd6a5ffe21f334ca2e5857f5c051a5ee8ad9",
+        "vtt-react/verification/p7/browser.cjs": "4506c0a4500a232b83df56616a9d6ad44b6ac4fda2765179e7a7452976435f7c",
+        "vtt-react/verification/p7/correction-browser.cjs": "da736507a017eb857aa08195c17b22fdb8745f79a0ba91c2dad9730d5d9207e8",
+        "vtt-react/verification/p6/character-save-browser.cjs": "3f5e9adc822f9459ad17386b199600950cc439811e2d5bd49d42f76f44035d40",
+        "vtt-react/verification/p5-01/character-browser-harness.cjs": "85480b3f802d36c59ee3f595308af942957795e693cbaca28ab760dbac4fed06"
+      }
+    },
+    {
+      "artifact": "server-custody-final.command.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "server"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 40307
+    },
+    {
+      "artifact": "server-final.command.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js",
+        "tests/p7ImportMetadata.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 0,
+      "durationMs": 7120
+    },
+    {
+      "artifact": "server-green-2.command.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js",
+        "tests/p7ImportMetadata.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 0,
+      "durationMs": 5810
+    },
+    {
+      "artifact": "server-green-3.command.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js",
+        "tests/p7ImportMetadata.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 0,
+      "durationMs": 6328
+    },
+    {
+      "artifact": "server-green.command.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "tests/p7Consequences.production.test.js",
+        "tests/p7ImportMetadata.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 4,
+      "durationMs": 5808
+    },
+    {
+      "artifact": "server-red-2.command.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 0,
+      "durationMs": 2303
+    },
+    {
+      "artifact": "server-red.command.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Blockers.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:/VTT/server",
+      "status": 2,
+      "durationMs": 2297
+    },
+    {
+      "artifact": "styling-baseline.command.json",
+      "command": [
+        "node",
+        "verification/p7/correction-ui-baseline.cjs"
+      ],
+      "cwd": "D:/VTT/vtt-react",
+      "status": 0,
+      "durationMs": 29978
+    }
+  ],
+  "finalHead": "6552db470bc850595b8891721208fe77c2c2c8ee",
+  "build": {
+    "exit": 0,
+    "startHead": "6552db470bc850595b8891721208fe77c2c2c8ee",
+    "command": "Start-Process -FilePath \"cmd.exe\" -ArgumentList \"/c\", \"D:\\AppData\\Temp\\opencode\\p7-correction-final-build.cmd\" -WorkingDirectory \"D:\\VTT\\vtt-react\" -PassThru -WindowStyle Hidden",
+    "pid": 11280,
+    "drift": [
+      "vtt-react/src/styles/calm-shared.css"
+    ],
+    "added": [],
+    "p7Drift": []
+  },
+  "lintWarnings": {
+    "server": 0,
+    "frontend": 6
+  },
+  "fullFrontend": {
+    "passedSuites": 231,
+    "passedTests": 2732,
+    "failedSuites": 5,
+    "failedTests": 5,
+    "skippedSuites": 2,
+    "skippedTests": 4
+  },
+  "independentVerdict": "BLOCK",
+  "corrections": "awaiting independent acceptance"
+}

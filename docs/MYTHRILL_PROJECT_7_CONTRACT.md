@@ -745,3 +745,27 @@ Engineering clarifications within C1–C6, without new gameplay/payment rules:
 These limits are included in the independent handoff. P7 is not self-accepted;
 new bytes do not inherit P6's historical acceptance, and real-backend/staged gates
 remain open. No P8/P9 controller, P11–P14, commit, push or deployment follows.
+
+## 13. B2 correction erratum — temporary shared capability, 2026-10-13
+
+F1–F6 and coordinator C1–C6 above remain byte-preserved. Independent review
+identified §12's checkpoint-eligible-only sentence and the implementation report's
+temporary-room prohibition as an **unauthorized capability restriction**, not an
+approved narrowing of the frozen contract. That historical implementation profile
+is superseded on this point by the bounded B2 correction:
+
+- Persistent rooms still require the actual P2 retained-snapshot admission before
+  actor/receipt installation. Refused admission installs nothing.
+- Supported temporary cooperative/manual rooms have an explicitly classified
+  **live-only, nonpersistent** path. Verified membership/GM/owner/delegation,
+  originating lease, strict condition/command validation, atomic in-memory
+  installation, actor CAS and bounded session receipts remain mandatory.
+- Temporary receipts use `checkpointRevision:null`; outcomes remain
+  `status:'accepted-live', durability:'live-only'`. They are never checkpoint
+  confirmed or pruned as a confirmed prefix. The session limit remains 256
+  receipts / 512 KiB. Capacity refusal preserves prior live state.
+- This path does not enqueue a persistent snapshot, claim a persistent writer,
+  bypass protection with legacy writes, or promise crash/restart durability.
+
+Correction report: [MYTHRILL_P7_B1_B7_CORRECTIONS_20261013.md](MYTHRILL_P7_B1_B7_CORRECTIONS_20261013.md).
+**P7 remains BLOCK pending independent re-review.**
