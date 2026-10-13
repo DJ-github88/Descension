@@ -92,7 +92,7 @@ describe('Minstrel compact stave smoke', () => {
         expect(screen.getByText('Deceptive Cadence')).toBeInTheDocument();
 
         // Cards should be draggable
-        const cards = document.querySelectorAll('.minstrel-cadence-entry-card');
+        const cards = document.querySelectorAll('.cm-cadence');
         expect(cards.length).toBe(2);
         expect(cards[0].getAttribute('draggable')).toBe('true');
 
@@ -117,7 +117,7 @@ describe('Minstrel compact stave smoke', () => {
         window.removeEventListener('spell-action-bar-assign-item', eventListener);
 
         // Close button works
-        const closeBtn = document.querySelector('.minstrel-modal-close-btn');
+        const closeBtn = document.querySelector('.cm-x');
         fireEvent.click(closeBtn);
         expect(screen.queryByText('Minstrel Cadences')).toBeNull();
     });

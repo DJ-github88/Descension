@@ -169,7 +169,7 @@ describe('RevenantResourceBar Component', () => {
         // Open tender key
         fireEvent.click(container.querySelector('.rev-tender-key'));
 
-        const novaBtn = screen.getByTitle(/Drains phylactery upon lethal damage/i);
+        const novaBtn = screen.getByTitle(/Drains the phylactery on lethal damage/i);
         fireEvent.click(novaBtn);
 
         expect(handleUpdate).toHaveBeenCalledWith('phylacteryHP', 50);

@@ -164,7 +164,7 @@ const PyrofiendVeilArt = ({
                         <g transform={`translate(${rune.cx}, ${rune.cy}) scale(${glyphScale})`} pointerEvents="none">
                             <path
                                 d={RUNE_PATHS[rune.id]}
-                                className={isFilled ? 'pyro-rune-core' : 'pyro-rune-etch'}
+                                className={isFilled ? 'pyro-rune-core pyro-rune-fire' : 'pyro-rune-etch'}
                                 fill="none"
                                 stroke={isFilled ? (isHovered ? INK : band.ink) : (isHovered ? MUTED : ETCH)}
                                 strokeWidth={isFilled ? 1.5 : 1.15}

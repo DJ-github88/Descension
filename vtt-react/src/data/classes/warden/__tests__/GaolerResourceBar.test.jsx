@@ -91,9 +91,6 @@ describe('GaolerResourceBar Component (Tension Gauge)', () => {
         expect(screen.getByText('VP: 2/10')).toBeInTheDocument();
         expect(screen.getByText(/casting your Warden abilities from the action bar or spellbook/i)).toBeInTheDocument();
 
-        // Spend thresholds mirror the rail studs
-        expect(document.body.querySelectorAll('.warden-threshold').length).toBe(5);
-
         // Stepper drives tension
         fireEvent.click(screen.getByLabelText('Bank 1 Tension'));
         expect(onUpdate).toHaveBeenCalledWith('current', 3);

@@ -72,17 +72,17 @@ describe('CharacterViewPage header vial mounts', () => {
         expect(vitalsRow).toBeInTheDocument();
         expect(vitalsRow.contains(healthMount)).toBe(true);
         expect(healthMount).toHaveClass('header-resource-mount', 'health');
-        expect(healthMount.querySelector('img.party-vial-icon')).toBeInTheDocument();
+        expect(healthMount.querySelector('.party-vial-icon')).toBeInTheDocument();
 
         const manaMount = await screen.findByTitle(/Mana Points: 30\/65 MP/);
         expect(manaMount).toHaveClass('header-resource-mount', 'mana');
         expect(vitalsRow.contains(manaMount)).toBe(true);
-        expect(manaMount.querySelector('img.party-vial-icon')).toBeInTheDocument();
+        expect(manaMount.querySelector('.party-vial-icon')).toBeInTheDocument();
 
         const apMount = await screen.findByTitle(/Action Points: 3\/3 AP/);
         expect(apMount).toHaveClass('header-resource-mount', 'action-points');
         expect(vitalsRow.contains(apMount)).toBe(true);
-        expect(apMount.querySelector('img.party-vial-icon')).toBeInTheDocument();
+        expect(apMount.querySelector('.party-vial-icon')).toBeInTheDocument();
 
         // Bare icons only — no values, steppers or bottle pills in the header
         expect(container.querySelector('.header-resource-mount .mount-data')).toBeNull();
