@@ -125,6 +125,13 @@ describe('P7 independent blockers registered regressions', function() {
     const snapshot = await ack(gm, 'actor_snapshot', { roomId: room.id });
     observations.B4 = { result, stored: room.gameState.maps.default.creatures?.forged || null, projected: snapshot.maps.default.creatures?.forged || null };
     if (red) {assert.deepEqual(observations.B4.stored.state.actorContract, forged);} else {assert.equal(observations.B4.stored, null); assert.equal(observations.B4.projected, null);}
+    if (!red) {
+      for (const event of ['token_created', 'character_token_created']) {
+        const id = event + '-forged', before = JSON.stringify(room.gameState);
+        const denied = await ack(gm, event, { roomId: room.id, mapId: 'default', token: { ...raw(id), state: { ...raw(id).state, actorContract: { ...forged, tokenId: id } } }, creature: { stats: raw(id).stats }, position: { x: 0, y: 0 } });
+        assert.equal(denied.code, 'client_actor_metadata'); assert.equal(JSON.stringify(room.gameState), before);
+      }
+    }
     gm.emit('creature_added', { roomId: room.id, mapId: 'default', creature: raw('ordinary') }); await pause();
     const ordinary = room.gameState.maps.default.creatures.ordinary;
     assert.equal(ordinary.state.actorContract, undefined);

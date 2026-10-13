@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './CookieConsent.css';
 
+import { safeLocalStorageItem, safeLocalStorageGet } from '../../utils/storageUtils';
+
 const CONSENT_KEY = 'mythrill_cookie_consent';
 
 export function hasConsent() {
   try {
-    const stored = localStorage.getItem(CONSENT_KEY);
+    const stored = safeLocalStorageGet(CONSENT_KEY);
     if (!stored) return false;
     return JSON.parse(stored);
   } catch {
@@ -15,7 +17,7 @@ export function hasConsent() {
 
 export function getConsentChoice() {
   try {
-    const stored = localStorage.getItem(CONSENT_KEY);
+    const stored = safeLocalStorageGet(CONSENT_KEY);
     if (!stored) return null;
     return JSON.parse(stored);
   } catch {
@@ -27,20 +29,32 @@ export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(CONSENT_KEY);
-    if (stored === null) {
-      setVisible(true);
+    try {
+      const stored = safeLocalStorageGet(CONSENT_KEY);
+      if (stored === null) {
+        setVisible(true);
+      }
+    } catch {
+      setVisible(false);
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem(CONSENT_KEY, JSON.stringify(true));
+    try {
+      safeLocalStorageItem(CONSENT_KEY, JSON.stringify(true));
+    } catch (err) {
+      console.warn('Unable to persist cookie consent:', err);
+    }
     setVisible(false);
     window.dispatchEvent(new CustomEvent('consent-change', { detail: { accepted: true } }));
   };
 
   const handleReject = () => {
-    localStorage.setItem(CONSENT_KEY, JSON.stringify(false));
+    try {
+      safeLocalStorageItem(CONSENT_KEY, JSON.stringify(false));
+    } catch (err) {
+      console.warn('Unable to persist cookie rejection:', err);
+    }
     setVisible(false);
     window.dispatchEvent(new CustomEvent('consent-change', { detail: { accepted: false } }));
   };

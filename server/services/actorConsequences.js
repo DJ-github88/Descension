@@ -87,7 +87,8 @@ function resources(token, kind) {
 }
 function validateRecord(record, ref) {
   keys(record, CONDITION_FIELDS);
-  if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) || !string(record.originalName) || !string(record.source) ||
+  if (record.version !== 1 || !string(record.id) || record.id !== record.recordId || !string(record.name) ||
+    typeof record.originalName !== 'string' || !record.originalName.trim() || typeof record.source !== 'string' || !record.source.trim() ||
      !['buff', 'debuff', 'marker'].includes(record.type) || !['effect', 'marker', 'legacy-manual'].includes(record.kind) ||
      hash(record.target) !== hash(ref) || record.targetId !== ref.tokenId || record.targetType !== ref.kind ||
      record.sharedTiming !== 'manual' || !['rounds', 'minutes', 'hours', 'seconds', 'manual'].includes(record.durationType)) {fail('invalid_condition');}
