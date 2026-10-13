@@ -1,0 +1,79 @@
+/* Resource glyphs (health flask, mana crystal, AP winged boot).
+   Calm by default; light only shows when a pool is full or overcharged. */
+
+.resource-glyph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* full pool: slow breathing glow + glint */
+.resource-glyph .rg-glow { opacity: 0.45; transform-box: fill-box; }
+.resource-glyph.rg-phase-max .rg-glow { animation: rgBreathe 3.2s ease-in-out infinite; }
+.resource-glyph .rg-glint { transform-box: fill-box; transform-origin: center; }
+.resource-glyph.rg-phase-max .rg-glint { animation: rgTwinkle 2.6s ease-in-out infinite; }
+.resource-glyph.rg-phase-max .rg-glint + .rg-glint { animation-delay: 1.3s; }
+
+/* critical: the remaining charge flickers, the AP wing trembles */
+.resource-glyph.rg-phase-critical .rg-fill { animation: rgFlicker 1.6s steps(1, end) infinite; }
+.resource-glyph.rg-ap.rg-phase-critical .rg-wing { animation: rgTremble 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: 0% 100%; }
+
+/* empty: shattered pieces sit still, slightly faded */
+.resource-glyph.rg-phase-empty { opacity: 0.85; }
+
+/* temporary surplus: coloured aura on top of any phase */
+.resource-glyph.rg-surplus { animation: rgAura 2.4s ease-in-out infinite; }
+
+@keyframes rgBreathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+@keyframes rgTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes rgFlicker {
+  0%, 62%, 100% { opacity: 1; }
+  64% { opacity: 0.45; }
+  70% { opacity: 1; }
+  76% { opacity: 0.6; }
+}
+@keyframes rgTremble {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg); }
+}
+@keyframes rgAura {
+  0%, 100% { filter: drop-shadow(0 0 2px var(--rg-aura)); }
+  50% { filter: drop-shadow(0 0 7px var(--rg-aura)) drop-shadow(0 0 2px var(--rg-aura)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resource-glyph *, .resource-glyph { animation: none !important; }
+  .resource-glyph.rg-phase-max .rg-glow { opacity: 0.5; }
+  .resource-glyph.rg-surplus { filter: drop-shadow(0 0 5px var(--rg-aura)); }
+}
+
+/* Party HUD corner mounts: the glyph replaces the old PNG, so retire the
+   PNG-era drop shadows and surplus keyframes that targeted .party-vial-icon. */
+.party-vial .resource-glyph.resource-glyph.party-vial-icon {
+  object-fit: initial;
+  filter: none;
+  animation: none;
+}
+.party-vial .resource-glyph.resource-glyph.party-vial-icon.rg-surplus {
+  animation: rgAura 2.4s ease-in-out infinite;
+}
+.party-hud-frames .party-corner-mount:hover .party-vial { filter: none; }
+.party-corner-mount:hover .party-vial .resource-glyph { filter: drop-shadow(0 0 3px rgba(52, 37, 26, 0.35)); }
+@media (prefers-reduced-motion: reduce) {
+  .party-vial .resource-glyph.resource-glyph.party-vial-icon.rg-surplus { animation: none; filter: drop-shadow(0 0 5px var(--rg-aura)); }
+}
+
+/* Target HUD bars: the glyph replaces the socket PNG; drop the PNG-era shadows. */
+:is(.modular-health-bar-container, .modular-mana-bar-container, .modular-ap-bar-container) .resource-glyph.resource-glyph {
+  filter: none;
+  animation: none;
+  object-fit: initial;
+}

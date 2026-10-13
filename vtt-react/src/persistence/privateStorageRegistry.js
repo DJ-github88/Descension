@@ -262,6 +262,9 @@ const REGISTRY_ENTRIES = [
 
   // ── Character foundation ─────────────────────────────────────────────────
   authored('character.roster', 'Local character roster', ['mythrill-characters']),
+  recoverable('character.saveDraft', 'P6 selected character save candidate', [
+    { builder: 'mythrill_character_save_draft_{characterId}_{lane}' }
+  ], { notes: 'Latest canonical or personal runtime draft; owner scoped, retained on failure/logout. Not a room checkpoint or upload receipt.' }),
   authored('character.guestRoster', 'Guest character roster', ['mythrill-guest-characters'], [
     'mythrill-guest-character'
   ]),
@@ -608,6 +611,7 @@ export const FROZEN_SLICE1_FAMILY_IDS = Object.freeze([
   'core.cooldowns',
   // Character foundation
   'character.roster',
+  'character.saveDraft',
   'character.guestRoster',
   'character.activeId',
   'character.deferredPublication',

@@ -71,8 +71,9 @@ const buildConditionRecord = (polarity, condition) => {
         description: condition.description,
         effectSummary: condition.effectSummary || '',
         effects: condition.effects || {},
-        duration: condition.duration || 60,
-        startTime: condition.startTime || Date.now(),
+        duration: condition.duration ?? 60,
+        startTime: condition.startTime ?? Date.now(),
+        sharedTiming: condition.sharedTiming,
         source: condition.source || cfg.defaultSource,
         sourceEntityId: condition.sourceEntityId ?? condition.sourceId ?? condition.casterId,
         effectOrigin: condition.effectOrigin,
@@ -95,7 +96,7 @@ const buildConditionRecord = (polarity, condition) => {
     };
 
     if (condition.durationType !== 'rounds') {
-        record.endTime = condition.endTime || (Date.now() + (condition.duration || 60) * 1000);
+        record.endTime = condition.endTime ?? (Date.now() + (condition.duration ?? 60) * 1000);
     }
 
     return record;
@@ -225,9 +226,20 @@ const useConditionStore = create(
             activeDebuffs: [],
 
             addCondition: (polarity, condition, silent = false) => {
+                const boundary = require('../services/actorConsequenceService');
+                if (!silent && boundary.inSharedRoom()) {
+                    const token = boundary.findActor(condition.target || condition.targetId || 'player');
+                    if (!token?.state?.actorContract) return boundary.routeTokenState(condition.targetId || 'player', { conditions: [] });
+                    const record = { ...buildConditionRecord(polarity, condition), id: condition.recordId || crypto.randomUUID(),
+                        targetId: token.id, targetType: token.state.actorContract.kind };
+                    const existing = token.state?.conditions || [];
+                    const next = record.stackable ? [...existing, record] : [...existing.filter(value => !(value.name === record.name && value.targetId === record.targetId)), record];
+                    return boundary.routeTokenState(token.id, { conditions: next });
+                }
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 const newRecord = buildConditionRecord(polarity, condition);
+                if (boundary.inSharedRoom()) newRecord.sharedTiming = 'manual';
 
                 console.log(`${cfg.logTag} Adding ${polarity}:`, newRecord.name, 'targetId:', newRecord.targetId, 'effects:', newRecord.effects);
 
@@ -247,15 +259,15 @@ const useConditionStore = create(
                 }
 
                 try {
-                    syncConditionToTokenState(polarity, newRecord);
+                    if (!boundary.inSharedRoom()) syncConditionToTokenState(polarity, newRecord);
                 } catch (e) {
                     console.warn(`[conditionStore] Could not sync ${polarity} to token conditions:`, e);
                 }
 
-                if (newRecord.durationType !== 'rounds') {
+                if (newRecord.durationType !== 'rounds' && newRecord.sharedTiming !== 'manual') {
                     const remainingTime = Math.max(0, newRecord.endTime - Date.now());
                     setTimeout(() => {
-                        get().removeCondition(polarity, newRecord.id);
+                        if (!require('../services/actorConsequenceService').inSharedRoom()) get().removeCondition(polarity, newRecord.id);
                     }, remainingTime);
                 }
 
@@ -266,6 +278,11 @@ const useConditionStore = create(
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 const recordToRemove = list.find(c => c.id === id);
+                if (!silent && recordToRemove?.sharedTiming === 'manual') {
+                    const boundary = require('../services/actorConsequenceService');
+                    const token = boundary.findActor(recordToRemove.target);
+                    return boundary.routeTokenState(token?.id, { conditions: (token?.state?.conditions || []).filter(record => record.id !== id) });
+                }
 
                 set({ [cfg.stateKey]: list.filter(c => c.id !== id) });
 
@@ -286,6 +303,11 @@ const useConditionStore = create(
 
             clearAllConditions: (polarity) => {
                 const cfg = POLARITY_CONFIG[polarity];
+                const boundary = require('../services/actorConsequenceService');
+                if (boundary.inSharedRoom()) {
+                    const token = boundary.findActor('player');
+                    return boundary.routeTokenState(token?.id, { conditions: (token?.state?.conditions || []).filter(record => record.type !== polarity) });
+                }
                 set({ [cfg.stateKey]: [] });
             },
 
@@ -296,7 +318,7 @@ const useConditionStore = create(
                 if (!record) return 0;
 
                 if (record.durationType === 'rounds') {
-                    return (record.remainingRounds || record.durationValue || 1) * 6;
+                    return (record.remainingRounds ?? record.durationValue ?? 1) * 6;
                 }
 
                 const remaining = Math.max(0, record.endTime - Date.now());
@@ -304,15 +326,16 @@ const useConditionStore = create(
             },
 
             updateConditionTimers: (polarity) => {
+                if (require('../services/actorConsequenceService').inSharedRoom()) return;
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 const currentTime = Date.now();
 
                 const expired = list.filter(c =>
-                    c.durationType !== 'rounds' && c.endTime <= currentTime
+                    c.sharedTiming !== 'manual' && c.durationType !== 'rounds' && c.endTime <= currentTime
                 );
                 const valid = list.filter(c =>
-                    c.durationType === 'rounds' || c.endTime > currentTime
+                    c.sharedTiming === 'manual' || c.durationType === 'rounds' || c.endTime > currentTime
                 );
 
                 if (valid.length !== list.length) {
@@ -392,6 +415,8 @@ const useConditionStore = create(
                 const targetIds = [targetId];
                 if (targetId === 'player') {
                     targetIds.push('current-player');
+                    const projection = require('../services/actorConsequenceService').roomResourceProjection();
+                    if (projection) targetIds.push(projection.roomActorProjection.ref.tokenId);
                     try {
                         const gameStore = getStore('gameStore');
                         const charStore = getStore('characterStore');
@@ -432,17 +457,23 @@ const useConditionStore = create(
 
             removeConditionsForTarget: (polarity, targetId) => {
                 const cfg = POLARITY_CONFIG[polarity];
+                const boundary = require('../services/actorConsequenceService');
+                if (boundary.inSharedRoom()) {
+                    const token = boundary.findActor(targetId);
+                    return boundary.routeTokenState(token?.id, { conditions: (token?.state?.conditions || []).filter(record => record.type !== polarity) });
+                }
                 const list = get()[cfg.stateKey];
                 set({ [cfg.stateKey]: list.filter(record => record.targetId !== targetId) });
             },
 
             decrementRoundBasedConditions: (polarity, targetId) => {
+                if (require('../services/actorConsequenceService').inSharedRoom()) return;
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
                 const expired = [];
                 const updated = list.map(record => {
-                    if (record.targetId === targetId && record.durationType === 'rounds') {
-                        const remainingRounds = (record.remainingRounds || record.durationValue || 1) - 1;
+                    if (record.sharedTiming !== 'manual' && record.targetId === targetId && record.durationType === 'rounds') {
+                        const remainingRounds = (record.remainingRounds ?? record.durationValue ?? 1) - 1;
                         if (remainingRounds <= 0) {
                             expired.push(record);
                             return null;
@@ -508,6 +539,14 @@ const useConditionStore = create(
             updateConditionDuration: (polarity, id, newDuration, durationType = 'minutes') => {
                 const cfg = POLARITY_CONFIG[polarity];
                 const list = get()[cfg.stateKey];
+                const shared = list.find(record => record.id === id && record.sharedTiming === 'manual');
+                if (shared) {
+                    const boundary = require('../services/actorConsequenceService');
+                    const token = boundary.findActor(shared.target);
+                    const replacement = durationType === 'rounds' ? { ...shared, remainingRounds: newDuration, durationValue: newDuration, durationType }
+                        : { ...shared, duration: newDuration, endTime: Date.now() + newDuration * 1000, durationType };
+                    return boundary.routeTokenState(token?.id, { conditions: (token?.state?.conditions || []).map(record => record.id === id ? replacement : record) });
+                }
                 const updated = list.map(record => {
                     if (record.id === id) {
                         if (durationType === 'rounds') {
@@ -560,14 +599,14 @@ const useConditionStore = create(
         }),
         createScopedStorageConfig('core.conditions', 'condition-store', {
             partialize: (state) => ({
-                activeBuffs: state.activeBuffs.map(buff => ({
+                activeBuffs: state.activeBuffs.map(buff => buff.sharedTiming === 'manual' || buff.durationType === 'rounds' ? buff : ({
                     ...buff,
                     duration: Math.max(0, Math.ceil((buff.endTime - Date.now()) / 1000))
-                })).filter(buff => buff.duration > 0),
-                activeDebuffs: state.activeDebuffs.map(debuff => ({
+                })).filter(buff => buff.sharedTiming === 'manual' || buff.durationType === 'rounds' || buff.duration > 0),
+                activeDebuffs: state.activeDebuffs.map(debuff => debuff.sharedTiming === 'manual' || debuff.durationType === 'rounds' ? debuff : ({
                     ...debuff,
                     duration: Math.max(0, Math.ceil((debuff.endTime - Date.now()) / 1000))
-                })).filter(debuff => debuff.duration > 0)
+                })).filter(debuff => debuff.sharedTiming === 'manual' || debuff.durationType === 'rounds' || debuff.duration > 0)
             })
         })
     )

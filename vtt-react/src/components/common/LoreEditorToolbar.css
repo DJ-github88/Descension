@@ -4,7 +4,7 @@
   align-items: center;
   gap: 4px;
   background: rgba(18, 18, 24, 0.95);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(154, 123, 60, 0.3);
   border-radius: 6px 6px 0 0;
   padding: 6px 8px;
   user-select: none;
@@ -20,7 +20,7 @@
 .lore-toolbar-divider {
   width: 1px;
   height: 18px;
-  background: rgba(212, 175, 55, 0.25);
+  background: rgba(154, 123, 60, 0.25);
   margin: 0 4px;
 }
 
@@ -41,8 +41,8 @@
 }
 
 .lore-tool-btn:hover {
-  background: rgba(212, 175, 55, 0.18);
-  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(154, 123, 60, 0.18);
+  border-color: rgba(154, 123, 60, 0.4);
   color: #fff;
 }
 

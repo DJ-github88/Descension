@@ -7,14 +7,12 @@ import usePartyStore from '../store/partyStore';
 import useWindowManagerStore from '../store/windowManagerStore';
 import usePresenceStore from '../store/presenceStore';
 import MythrillWindow from './windows/MythrillWindow';
-import { getWowIconUrl } from '../utils/assetManager';
 import useCombatStore from '../store/combatStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './common/ErrorBoundary';
 import TabDropdownButton from './common/TabDropdownButton';
 import CharacterSheetWindow from './character-sheet/CharacterSheetWindow';
 import '../styles/resizable-nav.css';
-import { useNavAssets } from '../hooks/useNavAssets';
 import useIsPhone from '../hooks/useIsPhone';
 
 const SettingsWindow = lazy(() => import('./windows/SettingsWindow'));
@@ -119,12 +117,12 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
         {
             id: 'interface',
             label: 'Interface',
-            icon: getWowIconUrl('inv_gizmo_02')
+            icon: 'fa-sliders-h'
         },
         {
             id: 'gameplay',
             label: 'Gameplay',
-            icon: getWowIconUrl('inv_misc_gear_01')
+            icon: 'fa-dice-d20'
         }
     ];
 
@@ -180,6 +178,15 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
 
 
 // Define buttons array outside component to avoid any temporal dead zone issues
+// Centre the nav bar, but keep it clear of the player frame (top-left, ~350px wide)
+// on narrower screens where the centred position would overlap it.
+const PLAYER_FRAME_CLEARANCE = 352;
+const centeredNavX = (width) => {
+    const centered = Math.max(20, (window.innerWidth - width) / 2);
+    if (centered >= PLAYER_FRAME_CLEARANCE) return centered;
+    return window.innerWidth - width - 20 >= PLAYER_FRAME_CLEARANCE ? PLAYER_FRAME_CLEARANCE : centered;
+};
+
 const NAVIGATION_BUTTONS = [
     {
         id: 'character',
@@ -498,7 +505,7 @@ export default function Navigation({ onReturnToLanding }) {
         try { localStorage.removeItem('mythrill-nav-collapsed'); } catch {}
         const curSize = getInitialSize();
         setPosition({
-            x: Math.max(20, (window.innerWidth - curSize.width) / 2),
+            x: centeredNavX(curSize.width),
             y: 20
         });
     }, [activeSceneMode]);
@@ -524,7 +531,8 @@ export default function Navigation({ onReturnToLanding }) {
     const partyChatUnreadCount = usePresenceStore(state => state.partyChatUnreadCount);
 
     // Navigation sprite assets (parchment background, button images)
-    const { assets: navAssets } = useNavAssets();
+    // Calm HUD: the sprite art is retired, so the CSS-drawn bar and labels are always used.
+    const navAssets = null;
 
     // Recalculate nav bar size when sprite assets load (changes height)
     useEffect(() => {
@@ -619,7 +627,7 @@ export default function Navigation({ onReturnToLanding }) {
     const [position, setPosition] = useState(() => {
         const initialSize = getInitialSize();
         return {
-            x: Math.max(20, (window.innerWidth - initialSize.width) / 2), // Center horizontally
+            x: centeredNavX(initialSize.width), // Centre, clear of the player frame
             y: 20 // Position at top with 20px margin
         };
     });
@@ -944,7 +952,7 @@ export default function Navigation({ onReturnToLanding }) {
             setSize(newSize);
             // Keep navigation bar centered
             setPosition(prev => ({
-                x: (window.innerWidth - newSize.width) / 2,
+                x: centeredNavX(newSize.width),
                 y: prev.y
             }));
         }
@@ -1438,7 +1446,11 @@ export default function Navigation({ onReturnToLanding }) {
                                     className="nav-orb nav-quill-collapsed"
                                     title="Expand Navigation (~)"
                                 >
-                                    <img src={navAssets?.quill || '/assets/ui/Quill.PNG'} alt="Expand Navigation" className="nav-quill-img" draggable={false} />
+                                    <svg className="nav-quill-icon nav-quill-collapsed-icon" viewBox="0 0 24 24" width="22" height="22" role="img" aria-label="Expand Navigation">
+                                        <path d="M20.5 3.5C14 4 8.5 8.5 6.5 15l-1 4 3.2-2.6c5.8-1.6 10.4-6.6 11.8-12.9Z" fill="#f8f5ee" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                                        <path d="M18 6.5C13.5 9 10 12.5 7.6 16.8M15.6 6.4l-.6 3.2 3-1M12.4 9.6l-.4 3 2.8-1.1" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                                        <path d="M3.5 21.5l2-2.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                    </svg>
                                     <div className="nav-orb-pulse" />
                                 </div>
                             </Draggable>
@@ -1543,7 +1555,7 @@ export default function Navigation({ onReturnToLanding }) {
                                         {/* Back to Landing Page Button */}
                                         {onReturnToLanding && (
                                             <button
-                                                onClick={onReturnToLanding}
+                                                onClick={() => setShowExitConfirm(true)}
                                                 onTouchStart={(e) => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
@@ -1551,7 +1563,7 @@ export default function Navigation({ onReturnToLanding }) {
                                                 onTouchEnd={(e) => {
                                                     e.preventDefault();
                                                     e.stopPropagation();
-                                                    onReturnToLanding();
+                                                    setShowExitConfirm(true);
                                                 }}
                                                 className={`wow-nav-button back-button ${navAssets ? 'nav-sprite-btn-wrapper' : ''}`}
                                                 title="Return to Main Menu (ESC)"
@@ -1590,8 +1602,15 @@ export default function Navigation({ onReturnToLanding }) {
                                             onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleToggleCollapse(); }}
                                             className="wow-nav-button wow-nav-minimize nav-quill-btn"
                                             title="Minimize Navigation (~)"
+                                            aria-label="Minimize navigation"
                                             style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
-                                        />
+                                        >
+                                            <svg className="nav-quill-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                                                <path d="M20.5 3.5C14 4 8.5 8.5 6.5 15l-1 4 3.2-2.6c5.8-1.6 10.4-6.6 11.8-12.9Z" fill="#f8f5ee" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                                                <path d="M18 6.5C13.5 9 10 12.5 7.6 16.8M15.6 6.4l-.6 3.2 3-1M12.4 9.6l-.4 3 2.8-1.1" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                                                <path d="M3.5 21.5l2-2.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                                            </svg>
+                                        </button>
 
                                     </div>
                                 </div>

@@ -366,7 +366,7 @@
 }
 
 .context-menu {
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    background: #f1ece1;
     border: 2px solid #8b7355;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(139, 115, 85, 0.7);
@@ -395,7 +395,7 @@
 }
 
 .context-menu-item:hover {
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%);
     color: #3a2f1a;
     box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
 }
@@ -409,25 +409,6 @@
 /* .context-menu-item:last-child consolidated to global styles */
 
 /* Delete item styling */
-.delete-item {
-    color: #7a3b2e;
-}
-
-.delete-item:hover {
-    background: linear-gradient(135deg, #f0d0d0 0%, #e8c0c0 100%);
-}
-
-.delete-item:hover {
-    background-color: rgba(255, 74, 74, 0.1);
-}
-
-.delete-item i {
-    color: #ff4a4a;
-}
-
-.delete-item:hover i {
-    color: #ff6b6b;
-}
 
 /* Loading spinner animation */
 @keyframes spin {

@@ -32,21 +32,7 @@
 }
 
 .enc-delay-1 { animation-delay: 100ms !important; } 
-.enc-delay-2 { animation-delay: 200ms !important; } 
-.enc-delay-3 { animation-delay: 300ms !important; }
-
-.enc-shake { 
-    animation: enc-machine-shake 0.55s ease-out !important; 
-}
-
-.enc-btn-spin:active { 
-    transform: translateY(4px) !important; 
-    box-shadow: none !important; 
-}
-
-.enc-btn-idle { 
-    box-shadow: 0 0 0 2px #5a3810, 0 7px 24px rgba(120,70,10,0.5), inset 0 2px 0 rgba(255,235,120,0.35), inset 0 -2px 0 rgba(0,0,0,0.3) !important; 
-}
+.enc-delay-2 { animation-delay: 200ms !important; }
 
 /* Hide scrollbar for the encounter container */
 #social-encounter-scroll-container {

@@ -69,6 +69,10 @@ function registerEnvironmentHandlers(ctx) {
 
       if (!map.creatures) {map.creatures = {};}
       const creatureId = data.creature.id || uuidv4();
+      if (map.creatures[creatureId] || map.tokens?.[creatureId] || map.characterTokens?.[creatureId]) {
+        socket.emit('room_error', { code: 'actor_binding_conflict', event: 'creature_added', message: 'An existing instance cannot be replaced by a legacy creature envelope' });
+        return;
+      }
       map.creatures[creatureId] = {
         ...data.creature,
         id: creatureId,

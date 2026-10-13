@@ -60,8 +60,7 @@
 }
 
 /* Character card / compact hud sizing */
-.character-card .plaguebringer-resource-bar,
-.character-card-compact .plaguebringer-resource-bar {
+.character-card .plaguebringer-resource-bar {
     height: 52px !important;
     min-height: 52px !important;
 }
@@ -121,10 +120,6 @@
 }
 
 /* Rising spore motes in live culture */
-.plague-mote {
-    transform-box: fill-box;
-    animation: plagueMoteRise 2.6s infinite ease-in;
-}
 
 @keyframes plagueMoteRise {
     0% { transform: translateY(0); opacity: 0; }
@@ -133,9 +128,6 @@
 }
 
 /* Breathing culture surface */
-.plague-surf {
-    animation: plagueSurfSlide 3.2s linear infinite;
-}
 
 @keyframes plagueSurfSlide {
     from { transform: translateX(0); }
@@ -155,9 +147,9 @@
 @media (prefers-reduced-motion: reduce) {
     .plaguebringer-resource-bar.peak-harvest,
     .plague-halo,
-    .plague-pod-heart,
-    .plague-mote,
-    .plague-surf {
+    .plague-pod-heart {
         animation: none;
     }
 }
+/* Calm: no looping pulses or drifting motes */
+.plaguebringer-resource-bar, .plague-halo, .plague-pod-heart { animation: none !important; }

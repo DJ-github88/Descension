@@ -1,0 +1,14 @@
+R2-older-import-protects-newer-work: GREEN
+R4-embedded-canonical-identity-rejected-before-mutation: GREEN
+R3-runtime-only-conflicting-import-visibly-refused: GREEN
+R1-ordinary-production-inventory-save-load-recovery-import: GREEN
+control-valid-runtime-import-subscriptions-and-subsequent-edit: GREEN
+control-valid-canonical-import-exact-data-and-retry: GREEN
+control-valid-combined-import-and-production-custom-matrix: GREEN
+control-import-validation-all-lanes-before-any-mutation: GREEN
+control-unsupported-candidate-remains-exact-and-refused: GREEN
+control-same-owner-session-failure-heals-and-sync-confirms: GREEN
+R5-held-session-failure-account-switch: GREEN
+R6-held-sync-read-account-switch: GREEN
+R5-held-session-failure-generation-switch: GREEN
+R6-held-sync-read-generation-switch: GREEN

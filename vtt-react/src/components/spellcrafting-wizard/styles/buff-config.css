@@ -20,46 +20,16 @@
   font-family: var(--my-font-display);
 }
 
-.wow-buff-stat-modifiers {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-2);
-}
-
 .wow-buff-stat-modifier {
-  display: flex;
-  align-items: center;
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-2);
   box-shadow: var(--my-shadow-sm);
 }
 
-.wow-buff-stat-info {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
 .wow-buff-stat-icon {
-  width: 24px;
-  height: 24px;
   margin-right: var(--my-space-2);
-  border: var(--my-border-width) solid var(--my-brown-light);
-  border-radius: var(--my-border-radius);
 }
 
 .wow-buff-stat-icon img {
-  width: 100%;
-  height: 100%;
   border-radius: var(--my-border-radius);
-}
-
-.wow-buff-stat-name {
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-ui);
 }
 
 .wow-buff-stat-value-container {
@@ -154,46 +124,16 @@
   font-family: var(--my-font-display);
 }
 
-.wow-debuff-stat-penalties {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-2);
-}
-
 .wow-debuff-stat-penalty {
-  display: flex;
-  align-items: center;
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-2);
   box-shadow: var(--my-shadow-sm);
 }
 
-.wow-debuff-stat-info {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
 .wow-debuff-stat-icon {
-  width: 24px;
-  height: 24px;
   margin-right: var(--my-space-2);
-  border: var(--my-border-width) solid var(--my-brown-light);
-  border-radius: var(--my-border-radius);
 }
 
 .wow-debuff-stat-icon img {
-  width: 100%;
-  height: 100%;
   border-radius: var(--my-border-radius);
-}
-
-.wow-debuff-stat-name {
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-ui);
 }
 
 .wow-debuff-stat-value-container {
@@ -345,32 +285,6 @@
 }
 
 /* Custom Effect Input Fields */
-.effect-name-input,
-.effect-description-input,
-.effect-text-input {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  color: var(--my-text-primary);
-  padding: var(--my-space-2);
-  font-size: var(--my-text-sm);
-  font-family: var(--my-font-ui);
-  width: 100%;
-  transition: border-color 0.2s ease;
-}
-
-.effect-name-input:focus,
-.effect-description-input:focus,
-.effect-text-input:focus {
-  outline: none;
-  border-color: var(--my-brown-dark);
-  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
-}
-
-.effect-description-input {
-  resize: vertical;
-  min-height: 60px;
-}
 
 .stat-name-input,
 .stat-description-input {
@@ -403,159 +317,8 @@
 }
 
 /* Selected Effects Grid */
-.selected-effects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--my-space-3);
-  margin-top: var(--my-space-3);
-}
-
-.selected-effect-card {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-3);
-  transition: all 0.2s ease;
-}
-
-.selected-effect-card:hover {
-  border-color: var(--my-brown-dark);
-  box-shadow: var(--my-shadow-md);
-}
-
-.effect-card-header {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  margin-bottom: var(--my-space-2);
-}
-
-.effect-card-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--my-border-radius);
-  border: 1px solid var(--my-brown-light);
-}
-
-.effect-card-title {
-  flex: 1;
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-primary);
-  font-size: var(--my-text-base);
-}
-
-.effect-configure-btn,
-.effect-remove-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: var(--my-border-radius);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--my-text-xs);
-  transition: all 0.2s ease;
-}
-
-.effect-configure-btn {
-  background: var(--my-brown-medium);
-  color: var(--my-text-on-dark);
-}
-
-.effect-configure-btn:hover {
-  background: var(--my-brown-dark);
-}
-
-.effect-remove-btn {
-  background: var(--my-danger);
-  color: var(--my-text-on-dark);
-}
-
-.effect-remove-btn:hover {
-  background: var(--my-danger-dark);
-}
-
-.effect-card-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.4;
-  margin-bottom: var(--my-space-2);
-}
-
-.effect-card-potency {
-  color: var(--my-text-muted);
-  font-size: var(--my-text-xs);
-  font-style: italic;
-}
 
 /* Effect Configuration Popup */
-.effect-config-popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(45, 24, 16, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 15000; /* Increased to ensure it appears above spellbook window */
-}
-
-.effect-config-popup {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-dark);
-  border-radius: var(--my-border-radius-lg);
-  box-shadow: var(--my-shadow-xl);
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.effect-config-header {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-  padding: var(--my-space-4);
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
-  background: var(--my-gradient-parchment-dark);
-}
-
-.effect-config-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--my-border-radius);
-  border: 1px solid var(--my-brown-light);
-}
-
-.effect-config-header h3 {
-  flex: 1;
-  margin: 0;
-  color: var(--my-text-primary);
-  font-family: var(--my-font-heading);
-  font-size: var(--my-text-lg);
-}
-
-.effect-config-close {
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: transparent;
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-xl);
-  cursor: pointer;
-  border-radius: var(--my-border-radius);
-  transition: all 0.2s ease;
-}
-
-.effect-config-close:hover {
-  background: var(--my-brown-light);
-  color: var(--my-text-primary);
-}
 
 .effect-config-content {
   padding: var(--my-space-4);
@@ -644,10 +407,6 @@
   font-weight: var(--my-font-semibold);
 }
 
-.selected-stat-modifiers {
-  margin-bottom: var(--my-space-3);
-}
-
 .stat-modifier-item {
   display: flex;
   align-items: center;
@@ -715,10 +474,6 @@
 
 .stat-modifier-remove:hover {
   background: var(--my-danger-dark);
-}
-
-.add-stat-modifiers {
-  margin-top: var(--my-space-3);
 }
 
 .stat-category-tabs {
@@ -789,23 +544,7 @@
 }
 
 .wow-formula-suggestion {
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  color: var(--my-text-primary);
-  padding: var(--my-space-2) var(--my-space-3);
-  font-size: var(--my-text-xs);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  font-family: var(--my-font-ui);
   box-shadow: var(--my-shadow-sm);
-}
-
-.wow-formula-suggestion:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-md);
 }
 
 /* Conditional Formula Example */
@@ -866,34 +605,6 @@
 }
 
 /* Conditional Buff Preview Styles */
-.conditional-buff-preview {
-  margin-bottom: var(--my-space-3);
-  padding: var(--my-space-2);
-  background: var(--my-gradient-parchment-light);
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
-.conditional-buff-detail {
-  margin-top: var(--my-space-2);
-  margin-left: var(--my-space-3);
-  display: flex;
-  flex-direction: column;
-}
-
-.conditional-buff-label {
-  color: var(--my-gold);
-  font-size: var(--my-text-xs);
-  font-weight: var(--my-font-semibold);
-  margin-bottom: var(--my-space-1);
-  font-family: var(--my-font-ui);
-}
-
-.conditional-buff-value {
-  color: var(--my-text-primary);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-body);
-}
 
 /* Buff Stat Modifier Styling */
 .wow-buff-stat-modifiers {
@@ -966,30 +677,6 @@
 }
 
 /* Buff stat controls */
-.wow-buff-stat-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-}
-
-.wow-buff-stat-controls input,
-.wow-buff-stat-controls select {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  padding: var(--my-space-1) var(--my-space-2);
-  min-width: 80px;
-}
-
-.wow-buff-stat-controls input:focus,
-.wow-buff-stat-controls select:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
 
 /* Debuff Stat Penalty Styling (mirror of buff styling) */
 .wow-debuff-stat-penalties {
@@ -1062,139 +749,5 @@
 }
 
 /* Debuff stat controls */
-.wow-debuff-stat-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-}
-
-.wow-debuff-stat-controls input,
-.wow-debuff-stat-controls select {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  padding: var(--my-space-1) var(--my-space-2);
-  min-width: 80px;
-}
-
-.wow-debuff-stat-controls input:focus,
-.wow-debuff-stat-controls select:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
-
-.conditional-buff-stats {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-1);
-  margin-top: var(--my-space-1);
-}
-
-.conditional-buff-stat {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  background: var(--my-gradient-parchment);
-  padding: var(--my-space-1) var(--my-space-2);
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
-.conditional-buff-stat-name {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-ui);
-}
-
-.conditional-buff-stat-value {
-  font-weight: var(--my-font-semibold);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-ui);
-}
-
-.conditional-buff-stat-value.positive {
-  color: var(--my-nature);
-}
-
-.conditional-buff-stat-value.negative {
-  color: var(--my-fire);
-}
-
-.conditional-buff-stat-value.formula {
-  color: var(--my-gold);
-}
 
 /* Conditional Debuff Preview Styles */
-.conditional-debuff-preview {
-  margin-bottom: var(--my-space-3);
-  padding: var(--my-space-2);
-  background: var(--my-gradient-parchment-light);
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
-.conditional-debuff-detail {
-  margin-top: var(--my-space-2);
-  margin-left: var(--my-space-3);
-  display: flex;
-  flex-direction: column;
-}
-
-.conditional-debuff-label {
-  color: var(--my-fire);
-  font-size: var(--my-text-xs);
-  font-weight: var(--my-font-semibold);
-  margin-bottom: var(--my-space-1);
-  font-family: var(--my-font-ui);
-}
-
-.conditional-debuff-value {
-  color: var(--my-text-primary);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-body);
-}
-
-.conditional-debuff-stats {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-1);
-  margin-top: var(--my-space-1);
-}
-
-.conditional-debuff-stat {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  background: var(--my-gradient-parchment);
-  padding: var(--my-space-1) var(--my-space-2);
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
-.conditional-debuff-stat-name {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-ui);
-}
-
-.conditional-debuff-stat-value {
-  font-weight: var(--my-font-semibold);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-ui);
-}
-
-.conditional-debuff-stat-value.positive {
-  color: var(--my-nature);
-}
-
-.conditional-debuff-stat-value.negative {
-  color: var(--my-fire);
-}
-
-.conditional-debuff-stat-value.formula {
-  color: var(--my-gold);
-}

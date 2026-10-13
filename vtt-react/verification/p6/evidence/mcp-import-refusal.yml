@@ -1,0 +1,20 @@
+- generic [ref=e2]:
+  - heading "Selected character" [level=1] [ref=e3]
+  - region "Selected character save status" [ref=e5]:
+    - status [ref=e6]:
+      - generic [ref=e7]:
+        - strong [ref=e8]: "Canonical character:"
+        - text: Save failed · Device draft retained
+        - generic [ref=e9]: "Failed to save character: P6 canonical network refusal"
+        - button "Retry character save" [ref=e10]
+      - generic [ref=e11]:
+        - strong [ref=e12]: "Personal runtime:"
+        - text: Save failed · Device draft retained
+        - generic [ref=e13]: P6 runtime network refusal
+        - button "Retry runtime save" [ref=e14]
+    - generic [ref=e15]:
+      - button "Download selected draft" [ref=e16]
+      - generic [ref=e17]:
+        - text: Import selected draft
+        - button "Import selected draft" [ref=e18]
+    - alert [ref=e19]: "Import failed: Current unsaved work differs from this file. Retry or download it first; neither candidate was replaced. The import file is unchanged."

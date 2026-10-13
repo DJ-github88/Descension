@@ -1,0 +1,341 @@
+{
+  "A3": {
+    "result": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "fd2ea351-012a-4a97-9b04-11aab5156ee5",
+        "commandId": "5157d642-bfd8-4236-829f-a3d8dcdd3048",
+        "submitterUid": "user-mv70cy89-1-umcec",
+        "contentHash": "3ff60e091f317056330c0213bd8b0ec239bd57922c72902896fa7de59cf6802f",
+        "admissionEpoch": "3aa4dd70-f819-483a-b49a-81cac746d5f2",
+        "commitSequence": 1,
+        "checkpointRevision": 3,
+        "acceptedAt": 1791915730003,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "user-mv70cy89-1-umcec"
+        },
+        "source": {
+          "kind": "creature",
+          "roomId": "fd2ea351-012a-4a97-9b04-11aab5156ee5",
+          "mapId": "default",
+          "tokenId": "branvig-a",
+          "instanceId": "1701d081-95e8-4a1b-a3f6-0d6427c59fa8"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "fd2ea351-012a-4a97-9b04-11aab5156ee5",
+          "mapId": "default",
+          "tokenId": "branvig-b",
+          "instanceId": "1a6c2d28-a984-40dc-8370-eaa629688a8d"
+        },
+        "adjudication": {
+          "definitionId": "grimmstalk_feather_slash",
+          "chosenResult": 15,
+          "finalAmount": 15
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "fd2ea351-012a-4a97-9b04-11aab5156ee5",
+              "mapId": "default",
+              "tokenId": "branvig-a",
+              "instanceId": "1701d081-95e8-4a1b-a3f6-0d6427c59fa8"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 250,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "fd2ea351-012a-4a97-9b04-11aab5156ee5",
+              "mapId": "default",
+              "tokenId": "branvig-b",
+              "instanceId": "1a6c2d28-a984-40dc-8370-eaa629688a8d"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 239,
+                "temp": 0,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 1,
+                "max": 5
+              }
+            },
+            "conditions": [
+              {
+                "version": 1,
+                "id": "slow-a",
+                "recordId": "slow-a",
+                "conditionKey": "slowed",
+                "originalName": "slow",
+                "name": "Slowed",
+                "type": "debuff",
+                "kind": "effect",
+                "target": {
+                  "kind": "creature",
+                  "roomId": "fd2ea351-012a-4a97-9b04-11aab5156ee5",
+                  "mapId": "default",
+                  "tokenId": "branvig-b",
+                  "instanceId": "1a6c2d28-a984-40dc-8370-eaa629688a8d"
+                },
+                "targetId": "branvig-b",
+                "targetType": "creature",
+                "source": "arc_frost_touch",
+                "effects": {
+                  "movementSpeed": -10
+                },
+                "durationType": "rounds",
+                "durationValue": 3,
+                "remainingRounds": 3,
+                "sharedTiming": "manual"
+              }
+            ]
+          }
+        ]
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible",
+      "delivery": "sent"
+    },
+    "checkpointOperations": 3,
+    "checkpointRequestBytes": 25085,
+    "decoded": true
+  },
+  "A1": {
+    "invalidCases": 5,
+    "zeroMutation": true,
+    "primaryReplacement": {
+      "old": {
+        "kind": "character",
+        "roomId": "b4b9720f-1d01-4c93-b024-c0c2f9ca427b",
+        "mapId": "default",
+        "tokenId": "pc-a",
+        "instanceId": "fc4b7297-95de-4f0b-89f6-9b792a36c16f",
+        "ownerUid": "user-mv70cycf-1-p7nkd",
+        "characterId": "c-a"
+      },
+      "replacement": {
+        "kind": "character",
+        "roomId": "b4b9720f-1d01-4c93-b024-c0c2f9ca427b",
+        "mapId": "default",
+        "tokenId": "pc-extra",
+        "instanceId": "2ce1c82a-7493-4294-ad59-71f882af8e20",
+        "ownerUid": "user-mv70cycf-1-p7nkd",
+        "characterId": "c-a"
+      },
+      "sameUidDifferentCharacter": true
+    },
+    "nonDefaultDeleteReplacement": true
+  },
+  "A2": {
+    "memberDenied": true,
+    "revokedDenied": true,
+    "fencedDenied": true,
+    "immutableGMProposal": true,
+    "runtimeAwaitRace": {
+      "success": false,
+      "error": "Room session changed during authorization; the operation was not applied",
+      "code": "room_binding_changed",
+      "event": "actor_consequence"
+    },
+    "principalAwaitRace": {
+      "success": false,
+      "code": "actor_binding_conflict",
+      "error": "actor_binding_conflict"
+    }
+  },
+  "A4": {
+    "retry": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "9064d76c-7375-4532-a624-79d2cb3523ef",
+        "commandId": "d0fa2372-f42e-4abd-a6b7-b59538b277f5",
+        "submitterUid": "user-mv70cyal-1-c0xux",
+        "contentHash": "949dbaf4ba7d268ee143f97beab1a4b02b50311452e728cfd72d7c9ec37ed316",
+        "admissionEpoch": "205dd9ad-1de0-4106-9fbe-59d0f1057d63",
+        "commitSequence": 1,
+        "checkpointRevision": 3,
+        "acceptedAt": 1791915730088,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "user-mv70cyal-1-c0xux"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "9064d76c-7375-4532-a624-79d2cb3523ef",
+              "mapId": "default",
+              "tokenId": "branvig-a",
+              "instanceId": "7d7c3a71-25b2-41b9-a6d9-8ab6f4dff4b1"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 200,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 1,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ]
+      },
+      "status": "accepted-live",
+      "durability": "checkpoint-eligible"
+    },
+    "concurrent": [
+      {
+        "success": true,
+        "receipt": {
+          "version": 1,
+          "roomId": "9064d76c-7375-4532-a624-79d2cb3523ef",
+          "commandId": "42d2726e-3272-4c35-9144-208e693fd6a7",
+          "submitterUid": "user-mv70cyal-1-c0xux",
+          "contentHash": "263e1336a1cad6bfa8817babad80e2bb8d839340e6c58bb6ea1df1b43268c2c7",
+          "admissionEpoch": "205dd9ad-1de0-4106-9fbe-59d0f1057d63",
+          "commitSequence": 2,
+          "checkpointRevision": 4,
+          "acceptedAt": 1791915730092,
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "user-mv70cyal-1-c0xux"
+          },
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "9064d76c-7375-4532-a624-79d2cb3523ef",
+                "mapId": "default",
+                "tokenId": "branvig-b",
+                "instanceId": "7aeaf6b5-ba4d-468a-ba00-1e740495508d"
+              },
+              "beforeRevision": 0,
+              "afterRevision": 1,
+              "finalResources": {
+                "hp": {
+                  "current": 180,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 30,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 5,
+                  "temp": 1,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ]
+        },
+        "status": "accepted-live",
+        "durability": "checkpoint-eligible",
+        "delivery": "sent"
+      },
+      {
+        "success": false,
+        "code": "stale_actor_revision",
+        "error": "stale_actor_revision"
+      }
+    ],
+    "knownOldReceipt": true,
+    "unknownOldEpoch": "outcome_unknown",
+    "pruning": {
+      "limit": 256,
+      "unconfirmedRefused": true,
+      "confirmedFloor": 1,
+      "durableOldRetry": true,
+      "freshEpochUnknown": true
+    }
+  },
+  "A6": {
+    "capacityFailure": {
+      "success": false,
+      "code": "retention_capacity",
+      "error": "retention_capacity"
+    },
+    "zeroLiveMutation": true,
+    "receiptBytePressure": {
+      "retainedBytes": 508397,
+      "rejectedAt": 4,
+      "noPublication": true
+    }
+  },
+  "A5": {
+    "protectedCases": 9,
+    "unrelatedEdit": true
+  },
+  "A7": {
+    "roundZero": 0,
+    "modifiers": {
+      "movementSpeed": -10
+    },
+    "distinctIds": true,
+    "absoluteAndLegacy": {
+      "startTime": 0,
+      "endTime": 1000,
+      "separateDefendingIds": true,
+      "rawRecoverableNotPublic": true
+    }
+  },
+  "A8": {
+    "cooperative": true,
+    "resourceAwaitedAuthorization": true
+  },
+  "A11": {
+    "fixtures": [
+      "arc_spark_bolt",
+      "martyr_restorative_prayer"
+    ],
+    "preAdjudicatedOnly": true,
+    "classPaymentNotImplemented": true
+  }
+}

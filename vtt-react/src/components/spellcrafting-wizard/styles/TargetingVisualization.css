@@ -45,21 +45,21 @@
     border-radius: var(--my-border-radius, 4px);
     box-shadow: var(--my-shadow-md, 0 2px 8px rgba(0, 0, 0, 0.15));
     cursor: crosshair;
-    background-color: var(--my-gradient-parchment-light, #f8f4e6);
+    background-color: var(--my-gradient-parchment-light, #f8f5ee);
     transition: all 0.2s ease;
     border: var(--my-border-width, 1px) solid var(--my-brown-medium, #8B4513);
   }
   
   .targeting-canvas:hover {
     box-shadow: var(--my-shadow-lg, 0 4px 12px rgba(0, 0, 0, 0.2));
-    border-color: var(--my-gold, #D4AF37);
+    border-color: var(--my-gold, #9a7b3c);
   }
   
   /* ========== ANIMATION KEYFRAMES ========== */
   @keyframes targetingPulse {
-    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(154, 123, 60, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(154, 123, 60, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(154, 123, 60, 0); }
   }
   
   @keyframes fadeIn {

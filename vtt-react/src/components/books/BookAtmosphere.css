@@ -4,7 +4,7 @@
 .book-manuscript,
 .book-entity-hovercard {
   --archive-paper: #f0e3c4;
-  --archive-page: #f5ecd9;
+  --archive-page: #f1ece1;
   --archive-ink: #34251a;
   --archive-muted: #68533e;
   --archive-leather: #302419;
@@ -13,7 +13,7 @@
   --archive-rule: #b6a080;
   --archive-texture: url('../../../public/assets/ui/wow-window/parchment_bg.png');
   --archive-map: url('../../../public/assets/images/backgrounds/atlas/mythril-preview.jpg');
-  scrollbar-color: #9b835e #e8dcc6;
+  scrollbar-color: #9b835e #e8e2d4;
 }
 
 .book-archive ::selection,
@@ -209,8 +209,8 @@
 .book-entity-hovercard {
   --book-font-body: 'EB Garamond', Georgia, serif;
   --book-bg-outer: #302419;
-  --book-bg-sheet: #f5ecd9;
-  --book-bg-panel: #e8dcc6;
+  --book-bg-sheet: #f1ece1;
+  --book-bg-panel: #e8e2d4;
   --book-ink-primary: #34251a;
   --book-ink-secondary: #68533e;
   --book-ink-muted: #68533e;
@@ -850,8 +850,6 @@
   caret-color: var(--book-burgundy);
 }
 .book-manuscript .book-page-sheet :is(input, textarea)::placeholder { color: var(--book-ink-secondary); opacity: 1; }
-.book-manuscript .book-page-sheet :is(.callout-textarea, .quote-text-input, .quote-author-input, .callout-input-title, .table-title-input, .td-input) { field-sizing: content; height: auto; resize: none !important; }
-.book-manuscript .book-page-sheet :is(.callout-textarea, .quote-text-input) { width: 100%; min-height: 6em; max-height: none; overflow-y: auto; }
 .book-manuscript .book-page-sheet :is(.callout-input-title, .table-title-input) { width: 100%; min-height: 2em; border: 0; border-bottom: 1px solid var(--book-border); background: transparent; padding: 4px 0; font-family: var(--book-font-heading); font-weight: 700; color: var(--book-burgundy); }
 .book-manuscript .book-page-sheet .book-editable:focus { outline: 1px solid var(--book-border); outline-offset: 3px; background: var(--book-bg-panel); box-shadow: none; }
 
@@ -1123,7 +1121,6 @@
 .book-entity-hovercard .entity-hovercard-name { color: var(--book-burgundy) !important; font-size: 1rem !important; white-space: normal; text-overflow: clip; text-shadow: none; }
 .book-entity-hovercard .entity-hovercard-subtitle { font-family: 'Crimson Text', Georgia, serif !important; font-size: 0.9rem; color: var(--book-ink-secondary) !important; }
 .book-entity-hovercard .entity-hovercard-body { font-family: var(--book-font-body) !important; font-size: 1rem; line-height: 1.5; color: var(--book-ink-primary) !important; }
-.book-entity-hovercard :is(.entity-hovercard-sensory, .entity-hovercard-secret, .entity-hovercard-tradeoff) { background: var(--book-bg-panel) !important; color: var(--book-ink-primary) !important; border: 1px solid var(--book-border) !important; border-radius: 2px !important; }
 .book-entity-hovercard .entity-hovercard-sensory i { color: var(--book-burgundy) !important; }
 .book-entity-hovercard .entity-hovercard-backlinks { border-top: 1px solid var(--book-border) !important; }
 .book-entity-hovercard .entity-hovercard-backlinks :is(span, i) { color: var(--book-ink-secondary) !important; }

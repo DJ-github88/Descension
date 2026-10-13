@@ -9,6 +9,7 @@ import ClassTip from '../../../../components/hud/ClassTip';
 import SpellTooltip from '../../../../components/spellcrafting-wizard/components/common/SpellTooltip';
 import { cadenceToSpell } from '../cadenceToSpell';
 import { MINSTREL_MAX_PER_PITCH, normalizeNoteBank, getBankSpellResourcePlan } from '../../../classResourceBanks';
+import { INK, MUTED, PAGE, PAPER, RULE, ETCH, BRASS, GOOD, inked, washed } from '../../../../components/hud/calmBarPalette';
 
 /**
  * MinstrelResourceBar, the "Musical Notes & Cadences" resource system.
@@ -50,7 +51,8 @@ const MinstrelResourceBar = ({
     showcase = false,
 }) => {
     // ===== Configuration =====
-    const notes = config?.visual?.notes || [];
+    // Seven scale degrees keep their spectrum, toned toward ink for parchment.
+    const notes = (config?.visual?.notes || []).map((n) => ({ ...n, color: inked(n.color || '#68533e', 0.38), glow: inked(n.glow || n.color || '#68533e', 0.22) }));
     const maxPerNote = MINSTREL_MAX_PER_PITCH;
     // Cadence matrix is plumbed via config.cadenceMatrix by ClassResourceBar's
     // dispatcher, we don't import minstrelData directly (avoids circular deps
@@ -500,7 +502,7 @@ const MinstrelResourceBar = ({
         if (!note) return null;
         const count = localNotes[editMenuNoteIndex] || 0;
         const barRect = barRef.current.getBoundingClientRect();
-        const menuWidth = 220;
+        const menuWidth = 270;
         let left = barRect.left + (barRect.width / 2) - (menuWidth / 2);
         if (left < 8) left = 8;
         if (left + menuWidth > window.innerWidth - 8) left = window.innerWidth - menuWidth - 8;
@@ -517,46 +519,43 @@ const MinstrelResourceBar = ({
                 onMouseOver={(e) => e.stopPropagation()}
                 style={{ position: 'fixed', top: `${top}px`, left: `${left}px`, width: `${menuWidth}px`, zIndex: 100000 }}
             >
-                <div className="context-menu-main">
-                    <div className="context-menu-section">
-                        <div className="context-menu-section-header" style={{ color: note.color }}>
-                            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: note.color, marginRight: '6px', boxShadow: `0 0 4px ${note.glow}` }} />
-                            {note.name} ({note.numeral})
-                            <span style={{ fontSize: '0.75rem', color: 'rgba(254,243,199,0.55)', marginLeft: 'auto' }}>{count}/{maxPerNote}</span>
+                <div className="cm cm-compact" style={{ '--cm-accent': note.color, '--cm-accent-deep': '#4a3420', '--cm-wash': '#f3e7cc' }}>
+                    <header className="cm-head">
+                        <span className="cm-seal">{note.numeral}</span>
+                        <div className="cm-titles">
+                            <div className="cm-eyebrow">Banked note {count}/{maxPerNote}</div>
+                            <div className="cm-title">{note.name}</div>
+                            <div className="cm-sub">{note.function}</div>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: 'rgba(254,243,199,0.75)', marginBottom: '6px', lineHeight: 1.35 }}>{note.function}, {note.description}</div>
-
-                        <div className="context-menu-section-header" style={{ fontSize: '11px', marginTop: '4px' }}>Set Count</div>
-                        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(maxPerNote + 1, 6)}, 1fr)`, gap: '3px', marginBottom: '6px' }}>
-                            {Array.from({ length: maxPerNote + 1 }).map((_, p) => {
-                                const val = p;
-                                const isActive = val <= count;
-                                return (
-                                    <button
-                                        key={p}
-                                        className={`context-menu-button ${isActive ? 'gain' : ''}`}
-                                        onClick={(e) => { e.stopPropagation(); setNoteCount(editMenuNoteIndex, val); }}
-                                        disabled={!canEdit}
-                                        title={`Set to ${val}`}
-                                        style={isActive ? { background: `${note.color}33`, borderColor: note.color } : {}}
-                                    >
-                                        {val}
-                                    </button>
-                                );
-                            })}
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '4px' }}>
-                            <button className="context-menu-button" onClick={(e) => { e.stopPropagation(); adjustNote(editMenuNoteIndex, -1); }} disabled={!canEdit || count === 0}>
-                                <i className="fas fa-minus-circle"></i> −1
+                        <button type="button" className="cm-x" aria-label="Close menu" onClick={(e) => { e.stopPropagation(); setEditMenuNoteIndex(null); }}>
+                            <i className="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                    </header>
+                    <p className="cm-line">{note.description}</p>
+                    <div className="cm-track" style={{ '--cm-cols': maxPerNote + 1 }} role="group" aria-label={`Set ${note.name} count`}>
+                        {Array.from({ length: maxPerNote + 1 }).map((_, val) => (
+                            <button
+                                key={val}
+                                type="button"
+                                className={`cm-pip ${count === val ? 'active' : ''} ${count >= val && val > 0 ? 'lit' : ''}`}
+                                onClick={(e) => { e.stopPropagation(); setNoteCount(editMenuNoteIndex, val); }}
+                                disabled={!canEdit}
+                                title={`Set to ${val}`}
+                            >
+                                {val}
                             </button>
-                            <button className="context-menu-button gain" onClick={(e) => { e.stopPropagation(); adjustNote(editMenuNoteIndex, 1); }} disabled={!canEdit || count >= maxPerNote}>
-                                <i className="fas fa-plus-circle"></i> +1
-                            </button>
-                            <button className="context-menu-button" onClick={(e) => { e.stopPropagation(); resetNote(editMenuNoteIndex); }} disabled={!canEdit || count === 0} title="Reset to 0">
-                                <i className="fas fa-undo"></i>
-                            </button>
-                        </div>
+                        ))}
+                    </div>
+                    <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                        <button type="button" className="context-menu-button spend" onClick={(e) => { e.stopPropagation(); adjustNote(editMenuNoteIndex, -1); }} disabled={!canEdit || count === 0}>
+                            <i className="fas fa-minus" aria-hidden="true"></i> 1
+                        </button>
+                        <button type="button" className="context-menu-button gain" onClick={(e) => { e.stopPropagation(); adjustNote(editMenuNoteIndex, 1); }} disabled={!canEdit || count >= maxPerNote}>
+                            <i className="fas fa-plus" aria-hidden="true"></i> 1
+                        </button>
+                        <button type="button" className="context-menu-button quiet" onClick={(e) => { e.stopPropagation(); resetNote(editMenuNoteIndex); }} disabled={!canEdit || count === 0} title="Reset to 0" aria-label="Reset note">
+                            <i className="fas fa-undo" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>,
@@ -604,30 +603,13 @@ const MinstrelResourceBar = ({
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <defs>
-                            <filter id="minstrelStaffGlow" x="-25%" y="-25%" width="150%" height="150%">
-                                <feGaussianBlur stdDeviation="1.6" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
                             <linearGradient id="minstrelStaffWood" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#24150e" />
-                                <stop offset="40%" stopColor="#170c07" />
-                                <stop offset="85%" stopColor="#0f0704" />
-                                <stop offset="100%" stopColor="#080402" />
+                                <stop offset="0%" stopColor={PAGE} />
+                                <stop offset="100%" stopColor={PAGE} />
                             </linearGradient>
                             <linearGradient id="minstrelGoldBorder" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stopColor="#b45309" />
-                                <stop offset="25%" stopColor="#f59e0b" />
-                                <stop offset="50%" stopColor="#fef08a" />
-                                <stop offset="75%" stopColor="#d97706" />
-                                <stop offset="100%" stopColor="#78350f" />
-                            </linearGradient>
-                            <linearGradient id="minstrelResonatorBed" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#1a0f08" />
-                                <stop offset="50%" stopColor="#120a05" />
-                                <stop offset="100%" stopColor="#0a0503" />
+                                <stop offset="0%" stopColor={RULE} />
+                                <stop offset="100%" stopColor={RULE} />
                             </linearGradient>
                         </defs>
 
@@ -637,7 +619,7 @@ const MinstrelResourceBar = ({
                             y="1.5"
                             width="289"
                             height="73"
-                            rx="6"
+                            rx="3"
                             fill="url(#minstrelStaffWood)"
                             stroke="url(#minstrelGoldBorder)"
                             strokeWidth="1.2"
@@ -650,25 +632,16 @@ const MinstrelResourceBar = ({
                             y="3.5"
                             width="285"
                             height="69"
-                            rx="4.5"
+                            rx="1.5"
                             fill="none"
-                            stroke="rgba(251, 191, 36, 0.22)"
+                            stroke={RULE}
+                            opacity="0.5"
                             strokeWidth="0.75"
                             pointerEvents="none"
                         />
 
-                        {/* Corner Rivet Studs */}
-                        <circle cx="6" cy="6" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <line x1="4.9" y1="6" x2="7.1" y2="6" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <circle cx="286" cy="6" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <line x1="284.9" y1="6" x2="287.1" y2="6" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <circle cx="6" cy="70" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <line x1="4.9" y1="70" x2="7.1" y2="70" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <circle cx="286" cy="70" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                        <line x1="284.9" y1="70" x2="287.1" y2="70" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-
                         {/* Filigree Corner Flourishes */}
-                        <path d="M 5 14 L 14 5 M 5 62 L 14 71 M 287 14 L 278 5 M 287 62 L 278 71" stroke="rgba(251,191,36,0.35)" strokeWidth="0.9" fill="none" pointerEvents="none" />
+                        <path d="M 5 14 L 14 5 M 5 62 L 14 71 M 287 14 L 278 5 M 287 62 L 278 71" stroke={RULE} strokeWidth="0.7" opacity="0.6" fill="none" pointerEvents="none" />
 
                         {/* =================================================== */}
                         {/* 5 GOLDEN MUSICAL STAFF LINES (EXPANDED TO FULL STAVE)*/}
@@ -680,23 +653,24 @@ const MinstrelResourceBar = ({
                                 y1={lineY}
                                 x2="228"
                                 y2={lineY}
-                                stroke="rgba(245, 158, 11, 0.48)"
-                                strokeWidth="0.75"
+                                stroke={MUTED}
+                                strokeWidth="0.6"
+                                opacity="0.45"
                             />
                         ))}
 
                         {/* Stave Start Barlines */}
-                        <line x1="18" y1="18" x2="18" y2="50" stroke="url(#minstrelGoldBorder)" strokeWidth="1.2" />
-                        <line x1="20.5" y1="18" x2="20.5" y2="50" stroke="rgba(251, 191, 36, 0.45)" strokeWidth="0.6" />
+                        <line x1="18" y1="18" x2="18" y2="50" stroke={MUTED} strokeWidth="1.1" />
+                        <line x1="20.5" y1="18" x2="20.5" y2="50" stroke={MUTED} strokeWidth="0.5" opacity="0.6" />
 
                         {/* Stave End Barlines */}
-                        <line x1="225.5" y1="18" x2="225.5" y2="50" stroke="rgba(251, 191, 36, 0.45)" strokeWidth="0.6" />
-                        <line x1="228" y1="18" x2="228" y2="50" stroke="url(#minstrelGoldBorder)" strokeWidth="1.2" />
+                        <line x1="225.5" y1="18" x2="225.5" y2="50" stroke={MUTED} strokeWidth="0.5" opacity="0.6" />
+                        <line x1="228" y1="18" x2="228" y2="50" stroke={MUTED} strokeWidth="1.1" />
 
                         {/* Low-note Ledger Line (Note I sits on ledger at y = 55) */}
-                        <line x1="22" y1="55" x2="42" y2="55" stroke="rgba(245, 158, 11, 0.65)" strokeWidth="0.8" />
+                        <line x1="22" y1="55" x2="42" y2="55" stroke={MUTED} strokeWidth="0.6" opacity="0.6" />
                         {/* High-note Ledger Line (Note VII sits on ledger at y = 13) */}
-                        <line x1="202" y1="13" x2="222" y2="13" stroke="rgba(245, 158, 11, 0.65)" strokeWidth="0.8" />
+                        <line x1="202" y1="13" x2="222" y2="13" stroke={MUTED} strokeWidth="0.6" opacity="0.6" />
 
                         {/* Harmonic Ligature Curve if Cadence is ready */}
                         {readyNoteIndices.length >= 2 && (
@@ -704,18 +678,17 @@ const MinstrelResourceBar = ({
                                 <path
                                     d={`M ${pitchXs[readyNoteIndices[0]]} ${pitchYs[readyNoteIndices[0]] - 7} Q ${(pitchXs[readyNoteIndices[0]] + pitchXs[readyNoteIndices[readyNoteIndices.length - 1]]) / 2} 4, ${pitchXs[readyNoteIndices[readyNoteIndices.length - 1]]} ${pitchYs[readyNoteIndices[readyNoteIndices.length - 1]] - 7}`}
                                     fill="none"
-                                    stroke="url(#minstrelGoldBorder)"
-                                    strokeWidth="1.8"
+                                    stroke={BRASS}
+                                    strokeWidth="1.2"
                                     strokeDasharray="4 2"
-                                    opacity="0.95"
-                                    filter="url(#minstrelStaffGlow)"
+                                    opacity="0.9"
                                 />
                                 <path
                                     d={`M ${pitchXs[readyNoteIndices[0]]} ${pitchYs[readyNoteIndices[0]] - 7} Q ${(pitchXs[readyNoteIndices[0]] + pitchXs[readyNoteIndices[readyNoteIndices.length - 1]]) / 2} 4, ${pitchXs[readyNoteIndices[readyNoteIndices.length - 1]]} ${pitchYs[readyNoteIndices[readyNoteIndices.length - 1]] - 7}`}
                                     fill="none"
-                                    stroke="#fde047"
-                                    strokeWidth="0.75"
-                                    opacity="1"
+                                    stroke={BRASS}
+                                    strokeWidth="0.5"
+                                    opacity="0.6"
                                 />
                             </g>
                         )}
@@ -801,10 +774,9 @@ const MinstrelResourceBar = ({
                                         rx="5.8"
                                         ry="4"
                                         transform={`rotate(-22 ${noteX} ${noteY})`}
-                                        fill={isFilled ? note.color : "rgba(22, 13, 8, 0.75)"}
-                                        stroke={isFilled ? (isHovered ? "#ffffff" : note.glow) : "rgba(180, 130, 70, 0.38)"}
+                                        fill={isFilled ? washed(note.color, 0.55) : PAPER}
+                                        stroke={isFilled ? (isHovered ? INK : note.color) : (isHovered ? MUTED : RULE)}
                                         strokeWidth={isFilled ? "1.2" : "0.75"}
-                                        filter={isFilled ? "url(#minstrelStaffGlow)" : undefined}
                                         pointerEvents="none"
                                     />
 
@@ -816,7 +788,7 @@ const MinstrelResourceBar = ({
                                             rx="3.5"
                                             ry="1.8"
                                             transform={`rotate(-22 ${noteX} ${noteY})`}
-                                            fill="rgba(255, 255, 255, 0.45)"
+                                            fill={PAGE} opacity="0.5"
                                             pointerEvents="none"
                                         />
                                     )}
@@ -827,7 +799,7 @@ const MinstrelResourceBar = ({
                                         y1={noteY}
                                         x2={stemX}
                                         y2={stemEnd}
-                                        stroke={isFilled ? note.color : "rgba(180, 130, 70, 0.25)"}
+                                        stroke={isFilled ? note.color : ETCH}
                                         strokeWidth={isFilled ? "1.5" : "0.8"}
                                         strokeDasharray={isFilled ? undefined : "2 2"}
                                         strokeLinecap="round"
@@ -861,10 +833,9 @@ const MinstrelResourceBar = ({
                                                     cx={pipX}
                                                     cy={pipY}
                                                     r={isPipFilled ? 1.4 : 1.1}
-                                                    fill={isPipFilled ? note.color : "rgba(75, 45, 25, 0.6)"}
-                                                    stroke={isPipFilled ? (isHovered ? "#ffffff" : note.glow) : "rgba(180, 130, 70, 0.3)"}
+                                                    fill={isPipFilled ? note.color : PAPER}
+                                                    stroke={isPipFilled ? (isHovered ? INK : note.color) : RULE}
                                                     strokeWidth="0.5"
-                                                    filter={isPipFilled ? "url(#minstrelStaffGlow)" : undefined}
                                                 />
                                             );
                                         })}
@@ -876,7 +847,7 @@ const MinstrelResourceBar = ({
                                         x={noteX}
                                         y="63"
                                         textAnchor="middle"
-                                        fill={isFilled ? note.color : "rgba(180, 140, 100, 0.6)"}
+                                        fill={isFilled ? note.color : MUTED}
                                         fontSize="8.5"
                                         fontWeight={isFilled ? "800" : "600"}
                                         fontFamily="'Cinzel', serif"
@@ -885,7 +856,7 @@ const MinstrelResourceBar = ({
                                     >
                                         {note.numeral}
                                         {isFilled && count > 1 && (
-                                            <tspan fontSize="7.2" fontWeight="700" fill="#fde047">{`×${count}`}</tspan>
+                                            <tspan fontSize="7.2" fontWeight="700" fill={INK}>{`×${count}`}</tspan>
                                         )}
                                     </text>
                                 </g>
@@ -912,10 +883,9 @@ const MinstrelResourceBar = ({
                                 cx="260"
                                 cy="38"
                                 r="23"
-                                fill={readyCount > 0 ? "rgba(22, 38, 22, 0.88)" : "rgba(18, 10, 6, 0.75)"}
-                                stroke={readyCount > 0 ? "url(#minstrelGoldBorder)" : "rgba(180, 130, 80, 0.45)"}
-                                strokeWidth={readyCount > 0 ? "1.4" : "0.9"}
-                                filter={readyCount > 0 ? "url(#minstrelStaffGlow)" : undefined}
+                                fill={readyCount > 0 ? washed(GOOD, 0.22) : PAPER}
+                                stroke={readyCount > 0 ? GOOD : RULE}
+                                strokeWidth={readyCount > 0 ? "1.2" : "0.9"}
                             />
                             {/* Inner Etched Concentric Rosette */}
                             <circle
@@ -923,7 +893,7 @@ const MinstrelResourceBar = ({
                                 cy="38"
                                 r="20"
                                 fill="none"
-                                stroke={readyCount > 0 ? "rgba(254, 240, 138, 0.6)" : "rgba(217, 119, 6, 0.25)"}
+                                stroke={readyCount > 0 ? GOOD : RULE}
                                 strokeWidth="0.6"
                                 strokeDasharray="3 2"
                             />
@@ -933,15 +903,14 @@ const MinstrelResourceBar = ({
                                 x="260"
                                 y="35"
                                 textAnchor="middle"
-                                fill={readyCount > 0 ? "#86efac" : "#fde68a"}
+                                fill={readyCount > 0 ? GOOD : INK}
                                 fontFamily="'Cinzel', serif"
                                 fontSize="9"
                                 fontWeight="800"
                                 letterSpacing="0.2"
-                                filter={readyCount > 0 ? "url(#minstrelStaffGlow)" : undefined}
                                 pointerEvents="none"
                             >
-                                {readyCount > 0 ? `♫ ${readyCount} RDY` : `♫ ${totalBanked}`}
+                                {readyCount > 0 ? `♫ ${readyCount}` : `♫ ${totalBanked}`}
                             </text>
 
                             {/* Subtitle Action Text */}
@@ -949,14 +918,14 @@ const MinstrelResourceBar = ({
                                 x="260"
                                 y="45"
                                 textAnchor="middle"
-                                fill={readyCount > 0 ? "#fef08a" : "rgba(217, 119, 6, 0.75)"}
+                                fill={readyCount > 0 ? GOOD : MUTED}
                                 fontFamily="'Cinzel', serif"
                                 fontSize="6.5"
                                 fontWeight="700"
                                 letterSpacing="0.8"
                                 pointerEvents="none"
                             >
-                                CADENCE
+                                {readyCount > 0 ? 'READY' : 'CADENCE'}
                             </text>
                         </g>
                     </svg>
@@ -973,7 +942,7 @@ const MinstrelResourceBar = ({
         const barRect = barRef.current.getBoundingClientRect();
         const frame = barRef.current.closest('.party-member-frame') || barRef.current.closest('.party-hud');
         const frameRect = frame ? frame.getBoundingClientRect() : barRect;
-        const panelWidth = Math.min(310, Math.round(frameRect.width) || 310);
+        const panelWidth = Math.min(340, Math.max(300, Math.round(frameRect.width) || 340));
 
         let left = frame ? frameRect.left : (barRect.left + (barRect.width / 2) - (panelWidth / 2));
         if (left < 10) left = 10;
@@ -1001,195 +970,123 @@ const MinstrelResourceBar = ({
                     zIndex: 100000
                 }}
             >
-                {/* Modal Header */}
-                <div className="minstrel-modal-header">
-                    <div className="minstrel-modal-title-row">
-                        <span className="minstrel-modal-title">
-                            <i className="fas fa-music" style={{ color: '#f59e0b', marginRight: '6px' }} />
-                            Minstrel Cadences
-                        </span>
-                        <span className={`minstrel-modal-ready-pill ${readyCount > 0 ? 'ready' : ''}`}>
-                            {readyCount > 0 ? `♫ ${readyCount} READY` : `${totalBanked} NOTES`}
-                        </span>
-                        <button
-                            type="button"
-                            className="minstrel-modal-close-btn"
-                            onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}
-                            title="Close"
-                        >
-                            <i className="fas fa-times" />
+                <div className="cm" style={{ '--cm-accent': '#9a6a2a', '--cm-accent-deep': '#553510', '--cm-wash': '#f2e4c8' }}>
+                    <header className="cm-head">
+                        <span className={`cm-seal ${totalBanked === 0 ? 'is-quiet' : ''}`}>{readyCount > 0 ? readyCount : <i className="fas fa-music" aria-hidden="true"></i>}</span>
+                        <div className="cm-titles">
+                            <div className="cm-eyebrow">Minstrel Cadences</div>
+                            <div className="cm-title">{readyCount > 0 ? `${readyCount} ready to resolve` : totalBanked > 0 ? 'Gathering notes' : 'Silence'}</div>
+                            <div className="cm-sub">{totalBanked} note{totalBanked === 1 ? '' : 's'} banked. Resolve a cadence, or drag one to your action bar.</div>
+                        </div>
+                        <button type="button" className="cm-x" aria-label="Close cadences" onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}>
+                            <i className="fas fa-times" aria-hidden="true"></i>
                         </button>
-                    </div>
-                    <div className="minstrel-modal-subtitle">
-                        Drag any cadence to your Action Bar, or click Resolve to spend notes.
-                    </div>
-                </div>
+                    </header>
 
-                {/* Banked Notes Quick Tuner Strip */}
-                <div className="minstrel-modal-notes-strip">
-                    <div className="minstrel-notes-strip-header">
-                        <span>Banked Notes:</span>
-                        <span style={{ fontSize: '10px', opacity: 0.7 }}>Click +/− to adjust</span>
-                    </div>
-                    <div className="minstrel-notes-strip-cells">
+                    <div className="cm-section">Banked notes</div>
+                    <div className="cm-notebank">
                         {notes.map((note, index) => {
                             const count = localNotes[index] || 0;
                             return (
-                                <div
-                                    key={index}
-                                    className={`minstrel-strip-cell ${count > 0 ? 'active' : ''}`}
-                                    style={{ '--cell-color': note.color, '--cell-glow': note.glow }}
-                                >
-                                    <span className="strip-cell-numeral">{note.numeral}</span>
-                                    <span className="strip-cell-count">{count}</span>
+                                <div key={index} className={`cm-note ${count > 0 ? 'has-notes' : ''}`} style={{ '--note-color': note.color }}>
+                                    <span className="cm-note-numeral">{note.numeral}</span>
+                                    <span className="cm-note-count">{count}</span>
                                     {canEdit && (
-                                        <div className="strip-cell-btns">
-                                            <button
-                                                className="strip-btn minus"
-                                                onClick={(e) => { e.stopPropagation(); adjustNote(index, -1); }}
-                                                disabled={count === 0}
-                                                title={`Decrease ${note.numeral}`}
-                                            >
-                                                −
-                                            </button>
-                                            <button
-                                                className="strip-btn plus"
-                                                onClick={(e) => { e.stopPropagation(); adjustNote(index, 1); }}
-                                                disabled={count >= maxPerNote}
-                                                title={`Increase ${note.numeral}`}
-                                            >
-                                                +
-                                            </button>
-                                        </div>
+                                        <span className="cm-note-steps">
+                                            <button type="button" onClick={(e) => { e.stopPropagation(); adjustNote(index, -1); }} disabled={count === 0} title={`Decrease ${note.numeral}`} aria-label={`Decrease ${note.numeral}`}>−</button>
+                                            <button type="button" onClick={(e) => { e.stopPropagation(); adjustNote(index, 1); }} disabled={count >= maxPerNote} title={`Increase ${note.numeral}`} aria-label={`Increase ${note.numeral}`}>+</button>
+                                        </span>
                                     )}
                                 </div>
                             );
                         })}
                     </div>
-                </div>
 
-                {/* 10 Cadences Scrollable List */}
-                <div className="minstrel-modal-cadences-list">
-                    {cadenceEntries.map((entry) => {
-                        const ready = isCadenceReady(entry);
-                        const spell = cadenceToSpell(entry, matrix);
-
-                        return (
-                            <div
-                                key={entry.id}
-                                className={`minstrel-cadence-entry-card ${ready ? 'ready' : 'locked'}`}
-                                draggable={true}
-                                onDragStart={(e) => {
-                                    if (!spell) return;
-                                    e.dataTransfer.setData('application/json', JSON.stringify(spell));
-                                    e.dataTransfer.setData('text/plain', JSON.stringify(spell));
-                                    e.dataTransfer.effectAllowed = 'copy';
-                                }}
-                                onMouseEnter={() => handleCadHoverEnter(entry)}
-                                onMouseLeave={handleCadHoverLeave}
-                                title={`${entry.name} (${entry.sequence})\nDrag to your Action Bar!`}
-                            >
-                                {/* Drag Grip Handle */}
-                                <div className="cadence-drag-handle" title="Drag to Action Bar">
-                                    <i className="fas fa-grip-vertical" />
-                                </div>
-
-                                {/* Content Details */}
-                                <div className="cadence-entry-info">
-                                    <div className="cadence-entry-title-row">
-                                        <span className="cadence-entry-name">{entry.name}</span>
-                                        <span className={`cadence-entry-badge ${ready ? 'ready' : 'locked'}`}>
-                                            {ready ? '✓ READY' : 'LOCKED'}
+                    <div className="cm-section">
+                        Cadences
+                        <span className="cm-section-aside">ready ones first</span>
+                    </div>
+                    <ul className="cm-cadences">
+                        {[...cadenceEntries].sort((a, b) => Number(isCadenceReady(b)) - Number(isCadenceReady(a))).map((entry) => {
+                            const ready = isCadenceReady(entry);
+                            const spell = cadenceToSpell(entry, matrix);
+                            return (
+                                <li
+                                    key={entry.id}
+                                    className={`cm-cadence ${ready ? 'is-ready' : ''}`}
+                                    draggable={true}
+                                    onDragStart={(e) => {
+                                        if (!spell) return;
+                                        e.dataTransfer.setData('application/json', JSON.stringify(spell));
+                                        e.dataTransfer.setData('text/plain', JSON.stringify(spell));
+                                        e.dataTransfer.effectAllowed = 'copy';
+                                    }}
+                                    onMouseEnter={() => handleCadHoverEnter(entry)}
+                                    onMouseLeave={handleCadHoverLeave}
+                                >
+                                    <div className="cm-cadence-main">
+                                        <span className="cm-cadence-name">{entry.name}</span>
+                                        <span className="cm-cadence-seq">{entry.sequence}</span>
+                                        <span className="cm-cadence-needs">
+                                            {Object.entries(entry.notes).map(([numeral, reqCount]) => {
+                                                const have = noteCountByNumeral[numeral] || 0;
+                                                return (
+                                                    <span key={numeral} className={`cm-need ${have >= reqCount ? 'is-met' : ''}`} title={`${numeral}: ${have} of ${reqCount}`}>
+                                                        {numeral}<small>×{reqCount}</small>
+                                                    </span>
+                                                );
+                                            })}
                                         </span>
                                     </div>
-                                    <div className="cadence-entry-sequence">{entry.sequence}</div>
-
-                                    {/* Note Cost Badges */}
-                                    <div className="cadence-note-pills">
-                                        {Object.entries(entry.notes).map(([numeral, reqCount]) => {
-                                            const noteIdx = notes.findIndex(n => n.numeral === numeral);
-                                            const noteObj = noteIdx !== -1 ? notes[noteIdx] : null;
-                                            const bankedCount = noteIdx !== -1 ? (localNotes[noteIdx] || 0) : 0;
-                                            const isMet = bankedCount >= reqCount;
-                                            return (
-                                                <span
-                                                    key={numeral}
-                                                    className={`cadence-note-pill ${isMet ? 'met' : 'unmet'}`}
-                                                    style={{
-                                                        borderColor: noteObj?.color || '#ffd43f',
-                                                        color: isMet ? '#ffffff' : (noteObj?.color || '#ffd43f')
-                                                    }}
-                                                >
-                                                    {numeral}×{reqCount} {isMet ? '✓' : `(${bankedCount}/${reqCount})`}
-                                                </span>
-                                            );
-                                        })}
+                                    <div className="cm-cadence-actions">
+                                        <button
+                                            type="button"
+                                            className="cm-cadence-resolve"
+                                            disabled={!ready || !canEdit}
+                                            onClick={(e) => { e.stopPropagation(); resolveCadence(entry); }}
+                                            title={ready ? `Resolve ${entry.name}` : 'Not enough notes to resolve'}
+                                        >
+                                            Resolve
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="cm-cadence-bar"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (!spell) return;
+                                                window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', { detail: { spell, autoFindSlot: true } }));
+                                                useChatStore.getState().addCombatNotification?.({
+                                                    type: 'system',
+                                                    sender: 'Action Bar',
+                                                    content: `Added ${entry.name} to Action Bar.`,
+                                                    timestamp: new Date().toISOString()
+                                                });
+                                            }}
+                                            title="Add to Action Bar"
+                                            aria-label={`Add ${entry.name} to the action bar`}
+                                        >
+                                            <i className="fas fa-plus" aria-hidden="true"></i>
+                                        </button>
                                     </div>
-                                </div>
-
-                                {/* Actions on the right */}
-                                <div className="cadence-entry-actions">
-                                    <button
-                                        type="button"
-                                        className="cadence-bar-add-btn"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (!spell) return;
-                                            window.dispatchEvent(new CustomEvent('spell-action-bar-assign-item', {
-                                                detail: { spell, autoFindSlot: true }
-                                            }));
-                                            useChatStore.getState().addCombatNotification?.({
-                                                type: 'system',
-                                                sender: 'Action Bar',
-                                                content: `Added ${entry.name} to Action Bar.`,
-                                                timestamp: new Date().toISOString()
-                                            });
-                                        }}
-                                        title="Add to Action Bar"
-                                    >
-                                        <i className="fas fa-plus" /> Bar
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        className={`cadence-resolve-btn ${ready ? 'ready' : ''}`}
-                                        disabled={!ready || !canEdit}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            resolveCadence(entry);
-                                        }}
-                                        title={ready ? `Resolve ${entry.name}` : 'Not enough notes to resolve'}
-                                    >
-                                        Resolve
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <details className="cm-notes">
+                        <summary>How cadences work</summary>
+                        <p>Your songs bank notes. A cadence resolves when you hold every note it needs, and spends them.</p>
+                        <p>Every Minstrel can resolve all ten cadences; hover one to read its full effect.</p>
+                    </details>
+                    <div className="cm-foot">
+                        {canEdit && (
+                            <button type="button" className="context-menu-button quiet" onClick={(e) => { e.stopPropagation(); clearAll(); }} disabled={totalBanked === 0}>
+                                <i className="fas fa-undo" aria-hidden="true"></i> Clear Notes
+                            </button>
+                        )}
+                        <button type="button" className="context-menu-button" onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}>Done</button>
+                    </div>
+                    {renderCadenceTooltip()}
                 </div>
-
-                {/* Modal Footer */}
-                <div className="minstrel-modal-footer">
-                    {canEdit && (
-                        <button
-                            type="button"
-                            className="minstrel-modal-clear-btn"
-                            onClick={(e) => { e.stopPropagation(); clearAll(); }}
-                            disabled={totalBanked === 0}
-                        >
-                            <i className="fas fa-undo" /> Clear Notes
-                        </button>
-                    )}
-                    <button
-                        type="button"
-                        className="minstrel-modal-done-btn"
-                        onClick={(e) => { e.stopPropagation(); setShowPanel(false); }}
-                    >
-                        Done
-                    </button>
-                </div>
-
-                {renderCadenceTooltip()}
             </div>,
             document.body
         );

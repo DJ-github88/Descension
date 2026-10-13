@@ -1255,7 +1255,6 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                   key={type.id}
                   className={`pf-stat-button ${debuffConfig.savingThrow === type.id ? 'pf-stat-selected' : ''}`}
                   onClick={() => updateDebuffConfig('savingThrow', type.id)}
-                  title={type.description}
                   onMouseEnter={(e) => handleSaveTypeTooltipEnter(type, e)}
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={handleMouseMove}
@@ -1331,7 +1330,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                               }}
                               title="Remove stage"
                             >
-                              � - 
+                              Remove
                             </button>
                           </div>
                         </div>
@@ -1695,7 +1694,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                   className="pf-remove-btn"
                   onClick={() => removeStatPenalty(stat.id)}
                 >
-                  � - 
+                  Remove
                 </button>
               </div>
             ))}
@@ -1892,7 +1891,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                     }}
                     title="Remove effect"
                   >
-                    � - 
+                    Remove
                   </button>
                 )}
 

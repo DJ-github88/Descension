@@ -243,6 +243,14 @@ const validationSchemas = {
  * @returns {Object} - Validation result { isValid, errors, value }
  */
 function validateSocketEvent(eventType, data) {
+  if (eventType === 'actor_consequence' || eventType === 'actor_propose') {
+    try {
+      require('./actorConsequences').validateCommand(data);
+      return { isValid: true, value: data, errors: null };
+    } catch (error) {
+      return { isValid: false, value: null, errors: [{ field: 'command', message: error.code || error.message }] };
+    }
+  }
   const schema = validationSchemas[eventType];
 
   if (!schema) {
@@ -330,6 +338,7 @@ function createValidationMiddleware(options = {}) {
           ackFailure(ack, {
             success: false,
             error: 'Invalid data format',
+            ...(event.startsWith('actor_') ? { code: validation.errors?.[0]?.message || 'invalid_consequence' } : {}),
             event,
             errors: validation.errors
           });

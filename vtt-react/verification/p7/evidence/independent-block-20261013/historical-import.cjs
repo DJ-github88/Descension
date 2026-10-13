@@ -1,0 +1,8 @@
+const fs=require('fs'),zlib=require('zlib'),vm=require('vm'),crypto=require('crypto'),assert=require('assert/strict');
+const root='D:/VTT',snapshot=JSON.parse(zlib.gunzipSync(fs.readFileSync(root+'/vtt-react/verification/p7/evidence/starting-source.json.gz'))),old=Buffer.from(snapshot.files['server/handlers/roomLifecycleHandlers.js'],'base64').toString(),body=old.match(/function initialGameStateFromClassification[\s\S]*?\n}\n/)[0];
+const retained=JSON.parse(fs.readFileSync(root+'/vtt-react/verification/p7/evidence/negative-import.json'));
+const hash=crypto.createHash('sha256').update(old).digest('hex');
+const input={defaultMapId:'default',maps:{default:{id:'default',tokens:{imported:{id:'imported',state:{currentHp:10,actorContract:{version:1,instanceId:'forged',revision:91}}}},characterTokens:{},gridItems:{}}},actorConsequences:{version:1,admissionEpoch:'forged',commitSequence:99,replayFloor:98,receipts:[]}};
+const result=vm.runInNewContext(body+';initialGameStateFromClassification(classification,input)',{roomCheckpoint:require(root+'/server/services/roomCheckpoint'),require,classification:{kind:'ROOM_PRESENT_NO_SNAPSHOT'},input});
+assert.equal(result.gameState.actorConsequences.commitSequence,99);assert.equal(result.gameState.maps.default.tokens.imported.state.actorContract.instanceId,'forged');
+const observations={startingSourceHash:hash,retainedSourceHash:retained.sourceSha256,retainedBodyMatchesStarting:retained.body===body,observed:result.gameState};fs.writeFileSync(__dirname+'/historical-import.json',JSON.stringify(observations,null,2));console.log(JSON.stringify(observations,null,2));

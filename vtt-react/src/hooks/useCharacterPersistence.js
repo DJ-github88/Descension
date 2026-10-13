@@ -1,481 +1,209 @@
-/**
- * Character Persistence Hook
- *
- * Automatically saves and loads character runtime state to/from Firebase.
- * Integrates with the character store to provide unbroken persistence.
- */
-
-import { useEffect, useCallback, useRef } from 'react';
+/** Owner-bound personal runtime persistence. This is not a room checkpoint. */
+import { useEffect, useCallback, useRef, useSyncExternalStore } from 'react';
 import { useRealtimeSync } from './useRealtimeSync';
 import { migrateArcanoneerClassResource } from '../utils/arcanoneerMigration';
+import { captureConsumerContext } from '../persistence/scopedConsumer';
+import { subscribeBootstrapGate, getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
+import { characterContextCurrent, stageCharacterDraft, getCharacterCandidate, saveCharacterDraft, isLatestCharacterDraft, importCharacterDraft } from '../persistence/characterSaveOutcome';
+import { decodeCharacterShapes } from '../utils/characterShapeCodec';
+import { discardCharacterAutoSave } from '../store/characterHelpers';
+import { projectPersonalRuntime, roomResourceProjection } from '../services/actorConsequenceService';
 
 export const useCharacterPersistence = () => {
- const persistenceService = require('../services/firebase/persistenceService').default;
- // Use shifting require to break circular dependencies
- const useAuthStore = require('../store/authStore').default;
- const useCharacterStore = require('../store/characterStore').default;
- const useInventoryStore = require('../store/inventoryStore').default;
- const useConditionStore = require('../store/conditionStore').default;
- const useQuestStore = require('../store/questStore').default;
-
- const { user } = useAuthStore();
- const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
-
-  // Auto-save timer refs
-  const characterStateTimerRef = useRef(null);
-  const lastSavedStateRef = useRef(null);
-  const lastStateHashRef = useRef(null);
-  // True immediately after we apply remote data, so the next state-hash change
-  // detected by the auto-save effect isn't mistaken for a local user edit.
-  const isApplyingRemoteRef = useRef(false);
-
- // Debounced auto-save delay (2 seconds)
- const AUTO_SAVE_DELAY = 2000;
-
- /**
- * Collect current character state for persistence
- */
- const collectCharacterState = useCallback(() => {
- // Don't save if no character is selected or user is guest
- if (!currentCharacterId || !user || user.isGuest) {
-  return null;
- }
-
- // Get current state from all stores
- const characterState = useCharacterStore?.getState();
- const inventoryState = useInventoryStore?.getState();
- const conditionState = useConditionStore?.getState();
- const questState = useQuestStore?.getState();
-
- if (!characterState || !inventoryState || !conditionState || !questState) {
-  return null;
- }
-
- return {
-  // Basic resources
-  health: characterState.health,
-  mana: characterState.mana,
-  actionPoints: characterState.actionPoints,
-  tempHealth: characterState.tempHealth || 0,
-  tempMana: characterState.tempMana || 0,
-  tempActionPoints: characterState.tempActionPoints || 0,
-  exhaustionLevel: characterState.exhaustionLevel || 0,
-
-  // Class-specific resources
-  classResource: characterState.classResource,
-
-  // Inventory
-  inventory: inventoryState,
-
-  // Equipment
-  equipment: characterState.equipment,
-
-  // Action bars (per room - will be handled separately)
-  actionBars: {},
-
-  // Buffs and debuffs
-  buffs: conditionState.activeBuffs || [],
-  debuffs: conditionState.activeDebuffs || [],
-
-  // Quest state
-  quests: questState,
-
-  // Quest progress
-  questProgress: characterState.levelUpHistory || {},
-
-  // Skill system data
-  skillRanks: characterState.skillRanks || {},
-  skillProgress: characterState.skillProgress || {},
-  skillPointsSpent: characterState.skillPointsSpent || 0,
-  skillPointsAvailable: characterState.skillPointsAvailable || 0,
-
-  version: 1
-  };
- }, [currentCharacterId, user, useCharacterStore, useConditionStore, useInventoryStore, useQuestStore]);
-
- /**
- * Generate a hash of the current character state for efficient change detection
- */
- const getCharacterStateHash = useCallback(() => {
- const state = collectCharacterState();
- if (!state) return null;
-
- // Create a simplified hash of key state properties
- // Only include properties that should trigger saves
- const hashData = {
-  health: state.health,
-  mana: state.mana,
-  actionPoints: state.actionPoints,
-  tempHealth: state.tempHealth,
-  tempMana: state.tempMana,
-  tempActionPoints: state.tempActionPoints,
-  exhaustionLevel: state.exhaustionLevel,
-  classResource: state.classResource,
-  equipment: state.equipment,
-  skillRanks: state.skillRanks,
-  skillProgress: state.skillProgress,
-  skillPointsSpent: state.skillPointsSpent,
-  skillPointsAvailable: state.skillPointsAvailable,
-  buffs: state.buffs,
-  debuffs: state.debuffs,
-  quests: state.quests,
-  questProgress: state.questProgress
- };
-
- return JSON.stringify(hashData);
- }, [collectCharacterState]);
-
- /**
- * Save character state to Firebase
- */
- const saveCharacterState = useCallback(async (stateData = null) => {
- if (!user || user.isGuest || !currentCharacterId) {
-  return { success: false, reason: 'No authenticated user or character' };
- }
-
- const dataToSave = stateData || collectCharacterState();
- if (!dataToSave) {
-  return { success: false, reason: 'No data to save' };
- }
-
-  try {
-  const result = await persistenceService.saveCharacterState(user.uid, currentCharacterId, dataToSave);
-
-  if (result.success) {
-  lastSavedStateRef.current = JSON.stringify(dataToSave);
-  lastStateHashRef.current = getCharacterStateHash();
-  // Pass the write token so the listener ignores our own echo.
-  realtimeSyncRef.current?.markLocalSave(result.writeToken);
-  console.log(`💾 Character state saved for ${currentCharacterId}`);
+  const persistenceService = require('../services/firebase/persistenceService').default;
+  const useAuthStore = require('../store/authStore').default;
+  const useCharacterStore = require('../store/characterStore').default;
+  const useInventoryStore = require('../store/inventoryStore').default;
+  const useConditionStore = require('../store/conditionStore').default;
+  const useQuestStore = require('../store/questStore').default;
+  const user = useAuthStore(state => state.user);
+  const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
+  const gate = useSyncExternalStore(subscribeBootstrapGate, getBootstrapGateState, getBootstrapGateState);
+  const contextRef = useRef(null);
+  if (contextRef.current?.accountGeneration !== gate.accountGeneration || contextRef.current?.scope !== gate.scope) {
+    contextRef.current = captureConsumerContext().context;
   }
+  const context = contextRef.current;
+  const timer = useRef(null);
+  const applyingRemote = useRef(false);
+  const realtimeRef = useRef(null);
+  const lastSaved = useRef(null);
+  const eligible = useCallback(() => !!user && !user.isGuest && characterContextCurrent(context) &&
+    useCharacterStore.getState().currentCharacterId === currentCharacterId,
+  [user, context, useCharacterStore, currentCharacterId]);
 
-  return result;
-  } catch (error) {
-  console.error('Failed to save character state:', error);
-  return { success: false, error: error.message };
-  }
-  }, [user, currentCharacterId, collectCharacterState, getCharacterStateHash, persistenceService]);
+  const collectCharacterState = useCallback(() => {
+    if (!currentCharacterId || !eligible()) return null;
+    const character = useCharacterStore.getState();
+    const inventory = useInventoryStore.getState();
+    const conditions = useConditionStore.getState();
+    const quests = useQuestStore.getState();
+    const payload = {
+      health: character.health, mana: character.mana, actionPoints: character.actionPoints,
+      tempHealth: character.tempHealth || 0, tempMana: character.tempMana || 0,
+      tempActionPoints: character.tempActionPoints || 0, exhaustionLevel: character.exhaustionLevel || 0,
+      classResource: character.classResource, equipment: character.equipment,
+      inventory: { items: inventory.items, currency: inventory.currency,
+        encumbranceState: inventory.encumbranceState, containers: inventory.containers || [] },
+      actionBars: {}, buffs: conditions.activeBuffs || [], debuffs: conditions.activeDebuffs || [],
+      quests: { quests: quests.quests || [], categories: quests.categories || [], questCategories: quests.questCategories || {} },
+      questProgress: character.levelUpHistory || {}, skillRanks: character.skillRanks || {},
+      skillProgress: character.skillProgress || {}, skillPointsSpent: character.skillPointsSpent || 0,
+      skillPointsAvailable: character.skillPointsAvailable || 0, version: 1
+    };
+    if (character.roomActorRecoveryCandidates) payload.roomActorRecoveryCandidates = character.roomActorRecoveryCandidates;
+    return projectPersonalRuntime(payload, false);
+  }, [currentCharacterId, eligible, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore]);
 
-  /**
-   * Load character state from Firebase
-   */
- const loadCharacterState = useCallback(async () => {
- if (!user || user.isGuest || !currentCharacterId) {
-  return { success: false, reason: 'No authenticated user or character' };
- }
+  const saveCharacterState = useCallback(async (stateData = null) => {
+    if (!eligible() || !currentCharacterId) return { success: false, reason: 'owner-or-character-changed' };
+    const payload = projectPersonalRuntime(stateData || collectCharacterState(), false);
+    if (!payload) return { success: false, reason: 'no-runtime-data' };
+    const entry = stageCharacterDraft(currentCharacterId, 'runtime', payload, context);
+    const result = await saveCharacterDraft(entry, (data, latest) =>
+      persistenceService.saveCharacterState(user.uid, currentCharacterId, data, { isCurrent: latest }));
+    if (result?.success && !result.localOnly && eligible() && isLatestCharacterDraft(entry)) {
+      lastSaved.current = JSON.stringify(entry.payload);
+      realtimeRef.current?.markLocalSave(result.writeToken);
+    }
+    return result;
+  }, [eligible, currentCharacterId, collectCharacterState, context, persistenceService, user]);
 
- try {
-  const result = await persistenceService.loadCharacterState(user.uid, currentCharacterId);
+  const applyRuntime = useCallback((data) => {
+    if (!eligible() || !data) return false;
+    data = decodeCharacterShapes(data);
+    data = projectPersonalRuntime(data);
+    const wasApplying = applyingRemote.current;
+    applyingRemote.current = true;
+    try {
+      const resourceFields = ['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints',
+        'exhaustionLevel', 'equipment', 'skillRanks', 'skillProgress', 'skillPointsSpent', 'skillPointsAvailable'];
+      const patch = Object.fromEntries(resourceFields.filter(key => data[key] !== undefined).map(key => [key, data[key]]));
+      if (data.classResource !== undefined) patch.classResource = data.classResource ? migrateArcanoneerClassResource(data.classResource) : null;
+      useCharacterStore.setState(patch);
+      if (data.inventory) useInventoryStore.setState(Object.fromEntries(
+        ['items', 'currency', 'encumbranceState', 'containers'].filter(key => data.inventory[key] !== undefined).map(key => [key, data.inventory[key]])));
+      if (data.buffs || data.debuffs) useConditionStore.setState({
+        ...(data.buffs ? { activeBuffs: data.buffs } : {}), ...(data.debuffs ? { activeDebuffs: data.debuffs } : {})
+      });
+      if (data.quests) useQuestStore.setState(Object.fromEntries(
+        ['quests', 'categories', 'questCategories'].filter(key => data.quests[key] !== undefined).map(key => [key, data.quests[key]])));
+      lastSaved.current = JSON.stringify(collectCharacterState());
+      return true;
+    } finally { applyingRemote.current = wasApplying; }
+  }, [eligible, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore, collectCharacterState]);
 
-  if (result) {
-  // One-time migration: legacy Arcanoneer block IDs → new canonical IDs.
-  // Idempotent; no-op for non-Arcanoneer characters and already-migrated data.
-  const migratedClassResource = migrateArcanoneerClassResource(result.classResource);
-  if (migratedClassResource !== result.classResource) {
-   result.classResource = migratedClassResource;
-   console.log('🔄 Migrated legacy Arcanoneer block IDs to new canonical IDs.');
-  }
+  const importSelectedDraft = useCallback(raw => {
+    if (!eligible() || !currentCharacterId) throw new Error('Owner or selected character changed');
+    if (!useCharacterStore.getState().characters.some(character => character.id === currentCharacterId)) throw new Error('Selected character is not in the owned roster');
+    const data = importCharacterDraft(raw, currentCharacterId);
+    const roomProjection = roomResourceProjection();
+    if (roomProjection && data.canonical) {
+      projectPersonalRuntime({ ...data.canonical, ...data.canonical.resources });
+      data.canonical = { ...data.canonical, ...roomProjection, resources: { ...data.canonical.resources, ...roomProjection } };
+    }
+    // Validation succeeded against clean/equivalent work. Retire its old
+    // canonical debounce before the first roster notification can refresh a
+    // pre-import live snapshot; subsequent edits create their own debounce.
+    discardCharacterAutoSave();
+    // Scope suppression to this synchronous application only. Later real edits
+    // still stage normally; old live projections cannot replace the import.
+    applyingRemote.current = true;
+    clearTimeout(timer.current);
+    timer.current = null;
+    try {
+      if (data.canonical) {
+        useCharacterStore.setState(state => ({ characters: state.characters.map(character => character.id === currentCharacterId
+          ? { ...character, ...data.canonical, id: currentCharacterId } : character) }));
+        useCharacterStore.getState().loadCharacter(currentCharacterId);
+        // Preserve exact resources/items after the legacy loader's derived
+        // initialization and inventory authoring. Import is not a gameplay edit.
+        applyRuntime({ ...data.canonical, ...data.canonical.resources });
+        discardCharacterAutoSave();
+        stageCharacterDraft(currentCharacterId, 'canonical', data.canonical, context);
+      }
+      if (data.runtime) applyRuntime(data.runtime);
+      else if (data.canonical) stageCharacterDraft(currentCharacterId, 'runtime', collectCharacterState(), context);
+      lastSaved.current = JSON.stringify(collectCharacterState());
+      return data;
+    } finally { applyingRemote.current = false; }
+  }, [eligible, currentCharacterId, useCharacterStore, context, applyRuntime, collectCharacterState]);
 
-  // Update stores with remote data
-  isApplyingRemoteRef.current = true;
-  useCharacterStore?.setState({
-   // Basic resources
-   health: result.health || { current: 45, max: 50 },
-   mana: result.mana || { current: 45, max: 50 },
-   actionPoints: result.actionPoints || { current: 3, max: 3 },
-   tempHealth: result.tempHealth || 0,
-   tempMana: result.tempMana || 0,
-   tempActionPoints: result.tempActionPoints || 0,
-   exhaustionLevel: result.exhaustionLevel || 0,
+  const loadCharacterState = useCallback(async () => {
+    if (!eligible() || !currentCharacterId) return { success: false, reason: 'owner-or-character-changed' };
+    const before = collectCharacterState();
+    const entry = getCharacterCandidate(currentCharacterId, 'runtime', context);
+    if (entry && entry.status !== 'idle' && entry.status !== 'saved') {
+      applyRuntime(entry.payload);
+      return { success: true, recovered: true, data: entry.payload };
+    }
+    try {
+      const result = await persistenceService.loadCharacterState(user.uid, currentCharacterId);
+      if (!eligible() || JSON.stringify(collectCharacterState()) !== JSON.stringify(before) ||
+        getCharacterCandidate(currentCharacterId, 'runtime', context) !== entry) {
+        return { success: false, reason: 'superseded-runtime-read' };
+      }
+      return result && applyRuntime(result) ? { success: true, data: result } : { success: false, reason: 'no-confirmed-runtime-read' };
+    } catch (error) { return { success: false, error: error.message }; }
+  }, [eligible, currentCharacterId, collectCharacterState, context, applyRuntime, persistenceService, user]);
 
-   // Class-specific resources
-   classResource: result.classResource || {
-   type: 'classResource',
-   current: 3,
-   max: 5
-   },
+  const forceSave = useCallback(() => {
+    clearTimeout(timer.current);
+    timer.current = null;
+    const pending = getCharacterCandidate(currentCharacterId, 'runtime', context);
+    return saveCharacterState(pending && pending.status !== 'saved' && pending.status !== 'idle' ? pending.payload : null);
+  }, [currentCharacterId, context, saveCharacterState]);
 
-   // Inventory
-   inventory: result.inventory || {
-   items: [],
-   currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
-   encumbranceState: 'normal'
-   },
+  useEffect(() => {
+    lastSaved.current = null;
+    loadCharacterState();
+    return () => { clearTimeout(timer.current); timer.current = null; };
+  }, [loadCharacterState]);
 
-   // Equipment
-   equipment: result.equipment || {
-   weapon: null,
-   armor: null,
-   shield: null,
-   accessories: []
-   },
+  useEffect(() => {
+    if (!eligible() || !currentCharacterId) return undefined;
+    const changed = () => {
+      if (applyingRemote.current || !eligible()) return;
+      const payload = collectCharacterState();
+      let hash;
+      try { hash = JSON.stringify(payload); } catch (_error) { hash = null; }
+      if (hash !== null && hash === lastSaved.current) return;
+      const prior = getCharacterCandidate(currentCharacterId, 'runtime', context);
+      const entry = stageCharacterDraft(currentCharacterId, 'runtime', payload, context);
+      if (entry === prior) return;
+      realtimeRef.current?.markLocalChange('character-state');
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        timer.current = null;
+        if (eligible() && isLatestCharacterDraft(entry)) saveCharacterState(entry.payload);
+      }, 2000);
+    };
+    // Synchronous subscriptions: no dynamic-import gap can miss an edit.
+    const unsubscribers = [useCharacterStore, useInventoryStore, useConditionStore, useQuestStore].map(store => store.subscribe(changed));
+    const online = () => { if (eligible()) forceSave(); };
+    window.addEventListener('online', online);
+    return () => {
+      unsubscribers.forEach(unsubscribe => unsubscribe());
+      window.removeEventListener('online', online);
+      clearTimeout(timer.current);
+    };
+  }, [eligible, currentCharacterId, context, collectCharacterState, saveCharacterState, forceSave,
+    useCharacterStore, useInventoryStore, useConditionStore, useQuestStore]);
 
-   // Skill system data
-   skillRanks: result.skillRanks || {},
-   skillProgress: result.skillProgress || {},
-   skillPointsSpent: result.skillPointsSpent || 0,
-   skillPointsAvailable: result.skillPointsAvailable || 0
-  });
-
-  // Inventory lives in its own store; the character store copy above is not
-  // read by the inventory UI, so hydrate inventoryStore directly.
-  if (result.inventory) {
-   useInventoryStore?.setState({
-    items: result.inventory.items || [],
-    currency: result.inventory.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-    encumbranceState: result.inventory.encumbranceState || 'normal',
-    containers: result.inventory.containers || []
-   });
-  }
-
-  lastSavedStateRef.current = JSON.stringify(result);
-  lastStateHashRef.current = getCharacterStateHash();
-  isApplyingRemoteRef.current = false;
-  console.log(`📂 Character state loaded for ${currentCharacterId}`);
-  return { success: true, data: result };
-  } else {
-  console.log(`📂 No saved character state found for ${currentCharacterId}, using defaults`);
-  return { success: false, reason: 'No saved data found' };
-  }
- } catch (error) {
-  console.error('Failed to load character state:', error);
-  return { success: false, error: error.message };
- }
-  }, [user, currentCharacterId, persistenceService, useCharacterStore, getCharacterStateHash]);
-
-  /**
-   * Auto-save character state when it changes
-   */
- const scheduleAutoSave = useCallback(() => {
- // Clear existing timer
- if (characterStateTimerRef.current) {
-  clearTimeout(characterStateTimerRef.current);
-  characterStateTimerRef.current = null;
- }
-
-  // Set new auto-save timer
-  characterStateTimerRef.current = setTimeout(async () => {
-  characterStateTimerRef.current = null;
-  const currentState = collectCharacterState();
-  if (currentState) {
-  const currentStateStr = JSON.stringify(currentState);
-
-  // Only save if state has actually changed (double-check with hash and full state)
-  const currentHash = getCharacterStateHash();
-  if (currentStateStr !== lastSavedStateRef.current && currentHash !== lastStateHashRef.current) {
-   await saveCharacterState(currentState);
-  }
-  }
-  }, AUTO_SAVE_DELAY);
-  }, [collectCharacterState, saveCharacterState, getCharacterStateHash]);
-
- /**
- * Force immediate save
- */
- const forceSave = useCallback(async () => {
- if (characterStateTimerRef.current) {
-  clearTimeout(characterStateTimerRef.current);
-  characterStateTimerRef.current = null;
- }
-
- return await saveCharacterState();
- }, [saveCharacterState]);
-
- /**
- * Update character health/mana/AP with immediate save
- */
- const updateResources = useCallback(async (resources) => {
- // Update store first
- useCharacterStore?.setState(resources);
-
- // Save immediately for critical resources
-  await saveCharacterState();
-  }, [saveCharacterState, useCharacterStore]);
-
-  // Load character state when character changes
- useEffect(() => {
- if (user && !user.isGuest && currentCharacterId) {
-  loadCharacterState();
- }
- }, [user, currentCharacterId, loadCharacterState]);
-
- // Auto-save when character state changes.
- // Store subscriptions are required: the previous version compared a state
- // hash inside an effect whose dependencies never changed when HP/mana/
- // inventory changed, so local edits were never flagged and conflict
- // detection was effectively dead.
- useEffect(() => {
- if (!user || user.isGuest || !currentCharacterId) {
-  return undefined;
- }
-
- let isMounted = true;
- const unsubscribers = [];
-
- Promise.all([
-  import('../store/characterStore'),
-  import('../store/inventoryStore'),
-  import('../store/conditionStore'),
-  import('../store/questStore')
- ]).then(([characterStoreModule, inventoryStoreModule, conditionStoreModule, questStoreModule]) => {
-  if (!isMounted) return;
-
-  const characterStore = characterStoreModule.default;
-  const inventoryStore = inventoryStoreModule.default;
-  const conditionStore = conditionStoreModule.default;
-  const questStore = questStoreModule.default;
-
-  const watch = (store, selector) =>
-   store.subscribe((state, prevState) => {
-    if (!selector(state, prevState)) return;
-    // Remote-applied state is not a local edit; the remote handler updates
-    // lastSavedStateRef/lastStateHashRef itself.
-    if (isApplyingRemoteRef.current) return;
-    realtimeSyncRef.current?.markLocalChange('character-state');
-    scheduleAutoSave();
-   });
-
-  unsubscribers.push(
-   watch(
-    characterStore,
-    (s, p) =>
-     s.health !== p.health ||
-     s.mana !== p.mana ||
-     s.actionPoints !== p.actionPoints ||
-     s.tempHealth !== p.tempHealth ||
-     s.tempMana !== p.tempMana ||
-     s.tempActionPoints !== p.tempActionPoints ||
-     s.exhaustionLevel !== p.exhaustionLevel ||
-     s.classResource !== p.classResource ||
-     s.equipment !== p.equipment ||
-     s.skillRanks !== p.skillRanks ||
-     s.skillProgress !== p.skillProgress ||
-     s.skillPointsSpent !== p.skillPointsSpent ||
-     s.skillPointsAvailable !== p.skillPointsAvailable
-   ),
-   watch(inventoryStore, (s, p) => s.items !== p.items || s.currency !== p.currency || s.encumbranceState !== p.encumbranceState),
-   watch(conditionStore, (s, p) => s.activeBuffs !== p.activeBuffs || s.activeDebuffs !== p.activeDebuffs),
-   watch(questStore, (s, p) => s.quests !== p.quests)
-  );
- });
-
- // Cleanup timer and subscriptions on unmount
- return () => {
-  isMounted = false;
-  if (characterStateTimerRef.current) {
-   clearTimeout(characterStateTimerRef.current);
-   characterStateTimerRef.current = null;
-  }
-  unsubscribers.forEach((unsubscribe) => unsubscribe());
- };
- }, [user, currentCharacterId, scheduleAutoSave]);
-
- // Real-time sync for cross-device synchronization
-  const handleRemoteCharacterChange = useCallback((remoteData, changeType) => {
-  if (changeType === 'remote-update' || changeType === 'conflict-resolved-remote') {
-   console.log('🔄 Remote character update received:', changeType);
-   // Flag that the upcoming store update is remote-driven so the auto-save
-   // effect doesn't treat it as a local edit (which would create false
-   // conflicts and echo saves back to Firebase).
-   isApplyingRemoteRef.current = true;
-
-  // Update stores with remote data
-  useCharacterStore.setState({
-  health: remoteData.health,
-  mana: remoteData.mana,
-  actionPoints: remoteData.actionPoints,
-  tempHealth: remoteData.tempHealth || 0,
-  tempMana: remoteData.tempMana || 0,
-  tempActionPoints: remoteData.tempActionPoints || 0,
-  exhaustionLevel: remoteData.exhaustionLevel || 0,
-  // One-time migration on remote update too: covers a party member on an
-  // older client broadcasting legacy IDs.
-  classResource: migrateArcanoneerClassResource(remoteData.classResource),
-  skillRanks: remoteData.skillRanks || {},
-  skillProgress: remoteData.skillProgress || {},
-  skillPointsSpent: remoteData.skillPointsSpent || 0,
-  skillPointsAvailable: remoteData.skillPointsAvailable || 0,
-  });
-
-  // Update inventory store
-  if (remoteData.inventory) {
-  useInventoryStore?.setState({
-   items: remoteData.inventory.items || [],
-   currency: remoteData.inventory.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
-   encumbranceState: remoteData.inventory.encumbranceState || 'normal',
-   containers: remoteData.inventory.containers || []
-  });
-  }
-
-  // Update equipment
-  if (remoteData.equipment) {
-  useCharacterStore?.setState({ equipment: remoteData.equipment });
-  }
-
-  // Update buff/debuff stores
-  if (remoteData.buffs) {
-  useConditionStore?.setState({ activeBuffs: remoteData.buffs });
-  }
-  if (remoteData.debuffs) {
-  useConditionStore?.setState({ activeDebuffs: remoteData.debuffs });
-  }
-
-  // Update quest store
-  if (remoteData.quests) {
-  useQuestStore?.setState({
-   quests: remoteData.quests.quests || [],
-   categories: remoteData.quests.categories || [],
-   questCategories: remoteData.quests.questCategories || {}
-  });
-  }
-
-  // The remote state is now the persisted baseline; prevents the store
-  // subscriptions from treating it as a local edit and echoing it back.
-  lastSavedStateRef.current = JSON.stringify(collectCharacterState());
-  lastStateHashRef.current = getCharacterStateHash();
-  isApplyingRemoteRef.current = false;
-
-  console.log('✅ Character state updated from remote changes');
-  }
-  }, [useCharacterStore, useConditionStore, useInventoryStore, useQuestStore, collectCharacterState, getCharacterStateHash]);
-
- const realtimeSyncRef = useRef(null);
-
- const realtimeSync = useRealtimeSync(
- `users/${user?.uid}/characterStates`,
- currentCharacterId,
- handleRemoteCharacterChange,
-  {
-   enabled: !!user && !user.isGuest && !!currentCharacterId,
-   conflictResolution: 'ask-user'
-  }
- );
-
- realtimeSyncRef.current = realtimeSync;
-
-  // Note: local changes are flagged inside the auto-save effect above (only on
-  // genuine local edits). The previous effect here depended on `realtimeSync`,
-  // which is a new object every render, so it called markLocalChange on nearly
-  // every render - keeping localChangesRef permanently populated and making
-  // conflicts re-trigger instantly after being resolved.
+  const handleRemote = useCallback((data, type) => {
+    if (!eligible()) return;
+    const entry = getCharacterCandidate(currentCharacterId, 'runtime', context);
+    if (type !== 'conflict-resolved-remote' && entry && entry.status !== 'saved' && entry.status !== 'idle') return;
+    applyRuntime(data);
+  }, [eligible, currentCharacterId, context, applyRuntime]);
+  const realtime = useRealtimeSync(`users/${user?.uid}/characterStates`, currentCharacterId, handleRemote,
+    { enabled: !!currentCharacterId && eligible(), conflictResolution: 'ask-user' });
+  realtimeRef.current = realtime;
 
   return {
- // State
- isGuestUser: user?.isGuest || false,
- isAuthenticated: !!user && !user.isGuest,
-
- // Actions
- saveCharacterState,
- loadCharacterState,
- forceSave,
- updateResources,
-
- // Utilities
- collectCharacterState,
-
- // Conflict resolution
- conflictDetected: realtimeSync.conflictDetected,
- conflictData: realtimeSync.conflictData,
- resolveConflict: realtimeSync.resolveConflict
- };
+    isGuestUser: !!user?.isGuest, isAuthenticated: eligible(),
+    collectCharacterState, saveCharacterState, loadCharacterState, forceSave, importSelectedDraft,
+    updateResources: async (resources) => { if (!eligible()) return; useCharacterStore.setState(resources); return saveCharacterState(); },
+    conflictDetected: realtime.conflictDetected, conflictData: realtime.conflictData, resolveConflict: realtime.resolveConflict
+  };
 };

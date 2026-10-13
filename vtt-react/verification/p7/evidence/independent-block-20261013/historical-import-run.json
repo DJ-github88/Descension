@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\historical-import.cjs"
+  ],
+  "cwd": "D:\\VTT\\server",
+  "status": 0,
+  "signal": null,
+  "durationMs": 370,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

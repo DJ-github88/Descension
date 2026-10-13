@@ -8,7 +8,7 @@
   background: #8a7566;
   border: 1px solid #7a6555;
   border-radius: 6px;
-  color: #f0e6d2;
+  color: #f1ece1;
   padding: 8px 14px;
   font-size: 13px;
   font-weight: 600;
@@ -33,7 +33,7 @@
   margin-top: 10px;
   padding: 16px;
   border-radius: 8px;
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1);
   border: 1px solid #c4b8a4;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   position: relative;
@@ -118,11 +118,11 @@
   left: 50%;
   width: 0;
   height: 3px;
-  background: #d4af37;
+  background: #9a7b3c;
   transition: all 0.3s ease;
   transform: translateX(-50%);
   border-radius: 2px;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 10px rgba(154, 123, 60, 0.4);
 }
 
 .category-button.selected::after {
@@ -154,7 +154,7 @@
 }
 
 .category-button.selected .clutter-item-icon {
-  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.7));
+  filter: drop-shadow(0 0 15px rgba(154, 123, 60, 0.7));
   transform: scale(1.1);
 }
 
@@ -224,7 +224,7 @@
 
 .clutter-quantity-display {
   background: #fdfaf2;
-  border: 1.5px solid #d4af37;
+  border: 1.5px solid #9a7b3c;
   border-radius: 8px;
   padding: 6px 16px;
   font-size: 18px;
@@ -238,7 +238,7 @@
 
 .quantity-button:hover:not(:disabled) {
   background: #8a6a50;
-  border-color: #d4af37;
+  border-color: #9a7b3c;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -300,7 +300,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   text-transform: uppercase;
   letter-spacing: 1.2px;
   font-family: 'Bookman Old Style', 'Garamond', serif;
-  border-bottom: 2px solid #d4af37;
+  border-bottom: 2px solid #9a7b3c;
   display: inline-block;
   padding-bottom: 2px;
 }
@@ -317,7 +317,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .examples-section {
   margin-top: 12px;
   padding: 10px 14px;
-  background: #f3edd7;
+  background: #f8f5ee;
   border-radius: 8px;
   border: 1px dashed #b5a37f;
 }
@@ -377,7 +377,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .add-clutter-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(122, 90, 64, 0.5);
-  border-color: #d4af37;
+  border-color: #9a7b3c;
 }
 
 .add-clutter-button:active {

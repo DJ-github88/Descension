@@ -18,16 +18,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(139, 69, 19, 0.025) 2px,
-    rgba(139, 69, 19, 0.025) 4px
-  );
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
 }
 
 /* Center book spine — vertical shadow giving the two-page open-book illusion */
@@ -72,20 +64,6 @@
   background: linear-gradient(135deg, #faf6ee 0%, #f3ebd9 100%);
   padding: 0 8px;
   line-height: 1;
-}
-
-.wow-category-tabs-header {
-  display: flex;
-  gap: 3px;
-  flex-wrap: wrap;
-  flex: 1;
-  min-width: 0;
-  align-items: center;
-}
-
-.wow-category-tabs-header .wow-category-tab {
-  border-radius: 4px;
-  margin: 0;
 }
 
 /* Category Dropdown - Compact */
@@ -205,24 +183,7 @@
   letter-spacing: 0.3px;
 }
 
-.wow-spellbook-count {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.82rem;
-  color: #7c2d12;
-  font-weight: 600;
-  font-style: italic;
-  background: rgba(139, 69, 19, 0.08);
-  padding: 2px 9px;
-  border-radius: 12px;
-  border: 1px solid rgba(139, 69, 19, 0.2);
-}
-
 /* Header Controls - Compact */
-.wow-header-controls {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
 
 .wow-header-button {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(248, 241, 230, 0.7) 100%);
@@ -260,43 +221,6 @@
 }
 
 /* Category Tabs - Compact */
-.wow-category-tabs {
-  display: flex;
-  gap: 3px;
-  padding: 6px 12px;
-  background: linear-gradient(to bottom, rgba(139, 69, 19, 0.06) 0%, rgba(139, 69, 19, 0.12) 100%);
-  border-bottom: 2px solid rgba(139, 69, 19, 0.25);
-  overflow-x: auto;
-  flex-wrap: wrap;
-}
-
-.wow-category-tab {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(248, 241, 230, 0.6) 100%);
-  border: 1px solid rgba(139, 69, 19, 0.25);
-  border-radius: 4px 4px 0 0;
-  padding: 5px 12px;
-  font-family: 'Crimson Text', 'Cinzel', serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #5c3310;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.wow-category-tab:hover {
-  background: linear-gradient(to bottom, #ffffff 0%, rgba(254, 247, 230, 0.95) 100%);
-  color: #3b1810;
-  border-color: #c5a059;
-}
-
-.wow-category-tab.active {
-  background: linear-gradient(135deg, #faf6ee 0%, #f3ebd9 100%);
-  border-color: rgba(139, 69, 19, 0.4);
-  color: #3b1810;
-  border-bottom-color: transparent;
-  box-shadow: 0 -2px 4px rgba(139, 69, 19, 0.15);
-}
 
 /* Spell List Container */
 .wow-spell-list-container {
@@ -371,14 +295,10 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 241, 230, 0.8) 100%);
-  border: 1.5px solid rgba(139, 69, 19, 0.25);
   border-left: 2px solid rgba(139, 69, 19, 0.5);
-  border-radius: 8px;
   cursor: pointer;
   transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05), inset 0 0 8px rgba(139, 69, 19, 0.04);
   box-sizing: border-box;
   user-select: none;
   min-height: 64px;
@@ -386,11 +306,7 @@
 }
 
 .wow-spell-row:hover {
-  background: linear-gradient(135deg, #ffffff 0%, rgba(254, 247, 230, 0.95) 100%);
-  border-color: #c5a059;
   border-left-color: #8b4513;
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 6px 16px rgba(197, 160, 89, 0.35), inset 0 0 10px rgba(255, 235, 180, 0.4);
   z-index: 5;
 }
 
@@ -398,56 +314,9 @@
   transform: translateY(0) scale(0.99);
 }
 
-.wow-spell-row.selected {
-  background: rgba(212, 175, 55, 0.28);
-  border-color: #a07a28;
-  border-left-color: #8B4513;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.45), inset 0 0 6px rgba(212, 175, 55, 0.15);
-}
-
 /* Spell Tooltip - Shows full spell card on hover */
-.wow-spell-tooltip {
-  position: fixed;
-  z-index: 10000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  /* Tooltip must be wide enough for scaled card: 580px * 0.9 = 522px, add padding */
-  max-width: 650px !important;
-  width: auto !important;
-  min-width: 550px !important;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
-  overflow: visible !important;
-}
-
-.wow-spell-tooltip.visible {
-  opacity: 1;
-}
-
-.wow-spell-tooltip .review-spell-preview {
-  margin: 0 !important;
-  transform: scale(0.9);
-  transform-origin: top left;
-  width: 100% !important;
-  min-width: 520px !important;
-  max-width: 580px !important;
-  display: flex;
-  justify-content: flex-start;
-  overflow: visible;
-}
 
 /* Ensure tooltip spell card has proper styling and full width */
-.wow-spell-tooltip .pf-spell-card,
-.wow-spell-tooltip .wow-spell-card {
-  /* Override base card constraints inside tooltip */
-  width: 100% !important;
-  max-width: 580px !important;
-  min-width: 520px !important;
-  margin: 0 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-  border: 3px solid #8b7355;
-  flex-shrink: 0;
-}
 
 /* Spell Preview - Just the spell card floating outside library */
 .spell-preview-panel-floating {
@@ -490,8 +359,8 @@
 }
 
 .wow-spell-row:hover .wow-spell-icon {
-  border-color: #d4af37;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  border-color: #9a7b3c;
+  box-shadow: 0 0 8px rgba(154, 123, 60, 0.6);
 }
 
 .wow-spell-icon img {
@@ -502,7 +371,7 @@
 
 .wow-spell-icon i {
   font-size: 20px;
-  color: #d4af37;
+  color: #9a7b3c;
 }
 
 /* Spell Info */
@@ -568,43 +437,6 @@
 }
 
 /* Pagination */
-.wow-spellbook-pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: linear-gradient(to bottom, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.15) 100%);
-  border-top: 2px solid rgba(139, 69, 19, 0.25);
-}
-
-.wow-page-button {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(248, 241, 230, 0.7) 100%);
-  border: 1.5px solid rgba(139, 69, 19, 0.3);
-  border-radius: 6px;
-  color: #5c3310;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wow-page-button:hover:not(:disabled) {
-  background: linear-gradient(to bottom, #ffffff 0%, rgba(254, 247, 230, 0.95) 100%);
-  border-color: #c5a059;
-  color: #3b1810;
-}
-
-.wow-page-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
 .wow-page-info {
   font-family: 'Crimson Text', serif;
@@ -661,38 +493,6 @@
 }
 
 /* View Mode Toggle */
-.wow-view-toggle {
-  display: flex;
-  gap: 4px;
-  background: rgba(139, 69, 19, 0.08);
-  padding: 4px;
-  border-radius: 4px;
-}
-
-.wow-view-button {
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #7c2d12;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wow-view-button:hover {
-  background: rgba(139, 69, 19, 0.1);
-  color: #3b1810;
-}
-
-.wow-view-button.active {
-  background: rgba(139, 69, 19, 0.15);
-  border-color: rgba(139, 69, 19, 0.35);
-  color: #3b1810;
-}
 
 
 
@@ -731,9 +531,6 @@
 }
 
 /* Spell Popup Overlay - Cloudy Effect */
-.spellbook-popup-overlay {
-  animation: cloudyFadeIn 0.3s ease-out;
-}
 
 @keyframes cloudyFadeIn {
   from {
@@ -775,7 +572,6 @@
 }
 
 .spellbook-popup-content {
-  animation: spellcardFadeIn 0.4s ease-out;
   position: relative;
   z-index: 1;
 }
@@ -801,9 +597,6 @@
 }
 
 /* ===== INLINE SPELL DETAIL PANEL ===== */
-.wow-spell-detail-panel {
-  animation: spellDetailSlideIn 0.2s ease-out;
-}
 
 @keyframes spellDetailSlideIn {
   from {
@@ -823,10 +616,7 @@
 
 /* Selected spell row highlight - stronger when detail panel is open */
 .wow-spell-row.selected {
-  background: rgba(212, 175, 55, 0.3) !important;
-  border-color: #a07a28 !important;
   border-left-color: #8B4513 !important;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5), inset 0 0 6px rgba(212, 175, 55, 0.2) !important;
 }
 
 .wow-spell-row.selected .wow-spell-name {

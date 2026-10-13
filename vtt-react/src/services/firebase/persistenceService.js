@@ -227,12 +227,14 @@ class PersistenceService {
   /**
    * Save character state (HP, mana, AP, inventory, equipment)
    */
-  async saveCharacterState(userId, characterId, characterState) {
+  async saveCharacterState(userId, characterId, characterState, options = {}) {
     const dataSize = await this.validateDataSize(userId, characterState, 'characters');
-    const result = await this.services.characterState.saveCharacterState(userId, characterId, characterState);
+    if (options.isCurrent && !options.isCurrent()) return { success: false, reason: 'owner-or-edit-changed' };
+    const result = await this.services.characterState.saveCharacterState(userId, characterId, characterState, options);
 
-    if (result.success) {
-      await this.setStorageUsageSize(userId, `charState:${characterId}`, 'characters', dataSize);
+    if (result.success && !result.localOnly) {
+      try { await this.setStorageUsageSize(userId, `charState:${characterId}`, 'characters', dataSize); }
+      catch (error) { console.warn('Runtime saved; usage accounting failed:', error); }
     }
 
     return result;

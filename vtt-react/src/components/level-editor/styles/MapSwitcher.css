@@ -142,7 +142,7 @@
 
 .map-item-name {
     font-weight: bold;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 0.9rem;
 }
 
@@ -183,7 +183,7 @@
     background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
     border: 2px solid #6b9775;
     border-radius: 6px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;

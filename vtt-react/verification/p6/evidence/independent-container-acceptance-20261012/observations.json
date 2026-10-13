@@ -1,0 +1,99 @@
+{
+  "red": {
+    "saveRefusals": [
+      "Failed to save character: Character storage would change preserved data. Draft retained; download for recovery.",
+      "Runtime storage would change preserved data. Draft retained; download for recovery."
+    ],
+    "destinationWrites": 0,
+    "legacyRows": [
+      "[true,false]",
+      "[true,true]"
+    ],
+    "floor": [
+      [
+        true,
+        true
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "manifestMatchesFrozen": true
+  },
+  "historical": {
+    "manifestMatchesRetainedIndependent": true,
+    "saves": "confirmed",
+    "floor": [
+      [
+        true,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ]
+  },
+  "green": {
+    "saves": "confirmed",
+    "destinations": [
+      "characters/c-a",
+      "users/u-a/characterStates/c-a"
+    ],
+    "interior": [
+      [
+        true,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "outer": [
+      [
+        true,
+        true
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "upperRightBlocked": true,
+    "legacyDecoded": true,
+    "checks": [
+      "distinct-footprint-interior",
+      "nested-containers",
+      "legacy-container-items",
+      "standard-legacy-equipment-accessories",
+      "literal-annotations",
+      "mounted-import",
+      "refused-save-reload-recovery",
+      "healed-retries"
+    ],
+    "annotationsUnchanged": true,
+    "recoveryHealth": 8
+  },
+  "dependencyCount": 266,
+  "redToGreenChangedDependencies": [
+    "utils/characterShapeCodec.js"
+  ],
+  "focusedScenarios": 4,
+  "malformedRefusals": 17,
+  "retainedScenarios": 14,
+  "supplementalScenarios": 4,
+  "originalP5": [
+    "pending-edit",
+    "failed-preservation",
+    "marker-failure"
+  ],
+  "originalP6": [
+    "mounted-failure-retry",
+    "selected-download",
+    "canonical-runtime-separation",
+    "newer-runtime-during-old-ACK",
+    "real-reload-recovery"
+  ]
+}

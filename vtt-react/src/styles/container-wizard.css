@@ -4,8 +4,8 @@
 
 /* Palette */
 :root {
-    --cw-parchment:     #f0e6d2;
-    --cw-parchment-dk:  #d5cbb0;
+    --cw-parchment:     #f1ece1;
+    --cw-parchment-dk:  #c4baa6;
     --cw-brown:         #7a3b2e;
     --cw-brown-dk:      #5e2e23;
     --cw-brown-lt:      #a08c70;
@@ -36,14 +36,6 @@
     max-height: 88vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(175deg, #f4ece0 0%, #e8dcc6 100%);
-    border: 2px solid var(--cw-brown);
-    border-radius: 10px;
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(122, 59, 46, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    color: var(--cw-text);
     font-family: 'Bookman Old Style', 'Garamond', serif;
     overflow: hidden;
 }
@@ -88,7 +80,7 @@
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 5px;
-    color: #e8dcc6;
+    color: #e8e2d4;
     font-size: 0.75rem;
     cursor: pointer;
     transition: all 0.15s;
@@ -179,7 +171,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #e8dcc6, #d5cbb0);
+    background: linear-gradient(180deg, #e8e2d4, #c4baa6);
     border: 2px solid transparent;
     border-radius: 6px;
     cursor: pointer;
@@ -187,7 +179,7 @@
     padding: 4px;
 }
 .cw-icon-btn:hover {
-    background: linear-gradient(180deg, #f0e6d2, #e8dcc6);
+    background: #f1ece1;
     border-color: var(--cw-gold);
     transform: translateY(-1px);
 }

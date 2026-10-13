@@ -149,3 +149,12 @@
         animation: none;
     }
 }
+
+/* ===== Calm TTRPG pass: state is carried by ink, frame color and the eye; no pulsing or shaking ===== */
+.madness-gauge.danger .madness-ward,
+.madness-gauge.convulsion .madness-ward,
+.madness-gauge .fp-halo,
+.madness-gauge .fp-fracture-core,
+.madness-gauge .fp-fracture-fire,
+.madness-gauge .fp-eye.convulsing { animation: none !important; }
+.madness-gauge .fp-fracture:hover .fp-fracture-etch { stroke: #68533e; }

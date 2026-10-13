@@ -129,39 +129,6 @@ code {
   font-size: 12px;
 }
 
-.formula-table {
-  color: var(--wizard-text);
-  margin-bottom: 0;
-}
-
-.formula-table thead {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.formula-table th {
-  color: var(--wizard-text-bright);
-  font-size: 14px;
-  font-weight: 600;
-  border-bottom: 1px solid var(--wizard-border);
-  padding: 10px;
-}
-
-.formula-table td {
-  font-size: 13px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 10px;
-  vertical-align: middle;
-}
-
-.formula-table code {
-  background-color: rgba(0, 0, 0, 0.2);
-  color: var(--wizard-primary-light);
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-family: monospace;
-  font-size: 12px;
-}
-
 .resource-title {
   display: flex;
   align-items: center;
@@ -222,15 +189,6 @@ code {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .formula-table th,
-  .formula-table td {
-    padding: 8px 5px;
-    font-size: 12px;
-  }
-
-  .formula-table code {
-    font-size: 11px;
-  }
 
   .formula-section {
     padding: 12px;

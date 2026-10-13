@@ -23,7 +23,7 @@
   background:
     radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.06) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.06) 0%, transparent 50%),
-    linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+    #f4f1e8;
   border: 2px solid #8b4513;
   box-shadow:
     0 0 0 1px rgba(139, 69, 19, 0.15),
@@ -320,12 +320,6 @@
   font-weight: 500;
   color: #8b4513;
   text-transform: lowercase;
-}
-
-.tt-row-value .armor-detail {
-  font-size: 9px;
-  color: rgba(139, 69, 19, 0.5);
-  font-style: italic;
 }
 
 /* === HEALTH SECTION === */

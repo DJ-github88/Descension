@@ -118,13 +118,6 @@
     color: #1e3a8a;
 }
 
-.connection-item-description {
-    font-size: 11px;
-    color: rgba(230, 215, 255, 0.7);
-    font-style: italic;
-    line-height: 1.4;
-}
-
 .connection-selector-actions {
     display: flex;
     justify-content: flex-end;

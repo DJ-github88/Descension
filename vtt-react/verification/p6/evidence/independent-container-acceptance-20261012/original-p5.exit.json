@@ -1,0 +1,4 @@
+{
+  "command": "node verification/p5-01/character-preservation-browser.cjs",
+  "status": 0
+}

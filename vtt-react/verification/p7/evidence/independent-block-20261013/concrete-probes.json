@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\probes.cjs"
+  ],
+  "cwd": "D:\\VTT\\server",
+  "status": 1,
+  "signal": null,
+  "durationMs": 899,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

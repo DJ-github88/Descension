@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -7,6 +8,7 @@ import '../styles/GambitResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { INK, MUTED, PAGE, PAPER, PANEL, RULE, ETCH, BRICK, SEAL, GOOD, mix, inked, washed } from '../../../../components/hud/calmBarPalette';
 import { GAMBIT_FORTUNE_MAX, GAMBIT_DEBT_MAX, normalizeManagedClassResource } from '../../../classResourceContracts';
 
 const STAGE_NAMES = {
@@ -32,6 +34,13 @@ const DRAWBACK_TEXTS = {
 };
 
 const ROMAN_NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+
+// Calm palette: brass coins on a green-washed ledger, brick debt cards
+const COIN_INK = '#7a5f22';
+const COIN_WASH = mix(PAGE, '#b8902f', 0.42);
+const FELT_WASH = washed(GOOD, 0.1);
+const DEBT_INK = inked(BRICK, 0.1);
+const DEBT_WASH = washed(BRICK, 0.28);
 
 const GambitResourceBar = ({
     classResource = {},
@@ -262,113 +271,18 @@ const GambitResourceBar = ({
                     xmlns="http://www.w3.org/2000/svg"
                     aria-label={`Gambit Casino Tableau - Fortune ${fpLevel} of 7, Debt ${debtLevel} of 13`}
                 >
-                    <defs>
-                        {/* Shaders and Gradients */}
-                        <linearGradient id="gambitMahogany" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#3d2314" />
-                            <stop offset="35%" stopColor="#29160a" />
-                            <stop offset="70%" stopColor="#1a0e06" />
-                            <stop offset="100%" stopColor="#0d0602" />
-                        </linearGradient>
+                    <defs />
 
-                        <linearGradient id="gambitBaizeGreen" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#0f341e" />
-                            <stop offset="40%" stopColor="#0a2314" />
-                            <stop offset="85%" stopColor="#06160c" />
-                            <stop offset="100%" stopColor="#030c07" />
-                        </linearGradient>
-
-                        <linearGradient id="gambitBrassTrim" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#ffe9a8" />
-                            <stop offset="30%" stopColor="#c9962e" />
-                            <stop offset="65%" stopColor="#8c6414" />
-                            <stop offset="85%" stopColor="#d4af37" />
-                            <stop offset="100%" stopColor="#634509" />
-                        </linearGradient>
-
-                        <radialGradient id="gambitGoldCoin" cx="35%" cy="30%" r="70%">
-                            <stop offset="0%" stopColor="#fff8db" />
-                            <stop offset="30%" stopColor="#ffd700" />
-                            <stop offset="75%" stopColor="#d49b00" />
-                            <stop offset="100%" stopColor="#805900" />
-                        </radialGradient>
-
-                        <linearGradient id="gambitCrimsonCard" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#ff8a7a" />
-                            <stop offset="35%" stopColor="#c0392b" />
-                            <stop offset="75%" stopColor="#78181a" />
-                            <stop offset="100%" stopColor="#45080c" />
-                        </linearGradient>
-
-                        <radialGradient id="gambitCenterDie" cx="40%" cy="35%" r="65%">
-                            <stop offset="0%" stopColor="#fff2c2" />
-                            <stop offset="40%" stopColor="#d4af37" />
-                            <stop offset="80%" stopColor="#7a5a12" />
-                            <stop offset="100%" stopColor="#3d2a05" />
-                        </radialGradient>
-
-                        {/* Glow Filters */}
-                        <filter id="gambitGoldGlow" x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur stdDeviation="1.8" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        <filter id="gambitCrimsonGlow" x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur stdDeviation="2.0" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    {/* Chassis Base Plate: Dark Mahogany Table */}
-                    <rect
-                        x="1.5"
-                        y="1.5"
-                        width="289"
-                        height="73"
-                        rx="6"
-                        fill="url(#gambitMahogany)"
-                        stroke="url(#gambitBrassTrim)"
-                        strokeWidth="1.6"
-                        className="gambit-chassis-base"
-                    />
-
-                    {/* Casino Baize Green Felt Inset */}
-                    <rect
-                        x="3.5"
-                        y="3.5"
-                        width="285"
-                        height="69"
-                        rx="4.5"
-                        fill="url(#gambitBaizeGreen)"
-                        stroke="rgba(212, 175, 55, 0.45)"
-                        strokeWidth="1.0"
-                        pointerEvents="none"
-                    />
-
-                    {/* Corner Brass Brackets & Rivets */}
-                    <g pointerEvents="none">
-                        <polygon points="4,4 16,4 4,16" fill="url(#gambitBrassTrim)" />
-                        <polygon points="288,4 276,4 288,16" fill="url(#gambitBrassTrim)" />
-                        <polygon points="4,72 16,72 4,60" fill="url(#gambitBrassTrim)" />
-                        <polygon points="288,72 276,72 288,60" fill="url(#gambitBrassTrim)" />
-                        <circle cx="7.5" cy="7.5" r="1.2" fill="#fff5cc" />
-                        <circle cx="284.5" cy="7.5" r="1.2" fill="#fff5cc" />
-                        <circle cx="7.5" cy="68.5" r="1.2" fill="#fff5cc" />
-                        <circle cx="284.5" cy="68.5" r="1.2" fill="#fff5cc" />
-                    </g>
+                    {/* Parchment page with a green-washed ledger inset */}
+                    <rect x="1.5" y="1.5" width="289" height="73" rx="3" fill={PAGE} stroke={RULE} strokeWidth="1.2" className="gambit-chassis-base" />
+                    <rect x="4.5" y="4.5" width="283" height="67" rx="1.5" fill={FELT_WASH} stroke={RULE} strokeWidth="0.6" pointerEvents="none" />
 
                     {/* Brass Rail Conduits behind coins & cards */}
-                    <line x1="16" y1="24" x2="116" y2="24" stroke="rgba(212, 175, 55, 0.35)" strokeWidth="1.2" />
-                    <line x1="16" y1="52" x2="116" y2="52" stroke="rgba(212, 175, 55, 0.35)" strokeWidth="1.2" />
-                    <line x1="172" y1="24" x2="258" y2="24" stroke="rgba(212, 175, 55, 0.35)" strokeWidth="1.2" />
-                    <line x1="172" y1="52" x2="258" y2="52" stroke="rgba(212, 175, 55, 0.35)" strokeWidth="1.2" />
-                    <line x1="172" y1="38" x2="258" y2="38" stroke="rgba(212, 175, 55, 0.45)" strokeWidth="1.0" strokeDasharray="3 3" />
+                    <line x1="16" y1="24" x2="116" y2="24" stroke={ETCH} strokeWidth="1" />
+                    <line x1="16" y1="52" x2="116" y2="52" stroke={ETCH} strokeWidth="1" />
+                    <line x1="172" y1="24" x2="258" y2="24" stroke={ETCH} strokeWidth="1" />
+                    <line x1="172" y1="52" x2="258" y2="52" stroke={ETCH} strokeWidth="1" />
+                    <line x1="172" y1="38" x2="258" y2="38" stroke={ETCH} strokeWidth="0.8" strokeDasharray="3 3" />
 
                     {/* ========================================================= */}
                     {/* LEFT FLANK: 7 LARGE GILDED FORTUNE COINS (I to VII)        */}
@@ -413,9 +327,9 @@ const GambitResourceBar = ({
                                     cx={cx}
                                     cy={cy}
                                     r="11.5"
-                                    fill={isFilled ? "#1f1406" : "#0a180f"}
-                                    stroke={isFilled ? "#ffe9a8" : "rgba(212, 175, 55, 0.75)"}
-                                    strokeWidth={isFilled ? "1.4" : "1.1"}
+                                    fill={isFilled ? mix(PAGE, '#b8902f', 0.25) : PAGE}
+                                    stroke={isFilled ? COIN_INK : RULE}
+                                    strokeWidth="1"
                                     className="gambit-coin-bezel"
                                     pointerEvents="none"
                                 />
@@ -427,7 +341,7 @@ const GambitResourceBar = ({
                                     const y1 = cy + 9.5 * Math.sin(ang);
                                     const x2 = cx + 11.5 * Math.cos(ang);
                                     const y2 = cy + 11.5 * Math.sin(ang);
-                                    return <line key={t} x1={x1} y1={y1} x2={x2} y2={y2} stroke={isFilled ? "#ffe9a8" : "rgba(255, 233, 168, 0.55)"} strokeWidth="0.8" pointerEvents="none" />;
+                                    return <line key={t} x1={x1} y1={y1} x2={x2} y2={y2} stroke={isFilled ? COIN_INK : ETCH} strokeWidth="0.6" pointerEvents="none" />;
                                 })}
 
                                 {/* Heavy Gold Coin Disc */}
@@ -435,10 +349,9 @@ const GambitResourceBar = ({
                                     cx={cx}
                                     cy={cy}
                                     r="9.6"
-                                    fill={isFilled ? "url(#gambitGoldCoin)" : "rgba(14, 26, 18, 0.9)"}
-                                    stroke={isFilled ? "#ffffff" : "rgba(212, 175, 55, 0.45)"}
-                                    strokeWidth={isFilled ? "1.0" : "0.6"}
-                                    filter={isFilled ? "url(#gambitGoldGlow)" : undefined}
+                                    fill={isFilled ? COIN_WASH : PAPER}
+                                    stroke={isFilled ? COIN_INK : RULE}
+                                    strokeWidth="0.8"
                                     className="gambit-coin-disc"
                                     pointerEvents="none"
                                 />
@@ -448,7 +361,7 @@ const GambitResourceBar = ({
                                     x={cx}
                                     y={cy + 3.2}
                                     textAnchor="middle"
-                                    fill={isFilled ? "#452f00" : "rgba(255, 233, 168, 0.65)"}
+                                    fill={isFilled ? INK : ETCH}
                                     fontSize="8.6"
                                     fontFamily="'Cinzel', serif"
                                     fontWeight="900"
@@ -477,14 +390,14 @@ const GambitResourceBar = ({
                         title="Click to roll d20 on the Fate Table!"
                     >
                         {/* Outer Brass Roulette Bezel */}
-                        <circle cx="146" cy="38" r="26.5" fill="none" stroke="rgba(212, 175, 55, 0.7)" strokeWidth="1.2" strokeDasharray="4 2" />
+                        <circle cx="146" cy="38" r="26.5" fill="none" stroke={RULE} strokeWidth="1" strokeDasharray="4 2" />
                         {Array.from({ length: 12 }, (_, i) => {
                             const angle = (i * 30 * Math.PI) / 180;
                             const x1 = 146 + 24 * Math.cos(angle);
                             const y1 = 38 + 24 * Math.sin(angle);
                             const x2 = 146 + 27 * Math.cos(angle);
                             const y2 = 38 + 27 * Math.sin(angle);
-                            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ffd700" strokeWidth="1.1" />;
+                            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={COIN_INK} strokeWidth="0.9" />;
                         })}
 
                         {/* Center Medallion Plate */}
@@ -492,47 +405,46 @@ const GambitResourceBar = ({
                             cx="146"
                             cy="38"
                             r="22.5"
-                            fill={isBust ? "#45080c" : isNearCollapse ? "#5c1015" : "url(#gambitCenterDie)"}
-                            stroke={isBust || isNearCollapse ? "#ff4d4d" : "#ffe9a8"}
-                            strokeWidth="1.6"
-                            filter={isBust || isNearCollapse ? "url(#gambitCrimsonGlow)" : "url(#gambitGoldGlow)"}
+                            fill={isBust ? washed(BRICK, 0.34) : isNearCollapse ? washed(BRICK, 0.2) : PAPER}
+                            stroke={isBust || isNearCollapse ? BRICK : SEAL}
+                            strokeWidth="1.2"
                             className="gambit-center-disc"
                         />
 
                         {/* Medallion Display Text */}
                         {isBust ? (
                             <>
-                                <text x="146" y="35" textAnchor="middle" fill="#ffffff" fontSize="9.5" fontFamily="'Cinzel', serif" fontWeight="900" letterSpacing="0.6" pointerEvents="none">
+                                <text x="146" y="35" textAnchor="middle" fill={BRICK} fontSize="9.5" fontFamily="'Cinzel', serif" fontWeight="900" letterSpacing="0.6" pointerEvents="none">
                                     BUST
                                 </text>
-                                <text x="146" y="44" textAnchor="middle" fill="#ffb4b4" fontSize="6.5" fontFamily="'Cinzel', serif" fontWeight="800" pointerEvents="none">
+                                <text x="146" y="44" textAnchor="middle" fill={BRICK} fontSize="6.5" fontFamily="'Cinzel', serif" fontWeight="800" pointerEvents="none">
                                     0 FP
                                 </text>
                             </>
                         ) : isNearCollapse ? (
                             <>
-                                <text x="146" y="35" textAnchor="middle" fill="#ffffff" fontSize="8.5" fontFamily="'Cinzel', serif" fontWeight="900" letterSpacing="0.4" pointerEvents="none">
+                                <text x="146" y="35" textAnchor="middle" fill={BRICK} fontSize="8.5" fontFamily="'Cinzel', serif" fontWeight="900" letterSpacing="0.4" pointerEvents="none">
                                     WYRD
                                 </text>
-                                <text x="146" y="44" textAnchor="middle" fill="#ffb4b4" fontSize="6.5" fontFamily="'Cinzel', serif" fontWeight="800" pointerEvents="none">
+                                <text x="146" y="44" textAnchor="middle" fill={BRICK} fontSize="6.5" fontFamily="'Cinzel', serif" fontWeight="800" pointerEvents="none">
                                     COLLAPSE
                                 </text>
                             </>
                         ) : lastRollResult ? (
                             <>
-                                <text x="146" y="33.5" textAnchor="middle" fill="#2d1c00" fontSize="7.5" fontFamily="'Cinzel', serif" fontWeight="800" pointerEvents="none">
+                                <text x="146" y="33.5" textAnchor="middle" fill={INK} fontSize="7.5" fontFamily="'Cinzel', serif" fontWeight="800" pointerEvents="none">
                                     d{lastRollResult.sides}
                                 </text>
-                                <text x="146" y="47" textAnchor="middle" fill="#2d1c00" fontSize="14" fontFamily="'Cinzel', serif" fontWeight="900" pointerEvents="none">
+                                <text x="146" y="47" textAnchor="middle" fill={INK} fontSize="14" fontFamily="'Cinzel', serif" fontWeight="900" pointerEvents="none">
                                     {lastRollResult.roll}
                                 </text>
                             </>
                         ) : (
                             <>
-                                <text x="146" y="36" textAnchor="middle" fill="#2d1c00" fontSize="11" fontFamily="'Cinzel', serif" fontWeight="900" pointerEvents="none">
+                                <text x="146" y="36" textAnchor="middle" fill={INK} fontSize="11" fontFamily="'Cinzel', serif" fontWeight="900" pointerEvents="none">
                                     d20
                                 </text>
-                                <text x="146" y="45" textAnchor="middle" fill="#4a3000" fontSize="6.5" fontFamily="'Cinzel', serif" fontWeight="800" letterSpacing="0.8" pointerEvents="none">
+                                <text x="146" y="45" textAnchor="middle" fill={MUTED} fontSize="6.5" fontFamily="'Cinzel', serif" fontWeight="800" letterSpacing="0.8" pointerEvents="none">
                                     WAGER
                                 </text>
                             </>
@@ -592,10 +504,9 @@ const GambitResourceBar = ({
                                     width={w}
                                     height={h}
                                     rx={isCalamity ? "2.4" : "1.8"}
-                                    fill={isFilled ? (isDanger ? "#991b1b" : "url(#gambitCrimsonCard)") : (isCalamity ? "rgba(22, 6, 8, 0.95)" : "rgba(14, 8, 8, 0.9)")}
-                                    stroke={isFilled ? (isDanger ? "#ffffff" : "#ff8a7a") : (isCalamity ? "rgba(231, 76, 60, 0.85)" : "rgba(212, 175, 55, 0.7)")}
-                                    strokeWidth={isFilled ? (isDanger ? "1.4" : "1.1") : (isCalamity ? "1.2" : "0.9")}
-                                    filter={isFilled ? "url(#gambitCrimsonGlow)" : undefined}
+                                    fill={isFilled ? (isDanger ? washed(BRICK, 0.5) : DEBT_WASH) : PAPER}
+                                    stroke={isFilled ? DEBT_INK : (isCalamity ? BRICK : RULE)}
+                                    strokeWidth={isFilled ? (isDanger ? "1.3" : "1") : (isCalamity ? "1" : "0.8")}
                                     className={`gambit-card-body ${isCalamity ? 'calamity-body' : ''}`}
                                     pointerEvents="none"
                                 />
@@ -608,7 +519,7 @@ const GambitResourceBar = ({
                                             x={cx}
                                             y={cy - 14}
                                             textAnchor="middle"
-                                            fill={isFilled ? "#ffffff" : "rgba(255, 233, 168, 0.75)"}
+                                            fill={isFilled ? BRICK : MUTED}
                                             fontSize="5.5"
                                             fontFamily="'Cinzel', serif"
                                             fontWeight="900"
@@ -622,21 +533,21 @@ const GambitResourceBar = ({
                                             cx={cx}
                                             cy={cy}
                                             r="3.4"
-                                            fill={isFilled ? "#ffffff" : "none"}
-                                            stroke={isFilled ? "#991b1b" : "rgba(231, 76, 60, 0.85)"}
+                                            fill={isFilled ? PAGE : "none"}
+                                            stroke={isFilled ? BRICK : ETCH}
                                             strokeWidth="0.9"
                                         />
                                         <circle
                                             cx={cx - 1.1}
                                             cy={cy - 0.5}
                                             r="0.7"
-                                            fill={isFilled ? "#991b1b" : "rgba(255, 233, 168, 0.75)"}
+                                            fill={isFilled ? BRICK : ETCH}
                                         />
                                         <circle
                                             cx={cx + 1.1}
                                             cy={cy - 0.5}
                                             r="0.7"
-                                            fill={isFilled ? "#991b1b" : "rgba(255, 233, 168, 0.75)"}
+                                            fill={isFilled ? BRICK : ETCH}
                                         />
 
                                         {/* Bottom Label WYRD */}
@@ -644,7 +555,7 @@ const GambitResourceBar = ({
                                             x={cx}
                                             y={cy + 18}
                                             textAnchor="middle"
-                                            fill={isFilled ? "#ffb4b4" : "rgba(231, 76, 60, 0.85)"}
+                                            fill={isFilled ? BRICK : MUTED}
                                             fontSize="4.8"
                                             fontFamily="'Cinzel', serif"
                                             fontWeight="800"
@@ -662,7 +573,7 @@ const GambitResourceBar = ({
                                             y1={cy - 7}
                                             x2={cx}
                                             y2={cy + 7}
-                                            stroke={isFilled ? (isDanger ? "#ffffff" : "#ffe4e6") : "rgba(255, 233, 168, 0.45)"}
+                                            stroke={isFilled ? DEBT_INK : ETCH}
                                             strokeWidth="0.8"
                                             strokeDasharray="2 1.5"
                                         />
@@ -670,11 +581,11 @@ const GambitResourceBar = ({
                                         {/* Center Diamond Pip */}
                                         <polygon
                                             points={`${cx},${cy - 3} ${cx + 2.2},${cy} ${cx},${cy + 3} ${cx - 2.2},${cy}`}
-                                            fill={isFilled ? (isDanger ? "#ffffff" : "#ffccd2") : "rgba(255, 233, 168, 0.6)"}
+                                            fill={isFilled ? DEBT_INK : ETCH}
                                         />
 
                                         {isDanger && isFilled && (
-                                            <circle cx={cx} cy={cy} r="1.3" fill="#ffffff" />
+                                            <circle cx={cx} cy={cy} r="1.3" fill={PAGE} />
                                         )}
                                     </g>
                                 )}
@@ -695,7 +606,7 @@ const GambitResourceBar = ({
                             subtitle="Gambit Karmic Ledger"
                             state={`${debtLevel}/${maxDebt} · +${debtLevel * 5}% damage taken`}
                             stateTone={debtLevel >= 12 ? 'bad' : debtLevel >= 8 ? 'warn' : 'neutral'}
-                            mechanic={`Card overrides and forced fate build Karmic Debt: each stack adds +5% damage taken and 1d4 wyrd strain at end of round. At 13, Wyrd Collapse hits for 6d10 irreducible wyrd, incapacitates you 1 round, empties your Fortune, and costs 5 max HP until a long rest.`}
+                            mechanic={`Card overrides and forced fate add Karmic Debt: each stack = +5% damage taken and 1d4 wyrd per round. At 13, Wyrd Collapse: 6d10 wyrd, incapacitated 1 round, Fortune emptied, −5 max HP until a long rest.`}
                             status={[
                                 debtLevel >= 12
                                     ? { text: 'One override from Wyrd Collapse — clear debt immediately!', tone: 'critical' }
@@ -752,98 +663,74 @@ const GambitResourceBar = ({
                         width: '100%'
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">Gambit Fortune & Debt Ledger</div>
-
-                            {/* Current state summary */}
-                            <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
-                                <div><strong>Fortune:</strong> {getStageName(fpLevel)} <span style={{ color: '#fef08a' }}>({fpLevel}/{maxFp} FP)</span></div>
-                                <div><strong>Karmic Debt:</strong> <span style={{ color: debtLevel >= 8 ? '#f87171' : '#fef08a' }}>{debtLevel}/{maxDebt} Stacks (+{debtLevel * 5}% Damage Vulnerability)</span></div>
-                                <div style={{ color: fpLevel === 0 ? '#f87171' : 'var(--crm-text-dim, #cbd5e1)' }}>
-                                    <strong>Risk:</strong> {getDrawbackText(fpLevel)}
-                                </div>
+                    <div className="cm" style={{ '--cm-accent': '#a8801f', '--cm-accent-deep': '#5e4510', '--cm-wash': '#f3e6c2' }}>
+                        <header className="cm-head">
+                            <span className={`cm-seal ${fpLevel === 0 ? 'is-quiet' : ''}`}>{fpLevel}</span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">Gambit Fortune &amp; Debt Ledger</div>
+                                <div className="cm-title">{getStageName(fpLevel)}</div>
+                                <div className="cm-sub"><span>({fpLevel}/{maxFp} FP)</span> fortune in hand</div>
                             </div>
-
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '8px', marginBottom: '8px' }}>
-                                Set Fortune (FP)
-                            </div>
-
-                            {/* Direct Jump Grid (0 to 7) */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                {[0, 1, 2, 3, 4, 5, 6, 7].map((lvl) => (
-                                    <button
-                                        key={lvl}
-                                        className={`context-menu-button ${fpLevel === lvl ? 'active' : ''} ${lvl === 0 ? 'danger' : ''}`}
-                                        onClick={() => handleFpSet(lvl)}
-                                    >
-                                        {lvl} FP
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                                <button className="context-menu-button" onClick={() => handleFpChange(-1)}>
-                                    <i className="fas fa-minus-circle"></i>
-                                    -1 FP
-                                </button>
-                                <button className="context-menu-button" onClick={() => handleFpChange(1)}>
-                                    <i className="fas fa-plus-circle"></i>
-                                    +1 FP
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '8px 0' }}></div>
-
-                            {/* Karmic Debt Controls */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginBottom: '6px' }}>
-                                Karmic Debt Management
-                            </div>
-                            <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-                                <button className="context-menu-button" onClick={() => handleDebtChange(-1)}>
-                                    <i className="fas fa-minus"></i> -1 Debt
-                                </button>
-                                <button className="context-menu-button" onClick={() => handleDebtChange(1)}>
-                                    <i className="fas fa-plus"></i> +1 Debt
-                                </button>
-                                <button className="context-menu-button" onClick={() => handleDebtChange(2)}>
-                                    <i className="fas fa-layer-group"></i> +2 Debt
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '8px 0' }}></div>
-
-                            {/* Quick Dice Roll Actions */}
-                            <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className={`cm-burden ${fpLevel === 0 ? 'is-severe' : ''}`}>
+                            <span className="cm-burden-label">{fpLevel === 0 ? 'Luck has run dry' : 'The odds at this stake'}</span>
+                            <p className="cm-burden-text">{getDrawbackText(fpLevel)}</p>
+                        </div>
+                        <div className="cm-section">Set Fortune (FP)</div>
+                        <div className="cm-track" style={{ '--cm-cols': 8 }} role="group" aria-label="Set Fortune">
+                            {[0, 1, 2, 3, 4, 5, 6, 7].map((lvl) => (
                                 <button
-                                    className="context-menu-button"
-                                    style={{ flex: 1, backgroundColor: '#ca8a04', color: '#ffffff', fontWeight: 'bold' }}
-                                    onClick={() => handleRollDice(20)}
+                                    key={lvl}
+                                    type="button"
+                                    className={`cm-pip ${fpLevel === lvl ? 'active' : ''} ${fpLevel >= lvl && lvl > 0 ? 'lit' : ''}`}
+                                    title={`Set Fortune to ${lvl}`}
+                                    onClick={() => handleFpSet(lvl)}
                                 >
-                                    <i className="fas fa-dice-d20" style={{ marginRight: '4px' }}></i> Roll d20
+                                    {lvl}
                                 </button>
-                                <button
-                                    className="context-menu-button"
-                                    style={{ flex: 1, backgroundColor: '#4d7c0f', color: '#ffffff', fontWeight: 'bold' }}
-                                    onClick={() => handleRollDice(12)}
-                                >
-                                    <i className="fas fa-dice" style={{ marginRight: '4px' }}></i> Roll d12
-                                </button>
-                            </div>
-
-                            {lastRollResult && (
-                                <div style={{ padding: '6px', background: 'rgba(202, 138, 4, 0.12)', border: '1px solid #ca8a04', borderRadius: '4px', fontSize: '0.76rem', marginBottom: '8px', textAlign: 'center' }}>
-                                    <span style={{ fontWeight: 'bold', color: '#fef08a' }}>
-                                        d{lastRollResult.sides} = {lastRollResult.roll}
-                                    </span>
-                                </div>
-                            )}
-
-                            <button className="context-menu-button danger" onClick={() => setShowControls(false)} style={{ width: '100%', marginTop: '6px' }}>
-                                <i className="fas fa-times"></i>
-                                Close
+                            ))}
+                        </div>
+                        <div className="cm-row">
+                            <button type="button" className="context-menu-button spend" onClick={() => handleFpChange(-1)}>
+                                -1 FP
+                            </button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleFpChange(1)}>
+                                +1 FP
                             </button>
                         </div>
+                        <div className="cm-section">Karmic Debt Management</div>
+                        <div className="cm-meter cm-meter-debt" aria-hidden="true"><span style={{ width: `${maxDebt ? Math.min(100, (debtLevel / maxDebt) * 100) : 0}%` }}></span></div>
+                        <p className={`cm-line ${debtLevel === 0 ? 'is-quiet' : ''}`}>{debtLevel}/{maxDebt} Stacks: you take +{debtLevel * 5}% damage until the debt is paid.</p>
+                        <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleDebtChange(-1)}>
+                                -1 Debt
+                            </button>
+                            <button type="button" className="context-menu-button spend" onClick={() => handleDebtChange(1)}>
+                                +1 Debt
+                            </button>
+                            <button type="button" className="context-menu-button spend" onClick={() => handleDebtChange(2)}>
+                                <i className="fas fa-layer-group" aria-hidden="true"></i>+2 Debt
+                            </button>
+                        </div>
+                        <div className="cm-section">Tempt fate</div>
+                        <div className="cm-row">
+                            <button type="button" className="context-menu-button" onClick={() => handleRollDice(20)}>
+                                <i className="fas fa-dice-d20" aria-hidden="true"></i> Roll d20
+                            </button>
+                            <button type="button" className="context-menu-button" onClick={() => handleRollDice(12)}>
+                                <i className="fas fa-dice" aria-hidden="true"></i> Roll d12
+                            </button>
+                        </div>
+                        {lastRollResult && (
+                            <div className="cm-roll">
+                                <span className="cm-roll-die">d{lastRollResult.sides}</span>
+                                <span className="cm-roll-value">{lastRollResult.roll}</span>
+                            </div>
+                        )}
+                        <ClassMenuSpells className="Gambit" resourceTypes={['fortune', 'karmic_debt']} resourceLabel="Fortune" currentByType={{ fortune: fpLevel, karmic_debt: debtLevel }} />
                     </div>
                 </div>,
                 document.body

@@ -76,7 +76,7 @@
 .drawing-tool-btn.active {
     background: linear-gradient(to bottom, #d4af37, #b8941f);
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
 }
 
@@ -279,7 +279,7 @@
 .fill-option.active {
     background: #d4af37;
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 /* Opacity Controls */

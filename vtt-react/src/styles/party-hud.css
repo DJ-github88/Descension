@@ -44,51 +44,8 @@
 }
 
 /* HUD Header */
-.party-hud-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    border-bottom: 1px solid #a08c70;
-    border-radius: 6px 6px 0 0;
-    cursor: move;
-    color: #f0e6d2;
-}
-
-.hud-title {
-    font-weight: 600;
-    font-size: 14px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.hud-controls {
-    display: flex;
-    gap: 4px;
-}
-
-.hud-control-button {
-    background: rgba(240, 230, 210, 0.2);
-    border: 1px solid rgba(160, 140, 112, 0.5);
-    border-radius: 3px;
-    color: #f0e6d2;
-    padding: 2px 6px;
-    font-size: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.hud-control-button:hover {
-    background: rgba(240, 230, 210, 0.4);
-    border-color: #a08c70;
-}
 
 /* Party Members Container */
-.party-members-container {
-    position: relative;
-    padding: 10px;
-    min-height: 80px;
-}
 
 /* Character Portrait HUD */
 .character-portrait-hud {
@@ -137,7 +94,7 @@
     border: 2px solid #a08c70;
     border-radius: 50%;
     overflow: hidden;
-    background: linear-gradient(135deg, #d5cbb0, #c4b896);
+    background: linear-gradient(135deg, #c4baa6, #c4b896);
 }
 
 .portrait-image {
@@ -208,9 +165,6 @@
 /* Resource Bars */
 .resource-bars {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
     min-width: 80px;
     overflow: visible;
     /* Allow tooltips to show */
@@ -245,8 +199,7 @@
 /* Base bar text styling - applies to health/mana/AP bars only (not class resource bars) */
 .health-bar .bar-text,
 .mana-bar .bar-text,
-.ap-bar .bar-text,
-.resource-text {
+.ap-bar .bar-text {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -272,15 +225,9 @@
 .character-portrait-hud .health-bar .bar-text,
 .character-portrait-hud .mana-bar .bar-text,
 .character-portrait-hud .ap-bar .bar-text,
-.character-portrait-hud .resource-text,
 .party-hud .health-bar .bar-text,
 .party-hud .mana-bar .bar-text,
-.party-hud .ap-bar .bar-text,
-.party-hud .resource-text,
-.target-hud .health-bar .bar-text,
-.target-hud .mana-bar .bar-text,
-.target-hud .ap-bar .bar-text,
-.target-hud .resource-text {
+.party-hud .ap-bar .bar-text {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -331,77 +278,8 @@
 }
 
 /* HUD Settings Panel */
-.hud-settings-panel {
-    padding: 8px 12px;
-    border-top: 1px solid rgba(160, 140, 112, 0.4);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.settings-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #7a3b2e;
-    margin-bottom: 6px;
-}
-
-.settings-options {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 8px;
-}
-
-.setting-option {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10px;
-    cursor: pointer;
-}
-
-.setting-option input[type="checkbox"] {
-    width: 12px;
-    height: 12px;
-}
-
-.scale-control {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.scale-control label {
-    font-size: 10px;
-    font-weight: 600;
-    color: #7a3b2e;
-}
-
-.scale-slider {
-    width: 100%;
-    height: 4px;
-    background: rgba(160, 140, 112, 0.3);
-    border-radius: 2px;
-    outline: none;
-}
 
 /* Party Status Info */
-.party-status-info {
-    padding: 6px 12px;
-    border-top: 1px solid rgba(160, 140, 112, 0.4);
-    background: rgba(255, 255, 255, 0.1);
-    font-size: 10px;
-    color: #7a3b2e;
-}
-
-.party-size {
-    font-weight: 600;
-}
-
-.current-target {
-    margin-top: 2px;
-    font-style: italic;
-    color: var(--my-health-low);
-}
 
 /* Context Menu */
 .character-hud-context-menu {
@@ -422,13 +300,13 @@
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
     border-bottom: 1px solid #a08c70;
     border-radius: 4px 4px 0 0;
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 .context-menu-header .character-name {
     font-weight: 600;
     font-size: 14px;
-    color: #f0e6d2;
+    color: #f1ece1;
     max-width: none;
     white-space: normal;
 }
@@ -444,18 +322,7 @@
 }
 
 .context-menu-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(160, 140, 112, 0.4);
-    border-radius: 4px;
-    color: #3a3a3a;
     font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
     margin-bottom: 4px;
 }
 
@@ -463,15 +330,7 @@
     margin-bottom: 0;
 }
 
-.context-menu-button:hover {
-    background: rgba(255, 255, 255, 0.5);
-    border-color: #a08c70;
-    transform: translateY(-1px);
-}
-
 .context-menu-button.active {
-    background: rgba(255, 152, 0, 0.3);
-    border-color: var(--my-health-low);
     color: var(--my-health-low);
     font-weight: 600;
 }
@@ -482,7 +341,7 @@
     border: 2px solid #a08c70;
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    color: #f0e6d2;
+    color: #f1ece1;
     font-family: var(--my-font-serif);
     font-size: 12px;
     padding: 8px 12px;
@@ -532,75 +391,12 @@
 /* ====== TARGET HUD STYLES ====== */
 
 /* Target HUD Container */
-.target-hud {
-    position: fixed;
-    background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(213, 203, 176, 0.95) 100%);
-    border: 2px solid #a08c70;
-    border-radius: var(--my-border-radius-lg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    font-family: var(--my-font-serif);
-    color: #3a3a3a;
-    user-select: none;
-    z-index: 9000;
-    width: 220px;
-    backdrop-filter: blur(2px);
-}
-
-.target-hud.dragging {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    z-index: 9001;
-}
 
 /* Target HUD Header */
-.target-hud-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    border-bottom: 1px solid #a08c70;
-    border-radius: 6px 6px 0 0;
-    cursor: move;
-    color: #f0e6d2;
-}
 
 /* Target Info Container */
-.target-info-container {
-    padding: 12px;
-}
 
 /* Target Portrait Section */
-.target-portrait-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.target-portrait-frame {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    border: 2px solid #a08c70;
-    border-radius: 50%;
-    overflow: hidden;
-    background: linear-gradient(135deg, #d5cbb0, #c4b896);
-}
-
-.target-portrait-image {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.target-portrait-frame .default-portrait {
-    font-size: 22px;
-    font-weight: bold;
-    color: #7a3b2e;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
 
 /* Faction Indicator */
 .faction-indicator {
@@ -614,42 +410,8 @@
 }
 
 /* Target Details */
-.target-details {
-    flex: 1;
-}
-
-.target-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #3a3a3a;
-    margin-bottom: 2px;
-}
-
-.target-type {
-    font-size: 12px;
-    color: #7a3b2e;
-    margin-bottom: 2px;
-}
-
-.target-level {
-    font-size: 11px;
-    color: #666;
-    font-style: italic;
-}
 
 /* Target Resource Bars */
-.target-resource-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
-}
-
-.target-resource-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
 
 .bar-label {
     font-size: 11px;
@@ -657,123 +419,11 @@
     color: #7a3b2e;
 }
 
-.target-resource-bar .bar-background {
-    height: 16px;
-}
-
-.target-resource-bar .bar-text {
-    font-size: 10px;
-}
-
 /* Target of Target */
-.target-of-target {
-    padding: 8px;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(160, 140, 112, 0.4);
-    border-radius: 4px;
-    font-size: 11px;
-}
-
-.tot-label {
-    color: #7a3b2e;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-.tot-name {
-    color: #3a3a3a;
-    font-weight: 500;
-}
 
 /* ====== CHARACTER INSPECTION STYLES ====== */
 
-.character-inspect-container {
-    padding: 20px;
-    background-color: #f0e6d2;
-    color: #3a3a3a;
-    font-family: var(--my-font-serif);
-    height: 100%;
-    overflow-y: auto;
-}
-
-.character-inspect-notice {
-    background: rgba(122, 59, 46, 0.1);
-    border: 1px solid rgba(122, 59, 46, 0.3);
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 20px;
-    color: #7a3b2e;
-    text-align: center;
-}
-
-.character-inspect-notice p {
-    margin: 4px 0;
-    font-size: 14px;
-}
-
-.character-inspect-notice strong {
-    font-weight: 600;
-    color: #5a2a1e;
-}
-
-.character-inspect-tabs {
-    display: flex;
-    gap: 2px;
-    margin-bottom: 20px;
-    background: rgba(122, 59, 46, 0.1);
-    border-radius: var(--my-border-radius-lg) var(--my-border-radius-lg) 0 0;
-    padding: 4px;
-}
-
-.inspect-tab {
-    flex: 1;
-    padding: 12px 16px;
-    background: rgba(122, 59, 46, 0.2);
-    border: none;
-    border-radius: 6px 6px 0 0;
-    color: #7a3b2e;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.inspect-tab:hover {
-    background: rgba(122, 59, 46, 0.3);
-    color: #5a2a1e;
-}
-
-.inspect-tab.active {
-    background: #7a3b2e;
-    color: #f0e6d2;
-}
-
-.character-inspect-content {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 0 0 var(--my-border-radius-lg) var(--my-border-radius-lg);
-    padding: 20px;
-    min-height: 400px;
-}
-
 /* Overview Tab Styles */
-.character-inspect-overview h2 {
-    color: #7a3b2e;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 24px;
-}
-
-.character-basic-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 30px;
-}
 
 .info-row {
     display: flex;
@@ -792,13 +442,6 @@
     color: #5a2a1e;
 }
 
-.character-resources h3 {
-    color: #7a3b2e;
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(122, 59, 46, 0.3);
-    padding-bottom: 5px;
-}
-
 .resource-bars {
     display: flex;
     flex-direction: column;
@@ -806,11 +449,6 @@
 }
 
 /* Make this specific to character inspect to avoid conflicts with class resource bars */
-.character-inspect .resource-bar:not(.class-resource-bar) {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
 
 .resource-label {
     min-width: 100px;
@@ -818,48 +456,9 @@
     color: #7a3b2e;
 }
 
-.resource-bar-container {
-    flex: 1;
-    height: 20px;
-    background: rgba(122, 59, 46, 0.2);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-.resource-bar-fill {
-    height: 100%;
-    border-radius: 10px;
-    transition: width 0.3s ease;
-}
-
-.resource-bar-fill.health {
-    background: linear-gradient(90deg, #dc2626, #ef4444);
-}
-
-.resource-bar-fill.mana {
-    background: linear-gradient(90deg, #2563eb, #3b82f6);
-}
-
-.resource-bar-fill.action-points {
-    background: linear-gradient(90deg, #ca8a04, #eab308);
-}
-
 /* Removed conflicting resource-text rule - using unified styling above */
 
 /* Stats Tab Styles */
-.character-inspect-stats h3 {
-    color: #7a3b2e;
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(122, 59, 46, 0.3);
-    padding-bottom: 5px;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
 
 .stat-block {
     background: rgba(122, 59, 46, 0.1);
@@ -882,18 +481,6 @@
 }
 
 /* Equipment Tab Styles */
-.character-inspect-equipment h3 {
-    color: #7a3b2e;
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(122, 59, 46, 0.3);
-    padding-bottom: 5px;
-}
-
-.equipment-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
 
 .equipment-slot {
     background: rgba(122, 59, 46, 0.1);
@@ -920,20 +507,7 @@
     font-style: italic;
 }
 
-.no-equipment {
-    text-align: center;
-    color: #7a3b2e;
-    font-style: italic;
-    padding: 40px;
-}
-
 /* Lore Tab Styles */
-.character-inspect-lore h3 {
-    color: #7a3b2e;
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(122, 59, 46, 0.3);
-    padding-bottom: 5px;
-}
 
 .lore-sections {
     display: flex;
@@ -953,46 +527,7 @@
     margin: 0;
 }
 
-.no-lore {
-    text-align: center;
-    color: #7a3b2e;
-    font-style: italic;
-    padding: 40px;
-}
-
-.character-header h3 {
-    margin: 0 0 8px 0;
-    font-size: 24px;
-    font-weight: 600;
-    color: #7a3b2e;
-}
-
-.character-basic-info p {
-    margin: 4px 0;
-    font-size: 16px;
-    color: #5e2e23;
-}
-
-.character-resources,
-.character-stats,
-.character-equipment {
-    /* Removed background box styling for cleaner look */
-}
-
-.character-resources h4,
-.character-stats h4,
-.character-equipment h4 {
-    margin: 0 0 12px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: #7a3b2e;
-    border-bottom: 1px solid rgba(160, 140, 112, 0.4);
-    padding-bottom: 6px;
-}
-
-.resource-grid,
-.stats-grid,
-.equipment-grid {
+.stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 12px;
@@ -1029,7 +564,7 @@
     height: 32px;
     border: 2px solid #8B4513;
     border-radius: 4px;
-    background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+    background: #f4f1e8;
     cursor: pointer;
     transition: all 0.2s ease;
     overflow: hidden;
@@ -1081,17 +616,10 @@
 }
 
 /* Condition Timer Text - Match TargetHUD styling */
-.condition-timer-text {
-    color: #f0e6d2 !important;
-    font-size: 10px !important;
-    font-weight: bold !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
-    font-family: 'Cinzel', serif !important;
-}
 
 /* Buff Tooltip */
 .buff-tooltip {
-    background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+    background: #f4f1e8;
     border: 2px solid #8B4513;
     border-radius: var(--my-border-radius-lg);
     padding: 12px;
@@ -1142,7 +670,6 @@
     line-height: 1.3;
 }
 
-.resource-item,
 .stat-item,
 .equipment-item {
     display: flex;
@@ -1163,32 +690,16 @@
 }
 
 .resource-value,
-.stat-value,
-.equipment-name {
+.stat-value {
     font-weight: 500;
     color: #3a3a3a;
     font-size: 14px;
 }
 
-.inspection-footer {
-    text-align: center;
-    padding-top: 15px;
-    border-top: 1px solid rgba(160, 140, 112, 0.4);
-    margin-top: 20px;
-}
-
-.inspection-footer p {
-    margin: 0;
-    font-size: 12px;
-    color: #666;
-    font-style: italic;
-}
-
 /* ====== PARTY MANAGEMENT WINDOW STYLES ====== */
 
 .party-management-window {
-    padding: 20px;
-    background-color: #f0e6d2;
+    background-color: #f1ece1;
     color: #3a3a3a;
     font-family: var(--my-font-serif);
     height: 100%;
@@ -1220,7 +731,7 @@
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
     border: 2px solid #a08c70;
     border-radius: 6px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -1294,52 +805,14 @@
     padding-bottom: 6px;
 }
 
-.party-member-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(160, 140, 112, 0.4);
-    border-radius: 6px;
-    margin-bottom: 8px;
-}
-
-.member-info {
-    flex: 1;
-}
-
 .member-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #3a3a3a;
     margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.role-badge {
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 10px;
-    font-weight: 600;
-}
-
-.role-badge.leader {
-    background: var(--my-hp);
-    color: white;
 }
 
 .member-details {
     font-size: 12px;
     color: #7a3b2e;
     margin-bottom: 2px;
-}
-
-.member-status {
-    font-size: 11px;
-    color: #666;
 }
 
 .status {
@@ -1415,7 +888,7 @@
     border: 1px solid #a08c70;
     border-radius: 4px;
     background: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -1477,7 +950,7 @@
 
 .accept-button {
     background: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
     border: 1px solid #5d4037;
 }
 
@@ -1486,7 +959,7 @@
 }
 
 .decline-button {
-    background: #e8dcc0;
+    background: #e8e2d4;
     color: #5d4037;
     border: 1px solid rgba(139, 69, 19, 0.2);
 }
@@ -1839,25 +1312,6 @@
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55);
 }
 
-.party-member-frame .member-archetype-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    row-gap: 3px;
-    font-family: 'Cinzel', 'Crimson Text', serif;
-    font-size: 10.5px;
-    font-weight: 600;
-    color: #6e4d2d;
-    letter-spacing: 0.35px;
-    white-space: normal;
-    text-align: center;
-    line-height: 1.2;
-    max-width: 100%;
-    min-width: 0;
-}
-
 /* Background byname: script line under the heritage title — carries the
    small lead icon (races no longer do). */
 .party-member-frame .member-background-line {
@@ -1879,19 +1333,6 @@
     vertical-align: -1px;
     margin-right: 4px;
     font-style: normal;
-}
-
-.party-member-frame .detail-separator {
-    color: #b08d57;
-    font-size: 8px;
-    opacity: 0.75;
-}
-
-.party-member-frame .detail-part {
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
 }
 
 .party-member-frame .archetype-icon {
@@ -2361,13 +1802,6 @@
     align-items: center;
 }
 
-.member-alignment-exhaustion {
-    display: flex;
-    gap: 6px;
-    font-size: 8px;
-    line-height: 1.1;
-}
-
 .alignment {
     color: #7a3b2e;
     font-weight: 600;
@@ -2570,26 +2004,8 @@
 }
 
 /* Make resource fill styles specific to party HUD to avoid conflicts with class resource bars */
-.resource-bars-container .resource-fill {
-    height: 100%;
-    transition: width 0.3s ease;
-    border-radius: 6px;
-    position: relative;
-}
 
 /* Removed duplicate resource-text rule - using unified styling above */
-
-.health-bar .resource-fill {
-    box-shadow:
-        inset 0 1px 3px rgba(255, 255, 255, 0.4),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.mana-bar .resource-fill {
-    box-shadow:
-        inset 0 1px 3px rgba(255, 255, 255, 0.4),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.3);
-}
 
 /* Presence badge pinned to the portrait's bottom-right corner. Kept out of the
    frame's flex flow so it never adds dead height below the resource bar. */
@@ -2634,21 +2050,6 @@
     box-shadow: none;
 }
 
-.party-context-menu {
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%) !important;
-    border: 3px solid #8b7355 !important;
-    border-radius: 8px !important;
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
-    padding: 8px !important;
-    min-width: 140px !important;
-    font-family: 'Bookman Old Style', 'Garamond', serif !important;
-    position: fixed !important;
-    z-index: 999999 !important;
-}
-
 .context-menu-overlay {
     position: fixed;
     top: 0;
@@ -2659,7 +2060,7 @@
 }
 
 .context-menu-button {
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
+    background: linear-gradient(135deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%);
     border: 2px solid #8b7355;
     border-radius: 6px;
     color: #000000;
@@ -2682,7 +2083,7 @@
 }
 
 .context-menu-button.active {
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 50%, #c0b090 100%);
+    background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 50%, #c0b090 100%);
     border-color: #7a3b2e;
 }
 
@@ -2738,11 +2139,6 @@
 }
 
 /* Target HUD Buffs/Debuffs (inline display) */
-.target-buffs-debuffs {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(160, 140, 112, 0.3);
-}
 
 .target-buffs,
 .target-debuffs {
@@ -2765,7 +2161,7 @@
     height: 32px;
     border: 2px solid #8B4513;
     border-radius: 4px;
-    background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+    background: #f4f1e8;
     cursor: pointer;
     transition: all 0.2s ease;
     overflow: hidden;
@@ -2790,25 +2186,6 @@
 }
 
 /* Smaller icons for inline display in target HUD */
-.target-buffs-debuffs .buff-icon,
-.target-buffs-debuffs .debuff-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 10px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    cursor: help;
-    transition: transform 0.2s ease;
-}
-
-.target-buffs-debuffs .buff-icon:hover,
-.target-buffs-debuffs .debuff-icon:hover {
-    transform: scale(1.1);
-}
 
 /* Enhanced Party Management Window Styles */
 .party-management-window {
@@ -2853,23 +2230,6 @@
     background: rgba(240, 230, 210, 0.3);
 }
 
-.friend-invite-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem;
-    border-bottom: 1px solid rgba(160, 140, 112, 0.1);
-    transition: background-color 0.2s ease;
-}
-
-.friend-invite-item:last-child {
-    border-bottom: none;
-}
-
-.friend-invite-item:hover {
-    background: rgba(212, 175, 55, 0.1);
-}
-
 .friend-info {
     flex: 1;
 }
@@ -2878,11 +2238,6 @@
     font-weight: 600;
     color: #2c2416;
     margin-bottom: 0.25rem;
-}
-
-.friend-character {
-    font-size: 0.85rem;
-    color: #8b7355;
 }
 
 .friend-invite-btn {
@@ -2994,13 +2349,6 @@
         max-height: 250px;
     }
 
-    .friend-invite-item {
-        padding: 0.5rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
     .friend-invite-btn {
         align-self: stretch;
         justify-content: center;
@@ -3033,31 +2381,6 @@
         max-height: 30vh !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
-    }
-
-    .party-hud-header {
-        cursor: default !important;
-        padding: 12px 16px !important;
-        min-height: 48px !important;
-        height: 48px !important;
-    }
-
-    .hud-title {
-        font-size: 16px !important;
-    }
-
-    .hud-control-button {
-        width: 44px !important;
-        height: 44px !important;
-        min-width: 44px !important;
-        min-height: 44px !important;
-        padding: 8px !important;
-        font-size: 12px !important;
-        touch-action: manipulation !important;
-    }
-
-    .party-members-container {
-        padding: 12px !important;
     }
 
     .character-portrait-hud {
@@ -3097,8 +2420,7 @@
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
     }
 
-    .party-hud .bar-fill:not(.class-resource-bar .bar-fill),
-    .party-hud .resource-fill {
+    .party-hud .bar-fill:not(.class-resource-bar .bar-fill) {
         position: absolute !important;
         top: 0 !important;
         left: 0 !important;
@@ -3118,8 +2440,7 @@
     .party-hud .bar-text,
     .party-hud .health-bar .bar-text,
     .party-hud .mana-bar .bar-text,
-    .party-hud .ap-bar .bar-text,
-    .party-hud .resource-text {
+    .party-hud .ap-bar .bar-text {
         font-size: 14px !important;
         font-weight: 700 !important;
         text-shadow:
@@ -3131,40 +2452,6 @@
     }
 
     /* Target HUD mobile styles */
-    .target-hud {
-        width: 100vw !important;
-        max-width: 100vw !important;
-        position: fixed !important;
-        top: auto !important;
-        bottom: 60px !important;
-        left: 0 !important;
-        right: 0 !important;
-        border-radius: 0 !important;
-        border-left: none !important;
-        border-right: none !important;
-        border-bottom: none !important;
-        border-top: 2px solid #a08c70 !important;
-        z-index: 8999 !important;
-        max-height: 40vh !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-    }
-
-    .target-hud-header {
-        cursor: default !important;
-        padding: 12px 16px !important;
-        min-height: 48px !important;
-        height: 48px !important;
-    }
-
-    .target-info-container {
-        padding: 16px !important;
-    }
-
-    .target-portrait-frame {
-        width: 60px !important;
-        height: 60px !important;
-    }
 
     /* Party member frames mobile */
     .party-member-frame {
@@ -3204,9 +2491,6 @@
         box-shadow:
             inset 0 2px 4px rgba(0, 0, 0, 0.1),
             0 1px 2px rgba(0, 0, 0, 0.1) !important;
-        position: relative !important;
-        overflow: hidden !important;
-        padding: 0 !important;
         margin: 0 !important;
         box-sizing: border-box !important;
     }
@@ -3215,17 +2499,6 @@
         background: linear-gradient(to bottom, rgba(240, 230, 210, 0.5), rgba(213, 203, 176, 0.4)) !important;
         border: 2px solid rgba(160, 140, 112, 0.5) !important;
         border-radius: 6px !important;
-    }
-
-    .resource-bars-container .resource-fill {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        height: 100% !important;
-        min-height: 100% !important;
-        border-radius: 6px !important;
-        z-index: 1 !important;
-        box-sizing: border-box !important;
     }
 
     .resource-bars-container .resource-bar:not(.class-resource-bar) {
@@ -3250,35 +2523,8 @@
     }
 
     /* Enhanced bar fills for better visibility on mobile */
-    .health-bar .resource-fill {
-        background: linear-gradient(to bottom, #ef4444, #dc2626) !important;
-        box-shadow:
-            inset 0 2px 4px rgba(255, 255, 255, 0.5),
-            inset 0 -2px 3px rgba(0, 0, 0, 0.4),
-            0 0 8px rgba(239, 68, 68, 0.4) !important;
-    }
-
-    .mana-bar .resource-fill {
-        background: linear-gradient(to bottom, #3b82f6, #2563eb) !important;
-        box-shadow:
-            inset 0 2px 4px rgba(255, 255, 255, 0.5),
-            inset 0 -2px 3px rgba(0, 0, 0, 0.4),
-            0 0 8px rgba(59, 130, 246, 0.4) !important;
-    }
-
-    .ap-bar .resource-fill {
-        background: linear-gradient(to bottom, #eab308, #ca8a04) !important;
-        box-shadow:
-            inset 0 2px 4px rgba(255, 255, 255, 0.5),
-            inset 0 -2px 3px rgba(0, 0, 0, 0.4),
-            0 0 8px rgba(234, 179, 8, 0.4) !important;
-    }
 
     /* Disable dragging on mobile */
-    .party-hud-header,
-    .target-hud-header {
-        pointer-events: auto !important;
-    }
 
     .react-draggable-dragging .party-member-frame {
         transform: none !important;

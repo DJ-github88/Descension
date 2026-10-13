@@ -56,8 +56,7 @@
 }
 
 /* Character card / compact hud sizing - Wide 360px footprint */
-.character-card .apex-resource-bar,
-.character-card-compact .apex-resource-bar {
+.character-card .apex-resource-bar {
     height: 52px !important;
     min-height: 52px !important;
     max-width: 360px !important;
@@ -91,10 +90,6 @@
 /* COMPANION DOWN WARNING */
 .apex-resource-bar.companion-down {
     filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.5));
-}
-
-.apex-companion-sanctuary.downed {
-    animation: downedWarningPulse 1.4s ease-in-out infinite alternate;
 }
 
 @keyframes downedWarningPulse {

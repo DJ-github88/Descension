@@ -50,7 +50,6 @@
   flex-wrap: wrap;
 }
 
-.toolbar-mobile-actions,
 .toolbar-actions-group {
   display: flex;
   align-items: center;
@@ -287,29 +286,6 @@
 }
 
 /* Toggle Buttons */
-.pathfinder-toggle-btn {
-  background: #f7f2ea;
-  border: 1px solid rgba(139, 69, 19, 0.3);
-  color: #5a2e12;
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 9px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  touch-action: manipulation;
-}
-
-.pathfinder-toggle-btn.active {
-  background: #d4af37;
-  border-color: #a07138;
-  color: #1a0f05;
-}
 
 .mobile-search-toggle {
   display: none;
@@ -790,9 +766,6 @@
 /* ==========================================================================
    Codex Drawer (Pathfinder Illuminated Manuscript)
    ========================================================================== */
-.pathfinder-codex-backdrop {
-  display: none;
-}
 
 .pathfinder-codex-drawer {
   position: absolute;
@@ -991,16 +964,6 @@
   }
 
   /* Mobile Bottom Sheet for Codex Drawer */
-  .pathfinder-codex-backdrop {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.55);
-    z-index: 45;
-  }
 
   .pathfinder-codex-drawer {
     top: auto;
@@ -1016,15 +979,6 @@
     box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7);
     z-index: 50;
     animation: codexSlideUp 0.22s ease-out;
-  }
-
-  .codex-drawer-handle {
-    display: block;
-    width: 38px;
-    height: 4px;
-    background: rgba(139, 90, 26, 0.4);
-    border-radius: 2px;
-    margin: 8px auto 2px auto;
   }
 
   @keyframes codexSlideUp {

@@ -38,6 +38,8 @@ const { registerSessionInvitationHandlers } = require('./sessionInvitationHandle
 const { registerJournalHandlers } = require('./journalHandlers');
 const { registerQuestHandlers } = require('./questHandlers');
 const { registerGmToolsHandlers } = require('./gmToolsHandlers');
+const { registerActorConsequenceHandlers } = require('./actorConsequenceHandlers');
+const actorConsequences = require('../services/actorConsequences');
 
 const { INVITATION_EXPIRY_MS } = require('../utils/constants');
 const { assertFreshRoomAuthority, attachOperationContext } = require('../services/roomAuthorityService');
@@ -58,6 +60,7 @@ const ECHO_PREVENTION_WINDOW_MS = 200;
  * Delayed/buffered work is epoch-bound at its own capture point.
  */
 const AUTHORITATIVE_ROOM_EVENTS = new Set([
+  'actor_snapshot', 'actor_bind', 'actor_consequence', 'actor_recovery', 'actor_propose', 'actor_adjudicate',
   // authoritative state reads
   'request_room_checkpoint',
   'request_full_sync', 'sync_tokens', 'sync_grid_items', 'sync_character_tokens', 'request_combat_sync',
@@ -791,6 +794,41 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           logger.error('Room authority guard failed; event refused', { event, error: error.message });
           return;
         }
+        // P7 closes protected sibling writes at real registration, before any
+        // legacy handler can mutate or relay a resource-bearing envelope.
+        if (['creature_added', 'token_created', 'character_token_created'].includes(event) && actorConsequences.authorityMetadataPath(data)) {
+          deny('client_actor_metadata', 'Actor authority metadata is server-owned; creation requires an unbound instance');
+          return;
+        }
+        const legacy = new Set(['token_updated', 'character_token_updated', 'creature_updated',
+          'character_resource_delta', 'character_resource_updated', 'character_updated',
+          'buff_update', 'debuff_update', 'sync_tokens', 'sync_character_tokens',
+          'map_update', 'sync_level_editor_state']);
+        if (legacy.has(event)) {
+          const activeRoom = players.get(socket.id)?.roomId;
+          const hasBindings = Object.values(rooms.get(activeRoom)?.gameState?.maps || {}).some(map =>
+            [...Object.values(map.tokens || {}), ...Object.values(map.characterTokens || {})].some(token => token.state?.actorContract));
+          const containsCollection = (value) => value && typeof value === 'object' &&
+            (Object.keys(value).some(key => ['tokens', 'characterTokens', 'creatures'].includes(key)) || Object.values(value).some(containsCollection));
+          if (hasBindings && ['sync_tokens', 'sync_character_tokens', 'map_update', 'sync_level_editor_state'].includes(event) && containsCollection(data)) {
+            deny('actor_consequence_required', 'Bound actor collections can only be reconstructed from an authoritative snapshot');
+            return;
+          }
+          const update = data?.updates || data?.stateUpdates;
+          if (event === 'token_updated' && update && ['state', 'character'].some(key => Object.prototype.hasOwnProperty.call(update, key) &&
+            (!update[key] || typeof update[key] !== 'object' || Array.isArray(update[key])))) {
+            deny('actor_consequence_required', 'A legacy envelope cannot remove the protected actor container');
+            return;
+          }
+          const protectedField = actorConsequences.protectedPath(data) ||
+            (event === 'buff_update' || event === 'debuff_update' ? 'condition' : null) ||
+            ((event === 'character_resource_delta' || event === 'character_resource_updated') &&
+              ['health', 'mana', 'actionPoints'].includes(data?.resource) ? 'resource' : null);
+          if (protectedField) {
+            deny('actor_consequence_required', `Use the bound P7 actor consequence capability (${protectedField})`);
+            return;
+          }
+        }
         return handler.apply(socket, args);
       });
     };
@@ -803,6 +841,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== TOKEN MANAGEMENT HANDLERS ====================
     registerTokenHandlers(handlerCtx);
+    registerActorConsequenceHandlers(handlerCtx);
 
     // ==================== CHARACTER MANAGEMENT HANDLERS ====================
     registerCharacterHandlers(handlerCtx);

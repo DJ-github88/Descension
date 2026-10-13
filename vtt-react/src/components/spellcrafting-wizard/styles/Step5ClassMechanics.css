@@ -13,7 +13,7 @@
   --mechanics-text-title: #efd09e;
   --mechanics-text-normal: #e2e8f0;
   --mechanics-text-muted: #94a3b8;
-  --mechanics-gold: #d4af37;
+  --mechanics-gold: #9a7b3c;
   --mechanics-shadow-normal: 0 4px 12px rgba(0, 0, 0, 0.3);
   --mechanics-shadow-hover: 0 6px 15px rgba(0, 0, 0, 0.4);
   --mechanics-glow: 0 0 15px rgba(59, 130, 246, 0.4);
@@ -101,24 +101,6 @@
   align-items: center;
   padding: 1.25rem 1.5rem;
   position: relative;
-}
-
-.mechanic-title {
-  flex: 1;
-}
-
-.mechanic-title h4 {
-  font-family: var(--wizard-font-display);
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--mechanics-text-title);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 0.25rem;
-}
-
-.mechanic-description {
-  color: var(--mechanics-text-muted);
-  font-size: 0.9rem;
 }
 
 /* Toggle Switch Styling */
@@ -231,7 +213,7 @@
 .theme-option.selected {
   background: var(--mechanics-bg-card-selected);
   border-color: var(--mechanics-gold);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 10px rgba(154, 123, 60, 0.3);
 }
 
 .theme-icon {
@@ -293,32 +275,6 @@
 }
 
 /* Card Deck Styling */
-.deck-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.deck-header h4 {
-  color: var(--mechanics-text-title);
-  font-size: 1.1rem;
-}
-
-.toggle-deck-btn {
-  padding: 0.5rem 1rem;
-  background: var(--mechanics-bg-card);
-  border: 1px solid var(--mechanics-border-normal);
-  border-radius: 6px;
-  color: var(--mechanics-text-normal);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toggle-deck-btn:hover {
-  background: var(--mechanics-bg-card-hover);
-  border-color: var(--mechanics-border-highlight);
-}
 
 .card-deck-view {
   margin: 1rem 0;
@@ -394,11 +350,6 @@
   cursor: pointer;
 }
 
-.card-item.mini-card {
-  width: 60px;
-  height: 84px;
-}
-
 .card-front {
   position: relative;
   width: 100%;
@@ -420,7 +371,7 @@
 }
 
 .card-item.selected .card-front {
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 15px rgba(154, 123, 60, 0.5);
   border: 1px solid var(--mechanics-gold);
   animation: pulseGlow 1.5s infinite alternate;
 }
@@ -451,11 +402,6 @@
 
 .card-corner.clubs, .card-corner.spades {
   color: var(--spades-color);
-}
-
-.card-rank {
-  font-size: 1rem;
-  line-height: 1;
 }
 
 .card-suit {
@@ -505,25 +451,6 @@
   width: 100%;
   text-align: center;
   padding: 1rem;
-}
-
-.create-combo-btn {
-  padding: 0.5rem 1rem;
-  background: var(--mechanics-bg-card);
-  border: 1px solid var(--mechanics-border-normal);
-  border-radius: 6px;
-  color: var(--mechanics-text-normal);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.create-combo-btn:hover {
-  background: var(--mechanics-bg-card-hover);
-  border-color: var(--mechanics-border-highlight);
 }
 
 /* Card Combinations Styling */
@@ -597,78 +524,9 @@
   font-family: inherit;
 }
 
-.remove-combo-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  color: var(--mechanics-text-muted);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.remove-combo-btn:hover {
-  color: var(--mechanics-red);
-}
-
 /* Settings Tab Styling */
-.settings-tab-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.deck-settings {
-  padding: 1rem;
-  background: rgba(15, 23, 42, 0.3);
-  border-radius: 8px;
-}
-
-.deck-settings .form-group {
-  margin-bottom: 1rem;
-}
 
 /* Removed duplicate .form-group label - using consolidated styles */
-
-.form-control {
-  width: 100%;
-  background: rgba(17, 24, 39, 0.8);
-  color: var(--mechanics-text-normal);
-  border: 1px solid rgba(66, 91, 158, 0.4);
-  border-radius: 5px;
-  padding: 0.5rem;
-  font-family: inherit;
-}
-
-.draw-count-selector {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.draw-count-option {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--mechanics-bg-card);
-  border: 1px solid var(--mechanics-border-normal);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--mechanics-text-normal);
-}
-
-.draw-count-option:hover {
-  background: var(--mechanics-bg-card-hover);
-}
-
-.draw-count-option.selected {
-  background: var(--mechanics-bg-card-selected);
-  border-color: var(--mechanics-gold);
-  color: var(--mechanics-gold);
-}
 
 .card-effect-settings {
   padding: 1rem;
@@ -680,60 +538,6 @@
   color: var(--mechanics-text-title);
   margin-bottom: 0.75rem;
   font-size: 1.1rem;
-}
-
-.effect-panels {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.effect-panel {
-  padding: 1rem;
-  background: rgba(17, 24, 39, 0.5);
-  border-radius: 8px;
-  border: 1px solid rgba(66, 91, 158, 0.3);
-}
-
-.effect-panel h5 {
-  color: var(--mechanics-text-normal);
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-}
-
-.suit-effects {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.suit-effect {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem;
-  background: rgba(15, 23, 42, 0.5);
-  border-radius: 6px;
-  border: 1px solid rgba(66, 91, 158, 0.2);
-}
-
-.suit-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(17, 24, 39, 0.8);
-  border-radius: 6px;
-  font-size: 1.5rem;
-}
-
-.suit-icon.hearts, .suit-icon.diamonds {
-  color: var(--hearts-color);
-}
-
-.suit-icon.clubs, .suit-icon.spades {
-  color: var(--spades-color);
 }
 
 .effect-details {
@@ -797,44 +601,6 @@
   gap: 1rem;
 }
 
-.outcome-group {
-  padding: 1rem;
-  background: rgba(17, 24, 39, 0.5);
-  border-radius: 8px;
-  border: 1px solid rgba(66, 91, 158, 0.2);
-}
-
-.outcome-group h5 {
-  color: var(--mechanics-text-normal);
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-}
-
-.outcome-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.outcome-list li {
-  color: var(--mechanics-text-muted);
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(66, 91, 158, 0.1);
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.outcome-list li:last-child {
-  border-bottom: none;
-}
-
-.outcome-list li::before {
-  content: '•';
-  color: var(--mechanics-gold);
-}
-
 /* ========== VisualCardSelector ========== */
 .visual-card-selector {
   display: flex;
@@ -893,8 +659,8 @@
 }
 
 .card-item.selected .card-content {
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-  border: 1px solid var(--mechanics-gold, #d4af37);
+  box-shadow: 0 0 15px rgba(154, 123, 60, 0.5);
+  border: 1px solid var(--mechanics-gold, #9a7b3c);
   animation: pulseGlow 1.5s infinite alternate;
 }
 
@@ -970,10 +736,10 @@
 
 @keyframes pulseGlow {
   from {
-    box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 5px rgba(154, 123, 60, 0.3);
   }
   to {
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+    box-shadow: 0 0 15px rgba(154, 123, 60, 0.7);
   }
 }
 
@@ -1011,11 +777,6 @@
 }
 
 /* New CSS for the updated Step5ClassMechanics component */
-.mechanics-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
 
 .step-description {
   font-size: 1rem;
@@ -1024,123 +785,4 @@
   line-height: 1.5;
 }
 
-.no-mechanics-message {
-  background-color: rgba(40, 40, 60, 0.7);
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  border: 1px dashed #555;
-  margin: 20px 0;
-}
-
-.no-mechanics-message p {
-  color: #aaa;
-  font-style: italic;
-}
-
-.mechanics-layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 24px;
-  min-height: 400px;
-}
-
-.mechanics-list {
-  background-color: rgba(30, 30, 45, 0.7);
-  border-radius: 8px;
-  padding: 16px;
-  border: 1px solid #444;
-  overflow-y: auto;
-  max-height: 500px;
-}
-
-.mechanics-list h3 {
-  color: #e0e0e0;
-  margin-top: 0;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #555;
-  font-size: 1.1rem;
-}
-
-.mechanic-item {
-  padding: 12px;
-  border-radius: 6px;
-  background-color: rgba(40, 40, 60, 0.7);
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.mechanic-item:hover {
-  background-color: rgba(50, 50, 80, 0.7);
-  transform: translateX(5px);
-}
-
-.mechanic-item.selected {
-  background-color: rgba(60, 60, 100, 0.8);
-  border-color: #6a6aff;
-  box-shadow: 0 0 10px rgba(106, 106, 255, 0.3);
-}
-
-.mechanic-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.mechanic-name {
-  font-weight: bold;
-  color: #e0e0e0;
-}
-
-.resolution-type {
-  font-size: 0.85rem;
-  color: #aaa;
-  background-color: rgba(60, 60, 80, 0.7);
-  padding: 3px 8px;
-  border-radius: 12px;
-}
-
-.mechanic-config {
-  background-color: rgba(30, 30, 45, 0.7);
-  border-radius: 8px;
-  padding: 20px;
-  border: 1px solid #444;
-  min-height: 400px;
-}
-
-.mechanic-placeholder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: #888;
-  font-style: italic;
-  text-align: center;
-}
-
-.mechanic-config-container {
-  height: 100%;
-}
-
-.mechanic-config-container h3 {
-  margin-top: 0;
-  color: #e0e0e0;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #555;
-}
-
 /* Responsive styles */
-@media (max-width: 900px) {
-  .mechanics-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-  }
-  
-  .mechanics-list {
-    max-height: 300px;
-  }
-}

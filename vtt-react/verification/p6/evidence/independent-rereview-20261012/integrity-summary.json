@@ -1,0 +1,30 @@
+{
+  "head": "620fbc072e87f113cdcc2ea323e0c6c2b28e6d6b",
+  "focalCount": 280,
+  "focalUnchanged": true,
+  "p6ManifestVerified": true,
+  "p5ManifestVerified": true,
+  "correctionEvidenceUnchanged": true,
+  "snapshotVerified": true,
+  "concurrentDrift": [
+    "vtt-react/src/App.jsx",
+    "vtt-react/src/styles/calm-shared.css"
+  ],
+  "sourceIdentityDrift": [
+    {
+      "file": "vtt-react/src/App.jsx",
+      "expected": "0b333fede60ff64a562cfd33ca05ba7f9592a26ea94e03033c3b64ad632e98c8",
+      "actual": "060e83cb9da9a6c05a26078bc8c231a04b35b4f7d372d5d29f2d9988318d14da"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx",
+      "expected": "ea451aa13201b8463658807daebcf60355fda0261b50d05e982cdec8e649a4fa",
+      "actual": "73263ce97fca37aa42654f4a13459866fe9790a801d1f7cb3f580bfe66a6ded1"
+    },
+    {
+      "file": "vtt-react/src/components/spellcrafting-wizard/data/effects/DebuffEffects.jsx",
+      "expected": "e4134ae859da00a6d7ace23017b07bb0a44fd24215e2e56cbff4378212e7c1f7",
+      "actual": "048d2773de560b05e10b694cda9f7bd93039015779d2a8fd67b36cd74f723564"
+    }
+  ]
+}

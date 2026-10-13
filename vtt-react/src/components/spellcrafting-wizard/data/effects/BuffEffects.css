@@ -3,7 +3,7 @@
 
 /* Main Container */
 .pf-effects-container {
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-4, 16px);
@@ -38,7 +38,7 @@
 
 /* Configuration Groups */
 .pf-config-section {
-  background: var(--my-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  background: var(--my-gradient-parchment-light, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-4, 16px);
@@ -49,7 +49,7 @@
 .pf-config-group {
   margin-bottom: var(--my-space-4, 16px);
   padding: var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
@@ -70,39 +70,6 @@
   margin-bottom: var(--my-space-3, 12px);
 }
 
-
-
-
-
-.duration-button-group {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
-  gap: var(--my-space-2, 8px) !important;
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-.duration-button-group-inline {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: var(--my-space-1, 4px) !important;
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin-top: var(--my-space-1, 4px) !important;
-}
-
-.duration-button-group-inline .pf-button {
-  font-size: var(--my-text-xs, 11px) !important;
-  padding: var(--my-space-1, 4px) var(--my-space-2, 8px) !important;
-  min-width: auto !important;
-  height: auto !important;
-  line-height: 1.2 !important;
-}
-
 /* Help Section Styling */
 .pf-help-section {
   margin-top: var(--my-space-4, 16px);
@@ -110,28 +77,10 @@
   background: linear-gradient(135deg, rgba(123, 31, 162, 0.08) 0%, rgba(106, 27, 154, 0.04) 100%);
   border: 2px solid rgba(123, 31, 162, 0.2);
   border-radius: var(--my-border-radius, 8px);
-  text-align: center;
 }
 
 .pf-help-button {
-  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: linear-gradient(145deg, #9c27b0 0%, #7b1fa2 50%, #6a1b9a 100%);
-  border: 2px solid #6a1b9a;
-  border-radius: var(--my-border-radius, 8px);
-  color: white;
-  font-family: var(--my-font-display, 'Cinzel', serif);
-  font-size: var(--my-text-sm, 14px);
-  font-weight: var(--my-font-semibold, 600);
-  cursor: pointer;
-  transition: all var(--my-transition-normal, 0.25s ease);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 2px 4px rgba(123, 31, 162, 0.3);
-}
-
-.pf-help-button:hover {
-  background: linear-gradient(145deg, #ab47bc 0%, #9c27b0 50%, #7b1fa2 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(123, 31, 162, 0.4);
 }
 
 .pf-help-text {
@@ -158,7 +107,7 @@
 .pf-input {
   width: 100%;
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: var(--my-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  background: var(--my-gradient-input, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   color: var(--my-text-primary, #2d1810);
@@ -170,9 +119,9 @@
 
 .pf-input:focus {
   outline: none;
-  border-color: var(--my-gold, #d4af37);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  background: var(--my-gradient-input-focus, linear-gradient(135deg, #f8f4e6 0%, #f0ead6 100%));
+  border-color: var(--my-gold, #9a7b3c);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--my-gradient-input-focus, #f8f5ee);
 }
 
 .pf-input:disabled {
@@ -204,7 +153,7 @@
 .pf-select:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3);
   background-color: var(--my-input-focus);
 }
 
@@ -241,7 +190,7 @@
 .pf-button {
   position: relative;
   padding: var(--my-space-3, 12px) var(--my-space-4, 16px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   color: var(--my-text-primary, #2d1810);
@@ -274,35 +223,12 @@
 }
 
 .pf-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-2px);
   box-shadow:
     var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15)),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
   border-color: var(--my-brown-dark, #654321);
-}
-
-.pf-button-active {
-  background: var(--my-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
-  color: var(--my-brown-darkest, #2d1810);
-  border-color: var(--my-gold-dark, #b8860b);
-  box-shadow:
-    var(--my-shadow-inset, inset 0 2px 4px rgba(45, 24, 16, 0.2)),
-    0 0 8px rgba(212, 175, 55, 0.4);
-  transform: translateY(1px);
-  font-weight: 700;
-}
-
-.pf-button-active::before {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-}
-
-.pf-button-active:hover {
-  background: var(--my-gradient-gold-hover, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%));
-  transform: translateY(1px);
-  box-shadow:
-    var(--my-shadow-inset, inset 0 2px 4px rgba(45, 24, 16, 0.2)),
-    0 0 12px rgba(212, 175, 55, 0.6);
 }
 
 /* Toggle Groups */
@@ -350,7 +276,7 @@
 }
 
 .pf-toggle-active {
-  background: linear-gradient(145deg, #d4af37 0%, #b8941f 100%);
+  background: linear-gradient(145deg, #9a7b3c 0%, #b8941f 100%);
   color: #1a0f05;
   border-color: #8b6914;
   box-shadow: 0 2px 4px rgba(139, 105, 20, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -486,7 +412,7 @@
 .pf-stat-input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3);
 }
 
 .pf-stat-input.pf-formula {
@@ -573,7 +499,7 @@
   gap: var(--my-space-1, 4px);
   margin-bottom: var(--my-space-4, 16px);
   padding: var(--my-space-2, 8px);
-  background: var(--my-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  background: var(--my-gradient-parchment-light, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
 }
@@ -586,7 +512,7 @@
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: var(--my-space-5, 20px);
   padding: var(--my-space-5, 20px);
-  background: var(--my-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  background: var(--my-gradient-parchment-light, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -599,7 +525,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--my-space-5, 20px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius-lg, 12px);
   cursor: pointer;
@@ -612,7 +538,7 @@
 }
 
 .pf-stat-card:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-4px) scale(1.02);
   box-shadow:
     0 8px 16px rgba(45, 24, 16, 0.2),
@@ -622,14 +548,14 @@
 }
 
 .pf-stat-selected {
-  background: linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
+  background: linear-gradient(145deg, #9a7b3c 0%, #9a7b3c 50%, #8a6c32 100%);
   color: var(--my-brown-darkest, #2d1810);
-  border-color: var(--my-gold-dark, #b8860b);
+  border-color: var(--my-gold-dark, #8a6c32);
   border-width: 3px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
     inset 0 -1px 0 rgba(184, 134, 11, 0.3),
-    0 0 16px rgba(212, 175, 55, 0.6),
+    0 0 16px rgba(154, 123, 60, 0.6),
     0 6px 12px rgba(45, 24, 16, 0.25);
   transform: translateY(-3px) scale(1.02);
 }
@@ -640,7 +566,7 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(184, 134, 11, 0.4),
-    0 0 20px rgba(212, 175, 55, 0.8),
+    0 0 20px rgba(154, 123, 60, 0.8),
     0 8px 16px rgba(45, 24, 16, 0.3);
 }
 
@@ -664,11 +590,11 @@
 }
 
 .pf-stat-selected .pf-stat-icon {
-  border-color: var(--my-gold-dark, #b8860b);
+  border-color: var(--my-gold-dark, #8a6c32);
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 0 8px rgba(212, 175, 55, 0.3);
+    0 0 8px rgba(154, 123, 60, 0.3);
 }
 
 .pf-stat-card .pf-stat-name {
@@ -729,7 +655,7 @@
   border-width: 3px;
   box-shadow:
     var(--my-shadow-inset),
-    0 0 12px rgba(212, 175, 55, 0.4),
+    0 0 12px rgba(154, 123, 60, 0.4),
     0 4px 8px rgba(45, 24, 16, 0.2);
   transform: translateY(-2px);
 }
@@ -807,8 +733,8 @@
   width: auto;
   max-width: none;
   padding: var(--my-space-1) var(--my-space-2);
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.12) 50%, rgba(212, 175, 55, 0.1) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: linear-gradient(145deg, rgba(154, 123, 60, 0.15) 0%, rgba(154, 123, 60, 0.12) 50%, rgba(154, 123, 60, 0.1) 100%);
+  border: 1px solid rgba(154, 123, 60, 0.35);
   border-radius: 6px;
   color: var(--my-brown-darkest, #2d1810);
   font-size: 0.75rem;
@@ -826,8 +752,8 @@
 }
 
 .stat-indicator:hover {
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.17) 50%, rgba(212, 175, 55, 0.15) 100%);
-  border-color: rgba(212, 175, 55, 0.5);
+  background: linear-gradient(145deg, rgba(154, 123, 60, 0.2) 0%, rgba(154, 123, 60, 0.17) 50%, rgba(154, 123, 60, 0.15) 100%);
+  border-color: rgba(154, 123, 60, 0.5);
   transform: translateY(-1px);
   box-shadow: 
     0 3px 6px rgba(0, 0, 0, 0.15),
@@ -871,7 +797,7 @@
 .pf-resistance-select {
   width: 200px;
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: var(--my-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  background: var(--my-gradient-input, #f8f5ee);
   border: var(--my-border-width, 3px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   color: var(--my-text-primary, #2d1810);
@@ -897,16 +823,16 @@
 
 .pf-resistance-select:focus {
   outline: none;
-  border-color: var(--my-gold, #d4af37);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(212, 175, 55, 0.2);
-  background: var(--my-gradient-input-focus, linear-gradient(135deg, #f8f4e6 0%, #f0ead6 100%));
+  border-color: var(--my-gold, #9a7b3c);
+  box-shadow: 0 0 0 3px rgba(154, 123, 60, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(154, 123, 60, 0.2);
+  background: var(--my-gradient-input-focus, #f8f5ee);
   transform: translateY(-1px);
 }
 
 /* Resistance Level Color Coding - Based on Create Creature Styling */
 .pf-resistance-select.none {
   border-color: var(--my-brown-light, #a08c70);
-  background: var(--my-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  background: var(--my-gradient-input, #f8f5ee);
   color: var(--my-text-primary, #2d1810);
 }
 

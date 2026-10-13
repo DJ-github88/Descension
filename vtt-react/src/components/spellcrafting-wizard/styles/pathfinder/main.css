@@ -60,12 +60,11 @@
 .spellbook-layout,
 .spellbook-layout .app-container,
 .spellbook-layout .app-container.pf-spellbook,
-.spellbook-layout .wizard-view,
 .spellbook-layout .library-view,
 .spellbook-layout .collection-view {
   font-family: var(--my-font-body, 'Crimson Text', serif) !important;
   color: var(--my-text-primary, #2d1810) !important;
-  background: var(--my-gradient-parchment, #ede4d3) !important;
+  background: var(--my-gradient-parchment, #f1ece1) !important;
 }
 
 /* ===== MythrillWindow OVERRIDE STYLES ===== */
@@ -85,16 +84,6 @@
 }
 
 /* Force spellbook main content styling */
-.wow-window .spellbook-main-content,
-.window-content .spellbook-main-content {
-  background: var(--my-gradient-parchment) !important;
-  color: var(--my-text-primary) !important;
-  font-family: var(--my-font-body) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  min-height: 600px !important;
-}
 
 /* Ensure proper layout proportions */
 .spellbook-layout.pf-spellbook {
@@ -135,14 +124,6 @@
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(139, 69, 19, 0.02) 8px,
-      rgba(139, 69, 19, 0.02) 16px
-    ) !important;
   pointer-events: none !important;
   z-index: 1 !important;
   border-radius: var(--my-border-radius-lg) !important;
@@ -167,13 +148,7 @@
 
 /* Main wizard container - clean, full-height layout */
 .spellbook-wizard-layout {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: var(--my-gradient-parchment);
   overflow: hidden;
-  font-family: var(--my-font-body);
-  color: var(--my-text-primary);
 }
 
 /* ===== WIZARD HEADER WITH PROGRESS TABS ===== */
@@ -231,15 +206,15 @@
   left: 2px;
   height: calc(100% - 4px);
   background: linear-gradient(135deg,
-    rgba(212, 175, 55, 1) 0%,
-    rgba(255, 215, 0, 0.95) 25%,
-    rgba(212, 175, 55, 1) 50%,
-    rgba(255, 215, 0, 0.95) 75%,
-    rgba(212, 175, 55, 1) 100%
+    rgba(154, 123, 60, 1) 0%,
+    rgba(154, 123, 60, 0.95) 25%,
+    rgba(154, 123, 60, 1) 50%,
+    rgba(154, 123, 60, 0.95) 75%,
+    rgba(154, 123, 60, 1) 100%
   );
   border-radius: 8px;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 8px rgba(154, 123, 60, 0.4);
   position: relative;
   overflow: hidden;
 }
@@ -339,15 +314,15 @@
 
 .spell-wizard-progress-segment.active .spell-step-number {
   background: linear-gradient(135deg,
-    rgba(212, 175, 55, 1) 0%,
-    rgba(255, 215, 0, 0.95) 50%,
-    rgba(212, 175, 55, 1) 100%
+    rgba(154, 123, 60, 1) 0%,
+    rgba(154, 123, 60, 0.95) 50%,
+    rgba(154, 123, 60, 1) 100%
   );
   color: var(--my-brown-darkest);
-  border-color: rgba(212, 175, 55, 0.8);
+  border-color: rgba(154, 123, 60, 0.8);
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(212, 175, 55, 0.8),
+    0 0 20px rgba(154, 123, 60, 0.8),
     inset 0 2px 4px rgba(255, 255, 255, 0.6);
   transform: translateX(-50%) scale(1.2);
   font-weight: var(--my-font-bold);
@@ -366,7 +341,7 @@
 .spell-wizard-progress-segment:hover .spell-step-number {
   /* Remove the hover animation that causes movement */
   box-shadow:
-    0 0 12px rgba(212, 175, 55, 0.3),
+    0 0 12px rgba(154, 123, 60, 0.3),
     0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -455,63 +430,18 @@
 
 /* Main content area - fills entire available space */
 .wizard-main-content {
-  flex: 1;
-  overflow-y: auto;
   background: var(--my-gradient-parchment);
   display: flex;
   flex-direction: column;
   position: relative;
   padding: 0;
-  margin: 0;
 }
 
 /* ===== WIZARD FOOTER ===== */
 
 /* Clean footer with navigation only */
-.spellbook-layout .wizard-footer,
-.spellbook-wizard-layout .wizard-footer {
-  background: var(--my-gradient-parchment-dark);
-  border-top: 2px solid var(--my-brown-medium);
-  flex-shrink: 0;
-  box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1);
-  position: relative;
-  min-height: 120px; /* Reduced height since progress bar is thinner */
-  max-height: 140px; /* Reduced max height */
-  padding: var(--my-space-6) 0 var(--my-space-3) 0; /* More top padding for step numbers */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.spellbook-layout .wizard-footer::before,
-.spellbook-wizard-layout .wizard-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--my-gold) 20%,
-    var(--my-gold) 80%,
-    transparent
-  );
-}
 
 /* Navigation footer */
-.spellbook-layout .wizard-navigation-footer,
-.spellbook-wizard-layout .wizard-navigation-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--my-space-2) var(--my-space-4) var(--my-space-3) var(--my-space-4); /* Better padding */
-  gap: var(--my-space-4);
-  flex-shrink: 0; /* Prevent navigation from shrinking */
-  min-height: 60px; /* Ensure adequate height for buttons */
-  background: transparent; /* Remove background to blend with footer */
-}
 
 /* Step info container */
 .wizard-step-info {
@@ -521,17 +451,6 @@
   flex: 1;
   max-width: 200px;
   margin: 0 auto;
-}
-
-.spellbook-layout .wizard-progress-text,
-.spellbook-wizard-layout .wizard-progress-text {
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  color: var(--my-text-secondary);
-  font-weight: var(--my-font-semibold);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 /* ===== NAVIGATION CONTROLS ===== */
@@ -557,18 +476,6 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
   box-shadow: var(--my-shadow-sm);
   min-width: 100px;
-}
-
-.wizard-nav-cancel {
-  background: var(--my-gradient-button);
-  color: var(--my-text-secondary);
-}
-
-.wizard-nav-cancel:hover {
-  background: var(--my-gradient-button-hover);
-  color: var(--my-brown-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-md);
 }
 
 .wizard-nav-previous {
@@ -618,11 +525,6 @@
     width: 100%;
   }
 
-  .spellbook-layout .wizard-footer {
-    min-height: 120px;
-    max-height: 140px;
-  }
-
   .spell-step-number {
     width: 32px;
     height: 32px;
@@ -643,11 +545,6 @@
     height: 22px;
     margin: 0;
     width: 100%;
-  }
-
-  .spellbook-layout .wizard-footer {
-    min-height: 110px;
-    max-height: 130px;
   }
 
   .spell-step-number {
@@ -673,11 +570,6 @@
     height: 20px;
     margin: 0;
     width: 100%;
-  }
-
-  .spellbook-layout .wizard-footer {
-    min-height: 100px;
-    max-height: 120px;
   }
 
   .spell-step-number {
@@ -715,12 +607,6 @@
   .spell-wizard-form {
     padding: var(--my-space-4);
     margin: 0;
-  }
-
-  .wizard-navigation-footer {
-    flex-direction: column;
-    gap: var(--my-space-3);
-    padding: var(--my-space-3);
   }
 
   .wizard-nav-controls {
@@ -773,25 +659,6 @@
 /* ===== CONTENT SECTIONS ===== */
 
 /* Content sections - clean and spacious */
-.wizard-content-section {
-  background: var(--my-gradient-parchment);
-  padding: var(--my-space-4);
-  width: 100%;
-  height: 100%;
-  flex: 1;
-}
-
-.wizard-content-section h3 {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-2xl);
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-secondary);
-  margin-bottom: var(--my-space-6);
-  padding-bottom: var(--my-space-3);
-  border-bottom: 3px solid var(--my-brown-medium);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
 
 /* ===== STEP CONTAINERS ===== */
 
@@ -887,14 +754,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(139, 69, 19, 0.01) 8px,
-      rgba(139, 69, 19, 0.01) 16px
-    );
   pointer-events: none;
   z-index: 1;
 }
@@ -906,92 +765,34 @@
 
 /* Form layouts within steps */
 .spell-wizard-form {
-  max-width: none;
-  width: 100%;
-  margin: 0;
-  background: transparent;
   border: none;
   border-radius: 0;
   padding: 0;
   box-shadow: none;
   position: relative;
   overflow: visible;
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-4);
-  flex: 1;
 }
 
 /* Remove decorative background for cleaner layout */
 
-.spell-wizard-form-group {
-  margin-bottom: var(--my-space-6);
-}
-
 .spell-wizard-form-row {
-  display: flex;
-  gap: var(--my-space-6);
   margin-bottom: var(--my-space-6);
-}
-
-.spell-wizard-form-group-half {
-  flex: 1;
 }
 
 /* Labels and inputs */
 .spell-wizard-label {
   display: block;
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-base);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.spell-wizard-input,
-.spell-wizard-textarea {
-  width: 100%;
-  padding: var(--my-space-3);
-  border: 2px solid var(--my-brown-light);
-  border-radius: var(--my-border-radius);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-base);
-  color: var(--my-text-primary);
-  background: var(--my-gradient-parchment);
-  transition: all var(--my-transition-normal);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.spell-wizard-input:focus,
-.spell-wizard-textarea:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow:
-    inset 0 1px 3px rgba(0, 0, 0, 0.1),
-    0 0 0 3px rgba(218, 165, 32, 0.2);
 }
 
 .spell-wizard-help-text {
   display: block;
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  color: var(--my-text-muted);
-  margin-top: var(--my-space-2);
   font-style: italic;
 }
 
 .spell-wizard-error {
-  color: var(--my-error);
-  font-family: var(--my-font-body);
   font-size: var(--my-text-sm);
   margin-top: var(--my-space-1);
   font-weight: var(--my-font-semibold);
-}
-
-.required {
-  color: var(--my-error);
 }
 
 /* ===== SELECTION CARDS AND INTERACTIVE ELEMENTS ===== */
@@ -1022,40 +823,6 @@
 }
 
 /* Tags and badges */
-.spell-wizard-tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--my-space-2);
-  margin-top: var(--my-space-3);
-}
-
-.spell-wizard-tag {
-  padding: var(--my-space-2) var(--my-space-3);
-  background: var(--my-gradient-button);
-  border: 2px solid var(--my-brown-light);
-  border-radius: var(--my-border-radius);
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-secondary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.spell-wizard-tag:hover {
-  background: var(--my-gradient-button-hover);
-  color: var(--my-brown-dark);
-  transform: translateY(-1px);
-}
-
-.spell-wizard-tag.selected {
-  background: var(--my-gradient-gold);
-  border-color: var(--my-gold-dark);
-  color: var(--my-brown-darkest);
-  box-shadow: var(--my-shadow-sm);
-}
 
 /* ===== LOADING AND ERROR STATES ===== */
 
@@ -1081,14 +848,6 @@
 
 .error-message {
   text-align: center;
-  padding: var(--my-space-8);
-  color: var(--my-error);
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-lg);
-  background: var(--my-gradient-parchment-light);
-  border: 2px solid var(--my-error);
-  border-radius: var(--my-border-radius-lg);
-  margin: var(--my-space-4);
 }
 
 /* ===== STEP 9 BALANCE LAYOUT IMPROVEMENTS ===== */
@@ -1128,23 +887,6 @@
 }
 
 /* Improved toggle switch styling for Step 9 */
-.step9-balance-content .toggle-switch-label {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-  padding: var(--my-space-3);
-  background: var(--my-gradient-input);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-}
-
-.step9-balance-content .toggle-switch-label:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-  box-shadow: var(--my-shadow-sm);
-}
 
 /* Better card styling for Step 9 */
 .step9-balance-content .card {
@@ -1225,15 +967,14 @@
 
 .spell-wizard-progress-segment:focus .spell-step-number {
   box-shadow:
-    0 0 20px rgba(212, 175, 55, 0.8),
+    0 0 20px rgba(154, 123, 60, 0.8),
     0 2px 6px rgba(0, 0, 0, 0.4),
     0 0 0 3px var(--my-gold);
 }
 
 /* Print styles */
 @media print {
-  .spellbook-layout .wizard-header,
-  .spellbook-layout .wizard-footer {
+  .spellbook-layout .wizard-header {
     display: none;
   }
 
@@ -1248,15 +989,6 @@
 .spellbook-wizard-layout .spell-wizard-step-content {
   padding: var(--my-space-6) !important;
   background: transparent !important;
-  min-height: auto !important;
-}
-
-.spellbook-wizard-layout .wizard-footer {
-  display: flex !important;
-  flex-direction: column !important;
-  background: var(--my-gradient-parchment-dark) !important;
-  border-top: 2px solid var(--my-brown-medium) !important;
-  box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1) !important;
   min-height: auto !important;
 }
 
@@ -1347,18 +1079,6 @@
   align-items: center !important;
   justify-content: center !important;
   z-index: var(--my-z-modal) !important;
-}
-
-.modal-container {
-  background: var(--my-gradient-parchment) !important;
-  border: var(--my-border-width-thick) solid var(--my-brown-medium) !important;
-  border-radius: var(--my-border-radius-lg) !important;
-  box-shadow: var(--my-shadow-parchment) !important;
-  max-width: 600px !important;
-  max-height: 80vh !important;
-  overflow: hidden !important;
-  display: flex !important;
-  flex-direction: column !important;
 }
 
 .modal-header {
@@ -1729,96 +1449,9 @@
 
 /* ===== WIZARD FOOTER STYLING ===== */
 
-.spellbook-layout .wizard-footer {
-  background: var(--my-gradient-header) !important;
-  border-top: var(--my-border-width) solid var(--my-brown-medium) !important;
-  padding: var(--my-space-3) var(--my-space-4) !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  flex-shrink: 0 !important;
-  min-height: 60px !important;
-  max-height: 60px !important;
-}
-
-.spellbook-layout .wizard-footer-left {
-  display: flex !important;
-  align-items: center !important;
-}
-
-.spellbook-layout .wizard-footer-right {
-  display: flex !important;
-  align-items: center !important;
-  gap: var(--my-space-3) !important;
-}
-
-.spellbook-layout .wizard-progress {
-  flex: 1 !important;
-  margin: 0 var(--my-space-4) !important;
-  background: var(--my-gradient-parchment-dark) !important;
-  border: var(--my-border-width) solid var(--my-brown-medium) !important;
-  border-radius: var(--my-border-radius) !important;
-  height: 8px !important;
-  overflow: hidden !important;
-}
-
-.spellbook-layout .wizard-progress-bar {
-  height: 100% !important;
-  background: var(--my-gradient-gold) !important;
-  transition: width var(--my-transition-normal) !important;
-  border-radius: var(--my-border-radius) !important;
-}
-
-.spellbook-layout .wizard-button {
-  padding: var(--my-space-2) var(--my-space-4) !important;
-  background: var(--my-gradient-button) !important;
-  border: var(--my-border-width) solid var(--my-brown-medium) !important;
-  border-radius: var(--my-border-radius) !important;
-  font-family: var(--my-font-ui) !important;
-  font-size: var(--my-text-sm) !important;
-  font-weight: var(--my-font-semibold) !important;
-  color: var(--my-text-secondary) !important;
-  cursor: pointer !important;
-  transition: all var(--my-transition-normal) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  min-width: 80px !important;
-}
-
-.spellbook-layout .wizard-button:hover {
-  background: var(--my-gradient-button-hover) !important;
-  color: var(--my-brown-dark) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: var(--my-shadow-md) !important;
-}
-
-.spellbook-layout .wizard-button:disabled {
-  opacity: 0.5 !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-}
-
-.spellbook-layout .wizard-button.primary {
-  background: var(--my-gradient-gold) !important;
-  border-color: var(--my-gold-dark) !important;
-  color: var(--my-brown-darkest) !important;
-  box-shadow: var(--my-shadow-glow) !important;
-}
-
-.spellbook-layout .wizard-button.cancel {
-  background: var(--my-gradient-parchment-dark) !important;
-  border-color: var(--my-brown-light) !important;
-  color: var(--my-text-muted) !important;
-}
-
 /* ===== UTILITY CLASSES ===== */
 
 /* Quick utility classes for common Pathfinder styling */
-.pf-text-gold { color: var(--my-gold) !important; }
-.pf-text-brown { color: var(--my-brown-dark) !important; }
-.pf-bg-parchment { background: var(--my-gradient-parchment) !important; }
-.pf-border-brown { border-color: var(--my-brown-medium) !important; }
-.pf-shadow-parchment { box-shadow: var(--my-shadow-parchment) !important; }
 
 /* ===== ANIMATION OVERRIDES ===== */
 
@@ -1842,10 +1475,6 @@
 }
 
 /* Disable transitions for immediate changes */
-.spellbook-layout .no-transition,
-.spellbook-layout .no-transition * {
-  transition: none !important;
-}
 
 /* ===== PRINT STYLES ===== */
 
@@ -1856,7 +1485,6 @@
   }
   
   .pf-spell-card,
-  .pf-modal,
   .pf-tooltip {
     box-shadow: none !important;
     border: 1px solid black !important;
@@ -1937,8 +1565,7 @@
 
 /* Replace old blue-themed effect options with Pathfinder styling - SCOPED TO SPELLBOOK */
 .spellbook-layout .effect-option,
-.spellbook-layout .effect-option-button,
-.spellbook-layout .effect-type-option {
+.spellbook-layout .effect-option-button {
   background: var(--my-gradient-button) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -1951,8 +1578,7 @@
 }
 
 .spellbook-layout .effect-option:hover,
-.spellbook-layout .effect-option-button:hover,
-.spellbook-layout .effect-type-option:hover {
+.spellbook-layout .effect-option-button:hover {
   background: var(--my-gradient-button-hover) !important;
   border-color: var(--my-gold) !important;
   transform: translateY(-2px) !important;
@@ -1961,8 +1587,7 @@
 
 .spellbook-layout .effect-option.selected,
 .spellbook-layout .effect-option-button.selected,
-.spellbook-layout .effect-option-button.active,
-.spellbook-layout .effect-type-option.selected {
+.spellbook-layout .effect-option-button.active {
   background: var(--my-brown-medium) !important;
   border-color: var(--my-gold) !important;
   color: var(--my-text-on-dark) !important;
@@ -1980,7 +1605,6 @@
 
 /* ===== WIZARD NAVIGATION BUTTONS ===== */
 
-.spellbook-layout .wizard-nav-button,
 .spellbook-layout .effect-type-tab {
   background: var(--my-gradient-button) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
@@ -1995,7 +1619,6 @@
   box-shadow: var(--my-shadow-sm) !important;
 }
 
-.spellbook-layout .wizard-nav-button:hover,
 .spellbook-layout .effect-type-tab:hover {
   background: var(--my-gradient-button-hover) !important;
   border-color: var(--my-gold) !important;
@@ -2003,7 +1626,6 @@
   box-shadow: var(--my-shadow-md) !important;
 }
 
-.spellbook-layout .wizard-nav-button.active,
 .spellbook-layout .effect-type-tab.active {
   background: var(--my-brown-medium) !important;
   border-color: var(--my-gold) !important;
@@ -2122,9 +1744,9 @@
   right: 0 !important;
   bottom: 0 !important;
   background: linear-gradient(135deg,
-    rgba(212, 175, 55, 0.1) 0%,
-    rgba(255, 215, 0, 0.05) 50%,
-    rgba(212, 175, 55, 0.1) 100%
+    rgba(154, 123, 60, 0.1) 0%,
+    rgba(154, 123, 60, 0.05) 50%,
+    rgba(154, 123, 60, 0.1) 100%
   ) !important;
   border-radius: 10px 10px 0 0 !important;
   opacity: 0 !important;
@@ -2134,9 +1756,9 @@
 .wow-window .app-container.pf-spellbook .app-tab:hover,
 .app-container.pf-spellbook .app-tab:hover {
   background: linear-gradient(135deg,
-    rgba(212, 175, 55, 0.2) 0%,
-    rgba(255, 215, 0, 0.15) 50%,
-    rgba(212, 175, 55, 0.2) 100%
+    rgba(154, 123, 60, 0.2) 0%,
+    rgba(154, 123, 60, 0.15) 50%,
+    rgba(154, 123, 60, 0.2) 100%
   ) !important;
   color: var(--my-brown-darkest) !important;
   transform: translateY(-2px) !important;
@@ -2155,9 +1777,9 @@
 .wow-window .app-container.pf-spellbook .app-tab.active,
 .app-container.pf-spellbook .app-tab.active {
   background: linear-gradient(135deg,
-    rgba(212, 175, 55, 0.9) 0%,
-    rgba(255, 215, 0, 0.8) 50%,
-    rgba(212, 175, 55, 0.9) 100%
+    rgba(154, 123, 60, 0.9) 0%,
+    rgba(154, 123, 60, 0.8) 50%,
+    rgba(154, 123, 60, 0.9) 100%
   ) !important;
   color: var(--my-brown-darkest) !important;
   border-bottom-color: transparent !important;
@@ -2166,7 +1788,7 @@
     0 8px 16px rgba(0, 0, 0, 0.25),
     inset 0 2px 4px rgba(255, 255, 255, 0.6),
     inset 0 -2px 4px rgba(139, 69, 19, 0.4),
-    0 0 20px rgba(212, 175, 55, 0.3) !important;
+    0 0 20px rgba(154, 123, 60, 0.3) !important;
   transform: translateY(-3px) !important;
   z-index: 10 !important;
 }
@@ -2220,7 +1842,7 @@
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 0 8px rgba(212, 175, 55, 0.4) !important;
+    0 0 8px rgba(154, 123, 60, 0.4) !important;
 }
 
 .wow-window .app-container.pf-spellbook .app-tab.active .tab-icon-img,
@@ -2229,7 +1851,7 @@
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px rgba(255, 255, 255, 0.5),
-    0 0 12px rgba(212, 175, 55, 0.6) !important;
+    0 0 12px rgba(154, 123, 60, 0.6) !important;
 }
 
 .wow-window .app-container.pf-spellbook .tab-text,
@@ -2252,11 +1874,6 @@
 }
 
 /* Remove any conflicting styles - only within spellbook */
-.spellbook-layout .wow-classic,
-.spellbook-layout .blue-theme,
-.spellbook-layout .dark-theme {
-  all: unset;
-}
 
 /* Character sheet protection from spellbook styles */
 .character-sheet-container,
@@ -2269,33 +1886,6 @@
 }
 
 /* ===== LOADING STATE ===== */
-
-.spellbook-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: var(--my-gradient-parchment);
-  font-family: var(--my-font-display);
-  color: var(--my-text-muted);
-}
-
-.spellbook-loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid var(--my-parchment-dark);
-  border-top: 4px solid var(--my-brown-medium);
-  border-radius: 50%;
-  animation: pf-spin 1s linear infinite;
-  margin-bottom: var(--my-space-6);
-}
-
-.spellbook-loading-text {
-  font-size: var(--my-text-2xl);
-  font-weight: var(--my-font-bold);
-  text-align: center;
-}
 
 @keyframes pf-spin {
   0% { transform: rotate(0deg); }
@@ -2351,38 +1941,10 @@
 }
 
 /* ===== EXTERNAL LIVE PREVIEW STYLES ===== */
-.external-spell-preview-minimal {
-  z-index: 9999;
-  pointer-events: auto;
-  font-family: 'Cinzel', serif;
-}
 
 /* Make the spell card in external preview slightly smaller */
-.external-spell-preview-minimal .unified-spell-card {
-  max-width: 400px;
-  transform: scale(0.9);
-  transform-origin: top left;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
 
 /* Responsive adjustments for external preview */
-@media (max-width: 1600px) {
-  .external-spell-preview-minimal .unified-spell-card {
-    transform: scale(0.8);
-  }
-}
-
-@media (max-width: 1400px) {
-  .external-spell-preview-minimal .unified-spell-card {
-    transform: scale(0.7);
-  }
-}
-
-@media (max-width: 768px) {
-  .external-spell-preview-minimal {
-    display: none; /* Hide on mobile */
-  }
-}
 
 /* ===== WIZARD STEP ORBS — OVERLAY ===== */
 
@@ -2522,7 +2084,7 @@
   border-color: var(--my-gold-dark);
   font-size: 16px;
   box-shadow:
-    0 0 12px rgba(212, 175, 55, 0.6),
+    0 0 12px rgba(154, 123, 60, 0.6),
     0 3px 6px rgba(45, 24, 16, 0.3),
     inset 0 1px 2px rgba(255, 255, 255, 0.5);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -2550,7 +2112,7 @@
   color: var(--my-brown-darkest);
   border-color: var(--my-gold-dark);
   box-shadow:
-    0 0 12px rgba(212, 175, 55, 0.6),
+    0 0 12px rgba(154, 123, 60, 0.6),
     0 3px 6px rgba(45, 24, 16, 0.3);
 }
 
@@ -2563,7 +2125,7 @@
 .spellbook-wizard-layout .spell-wizard-progress-segment.active:hover .spell-step-number,
 .spellbook-layout .spell-wizard-progress-segment.active:hover .spell-step-number {
   box-shadow:
-    0 0 14px rgba(212, 175, 55, 0.7),
+    0 0 14px rgba(154, 123, 60, 0.7),
     0 3px 6px rgba(45, 24, 16, 0.3);
 }
 
@@ -2679,7 +2241,6 @@
 
 /* Remove any potential notification or potion containers that might be causing empty space */
 .spellbook-layout .notification-container,
-.spellbook-layout .potion-container,
 .spellbook-layout .item-notification,
 .spellbook-layout .currency-notification {
   display: none !important;

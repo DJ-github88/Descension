@@ -1,0 +1,19 @@
+diff --git "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\creatureStore.js" "b/D:\\VTT\\vtt-react\\src\\store\\creatureStore.js"
+index 3d2e7874..07a4b912 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\creatureStore.js"
++++ "b/D:\\VTT\\vtt-react\\src\\store\\creatureStore.js"
+@@ -367,6 +367,7 @@ const useCreatureStore = create((set, get) => ({
+ 
+   // Update creature state (HP, Mana, conditions)
+   updateCreatureState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
++    if (sendToServer && require('../services/actorConsequenceService').routeTokenState(tokenId, stateUpdates)) return state;
+     const updatedTokens = (state.creatureTokens || []).map(token =>
+       token.id === tokenId ? {
+         ...token,
+@@ -666,4 +667,4 @@ export const getCreatureSizeMapping = (size) => {
+     default:
+       return { width: 1, height: 1, scale: 1 };
+   }
+-};
+\ No newline at end of file
++};

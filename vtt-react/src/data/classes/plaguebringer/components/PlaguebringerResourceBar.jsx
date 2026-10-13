@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -7,6 +8,7 @@ import '../styles/PlaguebringerResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { INK, MUTED, PAGE, PAPER, PANEL, RULE, ETCH, BRICK, GOOD, mix, inked, washed } from '../../../../components/hud/calmBarPalette';
 
 const PlaguebringerResourceBar = ({
     classResource = {},
@@ -101,6 +103,8 @@ const PlaguebringerResourceBar = ({
     };
 
     const virulenceTier = getVirulenceTier(localVirulence);
+    const tierInk = inked(virulenceTier.color, 0.5);
+    const tierWash = washed(virulenceTier.color, 0.34);
 
     const handleVirulenceChange = (delta) => {
         const newValue = Math.max(0, Math.min(maxVirulence, localVirulence + delta));
@@ -227,97 +231,29 @@ const PlaguebringerResourceBar = ({
                         preserveAspectRatio="xMidYMid meet"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-                        <defs>
-                            {/* Phosphor spore glow */}
-                            <filter id={ids.glow} x="-40%" y="-40%" width="180%" height="180%">
-                                <feGaussianBlur stdDeviation="2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
+                        <defs />
 
-                            <filter id={ids.shadow} x="-10%" y="-10%" width="120%" height="120%">
-                                <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.9" />
-                            </filter>
-
-                            {/* Oxidized verdigris brass */}
-                            <linearGradient id={ids.brass} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#3d4926" />
-                                <stop offset="30%" stopColor="#253018" />
-                                <stop offset="70%" stopColor="#192210" />
-                                <stop offset="100%" stopColor="#0c1207" />
-                            </linearGradient>
-
-                            {/* Empty glass cavity */}
-                            <linearGradient id={ids.glass} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#0a1208" />
-                                <stop offset="100%" stopColor="#142010" />
-                            </linearGradient>
-
-                            {/* Bioluminescent culture fluid — tint shifts with the tier */}
-                            <linearGradient id={ids.fluid} x1="0" y1="0" x2="1" y2="0">
-                                <stop offset="0%" stopColor={virulenceTier.fluid[0]} />
-                                <stop offset="55%" stopColor={virulenceTier.fluid[1]} />
-                                <stop offset="100%" stopColor={virulenceTier.fluid[2]} />
-                            </linearGradient>
-
-                            {/* Lit spore heart */}
-                            <radialGradient id={ids.spore} cx="50%" cy="42%" r="60%">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="30%" stopColor="#d9f99d" />
-                                <stop offset="70%" stopColor="#84cc16" />
-                                <stop offset="100%" stopColor="#365314" />
-                            </radialGradient>
-
-                            {/* Culture fill clip */}
-                            <clipPath id={ids.clip}>
-                                <rect x="20" y="22" width={vatFillWidth} height="24" rx="5" />
-                            </clipPath>
-
-                            {/* Cold lead corner caps */}
-                            <linearGradient id={ids.lead} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#5a6050" />
-                                <stop offset="50%" stopColor="#33382c" />
-                                <stop offset="100%" stopColor="#14160f" />
-                            </linearGradient>
-                        </defs>
-
-                        {/* 1. VERDIGRIS INCUBATOR CASING — full bleed */}
-                        <g filter={`url(#${ids.shadow})`}>
-                            <path
-                                d="M 5 8 L 295 8 L 297 14 L 297 50 L 295 56 L 5 56 L 3 50 L 3 14 Z"
-                                fill={`url(#${ids.brass})`}
-                                stroke={isPeakHarvest ? '#a3e635' : '#4d5f2a'}
-                                strokeWidth={isPeakHarvest ? 2 : 1.5}
-                            />
-                            {/* Phosphor seam along the top edge */}
-                            <line
-                                x1="12" y1="10.5" x2="288" y2="10.5"
-                                stroke={localVirulence === 0 ? 'rgba(163, 230, 53, 0.15)' : virulenceTier.color}
-                                strokeWidth="1"
-                                strokeLinecap="round"
-                                opacity={localVirulence === 0 ? 1 : 0.35 + (localVirulence / maxVirulence) * 0.6}
-                            />
-                        </g>
-
-                        {/* Lead corner caps */}
-                        {[
-                            'M 3 20 L 3 14 L 5 12 L 5 8 L 11 8 L 11 11 L 8 11 L 8 14 L 6 16 L 6 20 Z',
-                            'M 297 20 L 297 14 L 295 12 L 295 8 L 289 8 L 289 11 L 292 11 L 292 14 L 294 16 L 294 20 Z',
-                            'M 3 44 L 3 50 L 5 52 L 5 56 L 11 56 L 11 53 L 8 53 L 8 50 L 6 48 L 6 44 Z',
-                            'M 297 44 L 297 50 L 295 52 L 295 56 L 289 56 L 289 53 L 292 53 L 292 50 L 294 48 L 294 44 Z'
-                        ].map((d, i) => (
-                            <path key={i} d={d} fill={`url(#${ids.lead})`} stroke="#0a0a0c" strokeWidth="0.6" />
-                        ))}
-
-                        {/* Root-Veil mycelium across the slab */}
-                        <g
-                            fill="none"
-                            stroke={localVirulence >= 25 ? virulenceTier.color : '#2c3a1e'}
+                        {/* 1. PARCHMENT CASING with a tier-colored top seam */}
+                        <path
+                            d="M 5 8 L 295 8 L 297 14 L 297 50 L 295 56 L 5 56 L 3 50 L 3 14 Z"
+                            fill={PAGE}
+                            stroke={isPeakHarvest ? tierInk : RULE}
+                            strokeWidth={isPeakHarvest ? 1.6 : 1.2}
+                        />
+                        <line
+                            x1="12" y1="10.5" x2="288" y2="10.5"
+                            stroke={localVirulence === 0 ? ETCH : tierInk}
                             strokeWidth="1"
                             strokeLinecap="round"
-                            opacity={localVirulence === 0 ? 0.35 : 0.3 + (localVirulence / maxVirulence) * 0.55}
+                        />
+
+                        {/* Root-Veil mycelium, drawn as faint ink etching */}
+                        <g
+                            fill="none"
+                            stroke={localVirulence >= 25 ? tierInk : ETCH}
+                            strokeWidth="0.8"
+                            strokeLinecap="round"
+                            opacity={0.45}
                             pointerEvents="none"
                         >
                             {tendrils.map((d, i) => (
@@ -325,57 +261,25 @@ const PlaguebringerResourceBar = ({
                             ))}
                         </g>
 
-                        {/* 2. GLASS CULTURE CYLINDER — click to pour virulence */}
-                        <g filter={`url(#${ids.shadow})`} onClick={handleVatClick} style={{ cursor: isOwner ? 'pointer' : 'default' }}>
-                            <title>Virulence {localVirulence}/{maxVirulence} — click to pour</title>
+                        {/* 2. CULTURE CYLINDER: click to pour virulence */}
+                        <g onClick={handleVatClick} style={{ cursor: isOwner ? 'pointer' : 'default' }}>
+                            <title>Virulence {localVirulence}/{maxVirulence}: click to pour</title>
                             <rect
-                                x="20" y="22" width="260" height="24" rx="5"
-                                fill={`url(#${ids.glass})`}
-                                stroke="#223014"
-                                strokeWidth="1.2"
+                                x="20" y="22" width="260" height="24" rx="3"
+                                fill={PAPER}
+                                stroke={RULE}
+                                strokeWidth="1"
                                 pointerEvents="all"
                             />
                         </g>
 
-                        {/* Live culture fluid */}
+                        {/* Culture fluid: flat tier wash with an inked leading edge */}
                         {localVirulence > 0 && (
                             <g pointerEvents="none">
-                                <rect
-                                    x="20" y="22" width={vatFillWidth} height="24" rx="5"
-                                    fill={`url(#${ids.fluid})`}
-                                    filter={`url(#${ids.glow})`}
-                                    opacity="0.92"
-                                />
-                                {/* Breathing surface wave */}
-                                <g clipPath={`url(#${ids.clip})`}>
-                                    <path
-                                        className="plague-surf"
-                                        d="M -20,24 q 10,-3.5 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 t 20,0 L 320,22 L -20,22 Z"
-                                        fill="#ffffff"
-                                        opacity="0.28"
-                                    />
-                                </g>
-                                {/* Rising spore motes */}
-                                {motes.map((m, i) => (
-                                    localVirulence > i * 20 && (
-                                        <circle
-                                            key={i}
-                                            cx={Math.min(m.cx, 20 + vatFillWidth - 4)}
-                                            cy={m.cy}
-                                            r={m.r}
-                                            fill="#ecfccb"
-                                            opacity="0.8"
-                                            className="plague-mote"
-                                            style={{ animationDelay: m.delay }}
-                                        />
-                                    )
-                                ))}
+                                <rect x="20" y="22" width={vatFillWidth} height="24" rx="3" fill={tierWash} />
+                                <line x1={20 + vatFillWidth} y1="22" x2={20 + vatFillWidth} y2="46" stroke={tierInk} strokeWidth="1.2" />
                             </g>
                         )}
-
-                        {/* Glass glints */}
-                        <line x1="22" y1="24.5" x2="278" y2="24.5" stroke="rgba(255, 255, 255, 0.16)" strokeWidth="0.8" pointerEvents="none" />
-                        <line x1="22" y1="43.5" x2="278" y2="43.5" stroke="rgba(0, 0, 0, 0.4)" strokeWidth="0.8" pointerEvents="none" />
 
                         {/* Tier calibration marks (25 / 50 / 75) */}
                         {tierMarks.map((mark) => {
@@ -383,37 +287,36 @@ const PlaguebringerResourceBar = ({
                             const passed = localVirulence >= mark;
                             return (
                                 <g key={mark} pointerEvents="none">
-                                    <line x1={x} y1="21" x2={x} y2="47" stroke={passed ? virulenceTier.color : '#3d4926'} strokeWidth="1.4" />
+                                    <line x1={x} y1="21" x2={x} y2="47" stroke={passed ? tierInk : RULE} strokeWidth="1" strokeDasharray="2 2" />
                                     <polygon
                                         points={`${x},15.5 ${x + 2.2},18 ${x},20.5 ${x - 2.2},18`}
-                                        fill={passed ? virulenceTier.color : '#223014'}
-                                        stroke={passed ? '#ecfccb' : '#3d4926'}
+                                        fill={passed ? tierInk : PAPER}
+                                        stroke={passed ? tierInk : RULE}
                                         strokeWidth="0.7"
-                                        filter={passed ? `url(#${ids.glow})` : undefined}
                                     />
                                 </g>
                             );
                         })}
 
                         {/* 3. TRI-SPORE HEART at the vat's center */}
-                        <g className="plague-center-emblem" pointerEvents="none" filter={`url(#${ids.shadow})`}>
+                        <g className="plague-center-emblem" pointerEvents="none">
                             <circle
                                 cx="150" cy="34" r="11.5"
-                                fill="#15220c"
-                                stroke={localVirulence >= 25 ? virulenceTier.color : '#4d5f2a'}
-                                strokeWidth="1.4"
-                                filter={localVirulence >= 25 ? `url(#${ids.glow})` : undefined}
+                                fill={PAGE}
+                                stroke={localVirulence >= 25 ? tierInk : RULE}
+                                strokeWidth="1.2"
                             />
                             {/* Three spore lobes */}
                             {[[150, 28.5], [145.2, 37], [154.8, 37]].map(([cx, cy], i) => (
                                 <circle
                                     key={i}
                                     cx={cx} cy={cy} r="3.1"
-                                    fill={localVirulence >= 25 ? `url(#${ids.spore})` : '#223014'}
-                                    filter={localVirulence >= 25 ? `url(#${ids.glow})` : undefined}
+                                    fill={localVirulence >= 25 ? tierWash : PANEL}
+                                    stroke={localVirulence >= 25 ? tierInk : ETCH}
+                                    strokeWidth="0.8"
                                 />
                             ))}
-                            <circle cx="150" cy="34" r="1.4" fill="#ffffff" opacity={localVirulence >= 25 ? 0.95 : 0.25} />
+                            <circle cx="150" cy="34" r="1.3" fill={localVirulence >= 25 ? tierInk : ETCH} />
                         </g>
 
                         {/* 4. 10 AFFLICTION SPORE PODS */}
@@ -438,34 +341,33 @@ const PlaguebringerResourceBar = ({
                                         y1={pod.id <= 5 ? pod.cy + 6 : pod.cy - 6}
                                         x2={pod.cx}
                                         y2={pod.id <= 5 ? 22 : 46}
-                                        stroke={isActive ? virulenceTier.color : '#2c3a1e'}
-                                        strokeWidth="0.9"
-                                        opacity={isActive ? 0.85 : 0.5}
+                                        stroke={isActive ? tierInk : ETCH}
+                                        strokeWidth="0.8"
                                     />
                                     {isActive && localAfflictions === pod.id && (
                                         <circle
                                             cx={pod.cx} cy={pod.cy} r="9.5"
-                                            fill="none" stroke={virulenceTier.color} strokeWidth="1.2" opacity="0.8"
-                                            className="plague-halo" filter={`url(#${ids.glow})`}
+                                            fill="none" stroke={tierInk} strokeWidth="1" strokeDasharray="2 2"
+                                            className="plague-halo"
                                         />
                                     )}
                                     {/* Hex-carapace shell */}
                                     <polygon
                                         points={podShell(pod.cx, pod.cy, 6)}
-                                        fill="#192312"
-                                        stroke={isActive ? virulenceTier.color : '#334020'}
-                                        strokeWidth={isActive ? 1.2 : 1}
+                                        fill={isActive ? tierWash : PAPER}
+                                        stroke={isActive ? tierInk : RULE}
+                                        strokeWidth={isActive ? 1.3 : 1}
                                         strokeLinejoin="round"
-                                        filter={isActive ? `url(#${ids.glow})` : undefined}
                                     />
                                     {/* Spore heart */}
                                     <circle
                                         cx={pod.cx} cy={pod.cy} r="3.3"
-                                        fill={isActive ? `url(#${ids.spore})` : '#0f170c'}
-                                        filter={isActive ? `url(#${ids.glow})` : undefined}
+                                        fill={isActive ? tierInk : PANEL}
+                                        stroke={isActive ? tierInk : ETCH}
+                                        strokeWidth="0.5"
                                     />
                                     {isActive && (
-                                        <circle cx={pod.cx - 0.8} cy={pod.cy - 0.8} r="0.9" fill="#ffffff" className="plague-pod-heart" />
+                                        <circle cx={pod.cx - 0.8} cy={pod.cy - 0.8} r="0.9" fill={PAGE} className="plague-pod-heart" />
                                     )}
                                 </g>
                             );
@@ -484,16 +386,15 @@ const PlaguebringerResourceBar = ({
                             style={{ cursor: isOwner ? 'pointer' : 'default' }}
                         >
                             <title>Cultivar controls</title>
-                            <circle cx="289" cy="34" r="8" fill="#0c1207" stroke="#4d5f2a" strokeWidth="1" />
+                            <circle cx="289" cy="34" r="8" fill={PAPER} stroke={RULE} strokeWidth="1" />
                             <polygon
                                 points={cogTeeth}
                                 fill="none"
-                                stroke={showControls ? '#ecfccb' : '#84cc16'}
-                                strokeWidth="1.6"
+                                stroke={showControls ? BRICK : MUTED}
+                                strokeWidth="1.2"
                                 strokeLinejoin="round"
-                                filter={`url(#${ids.glow})`}
                             />
-                            <circle cx="289" cy="34" r="2" fill={showControls ? '#ecfccb' : '#4d5f2a'} />
+                            <circle cx="289" cy="34" r="2" fill={showControls ? BRICK : ETCH} />
                         </g>
                     </svg>
                 </div>
@@ -509,7 +410,7 @@ const PlaguebringerResourceBar = ({
                         subtitle="Plaguebringer Alchemical Vat"
                         state={`${localVirulence}/${maxVirulence} · ${localAfflictions}/${maxAfflictions} afflictions`}
                         stateTone={localVirulence >= maxVirulence * 0.75 ? 'good' : 'neutral'}
-                        mechanic="Sow Stage 0 Seeds and advance them to Stage 3 with any cultivation category (Weaken, Torment, Fester, Decay, Amplify). Virulence (0-100) measures the garden's maturity and decays 2/round without a plague cast; ember damage burns it back."
+                        mechanic="Sow seeds and advance them to Stage 3 with cultivation spells. Virulence (0–100) tracks the garden's maturity: −2/round without a plague cast, burned back by ember damage."
                         status={[
                             `${virulenceTier.name}: ${virulenceTier.bonus}.`,
                             localAfflictions > 0
@@ -558,91 +459,76 @@ const PlaguebringerResourceBar = ({
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">
-                                Virulence: {localVirulence}/{maxVirulence} ({virulenceTier.name})
+                    <div className="cm" style={{ '--cm-accent': '#5e7a2e', '--cm-accent-deep': '#2f4214', '--cm-wash': '#e6ebd2' }}>
+                        <header className="cm-head">
+                            <span className={`cm-seal ${localVirulence === 0 ? 'is-quiet' : ''}`}>{localVirulence}</span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">Virulence: {localVirulence}/{maxVirulence}</div>
+                                <div className="cm-title">{virulenceTier.name}</div>
+                                <div className="cm-sub">{localAfflictions} of {maxAfflictions} afflictions festering</div>
                             </div>
-
-                            <div style={{ fontSize: '0.8rem', marginBottom: '8px', lineHeight: 1.35 }}>
-                                <div><strong>Tier Bonus:</strong> {virulenceTier.bonus}</div>
-                                <div><strong>Active Afflictions:</strong> {localAfflictions}/{maxAfflictions}</div>
-                            </div>
-
-                            {/* Virulence adjustments */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
-                                Virulence
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button spend" onClick={() => handleVirulenceChange(-10)}>
-                                    -10
-                                </button>
-                                <button className="context-menu-button spend" onClick={() => handleVirulenceChange(-5)}>
-                                    -5
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleVirulenceChange(5)}>
-                                    +5
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleVirulenceChange(10)}>
-                                    +10
-                                </button>
-                            </div>
-
-                            {/* Affliction adjustments */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
-                                Afflictions ({localAfflictions}/{maxAfflictions})
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button spend" onClick={() => handleAfflictionsChange(-1)}>
-                                    <i className="fas fa-minus"></i> -1 Stack
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleAfflictionsChange(1)}>
-                                    <i className="fas fa-plus"></i> +1 Stack
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '12px 0' }}></div>
-
-                            {/* Quick Actions */}
-                            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        setLocalVirulence(0);
-                                        setLocalAfflictions(0);
-                                        if (onClassResourceUpdate) {
-                                            onClassResourceUpdate('virulence', 0);
-                                            onClassResourceUpdate('afflictions', 0);
-                                        }
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-undo"></i> Reset
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        setLocalVirulence(maxVirulence);
-                                        setLocalAfflictions(maxAfflictions);
-                                        if (onClassResourceUpdate) {
-                                            onClassResourceUpdate('virulence', maxVirulence);
-                                            onClassResourceUpdate('afflictions', maxAfflictions);
-                                        }
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-arrow-up"></i> Max
-                                </button>
-                            </div>
-
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className="cm-meter" aria-hidden="true"><span style={{ width: `${maxVirulence ? Math.min(100, (localVirulence / maxVirulence) * 100) : 0}%` }}></span></div>
+                        <div className={`cm-burden ${localVirulence === 0 ? 'is-quiet' : ''}`}>
+                            <span className="cm-burden-label">The rot grants</span>
+                            <p className="cm-burden-text">{virulenceTier.bonus}</p>
+                        </div>
+                        <div className="cm-section">Virulence</div>
+                        <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                            <button type="button" className="context-menu-button spend" onClick={() => handleVirulenceChange(-10)}>-10</button>
+                            <button type="button" className="context-menu-button spend" onClick={() => handleVirulenceChange(-5)}>-5</button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleVirulenceChange(5)}>+5</button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleVirulenceChange(10)}>+10</button>
+                        </div>
+                        <div className="cm-section">
+                            Afflictions
+                            <span className="cm-section-aside">{localAfflictions}/{maxAfflictions} stacks</span>
+                        </div>
+                        <div className="cm-track cm-track-static" style={{ '--cm-cols': Math.max(1, maxAfflictions) }} aria-hidden="true">
+                            {Array.from({ length: maxAfflictions }).map((_, i) => <span key={i} className={`cm-pip ${i < localAfflictions ? 'active' : ''}`}></span>)}
+                        </div>
+                        <div className="cm-row">
+                            <button type="button" className="context-menu-button spend" onClick={() => handleAfflictionsChange(-1)}>
+                                -1 Stack
+                            </button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleAfflictionsChange(1)}>
+                                +1 Stack
+                            </button>
+                        </div>
+                        <ClassMenuSpells className="Plaguebringer" resourceTypes={['virulence']} resourceLabel="Virulence" current={localVirulence} />
+                        <div className="cm-foot">
                             <button
-                                className="context-menu-button danger"
-                                onClick={() => setShowControls(false)}
-                                style={{ width: '100%' }}
+                                type="button"
+                                className="context-menu-button quiet"
+                                onClick={() => {
+                                    setLocalVirulence(0);
+                                    setLocalAfflictions(0);
+                                    if (onClassResourceUpdate) {
+                                        onClassResourceUpdate('virulence', 0);
+                                        onClassResourceUpdate('afflictions', 0);
+                                    }
+                                    setShowControls(false);
+                                }}
                             >
-                                <i className="fas fa-times"></i> Close
+                                <i className="fas fa-undo" aria-hidden="true"></i> Reset
+                            </button>
+                            <button
+                                type="button"
+                                className="context-menu-button"
+                                onClick={() => {
+                                    setLocalVirulence(maxVirulence);
+                                    setLocalAfflictions(maxAfflictions);
+                                    if (onClassResourceUpdate) {
+                                        onClassResourceUpdate('virulence', maxVirulence);
+                                        onClassResourceUpdate('afflictions', maxAfflictions);
+                                    }
+                                    setShowControls(false);
+                                }}
+                            >
+                                <i className="fas fa-arrow-up" aria-hidden="true"></i> Max
                             </button>
                         </div>
                     </div>

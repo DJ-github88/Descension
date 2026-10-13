@@ -123,8 +123,6 @@
 
 /* ===== DESCRIPTION STYLING ===== */
 
-.pf-spell-description,
-.wow-spell-card-description,
 .spell-description,
 .item-description {
     margin: 8px 0 8px 0 !important;
@@ -224,8 +222,8 @@
 }
 
 .targeting-info-badge {
-    background: rgba(212, 175, 55, 0.15) !important;
-    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+    background: rgba(154, 123, 60, 0.15) !important;
+    border: 1px solid rgba(154, 123, 60, 0.4) !important;
     color: var(--my-text-primary, #2d1810) !important;
 }
 
@@ -236,8 +234,8 @@
 }
 
 .propagation-badge {
-    background: rgba(212, 175, 55, 0.2) !important;
-    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+    background: rgba(154, 123, 60, 0.2) !important;
+    border: 1px solid rgba(154, 123, 60, 0.4) !important;
     color: #000000 !important;
     font-weight: 600 !important;
 }
@@ -275,12 +273,10 @@
 
 .rules-page .pf-spell-card,
 .rules-page .wow-spell-card,
-.rules-page .unified-spell-card,
 .background-selector-container .pf-spell-card,
 .background-selector-container .wow-spell-card,
 .race-selector-container .pf-spell-card,
 .race-selector-container .wow-spell-card,
-.race-selector-container .unified-spell-card,
 .spell-library-tab .pf-spell-card,
 .spell-library-tab .wow-spell-card,
 .spellbook-layout .pf-spell-card,
@@ -343,13 +339,12 @@
 
 .rules-page .unified-spell-tags-footer {
     border-top: 2px solid var(--my-brown-medium, #8B4513) !important;
-    background: var(--my-gradient-parchment-dark, linear-gradient(135deg, #e8dcc6 0%, #d5cbb0 100%)) !important;
+    background: var(--my-gradient-parchment-dark, linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%)) !important;
     padding: 8px 16px !important;
 }
 
 .spell-library-tab .item-description,
-.spellbook-layout .item-description,
-.wizard-view .item-description {
+.spellbook-layout .item-description {
     margin: 8px 0 8px 0 !important;
     padding: 10px 12px !important;
     font-family: 'Bookman Old Style', 'Georgia', 'Times New Roman', serif !important;
@@ -372,10 +367,9 @@
 }
 
 .spell-library-tab .unified-spell-tags-footer,
-.spellbook-layout .unified-spell-tags-footer,
-.wizard-view .unified-spell-tags-footer {
+.spellbook-layout .unified-spell-tags-footer {
     border-top: 2px solid var(--my-brown-medium, #8B4513) !important;
-    background: var(--my-gradient-parchment-dark, linear-gradient(135deg, #e8dcc6 0%, #d5cbb0 100%)) !important;
+    background: var(--my-gradient-parchment-dark, linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%)) !important;
     padding: 8px 16px !important;
     margin-top: 8px !important;
 }
@@ -383,11 +377,7 @@
 .spell-library-tab .damage-effect-name,
 .spell-library-tab .healing-effect-name,
 .spellbook-layout .damage-effect-name,
-.spellbook-layout .healing-effect-name,
-.wizard-view .damage-effect-name,
-.wizard-view .healing-effect-name,
-.spellbook-hover-tooltip .damage-effect-name,
-.spellbook-hover-tooltip .healing-effect-name {
+.spellbook-layout .healing-effect-name {
     font-family: 'Cinzel', serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
@@ -400,11 +390,7 @@
 .spell-library-tab .damage-effect-description,
 .spell-library-tab .healing-effect-description,
 .spellbook-layout .damage-effect-description,
-.spellbook-layout .healing-effect-description,
-.wizard-view .damage-effect-description,
-.wizard-view .healing-effect-description,
-.spellbook-hover-tooltip .damage-effect-description,
-.spellbook-hover-tooltip .healing-effect-description {
+.spellbook-layout .healing-effect-description {
     font-family: 'Crimson Text', 'Times New Roman', serif !important;
     font-size: 13px !important;
     font-style: italic !important;
@@ -415,22 +401,14 @@
 .spell-library-tab .damage-effect-description .diamond-symbol,
 .spell-library-tab .healing-effect-description .diamond-symbol,
 .spellbook-layout .damage-effect-description .diamond-symbol,
-.spellbook-layout .healing-effect-description .diamond-symbol,
-.wizard-view .damage-effect-description .diamond-symbol,
-.wizard-view .healing-effect-description .diamond-symbol,
-.spellbook-hover-tooltip .damage-effect-description .diamond-symbol,
-.spellbook-hover-tooltip .healing-effect-description .diamond-symbol {
+.spellbook-layout .healing-effect-description .diamond-symbol {
     font-style: normal !important;
 }
 
 .spell-library-tab .damage-effect-mechanics,
 .spell-library-tab .healing-effect-mechanics,
 .spellbook-layout .damage-effect-mechanics,
-.spellbook-layout .healing-effect-mechanics,
-.wizard-view .damage-effect-mechanics,
-.wizard-view .healing-effect-mechanics,
-.spellbook-hover-tooltip .damage-effect-mechanics,
-.spellbook-hover-tooltip .healing-effect-mechanics {
+.spellbook-layout .healing-effect-mechanics {
     font-family: 'Crimson Text', 'Times New Roman', serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
@@ -443,14 +421,12 @@
 /* ===== MISC OVERRIDES ===== */
 
 .pf-spell-card-body,
-.wow-spell-card-body,
-.unified-spell-card-body {
+.wow-spell-card-body {
     background: transparent !important;
 }
 
 .pf-spell-card *,
-.wow-spell-card *,
-.unified-spell-card * {
+.wow-spell-card * {
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -460,7 +436,6 @@
     background: transparent !important;
 }
 
-.pf-cooldown-text,
 .spell-cooldown {
     color: var(--my-text-primary, #2d1810) !important;
 }

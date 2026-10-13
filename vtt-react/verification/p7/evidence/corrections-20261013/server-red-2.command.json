@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node",
+    "node_modules/mocha/bin/mocha.js",
+    "tests/p7Blockers.production.test.js",
+    "--timeout",
+    "15000",
+    "--exit"
+  ],
+  "cwd": "D:/VTT/server",
+  "status": 0,
+  "durationMs": 2303
+}

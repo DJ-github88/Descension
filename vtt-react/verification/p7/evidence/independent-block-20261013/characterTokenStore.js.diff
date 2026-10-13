@@ -1,0 +1,87 @@
+diff --git "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\characterTokenStore.js" "b/D:\\VTT\\vtt-react\\src\\store\\characterTokenStore.js"
+index 50c76471..c7711dd1 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\characterTokenStore.js"
++++ "b/D:\\VTT\\vtt-react\\src\\store\\characterTokenStore.js"
+@@ -53,6 +53,16 @@ const useCharacterTokenStore = create(
+ 
+    // Add a character token to the grid
+    addCharacterToken: (position, playerId = null, targetMapId = null, sendToServer = true, characterSnapshot = null) => {
++     const game = getStore('gameStore')?.getState();
++     const localOwner = !playerId || ['local_player', 'current-player', 'local-player', game?.currentPlayer?.id].includes(playerId);
++     if (game?.isInMultiplayer && localOwner) {
++      const sheet = getStore('characterStore')?.getState();
++      if (sheet?.currentCharacterId && (!characterSnapshot?.id || characterSnapshot.id === sheet.currentCharacterId)) {
++       characterSnapshot = { ...characterSnapshot, id: sheet.currentCharacterId, name: sheet.name, race: sheet.race, class: sheet.class, level: sheet.level,
++        stats: sheet.stats, health: sheet.health, mana: sheet.mana, actionPoints: sheet.actionPoints,
++        tempHealth: sheet.tempHealth, tempMana: sheet.tempMana, tempActionPoints: sheet.tempActionPoints, tokenSettings: sheet.tokenSettings };
++      }
++     }
+     // Robust position extraction
+     const finalPosition = get().normalizePosition(position);
+ 
+@@ -100,7 +110,9 @@ const useCharacterTokenStore = create(
+          ...token,
+          position,
+          mapId: token.mapId || resolvedMapId,
+-         ...(characterSnapshot ? { character: characterSnapshot, name: characterSnapshot.name || token.name } : {})
++          ...(characterSnapshot ? { character: token.state?.actorContract ? { ...token.character, ...Object.fromEntries(Object.entries(characterSnapshot)
++           .filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))) } : characterSnapshot,
++           name: characterSnapshot.name || token.name } : {})
+         } : token
+        )
+       };
+@@ -217,7 +229,7 @@ const useCharacterTokenStore = create(
+         tokenId: tokenId,
+         token: {
+          id: tokenId,
+-         playerId: playerId || 'local_player',
++         playerId: localOwner ? gameStore.currentPlayer?.id : playerId,
+          position: finalPosition,
+          mapId: mapId,
+          createdAt: Date.now(),
+@@ -286,6 +298,7 @@ const useCharacterTokenStore = create(
+ 
+     // Update character token state (for conditions, etc.)
+     updateCharacterTokenState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
++     if (sendToServer && require('../services/actorConsequenceService').routeTokenState(tokenId, stateUpdates)) return state;
+      const updatedTokens = state.characterTokens.map(token =>
+       token.id === tokenId
+        ? {
+@@ -332,6 +345,7 @@ const useCharacterTokenStore = create(
+       const socketId = useGameStore.getState().multiplayerSocket?.id;
+       const ownNames = new Set([s.name, s.baseName].filter(Boolean));
+       const fresh = {
++       id: s.currentCharacterId,
+        name: s.name,
+        race: s.race,
+        raceDisplayName: s.raceDisplayName,
+@@ -353,7 +367,9 @@ const useCharacterTokenStore = create(
+        tokenSettings: s.tokenSettings
+       };
+ 
+-      const isOwnToken = (t) =>
++       const isOwnToken = (t) => useGameStore.getState().isInMultiplayer
++        ? t.ownerUserId === getStore('authStore').getState().user?.uid && t.character?.id === s.currentCharacterId
++        :
+        t.isPlayerToken ||
+        t.playerId === 'local_player' ||
+        t.playerId === 'current-player' ||
+@@ -365,7 +381,8 @@ const useCharacterTokenStore = create(
+        characterTokens: state.characterTokens.map(t => {
+         if (!isOwnToken(t)) return t;
+         changedIds.push(t.id);
+-        return { ...t, character: { ...fresh }, name: fresh.name || t.name };
++         const presentation = t.state?.actorContract ? Object.fromEntries(Object.entries(fresh).filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))) : fresh;
++         return { ...t, character: { ...t.character, ...presentation }, name: fresh.name || t.name };
+        })
+       }));
+ 
+@@ -379,7 +396,7 @@ const useCharacterTokenStore = create(
+           roomId: gameStore.multiplayerRoom?.id,
+           mapId: currentMapId,
+           tokenId,
+-          character: fresh,
++           character: Object.fromEntries(Object.entries(fresh).filter(([key]) => !['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints'].includes(key))),
+           name: fresh.name
+          });
+         });

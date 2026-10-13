@@ -490,9 +490,7 @@ export const createResourceSlice = (set, get) => ({
                 });
 
                 // Save the character with updated health
-                setTimeout(() => {
-                    get().saveCurrentCharacter();
-                }, 100); // Small delay to ensure state is updated
+                triggerCharacterAutoSave(() => get().saveCurrentCharacter());
             }
 
             // Recalculate resistances if health changed (for conditional passives)
@@ -517,9 +515,7 @@ export const createResourceSlice = (set, get) => ({
                 });
 
                 // Save the character with updated mana
-                setTimeout(() => {
-                    get().saveCurrentCharacter();
-                }, 100); // Small delay to ensure state is updated
+                triggerCharacterAutoSave(() => get().saveCurrentCharacter());
             }
 
             return { mana: updatedMana };

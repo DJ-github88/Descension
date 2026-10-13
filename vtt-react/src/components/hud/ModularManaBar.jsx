@@ -1,13 +1,10 @@
 import React from 'react';
+import ResourceGlyph from './ResourceGlyph';
 import hpBarLeft from '../../assets/ui/hp-bar-left.png';
 import hpBarMiddle from '../../assets/ui/hp-bar-middle.png';
 import hpBarRight from '../../assets/ui/hp-bar-right.png';
 import manaFillTexture from '../../assets/ui/mana-fill-texture.png';
 
-import manaIconMax from '../../assets/ui/mana-icon-max.png';
-import manaIconHigh from '../../assets/ui/mana-icon-high.png';
-import manaIconLow from '../../assets/ui/mana-icon-low.png';
-import manaIconEmpty from '../../assets/ui/mana-icon-empty.png';
 
 const ModularManaBar = ({ currentMana = 0, maxMana = 1, tempMana = 0, showText = true, className = '', onClick, onContextMenu }) => {
     const safeMax = Math.max(1, maxMana);
@@ -19,20 +16,15 @@ const ModularManaBar = ({ currentMana = 0, maxMana = 1, tempMana = 0, showText =
     // 2. HIGH: currentMana >= maxMana * 0.5 && currentMana < maxMana (Subdued humming blue crystal)
     // 3. LOW: currentMana > 0 && currentMana < maxMana * 0.5 (Subdued humming blue crystal)
     // 4. EMPTY: currentMana === 0 (Dark cracked obsidian crystal)
-    let manaIcon = manaIconLow;
     let manaStateClass = 'low';
 
     if (safeMana >= safeMax) {
-        manaIcon = manaIconMax;
         manaStateClass = 'max';
     } else if (safeMana >= safeMax * 0.5) {
-        manaIcon = manaIconHigh;
         manaStateClass = 'high';
     } else if (safeMana > 0) {
-        manaIcon = manaIconLow;
         manaStateClass = 'low';
     } else {
-        manaIcon = manaIconEmpty;
         manaStateClass = 'empty';
     }
 
@@ -65,7 +57,7 @@ const ModularManaBar = ({ currentMana = 0, maxMana = 1, tempMana = 0, showText =
                 <div className="mana-module-left">
                     <img src={hpBarLeft} alt="" className="mana-module-frame-left" draggable={false} />
                     <div className={`mana-socket-icon-wrapper mana-state-${manaStateClass}`}>
-                        <img src={manaIcon} alt="Mana Status" className="mana-crystal-icon" draggable={false} />
+                        <ResourceGlyph kind="mana" current={safeMana} max={safeMax} className="mana-crystal-icon" />
                     </div>
                 </div>
 

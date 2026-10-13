@@ -1,0 +1,106 @@
+{
+  "id": "shaped-pack",
+  "canonicalStatus": "saved",
+  "runtimeStatus": "saved",
+  "floor": {
+    "canonical": {
+      "interior": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "footprint": [
+        [
+          true,
+          true
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "blockedCellIsFloor": false
+    },
+    "runtime": {
+      "interior": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "footprint": [
+        [
+          true,
+          true
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "blockedCellIsFloor": false
+    }
+  },
+  "annotation": {
+    "shape": {
+      "cells": [
+        "[true]"
+      ]
+    }
+  },
+  "writes": [
+    {
+      "path": "characters/c-a",
+      "interior": [
+        "[true,false]",
+        "[true,true]"
+      ],
+      "footprint": [
+        "[true,true]",
+        "[true,true]"
+      ]
+    },
+    {
+      "path": "users/u-a/characterStates/c-a",
+      "interior": [
+        "[true,false]",
+        "[true,true]"
+      ],
+      "footprint": [
+        "[true,true]",
+        "[true,true]"
+      ]
+    },
+    {
+      "path": "users/u-a/characterStates/c-a",
+      "interior": [
+        "[true,false]",
+        "[true,true]"
+      ],
+      "footprint": [
+        "[true,true]",
+        "[true,true]"
+      ]
+    },
+    {
+      "path": "characters/c-a",
+      "interior": [
+        "[true,false]",
+        "[true,true]"
+      ],
+      "footprint": [
+        "[true,true]",
+        "[true,true]"
+      ]
+    }
+  ]
+}

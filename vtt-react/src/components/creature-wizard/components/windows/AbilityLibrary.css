@@ -13,13 +13,13 @@
 /* ===== PATHFINDER SCROLLBAR STYLES ===== */
 .ability-library::-webkit-scrollbar {
   width: 8px;
-  background: #e6dcc6;
+  background: #e8e2d4;
 }
 
 .ability-library::-webkit-scrollbar-thumb {
   background: #a08c70;
   border-radius: 4px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
 }
 
 .ability-library::-webkit-scrollbar-thumb:hover {
@@ -40,7 +40,7 @@
 
 .clear-search-btn {
   margin-top: 15px;
-  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  background: #f1ece1;
   border: 2px solid #a08c70;
   color: #3a3a3a;
   padding: 8px 16px;
@@ -53,7 +53,7 @@
 }
 
 .clear-search-btn:hover {
-  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%);
   border-color: #7a3b2e;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);

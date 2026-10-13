@@ -8,6 +8,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
 
+import { INK, PAGE, PAPER, PANEL, RULE, ETCH, inked, washed } from '../../../../components/hud/calmBarPalette';
 /**
  * Lunarch Resource Bar: "The Living Moon-Eye of Vael & The Celestial Orrery"
  *
@@ -255,117 +256,22 @@ const LunarchResourceBar = ({
                         preserveAspectRatio="xMidYMid meet"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-                        <defs>
-                            {/* Deep Astral Space Void Gradient */}
-                            <linearGradient id="lunarVoidSky" x1="0" y1="0" x2="1" y2="0">
-                                <stop offset="0%" stopColor="#080714" />
-                                <stop offset="25%" stopColor="#0f1124" />
-                                <stop offset="50%" stopColor="#151730" />
-                                <stop offset="75%" stopColor="#0f1124" />
-                                <stop offset="100%" stopColor="#080714" />
-                            </linearGradient>
-
-                            {/* Celestial Silver Blade Gradient for Orrery Horns */}
-                            <linearGradient id="lunarSilverCrescent" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="35%" stopColor="#cbd5e1" />
-                                <stop offset="70%" stopColor="#64748b" />
-                                <stop offset="100%" stopColor="#1e293b" />
-                            </linearGradient>
-
-                            {/* Golden Astrolabe Trim Gradient */}
-                            <linearGradient id="lunarBrassGrad" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stopColor="#fef08a" />
-                                <stop offset="45%" stopColor="#ca8a04" />
-                                <stop offset="85%" stopColor="#713f12" />
-                                <stop offset="100%" stopColor="#3b1d06" />
-                            </linearGradient>
-
-                            {/* 1. Hero New Moon: Dark Star Eclipse Void */}
-                            <radialGradient id="heroNewMoonGrad" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor="#080714" />
-                                <stop offset="70%" stopColor="#100f28" />
-                                <stop offset="90%" stopColor="#312e81" />
-                                <stop offset="100%" stopColor="#818cf8" />
-                            </radialGradient>
-
-                            {/* 2. Hero Waxing Moon: Razor Silver-Cyan Crescent on Deep Astral Blue */}
-                            <radialGradient id="heroWaxingGrad" cx="68%" cy="42%" r="62%">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="32%" stopColor="#7dd3fc" />
-                                <stop offset="68%" stopColor="#0284c7" />
-                                <stop offset="92%" stopColor="#0369a1" />
-                                <stop offset="100%" stopColor="#082f49" />
-                            </radialGradient>
-
-                            {/* 3. Hero Full Moon: Blinding White-Gold Supernova */}
-                            <radialGradient id="heroFullGrad" cx="46%" cy="40%" r="62%">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="25%" stopColor="#fef08a" />
-                                <stop offset="55%" stopColor="#facc15" />
-                                <stop offset="85%" stopColor="#ca8a04" />
-                                <stop offset="100%" stopColor="#854d0e" />
-                            </radialGradient>
-
-                            {/* 4. Hero Waning Moon: Dusky Twilight Amethyst Crescent */}
-                            <radialGradient id="heroWaningGrad" cx="32%" cy="42%" r="62%">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="32%" stopColor="#e9d5ff" />
-                                <stop offset="68%" stopColor="#a855f7" />
-                                <stop offset="92%" stopColor="#7e22ce" />
-                                <stop offset="100%" stopColor="#3b0764" />
-                            </radialGradient>
-
-                            {/* Filter: Celestial Starlight Glow */}
-                            <filter id="lunarStarGlow" x="-40%" y="-40%" width="180%" height="180%">
-                                <feGaussianBlur stdDeviation="2.2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            {/* Filter: Super Hero Moon Corona Aura */}
-                            <filter id="lunarHeroAura" x="-60%" y="-60%" width="220%" height="220%">
-                                <feGaussianBlur stdDeviation="4.5" result="blur1" />
-                                <feGaussianBlur stdDeviation="1.8" result="blur2" />
-                                <feMerge>
-                                    <feMergeNode in="blur1" />
-                                    <feMergeNode in="blur2" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            {/* Filter: Full Zenith Supernova Flare */}
-                            <filter id="lunarZenithBurst" x="-80%" y="-80%" width="260%" height="260%">
-                                <feGaussianBlur stdDeviation="6" result="blur1" />
-                                <feGaussianBlur stdDeviation="2.5" result="blur2" />
-                                <feMerge>
-                                    <feMergeNode in="blur1" />
-                                    <feMergeNode in="blur2" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            <filter id="lunarDropShadow" x="-15%" y="-15%" width="130%" height="130%">
-                                <feDropShadow dx="0" dy="2" stdDeviation="1.8" floodColor="#000000" floodOpacity="0.9" />
-                            </filter>
-                        </defs>
+                        <defs />
 
                         {/* 1. CELESTIAL HORIZON & NOCTURNAL ORRERY BED */}
-                        <g filter="url(#lunarDropShadow)">
+                        <g>
                             {/* Outer Star-Iron Crescent Chassis */}
                             <path
                                 d="M 12 7 C 80 3, 280 3, 348 7 C 356 7, 358 15, 356 28 C 358 41, 356 49, 348 49 C 280 53, 80 53, 12 49 C 4 49, 2 41, 4 28 C 2 15, 4 7, 12 7 Z"
-                                fill="url(#lunarVoidSky)"
-                                stroke="#475569"
+                                fill={PAPER}
+                                stroke={RULE}
                                 strokeWidth="1.4"
                             />
                             {/* Inner Recessed Celestial Starfield */}
                             <path
                                 d="M 14 9.5 C 80 5.5, 280 5.5, 346 9.5 C 353 9.5, 355 17, 353 28 C 355 39, 353 46.5, 346 46.5 C 280 50.5, 80 50.5, 14 46.5 C 7 46.5, 5 39, 7 28 C 5 17, 7 9.5, 14 9.5 Z"
-                                fill="#07060f"
-                                stroke="rgba(255, 255, 255, 0.08)"
+                                fill={PAPER}
+                                stroke={ETCH}
                                 strokeWidth="0.8"
                             />
                         </g>
@@ -374,13 +280,13 @@ const LunarchResourceBar = ({
                         <path
                             d="M 28 28 Q 180 35 332 28"
                             fill="none"
-                            stroke="#1e293b"
+                            stroke={RULE}
                             strokeWidth="3.5"
                         />
                         <path
                             d="M 28 28 Q 180 35 332 28"
                             fill="none"
-                            stroke={currentPhaseData.glow}
+                            stroke={inked(currentPhaseData.glow, 0.55)}
                             strokeWidth="1.2"
                             strokeDasharray="4 4"
                             opacity="0.5"
@@ -389,8 +295,8 @@ const LunarchResourceBar = ({
                         {/* Astrolabe Degree Graduation Ticks across Outer Rims */}
                         {[22, 40, 58, 86, 114, 140, 160, 200, 220, 246, 274, 302, 320, 338].map((tx, i) => (
                             <g key={i}>
-                                <line x1={tx} y1="8" x2={tx} y2="11.5" stroke="#64748b" strokeWidth="0.8" />
-                                <line x1={tx} y1="44.5" x2={tx} y2="48" stroke="#64748b" strokeWidth="0.8" />
+                                <line x1={tx} y1="8" x2={tx} y2="11.5" stroke={RULE} strokeWidth="0.8" />
+                                <line x1={tx} y1="44.5" x2={tx} y2="48" stroke={RULE} strokeWidth="0.8" />
                             </g>
                         ))}
 
@@ -403,19 +309,18 @@ const LunarchResourceBar = ({
                             {/* Curved Silver Crescent Blade with Pointed Horns */}
                             <path
                                 d="M 26 12 C 10 16, 8 40, 26 44 C 18 38, 18 18, 26 12 Z"
-                                fill="url(#lunarSilverCrescent)"
-                                stroke="#94a3b8"
+                                fill={PAPER}
+                                stroke={inked('#94a3b8', 0.6)}
                                 strokeWidth="1"
-                                filter="url(#lunarStarGlow)"
                             />
                             {/* Tactile Regress Chevron Glyph ◄ */}
                             <polygon
                                 points="16,28 21,24 21,32"
-                                fill={isOwner ? '#e2e8f0' : '#64748b'}
+                                fill={isOwner ? washed('#e2e8f0', 0.2) : PANEL}
                                 opacity="0.9"
                             />
                             {/* Star Pearl Pivot */}
-                            <circle cx="23" cy="28" r="2" fill="#818cf8" filter="url(#lunarStarGlow)" />
+                            <circle cx="23" cy="28" r="2" fill={washed('#818cf8', 0.2)} />
 
                             {/* Full-Height Transparent Hitbox with isolated propagation */}
                             <rect
@@ -449,11 +354,10 @@ const LunarchResourceBar = ({
                                                 y1={moon.cy}
                                                 x2={moon.cx < 180 ? moon.cx + 26 : moon.cx - 26}
                                                 y2={moon.cy}
-                                                stroke={moon.glow}
+                                                stroke={inked(moon.glow, 0.55)}
                                                 strokeWidth="2"
                                                 opacity="0.75"
                                                 strokeDasharray="2 2"
-                                                filter="url(#lunarStarGlow)"
                                             />
                                             {/* Radiant Aura Ring */}
                                             <circle
@@ -461,15 +365,14 @@ const LunarchResourceBar = ({
                                                 cy={moon.cy}
                                                 r="16.5"
                                                 fill="none"
-                                                stroke={moon.glow}
+                                                stroke={inked(moon.glow, 0.55)}
                                                 strokeWidth="1.6"
                                                 strokeDasharray="3 2"
-                                                filter="url(#lunarStarGlow)"
                                             />
                                             {/* Phase Pointer Triangle at Upper Rim */}
                                             <polygon
                                                 points={`${moon.cx},9 ${moon.cx + 2.5},12.5 ${moon.cx - 2.5},12.5`}
-                                                fill={moon.accent}
+                                                fill={washed(moon.accent, 0.2)}
                                             />
                                         </g>
                                     )}
@@ -479,8 +382,8 @@ const LunarchResourceBar = ({
                                         cx={moon.cx}
                                         cy={moon.cy}
                                         r="12.5"
-                                        fill="#0a0a14"
-                                        stroke={isActive ? moon.ringColor : '#334155'}
+                                        fill={PAPER}
+                                        stroke={isActive ? inked(moon.ringColor, 0.55) : RULE}
                                         strokeWidth={isActive ? '1.8' : '1'}
                                     />
 
@@ -492,16 +395,15 @@ const LunarchResourceBar = ({
                                                 cx={moon.cx}
                                                 cy={moon.cy}
                                                 r="9.5"
-                                                fill="#070614"
-                                                stroke={isActive ? '#818cf8' : '#312e81'}
+                                                fill={PAPER}
+                                                stroke={isActive ? inked('#818cf8', 0.6) : inked('#312e81', 0.6)}
                                                 strokeWidth={isActive ? '1.5' : '0.8'}
-                                                filter={isActive ? 'url(#lunarStarGlow)' : undefined}
                                             />
                                             {/* Subtle Inner Eclipse Sliver */}
                                             <path
                                                 d={`M ${moon.cx - 6} ${moon.cy - 6} A 9.5 9.5 0 0 1 ${moon.cx + 6} ${moon.cy + 6}`}
                                                 fill="none"
-                                                stroke="#c7d2fe"
+                                                stroke={inked('#c7d2fe', 0.6)}
                                                 strokeWidth="0.8"
                                                 opacity={isActive ? 0.9 : 0.4}
                                             />
@@ -512,14 +414,13 @@ const LunarchResourceBar = ({
                                     {moon.id === 'waxing_moon' && (
                                         <g>
                                             {/* Dark base disc */}
-                                            <circle cx={moon.cx} cy={moon.cy} r="9.5" fill="#080d16" stroke="#1e293b" strokeWidth="0.8" />
+                                            <circle cx={moon.cx} cy={moon.cy} r="9.5" fill={PAPER} stroke={RULE} strokeWidth="0.8" />
                                             {/* Illuminated Right Crescent */}
                                             <path
                                                 d={`M ${moon.cx} ${moon.cy - 9.5} A 9.5 9.5 0 0 1 ${moon.cx} ${moon.cy + 9.5} A 9.5 9.5 0 0 0 ${moon.cx} ${moon.cy - 9.5} Z`}
-                                                fill={isActive ? 'url(#heroWaxingGrad)' : '#38bdf8'}
-                                                stroke={isActive ? '#7dd3fc' : '#0284c7'}
+                                                fill={isActive ? washed('#0284c7', 0.2) : washed('#38bdf8', 0.2)}
+                                                stroke={isActive ? inked('#7dd3fc', 0.6) : inked('#0284c7', 0.6)}
                                                 strokeWidth={isActive ? '1.2' : '0.6'}
-                                                filter={isActive ? 'url(#lunarStarGlow)' : undefined}
                                             />
                                         </g>
                                     )}
@@ -532,16 +433,15 @@ const LunarchResourceBar = ({
                                                 cx={moon.cx}
                                                 cy={moon.cy}
                                                 r="9.5"
-                                                fill={isActive ? 'url(#heroFullGrad)' : '#ca8a04'}
-                                                stroke={isActive ? '#ffffff' : '#eab308'}
+                                                fill={isActive ? washed('#facc15', 0.2) : washed('#ca8a04', 0.2)}
+                                                stroke={isActive ? INK : inked('#eab308', 0.6)}
                                                 strokeWidth={isActive ? '1.6' : '1'}
-                                                filter={isActive ? 'url(#lunarStarGlow)' : undefined}
                                             />
                                             {/* Internal Mare contour */}
                                             <path
                                                 d={`M ${moon.cx - 4} ${moon.cy - 2} Q ${moon.cx} ${moon.cy + 3} ${moon.cx + 4} ${moon.cy - 2}`}
                                                 fill="none"
-                                                stroke="#92400e"
+                                                stroke={inked('#92400e', 0.6)}
                                                 strokeWidth="1"
                                                 opacity="0.4"
                                             />
@@ -552,14 +452,13 @@ const LunarchResourceBar = ({
                                     {moon.id === 'waning_moon' && (
                                         <g>
                                             {/* Dark base disc */}
-                                            <circle cx={moon.cx} cy={moon.cy} r="9.5" fill="#0e0717" stroke="#2e1065" strokeWidth="0.8" />
+                                            <circle cx={moon.cx} cy={moon.cy} r="9.5" fill={PAPER} stroke={RULE} strokeWidth="0.8" />
                                             {/* Illuminated Left Crescent */}
                                             <path
                                                 d={`M ${moon.cx} ${moon.cy - 9.5} A 9.5 9.5 0 0 0 ${moon.cx} ${moon.cy + 9.5} A 9.5 9.5 0 0 1 ${moon.cx} ${moon.cy - 9.5} Z`}
-                                                fill={isActive ? 'url(#heroWaningGrad)' : '#c084fc'}
-                                                stroke={isActive ? '#e9d5ff' : '#9333ea'}
+                                                fill={isActive ? washed('#a855f7', 0.2) : washed('#c084fc', 0.2)}
+                                                stroke={isActive ? inked('#e9d5ff', 0.6) : inked('#9333ea', 0.6)}
                                                 strokeWidth={isActive ? '1.2' : '0.6'}
-                                                filter={isActive ? 'url(#lunarStarGlow)' : undefined}
                                             />
                                         </g>
                                     )}
@@ -581,22 +480,22 @@ const LunarchResourceBar = ({
 
                         {/* 4. THE CENTERPIECE: THE LIVING HERO MOON & ASTROLABE MERIDIAN (cx = 180) */}
                         {/* Note: has class .lunar-center-astrolabe for test compatibility! */}
-                        <g className="lunar-center-astrolabe" filter="url(#lunarDropShadow)">
+                        <g className="lunar-center-astrolabe">
                             {/* Outer Brass Orrery Caliper Ring (r = 23) */}
                             <circle
                                 cx="180"
                                 cy="28"
                                 r="22.5"
-                                fill="#07060f"
-                                stroke="url(#lunarBrassGrad)"
+                                fill={PAPER}
+                                stroke={inked('#ca8a04', 0.6)}
                                 strokeWidth="1.8"
                             />
 
                             {/* Astrolabe Axis Meridian Ticks */}
-                            <line x1="180" y1="6" x2="180" y2="9.5" stroke="#facc15" strokeWidth="1.2" />
-                            <line x1="180" y1="46.5" x2="180" y2="50" stroke="#facc15" strokeWidth="1.2" />
-                            <line x1="158" y1="28" x2="161.5" y2="28" stroke="#facc15" strokeWidth="1.2" />
-                            <line x1="198.5" y1="28" x2="202" y2="28" stroke="#facc15" strokeWidth="1.2" />
+                            <line x1="180" y1="6" x2="180" y2="9.5" stroke={inked('#facc15', 0.6)} strokeWidth="1.2" />
+                            <line x1="180" y1="46.5" x2="180" y2="50" stroke={inked('#facc15', 0.6)} strokeWidth="1.2" />
+                            <line x1="158" y1="28" x2="161.5" y2="28" stroke={inked('#facc15', 0.6)} strokeWidth="1.2" />
+                            <line x1="198.5" y1="28" x2="202" y2="28" stroke={inked('#facc15', 0.6)} strokeWidth="1.2" />
 
                             {/* Dynamic Hero Moon Outer Radiance / Ethereal Halo */}
                             <circle
@@ -604,10 +503,9 @@ const LunarchResourceBar = ({
                                 cy="28"
                                 r="18"
                                 fill="none"
-                                stroke={currentPhaseData.glow}
+                                stroke={inked(currentPhaseData.glow, 0.55)}
                                 strokeWidth={isFullMoon ? '2.4' : '1.4'}
                                 opacity={isFullMoon ? 0.9 : 0.65}
-                                filter={isFullMoon ? 'url(#lunarZenithBurst)' : 'url(#lunarHeroAura)'}
                             />
 
                             {/* ================= HERO MOON CORE BODY ================= */}
@@ -620,27 +518,26 @@ const LunarchResourceBar = ({
                                         cy="28"
                                         r="16"
                                         fill="none"
-                                        stroke="#818cf8"
+                                        stroke={inked('#818cf8', 0.6)}
                                         strokeWidth="2"
-                                        filter="url(#lunarHeroAura)"
                                     />
                                     {/* Dark Void Disc */}
                                     <circle
                                         cx="180"
                                         cy="28"
                                         r="15"
-                                        fill="url(#heroNewMoonGrad)"
-                                        stroke="#4338ca"
+                                        fill={washed('#818cf8', 0.2)}
+                                        stroke={inked('#4338ca', 0.6)}
                                         strokeWidth="1"
                                     />
                                     {/* Cosmic Crater & Shadow Nebula */}
-                                    <circle cx="174" cy="25" r="2.2" fill="#18182e" />
-                                    <circle cx="185" cy="31" r="1.8" fill="#18182e" />
+                                    <circle cx="174" cy="25" r="2.2" fill={PAPER} />
+                                    <circle cx="185" cy="31" r="1.8" fill={PAPER} />
                                     {/* Faint Starlight Edge */}
                                     <path
                                         d="M 168 20 A 15 15 0 0 1 192 36"
                                         fill="none"
-                                        stroke="#c7d2fe"
+                                        stroke={inked('#c7d2fe', 0.6)}
                                         strokeWidth="1.2"
                                         opacity="0.7"
                                     />
@@ -651,16 +548,15 @@ const LunarchResourceBar = ({
                                 /* 🌓 THE LIVING WAXING MOON */
                                 <g>
                                     {/* Dark side disc */}
-                                    <circle cx="180" cy="28" r="15" fill="#080c16" stroke="#1e293b" strokeWidth="1" />
+                                    <circle cx="180" cy="28" r="15" fill={PAPER} stroke={RULE} strokeWidth="1" />
                                     {/* Radiant Razor Crescent (Right side illuminated) */}
                                     <path
                                         d="M 180 13 A 15 15 0 0 1 180 43 A 15 15 0 0 0 180 13 Z"
-                                        fill="url(#heroWaxingGrad)"
-                                        stroke="#7dd3fc"
+                                        fill={washed('#0284c7', 0.2)}
+                                        stroke={inked('#7dd3fc', 0.6)}
                                         strokeWidth="1.4"
-                                        filter="url(#lunarHeroAura)"
                                     />
-                                    <circle cx="186" cy="26" r="2" fill="#ffffff" opacity="0.75" />
+                                    <circle cx="186" cy="26" r="2" fill={PAGE} opacity="0.75" />
                                 </g>
                             )}
 
@@ -671,24 +567,23 @@ const LunarchResourceBar = ({
                                         cx="180"
                                         cy="28"
                                         r="15"
-                                        fill="url(#heroFullGrad)"
-                                        stroke="#ffffff"
+                                        fill={washed('#facc15', 0.2)}
+                                        stroke={INK}
                                         strokeWidth="2"
-                                        filter="url(#lunarZenithBurst)"
                                     />
                                     {/* Lunar Mare markings */}
                                     <path
                                         d="M 173 25 Q 180 32 187 25"
                                         fill="none"
-                                        stroke="#854d0e"
+                                        stroke={RULE}
                                         strokeWidth="1.6"
                                         opacity="0.3"
                                     />
                                     {/* Searing Cardinal Flares */}
-                                    <line x1="180" y1="7" x2="180" y2="12" stroke="#ffffff" strokeWidth="1.8" filter="url(#lunarStarGlow)" />
-                                    <line x1="180" y1="44" x2="180" y2="49" stroke="#ffffff" strokeWidth="1.8" filter="url(#lunarStarGlow)" />
-                                    <line x1="159" y1="28" x2="164" y2="28" stroke="#ffffff" strokeWidth="1.8" filter="url(#lunarStarGlow)" />
-                                    <line x1="196" y1="28" x2="201" y2="28" stroke="#ffffff" strokeWidth="1.8" filter="url(#lunarStarGlow)" />
+                                    <line x1="180" y1="7" x2="180" y2="12" stroke={INK} strokeWidth="1.8" />
+                                    <line x1="180" y1="44" x2="180" y2="49" stroke={INK} strokeWidth="1.8" />
+                                    <line x1="159" y1="28" x2="164" y2="28" stroke={INK} strokeWidth="1.8" />
+                                    <line x1="196" y1="28" x2="201" y2="28" stroke={INK} strokeWidth="1.8" />
                                 </g>
                             )}
 
@@ -696,21 +591,20 @@ const LunarchResourceBar = ({
                                 /* 🌗 THE LIVING WANING MOON */
                                 <g>
                                     {/* Dark side disc */}
-                                    <circle cx="180" cy="28" r="15" fill="#0d0716" stroke="#2e1065" strokeWidth="1" />
+                                    <circle cx="180" cy="28" r="15" fill={PAPER} stroke={RULE} strokeWidth="1" />
                                     {/* Radiant Twilight Crescent (Left side illuminated) */}
                                     <path
                                         d="M 180 13 A 15 15 0 0 0 180 43 A 15 15 0 0 1 180 13 Z"
-                                        fill="url(#heroWaningGrad)"
-                                        stroke="#e9d5ff"
+                                        fill={washed('#a855f7', 0.2)}
+                                        stroke={inked('#e9d5ff', 0.6)}
                                         strokeWidth="1.4"
-                                        filter="url(#lunarHeroAura)"
                                     />
-                                    <circle cx="174" cy="26" r="2" fill="#ffffff" opacity="0.75" />
+                                    <circle cx="174" cy="26" r="2" fill={PAGE} opacity="0.75" />
                                 </g>
                             )}
 
                             {/* Astrolabe Central Needle Pivot Point */}
-                            <circle cx="180" cy="28" r="2.8" fill="#ffffff" stroke="#1e293b" strokeWidth="0.8" />
+                            <circle cx="180" cy="28" r="2.8" fill={PAGE} stroke={RULE} strokeWidth="0.8" />
 
                             {/* 5. THE TRI-STAR CHRONOMETER (3 Rounds of Parasite Feeding) */}
                             {/* Distinct diamond star-pearls at the upper meridian */}
@@ -729,24 +623,23 @@ const LunarchResourceBar = ({
                                             points={`${star.x},${star.y - 3.5} ${star.x + 3.5},${star.y} ${star.x},${star.y + 3.5} ${star.x - 3.5},${star.y}`}
                                             fill={
                                                 isShiftWarning
-                                                    ? '#fda4af'
+                                                    ? washed('#fda4af', 0.2)
                                                     : isLit
-                                                    ? currentPhaseData.accent
-                                                    : '#090d16'
+                                                    ? washed(currentPhaseData.accent, 0.2)
+                                                    : PAPER
                                             }
                                             stroke={
                                                 isShiftWarning
-                                                    ? '#f43f5e'
+                                                    ? inked('#f43f5e', 0.6)
                                                     : isLit
-                                                    ? currentPhaseData.glow
-                                                    : '#334155'
+                                                    ? inked(currentPhaseData.glow, 0.55)
+                                                    : RULE
                                             }
                                             strokeWidth={isLit ? '1.2' : '0.8'}
-                                            filter={isLit ? 'url(#lunarStarGlow)' : undefined}
                                         />
                                         {/* Sparkle glint on lit stars */}
                                         {isLit && (
-                                            <circle cx={star.x} cy={star.y} r="1" fill="#ffffff" />
+                                            <circle cx={star.x} cy={star.y} r="1" fill={PAGE} />
                                         )}
                                     </g>
                                 );
@@ -756,7 +649,7 @@ const LunarchResourceBar = ({
                             <path
                                 d="M 163 48.5 Q 180 52 197 48.5"
                                 fill="none"
-                                stroke="#1e293b"
+                                stroke={RULE}
                                 strokeWidth="2.5"
                                 strokeLinecap="round"
                             />
@@ -770,10 +663,9 @@ const LunarchResourceBar = ({
                                             : "M 163 48.5 Q 180 52 197 48.5"
                                     }
                                     fill="none"
-                                    stroke={isShiftImminent ? '#f43f5e' : currentPhaseData.glow}
+                                    stroke={isShiftImminent ? inked('#f43f5e', 0.6) : inked(currentPhaseData.glow, 0.55)}
                                     strokeWidth="2.5"
                                     strokeLinecap="round"
-                                    filter="url(#lunarStarGlow)"
                                 />
                             )}
 
@@ -799,19 +691,18 @@ const LunarchResourceBar = ({
                             {/* Curved Golden Morning-Star Blade */}
                             <path
                                 d="M 334 12 C 350 16, 352 40, 334 44 C 342 38, 342 18, 334 12 Z"
-                                fill="url(#lunarBrassGrad)"
-                                stroke="#ca8a04"
+                                fill={washed('#ca8a04', 0.2)}
+                                stroke={inked('#ca8a04', 0.6)}
                                 strokeWidth="1"
-                                filter="url(#lunarStarGlow)"
                             />
                             {/* Tactile Advance Chevron Glyph ► */}
                             <polygon
                                 points="344,28 339,24 339,32"
-                                fill={isOwner ? '#fef08a' : '#854d0e'}
+                                fill={isOwner ? washed('#fef08a', 0.2) : PAPER}
                                 opacity="0.9"
                             />
                             {/* Star Diamond Pivot */}
-                            <circle cx="337" cy="28" r="2" fill="#facc15" filter="url(#lunarStarGlow)" />
+                            <circle cx="337" cy="28" r="2" fill={washed('#facc15', 0.2)} />
 
                             {/* Full-Height Transparent Hitbox with isolated propagation */}
                             <rect
@@ -839,7 +730,7 @@ const LunarchResourceBar = ({
                         subtitle={`${currentPhaseData.name} · Lunarch Lunar Ephemeris`}
                         state={`${currentPhaseData.name} · Round ${roundsInPhase + 1}/3`}
                         stateTone={isFullMoon ? 'bad' : currentPhase === 'waxing_moon' ? 'warn' : 'good'}
-                        mechanic="Cycles New → Waxing → Full → Waning automatically every 3 rounds; you cannot opt out. Every shift deals 2d6 blight and forces a 1d6 Transition Shock roll (rupture, blind, mana loss, lost action, or wyrd)."
+                        mechanic="The phase cycles New → Waxing → Full → Waning every 3 rounds, automatically. Each shift deals 2d6 blight and forces a 1d6 Transition Shock roll."
                         status={[
                             `Active Influence: ${currentPhaseData.buff}`,
                             roundsInPhase >= 2
@@ -887,77 +778,55 @@ const LunarchResourceBar = ({
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">
-                                <i className="fas fa-moon" style={{ marginRight: '6px', color: '#c084fc' }}></i>
-                                Ephemeris of Vael
+                    <div className="cm" style={{ '--cm-accent': '#5a5a9a', '--cm-accent-deep': '#2a2a5a', '--cm-wash': '#e4e3f0' }}>
+                        <header className="cm-head">
+                            <span className="cm-seal"><span className={`cm-moon moon-${currentPhase}`} aria-hidden="true"></span></span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">Ephemeris of Vael</div>
+                                <div className="cm-title">{currentPhaseData.subtitle || currentPhaseData.name}</div>
+                                <div className="cm-sub">{currentPhaseData.name} (Round {roundsInPhase + 1}/3)</div>
                             </div>
-
-                            {/* Current Status Display */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
-                                {currentPhaseData.name} (Round {roundsInPhase + 1}/3)
-                            </div>
-                            <div style={{ fontSize: '11px', color: 'var(--crm-label, #d8b4fe)', fontStyle: 'italic', marginBottom: '8px' }}>
-                                {currentPhaseData.buff}
-                            </div>
-
-                            {/* 4 Phase Selection Grid */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                {moonPhases.map((moon) => (
-                                    <button
-                                        key={moon.id}
-                                        className={`context-menu-button ${currentPhase === moon.id ? 'active gain' : ''}`}
-                                        onClick={() => updatePhaseAndRound(moon.id, 0)}
-                                    >
-                                        <i className="fas fa-circle" style={{ color: moon.glow, fontSize: '9px', marginRight: '5px' }}></i>
-                                        {moon.name}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Round Steppers */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button spend" onClick={(e) => handleRegressRound(e)}>
-                                    <i className="fas fa-backward"></i> -1 Round
-                                </button>
-                                <button className="context-menu-button gain" onClick={(e) => handleAdvanceRound(e)}>
-                                    <i className="fas fa-forward"></i> +1 Round
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '10px 0' }}></div>
-
-                            {/* Quick Presets */}
-                            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className="cm-burden">
+                            <span className="cm-burden-label">Under this moon</span>
+                            <p className="cm-burden-text">{currentPhaseData.buff}</p>
+                            <span className="cm-rounds" aria-label={`Round ${roundsInPhase + 1} of 3 in this phase`}>
+                                {[0, 1, 2].map((r) => <span key={r} className={`cm-round ${r <= roundsInPhase ? 'lit' : ''}`}></span>)}
+                                <em>{roundsInPhase >= 2 ? 'The moon turns next round' : `${2 - roundsInPhase} more round${2 - roundsInPhase === 1 ? '' : 's'} before it turns`}</em>
+                            </span>
+                        </div>
+                        <div className="cm-section">Phases</div>
+                        <div className="cm-row" style={{ '--cm-cols': 4 }} role="group" aria-label="Set moon phase">
+                            {moonPhases.map((moon) => (
                                 <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        updatePhaseAndRound('new_moon', 0);
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
+                                    key={moon.id}
+                                    type="button"
+                                    className={`context-menu-button is-stacked cm-phase ${currentPhase === moon.id ? 'active' : ''}`}
+                                    onClick={() => updatePhaseAndRound(moon.id, 0)}
+                                    title={`${moon.name}: ${moon.buff}`}
                                 >
-                                    <i className="fas fa-shield-alt"></i> Stygian Eclipse
+                                    <span className={`cm-moon moon-${moon.id}`} aria-hidden="true"></span>
+                                    <span>{moon.name.replace(' Moon', '')}</span>
                                 </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        updatePhaseAndRound('full_moon', 0);
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-star"></i> Full Zenith
-                                </button>
-                            </div>
-
-                            <button
-                                className="context-menu-button danger"
-                                onClick={() => setShowControls(false)}
-                                style={{ width: '100%' }}
-                            >
-                                <i className="fas fa-times"></i> Close
+                            ))}
+                        </div>
+                        <div className="cm-row">
+                            <button type="button" className="context-menu-button" onClick={(e) => handleRegressRound(e)}>
+                                <i className="fas fa-backward" aria-hidden="true"></i> -1 Round
+                            </button>
+                            <button type="button" className="context-menu-button" onClick={(e) => handleAdvanceRound(e)}>
+                                <i className="fas fa-forward" aria-hidden="true"></i> +1 Round
+                            </button>
+                        </div>
+                        <div className="cm-foot">
+                            <button type="button" className="context-menu-button quiet" onClick={() => { updatePhaseAndRound('new_moon', 0); setShowControls(false); }}>
+                                <i className="fas fa-shield-alt" aria-hidden="true"></i> Stygian Eclipse
+                            </button>
+                            <button type="button" className="context-menu-button" onClick={() => { updatePhaseAndRound('full_moon', 0); setShowControls(false); }}>
+                                <i className="fas fa-star" aria-hidden="true"></i> Full Zenith
                             </button>
                         </div>
                     </div>

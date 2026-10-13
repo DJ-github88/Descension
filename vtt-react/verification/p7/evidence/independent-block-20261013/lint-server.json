@@ -1,0 +1,26 @@
+{
+  "command": [
+    "node",
+    "node_modules/eslint/bin/eslint.js",
+    "services/actorConsequences.js",
+    "services/syncService.js",
+    "services/validationService.js",
+    "services/sanitizationService.js",
+    "services/rateLimitService.js",
+    "services/roomAccessService.js",
+    "handlers/actorConsequenceHandlers.js",
+    "handlers/socketHandlers.js",
+    "handlers/tokenHandlers.js",
+    "handlers/environmentHandlers.js",
+    "handlers/combatHandlers.js",
+    "handlers/roomLifecycleHandlers.js",
+    "tests/p7Consequences.production.test.js",
+    "tests/p7ImportMetadata.production.test.js",
+    "tests/p7Negative.production.test.js"
+  ],
+  "cwd": "D:\\VTT\\server",
+  "status": 0,
+  "signal": null,
+  "durationMs": 1517,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

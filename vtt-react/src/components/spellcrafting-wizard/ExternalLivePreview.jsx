@@ -236,9 +236,21 @@ const ExternalLivePreview = () => {
   const spellbookX = windowPosition?.x || ((window.innerWidth - 1000) / 2);
   const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
 
+  // Keep the preview on screen: right of the window if it fits, else left of it,
+  // else pinned to the viewport edge.
+  const PREVIEW_W = 340;
+  const EDGE = 12;
+  const rightSideLeft = spellbookX + spellbookWidth + 24;
+  const leftSideLeft = spellbookX - PREVIEW_W - 24;
+  const maxLeft = Math.max(EDGE, window.innerWidth - PREVIEW_W - EDGE);
+  const previewLeft = rightSideLeft <= maxLeft
+    ? rightSideLeft
+    : (leftSideLeft >= EDGE ? leftSideLeft : maxLeft);
+  const previewTop = Math.max(EDGE, Math.min(spellbookY + 120, window.innerHeight - 420));
+
   const position = {
-    left: spellbookX + spellbookWidth + 40, // Increased gap from spellbook
-    top: spellbookY + 120, // Moved down to avoid overlapping wizard window
+    left: previewLeft,
+    top: previewTop,
     position: 'fixed',
     zIndex: 9998,
     width: '340px', // Slightly smaller width

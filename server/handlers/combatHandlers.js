@@ -53,7 +53,15 @@ function registerCombatHandlers(ctx) {
         return;
       }
 
-      const turnOrder = Array.isArray(data.turnOrder) ? data.turnOrder : [];
+      const turnOrder = Array.isArray(data.turnOrder) ? data.turnOrder.map(combatant => {
+        const boundary = require('../services/actorConsequences');
+        if (!combatant.actorRef) {return { ...combatant, resourceConsequenceStatus: 'binding_required' };}
+        try {
+          const { token } = boundary.locate(room, combatant.actorRef);
+          const values = boundary.resources(token, combatant.actorRef.kind);
+          return { ...combatant, currentActionPoints: values.ap.current, currentHp: values.hp.current, currentMana: values.mana.current, resourceConsequenceStatus: 'applied' };
+        } catch (_) {return { ...combatant, resourceConsequenceStatus: 'binding_required' };}
+      }) : [];
       const requestedIndex = Number.isInteger(data.currentTurnIndex) ? data.currentTurnIndex : 0;
       const safeIndex = turnOrder.length > 0
         ? Math.min(Math.max(0, requestedIndex), turnOrder.length - 1)
@@ -194,6 +202,13 @@ function registerCombatHandlers(ctx) {
       }
 
       room.gameState.combat.currentTurnIndex = requestedIndex;
+      // The timeline transition itself never authorizes a resource result.
+      const proposed = data.turnOrder?.[requestedIndex];
+      if (proposed && turnOrder[requestedIndex]) {
+        turnOrder[requestedIndex].initiative = proposed.initiative ?? turnOrder[requestedIndex].initiative;
+        turnOrder[requestedIndex].d20Roll = proposed.d20Roll ?? turnOrder[requestedIndex].d20Roll;
+        turnOrder[requestedIndex].resourceConsequenceStatus = 'awaiting_authorization';
+      }
       room.gameState.combat.currentTurnStartTime = Date.now();
 
       if (data.round && data.round > 0) {

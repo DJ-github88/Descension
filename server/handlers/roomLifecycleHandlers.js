@@ -110,11 +110,11 @@ function initialGameStateFromClassification(classification, requestedImport) {
       throw new Error('Local room import failed validation and was not accepted');
     }
     return {
-      gameState: roomCheckpoint.hydrateSnapshotToGameState({
+      gameState: require('../services/actorConsequences').preserveImportedActorMetadata(roomCheckpoint.hydrateSnapshotToGameState({
         global: adapted.global,
         maps: adapted.maps,
         mapIds: adapted.mapIds
-      }),
+      })),
       provenance: { kind: 'local-import', sourceRoomId: null, sourceRevision: null, selectedCandidateId: null, decisionId: null }
     };
   }

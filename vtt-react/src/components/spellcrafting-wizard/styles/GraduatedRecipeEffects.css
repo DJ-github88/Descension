@@ -140,7 +140,7 @@
 .graduated-effect-description input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3);
 }
 
 .graduated-effects-actions {
@@ -178,21 +178,6 @@
 }
 
 /* Progress indicator for match percentage */
-.match-progress {
-  height: 6px;
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-light);
-  border-radius: var(--my-border-radius);
-  margin-top: var(--my-space-2);
-  overflow: hidden;
-}
-
-.match-progress-bar {
-  height: 100%;
-  background: var(--my-gradient-gold);
-  border-radius: var(--my-border-radius);
-  transition: width 0.3s ease;
-}
 
 /* Effect Type Selector */
 .effect-type-selector {

@@ -12,23 +12,23 @@
   --adventure-ink: #34251a;
   --adventure-muted: #68533e;
   --adventure-paper: #f0e3c4;
-  --adventure-page: #f5ecd9;
-  --adventure-panel: #e8dcc6;
+  --adventure-page: #f1ece1;
+  --adventure-panel: #e8e2d4;
   --adventure-rule: #b6a080;
   --adventure-seal: #663c32;
   --adventure-leather: #302419;
   --adventure-brass: #c4ab79;
   --adventure-texture: url('../../public/assets/ui/wow-window/parchment_bg.png');
   --pf-parchment: #f0e3c4;
-  --pf-parchment-light: #f5ecd9;
-  --pf-parchment-dark: #e8dcc6;
+  --pf-parchment-light: #f1ece1;
+  --pf-parchment-dark: #e8e2d4;
   --pf-text-primary: #34251a;
   --pf-text-secondary: #68533e;
   --pf-text-muted: #68533e;
   --pf-brown-dark: #34251a;
   --pf-brown-medium: #68533e;
   --pf-border-color: #b6a080;
-  --pf-gradient-parchment: linear-gradient(#f5ecd9, #f5ecd9);
+  --pf-gradient-parchment: linear-gradient(#f1ece1, #f1ece1);
   --my-font-body: 'Crimson Text', Georgia, serif;
   --my-font-ui: 'Cinzel', Georgia, serif;
   --my-font-display: 'Cinzel', Georgia, serif;
@@ -140,61 +140,6 @@
 .adventurer-window .react-resizable-handle-se { filter: none !important; opacity: 0.8 !important; }
 
 /* Paper tabs sit within the shared window header. */
-.wow-window.adventurer-window :is(.spellbook-tab-button, .window-header-tab, .tk-tab, .tt-header-tab) {
-  background: var(--adventure-panel) !important;
-  background-image: none !important;
-  border: 1px solid var(--adventure-rule) !important;
-  border-radius: 4px !important;
-  color: var(--adventure-muted) !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  font-family: 'Cinzel', Georgia, serif !important;
-  font-size: 0.82rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-  height: 34px !important;
-  min-height: 34px !important;
-  padding: 0 14px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 7px !important;
-  white-space: nowrap !important;
-  cursor: pointer !important;
-  transform: none !important;
-  margin: 0 !important;
-  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
-}
-.wow-window.adventurer-window :is(.spellbook-tab-button, .window-header-tab, .tk-tab, .tt-header-tab):hover {
-  background: var(--adventure-page) !important;
-  color: var(--adventure-seal) !important;
-  border-color: #826749 !important;
-  transform: none !important;
-  margin: 0 !important;
-  box-shadow: none !important;
-}
-.wow-window.adventurer-window :is(.spellbook-tab-button.active, .window-header-tab.active, .tk-tab.active, .tt-header-tab.active) {
-  background: var(--adventure-seal) !important;
-  color: var(--adventure-paper) !important;
-  border-color: #956b5b !important;
-  transform: none !important;
-  margin: 0 !important;
-  box-shadow: none !important;
-}
-.wow-window.adventurer-window :is(.spellbook-tab-button:active, .window-header-tab:active, .tk-tab:active, .tt-header-tab:active) {
-  transform: none !important;
-  margin: 0 !important;
-}
-.wow-window.adventurer-window :is(.spellbook-tab-button, .window-header-tab, .tk-tab, .tt-header-tab) :is(.tab-icon-glyph, i) {
-  font-size: 0.85rem !important;
-  margin-right: 2px;
-}
-.wow-window.adventurer-window :is(.spellbook-tab-button, .window-header-tab, .tk-tab, .tt-header-tab) .tab-icon-img {
-  width: 16px !important;
-  height: 16px !important;
-  object-fit: contain;
-  margin-right: 2px;
-}
 .wow-window.adventurer-window .tab-overflow-trigger {
   background: var(--adventure-panel) !important;
   border: 1px solid var(--adventure-rule) !important;
@@ -356,33 +301,13 @@
 }
 :is(.wow-window.adventurer-window, .character-view-page) :is(input, textarea)::placeholder { color: var(--adventure-muted) !important; opacity: 1; }
 :is(.wow-window.adventurer-window, .character-view-page) :is(input, textarea, select):focus { border-color: var(--adventure-seal) !important; box-shadow: none !important; }
-:is(.wow-window.adventurer-window, .character-view-page) :is(.wow-button, .pf-button, .toolbar-btn, .quest-button, .crafting-button, .craft-button, .settings-button, .btn-primary, .primary-btn, .roll-table-btn, .skill-simple-roll) {
-  background: var(--adventure-seal) !important;
-  border: 1px solid #956b5b !important;
-  border-radius: 3px !important;
-  color: var(--adventure-paper) !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  font-family: 'Cinzel', Georgia, serif !important;
-}
-:is(.wow-window.adventurer-window, .character-view-page) :is(.wow-button, .pf-button, .toolbar-btn, .quest-button, .crafting-button, .craft-button, .settings-button, .btn-primary, .primary-btn, .roll-table-btn, .skill-simple-roll):hover:not(:disabled) { background: #78493b !important; border-color: #a77761 !important; color: var(--adventure-paper) !important; box-shadow: none !important; transform: none !important; }
-:is(.wow-window.adventurer-window, .character-view-page) :is(.wow-button.secondary, .pf-button-secondary, .btn-secondary, .secondary-btn) { background: var(--adventure-panel) !important; color: var(--adventure-ink) !important; border-color: var(--adventure-rule) !important; }
-:is(.wow-window.adventurer-window, .character-view-page) :is(.filter-button, .filter-btn, .category-button, .category-btn, .folder-tab, .tab-button, .sidebar-tab, .view-toggle-btn) { background: var(--adventure-panel) !important; color: var(--adventure-muted) !important; border-color: var(--adventure-rule) !important; border-radius: 3px !important; box-shadow: none !important; text-shadow: none !important; }
-:is(.wow-window.adventurer-window, .character-view-page) :is(.filter-button.active, .filter-btn.active, .category-button.active, .category-btn.active, .folder-tab.active, .tab-button.active, .sidebar-tab.active, .view-toggle-btn.active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; border-color: var(--adventure-seal) !important; }
 :is(.wow-window.adventurer-window, .character-view-page) :is(h1, h2, h3, h4) { font-family: 'Cinzel', Georgia, serif; color: var(--adventure-ink); text-shadow: none; }
-:is(.wow-window.adventurer-window, .character-view-page) :is(.spellbook-main-content, .spellbook-layout, .inventory-container, .crafting-window-content, .quest-log-content, .quest-details, .quest-list-sidebar, .player-journal-content, .journal-folder-bar, .journal-board-toolbar, .settings-content, .settings-panel) { background: var(--adventure-page) !important; color: var(--adventure-ink); box-shadow: none; }
-.adventurer-window :is(.quest-list-header, .quest-header, .crafting-header, .profession-header, .journal-board-toolbar) { background: var(--adventure-panel); border-color: var(--adventure-rule); box-shadow: none; }
-.adventurer-window :is(.quest-description, .quest-details-empty-text, .profession-description, .journal-gm-notice p) { font-family: 'Crimson Text', Georgia, serif; color: var(--adventure-muted); }
-.adventurer-window :is(.quest-entry, .quest-list-item, .profession-card, .recipe-card, .setting-section) { border-color: var(--adventure-rule); border-radius: 3px; box-shadow: none; }
-.adventurer-window :is(.quest-entry.active, .quest-list-item.active, .profession-card.selected) { border-color: var(--adventure-seal); background: var(--adventure-panel); box-shadow: none; }
 
 /* Actual panel-specific surfaces that used their own legacy chrome. */
 .wow-window.adventurer-window :is(.campaign-header-section, .overview-card, .profession-selection-header, .profession-selection-footer, .profession-row) { background: var(--adventure-page) !important; border: 1px solid var(--adventure-rule) !important; border-radius: 3px !important; box-shadow: none !important; }
 .wow-window.adventurer-window .profession-row::before { display: none; }
 .wow-window.adventurer-window .profession-row:hover { border-color: var(--adventure-seal) !important; background: var(--adventure-panel) !important; box-shadow: none !important; transform: none !important; }
-.adventurer-window :is(.profession-medallion, .profession-medallion-level, .overview-card-icon) { border-color: var(--adventure-rule) !important; box-shadow: none !important; }
 .adventurer-window .profession-description { font-family: 'Crimson Text', Georgia, serif; color: var(--adventure-muted); }
-.adventurer-window :is(.create-campaign-btn, .campaign-add-btn) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; border-color: #956b5b !important; border-radius: 3px; box-shadow: none; }
 .adventurer-window .board-empty-state { background: var(--adventure-page); border: 1px solid var(--adventure-rule); border-radius: 3px; box-shadow: none; backdrop-filter: none; }
 .adventurer-window .board-empty-state :is(i, p, span) { color: var(--adventure-muted); filter: none; text-shadow: none; }
 .adventurer-window .quest-list-header > span { background: var(--adventure-panel); color: var(--adventure-ink); box-shadow: none; }
@@ -418,9 +343,9 @@
 
 /* Spell authoring and its separate preview inherit the same publication skin. */
 .wow-window.adventurer-window :is(.spellbook-layout, .pf-spellbook) {
-  --my-gradient-parchment: linear-gradient(#f5ecd9, #f5ecd9) !important;
+  --my-gradient-parchment: linear-gradient(#f1ece1, #f1ece1) !important;
   --my-parchment: #f0e3c4 !important;
-  --my-parchment-light: #f5ecd9 !important;
+  --my-parchment-light: #f1ece1 !important;
   --my-text-primary: #34251a !important;
   --my-text-secondary: #68533e !important;
 }
@@ -444,9 +369,9 @@
   --my-text-secondary: #68533e !important;
   --my-text-muted: #68533e !important;
   --my-parchment: #f0e3c4 !important;
-  --my-parchment-light: #f5ecd9 !important;
-  --my-parchment-dark: #e8dcc6 !important;
-  --my-gradient-parchment: linear-gradient(#f5ecd9, #f5ecd9) !important;
+  --my-parchment-light: #f1ece1 !important;
+  --my-parchment-dark: #e8e2d4 !important;
+  --my-gradient-parchment: linear-gradient(#f1ece1, #f1ece1) !important;
   background: var(--adventure-page) !important;
   color: var(--adventure-ink) !important;
   font-family: 'Crimson Text', Georgia, serif !important;
@@ -587,7 +512,6 @@
   .character-folio-fold { flex-basis: 10px; }
 }
 :is(.wow-window.adventurer-window, .character-view-page) :is(.page-filigree-border, .decorative-double-hr, .decorative-single-hr, .meta-row-item) { border-color: var(--adventure-rule) !important; }
-:is(.wow-window.adventurer-window, .character-view-page) :is(.lore-book-spine-divider, .spine-ring) { background: var(--adventure-leather) !important; border-color: #9b835e !important; box-shadow: none !important; }
 :is(.wow-window.adventurer-window, .character-view-page) :is(.character-book-name, .equipment-identity-name, .stats-section-title, .skill-simple-name, .skill-detail-name, .lore-section-title-enhanced, .meta-block-title) { color: var(--adventure-ink) !important; font-family: 'Cinzel', Georgia, serif !important; text-shadow: none !important; }
 :is(.wow-window.adventurer-window, .character-view-page) :is(.character-book-subtitle, .equipment-identity-subtitle, .lore-field-hint, .stat-description, .skill-simple-description, .skill-detail-description) { color: var(--adventure-muted) !important; font-family: 'Crimson Text', Georgia, serif !important; font-size: 1rem; text-transform: none; }
 :is(.wow-window.adventurer-window, .character-view-page) :is(.lore-field-label, .meta-item-label, .wow-base-stat-label) { color: var(--adventure-muted) !important; text-shadow: none; }
@@ -600,17 +524,12 @@
 /* Standalone character view: the same manuscript with a leather masthead. */
 .character-view-page { background: var(--adventure-panel); color: var(--adventure-ink); }
 .character-view-page .character-view-header { background: var(--adventure-leather); border-bottom: 1px solid #9b835e; box-shadow: none; }
-.character-view-page :is(.character-header-title, .character-title-name, .character-title-class, .character-title-race, .character-title-level) { color: var(--adventure-paper) !important; text-shadow: none !important; }
 .character-view-page :is(.character-title-class, .character-title-race) { border-bottom-color: #9b835e; }
 .character-view-page :is(.character-title-class, .character-title-race):is(:hover, :focus-visible) { color: var(--adventure-paper); text-shadow: none; transform: none; }
-.character-view-page .character-view-sync-chip { background: transparent; border: 1px solid #897455; border-radius: 3px; color: #d0bf9e; box-shadow: none; }
-.character-view-page .character-view-sync-chip i { color: #d0bf9e; }
 .character-view-page .character-view-tabs-ribbon { background: var(--adventure-panel); border-color: var(--adventure-rule); box-shadow: none; }
 .character-view-page .char-tab-btn { background: var(--adventure-panel) !important; color: var(--adventure-muted) !important; border: 1px solid var(--adventure-rule) !important; border-radius: 3px !important; box-shadow: none !important; text-shadow: none !important; }
 .character-view-page .char-tab-btn:is(:hover, .active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; border-color: var(--adventure-seal) !important; transform: none; }
 .character-view-page .char-tab-dropdown-menu { background: var(--adventure-page) !important; border: 1px solid var(--adventure-rule) !important; border-radius: 3px; color: var(--adventure-ink); box-shadow: 0 6px 18px rgba(52, 37, 26, 0.2) !important; }
-.character-view-page :is(.char-tab-dropdown-item, .char-tab-dropdown-section-header) { color: var(--adventure-ink) !important; }
-.character-view-page :is(.char-tab-dropdown-item, .char-tab-dropdown-section-header):is(:hover, .active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; }
 .character-view-page :is(.char-dropdown-item, .char-dropdown-section-header) { color: var(--adventure-ink) !important; border-radius: 2px; }
 .character-view-page :is(.char-dropdown-item, .char-dropdown-section-header):is(:hover, .active) { background: var(--adventure-seal) !important; color: var(--adventure-paper) !important; }
 .character-view-page :is(.character-view-content, .character-view-content-wrapper) { background: var(--adventure-page); color: var(--adventure-ink); }
@@ -747,26 +666,6 @@
 }
 
 /* Tactics & Behavior */
-.wow-window.adventurer-window :is(.tactic-card, .creature-tactics-notes, .tactic-info-card) {
-  background: var(--adventure-page) !important;
-  border: 1px solid var(--adventure-rule) !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
-  color: var(--adventure-ink) !important;
-}
-
-.wow-window.adventurer-window .tactic-card-title {
-  color: var(--adventure-ink) !important;
-  font-family: 'Cinzel', Georgia, serif !important;
-  border-bottom: 1px solid var(--adventure-rule) !important;
-  text-shadow: none !important;
-}
-
-.wow-window.adventurer-window .tactic-card-value {
-  color: var(--adventure-seal) !important;
-  font-family: 'Cinzel', Georgia, serif !important;
-  font-weight: 700 !important;
-}
 
 /* Lore & Descriptions */
 .wow-window.adventurer-window :is(.creature-lore-section, .creature-tags-section, .loot-tier-card) {
@@ -816,6 +715,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .adventurer-window :is(button, input, select, textarea),
-  .adventurer-menu *, .wow-nav-flyout *, .character-view-page .character-view-sync-chip i { transition: none !important; animation: none !important; }
+  .adventurer-window :is(button, input, select, textarea), .adventurer-menu *, .wow-nav-flyout * { transition: none !important; animation: none !important; }
 }

@@ -10,25 +10,6 @@
     /* Invisible but clickable */
 }
 
-.wall-element {
-    position: absolute;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    user-select: none;
-}
-
-.wall-element:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-}
-
-.wall-element.hovered {
-    transform: scale(1.05);
-    filter: brightness(1.2);
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
-    z-index: 12 !important;
-}
-
 /* Wall tooltip styles removed - now using unified TileTooltip component */
 
 /* Context Menu Styles */
@@ -40,18 +21,6 @@
     height: 100vh;
     background: transparent;
     z-index: 999998;
-}
-
-.wall-context-menu {
-    position: fixed;
-    background: linear-gradient(135deg, #2c1810 0%, #3d2317 100%);
-    border: 2px solid #d4af37;
-    border-radius: 6px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-    z-index: 999999;
-    min-width: 150px;
-    font-family: 'Cinzel', serif;
-    overflow: hidden;
 }
 
 .context-menu-item {
@@ -73,41 +42,6 @@
 }
 
 /* Material-specific patterns for enhanced visual appeal */
-.wall-element.stone-wall {
-    background-image:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px),
-        radial-gradient(circle at 80% 80%, rgba(0,0,0,0.1) 1px, transparent 1px);
-    background-size: 8px 8px, 12px 12px;
-}
-
-.wall-element.wooden-wall {
-    background-image:
-        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size: 4px 100%, 100% 8px;
-}
-
-.wall-element.brick-wall {
-    background-image:
-        linear-gradient(0deg, rgba(0,0,0,0.2) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
-    background-size: 100% 16px, 32px 100%;
-}
-
-.wall-element.metal-wall {
-    background-image:
-        linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%);
-    background-size: 6px 6px;
-}
-
-.wall-element.magical-barrier {
-    animation: magical-shimmer 2s ease-in-out infinite alternate;
-}
-
-.wall-element.force-wall {
-    animation: force-pulse 1.5s ease-in-out infinite alternate;
-}
 
 @keyframes magical-shimmer {
     0% {

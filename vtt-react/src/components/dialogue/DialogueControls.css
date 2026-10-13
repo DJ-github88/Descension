@@ -9,7 +9,7 @@
 
 /* Toggle Button */
 .dialogue-toggle-btn {
-  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+  background: #f1ece1;
   border: 2px solid #8b7355;
   border-radius: 8px;
   color: #2c1810;
@@ -44,23 +44,19 @@
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
     bottom: 0;
-    width: 100vw;
     height: 100vh;
     height: 100dvh;
-    max-height: none;
     border-radius: 0;
   }
 
   .panel-content {
-    max-height: none;
     padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
   }
 }
 
 .dialogue-toggle-btn:hover {
-  background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a8 100%);
+  background: linear-gradient(135deg, #e8e2d4 0%, #d4c4a8 100%);
   border-color: #7a3b2e;
   transform: translateY(-2px);
   box-shadow:
@@ -91,7 +87,7 @@
   right: 0;
   width: 390px;
   max-height: min(640px, 78vh);
-  background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+  background: linear-gradient(135deg, #f5f1e8 0%, #e8e2d4 100%);
   border: 2px solid #8b7355;
   border-radius: 12px;
   box-shadow:
@@ -112,7 +108,7 @@
   align-items: center;
   padding: 10px 16px;
   border-bottom: 2px solid #8b7355;
-  background: linear-gradient(135deg, #e8dcc0 0%, #d5cbb0 100%);
+  background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%);
   flex-shrink: 0;
 }
 
@@ -161,7 +157,7 @@
 }
 
 .panel-tab.active {
-  background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+  background: linear-gradient(135deg, #f5f1e8 0%, #e8e2d4 100%);
   color: #5a1e12;
   border-bottom-color: #d4af37;
 }
@@ -202,7 +198,7 @@
   gap: 10px;
   padding: 12px 16px;
   border-top: 2px solid #8b7355;
-  background: linear-gradient(135deg, #e8dcc0 0%, #d5cbb0 100%);
+  background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%);
   flex-shrink: 0;
 }
 
@@ -251,7 +247,7 @@
 
 .input-section textarea {
   width: 100%;
-  background: #f8f4e6;
+  background: #f8f5ee;
   border: 2px solid #8b7355;
   border-radius: 8px;
   color: #5a1e12;
@@ -284,7 +280,7 @@
 }
 
 .markup-help details {
-  background: #ede4d3;
+  background: #f1ece1;
   border: 2px solid #8b7355;
   border-radius: 6px;
   padding: 12px;
@@ -337,7 +333,7 @@
 }
 
 .effect-list code {
-  background: #d5cbb0;
+  background: #c4baa6;
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
@@ -355,7 +351,7 @@
 }
 
 .control-section {
-  background: linear-gradient(135deg, #ede4d3 0%, #e8dcc0 100%);
+  background: #f1ece1;
   border: 2px solid #8b7355;
   border-radius: 8px;
   padding: 10px;
@@ -424,7 +420,7 @@
 .control-item select,
 .control-item input[type="range"] {
   width: 100%;
-  background: #f8f4e6;
+  background: #f8f5ee;
   border: 2px solid #8b7355;
   border-radius: 6px;
   color: #5a1e12;
@@ -453,7 +449,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: #5a1e12;
-  color: #f8f4e6;
+  color: #f8f5ee;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 11px;
@@ -492,7 +488,7 @@
 
 .control-group select {
   width: 100%;
-  background: #f8f4e6;
+  background: #f8f5ee;
   border: 2px solid #8b7355;
   border-radius: 6px;
   color: #5a1e12;
@@ -552,7 +548,7 @@
 }
 
 .preview-text {
-  background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+  background: linear-gradient(135deg, #f5f1e8 0%, #e8e2d4 100%);
   border: 2px solid #8b7355;
   border-radius: 12px;
   padding: 10px 12px;
@@ -786,16 +782,11 @@
 }
 
 /* Action Buttons */
-.dialogue-controls .action-buttons,
-.dialogue-controls .action-buttons-grid {
+.dialogue-controls .action-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 16px;
-}
-
-.dialogue-controls .action-buttons-grid button {
-  width: 100%;
 }
 
 .send-btn,
@@ -830,7 +821,7 @@
 .clear-btn {
   background: linear-gradient(135deg, #8b7355 0%, #6d5a43 100%);
   border-color: #5a1e12;
-  color: #f8f4e6;
+  color: #f8f5ee;
 }
 
 .clear-btn:hover:not(:disabled) {
@@ -852,7 +843,7 @@
   background: linear-gradient(135deg, #a08c70 0%, #8b7355 100%) !important;
   border: 2px solid #5a1e12 !important;
   border-radius: 8px !important;
-  color: #f8f4e6 !important;
+  color: #f8f5ee !important;
   font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace !important;
   font-size: 14px !important;
   font-weight: bold !important;
@@ -876,11 +867,6 @@
 }
 
 /* Character Info - Pathfinder Style */
-.character-info {
-  border-top: 2px solid #8b7355;
-  padding-top: 16px;
-  margin-top: 16px;
-}
 
 .character-preview {
   display: flex;
@@ -888,20 +874,12 @@
   gap: 12px;
 }
 
-.character-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #d4af37;
-}
-
 .avatar-placeholder,
 .portrait-placeholder {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #e8dcc0;
+  background: #e8e2d4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -917,7 +895,7 @@
 
 .avatar-placeholder.no-image,
 .portrait-placeholder.no-image {
-  background: #e8dcc0;
+  background: #e8e2d4;
 }
 
 .avatar-placeholder i,
@@ -964,7 +942,7 @@
 
 /* Enhanced Creature Select Button - Pathfinder Beige Styling */
 .enhanced-creature-select-button {
-  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+  background: #f1ece1;
   border: 2px solid #8b7355;
   border-radius: 8px;
   color: #2c1810;
@@ -987,7 +965,7 @@
 }
 
 .enhanced-creature-select-button:hover {
-  background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a8 100%);
+  background: linear-gradient(135deg, #e8e2d4 0%, #d4c4a8 100%);
   border-color: #7a3b2e;
   transform: translateY(-2px);
   box-shadow:
@@ -1057,8 +1035,7 @@
     gap: 10px;
   }
 
-  .action-buttons,
-  .action-buttons-grid {
+  .action-buttons {
     grid-template-columns: 1fr;
     gap: 8px;
   }

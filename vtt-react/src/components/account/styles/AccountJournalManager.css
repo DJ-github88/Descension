@@ -7,7 +7,7 @@
   width: 100%;
   max-width: none;
   /* Contained parchment surface that sits inside tab-content padding */
-  background: linear-gradient(145deg, #f5f0e1 0%, #e8dcc6 100%);
+  background: linear-gradient(145deg, #f5f0e1 0%, #e8e2d4 100%);
   border: 1px solid rgba(139, 69, 19, 0.18);
   border-radius: 14px;
   box-shadow: 0 4px 18px rgba(139, 69, 19, 0.08);
@@ -199,7 +199,7 @@
 }
 
 .background-selection-modal .background-option .bg-preview-none {
-  background: linear-gradient(145deg, #ede4d3 0%, #e0d4c0 100%);
+  background: linear-gradient(145deg, #f1ece1 0%, #e0d4c0 100%);
 }
 
 .background-selection-modal .background-option .bg-preview img {
@@ -517,7 +517,7 @@
   position: relative;
   background:
     radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 70%),
-    linear-gradient(145deg, #ede4d3 0%, #e0d4c0 100%);
+    linear-gradient(145deg, #f1ece1 0%, #e0d4c0 100%);
   border: 2px solid rgba(139, 69, 19, 0.25);
   border-radius: 10px;
   overflow: hidden;
@@ -2992,7 +2992,7 @@
 
 /* Folder Modal */
 .folder-modal {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 24px;
@@ -3086,7 +3086,7 @@
 
 /* Confirm Modal */
 .confirm-modal {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 24px;
@@ -4185,7 +4185,7 @@
 }
 
 .orb-editor {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 20px;
@@ -5403,7 +5403,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: linear-gradient(145deg, #f5ecd9 0%, #ede0c6 100%);
+  background: linear-gradient(145deg, #f1ece1 0%, #ede0c6 100%);
   border: 1.5px dashed #be9e71;
   border-radius: 10px;
   padding: 16px 20px;

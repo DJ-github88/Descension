@@ -6,14 +6,14 @@
   --workspace-ink: #34251a;
   --workspace-muted: #68533e;
   --workspace-paper: #f0e3c4;
-  --workspace-page: #f5ecd9;
+  --workspace-page: #f1ece1;
   --workspace-border: #b6a080;
   --workspace-seal: #663c32;
   --workspace-leather: #302419;
   --workspace-ochre: #c4ab79;
   --workspace-texture: url('../../../../public/assets/ui/wow-window/parchment_bg.png');
   color: var(--workspace-ink);
-  scrollbar-color: #9b835e #e8dcc6;
+  scrollbar-color: #9b835e #e8e2d4;
 }
 
 .account-dashboard-page ::selection,
@@ -23,7 +23,7 @@
 }
 
 .account-dashboard-page .account-dashboard {
-  background: #e8dcc6;
+  background: #e8e2d4;
   background-image: linear-gradient(rgba(232, 220, 198, 0.86), rgba(232, 220, 198, 0.86)), var(--workspace-texture);
   background-size: auto, 600px;
   color: var(--workspace-ink);
@@ -277,7 +277,7 @@
   min-height: 36px;
 }
 .account-dashboard-page :is(.refresh-rooms-btn, .refresh-status-btn, .btn-secondary):hover:not(:disabled) {
-  background: #e8dcc6;
+  background: #e8e2d4;
   color: var(--workspace-ink);
   box-shadow: none;
   transform: none;
@@ -336,7 +336,7 @@
   border-radius: 4px;
   box-shadow: none;
 }
-.account-dashboard-page .hero-slot-add-card:hover { background: #e8dcc6; border-color: #826749; box-shadow: none; transform: none; }
+.account-dashboard-page .hero-slot-add-card:hover { background: #e8e2d4; border-color: #826749; box-shadow: none; transform: none; }
 .account-dashboard-page .add-slot-icon-ring { background: transparent; border: 1px solid var(--workspace-border); color: var(--workspace-seal); }
 .account-dashboard-page .hero-slot-add-card:hover .add-slot-icon-ring { background: #e5d7bb; color: var(--workspace-seal); transform: none; }
 .account-dashboard-page .add-slot-subtitle { font-family: 'Crimson Text', Georgia, serif; font-size: 1rem; color: var(--workspace-muted); }
@@ -426,7 +426,7 @@
   --draft-brass: #a08c70;
   --draft-gilt: #9b835e;
   --draft-parchment: #f0e3c4;
-  --draft-parchment-hi: #f5ecd9;
+  --draft-parchment-hi: #f1ece1;
   --draft-parchment-set: #e5d5b6;
   --draft-muted: #68533e;
   --draft-oxblood: #663c32;

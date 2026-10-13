@@ -1,0 +1,10 @@
+const fs=require('fs'),path=require('path'),Module=require('module');
+const base=__dirname.replace(/\\/g,'/');
+const redirect=f=>{if(typeof f!=='string')return f;const n=path.resolve(f).replace(/\\/g,'/');for(const [from,to] of [['D:/VTT/vtt-react/verification/p7/evidence',base+'/evidence'],['D:/VTT/vtt-react/verification/p6/evidence',base+'/retained-p6'],['D:/VTT/vtt-react/verification/p5-01/evidence',base+'/retained-p5'],['D:/VTT/server/logs',base+'/server-logs']])if(n===from||n.startsWith(from+'/'))return to+n.slice(from.length);return f;};
+const write=fs.writeFileSync,mkdir=fs.mkdirSync;
+fs.writeFileSync=(f,...args)=>{const target=redirect(f);if(typeof target==='string'&&path.resolve(target).replace(/\\/g,'/').startsWith('D:/VTT/'))throw Error('Repository write forbidden: '+target);mkdir(path.dirname(target),{recursive:true});return write(target,...args);};
+fs.mkdirSync=(f,...args)=>{const target=redirect(f);if(typeof target==='string'&&path.resolve(target).replace(/\\/g,'/').startsWith('D:/VTT/'))throw Error('Repository mkdir forbidden: '+target);return mkdir(target,...args);};
+for(const key of ['mkdir','writeFile','appendFile','unlink','readdir','stat']){const original=fs.promises[key].bind(fs.promises);fs.promises[key]=async(f,...args)=>{const target=redirect(f);if(['mkdir','writeFile','appendFile','unlink'].includes(key)&&typeof target==='string'&&path.resolve(target).replace(/\\/g,'/').startsWith('D:/VTT/'))throw Error('Repository write forbidden: '+target);return original(target,...args);};}
+const compile=Module.prototype._compile;Module.prototype._compile=function(source,file){if(/verification[\\/]p7[\\/](red-replay|baseline-test)\.cjs$/.test(file))source=source.replaceAll('D:/AppData/Temp/opencode/p7-baseline-20261013',base+'/baseline');return compile.call(this,source,file);};
+const load=Module._load;Module._load=function(request,parent,main){if(request==='dotenv')return {config:()=>({parsed:{}})};return load.call(this,request,parent,main);};
+for(const key of Object.keys(process.env))if(/^(GOOGLE_|FIREBASE_SERVICE_ACCOUNT|FIREBASE_PRIVATE_KEY|FIREBASE_CLIENT_EMAIL)/.test(key))delete process.env[key];

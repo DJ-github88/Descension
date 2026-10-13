@@ -19,15 +19,10 @@
     height: 500px;
     max-width: 92vw;
     max-height: 85vh;
-    background: #f5edd8;
-    border: 1px solid #b8a88c;
-    border-radius: 6px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     font-family: 'Segoe UI', 'Bookman Old Style', serif;
-    color: #3a2a1a;
     user-select: none;
     position: relative;
 }
@@ -340,12 +335,12 @@
     color: #5e2e23 !important;
 }
 
-.qig-modal .mini-toggle.active { background: #7a3b2e !important; color: #f0e6d2 !important; border-color: #5e2e23 !important; }
+.qig-modal .mini-toggle.active { background: #7a3b2e !important; color: #f1ece1 !important; border-color: #5e2e23 !important; }
 
 /* Buttons */
 .qig-modal .primary-button {
     background: #7a3b2e !important;
-    color: #f0e6d2 !important;
+    color: #f1ece1 !important;
     border: none !important;
     padding: 5px 16px !important;
     border-radius: 4px !important;

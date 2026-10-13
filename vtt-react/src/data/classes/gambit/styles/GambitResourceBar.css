@@ -83,7 +83,7 @@
     }
 }
 
-/* Master SVG Canvas */
+/* Master SVG Canvas (calm: no drop shadows, hover = darker ink stroke) */
 .gambit-master-svg {
     width: 100%;
     max-width: 295px;
@@ -91,108 +91,34 @@
     max-height: 76px;
     display: block;
     overflow: visible;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.85));
-    transition: filter 0.25s ease;
 }
 
-.gambit-master-svg:hover {
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
-}
-
-/* Coin Slots - Pure lighting interaction, NO movement / translation on hover */
-.gambit-coin-slot {
+.gambit-coin-slot,
+.gambit-centerpiece,
+.gambit-debt-card {
     cursor: pointer;
-    transition: filter 0.15s ease, opacity 0.15s ease;
 }
 
-.gambit-coin-slot:hover .gambit-coin-bezel {
-    stroke: #ffffff !important;
-    stroke-width: 1.6px !important;
-    filter: drop-shadow(0 0 6px #ffe9a8) brightness(1.25);
-}
-
+.gambit-coin-slot:hover .gambit-coin-bezel,
 .gambit-coin-slot:hover .gambit-coin-disc {
-    stroke: #ffffff !important;
-    filter: drop-shadow(0 0 8px #ffd700) brightness(1.2);
-}
-
-.gambit-coin-slot:hover text {
-    fill: #ffffff !important;
-    font-weight: 900 !important;
-    filter: drop-shadow(0 0 4px #ffd700);
-}
-
-/* Centerpiece Roulette Wheel / d20 Die - Pure lighting interaction, NO movement on hover */
-.gambit-centerpiece {
-    cursor: pointer;
-    transition: filter 0.2s ease;
+    stroke: #34251a !important;
+    stroke-width: 1.3px !important;
 }
 
 .gambit-centerpiece:hover .gambit-center-disc {
-    filter: drop-shadow(0 0 14px #ffd700) brightness(1.25);
-    stroke: #ffffff;
+    stroke: #34251a;
 }
 
-.gambit-centerpiece:hover text {
-    filter: drop-shadow(0 0 5px #ffe494);
-}
-
-/* Karmic Debt Cards - Pure lighting interaction, NO movement on hover */
-.gambit-debt-card {
-    cursor: pointer;
-    transition: filter 0.15s ease, opacity 0.15s ease;
-}
-
-.gambit-debt-card:hover .gambit-card-body {
-    stroke: #ffffff !important;
-    stroke-width: 1.4px !important;
-    filter: drop-shadow(0 0 8px #ff8a7a) brightness(1.3);
-}
-
+.gambit-debt-card:hover .gambit-card-body,
 .gambit-debt-card.calamity-card:hover .calamity-body {
-    stroke: #ffffff !important;
-    stroke-width: 1.6px !important;
-    filter: drop-shadow(0 0 14px #ff4d4d) brightness(1.35);
+    stroke: #34251a !important;
+    stroke-width: 1.3px !important;
 }
 
-.gambit-debt-card:hover text {
-    fill: #ffffff !important;
-    font-weight: 900 !important;
-    filter: drop-shadow(0 0 4px #ff4d4d);
-}
-
-/* Warning Pulses */
-.gambit-resource-wrapper.bust-active .gambit-center-disc {
-    animation: gambitBustPulse 1.2s infinite alternate ease-in-out;
-}
-
-@keyframes gambitBustPulse {
-    0% { filter: drop-shadow(0 0 4px #c0392b); }
-    100% { filter: drop-shadow(0 0 12px #ff4d4d) brightness(1.25); }
-}
-
-.gambit-resource-wrapper.collapse-active .gambit-debt-card.danger.filled .gambit-card-body,
-.gambit-resource-wrapper.collapse-active .gambit-debt-card.calamity-card.filled .calamity-body {
-    animation: gambitCollapsePulse 0.9s infinite alternate ease-in-out;
-}
-
-@keyframes gambitCollapsePulse {
-    0% { filter: drop-shadow(0 0 4px #e11d48); }
-    100% { filter: drop-shadow(0 0 12px #fb7185) brightness(1.3); }
+/* Warning states are shown by the brick-colored art itself, no pulses */
+.gambit-resource-wrapper.bust-active .gambit-center-disc,
+.gambit-resource-wrapper.collapse-active .gambit-debt-card .gambit-card-body {
+    animation: none;
 }
 
 /* Drawer Spells List Hover & Drag effects */
-.gambit-drawer-spell-card {
-    transition: all 0.15s ease;
-}
-
-.gambit-drawer-spell-card:hover {
-    background: #fff8e1 !important;
-    border-color: #b7791f !important;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-}
-
-.gambit-drawer-spell-card:active {
-    cursor: grabbing !important;
-}

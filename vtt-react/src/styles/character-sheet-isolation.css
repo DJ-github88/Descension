@@ -16,11 +16,11 @@
   --my-text-light: #5c4033 !important;
   --my-text-on-dark: #5c4033 !important;
   
-  --my-gradient-parchment: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
-  --my-parchment: #ede4d3 !important;
-  --my-parchment-light: #f8f4e6 !important;
-  --my-parchment-dark: #e8dcc6 !important;
-  --my-parchment-darker: #d5cbb0 !important;
+  --my-gradient-parchment: linear-gradient(135deg, #f1ece1 0%, #e6dac8 50%, #d5cbb8 100%) !important;
+  --my-parchment: #f1ece1 !important;
+  --my-parchment-light: #f8f5ee !important;
+  --my-parchment-dark: #e8e2d4 !important;
+  --my-parchment-darker: #c4baa6 !important;
   
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
   color: #5c4033 !important;
@@ -65,7 +65,7 @@
 
 /* FORCE BACKGROUND COLORS */
 .game-mode .character-container {
-  background: linear-gradient(135deg, #f0e6d2 0%, #e6dac8 50%, #d5cbb8 100%) !important;
+  background: linear-gradient(135deg, #f1ece1 0%, #e6dac8 50%, #d5cbb8 100%) !important;
 }
 
 .game-mode .character-navigation {
@@ -73,7 +73,7 @@
 }
 
 .game-mode .character-sheet {
-  background-color: #f0e6d2 !important;
+  background-color: #f1ece1 !important;
   color: #5c4033 !important;
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
 }

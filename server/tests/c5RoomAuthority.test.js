@@ -1552,7 +1552,9 @@ describe('Project 4 C5 room authority', function() {
           });
           let deltas = 0;
           client.on('tokens_delta', () => { deltas += 1; });
-          client.emit('token_updated', { roomId: room.id, mapId: 'default', tokenId: 't1', updates: { currentHp: 3 } });
+          // P7 resource writes use a different capability; lease the unchanged
+          // presentation-update lane here so this remains a delta-fence witness.
+          client.emit('token_updated', { roomId: room.id, mapId: 'default', tokenId: 't1', updates: { customName: 'T1 updated' } });
           await wait(200);
           // The handler ran (state was updated) but the stale delta was dropped.
           expect(room.gameState.maps.default.tokens.t1.updatedAt).to.be.a('number');

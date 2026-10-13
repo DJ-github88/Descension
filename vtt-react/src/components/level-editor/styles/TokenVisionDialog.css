@@ -13,7 +13,7 @@
 }
 
 .token-vision-dialog {
-    background: linear-gradient(to bottom, #f0e6d2, #e6d7c3);
+    background: linear-gradient(to bottom, #f1ece1, #e6d7c3);
     border: 3px solid #7a3b2e;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -27,7 +27,7 @@
 /* Dialog Header */
 .dialog-header {
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
+    color: #f1ece1;
     padding: 16px 20px;
     border-radius: 9px 9px 0 0;
     display: flex;
@@ -46,7 +46,7 @@
 .close-btn {
     background: none;
     border: none;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 24px;
     cursor: pointer;
     padding: 0;
@@ -83,7 +83,7 @@
     color: #7a3b2e;
     font-size: 16px;
     font-weight: bold;
-    border-bottom: 1px solid #d5cbb0;
+    border-bottom: 1px solid #c4baa6;
     padding-bottom: 6px;
 }
 
@@ -96,7 +96,7 @@
 
 .vision-type-btn {
     background: rgba(240, 230, 210, 0.5);
-    border: 1px solid #d5cbb0;
+    border: 1px solid #c4baa6;
     border-radius: 6px;
     padding: 12px;
     cursor: pointer;
@@ -116,7 +116,7 @@
 .vision-type-btn.active {
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(122, 59, 46, 0.3);
 }
@@ -128,7 +128,7 @@
 }
 
 .vision-type-btn.active .type-name {
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 .type-description {
@@ -138,7 +138,7 @@
 }
 
 .vision-type-btn.active .type-description {
-    color: #d5cbb0;
+    color: #c4baa6;
 }
 
 /* Range Presets */
@@ -151,7 +151,7 @@
 
 .range-btn {
     background: rgba(240, 230, 210, 0.5);
-    border: 1px solid #d5cbb0;
+    border: 1px solid #c4baa6;
     border-radius: 4px;
     padding: 10px 8px;
     cursor: pointer;
@@ -172,12 +172,12 @@
 .range-btn.active {
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 /* Custom Range */
 .custom-range-section {
-    border-top: 1px solid #d5cbb0;
+    border-top: 1px solid #c4baa6;
     padding-top: 12px;
 }
 
@@ -204,7 +204,7 @@
 
 .custom-range-input input {
     background: rgba(255, 255, 255, 0.8);
-    border: 1px solid #d5cbb0;
+    border: 1px solid #c4baa6;
     border-radius: 4px;
     padding: 6px 8px;
     font-size: 12px;
@@ -285,7 +285,7 @@
 
 .dialog-btn.primary {
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
+    color: #f1ece1;
     border-color: #7a3b2e;
 }
 

@@ -7,6 +7,8 @@ import '../styles/InquisitorResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { INK, MUTED, PAGE, PAPER, PANEL, RULE, ETCH, BRICK, BRASS, mix, inked, washed } from '../../../../components/hud/calmBarPalette';
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import { INQUISITOR_AUTHORITY_MAX, normalizeInquisitorResource } from '../../../inquisitorResourceContract';
 
 /**
@@ -205,97 +207,27 @@ const InquisitorResourceBar = ({
                         preserveAspectRatio="xMidYMid meet"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-                        <defs>
-                            {/* Inquisitorial Holy Ember Glow */}
-                            <filter id="inqEmberGlow" x="-30%" y="-30%" width="160%" height="160%">
-                                <feGaussianBlur stdDeviation="2.5" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
+                        <defs />
 
-                            {/* Absolute Verdict Radiant Burst Glow */}
-                            <filter id="inqAbsoluteBurst" x="-35%" y="-35%" width="170%" height="170%">
-                                <feGaussianBlur stdDeviation="3.2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            <filter id="inqDropShadow" x="-15%" y="-15%" width="130%" height="130%">
-                                <feDropShadow dx="0" dy="2" stdDeviation="1.8" floodColor="#000000" floodOpacity="0.95" />
-                            </filter>
-
-                            {/* Cold-Iron Metal Bevel Gradient */}
-                            <linearGradient id="inqColdIron" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#383230" />
-                                <stop offset="25%" stopColor="#221e1d" />
-                                <stop offset="65%" stopColor="#141110" />
-                                <stop offset="100%" stopColor="#080707" />
-                            </linearGradient>
-
-                            {/* Sealed Link Searing Molten Core Gradient */}
-                            <radialGradient id="inqSealedMolten" cx="50%" cy="45%" r="60%">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="20%" stopColor="#fef08a" />
-                                <stop offset="45%" stopColor="#f59e0b" />
-                                <stop offset="75%" stopColor="#b91c1c" />
-                                <stop offset="100%" stopColor="#450a0a" />
-                            </radialGradient>
-
-                            {/* Demon Collar Cold Metal Plate */}
-                            <linearGradient id="inqCollarPlate" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stopColor="#443c39" />
-                                <stop offset="35%" stopColor="#292422" />
-                                <stop offset="70%" stopColor="#171413" />
-                                <stop offset="100%" stopColor="#0a0808" />
-                            </linearGradient>
-
-                            {/* Consecrated Burning Salt Rim */}
-                            <linearGradient id="inqSaltRim" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="50%" stopColor="#fef3c7" />
-                                <stop offset="100%" stopColor="#ca8a04" />
-                            </linearGradient>
-                        </defs>
-
-                        {/* 1. BACKGROUND LEASH RUNWAY & SHADOW BED */}
-                        <g filter="url(#inqDropShadow)">
-                            {/* Deep Chiseled Blood-Ash Trench */}
-                            <path
-                                d="M 12 28 Q 180 34 348 28"
-                                fill="none"
-                                stroke="#0a0807"
-                                strokeWidth="24"
-                                strokeLinecap="round"
-                            />
-                            {/* Dark Rust-Iron Sub-Spine */}
-                            <path
-                                d="M 18 28 Q 180 32 342 28"
-                                fill="none"
-                                stroke="#1f1816"
-                                strokeWidth="16"
-                                strokeLinecap="round"
-                            />
-                        </g>
+                        {/* 1. LEDGER PAGE AND LEASH RUNWAY */}
+                        <rect x="2" y="2" width="356" height="52" rx="3" fill={PAGE} stroke={RULE} strokeWidth="1" />
+                        <path d="M 12 28 Q 180 34 348 28" fill="none" stroke={PANEL} strokeWidth="24" strokeLinecap="round" />
+                        <path d="M 18 28 Q 180 32 342 28" fill="none" stroke={PAPER} strokeWidth="16" strokeLinecap="round" />
 
                         {/* 2. BARBED WIRE RUNNERS LACING THE LEASH */}
                         {/* Upper Barbed Strand with Razor Barbs */}
                         <path
                             d="M 18 17 Q 90 14 160 18 M 200 18 Q 270 14 342 17"
                             fill="none"
-                            stroke={isAbsoluteVerdict ? '#fef08a' : isBindingTaut ? '#ef4444' : '#78716c'}
-                            strokeWidth="1.4"
-                            filter={isAbsoluteVerdict ? 'url(#inqEmberGlow)' : undefined}
+                            stroke={isAbsoluteVerdict ? BRASS : isBindingTaut ? BRICK : RULE}
+                            strokeWidth="1.2"
                         />
                         {[30, 60, 90, 120, 150, 210, 240, 270, 300, 330].map((bx, i) => (
                             <path
                                 key={i}
                                 d={`M ${bx - 3} 14 L ${bx + 3} 20 M ${bx + 3} 14 L ${bx - 3} 20`}
-                                stroke={isAbsoluteVerdict ? '#ffffff' : isBindingTaut ? '#fca5a5' : '#a8a29e'}
-                                strokeWidth="1.1"
+                                stroke={isAbsoluteVerdict ? BRASS : isBindingTaut ? BRICK : ETCH}
+                                strokeWidth="1"
                                 strokeLinecap="round"
                             />
                         ))}
@@ -304,16 +236,15 @@ const InquisitorResourceBar = ({
                         <path
                             d="M 18 39 Q 90 42 160 38 M 200 38 Q 270 42 342 39"
                             fill="none"
-                            stroke={isAbsoluteVerdict ? '#fef08a' : isBindingTaut ? '#ef4444' : '#78716c'}
-                            strokeWidth="1.4"
-                            filter={isAbsoluteVerdict ? 'url(#inqEmberGlow)' : undefined}
+                            stroke={isAbsoluteVerdict ? BRASS : isBindingTaut ? BRICK : RULE}
+                            strokeWidth="1.2"
                         />
                         {[40, 70, 100, 130, 220, 250, 280, 310, 340].map((bx, i) => (
                             <path
                                 key={i}
                                 d={`M ${bx - 3} 36 L ${bx + 3} 42 M ${bx + 3} 36 L ${bx - 3} 42`}
-                                stroke={isAbsoluteVerdict ? '#ffffff' : isBindingTaut ? '#fca5a5' : '#a8a29e'}
-                                strokeWidth="1.1"
+                                stroke={isAbsoluteVerdict ? BRASS : isBindingTaut ? BRICK : ETCH}
+                                strokeWidth="1"
                                 strokeLinecap="round"
                             />
                         ))}
@@ -321,8 +252,8 @@ const InquisitorResourceBar = ({
                         {/* Interconnecting Heavy Iron Anchor Pins between Links */}
                         {[59, 89, 119, 241, 271, 301].map((cx, i) => (
                             <g key={i}>
-                                <line x1={cx - 3} y1="28" x2={cx + 3} y2="28" stroke="#574843" strokeWidth="3" strokeLinecap="round" />
-                                <circle cx={cx} cy="28" r="1.5" fill="#ca8a04" />
+                                <line x1={cx - 3} y1="28" x2={cx + 3} y2="28" stroke={RULE} strokeWidth="2.4" strokeLinecap="round" />
+                                <circle cx={cx} cy="28" r="1.4" fill={BRASS} />
                             </g>
                         ))}
 
@@ -333,22 +264,20 @@ const InquisitorResourceBar = ({
                             style={{ cursor: isOwner ? 'pointer' : 'default' }}
                         >
                             {/* Brand Grip Mount */}
-                            <rect x="6" y="23" width="7" height="10" rx="1.5" fill="#1c1817" stroke="#78350f" strokeWidth="0.8" />
+                            <rect x="6" y="23" width="7" height="10" rx="1.5" fill={PAPER} stroke={RULE} strokeWidth="0.8" />
                             {/* Heavy Spiked Anathema Brand Head */}
                             <path
                                 d="M 16 13 L 16 43 M 9 28 L 23 28 M 11 19 L 21 37 M 21 19 L 11 37"
-                                stroke={localAuthority > 0 ? '#ef4444' : '#574843'}
-                                strokeWidth="2"
+                                stroke={localAuthority > 0 ? BRICK : ETCH}
+                                strokeWidth="1.8"
                                 strokeLinecap="round"
-                                filter={localAuthority > 0 ? 'url(#inqEmberGlow)' : undefined}
                             />
                             {/* Burning Salt Ember Core */}
                             <circle
                                 cx="16"
                                 cy="28"
                                 r="2.8"
-                                fill={localAuthority > 0 ? '#fde047' : '#78350f'}
-                                filter={localAuthority > 0 ? 'url(#inqEmberGlow)' : undefined}
+                                fill={localAuthority > 0 ? BRASS : ETCH}
                             />
 
                             {/* Full-Height Transparent Hitbox */}
@@ -383,20 +312,13 @@ const InquisitorResourceBar = ({
                                     onClick={(e) => handleLinkClick(e, link.id)}
                                     style={{ cursor: isOwner ? 'pointer' : 'default' }}
                                 >
-                                    {/* Link Drop Shadow */}
-                                    <polygon
-                                        points={points}
-                                        fill="#080606"
-                                        transform="translate(0, 1.5)"
-                                    />
-
+                                    
                                     {/* Heavy Cold-Iron Hexagonal Link Outer Rim */}
                                     <polygon
                                         points={points}
-                                        fill={isSealed ? 'url(#inqSealedMolten)' : 'url(#inqColdIron)'}
-                                        stroke={isSealed ? (isAbsoluteVerdict ? '#ffffff' : '#f59e0b') : '#443c39'}
-                                        strokeWidth={isSealed ? '1.6' : '1.1'}
-                                        filter={isSealed ? 'url(#inqEmberGlow)' : undefined}
+                                        fill={isSealed ? washed(BRICK, 0.26) : PAPER}
+                                        stroke={isSealed ? (isAbsoluteVerdict ? BRASS : inked(BRICK, 0.15)) : RULE}
+                                        strokeWidth={isSealed ? '1.4' : '1'}
                                     />
 
                                     {/* Inner Link Pierced Core */}
@@ -405,8 +327,8 @@ const InquisitorResourceBar = ({
                                         cy={link.cy}
                                         rx="5"
                                         ry="8"
-                                        fill={isSealed ? '#450a0a' : '#0a0807'}
-                                        stroke={isSealed ? '#b91c1c' : '#292422'}
+                                        fill={isSealed ? PAGE : PANEL}
+                                        stroke={isSealed ? BRICK : ETCH}
                                         strokeWidth="0.8"
                                     />
 
@@ -414,26 +336,26 @@ const InquisitorResourceBar = ({
                                     {isSealed ? (
                                         <>
                                             {/* Burning cross-rune inside the link core */}
-                                            <line x1={link.cx} y1={link.cy - 5} x2={link.cx} y2={link.cy + 5} stroke="#fef08a" strokeWidth="1.2" />
-                                            <line x1={link.cx - 3.5} y1={link.cy} x2={link.cx + 3.5} y2={link.cy} stroke="#fef08a" strokeWidth="1.2" />
-                                            <circle cx={link.cx} cy={link.cy} r="1.2" fill="#ffffff" />
+                                            <line x1={link.cx} y1={link.cy - 5} x2={link.cx} y2={link.cy + 5} stroke={BRICK} strokeWidth="1.1" />
+                                            <line x1={link.cx - 3.5} y1={link.cy} x2={link.cx + 3.5} y2={link.cy} stroke={BRICK} strokeWidth="1.1" />
+                                            <circle cx={link.cx} cy={link.cy} r="1.2" fill={BRICK} />
                                         </>
                                     ) : (
                                         /* Open/Cold Link Keyhole Slot */
-                                        <circle cx={link.cx} cy={link.cy} r="1.4" fill="#1f1c1a" />
+                                        <circle cx={link.cx} cy={link.cy} r="1.4" fill={ETCH} />
                                     )}
 
                                     {/* Razor Barbs extending from top & bottom of each link */}
                                     <path
                                         d={`M ${link.cx - 5} ${link.cy - h} L ${link.cx - 8} ${link.cy - h - 3} M ${link.cx + 5} ${link.cy - h} L ${link.cx + 8} ${link.cy - h - 3}`}
-                                        stroke={isSealed ? '#fef08a' : '#78716c'}
-                                        strokeWidth="1.1"
+                                        stroke={isSealed ? BRICK : ETCH}
+                                        strokeWidth="1"
                                         strokeLinecap="round"
                                     />
                                     <path
                                         d={`M ${link.cx - 5} ${link.cy + h} L ${link.cx - 8} ${link.cy + h + 3} M ${link.cx + 5} ${link.cy + h} L ${link.cx + 8} ${link.cy + h + 3}`}
-                                        stroke={isSealed ? '#fef08a' : '#78716c'}
-                                        strokeWidth="1.1"
+                                        stroke={isSealed ? BRICK : ETCH}
+                                        strokeWidth="1"
                                         strokeLinecap="round"
                                     />
 
@@ -453,19 +375,18 @@ const InquisitorResourceBar = ({
                         })}
 
                         {/* 5. CENTERPIECE: THE SPIKED DEMON-COLLAR & ANATHEMA GUILLOTINE */}
-                        <g className="inq-center-collar inq-center-gavel" filter="url(#inqDropShadow)">
+                        <g className="inq-center-collar inq-center-gavel">
                             {/* Crossed Cold-Iron Driving Stakes (x: 162 to 198) */}
-                            <path d="M 163 10 L 197 46 M 197 10 L 163 46" stroke="#574843" strokeWidth="2.5" strokeLinecap="round" />
+                            <path d="M 163 10 L 197 46 M 197 10 L 163 46" stroke={RULE} strokeWidth="2" strokeLinecap="round" />
 
                             {/* Heavy Forged Beast Collar Arch Ring */}
                             <circle
                                 cx="180"
                                 cy="28"
                                 r="17"
-                                fill="url(#inqCollarPlate)"
-                                stroke={isAbsoluteVerdict ? '#ffffff' : isBindingTaut ? '#dc2626' : '#574843'}
-                                strokeWidth="2"
-                                filter={isAbsoluteVerdict ? 'url(#inqAbsoluteBurst)' : isBindingTaut ? 'url(#inqEmberGlow)' : undefined}
+                                fill={PAPER}
+                                stroke={isAbsoluteVerdict ? BRASS : isBindingTaut ? BRICK : RULE}
+                                strokeWidth="1.6"
                             />
 
                             {/* Inner Collar Bevel */}
@@ -473,9 +394,9 @@ const InquisitorResourceBar = ({
                                 cx="180"
                                 cy="28"
                                 r="13"
-                                fill="#0d0908"
-                                stroke="#78350f"
-                                strokeWidth="1"
+                                fill={PAGE}
+                                stroke={ETCH}
+                                strokeWidth="0.8"
                             />
 
                             {/* 6 Inward Spiked Fangs Clamping the Beast Core */}
@@ -492,8 +413,8 @@ const InquisitorResourceBar = ({
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={isAbsoluteVerdict ? '#fde047' : '#854d0e'}
-                                        strokeWidth="2"
+                                        stroke={isAbsoluteVerdict ? BRASS : RULE}
+                                        strokeWidth="1.6"
                                         strokeLinecap="round"
                                     />
                                 );
@@ -503,31 +424,31 @@ const InquisitorResourceBar = ({
                             {isAbsoluteVerdict ? (
                                 /* Absolute Verdict (8): Blazing Consecrated White-Gold Judgment Core */
                                 <>
-                                    <circle cx="180" cy="28" r="8" fill="#fef08a" filter="url(#inqAbsoluteBurst)" />
-                                    <circle cx="180" cy="28" r="4.5" fill="#ffffff" />
+                                    <circle cx="180" cy="28" r="8" fill={mix(PAGE, BRASS, 0.4)} stroke={BRASS} strokeWidth="1" />
+                                    <circle cx="180" cy="28" r="3.5" fill={PAGE} stroke={BRASS} strokeWidth="0.8" />
                                     {/* Radiating Lightning Sparks */}
-                                    <line x1="172" y1="28" x2="188" y2="28" stroke="#b91c1c" strokeWidth="1.5" />
-                                    <line x1="180" y1="20" x2="180" y2="36" stroke="#b91c1c" strokeWidth="1.5" />
+                                    <line x1="172" y1="28" x2="188" y2="28" stroke={BRICK} strokeWidth="1.2" />
+                                    <line x1="180" y1="20" x2="180" y2="36" stroke={BRICK} strokeWidth="1.2" />
                                 </>
                             ) : isBindingTaut ? (
                                 /* High Authority (4-7): Glowing demonic slit eye awake in chains */
                                 <>
-                                    <ellipse cx="180" cy="28" rx="8" ry="6" fill="#7f1d1d" filter="url(#inqEmberGlow)" />
-                                    <path d="M 173 28 Q 180 23 187 28 Q 180 33 173 28 Z" fill="#ef4444" stroke="#450a0a" strokeWidth="0.8" />
-                                    <ellipse cx="180" cy="28" rx="1.2" ry="4" fill="#0c0505" />
+                                    <ellipse cx="180" cy="28" rx="8" ry="6" fill={washed(BRICK, 0.18)} />
+                                    <path d="M 173 28 Q 180 23 187 28 Q 180 33 173 28 Z" fill={PAGE} stroke={BRICK} strokeWidth="1" />
+                                    <ellipse cx="180" cy="28" rx="1.2" ry="3.4" fill={INK} />
                                 </>
                             ) : (
                                 /* Low Authority (0-3): Slumbering Leaden Cold-Iron Seal */
                                 <>
-                                    <circle cx="180" cy="28" r="7" fill="#171413" stroke="#3d3734" strokeWidth="1" />
-                                    <line x1="180" y1="23" x2="180" y2="33" stroke="#574843" strokeWidth="1.2" />
-                                    <line x1="175" y1="28" x2="185" y2="28" stroke="#574843" strokeWidth="1.2" />
-                                    <circle cx="180" cy="28" r="1.5" fill="#78350f" />
+                                    <circle cx="180" cy="28" r="7" fill={PANEL} stroke={RULE} strokeWidth="0.9" />
+                                    <line x1="180" y1="23" x2="180" y2="33" stroke={MUTED} strokeWidth="1" />
+                                    <line x1="175" y1="28" x2="185" y2="28" stroke={MUTED} strokeWidth="1" />
+                                    <circle cx="180" cy="28" r="1.5" fill={MUTED} />
                                 </>
                             )}
 
                             {/* Top Guillotine Wedge Chisel Head */}
-                            <path d="M 176 8 L 184 8 L 182 13 L 178 13 Z" fill="#ca8a04" stroke="#78350f" strokeWidth="0.8" />
+                            <path d="M 176 8 L 184 8 L 182 13 L 178 13 Z" fill={BRASS} stroke={inked(BRASS, 0.4)} strokeWidth="0.6" />
                         </g>
 
                         {/* 6. RIGHT FLANK TRIGGER: SEVERANCE GUILLOTINE CLEAVER */}
@@ -539,21 +460,20 @@ const InquisitorResourceBar = ({
                             {/* Severance Chisel / Cleaver Blade */}
                             <path
                                 d="M 339 16 L 349 16 L 346 40 L 342 40 Z"
-                                fill="#2c2422"
-                                stroke="#78350f"
-                                strokeWidth="1.2"
+                                fill={PAPER}
+                                stroke={RULE}
+                                strokeWidth="1"
                             />
                             {/* Chipped Serrated Edge */}
-                            <line x1="347" y1="18" x2="344" y2="38" stroke={localAuthority > 0 ? '#fde047' : '#574843'} strokeWidth="1" />
+                            <line x1="347" y1="18" x2="344" y2="38" stroke={localAuthority > 0 ? BRICK : ETCH} strokeWidth="1" />
                             {/* Barbed Wire Cleaver Binding */}
-                            <path d="M 337 23 L 351 27 M 337 31 L 351 35" stroke="#ca8a04" strokeWidth="1.2" strokeLinecap="round" />
+                            <path d="M 337 23 L 351 27 M 337 31 L 351 35" stroke={BRASS} strokeWidth="1" strokeLinecap="round" />
                             {/* Consecrated Brine Droplet */}
                             <path
                                 d="M 344 41 C 341.5 44, 341 46.5, 344 48.5 C 347 46.5, 346.5 44, 344 41 Z"
-                                fill={localAuthority > 0 ? '#fde047' : '#574843'}
-                                stroke={localAuthority > 0 ? '#fef08a' : '#292524'}
+                                fill={localAuthority > 0 ? washed(BRICK, 0.4) : PAPER}
+                                stroke={localAuthority > 0 ? BRICK : ETCH}
                                 strokeWidth="0.8"
-                                filter={localAuthority > 0 ? 'url(#inqEmberGlow)' : undefined}
                             />
 
                             {/* Full-Height Transparent Hitbox */}
@@ -575,7 +495,7 @@ const InquisitorResourceBar = ({
                         subtitle="Inquisitor Barbed Authority"
                         state={`${localAuthority}/${maxAuthority} Authority`}
                         stateTone={localAuthority >= 8 ? 'good' : localAuthority >= 4 ? 'neutral' : localAuthority > 0 ? 'warn' : 'bad'}
-                        mechanic="Counterspells, dispels, and strikes against supernatural targets build Authority (max 8); it decays 1/round without supernatural contact. Spend 5-8 on executions, anti-magic storms, or apex transformations — at 0, The Hollow opens and bound entities make Rebellion Saves."
+                        mechanic="Counterspells, dispels and strikes on supernatural targets build Authority (max 8); −1/round without contact. Spend 5–8 on executions and anti-magic storms. At 0, The Hollow opens and bound entities make Rebellion Saves."
                         status={[
                             auraActive && localAuthority > 0 ? 'Null aura active: known foreign magical assistance is suppressed; self effects and nonmagical treatment remain.' : 'Null aura released: ordinary assistance is not suppressed.',
                             localAuthority >= 8
@@ -629,92 +549,49 @@ const InquisitorResourceBar = ({
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">
-                                <i className="fas fa-gavel" style={{ marginRight: '6px', color: '#d6d3d1' }}></i>
-                                Inquisition Tribunal
+                    <div className="cm" style={{ '--cm-accent': '#6a6258', '--cm-accent-deep': '#33302b', '--cm-wash': '#e9e4da' }}>
+                        <header className="cm-head">
+                            <span className={`cm-seal ${localAuthority === 0 ? 'is-quiet' : ''}`}>{localAuthority}</span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">Inquisition Tribunal</div>
+                                <div className="cm-title">{localAuthority === 0 ? 'No Standing' : localAuthority >= maxAuthority ? 'Full Verdict' : localAuthority >= 4 ? 'In Session' : 'Summoned'}</div>
+                                <div className="cm-sub">Authority ({localAuthority}/{maxAuthority})</div>
                             </div>
-                            <label style={{ display: 'block', fontSize: '12px', margin: '6px 0' }}>
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className="cm-meter" aria-hidden="true"><span style={{ width: `${maxAuthority ? (localAuthority / maxAuthority) * 100 : 0}%` }}></span></div>
+                        <div className={`cm-burden ${auraActive && localAuthority > 0 ? '' : 'is-quiet'}`}>
+                            <span className="cm-burden-label">Null aura</span>
+                            <label className="cm-check">
                                 <input type="checkbox" checked={auraActive && localAuthority > 0} disabled={localAuthority === 0}
                                     onChange={event => {
                                         setAuraActive(event.target.checked);
                                         onClassResourceUpdate?.('nullAura', { active: event.target.checked });
                                     }} /> Active null aura
                             </label>
-                            <div style={{ fontSize: '11px', marginBottom: '8px' }}>
-                                {auraActive && localAuthority > 0 ? 'Foreign magical assistance suppressed' : 'Aura released — assistance permitted'}
-                            </div>
-                            <div style={{ fontSize: '10px', marginBottom: '8px' }}>Suppression requires labelled origin/magic metadata. Self authority and nonmagical treatment remain; hostile damage and corruption are not made immune. Spending to zero releases the aura. Unknown legacy provenance is not guessed.</div>
-
-                            {/* Authority Counter Controls */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
-                                Authority ({localAuthority}/{maxAuthority})
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button spend" onClick={() => handleAuthorityChange(-1)}>
-                                    <i className="fas fa-minus"></i> -1
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleAuthorityChange(1)}>
-                                    <i className="fas fa-plus"></i> +1
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleAuthorityChange(maxAuthority)}>
-                                    Max
-                                </button>
-                            </div>
-
-                            {/* Judicial Edicts Quick Spends */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button
-                                    className="context-menu-button spend"
-                                    onClick={() => handleAuthorityChange(-2)}
-                                    disabled={localAuthority < 2}
-                                    title="Spend 2 Authority on Anathema Strike"
-                                >
-                                    <i className="fas fa-fire" style={{ marginRight: '4px' }}></i> Anathema (-2)
-                                </button>
-                                <button
-                                    className="context-menu-button spend"
-                                    onClick={() => handleAuthorityChange(-4)}
-                                    disabled={localAuthority < 4}
-                                    title="Spend 4 Authority on Sever Contract"
-                                >
-                                    <i className="fas fa-link" style={{ marginRight: '4px' }}></i> Sever (-4)
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '10px 0' }}></div>
-
-                            {/* Quick Presets */}
-                            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        setAuthorityDirect(0);
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-undo"></i> Reset (0)
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        setAuthorityDirect(maxAuthority);
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-arrow-up"></i> Full Verdict
-                                </button>
-                            </div>
-
-                            <button
-                                className="context-menu-button danger"
-                                onClick={() => setShowControls(false)}
-                                style={{ width: '100%' }}
-                            >
-                                <i className="fas fa-times"></i> Close
+                            <p className="cm-burden-text">{auraActive && localAuthority > 0 ? 'Foreign magical assistance suppressed' : 'Aura released — assistance permitted'}</p>
+                        </div>
+                        <div className="cm-section">Authority</div>
+                        <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                            <button type="button" className="context-menu-button spend" onClick={() => handleAuthorityChange(-2)} disabled={localAuthority < 2}>-2</button>
+                            <button type="button" className="context-menu-button spend" onClick={() => handleAuthorityChange(-1)} disabled={localAuthority < 1}>-1</button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleAuthorityChange(1)}>+1</button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleAuthorityChange(maxAuthority)}>Max</button>
+                        </div>
+                        <ClassMenuSpells className="Inquisitor" resourceTypes={['authority']} resourceLabel="Authority" current={localAuthority} />
+                        <details className="cm-notes">
+                            <summary>How the aura works</summary>
+                            <p>Suppression needs labelled origin and magic metadata. Your own Authority and nonmagical effects remain; hostile damage and corruption still land.</p>
+                            <p>Spending to zero releases the aura. Unknown legacy provenance is never guessed.</p>
+                        </details>
+                        <div className="cm-foot">
+                            <button type="button" className="context-menu-button quiet" onClick={() => { setAuthorityDirect(0); setShowControls(false); }}>
+                                <i className="fas fa-undo" aria-hidden="true"></i> Reset (0)
+                            </button>
+                            <button type="button" className="context-menu-button" onClick={() => { setAuthorityDirect(maxAuthority); setShowControls(false); }}>
+                                <i className="fas fa-arrow-up" aria-hidden="true"></i> Full Verdict
                             </button>
                         </div>
                     </div>

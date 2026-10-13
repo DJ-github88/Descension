@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "node_modules/eslint/bin/eslint.js",
+    "services/actorConsequences.js",
+    "handlers/actorConsequenceHandlers.js",
+    "handlers/socketHandlers.js",
+    "tests/p7Blockers.production.test.js",
+    "tests/p7Consequences.production.test.js"
+  ],
+  "cwd": "D:/VTT/server",
+  "status": 1,
+  "durationMs": 7173
+}

@@ -1,0 +1,10 @@
+- heading "Selected character" [level=1]
+- region "Selected character save status":
+  - status:
+    - strong: "Canonical character:"
+    - text: Cloud saved · Device draft retained
+    - strong: "Personal runtime:"
+    - text: Cloud saved · Device draft retained
+  - button "Download selected draft"
+  - text: Import selected draft
+  - button "Import selected draft"

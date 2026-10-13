@@ -11,7 +11,7 @@
     color: var(--my-text-primary, #2d1810);
     position: relative;
     overflow: hidden;
-    background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+    background: var(--my-gradient-parchment, #f8f5ee);
 }
 
 /* Header & Tabs */
@@ -1425,20 +1425,6 @@
 }
 
 /* Inspector Passives Section */
-.talent-inspector-passives-section {
-    margin-top: 14px;
-    padding-top: 10px;
-    border-top: 1px dashed rgba(139, 69, 19, 0.35);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.inspector-passives-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
 
 .inspector-passive-item {
     background: rgba(255, 255, 255, 0.75);
@@ -1463,12 +1449,6 @@
     align-items: center;
     justify-content: space-between;
     gap: 6px;
-}
-
-.inspector-passive-name {
-    font-size: 0.86rem;
-    color: #2b1105;
-    font-weight: 800;
 }
 
 .inspector-passive-tier {

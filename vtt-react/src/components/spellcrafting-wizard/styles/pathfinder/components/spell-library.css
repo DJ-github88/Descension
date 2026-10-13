@@ -56,28 +56,6 @@
   box-shadow: var(--my-shadow-sm);
 }
 
-.library-filters-container {
-  padding: var(--my-space-5);
-  background: var(--my-gradient-parchment-dark);
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
-}
-
-.library-filters-title {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  color: var(--my-parchment-light);
-  margin: 0 0 var(--my-space-4) 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
-  border-bottom: 2px solid var(--my-brown-medium);
-  padding-bottom: var(--my-space-2);
-  text-shadow:
-    1px 1px 2px rgba(0, 0, 0, 0.8),
-    0 0 4px rgba(212, 175, 55, 0.3);
-}
-
 .filter-section {
   margin-bottom: var(--my-space-4);
   width: 100%;
@@ -125,17 +103,6 @@
   overflow-x: hidden;
 }
 
-.filter-section-title {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-bold);
-  color: var(--my-parchment);
-  margin: 0 0 var(--my-space-3) 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-}
-
 /* ===== FILTER CONTROLS ===== */
 
 /* Filter Search */
@@ -160,7 +127,7 @@
 .filter-search input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2);
 }
 
 .clear-search-btn {
@@ -206,29 +173,6 @@
   width: 16px;
   height: 16px;
   accent-color: var(--my-gold);
-}
-
-.filter-dropdown {
-  width: 100%;
-  padding: var(--my-space-3);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  color: var(--my-text-primary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-}
-
-.filter-dropdown:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-}
-
-.filter-dropdown:hover {
-  border-color: var(--my-brown-dark);
 }
 
 /* Level Range Buttons */
@@ -315,23 +259,6 @@
   background: var(--my-brown-medium);
   border-color: var(--my-gold);
   color: var(--my-parchment-light);
-}
-
-.clear-filters-button {
-  width: 100%;
-  padding: var(--my-space-3);
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-primary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: var(--my-space-4);
 }
 
 /* Filter Presets */
@@ -506,13 +433,6 @@
   color: var(--my-text-secondary);
 }
 
-.clear-filters-button:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-md);
-}
-
 /* ===== SPELLBOOK WINDOW SPECIFIC STYLES ===== */
 
 /* Spell Library Sidebar */
@@ -570,7 +490,7 @@
 .filter-select:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2);
 }
 
 .filter-select:hover {
@@ -585,58 +505,8 @@
 }
 
 /* Filter Search Input */
-.filter-search-input {
-  width: 100%;
-  padding: var(--my-space-3);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  color: var(--my-text-primary);
-  transition: all var(--my-transition-normal);
-  box-sizing: border-box;
-}
-
-.filter-search-input:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-}
-
-.filter-search-input::placeholder {
-  color: var(--my-text-muted);
-  font-style: italic;
-}
 
 /* ===== MOBILE FILTER TOGGLE ===== */
-
-.mobile-filter-toggle {
-  position: fixed;
-  bottom: var(--my-space-4);
-  right: var(--my-space-4);
-  width: 56px;
-  height: 56px;
-  background: var(--my-gradient-gold);
-  border: 3px solid var(--my-gold-dark);
-  border-radius: 50%;
-  color: var(--my-brown-darkest);
-  font-size: var(--my-text-lg);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  box-shadow: 
-    var(--my-shadow-lg),
-    0 0 15px rgba(212, 175, 55, 0.4);
-  z-index: 1000;
-  display: none;
-}
-
-.mobile-filter-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 
-    var(--my-shadow-xl),
-    0 0 20px rgba(212, 175, 55, 0.6);
-}
 
 .filter-badge {
   position: absolute;
@@ -656,12 +526,6 @@
 }
 
 /* ===== LIBRARY VIEW MODES ===== */
-
-.library-view-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-}
 
 .view-mode-button {
   padding: var(--my-space-2);
@@ -689,43 +553,12 @@
   color: var(--my-text-on-dark);
 }
 
-.filters-toggle-button {
-  padding: var(--my-space-2) var(--my-space-3);
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  color: var(--my-text-primary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-}
-
-.filters-toggle-button:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-}
-
-.filters-toggle-button.active {
-  background: var(--my-brown-medium);
-  border-color: var(--my-gold);
-  color: var(--my-text-on-dark);
-}
-
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 1024px) {
   .spell-library-sidebar {
     width: 280px;
     min-width: 280px;
-  }
-  
-  .library-filters-container {
-    padding: var(--my-space-4);
   }
 }
 
@@ -744,10 +577,6 @@
   
   .spell-library-sidebar.visible {
     transform: translateX(0);
-  }
-  
-  .mobile-filter-toggle {
-    display: flex;
   }
   
   .spell-library-spells {

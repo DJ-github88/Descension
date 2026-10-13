@@ -11,7 +11,7 @@
   --my-brown-medium: #8b4513;
   --my-brown-dark: #654321;
   --my-text-primary: #2d1810;
-  --my-gradient-parchment: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+  --my-gradient-parchment: #f4f1e8;
   --my-gradient-header: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%);
   --my-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --my-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
@@ -57,42 +57,11 @@
 }
 
 /* Pathfinder-style ability cards */
-.wow-spell-card.pf-library-spell-card {
-  background: var(--my-gradient-parchment) !important;
-  border: 1px solid rgba(139, 69, 19, 0.3) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(139, 69, 19, 0.1) !important;
-  transition: var(--my-transition-normal) !important;
-  position: relative;
-  overflow: hidden;
-  cursor: default;
-  width: 100%;
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  color: var(--my-text-primary) !important;
-}
-
-.wow-spell-card.pf-library-spell-card:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: var(--my-shadow-lg) !important;
-  border-color: var(--my-brown-dark) !important;
-}
 
 .pf-spell-card-header {
-  background: var(--my-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.2) !important;
   padding: var(--my-space-4) !important;
   position: relative;
   z-index: 2;
-  border-radius: 12px 12px 0 0 !important;
-}
-
-.pf-spell-header-top {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--my-space-3);
-  position: relative;
 }
 
 .pf-spell-icon-container {
@@ -118,11 +87,6 @@
   font-size: 24px;
 }
 
-.pf-spell-info {
-  flex: 1;
-  min-width: 0;
-}
-
 .pf-spell-name {
   font-family: 'Cinzel', serif !important;
   font-size: 18px !important;
@@ -132,56 +96,6 @@
   line-height: 1.2;
   letter-spacing: 0.8px;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.pf-spell-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--my-space-2);
-  font-size: 12px;
-  color: var(--my-brown-medium);
-}
-
-.pf-spell-type,
-.pf-spell-cast-time,
-.pf-spell-range,
-.pf-spell-level {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 3px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(139, 69, 19, 0.3);
-  font-weight: 600;
-  color: var(--my-brown-dark);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.pf-spell-actions {
-  flex-shrink: 0;
-}
-
-.pf-remove-ability-button {
-  background: rgba(139, 69, 19, 0.1) !important;
-  border: 1px solid rgba(139, 69, 19, 0.3) !important;
-  color: var(--my-brown-medium) !important;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--my-transition-normal);
-  padding: 0;
-}
-
-.pf-remove-ability-button:hover {
-  background: rgba(244, 67, 54, 0.2) !important;
-  border-color: rgba(244, 67, 54, 0.5) !important;
-  color: #f44336 !important;
 }
 
 /* Pathfinder card body */
@@ -195,100 +109,12 @@
   z-index: 2;
 }
 
-.pf-spell-description {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-}
-
-.pf-spell-effects {
-  background: rgba(139, 69, 19, 0.05);
-  border: 1px solid rgba(139, 69, 19, 0.1);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-2);
-}
-
-.pf-effects-title {
-  font-weight: 600;
-  color: var(--my-brown-medium);
-  font-size: 13px;
-  margin-bottom: var(--my-space-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.pf-spell-effect {
-  margin-bottom: var(--my-space-2);
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.pf-spell-effect:last-child {
-  margin-bottom: 0;
-}
-
-.pf-effect-label {
-  font-weight: 600;
-  color: var(--my-brown-medium);
-  margin-right: var(--my-space-2);
-}
-
-.pf-effect-value {
-  color: var(--my-text-primary);
-}
-
-.pf-damage-formula {
-  font-weight: 700;
-  color: #d32f2f;
-  margin-right: 8px;
-  font-size: 14px;
-}
-
-.pf-damage-type {
-  font-weight: 600;
-  color: #8b4513;
-  text-transform: lowercase;
-  font-style: italic;
-  background: rgba(139, 69, 19, 0.1);
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  font-size: 12px;
-}
-
 /* Pathfinder card footer */
-.pf-spell-footer {
-  border-top: 1px solid rgba(139, 69, 19, 0.1);
-  padding-top: var(--my-space-2);
-  margin-top: auto;
-}
 
 .pf-spell-stats {
   display: flex;
   gap: var(--my-space-4);
   flex-wrap: wrap;
-}
-
-.pf-spell-stat {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  font-size: 12px;
-}
-
-.pf-stat-label {
-  font-weight: 600;
-  color: var(--my-brown-medium);
-}
-
-.pf-stat-value {
-  color: var(--my-text-primary);
-  font-weight: 500;
-  background: rgba(139, 69, 19, 0.1);
-  padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid rgba(139, 69, 19, 0.2);
 }
 
 /* Override wizard-step constraints for abilities step */
@@ -298,7 +124,7 @@
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.95) 0%,
     rgba(230, 220, 200, 0.9) 50%,
-    rgba(213, 203, 176, 0.85) 100%) !important;
+    rgba(196, 186, 166, 0.85) 100%) !important;
   box-shadow: none !important;
   border-radius: 0 !important;
 }
@@ -314,7 +140,7 @@
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.95) 0%,
     rgba(230, 220, 200, 0.9) 50%,
-    rgba(213, 203, 176, 0.85) 100%);
+    rgba(196, 186, 166, 0.85) 100%);
 }
 
 .abilities-header-section {
@@ -342,53 +168,10 @@
 }
 
 /* Add from spell library button */
-.add-from-spell-library-btn {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
-  border: 2px solid var(--my-brown-medium, #8B4513) !important;
-  color: var(--my-text-primary, #2d1810) !important;
-  padding: 10px 20px !important;
-  border-radius: var(--my-border-radius, 6px) !important;
-  font-family: 'Cinzel', serif !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 rgba(139, 69, 19, 0.2) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  min-width: 220px !important;
-  white-space: nowrap !important;
-}
-
-.add-from-spell-library-btn:hover {
-  background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
-  border-color: var(--my-brown-dark, #5a1e12) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 
-    0 3px 6px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(139, 69, 19, 0.3) !important;
-}
-
-.add-from-spell-library-btn:active {
-  transform: translateY(0) !important;
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(139, 69, 19, 0.3) !important;
-}
-
-.add-from-spell-library-btn i {
-  font-size: 16px;
-}
 
 /* Create basic ability button - matches add from spell library button */
 .create-basic-ability-btn {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+  background: #f8f5ee !important;
   border: 2px solid var(--my-brown-medium, #8B4513) !important;
   color: var(--my-text-primary, #2d1810) !important;
   padding: 10px 20px !important;
@@ -411,7 +194,7 @@
 }
 
 .create-basic-ability-btn:hover {
-  background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
+  background: linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%) !important;
   border-color: var(--my-brown-dark, #5a1e12) !important;
   transform: translateY(-1px) !important;
   box-shadow: 
@@ -435,7 +218,7 @@
 .no-abilities-message {
   text-align: center;
   padding: 40px 30px;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  background: #f8f5ee;
   border: 2px solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius-lg, 12px);
   color: var(--my-text-primary, #2d1810);
@@ -506,16 +289,6 @@
     grid-template-columns: 1fr;
     gap: var(--my-space-3);
     padding: var(--my-space-2);
-  }
-
-  .pf-spell-header-top {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--my-space-2);
-  }
-
-  .pf-spell-meta {
-    justify-content: center;
   }
 
   .pf-spell-stats {
@@ -908,27 +681,6 @@
   font-size: 14px;
 }
 
-.effect-label {
-  color: #888;
-  margin-right: 5px;
-}
-
-.effect-value {
-  color: #ddd;
-}
-
-.effect-damage .damage-formula {
-  color: #ff6b6b;
-}
-
-.effect-healing .effect-value {
-  color: #6bff6b;
-}
-
-.effect-condition .effect-value {
-  color: #ffcc6b;
-}
-
 /* Footer */
 .ability-footer {
   display: flex;
@@ -965,28 +717,6 @@
   margin-top: 0;
   padding-top: 0;
   border-top: none;
-}
-
-.ability-item.wow-spell-card .remove-ability-button {
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #aaa;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  font-size: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  padding: 0;
-}
-
-.ability-item.wow-spell-card .remove-ability-button:hover {
-  background-color: rgba(244, 67, 54, 0.8);
-  border-color: rgba(244, 67, 54, 0.5);
-  color: #fff;
 }
 
 .ability-form {
@@ -1182,7 +912,7 @@
   font-size: 18px;
   color: #7a3b2e;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  background: #f1ece1;
   border-radius: 8px;
   border: 2px solid #a08c70;
   font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -1197,23 +927,10 @@
 }
 
 /* Passive ability styling */
-.wow-spell-card.pf-library-spell-card.passive-ability {
-  background: linear-gradient(135deg, #e8f4f8 0%, #d1ecf1 100%) !important;
-  border-color: #17a2b8 !important;
-  opacity: 0.9;
-}
-
-.wow-spell-card.pf-library-spell-card.passive-ability .pf-spell-meta {
-  opacity: 0.7;
-}
-
-.wow-spell-card.pf-library-spell-card.passive-ability .pf-spell-footer {
-  opacity: 0.7;
-}
 
 /* Tactics & Behavior Section */
 .tactics-behavior-section {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  background: #f8f5ee;
   border: 2px solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius-lg, 12px);
   padding: var(--my-space-5, 20px);

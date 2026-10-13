@@ -1,0 +1,6 @@
+{
+  "drift": [
+    "vtt-react/src/styles/calm-shared.css",
+    "vtt-react/src/data/classes/gambit/components/GambitResourceBar.jsx"
+  ]
+}

@@ -56,7 +56,7 @@
 
 .item-icon-selector-header h3 {
     margin: 0;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 20px;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -67,7 +67,7 @@
 .item-icon-selector-close-btn {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.3);
-    color: #f0e6d2;
+    color: #f1ece1;
     cursor: pointer;
     font-size: 18px;
     padding: 8px 12px;
@@ -140,7 +140,7 @@
 
 .item-icon-selector-category.active {
     background: linear-gradient(135deg, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
+    color: #f1ece1;
     border-color: #5e2e23;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);

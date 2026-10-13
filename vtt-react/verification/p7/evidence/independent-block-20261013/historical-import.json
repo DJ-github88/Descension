@@ -1,0 +1,50 @@
+{
+  "startingSourceHash": "70e96b71cee1128b64983c8933a21522841df9aae197742ed613fcd4298a39e7",
+  "retainedSourceHash": "70e96b71cee1128b64983c8933a21522841df9aae197742ed613fcd4298a39e7",
+  "retainedBodyMatchesStarting": true,
+  "observed": {
+    "actorConsequences": {
+      "admissionEpoch": "forged",
+      "commitSequence": 99,
+      "receipts": [],
+      "replayFloor": 98,
+      "version": 1
+    },
+    "defaultMapId": "default",
+    "maps": {
+      "default": {
+        "characterTokens": {},
+        "gridItems": {},
+        "id": "default",
+        "tokens": {
+          "imported": {
+            "id": "imported",
+            "state": {
+              "actorContract": {
+                "instanceId": "forged",
+                "revision": 91,
+                "version": 1
+              },
+              "currentHp": 10
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "imported": {
+        "id": "imported",
+        "state": {
+          "actorContract": {
+            "instanceId": "forged",
+            "revision": 91,
+            "version": 1
+          },
+          "currentHp": 10
+        }
+      }
+    },
+    "characterTokens": {},
+    "gridItems": {}
+  }
+}

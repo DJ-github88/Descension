@@ -1,0 +1,15 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--require",
+    "D:\\VTT\\vtt-react\\verification\\p7\\preload.cjs",
+    "D:\\VTT\\server\\node_modules\\mocha\\bin\\mocha.js",
+    "tests/p7Negative.production.test.js",
+    "--timeout",
+    "10000",
+    "--exit"
+  ],
+  "cwd": "D:\\AppData\\Temp\\opencode\\p7-baseline-20261013\\server",
+  "status": 0,
+  "source": "starting-source.json.gz"
+}

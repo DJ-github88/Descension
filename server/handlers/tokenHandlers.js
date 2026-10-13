@@ -243,8 +243,11 @@ function registerTokenHandlers(ctx) {
       // Strip client ownership assertions; stamp server-derived authority.
       const supplied = (data.token && typeof data.token === 'object') ? { ...data.token } : {};
       for (const key of PROTECTED_TOKEN_KEYS) {delete supplied[key];}
+      if (supplied.state) {supplied.state = { ...supplied.state }; delete supplied.state.actorContract; delete supplied.state.actorRecovery;}
       const token = {
         ...supplied,
+        // Owning creature snapshot supplies bounds; P7 never invents maxima.
+        ...(data.creature?.stats ? { stats: stripUndefined(data.creature.stats) } : {}),
         id: tokenId,
         createdBy: socket.id,
         ownerUserId: uid || undefined,
@@ -355,6 +358,8 @@ function registerTokenHandlers(ctx) {
       record.store[data.tokenId] = {
         ...record.store[data.tokenId],
         ...updates,
+        ...(updates.state ? { state: { ...record.token.state, ...updates.state } } : {}),
+        ...(updates.character ? { character: { ...record.token.character, ...updates.character } } : {}),
         updatedAt: Date.now()
       };
 
@@ -540,6 +545,7 @@ function registerTokenHandlers(ctx) {
 
       const supplied = (data.token && typeof data.token === 'object') ? { ...data.token } : {};
       for (const key of PROTECTED_TOKEN_KEYS) {delete supplied[key];}
+      if (supplied.state) {supplied.state = { ...supplied.state }; delete supplied.state.actorContract; delete supplied.state.actorRecovery;}
 
       const token = {
         ...supplied,
@@ -584,28 +590,20 @@ function registerTokenHandlers(ctx) {
 
       const { room, player } = validation;
       const uid = getVerifiedUid(socket);
-      let mapId = data.mapId || player?.currentMapId || room.gameState.defaultMapId || 'default';
-      let map = resolveExistingMap(room, mapId);
+      const mapId = data.mapId || player?.currentMapId || room.gameState.defaultMapId || 'default';
+      const map = resolveExistingMap(room, mapId);
 
       const tokenId = data.tokenId;
       if (!tokenId) {return;}
 
-      let record = findTokenRecord(map, tokenId);
-      if (!record.token && room.gameState.maps) {
-        for (const [mId, m] of Object.entries(room.gameState.maps)) {
-          const candidate = findTokenRecord(m, tokenId);
-          if (candidate.token) {
-            record = candidate;
-            map = m;
-            mapId = mId;
-            break;
-          }
-        }
-      }
-
+      const record = findTokenRecord(map, tokenId);
       // Missing target: error, no relay, no checkpoint.
       if (!record.token) {
         logger.warn('[character_token_updated] Unknown character token; no mutation', { tokenId, mapId });
+        return;
+      }
+      if (record.token.state?.actorContract && data.character?.id !== undefined && data.character.id !== record.token.state.actorContract.characterId) {
+        socket.emit('room_error', { code: 'actor_binding_conflict', event: 'character_token_updated', message: 'A bound canonical character cannot be replaced by a snapshot refresh' });
         return;
       }
 
@@ -637,7 +635,7 @@ function registerTokenHandlers(ctx) {
       const updated = {
         ...record.token,
         ...(data.name ? { name: data.name } : {}),
-        ...(projectedCharacter ? { character: projectedCharacter } : {}),
+        ...(projectedCharacter ? { character: { ...record.token.character, ...projectedCharacter } } : {}),
         ...(projectedStateUpdates && Object.keys(projectedStateUpdates).length > 0
           ? { state: { ...(record.token.state || {}), ...projectedStateUpdates } }
           : {})
@@ -687,9 +685,12 @@ function registerTokenHandlers(ctx) {
         logger.warn('[token_removed] Unauthorized token removal blocked', { tokenId: data.tokenId, playerId: player?.id });
         return;
       }
+      if (record.kind === 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'token_removed', message: 'Use character_token_removed for this exact kind' }); return;}
 
-      delete map.tokens[data.tokenId];
+      delete record.store[data.tokenId];
       delete room.gameState.tokens[data.tokenId]; // Legacy support
+      if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
+      if (room.pendingTokenControls) {delete room.pendingTokenControls[delegationKey(room, data.tokenId, mapId)];}
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_removed', {
@@ -727,9 +728,12 @@ function registerTokenHandlers(ctx) {
         logger.warn('[token_dismissed] Unauthorized token dismissal blocked', { tokenId: data.tokenId, playerId: player?.id });
         return;
       }
+      if (record.kind === 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'token_dismissed', message: 'Use character_token_removed for this exact kind' }); return;}
 
-      delete map.tokens[data.tokenId];
+      delete record.store[data.tokenId];
       delete room.gameState.tokens[data.tokenId];
+      if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
+      if (room.pendingTokenControls) {delete room.pendingTokenControls[delegationKey(room, data.tokenId, mapId)];}
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('token_dismissed', {
@@ -767,9 +771,12 @@ function registerTokenHandlers(ctx) {
         logger.warn('[character_token_removed] Non-owner attempted to remove character token', { tokenId: data.tokenId, playerId: player?.id });
         return;
       }
+      if (record.kind !== 'character_token') {socket.emit('room_error', { code: 'actor_binding_conflict', event: 'character_token_removed', message: 'The addressed instance is not a character token' }); return;}
 
-      delete map.characterTokens[data.tokenId];
+      delete record.store[data.tokenId];
       delete room.gameState.characterTokens[data.tokenId]; // Legacy support
+      if (room.tokenControllers) {delete room.tokenControllers[delegationKey(room, data.tokenId, mapId)];}
+      if (room.pendingTokenControls) {delete room.pendingTokenControls[delegationKey(room, data.tokenId, mapId)];}
 
       if (!isTokensDeltaEnabled()) {
         io.to(room.id).emit('character_token_removed', {

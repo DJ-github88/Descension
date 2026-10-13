@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "D:\\VTT\\vtt-react\\node_modules\\react-scripts\\bin\\react-scripts.js",
+    "test",
+    "--watchAll=false",
+    "--runInBand",
+    "--silent",
+    "--no-cache",
+    "--runTestsByPath",
+    "src/services/__tests__/p7Negative.production.test.js"
+  ],
+  "cwd": "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\baseline\\vtt-react",
+  "status": 0,
+  "source": "starting-source.json.gz"
+}

@@ -13,7 +13,7 @@
 }
 
 .asset-picker-modal {
-    background: #f0e6d2;
+    background: #f1ece1;
     border: 3px solid #8b7355;
     border-radius: 12px;
     width: 90%;
@@ -104,7 +104,7 @@
 }
 
 .asset-picker-grid::-webkit-scrollbar-track {
-    background: #f0e6d2;
+    background: #f1ece1;
 }
 
 .asset-picker-grid::-webkit-scrollbar-thumb {
@@ -136,9 +136,9 @@
 }
 
 .asset-option.selected {
-    border-color: #d4af37;
+    border-color: #9a7b3c;
     background: #fff9e6;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 10px rgba(154, 123, 60, 0.3);
 }
 
 .asset-preview {

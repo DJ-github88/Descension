@@ -1,0 +1,113 @@
+diff --git "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\authStore.js" "b/D:\\VTT\\vtt-react\\src\\store\\authStore.js"
+index 3acac0bd..6a9b33f1 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\authStore.js"
++++ "b/D:\\VTT\\vtt-react\\src\\store\\authStore.js"
+@@ -46,6 +46,45 @@ const ADMIN_LOCALSTORAGE_KEY = 'mythrill-admin-user';
+ const ADMIN_LOCALSTORAGE_DATA_KEY = 'mythrill-admin-user-data';
+ const ADMIN_LOCALSTORAGE_FLAG = 'mythrill-admin-active';
+ 
++/**
++ * Quota-safe persistence for the admin dev-login session.
++ * localStorage can be full (large map/book/asset caches). A full quota must
++ * never block sign-in, so fall back to sessionStorage (survives refresh in
++ * the same tab) and finally to in-memory only.
++ */
++const adminSessionMemory = {};
++const adminStorageSet = (key, value) => {
++  try {
++    localStorage.setItem(key, value);
++    try { sessionStorage.removeItem(key); } catch (_) { /* ignore */ }
++    return;
++  } catch (err) {
++    console.warn('[auth] localStorage unavailable/full for', key, '- using sessionStorage fallback');
++  }
++  try {
++    sessionStorage.setItem(key, value);
++  } catch (_) {
++    adminSessionMemory[key] = value;
++  }
++};
++const adminStorageGet = (key) => {
++  try {
++    const v = localStorage.getItem(key);
++    if (v !== null) return v;
++  } catch (_) { /* ignore */ }
++  try {
++    const v = sessionStorage.getItem(key);
++    if (v !== null) return v;
++  } catch (_) { /* ignore */ }
++  return adminSessionMemory[key] ?? null;
++};
++const adminStorageRemove = (key) => {
++  try { localStorage.removeItem(key); } catch (_) { /* ignore */ }
++  try { sessionStorage.removeItem(key); } catch (_) { /* ignore */ }
++  delete adminSessionMemory[key];
++};
++
++
+ export const isAdminBypassUser = (user) => !!user?.isAdmin;
+ 
+ export const isAdminLoginCredentials = (email, password) => {
+@@ -642,9 +681,9 @@ const useAuthStore = create(
+           };
+ 
+           // Persist to localStorage so the admin session survives refresh
+-          localStorage.setItem(ADMIN_LOCALSTORAGE_KEY, JSON.stringify(adminUser));
+-          localStorage.setItem(ADMIN_LOCALSTORAGE_DATA_KEY, JSON.stringify(adminUserData));
+-          localStorage.setItem(ADMIN_LOCALSTORAGE_FLAG, 'true');
++          adminStorageSet(ADMIN_LOCALSTORAGE_KEY, JSON.stringify(adminUser));
++          adminStorageSet(ADMIN_LOCALSTORAGE_DATA_KEY, JSON.stringify(adminUserData));
++          adminStorageSet(ADMIN_LOCALSTORAGE_FLAG, 'true');
+ 
+           set({
+             user: adminUser,
+@@ -672,9 +711,9 @@ const useAuthStore = create(
+        */
+       disableAdminBypass: () => {
+         beginAuthIntent();
+-        localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
+-        localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+-        localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
++        adminStorageRemove(ADMIN_LOCALSTORAGE_KEY);
++        adminStorageRemove(ADMIN_LOCALSTORAGE_DATA_KEY);
++        adminStorageRemove(ADMIN_LOCALSTORAGE_FLAG);
+ 
+         set({
+           user: null,
+@@ -692,11 +731,11 @@ const useAuthStore = create(
+         // Guest users should only be restored when explicitly clicking "Continue as Guest"
+ 
+         // Restore admin dev-login session first if active and still enabled
+-        const adminActive = localStorage.getItem(ADMIN_LOCALSTORAGE_FLAG) === 'true';
++        const adminActive = adminStorageGet(ADMIN_LOCALSTORAGE_FLAG) === 'true';
+         if (adminActive && isAdminLoginEnabled()) {
+           try {
+-            const adminUserRaw = localStorage.getItem(ADMIN_LOCALSTORAGE_KEY);
+-            const adminDataRaw = localStorage.getItem(ADMIN_LOCALSTORAGE_DATA_KEY);
++            const adminUserRaw = adminStorageGet(ADMIN_LOCALSTORAGE_KEY);
++            const adminDataRaw = adminStorageGet(ADMIN_LOCALSTORAGE_DATA_KEY);
+             if (adminUserRaw && adminDataRaw) {
+               const adminUser = JSON.parse(adminUserRaw);
+               const adminUserData = JSON.parse(adminDataRaw);
+@@ -714,15 +753,15 @@ const useAuthStore = create(
+           } catch (error) {
+             console.error('Error restoring admin session:', error);
+             // Corrupt admin state \u2014 clear it
+-            localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
+-            localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+-            localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
++            adminStorageRemove(ADMIN_LOCALSTORAGE_KEY);
++            adminStorageRemove(ADMIN_LOCALSTORAGE_DATA_KEY);
++            adminStorageRemove(ADMIN_LOCALSTORAGE_FLAG);
+           }
+         } else if (adminActive && !isAdminLoginEnabled()) {
+           // Admin login was active but is now disabled (e.g. production build) \u2014 purge it
+-          localStorage.removeItem(ADMIN_LOCALSTORAGE_KEY);
+-          localStorage.removeItem(ADMIN_LOCALSTORAGE_DATA_KEY);
+-          localStorage.removeItem(ADMIN_LOCALSTORAGE_FLAG);
++          adminStorageRemove(ADMIN_LOCALSTORAGE_KEY);
++          adminStorageRemove(ADMIN_LOCALSTORAGE_DATA_KEY);
++          adminStorageRemove(ADMIN_LOCALSTORAGE_FLAG);
+         }
+ 
+         // Check if there's a guest user with explicit login flag

@@ -7,11 +7,11 @@
 .spell-effects-container .selection-card.highlighted {
   border: 3px solid var(--my-gold) !important;
   background: linear-gradient(145deg,
-    rgba(255, 215, 0, 0.15) 0%,
-    rgba(255, 215, 0, 0.05) 100%
+    rgba(154, 123, 60, 0.15) 0%,
+    rgba(154, 123, 60, 0.05) 100%
   ) !important;
   box-shadow:
-    0 0 20px rgba(255, 215, 0, 0.4),
+    0 0 20px rgba(154, 123, 60, 0.4),
     0 8px 24px rgba(0, 0, 0, 0.2) !important;
   transform: translateY(-2px) !important;
   animation: highlight-glow 2s infinite alternate;
@@ -20,12 +20,12 @@
 @keyframes highlight-glow {
   0% {
     box-shadow:
-      0 0 20px rgba(255, 215, 0, 0.4),
+      0 0 20px rgba(154, 123, 60, 0.4),
       0 8px 24px rgba(0, 0, 0, 0.2);
   }
   100% {
     box-shadow:
-      0 0 30px rgba(255, 215, 0, 0.6),
+      0 0 30px rgba(154, 123, 60, 0.6),
       0 8px 24px rgba(0, 0, 0, 0.2);
   }
 }
@@ -121,56 +121,6 @@
   border: var(--my-border-width) solid var(--my-brown-light);
   border-radius: var(--my-border-radius-lg);
   box-shadow: var(--my-shadow-sm);
-}
-
-.effect-type-card {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  box-shadow: var(--my-shadow-md);
-  padding: var(--my-space-4);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  position: relative;
-  overflow: hidden;
-}
-
-.effect-type-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 4px,
-      rgba(139, 69, 19, 0.01) 4px,
-      rgba(139, 69, 19, 0.01) 8px
-    );
-  pointer-events: none;
-  border-radius: var(--my-border-radius);
-  z-index: 1;
-}
-
-.effect-type-card > * {
-  position: relative;
-  z-index: 2;
-}
-
-.effect-type-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-lg);
-  border-color: var(--my-brown-dark);
-}
-
-.effect-type-card.selected {
-  border-color: var(--my-gold);
-  box-shadow: 
-    var(--my-shadow-lg),
-    0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 /* ===== EFFECT CONFIG PANEL ===== */

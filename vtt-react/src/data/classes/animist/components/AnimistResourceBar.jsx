@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -9,6 +10,7 @@ import ClassTip from '../../../../components/hud/ClassTip';
 import '../../../../styles/unified-context-menu.css';
 import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor';
 
+import { INK, PAGE, PAPER, PANEL, RULE, ETCH, inked, washed } from '../../../../components/hud/calmBarPalette';
 // Resonance & Spirit Erosion Tiers
 export const RESONANCE_TIERS = [
     { min: 0, max: 4, name: 'Dormant', color: '#10b981', glow: '#34d399', hot: '#d1fae5', desc: 'Conduits cold, root-veins quiet. Spirits slumber.' },
@@ -188,103 +190,25 @@ const AnimistResourceBar = ({
                     preserveAspectRatio="xMidYMid meet"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <defs>
-                        {/* Ethereal Spirit Glow */}
-                        <filter id={ids.glow} x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur stdDeviation="2.2" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* Heavy Primal Drop Shadow */}
-                        <filter id={ids.shadow} x="-15%" y="-15%" width="130%" height="130%">
-                            <feDropShadow dx="0" dy="3" stdDeviation="2.2" floodColor="#000000" floodOpacity="0.9" />
-                        </filter>
-
-                        {/* Spirit Erosion Critical Flame Glow */}
-                        <filter id={ids.cataGlow} x="-40%" y="-40%" width="180%" height="180%">
-                            <feGaussianBlur stdDeviation="3.5" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* Gnarled Bog-Wood Staff Texture */}
-                        <linearGradient id={ids.woodBark} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#2c1a0e" />
-                            <stop offset="25%" stopColor="#1a0f07" />
-                            <stop offset="65%" stopColor="#0d0804" />
-                            <stop offset="100%" stopColor="#050302" />
-                        </linearGradient>
-
-                        {/* Fossilized Weathered Marrow-Bone Gradient */}
-                        <linearGradient id={ids.boneGrad} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#e5e7eb" />
-                            <stop offset="30%" stopColor="#d1d5db" />
-                            <stop offset="70%" stopColor="#9ca3af" />
-                            <stop offset="100%" stopColor="#4b5563" />
-                        </linearGradient>
-
-                        {/* Empty Recessed Bone Marrow Cavity */}
-                        <linearGradient id={ids.marrowEmpty} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#080c09" />
-                            <stop offset="50%" stopColor="#111a14" />
-                            <stop offset="100%" stopColor="#050806" />
-                        </linearGradient>
-
-                        {/* Glowing Emerald Lichen / Overtone Fluid (1-10) */}
-                        <linearGradient id={ids.emeraldMarrow} x1="0" y1="1" x2="0" y2="0">
-                            <stop offset="0%" stopColor="#064e3b" />
-                            <stop offset="40%" stopColor="#059669" />
-                            <stop offset="85%" stopColor="#34d399" />
-                            <stop offset="100%" stopColor="#a7f3d0" />
-                        </linearGradient>
-
-                        {/* Cyan-Violet Ancestral Static (11-14 Apex) */}
-                        <linearGradient id={ids.apexMarrow} x1="0" y1="1" x2="0" y2="0">
-                            <stop offset="0%" stopColor="#0369a1" />
-                            <stop offset="35%" stopColor="#0284c7" />
-                            <stop offset="75%" stopColor="#38bdf8" />
-                            <stop offset="100%" stopColor="#e0f2fe" />
-                        </linearGradient>
-
-                        {/* Smoldering Molten Ember-Crimson (15-20 Spirit Erosion) */}
-                        <linearGradient id={ids.erosionMarrow} x1="0" y1="1" x2="0" y2="0">
-                            <stop offset="0%" stopColor="#7f1d1d" />
-                            <stop offset="30%" stopColor="#dc2626" />
-                            <stop offset="70%" stopColor="#f59e0b" />
-                            <stop offset="100%" stopColor="#fef08a" />
-                        </linearGradient>
-
-                        {/* Ancestor Skull Crown Radial Core */}
-                        <radialGradient id={ids.skullLens} cx="50%" cy="40%" r="60%">
-                            <stop offset="0%" stopColor="#ffffff" />
-                            <stop offset="25%" stopColor={isErosion ? '#fca5a5' : isApex ? '#bae6fd' : '#a7f3d0'} />
-                            <stop offset="65%" stopColor={isErosion ? '#dc2626' : isApex ? '#0284c7' : '#059669'} />
-                            <stop offset="100%" stopColor="#09130c" />
-                        </radialGradient>
-                    </defs>
+                    <defs />
 
                     {/* ========================================================================= */}
                     {/* 1. GNARLED PETRIFIED BOG-WOOD SPINE & ROOT TENDRILS                       */}
                     {/* ========================================================================= */}
-                    <g filter={`url(#${ids.shadow})`}>
+                    <g>
                         {/* Organic Staff Silhouette */}
                         <path
                             d="M 6 36 Q 35 32, 70 34 Q 110 32, 148 35 Q 186 32, 226 34 Q 260 32, 290 36 L 292 53 Q 260 56, 226 54 Q 186 56, 148 53 Q 110 56, 70 54 Q 35 56, 4 53 Z"
-                            fill={`url(#${ids.woodBark})`}
-                            stroke={isErosion ? '#ef4444' : isApex ? '#06b6d4' : isHarmonized ? '#10b981' : '#3f2715'}
+                            fill={PAPER}
+                            stroke={isErosion ? inked('#ef4444', 0.6) : isApex ? inked('#06b6d4', 0.6) : isHarmonized ? inked('#10b981', 0.6) : RULE}
                             strokeWidth={isErosion ? 1.6 : 1.2}
                         />
 
                         {/* Knotted Bark Grain Lines */}
-                        <path d="M 12 40 Q 60 38, 120 40" stroke="rgba(92, 58, 33, 0.6)" strokeWidth="0.9" fill="none" />
-                        <path d="M 176 40 Q 230 38, 284 40" stroke="rgba(92, 58, 33, 0.6)" strokeWidth="0.9" fill="none" />
-                        <path d="M 16 48 Q 70 47, 120 49" stroke="rgba(44, 26, 14, 0.8)" strokeWidth="0.8" fill="none" />
-                        <path d="M 176 49 Q 230 47, 280 48" stroke="rgba(44, 26, 14, 0.8)" strokeWidth="0.8" fill="none" />
+                        <path d="M 12 40 Q 60 38, 120 40" stroke={RULE} strokeWidth="0.9" fill="none" />
+                        <path d="M 176 40 Q 230 38, 284 40" stroke={RULE} strokeWidth="0.9" fill="none" />
+                        <path d="M 16 48 Q 70 47, 120 49" stroke={RULE} strokeWidth="0.8" fill="none" />
+                        <path d="M 176 49 Q 230 47, 280 48" stroke={RULE} strokeWidth="0.8" fill="none" />
 
                         {/* Rawhide Sinew Wraps (Binding the Staff) */}
                         {[
@@ -296,7 +220,7 @@ const AnimistResourceBar = ({
                             <path
                                 key={`sinew-${i}`}
                                 d={wrapPath}
-                                stroke="#78350f"
+                                stroke={RULE}
                                 strokeWidth="1.1"
                                 fill="none"
                                 opacity="0.85"
@@ -306,7 +230,7 @@ const AnimistResourceBar = ({
                         {/* Bioluminescent Root-Vein Glow Seam */}
                         <path
                             d="M 10 38 Q 65 35, 120 37 M 176 37 Q 230 35, 286 38"
-                            stroke={isErosion ? 'rgba(239, 68, 68, 0.55)' : localResonance > 0 ? 'rgba(52, 211, 153, 0.45)' : 'rgba(16, 185, 129, 0.15)'}
+                            stroke={isErosion ? inked('#ef4444', 0.6) : localResonance > 0 ? inked('#34d399', 0.6) : ETCH}
                             strokeWidth="0.8"
                             fill="none"
                         />
@@ -329,27 +253,27 @@ const AnimistResourceBar = ({
                         style={{ cursor: isOwner ? 'pointer' : 'default' }}
                     >
                         {/* Carved Root Bulb */}
-                        <ellipse cx="22" cy="36" rx="14" ry="16" fill="#130b05" stroke={localResonance > 0 ? '#10b981' : '#3f2715'} strokeWidth="1" filter={localResonance > 0 ? `url(#${ids.glow})` : undefined} />
-                        <ellipse cx="22" cy="36" rx="11" ry="13" fill="#090502" stroke="#2c1a0e" strokeWidth="0.8" />
+                        <ellipse cx="22" cy="36" rx="14" ry="16" fill={PAPER} stroke={localResonance > 0 ? inked('#10b981', 0.6) : RULE} strokeWidth="1" />
+                        <ellipse cx="22" cy="36" rx="11" ry="13" fill={PAPER} stroke={RULE} strokeWidth="0.8" />
 
                         {/* Carved Totem Eye / Spiral */}
                         <g transform="translate(22, 36)">
                             {/* Radiating Overtone Ring */}
-                            <circle cx="0" cy="0" r="9" fill="none" stroke={localResonance > 0 ? '#34d399' : '#3f2715'} strokeWidth="0.8" strokeDasharray="2 2" />
+                            <circle cx="0" cy="0" r="9" fill="none" stroke={localResonance > 0 ? inked('#34d399', 0.6) : RULE} strokeWidth="0.8" strokeDasharray="2 2" />
                             {/* Carved Antler Spur */}
                             <path
                                 d="M -4 2 Q -6 -6, 0 -8 Q 6 -6, 4 2 Q 0 6, -4 2 Z"
-                                fill={localResonance > 0 ? '#a7f3d0' : '#374151'}
-                                stroke={localResonance > 0 ? '#ffffff' : '#1f2937'}
+                                fill={localResonance > 0 ? washed('#a7f3d0', 0.2) : PAPER}
+                                stroke={localResonance > 0 ? INK : RULE}
                                 strokeWidth="0.6"
                             />
                             {/* Glowing Totem Core Spark */}
-                            <circle cx="0" cy="-1" r="1.5" fill={localResonance > 0 ? '#ffffff' : '#4b5563'} />
+                            <circle cx="0" cy="-1" r="1.5" fill={localResonance > 0 ? PAGE : PANEL} />
                         </g>
 
                         {/* Hanging Bone Fetish Bead */}
-                        <line x1="22" y1="52" x2="22" y2="58" stroke="#78350f" strokeWidth="1" />
-                        <polygon points="20,58 24,58 22,60" fill="#d1d5db" />
+                        <line x1="22" y1="52" x2="22" y2="58" stroke={RULE} strokeWidth="1" />
+                        <polygon points="20,58 24,58 22,60" fill={PAGE} />
                     </g>
 
                     {/* ========================================================================= */}
@@ -377,17 +301,16 @@ const AnimistResourceBar = ({
                                     {/* Weathered Outer Bone Tooth Silhouette */}
                                     <path
                                         d={`M ${sx} 48 L ${sx} 20 Q ${sx + sw / 2} 11 ${sx + sw} 20 L ${sx + sw} 48 Z`}
-                                        fill={isFilled ? `url(#${ids.boneGrad})` : '#161c18'}
-                                        stroke={isFilled ? (isCurrent ? '#ffffff' : '#10b981') : '#25352b'}
+                                        fill={isFilled ? PANEL : PAPER}
+                                        stroke={isFilled ? (isCurrent ? INK : inked('#10b981', 0.6)) : RULE}
                                         strokeWidth={isCurrent ? '1.3' : '0.8'}
-                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
                                     />
 
                                     {/* Glowing Marrow Core Column */}
                                     {isFilled && (
                                         <path
                                             d={`M ${sx + 1.2} 46 L ${sx + 1.2} 22 Q ${sx + sw / 2} 15 ${sx + sw - 1.2} 22 L ${sx + sw - 1.2} 46 Z`}
-                                            fill={`url(#${ids.emeraldMarrow})`}
+                                            fill={washed('#059669', 0.2)}
                                             opacity="0.9"
                                         />
                                     )}
@@ -399,7 +322,7 @@ const AnimistResourceBar = ({
                                             y1="23"
                                             x2={sx + sw / 2}
                                             y2="44"
-                                            stroke="#ffffff"
+                                            stroke={INK}
                                             strokeWidth="0.8"
                                             strokeLinecap="round"
                                             opacity="0.85"
@@ -410,7 +333,7 @@ const AnimistResourceBar = ({
                         })}
 
                         {/* Mid-bank root milestone knot at 5 Resonance */}
-                        <circle cx="81" cy="51" r="1.3" fill={localResonance >= 5 ? '#34d399' : '#3f2715'} />
+                        <circle cx="81" cy="51" r="1.3" fill={localResonance >= 5 ? washed('#34d399', 0.2) : PAPER} />
                     </g>
 
                     {/* ========================================================================= */}
@@ -423,38 +346,37 @@ const AnimistResourceBar = ({
                             setShowControls(prev => !prev);
                         }}
                         style={{ cursor: 'pointer' }}
-                        filter={isErosion ? `url(#${ids.cataGlow})` : isApex ? `url(#${ids.glow})` : undefined}
                     >
                         {/* Swept Horns (Crown of the Skull) */}
                         <path
                             d="M 148 10 C 136 2, 122 6, 120 16 C 122 22, 128 22, 134 18 C 138 15, 144 14, 148 16 C 152 14, 158 15, 162 18 C 168 22, 174 22, 176 16 C 174 6, 160 2, 148 10 Z"
-                            fill={isErosion ? '#450a0a' : '#1f2937'}
-                            stroke={isErosion ? '#ef4444' : isApex ? '#06b6d4' : isHarmonized ? '#10b981' : '#4b5563'}
+                            fill={isErosion ? PAPER : PAPER}
+                            stroke={isErosion ? inked('#ef4444', 0.6) : isApex ? inked('#06b6d4', 0.6) : isHarmonized ? inked('#10b981', 0.6) : RULE}
                             strokeWidth="1"
                         />
 
                         {/* Carved Beast/Stag Cranium Slab */}
                         <path
                             d="M 134 16 L 162 16 L 166 32 L 157 48 L 139 48 L 130 32 Z"
-                            fill="#0d1410"
-                            stroke={isErosion ? '#ef4444' : isApex ? '#06b6d4' : isHarmonized ? '#10b981' : '#374151'}
+                            fill={PAPER}
+                            stroke={isErosion ? inked('#ef4444', 0.6) : isApex ? inked('#06b6d4', 0.6) : isHarmonized ? inked('#10b981', 0.6) : RULE}
                             strokeWidth={isErosion ? '1.8' : '1.3'}
                         />
 
                         {/* Inner Bone Forehead Hearth */}
                         <path
                             d="M 136 18 L 160 18 L 163 31 L 155 45 L 141 45 L 133 31 Z"
-                            fill={`url(#${ids.skullLens})`}
+                            fill={PAPER}
                             opacity="0.9"
                         />
 
                         {/* Hollow Spirit Eye Sockets (Ignite with Tier Glow) */}
-                        <ellipse cx="141" cy="34" rx="2.5" ry="3.5" fill={isErosion ? '#ffffff' : localResonance > 0 ? '#ffffff' : '#050a07'} filter={localResonance > 0 ? `url(#${ids.glow})` : undefined} />
-                        <ellipse cx="155" cy="34" rx="2.5" ry="3.5" fill={isErosion ? '#ffffff' : localResonance > 0 ? '#ffffff' : '#050a07'} filter={localResonance > 0 ? `url(#${ids.glow})` : undefined} />
+                        <ellipse cx="141" cy="34" rx="2.5" ry="3.5" fill={isErosion ? PAGE : localResonance > 0 ? PAGE : PAPER} />
+                        <ellipse cx="155" cy="34" rx="2.5" ry="3.5" fill={isErosion ? PAGE : localResonance > 0 ? PAGE : PAPER} />
 
                         {/* Spirit Erosion Crackle Lines */}
                         {isErosion && (
-                            <g stroke="#ffffff" strokeWidth="1" strokeLinecap="round">
+                            <g stroke={INK} strokeWidth="1" strokeLinecap="round">
                                 <line x1="148" y1="12" x2="148" y2="24" />
                                 <line x1="135" y1="28" x2="140" y2="30" />
                                 <line x1="161" y1="28" x2="156" y2="30" />
@@ -466,11 +388,10 @@ const AnimistResourceBar = ({
                         <text
                             x="148"
                             y="27"
-                            fill="#ffffff"
+                            fill={INK}
                             fontSize="13"
                             fontWeight="900"
                             textAnchor="middle"
-                            filter="drop-shadow(0 1.5px 3px rgba(0,0,0,0.95))"
                         >
                             {localResonance}
                         </text>
@@ -509,10 +430,9 @@ const AnimistResourceBar = ({
                                     {/* Bone Tooth/Horn Silhouette */}
                                     <path
                                         d={`M ${sx} 48 L ${sx} ${spurTopY} Q ${sx + sw / 2} ${spurPeakY} ${sx + sw} ${spurTopY} L ${sx + sw} 48 Z`}
-                                        fill={isFilled ? `url(#${ids.boneGrad})` : '#161c18'}
-                                        stroke={isFilled ? (isErosionSlot ? '#ef4444' : isCurrent ? '#ffffff' : '#06b6d4') : isErosionSlot ? '#450a0a' : '#25352b'}
+                                        fill={isFilled ? PANEL : PAPER}
+                                        stroke={isFilled ? (isErosionSlot ? inked('#ef4444', 0.6) : isCurrent ? INK : inked('#06b6d4', 0.6)) : isErosionSlot ? RULE : RULE}
                                         strokeWidth={isCurrent ? '1.4' : '0.8'}
-                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
                                     />
 
                                     {/* Glowing Marrow Core Column */}
@@ -531,7 +451,7 @@ const AnimistResourceBar = ({
                                             y1={spurTopY + 3}
                                             x2={sx + sw / 2}
                                             y2="44"
-                                            stroke="#ffffff"
+                                            stroke={INK}
                                             strokeWidth="0.8"
                                             strokeLinecap="round"
                                             opacity="0.85"
@@ -545,7 +465,7 @@ const AnimistResourceBar = ({
                                             y1={spurTopY + 8}
                                             x2={sx + sw - 1}
                                             y2={spurTopY + 14}
-                                            stroke="#fef08a"
+                                            stroke={inked('#fef08a', 0.6)}
                                             strokeWidth="0.7"
                                             strokeLinecap="round"
                                         />
@@ -555,7 +475,7 @@ const AnimistResourceBar = ({
                         })}
 
                         {/* Mid-bank root milestone knot at 15 Resonance (Erosion Boundary) */}
-                        <circle cx="207" cy="51" r="1.3" fill={localResonance >= 15 ? '#ef4444' : '#3f2715'} />
+                        <circle cx="207" cy="51" r="1.3" fill={localResonance >= 15 ? washed('#ef4444', 0.2) : PAPER} />
                     </g>
 
                     {/* ========================================================================= */}
@@ -575,8 +495,8 @@ const AnimistResourceBar = ({
                             {/* Hollow Bone Whistle Cylinder */}
                             <path
                                 d="M 260 14 L 288 14 Q 292 20 288 26 L 260 26 Z"
-                                fill={isErosion ? '#260a0a' : '#140c06'}
-                                stroke={isErosion ? '#ef4444' : '#5c3a21'}
+                                fill={isErosion ? PAPER : PAPER}
+                                stroke={isErosion ? inked('#ef4444', 0.6) : RULE}
                                 strokeWidth="0.9"
                             />
                             {/* Whistle Breath Slits */}
@@ -587,7 +507,7 @@ const AnimistResourceBar = ({
                                     y1="16"
                                     x2={vx}
                                     y2="24"
-                                    stroke={isErosion ? '#f87171' : '#34d399'}
+                                    stroke={isErosion ? inked('#f87171', 0.6) : inked('#34d399', 0.6)}
                                     strokeWidth="1.2"
                                     strokeLinecap="round"
                                 />
@@ -604,19 +524,19 @@ const AnimistResourceBar = ({
                             style={{ cursor: 'pointer' }}
                         >
                             {/* Leather Sinew Cord */}
-                            <line x1="274" y1="28" x2="274" y2="34" stroke="#78350f" strokeWidth="1.2" />
+                            <line x1="274" y1="28" x2="274" y2="34" stroke={RULE} strokeWidth="1.2" />
 
                             {/* Triangular Carved Bone Talisman */}
                             <polygon
                                 points="274,34 286,52 262,52"
-                                fill={showControls ? '#064e3b' : '#130d07'}
-                                stroke={showControls ? '#10b981' : '#5c3a21'}
+                                fill={showControls ? PAPER : PAPER}
+                                stroke={showControls ? inked('#10b981', 0.6) : RULE}
                                 strokeWidth="0.9"
                             />
                             {/* Ancestral Spiral Inscription */}
                             <path
                                 d="M 274 40 Q 277 44 274 47 Q 270 47 271 43"
-                                stroke={showControls ? '#ffffff' : '#6ee7b7'}
+                                stroke={showControls ? INK : inked('#6ee7b7', 0.6)}
                                 strokeWidth="1"
                                 fill="none"
                                 strokeLinecap="round"
@@ -665,120 +585,57 @@ const AnimistResourceBar = ({
                             zIndex: 100000
                         }}
                     >
-                        <div className="animist-council-header">
-                            <div className="animist-council-title">
-                                <i className="fas fa-seedling"></i>
-                                <span>The Shaman's Council</span>
+                        <div className="cm" style={{ '--cm-accent': '#3f7a52', '--cm-accent-deep': '#1f4a2e', '--cm-wash': '#e1ecdc' }}>
+                            <header className="cm-head">
+                                <span className={`cm-seal ${localResonance === 0 ? 'is-quiet' : ''}`}>{localResonance}</span>
+                                <div className="cm-titles">
+                                    <div className="cm-eyebrow">The Shaman's Council</div>
+                                    <div className="cm-title">{currentTier.name}</div>
+                                    <div className="cm-sub">{localResonance}/{maxResonance} Resonance{statusFlavor?.text ? `. ${statusFlavor.text}` : ''}</div>
+                                </div>
+                                <button type="button" className="cm-x" aria-label="Close council" onClick={() => setShowControls(false)}>
+                                    <i className="fas fa-times" aria-hidden="true"></i>
+                                </button>
+                            </header>
+                            <div className="cm-meter" aria-hidden="true"><span style={{ width: `${Math.min(100, (localResonance / maxResonance) * 100)}%` }}></span></div>
+                            <div className={`cm-burden ${isErosion ? 'is-severe' : localResonance < 5 ? 'is-quiet' : ''}`}>
+                                <span className="cm-burden-label">{isErosion ? 'The Triple Toll' : 'The spirits answer'}</span>
+                                <p className="cm-burden-text">
+                                    {isErosion
+                                        ? 'You take double ember damage, no ally can heal you, forced movement shatters your runes, and you suffer 1d6 wyrd if you end your turn here.'
+                                        : currentTier.desc}
+                                </p>
                             </div>
-                            <button
-                                className="animist-council-close-btn"
-                                onClick={() => setShowControls(false)}
-                                title="Close council"
-                            >
-                                ×
-                            </button>
-                        </div>
-
-                        {/* Status Flavor Banner */}
-                        {statusFlavor && (
-                            <div className="animist-status-flavor-banner" style={statusFlavor.style}>
-                                <i className="fas fa-quote-left"></i> {statusFlavor.text}
+                            <div className="cm-section">
+                                Calibrate
+                                <span className="cm-section-aside">15+ brings the Toll</span>
                             </div>
-                        )}
-
-                        {/* Section 1: Resonance Presets */}
-                        <div className="animist-council-section">
-                            <div className="animist-section-label">
-                                <span>Resonance Calibration</span>
-                                <span className="animist-current-pill" style={{ color: currentTier.color }}>
-                                    {localResonance}/20 Res ({currentTier.name})
-                                </span>
+                            <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                                {[[0, 'Dormant', 'cold root-veins'], [5, 'Stir', 'first overtone'], [10, 'Harmonized', 'balanced focus'], [14, 'Apex', 'max safe power'], [15, 'Erosion', 'Toll begins'], [20, 'Cataclysm', 'convergence']].map(([val, name, sub]) => (
+                                    <button
+                                        key={val}
+                                        type="button"
+                                        className={`context-menu-button is-stacked ${localResonance === val ? 'active' : ''} ${val >= 15 ? 'spend' : ''}`}
+                                        onClick={() => handleResonanceSet(val)}
+                                    >
+                                        <span>{name} ({val})</span>
+                                        <span className="cm-btn-sub">{sub}</span>
+                                    </button>
+                                ))}
                             </div>
-                            <div className="animist-preset-grid">
-                                <button
-                                    className={`animist-preset-btn ${localResonance === 0 ? 'active' : ''}`}
-                                    onClick={() => handleResonanceSet(0)}
-                                >
-                                    <span className="animist-btn-title">Dormant (0)</span>
-                                    <span className="animist-btn-sub">Cold root-veins</span>
-                                </button>
-                                <button
-                                    className={`animist-preset-btn ${localResonance === 5 ? 'active' : ''}`}
-                                    onClick={() => handleResonanceSet(5)}
-                                >
-                                    <span className="animist-btn-title">Stir (5)</span>
-                                    <span className="animist-btn-sub">First overtone</span>
-                                </button>
-                                <button
-                                    className={`animist-preset-btn ${localResonance === 10 ? 'active' : ''}`}
-                                    onClick={() => handleResonanceSet(10)}
-                                >
-                                    <span className="animist-btn-title">Harmonized (10)</span>
-                                    <span className="animist-btn-sub">Balanced focus</span>
-                                </button>
-                                <button
-                                    className={`animist-preset-btn ${localResonance === 14 ? 'active' : ''}`}
-                                    onClick={() => handleResonanceSet(14)}
-                                >
-                                    <span className="animist-btn-title">Apex (14)</span>
-                                    <span className="animist-btn-sub">Max safe power</span>
-                                </button>
-                                <button
-                                    className={`animist-preset-btn is-danger ${localResonance === 15 ? 'active' : ''}`}
-                                    onClick={() => handleResonanceSet(15)}
-                                >
-                                    <span className="animist-btn-title">Erosion (15)</span>
-                                    <span className="animist-btn-sub">Triple Toll active</span>
-                                </button>
-                                <button
-                                    className={`animist-preset-btn is-danger ${localResonance === 20 ? 'active' : ''}`}
-                                    onClick={() => handleResonanceSet(20)}
-                                >
-                                    <span className="animist-btn-title">Cataclysm (20)</span>
-                                    <span className="animist-btn-sub">Convergence</span>
-                                </button>
+                            <div className="cm-section">Adjust</div>
+                            <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                                <button type="button" className="context-menu-button spend" onClick={() => handleResonanceChange(-3)}>-3</button>
+                                <button type="button" className="context-menu-button spend" onClick={() => handleResonanceChange(-1)}>-1</button>
+                                <button type="button" className="context-menu-button gain" onClick={() => handleResonanceChange(1)}>+1</button>
+                                <button type="button" className="context-menu-button gain" onClick={() => handleResonanceChange(3)}>+3</button>
                             </div>
-                        </div>
-
-                        {/* Section 2: Quick Ancestral Actions */}
-                        <div className="animist-council-section">
-                            <div className="animist-section-label">
-                                <span>Ancestral Invocations</span>
-                            </div>
-                            <div className="animist-actions-grid">
-                                <button
-                                    className="animist-action-btn"
-                                    onClick={() => handleResonanceChange(3)}
-                                    title="Erupt Bone Totem (+3 Resonance)"
-                                >
-                                    <span className="animist-action-icon"><i className="fas fa-bone"></i></span>
-                                    <span>Erupt Totem (+3)</span>
-                                </button>
-                                <button
-                                    className="animist-action-btn"
-                                    onClick={() => handleResonanceChange(1)}
-                                    title="Whisper Mojo Curse (+1 Resonance)"
-                                >
-                                    <span className="animist-action-icon"><i className="fas fa-comment-dots"></i></span>
-                                    <span>Cast Curse (+1)</span>
-                                </button>
-                                <button
-                                    className="animist-action-btn"
-                                    onClick={() => handleResonanceChange(-3)}
-                                    title="Exhale Spirit Whistle (-3 Resonance)"
-                                >
-                                    <span className="animist-action-icon"><i className="fas fa-wind"></i></span>
-                                    <span>Vent Spirit (-3)</span>
-                                </button>
-                                <button
-                                    className="animist-action-btn is-ground"
-                                    onClick={() => handleResonanceSet(0)}
-                                    title="Ground all resonance back to earth (Set to 0)"
-                                >
-                                    <span className="animist-action-icon"><i className="fas fa-mountain"></i></span>
-                                    <span>Ground to Earth (0)</span>
-                                </button>
-                            </div>
+                            <ClassMenuSpells className="Animist" resourceTypes={['resonance']} resourceLabel="Resonance" current={localResonance} />
+                            <details className="cm-notes">
+                                <summary>How Resonance works</summary>
+                                <p>Your spells build and spend Resonance (0 to 20). 10 to 14 is the sweet spot.</p>
+                                <p>At 15 and above the Triple Toll applies until you vent or ground it.</p>
+                            </details>
                         </div>
                     </div>,
                     document.body
@@ -798,7 +655,7 @@ const AnimistResourceBar = ({
                             subtitle={`${currentTier.name} Stage`}
                             state={`${localResonance}/${maxResonance} AR`}
                             stateTone={isErosion ? 'critical' : localResonance >= 14 ? 'good' : 'neutral'}
-                            mechanic="Channel Resonance (0-20) with bone totems, curses, and rune carving; spend it on spirit invocations and runic network detonations. At 15+ the Triple Toll triggers: 100% ember vulnerability, no party healing, forced movement shatters runes, and hoarding deals 1d6 wyrd each turn."
+                            mechanic="Resonance (0–20) powers invocations and rune detonations. At 15+ the Triple Toll applies: ember vulnerability, no party healing, and 1d6 wyrd each turn if you hoard."
                             status={[
                                 `${currentTier.name}: ${currentTier.desc}`,
                                 isErosion ? { text: 'TRIPLE TOLL: 100% ember vulnerability · no party healing · forced movement shatters runes (1d10 each) · 1d6 wyrd if you end at 15+.', tone: 'critical' } : null,

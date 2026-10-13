@@ -22,14 +22,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(139, 69, 19, 0.01) 6px,
-      rgba(139, 69, 19, 0.01) 12px
-    );
   pointer-events: none;
   border-radius: var(--my-border-radius-lg);
   z-index: 1;
@@ -249,7 +241,7 @@
   border-color: var(--my-gold);
   box-shadow: 
     var(--my-shadow-md),
-    0 0 10px rgba(212, 175, 55, 0.3);
+    0 0 10px rgba(154, 123, 60, 0.3);
 }
 
 .icon-option img {

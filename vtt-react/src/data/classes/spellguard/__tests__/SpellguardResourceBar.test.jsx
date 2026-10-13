@@ -131,7 +131,7 @@ describe('SpellguardResourceBar Component (Damon Alchemical Tower Shield Apparat
         expect(resource).toMatchObject({ current: 2, max: 100, aep: 2, resonance: 2, spellguardIntake: { totals: { captured: 2, dissipated: 18 } } });
         fireEvent.click(screen.getByRole('button', { name: 'Record resolved intake' }));
         expect(resource.current).toBe(2);
-        expect(screen.getByRole('status')).toHaveTextContent('duplicate-receipt');
+        expect(screen.getByRole('status')).toHaveTextContent(/already in the log/i);
         fireEvent.change(screen.getByLabelText('Intake interface'), { target: { value: 'deflection' } });
         fireEvent.change(screen.getByLabelText('Resolution receipt ID'), { target: { value: 'spell-2' } });
         fireEvent.change(screen.getByLabelText('Captured residual'), { target: { value: '1' } });

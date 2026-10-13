@@ -1,0 +1,1423 @@
+{
+  "historicalRed": {
+    "manifestExactlyMatches": true,
+    "scenarios": [
+      {
+        "name": "mounted-import-over-newer-work",
+        "reproduced": true,
+        "errors": []
+      },
+      {
+        "name": "mounted-import-character-payload-mismatch",
+        "reproduced": true,
+        "errors": []
+      },
+      {
+        "name": "runtime-import-mounted-fidelity",
+        "reproduced": true,
+        "errors": []
+      },
+      {
+        "name": "runtime-serialized-overlapping-writes-and-later-edit",
+        "reproduced": false,
+        "errors": []
+      },
+      {
+        "name": "canonical-serialized-overlapping-writes",
+        "reproduced": false,
+        "errors": []
+      },
+      {
+        "name": "mounted-cyclic-export-refusal",
+        "reproduced": false,
+        "errors": []
+      },
+      {
+        "name": "ordinary-production-inventory-add-and-save",
+        "reproduced": true,
+        "errors": []
+      },
+      {
+        "name": "reachable-sync-reconciliation-outcome",
+        "reproduced": false,
+        "errors": []
+      },
+      {
+        "name": "session-linked-delayed-failure-owner-switch",
+        "reproduced": true,
+        "errors": []
+      },
+      {
+        "name": "sync-delayed-read-foreign-metadata-write",
+        "reproduced": true,
+        "errors": []
+      }
+    ],
+    "r2": {
+      "before": "newer work to preserve",
+      "after": "older exported draft",
+      "health": 19
+    },
+    "r4": {
+      "id": "c-a",
+      "roster": [
+        {
+          "id": "c-b",
+          "notes": "foreign payload edit"
+        }
+      ],
+      "candidate": {
+        "name": "REVIEW HERO",
+        "baseName": "REVIEW HERO",
+        "race": "Human",
+        "subrace": "",
+        "class": "Martyr",
+        "classAcquisition": {},
+        "bodyStates": [],
+        "level": 3,
+        "experience": 0,
+        "alignment": "Neutral Good",
+        "stats": {
+          "strength": 10,
+          "agility": 10,
+          "constitution": 10,
+          "intelligence": 10,
+          "spirit": 10,
+          "charisma": 10
+        },
+        "health": {
+          "current": 30,
+          "max": 50
+        },
+        "mana": {
+          "current": 20,
+          "max": 50
+        },
+        "actionPoints": {
+          "current": 2,
+          "max": 3
+        },
+        "resources": {
+          "health": {
+            "current": 30,
+            "max": 50
+          },
+          "mana": {
+            "current": 20,
+            "max": 50
+          },
+          "actionPoints": {
+            "current": 2,
+            "max": 3
+          }
+        },
+        "equipment": {
+          "head": null,
+          "neck": null,
+          "shoulders": null,
+          "back": null,
+          "chest": null,
+          "shirt": null,
+          "tabard": null,
+          "wrists": null,
+          "gloves": null,
+          "waist": null,
+          "legs": null,
+          "feet": null,
+          "ring1": null,
+          "ring2": null,
+          "trinket1": null,
+          "trinket2": null,
+          "mainHand": null,
+          "offHand": null,
+          "ranged": null
+        },
+        "resistances": {
+          "fire": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+          },
+          "frost": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+          },
+          "lightning": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+          },
+          "force": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+          },
+          "necrotic": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+          },
+          "radiant": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+          },
+          "poison": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+          },
+          "psychic": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+          },
+          "bludgeoning": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg"
+          },
+          "piercing": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg"
+          },
+          "slashing": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg"
+          }
+        },
+        "spellPower": {
+          "fire": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+          },
+          "frost": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+          },
+          "lightning": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+          },
+          "force": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+          },
+          "necrotic": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+          },
+          "radiant": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+          },
+          "poison": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+          },
+          "psychic": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+          }
+        },
+        "lore": {
+          "notes": "foreign payload edit",
+          "background": "",
+          "personalityTraits": "",
+          "ideals": "",
+          "bonds": "",
+          "flaws": "",
+          "appearance": "",
+          "backstory": "",
+          "goals": "",
+          "fears": "",
+          "allies": "",
+          "enemies": "",
+          "organizations": "",
+          "characterImage": null,
+          "imageTransformations": null,
+          "characterIcon": null,
+          "iconBackgroundColor": null,
+          "iconBorderColor": null,
+          "iconBackgroundImage": null,
+          "iconScale": null,
+          "iconOffsetX": null,
+          "iconOffsetY": null,
+          "iconBackgroundScale": null,
+          "iconBackgroundOffsetX": null,
+          "iconBackgroundOffsetY": null
+        },
+        "tokenSettings": {
+          "borderColor": "#506e30",
+          "customIcon": null
+        },
+        "skillRanks": {},
+        "class_spells": {
+          "known_spells": [
+            "martyr_intervene",
+            "martyr_devoted_strike",
+            "martyr_penance_of_pain",
+            "martyr_sacrificial_bond",
+            "martyr_burning_sacrifice"
+          ]
+        },
+        "levelUpHistory": {},
+        "talents": {},
+        "primarySpecialization": "",
+        "inventory": {
+          "items": [],
+          "containers": [],
+          "currency": {
+            "platinum": 0,
+            "gold": 0,
+            "silver": 0,
+            "copper": 0
+          },
+          "encumbranceState": "normal"
+        },
+        "classResource": {
+          "type": "devotionGauge",
+          "current": 0,
+          "max": 6,
+          "damage": 0,
+          "earnedLevels": 0,
+          "spentLevels": 0,
+          "bonusLevels": 0
+        },
+        "updatedAt": "2026-10-12T18:33:25.194Z"
+      },
+      "alerts": []
+    },
+    "r3": {
+      "expectedHealth": 5,
+      "actualHealth": 21,
+      "inventory": [],
+      "draft": {
+        "health": {
+          "current": 21,
+          "max": 50
+        },
+        "mana": {
+          "current": 20,
+          "max": 50
+        },
+        "actionPoints": {
+          "current": 2,
+          "max": 3
+        },
+        "tempHealth": 0,
+        "tempMana": 0,
+        "tempActionPoints": 0,
+        "exhaustionLevel": 0,
+        "classResource": {
+          "type": "devotionGauge",
+          "current": 0,
+          "max": 6,
+          "damage": 0,
+          "earnedLevels": 0,
+          "spentLevels": 0,
+          "bonusLevels": 0
+        },
+        "equipment": {
+          "head": null,
+          "neck": null,
+          "shoulders": null,
+          "back": null,
+          "chest": null,
+          "shirt": null,
+          "tabard": null,
+          "wrists": null,
+          "gloves": null,
+          "waist": null,
+          "legs": null,
+          "feet": null,
+          "ring1": null,
+          "ring2": null,
+          "trinket1": null,
+          "trinket2": null,
+          "mainHand": null,
+          "offHand": null,
+          "ranged": null
+        },
+        "inventory": {
+          "items": [],
+          "currency": {
+            "platinum": 0,
+            "gold": 0,
+            "silver": 0,
+            "copper": 0
+          },
+          "encumbranceState": "normal",
+          "containers": []
+        },
+        "actionBars": {},
+        "buffs": [],
+        "debuffs": [],
+        "quests": {
+          "quests": [],
+          "categories": [
+            {
+              "id": "all-quests",
+              "name": "All Quests",
+              "isBaseCategory": true,
+              "parentId": null
+            }
+          ],
+          "questCategories": {}
+        },
+        "questProgress": {},
+        "skillRanks": {},
+        "skillProgress": {},
+        "skillPointsSpent": 0,
+        "skillPointsAvailable": 0,
+        "version": 1
+      },
+      "alerts": [],
+      "reproduced": true
+    },
+    "r1": {
+      "accepted": {
+        "success": true,
+        "addedItemId": "ordinary-blade"
+      },
+      "items": [
+        {
+          "id": "ordinary-blade",
+          "name": "Ordinary blade",
+          "type": "weapon",
+          "quality": "common",
+          "width": 1,
+          "height": 1,
+          "quantity": 1,
+          "rotation": 0,
+          "shape": {
+            "type": "rectangular",
+            "width": 1,
+            "height": 1,
+            "cells": [
+              [
+                true
+              ]
+            ]
+          },
+          "position": {
+            "row": 0,
+            "col": 0
+          }
+        }
+      ],
+      "canonical": {
+        "id": "c-a",
+        "lane": "canonical",
+        "context": {
+          "scope": {
+            "scopeKind": "user",
+            "scopeId": "u-a"
+          },
+          "phase": "active",
+          "accountGeneration": 2,
+          "documentInstanceId": null
+        },
+        "payload": {
+          "classResource": {
+            "type": "devotionGauge",
+            "current": 0,
+            "max": 6,
+            "damage": 0,
+            "earnedLevels": 0,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "storageExtensions": {
+            "topLevel": {},
+            "metadata": {},
+            "basicInfo": {},
+            "gameState": {},
+            "sessionData": {}
+          },
+          "id": "c-a",
+          "name": "REVIEW HERO",
+          "race": "Human",
+          "subrace": "",
+          "class": "Martyr",
+          "classAcquisition": {},
+          "bodyStates": [],
+          "level": 3,
+          "alignment": "Neutral Good",
+          "exhaustionLevel": 0,
+          "stats": {
+            "strength": 10,
+            "agility": 10,
+            "constitution": 10,
+            "intelligence": 10,
+            "spirit": 10,
+            "charisma": 10
+          },
+          "resources": {
+            "health": {
+              "current": 30,
+              "max": 50
+            },
+            "mana": {
+              "current": 20,
+              "max": 50
+            },
+            "actionPoints": {
+              "current": 2,
+              "max": 3
+            }
+          },
+          "inventory": {
+            "items": [
+              {
+                "id": "ordinary-blade",
+                "name": "Ordinary blade",
+                "type": "weapon",
+                "quality": "common",
+                "width": 1,
+                "height": 1,
+                "quantity": 1,
+                "rotation": 0,
+                "shape": {
+                  "type": "rectangular",
+                  "width": 1,
+                  "height": 1,
+                  "cells": [
+                    [
+                      true
+                    ]
+                  ]
+                },
+                "position": {
+                  "row": 0,
+                  "col": 0
+                }
+              }
+            ],
+            "containers": [],
+            "currency": {
+              "platinum": 0,
+              "gold": 0,
+              "silver": 0,
+              "copper": 0
+            },
+            "encumbranceState": "normal"
+          },
+          "equipment": {
+            "head": null,
+            "neck": null,
+            "shoulders": null,
+            "back": null,
+            "chest": null,
+            "shirt": null,
+            "tabard": null,
+            "wrists": null,
+            "gloves": null,
+            "waist": null,
+            "legs": null,
+            "feet": null,
+            "ring1": null,
+            "ring2": null,
+            "trinket1": null,
+            "trinket2": null,
+            "mainHand": null,
+            "offHand": null,
+            "ranged": null
+          },
+          "spells": [],
+          "lore": {
+            "notes": "ordinary inventory authored",
+            "background": "",
+            "personalityTraits": "",
+            "ideals": "",
+            "bonds": "",
+            "flaws": "",
+            "appearance": "",
+            "backstory": "",
+            "goals": "",
+            "fears": "",
+            "allies": "",
+            "enemies": "",
+            "organizations": "",
+            "characterImage": null,
+            "imageTransformations": null,
+            "characterIcon": null,
+            "iconBackgroundColor": null,
+            "iconBorderColor": null,
+            "iconBackgroundImage": null,
+            "iconScale": null,
+            "iconOffsetX": null,
+            "iconOffsetY": null,
+            "iconBackgroundScale": null,
+            "iconBackgroundOffsetX": null,
+            "iconBackgroundOffsetY": null
+          },
+          "experience": 0,
+          "createdAt": "2026-10-12T18:33:29.708Z",
+          "updatedAt": "2026-10-12T18:33:29.793Z",
+          "lastPlayedAt": "2026-10-12T18:33:29.708Z",
+          "version": 1,
+          "class_spells": {
+            "known_spells": [
+              "martyr_radiant_burst",
+              "martyr_penance_of_pain",
+              "martyr_restorative_prayer",
+              "martyr_sacrificial_bond",
+              "martyr_burning_sacrifice"
+            ]
+          },
+          "baseName": "REVIEW HERO",
+          "health": {
+            "current": 30,
+            "max": 50
+          },
+          "mana": {
+            "current": 20,
+            "max": 50
+          },
+          "actionPoints": {
+            "current": 2,
+            "max": 3
+          },
+          "resistances": {
+            "fire": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+            },
+            "frost": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+            },
+            "lightning": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+            },
+            "force": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+            },
+            "necrotic": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+            },
+            "radiant": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+            },
+            "poison": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+            },
+            "psychic": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+            },
+            "bludgeoning": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg"
+            },
+            "piercing": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg"
+            },
+            "slashing": {
+              "level": 100,
+              "multiplier": 1,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg"
+            }
+          },
+          "spellPower": {
+            "fire": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+            },
+            "frost": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+            },
+            "lightning": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+            },
+            "force": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+            },
+            "necrotic": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+            },
+            "radiant": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+            },
+            "poison": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+            },
+            "psychic": {
+              "value": 0,
+              "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+            }
+          },
+          "tokenSettings": {
+            "borderColor": "#506e30",
+            "customIcon": null
+          },
+          "skillRanks": {},
+          "levelUpHistory": {},
+          "talents": {},
+          "primarySpecialization": ""
+        },
+        "fingerprint": "{\"classResource\":{\"type\":\"devotionGauge\",\"current\":0,\"max\":6,\"damage\":0,\"earnedLevels\":0,\"spentLevels\":0,\"bonusLevels\":0},\"storageExtensions\":{\"topLevel\":{},\"metadata\":{},\"basicInfo\":{},\"gameState\":{},\"sessionData\":{}},\"id\":\"c-a\",\"name\":\"REVIEW HERO\",\"race\":\"Human\",\"subrace\":\"\",\"class\":\"Martyr\",\"classAcquisition\":{},\"bodyStates\":[],\"level\":3,\"alignment\":\"Neutral Good\",\"exhaustionLevel\":0,\"stats\":{\"strength\":10,\"agility\":10,\"constitution\":10,\"intelligence\":10,\"spirit\":10,\"charisma\":10},\"resources\":{\"health\":{\"current\":30,\"max\":50},\"mana\":{\"current\":20,\"max\":50},\"actionPoints\":{\"current\":2,\"max\":3}},\"inventory\":{\"items\":[{\"id\":\"ordinary-blade\",\"name\":\"Ordinary blade\",\"type\":\"weapon\",\"quality\":\"common\",\"width\":1,\"height\":1,\"quantity\":1,\"rotation\":0,\"shape\":{\"type\":\"rectangular\",\"width\":1,\"height\":1,\"cells\":[[true]]},\"position\":{\"row\":0,\"col\":0}}],\"containers\":[],\"currency\":{\"platinum\":0,\"gold\":0,\"silver\":0,\"copper\":0},\"encumbranceState\":\"normal\"},\"equipment\":{\"head\":null,\"neck\":null,\"shoulders\":null,\"back\":null,\"chest\":null,\"shirt\":null,\"tabard\":null,\"wrists\":null,\"gloves\":null,\"waist\":null,\"legs\":null,\"feet\":null,\"ring1\":null,\"ring2\":null,\"trinket1\":null,\"trinket2\":null,\"mainHand\":null,\"offHand\":null,\"ranged\":null},\"spells\":[],\"lore\":{\"notes\":\"ordinary inventory authored\",\"background\":\"\",\"personalityTraits\":\"\",\"ideals\":\"\",\"bonds\":\"\",\"flaws\":\"\",\"appearance\":\"\",\"backstory\":\"\",\"goals\":\"\",\"fears\":\"\",\"allies\":\"\",\"enemies\":\"\",\"organizations\":\"\",\"characterImage\":null,\"imageTransformations\":null,\"characterIcon\":null,\"iconBackgroundColor\":null,\"iconBorderColor\":null,\"iconBackgroundImage\":null,\"iconScale\":null,\"iconOffsetX\":null,\"iconOffsetY\":null,\"iconBackgroundScale\":null,\"iconBackgroundOffsetX\":null,\"iconBackgroundOffsetY\":null},\"experience\":0,\"createdAt\":\"2026-10-12T18:33:29.708Z\",\"lastPlayedAt\":\"2026-10-12T18:33:29.708Z\",\"version\":1,\"class_spells\":{\"known_spells\":[\"martyr_radiant_burst\",\"martyr_penance_of_pain\",\"martyr_restorative_prayer\",\"martyr_sacrificial_bond\",\"martyr_burning_sacrifice\"]},\"baseName\":\"REVIEW HERO\",\"health\":{\"current\":30,\"max\":50},\"mana\":{\"current\":20,\"max\":50},\"actionPoints\":{\"current\":2,\"max\":3},\"resistances\":{\"fire\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg\"},\"frost\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg\"},\"lightning\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg\"},\"force\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg\"},\"necrotic\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg\"},\"radiant\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg\"},\"poison\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg\"},\"psychic\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg\"},\"bludgeoning\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg\"},\"piercing\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg\"},\"slashing\":{\"level\":100,\"multiplier\":1,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg\"}},\"spellPower\":{\"fire\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg\"},\"frost\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg\"},\"lightning\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg\"},\"force\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg\"},\"necrotic\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg\"},\"radiant\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg\"},\"poison\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg\"},\"psychic\":{\"value\":0,\"icon\":\"https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg\"}},\"tokenSettings\":{\"borderColor\":\"#506e30\",\"customIcon\":null},\"skillRanks\":{},\"levelUpHistory\":{},\"talents\":{},\"primarySpecialization\":\"\"}",
+        "revision": 5,
+        "status": "error",
+        "retention": "device",
+        "message": "Failed to save character: Character storage would change preserved data. Draft retained; download for recovery.",
+        "inFlight": null
+      },
+      "runtimeResult": {
+        "success": false,
+        "error": "Runtime storage would change preserved data. Draft retained; download for recovery."
+      },
+      "ui": "Canonical character: Save failed · Device draft retainedFailed to save character: Character storage would change preserved data. Draft retained; download for recovery.Retry character savePersonal runtime: Save failed · Device draft retainedRuntime storage would change preserved data. Draft retained; download for recovery.Retry runtime saveDownload selected draftImport selected draft ",
+      "writes": [
+        {
+          "op": "updateDoc",
+          "path": "characters/c-a",
+          "value": {
+            "preservedFields": {
+              "classResource": {
+                "type": "devotionGauge",
+                "current": 0,
+                "max": 6,
+                "damage": 0,
+                "earnedLevels": 0,
+                "spentLevels": 0,
+                "bonusLevels": 0
+              },
+              "class_spells": {
+                "known_spells": [
+                  "martyr_radiant_burst",
+                  "martyr_penance_of_pain",
+                  "martyr_restorative_prayer",
+                  "martyr_sacrificial_bond",
+                  "martyr_burning_sacrifice"
+                ]
+              }
+            },
+            "metadata": {
+              "id": "c-a",
+              "userId": "u-a",
+              "name": "REVIEW HERO",
+              "createdAt": "2026-10-12T18:33:29.708Z",
+              "updatedAt": "2026-10-12T18:33:29.777Z",
+              "lastPlayedAt": "2026-10-12T18:33:29.708Z",
+              "version": 2
+            },
+            "basicInfo": {
+              "race": "Human",
+              "subrace": "",
+              "class": "Martyr",
+              "classAcquisition": {},
+              "bodyStates": [],
+              "level": 3,
+              "alignment": "Neutral Good",
+              "exhaustionLevel": 0
+            },
+            "stats": {
+              "strength": 10,
+              "agility": 10,
+              "constitution": 10,
+              "intelligence": 10,
+              "spirit": 10,
+              "charisma": 10
+            },
+            "resources": {
+              "health": {
+                "current": 30,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "max": 50
+              },
+              "actionPoints": {
+                "current": 2,
+                "max": 3
+              }
+            },
+            "inventory": {
+              "items": [],
+              "currency": {
+                "platinum": 0,
+                "gold": 0,
+                "silver": 0,
+                "copper": 0
+              },
+              "encumbranceState": "normal"
+            },
+            "equipment": {
+              "head": null,
+              "neck": null,
+              "shoulders": null,
+              "back": null,
+              "chest": null,
+              "shirt": null,
+              "tabard": null,
+              "wrists": null,
+              "gloves": null,
+              "waist": null,
+              "legs": null,
+              "feet": null,
+              "ring1": null,
+              "ring2": null,
+              "trinket1": null,
+              "trinket2": null,
+              "mainHand": null,
+              "offHand": null,
+              "ranged": null,
+              "weapon": null,
+              "armor": null,
+              "shield": null,
+              "accessories": []
+            },
+            "spells": [],
+            "lore": {
+              "notes": "baseline",
+              "background": "",
+              "personalityTraits": "",
+              "ideals": "",
+              "bonds": "",
+              "flaws": "",
+              "appearance": "",
+              "backstory": "",
+              "goals": "",
+              "fears": "",
+              "allies": "",
+              "enemies": "",
+              "organizations": "",
+              "characterImage": null,
+              "imageTransformations": null,
+              "characterIcon": null,
+              "iconBackgroundColor": null,
+              "iconBorderColor": null,
+              "iconBackgroundImage": null,
+              "iconScale": null,
+              "iconOffsetX": null,
+              "iconOffsetY": null,
+              "iconBackgroundScale": null,
+              "iconBackgroundOffsetX": null,
+              "iconBackgroundOffsetY": null
+            },
+            "gameState": {
+              "experience": 0,
+              "sessionData": {
+                "currentRoomId": null,
+                "lastSavedAt": "2026-10-12T18:33:29.777Z",
+                "pendingChanges": {}
+              }
+            }
+          },
+          "uid": "u-a"
+        }
+      ],
+      "reproduced": true
+    },
+    "r5": {
+      "owner": "u-b",
+      "queue": [
+        {
+          "id": "change_1791830011282_90ooz9vmd",
+          "characterId": "c-a",
+          "changeType": "stat_change",
+          "changeData": {
+            "stat": "privateMemo",
+            "value": "A PRIVATE DELAYED CHANGE"
+          },
+          "timestamp": "2026-10-12T18:33:31.282Z",
+          "synced": false
+        }
+      ],
+      "keys": [
+        "mythrill-last-user-id",
+        "mythrill:p5:user:u-a:core.inventory",
+        "mythrill-auth",
+        "mythrill:p5:user:u-a:character.saveDraft:c-a:canonical",
+        "mythrill:p5:user:u-a:character.deferredPublication",
+        "mythrill:p5:user:u-a:character.saveDraft:c-a:runtime",
+        "mythrill:p5:user:u-b:character.offlineChanges",
+        "mythrill-last-account-type",
+        "mythrill:p5:user:u-a:character.roster",
+        "mythrill:p5:user:u-b:preservation.receipts:receipt_mv5lbp8z_lqk40nfk",
+        "mythrill:p5:user:u-a:preservation.receipts:receipt_mv5lbp6t_0rxdy3hn",
+        "mythrill:p5:user:u-b:preservation.quarantine:legacy:condition-store:39851f17",
+        "mythrill:p5:user:u-a:core.characterTokens",
+        "mythrill:p5:user:u-b:character.syncStatus",
+        "mythrill:p5:user:u-a:character.activeId",
+        "condition-store-migrated-v1",
+        "mythrill:p5:user:u-a:preservation.quarantine:legacy:condition-store:39851f17",
+        "condition-store",
+        "mythrill:p5:user:u-a:offline.characters"
+      ],
+      "raw": "[{\"id\":\"change_1791830011282_90ooz9vmd\",\"characterId\":\"c-a\",\"changeType\":\"stat_change\",\"changeData\":{\"stat\":\"privateMemo\",\"value\":\"A PRIVATE DELAYED CHANGE\"},\"timestamp\":\"2026-10-12T18:33:31.282Z\",\"synced\":false}]",
+      "writes": [
+        {
+          "op": "updateDoc",
+          "path": "presence/u-a",
+          "value": {
+            "lastSeen": {
+              "seconds": 1791830011.179
+            },
+            "characterId": "c-a",
+            "characterName": "REVIEW HERO",
+            "level": 3,
+            "class": "Martyr",
+            "race": "Human"
+          },
+          "uid": "u-a"
+        },
+        {
+          "op": "addDoc",
+          "path": "character_backups/e216cb16-ea62-452a-b223-ef23bf6c1ecf",
+          "value": {
+            "characterId": "c-a",
+            "userId": "u-a",
+            "characterData": {
+              "classResource": {
+                "type": "devotionGauge",
+                "current": 0,
+                "max": 6,
+                "damage": 0,
+                "earnedLevels": 0,
+                "spentLevels": 0,
+                "bonusLevels": 0
+              },
+              "storageExtensions": {
+                "topLevel": {},
+                "metadata": {},
+                "basicInfo": {},
+                "gameState": {},
+                "sessionData": {}
+              },
+              "id": "c-a",
+              "name": "REVIEW HERO",
+              "race": "Human",
+              "subrace": "",
+              "class": "Martyr",
+              "classAcquisition": {},
+              "bodyStates": [],
+              "level": 3,
+              "alignment": "Neutral Good",
+              "exhaustionLevel": 0,
+              "stats": {
+                "strength": 10,
+                "agility": 10,
+                "constitution": 10,
+                "intelligence": 10,
+                "spirit": 10,
+                "charisma": 10
+              },
+              "resources": {
+                "health": {
+                  "current": 30,
+                  "max": 50
+                },
+                "mana": {
+                  "current": 20,
+                  "max": 50
+                },
+                "actionPoints": {
+                  "current": 2,
+                  "max": 3
+                }
+              },
+              "inventory": {
+                "items": [],
+                "currency": {
+                  "platinum": 0,
+                  "gold": 0,
+                  "silver": 0,
+                  "copper": 0
+                },
+                "encumbranceState": "normal"
+              },
+              "equipment": {
+                "head": null,
+                "neck": null,
+                "shoulders": null,
+                "back": null,
+                "chest": null,
+                "shirt": null,
+                "tabard": null,
+                "wrists": null,
+                "gloves": null,
+                "waist": null,
+                "legs": null,
+                "feet": null,
+                "ring1": null,
+                "ring2": null,
+                "trinket1": null,
+                "trinket2": null,
+                "mainHand": null,
+                "offHand": null,
+                "ranged": null
+              },
+              "spells": [],
+              "lore": {
+                "notes": "baseline",
+                "background": "",
+                "personalityTraits": "",
+                "ideals": "",
+                "bonds": "",
+                "flaws": "",
+                "appearance": "",
+                "backstory": "",
+                "goals": "",
+                "fears": "",
+                "allies": "",
+                "enemies": "",
+                "organizations": "",
+                "characterImage": null,
+                "imageTransformations": null,
+                "characterIcon": null,
+                "iconBackgroundColor": null,
+                "iconBorderColor": null,
+                "iconBackgroundImage": null,
+                "iconScale": null,
+                "iconOffsetX": null,
+                "iconOffsetY": null,
+                "iconBackgroundScale": null,
+                "iconBackgroundOffsetX": null,
+                "iconBackgroundOffsetY": null
+              },
+              "experience": 0,
+              "createdAt": "2026-10-12T18:33:31.171Z",
+              "updatedAt": "2026-10-12T18:33:31.177Z",
+              "lastPlayedAt": "2026-10-12T18:33:31.171Z",
+              "version": 1,
+              "class_spells": {
+                "known_spells": [
+                  "martyr_penance_of_pain",
+                  "martyr_radiant_burst",
+                  "martyr_devoted_strike",
+                  "martyr_sacrificial_bond",
+                  "martyr_burning_sacrifice"
+                ]
+              }
+            },
+            "backupReason": "auto_scheduled",
+            "createdAt": "2026-10-12T18:33:31.238Z",
+            "version": "v2026.10.12.2033",
+            "dataSize": 1794
+          },
+          "uid": "u-a"
+        },
+        {
+          "op": "updateDoc",
+          "path": "characters/c-a",
+          "value": {
+            "preservedFields": {
+              "classResource": {
+                "type": "devotionGauge",
+                "current": 0,
+                "max": 6,
+                "damage": 0,
+                "earnedLevels": 0,
+                "spentLevels": 0,
+                "bonusLevels": 0
+              },
+              "class_spells": {
+                "known_spells": [
+                  "martyr_penance_of_pain",
+                  "martyr_radiant_burst",
+                  "martyr_devoted_strike",
+                  "martyr_sacrificial_bond",
+                  "martyr_burning_sacrifice"
+                ]
+              }
+            },
+            "metadata": {
+              "id": "c-a",
+              "userId": "u-a",
+              "name": "REVIEW HERO",
+              "createdAt": "2026-10-12T18:33:31.171Z",
+              "updatedAt": "2026-10-12T18:33:31.239Z",
+              "lastPlayedAt": "2026-10-12T18:33:31.171Z",
+              "version": 2
+            },
+            "basicInfo": {
+              "race": "Human",
+              "subrace": "",
+              "class": "Martyr",
+              "classAcquisition": {},
+              "bodyStates": [],
+              "level": 3,
+              "alignment": "Neutral Good",
+              "exhaustionLevel": 0
+            },
+            "stats": {
+              "strength": 10,
+              "agility": 10,
+              "constitution": 10,
+              "intelligence": 10,
+              "spirit": 10,
+              "charisma": 10
+            },
+            "resources": {
+              "health": {
+                "current": 30,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "max": 50
+              },
+              "actionPoints": {
+                "current": 2,
+                "max": 3
+              }
+            },
+            "inventory": {
+              "items": [],
+              "currency": {
+                "platinum": 0,
+                "gold": 0,
+                "silver": 0,
+                "copper": 0
+              },
+              "encumbranceState": "normal"
+            },
+            "equipment": {
+              "head": null,
+              "neck": null,
+              "shoulders": null,
+              "back": null,
+              "chest": null,
+              "shirt": null,
+              "tabard": null,
+              "wrists": null,
+              "gloves": null,
+              "waist": null,
+              "legs": null,
+              "feet": null,
+              "ring1": null,
+              "ring2": null,
+              "trinket1": null,
+              "trinket2": null,
+              "mainHand": null,
+              "offHand": null,
+              "ranged": null,
+              "weapon": null,
+              "armor": null,
+              "shield": null,
+              "accessories": []
+            },
+            "spells": [],
+            "lore": {
+              "notes": "baseline",
+              "background": "",
+              "personalityTraits": "",
+              "ideals": "",
+              "bonds": "",
+              "flaws": "",
+              "appearance": "",
+              "backstory": "",
+              "goals": "",
+              "fears": "",
+              "allies": "",
+              "enemies": "",
+              "organizations": "",
+              "characterImage": null,
+              "imageTransformations": null,
+              "characterIcon": null,
+              "iconBackgroundColor": null,
+              "iconBorderColor": null,
+              "iconBackgroundImage": null,
+              "iconScale": null,
+              "iconOffsetX": null,
+              "iconOffsetY": null,
+              "iconBackgroundScale": null,
+              "iconBackgroundOffsetX": null,
+              "iconBackgroundOffsetY": null
+            },
+            "gameState": {
+              "experience": 0,
+              "sessionData": {
+                "currentRoomId": null,
+                "lastSavedAt": "2026-10-12T18:33:31.239Z",
+                "pendingChanges": {}
+              }
+            }
+          },
+          "uid": "u-a"
+        },
+        {
+          "op": "addDoc",
+          "path": "characterSessions/29ca07e9-73b4-4b58-9ecd-088a997b7b3d",
+          "value": {
+            "characterId": "c-a",
+            "userId": "u-a",
+            "roomId": null,
+            "startedAt": {
+              "seconds": 1791830011.251
+            },
+            "endedAt": null,
+            "changes": {
+              "inventory": {
+                "added": [],
+                "removed": [],
+                "modified": []
+              },
+              "currency": {
+                "gained": {
+                  "platinum": 0,
+                  "gold": 0,
+                  "silver": 0,
+                  "copper": 0
+                },
+                "spent": {
+                  "platinum": 0,
+                  "gold": 0,
+                  "silver": 0,
+                  "copper": 0
+                }
+              },
+              "experience": {
+                "gained": 0
+              },
+              "resources": {
+                "health": null,
+                "mana": null,
+                "actionPoints": null
+              },
+              "stats": {},
+              "equipment": {
+                "equipped": [],
+                "unequipped": []
+              }
+            },
+            "status": "active"
+          },
+          "uid": "u-a"
+        },
+        {
+          "op": "updateDoc",
+          "path": "characterSessions/29ca07e9-73b4-4b58-9ecd-088a997b7b3d",
+          "value": {
+            "changes": {
+              "inventory": {
+                "added": [],
+                "removed": [],
+                "modified": []
+              },
+              "currency": {
+                "gained": {
+                  "platinum": 0,
+                  "gold": 0,
+                  "silver": 0,
+                  "copper": 0
+                },
+                "spent": {
+                  "platinum": 0,
+                  "gold": 0,
+                  "silver": 0,
+                  "copper": 0
+                }
+              },
+              "experience": {
+                "gained": 0
+              },
+              "resources": {
+                "health": null,
+                "mana": null,
+                "actionPoints": null
+              },
+              "stats": {
+                "privateMemo": "A PRIVATE DELAYED CHANGE"
+              },
+              "equipment": {
+                "equipped": [],
+                "unequipped": []
+              }
+            },
+            "lastUpdated": {
+              "seconds": 1791830011.252
+            }
+          },
+          "uid": "u-a"
+        }
+      ]
+    },
+    "r6": {
+      "result": {
+        "error": "Owner changed or newer character edit during sync"
+      },
+      "writes": [
+        {
+          "op": "updateDoc",
+          "path": "characters/c-a",
+          "value": {
+            "metadata.lastPlayedAt": {
+              "seconds": 1791830012.181
+            }
+          },
+          "uid": "u-b"
+        }
+      ],
+      "owner": "u-b",
+      "expected": "outer owner fence must prevent metadata publication inside the delayed load",
+      "reproduced": true
+    }
+  },
+  "green": {
+    "manifestMatchesReviewedSource": true,
+    "scenarios": [
+      {
+        "name": "R2-older-import-protects-newer-work",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R4-embedded-canonical-identity-rejected-before-mutation",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R3-runtime-only-conflicting-import-visibly-refused",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R1-ordinary-production-inventory-save-load-recovery-import",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "control-valid-runtime-import-subscriptions-and-subsequent-edit",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "control-valid-canonical-import-exact-data-and-retry",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "control-valid-combined-import-and-production-custom-matrix",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "control-import-validation-all-lanes-before-any-mutation",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "control-unsupported-candidate-remains-exact-and-refused",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "control-same-owner-session-failure-heals-and-sync-confirms",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R5-held-session-failure-account-switch",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R6-held-sync-read-account-switch",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R5-held-session-failure-generation-switch",
+        "result": "GREEN",
+        "errors": []
+      },
+      {
+        "name": "R6-held-sync-read-generation-switch",
+        "result": "GREEN",
+        "errors": []
+      }
+    ]
+  },
+  "gaps": [
+    {
+      "name": "review-gap-R1-legacy-and-unknown-shape-decoding",
+      "observation": "Legacy item decodes correctly, but unrelated preserved literal strings are silently converted to boolean arrays",
+      "beforeUnknown": {
+        "shape": {
+          "cells": [
+            "[true]"
+          ],
+          "meaning": "literal JSON text; not an inventory item"
+        }
+      },
+      "afterUnknown": {
+        "shape": {
+          "cells": [
+            [
+              true
+            ]
+          ],
+          "meaning": "literal JSON text; not an inventory item"
+        }
+      }
+    },
+    {
+      "name": "review-gap-R4-invalid-consumed-canonical-class",
+      "observation": "Invalid consumed class passes preflight and mutates roster, live projection and draft without visible refusal",
+      "alerts": [],
+      "beforeClass": "Martyr",
+      "afterClass": {
+        "invalid": "object"
+      },
+      "beforeNotes": "confirmed baseline",
+      "afterNotes": "INVALID CLASS MUST NOT APPLY",
+      "beforeDraftNotes": "confirmed baseline",
+      "afterDraftNotes": "INVALID CLASS MUST NOT APPLY"
+    },
+    {
+      "name": "review-gap-R5-private-memory-owner-return-accessibility",
+      "observation": "Origin source privately retained and readable/applicable on A return without document reload; not reload-durable",
+      "bRead": null,
+      "returnRead": "A RETURN ACCESSIBILITY MARKER",
+      "returnApplied": "A RETURN ACCESSIBILITY MARKER"
+    }
+  ],
+  "retainedControls": [
+    {
+      "name": "runtime-serialized-overlapping-writes-and-later-edit",
+      "errors": []
+    },
+    {
+      "name": "canonical-serialized-overlapping-writes",
+      "errors": []
+    },
+    {
+      "name": "mounted-cyclic-export-refusal",
+      "errors": []
+    },
+    {
+      "name": "reachable-sync-reconciliation-outcome",
+      "errors": []
+    }
+  ]
+}

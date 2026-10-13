@@ -5,7 +5,7 @@
 .bestiary-display {
     --folio-ink: #34251a;
     --folio-muted: #68533e;
-    --folio-paper: #f5ecd9;
+    --folio-paper: #f1ece1;
     --folio-rule: #b6a080;
     --folio-seal: #663c32;
     padding: 1.5rem;
@@ -14,7 +14,7 @@
     background: transparent;
     color: var(--folio-ink);
     border-radius: 0;
-    scrollbar-color: #9b835e #e8dcc6;
+    scrollbar-color: #9b835e #e8e2d4;
 }
 
 .bestiary-layout {
@@ -715,10 +715,6 @@
     gap: 0.5rem;
 }
 
-.bestiary-header-shield-icon {
-    color: #c9b38c;
-}
-
 .bestiary-detail-body {
     display: grid;
     grid-template-columns: 320px 1fr;
@@ -909,174 +905,9 @@
    COLUMN 2: INTERACTIVE TABS & DETAILS
    ========================================================================== */
 
-.bestiary-tabs-col {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
 /* TABS NAVIGATION BAR */
-.bestiary-tabs-navigation {
-    display: flex;
-    gap: 0.25rem;
-    border-bottom: 2px solid #c9b38c;
-    padding-bottom: 1px;
-}
-
-.bestiary-tab-btn {
-    background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(230,220,200,0.3) 100%);
-    border: 1px solid #dcd1bd;
-    border-bottom: none;
-    color: #7d6a50;
-    padding: 0.65rem 1.3rem;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    transition: all 0.25s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    position: relative;
-    top: 1px;
-}
-
-.bestiary-tab-btn:hover {
-    background: rgba(201, 179, 140, 0.15);
-    color: #4a381f;
-}
-
-.bestiary-tab-btn.active {
-    background: #fff;
-    border-color: #c9b38c;
-    border-bottom: 2px solid #fff;
-    color: #2b1c11;
-    z-index: 2;
-    top: 2px;
-    padding-bottom: calc(0.65rem + 1px);
-    box-shadow: 0 -3px 8px rgba(139, 115, 85, 0.08);
-}
-
-.bestiary-tab-btn i {
-    color: #8c7355;
-}
-
-.bestiary-tab-btn.active i {
-    color: #a62424;
-}
 
 /* Responsive Bestiary Tab Dropdown Selector (Laptops, Tablets, iPads) */
-.bestiary-tab-dropdown-wrapper {
-    display: none; /* hidden on wide desktop */
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    margin: 8px 0 16px 0;
-    z-index: 50;
-    width: 100%;
-}
-
-.bestiary-tab-dropdown-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    background: linear-gradient(to bottom, #fff 0%, #f7f1e5 100%);
-    color: #4a381f;
-    border: 2px solid #c9b38c;
-    padding: 0.6rem 1.3rem;
-    border-radius: 8px;
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.15);
-    transition: all 0.2s ease;
-    min-width: 210px;
-}
-
-.bestiary-tab-dropdown-btn:hover {
-    background: #fff;
-    border-color: #a62424;
-    color: #2b1c11;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(139, 115, 85, 0.25);
-}
-
-.bestiary-tab-dropdown-chevron {
-    font-size: 0.75rem;
-    margin-left: 0.3rem;
-    color: #8c7355;
-    transition: transform 0.25s ease;
-}
-
-.bestiary-tab-dropdown-chevron.rotated {
-    transform: rotate(180deg);
-}
-
-.bestiary-tab-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    border: 2px solid #c9b38c;
-    border-radius: 10px;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
-    padding: 6px;
-    min-width: 220px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    animation: bestiaryFadeIn 0.2s ease-out;
-}
-
-.bestiary-tab-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 0.95rem;
-    border: none;
-    background: transparent;
-    color: #5d482c;
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.15s ease;
-    width: 100%;
-}
-
-.bestiary-tab-dropdown-item:hover {
-    background: rgba(201, 179, 140, 0.2);
-    color: #2b1c11;
-    transform: translateX(2px);
-}
-
-.bestiary-tab-dropdown-item.active {
-    background: rgba(166, 36, 36, 0.1);
-    color: #a62424;
-    font-weight: 700;
-}
-
-.bestiary-tab-dropdown-item .checkmark {
-    margin-left: auto;
-    font-size: 0.8rem;
-    color: #a62424;
-}
-
-.bestiary-tab-content {
-    background: #fff;
-    border: 1px solid #c9b38c;
-    border-radius: 0 0 10px 10px;
-    padding: 1.8rem;
-    box-shadow: 0 6px 20px rgba(139, 115, 85, 0.08);
-    min-height: 400px;
-}
 
 /* ==========================================================================
    TAB 1 CONTENT: LORE & LEGENDS
@@ -1109,14 +940,6 @@
     color: #3d3224;
     text-align: justify;
     text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.01);
-}
-
-.bestiary-lore-section.scroll-bg {
-    background: radial-gradient(circle at center, rgba(253, 250, 244, 0.8) 0%, rgba(247, 241, 227, 0.4) 100%);
-    border: 1px solid #e9dfca;
-    padding: 1.2rem;
-    border-radius: 8px;
-    box-shadow: inset 0 0 8px rgba(139,115,85,0.05);
 }
 
 .bestiary-depth {
@@ -1508,19 +1331,6 @@
         width: 240px;
     }
 
-    .bestiary-tabs-desktop {
-        display: none !important;
-    }
-
-    .bestiary-tab-dropdown-wrapper {
-        display: flex !important;
-    }
-
-    .bestiary-tabs-col {
-        min-width: 0;
-        overflow: hidden;
-    }
-
     .bestiary-detail-body {
         grid-template-columns: minmax(240px, 280px) 1fr;
         gap: 1.25rem;
@@ -1601,25 +1411,6 @@
     }
     .bestiary-detail-name {
         font-size: 1.8rem;
-    }
-    .bestiary-tabs-navigation {
-        flex-direction: column;
-        border-bottom: none;
-        gap: 2px;
-    }
-    .bestiary-tab-btn {
-        border-radius: 6px;
-        border: 1px solid #dcd1bd;
-        width: 100%;
-        top: 0 !important;
-    }
-    .bestiary-tab-btn.active {
-        border: 2px solid #c9b38c;
-        padding-bottom: 0.65rem;
-    }
-    .bestiary-tab-content {
-        border-radius: 8px;
-        padding: 1.25rem;
     }
     .bestiary-attr-shield-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1736,7 +1527,7 @@
     font-size: 0.8rem;
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    background: #f0e6d2;
+    background: #f1ece1;
     color: #4a381f;
     border: 1px solid #c9b38c;
     padding: 0.2rem 0.65rem;

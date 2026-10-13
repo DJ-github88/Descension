@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--require",
+    "D:\\VTT\\vtt-react\\verification\\p7\\preload.cjs",
+    "node_modules/mocha/bin/mocha.js",
+    "tests/**/*.test.js",
+    "--timeout",
+    "10000",
+    "--exit"
+  ],
+  "cwd": "D:\\VTT\\server",
+  "started": "2026-10-13T08:32:08.152Z",
+  "durationMs": 36879,
+  "status": 0,
+  "signal": null,
+  "error": null
+}

@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -6,6 +7,7 @@ import useCharacterStore from '../../../../store/characterStore';
 import '../styles/RevenantResourceBar.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { INK, MUTED, PAGE, PAPER, PANEL, RULE, ETCH, BRICK, SEAL, mix, inked, washed } from '../../../../components/hud/calmBarPalette';
 import '../../../../styles/unified-context-menu.css';
 import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor';
 
@@ -188,6 +190,8 @@ const RevenantResourceBar = ({
     // Tooltip status flavor
     const statusFlavor = getResourceStatusFlavor('Revenant', { toll, current: toll, bloodTokens: toll });
 
+    const FROST = '#5b86a0';
+    const SHROUD = '#7a4a86';
     // Calculate Phylactery soul fluid height (viewBox coordinate, 0..36 height)
     const phylacteryPct = maxPhylacteryHP > 0 ? (phylacteryHP / maxPhylacteryHP) : 0;
     const fluidY = 48 - (phylacteryPct * 36);
@@ -214,108 +218,24 @@ const RevenantResourceBar = ({
                     preserveAspectRatio="xMidYMid meet"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <defs>
-                        {/* Soft Spectral Glow */}
-                        <filter id={ids.glow} x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur stdDeviation="2" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* Heavy Sarcophagus Drop Shadow */}
-                        <filter id={ids.shadow} x="-15%" y="-15%" width="130%" height="130%">
-                            <feDropShadow dx="0" dy="2.5" stdDeviation="2" floodColor="#000000" floodOpacity="0.85" />
-                        </filter>
-
-                        {/* Cataclysm Critical Mass Pulse Glow */}
-                        <filter id={ids.cataclysmGlow} x="-40%" y="-40%" width="180%" height="180%">
-                            <feGaussianBlur stdDeviation="3.5" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* Bryngloom Peat-Basalt Base Plate Gradient */}
-                        <linearGradient id={ids.basalt} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#181124" />
-                            <stop offset="40%" stopColor="#0f0a17" />
-                            <stop offset="100%" stopColor="#06030a" />
-                        </linearGradient>
-
-                        {/* Cold Bog-Iron Casing & Rivet Bevel */}
-                        <linearGradient id={ids.ironBevel} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#4a5568" />
-                            <stop offset="40%" stopColor="#283142" />
-                            <stop offset="100%" stopColor="#0a0f1c" />
-                        </linearGradient>
-
-                        {/* Carved Crypt Track Bed */}
-                        <linearGradient id={ids.trackBed} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#030206" />
-                            <stop offset="50%" stopColor="#0a0614" />
-                            <stop offset="100%" stopColor="#030206" />
-                        </linearGradient>
-
-                        {/* Basalt Phylactery Soul Fluid Gradient */}
-                        <linearGradient id={ids.phylacteryFluid} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#bae6fd" />
-                            <stop offset="35%" stopColor="#38bdf8" />
-                            <stop offset="100%" stopColor="#0369a1" />
-                        </linearGradient>
-
-                        {/* Death Shroud Mist Glow */}
-                        <radialGradient id={ids.shroudGlow} cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor="#c026d3" stopOpacity="0.85" />
-                            <stop offset="60%" stopColor="#9333ea" stopOpacity="0.35" />
-                            <stop offset="100%" stopColor="#3b0764" stopOpacity="0" />
-                        </radialGradient>
-                    </defs>
+                    <defs />
 
                     {/* ========================================================================= */}
                     {/* 1. MASTER PEAT-BASALT TOMB SLAB & BOG-IRON CASING (Pure Vector Chassis) */}
                     {/* ========================================================================= */}
-                    <g filter={`url(#${ids.shadow})`}>
-                        {/* Outer Bog-Iron Edge Bevel */}
+                    <g>
+                        {/* Parchment page with an accent-colored frame when strained */}
                         <rect
                             x="2"
                             y="2"
                             width="292"
                             height="56"
-                            rx="5"
-                            fill={`url(#${ids.ironBevel})`}
-                            stroke={isCataclysm ? '#ef4444' : isRot ? '#c026d3' : deathShroud ? '#9333ea' : '#1e293b'}
+                            rx="3"
+                            fill={PAGE}
+                            stroke={isCataclysm ? BRICK : isRot ? SHROUD : deathShroud ? SHROUD : RULE}
                             strokeWidth={isCataclysm ? 1.6 : 1.2}
                         />
-
-                        {/* Inner Peat-Basalt Plate */}
-                        <rect
-                            x="4"
-                            y="4"
-                            width="288"
-                            height="52"
-                            rx="4"
-                            fill={`url(#${ids.basalt})`}
-                        />
-
-                        {/* Perimeter Tomb Seams */}
-                        <line x1="8" y1="5.5" x2="288" y2="5.5" stroke={isCataclysm ? 'rgba(239, 68, 68, 0.45)' : 'rgba(168, 85, 247, 0.25)'} strokeWidth="0.8" />
-                        <line x1="8" y1="54.5" x2="288" y2="54.5" stroke="rgba(15, 23, 42, 0.7)" strokeWidth="0.8" />
-
-                        {/* Four Corner Tomb Rivets */}
-                        {[
-                            [6.5, 6.5],
-                            [289.5, 6.5],
-                            [6.5, 53.5],
-                            [289.5, 53.5]
-                        ].map(([cx, cy], i) => (
-                            <g key={i}>
-                                <circle cx={cx} cy={cy} r="1.4" fill="#0b0f19" stroke="#475569" strokeWidth="0.6" />
-                                <circle cx={cx - 0.3} cy={cy - 0.3} r="0.4" fill="#94a3b8" />
-                            </g>
-                        ))}
+                        <rect x="4.5" y="4.5" width="287" height="51" rx="1.5" fill="none" stroke={ETCH} strokeWidth="0.6" />
                     </g>
 
                     {/* ========================================================================= */}
@@ -341,10 +261,9 @@ const RevenantResourceBar = ({
                             width="48"
                             height="48"
                             rx="5"
-                            fill="#08040d"
-                            stroke={phylacteryHP > 0 ? '#38bdf8' : '#334155'}
-                            strokeWidth={phylacteryHP > 0 ? '1.4' : '0.8'}
-                            filter={phylacteryHP > 0 ? `url(#${ids.glow})` : undefined}
+                            fill={PAGE}
+                            stroke={phylacteryHP > 0 ? FROST : RULE}
+                            strokeWidth={phylacteryHP > 0 ? '1.3' : '0.8'}
                         />
 
                         {/* Inner Deep Well Reservoir */}
@@ -354,8 +273,8 @@ const RevenantResourceBar = ({
                             width="42"
                             height="42"
                             rx="3"
-                            fill="#02050e"
-                            stroke="#1e293b"
+                            fill={PAPER}
+                            stroke={ETCH}
                             strokeWidth="0.8"
                         />
 
@@ -367,9 +286,7 @@ const RevenantResourceBar = ({
                                 width="40"
                                 height={fluidHeight}
                                 rx="2"
-                                fill={`url(#${ids.phylacteryFluid})`}
-                                opacity="0.85"
-                                filter={`url(#${ids.glow})`}
+                                fill={washed(FROST, 0.4)}
                             />
                         )}
 
@@ -380,35 +297,34 @@ const RevenantResourceBar = ({
                                 y1={fluidY}
                                 x2="51"
                                 y2={fluidY}
-                                stroke="#f0f9ff"
-                                strokeWidth="1.2"
+                                stroke={FROST}
+                                strokeWidth="1"
                                 strokeLinecap="round"
                             />
                         )}
 
                         {/* Faceted Frost-Stasis Crystal Sigil */}
-                        <g filter={phylacteryHP > 0 ? `url(#${ids.glow})` : undefined}>
+                        <g>
                             {/* Crystal Silhouette */}
                             <path
                                 d="M 31,13 L 41,23 L 31,43 L 21,23 Z"
-                                fill={phylacteryHP > 0 ? 'rgba(255, 255, 255, 0.2)' : 'rgba(51, 65, 85, 0.2)'}
-                                stroke={phylacteryHP > 0 ? '#e0f2fe' : '#475569'}
+                                fill={phylacteryHP > 0 ? 'rgba(245, 236, 217, 0.55)' : 'none'}
+                                stroke={phylacteryHP > 0 ? FROST : ETCH}
                                 strokeWidth="1"
                             />
                             {/* Inner Facet Lines */}
-                            <line x1="31" y1="13" x2="31" y2="43" stroke={phylacteryHP > 0 ? '#7dd3fc' : '#334155'} strokeWidth="0.7" />
-                            <line x1="21" y1="23" x2="41" y2="23" stroke={phylacteryHP > 0 ? '#7dd3fc' : '#334155'} strokeWidth="0.7" />
+                            <line x1="31" y1="13" x2="31" y2="43" stroke={phylacteryHP > 0 ? FROST : ETCH} strokeWidth="0.6" />
+                            <line x1="21" y1="23" x2="41" y2="23" stroke={phylacteryHP > 0 ? FROST : ETCH} strokeWidth="0.6" />
                         </g>
 
                         {/* Minimal Soul HP Numerals Inside Reliquary */}
                         <text
                             x="31"
                             y="33"
-                            fill={phylacteryHP > 0 ? '#ffffff' : '#64748b'}
+                            fill={phylacteryHP > 0 ? INK : MUTED}
                             fontSize="10"
                             fontWeight="900"
                             textAnchor="middle"
-                            filter="drop-shadow(0 1.5px 3px rgba(0,0,0,0.9))"
                         >
                             {phylacteryHP}
                         </text>
@@ -425,8 +341,8 @@ const RevenantResourceBar = ({
                             width="186"
                             height="48"
                             rx="4"
-                            fill={`url(#${ids.trackBed})`}
-                            stroke={isCataclysm ? '#ef4444' : isRot ? '#c026d3' : '#1e1b2e'}
+                            fill={PAPER}
+                            stroke={isCataclysm ? BRICK : isRot ? SHROUD : RULE}
                             strokeWidth="1"
                         />
 
@@ -438,10 +354,10 @@ const RevenantResourceBar = ({
                                 <path
                                     key={`frac-${val}`}
                                     d={getFracturePath(val)}
-                                    stroke={tier.glow}
-                                    strokeWidth="0.8"
+                                    stroke={inked(tier.color, 0.3)}
+                                    strokeWidth="0.6"
                                     strokeLinecap="round"
-                                    opacity="0.5"
+                                    opacity="0.4"
                                     fill="none"
                                 />
                             );
@@ -479,10 +395,9 @@ const RevenantResourceBar = ({
                                         width={segmentW}
                                         height={segmentH}
                                         rx="1.8"
-                                        fill={isFilled ? tier.color : '#07040d'}
-                                        stroke={isFilled ? (isCurrent ? '#ffffff' : tier.glow) : '#1a1326'}
-                                        strokeWidth={isCurrent ? '1.4' : '0.7'}
-                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
+                                        fill={isFilled ? washed(tier.color, 0.26) : PAGE}
+                                        stroke={isFilled ? inked(tier.color, 0.5) : RULE}
+                                        strokeWidth={isCurrent ? '1.5' : '0.7'}
                                     />
 
                                     {/* Inner Lit Core of the Crypt Rib */}
@@ -493,8 +408,8 @@ const RevenantResourceBar = ({
                                             width={segmentW - 2.4}
                                             height={segmentH - 5}
                                             rx="0.9"
-                                            fill={isCurrent ? '#ffffff' : tier.hot}
-                                            opacity="0.85"
+                                            fill={inked(tier.color, 0.25)}
+                                            opacity={isCurrent ? 0.7 : 0.38}
                                         />
                                     )}
                                 </g>
@@ -511,15 +426,15 @@ const RevenantResourceBar = ({
                                         y1="8"
                                         x2={sepX}
                                         y2="52"
-                                        stroke="#334155"
-                                        strokeWidth="0.9"
+                                        stroke={RULE}
+                                        strokeWidth="0.7"
                                         strokeDasharray="3,2"
                                     />
                                     {/* Faint Roman milestone mark */}
                                     <text
                                         x={sepX}
                                         y="6.5"
-                                        fill={toll >= sepIdx ? getTollTier(sepIdx).glow : '#475569'}
+                                        fill={toll >= sepIdx ? inked(getTollTier(sepIdx).color, 0.4) : MUTED}
                                         fontSize="3.8"
                                         fontWeight="900"
                                         textAnchor="middle"
@@ -543,7 +458,6 @@ const RevenantResourceBar = ({
                                 if (isOwner) toggleDeathShroud();
                             }}
                             style={{ cursor: isOwner ? 'pointer' : 'default' }}
-                            filter={deathShroud ? `url(#${ids.glow})` : undefined}
                         >
                             {/* Socket Stone Frame */}
                             <rect
@@ -552,9 +466,9 @@ const RevenantResourceBar = ({
                                 width="40"
                                 height="32"
                                 rx="4"
-                                fill={deathShroud ? 'url(#shroudGlow)' : '#0a0814'}
-                                stroke={deathShroud ? '#c026d3' : '#334155'}
-                                strokeWidth={deathShroud ? '1.4' : '0.8'}
+                                fill={deathShroud ? washed(SHROUD, 0.22) : PAPER}
+                                stroke={deathShroud ? SHROUD : RULE}
+                                strokeWidth={deathShroud ? '1.3' : '0.8'}
                             />
 
                             {/* Pure SVG Vector Skull (Zero Emojis!) */}
@@ -562,8 +476,8 @@ const RevenantResourceBar = ({
                                 {/* Cranium & Jaw */}
                                 <path
                                     d="M 15,3 C 9,3 4.5,7 4.5,13.5 C 4.5,17.5 7,20 9.5,21 L 9.5,24.5 C 9.5,25.5 11,26 13,26 L 17,26 C 19,26 20.5,25.5 20.5,24.5 L 20.5,21 C 23,20 25.5,17.5 25.5,13.5 C 25.5,7 21,3 15,3 Z"
-                                    fill={deathShroud ? '#2e1065' : '#141a24'}
-                                    stroke={deathShroud ? '#f0abfc' : '#475569'}
+                                    fill={deathShroud ? PAGE : PANEL}
+                                    stroke={deathShroud ? SHROUD : MUTED}
                                     strokeWidth="1"
                                 />
                                 {/* Eye Sockets */}
@@ -572,26 +486,24 @@ const RevenantResourceBar = ({
                                     cy="13.5"
                                     rx="2.5"
                                     ry="3"
-                                    fill={deathShroud ? '#ffffff' : '#04060a'}
-                                    filter={deathShroud ? `url(#${ids.glow})` : undefined}
+                                    fill={deathShroud ? SHROUD : INK}
                                 />
                                 <ellipse
                                     cx="18.5"
                                     cy="13.5"
                                     rx="2.5"
                                     ry="3"
-                                    fill={deathShroud ? '#ffffff' : '#04060a'}
-                                    filter={deathShroud ? `url(#${ids.glow})` : undefined}
+                                    fill={deathShroud ? SHROUD : INK}
                                 />
                                 {/* Nasal Cavity */}
                                 <path
                                     d="M 15,16.5 L 13.8,19.5 L 16.2,19.5 Z"
-                                    fill={deathShroud ? '#c026d3' : '#04060a'}
+                                    fill={deathShroud ? SHROUD : INK}
                                 />
                                 {/* Jaw Teeth Separator Lines */}
-                                <line x1="12" y1="23" x2="12" y2="26" stroke={deathShroud ? '#f0abfc' : '#334155'} strokeWidth="0.8" />
-                                <line x1="15" y1="23" x2="15" y2="26" stroke={deathShroud ? '#f0abfc' : '#334155'} strokeWidth="0.8" />
-                                <line x1="18" y1="23" x2="18" y2="26" stroke={deathShroud ? '#f0abfc' : '#334155'} strokeWidth="0.8" />
+                                <line x1="12" y1="23" x2="12" y2="26" stroke={deathShroud ? SHROUD : ETCH} strokeWidth="0.8" />
+                                <line x1="15" y1="23" x2="15" y2="26" stroke={deathShroud ? SHROUD : ETCH} strokeWidth="0.8" />
+                                <line x1="18" y1="23" x2="18" y2="26" stroke={deathShroud ? SHROUD : ETCH} strokeWidth="0.8" />
                             </g>
                         </g>
 
@@ -610,14 +522,14 @@ const RevenantResourceBar = ({
                                 width="40"
                                 height="14"
                                 rx="3"
-                                fill={showControls ? '#2e1b4d' : '#100b1d'}
-                                stroke={showControls ? '#c084fc' : '#3b3252'}
+                                fill={showControls ? washed(SHROUD, 0.2) : PAPER}
+                                stroke={showControls ? SHROUD : RULE}
                                 strokeWidth="0.8"
                             />
                             {/* Engraved Crypt Cross & Relic Key Icon */}
-                            <line x1="257" y1="47" x2="281" y2="47" stroke={showControls ? '#f5d0fe' : '#94a3b8'} strokeWidth="1" strokeLinecap="round" />
-                            <line x1="269" y1="43" x2="269" y2="51" stroke={showControls ? '#f5d0fe' : '#94a3b8'} strokeWidth="1" strokeLinecap="round" />
-                            <circle cx="269" cy="47" r="1.4" fill={showControls ? '#ffffff' : '#cbd5e1'} />
+                            <line x1="257" y1="47" x2="281" y2="47" stroke={showControls ? SHROUD : MUTED} strokeWidth="1" strokeLinecap="round" />
+                            <line x1="269" y1="43" x2="269" y2="51" stroke={showControls ? SHROUD : MUTED} strokeWidth="1" strokeLinecap="round" />
+                            <circle cx="269" cy="47" r="1.4" fill={showControls ? SHROUD : MUTED} />
                         </g>
                     </g>
                 </svg>
@@ -662,123 +574,63 @@ const RevenantResourceBar = ({
                             zIndex: 100000
                         }}
                     >
-                        <div className="rev-tender-header">
-                            <div className="rev-tender-title">
-                                <i className="fas fa-skull"></i>
-                                <span>Tombcraft Tactical Tender</span>
+                        <div className="cm" style={{ '--cm-accent': '#4a6a72', '--cm-accent-deep': '#20363c', '--cm-wash': '#dfe9e8' }}>
+                            <header className="cm-head">
+                                <span className={`cm-seal ${toll === 0 ? 'is-quiet' : ''}`}>{toll}</span>
+                                <div className="cm-titles">
+                                    <div className="cm-eyebrow">Tombcraft Tactical Tender</div>
+                                    <div className="cm-title">{currentTier.name}</div>
+                                    <div className="cm-sub">Death-Toll {toll}/20{statusFlavor?.text ? `. ${statusFlavor.text}` : ''}</div>
+                                </div>
+                                <button type="button" className="cm-x" aria-label="Close tender" onClick={() => setShowControls(false)}>
+                                    <i className="fas fa-times" aria-hidden="true"></i>
+                                </button>
+                            </header>
+                            <div className="cm-meter" aria-hidden="true"><span style={{ width: `${Math.min(100, (toll / 20) * 100)}%` }}></span></div>
+                            {toll >= 15 && (
+                                <div className="cm-burden is-severe">
+                                    <span className="cm-burden-label">{toll >= 20 ? 'Cataclysm' : 'Rot Surge'}</span>
+                                    <p className="cm-burden-text">{toll >= 20 ? 'You are a walking bomb. The next spark detonates you.' : 'Healing no longer reaches you.'}</p>
+                                </div>
+                            )}
+                            <div className="cm-section">Death-Toll</div>
+                            <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                                {[[0, 'Dry Veins', 'dormant stasis'], [5, 'Stasis Cap', 'max safe reserve'], [10, 'Searing', '+1d4 blight or rime'], [15, 'Rot Surge', 'healing severed'], [20, 'Cataclysm', 'walking bomb']].map(([val, name, sub]) => (
+                                    <button
+                                        key={val}
+                                        type="button"
+                                        className={`context-menu-button is-stacked ${toll === val ? 'active' : ''} ${val >= 15 ? 'spend' : ''}`}
+                                        onClick={() => setTollValue(val)}
+                                    >
+                                        <span>{name} ({val})</span>
+                                        <span className="cm-btn-sub">{sub}</span>
+                                    </button>
+                                ))}
                             </div>
-                            <button 
-                                className="rev-tender-close-btn"
-                                onClick={() => setShowControls(false)}
-                                title="Close tender"
-                            >
-                                ×
+                            <div className="cm-section">
+                                Basalt Phylactery
+                                <span className="cm-section-aside">{phylacteryHP}/50 HP</span>
+                            </div>
+                            <div className="cm-meter cm-meter-frost" aria-hidden="true"><span style={{ width: `${Math.min(100, (phylacteryHP / 50) * 100)}%` }}></span></div>
+                            <div className="cm-row">
+                                <button type="button" className="context-menu-button gain" onClick={() => setPhylacteryHPValue(phylacteryHP + 10)} disabled={phylacteryHP >= 50}>
+                                    <i className="fas fa-plus" aria-hidden="true"></i> Harvest (+10)
+                                </button>
+                                <button type="button" className="context-menu-button spend" onClick={() => setPhylacteryHPValue(phylacteryHP - 10)} disabled={phylacteryHP <= 0}>
+                                    <i className="fas fa-minus" aria-hidden="true"></i> Drain (-10)
+                                </button>
+                            </div>
+                            <button type="button" className="cm-btn" onClick={triggerGlacialNova} title="Drains the phylactery on lethal damage to trigger a 20 ft freeze nova">
+                                <i className="fas fa-snowflake" aria-hidden="true"></i> Glacial Nova (Resurrect)
                             </button>
-                        </div>
-
-                        {/* Status Flavor Banner */}
-                        {statusFlavor && (
-                            <div className="rev-status-flavor-banner" style={statusFlavor.style}>
-                                <i className="fas fa-quote-left"></i> {statusFlavor.text}
-                            </div>
-                        )}
-
-                        {/* Section 1: Death-Toll Volatility Presets */}
-                        <div className="rev-tender-section">
-                            <div className="rev-section-label">
-                                <span>Death-Toll Presets</span>
-                                <span className="rev-current-pill" style={{ color: currentTier.color }}>
-                                    {toll}/20 ({currentTier.name})
+                            <label className="cm-check cm-toggle">
+                                <input type="checkbox" checked={!!deathShroud} onChange={toggleDeathShroud} />
+                                <span>
+                                    <strong>Death Shroud</strong>
+                                    <span className="cm-btn-sub">Burn HP instead of mana; rime and blight dice grow.</span>
                                 </span>
-                            </div>
-                            <div className="rev-preset-grid">
-                                <button 
-                                    className={`rev-preset-btn ${toll === 0 ? 'active' : ''}`}
-                                    onClick={() => setTollValue(0)}
-                                >
-                                    <span className="rev-btn-title">Dry Veins (0)</span>
-                                    <span className="rev-btn-sub">Dormant stasis</span>
-                                </button>
-                                <button 
-                                    className={`rev-preset-btn ${toll === 5 ? 'active' : ''}`}
-                                    onClick={() => setTollValue(5)}
-                                >
-                                    <span className="rev-btn-title">Stasis Cap (5)</span>
-                                    <span className="rev-btn-sub">Max safe reserves</span>
-                                </button>
-                                <button 
-                                    className={`rev-preset-btn ${toll === 10 ? 'active' : ''}`}
-                                    onClick={() => setTollValue(10)}
-                                >
-                                    <span className="rev-btn-title">Searing (10)</span>
-                                    <span className="rev-btn-sub">+1d4 Blight/Rime</span>
-                                </button>
-                                <button 
-                                    className={`rev-preset-btn ${toll === 15 ? 'active' : ''}`}
-                                    onClick={() => setTollValue(15)}
-                                >
-                                    <span className="rev-btn-title">Rot Surge (15)</span>
-                                    <span className="rev-btn-sub">Healing severed!</span>
-                                </button>
-                                <button 
-                                    className={`rev-preset-btn cata ${toll === 20 ? 'active' : ''}`}
-                                    onClick={() => setTollValue(20)}
-                                >
-                                    <span className="rev-btn-title">Cataclysm (20)</span>
-                                    <span className="rev-btn-sub">Walking bomb detonation</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Section 2: Basalt Phylactery Soul Controls */}
-                        <div className="rev-tender-section">
-                            <div className="rev-section-label">
-                                <span>Basalt Phylactery (Vesper's Frost-Stasis)</span>
-                                <span className="rev-current-pill" style={{ color: '#6ee7b7' }}>
-                                    {phylacteryHP}/50 HP
-                                </span>
-                            </div>
-                            <div className="rev-phylactery-controls-row">
-                                <button 
-                                    className="rev-action-btn"
-                                    onClick={() => setPhylacteryHPValue(phylacteryHP + 10)}
-                                    disabled={phylacteryHP >= 50}
-                                >
-                                    <i className="fas fa-plus"></i> Harvest Soul (+10 HP)
-                                </button>
-                                <button 
-                                    className="rev-action-btn"
-                                    onClick={() => setPhylacteryHPValue(phylacteryHP - 10)}
-                                    disabled={phylacteryHP <= 0}
-                                >
-                                    <i className="fas fa-minus"></i> Drain Soul (-10 HP)
-                                </button>
-                                <button 
-                                    className="rev-nova-btn"
-                                    onClick={triggerGlacialNova}
-                                    title="Drains phylactery upon lethal damage to trigger 20ft freeze nova"
-                                >
-                                    <i className="fas fa-snowflake"></i> Glacial Nova (Resurrect)
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Section 3: Death Shroud Switch */}
-                        <div className="rev-tender-section">
-                            <div className="rev-shroud-toggle-card" onClick={toggleDeathShroud}>
-                                <div className="rev-toggle-left">
-                                    <div className="rev-toggle-title">
-                                        <i className="fas fa-skull"></i>
-                                        <span>Death Shroud Mode</span>
-                                    </div>
-                                    <div className="rev-toggle-desc">
-                                        Burns HP instead of Mana. Amplifies rime and blight spell damage dice.
-                                    </div>
-                                </div>
-                                <div className={`rev-toggle-switch ${deathShroud ? 'on' : 'off'}`}>
-                                    {deathShroud ? 'ACTIVE' : 'OFF'}
-                                </div>
-                            </div>
+                            </label>
+                            <ClassMenuSpells className="Revenant" resourceTypes={['toll', 'phylactery']} resourceLabel="Toll" currentByType={{ toll, phylactery: phylacteryHP }} />
                         </div>
                     </div>,
                     document.body
@@ -799,7 +651,7 @@ const RevenantResourceBar = ({
                         subtitle="Revenant Death-Toll & Phylactery"
                         state={`${toll}/20 • ${currentTier.name}`}
                         stateTone={isCataclysm ? 'bad' : isRot ? 'warn' : 'good'}
-                        mechanic="Build Toll by sacrificing HP (1 HP = 1 Toll), landing kills (+1d6), and casting in Death Shroud (+1); it decays 1/round. Spend Toll for +1d6 blight damage per point spent, and charge the Phylactery (+1d6 HP per kill) to fuel Strategic Resurrection."
+                        mechanic="Toll builds from HP sacrificed (1:1), kills (+1d6) and casting in Death Shroud (+1); −1/round. Spend for +1d6 blight per point; charge the Phylactery (+1d6 HP per kill) for Strategic Resurrection."
                         status={[
                             `${currentTier.name}: ${currentTier.desc}`,
                             `Phylactery: ${phylacteryHP}/50 HP — resurrects at stored HP and freezes enemies within 15 ft once per combat.`,

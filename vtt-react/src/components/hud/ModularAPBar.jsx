@@ -1,13 +1,10 @@
 import React from 'react';
+import ResourceGlyph from './ResourceGlyph';
 import hpBarLeft from '../../assets/ui/hp-bar-left.png';
 import hpBarMiddle from '../../assets/ui/hp-bar-middle.png';
 import hpBarRight from '../../assets/ui/hp-bar-right.png';
 import apFillTexture from '../../assets/ui/ap-fill-texture.png';
 
-import apIconMax from '../../assets/ui/ap-icon-max.png';
-import apIconHigh from '../../assets/ui/ap-icon-high.png';
-import apIconLow from '../../assets/ui/ap-icon-low.png';
-import apIconEmpty from '../../assets/ui/ap-icon-empty.png';
 
 const ModularAPBar = ({ currentAP = 0, maxAP = 1, tempAP = 0, showText = true, className = '', onClick, onContextMenu }) => {
     const safeMax = Math.max(1, maxAP);
@@ -19,20 +16,15 @@ const ModularAPBar = ({ currentAP = 0, maxAP = 1, tempAP = 0, showText = true, c
     // 2. HIGH: currentAP >= maxAP * 0.5 && currentAP < maxAP (Golden winged boot)
     // 3. LOW: currentAP > 0 && currentAP < maxAP * 0.5 (Bronze winged boot)
     // 4. EMPTY: currentAP === 0 (Dark cracked stone winged boot)
-    let apIcon = apIconLow;
     let apStateClass = 'low';
 
     if (safeAP >= safeMax) {
-        apIcon = apIconMax;
         apStateClass = 'max';
     } else if (safeAP >= safeMax * 0.5) {
-        apIcon = apIconHigh;
         apStateClass = 'high';
     } else if (safeAP > 0) {
-        apIcon = apIconLow;
         apStateClass = 'low';
     } else {
-        apIcon = apIconEmpty;
         apStateClass = 'empty';
     }
 
@@ -65,7 +57,7 @@ const ModularAPBar = ({ currentAP = 0, maxAP = 1, tempAP = 0, showText = true, c
                 <div className="ap-module-left">
                     <img src={hpBarLeft} alt="" className="ap-module-frame-left" draggable={false} />
                     <div className={`ap-socket-icon-wrapper ap-state-${apStateClass}`}>
-                        <img src={apIcon} alt="Action Points Status" className="ap-boot-icon" draggable={false} />
+                        <ResourceGlyph kind="ap" current={safeAP} max={safeMax} className="ap-boot-icon" />
                     </div>
                 </div>
 

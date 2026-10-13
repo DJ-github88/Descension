@@ -428,7 +428,14 @@ const CreatureWizardApp = ({
         <div className="creature-wizard-header">
           {/* Back button or placeholder if needed */}
           <div className="header-left-actions">
-             {/* Can add a 'back' or 'cancel' here if desired */}
+            <button
+              type="button"
+              className="creature-wizard-button secondary creature-wizard-back"
+              onClick={handlePrevStep}
+              disabled={isSubmitting || wizardState.currentStep <= 1}
+            >
+              <i className="fas fa-arrow-left"></i> Back
+            </button>
           </div>
 
           <div className="wizard-step-rail">
@@ -461,7 +468,7 @@ const CreatureWizardApp = ({
                 onClick={handleNextStep}
                 disabled={isSubmitting}
               >
-                Next Step <i className="fas fa-arrow-right"></i>
+                Next: {stepNames[wizardState.currentStep]?.name || 'Step'} <i className="fas fa-arrow-right"></i>
               </button>
             ) : (
               <button

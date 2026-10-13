@@ -1,13 +1,6 @@
 /* D&D/Pathfinder Themed Item Tooltip */
 .item-tooltip {
-    background: linear-gradient(145deg,
-            #ffffff 0%,
-            #fafafa 20%,
-            #f5f5f5 50%,
-            #f0f0f0 80%,
-            #f5f5f5 100%) !important;
     border: 2px solid #8B4513 !important;
-    border-radius: 8px;
     padding: 16px;
     color: #2d1810 !important;
     /* Set default text color */
@@ -15,11 +8,6 @@
     width: 100%;
     min-width: 280px;
     max-width: 300px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
-        inset 0 2px 4px rgba(255, 255, 255, 0.6),
-        inset 0 -2px 4px rgba(139, 69, 19, 0.15),
-        0 0 0 1px rgba(139, 69, 19, 0.25),
-        0 0 20px rgba(139, 69, 19, 0.1) !important;
     pointer-events: none;
     margin: 0;
     text-align: left !important;
@@ -51,13 +39,6 @@
     color: #5a1e12 !important;
 }
 */
-
-.review-tooltip .item-tooltip,
-.review-step .item-tooltip,
-.review-tooltip-container .item-tooltip {
-    margin: 0;
-    width: 100%;
-}
 
 /* Quality-based borders and effects - maintain WoW style for item quality */
 .item-tooltip[data-quality="poor"] {
@@ -238,7 +219,7 @@
 
 .item-tooltip .quality-common,
 .item-tooltip-content .quality-common {
-    color: #f0e6d2 !important;
+    color: #f1ece1 !important;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0, 0, 0, 0.6) !important;
 }
 
@@ -493,17 +474,6 @@
     /* Pathfinder brown-medium */
     background-color: rgba(212, 175, 55, 0.15);
     /* Subtle gold tint */
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-}
-
-.reagent-detail-used-for,
-.reagent-detail-quantity,
-.reagent-detail-preservation {
-    color: #5a1e12;
-    /* Pathfinder brown-dark */
-    font-size: 0.9em;
-    margin: 2px 0;
-    padding-left: 8px;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
@@ -917,7 +887,7 @@
     font-size: 13px;
     margin: 12px 0;
     padding: 10px 12px;
-    background: linear-gradient(145deg, #e8dcc6 0%, #d5cbb0 50%, #c9b89a 100%);
+    background: linear-gradient(145deg, #e8e2d4 0%, #c4baa6 50%, #c9b89a 100%);
     border: 2px solid #8B4513;
     border-radius: 6px;
     line-height: 1.4;
@@ -958,7 +928,7 @@
     font-size: 13px;
     margin: 12px 0;
     padding: 10px 12px;
-    background: linear-gradient(145deg, #e8dcc6 0%, #d5cbb0 50%, #c4a373 100%);
+    background: linear-gradient(145deg, #e8e2d4 0%, #c4baa6 50%, #c4a373 100%);
     border: 2px solid #8b7355;
     border-radius: 6px;
     line-height: 1.4;
@@ -1016,21 +986,13 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.item-key-detail,
-.reagent-detail-used-for,
-.reagent-detail-quantity,
-.reagent-detail-preservation {
+.item-key-detail {
     display: flex;
     justify-content: space-between;
     margin: 2px 0;
-    font-size: 0.9em;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
-.item-key-detail label,
-.reagent-detail-used-for label,
-.reagent-detail-quantity label,
-.reagent-detail-preservation label {
+.item-key-detail label {
     color: #5a1e12;
     /* Pathfinder brown-dark */
     margin-right: 8px;
@@ -1038,10 +1000,7 @@
     font-weight: 600;
 }
 
-.item-key-detail value,
-.reagent-detail-used-for value,
-.reagent-detail-quantity value,
-.reagent-detail-preservation value {
+.item-key-detail value {
     color: #8B4513;
     /* Pathfinder brown-medium */
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -1100,35 +1059,6 @@
 }
 
 /* Magic type color coding for reagents */
-.reagent-magic-fire {
-    color: #ff4500 !important;
-    /* Orange-red for fire */
-}
-
-.reagent-magic-nature {
-    color: #4a934a !important;
-    /* Forest green for nature */
-}
-
-.reagent-magic-shadow {
-    color: #8b008b !important;
-    /* Dark magenta for shadow */
-}
-
-.reagent-magic-arcane {
-    color: #0070dd !important;
-    /* Blue for arcane */
-}
-
-.reagent-magic-holy {
-    color: #ffd700 !important;
-    /* Gold for holy */
-}
-
-.reagent-magic-frost {
-    color: #00bfff !important;
-    /* Deep sky blue for frost */
-}
 
 .item-key-unlocks {
     color: #8B4513;
@@ -1194,11 +1124,11 @@
 /* Force background override - highest priority */
 .item-tooltip[style] {
     background: linear-gradient(145deg,
-            #f0ead6 0%,
-            #e8dcc6 20%,
-            #d5cbb0 50%,
+            #f1ece1 0%,
+            #e8e2d4 20%,
+            #c4baa6 50%,
             #c9b89a 80%,
-            #d5cbb0 100%) !important;
+            #c4baa6 100%) !important;
 }
 
 .item-tooltip div[style*="color: rgb(255, 255, 255)"]:not(.item-name):not([class*="quality-"]) {
@@ -1363,12 +1293,6 @@
 .item-recipe-detail {
     color: #ffffff;
     font-size: 12px;
-}
-
-.recipe-description {
-    color: #ffd100 !important;
-    font-style: italic;
-    margin: 6px 0;
 }
 
 .recipe-section-divider {

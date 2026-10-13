@@ -223,6 +223,7 @@ function createProductionStackServer(options = {}) {
     firebaseBatchWriter,
     rateLimitService,
     authorityService,
+    authorityBackend,
 
     /** Unique verified user id so rate-limit counters never leak across tests. */
     nextUserId(prefix = 'user') {

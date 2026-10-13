@@ -62,8 +62,7 @@
 }
 
 /* Character card / compact hud sizing - UNLOCKED FULL WIDTH SPAN */
-.character-card .berserker-resource-bar,
-.character-card-compact .berserker-resource-bar {
+.character-card .berserker-resource-bar {
     height: 52px !important;
     min-height: 52px !important;
     max-width: 360px !important;

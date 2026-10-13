@@ -74,8 +74,7 @@
 }
 
 /* Character card / compact hud sizing */
-.character-card .warden-resource-bar,
-.character-card-compact .warden-resource-bar {
+.character-card .warden-resource-bar {
     height: 52px !important;
     min-height: 52px !important;
 }
@@ -162,21 +161,3 @@
 }
 
 /* Scoped Legacy Tooltip styles (deprecated in favor of ClassTip) */
-.unified-resourcebar-tooltip.warden-legacy-tooltip {
-    position: fixed;
-    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
-    border: 2px solid #8B7355;
-    border-radius: 0;
-    padding: 10px 12px;
-    min-width: 280px;
-    max-width: 360px;
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
-    color: #2C2416;
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    z-index: 999999999;
-    pointer-events: none;
-    line-height: 1.5;
-}

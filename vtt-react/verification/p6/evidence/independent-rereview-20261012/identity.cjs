@@ -1,0 +1,20 @@
+const fs = require('fs'), path = require('path'), crypto = require('crypto'), cp = require('child_process'), zlib = require('zlib');
+const root='D:/VTT', out=__dirname, evidence=root+'/vtt-react/verification/p6/evidence';
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const git=(...args)=>cp.execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
+const final=JSON.parse(fs.readFileSync(evidence+'/final-identity.json'));
+const files=git('ls-files','--cached','--others','--exclude-standard').split('\n');
+const hashes=Object.fromEntries(files.map(f=>[f,hash(fs.readFileSync(root+'/'+f))]));
+const drift=Object.entries(final.finalHashes).filter(([f,h])=>hashes[f]!==h).map(([f,h])=>({file:f,expected:h,actual:hashes[f]}));
+const witnessCheck=Object.entries(final.verificationHashes).map(([f,h])=>({file:f,match:hashes['vtt-react/verification/p6/'+f]===h}));
+const evidenceCheck=Object.entries(final.evidenceHashes).map(([f,h])=>({file:f,match:hashes['vtt-react/verification/p6/evidence/'+f]===h}));
+const preserved=JSON.parse(fs.readFileSync(evidence+'/independent-20261012/evidence-summary.json'));
+const preservedCheck=preserved.artifacts.map(a=>({file:a.path,match:hash(fs.readFileSync(evidence+'/independent-20261012/'+a.path))===a.sha256}));
+const snapshotBytes=fs.readFileSync(evidence+'/reviewed-source.json.gz'), snapshot=JSON.parse(zlib.gunzipSync(snapshotBytes));
+const reviewed=JSON.parse(fs.readFileSync(evidence+'/independent-20261012/after.json'));
+const snapshotCheck=Object.entries(snapshot).map(([f,b])=>({file:f,match:hash(Buffer.from(b,'base64'))===reviewed.hashes[f]}));
+const label=process.argv[2]||'before';
+const result={date:new Date().toISOString(),checkout:git('rev-parse','--show-toplevel'),head:git('rev-parse','HEAD'),status:git('status','--porcelain=v1','--untracked-files=all'),hashes,drift,witnessCheck,evidenceCheck,preservedCheck,snapshotHash:hash(snapshotBytes),snapshotCheck};
+if(label==='after') {const before=JSON.parse(fs.readFileSync(out+'/before.json'));result.reviewDrift=Object.keys({...before.hashes,...hashes}).filter(f=>before.hashes[f]!==hashes[f]);result.statusUnchanged=before.status===result.status;}
+fs.writeFileSync(out+'/'+label+'.json',JSON.stringify(result,null,2));
+console.log(JSON.stringify({label,head:result.head,files:files.length,drift,witnessCheck,evidenceCheck,preservedFailures:preservedCheck.filter(x=>!x.match),snapshotHash:result.snapshotHash,snapshotFiles:snapshotCheck.length,snapshotFailures:snapshotCheck.filter(x=>!x.match),reviewDrift:result.reviewDrift,statusUnchanged:result.statusUnchanged},null,2));

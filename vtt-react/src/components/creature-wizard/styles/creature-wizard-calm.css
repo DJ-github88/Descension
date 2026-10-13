@@ -1,0 +1,202 @@
+/* Creature wizard + bestiary library (calm): flat soft-linen surfaces, 1px rule
+   borders, 3px corners, seal-coloured active states, no gradients, glows or
+   lift-on-hover. Scoped to the creature wizard / library roots. Tokens come from
+   calm-shared.css (--adventure-*). */
+
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-creatures, .creature-library-toolbar) {
+  --cw-ink: var(--adventure-ink, #34251a);
+  --cw-muted: var(--adventure-muted, #68533e);
+  --cw-page: var(--adventure-page, #f8f5ee);
+  --cw-paper: var(--adventure-paper, #f1ece1);
+  --cw-panel: var(--adventure-panel, #e8e2d4);
+  --cw-rule: var(--adventure-rule, #c4baa6);
+  --cw-seal: var(--adventure-seal, #663c32);
+}
+
+/* Page surfaces */
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-wizard-main-content, .creature-library, .creature-library-creatures) {
+  background: var(--cw-page, #f8f5ee) !important;
+  background-image: none !important;
+}
+
+/* Cards, sections, panels */
+:root body :is(.creature-wizard, .creature-library) :is([class*='card'], .creature-card-wrapper):not(button):hover {
+  border-color: var(--cw-seal, #663c32) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Section headers inside cards: flat rule underline, no gradient plate */
+:root body :is(.creature-wizard, .creature-wizard-layout) :is([class*='header'], [class*='title-bar']):not(button, [class*='card']) {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  color: var(--cw-ink, #34251a) !important;
+}
+
+/* Inputs */
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library) :is(input, select, textarea):not([type='checkbox'], [type='radio'], [type='range'], [type='color']) {
+  background: var(--cw-page, #f8f5ee) !important;
+  border: 1px solid var(--cw-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--cw-ink, #34251a) !important;
+}
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library) :is(input, select, textarea):focus {
+  border-color: var(--cw-seal, #663c32) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Buttons: ghost by default, seal fill for primary */
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-toolbar) button:not([class*='color-option'], [class*='icon-option'], [class*='close'], [class*='remove']) {
+  background: var(--cw-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--cw-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  color: var(--cw-ink, #34251a) !important;
+}
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library, .creature-library-toolbar) button:not([class*='color-option'], [class*='icon-option']):hover {
+  border-color: var(--cw-seal, #663c32) !important;
+  transform: none !important;
+}
+
+/* Step indicator (1-2-3-4-5) */
+:root body .creature-wizard :is(.wizard-step-indicator, [class*='step-indicator']) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+:root body .creature-wizard .wizard-step-connector { background: var(--cw-rule, #c4baa6) !important; }
+
+/* Textures / overlays */
+:root body :is(.creature-wizard, .creature-library)::before,
+:root body :is(.creature-wizard, .creature-library)::after,
+:root body :is(.creature-wizard, .creature-library) [class*='card']::before,
+:root body :is(.creature-wizard, .creature-library) [class*='card']::after {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Nested pieces inside a card (header strip, stat strip, info rows): no second frame */
+:root body :is(.creature-wizard, .creature-wizard-layout, .creature-library) :is([class*='card'], [class*='section'], [class*='panel']) :is([class*='stat'], [class*='header'], [class*='info'], [class*='meta'], [class*='row'], [class*='title']):not(button, img, svg, [class*='icon'], [class*='badge'], [class*='type']) {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: var(--cw-rule, #c4baa6) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Structural wrappers carry no frame of their own */
+:root body :is(.creature-wizard, .creature-wizard-layout) :is(.wizard-step, .form-section, .basic-info-layout, [class*='-layout'], [class*='wrapper'], [class*='main-content']) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Field groups: no frame, just spacing; pickers/controls: flat framed boxes */
+:root body :is(.creature-wizard, .creature-wizard-layout) :is(.form-group, [class*='form-group'], [class*='field-group'], [class*='input-group']) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+:root body :is(.creature-wizard, .creature-wizard-layout) :is([class*='picker'], [class*='controls'], [class*='-options'], [class*='selector']):not(button, input, select, img, svg, [class*='icon'], [class*='color']) {
+  background: var(--cw-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--cw-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+/* Statistics step */
+:root body .creature-wizard-layout :is(.core-stat-item, .stats-builder > *, [class*='stat-item'], [class*='stat-block']) {
+  background: var(--cw-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--cw-rule, #c4baa6) !important;
+  border-top: 1px solid var(--cw-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+:root body .creature-wizard-layout :is(.stats-builder, .core-stats-grid) { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+:root body .creature-wizard-layout :is(.stat-header, .stat-input-group) { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+:root body .creature-wizard-layout .core-stat-item h3,
+:root body .creature-wizard-layout .core-stat-item label { color: var(--cw-ink, #34251a) !important; text-shadow: none !important; }
+
+/* Abilities / loot / shop steps: containers use the same flat frame */
+:root body .creature-wizard-layout :is([class*='abilit'], [class*='loot'], [class*='shop'], [class*='trigger-'], [class*='priority-']):is(div, section, ul, table):not([class*='icon'], [class*='badge'], [class*='btn'], [class*='button'], [class*='input'], [class*='select'], [class*='label'], [class*='hint'], [class*='display'], [class*='message'], [class*='text']) {
+  background-image: none !important;
+  border-color: var(--cw-rule, #c4baa6) !important;
+  border-width: 1px !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+:root body .creature-wizard-layout :is(.abilities-inner-content, .abilities-header-section, .no-abilities-message) {
+  background: var(--cw-paper, #f1ece1) !important;
+}
+:root body .creature-wizard-layout :is(.no-abilities-icon, .no-abilities-icon i) { color: var(--cw-muted, #68533e) !important; }
+:root body .creature-wizard-layout :is(.abilities-inner-content, .abilities-header-section, .no-abilities-message, .ability-list, .loot-section, .shop-section, [class*='-section']) {
+  border-image: none !important;
+  border-top: 1px solid var(--cw-rule, #c4baa6) !important;
+}
+:root body .creature-wizard-layout :is(.abilities-inner-content, .abilities-header-section, .no-abilities-message, [class*='-section'])::before,
+:root body .creature-wizard-layout :is(.abilities-inner-content, .abilities-header-section, .no-abilities-message, [class*='-section'])::after {
+  background: none !important;
+  box-shadow: none !important;
+  border-image: none !important;
+}
+
+/* ---- library toolbar + cards: same flat linen language as the rest ---- */
+body .creature-library-header {
+  background: var(--adventure-paper, #f1ece1);
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6);
+  box-shadow: none;
+  color: #34251a;
+}
+body .creature-library-header :is(.library-title, .creature-count-info-badge) { color: #68533e; text-shadow: none; }
+body .creature-library-header :is(.view-mode-button, .filter-dropdown-button, .sort-dropdown-button, .clear-filters-button-header) {
+  background: var(--adventure-page, #f8f5ee);
+  color: #34251a;
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  box-shadow: none;
+  text-shadow: none;
+}
+body .creature-library-header .view-mode-button.active { background: #663c32; color: #f8f5ee; border-color: #663c32; }
+body .creature-library-header .create-creature-btn { background: #663c32; color: #f8f5ee; border: 1px solid #663c32; border-radius: 3px; box-shadow: none; }
+body .creature-library-search input { background: var(--adventure-page, #f8f5ee); color: #34251a; border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: none; }
+body .creature-library-search { background: transparent; }
+body .creature-card-wrapper { box-shadow: none; }
+body .compact-creature-card.wow-style-card {
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  box-shadow: none;
+}
+body .compact-creature-card.wow-style-card::before { background: #663c32; height: 2px; }
+body .compact-creature-card.wow-style-card:hover { border-color: #663c32; box-shadow: none; transform: none; }
+body .compact-card-header { border-bottom: 1px solid var(--adventure-rule, #c4baa6); }
+
+/* Back button in the wizard header */
+body .creature-wizard-layout .creature-wizard-button.creature-wizard-back.creature-wizard-back {
+  background: var(--adventure-paper, #f1ece1) !important;
+  color: #34251a !important;
+  border: 1px solid #c4baa6 !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  padding: 6px 12px;
+  font-family: inherit;
+}
+body .creature-wizard-layout .creature-wizard-button.creature-wizard-back:hover:not(:disabled) {
+  background: #e8e2d4 !important;
+}
+body .creature-wizard-layout .creature-wizard-button.creature-wizard-back:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

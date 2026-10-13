@@ -114,6 +114,8 @@ import './components/spellcrafting-wizard/styles/pathfinder/components/wow-spell
 import './components/spellcrafting-wizard/components/library/CommunitySpellsTab.css';
 import './components/creature-wizard/components/library/CommunityCreaturesTab.css';
 import './styles/adventurer-windows.css';
+import './styles/calm-shared.css';
+import './components/creature-wizard/styles/creature-wizard-calm.css';
 
 // Lazy loaded auxiliary components
 const PerformanceDashboard = lazy(() => import("./components/common/PerformanceDashboard"));

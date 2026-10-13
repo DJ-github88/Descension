@@ -35,7 +35,7 @@
 }
 
 .operator-card {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ede4d3 100%);
+  background: linear-gradient(135deg, #f8f5f0 0%, #f1ece1 100%);
   border: 2px solid #8b4513;
   border-radius: 8px;
   padding: 15px;
@@ -113,7 +113,7 @@
 }
 
 .complex-example-card {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ede4d3 100%);
+  background: linear-gradient(135deg, #f8f5f0 0%, #f1ece1 100%);
   border: 2px solid #8b4513;
   border-radius: 8px;
   padding: 18px;

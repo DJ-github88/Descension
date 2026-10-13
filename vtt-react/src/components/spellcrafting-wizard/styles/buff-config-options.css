@@ -42,7 +42,7 @@
 .config-option input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3);
   background: var(--my-gradient-input-focus);
 }
 
@@ -72,7 +72,7 @@
 .buff-dropdown:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3);
   background: var(--my-gradient-input-focus);
 }
 

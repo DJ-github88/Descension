@@ -80,7 +80,6 @@
 
 .tile-tooltip .terrain-description,
 .tile-tooltip .object-description,
-.tile-tooltip .wall-description,
 .tile-tooltip .dnd-description,
 .tile-tooltip .fog-description {
     font-size: 11px;
@@ -106,7 +105,6 @@
 }
 
 .tile-tooltip .object-item,
-.tile-tooltip .wall-item,
 .tile-tooltip .dnd-item {
     margin-bottom: 4px;
     padding: 4px;
@@ -116,13 +114,11 @@
 }
 
 .tile-tooltip .object-item:last-child,
-.tile-tooltip .wall-item:last-child,
 .tile-tooltip .dnd-item:last-child {
     margin-bottom: 0;
 }
 
 .tile-tooltip .object-name,
-.tile-tooltip .wall-name,
 .tile-tooltip .dnd-name {
     font-weight: bold;
     color: #333;
@@ -234,7 +230,6 @@
 
     .tile-tooltip .terrain-description,
     .tile-tooltip .object-description,
-    .tile-tooltip .wall-description,
     .tile-tooltip .dnd-description,
     .tile-tooltip .fog-description {
         color: #333;

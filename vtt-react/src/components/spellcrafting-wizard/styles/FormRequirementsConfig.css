@@ -265,12 +265,6 @@
   gap: var(--my-space-2);
 }
 
-.form-detail-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--my-text-sm);
-}
-
 .detail-label {
   color: var(--my-text-muted);
   font-weight: var(--my-font-medium);
@@ -298,8 +292,8 @@
 .form-modifications {
   margin-top: var(--my-space-3);
   padding: var(--my-space-2);
-  background: rgba(212, 175, 55, 0.1);
-  border: var(--my-border-width) solid rgba(212, 175, 55, 0.3);
+  background: rgba(154, 123, 60, 0.1);
+  border: var(--my-border-width) solid rgba(154, 123, 60, 0.3);
   border-radius: var(--my-border-radius);
 }
 

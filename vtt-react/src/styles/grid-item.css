@@ -44,20 +44,8 @@
 
 /* Add a subtle overlay for 3D effect when using background images */
 .grid-item-orb::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 50%;
-  background:
-    /* Main highlight */
-    radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 30%, transparent 60%),
-    /* Secondary highlight */
-    radial-gradient(ellipse at 70% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 40%);
-  pointer-events: none;
-  z-index: 1;
 }
 
 .grid-item-orb:hover {
@@ -86,16 +74,7 @@
 }
 
 .grid-item-orb::after {
-  content: '';
-  position: absolute;
-  top: var(--highlight-top, 15%);
-  left: var(--highlight-left, 20%);
-  width: var(--highlight-size, 25%);
-  height: var(--highlight-size, 25%);
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-  border-radius: 50%;
   filter: blur(1px);
-  animation: orbShimmer 2s ease-in-out infinite alternate;
 }
 
 /* ENHANCED ANIMATIONS FOR DIFFERENT QUALITIES */
@@ -304,7 +283,6 @@
     radial-gradient(circle at 60% 20%, rgba(163, 53, 238, 0.5) 1px, transparent 2px),
     radial-gradient(circle at 30% 80%, rgba(163, 53, 238, 0.3) 1px, transparent 2px);
   background-size: 20px 20px, 25px 25px, 18px 18px, 22px 22px;
-  animation: orbEpicParticles 4s linear infinite;
   pointer-events: none;
   z-index: -1;
 }
@@ -361,7 +339,6 @@
     radial-gradient(circle at 25% 85%, rgba(255, 255, 255, 0.5) 1px, transparent 3px),
     radial-gradient(circle at 50% 50%, rgba(255, 200, 100, 0.4) 1px, transparent 2px);
   background-size: 15px 15px, 20px 20px, 12px 12px, 18px 18px, 25px 25px;
-  animation: orbLegendaryParticles 3s linear infinite;
   pointer-events: none;
   z-index: -1;
 }

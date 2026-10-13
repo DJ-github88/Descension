@@ -1,0 +1,4 @@
+{
+  "command": "node verification/p6/character-save-browser.cjs",
+  "status": 0
+}

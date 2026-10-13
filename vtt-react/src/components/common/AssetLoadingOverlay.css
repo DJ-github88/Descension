@@ -220,11 +220,11 @@
 
 .loading-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8f6f35, #c4a060 55%, #d4af37);
+  background: linear-gradient(90deg, #8f6f35, #c4a060 55%, #9a7b3c);
   border-radius: 4px;
   transition: width 0.3s ease-out;
   position: relative;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.28);
+  box-shadow: 0 0 10px rgba(154, 123, 60, 0.28);
 }
 
 .loading-progress-fill.indeterminate {

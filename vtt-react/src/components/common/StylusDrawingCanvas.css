@@ -226,7 +226,7 @@
 }
 
 .stylus-canvas-container.pathfinder-theme .popover-tool-item.selected i {
-  color: #ffd700;
+  color: #9a7b3c;
 }
 
 /* Palette Grid in Popover */
@@ -361,7 +361,7 @@
 }
 
 .stylus-canvas-container.pathfinder-theme .popover-theme-item.selected .check-icon {
-  color: #ffd700;
+  color: #9a7b3c;
 }
 
 /* Right Header Buttons */
@@ -511,10 +511,6 @@
     padding: 0.15rem 0.35rem;
     font-size: 0.72rem;
     height: 24px;
-  }
-
-  .stylus-canvas-container.pathfinder-theme .dropdown-pill-text {
-    display: none;
   }
 
   .stylus-canvas-container.pathfinder-theme .stylus-header-btn {

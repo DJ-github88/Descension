@@ -22,19 +22,33 @@ import {
 } from 'firebase/firestore';
 import { db, isMockOrDevUser, auth } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import { encodeCharacterShapes, decodeCharacterShapes } from '../../utils/characterShapeCodec';
 
 /**
  * Character State Persistence Service
  */
 class CharacterStateService {
+  constructor() { this.saveTails = new Map(); }
 
   /**
    * Save character runtime state
    */
-  async saveCharacterState(userId, characterId, stateData) {
+  saveCharacterState(userId, characterId, stateData, options = {}) {
+    const key = `${userId}:${characterId}`;
+    const run = () => this.persistCharacterState(userId, characterId, stateData, options);
+    const pending = (this.saveTails.get(key) || Promise.resolve()).then(run, run);
+    this.saveTails.set(key, pending);
+    const cleanup = () => { if (this.saveTails.get(key) === pending) this.saveTails.delete(key); };
+    pending.then(cleanup, cleanup);
+    return pending;
+  }
+
+  async persistCharacterState(userId, characterId, stateData, { isCurrent = () => true } = {}) {
+    if (!isCurrent()) return { success: false, reason: 'owner-or-edit-changed' };
     if (!userId || !characterId || isMockOrDevUser(userId) || !auth?.currentUser || !db) {
       return { success: true, localOnly: true, characterId };
     }
+    if (auth.currentUser.uid !== userId) return { success: false, error: 'Owner changed before runtime save' };
 
     try {
       const docRef = doc(db, 'users', userId, 'characterStates', characterId);
@@ -47,6 +61,7 @@ class CharacterStateService {
         `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 
       const firestoreData = {
+        ...stateData,
         // Basic state
         health: stateData.health,
         mana: stateData.mana,
@@ -61,18 +76,14 @@ class CharacterStateService {
 
         // Inventory state
         inventory: {
+          ...stateData.inventory,
           items: stateData.inventory?.items || [],
           currency: stateData.inventory?.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
           encumbranceState: stateData.inventory?.encumbranceState || 'normal'
         },
 
         // Equipment state
-        equipment: {
-          weapon: stateData.equipment?.weapon || null,
-          armor: stateData.equipment?.armor || null,
-          shield: stateData.equipment?.shield || null,
-          accessories: stateData.equipment?.accessories || []
-        },
+        equipment: stateData.equipment || {},
 
         // Action bar configuration (per room)
         actionBars: stateData.actionBars || {},
@@ -93,7 +104,12 @@ class CharacterStateService {
         version: stateData.version || 1
       };
 
-      await setDoc(docRef, sanitizeForFirestore(firestoreData), { merge: true });
+      const encoded = encodeCharacterShapes(firestoreData);
+      const sanitized = sanitizeForFirestore(encoded);
+      if (JSON.stringify(sanitized) !== JSON.stringify(encoded)) {
+        throw new Error('Runtime storage would change preserved data. Draft retained; download for recovery.');
+      }
+      await setDoc(docRef, sanitized, { merge: true });
 
       return {
         success: true,
@@ -128,10 +144,11 @@ class CharacterStateService {
         return null;
       }
 
-      const data = docSnap.data();
+      const data = decodeCharacterShapes(docSnap.data());
 
       // Transform back to client format
       return {
+        ...data,
         // Basic state
         health: data.health,
         mana: data.mana,
@@ -311,7 +328,10 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, sanitizeForFirestore(updateData));
+      const encoded = encodeCharacterShapes(updateData);
+      const sanitized = sanitizeForFirestore(encoded);
+      if (JSON.stringify(sanitized) !== JSON.stringify(encoded)) throw new Error('Inventory storage would change preserved data');
+      await updateDoc(docRef, sanitized);
 
       return {
         success: true,
@@ -343,7 +363,10 @@ class CharacterStateService {
         lastUpdated: serverTimestamp()
       };
 
-      await updateDoc(docRef, sanitizeForFirestore(updateData));
+      const encoded = encodeCharacterShapes(updateData);
+      const sanitized = sanitizeForFirestore(encoded);
+      if (JSON.stringify(sanitized) !== JSON.stringify(encoded)) throw new Error('Equipment storage would change preserved data');
+      await updateDoc(docRef, sanitized);
 
       return {
         success: true,
@@ -371,7 +394,7 @@ class CharacterStateService {
 
       const states = {};
       querySnapshot.forEach((doc) => {
-        states[doc.id] = doc.data();
+        states[doc.id] = decodeCharacterShapes(doc.data());
       });
 
       return states;

@@ -60,8 +60,7 @@
 }
 
 /* Character card / compact hud sizing */
-.character-card .augur-omen-bar,
-.character-card-compact .augur-omen-bar {
+.character-card .augur-omen-bar {
     height: 52px !important;
     min-height: 52px !important;
 }

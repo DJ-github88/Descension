@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "node_modules/mocha/bin/mocha.js",
+    "tests/p7Consequences.production.test.js",
+    "tests/p7ImportMetadata.production.test.js",
+    "--timeout",
+    "15000",
+    "--exit"
+  ],
+  "cwd": "D:\\VTT\\server",
+  "status": 0,
+  "signal": null,
+  "durationMs": 5923,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

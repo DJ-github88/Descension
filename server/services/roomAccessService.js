@@ -909,6 +909,7 @@ const SUPPORTED_TOKEN_KEYS = Object.freeze([
 
 // Supported state-update scalar keys.
 const SUPPORTED_STATE_SCALAR_KEYS = Object.freeze([
+  'maxHp', 'maxMana', 'maxAP', 'maxActionPoints',
   'currentHp', 'currentMana', 'currentActionPoints',
   'tempHealth', 'tempMana', 'tempActionPoints',
   'hp', 'customName', 'iconScale', 'lastModified', 'isHidden', 'locked', 'elevation', 'rotation'
@@ -931,6 +932,7 @@ function projectPosition(value) {
 
 function projectCondition(condition) {
   if (!condition || typeof condition !== 'object' || Array.isArray(condition)) {return null;}
+  if (condition.version === 1 && condition.recordId) {return require('./actorConsequences').publicCondition(condition);}
   const out = {};
   for (const key of SUPPORTED_CONDITION_KEYS) {
     if (!(key in condition)) {continue;}
@@ -958,6 +960,10 @@ function projectConditions(value) {
 function projectStateUpdates(updates) {
   if (!updates || typeof updates !== 'object' || Array.isArray(updates)) {return {};}
   const out = {};
+  if (updates.actorContract) {
+    const binding = require('./actorConsequences').publicContract(updates.actorContract);
+    if (binding) {out.actorContract = binding;}
+  }
   for (const key of SUPPORTED_STATE_SCALAR_KEYS) {
     if (!(key in updates)) {continue;}
     const value = updates[key];
@@ -1050,6 +1056,14 @@ function projectTokenDictionary(tokens) {
 function projectGameStateForClient(gameState) {
   if (!gameState || typeof gameState !== 'object') {return gameState === undefined ? null : gameState;}
   const out = { ...gameState };
+  delete out.actorConsequenceRecovery; // Preserved private import evidence, never a public receipt lane.
+  if (out.actorConsequences) {
+    const ledger = out.actorConsequences;
+    out.actorConsequences = ledger.version === 1 ? {
+      version: 1, admissionEpoch: ledger.admissionEpoch, commitSequence: ledger.commitSequence,
+      replayFloor: ledger.replayFloor, receipts: (ledger.receipts || []).map(require('./actorConsequences').publicReceipt)
+    } : { version: ledger.version, readOnly: true };
+  }
 
   if (out.characters && typeof out.characters === 'object') {
     const characters = {};

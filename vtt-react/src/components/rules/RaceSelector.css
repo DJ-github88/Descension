@@ -702,18 +702,6 @@
     font-size: 0.7rem;
 }
 
-.race-variant-diversity {
-    font-size: 0.85rem;
-    color: #5a4632;
-    line-height: 1.5;
-    margin: 0 0 1.25rem 0;
-    font-style: italic;
-    padding: 0.75rem 1rem;
-    background: rgba(212, 175, 55, 0.06);
-    border: 1px solid rgba(212, 175, 55, 0.18);
-    border-radius: 6px;
-}
-
 .race-info-panel .content-section {
     margin-top: 1.25rem;
 }
@@ -992,14 +980,6 @@
     border-color: #b8941f;
 }
 
-.details-layout {
-    display: grid;
-    grid-template-columns: minmax(300px, 380px) 1fr;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    align-items: start;
-}
-
 /* ===== HERO ROW: Illustration + Subrace/Appearance ===== */
 
 .details-body {
@@ -1273,12 +1253,6 @@
 
 /* ===== LEFT COLUMN: STATS & INFO ===== */
 
-.details-left {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
 .race-selector-container .stat-block {
     background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%) !important;
     border: 2px solid #c8a96e !important;
@@ -1511,77 +1485,10 @@
 
 /* ===== RIGHT COLUMN: TRAITS + CULTURAL ===== */
 
-.details-right {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.traits-block {
-    background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
-    border: 2px solid #c8a96e;
-    border-radius: 10px;
-    padding: 1rem;
-    flex: 1;
-    box-shadow:
-        0 3px 10px rgba(139, 90, 60, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    position: relative;
-}
-
-.traits-block::before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    right: 3px;
-    bottom: 3px;
-    border: 1px dashed rgba(180, 140, 80, 0.2);
-    border-radius: 7px;
-    pointer-events: none;
-}
-
-.traits-block-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #5a3a1a;
-    margin: 0 0 0.75rem 0;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-.traits-block-title::after {
-    content: '';
-    display: block;
-    width: 60%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, #c8a96e 50%, transparent 100%);
-    margin: 0.5rem auto 0;
-}
-
 .traits-list {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-}
-
-.trait-card {
-    background: linear-gradient(135deg, #fefcf8 0%, #f4f1e8 100%);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 6px;
-    padding: 0.75rem;
-}
-
-.trait-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
-    gap: 0.5rem;
 }
 
 .trait-name {
@@ -1592,18 +1499,6 @@
     margin: 0;
 }
 
-.trait-type {
-    background: linear-gradient(135deg, #718096 0%, #a0aec0 100%);
-    color: #ffffff;
-    padding: 0.25rem 0.5rem;
-    border-radius: 10px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-
 .trait-description {
     font-size: 0.85rem;
     color: #5d4037;
@@ -1612,134 +1507,6 @@
 }
 
 /* ===== CULTURAL & INTEGRATION SECTIONS ===== */
-
-.cultural-section,
-.integration-section {
-    padding: 0.5rem 1rem;
-    background: linear-gradient(145deg, #faf6ed 0%, #f5efe3 40%, #ede5d5 100%);
-    border: 2px solid #c8a96e;
-    border-radius: 10px;
-    box-shadow:
-        0 3px 10px rgba(139, 90, 60, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    position: relative;
-}
-
-.cultural-section::before,
-.integration-section::before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    right: 3px;
-    bottom: 3px;
-    border: 1px dashed rgba(180, 140, 80, 0.2);
-    border-radius: 7px;
-    pointer-events: none;
-}
-
-.cultural-title,
-.integration-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #5a3a1a;
-    margin: 0.35rem 0 0.5rem 0;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-bottom: 0.4rem;
-    position: relative;
-}
-
-.cultural-title::after,
-.integration-title::after {
-    content: '';
-    display: block;
-    width: 50%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, #c8a96e 50%, transparent 100%);
-    margin-left: auto;
-}
-
-.cultural-title i,
-.integration-title i {
-    color: #b8941f;
-    font-size: 0.75rem;
-}
-
-.cultural-text {
-    font-size: 0.85rem;
-    color: #5d4037;
-    line-height: 1.65;
-    margin: 0 0 0.5rem 0;
-    text-align: justify;
-}
-
-.cultural-subrace-section {
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px dashed rgba(180, 140, 80, 0.3);
-}
-
-.cultural-subrace-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #7a5a30;
-    margin: 0 0 0.35rem 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.cultural-subrace-title i {
-    color: #b8941f;
-    font-size: 0.65rem;
-}
-
-.cultural-subrace-text {
-    font-size: 0.82rem;
-    color: #5d4037;
-    line-height: 1.6;
-    margin: 0;
-    text-align: justify;
-}
-
-.integration-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.integration-card {
-    background: rgba(255, 255, 255, 0.6);
-    padding: 0.75rem;
-    border-radius: 6px;
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    margin-bottom: 0.75rem;
-}
-
-.integration-card h5 {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #2c2416;
-    margin: 0 0 0.5rem 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.integration-card p {
-    font-size: 0.85rem;
-    color: #5d4037;
-    line-height: 1.5;
-    margin: 0;
-}
 
 /* ===== EMPTY STATE ===== */
 
@@ -1808,15 +1575,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.trait-spell-card {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #d4af37;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -1924,7 +1682,7 @@
     border: 1.5px solid #c8aa6e !important;
     border-radius: 6px;
     padding: 0.625rem 1.25rem;
-    color: #f0e6d2 !important;
+    color: #f1ece1 !important;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Cinzel', serif;
@@ -2074,12 +1832,6 @@
 
 /* ===== Retro-Guidebook Race Illustrations ===== */
 
-.race-illustration-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 0 1.25rem 0 !important;
-}
-
 .guide-illustration-frame {
     background: #fcf8ee;
     border: 1px solid #c8b99d;
@@ -2098,34 +1850,6 @@
     border-color: #d4af37;
     box-shadow: 0 6px 16px rgba(212, 175, 55, 0.25);
     transform: translateY(-2px);
-}
-
-.illustration-cycle-badge {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    background: rgba(44, 36, 22, 0.85);
-    color: #fcf8ee;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.65rem;
-    font-family: 'Cinzel', serif;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.guide-illustration-frame.interactive-illustration:hover .illustration-cycle-badge {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Woodcut double border */
@@ -2275,7 +1999,6 @@
     border-radius: inherit;
     transition: opacity 0.35s ease;
     overflow: visible;
-    background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
@@ -3776,7 +3499,7 @@
     border-radius: 50%;
     background: rgba(20, 17, 15, 0.9);
     border: 1px solid #c8aa6e;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 1.3rem;
     cursor: pointer;
     z-index: 10;
@@ -3821,7 +3544,7 @@
     border-radius: 50%;
     background: rgba(20, 17, 15, 0.9);
     border: 1px solid #c8aa6e;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 1.4rem;
     cursor: pointer;
     z-index: 10;

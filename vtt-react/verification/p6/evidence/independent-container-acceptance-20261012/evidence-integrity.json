@@ -1,0 +1,18 @@
+{
+  "containerManifestFiles": 97,
+  "preservedFiles": 38,
+  "snapshots": [
+    {
+      "file": "D:/VTT/vtt-react/verification/p6/evidence/container/reviewed-source-complete.json.gz",
+      "sha256": "f087a576076a97e47e982253a64fac7eba86a41b8c11625ae74a7030b0d83b0e",
+      "files": 269
+    },
+    {
+      "file": "D:/VTT/vtt-react/verification/p6/evidence/remaining/reviewed-source-complete.json.gz",
+      "sha256": "0afa985b4679640c7ae945f14af17296f7004f29db9c1ad65b2d6e1653088be3",
+      "files": 269
+    }
+  ],
+  "retainedDependencyCount": 266,
+  "retainedDependencyDrift": []
+}

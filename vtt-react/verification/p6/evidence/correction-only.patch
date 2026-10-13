@@ -1,0 +1,583 @@
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterPersistenceService.js b/D:/VTT/vtt-react/src/services/firebase/characterPersistenceService.js
+index f6c41121..fa6a36c7 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterPersistenceService.js
++++ b/D:/VTT/vtt-react/src/services/firebase/characterPersistenceService.js
+@@ -19,6 +19,9 @@ import {
+ } from 'firebase/firestore';
+ import { db, auth, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+ import { sanitizeForFirestore } from '../../utils/firebaseUtils';
++import { encodeCharacterShapes, decodeCharacterShapes } from '../../utils/characterShapeCodec';
++import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
++import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
+ 
+ // Import backup service for automatic backups
+ let characterBackupService = null;
+@@ -58,7 +61,7 @@ const COLLECTIONS = {
+ /**
+  * Validate character data structure
+  */
+-function validateCharacterData(characterData) {
++export function validateCharacterData(characterData) {
+   const required = ['name', 'race', 'class', 'stats', 'resources'];
+   const missing = required.filter(field => !characterData[field]);
+ 
+@@ -94,7 +97,7 @@ export function transformForStorage(characterData, userId) {
+     'spells', 'lore', 'experience', 'createdAt', 'updatedAt', 'lastPlayedAt', 'version', 'storageExtensions']);
+   const preservedFields = Object.fromEntries(Object.entries(characterData).filter(([key]) => !mapped.has(key)));
+ 
+-  return {
++  return encodeCharacterShapes({
+     ...characterData.storageExtensions?.topLevel,
+     preservedFields,
+     metadata: {
+@@ -185,7 +188,7 @@ export function transformForStorage(characterData, userId) {
+         pendingChanges: {}
+       }
+     }
+-  };
++  });
+ }
+ 
+ /**
+@@ -193,6 +196,7 @@ export function transformForStorage(characterData, userId) {
+  */
+ export function transformFromStorage(firestoreData) {
+   if (!firestoreData) return null;
++  firestoreData = decodeCharacterShapes(firestoreData);
+ 
+   const unknown = (data, known) => Object.fromEntries(Object.entries(data || {}).filter(([key]) => !known.includes(key)));
+   return {
+@@ -323,7 +327,10 @@ class CharacterPersistenceService {
+   /**
+    * Load a character by ID
+    */
+-  async loadCharacter(characterId, userId) {
++  async loadCharacter(characterId, userId, { isCurrent = () => true } = {}) {
++    const origin = captureConsumerContext();
++    const sourceCurrent = () => origin.ok && isConsumerContextCurrent(origin.context) &&
++      !isPrivateProjectionIsolated() && auth?.currentUser?.uid === userId && isCurrent();
+     if (!this.isConfigured || !db) {
+       const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
+       console.error('❌ [Firebase] loadCharacter failed:', {
+@@ -341,9 +348,12 @@ class CharacterPersistenceService {
+     }
+ 
+     try {
++      if (!sourceCurrent()) throw new Error('Owner changed before character read');
+       const characterRef = doc(db, COLLECTIONS.CHARACTERS, characterId);
+       const characterDoc = await getDoc(characterRef);
+ 
++      if (!sourceCurrent()) throw new Error('Owner changed or newer character edit during read');
++
+       if (!characterDoc.exists()) {
+         throw new Error('Character not found');
+       }
+@@ -356,11 +366,13 @@ class CharacterPersistenceService {
+       }
+ 
+       // Update last played timestamp
++      if (!sourceCurrent()) throw new Error('Owner changed before last-played update');
+       await updateDoc(characterRef, {
+         'metadata.lastPlayedAt': serverTimestamp()
+       });
+ 
+       const character = transformFromStorage(characterData);
++      if (!sourceCurrent()) throw new Error('Owner changed during character read');
+       return character;
+ 
+     } catch (error) {
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterStateService.js b/D:/VTT/vtt-react/src/services/firebase/characterStateService.js
+index 6a5525fa..2d78c2e9 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterStateService.js
++++ b/D:/VTT/vtt-react/src/services/firebase/characterStateService.js
+@@ -22,6 +22,7 @@ import {
+ } from 'firebase/firestore';
+ import { db, isMockOrDevUser, auth } from '../../config/firebase';
+ import { sanitizeForFirestore } from '../../utils/firebaseUtils';
++import { encodeCharacterShapes, decodeCharacterShapes } from '../../utils/characterShapeCodec';
+ 
+ /**
+  * Character State Persistence Service
+@@ -103,8 +104,9 @@ class CharacterStateService {
+         version: stateData.version || 1
+       };
+ 
+-      const sanitized = sanitizeForFirestore(firestoreData);
+-      if (JSON.stringify(sanitized) !== JSON.stringify(firestoreData)) {
++      const encoded = encodeCharacterShapes(firestoreData);
++      const sanitized = sanitizeForFirestore(encoded);
++      if (JSON.stringify(sanitized) !== JSON.stringify(encoded)) {
+         throw new Error('Runtime storage would change preserved data. Draft retained; download for recovery.');
+       }
+       await setDoc(docRef, sanitized, { merge: true });
+@@ -142,7 +144,7 @@ class CharacterStateService {
+         return null;
+       }
+ 
+-      const data = docSnap.data();
++      const data = decodeCharacterShapes(docSnap.data());
+ 
+       // Transform back to client format
+       return {
+@@ -326,7 +328,10 @@ class CharacterStateService {
+         lastUpdated: serverTimestamp()
+       };
+ 
+-      await updateDoc(docRef, sanitizeForFirestore(updateData));
++      const encoded = encodeCharacterShapes(updateData);
++      const sanitized = sanitizeForFirestore(encoded);
++      if (JSON.stringify(sanitized) !== JSON.stringify(encoded)) throw new Error('Inventory storage would change preserved data');
++      await updateDoc(docRef, sanitized);
+ 
+       return {
+         success: true,
+@@ -358,7 +363,10 @@ class CharacterStateService {
+         lastUpdated: serverTimestamp()
+       };
+ 
+-      await updateDoc(docRef, sanitizeForFirestore(updateData));
++      const encoded = encodeCharacterShapes(updateData);
++      const sanitized = sanitizeForFirestore(encoded);
++      if (JSON.stringify(sanitized) !== JSON.stringify(encoded)) throw new Error('Equipment storage would change preserved data');
++      await updateDoc(docRef, sanitized);
+ 
+       return {
+         success: true,
+@@ -386,7 +394,7 @@ class CharacterStateService {
+ 
+       const states = {};
+       querySnapshot.forEach((doc) => {
+-        states[doc.id] = doc.data();
++        states[doc.id] = decodeCharacterShapes(doc.data());
+       });
+ 
+       return states;
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterSessionService.js b/D:/VTT/vtt-react/src/services/firebase/characterSessionService.js
+index 823591c7..b6f56ed4 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterSessionService.js
++++ b/D:/VTT/vtt-react/src/services/firebase/characterSessionService.js
+@@ -18,6 +18,8 @@ import {
+ import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+ import characterPersistenceService from './characterPersistenceService';
+ import { sanitizeForFirestore } from '../../utils/firebaseUtils';
++import { captureConsumerContext } from '../../persistence/scopedConsumer';
++import { characterContextCurrent } from '../../persistence/characterSaveOutcome';
+ 
+ // Import sync service for offline handling
+ let characterSyncService = null;
+@@ -47,7 +49,9 @@ class CharacterSessionService {
+   /**
+    * Start a new character session
+    */
+-  async startSession(characterId, userId, roomId = null) {
++  async startSession(characterId, userId, roomId = null, context = captureConsumerContext().context) {
++    const current = () => characterContextCurrent(context) && context.scope.scopeId === userId;
++    if (!current()) throw new Error('Owner changed before starting session');
+     if (!this.isConfigured || !db || isDemoMode) {
+       const reason = isDemoMode ? 'Demo mode enabled' : 'Firebase not configured';
+       console.warn(`${reason}, using local session tracking`);
+@@ -57,6 +61,7 @@ class CharacterSessionService {
+         id: sessionId,
+         characterId,
+         userId,
++        originContext: context,
+         roomId,
+         startedAt: new Date(),
+         changes: {
+@@ -76,8 +81,10 @@ class CharacterSessionService {
+ 
+     try {
+       // Check if character already has an active session
+-      const existingSession = await this.getActiveSession(characterId);
++      const existingSession = await this.getActiveSession(characterId, context);
++      if (!current()) throw new Error('Owner changed during session read');
+       if (existingSession) {
++        if (existingSession.userId !== userId) throw new Error('Session belongs to another owner');
+         console.log(`Character ${characterId} already has active session: ${existingSession.id}`);
+         return existingSession.id;
+       }
+@@ -105,10 +112,13 @@ class CharacterSessionService {
+ 
+       const sessionRef = await addDoc(collection(db, COLLECTIONS.CHARACTER_SESSIONS), sanitizedSessionData);
+ 
++      if (!current()) throw new Error('Owner changed during session start');
++
+       // Cache locally
+       this.activeSessions.set(characterId, {
+         id: sessionRef.id,
+         ...sessionData,
++        originContext: context,
+         isLocal: false
+       });
+ 
+@@ -124,8 +134,9 @@ class CharacterSessionService {
+   /**
+    * Record a change during the session
+    */
+-  async recordChange(characterId, changeType, changeData) {
++  async recordChange(characterId, changeType, changeData, context = captureConsumerContext().context) {
+     const session = this.activeSessions.get(characterId);
++    if (!characterContextCurrent(context) || session?.userId !== context.scope.scopeId) return false;
+     if (!session) {
+       console.warn(`No active session for character ${characterId}, change not recorded`);
+       return false;
+@@ -153,7 +164,13 @@ class CharacterSessionService {
+           // Queue change for offline sync
+           try {
+             const syncService = await getSyncService();
+-            syncService.queueChange(characterId, changeType, changeData);
++            if (!syncService.queueChange(characterId, changeType, changeData, context)) {
++              // The exact change remains in the origin-owned session cache. A
++              // retired continuation cannot move it into the next owner's queue.
++              session.pendingSync = true;
++              session.syncError = 'Owner generation retired; session change retained in memory';
++              return false;
++            }
+           } catch (syncError) {
+             console.error('Failed to queue change for offline sync:', syncError);
+           }
+@@ -162,12 +179,17 @@ class CharacterSessionService {
+         // If not using Firebase or session is local, queue for sync when online
+         try {
+           const syncService = await getSyncService();
+-          syncService.queueChange(characterId, changeType, changeData);
++          if (!syncService.queueChange(characterId, changeType, changeData, context)) {
++            session.pendingSync = true;
++            session.syncError = 'Owner generation retired; session change retained in memory';
++            return false;
++          }
+         } catch (syncError) {
+           console.error('Failed to queue change for offline sync:', syncError);
+         }
+       }
+ 
++      if (!characterContextCurrent(context)) return false;
+       console.log(`📝 Recorded ${changeType} change for character ${characterId}`);
+       return true;
+ 
+@@ -413,10 +435,11 @@ class CharacterSessionService {
+   /**
+    * Get active session for a character
+    */
+-  async getActiveSession(characterId) {
++  async getActiveSession(characterId, context = captureConsumerContext().context) {
++    if (!characterContextCurrent(context)) return null;
+     // Check local cache first
+     const localSession = this.activeSessions.get(characterId);
+-    if (localSession) {
++    if (localSession && localSession.userId === context.scope.scopeId) {
+       return localSession;
+     }
+ 
+@@ -428,14 +451,17 @@ class CharacterSessionService {
+       const sessionsQuery = query(
+         collection(db, COLLECTIONS.CHARACTER_SESSIONS),
+         where('characterId', '==', characterId),
++        where('userId', '==', context.scope.scopeId),
+         where('status', '==', 'active')
+       );
+ 
+       const querySnapshot = await getDocs(sessionsQuery);
++      if (!characterContextCurrent(context)) return null;
+ 
+       if (!querySnapshot.empty) {
+         const sessionDoc = querySnapshot.docs[0];
+         const sessionData = { id: sessionDoc.id, ...sessionDoc.data() };
++        if (sessionData.userId !== context.scope.scopeId) return null;
+ 
+         // Cache locally
+         this.activeSessions.set(characterId, sessionData);
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/persistence/characterSaveOutcome.js b/D:/VTT/vtt-react/src/persistence/characterSaveOutcome.js
+index 92f5c0ab..84ea50d4 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/persistence/characterSaveOutcome.js
++++ b/D:/VTT/vtt-react/src/persistence/characterSaveOutcome.js
+@@ -3,6 +3,7 @@ import { getStore } from '../store/storeRegistry';
+ import { createScopedNativeFamily } from './scopedNativeFamily';
+ import { captureConsumerContext, isConsumerContextCurrent } from './scopedConsumer';
+ import { isPrivateProjectionIsolated } from './bootstrapPrivacyGate';
++import { validateCharacterData } from '../services/firebase/characterPersistenceService';
+ 
+ const drafts = createScopedNativeFamily({ familyId: 'character.saveDraft' });
+ // Only the latest candidate per owner/character/lane, never an action log.
+@@ -182,16 +183,60 @@ export function exportCharacterDraft(id) {
+     canonical: canonical?.payload || null, runtime: runtime?.payload || null }, 2);
+ }
+ 
++const isRecord = value => !!value && typeof value === 'object' && !Array.isArray(value);
++
++function validateImportedPayload(payload, lane, id, context) {
++  if (!isRecord(payload)) throw new Error(`Invalid ${lane} payload structure`);
++  const identities = [payload.id, payload.characterId, payload.metadata?.id];
++  if ((lane === 'canonical' && payload.id !== id) || identities.some(value => value !== undefined && value !== id)) {
++    throw new Error(`${lane} embedded character identity does not match the selected character`);
++  }
++  for (const owner of [payload.userId, payload.metadata?.userId, payload.storageExtensions?.metadata?.userId]) {
++    if (owner !== undefined && owner !== context.scope.scopeId) throw new Error(`${lane} embedded owner does not match`);
++  }
++  if (payload.version !== undefined && (!Number.isInteger(payload.version) || payload.version < 1 || (lane === 'runtime' && payload.version !== 1))) {
++    throw new Error(`Unsupported ${lane} payload version`);
++  }
++  if (lane === 'canonical') validateCharacterData(payload);
++  const resources = lane === 'canonical' ? payload.resources : payload;
++  for (const key of ['health', 'mana', 'actionPoints']) {
++    const resource = resources[key];
++    if (resource !== undefined && (!isRecord(resource) || !Number.isFinite(resource.current) || !Number.isFinite(resource.max))) {
++      throw new Error(`Invalid ${lane} ${key} structure`);
++    }
++  }
++  for (const key of ['inventory', 'equipment', 'lore', 'classResource', 'quests', 'skillRanks', 'skillProgress']) {
++    if (payload[key] !== undefined && !(key === 'classResource' && payload[key] === null) && !isRecord(payload[key])) throw new Error(`Invalid ${lane} ${key} structure`);
++  }
++  for (const [record, keys] of [[payload.inventory, ['items', 'containers']], [payload.quests, ['quests', 'categories']], [payload, ['buffs', 'debuffs', 'bodyStates', 'spells']]]) {
++    for (const key of keys) if (record?.[key] !== undefined && !Array.isArray(record[key])) throw new Error(`Invalid ${lane} ${key} structure`);
++  }
++  if (payload.inventory?.items?.some(item => !isRecord(item))) throw new Error('Invalid inventory item structure');
++  if (payload.inventory?.currency !== undefined && !isRecord(payload.inventory.currency)) throw new Error('Invalid inventory currency structure');
++  if (payload.quests?.questCategories !== undefined && !isRecord(payload.quests.questCategories)) throw new Error('Invalid quest categories structure');
++}
++
+ export function importCharacterDraft(raw, id) {
+   const data = JSON.parse(raw);
+   const context = captureConsumerContext().context;
+-  if (!characterContextCurrent(context) || data.format !== 'mythrill-character-draft' || data.version !== 1 ||
++  if (!characterContextCurrent(context) || !isRecord(data) || data.format !== 'mythrill-character-draft' || data.version !== 1 ||
+     data.characterId !== id || data.owner?.scopeId !== context.scope.scopeId || data.owner?.scopeKind !== context.scope.scopeKind) {
+     throw new Error('Draft version, owner or selected character does not match');
+   }
++  if (!data.canonical && !data.runtime) throw new Error('Draft has no character payload');
++  // Validate every lane before retaining or applying any lane. A rejected file
++  // stays on disk/in the file input; the current recovery candidates are intact.
+   for (const lane of ['canonical', 'runtime']) {
+-    if (data[lane]) stageCharacterDraft(id, lane, data[lane], context);
++    if (data[lane] !== null && data[lane] !== undefined) validateImportedPayload(data[lane], lane, id, context);
++  }
++  for (const lane of ['canonical', 'runtime']) {
++    const current = getCharacterCandidate(id, lane, context);
++    if (current && current.status !== 'saved' && current.status !== 'idle' &&
++      (!data[lane] || fingerprint(data[lane]) !== current.fingerprint)) {
++      throw new Error('Current unsaved work differs from this file. Retry or download it first; neither candidate was replaced. The import file is unchanged.');
++    }
+   }
++  for (const lane of ['canonical', 'runtime']) if (data[lane]) stageCharacterDraft(id, lane, data[lane], context);
+   return data;
+ }
+ 
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterSyncService.js b/D:/VTT/vtt-react/src/services/firebase/characterSyncService.js
+index ca825bb4..17cb5a2a 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/services/firebase/characterSyncService.js
++++ b/D:/VTT/vtt-react/src/services/firebase/characterSyncService.js
+@@ -128,7 +128,10 @@ class CharacterSyncService {
+   /**
+    * Queue a change for offline sync
+    */
+-  queueChange(characterId, changeType, changeData) {
++  queueChange(characterId, changeType, changeData, context = captureConsumerContext().context) {
++    // Local retention uses P5's verified scope/generation contract. Cloud sync
++    // separately requires a matching live principal; queueing is not admission.
++    if (!isConsumerContextCurrent(context)) return false;
+     const change = {
+       id: `change_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+       characterId,
+@@ -142,12 +145,13 @@ class CharacterSyncService {
+     // in-memory queue from another account can never be persisted here.
+     this.syncQueue = this.loadOfflineChanges();
+     this.syncQueue.push(change);
+-    this.saveOfflineChanges();
++    this.saveOfflineChanges(context);
+ 
+     // Try to sync immediately if online
+     if (this.isOnline && !this.syncInProgress) {
+       this.syncOfflineChanges();
+     }
++    return true;
+   }
+ 
+   /**
+@@ -246,7 +250,7 @@ class CharacterSyncService {
+     }
+     const sourceCurrent = () => characterContextCurrent(context) && getCharacterCandidate(characterId, 'canonical', context) === local;
+     // Load current character data from Firebase
+-    const currentCharacter = await characterPersistenceService.loadCharacter(characterId, userId);
++    const currentCharacter = await characterPersistenceService.loadCharacter(characterId, userId, { isCurrent: sourceCurrent });
+     if (!sourceCurrent()) throw new Error('Owner changed or newer character edit during sync');
+     
+     if (!currentCharacter) {
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/store/characterSlices/coreSlice.js b/D:/VTT/vtt-react/src/store/characterSlices/coreSlice.js
+index 592b8cce..815bcbbd 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/store/characterSlices/coreSlice.js
++++ b/D:/VTT/vtt-react/src/store/characterSlices/coreSlice.js
+@@ -1509,6 +1509,7 @@ export const createCoreSlice = (set, get) => ({
+ 
+     // Character Session Management for Multiplayer
+     startCharacterSession: async (characterId, roomId = null) => {
++        const originContext = captureConsumerContext().context;
+         try {
+             const userId = getCurrentUserId();
+             if (!userId) {
+@@ -1517,7 +1518,7 @@ export const createCoreSlice = (set, get) => ({
+                 return localSessionId;
+             }
+ 
+-            const sessionId = await characterSessionService.startSession(characterId, userId, roomId);
++            const sessionId = await characterSessionService.startSession(characterId, userId, roomId, originContext);
+             return sessionId;
+         } catch (error) {
+             console.error('Error starting character session:', error);
+@@ -1548,8 +1549,9 @@ export const createCoreSlice = (set, get) => ({
+     },
+ 
+     recordCharacterChange: async (characterId, changeType, changeData) => {
++        const originContext = captureConsumerContext().context;
+         try {
+-            const success = await characterSessionService.recordChange(characterId, changeType, changeData);
++            const success = await characterSessionService.recordChange(characterId, changeType, changeData, originContext);
+             return success;
+         } catch (error) {
+             console.error('Error recording character change:', error);
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/components/providers/CharacterPersistenceProvider.jsx b/D:/VTT/vtt-react/src/components/providers/CharacterPersistenceProvider.jsx
+index 2a35c333..08318acf 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/components/providers/CharacterPersistenceProvider.jsx
++++ b/D:/VTT/vtt-react/src/components/providers/CharacterPersistenceProvider.jsx
+@@ -21,6 +21,7 @@ const CharacterPersistenceProvider = ({ children }) => {
+   const {
+     isAuthenticated,
+     forceSave,
++    importSelectedDraft,
+     conflictDetected,
+     conflictData,
+     resolveConflict
+@@ -76,7 +77,7 @@ const CharacterPersistenceProvider = ({ children }) => {
+   return (
+     <>
+       {children}
+-      <PrivateProjectionBoundary><CharacterSaveStatus retryRuntime={forceSave} /></PrivateProjectionBoundary>
++      <PrivateProjectionBoundary><CharacterSaveStatus retryRuntime={forceSave} importSelectedDraft={importSelectedDraft} /></PrivateProjectionBoundary>
+       <ConflictResolutionModal
+         isOpen={conflictDetected}
+         conflictType="character"
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/components/character-sheet/CharacterSaveStatus.jsx b/D:/VTT/vtt-react/src/components/character-sheet/CharacterSaveStatus.jsx
+index ff5f5677..8bba48a8 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/components/character-sheet/CharacterSaveStatus.jsx
++++ b/D:/VTT/vtt-react/src/components/character-sheet/CharacterSaveStatus.jsx
+@@ -3,10 +3,10 @@ import useCharacterStore from '../../store/characterStore';
+ import usePersistenceStatusStore from '../../store/persistenceStatusStore';
+ import { captureConsumerContext } from '../../persistence/scopedConsumer';
+ import { subscribeBootstrapGate, getBootstrapGateState } from '../../persistence/bootstrapPrivacyGate';
+-import { characterContextCurrent, characterStatusKey, getCharacterCandidate, exportCharacterDraft, importCharacterDraft } from '../../persistence/characterSaveOutcome';
++import { characterContextCurrent, characterStatusKey, getCharacterCandidate, exportCharacterDraft } from '../../persistence/characterSaveOutcome';
+ import './character-save-status.css';
+ 
+-export default function CharacterSaveStatus({ retryRuntime }) {
++export default function CharacterSaveStatus({ retryRuntime, importSelectedDraft }) {
+   const id = useCharacterStore(state => state.currentCharacterId);
+   const gate = useSyncExternalStore(subscribeBootstrapGate, getBootstrapGateState, getBootstrapGateState);
+   const statuses = usePersistenceStatusStore(state => state.statuses);
+@@ -65,10 +65,9 @@ export default function CharacterSaveStatus({ retryRuntime }) {
+         try {
+           const raw = await file.text();
+           if (!characterContextCurrent(context) || useCharacterStore.getState().currentCharacterId !== id) return;
+-          importCharacterDraft(raw, id);
+-          useCharacterStore.setState(state => ({ characters: state.characters.map(character => character.id === id
+-            ? { ...character, ...getCharacterCandidate(id, 'canonical', context)?.payload } : character) }));
+-          useCharacterStore.getState().loadCharacter(id);
++           if (!importSelectedDraft) throw new Error('Runtime import is unavailable. The file remains unchanged.');
++           importSelectedDraft(raw);
++           setError(null);
+         } catch (failure) { setError(`Import failed: ${failure.message}`); }
+       }} /></label>
+     </div>
+
+diff --git a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/hooks/useCharacterPersistence.js b/D:/VTT/vtt-react/src/hooks/useCharacterPersistence.js
+index 06e4a347..b8fa5fda 100644
+--- a/D:/AppData/Temp/opencode/p6-diff-YlRfS3/vtt-react/src/hooks/useCharacterPersistence.js
++++ b/D:/VTT/vtt-react/src/hooks/useCharacterPersistence.js
+@@ -4,7 +4,9 @@ import { useRealtimeSync } from './useRealtimeSync';
+ import { migrateArcanoneerClassResource } from '../utils/arcanoneerMigration';
+ import { captureConsumerContext } from '../persistence/scopedConsumer';
+ import { subscribeBootstrapGate, getBootstrapGateState } from '../persistence/bootstrapPrivacyGate';
+-import { characterContextCurrent, stageCharacterDraft, getCharacterCandidate, saveCharacterDraft, isLatestCharacterDraft } from '../persistence/characterSaveOutcome';
++import { characterContextCurrent, stageCharacterDraft, getCharacterCandidate, saveCharacterDraft, isLatestCharacterDraft, importCharacterDraft } from '../persistence/characterSaveOutcome';
++import { decodeCharacterShapes } from '../utils/characterShapeCodec';
++import { discardCharacterAutoSave } from '../store/characterHelpers';
+ 
+ export const useCharacterPersistence = () => {
+   const persistenceService = require('../services/firebase/persistenceService').default;
+@@ -66,23 +68,58 @@ export const useCharacterPersistence = () => {
+ 
+   const applyRuntime = useCallback((data) => {
+     if (!eligible() || !data) return false;
++    data = decodeCharacterShapes(data);
++    const wasApplying = applyingRemote.current;
+     applyingRemote.current = true;
+     try {
+       const resourceFields = ['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints',
+         'exhaustionLevel', 'equipment', 'skillRanks', 'skillProgress', 'skillPointsSpent', 'skillPointsAvailable'];
+       const patch = Object.fromEntries(resourceFields.filter(key => data[key] !== undefined).map(key => [key, data[key]]));
+-      if (data.classResource) patch.classResource = migrateArcanoneerClassResource(data.classResource);
++      if (data.classResource !== undefined) patch.classResource = data.classResource ? migrateArcanoneerClassResource(data.classResource) : null;
+       useCharacterStore.setState(patch);
+-      if (data.inventory) useInventoryStore.setState(data.inventory);
++      if (data.inventory) useInventoryStore.setState(Object.fromEntries(
++        ['items', 'currency', 'encumbranceState', 'containers'].filter(key => data.inventory[key] !== undefined).map(key => [key, data.inventory[key]])));
+       if (data.buffs || data.debuffs) useConditionStore.setState({
+         ...(data.buffs ? { activeBuffs: data.buffs } : {}), ...(data.debuffs ? { activeDebuffs: data.debuffs } : {})
+       });
+-      if (data.quests) useQuestStore.setState(data.quests);
++      if (data.quests) useQuestStore.setState(Object.fromEntries(
++        ['quests', 'categories', 'questCategories'].filter(key => data.quests[key] !== undefined).map(key => [key, data.quests[key]])));
+       lastSaved.current = JSON.stringify(collectCharacterState());
+       return true;
+-    } finally { applyingRemote.current = false; }
++    } finally { applyingRemote.current = wasApplying; }
+   }, [eligible, useCharacterStore, useInventoryStore, useConditionStore, useQuestStore, collectCharacterState]);
+ 
++  const importSelectedDraft = useCallback(raw => {
++    if (!eligible() || !currentCharacterId) throw new Error('Owner or selected character changed');
++    if (!useCharacterStore.getState().characters.some(character => character.id === currentCharacterId)) throw new Error('Selected character is not in the owned roster');
++    const data = importCharacterDraft(raw, currentCharacterId);
++    // Validation succeeded against clean/equivalent work. Retire its old
++    // canonical debounce before the first roster notification can refresh a
++    // pre-import live snapshot; subsequent edits create their own debounce.
++    discardCharacterAutoSave();
++    // Scope suppression to this synchronous application only. Later real edits
++    // still stage normally; old live projections cannot replace the import.
++    applyingRemote.current = true;
++    clearTimeout(timer.current);
++    timer.current = null;
++    try {
++      if (data.canonical) {
++        useCharacterStore.setState(state => ({ characters: state.characters.map(character => character.id === currentCharacterId
++          ? { ...character, ...data.canonical, id: currentCharacterId } : character) }));
++        useCharacterStore.getState().loadCharacter(currentCharacterId);
++        // Preserve exact resources/items after the legacy loader's derived
++        // initialization and inventory authoring. Import is not a gameplay edit.
++        applyRuntime({ ...data.canonical, ...data.canonical.resources });
++        discardCharacterAutoSave();
++        stageCharacterDraft(currentCharacterId, 'canonical', data.canonical, context);
++      }
++      if (data.runtime) applyRuntime(data.runtime);
++      else if (data.canonical) stageCharacterDraft(currentCharacterId, 'runtime', collectCharacterState(), context);
++      lastSaved.current = JSON.stringify(collectCharacterState());
++      return data;
++    } finally { applyingRemote.current = false; }
++  }, [eligible, currentCharacterId, useCharacterStore, context, applyRuntime, collectCharacterState]);
++
+   const loadCharacterState = useCallback(async () => {
+     if (!eligible() || !currentCharacterId) return { success: false, reason: 'owner-or-character-changed' };
+     const before = collectCharacterState();
+@@ -156,7 +193,7 @@ export const useCharacterPersistence = () => {
+ 
+   return {
+     isGuestUser: !!user?.isGuest, isAuthenticated: eligible(),
+-    collectCharacterState, saveCharacterState, loadCharacterState, forceSave,
++    collectCharacterState, saveCharacterState, loadCharacterState, forceSave, importSelectedDraft,
+     updateResources: async (resources) => { if (!eligible()) return; useCharacterStore.setState(resources); return saveCharacterState(); },
+     conflictDetected: realtime.conflictDetected, conflictData: realtime.conflictData, resolveConflict: realtime.resolveConflict
+   };

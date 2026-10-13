@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { createScopedStorageConfig } from '../persistence/scopedStoreStorage';
+import { refreshCharacterAutoSaveSnapshot } from './characterHelpers';
 import { getInventoryGridDimensions } from '../utils/characterUtils';
 import {
     getShapeBounds,
@@ -134,9 +135,7 @@ const recordCharacterChange = (changeType, changeData, currentInventoryState) =>
             state.recordCharacterChange(state.currentCharacterId, changeType, changeData);
 
             // Save the character with updated inventory
-            setTimeout(() => {
-                state.saveCurrentCharacter();
-            }, 100); // Small delay to ensure state is updated
+            state.debouncedSave();
         }
 
         // Also sync to multiplayer if in multiplayer mode
@@ -1310,5 +1309,10 @@ const useInventoryStore = create(persist((set, get) => ({
         };
     })
 }), createScopedStorageConfig('core.inventory', 'inventory')));
+
+useInventoryStore.subscribe(() => {
+    const state = getStore('characterStore')?.getState();
+    if (state) refreshCharacterAutoSaveSnapshot(state);
+});
 
 export default useInventoryStore;

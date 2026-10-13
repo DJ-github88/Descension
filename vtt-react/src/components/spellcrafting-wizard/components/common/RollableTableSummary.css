@@ -73,7 +73,7 @@
 
 /* ===== TACTILE ROLL BUTTON ===== */
 .rollable-table-roll-btn {
-  background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+  background: linear-gradient(135deg, #9a7b3c 0%, #9a7b3c 100%);
   border: 1px solid #8B4513;
   color: #2d1810;
   font-weight: 700;
@@ -92,7 +92,7 @@
 
 .rollable-table-roll-btn:hover:not(:disabled) {
   transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 8px rgba(154, 123, 60, 0.35);
   background: linear-gradient(135deg, #ffe57f 0%, #ffc107 100%);
 }
 
@@ -358,17 +358,6 @@
   font-weight: 600;
 }
 
-.rollable-table-entry-preview .force-property {
-  color: #a45a00;
-  font-weight: 700;
-}
-
-.rollable-table-entry-preview .special-property {
-  color: #63408a; /* Deep Purple special effects */
-  font-style: italic;
-  font-weight: 600;
-}
-
 .rollable-table-entry-preview .status-highlight {
   color: #bd590d; /* Warm Amber status */
   font-weight: 600;
@@ -439,27 +428,27 @@
 
 /* ===== INTERACTIVE ROLLED GLOW ===== */
 .rollable-table-entry-preview.is-rolling-highlight {
-  background: rgba(212, 175, 55, 0.12) !important;
+  background: rgba(154, 123, 60, 0.12) !important;
   transform: translateX(4px);
 }
 
 .rollable-table-entry-preview.is-rolled-highlight {
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.06) 100%) !important;
-  border-left: 2px solid #d4af37 !important;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3), inset 0 0 4px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(90deg, rgba(154, 123, 60, 0.25) 0%, rgba(154, 123, 60, 0.06) 100%) !important;
+  border-left: 2px solid #9a7b3c !important;
+  box-shadow: 0 0 10px rgba(154, 123, 60, 0.3), inset 0 0 4px rgba(154, 123, 60, 0.2);
   transform: translateX(4px);
   animation: rollable-entry-pulse 2s ease-in-out infinite;
 }
 
 .rollable-table-entry-preview.is-rolled-highlight .entry-range {
-  background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%) !important;
+  background: linear-gradient(135deg, #9a7b3c 0%, #9a7b3c 100%) !important;
   color: #2d1810 !important;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 8px rgba(154, 123, 60, 0.6);
   font-weight: 800;
 }
 
 .rolled-badge {
-  background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+  background: linear-gradient(135deg, #9a7b3c 0%, #9a7b3c 100%);
   color: #2d1810;
   font-size: 8px;
   font-weight: 800;
@@ -475,9 +464,9 @@
 }
 
 @keyframes rollable-entry-pulse {
-  0% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
-  50% { box-shadow: 0 0 16px rgba(212, 175, 55, 0.45), inset 0 0 6px rgba(212, 175, 55, 0.25); }
-  100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
+  0% { box-shadow: 0 0 8px rgba(154, 123, 60, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(154, 123, 60, 0.45), inset 0 0 6px rgba(154, 123, 60, 0.25); }
+  100% { box-shadow: 0 0 8px rgba(154, 123, 60, 0.2); }
 }
 
 /* ===== RESPONSIVE ADJUSTMENTS ===== */

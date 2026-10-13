@@ -231,16 +231,6 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 4px;
 }
-.minstrel-cadence-empty {
-    grid-column: 1 / -1;
-    padding: 8px 10px;
-    color: rgba(245, 233, 212, 0.5);
-    font-style: italic;
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
 
 .minstrel-cad-chip-wrapper {
     display: flex;
@@ -339,210 +329,14 @@
     gap: 4px;
     width: 100%;
 }
-.minstrel-compact-cells {
-    display: flex;
-    flex: 1;
-    gap: 2px;
-    min-width: 0;
-}
-.minstrel-compact-cell {
-    flex: 1;
-    position: relative;
-    height: 18px;
-    background: rgba(20, 12, 8, 0.7);
-    border: 1px solid rgba(180, 130, 70, 0.22);
-    border-radius: 3px;
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.15s, box-shadow 0.15s;
-}
-.minstrel-compact-cell.filled {
-    border-color: color-mix(in srgb, var(--note-color) 55%, transparent);
-    box-shadow: 0 0 4px color-mix(in srgb, var(--note-glow) 40%, transparent);
-}
-.minstrel-compact-fill {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--note-color) 60%, transparent));
-    pointer-events: none;
-}
-.minstrel-compact-glyph {
-    position: relative;
-    font-size: 9px;
-    font-weight: 800;
-    color: rgba(255, 230, 180, 0.9);
-    font-family: 'Times New Roman', serif;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-}
-.minstrel-compact-cell.empty .minstrel-compact-glyph {
-    color: rgba(245, 233, 212, 0.3);
-}
-
-.minstrel-compact-expand {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 0 5px;
-    background: rgba(36, 22, 16, 0.7);
-    border: 1px solid rgba(180, 130, 70, 0.28);
-    color: #e8c89a;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 10px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-}
-.minstrel-compact-expand.has-ready {
-    border-color: rgba(220, 150, 80, 0.6);
-    box-shadow: 0 0 6px rgba(220, 150, 80, 0.25);
-}
-.minstrel-compact-banked {
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-}
-.minstrel-compact-ready {
-    padding: 0 4px;
-    background: rgba(220, 100, 100, 0.25);
-    border-radius: 6px;
-    color: #ffb0b0;
-    font-weight: 700;
-    font-size: 9px;
-}
 
 /* ----------------------------------------------------------------------------
    Compact popover panel
    ------------------------------------------------------------------------- */
-.minstrel-panel-menu .context-menu-main {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-.minstrel-panel-section {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-.minstrel-panel-section-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: rgba(58, 42, 26, 0.55);
-    font-weight: 700;
-    margin-top: 2px;
-}
-.minstrel-panel-notes {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-.minstrel-panel-note-row {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 1px 3px;
-    border-radius: 3px;
-    background: rgba(0, 0, 0, 0.03);
-    height: 16px;
-}
-.minstrel-panel-note-numeral {
-    font-family: 'Times New Roman', serif;
-    font-weight: 800;
-    color: var(--note-color);
-    font-size: 12px;
-    width: 16px;
-    text-align: center;
-    text-shadow: 0 0 4px color-mix(in srgb, var(--note-glow) 55%, transparent);
-}
-.minstrel-panel-note-name {
-    flex: 1;
-    font-size: 10px;
-    color: rgba(58, 42, 26, 0.85);
-}
-.minstrel-panel-note-pips {
-    display: flex;
-    gap: 2px;
-}
-.minstrel-panel-pip {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.12);
-}
-.minstrel-panel-pip.on {
-    background: var(--note-color);
-    box-shadow: 0 0 3px var(--note-glow);
-}
-.minstrel-panel-note-controls {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-}
-.minstrel-panel-mini-btn {
-    width: 16px;
-    height: 16px;
-    border-radius: 3px;
-    border: 1px solid rgba(58, 42, 26, 0.25);
-    background: rgba(58, 42, 26, 0.06);
-    color: rgba(58, 42, 26, 0.8);
-    cursor: pointer;
-    font-size: 10px;
-    line-height: 1;
-    transition: background 0.12s;
-    padding: 0;
-}
-.minstrel-panel-mini-btn:hover:not(:disabled) {
-    background: rgba(58, 42, 26, 0.14);
-}
-.minstrel-panel-mini-btn:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-}
-.minstrel-panel-note-count {
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(58, 42, 26, 0.8);
-    min-width: 12px;
-    text-align: center;
-    font-variant-numeric: tabular-nums;
-}
-.minstrel-panel-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 4px;
-    margin-top: 4px;
-}
 
 /* Compact-panel cadence chips: single-line name + cost (hover spellcard
    shows the full progression and effect, so we drop the sequence line to
    keep every chip to one row and fit all 10 without scrolling). */
-.minstrel-panel-menu .minstrel-cad-chip {
-    padding: 2px 6px;
-    font-size: 10px;
-    gap: 0;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
-}
-.minstrel-panel-menu .minstrel-cad-chip-name {
-    font-size: 10px;
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.minstrel-panel-menu .minstrel-cad-chip-seq {
-    display: none;
-}
-.minstrel-panel-menu .minstrel-cad-chip-cost {
-    font-size: 8px;
-    flex-shrink: 0;
-    margin-left: 4px;
-}
 
 /* ----------------------------------------------------------------------------
    Party-frame overrides — Full-parchment folio apparatus
@@ -628,10 +422,6 @@
     transition: fill 0.2s ease, stroke 0.2s ease;
 }
 
-.minstrel-harmonic-ligatures path {
-    animation: ligaturePulse 3s ease-in-out infinite;
-}
-
 @keyframes ligaturePulse {
     0%, 100% {
         opacity: 0.8;
@@ -670,7 +460,7 @@
     padding: 8px 12px;
     border-bottom: 2px solid #8b7355;
     background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 .minstrel-modal-title-row {
@@ -683,7 +473,7 @@
 .minstrel-modal-title {
     font-size: 13px;
     font-weight: 700;
-    color: #f0e6d2;
+    color: #f1ece1;
     letter-spacing: 0.5px;
     display: flex;
     align-items: center;
@@ -697,7 +487,7 @@
     border-radius: 10px;
     background: rgba(240, 230, 210, 0.2);
     border: 1px solid rgba(240, 230, 210, 0.4);
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 .minstrel-modal-ready-pill.ready {
@@ -710,7 +500,7 @@
 .minstrel-modal-close-btn {
     background: none;
     border: none;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 14px;
     cursor: pointer;
     padding: 2px 6px;
@@ -1039,3 +829,97 @@
     cursor: default;
 }
 
+
+/* Calm TTRPG pass: the cadence ligature is drawn steady, no pulsing */
+.minstrel-harmonic-ligatures path { animation: none !important; }
+
+/* ==========================================================================
+   Calm TTRPG pass for the full (sheet / rules) note grid.
+   Parchment panel, paper note cells, each scale degree keeps its own toned ink
+   (--note-color is already inked toward parchment in the component).
+   ========================================================================== */
+.class-resource-bar.musical-notes-combo .minstrel-container {
+    background: var(--adventure-page, #f8f5ee) !important;
+    background-image: none !important;
+    border: 1px solid var(--adventure-rule, #c4baa6) !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    color: var(--adventure-ink, #34251a) !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-title-label {
+    color: var(--adventure-ink, #34251a) !important;
+    font-family: 'Cinzel', Georgia, serif !important;
+    text-shadow: none !important;
+}
+.class-resource-bar.musical-notes-combo :is(.minstrel-total-count, .minstrel-ready-badge) {
+    background: var(--adventure-paper, #f1ece1) !important;
+    border: 1px solid var(--adventure-rule, #c4baa6) !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    color: var(--adventure-ink, #34251a) !important;
+    text-shadow: none !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-ready-badge.has-ready {
+    background: color-mix(in srgb, #3f6b3a 18%, #f8f5ee) !important;
+    border-color: #3f6b3a !important;
+    color: #3f6b3a !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-segment {
+    background: var(--adventure-paper, #f1ece1) !important;
+    background-image: none !important;
+    border: 1px solid var(--adventure-rule, #c4baa6) !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-segment.filled {
+    background: color-mix(in srgb, var(--note-color) 12%, #f8f5ee) !important;
+    border-color: var(--note-color) !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-segment:hover,
+.class-resource-bar.musical-notes-combo .minstrel-note-segment.hovered {
+    border-color: var(--adventure-seal, #663c32) !important;
+    transform: none !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-fill-overlay {
+    background: color-mix(in srgb, var(--note-color) 14%, transparent) !important;
+    box-shadow: none !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-pip {
+    background: var(--adventure-page, #f8f5ee) !important;
+    border: 1px solid var(--adventure-rule, #c4baa6) !important;
+    box-shadow: none !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-pip.on {
+    background: var(--note-color) !important;
+    border-color: var(--note-color) !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-numeral {
+    color: var(--note-color) !important;
+    font-family: 'Cinzel', Georgia, serif !important;
+    text-shadow: none !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-name {
+    color: var(--adventure-muted, #68533e) !important;
+    font-family: 'Cinzel', Georgia, serif !important;
+    letter-spacing: 0 !important;
+    font-size: 0.58rem !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    white-space: nowrap !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-count-badge {
+    background: var(--adventure-page, #f8f5ee) !important;
+    border: 1px solid var(--adventure-rule, #c4baa6) !important;
+    box-shadow: none !important;
+    color: var(--adventure-ink, #34251a) !important;
+}
+.class-resource-bar.musical-notes-combo .minstrel-note-segment.filled .minstrel-note-count-badge {
+    border-color: var(--note-color) !important;
+    color: var(--note-color) !important;
+}
+.class-resource-bar.musical-notes-combo button:hover:not(:disabled) {
+    background: var(--adventure-panel, #e8e2d4) !important;
+    border-color: var(--adventure-seal, #663c32) !important;
+}
+.class-resource-bar.musical-notes-combo button:disabled { opacity: 0.5 !important; }
+.class-resource-bar.musical-notes-combo .minstrel-footer { border-top: 1px solid var(--adventure-rule, #c4baa6) !important; background: transparent !important; }

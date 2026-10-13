@@ -25,6 +25,12 @@ class RateLimitService {
 
       // Combat actions - moderate frequency
       combat_action: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_consequence: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_propose: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_adjudicate: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_bind: { maxPerMinute: 30, maxPerSecond: 3 },
+      actor_snapshot: { maxPerMinute: 60, maxPerSecond: 5 },
+      actor_recovery: { maxPerMinute: 10, maxPerSecond: 2 },
       dice_rolled: { maxPerMinute: 60, maxPerSecond: 5 },
 
       // Item operations - moderate frequency

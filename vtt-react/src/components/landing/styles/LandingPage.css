@@ -398,10 +398,7 @@ body svg[data-icon] {
 
 /* Header */
 .landing-header {
-  background: rgba(10, 6, 4, 0.93);
-  border-bottom: 1px solid;
   border-image: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.3) 15%, rgba(212, 175, 55, 0.5) 50%, rgba(212, 175, 55, 0.3) 85%, transparent) 1;
-  box-shadow: 0 10px 45px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(212, 175, 55, 0.15);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   position: sticky;
@@ -914,44 +911,6 @@ body svg[data-icon] {
   background: linear-gradient(90deg, transparent, var(--hero-ochre), transparent);
 }
 
-.game-highlights {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-}
-
-.highlight-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(139, 69, 19, 0.5);
-  border-radius: 8px;
-  min-width: 120px;
-  transition: all 0.3s ease;
-}
-
-.highlight-item:hover {
-  border-color: #d4af37;
-  background: rgba(212, 175, 55, 0.1);
-  transform: translateY(-2px);
-}
-
-.highlight-item i {
-  font-size: 1.5rem;
-  color: #d4af37;
-}
-
-.highlight-item span {
-  font-size: 0.9rem;
-  text-align: center;
-  font-weight: 500;
-}
-
 .hero-content .action-buttons {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1060,41 +1019,6 @@ body svg[data-icon] {
 
 
 /* Quick Start Section */
-.quick-start-section {
-  margin-bottom: 80px;
-}
-
-.quick-start-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  color: #d4af37;
-  margin-bottom: 50px;
-}
-
-.quick-start-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.start-step {
-  text-align: center;
-  padding: 30px 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid #8b4513;
-  border-radius: 15px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.start-step:hover {
-  border-color: #d4af37;
-  background: rgba(212, 175, 55, 0.1);
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-}
 
 .step-number {
   width: 50px;
@@ -1111,72 +1035,11 @@ body svg[data-icon] {
   border: 3px solid #8b4513;
 }
 
-.start-step h3 {
-  font-size: 1.4rem;
-  color: #d4af37;
-  margin-bottom: 15px;
-}
-
-.start-step p {
-  color: var(--my-parchment-text);
-  opacity: 0.9;
-  line-height: 1.6;
-  font-size: 1rem;
-}
-
 /* Features Grid */
-.features-preview h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  color: #d4af37;
-  margin-bottom: 40px;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.feature-card {
-  background: rgba(0, 0, 0, 0.7);
-  border: 2px solid #8b4513;
-  border-radius: 12px;
-  padding: 30px;
-  text-align: center;
-  transition: all 0.3s ease;
-  color: var(--my-parchment-text);
-}
-
-.feature-card:hover {
-  border-color: #d4af37;
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-}
-
-.feature-card i {
-  font-size: 3rem;
-  color: #d4af37;
-  margin-bottom: 20px;
-}
-
-.feature-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 16px;
-  color: var(--my-parchment-text);
-}
-
-.feature-card p {
-  opacity: 0.8;
-  line-height: 1.5;
-}
 
 /* Info Sections */
 .info-content h2,
-.membership-content h2,
-.account-content h2 {
+.membership-content h2 {
   font-size: 2.5rem;
   color: #d4af37;
   text-align: center;
@@ -1188,14 +1051,7 @@ body svg[data-icon] {
   gap: 30px;
 }
 
-.account-grid {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-}
-
-.info-card,
-.account-card {
+.info-card {
   background: rgba(0, 0, 0, 0.7);
   border: 2px solid #8b4513;
   border-radius: 12px;
@@ -1203,74 +1059,13 @@ body svg[data-icon] {
   color: var(--my-parchment-text);
 }
 
-.info-card h3,
-.account-card h3 {
+.info-card h3 {
   color: #d4af37;
   font-size: 1.4rem;
   margin-bottom: 16px;
 }
 
 /* Enhanced Account Card Styles - Removed conflicting .account-main rule */
-
-.account-hero {
-  margin-bottom: 30px;
-}
-
-.account-icon {
-  font-size: 3rem;
-  color: #d4af37;
-  margin-bottom: 20px;
-}
-
-.account-hero h3 {
-  font-size: 2rem;
-  color: #d4af37;
-  margin-bottom: 15px;
-  font-family: 'Cinzel', serif;
-}
-
-.account-hero p {
-  font-size: 1.1rem;
-  color: #c9aa71;
-  line-height: 1.6;
-  margin-bottom: 0;
-}
-
-.account-benefits {
-  margin: 30px 0;
-  padding: 20px 0;
-  border-top: 1px solid rgba(212, 175, 55, 0.3);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.benefit-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.benefit-row:last-child {
-  margin-bottom: 0;
-}
-
-.benefit-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--my-parchment-text);
-  font-size: 0.95rem;
-  flex: 1;
-  justify-content: center;
-}
-
-.benefit-item i {
-  color: #d4af37;
-  font-size: 1.1rem;
-}
-
-.account-actions {
-  margin-top: 30px;
-}
 
 .primary-account-btn {
   background: linear-gradient(135deg, #d4af37, #b8941f);
@@ -1298,20 +1093,6 @@ body svg[data-icon] {
 
 .primary-account-btn:active {
   transform: translateY(0);
-}
-
-.account-note {
-  color: #c9aa71;
-  font-size: 0.9rem;
-  margin: 0 0 12px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.account-note i {
-  color: #d4af37;
 }
 
 .info-card ul {
@@ -1562,33 +1343,11 @@ body svg[data-icon] {
   cursor: not-allowed;
 }
 
-.form-btn {
-  padding: 12px;
-  background: linear-gradient(135deg, #d4af37, #b8941f);
-  border: none;
-  border-radius: 8px;
-  color: #2c1810;
-  font-family: 'Cinzel', serif;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.form-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .character-preview {
   text-align: center;
 }
 
 /* Rules Section */
-.rules-content h2 {
-  font-size: 2.5rem;
-  color: #d4af37;
-  text-align: center;
-  margin-bottom: 40px;
-}
 
 /* ===== RULES SECTION ===== */
 
@@ -1611,71 +1370,8 @@ body svg[data-icon] {
 }
 
 /* Legacy rules grid (kept for reference, not used with new RulesPage) */
-.rules-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.rules-card {
-  background: linear-gradient(145deg, rgba(0, 0, 0, 0.8) 0%, rgba(44, 24, 16, 0.6) 100%);
-  border: 2px solid #8b4513;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.rules-card:hover {
-  border-color: #d4af37;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-}
-
-.rules-card-header {
-  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
-  padding: 20px 30px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border-bottom: 2px solid #d4af37;
-}
-
-.rules-card-header i {
-  font-size: 1.8rem;
-  color: #d4af37;
-}
-
-.rules-card-header h3 {
-  font-size: 1.6rem;
-  color: var(--my-parchment-text);
-  margin: 0;
-}
-
-.rules-card-body {
-  padding: 30px;
-  color: var(--my-parchment-text);
-}
 
 /* Getting Started Guide */
-.getting-started-card {
-  grid-column: 1 / -1;
-}
-
-.guide-step {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.3);
-}
-
-.guide-step:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
 
 .guide-step-number {
   flex-shrink: 0;
@@ -1706,62 +1402,6 @@ body svg[data-icon] {
 }
 
 /* Rule Sections */
-.rule-section {
-  margin-bottom: 25px;
-}
-
-.rule-section:last-child {
-  margin-bottom: 0;
-}
-
-.rule-section h4 {
-  color: #d4af37;
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.rule-section h4 i {
-  font-size: 1rem;
-  color: #d4af37;
-}
-
-.rule-section p {
-  color: var(--my-parchment-text);
-  opacity: 0.9;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.rule-section ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 10px 0;
-}
-
-.rule-section ul li {
-  color: var(--my-parchment-text);
-  opacity: 0.9;
-  line-height: 1.8;
-  padding-left: 25px;
-  position: relative;
-  margin-bottom: 8px;
-}
-
-.rule-section ul li::before {
-  content: "▸";
-  position: absolute;
-  left: 5px;
-  color: #d4af37;
-  font-weight: bold;
-}
-
-.rule-section ul li strong {
-  color: #d4af37;
-  font-weight: 600;
-}
 
 /* Footer styles removed to prevent vertical scrollbar issues */
 
@@ -2076,28 +1716,10 @@ body svg[data-icon] {
     gap: 12px;
   }
 
-  .game-highlights {
-    gap: 1rem;
-  }
-
-  .highlight-item {
-    min-width: 100px;
-    padding: 0.75rem;
-  }
-
   .primary-action-btn,
   .secondary-action-btn,
   .immersive-action-btn {
     min-width: 0;
-  }
-
-  .quick-start-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .start-step {
-    padding: 20px 15px;
   }
 
   .step-number {
@@ -2106,38 +1728,9 @@ body svg[data-icon] {
     font-size: 1.2rem;
   }
   
-  .header-content {
-    flex-direction: column;
-    height: auto;
-    padding: 20px;
-    gap: 20px;
-  }
-  
   .main-nav {
     flex-wrap: wrap;
     justify-content: center;
-  }
-
-  .rules-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .rules-card-header {
-    padding: 15px 20px;
-  }
-
-  .rules-card-header h3 {
-    font-size: 1.3rem;
-  }
-
-  .rules-card-body {
-    padding: 20px;
-  }
-
-  .guide-step {
-    flex-direction: column;
-    gap: 10px;
   }
 
   .guide-step-number {
@@ -2165,7 +1758,6 @@ body svg[data-icon] {
     padding: 32px 20px 40px;
   }
 
-  .feature-card,
   .pricing-card {
     padding: 16px 12px;
   }
@@ -2180,26 +1772,6 @@ body svg[data-icon] {
 
   .section-subtitle {
     font-size: 0.85rem;
-  }
-
-  .rules-card-header {
-    padding: 12px 14px;
-  }
-
-  .rules-card-header h3 {
-    font-size: 1.1rem;
-  }
-
-  .rules-card-body {
-    padding: 14px;
-  }
-
-  .quick-start-grid {
-    gap: 12px;
-  }
-
-  .start-step {
-    padding: 14px 10px;
   }
 
   .mobile-menu-item {
@@ -2222,14 +1794,6 @@ body svg[data-icon] {
 
   .hero-section {
     padding: 24px 16px 32px;
-  }
-
-  .feature-card {
-    padding: 12px 8px;
-  }
-
-  .feature-card h3 {
-    font-size: 1rem;
   }
 
   .pricing-card {
@@ -2266,45 +1830,10 @@ body svg[data-icon] {
     padding: 24px 12px 32px;
   }
 
-  .highlight-item {
-    min-width: 80px;
-    padding: 0.5rem;
-    font-size: 0.75rem;
-  }
-
-  .highlight-item strong {
-    font-size: 1.2rem;
-  }
-
   .step-number {
     width: 40px;
     height: 40px;
     font-size: 1rem;
-  }
-
-  .start-step h3 {
-    font-size: 1rem;
-  }
-
-  .start-step p {
-    font-size: 0.8rem;
-  }
-
-  .rules-card-header {
-    padding: 10px 10px;
-  }
-
-  .rules-card-header h3 {
-    font-size: 1rem;
-  }
-
-  .rules-card-body {
-    padding: 10px;
-    font-size: 0.85rem;
-  }
-
-  .rules-card-body ul li {
-    font-size: 0.85rem;
   }
 
   .section-title {

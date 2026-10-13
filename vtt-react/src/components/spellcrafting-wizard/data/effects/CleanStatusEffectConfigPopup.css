@@ -2,18 +2,10 @@
 
 /* Popup Window */
 .status-effect-config-popup {
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
-  border: 3px solid var(--my-brown-medium, #8B4513);
-  border-radius: 12px;
   max-width: 500px;
   max-height: 80vh;
   width: 90vw;
   overflow: hidden;
-  font-family: var(--my-font-body, 'Crimson Text', serif);
-  color: var(--my-text-primary, #2d1810);
-  box-shadow:
-    0 20px 60px rgba(45, 24, 16, 0.4),
-    0 0 0 1px rgba(139, 69, 19, 0.2);
   animation: popupSlideIn 0.3s ease-out;
 }
 
@@ -29,25 +21,6 @@
 }
 
 /* Pathfinder Header */
-.pathfinder-header {
-  background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--my-brown-dark, #654321);
-  position: relative;
-}
-
-.pathfinder-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, #D4AF37 50%, transparent 100%);
-}
 
 .header-content {
   display: flex;
@@ -59,7 +32,7 @@
   width: 32px;
   height: 32px;
   border-radius: 6px;
-  border: 2px solid #D4AF37;
+  border: 2px solid #9a7b3c;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   object-fit: contain;
   background: rgba(0, 0, 0, 0.2);
@@ -68,19 +41,6 @@
 .effect-icon[src=""],
 .effect-icon:not([src]) {
   display: none;
-}
-
-.pathfinder-header h3 {
-  font-family: var(--my-font-display, 'Cinzel', serif);
-  font-size: 18px;
-  font-weight: 700;
-  color: #F5F5DC;
-  margin: 0;
-  text-shadow:
-    0 1px 0 rgba(0, 0, 0, 0.8),
-    0 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
 
 .close-button {
@@ -111,7 +71,7 @@
   padding: 20px;
   max-height: calc(80vh - 152px);
   overflow-y: auto;
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
 }
 
 /* Custom scrollbar for popup content */
@@ -169,7 +129,7 @@
 .effect-config-option select {
   width: 100%;
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -204,7 +164,7 @@
 }
 
 .effect-option-button {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
@@ -224,22 +184,22 @@
 }
 
 .effect-option-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-1px);
   box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
 
 .effect-option-button.active {
   background: linear-gradient(145deg, #5a1e12 0%, #3a140e 100%) !important;
-  border-color: #d4af37 !important;
-  color: #f0e6d2 !important;
+  border-color: #9a7b3c !important;
+  color: #f1ece1 !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   font-weight: var(--my-font-semibold, 600) !important;
   text-shadow: none !important;
 }
 
 .effect-option-button.active > span {
-  color: #f0e6d2 !important;
+  color: #f1ece1 !important;
 }
 
 .effect-option-button.active > small {
@@ -273,7 +233,7 @@
   display: flex;
   align-items: center;
   gap: var(--my-space-2, 8px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
@@ -287,14 +247,14 @@
 }
 
 .toggle-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-1px);
 }
 
 .toggle-button.active {
   background: var(--my-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%)) !important;
   border-color: var(--my-brown-dark, #654321) !important;
-  color: var(--my-text-light, #f8f4e6) !important;
+  color: var(--my-text-light, #f8f5ee) !important;
   box-shadow:
     var(--my-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
     0 0 0 1px rgba(139, 69, 19, 0.3) !important;
@@ -308,7 +268,7 @@
   height: 16px;
   border: 1px solid var(--my-brown-medium, #8B4513);
   border-radius: 3px;
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,66 +278,12 @@
 }
 
 .toggle-button.active .toggle-icon {
-  background: var(--my-text-light, #f8f4e6);
+  background: var(--my-text-light, #f8f5ee);
   color: var(--my-brown-dark, #654321);
-  border-color: var(--my-text-light, #f8f4e6);
+  border-color: var(--my-text-light, #f8f5ee);
 }
 
 /* Save Type Tabs */
-.save-type-tabs {
-  display: flex;
-  gap: 0;
-  border-radius: var(--my-border-radius, 8px);
-  overflow: hidden;
-  border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
-  margin-bottom: var(--my-space-3, 12px);
-}
-
-.save-type-tab {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: none;
-  border-right: 1px solid var(--my-brown-medium, #8B4513);
-  padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  font-family: var(--my-font-ui, 'Crimson Text', serif);
-  font-size: var(--my-text-xs, 12px);
-  color: var(--my-text-primary, #2d1810);
-  cursor: pointer;
-  transition: all var(--my-transition-normal, 0.25s ease);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--my-space-1, 4px);
-  flex: 1;
-  text-align: center;
-}
-
-.save-type-tab:last-child {
-  border-right: none;
-}
-
-.save-type-tab:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
-}
-
-.save-type-tab.selected {
-  background: var(--my-gradient-button-active, linear-gradient(135deg, #1976d2 0%, #1565c0 100%));
-  color: white;
-  font-weight: var(--my-font-semibold, 600);
-}
-
-.save-type-tab-icon {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.save-type-tab-icon img {
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-}
 
 /* Popup Footer */
 .popup-footer {
@@ -385,7 +291,7 @@
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 20px;
-  background: linear-gradient(145deg, #e8dcc6 0%, #f0ead6 100%);
+  background: #e8e2d4;
   border-top: 2px solid var(--my-brown-medium, #8B4513);
 }
 
@@ -402,7 +308,7 @@
 
 .popup-button-primary {
   background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
-  color: #f8f4e6;
+  color: #f8f5ee;
   border-color: #1b5e20;
 }
 
@@ -413,11 +319,11 @@
 }
 
 .popup-button-secondary {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   color: var(--my-text-primary, #2d1810);
 }
 
 .popup-button-secondary:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-1px);
 }

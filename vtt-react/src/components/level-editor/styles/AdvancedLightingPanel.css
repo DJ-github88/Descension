@@ -8,7 +8,7 @@
 }
 
 .settings-section {
-    background: var(--my-parchment-light, #f8f4e6);
+    background: var(--my-parchment-light, #f8f5ee);
     border: 2px solid #8b6f47;
     border-radius: 8px;
     padding: 16px;
@@ -79,7 +79,7 @@
 
 .quality-btn {
     flex: 1;
-    background: var(--my-parchment, #ede4d3);
+    background: var(--my-parchment, #f1ece1);
     border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 8px 12px;
@@ -136,7 +136,7 @@
 
 .toggle-btn {
     width: 100%;
-    background: var(--my-parchment, #ede4d3);
+    background: var(--my-parchment, #f1ece1);
     border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 10px 14px;
@@ -167,7 +167,7 @@
 }
 
 .weather-btn {
-    background: var(--my-parchment, #ede4d3);
+    background: var(--my-parchment, #f1ece1);
     border: 2px solid var(--my-brown-light, #a08c70);
     border-radius: 6px;
     padding: 8px 14px;

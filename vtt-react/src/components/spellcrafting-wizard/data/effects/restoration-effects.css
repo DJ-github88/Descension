@@ -394,14 +394,14 @@
 /* Force override any red styling on these specific buttons */
 .restoration-effects-container .application-timing .option-button,
 .restoration-effects-container .trigger-type .option-button {
-  background: #f0ead6 !important;
+  background: #f1ece1 !important;
   border-color: #d4c4a8 !important;
   color: #5e2e23 !important;
 }
 
 .restoration-effects-container .application-timing .option-button:hover,
 .restoration-effects-container .trigger-type .option-button:hover {
-  background: #e8dcc6 !important;
+  background: #e8e2d4 !important;
   border-color: #c4b494 !important;
   color: #5e2e23 !important;
 }
@@ -429,7 +429,7 @@
 }
 
 .restoration-effects-container .stage-header {
-  background: #f0ead6 !important;
+  background: #f1ece1 !important;
   background-image: none !important;
   border: 1px solid #d4c4a8 !important;
   border-radius: 6px !important;
@@ -439,7 +439,7 @@
 /* Override any red gradients specifically */
 .restoration-effects-container *[style*="linear-gradient(135deg, #7a3b2e, #5e2e23)"],
 .restoration-effects-container *[style*="background: linear-gradient(135deg, #7a3b2e, #5e2e23)"] {
-  background: #f0ead6 !important;
+  background: #f1ece1 !important;
   background-image: none !important;
 }
 
@@ -594,7 +594,7 @@
   align-items: center;
   margin-bottom: 12px;
   padding: 8px 12px;
-  background: #f0ead6;
+  background: #f1ece1;
   border: 1px solid #d4c4a8;
   border-radius: 6px;
 }
@@ -717,7 +717,7 @@
 
 /* Progressive Formula Section Overrides */
 .restoration-effects-container .progressive-formula {
-  background: #f8f4e6 !important;
+  background: #f8f5ee !important;
   border: 1px solid #d4c4a8 !important;
   border-radius: 6px !important;
   padding: 16px !important;
@@ -745,7 +745,7 @@
 }
 
 .restoration-effects-container .progressive-stages {
-  background: #f8f4e6 !important;
+  background: #f8f5ee !important;
   border: 1px solid #d4c4a8 !important;
   border-radius: 6px !important;
   padding: 16px !important;
@@ -753,7 +753,7 @@
 }
 
 .restoration-effects-container .stage-item {
-  background: #f0ead6 !important;
+  background: #f1ece1 !important;
   border: 1px solid #d4c4a8 !important;
   border-radius: 6px !important;
   padding: 12px !important;

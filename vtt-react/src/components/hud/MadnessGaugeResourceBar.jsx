@@ -1,17 +1,18 @@
-import React, { useId, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import ClassTip from './ClassTip';
+import { INK, MUTED, PAGE, PAPER, RULE, ETCH, BRICK, washed } from './calmBarPalette';
 import { useResourceBarTooltipPosition } from './useResourceBarTooltip';
 
 const MILESTONE_MARKS = [6, 10, 15];
 
-// Ignited-fracture heat bands by Madness value.
+// Fracture inks by Madness value: violet deepening to crimson, then brick at Convulsion.
 const FRACTURE_BANDS = [
-    { max: 5, ring: '#6a0dad', fire: '#6a0dad', hot: '#a78bfa' },
-    { max: 9, ring: '#9400D3', fire: '#9400D3', hot: '#d8b4fe' },
-    { max: 14, ring: '#b026ff', fire: '#c026d3', hot: '#f0abfc' },
-    { max: 19, ring: '#DC143C', fire: '#DC143C', hot: '#fda4af' },
-    { max: 20, ring: '#ff2020', fire: '#ff2020', hot: '#ffffff' }
+    { max: 5, ink: '#5a3d7a' },
+    { max: 9, ink: '#6b3f86' },
+    { max: 14, ink: '#7d3a7e' },
+    { max: 19, ink: '#8b2f42' },
+    { max: 20, ink: BRICK }
 ];
 
 const bandFor = (value) => FRACTURE_BANDS.find(b => value <= b.max) || FRACTURE_BANDS[0];
@@ -79,15 +80,6 @@ const MadnessGaugeResourceBar = ({
             [currentMadness, maxMadness]
         );
 
-        // Namespace SVG def ids per instance so stacked PartyHUD frames never collide.
-        const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
-        const ids = {
-            glow: `fpGlow${uid}`,
-            shadow: `fpShadow${uid}`,
-            basalt: `fpBasalt${uid}`,
-            bed: `fpBed${uid}`,
-            silver: `fpSilver${uid}`
-        };
 
         // The Silent Eye: aperture widens as the mind fractures; the pupil
         // dissolves past 15 (Li Wei's blank white stare), veins surface.
@@ -201,105 +193,38 @@ const MadnessGaugeResourceBar = ({
                             preserveAspectRatio="xMidYMid meet"
                             xmlns="http://www.w3.org/2000/svg"
                         >
-                            <defs>
-                                <filter id={ids.glow} x="-40%" y="-40%" width="180%" height="180%">
-                                    <feGaussianBlur stdDeviation="2" result="blur" />
-                                    <feMerge>
-                                        <feMergeNode in="blur" />
-                                        <feMergeNode in="SourceGraphic" />
-                                    </feMerge>
-                                </filter>
-
-                                <filter id={ids.shadow} x="-10%" y="-10%" width="120%" height="120%">
-                                    <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.9" />
-                                </filter>
-
-                                {/* Void-glass slab */}
-                                <linearGradient id={ids.basalt} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#1b1430" />
-                                    <stop offset="40%" stopColor="#100b20" />
-                                    <stop offset="100%" stopColor="#070510" />
-                                </linearGradient>
-
-                                {/* Cold channel bed */}
-                                <linearGradient id={ids.bed} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#080614" />
-                                    <stop offset="100%" stopColor="#150c28" />
-                                </linearGradient>
-
-                                {/* Dead-star silver */}
-                                <linearGradient id={ids.silver} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#b8b0d0" />
-                                    <stop offset="50%" stopColor="#6e6488" />
-                                    <stop offset="100%" stopColor="#2a2438" />
-                                </linearGradient>
-                            </defs>
-
-                            {/* 1. VOID-GLASS SLAB — full bleed */}
-                            <g filter={`url(#${ids.shadow})`}>
-                                <path
-                                    d="M 5 8 L 295 8 L 297 14 L 297 50 L 295 56 L 5 56 L 3 50 L 3 14 Z"
-                                    fill={`url(#${ids.basalt})`}
-                                    stroke={isConvulsion ? '#ff2020' : isDanger ? '#8f1030' : '#3d2b5e'}
-                                    strokeWidth={isConvulsion ? 2 : 1.5}
-                                />
-                                {/* Silence seam along the top edge — kindles violet as the mind fractures */}
-                                <line
-                                    x1="12" y1="10.5" x2="288" y2="10.5"
-                                    stroke={currentMadness === 0 ? 'rgba(148, 0, 211, 0.18)' : '#a855f7'}
-                                    strokeWidth="1"
-                                    strokeLinecap="round"
-                                    opacity={currentMadness === 0 ? 1 : 0.3 + (currentMadness / maxMadness) * 0.7}
-                                />
-                                {/* Dead-star specks in the glass */}
-                                <g fill="#b8b0d0">
-                                    <circle cx="30" cy="18" r="0.7" opacity="0.5" />
-                                    <circle cx="70" cy="50" r="0.6" opacity="0.4" />
-                                    <circle cx="232" cy="16" r="0.7" opacity="0.5" />
-                                    <circle cx="272" cy="48" r="0.6" opacity="0.4" />
-                                    <circle cx="150" cy="55" r="0.6" opacity="0.35" />
-                                </g>
-                            </g>
-
-                            {/* Pale silver corner brackets */}
-                            {[
-                                'M 3 20 L 3 14 L 5 12 L 5 8 L 11 8 L 11 11 L 8 11 L 8 14 L 6 16 L 6 20 Z',
-                                'M 297 20 L 297 14 L 295 12 L 295 8 L 289 8 L 289 11 L 292 11 L 292 14 L 294 16 L 294 20 Z',
-                                'M 3 44 L 3 50 L 5 52 L 5 56 L 11 56 L 11 53 L 8 53 L 8 50 L 6 48 L 6 44 Z',
-                                'M 297 44 L 297 50 L 295 52 L 295 56 L 289 56 L 289 53 L 292 53 L 292 50 L 294 48 L 294 44 Z'
-                            ].map((d, i) => (
-                                <path key={i} d={d} fill={`url(#${ids.silver})`} stroke="#0a0a0c" strokeWidth="0.6" />
-                            ))}
-
-                            {/* 2. CARVED CHANNEL — the groove the fractures rest in */}
+                            {/* 1. Parchment page with a ledger frame (brick when the mind convulses) */}
                             <rect
-                                x="13"
-                                y="31"
-                                width="274"
-                                height="6.5"
-                                rx="3.25"
-                                fill={`url(#${ids.bed})`}
-                                stroke="#241739"
-                                strokeWidth="1"
+                                className="fp-page"
+                                x="2.5" y="7.5" width="295" height="49" rx="3"
+                                fill={PAGE}
+                                stroke={isConvulsion ? BRICK : isDanger ? '#8b2f42' : RULE}
+                                strokeWidth={isConvulsion ? 1.5 : 1}
                             />
+                            <rect x="5.5" y="10.5" width="289" height="43" rx="1.5" fill="none" stroke={isConvulsion ? BRICK : RULE} strokeWidth="0.6" opacity={isConvulsion ? 0.8 : 0.5} />
 
-                            {/* Milestone diamonds above the channel */}
+                            {/* 2. The track the fractures spread along */}
+                            <line x1="13" y1="34" x2="287" y2="34" stroke={RULE} strokeWidth="1" strokeLinecap="round" />
+
+                            {/* Milestones (6, 10, 15): small diamonds that ink in when reached */}
                             {MILESTONE_MARKS.map((mark) => {
                                 const g = fractureGeom(mark);
                                 const lit = currentMadness >= mark;
+                                const top = Math.max(10, g.y0 - 13);
                                 return (
                                     <polygon
                                         key={mark}
-                                        points={`${g.x0},${Math.max(8, g.y0 - 13)} ${g.x0 + 2.4},${Math.max(8, g.y0 - 13) + 2.6} ${g.x0},${Math.max(8, g.y0 - 13) + 5.2} ${g.x0 - 2.4},${Math.max(8, g.y0 - 13) + 2.6}`}
-                                        fill={lit ? bandFor(mark).hot : '#241739'}
-                                        stroke={lit ? bandFor(mark).ring : '#3d2b5e'}
+                                        points={`${g.x0},${top} ${g.x0 + 2.4},${top + 2.6} ${g.x0},${top + 5.2} ${g.x0 - 2.4},${top + 2.6}`}
+                                        fill={lit ? washed(bandFor(mark).ink, 0.45) : PAPER}
+                                        stroke={lit ? bandFor(mark).ink : RULE}
                                         strokeWidth="0.8"
-                                        filter={lit ? `url(#${ids.glow})` : undefined}
-                                    />
+                                    >
+                                        <title>{`Milestone: Madness ${mark}`}</title>
+                                    </polygon>
                                 );
                             })}
 
-                            {/* 3. TWENTY WHISPER-FRACTURES */}
+                            {/* 3. Twenty whisper-fractures: faint etching, inked as madness spreads */}
                             {Array.from({ length: maxMadness }, (_, idx) => {
                                 const value = idx + 1;
                                 const isFilled = currentMadness >= value;
@@ -318,63 +243,35 @@ const MadnessGaugeResourceBar = ({
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <title>{`Madness ${value}`}</title>
+                                        <rect x={g.mx - 6} y={g.my - 9} width="12" height="18" fill="transparent" />
                                         {isCurrent && (
-                                            <circle
-                                                cx={g.mx}
-                                                cy={g.my}
-                                                r="7"
-                                                fill="none"
-                                                stroke={band.hot}
-                                                strokeWidth="1.2"
-                                                opacity="0.8"
-                                                className="fp-halo"
-                                                filter={`url(#${ids.glow})`}
-                                            />
-                                        )}
-                                        {isFilled && (
-                                            <path
-                                                d={g.d}
-                                                className="fp-fracture-fire"
-                                                fill="none"
-                                                stroke={band.fire}
-                                                strokeWidth="3"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                opacity="0.7"
-                                                filter={`url(#${ids.glow})`}
-                                            />
+                                            <circle cx={g.mx} cy={g.my} r="7" fill="none" stroke={band.ink} strokeWidth="1" />
                                         )}
                                         <path
                                             d={g.d}
                                             className={isFilled ? 'fp-fracture-core' : 'fp-fracture-etch'}
                                             fill="none"
-                                            stroke={isFilled ? band.hot : '#4a3670'}
-                                            strokeWidth={isFilled ? 1.4 : 1.1}
+                                            stroke={isFilled ? band.ink : ETCH}
+                                            strokeWidth={isFilled ? 1.5 : 1.1}
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
-                                            opacity={isFilled ? 1 : 0.8}
-                                            filter={isFilled ? `url(#${ids.glow})` : undefined}
                                         />
-                                        {isFilled && <circle cx={g.mx} cy={g.my} r="1" fill="#ffffff" />}
-                                        {/* Convulsion ring around the twentieth fracture */}
                                         {isDoom && (
                                             <circle
                                                 cx={g.mx}
                                                 cy={g.my}
                                                 r="9.5"
                                                 fill="none"
-                                                stroke={isConvulsion ? '#ff2020' : '#5e1a2e'}
-                                                strokeWidth="1.2"
+                                                stroke={isConvulsion ? BRICK : RULE}
+                                                strokeWidth="1"
                                                 strokeDasharray="3 2.4"
-                                                opacity={isConvulsion ? 1 : 0.7}
-                                                filter={isConvulsion ? `url(#${ids.glow})` : undefined}
                                             />
                                         )}
                                     </g>
                                 );
                             })}
 
-                            {/* 4. THE SILENT EYE — Li Wei's blind stare */}
+                            {/* 4. The Silent Eye: opens as the mind fractures; the pupil dissolves past 15 */}
                             <g
                                 className={`fp-eye ${isConvulsion ? 'convulsing' : ''}`}
                                 onClick={(e) => { e.stopPropagation(); handleBarClick(); }}
@@ -383,34 +280,32 @@ const MadnessGaugeResourceBar = ({
                                 <title>{`Madness ${currentMadness} of ${maxMadness}`}</title>
                                 <path
                                     d="M 116,34 Q 150,14 184,34 Q 150,54 116,34 Z"
-                                    fill="#0b0616"
-                                    stroke={isConvulsion ? '#ff2020' : '#8b7ab8'}
-                                    strokeWidth="1.6"
-                                    filter={currentMadness > 0 ? `url(#${ids.glow})` : undefined}
+                                    fill={PAPER}
+                                    stroke={isConvulsion ? BRICK : currentMadness > 0 ? eyeBand.ink : MUTED}
+                                    strokeWidth="1.2"
+                                    strokeLinejoin="round"
                                 />
-                                {/* Sclera — blank white as the pupil dissolves */}
                                 <ellipse
-                                    cx="150" cy="34" rx="24" ry={eyeOpen}
-                                    fill={pupilR === 0 && currentMadness > 0 ? '#e8e4f2' : '#cfc8e4'}
+                                    cx="150" cy="34" rx="24" ry={Math.min(eyeOpen, 9.5)}
+                                    fill={pupilR === 0 && currentMadness > 0 ? washed('#7d3a7e', 0.12) : PAGE}
+                                    stroke={RULE}
+                                    strokeWidth="0.6"
                                 />
-                                {/* Void pupil with violet rim */}
-                                {pupilR > 0 && (
-                                    <g filter={`url(#${ids.glow})`}>
-                                        <circle cx="150" cy="34" r={pupilR + 1.2} fill="none" stroke={eyeBand.ring} strokeWidth="1.2" />
-                                        <circle cx="150" cy="34" r={pupilR} fill="#050308" />
+                                {pupilR > 0 && currentMadness > 0 && (
+                                    <g>
+                                        <circle cx="150" cy="34" r={pupilR + 1.2} fill="none" stroke={eyeBand.ink} strokeWidth="1" />
+                                        <circle cx="150" cy="34" r={pupilR} fill={INK} />
                                     </g>
                                 )}
-                                {/* Blood-veins past 15 */}
                                 {currentMadness >= 15 && (
-                                    <g stroke="#c21430" strokeWidth="1" strokeLinecap="round" opacity="0.9">
+                                    <g stroke={BRICK} strokeWidth="0.9" strokeLinecap="round">
                                         <polyline points="122,28 130,31 128,35" fill="none" />
                                         <polyline points="178,28 170,31 172,36" fill="none" />
                                         <polyline points="150,46 150,41 146,39" fill="none" />
                                     </g>
                                 )}
-                                {/* Lid line when shut */}
                                 {currentMadness === 0 && (
-                                    <line x1="120" y1="34" x2="180" y2="34" stroke="#8b7ab8" strokeWidth="1.4" strokeLinecap="round" />
+                                    <line x1="120" y1="34" x2="180" y2="34" stroke={MUTED} strokeWidth="1.2" strokeLinecap="round" />
                                 )}
                             </g>
                         </svg>
@@ -545,7 +440,7 @@ const MadnessGaugeResourceBar = ({
                         >
                             <ClassTip
                                 icon="fas fa-eye"
-                                tint={eyeBand.ring}
+                                tint={eyeBand.ink}
                                 title="Madness"
                                 subtitle="False Prophet — The Fanatical Choir"
                                 state={`${currentMadness}/${maxMadness} · ${dangerLevel.name}`}

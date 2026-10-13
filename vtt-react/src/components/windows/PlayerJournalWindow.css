@@ -4,24 +4,14 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(145deg, #f5f0e1 0%, #e8dcc6 100%);
 }
 
 /* Locked/restricted window: hides the redundant title bar that MythrillWindow
    would otherwise render, giving the close button a clean top-right spot. */
-.journal-locked-window .wow-window-close-btn {
-  top: 10px !important;
-  right: 14px !important;
-}
 
 /* Journal tabs now use spellbook-tab-container and spellbook-tab-button classes from wow-window.css */
 
 /* Folder Bar */
-.journal-folder-bar {
-  padding: 8px 12px;
-  background: rgba(139, 69, 19, 0.06);
-  border-bottom: 1px solid rgba(139, 69, 19, 0.12);
-}
 
 .folder-tabs {
   display: flex;
@@ -75,34 +65,6 @@
 }
 
 /* GM Notice */
-.journal-gm-notice {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 40px;
-  text-align: center;
-  color: #8b7355;
-}
-
-.journal-gm-notice i {
-  font-size: 48px;
-  margin-bottom: 16px;
-  color: #a08c70;
-}
-
-.journal-gm-notice p {
-  font-family: 'Cinzel', serif;
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 8px;
-  color: #5a1e12;
-}
-
-.journal-gm-notice span {
-  font-size: 14px;
-}
 
 /* Knowledge Board */
 .journal-board-container {
@@ -202,7 +164,7 @@
   background: transparent;
   border: none;
   border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-  color: #f0e6d2;
+  color: #f1ece1;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
@@ -233,7 +195,7 @@
 
 .folder-dropdown-item.add-folder:hover {
   background: rgba(212, 175, 55, 0.2);
-  color: #f0e6d2;
+  color: #f1ece1;
 }
 
 .folder-dropdown-divider {
@@ -262,7 +224,7 @@
   min-height: 0;
   background: 
     radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 70%),
-    linear-gradient(145deg, #ede4d3 0%, #e0d4c0 100%);
+    linear-gradient(145deg, #f1ece1 0%, #e0d4c0 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -494,56 +456,19 @@
 /* Received Tab */
 .journal-received-container {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 }
 
 .received-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(139, 69, 19, 0.08);
   border-bottom: 1px solid rgba(139, 69, 19, 0.15);
-  flex-shrink: 0;
 }
 
 .received-folders-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.received-folder {
-  background: rgba(255, 255, 255, 0.4);
-  border: 2px solid rgba(139, 69, 19, 0.2);
-  border-radius: 8px;
-  padding: 12px;
-  transition: all 0.2s;
-}
-
-.received-folder.drag-over {
-  background: rgba(139, 69, 19, 0.15);
-  border-color: rgba(139, 69, 19, 0.5);
-  border-style: dashed;
-  transform: scale(1.02);
 }
 
 .received-folder-header {
-  display: flex;
-  align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #5a1e12;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
 }
 
 .received-folder-header i {
@@ -552,27 +477,6 @@
 
 .received-folder-name {
   flex: 1;
-}
-
-.received-folder-count {
-  font-size: 12px;
-  color: #8b7355;
-  font-weight: 400;
-}
-
-.received-folder-items {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.received-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
 .received-empty-state {
@@ -599,46 +503,8 @@
   color: #5a1e12;
 }
 
-.received-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.received-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.received-item:hover {
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(139, 69, 19, 0.4);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
 .received-item-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
-  background: rgba(139, 69, 19, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
   flex-shrink: 0;
-}
-
-.received-item-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .received-item-icon i {
@@ -646,26 +512,9 @@
   color: #8b7355;
 }
 
-.received-item-info {
-  flex: 1;
-  min-width: 0;
-}
-
 .received-item-title {
   display: block;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #5a1e12;
   margin-bottom: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.received-item-date {
-  font-size: 11px;
-  color: #8b7355;
 }
 
 .received-item .drag-handle,
@@ -681,14 +530,6 @@
 }
 
 /* Notes Tab - Improved */
-.journal-notes-container {
-  flex: 1;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow: hidden;
-}
 
 /* Note Editor */
 .note-editor {
@@ -793,50 +634,6 @@
 }
 
 /* Notes List */
-.notes-list {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.notes-list h4 {
-  font-family: 'Cinzel', serif;
-  font-size: 13px;
-  color: #5a1e12;
-  margin: 0 0 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.15);
-}
-
-.notes-empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  text-align: center;
-  color: #8b7355;
-}
-
-.notes-empty-state i {
-  font-size: 36px;
-  margin-bottom: 12px;
-  opacity: 0.4;
-}
-
-.notes-empty-state p {
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 0 4px;
-  color: #6d5a45;
-}
-
-.notes-empty-state span {
-  font-size: 12px;
-}
 
 .note-item {
   display: flex;
@@ -923,7 +720,7 @@
   position: relative;
   max-width: 600px;
   max-height: 80vh;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 24px;
@@ -1007,7 +804,7 @@
 }
 
 .orb-editor {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 24px;
@@ -1302,7 +1099,7 @@
 }
 
 .folder-modal {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 24px;
@@ -1433,7 +1230,7 @@
 /* Context Menu */
 .journal-context-menu {
   position: fixed;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 2px solid #8B4513;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -1495,7 +1292,7 @@
   position: absolute;
   left: 100%;
   top: 0;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 2px solid #8B4513;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -1528,7 +1325,7 @@
 }
 
 .background-modal {
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+  background: #f8f5ee;
   border: 3px solid #8B4513;
   border-radius: 12px;
   padding: 24px;
@@ -1639,7 +1436,7 @@
 }
 
 .background-preview.no-background {
-  background: linear-gradient(145deg, #ede4d3 0%, #e0d4c0 100%);
+  background: linear-gradient(145deg, #f1ece1 0%, #e0d4c0 100%);
 }
 
 .background-preview.no-background i {
@@ -1719,12 +1516,8 @@
   width: 100%;
   padding: 40px 20px;
   background: linear-gradient(135deg, #2b251f 0%, #15110e 100%);
-  color: #ede4d3;
+  color: #f1ece1;
   box-sizing: border-box;
-}
-
-.journal-locked-container.basic-lock {
-  background: linear-gradient(135deg, #2b251f 0%, #15110e 100%);
 }
 
 .journal-locked-card {
@@ -1740,10 +1533,6 @@
   flex-direction: column;
   align-items: center;
   backdrop-filter: blur(10px);
-}
-
-.journal-locked-container.basic-lock .journal-locked-card {
-  border-color: rgba(212, 175, 55, 0.15);
 }
 
 .journal-locked-icon-wrapper {

@@ -1,0 +1,104 @@
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  873.45 kB  p6-corrections-build\static\js\common.c6f77fe6.chunk.js
+  788.25 kB  p6-corrections-build\static\js\data-classes.8270fd06.js
+  710.63 kB  p6-corrections-build\static\js\data-other.54cd08c7.js
+  475.32 kB  p6-corrections-build\static\js\main.a9281827.js
+  426.44 kB  p6-corrections-build\static\css\main.62ab226c.css
+  342.25 kB  p6-corrections-build\static\js\9180.c9369f71.js
+  325.43 kB  p6-corrections-build\static\js\data-creatures.56f1200a.chunk.js
+  274.7 kB   p6-corrections-build\static\js\stores.750ae5da.js
+  228.22 kB  p6-corrections-build\static\css\common.416792fe.chunk.css
+  218.8 kB   p6-corrections-build\static\js\2875.335244fb.chunk.js
+  215.69 kB  p6-corrections-build\static\js\data-talents.b1d8343f.chunk.js
+  199.23 kB  p6-corrections-build\static\js\vendors.49942c68.chunk.js
+  157.48 kB  p6-corrections-build\static\js\5019.d3634e13.chunk.js
+  92.88 kB   p6-corrections-build\static\js\services.2c605f76.js
+  77.79 kB   p6-corrections-build\static\css\5019.752af7d4.chunk.css
+  62.52 kB   p6-corrections-build\static\js\charts.e467d394.chunk.js
+  62.41 kB   p6-corrections-build\static\js\2425.520ec87b.chunk.js
+  56.77 kB   p6-corrections-build\static\js\3228.b9641144.chunk.js
+  52.4 kB    p6-corrections-build\static\js\3536.98e3eefe.chunk.js
+  48.06 kB   p6-corrections-build\static\js\react.38dc3be6.js
+  44.56 kB   p6-corrections-build\static\js\6717.017cb640.chunk.js
+  36.85 kB   p6-corrections-build\static\js\ui.473a958c.js
+  36.63 kB   p6-corrections-build\static\js\fontawesome.939f88b8.js
+  32.54 kB   p6-corrections-build\static\js\5424.ca82121c.chunk.js
+  30.75 kB   p6-corrections-build\static\css\3372.0bd64f02.chunk.css
+  30.14 kB   p6-corrections-build\static\js\9554.801eed72.chunk.js
+  28.77 kB   p6-corrections-build\static\js\6547.6ff2bb5a.chunk.js
+  28.2 kB    p6-corrections-build\static\js\1262.fc785947.chunk.js
+  26.69 kB   p6-corrections-build\static\js\7275.cb82e969.chunk.js
+  26.65 kB   p6-corrections-build\static\js\firebase.bcb703ef.js
+  23.56 kB   p6-corrections-build\static\js\1807.d52f1b25.chunk.js
+  23.55 kB   p6-corrections-build\static\css\3536.f1c1a4c8.chunk.css
+  22.87 kB   p6-corrections-build\static\js\6558.a4f35da7.chunk.js
+  21.05 kB   p6-corrections-build\static\css\fontawesome.a34c5949.css
+  16.97 kB   p6-corrections-build\static\css\6558.9d644546.chunk.css
+  16.01 kB   p6-corrections-build\static\js\4912.7e91f80f.chunk.js
+  15.93 kB   p6-corrections-build\static\css\data-classes.88363f51.css
+  15.13 kB   p6-corrections-build\static\css\6717.16c87153.chunk.css
+  15.03 kB   p6-corrections-build\static\css\4240.81a9cdbb.chunk.css
+  14.75 kB   p6-corrections-build\static\js\3372.255cc9ef.chunk.js
+  14.41 kB   p6-corrections-build\static\js\5043.0e934a88.chunk.js
+  13.91 kB   p6-corrections-build\static\css\5424.e590680d.chunk.css
+  10.56 kB   p6-corrections-build\static\css\1262.f7fbb5eb.chunk.css
+  10.48 kB   p6-corrections-build\static\js\3805.2b7bece5.chunk.js
+  8.66 kB    p6-corrections-build\static\js\2597.0c373905.chunk.js
+  8.37 kB    p6-corrections-build\static\css\4912.5fb29dd6.chunk.css
+  7.84 kB    p6-corrections-build\static\js\166.e015f942.chunk.js
+  7.82 kB    p6-corrections-build\static\js\6955.0452ef51.chunk.js
+  7.71 kB    p6-corrections-build\static\css\166.6910c5a4.chunk.css
+  7.68 kB    p6-corrections-build\static\js\3920.f5343708.chunk.js
+  7.29 kB    p6-corrections-build\static\css\7275.83adcfa2.chunk.css
+  6.51 kB    p6-corrections-build\static\css\3920.10c23bbd.chunk.css
+  5.98 kB    p6-corrections-build\static\css\1807.902dfee9.chunk.css
+  5.88 kB    p6-corrections-build\static\css\3805.707d8767.chunk.css
+  5.54 kB    p6-corrections-build\static\js\8396.887e82bc.chunk.js
+  5.33 kB    p6-corrections-build\static\css\5043.62701251.chunk.css
+  4.5 kB     p6-corrections-build\static\js\6796.de9bff6a.chunk.js
+  4.48 kB    p6-corrections-build\static\css\6796.843a3193.chunk.css
+  4.42 kB    p6-corrections-build\static\js\4431.85459d78.chunk.js
+  3.99 kB    p6-corrections-build\static\css\2597.747b3a6e.chunk.css
+  3.65 kB    p6-corrections-build\static\css\2425.0e26e2b4.chunk.css
+  3.32 kB    p6-corrections-build\static\css\4431.3131d530.chunk.css
+  3.24 kB    p6-corrections-build\static\css\6940.e8cbb18c.chunk.css
+  2.98 kB    p6-corrections-build\static\css\6547.927c6d87.chunk.css
+  2.57 kB    p6-corrections-build\static\js\7965.8c88fe92.chunk.js
+  2.55 kB    p6-corrections-build\static\js\4376.6295f37f.chunk.js
+  1.98 kB    p6-corrections-build\static\css\1034.59e85ad8.chunk.css
+  1.96 kB    p6-corrections-build\static\js\4240.16de763b.chunk.js
+  1.87 kB    p6-corrections-build\static\js\8777.082867c1.chunk.js
+  1.76 kB    p6-corrections-build\static\css\8777.3f90ae7a.chunk.css
+  1.51 kB    p6-corrections-build\static\js\5650.5d6a5c2b.chunk.js
+  1.39 kB    p6-corrections-build\static\js\1034.650b7b32.chunk.js
+  1.37 kB    p6-corrections-build\static\js\3735.f68a6d96.chunk.js
+  1.26 kB    p6-corrections-build\static\css\7185.8cae1c71.chunk.css
+  1.25 kB    p6-corrections-build\static\css\3735.2cbbb8a3.chunk.css
+  1.1 kB     p6-corrections-build\static\css\5650.810cfbf1.chunk.css
+  970 B      p6-corrections-build\static\js\7969.7bbb8552.chunk.js
+  932 B      p6-corrections-build\static\js\3856.1e8d3029.chunk.js
+  850 B      p6-corrections-build\static\css\5749.dfa855e5.chunk.css
+  732 B      p6-corrections-build\static\js\7185.2cbf02d6.chunk.js
+  599 B      p6-corrections-build\static\css\ui.5edcd081.css
+  490 B      p6-corrections-build\static\css\4376.4e866b63.chunk.css
+  454 B      p6-corrections-build\static\js\5749.c532ad31.chunk.js
+  390 B      p6-corrections-build\static\js\6940.556e2671.chunk.js
+  385 B      p6-corrections-build\static\js\7150.d1559b59.chunk.js
+  288 B      p6-corrections-build\static\js\4798.ec83a52d.chunk.js
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The ..\..\AppData\Temp\opencode\p6-corrections-build folder is ready to be deployed.
+You may serve it with a static server:
+
+  serve -s ..\..\AppData\Temp\opencode\p6-corrections-build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+

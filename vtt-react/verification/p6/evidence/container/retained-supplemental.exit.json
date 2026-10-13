@@ -1,0 +1,4 @@
+{
+  "command": "node verification/p6/evidence/remaining/retained-controls.cjs",
+  "status": 0
+}

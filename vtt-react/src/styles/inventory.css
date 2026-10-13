@@ -63,7 +63,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     box-sizing: border-box;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
+    background: linear-gradient(135deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%);
     font-family: 'Bookman Old Style', 'Garamond', serif;
     border: 2px solid #8b7355;
     box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.3);
@@ -73,49 +73,14 @@
     display: none;
 }
 
-.inventory-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
 /* Currency Section */
-.currency-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem;
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 50%, #c4b490 100%);
-    border-radius: 8px;
-    border: 2px solid #8b7355;
-    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 10px rgba(240, 230, 210, 0.3);
-}
-
-.currency-title {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.1rem;
-    color: #8b6914;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #8b6914;
-    padding-bottom: 0.5rem;
-    text-shadow: 0 1px 2px rgba(139, 105, 20, 0.3);
-    font-weight: 600;
-}
-
-.currency-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-}
 
 .currency {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     flex: 1;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    background: #f1ece1;
     padding: 0.5rem;
     border-radius: 6px;
     position: relative;
@@ -173,73 +138,20 @@
     box-shadow: 0 2px 8px rgba(205, 127, 50, 0.6);
 }
 
-.currency-value {
-    min-width: 45px;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
-    border: 1px solid #8b7355;
-    color: #3a2f1a;
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.2);
-}
-
 /* Clickable currency styles */
-.currency-value:hover {
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
-    border-color: #8b6914;
-    transform: scale(1.05);
-    box-shadow: 0 0 8px rgba(139, 105, 20, 0.4);
-}
 
 .coin-wrapper[style*="cursor: pointer"]:hover {
     filter: brightness(1.2);
 }
 
-.currency-value[style*="cursor: pointer"]:hover {
-    box-shadow: 0 0 8px rgba(139, 105, 20, 0.4);
-}
-
 /* Withdraw Currency Button */
-.withdraw-currency-button {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    background: linear-gradient(to bottom, #8b6914, #6b5010);
-    border: 2px solid #5a4a0d;
-    border-radius: 6px;
-    color: #f0e6d2;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-shadow: 0 1px 2px rgba(58, 47, 26, 0.8);
-    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.4);
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    letter-spacing: 0.5px;
-}
-
-.withdraw-currency-button:hover:not(:disabled) {
-    background: linear-gradient(to bottom, #9b7a18, #8b6914);
-    border-color: #6b5010;
-    box-shadow: 0 2px 8px rgba(139, 115, 85, 0.6);
-    transform: translateY(-1px);
-}
-
-.withdraw-currency-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
 
 /* Inventory Grid */
 .inventory-grid {
     display: flex;
     flex-direction: column;
     gap: 0px;
-    background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
+    background: linear-gradient(135deg, #c4baa6 0%, #c4b490 50%, #b4a480 100%);
     padding: 12px;
     border-radius: 8px;
     border: 2px solid #8b7355;
@@ -297,7 +209,7 @@
 
 .inventory-section-headers .section-header.encumbered {
     color: #5a4a0a;
-    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8e2d4 100%);
     border: 1px solid #c9a83f;
     border-bottom: 2px solid #c9a83f;
     flex: var(--section-encumbered-cols, 5);
@@ -350,7 +262,7 @@
 }
 
 .inventory-cell.encumbered {
-    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8e2d4 100%);
     border-color: #c9a83f;
     box-shadow: inset 0 0 4px rgba(201, 168, 63, 0.3);
 }
@@ -574,15 +486,6 @@
 }
 
 /* Rotation indicator styles */
-.rotation-indicator-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 30;
-}
 
 .item-content {
     width: calc(100% - 2px);
@@ -794,7 +697,7 @@
 
 .encumbrance-text.encumbered {
     color: #8b6914;
-    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8e2d4 100%);
     border-color: #c9a83f;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 4px rgba(139, 105, 20, 0.3);
 }
@@ -808,7 +711,7 @@
 
 .item-count-indicator {
     padding: 0.25rem 0.5rem;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    background: #f1ece1;
     border-radius: 6px;
     border: 1px solid #8b7355;
     font-size: 0.9rem;
@@ -816,82 +719,6 @@
     gap: 0.5rem;
     align-items: center;
     box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.2);
-}
-
-.count-label {
-    font-weight: bold;
-    color: #5a4a2a;
-}
-
-.count-normal {
-    color: #2d5016;
-    font-weight: bold;
-}
-
-.count-encumbered {
-    color: #8b6914;
-    font-weight: bold;
-}
-
-.count-overencumbered {
-    color: #7a3b2e;
-    font-weight: bold;
-}
-
-.count-total {
-    margin-left: 0.5rem;
-    padding-left: 0.5rem;
-    border-left: 1px solid #8b7355;
-}
-
-.encumbrance-indicator {
-    padding: 0.25rem 0.5rem;
-    text-align: center;
-    border-radius: 6px;
-    border: 1px solid #8b7355;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.2);
-}
-
-.encumbrance-title {
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.encumbrance-penalty {
-    font-size: 0.75rem;
-    font-style: italic;
-    opacity: 0.9;
-    line-height: 1.2;
-}
-
-.encumbrance-indicator.normal {
-    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
-    color: #2d5016;
-    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
-}
-
-.encumbrance-indicator.encumbered {
-    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
-    color: #8b6914;
-    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
-}
-
-.encumbrance-indicator.overencumbered {
-    background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
-    color: #7a3b2e;
-    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
-}
-
-.inventory-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-end;
 }
 
 
@@ -926,7 +753,7 @@
 }
 
 .modal-content.rename-modal {
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
+    background: linear-gradient(135deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%);
     border: 2px solid #8b7355;
     border-radius: 0 0 8px 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(139, 115, 85, 0.2);
@@ -958,7 +785,7 @@
     font-size: 1.2rem;
     font-family: 'Cinzel', 'Times New Roman', serif;
     font-weight: 600;
-    color: #f0e6d2;
+    color: #f1ece1;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.5px;
 }
@@ -968,7 +795,7 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #f0e6d2;
+    color: #f1ece1;
     padding: 0;
     width: 30px;
     height: 30px;
@@ -997,7 +824,7 @@
     padding: 15px;
     background: linear-gradient(135deg, #f5f0e8 0%, #ede3d0 100%);
     border-radius: 6px;
-    border: 1px solid #d4c4a0;
+    border: 1px solid #c4baa6;
 }
 
 .item-icon-small {
@@ -1046,7 +873,7 @@
 .rename-input-group input {
     width: 100%;
     padding: 10px 12px;
-    border: 2px solid #d4c4a0;
+    border: 2px solid #c4baa6;
     border-radius: 4px;
     font-size: 1rem;
     font-family: inherit;
@@ -1068,7 +895,7 @@
     gap: 10px;
     padding: 15px 20px;
     border-top: 1px solid #8b7355;
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%);
 }
 
 .modal-button {
@@ -1084,12 +911,12 @@
 }
 
 .modal-button.cancel {
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    background: #f1ece1;
     color: #8b7355;
 }
 
 .modal-button.cancel:hover {
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    background: linear-gradient(135deg, #e8e2d4 0%, #c4baa6 100%);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -1116,13 +943,6 @@
         height: auto;
         min-height: 0;
         overflow-y: visible;
-        flex: none;
-    }
-
-    .inventory-content {
-        height: auto;
-        min-height: 0;
-        overflow: visible;
         flex: none;
     }
 
@@ -1191,19 +1011,6 @@
     }
 
     /* Currency section mobile adjustments */
-    .currency-section {
-        padding: 0.5rem;
-    }
-
-    .currency-title {
-        font-size: 0.9rem;
-        padding-bottom: 0.35rem;
-    }
-
-    .currency-container {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
 
     .currency {
         flex: 1 1 calc(50% - 0.25rem);
@@ -1214,12 +1021,6 @@
     .coin {
         width: 28px;
         height: 28px;
-    }
-
-    .currency-value {
-        min-width: 35px;
-        font-size: 0.95rem;
-        padding: 0.2rem 0.4rem;
     }
 
     /* Bottom bar mobile adjustments */
@@ -1266,19 +1067,6 @@
         height: 22px;
         min-width: 22px;
         min-height: 22px;
-    }
-
-    .encumbrance-indicator {
-        width: 100%;
-        font-size: 0.85rem;
-    }
-
-    .encumbrance-title {
-        font-size: 0.75rem;
-    }
-
-    .encumbrance-penalty {
-        font-size: 0.7rem;
     }
 
     /* Item quantity indicator mobile */
@@ -1361,10 +1149,6 @@
     .coin {
         width: 24px;
         height: 24px;
-    }
-
-    .currency-value {
-        font-size: 0.9rem;
     }
 
     .item-quantity {
@@ -1918,32 +1702,6 @@
     color: #7a5f45;
     line-height: 1.4;
     max-width: 240px;
-}
-
-.companion-bag-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 280px;
-    margin-top: 1rem;
-    padding: 0.8rem;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(139, 69, 19, 0.15);
-    border-radius: 8px;
-}
-
-.companion-bag-summary .summary-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.78rem;
-    color: #4a3424;
-}
-
-.companion-bag-summary .summary-row i {
-    color: #d4af37;
-    margin-right: 4px;
 }
 
 .encumbrance-pill {

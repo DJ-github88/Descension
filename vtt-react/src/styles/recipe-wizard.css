@@ -3,9 +3,9 @@
 
 /* Core Pathfinder variables for recipe wizard */
 :root {
-  --my-parchment-light: #f8f4e6;
-  --my-parchment: #ede4d3;
-  --my-parchment-dark: #e8dcc6;
+  --my-parchment-light: #f8f5ee;
+  --my-parchment: #f1ece1;
+  --my-parchment-dark: #e8e2d4;
   --my-brown-darkest: #2d1810;
   --my-brown-dark: #5a1e12;
   --my-brown-medium: #8B4513;
@@ -17,11 +17,11 @@
   --my-text-primary: #5a1e12;
   --my-text-secondary: #5a1e12;
   --my-text-muted: #8B4513;
-  --my-text-on-dark: #f8f4e6;
-  --my-gradient-parchment: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+  --my-text-on-dark: #f8f5ee;
+  --my-gradient-parchment: #f8f5ee;
   --my-gradient-header: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
-  --my-gradient-button: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
-  --my-gradient-button-hover: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
+  --my-gradient-button: #f8f5ee;
+  --my-gradient-button-hover: linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%);
   --my-gradient-gold: linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
   --my-border-radius: 8px;
   --my-border-radius-lg: 12px;
@@ -38,7 +38,7 @@
 /* ===== RECIPE WIZARD CONTAINER ===== */
 
 .recipe-wizard.spellbook-wizard-layout {
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
+  background: var(--my-gradient-parchment, #f8f5ee) !important;
   border: 3px solid var(--my-brown-light, #a08c70) !important;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
@@ -88,7 +88,7 @@
 }
 
 .recipe-wizard .wizard-main-content::-webkit-scrollbar-track {
-  background: var(--my-parchment-dark, #e8dcc6) !important;
+  background: var(--my-parchment-dark, #e8e2d4) !important;
   border-radius: 4px !important;
 }
 
@@ -154,7 +154,7 @@
 
 /* ENHANCED FOOTER STYLING */
 .recipe-wizard .recipe-wizard-footer {
-  background: linear-gradient(135deg, var(--my-parchment-dark, #e8dcc6) 0%, var(--my-parchment-light, #f8f4e6) 100%) !important;
+  background: linear-gradient(135deg, var(--my-parchment-dark, #e8e2d4) 0%, var(--my-parchment-light, #f8f5ee) 100%) !important;
   border-top: 3px solid var(--my-brown-light, #a08c70) !important;
   padding: var(--my-space-4, 16px) var(--my-space-5, 20px) !important;
   box-shadow:
@@ -355,7 +355,7 @@
   font-family: 'Crimson Text', serif !important;
   font-size: 13px !important;
   color: var(--my-text-primary, #2d1810) !important;
-  background: var(--my-parchment-light, #f8f4e6) !important;
+  background: var(--my-parchment-light, #f8f5ee) !important;
   transition: all 0.25s ease !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
 }
@@ -398,7 +398,7 @@
   padding: var(--my-space-4, 16px) !important;
   border: 2px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
-  background: var(--my-gradient-parchment, #ede4d3) !important;
+  background: var(--my-gradient-parchment, #f1ece1) !important;
   box-shadow:
     inset 0 2px 4px rgba(0, 0, 0, 0.1),
     0 2px 8px rgba(0, 0, 0, 0.05) !important;
@@ -412,7 +412,7 @@
   align-items: center !important;
   justify-content: flex-start !important;
   padding: var(--my-space-3, 12px) var(--my-space-2, 8px) !important;
-  background: var(--my-parchment-light, #f8f4e6) !important;
+  background: var(--my-parchment-light, #f8f5ee) !important;
   border: 2px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
   cursor: pointer !important;
@@ -513,7 +513,7 @@
 .recipe-wizard .selected-materials {
   margin-bottom: var(--my-space-4, 16px) !important;
   padding: var(--my-space-3, 12px) !important;
-  background: var(--my-gradient-parchment, #ede4d3) !important;
+  background: var(--my-gradient-parchment, #f1ece1) !important;
   border: 2px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
   box-shadow:
@@ -539,7 +539,7 @@
   align-items: center !important;
   gap: var(--my-space-2, 8px) !important;
   padding: var(--my-space-2, 8px) !important;
-  background: var(--my-parchment-light, #f8f4e6) !important;
+  background: var(--my-parchment-light, #f8f5ee) !important;
   border: 1px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
   margin-bottom: var(--my-space-2, 8px) !important;
@@ -562,7 +562,7 @@
 }
 
 .recipe-wizard .selected-material:hover {
-  background: var(--my-parchment, #ede4d3) !important;
+  background: var(--my-parchment, #f1ece1) !important;
   border-color: var(--my-brown-medium, #8B4513) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
@@ -602,7 +602,7 @@
   border: 1px solid var(--my-brown-light, #a08c70) !important;
   border-radius: 4px !important;
   text-align: center !important;
-  background: var(--my-parchment-light, #f8f4e6) !important;
+  background: var(--my-parchment-light, #f8f5ee) !important;
   color: var(--my-text-primary, #2d1810) !important;
   font-family: 'Crimson Text', serif !important;
   font-weight: 600 !important;
@@ -650,7 +650,7 @@
 
 .recipe-wizard .review-section {
   padding: var(--my-space-5, 20px) !important;
-  background: var(--my-gradient-parchment, #ede4d3) !important;
+  background: var(--my-gradient-parchment, #f1ece1) !important;
   border: 2px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
   box-shadow:
@@ -702,7 +702,7 @@
   align-items: center !important;
   gap: var(--my-space-3, 12px) !important;
   padding: var(--my-space-3, 12px) !important;
-  background: var(--my-parchment-light, #f8f4e6) !important;
+  background: var(--my-parchment-light, #f8f5ee) !important;
   border: 1px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
   margin-bottom: var(--my-space-3, 12px) !important;
@@ -713,7 +713,7 @@
 
 .recipe-wizard .result-item:hover,
 .recipe-wizard .material-review:hover {
-  background: var(--my-parchment, #ede4d3) !important;
+  background: var(--my-parchment, #f1ece1) !important;
   border-color: var(--my-brown-medium, #8B4513) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
@@ -742,7 +742,7 @@
   padding: var(--my-space-3, 12px) var(--my-space-4, 16px) !important;
   border: 2px solid var(--my-brown-light, #a08c70) !important;
   border-radius: var(--my-border-radius, 8px) !important;
-  background: var(--my-parchment-light, #f8f4e6) !important;
+  background: var(--my-parchment-light, #f8f5ee) !important;
   color: var(--my-text-primary, #2d1810) !important;
   font-size: 14px !important;
   font-family: 'Crimson Text', serif !important;
@@ -868,12 +868,6 @@
 /* ===== RECIPE WIZARD SPECIFIC OVERRIDES ===== */
 
 /* Ensure recipe wizard uses spellbook wizard styling */
-.recipe-wizard.spellbook-wizard-layout .wizard-footer {
-  background: var(--my-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
-  border-top: 3px solid var(--my-brown-medium, #8B4513) !important;
-  padding: var(--my-space-5, 20px) !important;
-  box-shadow: 0 -4px 8px rgba(45, 24, 16, 0.2) !important;
-}
 
 /* Recipe step content styling */
 .recipe-wizard .recipe-step {
@@ -955,15 +949,6 @@
 }
 
 /* Wizard Footer */
-.wizard-footer {
-    padding: var(--my-space-5);
-    background: var(--my-gradient-header);
-    border-top: 3px solid var(--my-brown-medium);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 -4px 8px rgba(45, 24, 16, 0.2);
-}
 
 .wow-button {
     background: var(--my-gradient-button);
@@ -990,13 +975,10 @@
 }
 
 .wow-button.primary {
-    background: var(--my-gradient-gold);
     color: var(--my-brown-darkest);
-    border-color: var(--my-gold-dark);
 }
 
 .wow-button.primary:hover:not(:disabled) {
-    background: var(--my-gold-light);
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.3), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -1004,130 +986,9 @@
 
 /* Recipe preview is now external - no embedded preview styles needed */
 
-
-
-.recipe-name {
-  font-family: 'Cinzel', serif !important;
-  font-size: 20px !important;
-  font-weight: bold !important;
-  color: var(--my-text-primary, #2d1810) !important;
-  text-align: center !important;
-  margin-bottom: var(--my-space-3, 12px) !important;
-  padding-bottom: var(--my-space-2, 8px) !important;
-  border-bottom: 1px solid var(--my-brown-light, #a08c70) !important;
-}
-
-.recipe-profession {
-  font-size: 14px !important;
-  color: var(--my-text-secondary, #5a1e12) !important;
-  text-align: center !important;
-  margin-bottom: var(--my-space-3, 12px) !important;
-  font-style: italic !important;
-}
-
-.recipe-section-title {
-  font-family: 'Cinzel', serif !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
-  color: var(--my-text-primary, #2d1810) !important;
-  margin-bottom: var(--my-space-2, 8px) !important;
-  margin-top: var(--my-space-3, 12px) !important;
-}
-
 .recipe-result,
 .recipe-materials {
   margin-bottom: var(--my-space-3, 12px) !important;
-}
-
-.recipe-result-item,
-.recipe-material-item {
-  display: flex !important;
-  align-items: center !important;
-  gap: var(--my-space-2, 8px) !important;
-  padding: var(--my-space-2, 8px) !important;
-  background: rgba(255, 255, 255, 0.3) !important;
-  border: 1px solid var(--my-brown-light, #a08c70) !important;
-  border-radius: var(--my-border-radius, 8px) !important;
-  margin-bottom: var(--my-space-1, 4px) !important;
-}
-
-.recipe-item-icon {
-  width: 32px !important;
-  height: 32px !important;
-  border: 1px solid var(--my-brown-light, #a08c70) !important;
-  border-radius: 4px !important;
-  overflow: hidden !important;
-  flex-shrink: 0 !important;
-}
-
-.recipe-item-icon img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-.recipe-item-details {
-  flex: 1 !important;
-  min-width: 0 !important;
-}
-
-.recipe-item-name {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: var(--my-text-primary, #2d1810) !important;
-  margin-bottom: 2px !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.recipe-item-quantity {
-  font-size: 11px !important;
-  color: var(--my-text-secondary, #5a1e12) !important;
-  font-weight: bold !important;
-}
-
-.recipe-materials-list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: var(--my-space-1, 4px) !important;
-}
-
-.recipe-description {
-  margin-top: var(--my-space-3, 12px) !important;
-  padding-top: var(--my-space-3, 12px) !important;
-  border-top: 1px solid var(--my-brown-light, #a08c70) !important;
-}
-
-.recipe-description-text {
-  font-size: 12px !important;
-  line-height: 1.4 !important;
-  color: var(--my-text-secondary, #5a1e12) !important;
-  font-style: italic !important;
-}
-
-.recipe-additional-info {
-  margin-top: var(--my-space-3, 12px) !important;
-  padding-top: var(--my-space-3, 12px) !important;
-  border-top: 1px solid var(--my-brown-light, #a08c70) !important;
-}
-
-.recipe-info-item {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  margin-bottom: var(--my-space-1, 4px) !important;
-}
-
-.recipe-info-label {
-  font-size: 11px !important;
-  color: var(--my-text-muted, #8B4513) !important;
-}
-
-.recipe-info-value {
-  font-size: 11px !important;
-  font-weight: bold !important;
-  color: var(--my-text-primary, #2d1810) !important;
 }
 
 .wow-button:disabled {

@@ -1,5 +1,13 @@
 # MYTHRILL P5 — WAVE C IMPLEMENTATION AND VERIFICATION
 
+> **SUPERSEDED STATUS — 2026-10-12:** historical evidence below is retained intact.
+> Current canonical P5 classification is **33 independently accepted / 0 source BLOCK /
+> 9 environment-blocked / 0 inconclusive**, including independent **P5-01 PASS**
+> at reviewed HEAD `620fbc072e87f113cdcc2ea323e0c6c2b28e6d6b`.
+> See [complete independent acceptance](MYTHRILL_P5_01_INDEPENDENT_ACCEPTANCE_20261012.md)
+> and [current engineering state](ENGINEERING_STATE.md). Later P6 source changes
+> require separate acceptance. P5-05/07/09/10/11/12/13/31/32 remain outstanding.
+
 **Current P5-01 implementation status — 2026-10-11:** SOL corrected the five independently demonstrated character completion/recovery failures below, reproduced them RED before correction, and verified the corrected production paths GREEN. Final related regressions: **15 suites / 91 tests passed**; targeted lint **0 errors / 0 warnings**; final detached production build **compiled successfully / exit 0**. This is implementation evidence, **not independent acceptance**. The latest independent P5-01 BLOCK remains the review baseline until bounded independent verification. Current readiness: **32 previously independently accepted cases / 1 corrected case awaiting independent verification (P5-01) / 9 environment-blocked cases**. The historical sections and their earlier completion claims are superseded for P5-01 by the SOL section below.
 
 Date: 2026-10-09, updated 2026-10-10 (S9 closure run, S10 final five-case evidence closure, the post-independent-review bounded journal lifecycle/timing corrections for P5-02/P5-03/P5-04, the final two-case source-evidence closure for P5-01/P5-38, and the second bounded mounted-integration correction for the four failures re-reproduced by the latest independent review). Scope: S8 conversion/reconciliation, S9/S10 final verification, the bounded journal lifecycle correction, the bounded P5-01/P5-38 production-path closure, and the mounted-integration correction.

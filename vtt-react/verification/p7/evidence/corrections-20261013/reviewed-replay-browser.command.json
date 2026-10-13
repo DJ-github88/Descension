@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "verification/p7/correction-browser.cjs"
+  ],
+  "cwd": "D:\\AppData\\Temp\\opencode\\p7-correction-reviewed-replay-20261013\\vtt-react",
+  "status": 0,
+  "source": "reviewed-source.json.gz",
+  "sourceFiles": 2130,
+  "witnesses": {
+    "server/tests/p7Blockers.production.test.js": "d34143c3d5aab3ad1c24da601ed1dd6a5ffe21f334ca2e5857f5c051a5ee8ad9",
+    "vtt-react/verification/p7/browser.cjs": "4506c0a4500a232b83df56616a9d6ad44b6ac4fda2765179e7a7452976435f7c",
+    "vtt-react/verification/p7/correction-browser.cjs": "da736507a017eb857aa08195c17b22fdb8745f79a0ba91c2dad9730d5d9207e8",
+    "vtt-react/verification/p6/character-save-browser.cjs": "3f5e9adc822f9459ad17386b199600950cc439811e2d5bd49d42f76f44035d40",
+    "vtt-react/verification/p5-01/character-browser-harness.cjs": "85480b3f802d36c59ee3f595308af942957795e693cbaca28ab760dbac4fed06"
+  }
+}

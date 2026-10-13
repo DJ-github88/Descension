@@ -156,25 +156,25 @@
 /* Game-themed notifications */
 .notification-game {
   font-family: 'Cinzel', serif;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(139, 115, 85, 0.1) 100%);
-  border-color: #d4af37;
+  background: linear-gradient(135deg, rgba(154, 123, 60, 0.1) 0%, rgba(139, 115, 85, 0.1) 100%);
+  border-color: #9a7b3c;
   color: #2c2416;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 12px rgba(154, 123, 60, 0.3);
 }
 
 .notification-game .notification-icon i {
-  color: #d4af37;
+  color: #9a7b3c;
 }
 
 .notification-game .notification-action-btn {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(154, 123, 60, 0.2);
+  border-color: rgba(154, 123, 60, 0.4);
   color: #2c2416;
 }
 
 .notification-game .notification-action-btn:hover {
-  background: rgba(212, 175, 55, 0.3);
-  border-color: rgba(212, 175, 55, 0.5);
+  background: rgba(154, 123, 60, 0.3);
+  border-color: rgba(154, 123, 60, 0.5);
 }
 
 .notification-game .notification-close {
@@ -182,7 +182,7 @@
 }
 
 .notification-game .notification-close:hover {
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(154, 123, 60, 0.2);
   color: rgba(44, 36, 22, 0.6);
 }
 

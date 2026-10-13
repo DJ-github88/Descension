@@ -7,6 +7,8 @@
 
 import React, { useEffect, useCallback } from 'react';
 import ConflictResolutionModal from '../common/ConflictResolutionModal';
+import CharacterSaveStatus from '../character-sheet/CharacterSaveStatus';
+import PrivateProjectionBoundary from '../../persistence/PrivateProjectionBoundary';
 
 const CharacterPersistenceProvider = ({ children }) => {
   // Use dynamic require to break circular dependencies
@@ -19,6 +21,7 @@ const CharacterPersistenceProvider = ({ children }) => {
   const {
     isAuthenticated,
     forceSave,
+    importSelectedDraft,
     conflictDetected,
     conflictData,
     resolveConflict
@@ -74,6 +77,7 @@ const CharacterPersistenceProvider = ({ children }) => {
   return (
     <>
       {children}
+      <PrivateProjectionBoundary><CharacterSaveStatus retryRuntime={forceSave} importSelectedDraft={importSelectedDraft} /></PrivateProjectionBoundary>
       <ConflictResolutionModal
         isOpen={conflictDetected}
         conflictType="character"

@@ -139,6 +139,7 @@ const getResistanceMultiplier = (targetId, targetType, damageElement) => {
  * Process a single over-time effect tick
  */
 const processEffectTick = (effect, targetId, targetType) => {
+  if (effect.sharedTiming === 'manual' || require('./actorConsequenceService').inSharedRoom()) return null;
   if (!effect.hasOverTimeEffect) return null;
   const assistance = getAssistanceDecisionForTarget({ ...effect, kind: effect.overTimeType }, targetId);
   if (assistance.suppressed) return { effectName: effect.name, targetId, targetType, amount: 0,

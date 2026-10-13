@@ -336,7 +336,7 @@ body.window-dragging .library-drag-handle {
   padding: 11px 14px 12px;
   background:
     radial-gradient(circle at 12% 8%, rgba(139, 100, 50, 0.12) 0%, transparent 40%),
-    linear-gradient(180deg, #f6ecd2 0%, #efe0bc 100%);
+    #f1ece1;
   color: #4a3222;
   border: 1px solid #b3925e;
   border-radius: 5px;
@@ -415,7 +415,7 @@ body.window-dragging .library-drag-handle {
   position: relative;
   background:
     radial-gradient(circle at 10% 6%, rgba(139, 100, 50, 0.1) 0%, transparent 35%),
-    linear-gradient(180deg, #f6ecd2 0%, #efe0bc 100%);
+    #f1ece1;
   border: 2px solid #8b6f47;
   border-radius: 4px;
   box-shadow:
@@ -573,3 +573,120 @@ body.window-dragging .library-drag-handle {
   color: #8a6a45;
   user-select: none;
 }
+
+/* ============================================================
+   CALM LINEN LIBRARY — flat page, thin rules, no wood/gold/glow
+   (overrides everything above; same markup, same behaviour)
+   ============================================================ */
+body .library-bookshelf {
+  background: var(--adventure-page, #f8f5ee);
+}
+body .library-shelf-molding,
+body .library-shelf-molding--bottom {
+  height: 28px;
+  background: var(--adventure-paper, #f1ece1);
+  border: 0;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6);
+  box-shadow: none;
+}
+body .library-shelf-molding--bottom { border-bottom: 0; border-top: 1px solid var(--adventure-rule, #c4baa6); height: 14px; }
+body .library-shelf-molding--thin { height: 14px; }
+body .library-shelf-molding .library-molding-hint {
+  color: #68533e !important;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-shadow: none;
+}
+body .library-shelf-plank {
+  height: 0;
+  margin: 0 26px;
+  border-radius: 0;
+  background: none;
+  border-top: 1px solid var(--adventure-rule, #c4baa6);
+  box-shadow: none;
+}
+body .library-book {
+  --spine: color-mix(in srgb, var(--accent, #663c32) 60%, #34251a);
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-top: 3px solid var(--spine);
+  border-radius: 3px;
+  box-shadow: none;
+  transform: none;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+  font-family: 'Cinzel', Georgia, serif;
+}
+body .library-book::before,
+body .library-book::after,
+body .library-book-crown { display: none; }
+body .library-book-bands { display: block; top: 12px; left: 22%; right: 22%; height: 0; box-shadow: none; }
+body .library-book-bands::before { display: none; }
+body .library-book-bands::after { top: 0; bottom: auto; height: 0; border-top: 1px solid var(--adventure-rule, #c4baa6); border-bottom: 0; }
+body .library-book:not(.library-book--gem) .library-book-bands::after { border-bottom-color: transparent; }
+body .library-book-icon,
+body .library-book--creatures .library-book-icon,
+body .library-book--items .library-book-icon,
+body .library-book--maps .library-book-icon {
+  color: var(--spine);
+  opacity: 1;
+  filter: none;
+  margin-top: 30px;
+}
+body .library-book--gem .library-book-icon { margin-top: 24px; opacity: .85; }
+body .library-book-title,
+body .library-book--creatures .library-book-title,
+body .library-book--items .library-book-title,
+body .library-book--maps .library-book-title {
+  color: #34251a;
+  text-shadow: none;
+  letter-spacing: 2.5px;
+}
+body .library-book--gem .library-book-title { color: #68533e; letter-spacing: 1.5px; }
+body .library-book--creatures,
+body .library-book--items,
+body .library-book--maps { box-shadow: none; background: var(--adventure-panel, #e8e2d4); }
+body .library-book-slot:hover .library-book,
+body .library-book:focus-visible {
+  transform: translateY(-10px);
+  filter: none;
+  background: var(--adventure-page, #f8f5ee);
+  border-color: var(--spine);
+  box-shadow: none;
+  outline: none;
+}
+body .library-book:active { transform: translateY(-6px); }
+
+/* teaser note */
+body .library-book-note {
+  background: var(--adventure-page, #f8f5ee);
+  color: #34251a;
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-radius: 3px;
+  box-shadow: none;
+}
+body .library-book-note--fixed.library-book-note--above { transform: translate(-50%, -100%); }
+body .library-book-note--fixed.library-book-note--below { transform: translate(-50%, 0); }
+body .library-book-note-title { color: #663c32; border-bottom: 1px solid var(--adventure-rule, #c4baa6); }
+body .library-book-note-open { color: #663c32; }
+
+/* reading page */
+body .library-book-page { background: var(--adventure-page, #f8f5ee); }
+body .library-book-page-sheet {
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-top: 3px solid #663c32;
+  border-radius: 3px;
+  box-shadow: none;
+  color: #34251a;
+}
+body .library-book-page-ornament { color: #68533e; }
+body .library-book-page-title { color: #34251a; text-shadow: none; }
+body .library-book-page-subtitle { color: #68533e; }
+body .library-book-page-rule { background: var(--adventure-rule, #c4baa6); box-shadow: none; border: 0; height: 1px; }
+body .library-book-page-section h3 { color: #663c32; }
+body .library-book-page-section:first-of-type p:first-of-type::first-letter { color: #663c32; text-shadow: none; }
+body .library-page-turn { background: var(--adventure-page, #f8f5ee); color: #34251a; border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: none; }
+body .library-page-turn:hover:not(:disabled) { background: #663c32; color: #f8f5ee; border-color: #663c32; }
+body .library-page-marker .active { color: #663c32; text-shadow: none; }
+body .library-book-page-footer { color: #68533e; }

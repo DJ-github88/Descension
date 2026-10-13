@@ -1,0 +1,39 @@
+# P7 exact behavioral/witness source identity
+
+| File | Before SHA256 | Final SHA256 |
+|---|---|---|
+| `server/services/actorConsequences.js` | `new` | `a7b4d75b7b9e2f04428d0b7ad0541b7995712bdeb103534675d951939f0315c7` |
+| `server/services/syncService.js` | `3ae45720cd96a550e00c27cc4eb6a2b851a7fa1437a50a15a9bd88152426b8b0` | `e49905bf64b350fea900125c94e34320ccc69e1ed2efe04c5b403418ef3102c4` |
+| `server/services/validationService.js` | `5fbf875b4514c30cd59876369b6948bfac1d52ded210d5e85debbb040f2b3e91` | `6b4c162210afb033a3f3f376b86f88b3c675714af65781a71f5ade609e19645e` |
+| `server/services/sanitizationService.js` | `5d998a4551fc941906d4416bef163f4d5b485b7a2c9fa58156bcb5a79b6fe18b` | `bfef593d2dd9c7eceb432b4884213dfc65ca7cd32317c73c129c75a329ec2502` |
+| `server/services/rateLimitService.js` | `61d1bb4ea368f402bd5d9d70a2700766a2eec1f1a5e58c416fe7b1752b8bb25a` | `49d06331297856754f004ff23aa1a6786d641e21d37da5147f3a3a22c0c879e5` |
+| `server/services/roomAccessService.js` | `85bd034d8c5826e7938109452c58190b48f167cca438164bc5147512604e63b0` | `7e2fb56fa75a0f6d5f33f8ef4c93c8eac1ecbb4e807b4ef04307fa3dd5e5a68c` |
+| `server/handlers/actorConsequenceHandlers.js` | `new` | `bbef92164f8aac9e88fbed2d1a7251e32ced84df5947557e13eecd83f3d5c8cb` |
+| `server/handlers/socketHandlers.js` | `332ea14cced58ea83c8f7939f5228df0476bb5ead19c15fc3d99bef7d3e75e6b` | `64e5a6c5c959b7f803010fd457fa8a2327b17e8923081ed22e643acfad46829d` |
+| `server/handlers/tokenHandlers.js` | `65d7b7cf63903fc8a671e75f6b3b94636d79a4f7a1afe2b46b34269e9783b4d1` | `a3cfffc6501354caf8eb618a7e90800b62f27dd666ee130daa10320df54bef12` |
+| `server/handlers/environmentHandlers.js` | `b7d635348cb70a0198f467ad27b8d6b202952a92e7359161317982c9205f719a` | `78238cb6ead6e7ffebbcd55aee7825bee92b642508ba11898053122b69cc3d24` |
+| `server/handlers/combatHandlers.js` | `8c49403184057dec7686cd65b1c5b2e70761c24e6a11248f2f78a8fadf45d8cd` | `0e0574a684dcc20ce1bb973242db976a4f40be812c27122c68e2a9c5df76b0e5` |
+| `server/handlers/roomLifecycleHandlers.js` | `70e96b71cee1128b64983c8933a21522841df9aae197742ed613fcd4298a39e7` | `feacb65fde5aeff826d00ba707f6ee9ccc04ac3581aba874346397ab771bb9bd` |
+| `vtt-react/src/services/actorConsequenceService.js` | `new` | `4f285fc9cb7a6d6cd703258f61f3677d5d1d202cfc7639e63d5e7dc70623f32a` |
+| `vtt-react/src/services/silentRoomHydration.js` | `05676676f7816af60cd0e278346e6afc4c6cab33df9aeaacbe04a98cde5e51d6` | `2bf8b877e0feddebafd997bad3d7299ba5a5ab868e30d0e2a22c005cbafd3cdf` |
+| `vtt-react/src/services/effectProcessingService.js` | `5355c84088b5051d327e49af20727591ce7f456e8cdcfef4fdc61239109d6219` | `21a2b0e863963ea54def0cbfc6d281e4414fdeaf0088c31b06a15850534a9fb1` |
+| `vtt-react/src/store/creatureStore.js` | `2fb8a49a217f526ec4d350465246009738512bef34168ce040d438c74154f58b` | `3d6539a35612f5a0beb122f38be67512bd96acc5795201b47a301e76d61337d5` |
+| `vtt-react/src/store/characterTokenStore.js` | `aa2f0c8ba2292e76ffe13dbba6fac74b2c1784ede526d919ff7d2623b34ae94a` | `fbd3b73c204cd9b1eea9b1d8dfe0c3b215998b7c649a4adaf93273880b6963f2` |
+| `vtt-react/src/store/conditionStore.js` | `ef072333364310c76657608ae79e70127cc4f43d1e48f454f729703a31687584` | `57b516e7110db80f06e9436a4d0a04d4bde81797513c5d8e33fe9053b1386570` |
+| `vtt-react/src/store/combatStore.js` | `ab3d21b8decfcfcd6647f055952ca407d6bc3c8def33082b662e21f093882747` | `c2ec8649165d3ab2b5715294cd80d8057412cd183d1c99c9f4e6df447c5c8904` |
+| `vtt-react/src/store/characterHelpers.js` | `a5a32862ef9b00692557b84e7317c92c3897dd35a45400355724685e4f27e3c4` | `b53de7eb8c8e46b6ab85e5309b68995a28fd250821914dc188b9bc6aa0a16f06` |
+| `vtt-react/src/store/characterSlices/coreSlice.js` | `be3115b60ac500fa141e1385ddbb2b96de916ff860f959c6ff378c3f93fb2d91` | `ba82734037295ba9e0690c65996c76a0080751f37c0bce61aac7117813766929` |
+| `vtt-react/src/store/characterSlices/multiplayerSlice.js` | `e87d4d1fe8e249279183009b3544e09575611c859e2df99252c0049d11d175c9` | `21a65d939ac1d6b027c3e251411a763595ce11a35eddc73426a1671f73772278` |
+| `vtt-react/src/hooks/useCharacterPersistence.js` | `487c9a7a31c62f9baa5b90e4d34bf67d64bf66cbad4eba6650066549a5e220b7` | `5637b5de54bb2a598570a0cd1effd490c4c20469397344b71a1ae0fd821c8ea5` |
+| `vtt-react/src/components/multiplayer/socketHandlers/registerAllHandlers.js` | `62b5e9278d40deeac754a449844c85c8270fb87dfca0866c3603ccd6a21d8eb6` | `212f7d036f957eb18d463394de8608b29fc20955f1d2aefadb2ea93b6a068926` |
+| `vtt-react/src/components/hud/ActorConsequenceControls.jsx` | `new` | `8f6db41f99b1179cc70f53c9479743a1046e448b5417f1bf630edb9e187e4f2a` |
+| `vtt-react/src/components/hud/PartyHUD.jsx` | `1c6bfce70d637c0d3c7e3a5c8e76283f97003c7098d51530da3a49d7890ff55d` | `1b352a8b377df727662c3cab9a3a576c20df003aac893b5b0b25981e93d01679` |
+| `vtt-react/src/components/hud/TargetHUD.jsx` | `598b76b286608ae7b9da478d20b4f339fb9feb2ccdff43862d7e7775af8a9a8a` | `69ff3727692174324550293eb4c6760518c30b6473d43b708d9d7bf284a7cd10` |
+| `server/tests/p7Consequences.production.test.js` | `new` | `9c80d8393ddc0b13158e0c3cf0f4d46963a970798801e3b086ce265b85744a47` |
+| `server/tests/p7Negative.production.test.js` | `new` | `39b82958fd98bd5a71d2d279eb675c8ec691aaffca0451458eb89ad806209233` |
+| `server/tests/p7ImportMetadata.production.test.js` | `new` | `7a527dd7ba0c02d74880ceb03991eed4e21e543cd33373f32233be2753963422` |
+| `server/tests/c5RoomAuthority.test.js` | `aedee570c3f2fefe8686aef970820870cdc11dec83a01be7c8c206855d17d737` | `15ae020ff06ffdd746ae4a79141802ccef1eed3845ef448a994dea51844f6637` |
+| `server/tests/roomAccessPrivacyProjection.test.js` | `34dd7ff9191f944c58cea1573b800aac94f7c161159e0add3db5bdaa95fc5d7d` | `75c2ef08cc1892ee11913e5ac81706fee4313cfbecc3ecd36cd0c876e53864ea` |
+| `server/tests/socketHandlers.test.js` | `92c33b7e5b23640520f56132ca15ce0622c4bad4ea845cb5b1981cda14ab04fc` | `6a09e41928440f45ca27fb95ffbbb89b097d5d2c8be243290adec3ef5edc4dd2` |
+| `server/tests/helpers/productionStackServer.js` | `7e05fb1a2bbe973433274334f12afe80973bfa17287f4b4adc10a51c0cd3c4d1` | `b79ced31df00b01511938de5b78108ddd08e792174187795250012b0196ffdc6` |
+| `vtt-react/src/services/__tests__/p7Negative.production.test.js` | `new` | `ed9c1ece77fc77047cecae618c65e5b333ff4ffecef438ded770835013f7a5da` |

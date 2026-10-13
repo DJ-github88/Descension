@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node",
+    "D:\\VTT\\vtt-react\\node_modules\\react-scripts\\bin\\react-scripts.js",
+    "test",
+    "--watchAll=false",
+    "--runInBand",
+    "--silent",
+    "--no-cache",
+    "--runTestsByPath",
+    "src/data/classes/apex/__tests__/ApexResourceBar.test.jsx",
+    "src/data/classes/augur/__tests__/AugurResourceBar.test.jsx",
+    "src/components/account/__tests__/CharacterViewHeaderMounts.test.jsx"
+  ],
+  "cwd": "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\baseline\\vtt-react",
+  "status": 0,
+  "signal": null,
+  "durationMs": 21898,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

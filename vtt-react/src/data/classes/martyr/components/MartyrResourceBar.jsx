@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -7,6 +8,7 @@ import '../styles/MartyrResourceBar.css';
 import '../../../../styles/unified-context-menu.css';
 import { useResourceBarTooltip } from '../../../../components/hud/useResourceBarTooltip';
 import ClassTip from '../../../../components/hud/ClassTip';
+import { INK, MUTED, PAGE, PAPER, RULE, ETCH, BRICK, inked, washed } from '../../../../components/hud/calmBarPalette';
 import { MARTYR_DAMAGE_THRESHOLDS, MARTYR_DEVOTION_MAX, MARTYR_DAMAGE_BANK_MAX, normalizeManagedClassResource, updateManagedClassResource } from '../../../classResourceContracts';
 
 const THRESHOLDS = MARTYR_DAMAGE_THRESHOLDS;
@@ -171,6 +173,8 @@ const MartyrResourceBar = ({
 
     // Spec colors
     const activeSpec = SPEC_DATA[martyrSpec] || SPEC_DATA.redemption;
+    const specInk = inked(activeSpec.accentColor, 0.5);
+    const specWash = washed(activeSpec.accentColor, 0.18);
 
     return (
         <div className={`martyr-resource-wrapper ${size} ${context === 'party' ? 'party-context' : ''}`}>
@@ -191,93 +195,13 @@ const MartyrResourceBar = ({
                     role="img"
                     aria-label="Martyr Devotion Reliquary Apparatus"
                 >
-                    <defs>
-                        {/* Background metallic gradient */}
-                        <linearGradient id="martyrBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#150d09" />
-                            <stop offset="50%" stopColor="#25160e" />
-                            <stop offset="100%" stopColor="#130b08" />
-                        </linearGradient>
+                    <defs />
 
-                        {/* Gold filigree trim */}
-                        <linearGradient id="martyrGoldBorder" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#8d6624" />
-                            <stop offset="25%" stopColor="#f3c868" />
-                            <stop offset="50%" stopColor="#ffe9a0" />
-                            <stop offset="75%" stopColor="#e5b34a" />
-                            <stop offset="100%" stopColor="#7a5518" />
-                        </linearGradient>
-
-                        {/* Stigmata active seal glow gradient */}
-                        <radialGradient id="martyrSealGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor={activeSpec.glowColor} stopOpacity="1" />
-                            <stop offset="50%" stopColor={activeSpec.accentColor} stopOpacity="0.8" />
-                            <stop offset="100%" stopColor="#3d1508" stopOpacity="0.3" />
-                        </radialGradient>
-
-                        {/* Caliper liquid gradient */}
-                        <linearGradient id="martyrLiquidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#962d1d" />
-                            <stop offset="50%" stopColor="#d35400" />
-                            <stop offset="100%" stopColor={activeSpec.accentColor} />
-                        </linearGradient>
-
-                        {/* Glass tube reflection highlight */}
-                        <linearGradient id="martyrGlassHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
-                            <stop offset="40%" stopColor="#ffffff" stopOpacity="0.1" />
-                            <stop offset="100%" stopColor="#000000" stopOpacity="0.5" />
-                        </linearGradient>
-
-                        {/* Center Monstrance glow filter */}
-                        <filter id="martyrSunGlow" x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    {/* BASE PLATE */}
-                    <rect
-                        x="3"
-                        y="3"
-                        width="286"
-                        height="70"
-                        rx="8"
-                        ry="8"
-                        fill="url(#martyrBgGrad)"
-                        stroke="url(#martyrGoldBorder)"
-                        strokeWidth="1.6"
-                    />
-
-                    {/* Inner Sanctum Border Inset */}
-                    <rect
-                        x="6"
-                        y="6"
-                        width="280"
-                        height="64"
-                        rx="6"
-                        ry="6"
-                        fill="none"
-                        stroke="rgba(212, 175, 55, 0.22)"
-                        strokeWidth="0.8"
-                        strokeDasharray="4 2"
-                    />
-
-                    {/* Corner Sun-Boss Rivets */}
-                    <circle cx="8" cy="8" r="2.2" fill="#d4af37" stroke="#3d2208" strokeWidth="0.6" />
-                    <circle cx="284" cy="8" r="2.2" fill="#d4af37" stroke="#3d2208" strokeWidth="0.6" />
-                    <circle cx="8" cy="68" r="2.2" fill="#d4af37" stroke="#3d2208" strokeWidth="0.6" />
-                    <circle cx="284" cy="68" r="2.2" fill="#d4af37" stroke="#3d2208" strokeWidth="0.6" />
-
-                    {/* Gothic Arch Filigree Dividers */}
-                    <line x1="119" y1="12" x2="119" y2="64" stroke="rgba(212, 175, 55, 0.35)" strokeWidth="0.9" />
-                    <circle cx="119" cy="38" r="3" fill="#2a170e" stroke="rgba(212, 175, 55, 0.6)" strokeWidth="0.8" />
-
-                    <line x1="173" y1="12" x2="173" y2="64" stroke="rgba(212, 175, 55, 0.35)" strokeWidth="0.9" />
-                    <circle cx="173" cy="38" r="3" fill="#2a170e" stroke="rgba(212, 175, 55, 0.6)" strokeWidth="0.8" />
+                    {/* Parchment page with a ledger rule and two vertical dividers */}
+                    <rect x="3" y="3" width="286" height="70" rx="3" fill={PAGE} stroke={RULE} strokeWidth="1.2" />
+                    <rect x="6" y="6" width="280" height="64" rx="1.5" fill="none" stroke={ETCH} strokeWidth="0.6" />
+                    <line x1="119" y1="12" x2="119" y2="64" stroke={RULE} strokeWidth="0.8" />
+                    <line x1="173" y1="12" x2="173" y2="64" stroke={RULE} strokeWidth="0.8" />
 
                     {/* ========================================================= */}
                     {/* LEFT FLANK: THE 6 SACRED STIGMATA SEALS (Tiers I - VI)   */}
@@ -320,9 +244,9 @@ const MartyrResourceBar = ({
                                         cx={cx}
                                         cy={cy}
                                         r="11.5"
-                                        fill="#120905"
-                                        stroke={isFilled ? activeSpec.accentColor : 'rgba(139, 90, 43, 0.4)'}
-                                        strokeWidth={isActiveTier ? '1.4' : '0.8'}
+                                        fill={PAGE}
+                                        stroke={isFilled ? specInk : RULE}
+                                        strokeWidth={isActiveTier ? '1.5' : '0.8'}
                                     />
 
                                     {/* Inner Gem Core */}
@@ -330,8 +254,8 @@ const MartyrResourceBar = ({
                                         cx={cx}
                                         cy={cy}
                                         r="9"
-                                        fill={isFilled ? 'url(#martyrSealGlow)' : '#1b100a'}
-                                        stroke={isFilled ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0,0,0,0.5)'}
+                                        fill={isFilled ? specWash : PAPER}
+                                        stroke={isFilled ? specInk : ETCH}
                                         strokeWidth="0.6"
                                     />
 
@@ -342,10 +266,9 @@ const MartyrResourceBar = ({
                                             cy={cy}
                                             r="13"
                                             fill="none"
-                                            stroke={activeSpec.accentColor}
+                                            stroke={specInk}
                                             strokeWidth="0.8"
                                             strokeDasharray="2 2"
-                                            filter="url(#martyrSunGlow)"
                                         />
                                     )}
 
@@ -353,7 +276,7 @@ const MartyrResourceBar = ({
                                     <text
                                         x={cx}
                                         y={cy + 3.2}
-                                        fill={isFilled ? '#ffffff' : 'rgba(180, 150, 110, 0.35)'}
+                                        fill={isFilled ? INK : ETCH}
                                         fontSize="8"
                                         fontWeight="900"
                                         textAnchor="middle"
@@ -397,10 +320,9 @@ const MartyrResourceBar = ({
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={activeSpec.accentColor}
-                                        strokeWidth={i % 2 === 0 ? '1.4' : '0.8'}
+                                        stroke={devotionLevel > 0 ? specInk : ETCH}
+                                        strokeWidth={i % 2 === 0 ? '1.2' : '0.7'}
                                         strokeLinecap="round"
-                                        opacity={devotionLevel > 0 ? '0.9' : '0.4'}
                                     />
                                 );
                             })}
@@ -411,10 +333,9 @@ const MartyrResourceBar = ({
                             cx="146"
                             cy="38"
                             r="20"
-                            fill="#160c07"
-                            stroke="url(#martyrGoldBorder)"
-                            strokeWidth="1.6"
-                            filter={devotionLevel > 0 ? 'url(#martyrSunGlow)' : 'none'}
+                            fill={PAPER}
+                            stroke={devotionLevel > 0 ? specInk : RULE}
+                            strokeWidth="1.2"
                         />
 
                         {/* Inner Reliquary Chamber */}
@@ -422,8 +343,8 @@ const MartyrResourceBar = ({
                             cx="146"
                             cy="38"
                             r="15"
-                            fill={devotionLevel > 0 ? 'url(#martyrSealGlow)' : '#100704'}
-                            stroke={activeSpec.accentColor}
+                            fill={devotionLevel > 0 ? specWash : PAGE}
+                            stroke={devotionLevel > 0 ? specInk : ETCH}
                             strokeWidth="0.8"
                         />
 
@@ -431,12 +352,11 @@ const MartyrResourceBar = ({
                         <text
                             x="146"
                             y="43.5"
-                            fill={devotionLevel > 0 ? '#ffffff' : 'rgba(212, 175, 55, 0.45)'}
+                            fill={devotionLevel > 0 ? INK : ETCH}
                             fontSize="14"
                             fontWeight="900"
                             textAnchor="middle"
                             fontFamily="Cinzel, serif"
-                            filter={devotionLevel > 0 ? 'drop-shadow(0 0 4px rgba(255,255,255,0.8))' : 'none'}
                             style={{ pointerEvents: 'none' }}
                         >
                             {ROMAN_NUMERALS[devotionLevel]}
@@ -458,9 +378,9 @@ const MartyrResourceBar = ({
                             width="98"
                             height="24"
                             rx="12"
-                            fill="#150a06"
-                            stroke="url(#martyrGoldBorder)"
-                            strokeWidth="1.3"
+                            fill={PAGE}
+                            stroke={RULE}
+                            strokeWidth="1"
                         />
 
                         {/* Caliper Inner Glass Channel */}
@@ -470,9 +390,9 @@ const MartyrResourceBar = ({
                             width="92"
                             height="18"
                             rx="9"
-                            fill="#0d0503"
-                            stroke="rgba(0, 0, 0, 0.8)"
-                            strokeWidth="0.8"
+                            fill={PAPER}
+                            stroke={ETCH}
+                            strokeWidth="0.6"
                         />
 
                         {/* Dynamic Liquid/Plasma Fill */}
@@ -483,19 +403,7 @@ const MartyrResourceBar = ({
                             width={liquidFillWidth}
                             height="18"
                             rx="9"
-                            fill="url(#martyrLiquidGrad)"
-                            filter={devotionDamage > 0 ? 'url(#martyrSunGlow)' : 'none'}
-                        />
-
-                        {/* Glass Specular Reflection Highlight */}
-                        <rect
-                            x="183"
-                            y="29"
-                            width="92"
-                            height="9"
-                            rx="4"
-                            fill="url(#martyrGlassHighlight)"
-                            style={{ pointerEvents: 'none' }}
+                            fill={washed(BRICK, 0.42)}
                         />
 
                         {/* Threshold Tick Marks & Diamond Pips */}
@@ -516,7 +424,7 @@ const MartyrResourceBar = ({
                                         y1="29"
                                         x2={tickX}
                                         y2="47"
-                                        stroke={isPassed ? '#ffffff' : 'rgba(212, 175, 55, 0.4)'}
+                                        stroke={isPassed ? inked(BRICK, 0.2) : RULE}
                                         strokeWidth="0.8"
                                         strokeDasharray="1.5 1.5"
                                     />
@@ -524,7 +432,7 @@ const MartyrResourceBar = ({
                                         cx={tickX}
                                         cy="38"
                                         r="1.4"
-                                        fill={isPassed ? '#ffffff' : 'rgba(212, 175, 55, 0.6)'}
+                                        fill={isPassed ? inked(BRICK, 0.2) : RULE}
                                     />
                                 </g>
                             );
@@ -598,103 +506,55 @@ const MartyrResourceBar = ({
                         width: '100%'
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">Martyr Devotion & Suffering Ledger</div>
-
-                            {/* Current state summary */}
-                            <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
-                                <div><strong>Devotion:</strong> {STAGE_NAMES[devotionLevel]} <span style={{ color: '#fde68a' }}>(Tier {ROMAN_NUMERALS[devotionLevel]})</span></div>
-                                 <div><strong>Suffering Banked:</strong> <span style={{ color: devotionLevel >= 5 ? '#f87171' : '#fde68a' }}>{devotionDamage}/100 DMG</span> {devotionLedger.earnedLevels < MAX_LEVEL && <span style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)' }}>({damageNeeded} to next earned threshold)</span>}</div>
-                                 <div>Earned: {devotionLedger.earnedLevels} · Spent: {devotionLedger.spentLevels} · Bonus: {devotionLedger.bonusLevels}</div>
-                                <div style={{ color: devotionLevel === 0 ? '#f87171' : 'var(--crm-text-dim, #cbd5e1)', marginTop: '2px', fontSize: '0.74rem' }}>
-                                    <strong>Active Passive:</strong> {STAGE_PASSIVES[devotionLevel]}
-                                </div>
+                    <div className="cm" style={{ '--cm-accent': '#a8742a', '--cm-accent-deep': '#5e3a12', '--cm-wash': '#f3e4c8' }}>
+                        <header className="cm-head">
+                            <span className={`cm-seal ${devotionLevel === 0 ? 'is-quiet' : ''}`}>{devotionLevel === 0 ? '0' : ROMAN_NUMERALS[devotionLevel]}</span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">Martyr Devotion &amp; Suffering Ledger</div>
+                                <div className="cm-title">{STAGE_NAMES[devotionLevel]}</div>
+                                <div className="cm-sub">{devotionLevel === 0 ? 'Devotion unkindled' : `Devotion tier ${ROMAN_NUMERALS[devotionLevel]}`}</div>
                             </div>
-
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '8px', marginBottom: '8px' }}>
-                                Set Devotion Tier
-                            </div>
-
-                            {/* Direct Jump Grid (0 to 6) */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                {[0, 1, 2, 3, 4, 5, 6].map((lvl) => (
-                                    <button
-                                        key={lvl}
-                                        className={`context-menu-button ${devotionLevel === lvl ? 'active' : ''} ${lvl === 0 ? 'danger' : ''}`}
-                                        onClick={() => handleSetLevel(lvl)}
-                                        title={`${STAGE_NAMES[lvl]} (${THRESHOLDS[lvl]} DMG)`}
-                                    >
-                                        {lvl === 0 ? '0' : ROMAN_NUMERALS[lvl]}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className={`cm-burden ${devotionLevel === 0 ? 'is-quiet' : ''}`}>
+                            <span className="cm-burden-label">Your devotion grants</span>
+                            <p className="cm-burden-text">{STAGE_PASSIVES[devotionLevel]}</p>
+                        </div>
+                        <div className="cm-section">Set Devotion Tier</div>
+                        <div className="cm-track" style={{ '--cm-cols': 7 }} role="group" aria-label="Set Devotion tier">
+                            {[0, 1, 2, 3, 4, 5, 6].map((lvl) => (
                                 <button
-                                    className="context-menu-button"
-                                    onClick={() => handleSetLevel(Math.max(0, devotionLevel - 1))}
-                                    disabled={devotionLevel === 0}
+                                    key={lvl}
+                                    type="button"
+                                    className={`cm-pip ${devotionLevel === lvl ? 'active' : ''} ${devotionLevel >= lvl && lvl > 0 ? 'lit' : ''}`}
+                                    onClick={() => handleSetLevel(lvl)}
+                                    title={`${STAGE_NAMES[lvl]} (${THRESHOLDS[lvl]} DMG)`}
                                 >
-                                    <i className="fas fa-minus-circle"></i>
-                                    -1 Tier
+                                    {lvl === 0 ? '0' : ROMAN_NUMERALS[lvl]}
                                 </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => handleSetLevel(Math.min(MAX_LEVEL, devotionLevel + 1))}
-                                    disabled={devotionLevel === MAX_LEVEL}
-                                >
-                                    <i className="fas fa-plus-circle"></i>
-                                    +1 Tier
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '8px 0' }}></div>
-
-                            {/* Suffering Bank Controls */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginBottom: '6px' }}>
-                                Suffering Bank Management (Damage Taken)
-                            </div>
-                            <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => handleDamageChange(Math.max(0, devotionDamage - 10))}
-                                    title="Subtract 10 Damage"
-                                >
-                                    <i className="fas fa-minus"></i> -10 DMG
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => handleDamageChange(devotionDamage + 10)}
-                                    title="Add 10 Damage"
-                                >
-                                    <i className="fas fa-plus"></i> +10 DMG
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => handleDamageChange(devotionDamage + 20)}
-                                    title="Add 20 Damage"
-                                >
-                                    <i className="fas fa-layer-group"></i> +20 DMG
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => handleDamageChange(0)}
-                                    title="Reset Banked Damage to 0"
-                                >
-                                    <i className="fas fa-undo"></i>
-                                </button>
-                            </div>
-
-                            <button
-                                className="context-menu-button danger"
-                                onClick={() => setShowControls(false)}
-                                style={{ width: '100%', marginTop: '6px' }}
-                            >
-                                <i className="fas fa-times"></i>
-                                Close
+                            ))}
+                        </div>
+                        <div className="cm-row">
+                            <button type="button" className="context-menu-button spend" onClick={() => handleSetLevel(Math.max(0, devotionLevel - 1))} disabled={devotionLevel === 0}>
+                                -1 Tier
+                            </button>
+                            <button type="button" className="context-menu-button gain" onClick={() => handleSetLevel(Math.min(MAX_LEVEL, devotionLevel + 1))} disabled={devotionLevel === MAX_LEVEL}>
+                                +1 Tier
                             </button>
                         </div>
+                        <div className="cm-section">Suffering Bank Management (Damage Taken)</div>
+                        <div className="cm-meter" aria-hidden="true"><span style={{ width: `${Math.min(100, devotionDamage)}%` }}></span></div>
+                        <p className="cm-line">{devotionDamage}/100 DMG banked{devotionLedger.earnedLevels < MAX_LEVEL ? `, ${damageNeeded} more to the next tier` : ''}.</p>
+                        <p className="cm-line is-quiet">Earned: {devotionLedger.earnedLevels} · Spent: {devotionLedger.spentLevels} · Bonus: {devotionLedger.bonusLevels}</p>
+                        <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                            <button type="button" className="context-menu-button" onClick={() => handleDamageChange(Math.max(0, devotionDamage - 10))} title="Subtract 10 Damage">-10</button>
+                            <button type="button" className="context-menu-button" onClick={() => handleDamageChange(devotionDamage + 10)} title="Add 10 Damage">+10</button>
+                            <button type="button" className="context-menu-button" onClick={() => handleDamageChange(devotionDamage + 20)} title="Add 20 Damage">+20</button>
+                            <button type="button" className="context-menu-button quiet" onClick={() => handleDamageChange(0)} title="Reset banked damage to 0" aria-label="Reset banked damage"><i className="fas fa-undo" aria-hidden="true"></i></button>
+                        </div>
+                        <ClassMenuSpells className="Martyr" resourceTypes={['devotion']} resourceLabel="Devotion" current={devotionLevel} />
                     </div>
                 </div>,
                 document.body

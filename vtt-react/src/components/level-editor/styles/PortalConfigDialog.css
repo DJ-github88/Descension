@@ -2,7 +2,7 @@
 .portal-config-dialog {
     padding: 24px;
     background: linear-gradient(135deg, #2a1810 0%, #3d2817 100%);
-    color: #f0e6d2;
+    color: #f1ece1;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -68,7 +68,7 @@
     background: rgba(240, 230, 210, 0.15);
     border: 2px solid #a08c70;
     border-radius: 8px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 1rem;
     font-family: inherit;
     transition: all 0.2s ease;
@@ -94,7 +94,7 @@
 /* Style dropdown options for better visibility */
 .wow-select option {
     background: rgba(30, 30, 46, 0.95);
-    color: #f0e6d2;
+    color: #f1ece1;
     padding: 8px 12px;
     border: none;
     font-size: 1rem;
@@ -112,19 +112,6 @@
 }
 
 /* Specific styling for destination section to ensure dropdown visibility */
-.portal-destination {
-    position: relative;
-    z-index: 10000;
-    overflow: visible;
-}
-
-.portal-destination .form-row {
-    overflow: visible;
-}
-
-.portal-destination .config-label {
-    overflow: visible;
-}
 
 /* Override window content overflow for dropdowns */
 .wow-window:has(.portal-config-dialog) {
@@ -187,7 +174,7 @@
     background: linear-gradient(135deg, #3d2817 0%, #4a3220 100%);
     border: 2px solid #a08c70;
     border-radius: 8px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -342,7 +329,7 @@
 }
 
 .preview-description {
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 0.85rem;
     font-style: italic;
     margin-top: 4px;
@@ -369,7 +356,7 @@
     background: linear-gradient(135deg, #3d2817 0%, #4a3220 100%);
     border: 2px solid #a08c70;
     border-radius: 8px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;

@@ -128,7 +128,7 @@
     background: linear-gradient(to right, #7a3b2e, #5a1e12);
     border: 1px solid #3a3a3a;
     border-left: none;
-    color: #f0e6d2;
+    color: #f1ece1;
     cursor: pointer;
     z-index: 12;
     transition: left 0.3s ease, background 0.2s ease, color 0.2s ease, transform 0.3s ease;

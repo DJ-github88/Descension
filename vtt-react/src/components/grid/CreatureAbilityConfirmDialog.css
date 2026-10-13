@@ -18,7 +18,7 @@
 
 .creature-ability-confirm-dialog {
   width: min(420px, calc(100vw - 32px));
-  background: linear-gradient(135deg, #f4ecd8 0%, #e8dcc0 100%);
+  background: linear-gradient(135deg, #f4ecd8 0%, #e8e2d4 100%);
   border: 2px solid #8b6f47;
   border-radius: 10px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
@@ -33,7 +33,7 @@
   justify-content: space-between;
   padding: 10px 14px;
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f0e6d2;
+  color: #f1ece1;
   border-bottom: 1px solid #8b6f47;
 }
 
@@ -47,7 +47,7 @@
   background: rgba(240, 230, 210, 0.15);
   border: 1px solid rgba(240, 230, 210, 0.35);
   border-radius: 4px;
-  color: #f0e6d2;
+  color: #f1ece1;
   cursor: pointer;
   padding: 3px 8px;
   font-size: 12px;
@@ -103,7 +103,7 @@
 .cost-value {
   font-weight: 700;
   background: #3a2c18;
-  color: #f0e6d2;
+  color: #f1ece1;
   border-radius: 12px;
   padding: 2px 10px;
   font-size: 12px;
@@ -181,7 +181,7 @@
 }
 
 .ability-confirm-btn.cancel {
-  background: #e8dcc0;
+  background: #e8e2d4;
   color: #3a2c18;
 }
 
@@ -191,7 +191,7 @@
 
 .ability-confirm-btn.confirm {
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f0e6d2;
+  color: #f1ece1;
 }
 
 .ability-confirm-btn.confirm:hover:not(:disabled) {

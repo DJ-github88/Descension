@@ -279,7 +279,7 @@ describe('Socket Handlers', function() {
       socket = getConnectedSocket('socket-1');
     });
 
-    it('should update resource state via character_resource_updated', async() => {
+    it('P7 rejects unrevisioned full-resource writes before mutation', async() => {
       await socket.handlers['character_resource_updated']({
         roomId: 'room-1',
         playerId: 'player-1',
@@ -288,37 +288,38 @@ describe('Socket Handlers', function() {
         max: 50
       });
       
-      expect(mockPlayer.character.health.current).to.equal(30);
+      expect(mockPlayer.character.health.current).to.equal(45);
+      expect(socket.emit.calledWith('room_error', sinon.match({ code: 'actor_consequence_required' }))).to.equal(true);
     });
 
-    it('should apply positive resource delta', async() => {
+    it('P7 rejects an unrevisioned positive resource delta', async() => {
       await socket.handlers['character_resource_delta']({
         roomId: 'room-1',
         resource: 'health',
         delta: 2
       });
       
-      expect(mockPlayer.character.health.current).to.equal(47);
+      expect(mockPlayer.character.health.current).to.equal(45);
     });
 
-    it('should apply negative resource delta and clamp to 0', async() => {
+    it('P7 rejects an unrevisioned negative resource delta', async() => {
       await socket.handlers['character_resource_delta']({
         roomId: 'room-1',
         resource: 'mana',
         delta: -100
       });
       
-      expect(mockPlayer.character.mana.current).to.equal(0);
+      expect(mockPlayer.character.mana.current).to.equal(45);
     });
 
-    it('should clamp resource delta to max health', async() => {
+    it('P7 rejects a legacy resource delta instead of silently clamping it', async() => {
       await socket.handlers['character_resource_delta']({
         roomId: 'room-1',
         resource: 'health',
         delta: 100
       });
       
-      expect(mockPlayer.character.health.current).to.equal(50);
+      expect(mockPlayer.character.health.current).to.equal(45);
     });
   });
 

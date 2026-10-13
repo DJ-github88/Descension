@@ -18,6 +18,7 @@ import useContainerStore from '../store/containerStore';
 import useTravelStore from '../store/travelStore';
 import useMapStore from '../store/mapStore';
 import { enterRoomProjection } from '../persistence/mapProjectionBoundary';
+import { hydrateActorConditions, validateActorSnapshot } from './actorConsequenceService';
 
 export const ROOT_ENTITY_MIRRORS = ['tokens', 'characterTokens', 'gridItems'];
 
@@ -476,6 +477,15 @@ const applyGlobalOptionalDomains = (global, options = {}) => {
  */
 export function applyRoomSnapshot(options = {}) {
   const scope = options.scope || 'room';
+  const mapId = options.mapId || options.activeMapId || useMapStore.getState().currentMapId;
+  const maps = scope === 'room' ? options.gameState?.maps : { [mapId]: scope === 'map' ? options.mapData || options.gameState?.maps?.[mapId] : options.sections };
+  const actorValidation = validateActorSnapshot(maps, options.roomId || useGameStore.getState().multiplayerRoom?.id);
+  if (!actorValidation.ok) {
+    useGameStore.setState({ actorRecoverySnapshot: { result: { roomId: options.roomId || useGameStore.getState().multiplayerRoom?.id, maps: JSON.parse(JSON.stringify(maps)) },
+      uid: require('../store/authStore').default.getState().user?.uid, accountGeneration: require('../persistence/bootstrapPrivacyGate').getBootstrapGateState().accountGeneration,
+      readOnly: actorValidation.code === 'actor_binding_metadata_missing', reason: actorValidation.code } });
+    return { applied: false, scope, reason: actorValidation.code };
+  }
   const previousReceiving = typeof window !== 'undefined' ? window._isReceivingMapUpdate : undefined;
   if (typeof window !== 'undefined') { window._isReceivingMapUpdate = true; }
 
@@ -501,6 +511,7 @@ export function applyRoomSnapshot(options = {}) {
 
     return applySections(options.sections || {}, options);
   } finally {
+    hydrateActorConditions();
     if (typeof window !== 'undefined') { window._isReceivingMapUpdate = previousReceiving; }
   }
 }

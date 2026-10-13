@@ -124,7 +124,7 @@
 .pf-input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2);
 }
 
 .pf-input:hover {

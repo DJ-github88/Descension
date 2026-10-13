@@ -1,0 +1,1642 @@
+{
+  "result": "HISTORICAL-CONTAINER-COMPATIBILITY-PASS",
+  "manifest": {
+    "store/initStoreRegistry.js": "f7010fbd071c6d2a5c656cd257a764c7e79d6eaf79af7db1aaedf0da93c6742e",
+    "store/storeRegistry.js": "48fc1b80a9dcf0213b4afff81b228dd39a63040dec9f9ebc2519a9f3d498c11b",
+    "persistence/scopedStoreHandoffs.js": "d83c100987802b1ae5db6f0124ae6964f45663c53f8d29a9e3dca37ac1e8a2ff",
+    "persistence/scopedStoreStorage.js": "7f52af5e611fd47404187d03152ff27209602d25cbb7783a2dbd9c3270adb951",
+    "persistence/scopedConsumer.js": "5a0066473659bd7154b7d6ecd2922078780095ba1367a745caf9a694f4613c4f",
+    "persistence/bootstrapPrivacyGate.js": "975f821da9764a3d39f443c6c19167995c352a4e7cec4a7966e0ccbbd0e2b90e",
+    "persistence/scopeModel.js": "4f4e32114ca7ae88de72680e20b276ced719f951582495233685d8fe00591170",
+    "persistence/accountContext.js": "819bb64e6fa8d71cd32258a444ffe44a7b8810f958463ec618292c4211aff153",
+    "persistence/safeRead.js": "ae5550bc62fa3c6640bae67db6f469d155adb536339b38f96c777c608c1aa97e",
+    "persistence/keyFormat.js": "e4b4544a6562ad5a05cbb0ca1736bfa9f494c3faeef3c5970ba48bb060312efc",
+    "persistence/draftEnvelope.js": "d0c95bba4d05b8f8d7f360a3d35110b44a6e24da6de7079dacfc1ca7f3e22f50",
+    "persistence/privateStorageRegistry.js": "33f0d9974cf08449615cdfa9ff8d1abc4521701ee9a914fcdd633892a68a6007",
+    "persistence/safeWrite.js": "3a90a1280a3453703ee3857679e392780143871c375112ea56c2f51b25287a5f",
+    "persistence/localCoordination.js": "bfb1491bcd7722c796b9bb28f378ff8a39ab7023c61b7c432726dee131577c25",
+    "persistence/preservation.js": "8c97886b02252e0a8130c490e15b6fcf040da41015013e37847c28935f33dd8b",
+    "persistence/protectedStorage.js": "ffc2e91f21a4b19f8d555518c21df2af95c9be07b9010e801a0976e59c1a9cad",
+    "persistence/globalAllowlist.js": "f75e50549ada90499721d5d04573962ce808704dc03cb7567659aae68b95fb8e",
+    "persistence/cleanupPolicy.js": "7a757cbf74a0f84e74e5d0bf40148fc1aab4ab24df834b933154a664520b2925",
+    "persistence/cleanupAdapter.js": "2e4e4755361cd49b06c5a2d3e6cfbab228ca1ada100bf6355af44ce29b1e365e",
+    "persistence/writerIdentity.js": "0c7602c90f520dcb987538a36e04e20ce0e6503cb42d71e0cd2da6d31122bacb",
+    "persistence/handoff/accountHandoffCoordinator.js": "6aa459919f33fd740aef7afbf9667b74f3ac4a702f9ce661da7b0d03e025ab45",
+    "persistence/handoff/runtimeResetParticipant.js": "60dc5e148feeb2eb7a5100ff9a980bbb4b9ed36dff9836c52dd6e801dd7b276d",
+    "persistence/handoff/socketPrincipalRetirement.js": "6bde6807d2eb26745f4d379dd7cb7b75c5881b6aa63d70573e90c17fe73cf2ba",
+    "persistence/storageInvalidation.js": "3399a9115b3c5b1e3543f5da0175037dd9fb5f6287c137a1a8e582f9c7893902",
+    "persistence/characterScopedStorage.js": "a3859afff98d5f7e488ff31567f39cf39c1169e4e2eab9ff8278f31d7948b894",
+    "store/characterHelpers.js": "a5a32862ef9b00692557b84e7317c92c3897dd35a45400355724685e4f27e3c4",
+    "services/firebase/characterPersistenceService.js": "b33440de4fc172338e684bc7a259fb95b7a722942bd33d1ceb77702b557167f9",
+    "utils/firebaseUtils.js": "09d74b7547be0984f635e65893a07d0132293236da8d9ccfd0c35e4c26b6d275",
+    "utils/characterShapeCodec.js": "41200b07b80cac17745a2357734d355059ab3b062839e5a24b202b9d30557d3f",
+    "services/firebase/characterBackupService.js": "42b0655481cc5b3c6c64df28ee1b390a261c3b71f2bc5e13cc0033a01a13f512",
+    "persistence/characterBackupScopedStorage.js": "28589b904f98194a5eb167b70c6d2a338aa5d9d5947d8bfcf44a62426e7fa371",
+    "persistence/scopedNativeFamily.js": "d2ea66cf665c0bbb0d706a6456b9e8216a6342c5c9710e66c60826d270446a7c",
+    "services/firebase/characterStateService.js": "c382994d216924effde412717c9ad0aaa7ae2b0d924b5d1319767cc8fcad7780",
+    "services/firebase/characterSessionService.js": "3b194066b2770a83d2ab4e597acb52a29994d47eca49a5cb4f8a5fe666b50d65",
+    "persistence/characterSaveOutcome.js": "723f1b6b7fe85435b4c5822dfd45a943a0c36dd6e53fc406c29634b8cbd734b6",
+    "store/persistenceStatusStore.js": "19227481c470a4a37a66b8925db6204f6ad8f9f040ef1f96adb04d1310a34841",
+    "services/firebase/characterSyncService.js": "bd10ff1406f1d83d8a90de03e48e997e58f56994fc6783ec4912717b46e1fd2d",
+    "services/offlineService.js": "1309d31061accde8020f535ec7b388d1245167fd9b5d9fc8ba559f41e3283c09",
+    "store/presenceStore.js": "f7eec057bc29b48f3f2ff25fe618490d47297e11b1473747052b759ccf3ac1c0",
+    "services/firebase/presenceService.js": "0f93fd6202aa5785b11fa7d1aa10756dddce120b8d4c8775719484dff856f9c8",
+    "utils/firestoreDiagnostics.js": "7dd523574b06b4dcbbecab0381beabaf58df9033a153caf15a9ada75fb978400",
+    "utils/writeThrottle.js": "ab9ef1050bfe3ea15fb6dc58f621734ccb8b3eab7474000c1869dc2e25ae0d52",
+    "store/characterStore.js": "3b7f31857c80879b359c000307ca290835d33ff7fe1a2722f4b73a44cbe5b3ec",
+    "store/characterSlices/coreSlice.js": "be3115b60ac500fa141e1385ddbb2b96de916ff860f959c6ff378c3f93fb2d91",
+    "data/classResources.js": "51d7e4af844a3975a33ab1bddcd6e6aa6e92bb288b55fcb20df30167169ffee7",
+    "data/classResourceContracts.js": "e050444a55fedbba59aa008cef921f4c80fde6ed0e4205d5f685a0c36bc0e245",
+    "data/classResourceAliases.js": "051b060df4794bf5aa1543ad39425ca4451689ad109f870c769f56ba4978976f",
+    "data/classResourceBanks.js": "82c506571a21c910b62471b7e9413afe195d1b524a309a37508a39cb0af52cf6",
+    "utils/arcanoneerMigration.js": "024045a51fb8ec2e11ba14e14fdceb83a02ca492345bad66ed51d76e27b35ad6",
+    "data/apexResourceContract.js": "872aa181cac28941f25e96e410d53326e93da4714cccfd99e62460ea7571456f",
+    "data/pyrofiendResourceContract.js": "2548417f05d4f774819171c0fd903897862e997a3e6c327ab70e3f3c0ab50802",
+    "data/shaperResourceContract.js": "3fa487fe9c18bf220f869ae24c0a11a9c2dec7528762188a3c7b3cdcb83756e3",
+    "data/spellguardResourceContract.js": "52bf08fcdaea7d7fd6cf03369125a185f77084b575481ea5847e7db0f9304387",
+    "data/inquisitorResourceContract.js": "f8dcf0c354bad2ac259ce0c20431aba25e66cb60347b924e76369fabf6cc49af",
+    "data/berserkerResourceContract.js": "fd9dfd86316ca07e8ab14edc25b46172c1d54db42ef3aa9ef05b45109a445086",
+    "data/harbingerResourceContract.js": "0815b1525ea98f9b3ec58c343d310d594e2bcbab7a3fd8a5530f3246d7010ef3",
+    "data/crusaderResourceContract.js": "044c8f7365ba70f49bed1c50e6aa62b8eff8206cc6200854f1fca9d601739b1a",
+    "data/augurResourceContract.js": "bd17e7d7c2b3d1ca0ca76be341ff1559c3cad0a692cc202e59a3b4a85f6201fc",
+    "data/revenantResourceContract.js": "c6bcba8017305d13f4890ea1020a0d2d11ddbdf2c489ebe882af3528c2f6d123",
+    "data/animistResourceContract.js": "f65b61970fba90de3358ee5484bd4109b68fb7eab558b7bbbaf3a3390340c31f",
+    "data/falseProphetResourceContract.js": "069c38dabc8b8d6ca5b628ee5d481da5d0fc875ab5f55d49822c379c1a5f66c6",
+    "data/plaguebringerResourceContract.js": "8ac2db59a0d2c5db35c877aa5be96cfc7540771261559e0188a8e9b0e700798b",
+    "data/chronarchResourceContract.js": "3bcc946bbc2be8ccc81b34808a49a9d4683795aced921ffee7d637e1528f4f02",
+    "data/lunarchResourceContract.js": "8847b5cb9cb1444f5225fbd5c655b2ae0c04d6c53f7978d7f22310ea2eea0f33",
+    "data/toxicologistResourceContract.js": "a4bdb11c8702bc58093b689c96120b3e5fd6acaa39d519ab318e1211ad3548b1",
+    "data/wardenResourceContract.js": "66dd5bcb25571fc25c39f770332ebcf5fb2096d376d2e7a9b88264e660f9debc",
+    "data/raceData.js": "a94db42a3a6c01c18b298ff179a284d30445b86d525daf4236705ee2147bd135",
+    "utils/pointBuySystem.js": "0f20ae0bf99bff0969a05785d30ce020eb55c6a4cb54c2cc126bb854b9d9b6e2",
+    "data/legacyDisciplineData.js": "1b40922c4eb8f4179275e8e5e06760ac4c09d63b6dfbfbf5fbeb66a05ad6e6d3",
+    "data/backgroundData.js": "65cad2996913b7dd1487c00e1a37203e82dbc36e99400da26d92ffc2cc1052fa",
+    "data/classes/index.js": "6511efa7146619cef3308be5e843aef2a4028174a6df9f6811f4cf848de1eee2",
+    "data/classes/arcanoneerData.js": "5e23709e52d9d9af59d9925cf13bbcbe8641a825323b568535a892b5d21602c8",
+    "data/classes/berserkerData.js": "c158041563f19b25d20262e94acfdab11e1aef5834077041e19a1968f3a01bd3",
+    "data/classes/shaperData.js": "8ecba8787547475777877923be7a02f0db0d74c508b28f471a512dd9a656282a",
+    "data/classes/harbingerData.js": "ad60d82e8a421a76123f0b4a8142c0e7b12d70a926032423e7c86f0025047411",
+    "data/spells/utilitySpells.js": "9ad7264af146b23407c7306da8986a9c90bd52d6e7c3806ccc466cbd5321623f",
+    "data/classes/chronarchData.js": "a8bfb37116f93ce22df22a16c4ed71961dec4d4e19aff278487fe74135791265",
+    "data/classes/revenantData.js": "b358d651bbeee0b6f059667a8832b46e853d37ef2a274d2aea58df39925f7ed7",
+    "data/classes/inquisitorData.js": "3e362b7990532df7112e45e859a7fff60653ce6699eea65aad63fc909f89330f",
+    "data/classes/falseProphetData.js": "038c2fefb820c5c7d7dde38365d758b1b17eb9eb4bbf9382344f9a4b52750079",
+    "data/classes/gambitData.js": "2c794a4a552f5d039a41d186b81101de5496952ae1c99705b628c317d9766232",
+    "data/classes/apexData.js": "cc07fe88185eac4a895616343c1abdffd3ebc175797756c8940c17e182cab494",
+    "data/classes/lunarchData.js": "1b3d4d71d8779b7e32a8ef6e504f13de56fbe9c3212cedc4a0bbec4d8b50806b",
+    "data/classes/martyrData.js": "d5528c8306a869d07c855e2fc0d27d81c1ada79491a4e43bcab34cb21fd96794",
+    "data/classes/minstrelData.js": "ece2318cbf0887b2973f644720655ebf474084f3ed2fca392cbbf1b15d3d633c",
+    "data/classes/plaguebringerData.js": "7bad64df535ffd74a2a23fd89f33f73edf6ec4c64fcb670d2a5f76dc0578c198",
+    "data/classes/animistData.js": "a82031e6b8d7996b8f1cc36007a2114f0d0c82b547187ca65d5f9153e314c68c",
+    "data/classes/pyrofiendData.js": "b3d61a06a337099e0e64ad83963ad38cdf95a5df5cb602b5f08e72dcefc3276a",
+    "data/classes/spellguardData.js": "e55636b3d65ea2a634c2e2625477be1eabe81ac99281d92a5b41629f3643c533",
+    "data/classes/toxicologistData.js": "36b9f98350db828b8530dd5fe7e9b51a7f09343cc8101166c81188f3107463a8",
+    "data/classes/wardenData.js": "88e33594e7ccddc079f08f496f9680a7998c3a9a18b281055c37ce81552073ab",
+    "data/classes/augurData.js": "32342910525408413d0aa18628b7873764d81d3e428e1c8e17998387b1958482",
+    "data/classes/crusaderData.js": "3980949950eed362e097c2d0e117cf0748b62d21e726a9b088797745c28a48ca",
+    "data/classHeritageRegistry.js": "1e2f9bc58f7bb625173f6d9a17ca5e6d279db208ac4b8c8c748e3c084769718b",
+    "utils/raceDisplayNames.js": "3a9d6b9e3b8c05b8194f38835e44bb2afe4dd041ccd78decf7d6de1eba932def",
+    "utils/characterClassAccess.js": "f9e5e0ec56df9fc719ab0d4007a6f784e865b134fd84467f0a00a584c335a2f1",
+    "store/customLineageStore.js": "fa19805413e85a30f2adae608270d23a1ded1f000b8c4a61a39d21f0e58e9e75",
+    "data/raceMechanics.js": "bbeb61472dbd2017df15bdb069faade47df831ab9e8acc19908189420d8dff59",
+    "data/languages.js": "705e7bb1ea7e19eb9bb710240622414b51b2ddc151cf83235841bf3e2700edc7",
+    "data/races/myrathil.js": "f4978fefed187274522735a9a0cb2a273eb05c105b14234997e69f5ec876010d",
+    "data/races/mimir.js": "5ee8fc31d25b946087fa555c8a8ad6398b8b6b745935c3b24d59799106d410df",
+    "data/races/florae.js": "99817b7aca34331ee4ea12d51139280abb977e8b6c37dfb5c8b8c1b3c351d3f0",
+    "data/races/groven.js": "8cecb0f12380454fabf945b3cf7e2ebf21ea24ab345fb3563991d352bf7394e8",
+    "data/races/solari.js": "83ac1ed7c406e88325435891a64042418aa3810bf8f775fa3210a160d855c478",
+    "data/races/vreken.js": "9e1ea5aa1684380bd086303804233093e9ccba4dcbbf87c18b1415c63db295bb",
+    "data/races/neth.js": "18493b65d6f161b0a2aa59f2b2843fe1ae306b3cbe04ea094c31f9746cac108b",
+    "data/races/astril.js": "99371e7ab9d8dc961d32244d6c997966a106cb583e29e4f64e77c04cea563f83",
+    "data/races/fexrick.js": "ba8d023f91858236ba8362497661df864ef94257e4152b769f54bc0353c63e75",
+    "data/races/human.js": "9dcf15cb1a2bd12ed7b9a974de557352b66e3de1cc2792ba4f8e705b9144ff51",
+    "utils/raceDisciplineSpellUtils.js": "8a190fae251d5f578340b292832b260263ff07990f81bed952e233199cc2b7fe",
+    "data/classRacials.js": "bae13ba2fd04f461f5e69d78ffa3c2072a23ad849690d460a4278546324fa4c4",
+    "components/spellcrafting-wizard/context/SpellLibraryContext.js": "2ac054747c71853f5b78ba02317d8b75765c7d98d139db6e9d7a452cd9796cee",
+    "components/spellcrafting-wizard/core/utils/libraryManager.js": "8ba60b8a52a9df5567304ea15246257b8bee5e8d6cdfb9dea16f1dc3f0d8dead",
+    "persistence/spellLibraryScopedStorage.js": "94999574f481692809a56161055f98441de6baac21aa5352ed37a49967c0e2eb",
+    "data/classSpellGenerator.js": "daef544f634e45509a834f9494d3a9d2083c65cae185a53af29f92bd8a068cb8",
+    "data/classSpellCategories.js": "e5d1a23df8909ed9bb6b214deb396cd88d47688bb08d279c422616c0a52f68ea",
+    "data/universalCombatSpells.js": "b6f35618450e661e351ff9f8a5883295f7fdc0af8923b7da49dda3c553c784b0",
+    "persistence/characterHandoffPreservation.js": "eb9950459ce0d4d7fca27244f452ce3eb401366e444e8f09120253ce01ccb910",
+    "utils/equipmentUtils.js": "b9e36ec9dc26439135b6113d2c9314d6e57f18cae055d0b29d461662c5ca417f",
+    "store/characterSlices/infoSlice.js": "c4bfc65988821ef481890b52a653d9d0a0ace39001a1806fc7f4f9447aa479d9",
+    "utils/experienceUtils.js": "aa3c936023ba29f8ed947bccacdcc4eddab40efd23520a492eb245111d364944",
+    "store/characterSlices/statsSlice.js": "7a7c1a63b64ad82f7b7680a1defdc2672f56d45e43c0b052d3103efeb3dbc258",
+    "utils/characterUtils.js": "c14a4293b5c46487de6c84d6e6d06567764c87f9e3954ab96d07906e8ef8f57a",
+    "store/gameStore.js": "6523fbb6c8b39e17c077c036ae9a1d01eb541bfc0a0c3ea1dc4ae9e57359669d",
+    "components/spellcrafting-wizard/core/mechanics/cooldownSystem.js": "0fff3d5785db114cd24ef955b214cc8ff9926e69fb3ded89c76f96cfc5dda40f",
+    "components/spellcrafting-wizard/core/data/cooldownTypes.js": "b788abf6cf062d9501a316d94f35afbb567e2620dc9211b6c41e562aeda9d712",
+    "components/spellcrafting-wizard/data/enhancedEffectSystemData.js": "6a98b87b8fbf7de5dda298f79dfc0365ec763cc818d0fcac6c35932b1c085172",
+    "persistence/combatScopedStorage.js": "b58c2556bff83b9b9c57449f295c5bcbf2bb24a59bee1c009a6dafe39e6acf65",
+    "store/characterSlices/resourceSlice.js": "d9af27963eb7e874f3668a20fca918ba6335d4f79c67c5d3222276956773d93a",
+    "store/characterSlices/progressionSlice.js": "f838ba7b41545d93dbda78ce3389645de40b21eb09bfd746e7ca608590d165ca",
+    "store/characterSlices/multiplayerSlice.js": "e87d4d1fe8e249279183009b3544e09575611c859e2df99252c0049d11d175c9",
+    "utils/classResourceUtils.js": "1abdb66ccdc4076f7ee1f12c8bef036c9d3c6c8bdbb0d35ec01fa7b8931525df",
+    "store/bookStore.js": "ce65605eb99a4ffafcb301edea1876f6e4c9cb6a73f2886836c3e09d3b8b61b9",
+    "store/interactiveMapStore.js": "8c6e73ea7bf4f9f8b463aa5b906ecc92bece9e42aede00c3dc2eb670c72bb509",
+    "store/worldStore.js": "770b41e9b17b836b2f9f0b392f75b24ed8ba28658e47cc749ac3b8d607a045f4",
+    "data/deepLocationData.js": "d5769a7094ea821581f95d80c30f5c13b7a6840a8e30b525ebb4cc8904ceb3e5",
+    "data/zoneData.js": "fd1fe02f20585be32091a03976e6d6ea2064f98ec8c67da020b5cde0166564ab",
+    "store/factionStore.js": "5704f7228c4f6395ce72e21d2b45e2fa14d4f09048533da2c0a1fa76e2041601",
+    "store/timelineStore.js": "0e58d87eb2dcc754e56365e05af180b0fa3bc181f060ac7ee249d416a9509e52",
+    "store/classLoreStore.js": "7274b5f78dcba3585b9cc0149af027a0ef7910b1be2edb5aacc9907cc3aef8da",
+    "store/familyTreeStore.js": "6704fa14f3764fc82b45dd16add499d405577d3404a76a64110d2be0104b3378",
+    "store/questStore.js": "c7f6ea504f1bb445a4570abdd6f85d502346cecef15b6e2bd96a6079a25a01eb",
+    "store/deityStore.js": "dff65a4d44b0066572246a4942c253c9b6c5233def49b9aac17442d8ffb9a91b",
+    "utils/mergeSeededRecords.js": "6e5be6a601bd104120f2fcf5d5a3bf16b694bceff5f4668e0883f4af6766331c",
+    "store/languageStore.js": "1d8fc30b251444181199d0cb09e4f14cf4fac2303d272b88dc84d579993299d1",
+    "data/seedLanguages.js": "291aed0266e311e161e8824f1f4ebb856f6258f123159fc4762bc98a1c615b0d",
+    "store/inventoryStore.js": "635c6d87bc32f4e25999c759bf572f1405f29e6ab20069c459168756ecbc444c",
+    "utils/itemShapeUtils.js": "fbaefba31bc8cda043333aa8ea180d735d1e8637154ebac78d81829201509633",
+    "store/characterTokenStore.js": "aa2f0c8ba2292e76ffe13dbba6fac74b2c1784ede526d919ff7d2623b34ae94a",
+    "store/levelEditorStore.js": "96544cb626be652ac8d742d40cc0dad6f80d905fa1d95deef6cbf5f5d1bbd457",
+    "utils/InfiniteGridSystem.js": "43d02854699c6ec8063fd24a1d65191939469c174330b42899026b52e3c00914",
+    "utils/GridPathfinder.js": "8da3b00c0c0c837e95a503c3d58d6210413b4a0f723c917f38bbdbd0c69da0dd",
+    "utils/VisibilityCalculations.js": "a5f0a5e43cafebfbb0cb5b53b6493dedcab6779d397e4f0f9037636820f4581b",
+    "utils/WallSpatialIndex.js": "591e2d9e2bdefcfd7663f028f9e05e5e43a7e940490c13fee09086bc8d1599d4",
+    "utils/WallGeometry.js": "5a89f983a159e86f1ed339327e42e2d2bab5ca6f3ca1a5ee2fa3aa2e9a632458",
+    "utils/ElevationUtils.js": "f7216e61c56522bb595a5f178bf20dd8714b66fcc3c29f3dc892c4149ebd0fc1",
+    "utils/ProjectionSystem.js": "c5f6eb5984148a2e627fd03e0c9a7ff25672ad7b6a5578c59a225a881e3b8641",
+    "persistence/mapSavedStorage.js": "024b2985ecb96a4e6b05a6c1345adfb9f974a8b0e36cec6194ebc76545c261e0",
+    "store/mapStore.js": "d13078ce39a520dd183aa4ab6b15e540c358116f8d0049af196c77422e02dccd",
+    "store/creatureStore.js": "2fb8a49a217f526ec4d350465246009738512bef34168ce040d438c74154f58b",
+    "utils/lootItemUtils.js": "6b3977f8d382d9f063158e9fa5191c38e30f99a7a62d70a1ad8687b1cc708a1a",
+    "data/lootItemsData.js": "f8c12bdc2d80aacff84f6a95c291a5e8e80164b73f512bc106063c98bd936bec",
+    "store/itemStore.js": "8751f3123480abf28b300749e7f5078537cab2216ed58c37339649a2efb4fbe5",
+    "store/authStore.js": "2d053d153e831409e1469e82b8f9daf475da56356a096cfb19a945fba2d89b3b",
+    "utils/storageUtils.js": "8745d65046e54069cc7c6e7e6b43a846f79099a866059e6befe4d001d5f43327",
+    "services/authService.js": "13e9ac19087471981715ec2ccb4ad038cdfe4b6279ba9e6551f6c233d86cfe36",
+    "services/demoAuthService.js": "7140f9eaabfda4f6d060d9960a17b2b1660a5519d481d73faed912bc9f59ee06",
+    "config/env.js": "147d00f345de79807898940814cf3f4f7cb9ddcf4218bc7a960f0a5a7641fd83",
+    "persistence/authBootstrapGateBinding.js": "9eb79c25c99f38504a1a94ee15bf6201e1f4c0ee6913b606ddf037d7737e54ab",
+    "persistence/guestRetention.js": "4ae397e4fbff7ae24b6c2669eafce539674a6eb08b2a8b546cdb3939c5004bb2",
+    "data/items/index.js": "2b6d57668aebee5fd9971c1fc91cb8a30b2c5d78a5e35f0500c8f2a4aa831b4b",
+    "data/items/weapons/index.js": "35bde977ae5d409981764f46d589a3d4f5e64fc866e9651f3f017c6cf906c85a",
+    "data/items/weapons/factionWeapons.js": "56f1194c3d2e6d5d12ffa95ff901ebe04b7adae26b8c1b244962271ef5ed13fa",
+    "data/items/weapons/enrichedWeapons.js": "b8bdbd96030c7df9b824bdf5968163ed8579dbd2ae979601af995a11abb77d63",
+    "data/items/armor/index.js": "c251e562db3219dd46276b93e921b293d5128bdc6270ed2176cbbe6acc992dab",
+    "data/items/armor/enrichedArmor.js": "bfb40ab4dcf2af3edc1d599373142d0b8479fe35f86a59af4e94decf76b34bbb",
+    "data/items/consumables/index.js": "8ea60eb136f29c9d0f73dddb5180fa0aaa786e7a42da219960aa988ec3c6f9f5",
+    "data/items/consumables/enrichedConsumables.js": "797e8d6e35e158b3c6a1597a78c99f492f5464e37e6bd77d08ae72d215b35a4d",
+    "data/items/accessories/index.js": "4c39fbc75d829aa8fee2e840c851d69085e3a51e2f80654301476f3a7c463650",
+    "data/items/accessories/enrichedAccessories.js": "67886f0c9154de9c7827f8c1b8ad3454bca5051af57fef723c28e29835f2b23d",
+    "data/items/containers/index.js": "2101a82b0612097dabc804ba0a76e5889624a953e2355e8c2a594685de0dd221",
+    "utils/containerShapeUtils.js": "0971157ca5a3fa5df6802681621660602b361b2ecc42d10698131e8983503235",
+    "data/items/miscellaneous/index.js": "7618b2f36df61d76677c869dff0a65bf2b2de1bb3e255df9a1e1b108d51f7d84",
+    "data/items/miscellaneous/mining.js": "b7af40506c295fb3a949c27cf7ebdeccbba988dc8986812b9cd16a9db3f4f6ef",
+    "data/items/miscellaneous/gathering.js": "dc2ff8370eaca2a50cc70272f427df0b2d19b9efb6c07d02bf32ff9f171db548",
+    "data/items/miscellaneous/textiles.js": "9ad47b9de9a07db8d4f5e96a5d56f49334291a9bdf444884868fc72d59c25b70",
+    "data/items/miscellaneous/skins.js": "3f0ba5416dc7adaae961040d909a7e278ab8bf5771338151321617a89762bfdd",
+    "data/items/miscellaneous/crafting-components.js": "f17c2b6e957a2df7332507a11fb5acf95dc1c489e33652f8eb56d5e56d51d45a",
+    "data/items/miscellaneous/alchemy-supplies.js": "b5ad374bcb244dbec0c09c60429f0416592782cedfeeb1a2c93c121ba1de6a77",
+    "data/items/miscellaneous/enchanting-materials.js": "3ef29045901776e027116a397530002e701c2dc9d7820cd67feb6d2e2537ac00",
+    "data/items/miscellaneous/cooking-supplies.js": "6db560a4912e9ad3ff7863d855add0aaf50273b56dd7f0dd7010169e57d63a2f",
+    "data/items/miscellaneous/tools.js": "5fa01e5154140859642f11d6bf535a173602b6a1f42adfc7b24b7293e5b1a147",
+    "data/items/miscellaneous/trash-loot.js": "8eac8ad9214574110a48f8d815419a8a2fe7b24a9d80913a711c4cfb0d254c7d",
+    "data/items/miscellaneous/quest-items.js": "100055b0b30eeab59967dcea8045442df35c9a17e4e77b53bbd45e2ff179fc09",
+    "data/items/miscellaneous/keys.js": "446ca03681124164546019f55a6b3a453d08d56d52889775863da478ce51947f",
+    "data/items/miscellaneous/trade-goods.js": "e2a4b0115f44ff905079d0382c09a765159edba31afefc808edf71ad9af50d78",
+    "data/items/recipes.js": "9eb929a4682bc35c89a7aeaffdb473d1d2e3f4cc42c4ad1611f271f8262116f8",
+    "data/recipes/index.js": "8bf9fb568f41ba42cb7b14099c7b6dac70164bbc54ab5fa46ba2526966f21271",
+    "data/recipes/blacksmithing.js": "6e604f5ee18834646e2f772bf18596f66f1ccd9a947b0b2543c603875bb3adb6",
+    "data/recipes/alchemy.js": "56ff416617e1b640c31d0c191b393c5eefb54a75c9bababf4bd2f03871869554",
+    "data/recipes/tailoring.js": "144fcf90f23f9f09b49271191c7fe32d93097bbc1febf3d7b8c97402b529ea75",
+    "data/recipes/leatherworking.js": "e89dd5ec7e14955dd56c157ec682d63e0a3f613609c4c5d962e07becd3626730",
+    "data/recipes/cooking.js": "201943656350b48d042ed93d8eb5e1fb96ce159d4052a449dbe69dcb69b3313e",
+    "data/recipes/enchanting.js": "6cd64d1b25dfaacaa06f0fc56f2a89deecb9ca302435c457fad7b437c28ce124",
+    "data/recipes/engineering.js": "dde2d4c3bd5c57240a37fecddb8f8df8f7e97819276fc75f0e9702ebe445c573",
+    "data/recipes/jewelcrafting.js": "69426b0a25495d5c3f36ee5c6b439cd08ede0f08c3504b6b32c466238504ad5f",
+    "data/recipes/masonry.js": "6f2123e205ed9038eb572904e98ad46a1c9d522fd021b29ead1c1b91789bb03e",
+    "data/items/currency/index.js": "eac21e7e76c65629f4f7229ed59e9b66db78b3c998d8aa09b19a36e7c617b2ee",
+    "data/items/curios/index.js": "1f59c46bf64d35b96f59510c99132619f8a9070ebd9deb47a56c7dda24d5ab94",
+    "data/items/curios/deck-oddities.js": "7a0b3720b289a2c39e58807c4eee159eb220bdf48c57f605b5cd54820b84d08e",
+    "data/items/curios/chance-curios.js": "38afe6d4a5bdbc4baa93ef04b1057a4814f40d3c843593c196c511a9542b490b",
+    "data/items/curios/vessels-containment.js": "354e9e71664667a7790f56066784fdd2d2c5579d5834149f8c33d30e69936c7a",
+    "data/items/curios/wardrobe.js": "69eb3df38f45183f6cef15a751c27df245174992a0cd4a2dcb914fbd37eafabc",
+    "data/items/curios/absurdist-arms.js": "d59461e5aabad576735842075a939ef78617bcd7dbbafb374496f919c9732f18",
+    "data/items/curios/living-anomalies.js": "c98cb308d0632fd4f0bae546bc27d4b7ea693041fea6055a77ed4e953df29b1a",
+    "data/items/curios/cosmic-knickknacks.js": "a22eff1963b44e35b8d24741e8c4506b35f4ac1549591da18cf08910a2688be3",
+    "data/items/enrichItemsWithLore.js": "74d0db7de1c4a33c253d78771f9f99b246d43d1a22b0a2c7bad7b3ed9a5c2c99",
+    "data/items/itemLoreData.js": "bcc5dfbd1dfef76f98fc67ad076b17e09d653c229283e7ed82976799406c26b1",
+    "services/firebase/userItemsService.js": "7b386144b1f799ac692fe9122ddb846c6ee88cbd15b9eab47715403a793e2ed0",
+    "services/firebase/storageLimitService.js": "b2c129ed29203f69853ddfb27536572a93f808c08a8dc36ae43a47245ae99b7c",
+    "services/firebase/communityItemService.js": "2adcbcc7e6c0cd9537f760100c749b87aec4b9d3b00888a38ef6aaed793330ea",
+    "utils/assetManager.js": "49170532c24ddb0cff4cabcaec7f4a48289ed16a4b76f07887119440a76c65ca",
+    "utils/wowToLocalIconMap.js": "b828c3d8cf70dd27a3b6158d3362fe03aa40ada9df34312a75b3f58f9cb2fce8",
+    "services/firebase/communitySummaryService.js": "9ebc34f568749b20d03b9d534d112c49d49c7ac103488dfc48f0a9122604b473",
+    "services/firebase/uploadService.js": "eeb0cccc71f199c1b554c37cfe2b29ff8cf5d29c4440735b8dc82f5e0dd5a624",
+    "utils/imageProcessor.js": "df6893e48c902657153b2b1738eb4985a7eecbbb880e8a7550e267e7aeb0c760",
+    "utils/tokenStateUtils.js": "c36c0e3b25e1241f349daa912d85c5bf51dfabac908995540e7cb0fe9a7050ca",
+    "store/gridItemStore.js": "9dc9c496105797b8a7c464e23260a51b18a29831c311798fd468b39d0d84f3c2",
+    "store/chatStore.js": "d5e419542519d17e1b7189b77dc34d16fc071d35bb494a514efc2e8a9e66f8ef",
+    "utils/prodDevParity.js": "11a74bf1abf91d60227237875ec8f068ada4a161020f27c659c880383ee799df",
+    "services/subscriptionService.js": "55da62db750eb52ac131348afe08825aa72feaff81245116b79d5fa4c8b01e6c",
+    "store/partyStore.js": "e787b0b658dbeda485e7ca21bb27e619ceb9eb338a1ce16e7f4cf70c96bc4eec",
+    "store/conditionStore.js": "ef072333364310c76657608ae79e70127cc4f43d1e48f454f729703a31687584",
+    "services/inquisitorAssistanceService.js": "a500e9f5759d6a780594b634ee602d465c4ece2ecc4c919d5fecbec84a3b4186",
+    "store/craftingStore.js": "cf93609c08e0784aae2d986ea8110485a920b968b28395c9705fc504b184eb8b",
+    "store/customSummonStore.js": "e0febcb57e3c2c79a893d0f4dc6225acd6b04a5240383768f5870fca33c681dd",
+    "store/diceStore.js": "000a5eff9c265d205a182a727255a15b3015e455383c9fbafbdd4424506653f1",
+    "utils/validationUtils.js": "b1de8baec81ac15a5dd5ecb363838c36cf01d4ca79b87a3e6ed4d471628ddd40",
+    "services/enhancedDiceService.js": "aa07f4964596d08b2c23e03e06207dbdb0373f6a977df1e74047cdfaf0489573",
+    "store/effectPresetStore.js": "232a3dacb030c3a237e1de6fea579aec92cb99171d8081cf9761120f5fae6579",
+    "store/spellStore.js": "ac8b3441b40f0d7482dc8034c8b65ba5c741ee7ea8e823ff4409e5f1dd29ac36",
+    "store/shareableStore.js": "d24e3fbbb05379b597dc6323f78d87a92f9bb7e913f3f09b0b0cbc2db45e5081",
+    "services/firebase/journalService.js": "f67eaf93a19d8d9771966dde7c49a2a25298b3572d29b1d765c2f68553c36117",
+    "store/spellbookStore.js": "b579619a8429bd4b289fca26da81265919605028a82693b0b6f3fad1710ac947",
+    "data/spellUtils.js": "bc468259b0eb4f6f22d60df124474663a3dc6265c0e37b50465d037993917b62",
+    "utils/diceUtils.js": "8b06b062a280db73033ffb2d65d33952bc3eef704b74dd727f42d4b933239835",
+    "store/tagRegistryStore.js": "122dfe49f2c7a99cab05c1e7589b1ecf35c4c6ebda6aee7765208d0a0762e3a5",
+    "store/windowManagerStore.js": "56b4dac9459b06972367ec941c16ae440e8445712fbd1fe16a841583c77fd1ab",
+    "data/geometryScopeHydration.js": "3deebc54a5d44c725b7a6bf2fc5e4d87a30181d2020104299b56ea935769afec",
+    "data/regionPolygons.js": "f48d8407e4b7058ba1721f2d7933de4b9669f1fcc74f7104c59ad8f6013ccc40",
+    "data/subregions.js": "3e040027df64d019e766386f0e180b802d2152735a985cba888f55f6d6c93f48",
+    "data/locationCoordinates.js": "9c51bf744a8ccb6ed3dd4a62bd5a3dbc48e36a3621220393c1a04cb23756d58c",
+    "data/subregionMaps.js": "4b29b20ae94854273b7535525ceccfd7e54f302a1d7189ddd6f84481eff40789",
+    "persistence/customMapOwnership.js": "0a3e96b69bc4731d63e93a1fe1b2087b6c6067f1a960aed17bea3e4d890e81ca",
+    "persistence/mapGeometryScopedStorage.js": "c5948f2ee801c445ee39d394abace383f0ac110a1aab7c196b6be86e0affb740",
+    "store/notificationStore.js": "f46cffab08b49361a6a94cd44605133d8c6c83828d5c02f9018076752105a95f",
+    "store/socialStore.js": "237d086d5eb994cb169fa4b585e4ea8998b9a2eac11c8b541040f6e3102ee0df",
+    "services/socialService.js": "3c871362c29ccf237df000c60d745b011d4b77555e7e614be736ce54efab7176",
+    "components/providers/CharacterPersistenceProvider.jsx": "688dd1b68567f2c47384ffbf594fe6a3a73e26d84c847ce579a8bdd1839b6cde",
+    "components/common/ConflictResolutionModal.jsx": "51a2563321f5a3b6338b689bed810ffd0050f4b63924892662aad44b270a8611",
+    "components/character-sheet/CharacterSaveStatus.jsx": "7eeffd1aa7691dadee96d457a090a100da33e94a3ec514378ca89958f0b999f2",
+    "persistence/PrivateProjectionBoundary.jsx": "b1997a6f6e758b8a16f6c9da9bc8e0b0b8303bd218ae5322f78e6e8f65bdcbee",
+    "hooks/useCharacterPersistence.js": "487c9a7a31c62f9baa5b90e4d34bf67d64bf66cbad4eba6650066549a5e220b7",
+    "hooks/useRealtimeSync.js": "72112d0e3c99323ce843140eb68168141d7bc04cdb188d559d41a6f1146c63f2",
+    "services/firebase/persistenceService.js": "171b5d888a4e074bb745b34366ef57e89769fbfccc72df5561241153ad7ab332",
+    "services/firebase/roomStateService.js": "5c8232ecb7032f2116ef609d039e84e787da63bcbc72a309c9f83ece70f55f03"
+  },
+  "observation": {
+    "added": "shaped-pack",
+    "expectedCells": [
+      [
+        true,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "authoredItem": {
+      "id": "shaped-pack",
+      "name": "Shaped pack",
+      "type": "container",
+      "quality": "common",
+      "width": 2,
+      "height": 2,
+      "containerProperties": {
+        "gridSize": {
+          "rows": 2,
+          "cols": 2
+        },
+        "shape": {
+          "type": "custom",
+          "width": 2,
+          "height": 2,
+          "cells": [
+            [
+              true,
+              false
+            ],
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        "items": []
+      },
+      "quantity": 1,
+      "stackable": true,
+      "rotation": 0,
+      "position": {
+        "row": 0,
+        "col": 0
+      },
+      "rarity": "common",
+      "originalItemId": "shaped-pack",
+      "shape": {
+        "type": "rectangular",
+        "width": 2,
+        "height": 2,
+        "cells": [
+          [
+            true,
+            true
+          ],
+          [
+            true,
+            true
+          ]
+        ]
+      }
+    },
+    "canonicalStatus": "saved",
+    "canonicalMessage": null,
+    "runtimeResult": {
+      "success": true,
+      "characterId": "c-a",
+      "writeToken": "mv5nf2ll-7sob84sc",
+      "lastUpdated": "2026-10-12T19:32:07.785Z",
+      "size": 1898
+    },
+    "canonicalEncoded": {
+      "preservedFields": {
+        "class_spells": {
+          "known_spells": [
+            "martyr_intervene",
+            "martyr_restorative_prayer",
+            "martyr_sympathys_thread",
+            "martyr_sacrificial_bond",
+            "martyr_burning_sacrifice"
+          ]
+        },
+        "baseName": "CONTAINER PROBE",
+        "health": {
+          "current": 30,
+          "max": 50
+        },
+        "mana": {
+          "current": 20,
+          "max": 50
+        },
+        "actionPoints": {
+          "current": 2,
+          "max": 3
+        },
+        "resistances": {
+          "fire": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+          },
+          "frost": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+          },
+          "lightning": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+          },
+          "force": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+          },
+          "necrotic": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+          },
+          "radiant": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+          },
+          "poison": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+          },
+          "psychic": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+          },
+          "bludgeoning": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg"
+          },
+          "piercing": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg"
+          },
+          "slashing": {
+            "level": 100,
+            "multiplier": 1,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg"
+          }
+        },
+        "spellPower": {
+          "fire": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+          },
+          "frost": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+          },
+          "lightning": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+          },
+          "force": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+          },
+          "necrotic": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+          },
+          "radiant": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+          },
+          "poison": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+          },
+          "psychic": {
+            "value": 0,
+            "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+          }
+        },
+        "tokenSettings": {
+          "borderColor": "#506e30",
+          "customIcon": null
+        },
+        "skillRanks": {},
+        "levelUpHistory": {},
+        "talents": {},
+        "primarySpecialization": "",
+        "classResource": {
+          "type": "devotionGauge",
+          "current": 0,
+          "max": 6,
+          "stacks": [],
+          "phase": null,
+          "threshold": 0,
+          "slots": [],
+          "charges": 0,
+          "volatility": 0,
+          "strain": 0,
+          "risk": 0,
+          "flourish": 0,
+          "stance": null,
+          "wardTokens": 0,
+          "precision": 0,
+          "timeShards": null,
+          "temporalStrain": null,
+          "notes": null,
+          "maxPerNote": 0,
+          "totalNotes": 0,
+          "toll": 0,
+          "maxToll": 20,
+          "phylacteryHP": 50,
+          "maxPhylacteryHP": 50,
+          "deathShroud": false,
+          "activeEffects": [],
+          "lastUpdate": 1791833527695,
+          "damage": 0,
+          "earnedLevels": 0,
+          "spentLevels": 0,
+          "bonusLevels": 0
+        }
+      },
+      "metadata": {
+        "id": "c-a",
+        "userId": "u-a",
+        "name": "CONTAINER PROBE",
+        "createdAt": "2026-10-12T19:32:07.692Z",
+        "updatedAt": "2026-10-12T19:32:07.786Z",
+        "lastPlayedAt": "2026-10-12T19:32:07.692Z",
+        "version": 2
+      },
+      "basicInfo": {
+        "race": "Human",
+        "subrace": "",
+        "class": "Martyr",
+        "classAcquisition": {},
+        "bodyStates": [],
+        "level": 3,
+        "alignment": "Neutral Good",
+        "exhaustionLevel": 0
+      },
+      "stats": {
+        "strength": 10,
+        "agility": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "spirit": 10,
+        "charisma": 10
+      },
+      "resources": {
+        "health": {
+          "current": 30,
+          "max": 50
+        },
+        "mana": {
+          "current": 20,
+          "max": 50
+        },
+        "actionPoints": {
+          "current": 2,
+          "max": 3
+        }
+      },
+      "inventory": {
+        "items": [
+          {
+            "id": "shaped-pack",
+            "name": "Shaped pack",
+            "type": "container",
+            "quality": "common",
+            "width": 2,
+            "height": 2,
+            "containerProperties": {
+              "gridSize": {
+                "rows": 2,
+                "cols": 2
+              },
+              "shape": {
+                "type": "custom",
+                "width": 2,
+                "height": 2,
+                "cells": [
+                  "[true,false]",
+                  "[true,true]"
+                ]
+              },
+              "items": []
+            },
+            "quantity": 1,
+            "stackable": true,
+            "rotation": 0,
+            "position": {
+              "row": 0,
+              "col": 0
+            },
+            "rarity": "common",
+            "originalItemId": "shaped-pack",
+            "shape": {
+              "type": "rectangular",
+              "width": 2,
+              "height": 2,
+              "cells": [
+                "[true,true]",
+                "[true,true]"
+              ]
+            }
+          }
+        ],
+        "containers": [],
+        "currency": {
+          "platinum": 0,
+          "gold": 0,
+          "silver": 0,
+          "copper": 0
+        },
+        "encumbranceState": "normal"
+      },
+      "equipment": {
+        "head": null,
+        "neck": null,
+        "shoulders": null,
+        "back": null,
+        "chest": null,
+        "shirt": null,
+        "tabard": null,
+        "wrists": null,
+        "gloves": null,
+        "waist": null,
+        "legs": null,
+        "feet": null,
+        "ring1": null,
+        "ring2": null,
+        "trinket1": null,
+        "trinket2": null,
+        "mainHand": null,
+        "offHand": null,
+        "ranged": null,
+        "weapon": null,
+        "armor": null,
+        "shield": null,
+        "accessories": []
+      },
+      "spells": [],
+      "lore": {
+        "notes": "production shaped container",
+        "background": "",
+        "personalityTraits": "",
+        "ideals": "",
+        "bonds": "",
+        "flaws": "",
+        "appearance": "",
+        "backstory": "",
+        "goals": "",
+        "fears": "",
+        "allies": "",
+        "enemies": "",
+        "organizations": "",
+        "characterImage": null,
+        "imageTransformations": null,
+        "characterIcon": null,
+        "iconBackgroundColor": null,
+        "iconBorderColor": null,
+        "iconBackgroundImage": null,
+        "iconScale": null,
+        "iconOffsetX": null,
+        "iconOffsetY": null,
+        "iconBackgroundScale": null,
+        "iconBackgroundOffsetX": null,
+        "iconBackgroundOffsetY": null
+      },
+      "gameState": {
+        "experience": 0,
+        "sessionData": {
+          "currentRoomId": null,
+          "lastSavedAt": "2026-10-12T19:32:07.786Z",
+          "pendingChanges": {}
+        }
+      }
+    },
+    "writes": [
+      {
+        "op": "updateDoc",
+        "path": "characters/c-a",
+        "value": {
+          "preservedFields": {
+            "class_spells": {
+              "known_spells": [
+                "martyr_intervene",
+                "martyr_restorative_prayer",
+                "martyr_sympathys_thread",
+                "martyr_sacrificial_bond",
+                "martyr_burning_sacrifice"
+              ]
+            },
+            "baseName": "CONTAINER PROBE",
+            "health": {
+              "current": 30,
+              "max": 50
+            },
+            "mana": {
+              "current": 20,
+              "max": 50
+            },
+            "actionPoints": {
+              "current": 2,
+              "max": 3
+            },
+            "resistances": {
+              "fire": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+              },
+              "frost": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+              },
+              "lightning": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+              },
+              "force": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+              },
+              "necrotic": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+              },
+              "radiant": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+              },
+              "poison": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+              },
+              "psychic": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+              },
+              "bludgeoning": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg"
+              },
+              "piercing": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg"
+              },
+              "slashing": {
+                "level": 100,
+                "multiplier": 1,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg"
+              }
+            },
+            "spellPower": {
+              "fire": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+              },
+              "frost": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+              },
+              "lightning": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+              },
+              "force": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+              },
+              "necrotic": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+              },
+              "radiant": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+              },
+              "poison": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+              },
+              "psychic": {
+                "value": 0,
+                "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+              }
+            },
+            "tokenSettings": {
+              "borderColor": "#506e30",
+              "customIcon": null
+            },
+            "skillRanks": {},
+            "levelUpHistory": {},
+            "talents": {},
+            "primarySpecialization": "",
+            "classResource": {
+              "type": "devotionGauge",
+              "current": 0,
+              "max": 6,
+              "stacks": [],
+              "phase": null,
+              "threshold": 0,
+              "slots": [],
+              "charges": 0,
+              "volatility": 0,
+              "strain": 0,
+              "risk": 0,
+              "flourish": 0,
+              "stance": null,
+              "wardTokens": 0,
+              "precision": 0,
+              "timeShards": null,
+              "temporalStrain": null,
+              "notes": null,
+              "maxPerNote": 0,
+              "totalNotes": 0,
+              "toll": 0,
+              "maxToll": 20,
+              "phylacteryHP": 50,
+              "maxPhylacteryHP": 50,
+              "deathShroud": false,
+              "activeEffects": [],
+              "lastUpdate": 1791833527695,
+              "damage": 0,
+              "earnedLevels": 0,
+              "spentLevels": 0,
+              "bonusLevels": 0
+            }
+          },
+          "metadata": {
+            "id": "c-a",
+            "userId": "u-a",
+            "name": "CONTAINER PROBE",
+            "createdAt": "2026-10-12T19:32:07.692Z",
+            "updatedAt": "2026-10-12T19:32:07.783Z",
+            "lastPlayedAt": "2026-10-12T19:32:07.692Z",
+            "version": 2
+          },
+          "basicInfo": {
+            "race": "Human",
+            "subrace": "",
+            "class": "Martyr",
+            "classAcquisition": {},
+            "bodyStates": [],
+            "level": 3,
+            "alignment": "Neutral Good",
+            "exhaustionLevel": 0
+          },
+          "stats": {
+            "strength": 10,
+            "agility": 10,
+            "constitution": 10,
+            "intelligence": 10,
+            "spirit": 10,
+            "charisma": 10
+          },
+          "resources": {
+            "health": {
+              "current": 30,
+              "max": 50
+            },
+            "mana": {
+              "current": 20,
+              "max": 50
+            },
+            "actionPoints": {
+              "current": 2,
+              "max": 3
+            }
+          },
+          "inventory": {
+            "items": [
+              {
+                "id": "shaped-pack",
+                "name": "Shaped pack",
+                "type": "container",
+                "quality": "common",
+                "width": 2,
+                "height": 2,
+                "containerProperties": {
+                  "gridSize": {
+                    "rows": 2,
+                    "cols": 2
+                  },
+                  "shape": {
+                    "type": "custom",
+                    "width": 2,
+                    "height": 2,
+                    "cells": [
+                      "[true,false]",
+                      "[true,true]"
+                    ]
+                  },
+                  "items": []
+                },
+                "quantity": 1,
+                "stackable": true,
+                "rotation": 0,
+                "position": {
+                  "row": 0,
+                  "col": 0
+                },
+                "rarity": "common",
+                "originalItemId": "shaped-pack",
+                "shape": {
+                  "type": "rectangular",
+                  "width": 2,
+                  "height": 2,
+                  "cells": [
+                    "[true,true]",
+                    "[true,true]"
+                  ]
+                }
+              }
+            ],
+            "containers": [],
+            "currency": {
+              "platinum": 0,
+              "gold": 0,
+              "silver": 0,
+              "copper": 0
+            },
+            "encumbranceState": "normal"
+          },
+          "equipment": {
+            "head": null,
+            "neck": null,
+            "shoulders": null,
+            "back": null,
+            "chest": null,
+            "shirt": null,
+            "tabard": null,
+            "wrists": null,
+            "gloves": null,
+            "waist": null,
+            "legs": null,
+            "feet": null,
+            "ring1": null,
+            "ring2": null,
+            "trinket1": null,
+            "trinket2": null,
+            "mainHand": null,
+            "offHand": null,
+            "ranged": null,
+            "weapon": null,
+            "armor": null,
+            "shield": null,
+            "accessories": []
+          },
+          "spells": [],
+          "lore": {
+            "notes": "production shaped container",
+            "background": "",
+            "personalityTraits": "",
+            "ideals": "",
+            "bonds": "",
+            "flaws": "",
+            "appearance": "",
+            "backstory": "",
+            "goals": "",
+            "fears": "",
+            "allies": "",
+            "enemies": "",
+            "organizations": "",
+            "characterImage": null,
+            "imageTransformations": null,
+            "characterIcon": null,
+            "iconBackgroundColor": null,
+            "iconBorderColor": null,
+            "iconBackgroundImage": null,
+            "iconScale": null,
+            "iconOffsetX": null,
+            "iconOffsetY": null,
+            "iconBackgroundScale": null,
+            "iconBackgroundOffsetX": null,
+            "iconBackgroundOffsetY": null
+          },
+          "gameState": {
+            "experience": 0,
+            "sessionData": {
+              "currentRoomId": null,
+              "lastSavedAt": "2026-10-12T19:32:07.783Z",
+              "pendingChanges": {}
+            }
+          }
+        },
+        "uid": "u-a"
+      },
+      {
+        "op": "setDoc",
+        "path": "users/u-a/characterStates/c-a",
+        "value": {
+          "health": {
+            "current": 30,
+            "max": 50
+          },
+          "mana": {
+            "current": 20,
+            "max": 50
+          },
+          "actionPoints": {
+            "current": 2,
+            "max": 3
+          },
+          "tempHealth": 0,
+          "tempMana": 0,
+          "tempActionPoints": 0,
+          "exhaustionLevel": 0,
+          "classResource": {
+            "type": "devotionGauge",
+            "current": 0,
+            "max": 6,
+            "stacks": [],
+            "phase": null,
+            "threshold": 0,
+            "slots": [],
+            "charges": 0,
+            "volatility": 0,
+            "strain": 0,
+            "risk": 0,
+            "flourish": 0,
+            "stance": null,
+            "wardTokens": 0,
+            "precision": 0,
+            "timeShards": null,
+            "temporalStrain": null,
+            "notes": null,
+            "maxPerNote": 0,
+            "totalNotes": 0,
+            "toll": 0,
+            "maxToll": 20,
+            "phylacteryHP": 50,
+            "maxPhylacteryHP": 50,
+            "deathShroud": false,
+            "activeEffects": [],
+            "lastUpdate": 1791833527695,
+            "damage": 0,
+            "earnedLevels": 0,
+            "spentLevels": 0,
+            "bonusLevels": 0
+          },
+          "equipment": {
+            "head": null,
+            "neck": null,
+            "shoulders": null,
+            "back": null,
+            "chest": null,
+            "shirt": null,
+            "tabard": null,
+            "wrists": null,
+            "gloves": null,
+            "waist": null,
+            "legs": null,
+            "feet": null,
+            "ring1": null,
+            "ring2": null,
+            "trinket1": null,
+            "trinket2": null,
+            "mainHand": null,
+            "offHand": null,
+            "ranged": null
+          },
+          "inventory": {
+            "items": [
+              {
+                "id": "shaped-pack",
+                "name": "Shaped pack",
+                "type": "container",
+                "quality": "common",
+                "width": 2,
+                "height": 2,
+                "containerProperties": {
+                  "gridSize": {
+                    "rows": 2,
+                    "cols": 2
+                  },
+                  "shape": {
+                    "type": "custom",
+                    "width": 2,
+                    "height": 2,
+                    "cells": [
+                      "[true,false]",
+                      "[true,true]"
+                    ]
+                  },
+                  "items": []
+                },
+                "quantity": 1,
+                "stackable": true,
+                "rotation": 0,
+                "position": {
+                  "row": 0,
+                  "col": 0
+                },
+                "rarity": "common",
+                "originalItemId": "shaped-pack",
+                "shape": {
+                  "type": "rectangular",
+                  "width": 2,
+                  "height": 2,
+                  "cells": [
+                    "[true,true]",
+                    "[true,true]"
+                  ]
+                }
+              }
+            ],
+            "currency": {
+              "platinum": 0,
+              "gold": 0,
+              "silver": 0,
+              "copper": 0
+            },
+            "encumbranceState": "normal",
+            "containers": []
+          },
+          "actionBars": {},
+          "buffs": [],
+          "debuffs": [],
+          "quests": {
+            "quests": [],
+            "categories": [
+              {
+                "id": "all-quests",
+                "name": "All Quests",
+                "isBaseCategory": true,
+                "parentId": null
+              }
+            ],
+            "questCategories": {}
+          },
+          "questProgress": {},
+          "skillRanks": {},
+          "skillProgress": {},
+          "skillPointsSpent": 0,
+          "skillPointsAvailable": 0,
+          "version": 1,
+          "characterId": "c-a",
+          "lastUpdated": {
+            "seconds": 1791833527.785
+          },
+          "lastWriteToken": "mv5nf2ll-7sob84sc"
+        },
+        "uid": "u-a"
+      }
+    ],
+    "canonicalLoad": {
+      "class_spells": {
+        "known_spells": [
+          "martyr_intervene",
+          "martyr_restorative_prayer",
+          "martyr_sympathys_thread",
+          "martyr_sacrificial_bond",
+          "martyr_burning_sacrifice"
+        ]
+      },
+      "baseName": "CONTAINER PROBE",
+      "health": {
+        "current": 30,
+        "max": 50
+      },
+      "mana": {
+        "current": 20,
+        "max": 50
+      },
+      "actionPoints": {
+        "current": 2,
+        "max": 3
+      },
+      "resistances": {
+        "fire": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+        },
+        "frost": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+        },
+        "lightning": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+        },
+        "force": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+        },
+        "necrotic": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+        },
+        "radiant": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+        },
+        "poison": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+        },
+        "psychic": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+        },
+        "bludgeoning": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_punishingblow.jpg"
+        },
+        "piercing": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg"
+        },
+        "slashing": {
+          "level": 100,
+          "multiplier": 1,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_warrior_riposte.jpg"
+        }
+      },
+      "spellPower": {
+        "fire": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"
+        },
+        "frost": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"
+        },
+        "lightning": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"
+        },
+        "force": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"
+        },
+        "necrotic": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg"
+        },
+        "radiant": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg"
+        },
+        "poison": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg"
+        },
+        "psychic": {
+          "value": 0,
+          "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg"
+        }
+      },
+      "tokenSettings": {
+        "borderColor": "#506e30",
+        "customIcon": null
+      },
+      "skillRanks": {},
+      "levelUpHistory": {},
+      "talents": {},
+      "primarySpecialization": "",
+      "classResource": {
+        "type": "devotionGauge",
+        "current": 0,
+        "max": 6,
+        "stacks": [],
+        "phase": null,
+        "threshold": 0,
+        "slots": [],
+        "charges": 0,
+        "volatility": 0,
+        "strain": 0,
+        "risk": 0,
+        "flourish": 0,
+        "stance": null,
+        "wardTokens": 0,
+        "precision": 0,
+        "timeShards": null,
+        "temporalStrain": null,
+        "notes": null,
+        "maxPerNote": 0,
+        "totalNotes": 0,
+        "toll": 0,
+        "maxToll": 20,
+        "phylacteryHP": 50,
+        "maxPhylacteryHP": 50,
+        "deathShroud": false,
+        "activeEffects": [],
+        "lastUpdate": 1791833527695,
+        "damage": 0,
+        "earnedLevels": 0,
+        "spentLevels": 0,
+        "bonusLevels": 0
+      },
+      "storageExtensions": {
+        "topLevel": {},
+        "metadata": {},
+        "basicInfo": {},
+        "gameState": {},
+        "sessionData": {}
+      },
+      "id": "c-a",
+      "name": "CONTAINER PROBE",
+      "race": "Human",
+      "subrace": "",
+      "class": "Martyr",
+      "classAcquisition": {},
+      "bodyStates": [],
+      "level": 3,
+      "alignment": "Neutral Good",
+      "exhaustionLevel": 0,
+      "stats": {
+        "strength": 10,
+        "agility": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "spirit": 10,
+        "charisma": 10
+      },
+      "resources": {
+        "health": {
+          "current": 30,
+          "max": 50
+        },
+        "mana": {
+          "current": 20,
+          "max": 50
+        },
+        "actionPoints": {
+          "current": 2,
+          "max": 3
+        }
+      },
+      "inventory": {
+        "items": [
+          {
+            "id": "shaped-pack",
+            "name": "Shaped pack",
+            "type": "container",
+            "quality": "common",
+            "width": 2,
+            "height": 2,
+            "containerProperties": {
+              "gridSize": {
+                "rows": 2,
+                "cols": 2
+              },
+              "shape": {
+                "type": "custom",
+                "width": 2,
+                "height": 2,
+                "cells": [
+                  [
+                    true,
+                    false
+                  ],
+                  [
+                    true,
+                    true
+                  ]
+                ]
+              },
+              "items": []
+            },
+            "quantity": 1,
+            "stackable": true,
+            "rotation": 0,
+            "position": {
+              "row": 0,
+              "col": 0
+            },
+            "rarity": "common",
+            "originalItemId": "shaped-pack",
+            "shape": {
+              "type": "rectangular",
+              "width": 2,
+              "height": 2,
+              "cells": [
+                [
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true
+                ]
+              ]
+            }
+          }
+        ],
+        "containers": [],
+        "currency": {
+          "platinum": 0,
+          "gold": 0,
+          "silver": 0,
+          "copper": 0
+        },
+        "encumbranceState": "normal"
+      },
+      "equipment": {
+        "head": null,
+        "neck": null,
+        "shoulders": null,
+        "back": null,
+        "chest": null,
+        "shirt": null,
+        "tabard": null,
+        "wrists": null,
+        "gloves": null,
+        "waist": null,
+        "legs": null,
+        "feet": null,
+        "ring1": null,
+        "ring2": null,
+        "trinket1": null,
+        "trinket2": null,
+        "mainHand": null,
+        "offHand": null,
+        "ranged": null,
+        "weapon": null,
+        "armor": null,
+        "shield": null,
+        "accessories": []
+      },
+      "spells": [],
+      "lore": {
+        "notes": "production shaped container",
+        "background": "",
+        "personalityTraits": "",
+        "ideals": "",
+        "bonds": "",
+        "flaws": "",
+        "appearance": "",
+        "backstory": "",
+        "goals": "",
+        "fears": "",
+        "allies": "",
+        "enemies": "",
+        "organizations": "",
+        "characterImage": null,
+        "imageTransformations": null,
+        "characterIcon": null,
+        "iconBackgroundColor": null,
+        "iconBorderColor": null,
+        "iconBackgroundImage": null,
+        "iconScale": null,
+        "iconOffsetX": null,
+        "iconOffsetY": null,
+        "iconBackgroundScale": null,
+        "iconBackgroundOffsetX": null,
+        "iconBackgroundOffsetY": null
+      },
+      "experience": 0,
+      "createdAt": "2026-10-12T19:32:07.692Z",
+      "updatedAt": "2026-10-12T19:32:07.786Z",
+      "lastPlayedAt": "2026-10-12T19:32:07.692Z",
+      "version": 2
+    },
+    "runtimeLoad": {
+      "health": {
+        "current": 30,
+        "max": 50
+      },
+      "mana": {
+        "current": 20,
+        "max": 50
+      },
+      "actionPoints": {
+        "current": 2,
+        "max": 3
+      },
+      "tempHealth": 0,
+      "tempMana": 0,
+      "tempActionPoints": 0,
+      "exhaustionLevel": 0,
+      "classResource": {
+        "type": "devotionGauge",
+        "current": 0,
+        "max": 6,
+        "stacks": [],
+        "phase": null,
+        "threshold": 0,
+        "slots": [],
+        "charges": 0,
+        "volatility": 0,
+        "strain": 0,
+        "risk": 0,
+        "flourish": 0,
+        "stance": null,
+        "wardTokens": 0,
+        "precision": 0,
+        "timeShards": null,
+        "temporalStrain": null,
+        "notes": null,
+        "maxPerNote": 0,
+        "totalNotes": 0,
+        "toll": 0,
+        "maxToll": 20,
+        "phylacteryHP": 50,
+        "maxPhylacteryHP": 50,
+        "deathShroud": false,
+        "activeEffects": [],
+        "lastUpdate": 1791833527695,
+        "damage": 0,
+        "earnedLevels": 0,
+        "spentLevels": 0,
+        "bonusLevels": 0
+      },
+      "equipment": {
+        "head": null,
+        "neck": null,
+        "shoulders": null,
+        "back": null,
+        "chest": null,
+        "shirt": null,
+        "tabard": null,
+        "wrists": null,
+        "gloves": null,
+        "waist": null,
+        "legs": null,
+        "feet": null,
+        "ring1": null,
+        "ring2": null,
+        "trinket1": null,
+        "trinket2": null,
+        "mainHand": null,
+        "offHand": null,
+        "ranged": null
+      },
+      "inventory": {
+        "items": [
+          {
+            "id": "shaped-pack",
+            "name": "Shaped pack",
+            "type": "container",
+            "quality": "common",
+            "width": 2,
+            "height": 2,
+            "containerProperties": {
+              "gridSize": {
+                "rows": 2,
+                "cols": 2
+              },
+              "shape": {
+                "type": "custom",
+                "width": 2,
+                "height": 2,
+                "cells": [
+                  [
+                    true,
+                    false
+                  ],
+                  [
+                    true,
+                    true
+                  ]
+                ]
+              },
+              "items": []
+            },
+            "quantity": 1,
+            "stackable": true,
+            "rotation": 0,
+            "position": {
+              "row": 0,
+              "col": 0
+            },
+            "rarity": "common",
+            "originalItemId": "shaped-pack",
+            "shape": {
+              "type": "rectangular",
+              "width": 2,
+              "height": 2,
+              "cells": [
+                [
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true
+                ]
+              ]
+            }
+          }
+        ],
+        "currency": {
+          "platinum": 0,
+          "gold": 0,
+          "silver": 0,
+          "copper": 0
+        },
+        "encumbranceState": "normal",
+        "containers": []
+      },
+      "actionBars": {},
+      "buffs": [],
+      "debuffs": [],
+      "quests": {
+        "quests": [],
+        "categories": [
+          {
+            "id": "all-quests",
+            "name": "All Quests",
+            "isBaseCategory": true,
+            "parentId": null
+          }
+        ],
+        "questCategories": {}
+      },
+      "questProgress": {},
+      "skillRanks": {},
+      "skillProgress": {},
+      "skillPointsSpent": 0,
+      "skillPointsAvailable": 0,
+      "version": 1,
+      "lastUpdated": "1970-01-01T00:00:00.000Z"
+    },
+    "loadedFloorCells": {
+      "canonical": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "runtime": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true
+        ]
+      ]
+    }
+  },
+  "errors": [],
+  "snapshot": "- heading \"Selected character\" [level=1]\n- region \"Selected character save status\":\n  - status:\n    - strong: \"Canonical character:\"\n    - text: Cloud saved · Device draft retained\n    - strong: \"Personal runtime:\"\n    - text: Cloud saved · Device draft retained\n  - button \"Download selected draft\"\n  - text: Import selected draft\n  - button \"Import selected draft\""
+}

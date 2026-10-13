@@ -1,0 +1,240 @@
+{
+  "nonpersistent": {
+    "isPermanent": false,
+    "persistentRoomId": null,
+    "binding": {
+      "success": false,
+      "code": "room_not_persistent",
+      "error": "room_not_persistent"
+    },
+    "legacy": {
+      "success": false,
+      "error": "Use the bound P7 actor consequence capability (updates.currentHp)",
+      "code": "actor_consequence_required",
+      "event": "token_updated"
+    }
+  },
+  "creationMetadata": {
+    "stored": {
+      "version": 1,
+      "kind": "creature",
+      "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+      "mapId": "default",
+      "tokenId": "forged",
+      "instanceId": "client-authority",
+      "revision": 91
+    },
+    "echo": {
+      "version": 1,
+      "kind": "creature",
+      "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+      "mapId": "default",
+      "tokenId": "forged",
+      "instanceId": "client-authority",
+      "revision": 91
+    },
+    "projected": {
+      "version": 1,
+      "kind": "creature",
+      "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+      "mapId": "default",
+      "tokenId": "forged",
+      "instanceId": "client-authority",
+      "revision": 91
+    }
+  },
+  "requiredConditionFields": {
+    "success": true,
+    "receipt": {
+      "version": 1,
+      "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+      "commandId": "cb47c2be-9786-4418-8f37-5414c1d1fd48",
+      "submitterUid": "review-gm",
+      "contentHash": "585a0a197da86c68641a68e97317557ee628f20332671f6430f26c0d81a10072",
+      "admissionEpoch": "e7361e35-c393-4538-ad9b-d47c79109f92",
+      "commitSequence": 1,
+      "checkpointRevision": 3,
+      "acceptedAt": 1791911703605,
+      "authorization": {
+        "kind": "gm",
+        "authorizerUid": "review-gm"
+      },
+      "actors": [
+        {
+          "ref": {
+            "kind": "creature",
+            "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+            "mapId": "default",
+            "tokenId": "record-test",
+            "instanceId": "4722449a-1688-4792-8909-ad18764310b2"
+          },
+          "beforeRevision": 0,
+          "afterRevision": 1,
+          "finalResources": {
+            "hp": {
+              "current": 40,
+              "temp": 0,
+              "max": 50
+            },
+            "mana": {
+              "current": 20,
+              "temp": 0,
+              "max": 30
+            },
+            "ap": {
+              "current": 3,
+              "temp": 0,
+              "max": 5
+            }
+          },
+          "conditions": [
+            {
+              "version": 1,
+              "id": "missing-fields",
+              "recordId": "missing-fields",
+              "name": "Incomplete",
+              "type": "debuff",
+              "kind": "effect",
+              "target": {
+                "kind": "creature",
+                "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+                "mapId": "default",
+                "tokenId": "record-test",
+                "instanceId": "4722449a-1688-4792-8909-ad18764310b2"
+              },
+              "durationType": "manual",
+              "sharedTiming": "manual"
+            }
+          ]
+        }
+      ]
+    },
+    "status": "accepted-live"
+  },
+  "gmDelivery": {
+    "proposed": {
+      "success": false,
+      "code": "awaiting_authorization",
+      "proposalId": "2ce63d9e-caac-4a2b-9a25-aff2653f2c97",
+      "contentHash": "b05e149ab78e3fce6fb4af57a156b30f90c941ba0b8b0ba71e8201e24aab14c2"
+    },
+    "pendingDelivered": false,
+    "gmSessionIsSeparate": true,
+    "gmSocketId": "-5VMdqfSxrUqoJPCAAAD",
+    "gmAcceptedDelivered": false
+  },
+  "publicationFailure": {
+    "result": {
+      "success": false,
+      "code": "invalid_consequence",
+      "error": "publication transport failure"
+    },
+    "retry": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+        "commandId": "63bfee7d-59aa-44bc-94f6-8d3c86299f0a",
+        "submitterUid": "review-gm",
+        "contentHash": "c6d5377b624f092f9dcc85f84a8102aba78a539adb440487266268ef2477b7da",
+        "admissionEpoch": "e7361e35-c393-4538-ad9b-d47c79109f92",
+        "commitSequence": 2,
+        "checkpointRevision": 4,
+        "acceptedAt": 1791911703715,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "review-gm"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+              "mapId": "default",
+              "tokenId": "record-test",
+              "instanceId": "4722449a-1688-4792-8909-ad18764310b2"
+            },
+            "beforeRevision": 1,
+            "afterRevision": 2,
+            "finalResources": {
+              "hp": {
+                "current": 20,
+                "temp": 0,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 3,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": [
+              {
+                "version": 1,
+                "id": "missing-fields",
+                "recordId": "missing-fields",
+                "name": "Incomplete",
+                "type": "debuff",
+                "kind": "effect",
+                "target": {
+                  "kind": "creature",
+                  "roomId": "8a99213e-7c7a-4311-8274-c9228a55a1bd",
+                  "mapId": "default",
+                  "tokenId": "record-test",
+                  "instanceId": "4722449a-1688-4792-8909-ad18764310b2"
+                },
+                "durationType": "manual",
+                "sharedTiming": "manual"
+              }
+            ]
+          }
+        ]
+      },
+      "status": "accepted-live"
+    },
+    "oldHp": 40,
+    "liveHp": 20,
+    "receiptCount": 2
+  },
+  "capacityChange": {
+    "r": {
+      "queued": false,
+      "reason": "retention_capacity",
+      "revision": null
+    },
+    "installed": false,
+    "statusCallbackBeforeInstall": true
+  },
+  "delayedWriter": {
+    "r": {
+      "queued": true,
+      "revision": 2
+    },
+    "installed": {
+      "maps": {},
+      "revision": 2,
+      "latest": true
+    },
+    "retained": {
+      "maps": {},
+      "revision": 2,
+      "latest": true
+    },
+    "status": {
+      "roomId": "room",
+      "status": "pending",
+      "cloudSaved": false,
+      "reason": null,
+      "confirmedRevision": 0,
+      "pendingRevision": 2,
+      "attempts": 0,
+      "exhausted": false,
+      "error": null
+    }
+  }
+}

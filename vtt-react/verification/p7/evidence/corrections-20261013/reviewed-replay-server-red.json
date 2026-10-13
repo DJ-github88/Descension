@@ -1,0 +1,343 @@
+{
+  "B1": {
+    "proposed": {
+      "success": false,
+      "code": "awaiting_authorization",
+      "proposalId": "c181cd1b-0a90-4efb-a6dd-c4854da074f4",
+      "contentHash": "0eca2baf894d45615c3db5d6e005a4e260f69ad43ee3acd7dffe393c9fc39617"
+    },
+    "pending": [],
+    "result": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "4219147f-d410-4d5f-a554-d42227f8ec03",
+        "commandId": "ea7387b4-c777-42d8-9781-9568b0f5e616",
+        "submitterUid": "member-mv70ec5d-2-qbdio",
+        "contentHash": "0eca2baf894d45615c3db5d6e005a4e260f69ad43ee3acd7dffe393c9fc39617",
+        "admissionEpoch": "e86d8fc5-58c8-4db8-a37d-e0a74e88c014",
+        "commitSequence": 1,
+        "checkpointRevision": 2,
+        "acceptedAt": 1791915794802,
+        "authorization": {
+          "kind": "member-proposal-gm",
+          "authorizerUid": "gm-mv70ec34-1-do4uj",
+          "proposalId": "c181cd1b-0a90-4efb-a6dd-c4854da074f4"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "4219147f-d410-4d5f-a554-d42227f8ec03",
+              "mapId": "default",
+              "tokenId": "actor",
+              "instanceId": "f585df92-91b8-4829-8d8b-6a1dee8bd942"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 20,
+                "temp": 0,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 3,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ]
+      },
+      "status": "accepted-live"
+    },
+    "accepted": [],
+    "separateRegistrySession": true
+  },
+  "B2": {
+    "bound": {
+      "success": false,
+      "code": "room_not_persistent",
+      "error": "room_not_persistent"
+    },
+    "legacy": {
+      "success": false,
+      "error": "Use the bound P7 actor consequence capability (updates.currentHp)",
+      "code": "actor_consequence_required",
+      "event": "token_updated"
+    },
+    "eligible": false
+  },
+  "B3": {
+    "result": {
+      "success": false,
+      "code": "invalid_consequence",
+      "error": "publication transport failure"
+    },
+    "retry": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "f44185c6-a952-447c-8a2e-397fc5f6f386",
+        "commandId": "1e8a829e-a860-4756-8516-0db9d8e49f6a",
+        "submitterUid": "gm-mv70ech3-1-gcfbn",
+        "contentHash": "d30469ee56aa217ae3099d9e68c29789bfe497dcf16207a55a9f22a77a5b2887",
+        "admissionEpoch": "623fae71-ff2f-45a5-95fb-062614d17048",
+        "commitSequence": 1,
+        "checkpointRevision": 2,
+        "acceptedAt": 1791915795126,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "gm-mv70ech3-1-gcfbn"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "f44185c6-a952-447c-8a2e-397fc5f6f386",
+              "mapId": "default",
+              "tokenId": "actor",
+              "instanceId": "c68eff72-f358-483f-a9ed-400be6674828"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 20,
+                "temp": 0,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 3,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ]
+      },
+      "status": "accepted-live"
+    },
+    "liveHp": 20,
+    "receipts": 1
+  },
+  "B3Ack": {
+    "result": {
+      "success": false,
+      "code": "outcome_unknown"
+    },
+    "retry": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "07546f39-e378-4b98-bb58-e231867d1562",
+        "commandId": "4eb5586d-68ab-43d3-a442-0d75918fb61e",
+        "submitterUid": "gm-mv70echr-1-wsqvb",
+        "contentHash": "274fdcf60305aa33dcfed6b1817db369fdd6dc00a6a88eadfa8d26c0ef0d1fe6",
+        "admissionEpoch": "5f97539d-b555-4854-aacc-e32fd120964a",
+        "commitSequence": 1,
+        "checkpointRevision": 2,
+        "acceptedAt": 1791915795153,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "gm-mv70echr-1-wsqvb"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "07546f39-e378-4b98-bb58-e231867d1562",
+              "mapId": "default",
+              "tokenId": "actor",
+              "instanceId": "12a40c80-e2c7-4f26-ad94-ea6b87fb267a"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 20,
+                "temp": 0,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 3,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ]
+      },
+      "status": "accepted-live"
+    }
+  },
+  "B4": {
+    "result": {
+      "success": false,
+      "code": "outcome_unknown"
+    },
+    "stored": {
+      "id": "forged",
+      "ownerUserId": "gm-mv70ecom-1-fvorl",
+      "stats": {
+        "maxHp": 50,
+        "maxMana": 30,
+        "maxAP": 5
+      },
+      "state": {
+        "currentHp": 40,
+        "currentMana": 20,
+        "currentActionPoints": 3,
+        "conditions": [],
+        "actorContract": {
+          "version": 1,
+          "kind": "creature",
+          "roomId": "0d4b90e6-91b0-49bd-859b-8a3c0b06e589",
+          "mapId": "default",
+          "tokenId": "forged",
+          "instanceId": "client-authority",
+          "revision": 91
+        }
+      },
+      "addedAt": 1791915795389
+    },
+    "projected": {
+      "id": "forged",
+      "addedAt": 1791915795389,
+      "state": {
+        "actorContract": {
+          "version": 1,
+          "kind": "creature",
+          "roomId": "0d4b90e6-91b0-49bd-859b-8a3c0b06e589",
+          "mapId": "default",
+          "tokenId": "forged",
+          "instanceId": "client-authority",
+          "revision": 91
+        },
+        "currentHp": 40,
+        "currentMana": 20,
+        "currentActionPoints": 3,
+        "conditions": []
+      },
+      "ownerUserId": "gm-mv70ecom-1-fvorl"
+    }
+  },
+  "B6": {
+    "result": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "38524cdf-37d6-4bc8-b941-d087d8f8aa4a",
+        "commandId": "f5a485c7-43a0-4925-886a-305e36eff57d",
+        "submitterUid": "gm-mv70ecx9-1-pfw91",
+        "contentHash": "a69ed5db199480fa0b2bd63fdd7ff7470918beea5dcd7c78ae65e1b6ce16b988",
+        "admissionEpoch": "0e745752-8d12-4b5d-ae0e-81b0eb2ff71a",
+        "commitSequence": 1,
+        "checkpointRevision": 2,
+        "acceptedAt": 1791915795703,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "gm-mv70ecx9-1-pfw91"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "38524cdf-37d6-4bc8-b941-d087d8f8aa4a",
+              "mapId": "default",
+              "tokenId": "actor",
+              "instanceId": "9c5c9ae1-40b3-4fc6-abe2-94c5bc7ea36f"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 40,
+                "temp": 0,
+                "max": 50
+              },
+              "mana": {
+                "current": 20,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 3,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": [
+              {
+                "version": 1,
+                "id": "missing",
+                "recordId": "missing",
+                "name": "Incomplete",
+                "type": "debuff",
+                "kind": "effect",
+                "target": {
+                  "kind": "creature",
+                  "roomId": "38524cdf-37d6-4bc8-b941-d087d8f8aa4a",
+                  "mapId": "default",
+                  "tokenId": "actor",
+                  "instanceId": "9c5c9ae1-40b3-4fc6-abe2-94c5bc7ea36f"
+                },
+                "durationType": "manual",
+                "sharedTiming": "manual"
+              }
+            ]
+          }
+        ]
+      },
+      "status": "accepted-live"
+    }
+  },
+  "bounds": {
+    "maxEdit": {
+      "success": false,
+      "error": "Use the bound P7 actor consequence capability (updates.state.maxHp)",
+      "code": "actor_consequence_required",
+      "event": "token_updated"
+    },
+    "oldRef": {
+      "kind": "creature",
+      "roomId": "9125b431-65cf-4fe9-8c08-7bb5007baa6e",
+      "mapId": "default",
+      "tokenId": "actor",
+      "instanceId": "939784df-4135-4d3f-8b1a-bbc4aa22e84b"
+    },
+    "newRef": {
+      "kind": "creature",
+      "roomId": "9125b431-65cf-4fe9-8c08-7bb5007baa6e",
+      "mapId": "default",
+      "tokenId": "actor",
+      "instanceId": "d80f2d56-6609-4b34-9e11-82ce897c8943"
+    },
+    "newMax": 10,
+    "stale": {
+      "success": false,
+      "code": "actor_binding_conflict",
+      "error": "actor_binding_conflict"
+    },
+    "noNewReceipt": true
+  }
+}

@@ -319,7 +319,6 @@
     margin: 8px 0;
 }
 
-.unified-context-menu.class-resource-menu .menu-info,
 .unified-context-menu.class-resource-menu .menu-status-flavor {
     color: var(--crm-text-dim);
 }

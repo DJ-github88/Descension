@@ -1,0 +1,336 @@
+{
+  "A3": {
+    "result": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "f127ecdd-140e-4d3d-b4bf-7ec4f34fa25a",
+        "commandId": "bb32716f-052b-4ab1-82bc-3a2661530314",
+        "submitterUid": "user-mv6xnv45-1-6vxq7",
+        "contentHash": "231fcd5ab8bf3f1971697f9964bd1a76fc6d9e26712e839ce68c9b33592b9b33",
+        "admissionEpoch": "1a78af41-cd39-4da8-8a25-70f518cd6392",
+        "commitSequence": 1,
+        "checkpointRevision": 3,
+        "acceptedAt": 1791911200336,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "user-mv6xnv45-1-6vxq7"
+        },
+        "source": {
+          "kind": "creature",
+          "roomId": "f127ecdd-140e-4d3d-b4bf-7ec4f34fa25a",
+          "mapId": "default",
+          "tokenId": "branvig-a",
+          "instanceId": "ddb4b82b-6572-4dac-807a-7555021aa131"
+        },
+        "target": {
+          "kind": "creature",
+          "roomId": "f127ecdd-140e-4d3d-b4bf-7ec4f34fa25a",
+          "mapId": "default",
+          "tokenId": "branvig-b",
+          "instanceId": "aaf09389-391b-49ca-9519-654e353bec65"
+        },
+        "adjudication": {
+          "definitionId": "grimmstalk_feather_slash",
+          "chosenResult": 15,
+          "finalAmount": 15
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "f127ecdd-140e-4d3d-b4bf-7ec4f34fa25a",
+              "mapId": "default",
+              "tokenId": "branvig-a",
+              "instanceId": "ddb4b82b-6572-4dac-807a-7555021aa131"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 250,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 0,
+                "max": 5
+              }
+            },
+            "conditions": []
+          },
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "f127ecdd-140e-4d3d-b4bf-7ec4f34fa25a",
+              "mapId": "default",
+              "tokenId": "branvig-b",
+              "instanceId": "aaf09389-391b-49ca-9519-654e353bec65"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 239,
+                "temp": 0,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 1,
+                "max": 5
+              }
+            },
+            "conditions": [
+              {
+                "version": 1,
+                "id": "slow-a",
+                "recordId": "slow-a",
+                "conditionKey": "slowed",
+                "originalName": "slow",
+                "name": "Slowed",
+                "type": "debuff",
+                "kind": "effect",
+                "target": {
+                  "kind": "creature",
+                  "roomId": "f127ecdd-140e-4d3d-b4bf-7ec4f34fa25a",
+                  "mapId": "default",
+                  "tokenId": "branvig-b",
+                  "instanceId": "aaf09389-391b-49ca-9519-654e353bec65"
+                },
+                "targetId": "branvig-b",
+                "targetType": "creature",
+                "source": "arc_frost_touch",
+                "effects": {
+                  "movementSpeed": -10
+                },
+                "durationType": "rounds",
+                "durationValue": 3,
+                "remainingRounds": 3,
+                "sharedTiming": "manual"
+              }
+            ]
+          }
+        ]
+      },
+      "status": "accepted-live"
+    },
+    "checkpointOperations": 3,
+    "checkpointRequestBytes": 25085,
+    "decoded": true
+  },
+  "A1": {
+    "invalidCases": 5,
+    "zeroMutation": true,
+    "primaryReplacement": {
+      "old": {
+        "kind": "character",
+        "roomId": "3b093f0a-fb06-43e0-9278-f91bec911ee1",
+        "mapId": "default",
+        "tokenId": "pc-a",
+        "instanceId": "f4fb7989-9557-4aca-a44e-53336c86c3b5",
+        "ownerUid": "user-mv6xnv6i-1-ntnwu",
+        "characterId": "c-a"
+      },
+      "replacement": {
+        "kind": "character",
+        "roomId": "3b093f0a-fb06-43e0-9278-f91bec911ee1",
+        "mapId": "default",
+        "tokenId": "pc-extra",
+        "instanceId": "79fefcb4-63f5-4dd0-982b-e80c7cee8307",
+        "ownerUid": "user-mv6xnv6i-1-ntnwu",
+        "characterId": "c-a"
+      },
+      "sameUidDifferentCharacter": true
+    },
+    "nonDefaultDeleteReplacement": true
+  },
+  "A2": {
+    "memberDenied": true,
+    "revokedDenied": true,
+    "fencedDenied": true,
+    "immutableGMProposal": true,
+    "runtimeAwaitRace": {
+      "success": false,
+      "error": "Room session changed during authorization; the operation was not applied",
+      "code": "room_binding_changed",
+      "event": "actor_consequence"
+    },
+    "principalAwaitRace": {
+      "success": false,
+      "code": "actor_binding_conflict",
+      "error": "actor_binding_conflict"
+    }
+  },
+  "A4": {
+    "retry": {
+      "success": true,
+      "receipt": {
+        "version": 1,
+        "roomId": "4be96970-3cd8-42e8-9a5e-0f07c504edd5",
+        "commandId": "f9389b8f-5944-450d-b6f4-a941e7e7a1c2",
+        "submitterUid": "user-mv6xnv5b-1-t2560",
+        "contentHash": "7c32b2c3e0c2d345b8f907d2b04e3d44b45d7563fbc8570a86c5419b966765b9",
+        "admissionEpoch": "e86b3a81-017b-4412-921e-2e7db114e8b3",
+        "commitSequence": 1,
+        "checkpointRevision": 3,
+        "acceptedAt": 1791911200372,
+        "authorization": {
+          "kind": "gm",
+          "authorizerUid": "user-mv6xnv5b-1-t2560"
+        },
+        "actors": [
+          {
+            "ref": {
+              "kind": "creature",
+              "roomId": "4be96970-3cd8-42e8-9a5e-0f07c504edd5",
+              "mapId": "default",
+              "tokenId": "branvig-a",
+              "instanceId": "3c401e67-7eda-45ed-bcc6-594644387b7c"
+            },
+            "beforeRevision": 0,
+            "afterRevision": 1,
+            "finalResources": {
+              "hp": {
+                "current": 200,
+                "temp": 4,
+                "max": 250
+              },
+              "mana": {
+                "current": 30,
+                "temp": 0,
+                "max": 30
+              },
+              "ap": {
+                "current": 5,
+                "temp": 1,
+                "max": 5
+              }
+            },
+            "conditions": []
+          }
+        ]
+      },
+      "status": "accepted-live"
+    },
+    "concurrent": [
+      {
+        "success": true,
+        "receipt": {
+          "version": 1,
+          "roomId": "4be96970-3cd8-42e8-9a5e-0f07c504edd5",
+          "commandId": "89f2851d-c962-4e0c-9889-7b8135b913e0",
+          "submitterUid": "user-mv6xnv5b-1-t2560",
+          "contentHash": "4a08998f3da52b7064f64b387aa797cdbdd1063e43eb2e9c718c46c724f11aee",
+          "admissionEpoch": "e86b3a81-017b-4412-921e-2e7db114e8b3",
+          "commitSequence": 2,
+          "checkpointRevision": 4,
+          "acceptedAt": 1791911200377,
+          "authorization": {
+            "kind": "gm",
+            "authorizerUid": "user-mv6xnv5b-1-t2560"
+          },
+          "actors": [
+            {
+              "ref": {
+                "kind": "creature",
+                "roomId": "4be96970-3cd8-42e8-9a5e-0f07c504edd5",
+                "mapId": "default",
+                "tokenId": "branvig-b",
+                "instanceId": "2a617efd-0ba6-4bf8-81b2-fcc42ce1597f"
+              },
+              "beforeRevision": 0,
+              "afterRevision": 1,
+              "finalResources": {
+                "hp": {
+                  "current": 180,
+                  "temp": 4,
+                  "max": 250
+                },
+                "mana": {
+                  "current": 30,
+                  "temp": 0,
+                  "max": 30
+                },
+                "ap": {
+                  "current": 5,
+                  "temp": 1,
+                  "max": 5
+                }
+              },
+              "conditions": []
+            }
+          ]
+        },
+        "status": "accepted-live"
+      },
+      {
+        "success": false,
+        "code": "stale_actor_revision",
+        "error": "stale_actor_revision"
+      }
+    ],
+    "knownOldReceipt": true,
+    "unknownOldEpoch": "outcome_unknown",
+    "pruning": {
+      "limit": 256,
+      "unconfirmedRefused": true,
+      "confirmedFloor": 1,
+      "durableOldRetry": true,
+      "freshEpochUnknown": true
+    }
+  },
+  "A6": {
+    "capacityFailure": {
+      "success": false,
+      "code": "retention_capacity",
+      "error": "retention_capacity"
+    },
+    "zeroLiveMutation": true,
+    "receiptBytePressure": {
+      "retainedBytes": 508397,
+      "rejectedAt": 4,
+      "noPublication": true
+    }
+  },
+  "A5": {
+    "protectedCases": 9,
+    "unrelatedEdit": true
+  },
+  "A7": {
+    "roundZero": 0,
+    "modifiers": {
+      "movementSpeed": -10
+    },
+    "distinctIds": true,
+    "absoluteAndLegacy": {
+      "startTime": 0,
+      "endTime": 1000,
+      "separateDefendingIds": true,
+      "rawRecoverableNotPublic": true
+    }
+  },
+  "A8": {
+    "cooperative": true,
+    "resourceAwaitedAuthorization": true
+  },
+  "A11": {
+    "fixtures": [
+      "arc_spark_bolt",
+      "martyr_restorative_prayer"
+    ],
+    "preAdjudicatedOnly": true,
+    "classPaymentNotImplemented": true
+  }
+}

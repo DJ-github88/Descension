@@ -432,3 +432,22 @@
     color: #ffffff;
     box-shadow: 0 0 8px rgba(220, 38, 38, 0.6);
 }
+
+/* ===== Calm TTRPG pass: parchment, ink, no glow or looping motion ===== */
+.chronarch-master-svg,
+.chronarch-master-svg:hover { filter: none; }
+.chrono-chassis-base.critical { animation: none; stroke: #8b3a2a; stroke-width: 1.5; }
+.chrono-astrolabe-gear-ring { animation: none; }
+.chrono-sand-beam { animation: none; stroke-dasharray: none; }
+.chrono-shard-crystal.filled { animation: none; }
+.chrono-center-core:hover .chrono-center-jewel { filter: none; stroke: #663c32; }
+.chrono-center-core:hover .chrono-gimbal-ring { stroke: #663c32; filter: none; }
+.chrono-shard-slot:hover .chrono-shard-empty,
+.chrono-shard-slot.prospective .chrono-shard-empty { stroke: #2f5f78; stroke-width: 1.1; fill: rgba(56, 189, 248, 0.14); filter: none; }
+.chrono-shard-slot:hover .chrono-shard-crystal { filter: none; }
+.chrono-shard-slot:hover .chrono-shard-socket { stroke: #663c32; }
+.chrono-shard-slot.prospective-drop .chrono-shard-crystal { opacity: 0.4; filter: none; }
+.chrono-strain-slot:hover .chrono-strain-glass-tube,
+.chrono-strain-slot.prospective .chrono-strain-glass-tube { stroke: #663c32; stroke-width: 1.1; filter: none; }
+.chrono-strain-slot:hover .chrono-strain-liquid-fill { filter: none; }
+.chrono-paradox-fracture { stroke: #8b3a2a; stroke-width: 1; fill: none; filter: none; animation: none; }

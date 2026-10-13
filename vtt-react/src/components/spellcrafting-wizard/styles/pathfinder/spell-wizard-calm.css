@@ -1,0 +1,1016 @@
+/* Spell Wizard — calm surface pass, batch 1: form shell, shared controls,
+   choice cards and filter pills (used by Steps 1–2 and any step that reuses them).
+
+   Conventions come from the Classes codex and the account ledger
+   (ClassCodex.css, AdventurerWorkspace.css): paper surface, 1px rule border,
+   3px corners, no gradients or shadows, seal-coloured hover border, leather
+   fill for a selected pill and panel fill + seal border for a selected card.
+   Tokens resolve through the shared --adventure-* set that
+   styles/adventurer-windows.css defines on every game window; inputs use the
+   same page fill and 1rem text as that file's common control vocabulary.
+
+   Scope: the wizard root only. The global wizard reset in cleanup.css
+   (`.spellbook-layout button:not(...)`, specificity 0,6,1, !important) and the
+   per-control rules in main.css / basic-info.css set the same properties with
+   !important, so these rules repeat !important and use `.app-main-panel` plus
+   element-qualified buttons to reach 0,7,1, which makes source order irrelevant.
+   Later steps (effects, mechanics, triggers, review) still use the old chrome
+   and are separate batches. */
+
+.wow-window.adventurer-window .app-container.pf-spellbook {
+  --sw-ink: var(--adventure-ink, #34251a);
+  --sw-muted: var(--adventure-muted, #68533e);
+  --sw-page: var(--adventure-page, #f8f5ee);
+  --sw-paper: var(--adventure-paper, #f1ece1);
+  --sw-panel: var(--adventure-panel, #e8e2d4);
+  --sw-rule: var(--adventure-rule, #c4baa6);
+  --sw-seal: var(--adventure-seal, #663c32);
+  --sw-leather: var(--adventure-leather, #302419);
+  --sw-error: #8b3a2a;
+}
+
+/* ---- Form groups, labels, help text ---------------------------------- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-label {
+  color: var(--sw-ink) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+  margin-bottom: 6px;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-label .required { color: var(--sw-seal) !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-help-text {
+  color: var(--sw-muted) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 0.95rem !important;
+  font-style: normal !important;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+/* ---- Text inputs, textareas, selects --------------------------------- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select) {
+  background: var(--sw-page) !important;
+  color: var(--sw-ink) !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  padding: 8px 12px !important;
+  transition: border-color 160ms ease;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-select) { min-height: 44px; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select)::placeholder { color: var(--sw-muted); opacity: 0.8; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select):hover { border-color: var(--sw-seal) !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select):focus {
+  border-color: var(--sw-seal) !important;
+  box-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select):disabled {
+  background: var(--sw-panel) !important;
+  color: var(--sw-muted) !important;
+  cursor: not-allowed;
+  opacity: 1;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select)[aria-invalid='true'],
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input-error, .spell-wizard-input.error, .spell-wizard-textarea.error) { border-color: var(--sw-error) !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-error { color: var(--sw-error) !important; font-size: 0.95rem; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-checkbox { accent-color: var(--sw-seal); }
+
+/* ---- Quiet containers: tag field, icon preview, hints, info boxes ---- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-tags-container, .spell-icon-preview, .selection-instruction, .spell-wizard-info-box, .element-selector-container, .selected-types-summary) {
+  background: var(--sw-page) !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink);
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .selection-instruction { font-size: 0.95rem !important; line-height: 1.45; }
+/* The hint paragraph is a flex row in the legacy rules, which spaces the inline
+   "primary" / "secondary" emphasis apart from the sentence. Let it flow as text. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .selection-instruction p { display: block !important; margin: 0; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-tag {
+  background: transparent !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  color: var(--sw-muted) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+
+/* The nested summary sits inside the selector card: no second frame. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .element-selector-container .selected-types-summary { background: var(--sw-panel) !important; }
+/* Badges keep their per-type colour; only the heavy chrome is reduced. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .selected-type-badge { border-width: 1px !important; border-radius: 3px !important; box-shadow: none !important; }
+
+
+/* ---- Filter pills (damage-type categories) --------------------------- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel button.category-button {
+  min-height: 44px;
+  padding: 8px 14px !important;
+  background: transparent !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-muted) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+  transform: none !important;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel button.category-button:hover { background: var(--sw-panel) !important; border-color: var(--sw-seal) !important; transform: none !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel button.category-button.active { background: var(--sw-leather) !important; border-color: var(--sw-leather) !important; color: var(--sw-paper) !important; }
+
+/* ---- Choice cards (damage-type tiles, spell-type and selection cards) - */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.element-button, .spell-type-card, .selection-card, .icon-selection-card) {
+  background: var(--sw-paper) !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  text-shadow: none !important;
+  transform: none !important;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.element-button, .spell-type-card, .selection-card, .icon-selection-card):hover {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.element-button, .spell-type-card, .selection-card, .icon-selection-card):is(.selected, .active, .primary, .secondary, [aria-pressed='true']) {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  box-shadow: inset 0 0 0 1px var(--sw-seal) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.element-button, .spell-type-card, .selection-card, .icon-selection-card)::before,
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.element-button, .spell-type-card, .selection-card, .icon-selection-card)::after { content: none !important; }
+
+/* Keyboard focus. A legacy wizard rule removes outlines with !important, which
+   left these controls without a visible focus ring; restore one in the seal colour. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select, button.category-button, button.element-button, .spell-type-card, .selection-card, .icon-selection-card):focus-visible {
+  outline: 2px solid var(--sw-seal) !important;
+  outline-offset: 2px !important;
+}
+
+/* ---- Spell-type cards (Step 2): thin rules in place of the ornamental header ---- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-card .spell-type-header { border-bottom: 1px solid var(--sw-rule) !important; border-radius: 0 !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-card .spell-type-header::after { content: none !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-card .spell-type-title {
+  border-bottom: 0 !important;
+  color: var(--sw-ink) !important;
+  font-size: 1.15rem !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-card .spell-type-description { font-size: 1rem !important; line-height: 1.5; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-card .spell-type-examples {
+  border: 0 !important;
+  border-top: 1px solid var(--sw-rule) !important;
+  border-radius: 0 !important;
+  color: var(--sw-muted) !important;
+  font-size: 0.95rem !important;
+}
+
+/* ---- Step 2 configuration panel: one thin frame, no gold bar or drop shadow ---- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-config {
+  background: var(--sw-page) !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-config::before,
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-config .channeled-spell-config::before { content: none !important; }
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-config .channeled-spell-config {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-config h4 {
+  border-bottom: 1px solid var(--sw-rule) !important;
+  color: var(--sw-ink) !important;
+  font-size: 1.1rem !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-type-config .config-description { color: var(--sw-muted) !important; font-size: 1rem !important; font-style: normal !important; }
+
+/* A legacy gold outline appears on mouse focus; show a ring for keyboard focus only. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.category-button, button.element-button, .spell-type-card, .selection-card, .icon-selection-card):focus:not(:focus-visible) { outline: none !important; }
+
+/* Step markers in the progress bar: keep the number, drop the gold disc and glow.
+   The active step is paper on seal; other steps keep the ink the shared layer gives them. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-number {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-size: 0.95rem !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-progress-segment.active .spell-step-number { color: var(--sw-paper) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.spell-wizard-input, .spell-wizard-textarea, .spell-wizard-select, button.category-button, button.element-button, .spell-type-card, .selection-card, .icon-selection-card) { transition: none; }
+}
+
+/* ==========================================================================
+   Batch 1b: all steps, step-bar tooltips, portaled popups/tooltips, spell card
+   Steps 3-10 own panels and cards. Scope prefix is the same as above; the
+   long prefix is deliberate so these beat legacy !important rules.
+   ========================================================================== */
+
+/* Wizard background: remove the legacy gradient behind the steps */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .spellbook-wizard-layout {
+  background: var(--sw-page) !important;
+  background-image: none !important;
+}
+
+/* Flat panels (step groups) */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.effect-type-grid, .pf-config-group, .effect-config-group, .targeting-section, .resource-card, .toggle-section, .prophecy-system-config, .effect-empty-state) {
+  background: var(--sw-page) !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .resource-card-header {
+  background: var(--sw-panel) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--sw-rule) !important;
+  border-radius: 0 !important;
+  color: var(--sw-ink) !important;
+  text-shadow: none !important;
+}
+
+/* Option cards in Steps 4-8 (triggers, targeting, resources, components) */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.wow-trigger-option, .targeting-option-card, .targeting-mode-option, .resource-type-option, .component-option) {
+  background: var(--sw-paper) !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.wow-trigger-option, .targeting-option-card, .targeting-mode-option, .resource-type-option, .component-option):hover {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.wow-trigger-option, .targeting-option-card, .targeting-mode-option, .resource-type-option, .component-option):is(.selected, .active, .is-selected, [aria-pressed='true']) {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  box-shadow: inset 0 0 0 1px var(--sw-seal) !important;
+}
+
+/* Icon chips inside those cards */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.targeting-option-icon, .component-icon, .toggle-icon, .element-icon-wrapper, img.spell-icon, .resource-type-icon) {
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Pill buttons in Steps 4, 7, 8 */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.wow-trigger-category, button.pf-button, button.toggle-button) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.wow-trigger-category, button.pf-button, button.toggle-button):hover:not(:disabled) {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.wow-trigger-category, button.pf-button, button.toggle-button):is(.active, .selected, [aria-pressed='true']) {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  box-shadow: inset 0 0 0 1px var(--sw-seal) !important;
+  color: var(--sw-ink) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.wow-trigger-category, button.pf-button, button.toggle-button):disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.wow-trigger-category, button.pf-button, button.toggle-button):focus-visible {
+  outline: 2px solid var(--sw-seal) !important;
+  outline-offset: 2px !important;
+}
+
+/* Config inputs in Steps 4, 7, 9 */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(input.pf-config-input-wide, input.pf-config-input-small, select.pf-config-select) {
+  background: var(--sw-page) !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(input.pf-config-input-wide, input.pf-config-input-small, select.pf-config-select):focus-visible {
+  outline: 2px solid var(--sw-seal) !important;
+  outline-offset: 2px !important;
+}
+
+/* Step-bar tooltip (hover on a step marker) */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-tooltip {
+  background: var(--sw-paper) !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-tooltip :is(.spell-tooltip-title, .spell-tooltip-name) {
+  color: var(--sw-ink) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-tooltip .spell-tooltip-content {
+  color: var(--sw-muted) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+}
+
+/* ---- Portaled tooltips and popups (render under <body>, outside the wizard root) ---- */
+
+/* WC3-style hover tooltip used by effect/mechanic pickers */
+body .wc3-tooltip {
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  max-width: 320px;
+  text-shadow: none !important;
+}
+body .wc3-tooltip :is(.tooltip-top-border, .tooltip-bottom-border) { display: none !important; }
+body .wc3-tooltip .wc3-tooltip-content { background: transparent !important; color: inherit !important; padding: 8px 10px !important; }
+body .wc3-tooltip .wc3-tooltip-title {
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  text-shadow: none !important;
+}
+body .wc3-tooltip .wc3-tooltip-body { color: var(--adventure-muted, #68533e) !important; text-shadow: none !important; }
+
+/* Effect/status configuration popups (click a card to configure) */
+body .status-effect-config-popup {
+  background: var(--adventure-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+}
+body .status-effect-config-popup .header-content h3 {
+  color: var(--adventure-paper, #f1ece1) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+body .status-effect-config-popup .popup-tabs {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+}
+body .status-effect-config-popup .tab-button {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--adventure-muted, #68533e) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  text-shadow: none !important;
+}
+body .status-effect-config-popup .tab-button:hover { color: var(--adventure-ink, #34251a) !important; }
+body .status-effect-config-popup .tab-button.active {
+  border-bottom-color: var(--adventure-seal, #663c32) !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+body .status-effect-config-popup .popup-content { background: transparent !important; color: inherit !important; }
+body .status-effect-config-popup .popup-footer {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  background-image: none !important;
+  border-top: 1px solid var(--adventure-rule, #c4baa6) !important;
+}
+body .status-effect-config-popup :is(.popup-button, .close-button) {
+  background-image: none !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+body .status-effect-config-popup :is(.popup-button, .close-button):focus-visible {
+  outline: 2px solid var(--adventure-seal, #663c32) !important;
+  outline-offset: 2px !important;
+}
+
+/* ---- Spell card (UnifiedSpellCard): wizard preview, hover tooltip, library ----
+   Scoped to the card component itself (.pf-spell-card.wow-spell-card), so every place
+   the card appears shares the calm look. The repeated .pf-spell-card is deliberate:
+   it lifts specificity above the legacy `html body .pf-spellbook .pf-spell-card.wizard`
+   header rules in cards.css without using an id. */
+html body .pf-spell-card.pf-spell-card.wow-spell-card {
+  background: var(--adventure-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+html body .pf-spell-card.wow-spell-card .spell-card-gloss { display: none !important; }
+html body .pf-spell-card.wow-spell-card * { text-shadow: none !important; }
+html body .pf-spell-card.pf-spell-card.pf-spell-card.wow-spell-card .pf-spell-card-header,
+html body .pf-spell-card.pf-spell-card.pf-spell-card.wow-spell-card .wow-spell-card-header {
+  background: var(--adventure-seal, #663c32) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--adventure-paper, #f1ece1) !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.pf-action-type-badge, .pf-range-badge, .pf-targeting-badge, .unified-spell-tag) {
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+html body .pf-spell-card.wow-spell-card :is(.pf-damage-type-badge, .pf-spell-icon, .unified-spell-cooldown, .prophecy-summary, .healing-effects, .prophecy-effects-container) {
+  box-shadow: none !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .prophecy-header {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  background-image: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+/* Card dividers and section titles: straight rules, not curled */
+html body .pf-spell-card.wow-spell-card :is([class*='header'], [class*='title'], [class*='divider'], hr):where(:not([class*='badge'], [class*='icon'])) {
+  border-radius: 0 !important;
+}
+
+/* Spell card hover tooltip (action bar, library) and full-screen card view:
+   plain paper surface, no drifting colored clouds, no blur. */
+body .spell-tooltip-overlay .spell-tooltip-container,
+body .spell-tooltip-overlay .spell-tooltip-content {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body .spellbook-popup-overlay {
+  background: rgba(52, 37, 26, 0.45) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+}
+body .spellbook-popup-overlay::before { display: none !important; }
+body .spellbook-popup-content { animation: none !important; }
+
+/* ---- Batch 1b follow-up: remaining Step 4, 5, 6, 9 surfaces ---- */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.resources-container, .resource-summary, .resource-cost-item, .mechanics-configuration-section, .config-section, .outcome-config-group-pf) {
+  background: var(--sw-page) !important;
+  background-image: none !important;
+  border-color: var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.resource-summary-header, .mechanics-header-pathfinder) {
+  background: var(--sw-panel) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--sw-rule) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(.pf-logic-icon, .resource-icon, .targeting-mode-icon) {
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel textarea.pf-config-textarea {
+  background: var(--sw-page) !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel textarea.pf-config-textarea:focus-visible {
+  outline: 2px solid var(--sw-seal) !important;
+  outline-offset: 2px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.pf-trigger-mode-button, button.pf-logic-button) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--sw-rule) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--sw-ink) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.pf-trigger-mode-button, button.pf-logic-button):hover:not(:disabled) {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.pf-trigger-mode-button, button.pf-logic-button).active {
+  background: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  box-shadow: inset 0 0 0 1px var(--sw-seal) !important;
+  color: var(--sw-ink) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.pf-trigger-mode-button, button.pf-logic-button):focus-visible {
+  outline: 2px solid var(--sw-seal) !important;
+  outline-offset: 2px !important;
+}
+
+/* Card-like buttons keep ink text in every state so titles stay readable */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(button.pf-trigger-mode-button, button.pf-logic-button, button.wow-trigger-category, button.toggle-button) :is(span, div, p, h4, strong) {
+  color: inherit !important;
+  text-shadow: none !important;
+}
+
+/* ---- Fit the wizard to its window ----
+   The legacy root sets height 650px / min-height 600px (cards.css / wow-spellbook.css),
+   which is taller than the 520px window body. The bottom ~130px were clipped, so the
+   floating step bar covered the last content and the end of each step could not be
+   scrolled into view. Filling the (positioned) window body fixes both. */
+.wow-window.adventurer-window .app-container.pf-spellbook.spellbook-layout {
+  position: absolute !important;
+  inset: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* ---- Generic normalization for every step's content ----
+   Steps 3-10 contain dozens of legacy classes (effect panels, tabs, stat cards,
+   formula builders...) that each carry their own gradient, glow and 2-3px brown
+   border. Rather than restyle each class, strip those decorations once for the
+   whole step body. Specificity is (0,7,1) so it beats legacy rules but sits below
+   the explicit selected/hover/pill rules above ((0,8,0) and up). Anything whose
+   class mentions icon/radio/dot/switch/slider/toggle is left alone so round or
+   image-based controls keep their shape. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(div, button, input, select, textarea, section, h3, h4, h5, label):where(:not([class*='icon'], [class*='radio'], [class*='dot'], [class*='switch'], [class*='slider'], [class*='toggle-icon'])) {
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-width: 1px !important;
+  border-color: var(--sw-rule) !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(button, input, select, textarea, [class*='card'], [class*='section'], [class*='panel'], [class*='container'], [class*='group'], [class*='grid'], [class*='tab']):where(:not([class*='icon'], [class*='radio'], [class*='dot'], [class*='switch'], [class*='slider'])) {
+  border-radius: 3px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(button, h3, h4, h5, .section-title, .section-header, .effect-config-label) {
+  color: var(--sw-ink) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0 !important;
+}
+/* Selected / active / configured states for the many legacy control families */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(button, div):is(.active, .selected, .configured, .pf-stat-selected, .pf-tab-active, [aria-selected='true'], [aria-pressed='true']):where(:not([class*='icon'], [class*='radio'], [class*='dot'], [class*='switch'], [class*='slider'])) {
+  background-color: var(--sw-panel) !important;
+  border-color: var(--sw-seal) !important;
+  color: var(--sw-ink) !important;
+}
+
+/* ---- Popup buttons, sections and inputs (popup is a portaled .wow-window) ---- */
+body .status-effect-config-popup :is(.popup-button, .close-button) {
+  border-width: 1px !important;
+}
+body .status-effect-config-popup .popup-button-primary {
+  background: var(--adventure-seal, #663c32) !important;
+  border-color: #956b5b !important;
+  color: var(--adventure-paper, #f1ece1) !important;
+}
+body .status-effect-config-popup .popup-button-primary:hover:not(:disabled) {
+  background: #78493b !important;
+  border-color: #a77761 !important;
+}
+body .status-effect-config-popup .popup-button-secondary {
+  background: transparent !important;
+  border-color: var(--adventure-rule, #c4baa6) !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+body .status-effect-config-popup .popup-button-secondary:hover:not(:disabled) {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-seal, #663c32) !important;
+}
+body .status-effect-config-popup .popup-button:disabled { opacity: 0.55 !important; cursor: not-allowed !important; }
+body .status-effect-config-popup .effect-config-section {
+  background: var(--adventure-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+body .status-effect-config-popup :is(input, select, textarea) {
+  background: var(--adventure-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+}
+body .status-effect-config-popup :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--adventure-seal, #663c32) !important;
+  outline-offset: 2px !important;
+}
+
+/* ==========================================================================
+   Batch 1c: no curled dividers, one flat tooltip language
+   ========================================================================== */
+
+/* "Bowl line": a global rounded-corner rule curls the ends of any element that has
+   only a bottom/top border (heading underlines, tooltip dividers). Dividers and
+   headings are straight rules in this style. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel :is(h1, h2, h3, h4, h5, h6, hr, [class*='header'], [class*='title'], [class*='divider'], [class*='label'], [class*='heading']):where(:not([class*='badge'], [class*='pill'], [class*='tab'], [class*='icon'], [class*='button'], [class*='btn'])),
+body :is(.wc3-tooltip, .pathfinder-tooltip, .status-effect-config-popup) :is(h1, h2, h3, h4, h5, h6, hr, [class*='header'], [class*='title'], [class*='divider'], [class*='label'], [class*='section-header']) {
+  border-radius: 0 !important;
+}
+
+/* Step-bar tooltip: plain label, straight divider, small neutral arrow */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-tooltip .spell-tooltip-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--sw-rule) !important;
+  border-radius: 0 !important;
+  padding-bottom: 4px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-tooltip .spell-tooltip-title {
+  color: var(--sw-muted) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-step-tooltip::after {
+  border-top-color: var(--sw-rule) !important;
+  filter: none !important;
+}
+
+/* Effect / mechanic info tooltip (pathfinder-tooltip). The HUD resource bars
+   override this class with .unified-resourcebar-tooltip, so they are excluded. */
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) {
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  opacity: 1 !important;
+}
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-header {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-title {
+  color: var(--adventure-ink, #34251a) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-icon {
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-body {
+  background: transparent !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-label {
+  color: var(--adventure-seal, #663c32) !important;
+}
+body .pathfinder-tooltip:not(.unified-resourcebar-tooltip) .pathfinder-tooltip-section-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  color: var(--adventure-muted, #68533e) !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+}
+
+/* ==========================================================================
+   Batch 1d: square corners, no gold buttons, room to breathe (steps 1-10)
+   Scope is .wizard-main-content so Step 8 (rollable table), which has no
+   .spell-wizard-step-content wrapper, is covered too.
+   ========================================================================== */
+
+/* One corner radius for every bordered control and container (3px, like the
+   account and class pages). Round things keep their shape. */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(div, button, input, select, textarea, label, section, ul, li, a):where(:not([class*='icon'], [class*='radio'], [class*='dot'], [class*='switch'], [class*='slider'], [class*='circle'], [class*='avatar'], [class*='spinner'], [class*='round'], [class*='knob'], [class*='thumb'])) {
+  border-radius: 3px !important;
+}
+
+/* Gold / yellow call-to-action buttons become the quiet seal button used elsewhere */
+/* Damage-type pill on the card header: plain paper chip, text carries the meaning */
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge {
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card .pf-damage-type-badge * { color: inherit !important; }
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is(div, button, span, img, input):where(:not([class*='icon'], [class*='circle'])) {
+  border-radius: 3px;
+}
+html body .pf-spell-card.pf-spell-card.wow-spell-card :is(.item-description, .damage-effects, .healing-effects, .buff-effects, .debuff-effects, .utility-effects, .prophecy-effects-container, .unified-spell-tags-footer) {
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+/* Breathing room: step body, stacked groups, grids */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .spell-wizard-step-content {
+  padding: 28px 32px 96px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .rollable-table-step {
+  padding: 28px 32px 96px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(.section, .section-panel-content, .config-section, .pf-config-section, .effect-config-group, .pf-config-group, .effect-config-panel, .targeting-section, .toggle-section, .mechanics-configuration-section, .resolution-method, .resolution-section, .formula-configuration, .over-time-configuration, .resource-type-selection, .purification-type-selection, .healing-type-section, .damage-type-section, .step-section, .table-config, .spell-wizard-form-group) {
+  padding: 16px 20px !important;
+  margin-bottom: 20px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(h3, h4):where(:not([class*='card'], [class*='tooltip'])) {
+  margin-bottom: 12px !important;
+}
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(label, .spell-wizard-label, .config-label) {
+  margin-bottom: 6px;
+}
+
+/* ---- Spell Library detail popup (click a spell): calm backdrop and action buttons ---- */
+body .spell-detail-overlay {
+  background: rgba(52, 37, 26, 0.45) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+}
+body .spell-detail-overlay .spell-detail-actions {
+  background: var(--adventure-paper, #f1ece1) !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  padding: 8px 12px !important;
+}
+body .spell-detail-overlay .spell-detail-action {
+  background-image: none !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  padding: 7px 16px !important;
+  text-shadow: none !important;
+}
+body .spell-detail-overlay .spell-detail-action-primary {
+  background: var(--adventure-seal, #663c32) !important;
+  border: 1px solid #956b5b !important;
+  color: var(--adventure-paper, #f1ece1) !important;
+}
+body .spell-detail-overlay .spell-detail-action-primary:hover { background: #78493b !important; }
+body .spell-detail-overlay .spell-detail-action-secondary {
+  background: transparent !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  color: var(--adventure-ink, #34251a) !important;
+}
+body .spell-detail-overlay .spell-detail-action-secondary:hover {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-seal, #663c32) !important;
+}
+body .spell-detail-overlay .spell-detail-action:focus-visible {
+  outline: 2px solid var(--adventure-seal, #663c32) !important;
+  outline-offset: 2px !important;
+}
+
+/* Descriptions are information: wrap them instead of clipping with an ellipsis */
+.wow-window.adventurer-window .spellbook-layout .app-container.pf-spellbook .app-main-panel .wizard-main-content :is(.step-description, .spell-wizard-help-text, [class*='description']):where(:not(.spell-tooltip-description)) {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+}
+
+/* ---- Remove diagonal/ruled paper textures (calm: flat linen surfaces) ---- */
+:root body .collection-card::before,
+:root body .library-content::before,
+:root body .library-filters::before,
+:root body .propagation-section::before,
+:root body .spell-type-config::before,
+:root body .spell-wizard-basic-info::before,
+:root body .spell-wizard-step-content::before,
+:root body .spellbook-layout .app-container.pf-spellbook .app-content::before,
+:root body .spellbook-layout .app-container.pf-spellbook .tab-content::before,
+:root body .spellbook-layout .wizard-step::before,
+:root body .status-effect-card::before,
+:root body .targeting-info-box::before,
+:root body .targeting-section::before,
+:root body .wow-spellbook-view::before {
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+/* ==========================================================================
+   Spell card + spell library rows (calm): flat linen, 1px rule, 3px corners,
+   burgundy seal header (flat), no gloss, gradients or lift-on-hover.
+   ========================================================================== */
+:root body .wow-spell-card,
+:root body .pf-spell-card {
+  background: var(--adventure-paper, #f1ece1) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+:root body .wow-spell-card .spell-card-header,
+:root body .pf-spell-card-header {
+  background: var(--adventure-seal, #663c32) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 2px 2px 0 0 !important;
+  box-shadow: none !important;
+  color: #f8f5ee !important;
+  text-shadow: none !important;
+}
+:root body .spell-card-gloss { display: none !important; }
+:root body .wow-spell-row {
+  background: var(--adventure-page, #f8f5ee) !important;
+  background-image: none !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+:root body .wow-spell-row:hover {
+  background: var(--adventure-paper, #f1ece1) !important;
+  border-color: var(--adventure-seal, #663c32) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+:root body .wow-spell-row.selected {
+  background: var(--adventure-panel, #e8e2d4) !important;
+  border-color: var(--adventure-seal, #663c32) !important;
+  box-shadow: inset 3px 0 0 var(--adventure-seal, #663c32) !important;
+}
+
+/* ---- effect configuration panels: no gold bars, flourishes or nested frames ---- */
+body .spell-wizard-step-content .section::before { background: #663c32; height: 2px; }
+body .spell-wizard-step-content .section :is(h2,h3,h4,.section-title)::after { background: var(--adventure-rule, #c4baa6); height: 1px; }
+body .spell-wizard-step-content :is(.damage-effects-container, .healing-effects-container, .buff-effects-container, .debuff-effects-container, .utility-effects-container, .control-effects-container) {
+  background: transparent; border: 0; box-shadow: none; padding: 0;
+}
+body .spell-wizard-step-content .section { background: var(--adventure-paper, #f1ece1); border: 1px solid var(--adventure-rule, #c4baa6); border-radius: 3px; box-shadow: none; }
+
+/* ===== Spell wizard layout: named step rail + stage with Back/Next ===== */
+body .spellbook-wizard-layout.spell-wizard-railed {
+  display: grid !important;
+  grid-template-columns: 172px minmax(0, 1fr) !important;
+  flex-direction: initial !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  container-type: inline-size !important;
+  container-name: spellwizard !important;
+}
+.spell-wizard-railed .spell-step-rail {
+  border-right: 1px solid var(--adventure-rule, #c4baa6) !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  overflow-y: auto !important;
+  padding: 10px 6px !important;
+}
+.spell-wizard-railed .spell-step-rail ol { list-style: none !important; margin: 0 !important; padding: 0 !important; display: flex !important; flex-direction: column !important; gap: 2px !important; }
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  padding: 6px 8px !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  background: transparent !important;
+  color: #34251a !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-size: 14px !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item:hover { background: var(--adventure-page, #f8f5ee) !important; border-color: var(--adventure-rule, #c4baa6) !important; }
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item:focus-visible { outline: 2px solid #663c32 !important; outline-offset: 1px !important; }
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item .spell-step-number {
+  flex: 0 0 22px !important;
+  height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 50% !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  color: #68533e !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 11px !important;
+}
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.completed .spell-step-number { border-color: #3f6b3a !important; color: #3f6b3a !important; }
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.active { background: var(--adventure-page, #f8f5ee) !important; border-color: #663c32 !important; box-shadow: inset 3px 0 0 #663c32 !important; }
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.active .spell-step-number { background: #663c32 !important; border-color: #663c32 !important; color: #f8f5ee !important; }
+.spell-wizard-railed .spell-step-rail-name { flex: 1 !important; min-width: 0 !important; line-height: 1.2 !important; text-transform: none !important; letter-spacing: 0 !important; }
+.spell-wizard-railed .spell-step-rail-tag {
+  display: block !important;
+  line-height: 1 !important;
+  font-family: 'Crimson Text', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 11px !important;
+  color: #68533e !important;
+}
+
+.spell-wizard-railed .spell-wizard-stage { display: flex !important; flex-direction: column !important; min-width: 0 !important; min-height: 0 !important; }
+.spell-wizard-railed .spell-wizard-stage-head {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+  padding: 10px 18px 8px !important;
+  border-bottom: 1px solid var(--adventure-rule, #c4baa6) !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  flex-shrink: 0 !important;
+}
+.spell-wizard-railed .spell-wizard-stage-count { font-family: 'Cinzel', Georgia, serif !important; font-size: 11px !important; letter-spacing: 1px !important; text-transform: uppercase !important; color: #68533e !important; }
+.spell-wizard-railed .spell-wizard-stage-title { font-family: 'Cinzel', Georgia, serif !important; font-size: 16px !important; color: #34251a !important; }
+body .spell-wizard-railed .wizard-main-content { flex: 1 !important; min-height: 0 !important; padding-bottom: 0 !important; background: var(--adventure-page, #f8f5ee) !important; }
+.spell-wizard-railed .spell-wizard-stage-foot {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 8px 18px !important;
+  border-top: 1px solid var(--adventure-rule, #c4baa6) !important;
+  background: var(--adventure-paper, #f1ece1) !important;
+  flex-shrink: 0 !important;
+}
+body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 14px !important;
+  border: 1px solid var(--adventure-rule, #c4baa6) !important;
+  border-radius: 3px !important;
+  background: var(--adventure-page, #f8f5ee) !important;
+  color: #34251a !important;
+  font-family: 'Cinzel', Georgia, serif !important;
+  font-size: 12px !important;
+  letter-spacing: 0.5px !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+}
+body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn:hover:not(:disabled) { border-color: #663c32 !important; color: #663c32 !important; }
+body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.primary { background: #663c32 !important; border-color: #663c32 !important; color: #f8f5ee !important; }
+body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.primary:hover { background: #57322a !important; color: #f8f5ee !important; }
+body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn:disabled { opacity: 0.45 !important; cursor: default !important; }
+.spell-wizard-railed .spell-wizard-stage-progress { flex: 1 !important; height: 3px !important; background: var(--adventure-rule, #c4baa6) !important; border-radius: 2px !important; overflow: hidden !important; }
+.spell-wizard-railed .spell-wizard-stage-progress span { display: block !important; height: 100% !important; background: #663c32 !important; transition: width 0.25s ease !important; }
+.spell-wizard-railed .spell-wizard-stage-done { font-family: 'Crimson Text', Georgia, serif !important; font-style: italic !important; font-size: 13px !important; color: #68533e !important; }
+
+/* narrow window: the rail collapses to numbered dots, names stay in the tooltip and stage header */
+@container spellwizard (max-width: 620px) {
+  .spell-wizard-railed { grid-template-columns: 46px minmax(0, 1fr) !important; }
+  .spell-wizard-railed .spell-step-rail { padding: 8px 4px !important; }
+  body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item { justify-content: center !important; padding: 5px 0 !important; }
+  .spell-wizard-railed .spell-step-rail-name,
+  body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item .spell-step-rail-tag { display: none !important; }
+  body .spellbook-layout .spell-wizard-railed .spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.spell-wizard-nav-btn.primary { max-width: 55% !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+}
+
+body .spellbook-layout .spell-wizard-railed .spell-step-rail-item.spell-step-rail-item.spell-step-rail-item.spell-step-rail-item { flex-wrap: wrap !important; row-gap: 0 !important; }
+.spell-wizard-railed .spell-step-rail .spell-step-rail-tag { flex-basis: 100% !important; padding-left: 30px !important; }

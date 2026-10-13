@@ -827,7 +827,7 @@
 /* ===== 3. SHAPER - Groven Bone-Craft: Kinetic Flux Pill ===== */
 .class-row-shaper .class-row-cta {
     opacity: 1 !important;
-    color: #f5e6c8 !important;
+    color: #f1ece1 !important;
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 1px;
@@ -1814,46 +1814,40 @@
 }
 
 /* --- per-class dark base + themed border (fallback behind the SVG) --- */
-.class-row-arcanoneer { background-color: #160e0a; border-color: rgba(230, 126, 34, 0.35); }
+.class-row-arcanoneer { background-color: #160e0a; }
 /* BERSERKER - deeper blood-black, thicker crimson border, pulsing */
 .class-row-berserker {
     background-color: #1a0203;
-    border-color: rgba(220, 25, 25, 0.55);
     border-width: 2px;
-    animation: row-bers-pulse 2.4s ease-in-out infinite;
 }
 @keyframes row-bers-pulse {
     0%, 100% { border-color: rgba(200, 20, 20, 0.45); }
     50% { border-color: rgba(255, 35, 35, 0.75); box-shadow: inset 0 0 20px rgba(180, 10, 10, 0.08); }
 }
-.class-row-shaper { background-color: #17100d; border-color: rgba(205, 163, 122, 0.3); }
-.class-row-harbinger { background-color: #191021; border-color: rgba(155, 89, 182, 0.35); }
-.class-row-chronarch { background-color: #13101e; border-color: rgba(184, 150, 64, 0.35); }
-.class-row-inquisitor { background-color: #160405; border-color: rgba(139, 0, 0, 0.45); }
+.class-row-shaper { background-color: #17100d; }
+.class-row-harbinger { background-color: #191021; }
+.class-row-chronarch { background-color: #13101e; }
+.class-row-inquisitor { background-color: #160405; }
 /* REVENANT - dark with ghostly teal-green border flicker */
 .class-row-revenant {
     background-color: #0c1410;
-    border-color: rgba(55, 200, 120, 0.4);
     border-width: 2px;
-    animation: row-rev-soul 3.8s ease-in-out infinite;
 }
 @keyframes row-rev-soul {
     0%, 100% { border-color: rgba(45, 170, 100, 0.35); }
     50% { border-color: rgba(80, 240, 155, 0.65); box-shadow: inset 0 0 24px rgba(40, 180, 110, 0.07); }
 }
-.class-row-false-prophet { background-color: #140a1a; border-color: rgba(155, 89, 182, 0.35); }
-.class-row-gambit { background-color: #17140a; border-color: rgba(241, 196, 15, 0.35); }
-.class-row-apex { background-color: #17100e; border-color: rgba(231, 76, 60, 0.35); }
-.class-row-animist { background-color: #0e160e; border-color: rgba(46, 204, 113, 0.35); }
-.class-row-lunarch { background-color: #10140a; border-color: rgba(241, 196, 15, 0.35); }
-.class-row-martyr { background-color: #0a1218; border-color: rgba(52, 152, 219, 0.35); }
-.class-row-minstrel { background-color: #0e1612; border-color: rgba(46, 204, 113, 0.3); }
+.class-row-false-prophet { background-color: #140a1a; }
+.class-row-gambit { background-color: #17140a; }
+.class-row-apex { background-color: #17100e; }
+.class-row-animist { background-color: #0e160e; }
+.class-row-lunarch { background-color: #10140a; }
+.class-row-martyr { background-color: #0a1218; }
+.class-row-minstrel { background-color: #0e1612; }
 /* PLAGUEBRINGER - deep bog-black, acid-lime border bio-pulse */
 .class-row-plaguebringer {
     background-color: #0d1205;
-    border-color: rgba(170, 210, 50, 0.45);
     border-width: 2px;
-    animation: row-plag-bio 4.5s ease-in-out infinite;
 }
 @keyframes row-plag-bio {
     0%, 100% { border-color: rgba(140, 185, 40, 0.38); }
@@ -1862,23 +1856,19 @@
 /* PYROFIEND - volcanic near-black, volcanic orange border flame flicker */
 .class-row-pyrofiend {
     background-color: #160500;
-    border-color: rgba(240, 70, 15, 0.55);
     border-width: 2px;
-    animation: row-pyr-flame 2.8s ease-in-out infinite;
 }
 @keyframes row-pyr-flame {
     0%, 100% { border-color: rgba(210, 50, 10, 0.45); }
     33% { border-color: rgba(255, 110, 30, 0.75); box-shadow: inset 0 0 22px rgba(220, 60, 10, 0.1); }
     66% { border-color: rgba(240, 80, 20, 0.6); }
 }
-.class-row-spellguard { background-color: #0a121a; border-color: rgba(52, 152, 219, 0.35); }
+.class-row-spellguard { background-color: #0a121a; }
 /* TOXICOLOGIST - almost pure black, corroded chemical green border */
 .class-row-toxicologist {
     background-color: #0a1204;
-    border-color: rgba(120, 200, 50, 0.42);
     border-width: 2px;
     border-style: solid;
-    animation: row-tox-corrode 3.2s ease-in-out infinite;
 }
 @keyframes row-tox-corrode {
     0%, 100% { border-color: rgba(100, 175, 40, 0.35); }
@@ -1887,9 +1877,7 @@
 /* WARDEN - iron-black, heavy rusted chain border */
 .class-row-warden {
     background-color: #0e0c09;
-    border-color: rgba(140, 120, 80, 0.5);
     border-width: 2px;
-    animation: row-ward-iron 5.5s ease-in-out infinite;
 }
 @keyframes row-ward-iron {
     0%, 100% { border-color: rgba(120, 100, 65, 0.42); }
@@ -1898,15 +1886,13 @@
 /* AUGUR - void-black, deep wyrd-violet border constellation */
 .class-row-augur {
     background-color: #0c0810;
-    border-color: rgba(165, 120, 230, 0.45);
     border-width: 2px;
-    animation: row-aug-wyrd 5s ease-in-out infinite;
 }
 @keyframes row-aug-wyrd {
     0%, 100% { border-color: rgba(140, 100, 200, 0.38); }
     50% { border-color: rgba(210, 170, 255, 0.68); box-shadow: inset 0 0 24px rgba(160, 120, 240, 0.07); }
 }
-.class-row-crusader { background-color: #1c1509; border-color: rgba(245, 158, 11, 0.4); }
+.class-row-crusader { background-color: #1c1509; }
 
 /* =====================================================================
    CLASS ROW IDENTITY OVERHAUL - ALL 20 CLASSES + CRUSADER
@@ -2687,10 +2673,8 @@
 }
 
 /* elements that should spin/grow around their OWN centre, not the scene */
-.cbd-shap-shard,
 .cbd-gamb-card,
 .cbd-gamb-die,
-.cbd-plag-spore,
 .cbd-aug-bone {
     transform-box: fill-box;
     transform-origin: center;
@@ -2729,7 +2713,6 @@
 
 /* ------------------------------------------------------------------- */
 /* 2. BERSERKER - blood drips fall + heartbeat pulse                   */
-.cbd-bers-drip { animation: cbd-bers-drip 3.4s ease-in infinite; }
 .cbd-bers-pulse { animation: cbd-bers-pulse 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: top; }
 @keyframes cbd-bers-drip {
     0% { transform: translateY(0); opacity: 0.35; }
@@ -2876,13 +2859,6 @@
 
 /* ------------------------------------------------------------------- */
 /* 13. MARTYR - obsidian cracks flare in sequence, sparks blink        */
-.cbd-mart-crack--0 { animation: cbd-mart-crack 4s ease-in-out infinite; }
-.cbd-mart-crack--1 { animation: cbd-mart-crack 4s ease-in-out infinite 1.3s; }
-.cbd-mart-crack--2 { animation: cbd-mart-crack 4s ease-in-out infinite 2.6s; }
-.cbd-mart-spark { animation: cbd-mart-spark 4s ease-in-out infinite; }
-.cbd-mart-spark--0 { animation-delay: 0s; }
-.cbd-mart-spark--1 { animation-delay: 1.3s; }
-.cbd-mart-spark--2 { animation-delay: 2.6s; }
 @keyframes cbd-mart-crack {
     0%, 100% { stroke-opacity: 0.12; }
     50% { stroke-opacity: 0.95; }
@@ -2909,10 +2885,6 @@
 
 /* ------------------------------------------------------------------- */
 /* 15. PLAGUEBRINGER - biohazard pulse & seamless acid wave            */
-.cbd-plag-net--a { animation: cbd-plag-net 7s ease-in-out infinite; }
-.cbd-plag-net--b { animation: cbd-plag-net 7s ease-in-out infinite 2s; }
-.cbd-plag-spore { animation: cbd-plag-spore 5s ease-in-out infinite; }
-.cbd-plag-acid { animation: cbd-plag-acid 8s linear infinite; }
 @keyframes cbd-plag-net {
     0%, 100% { stroke-opacity: 0.18; }
     50% { stroke-opacity: 0.6; }
@@ -2943,8 +2915,6 @@
 
 /* ------------------------------------------------------------------- */
 /* 17. SPELLGUARD - prismatic sweep across the hex-barrier, bolt flares */
-.cbd-spg-sweep { animation: cbd-spg-sweep 5s linear infinite; }
-.cbd-spg-bolt { animation: cbd-spg-bolt 4s ease-in-out infinite; }
 @keyframes cbd-spg-sweep {
     0% { transform: translateX(0); }
     100% { transform: translateX(1500px); }
@@ -2971,8 +2941,7 @@
 
 /* ------------------------------------------------------------------- */
 /* 19. WARDEN - heavy chain sways, shackle settles                     */
-.cbd-wd-chain { animation: cbd-wd-chain 5s ease-in-out infinite; }
-.cbd-wd-shackle { animation: cbd-wd-shackle 5s ease-in-out infinite; transform-box: fill-box; transform-origin: top center; }
+.cbd-wd-shackle { transform-box: fill-box; transform-origin: top center; }
 @keyframes cbd-wd-chain {
     0%, 100% { transform: rotate(-1.6deg); }
     50% { transform: rotate(1.6deg); }
@@ -2984,7 +2953,6 @@
 
 /* ------------------------------------------------------------------- */
 /* 20. AUGUR - bones tumble down, rune glows                           */
-.cbd-aug-bone { animation: cbd-aug-bone 5s linear infinite; }
 .cbd-aug-rune { animation: cbd-aug-rune 3.6s ease-in-out infinite; }
 @keyframes cbd-aug-bone {
     0% { transform: translateY(0) rotate(0deg); opacity: 0; }
@@ -3071,9 +3039,6 @@
 .class-row-arcanoneer .cbd-arc-nucleus { filter: drop-shadow(0 0 16px rgba(200,150,255,0.95)); }
 .class-row-arcanoneer .cbd-arc-flash { filter: drop-shadow(0 0 22px rgba(255,255,255,0.95)); }
 
-.class-row-berserker .cbd-bers-drip  { filter: drop-shadow(0 0 7px rgba(220,30,30,0.95)); }
-.class-row-berserker .cbd-bers-pool  { filter: drop-shadow(0 0 8px rgba(150,10,15,0.8)); }
-
 .class-row-shaper .cbd-shap-yin    { filter: drop-shadow(0 0 9px rgba(240,226,192,0.85)); }
 .class-row-shaper .cbd-shap-ring   { filter: drop-shadow(0 0 6px rgba(201,168,106,0.7)); }
 
@@ -3102,9 +3067,6 @@
 
 .class-row-lunarch .cbd-lun-moon      { filter: drop-shadow(0 0 18px rgba(255,240,180,0.95)); }
 
-.class-row-martyr .cbd-mart-crack,
-.class-row-martyr .cbd-mart-spark     { filter: drop-shadow(0 0 8px rgba(255,125,65,0.95)); }
-
 .class-row-minstrel .cbd-min-note,
 .class-row-minstrel .cbd-min-stage     { filter: drop-shadow(0 0 7px rgba(240,194,123,0.9)); }
 
@@ -3113,9 +3075,6 @@
 
 .class-row-pyrofiend .cbd-pyr-flame,
 .class-row-pyrofiend .cbd-pyr-ember  { filter: drop-shadow(0 0 11px rgba(255,120,40,0.95)); }
-
-.class-row-spellguard .cbd-spg-sweep,
-.class-row-spellguard .cbd-spg-bolt   { filter: drop-shadow(0 0 11px rgba(150,215,255,0.95)); }
 
 .class-row-toxicologist .cbd-tox-bubble { filter: drop-shadow(0 0 8px rgba(165,235,85,0.9)); }
 
@@ -3139,13 +3098,11 @@
 .cbd-aug-threads,
 .cbd-spg-ring,
 .cbd-spg-flash,
-.cbd-spg-shield,
-.cbd-min-strings {
+.cbd-spg-shield {
     transform-box: fill-box;
     transform-origin: center;
 }
 /* scale/rise-from-base elements */
-.cbd-bers-pool,
 .cbd-plag-gas,
 .cbd-plag-bubble,
 .cbd-pyr-glow {
@@ -3154,7 +3111,6 @@
 }
 
 /* --- BERSERKER: rising blood pool --- */
-.cbd-bers-pool { animation: cbd-bers-pool 5s ease-in-out infinite; }
 @keyframes cbd-bers-pool {
     0%, 100% { transform: scaleY(0.7); opacity: 0.75; }
     50% { transform: scaleY(1); opacity: 0.95; }
@@ -3203,7 +3159,6 @@
 }
 
 /* --- MINSTREL: vibrating lute strings --- */
-.cbd-min-strings { animation: cbd-min-strum 0.16s ease-in-out infinite alternate; }
 @keyframes cbd-min-strum {
     0% { transform: scaleX(1); }
     100% { transform: scaleX(0.982); }

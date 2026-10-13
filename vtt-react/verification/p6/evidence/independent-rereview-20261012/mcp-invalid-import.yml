@@ -1,0 +1,15 @@
+# Independent MCP check of mounted input on corrected source.
+# Before: class=Martyr. Input: canonical.class={invalid: object}, runtime=null.
+# After: live class, roster class and retained canonical class all equal
+# {invalid: object}; notes=MCP INVALID CLASS MUST NOT APPLY; alerts=[].
+- heading "Selected character" [level=1]
+- region "Selected character save status":
+  - status:
+    - strong: "Canonical character:"
+    - text: Cloud save pending · Device draft retained
+    - button "Retry character save"
+    - strong: "Personal runtime:"
+    - text: Cloud saved · Device draft retained
+  - button "Download selected draft"
+  - text: Import selected draft
+  - button "Import selected draft"

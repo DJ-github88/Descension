@@ -47,9 +47,9 @@
 .csp-toast.info {
   background: linear-gradient(135deg, #4a2818 0%, #2e160e 100%);
   color: #fdf6e3;
-  border: 1.5px solid var(--my-gold, #d4af37);
+  border: 1.5px solid var(--my-gold, #9a7b3c);
 }
-.csp-toast.info i { color: var(--my-gold, #d4af37); }
+.csp-toast.info i { color: var(--my-gold, #9a7b3c); }
 
 .csp-toast.error {
   background: linear-gradient(135deg, #6b241e 0%, #45120e 100%);
@@ -62,7 +62,7 @@
 .csp-toolbar {
   padding: 6px 52px 6px 12px !important; /* 52px right clearance so red window close button never collides */
   background: linear-gradient(180deg, #3d160d 0%, #260d07 100%) !important;
-  border-bottom: 2px solid #d4af37 !important;
+  border-bottom: 2px solid #9a7b3c !important;
   border-radius: 0 !important;
   display: flex !important;
   align-items: center !important;
@@ -84,7 +84,7 @@
 
 .csp-nav-tab {
   background: rgba(0, 0, 0, 0.35) !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  border: 1px solid rgba(154, 123, 60, 0.3) !important;
   border-radius: 2px !important;
   color: #e6dac8 !important;
   padding: 4px 10px !important;
@@ -100,15 +100,15 @@
 }
 
 .csp-nav-tab:hover {
-  background: rgba(212, 175, 55, 0.2) !important;
-  border-color: #d4af37 !important;
+  background: rgba(154, 123, 60, 0.2) !important;
+  border-color: #9a7b3c !important;
   color: #ffffff !important;
 }
 
 .csp-nav-tab.active {
-  background: linear-gradient(180deg, rgba(212, 175, 55, 0.4) 0%, rgba(212, 175, 55, 0.15) 100%) !important;
+  background: linear-gradient(180deg, rgba(154, 123, 60, 0.4) 0%, rgba(154, 123, 60, 0.15) 100%) !important;
   color: #fff9e6 !important;
-  border: 1px solid #d4af37 !important;
+  border: 1px solid #9a7b3c !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
   font-weight: 700 !important;
 }
@@ -118,12 +118,12 @@
   align-items: center !important;
   justify-content: center !important;
   background: rgba(0, 0, 0, 0.5) !important;
-  color: #d4af37 !important;
+  color: #9a7b3c !important;
   font-size: 10px !important;
   font-family: var(--my-font-body, 'Crimson Text', serif) !important;
   padding: 0 5px !important;
   border-radius: 2px !important;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border: 1px solid rgba(154, 123, 60, 0.4) !important;
 }
 
 /* ===== UNIFIED SEARCH BAR ===== */
@@ -143,8 +143,8 @@
 }
 
 .csp-search-bar:focus-within {
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.35) !important;
+  border-color: #9a7b3c !important;
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.35) !important;
 }
 
 .csp-search-icon {
@@ -223,7 +223,7 @@
 .csp-sort-select {
   height: 28px !important;
   padding: 2px 8px !important;
-  border: 1px solid #d4af37 !important;
+  border: 1px solid #9a7b3c !important;
   border-radius: 2px !important;
   background: #200b06 !important;
   color: #fff9e6 !important;
@@ -247,7 +247,7 @@
 .csp-view-toggle {
   display: flex !important;
   background: rgba(0, 0, 0, 0.45) !important;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border: 1px solid rgba(154, 123, 60, 0.4) !important;
   border-radius: 2px !important;
   padding: 1px !important;
 }
@@ -271,8 +271,8 @@
 }
 
 .csp-view-btn.active {
-  background: rgba(212, 175, 55, 0.35) !important;
-  color: #d4af37 !important;
+  background: rgba(154, 123, 60, 0.35) !important;
+  color: #9a7b3c !important;
 }
 
 .csp-reset-btn {
@@ -359,7 +359,7 @@
 .csp-chip.active {
   background: linear-gradient(135deg, #5a1e12 0%, #3e160d 100%) !important;
   color: #fff9e6 !important;
-  border-color: #d4af37 !important;
+  border-color: #9a7b3c !important;
   box-shadow: 0 1px 3px rgba(90, 30, 18, 0.25) !important;
   font-weight: 700 !important;
 }
@@ -435,8 +435,8 @@
 }
 
 .csp-section-title-wrap i.gold-glow {
-  color: #d4af37;
-  text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+  color: #9a7b3c;
+  text-shadow: 0 0 6px rgba(154, 123, 60, 0.5);
 }
 
 .csp-section-title {
@@ -513,14 +513,14 @@
 
 .csp-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(90, 30, 18, 0.12), 0 0 0 1px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 6px 16px rgba(90, 30, 18, 0.12), 0 0 0 1px rgba(154, 123, 60, 0.4);
   border-color: #c5a059;
 }
 
 /* School Border Accents */
 .csp-card.csp-school-ember { border-left-color: #e25822; }
 .csp-card.csp-school-rime { border-left-color: #5b9bd5; }
-.csp-card.csp-school-storm { border-left-color: #d4af37; }
+.csp-card.csp-school-storm { border-left-color: #9a7b3c; }
 .csp-card.csp-school-arcane { border-left-color: #9b59b6; }
 .csp-card.csp-school-primal { border-left-color: #27ae60; }
 .csp-card.csp-school-blight { border-left-color: #6c3483; }
@@ -547,7 +547,7 @@
 
 .csp-school-badge.csp-school-ember { background: rgba(226, 88, 34, 0.15); color: #c43d0d; border: 1px solid rgba(226, 88, 34, 0.3); }
 .csp-school-badge.csp-school-rime { background: rgba(91, 155, 213, 0.15); color: #2b6cb0; border: 1px solid rgba(91, 155, 213, 0.3); }
-.csp-school-badge.csp-school-storm { background: rgba(212, 175, 55, 0.15); color: #8a7018; border: 1px solid rgba(212, 175, 55, 0.3); }
+.csp-school-badge.csp-school-storm { background: rgba(154, 123, 60, 0.15); color: #8a7018; border: 1px solid rgba(154, 123, 60, 0.3); }
 .csp-school-badge.csp-school-arcane { background: rgba(155, 89, 182, 0.15); color: #6b3ba6; border: 1px solid rgba(155, 89, 182, 0.3); }
 .csp-school-badge.csp-school-primal { background: rgba(39, 174, 96, 0.15); color: #1e7e43; border: 1px solid rgba(39, 174, 96, 0.3); }
 .csp-school-badge.csp-school-blight { background: rgba(108, 52, 131, 0.15); color: #4d1d64; border: 1px solid rgba(108, 52, 131, 0.3); }
@@ -611,7 +611,7 @@
 }
 
 .csp-card:hover .csp-card-icon-frame {
-  border-color: var(--my-gold, #d4af37);
+  border-color: var(--my-gold, #9a7b3c);
 }
 
 .csp-card-icon {
@@ -718,7 +718,7 @@
   color: #7a604c;
 }
 
-.csp-stat-rating i { color: #d4af37; font-size: 11px; }
+.csp-stat-rating i { color: #9a7b3c; font-size: 11px; }
 .csp-stat-downloads i { color: #8b4513; font-size: 10px; }
 
 .csp-card-actions {
@@ -767,8 +767,8 @@
 }
 
 .csp-icon-btn.favorite { color: #b09f87; }
-.csp-icon-btn.favorite:hover:not(:disabled) { color: #d4af37; border-color: #d4af37; }
-.csp-icon-btn.favorite.active { color: #d4af37; border-color: #d4af37; background: rgba(212, 175, 55, 0.15); }
+.csp-icon-btn.favorite:hover:not(:disabled) { color: #9a7b3c; border-color: #9a7b3c; }
+.csp-icon-btn.favorite.active { color: #9a7b3c; border-color: #9a7b3c; background: rgba(154, 123, 60, 0.15); }
 
 .csp-download-btn {
   font-family: var(--my-font-display, 'Cinzel', serif);
@@ -789,7 +789,7 @@
 
 .csp-download-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, #8b4513 0%, #6b2e1f 100%);
-  border-color: var(--my-gold, #d4af37);
+  border-color: var(--my-gold, #9a7b3c);
   transform: translateY(-1px);
 }
 
@@ -828,7 +828,7 @@
 
 .csp-row.csp-school-ember { border-left-color: #e25822; }
 .csp-row.csp-school-rime { border-left-color: #5b9bd5; }
-.csp-row.csp-school-storm { border-left-color: #d4af37; }
+.csp-row.csp-school-storm { border-left-color: #9a7b3c; }
 .csp-row.csp-school-arcane { border-left-color: #9b59b6; }
 .csp-row.csp-school-primal { border-left-color: #27ae60; }
 .csp-row.csp-school-blight { border-left-color: #6c3483; }
@@ -969,7 +969,7 @@
   gap: 6px;
   padding: 6px 16px;
   background: linear-gradient(135deg, #7a3b2e 0%, #5a1e12 100%);
-  border: 1px solid var(--my-gold, #d4af37);
+  border: 1px solid var(--my-gold, #9a7b3c);
   border-radius: 2px;
   color: #fdf6e3;
   font-family: var(--my-font-display, 'Cinzel', serif);
@@ -986,8 +986,8 @@
 .csp-arcane-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(212, 175, 55, 0.25);
-  border-top-color: var(--my-gold, #d4af37);
+  border: 3px solid rgba(154, 123, 60, 0.25);
+  border-top-color: var(--my-gold, #9a7b3c);
   border-radius: 50%;
   animation: cspSpin 1s linear infinite;
 }
@@ -1005,7 +1005,7 @@
 .csp-load-more-btn {
   padding: 6px 20px;
   background: linear-gradient(180deg, #f7ecd5 0%, #e6d3af 100%);
-  border: 1.5px solid var(--my-gold, #d4af37);
+  border: 1.5px solid var(--my-gold, #9a7b3c);
   border-radius: 2px;
   color: #3b1810;
   font-family: var(--my-font-display, 'Cinzel', serif);
@@ -1055,7 +1055,7 @@
 .csp-modal-download-btn {
   padding: 7px 18px;
   background: linear-gradient(135deg, #7a3b2e 0%, #5a1e12 100%);
-  border: 1.5px solid var(--my-gold, #d4af37);
+  border: 1.5px solid var(--my-gold, #9a7b3c);
   border-radius: 2px;
   color: #fdf6e3;
   font-family: var(--my-font-display, 'Cinzel', serif);

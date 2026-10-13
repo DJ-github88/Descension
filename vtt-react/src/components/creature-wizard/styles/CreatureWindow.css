@@ -4,7 +4,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: #f0e6d2;
+  background-color: #f1ece1;
   color: #3a3a3a;
   font-family: 'Bookman Old Style', 'Garamond', serif;
   overflow: hidden;
@@ -47,12 +47,12 @@
 .creature-window-tab:hover:not(.disabled) {
   background-color: rgba(240, 230, 210, 0.15);
   border-color: rgba(240, 230, 210, 0.5);
-  color: #f0e6d2;
+  color: #f1ece1;
 }
 
 .creature-window-tab.active {
   background: linear-gradient(to bottom, rgba(240, 230, 210, 0.2), rgba(240, 230, 210, 0.1));
-  color: #f0e6d2;
+  color: #f1ece1;
   border-color: rgba(240, 230, 210, 0.6);
   font-weight: bold;
 }
@@ -71,7 +71,7 @@
   background-color: transparent;
   border: 1px solid rgba(240, 230, 210, 0.3);
   border-radius: 4px;
-  color: #f0e6d2;
+  color: #f1ece1;
   padding: 6px 12px;
   font-size: 13px;
   cursor: pointer;
@@ -128,7 +128,7 @@
   padding: 40px 20px;
   text-align: center;
   color: #7a3b2e;
-  background-color: #f0e6d2;
+  background-color: #f1ece1;
 }
 
 .loading-wizard {

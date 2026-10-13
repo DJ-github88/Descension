@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -10,6 +11,7 @@ import '../../../../styles/unified-context-menu.css';
 import { getResourceStatusFlavor } from '../../../../utils/resourceStatusFlavor';
 import { SPELLGUARD_AEP_MAX, SPELLGUARD_INTAKE_MODES, normalizeSpellguardResource, recordSpellguardIntake } from '../../../spellguardResourceContract';
 
+import { INK, PAGE, PAPER, PANEL, RULE, inked, washed } from '../../../../components/hud/calmBarPalette';
 // AEP Volatility & Radiation Tiers
 export const AEP_TIERS = [
     { min: 0, max: 25, name: 'Grounded', color: '#38bdf8', glow: '#60a5fa', hot: '#bae6fd', desc: 'Cold iron dissipation. Conduits lead-quenched and stable.' },
@@ -146,13 +148,19 @@ const SpellguardResourceBar = ({
             redirected: redirectedEnergy, dissipated: dissipatedEnergy
         });
         if (!result.accepted) {
-            setIntakeMessage(`Receipt not recorded: ${result.reason}`);
+            const reasons = {
+                'unknown-interface': 'Choose how you caught the spell.',
+                'duplicate-receipt': 'That spell is already in the log. Give this catch its own name.',
+                'invalid-or-zero-residual': 'Keep at least 1 AEP, in whole numbers.',
+                'unaccounted-energy': 'Kept, sent away and faded must add up to the spell\'s energy.'
+            };
+            setIntakeMessage(reasons[result.reason] || 'That catch could not be logged.');
             return;
         }
         setLocalAEP(result.resource.current);
         onClassResourceUpdate('spellguardIntake', result.resource.spellguardIntake);
         onClassResourceUpdate('current', result.resource.current);
-        setIntakeMessage(`Recorded ${receiptId.trim()}: ${result.banked} banked, ${result.overflow} overflow`);
+        setIntakeMessage(`Logged ${receiptId.trim()}: +${result.banked} AEP${result.overflow ? `, ${result.overflow} overflowed` : ''}.`);
         logClassResourceChange('reported residual AEP', result.banked, true, 'aep');
     };
 
@@ -208,88 +216,12 @@ const SpellguardResourceBar = ({
                     preserveAspectRatio="xMidYMid meet"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <defs>
-                        {/* Soft Arcane Plasma Glow */}
-                        <filter id={ids.glow} x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur stdDeviation="2" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* Heavy Sarcophagus Drop Shadow */}
-                        <filter id={ids.shadow} x="-15%" y="-15%" width="130%" height="130%">
-                            <feDropShadow dx="0" dy="2.5" stdDeviation="2" floodColor="#000000" floodOpacity="0.85" />
-                        </filter>
-
-                        {/* Meltdown Critical Arc Glow */}
-                        <filter id={ids.cataGlow} x="-40%" y="-40%" width="180%" height="180%">
-                            <feGaussianBlur stdDeviation="3.5" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-
-                        {/* Lead-Lined Cobalt-Mithril Chassis */}
-                        <linearGradient id={ids.chassis} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#1e2c40" />
-                            <stop offset="40%" stopColor="#111a28" />
-                            <stop offset="100%" stopColor="#080e16" />
-                        </linearGradient>
-
-                        {/* Beveled Alloy Edge */}
-                        <linearGradient id={ids.borderGrad} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#475569" />
-                            <stop offset="45%" stopColor="#1e293b" />
-                            <stop offset="100%" stopColor="#0f172a" />
-                        </linearGradient>
-
-                        {/* Recessed Conduit Channel Bed */}
-                        <linearGradient id={ids.channelRecess} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#02060c" />
-                            <stop offset="50%" stopColor="#08101a" />
-                            <stop offset="100%" stopColor="#02060c" />
-                        </linearGradient>
-
-                        {/* Standard Arcane Plasma Gradient */}
-                        <linearGradient id={ids.plasmaGrad} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#bae6fd" />
-                            <stop offset="35%" stopColor="#38bdf8" />
-                            <stop offset="70%" stopColor="#2563eb" />
-                            <stop offset="100%" stopColor="#1d4ed8" />
-                        </linearGradient>
-
-                        {/* Overcharged Plasma Gradient */}
-                        <linearGradient id="sgOverchargeGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#fae8ff" />
-                            <stop offset="35%" stopColor="#c084fc" />
-                            <stop offset="70%" stopColor="#9333ea" />
-                            <stop offset="100%" stopColor="#581c87" />
-                        </linearGradient>
-
-                        {/* Meltdown Nova Plasma Gradient */}
-                        <linearGradient id={ids.meltdownPlasma} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#fee2e2" />
-                            <stop offset="35%" stopColor="#f87171" />
-                            <stop offset="70%" stopColor="#dc2626" />
-                            <stop offset="100%" stopColor="#7f1d1d" />
-                        </linearGradient>
-
-                        {/* Keystone Crystalline Ley-Core */}
-                        <radialGradient id={ids.coreLens} cx="50%" cy="45%" r="55%">
-                            <stop offset="0%" stopColor="#ffffff" />
-                            <stop offset="25%" stopColor={isMeltdown ? '#fca5a5' : isOvercharged ? '#d8b4fe' : '#7dd3fc'} />
-                            <stop offset="70%" stopColor={isMeltdown ? '#dc2626' : isOvercharged ? '#7c3aed' : '#0284c7'} />
-                            <stop offset="100%" stopColor="#09101d" />
-                        </radialGradient>
-                    </defs>
+                    <defs />
 
                     {/* ========================================================================= */}
                     {/* 1. MITHRIL BASTION CHASSIS & LEAD BEVEL (Pure Vector Art)                 */}
                     {/* ========================================================================= */}
-                    <g filter={`url(#${ids.shadow})`}>
+                    <g>
                         {/* Outer Lead-Forged Bevel */}
                         <rect
                             x="2"
@@ -297,8 +229,8 @@ const SpellguardResourceBar = ({
                             width="292"
                             height="56"
                             rx="5"
-                            fill={`url(#${ids.borderGrad})`}
-                            stroke={isMeltdown ? '#ef4444' : isCritical ? '#c026d3' : isOvercharged ? '#818cf8' : '#334155'}
+                            fill={PAPER}
+                            stroke={isMeltdown ? inked('#ef4444', 0.6) : isCritical ? inked('#c026d3', 0.6) : isOvercharged ? inked('#818cf8', 0.6) : RULE}
                             strokeWidth={isMeltdown ? 1.6 : 1.2}
                         />
 
@@ -309,12 +241,12 @@ const SpellguardResourceBar = ({
                             width="288"
                             height="52"
                             rx="4"
-                            fill={`url(#${ids.chassis})`}
+                            fill={PAPER}
                         />
 
                         {/* Perimeter Grounding Seams */}
-                        <line x1="8" y1="5.5" x2="288" y2="5.5" stroke={isMeltdown ? 'rgba(239, 68, 68, 0.45)' : 'rgba(56, 189, 248, 0.25)'} strokeWidth="0.8" />
-                        <line x1="8" y1="54.5" x2="288" y2="54.5" stroke="rgba(15, 23, 42, 0.7)" strokeWidth="0.8" />
+                        <line x1="8" y1="5.5" x2="288" y2="5.5" stroke={isMeltdown ? inked('#ef4444', 0.6) : inked('#38bdf8', 0.6)} strokeWidth="0.8" />
+                        <line x1="8" y1="54.5" x2="288" y2="54.5" stroke={RULE} strokeWidth="0.8" />
 
                         {/* Four Corner Grounding Rivets */}
                         {[
@@ -324,8 +256,8 @@ const SpellguardResourceBar = ({
                             [289.5, 53.5]
                         ].map(([cx, cy], i) => (
                             <g key={i}>
-                                <circle cx={cx} cy={cy} r="1.4" fill="#090e17" stroke="#475569" strokeWidth="0.6" />
-                                <circle cx={cx - 0.3} cy={cy - 0.3} r="0.4" fill="#94a3b8" />
+                                <circle cx={cx} cy={cy} r="1.4" fill={PAPER} stroke={RULE} strokeWidth="0.6" />
+                                <circle cx={cx - 0.3} cy={cy - 0.3} r="0.4" fill={washed('#94a3b8', 0.2)} />
                             </g>
                         ))}
                     </g>
@@ -353,10 +285,9 @@ const SpellguardResourceBar = ({
                             width="32"
                             height="48"
                             rx="4"
-                            fill="#060c14"
-                            stroke={localAEP > 0 ? '#38bdf8' : '#1e293b'}
+                            fill={PAPER}
+                            stroke={localAEP > 0 ? inked('#38bdf8', 0.6) : RULE}
                             strokeWidth="1"
-                            filter={localAEP > 0 ? `url(#${ids.glow})` : undefined}
                         />
 
                         {/* Recessed Intake Well */}
@@ -366,16 +297,16 @@ const SpellguardResourceBar = ({
                             width="27"
                             height="43"
                             rx="3"
-                            fill="#03070d"
-                            stroke="#0f172a"
+                            fill={PAPER}
+                            stroke={RULE}
                             strokeWidth="0.8"
                         />
 
                         {/* Vector Siphon Vortex Blades */}
                         <g transform="translate(23, 30)">
                             {/* Outer intake ring */}
-                            <circle cx="0" cy="0" r="11" fill="none" stroke={localAEP > 0 ? '#38bdf8' : '#334155'} strokeWidth="1" />
-                            <circle cx="0" cy="0" r="8" fill="#08101a" stroke={localAEP > 0 ? '#60a5fa' : '#1e293b'} strokeWidth="0.8" />
+                            <circle cx="0" cy="0" r="11" fill="none" stroke={localAEP > 0 ? inked('#38bdf8', 0.6) : RULE} strokeWidth="1" />
+                            <circle cx="0" cy="0" r="8" fill={PAPER} stroke={localAEP > 0 ? inked('#60a5fa', 0.6) : RULE} strokeWidth="0.8" />
                             {/* Vortex absorption fins */}
                             {[0, 60, 120, 180, 240, 300].map((angle, i) => (
                                 <line
@@ -384,14 +315,14 @@ const SpellguardResourceBar = ({
                                     y1="-3"
                                     x2="0"
                                     y2="-9.5"
-                                    stroke={localAEP > 0 ? '#bae6fd' : '#475569'}
+                                    stroke={localAEP > 0 ? inked('#bae6fd', 0.6) : RULE}
                                     strokeWidth="1.2"
                                     strokeLinecap="round"
                                     transform={`rotate(${angle})`}
                                 />
                             ))}
                             {/* Center Siphon Spark */}
-                            <circle cx="0" cy="0" r="2.2" fill={localAEP > 0 ? '#ffffff' : '#475569'} filter={localAEP > 0 ? `url(#${ids.glow})` : undefined} />
+                            <circle cx="0" cy="0" r="2.2" fill={localAEP > 0 ? PAGE : PANEL} />
                         </g>
                     </g>
 
@@ -425,10 +356,9 @@ const SpellguardResourceBar = ({
                                         width={cellW}
                                         height={cellH}
                                         rx="2.5"
-                                        fill={`url(#${ids.channelRecess})`}
-                                        stroke={isFilled ? (isCurrent ? '#ffffff' : '#38bdf8') : '#1e293b'}
+                                        fill={PAPER}
+                                        stroke={isFilled ? (isCurrent ? INK : inked('#38bdf8', 0.6)) : RULE}
                                         strokeWidth={isCurrent ? '1.4' : '0.8'}
-                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
                                     />
 
                                     {/* Glowing Cathode Plasma Column */}
@@ -439,7 +369,7 @@ const SpellguardResourceBar = ({
                                             width={cellW - 4}
                                             height={cellH - 6}
                                             rx="1.5"
-                                            fill={`url(#${ids.plasmaGrad})`}
+                                            fill={washed('#38bdf8', 0.2)}
                                             opacity="0.9"
                                         />
                                     )}
@@ -451,7 +381,7 @@ const SpellguardResourceBar = ({
                                             y1={cellY + 6}
                                             x2={cellX + cellW / 2}
                                             y2={cellY + cellH - 6}
-                                            stroke="#ffffff"
+                                            stroke={INK}
                                             strokeWidth="0.9"
                                             strokeLinecap="round"
                                             opacity="0.8"
@@ -462,7 +392,7 @@ const SpellguardResourceBar = ({
                         })}
 
                         {/* Mid-bank milestone mark at 25 AEP (between cell 2 and 3) */}
-                        <circle cx="80" cy="7" r="1.2" fill={localAEP >= 25 ? '#38bdf8' : '#334155'} />
+                        <circle cx="80" cy="7" r="1.2" fill={localAEP >= 25 ? washed('#38bdf8', 0.2) : PAPER} />
                     </g>
 
                     {/* ========================================================================= */}
@@ -475,32 +405,31 @@ const SpellguardResourceBar = ({
                             setShowControls(prev => !prev);
                         }}
                         style={{ cursor: 'pointer' }}
-                        filter={isMeltdown ? `url(#${ids.cataGlow})` : isOvercharged ? `url(#${ids.glow})` : undefined}
                     >
                         {/* Outer Alchemical Tower Shield Casing */}
                         <polygon
                             points="123,7 173,7 173,34 148,54 123,34"
-                            fill="#0b121e"
-                            stroke={isMeltdown ? '#ef4444' : isCritical ? '#c026d3' : isOvercharged ? '#818cf8' : '#38bdf8'}
+                            fill={PAPER}
+                            stroke={isMeltdown ? inked('#ef4444', 0.6) : isCritical ? inked('#c026d3', 0.6) : isOvercharged ? inked('#818cf8', 0.6) : inked('#38bdf8', 0.6)}
                             strokeWidth={isMeltdown ? '2' : '1.4'}
                         />
 
                         {/* Inner Beveled Tower Shield Facet */}
                         <polygon
                             points="126,9.5 170,9.5 170,33 148,51 126,33"
-                            fill={`url(#${ids.coreLens})`}
-                            stroke={isMeltdown ? '#fca5a5' : isOvercharged ? '#c084fc' : '#7dd3fc'}
+                            fill={PAPER}
+                            stroke={isMeltdown ? inked('#fca5a5', 0.6) : isOvercharged ? inked('#c084fc', 0.6) : inked('#7dd3fc', 0.6)}
                             strokeWidth="0.8"
                             opacity="0.9"
                         />
 
                         {/* Center Warding Rune Lines */}
-                        <line x1="148" y1="11" x2="148" y2="47" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-                        <line x1="132" y1="21" x2="164" y2="21" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+                        <line x1="148" y1="11" x2="148" y2="47" stroke={INK} strokeWidth="0.8" />
+                        <line x1="132" y1="21" x2="164" y2="21" stroke={INK} strokeWidth="0.8" />
 
                         {/* Meltdown Electrical Arc Sparks */}
                         {isMeltdown && (
-                            <g stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round">
+                            <g stroke={INK} strokeWidth="1.2" strokeLinecap="round">
                                 <line x1="120" y1="12" x2="126" y2="16" />
                                 <line x1="176" y1="12" x2="170" y2="16" />
                                 <line x1="148" y1="51" x2="148" y2="57" />
@@ -511,11 +440,10 @@ const SpellguardResourceBar = ({
                         <text
                             x="148"
                             y="33"
-                            fill="#ffffff"
+                            fill={INK}
                             fontSize="13"
                             fontWeight="900"
                             textAnchor="middle"
-                            filter="drop-shadow(0 1.5px 3px rgba(0,0,0,0.95))"
                         >
                             {localAEP}
                         </text>
@@ -554,10 +482,9 @@ const SpellguardResourceBar = ({
                                         width={cellW}
                                         height={cellH}
                                         rx="2.5"
-                                        fill={`url(#${ids.channelRecess})`}
-                                        stroke={isFilled ? (isWarning ? '#ef4444' : isCurrent ? '#ffffff' : '#818cf8') : isWarning ? '#451a1a' : '#1e293b'}
+                                        fill={PAPER}
+                                        stroke={isFilled ? (isWarning ? inked('#ef4444', 0.6) : isCurrent ? INK : inked('#818cf8', 0.6)) : isWarning ? RULE : RULE}
                                         strokeWidth={isCurrent ? '1.4' : '0.8'}
-                                        filter={isFilled ? `url(#${ids.glow})` : undefined}
                                     />
 
                                     {/* Glowing Cathode Plasma Column */}
@@ -580,7 +507,7 @@ const SpellguardResourceBar = ({
                                             y1={cellY + 6}
                                             x2={cellX + cellW / 2}
                                             y2={cellY + cellH - 6}
-                                            stroke="#ffffff"
+                                            stroke={INK}
                                             strokeWidth="0.9"
                                             strokeLinecap="round"
                                             opacity="0.8"
@@ -591,7 +518,7 @@ const SpellguardResourceBar = ({
                         })}
 
                         {/* Mid-bank milestone mark at 75 AEP (between cell 7 and 8) */}
-                        <circle cx="216" cy="7" r="1.2" fill={localAEP >= 75 ? '#c026d3' : '#334155'} />
+                        <circle cx="216" cy="7" r="1.2" fill={localAEP >= 75 ? washed('#c026d3', 0.2) : PAPER} />
                     </g>
 
                     {/* ========================================================================= */}
@@ -615,8 +542,8 @@ const SpellguardResourceBar = ({
                                 width="32"
                                 height="22"
                                 rx="3.5"
-                                fill={localAEP >= 75 ? '#1a0b1e' : '#0a101b'}
-                                stroke={localAEP >= 75 ? '#c084fc' : '#334155'}
+                                fill={localAEP >= 75 ? PAPER : PAPER}
+                                stroke={localAEP >= 75 ? inked('#c084fc', 0.6) : RULE}
                                 strokeWidth="0.8"
                             />
                             {/* Vector Heat-Sink Exhaust Vents */}
@@ -627,7 +554,7 @@ const SpellguardResourceBar = ({
                                     y1="10"
                                     x2={vx}
                                     y2="24"
-                                    stroke={localAEP >= 75 ? '#f472b6' : '#64748b'}
+                                    stroke={localAEP >= 75 ? inked('#f472b6', 0.6) : RULE}
                                     strokeWidth="1.2"
                                     strokeLinecap="round"
                                 />
@@ -649,14 +576,14 @@ const SpellguardResourceBar = ({
                                 width="32"
                                 height="22"
                                 rx="3.5"
-                                fill={showControls ? '#1e3a5f' : '#0a101b'}
-                                stroke={showControls ? '#38bdf8' : '#334155'}
+                                fill={showControls ? PAPER : PAPER}
+                                stroke={showControls ? inked('#38bdf8', 0.6) : RULE}
                                 strokeWidth="0.8"
                             />
                             {/* Engraved Solari Forge Cross-Key */}
-                            <line x1="264" y1="43" x2="282" y2="43" stroke={showControls ? '#ffffff' : '#94a3b8'} strokeWidth="1.2" strokeLinecap="round" />
-                            <line x1="273" y1="36" x2="273" y2="50" stroke={showControls ? '#ffffff' : '#94a3b8'} strokeWidth="1.2" strokeLinecap="round" />
-                            <circle cx="273" cy="43" r="1.8" fill={showControls ? '#ffffff' : '#cbd5e1'} />
+                            <line x1="264" y1="43" x2="282" y2="43" stroke={showControls ? INK : inked('#94a3b8', 0.6)} strokeWidth="1.2" strokeLinecap="round" />
+                            <line x1="273" y1="36" x2="273" y2="50" stroke={showControls ? INK : inked('#94a3b8', 0.6)} strokeWidth="1.2" strokeLinecap="round" />
+                            <circle cx="273" cy="43" r="1.8" fill={showControls ? PAGE : washed('#cbd5e1', 0.2)} />
                         </g>
                     </g>
                 </svg>
@@ -705,132 +632,94 @@ const SpellguardResourceBar = ({
                             zIndex: 100000
                         }}
                     >
-                        <div className="sg-tender-header">
-                            <div className="sg-tender-title">
-                                <i className="fas fa-shield-halved"></i>
-                                <span>The Damon Forge-Tender</span>
-                            </div>
-                            <button 
-                                className="sg-tender-close-btn"
-                                onClick={() => setShowControls(false)}
-                                title="Close tender"
-                            >
-                                ×
-                            </button>
-                        </div>
+                        <div className="cm" style={{ '--cm-accent': '#3e6a8a', '--cm-accent-deep': '#1c3a52', '--cm-wash': '#dfe8ef' }}>
+                            <header className="cm-head">
+                                <span className={`cm-seal ${localAEP === 0 ? 'is-quiet' : ''}`}>{localAEP}</span>
+                                <div className="cm-titles">
+                                    <div className="cm-eyebrow">The Damon Forge-Tender</div>
+                                    <div className="cm-title">{currentTier.name}</div>
+                                    <div className="cm-sub">{localAEP}/{maxAEP} AEP held in the forge</div>
+                                </div>
+                                <button type="button" className="cm-x" aria-label="Close tender" onClick={() => setShowControls(false)}>
+                                    <i className="fas fa-times" aria-hidden="true"></i>
+                                </button>
+                            </header>
+                            <div className="cm-meter" aria-hidden="true"><span style={{ width: `${maxAEP ? Math.min(100, (localAEP / maxAEP) * 100) : 0}%` }}></span></div>
+                            {localAEP >= 75 && (
+                                <div className="cm-burden is-severe">
+                                    <span className="cm-burden-label">{localAEP >= 100 ? 'Containment breach' : 'Running hot'}</span>
+                                    <p className="cm-burden-text">{localAEP >= 100 ? 'The forge is full. A breach is due: resolve its damage and reset.' : 'Spend AEP soon. At 100 the forge breaches.'}</p>
+                                </div>
+                            )}
 
-                        {/* Status Flavor Banner */}
-                        {statusFlavor && (
-                            <div className="sg-status-flavor-banner" style={statusFlavor.style}>
-                                <i className="fas fa-quote-left"></i> {statusFlavor.text}
+                            <div className="cm-section">
+                                Catch a spell
+                                <span className="cm-section-aside">{normalizedResource.spellguardIntake.receipts.length} logged</span>
                             </div>
-                        )}
+                            {(() => {
+                                const incoming = Number(incomingEnergy) || 0;
+                                const split = (Number(capturedEnergy) || 0) + (Number(redirectedEnergy) || 0) + (Number(dissipatedEnergy) || 0);
+                                const gap = incoming - split;
+                                const modeLabels = { containment: 'Contained it', annulment: 'Annulled it', defusal: 'Defused it', deflection: 'Deflected it', siphon: 'Siphoned it' };
+                                return (
+                                    <div className="cm-catch">
+                                        <div className="cm-intake">
+                                            <label className="cm-field">
+                                                <span className="cm-field-label">The spell</span>
+                                                <input aria-label="Resolution receipt ID" value={receiptId} onChange={event => setReceiptId(event.target.value)} placeholder="e.g. Fireball, round 3" />
+                                            </label>
+                                            <label className="cm-field">
+                                                <span className="cm-field-label">How you caught it</span>
+                                                <select aria-label="Intake interface" value={intakeMode} onChange={event => setIntakeMode(event.target.value)}>
+                                                    {SPELLGUARD_INTAKE_MODES.map(mode => <option key={mode} value={mode}>{modeLabels[mode] || mode}</option>)}
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <label className="cm-field cm-field-wide">
+                                            <span className="cm-field-label">Its energy</span>
+                                            <input type="number" min="0" step="1" aria-label="Incoming energy" value={incomingEnergy} onChange={event => setIncomingEnergy(event.target.value)} />
+                                        </label>
+                                        <div className="cm-split">
+                                            {[['Kept as AEP', 'Captured residual', capturedEnergy, setCapturedEnergy], ['Sent away', 'Redirected energy', redirectedEnergy, setRedirectedEnergy], ['Let fade', 'Dissipated energy', dissipatedEnergy, setDissipatedEnergy]].map(([shown, label, value, setter]) => (
+                                                <label key={label} className="cm-field">
+                                                    <span className="cm-field-label">{shown}</span>
+                                                    <input type="number" min="0" step="1" aria-label={label} value={value} onChange={event => setter(event.target.value)} />
+                                                </label>
+                                            ))}
+                                        </div>
+                                        <p className={`cm-line ${gap === 0 ? '' : 'is-warn'}`}>
+                                            {gap === 0 ? 'Balanced: every point of the spell is accounted for.' : gap > 0 ? `${gap} energy still unaccounted for.` : `${-gap} more than the spell carried.`}
+                                        </p>
+                                        <button type="button" className="cm-btn" onClick={handleIntake} disabled={!receiptId.trim()}>Record resolved intake</button>
+                                        {intakeMessage && <p role="status" className="cm-line">{intakeMessage}</p>}
+                                    </div>
+                                );
+                            })()}
 
-                        <div className="sg-tender-section">
-                            <div className="sg-section-label">Resolved Magical Intake</div>
-                            <label style={{ display: 'block', fontSize: '11px' }}>Interface
-                                <select aria-label="Intake interface" value={intakeMode} onChange={event => setIntakeMode(event.target.value)} style={{ width: '100%' }}>
-                                    {SPELLGUARD_INTAKE_MODES.map(mode => <option key={mode} value={mode}>{mode}</option>)}
-                                </select>
-                            </label>
-                            <label style={{ display: 'block', fontSize: '11px' }}>Resolution receipt ID
-                                <input aria-label="Resolution receipt ID" value={receiptId} onChange={event => setReceiptId(event.target.value)} style={{ width: '100%' }} />
-                            </label>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', fontSize: '11px' }}>
-                                {[['Incoming energy', incomingEnergy, setIncomingEnergy], ['Captured residual', capturedEnergy, setCapturedEnergy],
-                                    ['Redirected energy', redirectedEnergy, setRedirectedEnergy], ['Dissipated energy', dissipatedEnergy, setDissipatedEnergy]].map(([label, value, setter]) => (
-                                    <label key={label}>{label}<input type="number" min="0" step="1" aria-label={label} value={value}
-                                        onChange={event => setter(event.target.value)} style={{ width: '100%' }} /></label>
+                            <div className="cm-section">Spend</div>
+                            <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                                {[10, 25, 40].map((n) => (
+                                    <button key={n} type="button" className="context-menu-button spend" onClick={() => handleAEPChange(-n)} disabled={localAEP < n}>-{n}</button>
                                 ))}
+                                <button type="button" className="context-menu-button quiet" onClick={() => handleAEPSet(0)} disabled={localAEP === 0} title="Vent the forge to 0">Vent</button>
                             </div>
-                            <button className="sg-action-btn" onClick={handleIntake} disabled={!receiptId.trim()} style={{ width: '100%', marginTop: '6px' }}>Record resolved intake</button>
-                            {intakeMessage && <div role="status" style={{ fontSize: '11px', marginTop: '6px' }}>{intakeMessage}</div>}
-                            <div style={{ fontSize: '10px', marginTop: '6px' }}>Report AEP-equivalent energy after resolution: captured + redirected + dissipated = incoming. Every successful interface retains positive residual; overflow is recorded separately. No automatic yield ratio or damage cancellation is applied.</div>
-                            <div style={{ fontSize: '11px', marginTop: '6px' }}>{normalizedResource.spellguardIntake.receipts.length} receipts · {normalizedResource.spellguardIntake.totals.captured} captured · {normalizedResource.spellguardIntake.totals.overflow} overflow</div>
-                        </div>
+                            <ClassMenuSpells className="Spellguard" resourceTypes={['arcane_energy_points']} resourceLabel="AEP" current={localAEP} />
 
-                        {/* Section 1: AEP Presets */}
-                        <div className="sg-tender-section">
-                            <div className="sg-section-label">
-                                <span>Manual AEP Calibration</span>
-                                <span className="sg-current-pill" style={{ color: currentTier.color }}>
-                                    {localAEP}/100 AEP ({currentTier.name})
-                                </span>
-                            </div>
-                            <div className="sg-preset-grid">
-                                <button 
-                                    className={`sg-preset-btn ${localAEP === 0 ? 'active' : ''}`}
-                                    onClick={() => handleAEPSet(0)}
-                                >
-                                    <span className="sg-btn-title">Grounded (0)</span>
-                                    <span className="sg-btn-sub">Cold iron base</span>
-                                </button>
-                                <button 
-                                    className={`sg-preset-btn ${localAEP === 25 ? 'active' : ''}`}
-                                    onClick={() => handleAEPSet(25)}
-                                >
-                                    <span className="sg-btn-title">Siphon (25)</span>
-                                    <span className="sg-btn-sub">Low radiation</span>
-                                </button>
-                                <button 
-                                    className={`sg-preset-btn ${localAEP === 50 ? 'active' : ''}`}
-                                    onClick={() => handleAEPSet(50)}
-                                >
-                                    <span className="sg-btn-title">Energized (50)</span>
-                                    <span className="sg-btn-sub">Balanced charge</span>
-                                </button>
-                                <button 
-                                    className={`sg-preset-btn ${localAEP === 75 ? 'active' : ''}`}
-                                    onClick={() => handleAEPSet(75)}
-                                >
-                                    <span className="sg-btn-title">Overcharge (75)</span>
-                                    <span className="sg-btn-sub">Overcharge warning</span>
-                                </button>
-                                <button 
-                                    className={`sg-preset-btn cata ${localAEP === 100 ? 'active' : ''}`}
-                                    onClick={() => handleAEPSet(100)}
-                                >
-                                    <span className="sg-btn-title">Meltdown (100)</span>
-                                    <span className="sg-btn-sub">Nova risk!</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Section 2: Tactical Absorption & Discharge */}
-                        <div className="sg-tender-section">
-                            <div className="sg-section-label">
-                                <span>Tactical Channeling</span>
-                            </div>
-                            <div className="sg-actions-grid">
-                                <button 
-                                    className="sg-action-btn gain"
-                                    onClick={() => handleAEPChange(15)}
-                                    disabled={localAEP >= maxAEP}
-                                >
-                                    <i className="fas fa-plus"></i> Adjust (+15)
-                                </button>
-                                <button 
-                                    className="sg-action-btn spend"
-                                    onClick={() => handleAEPChange(-25)}
-                                    disabled={localAEP < 25}
-                                >
-                                    <i className="fas fa-bolt"></i> Discharge (-25)
-                                </button>
-                                <button 
-                                    className="sg-action-btn spend"
-                                    onClick={() => handleAEPChange(-40)}
-                                    disabled={localAEP < 40}
-                                >
-                                    <i className="fas fa-shield"></i> Barrier (-40)
-                                </button>
-                                <button 
-                                    className="sg-action-btn purge"
-                                    onClick={() => handleAEPSet(0)}
-                                    disabled={localAEP === 0}
-                                >
-                                    <i className="fas fa-rotate-left"></i> Emergency Ground (0)
-                                </button>
-                            </div>
+                            <details className="cm-notes">
+                                <summary>Set AEP directly</summary>
+                                <div className="cm-row" style={{ '--cm-cols': 3, marginTop: '6px' }}>
+                                    {[[0, 'Grounded'], [25, 'Low'], [50, 'Charged'], [75, 'Overcharge'], [100, 'Meltdown']].map(([val, name]) => (
+                                        <button key={val} type="button" className={`context-menu-button ${localAEP === val ? 'active' : ''} ${val >= 75 ? 'spend' : ''}`} onClick={() => handleAEPSet(val)}>
+                                            {name} ({val})
+                                        </button>
+                                    ))}
+                                </div>
+                            </details>
+                            <details className="cm-notes">
+                                <summary>How catching works</summary>
+                                <p>When a spell hits you, log how much energy it carried and split it: what you kept becomes AEP, the rest was sent away or faded. You must keep at least 1.</p>
+                                <p>The forge holds 100 AEP. Anything past that is logged as overflow, not lost silently.</p>
+                            </details>
                         </div>
                     </div>,
                     document.body
@@ -851,7 +740,7 @@ const SpellguardResourceBar = ({
                         subtitle="Spellguard Silence-Scarred Aegis (AEP)"
                         state={`${localAEP}/100 • ${currentTier.name}`}
                         stateTone={isMeltdown ? 'bad' : isCritical ? 'warn' : 'good'}
-                        mechanic="All trained interfaces use one 0–100 AEP pool. Report captured residual and the redirected/dissipated remainder; no mode bypasses energy accounting. Authored spell costs/gains share the pool. Manual calibration is separate; decay and risk effects require their own handling."
+                        mechanic="One 0–100 AEP pool powers every interface. Report captured, redirected and dissipated energy; spell costs and gains share the pool. Decay and risk effects are resolved separately."
                         status={[
                             `${currentTier.name}: ${currentTier.desc}`,
                             localAEP >= 100

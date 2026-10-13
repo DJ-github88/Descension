@@ -71,7 +71,7 @@
 .terrain-tool-btn.active {
     background: linear-gradient(to bottom, #d4af37, #b8941f);
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -133,7 +133,7 @@
 .size-btn.active {
     background: #d4af37;
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 /* Terrain Categories */
@@ -147,7 +147,7 @@
     justify-content: center !important;
     margin: 0 0 10px 0 !important;
     padding: 6px 8px !important;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%) !important;
+    background: #f1ece1 !important;
     border: 1px solid #8b7355 !important;
     border-bottom: 2px solid #8b7355 !important;
     border-radius: 4px 4px 0 0 !important;
@@ -248,61 +248,20 @@
 
 /* Stone - Rocky, rough texture with depth */
 .terrain-color-fallback.terrain-type-stone {
-    background-image:
-        radial-gradient(ellipse at 15% 25%, rgba(140, 140, 140, 0.5) 1.5px, transparent 1.5px),
-        radial-gradient(ellipse at 85% 75%, rgba(120, 120, 120, 0.4) 1.5px, transparent 1.5px),
-        radial-gradient(ellipse at 50% 50%, rgba(100, 100, 100, 0.3) 2px, transparent 2px),
-        radial-gradient(ellipse at 30% 60%, rgba(130, 130, 130, 0.35) 1px, transparent 1px),
-        radial-gradient(ellipse at 70% 40%, rgba(110, 110, 110, 0.35) 1px, transparent 1px),
-        linear-gradient(135deg, rgba(90, 90, 90, 0.25) 0%, transparent 40%, rgba(115, 115, 115, 0.2) 100%),
-        linear-gradient(45deg, rgba(105, 105, 105, 0.2) 0%, transparent 50%);
     background-size: 6px 8px, 8px 10px, 10px 12px, 5px 6px, 5px 6px, 100% 100%, 100% 100%;
     background-position: 0 0, 3px 4px, 2px 2px, 1px 3px, 4px 2px, 0 0, 0 0;
-    box-shadow:
-        inset 0 0 12px rgba(0, 0, 0, 0.4),
-        inset 2px 2px 4px rgba(0, 0, 0, 0.2),
-        inset -2px -2px 4px rgba(255, 255, 255, 0.1);
     filter: contrast(1.1) brightness(0.95);
 }
 
 /* Grass - Textured, organic look with blades */
 .terrain-color-fallback.terrain-type-grass {
-    background-image:
-        repeating-linear-gradient(0deg,
-            transparent 0px,
-            rgba(60, 100, 70, 0.15) 1px,
-            transparent 2px,
-            rgba(50, 90, 60, 0.12) 3px,
-            transparent 4px),
-        radial-gradient(ellipse at 25% 35%, rgba(65, 105, 75, 0.5) 1.5px, transparent 1.5px),
-        radial-gradient(ellipse at 75% 65%, rgba(55, 95, 65, 0.4) 1.5px, transparent 1.5px),
-        radial-gradient(ellipse at 50% 50%, rgba(45, 85, 55, 0.3) 1px, transparent 1px),
-        radial-gradient(ellipse at 40% 60%, rgba(70, 110, 80, 0.35) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(70, 110, 80, 0.18) 0%, transparent 40%, rgba(55, 95, 65, 0.15) 100%),
-        linear-gradient(0deg, rgba(60, 100, 70, 0.12) 0%, transparent 50%);
-    background-size: 100% 3px, 4px 6px, 5px 7px, 3px 5px, 4px 5px, 100% 100%, 100% 100%;
     background-position: 0 0, 0 0, 2px 1px, 1px 2px, 3px 1px, 0 0, 0 0;
-    box-shadow:
-        inset 0 0 10px rgba(30, 60, 40, 0.25),
-        inset 0 1px 2px rgba(40, 80, 50, 0.2);
     filter: contrast(1.15) brightness(1.05);
 }
 
 /* Dirt - Earthy, granular texture with clumps */
 .terrain-color-fallback.terrain-type-dirt {
-    background-image:
-        radial-gradient(circle at 20% 30%, rgba(110, 85, 55, 0.6) 2px, transparent 2px),
-        radial-gradient(circle at 80% 70%, rgba(95, 75, 45, 0.5) 2px, transparent 2px),
-        radial-gradient(circle at 50% 50%, rgba(105, 85, 50, 0.4) 1.5px, transparent 1.5px),
-        radial-gradient(circle at 35% 60%, rgba(100, 80, 50, 0.45) 1px, transparent 1px),
-        radial-gradient(circle at 65% 40%, rgba(90, 70, 40, 0.4) 1px, transparent 1px),
-        linear-gradient(45deg, rgba(95, 75, 45, 0.25) 0%, transparent 40%, rgba(85, 65, 35, 0.2) 100%),
-        linear-gradient(-45deg, rgba(100, 80, 50, 0.2) 0%, transparent 50%);
-    background-size: 4px 4px, 5px 5px, 3px 3px, 2px 2px, 2px 2px, 100% 100%, 100% 100%;
     background-position: 0 0, 2px 2px, 1px 1px, 0.5px 1.5px, 1.5px 0.5px, 0 0, 0 0;
-    box-shadow:
-        inset 0 0 8px rgba(60, 45, 25, 0.4),
-        inset 1px 1px 3px rgba(70, 55, 30, 0.3);
     filter: contrast(1.2) brightness(0.98);
 }
 
@@ -352,23 +311,6 @@
 }
 
 /* Sand - Grainy, wind-swept ripples with mineral sparkles */
-.terrain-color-fallback.terrain-type-sand {
-    background-color: #d2b48c;
-    background-image:
-        /* Dunes / ripples */
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 25%, rgba(0, 0, 0, 0.1) 50%, transparent 75%),
-        repeating-linear-gradient(75deg, rgba(255, 255, 255, 0.08) 0px, transparent 10px, rgba(0, 0, 0, 0.05) 20px, transparent 30px),
-        /* Fine grains */
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.2'/%3E%3C/svg%3E"),
-        /* Mineral sparkles */
-        radial-gradient(circle at 20% 30%, #fff 0.8px, transparent 0.8px),
-        radial-gradient(circle at 70% 80%, #fff 0.5px, transparent 0.5px),
-        radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 30px 30px, 40px 40px, 25px 25px, 35px 35px;
-    box-shadow:
-        inset 0 0 15px rgba(139, 115, 85, 0.4),
-        inset 1px 1px 2px rgba(255, 255, 255, 0.2);
-}
 
 /* Sand - Grainy, wind-swept ripples with mineral sparkles and soft seamless dunes */
 .terrain-color-fallback.terrain-type-sand {
@@ -780,7 +722,7 @@
 .terrain-name {
     font-size: 8px;
     font-weight: 600;
-    color: #f0e6d2;
+    color: #f1ece1;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
     text-align: center;
     line-height: 1.05;

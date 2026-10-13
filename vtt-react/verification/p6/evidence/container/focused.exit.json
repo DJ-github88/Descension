@@ -1,0 +1,4 @@
+{
+  "command": "node verification/p6/remaining-browser.cjs",
+  "status": 0
+}

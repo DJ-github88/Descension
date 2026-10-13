@@ -998,52 +998,85 @@ const WizardView = () => {
     return 'pending';
   };
 
-  return (
-    <div className="spellbook-wizard-layout">
-      {/* Main content area - full expansion with padding for overlay */}
-      <div className="wizard-main-content">
-        {renderCurrentStep()}
-      </div>
+  const currentIdx = wizardFlow ? wizardFlow.findIndex(step => step.id === currentStep) : -1;
+  const currentMeta = currentIdx >= 0 ? wizardFlow[currentIdx] : null;
+  const nextMeta = currentIdx >= 0 && currentIdx < wizardFlow.length - 1 ? wizardFlow[currentIdx + 1] : null;
+  const isFirstStep = currentIdx <= 0;
 
-      {/* Fixed Progress Bar Overlay - positioned within the spellbook window */}
-      <div className="wizard-progress-overlay">
-        <div className="spell-wizard-progress-bar">
-          <div
-            className="spell-wizard-progress-fill"
-            style={{
-              width: `${wizardFlow ? ((wizardFlow.findIndex(step => step.id === currentStep) + 1) / wizardFlow.length) * 100 : 0}%`
-            }}
-          />
-          <div className="spell-wizard-progress-segments">
-            {wizardFlow && wizardFlow.length > 0 ? (
-              wizardFlow.map((step, index) => (
-                <div
-                  key={step.id}
-                  className={`spell-wizard-progress-segment ${getStepStatus(step.id)} ${
-                    wizardFlow.findIndex(s => s.id === currentStep) === index ? 'active' : ''
-                  }`}
-                  onClick={() => handleJumpToStep(step.id)}
-                >
-                  <span className="spell-step-number">{index + 1}</span>
-                  <div className="spell-step-tooltip">
-                    <div className="spell-tooltip-header">
-                      <span className="spell-tooltip-title">Step {index + 1}</span>
-                    </div>
-                    <div className="spell-tooltip-content">
-                      <div className="spell-tooltip-name">{step.name}</div>
-                      {step.description && (
-                        <div className="spell-tooltip-description">{step.description}</div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="wizard-loading">Loading...</div>
-            )}
-          </div>
+  return (
+    <div className="spellbook-wizard-layout spell-wizard-railed">
+      {/* Step rail: every step named, current one marked, completed ones ticked */}
+      <nav className="spell-step-rail" aria-label="Spell wizard steps">
+        {wizardFlow && wizardFlow.length > 0 ? (
+          <ol>
+            {wizardFlow.map((step, index) => {
+              const status = getStepStatus(step.id);
+              return (
+                <li key={step.id}>
+                  <button
+                    type="button"
+                    className={`spell-step-rail-item ${status}`}
+                    aria-current={status === 'active' ? 'step' : undefined}
+                    onClick={() => handleJumpToStep(step.id)}
+                    title={step.description || step.name}
+                  >
+                    <span className="spell-step-number">
+                      {status === 'completed' ? <i className="fas fa-check" aria-hidden="true" /> : index + 1}
+                    </span>
+                    <span className="spell-step-rail-name">{step.name}</span>
+                    {step.required === false && <span className="spell-step-rail-tag">optional</span>}
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        ) : (
+          <div className="wizard-loading">Loading...</div>
+        )}
+      </nav>
+
+      <section className="spell-wizard-stage">
+        {currentMeta && (
+          <header className="spell-wizard-stage-head">
+            <span className="spell-wizard-stage-count">Step {currentIdx + 1} of {wizardFlow.length}</span>
+            <span className="spell-wizard-stage-title">{currentMeta.name}</span>
+            {currentMeta.required === false && <span className="spell-step-rail-tag">optional</span>}
+          </header>
+        )}
+
+        <div className="wizard-main-content">
+          {renderCurrentStep()}
         </div>
-      </div>
+
+        {currentMeta && (
+          <footer className="spell-wizard-stage-foot">
+            <button
+              type="button"
+              className="spell-wizard-nav-btn"
+              onClick={handlePreviousStep}
+              disabled={isFirstStep}
+            >
+              <i className="fas fa-arrow-left" aria-hidden="true" /> Back
+            </button>
+            <div
+              className="spell-wizard-stage-progress"
+              role="progressbar"
+              aria-valuemin={1}
+              aria-valuemax={wizardFlow.length}
+              aria-valuenow={currentIdx + 1}
+            >
+              <span style={{ width: `${((currentIdx + 1) / wizardFlow.length) * 100}%` }} />
+            </div>
+            {nextMeta ? (
+              <button type="button" className="spell-wizard-nav-btn primary" onClick={handleNextStep}>
+                Next: {nextMeta.name} <i className="fas fa-arrow-right" aria-hidden="true" />
+              </button>
+            ) : (
+              <span className="spell-wizard-stage-done">Last step: finish with Complete Spell in the preview</span>
+            )}
+          </footer>
+        )}
+      </section>
     </div>
   );
 };

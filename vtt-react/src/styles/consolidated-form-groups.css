@@ -108,22 +108,8 @@ label.upload-btn,
 }
 
 /* Character Manager specific styling */
-.character-manager .form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #5e2e23;
-  font-size: 15px;
-  font-weight: 600;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
-  position: relative;
-}
 
 /* User Profile specific styling */
-.user-profile .form-group label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #5a4a3a;
-}
 
 /* Spell Wizard specific styling */
 .spell-wizard .form-group label,
@@ -134,8 +120,7 @@ label.upload-btn,
 }
 
 /* Mechanics popup specific styling */
-.mechanics-popup-body .form-group label,
-.mechanics-grid-item .form-group label {
+.mechanics-popup-body .form-group label {
   font-size: var(--my-text-sm);
   font-weight: var(--my-font-semibold);
   color: var(--my-text-primary);
@@ -244,21 +229,12 @@ label.upload-btn,
   gap: 30px;
 }
 
-.form-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .form-group.half-width {
   flex: 1;
 }
 
 /* Remove the ::before pseudo-element for specific contexts that don't want it */
-.no-label-icon .form-group label::before,
 .auth-modal .form-group label::before,
-.character-manager .form-group label::before,
-.user-profile .form-group label::before,
 .lock-settings-modal .form-group label::before,
 .unlock-container-modal .form-group label::before,
 .quick-item-generator-modal .form-group label::before,

@@ -1,0 +1,14 @@
+# Mounted MCP input: canonical.class={invalid: object}, runtime=null.
+# Full compared state and import file text unchanged=true; both lanes remain
+# Cloud saved; the invalid file produces a visible type refusal.
+- heading "Selected character" [level=1]
+- region "Selected character save status":
+  - status:
+    - strong: "Canonical character:"
+    - text: Cloud saved · Device draft retained
+    - strong: "Personal runtime:"
+    - text: Cloud saved · Device draft retained
+  - button "Download selected draft"
+  - text: Import selected draft
+  - button "Import selected draft"
+  - alert: "Import failed: Invalid class type: expected a non-empty string"

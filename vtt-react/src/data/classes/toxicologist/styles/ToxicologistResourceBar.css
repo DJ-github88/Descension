@@ -56,8 +56,7 @@
 }
 
 /* Character card / compact hud sizing - Wide 360px footprint */
-.character-card .toxicologist-resource-bar,
-.character-card-compact .toxicologist-resource-bar {
+.character-card .toxicologist-resource-bar {
     height: 52px !important;
     min-height: 52px !important;
     max-width: 360px !important;

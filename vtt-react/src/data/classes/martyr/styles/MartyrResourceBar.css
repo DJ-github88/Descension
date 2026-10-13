@@ -156,7 +156,6 @@
 }
 
 .martyr-monstrance-halo {
-    animation: martyrMonstrancePulse 3.5s ease-in-out infinite;
     transform-origin: 146px 38px;
 }
 
@@ -190,34 +189,17 @@
 }
 
 /* Blood / Caliper Ampoule */
-.martyr-ampoule-group {
-    cursor: pointer;
-    transition: filter 0.2s ease;
-}
-
-.martyr-ampoule-group:hover {
-    filter: drop-shadow(0 0 6px var(--martyr-liquid-glow));
-}
 
 .martyr-liquid-fill {
     transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Interactive Quick Buttons in SVG */
-.martyr-quick-btn {
-    cursor: pointer;
-    transition: filter 0.15s ease, opacity 0.15s ease;
-}
-
-.martyr-quick-btn:hover {
-    filter: brightness(1.35) drop-shadow(0 0 4px var(--martyr-primary));
-}
-
-.martyr-quick-btn:active {
-    filter: brightness(0.9);
-}
 
 /* Tooltip & Drawer */
 .martyr-tooltip {
     max-width: 320px;
 }
+
+/* Calm: no looping pulse on the halo */
+.martyr-monstrance-halo { animation: none !important; }

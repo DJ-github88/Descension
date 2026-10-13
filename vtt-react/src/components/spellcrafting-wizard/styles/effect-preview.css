@@ -20,7 +20,7 @@
   height: 100%;
   background: radial-gradient(
     circle at top right,
-    rgba(212, 175, 55, 0.05),
+    rgba(154, 123, 60, 0.05),
     transparent 70%
   );
   pointer-events: none;
@@ -477,13 +477,6 @@
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   border: 1px solid var(--wow-border-gold);
-}
-
-.trigger-hint-icon {
-  width: 16px;
-  height: 16px;
-  border-radius: 2px;
-  border: 1px solid var(--wow-border-blue-light);
 }
 
 /* Property icon for trigger */

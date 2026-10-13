@@ -1,0 +1,11 @@
+const fs = require('fs'), assert = require('assert/strict'), crypto = require('crypto'), path = require('path');
+const read = name => JSON.parse(fs.readFileSync(path.join(__dirname, name)));
+const red = read('red.json'), historical = read('historical.json'), probe = read('green.json');
+assert.equal(red.observation.canonicalStatus, 'error'); assert.equal(red.observation.runtimeResult.success, false);
+assert.deepEqual(red.observation.writes, []); assert.deepEqual(probe.observation.loadedFloorCells, red.observation.loadedFloorCells);
+assert.equal(historical.observation.canonicalStatus, 'saved'); assert.equal(historical.observation.runtimeResult.success, true);
+const original = JSON.parse(fs.readFileSync('D:/AppData/Temp/opencode/p6-remaining-acceptance-20261012/container-historical.json'));
+assert.deepEqual(historical.manifest, original.manifest);
+fs.writeFileSync(path.join(__dirname, 'pre-correction-probe.json'), JSON.stringify(probe, null, 2));
+for (const name of ['red.log', 'historical.log', 'pre-correction-green.log']) fs.writeFileSync(path.join(__dirname, name.replace('.log', '.utf8.log')), fs.readFileSync(path.join(__dirname, name), 'utf16le').replace(/^\uFEFF/, ''));
+console.log(JSON.stringify({ red: red.result, canonical: red.observation.canonicalStatus, runtime: red.observation.runtimeResult, floor: red.observation.loadedFloorCells, historical: historical.result, historicalManifestMatchesIndependent: true, snapshotSha256: crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, 'reviewed-source-complete.json.gz'))).digest('hex') }, null, 2));

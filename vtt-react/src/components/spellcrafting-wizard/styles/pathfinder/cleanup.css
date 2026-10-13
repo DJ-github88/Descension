@@ -15,12 +15,9 @@
 .pf-button,
 .effect-option,
 .effect-option-button,
-.effect-type-option,
 .add-button,
 .threshold-button,
-.dice-preset-button,
-.spell-card-action-btn,
-.wizard-nav-button {
+.spell-card-action-btn {
   background: var(--my-gradient-button) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -45,12 +42,9 @@
 .pf-button:hover,
 .effect-option:hover,
 .effect-option-button:hover,
-.effect-type-option:hover,
 .add-button:hover,
 .threshold-button:hover,
-.dice-preset-button:hover,
-.spell-card-action-btn:hover,
-.wizard-nav-button:hover {
+.spell-card-action-btn:hover {
   background: var(--my-gradient-button-hover) !important;
   border-color: var(--my-gold) !important;
   box-shadow: var(--my-shadow-md) !important;
@@ -60,12 +54,9 @@
 .pf-button:active,
 .effect-option:active,
 .effect-option-button:active,
-.effect-type-option:active,
 .add-button:active,
 .threshold-button:active,
-.dice-preset-button:active,
-.spell-card-action-btn:active,
-.wizard-nav-button:active {
+.spell-card-action-btn:active {
   transform: translateY(0) !important;
   box-shadow: var(--my-shadow-sm) !important;
 }
@@ -74,8 +65,7 @@
 .pf-button.primary,
 .effect-option.selected,
 .effect-option-button.selected,
-.effect-option-button.active,
-.effect-type-option.selected {
+.effect-option-button.active {
   background: var(--my-gradient-gold) !important;
   color: var(--my-brown-darkest) !important;
   border-color: var(--my-gold-dark) !important;
@@ -86,8 +76,7 @@
 .pf-button.primary:hover,
 .effect-option.selected:hover,
 .effect-option-button.selected:hover,
-.effect-option-button.active:hover,
-.effect-type-option.selected:hover {
+.effect-option-button.active:hover {
   background: var(--my-gold-light) !important;
   box-shadow: var(--my-shadow-glow) !important;
 }
@@ -96,12 +85,9 @@
 .pf-button:disabled,
 .effect-option:disabled,
 .effect-option-button:disabled,
-.effect-type-option:disabled,
 .add-button:disabled,
 .threshold-button:disabled,
-.dice-preset-button:disabled,
-.spell-card-action-btn:disabled,
-.wizard-nav-button:disabled {
+.spell-card-action-btn:disabled {
   opacity: 0.6 !important;
   cursor: not-allowed !important;
   transform: none !important;
@@ -113,9 +99,7 @@
 /* Unified input styling - SCOPED TO SPELLBOOK ONLY */
 .spellbook-layout .pf-input,
 .spellbook-layout .wow-input,
-.spellbook-layout .dice-calculator-input,
 .spellbook-layout .formula-input,
-.spellbook-layout .threshold-input,
 .spellbook-layout input[type="text"]:not(.csp-root *):not(.community-spells-tab *),
 .spellbook-layout input[type="number"]:not(.csp-root *):not(.community-spells-tab *),
 .spellbook-layout input[type="email"]:not(.csp-root *):not(.community-spells-tab *),
@@ -135,9 +119,7 @@
 
 .spellbook-layout .pf-input:focus,
 .spellbook-layout .wow-input:focus,
-.spellbook-layout .dice-calculator-input:focus,
 .spellbook-layout .formula-input:focus,
-.spellbook-layout .threshold-input:focus,
 .spellbook-layout input[type="text"]:not(.csp-root *):not(.community-spells-tab *):focus,
 .spellbook-layout input[type="number"]:not(.csp-root *):not(.community-spells-tab *):focus,
 .spellbook-layout input[type="email"]:not(.csp-root *):not(.community-spells-tab *):focus,
@@ -145,13 +127,12 @@
 .spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *):focus {
   outline: none !important;
   border-color: var(--my-gold) !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2) !important;
 }
 
 /* Unified select styling - SCOPED TO SPELLBOOK ONLY */
 .spellbook-layout .pf-select,
 .spellbook-layout .wow-select,
-.spellbook-layout .dice-function-selector,
 .spellbook-layout select:not(.csp-root *):not(.community-spells-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
@@ -168,31 +149,17 @@
 
 .spellbook-layout .pf-select:focus,
 .spellbook-layout .wow-select:focus,
-.spellbook-layout .dice-function-selector:focus,
 .spellbook-layout select:not(.csp-root *):not(.community-spells-tab *):focus {
   outline: none !important;
   border-color: var(--my-gold) !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2) !important;
 }
 
 /* ===== REMOVE OLD VARIABLES AND HEADERS ===== */
 
 /* Hide old variable headers and example formulas */
 .variables-header,
-.example-formula,
-.dice-calculator-header,
-.dice-calculator-modes,
-.dice-mode-toggle,
-.dice-calculator-stats,
-.dice-stat,
-.function-description,
-.complex-builder,
-.complex-builder-header,
-.dice-builder-header,
-.dice-builder-toggle,
-.dice-advanced-options,
-.dice-complex-examples,
-.dice-calculator-distribution {
+.example-formula {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -202,11 +169,9 @@
 
 /* Unified container styling */
 .effect-config-panel,
-.mechanic-config,
 .config-section,
 .wow-setting-section,
 .dice-config,
-.proc-config-section,
 .buff-config-section,
 .debuff-config-section {
   background: var(--my-gradient-parchment-light) !important;
@@ -295,7 +260,6 @@
 .wow-restoration-checkbox-container,
 .wow-restoration-overtime-formula,
 .wow-restoration-overtime-duration,
-.wow-restoration-trigger-type,
 .wow-restoration-progressive,
 .wow-restoration-stages,
 .wow-restoration-stages-title,
@@ -319,8 +283,7 @@
 .wow-restoration-type-select,
 .wow-restoration-resolution-select,
 .wow-duration-input,
-.wow-duration-unit,
-.wow-trigger-type-select {
+.wow-duration-unit {
   background: var(--my-bg-input) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -378,28 +341,23 @@
 .damage-type-options,
 .resolution-options,
 .card-selection-grid,
-.dice-visuals,
 .example-cards,
 .spell-wizard .two-column,
 .spell-wizard .three-column,
 .spellbook-layout .two-column,
-.spellbook-layout .three-column,
-.effect-builder .two-column,
-.effect-builder .three-column {
+.spellbook-layout .three-column {
   display: grid !important;
   gap: var(--my-space-4) !important;
   margin-bottom: var(--my-space-4) !important;
 }
 
 .spell-wizard .two-column,
-.spellbook-layout .two-column,
-.effect-builder .two-column {
+.spellbook-layout .two-column {
   grid-template-columns: 1fr 1fr !important;
 }
 
 .spell-wizard .three-column,
-.spellbook-layout .three-column,
-.effect-builder .three-column {
+.spellbook-layout .three-column {
   grid-template-columns: 1fr 1fr 1fr !important;
 }
 
@@ -427,7 +385,6 @@
 /* Apply Pathfinder theme to all containers */
 .spellbook-layout .stat-selector-section,
 .spellbook-layout .stat-category-tabs,
-.spellbook-layout .selected-stats-list,
 .spellbook-layout .status-effects-section,
 .spellbook-layout .utility-effects-container,
 .spellbook-layout .buff-effects-container,
@@ -571,8 +528,7 @@
 /* Ensure form elements are readable */
 .spellbook-layout input:not(.csp-root *):not(.community-spells-tab *),
 .spellbook-layout select:not(.csp-root *):not(.community-spells-tab *),
-.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *),
-.spellbook-layout .form-control:not(.csp-root *):not(.community-spells-tab *) {
+.spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   color: var(--my-text-primary) !important;
@@ -583,7 +539,7 @@
 .spellbook-layout select:not(.csp-root *):not(.community-spells-tab *):focus,
 .spellbook-layout textarea:not(.csp-root *):not(.community-spells-tab *):focus {
   border-color: var(--my-gold) !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2) !important;
   outline: none !important;
 }
 
@@ -609,10 +565,6 @@
 }
 
 /* Ensure spell card text is readable */
-.spellbook-layout .pf-spell-card *,
-.spellbook-layout .wow-spell-card * {
-  color: var(--my-text-primary) !important;
-}
 
 /* Force readable text on all interactive elements */
 .spellbook-layout button *:not(.community-spells-tab *):not(.community-creatures-tab *),
@@ -640,9 +592,7 @@
 }
 
 /* Force proper styling on any remaining old elements */
-.spellbook-layout .wow-effect-button,
 .spellbook-layout .wow-formula-suggestion,
-.spellbook-layout .wow-example-card,
 .spellbook-layout .component-option,
 .spellbook-layout .effect-input,
 .spellbook-layout .effect-config-group {
@@ -667,20 +617,13 @@
 
 /* Ensure all labels are readable */
 .spellbook-layout label:not(.community-spells-tab *):not(.community-creatures-tab *) {
-  color: var(--my-text-secondary) !important;
-  font-family: var(--my-font-ui) !important;
   font-weight: var(--my-font-semibold) !important;
 }
 
 /* ===== TARGETING STEP ICON FIXES ===== */
 
 /* Ensure targeting icons are always visible and prevent flickering */
-.spellbook-layout .targeting-option-icon,
-.spellbook-layout .target-type-icon,
-.spellbook-layout .range-type-icon,
-.spellbook-layout .targeting-option .icon,
-.spellbook-layout .target-type-option .icon,
-.spellbook-layout .range-type-option .icon {
+.spellbook-layout .targeting-option-icon {
   opacity: 1 !important;
   visibility: visible !important;
   display: flex !important;
@@ -698,12 +641,7 @@
   flex-shrink: 0 !important;
 }
 
-.spellbook-layout .targeting-option:hover .icon,
-.spellbook-layout .target-type-option:hover .icon,
-.spellbook-layout .range-type-option:hover .icon,
-.spellbook-layout .targeting-option-icon:hover,
-.spellbook-layout .target-type-icon:hover,
-.spellbook-layout .range-type-icon:hover {
+.spellbook-layout .targeting-option-icon:hover {
   background: var(--my-gradient-gold) !important;
   color: var(--my-brown-darkest) !important;
   border-color: var(--my-gold-dark) !important;
@@ -711,21 +649,6 @@
 }
 
 /* Force proper styling on all targeting buttons */
-.spellbook-layout .targeting-option,
-.spellbook-layout .target-type-option,
-.spellbook-layout .range-type-option {
-  display: flex !important;
-  align-items: center !important;
-  background: var(--my-gradient-button) !important;
-  border: var(--my-border-width) solid var(--my-brown-medium) !important;
-  border-radius: var(--my-border-radius) !important;
-  padding: var(--my-space-3) !important;
-  cursor: pointer !important;
-  transition: all var(--my-transition-normal) !important;
-  margin-bottom: var(--my-space-2) !important;
-  color: var(--my-text-primary) !important;
-  font-family: var(--my-font-ui) !important;
-}
 
 /* ===== COOLDOWN TYPE LAYOUT FIXES ===== */
 
@@ -847,91 +770,16 @@
 /* ===== SPELL CARD FOOTER PATHFINDER STYLING ===== */
 
 /* Force all spell card footers to use Pathfinder styling */
-.spellbook-layout .wow-spell-card-footer,
-.spell-library-tab .wow-spell-card-footer,
-.wow-spell-card-footer {
-  background: var(--my-gradient-parchment-dark) !important;
-  border-top: var(--my-border-width) solid var(--my-brown-medium) !important;
-  color: var(--my-text-primary) !important;
-  font-family: var(--my-font-body) !important;
-}
 
 /* Footer content styling */
-.spellbook-layout .wow-spell-card-cooldown,
-.spellbook-layout .wow-spell-card-duration,
-.spell-library-tab .wow-spell-card-cooldown,
-.spell-library-tab .wow-spell-card-duration {
-  color: var(--my-text-primary) !important;
-}
 
 /* ===== ROLLABLE TABLE PATHFINDER STYLING ===== */
 
 /* Fix rollable table entries - remove dark backgrounds and yellow highlighting */
-.spellbook-layout .wow-spell-card-rollable-table,
-.spell-library-tab .wow-spell-card-rollable-table {
-  background: transparent !important;
-}
-
-.spellbook-layout .wow-spell-card-rollable-table-header,
-.spell-library-tab .wow-spell-card-rollable-table-header {
-  background: var(--my-gradient-parchment-light) !important;
-  border: var(--my-border-width) solid var(--my-brown-medium) !important;
-  border-radius: var(--my-border-radius) !important;
-  color: var(--my-text-primary) !important;
-  padding: var(--my-space-2) var(--my-space-3) !important;
-}
-
-.spellbook-layout .wow-spell-card-rollable-table-entries,
-.spell-library-tab .wow-spell-card-rollable-table-entries {
-  background: transparent !important;
-  padding: var(--my-space-2) 0 !important;
-}
-
-.spellbook-layout .wow-spell-card-rollable-table-entry,
-.spell-library-tab .wow-spell-card-rollable-table-entry {
-  background: var(--my-gradient-parchment-light) !important;
-  border: var(--my-border-width) solid var(--my-brown-light) !important;
-  border-radius: var(--my-border-radius) !important;
-  color: var(--my-text-primary) !important;
-  margin-bottom: var(--my-space-1) !important;
-  padding: var(--my-space-1) var(--my-space-2) !important;
-}
-
-.spellbook-layout .wow-spell-card-rollable-table-entry-roll,
-.spell-library-tab .wow-spell-card-rollable-table-entry-roll {
-  color: var(--my-brown-dark) !important;
-  font-weight: var(--my-font-semibold) !important;
-}
-
-.spellbook-layout .wow-spell-card-rollable-table-entry-effect,
-.spell-library-tab .wow-spell-card-rollable-table-entry-effect {
-  color: var(--my-text-primary) !important;
-}
-
-.spellbook-layout .wow-spell-card-rollable-table-more,
-.spell-library-tab .wow-spell-card-rollable-table-more {
-  background: var(--my-gradient-parchment) !important;
-  border: var(--my-border-width) solid var(--my-brown-medium) !important;
-  border-radius: var(--my-border-radius) !important;
-  color: var(--my-text-secondary) !important;
-  font-style: italic !important;
-  padding: var(--my-space-1) var(--my-space-2) !important;
-  text-align: center !important;
-}
 
 /* ===== REMOVE INLINE BLUE/DARK STYLES ===== */
 
 /* Force removal of any inline blue footer styles */
-.spellbook-layout .wow-spell-card-footer[style*="rgba(15, 23, 42"],
-.spellbook-layout .wow-spell-card-footer[style*="#1e3a8a"],
-.spellbook-layout .wow-spell-card-footer[style*="#0f172a"],
-.spell-library-tab .wow-spell-card-footer[style*="rgba(15, 23, 42"],
-.spell-library-tab .wow-spell-card-footer[style*="#1e3a8a"],
-.spell-library-tab .wow-spell-card-footer[style*="#0f172a"] {
-  background: var(--my-gradient-parchment-dark) !important;
-  border-top: var(--my-border-width) solid var(--my-brown-medium) !important;
-  color: var(--my-text-primary) !important;
-}
 
 /* Force removal of any inline dark overlay styles */
 .spellbook-layout .wow-spell-card *[style*="rgba(0, 0, 0, 0.5)"],
@@ -946,10 +794,10 @@
 }
 
 /* Force removal of yellow highlighting */
-.spellbook-layout .wow-spell-card *[style*="#FFD700"],
+.spellbook-layout .wow-spell-card *[style*="#9a7b3c"],
 .spellbook-layout .wow-spell-card *[style*="yellow"],
 .spellbook-layout .wow-spell-card *[style*="rgba(255, 215, 0"],
-.spell-library-tab .wow-spell-card *[style*="#FFD700"],
+.spell-library-tab .wow-spell-card *[style*="#9a7b3c"],
 .spell-library-tab .wow-spell-card *[style*="yellow"],
 .spell-library-tab .wow-spell-card *[style*="rgba(255, 215, 0"] {
   background: var(--my-gradient-parchment-light) !important;
@@ -1021,10 +869,7 @@
 /* Force override any remaining dark backgrounds */
 .spellbook-layout .resolution-option,
 .spellbook-layout .template-option,
-.spellbook-layout .formula-example-item,
-.spellbook-layout .dot-preview,
-.spellbook-layout .variables-preview,
-.spellbook-layout .formula-preview-section {
+.spellbook-layout .formula-example-item {
   background: var(--my-gradient-button) !important;
   border-color: var(--my-brown-medium) !important;
   color: var(--my-text-primary) !important;
@@ -1075,14 +920,9 @@
 /* ===== TRIGGER BEHAVIOR CSS CLEANUP ===== */
 
 /* Override all trigger-related dark/midnight styling */
-.spellbook-layout .wow-trigger-role-option,
 .spellbook-layout .wow-trigger-category,
 .spellbook-layout .wow-trigger-option,
-.spellbook-layout .wow-effect-button,
-.spellbook-layout .wow-toggle-button,
-.spellbook-layout .wow-logic-type-button,
-.spellbook-layout .wow-logic-type-selector,
-.spellbook-layout .wow-logic-type-buttons {
+.spellbook-layout .wow-toggle-button {
   background: var(--my-gradient-button) !important;
   border-color: var(--my-brown-medium) !important;
   color: var(--my-text-primary) !important;
@@ -1096,7 +936,6 @@
   background: var(--my-gradient-parchment-light) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
-  color: var(--my-text-primary) !important;
   font-family: var(--my-font-body) !important;
 }
 
@@ -1133,11 +972,8 @@
 }
 
 /* Override trigger hover states */
-.spellbook-layout .wow-trigger-role-option:hover,
 .spellbook-layout .wow-trigger-category:hover,
-.spellbook-layout .wow-trigger-option:hover,
-.spellbook-layout .wow-effect-button:hover,
-.spellbook-layout .wow-logic-type-button:hover {
+.spellbook-layout .wow-trigger-option:hover {
   background: var(--my-gradient-button-hover) !important;
   border-color: var(--my-brown-dark) !important;
   transform: translateY(-1px) !important;
@@ -1145,11 +981,8 @@
 }
 
 /* Override trigger active/selected states */
-.spellbook-layout .wow-trigger-role-option.active,
 .spellbook-layout .wow-trigger-category.active,
-.spellbook-layout .wow-effect-button.active,
-.spellbook-layout .wow-toggle-button.active,
-.spellbook-layout .wow-logic-type-button.active {
+.spellbook-layout .wow-toggle-button.active {
   background: var(--my-gradient-gold) !important;
   border-color: var(--my-gold-dark) !important;
   color: var(--my-brown-darkest) !important;
@@ -1243,7 +1076,6 @@
 }
 
 /* Fix movement start target and other dark elements */
-.spellbook-layout .movement-start-target,
 .spellbook-layout .buff-movement-config,
 .spellbook-layout .debuff-movement-config {
   background: var(--my-gradient-parchment-light) !important;
@@ -1254,14 +1086,6 @@
 }
 
 /* Fix any remaining dark backgrounds in trigger sections */
-.spellbook-layout .wow-trigger-config,
-.spellbook-layout .wow-trigger-parameters,
-.spellbook-layout .wow-trigger-settings {
-  background: var(--my-gradient-parchment) !important;
-  border: var(--my-border-width) solid var(--my-brown-light) !important;
-  border-radius: var(--my-border-radius) !important;
-  color: var(--my-text-primary) !important;
-}
 
 /* Fix checkbox styling in trigger configs */
 .spellbook-layout .wow-buff-stat-checkbox input[type="checkbox"],
@@ -1286,18 +1110,9 @@
 }
 
 /* Fix any remaining dark theme elements in trigger sections */
-.spellbook-layout .wow-trigger-section,
-.spellbook-layout .wow-effect-section,
-.spellbook-layout .wow-conditional-settings {
-  background: var(--my-gradient-parchment) !important;
-  border: var(--my-border-width) solid var(--my-brown-light) !important;
-  border-radius: var(--my-border-radius) !important;
-  color: var(--my-text-primary) !important;
-}
 
 /* Fix trigger option containers */
-.spellbook-layout .wow-trigger-options,
-.spellbook-layout .wow-effect-options {
+.spellbook-layout .wow-trigger-options {
   background: transparent !important;
   border: none !important;
 }
@@ -1350,39 +1165,6 @@
 /* ===== OVERRIDE DARK THEME COLORS FROM TRIGGERS.CSS ===== */
 
 /* Fix wow-example elements */
-.spellbook-layout .wow-example-label {
-  color: var(--my-gold) !important;
-}
-
-.spellbook-layout .wow-advanced-toggle-button {
-  background: var(--my-gradient-button) !important;
-  border-color: var(--my-brown-medium) !important;
-  color: var(--my-text-primary) !important;
-}
-
-.spellbook-layout .wow-advanced-toggle-button:hover {
-  background: var(--my-gradient-button-hover) !important;
-  color: var(--my-text-primary) !important;
-}
-
-.spellbook-layout .wow-advanced-options-title {
-  color: var(--my-text-primary) !important;
-  border-bottom-color: var(--my-brown-medium) !important;
-}
-
-.spellbook-layout .wow-option-label {
-  color: var(--my-text-primary) !important;
-}
-
-.spellbook-layout .wow-number-input {
-  background: var(--my-gradient-parchment) !important;
-  border-color: var(--my-brown-medium) !important;
-  color: var(--my-text-primary) !important;
-}
-
-.spellbook-layout .wow-option-hint {
-  color: var(--my-text-secondary) !important;
-}
 
 .spellbook-layout .wow-standard-formula-label {
   color: var(--my-text-primary) !important;
@@ -1392,52 +1174,16 @@
   color: var(--my-gold) !important;
 }
 
-.spellbook-layout .wow-example-card {
-  background: var(--my-gradient-parchment) !important;
-  border-color: var(--my-brown-medium) !important;
-}
-
-.spellbook-layout .wow-example-card:hover {
-  background: var(--my-gradient-button-hover) !important;
-  border-color: var(--my-gold) !important;
-}
-
-.spellbook-layout .wow-example-title {
-  color: var(--my-text-primary) !important;
-}
-
-.spellbook-layout .wow-example-formula {
-  color: var(--my-text-secondary) !important;
-}
-
-.spellbook-layout .wow-conditional-tip {
-  color: var(--my-text-secondary) !important;
-  background: var(--my-gradient-parchment-light) !important;
-}
-
 .spellbook-layout .example-formula {
   color: var(--my-text-secondary) !important;
 }
 
 /* Fix perspective color indicators with Pathfinder-appropriate colors */
-.spellbook-layout .wow-selected-trigger[data-perspective="self"] .wow-selected-trigger-name::after {
-  color: var(--my-gold) !important;
-}
-
-.spellbook-layout .wow-selected-trigger[data-perspective="ally"] .wow-selected-trigger-name::after {
-  color: #228B22 !important; /* Forest green for allies */
-}
-
-.spellbook-layout .wow-selected-trigger[data-perspective="enemy"] .wow-selected-trigger-name::after {
-  color: #8B0000 !important; /* Dark red for enemies */
-}
 
 /* ===== FIX DROPDOWN AND SELECTION ELEMENTS ===== */
 
 /* Fix trigger dropdowns and selects */
-.spellbook-layout select:not(.community-spells-tab *):not(.community-creatures-tab *),
-.spellbook-layout .trigger-dropdown,
-.spellbook-layout .effect-dropdown {
+.spellbook-layout select:not(.community-spells-tab *):not(.community-creatures-tab *) {
   background: var(--my-gradient-parchment) !important;
   border: var(--my-border-width) solid var(--my-brown-medium) !important;
   border-radius: var(--my-border-radius) !important;
@@ -1445,9 +1191,7 @@
   font-family: var(--my-font-body) !important;
 }
 
-.spellbook-layout select:focus,
-.spellbook-layout .trigger-dropdown:focus,
-.spellbook-layout .effect-dropdown:focus {
+.spellbook-layout select:focus {
   border-color: var(--my-gold) !important;
   box-shadow: 0 0 0 1px var(--my-gold) !important;
   outline: none !important;
@@ -1511,20 +1255,13 @@
 }
 
 /* Override any remaining dark text colors in triggers */
-.spellbook-layout .wow-trigger-role-title,
 .spellbook-layout .wow-trigger-category-name,
-.spellbook-layout .wow-effect-title,
 .spellbook-layout .wow-toggle-value {
   color: var(--my-text-primary) !important;
   font-family: var(--my-font-ui) !important;
 }
 
 /* Override secondary text colors in triggers */
-.spellbook-layout .wow-trigger-role-description,
-.spellbook-layout .wow-trigger-role-info {
-  color: var(--my-text-secondary) !important;
-  font-family: var(--my-font-body) !important;
-}
 
 /* Override any remaining yellow/gold colors that should use Pathfinder gold */
 .spellbook-layout *[style*="color: #ffcc00"],

@@ -15,7 +15,7 @@
 
 .dice-visualizer.rolling {
   border-color: var(--my-gold);
-  box-shadow: var(--my-shadow-lg), 0 0 15px rgba(212, 175, 55, 0.3);
+  box-shadow: var(--my-shadow-lg), 0 0 15px rgba(154, 123, 60, 0.3);
 }
 
 .dice-visualizer.critical {

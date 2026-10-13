@@ -206,10 +206,6 @@
     margin: 0 8px;
 }
 
-.header-spacer {
-    width: 24px; /* Same width as close button to balance the layout */
-}
-
 .window-header-tabs {
     display: flex;
     align-items: center;
@@ -233,7 +229,7 @@
     background: transparent;
     border: 1px solid rgba(240, 230, 210, 0.3);
     border-radius: 4px;
-    color: #f0e6d2; /* Parchment color */
+    color: #f1ece1; /* Parchment color */
     font-size: clamp(10px, 1.2vw, 14px);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -244,13 +240,13 @@
 
 .window-header-tab:hover {
     background-color: rgba(240, 230, 210, 0.2);
-    border-color: #f0e6d2;
+    border-color: #f1ece1;
 }
 
 .window-header-tab.active {
     background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
-    color: #f0e6d2;
-    border-color: #f0e6d2;
+    color: #f1ece1;
+    border-color: #f1ece1;
     font-weight: bold;
 }
 
@@ -287,7 +283,7 @@
     border-radius: 6px !important;
     background: linear-gradient(135deg, #7a3b2e 0%, #5a1e12 100%) !important;
     border: 1px solid #5a1e12 !important;
-    color: #f8f4e6 !important;
+    color: #f8f5ee !important;
     font-size: 20px !important;
     font-weight: bold !important;
     cursor: pointer !important;
@@ -421,7 +417,6 @@
 /* Disable transitions during dragging for better performance */
 .draggable-window.dragging .window-header-tab,
 .draggable-window.dragging .tab-button,
-.draggable-window.dragging .spellbook-tab,
 .draggable-window.dragging .window-close {
     transition: none !important;
 }
@@ -442,7 +437,6 @@
 /* Disable transitions during resizing for smooth, responsive feedback */
 .draggable-window.resizing .window-header-tab,
 .draggable-window.resizing .tab-button,
-.draggable-window.resizing .spellbook-tab,
 .draggable-window.resizing .window-close,
 .draggable-window.resizing .wow-window,
 .draggable-window.resizing .window-content {
@@ -472,16 +466,9 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
-    background-color: #f0e6d2; /* Parchment background */
+    background-color: #f1ece1; /* Parchment background */
     color: #3a3a3a;
     font-family: 'Bookman Old Style', 'Garamond', serif;
-}
-
-.spellbook-main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0;
-    background-color: #f0e6d2; /* Parchment background */
 }
 
 /* ===== SPELLBOOK HEADER TAB STYLES (PROTRUDING ABOVE WINDOW) ===== */
@@ -568,7 +555,7 @@
     );
     border: 1px solid rgba(212, 175, 55, 0.6);
     border-radius: 4px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
@@ -907,27 +894,29 @@
 .spellbook-tab-button,
 .tabbed-modal-tab,
 .tk-tab {
-    background: url('../../public/assets/ui/wow-window/tab_inactive.png') center / 100% 100% no-repeat !important;
-    border: none !important;
+    background: #e8e2d4 !important;
+    border: 1px solid #8a7356 !important;
+    border-bottom: none !important;
     outline: none !important;
-    color: #2b180d !important;
+    color: #68533e !important;
     font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
     font-size: clamp(9.5px, 0.95vw, 11.5px) !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.4px !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    text-shadow: none !important;
     padding: 4px clamp(12px, 1.4vw, 22px) !important;
-    min-height: 38px !important;
-    height: 38px !important;
+    min-height: 34px !important;
+    height: 34px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    transition: transform 0.15s ease, filter 0.15s ease !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+    /* illuminated tab: thin inner ink rule inside a linen border */
+    box-shadow: inset 0 0 0 2px #e8e2d4, inset 0 0 0 3px rgba(102, 60, 50, 0.28) !important;
+    margin: 0 2px !important;
+    border-radius: 3px 3px 0 0 !important;
     position: relative !important;
     z-index: 10 !important;
     opacity: 0.95 !important;
@@ -938,64 +927,34 @@
 }
 
 /* Character View Tab on Full Page - Constrained width and natural spacing */
-.character-view-tab {
-    background: url('../../public/assets/ui/wow-window/tab_inactive.png') center / 100% 100% no-repeat !important;
-    border: none !important;
-    outline: none !important;
-    color: #2b180d !important;
-    font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif !important;
-    font-size: clamp(11px, 0.95vw, 13px) !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-    padding: 6px 18px !important;
-    min-height: 38px !important;
-    height: 38px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    transition: transform 0.15s ease, filter 0.15s ease !important;
-    box-shadow: none !important;
-    margin: 0 4px !important;
-    border-radius: 0 !important;
-    position: relative !important;
-    z-index: 10 !important;
-    opacity: 0.95 !important;
-    flex: 0 1 170px !important;
-    max-width: 180px !important;
-    min-width: 120px !important;
-    white-space: nowrap !important;
-}
 
 .window-header-tab:hover:not(.active),
 .spellbook-tab-button:hover:not(.active),
-.character-view-tab:hover:not(.active),
 .tabbed-modal-tab:hover:not(.active),
 .tk-tab:hover:not(.active) {
-    background: url('../../public/assets/ui/wow-window/tab_hover.png') center / 100% 100% no-repeat !important;
-    color: #ffd700 !important;
-    text-shadow: 0 0 6px rgba(212, 175, 55, 0.6), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
-    transform: translateY(-2px) !important;
+    background: #f1ece1 !important;
+    color: #663c32 !important;
+    text-shadow: none !important;
+    box-shadow: inset 0 0 0 2px #f1ece1, inset 0 0 0 3px rgba(102, 60, 50, 0.4) !important;
+    transform: none !important;
     z-index: 30 !important;
-    filter: brightness(1.1) !important;
+    filter: none !important;
     opacity: 1 !important;
 }
 
 .window-header-tab.active,
 .spellbook-tab-button.active,
-.character-view-tab.active,
 .tabbed-modal-tab.active,
 .tk-tab.active {
-    background: url('../../public/assets/ui/wow-window/tab_active.png') center / 100% 100% no-repeat !important;
-    color: #2b180d !important;
+    background: #f8f5ee !important;
+    color: #34251a !important;
     font-weight: 800 !important;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) !important;
-    transform: translateY(2px) !important; /* Pulls active tab down to merge with window top border */
+    text-shadow: none !important;
+    transform: translateY(1px) !important; /* merges with the window body */
     z-index: 40 !important;
     filter: none !important;
-    box-shadow: none !important;
+    /* burgundy ribbon along the top, inner rule below it */
+    box-shadow: inset 0 3px 0 #663c32, inset 0 0 0 2px #f8f5ee, inset 0 0 0 3px rgba(102, 60, 50, 0.3) !important;
     opacity: 1 !important;
 }
 
@@ -1023,10 +982,10 @@
     left: 0;
     min-width: 220px;
     max-width: 320px;
-    background: linear-gradient(135deg, #2a1b12 0%, #170f09 100%);
-    border: 2px solid #a68b52;
-    border-radius: 6px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), inset 0 0 12px rgba(0, 0, 0, 0.6);
+    background: #f8f5ee;
+    border: 1px solid #8a7356;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 2px #f8f5ee, inset 0 0 0 3px rgba(102, 60, 50, 0.22), 0 6px 16px rgba(52, 37, 26, 0.18);
     padding: 6px 0;
     z-index: 10001 !important;
     display: flex;
@@ -1041,7 +1000,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: rgba(212, 175, 55, 0.4) rgba(0, 0, 0, 0.2);
+    scrollbar-color: #c4baa6 transparent;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar {
@@ -1049,17 +1008,17 @@
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.25);
+    background: transparent;
     border-radius: 3px;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.4);
+    background: #c4baa6;
     border-radius: 3px;
 }
 
 .tab-dropdown-menu-scrollable::-webkit-scrollbar-thumb:hover {
-    background: rgba(212, 175, 55, 0.7);
+    background: #8a7356;
 }
 
 @keyframes tabDropdownFadeIn {
@@ -1073,7 +1032,7 @@
     padding: 8px 14px;
     background: transparent;
     border: none;
-    color: #e6d4b8;
+    color: #34251a;
     font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif;
     font-size: 12px;
     cursor: pointer;
@@ -1084,16 +1043,16 @@
 }
 
 .tab-dropdown-item:hover {
-    background: rgba(212, 175, 55, 0.22);
-    color: #ffd700;
+    background: #e8e2d4;
+    color: #663c32;
     padding-left: 18px;
 }
 
 .tab-dropdown-item.active {
-    background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
-    color: #ffffff;
+    background: #f1ece1;
+    color: #663c32;
     font-weight: 700;
-    border-left: 2px solid #ffd700;
+    border-left: 2px solid #663c32;
 }
 
 .tab-dropdown-item-wrapper {
@@ -1172,10 +1131,10 @@
 }
 
 .tab-dropdown-skill-item.active {
-    background: linear-gradient(90deg, rgba(212, 175, 55, 0.35), transparent);
-    color: #ffffff;
+    background: #f1ece1;
+    color: #663c32;
     font-weight: 700;
-    border-left: 2px solid #ffd700;
+    border-left: 2px solid #663c32;
 }
 
 /* Remove default border lines or indicators that conflict with asset graphics */
@@ -1201,7 +1160,7 @@
     background: linear-gradient(135deg, #8b7355 0%, #6b5a45 100%);
     border: 1px solid #5a4a3a;
     border-radius: 6px;
-    color: #f0e6d2;
+    color: #f1ece1;
     padding: 5px 12px;
     font-family: 'Cinzel', serif;
     font-size: 10px;
@@ -1337,136 +1296,6 @@
 /* ==========================================================================
    GRAND LIBRARY DASHBOARD SECTION CARDS (RPG STYLE)
    ========================================================================== */
-
-.library-section-card {
-    width: 250px;
-    min-height: 225px;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    padding: 24px 18px 18px;
-    position: relative;
-    overflow: hidden;
-    color: #e8dcc8;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.library-section-card .inner-gold-border {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    border: 1.5px dashed rgba(212, 175, 55, 0.25);
-    border-radius: 8px;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 2;
-}
-
-.library-section-card:hover {
-    transform: translateY(-6px) scale(1.03);
-}
-
-.library-section-card:hover .inner-gold-border {
-    border-color: rgba(212, 175, 55, 0.75);
-    border-style: solid;
-    box-shadow: inset 0 0 16px rgba(212, 175, 55, 0.3);
-}
-
-.library-section-card .section-icon-container {
-    position: relative;
-    z-index: 3;
-    transition: all 0.3s ease;
-    margin-bottom: 2px;
-}
-
-.library-section-card:hover .section-icon-container {
-    transform: scale(1.15) translateY(-2px);
-}
-
-.library-section-card .section-label {
-    font-family: 'Cinzel', 'Trajan Pro', 'Bookman Old Style', serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.6);
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 3;
-}
-
-.library-section-card:hover .section-label {
-    color: #ffffff;
-    text-shadow: 0 0 14px rgba(255, 255, 255, 0.5), 0 2px 8px rgba(0, 0, 0, 0.9);
-}
-
-.library-section-card .section-subtitle {
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 11.5px;
-    color: #c0b098;
-    font-style: italic;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 3;
-    line-height: 1.3;
-}
-
-.library-section-card:hover .section-subtitle {
-    color: #f0e2cd;
-}
-
-.library-section-card .section-features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    justify-content: center;
-    position: relative;
-    z-index: 3;
-    margin-top: 4px;
-}
-
-.library-section-card .feature-pill {
-    font-size: 9.5px;
-    padding: 2px 7px;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #d8c8b0;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-}
-
-.library-section-card .action-callout {
-    font-size: 11px;
-    font-weight: 700;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #ffd700;
-    opacity: 0.85;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 6px;
-}
-
-.library-section-card:hover .action-callout {
-    opacity: 1;
-    color: #ffffff;
-    transform: translateX(3px);
-}
 /* ===== WINDOW DRAG SURFACES (see MythrillWindow contentDrag) =====
    Most windows hide the classic header bar and show only protruding tabs, so
    the tab strips AND the window-content background act as drag handles.

@@ -2,6 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './styles/resourceBars/time-shards-strain.css';
 import ClassTip from './ClassTip';
+import { INK, MUTED, PAGE, PAPER, RULE, ETCH, BRICK, BRASS, GOOD, WARN, inked, washed } from './calmBarPalette';
+
+// Chronarch accent: celestial sapphire, toned for parchment.
+const SKY = inked('#38bdf8', 0.42);
+const SKY_WASH = washed('#38bdf8', 0.32);
 import { useResourceBarTooltipPosition } from './useResourceBarTooltip';
 
 const TimeShardsStrainResourceBar = ({
@@ -67,13 +72,12 @@ const TimeShardsStrainResourceBar = ({
 
   // Strain color based on danger level
   const getStrainColor = (strain) => {
-      const colors = finalConfig.visual?.temporalStrain?.strainColors || {};
-      if (strain >= 10) return colors.backlash || '#dc2626';
-      if (strain >= 9) return colors.critical || '#ef4444';
-      if (strain >= 7) return colors.danger || '#f87171';
-      if (strain >= 5) return colors.warning || '#f97316';
-      if (strain >= 3) return colors.caution || '#eab308';
-      return colors.safe || '#22c55e';
+      if (strain >= 10) return '#6e2418';
+      if (strain >= 9) return BRICK;
+      if (strain >= 7) return '#9a3f1c';
+      if (strain >= 5) return WARN;
+      if (strain >= 3) return '#6b6a2e';
+      return GOOD;
   };
 
   const getStrainState = (strain) => {
@@ -186,62 +190,27 @@ const TimeShardsStrainResourceBar = ({
                   aria-label={`Time Shards ${shardsValue} of ${shardsMax}, Temporal Strain ${strainValue} of ${strainMax}`}
               >
                   <defs>
-                      {/* Deep Antiqued Bronze / Mahogany Inlay Bed */}
+                      {/* Calm parchment fills (ids kept for the parts below) */}
                       <linearGradient id="chronoBed" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#2c1f15" />
-                          <stop offset="35%" stopColor="#20160e" />
-                          <stop offset="70%" stopColor="#18110a" />
-                          <stop offset="100%" stopColor="#100b06" />
+                          <stop offset="0%" stopColor={PAGE} />
+                          <stop offset="100%" stopColor={PAGE} />
                       </linearGradient>
-
-                      {/* Ornate Stepped Antique Brass Rim */}
                       <linearGradient id="chronoBrassBorder" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stopColor="#633b0e" />
-                          <stop offset="20%" stopColor="#b45309" />
-                          <stop offset="50%" stopColor="#fef08a" />
-                          <stop offset="80%" stopColor="#b45309" />
-                          <stop offset="100%" stopColor="#633b0e" />
+                          <stop offset="0%" stopColor={RULE} />
+                          <stop offset="100%" stopColor={RULE} />
                       </linearGradient>
-
-                      {/* Polished Gear Brass Gradient */}
                       <linearGradient id="chronoGearBrass" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stopColor="#fde047" />
-                          <stop offset="40%" stopColor="#d97706" />
-                          <stop offset="100%" stopColor="#78350f" />
+                          <stop offset="0%" stopColor={BRASS} />
+                          <stop offset="100%" stopColor={BRASS} />
                       </linearGradient>
-
-                      {/* Radiant Celestial Sapphire Crystal Body */}
                       <linearGradient id="chronoCrystalBody" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#f0fdfa" />
-                          <stop offset="25%" stopColor="#bae6fd" />
-                          <stop offset="60%" stopColor="#38bdf8" />
-                          <stop offset="85%" stopColor="#0284c7" />
-                          <stop offset="100%" stopColor="#075985" />
+                          <stop offset="0%" stopColor={washed('#38bdf8', 0.18)} />
+                          <stop offset="100%" stopColor={SKY_WASH} />
                       </linearGradient>
-
-                      {/* Specular White Facet Reflection */}
                       <linearGradient id="chronoFacetLight" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-                          <stop offset="65%" stopColor="#bae6fd" stopOpacity="0.45" />
-                          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
+                          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
                       </linearGradient>
-
-                      {/* Glow Filters */}
-                      <filter id="chronoGlowCyan" x="-40%" y="-40%" width="180%" height="180%">
-                          <feGaussianBlur stdDeviation="1.5" result="blur" />
-                          <feMerge>
-                              <feMergeNode in="blur" />
-                              <feMergeNode in="SourceGraphic" />
-                          </feMerge>
-                      </filter>
-
-                      <filter id="chronoGlowStrain" x="-40%" y="-40%" width="180%" height="180%">
-                          <feGaussianBlur stdDeviation="1.8" result="blur" />
-                          <feMerge>
-                              <feMergeNode in="blur" />
-                              <feMergeNode in="SourceGraphic" />
-                          </feMerge>
-                      </filter>
                   </defs>
 
                   {/* Chassis Base Plate with Soft Outer Drop Shadow */}
@@ -250,7 +219,7 @@ const TimeShardsStrainResourceBar = ({
                       y="1.5"
                       width="289"
                       height="73"
-                      rx="6"
+                      rx="3"
                       fill="url(#chronoBed)"
                       stroke="url(#chronoBrassBorder)"
                       strokeWidth="1.2"
@@ -263,25 +232,16 @@ const TimeShardsStrainResourceBar = ({
                       y="3.5"
                       width="285"
                       height="69"
-                      rx="4.5"
+                      rx="1.5"
                       fill="none"
-                      stroke="rgba(251, 191, 36, 0.22)"
+                      stroke={RULE}
+                      opacity="0.5"
                       strokeWidth="0.75"
                       pointerEvents="none"
                   />
 
-                  {/* Corner Rivet Studs */}
-                  <circle cx="6" cy="6" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <line x1="4.9" y1="6" x2="7.1" y2="6" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <circle cx="286" cy="6" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <line x1="284.9" y1="6" x2="287.1" y2="6" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <circle cx="6" cy="70" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <line x1="4.9" y1="70" x2="7.1" y2="70" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <circle cx="286" cy="70" r="1.8" fill="#78350f" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-                  <line x1="284.9" y1="70" x2="287.1" y2="70" stroke="#fde047" strokeWidth="0.5" pointerEvents="none" />
-
                   {/* Filigree Corner Flourishes */}
-                  <path d="M 5 14 L 14 5 M 5 62 L 14 71 M 287 14 L 278 5 M 287 62 L 278 71" stroke="rgba(251,191,36,0.35)" strokeWidth="0.9" fill="none" pointerEvents="none" />
+                  <path d="M 5 14 L 14 5 M 5 62 L 14 71 M 287 14 L 278 5 M 287 62 L 278 71" stroke={RULE} strokeWidth="0.7" opacity="0.6" fill="none" pointerEvents="none" />
 
                   {/* ========================================================= */}
                   {/* LEFT WING: 10 TIME SHARDS (CELESTIAL CRYSTALS)            */}
@@ -342,23 +302,23 @@ const TimeShardsStrainResourceBar = ({
                                   {/* Empty Brass Beveled Socket */}
                                   <polygon
                                       points={`${cx},${cy - 10} ${cx + 7.5},${cy} ${cx},${cy + 10} ${cx - 7.5},${cy}`}
-                                      fill="#140e09"
-                                      stroke={isFilled ? 'rgba(251,191,36,0.5)' : 'rgba(217,119,6,0.35)'}
+                                      fill={PAPER}
+                                      stroke={isFilled ? SKY : RULE}
                                       strokeWidth="0.9"
                                       className="chrono-shard-socket"
                                       pointerEvents="none"
                                   />
 
                                   {/* Socket Etched Internal Guideline Ticks */}
-                                  <line x1={cx - 5} y1={cy} x2={cx + 5} y2={cy} stroke="rgba(251,191,36,0.18)" strokeWidth="0.5" pointerEvents="none" />
-                                  <line x1={cx} y1={cy - 7} x2={cx} y2={cy + 7} stroke="rgba(251,191,36,0.18)" strokeWidth="0.5" pointerEvents="none" />
+                                  <line x1={cx - 5} y1={cy} x2={cx + 5} y2={cy} stroke={ETCH} strokeWidth="0.5" pointerEvents="none" />
+                                  <line x1={cx} y1={cy - 7} x2={cx} y2={cy + 7} stroke={ETCH} strokeWidth="0.5" pointerEvents="none" />
 
                                   {/* Prospective Ghost Crystal on Hover */}
                                   {isProspectiveFill && (
                                       <polygon
                                           points={`${cx},${cy - 9.5} ${cx + 7},${cy} ${cx},${cy + 9.5} ${cx - 7},${cy}`}
-                                          fill="rgba(56, 189, 248, 0.28)"
-                                          stroke="#7dd3fc"
+                                          fill={SKY_WASH}
+                                          stroke={SKY}
                                           strokeWidth="1.1"
                                           strokeDasharray="2.5 1.2"
                                           pointerEvents="none"
@@ -372,10 +332,9 @@ const TimeShardsStrainResourceBar = ({
                                           <polygon
                                               points={`${cx},${cy - 9.5} ${cx + 7},${cy} ${cx},${cy + 9.5} ${cx - 7},${cy}`}
                                               fill="url(#chronoCrystalBody)"
-                                              stroke="#e0f2fe"
-                                              strokeWidth="0.8"
+                                              stroke={SKY}
+                                              strokeWidth="1"
                                               className="chrono-shard-crystal-body"
-                                              filter="url(#chronoGlowCyan)"
                                               pointerEvents="none"
                                           />
                                           {/* Left Upper Specular Sheen */}
@@ -393,16 +352,16 @@ const TimeShardsStrainResourceBar = ({
                                           {/* Bottom Shaded Facets for 3D Depth */}
                                           <polygon
                                               points={`${cx},${cy} ${cx - 7},${cy} ${cx},${cy + 9.5}`}
-                                              fill="rgba(2, 44, 75, 0.55)"
+                                              fill={SKY} opacity="0.22"
                                               pointerEvents="none"
                                           />
                                           <polygon
                                               points={`${cx},${cy} ${cx + 7},${cy} ${cx},${cy + 9.5}`}
-                                              fill="rgba(12, 74, 110, 0.35)"
+                                              fill={SKY} opacity="0.12"
                                               pointerEvents="none"
                                           />
                                           {/* Apex Specular Glint */}
-                                          <circle cx={cx} cy={cy - 2.5} r="1.2" fill="#ffffff" filter="url(#chronoGlowCyan)" pointerEvents="none" />
+                                          <circle cx={cx} cy={cy - 2.5} r="1" fill={PAGE} pointerEvents="none" />
                                       </g>
                                   )}
                               </g>
@@ -434,13 +393,13 @@ const TimeShardsStrainResourceBar = ({
                               const x2 = 146 + 25.8 * Math.cos(angle);
                               const y2 = 38 + 25.8 * Math.sin(angle);
                               return (
-                                  <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(254,240,138,0.7)" strokeWidth="0.9" />
+                                  <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={MUTED} strokeWidth="0.8" opacity="0.7" />
                               );
                           })}
                       </g>
 
                       {/* Inner Brass Gimbal Ring with Roman Degree Marks */}
-                      <circle cx="146" cy="38" r="19.5" fill="#18110b" stroke="url(#chronoBrassBorder)" strokeWidth="1.2" className="chrono-gimbal-ring" />
+                      <circle cx="146" cy="38" r="19.5" fill={PAPER} stroke={RULE} strokeWidth="1" className="chrono-gimbal-ring" />
                       {/* Degree Ticks */}
                       {Array.from({ length: 12 }, (_, i) => {
                           const angle = (i * 30 * Math.PI) / 180;
@@ -449,31 +408,31 @@ const TimeShardsStrainResourceBar = ({
                           const x2 = 146 + 18.8 * Math.cos(angle);
                           const y2 = 38 + 18.8 * Math.sin(angle);
                           return (
-                              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(251,191,36,0.45)" strokeWidth="0.6" pointerEvents="none" />
+                              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={RULE} strokeWidth="0.6" pointerEvents="none" />
                           );
                       })}
 
                       {/* Mini Cardinal Roman Numerals */}
-                      <text x="146" y="24.5" textAnchor="middle" fill="#fde047" fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">XII</text>
-                      <text x="161" y="39.2" textAnchor="middle" fill="#fde047" fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">III</text>
-                      <text x="146" y="53.5" textAnchor="middle" fill="#fde047" fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">VI</text>
-                      <text x="131" y="39.2" textAnchor="middle" fill="#fde047" fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">IX</text>
+                      <text x="146" y="24.5" textAnchor="middle" fill={MUTED} fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">XII</text>
+                      <text x="161" y="39.2" textAnchor="middle" fill={MUTED} fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">III</text>
+                      <text x="146" y="53.5" textAnchor="middle" fill={MUTED} fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">VI</text>
+                      <text x="131" y="39.2" textAnchor="middle" fill={MUTED} fontSize="4.2" fontFamily="'Cinzel', serif" fontWeight="700" pointerEvents="none">IX</text>
 
                       {/* Sundrift Glass Hourglass Bulbs */}
                       {/* Upper Bulb */}
-                      <polygon points="138,24 154,24 150,35 142,35" fill="rgba(30,55,85,0.45)" stroke="url(#chronoBrassBorder)" strokeWidth="0.75" />
+                      <polygon points="138,24 154,24 150,35 142,35" fill={washed('#38bdf8', 0.12)} stroke={MUTED} strokeWidth="0.7" />
                       {/* Lower Bulb */}
-                      <polygon points="142,41 150,41 154,52 138,52" fill="rgba(30,55,85,0.45)" stroke="url(#chronoBrassBorder)" strokeWidth="0.75" />
+                      <polygon points="142,41 150,41 154,52 138,52" fill={washed('#38bdf8', 0.12)} stroke={MUTED} strokeWidth="0.7" />
 
                       {/* Flowing Azure Chronal Sand Beam */}
-                      <line x1="146" y1="34" x2="146" y2="47" stroke="#38bdf8" strokeWidth="1.2" className="chrono-sand-beam" pointerEvents="none" />
+                      <line x1="146" y1="34" x2="146" y2="47" stroke={SKY} strokeWidth="1" className="chrono-sand-beam" pointerEvents="none" />
 
                       {/* Settled Chronal Sand Dune in Lower Bulb */}
-                      <polygon points="140,51.5 152,51.5 148,45 144,45" fill="url(#chronoCrystalBody)" filter="url(#chronoGlowCyan)" pointerEvents="none" />
+                      <polygon points="140,51.5 152,51.5 148,45 144,45" fill="url(#chronoCrystalBody)" pointerEvents="none" />
 
                       {/* Central Brass Gyro-Jewel Pivot */}
-                      <circle cx="146" cy="38" r="3.4" fill="#d97706" stroke="#fef08a" strokeWidth="0.8" className="chrono-center-jewel" />
-                      <circle cx="146" cy="38" r="1.3" fill="#ffffff" pointerEvents="none" />
+                      <circle cx="146" cy="38" r="3.2" fill={PAPER} stroke={INK} strokeWidth="0.8" className="chrono-center-jewel" />
+                      <circle cx="146" cy="38" r="1.2" fill={SKY} pointerEvents="none" />
                   </g>
 
                   {/* ========================================================= */}
@@ -533,10 +492,10 @@ const TimeShardsStrainResourceBar = ({
                                   <rect x={x - 1.2} y={y - 3} width={w + 2.4} height={h + 6} fill="transparent" pointerEvents="all" />
 
                                   {/* Top Brass Collar */}
-                                  <rect x={x - 0.4} y={y - 2.5} width={w + 0.8} height="3" rx="0.8" fill="url(#chronoBrassBorder)" stroke="#5e340a" strokeWidth="0.4" pointerEvents="none" />
+                                  <rect x={x - 0.4} y={y - 2.5} width={w + 0.8} height="3" rx="0.8" fill={PAPER} stroke={RULE} strokeWidth="0.5" pointerEvents="none" />
 
                                   {/* Bottom Brass Collar */}
-                                  <rect x={x - 0.4} y={y + h - 0.5} width={w + 0.8} height="3" rx="0.8" fill="url(#chronoBrassBorder)" stroke="#5e340a" strokeWidth="0.4" pointerEvents="none" />
+                                  <rect x={x - 0.4} y={y + h - 0.5} width={w + 0.8} height="3" rx="0.8" fill={PAPER} stroke={RULE} strokeWidth="0.5" pointerEvents="none" />
 
                                   {/* Vacuum Glass Phial Bed */}
                                   <rect
@@ -545,17 +504,17 @@ const TimeShardsStrainResourceBar = ({
                                       width={w}
                                       height={h}
                                       rx="3.5"
-                                      fill="#140e0a"
-                                      stroke={isFilled ? strainColor : 'rgba(217, 119, 6, 0.35)'}
+                                      fill={PAPER}
+                                      stroke={isFilled ? strainColor : RULE}
                                       strokeWidth="0.9"
                                       className="chrono-strain-glass-tube"
                                       pointerEvents="none"
                                   />
 
                                   {/* Tube Calibration Tick Marks */}
-                                  <line x1={x + 1} y1={y + 12} x2={x + 3} y2={y + 12} stroke="rgba(255,255,255,0.22)" strokeWidth="0.5" pointerEvents="none" />
-                                  <line x1={x + 1} y1={y + 25} x2={x + 3.8} y2={y + 25} stroke="rgba(255,255,255,0.32)" strokeWidth="0.5" pointerEvents="none" />
-                                  <line x1={x + 1} y1={y + 38} x2={x + 3} y2={y + 38} stroke="rgba(255,255,255,0.22)" strokeWidth="0.5" pointerEvents="none" />
+                                  <line x1={x + 1} y1={y + 12} x2={x + 3} y2={y + 12} stroke={ETCH} strokeWidth="0.5" pointerEvents="none" />
+                                  <line x1={x + 1} y1={y + 25} x2={x + 3.8} y2={y + 25} stroke={ETCH} strokeWidth="0.5" pointerEvents="none" />
+                                  <line x1={x + 1} y1={y + 38} x2={x + 3} y2={y + 38} stroke={ETCH} strokeWidth="0.5" pointerEvents="none" />
 
                                   {/* Prospective Ghost Fill on Hover */}
                                   {isProspectiveFill && (
@@ -580,15 +539,16 @@ const TimeShardsStrainResourceBar = ({
                                               width={w - 1.6}
                                               height={h - 1.6}
                                               rx="2.6"
-                                              fill={strainColor}
-                                              filter={strainValue >= 7 ? 'url(#chronoGlowStrain)' : undefined}
+                                              fill={washed(strainColor, 0.55)}
+                                              stroke={strainColor}
+                                              strokeWidth="0.6"
                                               className="chrono-strain-liquid-fill"
                                               pointerEvents="none"
                                           />
                                           {/* Glowing Meniscus at top of liquid */}
-                                          <ellipse cx={x + w / 2} cy={y + 2.5} rx={(w - 2.4) / 2} ry="1.1" fill="#ffffff" opacity="0.65" pointerEvents="none" />
+                                          <ellipse cx={x + w / 2} cy={y + 2.5} rx={(w - 2.4) / 2} ry="1" fill={PAGE} opacity="0.55" pointerEvents="none" />
                                           {/* Specular Glare Stripe down the glass */}
-                                          <line x1={x + 1.8} y1={y + 3} x2={x + 1.8} y2={y + h - 3} stroke="rgba(255,255,255,0.45)" strokeWidth="0.75" pointerEvents="none" />
+                                          <line x1={x + 1.8} y1={y + 3} x2={x + 1.8} y2={y + h - 3} stroke={PAGE} strokeWidth="0.6" opacity="0.5" pointerEvents="none" />
                                       </g>
                                   )}
                               </g>
@@ -600,6 +560,10 @@ const TimeShardsStrainResourceBar = ({
                           <path
                               d="M 178 10 L 190 8 L 202 12 L 214 8 L 226 12 L 238 8 L 250 12 L 262 8 L 278 11"
                               className="chrono-paradox-fracture"
+                              fill="none"
+                              stroke={BRICK}
+                              strokeWidth="1"
+                              strokeLinejoin="round"
                               pointerEvents="none"
                           />
                       )}
@@ -608,9 +572,9 @@ const TimeShardsStrainResourceBar = ({
                   {/* Strain 10 Backlash Warning Ribbon */}
                   {strainValue >= 10 && (
                       <g className="chrono-backlash-ribbon" pointerEvents="none">
-                          <rect x="184" y="62.5" width="88" height="9" rx="2" fill="#7f1d1d" stroke="#ef4444" strokeWidth="0.8" />
-                          <text x="228" y="69" textAnchor="middle" fill="#ffffff" fontSize="5.2" fontWeight="800" fontFamily="'Cinzel', serif" letterSpacing="0.4">
-                              ⚡ PARADOX BACKLASH!
+                          <rect x="184" y="62.5" width="88" height="9" rx="1.5" fill={BRICK} stroke={BRICK} strokeWidth="0.8" />
+                          <text x="228" y="69" textAnchor="middle" fill={PAGE} fontSize="5.2" fontWeight="700" fontFamily="'Cinzel', serif" letterSpacing="0.4">
+                              Paradox Backlash
                           </text>
                       </g>
                   )}
@@ -764,7 +728,7 @@ const TimeShardsStrainResourceBar = ({
                           subtitle="Chronarch — Time Shards & Temporal Strain"
                           state={`${shardsValue}/${shardsMax} Shards · ${strainValue}/${strainMax} ${getStrainState(strainValue)}`}
                           stateTone={strainValue >= 10 ? 'critical' : strainValue >= 7 ? 'bad' : strainValue >= 3 ? 'warn' : 'good'}
-                          mechanic="Casting basic spells banks Time Shards (+1, or +2 on Turn 1 while Strain is 0); Shards persist between encounters. Spend Shards on Temporal Flux — each Flux adds 1-8 Temporal Strain, and at 10 Backlash phases you out."
+                          mechanic="Basic spells bank Time Shards (+2 on Turn 1 at 0 Strain); they persist between fights. Spend them on Temporal Flux (+1–8 Strain each). At 10 Strain, Backlash phases you out."
                           status={[
                               `${shardsValue}/${shardsMax} Shards banked — ${shardsValue >= 4 ? 'Flux threshold bonuses are live.' : 'cast builders to bank more.'}`,
                               `Strain ${strainValue}/${strainMax}: ${getStrainState(strainValue)} — a turn with no Flux cast drops 1 Strain.`,

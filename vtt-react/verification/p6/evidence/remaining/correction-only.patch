@@ -1,0 +1,204 @@
+diff --git "a/D:\\AppData\\Temp\\opencode\\p6-remaining-diff-VBWhlg\\vtt-react\\src\\utils\\characterShapeCodec.js" b/D:/VTT/vtt-react/src/utils/characterShapeCodec.js
+index 76dd6c04..c8159c84 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p6-remaining-diff-VBWhlg\\vtt-react\\src\\utils\\characterShapeCodec.js"
++++ b/D:/VTT/vtt-react/src/utils/characterShapeCodec.js
+@@ -1,26 +1,54 @@
+-/** Firestore's existing convention JSON-encodes inner array rows. Apply it
+- * losslessly only to supported shape.cells boolean matrices, and decode those
+- * rows on recovery. Other nested arrays still go through the refusal guard. */
++import { EQUIPMENT_SLOT_KEYS } from './equipmentUtils';
++
++/** Only item footprints use Firestore's legacy JSON inner-row convention.
++ * Unknown fields (even ones named shape) must retain their literal meaning. */
+ const isMatrix = cells => Array.isArray(cells) && cells.every(row =>
+   Array.isArray(row) && row.every(cell => typeof cell === 'boolean'));
++const isRecord = value => !!value && typeof value === 'object' &&
++  (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null);
++const equipmentSlots = [...EQUIPMENT_SLOT_KEYS, 'weapon', 'armor', 'shield', 'main_hand', 'off_hand'];
+ 
+-function mapShapes(value, decode, seen = new Map()) {
+-  if (!value || typeof value !== 'object' || value instanceof Date ||
+-    (!Array.isArray(value) && Object.getPrototypeOf(value) !== Object.prototype && Object.getPrototypeOf(value) !== null)) return value;
+-  if (seen.has(value)) return seen.get(value);
+-  const copy = Array.isArray(value) ? [] : {};
+-  seen.set(value, copy);
+-  for (const [key, child] of Object.entries(value)) {
+-    copy[key] = mapShapes(child, decode, seen);
+-    if (key !== 'shape' || !child || !Array.isArray(child.cells)) continue;
+-    if (!decode && isMatrix(child.cells)) copy[key].cells = child.cells.map(row => JSON.stringify(row));
+-    if (decode && child.cells.every(row => typeof row === 'string')) {
+-      try {
+-        const cells = child.cells.map(row => JSON.parse(row));
+-        if (isMatrix(cells)) copy[key].cells = cells;
+-      } catch (_error) { /* Preserve an unsupported shape verbatim. */ }
++function mapItem(item, decode, seen) {
++  if (!isRecord(item)) return item;
++  if (seen.has(item)) return seen.get(item);
++  const copy = { ...item };
++  seen.set(item, copy);
++  const rows = isRecord(item.shape) ? item.shape.cells : undefined;
++  let cells = rows;
++  if (!decode && isMatrix(rows)) cells = rows.map(row => JSON.stringify(row));
++  if (decode && Array.isArray(rows) && rows.every(row => typeof row === 'string')) {
++    try {
++      const parsed = rows.map(row => JSON.parse(row));
++      if (isMatrix(parsed)) cells = parsed;
++    } catch (_error) { /* Unsupported item shapes stay verbatim for refusal. */ }
++  }
++  if (cells !== rows) copy.shape = { ...item.shape, cells };
++  // ContainerWizard/ItemLibrary persist contained items at this explicit path.
++  if (Array.isArray(item.containerProperties?.items)) {
++    copy.containerProperties = { ...item.containerProperties,
++      items: item.containerProperties.items.map(child => mapItem(child, decode, seen)) };
++  }
++  return copy;
++}
++
++function mapShapes(value, decode) {
++  if (!isRecord(value)) return value;
++  const seen = new Map();
++  const mapItems = items => items.map(item => mapItem(item, decode, seen));
++  const copy = { ...value };
++  if (isRecord(value.inventory)) {
++    copy.inventory = { ...value.inventory };
++    if (Array.isArray(value.inventory.items)) copy.inventory.items = mapItems(value.inventory.items);
++    if (Array.isArray(value.inventory.containers)) {
++      copy.inventory.containers = value.inventory.containers.map(container =>
++        Array.isArray(container?.items) ? { ...container, items: mapItems(container.items) } : container);
+     }
+   }
++  if (isRecord(value.equipment)) {
++    copy.equipment = { ...value.equipment };
++    for (const slot of equipmentSlots) if (value.equipment[slot] !== undefined) copy.equipment[slot] = mapItem(value.equipment[slot], decode, seen);
++    if (Array.isArray(value.equipment.accessories)) copy.equipment.accessories = mapItems(value.equipment.accessories);
++  }
+   return copy;
+ }
+ 
+
+diff --git "a/D:\\AppData\\Temp\\opencode\\p6-remaining-diff-VBWhlg\\vtt-react\\src\\persistence\\characterSaveOutcome.js" b/D:/VTT/vtt-react/src/persistence/characterSaveOutcome.js
+index 84ea50d4..f8bd3191 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p6-remaining-diff-VBWhlg\\vtt-react\\src\\persistence\\characterSaveOutcome.js"
++++ b/D:/VTT/vtt-react/src/persistence/characterSaveOutcome.js
+@@ -4,6 +4,8 @@ import { createScopedNativeFamily } from './scopedNativeFamily';
+ import { captureConsumerContext, isConsumerContextCurrent } from './scopedConsumer';
+ import { isPrivateProjectionIsolated } from './bootstrapPrivacyGate';
+ import { validateCharacterData } from '../services/firebase/characterPersistenceService';
++import { decodeCharacterShapes } from '../utils/characterShapeCodec';
++import { EQUIPMENT_SLOT_KEYS } from '../utils/equipmentUtils';
+ 
+ const drafts = createScopedNativeFamily({ familyId: 'character.saveDraft' });
+ // Only the latest candidate per owner/character/lane, never an action log.
+@@ -185,6 +187,79 @@ export function exportCharacterDraft(id) {
+ 
+ const isRecord = value => !!value && typeof value === 'object' && !Array.isArray(value);
+ 
++// Validate only fields interpreted by loadCharacter/applyRuntime and their
++// inventory consumers. Uninterpreted extension fields are preserved verbatim.
++function validateConsumedTypes(payload, lane) {
++  const optional = (record, keys, accepts, label) => {
++    for (const key of keys) if (record?.[key] !== undefined && !accepts(record[key])) throw new Error(`Invalid ${lane} ${label || key} type`);
++  };
++  const text = value => value === null || typeof value === 'string';
++  const numeric = value => Number.isFinite(value);
++  if (lane === 'canonical') {
++    optional(payload, ['baseName', 'subrace', 'raceDisplayName', 'background', 'backgroundDisplayName', 'path', 'pathDisplayName',
++      'selectedAbility', 'alignment', 'primarySpecialization'], text);
++    optional(payload, ['level', 'experience', 'durability', 'damageReduction'], numeric);
++    optional(payload, ['classAcquisition', 'class_spells', 'levelUpHistory', 'talents', 'resistances', 'spellPower', 'tokenSettings'], isRecord);
++    optional(payload, ['pathPassives', 'immunities'], Array.isArray);
++    optional(payload.class_spells, ['known_spells'], value => Array.isArray(value) && value.every(spell => typeof spell === 'string'));
++    if (payload.levelUpHistory) for (const entry of Object.values(payload.levelUpHistory)) {
++      if (!isRecord(entry)) throw new Error('Invalid canonical levelUpHistory entry');
++      optional(entry, ['healthIncrease', 'manaIncrease'], numeric);
++    }
++  }
++  optional(payload, ['tempHealth', 'tempMana', 'tempActionPoints', 'exhaustionLevel', 'skillPointsSpent', 'skillPointsAvailable'], numeric);
++  // Canonical legacy root resources are also consumed before nested resources.
++  for (const key of ['health', 'mana', 'actionPoints']) if (payload[key] !== undefined &&
++    (!isRecord(payload[key]) || !numeric(payload[key].current) || !numeric(payload[key].max))) throw new Error(`Invalid ${lane} ${key} structure`);
++  optional(payload.classResource, ['type'], value => typeof value === 'string');
++  optional(payload.inventory, ['encumbranceState'], value => typeof value === 'string');
++  optional(payload.inventory?.currency, ['platinum', 'gold', 'silver', 'copper'], numeric);
++  optional(payload.lore, ['background', 'personalityTraits', 'ideals', 'bonds', 'flaws', 'appearance', 'backstory', 'goals',
++    'fears', 'allies', 'enemies', 'organizations', 'notes'], text);
++
++  const validateItem = item => {
++    if (!isRecord(item)) throw new Error(`Invalid ${lane} inventory item structure`);
++    optional(item, ['name', 'type', 'subtype', 'quality', 'weaponSlot', 'hand'], value => typeof value === 'string');
++    optional(item, ['width', 'height', 'rotation', 'quantity', 'weight', 'originalWidth', 'originalHeight', 'originalRotation'], numeric);
++    if (item.position !== undefined && (!isRecord(item.position) || !numeric(item.position.row) || !numeric(item.position.col))) throw new Error('Invalid inventory position');
++    if (item.shape !== undefined && item.shape !== null) {
++      if (!isRecord(item.shape)) throw new Error('Invalid inventory shape');
++      optional(item.shape, ['type'], value => typeof value === 'string');
++      optional(item.shape, ['width', 'height'], numeric);
++      const cells = item.shape.cells;
++      if (cells !== undefined && (!Array.isArray(cells) || !cells.length || !cells.every(row =>
++        Array.isArray(row) && row.length > 0 && row.length === cells[0].length && row.every(cell => typeof cell === 'boolean')))) throw new Error('Invalid inventory shape cells');
++    }
++    if (item.containerProperties !== undefined) {
++      if (!isRecord(item.containerProperties)) throw new Error('Invalid container properties');
++      if (item.containerProperties.items !== undefined) {
++        if (!Array.isArray(item.containerProperties.items)) throw new Error('Invalid contained items');
++        item.containerProperties.items.forEach(validateItem);
++      }
++    }
++  };
++  // Accept the existing JSON-row representation only at codec-owned item paths.
++  const decoded = decodeCharacterShapes(payload);
++  decoded.inventory?.items?.forEach(validateItem);
++  decoded.inventory?.containers?.forEach(container => {
++    if (!isRecord(container)) throw new Error('Invalid inventory container');
++    if (container.items !== undefined) {
++      if (!Array.isArray(container.items)) throw new Error('Invalid container items');
++      container.items.forEach(validateItem);
++    }
++  });
++  for (const slot of [...EQUIPMENT_SLOT_KEYS, 'weapon', 'armor', 'shield', 'main_hand', 'off_hand']) {
++    if (decoded.equipment?.[slot] !== undefined && decoded.equipment[slot] !== null) validateItem(decoded.equipment[slot]);
++  }
++  if (decoded.equipment?.accessories !== undefined) {
++    if (!Array.isArray(decoded.equipment.accessories)) throw new Error('Invalid equipment accessories');
++    decoded.equipment.accessories.forEach(validateItem);
++  }
++  for (const entries of [payload.buffs, payload.debuffs, payload.quests?.quests]) {
++    if (entries?.some(entry => !isRecord(entry))) throw new Error(`Invalid ${lane} condition or quest entry`);
++  }
++}
++
+ function validateImportedPayload(payload, lane, id, context) {
+   if (!isRecord(payload)) throw new Error(`Invalid ${lane} payload structure`);
+   const identities = [payload.id, payload.characterId, payload.metadata?.id];
+@@ -214,6 +289,7 @@ function validateImportedPayload(payload, lane, id, context) {
+   if (payload.inventory?.items?.some(item => !isRecord(item))) throw new Error('Invalid inventory item structure');
+   if (payload.inventory?.currency !== undefined && !isRecord(payload.inventory.currency)) throw new Error('Invalid inventory currency structure');
+   if (payload.quests?.questCategories !== undefined && !isRecord(payload.quests.questCategories)) throw new Error('Invalid quest categories structure');
++  validateConsumedTypes(payload, lane);
+ }
+ 
+ export function importCharacterDraft(raw, id) {
+
+diff --git "a/D:\\AppData\\Temp\\opencode\\p6-remaining-diff-VBWhlg\\vtt-react\\src\\services\\firebase\\characterPersistenceService.js" b/D:/VTT/vtt-react/src/services/firebase/characterPersistenceService.js
+index fa6a36c7..261efa54 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p6-remaining-diff-VBWhlg\\vtt-react\\src\\services\\firebase\\characterPersistenceService.js"
++++ b/D:/VTT/vtt-react/src/services/firebase/characterPersistenceService.js
+@@ -69,6 +69,19 @@ export function validateCharacterData(characterData) {
+     throw new Error(`Missing required character fields: ${missing.join(', ')}`);
+   }
+ 
++  // These values feed sheet text and race/class initialization. Custom strings
++  // remain valid; catalogue membership is not a persistence requirement.
++  for (const field of ['name', 'race', 'class']) {
++    if (typeof characterData[field] !== 'string' || !characterData[field].trim()) {
++      throw new Error(`Invalid ${field} type: expected a non-empty string`);
++    }
++  }
++  for (const field of ['stats', 'resources']) {
++    if (typeof characterData[field] !== 'object' || Array.isArray(characterData[field])) {
++      throw new Error(`Invalid ${field} structure`);
++    }
++  }
++
+   // Validate stats
+   const statNames = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'];
+   const stats = characterData.stats;

@@ -250,14 +250,6 @@
   opacity: 1;
 }
 
-.distribution-labels {
-  display: flex;
-  justify-content: space-between;
-  color: var(--my-text-muted);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-ui);
-}
-
 @media (max-width: 768px) {
   .preset-list {
     grid-template-columns: 1fr;
@@ -279,61 +271,9 @@
 }
 
 /* Remove old styles */
-.dice-calculator-header,
-.dice-calculator-input-group,
-.dice-calculator-builder,
-.dice-calculator-presets,
-.dice-calculator-distribution,
-.dice-builder-basic,
-.dice-builder-complex,
-.dice-builder-row,
-.dice-builder-group,
-.dice-type-buttons,
-.dice-advanced-options,
-.dice-complex-examples,
-.dice-calculator-label,
-.dice-calculator-input,
-.dice-calculator-error,
 .dice-calculator select,
-.dice-function-selector,
 .dice-calculator select option,
-.dice-function-selector option,
 .dice-calculator select option:checked,
-.dice-calculator select option:hover,
-.dice-function-selector option:checked,
-.dice-function-selector option:hover,
-.dice-calculator-modes,
-.dice-mode-toggle,
-.dice-calculator-stats,
-.dice-stat,
-.dice-stat-label,
-.dice-stat-value,
-.function-description,
-.complex-builder,
-.complex-builder-header,
-.complex-builder-title,
-.dice-preset-button,
-.dice-calculator-builder,
-.dice-builder-header,
-.dice-builder-toggle,
-.dice-builder-toggle.active,
-.dice-builder-group label,
-.dice-builder-group input[type="number"],
-.dice-type-button,
-.dice-type-button.active,
-.dice-type-button.custom,
-.dice-advanced-option,
-.dice-keep-input,
-.dice-builder-complex,
-.dice-function-select select,
-.dice-function-description,
-.dice-complex-formula input,
-.dice-complex-help,
-.dice-complex-examples,
-.dice-calculator-distribution,
-.dice-calculator-distribution h4,
-.dice-distribution-chart,
-.dice-distribution-bar,
-.dice-distribution-stats {
+.dice-calculator select option:hover {
   display: none;
 }

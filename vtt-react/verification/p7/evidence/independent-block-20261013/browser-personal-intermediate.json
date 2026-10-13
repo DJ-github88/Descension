@@ -1,0 +1,193 @@
+{
+  "projection": null,
+  "saved": {
+    "health": {
+      "current": 42,
+      "max": 50
+    },
+    "mana": {
+      "current": 20,
+      "max": 50
+    },
+    "actionPoints": {
+      "current": 2,
+      "max": 3
+    },
+    "tempHealth": 0,
+    "tempMana": 0,
+    "tempActionPoints": 0,
+    "exhaustionLevel": 0,
+    "classResource": {
+      "type": "devotionGauge",
+      "current": 0,
+      "max": 6,
+      "damage": 0,
+      "earnedLevels": 0,
+      "spentLevels": 0,
+      "bonusLevels": 0
+    },
+    "equipment": {
+      "head": null,
+      "neck": null,
+      "shoulders": null,
+      "back": null,
+      "chest": null,
+      "shirt": null,
+      "tabard": null,
+      "wrists": null,
+      "mainHand": null,
+      "offHand": null,
+      "ranged": null,
+      "trinket1": null,
+      "trinket2": null,
+      "ring1": null,
+      "ring2": null,
+      "feet": null,
+      "legs": null,
+      "waist": null,
+      "gloves": null
+    },
+    "inventory": {
+      "items": [],
+      "currency": {
+        "platinum": 0,
+        "gold": 0,
+        "silver": 0,
+        "copper": 0
+      },
+      "encumbranceState": "normal",
+      "containers": []
+    },
+    "actionBars": {},
+    "buffs": [],
+    "debuffs": [
+      {
+        "version": 1,
+        "id": "foreign-personal-probe",
+        "recordId": "foreign-personal-probe",
+        "originalName": "Foreign only",
+        "name": "Foreign only",
+        "type": "debuff",
+        "kind": "effect",
+        "target": {
+          "kind": "character",
+          "roomId": "846fec97-dd57-47a7-b664-5f13236c7a1c",
+          "mapId": "default",
+          "tokenId": "pc-b",
+          "instanceId": "74d44f30-2f88-47b5-9a7d-a5dd1ce42c44",
+          "ownerUid": "u-b",
+          "characterId": "c-b"
+        },
+        "targetId": "pc-b",
+        "targetType": "character",
+        "source": "review",
+        "effects": {
+          "movementSpeed": -10
+        },
+        "durationType": "rounds",
+        "durationValue": 3,
+        "remainingRounds": 3,
+        "sharedTiming": "manual"
+      }
+    ],
+    "quests": {
+      "quests": [],
+      "categories": [
+        {
+          "id": "all-quests",
+          "name": "All Quests",
+          "isBaseCategory": true,
+          "parentId": null
+        }
+      ],
+      "questCategories": {}
+    },
+    "questProgress": {},
+    "skillRanks": {},
+    "skillProgress": {},
+    "skillPointsSpent": 0,
+    "skillPointsAvailable": 0,
+    "version": 1,
+    "roomActorRecoveryCandidates": [
+      {
+        "ownerUid": "u-a",
+        "characterId": "c-a",
+        "ref": {
+          "kind": "character",
+          "roomId": "846fec97-dd57-47a7-b664-5f13236c7a1c",
+          "mapId": "default",
+          "tokenId": "pc-a",
+          "instanceId": "c3e9956b-85e3-4a84-98fc-e683b25e18b8",
+          "ownerUid": "u-a",
+          "characterId": "c-a"
+        },
+        "reason": "explicit-room-checkpoint-reconciliation",
+        "data": {
+          "health": {
+            "current": 8,
+            "max": 50
+          },
+          "mana": {
+            "current": 20,
+            "max": 50
+          },
+          "actionPoints": {
+            "current": 2,
+            "max": 3
+          },
+          "tempHealth": 0,
+          "tempMana": 0,
+          "tempActionPoints": 0,
+          "roomActorProjection": {
+            "ref": {
+              "kind": "character",
+              "roomId": "846fec97-dd57-47a7-b664-5f13236c7a1c",
+              "mapId": "default",
+              "tokenId": "pc-a",
+              "instanceId": "c3e9956b-85e3-4a84-98fc-e683b25e18b8",
+              "ownerUid": "u-a",
+              "characterId": "c-a"
+            },
+            "revision": 3,
+            "accountGeneration": 3
+          }
+        }
+      }
+    ],
+    "characterId": "c-other",
+    "lastUpdated": {
+      "seconds": 1791911958.36
+    },
+    "lastWriteToken": "mv6y440o-xdr0m94j"
+  },
+  "conditions": [
+    {
+      "version": 1,
+      "id": "foreign-personal-probe",
+      "recordId": "foreign-personal-probe",
+      "originalName": "Foreign only",
+      "name": "Foreign only",
+      "type": "debuff",
+      "kind": "effect",
+      "target": {
+        "kind": "character",
+        "roomId": "846fec97-dd57-47a7-b664-5f13236c7a1c",
+        "mapId": "default",
+        "tokenId": "pc-b",
+        "instanceId": "74d44f30-2f88-47b5-9a7d-a5dd1ce42c44",
+        "ownerUid": "u-b",
+        "characterId": "c-b"
+      },
+      "targetId": "pc-b",
+      "targetType": "character",
+      "source": "review",
+      "effects": {
+        "movementSpeed": -10
+      },
+      "durationType": "rounds",
+      "durationValue": 3,
+      "remainingRounds": 3,
+      "sharedTiming": "manual"
+    }
+  ]
+}

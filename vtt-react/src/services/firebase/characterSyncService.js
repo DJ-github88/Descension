@@ -8,6 +8,7 @@
 import characterPersistenceService from './characterPersistenceService';
 import { createScopedNativeFamily } from '../../persistence/scopedNativeFamily';
 import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
+import { characterContextCurrent, getCharacterCandidate } from '../../persistence/characterSaveOutcome';
 
 // Sync status tracking (retired global keys; quarantined once per owner)
 const SYNC_STATUS_KEY = 'mythrill-sync-status';
@@ -127,7 +128,10 @@ class CharacterSyncService {
   /**
    * Queue a change for offline sync
    */
-  queueChange(characterId, changeType, changeData) {
+  queueChange(characterId, changeType, changeData, context = captureConsumerContext().context) {
+    // Local retention uses P5's verified scope/generation contract. Cloud sync
+    // separately requires a matching live principal; queueing is not admission.
+    if (!isConsumerContextCurrent(context)) return false;
     const change = {
       id: `change_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       characterId,
@@ -141,12 +145,13 @@ class CharacterSyncService {
     // in-memory queue from another account can never be persisted here.
     this.syncQueue = this.loadOfflineChanges();
     this.syncQueue.push(change);
-    this.saveOfflineChanges();
+    this.saveOfflineChanges(context);
 
     // Try to sync immediately if online
     if (this.isOnline && !this.syncInProgress) {
       this.syncOfflineChanges();
     }
+    return true;
   }
 
   /**
@@ -164,6 +169,7 @@ class CharacterSyncService {
     }
 
     const syncContext = captureConsumerContext();
+    if (!syncContext.ok || !characterContextCurrent(syncContext.context)) return { synced: 0, failed: this.syncQueue.length };
     this.syncInProgress = true;
 
     const results = {
@@ -178,7 +184,8 @@ class CharacterSyncService {
 
       for (const [characterId, changes] of Object.entries(changesByCharacter)) {
         try {
-          await this.syncCharacterChanges(characterId, changes);
+          await this.syncCharacterChanges(characterId, changes, syncContext.context);
+          if (!characterContextCurrent(syncContext.context)) return results;
           results.synced += changes.length;
           
           // Mark changes as synced
@@ -234,9 +241,17 @@ class CharacterSyncService {
   /**
    * Sync changes for a specific character
    */
-  async syncCharacterChanges(characterId, changes) {
+  async syncCharacterChanges(characterId, changes, context) {
+    if (!characterContextCurrent(context)) throw new Error('Owner changed before sync');
+    const userId = context.scope.scopeId;
+    const local = getCharacterCandidate(characterId, 'canonical', context);
+    if (local && local.status !== 'saved' && local.status !== 'idle') {
+      throw new Error('Retained canonical draft requires explicit retry/reconciliation');
+    }
+    const sourceCurrent = () => characterContextCurrent(context) && getCharacterCandidate(characterId, 'canonical', context) === local;
     // Load current character data from Firebase
-    const currentCharacter = await characterPersistenceService.loadCharacter(characterId);
+    const currentCharacter = await characterPersistenceService.loadCharacter(characterId, userId, { isCurrent: sourceCurrent });
+    if (!sourceCurrent()) throw new Error('Owner changed or newer character edit during sync');
     
     if (!currentCharacter) {
       throw new Error(`Character ${characterId} not found in Firebase`);
@@ -251,7 +266,9 @@ class CharacterSyncService {
     }
 
     // Save updated character to Firebase
-    await characterPersistenceService.saveCharacter(characterId, updatedCharacter);
+    const confirmed = await characterPersistenceService.saveCharacter(updatedCharacter, userId,
+      { isCurrent: sourceCurrent });
+    if (confirmed !== true) throw new Error('Canonical sync was not confirmed');
   }
 
   /**

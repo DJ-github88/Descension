@@ -1,0 +1,34 @@
+{
+  "legacyWrite": {
+    "rootHp": 219,
+    "nestedHp": 250,
+    "noRevisionOrReceipt": true
+  },
+  "condition": {
+    "original": {
+      "id": "round-zero",
+      "name": "Slowed",
+      "type": "debuff",
+      "durationType": "rounds",
+      "remainingRounds": 0,
+      "durationValue": 3,
+      "effects": {
+        "movementSpeed": -10
+      },
+      "startTime": 10,
+      "endTime": 20,
+      "sourceEntityId": "source"
+    },
+    "projected": {
+      "id": "round-zero",
+      "name": "Slowed",
+      "type": "debuff",
+      "durationType": "rounds",
+      "durationValue": 3
+    }
+  },
+  "writer": {
+    "noAdmissionBeforePublicationAPI": true,
+    "actualCapacityRefusal": true
+  }
+}

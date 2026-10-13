@@ -12,7 +12,7 @@
 
 /* D&D/Pathfinder style card with parchment background */
 .wow-style-card {
-  background: #f0e6d2; /* Parchment background */
+  background: #f1ece1; /* Parchment background */
   border: 1px solid #a08c70;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -34,7 +34,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  border-bottom: 1px solid #d5cbb0;
+  border-bottom: 1px solid #c4baa6;
   padding-bottom: 8px;
 }
 
@@ -76,7 +76,7 @@
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
-  color: #f0e6d2; /* Parchment color */
+  color: #f1ece1; /* Parchment color */
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   background-color: #7a3b2e; /* Rustic red */
 }
@@ -92,10 +92,10 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 10px;
-  background-color: #e6dcc6; /* Slightly darker parchment */
+  background-color: #e8e2d4; /* Slightly darker parchment */
   border-radius: 4px;
   padding: 8px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
 }
 
 .main-stat {
@@ -126,9 +126,9 @@
   gap: 10px;
   margin-bottom: 15px;
   padding: 10px;
-  background-color: rgba(213, 203, 176, 0.3);
+  background-color: rgba(196, 186, 166, 0.3);
   border-radius: 4px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
 }
 
 .attribute {
@@ -136,9 +136,9 @@
   flex-direction: column;
   align-items: center;
   padding: 8px 4px;
-  background-color: #e6dcc6; /* Slightly darker parchment */
+  background-color: #e8e2d4; /* Slightly darker parchment */
   border-radius: 4px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
 }
 
 .attribute-label {
@@ -164,9 +164,9 @@
   margin-bottom: 15px;
   flex: 1;
   padding: 10px;
-  background-color: rgba(213, 203, 176, 0.3);
+  background-color: rgba(196, 186, 166, 0.3);
   border-radius: 4px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
 }
 
 .creature-description p {
@@ -202,7 +202,7 @@
   gap: 10px;
   margin-top: auto;
   padding-top: 10px;
-  border-top: 1px solid #d5cbb0;
+  border-top: 1px solid #c4baa6;
 }
 
 .quick-stat {
@@ -211,10 +211,10 @@
   gap: 5px;
   font-size: 12px;
   color: #3a3a3a;
-  background-color: #e6dcc6; /* Slightly darker parchment */
+  background-color: #e8e2d4; /* Slightly darker parchment */
   padding: 3px 8px;
   border-radius: 12px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
 }
 
 .quick-stat i {

@@ -1,0 +1,4 @@
+{
+  "command": "node node_modules/eslint/bin/eslint.js src/utils/characterShapeCodec.js verification/p6/container-browser.cjs",
+  "status": 0
+}

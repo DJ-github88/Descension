@@ -212,3 +212,14 @@
 .harbinger-resource-bar.intensity-catastrophic {
     filter: brightness(1.28) drop-shadow(0 0 20px rgba(225, 29, 72, 0.95));
 }
+
+/* Calm TTRPG pass: no pulsing, shaking or spinning; state is carried by ink and the frame */
+.harbinger-rune-slot.current-active,
+.harbinger-rune-slot.current-active *,
+.harbinger-rune-slot.catastrophic,
+.harbinger-rune-slot.catastrophic *,
+.harbinger-resource-wrapper.catastrophic-warning,
+.harbinger-resource-bar,
+.harbinger-vortex-ring,
+.harbinger-core-orb,
+.harbinger-core-orb.pulsing-core { animation: none !important; }

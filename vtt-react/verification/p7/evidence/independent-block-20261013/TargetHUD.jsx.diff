@@ -1,0 +1,137 @@
+diff --git "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\components\\hud\\TargetHUD.jsx" "b/D:\\VTT\\vtt-react\\src\\components\\hud\\TargetHUD.jsx"
+index 9a77c0bc..c2d0733a 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\components\\hud\\TargetHUD.jsx"
++++ "b/D:\\VTT\\vtt-react\\src\\components\\hud\\TargetHUD.jsx"
+@@ -15,9 +15,8 @@ import { CONDITIONS } from '../../data/conditionsData';
+ import useConditionStore from '../../store/conditionStore';
+ import useChatStore from '../../store/chatStore';
+ import ClassResourceBar from './ClassResourceBar';
+-import ModularHealthBar from './ModularHealthBar';
+-import ModularManaBar from './ModularManaBar';
+-import ModularAPBar from './ModularAPBar';
++import HudStatBar from './HudStatBar';
++import StatVial from './StatVial';
+ import ConditionDurationModal from '../modals/ConditionDurationModal';
+ import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
+ import { getBackgroundData } from '../../data/backgroundData';
+@@ -954,6 +953,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+ 
+   // Helper function to generate varied log messages for resource changes (same as PartyHUD)
+   const logResourceChange = (characterName, resourceType, amount, isPositive) => {
++    if (require('../../services/actorConsequenceService').inSharedRoom()) return; // No applied-result notice before authorization.
+     const absAmount = Math.abs(amount);
+     const actorName = getActorName();
+ 
+@@ -1063,6 +1063,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+ 
+   const applyResourceAdjustment = (resourceType, adjustment, asTemporary = false, skipLogging = false) => {
+     if (!currentTarget) return;
++    const boundary = require('../../services/actorConsequenceService');
++    if (boundary.inSharedRoom()) return boundary.adjustSharedResource(currentTarget, resourceType, adjustment, asTemporary);
+ 
+     const tempField = getTempFieldName(resourceType);
+ 
+@@ -1375,6 +1377,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+   // Handle full restore all (HP, mana, and AP)
+   const handleFullRestoreAll = () => {
+     if (!currentTarget || !targetData) return;
++    const boundary = require('../../services/actorConsequenceService');
++    if (boundary.inSharedRoom()) {setShowContextMenu(false); return boundary.setSharedResourceTotals(currentTarget, true);}
+ 
+     const characterName = getTargetName();
+ 
+@@ -1460,6 +1464,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+   // Handle full drain all (HP, mana, and AP, including temporary)
+   const handleFullDrainAll = () => {
+     if (!currentTarget || !targetData) return;
++    const boundary = require('../../services/actorConsequenceService');
++    if (boundary.inSharedRoom()) {setShowContextMenu(false); return boundary.setSharedResourceTotals(currentTarget, false);}
+ 
+     const characterName = getTargetName();
+ 
+@@ -2236,40 +2242,27 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+ 
+                 {/* Resource Bars */}
+                 <div className="resource-bars-container">
+-                  {/* Custom Modular Health Bar */}
+-                  <div style={{ width: '100%' }}>
+-                    <ModularHealthBar
+-                      currentHP={safeHealth.current}
+-                      maxHP={safeHealth.max}
+-                      tempHP={targetData.tempHealth || 0}
+-                      showText={true}
+-                    />
+-                  </div>
+-
+-                  {/* Row 2: Side-by-Side Mana & AP Bars */}
+-                  {((showCreatureManaBar && safeMana.max > 0) || (showCreatureAPBar && safeActionPoints.max > 0)) && (
+-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', width: '100%' }}>
+-                      {showCreatureManaBar && safeMana.max > 0 && (
+-                        <div style={{ flex: 1, minWidth: 0 }}>
+-                          <ModularManaBar
+-                            currentMana={safeMana.current}
+-                            maxMana={safeMana.max}
+-                            tempMana={targetData.tempMana || 0}
+-                            showText={true}
+-                          />
+-                        </div>
+-                      )}
+-                      {showCreatureAPBar && safeActionPoints.max > 0 && (
+-                        <div style={{ flex: 1, minWidth: 0 }}>
+-                          <ModularAPBar
+-                            currentAP={safeActionPoints.current}
+-                            maxAP={safeActionPoints.max}
+-                            tempAP={targetData.tempActionPoints || 0}
+-                            showText={true}
+-                          />
++                  {/* Creatures: drawn HP / mana / AP bars. Characters use corner mounts (see below). */}
++                  {targetData?.isCreature && (
++                    <>
++                      <HudStatBar
++                        kind="health"
++                        current={safeHealth.current}
++                        max={safeHealth.max}
++                        temp={targetData.tempHealth || 0}
++                        name={targetData?.name}
++                      />
++                      {((showCreatureManaBar && safeMana.max > 0) || (showCreatureAPBar && safeActionPoints.max > 0)) && (
++                        <div className="hsb-pair">
++                          {showCreatureManaBar && safeMana.max > 0 && (
++                            <HudStatBar kind="mana" current={safeMana.current} max={safeMana.max} temp={targetData.tempMana || 0} name={targetData?.name} />
++                          )}
++                          {showCreatureAPBar && safeActionPoints.max > 0 && (
++                            <HudStatBar kind="ap" current={safeActionPoints.current} max={safeActionPoints.max} temp={targetData.tempActionPoints || 0} name={targetData?.name} />
++                          )}
+                         </div>
+                       )}
+-                    </div>
++                    </>
+                   )}
+ 
+                   {/* Class Resource Bar - Only show if character has a class and class resource */}
+@@ -2290,6 +2283,25 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
+               <div className="member-status-indicators">
+                 <div className="status-dot online"></div>
+               </div>
++
++              {/* Characters: HP vial, mana crystal and AP mount on the frame corners, as in the party HUD */}
++              {!targetData?.isCreature && (
++                <>
++                  <div className="party-corner-mount mount-health">
++                    <StatVial kind="health" current={safeHealth.current} max={safeHealth.max} temp={targetData?.tempHealth || 0} memberName={targetData?.name} tilt={-12} />
++                  </div>
++                  {safeMana.max > 0 && (
++                    <div className="party-corner-mount mount-mana">
++                      <StatVial kind="mana" current={safeMana.current} max={safeMana.max} temp={targetData?.tempMana || 0} memberName={targetData?.name} tilt={12} />
++                    </div>
++                  )}
++                  {safeActionPoints.max > 0 && (
++                    <div className="party-corner-mount mount-ap">
++                      <StatVial kind="ap" current={safeActionPoints.current} max={safeActionPoints.max} temp={targetData?.tempActionPoints || 0} memberName={targetData?.name} />
++                    </div>
++                  )}
++                </>
++              )}
+             </div>
+ 
+             {/* Target Conditions - positioned beneath the HUD */}

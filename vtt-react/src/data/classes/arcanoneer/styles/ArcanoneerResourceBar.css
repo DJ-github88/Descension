@@ -73,14 +73,14 @@
     font-size: 6.8px;
     font-weight: 800;
     letter-spacing: 0.8px;
-    fill: #d97706;
+    fill: #8a5a12;
 }
 
 .arc-gauge-reading {
     font-family: system-ui, -apple-system, sans-serif;
     font-size: 8px;
     font-weight: 700;
-    fill: #fef08a;
+    fill: #34251a;
     letter-spacing: 0.2px;
 }
 
@@ -106,7 +106,7 @@
     font-size: 7.6px;
     font-weight: 800;
     letter-spacing: 0.6px;
-    fill: #fef08a;
+    fill: #34251a;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
     pointer-events: none;
 }
@@ -117,7 +117,7 @@
 }
 
 .arc-primer-trigger.rolling .arc-primer-label {
-    fill: #fdba74;
+    fill: #8a5a12;
 }
 
 .arc-d8-tumbler.tumbling {
@@ -165,12 +165,12 @@
     font-size: 6.8px;
     font-weight: 800;
     letter-spacing: 0.5px;
-    fill: #fef08a;
+    fill: #34251a;
     pointer-events: none;
 }
 
 .arc-matrix-trigger.has-ready .arc-matrix-label {
-    fill: #86efac;
+    fill: #3f6b3a;
 }
 
 /* ----------------------------------------------------------------------------
@@ -206,19 +206,19 @@
     font-family: system-ui, sans-serif;
     font-size: 5.5px;
     font-weight: 800;
-    fill: #fef08a;
+    fill: #34251a;
 }
 
 .arc-serial-stamp {
     font-family: 'Cinzel', serif;
     font-size: 5.6px;
     font-weight: 700;
-    fill: rgba(254, 240, 138, 0.85);
+    fill: #68533e;
     letter-spacing: 0.3px;
 }
 
 .arc-orb-cell.dormant .arc-serial-stamp {
-    fill: rgba(217, 119, 6, 0.45);
+    fill: #c4baa6;
 }
 
 /* ----------------------------------------------------------------------------

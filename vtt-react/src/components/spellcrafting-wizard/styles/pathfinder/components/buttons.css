@@ -80,7 +80,7 @@
   color: var(--my-brown-dark);
   box-shadow:
     var(--my-shadow-md),
-    0 0 10px rgba(212, 175, 55, 0.3);
+    0 0 10px rgba(154, 123, 60, 0.3);
   transform: translateY(-1px);
 }
 
@@ -90,7 +90,7 @@
   color: var(--my-brown-dark);
   box-shadow:
     var(--my-shadow-lg),
-    0 0 15px rgba(212, 175, 55, 0.4);
+    0 0 15px rgba(154, 123, 60, 0.4);
   transform: translateY(-2px);
 }
 
@@ -176,7 +176,7 @@
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
   box-shadow: 
     var(--my-shadow-sm),
-    0 0 10px rgba(212, 175, 55, 0.3);
+    0 0 10px rgba(154, 123, 60, 0.3);
 }
 
 .pf-button.gold:hover {
@@ -184,7 +184,7 @@
   border-color: var(--my-gold);
   box-shadow: 
     var(--my-shadow-md),
-    0 0 15px rgba(212, 175, 55, 0.4);
+    0 0 15px rgba(154, 123, 60, 0.4);
 }
 
 /* Ghost/Outline Button */
@@ -220,11 +220,6 @@
 }
 
 /* Extra Large Button */
-.pf-button.xl {
-  height: 56px;
-  padding: var(--my-space-5) var(--my-space-10);
-  font-size: var(--my-text-xl);
-}
 
 /* ===== BUTTON GROUPS ===== */
 
@@ -292,27 +287,6 @@
   width: 48px;
 }
 
-.pf-button.icon-only.xl {
-  width: 56px;
-}
-
-.pf-button-icon {
-  font-size: var(--my-text-lg);
-  line-height: 1;
-}
-
-.pf-button.small .pf-button-icon {
-  font-size: var(--my-text-base);
-}
-
-.pf-button.large .pf-button-icon {
-  font-size: var(--my-text-xl);
-}
-
-.pf-button.xl .pf-button-icon {
-  font-size: var(--my-text-2xl);
-}
-
 /* ===== TOGGLE BUTTONS ===== */
 
 .pf-button.toggle {
@@ -373,35 +347,6 @@
 
 /* ===== FLOATING ACTION BUTTON ===== */
 
-.pf-fab {
-  position: fixed;
-  bottom: var(--my-space-6);
-  right: var(--my-space-6);
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--my-gold);
-  color: var(--my-brown-darkest);
-  border: var(--my-border-width) solid var(--my-gold-dark);
-  box-shadow: 
-    var(--my-shadow-lg),
-    0 0 20px rgba(212, 175, 55, 0.3);
-  z-index: var(--my-z-fixed);
-  transition: all var(--my-transition-normal);
-}
-
-.pf-fab:hover {
-  background: var(--my-gold-light);
-  transform: translateY(-2px);
-  box-shadow: 
-    var(--my-shadow-xl),
-    0 0 25px rgba(212, 175, 55, 0.4);
-}
-
-.pf-fab .pf-button-icon {
-  font-size: var(--my-text-2xl);
-}
-
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
@@ -423,25 +368,8 @@
     font-size: var(--my-text-base);
   }
   
-  .pf-button.xl {
-    height: 44px;
-    padding: var(--my-space-3) var(--my-space-8);
-    font-size: var(--my-text-lg);
-  }
-  
   .pf-button-group {
     gap: var(--my-space-1);
-  }
-  
-  .pf-fab {
-    width: 48px;
-    height: 48px;
-    bottom: var(--my-space-4);
-    right: var(--my-space-4);
-  }
-  
-  .pf-fab .pf-button-icon {
-    font-size: var(--my-text-xl);
   }
 }
 
@@ -456,12 +384,6 @@
     height: 36px;
     padding: var(--my-space-2) var(--my-space-4);
     font-size: var(--my-text-sm);
-  }
-  
-  .pf-button.xl {
-    height: 40px;
-    padding: var(--my-space-3) var(--my-space-6);
-    font-size: var(--my-text-base);
   }
   
   .pf-button-group.vertical {

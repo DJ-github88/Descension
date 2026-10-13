@@ -16,7 +16,7 @@
   width: 800px;
   max-width: 90vw;
   max-height: 85vh;
-  background-color: #f0e6d2; /* Parchment background */
+  background-color: #f1ece1; /* Parchment background */
   border: 1px solid #a08c70;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -40,7 +40,7 @@
   padding: 15px 20px;
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
   border-bottom: 1px solid #a08c70;
-  color: #f0e6d2; /* Parchment color */
+  color: #f1ece1; /* Parchment color */
 }
 
 .creature-inspect-title {
@@ -63,20 +63,20 @@
   margin: 0 0 5px 0;
   font-size: 22px;
   font-weight: 600;
-  color: #f0e6d2; /* Parchment color */
+  color: #f1ece1; /* Parchment color */
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 .creature-subtitle {
   font-size: 14px;
-  color: #d5cbb0; /* Lighter parchment */
+  color: #c4baa6; /* Lighter parchment */
   font-style: italic;
 }
 
 .close-button {
   background: none;
   border: none;
-  color: #f0e6d2; /* Parchment color */
+  color: #f1ece1; /* Parchment color */
   font-size: 20px;
   cursor: pointer;
   width: 32px;
@@ -94,8 +94,8 @@
 
 .creature-inspect-tabs {
   display: flex;
-  background-color: #e6dcc6; /* Slightly darker parchment */
-  border-bottom: 1px solid #d5cbb0;
+  background-color: #e8e2d4; /* Slightly darker parchment */
+  border-bottom: 1px solid #c4baa6;
   padding: 0 15px;
 }
 
@@ -131,7 +131,7 @@
 /* Header navigation tabs (new style) */
 .creature-inspect-header-navigation {
   display: flex;
-  background: linear-gradient(to bottom, #e6dcc6, #d5cbb0);
+  background: linear-gradient(to bottom, #e8e2d4, #c4baa6);
   border-bottom: 2px solid #7a3b2e;
   padding: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -171,7 +171,7 @@
 
 .creature-header-nav-button.active {
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f0e6d2;
+  color: #f1ece1;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -216,9 +216,9 @@
 
 .creature-inspect-section {
   margin-bottom: 25px;
-  background-color: rgba(213, 203, 176, 0.3);
+  background-color: rgba(196, 186, 166, 0.3);
   border-radius: 6px;
-  border: 1px solid #d5cbb0;
+  border: 1px solid #c4baa6;
   padding: 15px;
 }
 
@@ -227,7 +227,7 @@
   margin-bottom: 15px;
   color: #7a3b2e; /* Rustic red */
   font-size: 18px;
-  border-bottom: 1px solid #d5cbb0;
+  border-bottom: 1px solid #c4baa6;
   padding-bottom: 8px;
 }
 
@@ -239,8 +239,8 @@
 }
 
 .creature-stat-block {
-  background-color: #e6dcc6; /* Slightly darker parchment */
-  border: 1px solid #d5cbb0;
+  background-color: #e8e2d4; /* Slightly darker parchment */
+  border: 1px solid #c4baa6;
   border-radius: 4px;
   padding: 10px;
   text-align: center;
@@ -268,8 +268,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #e6dcc6; /* Slightly darker parchment */
-  border: 1px solid #d5cbb0;
+  background-color: #e8e2d4; /* Slightly darker parchment */
+  border: 1px solid #c4baa6;
   border-radius: 4px;
   padding: 10px;
 }
@@ -310,7 +310,7 @@
 .resistance-item,
 .vulnerability-item {
   padding: 5px 0;
-  border-bottom: 1px solid rgba(213, 203, 176, 0.5);
+  border-bottom: 1px solid rgba(196, 186, 166, 0.5);
 }
 
 .damage-type {
@@ -326,8 +326,8 @@
 }
 
 .creature-ability {
-  background-color: #e6dcc6; /* Slightly darker parchment */
-  border: 1px solid #d5cbb0;
+  background-color: #e8e2d4; /* Slightly darker parchment */
+  border: 1px solid #c4baa6;
   border-radius: 6px;
   padding: 15px;
 }
@@ -371,12 +371,6 @@
 }
 
 /* Currency Container Styles - Matching Inventory */
-.currency-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 15px;
-}
 
 .currency {
   display: flex;
@@ -412,8 +406,8 @@
 }
 
 .coin.gold {
-  border: 1px solid #ffd700;
-  box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  border: 1px solid #9a7b3c;
+  box-shadow: 0 0 5px rgba(154, 123, 60, 0.5);
 }
 
 .coin.silver {
@@ -426,18 +420,6 @@
   box-shadow: 0 0 5px rgba(205, 127, 50, 0.5);
 }
 
-.currency-value {
-  min-width: 40px;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: #000;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
 .loot-items-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -448,8 +430,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  background-color: #e6dcc6; /* Slightly darker parchment */
-  border: 1px solid #d5cbb0;
+  background-color: #e8e2d4; /* Slightly darker parchment */
+  border: 1px solid #c4baa6;
   border-radius: 6px;
   padding: 10px;
   cursor: pointer;

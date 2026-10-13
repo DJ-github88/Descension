@@ -1,0 +1,24 @@
+const fs=require('fs'),path=require('path'),cp=require('child_process'),crypto=require('crypto'),zlib=require('zlib');
+const root='D:/VTT',out=__dirname,phase=process.argv[2]||'before';
+const git=(...args)=>cp.execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const files=git('ls-files','--cached','--others','--exclude-standard','-z').split('\0').filter(Boolean);
+const hashes=Object.fromEntries(files.filter(f=>fs.existsSync(path.join(root,f))).map(f=>[f,sha(fs.readFileSync(path.join(root,f)))]));
+const evidence='vtt-react/verification/p7/evidence/';
+const table=fs.readFileSync(path.join(root,evidence,'changed-files.md'),'utf8');
+const focal=[...table.matchAll(/\| `([^`]+)` \| `([^`]+)` \| `([^`]+)` \|/g)].map(m=>({file:m[1],before:m[2],claimed:m[3],actual:hashes[m[1]]}));
+const artifactManifest=JSON.parse(fs.readFileSync(path.join(root,evidence,'artifact-manifest.json')));
+const artifactMismatches=Object.entries(artifactManifest).filter(([f,h])=>!fs.existsSync(path.join(root,evidence,f))||sha(fs.readFileSync(path.join(root,evidence,f)))!==h);
+const starting=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(root,evidence,'starting-source.json.gz'))));
+const startingCorrupt=Object.entries(starting.files).filter(([f,b])=>sha(Buffer.from(b,'base64'))!==starting.hashes[f]);
+const implementationBefore=JSON.parse(fs.readFileSync(path.join(root,evidence,'before.json')));
+const startingInventoryMismatch=Object.keys(starting.hashes).filter(f=>starting.hashes[f]!==implementationBefore.hashes[f]);
+const accepted=JSON.parse(fs.readFileSync(path.join(root,'vtt-react/verification/p6/evidence/independent-container-acceptance-20261012/green.json'))).manifest;
+const dependencyChanges=Object.entries(accepted).filter(([f,h])=>hashes['vtt-react/src/'+f]!==h).map(([f,h])=>({file:'vtt-react/src/'+f,accepted:h,actual:hashes['vtt-react/src/'+f]}));
+const frozenContract=fs.readFileSync(path.join(root,evidence,'frozen-contract.md'),'utf8');
+const currentContract=fs.readFileSync(path.join(root,'docs/MYTHRILL_PROJECT_7_CONTRACT.md'),'utf8');
+const result={date:new Date().toISOString(),checkout:git('rev-parse','--show-toplevel'),branch:git('branch','--show-current'),head:git('rev-parse','HEAD'),status:git('status','--porcelain=v1','--untracked-files=all'),hashes,focal,artifactMismatches,startingCorrupt,startingInventoryMismatch,startingFileCount:Object.keys(starting.files).length,artifactCount:Object.keys(artifactManifest).length,frozenF1F6Identical:frozenContract.split('## 1. Authority')[0]===currentContract.split('## 1. Authority')[0],dependencyChanges};
+if(phase==='after'){const before=JSON.parse(fs.readFileSync(path.join(out,'before.json')));result.drift=Object.keys({...before.hashes,...hashes}).filter(f=>before.hashes[f]!==hashes[f]);}
+if(phase==='after'&&fs.existsSync(path.join(out,'after.json'))&&!fs.existsSync(path.join(out,'after-validation.json')))fs.copyFileSync(path.join(out,'after.json'),path.join(out,'after-validation.json'));
+fs.writeFileSync(path.join(out,phase+'.json'),JSON.stringify(result,null,2));
+console.log(JSON.stringify({phase,files:files.length,checkout:result.checkout,branch:result.branch,head:result.head,focalMismatches:focal.filter(f=>f.claimed!==f.actual),artifactMismatches,startingCorrupt:startingCorrupt.map(e=>e[0]),startingInventoryMismatch,startingFileCount:result.startingFileCount,artifactCount:result.artifactCount,frozenF1F6Identical:result.frozenF1F6Identical,dependencyChanges,drift:result.drift},null,2));

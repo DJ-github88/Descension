@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--require",
+    "D:\\VTT\\vtt-react\\verification\\p7\\preserved-output.cjs",
+    "D:\\VTT\\vtt-react\\verification\\p6\\character-save-browser.cjs"
+  ],
+  "status": 0,
+  "error": null,
+  "sourceSha256": "3f5e9adc822f9459ad17386b199600950cc439811e2d5bd49d42f76f44035d40"
+}

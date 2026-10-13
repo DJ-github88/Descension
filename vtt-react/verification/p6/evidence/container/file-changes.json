@@ -1,0 +1,41 @@
+{
+  "headUnchanged": true,
+  "preservedExternalEvidenceUnchanged": true,
+  "preservedRepositoryEvidenceUnchanged": true,
+  "taskFiles": [
+    {
+      "file": "vtt-react/src/utils/characterShapeCodec.js",
+      "before": "76c7261701e6d6a5a920ebfa9e31c38b24cb0bf3072d5bbc95c4c526222f1c58",
+      "after": "ddbd6d694e62a8a14709d058be69b14b0fcce20d32364be69564dd8303a83b37"
+    },
+    {
+      "file": "vtt-react/verification/p6/container-browser.cjs",
+      "before": null,
+      "after": "706e4f964b6a89612044ffc9e15f354b18118b375b985d24b191aadaac7003c4"
+    },
+    {
+      "file": "docs/MYTHRILL_P6_CONTAINER_COMPATIBILITY_CORRECTION_20261012.md",
+      "before": null,
+      "after": "0f4f0ebe0f391d7d0a59633231a560e4f739b825f63cb4f26f1491afe4999d31"
+    },
+    {
+      "file": "docs/MYTHRILL_P6_CONTAINER_INDEPENDENT_BLOCK_20261012.md",
+      "before": null,
+      "after": "4db242c893d025a8bf23b50fdb61b5832859d747265c1def0eb256d71afc4f73"
+    }
+  ],
+  "concurrentChanges": [
+    "vtt-react/src/data/classes/animist/components/AnimistResourceBar.jsx",
+    "vtt-react/src/data/classes/apex/components/ApexResourceBar.jsx",
+    "vtt-react/src/data/classes/arcanoneer/components/ArcanoneerResourceBar.jsx",
+    "vtt-react/src/data/classes/augur/components/AugurResourceBar.jsx",
+    "vtt-react/src/data/classes/crusader/components/CrusaderResourceBar.jsx",
+    "vtt-react/src/data/classes/lunarch/components/LunarchResourceBar.jsx",
+    "vtt-react/src/data/classes/shaper/components/ShaperResourceBar.jsx",
+    "vtt-react/src/data/classes/spellguard/components/SpellguardResourceBar.jsx",
+    "vtt-react/src/data/classes/toxicologist/components/ToxicologistResourceBar.jsx",
+    "vtt-react/src/data/classes/warden/components/GaolerResourceBar.jsx"
+  ],
+  "newEvidenceDirectory": "vtt-react/verification/p6/evidence/container",
+  "liveInventoryChecks": "imported/failed/recovered/healed exact"
+}

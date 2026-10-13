@@ -310,6 +310,11 @@ async function processActionQueue(userId, ownerGuard = null) {
    console.log('📴 Offline replay superseded by owner change - keeping queue');
    return;
   }
+  if (action.type === 'update_character') {
+   action.status = 'pending';
+   action.error = 'Personal canonical save requires explicit retry/reconciliation';
+   continue;
+  }
   try {
    await processQueuedAction(action);
    processedActions.push(action.id);
@@ -329,7 +334,7 @@ async function processActionQueue(userId, ownerGuard = null) {
   !processedActions.includes(action.id)
  );
 
- setOfflineData(OFFLINE_STORAGE.ACTION_QUEUE, [...updatedQueue, ...failedActions]);
+ setOfflineData(OFFLINE_STORAGE.ACTION_QUEUE, updatedQueue);
 
  // Update sync status
  const syncStatus = getOfflineData(OFFLINE_STORAGE.SYNC_STATUS) || {};
@@ -412,12 +417,13 @@ export async function syncOfflineData(userId) {
   // Sync offline characters
   const offlineCharacters = getOfflineData(OFFLINE_STORAGE.CHARACTERS) || {};
   for (const characterData of Object.values(offlineCharacters)) {
-   if (characterData.syncStatus === 'pending') {
+   if (characterData.syncStatus === 'pending' || characterData.syncStatus === 'synced') {
     // Do not write the flat offline cache shape into characters/{id}: the
     // canonical nested document is written by characterPersistenceService.
-    // Just mark the local cache entry as reconciled to stop retrying.
-    characterData.syncStatus = 'synced';
-    characterData.lastSynced = new Date().toISOString();
+    // Cache metadata has no corresponding confirmed write receipt.
+    characterData.syncStatus = 'pending';
+    characterData.reconciliationRequired = true;
+    delete characterData.lastSynced;
    }
   }
   if (!ownerGuard.isCurrent()) return;

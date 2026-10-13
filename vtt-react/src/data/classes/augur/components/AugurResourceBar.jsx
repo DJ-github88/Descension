@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -8,6 +9,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import ClassTip from '../../../../components/hud/ClassTip';
 import '../../../../styles/unified-context-menu.css';
 
+import { PAGE, PAPER, RULE, inked, washed } from '../../../../components/hud/calmBarPalette';
 const AugurResourceBar = ({
     classResource = {},
     size = 'normal',
@@ -176,72 +178,20 @@ const AugurResourceBar = ({
                         preserveAspectRatio="xMidYMid meet"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-                        <defs>
-                            <filter id={ids.sun} x="-40%" y="-40%" width="180%" height="180%">
-                                <feGaussianBlur stdDeviation="2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            <filter id={ids.void} x="-40%" y="-40%" width="180%" height="180%">
-                                <feGaussianBlur stdDeviation="2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            <filter id={ids.shadow} x="-10%" y="-10%" width="120%" height="120%">
-                                <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.85" />
-                            </filter>
-
-                            {/* Aged altar-stone chassis */}
-                            <linearGradient id={ids.brass} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#2c2419" />
-                                <stop offset="35%" stopColor="#1a150e" />
-                                <stop offset="70%" stopColor="#120e09" />
-                                <stop offset="100%" stopColor="#080604" />
-                            </linearGradient>
-
-                            {/* Wing channel beds */}
-                            <linearGradient id={ids.malBed} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#09050d" />
-                                <stop offset="100%" stopColor="#150a20" />
-                            </linearGradient>
-
-                            <linearGradient id={ids.benBed} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#0f0c05" />
-                                <stop offset="100%" stopColor="#20180a" />
-                            </linearGradient>
-
-                            {/* Lit marrow-fang hearts */}
-                            <linearGradient id={ids.malFang} x1="0" y1="1" x2="0" y2="0">
-                                <stop offset="0%" stopColor="#581c87" />
-                                <stop offset="60%" stopColor="#a855f7" />
-                                <stop offset="100%" stopColor="#f0abfc" />
-                            </linearGradient>
-
-                            <linearGradient id={ids.benFang} x1="0" y1="1" x2="0" y2="0">
-                                <stop offset="0%" stopColor="#92400e" />
-                                <stop offset="60%" stopColor="#f59e0b" />
-                                <stop offset="100%" stopColor="#fef9c3" />
-                            </linearGradient>
-                        </defs>
+                        <defs />
 
                         {/* 1. HARUSPEX ALTAR SLAB — full bleed */}
-                        <g filter={`url(#${ids.shadow})`}>
+                        <g>
                             <path
                                 d="M 5 8 L 295 8 L 297 14 L 297 50 L 295 56 L 5 56 L 3 50 L 3 14 Z"
-                                fill={`url(#${ids.brass})`}
-                                stroke={inDebt ? '#ef4444' : '#b45309'}
+                                fill={PAPER}
+                                stroke={inDebt ? inked('#ef4444', 0.6) : inked('#b45309', 0.6)}
                                 strokeWidth={inDebt ? 2 : 1.5}
                             />
                             {/* Blood-groove seam along the top edge */}
                             <line
                                 x1="12" y1="10.5" x2="288" y2="10.5"
-                                stroke={inDebt ? '#ef4444' : '#b45309'}
+                                stroke={inDebt ? inked('#ef4444', 0.6) : inked('#b45309', 0.6)}
                                 strokeWidth="1"
                                 strokeLinecap="round"
                                 opacity={inDebt ? 0.9 : 0.45}
@@ -251,25 +201,25 @@ const AugurResourceBar = ({
                         {/* Brass corner studs */}
                         {[[10, 14], [290, 14], [10, 50], [290, 50]].map(([cx, cy], i) => (
                             <g key={i}>
-                                <circle cx={cx} cy={cy} r="2" fill="#0d0a07" />
-                                <circle cx={cx} cy={cy} r="1.2" fill="#d97706" />
-                                <circle cx={cx - 0.4} cy={cy - 0.4} r="0.45" fill="#fef08a" opacity="0.9" />
+                                <circle cx={cx} cy={cy} r="2" fill={PAPER} />
+                                <circle cx={cx} cy={cy} r="1.2" fill={washed('#d97706', 0.2)} />
+                                <circle cx={cx - 0.4} cy={cy - 0.4} r="0.45" fill={washed('#fef08a', 0.2)} opacity="0.9" />
                             </g>
                         ))}
 
                         {/* 2. LEFT WING CHANNEL — dark omens */}
                         <rect
                             x="20" y="36" width="112" height="13" rx="4"
-                            fill={`url(#${ids.malBed})`}
-                            stroke="#581c87"
+                            fill={PAPER}
+                            stroke={inked('#581c87', 0.6)}
                             strokeWidth="1"
                         />
 
                         {/* 3. RIGHT WING CHANNEL — light omens */}
                         <rect
                             x="168" y="36" width="112" height="13" rx="4"
-                            fill={`url(#${ids.benBed})`}
-                            stroke="#b45309"
+                            fill={PAPER}
+                            stroke={inked('#b45309', 0.6)}
                             strokeWidth="1"
                         />
 
@@ -295,20 +245,19 @@ const AugurResourceBar = ({
                                     {isCurrent && (
                                         <circle
                                             cx={fang.cx} cy={42 - fang.h / 2} r="8"
-                                            fill="none" stroke="#d946ef" strokeWidth="1.2" opacity="0.8"
-                                            className="augur-halo" filter={`url(#${ids.void})`}
+                                            fill="none" stroke={inked('#d946ef', 0.6)} strokeWidth="1.2" opacity="0.8"
+                                            className="augur-halo"
                                         />
                                     )}
                                     <polygon
                                         points={fangPoints(fang.cx, 50, fang.h, 7.2)}
-                                        fill={isFilled ? `url(#${ids.malFang})` : '#0d0714'}
-                                        stroke={isFilled ? '#d946ef' : (hoveredFang === key ? '#7e22ce' : '#27103d')}
+                                        fill={isFilled ? washed('#a855f7', 0.2) : PAPER}
+                                        stroke={isFilled ? inked('#d946ef', 0.6) : (hoveredFang === key ? inked('#7e22ce', 0.6) : RULE)}
                                         strokeWidth={isFilled ? 1 : 0.9}
                                         strokeLinejoin="round"
-                                        filter={isFilled ? `url(#${ids.void})` : undefined}
                                     />
                                     {isFilled && (
-                                        <circle cx={fang.cx} cy={50 - fang.h * 0.35} r="1.1" fill="#ffffff" className="augur-fang-heart" />
+                                        <circle cx={fang.cx} cy={50 - fang.h * 0.35} r="1.1" fill={PAGE} className="augur-fang-heart" />
                                     )}
                                 </g>
                             );
@@ -336,20 +285,19 @@ const AugurResourceBar = ({
                                     {isCurrent && (
                                         <circle
                                             cx={fang.cx} cy={42 - fang.h / 2} r="8"
-                                            fill="none" stroke="#fbbf24" strokeWidth="1.2" opacity="0.8"
-                                            className="augur-halo" filter={`url(#${ids.sun})`}
+                                            fill="none" stroke={inked('#fbbf24', 0.6)} strokeWidth="1.2" opacity="0.8"
+                                            className="augur-halo"
                                         />
                                     )}
                                     <polygon
                                         points={fangPoints(fang.cx, 50, fang.h, 7.2)}
-                                        fill={isFilled ? `url(#${ids.benFang})` : '#140f07'}
-                                        stroke={isFilled ? '#f59e0b' : (hoveredFang === key ? '#b45309' : '#3d2509')}
+                                        fill={isFilled ? washed('#f59e0b', 0.2) : PAPER}
+                                        stroke={isFilled ? inked('#f59e0b', 0.6) : (hoveredFang === key ? inked('#b45309', 0.6) : RULE)}
                                         strokeWidth={isFilled ? 1 : 0.9}
                                         strokeLinejoin="round"
-                                        filter={isFilled ? `url(#${ids.sun})` : undefined}
                                     />
                                     {isFilled && (
-                                        <circle cx={fang.cx} cy={50 - fang.h * 0.35} r="1.1" fill="#ffffff" className="augur-fang-heart" />
+                                        <circle cx={fang.cx} cy={50 - fang.h * 0.35} r="1.1" fill={PAGE} className="augur-fang-heart" />
                                     )}
                                 </g>
                             );
@@ -358,7 +306,6 @@ const AugurResourceBar = ({
                         {/* 6. CENTER OMPHALOS — split navel-stone of the reading */}
                         <g
                             className="augur-center-omphalos"
-                            filter={`url(#${ids.shadow})`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 if (isOwner) {
@@ -372,24 +319,24 @@ const AugurResourceBar = ({
                             {/* Brass ring */}
                             <circle
                                 cx="150" cy="32" r="17"
-                                fill="#17130b"
-                                stroke={inDebt ? '#ef4444' : '#f59e0b'}
+                                fill={PAPER}
+                                stroke={inDebt ? inked('#ef4444', 0.6) : inked('#f59e0b', 0.6)}
                                 strokeWidth="1.8"
                             />
                             {/* Split disc: violet night / gold dawn */}
-                            <path d="M 150,19 A 13,13 0 0,0 150,45 Z" fill="#150a20" stroke="#581c87" strokeWidth="0.8" />
-                            <path d="M 150,19 A 13,13 0 0,1 150,45 Z" fill="#20180a" stroke="#b45309" strokeWidth="0.8" />
+                            <path d="M 150,19 A 13,13 0 0,0 150,45 Z" fill={PAPER} stroke={inked('#581c87', 0.6)} strokeWidth="0.8" />
+                            <path d="M 150,19 A 13,13 0 0,1 150,45 Z" fill={PAPER} stroke={inked('#b45309', 0.6)} strokeWidth="0.8" />
                             {/* Star-specks in the night half */}
-                            <g fill="#c4b5fd">
+                            <g fill={washed('#c4b5fd', 0.2)}>
                                 <circle cx="143" cy="26" r="0.7" opacity="0.9" />
                                 <circle cx="140" cy="36" r="0.6" opacity="0.7" />
                                 <circle cx="145" cy="41" r="0.5" opacity="0.8" />
                             </g>
                             {/* Sacrificial blade divider */}
-                            <line x1="150" y1="19" x2="150" y2="45" stroke="#d6c9a8" strokeWidth="1" opacity="0.85" />
+                            <line x1="150" y1="19" x2="150" y2="45" stroke={inked('#d6c9a8', 0.6)} strokeWidth="1" opacity="0.85" />
                             {/* Debt cracks across the stone */}
                             {inDebt && (
-                                <g stroke="#ef4444" strokeWidth="1" strokeLinecap="round" filter={`url(#${ids.sun})`}>
+                                <g stroke={inked('#ef4444', 0.6)} strokeWidth="1" strokeLinecap="round">
                                     <polyline points="139,22 144,29 141,35" fill="none" />
                                     <polyline points="161,24 156,31 159,38" fill="none" />
                                 </g>
@@ -398,15 +345,14 @@ const AugurResourceBar = ({
                             <path
                                 d="M 140,32 C 144,26.5 156,26.5 160,32 C 156,37.5 144,37.5 140,32 Z"
                                 fill="none"
-                                stroke={inDebt ? '#ef4444' : '#fef08a'}
+                                stroke={inDebt ? inked('#ef4444', 0.6) : inked('#fef08a', 0.6)}
                                 strokeWidth="1.3"
                             />
                             <circle
                                 cx={150 + lean} cy="32" r="2.6"
-                                fill={inDebt ? '#ef4444' : '#f59e0b'}
-                                filter={benediction + malediction > 0 ? `url(#${ids.sun})` : undefined}
+                                fill={inDebt ? washed('#ef4444', 0.2) : washed('#f59e0b', 0.2)}
                             />
-                            <circle cx={150 + lean} cy="32" r="0.9" fill="#ffffff" />
+                            <circle cx={150 + lean} cy="32" r="0.9" fill={PAGE} />
                         </g>
                     </svg>
                 </div>
@@ -422,7 +368,7 @@ const AugurResourceBar = ({
                         subtitle="Augur Benediction & Malediction"
                         state={`${benediction}/${maxBenediction} Light · ${malediction}/${maxMalediction} Dark`}
                         stateTone={inDebt ? 'bad' : 'neutral'}
-                        mechanic="Every d20 rolled by anyone within 60 ft banks an omen: even = Benediction (wards, forced misses), odd = Malediction (curses, rot). With no fresh blood nearby, invoke Blood Price — 1d6 slicing damage and 3 rounds of self-bleed for +2 omens."
+                        mechanic="Every d20 within 60 ft banks an omen: even = Benediction, odd = Malediction. With no fresh blood nearby, Blood Price (1d6 slashing, 3 rounds bleeding) grants +2 omens."
                         status={[
                             benediction > 0 ? `${benediction} Benediction banked — force a miss or ward an ally.` : 'No Benediction banked.',
                             malediction > 0 ? `${malediction} Malediction banked — curse or rot a foe.` : 'No Malediction banked.',
@@ -469,67 +415,52 @@ const AugurResourceBar = ({
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section-header">
-                            Dual Omen Astrolabe
-                        </div>
-
-                        {/* Dual Column Controls */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
-                            {/* Malediction (Dark) */}
-                            <div>
-                                <div style={{ color: '#d946ef', textAlign: 'center', fontSize: '11px', fontWeight: '700' }}>
-                                    Dark ({malediction}/{maxMalediction})
-                                </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', marginTop: '4px' }}>
-                                    <button className="context-menu-button spend" onClick={() => handleMaledictionChange(-1)}>
-                                        <i className="fas fa-minus"></i>
-                                    </button>
-                                    <button className="context-menu-button gain" onClick={() => handleMaledictionChange(1)}>
-                                        <i className="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <button
-                                    className="context-menu-button"
-                                    style={{ width: '100%', marginTop: '4px' }}
-                                    onClick={() => { if (onClassResourceUpdate) onClassResourceUpdate('malediction', 0); }}
-                                >
-                                    Reset
-                                </button>
+                    <div className="cm" style={{ '--cm-accent': '#7a5a9a', '--cm-accent-deep': '#3f2a58', '--cm-wash': '#ebe2f0' }}>
+                        <header className="cm-head">
+                            <span className="cm-seal"><i className="fas fa-eye" aria-hidden="true"></i></span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">{benediction + malediction} omens banked</div>
+                                <div className="cm-title">Dual Omen Astrolabe</div>
+                                <div className="cm-sub">{benediction > malediction ? 'The stars lean toward light.' : malediction > benediction ? 'The stars lean toward shadow.' : 'The stars hang balanced.'}</div>
                             </div>
-
-                            {/* Benediction (Light) */}
-                            <div>
-                                <div style={{ color: '#f59e0b', textAlign: 'center', fontSize: '11px', fontWeight: '700' }}>
-                                    Light ({benediction}/{maxBenediction})
-                                </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', marginTop: '4px' }}>
-                                    <button className="context-menu-button spend" onClick={() => handleBenedictionChange(-1)}>
-                                        <i className="fas fa-minus"></i>
-                                    </button>
-                                    <button className="context-menu-button gain" onClick={() => handleBenedictionChange(1)}>
-                                        <i className="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <button
-                                    className="context-menu-button"
-                                    style={{ width: '100%', marginTop: '4px' }}
-                                    onClick={() => { if (onClassResourceUpdate) onClassResourceUpdate('benediction', 0); }}
-                                >
-                                    Reset
-                                </button>
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        {inDebt && (
+                            <div className="cm-burden is-severe">
+                                <span className="cm-burden-label">Omen debt {Math.abs(omenDebt)}</span>
+                                <p className="cm-burden-text">At your next long rest, each unused point costs -1 to all saving throws. Short rests are safe.</p>
                             </div>
-                        </div>
-
-                        <div className="context-menu-main-separator" style={{ margin: '8px 0' }}></div>
-
-                        <button
-                            className="context-menu-button danger"
-                            onClick={() => setShowControls(false)}
-                            style={{ width: '100%' }}
-                        >
-                            <i className="fas fa-times"></i> Close
-                        </button>
+                        )}
+                        <div className="cm-duo">
+                            <section className="cm-pane" style={{ '--pane-accent': '#6a3f86', '--pane-wash': '#e8dcef' }}>
+                                <div className="cm-pane-title">Dark ({malediction}/{maxMalediction})</div>
+                                <p className="cm-pane-text">Curse or rot a foe.</p>
+                                <div className="cm-meter cm-pane-meter" aria-hidden="true"><span style={{ width: `${maxMalediction ? (malediction / maxMalediction) * 100 : 0}%` }}></span></div>
+                                <div className="cm-row">
+                                    <button type="button" className="context-menu-button spend" aria-label="Spend one Dark" onClick={() => handleMaledictionChange(-1)}><i className="fas fa-minus" aria-hidden="true"></i></button>
+                                    <button type="button" className="context-menu-button gain" aria-label="Bank one Dark" onClick={() => handleMaledictionChange(1)}><i className="fas fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <button type="button" className="cm-pane-reset" onClick={() => { if (onClassResourceUpdate) onClassResourceUpdate('malediction', 0); }}>Reset</button>
+                            </section>
+        <section className="cm-pane" style={{ '--pane-accent': '#b07d1e', '--pane-wash': '#f4e6c4' }}>
+                                <div className="cm-pane-title">Light ({benediction}/{maxBenediction})</div>
+                                <p className="cm-pane-text">Force a miss or ward an ally.</p>
+                                <div className="cm-meter cm-pane-meter" aria-hidden="true"><span style={{ width: `${maxBenediction ? (benediction / maxBenediction) * 100 : 0}%` }}></span></div>
+                                <div className="cm-row">
+                                    <button type="button" className="context-menu-button spend" aria-label="Spend one Light" onClick={() => handleBenedictionChange(-1)}><i className="fas fa-minus" aria-hidden="true"></i></button>
+                                    <button type="button" className="context-menu-button gain" aria-label="Bank one Light" onClick={() => handleBenedictionChange(1)}><i className="fas fa-plus" aria-hidden="true"></i></button>
+                                </div>
+                                <button type="button" className="cm-pane-reset" onClick={() => { if (onClassResourceUpdate) onClassResourceUpdate('benediction', 0); }}>Reset</button>
+                            </section>
+                                            </div>
+                        <ClassMenuSpells className="Augur" resourceTypes={['benediction', 'malediction']} resourceLabel="omens" currentByType={{ benediction, malediction }} />
+                        <details className="cm-notes">
+                            <summary>How omens work</summary>
+                            <p>Every d20 rolled within 60 ft banks an omen: an even roll for Light, an odd roll for Dark.</p>
+                            <p>With no fresh blood nearby, pay the Blood Price (1d6 slashing, bleeding for 3 rounds) to bank two more.</p>
+                        </details>
                     </div>
                 </div>,
                 document.body

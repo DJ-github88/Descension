@@ -3,7 +3,7 @@
 
 /* Main Container - Use same styling as BuffEffects */
 .pf-effects-container {
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-4, 16px);
@@ -38,7 +38,7 @@
 
 /* Configuration Sections - Match BuffEffects styling */
 .pf-config-section {
-  background: var(--my-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  background: var(--my-gradient-parchment-light, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-4, 16px);
@@ -49,7 +49,7 @@
 .pf-config-group {
   margin-bottom: var(--my-space-4, 16px);
   padding: var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   box-shadow: var(--my-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
@@ -124,7 +124,7 @@
 }
 
 .pf-button {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-3, 12px) var(--my-space-2, 8px);
@@ -141,7 +141,7 @@
 }
 
 .pf-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-2px);
   box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
   border-color: var(--my-brown-dark, #654321);
@@ -159,9 +159,6 @@
 
 /* Stat Button Grid for Saving Throws */
 .pf-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--my-space-2, 8px);
   margin-top: var(--my-space-2, 8px);
 }
 
@@ -170,7 +167,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--my-space-1, 4px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-3, 12px);
@@ -185,7 +182,7 @@
 }
 
 .pf-stat-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-1px);
   box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
@@ -230,7 +227,7 @@
 .effect-config-option input[type="text"] {
   width: 100%;
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -261,7 +258,7 @@
 }
 
 .duration-time-input select {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
@@ -293,7 +290,7 @@
 .config-option select {
   width: 100%;
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -314,7 +311,7 @@
 
 /* Dropdown Styling */
 .buff-dropdown {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
@@ -327,7 +324,7 @@
 
 /* Configuration Section Headers */
 .config-section {
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-4, 16px);
@@ -352,7 +349,7 @@
 
 /* Dice Formula Help Button */
 .dice-formula-help-button {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
@@ -367,7 +364,7 @@
 }
 
 .dice-formula-help-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-1px);
 }
 
@@ -379,7 +376,7 @@
 
 /* Progressive Debuff Configuration */
 .progressive-buff-config {
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-4, 16px);
@@ -405,7 +402,7 @@
 }
 
 .stage-item {
-  background: var(--my-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
+  background: var(--my-gradient-parchment-light, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-3, 12px);
@@ -482,7 +479,7 @@
 .stage-timing-inputs input {
   width: 80px;
   padding: var(--my-space-1, 4px) var(--my-space-2, 8px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -550,7 +547,7 @@
 .stage-save-dc input,
 .stage-save-type select {
   padding: var(--my-space-1, 4px) var(--my-space-2, 8px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -579,7 +576,7 @@
   max-height: 200px;
   overflow-y: auto;
   padding: var(--my-space-2, 8px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
 }
@@ -589,7 +586,7 @@
   align-items: center;
   gap: var(--my-space-2, 8px);
   padding: var(--my-space-2, 8px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   transition: all var(--my-transition-normal, 0.25s ease);
@@ -638,7 +635,7 @@
 .stage-stat-value input {
   width: 60px;
   padding: var(--my-space-1, 4px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -654,14 +651,14 @@
   padding: var(--my-space-4, 16px);
   color: var(--my-text-secondary, #5a1e12);
   font-style: italic;
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
 }
 
 /* Add Stage Button */
 .add-stage-button {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-3, 12px) var(--my-space-4, 16px);
@@ -677,7 +674,7 @@
 }
 
 .add-stage-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-1px);
   box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }
@@ -776,7 +773,7 @@
   display: flex;
   align-items: center;
   gap: var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   padding: var(--my-space-3, 12px);
@@ -825,7 +822,7 @@
 .pf-resistance-select {
   width: 200px;
   padding: var(--my-space-2, 8px) var(--my-space-3, 12px);
-  background: var(--my-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  background: var(--my-gradient-input, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   color: var(--my-text-primary, #2d1810);
@@ -841,13 +838,13 @@
   outline: none;
   border-color: var(--my-fire, #8B0000);
   box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  background: var(--my-gradient-input-focus, linear-gradient(135deg, #f8f4e6 0%, #f0ead6 100%));
+  background: var(--my-gradient-input-focus, #f8f5ee);
 }
 
 /* Resistance Level Color Coding for Debuffs */
 .pf-resistance-select.none {
   border-color: var(--my-brown-light, #a08c70);
-  background: var(--my-gradient-input, linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%));
+  background: var(--my-gradient-input, #f8f5ee);
   color: var(--my-text-primary, #2d1810);
 }
 
@@ -941,7 +938,7 @@
 .pf-stat-input {
   width: 80px;
   padding: var(--my-space-1, 4px) var(--my-space-2, 8px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   font-family: var(--my-font-ui, 'Crimson Text', serif);
@@ -983,7 +980,7 @@
 }
 
 .pf-toggle-btn {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: none;
   border-right: 1px solid var(--my-brown-medium, #8B4513);
   padding: var(--my-space-1, 4px) var(--my-space-2, 8px);
@@ -1005,7 +1002,7 @@
 }
 
 .pf-toggle-btn:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
 }
 
 .pf-toggle-btn.pf-toggle-active {
@@ -1055,7 +1052,7 @@
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: var(--my-space-5, 20px);
   padding: var(--my-space-5, 20px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1068,7 +1065,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--my-space-5, 20px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius-lg, 12px);
   cursor: pointer;
@@ -1081,7 +1078,7 @@
 }
 
 .pf-stat-card:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-4px) scale(1.02);
   box-shadow:
     0 8px 16px rgba(45, 24, 16, 0.2),
@@ -1159,7 +1156,7 @@
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: var(--my-space-3, 12px);
   padding: var(--my-space-3, 12px);
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  background: var(--my-gradient-parchment, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-light, #a08c70);
   border-radius: var(--my-border-radius, 8px);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1171,7 +1168,7 @@
   flex-direction: column;
   align-items: center;
   padding: var(--my-space-3, 12px);
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   border-radius: var(--my-border-radius, 8px);
   cursor: pointer;
@@ -1182,7 +1179,7 @@
 }
 
 .pf-status-card:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
   transform: translateY(-2px);
   box-shadow: var(--my-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
 }

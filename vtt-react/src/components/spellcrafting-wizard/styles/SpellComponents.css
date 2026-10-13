@@ -45,8 +45,6 @@
 }
 
 .component-option {
-  display: flex;
-  align-items: center;
   position: relative;
 }
 
@@ -55,18 +53,6 @@
   padding: 0;
   margin: 0;
   position: relative;
-}
-
-
-
-.components-header {
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-4);
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
-  padding-bottom: var(--my-space-2);
-  font-family: var(--my-font-display);
 }
 
 .components-options {
@@ -326,7 +312,7 @@
 .item-search-input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2);
 }
 
 /* Item Library Modal */
@@ -389,12 +375,6 @@
   color: var(--my-text-on-dark);
 }
 
-.modal-search {
-  position: relative;
-  padding: var(--my-space-3);
-  border-bottom: var(--my-border-width) solid var(--my-brown-light);
-}
-
 .modal-content {
   flex: 1;
   overflow-y: auto;
@@ -410,9 +390,7 @@
 }
 
 .item-card {
-  background: var(--my-gradient-button);
   border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
   padding: var(--my-space-3);
   cursor: pointer;
   transition: all var(--my-transition-normal);
@@ -421,9 +399,6 @@
 
 .item-card:hover {
   background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-md);
 }
 
 .item-card.selected {
@@ -463,22 +438,6 @@
   color: var(--my-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.selected-indicator {
-  position: absolute;
-  top: var(--my-space-1);
-  right: var(--my-space-1);
-  background: var(--my-success);
-  color: var(--my-text-on-dark);
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--my-text-xs);
-  font-weight: var(--my-font-bold);
 }
 
 .no-items-message {
@@ -564,39 +523,3 @@
 }
 
 /* Components Help Section */
-.components-help {
-  background: rgba(15, 23, 42, 0.2);
-  border-radius: 6px;
-  padding: 16px;
-}
-
-.components-help h5 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #e2e8f0;
-  margin-top: 0;
-  margin-bottom: 8px;
-}
-
-.components-help p {
-  font-size: 14px;
-  color: #a4b1cd;
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-
-.components-help ul {
-  padding-left: 20px;
-}
-
-.components-help li {
-  font-size: 14px;
-  color: #a4b1cd;
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.components-help strong {
-  color: #e2e8f0;
-  font-weight: 600;
-}

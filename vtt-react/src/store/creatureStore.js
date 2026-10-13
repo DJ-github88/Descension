@@ -367,6 +367,7 @@ const useCreatureStore = create((set, get) => ({
 
   // Update creature state (HP, Mana, conditions)
   updateCreatureState: (tokenId, stateUpdates, sendToServer = true) => set(state => {
+    if (sendToServer && require('../services/actorConsequenceService').routeTokenState(tokenId, stateUpdates)) return state;
     const updatedTokens = (state.creatureTokens || []).map(token =>
       token.id === tokenId ? {
         ...token,

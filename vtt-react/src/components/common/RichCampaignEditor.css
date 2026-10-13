@@ -16,7 +16,7 @@
 
 .rich-campaign-editor:focus-within {
   border-color: #c59b3f;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18), 0 2px 8px rgba(139, 69, 19, 0.1);
+  box-shadow: 0 0 0 3px rgba(154, 123, 60, 0.18), 0 2px 8px rgba(139, 69, 19, 0.1);
 }
 
 /* Top Bar with Label and Write/Preview Switcher */
@@ -153,8 +153,8 @@
 }
 
 .rich-tool-btn.narrative-btn {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: rgba(212, 175, 55, 0.5);
+  background: rgba(154, 123, 60, 0.15);
+  border-color: rgba(154, 123, 60, 0.5);
   color: #7d5a08;
   font-weight: 600;
 }
@@ -355,7 +355,7 @@
 
 .rich-modal-body input[type="text"]:focus {
   border-color: #c59b3f;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2);
 }
 
 .modal-or-divider {
@@ -386,7 +386,7 @@
   justify-content: center;
   gap: 8px;
   padding: 10px;
-  background: rgba(212, 175, 55, 0.12);
+  background: rgba(154, 123, 60, 0.12);
   border: 1.5px dashed #c59b3f;
   border-radius: 8px;
   color: #5a2e10;
@@ -398,7 +398,7 @@
 }
 
 .btn-modal-upload:hover {
-  background: rgba(212, 175, 55, 0.22);
+  background: rgba(154, 123, 60, 0.22);
   transform: translateY(-1px);
 }
 

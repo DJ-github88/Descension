@@ -154,6 +154,10 @@ function createSanitizationMiddleware(options = {}) {
           const data = args[payloadIndex];
           if (data && typeof data === 'object') {
             const sanitizedData = sanitizeObject(data, fieldsToSanitize, fieldsToSkip);
+            if (event.startsWith('actor_') && JSON.stringify(data) !== JSON.stringify(sanitizedData)) {
+              ackFailure(ack, { success: false, code: 'invalid_consequence', error: 'Proposal content requires safe plain text', event });
+              return;
+            }
             args[payloadIndex] = sanitizedData;
 
             if (logSanitization && JSON.stringify(data) !== JSON.stringify(sanitizedData)) {
@@ -194,4 +198,3 @@ module.exports = {
   sanitizePlayerName,
   createSanitizationMiddleware
 };
-

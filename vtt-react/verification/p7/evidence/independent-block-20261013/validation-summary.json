@@ -1,0 +1,324 @@
+{
+  "commands": [
+    {
+      "artifact": "baseline-new-ui.json",
+      "command": [
+        "node",
+        "D:\\VTT\\vtt-react\\node_modules\\react-scripts\\bin\\react-scripts.js",
+        "test",
+        "--watchAll=false",
+        "--runInBand",
+        "--silent",
+        "--no-cache",
+        "--runTestsByPath",
+        "src/data/classes/apex/__tests__/ApexResourceBar.test.jsx",
+        "src/data/classes/augur/__tests__/AugurResourceBar.test.jsx",
+        "src/components/account/__tests__/CharacterViewHeaderMounts.test.jsx"
+      ],
+      "cwd": "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\baseline\\vtt-react",
+      "status": 0,
+      "durationMs": 21898
+    },
+    {
+      "artifact": "baseline.json",
+      "command": [
+        "node",
+        "verification/p7/baseline-test.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 21421
+    },
+    {
+      "artifact": "browser-gap-probes-2.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\browser-probes.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 1,
+      "durationMs": 14936
+    },
+    {
+      "artifact": "browser-gap-probes-3.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\browser-probes.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 1,
+      "durationMs": 17941
+    },
+    {
+      "artifact": "browser-gap-probes-4.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\browser-probes.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 17822
+    },
+    {
+      "artifact": "browser-gap-probes.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\browser-probes.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 1,
+      "durationMs": 43719
+    },
+    {
+      "artifact": "concrete-probes-2.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\probes.cjs"
+      ],
+      "cwd": "D:\\VTT\\server",
+      "status": 0,
+      "durationMs": 1113
+    },
+    {
+      "artifact": "concrete-probes.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\probes.cjs"
+      ],
+      "cwd": "D:\\VTT\\server",
+      "status": 1,
+      "durationMs": 899
+    },
+    {
+      "artifact": "focused.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "focused"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 20114
+    },
+    {
+      "artifact": "frontend-all.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "frontend"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 1,
+      "durationMs": 140474
+    },
+    {
+      "artifact": "historical-import-run.json",
+      "command": [
+        "node",
+        "D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\historical-import.cjs"
+      ],
+      "cwd": "D:\\VTT\\server",
+      "status": 0,
+      "durationMs": 370
+    },
+    {
+      "artifact": "historical.json",
+      "command": [
+        "node",
+        "verification/p7/red-replay.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 6018
+    },
+    {
+      "artifact": "lint-frontend.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "src/services/actorConsequenceService.js",
+        "src/hooks/useCharacterPersistence.js",
+        "src/services/silentRoomHydration.js",
+        "src/services/effectProcessingService.js",
+        "src/store/characterHelpers.js",
+        "src/store/characterSlices/coreSlice.js",
+        "src/store/characterSlices/multiplayerSlice.js",
+        "src/store/creatureStore.js",
+        "src/store/characterTokenStore.js",
+        "src/store/conditionStore.js",
+        "src/store/combatStore.js",
+        "src/components/hud/ActorConsequenceControls.jsx",
+        "src/components/hud/PartyHUD.jsx",
+        "src/components/hud/TargetHUD.jsx",
+        "src/components/multiplayer/socketHandlers/registerAllHandlers.js"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 4660
+    },
+    {
+      "artifact": "lint-server.json",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "services/actorConsequences.js",
+        "services/syncService.js",
+        "services/validationService.js",
+        "services/sanitizationService.js",
+        "services/rateLimitService.js",
+        "services/roomAccessService.js",
+        "handlers/actorConsequenceHandlers.js",
+        "handlers/socketHandlers.js",
+        "handlers/tokenHandlers.js",
+        "handlers/environmentHandlers.js",
+        "handlers/combatHandlers.js",
+        "handlers/roomLifecycleHandlers.js",
+        "tests/p7Consequences.production.test.js",
+        "tests/p7ImportMetadata.production.test.js",
+        "tests/p7Negative.production.test.js"
+      ],
+      "cwd": "D:\\VTT\\server",
+      "status": 0,
+      "durationMs": 1517
+    },
+    {
+      "artifact": "no-db-isolated.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/roomSavePersistence.test.js",
+        "--grep",
+        "reports unavailable instead of true",
+        "--timeout",
+        "10000",
+        "--exit"
+      ],
+      "cwd": "D:\\VTT\\server",
+      "status": 0,
+      "durationMs": 1037
+    },
+    {
+      "artifact": "p7-browser.json",
+      "command": [
+        "node",
+        "verification/p7/browser.cjs"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 15918
+    },
+    {
+      "artifact": "p7-server.json",
+      "command": [
+        "node",
+        "node_modules/mocha/bin/mocha.js",
+        "tests/p7Consequences.production.test.js",
+        "tests/p7ImportMetadata.production.test.js",
+        "--timeout",
+        "15000",
+        "--exit"
+      ],
+      "cwd": "D:\\VTT\\server",
+      "status": 0,
+      "durationMs": 5923
+    },
+    {
+      "artifact": "retained-container.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "container"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 9358
+    },
+    {
+      "artifact": "retained-p5.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "p5"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 20000
+    },
+    {
+      "artifact": "retained-p6.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "p6"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 11349
+    },
+    {
+      "artifact": "retained-regressions.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "regressions"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 24228
+    },
+    {
+      "artifact": "retained-remaining.json",
+      "command": [
+        "node",
+        "verification/p7/run-preserved.cjs",
+        "remaining"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 16803
+    },
+    {
+      "artifact": "server-all.json",
+      "command": [
+        "node",
+        "verification/p7/checks.cjs",
+        "server"
+      ],
+      "cwd": "D:\\VTT\\vtt-react",
+      "status": 0,
+      "durationMs": 37385
+    }
+  ],
+  "buildDrift": [
+    "vtt-react/src/styles/calm-shared.css",
+    "vtt-react/src/data/classes/animist/components/AnimistResourceBar.jsx",
+    "vtt-react/src/data/classes/harbinger/components/HarbingerResourceBar.jsx",
+    "vtt-react/src/data/classes/inquisitor/components/InquisitorResourceBar.jsx",
+    "vtt-react/src/data/classes/lunarch/components/LunarchResourceBar.jsx",
+    "vtt-react/src/data/classes/martyr/components/MartyrResourceBar.jsx",
+    "vtt-react/src/data/classes/minstrel/components/MinstrelResourceBar.jsx"
+  ],
+  "witnessDrift": [],
+  "focalDrift": [
+    {
+      "file": "vtt-react/src/components/hud/TargetHUD.jsx",
+      "before": "598b76b286608ae7b9da478d20b4f339fb9feb2ccdff43862d7e7775af8a9a8a",
+      "claimed": "69ff3727692174324550293eb4c6760518c30b6473d43b708d9d7bf284a7cd10",
+      "actual": "89e4dc69ff55c78f5245ebeff092e2f475092b15b331cf7fe5f5a62584090bfd"
+    }
+  ],
+  "allDrift": [
+    "vtt-react/src/styles/calm-shared.css",
+    "vtt-react/src/components/hud/TargetHUD.jsx",
+    "vtt-react/src/data/classes/animist/components/AnimistResourceBar.jsx",
+    "vtt-react/src/data/classes/apex/components/ApexResourceBar.jsx",
+    "vtt-react/src/data/classes/augur/components/AugurResourceBar.jsx",
+    "vtt-react/src/data/classes/harbinger/components/HarbingerResourceBar.jsx",
+    "vtt-react/src/data/classes/inquisitor/components/InquisitorResourceBar.jsx",
+    "vtt-react/src/data/classes/lunarch/components/LunarchResourceBar.jsx",
+    "vtt-react/src/data/classes/martyr/components/MartyrResourceBar.jsx",
+    "vtt-react/src/data/classes/minstrel/components/MinstrelResourceBar.jsx",
+    "vtt-react/src/components/hud/HudStatBar.css",
+    "vtt-react/src/components/hud/HudStatBar.jsx"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "checkout": "D:/VTT",
+  "head": "620fbc072e87f113cdcc2ea323e0c6c2b28e6d6b",
+  "previousCodec": "76c7261701e6d6a5a920ebfa9e31c38b24cb0bf3072d5bbc95c4c526222f1c58",
+  "hashes": {
+    "vtt-react/src/utils/characterShapeCodec.js": "ddbd6d694e62a8a14709d058be69b14b0fcce20d32364be69564dd8303a83b37",
+    "vtt-react/verification/p6/container-browser.cjs": "706e4f964b6a89612044ffc9e15f354b18118b375b985d24b191aadaac7003c4"
+  },
+  "behavioralDependencyDrift": [
+    "utils/characterShapeCodec.js"
+  ],
+  "preservedIndependentFiles": 38,
+  "originalSnapshotSha256": "0afa985b4679640c7ae945f14af17296f7004f29db9c1ad65b2d6e1653088be3",
+  "containerSnapshotSha256": "f087a576076a97e47e982253a64fac7eba86a41b8c11625ae74a7030b0d83b0e",
+  "checks": [
+    "container-green",
+    "focused",
+    "retained-r1-r6",
+    "original-p6",
+    "original-p5",
+    "retained-supplemental",
+    "regressions",
+    "lint"
+  ]
+}

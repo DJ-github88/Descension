@@ -1,18 +1,6 @@
 /* ===== PATHFINDER TRIGGERS STEP STYLING ===== */
 /* Step 7: Triggers configuration with Pathfinder theme */
 
-.triggers-container {
-  width: 100%;
-  height: 100%;
-  background: var(--my-gradient-parchment);
-  padding: var(--my-space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-6);
-  font-family: var(--my-font-body);
-  color: var(--my-text-primary);
-}
-
 /* Trigger Mode Selector */
 .pf-trigger-mode-selector {
   display: flex;
@@ -87,25 +75,6 @@
 }
 
 /* Advanced Options */
-.pf-advanced-option {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-2);
-  margin-bottom: var(--my-space-4);
-}
-
-.pf-option-label {
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-primary);
-  font-size: var(--my-text-sm);
-  font-family: var(--my-font-ui);
-}
-
-.pf-option-control {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-1);
-}
 
 .pf-number-input {
   padding: var(--my-space-2) var(--my-space-3);
@@ -135,13 +104,6 @@
   font-size: var(--my-text-sm);
   font-family: var(--my-font-ui);
   font-weight: var(--my-font-bold);
-}
-
-.pf-option-hint {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-body);
-  font-style: italic;
 }
 
 /* Config Groups */
@@ -175,47 +137,16 @@
 }
 
 /* Logic Selector */
-.pf-logic-group {
-  border: 2px solid var(--my-gold-medium);
-  background: linear-gradient(135deg, rgba(218, 165, 32, 0.1) 0%, rgba(139, 69, 19, 0.05) 100%);
-}
 
 .pf-logic-selector {
-  display: flex;
-  gap: var(--my-space-3);
   margin-top: var(--my-space-3);
 }
 
 .pf-logic-button {
-  flex: 1;
-  display: flex;
-  align-items: center;
   gap: var(--my-space-3);
-  padding: var(--my-space-4);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  font-family: var(--my-font-ui);
-}
-
-.pf-logic-button:hover {
-  border-color: var(--my-gold-medium);
-  background: var(--my-gradient-button-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-md);
-}
-
-.pf-logic-button.active {
-  border-color: var(--my-gold-dark);
-  background: linear-gradient(135deg, rgba(218, 165, 32, 0.2) 0%, var(--my-gradient-parchment) 100%);
-  box-shadow: 0 0 10px rgba(218, 165, 32, 0.3);
 }
 
 .pf-logic-icon {
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -233,22 +164,11 @@
 }
 
 .pf-logic-text {
-  flex: 1;
   text-align: left;
 }
 
 .pf-logic-title {
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-1);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.pf-logic-description {
-  font-size: var(--my-text-sm);
-  color: var(--my-text-secondary);
-  font-family: var(--my-font-body);
 }
 
 /* Selected Triggers */
@@ -316,21 +236,14 @@
 .pf-remove-trigger {
   width: 32px;
   height: 32px;
-  background: var(--my-gradient-button);
-  border: 1px solid var(--my-brown-medium);
   border-radius: 50%;
-  color: var(--my-text-secondary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
 }
 
 .pf-remove-trigger:hover {
   background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  color: white;
   border-color: #dc3545;
   transform: scale(1.1);
 }
@@ -384,17 +297,6 @@
   outline: none;
   border-color: var(--my-gold-medium);
   box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
-}
-
-.pf-config-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--my-space-2);
-}
-
-.pf-config-header .pf-config-label {
-  margin-bottom: 0;
 }
 
 .pf-toggle-wrapper {
@@ -488,108 +390,8 @@
 }
 
 /* Trigger Type Selection */
-.trigger-types {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--my-space-4);
-  margin-bottom: var(--my-space-6);
-}
-
-.trigger-type-card {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  overflow: hidden;
-  transition: all var(--my-transition-normal);
-  cursor: pointer;
-  position: relative;
-  box-shadow: var(--my-shadow-sm);
-}
-
-.trigger-type-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-md);
-  border-color: var(--my-gold);
-}
-
-.trigger-type-card.selected {
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
-}
-
-.trigger-type-card.selected::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at top right,
-    rgba(212, 175, 55, 0.1),
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.trigger-type-header {
-  background: var(--my-gradient-parchment-dark);
-  padding: var(--my-space-4);
-  border-bottom: var(--my-border-width) solid var(--my-brown-light);
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-}
-
-.trigger-type-icon {
-  width: 32px;
-  height: 32px;
-  color: var(--my-gold);
-}
-
-.trigger-type-title {
-  font-size: var(--my-text-lg);
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin: 0;
-}
-
-.trigger-type-body {
-  padding: var(--my-space-4);
-}
-
-.trigger-type-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-  margin-bottom: var(--my-space-3);
-}
 
 /* Trigger Configuration */
-.trigger-config {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  padding: var(--my-space-6);
-  box-shadow: var(--my-shadow-sm);
-}
-
-.trigger-config-header {
-  margin-bottom: var(--my-space-4);
-}
-
-.trigger-config-title {
-  font-size: var(--my-text-xl);
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin: 0 0 var(--my-space-2) 0;
-}
-
-.trigger-config-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-}
 
 /* Trigger Conditions */
 .trigger-conditions {
@@ -599,146 +401,11 @@
   margin-bottom: var(--my-space-4);
 }
 
-.trigger-condition-group {
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-}
-
-.trigger-condition-label {
-  display: block;
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-sm);
-}
-
-.trigger-condition-input {
-  width: 100%;
-  padding: var(--my-space-2);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  transition: all var(--my-transition-normal);
-}
-
-.trigger-condition-input:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
-
-.trigger-condition-select {
-  width: 100%;
-  padding: var(--my-space-2);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-}
-
-.trigger-condition-select:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
-
 /* Trigger Effects */
-.trigger-effects {
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-top: var(--my-space-4);
-}
-
-.trigger-effects-title {
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-3);
-  font-size: var(--my-text-base);
-}
-
-.trigger-effect-item {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  padding: var(--my-space-2);
-  border-radius: var(--my-border-radius);
-  margin-bottom: var(--my-space-2);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
-.trigger-effect-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--my-gold);
-}
-
-.trigger-effect-text {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.4;
-}
 
 /* Trigger Probability */
-.trigger-probability {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-top: var(--my-space-4);
-}
-
-.trigger-probability-title {
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-base);
-}
-
-.trigger-probability-slider {
-  width: 100%;
-  margin: var(--my-space-2) 0;
-}
-
-.trigger-probability-value {
-  text-align: center;
-  font-weight: bold;
-  color: var(--my-gold);
-  font-size: var(--my-text-lg);
-}
 
 /* Trigger Preview */
-.trigger-preview {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-top: var(--my-space-4);
-}
-
-.trigger-preview-title {
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-base);
-}
-
-.trigger-preview-text {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-}
 
 /* Logic Selector */
 .pf-logic-selector {
@@ -782,13 +449,6 @@
   flex-shrink: 0;
 }
 
-.pf-logic-img {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
 .pf-logic-text {
   flex: 1;
 }
@@ -808,177 +468,6 @@
 }
 
 /* Trigger Categories */
-.pf-trigger-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: var(--my-space-3);
-  margin-bottom: var(--my-space-4);
-}
-
-.pf-trigger-category {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-3);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  font-family: var(--my-font-body);
-}
-
-.pf-trigger-category:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-brown-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-sm);
-}
-
-.pf-trigger-category.active {
-  background: var(--my-gradient-gold);
-  border-color: var(--my-gold-dark);
-  box-shadow: var(--my-shadow-glow);
-  color: var(--my-brown-darkest);
-}
-
-.pf-trigger-icon-wrapper {
-  width: 32px;
-  height: 32px;
-  margin-bottom: var(--my-space-2);
-}
-
-.pf-trigger-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: var(--my-space-2);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pf-trigger-icon-img {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-  object-fit: contain;
-  display: block;
-}
-
-.pf-trigger-list {
-  margin-top: var(--my-space-3);
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-2);
-}
-
-.pf-trigger-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-2);
-  gap: var(--my-space-2);
-}
-
-.pf-trigger-content {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  flex: 1;
-}
-
-.pf-trigger-info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-1);
-  flex: 1;
-}
-
-.pf-trigger-name {
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-primary);
-  font-size: var(--my-text-sm);
-  font-family: var(--my-font-ui);
-}
-
-.pf-trigger-params {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--my-space-1);
-  margin-top: var(--my-space-1);
-}
-
-.pf-trigger-param {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  background: var(--my-gradient-parchment-light, rgba(245, 241, 232, 0.5));
-  border: 1px solid var(--my-brown-light, #d5cbb0);
-  border-radius: 4px;
-  font-size: var(--my-text-xs, 11px);
-  font-family: var(--my-font-body, 'Crimson Text', serif);
-  white-space: nowrap;
-}
-
-.pf-trigger-param .pf-trigger-param-label {
-  color: var(--my-text-secondary, #5a4a3a);
-  font-weight: var(--my-font-semibold, 600);
-}
-
-.pf-trigger-param .pf-trigger-param-value {
-  color: var(--my-text-primary, #3d2817);
-  font-weight: var(--my-font-medium, 500);
-}
-
-.pf-trigger-param-row {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-1);
-}
-
-.pf-trigger-param-label {
-  font-size: var(--my-text-xs);
-  color: var(--my-text-secondary);
-  font-family: var(--my-font-body);
-  font-weight: var(--my-font-semibold, 600);
-}
-
-.pf-trigger-param-value {
-  font-size: var(--my-text-xs);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-}
-
-.pf-trigger-param-input {
-  padding: 2px 6px;
-  border: 1px solid var(--my-brown-medium, #c9b99b);
-  border-radius: 3px;
-  background: var(--my-gradient-parchment, #f5f1e8);
-  color: var(--my-text-primary, #3d2817);
-  font-size: var(--my-text-xs, 11px);
-  font-family: var(--my-font-body, 'Crimson Text', serif);
-  font-weight: var(--my-font-medium, 500);
-  margin-left: 4px;
-  cursor: pointer;
-  min-width: 60px;
-}
-
-.pf-trigger-param-input:hover {
-  border-color: var(--my-brown-dark, #8b6914);
-  background: var(--my-gradient-parchment-light, rgba(245, 241, 232, 0.8));
-}
-
-.pf-trigger-param-input:focus {
-  outline: none;
-  border-color: var(--my-gold-dark, #b8860b);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-}
 
 .pf-remove-trigger {
   background: transparent;
@@ -995,102 +484,21 @@
   color: var(--my-brown-darkest);
 }
 
-.pf-trigger-category-name {
-  font-size: var(--my-text-xs);
-  text-align: center;
-  font-family: var(--my-font-ui);
-  font-weight: var(--my-font-bold);
-}
-
 /* Trigger Options */
-.pf-trigger-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--my-space-3);
-}
-
-.pf-trigger-option {
-  display: flex;
-  align-items: center;
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-3);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  font-family: var(--my-font-body);
-}
-
-.pf-trigger-option:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-brown-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-sm);
-}
-
-.pf-trigger-option-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: var(--my-space-3);
-  flex-shrink: 0;
-}
-
-.pf-trigger-option-img {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--my-border-radius);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
-.pf-trigger-option-content {
-  flex: 1;
-}
-
-.pf-trigger-option-title {
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-primary);
-  font-size: var(--my-text-sm);
-  margin-bottom: var(--my-space-1);
-  font-family: var(--my-font-ui);
-}
-
-.pf-trigger-option-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-xs);
-  font-family: var(--my-font-body);
-  line-height: 1.3;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .trigger-types {
-    grid-template-columns: 1fr;
-  }
 
   .trigger-conditions {
     grid-template-columns: 1fr;
   }
 
-  .triggers-container {
-    padding: var(--my-space-4);
-    gap: var(--my-space-4);
-  }
-
   .pf-logic-selector {
     flex-direction: column;
-  }
-
-  .pf-trigger-categories {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  }
-
-  .pf-trigger-options {
-    grid-template-columns: 1fr;
   }
 }
 
 /* Remove black background from section-header in triggers step */
-.triggers-container .section-header,
 .pf-config-group .section-header {
   background: transparent !important;
   background-color: transparent !important;
@@ -1100,7 +508,6 @@
   box-shadow: none !important;
 }
 
-.triggers-container .section-header h3,
 .pf-config-group .section-header h3 {
   color: var(--my-text-primary) !important;
   background: transparent !important;

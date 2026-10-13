@@ -52,7 +52,7 @@
 }
 
 .codex-banner-btn {
-  background: linear-gradient(135deg, #d4af37 0%, #aa8014 100%);
+  background: linear-gradient(135deg, #9a7b3c 0%, #aa8014 100%);
   border: 1px solid #5a3804;
   color: #1a0f05;
   padding: 7px 16px;
@@ -360,7 +360,7 @@
 .tool-block-btn.readaloud:hover { background: rgba(83, 151, 190, 0.18); border-color: #5397be; }
 .tool-block-btn.statblock:hover { background: rgba(196, 74, 74, 0.18); border-color: #c44a4a; }
 .tool-block-btn.gmnote:hover { background: rgba(230, 126, 34, 0.18); border-color: #e67e22; }
-.tool-block-btn.quest:hover { background: rgba(212, 175, 55, 0.25); border-color: #d4af37; }
+.tool-block-btn.quest:hover { background: rgba(154, 123, 60, 0.25); border-color: #9a7b3c; }
 
 /* Panes Wrapper */
 .codex-panes-wrapper {

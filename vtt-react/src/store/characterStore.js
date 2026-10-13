@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { refreshCharacterAutoSaveSnapshot } from './characterHelpers';
 
 // Import slices
 import { createCoreSlice } from './characterSlices/coreSlice';
@@ -24,5 +25,7 @@ const useCharacterStore = create(subscribeWithSelector((...args) => ({
     ...createProgressionSlice(...args),
     ...createMultiplayerSlice(...args),
 })));
+
+useCharacterStore.subscribe(refreshCharacterAutoSaveSnapshot);
 
 export default useCharacterStore;

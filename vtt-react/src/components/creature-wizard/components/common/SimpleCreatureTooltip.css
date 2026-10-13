@@ -2,7 +2,7 @@
 
 /* ── Root ────────────────────────────────────────────── */
 .enhanced-creature-tooltip {
-  background: linear-gradient(145deg, #fdfbf7 0%, #f7f2e7 50%, #f3ebdb 100%) !important;
+  background: linear-gradient(145deg, #fdfbf7 0%, #f7f2e7 50%, #f8f5ee 100%) !important;
   border: 2px solid #8b4513 !important;
   border-radius: 10px !important;
   padding: 0 !important;
@@ -34,7 +34,7 @@
 
 /* ── Header (Compact Horizontal Row) ─────────────────── */
 .creature-tooltip-header {
-  background: linear-gradient(180deg, #f4ecd8 0%, #ebdcc1 100%) !important;
+  background: linear-gradient(180deg, #f8f5ee 0%, #ebdcc1 100%) !important;
   border-bottom: 1.5px solid #8b4513 !important;
   padding: 10px 14px !important;
   position: relative !important;
@@ -55,8 +55,8 @@
       45deg,
       transparent,
       transparent 8px,
-      rgba(212, 175, 55, 0.05) 8px,
-      rgba(212, 175, 55, 0.05) 16px
+      rgba(154, 123, 60, 0.05) 8px,
+      rgba(154, 123, 60, 0.05) 16px
     );
   pointer-events: none;
 }
@@ -78,7 +78,7 @@
   border-radius: 50% !important;
   border: 2px solid #8b4513 !important;
   box-shadow:
-    0 0 0 1.5px #f0e2cc,
+    0 0 0 1.5px #f1ece1,
     0 2px 6px rgba(0, 0, 0, 0.3) !important;
   background-color: rgba(44, 24, 16, 0.6) !important;
   background-size: cover !important;
@@ -237,8 +237,8 @@
 .tooltip-stat-badge--hp .tooltip-stat-value { color: #8b1515 !important; }
 
 .tooltip-stat-badge--init {
-  background: rgba(212, 175, 55, 0.12) !important;
-  border-color: rgba(212, 175, 55, 0.35) !important;
+  background: rgba(154, 123, 60, 0.12) !important;
+  border-color: rgba(154, 123, 60, 0.35) !important;
 }
 .tooltip-stat-badge--init .tooltip-stat-label { color: #7a5e10 !important; }
 .tooltip-stat-badge--init .tooltip-stat-value { color: #614a08 !important; }

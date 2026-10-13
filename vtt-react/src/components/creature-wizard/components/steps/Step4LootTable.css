@@ -6,7 +6,7 @@
 }
 
 .loot-section {
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1);
   border-radius: 10px;
   padding: 22px;
   border: 1px solid #c4b8a4;
@@ -102,7 +102,7 @@
 }
 
 .randomizer-button:hover {
-  background: #d5cbb0;
+  background: #c4baa6;
   border-color: #a08c70;
   transform: translateY(-1px);
 }
@@ -123,7 +123,7 @@
 }
 
 .randomizer-button.common {
-  background: #d5cbb0;
+  background: #c4baa6;
   border-color: #bfb094;
   color: #4a3a2a;
 }
@@ -221,33 +221,6 @@
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
-.currency-indicators {
-  display: none;
-}
-
-.currency-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.currency-indicator.platinum {
-  background-color: #e5e4e2;
-}
-
-.currency-indicator.gold {
-  background-color: #ffd700;
-}
-
-.currency-indicator.silver {
-  background-color: #c0c0c0;
-}
-
-.currency-indicator.copper {
-  background-color: #cd7f32;
-}
-
 .range-input input::placeholder {
   color: #9a8a78;
 }
@@ -271,7 +244,7 @@
   background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
   border: 2px solid #a08c70;
   border-radius: 10px;
-  color: #f0e6d2;
+  color: #f1ece1;
   padding: 12px 18px;
   font-size: 15px;
   font-weight: 600;
@@ -298,20 +271,18 @@
 }
 
 /* Item library and sample items - more specific selectors */
-.loot-table .item-library-list,
-.loot-table .sample-items-list {
+.loot-table .item-library-list {
   margin-bottom: 25px !important;
   padding: 25px !important;
   border-radius: 12px !important;
-  background: linear-gradient(to bottom, #e6dcc6, #d5cbb0) !important;
+  background: linear-gradient(to bottom, #e8e2d4, #c4baa6) !important;
   border: 2px solid #a08c70 !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
   position: relative !important;
   overflow: hidden !important;
 }
 
-.loot-table .item-library-list::before,
-.loot-table .sample-items-list::before {
+.loot-table .item-library-list::before {
   content: '';
   position: absolute;
   top: 0;
@@ -322,8 +293,7 @@
   border-radius: 3px 3px 0 0;
 }
 
-.loot-table .item-library-list h4,
-.loot-table .sample-items-list h4 {
+.loot-table .item-library-list h4 {
   font-size: 20px !important;
   font-weight: 600 !important;
   margin: 0 0 12px 0 !important;
@@ -334,8 +304,7 @@
   letter-spacing: 1px !important;
 }
 
-.loot-table .item-library-list p,
-.loot-table .sample-items-list p {
+.loot-table .item-library-list p {
   font-size: 15px !important;
   color: #3a3a3a !important;
   margin: 0 0 18px 0 !important;
@@ -350,7 +319,7 @@
 .loot-table .item-search input {
   width: 100% !important;
   background-color: #fff !important;
-  border: 2px solid #d5cbb0 !important;
+  border: 2px solid #c4baa6 !important;
   border-radius: 8px !important;
   color: #3a3a3a !important;
   padding: 12px 16px !important;
@@ -367,8 +336,7 @@
   background-color: #fafafa !important;
 }
 
-.loot-table .library-items-grid,
-.loot-table .sample-items-grid {
+.loot-table .library-items-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
   gap: 18px !important;
@@ -378,28 +346,24 @@
   padding-bottom: 8px !important;
 }
 
-.loot-table .library-items-grid::-webkit-scrollbar,
-.loot-table .sample-items-grid::-webkit-scrollbar {
+.loot-table .library-items-grid::-webkit-scrollbar {
   width: 8px !important;
 }
 
-.loot-table .library-items-grid::-webkit-scrollbar-track,
-.loot-table .sample-items-grid::-webkit-scrollbar-track {
+.loot-table .library-items-grid::-webkit-scrollbar-track {
   background: rgba(160, 140, 112, 0.2) !important;
   border-radius: 4px !important;
 }
 
-.loot-table .library-items-grid::-webkit-scrollbar-thumb,
-.loot-table .sample-items-grid::-webkit-scrollbar-thumb {
+.loot-table .library-items-grid::-webkit-scrollbar-thumb {
   background: #7a3b2e !important;
   border-radius: 4px !important;
 }
 
 /* Use more specific selectors to override WizardSteps.css */
-.loot-table .library-item,
-.loot-table .sample-item {
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2) !important;
-  border: 2px solid #d5cbb0 !important;
+.loot-table .library-item {
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1) !important;
+  border: 2px solid #c4baa6 !important;
   border-radius: 10px !important;
   padding: 18px !important;
   cursor: pointer !important;
@@ -409,8 +373,7 @@
   overflow: hidden !important;
 }
 
-.loot-table .library-item::before,
-.loot-table .sample-item::before {
+.loot-table .library-item::before {
   content: '';
   position: absolute;
   top: 0;
@@ -423,28 +386,24 @@
   transition: opacity 0.3s ease;
 }
 
-.loot-table .library-item:hover,
-.loot-table .sample-item:hover {
+.loot-table .library-item:hover {
   transform: translateY(-3px) !important;
   box-shadow: 0 8px 16px rgba(122, 59, 46, 0.25) !important;
   border-color: #7a3b2e !important;
   background: linear-gradient(to bottom, #ffffff, #f5f1e8) !important;
 }
 
-.loot-table .library-item:hover::before,
-.loot-table .sample-item:hover::before {
+.loot-table .library-item:hover::before {
   opacity: 1;
 }
 
-.loot-table .library-item:active,
-.loot-table .sample-item:active {
+.loot-table .library-item:active {
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 8px rgba(122, 59, 46, 0.2) !important;
   transition: all 0.1s ease !important;
 }
 
-.loot-table .library-item-name,
-.loot-table .sample-item-name {
+.loot-table .library-item-name {
   font-size: 17px !important;
   font-weight: 700 !important;
   margin-bottom: 10px !important;
@@ -453,20 +412,6 @@
   line-height: 1.3 !important;
   letter-spacing: 0.3px !important;
   color: #7a3b2e !important;
-}
-
-.loot-table .library-item-details,
-.loot-table .sample-item-details {
-  display: flex !important;
-  justify-content: space-between !important;
-  font-size: 13px !important;
-  color: #3a3a3a !important;
-  font-family: 'Bookman Old Style', 'Garamond', serif !important;
-  font-weight: 500 !important;
-  background-color: transparent !important;
-  padding: 0 !important;
-  border: none !important;
-  border-radius: 0 !important;
 }
 
 /* Loot items table */
@@ -486,7 +431,7 @@
   text-align: left;
   padding: 15px 16px;
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f0e6d2;
+  color: #f1ece1;
   font-weight: 600;
   font-size: 14px;
   text-transform: uppercase;
@@ -518,11 +463,11 @@
 }
 
 .loot-item-row:nth-child(odd) {
-  background-color: #f0e6d2;
+  background-color: #f1ece1;
 }
 
 .loot-item-row:hover td {
-  background-color: #e6dcc6;
+  background-color: #e8e2d4;
   color: #5a1e12;
 }
 
@@ -697,11 +642,11 @@
 .chance-display {
   position: relative;
   height: 20px;
-  background-color: #e6dcc6;
+  background-color: #e8e2d4;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid #d5cbb0;
+  border: 2px solid #c4baa6;
 }
 
 .chance-bar {
@@ -793,7 +738,7 @@
   font-style: italic;
   font-size: 16px;
   font-family: 'Bookman Old Style', 'Garamond', serif;
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1);
   border: 2px dashed #a08c70;
   border-radius: 12px;
   margin: 20px 0;
@@ -812,7 +757,7 @@
 
 /* Item form */
 .item-form {
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2) !important;
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1) !important;
   border-radius: 12px;
   padding: 25px;
   border: 3px solid #7a3b2e !important;
@@ -935,7 +880,7 @@
 .item-form .cancel-button {
   background: linear-gradient(135deg, #8a7566 0%, #7a6a5a 100%);
   border: 2px solid #7a3b2e;
-  color: #f0e6d2;
+  color: #f1ece1;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -950,7 +895,7 @@
 .save-button {
   background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
   border: 2px solid #7a3b2e;
-  color: #f0e6d2;
+  color: #f1ece1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -963,7 +908,7 @@
 .save-button:disabled {
   background: linear-gradient(to bottom, #a08c70, #8a7660);
   border: 2px solid #a08c70;
-  color: #d5cbb0;
+  color: #c4baa6;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
@@ -978,7 +923,7 @@
 /* Global tooltip styling override */
 .react-tooltip {
   z-index: 99999 !important;
-  background-color: #f0e6d2 !important;
+  background-color: #f1ece1 !important;
   color: #3a3a3a !important;
   border: 1px solid #a08c70 !important;
   border-radius: 6px !important;

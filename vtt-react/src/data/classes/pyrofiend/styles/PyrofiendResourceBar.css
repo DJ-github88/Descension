@@ -1,6 +1,8 @@
 /* ===== PYROFIEND RESOURCE BAR — SCATHRACH'S VEIL (NINE SWALLOWED COALS) ===== */
-/* Pure vector apparatus: obsidian slab, magma artery, nine coals. No text —
-   stage and bonus live in the hover tooltip and controls menu. */
+/* Calm parchment rendering (PyrofiendVeilArt.jsx): ledger page, ink track,
+   nine seals in ember ink. No text: stage and bonus live in the hover tooltip
+   and controls menu. No glows, filters or looping animation; state is carried
+   by ink color, the current-seal ring and the brick Debt Call frame. */
 
 .pyrofiend-resource-wrapper {
     position: relative;
@@ -41,7 +43,9 @@
 }
 
 .pyrofiend-resource-bar:focus-visible {
-    filter: drop-shadow(0 0 6px #ffb300);
+    outline: 2px solid var(--adventure-seal, #663c32);
+    outline-offset: 2px;
+    border-radius: 3px;
 }
 
 .pyrofiend-caldera-svg {
@@ -60,114 +64,25 @@
 }
 
 /* Character card / compact hud sizing */
-.character-card .pyrofiend-resource-bar,
-.character-card-compact .pyrofiend-resource-bar {
+.character-card .pyrofiend-resource-bar {
     height: 52px !important;
     min-height: 52px !important;
 }
 
-/* Hover — a whisper of heat, nothing more */
-.pyrofiend-resource-bar.clickable:hover {
-    filter: drop-shadow(0 0 4px rgba(255, 90, 0, 0.55));
+/* Hover: the page edge darkens to ink; no glow */
+.pyrofiend-resource-bar.clickable:hover .pyro-page {
+    stroke: var(--adventure-muted, #68533e);
 }
 
-.pyrofiend-resource-bar.clickable:active {
-    filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.6));
+/* Seal hover feedback is drawn in the art (ink stroke); keep transitions short */
+.pyro-rune-crucible circle,
+.pyro-rune-crucible path {
+    transition: stroke 0.15s ease, fill 0.15s ease;
 }
 
-/* Surging state (Stage 5+) — faint furnace breath; the runes carry the show */
-.pyrofiend-resource-bar.surging {
-    animation: pyroSurgePulse 2.6s infinite ease-in-out;
-}
-
-@keyframes pyroSurgePulse {
-    0%, 100% {
-        filter: drop-shadow(0 0 3px rgba(255, 69, 0, 0.35));
-    }
-    50% {
-        filter: drop-shadow(0 0 6px rgba(255, 102, 0, 0.5));
-    }
-}
-
-/* Heresy state (Stage 6+) — heat fully saturated */
-.pyrofiend-resource-bar.heresy .pyrofiend-caldera-svg {
-    filter: saturate(1.15);
-}
-
-/* Catastrophic state (Stage 9) — low red emberlight, no bloom */
-.pyrofiend-resource-bar.catastrophic,
-.pyrofiend-resource-wrapper.catastrophic-warning {
-    animation: pyroCataclysmPulse 1.4s infinite alternate ease-in-out;
-}
-
-@keyframes pyroCataclysmPulse {
-    0% {
-        filter: drop-shadow(0 0 4px rgba(200, 20, 0, 0.4));
-    }
-    100% {
-        filter: drop-shadow(0 0 8px rgba(255, 40, 0, 0.55));
-    }
-}
-
-/* Current-stage halo heartbeat */
-.pyro-halo {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: pyroHaloBeat 1.6s infinite ease-in-out;
-}
-
-@keyframes pyroHaloBeat {
-    0%, 100% { opacity: 0.55; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.12); }
-}
-
-/* Coal hover feedback */
-.pyro-rune-crucible {
-    transition: filter 0.15s ease;
-}
-
-.pyro-rune-crucible:hover {
-    filter: brightness(1.3);
-}
-
-/* ── Demonic seals ────────────────────────────────────────── */
-/* Dormant: cold etching in the obsidian. Ignited: a soft fire
-   under-stroke breathes beneath a white-hot core stroke. */
-.pyro-rune-etch {
-    transition: stroke 0.2s ease;
-}
-
-.pyro-rune-fire {
-    animation: pyroRuneBurn 1.8s infinite ease-in-out;
-}
-
-.pyro-rune-core {
-    animation: pyroRunePulse 2.4s infinite ease-in-out;
-}
-
-.pyro-rune-heart {
-    animation: pyroRunePulse 1.5s infinite ease-in-out;
-}
-
-@keyframes pyroRuneBurn {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.95; }
-}
-
-@keyframes pyroRunePulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.72; }
-}
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    .pyrofiend-resource-bar.surging,
-    .pyrofiend-resource-bar.catastrophic,
-    .pyrofiend-resource-wrapper.catastrophic-warning,
-    .pyro-halo,
-    .pyro-rune-fire,
-    .pyro-rune-core,
-    .pyro-rune-heart {
-        animation: none;
+    .pyro-rune-crucible circle,
+    .pyro-rune-crucible path {
+        transition: none;
     }
 }

@@ -12,6 +12,7 @@ import { migrateBlockId } from '../../../../utils/arcanoneerMigration';
 import SpellCastConfirmation from '../../../../components/ui/SpellCastConfirmation';
 import { ARCANONEER_BANK_MAX, ARCANONEER_ROLL_COUNT, normalizeSphereBank } from '../../../classResourceBanks';
 
+import { INK, PAGE, PAPER, RULE, ETCH, inked, washed } from '../../../../components/hud/calmBarPalette';
 /**
  * Single source of truth for canonical elements with rich Arcanoneer styling
  */
@@ -485,7 +486,7 @@ const ArcanoneerResourceBar = ({
                     subtitle="Arcanoneer Formulation Matrix & Spheres"
                     state={`${totalBanked} / ${maxBank} Banked`}
                     stateTone={totalBanked >= maxBank ? 'warn' : totalBanked > 0 ? 'good' : 'neutral'}
-                    mechanic="Roll 4d8 at the start of your turn; each die banks 1 elemental sphere (max 12 — overflow is lost). Combine 2 spheres plus mana into a formulation; offensive weaves pin your movement to 0 for the turn, Defend does not."
+                    mechanic="Roll 4d8 each turn; each die banks a sphere (max 12, overflow lost). Combine 2 spheres + mana into a formulation. Offensive weaves pin your movement to 0; Defend doesn't."
                     status={[
                         `Cylinder: ${totalBanked}/${maxBank} spheres chambered.`,
                         readyFormsCount > 0
@@ -503,8 +504,8 @@ const ArcanoneerResourceBar = ({
 
     // Vector elemental glyph paths centered at (cx, cy)
     const renderElementalGlyph = (id, cx, cy, isFilled) => {
-        const strokeColor = isFilled ? '#ffffff' : 'rgba(251, 191, 36, 0.45)';
-        const fillColor = isFilled ? '#ffffff' : 'none';
+        const strokeColor = isFilled ? INK : inked('#fbbf24', 0.6);
+        const fillColor = isFilled ? PAGE : 'none';
 
         switch (id) {
             case 'arcane':
@@ -516,7 +517,7 @@ const ArcanoneerResourceBar = ({
                             stroke={strokeColor}
                             strokeWidth="0.75"
                         />
-                        <circle cx={cx} cy={cy} r="1.3" fill={isFilled ? '#3b0764' : '#fde047'} />
+                        <circle cx={cx} cy={cy} r="1.3" fill={isFilled ? PAPER : washed('#fde047', 0.2)} />
                     </g>
                 );
             case 'sacred':
@@ -538,8 +539,8 @@ const ArcanoneerResourceBar = ({
                             stroke={strokeColor}
                             strokeWidth="0.75"
                         />
-                        <circle cx={cx - 1.5} cy={cy - 2.5} r="0.8" fill={isFilled ? '#180a24' : '#fde047'} />
-                        <circle cx={cx + 1.5} cy={cy - 2.5} r="0.8" fill={isFilled ? '#180a24' : '#fde047'} />
+                        <circle cx={cx - 1.5} cy={cy - 2.5} r="0.8" fill={isFilled ? PAPER : washed('#fde047', 0.2)} />
+                        <circle cx={cx + 1.5} cy={cy - 2.5} r="0.8" fill={isFilled ? PAPER : washed('#fde047', 0.2)} />
                     </g>
                 );
             case 'ember':
@@ -553,7 +554,7 @@ const ArcanoneerResourceBar = ({
                         />
                         <path
                             d={`M ${cx} ${cy - 2} C ${cx + 1.5} ${cy}, ${cx + 1.5} ${cy + 3}, ${cx} ${cy + 4} C ${cx - 1.5} ${cy + 3}, ${cx - 1.5} ${cy}, ${cx} ${cy - 2} Z`}
-                            fill={isFilled ? '#fef08a' : 'none'}
+                            fill={isFilled ? washed('#fef08a', 0.2) : 'none'}
                         />
                     </g>
                 );
@@ -563,7 +564,7 @@ const ArcanoneerResourceBar = ({
                         <line x1={cx} y1={cy - 5.5} x2={cx} y2={cy + 5.5} stroke={strokeColor} strokeWidth="0.85" />
                         <line x1={cx - 4.8} y1={cy - 2.8} x2={cx + 4.8} y2={cy + 2.8} stroke={strokeColor} strokeWidth="0.85" />
                         <line x1={cx - 4.8} y1={cy + 2.8} x2={cx + 4.8} y2={cy - 2.8} stroke={strokeColor} strokeWidth="0.85" />
-                        <circle cx={cx} cy={cy} r="1.3" fill="#ffffff" />
+                        <circle cx={cx} cy={cy} r="1.3" fill={PAGE} />
                     </g>
                 );
             case 'primal':
@@ -575,7 +576,7 @@ const ArcanoneerResourceBar = ({
                             stroke={strokeColor}
                             strokeWidth="0.75"
                         />
-                        <line x1={cx - 2} y1={cy + 2} x2={cx + 2} y2={cy - 2} stroke={isFilled ? '#14532d' : '#fde047'} strokeWidth="0.6" />
+                        <line x1={cx - 2} y1={cy + 2} x2={cx + 2} y2={cy - 2} stroke={isFilled ? RULE : inked('#fde047', 0.6)} strokeWidth="0.6" />
                     </g>
                 );
             case 'storm':
@@ -595,11 +596,11 @@ const ArcanoneerResourceBar = ({
                     <g pointerEvents="none">
                         <polygon
                             points={`${cx},${cy - 5.5} ${cx + 4},${cy - 3.8} ${cx + 5.5},${cy} ${cx + 4},${cy + 3.8} ${cx},${cy + 5.5} ${cx - 4},${cy + 3.8} ${cx - 5.5},${cy} ${cx - 4},${cy - 3.8}`}
-                            fill={isFilled ? '#ffffff' : 'none'}
+                            fill={isFilled ? PAGE : 'none'}
                             stroke={strokeColor}
                             strokeWidth="0.75"
                         />
-                        <circle cx={cx} cy={cy} r="1.1" fill={isFilled ? '#ec4899' : '#fde047'} />
+                        <circle cx={cx} cy={cy} r="1.1" fill={isFilled ? washed('#ec4899', 0.2) : washed('#fde047', 0.2)} />
                     </g>
                 );
         }
@@ -839,104 +840,7 @@ const ArcanoneerResourceBar = ({
                     role="img"
                     aria-label={`Arcanoneer Calibrated Iron Sleeve. Spheres banked: ${totalBanked} of ${maxBank}.`}
                 >
-                    <defs>
-                        {/* Antique Forged Gunmetal & Ironwood Base Plate */}
-                        <linearGradient id="arcIronCasing" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#2c221a" />
-                            <stop offset="30%" stopColor="#201813" />
-                            <stop offset="70%" stopColor="#150f0b" />
-                            <stop offset="100%" stopColor="#0b0806" />
-                        </linearGradient>
-
-                        {/* Heavy Guild Brass Framing Rim */}
-                        <linearGradient id="arcGuildBrass" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stopColor="#5c3811" />
-                            <stop offset="15%" stopColor="#b45309" />
-                            <stop offset="45%" stopColor="#fef08a" />
-                            <stop offset="55%" stopColor="#fef08a" />
-                            <stop offset="85%" stopColor="#b45309" />
-                            <stop offset="100%" stopColor="#5c3811" />
-                        </linearGradient>
-
-                        {/* Mechanical Firing Primer (Roll 4d8) */}
-                        <linearGradient id="arcPrimerBed" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#7c2d12" />
-                            <stop offset="50%" stopColor="#451a03" />
-                            <stop offset="100%" stopColor="#200d02" />
-                        </linearGradient>
-
-                        <linearGradient id="arcPrimerBorder" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#fde047" />
-                            <stop offset="50%" stopColor="#f97316" />
-                            <stop offset="100%" stopColor="#9a3412" />
-                        </linearGradient>
-
-                        {/* Matrix Button Plate */}
-                        <linearGradient id="arcMatrixDial" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#312e81" />
-                            <stop offset="50%" stopColor="#1e1b4b" />
-                            <stop offset="100%" stopColor="#0f172a" />
-                        </linearGradient>
-
-                        {/* Searing 3D Spheres Gradients */}
-                        <radialGradient id="arcSphere_arcane" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#faf5ff" />
-                            <stop offset="35%" stopColor="#c084fc" />
-                            <stop offset="75%" stopColor="#7e22ce" />
-                            <stop offset="100%" stopColor="#3b0764" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_sacred" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#ffffff" />
-                            <stop offset="35%" stopColor="#fde047" />
-                            <stop offset="75%" stopColor="#ca8a04" />
-                            <stop offset="100%" stopColor="#713f12" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_blight" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#f3e8ff" />
-                            <stop offset="35%" stopColor="#a855f7" />
-                            <stop offset="75%" stopColor="#6b21a8" />
-                            <stop offset="100%" stopColor="#2e1065" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_ember" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#fff7ed" />
-                            <stop offset="35%" stopColor="#fb923c" />
-                            <stop offset="75%" stopColor="#ea580c" />
-                            <stop offset="100%" stopColor="#7c2d12" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_rime" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#f0f9ff" />
-                            <stop offset="35%" stopColor="#38bdf8" />
-                            <stop offset="75%" stopColor="#0284c7" />
-                            <stop offset="100%" stopColor="#075985" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_primal" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#f0fdf4" />
-                            <stop offset="35%" stopColor="#4ade80" />
-                            <stop offset="75%" stopColor="#16a34a" />
-                            <stop offset="100%" stopColor="#14532d" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_storm" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#ecfeff" />
-                            <stop offset="35%" stopColor="#22d3ee" />
-                            <stop offset="75%" stopColor="#0891b2" />
-                            <stop offset="100%" stopColor="#164e63" />
-                        </radialGradient>
-                        <radialGradient id="arcSphere_wyrd" cx="35%" cy="30%" r="65%">
-                            <stop offset="0%" stopColor="#ffffff" />
-                            <stop offset="30%" stopColor="#f472b6" />
-                            <stop offset="65%" stopColor="#a855f7" />
-                            <stop offset="100%" stopColor="#3b0764" />
-                        </radialGradient>
-
-                        {/* Filter Glow */}
-                        <filter id="arcGlowShine" x="-30%" y="-30%" width="160%" height="160%">
-                            <feGaussianBlur stdDeviation="1.4" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
+                    <defs />
 
                     {/* Outer Forged Iron Plate */}
                     <rect
@@ -945,8 +849,8 @@ const ArcanoneerResourceBar = ({
                         width="283"
                         height="71"
                         rx="5"
-                        fill="url(#arcIronCasing)"
-                        stroke="url(#arcGuildBrass)"
+                        fill={PAPER}
+                        stroke={inked('#b45309', 0.6)}
                         strokeWidth="1.2"
                         className="arc-iron-casing"
                     />
@@ -959,16 +863,16 @@ const ArcanoneerResourceBar = ({
                         height="67"
                         rx="3.5"
                         fill="none"
-                        stroke="rgba(251, 191, 36, 0.22)"
+                        stroke={ETCH}
                         strokeWidth="0.6"
                         pointerEvents="none"
                     />
 
                     {/* Heavy Mechanical Corner Screws */}
-                    <circle cx="5.5" cy="5.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
-                    <circle cx="280.5" cy="5.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
-                    <circle cx="5.5" cy="68.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
-                    <circle cx="280.5" cy="68.5" r="1.3" fill="#451a03" stroke="#fde047" strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="5.5" cy="5.5" r="1.3" fill={PAPER} stroke={inked('#fde047', 0.6)} strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="280.5" cy="5.5" r="1.3" fill={PAPER} stroke={inked('#fde047', 0.6)} strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="5.5" cy="68.5" r="1.3" fill={PAPER} stroke={inked('#fde047', 0.6)} strokeWidth="0.4" pointerEvents="none" />
+                    <circle cx="280.5" cy="68.5" r="1.3" fill={PAPER} stroke={inked('#fde047', 0.6)} strokeWidth="0.4" pointerEvents="none" />
 
                     {/* ========================================================= */}
                     {/* TOP MECHANICAL MANTLE                                     */}
@@ -976,7 +880,7 @@ const ArcanoneerResourceBar = ({
 
                     {/* LEFT: Chamber Capacity Pressure Gauge */}
                     <g className="arc-gauge-plate" pointerEvents="none">
-                        <rect x="7" y="4.5" width="74" height="17" rx="3" fill="#140c07" stroke="rgba(217, 119, 6, 0.4)" strokeWidth="0.75" />
+                        <rect x="7" y="4.5" width="74" height="17" rx="3" fill={PAPER} stroke={inked('#d97706', 0.6)} strokeWidth="0.75" />
                         <text x="12" y="16.5" className="arc-gauge-title">CHAMBER</text>
                         <text x="75" y="16.5" textAnchor="end" className="arc-gauge-reading">{totalBanked}/{maxBank}</text>
                         {/* 12 Pressure Segment Cells */}
@@ -992,7 +896,7 @@ const ArcanoneerResourceBar = ({
                                         width="4.5"
                                         height="1.5"
                                         rx="0.5"
-                                        fill={isFilled ? (totalBanked >= maxBank ? '#ef4444' : '#f59e0b') : 'rgba(255,255,255,0.08)'}
+                                        fill={isFilled ? (totalBanked >= maxBank ? washed('#ef4444', 0.2) : washed('#f59e0b', 0.2)) : PAGE}
                                     />
                                 );
                             })}
@@ -1011,20 +915,20 @@ const ArcanoneerResourceBar = ({
                             width="112"
                             height="18"
                             rx="4"
-                            fill="url(#arcPrimerBed)"
-                            stroke="url(#arcPrimerBorder)"
+                            fill={PAPER}
+                            stroke={inked('#f97316', 0.6)}
                             strokeWidth="1"
                             className="arc-primer-button"
                         />
                         {/* Knurled grip ticks on primer button sides */}
-                        <line x1="89" y1="8" x2="89" y2="18" stroke="rgba(254, 240, 138, 0.4)" strokeWidth="0.8" pointerEvents="none" />
-                        <line x1="197" y1="8" x2="197" y2="18" stroke="rgba(254, 240, 138, 0.4)" strokeWidth="0.8" pointerEvents="none" />
+                        <line x1="89" y1="8" x2="89" y2="18" stroke={inked('#fef08a', 0.6)} strokeWidth="0.8" pointerEvents="none" />
+                        <line x1="197" y1="8" x2="197" y2="18" stroke={inked('#fef08a', 0.6)} strokeWidth="0.8" pointerEvents="none" />
 
                         {/* Kinetic d8 Octahedron Die Icon */}
                         <polygon
                             points="96,7 101,10 101,16 96,19 91,16 91,10"
-                            fill="rgba(254, 240, 138, 0.18)"
-                            stroke="#fef08a"
+                            fill={washed('#fef08a', 0.2)}
+                            stroke={inked('#fef08a', 0.6)}
                             strokeWidth="0.85"
                             className={`arc-d8-tumbler ${isRolling ? 'tumbling' : ''}`}
                         />
@@ -1045,8 +949,8 @@ const ArcanoneerResourceBar = ({
                             width="74"
                             height="17"
                             rx="3"
-                            fill="url(#arcMatrixDial)"
-                            stroke={readyCount > 0 ? 'rgba(74, 222, 128, 0.75)' : 'rgba(217, 119, 6, 0.4)'}
+                            fill={washed('#312e81', 0.2)}
+                            stroke={readyCount > 0 ? inked('#4ade80', 0.6) : inked('#d97706', 0.6)}
                             strokeWidth="0.85"
                             className="arc-matrix-key"
                         />
@@ -1054,7 +958,7 @@ const ArcanoneerResourceBar = ({
                         <path
                             d="M 211 8.5 L 215 7.5 L 215 15.5 L 211 16.5 Z M 215 7.5 L 219 8.5 L 219 16.5 L 215 15.5 Z"
                             fill="none"
-                            stroke={readyCount > 0 ? '#86efac' : '#fef08a'}
+                            stroke={readyCount > 0 ? inked('#86efac', 0.6) : inked('#fef08a', 0.6)}
                             strokeWidth="0.75"
                             pointerEvents="none"
                         />
@@ -1094,20 +998,20 @@ const ArcanoneerResourceBar = ({
                                     cx={cx}
                                     cy={cy}
                                     r="13"
-                                    fill="#120c08"
-                                    stroke={isHovered ? '#fef08a' : (isFilled ? block.color : 'rgba(217, 119, 6, 0.35)')}
+                                    fill={PAPER}
+                                    stroke={isHovered ? inked('#fef08a', 0.6) : (isFilled ? inked(block.color, 0.55) : inked('#d97706', 0.6))}
                                     strokeWidth={isHovered || isFilled ? '1.1' : '0.6'}
                                     className="arc-socket-bezel"
                                     pointerEvents="none"
                                 />
 
                                 {/* Subtle Mechanical Gear/Rivet Teeth on Socket Bezel */}
-                                <circle cx={cx - 12} cy={cy} r="0.6" fill="rgba(251, 191, 36, 0.4)" pointerEvents="none" />
-                                <circle cx={cx + 12} cy={cy} r="0.6" fill="rgba(251, 191, 36, 0.4)" pointerEvents="none" />
+                                <circle cx={cx - 12} cy={cy} r="0.6" fill={washed('#fbbf24', 0.2)} pointerEvents="none" />
+                                <circle cx={cx + 12} cy={cy} r="0.6" fill={washed('#fbbf24', 0.2)} pointerEvents="none" />
 
                                 {/* Dormant Chamber Shadow (when empty) */}
                                 {!isFilled && (
-                                    <circle cx={cx} cy={cy} r="11.5" fill="#0d0805" pointerEvents="none" />
+                                    <circle cx={cx} cy={cy} r="11.5" fill={PAPER} pointerEvents="none" />
                                 )}
 
                                 {/* Searing 3D Glowing Elemental Orb (when banked) */}
@@ -1117,12 +1021,11 @@ const ArcanoneerResourceBar = ({
                                             cx={cx}
                                             cy={cy}
                                             r="11.5"
-                                            fill={block.id === 'wyrd' ? 'url(#arcSphere_wyrd)' : `url(#arcSphere_${block.id})`}
-                                            filter="url(#arcGlowShine)"
+                                            fill={block.id === 'wyrd' ? washed('#a855f7', 0.2) : `url(#arcSphere_${block.id})`}
                                             className="arc-sphere-body"
                                         />
                                         {/* Specular White Glass Sheen */}
-                                        <ellipse cx={cx - 3.5} cy={cy - 4.5} rx="4" ry="2.5" fill="rgba(255, 255, 255, 0.45)" />
+                                        <ellipse cx={cx - 3.5} cy={cy - 4.5} rx="4" ry="2.5" fill={PAGE} />
                                     </g>
                                 )}
 
@@ -1132,7 +1035,7 @@ const ArcanoneerResourceBar = ({
                                 {/* Engraved Brass Pip Coin (Top-Right of Bezel) */}
                                 {isFilled && (
                                     <g pointerEvents="none">
-                                        <circle cx={cx + 9} cy={cy - 8} r="4.5" fill="#180e07" stroke="#fde047" strokeWidth="0.75" />
+                                        <circle cx={cx + 9} cy={cy - 8} r="4.5" fill={PAPER} stroke={inked('#fde047', 0.6)} strokeWidth="0.75" />
                                         <text x={cx + 9} y={cy - 6} textAnchor="middle" className="arc-pip-count-badge">
                                             {count}
                                         </text>
@@ -1150,7 +1053,7 @@ const ArcanoneerResourceBar = ({
                                                 cx={px}
                                                 cy="61.5"
                                                 r="0.9"
-                                                fill={on ? (block.isGradient ? '#f43f5e' : block.color) : 'rgba(255,255,255,0.08)'}
+                                                fill={on ? (block.isGradient ? washed('#f43f5e', 0.2) : washed(block.color, 0.2)) : PAGE}
                                             />
                                         );
                                     })}

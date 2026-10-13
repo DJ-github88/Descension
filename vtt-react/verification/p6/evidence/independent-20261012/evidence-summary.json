@@ -1,0 +1,124 @@
+{
+  "head": "620fbc072e87f113cdcc2ea323e0c6c2b28e6d6b",
+  "statusUnchanged": true,
+  "filesHashed": 2347,
+  "changed": [],
+  "currentBrowserManifestMismatches": [],
+  "supplementManifestMismatches": [],
+  "reportedFinalManifestMismatches": [],
+  "retainedP5Identical": true,
+  "probes": [
+    {
+      "name": "mounted-import-over-newer-work",
+      "result": "FAILURE_REPRODUCED",
+      "errors": []
+    },
+    {
+      "name": "mounted-import-character-payload-mismatch",
+      "result": "FAILURE_REPRODUCED",
+      "errors": []
+    },
+    {
+      "name": "runtime-import-mounted-fidelity",
+      "result": "FAILURE_REPRODUCED",
+      "errors": []
+    },
+    {
+      "name": "runtime-serialized-overlapping-writes-and-later-edit",
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "name": "canonical-serialized-overlapping-writes",
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "name": "mounted-cyclic-export-refusal",
+      "result": "PASS",
+      "errors": []
+    },
+    {
+      "name": "ordinary-production-inventory-add-and-save",
+      "result": "FAILURE_REPRODUCED",
+      "errors": []
+    },
+    {
+      "name": "reachable-sync-reconciliation-outcome",
+      "result": {
+        "synced": 0,
+        "failed": 1,
+        "conflicts": 0
+      },
+      "errors": []
+    },
+    {
+      "name": "session-linked-delayed-failure-owner-switch",
+      "result": "FAILURE_REPRODUCED",
+      "errors": []
+    },
+    {
+      "name": "sync-delayed-read-foreign-metadata-write",
+      "result": "FAILURE_REPRODUCED",
+      "errors": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "before.json",
+      "sha256": "ab08207a028f194761aa6abeeca820d4ee2166b37c8e8d6b04499b338707bd69"
+    },
+    {
+      "path": "interim.json",
+      "sha256": "da5015ce848a24e4ff8797903ee438f173998bd294666f89e59a9c69c55613c6"
+    },
+    {
+      "path": "after.json",
+      "sha256": "7dbaaa4d53af64436deb006c3610fbbfaaa3b7ffacdc0400d1f5a49ef845aeeb"
+    },
+    {
+      "path": "p6-browser.log",
+      "sha256": "702e7c26f6b6351506293d03c688626bbceafb9205ba72b8ec48dce56883451a"
+    },
+    {
+      "path": "p5-browser.log",
+      "sha256": "2c81e7e08a1ebc7e9a0407238cf4896f229500c92af8b7deb17e034408ec6595"
+    },
+    {
+      "path": "regressions.log",
+      "sha256": "f8ce43c30bddd99127f96cacdf71585adbb31b14405d6376da0ad43f6069c877"
+    },
+    {
+      "path": "lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "supplemental.cjs",
+      "sha256": "da986460c3bdddc18868f5e015b836857e4cae500b3aa987a475327f1c86f84a"
+    },
+    {
+      "path": "supplemental-results.json",
+      "sha256": "a3ad89ea685668884bbe0483ee0cb035f3bed7bedd6ed61a2812d701fb344822"
+    },
+    {
+      "path": "supplemental.log",
+      "sha256": "9f2fc95d31e65db3882ce902962820a6f8e0ded8c77c590c1927e91a31818a71"
+    },
+    {
+      "path": "build.log",
+      "sha256": "7fc3962fae52221ee1905a348d3cbe290f3096a28d26546e39d9ebec735b4584"
+    },
+    {
+      "path": "build.exit",
+      "sha256": "88e9bc6cd1f0531787f07d73d39e2bf57429d66a3699947d43d2fa79b52c3d4c"
+    },
+    {
+      "path": "build-retry.log",
+      "sha256": "6765cac7a336040ef4e15c5687b8e013f627aa9e2f2cf2841cd59efc634b3934"
+    },
+    {
+      "path": "build-retry.exit",
+      "sha256": "f0cd2be81098275c345e58ca0cef5486272045a97fcaaafeb7d3fd8c9a8e9588"
+    }
+  ]
+}

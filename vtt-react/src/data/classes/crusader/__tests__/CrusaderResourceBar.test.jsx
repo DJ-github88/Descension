@@ -56,8 +56,8 @@ describe('CrusaderResourceBar Component (Radiant Solvan Fervor Bar)', () => {
         fireEvent.click(strikeBtn);
         expect(onUpdate).toHaveBeenCalledWith('current', 50);
 
-        // Click Aegis (-25) -> 50 - 25 = 25
-        const aegisBtn = screen.getByText(/Aegis \(-25\)/);
+        // Spend 25 (-25) -> 50 - 25 = 25
+        const aegisBtn = screen.getByText('-25');
         fireEvent.click(aegisBtn);
         expect(onUpdate).toHaveBeenCalledWith('current', 25);
     });

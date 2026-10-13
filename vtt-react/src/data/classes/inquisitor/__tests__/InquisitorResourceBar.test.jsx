@@ -111,8 +111,8 @@ describe('InquisitorResourceBar Component (The Barbed Leash of the Damned & Cage
         expect(screen.getByText('Inquisition Tribunal')).toBeInTheDocument();
         expect(screen.getByText(/Authority \(6\/8\)/)).toBeInTheDocument();
 
-        // Click Anathema (-2)
-        const anathemaBtn = screen.getByText(/Anathema \(-2\)/);
+        // Spend 2 Authority
+        const anathemaBtn = screen.getByText('-2');
         fireEvent.click(anathemaBtn);
         expect(onUpdate).toHaveBeenCalledWith('authority', 4);
     });

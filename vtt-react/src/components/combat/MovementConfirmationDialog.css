@@ -21,7 +21,7 @@
 }
 
 .movement-confirmation-dialog {
-    background: linear-gradient(145deg, #f4f1e8 0%, #e8dcc0 100%);
+    background: #f4f1e8;
     border: 3px solid #8B4513;
     border-radius: 10px;
     box-shadow:
@@ -224,13 +224,13 @@
 }
 
 .movement-confirmation-dialog .movement-button.cancel {
-    background: linear-gradient(145deg, #f4f1e8 0%, #e8dcc0 100%);
+    background: #f4f1e8;
     border-color: #8B4513;
     color: #8B4513;
 }
 
 .movement-confirmation-dialog .movement-button.cancel:hover {
-    background: linear-gradient(145deg, #e8dcc0 0%, #d4c4a0 100%);
+    background: linear-gradient(145deg, #e8e2d4 0%, #c4baa6 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

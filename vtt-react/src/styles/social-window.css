@@ -7,7 +7,7 @@
   flex-direction: column;
   color: #3a3a3a;
   font-family: 'Bookman Old Style', 'Garamond', serif;
-  background-color: #f0e6d2;
+  background-color: #f1ece1;
   /* Parchment background */
 }
 
@@ -48,12 +48,7 @@
 .social-window .social-tab {
   flex: 1;
   padding: 12px 20px;
-  background: linear-gradient(135deg,
-      #f8f4e6 0%,
-      #f0e6d2 25%,
-      #e8dcc0 50%,
-      #f0e6d2 75%,
-      #f8f4e6 100%);
+  background: #f8f5ee;
   border: none;
   border-right: 1px solid rgba(139, 69, 19, 0.3);
   color: #5d4037;
@@ -89,9 +84,9 @@
 .social-window .social-tab:hover:not(.active) {
   background: linear-gradient(135deg,
       #fff8f0 0%,
-      #f8f4e6 25%,
-      #f0e6d2 50%,
-      #f8f4e6 75%,
+      #f8f5ee 25%,
+      #f1ece1 50%,
+      #f8f5ee 75%,
       #fff8f0 100%);
   color: #4a2c20;
   transform: translateY(-1px);
@@ -109,7 +104,7 @@
       #CD853F 50%,
       #A0522D 75%,
       #8B4513 100%);
-  color: #f8f4e6;
+  color: #f8f5ee;
   font-weight: 700;
   transform: translateY(-2px);
   z-index: 10;
@@ -237,7 +232,7 @@
 .social-window .friends-list-title {
   font-size: 16px;
   font-weight: 700;
-  color: #f8f4e6;
+  color: #f8f5ee;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   font-family: 'Cinzel', serif;
   letter-spacing: 0.5px;
@@ -254,7 +249,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
-  color: #f8f4e6;
+  color: #f8f5ee;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -359,57 +354,12 @@
 
 /* Enhanced Section Headers */
 .social-window .friends-section-header {
-  background: linear-gradient(135deg,
-      #8B4513 0%,
-      #A0522D 25%,
-      #CD853F 50%,
-      #A0522D 75%,
-      #8B4513 100%);
-  color: #f8f4e6;
-  padding: 12px 20px;
-  font-weight: 700;
   margin: 0 0 16px 0;
-  border-radius: 8px;
-  font-size: 15px;
   text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 1.2px;
   position: relative;
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  font-family: 'Cinzel', serif;
 }
 
 /* Quick Actions Container - Friends Tab */
-.social-window .friends-quick-actions {
-  padding: 12px 16px;
-  background: linear-gradient(135deg,
-      rgba(248, 244, 230, 0.98) 0%,
-      rgba(240, 230, 210, 0.95) 50%,
-      rgba(235, 225, 205, 0.98) 100%);
-  border-bottom: 2px solid rgba(139, 69, 19, 0.3);
-  border-radius: 0 0 8px 8px;
-  margin-bottom: 0;
-  box-shadow:
-    inset 0 -1px 0 rgba(139, 69, 19, 0.15),
-    0 2px 6px rgba(0, 0, 0, 0.08);
-  position: relative;
-}
-
-.social-window .friends-quick-actions::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-      transparent 0%,
-      rgba(139, 69, 19, 0.3) 50%,
-      transparent 100%);
-}
 
 .friends-section-header::before,
 .social-window .friends-section-header::after {
@@ -578,9 +528,6 @@
 }
 
 /* Medium purple */
-.social-window .friend-class.Shaper {
-  color: #32CD32;
-}
 
 /* Lime green */
 .social-window .friend-class.Primalist {
@@ -639,16 +586,6 @@
   /* Bolder for better readability */
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
   /* Light text shadow */
-}
-
-.social-window .friend-note {
-  font-size: 13px;
-  /* Increased from 11px */
-  color: #7a3b2e;
-  /* Rustic red */
-  font-style: italic;
-  margin-top: 3px;
-  font-weight: 500;
 }
 
 /* Enhanced timestamp styling for better readability */
@@ -992,7 +929,7 @@
 .social-window .friends-section-header {
   font-size: 16px !important;
   font-weight: 700 !important;
-  color: #f8f4e6 !important;
+  color: #f8f5ee !important;
   padding: 14px 20px !important;
   background: linear-gradient(135deg,
       #8B4513 0%,
@@ -1113,108 +1050,8 @@
 /* Old social actions removed - now using compact header buttons */
 
 /* Create Party Button Styling - Friends Tab */
-.social-window .create-party-btn {
-  width: 100%;
-  padding: 12px 16px;
-  background: linear-gradient(135deg,
-      #8B4513 0%,
-      #A0522D 25%,
-      #CD853F 50%,
-      #A0522D 75%,
-      #8B4513 100%);
-  border: 2px solid rgba(139, 69, 19, 0.6);
-  border-radius: 6px;
-  color: #f8f4e6;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.3px;
-}
-
-.social-window .create-party-btn:hover {
-  background: linear-gradient(135deg,
-      #A0522D 0%,
-      #CD853F 25%,
-      #DEB887 50%,
-      #CD853F 75%,
-      #A0522D 100%);
-  border-color: rgba(205, 133, 63, 0.8);
-  transform: translateY(-1px);
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-.social-window .create-party-btn:active {
-  transform: translateY(0);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(0, 0, 0, 0.4);
-}
 
 /* Large Create Party Button - Party Tab (Empty State) */
-.social-window .create-party-btn-large {
-  width: 100%;
-  padding: 16px 24px;
-  background: linear-gradient(135deg,
-      #8B4513 0%,
-      #A0522D 25%,
-      #CD853F 50%,
-      #A0522D 75%,
-      #8B4513 100%);
-  border: 2px solid rgba(139, 69, 19, 0.6);
-  border-radius: 8px;
-  color: #f8f4e6;
-  font-family: 'Cinzel', serif;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.2),
-    inset 0 2px 0 rgba(255, 255, 255, 0.15);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.social-window .create-party-btn-large:hover {
-  background: linear-gradient(135deg,
-      #A0522D 0%,
-      #CD853F 25%,
-      #DEB887 50%,
-      #CD853F 75%,
-      #A0522D 100%);
-  border-color: rgba(205, 133, 63, 0.8);
-  transform: translateY(-2px);
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.25);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-}
-
-.social-window .create-party-btn-large:active {
-  transform: translateY(0);
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(0, 0, 0, 0.5);
-}
 
 /* Party Panel Empty State Styling */
 .social-window .party-panel-empty {
@@ -1340,7 +1177,7 @@
       #A0522D 75%,
       #8B4513 100%);
   border: 2px solid rgba(139, 69, 19, 0.8);
-  color: #f8f4e6;
+  color: #f8f5ee;
   border-radius: 8px;
   padding: 14px 28px;
   /* Slightly larger for better presence */
@@ -1404,43 +1241,6 @@
 /* Context menu styles moved to unified-context-menu.css */
 
 /* Ignore List */
-.social-window .ignore-list-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.social-window .ignore-list {
-  width: 100%;
-  overflow-y: auto;
-}
-
-.social-window .ignore-entry {
-  display: flex;
-  align-items: center;
-  padding: 8px 10px;
-  border-bottom: 1px solid #d5cbb0;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-bottom: 2px;
-  border-radius: 2px;
-}
-
-.social-window .ignore-entry:hover {
-  background-color: rgba(122, 59, 46, 0.1);
-}
-
-.social-window .ignore-entry.selected {
-  background-color: rgba(122, 59, 46, 0.15);
-  border-left: 2px solid #7a3b2e;
-}
-
-.social-window .ignore-name {
-  flex: 1;
-  font-weight: bold;
-  color: #a05a46;
-  /* Rustic red */
-}
 
 /* Who List */
 .social-window .who-list-container {
@@ -1477,7 +1277,7 @@
   display: flex;
   align-items: center;
   padding: 8px 10px;
-  border-bottom: 1px solid #d5cbb0;
+  border-bottom: 1px solid #c4baa6;
   cursor: pointer;
   transition: background-color 0.2s ease;
   margin-bottom: 2px;
@@ -1545,7 +1345,7 @@
 }
 
 .social-window .social-modal-content {
-  background: #f0e6d2;
+  background: #f1ece1;
   border: 3px solid #8b7355;
   border-radius: 12px;
   padding: 22px 26px;
@@ -1618,141 +1418,17 @@
 }
 
 /* ===== SOCIAL WINDOW TAB CONTAINER (Navigation Bar) ===== */
-.social-window .social-tab-container {
-  display: flex;
-  flex: 1;
-  height: 100%;
-  background: linear-gradient(135deg,
-      #f8f4e6 0%,
-      #f0e6d2 25%,
-      #e8dcc0 50%,
-      #f0e6d2 75%,
-      #f8f4e6 100%);
-  border-bottom: 2px solid #8b7355;
-  border-radius: 0;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 2px 4px rgba(0, 0, 0, 0.15);
-  position: relative;
-  padding: 0;
-  gap: 0;
-  align-items: stretch;
-  margin: 0;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  overflow: hidden;
-}
-
-.social-window .social-tab-button {
-  background: linear-gradient(to bottom,
-      rgba(139, 69, 19, 0.12) 0%,
-      rgba(160, 140, 112, 0.08) 50%,
-      rgba(139, 115, 85, 0.05) 100%);
-  border: none;
-  color: #5d4037;
-  padding: 0 clamp(8px, 2vw, 16px);
-  margin: 0;
-  font-size: clamp(10px, 1.2vw, 14px);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cinzel', serif;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-  letter-spacing: clamp(0px, 0.3px, 0.5px);
-  border-radius: 0;
-  box-shadow: none;
-  text-transform: capitalize;
-  min-width: 0;
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.3;
-}
-
-.social-window .social-tab-button::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 20%;
-  bottom: 20%;
-  width: 1px;
-  background: linear-gradient(to bottom,
-      transparent,
-      rgba(139, 69, 19, 0.3) 20%,
-      rgba(139, 69, 19, 0.3) 80%,
-      transparent);
-}
-
-.social-window .social-tab-button:first-child {
-  border-top-left-radius: 12px;
-}
-
-.social-window .social-tab-button:last-child {
-  border-top-right-radius: 12px;
-}
-
-.social-window .social-tab-button:last-child::after {
-  display: none;
-}
-
-.social-window .social-tab-button:hover {
-  background: linear-gradient(to bottom,
-      rgba(139, 69, 19, 0.2) 0%,
-      rgba(160, 140, 112, 0.15) 50%,
-      rgba(139, 115, 85, 0.1) 100%);
-  color: #4a2c20;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 1);
-  z-index: 2;
-}
-
-.social-window .social-tab-button.active {
-  background: linear-gradient(to bottom,
-      rgba(139, 69, 19, 0.35) 0%,
-      rgba(160, 140, 112, 0.25) 50%,
-      rgba(139, 115, 85, 0.15) 100%);
-  color: #3a2f1a;
-  font-weight: 700;
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -3px 0 rgba(139, 69, 19, 0.7);
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 1);
-  z-index: 3;
-}
-
-.social-window .social-tab-button.active::before {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  left: 8px;
-  right: 8px;
-  height: 4px;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(139, 69, 19, 0.8),
-      rgba(139, 69, 19, 1),
-      rgba(139, 69, 19, 0.8),
-      transparent);
-  border-radius: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
 
 
 /* Legacy compatibility */
 .card-glass-overlay,
-.user-status-container,
 .card-sidebar {
   display: none;
 }
 
 /* List Containers */
 .online-users-list {
-  background: linear-gradient(135deg, #f8f4e6 0%, #f0e6d2 100%);
+  background: #f8f5ee;
   border-right: 2px solid rgba(139, 69, 19, 0.1);
 }
 
@@ -1773,28 +1449,6 @@
 }
 
 /* Tabs */
-.users-tab {
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 14px 10px;
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  color: #7a6b5a;
-  transition: all 0.25s ease;
-}
-
-.users-tab:hover {
-  color: #3e2723;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.users-tab.active {
-  background: rgba(139, 69, 19, 0.08);
-  border-bottom: 3px solid #8B4513;
-  color: #8B4513;
-}
 
 .tab-count {
   background: #7a3b2e;

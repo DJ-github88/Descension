@@ -400,3 +400,5 @@
     background: #1e293b;
     color: #64748b;
 }
+/* Calm: no looping pulses */
+.revenant-resource-bar, .revenant-resource-bar *, .rev-segment, .rev-shroud-seal { animation: none !important; }

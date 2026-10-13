@@ -1,7 +1,7 @@
 /* Storage Monitor - D&D/Pathfinder Theme */
 .storage-monitor {
     font-family: inherit;
-    color: #f0e6d2;
+    color: #f1ece1;
 }
 
 /* Storage Warning */
@@ -37,7 +37,7 @@
     background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
     border: 1px solid #6b9775;
     border-radius: 4px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 0.75rem;
     font-weight: bold;
     cursor: pointer;

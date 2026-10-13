@@ -225,12 +225,6 @@
 
 /* ===== APP CONTROLS ===== */
 
-.app-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-}
-
 .app-control-btn {
   display: flex;
   align-items: center;
@@ -284,7 +278,7 @@
   font-weight: var(--my-font-bold);
   box-shadow:
     var(--my-shadow-md),
-    0 0 10px rgba(212, 175, 55, 0.3);
+    0 0 10px rgba(154, 123, 60, 0.3);
 }
 
 .app-control-btn.finalize-btn:hover {
@@ -293,7 +287,7 @@
   transform: translateY(-2px);
   box-shadow:
     var(--my-shadow-lg),
-    0 0 15px rgba(212, 175, 55, 0.5);
+    0 0 15px rgba(154, 123, 60, 0.5);
 }
 
 /* ===== APP CONTENT ===== */
@@ -409,10 +403,6 @@
     font-size: var(--my-text-base);
   }
 
-  .app-controls {
-    gap: var(--my-space-2);
-  }
-
   .app-control-btn {
     padding: var(--my-space-1) var(--my-space-3);
     font-size: var(--my-text-xs);
@@ -507,128 +497,14 @@
 
 /* ===== EXTERNAL LIVE PREVIEW PANEL ===== */
 
-.external-spell-preview {
-  width: 420px;
-  min-width: 420px;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  background: var(--my-gradient-header);
-  border: var(--my-border-width-thick) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  box-shadow: var(--my-shadow-parchment);
-  overflow: hidden;
-  margin: var(--my-space-3);
-  margin-left: 0;
-  height: calc(100vh - var(--my-space-6));
-}
-
 /* ===== PATHFINDER LIVE PREVIEW STYLING ===== */
 
-.external-spell-preview-pathfinder {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width-thick) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  box-shadow: var(--my-shadow-parchment);
-  overflow: hidden;
-  font-family: var(--my-font-body);
-  color: var(--my-text-primary);
-  backdrop-filter: blur(2px);
-}
-
-.external-spell-preview-pathfinder .external-preview-header {
-  background: var(--my-gradient-header);
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
-  padding: var(--my-space-2) var(--my-space-3);
-  text-align: center;
-}
-
-.external-spell-preview-pathfinder .preview-title {
-  margin: 0;
-  font-size: var(--my-text-sm);
-  font-weight: 600;
-  color: var(--my-text-primary);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.external-spell-preview-pathfinder .external-preview-content {
-  padding: var(--my-space-2);
-  background: var(--my-gradient-parchment);
-  overflow-y: auto;
-  max-height: 580px;
-}
-
-.external-preview-header {
-  padding: var(--my-space-3);
-  background: var(--my-gradient-header);
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.external-preview-header h3 {
-  margin: 0 0 var(--my-space-1) 0;
-  color: var(--my-text-primary);
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.external-preview-subtitle {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  font-style: italic;
-}
-
-.external-preview-card {
-  flex: 1;
-  padding: var(--my-space-3);
-  background: var(--my-parchment);
-  overflow-y: auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.external-preview-card .unified-spell-card {
-  width: 100%;
-  max-width: none;
-  min-width: auto;
-}
-
 /* ===== RESPONSIVE EXTERNAL PREVIEW LAYOUT ===== */
-
-@media (max-width: 1600px) {
-  .external-spell-preview {
-    width: 380px;
-    min-width: 380px;
-    max-width: 380px;
-  }
-}
-
-@media (max-width: 1400px) {
-  .external-spell-preview {
-    width: 350px;
-    min-width: 350px;
-    max-width: 350px;
-  }
-}
 
 @media (max-width: 1200px) {
   .spell-wizard-with-preview {
     flex-direction: column;
     gap: var(--my-space-2);
-  }
-
-  .external-spell-preview {
-    width: 100%;
-    min-width: auto;
-    max-width: none;
-    height: 300px;
-    margin: var(--my-space-2);
-    order: -1;
-    /* Show preview at top on mobile */
   }
 
   .spell-wizard-main {
@@ -638,15 +514,6 @@
 }
 
 @media (max-width: 768px) {
-  .external-spell-preview {
-    height: 250px;
-    margin: var(--my-space-1);
-  }
-
-  .external-preview-card .unified-spell-card {
-    transform: scale(0.9);
-    transform-origin: top center;
-  }
 
   .spell-wizard-main {
     height: calc(100vh - 270px);
@@ -655,156 +522,13 @@
 
 /* ===== WIZARD FOOTER ===== */
 
-.spellbook-layout .wizard-footer {
-  background: var(--my-gradient-header);
-  border-top: var(--my-border-width-thick) solid var(--my-brown-medium);
-  padding: var(--my-space-1) var(--my-space-4) var(--my-space-2) var(--my-space-4);
-  /* Reduced top padding */
-  box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.2);
-  position: relative;
-  z-index: var(--my-z-sticky);
-  flex-shrink: 0;
-  /* Optimized footer height for better content space and moved progress bar */
-  min-height: 90px;
-  /* Reduced height */
-  max-height: 110px;
-  /* Reduced height */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  /* Align content to top */
-}
-
-.spellbook-layout .wizard-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right,
-      transparent,
-      var(--my-gold) 20%,
-      var(--my-gold) 80%,
-      transparent);
-}
-
 /* ===== WIZARD PROGRESS TABS (IN FOOTER) ===== */
 
-.wizard-progress-tabs {
-  display: flex;
-  gap: var(--my-space-2);
-  justify-content: space-evenly;
-  flex-wrap: nowrap;
-  width: 100%;
-  margin: 0 auto var(--my-space-3) auto;
-  padding: var(--my-space-3) var(--my-space-4) var(--my-space-4) var(--my-space-4);
-  border-bottom: 1px solid var(--my-brown-light);
-  /* Ensure tabs don't get cut off */
-  overflow: visible;
-  min-height: 70px;
-}
-
-.wizard-step-tab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  padding: var(--my-space-2);
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: 50%;
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-secondary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--my-shadow-sm);
-  position: relative;
-  /* Circular design with proper sizing */
-  height: 40px;
-  width: 40px;
-  min-height: 40px;
-  min-width: 40px;
-  max-height: 40px;
-  max-width: 40px;
-  white-space: nowrap;
-  /* Ensure equal distribution */
-  flex: 0 0 auto;
-}
-
-.wizard-step-tab:hover {
-  background: var(--my-gradient-button-hover);
-  color: var(--my-brown-dark);
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: var(--my-shadow-md);
-  border-color: var(--my-gold);
-  z-index: 10;
-}
-
-.wizard-step-tab.active {
-  background: var(--my-gold);
-  color: var(--my-text-on-dark);
-  border-color: var(--my-gold-dark);
-  box-shadow:
-    var(--my-shadow-md),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3);
-  transform: translateY(-3px);
-  z-index: 10;
-}
-
-.wizard-step-tab.completed {
-  background: var(--my-success);
-  color: var(--my-text-on-dark);
-  border-color: var(--my-success-dark);
-}
-
-.wizard-step-tab.pending {
-  background: var(--my-gradient-button);
-  color: var(--my-text-muted);
-}
-
 .step-tab-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
   font-family: var(--my-font-display);
-  font-weight: var(--my-font-bold);
 }
 
 /* Ensure wizard step tooltips appear above everything */
-.wizard-step-tab[data-tooltip] {
-  position: relative;
-}
-
-.wizard-step-tab[data-tooltip]:hover::after {
-  content: attr(data-tooltip);
-  position: fixed;
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width-thick) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  padding: var(--my-space-3) var(--my-space-4);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  font-weight: normal;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  box-shadow: var(--my-shadow-parchment);
-  z-index: 10000;
-  pointer-events: none;
-  white-space: nowrap;
-  max-width: 300px;
-  word-wrap: break-word;
-  white-space: normal;
-  transform: translateX(-50%) translateY(-120%);
-  left: 50%;
-  bottom: 100%;
-  animation: tooltip-appear 0.2s ease-out;
-}
 
 @keyframes tooltip-appear {
   from {
@@ -836,15 +560,6 @@
 }
 
 /* ===== WIZARD NAVIGATION FOOTER ===== */
-
-.wizard-navigation-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--my-space-4);
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 .wizard-nav-controls {
   display: flex;
@@ -882,17 +597,6 @@
   color: var(--my-text-muted);
   cursor: not-allowed;
   opacity: 0.6;
-}
-
-.wizard-nav-cancel {
-  background: var(--my-gradient-danger);
-  border-color: var(--my-error);
-  color: var(--my-text-on-dark);
-}
-
-.wizard-nav-cancel:hover {
-  background: var(--my-gradient-danger-hover);
-  border-color: var(--my-error-dark);
 }
 
 /* ===== WIZARD PROGRESS BAR ===== */
@@ -1008,51 +712,9 @@
   margin-top: var(--my-space-1);
 }
 
-.wizard-progress-fill {
-  height: 100%;
-  background: linear-gradient(to right,
-      var(--my-gold),
-      var(--my-gold-light));
-  transition: width var(--my-transition-normal);
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
-}
-
-.wizard-progress-text {
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-xs);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-muted);
-  text-align: center;
-  white-space: nowrap;
-}
-
 /* ===== RESPONSIVE FOOTER DESIGN ===== */
 
 @media (max-width: 1024px) {
-  .wizard-footer {
-    min-height: 120px;
-    max-height: 160px;
-    padding: var(--my-space-2) var(--my-space-3);
-  }
-
-  .wizard-progress-tabs {
-    gap: var(--my-space-1);
-    width: 100%;
-    padding: var(--my-space-2) var(--my-space-3) var(--my-space-3) var(--my-space-3);
-    justify-content: space-between;
-    min-height: 60px;
-  }
-
-  .wizard-step-tab {
-    height: 36px;
-    width: 36px;
-    min-height: 36px;
-    min-width: 36px;
-    max-height: 36px;
-    max-width: 36px;
-    padding: var(--my-space-1);
-  }
 
   .step-tab-number {
     font-size: var(--my-text-xs);
@@ -1060,31 +722,10 @@
 }
 
 @media (max-width: 768px) {
-  .spellbook-layout .wizard-footer {
-    min-height: 140px;
-    max-height: 180px;
-  }
-
-  .spellbook-layout .wizard-navigation-footer {
-    flex-direction: column;
-    gap: var(--my-space-2);
-  }
 
   .spellbook-layout .wizard-nav-controls {
     width: 100%;
     justify-content: space-between;
-  }
-
-  .spellbook-layout .wizard-progress-bar-container {
-    order: -1;
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .spellbook-layout .wizard-step-tab {
-    min-height: 26px;
-    min-width: 26px;
-    max-width: 26px;
   }
 
   .spellbook-layout .step-tab-number {

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "node_modules/react-scripts/bin/react-scripts.js",
+    "test",
+    "--watchAll=false",
+    "--runInBand",
+    "--silent",
+    "--no-cache"
+  ],
+  "cwd": "D:\\VTT\\vtt-react",
+  "started": "2026-10-13T17:10:24.333Z",
+  "durationMs": 140416,
+  "status": 1,
+  "signal": null,
+  "error": null
+}

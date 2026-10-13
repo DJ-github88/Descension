@@ -18,6 +18,8 @@ import {
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import characterPersistenceService from './characterPersistenceService';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import { captureConsumerContext } from '../../persistence/scopedConsumer';
+import { characterContextCurrent } from '../../persistence/characterSaveOutcome';
 
 // Import sync service for offline handling
 let characterSyncService = null;
@@ -47,7 +49,9 @@ class CharacterSessionService {
   /**
    * Start a new character session
    */
-  async startSession(characterId, userId, roomId = null) {
+  async startSession(characterId, userId, roomId = null, context = captureConsumerContext().context) {
+    const current = () => characterContextCurrent(context) && context.scope.scopeId === userId;
+    if (!current()) throw new Error('Owner changed before starting session');
     if (!this.isConfigured || !db || isDemoMode) {
       const reason = isDemoMode ? 'Demo mode enabled' : 'Firebase not configured';
       console.warn(`${reason}, using local session tracking`);
@@ -57,6 +61,7 @@ class CharacterSessionService {
         id: sessionId,
         characterId,
         userId,
+        originContext: context,
         roomId,
         startedAt: new Date(),
         changes: {
@@ -76,8 +81,10 @@ class CharacterSessionService {
 
     try {
       // Check if character already has an active session
-      const existingSession = await this.getActiveSession(characterId);
+      const existingSession = await this.getActiveSession(characterId, context);
+      if (!current()) throw new Error('Owner changed during session read');
       if (existingSession) {
+        if (existingSession.userId !== userId) throw new Error('Session belongs to another owner');
         console.log(`Character ${characterId} already has active session: ${existingSession.id}`);
         return existingSession.id;
       }
@@ -105,10 +112,13 @@ class CharacterSessionService {
 
       const sessionRef = await addDoc(collection(db, COLLECTIONS.CHARACTER_SESSIONS), sanitizedSessionData);
 
+      if (!current()) throw new Error('Owner changed during session start');
+
       // Cache locally
       this.activeSessions.set(characterId, {
         id: sessionRef.id,
         ...sessionData,
+        originContext: context,
         isLocal: false
       });
 
@@ -124,8 +134,9 @@ class CharacterSessionService {
   /**
    * Record a change during the session
    */
-  async recordChange(characterId, changeType, changeData) {
+  async recordChange(characterId, changeType, changeData, context = captureConsumerContext().context) {
     const session = this.activeSessions.get(characterId);
+    if (!characterContextCurrent(context) || session?.userId !== context.scope.scopeId) return false;
     if (!session) {
       console.warn(`No active session for character ${characterId}, change not recorded`);
       return false;
@@ -153,7 +164,13 @@ class CharacterSessionService {
           // Queue change for offline sync
           try {
             const syncService = await getSyncService();
-            syncService.queueChange(characterId, changeType, changeData);
+            if (!syncService.queueChange(characterId, changeType, changeData, context)) {
+              // The exact change remains in the origin-owned session cache. A
+              // retired continuation cannot move it into the next owner's queue.
+              session.pendingSync = true;
+              session.syncError = 'Owner generation retired; session change retained in memory';
+              return false;
+            }
           } catch (syncError) {
             console.error('Failed to queue change for offline sync:', syncError);
           }
@@ -162,12 +179,17 @@ class CharacterSessionService {
         // If not using Firebase or session is local, queue for sync when online
         try {
           const syncService = await getSyncService();
-          syncService.queueChange(characterId, changeType, changeData);
+          if (!syncService.queueChange(characterId, changeType, changeData, context)) {
+            session.pendingSync = true;
+            session.syncError = 'Owner generation retired; session change retained in memory';
+            return false;
+          }
         } catch (syncError) {
           console.error('Failed to queue change for offline sync:', syncError);
         }
       }
 
+      if (!characterContextCurrent(context)) return false;
       console.log(`📝 Recorded ${changeType} change for character ${characterId}`);
       return true;
 
@@ -413,10 +435,11 @@ class CharacterSessionService {
   /**
    * Get active session for a character
    */
-  async getActiveSession(characterId) {
+  async getActiveSession(characterId, context = captureConsumerContext().context) {
+    if (!characterContextCurrent(context)) return null;
     // Check local cache first
     const localSession = this.activeSessions.get(characterId);
-    if (localSession) {
+    if (localSession && localSession.userId === context.scope.scopeId) {
       return localSession;
     }
 
@@ -428,14 +451,17 @@ class CharacterSessionService {
       const sessionsQuery = query(
         collection(db, COLLECTIONS.CHARACTER_SESSIONS),
         where('characterId', '==', characterId),
+        where('userId', '==', context.scope.scopeId),
         where('status', '==', 'active')
       );
 
       const querySnapshot = await getDocs(sessionsQuery);
+      if (!characterContextCurrent(context)) return null;
 
       if (!querySnapshot.empty) {
         const sessionDoc = querySnapshot.docs[0];
         const sessionData = { id: sessionDoc.id, ...sessionDoc.data() };
+        if (sessionData.userId !== context.scope.scopeId) return null;
 
         // Cache locally
         this.activeSessions.set(characterId, sessionData);

@@ -34,6 +34,7 @@
  *   - returning A's exact lore is never produced from B's live authentication.
  */
 import useCharacterStore from '../../store/characterStore';
+import { resetCharacterSaveOutcomeForTests } from '../characterSaveOutcome';
 import { registerStore } from '../../store/storeRegistry';
 import {
   resetBootstrapGateForTests,
@@ -53,7 +54,7 @@ import {
   getHandoffStatus
 } from '../handoff/accountHandoffCoordinator';
 import { loadRoster, resetCharacterScopedStorageState } from '../characterScopedStorage';
-import { CHARACTER_AUTO_SAVE_DELAY } from '../../store/characterHelpers';
+import { CHARACTER_AUTO_SAVE_DELAY, characterAutoSavePending, characterAutoSaveTimer } from '../../store/characterHelpers';
 import {
   getRetainedCharacterHandoffCandidate,
   readCharacterDeferredPublication,
@@ -232,6 +233,7 @@ async function setupOwnerAWithActiveCharacter() {
 }
 
 beforeEach(() => {
+  resetCharacterSaveOutcomeForTests();
   installFirestoreBehavior();
   localStorage.clear();
   sessionStorage.clear();
@@ -260,6 +262,8 @@ test('F1: pending unsent A edit is never uploaded under B and is restored for A'
   useCharacterStore.getState().updateLore('notes', marker);
   expect(useCharacterStore.getState().lore.notes).toBe(marker);
   expect(useCharacterStore.getState().characters[0].lore.notes).toBe('A BASELINE');
+  expect(typeof characterAutoSavePending).toBe('function');
+  expect(characterAutoSaveTimer).not.toBeNull();
 
   updateDoc.mockClear();
   let release;
@@ -374,6 +378,8 @@ test('F2: failed preservation fails closed, is reported honestly and retries to 
   expect(status.lastResult?.failures?.some((failure) =>
     failure.participantId === 'scoped-store:characterStore' &&
     failure.hook === 'stopNewWork')).toBe(true);
+  expect(getRetainedCharacterHandoffCandidate()?.ownerScopeId).toBe('u-a');
+  expect(getRetainedCharacterHandoffCandidate()?.characters[0].lore.notes).toBe(marker);
   expect(cloudWrites().filter((write) => write.userId === 'u-b')).toEqual([]);
 
   // Storage heals; the retry preserves the retained candidate and only then
@@ -395,6 +401,45 @@ test('F2: failed preservation fails closed, is reported honestly and retries to 
   const restored = await useCharacterStore.getState().loadActiveCharacter();
   await settle();
   expect(restored?.lore?.notes).toBe(marker);
+  expect(useCharacterStore.getState().lore.notes).toBe(marker);
+});
+
+test.each(['throw', 'reject'])('F2: %s from the Web Locks boundary fails closed through the real roster writer', async (failure) => {
+  await setupOwnerAWithActiveCharacter();
+  const marker = `A UNSENT CHARACTER lock-${failure}`;
+  useCharacterStore.getState().updateLore('notes', marker);
+  expect(typeof characterAutoSavePending).toBe('function');
+  const request = navigator.locks.request;
+  navigator.locks.request = () => {
+    if (failure === 'throw') throw new Error('injected lock acquisition failure');
+    return Promise.reject(new Error('injected async lock acquisition failure'));
+  };
+  try {
+    setAuth({ uid: 'u-b' });
+    setLiveFirebaseUser('u-b');
+    coordinateAuthPrincipalChange({ user: { uid: 'u-b' } });
+    await whenHandoffIdle();
+    await settle();
+    expect(getBootstrapGateState().scope.scopeId).toBe('u-a');
+    expect(getBootstrapGateState().handoffPending).toBe(true);
+    expect(getHandoffStatus().lastResult.blocked).toBe(true);
+    expect(getHandoffStatus().lastResult.failures).toEqual(expect.arrayContaining([
+      expect.objectContaining({ participantId: 'scoped-store:characterStore', hook: 'stopNewWork' })
+    ]));
+    expect(getRetainedCharacterHandoffCandidate()?.characters[0].lore.notes).toBe(marker);
+    expect(useCharacterStore.getState().characters).toEqual([]);
+    expect(useCharacterStore.getState().getActiveCharacter()).toBeNull();
+    expect(cloudWrites().filter((write) => write.notes === marker)).toEqual([]);
+  } finally {
+    navigator.locks.request = request;
+  }
+  retryPendingHandoff();
+  await whenHandoffIdle();
+  await settle();
+  expect(getBootstrapGateState().scope.scopeId).toBe('u-b');
+  expect(rawRosterNotes()).toBe(marker);
+  await switchOwner('u-a');
+  await useCharacterStore.getState().loadActiveCharacter();
   expect(useCharacterStore.getState().lore.notes).toBe(marker);
 });
 

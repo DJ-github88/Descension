@@ -21,41 +21,4 @@
 
 /* ===== RESOURCE SLIDERS ===== */
 
-.resource-slider-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-2);
-  margin-bottom: var(--my-space-4);
-}
-
-.resource-slider-label {
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.resource-slider {
-  width: 100%;
-  height: 8px;
-  appearance: none;
-  background: var(--my-parchment-dark);
-  border-radius: var(--my-border-radius);
-  outline: none;
-  cursor: pointer;
-}
-
-.resource-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: var(--my-shadow-sm);
-}
-
 /* Placeholder for additional resource-specific styling */

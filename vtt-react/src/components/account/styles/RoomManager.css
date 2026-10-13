@@ -1,7 +1,7 @@
 /* Room Manager Styles - Calm TTRPG Theme */
 .room-manager {
   padding: 16px;
-  background: var(--workspace-page, #f5ecd9);
+  background: var(--workspace-page, #f1ece1);
   border-radius: 12px;
   font-family: 'Cinzel', serif;
   color: var(--workspace-ink, #34251a);
@@ -582,7 +582,7 @@
 }
 
 .delete-confirm-modal {
-  background: #f8f4e6;
+  background: #f8f5ee;
   border: 2px solid #8B4513;
   border-radius: 8px;
   padding: 24px;
@@ -652,7 +652,7 @@
 
 /* Create Local Room Modal */
 .create-local-room-modal {
-  background: #f8f4e6;
+  background: #f8f5ee;
   border: 2px solid #8B4513;
   border-radius: 8px;
   padding: 24px;
@@ -761,7 +761,7 @@
 
 /* Simple Pathfinder Test Room - Clean and Working */
 .pathfinder-test-room {
-  background: linear-gradient(135deg, #f5f1e8 0%, #ede4d3 100%) !important;
+  background: linear-gradient(135deg, #f5f1e8 0%, #f1ece1 100%) !important;
   border: 2px solid #8b4513 !important;
   border-radius: 8px !important;
   box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2) !important;

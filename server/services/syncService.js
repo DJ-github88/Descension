@@ -427,6 +427,32 @@ class FirebaseBatchWriter {
     return enqueue.revision;
   }
 
+  /** P7 only: retain the exact staged checkpoint BEFORE publishing live actors.
+   * No await/status sink/flush separates admission from the synchronous install.
+   * The callback only assigns already-prepared plain room data.
+   */
+  admitConsequence(roomId, prepare, install, options = {}) {
+    const floor = Number(this.getRoomRevision(roomId)) || 0;
+    const revision = Math.max(this.revisionCounter, floor) + 1;
+    if (!Number.isSafeInteger(revision)) {return { queued: false, reason: 'revision_exhausted' };}
+    const snapshot = prepare(revision);
+    const preflight = roomCheckpoint.buildCheckpointDocuments({
+      roomId, gameState: snapshot, revision,
+      roomMetadata: this.captureMetadata ? this.captureMetadata(roomId) : null
+    });
+    if (!preflight.ok) {return { queued: false, reason: preflight.reason, code: preflight.code };}
+    // P4's physical authority-fence write is additional to the P3 documents.
+    if (preflight.operations + 1 > roomCheckpoint.CHECKPOINT_LIMITS.MAX_OPERATIONS ||
+      preflight.requestEstimate + 8192 > roomCheckpoint.CHECKPOINT_LIMITS.MAX_REQUEST_BYTES) {
+      return { queued: false, reason: 'authority_fence_budget', code: 'CHECKPOINT_TOO_LARGE' };
+    }
+    const result = this._enqueue(roomId, snapshot, { ...options, newConsequence: true, deferStatus: true });
+    if (!result.queued) {return result;}
+    install(snapshot);
+    this._emitStatus(roomId, options.authorityToken || null);
+    return result;
+  }
+
   /**
    * Queue and await the outcome of an explicit save. Resolves as soon as the
    * attempted write for a snapshot at least as new as the request settles.
@@ -533,7 +559,7 @@ class FirebaseBatchWriter {
     // captured work but must never accept a new snapshot. Fall back to the
     // settle predicate for callers that only wire one hook. A pinned token is
     // always settling work, so the settle predicate is authoritative for it.
-    const acceptNewWork = options.authorityToken
+    const acceptNewWork = options.authorityToken && !options.newConsequence
       ? (this.authorityCurrent || this.authorityAccept)
       : (this.authorityAccept || this.authorityCurrent);
     if (authorityToken && acceptNewWork && !acceptNewWork(authorityToken)) {
@@ -598,7 +624,7 @@ class FirebaseBatchWriter {
     state.updatedAt = Date.now();
     state.status = ROOM_SAVE_STATUS.PENDING;
     this.pendingWrites.set(roomId, state);
-    this._emitStatus(roomId, authorityToken);
+    if (!options.deferStatus) {this._emitStatus(roomId, authorityToken);}
     return { queued: true, revision };
   }
 

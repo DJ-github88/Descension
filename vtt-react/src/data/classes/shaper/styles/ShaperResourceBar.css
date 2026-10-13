@@ -60,29 +60,12 @@
 }
 .shaper-flux-fiber.current path,
 .shaper-flux-fiber.current rect {
-    stroke: #ffffff !important;
+    stroke: #34251a !important;
     stroke-width: 1.4px !important;
     filter: drop-shadow(0 0 4px #38bdf8);
 }
 
 /* Anatomical Muscle & Tendon Aesthetics */
-.shaper-muscle-belly {
-    transition: filter 0.3s ease;
-}
-.shaper-muscle-belly:hover {
-    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
-}
-
-.shaper-tendon-cords path {
-    transition: stroke 0.25s ease;
-}
-
-.shaper-bone-claws path {
-    transition: transform 0.2s ease, filter 0.2s ease;
-}
-.shaper-crucible-module:hover .shaper-bone-claws path {
-    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6));
-}
 
 /* Feral Erupting Bone Spurs */
 .shaper-feral-spur {
@@ -129,7 +112,7 @@
     opacity: 0.85;
 }
 .shaper-toll-plate.current path {
-    stroke: #ffffff !important;
+    stroke: #34251a !important;
     stroke-width: 1.4px !important;
     filter: drop-shadow(0 0 4px #ef4444);
 }

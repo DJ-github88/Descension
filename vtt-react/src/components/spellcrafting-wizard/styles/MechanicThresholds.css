@@ -16,7 +16,7 @@
 .effect-input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.25);
 }
 
 .effect-config-group {
@@ -61,35 +61,7 @@
   color: #e2e8f0;
 }
 
-.threshold-chance {
-  margin-left: 10px;
-  font-size: 0.9rem;
-  color: #94a3b8;
-}
-
 /* Resolution method selector */
-.resolution-method-selector {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.resolution-method-option {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.resolution-method-option input[type="radio"] {
-  margin: 0;
-}
-
-.resolution-method-option label {
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: #e2e8f0;
-}
 
 /* Card and coin configuration */
 .card-resolution-config,
@@ -143,19 +115,5 @@
 }
 
 /* Threshold value input for dice/card/coin */
-.threshold-value-input {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
 
 /* Multi-threshold styling */
-.threshold-preview-value {
-  display: inline-block;
-  padding: 4px 8px;
-  background: rgba(30, 41, 59, 0.7);
-  border-radius: 4px;
-  margin-right: 8px;
-  font-weight: bold;
-}

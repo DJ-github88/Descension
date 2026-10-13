@@ -3,47 +3,7 @@
 
 /* ===== TARGETING SELECTION ===== */
 
-.targeting-mode-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--my-space-4);
-  padding: var(--my-space-4);
-}
-
-.targeting-mode-card {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  box-shadow: var(--my-shadow-md);
-  padding: var(--my-space-4);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  text-align: center;
-}
-
-.targeting-mode-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-lg);
-  border-color: var(--my-brown-dark);
-}
-
-.targeting-mode-card.selected {
-  border-color: var(--my-gold);
-  box-shadow:
-    var(--my-shadow-lg),
-    0 0 15px rgba(212, 175, 55, 0.3);
-}
-
 /* ===== TARGETING CONFIG ===== */
-
-.targeting-config-section {
-  margin-top: var(--my-space-6);
-  padding: var(--my-space-5);
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  box-shadow: var(--my-shadow-inset);
-}
 
 /* ===== PROPAGATION METHOD SECTION ===== */
 
@@ -65,14 +25,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(139, 69, 19, 0.02) 8px,
-      rgba(139, 69, 19, 0.02) 16px
-    );
   pointer-events: none;
   z-index: 1;
 }
@@ -148,15 +100,15 @@
   border-color: var(--my-gold);
   box-shadow:
     var(--my-shadow-lg),
-    0 0 20px rgba(212, 175, 55, 0.4);
+    0 0 20px rgba(154, 123, 60, 0.4);
   background: var(--my-gradient-gold-subtle);
 }
 
 .propagation-card.selected::before {
   background: linear-gradient(
     135deg,
-    rgba(212, 175, 55, 0.1) 0%,
-    rgba(244, 208, 63, 0.15) 50%,
+    rgba(154, 123, 60, 0.1) 0%,
+    rgba(154, 123, 60, 0.15) 50%,
     rgba(184, 134, 11, 0.1) 100%
   );
   opacity: 1;
@@ -283,7 +235,7 @@
   border-color: var(--my-gold);
   box-shadow:
     var(--my-shadow-md),
-    0 0 15px rgba(212, 175, 55, 0.3);
+    0 0 15px rgba(154, 123, 60, 0.3);
   background: var(--my-gradient-gold-subtle);
 }
 
@@ -426,14 +378,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(139, 69, 19, 0.02) 8px,
-      rgba(139, 69, 19, 0.02) 16px
-    );
   pointer-events: none;
   z-index: 1;
 }
@@ -703,14 +647,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      135deg,
-      transparent,
-      transparent 6px,
-      rgba(139, 69, 19, 0.02) 6px,
-      rgba(139, 69, 19, 0.02) 12px
-    );
   pointer-events: none;
   z-index: 1;
 }

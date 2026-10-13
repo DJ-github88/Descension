@@ -3,56 +3,9 @@
 
 /* ===== SELECT EFFECT SECTION ===== */
 
-.effect-selection-section,
-.select-effect-section {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-light);
-  border-radius: var(--my-border-radius-lg);
-  padding: var(--my-space-5);
-  margin-bottom: var(--my-space-4);
-  box-shadow: var(--my-shadow-sm);
-}
-
-.effect-selection-section h3,
-.select-effect-section h3 {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-xl);
-  font-weight: var(--my-font-bold);
-  color: var(--my-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
-  margin: 0 0 var(--my-space-3) 0;
-  text-shadow: 
-    0 1px 2px rgba(255, 255, 255, 0.8),
-    0 -1px 1px rgba(139, 69, 19, 0.3);
-  border-bottom: 2px solid var(--my-brown-light);
-  padding-bottom: var(--my-space-2);
-}
-
-.effect-selection-description,
-.select-effect-description {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  color: var(--my-text-secondary);
-  text-align: center;
-  margin-bottom: var(--my-space-4);
-  line-height: var(--my-leading-relaxed);
-  font-style: italic;
-}
-
 /* ===== EFFECT TYPE BUTTONS ===== */
 
-.effect-type-buttons,
-.effect-selection-buttons {
-  display: flex;
-  gap: var(--my-space-3);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.effect-type-button,
-.effect-selection-button {
+.effect-type-button {
   display: flex;
   align-items: center;
   gap: var(--my-space-2);
@@ -73,8 +26,7 @@
   text-decoration: none;
 }
 
-.effect-type-button:hover,
-.effect-selection-button:hover {
+.effect-type-button:hover {
   background: var(--my-gradient-button-hover);
   border-color: var(--my-brown-dark);
   transform: translateY(-2px);
@@ -83,122 +35,33 @@
 }
 
 .effect-type-button.active,
-.effect-selection-button.active,
-.effect-type-button.selected,
-.effect-selection-button.selected {
+.effect-type-button.selected {
   background: var(--my-gradient-gold);
   border-color: var(--my-gold-dark);
   color: var(--my-brown-darkest);
   box-shadow: 
     var(--my-shadow-md),
-    0 0 12px rgba(212, 175, 55, 0.4);
+    0 0 12px rgba(154, 123, 60, 0.4);
   transform: translateY(1px);
   font-weight: var(--my-font-bold);
 }
 
 .effect-type-button.active:hover,
-.effect-selection-button.active:hover,
-.effect-type-button.selected:hover,
-.effect-selection-button.selected:hover {
+.effect-type-button.selected:hover {
   background: var(--my-gradient-gold);
   transform: translateY(1px);
   box-shadow: 
     var(--my-shadow-md),
-    0 0 16px rgba(212, 175, 55, 0.6);
+    0 0 16px rgba(154, 123, 60, 0.6);
 }
 
 /* ===== EFFECT ICONS ===== */
 
-.effect-type-icon,
-.effect-selection-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: var(--my-border-radius);
-  border: 1px solid var(--my-brown-medium);
-  flex-shrink: 0;
-}
-
 /* ===== BASE EFFECT INFORMATION SECTION ===== */
-
-.base-effect-information,
-.effect-info-section,
-.effect-configuration-section {
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  padding: var(--my-space-5);
-  margin-bottom: var(--my-space-4);
-  box-shadow: var(--my-shadow-inset);
-}
-
-.base-effect-information h3,
-.effect-info-section h3,
-.effect-configuration-section h3 {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  color: var(--my-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 0 var(--my-space-4) 0;
-  text-shadow: 
-    0 1px 2px rgba(255, 255, 255, 0.8),
-    0 -1px 1px rgba(139, 69, 19, 0.3);
-  border-bottom: 1px solid var(--my-brown-light);
-  padding-bottom: var(--my-space-2);
-}
 
 /* ===== EFFECT INFORMATION GRID ===== */
 
-.effect-info-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--my-space-3) var(--my-space-4);
-  align-items: center;
-  margin-bottom: var(--my-space-4);
-}
-
-.effect-info-label {
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.effect-info-value {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-base);
-  color: var(--my-text-primary);
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-}
-
 /* ===== EFFECT TYPE DISPLAY ===== */
-
-.effect-type-display {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  padding: var(--my-space-2) var(--my-space-3);
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-medium);
-  color: var(--my-text-primary);
-  box-shadow: var(--my-shadow-sm);
-}
-
-.effect-type-display .effect-icon {
-  width: 16px;
-  height: 16px;
-  border-radius: var(--my-border-radius);
-  border: 1px solid var(--my-brown-medium);
-}
 
 /* ===== FORMULA DISPLAY ===== */
 
@@ -215,28 +78,6 @@
 }
 
 /* ===== CONDITIONAL ACTIVATION TOGGLE ===== */
-
-.conditional-activation-section {
-  margin-top: var(--my-space-4);
-  padding-top: var(--my-space-4);
-  border-top: 1px solid var(--my-brown-light);
-}
-
-.conditional-activation-label {
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  color: var(--my-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: var(--my-space-2);
-}
-
-.conditional-toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-}
 
 /* ===== SPECIFIC WOW EFFECT CLASSES ===== */
 
@@ -305,7 +146,7 @@ button.wow-effect-config-tab.active,
   color: var(--my-brown-darkest) !important;
   box-shadow:
     var(--my-shadow-md),
-    0 0 12px rgba(212, 175, 55, 0.4) !important;
+    0 0 12px rgba(154, 123, 60, 0.4) !important;
   transform: translateY(1px) !important;
   font-weight: var(--my-font-bold) !important;
 }
@@ -316,41 +157,10 @@ button.wow-effect-config-tab.active:hover,
   transform: translateY(1px) !important;
   box-shadow:
     var(--my-shadow-md),
-    0 0 16px rgba(212, 175, 55, 0.6) !important;
+    0 0 16px rgba(154, 123, 60, 0.6) !important;
 }
 
 /* ===== EFFECT-SPECIFIC TRIGGERS SECTION ===== */
-
-.effect-triggers-section {
-  margin-top: var(--my-space-5);
-  padding: var(--my-space-4);
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-light);
-  border-radius: var(--my-border-radius);
-  box-shadow: var(--my-shadow-sm);
-}
-
-.effect-triggers-section h4 {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-base);
-  font-weight: var(--my-font-bold);
-  color: var(--my-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 0 var(--my-space-3) 0;
-  text-shadow: 
-    0 1px 2px rgba(255, 255, 255, 0.8),
-    0 -1px 1px rgba(139, 69, 19, 0.3);
-}
-
-.effect-triggers-description {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  color: var(--my-text-secondary);
-  margin-bottom: var(--my-space-3);
-  line-height: var(--my-leading-relaxed);
-  font-style: italic;
-}
 
 /* ===== DAMAGE CONFIGURATION BUTTON ===== */
 
@@ -402,60 +212,18 @@ button.wow-effect-config-tab.active:hover,
   color: var(--my-brown-darkest);
   box-shadow:
     var(--my-shadow-lg),
-    0 0 16px rgba(212, 175, 55, 0.5);
+    0 0 16px rgba(154, 123, 60, 0.5);
   transform: translateY(1px);
   font-weight: var(--my-font-bold);
 }
 
 /* ===== EFFECT CONFIGURATION HEADER ===== */
 
-.effect-config-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--my-space-4);
-  padding-bottom: var(--my-space-3);
-  border-bottom: 2px solid var(--my-brown-light);
-}
-
-.effect-config-title {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-xl);
-  font-weight: var(--my-font-bold);
-  color: var(--my-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow:
-    0 1px 2px rgba(255, 255, 255, 0.8),
-    0 -1px 1px rgba(139, 69, 19, 0.3);
-}
-
-.effect-config-badge {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  padding: var(--my-space-2) var(--my-space-3);
-  background: var(--my-gradient-gold);
-  border: var(--my-border-width) solid var(--my-gold-dark);
-  border-radius: var(--my-border-radius);
-  color: var(--my-brown-darkest);
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  box-shadow: var(--my-shadow-sm);
-}
-
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
-  .effect-type-buttons,
-  .effect-selection-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .effect-type-button,
-  .effect-selection-button {
+  .effect-type-button {
     width: 100%;
     max-width: 300px;
   }
@@ -468,20 +236,5 @@ button.wow-effect-config-tab.active:hover,
     width: 100%;
     max-width: 400px;
     margin: 0 auto var(--my-space-4) auto;
-  }
-
-  .effect-info-grid {
-    grid-template-columns: 1fr;
-    gap: var(--my-space-2);
-  }
-
-  .effect-info-label {
-    margin-bottom: var(--my-space-1);
-  }
-
-  .effect-config-header {
-    flex-direction: column;
-    gap: var(--my-space-3);
-    text-align: center;
   }
 }

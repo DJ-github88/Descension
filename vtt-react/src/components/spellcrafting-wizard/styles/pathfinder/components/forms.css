@@ -47,17 +47,6 @@
   color: var(--my-error);
 }
 
-.pf-label-description {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-xs);
-  color: var(--my-text-muted);
-  font-weight: var(--my-font-normal);
-  text-transform: none;
-  letter-spacing: normal;
-  margin-top: var(--my-space-1);
-  line-height: var(--my-leading-normal);
-}
-
 /* ===== INPUT FIELDS ===== */
 
 .pf-input {
@@ -223,32 +212,7 @@
 }
 
 .pf-checkbox {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  appearance: none;
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
   box-shadow: var(--my-shadow-inset);
-}
-
-.pf-checkbox:checked {
-  background: var(--my-brown-medium);
-  border-color: var(--my-brown-dark);
-}
-
-.pf-checkbox:checked::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--my-text-on-dark);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-bold);
 }
 
 .pf-checkbox:focus {
@@ -265,20 +229,10 @@
 }
 
 .pf-checkbox-label {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-base);
-  color: var(--my-text-primary);
-  cursor: pointer;
   user-select: none;
 }
 
 /* ===== RADIO BUTTONS ===== */
-
-.pf-radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-2);
-}
 
 .pf-radio-group.horizontal {
   flex-direction: row;
@@ -286,41 +240,12 @@
   gap: var(--my-space-4);
 }
 
-.pf-radio-item {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  cursor: pointer;
-}
-
 .pf-radio {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  appearance: none;
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
   box-shadow: var(--my-shadow-inset);
 }
 
 .pf-radio:checked {
   background: var(--my-brown-medium);
-  border-color: var(--my-brown-dark);
-}
-
-.pf-radio:checked::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  background: var(--my-text-on-dark);
-  border-radius: 50%;
 }
 
 .pf-radio:focus {
@@ -337,58 +262,10 @@
 }
 
 .pf-radio-label {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-base);
-  color: var(--my-text-primary);
-  cursor: pointer;
   user-select: none;
 }
 
 /* ===== RANGE SLIDERS ===== */
-
-.pf-range {
-  width: 100%;
-  height: 6px;
-  appearance: none;
-  background: var(--my-parchment-dark);
-  border-radius: var(--my-border-radius);
-  outline: none;
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-}
-
-.pf-range::-webkit-slider-thumb {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: var(--my-shadow-sm);
-  transition: all var(--my-transition-normal);
-}
-
-.pf-range::-webkit-slider-thumb:hover {
-  background: var(--my-gradient-button-hover);
-  box-shadow: var(--my-shadow-md);
-}
-
-.pf-range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: var(--my-shadow-sm);
-  transition: all var(--my-transition-normal);
-}
-
-.pf-range::-moz-range-thumb:hover {
-  background: var(--my-gradient-button-hover);
-  box-shadow: var(--my-shadow-md);
-}
 
 /* ===== FORM VALIDATION ===== */
 
@@ -407,76 +284,11 @@
   font-size: var(--my-text-base);
 }
 
-.pf-success-message {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  color: var(--my-success);
-  margin-top: var(--my-space-1);
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-1);
-}
-
-.pf-success-message::before {
-  content: '✓';
-  font-size: var(--my-text-base);
-}
-
 .pf-help-text {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-xs);
-  color: var(--my-text-muted);
-  margin-top: var(--my-space-1);
   line-height: var(--my-leading-normal);
 }
 
 /* ===== FIELDSETS ===== */
-
-.pf-fieldset {
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-bottom: var(--my-space-6);
-  background: var(--my-gradient-parchment);
-  position: relative;
-}
-
-.pf-fieldset::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(139, 69, 19, 0.01) 6px,
-      rgba(139, 69, 19, 0.01) 12px
-    );
-  pointer-events: none;
-  border-radius: var(--my-border-radius);
-  z-index: 1;
-}
-
-.pf-fieldset > * {
-  position: relative;
-  z-index: 2;
-}
-
-.pf-legend {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  color: var(--my-text-secondary);
-  padding: 0 var(--my-space-3);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  margin-bottom: var(--my-space-4);
-}
 
 /* ===== RESPONSIVE DESIGN ===== */
 
@@ -496,16 +308,9 @@
   .pf-textarea {
     font-size: var(--my-text-sm);
   }
-  
-  .pf-fieldset {
-    padding: var(--my-space-3);
-  }
 }
 
 @media (max-width: 480px) {
-  .pf-input-height {
-    height: 36px;
-  }
   
   .pf-input,
   .pf-select {
@@ -717,7 +522,7 @@
 .pf-number-input:focus {
   outline: none;
   border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.2);
 }
 
 .pf-stepper-button {

@@ -8,7 +8,7 @@
   gap: 12px;
   margin: 16px 0;
   padding: 12px 16px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(139, 105, 20, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(154, 123, 60, 0.1) 0%, rgba(139, 105, 20, 0.05) 100%);
   border: 2px solid rgba(139, 105, 20, 0.3);
   border-radius: 6px;
   box-shadow:
@@ -30,7 +30,7 @@
 .count-input {
   width: 80px;
   padding: 8px 12px;
-  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
+  background: linear-gradient(135deg, #f8f5e8 0%, #f1ece1 100%);
   border: 2px solid #8b6914;
   border-radius: 4px;
   color: #2d1810;
@@ -43,9 +43,9 @@
 
 .count-input:focus {
   outline: none;
-  border-color: #d4af37;
+  border-color: #9a7b3c;
   box-shadow:
-    0 0 8px rgba(212, 175, 55, 0.4),
+    0 0 8px rgba(154, 123, 60, 0.4),
     inset 0 1px 2px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #ffffff 0%, #f8f5e8 100%);
 }
@@ -63,19 +63,8 @@
   cursor: pointer !important;
 }
 
-.progressive-toggle {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.progressive-toggle label {
-  margin-right: 10px;
-  font-weight: 600;
-}
-
 .toggle-button {
-  background: var(--my-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  background: var(--my-gradient-button, #f8f5ee);
   border: var(--my-border-width, 2px) solid var(--my-brown-medium, #8B4513);
   color: var(--my-text-primary, #2d1810);
   padding: 6px 12px;
@@ -99,8 +88,8 @@
 }
 
 .toggle-button:hover {
-  background: var(--my-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
-  border-color: var(--my-gold, #d4af37);
+  background: var(--my-gradient-button-hover, linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%));
+  border-color: var(--my-gold, #9a7b3c);
   transform: translateY(-1px);
 }
 
@@ -144,7 +133,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: linear-gradient(145deg, #f5e6d3 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+  background: linear-gradient(145deg, #f5e6d3 0%, #f1ece1 50%, #e8e2d4 100%) !important;
   border: 2px solid #8B4513 !important;
   border-radius: 4px;
   margin-bottom: 8px;
@@ -229,7 +218,7 @@
 .stage-timing input[type="number"] {
   width: 50px !important;
   padding: 6px 8px !important;
-  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%) !important;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f1ece1 100%) !important;
   border: 1px solid #8b6914 !important;
   border-radius: 4px !important;
   color: #2d1810 !important;
@@ -273,27 +262,6 @@
   font-family: 'SF Mono', 'Menlo', monospace;
 }
 
-.stage-description-input {
-  margin-bottom: 12px;
-}
-
-.stage-description-input label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  color: #d1d5db;
-}
-
-.stage-description-input input {
-  width: 100%;
-  padding: 8px 10px;
-  background-color: #1f2937;
-  border: 1px solid #374151;
-  border-radius: 4px;
-  color: #d1d5db;
-  font-size: 14px;
-}
-
 .add-stage-button {
   background: linear-gradient(to bottom, #1f2937, #111827);
   border: 1px dashed #3b82f6;
@@ -314,11 +282,6 @@
 }
 
 /* Make the full-width input group take up the entire width */
-.dot-input-group.full-width,
-.hot-input-group.full-width {
-  width: 100%;
-  margin-bottom: 16px;
-}
 
 /* Stage spell effect and stats sections */
 .stage-spell-effect {
@@ -352,7 +315,7 @@
   display: flex !important;
   align-items: center !important;
   box-sizing: border-box !important;
-  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%) !important;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f1ece1 100%) !important;
   border: 1px solid #8b6914 !important;
   border-radius: 4px !important;
   gap: 8px !important;
@@ -391,7 +354,7 @@
 }
 
 .stage-spell-effect .spell-dropdown {
-  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%) !important;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f1ece1 100%) !important;
   border: 1px solid #8b6914 !important;
   border-radius: 4px !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
@@ -423,7 +386,7 @@
 }
 
 .stage-spell-effect .spell-item.selected {
-  background: rgba(212, 175, 55, 0.15) !important;
+  background: rgba(154, 123, 60, 0.15) !important;
 }
 
 .stage-spell-effect .spell-name {
@@ -438,8 +401,8 @@
 
 .stage-spell-effect .spell-search-input:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+  border-color: #9a7b3c;
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.3);
 }
 
 .stage-spell-effect .spell-search-input::placeholder {
@@ -524,7 +487,7 @@
 }
 
 .stage-stat-item.included {
-  background: rgba(212, 175, 55, 0.15) !important;
+  background: rgba(154, 123, 60, 0.15) !important;
   border-color: #8b6914 !important;
 }
 
@@ -572,7 +535,7 @@
 .stage-stat-value input {
   width: 45px !important;
   padding: 1px 3px !important;
-  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%) !important;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f1ece1 100%) !important;
   border: 1px solid #8b6914 !important;
   border-radius: 3px !important;
   color: #2d1810 !important;
@@ -581,7 +544,7 @@
 
 .stage-stat-value select {
   padding: 1px 3px !important;
-  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%) !important;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f1ece1 100%) !important;
   border: 1px solid #8b6914 !important;
   border-radius: 3px !important;
   color: #2d1810 !important;

@@ -10,8 +10,3 @@
 }
 
 /* Ensure the unified spell card displays properly in preview context */
-.preview-spell-card-container .unified-spell-card {
-  max-width: 420px;
-  min-width: 380px;
-  box-shadow: var(--my-shadow-parchment);
-}

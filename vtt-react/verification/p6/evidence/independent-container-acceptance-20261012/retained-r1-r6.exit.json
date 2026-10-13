@@ -1,0 +1,4 @@
+{
+  "command": "node verification/p6/regressions-browser.cjs",
+  "status": 0
+}

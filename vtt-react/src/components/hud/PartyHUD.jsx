@@ -33,6 +33,7 @@ import './PortraitLightbox.css';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
+import ActorConsequenceControls from './ActorConsequenceControls';
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 // Athien and Human bloodlines carry only the bloodline name in race data; the
@@ -1326,6 +1327,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                         return (
                             <div className="member-header">
+                                {/* Nameplate: class as the calling above the name, a rule beneath */}
                                 <div className="member-header-top-row">
                                     {frameClassLabel && (
                                         <span className="member-class-text" title={`Class: ${frameClassLabel}`}>
@@ -1333,20 +1335,25 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                         </span>
                                     )}
                                     <span ref={nameRef} className="member-name-text" title={member.name}>{member.name}</span>
+                                    <span className="member-nameplate-rule" aria-hidden="true"><i></i></span>
                                 </div>
+                                {/* Sheet fields: captioned value pairs, like a paper character sheet */}
                                 <div className="member-details">
                                     {racePart && (
                                         <div className="member-heritage-line" title={fullArchetypeTitle}>
-                                            <span className="heritage-prep">of the</span>
+                                            <span className="sheet-caption">Ancestry</span>
                                             <span className="heritage-race">{racePart.label}</span>
                                         </div>
                                     )}
                                     {background && (
                                         <div className="member-background-line" title={fullArchetypeTitle}>
-                                            {backgroundIcon && (
-                                                <i className={`fas fa-${backgroundIcon} archetype-icon lead`} aria-hidden="true"></i>
-                                            )}
-                                            {background}
+                                            <span className="sheet-caption">Background</span>
+                                            <span className="sheet-value">
+                                                {backgroundIcon && (
+                                                    <i className={`fas fa-${backgroundIcon} archetype-icon lead`} aria-hidden="true"></i>
+                                                )}
+                                                {background}
+                                            </span>
                                         </div>
                                     )}
                                 </div>
@@ -2654,6 +2661,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Helper function to generate varied log messages for resource changes
     const logResourceChange = (characterName, resourceType, amount, isPositive) => {
+        if (require('../../services/actorConsequenceService').inSharedRoom()) return; // Shared truth is the accepted receipt/status.
         const absAmount = Math.abs(amount);
         const actorName = getActorName();
 
@@ -2771,6 +2779,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     };
 
     const applyResourceAdjustment = (memberId, resourceType, adjustment, asTemporary = false, skipLogging = false) => {
+        const boundary = require('../../services/actorConsequenceService');
+        if (boundary.inSharedRoom()) return boundary.adjustSharedResource(isSelfId(memberId, undefined, myIds) ? 'player' : memberId, resourceType, adjustment, asTemporary);
         const tempFieldMap = {
             'health': 'tempHealth',
             'mana': 'tempMana',
@@ -3183,6 +3193,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // Handle full restore all (HP, mana, and AP)
     const handleFullRestoreAll = () => {
         if (!contextMenuMember) return;
+        const boundary = require('../../services/actorConsequenceService');
+        if (boundary.inSharedRoom()) {setShowContextMenu(false); return boundary.setSharedResourceTotals(isSelfId(contextMenuMember.id, undefined, myIds) ? 'player' : contextMenuMember, true);}
 
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
@@ -3253,6 +3265,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // Handle full drain all (HP, mana, and AP, including temporary resources)
     const handleFullDrainAll = () => {
         if (!contextMenuMember) return;
+        const boundary = require('../../services/actorConsequenceService');
+        if (boundary.inSharedRoom()) {setShowContextMenu(false); return boundary.setSharedResourceTotals(isSelfId(contextMenuMember.id, undefined, myIds) ? 'player' : contextMenuMember, false);}
 
         const memberId = contextMenuMember.id;
         const characterName = getCharacterName(memberId);
@@ -3661,6 +3675,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
 
             <div className="party-hud-frames">
+                <div><ActorConsequenceControls /></div>
                 {resolvedDisplayMembers.map((member, index) => {
                     const memberKey = getMemberStableKey(member, myIds);
                     const memberAliases = getMemberAliases(member, myIds);

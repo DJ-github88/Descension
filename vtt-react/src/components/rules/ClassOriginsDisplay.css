@@ -267,32 +267,6 @@ div.class-origins-container div.region-dark-bargain {
 /* ============================================================
    SECTION: ORIGIN STORY
    ============================================================ */
-.co-section {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.co-section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 2px;
-}
-
-.co-section-header i {
-  font-size: 0.95rem;
-  opacity: 0.9;
-}
-
-.co-section-header h5 {
-  font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
-}
 
 .co-origin-body {
   display: flex;
@@ -335,98 +309,11 @@ div.class-origins-container div.region-dark-bargain {
   font-family: 'Crimson Text', serif;
 }
 
-.co-call-to-action {
-  font-size: 1.02rem;
-  line-height: 1.55;
-  font-weight: 600;
-  margin: 8px 0 0 0;
-  font-style: italic;
-  font-family: 'Crimson Text', serif;
-  text-align: center;
-  letter-spacing: 0.3px;
-}
-
 /* ============================================================
    LORE SECTIONS FROM ROLEPLAY IDENTITY
    ============================================================ */
-.co-lore-sections-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(139, 69, 19, 0.15);
-}
-
-.co-lore-sections-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 20px;
-}
-
-.co-grid-right-col {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-@media (max-width: 900px) {
-  .co-lore-sections-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
 
 /* Individual lore block */
-.co-lore-block {
-  background: color-mix(in srgb, var(--co-accent) 3%, #fdfbf7);
-  border: 1px solid rgba(143, 111, 53, 0.22);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 3px 8px rgba(139, 69, 19, 0.04);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-}
-
-.co-lore-block:hover {
-  border-color: var(--co-border);
-  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.08), 0 0 8px var(--co-glow);
-  transform: translateY(-2px);
-}
-
-.co-lore-block-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 18px;
-  background: linear-gradient(to right, rgba(143, 111, 53, 0.08), transparent);
-  border-bottom: 1px solid rgba(143, 111, 53, 0.15);
-}
-
-.co-lore-block-header i {
-  font-size: 0.85rem;
-}
-
-.co-lore-block-header h6 {
-  font-family: 'Cinzel', 'Georgia', serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.co-lore-block-body {
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.co-lore-block-body .co-text-para {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #3e2d1d;
-}
 
 /* ============================================================
    ANIMATIONS
@@ -444,9 +331,6 @@ div.class-origins-container div.region-dark-bargain {
 /* ============================================================
    NOTABLE FIGURES (LEGENDARY PRACTITIONERS) BLOCK
    ============================================================ */
-.co-notable-block {
-  width: 100%;
-}
 
 .co-notable-list {
   display: grid;
@@ -470,28 +354,6 @@ div.class-origins-container div.region-dark-bargain {
   border-color: var(--co-border);
   box-shadow: 0 6px 20px rgba(139, 69, 19, 0.10), 0 0 12px var(--co-glow);
   transform: translateY(-3px) scale(1.01);
-}
-
-.co-notable-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fffbf2;
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.co-notable-item:hover .co-notable-avatar {
-  transform: scale(1.1) rotate(5deg);
 }
 
 .co-notable-content {

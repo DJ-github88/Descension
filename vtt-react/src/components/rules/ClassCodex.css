@@ -5,13 +5,13 @@
 .class-detail-display.premium-theme {
   --codex-ink: #34251a;
   --codex-muted: #68533e;
-  --codex-paper: #f5ecd9;
+  --codex-paper: #f1ece1;
   --codex-rule: #b6a080;
   --codex-seal: #663c32;
   --codex-leather: #302419;
   color: var(--codex-ink);
   font-family: 'Crimson Text', Georgia, serif;
-  scrollbar-color: #9b835e #e8dcc6;
+  scrollbar-color: #9b835e #e8e2d4;
   caret-color: var(--codex-seal);
 }
 :is(.classes-display, .classes-page-container, .class-detail-display.premium-theme) *,
@@ -60,7 +60,7 @@
   transition: background-color 160ms ease, color 160ms ease;
 }
 :is(.classes-display, .classes-page-container) .role-filter-btn:hover,
-.classes-display .damage-type-btn:hover { background: #e8dcc6; border-color: var(--codex-seal); box-shadow: none; transform: none; }
+.classes-display .damage-type-btn:hover { background: #e8e2d4; border-color: var(--codex-seal); box-shadow: none; transform: none; }
 :is(.classes-display, .classes-page-container) .role-filter-btn.active,
 .classes-display .damage-type-btn.active { background: var(--codex-leather); color: var(--codex-paper); border-color: var(--codex-leather); text-shadow: none; box-shadow: none; }
 .classes-display .role-filter-btn.active i { filter: none; }
@@ -134,7 +134,7 @@
 .class-detail-display.premium-theme :is(.class-role-badge, .class-damage-badge) { background: transparent; border: 0; padding: 0; border-radius: 0; color: var(--codex-muted); font-family: 'Crimson Text', serif; font-size: 1rem; text-transform: none; letter-spacing: 0; }
 .class-detail-display.premium-theme .class-header-meta { gap: 12px 24px; }
 .class-detail-display.premium-theme .class-nav-btn { min-height: 44px; min-width: 44px; padding: 8px 12px; background: transparent; border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-seal); box-shadow: none; text-shadow: none; transform: none; }
-.class-detail-display.premium-theme .class-nav-btn:hover { background: #e8dcc6; color: var(--codex-ink); box-shadow: none; transform: none; }
+.class-detail-display.premium-theme .class-nav-btn:hover { background: #e8e2d4; color: var(--codex-ink); box-shadow: none; transform: none; }
 .class-detail-display.premium-theme .class-nav-btn.back { white-space: nowrap; font-size: 0.75rem; letter-spacing: 0; }
 .class-codex-nav-wrapper { position: relative; width: 100%; margin: 20px 0 28px; }
 .class-codex-navigation { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0; border: 1px solid var(--codex-rule); border-radius: 3px; overflow: hidden; }
@@ -142,7 +142,7 @@
 .class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button:last-child { border-right: 0; }
 .class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button:hover { background: #e4d4b7; color: var(--codex-ink); }
 .class-detail-display.premium-theme .class-codex-navigation .class-codex-section-button.active { color: var(--codex-paper); background: var(--codex-seal); }
-.class-detail-display.premium-theme .class-codex-nav-scroll-hint { position: absolute; top: 50%; transform: translateY(-50%); z-index: 4; display: inline-flex; align-items: center; gap: 5px; background: var(--codex-leather, #302419); color: var(--codex-paper, #f5ecd9); border: 1px solid var(--codex-rule, #b6a080); border-radius: 14px; padding: 5px 9px; font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); transition: background 0.15s ease, transform 0.15s ease; }
+.class-detail-display.premium-theme .class-codex-nav-scroll-hint { position: absolute; top: 50%; transform: translateY(-50%); z-index: 4; display: inline-flex; align-items: center; gap: 5px; background: var(--codex-leather, #302419); color: var(--codex-paper, #f1ece1); border: 1px solid var(--codex-rule, #b6a080); border-radius: 14px; padding: 5px 9px; font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); transition: background 0.15s ease, transform 0.15s ease; }
 .class-detail-display.premium-theme .class-codex-nav-scroll-hint:hover { background: var(--codex-seal, #663c32); transform: translateY(-50%) scale(1.04); }
 .class-detail-display.premium-theme .class-codex-nav-scroll-hint.right { right: 6px; }
 .class-detail-display.premium-theme .class-codex-nav-scroll-hint.left { left: 6px; }
@@ -156,7 +156,6 @@
 .class-detail-display.premium-theme :is(.guide-badge, .rs-hero__badge, .rs-section__badge) { display: none; }
 .class-detail-display.premium-theme .guide-subtitle { color: var(--codex-muted); margin: 8px 0 0; }
 .class-detail-display.premium-theme .overview-concept-quote { padding: 0; margin: 0 0 28px; background: transparent; box-shadow: none; }
-.class-detail-display.premium-theme .quote-icon-bg { display: none; }
 .class-detail-display.premium-theme .overview-concept-quote .quote-text p { max-width: 75ch; font-size: 1.18rem !important; line-height: 1.6 !important; text-align: left !important; font-style: normal; color: var(--codex-ink); }
 .class-detail-display.premium-theme .overview-dashboard-grid { grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.65fr); gap: 32px; margin-bottom: 32px; }
 .class-detail-display.premium-theme :is(.overview-dossier-column, .overview-chronicles-column) { min-width: 0; }
@@ -175,7 +174,7 @@
 .class-detail-display.premium-theme .guide-illustration-wrapper-centered { margin-bottom: 16px !important; }
 .class-detail-display.premium-theme .guide-illustration-wrapper-centered .guide-illustration-frame { padding: 0 !important; background: #f0e3c4 !important; border: 1px solid var(--codex-rule) !important; border-radius: 3px !important; box-shadow: none !important; overflow: hidden; }
 .class-detail-display.premium-theme .guide-illustration-frame::before { content: none; }
-.class-detail-display.premium-theme .guide-illustration-image { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border: 0; border-radius: 0; mix-blend-mode: normal !important; filter: none; transform: none; }
+.class-detail-display.premium-theme .guide-illustration-image { display: block; width: 100%; height: auto; border: 0; border-radius: 0; mix-blend-mode: normal !important; filter: none; transform: none; }
 .class-detail-display.premium-theme .guide-illustration-caption { position: static; margin: 0; padding: 12px 16px; color: var(--codex-muted); font-size: 0.95rem; line-height: 1.45; background: transparent; border: 0; }
 .class-detail-display.premium-theme .illus-nav-btn { width: 44px; height: 44px; background: var(--codex-leather); border: 1px solid var(--codex-rule); border-radius: 3px; color: var(--codex-paper); box-shadow: none; }
 .class-detail-display.premium-theme .illus-dots-indicator { position: static; padding: 0 12px 12px; background: transparent; }
@@ -245,7 +244,7 @@
 .class-detail-display.premium-theme .spec-spotlight { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 28px; align-items: start; }
 .class-detail-display.premium-theme .spec-selector-row { display: flex; flex-direction: column; gap: 12px; margin: 0; position: sticky; top: 16px; }
 .class-detail-display.premium-theme .spec-selector-card { background: transparent; border: 1px solid var(--codex-rule); border-radius: 3px; box-shadow: none; transform: none; }
-.class-detail-display.premium-theme .spec-selector-card.active { background: #e8dcc6; border-color: var(--codex-seal); box-shadow: none; }
+.class-detail-display.premium-theme .spec-selector-card.active { background: #e8e2d4; border-color: var(--codex-seal); box-shadow: none; }
 .class-detail-display.premium-theme .spec-selector-name { color: var(--codex-ink); }
 .class-detail-display.premium-theme .spec-selector-theme { color: var(--codex-muted); }
 .class-detail-display.premium-theme .spec-selector-check { color: var(--codex-seal); }
@@ -313,7 +312,7 @@
 .class-detail-display.premium-theme .class-spell-entry-meta .spellbook-slot-range { padding: 0; font-size: inherit; color: inherit; }
 
 /* Standalone catalogue uses the same entries and links into the full codex. */
-.classes-page-container.classes-page-container { padding: 32px clamp(20px, 5vw, 72px); background-color: #e8dcc6; background-image: linear-gradient(rgba(232, 220, 198, 0.88), rgba(232, 220, 198, 0.88)), url('../../../public/assets/ui/wow-window/parchment_bg.png'); background-size: auto, 600px; }
+.classes-page-container.classes-page-container { padding: 32px clamp(20px, 5vw, 72px); background-color: #e8e2d4; background-image: linear-gradient(rgba(232, 220, 198, 0.88), rgba(232, 220, 198, 0.88)), url('../../../public/assets/ui/wow-window/parchment_bg.png'); background-size: auto, 600px; }
 .classes-page-container .classes-header { text-align: left; border-bottom: 3px double var(--codex-rule); }
 .classes-page-container :is(.back-link, .classes-breadcrumb a) { color: var(--codex-seal); text-underline-offset: 4px; }
 .classes-page-container .classes-breadcrumb { color: var(--codex-muted); }

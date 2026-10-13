@@ -72,7 +72,7 @@
     opacity: 0.9;
 }
 .animist-bone-spur.current path {
-    stroke: #ffffff !important;
+    stroke: #34251a !important;
     stroke-width: 1.4px !important;
     filter: drop-shadow(0 0 5px #34d399);
 }
@@ -351,3 +351,6 @@
     border-radius: 3px;
     background: rgba(255, 255, 255, 0.08);
 }
+
+/* Calm: no looping pulses */
+.animist-resource-bar, .animist-resource-bar * { animation: none !important; }

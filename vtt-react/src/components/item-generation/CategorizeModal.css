@@ -25,7 +25,7 @@
     align-items: center;
     padding: 15px 20px;
     border-bottom: 2px solid #8b4513;
-    background: linear-gradient(135deg, #d4af37, #b8860b);
+    background: linear-gradient(135deg, #9a7b3c, #8a6c32);
 }
 
 .categorize-modal-header h3 {
@@ -90,7 +90,7 @@
 }
 
 .category-icon-item:hover {
-    border-color: #d4af37;
+    border-color: #9a7b3c;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     background: #f9f9f9;

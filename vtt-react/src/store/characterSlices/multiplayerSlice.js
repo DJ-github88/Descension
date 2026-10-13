@@ -37,10 +37,11 @@ export const createMultiplayerSlice = (set, get) => ({
                 socketId: gameStore.multiplayerSocket.id
             });
 
-            gameStore.multiplayerSocket.emit('character_updated', {
+            const payload = {
                 roomId: roomId,
                 characterId,
                 character: {
+                    id: state.currentCharacterId || null,
                     playerId: socketId, // CRITICAL: Socket.io ID for socket-based lookups
                     serverPlayerId: serverPlayerId, // CRITICAL: Server UUID for UUID-based lookups
                     userId: userId, // CRITICAL: Firebase UID - MOST RELIABLE IDENTIFIER
@@ -88,7 +89,11 @@ export const createMultiplayerSlice = (set, get) => ({
                 senderSocketId: socketId,
                 userId: userId, // Also at top level for convenience
                 syncSource: 'characterStore'
-            });
+            };
+            // Room common pools are actor-owned. This existing envelope keeps
+            // build/presentation editing; it is never an alternate resource write.
+            for (const key of ['health', 'mana', 'actionPoints', 'tempHealth', 'tempMana', 'tempActionPoints']) delete payload.character[key];
+            gameStore.multiplayerSocket.emit('character_updated', payload);
         }
     },
 

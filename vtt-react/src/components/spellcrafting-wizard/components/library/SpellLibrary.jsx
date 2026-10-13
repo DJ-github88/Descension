@@ -2621,6 +2621,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       isShowingPopupRef.current = false;
       setSelectedSpell(null);
      }}
+     className="spell-detail-overlay"
      style={{
       position: 'fixed',
       top: 0,
@@ -2629,9 +2630,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       bottom: 0,
       width: '100vw',
       height: '100vh',
-      background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -2664,27 +2662,15 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
        showTags={true}
        rollableTableData={getSpellRollableTable(selectedSpell)}
       />
-      <div style={{
+      <div className="spell-detail-actions" style={{
         display: 'flex',
         gap: '10px',
-        alignItems: 'center',
-        background: 'rgba(26, 15, 8, 0.95)',
-        padding: '8px 16px',
-        borderRadius: '24px',
-        border: '1.5px solid #d4af37',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.6)'
+        alignItems: 'center'
       }}>
         <button
           type="button"
+          className="spell-detail-action spell-detail-action-primary"
           style={{
-            background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
-            border: '1.5px solid #fde047',
-            color: '#ffffff',
-            padding: '6px 14px',
-            borderRadius: '16px',
-            fontFamily: 'Cinzel, serif',
-            fontSize: '0.8rem',
-            fontWeight: '700',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
@@ -2701,16 +2687,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         </button>
         <button
           type="button"
-          style={{
-            background: 'rgba(255,255,255,0.1)',
-            border: '1px solid rgba(212,175,55,0.4)',
-            color: '#e2d4bc',
-            padding: '6px 14px',
-            borderRadius: '16px',
-            fontFamily: 'Cinzel, serif',
-            fontSize: '0.8rem',
-            cursor: 'pointer'
-          }}
+          className="spell-detail-action spell-detail-action-secondary"
+          style={{ cursor: 'pointer' }}
           onClick={() => setSelectedSpell(null)}
         >
           Close

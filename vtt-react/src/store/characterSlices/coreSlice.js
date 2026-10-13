@@ -32,6 +32,7 @@ import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyG
 import { normalizeEquipment, createEmptyEquipment, createEquipmentItem } from '../../utils/equipmentUtils';
 import { normalizeRaceDisplayName } from '../../utils/raceDisplayNames';
 import { normalizeManagedClassResource } from '../../data/classResourceContracts';
+import { stageCharacterDraft, saveCharacterDraft, setCharacterSaveOutcome, recoverCharacterRoster } from '../../persistence/characterSaveOutcome';
 
 const TEST_CLASSES = [
     'Berserker', 'Shaper', 'Arcanoneer', 'Harbinger', 'Inquisitor',
@@ -381,7 +382,7 @@ export const createCoreSlice = (set, get) => ({
                     const retained = mergeRetainedCharacterCandidate({ characters, isGuest: false });
 
                     // Compute missing display names for loaded characters
-                    const enrichedCharacters = retained.characters.map(char => {
+                    const enrichedCharacters = recoverCharacterRoster(retained.characters).map(char => {
                         const enriched = { ...char };
 
                         // Compute backgroundDisplayName if missing
@@ -479,7 +480,7 @@ export const createCoreSlice = (set, get) => ({
             // publication marker or in-memory preservation hold) so a stale
             // scoped/cloud baseline never drops the unsent authored edit.
             const retainedScoped = mergeRetainedCharacterCandidate({ characters, isGuest });
-            characters = retainedScoped.characters;
+            characters = recoverCharacterRoster(retainedScoped.characters);
             if (retainedScoped.restoredIds.length > 0) {
                 ensureCharacterHandoffPreserved().catch(() => {});
             }
@@ -750,6 +751,7 @@ export const createCoreSlice = (set, get) => ({
             const updatedCharacter = updatedCharacters.find(char => char.id === characterId);
 
             if (!updatedCharacter) return null;
+            const saveEntry = stageCharacterDraft(characterId, 'canonical', updatedCharacter, ownerContext.context);
 
             // Install the authored successor before async work. Completions
             // never reinstall their captured roster over newer work.
@@ -771,6 +773,7 @@ export const createCoreSlice = (set, get) => ({
                 { context: ownerContext.context }
             );
             if (rosterResult.status !== 'OK' && rosterResult.status !== 'FORKED') {
+                setCharacterSaveOutcome(saveEntry, 'error', `Character roster retention failed (${rosterResult.status}). Retry or download.`);
                 if (projectionVisible()) set({ error: 'Failed to preserve character locally', isLoading: false });
                 return updatedCharacter;
             }
@@ -783,6 +786,7 @@ export const createCoreSlice = (set, get) => ({
             if (ownerScope.scopeKind === 'user') {
                 const marker = markCharacterDeferredPublication([characterId], { context: ownerContext.context });
                 if (marker.status !== 'OK' || !marker.persisted) {
+                    setCharacterSaveOutcome(saveEntry, 'error', 'Character recovery marker retention failed. Retry or download.');
                     if (projectionVisible()) set({ error: 'Failed to preserve character recovery marker', isLoading: false });
                     return updatedCharacter;
                 }
@@ -790,9 +794,14 @@ export const createCoreSlice = (set, get) => ({
                 const sourceCurrent = () => projectionVisible() &&
                     readCharacterPublicationRoster(ownerContext.context).raw === roster.raw &&
                     JSON.stringify(readCharacterDeferredPublication(ownerContext.context)) === JSON.stringify(marker.value);
-                if (!sourceCurrent() || !shouldUseFirebase()) return updatedCharacter;
+                if (!sourceCurrent() || !shouldUseFirebase()) {
+                    setCharacterSaveOutcome(saveEntry, 'pending', 'Device draft retained; cloud save unavailable.');
+                    return updatedCharacter;
+                }
                 try {
-                    const saved = await characterPersistenceService.saveCharacter(updatedCharacter, ownerScope.scopeId, { isCurrent: sourceCurrent });
+                    const result = await saveCharacterDraft(saveEntry, (payload, latest) =>
+                        characterPersistenceService.saveCharacter(payload, ownerScope.scopeId, { isCurrent: () => sourceCurrent() && latest() }));
+                    const saved = result?.success === true && !result.localOnly;
                     if (saved && sourceCurrent() && workingCharacterFingerprint(get()) === authoredAtSave) {
                         clearCharacterDeferredPublication({
                             context: ownerContext.context, expectedMarker: marker.value,
@@ -857,7 +866,9 @@ export const createCoreSlice = (set, get) => ({
 
     loadCharacter: (characterId) => {
         const state = get();
-        const character = state.characters.find(char => char.id === characterId);
+        const recovered = recoverCharacterRoster(state.characters);
+        const character = recovered.find(char => char.id === characterId);
+        if (character && recovered.some((char, index) => char !== state.characters[index])) set({ characters: recovered });
 
         if (character) {
             // Load character data into current character state
@@ -1186,6 +1197,10 @@ export const createCoreSlice = (set, get) => ({
                 get().ensureClassStarterSpells(character.class);
             }
 
+            // A personal/cached build load cannot replace the explicitly active
+            // exact room attachment. Keep the original roster candidate intact.
+            require('../../services/actorConsequenceService').reconcileOwner();
+
             return character;
         }
 
@@ -1498,6 +1513,7 @@ export const createCoreSlice = (set, get) => ({
 
     // Character Session Management for Multiplayer
     startCharacterSession: async (characterId, roomId = null) => {
+        const originContext = captureConsumerContext().context;
         try {
             const userId = getCurrentUserId();
             if (!userId) {
@@ -1506,7 +1522,7 @@ export const createCoreSlice = (set, get) => ({
                 return localSessionId;
             }
 
-            const sessionId = await characterSessionService.startSession(characterId, userId, roomId);
+            const sessionId = await characterSessionService.startSession(characterId, userId, roomId, originContext);
             return sessionId;
         } catch (error) {
             console.error('Error starting character session:', error);
@@ -1537,8 +1553,9 @@ export const createCoreSlice = (set, get) => ({
     },
 
     recordCharacterChange: async (characterId, changeType, changeData) => {
+        const originContext = captureConsumerContext().context;
         try {
-            const success = await characterSessionService.recordChange(characterId, changeType, changeData);
+            const success = await characterSessionService.recordChange(characterId, changeType, changeData, originContext);
             return success;
         } catch (error) {
             console.error('Error recording character change:', error);

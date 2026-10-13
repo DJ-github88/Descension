@@ -1,0 +1,33 @@
+
+> vtt-react@0.1.3 test
+> react-scripts test --watchAll=false --runInBand --silent --runTestsByPath src/persistence/__tests__/p6CharacterSave.production.test.jsx src/persistence/__tests__/characterHandoffPreservation.test.js src/persistence/__tests__/characterProjectionIsolation.test.js src/store/__tests__/waveB_characterRosterIsolation.test.js src/services/__tests__/characterPersistence.test.js src/persistence/__tests__/waveA_handoff.test.js src/persistence/__tests__/waveB_scopedStoreStorage.test.js src/persistence/__tests__/waveB_scopedConsumer.test.js src/store/__tests__/shareableStore.test.js src/hooks/__tests__/useJournalPersistence.lifecycleFences.test.js src/hooks/__tests__/useJournalPersistence.ownerFence.test.js src/persistence/__tests__/PrivateProjectionBoundary.synchronousIsolation.test.js src/persistence/__tests__/PrivateProjectionBoundary.missedActivation.test.js src/persistence/__tests__/registry.test.js src/persistence/__tests__/waveB_b1b5Corrections.test.js src/components/windows/__tests__/MythrillWindow.privateProjection.test.jsx src/components/multiplayer/__tests__/useSocketConnection.eligibility.test.js src/persistence/__tests__/waveB_closureAcceptance.test.js
+
+npm : PASS src/persistence/__tests__/waveB_closureAcceptance.test.js
+At line:1 char:68
++ ... :CI='true'; npm test -- --watchAll=false --runInBand --silent --runTe ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (PASS src/persis...eptance.test.js:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+PASS src/persistence/__tests__/p6CharacterSave.production.test.jsx
+PASS src/persistence/__tests__/characterHandoffPreservation.test.js (7.045 s)
+PASS src/components/multiplayer/__tests__/useSocketConnection.eligibility.test.js
+PASS src/persistence/__tests__/waveB_b1b5Corrections.test.js
+PASS src/components/windows/__tests__/MythrillWindow.privateProjection.test.jsx
+PASS src/persistence/__tests__/characterProjectionIsolation.test.js
+PASS src/hooks/__tests__/useJournalPersistence.lifecycleFences.test.js
+PASS src/store/__tests__/waveB_characterRosterIsolation.test.js
+PASS src/persistence/__tests__/PrivateProjectionBoundary.missedActivation.test.js
+PASS src/hooks/__tests__/useJournalPersistence.ownerFence.test.js
+PASS src/persistence/__tests__/PrivateProjectionBoundary.synchronousIsolation.test.js
+PASS src/persistence/__tests__/registry.test.js
+PASS src/persistence/__tests__/waveA_handoff.test.js
+PASS src/services/__tests__/characterPersistence.test.js
+PASS src/persistence/__tests__/waveB_scopedStoreStorage.test.js
+PASS src/store/__tests__/shareableStore.test.js
+PASS src/persistence/__tests__/waveB_scopedConsumer.test.js
+
+Test Suites: 18 passed, 18 total
+Tests:       134 passed, 134 total
+Snapshots:   0 total
+Time:        23.651 s, estimated 73 s

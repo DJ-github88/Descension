@@ -9,7 +9,7 @@
   overflow: hidden;
   height: 100%;
   position: relative;
-  background: var(--my-gradient-parchment, linear-gradient(145deg, #fbf8f0 0%, #f4edd9 30%, #ebdcb9 70%, #f5eee0 100%)) !important;
+  background: var(--my-gradient-parchment, linear-gradient(145deg, #fbf8f0 0%, #f8f5ee 30%, #ebdcb9 70%, #f8f5ee 100%)) !important;
 }
 
 /* ===== TOAST NOTIFICATION ===== */
@@ -55,7 +55,7 @@
 .cct-toolbar {
   padding: 6px 52px 6px 12px !important; /* 52px right clearance for window close button */
   background: linear-gradient(180deg, #3d160d 0%, #260d07 100%) !important;
-  border-bottom: 2px solid #d4af37 !important;
+  border-bottom: 2px solid #9a7b3c !important;
   border-radius: 0 !important;
   display: flex !important;
   align-items: center !important;
@@ -77,7 +77,7 @@
 
 .cct-nav-tab {
   background: rgba(0, 0, 0, 0.35) !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  border: 1px solid rgba(154, 123, 60, 0.3) !important;
   border-radius: 2px !important;
   color: #e6dac8 !important;
   padding: 4px 10px !important;
@@ -93,15 +93,15 @@
 }
 
 .cct-nav-tab:hover {
-  background: rgba(212, 175, 55, 0.2) !important;
-  border-color: #d4af37 !important;
+  background: rgba(154, 123, 60, 0.2) !important;
+  border-color: #9a7b3c !important;
   color: #ffffff !important;
 }
 
 .cct-nav-tab.active {
-  background: linear-gradient(180deg, rgba(212, 175, 55, 0.4) 0%, rgba(212, 175, 55, 0.15) 100%) !important;
+  background: linear-gradient(180deg, rgba(154, 123, 60, 0.4) 0%, rgba(154, 123, 60, 0.15) 100%) !important;
   color: #fff9e6 !important;
-  border: 1px solid #d4af37 !important;
+  border: 1px solid #9a7b3c !important;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
   font-weight: 700 !important;
 }
@@ -111,12 +111,12 @@
   align-items: center !important;
   justify-content: center !important;
   background: rgba(0, 0, 0, 0.5) !important;
-  color: #d4af37 !important;
+  color: #9a7b3c !important;
   font-size: 10px !important;
   font-family: var(--my-font-body, 'Crimson Text', serif) !important;
   padding: 0 5px !important;
   border-radius: 2px !important;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border: 1px solid rgba(154, 123, 60, 0.4) !important;
 }
 
 /* ===== UNIFIED SEARCH BAR ===== */
@@ -136,8 +136,8 @@
 }
 
 .cct-search-bar:focus-within {
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.35) !important;
+  border-color: #9a7b3c !important;
+  box-shadow: 0 0 0 2px rgba(154, 123, 60, 0.35) !important;
 }
 
 .cct-search-icon {
@@ -215,7 +215,7 @@
 .cct-sort-select {
   height: 28px !important;
   padding: 2px 8px !important;
-  border: 1px solid #d4af37 !important;
+  border: 1px solid #9a7b3c !important;
   border-radius: 2px !important;
   background: #200b06 !important;
   color: #fff9e6 !important;
@@ -239,7 +239,7 @@
 .cct-view-toggle {
   display: flex !important;
   background: rgba(0, 0, 0, 0.45) !important;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border: 1px solid rgba(154, 123, 60, 0.4) !important;
   border-radius: 2px !important;
   padding: 1px !important;
 }
@@ -263,8 +263,8 @@
 }
 
 .cct-view-btn.active {
-  background: rgba(212, 175, 55, 0.35) !important;
-  color: #d4af37 !important;
+  background: rgba(154, 123, 60, 0.35) !important;
+  color: #9a7b3c !important;
 }
 
 .cct-reset-btn {
@@ -350,7 +350,7 @@
 .cct-chip.active {
   background: linear-gradient(135deg, #5a1e12 0%, #3e160d 100%) !important;
   color: #fff9e6 !important;
-  border-color: #d4af37 !important;
+  border-color: #9a7b3c !important;
   box-shadow: 0 1px 3px rgba(90, 30, 18, 0.25) !important;
   font-weight: 700 !important;
 }
@@ -409,8 +409,8 @@
 }
 
 .cct-section-title-wrap i.gold-glow {
-  color: #d4af37;
-  text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+  color: #9a7b3c;
+  text-shadow: 0 0 6px rgba(154, 123, 60, 0.5);
 }
 
 .cct-section-title {
@@ -468,7 +468,7 @@
 
 .cct-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(90, 30, 18, 0.12), 0 0 0 1px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 6px 16px rgba(90, 30, 18, 0.12), 0 0 0 1px rgba(154, 123, 60, 0.4);
   border-color: #c5a059;
 }
 
@@ -550,7 +550,7 @@
 }
 
 .cct-card:hover .cct-card-icon-frame {
-  border-color: var(--my-gold, #d4af37);
+  border-color: var(--my-gold, #9a7b3c);
 }
 
 .cct-card-icon {
@@ -660,7 +660,7 @@
   color: #7a604c;
 }
 
-.cct-stat-rating i { color: #d4af37; font-size: 11px; }
+.cct-stat-rating i { color: #9a7b3c; font-size: 11px; }
 .cct-stat-downloads i { color: #8b4513; font-size: 10px; }
 
 .cct-card-actions {
@@ -688,7 +688,7 @@
 
 .cct-download-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, #8b4513 0%, #6b2e1f 100%);
-  border-color: var(--my-gold, #d4af37);
+  border-color: var(--my-gold, #9a7b3c);
   transform: translateY(-1px);
 }
 
@@ -854,7 +854,7 @@
   gap: 6px;
   padding: 6px 16px;
   background: linear-gradient(135deg, #7a3b2e 0%, #5a1e12 100%);
-  border: 1px solid var(--my-gold, #d4af37);
+  border: 1px solid var(--my-gold, #9a7b3c);
   border-radius: 2px;
   color: #fdf6e3;
   font-family: var(--my-font-display, 'Cinzel', serif);
@@ -871,8 +871,8 @@
 .cct-arcane-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(212, 175, 55, 0.25);
-  border-top-color: var(--my-gold, #d4af37);
+  border: 3px solid rgba(154, 123, 60, 0.25);
+  border-top-color: var(--my-gold, #9a7b3c);
   border-radius: 50%;
   animation: cctSpin 1s linear infinite;
 }
@@ -889,8 +889,8 @@
 
 .cct-load-more-btn {
   padding: 6px 20px;
-  background: linear-gradient(180deg, #f7ecd5 0%, #e6d3af 100%);
-  border: 1.5px solid var(--my-gold, #d4af37);
+  background: linear-gradient(180deg, #f8f5ee 0%, #e6d3af 100%);
+  border: 1.5px solid var(--my-gold, #9a7b3c);
   border-radius: 2px;
   color: #3b1810;
   font-family: var(--my-font-display, 'Cinzel', serif);
@@ -933,7 +933,7 @@
   justify-content: space-between;
   padding: 10px 14px;
   background: linear-gradient(180deg, #3d160d 0%, #260d07 100%);
-  border-bottom: 1.5px solid #d4af37;
+  border-bottom: 1.5px solid #9a7b3c;
 }
 
 .cct-modal-title {
@@ -947,7 +947,7 @@
 .cct-modal-close {
   background: none;
   border: none;
-  color: #d4af37;
+  color: #9a7b3c;
   cursor: pointer;
   font-size: 14px;
 }
@@ -964,7 +964,7 @@
   align-items: center;
   padding: 10px 14px;
   border-top: 1px solid rgba(160, 140, 112, 0.35);
-  background: #f4edd9;
+  background: #f8f5ee;
 }
 
 .cct-modal-cancel {
@@ -981,7 +981,7 @@
 .cct-modal-download {
   padding: 6px 16px;
   background: linear-gradient(135deg, #7a3b2e 0%, #5a1e12 100%);
-  border: 1.5px solid var(--my-gold, #d4af37);
+  border: 1.5px solid var(--my-gold, #9a7b3c);
   border-radius: 2px;
   color: #fdf6e3;
   font-family: var(--my-font-display, 'Cinzel', serif);

@@ -67,6 +67,8 @@ const useCombatStore = create((set, get) => ({
 
     // Start combat with selected tokens
     startCombat: (tokens, creatures, addCombatNotification) => {
+        const boundary = require('../services/actorConsequenceService');
+        const shared = boundary.inSharedRoom();
         const combatants = tokens.map(token => {
             let creature = creatures.find(c => c.id === token.creatureId);
             let isCharacterToken = false;
@@ -77,7 +79,7 @@ const useCombatStore = create((set, get) => ({
             if (!creature && (token.playerId || token.isPlayerToken)) {
                 isCharacterToken = true;
                 const useCharacterStore = getStore('characterStore');
-                const char = useCharacterStore.getState();
+                const char = shared ? token.character || {} : useCharacterStore.getState();
                 // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
                 const characterSpeed = char.derivedStats?.moveSpeed || 30;
                 creature = {
@@ -120,7 +122,7 @@ const useCombatStore = create((set, get) => ({
             if (isCharacterToken) {
                 // For character tokens, use their actual AP from character store
                 const useCharacterStore = getStore('characterStore');
-                const char = useCharacterStore.getState();
+                const char = shared ? token.character || {} : useCharacterStore.getState();
                 maxActionPoints = char.actionPoints?.max || char.derivedStats?.maxActionPoints || 3;
                 // Calculate current AP based on initiative roll
                 if (initiative >= 1 && initiative <= 5) currentActionPoints = 0;
@@ -140,6 +142,8 @@ const useCombatStore = create((set, get) => ({
             }
 
             return {
+                ...(shared ? { actorRef: boundary.refOf(token), pendingResourceResult: { ap: { current: currentActionPoints, temp: token.character?.tempActionPoints || token.state?.tempActionPoints || 0 } },
+                    resourceConsequenceStatus: 'awaiting_authorization' } : {}),
                 tokenId: token.id,
                 creatureId: creature.id,
                 name: creature.name,
@@ -149,7 +153,7 @@ const useCombatStore = create((set, get) => ({
                 initiativeMod,
                 tokenIcon: creature.tokenIcon,
                 tokenBorder: creature.tokenBorder,
-                currentActionPoints,
+                currentActionPoints: shared ? (isCharacterToken ? token.character?.actionPoints?.current : token.state?.currentActionPoints) : currentActionPoints,
                 maxActionPoints,
                 isCharacterToken
             };
@@ -198,6 +202,7 @@ const useCombatStore = create((set, get) => ({
 
         // CRITICAL FIX: Sync initial AP to character store AND party store for ALL character tokens
         sortedCombatants.forEach(combatant => {
+            if (shared) return;
             if (combatant.isCharacterToken) {
                 try {
                     // Sync to character store (for local player)
@@ -240,6 +245,11 @@ const useCombatStore = create((set, get) => ({
                     timestamp: Date.now()
                 });
                 console.log('âš”ï¸  Emitted combat_started to server');
+                sortedCombatants.forEach(combatant => {
+                    const token = boundary.findActor(combatant.actorRef || combatant.tokenId);
+                    if (token && combatant.actorRef) boundary.submitActorEntries([{ ref: combatant.actorRef, expectedRevision: token.state.actorContract.revision,
+                        finalResources: combatant.pendingResourceResult }]);
+                });
             }
         } catch (error) {
             console.warn('Failed to emit combat_started:', error);
@@ -380,6 +390,45 @@ const useCombatStore = create((set, get) => ({
 
         setTimeout(() => {
             const nextCombatantData = updatedTurnOrder[nextIndex];
+            const boundary = require('../services/actorConsequenceService');
+            if (boundary.inSharedRoom()) {
+                // Cooperative advancement is separate from resource authorization.
+                // Keep this domain's chosen AP result, but do not publish it as HP/AP.
+                const token = boundary.findActor(nextCombatantData?.actorRef || nextCombatantData?.tokenId);
+                const ref = boundary.refOf(token);
+                const finalAP = nextCombatantData?.currentActionPoints;
+                getStore('gameStore').getState().multiplayerSocket?.emit('combat_turn_changed', {
+                    roomId: getStore('gameStore').getState().multiplayerRoom?.id,
+                    currentTurnIndex: nextIndex, round: newRound, turnOrder: updatedTurnOrder, timestamp: Date.now()
+                });
+                if (!ref) {
+                    set(current => ({ turnOrder: current.turnOrder.map((combatant, index) => index === nextIndex
+                        ? { ...combatant, currentActionPoints: state.turnOrder[nextIndex]?.currentActionPoints, resourceConsequenceStatus: 'binding_required' } : combatant) }));
+                    return;
+                }
+                const isPC = ref.kind === 'character';
+                const values = isPC ? token.character : token.state;
+                const finalResources = { ap: { current: finalAP, temp: values.tempActionPoints || 0 } };
+                let manualRegen = false;
+                if (isPC) {
+                    // A remote PC's regen facts are its projection, never the open sheet.
+                    for (const [enabled, pool, field, temp] of [[config.healthRegenEnabled, 'hp', 'health', 'tempHealth'], [config.manaRegenEnabled, 'mana', 'mana', 'tempMana']]) {
+                        if (!enabled) continue;
+                        const regen = token.character?.derivedStats?.[field === 'health' ? 'healthRegen' : 'manaRegen'];
+                        if (!Number.isFinite(regen)) { manualRegen = true; continue; }
+                        finalResources[pool] = { current: Math.min(values[field].max, values[field].current + Math.round(regen)), temp: values[temp] || 0 };
+                    }
+                } else {
+                    const creature = getStore('creatureStore').getState().creatures.find(value => value.id === token.creatureId);
+                    if (config.healthRegenEnabled && creature) finalResources.hp = { current: Math.min(values.maxHp, values.currentHp + Math.floor((creature.stats?.constitution || 10) / 2)), temp: values.tempHealth || 0 };
+                    if (config.manaRegenEnabled && creature) finalResources.mana = { current: Math.min(values.maxMana, values.currentMana + Math.floor(((creature.stats?.intelligence || 10) + (creature.stats?.spirit || 10)) / 4)), temp: values.tempMana || 0 };
+                }
+                set(current => ({ turnOrder: current.turnOrder.map((combatant, index) => index === nextIndex
+                    ? { ...combatant, actorRef: ref, currentActionPoints: isPC ? values.actionPoints.current : values.currentActionPoints,
+                        pendingResourceResult: finalResources, resourceConsequenceStatus: 'awaiting_authorization', manualRegen } : combatant) }));
+                boundary.submitActorEntries([{ ref, expectedRevision: token.state.actorContract.revision, finalResources }]);
+                return; // Shared peers never run local overtime/decrement/repair paths.
+            }
 
             try {
                 if (currentCombatant) {

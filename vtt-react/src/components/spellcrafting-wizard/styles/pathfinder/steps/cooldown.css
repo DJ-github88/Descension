@@ -1,95 +1,7 @@
 /* ===== PATHFINDER COOLDOWN STEP STYLING ===== */
 /* Step 6: Cooldown configuration with Pathfinder theme */
 
-.cooldown-container {
-  width: 100%;
-  height: 100%;
-  background: var(--my-gradient-parchment);
-  padding: var(--my-space-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-6);
-  font-family: var(--my-font-body);
-  color: var(--my-text-primary);
-}
-
 /* Cooldown Type Selection */
-.cooldown-types {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--my-space-4);
-  margin-bottom: var(--my-space-6);
-}
-
-.cooldown-type-card {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  overflow: hidden;
-  transition: all var(--my-transition-normal);
-  cursor: pointer;
-  position: relative;
-  box-shadow: var(--my-shadow-sm);
-}
-
-.cooldown-type-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-md);
-  border-color: var(--my-gold);
-}
-
-.cooldown-type-card.selected {
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
-}
-
-.cooldown-type-card.selected::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at top right,
-    rgba(212, 175, 55, 0.1),
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.cooldown-type-header {
-  background: var(--my-gradient-parchment-dark);
-  padding: var(--my-space-4);
-  border-bottom: var(--my-border-width) solid var(--my-brown-light);
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-}
-
-.cooldown-type-icon {
-  width: 32px;
-  height: 32px;
-  color: var(--my-gold);
-}
-
-.cooldown-type-title {
-  font-size: var(--my-text-lg);
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin: 0;
-}
-
-.cooldown-type-body {
-  padding: var(--my-space-4);
-}
-
-.cooldown-type-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-  margin-bottom: var(--my-space-3);
-}
 
 /* Cooldown Configuration */
 .cooldown-config {
@@ -100,97 +12,11 @@
   box-shadow: var(--my-shadow-sm);
 }
 
-.cooldown-config-header {
-  margin-bottom: var(--my-space-4);
-}
-
-.cooldown-config-title {
-  font-size: var(--my-text-xl);
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin: 0 0 var(--my-space-2) 0;
-}
-
-.cooldown-config-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-}
-
 /* Form Elements */
-.cooldown-form-group {
-  margin-bottom: var(--my-space-4);
-}
-
-.cooldown-form-label {
-  display: block;
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-sm);
-}
-
-.cooldown-form-input {
-  width: 100%;
-  padding: var(--my-space-3);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  transition: all var(--my-transition-normal);
-}
-
-.cooldown-form-input:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
-
-.cooldown-form-select {
-  width: 100%;
-  padding: var(--my-space-3);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-}
-
-.cooldown-form-select:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
 
 /* Cooldown Preview */
-.cooldown-preview {
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-top: var(--my-space-4);
-}
-
-.cooldown-preview-title {
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-sm);
-}
-
-.cooldown-preview-text {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-}
 
 /* Remove black background from section-header in cooldown step */
-.cooldown-container .section-header,
 .effect-config-group .section-header {
   background: transparent !important;
   background-color: transparent !important;
@@ -200,7 +26,6 @@
   box-shadow: none !important;
 }
 
-.cooldown-container .section-header h3,
 .effect-config-group .section-header h3 {
   color: var(--my-text-primary) !important;
   background: transparent !important;
@@ -209,13 +34,3 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .cooldown-types {
-    grid-template-columns: 1fr;
-  }
-  
-  .cooldown-container {
-    padding: var(--my-space-4);
-    gap: var(--my-space-4);
-  }
-}

@@ -87,7 +87,7 @@
 
 .player-name {
   font-weight: bold;
-  color: #f0e6d2;
+  color: #f1ece1;
   font-size: 0.9rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
@@ -104,7 +104,7 @@
 }
 
 .message-content {
-  color: #f8f4e6;
+  color: #f8f5ee;
   line-height: 1.5;
   word-wrap: break-word;
   font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -170,7 +170,7 @@
   border: 2px solid #8b4513;
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.6);
-  color: #f0e6d2;
+  color: #f1ece1;
   font-size: 0.9rem;
 }
 

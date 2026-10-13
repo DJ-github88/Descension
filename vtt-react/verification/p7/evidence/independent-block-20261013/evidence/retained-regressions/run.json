@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--require",
+    "D:\\VTT\\vtt-react\\verification\\p7\\preserved-output.cjs",
+    "D:\\VTT\\vtt-react\\verification\\p6\\regressions-browser.cjs"
+  ],
+  "status": 0,
+  "error": null,
+  "sourceSha256": "daa78776ea4b0e93192fe76c7900ed746031d18ff772b710f9b9c0ecdabd06d4"
+}

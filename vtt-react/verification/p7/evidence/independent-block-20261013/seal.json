@@ -1,0 +1,9 @@
+{
+  "preservedCount": 214,
+  "preservedDrift": [],
+  "postFinalInventoryDrift": [
+    "vtt-react/src/styles/calm-shared.css",
+    "vtt-react/src/data/classes/plaguebringer/components/PlaguebringerResourceBar.jsx",
+    "vtt-react/src/data/classes/revenant/components/RevenantResourceBar.jsx"
+  ]
+}

@@ -13,7 +13,7 @@
 /* Tab Navigation */
 .stats-tabs {
   display: flex;
-  background: linear-gradient(to bottom, #e6dcc6, #d5cbb0);
+  background: linear-gradient(to bottom, #e8e2d4, #c4baa6);
   border-radius: 12px 12px 0 0;
   border: 2px solid #a08c70;
   border-bottom: none;
@@ -51,13 +51,13 @@
 }
 
 .stats-tab:hover {
-  background: linear-gradient(to bottom, #f0e6d2, #e6dcc6);
+  background: #f1ece1;
   color: #7a3b2e;
 }
 
 .stats-tab.active {
   background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  color: #f0e6d2;
+  color: #f1ece1;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -67,7 +67,7 @@
 
 /* Tab Content Container */
 .wizard-step .stats-container {
-  background: #f0e6d2 !important;
+  background: #f1ece1 !important;
   border: 2px solid #a08c70 !important;
   border-radius: 0 0 12px 12px !important;
   padding: 0 !important;
@@ -149,7 +149,7 @@
 }
 
 .core-stat-item {
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1);
   border: 2px solid #a08c70;
   border-radius: 12px;
   padding: 20px;
@@ -209,7 +209,7 @@
 .stat-input {
   flex: 1;
   background: #fff;
-  border: 2px solid #d5cbb0;
+  border: 2px solid #c4baa6;
   border-radius: 8px;
   padding: 12px 16px;
   font-size: 20px;
@@ -229,7 +229,7 @@
 }
 
 .creature-wizard .stat-modifier {
-  color: #f0e6d2;
+  color: #f1ece1;
   padding: 12px 16px;
   border-radius: 8px;
   font-size: 18px;
@@ -251,7 +251,7 @@
 }
 
 .combat-section {
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1);
   border: 2px solid #a08c70;
   border-radius: 12px;
   padding: 25px;
@@ -299,7 +299,7 @@
 .combat-stat-item,
 .movement-stat-item {
   background: #fff;
-  border: 2px solid #d5cbb0;
+  border: 2px solid #c4baa6;
   border-radius: 10px;
   padding: 18px;
   transition: all 0.3s ease;
@@ -317,7 +317,7 @@
 .movement-input {
   width: 100%;
   background: #fafafa;
-  border: 2px solid #d5cbb0;
+  border: 2px solid #c4baa6;
   border-radius: 8px;
   padding: 12px 16px;
   font-size: 16px;
@@ -376,7 +376,7 @@
 }
 
 .damage-type-card {
-  background: linear-gradient(to bottom, #faf7f0, #f0e6d2);
+  background: linear-gradient(to bottom, #faf7f0, #f1ece1);
   border: 2px solid #a08c70;
   border-radius: 12px;
   padding: 20px;
@@ -454,7 +454,7 @@
 .resistance-select,
 .power-input {
   background: #fff;
-  border: 2px solid #d5cbb0;
+  border: 2px solid #c4baa6;
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 14px;
@@ -532,7 +532,7 @@
   align-items: center !important;
   gap: 10px !important;
   padding: 12px 16px !important;
-  background: rgba(213, 203, 176, 0.6) !important;
+  background: rgba(196, 186, 166, 0.6) !important;
   border-bottom: 1.5px solid #8b7355 !important;
   font-family: 'Bookman Old Style', 'Garamond', serif !important;
   font-size: 14px !important;
@@ -587,7 +587,7 @@
   justify-content: space-between !important;
   padding: 12px 16px !important;
   background: #ffffff !important;
-  border: 1.5px solid #d5cbb0 !important;
+  border: 1.5px solid #c4baa6 !important;
   border-radius: 8px !important;
   transition: all 0.2s ease !important;
   gap: 16px !important;
@@ -689,7 +689,7 @@
 
 .wizard-step .skill-proficiency-select {
   padding: 8px 32px 8px 12px !important;
-  border: 1.5px solid #d5cbb0 !important;
+  border: 1.5px solid #c4baa6 !important;
   border-radius: 6px !important;
   font-family: 'Bookman Old Style', 'Garamond', serif !important;
   font-size: 13px !important;
@@ -768,7 +768,7 @@
 /* Resistance Color Coding */
 /* Default/None state */
 .resistance-select.none {
-  border-color: #d5cbb0;
+  border-color: #c4baa6;
   background: #fff;
   color: #3a3a3a;
 }
@@ -940,15 +940,3 @@
 }
 
 /* Tooltip styling */
-.tooltip-style {
-  background-color: #f0e6d2 !important;
-  color: #3a3a3a !important;
-  border: 1px solid #a08c70 !important;
-  border-radius: 6px !important;
-  padding: 8px 12px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-  font-family: 'Bookman Old Style', 'Garamond', serif !important;
-  font-size: 14px !important;
-  max-width: 250px !important;
-  z-index: 99999 !important;
-}

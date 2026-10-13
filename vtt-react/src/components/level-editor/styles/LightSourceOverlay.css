@@ -72,7 +72,7 @@
 .light-source-icon.interactive:hover {
     transform: scale(1.12);
     opacity: 1 !important;
-    border-color: #f0e6d2;
+    border-color: #f1ece1;
 }
 
 .light-source-icon.selected {
@@ -102,7 +102,7 @@
 .light-source-label {
     position: fixed;
     background: rgba(0, 0, 0, 0.8);
-    color: #f0e6d2;
+    color: #f1ece1;
     padding: 2px 6px;
     border-radius: 4px;
     font-family: 'Bookman Old Style', 'Garamond', serif;

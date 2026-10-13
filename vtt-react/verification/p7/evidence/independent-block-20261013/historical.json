@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "verification/p7/red-replay.cjs"
+  ],
+  "cwd": "D:\\VTT\\vtt-react",
+  "status": 0,
+  "signal": null,
+  "durationMs": 6018,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

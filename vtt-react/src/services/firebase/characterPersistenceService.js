@@ -19,6 +19,9 @@ import {
 } from 'firebase/firestore';
 import { db, auth, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
+import { encodeCharacterShapes, decodeCharacterShapes } from '../../utils/characterShapeCodec';
+import { captureConsumerContext, isConsumerContextCurrent } from '../../persistence/scopedConsumer';
+import { isPrivateProjectionIsolated } from '../../persistence/bootstrapPrivacyGate';
 
 // Import backup service for automatic backups
 let characterBackupService = null;
@@ -58,12 +61,25 @@ const COLLECTIONS = {
 /**
  * Validate character data structure
  */
-function validateCharacterData(characterData) {
+export function validateCharacterData(characterData) {
   const required = ['name', 'race', 'class', 'stats', 'resources'];
   const missing = required.filter(field => !characterData[field]);
 
   if (missing.length > 0) {
     throw new Error(`Missing required character fields: ${missing.join(', ')}`);
+  }
+
+  // These values feed sheet text and race/class initialization. Custom strings
+  // remain valid; catalogue membership is not a persistence requirement.
+  for (const field of ['name', 'race', 'class']) {
+    if (typeof characterData[field] !== 'string' || !characterData[field].trim()) {
+      throw new Error(`Invalid ${field} type: expected a non-empty string`);
+    }
+  }
+  for (const field of ['stats', 'resources']) {
+    if (typeof characterData[field] !== 'object' || Array.isArray(characterData[field])) {
+      throw new Error(`Invalid ${field} structure`);
+    }
   }
 
   // Validate stats
@@ -89,9 +105,16 @@ function validateCharacterData(characterData) {
  */
 export function transformForStorage(characterData, userId) {
   const now = new Date();
+  const mapped = new Set(['id', 'name', 'race', 'subrace', 'class', 'classAcquisition', 'bodyStates',
+    'level', 'alignment', 'exhaustionLevel', 'stats', 'resources', 'inventory', 'equipment',
+    'spells', 'lore', 'experience', 'createdAt', 'updatedAt', 'lastPlayedAt', 'version', 'storageExtensions']);
+  const preservedFields = Object.fromEntries(Object.entries(characterData).filter(([key]) => !mapped.has(key)));
 
-  return {
+  return encodeCharacterShapes({
+    ...characterData.storageExtensions?.topLevel,
+    preservedFields,
     metadata: {
+      ...characterData.storageExtensions?.metadata,
       id: characterData.id,
       userId: userId,
       name: characterData.name,
@@ -101,6 +124,7 @@ export function transformForStorage(characterData, userId) {
       version: (characterData.version || 0) + 1
     },
     basicInfo: {
+      ...characterData.storageExtensions?.basicInfo,
       race: characterData.race || '',
       subrace: characterData.subrace || '',
       class: characterData.class || '',
@@ -111,6 +135,7 @@ export function transformForStorage(characterData, userId) {
       exhaustionLevel: characterData.exhaustionLevel || 0
     },
     stats: {
+      ...characterData.stats,
       strength: characterData.stats?.strength || 10,
       agility: characterData.stats?.agility || 10,
       constitution: characterData.stats?.constitution || 10,
@@ -119,16 +144,19 @@ export function transformForStorage(characterData, userId) {
       charisma: characterData.stats?.charisma || 10
     },
     resources: {
+      ...characterData.resources,
       health: characterData.resources?.health || { current: 100, max: 100 },
       mana: characterData.resources?.mana || { current: 50, max: 50 },
       actionPoints: characterData.resources?.actionPoints || { current: 3, max: 3 }
     },
     inventory: {
+      ...characterData.inventory,
       items: characterData.inventory?.items || [],
       currency: characterData.inventory?.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
       encumbranceState: characterData.inventory?.encumbranceState || 'normal'
     },
     equipment: {
+      ...characterData.equipment,
       weapon: characterData.equipment?.weapon || null,
       armor: characterData.equipment?.armor || null,
       shield: characterData.equipment?.shield || null,
@@ -136,6 +164,7 @@ export function transformForStorage(characterData, userId) {
     },
     spells: characterData.spells || [],
     lore: {
+      ...characterData.lore,
       background: characterData.lore?.background || '',
       personalityTraits: characterData.lore?.personalityTraits || '',
       ideals: characterData.lore?.ideals || '',
@@ -163,14 +192,16 @@ export function transformForStorage(characterData, userId) {
       iconBackgroundOffsetY: characterData.lore?.iconBackgroundOffsetY ?? null
     },
     gameState: {
+      ...characterData.storageExtensions?.gameState,
       experience: characterData.experience || 0,
       sessionData: {
+        ...characterData.storageExtensions?.sessionData,
         currentRoomId: null,
         lastSavedAt: now,
         pendingChanges: {}
       }
     }
-  };
+  });
 }
 
 /**
@@ -178,8 +209,18 @@ export function transformForStorage(characterData, userId) {
  */
 export function transformFromStorage(firestoreData) {
   if (!firestoreData) return null;
+  firestoreData = decodeCharacterShapes(firestoreData);
 
+  const unknown = (data, known) => Object.fromEntries(Object.entries(data || {}).filter(([key]) => !known.includes(key)));
   return {
+    ...firestoreData.preservedFields,
+    storageExtensions: {
+      topLevel: unknown(firestoreData, ['metadata', 'basicInfo', 'stats', 'resources', 'inventory', 'equipment', 'spells', 'lore', 'gameState', 'preservedFields']),
+      metadata: unknown(firestoreData.metadata, ['id', 'userId', 'name', 'createdAt', 'updatedAt', 'lastPlayedAt', 'version']),
+      basicInfo: unknown(firestoreData.basicInfo, ['race', 'subrace', 'class', 'classAcquisition', 'bodyStates', 'level', 'alignment', 'exhaustionLevel']),
+      gameState: unknown(firestoreData.gameState, ['experience', 'sessionData']),
+      sessionData: unknown(firestoreData.gameState?.sessionData, ['currentRoomId', 'lastSavedAt', 'pendingChanges'])
+    },
     id: firestoreData.metadata?.id,
     name: firestoreData.metadata?.name,
     race: firestoreData.basicInfo?.race,
@@ -299,7 +340,10 @@ class CharacterPersistenceService {
   /**
    * Load a character by ID
    */
-  async loadCharacter(characterId, userId) {
+  async loadCharacter(characterId, userId, { isCurrent = () => true } = {}) {
+    const origin = captureConsumerContext();
+    const sourceCurrent = () => origin.ok && isConsumerContextCurrent(origin.context) &&
+      !isPrivateProjectionIsolated() && auth?.currentUser?.uid === userId && isCurrent();
     if (!this.isConfigured || !db) {
       const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
       console.error('❌ [Firebase] loadCharacter failed:', {
@@ -317,8 +361,11 @@ class CharacterPersistenceService {
     }
 
     try {
+      if (!sourceCurrent()) throw new Error('Owner changed before character read');
       const characterRef = doc(db, COLLECTIONS.CHARACTERS, characterId);
       const characterDoc = await getDoc(characterRef);
+
+      if (!sourceCurrent()) throw new Error('Owner changed or newer character edit during read');
 
       if (!characterDoc.exists()) {
         throw new Error('Character not found');
@@ -332,11 +379,13 @@ class CharacterPersistenceService {
       }
 
       // Update last played timestamp
+      if (!sourceCurrent()) throw new Error('Owner changed before last-played update');
       await updateDoc(characterRef, {
         'metadata.lastPlayedAt': serverTimestamp()
       });
 
       const character = transformFromStorage(characterData);
+      if (!sourceCurrent()) throw new Error('Owner changed during character read');
       return character;
 
     } catch (error) {
@@ -520,6 +569,9 @@ class CharacterPersistenceService {
       // Sanitize data to remove undefined values
       const sanitizedData = sanitizeForFirestore(firestoreData);
 
+      if (JSON.stringify(sanitizedData) !== JSON.stringify(firestoreData)) {
+        throw new Error('Character storage would change preserved data. Draft retained; download for recovery.');
+      }
       await updateDoc(characterRef, sanitizedData);
 
       console.log(`✅ Character saved: ${characterData.name} (${characterData.id})`);

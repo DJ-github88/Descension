@@ -3,43 +3,7 @@
 
 /* ===== WIZARD VIEW ===== */
 
-.wizard-view {
-  height: 100%;
-  background: var(--my-gradient-parchment);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
 /* ===== WIZARD PROGRESS ===== */
-
-.spellbook-layout .wizard-progress {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--my-space-2) var(--my-space-4);
-  background: var(--my-gradient-parchment-dark);
-  border-bottom: var(--my-border-width) solid var(--my-brown-medium);
-  box-shadow: 0 2px 8px rgba(45, 24, 16, 0.1);
-  overflow-x: auto;
-  gap: var(--my-space-2);
-  position: sticky;
-  top: 0;
-  z-index: var(--my-z-sticky);
-}
-
-.spellbook-layout .wizard-progress::-webkit-scrollbar {
-  height: 6px;
-}
-
-.spellbook-layout .wizard-progress::-webkit-scrollbar-track {
-  background: var(--my-parchment-dark);
-}
-
-.spellbook-layout .wizard-progress::-webkit-scrollbar-thumb {
-  background: var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-}
 
 /* ===== WIZARD STEP INDICATORS ===== */
 
@@ -163,21 +127,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 4px,
-      rgba(139, 69, 19, 0.02) 4px,
-      rgba(139, 69, 19, 0.02) 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 6px,
-      rgba(139, 69, 19, 0.01) 6px,
-      rgba(139, 69, 19, 0.01) 12px
-    );
   pointer-events: none;
   border-radius: var(--my-border-radius);
   z-index: 1;
@@ -302,10 +251,6 @@
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
-  .spellbook-layout .wizard-progress {
-    padding: var(--my-space-3);
-    gap: var(--my-space-1);
-  }
 
   .spellbook-layout .wizard-step-indicator {
     min-width: 50px;
@@ -339,21 +284,6 @@
 
   .spellbook-layout .step-body {
     padding: var(--my-space-4);
-  }
-
-  .spellbook-layout .wizard-footer {
-    flex-direction: column;
-    gap: var(--my-space-3);
-    padding: var(--my-space-3);
-    min-height: auto;
-  }
-
-  .spellbook-layout .wizard-footer-left,
-  .spellbook-layout .wizard-footer-center,
-  .spellbook-layout .wizard-footer-right {
-    width: 100%;
-    justify-content: center;
-    min-width: auto;
   }
 
   .spellbook-layout .wizard-progress-container {
@@ -500,57 +430,6 @@
 
 /* ===== WIZARD FOOTER ===== */
 
-.wizard-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--my-space-4) var(--my-space-6);
-  background: var(--my-gradient-parchment-dark);
-  border-top: var(--my-border-width-thick) solid var(--my-brown-medium);
-  box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1);
-  position: relative;
-  min-height: 80px;
-}
-
-.wizard-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--my-gold) 20%,
-    var(--my-gold) 80%,
-    transparent
-  );
-}
-
-.wizard-footer-left,
-.wizard-footer-right {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-  min-width: 120px;
-}
-
-.wizard-footer-left {
-  justify-content: flex-start;
-}
-
-.wizard-footer-right {
-  justify-content: flex-end;
-}
-
-.wizard-footer-center {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .wizard-progress-container {
   display: flex;
   gap: var(--my-space-2);
@@ -597,16 +476,6 @@
 .wizard-btn-primary:hover:not(:disabled) {
   background: var(--my-gold-light);
   border-color: var(--my-gold-darkest);
-}
-
-.wizard-btn-secondary {
-  background: var(--my-gradient-button);
-  color: var(--my-text-secondary);
-}
-
-.wizard-btn-secondary:hover:not(:disabled) {
-  background: var(--my-gradient-button-hover);
-  color: var(--my-brown-dark);
 }
 
 .wizard-btn-cancel {

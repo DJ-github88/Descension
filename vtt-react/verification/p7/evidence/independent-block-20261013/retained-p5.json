@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "verification/p7/run-preserved.cjs",
+    "p5"
+  ],
+  "cwd": "D:\\VTT\\vtt-react",
+  "status": 0,
+  "signal": null,
+  "durationMs": 20000,
+  "outputRedirectPreload": "readonly-output.cjs"
+}

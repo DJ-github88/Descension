@@ -30,40 +30,6 @@
 }
 
 /* Create New Map Button */
-.create-map-button {
-    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%) !important;
-    border: 2px solid #654321 !important;
-    border-radius: 12px;
-    color: #F5F5DC !important;
-    font-family: 'Cinzel', serif !important;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 12px 24px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
-    box-shadow:
-        0 3px 6px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
-
-.create-map-button:hover {
-    background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%) !important;
-    border-color: #8B4513 !important;
-    color: #FFFFFF !important;
-    transform: translateY(-1px);
-    box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-}
-
-.create-map-button:active {
-    transform: translateY(0);
-    background: linear-gradient(135deg, #654321 0%, #8B4513 100%) !important;
-    box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-}
 
 /* Create Map Container - styled as a special card in the grid */
 .create-map-container {
@@ -73,7 +39,7 @@
     width: 100%;
     min-height: 150px;
     padding: 18px;
-    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+    background: #f8f5ee !important;
     border: 2px dashed #d4af37 !important;
     border-radius: 16px;
     box-shadow:
@@ -173,12 +139,12 @@
         0 0 20px rgba(212, 175, 55, 0.4),
         0 0 0 2px var(--my-gold) !important;
     border-color: var(--my-gold) !important;
-    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+    background: #f8f5ee !important;
 }
 
 .map-card.selected {
     border-color: var(--my-gold-dark) !important;
-    background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
+    background: linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%) !important;
     box-shadow:
         0 6px 12px rgba(139, 69, 19, 0.3),
         inset 0 2px 0 rgba(255, 255, 255, 0.5),
@@ -188,7 +154,7 @@
 
 .map-card.current {
     border-color: var(--my-gold) !important;
-    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+    background: #f8f5ee !important;
     box-shadow:
         0 8px 16px rgba(139, 69, 19, 0.25),
         inset 0 2px 0 rgba(255, 255, 255, 0.6),
@@ -445,7 +411,7 @@
     background: rgba(240, 230, 210, 0.1);
     border: 2px solid #a08c70;
     border-radius: 6px;
-    color: #f0e6d2;
+    color: #f1ece1;
     font-size: 1rem;
 }
 

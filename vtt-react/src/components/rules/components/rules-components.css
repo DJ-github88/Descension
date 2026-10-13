@@ -60,31 +60,26 @@
 .rules-content-area > :nth-child(8) { animation-delay: 0.30s; }
 .rules-content-area > :nth-child(n+9) { animation-delay: 0.35s; }
 
-/* ===== GOTHIC HERO BANNER ===== */
+/* ===== HERO BANNER (calm: parchment page, thin rule, burgundy seal accent) ===== */
 .rules-hero-banner {
-  padding: 36px 40px 30px;
+  padding: 28px 32px 24px;
   margin: 32px 25px 28px 25px;
-  background: linear-gradient(135deg, #2b1b11 0%, #150d08 100%);
-  border: 3px double var(--rpg-gold);
-  border-radius: 4px;
+  background: var(--adventure-paper, #f1ece1);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  border-top: 3px solid var(--adventure-seal, #663c32);
+  border-radius: 3px;
   position: relative;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), inset 0 0 40px rgba(0,0,0,0.6);
+  box-shadow: none;
   text-align: center;
   animation: rulesFadeIn 0.4s ease;
   overflow: hidden;
 }
 
-.rules-hero-banner::before {
-  content: '';
-  position: absolute;
-  top: 6px; left: 6px; right: 6px; bottom: 6px;
-  border: 1px solid rgba(196, 160, 96, 0.25);
-  pointer-events: none;
-}
+.rules-hero-banner::before { content: none; }
 
 .rules-hero-badge {
   font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -92,51 +87,47 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--rpg-gold);
-  border: 1px solid rgba(196, 160, 96, 0.3);
-  padding: 4px 14px;
-  background: rgba(196, 160, 96, 0.05);
-  border-radius: 12px;
+  color: var(--adventure-seal, #663c32);
+  border: 1px solid var(--adventure-rule, #c4baa6);
+  padding: 3px 12px;
+  background: transparent;
+  border-radius: 3px;
 }
 
 .rules-hero-badge i {
-  color: var(--rpg-gold);
+  color: var(--adventure-seal, #663c32);
   font-size: 0.85rem;
 }
 
 .rules-hero-title {
   font-family: 'Cinzel', serif;
-  font-size: 2.1rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #fffbf2;
+  color: var(--adventure-ink, #34251a);
   margin: 0 0 10px 0;
   line-height: 1.15;
   letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
   position: relative;
 }
 
-/* Medieval Divider flourish under Hero Title */
 .rules-hero-title::after {
-  content: '\2725';
+  content: '';
   display: block;
-  font-size: 0.9rem;
-  color: var(--rpg-gold);
-  margin: 8px auto 0;
-  opacity: 0.8;
-  letter-spacing: 0;
+  width: 56px;
+  height: 1px;
+  background: var(--adventure-rule, #c4baa6);
+  margin: 10px auto 0;
 }
 
 .rules-hero-subtitle {
   font-family: 'Crimson Text', serif;
   font-style: italic;
-  color: #d4c4a8;
+  color: var(--adventure-muted, #6b5846);
   font-size: 1.15rem;
-  margin: 0;
+  margin: 0 auto;
   line-height: 1.45;
   max-width: 680px;
-  margin: 0 auto;
-  opacity: 0.9;
 }
 
 /* ===== TTRPG CLEAN SECTION (No Modern Container boxes!) ===== */
@@ -410,22 +401,6 @@
 .rules-collapsible-tag i {
   color: var(--section-theme-color, var(--rules-theme-mechanic));
   font-size: 1rem;
-}
-
-.rules-collapsible-toggle {
-  background: transparent;
-  border: none;
-  color: var(--section-theme-color, var(--rpg-dark-gold));
-  width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-
-.rules-collapsible-header:hover .rules-collapsible-toggle {
-  transform: scale(1.1);
-  color: var(--rpg-gold);
 }
 
 .rules-collapsible-body {
@@ -826,13 +801,6 @@
   flex: 1;
   height: 1px;
   background: linear-gradient(to right, transparent, var(--rpg-gold) 50%, transparent);
-}
-
-.rules-divider-icon {
-  margin: 0 16px;
-  color: var(--rpg-dark-gold);
-  font-size: 0.75rem;
-  transform: rotate(45deg);
 }
 
 /* Compact spacing inside tabbed content (e.g. Death & Dying) */

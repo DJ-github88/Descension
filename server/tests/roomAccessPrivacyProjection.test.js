@@ -255,7 +255,7 @@ describe('Project 4 R10 positive outbound privacy projection', function() {
       mapId: 'default',
       tokenId: 'secretToken',
       updates: {
-        currentHp: 5,
+        customName: 'Creature update',
         secretBlob: 'MARKER_STATE_BLOB',
         inventory: { secret: 'MARKER_STATE_INV' },
         envelopeSecret: 'MARKER_ENVELOPE'
@@ -263,8 +263,8 @@ describe('Project 4 R10 positive outbound privacy projection', function() {
     });
     const tokenPayload = await tokenUpdated;
     expectClean('token_updated', tokenPayload);
-    // Supported scalar state still survives.
-    expect(tokenPayload.updates.currentHp).to.equal(5);
+    // P7 protects resource writes; this witness retains unrelated scalar edits.
+    expect(tokenPayload.updates.customName).to.equal('Creature update');
 
     const creatureUpdated = once(playerClient, 'creature_updated');
     gmClient.emit('creature_updated', {
@@ -272,14 +272,14 @@ describe('Project 4 R10 positive outbound privacy projection', function() {
       mapId: 'default',
       creatureId: 'critter',
       updates: {
-        currentHp: 3,
+        customName: 'Critter update',
         secretBlob: 'MARKER_CREATURE_UNKNOWN',
         inventory: { secret: 'MARKER_STATE_INV' }
       }
     });
     const creaturePayload = await creatureUpdated;
     expectClean('creature_updated', creaturePayload);
-    expect(creaturePayload.updates.currentHp).to.equal(3);
+    expect(creaturePayload.updates.customName).to.equal('Critter update');
 
     const charTokenUpdated = once(playerClient, 'character_token_updated');
     gmClient.emit('character_token_updated', {
@@ -287,14 +287,14 @@ describe('Project 4 R10 positive outbound privacy projection', function() {
       mapId: 'default',
       tokenId: 'heroToken',
       stateUpdates: {
-        currentHp: 9,
+        customName: 'Hero update',
         inventory: { secret: 'MARKER_STATE_INV' },
         secretBlob: 'MARKER_STATE_BLOB'
       }
     });
     const charPayload = await charTokenUpdated;
     expectClean('character_token_updated', charPayload);
-    expect(charPayload.stateUpdates.currentHp).to.equal(9);
+    expect(charPayload.stateUpdates.customName).to.equal('Hero update');
   });
 
   it('token delta and creature_added routes never leak planted markers', async() => {
@@ -458,7 +458,7 @@ describe('Project 4 R10 positive outbound privacy projection', function() {
         roomId: room.id,
         mapId: 'default',
         tokenId: 'secretToken',
-        updates: { currentHp: 6, secretBlob: 'MARKER_STATE_BLOB' }
+        updates: { customName: 'Creature delta', secretBlob: 'MARKER_STATE_BLOB' }
       });
       const payload = await delta;
       expectClean('tokens_delta', payload);

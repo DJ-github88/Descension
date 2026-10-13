@@ -8,6 +8,8 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import ClassTip from '../../../../components/hud/ClassTip';
 import '../../../../styles/unified-context-menu.css';
 
+import { INK, PAGE, PAPER, RULE, ETCH, inked, washed } from '../../../../components/hud/calmBarPalette';
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 const CrusaderResourceBar = ({
     classResource = {},
     size = 'normal',
@@ -116,101 +118,7 @@ const CrusaderResourceBar = ({
                         xmlns="http://www.w3.org/2000/svg"
                         aria-label="Crusader Fervor Reliquary"
                     >
-                        <defs>
-                            {/* Radiant Solar Glow Filters */}
-                            <filter id="crusaderSolarGlow" x="-30%" y="-30%" width="160%" height="160%">
-                                <feGaussianBlur stdDeviation="2.2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-                            <filter id="crusaderJudgmentGlow" x="-50%" y="-50%" width="200%" height="200%">
-                                <feGaussianBlur stdDeviation="3.8" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            {/* Reliquary Chassis Metallic Obsidian/Bronze Gradient */}
-                            <linearGradient id="crusaderBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#2b1e12" />
-                                <stop offset="50%" stopColor="#3c2b18" />
-                                <stop offset="100%" stopColor="#1c140c" />
-                            </linearGradient>
-
-                            {/* Consecrated Starlight Gold Border */}
-                            <linearGradient id="crusaderGoldBorder" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#8d6624" />
-                                <stop offset="25%" stopColor="#f3c868" />
-                                <stop offset="50%" stopColor="#ffe9a0" />
-                                <stop offset="75%" stopColor="#e5b34a" />
-                                <stop offset="100%" stopColor="#7a5518" />
-                            </linearGradient>
-
-                            {/* Recessed Rail Depth */}
-                            <linearGradient id="crusaderRailGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#050302" />
-                                <stop offset="45%" stopColor="#1b1309" />
-                                <stop offset="100%" stopColor="#2d2011" />
-                            </linearGradient>
-
-                            {/* Solar Fervor Liquid Fill */}
-                            <linearGradient id="crusaderLiquidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#9a3412" />
-                                <stop offset="40%" stopColor="#ea580c" />
-                                <stop offset="75%" stopColor="#eab308" />
-                                <stop offset="100%" stopColor="#fef08a" />
-                            </linearGradient>
-
-                            {/* Glass Specular Reflection Highlight */}
-                            <linearGradient id="crusaderGlassHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
-                                <stop offset="40%" stopColor="#ffffff" stopOpacity="0.1" />
-                                <stop offset="100%" stopColor="#000000" stopOpacity="0.5" />
-                            </linearGradient>
-
-                            {/* Sunburst Radial Medallion Gradient */}
-                            <radialGradient id="crusaderSunburstGrad" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor="#ffffff" />
-                                <stop offset="35%" stopColor="#fef08a" />
-                                <stop offset="75%" stopColor="#eab308" />
-                                <stop offset="100%" stopColor="#78350f" />
-                            </radialGradient>
-
-                            {/* Halo Bloom Behind The Monstrance */}
-                            <radialGradient id="crusaderHaloBloom" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor="#fde047" stopOpacity="0.55" />
-                                <stop offset="55%" stopColor="#eab308" stopOpacity="0.18" />
-                                <stop offset="100%" stopColor="#eab308" stopOpacity="0" />
-                            </radialGradient>
-
-                            {/* Plate Depth Vignette */}
-                            <radialGradient id="crusaderPlateVignette" cx="50%" cy="50%" r="62%">
-                                <stop offset="55%" stopColor="#000000" stopOpacity="0" />
-                                <stop offset="100%" stopColor="#000000" stopOpacity="0.45" />
-                            </radialGradient>
-
-                            {/* Keeps fervor fill inside the rounded conduits */}
-                            <clipPath id="crusaderLeftClip">
-                                <rect x="22" y="29" width="132" height="18" rx="9" />
-                            </clipPath>
-                            <clipPath id="crusaderRightClip">
-                                <rect x="206" y="29" width="132" height="18" rx="9" />
-                            </clipPath>
-                            {/* Keeps sun rays inside the reliquary plate */}
-                            <clipPath id="crusaderPlateClip">
-                                <rect x="3" y="3" width="354" height="70" rx="8" />
-                            </clipPath>
-                            {/* Long golden ray gradient */}
-                            <linearGradient id="crusaderRayGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#eab308" stopOpacity="0" />
-                                <stop offset="50%" stopColor="#fef08a" stopOpacity="0.9" />
-                                <stop offset="100%" stopColor="#eab308" stopOpacity="0" />
-                            </linearGradient>
-                        </defs>
+                        <defs />
 
                         {/* Reliquary Base Plate */}
                         <rect
@@ -220,8 +128,8 @@ const CrusaderResourceBar = ({
                             height="70"
                             rx="8"
                             ry="8"
-                            fill="url(#crusaderBgGrad)"
-                            stroke="url(#crusaderGoldBorder)"
+                            fill={PAPER}
+                            stroke={inked('#f3c868', 0.6)}
                             strokeWidth="1.6"
                         />
                         {/* Depth Vignette */}
@@ -232,7 +140,7 @@ const CrusaderResourceBar = ({
                             height="70"
                             rx="8"
                             ry="8"
-                            fill="url(#crusaderPlateVignette)"
+                            fill={PAPER}
                             pointerEvents="none"
                         />
                         {/* Filigree Inner Inset */}
@@ -244,13 +152,13 @@ const CrusaderResourceBar = ({
                             rx="6"
                             ry="6"
                             fill="none"
-                            stroke="rgba(234, 179, 8, 0.28)"
+                            stroke={inked('#eab308', 0.6)}
                             strokeWidth="0.8"
                             strokeDasharray="4 2"
                             pointerEvents="none"
                         />
                         {/* Corner Filigree Scrolls */}
-                        <g stroke="rgba(234, 179, 8, 0.55)" strokeWidth="1" fill="none" strokeLinecap="round" pointerEvents="none">
+                        <g stroke={inked('#eab308', 0.6)} strokeWidth="1" fill="none" strokeLinecap="round" pointerEvents="none">
                             <path d="M12 24 Q12 12 24 12" />
                             <path d="M336 12 Q348 12 348 24" />
                             <path d="M12 52 Q12 64 24 64" />
@@ -258,10 +166,10 @@ const CrusaderResourceBar = ({
                         </g>
 
                         {/* Corner Sun-Boss Rivets */}
-                        <circle cx="10" cy="10" r="2.2" fill="#eab308" stroke="#78350f" strokeWidth="0.8" />
-                        <circle cx="350" cy="10" r="2.2" fill="#eab308" stroke="#78350f" strokeWidth="0.8" />
-                        <circle cx="10" cy="66" r="2.2" fill="#eab308" stroke="#78350f" strokeWidth="0.8" />
-                        <circle cx="350" cy="66" r="2.2" fill="#eab308" stroke="#78350f" strokeWidth="0.8" />
+                        <circle cx="10" cy="10" r="2.2" fill={washed('#eab308', 0.2)} stroke={RULE} strokeWidth="0.8" />
+                        <circle cx="350" cy="10" r="2.2" fill={washed('#eab308', 0.2)} stroke={RULE} strokeWidth="0.8" />
+                        <circle cx="10" cy="66" r="2.2" fill={washed('#eab308', 0.2)} stroke={RULE} strokeWidth="0.8" />
+                        <circle cx="350" cy="66" r="2.2" fill={washed('#eab308', 0.2)} stroke={RULE} strokeWidth="0.8" />
 
                         {/* ========================================================= */}
                         {/* CONSECRATED SANCTUM: ARCHED WINDOW + SOLAR RAY FAN        */}
@@ -277,14 +185,14 @@ const CrusaderResourceBar = ({
                             <path
                                 d="M146 73 L146 34 Q146 11 180 3 Q214 11 214 34 L214 73"
                                 fill="none"
-                                stroke="rgba(234, 179, 8, 0.32)"
+                                stroke={inked('#eab308', 0.6)}
                                 strokeWidth="1"
                                 strokeDasharray="3 2.5"
                             />
                             <path
                                 d="M152 73 L152 35 Q152 15 180 7 Q208 15 208 35 L208 73"
                                 fill="none"
-                                stroke="rgba(254, 240, 138, 0.2)"
+                                stroke={ETCH}
                                 strokeWidth="0.8"
                             />
                             {/* Radiant fan from the reliquary heart */}
@@ -299,7 +207,7 @@ const CrusaderResourceBar = ({
                                         y1={38 + Math.sin(ang) * inner}
                                         x2={180 + Math.cos(ang) * outer}
                                         y2={38 + Math.sin(ang) * outer}
-                                        stroke="url(#crusaderRayGrad)"
+                                        stroke={inked('#eab308', 0.6)}
                                         strokeWidth={i % 2 === 0 ? 1.1 : 0.7}
                                         strokeLinecap="round"
                                         opacity={localFervor >= (i / 20) * 100 ? 0.85 : 0.35}
@@ -319,12 +227,12 @@ const CrusaderResourceBar = ({
                                 width="132"
                                 height="18"
                                 rx="9"
-                                fill="url(#crusaderRailGrad)"
-                                stroke="rgba(234, 179, 8, 0.55)"
+                                fill={PAPER}
+                                stroke={inked('#eab308', 0.6)}
                                 strokeWidth="1.1"
                             />
                             {/* Inner Depth Shadow */}
-                            <line x1="25" y1="31" x2="151" y2="31" stroke="rgba(0, 0, 0, 0.65)" strokeWidth="1" />
+                            <line x1="25" y1="31" x2="151" y2="31" stroke={RULE} strokeWidth="1" />
 
                             {/* Fervor Graduation Ticks (every 10) */}
                             {[1, 2, 3, 4].map((i) => (
@@ -334,7 +242,7 @@ const CrusaderResourceBar = ({
                                     y1="32.5"
                                     x2={22 + i * 26.4}
                                     y2="43.5"
-                                    stroke={localFervor >= i * 10 ? 'rgba(254, 240, 138, 0.6)' : 'rgba(234, 179, 8, 0.28)'}
+                                    stroke={localFervor >= i * 10 ? inked('#fef08a', 0.6) : inked('#eab308', 0.6)}
                                     strokeWidth="0.7"
                                 />
                             ))}
@@ -347,16 +255,14 @@ const CrusaderResourceBar = ({
                                         y="29"
                                         width={leftConduitFill}
                                         height="18"
-                                        fill="url(#crusaderLiquidGrad)"
-                                        filter={localFervor >= 25 ? 'url(#crusaderSolarGlow)' : undefined}
+                                        fill={washed('#eab308', 0.2)}
                                     />
                                     {/* Travelling lead spark */}
                                     <circle
                                         cx={Math.max(24, 22 + leftConduitFill - 3)}
                                         cy="38"
                                         r="2.4"
-                                        fill="#fffbe6"
-                                        filter="url(#crusaderSolarGlow)"
+                                        fill={washed('#fffbe6', 0.2)}
                                     />
                                 </g>
                             )}
@@ -368,13 +274,13 @@ const CrusaderResourceBar = ({
                                 width="132"
                                 height="9"
                                 rx="4"
-                                fill="url(#crusaderGlassHighlight)"
+                                fill={PAGE}
                                 pointerEvents="none"
                             />
 
                             {/* Rail End Caps */}
-                            <circle cx="24" cy="38" r="1.4" fill="rgba(234, 179, 8, 0.55)" />
-                            <circle cx="152" cy="38" r="1.4" fill="rgba(234, 179, 8, 0.55)" />
+                            <circle cx="24" cy="38" r="1.4" fill={washed('#eab308', 0.2)} />
+                            <circle cx="152" cy="38" r="1.4" fill={washed('#eab308', 0.2)} />
 
                             {/* Milestone 25 Fervor — Aegis Diamond */}
                             <g transform="translate(88,38)">
@@ -384,10 +290,9 @@ const CrusaderResourceBar = ({
                                     width="4.2"
                                     height="4.2"
                                     transform="rotate(45)"
-                                    fill={localFervor >= 25 ? '#fff7cc' : 'rgba(234, 179, 8, 0.4)'}
-                                    stroke="#78350f"
+                                    fill={localFervor >= 25 ? washed('#fff7cc', 0.2) : washed('#eab308', 0.2)}
+                                    stroke={RULE}
                                     strokeWidth="0.5"
-                                    filter={localFervor >= 25 ? 'url(#crusaderSolarGlow)' : undefined}
                                 />
                             </g>
                         </g>
@@ -403,12 +308,12 @@ const CrusaderResourceBar = ({
                                 width="132"
                                 height="18"
                                 rx="9"
-                                fill="url(#crusaderRailGrad)"
-                                stroke="rgba(234, 179, 8, 0.55)"
+                                fill={PAPER}
+                                stroke={inked('#eab308', 0.6)}
                                 strokeWidth="1.1"
                             />
                             {/* Inner Depth Shadow */}
-                            <line x1="209" y1="31" x2="335" y2="31" stroke="rgba(0, 0, 0, 0.65)" strokeWidth="1" />
+                            <line x1="209" y1="31" x2="335" y2="31" stroke={RULE} strokeWidth="1" />
 
                             {/* Fervor Graduation Ticks (every 10) */}
                             {[1, 2, 3, 4].map((i) => (
@@ -418,7 +323,7 @@ const CrusaderResourceBar = ({
                                     y1="32.5"
                                     x2={206 + i * 26.4}
                                     y2="43.5"
-                                    stroke={localFervor >= 50 + i * 10 ? 'rgba(254, 240, 138, 0.7)' : 'rgba(234, 179, 8, 0.28)'}
+                                    stroke={localFervor >= 50 + i * 10 ? inked('#fef08a', 0.6) : inked('#eab308', 0.6)}
                                     strokeWidth="0.7"
                                 />
                             ))}
@@ -431,16 +336,14 @@ const CrusaderResourceBar = ({
                                         y="29"
                                         width={rightConduitFill}
                                         height="18"
-                                        fill="url(#crusaderLiquidGrad)"
-                                        filter={isJudgmentReady ? 'url(#crusaderJudgmentGlow)' : 'url(#crusaderSolarGlow)'}
+                                        fill={washed('#eab308', 0.2)}
                                     />
                                     {/* Travelling lead spark */}
                                     <circle
                                         cx={Math.max(208, 206 + rightConduitFill - 3)}
                                         cy="38"
                                         r="2.4"
-                                        fill="#fffbe6"
-                                        filter={isJudgmentReady ? 'url(#crusaderJudgmentGlow)' : 'url(#crusaderSolarGlow)'}
+                                        fill={washed('#fffbe6', 0.2)}
                                     />
                                 </g>
                             )}
@@ -452,13 +355,13 @@ const CrusaderResourceBar = ({
                                 width="132"
                                 height="9"
                                 rx="4"
-                                fill="url(#crusaderGlassHighlight)"
+                                fill={PAGE}
                                 pointerEvents="none"
                             />
 
                             {/* Rail End Caps */}
-                            <circle cx="208" cy="38" r="1.4" fill="rgba(234, 179, 8, 0.55)" />
-                            <circle cx="336" cy="38" r="1.4" fill="rgba(234, 179, 8, 0.55)" />
+                            <circle cx="208" cy="38" r="1.4" fill={washed('#eab308', 0.2)} />
+                            <circle cx="336" cy="38" r="1.4" fill={washed('#eab308', 0.2)} />
 
                             {/* Milestone 75 Fervor Pip */}
                             <g transform="translate(272,38)">
@@ -468,10 +371,9 @@ const CrusaderResourceBar = ({
                                     width="4.2"
                                     height="4.2"
                                     transform="rotate(45)"
-                                    fill={localFervor >= 75 ? '#fff7cc' : 'rgba(234, 179, 8, 0.4)'}
-                                    stroke="#78350f"
+                                    fill={localFervor >= 75 ? washed('#fff7cc', 0.2) : washed('#eab308', 0.2)}
+                                    stroke={RULE}
                                     strokeWidth="0.5"
-                                    filter={localFervor >= 75 ? 'url(#crusaderSolarGlow)' : undefined}
                                 />
                             </g>
 
@@ -485,10 +387,9 @@ const CrusaderResourceBar = ({
                                         x2="0"
                                         y2="4.4"
                                         transform={`rotate(${deg})`}
-                                        stroke={isJudgmentReady ? '#ffffff' : 'rgba(234, 179, 8, 0.4)'}
+                                        stroke={isJudgmentReady ? INK : inked('#eab308', 0.6)}
                                         strokeWidth="1"
                                         strokeLinecap="round"
-                                        filter={isJudgmentReady ? 'url(#crusaderJudgmentGlow)' : undefined}
                                     />
                                 ))}
                             </g>
@@ -502,7 +403,7 @@ const CrusaderResourceBar = ({
                             pointerEvents="none"
                         >
                             {/* Halo Bloom */}
-                            <circle className="crusader-halo-bloom" cx="180" cy="38" r="34" fill="url(#crusaderHaloBloom)" />
+                            <circle className="crusader-halo-bloom" cx="180" cy="38" r="34" fill={washed('#eab308', 0.2)} />
 
                             {/* 16-Ray Spiked Radiant Halo (slow orbit once Harmonic) */}
                             <g className="crusader-monstrance-halo">
@@ -529,10 +430,9 @@ const CrusaderResourceBar = ({
                                             y1={y1}
                                             x2={x2}
                                             y2={y2}
-                                            stroke={isJudgmentReady ? '#ffffff' : isHarmonic ? '#fde047' : 'rgba(234, 179, 8, 0.6)'}
+                                            stroke={isJudgmentReady ? INK : isHarmonic ? inked('#fde047', 0.6) : inked('#eab308', 0.6)}
                                             strokeWidth={i % 2 === 0 ? 1.5 : 1}
                                             strokeLinecap="round"
-                                            filter={isJudgmentReady ? 'url(#crusaderJudgmentGlow)' : isHarmonic ? 'url(#crusaderSolarGlow)' : undefined}
                                         />
                                     );
                                 })}
@@ -543,10 +443,9 @@ const CrusaderResourceBar = ({
                                 cx="180"
                                 cy="38"
                                 r="22"
-                                fill="#160c07"
-                                stroke="url(#crusaderGoldBorder)"
+                                fill={PAPER}
+                                stroke={inked('#f3c868', 0.6)}
                                 strokeWidth="1.8"
-                                filter={isHarmonic ? 'url(#crusaderSolarGlow)' : undefined}
                             />
                             {Array.from({ length: 12 }).map((_, i) => {
                                 const angle = (i * 30 * Math.PI) / 180;
@@ -557,7 +456,7 @@ const CrusaderResourceBar = ({
                                         y1={38 + Math.sin(angle) * 22}
                                         x2={180 + Math.cos(angle) * 24.2}
                                         y2={38 + Math.sin(angle) * 24.2}
-                                        stroke={isJudgmentReady ? '#ffffff' : 'rgba(234, 179, 8, 0.7)'}
+                                        stroke={isJudgmentReady ? INK : inked('#eab308', 0.6)}
                                         strokeWidth="0.9"
                                         strokeLinecap="round"
                                     />
@@ -569,16 +468,15 @@ const CrusaderResourceBar = ({
                                 cx="180"
                                 cy="38"
                                 r="16"
-                                fill={isHarmonic ? 'url(#crusaderSunburstGrad)' : '#100704'}
-                                stroke="#eab308"
+                                fill={isHarmonic ? washed('#eab308', 0.2) : PAPER}
+                                stroke={inked('#eab308', 0.6)}
                                 strokeWidth="1"
-                                filter={isHarmonic ? 'url(#crusaderSolarGlow)' : undefined}
                             />
 
                             {/* Solvan Cross Crest */}
                             <path
                                 d="M 180 28 L 180 48 M 170 38 L 190 38"
-                                stroke={isHarmonic ? '#78350f' : '#eab308'}
+                                stroke={isHarmonic ? RULE : inked('#eab308', 0.6)}
                                 strokeWidth="2.6"
                                 strokeLinecap="round"
                             />
@@ -586,7 +484,7 @@ const CrusaderResourceBar = ({
                                 cx="180"
                                 cy="38"
                                 r="2.6"
-                                fill={isHarmonic ? '#ffffff' : '#fef08a'}
+                                fill={isHarmonic ? PAGE : washed('#fef08a', 0.2)}
                             />
 
                             {/* Judgment Sparks */}
@@ -598,8 +496,7 @@ const CrusaderResourceBar = ({
                                             cx={180 + Math.cos((deg * Math.PI) / 180) * 30}
                                             cy={38 + Math.sin((deg * Math.PI) / 180) * 30}
                                             r="1.5"
-                                            fill="#fffbe6"
-                                            filter="url(#crusaderJudgmentGlow)"
+                                            fill={washed('#fffbe6', 0.2)}
                                         />
                                     ))}
                                 </g>
@@ -620,12 +517,12 @@ const CrusaderResourceBar = ({
                                             x2="0"
                                             y2="3.8"
                                             transform={`rotate(${deg})`}
-                                            stroke="rgba(234, 179, 8, 0.7)"
+                                            stroke={inked('#eab308', 0.6)}
                                             strokeWidth="0.9"
                                             strokeLinecap="round"
                                         />
                                     ))}
-                                    <circle r="1.3" fill="#fef08a" filter="url(#crusaderSolarGlow)" />
+                                    <circle r="1.3" fill={washed('#fef08a', 0.2)} />
                                 </g>
                             ))}
                         </g>
@@ -645,7 +542,7 @@ const CrusaderResourceBar = ({
                                     cx={ember.x}
                                     cy={ember.y}
                                     r="1.1"
-                                    fill="#fde047"
+                                    fill={washed('#fde047', 0.2)}
                                     style={{ animationDelay: ember.delay }}
                                 />
                             ))}
@@ -695,151 +592,84 @@ const CrusaderResourceBar = ({
                         };
                     })()}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">Crusader Fervor Ledger</div>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)', marginBottom: '6px' }}>
-                                Build Fervor in melee, then spend it on starlight smites.
+                    <div className="cm" style={{ '--cm-accent': '#b08a2e', '--cm-accent-deep': '#6b4f12', '--cm-wash': '#f4e7c4' }}>
+                        <header className="cm-head">
+                            <span className={`cm-seal ${localFervor < 25 ? 'is-quiet' : ''}`}>{localFervor}</span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">Crusader Fervor Ledger</div>
+                                <div className="cm-title">{isJudgmentReady ? 'Full Radiance' : isHarmonic ? 'Harmonic' : 'Kindling'}</div>
+                                <div className="cm-sub"><span>{localFervor}/{maxFervor}</span> Fervor, kindled by strikes</div>
                             </div>
-
-                            {/* Current state summary */}
-                            <div style={{ fontSize: '0.8rem', marginBottom: '6px', lineHeight: 1.35 }}>
-                                <div><strong>Fervor:</strong> <span style={{ color: isHarmonic ? '#fef08a' : 'var(--crm-text-dim, #cbd5e1)' }}>{localFervor}/{maxFervor}</span> <span style={{ color: 'var(--crm-text-dim, #cbd5e1)', fontSize: '0.72rem' }}>— kindled by strikes</span></div>
-                                <div>
-                                    <strong>Stance:</strong>{' '}
-                                    {isJudgmentReady ? (
-                                        <span style={{ color: '#f87171', fontWeight: 'bold' }}>Solar Judgment ready</span>
-                                    ) : isHarmonic ? (
-                                        <span style={{ color: '#fef08a', fontWeight: 'bold' }}>Harmonic (+1d6 sacred, sunders DR)</span>
-                                    ) : (
-                                        <span>Kindling</span>
-                                    )}
-                                </div>
-                                {localFervor >= 80 && !isJudgmentReady && (
-                                    <div style={{ color: '#f87171', fontStyle: 'italic', marginTop: '2px' }}>
-                                        Zealous Scorching: 80+ unspent Fervor burns you — spend or vent.
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Kindle Section */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginBottom: '2px' }}>Kindle Fervor</div>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)', marginBottom: '6px' }}>
-                                Melee strikes +10 · blocked hits +10 · prayer +25
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '10px' }}>
-                                <button
-                                    className="context-menu-button gain"
-                                    onClick={(e) => { e.stopPropagation(); handleFervorChange(10); }}
-                                    title="Gain +10 Fervor — a landed melee strike or a blocked hit"
-                                >
-                                    <i className="fas fa-sword"></i> Strike (+10)
-                                </button>
-                                <button
-                                    className="context-menu-button gain"
-                                    onClick={(e) => { e.stopPropagation(); handleFervorChange(25); }}
-                                    title="Gain +25 Fervor — invoke a starlight prayer or Beacon of Truth"
-                                >
-                                    <i className="fas fa-sun"></i> Prayer (+25)
-                                </button>
-                            </div>
-
-                            {/* Unleash Section */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginBottom: '2px' }}>Unleash Fervor</div>
-                            <div style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)', marginBottom: '6px' }}>
-                                25 Aegis barrier · 50 Harmonic Stance · 100 Solar Judgment
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', marginBottom: '4px' }}>
-                                <button
-                                    className="context-menu-button spend"
-                                    onClick={(e) => { e.stopPropagation(); handleFervorChange(-25); }}
-                                    disabled={localFervor < 25}
-                                    style={{ opacity: localFervor < 25 ? 0.5 : 1 }}
-                                    title="Spend 25 Fervor — Aegis of the Martyred Sun: a starlight barrier"
-                                >
-                                    Aegis (-25)
-                                </button>
-                                <button
-                                    className="context-menu-button spend"
-                                    onClick={(e) => { e.stopPropagation(); handleFervorChange(-50); }}
-                                    disabled={localFervor < 50}
-                                    style={{ opacity: localFervor < 50 ? 0.5 : 1 }}
-                                    title="Spend 50 Fervor — enter Harmonic Stance: +1d6 sacred damage, sunders Durability/DR"
-                                >
-                                    Harmonic (-50)
-                                </button>
-                                <button
-                                    className="context-menu-button danger"
-                                    onClick={(e) => { e.stopPropagation(); handleFervorChange(-100); }}
-                                    disabled={localFervor < 100}
-                                    style={{ opacity: localFervor < 100 ? 0.5 : 1 }}
-                                    title="Spend 100 Fervor — Solvan Judgment: 20 ft AoE smite that shatters Passive DR"
-                                >
-                                    Judgment (-100)
-                                </button>
-                            </div>
-
-                            {(() => {
-                                const next = localFervor < 25
-                                    ? { label: 'Aegis', at: 25 }
-                                    : localFervor < 50
-                                        ? { label: 'Harmonic Stance', at: 50 }
-                                        : localFervor < 100
-                                            ? { label: 'Solar Judgment', at: 100 }
-                                            : null;
-                                if (!next) return null;
-                                return (
-                                    <div style={{ fontSize: '0.72rem', color: 'var(--crm-text-dim, #cbd5e1)', marginBottom: '6px' }}>
-                                        Next: {next.label} in {next.at - localFervor} Fervor
-                                    </div>
-                                );
-                            })()}
-
-                            <div className="context-menu-main-separator" style={{ margin: '8px 0' }}></div>
-
-                            {/* Quick Actions */}
-                            <div style={{ display: 'flex', gap: '4px', marginBottom: '6px' }}>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        const gain = maxFervor - localFervor;
-                                        setLocalFervor(maxFervor);
-                                        if (gain > 0) {
-                                            logClassResourceChange('Fervor', gain, true);
-                                            if (onClassResourceUpdate) onClassResourceUpdate('current', maxFervor);
-                                        }
-                                    }}
-                                    style={{ flex: 1 }}
-                                    title="Set Fervor to 100 (GM / owner override)"
-                                >
-                                    <i className="fas fa-arrow-up"></i> Max
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        const resetAmount = localFervor;
-                                        setLocalFervor(0);
-                                        if (resetAmount > 0) {
-                                            logClassResourceChange('Fervor', resetAmount, false);
-                                            if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
-                                        }
-                                    }}
-                                    style={{ flex: 1 }}
-                                    title="Vent all Fervor back to 0"
-                                >
-                                    <i className="fas fa-undo"></i> Vent All
-                                </button>
-                            </div>
-
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className="cm-meter" aria-hidden="true"><span style={{ width: `${maxFervor ? Math.min(100, (localFervor / maxFervor) * 100) : 0}%` }}></span></div>
+                        <div className={`cm-burden ${localFervor >= 80 ? 'is-severe' : localFervor < 50 ? 'is-quiet' : ''}`}>
+                            <span className="cm-burden-label">{isHarmonic ? 'Harmonic Stance' : 'Harmonic Stance at 50'}</span>
+                            <p className="cm-burden-text">
+                                {isHarmonic
+                                    ? 'Your attacks deal +1d6 sacred damage and sunder Durability and DR.'
+                                    : `Strike, block and hold consecrated ground. ${50 - localFervor} more Fervor and your blade burns white.`}
+                            </p>
+                            {localFervor >= 80 && (
+                                <span className="cm-burden-cost">Zealous Scorching: 80 or more unspent Fervor burns you. Spend or vent.</span>
+                            )}
+                        </div>
+                        <div className="cm-section">Kindle</div>
+                        <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                            <button type="button" className="context-menu-button gain is-stacked" onClick={(e) => { e.stopPropagation(); handleFervorChange(10); }} title="A landed melee strike">
+                                Strike (+10)<span className="cm-btn-sub">melee hit</span>
+                            </button>
+                            <button type="button" className="context-menu-button gain is-stacked" onClick={(e) => { e.stopPropagation(); handleFervorChange(10); }} title="A blocked blow or soak roll">
+                                Block (+10)<span className="cm-btn-sub">soak a hit</span>
+                            </button>
+                            <button type="button" className="context-menu-button gain is-stacked" onClick={(e) => { e.stopPropagation(); handleFervorChange(5); }} title="Starting a turn on your consecrated ground">
+                                Hallowed (+5)<span className="cm-btn-sub">consecrated</span>
+                            </button>
+                        </div>
+                        <div className="cm-section">
+                            Spend
+                            <span className="cm-section-aside">spent through your spells</span>
+                        </div>
+                        <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                            {[10, 25, 50, 100].map((n) => (
+                                <button key={n} type="button" className="context-menu-button spend" onClick={(e) => { e.stopPropagation(); handleFervorChange(-n); }} disabled={localFervor < n}>-{n}</button>
+                            ))}
+                        </div>
+                        <ClassMenuSpells className="Crusader" resourceTypes={['fervor']} resourceLabel="Fervor" current={localFervor} />
+                        <div className="cm-foot">
                             <button
-                                className="context-menu-button danger"
-                                onClick={() => setShowControls(false)}
-                                style={{ width: '100%', marginTop: '4px' }}
-                                title="Close the ledger"
+                                type="button"
+                                className="context-menu-button quiet"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const resetAmount = localFervor;
+                                    setLocalFervor(0);
+                                    if (resetAmount > 0) {
+                                        logClassResourceChange('Fervor', resetAmount, false);
+                                        if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                    }
+                                }}
+                                title="Vent all Fervor back to 0"
                             >
-                                <i className="fas fa-times"></i> Close
+                                <i className="fas fa-undo" aria-hidden="true"></i> Vent All
+                            </button>
+                            <button
+                                type="button"
+                                className="context-menu-button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const gain = maxFervor - localFervor;
+                                    setLocalFervor(maxFervor);
+                                    if (gain > 0) {
+                                        logClassResourceChange('Fervor', gain, true);
+                                        if (onClassResourceUpdate) onClassResourceUpdate('current', maxFervor);
+                                    }
+                                }}
+                                title="Set Fervor to its maximum (GM or owner override)"
+                            >
+                                <i className="fas fa-arrow-up" aria-hidden="true"></i> Max
                             </button>
                         </div>
                     </div>
@@ -857,7 +687,7 @@ const CrusaderResourceBar = ({
                         subtitle="Crusader Solar Dynamo"
                         state={`${localFervor}/${maxFervor}`}
                         stateTone={isJudgmentReady ? 'good' : isHarmonic ? 'good' : 'neutral'}
-                        mechanic="Kindle Fervor in sacred combat: strikes +10 to +15, blocking hits +10, consecrated ground +5 per round. Spend 25 on Aegis of the Martyred Sun, 50 on Harmonic Stance (+1d6 sacred damage), and 100 on Solvan Judgment; holding 80+ unspent causes starlight overload."
+                        mechanic="Fervor builds from strikes (+10–15), blocks (+10) and consecrated ground (+5/round). Spend 25 on Aegis, 50 on Harmonic Stance (+1d6 sacred), 100 on Solvan Judgment. Holding 80+ risks starlight overload."
                         status={[
                             isJudgmentReady
                                 ? { text: 'JUDGMENT READY — unleash Solvan Judgment.', tone: 'good' }

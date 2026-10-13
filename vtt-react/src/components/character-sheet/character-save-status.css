@@ -1,0 +1,14 @@
+.character-save-status {
+  padding: 0.65rem 1rem;
+  color: var(--pf-text-primary, #2d231b);
+  background: var(--pf-parchment-light, #f4e9d6);
+  border-bottom: 1px solid var(--pf-border-color, #bda789);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.character-save-status button, .character-save-status input { font: inherit; }
+.character-save-status button { margin: 0.25rem 0.5rem; padding: 0.2rem 0.6rem; }
+.character-save-status button:focus-visible, .character-save-status input:focus-visible { outline: 2px solid #684021; outline-offset: 2px; }
+.character-save-message { display: block; }
+.character-save-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.character-save-actions input { max-width: 100%; }

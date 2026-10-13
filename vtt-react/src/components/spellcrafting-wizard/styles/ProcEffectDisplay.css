@@ -39,9 +39,9 @@
 }
 
 .proc-icon {
-  color: #FFD700;
+  color: #9a7b3c;
   font-size: 16px;
-  text-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
+  text-shadow: 0 0 4px rgba(154, 123, 60, 0.5);
 }
 
 .proc-title {
@@ -86,19 +86,19 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(255, 215, 0, 0.1);
-  border: 1px solid #FFD700;
+  background: rgba(154, 123, 60, 0.1);
+  border: 1px solid #9a7b3c;
   border-radius: 4px;
   padding: 2px 6px;
 }
 
 .chance-icon {
-  color: #FFD700;
+  color: #9a7b3c;
   font-size: 12px;
 }
 
 .chance-value {
-  color: #FFD700;
+  color: #9a7b3c;
   font-weight: bold;
   font-size: 12px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
@@ -149,26 +149,8 @@
   margin: 0;
 }
 
-.proc-spell-card .pf-spell-header {
-  padding: 8px 10px;
-}
-
-.proc-spell-card .pf-spell-title {
-  font-size: 13px;
-}
-
-.proc-spell-card .pf-spell-description {
-  font-size: 11px;
-  max-height: 60px;
-  overflow: hidden;
-}
-
 .proc-spell-card .pf-spell-stats {
   padding: 6px 10px;
-}
-
-.proc-spell-card .pf-stat-item {
-  font-size: 10px;
 }
 
 /* Missing spell styling */
@@ -216,9 +198,9 @@
 
 /* Animation for proc effects */
 @keyframes procGlow {
-  0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
-  50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
-  100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+  0% { box-shadow: 0 0 5px rgba(154, 123, 60, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(154, 123, 60, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(154, 123, 60, 0.3); }
 }
 
 .proc-effect-item:hover .proc-chance {

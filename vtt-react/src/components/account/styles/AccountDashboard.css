@@ -1,7 +1,7 @@
 /* Account Dashboard Styles - Beautiful Pathfinder Parchment Theme - Updated v0.1.3 */
 .account-dashboard {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f5f0 0%, #f0ead6 30%, #e8dcc0 70%, #ddd5c0 100%);
+  background: linear-gradient(135deg, #f8f5f0 0%, #f1ece1 30%, #e8e2d4 70%, #ddd5c0 100%);
   color: #2d1810;
   font-family: 'Cinzel', serif;
   background-image:
@@ -259,7 +259,7 @@
 
 .fan-tab.active {
   background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-  color: #f8f4e6;
+  color: #f8f5ee;
   box-shadow: 
     0 4px 15px rgba(184, 134, 11, 0.35),
     0 0 12px rgba(212, 175, 55, 0.2);
@@ -335,7 +335,7 @@
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #f8f5f0 0%, #f0ead6 100%);
+  background: linear-gradient(135deg, #f8f5f0 0%, #f1ece1 100%);
   border: 2px solid #8b4513;
   border-radius: 12px;
   box-shadow: 0 10px 32px rgba(139, 69, 19, 0.3);
@@ -544,7 +544,7 @@
   top: 100%;
   right: 0;
   width: min(320px, calc(100vw - 2rem));
-  background: linear-gradient(135deg, #f8f5f0 0%, #f0ead6 100%);
+  background: linear-gradient(135deg, #f8f5f0 0%, #f1ece1 100%);
   border: 2px solid #8b4513;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(139, 69, 19, 0.25);
@@ -863,7 +863,7 @@
   align-items: center;
   gap: 0.5rem;
   background: linear-gradient(135deg, #8B4513, #654321);
-  color: #f8f4e6;
+  color: #f8f5ee;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 0.9rem;

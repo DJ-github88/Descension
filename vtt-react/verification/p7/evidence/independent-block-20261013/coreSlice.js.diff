@@ -1,0 +1,15 @@
+diff --git "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\characterSlices\\coreSlice.js" "b/D:\\VTT\\vtt-react\\src\\store\\characterSlices\\coreSlice.js"
+index 815bcbbd..518a61a5 100644
+--- "a/D:\\AppData\\Temp\\opencode\\p7-independent-20261013\\starting\\vtt-react\\src\\store\\characterSlices\\coreSlice.js"
++++ "b/D:\\VTT\\vtt-react\\src\\store\\characterSlices\\coreSlice.js"
+@@ -1197,6 +1197,10 @@ export const createCoreSlice = (set, get) => ({
+                 get().ensureClassStarterSpells(character.class);
+             }
+ 
++            // A personal/cached build load cannot replace the explicitly active
++            // exact room attachment. Keep the original roster candidate intact.
++            require('../../services/actorConsequenceService').reconcileOwner();
++
+             return character;
+         }
+ 

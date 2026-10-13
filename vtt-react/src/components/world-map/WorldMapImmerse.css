@@ -558,7 +558,7 @@
 .custom-map-secondary-btn:hover:not(:disabled),
 .custom-map-cancel-btn:hover:not(:disabled) {
   border-color: #8b2626;
-  background: #f0e6d2;
+  background: #f1ece1;
   color: #8b2626;
   box-shadow: 0 3px 10px rgba(139, 38, 38, 0.2);
   transform: translateY(-1px);
@@ -640,7 +640,7 @@
 
 .custom-map-library-item:hover,
 .custom-map-zone-item:hover {
-  background: #f0e6d2;
+  background: #f1ece1;
   border-color: #8b2626;
 }
 
@@ -753,7 +753,7 @@
 .custom-map-dropzone:hover,
 .custom-map-dropzone.drag-active {
   border-color: #8b2626;
-  background: #f0e6d2;
+  background: #f1ece1;
 }
 
 .custom-map-dropzone.disabled {
@@ -937,7 +937,7 @@
 
 .cat-chip:hover {
   border-color: #8b2626;
-  background: #f0e6d2;
+  background: #f1ece1;
   color: #8b2626;
 }
 
@@ -1177,7 +1177,7 @@
 
 .outliner-card:hover {
   border-color: #8b2626;
-  background: #f0e6d2;
+  background: #f1ece1;
 }
 
 .outliner-card.active {
@@ -1383,7 +1383,7 @@
 }
 
 .hud-undo-btn:hover {
-  background: #f0e6d2;
+  background: #f1ece1;
   border-color: #8b2626;
 }
 
@@ -1804,14 +1804,6 @@
 }
 
 /* Child Locations Section */
-.child-locations-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 18px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #c8b88a;
-}
 
 .custom-zone-section-header {
   display: flex;
@@ -1851,116 +1843,10 @@
   background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
 }
 
-.child-locations-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.child-location-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid #c8b88a;
-  border-radius: 6px;
-  background: rgba(250, 246, 237, 0.85);
-  box-shadow: 0 1px 3px rgba(60, 40, 20, 0.05);
-  transition: all 0.15s ease;
-}
-
-.child-location-card:hover {
-  border-color: #8b2626;
-  background: #f0e6d2;
-}
-
-.child-location-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  flex: 1;
-}
-
 .loc-marker-icon {
   color: #8b2626;
   font-size: 12px;
   flex: 0 0 auto;
-}
-
-.child-location-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.child-location-text strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: #2b1810;
-}
-
-.child-lore-preview {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 10px;
-  color: #6b5242;
-}
-
-.child-location-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex: 0 0 auto;
-}
-
-.child-jump-btn,
-.child-delete-btn {
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #c8b88a;
-  border-radius: 4px;
-  background: #faf6ed;
-  color: #6b1a1a;
-  cursor: pointer;
-  font-size: 11px;
-}
-
-.child-jump-btn:hover {
-  border-color: #8b2626;
-  color: #ffffff;
-  background: #8b2626;
-}
-
-.child-delete-btn:hover {
-  border-color: #6b1a1a;
-  color: #ffffff;
-  background: #8b2626;
-}
-
-.child-locations-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 12px;
-  border: 1.5px dashed #c49a45;
-  border-radius: 6px;
-  background: rgba(250, 246, 237, 0.85);
-  color: #4a382c;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 11px;
-  text-align: center;
 }
 
 .empty-add-location-btn {
@@ -1979,149 +1865,6 @@
 }
 
 /* Artwork & Heraldry Section */
-.artwork-section {
-  margin-bottom: 16px;
-}
-
-.zone-remove-img-btn {
-  background: #fdf2f2;
-  border: 1px solid rgba(139, 38, 38, 0.35);
-  color: #8b2626;
-  border-radius: 4px;
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 11px;
-  transition: all 0.2s ease;
-}
-
-.zone-remove-img-btn:hover {
-  background: #8b2626;
-  border-color: #6b1a1a;
-  color: #ffffff;
-}
-
-.zone-artwork-banner {
-  position: relative;
-  width: 100%;
-  height: 140px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1.5px solid #c8b88a;
-  box-shadow: 0 4px 16px rgba(60, 40, 20, 0.15);
-  margin-top: 6px;
-}
-
-.zone-artwork-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.zone-artwork-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 8px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.zone-artwork-banner:hover .zone-artwork-overlay {
-  opacity: 1;
-}
-
-.zone-change-img-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  background: #faf6ed;
-  border: 1.5px solid #8b2626;
-  border-radius: 6px;
-  color: #8b2626;
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.zone-artwork-empty {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.zone-upload-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 9px 12px;
-  background: #faf6ed;
-  border: 1.5px dashed #c49a45;
-  border-radius: 6px;
-  color: #5c1818;
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.zone-upload-btn:hover {
-  background: #f0e6d2;
-  border-color: #8b2626;
-  color: #8b2626;
-}
-
-.zone-url-toggle-btn {
-  background: transparent;
-  border: 0;
-  color: #8b2626;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 10px;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 2px 0;
-  text-align: left;
-}
-
-.zone-img-url-form {
-  display: flex;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.zone-img-url-input {
-  flex: 1;
-  padding: 6px 8px;
-  background: #fdfbf7 !important;
-  border: 1px solid #c8b88a !important;
-  border-radius: 4px;
-  color: #2b1810 !important;
-  font-family: system-ui, -apple-system, sans-serif !important;
-  font-size: 11px !important;
-}
-
-.zone-img-url-submit {
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, #8b2626 0%, #6b1a1a 100%);
-  border: 1px solid #c49a45;
-  border-radius: 4px;
-  color: #ffffff;
-  cursor: pointer;
-}
 
 /* Lore Mode Toggle */
 .lore-mode-toggle {
@@ -2557,7 +2300,7 @@
 
 .lore-readaloud .lore-block-body {
   background:
-    linear-gradient(180deg, #faf6ed 0%, #f0e6d2 100%);
+    linear-gradient(180deg, #faf6ed 0%, #f1ece1 100%);
   font-family: 'Cinzel', Georgia, serif;
   font-style: italic;
   font-size: 12px;
@@ -2596,41 +2339,8 @@
 }
 
 /* Top Meta Row (Classification, Threat, Tier) */
-.statblock-meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(196, 154, 69, 0.3);
-}
-
-.statblock-meta-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10.5px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: rgba(196, 154, 69, 0.12);
-  border: 1px solid rgba(196, 154, 69, 0.35);
-  color: #5c3e0e;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.statblock-meta-chip strong {
-  font-family: 'Cinzel', serif;
-  text-transform: uppercase;
-  font-size: 9.5px;
-  letter-spacing: 0.5px;
-  color: #8b6914;
-}
 
 /* Combat Resources Quick Grid (HP, Mana, AP, Speed, Armor, Resist) */
-.statblock-resources-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  gap: 6px;
-}
 
 .stat-res-card {
   display: flex;
@@ -2680,54 +2390,8 @@
 .stat-res-card.res-speed { border-color: rgba(46, 125, 50, 0.35); background: rgba(46, 125, 50, 0.04); }
 
 /* Defenses & Resistances Strip (Clean horizontal badges matching items/bestiary) */
-.statblock-defenses-strip {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 6px 10px;
-  background: rgba(196, 154, 69, 0.08);
-  border: 1px solid rgba(196, 154, 69, 0.25);
-  border-radius: 6px;
-}
-
-.statblock-defense-item {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  font-size: 11px;
-  line-height: 1.4;
-}
-
-.statblock-defense-label {
-  font-family: 'Cinzel', serif;
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #8b6914;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  min-width: 75px;
-  flex-shrink: 0;
-}
-
-.statblock-defense-val {
-  color: #2b1810;
-  font-weight: 600;
-  font-size: 11px;
-  flex: 1;
-}
 
 /* Mythrill 6-Attribute Medallion Grid (STR, AGI, CON, INT, SPI, CHA) */
-.statblock-abilities.mythrill-abilities {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
-  margin: 4px 0;
-  padding: 8px 4px;
-  background: rgba(196, 154, 69, 0.09);
-  border-top: 1.5px solid #c49a45;
-  border-bottom: 1.5px solid #c49a45;
-  border-radius: 4px;
-}
 
 .ability-cell {
   display: flex;
@@ -2779,114 +2443,8 @@
 }
 
 /* Secondary Stats (Skills, Senses, Languages, etc.) */
-.statblock-secondary-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(196, 154, 69, 0.2);
-}
-
-.statblock-sec-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  font-size: 11px;
-  line-height: 1.4;
-}
-
-.statblock-sec-key {
-  font-family: 'Cinzel', serif;
-  font-size: 9.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #8b6914;
-  min-width: 80px;
-  flex-shrink: 0;
-}
-
-.statblock-sec-val {
-  color: #2b1810;
-  font-family: system-ui, -apple-system, sans-serif;
-}
 
 /* Actions, Reactions & Traits Sub-cards */
-.statblock-actions-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 2px;
-}
-
-.statblock-action-card {
-  padding: 6px 10px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.7);
-  border-left: 3.5px solid #c49a45;
-  border-top: 1px solid rgba(196, 154, 69, 0.2);
-  border-right: 1px solid rgba(196, 154, 69, 0.2);
-  border-bottom: 1px solid rgba(196, 154, 69, 0.2);
-  font-size: 11.5px;
-  line-height: 1.45;
-}
-
-.statblock-action-card.action-action {
-  border-left-color: #b78103;
-  background: rgba(255, 248, 225, 0.6);
-}
-
-.statblock-action-card.action-reaction {
-  border-left-color: #1976d2;
-  background: rgba(235, 245, 255, 0.6);
-}
-
-.statblock-action-card.action-passive,
-.statblock-action-card.action-instinct {
-  border-left-color: #388e3c;
-  background: rgba(240, 248, 240, 0.6);
-}
-
-.statblock-action-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 3px;
-}
-
-.statblock-action-tag {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 1px 5px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.06);
-  color: #3d240d;
-}
-
-.statblock-action-cost {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  font-weight: 700;
-  color: #b78103;
-  background: rgba(255, 193, 7, 0.18);
-  padding: 1px 5px;
-  border-radius: 3px;
-  border: 1px solid rgba(255, 193, 7, 0.35);
-}
-
-.statblock-action-desc {
-  color: #2b1810;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.statblock-freetext {
-  margin-top: 4px;
-  font-size: 11px;
-  line-height: 1.5;
-  color: #4a382c;
-}
 
 /* ─────────────────────────────────────────────────────────────
    3. GM SECRET / LORE MASTER NOTE — Classified missive
@@ -3340,67 +2898,6 @@
   gap: 8px;
 }
 
-.scroll-parameters-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.scroll-param-badge {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: rgba(25, 118, 210, 0.1);
-  border: 1px solid rgba(25, 118, 210, 0.25);
-  font-size: 11px;
-}
-
-.scroll-param-key {
-  font-family: 'Cinzel', serif;
-  font-size: 8.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #0d47a1;
-}
-
-.scroll-param-val {
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  color: #08284d;
-}
-
-.scroll-effect-box {
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.7);
-  border-left: 2px solid #1976d2;
-  border-top: 1px solid rgba(25, 118, 210, 0.15);
-  border-right: 1px solid rgba(25, 118, 210, 0.15);
-  border-bottom: 1px solid rgba(25, 118, 210, 0.15);
-}
-
-.scroll-effect-lbl {
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #0d47a1;
-  display: block;
-  margin-bottom: 3px;
-}
-
-.scroll-effect-text {
-  margin: 0;
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 11.5px;
-  line-height: 1.6;
-  color: #0d2947;
-}
-
 /* ─────────────────────────────────────────────────────────────
    8. ENVIRONMENTAL HAZARD — Terrain danger warning
    Ashen amber warning border, severity card, hazard save DC
@@ -3423,44 +2920,6 @@
   padding: 12px 14px;
   border-left: 2px solid #e67e22;
   gap: 8px;
-}
-
-.hazard-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 6px;
-}
-
-.hazard-meta-card {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 7px;
-  border-radius: 4px;
-  background: rgba(211, 84, 0, 0.08);
-  border: 1px solid rgba(211, 84, 0, 0.25);
-}
-
-.hazard-meta-key {
-  font-family: 'Cinzel', serif;
-  font-size: 8.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #962d00;
-}
-
-.hazard-meta-val {
-  font-size: 11px;
-  font-weight: 600;
-  color: #4a1c06;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.hazard-desc-text {
-  margin: 0;
-  font-size: 11.5px;
-  line-height: 1.5;
-  color: #381504;
 }
 .color-section {
   margin-top: 14px;
@@ -3921,10 +3380,7 @@
 
 /* ── Pin selector in panel ── */
 .map-tools-panel .pin-selector-container {
-  border-left: none;
-  border-top: 1px solid rgba(160, 130, 45, 0.1);
   padding: 8px 4px 4px;
-  flex-wrap: wrap;
   justify-content: center;
 }
 
@@ -4410,7 +3866,7 @@
 
 .popup-btn.cancel-btn:hover {
   border-color: #8b2626;
-  background: #f0e6d2;
+  background: #f1ece1;
   color: #8b2626;
 }
 
@@ -4542,7 +3998,7 @@
   flex: 1;
   font-size: 12px;
   font-weight: 600;
-  color: #f0e6d2;
+  color: #f1ece1;
   letter-spacing: 0.8px;
   text-transform: uppercase;
 }
@@ -4961,7 +4417,7 @@
 .map-toast-message {
   flex: 1;
   font-size: 12.5px;
-  color: #f0e6d2;
+  color: #f1ece1;
   line-height: 1.4;
 }
 
@@ -5687,7 +5143,7 @@
 }
 
 .custom-readonly-btn.secondary:hover {
-  background: #f0e6d2;
+  background: #f1ece1;
   border-color: #8b2626;
   color: #8b2626;
 }

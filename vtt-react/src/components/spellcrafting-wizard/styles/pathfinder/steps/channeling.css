@@ -202,16 +202,6 @@
   padding: var(--my-space-3);
 }
 
-.channeling-effect-item {
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-2);
-  padding: var(--my-space-2);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width) solid var(--my-brown-light);
-}
-
 .channeling-effect-item.damage {
   border-color: var(--my-error-light);
   background: linear-gradient(135deg, var(--my-gradient-parchment), rgba(231, 76, 60, 0.05));
@@ -249,82 +239,6 @@
 }
 
 /* Channeling Type Selection */
-.channeling-types {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--my-space-4);
-  margin-bottom: var(--my-space-6);
-}
-
-.channeling-type-card {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  overflow: hidden;
-  transition: all var(--my-transition-normal);
-  cursor: pointer;
-  position: relative;
-  box-shadow: var(--my-shadow-sm);
-}
-
-.channeling-type-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--my-shadow-md);
-  border-color: var(--my-gold);
-}
-
-.channeling-type-card.selected {
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold), var(--my-shadow-md);
-}
-
-.channeling-type-card.selected::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at top right,
-    rgba(212, 175, 55, 0.1),
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.channeling-type-header {
-  background: var(--my-gradient-parchment-dark);
-  padding: var(--my-space-4);
-  border-bottom: var(--my-border-width) solid var(--my-brown-light);
-  display: flex;
-  align-items: center;
-  gap: var(--my-space-3);
-}
-
-.channeling-type-icon {
-  width: 32px;
-  height: 32px;
-  color: var(--my-gold);
-}
-
-.channeling-type-title {
-  font-size: var(--my-text-lg);
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin: 0;
-}
-
-.channeling-type-body {
-  padding: var(--my-space-4);
-}
-
-.channeling-type-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-  margin-bottom: var(--my-space-3);
-}
 
 /* Channeling Configuration */
 .channeling-config {
@@ -339,75 +253,9 @@
   margin-bottom: var(--my-space-4);
 }
 
-.channeling-config-title {
-  font-size: var(--my-text-xl);
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin: 0 0 var(--my-space-2) 0;
-}
-
-.channeling-config-description {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-}
-
 /* Channeling Duration Controls */
-.channeling-duration-controls {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--my-space-4);
-  margin-bottom: var(--my-space-4);
-}
-
-.channeling-duration-group {
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-}
-
-.channeling-duration-label {
-  display: block;
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-sm);
-}
-
-.channeling-duration-input {
-  width: 100%;
-  padding: var(--my-space-2);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  background: var(--my-gradient-parchment);
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  transition: all var(--my-transition-normal);
-}
-
-.channeling-duration-input:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 1px var(--my-gold);
-}
 
 /* Channeling Effects */
-.channeling-effects {
-  background: var(--my-gradient-parchment-dark);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-top: var(--my-space-4);
-}
-
-.channeling-effects-title {
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-3);
-  font-size: var(--my-text-base);
-}
 
 .channeling-effect-item {
   display: flex;
@@ -420,49 +268,10 @@
   border: var(--my-border-width) solid var(--my-brown-light);
 }
 
-.channeling-effect-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--my-gold);
-}
-
-.channeling-effect-text {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.4;
-}
-
 /* Channeling Preview */
-.channeling-preview {
-  background: var(--my-gradient-parchment-light);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  padding: var(--my-space-4);
-  margin-top: var(--my-space-4);
-}
-
-.channeling-preview-title {
-  font-weight: bold;
-  color: var(--my-text-primary);
-  margin-bottom: var(--my-space-2);
-  font-size: var(--my-text-base);
-}
-
-.channeling-preview-text {
-  color: var(--my-text-secondary);
-  font-size: var(--my-text-sm);
-  line-height: 1.5;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .channeling-types {
-    grid-template-columns: 1fr;
-  }
-  
-  .channeling-duration-controls {
-    grid-template-columns: 1fr;
-  }
   
   .channeling-container {
     padding: var(--my-space-4);

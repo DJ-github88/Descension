@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--my-gradient-parchment, radial-gradient(circle at 30% 30%, #fffbf2 0%, #ede4d3 70%, #d5cbb0 100%));
+  background: var(--my-gradient-parchment, radial-gradient(circle at 30% 30%, #fffbf2 0%, #f1ece1 70%, #c4baa6 100%));
   color: var(--my-text-primary, #2d1810);
   font-family: 'Cinzel', 'Times New Roman', serif;
   padding: 24px;
@@ -70,7 +70,7 @@
 
 .error-boundary-button {
   background: linear-gradient(135deg, var(--my-brown-lighter, #8f6f35) 0%, var(--my-brown-medium, #5d451a) 100%);
-  border: 1px solid var(--my-gold, #d4af37);
+  border: 1px solid var(--my-gold, #9a7b3c);
   border-radius: 4px;
   color: var(--my-parchment-text, #fffbf2);
   cursor: pointer;
@@ -95,7 +95,7 @@
 }
 
 .error-boundary-button:focus-visible {
-  outline: 2px solid var(--my-gold, #d4af37);
+  outline: 2px solid var(--my-gold, #9a7b3c);
   outline-offset: 3px;
 }
 
@@ -114,7 +114,7 @@
 
 .error-boundary-details pre {
   background-color: var(--my-brown-darkest, #2d1810);
-  color: var(--my-parchment, #ede4d3);
+  color: var(--my-parchment, #f1ece1);
   padding: 12px;
   border-radius: 4px;
   overflow: auto;

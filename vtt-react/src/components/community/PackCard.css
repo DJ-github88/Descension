@@ -21,8 +21,8 @@
 /* Pack Header */
 .pack-header {
   padding: 15px;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
-  border-bottom: 1px solid #d5cbb0;
+  background: #f8f5ee;
+  border-bottom: 1px solid #c4baa6;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -158,8 +158,8 @@
 .pack-stats {
   padding: 12px 15px;
   background: rgba(139, 69, 19, 0.05);
-  border-top: 1px solid #e8dcc6;
-  border-bottom: 1px solid #e8dcc6;
+  border-top: 1px solid #e8e2d4;
+  border-bottom: 1px solid #e8e2d4;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -246,7 +246,7 @@
 .pack-compatibility {
   padding: 8px 15px;
   background: rgba(45, 80, 22, 0.08);
-  border-top: 1px solid #e8dcc6;
+  border-top: 1px solid #e8e2d4;
   display: flex;
   align-items: center;
   gap: 6px;

@@ -5,34 +5,33 @@
 
 /* CRITICAL FIX: Scope variables to spellbook only, not global :root */
 .spellbook-layout,
-.spellbook-window,
 .wow-window .spellbook-layout {
   /* ===== PATHFINDER COLOR PALETTE ===== */
   
   /* Primary Parchment Colors */
-  --my-parchment-light: #f8f4e6;
-  --my-parchment: #ede4d3;
-  --my-parchment-dark: #e8dcc6;
-  --my-parchment-darker: #d5cbb0;
+  --my-parchment-light: #f8f5ee;
+  --my-parchment: #f1ece1;
+  --my-parchment-dark: #e8e2d4;
+  --my-parchment-darker: #c4baa6;
   
   /* Rich Brown/Leather Colors */
   --my-brown-darkest: #2d1810;
   --my-brown-dark: #5a1e12;
   --my-brown-medium: #8B4513;
   --my-brown-light: #a08c70;
-  --my-brown-lighter: #c4a373;
+  --my-brown-lighter: #c4baa6;
   
   /* Text Colors - SPELLBOOK SPECIFIC */
   --my-text-primary: #2d1810;
   --my-text-secondary: #5a1e12;
   --my-text-muted: #8B4513;
   --my-text-light: #6b5a42;
-  --my-text-on-dark: #f8f4e6;
+  --my-text-on-dark: #f8f5ee;
   
   /* Accent Colors */
-  --my-gold: #d4af37;
-  --my-gold-light: #f4d03f;
-  --my-gold-dark: #b8860b;
+  --my-gold: #9a7b3c;
+  --my-gold-light: #9a7b3c;
+  --my-gold-dark: #8a6c32;
   
   /* Status Colors */
   --my-success: #2d5016;
@@ -79,8 +78,8 @@
   --my-uncommon: #2d5016;
   --my-rare: #8b4513;
   --my-epic: #6a0dad;
-  --my-legendary: #b8860b;
-  --my-artifact: #d4af37;
+  --my-legendary: #8a6c32;
+  --my-artifact: #9a7b3c;
   
   /* ===== TYPOGRAPHY ===== */
   
@@ -149,7 +148,7 @@
     0 0 20px rgba(139, 69, 19, 0.15);
   
   --my-shadow-inset: inset 0 2px 4px rgba(45, 24, 16, 0.1);
-  --my-shadow-glow: 0 0 12px rgba(212, 175, 55, 0.3);
+  --my-shadow-glow: 0 0 12px rgba(154, 123, 60, 0.3);
   
   /* ===== TRANSITIONS ===== */
   
@@ -161,24 +160,23 @@
   
   /* Parchment Background Gradients */
   --my-gradient-parchment: 
-    linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),
-    radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
+    linear-gradient(#f1ece1, #f1ece1);
   
   --my-gradient-parchment-dark:
-    linear-gradient(145deg, #ede4d3 0%, #e8dcc6 30%, #d5cbb0 70%, #c4a373 100%);
+    linear-gradient(145deg, #f1ece1 0%, #e8e2d4 30%, #c4baa6 70%, #c4baa6 100%);
 
   --my-gradient-parchment-light:
-    linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%);
+    #f8f5ee;
   
   /* Button Gradients */
   --my-gradient-button: 
-    linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    #f8f5ee;
   
   --my-gradient-button-hover: 
-    linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
+    linear-gradient(145deg, #f1ece1 0%, #e8e2d4 50%, #c4baa6 100%);
   
   --my-gradient-button-active: 
-    linear-gradient(145deg, #d5cbb0 0%, #c4a373 50%, #a08c70 100%);
+    linear-gradient(145deg, #c4baa6 0%, #c4baa6 50%, #a08c70 100%);
   
   /* Header Gradients */
   --my-gradient-header:
@@ -186,12 +184,12 @@
 
   /* Gold Gradients */
   --my-gradient-gold:
-    linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
+    linear-gradient(145deg, #9a7b3c 0%, #9a7b3c 50%, #8a6c32 100%);
 
   --my-gradient-gold-subtle:
     linear-gradient(145deg,
-      rgba(244, 208, 63, 0.1) 0%,
-      rgba(212, 175, 55, 0.15) 50%,
+      rgba(154, 123, 60, 0.1) 0%,
+      rgba(154, 123, 60, 0.15) 50%,
       rgba(184, 134, 11, 0.1) 100%);
   
   /* ===== Z-INDEX LAYERS ===== */
@@ -237,53 +235,8 @@
 /* ===== PATHFINDER TEXTURE PATTERNS ===== */
 
 /* Subtle parchment texture */
-.pf-texture-parchment::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 4px,
-      rgba(139, 69, 19, 0.02) 4px,
-      rgba(139, 69, 19, 0.02) 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 6px,
-      rgba(139, 69, 19, 0.01) 6px,
-      rgba(139, 69, 19, 0.01) 12px
-    );
-  pointer-events: none;
-  border-radius: inherit;
-  z-index: 1;
-}
 
 /* Leather texture for darker elements */
-.pf-texture-leather::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      30deg,
-      transparent,
-      transparent 2px,
-      rgba(45, 24, 16, 0.05) 2px,
-      rgba(45, 24, 16, 0.05) 4px
-    );
-  pointer-events: none;
-  border-radius: inherit;
-  z-index: 1;
-}
 
 /* ===== BACKUP: Ensure character sheet has its own variables ===== */
 /* Define character sheet specific variables to prevent spellbook interference */

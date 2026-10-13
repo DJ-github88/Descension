@@ -247,18 +247,6 @@
 }
 
 /* Power Scale Label */
-.quick-item-wizard .power-scale-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.quick-item-wizard .power-scale-value {
-    color: #ffd100;
-    font-size: 14px;
-    font-weight: 500;
-}
 
 /* Container Options */
 .quick-item-wizard .container-options {

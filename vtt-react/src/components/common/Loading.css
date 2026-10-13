@@ -189,13 +189,13 @@
 
 /* Game-themed loading variants */
 .loading-game {
-  --primary-color: #d4af37;
+  --primary-color: #9a7b3c;
   --secondary-color: #8b4513;
 }
 
 .loading-game .loading-spinner {
-  border-color: rgba(212, 175, 55, 0.2);
-  border-left-color: #d4af37;
+  border-color: rgba(154, 123, 60, 0.2);
+  border-left-color: #9a7b3c;
 }
 
 .loading-game .loading-spinner-inner {
@@ -204,20 +204,20 @@
 }
 
 .loading-game .loading-dot {
-  background: #d4af37;
+  background: #9a7b3c;
 }
 
 .loading-game .loading-pulse-bar {
-  background: linear-gradient(90deg, #d4af37, #b8941f);
+  background: linear-gradient(90deg, #9a7b3c, #b8941f);
 }
 
 .loading-game .skeleton-line {
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 25%, rgba(212, 175, 55, 0.4) 50%, rgba(212, 175, 55, 0.2) 75%);
+  background: linear-gradient(90deg, rgba(154, 123, 60, 0.2) 25%, rgba(154, 123, 60, 0.4) 50%, rgba(154, 123, 60, 0.2) 75%);
   background-size: 200% 100%;
 }
 
 .loading-game .loading-message {
-  color: #f0e6d2;
+  color: #f1ece1;
   font-family: 'Cinzel', serif;
 }
 

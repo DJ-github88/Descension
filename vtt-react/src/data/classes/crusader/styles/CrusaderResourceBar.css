@@ -57,8 +57,7 @@
 }
 
 /* Force compact sizing in account context */
-.character-card .crusader-resource-bar,
-.character-card-compact .crusader-resource-bar {
+.character-card .crusader-resource-bar {
     height: 48px !important;
     min-height: 48px !important;
     max-width: 220px !important;

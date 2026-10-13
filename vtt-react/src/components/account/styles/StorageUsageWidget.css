@@ -1,7 +1,7 @@
 /* Storage Usage Widget Styles */
 
 .storage-usage-widget {
-  background: var(--workspace-page, #f5ecd9);
+  background: var(--workspace-page, #f1ece1);
   border: 1.5px solid var(--workspace-border, #b6a080);
   border-radius: 10px;
   padding: 16px;
@@ -91,7 +91,7 @@
 }
 
 .storage-usage-widget.good {
-  background: var(--workspace-page, #f5ecd9);
+  background: var(--workspace-page, #f1ece1);
   border-color: #b6a080;
 }
 
@@ -367,7 +367,7 @@
   right: 0;
   width: 320px;
   max-width: calc(100vw - 2rem);
-  background: linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #e8dcc0 100%);
+  background: #f8f5ee;
   border: 1px solid rgba(139, 69, 19, 0.2);
   border-radius: 16px;
   padding: 1.1rem;
@@ -386,7 +386,7 @@
   right: 34px;
   width: 16px;
   height: 16px;
-  background: #f8f4e6;
+  background: #f8f5ee;
   border-left: 1px solid rgba(139, 69, 19, 0.2);
   border-top: 1px solid rgba(139, 69, 19, 0.2);
   transform: rotate(45deg);

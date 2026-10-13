@@ -3,6 +3,7 @@ import characterPersistenceService from '../services/firebase/characterPersisten
 import { updateCharacterData } from '../services/offlineService';
 import { isDemoMode } from '../config/firebase';
 import { captureConsumerContext } from '../persistence/scopedConsumer';
+import { stageCharacterDraft } from '../persistence/characterSaveOutcome';
 
 export const getEncumbranceState = () => {
     try {
@@ -72,6 +73,7 @@ export const CHARACTER_AUTO_SAVE_DELAY = 2000;
 // the debounced save was scheduled. A pending save must never derive its owner
 // from a newer live authentication principal.
 let characterAutoSaveOriginContext = null;
+let characterAutoSaveEntry = null;
 
 export const setCharacterAutoSaveTimer = (timer) => {
     characterAutoSaveTimer = timer;
@@ -90,6 +92,19 @@ export const triggerCharacterAutoSave = (saveFn) => {
     try {
         const captured = captureConsumerContext();
         characterAutoSaveOriginContext = captured.ok ? captured.context : null;
+        const characterStore = getStore('characterStore') || require('./characterStore').default;
+        const state = characterStore.getState();
+        if (state?.currentCharacterId) {
+            const entry = stageCharacterDraft(state.currentCharacterId, 'canonical',
+                assembleCharacterWorkingData(state, readInventoryWorkingData()), characterAutoSaveOriginContext);
+            if (entry) {
+                characterAutoSaveEntry = entry;
+                characterAutoSavePending = () => {
+                    const latest = characterAutoSaveEntry;
+                    return characterStore.getState().updateCharacter(latest.id, latest.payload, { originContext: latest.context });
+                };
+            }
+        }
     } catch (_error) {
         characterAutoSaveOriginContext = null;
     }
@@ -97,7 +112,7 @@ export const triggerCharacterAutoSave = (saveFn) => {
         const pending = characterAutoSavePending;
         characterAutoSavePending = null;
         try {
-            if (pending) pending();
+            if (pending) Promise.resolve(pending()).catch(error => console.warn('Auto-save execution failed:', error));
         } catch (error) {
             console.warn('Auto-save execution failed:', error);
         } finally {
@@ -116,6 +131,15 @@ export const consumeCharacterAutoSaveOriginContext = () => {
 
 export const peekCharacterAutoSaveOriginContext = () => characterAutoSaveOriginContext;
 
+// Some resource slices schedule inside Zustand's updater, before its new state
+// is installed. The synchronous post-set subscription captures that successor.
+export const refreshCharacterAutoSaveSnapshot = (state) => {
+    if (!characterAutoSavePending || !characterAutoSaveEntry || state.currentCharacterId !== characterAutoSaveEntry.id) return;
+    const entry = stageCharacterDraft(state.currentCharacterId, 'canonical',
+        assembleCharacterWorkingData(state, readInventoryWorkingData()), characterAutoSaveEntry.context);
+    if (entry) characterAutoSaveEntry = entry;
+};
+
 /**
  * P5-01 handoff isolation: discard the pending debounced save. The caller has
  * already captured the authored working state (the pending save's payload) into
@@ -125,6 +149,7 @@ export const discardCharacterAutoSave = () => {
     clearCharacterAutoSaveTimer();
     characterAutoSavePending = null;
     characterAutoSaveOriginContext = null;
+    characterAutoSaveEntry = null;
 };
 
 /** Live inventory working data for a character save payload. */
@@ -134,6 +159,7 @@ export const readInventoryWorkingData = () => {
         const inventoryState = inventoryStore.getState();
         return {
             items: inventoryState.items || [],
+            containers: inventoryState.containers || [],
             currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
             encumbranceState: inventoryState.encumbranceState || 'normal'
         };
@@ -152,7 +178,10 @@ export const readInventoryWorkingData = () => {
  * live inventory data. Shared by the normal save path and the handoff
  * candidate capture so both preserve the exact same authored content.
  */
-export const assembleCharacterWorkingData = (state, inventoryData = null) => ({
+export const assembleCharacterWorkingData = (state, inventoryData = null) => {
+  const projection = require('../services/actorConsequenceService').roomResourceProjection();
+  return ({
+    ...state.characters?.find(character => character.id === state.currentCharacterId),
     name: state.name,
     baseName: state.baseName,
     race: state.race,
@@ -167,6 +196,7 @@ export const assembleCharacterWorkingData = (state, inventoryData = null) => ({
     health: state.health,
     mana: state.mana,
     actionPoints: state.actionPoints,
+    resources: { health: state.health, mana: state.mana, actionPoints: state.actionPoints, ...projection },
     equipment: state.equipment,
     resistances: state.resistances,
     spellPower: state.spellPower,
@@ -183,8 +213,10 @@ export const assembleCharacterWorkingData = (state, inventoryData = null) => ({
         encumbranceState: 'normal'
     },
     classResource: state.classResource,
-    updatedAt: new Date().toISOString()
+    updatedAt: new Date().toISOString(),
+    ...projection
 });
+};
 
 /**
  * P5-01 handoff isolation: run the pending debounced character save

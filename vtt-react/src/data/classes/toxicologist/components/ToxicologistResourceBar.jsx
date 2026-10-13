@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -8,6 +9,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
 
+import { INK, PAGE, PAPER, RULE, ETCH, inked, washed } from '../../../../components/hud/calmBarPalette';
 /**
  * Toxicologist Resource Bar: "The Canopy Syringe-Alembic & Needle-Clockwork Rig"
  *
@@ -224,82 +226,10 @@ const ToxicologistResourceBar = ({
                         preserveAspectRatio="xMidYMid meet"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-                        <defs>
-                            {/* Toxic Emerald Glow */}
-                            <filter id="toxiGreenGlow" x="-25%" y="-25%" width="150%" height="150%">
-                                <feGaussianBlur stdDeviation="2.2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            {/* Clockwork Brass Glow */}
-                            <filter id="toxiBrassGlow" x="-25%" y="-25%" width="150%" height="150%">
-                                <feGaussianBlur stdDeviation="2" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            <filter id="toxiDropShadow" x="-15%" y="-15%" width="130%" height="130%">
-                                <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.9" />
-                            </filter>
-
-                            {/* Heavy Ironwood & Gunmetal Chassis */}
-                            <linearGradient id="toxiChassisGrad" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#2c2825" />
-                                <stop offset="25%" stopColor="#1a1816" />
-                                <stop offset="60%" stopColor="#121110" />
-                                <stop offset="100%" stopColor="#080706" />
-                            </linearGradient>
-
-                            {/* Tarnished Brass Trim */}
-                            <linearGradient id="toxiBrassTrim" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stopColor="#fde047" />
-                                <stop offset="35%" stopColor="#d97706" />
-                                <stop offset="70%" stopColor="#92400e" />
-                                <stop offset="100%" stopColor="#451a03" />
-                            </linearGradient>
-
-                            {/* Copper Serpentine Condensation Coil */}
-                            <linearGradient id="toxiCopperCoil" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#fdba74" />
-                                <stop offset="40%" stopColor="#ea580c" />
-                                <stop offset="75%" stopColor="#9a3412" />
-                                <stop offset="100%" stopColor="#431407" />
-                            </linearGradient>
-
-                            {/* Alchemical Glass Phial Active Fluid */}
-                            <linearGradient id="toxiFluidGrad" x1="0" y1="1" x2="0" y2="0">
-                                <stop offset="0%" stopColor="#14532d" />
-                                <stop offset="35%" stopColor="#16a34a" />
-                                <stop offset="70%" stopColor="#84cc16" />
-                                <stop offset="92%" stopColor="#bef264" />
-                                <stop offset="100%" stopColor="#ecfccb" />
-                            </linearGradient>
-
-                            {/* Central Alembic Vapor Gradient */}
-                            <radialGradient id="toxiAlembicVapor" cx="50%" cy="45%" r="55%">
-                                <stop offset="0%" stopColor="#d9f99d" stopOpacity="0.9" />
-                                <stop offset="35%" stopColor="#65a30d" stopOpacity="0.8" />
-                                <stop offset="75%" stopColor="#166534" stopOpacity="0.85" />
-                                <stop offset="100%" stopColor="#052e16" stopOpacity="0.95" />
-                            </radialGradient>
-
-                            {/* Clockwork Brass Gear Active Gradient */}
-                            <radialGradient id="toxiGearActive" cx="45%" cy="45%" r="55%">
-                                <stop offset="0%" stopColor="#fffbeb" />
-                                <stop offset="25%" stopColor="#fde047" />
-                                <stop offset="60%" stopColor="#ca8a04" />
-                                <stop offset="88%" stopColor="#854d0e" />
-                                <stop offset="100%" stopColor="#451a03" />
-                            </radialGradient>
-                        </defs>
+                        <defs />
 
                         {/* 1. INDUSTRIAL APPARATUS CHASSIS */}
-                        <g filter="url(#toxiDropShadow)">
+                        <g>
                             {/* Outer Brass/Iron Frame */}
                             <rect
                                 x="4"
@@ -307,8 +237,8 @@ const ToxicologistResourceBar = ({
                                 width="352"
                                 height="46"
                                 rx="7"
-                                fill="url(#toxiChassisGrad)"
-                                stroke="#785a3c"
+                                fill={PAPER}
+                                stroke={inked('#785a3c', 0.6)}
                                 strokeWidth="1.6"
                             />
                             {/* Inner Recessed Backplate */}
@@ -318,8 +248,8 @@ const ToxicologistResourceBar = ({
                                 width="347"
                                 height="41"
                                 rx="5"
-                                fill="#0a0908"
-                                stroke="rgba(255, 255, 255, 0.08)"
+                                fill={PAPER}
+                                stroke={ETCH}
                                 strokeWidth="0.8"
                             />
                         </g>
@@ -331,8 +261,8 @@ const ToxicologistResourceBar = ({
                             width="128"
                             height="36"
                             rx="4"
-                            fill="#060c04"
-                            stroke="#1a2e12"
+                            fill={PAPER}
+                            stroke={RULE}
                             strokeWidth="1"
                         />
 
@@ -343,8 +273,8 @@ const ToxicologistResourceBar = ({
                             width="128"
                             height="36"
                             rx="4"
-                            fill="#0e0a07"
-                            stroke="#36220f"
+                            fill={PAPER}
+                            stroke={RULE}
                             strokeWidth="1"
                         />
 
@@ -353,7 +283,7 @@ const ToxicologistResourceBar = ({
                         <path
                             d="M 28 14 L 165 14"
                             fill="none"
-                            stroke="#ca8a04"
+                            stroke={inked('#ca8a04', 0.6)}
                             strokeWidth="1.5"
                             strokeLinecap="round"
                         />
@@ -361,7 +291,7 @@ const ToxicologistResourceBar = ({
                         <path
                             d="M 28 42 L 165 42"
                             fill="none"
-                            stroke="#92400e"
+                            stroke={inked('#92400e', 0.6)}
                             strokeWidth="1.2"
                             strokeLinecap="round"
                         />
@@ -369,21 +299,21 @@ const ToxicologistResourceBar = ({
                         <path
                             d="M 195 28 L 332 28"
                             fill="none"
-                            stroke="#78716c"
+                            stroke={RULE}
                             strokeWidth="1.5"
                             strokeLinecap="round"
                         />
                         <path
                             d="M 195 14 L 332 14"
                             fill="none"
-                            stroke="#44403c"
+                            stroke={RULE}
                             strokeWidth="1"
                             strokeDasharray="2 3"
                         />
                         <path
                             d="M 195 42 L 332 42"
                             fill="none"
-                            stroke="#44403c"
+                            stroke={RULE}
                             strokeWidth="1"
                             strokeDasharray="2 3"
                         />
@@ -398,9 +328,9 @@ const ToxicologistResourceBar = ({
                             [203, 48], [327, 48]
                         ].map(([cx, cy], i) => (
                             <g key={i}>
-                                <circle cx={cx} cy={cy} r="1.6" fill="#0c0b0a" />
-                                <circle cx={cx} cy={cy} r="1.1" fill="#ca8a04" />
-                                <circle cx={cx - 0.3} cy={cy - 0.3} r="0.4" fill="#fef08a" opacity="0.8" />
+                                <circle cx={cx} cy={cy} r="1.6" fill={PAPER} />
+                                <circle cx={cx} cy={cy} r="1.1" fill={washed('#ca8a04', 0.2)} />
+                                <circle cx={cx - 0.3} cy={cy - 0.3} r="0.4" fill={washed('#fef08a', 0.2)} opacity="0.8" />
                             </g>
                         ))}
 
@@ -413,32 +343,31 @@ const ToxicologistResourceBar = ({
                             {/* Dropper Squeeze Bulb */}
                             <path
                                 d="M 11 15 C 11 11, 23 11, 23 15 C 23 19, 19.5 22, 19.5 24 L 14.5 24 C 14.5 22, 11 19, 11 15 Z"
-                                fill="#262320"
-                                stroke="#ca8a04"
+                                fill={PAPER}
+                                stroke={inked('#ca8a04', 0.6)}
                                 strokeWidth="1"
                             />
                             {/* Bulb Ribbing */}
-                            <path d="M 13 14 Q 17 12 21 14" fill="none" stroke="#44403c" strokeWidth="0.8" />
-                            <path d="M 13 17 Q 17 15 21 17" fill="none" stroke="#44403c" strokeWidth="0.8" />
+                            <path d="M 13 14 Q 17 12 21 14" fill="none" stroke={RULE} strokeWidth="0.8" />
+                            <path d="M 13 17 Q 17 15 21 17" fill="none" stroke={RULE} strokeWidth="0.8" />
 
                             {/* Brass Collar */}
-                            <rect x="13.5" y="23.5" width="7" height="2.5" rx="0.5" fill="#ca8a04" stroke="#78350f" strokeWidth="0.5" />
+                            <rect x="13.5" y="23.5" width="7" height="2.5" rx="0.5" fill={washed('#ca8a04', 0.2)} stroke={RULE} strokeWidth="0.5" />
 
                             {/* Glass Pipette Stem */}
                             <path
                                 d="M 15 26 L 15 37 L 17 41 L 19 37 L 19 26 Z"
-                                fill="rgba(255, 255, 255, 0.25)"
-                                stroke="#4d7c0f"
+                                fill={PAGE}
+                                stroke={RULE}
                                 strokeWidth="0.8"
                             />
 
                             {/* Venom Droplet Teardrop */}
                             <path
                                 d="M 17 42 C 14.5 45, 14 47.5, 17 49.5 C 20 47.5, 19.5 45, 17 42 Z"
-                                fill={localToxinVials > 0 ? '#84cc16' : '#274116'}
-                                stroke={localToxinVials > 0 ? '#bef264' : '#14290a'}
+                                fill={localToxinVials > 0 ? washed('#84cc16', 0.2) : PAPER}
+                                stroke={localToxinVials > 0 ? inked('#bef264', 0.6) : RULE}
                                 strokeWidth="0.8"
-                                filter={localToxinVials > 0 ? 'url(#toxiGreenGlow)' : undefined}
                             />
 
                             {/* Dedicated Full-Height Transparent Click Area */}
@@ -465,10 +394,9 @@ const ToxicologistResourceBar = ({
                                         width="13"
                                         height="28"
                                         rx="4"
-                                        fill={isFilled ? 'url(#toxiFluidGrad)' : '#070f05'}
-                                        stroke={isFilled ? '#84cc16' : '#192b11'}
+                                        fill={isFilled ? washed('#84cc16', 0.2) : PAPER}
+                                        stroke={isFilled ? inked('#84cc16', 0.6) : RULE}
                                         strokeWidth={isFilled ? '1.2' : '0.8'}
-                                        filter={isFilled ? 'url(#toxiGreenGlow)' : undefined}
                                     />
 
                                     {/* Glass Phial Neck & Stopper */}
@@ -478,8 +406,8 @@ const ToxicologistResourceBar = ({
                                         width="7"
                                         height="3.5"
                                         rx="1"
-                                        fill={isFilled ? '#ca8a04' : '#573a1e'}
-                                        stroke="#291a0c"
+                                        fill={isFilled ? washed('#ca8a04', 0.2) : PAPER}
+                                        stroke={RULE}
                                         strokeWidth="0.6"
                                     />
 
@@ -489,7 +417,7 @@ const ToxicologistResourceBar = ({
                                         y1="22"
                                         x2={phial.cx + 6.5}
                                         y2="22"
-                                        stroke={isFilled ? '#ca8a04' : '#3f2d19'}
+                                        stroke={isFilled ? inked('#ca8a04', 0.6) : RULE}
                                         strokeWidth="0.8"
                                     />
                                     <line
@@ -497,7 +425,7 @@ const ToxicologistResourceBar = ({
                                         y1="34"
                                         x2={phial.cx + 6.5}
                                         y2="34"
-                                        stroke={isFilled ? '#ca8a04' : '#3f2d19'}
+                                        stroke={isFilled ? inked('#ca8a04', 0.6) : RULE}
                                         strokeWidth="0.8"
                                     />
 
@@ -509,12 +437,12 @@ const ToxicologistResourceBar = ({
                                                 y1="16"
                                                 x2={phial.cx - 3.5}
                                                 y2="38"
-                                                stroke="rgba(255, 255, 255, 0.7)"
+                                                stroke={INK}
                                                 strokeWidth="0.8"
                                                 strokeLinecap="round"
                                             />
-                                            <circle cx={phial.cx + 2.5} cy="35" r="1.1" fill="#ffffff" opacity="0.8" />
-                                            <circle cx={phial.cx + 1} cy="25" r="0.7" fill="#ffffff" opacity="0.6" />
+                                            <circle cx={phial.cx + 2.5} cy="35" r="1.1" fill={PAGE} opacity="0.8" />
+                                            <circle cx={phial.cx + 1} cy="25" r="0.7" fill={PAGE} opacity="0.6" />
                                         </>
                                     ) : (
                                         /* Empty: Murky stagnant residue at base */
@@ -524,7 +452,7 @@ const ToxicologistResourceBar = ({
                                             width="10"
                                             height="3.5"
                                             rx="1.5"
-                                            fill="#14260e"
+                                            fill={PAPER}
                                             opacity="0.4"
                                         />
                                     )}
@@ -545,12 +473,12 @@ const ToxicologistResourceBar = ({
                         })}
 
                         {/* 4. CENTERPIECE: THE CONDENSATION ALEMBIC & PRESSURE MANOMETER */}
-                        <g className="toxi-center-manifold" filter="url(#toxiDropShadow)">
+                        <g className="toxi-center-manifold">
                             {/* Coiled Condenser Coil Behind Alembic */}
                             <path
                                 d="M 170 17 Q 180 19 190 17 Q 170 27 190 27 Q 170 37 190 37"
                                 fill="none"
-                                stroke="url(#toxiCopperCoil)"
+                                stroke={inked('#ea580c', 0.6)}
                                 strokeWidth="2.2"
                                 strokeLinecap="round"
                             />
@@ -560,15 +488,14 @@ const ToxicologistResourceBar = ({
                                 cx="180"
                                 cy="28"
                                 r="15"
-                                fill={localToxinVials > 0 ? 'url(#toxiAlembicVapor)' : '#10170e'}
-                                stroke={localToxinVials > 0 ? '#a3e635' : '#2b3b24'}
+                                fill={localToxinVials > 0 ? washed('#65a30d', 0.2) : PAPER}
+                                stroke={localToxinVials > 0 ? inked('#a3e635', 0.6) : RULE}
                                 strokeWidth="1.6"
-                                filter={localToxinVials > 0 ? 'url(#toxiGreenGlow)' : undefined}
                             />
 
                             {/* Top Alembic Chimney & Vent Cap */}
-                            <rect x="177" y="7" width="6" height="7" fill="#78350f" stroke="#ca8a04" strokeWidth="0.8" />
-                            <circle cx="180" cy="7" r="2.5" fill="#fde047" />
+                            <rect x="177" y="7" width="6" height="7" fill={PAPER} stroke={inked('#ca8a04', 0.6)} strokeWidth="0.8" />
+                            <circle cx="180" cy="7" r="2.5" fill={washed('#fde047', 0.2)} />
 
                             {/* 4 Brass Claw Brackets clutching the sphere */}
                             {[0, 90, 180, 270].map((angle, i) => {
@@ -584,7 +511,7 @@ const ToxicologistResourceBar = ({
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke="#ca8a04"
+                                        stroke={inked('#ca8a04', 0.6)}
                                         strokeWidth="2"
                                         strokeLinecap="round"
                                     />
@@ -596,8 +523,8 @@ const ToxicologistResourceBar = ({
                                 cx="180"
                                 cy="28"
                                 r="8.5"
-                                fill="#191613"
-                                stroke="#ca8a04"
+                                fill={PAPER}
+                                stroke={inked('#ca8a04', 0.6)}
                                 strokeWidth="1.2"
                             />
 
@@ -615,7 +542,7 @@ const ToxicologistResourceBar = ({
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke="#fef08a"
+                                        stroke={inked('#fef08a', 0.6)}
                                         strokeWidth="0.6"
                                     />
                                 );
@@ -627,14 +554,14 @@ const ToxicologistResourceBar = ({
                                 y1="28"
                                 x2={needleX}
                                 y2={needleY}
-                                stroke="#fde047"
+                                stroke={inked('#fde047', 0.6)}
                                 strokeWidth="1.4"
                                 strokeLinecap="round"
                             />
 
                             {/* Center Pin Pivot Rivet */}
-                            <circle cx="180" cy="28" r="2.5" fill="#ca8a04" />
-                            <circle cx="180" cy="28" r="1.2" fill="#fef08a" />
+                            <circle cx="180" cy="28" r="2.5" fill={washed('#ca8a04', 0.2)} />
+                            <circle cx="180" cy="28" r="1.2" fill={washed('#fef08a', 0.2)} />
                         </g>
 
                         {/* 5. RIGHT WING: 5 SPRING-LOADED CONTRAPTION COGS */}
@@ -653,10 +580,9 @@ const ToxicologistResourceBar = ({
                                         cx={cog.cx}
                                         cy={cog.cy}
                                         r={cog.r}
-                                        fill={isStocked ? 'url(#toxiGearActive)' : '#191512'}
-                                        stroke={isStocked ? '#ca8a04' : '#382514'}
+                                        fill={isStocked ? washed('#ca8a04', 0.2) : PAPER}
+                                        stroke={isStocked ? inked('#ca8a04', 0.6) : RULE}
                                         strokeWidth={isStocked ? '1.2' : '0.8'}
-                                        filter={isStocked ? 'url(#toxiBrassGlow)' : undefined}
                                     />
 
                                     {/* Machined Gear Teeth */}
@@ -674,7 +600,7 @@ const ToxicologistResourceBar = ({
                                                 y1={y1}
                                                 x2={x2}
                                                 y2={y2}
-                                                stroke={isStocked ? '#fef08a' : '#2d1c0e'}
+                                                stroke={isStocked ? inked('#fef08a', 0.6) : RULE}
                                                 strokeWidth="1.3"
                                                 strokeLinecap="round"
                                             />
@@ -684,20 +610,20 @@ const ToxicologistResourceBar = ({
                                     {/* Inner Cutouts / Wheel Spokes */}
                                     {isStocked && (
                                         <>
-                                            <circle cx={cog.cx - 3.5} cy={cog.cy} r="1.2" fill="#713f12" />
-                                            <circle cx={cog.cx + 3.5} cy={cog.cy} r="1.2" fill="#713f12" />
-                                            <circle cx={cog.cx} cy={cog.cy - 3.5} r="1.2" fill="#713f12" />
-                                            <circle cx={cog.cx} cy={cog.cy + 3.5} r="1.2" fill="#713f12" />
+                                            <circle cx={cog.cx - 3.5} cy={cog.cy} r="1.2" fill={PAPER} />
+                                            <circle cx={cog.cx + 3.5} cy={cog.cy} r="1.2" fill={PAPER} />
+                                            <circle cx={cog.cx} cy={cog.cy - 3.5} r="1.2" fill={PAPER} />
+                                            <circle cx={cog.cx} cy={cog.cy + 3.5} r="1.2" fill={PAPER} />
                                         </>
                                     )}
 
                                     {/* Center Axle Pin & Rivet */}
-                                    <circle cx={cog.cx} cy={cog.cy} r="3.2" fill="#120e0b" />
+                                    <circle cx={cog.cx} cy={cog.cy} r="3.2" fill={PAPER} />
                                     <circle
                                         cx={cog.cx}
                                         cy={cog.cy}
                                         r="1.4"
-                                        fill={isStocked ? '#fde047' : '#452b14'}
+                                        fill={isStocked ? washed('#fde047', 0.2) : PAPER}
                                     />
 
                                     {/* Transparent Click Target */}
@@ -724,14 +650,14 @@ const ToxicologistResourceBar = ({
                             {/* Butterfly Thumb-Turn Wings */}
                             <path
                                 d="M 341 23 C 334 19, 334 13, 341 16 Z"
-                                fill="#ca8a04"
-                                stroke="#78350f"
+                                fill={washed('#ca8a04', 0.2)}
+                                stroke={RULE}
                                 strokeWidth="0.8"
                             />
                             <path
                                 d="M 345 23 C 352 19, 352 13, 345 16 Z"
-                                fill="#ca8a04"
-                                stroke="#78350f"
+                                fill={washed('#ca8a04', 0.2)}
+                                stroke={RULE}
                                 strokeWidth="0.8"
                             />
 
@@ -742,8 +668,8 @@ const ToxicologistResourceBar = ({
                                 width="3"
                                 height="14"
                                 rx="1"
-                                fill="#fde047"
-                                stroke="#b45309"
+                                fill={washed('#fde047', 0.2)}
+                                stroke={inked('#b45309', 0.6)}
                                 strokeWidth="0.8"
                             />
 
@@ -751,10 +677,9 @@ const ToxicologistResourceBar = ({
                             <path
                                 d="M 338 38 A 4.5 4.5 0 0 1 348 38 A 3.5 3.5 0 0 1 340 41"
                                 fill="none"
-                                stroke={localContraptionParts > 0 ? '#fde047' : '#573a1e'}
+                                stroke={localContraptionParts > 0 ? inked('#fde047', 0.6) : RULE}
                                 strokeWidth="1.3"
                                 strokeLinecap="round"
-                                filter={localContraptionParts > 0 ? 'url(#toxiBrassGlow)' : undefined}
                             />
 
                             {/* Dedicated Full-Height Transparent Click Area */}
@@ -776,7 +701,7 @@ const ToxicologistResourceBar = ({
                         subtitle="Toxicologist Field Apothecary"
                         state={`${localToxinVials}/${maxToxinVials} Vials · ${localContraptionParts}/${maxContraptionParts} Parts`}
                         stateTone={localToxinVials > 0 ? 'good' : 'warn'}
-                        mechanic="Vials (INT mod +3, min 4) distill 1d4 per short rest and all on long rest; spend them on poisons and concoctions. Contraption Parts (max 5) are reclaimed after combat, or 1 per short rest / all on long rest if destroyed; deploy them as traps."
+                        mechanic="Vials (INT mod +3, min 4) refill 1d4 per short rest, all on a long rest; spend them on poisons. Contraption Parts (max 5) return after combat (or 1 per short rest if destroyed); deploy as traps."
                         status={[
                             localToxinVials > 0
                                 ? `${localToxinVials} Vials and ${localContraptionParts} Parts ready for field synthesis.`
@@ -823,87 +748,75 @@ const ToxicologistResourceBar = ({
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-section">
-                            <div className="context-menu-section-header">
-                                <i className="fas fa-flask" style={{ marginRight: '6px', color: '#bef264' }}></i>
-                                Alchemical Bench
+                    <div className="cm" style={{ '--cm-accent': '#5e7a2e', '--cm-accent-deep': '#2f4214', '--cm-wash': '#e6ebd2' }}>
+                        <header className="cm-head">
+                            <span className="cm-seal"><i className="fas fa-flask" aria-hidden="true"></i></span>
+                            <div className="cm-titles">
+                                <div className="cm-eyebrow">The workshop</div>
+                                <div className="cm-title">Alchemical Bench</div>
+                                <div className="cm-sub">{localToxinVials === 0 && localContraptionParts === 0 ? 'The shelves are bare.' : 'Brewed, bottled and ready to throw.'}</div>
                             </div>
-
-                            {/* Toxin Vials Controls */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
-                                Toxin Vials ({localToxinVials}/{maxToxinVials})
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button spend" onClick={() => handleToxinsChange(-1)}>
-                                    <i className="fas fa-minus"></i> -1
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleToxinsChange(1)}>
-                                    <i className="fas fa-plus"></i> +1
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handleToxinsChange(maxToxinVials)}>
-                                    Max
-                                </button>
-                            </div>
-
-                            {/* Contraption Parts Controls */}
-                            <div className="context-menu-section-header" style={{ fontSize: '12px', marginTop: '6px', marginBottom: '6px' }}>
-                                Contraption Parts ({localContraptionParts}/{maxContraptionParts})
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button spend" onClick={() => handlePartsChange(-1)}>
-                                    <i className="fas fa-minus"></i> -1
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handlePartsChange(1)}>
-                                    <i className="fas fa-plus"></i> +1
-                                </button>
-                                <button className="context-menu-button gain" onClick={() => handlePartsChange(maxContraptionParts)}>
-                                    Max
-                                </button>
-                            </div>
-
-                            <div className="context-menu-main-separator" style={{ margin: '10px 0' }}></div>
-
-                            {/* Quick Actions */}
-                            <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        setLocalToxinVials(0);
-                                        setLocalContraptionParts(0);
-                                        if (onClassResourceUpdate) {
-                                            onClassResourceUpdate('toxinVials', 0);
-                                            onClassResourceUpdate('contraptionParts', 0);
-                                        }
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-undo"></i> Reset
-                                </button>
-                                <button
-                                    className="context-menu-button"
-                                    onClick={() => {
-                                        setLocalToxinVials(maxToxinVials);
-                                        setLocalContraptionParts(maxContraptionParts);
-                                        if (onClassResourceUpdate) {
-                                            onClassResourceUpdate('toxinVials', maxToxinVials);
-                                            onClassResourceUpdate('contraptionParts', maxContraptionParts);
-                                        }
-                                        setShowControls(false);
-                                    }}
-                                    style={{ flex: 1 }}
-                                >
-                                    <i className="fas fa-arrow-up"></i> Full Stock
-                                </button>
-                            </div>
-
+                            <button type="button" className="cm-x" aria-label="Close menu" onClick={() => setShowControls(false)}>
+                                <i className="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </header>
+                        <div className="cm-duo">
+                            <section className="cm-pane" style={{ '--pane-accent': '#5e7a2e', '--pane-wash': '#e6ebd2' }}>
+                                <div className="cm-pane-title">Toxin Vials ({localToxinVials}/{maxToxinVials})</div>
+                                <p className="cm-pane-text">Coat blades, brew poisons.</p>
+                                <div className="cm-track cm-track-static" style={{ '--cm-cols': Math.max(1, maxToxinVials) }} aria-hidden="true">
+                                    {Array.from({ length: maxToxinVials }).map((_, i) => <span key={i} className={`cm-pip ${i < localToxinVials ? 'active' : ''}`}></span>)}
+                                </div>
+                                <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                                    <button type="button" className="context-menu-button spend" onClick={() => handleToxinsChange(-1)}>-1</button>
+                                    <button type="button" className="context-menu-button gain" onClick={() => handleToxinsChange(1)}>+1</button>
+                                    <button type="button" className="context-menu-button" onClick={() => handleToxinsChange(maxToxinVials)}>Max</button>
+                                </div>
+                            </section>
+                            <section className="cm-pane" style={{ '--pane-accent': '#8a6a3a', '--pane-wash': '#efe3cc' }}>
+                                <div className="cm-pane-title">Contraption Parts ({localContraptionParts}/{maxContraptionParts})</div>
+                                <p className="cm-pane-text">Springs, gears, traps.</p>
+                                <div className="cm-track cm-track-static" style={{ '--cm-cols': Math.max(1, maxContraptionParts) }} aria-hidden="true">
+                                    {Array.from({ length: maxContraptionParts }).map((_, i) => <span key={i} className={`cm-pip ${i < localContraptionParts ? 'active' : ''}`}></span>)}
+                                </div>
+                                <div className="cm-row" style={{ '--cm-cols': 3 }}>
+                                    <button type="button" className="context-menu-button spend" onClick={() => handlePartsChange(-1)}>-1</button>
+                                    <button type="button" className="context-menu-button gain" onClick={() => handlePartsChange(1)}>+1</button>
+                                    <button type="button" className="context-menu-button" onClick={() => handlePartsChange(maxContraptionParts)}>Max</button>
+                                </div>
+                            </section>
+                        </div>
+                        <ClassMenuSpells className="Toxicologist" resourceTypes={['vials', 'contraption_parts']} resourceLabel="vials and parts" currentByType={{ vials: localToxinVials, contraption_parts: localContraptionParts }} />
+                        <div className="cm-foot">
                             <button
-                                className="context-menu-button danger"
-                                onClick={() => setShowControls(false)}
-                                style={{ width: '100%' }}
+                                type="button"
+                                className="context-menu-button quiet"
+                                onClick={() => {
+                                    setLocalToxinVials(0);
+                                    setLocalContraptionParts(0);
+                                    if (onClassResourceUpdate) {
+                                        onClassResourceUpdate('toxinVials', 0);
+                                        onClassResourceUpdate('contraptionParts', 0);
+                                    }
+                                    setShowControls(false);
+                                }}
                             >
-                                <i className="fas fa-times"></i> Close
+                                <i className="fas fa-undo" aria-hidden="true"></i> Reset
+                            </button>
+                            <button
+                                type="button"
+                                className="context-menu-button"
+                                onClick={() => {
+                                    setLocalToxinVials(maxToxinVials);
+                                    setLocalContraptionParts(maxContraptionParts);
+                                    if (onClassResourceUpdate) {
+                                        onClassResourceUpdate('toxinVials', maxToxinVials);
+                                        onClassResourceUpdate('contraptionParts', maxContraptionParts);
+                                    }
+                                    setShowControls(false);
+                                }}
+                            >
+                                <i className="fas fa-arrow-up" aria-hidden="true"></i> Full Stock
                             </button>
                         </div>
                     </div>

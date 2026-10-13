@@ -136,65 +136,6 @@
     cursor: pointer;
 }
 
-.lock-settings-modal .security-settings {
-    background: #232323;
-    border-radius: 4px;
-    padding: 16px;
-    margin-top: 8px;
-}
-
-.lock-settings-modal .max-attempts {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.lock-settings-modal .max-attempts input {
-    width: 80px;
-}
-
-.lock-settings-modal .failure-action {
-    margin-bottom: 16px;
-}
-
-.lock-settings-modal .failure-action select {
-    width: 100%;
-    margin-top: 8px;
-}
-
-.lock-settings-modal .failure-details {
-    background: #2b2b2b;
-    border-radius: 4px;
-    padding: 12px;
-    margin-top: 12px;
-}
-
-.lock-settings-modal .failure-details label {
-    font-size: 0.9em;
-    color: #888;
-    margin-bottom: 4px;
-}
-
-.lock-settings-modal .failure-details input,
-.lock-settings-modal .failure-details textarea {
-    margin-top: 4px;
-}
-
-.lock-settings-modal .failure-details .remove-percentage {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.lock-settings-modal .failure-details .remove-percentage input {
-    width: 80px;
-}
-
-.lock-settings-modal .failure-details .remove-percentage span {
-    color: #888;
-}
-
 .lock-settings-modal .modal-footer {
     display: flex;
     justify-content: flex-end;

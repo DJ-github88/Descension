@@ -44,7 +44,7 @@
     var(--my-gold) 85%,
     transparent
   );
-  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 1px 3px rgba(154, 123, 60, 0.4);
 }
 
 .library-title {
@@ -55,7 +55,7 @@
   margin: 0;
   text-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.7),
-    0 0 8px rgba(212, 175, 55, 0.3);
+    0 0 8px rgba(154, 123, 60, 0.3);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -88,14 +88,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 8px,
-      rgba(139, 69, 19, 0.02) 8px,
-      rgba(139, 69, 19, 0.02) 16px
-    );
   pointer-events: none;
 }
 
@@ -126,50 +118,6 @@
   z-index: 2;
 }
 
-.filter-search-input {
-  width: 100%;
-  padding: var(--my-space-4) var(--my-space-5) var(--my-space-4) var(--my-space-12);
-  background: var(--my-gradient-parchment);
-  border: var(--my-border-width-thick) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius-lg);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-lg);
-  color: var(--my-text-primary);
-  transition: all var(--my-transition-normal);
-  box-shadow:
-    inset 0 2px 4px rgba(45, 24, 16, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.filter-search-input:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow:
-    inset 0 2px 4px rgba(45, 24, 16, 0.1),
-    0 0 0 3px rgba(212, 175, 55, 0.2),
-    0 2px 8px rgba(212, 175, 55, 0.1);
-  background: var(--my-gradient-parchment-light);
-}
-
-.filter-search-input::placeholder {
-  color: var(--my-text-muted);
-  font-style: italic;
-}
-
-.filter-search-icon {
-  position: absolute;
-  left: var(--my-space-4);
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--my-brown-medium);
-  font-size: var(--my-text-xl);
-  transition: color var(--my-transition-normal);
-}
-
-.filter-search:focus-within .filter-search-icon {
-  color: var(--my-gold);
-}
-
 /* ===== ENHANCED LIBRARY CONTENT ===== */
 
 .library-content {
@@ -188,21 +136,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 16px,
-      rgba(139, 69, 19, 0.015) 16px,
-      rgba(139, 69, 19, 0.015) 32px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 20px,
-      rgba(139, 69, 19, 0.01) 20px,
-      rgba(139, 69, 19, 0.01) 40px
-    );
   pointer-events: none;
   z-index: 1;
 }
@@ -234,7 +167,7 @@
   text-shadow:
     2px 2px 4px rgba(0, 0, 0, 0.9),
     1px 1px 2px rgba(0, 0, 0, 0.8),
-    0 0 8px rgba(212, 175, 55, 0.4);
+    0 0 8px rgba(154, 123, 60, 0.4);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   -webkit-font-smoothing: antialiased;
@@ -246,32 +179,8 @@
   gap: var(--my-space-3);
 }
 
-.view-mode-controls {
-  display: flex;
-  gap: var(--my-space-2);
-}
-
 .view-mode-button {
-  padding: var(--my-space-2);
-  background: var(--my-gradient-button);
-  border: var(--my-border-width) solid var(--my-brown-medium);
-  border-radius: var(--my-border-radius);
-  color: var(--my-text-primary);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
   width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--my-text-base);
-}
-
-.view-mode-button:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-sm);
 }
 
 .view-mode-button.active {
@@ -318,8 +227,6 @@
 }
 
 .spell-library-content {
-  display: flex;
-  height: 100%;
   background: var(--my-gradient-parchment);
 }
 
@@ -358,21 +265,10 @@
   gap: var(--my-space-5);
 }
 
-.spell-library-spells.list-view .spell-cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--my-space-4);
-}
-
 .spell-library-spells.compact-view .spell-cards-container {
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: var(--my-space-3);
   justify-items: center;
-}
-
-.spell-library-spells.large-view .spell-cards-container {
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: var(--my-space-8);
 }
 
 /* ===== SPELL COUNT INFO ===== */
@@ -438,7 +334,7 @@
   transition: all var(--my-transition-normal);
   box-shadow:
     var(--my-shadow-md),
-    0 0 8px rgba(212, 175, 55, 0.3);
+    0 0 8px rgba(154, 123, 60, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: flex;
@@ -451,7 +347,7 @@
   transform: translateY(-1px);
   box-shadow:
     var(--my-shadow-lg),
-    0 0 12px rgba(212, 175, 55, 0.5);
+    0 0 12px rgba(154, 123, 60, 0.5);
 }
 
 .edit-button-container button:active {
@@ -459,9 +355,6 @@
 }
 
 /* Hide the center edit button overlay - we only want the corner button */
-.spell-card-wrapper .center-edit-button {
-  display: none !important;
-}
 
 /* ===== NO RESULTS STATE ===== */
 
@@ -575,14 +468,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 4px,
-      rgba(139, 69, 19, 0.02) 4px,
-      rgba(139, 69, 19, 0.02) 8px
-    );
   pointer-events: none;
   border-radius: var(--my-border-radius);
   z-index: 1;
@@ -662,27 +547,6 @@
   color: var(--my-text-muted);
 }
 
-.library-empty-icon {
-  font-size: 64px;
-  margin-bottom: var(--my-space-4);
-  opacity: 0.5;
-}
-
-.library-empty-title {
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-2xl);
-  font-weight: var(--my-font-bold);
-  margin: 0 0 var(--my-space-2) 0;
-}
-
-.library-empty-description {
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-base);
-  line-height: var(--my-leading-normal);
-  margin: 0 0 var(--my-space-6) 0;
-  max-width: 400px;
-}
-
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
@@ -745,14 +609,6 @@
   .library-empty {
     padding: var(--my-space-8);
   }
-  
-  .library-empty-icon {
-    font-size: 48px;
-  }
-  
-  .library-empty-title {
-    font-size: var(--my-text-xl);
-  }
 }
 
 /* ===== SPELLBOOK FILTERS SIDEBAR ===== */
@@ -761,94 +617,6 @@
   display: flex;
   height: 100%;
   gap: 15px;
-}
-
-.spellbook-filters-sidebar {
-  width: 250px;
-  background: var(--my-gradient-parchment-dark);
-  border: 2px solid var(--my-brown-medium);
-  border-radius: 8px;
-  padding: 15px;
-  margin-right: 15px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow:
-    var(--my-shadow-md),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.spellbook-filters-sidebar h3 {
-  color: #D4AF37;
-  font-family: var(--my-font-display);
-  font-size: var(--my-text-lg);
-  font-weight: var(--my-font-bold);
-  margin: 0 0 10px 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.spellbook-filters-sidebar input[type="text"] {
-  width: 100%;
-  padding: 8px 12px;
-  background: var(--my-gradient-parchment);
-  border: 2px solid var(--my-brown-medium);
-  border-radius: 6px;
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.spellbook-filters-sidebar input[type="text"]:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-}
-
-.spellbook-filters-sidebar select {
-  width: 100%;
-  padding: 8px 12px;
-  background: var(--my-gradient-parchment);
-  border: 2px solid var(--my-brown-medium);
-  border-radius: 6px;
-  color: var(--my-text-primary);
-  font-family: var(--my-font-body);
-  font-size: var(--my-text-sm);
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.spellbook-filters-sidebar select:focus {
-  outline: none;
-  border-color: var(--my-gold);
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-}
-
-.spellbook-filters-sidebar button {
-  width: 100%;
-  padding: 10px;
-  background: var(--my-gradient-button);
-  border: 2px solid var(--my-brown-medium);
-  border-radius: 6px;
-  color: var(--my-text-primary);
-  font-family: var(--my-font-ui);
-  font-size: var(--my-text-sm);
-  font-weight: var(--my-font-semibold);
-  cursor: pointer;
-  transition: all var(--my-transition-normal);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.spellbook-filters-sidebar button:hover {
-  background: var(--my-gradient-button-hover);
-  border-color: var(--my-gold);
-  transform: translateY(-1px);
-  box-shadow: var(--my-shadow-sm);
 }
 
 /* Spellbook tab styling removed - now handled by wow-window.css */

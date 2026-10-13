@@ -26,7 +26,7 @@
 }
 
 .level-up-modal {
-    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
+    background: #f8f5ee;
     border: 3px solid #8b7355;
     border-radius: 12px;
     padding: 20px;
@@ -96,70 +96,8 @@
     margin-bottom: 30px;
 }
 
-.choice-card {
-    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(101, 67, 33, 0.1) 100%);
-    border: 2px solid #8b7355;
-    border-radius: 8px;
-    padding: 20px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-}
-
-.choice-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    border-color: #d4af37;
-}
-
-.choice-card.selected {
-    border-color: #2d7a2d;
-    background: linear-gradient(135deg, rgba(45, 122, 45, 0.2) 0%, rgba(34, 92, 34, 0.15) 100%);
-    box-shadow: 0 0 16px rgba(45, 122, 45, 0.4);
-}
-
-.choice-icon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 15px;
-    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.choice-icon.health {
-    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-}
-
-.choice-icon.mana {
-    background: linear-gradient(135deg, #4488ff 0%, #0044cc 100%);
-}
-
-.choice-icon.attribute {
-    background: linear-gradient(135deg, #9966ff 0%, #6633cc 100%);
-}
-
-.choice-card h3 {
-    font-size: 18px;
-    color: #3a3a3a;
-    margin-bottom: 8px;
-}
-
-.choice-card p {
-    font-size: 14px;
-    color: #5a4a3a;
-    margin: 0;
-}
-
 /* Section Titles */
-.spell-selection-section h3,
-.resource-choice-section h3,
-.attribute-selection-panel h3 {
+.spell-selection-section h3 {
     font-size: 18px;
     color: #3a3a3a;
     margin-bottom: 10px;
@@ -172,14 +110,6 @@
 }
 
 /* Resource Choice Section */
-.resource-choice-section {
-    margin-bottom: 15px;
-}
-
-.resource-choice-section .level-up-choices {
-    grid-template-columns: repeat(2, 1fr);
-    margin-bottom: 0;
-}
 
 /* Spell Selection Panel */
 .spell-selection-panel {
@@ -276,69 +206,6 @@
 }
 
 /* Attribute Selection Panel */
-.attribute-selection-panel {
-    background: rgba(255, 255, 255, 0.5);
-    border: 2px solid #8b7355;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
-.attribute-selection-panel h4 {
-    font-size: 16px;
-    color: #3a3a3a;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.attribute-options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    max-width: 100%;
-}
-
-.attribute-option {
-    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(101, 67, 33, 0.1) 100%);
-    border: 2px solid #8b7355;
-    border-radius: 8px;
-    padding: 15px 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-}
-
-.attribute-option:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border-color: #d4af37;
-}
-
-.attribute-option.selected {
-    border-color: #2d7a2d;
-    background: linear-gradient(135deg, rgba(45, 122, 45, 0.2) 0%, rgba(34, 92, 34, 0.15) 100%);
-    box-shadow: 0 0 16px rgba(45, 122, 45, 0.4);
-}
-
-.attribute-option i {
-    font-size: 28px;
-    color: #8b7355;
-}
-
-.attribute-option.selected i {
-    color: #2d7a2d;
-}
-
-.attribute-option span {
-    font-size: 14px;
-    font-weight: bold;
-    color: #3a3a3a;
-    text-align: center;
-}
 
 /* Action Buttons */
 .level-up-actions {
@@ -405,28 +272,6 @@
     font-size: 14px;
     color: #3a3a3a;
     margin-bottom: 10px;
-}
-
-.choices-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.choice-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 4px;
-    border: 1px solid rgba(139, 115, 85, 0.3);
-}
-
-.choice-item span {
-    font-size: 14px;
-    color: #3a3a3a;
-    font-weight: 500;
 }
 
 .remove-choice-btn {
@@ -710,23 +555,15 @@
 }
 
 .level-up-spell-popup-content .pf-spell-card-header,
-.level-up-spell-popup-content .wow-spell-card-header,
-.level-up-spell-popup-content .unified-spell-card-header {
+.level-up-spell-popup-content .wow-spell-card-header {
     background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
-    color: #f0e6d2 !important;
+    color: #f1ece1 !important;
     border-bottom-color: #8B4513 !important;
 }
 
-.level-up-spell-popup-content .pf-spell-name,
-.level-up-spell-popup-content .unified-spell-name,
-.level-up-spell-popup-content .wow-spell-card-title h3 {
-    color: #f0e6d2 !important;
+.level-up-spell-popup-content .pf-spell-name {
+    color: #f1ece1 !important;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.4) !important;
-}
-
-.level-up-spell-popup-content .pf-spell-school,
-.level-up-spell-popup-content .unified-spell-school {
-    color: rgba(240, 230, 210, 0.85) !important;
 }
 
 .level-up-spell-popup-content .pf-action-type-badge,
@@ -749,7 +586,7 @@
     font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: 0.3px;
-    color: #f0e6d2;
+    color: #f1ece1;
     background: linear-gradient(135deg, #2d7a2d 0%, #1e5a1e 100%);
     border: 2px solid rgba(74, 147, 74, 0.6);
     border-radius: 8px;

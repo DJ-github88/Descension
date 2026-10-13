@@ -1,3 +1,4 @@
+import ClassMenuSpells from '../../../../components/hud/ClassMenuSpells';
 import React, { useState, useRef, useEffect, useId } from 'react';
 import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
@@ -8,6 +9,7 @@ import { useResourceBarTooltip } from '../../../../components/hud/useResourceBar
 import '../../../../styles/unified-context-menu.css';
 import ClassTip from '../../../../components/hud/ClassTip';
 
+import { INK, MUTED, PAGE, PAPER, PANEL, RULE, inked, washed } from '../../../../components/hud/calmBarPalette';
 // ===== TENSION GAUGE =====
 // Ten iron links weave along a machined rail — odd links stand vertical, even
 // links lie flat, with the verticals' lower arcs repainted so the rings truly
@@ -77,7 +79,13 @@ const GaolerResourceBar = ({
 }) => {
     const vpFromProps = classResource?.current ?? 0;
     const [localVP, setLocalVP] = useState(vpFromProps);
-    const [selectedSpec, setSelectedSpec] = useState('shadowblade');
+    const characterClassName = useCharacterStore(state => state.class);
+    const characterSpec = useCharacterStore(state => state.primarySpecialization);
+    const lockedSpec = characterClassName === 'Warden' && characterSpec
+        ? ({ 'vengeance-seeker': 'vengeanceSeeker', vengeance_seeker: 'vengeanceSeeker' }[characterSpec] || characterSpec)
+        : null;
+    const [selectedSpec, setSelectedSpec] = useState(lockedSpec || 'shadowblade');
+    useEffect(() => { if (lockedSpec) setSelectedSpec(lockedSpec); }, [lockedSpec]);
     const [isInStealth, setIsInStealth] = useState(false);
     const [activeCages, setActiveCages] = useState(0);
     const [isInAvatar, setIsInAvatar] = useState(false);
@@ -274,7 +282,7 @@ const GaolerResourceBar = ({
                 cx={cx} cy={CHAIN_CY}
                 rx={vertical ? 3.2 : 8.2}
                 ry={vertical ? 8.2 : 3.2}
-                fill={`url(#${ids.hole})`}
+                fill={PAGE}
                 opacity={isCurrent ? 1 : 0.5}
             />
         );
@@ -290,7 +298,7 @@ const GaolerResourceBar = ({
                 {isCurrent && (
                     <ellipse
                         cx={cx} cy={CHAIN_CY} rx="28" ry="24"
-                        fill={`url(#${ids.halo})`}
+                        fill={PAPER}
                         className="warden-halo"
                     />
                 )}
@@ -298,14 +306,14 @@ const GaolerResourceBar = ({
                 <path
                     d={d}
                     fillRule="evenodd"
-                    fill={isFilled ? `url(#${ids.linkLit})` : `url(#${ids.linkEmpty})`}
-                    stroke={isFilled ? '#0b0e13' : '#5f6b7d'}
+                    fill={isFilled ? washed('#dde5f0', 0.2) : PAPER}
+                    stroke={isFilled ? RULE : RULE}
                     strokeWidth={isFilled ? 1.3 : 1.2}
                 />
                 {isFilled && (
-                    <path d={d} fill="none" stroke={currentSpec.glowColor} strokeWidth="1" opacity="0.9" />
+                    <path d={d} fill="none" stroke={inked(currentSpec.glowColor, 0.55)} strokeWidth="1" opacity="0.9" />
                 )}
-                <path d={d} fill="none" stroke="#ffffff" strokeWidth="0.5" opacity={isFilled ? 0.35 : 0.16} />
+                <path d={d} fill="none" stroke={INK} strokeWidth="0.5" opacity={isFilled ? 0.35 : 0.16} />
             </React.Fragment>
         );
     };
@@ -347,12 +355,12 @@ const GaolerResourceBar = ({
                 <path
                     d={d}
                     fillRule="evenodd"
-                    fill={isFilled ? `url(#${ids.linkLit})` : `url(#${ids.linkEmpty})`}
-                    stroke={isFilled ? '#0b0e13' : '#5f6b7d'}
+                    fill={isFilled ? washed('#dde5f0', 0.2) : PAPER}
+                    stroke={isFilled ? RULE : RULE}
                     strokeWidth={isFilled ? 1.3 : 1.2}
                 />
                 {isFilled && (
-                    <path d={d} fill="none" stroke={currentSpec.glowColor} strokeWidth="1" opacity="0.9" />
+                    <path d={d} fill="none" stroke={inked(currentSpec.glowColor, 0.55)} strokeWidth="1" opacity="0.9" />
                 )}
             </g>
         );
@@ -383,17 +391,6 @@ const GaolerResourceBar = ({
         );
     };
 
-    const readyLabel = localVP >= maxVP
-        ? 'Avatar (10) ready'
-        : localVP >= 6
-            ? 'Cage (6) ready'
-            : localVP >= 4
-                ? 'Resolve (4) ready'
-                : localVP >= 3
-                    ? 'Glaive (3) ready'
-                    : localVP >= 2
-                        ? 'Strike (2) ready'
-                        : 'Empty — press the attack';
 
     return (
         <div className={`warden-resource-container ${size} context-${context}`}>
@@ -429,130 +426,40 @@ const GaolerResourceBar = ({
                         preserveAspectRatio="xMidYMid meet"
                         xmlns="http://www.w3.org/2000/svg"
                     >
-                        <defs>
-                            <filter id={ids.glow} x="-40%" y="-40%" width="180%" height="180%">
-                                <feGaussianBlur stdDeviation="1.5" result="blur" />
-                                <feMerge>
-                                    <feMergeNode in="blur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-
-                            <filter id={ids.shadow} x="-6%" y="-14%" width="112%" height="128%">
-                                <feDropShadow dx="0" dy="1.6" stdDeviation="1.6" floodColor="#000000" floodOpacity="0.8" />
-                            </filter>
-
-                            {/* Machined iron rail */}
-                            <linearGradient id={ids.rail} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#39414f" />
-                                <stop offset="30%" stopColor="#1b2029" />
-                                <stop offset="100%" stopColor="#090c11" />
-                            </linearGradient>
-
-                            {/* Burnished steel lip */}
-                            <linearGradient id={ids.steel} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#8b98ad" />
-                                <stop offset="45%" stopColor="#3d4757" />
-                                <stop offset="100%" stopColor="#151b24" />
-                            </linearGradient>
-
-                            {/* Banked link — steel shell with the fire banked inside */}
-                            <linearGradient id={ids.linkLit} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#dde5f0" stopOpacity="0.9" />
-                                <stop offset="22%" stopColor="#8f9aab" />
-                                <stop offset="48%" stopColor={currentSpec.glowColor} />
-                                <stop offset="78%" stopColor={currentSpec.activeColor} />
-                                <stop offset="100%" stopColor={currentSpec.baseColor} />
-                            </linearGradient>
-
-                            {/* Spent link — smoked-out iron with a readable steel rim */}
-                            <linearGradient id={ids.linkEmpty} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#3d4653" />
-                                <stop offset="45%" stopColor="#232a34" />
-                                <stop offset="100%" stopColor="#10141a" />
-                            </linearGradient>
-
-                            {/* Ring hardware */}
-                            <linearGradient id={ids.iron} x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stopColor="#98a2b3" />
-                                <stop offset="45%" stopColor="#3a404c" />
-                                <stop offset="100%" stopColor="#0e1116" />
-                            </linearGradient>
-
-                            {/* Soul-fire heart of the ratchet dial */}
-                            <radialGradient id={ids.core} cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.98" />
-                                <stop offset="35%" stopColor={currentSpec.glowColor} stopOpacity="0.9" />
-                                <stop offset="75%" stopColor={currentSpec.activeColor} stopOpacity="0.65" />
-                                <stop offset="100%" stopColor={currentSpec.baseColor} stopOpacity="0" />
-                            </radialGradient>
-
-                            {/* Fire banked inside a banked link's open core */}
-                            <radialGradient id={ids.hole} cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
-                                <stop offset="38%" stopColor={currentSpec.glowColor} stopOpacity="0.8" />
-                                <stop offset="100%" stopColor={currentSpec.activeColor} stopOpacity="0" />
-                            </radialGradient>
-
-                            {/* Halo bloom behind the current link */}
-                            <radialGradient id={ids.halo} cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor={currentSpec.glowColor} stopOpacity="0.55" />
-                                <stop offset="55%" stopColor={currentSpec.glowColor} stopOpacity="0.14" />
-                                <stop offset="100%" stopColor={currentSpec.glowColor} stopOpacity="0" />
-                            </radialGradient>
-
-                            {/* Rail bevel wash */}
-                            <linearGradient id={ids.edgeLight} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.12" />
-                                <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-                            </linearGradient>
-                            <linearGradient id={ids.edgeDark} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#000000" stopOpacity="0" />
-                                <stop offset="100%" stopColor="#000000" stopOpacity="0.5" />
-                            </linearGradient>
-
-                            <clipPath id={ids.slabClip}>
-                                <path d={RAIL_PATH} />
-                            </clipPath>
-                            {/* Lower arcs repaint over the flat links so the rings weave */}
-                            <clipPath id={ids.chainCap}>
-                                <rect x="0" y={CHAIN_CY} width="300" height="40" />
-                            </clipPath>
-                        </defs>
+                        <defs />
 
                         {/* 1. MACHINED IRON RAIL */}
                         <g className="warden-rail">
                             <path
                                 d={RAIL_PATH}
-                                fill={`url(#${ids.rail})`}
-                                stroke={`url(#${ids.steel})`}
+                                fill={PAPER}
+                                stroke={RULE}
                                 strokeWidth="1.3"
-                                filter={`url(#${ids.shadow})`}
                             />
                         </g>
                         <g clipPath={`url(#${ids.slabClip})`} pointerEvents="none">
-                            <rect x="0" y="15" width="300" height="8" fill={`url(#${ids.edgeLight})`} />
-                            <rect x="0" y="41" width="300" height="8" fill={`url(#${ids.edgeDark})`} />
-                            <path d="M 16 19.5 L 284 19.5" stroke="#ffffff" strokeWidth="0.8" opacity="0.12" />
-                            <path d="M 16 44.5 L 284 44.5" stroke="#000000" strokeWidth="0.9" opacity="0.5" />
+                            <rect x="0" y="15" width="300" height="8" fill={PAGE} />
+                            <rect x="0" y="41" width="300" height="8" fill={PAPER} />
+                            <path d="M 16 19.5 L 284 19.5" stroke={INK} strokeWidth="0.8" opacity="0.12" />
+                            <path d="M 16 44.5 L 284 44.5" stroke={RULE} strokeWidth="0.9" opacity="0.5" />
                         </g>
 
                         {/* Rail bolts */}
                         {[[16, 20], [284, 20], [16, 44], [284, 44]].map(([x, y], i) => (
                             <g key={`bolt-${i}`} pointerEvents="none">
-                                <circle cx={x} cy={y} r="1.5" fill={`url(#${ids.iron})`} stroke="#08090c" strokeWidth="0.5" />
-                                <circle cx={x - 0.4} cy={y - 0.4} r="0.45" fill="#cbd5e1" opacity="0.5" />
+                                <circle cx={x} cy={y} r="1.5" fill={PANEL} stroke={RULE} strokeWidth="0.5" />
+                                <circle cx={x - 0.4} cy={y - 0.4} r="0.45" fill={washed('#cbd5e1', 0.2)} opacity="0.5" />
                             </g>
                         ))}
 
                         {/* 2. BOLTED ANCHOR — the chain is shackled to the rail's eye */}
                         <g className="warden-anchor" pointerEvents="none">
-                            <rect x="10" y="22" width="16" height="20" rx="3" fill={`url(#${ids.iron})`} stroke="#05070a" strokeWidth="0.9" />
-                            <circle cx="14" cy="26" r="1.3" fill="#0d1117" stroke="#000000" strokeWidth="0.4" />
-                            <circle cx="14" cy="38" r="1.3" fill="#0d1117" stroke="#000000" strokeWidth="0.4" />
+                            <rect x="10" y="22" width="16" height="20" rx="3" fill={PANEL} stroke={RULE} strokeWidth="0.9" />
+                            <circle cx="14" cy="26" r="1.3" fill={PAPER} stroke={RULE} strokeWidth="0.4" />
+                            <circle cx="14" cy="38" r="1.3" fill={PAPER} stroke={RULE} strokeWidth="0.4" />
                             {/* Eyelet ring */}
-                            <circle cx="28" cy="32" r="5.6" fill="none" stroke={`url(#${ids.iron})`} strokeWidth="3.2" />
-                            <circle cx="28" cy="32" r="5.6" fill="none" stroke="#05070a" strokeWidth="0.7" opacity="0.85" />
+                            <circle cx="28" cy="32" r="5.6" fill="none" stroke={MUTED} strokeWidth="3.2" />
+                            <circle cx="28" cy="32" r="5.6" fill="none" stroke={RULE} strokeWidth="0.7" opacity="0.85" />
                         </g>
 
                         {/* 3. THE WOVEN CHAIN — verticals ride behind, flats lie over
@@ -575,16 +482,15 @@ const GaolerResourceBar = ({
                                 <g key={cost} className={`warden-spend-stud ${reached ? 'reached' : 'empty'}`} pointerEvents="none">
                                     <polygon
                                         points={`${cx},4.5 ${cx + 2.6},8 ${cx},11.5 ${cx - 2.6},8`}
-                                        fill={reached ? currentSpec.glowColor : '#1a1f28'}
-                                        stroke={reached ? '#f8fafc' : '#4a5462'}
+                                        fill={reached ? washed(currentSpec.glowColor, 0.2) : PAPER}
+                                        stroke={reached ? inked('#f8fafc', 0.6) : RULE}
                                         strokeWidth="0.7"
-                                        filter={reached ? `url(#${ids.glow})` : undefined}
                                     >
                                         <title>{`Spend ${cost}`}</title>
                                     </polygon>
                                     <circle
                                         cx={cx} cy="8" r="0.9"
-                                        fill={reached ? '#ffffff' : '#0a0d12'}
+                                        fill={reached ? PAGE : PAPER}
                                         opacity={reached ? 0.95 : 0.8}
                                     />
                                 </g>
@@ -605,42 +511,39 @@ const GaolerResourceBar = ({
                         >
                             <title>Tension {localVP}/{maxVP} — open the Tension Ledger</title>
                             <circle cx="272" cy="32" r="17" fill="transparent" pointerEvents="all" />
-                            <circle cx="272" cy="32" r="14.5" fill={`url(#${ids.iron})`} stroke="#05070a" strokeWidth="1.2" />
-                            <circle cx="272" cy="32" r="11.4" fill="#0b0f15" stroke="#04060a" strokeWidth="0.8" />
+                            <circle cx="272" cy="32" r="14.5" fill={PANEL} stroke={RULE} strokeWidth="1.2" />
+                            <circle cx="272" cy="32" r="11.4" fill={PAPER} stroke={RULE} strokeWidth="0.8" />
                             <path
                                 className="warden-gear"
                                 d={gearPath(272, 32, 9.4, 7.1, 8)}
-                                fill={`url(#${ids.iron})`}
-                                stroke="#04060a"
+                                fill={PANEL}
+                                stroke={RULE}
                                 strokeWidth="0.8"
                             />
                             {/* Soul-fire hub — brightens with banked tension */}
                             <circle
                                 cx="272" cy="32" r="4.6"
-                                fill={`url(#${ids.core})`}
+                                fill={PAGE}
                                 opacity={0.35 + (localVP / maxVP) * 0.65}
-                                filter={localVP > 0 ? `url(#${ids.glow})` : undefined}
                             />
-                            <circle cx="272" cy="32" r="4.6" fill="none" stroke="#05060a" strokeWidth="1.1" />
+                            <circle cx="272" cy="32" r="4.6" fill="none" stroke={RULE} strokeWidth="1.1" />
                             {/* Blood rim */}
                             <circle
                                 cx="272" cy="32" r="7.6"
-                                fill="none" stroke="#a51d1d" strokeWidth="1"
+                                fill="none" stroke={inked('#a51d1d', 0.6)} strokeWidth="1"
                                 opacity={0.3 + (localVP / maxVP) * 0.7}
-                                filter={localVP > 0 ? `url(#${ids.glow})` : undefined}
                             />
                             {/* Spec-fire ring riding the dial */}
                             <circle
                                 cx="272" cy="32" r="12"
                                 fill="none"
-                                stroke={localVP >= maxVP ? currentSpec.glowColor : currentSpec.activeColor}
+                                stroke={localVP >= maxVP ? inked(currentSpec.glowColor, 0.55) : inked(currentSpec.activeColor, 0.55)}
                                 strokeWidth="1.1"
                                 opacity={localVP > 0 ? 0.9 : 0.4}
-                                filter={localVP > 0 ? `url(#${ids.glow})` : undefined}
                             />
                             {/* Strain arcs at full tension */}
                             {localVP >= maxVP && (
-                                <g stroke={currentSpec.glowColor} strokeWidth="1" strokeLinecap="round" fill="none" filter={`url(#${ids.glow})`}>
+                                <g stroke={inked(currentSpec.glowColor, 0.55)} strokeWidth="1" strokeLinecap="round" fill="none">
                                     <path d="M 259.5 20.5 L 262.5 25 L 261 27" />
                                     <path d="M 284.5 43.5 L 281.5 39 L 283 37" />
                                 </g>
@@ -652,8 +555,8 @@ const GaolerResourceBar = ({
                             <g pointerEvents="none">
                                 {[linkCx(5), linkCx(7)].map((x) => (
                                     <g key={x}>
-                                        <line x1={x} y1="8" x2={x} y2="56" stroke={currentSpec.glowColor} strokeWidth="3" opacity="0.35" />
-                                        <line x1={x} y1="8" x2={x} y2="56" stroke="#e9edff" strokeWidth="1.1" opacity="0.85" />
+                                        <line x1={x} y1="8" x2={x} y2="56" stroke={inked(currentSpec.glowColor, 0.55)} strokeWidth="3" opacity="0.35" />
+                                        <line x1={x} y1="8" x2={x} y2="56" stroke={inked('#e9edff', 0.6)} strokeWidth="1.1" opacity="0.85" />
                                     </g>
                                 ))}
                             </g>
@@ -699,210 +602,120 @@ const GaolerResourceBar = ({
                                 zIndex: 100000
                             }}
                         >
-                            <div className="context-menu-main">
-                                <div className="context-menu-section">
-                                    <div className="context-menu-section-header warden-ledger-title">
-                                        <i className="fas fa-link" aria-hidden="true"></i> Tension Ledger
-                                        <span className="warden-ledger-subtitle">Warden Vengeance</span>
+                            <div className="cm" style={{ '--cm-accent': '#5a6470', '--cm-accent-deep': '#2a3038', '--cm-wash': '#e4e6e6' }}>
+                                <header className="cm-head">
+                                    <span className={`cm-seal ${localVP === 0 ? 'is-quiet' : ''}`}>{localVP}</span>
+                                    <div className="cm-titles">
+                                        <div className="cm-eyebrow">Tension Ledger</div>
+                                        <div className="cm-title">{localVP >= maxVP ? 'Chain Taut' : localVP >= 2 ? 'Links Banked' : 'Slack Chain'}</div>
+                                        <div className="cm-sub">{localVP} of {maxVP} Tension banked</div>
                                     </div>
-                                    <div className="warden-menu-flavor">
-                                        Cold-iron links banked through the graft-ring — {localVP}/{maxVP} Tension.
+                                    <button type="button" className="cm-x" aria-label="Close the ledger" onClick={(e) => { e.stopPropagation(); setShowControls(false); }}>
+                                        <i className="fas fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </header>
+                                <div className="cm-stepper">
+                                    <button type="button" className="context-menu-button spend" onClick={(e) => { e.stopPropagation(); handleVPChange(-1); }} disabled={!isOwner || localVP <= 0} title="Spend 1 Tension" aria-label="Spend 1 Tension">
+                                        <i className="fas fa-minus" aria-hidden="true"></i>
+                                    </button>
+                                    <div className="cm-stepper-read">
+                                        <span className="cm-stepper-value">VP: {localVP}/{maxVP}</span>
+                                        <div className="cm-meter" aria-hidden="true"><span style={{ width: `${maxVP ? (localVP / maxVP) * 100 : 0}%` }}></span></div>
                                     </div>
-
-                                    {/* The core control: big −/+ around the live counter */}
-                                    <div className="warden-vp-panel">
-                                        <button
-                                            className="context-menu-button warden-vp-step"
-                                            onClick={(e) => { e.stopPropagation(); handleVPChange(-1); }}
-                                            disabled={!isOwner || localVP <= 0}
-                                            title="Spend 1 Tension"
-                                            aria-label="Spend 1 Tension"
-                                        >
-                                            <i className="fas fa-minus" aria-hidden="true"></i>
-                                        </button>
-                                        <div className="warden-vp-readout">
-                                            <span className="warden-status-counter">VP: {localVP}/{maxVP}</span>
-                                            <span className={`warden-status-ready ${localVP >= 2 ? 'ready' : ''}`}>
-                                                {readyLabel}
-                                            </span>
-                                        </div>
-                                        <button
-                                            className="context-menu-button warden-vp-step"
-                                            onClick={(e) => { e.stopPropagation(); handleVPChange(1); }}
-                                            disabled={!isOwner || localVP >= maxVP}
-                                            title="Bank 1 Tension"
-                                            aria-label="Bank 1 Tension"
-                                        >
-                                            <i className="fas fa-plus" aria-hidden="true"></i>
-                                        </button>
+                                    <button type="button" className="context-menu-button gain" onClick={(e) => { e.stopPropagation(); handleVPChange(1); }} disabled={!isOwner || localVP >= maxVP} title="Bank 1 Tension" aria-label="Bank 1 Tension">
+                                        <i className="fas fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <ClassMenuSpells className="Warden" resourceTypes={['tension']} resourceLabel="Tension" current={localVP} />
+                                {lockedSpec ? (
+                                    <div className="cm-burden is-quiet">
+                                        <span className="cm-burden-label">Your path</span>
+                                        <p className="cm-burden-text"><strong>{specConfigs[selectedSpec]?.name}.</strong> {specBlurbs[selectedSpec]}</p>
                                     </div>
-
-                                    {/* Spend thresholds at a glance — mirrors the rail studs */}
-                                    <div className="warden-threshold-grid">
-                                        {spendMarks.map(({ cost, label, icon }) => {
-                                            const reached = localVP >= cost;
-                                            return (
-                                                <span
-                                                    key={cost}
-                                                    className={`warden-threshold ${reached ? 'reached' : ''}`}
-                                                    title={`${label} — costs ${cost} Tension`}
-                                                >
-                                                    <i className={`fas ${icon}`} aria-hidden="true"></i>
-                                                    <span className="warden-threshold-label">{label}</span>
-                                                    <b>{cost}</b>
-                                                </span>
-                                            );
-                                        })}
-                                    </div>
-
-                                    {/* Spec: which strain the graft answers to */}
-                                    <div className="context-menu-section-header warden-subheader">Strain of the Graft</div>
-                                    <div className="warden-spec-grid">
-                                        {Object.entries(specConfigs).map(([key, spec]) => {
-                                            const isActiveSpec = selectedSpec === key;
-                                            return (
+                                ) : (
+                                    <>
+                                        <div className="cm-section">Strain of the Graft</div>
+                                        <div className="cm-row" role="group" aria-label="Specialization">
+                                            {Object.entries(specConfigs).map(([key, spec]) => (
                                                 <button
                                                     key={key}
-                                                    className={`context-menu-button warden-spec-button ${isActiveSpec ? 'active' : ''}`}
+                                                    type="button"
+                                                    className={`context-menu-button ${selectedSpec === key ? 'active' : ''}`}
                                                     onClick={(e) => { e.stopPropagation(); setSelectedSpec(key); }}
                                                     title={`${spec.name}${specBlurbs[key] ? ` — ${specBlurbs[key]}` : ''}`}
-                                                    aria-pressed={isActiveSpec}
+                                                    aria-pressed={selectedSpec === key}
                                                 >
-                                                    <i
-                                                        className={`fas ${spec.icon} warden-spec-icon`}
-                                                        style={{ color: spec.glowColor }}
-                                                        aria-hidden="true"
-                                                    />
-                                                    <span className="warden-spec-name">{spec.menuLabel || spec.name}</span>
-                                                    {isActiveSpec && <i className="fas fa-check warden-spec-check" aria-hidden="true"></i>}
+                                                    <i className={`fas ${spec.icon}`} aria-hidden="true"></i>
+                                                    <span>{spec.menuLabel || spec.name}</span>
                                                 </button>
-                                            );
-                                        })}
-                                    </div>
-                                    <div className="warden-menu-hint">{specBlurbs[selectedSpec]}</div>
-
-                                    {/* Spec state controls */}
-                                    {selectedSpec === 'shadowblade' && (
-                                        <>
-                                            <div className="context-menu-section-header warden-subheader">Stalker State</div>
-                                            <div className="warden-state-controls">
-                                                <button
-                                                    className={`context-menu-button ${isInStealth ? 'active' : ''}`}
-                                                    onClick={(e) => { e.stopPropagation(); setIsInStealth(!isInStealth); }}
-                                                    title="Toggle Stealth — shadow the marked quarry"
-                                                >
-                                                    <i className={`fas ${isInStealth ? 'fa-check-circle' : 'fa-circle'}`}></i> Stealth
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                    {selectedSpec === 'jailer' && (
-                                        <>
-                                            <div className="context-menu-section-header warden-subheader">Cages: {activeCages}/2</div>
-                                            <div className="warden-state-controls four-col">
-                                                <button
-                                                    className="context-menu-button spend"
-                                                    onClick={(e) => { e.stopPropagation(); setActiveCages(Math.max(0, activeCages - 1)); }}
-                                                    title="Release a cage"
-                                                >
-                                                    <i className="fas fa-minus"></i> -1
-                                                </button>
-                                                <button
-                                                    className="context-menu-button"
-                                                    onClick={(e) => { e.stopPropagation(); setActiveCages(0); }}
-                                                    title="Release every cage"
-                                                >
-                                                    Clear
-                                                </button>
-                                                <button
-                                                    className="context-menu-button gain"
-                                                    onClick={(e) => { e.stopPropagation(); setActiveCages(2); }}
-                                                    title="Slam both cages shut"
-                                                >
-                                                    Max
-                                                </button>
-                                                <button
-                                                    className="context-menu-button gain"
-                                                    onClick={(e) => { e.stopPropagation(); setActiveCages(Math.min(2, activeCages + 1)); }}
-                                                    title="Drop another cage"
-                                                >
-                                                    <i className="fas fa-plus"></i> +1
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                    {selectedSpec === 'vengeanceSeeker' && (
-                                        <>
-                                            <div className="context-menu-section-header warden-subheader">Tormentor State</div>
-                                            <div className="warden-state-controls">
-                                                <button
-                                                    className={`context-menu-button ${isInAvatar ? 'active' : ''}`}
-                                                    onClick={(e) => { e.stopPropagation(); setIsInAvatar(!isInAvatar); }}
-                                                    title="Toggle Avatar — the hunt ascends"
-                                                >
-                                                    <i className={`fas ${isInAvatar ? 'fa-check-circle' : 'fa-circle'}`}></i> Avatar
-                                                </button>
-                                                <button
-                                                    className={`context-menu-button ${isMarked ? 'active' : ''}`}
-                                                    onClick={(e) => { e.stopPropagation(); setIsMarked(!isMarked); }}
-                                                    title="Toggle Marked — declare your quarry"
-                                                >
-                                                    <i className={`fas ${isMarked ? 'fa-check-circle' : 'fa-circle'}`}></i> Marked
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-
-                                    {/* The economy lives on the Warden's abilities, not here */}
-                                    <div className="warden-menu-hint warden-menu-hint-tip">
-                                        <i className="fas fa-book" aria-hidden="true"></i>
-                                        {' '}Bank and spend Tension by casting your Warden abilities from the action bar or spellbook.
-                                    </div>
-
-                                    <div className="context-menu-main-separator" style={{ margin: '10px 0' }}></div>
-
-                                    {/* GM overrides only — spending is ability-driven */}
-                                    <div className="warden-quick-actions">
-                                        <button
-                                            className="context-menu-button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const resetAmount = localVP;
-                                                setLocalVP(0);
-                                                setShowControls(false);
-                                                if (resetAmount > 0) {
-                                                    logClassResourceChange('Tension', resetAmount, false, 'vengeancePoints');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
-                                                }
-                                            }}
-                                            title="Slack the chain back to 0 Tension"
-                                        >
-                                            <i className="fas fa-undo"></i> Reset
-                                        </button>
-                                        <button
-                                            className="context-menu-button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const gainAmount = maxVP - localVP;
-                                                setLocalVP(maxVP);
-                                                setShowControls(false);
-                                                if (gainAmount > 0) {
-                                                    logClassResourceChange('Tension', gainAmount, true, 'vengeancePoints');
-                                                    if (onClassResourceUpdate) onClassResourceUpdate('current', maxVP);
-                                                }
-                                            }}
-                                            title="Wind the chain taut to 10 Tension"
-                                        >
-                                            <i className="fas fa-arrow-up"></i> Max
+                                            ))}
+                                        </div>
+                                        <p className="cm-line is-quiet">{specBlurbs[selectedSpec]}</p>
+                                    </>
+                                )}
+                                {selectedSpec === 'shadowblade' && (
+                                    <div className="cm-row" style={{ '--cm-cols': 1 }}>
+                                        <button type="button" className={`context-menu-button ${isInStealth ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); setIsInStealth(!isInStealth); }} title="Toggle Stealth">
+                                            <i className={`fas ${isInStealth ? 'fa-check-circle' : 'fa-circle'}`} aria-hidden="true"></i> Stealth
                                         </button>
                                     </div>
-
+                                )}
+                                {selectedSpec === 'jailer' && (
+                                    <>
+                                        <div className="cm-section">Cages: {activeCages}/2</div>
+                                        <div className="cm-row" style={{ '--cm-cols': 4 }}>
+                                            <button type="button" className="context-menu-button spend" onClick={(e) => { e.stopPropagation(); setActiveCages(Math.max(0, activeCages - 1)); }} title="Release a cage"><i className="fas fa-minus" aria-hidden="true"></i> 1</button>
+                                            <button type="button" className="context-menu-button" onClick={(e) => { e.stopPropagation(); setActiveCages(0); }} title="Release every cage">Clear</button>
+                                            <button type="button" className="context-menu-button" onClick={(e) => { e.stopPropagation(); setActiveCages(2); }} title="Slam both cages shut">Max</button>
+                                            <button type="button" className="context-menu-button gain" onClick={(e) => { e.stopPropagation(); setActiveCages(Math.min(2, activeCages + 1)); }} title="Drop another cage"><i className="fas fa-plus" aria-hidden="true"></i> 1</button>
+                                        </div>
+                                    </>
+                                )}
+                                {selectedSpec === 'vengeanceSeeker' && (
+                                    <div className="cm-row">
+                                        <button type="button" className={`context-menu-button ${isInAvatar ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); setIsInAvatar(!isInAvatar); }} title="Toggle Avatar">
+                                            <i className={`fas ${isInAvatar ? 'fa-check-circle' : 'fa-circle'}`} aria-hidden="true"></i> Avatar
+                                        </button>
+                                        <button type="button" className={`context-menu-button ${isMarked ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); setIsMarked(!isMarked); }} title="Toggle Marked">
+                                            <i className={`fas ${isMarked ? 'fa-check-circle' : 'fa-circle'}`} aria-hidden="true"></i> Marked
+                                        </button>
+                                    </div>
+                                )}
+                                <p className="cm-line is-quiet">Bank and spend Tension by casting your Warden abilities from the action bar or spellbook.</p>
+                                <div className="cm-foot">
                                     <button
-                                        className="context-menu-button danger warden-close-button"
-                                        onClick={(e) => { e.stopPropagation(); setShowControls(false); }}
-                                        title="Close the ledger"
+                                        type="button"
+                                        className="context-menu-button quiet"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            const resetAmount = localVP;
+                                            setLocalVP(0);
+                                            setShowControls(false);
+                                            if (resetAmount > 0) {
+                                                logClassResourceChange('Tension', resetAmount, false, 'vengeancePoints');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('current', 0);
+                                            }
+                                        }}
+                                        title="Slack the chain back to 0 Tension"
                                     >
-                                        <i className="fas fa-times"></i> Close
+                                        <i className="fas fa-undo" aria-hidden="true"></i>Reset
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="context-menu-button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            const gainAmount = maxVP - localVP;
+                                            setLocalVP(maxVP);
+                                            setShowControls(false);
+                                            if (gainAmount > 0) {
+                                                logClassResourceChange('Tension', gainAmount, true, 'vengeancePoints');
+                                                if (onClassResourceUpdate) onClassResourceUpdate('current', maxVP);
+                                            }
+                                        }}
+                                        title="Wind the chain taut"
+                                    >
+                                        <i className="fas fa-arrow-up" aria-hidden="true"></i> Max
                                     </button>
                                 </div>
                             </div>
@@ -922,7 +735,7 @@ const GaolerResourceBar = ({
                         subtitle="Warden Vengeance (VP)"
                         state={`${localVP}/${maxVP} VP`}
                         stateTone={localVP >= 6 ? 'good' : 'neutral'}
-                        mechanic="Bank Tension (VP) by attacking (+1, +2 vs your marked quarry), evading (+1), critting (+2), and by tethering hooked enemies that flee or strike your allies. Spend VP on Vengeful Strike (2), Whirling Glaive (3), Hunter's Resolve (4), Cage of Vengeance (6; 4 as Jailer), and Avatar of Vengeance (10); each VP grants +5 ft pursuit speed toward your mark."
+                        mechanic="Tension (VP) builds from attacks (+1, +2 vs your quarry), evasion (+1), crits (+2) and tethers. Spend on Vengeful Strike (2), Whirling Glaive (3), Hunter's Resolve (4), Cage of Vengeance (6; 4 as Jailer), Avatar (10). Each VP adds +5 ft pursuit speed."
                         status={[
                             localVP >= 10
                                 ? `${localVP} banked — Avatar of Vengeance ready.`
